@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC883FF895
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 03:09:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A77893FF905
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 05:08:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78A846E839;
-	Fri,  3 Sep 2021 01:09:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 992E76E07D;
+	Fri,  3 Sep 2021 03:08:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com
- [IPv6:2a00:1450:4864:20::62e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D8AD46E839
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 01:09:33 +0000 (UTC)
-Received: by mail-ej1-x62e.google.com with SMTP id x11so8660472ejv.0
- for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 18:09:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Gd2E/Pl/C0iRwR3hxdHVkR2H3jQVrFOHkTXAIcMx9So=;
- b=hos4NkT51fiFcBY57hEeTVQaFRW4FOP4pR2h+DPAvgnPHi63S/YPrVoFvI5dKoCffc
- OiicE1MLsCuDbBIlnwfHXn89PB4ZgVDWB0Rg5fotdwJibGx01HcPZ6kVIOmCsPkxkXeu
- BmoYS7dB8vrLkAl1eNbZRyWZZYJVnJyhPfWJOUk8UbDJwwtpcuKcqNBrZlgHZ7c4AXvn
- MMIpLat1dhDzQXl6EeaotT/f2AIuiCT6XtdAt5jPpr8NtrAuE+izPjW1pb9Rw5Sm5L7h
- 510AQ+D2qhiuhtIAMXynlpVXe1L1ELZiw2/cTDjEOQgEFEO+uQZdogABeCtDDfAcPBMN
- 4dMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Gd2E/Pl/C0iRwR3hxdHVkR2H3jQVrFOHkTXAIcMx9So=;
- b=tGOlPXEx93VYwVlyI7GiyTDZSO90yA8bspeWv9BZvnqZkCfeszXP30JvC+oqoqajrY
- INTcZ4WkLBi0mGJAaA1qL7RgCC5gXa0cJiqb/72QG+ypDMWpe/tCZBSzreCjFijcvdHd
- 7b+dlBwr7tdLedzlaF9fUXsJCOL+D9oTnmYygASbnWkqRsVNQ2Z4iflsiy4i5u0xpBwz
- MleMR9gmeFIErQNK37NA+HOfvu0fqYy7x7ltvtSoXzWh6QBGkelaPBkXfJ4KTPLVKe9w
- knQAzfv5TMlIR2WJ1AQGYmJFwpt3yuCxb1xnKfvc9Ug/YahHEHsaQbyYZ9VdLjHwKeYP
- KzkQ==
-X-Gm-Message-State: AOAM533N+T6NC5RVx/dKbcsJsMcNeLsKuSH7LRzXN/NggtK5SeOr7fni
- aZrOQFMcldNSBxS79CD5YnWNwb3TVyrCfMzLMHA=
-X-Google-Smtp-Source: ABdhPJxQUW7pz+w3kHrnLXwXO9K7bT20swTyi0GJXxEfubexYEGopC9Wz2mqd2HHOynHT3ga/FjTxH0PVSC8LUbx1wo=
-X-Received: by 2002:a17:907:3393:: with SMTP id
- zj19mr1097188ejb.535.1630631372347; 
- Thu, 02 Sep 2021 18:09:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210902060213.1702544-1-mudongliangabcd@gmail.com>
- <CAMuHMdVPUMGZ7Sq2rBgr+US0H3ZF4WVkfPPnKQD1cMg5Wd0+-w@mail.gmail.com>
-In-Reply-To: <CAMuHMdVPUMGZ7Sq2rBgr+US0H3ZF4WVkfPPnKQD1cMg5Wd0+-w@mail.gmail.com>
-From: Dongliang Mu <mudongliangabcd@gmail.com>
-Date: Fri, 3 Sep 2021 09:09:03 +0800
-Message-ID: <CAD-N9QVngAyEszUViVCaaCeC2Q-71qqdWC1yqXD3a5inGQCA6w@mail.gmail.com>
-Subject: Re: [PATCH 4.19] fbmem: add margin check to fb_check_caps()
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
- George Kennedy <george.kennedy@oracle.com>, 
- syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com, 
- Dan Carpenter <dan.carpenter@oracle.com>,
- Dhaval Giani <dhaval.giani@oracle.com>, Sasha Levin <sashal@kernel.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 51AFE6E07D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 03:08:23 +0000 (UTC)
+X-UUID: bd5b64a7326e450b843e6845123182e6-20210903
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
+ s=dk; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
+ bh=I7eErvKCjKSoZMUT8uEkUsYqIR3doV0E2tnrfW34Oyc=; 
+ b=t1/A0CMwFK6DR/affEE0ye5ClSnjIKHGU3OBDCvCPOyO6Od+E/xqbUNw/ziy6jRhv6U3JgQdb6P3rlYIqukW4kA2N3h101qXVVMfKpmIbk+LHu9cZJdrA4nBgIjLrZ5XPD4s0ZJzd5KdzZMwvE0+EcR13iNfDv0IZ8eCkAtNAB4=;
+X-UUID: bd5b64a7326e450b843e6845123182e6-20210903
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1779183396; Fri, 03 Sep 2021 11:08:18 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 3 Sep 2021 11:08:17 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Fri, 3 Sep 2021 11:08:15 +0800
+Received: from mhfsdcap04 (10.17.3.154) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 3 Sep 2021 11:08:14 +0800
+Message-ID: <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
+Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
+ hardware decode
+From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Alexandre Courbot <acourbot@chromium.org>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, "Tiffany
+ Lin" <tiffany.lin@mediatek.com>, Andrew-CT Chen
+ <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang
+ <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, Irui Wang
+ <irui.wang@mediatek.com>, linux-media <linux-media@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-arm-kernel
+ <linux-arm-kernel@lists.infradead.org>, srv_heupstream
+ <srv_heupstream@mediatek.com>, "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>, Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Date: Fri, 3 Sep 2021 11:08:13 +0800
+In-Reply-To: <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+ <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+MIME-Version: 1.0
+X-MTK: N
+Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,78 +78,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 2, 2021 at 9:15 PM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
->
-> Hi Dongliang,
->
-> On Thu, Sep 2, 2021 at 8:04 AM Dongliang Mu <mudongliangabcd@gmail.com> wrote:
-> > [ Upstream commit a49145acfb975d921464b84fe00279f99827d816 ]
->
-> Oops, looks like I missed when that one was submitted for review...
+SGkgRXplcXVpZWwsDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uLg0KT24gVGh1LCAyMDIx
+LTA5LTAyIGF0IDEzOjMwIC0wMzAwLCBFemVxdWllbCBHYXJjaWEgd3JvdGU6DQo+IE9uIFdlZCwg
+MSBTZXB0IDIwMjEgYXQgMDU6MzIsIFl1bmZlaSBEb25nIDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5j
+b20+DQo+IHdyb3RlOg0KPiA+IA0KPiA+IFRoaXMgc2VyaWVzIGFkZHMgc3VwcG9ydCBmb3IgbXVs
+dGkgaGFyZHdhcmUgZGVjb2RlIGludG8gbXRrLXZjb2RlYywgDQo+ID4gYnkgZmlyc3QNCj4gPiBh
+ZGRpbmcgY29tcG9uZW50IGZyYW1ld29yayB0byBtYW5hZ2UgZWFjaCBoYXJkd2FyZSBpbmZvcm1h
+dGlvbjoNCj4gPiBpbnRlcnJ1cHQsDQo+ID4gY2xvY2ssIHJlZ2lzdGVyIGJhc2VzIGFuZCBwb3dl
+ci4gU2Vjb25kbHkgYWRkIGNvcmUgdGhyZWFkIHRvIGRlYWwNCj4gPiB3aXRoIGNvcmUNCj4gPiBo
+YXJkd2FyZSBtZXNzYWdlLCBhdCB0aGUgc2FtZSB0aW1lLCBhZGQgbXNnIHF1ZXVlIGZvciBkaWZm
+ZXJlbnQNCj4gPiBoYXJkd2FyZQ0KPiA+IHNoYXJlIG1lc3NhZ2VzLiBMYXN0bHksIHRoZSBhcmNo
+aXRlY3R1cmUgb2YgZGlmZmVyZW50IHNwZWNzIGFyZSBub3QNCj4gPiB0aGUgc2FtZSwNCj4gPiB1
+c2luZyBzcGVjcyB0eXBlIHRvIHNlcGFyYXRlIHRoZW0uDQo+ID4gDQo+ID4gVGhpcyBzZXJpZXMg
+aGFzIGJlZW4gdGVzdGVkIHdpdGggYm90aCBNVDgxODMgYW5kIE1UODE3My4gRGVjb2RpbmcNCj4g
+PiB3YXMgd29ya2luZw0KPiA+IGZvciBib3RoIGNoaXBzLg0KPiA+IA0KPiA+IFBhdGNoZXMgMX4z
+IHJld3JpdGUgZ2V0IHJlZ2lzdGVyIGJhc2VzIGFuZCBwb3dlciBvbi9vZmYgaW50ZXJmYWNlLg0K
+PiA+IA0KPiA+IFBhdGNoIDQgYWRkIGNvbXBvbmVudCBmcmFtZXdvcmsgdG8gc3VwcG9ydCBtdWx0
+aSBoYXJkd2FyZS4NCj4gPiANCj4gPiBQYXRjaCA1IHNlcGFyYXRlIHZpZGVvIGVuY29kZXIgYW5k
+IGRlY29kZXIgZG9jdW1lbnQNCj4gPiANCj4gPiBQYXRjaGVzIDYtMTUgYWRkIGludGVyZmFjZXMg
+dG8gc3VwcG9ydCBjb3JlIGhhcmR3YXJlLg0KPiA+IC0tLS0NCj4gPiBUaGlzIHBhdGNoIGRlcGVu
+ZGVudHMgb24gOiAibWVkaWE6IG10ay12Y29kZWM6IHN1cHBvcnQgZm9yIE1UODE4Mw0KPiA+IGRl
+Y29kZXIiWzFdIGFuZA0KPiA+ICJNZWRpYXRlayBNVDgxOTIgY2xvY2sgc3VwcG9ydCJbMl0uDQo+
+ID4gDQo+ID4gMTogTXVsdGkgaGFyZHdhcmUgZGVjb2RlIGlzIGJhc2VkIG9uIHN0YXRlbGVzcyBk
+ZWNvZGVyLCBNVDgxODMgaXMNCj4gPiB0aGUgZmlyc3QgdGltZQ0KPiA+IHRvIGFkZCBzdGF0ZWxl
+c3MgZGVjb2Rlci4gT3RoZXJ3aXNlIGl0IHdpbGwgY2F1c2UgY29uZmxpY3QuIFRoaXMNCj4gPiBw
+YXRjaCB3aWxsIGJlDQo+ID4gYWNjZXB0ZWQgaW4gNS4xNVsxXS4NCj4gPiANCj4gPiAyOiBUaGUg
+ZGVmaW5pdGlvbiBvZiBkZWNvZGVyIGNsb2NrcyBhcmUgaW4gbXQ4MTkyLWNsay5oLCB0aGlzIHBh
+dGNoDQo+ID4gYWxyZWFkeSBpbiBjbGsgdHJlZVsyXS4NCj4gPiANCj4gPiBbMV0NCj4gPiBodHRw
+czovL3BhdGNod29yay5saW51eHR2Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhL2xpc3QvP3Nlcmll
+cz01ODI2DQo+ID4gWzJdDQo+ID4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4
+L2tlcm5lbC9naXQvY2xrL2xpbnV4LmdpdC9jb21taXQvP2g9Y2xrLW5leHQmaWQ9ZjM1ZjFhMjNl
+MGUxMmUzMTczZTllOWRlZGJjMTUwZDEzOTAyNzE4OQ0KPiA+IC0tLS0NCj4gPiBDaGFuZ2VzIGNv
+bXBhcmVkIHdpdGggdjU6DQo+ID4gLUFkZCBkZWNvZGVyIGhhcmR3YXJlIGJsb2NrIGRpYWdyYW0g
+Zm9yIHBhdGNoIDEzLzE1DQo+ID4gDQo+IA0KPiANCj4gVGhlIGRpc2N1c3Npb24gb24gdjUgd2Fz
+IHN0aWxsIG9uLWdvaW5nLCBzbyBzZW5kaW5nIHRoaXMgdjYNCj4gaXMgbm90IGhlbHBmdWwuIFRo
+ZSBjb250ZXh0IGZvciB2NSdzIGRpc2N1c3Npb24gaXMgbm93IGhhcmRlciB0bw0KPiBmaW5kLg0K
+PiANCg0KPiBQbGVhc2UgYXZvaWQgc2VuZGluZyBhIG5ldyB2ZXJzaW9uIHdpdGhvdXQgcHJvcGVy
+bHkNCj4gZGlzY3Vzc2luZyBhbGwgdGhlIGZlZWRiYWNrLCBhbmQgd2l0aG91dCByZWFjaGluZyBj
+b25zZW5zdXMuDQo+IFRoaXMgaXMgdmVyeSBpbXBvcnRhbnQsIHBsZWFzZSBrZWVwIGl0IGluIG1p
+bmQuDQo+IA0KVGhhbmtzIGZvciB5b3VyIHJlbWluZCwgSSB3aWxsIGtlZXAgdGhpcyBwYXRjaCB1
+bnRpbCBnZXQgdGhlIHNvbHV0aW9uLg0KDQo+IFNwZWNpZmljYWxseSwgdGhlIGZlZWRiYWNrIG9u
+IHY1IHdhcyBOQUssIHdpdGggdGhlIHJlcXVlc3QgdG8gYXZvaWQNCj4gdXNpbmcgYW55IGFzeW5j
+IGZyYW1ld29yaywgYW5kIGluc3RlYWQgdHJ5IHRvIGZpbmQgYSBzaW1wbGVyDQo+IHNvbHV0aW9u
+Lg0KPiANCj4gRm9yIGluc3RhbmNlLCB5b3UgY2FuIG1vZGVsIHRoaW5ncyB3aXRoIGEgYnVzLWxp
+a2UgcGF0dGVybiwNCj4gd2hpY2ggdGllcyBhbGwgdGhlIGRldmljZXMgdG9nZXRoZXIsIHVuZGVy
+IGEgcGFyZW50IG5vZGUuDQo+IFRoaXMgcGF0dGVybiBpcyBjb21tb24gaW4gdGhlIGtlcm5lbCwg
+dGhlIHBhcmVudA0KPiBub2RlIGNhbiB1c2Ugb2ZfcGxhdGZvcm1fcG9wdWxhdGUgb3Igc2ltaWxh
+cg0KPiAoZ2l0IGdyZXAgb2ZfcGxhdGZvcm1fcG9wdWxhdGUsIHlvdSB3aWxsIHNlZSBwbGVudHkg
+b2YgZXhhbXBsZXMpLg0KPiANCj4gWW91IHdpbGwgc3RpbGwgaGF2ZSB0byBkbyBzb21lIHdvcmsg
+dG8gaGF2ZSB0aGUgcHJvcGVyDQo+IHJlZ3MgcmVzb3VyY2VzLCBidXQgdGhpcyBpcyBkb2FibGUu
+IEVhY2ggY2hpbGQgaXMgYSBkZXZpY2UsDQo+IHNvIGl0IGNhbiBoYXZlIGl0cyBvd24gcmVzb3Vy
+Y2VzIChjbG9ja3MsIGludGVycnVwdHMsIGlvbW11cykuDQo+IA0KPiBZb3UgZG9uJ3QgbmVlZCBh
+bnkgYXN5bmMgZnJhbWV3b3JrLg0KPiANCklmIHB1dCB0aGUgbGF0IGFuZCBjb3JlIG5vZGUgaW4g
+dGhlIHBhcmVudCBub2RlLCBuZWVkIHRvIGNoZWNrIHRoZQ0KYmVsb3cgdGhpbmdzIGFmdGVyIGRp
+c2N1c3NlZCB3aXRoIGlvbW11IG93bmVyLg0KDQpJZiBwdXR0aW5nIHRoZSBpb21tdXMgcHJvcGVy
+dHkgaW4gdGhlIGNoaWxkIG5vZGUsIHRoZW4gaXMgdGhlIGNoaWxkDQpkZXZpY2UgYSBzdGFuZGFy
+ZCBwbGF0Zm9ybSBkZXZpY2U/DQoNClRoZSBpb21tdSByZWdpc3RlIGxpa2UgdGhpczogIA0KcmV0
+ID0gYnVzX3NldF9pb21tdSgmcGxhdGZvcm1fYnVzX3R5cGUsICZtdGtfaW9tbXVfb3BzKTsgDQpJ
+dCBleHBlY3QgdGhlIGNvbnN1bWVyIGlzIGEgc3RhbmRhcmQgcGxhdGZvcm0gZGV2aWNlLiBvdGhl
+cndpc2UgaXQNCmNvdWxkIG5vdCBlbnRlciB0byB0aGUgaW9tbXUgb2ZfeGxhdGUuKQ0KDQpUaGFu
+a3MNCll1bmZlaSBEb25nDQo+ICAgICB2Y29kZWNfZGVjOiB2Y29kZWNfZGVjQDE2MDAwMDAwIHsN
+Cj4gICAgICAgICBjb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE5Mi12Y29kZWMtZGVjIjsNCj4g
+ICAgICAgICByZWcgPSA8c29tZXRoaW5nPjsNCj4gICAgICAgICBtZWRpYXRlayxzY3AgPSA8JnNj
+cD47DQo+ICAgICAgICAgaW9tbXVzID0gPCZpb21tdTAgTTRVX1BPUlRfTDRfVkRFQ19NQ19FWFQ+
+Ow0KPiAgICAgICAgIGRtYS1yYW5nZXMgPSA8MHgxIDB4MCAweDAgMHg0MDAwMDAwMCAweDAgMHhm
+ZmYwMDAwMD47DQo+IA0KPiAgICAgICAgIHZjb2RlY19sYXRAMHgxMDAwMCB7DQo+ICAgICAgICAg
+ICAgIGNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXRrLXZjb2RlYy1sYXQiOw0KPiAgICAgICAgICAg
+ICByZWcgPSA8MHgxMDAwMCAweDgwMD47ICAgICAgLyogVkRFQ19NSVNDICovDQo+ICAgICAgICAg
+ICAgIGludGVycnVwdHMgPSA8R0lDX1NQSSA0MjYgSVJRX1RZUEVfTEVWRUxfSElHSCAwPjsNCj4g
+ICAgICAgICAgICAgLy8gZXRjDQo+ICAgICAgICAgfTsNCj4gDQo+ICAgICAgICAgdmNvZGVjX2Nv
+cmVAMHgyNTAwMCB7DQo+ICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdGstdmNv
+ZGVjLWNvcmUiOw0KPiAgICAgICAgICAgIHJlZyA9IDwweDI1MDAwIDB4MTAwMD47ICAgICAgLyog
+VkRFQ19DT1JFX01JU0MgKi8NCj4gICAgICAgICAgICBpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNDI1
+IElSUV9UWVBFX0xFVkVMX0hJR0ggMD47DQo+ICAgICAgICAgICAgLy8gZXRjDQo+ICAgICAgICAg
+fTsNCj4gICAgIH07DQo+IA0KPiBUaGFua3MsDQo+IEV6ZXF1aWVsDQo=
 
-This patch cannot directly apply to old stable trees. Maybe that's the reason.
-
->
-> > A fb_ioctl() FBIOPUT_VSCREENINFO call with invalid xres setting
-> > or yres setting in struct fb_var_screeninfo will result in a
-> > KASAN: vmalloc-out-of-bounds failure in bitfill_aligned() as
-> > the margins are being cleared. The margins are cleared in
-> > chunks and if the xres setting or yres setting is a value of
-> > zero upto the chunk size, the failure will occur.
-> >
-> > Add a margin check to validate xres and yres settings.
->
-> Shouldn't (the caller of) bitfill_aligned() be fixed instead?
-> Can this be triggered by e.g. using the mini_4x6 font?
-
-I am sorry. I don't know much detail about this subsystem. I just
-found syzkaller can still trigger this bug in linux-4.19.
-
-Combined with the bug information, I found this patch is not merged
-into the old kernel trees. So I send this patch rebased on linux-4.19.
-Also I have tested it on linux-4.14 and below.
-
->
-> > Note that, this patch needs special handling to backport it to linux
-> > kernel 4.19, 4.14, 4.9, 4.4.
-> >
-> > Signed-off-by: George Kennedy <george.kennedy@oracle.com>
-> > Reported-by: syzbot+e5fd3e65515b48c02a30@syzkaller.appspotmail.com
-> > Reviewed-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > Cc: Dhaval Giani <dhaval.giani@oracle.com>
-> > Signed-off-by: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-> > Link: https://patchwork.freedesktop.org/patch/msgid/1594149963-13801-1-git-send-email-george.kennedy@oracle.com
-> > Signed-off-by: Sasha Levin <sashal@kernel.org>
-> > ---
-> >  drivers/video/fbdev/core/fbmem.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/video/fbdev/core/fbmem.c b/drivers/video/fbdev/core/fbmem.c
-> > index 84845275dbef..de04c097d67c 100644
-> > --- a/drivers/video/fbdev/core/fbmem.c
-> > +++ b/drivers/video/fbdev/core/fbmem.c
-> > @@ -991,6 +991,10 @@ fb_set_var(struct fb_info *info, struct fb_var_screeninfo *var)
-> >                         goto done;
-> >                 }
-> >
-> > +               /* bitfill_aligned() assumes that it's at least 8x8 */
-> > +               if (var->xres < 8 || var->yres < 8)
-> > +                       return -EINVAL;
->
-> Are you sure there don't exist such small displays (e.g. OLED)?
->
-> > +
-> >                 ret = info->fbops->fb_check_var(var, info);
-> >
-> >                 if (ret)
->
-> Gr{oetje,eeting}s,
->
->                         Geert
->
-> --
-> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
->
-> In personal conversations with technical people, I call myself a hacker. But
-> when I'm talking to journalists I just say "programmer" or something like that.
->                                 -- Linus Torvalds
