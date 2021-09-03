@@ -2,48 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C86040001B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 15:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B28EF400054
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 15:17:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E190F6E88B;
-	Fri,  3 Sep 2021 13:00:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 00BCC6E892;
+	Fri,  3 Sep 2021 13:17:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F0D216E88B
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 13:00:44 +0000 (UTC)
-Date: Fri, 03 Sep 2021 13:00:32 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1630674042;
- bh=BWPMoTnh7M5PpR4+vrgrHK6TgA13b4UUA63m/U0s0aM=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=kjX9ZRxjF9l/gRfK/Z81S3o5vxjb6uZt61h1eAKsEFZh5UXGV4PoYseoZ2vShvXe+
- eCv8D/Yb0onkdBRrSDTayfIQy0lw0bNhYD4kohKR6q0/AgjeLJV61umzFtRELU07Ig
- kusGfytr6Uo7YUzsJxrCkDDCV9HF42D3vVhvNFWGqP6nidDMlhzVun+IEtNnmBvw8s
- H8SY0xrohaDpYhNiJxDVRkKlm2CXUlvHtAquoKUCDRnKUpgC4+aKPMYaG6eS7XazSg
- yfqJOyoPhx7VXWfiCVogvOpNWTWRvFzOHjE2EOBLC78Q9TDSxekEUHGgveu27jlt4V
- XOO08Jum7ffbQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Stone <daniels@collabora.com>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Emil Velikov <emil.l.velikov@gmail.com>, Keith Packard <keithp@keithp.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Dave Airlie <airlied@redhat.com>
-Subject: [PATCH v2 2/2] drm/lease: allow empty leases
-Message-ID: <20210903130000.1590-2-contact@emersion.fr>
-In-Reply-To: <20210903130000.1590-1-contact@emersion.fr>
-References: <20210903130000.1590-1-contact@emersion.fr>
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 50F9A6E892
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 13:17:11 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id w17so4436562qta.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 06:17:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=sfsrFXWULnWF8L5qk6neEdUYFV87D6epieAYX+CCHp4=;
+ b=AAfZ8wB4vFL27eInDLJPF3UvP1DvFQ23YwIxkEAHnnnbAV2C9ARlZTufJ23+w/PCFW
+ 3JuWPWNIwGkoh5omVGIoJ8rLUNehxlkC6gxGPC0Nt+ggN7puJGTN5I8W2Mh0QbAhoa+q
+ ElI/WdGMPaZhXlDufxHz40qMeYoRUTqncyr/cb6Sw6YB1HPr5CGUJJfdDDXU7Fhu35WG
+ uycNXEstfRNKjIiUUg4mLPhcvzSM02qJU3A3lKtnn+rQAMAAeCZ42wTVbZHXpBwQkLkV
+ FsYn6i+BAThD22uLz8ZnOCnL/z7xU8p0G0Eg7Rr69zBkT77sM85PQ44yN7SJHCoUE9ts
+ xquw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=sfsrFXWULnWF8L5qk6neEdUYFV87D6epieAYX+CCHp4=;
+ b=t+xW8OQfnviXvtoa4xyKEJ+Ne1MxDQvaCxyDDQvC0mdp0p8o5bmdnbRzlLIps79CsC
+ 8VV+ZMU9k/YCwRmB1nJEcr76OlpbtSQy3v/kCMX7fAPXRkGaHm0aLKuKwFbpZCRcyCOr
+ BEFgkSRD5Z033+KWN9Jz18nLynNojo1J+tg5E7timH2fR+fnx2FKJmVcKSkLj/3cINPp
+ tGZcnv2vqPRRJoaWhlrDNxAtvVrgFALhay76w/E1suepY0vHcrU/5WLTl/RKm0kqeCc+
+ DdO/iC8JQujvGRVAo3ijbnanoUNFLnQJRaRdk5Tdo0thzyNe33AeRzgm/zGMP1/0/KWB
+ k22g==
+X-Gm-Message-State: AOAM533nndI7+LdXU2TKRQcnVOtsntU+DiDx/gRomK3XKb/d9BEahnZm
+ VQ55KExqe/gxFTfnyUdW+gl2hcS5o86UKi7q6A/MY9iwDP4=
+X-Google-Smtp-Source: ABdhPJzhg25G0o/BqhSQUQTboMLr+gVP5wvODA9BDLgj/ZY2CvyqK3mXNh2MVEyBoOLd4ziZjxddComD1lJPM6SpSWs=
+X-Received: by 2002:a05:622a:1a9b:: with SMTP id
+ s27mr3684654qtc.165.1630675030312; 
+ Fri, 03 Sep 2021 06:17:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20210903123123.116575-1-christian.koenig@amd.com>
+ <20210903123123.116575-2-christian.koenig@amd.com>
+In-Reply-To: <20210903123123.116575-2-christian.koenig@amd.com>
+From: Matthew Auld <matthew.william.auld@gmail.com>
+Date: Fri, 3 Sep 2021 14:16:42 +0100
+Message-ID: <CAM0jSHOfiW02WXX-Z93iNZwkoL+pZKfYTBJuxbj6bbQfGuj4rA@mail.gmail.com>
+Subject: Re: [PATCH 2/5] drm/ttm: enable TTM device object kerneldoc
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,183 +66,181 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This can be used to create a separate DRM file description, thus
-creating a new GEM handle namespace.
+On Fri, 3 Sept 2021 at 13:31, Christian K=C3=B6nig
+<ckoenig.leichtzumerken@gmail.com> wrote:
+>
+> Fix the remaining warnings, switch to inline structure documentation
+> and finally enable this.
+>
+> Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> ---
+>  Documentation/gpu/drm-mm.rst |  9 +++++
+>  include/drm/ttm/ttm_device.h | 73 +++++++++++++++++++++---------------
+>  2 files changed, 51 insertions(+), 31 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 8ca981065e1a..56b7b581567d 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -30,6 +30,15 @@ The Translation Table Manager (TTM)
+>
+>  TTM design background and information belongs here.
+>
+> +TTM device object reference
+> +---------------------------
+> +
+> +.. kernel-doc:: include/drm/ttm/ttm_device.h
+> +   :internal:
+> +
+> +.. kernel-doc:: drivers/gpu/drm/ttm/ttm_device.c
+> +   :export:
+> +
+>  The Graphics Execution Manager (GEM)
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+> index 07d722950d5b..0b31ec731e66 100644
+> --- a/include/drm/ttm/ttm_device.h
+> +++ b/include/drm/ttm/ttm_device.h
+> @@ -39,31 +39,23 @@ struct ttm_operation_ctx;
+>
+>  /**
+>   * struct ttm_global - Buffer object driver global data.
+> - *
+> - * @dummy_read_page: Pointer to a dummy page used for mapping requests
+> - * of unpopulated pages.
+> - * @shrink: A shrink callback object used for buffer object swap.
+> - * @device_list_mutex: Mutex protecting the device list.
+> - * This mutex is held while traversing the device list for pm options.
+> - * @lru_lock: Spinlock protecting the bo subsystem lru lists.
+> - * @device_list: List of buffer object devices.
+> - * @swap_lru: Lru list of buffer objects used for swapping.
+>   */
+>  extern struct ttm_global {
+>
+>         /**
+> -        * Constant after init.
+> +        * @dummy_read_page: Pointer to a dummy page used for mapping req=
+uests
+> +        * of unpopulated pages. Constant after init.
+>          */
+> -
+>         struct page *dummy_read_page;
+>
+>         /**
+> -        * Protected by ttm_global_mutex.
+> +        * @device_list: List of buffer object devices. Protected by
+> +        * ttm_global_mutex.
 
-My use-case is wlroots. The library splits responsibilities between
-separate components: the GBM allocator creates buffers, the GLES2
-renderer uses EGL to import them and render to them, the DRM
-backend imports the buffers and displays them. wlroots has a
-modular architecture, and any of these components can be swapped
-and replaced with something else. For instance, the pipeline can
-be set up so that the DRM dumb buffer allocator is used instead of
-GBM and the Pixman renderer is used instead of GLES2. Library users
-can also replace any of these components with their own custom one.
+Would it be reasonable to move the ttm_global_mutex into ttm_global
+here? That way everything is nicely grouped together, and we can
+easily reference it here with @mutex or so?
 
-DMA-BUFs are used to pass buffer references across components. We
-could use GEM handles instead, but this would result in pain if
-multiple GPUs are in use: wlroots copies buffers across GPUs as
-needed. Importing a GEM handle created on one GPU into a completely
-different GPU will blow up (fail at best, mix unrelated buffers
-otherwise).
-
-Everything is fine if all components use Mesa. However, this isn't
-always desirable. For instance when running with DRM dumb buffers
-and the Pixman software renderer it's unfortunate to depend on GBM
-in the DRM backend just to turn DMA-BUFs into FB IDs. GBM loads
-Mesa drivers to perform an action which has nothing driver-specific.
-Additionally, drivers will fail the import if the 3D engine can't
-use the imported buffer, for instance amdgpu will refuse to import
-DRM dumb buffers [1]. We might also want to be running with a Vulkan
-renderer and a Vulkan allocator in the future, and GBM wouldn't be
-welcome in this setup.
-
-To address this, GBM can be side-stepped in the DRM backend, and
-can be replaced with drmPrimeFDToHandle calls. However because of
-GEM handle reference counting issues, care must be taken to avoid
-double-closing the same GEM handle. In particular, it's not
-possible to share a DRM FD with GBM or EGL and perform some
-drmPrimeFDToHandle calls manually.
-
-So wlroots needs to re-open the DRM FD to create a new GEM handle
-namespace. However there's no guarantee that the file-system
-permissions will be set up so that the primary FD can be opened
-by the compsoitor. On modern systems seatd or logind is a privileged
-process responsible for doing this, and other processes aren't
-expected to do it. For historical reasons systemd still allows
-physically logged in users to open primary DRM nodes, but this
-doesn't work on non-systemd setups and it's desirable to lock
-them down at some point.
-
-Some might suggest to open the render node instead of re-opening
-the primary node. However some systems don't have a render node
-at all (e.g. no GPU, or a split render/display SoC).
-
-Solutions to this issue have been discussed in [2]. One solution
-would be to open the magic /proc/self/fd/<fd> file, but it's a
-Linux-specific hack (wlroots supports BSDs too). Another solution
-is to add support for re-opening a DRM primary node to seatd/logind,
-but they don't support it now and really haven't been designed for
-this (logind would need to grow a completely new API, because it
-assumes unique dev_t IDs). Also this seems like pushing down a
-kernel limitation to user-space a bit too hard.
-
-Another solution is to allow creating empty DRM leases. The lessee
-FD would have its own GEM handle namespace, so wouldn't conflict
-wth GBM/EGL. It would have the master bit set, but would be able
-to manage zero resources. wlroots doesn't intend to share this FD
-with any other process.
-
-All in all IMHO that seems like a pretty reasonable solution to the
-issue at hand.
-
-Note, I've discussed with Jonas =C3=85dahl and Mutter plans to adopt a
-similar design in the future.
-
-Example usage in wlroots is available at [3]. IGT test available
-at [4].
-
-[1]: https://github.com/swaywm/wlroots/issues/2916
-[2]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
-[3]: https://github.com/swaywm/wlroots/pull/3158
-[4]: https://patchwork.freedesktop.org/series/94323/
-
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Daniel Stone <daniels@collabora.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-Cc: Emil Velikov <emil.l.velikov@gmail.com>
-Cc: Keith Packard <keithp@keithp.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Dave Airlie <airlied@redhat.com>
----
- drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
- include/uapi/drm/drm_mode.h |  3 ++-
- 2 files changed, 20 insertions(+), 22 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_lease.c b/drivers/gpu/drm/drm_lease.c
-index dee4f24a1808..d72c2fac0ff1 100644
---- a/drivers/gpu/drm/drm_lease.c
-+++ b/drivers/gpu/drm/drm_lease.c
-@@ -489,12 +489,6 @@ int drm_mode_create_lease_ioctl(struct drm_device *dev=
-,
- =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
- =09=09return -EOPNOTSUPP;
-=20
--=09/* need some objects */
--=09if (cl->object_count =3D=3D 0) {
--=09=09DRM_DEBUG_LEASE("no objects in lease\n");
--=09=09return -EINVAL;
--=09}
--
- =09if (cl->flags && (cl->flags & ~(O_CLOEXEC | O_NONBLOCK))) {
- =09=09DRM_DEBUG_LEASE("invalid flags\n");
- =09=09return -EINVAL;
-@@ -510,23 +504,26 @@ int drm_mode_create_lease_ioctl(struct drm_device *de=
-v,
-=20
- =09object_count =3D cl->object_count;
-=20
--=09object_ids =3D memdup_user(u64_to_user_ptr(cl->object_ids),
--=09=09=09array_size(object_count, sizeof(__u32)));
--=09if (IS_ERR(object_ids)) {
--=09=09ret =3D PTR_ERR(object_ids);
--=09=09goto out_lessor;
--=09}
--
-+=09/* Handle leased objects, if any */
- =09idr_init(&leases);
-+=09if (object_count !=3D 0) {
-+=09=09object_ids =3D memdup_user(u64_to_user_ptr(cl->object_ids),
-+=09=09=09=09=09 array_size(object_count, sizeof(__u32)));
-+=09=09if (IS_ERR(object_ids)) {
-+=09=09=09ret =3D PTR_ERR(object_ids);
-+=09=09=09idr_destroy(&leases);
-+=09=09=09goto out_lessor;
-+=09=09}
-=20
--=09/* fill and validate the object idr */
--=09ret =3D fill_object_idr(dev, lessor_priv, &leases,
--=09=09=09      object_count, object_ids);
--=09kfree(object_ids);
--=09if (ret) {
--=09=09DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
--=09=09idr_destroy(&leases);
--=09=09goto out_lessor;
-+=09=09/* fill and validate the object idr */
-+=09=09ret =3D fill_object_idr(dev, lessor_priv, &leases,
-+=09=09=09=09      object_count, object_ids);
-+=09=09kfree(object_ids);
-+=09=09if (ret) {
-+=09=09=09DRM_DEBUG_LEASE("lease object lookup failed: %i\n", ret);
-+=09=09=09idr_destroy(&leases);
-+=09=09=09goto out_lessor;
-+=09=09}
- =09}
-=20
- =09/* Allocate a file descriptor for the lease */
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index e4a2570a6058..e1e351682872 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -1112,7 +1112,8 @@ struct drm_mode_destroy_blob {
-  * Lease mode resources, creating another drm_master.
-  *
-  * The @object_ids array must reference at least one CRTC, one connector a=
-nd
-- * one plane if &DRM_CLIENT_CAP_UNIVERSAL_PLANES is enabled.
-+ * one plane if &DRM_CLIENT_CAP_UNIVERSAL_PLANES is enabled. Alternatively=
-,
-+ * the lease can be completely empty.
-  */
- struct drm_mode_create_lease {
- =09/** @object_ids: Pointer to array of object ids (__u32) */
---=20
-2.33.0
-
-
+>          */
+>         struct list_head device_list;
+>
+>         /**
+> -        * Internal protection.
+> +        * @bo_count: Number of buffer objects allocated by devices.
+>          */
+>         atomic_t bo_count;
+>  } ttm_glob;
+> @@ -230,50 +222,69 @@ struct ttm_device_funcs {
+>
+>  /**
+>   * struct ttm_device - Buffer object driver device-specific data.
+> - *
+> - * @device_list: Our entry in the global device list.
+> - * @funcs: Function table for the device.
+> - * @sysman: Resource manager for the system domain.
+> - * @man_drv: An array of resource_managers.
+> - * @vma_manager: Address space manager.
+> - * @pool: page pool for the device.
+> - * @dev_mapping: A pointer to the struct address_space representing the
+> - * device address space.
+> - * @wq: Work queue structure for the delayed delete workqueue.
+>   */
+>  struct ttm_device {
+> -       /*
+> +       /**
+> +        * @device_list: Our entry in the global device list.
+>          * Constant after bo device init
+>          */
+>         struct list_head device_list;
+> +
+> +       /**
+> +        * @funcs: Function table for the device.
+> +        * Constant after bo device init
+> +        */
+>         struct ttm_device_funcs *funcs;
+>
+> -       /*
+> +       /**
+> +        * @sysman: Resource manager for the system domain.
+>          * Access via ttm_manager_type.
+>          */
+>         struct ttm_resource_manager sysman;
+> +
+> +       /**
+> +        * @man_drv: An array of resource_managers.
+> +        */
+>         struct ttm_resource_manager *man_drv[TTM_NUM_MEM_TYPES];
+>
+>         /*
+>          * Protected by internal locks.
+>          */
+> +
+> +       /**
+> +        * @vma_manager: Address space manager for finding BOs to mmap.
+> +        */
+>         struct drm_vma_offset_manager *vma_manager;
+> +
+> +       /**
+> +        * @pool: page pool for the device.
+> +        */
+>         struct ttm_pool pool;
+>
+> -       /*
+> -        * Protection for the per manager LRU and ddestroy lists.
+> +       /**
+> +        * @lru_lock: Protection for the per manager LRU and ddestroy lis=
+ts.
+>          */
+>         spinlock_t lru_lock;
+> +
+> +       /**
+> +        * @ddestroy: Destroyed but not yet cleaned up buffer objects.
+> +        */
+>         struct list_head ddestroy;
+> +
+> +       /**
+> +        * @pinned: Buffer object which are pinned and so not on any LRU =
+list.
+> +        */
+>         struct list_head pinned;
+>
+> -       /*
+> -        * Protected by load / firstopen / lastclose /unload sync.
+> +       /**
+> +        * @dev_mapping: A pointer to the struct address_space for invali=
+dating
+> +        * CPU mappings on buffer move. Protected by load/unload sync.
+>          */
+>         struct address_space *dev_mapping;
+>
+> -       /*
+> -        * Internal protection.
+> +       /**
+> +        * @wq: Work queue structure for the delayed delete workqueue. Ha=
+s
+> +        * internal protection.
+>          */
+>         struct delayed_work wq;
+>  };
+> --
+> 2.25.1
+>
