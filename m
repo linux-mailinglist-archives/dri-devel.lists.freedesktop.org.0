@@ -2,42 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370A03FFD4B
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 11:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 574493FFD74
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 11:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 061496E098;
-	Fri,  3 Sep 2021 09:38:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B37536E865;
+	Fri,  3 Sep 2021 09:50:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DBDDE6E098;
- Fri,  3 Sep 2021 09:38:04 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10095"; a="219436500"
-X-IronPort-AV: E=Sophos;i="5.85,265,1624345200"; d="scan'208";a="219436500"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 02:37:45 -0700
-X-IronPort-AV: E=Sophos;i="5.85,265,1624345200"; d="scan'208";a="543433538"
-Received: from schuethe-mobl1.ger.corp.intel.com (HELO [10.252.60.46])
- ([10.252.60.46])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 02:37:42 -0700
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next-fixes
-Message-ID: <41ff5e54-0837-2226-a182-97ffd11ef01e@linux.intel.com>
-Date: Fri, 3 Sep 2021 11:38:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 03F8C6E865
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 09:50:16 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 467E41FB;
+ Fri,  3 Sep 2021 02:50:16 -0700 (PDT)
+Received: from e122027.lan (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E97293F694;
+ Fri,  3 Sep 2021 02:50:14 -0700 (PDT)
+From: Steven Price <steven.price@arm.com>
+To: Rob Herring <robh@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/panfrost: Calculate lock region size correctly
+Date: Fri,  3 Sep 2021 10:49:57 +0100
+Message-Id: <20210903094957.74560-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,54 +46,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-drm-misc-next-fixes-2021-09-03:
-drm-misc-next-fixes for v5.15:
-- Fix ttm_bo_move_memcpy() when ttm_resource is subclassed.
-- Small fixes to panfrost, mgag200, vc4.
-- Small ttm compilation fixes.
-The following changes since commit 2819cf0e7dbe45a2bccf2f6c60fe6a27b299cc3e:
+It turns out that when locking a region, the region must be a naturally
+aligned power of 2. The upshot of this is that if the desired region
+crosses a 'large boundary' the region size must be increased
+significantly to ensure that the locked region completely covers the
+desired region. Previous calculations (including in kbase for the
+proprietary driver) failed to take this into account.
 
-  Merge tag 'drm-misc-next-2021-08-12' of git://anongit.freedesktop.org/drm/drm-misc into drm-next (2021-08-16 12:57:33 +1000)
+Since it's known that the lock region must be naturally aligned we can
+compute the required size by looking at the highest bit position which
+changes between the start/end of the lock region (subtracting 1 from the
+end because the end address is exclusive). The start address is then
+aligned based on the size (this is technically unnecessary as the
+hardware will ignore these bits, but the spec advises to do this "to
+avoid confusion").
 
-are available in the Git repository at:
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ drivers/gpu/drm/panfrost/panfrost_mmu.c | 30 +++++++++++++++++++------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-fixes-2021-09-03
+diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+index dfe5f1d29763..e2629b8d6a02 100644
+--- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
++++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
+@@ -58,17 +58,33 @@ static int write_cmd(struct panfrost_device *pfdev, u32 as_nr, u32 cmd)
+ }
+ 
+ static void lock_region(struct panfrost_device *pfdev, u32 as_nr,
+-			u64 iova, u64 size)
++			u64 region_start, u64 size)
+ {
+ 	u8 region_width;
+-	u64 region = iova & PAGE_MASK;
++	u64 region;
++	u64 region_end = region_start + size;
+ 
+-	/* The size is encoded as ceil(log2) minus(1), which may be calculated
+-	 * with fls. The size must be clamped to hardware bounds.
++	if (!size)
++		return;
++
++	/*
++	 * The locked region is a naturally aligned power of 2 block encoded as
++	 * log2 minus(1).
++	 * Calculate the desired start/end and look for the highest bit which
++	 * differs. The smallest naturally aligned block must include this bit
++	 * change, the desired region starts with this bit (and subsequent bits)
++	 * zeroed and ends with the bit (and subsequent bits) set to one.
+ 	 */
+-	size = max_t(u64, size, AS_LOCK_REGION_MIN_SIZE);
+-	region_width = fls64(size - 1) - 1;
+-	region |= region_width;
++	region_width = max(fls64(region_start ^ (region_end - 1)),
++			   const_ilog2(AS_LOCK_REGION_MIN_SIZE)) - 1;
++
++	/*
++	 * Mask off the low bits of region_start (which would be ignored by
++	 * the hardware anyway)
++	 */
++	region_start &= GENMASK_ULL(63, region_width);
++
++	region = region_width | region_start;
+ 
+ 	/* Lock the region that needs to be updated */
+ 	mmu_write(pfdev, AS_LOCKADDR_LO(as_nr), region & 0xFFFFFFFFUL);
+-- 
+2.30.2
 
-for you to fetch changes up to efcefc7127290e7e9fa98dea029163ad8eda8fb3:
-
-  drm/ttm: Fix ttm_bo_move_memcpy() for subclassed struct ttm_resource (2021-08-31 10:48:26 +0200)
-
-----------------------------------------------------------------
-drm-misc-next-fixes for v5.15:
-- Fix ttm_bo_move_memcpy() when ttm_resource is subclassed.
-- Small fixes to panfrost, mgag200, vc4.
-- Small ttm compilation fixes.
-
-----------------------------------------------------------------
-Alyssa Rosenzweig (3):
-      drm/panfrost: Simplify lock_region calculation
-      drm/panfrost: Use u64 for size in lock_region
-      drm/panfrost: Clamp lock region to Bifrost minimum
-
-Colin Ian King (1):
-      drm/mgag200: Fix uninitialized variable delta
-
-Jason Ekstrand (2):
-      drm/ttm: ttm_bo_device is now ttm_device
-      drm/ttm: Include pagemap.h from ttm_tt.h
-
-Jiapeng Chong (1):
-      drm/vc4: hdmi: make vc4_hdmi_codec_pdata static
-
-Thomas Hellström (1):
-      drm/ttm: Fix ttm_bo_move_memcpy() for subclassed struct ttm_resource
-
- Documentation/gpu/drm-mm.rst             |  2 +-
- drivers/gpu/drm/mgag200/mgag200_pll.c    |  1 +
- drivers/gpu/drm/panfrost/panfrost_mmu.c  | 31 +++++++++++--------------------
- drivers/gpu/drm/panfrost/panfrost_regs.h |  2 ++
- drivers/gpu/drm/ttm/ttm_bo_util.c        |  7 +++----
- drivers/gpu/drm/ttm/ttm_tt.c             |  1 -
- drivers/gpu/drm/vc4/vc4_hdmi.c           |  2 +-
- include/drm/ttm/ttm_tt.h                 |  3 ++-
- 8 files changed, 21 insertions(+), 28 deletions(-)
