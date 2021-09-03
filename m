@@ -1,71 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 964934003E6
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 19:09:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9255940041B
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 19:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 188EC6E8B7;
-	Fri,  3 Sep 2021 17:09:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E50D56E8B8;
+	Fri,  3 Sep 2021 17:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com
- [IPv6:2607:f8b0:4864:20::534])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B5036E8B7;
- Fri,  3 Sep 2021 17:09:28 +0000 (UTC)
-Received: by mail-pg1-x534.google.com with SMTP id n18so6112709pgm.12;
- Fri, 03 Sep 2021 10:09:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oML9T4hNm8T0JbKhVIBMBwI7KEbiqjIJg/n4n2ZhuRU=;
- b=hprSMkscOds52ztZ0BN1ncqwRrMGErH4qUBwiBSGlOxjVqx/rLSVp+NTIbG9FxMkyA
- uEUKcOlUE2bBlIKnUckrrIDt861OR+pc3cJKAtAobVUIQDYaLRo8L/0SMaNcUPIlxrVo
- jpTDplN8FwdiUYy3eeOfR+s8TS//2Arsea/rY8Zx0XecOEz9xvYvfKHKYIs9UerkARnx
- rFbgDTKO/DoqsUvPokQmx8T1U9oaRWAM2mW2y1ctXFYzUd3+tyxZ7pYcZGq7u1agNY+J
- xYd3+Tn0QgcQs8jdC9MCogCZ10hT0iPX8ECgx6oqBUPc33HQXQGQCaYFCOtQXA1mWP4i
- RIVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oML9T4hNm8T0JbKhVIBMBwI7KEbiqjIJg/n4n2ZhuRU=;
- b=sM4OvzUelyNeu+txWcQXmvy+StwclO4u7DXjxD13Mylk1jIc4/l5qvNyVS+wqhNpsV
- V6bTFyUhT3Hwyn0GEfb9D9AtrkbICW+sfR3F2HXw4Wa3ZmzyfYCCMcdK5tvPMfi5Vume
- Tiah4JauJA4NciUmBpNwrF/S04O3cH6nDZ7MU1CTo3gFgln/jHHYgatNSDS6B1CU0BMf
- kMtqc3BC6scSpxRT7au0szdJJBtiWVSYyyAPYSwo7AQ1BIPJ3guDQf2pTurRKBZEt7rt
- bLdfPaK0N4G+XbitKykB/LmDzyHsB13SfoU55KK5Y2l+gGRvaPXSz7Z6hHYhaLfTnOtT
- /9HA==
-X-Gm-Message-State: AOAM533vrQn/mK5y9TRo1j7ISeuxKf4WNHniKXrAsCjUcdmdD09jxAkR
- xhIBZbyuctPahP9hmN4LyKE=
-X-Google-Smtp-Source: ABdhPJzffmEzGJBQOIV01Wm1saidXbtMvwXfO7+MxwVKmd6kYopuUGSM5lHgrgqvCPH66IrCl7Sa0w==
-X-Received: by 2002:a63:b707:: with SMTP id t7mr57341pgf.460.1630688967994;
- Fri, 03 Sep 2021 10:09:27 -0700 (PDT)
-Received: from skynet-linux.local ([122.171.5.147])
- by smtp.googlemail.com with ESMTPSA id 130sm5905361pfy.175.2021.09.03.10.09.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 10:09:27 -0700 (PDT)
-From: Sireesh Kodali <sireeshkodali1@gmail.com>
-To: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-Cc: Vladimir Lypak <vladimir.lypak@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sireesh Kodali <sireeshkodali1@gmail.com>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>,
- Rajeev Nandan <rajeevny@codeaurora.org>,
- freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
- linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 2/3] drm/msm/dsi: Add phy configuration for MSM8953
-Date: Fri,  3 Sep 2021 22:38:43 +0530
-Message-Id: <20210903170844.35694-3-sireeshkodali1@gmail.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210903170844.35694-1-sireeshkodali1@gmail.com>
-References: <20210903170844.35694-1-sireeshkodali1@gmail.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4E86E8B8
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 17:29:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=Pv/OTFLCcCgh6NL0IiQ8EwNC5MSYN96U9rUEB9jsZqY=; b=lwWcwqiANiS6SjADGzKtg6U3IY
+ paU30S6vpMYqkoidBfkMw4YTmgP9rm+FKwywQt9CNDkK3uqnioE5m3hjiFLLOzZ7ceQ70e/3JcK4S
+ fTqFHGRC8jsMLDmo93wntLUmgl6DJ/dLSrheKm3k5wLfd93GVQ1xN37v5KP/DidUX7F0ZhK/+jS8U
+ ADtIfgFNpOeCLAdZAqYo9aGRNgkw9WfqJGwZchdmAIF7gfZisIDztd/xBDkZ6kd3G+k5BHtbXV47u
+ wAlW1xDp8mQsM7UPyG8lCGVfshnFyDQ2Ipi3NhC/UwU74yXaJxWVrLJo86eAv2GMzjy1UOTdX8dSk
+ dwIGjO6Q==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=[192.168.1.10])
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
+ id 1mMCzs-00071A-J6; Fri, 03 Sep 2021 20:29:00 +0300
+Subject: Re: [PATCH v4 1/3] dt-bindings: Add YAML bindings for NVDEC
+To: Rob Herring <robh@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>
+Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
+ daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
+References: <20210903083155.690022-1-mperttunen@nvidia.com>
+ <20210903083155.690022-2-mperttunen@nvidia.com>
+ <YTJOg1oHJq848ZlE@robh.at.kernel.org>
+From: Mikko Perttunen <cyndis@kapsi.fi>
+Message-ID: <36d5b388-0d7f-c500-89b1-c4526849fb56@kapsi.fi>
+Date: Fri, 3 Sep 2021 20:28:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <YTJOg1oHJq848ZlE@robh.at.kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: cyndis@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,74 +65,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Vladimir Lypak <vladimir.lypak@gmail.com>
+On 9/3/21 7:34 PM, Rob Herring wrote:
+> On Fri, Sep 03, 2021 at 11:31:53AM +0300, Mikko Perttunen wrote:
+>> Add YAML device tree bindings for NVDEC, now in a more appropriate
+>> place compared to the old textual Host1x bindings.
+>>
+>> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+>> ---
+>> v4:
+>> * Fix incorrect compatibility string in 'if' condition
+>> v3:
+>> * Drop host1x bindings
+>> * Change read2 to read-1 in interconnect names
+>> v2:
+>> * Fix issues pointed out in v1
+>> * Add T194 nvidia,instance property
+>> ---
+>>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 ++++++++++++++++++
+>>   MAINTAINERS                                   |   1 +
+>>   2 files changed, 110 insertions(+)
+>>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>>
+>> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>> new file mode 100644
+>> index 000000000000..33d01c7dc759
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+>> @@ -0,0 +1,109 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
+>> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+>> +
+>> +title: Device tree binding for NVIDIA Tegra NVDEC
+>> +
+>> +description: |
+>> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+>> +  and newer chips. It is located on the Host1x bus and typically
+>> +  programmed through Host1x channels.
+>> +
+>> +maintainers:
+>> +  - Thierry Reding <treding@gmail.com>
+>> +  - Mikko Perttunen <mperttunen@nvidia.com>
+>> +
+>> +properties:
+>> +  $nodename:
+>> +    pattern: "^nvdec@[0-9a-f]*$"
+>> +
+>> +  compatible:
+>> +    enum:
+>> +      - nvidia,tegra210-nvdec
+>> +      - nvidia,tegra186-nvdec
+>> +      - nvidia,tegra194-nvdec
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  clock-names:
+>> +    items:
+>> +      - const: nvdec
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +  reset-names:
+>> +    items:
+>> +      - const: nvdec
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  iommus:
+>> +    maxItems: 1
+>> +
+>> +  interconnects:
+>> +    items:
+>> +      - description: DMA read memory client
+>> +      - description: DMA read 2 memory client
+>> +      - description: DMA write memory client
+>> +
+>> +  interconnect-names:
+>> +    items:
+>> +      - const: dma-mem
+>> +      - const: read-1
+>> +      - const: write
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - clock-names
+>> +  - resets
+>> +  - reset-names
+>> +  - power-domains
+>> +
+>> +if:
+>> +  properties:
+>> +    compatible:
+>> +      contains:
+>> +        const: nvidia,tegra194-nvdec
+>> +then:
+>> +  properties:
+>> +    nvidia,instance:
+>> +      items:
+>> +        - description: 0 for NVDEC0, or 1 for NVDEC1
+> 
+> I still don't understand what this is needed for. What is the difference
+> between the instances? There must be some reason you care. We should
+> describe that difference, not some made up index.
+> 
+> I'm not suggesting using the base address either. That's fragile too.
 
-Add phy configuration for 14nm dsi phy found on MSM8953 SoC. Only
-difference from existing configurations are io_start addresses.
+This device is on the Host1x bus. On that bus, each device has an 
+identifier baked into hardware called 'class' that is used when 
+accessing devices through some mechanisms (host1x channels). As such, 
+when probing the device we need to specify the class of the device to 
+the host1x driver so it knows how to talk to it. Those class numbers are 
+fixed so we have hardcoded them in the driver, but now that we have two 
+NVDECs, we need to distinguish between them so that we can specify the 
+correct class for each instance to the host1x driver.
 
-Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Sireesh Kodali <sireeshkodali1@gmail.com>
----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c      |  2 ++
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.h      |  1 +
- drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 21 +++++++++++++++++++++
- 3 files changed, 24 insertions(+)
+> 
+>> +
+>> +additionalProperties: true
+> 
+> 'true' here is not allowed unless the schema is not complete and
+> intended to be included in a complete schema or unconditionally applied
+> (i.e. 'select: true'). This case is neither. As pointed out previously,
+> 'unevaluatedProperties' is what you'd want here.
+> 
+> However, I looked into supporting defining properties in if/then/else
+> schemas as you have done and I don't think we will support that soon.
+> It's problematic because we can't validate the schema under the if/then
+> completely. The reason is properties under if/then schemas don't have to
+> be complete as we expect a top level definition that is complete (e.g.
+> vendor properties must have 'description'). To solve this, we'd have to
+> only apply meta-schema checks if the property doesn't appear at the top
+> level. That's more complicated than I care to implement ATM.
 
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 8c65ef6968ca..9842e04b5858 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -627,6 +627,8 @@ static const struct of_device_id dsi_phy_dt_match[] = {
- 	  .data = &dsi_phy_14nm_cfgs },
- 	{ .compatible = "qcom,dsi-phy-14nm-660",
- 	  .data = &dsi_phy_14nm_660_cfgs },
-+	{ .compatible = "qcom,dsi-phy-14nm-8953",
-+	  .data = &dsi_phy_14nm_8953_cfgs },
- #endif
- #ifdef CONFIG_DRM_MSM_DSI_10NM_PHY
- 	{ .compatible = "qcom,dsi-phy-10nm",
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-index b91303ada74f..4c8257581bfc 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.h
-@@ -48,6 +48,7 @@ extern const struct msm_dsi_phy_cfg dsi_phy_20nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_28nm_8960_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_14nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs;
-+extern const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_10nm_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_10nm_8998_cfgs;
- extern const struct msm_dsi_phy_cfg dsi_phy_7nm_cfgs;
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-index d13552b2213b..9a6b1f0cbbaf 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
-@@ -1065,3 +1065,24 @@ const struct msm_dsi_phy_cfg dsi_phy_14nm_660_cfgs = {
- 	.io_start = { 0xc994400, 0xc996000 },
- 	.num_dsi_phy = 2,
- };
-+
-+const struct msm_dsi_phy_cfg dsi_phy_14nm_8953_cfgs = {
-+	.has_phy_lane = true,
-+	.reg_cfg = {
-+		.num = 1,
-+		.regs = {
-+			{"vcca", 17000, 32},
-+		},
-+	},
-+	.ops = {
-+		.enable = dsi_14nm_phy_enable,
-+		.disable = dsi_14nm_phy_disable,
-+		.pll_init = dsi_pll_14nm_init,
-+		.save_pll_state = dsi_14nm_pll_save_state,
-+		.restore_pll_state = dsi_14nm_pll_restore_state,
-+	},
-+	.min_pll_rate = VCO_MIN_RATE,
-+	.max_pll_rate = VCO_MAX_RATE,
-+	.io_start = { 0x1a94400, 0x1a96400 },
-+	.num_dsi_phy = 2,
-+};
--- 
-2.33.0
+I see two paths here: either keep 'additionalProperties: true' or remove 
+it and have this binding trigger validation failures. Which one do you 
+suggest or is there some third option?
 
+Thanks,
+Mikko
+
+> 
+> Rob
+> 
