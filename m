@@ -1,68 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77893FF905
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 05:08:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C093FF941
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 06:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 992E76E07D;
-	Fri,  3 Sep 2021 03:08:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E2C06E82D;
+	Fri,  3 Sep 2021 04:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 51AFE6E07D
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 03:08:23 +0000 (UTC)
-X-UUID: bd5b64a7326e450b843e6845123182e6-20210903
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=I7eErvKCjKSoZMUT8uEkUsYqIR3doV0E2tnrfW34Oyc=; 
- b=t1/A0CMwFK6DR/affEE0ye5ClSnjIKHGU3OBDCvCPOyO6Od+E/xqbUNw/ziy6jRhv6U3JgQdb6P3rlYIqukW4kA2N3h101qXVVMfKpmIbk+LHu9cZJdrA4nBgIjLrZ5XPD4s0ZJzd5KdzZMwvE0+EcR13iNfDv0IZ8eCkAtNAB4=;
-X-UUID: bd5b64a7326e450b843e6845123182e6-20210903
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
- (envelope-from <yunfei.dong@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1779183396; Fri, 03 Sep 2021 11:08:18 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 3 Sep 2021 11:08:17 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 3 Sep 2021 11:08:15 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 3 Sep 2021 11:08:14 +0800
-Message-ID: <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
-Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
- hardware decode
-From: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-CC: Alexandre Courbot <acourbot@chromium.org>, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, "Tiffany
- Lin" <tiffany.lin@mediatek.com>, Andrew-CT Chen
- <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
- Tomasz Figa <tfiga@google.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang
- <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, Irui Wang
- <irui.wang@mediatek.com>, linux-media <linux-media@vger.kernel.org>,
- devicetree <devicetree@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, linux-arm-kernel
- <linux-arm-kernel@lists.infradead.org>, srv_heupstream
- <srv_heupstream@mediatek.com>, "moderated list:ARM/Mediatek SoC support"
- <linux-mediatek@lists.infradead.org>, Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Date: Fri, 3 Sep 2021 11:08:13 +0800
-In-Reply-To: <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
+Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com
+ [IPv6:2a00:1450:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C9CB96E82D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 04:09:47 +0000 (UTC)
+Received: by mail-lj1-x22f.google.com with SMTP id s12so7585424ljg.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 02 Sep 2021 21:09:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=joW/G6DY+txuyPmVNEIlO2p6pd362DkeC8kCVshvDTc=;
+ b=ZIbvv2MoZCfOXe6LWEUxhC8fScArp+zt/1ot3m7EM6GACqj9dlCM7f5i4DhEqn8uYH
+ d74b3ix3sflk7mxX6JPQVLBF7rgk4eCJy+wgpyUBhPBMnDB49i8UHC6Gxp//bkLuZ6OW
+ 8hfk1vHOiK1XmbwACEuRIqpduzex9euGg7Wkg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=joW/G6DY+txuyPmVNEIlO2p6pd362DkeC8kCVshvDTc=;
+ b=IguYdaZ2IbNQ7c656PFJwQ3n9mton4tB92t+GQABqUv1n01D9B6HwvHVgO7ort+LcS
+ 81fw/PFO2BkakvciAezEznNl2dtjRA9+rU3QdMEkF0hWbco8f831y2N0v+lbDDPOT7tT
+ Eer1ferVm74kWhmfckOmopL28kqLTSevx+wdog23XyTUhcZbTR9ocdGxdAf6V/OCjVgB
+ c0YMAGTKpu3txa+bD+P+axEdUs8GFiwvCk1i+uJgf1ACG+GTEyoVX9JPBuSR0a4gteJ6
+ OPZFtJNZKt01z4s+FEDH6ExiEQL4cVgO983E0P7JRQEQttAFS+aXASTnJuFj1A8ZsdXF
+ fcSw==
+X-Gm-Message-State: AOAM530ey7whq72AEFaZ4nlqArjpAm+fUvwa3rl+T2B3e4Uwq9IbpXux
+ fqUoQPNvIlqLhJrQPbGpOt9tLgCnZ2O7v0LdJou8gw==
+X-Google-Smtp-Source: ABdhPJx4XKG0lvFDetGV90273eSD7bOwt7ysolxtpaJkRUK9uLWj4p8fL3g2ooVhI35FhJ7mJLx4mBVrJkVVhWz8scM=
+X-Received: by 2002:a2e:b16a:: with SMTP id a10mr1352765ljm.18.1630642185751; 
+ Thu, 02 Sep 2021 21:09:45 -0700 (PDT)
+MIME-Version: 1.0
 References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
  <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
+In-Reply-To: <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Fri, 3 Sep 2021 12:09:34 +0800
+Message-ID: <CAGXv+5Fr1gdeGFQnjjZ0JHf4sVanPb9QFqdYnrnmZ-ff8TrrdA@mail.gmail.com>
+Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
+ hardware decode
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, 
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Fritz Koenig <frkoenig@chromium.org>, Irui Wang <irui.wang@mediatek.com>, 
+ linux-media <linux-media@vger.kernel.org>,
+ devicetree <devicetree@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
+ srv_heupstream <srv_heupstream@mediatek.com>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Project_Global_Chrome_Upstream_Group
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,78 +82,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SGkgRXplcXVpZWwsDQoNClRoYW5rcyBmb3IgeW91ciBzdWdnZXN0aW9uLg0KT24gVGh1LCAyMDIx
-LTA5LTAyIGF0IDEzOjMwIC0wMzAwLCBFemVxdWllbCBHYXJjaWEgd3JvdGU6DQo+IE9uIFdlZCwg
-MSBTZXB0IDIwMjEgYXQgMDU6MzIsIFl1bmZlaSBEb25nIDx5dW5mZWkuZG9uZ0BtZWRpYXRlay5j
-b20+DQo+IHdyb3RlOg0KPiA+IA0KPiA+IFRoaXMgc2VyaWVzIGFkZHMgc3VwcG9ydCBmb3IgbXVs
-dGkgaGFyZHdhcmUgZGVjb2RlIGludG8gbXRrLXZjb2RlYywgDQo+ID4gYnkgZmlyc3QNCj4gPiBh
-ZGRpbmcgY29tcG9uZW50IGZyYW1ld29yayB0byBtYW5hZ2UgZWFjaCBoYXJkd2FyZSBpbmZvcm1h
-dGlvbjoNCj4gPiBpbnRlcnJ1cHQsDQo+ID4gY2xvY2ssIHJlZ2lzdGVyIGJhc2VzIGFuZCBwb3dl
-ci4gU2Vjb25kbHkgYWRkIGNvcmUgdGhyZWFkIHRvIGRlYWwNCj4gPiB3aXRoIGNvcmUNCj4gPiBo
-YXJkd2FyZSBtZXNzYWdlLCBhdCB0aGUgc2FtZSB0aW1lLCBhZGQgbXNnIHF1ZXVlIGZvciBkaWZm
-ZXJlbnQNCj4gPiBoYXJkd2FyZQ0KPiA+IHNoYXJlIG1lc3NhZ2VzLiBMYXN0bHksIHRoZSBhcmNo
-aXRlY3R1cmUgb2YgZGlmZmVyZW50IHNwZWNzIGFyZSBub3QNCj4gPiB0aGUgc2FtZSwNCj4gPiB1
-c2luZyBzcGVjcyB0eXBlIHRvIHNlcGFyYXRlIHRoZW0uDQo+ID4gDQo+ID4gVGhpcyBzZXJpZXMg
-aGFzIGJlZW4gdGVzdGVkIHdpdGggYm90aCBNVDgxODMgYW5kIE1UODE3My4gRGVjb2RpbmcNCj4g
-PiB3YXMgd29ya2luZw0KPiA+IGZvciBib3RoIGNoaXBzLg0KPiA+IA0KPiA+IFBhdGNoZXMgMX4z
-IHJld3JpdGUgZ2V0IHJlZ2lzdGVyIGJhc2VzIGFuZCBwb3dlciBvbi9vZmYgaW50ZXJmYWNlLg0K
-PiA+IA0KPiA+IFBhdGNoIDQgYWRkIGNvbXBvbmVudCBmcmFtZXdvcmsgdG8gc3VwcG9ydCBtdWx0
-aSBoYXJkd2FyZS4NCj4gPiANCj4gPiBQYXRjaCA1IHNlcGFyYXRlIHZpZGVvIGVuY29kZXIgYW5k
-IGRlY29kZXIgZG9jdW1lbnQNCj4gPiANCj4gPiBQYXRjaGVzIDYtMTUgYWRkIGludGVyZmFjZXMg
-dG8gc3VwcG9ydCBjb3JlIGhhcmR3YXJlLg0KPiA+IC0tLS0NCj4gPiBUaGlzIHBhdGNoIGRlcGVu
-ZGVudHMgb24gOiAibWVkaWE6IG10ay12Y29kZWM6IHN1cHBvcnQgZm9yIE1UODE4Mw0KPiA+IGRl
-Y29kZXIiWzFdIGFuZA0KPiA+ICJNZWRpYXRlayBNVDgxOTIgY2xvY2sgc3VwcG9ydCJbMl0uDQo+
-ID4gDQo+ID4gMTogTXVsdGkgaGFyZHdhcmUgZGVjb2RlIGlzIGJhc2VkIG9uIHN0YXRlbGVzcyBk
-ZWNvZGVyLCBNVDgxODMgaXMNCj4gPiB0aGUgZmlyc3QgdGltZQ0KPiA+IHRvIGFkZCBzdGF0ZWxl
-c3MgZGVjb2Rlci4gT3RoZXJ3aXNlIGl0IHdpbGwgY2F1c2UgY29uZmxpY3QuIFRoaXMNCj4gPiBw
-YXRjaCB3aWxsIGJlDQo+ID4gYWNjZXB0ZWQgaW4gNS4xNVsxXS4NCj4gPiANCj4gPiAyOiBUaGUg
-ZGVmaW5pdGlvbiBvZiBkZWNvZGVyIGNsb2NrcyBhcmUgaW4gbXQ4MTkyLWNsay5oLCB0aGlzIHBh
-dGNoDQo+ID4gYWxyZWFkeSBpbiBjbGsgdHJlZVsyXS4NCj4gPiANCj4gPiBbMV0NCj4gPiBodHRw
-czovL3BhdGNod29yay5saW51eHR2Lm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhL2xpc3QvP3Nlcmll
-cz01ODI2DQo+ID4gWzJdDQo+ID4gaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIvc2NtL2xpbnV4
-L2tlcm5lbC9naXQvY2xrL2xpbnV4LmdpdC9jb21taXQvP2g9Y2xrLW5leHQmaWQ9ZjM1ZjFhMjNl
-MGUxMmUzMTczZTllOWRlZGJjMTUwZDEzOTAyNzE4OQ0KPiA+IC0tLS0NCj4gPiBDaGFuZ2VzIGNv
-bXBhcmVkIHdpdGggdjU6DQo+ID4gLUFkZCBkZWNvZGVyIGhhcmR3YXJlIGJsb2NrIGRpYWdyYW0g
-Zm9yIHBhdGNoIDEzLzE1DQo+ID4gDQo+IA0KPiANCj4gVGhlIGRpc2N1c3Npb24gb24gdjUgd2Fz
-IHN0aWxsIG9uLWdvaW5nLCBzbyBzZW5kaW5nIHRoaXMgdjYNCj4gaXMgbm90IGhlbHBmdWwuIFRo
-ZSBjb250ZXh0IGZvciB2NSdzIGRpc2N1c3Npb24gaXMgbm93IGhhcmRlciB0bw0KPiBmaW5kLg0K
-PiANCg0KPiBQbGVhc2UgYXZvaWQgc2VuZGluZyBhIG5ldyB2ZXJzaW9uIHdpdGhvdXQgcHJvcGVy
-bHkNCj4gZGlzY3Vzc2luZyBhbGwgdGhlIGZlZWRiYWNrLCBhbmQgd2l0aG91dCByZWFjaGluZyBj
-b25zZW5zdXMuDQo+IFRoaXMgaXMgdmVyeSBpbXBvcnRhbnQsIHBsZWFzZSBrZWVwIGl0IGluIG1p
-bmQuDQo+IA0KVGhhbmtzIGZvciB5b3VyIHJlbWluZCwgSSB3aWxsIGtlZXAgdGhpcyBwYXRjaCB1
-bnRpbCBnZXQgdGhlIHNvbHV0aW9uLg0KDQo+IFNwZWNpZmljYWxseSwgdGhlIGZlZWRiYWNrIG9u
-IHY1IHdhcyBOQUssIHdpdGggdGhlIHJlcXVlc3QgdG8gYXZvaWQNCj4gdXNpbmcgYW55IGFzeW5j
-IGZyYW1ld29yaywgYW5kIGluc3RlYWQgdHJ5IHRvIGZpbmQgYSBzaW1wbGVyDQo+IHNvbHV0aW9u
-Lg0KPiANCj4gRm9yIGluc3RhbmNlLCB5b3UgY2FuIG1vZGVsIHRoaW5ncyB3aXRoIGEgYnVzLWxp
-a2UgcGF0dGVybiwNCj4gd2hpY2ggdGllcyBhbGwgdGhlIGRldmljZXMgdG9nZXRoZXIsIHVuZGVy
-IGEgcGFyZW50IG5vZGUuDQo+IFRoaXMgcGF0dGVybiBpcyBjb21tb24gaW4gdGhlIGtlcm5lbCwg
-dGhlIHBhcmVudA0KPiBub2RlIGNhbiB1c2Ugb2ZfcGxhdGZvcm1fcG9wdWxhdGUgb3Igc2ltaWxh
-cg0KPiAoZ2l0IGdyZXAgb2ZfcGxhdGZvcm1fcG9wdWxhdGUsIHlvdSB3aWxsIHNlZSBwbGVudHkg
-b2YgZXhhbXBsZXMpLg0KPiANCj4gWW91IHdpbGwgc3RpbGwgaGF2ZSB0byBkbyBzb21lIHdvcmsg
-dG8gaGF2ZSB0aGUgcHJvcGVyDQo+IHJlZ3MgcmVzb3VyY2VzLCBidXQgdGhpcyBpcyBkb2FibGUu
-IEVhY2ggY2hpbGQgaXMgYSBkZXZpY2UsDQo+IHNvIGl0IGNhbiBoYXZlIGl0cyBvd24gcmVzb3Vy
-Y2VzIChjbG9ja3MsIGludGVycnVwdHMsIGlvbW11cykuDQo+IA0KPiBZb3UgZG9uJ3QgbmVlZCBh
-bnkgYXN5bmMgZnJhbWV3b3JrLg0KPiANCklmIHB1dCB0aGUgbGF0IGFuZCBjb3JlIG5vZGUgaW4g
-dGhlIHBhcmVudCBub2RlLCBuZWVkIHRvIGNoZWNrIHRoZQ0KYmVsb3cgdGhpbmdzIGFmdGVyIGRp
-c2N1c3NlZCB3aXRoIGlvbW11IG93bmVyLg0KDQpJZiBwdXR0aW5nIHRoZSBpb21tdXMgcHJvcGVy
-dHkgaW4gdGhlIGNoaWxkIG5vZGUsIHRoZW4gaXMgdGhlIGNoaWxkDQpkZXZpY2UgYSBzdGFuZGFy
-ZCBwbGF0Zm9ybSBkZXZpY2U/DQoNClRoZSBpb21tdSByZWdpc3RlIGxpa2UgdGhpczogIA0KcmV0
-ID0gYnVzX3NldF9pb21tdSgmcGxhdGZvcm1fYnVzX3R5cGUsICZtdGtfaW9tbXVfb3BzKTsgDQpJ
-dCBleHBlY3QgdGhlIGNvbnN1bWVyIGlzIGEgc3RhbmRhcmQgcGxhdGZvcm0gZGV2aWNlLiBvdGhl
-cndpc2UgaXQNCmNvdWxkIG5vdCBlbnRlciB0byB0aGUgaW9tbXUgb2ZfeGxhdGUuKQ0KDQpUaGFu
-a3MNCll1bmZlaSBEb25nDQo+ICAgICB2Y29kZWNfZGVjOiB2Y29kZWNfZGVjQDE2MDAwMDAwIHsN
-Cj4gICAgICAgICBjb21wYXRpYmxlID0gIm1lZGlhdGVrLG10ODE5Mi12Y29kZWMtZGVjIjsNCj4g
-ICAgICAgICByZWcgPSA8c29tZXRoaW5nPjsNCj4gICAgICAgICBtZWRpYXRlayxzY3AgPSA8JnNj
-cD47DQo+ICAgICAgICAgaW9tbXVzID0gPCZpb21tdTAgTTRVX1BPUlRfTDRfVkRFQ19NQ19FWFQ+
-Ow0KPiAgICAgICAgIGRtYS1yYW5nZXMgPSA8MHgxIDB4MCAweDAgMHg0MDAwMDAwMCAweDAgMHhm
-ZmYwMDAwMD47DQo+IA0KPiAgICAgICAgIHZjb2RlY19sYXRAMHgxMDAwMCB7DQo+ICAgICAgICAg
-ICAgIGNvbXBhdGlibGUgPSAibWVkaWF0ZWssbXRrLXZjb2RlYy1sYXQiOw0KPiAgICAgICAgICAg
-ICByZWcgPSA8MHgxMDAwMCAweDgwMD47ICAgICAgLyogVkRFQ19NSVNDICovDQo+ICAgICAgICAg
-ICAgIGludGVycnVwdHMgPSA8R0lDX1NQSSA0MjYgSVJRX1RZUEVfTEVWRUxfSElHSCAwPjsNCj4g
-ICAgICAgICAgICAgLy8gZXRjDQo+ICAgICAgICAgfTsNCj4gDQo+ICAgICAgICAgdmNvZGVjX2Nv
-cmVAMHgyNTAwMCB7DQo+ICAgICAgICAgICAgY29tcGF0aWJsZSA9ICJtZWRpYXRlayxtdGstdmNv
-ZGVjLWNvcmUiOw0KPiAgICAgICAgICAgIHJlZyA9IDwweDI1MDAwIDB4MTAwMD47ICAgICAgLyog
-VkRFQ19DT1JFX01JU0MgKi8NCj4gICAgICAgICAgICBpbnRlcnJ1cHRzID0gPEdJQ19TUEkgNDI1
-IElSUV9UWVBFX0xFVkVMX0hJR0ggMD47DQo+ICAgICAgICAgICAgLy8gZXRjDQo+ICAgICAgICAg
-fTsNCj4gICAgIH07DQo+IA0KPiBUaGFua3MsDQo+IEV6ZXF1aWVsDQo=
+On Fri, Sep 3, 2021 at 12:31 AM Ezequiel Garcia
+<ezequiel@vanguardiasur.com.ar> wrote:
+>
+> On Wed, 1 Sept 2021 at 05:32, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+> >
+> > This series adds support for multi hardware decode into mtk-vcodec, by first
+> > adding component framework to manage each hardware information: interrupt,
+> > clock, register bases and power. Secondly add core thread to deal with core
+> > hardware message, at the same time, add msg queue for different hardware
+> > share messages. Lastly, the architecture of different specs are not the same,
+> > using specs type to separate them.
+> >
+> > This series has been tested with both MT8183 and MT8173. Decoding was working
+> > for both chips.
+> >
+> > Patches 1~3 rewrite get register bases and power on/off interface.
+> >
+> > Patch 4 add component framework to support multi hardware.
+> >
+> > Patch 5 separate video encoder and decoder document
+> >
+> > Patches 6-15 add interfaces to support core hardware.
+> > ----
+> > This patch dependents on : "media: mtk-vcodec: support for MT8183 decoder"[1] and
+> > "Mediatek MT8192 clock support"[2].
+> >
+> > 1: Multi hardware decode is based on stateless decoder, MT8183 is the first time
+> > to add stateless decoder. Otherwise it will cause conflict. This patch will be
+> > accepted in 5.15[1].
+> >
+> > 2: The definition of decoder clocks are in mt8192-clk.h, this patch already in clk tree[2].
+> >
+> > [1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+> > [2]https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=f35f1a23e0e12e3173e9e9dedbc150d139027189
+> > ----
+> > Changes compared with v5:
+> > -Add decoder hardware block diagram for patch 13/15
+> >
+>
+>
+> The discussion on v5 was still on-going, so sending this v6
+> is not helpful. The context for v5's discussion is now harder to find.
+>
+> Please avoid sending a new version without properly
+> discussing all the feedback, and without reaching consensus.
+> This is very important, please keep it in mind.
+>
+> Specifically, the feedback on v5 was NAK, with the request to avoid
+> using any async framework, and instead try to find a simpler solution.
+>
+> For instance, you can model things with a bus-like pattern,
+> which ties all the devices together, under a parent node.
+> This pattern is common in the kernel, the parent
+> node can use of_platform_populate or similar
+> (git grep of_platform_populate, you will see plenty of examples).
+>
+> You will still have to do some work to have the proper
+> regs resources, but this is doable. Each child is a device,
+> so it can have its own resources (clocks, interrupts, iommus).
 
+AFAIK of_platform_populate doesn't guarantee the drivers actually
+probed (modules loaded late, missing modules, deferred probe, etc.),
+only that the devices are created, so you still need some sort of
+(async) mechanism to wait for the subdevices to be in operational
+state. Most of the examples using of_platform_populate are there
+to ensure that the parent device is operational before creating
+the sub-devices, not the other way around.
+
+
+ChenYu
+
+
+> You don't need any async framework.
+>
+>     vcodec_dec: vcodec_dec@16000000 {
+>         compatible = "mediatek,mt8192-vcodec-dec";
+>         reg = <something>;
+>         mediatek,scp = <&scp>;
+>         iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+>         dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+>
+>         vcodec_lat@0x10000 {
+>             compatible = "mediatek,mtk-vcodec-lat";
+>             reg = <0x10000 0x800>;      /* VDEC_MISC */
+>             interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+>             // etc
+>         };
+>
+>         vcodec_core@0x25000 {
+>            compatible = "mediatek,mtk-vcodec-core";
+>            reg = <0x25000 0x1000>;      /* VDEC_CORE_MISC */
+>            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+>            // etc
+>         };
+>     };
+>
+> Thanks,
+> Ezequiel
+>
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
