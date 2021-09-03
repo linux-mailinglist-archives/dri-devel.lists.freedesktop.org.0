@@ -1,59 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3D43FFFC0
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 14:31:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 238623FFFC1
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 14:31:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 590AE6E885;
-	Fri,  3 Sep 2021 12:31:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E71D26E888;
+	Fri,  3 Sep 2021 12:31:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1F0B6E889
- for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:31:36 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id b6so8000206wrh.10
- for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 05:31:36 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 669806E888
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 12:31:38 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id u9so7994046wrg.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 05:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=cY7NtM+SRTLS7C7nADWI7MDkvM2i2jB3+VLbOPI5Dow=;
- b=h1LK6EM81AbFZ922IpS8CBOllXK7C449+Ci/wPvSiFM3deCI/JyR65FXu679EJcq1l
- iLzGaFDEX/xABdq+C9wo546q7j2YV2UoFyYeKhE7fCJR8j5/F3A9ex/ue50GcnNMfwIU
- yr8u/jDOauNzOtfdwRw0u0UgwiRhMSCo1595nDgAb4df1mMhdjHSqG2OdPQRdPvI9Rwn
- ZRCMxc0m793TaMQE8omCrK2xT9Rtbqn22l4TC+rWh+LrzvcCrGBTA6NP3XvWO3E4tXPs
- Kf4L/SAXyBuHjgmZgByq/Gwzp1HtzNTG1DkUGehj3h6wMHlQiKoayQjCrxC+tAoGWiGt
- WGeg==
+ bh=o3lIvk6NIuWXMfTlmoadGYze9kaAW2h7gefWjYO1hnU=;
+ b=d153tfAhiInNtpwhgPA46R4MqCNkgl2v9bneCxG0/a5FoS1wTvjKYowTUTHgbKa0DR
+ SNenHh+P6t+7WpKjsaiSRp2rrcq5dleKTr9SZf3+y/m2tOAMRLV54pObq976zxoKfbB9
+ AQVDEWjbzqnCqkMT30iPHBgiI01NgaZ1zic9rYZkNzBtHQpo442N+9OwnVZa8vJRTNWS
+ hDNWtdgqkVuVkjZDdItmobipwvHXK53yxTEC2hCStx8bByfzfy9FW2K+8BKDecwKB461
+ owspLfKhub9lQToYILRUL2nYR4Sh8IV7elk0lR2fzor0ZZGelDh2O9FzeVSXMzLDohL+
+ nV+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cY7NtM+SRTLS7C7nADWI7MDkvM2i2jB3+VLbOPI5Dow=;
- b=hCG7xWjV4XcF+yZUV45l23YuS/8O/Dj1HbgU2dzzjHquqb5BOTtj/mUSlUeW5jnmY3
- Ej7/ONvTzodnZqZm0YpStYpcOZo/C8Qjh79shsDq2fj1IRzT9+SHDWbkxYSNfYPj0VTB
- ds0a/ZWlqEzeqa7Ged6C5B5wYL6sQvqi3hpxHOsgI8KMnoPbLqesKtRITdVvTOYDcqpg
- 8TPI59I1Z9w56WzPtOrlyzdkR47pdnfvPxdO5S3UVDM4VudGTr7skXTdmyU/kqJxz99d
- +3/23DmmOrlE3MZSXYLHOg0RYJGbak4jajcyKpFtwKHCW8+KJJMeGJXKWxeQ2cKgHqzh
- rrpg==
-X-Gm-Message-State: AOAM5330Hm2kOnIIN5YMYtynfhmBlUs12/cdf8rPKxx6mkgogWGW6L8u
- Ia9POJUZ857jFiHxhmFypkQJd1MEN20z7gFR
-X-Google-Smtp-Source: ABdhPJz5IwHmCuevkcXwP5Wmmln+NTW4e2Rr6Gio23aQ67BBzch/CnwQ34hKMLxITt0EYVge/k7nHA==
-X-Received: by 2002:a5d:69cf:: with SMTP id s15mr3814105wrw.403.1630672294660; 
- Fri, 03 Sep 2021 05:31:34 -0700 (PDT)
+ bh=o3lIvk6NIuWXMfTlmoadGYze9kaAW2h7gefWjYO1hnU=;
+ b=I+ZP2cA0UtJJhTWpmbnZh6lh7/0rFTDL6+pllKjEqp9En4YQtoxHVwzrP0Xp/sRbl6
+ c0Qvs1wsTwdTDLTWafhaaBBo+sqaevjB8hEv5UjxGcQwqNiZpkO7iPYhoj/iKb/50ubF
+ Clfr/RvwHP1hEwkM5gUcLIEKKnbmS8lf0d59gaTtqXOsspoAIlHAg83CUhcIkaQRKZ4R
+ x8gaULaJgl9usKN3rHLnKQ8y+qoLHPlcOWq+NPAaWt+C/KCBy0HF3DFLNMIFRBwASjjH
+ y+E2YwiUk6xMKRvPsGp8l3iw9Oa1l7d3c+UgCTnRXPuDUIs0BkQrwqxfugJdlO4MTAZs
+ dAzA==
+X-Gm-Message-State: AOAM533HmN+Ee0T+0v60QVeSIND+69lKgNlpUuahTuxKfse9DQpLMU0D
+ ggAEHdfOQwZ3Y0AMUx3u41ltMnEw690ACimI
+X-Google-Smtp-Source: ABdhPJw8lhLg+6UcYmS8fsmfSEybHYAFW5yeX+rJCNvROjikx9MoGpvMN+XgIeZyIfOgvPCxWqz+ow==
+X-Received: by 2002:a05:6000:92:: with SMTP id
+ m18mr3801389wrx.293.1630672297056; 
+ Fri, 03 Sep 2021 05:31:37 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- x11sm4564873wro.83.2021.09.03.05.31.32
+ x11sm4564873wro.83.2021.09.03.05.31.35
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Sep 2021 05:31:34 -0700 (PDT)
+ Fri, 03 Sep 2021 05:31:36 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org
-Subject: [PATCH 3/5] drm/ttm: enable TTM resource object kerneldoc
-Date: Fri,  3 Sep 2021 14:31:21 +0200
-Message-Id: <20210903123123.116575-3-christian.koenig@amd.com>
+Subject: [PATCH 4/5] drm/ttm: enable TTM placement kerneldoc
+Date: Fri,  3 Sep 2021 14:31:22 +0200
+Message-Id: <20210903123123.116575-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210903123123.116575-1-christian.koenig@amd.com>
 References: <20210903123123.116575-1-christian.koenig@amd.com>
@@ -75,58 +76,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix the last two remaining warnings and finally enable this.
+Fix the last remaining warning and finally enable this.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- Documentation/gpu/drm-mm.rst   | 9 +++++++++
- include/drm/ttm/ttm_resource.h | 6 ++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ Documentation/gpu/drm-mm.rst    | 6 ++++++
+ include/drm/ttm/ttm_placement.h | 1 +
+ 2 files changed, 7 insertions(+)
 
 diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 56b7b581567d..094e367130db 100644
+index 094e367130db..195a857fa1d8 100644
 --- a/Documentation/gpu/drm-mm.rst
 +++ b/Documentation/gpu/drm-mm.rst
-@@ -39,6 +39,15 @@ TTM device object reference
+@@ -39,6 +39,12 @@ TTM device object reference
  .. kernel-doc:: drivers/gpu/drm/ttm/ttm_device.c
     :export:
  
-+TTM resource object reference
-+-----------------------------
++TTM resource placement reference
++--------------------------------
 +
-+.. kernel-doc:: include/drm/ttm/ttm_resource.h
++.. kernel-doc:: include/drm/ttm/ttm_placement.h
 +   :internal:
 +
-+.. kernel-doc:: drivers/gpu/drm/ttm/ttm_resource.c
-+   :export:
-+
- The Graphics Execution Manager (GEM)
- ====================================
+ TTM resource object reference
+ -----------------------------
  
-diff --git a/include/drm/ttm/ttm_resource.h b/include/drm/ttm/ttm_resource.h
-index 32c5edd9e8b5..255fc8169d9a 100644
---- a/include/drm/ttm/ttm_resource.h
-+++ b/include/drm/ttm/ttm_resource.h
-@@ -103,10 +103,7 @@ struct ttm_resource_manager_func {
-  * struct ttm_resource_manager
+diff --git a/include/drm/ttm/ttm_placement.h b/include/drm/ttm/ttm_placement.h
+index 8995c9e4ec1b..76d1b9119a2b 100644
+--- a/include/drm/ttm/ttm_placement.h
++++ b/include/drm/ttm/ttm_placement.h
+@@ -58,6 +58,7 @@
   *
-  * @use_type: The memory type is enabled.
-- * @flags: TTM_MEMTYPE_XX flags identifying the traits of the memory
-- * managed by this memory type.
-- * @gpu_offset: If used, the GPU offset of the first managed page of
-- * fixed memory or the first managed location in an aperture.
-+ * @use_tt: If a TT object should be used for the backing store.
-  * @size: Size of the managed region.
-  * @func: structure pointer implementing the range manager. See above
-  * @move_lock: lock for move fence
-@@ -144,6 +141,7 @@ struct ttm_resource_manager {
-  * @addr:		mapped virtual address
-  * @offset:		physical addr
-  * @is_iomem:		is this io memory ?
-+ * @caching:		What CPU caching should be used
+  * @fpfn:	first valid page frame number to put the object
+  * @lpfn:	last valid page frame number to put the object
++ * @mem_type:	One of TTM_PL_* where the resource should be allocated from.
+  * @flags:	memory domain and caching flags for the object
   *
-  * Structure indicating the bus placement of an object.
-  */
+  * Structure indicating a possible place to put an object.
 -- 
 2.25.1
 
