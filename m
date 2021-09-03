@@ -2,121 +2,132 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECF63FFAE4
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 09:15:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EF43FFAEE
+	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 09:18:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAB656E095;
-	Fri,  3 Sep 2021 07:15:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFA4D6E84D;
+	Fri,  3 Sep 2021 07:18:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam08on2048.outbound.protection.outlook.com [40.107.102.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 459D56E095;
- Fri,  3 Sep 2021 07:15:35 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UgeZW1wvZt4wgnNDqiH7E0VEMRjSECCDex3xXzp5e0e88PSEReqb3AUYDzG5cpR/BwpRCdK126mPTQPYODEg5JTKv/ATqFI7wh0rl+rQYopmIIxsMGxJzHIZB2J7I7a7I2OfVMlf4Gsxgd1jAvlX+dE9uD/j17F+8yzZHGu8w7GqIutMGba0AEyCDsF9TvYuWACtApa1NYBcgAHElCSwBpCIu61QoMB1vFgm9v2TGbYydX+LZ8gJJ2/NpjK1rvin6skrC7VwaTrxEw/mnVEroI8/lE2yftnhJOOhm43kVAecb1YlvWfH5Ublujz5R2OLkTxkzO3wlccgD3GW7HP37A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=5vlxC8+vgGF8XyqonrBmCO0juF0XCl3UMUHMuZNaiJk=;
- b=WLr9dtmETmRHfLYjFkM7FusrV6xj8RtHR6QdoXf8eaK4PxghdERWuXc3SeX2jrxo7LkQeanhqdaUSo+Nh82m1DrDVpkfaq9hNeiLmlVk7jAjIxW1GbwmorCaQsOrQQKmTQx+EY6UI62CrnW/E+d/3AanEv7q1ZAmqc6jGI7uS1AQ5YbRRQZZBoX6s9giYOMphfayavmFF/2pXverZOdlc0c7h7hX9GuD4V/XTw8YFRvZsBRn1q2J8lqfw5RpjIHmp03Rod0csL+K23kycRoUNODZ5ghlDOyVKOF8AxunUaHeoWyQ28yZOEWNbO+lJVj6bCAwxhj9jPbTAWMUPhEgMg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5vlxC8+vgGF8XyqonrBmCO0juF0XCl3UMUHMuZNaiJk=;
- b=fxgh6gFQyg/MZAkrZmRsRVcmEFd/ZQH5Jg2w3Pwv8MBiY99Nm0cL4ECG8wPnXDSJC5ePfH4QncIjBexxDEmrREZLUNR/rN9lpdyVP97ozD+osc6VuYPJVc2HAS2s0uDWrORoYIArlsD8yh9LlnfwKi3WanY4KlWRvZp0+Oy9g0k=
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com (2603:10b6:5:394::9) by
- DM4PR12MB5102.namprd12.prod.outlook.com (2603:10b6:5:391::21) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.17; Fri, 3 Sep 2021 07:15:33 +0000
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca]) by DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca%9]) with mapi id 15.20.4478.022; Fri, 3 Sep 2021
- 07:15:33 +0000
-From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-To: "Koenig, Christian" <Christian.Koenig@amd.com>, amd-gfx
- <amd-gfx-bounces@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Grodzovsky, Andrey"
- <Andrey.Grodzovsky@amd.com>, "daniel@ffwll.ch" <daniel@ffwll.ch>
-Subject: Re: [PATCH 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
-Thread-Topic: [PATCH 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
-Thread-Index: AQHXoI/nSfVQHdsoy0mdoJw6k5ntZKuR4sKAgACJMoA=
-Date: Fri, 3 Sep 2021 07:15:33 +0000
-Message-ID: <866A4D9E-18AB-4FF0-9437-E4E47A518BD9@amd.com>
-References: <88539BB5-333A-4019-A411-D09859291404@amd.com>
- <627484d5-3cfc-5ac2-125d-5a902c852222@amd.com>
-In-Reply-To: <627484d5-3cfc-5ac2-125d-5a902c852222@amd.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.1f.0.191110
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 441d0ee9-bed8-461e-7981-08d96eaa9ee4
-x-ms-traffictypediagnostic: DM4PR12MB5102:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR12MB5102869D029437A574F8C22087CF9@DM4PR12MB5102.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:231;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IqMTQxQY98JJ8RJISkhpzyLXj11J4l0XAMET/TizIrcu5LGB0Q6Hhk0emPYz4tI4J9luMTDw54DuSJH/rXX0WxCQK0i+y/h8pkvdvRAu+jwluq/ovLWFrgk5jthdpsqNY7yrM24OAnTHSmvxgaFsErtgnd+YIoQnqT/Pxu9iTYeWiryOrQOGuncwFTZIfvCh1abmjidmjoNnyTPlVM+nI5amdaX8EpUfGCsTw9QMPvfJ31fAB85QUlqlsPRbomwlJxJo9szmgHBzFNXnTdg4klymnauynUId4ljiN4ra5dgrYMYpddSb19aQx2q+XEPkjynxt423cJkxdvlBsH9mWwwurfsw+S84NmZn8DMUD0eOCo2nIfr5wIB7jDwLDfXSPEXVWvQ9KYlkCtflhvOLzUrbhry+6964Ox4ZwUyl5xVsEQBS6OWhZ7w+/bJjZnYcuzHxVTContnniCiulIn0phLMUzP3MqJe+PD+D1mfNsVuxvBMa4J6cU/d9HnOKrf0VawNyu0qawjobD46aj4py+tDQx0RqTZ9jJnJ1+vScuhF6DmKbDlZvKhl0zbpX339DECG0vxladNUtvSaWPkFFb4NhcastcFPBfI//c0ChBDnSmFfNwDflgryZJ6v6NVKzdT5K07cxdmD+ihb5WFvnb/lgyx1DCpkqmINrHxnJAB4Uu/JJVvtIMfQGF3enco9d4PGJpp4rDMknPyoMx6+GSNOuI4ZCucB6IfLFYtyOPw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8936002)(66476007)(76116006)(91956017)(316002)(86362001)(38070700005)(66946007)(66556008)(2616005)(8676002)(66446008)(186003)(38100700002)(64756008)(6486002)(122000001)(508600001)(6506007)(71200400001)(36756003)(54906003)(110136005)(2906002)(83380400001)(26005)(33656002)(4326008)(6512007)(5660300002)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?V1AyQlNGdWEzOU9VSE5WYmtNUllnYnVPbkRhNGJIb25tSnZWbUd0K0ZnQTZB?=
- =?utf-8?B?b2QvZUFxcDV3bUxhVUtreUREVTQvVko5REdFOWVsWEx5VHBiY01Ncis0R05Z?=
- =?utf-8?B?aGlzajBFdG9JVVVLYnJIdmt6TVZ1Sm42bGtlYkdRUXR2MFE3ZU1oaHZIUXl6?=
- =?utf-8?B?VVFzckFQemM5QXJuL3pCa0ttaGxyd3RwbUpmUUc5TThRWEZiZHNJaVQycU9k?=
- =?utf-8?B?N2NsQWI1UTVJK1YvNkNKQmtaaVRybjI2UjFZZkppNlB5dUFCdW41RmtNZDZW?=
- =?utf-8?B?anI3czRNOEVMdVU1QnRYS1hLcjA1cEhkQ0g0ODJRN3h1TkVrSDJZMzdsdW5s?=
- =?utf-8?B?Q3VEN2ZSQTV4N3FwMzlWaHVwUHZZZCtJVkRRSVlyS2Izc2NEdFEvMy9GNHJj?=
- =?utf-8?B?VHNJNFZ6czN4OXdpL3B3cXFLU2Y4VGowbUpsRkFMU2NIOFk2cm9XMjFqdHZP?=
- =?utf-8?B?QVBPMSs4OXZ0Z2syZ0lNbUQvbmwvYlU1NVRXdVIrdmNLVnhGUXowVEFxYmFy?=
- =?utf-8?B?ZWZTUTRGNUExUS9kd09BVmNJSFoxc05UTGprMFJsRVNiZVhNRGR4WlRqYVVr?=
- =?utf-8?B?R3BuVHMwZWJpc2tFMmw2ZnRyQy9oSEtMcXhFL3dORGJzeG0wZTVXdW1ORTdQ?=
- =?utf-8?B?dzJHeWkvb1JjN3E5N0FCbUVrQXVtdWtDc3RmRWUxK092MDlwWU55c1Zqampt?=
- =?utf-8?B?OVhxZjdxaFpiWlRiR2k0Ym1qTTd5RUMwL3V5ZGFjZXhtZk42Yk95WVFWK0ti?=
- =?utf-8?B?UXpWUUlXWEdrMzBzbWtWQ2JOd1FtaTBMVUxOdVVaRXlibmtmMG9CT1c3K0sx?=
- =?utf-8?B?Q2dWMjByR21nSFdQaFdvOEJWbWMwdjl3WVN4RktLRnM1YmNLRzdRS3dKUGhl?=
- =?utf-8?B?SVNqbTViVzFHTk9xbkNzYlY4K2R2VTZkbENvWkEzNUt2ZklCMkU0cWF3Ullv?=
- =?utf-8?B?ek5QZFMzTnoxWjNLZTB2OUFtM09DNGdoSzBrNmVTekxOMXdUTUVuQm5KcWti?=
- =?utf-8?B?VTNDbTlNVStRS01jRVdJM2xjSzBobUVPVFFXbXNKQkJ4c1R5ZjdWYjlWa0hU?=
- =?utf-8?B?bnRRNXBDVzlDYzR2RkRRNFlPV2JLRlJlUG0vc1FrMXdqQzVrMU51MlZDNVhs?=
- =?utf-8?B?V1h4UXVqOStxWDlsWUdHN0JteHFjcmp6aStWT3Q1a21PZkErdXlyYjdqaGV0?=
- =?utf-8?B?OVNOWUIrSDBEblBobytoN2RaS1REYW9FNUxUZ3VEL1hiWVQzNGtoYlVLZy9R?=
- =?utf-8?B?QndPUkV3WEJWb2tDWWF3VmF2UmNZL2tOOThJdGxvci9kSGR0T2NDSjZ2VHQr?=
- =?utf-8?B?RStUcVNRaGxmc1Y2a3FBbDhSb01Ma2VNaWppMXhUNGNmMjZDSHVRblR2ODc3?=
- =?utf-8?B?NkhNOGdVNi9DcEFOL2d3d0tic3ZOWE12V2hQQ3Zrd0prak5CVTJqclZzTW9L?=
- =?utf-8?B?UzFBQ1NJalJxYnBkUTNmSi9SOGhtTlFYVFYrSmdMaHEzWk9MaW9OMjZvOTRw?=
- =?utf-8?B?S0UrRXl5ZUh3Qk4rRVlxSHlTdlRxVGJxNDV4MEFYcmJ1UC9lZDBEbDhaTGs3?=
- =?utf-8?B?R1ZFVzZreWtVUHNHckxqQlhjU0dkaW5nZjBZaXBuaGpDWnpXWlh1bW04U2Qw?=
- =?utf-8?B?bWZIMkk1WGd0RHFtWnVmNWEwV0ZLdlJsZkxyVW5kL2M3dXBaQUw2aWNieXBp?=
- =?utf-8?B?U3hydURLZzkyNXYrdnNNUi9rZHMydTZXbjZSUWVrNENYbWYybDVrVytqUXlS?=
- =?utf-8?B?c0NITGZJYXlaMmFheks4K25vRXNqTEl5eFZ3ZlVzeDJ4cVJpNisvVlB6RkMy?=
- =?utf-8?B?RlZicnhuOGs2OG9xU01lQT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <066FF0635C82D048BC5D6CCB1ADF6B70@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2C76E84D
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 07:18:36 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210903071834euoutp018a9845f4416a95f3d67eb89ba7805b6b~hPrtBSW291419514195euoutp01e
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 07:18:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210903071834euoutp018a9845f4416a95f3d67eb89ba7805b6b~hPrtBSW291419514195euoutp01e
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1630653514;
+ bh=jzfva8tySkoBOZr2tYVsxf46AbNPcgeN/pneM9rWZ7M=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=YHQT2KhGoOEH+ry4ouVkAW9b7mjzp7NHHnYMhKJyvj5aS8/1nWhoqnQhSZfstHmUh
+ eFn7KIm7X0znMMoIRkfT31nu3YD1oE5sHcrcxcfpe8Srv9F0M9+W7mw9s46lEEq6mS
+ UUU/r3hPJQoabiDe6YIfg1D7HgekIwgSNFR84GFo=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210903071833eucas1p176cb4b6def20e6660e2b3ce075ab5b68~hPrsTJmFf2482524825eucas1p1M;
+ Fri,  3 Sep 2021 07:18:33 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges2new.samsung.com (EUCPMTA) with SMTP id BA.3B.42068.94CC1316; Fri,  3
+ Sep 2021 08:18:33 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1~hPrr0SjpP2476624766eucas1p1c;
+ Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210903071832eusmtrp1ee4a743996cc9c282753936e3c679c16~hPrryLsZp3052030520eusmtrp1y;
+ Fri,  3 Sep 2021 07:18:32 +0000 (GMT)
+X-AuditID: cbfec7f4-c89ff7000002a454-1c-6131cc49558e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 23.36.20981.84CC1316; Fri,  3
+ Sep 2021 08:18:32 +0100 (BST)
+Received: from [192.168.0.14] (unknown [106.210.131.79]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210903071831eusmtip1b3a77e8d246906c962e97defe4b33642~hPrqixxyX3135731357eusmtip1I;
+ Fri,  3 Sep 2021 07:18:31 +0000 (GMT)
+Subject: Re: [PATCH v3 06/16] ARM: configs: Everyone who had PANEL_SIMPLE
+ now gets PANEL_SIMPLE_EDP
+To: Doug Anderson <dianders@chromium.org>, Olof Johansson <olof@lixom.net>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring
+ <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, linux-arm-msm
+ <linux-arm-msm@vger.kernel.org>, Bjorn Andersson
+ <bjorn.andersson@linaro.org>, Linus W <linus.walleij@linaro.org>, Daniel
+ Vetter <daniel@ffwll.ch>, DTML <devicetree@vger.kernel.org>, Maxime Ripard
+ <mripard@kernel.org>, David Airlie <airlied@linux.ie>, DRI mailing list
+ <dri-devel@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>, Emil
+ Velikov <emil.velikov@collabora.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>, Russell King
+ <linux@armlinux.org.uk>, Linux ARM Mailing List
+ <linux-arm-kernel@lists.infradead.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, linux-omap <linux-omap@vger.kernel.org>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, "moderated
+ list:ARM/SAMSUNG EXYNOS ARM ARCHITECTURES"
+ <linux-samsung-soc@vger.kernel.org>, linux-sunxi@lists.linux.dev, "open
+ list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>
+From: Andrzej Hajda <a.hajda@samsung.com>
+Message-ID: <5c3b3c1c-6fc2-123b-b1bc-c6e085996e01@samsung.com>
+Date: Fri, 3 Sep 2021 09:18:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5165.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 441d0ee9-bed8-461e-7981-08d96eaa9ee4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Sep 2021 07:15:33.7879 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 06amE1qG8Dq6g7P/X6y58Oa2SSB6nHQ1HVdA5r52IbVe0sBgBAo6CZ+V40EpSZYR
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5102
+In-Reply-To: <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTZxTG8957e9uiLdfixis2KmRuw20gSrKXbHHTkHG34ZQtYdNtYsVr
+ NVAkvaDsI4MxYcCsCk6FlggkfElMtNRC21mIXaUiX0qhTCapDsYYrjDKZ2Gdo1zM+O85z/md
+ 9zkneQW4xEgGCY6lpDHKFFlyCOlHNLR4ul57tz1CtrVwXIBUna0Y8ha18FFb8xiBnjYU4qjM
+ 2slDHdW3SNQzPU6i3wtcJKq7YCSQ1jWHoR//qcFQ/aCDhwqbO/ioYP4KjuymUhJpKs8SSP/n
+ GIaKu5oWuSYTifKn1CSyXDADVDGhJ1BufjUP3e2bJFGO2cpHtR49QB7TZeLt9bTdcR+nF+aL
+ AK3OUpG0Jus+QRsGKgFtniknaKN6gE/X1+WT9EPHTZJunHnEoy+3xtHOH2wYravMpEd0JYDu
+ uZPNo7VjBmxvwH6/Nw8zycdOMMrwHQf9jj445yRTTVRG71/D/CxQKioAQgGkIqHdkccvAH4C
+ CVUL4NCQe7mYAtBebCK4YhLAEvNV3rMRzeQwyTVqAKzy3MG4wgXgRPZpzEcFUAy0tdzj+/Ra
+ 6j140fBkCcKpYiGsGO1fgkgqFHp1D0ifFlE7oK6oB/dpgnoBdo5MEz79HLUPeltNPI5ZA1tL
+ hpZ8IRUHf/5teInHqUDYP1SGcXojbHSV4r4wSJn94GyXAeP2joZ9zRcJTgfAUdsNPqelsO38
+ 6WU/EzprTy0P5wGov27EucYb8GHn/OKmgsWEUHjNFM7ZO6H9tpvw2ZASw19ca7gdxLCo4RLO
+ 2SKYlyvh6GDo7NAvPxgIq+5Nk+dAiHrFZeoV16hXXKP+P7ccEHUgkElnFXKG3ZbCnAxjZQo2
+ PUUelnhcUQ8Wf3fbv7YpA6gZnQizAEwALAAK8JC1IuM7W2US0WHZF18yyuMJyvRkhrWA9QIi
+ JFB06MbVBAkll6UxSQyTyiifdTGBMCgLi9M6viqWHtLMJp5flzDAard39wY/37Rqu/elt8Y3
+ bXZkfDjnhU+yK+sjRMFqdfxn9rqamLnvbkX5r3p/XfnH0RVNu1xXeg8oE6pybuvgtfaMlzNY
+ 99n4Ld//dOJkmKq4YdO+usbuAKnpk7I0/QfA3R7lMfj3RkfyreW5sUWWkehLqqCbObtfmd4v
+ j9QiL5X07YvUpxv+Xv2He9AMPwprCu3TyPsrDD1RXbO7fz0QEzMzSxl5muHXqTPW6l1HrKvF
+ jw5u6371a1w1mFzmVsjlexThVRuv7zFlJjnZnZrUb/ptT7sTY3n10gWz/112w2axOPbxkdSc
+ z/cKpQvxZWcenyJEIQR7VBaxBVeysv8AlYUuhUwEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrDKsWRmVeSWpSXmKPExsVy+t/xu7oeZwwTDb49VLboPXeSyeLvpGPs
+ Fqf3v2Ox+L9tIrPF/CPnWC3OLjvIZnHl63s2i6ddb9ksVk3dyWKx8e0PJospf5YzWWx6fI3V
+ YuL+s+wWXb9WMltc3jWHzWL2kn4Wi60v3zFZzDi/D6hu3y42i84vs9gsDk3dy2ix8ONWFou2
+ zmWsFqeuf2azaN17hN1ixc+tjBY/d81jcZD2uHztIrPH71+TGD1mNfSyecxuuMjisePuEkaP
+ vd8WsHjsnHWX3WPTqk42jzvX9rB5bP/2gNVj3slAj/vdx5k8Ni+p93ixeSajx5UTTaweG9/t
+ YAoQjtKzKcovLUlVyMgvLrFVija0MNIztLTQMzKx1DM0No+1MjJV0rezSUnNySxLLdK3S9DL
+ uDnhPlvBLoGKq2+esTcwzuHtYuTkkBAwkZj9+RlbFyMXh5DAUkaJ+X9/s0EkxCV2z3/LDGEL
+ S/y51gVV9JpR4u/CF0wgCWGBVIlrB5cygtgiAl4S03a8ZgIpYhaYxynxefojFoiOqUwSy1//
+ YQGpYhPQlPi7+SbYCl4BO4nNk66ArWARUJE49+IrWI2oQKRE04mtUDWCEidnPgGLcwoEShx+
+ 9AysnlnATGLe5odQtrjErSfzmSBseYntb+cwT2AUmoWkfRaSlllIWmYhaVnAyLKKUSS1tDg3
+ PbfYSK84Mbe4NC9dLzk/dxMjMFltO/Zzyw7Gla8+6h1iZOJgPMQowcGsJMK7080gUYg3JbGy
+ KrUoP76oNCe1+BCjKdA/E5mlRJPzgekyryTe0MzA1NDEzNLA1NLMWEmc1+TImnghgfTEktTs
+ 1NSC1CKYPiYOTqkGph1rbWbMmzXjSG2amHRz3sLLVyasclgV8HE2w44Hp/lOCMYKZ7lZmGou
+ XykuZy4oHnLxhAdT+aTOb/rZr5Y8vZTRktTQycCxIuxqQ4zCxIU6scq6GmoztimZNUn3/Xt6
+ w9tMtFLiQ/Ct3eXPQhw6T8Qa7IsOf6dl8e6envRB9ikn97ld7+ncv7XgsNebmoTKOm45SY7d
+ P4tKShnf7p+uv8T+FsOW+pUtZ4vuF8VI/c6/dSvElVk6+fB8EbEE9+bflwvk3rFFbL3mtMv/
+ VphE6IH7RQ93mNk6Tog3irVb2Rt/vu7uRY5Ja9sOhK5akbHm7Dqt04tccuZah7L4HNJSZ503
+ Y7vf+wNzkl/uvRXxX4mlOCPRUIu5qDgRAD32K4LfAwAA
+X-CMS-MailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.6.I02250cd7d4799661b068bcc65849a456ed411734@changeid>
+ <CAOesGMjp4pscuxciHZo7br-acgbkZSdRA_mUWNpcz0OfF7zOSA@mail.gmail.com>
+ <CAD=FV=WPXAUyuAHb1jKx9F_aw+JGX4MWB3or=Eq5rXoKY=OQMw@mail.gmail.com>
+ <CGME20210903071832eucas1p10a7b8a295e68df4d2735110c9ec09cf1@eucas1p1.samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -132,41 +143,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCu+7v+WcqCAyMDIxLzkvMyAxNTowNO+8jOKAnEtvZW5pZywgQ2hyaXN0aWFu4oCdPENocmlz
-dGlhbi5Lb2VuaWdAYW1kLmNvbT4g5YaZ5YWlOg0KDQogICAgQW0gMDMuMDkuMjEgdW0gMDg6NDkg
-c2NocmllYiBQYW4sIFhpbmh1aToNCiAgICA+IExpa2UgdmNlL3ZjbiBkb2VzLCB2aXNpYmxlIFZS
-QU0gaXMgb2sgZm9yIGliIHRlc3QuDQogICAgPiBBbmQgaW4gaWIgdGVzdCBzdGFnZSwgVlJBTSBp
-cyBzdWZmaWNpZW50Lg0KICAgIA0KICAgIE5BSywgdGhhdCB3b24ndCB3b3JrIGZvciBvbGRlciBo
-dyBnZW5lcmF0aW9ucyAoZS5nLiBTSSwgbWF5YmUgQ0lLIGFzIA0KICAgIHdlbGwpIHdoZXJlIHRo
-ZSBJQnMgbXVzdCBiZSBpbiBhIHNwZWNpZmljIEdUVCBoYXJkd2FyZSB3aW5kb3cuDQogICAgDQog
-ICAgQ2hyaXN0aWFuLg0KICANCk5vdCBoYXMgb2xkZXIgSFcgb24gaGFuZCBmb3IgdGVzdC4NCkJ1
-dCB0aGUgdXZkIGNvZGUgc2F5cyBiZWxvdy4gTG9va3MgbGlrZSBJQnMgc2hvdWxkIGJlIGluIHNw
-ZWNpZmljIFZSQU0gcmFuZ2VbMCAtIDI1Nk1CXT8NCiAgICAgICAgaWYgKCFyaW5nLT5hZGV2LT51
-dmQuYWRkcmVzc182NF9iaXQpIHsNCiAgICAgICAgICAgICAgICBzdHJ1Y3QgdHRtX29wZXJhdGlv
-bl9jdHggY3R4ID0geyB0cnVlLCBmYWxzZSB9Ow0KDQogICAgICAgICAgICAgICAgYW1kZ3B1X2Jv
-X3BsYWNlbWVudF9mcm9tX2RvbWFpbihibywgQU1ER1BVX0dFTV9ET01BSU5fVlJBTSk7DQogICAg
-ICAgICAgICAgICAgYW1kZ3B1X3V2ZF9mb3JjZV9pbnRvX3V2ZF9zZWdtZW50KGJvKTsNCiAgICAg
-ICAgICAgICAgICByID0gdHRtX2JvX3ZhbGlkYXRlKCZiby0+dGJvLCAmYm8tPnBsYWNlbWVudCwg
-JmN0eCk7DQogICAgICAgICAgICAgICAgaWYgKHIpDQogICAgICAgICAgICAgICAgICAgICAgICBn
-b3RvIGVycjsgDQogICAgICAgIH0NCiAgDQogICAgPg0KICAgID4gU2lnbmVkLW9mZi1ieTogeGlu
-aHVpIHBhbiA8eGluaHVpLnBhbkBhbWQuY29tPg0KICAgID4gLS0tDQogICAgPiAgIGRyaXZlcnMv
-Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV91dmQuYyB8IDQgKystLQ0KICAgID4gICAxIGZpbGUg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KICAgID4NCiAgICA+IGRp
-ZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdXZkLmMgYi9kcml2
-ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdXZkLmMNCiAgICA+IGluZGV4IGQ0NTFjMzU5
-NjA2YS4uMWMwOTliNzlkMTJjIDEwMDY0NA0KICAgID4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X3V2ZC5jDQogICAgPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vYW1kL2Ft
-ZGdwdS9hbWRncHVfdXZkLmMNCiAgICA+IEBAIC0xMTc4LDcgKzExNzgsNyBAQCBpbnQgYW1kZ3B1
-X3V2ZF9nZXRfY3JlYXRlX21zZyhzdHJ1Y3QgYW1kZ3B1X3JpbmcgKnJpbmcsIHVpbnQzMl90IGhh
-bmRsZSwNCiAgICA+ICAgCWludCByLCBpOw0KICAgID4gICANCiAgICA+ICAgCXIgPSBhbWRncHVf
-Ym9fY3JlYXRlX3Jlc2VydmVkKGFkZXYsIDEwMjQsIFBBR0VfU0laRSwNCiAgICA+IC0JCQkJICAg
-ICAgQU1ER1BVX0dFTV9ET01BSU5fR1RULA0KICAgID4gKwkJCQkgICAgICBBTURHUFVfR0VNX0RP
-TUFJTl9WUkFNLA0KICAgID4gICAJCQkJICAgICAgJmJvLCBOVUxMLCAodm9pZCAqKikmbXNnKTsN
-CiAgICA+ICAgCWlmIChyKQ0KICAgID4gICAJCXJldHVybiByOw0KICAgID4gQEAgLTEyMTAsNyAr
-MTIxMCw3IEBAIGludCBhbWRncHVfdXZkX2dldF9kZXN0cm95X21zZyhzdHJ1Y3QgYW1kZ3B1X3Jp
-bmcgKnJpbmcsIHVpbnQzMl90IGhhbmRsZSwNCiAgICA+ICAgCWludCByLCBpOw0KICAgID4gICAN
-CiAgICA+ICAgCXIgPSBhbWRncHVfYm9fY3JlYXRlX3Jlc2VydmVkKGFkZXYsIDEwMjQsIFBBR0Vf
-U0laRSwNCiAgICA+IC0JCQkJICAgICAgQU1ER1BVX0dFTV9ET01BSU5fR1RULA0KICAgID4gKwkJ
-CQkgICAgICBBTURHUFVfR0VNX0RPTUFJTl9WUkFNLA0KICAgID4gICAJCQkJICAgICAgJmJvLCBO
-VUxMLCAodm9pZCAqKikmbXNnKTsNCiAgICA+ICAgCWlmIChyKQ0KICAgID4gICAJCXJldHVybiBy
-Ow0KICAgIA0KICAgIA0KDQo=
+On 02.09.2021 01:10, Doug Anderson wrote:
+> Hi,
+> 
+> On Wed, Sep 1, 2021 at 2:12 PM Olof Johansson <olof@lixom.net> wrote:
+>>
+>> On Wed, Sep 1, 2021 at 1:20 PM Douglas Anderson <dianders@chromium.org> wrote:
+>>>
+>>> In the patch ("drm/panel-simple-edp: Split eDP panels out of
+>>> panel-simple") we split the PANEL_SIMPLE driver in 2. By default let's
+>>> give everyone who had the old driver enabled the new driver too. If
+>>> folks want to opt-out of one or the other they always can later.
+>>>
+>>> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+>>
+>> Isn't this a case where the new option should just have had the old
+>> option as the default value to avoid this kind of churn and possibly
+>> broken platforms?
+> 
+> I'm happy to go either way. I guess I didn't do that originally
+> because logically there's not any reason to link the two drivers going
+> forward. Said another way, someone enabling the "simple panel" driver
+> for non-eDP panels wouldn't expect that the "simple panel" driver for
+> DP panels would also get enabled by default. They really have nothing
+> to do with one another. Enabling by default for something like this
+> also seems like it would lead to bloat. I could have sworn that
+> periodically people get yelled at for marking drivers on by default
+> when it doesn't make sense.
+> 
+> ...that being said, I'm happy to change the default as you suggest.
+> Just let me know.
+
+I guess this is just misunderstanding. Symbol names:
+	CONFIG_DRM_PANEL_SIMPLE=y
+	CONFIG_DRM_PANEL_SIMPLE_EDP=y
+suggests that CONFIG_DRM_PANEL_SIMPLE_EDP is an 'suboption' of 
+CONFIG_DRM_PANEL_SIMPLE, but these symbols are independent - old symbol 
+has been split into two independent new symbols.
+So Doug's approach seems correct to me. Maybe one could change names of 
+symbols to avoid confusion(?).
+
+One more thing, I suspect previous patch can break platforms with EDP 
+panels. Even if this patch fixes it, maybe it would be better to squash 
+these patches? Or add temporal solution to save bisecatability.
+
+Regards
+Andrzej
+
+> 
+> -Doug
+> 
+
