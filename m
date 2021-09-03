@@ -1,63 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002554007AA
-	for <lists+dri-devel@lfdr.de>; Fri,  3 Sep 2021 23:58:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5018E400810
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Sep 2021 01:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C0D66E8E3;
-	Fri,  3 Sep 2021 21:58:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 294B06E8E4;
+	Fri,  3 Sep 2021 23:09:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
- [IPv6:2607:f8b0:4864:20::e30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C43756E8A6;
- Fri,  3 Sep 2021 21:58:23 +0000 (UTC)
-Received: by mail-vs1-xe30.google.com with SMTP id i23so509201vsj.4;
- Fri, 03 Sep 2021 14:58:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qoErMz6XG1b7qMxC6yvtaNYcLGZzsRhL9vAcSazxySU=;
- b=V5u+Ownrb7OfxNtaoYySw6LHZ1rkfhKPXwv0NMAzVrjobe4dSXIs1PtiNlnJNSyNQJ
- nrFiosG6UCWQ50f2391Y0o+vG6MvfEUSDKD+8Dq43Ds+0ym6WaVFQj6uOKtjvyLb78rz
- PwftFcDGbfW+S1omMt8CjeHzb5rNx4o0cpWfoRK2ADcdP/kW8y0UZ9qSE2kljxZu79xc
- zzomkF8UkgY+sdTjNToFhOgMHovn4iOrzRLOE+PrxWtHhWcn3HsRAzhNZyRt93UCD4uk
- o4i+LXVjvzN2CXBH3HAPGz2mTOTQKfx8SOWhAFdod8T9BIxk4YlFh8K21p83sntU4mgc
- DJMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qoErMz6XG1b7qMxC6yvtaNYcLGZzsRhL9vAcSazxySU=;
- b=W1tk4hyIu7f5CA7NiX+6HL63WDdXC3se9IWHLd6y0ZG6lCNy18WiWN9LLzDzSW0N8T
- Ft9F8IAGhdjpd7saeSHu839prYxEg4Z9kMJfsfgMbMTecEgg42zrwMiI2pOtkWv4pJOn
- NQTua6jNcatOj5IRh+Vqd+ZmPAM6yZ9I4QsprU4UdbjO9Ta8e3+w1MBeeH7iCPE0Bb53
- knV5zVzWImZSBvdCNDLVoxgtsfjKrS+jwsBqerW6/Cmu+pcpuI3CP6TclghbYpwk1wFG
- GoDjeEJiwfDx1bhTp5wfICb/G+BNwXmb1EBOwJ7LoGFMTg0TXOkEjuz1ru0Qzc4xmnJV
- +UJQ==
-X-Gm-Message-State: AOAM530R4TruqrdJkhcKJduUmqzOKc3wsKg036hRA1fjrofyAH/R3p3K
- LkVvljfTltlWMkImGF5HzpLBiLyoQB+18cayrUI=
-X-Google-Smtp-Source: ABdhPJy0oDMYYCyPfARstq4kNPeOwqoyjZhAw5m8V/ad2EafpykBsfz1TKvIE03rp/JG4WrC4WHHg3hVT6TlZKLe5CQ=
-X-Received: by 2002:a67:c194:: with SMTP id h20mr625842vsj.23.1630706302476;
- Fri, 03 Sep 2021 14:58:22 -0700 (PDT)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 865FA6E8E4
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 23:09:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 2040D610D2
+ for <dri-devel@lists.freedesktop.org>; Fri,  3 Sep 2021 23:09:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1630710545;
+ bh=+EPWpGxs3T9Uo/rZCTHnQYWwEXZm+0EO0/1mha6nTa4=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=PsvUU0jeXmTMrj2xAYG7mEtck7BYfJ242ItmR/IqPmPiMvNgjMP1O5dNXTVD3+i7U
+ vfhz8jnigKIPx2Ihieu1jVh7u1WWGBx9GwHxcKOpv7xt9L7ywn/jNTBjwOCCMG4m5y
+ qoCSeaA9ohL4/SkBqF55sHlA5WZ5d/jRd8n78Pcj6YcDLJURwq6L9t30Dk6031Yqko
+ 5f15bFYGYljOq4mnsKWLa7sV1u539MzNRTarBu/jtyAdCSrfOd97cZOlGhVk+8vmS7
+ gBw+cgUUVnhWlTTtv288B8n0LNwrISvtEtxgF21jGegWeHTNzTyHG40Shv/aY5GgWz
+ UDgSk8TrFsH/w==
+Received: by mail-ed1-f48.google.com with SMTP id u19so982547edb.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 03 Sep 2021 16:09:05 -0700 (PDT)
+X-Gm-Message-State: AOAM532wqYIP5xArRTrShJwpGERVRtM8RVq9wXoFDf4eJ6FihZtsFc9A
+ rhuzVJwqRhLh4BBcanQcYxD1Hbv0LNPKLq18Cw==
+X-Google-Smtp-Source: ABdhPJz4lEEmfpXjdeGrQR0fYR+vvvNDtbaIe409iJr4s/erwwA00YR7R74Biml7KDpYg2YDhsHicxPQb1hlrcxH+as=
+X-Received: by 2002:aa7:d3d1:: with SMTP id o17mr1353761edr.272.1630710543641; 
+ Fri, 03 Sep 2021 16:09:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210831202133.2165222-1-jim.cromie@gmail.com>
- <20210831202133.2165222-6-jim.cromie@gmail.com>
- <b3c4b3aa-b873-a2aa-c1ad-5fed80038c6e@linux.intel.com>
-In-Reply-To: <b3c4b3aa-b873-a2aa-c1ad-5fed80038c6e@linux.intel.com>
-From: jim.cromie@gmail.com
-Date: Fri, 3 Sep 2021 15:57:55 -0600
-Message-ID: <CAJfuBxw-i-7YUenvBGHA0unBQ8BqmOGRF3nRYNwNPLVaxWpSvQ@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v7 5/8] drm_print: add choice to use dynamic
- debug in drm-debug
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Jason Baron <jbaron@akamai.com>, Greg KH <gregkh@linuxfoundation.org>, 
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
- intel-gvt-dev@lists.freedesktop.org, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+References: <20210825144833.7757-1-jason-jh.lin@mediatek.com>
+ <20210825144833.7757-4-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210825144833.7757-4-jason-jh.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Sat, 4 Sep 2021 07:08:52 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-p8m_rGgQ3=Q9WmuC19LJnT2gSTcJopkgYBpgj-h-T1Q@mail.gmail.com>
+Message-ID: <CAAOTY_-p8m_rGgQ3=Q9WmuC19LJnT2gSTcJopkgYBpgj-h-T1Q@mail.gmail.com>
+Subject: Re: [PATCH v9 03/14] dt-bindings: mediatek: display: split each block
+ to individual yaml
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Frank Wunderlich <frank-w@public-files.de>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Fabien Parent <fparent@baylibre.com>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, fshao@chromium.org, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com, 
+ DTML <devicetree@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,591 +73,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 3, 2021 at 5:15 AM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
+Hi, Jason:
+
+jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B48=E6=9C=882=
+5=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=8810:48=E5=AF=AB=E9=81=93=EF=
+=BC=9A
 >
+> 1. Remove mediatek,dislpay.txt
+> 2. Split each display function block to individual yaml file.
 >
-> On 31/08/2021 21:21, Jim Cromie wrote:
-> > drm's debug system writes 10 distinct categories of messages to syslog
-> > using a small API[1]: drm_dbg*(10 names), DRM_DEV_DEBUG*(3 names),
-> > DRM_DEBUG*(8 names).  There are thousands of these callsites, each
-> > categorized in this systematized way.
-> >
-> > These callsites can be enabled at runtime by their category, each
-> > controlled by a bit in drm.debug (/sys/modules/drm/parameter/debug).
-> > In the current "basic" implementation, drm_debug_enabled() tests these
-> > bits in __drm_debug each time an API[1] call is executed; while cheap
-> > individually, the costs accumulate with uptime.
-> >
-> > This patch uses dynamic-debug with jump-label to patch enabled calls
-> > onto their respective NOOP slots, avoiding all runtime bit-checks of
-> > __drm_debug by drm_debug_enabled().
-> >
-> > Dynamic debug has no concept of category, but we can emulate one by
-> > replacing enum categories with a set of prefix-strings; "drm:core:",
-> > "drm:kms:" "drm:driver:" etc, and prepend them (at compile time) to
-> > the given formats.
-> >
-> > Then we can use:
-> >    `echo module drm format "^drm:core: " +p > control`
-> >
-> > to enable the whole category with one query.
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,aal.yaml        |  75 ++++++
+>  .../display/mediatek/mediatek,ccorr.yaml      |  69 ++++++
+>  .../display/mediatek/mediatek,color.yaml      |  84 +++++++
+>  .../display/mediatek/mediatek,disp.txt        | 219 ------------------
+>  .../display/mediatek/mediatek,dither.yaml     |  70 ++++++
+>  .../display/mediatek/mediatek,gamma.yaml      |  71 ++++++
+>  .../display/mediatek/mediatek,merge.yaml      |  66 ++++++
+>  .../display/mediatek/mediatek,mutex.yaml      |  77 ++++++
+>  .../display/mediatek/mediatek,od.yaml         |  52 +++++
+>  .../display/mediatek/mediatek,ovl-2l.yaml     |  86 +++++++
+>  .../display/mediatek/mediatek,ovl.yaml        |  96 ++++++++
+>  .../display/mediatek/mediatek,rdma.yaml       | 110 +++++++++
+>  .../display/mediatek/mediatek,split.yaml      |  56 +++++
+>  .../display/mediatek/mediatek,ufoe.yaml       |  59 +++++
+>  .../display/mediatek/mediatek,wdma.yaml       |  86 +++++++
+>  15 files changed, 1057 insertions(+), 219 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,aal.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,ccorr.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,color.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,disp.txt
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,dither.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,gamma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,merge.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,mutex.yaml
+
+Because mutex does not only control display function block, but also
+control mdp function block, so move mutex binding document to the same
+folder of mmsys.
+
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,od.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,ovl-2l.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,ovl.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,rdma.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,split.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,ufoe.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/me=
+diatek,wdma.yaml
 >
-> Probably stupid question - enabling stuff at boot time still works as
-> described in Documentation/admin-guide/dynamic-debug-howto.rst?
->
 
-yes.  its turned on in earlyinit, and cmdline args are a processed then,
-and when modules are added
+[snip]
 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+mutex.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mu=
+tex.yaml
+> new file mode 100644
+> index 000000000000..939dff14d989
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mutex.y=
+aml
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,mutex.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: mediatek display mutex
+> +
+> +maintainers:
+> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> +  - Philipp Zabel <p.zabel@pengutronix.de>
+> +
+> +description: |
+> +  The mediatek display mutex is used to send the triggers signals called
+> +  Start Of Frame (SOF)/ Error Of Frame (EOF) to each sub-modules on the
 
-> Second question, which perhaps has been covered in the past so apologies
-> if redundant - what is the advantage of allowing this to be
-> configurable, versus perhaps always enabling it? Like what would be the
-> reasons someone wouldn't just want to have CONFIG_DYNAMIC_DEBUG compiled
-> in? Kernel binary size?
->
+EOF is End of Frame.
 
-Im unaware of anything on this topic, but I can opine :-)
-Its been configurable since I saw it and thought "jump-labels are cool!"
+> +  display data path
 
-code is small
-[jimc@frodo local-i915m]$ size lib/dynamic_debug.o
-   text    data     bss     dec     hex filename
-  24016    8041      64   32121    7d79 lib/dynamic_debug.o
+In some SoC, such as mt2701, MUTEX could be a hardware mutex which
+protect the shadow register. Please describe this because this is a
+main function and this is why it's called MUTEX.
 
-Its data tables are big, particularly the __dyndbg section
-builtins:
-dyndbg: 108 debug prints in module mptcp
-dyndbg:   2 debug prints in module i386
-dyndbg:   2 debug prints in module xen
-dyndbg:   2 debug prints in module fixup
-dyndbg:   7 debug prints in module irq
-dyndbg: 3039 prdebugs in 283 modules, 11 KiB in ddebug tables, 166 kiB
-in __dyndbg section
-
-bash-5.1#
-bash-5.1# for m in i915 amdgpu ; do modprobe $m dyndbg=+_ ; done
-dyndbg: 384 debug prints in module drm
-dyndbg: 211 debug prints in module drm_kms_helper
-dyndbg:   2 debug prints in module ttm
-dyndbg:   8 debug prints in module video
-dyndbg: 1727 debug prints in module i915
-dyndbg: processed 1 queries, with 3852 matches, 0 errs
-dyndbg: 3852 debug prints in module amdgpu
-[drm] amdgpu kernel modesetting enabled.
-amdgpu: CRAT table disabled by module option
-amdgpu: Virtual CRAT table created for CPU
-amdgpu: Topology: Add CPU node
-bash-5.1#
-
-At 56 bytes / callsite, it adds up.
-And teaching DRM to use it enlarges its use dramatically,
-not just in drm itself, but in many drivers
-
-amdgpu has 3852 callsite, (vs 3039 in my kernel), so it has ~240kb.
-It has extra (large chunks generated by macros) to trim,
-but i915 has ~1700, and drm has ~380
-
-I have WIP to reduce the table space, by splitting it into 2 separate ones;
-guts and decorations (module, function, file pointers).
-The decoration recs are redundant, 45% are copies of previous
-(function changes fastest)
-It needs much rework, but it should get 20% overall.
-decorations are 24/56 of footprint.
-
-
-
-
-
-
-
-
-> Regards,
->
-> Tvrtko
->
-> >
-> > This conversion yields many new prdbg callsites:
-> >
-> >    dyndbg: 195 debug prints in module drm_kms_helper
-> >    dyndbg: 298 debug prints in module drm
-> >    dyndbg: 1630 debug prints in module i915
-> >    dyndbg: ~3500 debug prints in module amdgpu
-> >
-> > CONFIG_DRM_USE_DYNAMIC_DEBUG enables this, and is available if
-> > CONFIG_DYNAMIC_DEBUG or CONFIG_DYNAMIC_DEBUG_CORE is chosen, and if
-> > CONFIG_JUMP_LABEL is enabled; this because its required to get the
-> > promised optimizations.
-> >
-> > The "basic" -> "dyndbg" switchover is layered into the macro scheme
-> >
-> > A. A "prefix" version of DRM_UT_<CATs> map, named DRM_DBG_CAT_<CATs>
-> >
-> > "basic":  DRM_DBG_CAT_<CATs>  <===  DRM_UT_<CATs>.  Identity map.
-> > "dyndbg":
-> >     #define DRM_DBG_CAT_KMS    "drm:kms: "
-> >     #define DRM_DBG_CAT_PRIME  "drm:prime: "
-> >     #define DRM_DBG_CAT_ATOMIC "drm:atomic: "
-> >
-> > In v3, had older name, DRM_DBG_CLASS_<CATs> was countered, I had
-> > agreed, but this seems better still; CATEGORY is already DRM's
-> > term-of-art, and adding a near-synonym 'CLASS' only adds ambiguity.
-> >
-> > DRM_UT_* are preserved, since theyre used elsewhere.  We can probably
-> > reduce their use further, but thats a separate thing.
-> >
-> > B. drm_dev_dbg() & drm_debug() are interposed with macros
-> >
-> > basic:          forward to renamed fn, with args preserved
-> > enabled:  redirect to pr_debug, dev_dbg, with CATEGORY format catenated
-> >
-> > This is where drm_debug_enabled() is avoided.  The prefix is prepended
-> > at compile-time, no category at runtime.
-> >
-> > C. API[1] uses DRM_DBG_CAT_<CAT>s
-> >
-> > these already use (B), now they use (A) too, to get the correct token
-> > type for "basic" and "dyndbg" configs.
-> >
-> > D. use DEFINE_DYNAMIC_DEBUG_CATEGORIES()
-> >
-> > This defines the map using DRM_CAT_<CAT>s, and creates the /sysfs
-> > bitmap to control those categories.
-> >
-> > NOTES:
-> >
-> > Because the dyndbg callback is watching __drm_debug, it is coherent
-> > with drm_debug_enabled() and its remaining users; the switchover
-> > should be transparent.
-> >
-> > Code Review is expected to catch the lack of correspondence between
-> > bit=>prefix definitions (the selector) and the prefixes used in the
-> > API[1] layer above pr_debug()
-> >
-> > I've coded the search-prefixes/categories with a trailing space, which
-> > excludes any sub-categories added later.  This convention protects any
-> > "drm:atomic:fail:" callsites from getting stomped on by `echo 0 > debug`.
-> > Other categories could differ, but we need some default.
-> >
-> > Dyndbg requires that the prefix be in the compiled-in format string;
-> > run-time prefixing evades callsite selection by category.
-> >
-> >       pr_debug("%s: ...", __func__, ...) // not ideal
-> >
-> > With "lineno X" in a query, its possible to enable single callsites,
-> > but it is tedious, and useless in a category context.
-> >
-> > Unfortunately __func__ is not a macro, and cannot be catenated at
-> > preprocess/compile time.
-> >
-> > Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
-> > ---
-> > v5:
-> > . use DEFINE_DYNAMIC_DEBUG_CATEGORIES in drm_print.c
-> > . s/DRM_DBG_CLASS_/DRM_DBG_CAT_/ - dont need another term
-> > . default=y in KBuild entry - per @DanVet
-> > . move some commit-log prose to dyndbg commit
-> > . add-prototyes to (param_get/set)_dyndbg
-> > . more wrinkles found by <lkp@intel.com>
-> > . relocate ratelimit chunk from elsewhere
-> > v6:
-> > . add kernel doc
-> > . fix cpp paste, drop '#'
-> > v7:
-> > . change __drm_debug to long, to fit with DEFINE_DYNAMIC_DEBUG_CATEGORIES
-> > . add -DDYNAMIC_DEBUG_MODULE to ccflags if DRM_USE_DYNAMIC_DEBUG
-> > ---
-> >   drivers/gpu/drm/Kconfig     |  13 ++++
-> >   drivers/gpu/drm/Makefile    |   3 +
-> >   drivers/gpu/drm/drm_print.c |  53 +++++++++----
-> >   include/drm/drm_print.h     | 144 ++++++++++++++++++++++++++++--------
-> >   4 files changed, 166 insertions(+), 47 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> > index 7ff89690a976..97e38d86fd27 100644
-> > --- a/drivers/gpu/drm/Kconfig
-> > +++ b/drivers/gpu/drm/Kconfig
-> > @@ -57,6 +57,19 @@ config DRM_DEBUG_MM
-> >
-> >         If in doubt, say "N".
-> >
-> > +config DRM_USE_DYNAMIC_DEBUG
-> > +     bool "use dynamic debug to implement drm.debug"
-> > +     default y
-> > +     depends on DRM
-> > +     depends on DYNAMIC_DEBUG || DYNAMIC_DEBUG_CORE
-> > +     depends on JUMP_LABEL
-> > +     help
-> > +       The "basic" drm.debug facility does a lot of unlikely
-> > +       bit-field tests at runtime; while cheap individually, the
-> > +       cost accumulates.  DYNAMIC_DEBUG patches pr_debug()s in/out
-> > +       of the running kernel, so avoids those bit-test overheads,
-> > +       and is therefore recommended.
-> > +
-> >   config DRM_DEBUG_SELFTEST
-> >       tristate "kselftests for DRM"
-> >       depends on DRM
-> > diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> > index a118692a6df7..1809329654b3 100644
-> > --- a/drivers/gpu/drm/Makefile
-> > +++ b/drivers/gpu/drm/Makefile
-> > @@ -20,6 +20,9 @@ drm-y       :=      drm_aperture.o drm_auth.o drm_cache.o \
-> >               drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-> >               drm_managed.o drm_vblank_work.o
-> >
-> > +#ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
-> > +ccflags-y += -DDYNAMIC_DEBUG_MODULE
-> > +#endif
-> >   drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
-> >                           drm_legacy_misc.o drm_lock.o drm_memory.o drm_scatter.o \
-> >                           drm_vm.o
-> > diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
-> > index 111b932cf2a9..df2e10754c41 100644
-> > --- a/drivers/gpu/drm/drm_print.c
-> > +++ b/drivers/gpu/drm/drm_print.c
-> > @@ -28,6 +28,7 @@
-> >   #include <stdarg.h>
-> >
-> >   #include <linux/io.h>
-> > +#include <linux/module.h>
-> >   #include <linux/moduleparam.h>
-> >   #include <linux/seq_file.h>
-> >   #include <linux/slab.h>
-> > @@ -40,19 +41,39 @@
-> >    * __drm_debug: Enable debug output.
-> >    * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
-> >    */
-> > -unsigned int __drm_debug;
-> > +unsigned long __drm_debug;
-> >   EXPORT_SYMBOL(__drm_debug);
-> >
-> > -MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
-> > -"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
-> > -"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
-> > -"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
-> > -"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
-> > -"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
-> > -"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
-> > -"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
-> > -"\t\tBit 8 (0x100) will enable DP messages (displayport code)");
-> > -module_param_named(debug, __drm_debug, int, 0600);
-> > +#define DRM_DEBUG_DESC \
-> > +"Enable debug output, where each bit enables a debug category.\n"    \
-> > +"\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"              \
-> > +"\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"      \
-> > +"\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"    \
-> > +"\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"                \
-> > +"\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"              \
-> > +"\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"         \
-> > +"\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"              \
-> > +"\t\tBit 8 (0x100) will enable DP messages (displayport code)."
-> > +
-> > +#ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
-> > +#include <linux/dynamic_debug.h>
-> > +DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug, __drm_debug,
-> > +     DRM_DEBUG_DESC,
-> > +     _DD_cat_(DRM_DBG_CAT_CORE),
-> > +     _DD_cat_(DRM_DBG_CAT_DRIVER),
-> > +     _DD_cat_(DRM_DBG_CAT_KMS),
-> > +     _DD_cat_(DRM_DBG_CAT_PRIME),
-> > +     _DD_cat_(DRM_DBG_CAT_ATOMIC),
-> > +     _DD_cat_(DRM_DBG_CAT_VBL),
-> > +     _DD_cat_(DRM_DBG_CAT_STATE),
-> > +     _DD_cat_(DRM_DBG_CAT_LEASE),
-> > +     _DD_cat_(DRM_DBG_CAT_DP),
-> > +     _DD_cat_(DRM_DBG_CAT_DRMRES));
-> > +
-> > +#else
-> > +MODULE_PARM_DESC(debug, DRM_DEBUG_DESC);
-> > +module_param_named(debug, __drm_debug, ulong, 0600);
-> > +#endif
-> >
-> >   void __drm_puts_coredump(struct drm_printer *p, const char *str)
-> >   {
-> > @@ -256,8 +277,8 @@ void drm_dev_printk(const struct device *dev, const char *level,
-> >   }
-> >   EXPORT_SYMBOL(drm_dev_printk);
-> >
-> > -void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> > -              const char *format, ...)
-> > +void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> > +                const char *format, ...)
-> >   {
-> >       struct va_format vaf;
-> >       va_list args;
-> > @@ -278,9 +299,9 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >
-> >       va_end(args);
-> >   }
-> > -EXPORT_SYMBOL(drm_dev_dbg);
-> > +EXPORT_SYMBOL(__drm_dev_dbg);
-> >
-> > -void __drm_dbg(enum drm_debug_category category, const char *format, ...)
-> > +void ___drm_dbg(enum drm_debug_category category, const char *format, ...)
-> >   {
-> >       struct va_format vaf;
-> >       va_list args;
-> > @@ -297,7 +318,7 @@ void __drm_dbg(enum drm_debug_category category, const char *format, ...)
-> >
-> >       va_end(args);
-> >   }
-> > -EXPORT_SYMBOL(__drm_dbg);
-> > +EXPORT_SYMBOL(___drm_dbg);
-> >
-> >   void __drm_err(const char *format, ...)
-> >   {
-> > diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> > index 9b66be54dd16..973443040561 100644
-> > --- a/include/drm/drm_print.h
-> > +++ b/include/drm/drm_print.h
-> > @@ -35,7 +35,7 @@
-> >   #include <drm/drm.h>
-> >
-> >   /* Do *not* use outside of drm_print.[ch]! */
-> > -extern unsigned int __drm_debug;
-> > +extern unsigned long __drm_debug;
-> >
-> >   /**
-> >    * DOC: print
-> > @@ -252,15 +252,15 @@ static inline struct drm_printer drm_err_printer(const char *prefix)
-> >   /**
-> >    * enum drm_debug_category - The DRM debug categories
-> >    *
-> > - * Each of the DRM debug logging macros use a specific category, and the logging
-> > - * is filtered by the drm.debug module parameter. This enum specifies the values
-> > - * for the interface.
-> > + * The drm.debug logging API[1] has 10 enumerated categories of
-> > + * messages, issued by 3 families of macros: 10 drm_dbg_<CATs>, 8
-> > + * DRM_DEBUG_<CATs>, and 3 DRM_DEV_DEBUG_<CATs>.
-> >    *
-> >    * Each DRM_DEBUG_<CATEGORY> macro logs to DRM_UT_<CATEGORY> category, except
-> >    * DRM_DEBUG() logs to DRM_UT_CORE.
-> >    *
-> > - * Enabling verbose debug messages is done through the drm.debug parameter, each
-> > - * category being enabled by a bit:
-> > + * Enabling categories of debug messages is done through the drm.debug
-> > + * parameter, each category being enabled by a bit:
-> >    *
-> >    *  - drm.debug=0x1 will enable CORE messages
-> >    *  - drm.debug=0x2 will enable DRIVER messages
-> > @@ -319,6 +319,86 @@ enum drm_debug_category {
-> >       DRM_UT_DRMRES           = 0x200,
-> >   };
-> >
-> > +/**
-> > + * DOC: DRM_USE_DYNAMIC_DEBUG - using dyndbg in drm.debug
-> > + *
-> > + * In the "basic" drm.debug implementation outlined above, each time a
-> > + * drm-debug API[1] call is executed, drm_debug_enabled(cat) tests
-> > + * drm.debug vs cat before printing.
-> > + *
-> > + * DYNAMIC_DEBUG (aka: dyndbg) patches pr_debug()s in^out of the
-> > + * running kernel, so it can avoid drm_debug_enabled() and skip lots
-> > + * of unlikely bit tests.
-> > + *
-> > + * dyndbg has no concept of category, but we can prepend a
-> > + * class-prefix string: "drm:core: ", "drm:kms: ", "drm:driver: " etc,
-> > + * to pr_debug's format (at compile time).
-> > + *
-> > + * Then control the category
-> > + *    `echo module drm format "^drm:core: " +p > control`
-> > + *    `dynamic_debug_exec_queries("format '^drm:core: ' +p", "drm");`
-> > + *
-> > + * To do this for "basic" | "dyndbg", adaptation adds some macro indirection:
-> > + *
-> > + * 0. use dyndbg support to define the bits => prefixes map, attach callback.
-> > + *
-> > + *    DYNDBG_BITMAP_DESC(debug, __drm_debug,
-> > + *                    "drm.debug - overview",
-> > + *                    { "drm:core:", "enable CORE debug messages" },
-> > + *                    { "drm:kms:", "enable KMS debug messages" }, ...);
-> > + *
-> > + * 1. DRM_DBG_CAT_<CAT>
-> > + *
-> > + * This set of symbols replaces DRM_UT_<CAT> in the drm-debug API; it
-> > + * is either a copy of DRM_UT_<CAT>, or the class-prefix strings.
-> > + *
-> > + * 2. drm_dev_dbg & drm_debug are called by drm.debug API
-> > + *
-> > + * These are now macros, either forwarding to renamed functions, or
-> > + * prepending the class string to the format, and invoking pr_debug
-> > + * directly.  Since the API is all macros, dyndbg remembers
-> > + * per-pr_debug: module,file,func,line,format and uses that to find
-> > + * and enable them.
-> > + */
-> > +#if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-> > +
-> > +#define __drm_dbg(cls, fmt, ...)                     \
-> > +     ___drm_dbg(cls, fmt, ##__VA_ARGS__)
-> > +#define drm_dev_dbg(dev, cls, fmt, ...)                      \
-> > +     __drm_dev_dbg(dev, cls, fmt, ##__VA_ARGS__)
-> > +
-> > +#define DRM_DBG_CAT_CORE     DRM_UT_CORE
-> > +#define DRM_DBG_CAT_DRIVER   DRM_UT_DRIVER
-> > +#define DRM_DBG_CAT_KMS              DRM_UT_KMS
-> > +#define DRM_DBG_CAT_PRIME    DRM_UT_PRIME
-> > +#define DRM_DBG_CAT_ATOMIC   DRM_UT_ATOMIC
-> > +#define DRM_DBG_CAT_VBL              DRM_UT_VBL
-> > +#define DRM_DBG_CAT_STATE    DRM_UT_STATE
-> > +#define DRM_DBG_CAT_LEASE    DRM_UT_LEASE
-> > +#define DRM_DBG_CAT_DP               DRM_UT_DP
-> > +#define DRM_DBG_CAT_DRMRES   DRM_UT_DRMRES
-> > +
-> > +#else /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
-> > +
-> > +/* join prefix+format in cpp so dyndbg can see it */
-> > +#define __drm_dbg(cls, fmt, ...)             \
-> > +     pr_debug(cls fmt, ##__VA_ARGS__)
-> > +#define drm_dev_dbg(dev, cls, fmt, ...)              \
-> > +     dev_dbg(dev, cls fmt, ##__VA_ARGS__)
-> > +
-> > +#define DRM_DBG_CAT_CORE     "drm:core: "
-> > +#define DRM_DBG_CAT_DRIVER   "drm:drvr: "
-> > +#define DRM_DBG_CAT_KMS              "drm:kms: "
-> > +#define DRM_DBG_CAT_PRIME    "drm:prime: "
-> > +#define DRM_DBG_CAT_ATOMIC   "drm:atomic: "
-> > +#define DRM_DBG_CAT_VBL              "drm:vbl: "
-> > +#define DRM_DBG_CAT_STATE    "drm:state: "
-> > +#define DRM_DBG_CAT_LEASE    "drm:lease: "
-> > +#define DRM_DBG_CAT_DP               "drm:dp: "
-> > +#define DRM_DBG_CAT_DRMRES   "drm:res: " /* not in MODULE_PARM_DESC */
-> > +
-> > +#endif /* CONFIG_DRM_USE_DYNAMIC_DEBUG */
-> > +
-> >   static inline bool drm_debug_enabled(enum drm_debug_category category)
-> >   {
-> >       return unlikely(__drm_debug & category);
-> > @@ -334,8 +414,8 @@ __printf(3, 4)
-> >   void drm_dev_printk(const struct device *dev, const char *level,
-> >                   const char *format, ...);
-> >   __printf(3, 4)
-> > -void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> > -              const char *format, ...);
-> > +void __drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> > +                const char *format, ...);
-> >
-> >   /**
-> >    * DRM_DEV_ERROR() - Error output.
-> > @@ -383,7 +463,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >    * @fmt: printf() like format string.
-> >    */
-> >   #define DRM_DEV_DEBUG(dev, fmt, ...)                                        \
-> > -     drm_dev_dbg(dev, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg(dev, DRM_DBG_CAT_CORE, fmt, ##__VA_ARGS__)
-> >   /**
-> >    * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the driver
-> >    *
-> > @@ -391,7 +471,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >    * @fmt: printf() like format string.
-> >    */
-> >   #define DRM_DEV_DEBUG_DRIVER(dev, fmt, ...)                         \
-> > -     drm_dev_dbg(dev, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg(dev, DRM_DBG_CAT_DRIVER, fmt, ##__VA_ARGS__)
-> >   /**
-> >    * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
-> >    *
-> > @@ -399,7 +479,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >    * @fmt: printf() like format string.
-> >    */
-> >   #define DRM_DEV_DEBUG_KMS(dev, fmt, ...)                            \
-> > -     drm_dev_dbg(dev, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg(dev, DRM_DBG_CAT_KMS, fmt, ##__VA_ARGS__)
-> >
-> >   /*
-> >    * struct drm_device based logging
-> > @@ -443,25 +523,25 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >
-> >
-> >   #define drm_dbg_core(drm, fmt, ...)                                 \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_CORE, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg(drm, fmt, ...)                                              \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_DRIVER, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_kms(drm, fmt, ...)                                  \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_KMS, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_prime(drm, fmt, ...)                                        \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_PRIME, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_atomic(drm, fmt, ...)                                       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_ATOMIC, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_vbl(drm, fmt, ...)                                  \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_VBL, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_state(drm, fmt, ...)                                        \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_STATE, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_STATE, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_lease(drm, fmt, ...)                                        \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_LEASE, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_dp(drm, fmt, ...)                                   \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DP, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_DP, fmt, ##__VA_ARGS__)
-> >   #define drm_dbg_drmres(drm, fmt, ...)                                       \
-> > -     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_UT_DRMRES, fmt, ##__VA_ARGS__)
-> > +     drm_dev_dbg((drm) ? (drm)->dev : NULL, DRM_DBG_CAT_DRMRES, fmt, ##__VA_ARGS__)
-> >
-> >
-> >   /*
-> > @@ -471,7 +551,7 @@ void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
-> >    */
-> >
-> >   __printf(2, 3)
-> > -void __drm_dbg(enum drm_debug_category category, const char *format, ...);
-> > +void ___drm_dbg(enum drm_debug_category category, const char *format, ...);
-> >   __printf(1, 2)
-> >   void __drm_err(const char *format, ...);
-> >
-> > @@ -500,29 +580,30 @@ void __drm_err(const char *format, ...);
-> >   #define DRM_ERROR_RATELIMITED(fmt, ...)                                     \
-> >       DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
-> >
-> > +
-> >   #define DRM_DEBUG(fmt, ...)                                         \
-> > -     __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_CORE, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_DRIVER(fmt, ...)                                  \
-> > -     __drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_DRIVER, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_KMS(fmt, ...)                                             \
-> > -     __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_KMS, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_PRIME(fmt, ...)                                   \
-> > -     __drm_dbg(DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_PRIME, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_ATOMIC(fmt, ...)                                  \
-> > -     __drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_ATOMIC, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_VBL(fmt, ...)                                             \
-> > -     __drm_dbg(DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_VBL, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_LEASE(fmt, ...)                                   \
-> > -     __drm_dbg(DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_LEASE, fmt, ##__VA_ARGS__)
-> >
-> >   #define DRM_DEBUG_DP(fmt, ...)                                              \
-> > -     __drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
-> > +     __drm_dbg(DRM_DBG_CAT_DP, fmt, ## __VA_ARGS__)
-> >
-> >   #define __DRM_DEFINE_DBG_RATELIMITED(category, drm, fmt, ...)                                       \
-> >   ({                                                                                          \
-> > @@ -530,7 +611,8 @@ void __drm_err(const char *format, ...);
-> >       const struct drm_device *drm_ = (drm);                                                  \
-> >                                                                                               \
-> >       if (drm_debug_enabled(DRM_UT_ ## category) && __ratelimit(&rs_))                        \
-> > -             drm_dev_printk(drm_ ? drm_->dev : NULL, KERN_DEBUG, fmt, ## __VA_ARGS__);       \
-> > +             drm_dev_dbg((drm_) ? (drm_)->dev : NULL,                                        \
-> > +                         DRM_DBG_CAT_ ## category, fmt, ##__VA_ARGS__);                      \
-> >   })
-> >
-> >   #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
-> >
+Regards,
+Chun-Kuang.
+.
+> +  MUTEX device node must be siblings to the central MMSYS_CONFIG node.
+> +  For a description of the MMSYS_CONFIG binding, see
+> +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml for=
+ details.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - const: mediatek,mt2701-disp-mutex
+> +      - items:
+> +          - const: mediatek,mt2712-disp-mutex
+> +      - items:
+> +          - const: mediatek,mt8167-disp-mutex
+> +      - items:
+> +          - const: mediatek,mt8173-disp-mutex
+> +      - items:
+> +          - const: mediatek,mt8183-disp-mutex
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    description: A phandle and PM domain specifier as defined by binding=
+s of
+> +      the power controller specified by phandle. See
+> +      Documentation/devicetree/bindings/power/power-domain.yaml for deta=
+ils.
+> +
+> +  clocks:
+> +    items:
+> +      - description: MUTEX Clock
+> +
+> +  mediatek,gce-events:
+> +    description:
+> +      The event id which is mapping to the specific hardware event signa=
+l to gce.
+> +      The event id is defined in the gce header
+> +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - power-domains
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +
+> +    mutex: mutex@14020000 {
+> +        compatible =3D "mediatek,mt8173-disp-mutex";
+> +        reg =3D <0 0x14020000 0 0x1000>;
+> +        interrupts =3D <GIC_SPI 169 IRQ_TYPE_LEVEL_LOW>;
+> +        power-domains =3D <&spm MT8173_POWER_DOMAIN_MM>;
+> +        clocks =3D <&mmsys CLK_MM_MUTEX_32K>;
+> +        mediatek,gce-events =3D <CMDQ_EVENT_MUTEX0_STREAM_EOF>,
+> +                              <CMDQ_EVENT_MUTEX1_STREAM_EOF>;
+> +    };
