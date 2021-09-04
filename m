@@ -2,36 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB9B94008C2
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Sep 2021 02:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293E54008C5
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Sep 2021 02:40:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7776E8F2;
-	Sat,  4 Sep 2021 00:35:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B0586E8ED;
+	Sat,  4 Sep 2021 00:40:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F97A6E8E9;
- Sat,  4 Sep 2021 00:35:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10096"; a="216404816"
-X-IronPort-AV: E=Sophos;i="5.85,266,1624345200"; d="scan'208";a="216404816"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 17:35:53 -0700
-X-IronPort-AV: E=Sophos;i="5.85,266,1624345200"; d="scan'208";a="511701405"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Sep 2021 17:35:53 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- Ramalingam C <ramalingam.c@intel.com>,
- Matt Atwood <matthew.s.atwood@intel.com>
-Subject: [PATCH 2/2] drm/i915/dg2: Define MOCS table for DG2
-Date: Fri,  3 Sep 2021 17:35:44 -0700
-Message-Id: <20210904003544.2422282-3-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20210904003544.2422282-1-matthew.d.roper@intel.com>
-References: <20210904003544.2422282-1-matthew.d.roper@intel.com>
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 61B3D6E8EA;
+ Sat,  4 Sep 2021 00:40:01 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id c5so510210plz.2;
+ Fri, 03 Sep 2021 17:40:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=FI6R42Oo7MX5/xkTwAAMjl52Mc/0wUr0Fx+yPEL+Ji4=;
+ b=P9p3I1iFOOqZHomjJ9vNMefUT3hZPzD+F1bNrOIYlplXPkvXNDcsEoyzTJIVAmJ35Y
+ 0rkjEw3jIJ562VBGidsZBdYFLb+XXXwWHfP4361rOcoFkfXJlccu6Oa3StlZZpt8UB3p
+ RMeJs65RYXCbGcJ9FCY+9HyR8PojZBDka55C1UZ9rYWMF3GUYyXqiBqOFxjLDEwwr1Pt
+ s85jHd6VurdxdjV9hbU5CoLvTBeJI79gIHfkKkC9t7c8rptQ4B/9hqjUJgLc0CkQ7nQY
+ IYyLlGH5GENe7taBtOG5A0IXy2YH8nbyCN6a+STlteI8sxyU1mv5PnWuHxgGuCtiClCx
+ gtgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=FI6R42Oo7MX5/xkTwAAMjl52Mc/0wUr0Fx+yPEL+Ji4=;
+ b=nMUCv6uShQrbKcxiRafSqeSNhKiAQqETKFPB8GmZ6py3ugvHmwfFPYKW4GmVZQgQUD
+ gXopDATVDAnQRl7SJBCZ/Qi0oilTEPjo2c8dB0/J4ob1E7Nr3qJMKlAX7j3IJ0jtbW1/
+ h4/eY7yesjLf8C+3hnpvs0QUJvHgO7ZIZe3Fi1i2gPGBQskITDGXCPj1flOyPcYJbaI0
+ 6hBaQijNLTH4AQLWefxMk4Oh4HUc60zobPM64w/l1vaClNi6tbUQ6mx51q9mLAOt5JBa
+ u3Uq3lf3jNktfTJqlaDBtn43XXdqknviKPolSC/9RNsx3b8TnhCh0ERbB7V7r4FggD5h
+ oZbw==
+X-Gm-Message-State: AOAM533x20fTlGBi6FsIKynD6mQZF3WwH0n6zl1I1u2R+E9nmiSlJMg+
+ n4a5t2RE448K2DNnTDjJy5A=
+X-Google-Smtp-Source: ABdhPJzz1rwyz2vh+Ezx9pYFTMx4kmC/xaZ4SlrqqT6MjtyqC6xvt8h0O3Dz2Zp+MEjlpU0HVoMEtw==
+X-Received: by 2002:a17:90b:33c6:: with SMTP id
+ lk6mr1588157pjb.203.1630716000885; 
+ Fri, 03 Sep 2021 17:40:00 -0700 (PDT)
+Received: from skynet-linux.local ([136.185.149.81])
+ by smtp.googlemail.com with ESMTPSA id o2sm487823pgu.76.2021.09.03.17.39.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Sep 2021 17:40:00 -0700 (PDT)
+From: Sireesh Kodali <sireeshkodali1@gmail.com>
+To: phone-devel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+Cc: Vladimir Lypak <vladimir.lypak@gmail.com>,
+ Sireesh Kodali <sireeshkodali1@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ James Willcox <jwillcox@squareup.com>,
+ freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+ linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v2 3/3] drm/msm/mdp5: Add configuration for MDP v1.16
+Date: Sat,  4 Sep 2021 06:09:17 +0530
+Message-Id: <20210904003919.36575-1-sireeshkodali1@gmail.com>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20210903170844.35694-1-sireeshkodali1@gmail.com>
+References: <20210903170844.35694-1-sireeshkodali1@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,69 +81,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Bspec: 45101, 45427
-Cc: Ramalingam C <ramalingam.c@intel.com>
-Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-Reviewed-by: Matt Atwood <matthew.s.atwood@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_mocs.c | 37 +++++++++++++++++++++++++++-
- 1 file changed, 36 insertions(+), 1 deletion(-)
+From: Vladimir Lypak <vladimir.lypak@gmail.com>
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_mocs.c b/drivers/gpu/drm/i915/gt/intel_mocs.c
-index 133cfe07cb9f..d66be8457d26 100644
---- a/drivers/gpu/drm/i915/gt/intel_mocs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_mocs.c
-@@ -342,6 +342,30 @@ static const struct drm_i915_mocs_entry xehpsdv_mocs_table[] = {
- 	MOCS_ENTRY(63, 0, L3_1_UC),
+MDP version v1.16 is almost identical to v1.15 with most significant
+difference being presence of second DSI interface. MDP v1.16 is found on
+SoCs such as MSM8x53, SDM450, SDM632 (All with Adreno 506).
+
+Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
+Signed-off-by: Sireesh Kodali <sireeshkodali1@gmail.com>
+---
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
+
+diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+index 9741544ffc35..0d28c8ff4009 100644
+--- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
++++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
+@@ -752,6 +752,94 @@ const struct mdp5_cfg_hw msm8x76_config = {
+ 	.max_clk = 360000000,
  };
  
-+static const struct drm_i915_mocs_entry dg2_mocs_table[] = {
-+	/* UC - Coherent; GO:L3 */
-+	MOCS_ENTRY(0, 0, L3_1_UC | L3_LKUP(1)),
-+	/* UC - Coherent; GO:Memory */
-+	MOCS_ENTRY(1, 0, L3_1_UC | L3_GLBGO(1) | L3_LKUP(1)),
-+	/* UC - Non-Coherent; GO:Memory */
-+	MOCS_ENTRY(2, 0, L3_1_UC | L3_GLBGO(1)),
++static const struct mdp5_cfg_hw msm8x53_config = {
++	.name = "msm8x53",
++	.mdp = {
++		.count = 1,
++		.caps = MDP_CAP_CDM |
++			MDP_CAP_SRC_SPLIT,
++	},
++	.ctl = {
++		.count = 3,
++		.base = { 0x01000, 0x01200, 0x01400 },
++		.flush_hw_mask = 0xffffffff,
++	},
++	.pipe_vig = {
++		.count = 1,
++		.base = { 0x04000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SCALE	|
++			MDP_PIPE_CAP_CSC	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_rgb = {
++		.count = 2,
++		.base = { 0x14000, 0x16000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_DECIMATION	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_dma = {
++		.count = 1,
++		.base = { 0x24000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			0,
++	},
++	.pipe_cursor = {
++		.count = 1,
++		.base = { 0x34000 },
++		.caps = MDP_PIPE_CAP_HFLIP	|
++			MDP_PIPE_CAP_VFLIP	|
++			MDP_PIPE_CAP_SW_PIX_EXT	|
++			MDP_PIPE_CAP_CURSOR	|
++			0,
++	},
 +
-+	/* WB - LC */
-+	MOCS_ENTRY(3, 0, L3_3_WB | L3_LKUP(1)),
++	.lm = {
++		.count = 3,
++		.base = { 0x44000, 0x45000 },
++		.instances = {
++				{ .id = 0, .pp = 0, .dspp = 0,
++				  .caps = MDP_LM_CAP_DISPLAY |
++					  MDP_LM_CAP_PAIR },
++				{ .id = 1, .pp = 1, .dspp = -1,
++				  .caps = MDP_LM_CAP_DISPLAY },
++			     },
++		.nb_stages = 5,
++		.max_width = 2048,
++		.max_height = 0xFFFF,
++	},
++	.dspp = {
++		.count = 1,
++		.base = { 0x54000 },
++
++	},
++	.pp = {
++		.count = 2,
++		.base = { 0x70000, 0x70800 },
++	},
++	.cdm = {
++		.count = 1,
++		.base = { 0x79200 },
++	},
++	.intf = {
++		.base = { 0x6a000, 0x6a800, 0x6b000 },
++		.connect = {
++			[0] = INTF_DISABLED,
++			[1] = INTF_DSI,
++			[2] = INTF_DSI,
++		},
++	},
++	.max_clk = 400000000,
 +};
 +
-+static const struct drm_i915_mocs_entry dg2_mocs_table_g10_ax[] = {
-+	/* Wa_14011441408: Set Go to Memory for MOCS#0 */
-+	MOCS_ENTRY(0, 0, L3_1_UC | L3_GLBGO(1) | L3_LKUP(1)),
-+	/* UC - Coherent; GO:Memory */
-+	MOCS_ENTRY(1, 0, L3_1_UC | L3_GLBGO(1) | L3_LKUP(1)),
-+	/* UC - Non-Coherent; GO:Memory */
-+	MOCS_ENTRY(2, 0, L3_1_UC | L3_GLBGO(1)),
-+
-+	/* WB - LC */
-+	MOCS_ENTRY(3, 0, L3_3_WB | L3_LKUP(1)),
-+};
-+
- enum {
- 	HAS_GLOBAL_MOCS = BIT(0),
- 	HAS_ENGINE_MOCS = BIT(1),
-@@ -371,7 +395,18 @@ static unsigned int get_mocs_settings(const struct drm_i915_private *i915,
- 	memset(table, 0, sizeof(struct drm_i915_mocs_table));
+ static const struct mdp5_cfg_hw msm8917_config = {
+ 	.name = "msm8917",
+ 	.mdp = {
+@@ -1151,6 +1239,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
+ 	{ .revision = 7, .config = { .hw = &msm8x96_config } },
+ 	{ .revision = 11, .config = { .hw = &msm8x76_config } },
+ 	{ .revision = 15, .config = { .hw = &msm8917_config } },
++	{ .revision = 16, .config = { .hw = &msm8x53_config } },
+ };
  
- 	table->unused_entries_index = I915_MOCS_PTE;
--	if (IS_XEHPSDV(i915)) {
-+	if (IS_DG2(i915)) {
-+		if (IS_DG2_GT_STEP(i915, G10, STEP_A0, STEP_B0)) {
-+			table->size = ARRAY_SIZE(dg2_mocs_table_g10_ax);
-+			table->table = dg2_mocs_table_g10_ax;
-+		} else {
-+			table->size = ARRAY_SIZE(dg2_mocs_table);
-+			table->table = dg2_mocs_table;
-+		}
-+		table->uc_index = 1;
-+		table->n_entries = GEN9_NUM_MOCS_ENTRIES;
-+		table->unused_entries_index = 3;
-+	} else if (IS_XEHPSDV(i915)) {
- 		table->size = ARRAY_SIZE(xehpsdv_mocs_table);
- 		table->table = xehpsdv_mocs_table;
- 		table->uc_index = 2;
+ static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
 -- 
-2.25.4
+2.33.0
 
