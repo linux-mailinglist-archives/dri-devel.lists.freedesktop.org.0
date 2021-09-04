@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420EF400B9D
-	for <lists+dri-devel@lfdr.de>; Sat,  4 Sep 2021 16:22:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F052400BF2
+	for <lists+dri-devel@lfdr.de>; Sat,  4 Sep 2021 17:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39CF189DBA;
-	Sat,  4 Sep 2021 14:22:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DEF026E907;
+	Sat,  4 Sep 2021 15:41:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 052AA89DBA
- for <dri-devel@lists.freedesktop.org>; Sat,  4 Sep 2021 14:22:35 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id fz10so1487122pjb.0
- for <dri-devel@lists.freedesktop.org>; Sat, 04 Sep 2021 07:22:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I/ua5yKYj8pkGfG7UiRoEoOwUToJwyNwNf/Tj0HDH/8=;
- b=C4MogmaLoR1H0yFxuV3YjeKt2Gn8IhnzECUoCNze0ifHO5rWWfLQcwal4MlbBH2NeK
- CQoYwvGs9MzxbPdD2fqsieTa5MufMQkp8dspcURqbAYR3ts8CTCge0mYfWSpWgUjkpnT
- bcXtE8LxLF8mYQM54Ki7Vy8bpFlodSyvYp6H4kpdEFI/GnmeH2nggGEtDAa0oyiVn3Tr
- apIyNXbMHdp4jNx977PIew28dnAX2UzCEfTIwgVFJIRxz35VG/aBvp11UpqCz+HtXP8g
- MDLQnUGwgcM/S9bN5KKuSFqet9kI9MonwlQzoyGG77hRY86CvIApEBafGI6RnTQuZzJS
- QOcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=I/ua5yKYj8pkGfG7UiRoEoOwUToJwyNwNf/Tj0HDH/8=;
- b=p7vXKshQwSNSVoe4RtuLGzLPy5BnZ/z9YbDb+bOpnKGIbhr1r7fz4ZziEtOh4Wg9vS
- iAMHUjZ5Kax2TPDSHq4Y3sddbNO8rbNqGuuL2EG9ogb+aomWmOBdMgMYrg4TPAMeC2B2
- M8O9mVU6nh79ZrcIye/CuCDu2H39j5+KynZm9Iu6qdizaoK2sMgZ1X6f9zXoUHujpohk
- 361Ki/6PRZ6FOnKmjBkYbCxgWuS0mdX5/viYz2NqMhtFtC+p+DzAhCNywHTKti9/nlaX
- A5gJk4FEhLK+AROa164TMYUSzQE/KlCQ91zJ06Gjv+lE0PCX+ZsZ/e1iaewAM0HmsI1Y
- qIRw==
-X-Gm-Message-State: AOAM533Ckdc/eZ5Ek8voAfu1UKb/Byd3a8NuNfPfUJ/feIeXUOh8QvQY
- Y/ejzezsmSDVy5zCBHp9mtJi3LLPa0uF8LpS
-X-Google-Smtp-Source: ABdhPJxHf0ESh8pM4uIdjpjTkv4UmTjQPB9lqc7ZtM9W5E04SiwO6QKFx09EGvsPGa91UHcnSDnSow==
-X-Received: by 2002:a17:90a:6b4d:: with SMTP id
- x13mr4446016pjl.88.1630765355470; 
- Sat, 04 Sep 2021 07:22:35 -0700 (PDT)
-Received: from localhost.localdomain
- ([2401:4900:1c26:4b2d:32ce:9155:7c42:8667])
- by smtp.gmail.com with ESMTPSA id m11sm2480391pjn.2.2021.09.04.07.22.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 04 Sep 2021 07:22:34 -0700 (PDT)
-From: Srivathsa Dara <srivathsa729.8@gmail.com>
-To: bernie@plugable.com
-Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Srivathsa Dara <srivathsa729.8@gmail.com>
-Subject: [PATCH] video: fbdev: udlfb: Fix brace coding style error
-Date: Sat,  4 Sep 2021 19:52:26 +0530
-Message-Id: <20210904142226.23646-1-srivathsa729.8@gmail.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D190F6E907;
+ Sat,  4 Sep 2021 15:41:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1630770087;
+ bh=OZtiJphuOZiymShv6jIHIa+0m3md61/j1EJ52nNdmpU=;
+ h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+ b=abE/QikUO73fUuTEdflYyli8YfMo7zoy7HI+1snwhtqYVfwgaps69o+ArL97Ew+g7
+ cj5zjhNXiYb1DNZ7slmZpLKXiIk5IbXBRM0BCKu4oZkva2tS7fXNiotmoGMIJSPTD1
+ NIczoAXAizyqoRRKlSUZii6lKeN4XE5aFHkPKM+I=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
+ (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
+ 1MryXH-1mjFYY2AEv-00nwYh; Sat, 04 Sep 2021 17:41:27 +0200
+From: Len Baker <len.baker@gmx.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Cc: Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/radeon: Prefer kcalloc over open coded arithmetic
+Date: Sat,  4 Sep 2021 17:41:06 +0200
+Message-Id: <20210904154106.9550-1-len.baker@gmx.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:g78TReDYEcEf342gsWjMpYj895XYqOvDT7IgDccIGAZ3cG9CKY8
+ J3OarlOX08+QjZpPDCsJ2h8Vep7hMZ1g8Wm9xhuAJ4V3LXZgvIGYtaUrr6UFJ1NQzxB5YLw
+ BXe0HeK8+mOHBYfy6tEcsqcAhRk2cuRNxaC/CtUd76HFciMzDGwEzQyzUNFlisPxjGdVR2t
+ Xr3LTk6QlVSnKVxpnPiEw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eGRB9xg1zms=:85yEomvdk+F7/JkBp56Nji
+ YzEcCkNvC3r6w2zSxUHtid69XdzZZbPxxsfA6tDlgGYQr/0tP9FJZMMn4n+Mxq6x19QG+ttj2
+ qYAxIwh5LDvOuz4Cci6GqATzYKS6A6EFYsOlZmU4vM85IHOXTnL49qLRc0e/YN+EuLfcGJGvb
+ XASMgKJASIhhxbWuk9RkQ9v7Y49A8C8+ElPkO1G0oQxE6UJ9nAMsyx99/s3oG+tqgDpDnEwPa
+ gXhpONB7OeY5VIM2okfL7VOOGU2A6y05GvufPYHB4YHrjVpvjUxvq2BQxROy0D+xOSE7G9JaW
+ /tiZF4Bn3HXxiHMOBrh8UcE2j2A7u5ETRE8fOhP67lD4AyV6rEMCTSu4ic0DPejDbwik3PRPt
+ 8D7JLtp5NWszZ8MgxtXykz0jjqUbe/Ey645HHfBH0S+PKJBeTLF0pZid/CaVflv2mAOz6KaYR
+ lakhzO8nh691l6kJTgIPyq3zlKBS2U7F3zhAjTvQDKt7S/gtRqMZ07o3GJ0VkidAnkZFVcCO9
+ KTOsJd4ZR2QLGoS0U5eJ8BETYlyTs9QZEZb23MhP8DmkXsMJl3jpOI6ivedrhWCHFVZRHC95S
+ /zm37SRWCZ7H+FAtHP4rqg5oG+wvPj0VTxd/rVhag7VqnJw5+wfLmWlImCHz62oEmGBzurcCT
+ 512U8fUkfN6PgHrhcWAiJZoG94uhN21v4alOcjYM13gn4fT6PHshd7kbxUf/5rVSvCCjoIeiP
+ /8gC9zvaLvI+y3RXuH38Jo/i3HqWxr51Q2SDt7cRk1FGQCxsa1Fr5BATHg0ttg48EeuMZqWBm
+ YlkXNwOc0v5vRWA9k6hU6FttIaz468AOh6MROW4wgUOqZ70O8gxYC2cP8oK4zUUUxeMM1ebm7
+ TGmnywDLShYqgi2UqIsSc/fJyCumSFiN9yevBoiw4PJMmGeSwUKWIoGHbeuykqQO8cc4hik7R
+ YLe8oghDabqcT0jCAaQ/y4N5Pcya8HoIi4HyZ9vmuBS92hhHr/UGK4Ke8FyjkUZtMttyWRqwo
+ AhOmvGvRMO9X1x0KOhmsMfFjKxHBNoPZ1lBR1kYxYGE3PhRisZwbArzufpl3AUTr+++Y6CIGA
+ o8dnWf3NH1KYvP/xSTcTsPZEd+nqQGb60sRTs0zTpILFnIIwa6TUSt+rg==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,28 +74,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix brace coding-style error for function defination
+As noted in the "Deprecated Interfaces, Language Features, Attributes,
+and Conventions" documentation [1], size calculations (especially
+multiplication) should not be performed in memory allocator (or similar)
+function arguments due to the risk of them overflowing. This could lead
+to values wrapping around and a smaller allocation being made than the
+caller was expecting. Using those allocations could lead to linear
+overflows of heap memory and other misbehaviors.
 
-Signed-off-by: Srivathsa Dara <srivathsa729.8@gmail.com>
-drivers/video/fbdev/udlfb.c:82
----
- drivers/video/fbdev/udlfb.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+So, refactor the code a bit to use the purpose specific kcalloc()
+function instead of the calculated size argument in the kzalloc()
+function.
 
-diff --git a/drivers/video/fbdev/udlfb.c b/drivers/video/fbdev/udlfb.c
-index b9cdd02c1000..25643265947f 100644
---- a/drivers/video/fbdev/udlfb.c
-+++ b/drivers/video/fbdev/udlfb.c
-@@ -1457,7 +1457,8 @@ static ssize_t metrics_cpu_kcycles_used_show(struct device *fbdev,
- static ssize_t edid_show(
- 			struct file *filp,
- 			struct kobject *kobj, struct bin_attribute *a,
--			 char *buf, loff_t off, size_t count) {
-+			 char *buf, loff_t off, size_t count)
-+{
- 	struct device *fbdev = kobj_to_dev(kobj);
- 	struct fb_info *fb_info = dev_get_drvdata(fbdev);
- 	struct dlfb_data *dlfb = fb_info->par;
--- 
+[1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#open-cod=
+ed-arithmetic-in-allocator-arguments
+
+Signed-off-by: Len Baker <len.baker@gmx.com>
+=2D--
+ drivers/gpu/drm/radeon/r600_dpm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/radeon/r600_dpm.c b/drivers/gpu/drm/radeon/r6=
+00_dpm.c
+index 35b77c944701..fd4226b99862 100644
+=2D-- a/drivers/gpu/drm/radeon/r600_dpm.c
++++ b/drivers/gpu/drm/radeon/r600_dpm.c
+@@ -820,12 +820,12 @@ union fan_info {
+ static int r600_parse_clk_voltage_dep_table(struct radeon_clock_voltage_d=
+ependency_table *radeon_table,
+ 					    ATOM_PPLIB_Clock_Voltage_Dependency_Table *atom_table)
+ {
+-	u32 size =3D atom_table->ucNumEntries *
+-		sizeof(struct radeon_clock_voltage_dependency_entry);
+ 	int i;
+ 	ATOM_PPLIB_Clock_Voltage_Dependency_Record *entry;
+
+-	radeon_table->entries =3D kzalloc(size, GFP_KERNEL);
++	radeon_table->entries =3D kcalloc(atom_table->ucNumEntries,
++					sizeof(struct radeon_clock_voltage_dependency_entry),
++					GFP_KERNEL);
+ 	if (!radeon_table->entries)
+ 		return -ENOMEM;
+
+=2D-
 2.25.1
 
