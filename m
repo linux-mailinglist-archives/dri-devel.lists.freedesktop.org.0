@@ -1,106 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0D1E40113F
-	for <lists+dri-devel@lfdr.de>; Sun,  5 Sep 2021 20:55:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5AA8401167
+	for <lists+dri-devel@lfdr.de>; Sun,  5 Sep 2021 21:45:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7F889B3C;
-	Sun,  5 Sep 2021 18:55:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2566589A74;
+	Sun,  5 Sep 2021 19:45:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6D7F89B3C
- for <dri-devel@lists.freedesktop.org>; Sun,  5 Sep 2021 18:55:18 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id c7e7c54e-0e7a-11ec-9416-0050568cd888;
- Sun, 05 Sep 2021 18:55:04 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id A14BA194B5D;
- Sun,  5 Sep 2021 20:54:57 +0200 (CEST)
-Date: Sun, 5 Sep 2021 20:55:04 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Rob Herring <robh+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-arm-msm@vger.kernel.org,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- dri-devel@lists.freedesktop.org, Al Viro <viro@zeniv.linux.org.uk>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andreas Kemnade <andreas@kemnade.info>,
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
- Catalin Marinas <catalin.marinas@arm.com>, Chen-Yu Tsai <wens@csie.org>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Corentin Labbe <clabbe@baylibre.com>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Dmitry Osipenko <digetx@gmail.com>,
- Emil Velikov <emil.velikov@collabora.com>,
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Eugen Hristev <eugen.hristev@microchip.com>,
- Fabio Estevam <festevam@gmail.com>,
- Fabrice Gasnier <fabrice.gasnier@st.com>,
- Florian Fainelli <f.fainelli@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Grygorii Strashko <grygorii.strashko@ti.com>,
- Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>,
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Jonathan Hunter <jonathanh@nvidia.com>, Kees Cook <keescook@chromium.org>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Magnus Damm <magnus.damm@gmail.com>,
- Manivannan Sadhasivam <mani@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Martin =?iso-8859-1?Q?J=FCcker?= <martin.juecker@gmail.com>,
- Michael Walle <michael@walle.cc>, NXP Linux Team <linux-imx@nxp.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Nishanth Menon <nm@ti.com>, Olivier Moysan <olivier.moysan@st.com>,
- Olof Johansson <olof@lixom.net>, Otavio Salvador <otavio@ossystems.com.br>,
- Paul Cercueil <paul@crapouillou.net>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Razvan Stefanescu <razvan.stefanescu@microchip.com>,
- Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>,
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
- Stefan Wahren <stefan.wahren@i2se.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Tony Lindgren <tony@atomide.com>,
- Tudor Ambarus <tudor.ambarus@microchip.com>, Vinod Koul <vkoul@kernel.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Vladimir Zapolskiy <vz@mleia.com>, Will Deacon <will@kernel.org>,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-tegra@vger.kernel.org,
- =?utf-8?Q?=C5=81ukasz?= Stelmach <l.stelmach@samsung.com>
-Subject: Re: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-Message-ID: <YTUSiHiCgihz1AcO@ravnborg.org>
-References: <20210901201934.1084250-1-dianders@chromium.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 35FDB89A74
+ for <dri-devel@lists.freedesktop.org>; Sun,  5 Sep 2021 19:45:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630871123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sAaAb7dOM6Vm6PcfEq+fUdCLui4qbh5QAcklMjh9SK4=;
+ b=cgD+7/F2XDd8e2nHr/A3CQ12TuSlGKajQ55CN6jYdAHgvBjJNG/WKBkTmifEsGpnc0DPUx
+ JjBpmxQT/aMFJEfy81pQ8klKzJZuODy1wNxcRPTyF+Akg2uZ8b87wZ/7Jy+BxhB4tJiBPf
+ NmIn2PO9ASK/M1KOaR+i5ja82QyWlSA=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-474-SDfI9v8EMYuoteJhgsS_kg-1; Sun, 05 Sep 2021 15:45:20 -0400
+X-MC-Unique: SDfI9v8EMYuoteJhgsS_kg-1
+Received: by mail-ot1-f72.google.com with SMTP id
+ w35-20020a056830412300b0051bae474534so3234950ott.21
+ for <dri-devel@lists.freedesktop.org>; Sun, 05 Sep 2021 12:45:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:content-transfer-encoding;
+ bh=sAaAb7dOM6Vm6PcfEq+fUdCLui4qbh5QAcklMjh9SK4=;
+ b=jVt9TlNCxTmXo2LzhRrLuVjvsGBEnvuvtL77cVK3/E6+prpbseA1sD3qqZYKqNJJwm
+ 8nFzf/OxTqnLmNm2b7b7qj2iE+FDjmeb1oHgt2adxY2oATIjMTU6XGyWQgRu/EMDZv3u
+ 8APX3cvomFUCyl7UTPKyj7hSarbQk4pgCVoMoSEAdjyPvtDqxIXb2UbO7uvnNLdDhzqX
+ n/K/szRVSCU/9vHe+MIfdXnZDtLrRxvIkbTi15EnvlHQgrsvH4yegtDt+RJDZNmZckG0
+ dIjekIWBb81sCx/9tGj/JwDQo+61WiYYQYbZDCy4Q8hCbi0vAZqD7tDIFFamWRKXoN/c
+ V2Ng==
+X-Gm-Message-State: AOAM530IZeyNJ26vPDj1pd/jm/1t0TztdCMqYFjPJrss+JYWeoj+nPbh
+ 8/h/dFOHEjaOU83ZHqts6DS/Jc7i6XiUz66hpWz2ept3u8ld6lBgCNnOq27WB3pw/pU6DfltOSo
+ eyRbc/5w8s2iAGrHI8sq4/gyUfAMpB1Zja/ZR+rdRb9HD
+X-Received: by 2002:a05:6808:1787:: with SMTP id
+ bg7mr6461144oib.39.1630871119230; 
+ Sun, 05 Sep 2021 12:45:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzYo3qfPSqFAHmdEmKu00zUgDANFHg9vGMDoShOhmC5JW7RDCe6X+JxWsdQcs+vFRzBIBVl1+uuzXflIMU4VV4=
+X-Received: by 2002:a05:6808:1787:: with SMTP id
+ bg7mr6461132oib.39.1630871118923; 
+ Sun, 05 Sep 2021 12:45:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210901201934.1084250-1-dianders@chromium.org>
+References: <CAEbev+p-Q=RUBeVkRRAhMpkGJYxXECbyCh2Cuj3QA4Te=0xHLg@mail.gmail.com>
+In-Reply-To: <CAEbev+p-Q=RUBeVkRRAhMpkGJYxXECbyCh2Cuj3QA4Te=0xHLg@mail.gmail.com>
+From: David Airlie <airlied@redhat.com>
+Date: Mon, 6 Sep 2021 05:45:07 +1000
+Message-ID: <CAMwc25rjtyqLXVcrr88hikuHvwHThnMKJxbtqUGU0_jP80Dt2w@mail.gmail.com>
+Subject: Re: Kernel 5.14.0 - invalid opcode: 0000 [#1] SMP NOPTI
+To: Andrew Falcon <bluestang2006@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "Deucher, Alex" <alexdeucher@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=airlied@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,108 +82,138 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas,
+cc'ing lists/people
 
-On Wed, Sep 01, 2021 at 01:19:18PM -0700, Douglas Anderson wrote:
-> The goal of this patch series is to move away from hardcoding exact
-> eDP panels in device tree files. As discussed in the various patches
-> in this series (I'm not repeating everything here), most eDP panels
-> are 99% probable and we can get that last 1% by allowing two "power
-> up" delays to be specified in the device tree file and then using the
-> panel ID (found in the EDID) to look up additional power sequencing
-> delays for the panel.
-> 
-> This patch series is the logical contiunation of a previous patch
-> series where I proposed solving this problem by adding a
-> board-specific compatible string [1]. In the discussion that followed
-> it sounded like people were open to something like the solution
-> proposed in this new series.
-> 
-> In version 2 I got rid of the idea that we could have a "fallback"
-> compatible string that we'd use if we didn't recognize the ID in the
-> EDID. This simplifies the bindings a lot and the implementation
-> somewhat. As a result of not having a "fallback", though, I'm not
-> confident in transitioning any existing boards over to this since
-> we'll have to fallback to very conservative timings if we don't
-> recognize the ID from the EDID and I can't guarantee that I've seen
-> every panel that might have shipped on an existing product. The plan
-> is to use "edp-panel" only on new boards or new revisions of old
-> boards where we can guarantee that every EDID that ships out of the
-> factory has an ID in the table.
-> 
-> Version 3 of this series now splits out all eDP panels to their own
-> driver and adds the generic eDP panel support to this new driver. I
-> believe this is what Sam was looking for [2].
-> 
-> [1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
-> [2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
-> 
-> Changes in v3:
-> - Decode hex product ID w/ same endianness as everyone else.
-> - ("Reorder logicpd_type_28...") patch new for v3.
-> - Split eDP panels patch new for v3.
-> - Move wayward panels patch new for v3.
-> - ("Non-eDP panels don't need "HPD" handling") new for v3.
-> - Split the delay structure out patch just on eDP now.
-> - ("Better describe eDP panel delays") new for v3.
-> - Fix "prepare_to_enable" patch new for v3.
-> - ("Don't re-read the EDID every time") moved to eDP only patch.
-> - Generic "edp-panel" handled by the eDP panel driver now.
-> - Change init order to we power at the end.
-> - Adjust endianness of product ID.
-> - Fallback to conservative delays if panel not recognized.
-> - Add Sharp LQ116M1JW10 to table.
-> - Add AUO B116XAN06.1 to table.
-> - Rename delays more generically so they can be reused.
-> 
-> Changes in v2:
-> - No longer allow fallback to panel-simple.
-> - Add "-ms" suffix to delays.
-> - Don't support a "fallback" panel. Probed panels must be probed.
-> - Not based on patch to copy "desc"--just allocate for probed panels.
-> - Add "-ms" suffix to delays.
-> 
-> Douglas Anderson (16):
->   dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
->   drm/edid: Break out reading block 0 of the EDID
->   drm/edid: Allow the querying/working with the panel ID from the EDID
->   drm/panel-simple: Reorder logicpd_type_28 / mitsubishi_aa070mc01
->   drm/panel-simple-edp: Split eDP panels out of panel-simple
->   ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
->   arm64: defconfig: Everyone who had PANEL_SIMPLE now gets
->     PANEL_SIMPLE_EDP
->   MIPS: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
->   drm/panel-simple-edp: Move some wayward panels to the eDP driver
->   drm/panel-simple: Non-eDP panels don't need "HPD" handling
->   drm/panel-simple-edp: Split the delay structure out
->   drm/panel-simple-edp: Better describe eDP panel delays
->   drm/panel-simple-edp: hpd_reliable shouldn't be subtraced from
->     hpd_absent
->   drm/panel-simple-edp: Fix "prepare_to_enable" if panel doesn't handle
->     HPD
->   drm/panel-simple-edp: Don't re-read the EDID every time we power off
->     the panel
->   drm/panel-simple-edp: Implement generic "edp-panel"s probed by EDID
+On Sun, Sep 5, 2021 at 11:50 AM Andrew Falcon <bluestang2006@gmail.com> wro=
+te:
+>
+> Hello,
+>
+> I am encountering a kernel panic with the error in the subject line using=
+ kernel 5.14.0 (final). Kernel 5.14.0-rc7 works without issue for me so loo=
+king back at the last amdgpu commits for 5.14.0 (final) not sure which one =
+is at fault and causing the panic - https://cgit.freedesktop.org/drm/drm/ta=
+g/?h=3Ddrm-fixes-2021-08-27
+>
+> I filed a kernel bug here - https://bugs.launchpad.net/ubuntu/+source/lin=
+ux/+bug/1942684 with a full log attached in the report. I am not sure if a =
+separate bug report is needed in drm kernel? I'm hoping I can get some advi=
+ce on who needs to be aware of this bug or how to bring it to the right dev=
+eloper's attention...
+>
+> Below is the boot log and the specific error message:
+>
+> Sep 04 09:07:39 bluestang-pc kernel: [drm] initializing kernel modesettin=
+g (SIENNA_CICHLID 0x1002:0x73BF 0x1849:0x5201 0xC1).
+> Sep 04 09:07:39 bluestang-pc kernel: amdgpu 0000:2f:00.0: amdgpu: Trusted=
+ Memory Zone (TMZ) feature not supported
+> Sep 04 09:07:39 bluestang-pc kernel: [drm] register mmio base: 0xFC900000
+> Sep 04 09:07:39 bluestang-pc kernel: [drm] register mmio size: 1048576
+> Sep 04 09:07:39 bluestang-pc kernel: invalid opcode: 0000 [#1] SMP NOPTI
+> Sep 04 09:07:39 bluestang-pc kernel: CPU: 1 PID: 533 Comm: systemd-udevd =
+Not tainted 5.14.1-051401-generic #202109030936
+> Sep 04 09:07:39 bluestang-pc kernel: Hardware name: Micro-Star Internatio=
+nal Co., Ltd. MS-7C84/MAG X570 TOMAHAWK WIFI (MS-7C84), BIOS 1.81 08/05/202=
+1
+> Sep 04 09:07:39 bluestang-pc kernel: RIP: 0010:amdgpu_discovery_reg_base_=
+init+0x225/0x260 [amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel: Code: 0f 85 d4 fe ff ff 48 83 45 c0 =
+01 48 8b 45 c0 39 45 c8 0f 8f 55 fe ff ff 8b 45 b4 48 8d 65 d8 5b 41 5c 41 =
+5d 41 5e 41 5f 5d c3 <0f> 0b 48 c7 c7 e4 5a 61 c1 e8 9d 79 10 ff eb de 41 8=
+9 d0 48 c7 c7
+> Sep 04 09:07:39 bluestang-pc kernel: RSP: 0018:ffffb883c1907928 EFLAGS: 0=
+0010202
+> Sep 04 09:07:39 bluestang-pc kernel: RAX: 0000000000000008 RBX: ffff99558=
+b89f128 RCX: 0000000000000006
+> Sep 04 09:07:39 bluestang-pc kernel: RDX: ffffffffc1615b69 RSI: ffffffffc=
+15c0428 RDI: 0000000000000000
+> Sep 04 09:07:39 bluestang-pc kernel: RBP: ffffb883c1907978 R08: 000000000=
+0000008 R09: 000000000000000b
+> Sep 04 09:07:39 bluestang-pc kernel: R10: ffff99558b89f120 R11: 000000000=
+0000000 R12: ffff995587c00000
+> Sep 04 09:07:39 bluestang-pc kernel: R13: 0000000000000019 R14: 000000000=
+0000019 R15: ffff99558b89f120
+> Sep 04 09:07:39 bluestang-pc kernel: FS:  00007f3d5b7138c0(0000) GS:ffff9=
+95c7ea40000(0000) knlGS:0000000000000000
+> Sep 04 09:07:39 bluestang-pc kernel: CS:  0010 DS: 0000 ES: 0000 CR0: 000=
+0000080050033
+> Sep 04 09:07:39 bluestang-pc kernel: CR2: 00007fc505b6c420 CR3: 000000010=
+6d90000 CR4: 0000000000750ee0
+> Sep 04 09:07:39 bluestang-pc kernel: PKRU: 55555554
+> Sep 04 09:07:39 bluestang-pc kernel: Call Trace:
+> Sep 04 09:07:39 bluestang-pc kernel:  nv_set_ip_blocks+0x8e/0xab0 [amdgpu=
+]
+> Sep 04 09:07:39 bluestang-pc kernel:  amdgpu_device_ip_early_init+0x2b1/0=
+x47f [amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel:  ? amdgpu_device_get_job_timeout_set=
+tings+0x90/0x1cc [amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel:  amdgpu_device_init.cold+0xc9/0x6d1 =
+[amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel:  amdgpu_driver_load_kms+0x6d/0x310 [=
+amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel:  amdgpu_pci_probe+0x11b/0x1a0 [amdgp=
+u]
+> Sep 04 09:07:39 bluestang-pc kernel:  local_pci_probe+0x48/0x80
+> Sep 04 09:07:39 bluestang-pc kernel:  pci_device_probe+0x105/0x1d0
+> Sep 04 09:07:39 bluestang-pc kernel:  really_probe+0x1fe/0x400
+> Sep 04 09:07:39 bluestang-pc kernel:  __driver_probe_device+0x109/0x180
+> Sep 04 09:07:39 bluestang-pc kernel:  driver_probe_device+0x23/0x90
+> Sep 04 09:07:39 bluestang-pc kernel:  __driver_attach+0xac/0x1b0
+> Sep 04 09:07:39 bluestang-pc kernel:  ? __device_attach_driver+0xe0/0xe0
+> Sep 04 09:07:39 bluestang-pc kernel:  bus_for_each_dev+0x7e/0xc0
+> Sep 04 09:07:39 bluestang-pc kernel:  driver_attach+0x1e/0x20
+> Sep 04 09:07:39 bluestang-pc kernel:  bus_add_driver+0x135/0x1f0
+> Sep 04 09:07:39 bluestang-pc kernel:  driver_register+0x95/0xf0
+> Sep 04 09:07:39 bluestang-pc kernel:  __pci_register_driver+0x68/0x70
+> Sep 04 09:07:39 bluestang-pc kernel:  amdgpu_init+0x7c/0x1000 [amdgpu]
+> Sep 04 09:07:39 bluestang-pc kernel:  ? 0xffffffffc0e95000
+> Sep 04 09:07:39 bluestang-pc kernel:  do_one_initcall+0x48/0x1d0
+> Sep 04 09:07:39 bluestang-pc kernel:  ? kmem_cache_alloc_trace+0x159/0x2c=
+0
+> Sep 04 09:07:39 bluestang-pc kernel:  do_init_module+0x62/0x290
+> Sep 04 09:07:39 bluestang-pc kernel:  load_module+0xaa8/0xb40
+> Sep 04 09:07:39 bluestang-pc kernel:  __do_sys_finit_module+0xbf/0x120
+> Sep 04 09:07:39 bluestang-pc kernel:  __x64_sys_finit_module+0x18/0x20
+> Sep 04 09:07:39 bluestang-pc kernel:  do_syscall_64+0x5c/0xc0
+> Sep 04 09:07:39 bluestang-pc kernel:  ? exit_to_user_mode_prepare+0x37/0x=
+b0
+> Sep 04 09:07:39 bluestang-pc kernel:  ? syscall_exit_to_user_mode+0x27/0x=
+50
+> Sep 04 09:07:39 bluestang-pc kernel:  ? __x64_sys_newfstatat+0x1c/0x20
+> Sep 04 09:07:39 bluestang-pc kernel:  ? do_syscall_64+0x69/0xc0
+> Sep 04 09:07:39 bluestang-pc kernel:  ? do_syscall_64+0x69/0xc0
+> Sep 04 09:07:39 bluestang-pc kernel:  entry_SYSCALL_64_after_hwframe+0x44=
+/0xae
+> Sep 04 09:07:39 bluestang-pc kernel: RIP: 0033:0x7f3d5bbcbf6d
+> Sep 04 09:07:39 bluestang-pc kernel: Code: 28 0d 00 0f 05 eb a9 66 0f 1f =
+44 00 00 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 =
+4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d cb de 0c 00 f7 d=
+8 64 89 01 48
+> Sep 04 09:07:39 bluestang-pc kernel: RSP: 002b:00007fffa53a9048 EFLAGS: 0=
+0000246 ORIG_RAX: 0000000000000139
+> Sep 04 09:07:39 bluestang-pc kernel: RAX: ffffffffffffffda RBX: 000055866=
+fe87bf0 RCX: 00007f3d5bbcbf6d
+> Sep 04 09:07:39 bluestang-pc kernel: RDX: 0000000000000000 RSI: 00007f3d5=
+bd71e2d RDI: 000000000000001a
+> Sep 04 09:07:39 bluestang-pc kernel: RBP: 0000000000020000 R08: 000000000=
+0000000 R09: 000055866e61889d
+> Sep 04 09:07:39 bluestang-pc kernel: R10: 000000000000001a R11: 000000000=
+0000246 R12: 00007f3d5bd71e2d
+> Sep 04 09:07:39 bluestang-pc kernel: R13: 0000000000000000 R14: 000055866=
+fd4d9e0 R15: 000055866fe87bf0
+> Sep 04 09:07:39 bluestang-pc kernel: Modules linked in: snd_hda_codec_hdm=
+i snd_hda_intel snd_intel_dspcfg snd_intel_sdw_acpi snd_hda_codec iwlmvm(+)=
+ snd_hda_core amd64_edac(-) snd_hwdep amdgpu(+) edac_mce_amd fjes(-) snd_pc=
+m mac80211 snd_seq_midi snd_seq_midi_event kvm_amd iommu_v2 libarc4 gpu_sch=
+ed snd_rawmidi drm_ttm_helper kvm btusb ttm btrtl iwlwifi snd_seq btbcm drm=
+_kms_helper btintel crct10dif_pclmul ghash_clmulni_intel snd_seq_device blu=
+etooth aesni_intel cec snd_timer rc_core ucsi_ccg i2c_algo_bit snd crypto_s=
+imd typec_ucsi fb_sys_fops cryptd syscopyarea joydev ecdh_generic sysfillre=
+ct rapl wmi_bmof typec ecc efi_pstore sysimgblt cfg80211 soundcore k10temp =
+ccp mac_hid sch_fq_codel msr parport_pc ppdev lp parport drm ip_tables x_ta=
+bles autofs4 hid_generic usbhid hid xhci_pci ahci r8169 nvme crc32_pclmul i=
+2c_designware_pci xhci_pci_renesas i2c_piix4 libahci realtek nvme_core wmi
+> Sep 04 09:07:39 bluestang-pc kernel: ---[ end trace a2f802476d316123 ]---
+>
+>
 
-Thanks for looking into this. I really like the outcome.
-We have panel-simple that now (mostly) handle simple panels,
-and thus all the eDP functionality is in a separate driver.
-
-I have provided a few nits.
-My only take on this is the naming - as we do not want to confuse
-panel-simple and panel-edp I strongly suggest renaming the driver to
-panel-edp.
-And then rename the corresponding Kconfig entry.
-
-With these few changes all patches are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-For bisectability I suggest to move the defconfig patches up before you
-introduce the new Kconfig symbol. Or maybe they will be added via
-another tree and then this is not possible to control
-
-I assume you will apply the patches yourself.
-
-Thanks again!
-
-	Sam
