@@ -2,122 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 588BE401993
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 12:16:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A28B04019AB
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 12:20:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB282897DC;
-	Mon,  6 Sep 2021 10:16:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7980089BA9;
+	Mon,  6 Sep 2021 10:20:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com
- (mail-dm3nam07on2068.outbound.protection.outlook.com [40.107.95.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8BBF8897DC
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 10:16:07 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N7n/epXnnh9IMQCjNY7JURIyFBLUBq9ehMPGKxNKa68ht4fC2mXFXcq1TsUHQtE+s4ZN556MBBZUiymdcFsKa3nFlaq3f62KrpjbEa9pljXwkctHgR8EDU7ypwrPQZM/8PXeKGR7/gsoNo9WPxfnN5NjlKWYdm0c0Ey+vKxsT888RDo+PROL4xmmCA7g8p6XmqXQgyUnW7Sg3BoODqTz+Kt+5YQmI/u2PBXUo9ZDM5N8Q6lLirCzOrPyRAhWbN0FETPjqv9aDjfhKUIbhAIGcdMCW4VNO89GUG7v4VQYdfocW26dbH5BEZe11xNyqIC7Z/u5y8CCQArXF0am38TVIg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=SyyiWDUz42mZNxMWFzthn2LGDNgZijgFRzmJUgi4PAw=;
- b=Uyghtr+TwAn8q89HSZlX/F1gVYkoheIma+GA2mu8UiLQ7A2RcoMZ3QQJq8Hgm9k872vjgx7S84IoZDMDPscz+/pqO8CAqotSlF6WRjh0vtYT+Ff/fQwL+d+S2yhIV///4pHAElBHgzURWXvbiRq12b+KLYHCpOyIh94BVXrEn5iIhmR1kDEv/bcUDK+2XtgvWbM6wB2uHwfQKjwzam1l/Srk3JAfj7G3CSqeRUSZ1YXEmaxo9ZS6hcxV5lCJK0F+OMH63FPCP8fi2yWwYtbdsnF490WDWB2OCPn+WcX7oWmj2+Xsf9No/6M6uqDXzTwxAfMwnGzLKCQQQ6yNRjsCKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SyyiWDUz42mZNxMWFzthn2LGDNgZijgFRzmJUgi4PAw=;
- b=3mzoWy74GyYkrXQ6AC7Qw7f+OFy/jFtMOEQMrqriENeNWlP9qfeTp/4YuaIZYBJ0MKEya/GqDvnTg+oGUZKFEY9m+/mWx5FHmDBdBxk9RaejjtDYVhiMwdkT9rIHxtuNRmCVhKD27djuIvY5kzNL3mIbkeu7pOP3h1q/W8FAkKE=
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com (2603:10b6:5:394::9) by
- DM4PR12MB5279.namprd12.prod.outlook.com (2603:10b6:5:39f::8) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19; Mon, 6 Sep 2021 10:16:06 +0000
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca]) by DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca%9]) with mapi id 15.20.4478.025; Mon, 6 Sep 2021
- 10:16:06 +0000
-From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-To: =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <ckoenig.leichtzumerken@gmail.com>
-CC: "Pan, Xinhui" <Xinhui.Pan@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>, "Deucher,
- Alexander" <Alexander.Deucher@amd.com>, "Koenig, Christian"
- <Christian.Koenig@amd.com>, "chenli@uniontech.com" <chenli@uniontech.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v2 0/2] Fix a hung during memory pressure test
-Thread-Topic: [PATCH v2 0/2] Fix a hung during memory pressure test
-Thread-Index: AQHXorxBcHHdecwDG0y2uB1zGeecvauWtuAAgAAUCgA=
-Date: Mon, 6 Sep 2021 10:16:05 +0000
-Message-ID: <0B48D156-01F0-4D17-B7F9-59EEECAE31B1@amd.com>
-References: <20210906011210.80327-1-xinhui.pan@amd.com>
- <6e225a21-aa39-d196-9d11-82705599445b@gmail.com>
-In-Reply-To: <6e225a21-aa39-d196-9d11-82705599445b@gmail.com>
-Accept-Language: zh-CN, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3654.120.0.1.13)
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: bd040dbf-7bf2-4835-1359-08d9711f569b
-x-ms-traffictypediagnostic: DM4PR12MB5279:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR12MB52794FC25F946672D2629D6887D29@DM4PR12MB5279.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:7219;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IGY9uQvCuoCb6hWWF8kLiWi+8K1QP9rn5vV0eGYulO3Gbvu5kiEM+sOm++j/P/Fa3mtSVsFbfXR+wqHjI94zcY1HRdlOLJTm8KR9liTvphgwN1GYX8cO6SXtp2pYPjIWUUFqJgttgLnmGz8mp5+maGEsGu0VOXvM9HkGlqtdfEdxWZXZCvWniY0e+8Zud07SgX5vH7zwoabhySydZLmqFf4ppe2vAjdWIx7kkiZ1Kv9ok4aH4dU7c2JgRrJoMvMp0ZezKK4hYSs25LICGSLd6Z/y6Ik2nBZs09ZVt2Ugi4hzKbet9J3yFsnIPC3wz8RKg/MRWZFb0LXd2Wy5dI+JPcCu1CMUt8C7iqW5Sf6dU3KeH0L7Hse4XdCobZAuYsdbudpRQmq1SFppILH7fLeq8xeSssMHXgafA5QGKnNjvgwmfP6MU++eTuhYT0AOO6FuVC4vITOuhLS9HOXY38ElJKhYox4lUqO5c+dr1Sf35uW6upc3fqorBMBj0Rid6XVSgxkIH9nExRTVGr9P7hRwwANUXdWYS4LFjENKMheWjyhagNNWDp7c2CNouy28QcfsdJyvD/QblpItX9EM43VDRF4DPWjGaZ9xikpFhiC5kDI0kQRvasTW50ZxMuI1XiHbFLLXVgpoUpz8B/8R+lXtIMhjhDAflqjmSN+3ry1xGlmRgNz7oVq/yEPo13+dOg8sO8nZJUVouSUhazBV1E6PxTzHqcnvjSRlEB2ozx3I/cQyZ1C39vnS6oUVTF9DSrXy
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39860400002)(376002)(396003)(136003)(366004)(122000001)(33656002)(66574015)(66446008)(6486002)(54906003)(66946007)(76116006)(6506007)(2616005)(2906002)(36756003)(71200400001)(64756008)(66556008)(66476007)(5660300002)(38100700002)(8936002)(26005)(91956017)(316002)(38070700005)(186003)(8676002)(6512007)(6916009)(478600001)(86362001)(83380400001)(4326008)(45980500001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?MEt5NHRLeHRub1NLY2NON05WSHAvaEFSa2t1MGJQZkhUSGxiMnlzOFV3dGNt?=
- =?utf-8?B?Z0RWRWJLcks4VE01QkNncDk1RTlGdTlMT2d0bldjQ0kzUHlQd0NoU09vNk4w?=
- =?utf-8?B?SzRKSFZTZ3VaQ3Q2cElYVWJUVnRyQzdXL21tNEhJYXV5aWIxNWNHNGcvbXZl?=
- =?utf-8?B?N1p6ckd0WE04dy9Ya0x5Z3VBTnFZV2pyb2E5NU5SS2xDb3IvbXFIb3JibjM1?=
- =?utf-8?B?ZTYxeTdodzNrL3MzTDJHNjFYUlFJMEhaUmFvaWFDZS9xVTJIcy9aZmY5L3BK?=
- =?utf-8?B?a2ZsYXgwbytockdaY25sSWwvRE5SYllIUURKTjY2aU1hUldlSVVuWnVDVjNK?=
- =?utf-8?B?SHZTRXZSbFBwcnhIeEF1TUUyTzZXN3ZBTFJNNjhMaEd4RFE4TDVaWnh1UlNR?=
- =?utf-8?B?NXFrbWZWWTF5cWlxV2lEWVFsUTUya2FxaGh5bFBnNHRDMU51ZmlVLzRORmlD?=
- =?utf-8?B?U1R5VWN3ZVdnUFM1Mm8va2lHVFZ0by9ObTN1c2prNmRHOXkraDY3MFZBWFJE?=
- =?utf-8?B?OTQrSEhqRzhQeHNIdDJPVmxLYkRuYlFBeXB1KzNqdlJmOCtlNEpyemZ2OUNa?=
- =?utf-8?B?MStiWlNJTU5kZCtSYVI2WVozcTNlNHpxbzNKQVl0Sm96UVpRMFdCa2JUcUdx?=
- =?utf-8?B?NDArT0dPMGJPMVFISTJVR0FVYlVmVUIzUTRNV2pxOGtweU1Rbk5TTHRFZ0Jj?=
- =?utf-8?B?SSt3WFBZN0s5WFltZXIwMTN0V3YrRUwxNHpqbVMwemg2WENCZG9HMUl3TElp?=
- =?utf-8?B?T2c3OWFIVEw2MjQ4RUZRNXhRRGY4cm5EUVIwYmhXQldaL2pod2Y4QU96cU83?=
- =?utf-8?B?Ukl2YmZydTNuQXkwclhBZlQ0bEM0QnpJcDVZUGVPUktieGZxOFFOUTU3bk0y?=
- =?utf-8?B?a3ZpNUhHUEUyR041UzBSMWEreTJ0MWpnTk4rNUpibzN4Q0s4TnF1MXU5K1dh?=
- =?utf-8?B?dEROTTBxZkRHeERwUjhlYmF3dzlrcVllZEVkR2NzWCtFQ0VjaHVhOGVGOXhy?=
- =?utf-8?B?M1hkN3JVcFVGS3lSK0o3T0o1RkphVlpwaEtYUk9oRk5wK0p6MXNOcENTMFVW?=
- =?utf-8?B?emtTMVRFczdNcGlSYjgwM2pOZ254M2JkVThQRTY2YnMrUXBDS3pPK3hYSFZ3?=
- =?utf-8?B?VUtQUHdBenpWSUowTk5iTUFhaTViWkgzUEt1Smk5SndBRE9zRmY1TytvRTRs?=
- =?utf-8?B?R2xab2UvYlc4eWUrS1BDdWNJL3lGTlBoeHh3MUszUkh1Y3B3Q3kzR3NpOUhh?=
- =?utf-8?B?QTkwcTU5K3hsdWFYZDhGSklQN0JPUW1GNFJ4Wjl2UXhMMXV6WFBJOHY0bkJH?=
- =?utf-8?B?RkNsR05GOVROMlZmNU5rb2tZQ3NFRm01ZHo3ZjVVZFVDcU4wQ2NLaFRVNU9P?=
- =?utf-8?B?cUg0ZXE0Uzd2SDhreUMwc0Q4bnlpaXRkZnRSWDBxNXJzNTZiTmt2ZU5OZkxz?=
- =?utf-8?B?eUQzNzNlOGtnU3JmcnpERVg2Tzd1ZWpITDNYYmE4TlU2cXNTeC9qNS8xTDha?=
- =?utf-8?B?eHhONnB6TDEwU0djWGpTZ3BKT2wrN1B1dHF4cVZRSnE2VHRsZ2pQY01nNzRW?=
- =?utf-8?B?YWgrR1RZUVEvUXVCWkNOYVRIMDhLdEVwOHVsT2FxdmRkUC9SU2FJSDU5WXRI?=
- =?utf-8?B?OTRvM0pIRkgyWTVhSCtwQ3k0d0xUTlNzNFVEVGNYMGFuU3c4MDk0WkxCZEVC?=
- =?utf-8?B?RjZSUFEvSm0xM0dWcE5aVlRNeDBNUFpzRXpDTGhRWlVqdk5XVDQzc1hmZzBC?=
- =?utf-8?B?dGZ3VmtUQm95RlJrdTljeUM0MEwrTHFCc2hkbTdHUC9OZDFiVHl0ZUtHeGhu?=
- =?utf-8?B?N3R5Vnh0RmxmMkxTUFJ0UT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5903CAAE0477E84C900178F32FED93A6@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 143D289BB3;
+ Mon,  6 Sep 2021 10:20:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10098"; a="305496673"
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="305496673"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 03:20:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="691617047"
+Received: from ljdobbs-mobl1.ger.corp.intel.com (HELO [10.213.197.10])
+ ([10.213.197.10])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 03:20:19 -0700
+Subject: Re: [Intel-gfx] [PATCH v7 5/8] drm_print: add choice to use dynamic
+ debug in drm-debug
+To: jim.cromie@gmail.com
+Cc: Jason Baron <jbaron@akamai.com>, Greg KH <gregkh@linuxfoundation.org>,
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ intel-gvt-dev@lists.freedesktop.org,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
+References: <20210831202133.2165222-1-jim.cromie@gmail.com>
+ <20210831202133.2165222-6-jim.cromie@gmail.com>
+ <b3c4b3aa-b873-a2aa-c1ad-5fed80038c6e@linux.intel.com>
+ <CAJfuBxw-i-7YUenvBGHA0unBQ8BqmOGRF3nRYNwNPLVaxWpSvQ@mail.gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <1aabb5c0-eef9-a483-2631-25726c9dc268@linux.intel.com>
+Date: Mon, 6 Sep 2021 11:20:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5165.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd040dbf-7bf2-4835-1359-08d9711f569b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2021 10:16:05.8782 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ODcY9jupgUyAsGfvxxxAFfU7AoLxM/fuDsSr3WaxWaSjGG9iRSomCz2dtJfIR1co
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5279
+In-Reply-To: <CAJfuBxw-i-7YUenvBGHA0unBQ8BqmOGRF3nRYNwNPLVaxWpSvQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -133,119 +61,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DQoNCj4gMjAyMeW5tDnmnIg25pelIDE3OjA077yMQ2hyaXN0aWFuIEvDtm5pZyA8Y2tvZW5pZy5s
-ZWljaHR6dW1lcmtlbkBnbWFpbC5jb20+IOWGmemBk++8mg0KPiANCj4gDQo+IA0KPiBBbSAwNi4w
-OS4yMSB1bSAwMzoxMiBzY2hyaWViIHhpbmh1aSBwYW46DQo+PiBBIGxvbmcgdGltZSBhZ28sIHNv
-bWVvbmUgcmVwb3J0cyBzeXN0ZW0gZ290IGh1bmcgZHVyaW5nIG1lbW9yeSB0ZXN0Lg0KPj4gSW4g
-cmVjZW50IGRheXMsIEkgYW0gdHJ5aW5nIHRvIGxvb2sgZm9yIG9yIHVuZGVyc3RhbmQgdGhlIHBv
-dGVudGlhbA0KPj4gZGVhZGxvY2sgaW4gdHRtL2FtZGdwdSBjb2RlLg0KPj4gDQo+PiBUaGlzIHBh
-dGNoc2V0IGFpbXMgdG8gZml4IHRoZSBkZWFkbG9jayBkdXJpbmcgdHRtIHBvcHVsYXRlLg0KPj4g
-DQo+PiBUVE0gaGFzIGEgcGFyYW1ldGVyIGNhbGxlZCBwYWdlc19saW1pdCwgd2hlbiBhbGxvY2F0
-ZWQgR1RUIG1lbW9yeQ0KPj4gcmVhY2hlcyB0aGlzIGxpbWl0LCBzd2Fwb3V0IHdvdWxkIGJlIHRy
-aWdnZXJlZC4gQXMgdHRtX2JvX3N3YXBvdXQgZG9lcw0KPj4gbm90IHJldHVybiB0aGUgY29ycmVj
-dCByZXR2YWwsIHBvcHVsYXRlIG1pZ2h0IGdldCBodW5nLg0KPj4gDQo+PiBVVkQgaWIgdGVzdCB1
-c2VzIEdUVCB3aGljaCBtaWdodCBiZSBpbnN1ZmZpY2llbnQuIFNvIGEgZ3B1IHJlY292ZXJ5DQo+
-PiB3b3VsZCBodW5nIGlmIHBvcHVsYXRlIGh1bmcuDQo+IA0KPiBBaCwgbm93IEkgdW5kZXJzdGFu
-ZCB3aGF0IHlvdSBhcmUgdHJ5aW5nIHRvIGRvLg0KPiANCj4gUHJvYmxlbSBpcyB0aGF0IHdvbid0
-IHdvcmsgZWl0aGVyLiBBbGxvY2F0aW5nIFZSQU0gY2FuIGVhc2lseSBsYW5kIHlvdSBpbnNpZGUg
-dGhlIHNhbWUgZGVhZGxvY2suDQo+IA0KPiBXZSBuZWVkIHRvIGF2b2lkIHRoZSBhbGxvY2F0aW9u
-IGFsdG9nZXRoZXIgZm9yIHRoaXMgZm9yIHdvcmsgY29ycmVjdGx5Lg0KDQpsb29rcyBsaWtlIHdl
-IG5lZWQgcmVzZXJ2ZSBzb21lIHBhZ2VzIGF0IHN3IGluaXQuDQoNCj4gDQo+PiANCj4+IEkgaGF2
-ZSBtYWRlIG9uZSBkcm0gdGVzdCB3aGljaCBhbGxvYyB0d28gR1RUIEJPcywgc3VibWl0IGdmeCBj
-b3B5DQo+PiBjb21tYW5kcyBhbmQgZnJlZSB0aGVzZSBCT3Mgd2l0aG91dCB3YWl0aW5nIGZlbmNl
-LiBXaGF0J3MgbW9yZSwgdGhlc2UNCj4+IGdmeCBjb3B5IGNvbW1hbmRzIHdpbGwgY2F1c2UgZ2Z4
-IHJpbmcgaGFuZy4gU28gZ3B1IHJlY292ZXJ5IHdvdWxkIGJlDQo+PiB0cmlnZ2VyZWQuDQo+IA0K
-PiBNaG0sIHRoYXQgc2hvdWxkIG5ldmVyIGJlIHBvc3NpYmxlLiBJdCBpcyBwZXJmZWN0bHkgdmFs
-aWQgZm9yIGFuIGFwcGxpY2F0aW9uIHRvIHRlcm1pbmF0ZSB3aXRob3V0IHdhaXR0aW5nIGZvciB0
-aGUgR0ZYIHN1Ym1pc3Npb24gdG8gYmUgY29tcGxldGVkLg0KDQpnZnggcmluZyBoYW5ncyBiZWNh
-dXNlIG9mIHRoZSBjb21tYW5kIGlzIGlsbGVnYWwuDQp0aGUgcGFja2V0IGlzIENPTU1BTkQgWzMw
-OjIxXSB8IEJZVEVfQ09VTlQgWzIwOjBdDQpJIHVzZSAweEZGIDw8IDIwIHRvIGhhbmcgdGhlIHJp
-bmcgb24gcHVycG9zZS4NCg0KPiANCj4gR29pbmcgdG8gcHVzaCBwYXRjaCAjMSB0byBkcm0tbWlz
-Yy1maXhlcyBvciBkcm0tbWlzYy1uZXh0LWZpeGVzIGluIGEgbW9tZW50Lg0KPiANCj4gVGhhbmtz
-LA0KPiBDaHJpc3RpYW4uDQo+IA0KPj4gDQo+PiBOb3cgaGVyZSBpcyBvbmUgcG9zc2libGUgZGVh
-ZGxvY2sgY2FzZS4NCj4+IGdwdV9yZWNvdmVyeQ0KPj4gIC0+IHN0b3AgZHJtIHNjaGVkdWxlcg0K
-Pj4gIC0+IGFzaWMgcmVzZXQNCj4+ICAgIC0+IGliIHRlc3QNCj4+ICAgICAgIC0+IHR0IHBvcHVs
-YXRlICh1dmQgaWIgdGVzdCkNCj4+IAktPiAgdHRtX2JvX3N3YXBvdXQgKEJPIEEpIC8vIHRoaXMg
-YWx3YXlzIGZhaWxzIGFzIHRoZSBmZW5jZSBvZg0KPj4gCUJPIEEgd291bGQgbm90IGJlIHNpZ25h
-bGVkIGJ5IHNjaGVkbHVlciBvciBIVy4gSGl0IGRlYWRsb2NrLg0KPj4gDQo+PiBJIHBhc3RlIHRo
-ZSBkcm0gdGVzdCBwYXRjaCBiZWxvdy4NCj4+ICNtb2Rwcm9iZSB0dG0gcGFnZXNfbGltaXQ9NjU1
-MzYNCj4+ICNhbWRncHVfdGVzdCAtcyAxIC10IDQNCj4+IC0tLQ0KPj4gIHRlc3RzL2FtZGdwdS9i
-YXNpY190ZXN0cy5jIHwgMzIgKysrKysrKysrKysrKystLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICAx
-IGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMTggZGVsZXRpb25zKC0pDQo+PiANCj4+
-IGRpZmYgLS1naXQgYS90ZXN0cy9hbWRncHUvYmFzaWNfdGVzdHMuYyBiL3Rlc3RzL2FtZGdwdS9i
-YXNpY190ZXN0cy5jDQo+PiBpbmRleCBkYmYwMmZlZS4uZjg1ZWQzNDAgMTAwNjQ0DQo+PiAtLS0g
-YS90ZXN0cy9hbWRncHUvYmFzaWNfdGVzdHMuYw0KPj4gKysrIGIvdGVzdHMvYW1kZ3B1L2Jhc2lj
-X3Rlc3RzLmMNCj4+IEBAIC02NSwxMyArNjUsMTYgQEAgc3RhdGljIHZvaWQgYW1kZ3B1X2RpcmVj
-dF9nbWFfdGVzdCh2b2lkKTsNCj4+ICBzdGF0aWMgdm9pZCBhbWRncHVfY29tbWFuZF9zdWJtaXNz
-aW9uX3dyaXRlX2xpbmVhcl9oZWxwZXIodW5zaWduZWQgaXBfdHlwZSk7DQo+PiAgc3RhdGljIHZv
-aWQgYW1kZ3B1X2NvbW1hbmRfc3VibWlzc2lvbl9jb25zdF9maWxsX2hlbHBlcih1bnNpZ25lZCBp
-cF90eXBlKTsNCj4+ICBzdGF0aWMgdm9pZCBhbWRncHVfY29tbWFuZF9zdWJtaXNzaW9uX2NvcHlf
-bGluZWFyX2hlbHBlcih1bnNpZ25lZCBpcF90eXBlKTsNCj4+IC1zdGF0aWMgdm9pZCBhbWRncHVf
-dGVzdF9leGVjX2NzX2hlbHBlcihhbWRncHVfY29udGV4dF9oYW5kbGUgY29udGV4dF9oYW5kbGUs
-DQo+PiArc3RhdGljIHZvaWQgX2FtZGdwdV90ZXN0X2V4ZWNfY3NfaGVscGVyKGFtZGdwdV9jb250
-ZXh0X2hhbmRsZSBjb250ZXh0X2hhbmRsZSwNCj4+ICAJCQkJICAgICAgIHVuc2lnbmVkIGlwX3R5
-cGUsDQo+PiAgCQkJCSAgICAgICBpbnQgaW5zdGFuY2UsIGludCBwbTRfZHcsIHVpbnQzMl90ICpw
-bTRfc3JjLA0KPj4gIAkJCQkgICAgICAgaW50IHJlc19jbnQsIGFtZGdwdV9ib19oYW5kbGUgKnJl
-c291cmNlcywNCj4+ICAJCQkJICAgICAgIHN0cnVjdCBhbWRncHVfY3NfaWJfaW5mbyAqaWJfaW5m
-bywNCj4+IC0JCQkJICAgICAgIHN0cnVjdCBhbWRncHVfY3NfcmVxdWVzdCAqaWJzX3JlcXVlc3Qp
-Ow0KPj4gKwkJCQkgICAgICAgc3RydWN0IGFtZGdwdV9jc19yZXF1ZXN0ICppYnNfcmVxdWVzdCwg
-aW50IHN5bmMsIGludCByZXBlYXQpOw0KPj4gICArI2RlZmluZSBhbWRncHVfdGVzdF9leGVjX2Nz
-X2hlbHBlciguLi4pIFwNCj4+ICsJX2FtZGdwdV90ZXN0X2V4ZWNfY3NfaGVscGVyKF9fVkFfQVJH
-U19fLCAxLCAxKQ0KPj4gKw0KPj4gIENVX1Rlc3RJbmZvIGJhc2ljX3Rlc3RzW10gPSB7DQo+PiAg
-CXsgIlF1ZXJ5IEluZm8gVGVzdCIsICBhbWRncHVfcXVlcnlfaW5mb190ZXN0IH0sDQo+PiAgCXsg
-IlVzZXJwdHIgVGVzdCIsICBhbWRncHVfdXNlcnB0cl90ZXN0IH0sDQo+PiBAQCAtMTM0MSwxMiAr
-MTM0NCwxMiBAQCBzdGF0aWMgdm9pZCBhbWRncHVfY29tbWFuZF9zdWJtaXNzaW9uX2NvbXB1dGUo
-dm9pZCkNCj4+ICAgKiBwbTRfc3JjLCByZXNvdXJjZXMsIGliX2luZm8sIGFuZCBpYnNfcmVxdWVz
-dA0KPj4gICAqIHN1Ym1pdCBjb21tYW5kIHN0cmVhbSBkZXNjcmliZWQgaW4gaWJzX3JlcXVlc3Qg
-YW5kIHdhaXQgZm9yIHRoaXMgSUIgYWNjb21wbGlzaGVkDQo+PiAgICovDQo+PiAtc3RhdGljIHZv
-aWQgYW1kZ3B1X3Rlc3RfZXhlY19jc19oZWxwZXIoYW1kZ3B1X2NvbnRleHRfaGFuZGxlIGNvbnRl
-eHRfaGFuZGxlLA0KPj4gK3N0YXRpYyB2b2lkIF9hbWRncHVfdGVzdF9leGVjX2NzX2hlbHBlcihh
-bWRncHVfY29udGV4dF9oYW5kbGUgY29udGV4dF9oYW5kbGUsDQo+PiAgCQkJCSAgICAgICB1bnNp
-Z25lZCBpcF90eXBlLA0KPj4gIAkJCQkgICAgICAgaW50IGluc3RhbmNlLCBpbnQgcG00X2R3LCB1
-aW50MzJfdCAqcG00X3NyYywNCj4+ICAJCQkJICAgICAgIGludCByZXNfY250LCBhbWRncHVfYm9f
-aGFuZGxlICpyZXNvdXJjZXMsDQo+PiAgCQkJCSAgICAgICBzdHJ1Y3QgYW1kZ3B1X2NzX2liX2lu
-Zm8gKmliX2luZm8sDQo+PiAtCQkJCSAgICAgICBzdHJ1Y3QgYW1kZ3B1X2NzX3JlcXVlc3QgKmli
-c19yZXF1ZXN0KQ0KPj4gKwkJCQkgICAgICAgc3RydWN0IGFtZGdwdV9jc19yZXF1ZXN0ICppYnNf
-cmVxdWVzdCwgaW50IHN5bmMsIGludCByZXBlYXQpDQo+PiAgew0KPj4gIAlpbnQgcjsNCj4+ICAJ
-dWludDMyX3QgZXhwaXJlZDsNCj4+IEBAIC0xMzk1LDEyICsxMzk4LDE1IEBAIHN0YXRpYyB2b2lk
-IGFtZGdwdV90ZXN0X2V4ZWNfY3NfaGVscGVyKGFtZGdwdV9jb250ZXh0X2hhbmRsZSBjb250ZXh0
-X2hhbmRsZSwNCj4+ICAJQ1VfQVNTRVJUX05PVF9FUVVBTChpYnNfcmVxdWVzdCwgTlVMTCk7DQo+
-PiAgICAJLyogc3VibWl0IENTICovDQo+PiAtCXIgPSBhbWRncHVfY3Nfc3VibWl0KGNvbnRleHRf
-aGFuZGxlLCAwLCBpYnNfcmVxdWVzdCwgMSk7DQo+PiArCXdoaWxlIChyZXBlYXQtLSkNCj4+ICsJ
-CXIgPSBhbWRncHVfY3Nfc3VibWl0KGNvbnRleHRfaGFuZGxlLCAwLCBpYnNfcmVxdWVzdCwgMSk7
-DQo+PiAgCUNVX0FTU0VSVF9FUVVBTChyLCAwKTsNCj4+ICAgIAlyID0gYW1kZ3B1X2JvX2xpc3Rf
-ZGVzdHJveShpYnNfcmVxdWVzdC0+cmVzb3VyY2VzKTsNCj4+ICAJQ1VfQVNTRVJUX0VRVUFMKHIs
-IDApOw0KPj4gICsJaWYgKCFzeW5jKQ0KPj4gKwkJcmV0dXJuOw0KPj4gIAlmZW5jZV9zdGF0dXMu
-aXBfdHlwZSA9IGlwX3R5cGU7DQo+PiAgCWZlbmNlX3N0YXR1cy5pcF9pbnN0YW5jZSA9IDA7DQo+
-PiAgCWZlbmNlX3N0YXR1cy5yaW5nID0gaWJzX3JlcXVlc3QtPnJpbmc7DQo+PiBAQCAtMTY2Nyw3
-ICsxNjczLDcgQEAgc3RhdGljIHZvaWQgYW1kZ3B1X2NvbW1hbmRfc3VibWlzc2lvbl9zZG1hX2Nv
-bnN0X2ZpbGwodm9pZCkNCj4+ICAgIHN0YXRpYyB2b2lkIGFtZGdwdV9jb21tYW5kX3N1Ym1pc3Np
-b25fY29weV9saW5lYXJfaGVscGVyKHVuc2lnbmVkIGlwX3R5cGUpDQo+PiAgew0KPj4gLQljb25z
-dCBpbnQgc2RtYV93cml0ZV9sZW5ndGggPSAxMDI0Ow0KPj4gKwljb25zdCBpbnQgc2RtYV93cml0
-ZV9sZW5ndGggPSAoMjU1KSA8PCAyMDsNCj4+ICAJY29uc3QgaW50IHBtNF9kdyA9IDI1NjsNCj4+
-ICAJYW1kZ3B1X2NvbnRleHRfaGFuZGxlIGNvbnRleHRfaGFuZGxlOw0KPj4gIAlhbWRncHVfYm9f
-aGFuZGxlIGJvMSwgYm8yOw0KPj4gQEAgLTE3MTUsOCArMTcyMSw2IEBAIHN0YXRpYyB2b2lkIGFt
-ZGdwdV9jb21tYW5kX3N1Ym1pc3Npb25fY29weV9saW5lYXJfaGVscGVyKHVuc2lnbmVkIGlwX3R5
-cGUpDQo+PiAgCQkJCQkJCSAgICAmYm8xX3ZhX2hhbmRsZSk7DQo+PiAgCQkJCUNVX0FTU0VSVF9F
-UVVBTChyLCAwKTsNCj4+ICAtCQkJCS8qIHNldCBibzEgKi8NCj4+IC0JCQkJbWVtc2V0KCh2b2lk
-KilibzFfY3B1LCAweGFhLCBzZG1hX3dyaXRlX2xlbmd0aCk7DQo+PiAgICAJCQkJLyogYWxsb2Nh
-dGUgVUMgYm8yIGZvciBzRE1BIHVzZSAqLw0KPj4gIAkJCQlyID0gYW1kZ3B1X2JvX2FsbG9jX2Fu
-ZF9tYXAoZGV2aWNlX2hhbmRsZSwNCj4+IEBAIC0xNzI3LDggKzE3MzEsNiBAQCBzdGF0aWMgdm9p
-ZCBhbWRncHVfY29tbWFuZF9zdWJtaXNzaW9uX2NvcHlfbGluZWFyX2hlbHBlcih1bnNpZ25lZCBp
-cF90eXBlKQ0KPj4gIAkJCQkJCQkgICAgJmJvMl92YV9oYW5kbGUpOw0KPj4gIAkJCQlDVV9BU1NF
-UlRfRVFVQUwociwgMCk7DQo+PiAgLQkJCQkvKiBjbGVhciBibzIgKi8NCj4+IC0JCQkJbWVtc2V0
-KCh2b2lkKilibzJfY3B1LCAwLCBzZG1hX3dyaXRlX2xlbmd0aCk7DQo+PiAgICAJCQkJcmVzb3Vy
-Y2VzWzBdID0gYm8xOw0KPj4gIAkJCQlyZXNvdXJjZXNbMV0gPSBibzI7DQo+PiBAQCAtMTc4NSwx
-NyArMTc4NywxMSBAQCBzdGF0aWMgdm9pZCBhbWRncHVfY29tbWFuZF9zdWJtaXNzaW9uX2NvcHlf
-bGluZWFyX2hlbHBlcih1bnNpZ25lZCBpcF90eXBlKQ0KPj4gIAkJCQkJfQ0KPj4gIAkJCQl9DQo+
-PiAgLQkJCQlhbWRncHVfdGVzdF9leGVjX2NzX2hlbHBlcihjb250ZXh0X2hhbmRsZSwNCj4+ICsJ
-CQkJX2FtZGdwdV90ZXN0X2V4ZWNfY3NfaGVscGVyKGNvbnRleHRfaGFuZGxlLA0KPj4gIAkJCQkJ
-CQkgICBpcF90eXBlLCByaW5nX2lkLA0KPj4gIAkJCQkJCQkgICBpLCBwbTQsDQo+PiAgCQkJCQkJ
-CSAgIDIsIHJlc291cmNlcywNCj4+IC0JCQkJCQkJICAgaWJfaW5mbywgaWJzX3JlcXVlc3QpOw0K
-Pj4gLQ0KPj4gLQkJCQkvKiB2ZXJpZnkgaWYgU0RNQSB0ZXN0IHJlc3VsdCBtZWV0cyB3aXRoIGV4
-cGVjdGVkICovDQo+PiAtCQkJCWkgPSAwOw0KPj4gLQkJCQl3aGlsZShpIDwgc2RtYV93cml0ZV9s
-ZW5ndGgpIHsNCj4+IC0JCQkJCUNVX0FTU0VSVF9FUVVBTChibzJfY3B1W2krK10sIDB4YWEpOw0K
-Pj4gLQkJCQl9DQo+PiArCQkJCQkJCSAgIGliX2luZm8sIGlic19yZXF1ZXN0LCAwLCAxMDApOw0K
-Pj4gIAkJCQlyID0gYW1kZ3B1X2JvX3VubWFwX2FuZF9mcmVlKGJvMSwgYm8xX3ZhX2hhbmRsZSwg
-Ym8xX21jLA0KPj4gIAkJCQkJCQkgICAgIHNkbWFfd3JpdGVfbGVuZ3RoKTsNCj4+ICAJCQkJQ1Vf
-QVNTRVJUX0VRVUFMKHIsIDApOw0KPiANCg0K
+
+On 03/09/2021 22:57, jim.cromie@gmail.com wrote:
+> On Fri, Sep 3, 2021 at 5:15 AM Tvrtko Ursulin
+> <tvrtko.ursulin@linux.intel.com> wrote:
+>>
+>>
+>> On 31/08/2021 21:21, Jim Cromie wrote:
+>>> drm's debug system writes 10 distinct categories of messages to syslog
+>>> using a small API[1]: drm_dbg*(10 names), DRM_DEV_DEBUG*(3 names),
+>>> DRM_DEBUG*(8 names).  There are thousands of these callsites, each
+>>> categorized in this systematized way.
+>>>
+>>> These callsites can be enabled at runtime by their category, each
+>>> controlled by a bit in drm.debug (/sys/modules/drm/parameter/debug).
+>>> In the current "basic" implementation, drm_debug_enabled() tests these
+>>> bits in __drm_debug each time an API[1] call is executed; while cheap
+>>> individually, the costs accumulate with uptime.
+>>>
+>>> This patch uses dynamic-debug with jump-label to patch enabled calls
+>>> onto their respective NOOP slots, avoiding all runtime bit-checks of
+>>> __drm_debug by drm_debug_enabled().
+>>>
+>>> Dynamic debug has no concept of category, but we can emulate one by
+>>> replacing enum categories with a set of prefix-strings; "drm:core:",
+>>> "drm:kms:" "drm:driver:" etc, and prepend them (at compile time) to
+>>> the given formats.
+>>>
+>>> Then we can use:
+>>>     `echo module drm format "^drm:core: " +p > control`
+>>>
+>>> to enable the whole category with one query.
+>>
+>> Probably stupid question - enabling stuff at boot time still works as
+>> described in Documentation/admin-guide/dynamic-debug-howto.rst?
+>>
+> 
+> yes.  its turned on in earlyinit, and cmdline args are a processed then,
+> and when modules are added
+> 
+> 
+>> Second question, which perhaps has been covered in the past so apologies
+>> if redundant - what is the advantage of allowing this to be
+>> configurable, versus perhaps always enabling it? Like what would be the
+>> reasons someone wouldn't just want to have CONFIG_DYNAMIC_DEBUG compiled
+>> in? Kernel binary size?
+>>
+> 
+> Im unaware of anything on this topic, but I can opine :-)
+> Its been configurable since I saw it and thought "jump-labels are cool!"
+> 
+> code is small
+> [jimc@frodo local-i915m]$ size lib/dynamic_debug.o
+>     text    data     bss     dec     hex filename
+>    24016    8041      64   32121    7d79 lib/dynamic_debug.o
+> 
+> Its data tables are big, particularly the __dyndbg section
+> builtins:
+> dyndbg: 108 debug prints in module mptcp
+> dyndbg:   2 debug prints in module i386
+> dyndbg:   2 debug prints in module xen
+> dyndbg:   2 debug prints in module fixup
+> dyndbg:   7 debug prints in module irq
+> dyndbg: 3039 prdebugs in 283 modules, 11 KiB in ddebug tables, 166 kiB
+> in __dyndbg section
+> 
+> bash-5.1#
+> bash-5.1# for m in i915 amdgpu ; do modprobe $m dyndbg=+_ ; done
+> dyndbg: 384 debug prints in module drm
+> dyndbg: 211 debug prints in module drm_kms_helper
+> dyndbg:   2 debug prints in module ttm
+> dyndbg:   8 debug prints in module video
+> dyndbg: 1727 debug prints in module i915
+> dyndbg: processed 1 queries, with 3852 matches, 0 errs
+> dyndbg: 3852 debug prints in module amdgpu
+> [drm] amdgpu kernel modesetting enabled.
+> amdgpu: CRAT table disabled by module option
+> amdgpu: Virtual CRAT table created for CPU
+> amdgpu: Topology: Add CPU node
+> bash-5.1#
+> 
+> At 56 bytes / callsite, it adds up.
+> And teaching DRM to use it enlarges its use dramatically,
+> not just in drm itself, but in many drivers
+> 
+> amdgpu has 3852 callsite, (vs 3039 in my kernel), so it has ~240kb.
+> It has extra (large chunks generated by macros) to trim,
+> but i915 has ~1700, and drm has ~380
+> 
+> I have WIP to reduce the table space, by splitting it into 2 separate ones;
+> guts and decorations (module, function, file pointers).
+> The decoration recs are redundant, 45% are copies of previous
+> (function changes fastest)
+> It needs much rework, but it should get 20% overall.
+> decorations are 24/56 of footprint.
+
+I'll try to extract the "executive summary" from this, you tell me if I 
+got it right.
+
+So using or not using dynamic debug for DRM debug ends up being about 
+shifting the cost between kernel binary size (data section grows by each 
+pr_debug call site) and runtime conditionals?
+
+Since the table sizes you mention seem significant enough, I think that 
+justifies existence of DRM_USE_DYNAMIC_DEBUG. It would probably be a 
+good idea to put some commentary on that there. Ideally including some 
+rough estimates both including space cost per call site and space cost 
+for a typical distro kernel build?
+
+Regards,
+
+Tvrtko
