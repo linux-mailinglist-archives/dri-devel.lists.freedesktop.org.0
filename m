@@ -1,47 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF25401540
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 05:36:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DABB8401561
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 06:13:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 14A2689864;
-	Mon,  6 Sep 2021 03:35:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3661589A32;
+	Mon,  6 Sep 2021 04:13:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from szxga03-in.huawei.com (szxga03-in.huawei.com [45.249.212.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C36DC89864
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 03:35:53 +0000 (UTC)
-Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.53])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4H2vDV6C3cz8sqH;
- Mon,  6 Sep 2021 11:35:22 +0800 (CST)
-Received: from dggema764-chm.china.huawei.com (10.1.198.206) by
- dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2308.8; Mon, 6 Sep 2021 11:35:50 +0800
-Received: from DESKTOP-8RFUVS3.china.huawei.com (10.174.185.179) by
- dggema764-chm.china.huawei.com (10.1.198.206) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.8; Mon, 6 Sep 2021 11:35:49 +0800
-From: Zenghui Yu <yuzenghui@huawei.com>
-To: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-CC: <jani.nikula@linux.intel.com>, <joonas.lahtinen@linux.intel.com>,
- <rodrigo.vivi@intel.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
- <ville.syrjala@linux.intel.com>, <tiwai@suse.de>,
- <wanghaibin.wang@huawei.com>, Zenghui Yu <yuzenghui@huawei.com>, "Kai-Heng
- Feng" <kai.heng.feng@canonical.com>
-Subject: [PATCH] drm/i915: Free the returned object of acpi_evaluate_dsm()
-Date: Mon, 6 Sep 2021 11:35:41 +0800
-Message-ID: <20210906033541.862-1-yuzenghui@huawei.com>
-X-Mailer: git-send-email 2.23.0.windows.1
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 945E589973;
+ Mon,  6 Sep 2021 04:13:22 +0000 (UTC)
+Received: from localhost.localdomain (1-171-98-108.dynamic-ip.hinet.net
+ [1.171.98.108])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 960BE3F245; 
+ Mon,  6 Sep 2021 04:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1630901600;
+ bh=aMyOs5KURw0ylNVRy7PWd+JnRcqnOEgyA7dtb08/Cp8=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=A9+QKld1uCsIVfE7kIQEAjCKwCAcUwjJDbK3EbExPWjfmsCRIExsEelE/4zdclKm0
+ i8KI9qBJciphkEf51w/7R7pmpXagbetc0v6He5jfaT9PMQW3rVUpIULhp4sLQZ1TuR
+ CeBh+uNtY3U8BTptq4kRy9O5II2KUkqnUu0a3DeFYiRR7pXIyyXLh/MQkHNFo/AY+P
+ sPqlQ7mLVLE/owlv+LPt4PM2SBh4Lhh26q+TjeG/aBmyTCXPP+HKCmrxvK9fUhg7/+
+ ptTLbLxKsWP8KzrpqHBszkYLshGvswsJoECAT2xbIWkWRgv9yL2QMz6GFAlyV6Z+fh
+ JJFJ4FHm8YZ/A==
+From: Kai-Heng Feng <kai.heng.feng@canonical.com>
+To: jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ rodrigo.vivi@intel.com
+Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Imre Deak <imre.deak@intel.com>, Uma Shankar <uma.shankar@intel.com>,
+ Matt Roper <matthew.d.roper@intel.com>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/i915/audio: Use BIOS provided value for RKL HDA link
+Date: Mon,  6 Sep 2021 12:12:59 +0800
+Message-Id: <20210906041300.508458-1-kai.heng.feng@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.179]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- dggema764-chm.china.huawei.com (10.1.198.206)
-X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,45 +63,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As per the comment on top of acpi_evaluate_dsm():
+Commit 989634fb49ad ("drm/i915/audio: set HDA link parameters in
+driver") makes HDMI audio on Lenovo P350 disappear.
 
-| * Evaluate device's _DSM method with specified GUID, revision id and
-| * function number. Caller needs to free the returned object.
+So in addition to TGL, extend the logic to RKL to use BIOS provided
+value to fix the regression.
 
-We should free the returned object of acpi_evaluate_dsm() to avoid memory
-leakage. Otherwise the kmemleak splat will be triggered at boot time (if we
-compile kernel with CONFIG_DEBUG_TEST_DRIVER_REMOVE=y).
-
-Fixes: 8e55f99c510f ("drm/i915: Invoke another _DSM to enable MUX on HP Workstation laptops")
-Cc: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+Fixes: 989634fb49ad ("drm/i915/audio: set HDA link parameters in driver")
+Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
 ---
- drivers/gpu/drm/i915/display/intel_acpi.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/i915/display/intel_audio.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_acpi.c b/drivers/gpu/drm/i915/display/intel_acpi.c
-index 7cfe91fc05f2..68abeaf2d7d4 100644
---- a/drivers/gpu/drm/i915/display/intel_acpi.c
-+++ b/drivers/gpu/drm/i915/display/intel_acpi.c
-@@ -186,13 +186,16 @@ void intel_dsm_get_bios_data_funcs_supported(struct drm_i915_private *i915)
- {
- 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
- 	acpi_handle dhandle;
-+	union acpi_object *obj;
+diff --git a/drivers/gpu/drm/i915/display/intel_audio.c b/drivers/gpu/drm/i915/display/intel_audio.c
+index 532237588511..4e0f96bf6158 100644
+--- a/drivers/gpu/drm/i915/display/intel_audio.c
++++ b/drivers/gpu/drm/i915/display/intel_audio.c
+@@ -1308,8 +1308,9 @@ static void i915_audio_component_init(struct drm_i915_private *dev_priv)
+ 		else
+ 			aud_freq = aud_freq_init;
  
- 	dhandle = ACPI_HANDLE(&pdev->dev);
- 	if (!dhandle)
- 		return;
+-		/* use BIOS provided value for TGL unless it is a known bad value */
+-		if (IS_TIGERLAKE(dev_priv) && aud_freq_init != AUD_FREQ_TGL_BROKEN)
++		/* use BIOS provided value for TGL and RKL unless it is a known bad value */
++		if ((IS_TIGERLAKE(dev_priv) || IS_ROCKETLAKE(dev_priv)) &&
++		    aud_freq_init != AUD_FREQ_TGL_BROKEN)
+ 			aud_freq = aud_freq_init;
  
--	acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
--			  INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
-+	obj = acpi_evaluate_dsm(dhandle, &intel_dsm_guid2, INTEL_DSM_REVISION_ID,
-+				INTEL_DSM_FN_GET_BIOS_DATA_FUNCS_SUPPORTED, NULL);
-+	if (obj)
-+		ACPI_FREE(obj);
- }
- 
- /*
+ 		drm_dbg_kms(&dev_priv->drm, "use AUD_FREQ_CNTRL of 0x%x (init value 0x%x)\n",
 -- 
-2.19.1
+2.32.0
 
