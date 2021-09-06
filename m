@@ -1,64 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9817402363
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 08:27:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C28D4402364
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 08:27:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA3089306;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 26B2489301;
 	Tue,  7 Sep 2021 06:27:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com
- [IPv6:2607:f8b0:4864:20::f36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2E1894FE
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 19:52:06 +0000 (UTC)
-Received: by mail-qv1-xf36.google.com with SMTP id z2so4510969qvl.10
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 12:52:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
- h=subject:date:message-id:mime-version:content-transfer-encoding:cc
- :from:to; bh=/HWCAki5G+lVbiHxWhcyDiqEfC+VEd9DkU7YY2YmJIE=;
- b=mEMfKCujdhFTd1UNMLYapbDASirmCMlcWBmAG+ICS1uHk9R14HJqkGrlQUPsRRI25u
- P0Zdf7eVspSFnAUulxZHC+nvRVxMvW//gGUBb8CUDuNmC2IFXxxn4vvlJ4V7z+doCXGg
- vlSfvWDj58XD4pjDO+DUegyIt4r6BzyrwM+K4+zeQYwEZCIqNuVJ4NuAX8dsujwTTabb
- kBNFqmzIhkNJK4n5NBMhrYpZovE4ssULYobKDasABMNlf/QYd3Eg3jurWNGYB55wd8H3
- yhAgSIZarxCVlXOwMuS9r5YRoNF8jqkbXRTKaQ3kQa+ZKGBUEnuYQ1rCcS/LoRLe7gxB
- Xfbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:date:message-id:mime-version
- :content-transfer-encoding:cc:from:to;
- bh=/HWCAki5G+lVbiHxWhcyDiqEfC+VEd9DkU7YY2YmJIE=;
- b=Ax8IsOi6Vt6uq6JtcDnSthYp9ZfDgSBeUgOJTa4imhDbEHHDjWDKgQkU56RbkMwnKi
- vZ+nWQ0e0XB8oWgPi9gBsYc15WEl2CYtxebc8u5XaRswmz+V5/N3Cnrx56EC7aIwiJF1
- GeXMB0UJg2MjepMjUj+Zq/cHEiBCotIvOGsKs8rhuGkj9uqMbvwU12obGetgJPOVxRY+
- tNF2bsG41aaPTJfElws3A4/iD2CZE8a6BfGxg6qbwBTH8AxczfVdoDOV9GoiiyFBdyh2
- 7ojnkWLQpMTKDEoPTKwTF5MmPVtC87Pd5wrMSeXYXKDbBMU+Z70srstd0WjIcqA5Tclz
- Keig==
-X-Gm-Message-State: AOAM533cc1fin1dQZEjXVer7//N0XNV06MBLwSKu9UngnrKbICr0XriY
- rsH9vfTv0Pl+NutbvhKKvzvkTw==
-X-Google-Smtp-Source: ABdhPJxkMdyPqihtMbecIkVh3QvlQZ6CM5K9jNcXKt6Os+i9+qJJSTCujwN5BKXl3Q+du82VzB6IjA==
-X-Received: by 2002:a0c:b293:: with SMTP id r19mr6066662qve.19.1630957925669; 
- Mon, 06 Sep 2021 12:52:05 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
- [76.210.143.223])
- by smtp.gmail.com with ESMTPSA id m5sm7280699qkn.33.2021.09.06.12.52.04
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 12:52:04 -0700 (PDT)
-Subject: [PATCH RESEND] drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused
- warning
-Date: Mon,  6 Sep 2021 12:49:18 -0700
-Message-Id: <20210906194917.376116-1-palmer@dabbelt.com>
-X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
+X-Greylist: delayed 505 seconds by postgrey-1.36 at gabe;
+ Mon, 06 Sep 2021 22:05:48 UTC
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F17E89C6C
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 22:05:48 +0000 (UTC)
+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+ s=mail; t=1630965441;
+ bh=TBejuk5tqxeDF6kzvgEoVLlD9PzQKnYZHfHp2go1+m0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=shQLHPvHG8+XyfIILO61kyyNG/BROBofAliqcMYmkCUaLfm8HZHAJviNKtZ7hMEmy
+ DHiJe+9HFHypMP2UtGvEWf+3kxmPh/PNqAGqtVGOPpr7UbLPjKVJOobRUqoJEKMTVS
+ 05/jvbADBFSRMZGQdtRjveq4E4vXVYzHIUKr1L0U=
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] backlight: propagate errors from get_brightness()
+Date: Mon,  6 Sep 2021 23:55:25 +0200
+Message-Id: <20210906215525.15418-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, 
- kernel-team@android.com, Palmer Dabbelt <palmerdabbelt@google.com>
-From: Palmer Dabbelt <palmer@dabbelt.com>
-To: hjc@rock-chips.com, heiko@sntech.de
 X-Mailman-Approved-At: Tue, 07 Sep 2021 06:27:04 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,41 +51,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Palmer Dabbelt <palmerdabbelt@google.com>
+backlight.h documents "struct backlight_ops->get_brightness()" to return
+a negative errno on failure.
+So far these errors have not been handled in the backlight core.
+This leads to negative values being exposed through sysfs although only
+positive values are documented to be reported.
 
-cdn_dp_resume is only used under PM_SLEEP, and now that it's static an
-unused function warning is triggered undner !PM_SLEEP.  This
-conditionally enables the function to avoid the warning.
-
-Fixes: 7c49abb4c2f8 ("drm/rockchip: cdn-dp-core: Make cdn_dp_core_suspend/resume static")
-Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
 ---
-I sent this one out in January, but it looks like it got lost in the shuffle.
-I'm getting this on a RISC-V allmodconfig now.
----
- drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-index 8ab3247dbc4a..bee0f2d2a9be 100644
---- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
-+++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
-@@ -1123,6 +1123,7 @@ static int cdn_dp_suspend(struct device *dev)
- 	return ret;
- }
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 537fe1b376ad..d681962f8509 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -292,10 +292,13 @@ static ssize_t actual_brightness_show(struct device *dev,
+ 	struct backlight_device *bd = to_backlight_device(dev);
  
-+#ifdef CONFIG_PM_SLEEP
- static int cdn_dp_resume(struct device *dev)
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		rc = sprintf(buf, "%d\n", bd->ops->get_brightness(bd));
+-	else
++	if (bd->ops && bd->ops->get_brightness) {
++		rc = bd->ops->get_brightness(bd);
++		if (rc >= 0)
++			rc = sprintf(buf, "%d\n", rc);
++	} else {
+ 		rc = sprintf(buf, "%d\n", bd->props.brightness);
++	}
+ 	mutex_unlock(&bd->ops_lock);
+ 
+ 	return rc;
+@@ -381,9 +384,18 @@ ATTRIBUTE_GROUPS(bl_device);
+ void backlight_force_update(struct backlight_device *bd,
+ 			    enum backlight_update_reason reason)
  {
- 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
-@@ -1135,6 +1136,7 @@ static int cdn_dp_resume(struct device *dev)
- 
- 	return 0;
++	int brightness;
++
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		bd->props.brightness = bd->ops->get_brightness(bd);
++	if (bd->ops && bd->ops->get_brightness) {
++		brightness = bd->ops->get_brightness(bd);
++		if (brightness >= 0)
++			bd->props.brightness = brightness;
++		else
++			dev_warn(&bd->dev,
++				 "Could not update brightness from device: errno = %d",
++				 -brightness);
++	}
+ 	mutex_unlock(&bd->ops_lock);
+ 	backlight_generate_event(bd, reason);
  }
-+#endif
- 
- static int cdn_dp_probe(struct platform_device *pdev)
- {
+
+base-commit: 79fad92f2e596f5a8dd085788a24f540263ef887
 -- 
-2.33.0.153.gba50c8fa24-goog
+2.33.0
 
