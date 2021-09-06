@@ -1,41 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CC7401712
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:35:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C60EE401716
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:35:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9BD0A89B11;
-	Mon,  6 Sep 2021 07:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFE1089B45;
+	Mon,  6 Sep 2021 07:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3C3289B11
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:35:48 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF7C589B46
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:35:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630913747;
+ s=mimecast20190719; t=1630913755;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CIzkOXF9DSJKO6Tm/ydmAmVv4uvi805F7LCwNg72B9c=;
- b=O50pfoOXcQZBPLD3XBLTkXQBaexKgqK9T7frisDUW87FlpaD+wQUkd37X87LsPIB8jIeQf
- L00lZ3RZpfyaXSZHeqs2najFg/YooJAPIJlXRAkLsTufI/b99j7wHKREQ0krRf3KKv1KjF
- 5hbSqCBtgR/VqvX9ZTRX6zcE4jjv2ZQ=
+ bh=XE0VVY65Ll2sCtE26jyM5/18Lb7fjFHBt4PVQazCjf0=;
+ b=X6vOIsuugmTCtWqHvR7hiqa7ThjNLxO+OvJPSfUq57jI6Srv4177KjyCKSRjuabkGBZyDO
+ KlKwATfE0NQ/eojFiF3e3JcolZDJIvZJj4ZkFtPctkLa+QtJ/Zng7FnlUKzc1LXHR5aLhT
+ 9AnlvKAgkm/mL9ykPAARYIbaFZw43MQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-RyptznbhNA-6gzenXBi62w-1; Mon, 06 Sep 2021 03:35:46 -0400
-X-MC-Unique: RyptznbhNA-6gzenXBi62w-1
+ us-mta-474-T3xe_YDCNeS2y6owuXfBug-1; Mon, 06 Sep 2021 03:35:51 -0400
+X-MC-Unique: T3xe_YDCNeS2y6owuXfBug-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 261FE1854E26;
- Mon,  6 Sep 2021 07:35:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBEBD501E0;
+ Mon,  6 Sep 2021 07:35:48 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6145717A98;
- Mon,  6 Sep 2021 07:35:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8574F17A98;
+ Mon,  6 Sep 2021 07:35:44 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -54,9 +54,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 3/9] drm/privacy-screen: Add X86 specific arch init code
-Date: Mon,  6 Sep 2021 09:35:13 +0200
-Message-Id: <20210906073519.4615-4-hdegoede@redhat.com>
+Subject: [PATCH 4/9] drm/privacy-screen: Add notifier support
+Date: Mon,  6 Sep 2021 09:35:14 +0200
+Message-Id: <20210906073519.4615-5-hdegoede@redhat.com>
 In-Reply-To: <20210906073519.4615-1-hdegoede@redhat.com>
 References: <20210906073519.4615-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -77,147 +77,159 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add X86 specific arch init code, which fills the privacy-screen lookup
-table by checking for various vendor specific ACPI interfaces for
-controlling the privacy-screen.
-
-This initial version only checks for the Lenovo Thinkpad specific ACPI
-methods for privacy-screen control.
+Add support for privacy-screen consumers to register a notifier to
+be notified of external (e.g. done by the hw itself on a hotkey press)
+state changes.
 
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/gpu/drm/Makefile                 |  2 +-
- drivers/gpu/drm/drm_privacy_screen_x86.c | 86 ++++++++++++++++++++++++
- include/drm/drm_privacy_screen_machine.h |  5 ++
- 3 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
+ drivers/gpu/drm/drm_privacy_screen.c      | 67 +++++++++++++++++++++++
+ include/drm/drm_privacy_screen_consumer.h | 15 +++++
+ include/drm/drm_privacy_screen_driver.h   |  4 ++
+ 3 files changed, 86 insertions(+)
 
-diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-index 788fc37096f6..12997ca5670d 100644
---- a/drivers/gpu/drm/Makefile
-+++ b/drivers/gpu/drm/Makefile
-@@ -32,7 +32,7 @@ drm-$(CONFIG_OF) += drm_of.o
- drm-$(CONFIG_PCI) += drm_pci.o
- drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
- drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
--drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o
-+drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
+diff --git a/drivers/gpu/drm/drm_privacy_screen.c b/drivers/gpu/drm/drm_privacy_screen.c
+index 294a09194bfb..7a5f878c3171 100644
+--- a/drivers/gpu/drm/drm_privacy_screen.c
++++ b/drivers/gpu/drm/drm_privacy_screen.c
+@@ -255,6 +255,49 @@ void drm_privacy_screen_get_state(struct drm_privacy_screen *priv,
+ }
+ EXPORT_SYMBOL(drm_privacy_screen_get_state);
  
- obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
- 
-diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
-new file mode 100644
-index 000000000000..a2cafb294ca6
---- /dev/null
-+++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
-@@ -0,0 +1,86 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright (C) 2020 Red Hat, Inc.
++/**
++ * drm_privacy_screen_register_notifier - register a notifier
++ * @priv: Privacy screen to register the notifier with
++ * @nb: Notifier-block for the notifier to register
 + *
-+ * Authors:
-+ * Hans de Goede <hdegoede@redhat.com>
++ * Register a notifier with the privacy-screen to be notified of changes made
++ * to the privacy-screen state from outside of the privacy-screen class.
++ * E.g. the state may be changed by the hardware itself in response to a
++ * hotkey press.
++ *
++ * The notifier is called with no locks held. The new hw_state and sw_state
++ * can be retrieved using the drm_privacy_screen_get_state() function.
++ * A pointer to the drm_privacy_screen's struct is passed as the void *data
++ * argument of the notifier_block's notifier_call.
++ *
++ * The notifier will NOT be called when changes are made through
++ * drm_privacy_screen_set_sw_state(). It is only called for external changes.
++ *
++ * Return: 0 on success, negative error code on failure.
 + */
-+
-+#include <linux/acpi.h>
-+#include <drm/drm_privacy_screen_machine.h>
-+
-+#ifdef CONFIG_X86
-+static struct drm_privacy_screen_lookup arch_lookup;
-+
-+struct arch_init_data {
-+	struct drm_privacy_screen_lookup lookup;
-+	bool (*detect)(void);
-+};
-+
-+#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
-+static acpi_status __init acpi_set_handle(acpi_handle handle, u32 level,
-+					  void *context, void **return_value)
++int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
++					 struct notifier_block *nb)
 +{
-+	*(acpi_handle *)return_value = handle;
-+	return AE_CTRL_TERMINATE;
++	return blocking_notifier_chain_register(&priv->notifier_head, nb);
 +}
++EXPORT_SYMBOL(drm_privacy_screen_register_notifier);
 +
-+static bool __init detect_thinkpad_privacy_screen(void)
++/**
++ * drm_privacy_screen_unregister_notifier - unregister a notifier
++ * @priv: Privacy screen to register the notifier with
++ * @nb: Notifier-block for the notifier to register
++ *
++ * Unregister a notifier registered with drm_privacy_screen_register_notifier().
++ *
++ * Return: 0 on success, negative error code on failure.
++ */
++int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
++					   struct notifier_block *nb)
 +{
-+	union acpi_object obj = { .type = ACPI_TYPE_INTEGER };
-+	struct acpi_object_list args = { .count = 1, .pointer = &obj, };
-+	acpi_handle ec_handle = NULL;
-+	unsigned long long output;
-+	acpi_status status;
-+
-+	/* Get embedded-controller handle */
-+	status = acpi_get_devices("PNP0C09", acpi_set_handle, NULL, &ec_handle);
-+	if (ACPI_FAILURE(status) || !ec_handle)
-+		return false;
-+
-+	/* And call the privacy-screen get-status method */
-+	status = acpi_evaluate_integer(ec_handle, "HKEY.GSSS", &args, &output);
-+	if (ACPI_FAILURE(status))
-+		return false;
-+
-+	return (output & 0x10000) ? true : false;
++	return blocking_notifier_chain_unregister(&priv->notifier_head, nb);
 +}
-+#endif
++EXPORT_SYMBOL(drm_privacy_screen_unregister_notifier);
 +
-+static const struct arch_init_data arch_init_data[] __initconst = {
-+#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
-+	{
-+		.lookup = {
-+			.dev_id = NULL,
-+			.con_id = NULL,
-+			.provider = "privacy_screen-thinkpad_acpi",
-+		},
-+		.detect = detect_thinkpad_privacy_screen,
-+	},
-+#endif
-+};
-+
-+void __init drm_privacy_screen_lookup_init(void)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(arch_init_data); i++) {
-+		if (!arch_init_data[i].detect())
-+			continue;
-+
-+		pr_info("Found '%s' privacy-screen provider\n",
-+			arch_init_data[i].lookup.provider);
-+
-+		/* Make a copy because arch_init_data is __initconst */
-+		arch_lookup = arch_init_data[i].lookup;
-+		drm_privacy_screen_lookup_add(&arch_lookup);
-+		break;
-+	}
-+}
-+
-+void drm_privacy_screen_lookup_exit(void)
-+{
-+	if (arch_lookup.provider)
-+		drm_privacy_screen_lookup_remove(&arch_lookup);
-+}
-+#endif /* ifdef CONFIG_X86 */
-diff --git a/include/drm/drm_privacy_screen_machine.h b/include/drm/drm_privacy_screen_machine.h
-index aaa0d38cce92..02e5371904d3 100644
---- a/include/drm/drm_privacy_screen_machine.h
-+++ b/include/drm/drm_privacy_screen_machine.h
-@@ -31,11 +31,16 @@ struct drm_privacy_screen_lookup {
- void drm_privacy_screen_lookup_add(struct drm_privacy_screen_lookup *lookup);
- void drm_privacy_screen_lookup_remove(struct drm_privacy_screen_lookup *lookup);
+ /*** drm_privacy_screen_driver.h functions ***/
  
-+#if IS_ENABLED(CONFIG_DRM_PRIVACY_SCREEN) && IS_ENABLED(CONFIG_X86)
-+void drm_privacy_screen_lookup_init(void);
-+void drm_privacy_screen_lookup_exit(void);
-+#else
- static inline void drm_privacy_screen_lookup_init(void)
- {
- }
- static inline void drm_privacy_screen_lookup_exit(void)
- {
- }
-+#endif
+ static ssize_t sw_state_show(struct device *dev,
+@@ -352,6 +395,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+ 		return ERR_PTR(-ENOMEM);
  
+ 	mutex_init(&priv->lock);
++	BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
+ 
+ 	priv->dev.class = drm_class;
+ 	priv->dev.type = &drm_privacy_screen_type;
+@@ -399,3 +443,26 @@ void drm_privacy_screen_unregister(struct drm_privacy_screen *priv)
+ 	device_unregister(&priv->dev);
+ }
+ EXPORT_SYMBOL(drm_privacy_screen_unregister);
++
++/**
++ * drm_privacy_screen_call_notifier_chain - notify consumers of state change
++ * @priv: Privacy screen to register the notifier with
++ *
++ * A privacy-screen provider driver can call this functions upon external
++ * changes to the privacy-screen state. E.g. the state may be changed by the
++ * hardware itself in response to a hotkey press.
++ * This function must be called without holding the privacy-screen lock.
++ * the driver must update sw_state and hw_state to reflect the new state before
++ * calling this function.
++ * The expected behavior from the driver upon receiving an external state
++ * change event is: 1. Take the lock; 2. Update sw_state and hw_state;
++ * 3. Release the lock. 4. Call drm_privacy_screen_call_notifier_chain().
++ */
++void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen *priv)
++{
++	if (WARN_ON(mutex_is_locked(&priv->lock)))
++		return;
++
++	blocking_notifier_call_chain(&priv->notifier_head, 0, priv);
++}
++EXPORT_SYMBOL(drm_privacy_screen_call_notifier_chain);
+diff --git a/include/drm/drm_privacy_screen_consumer.h b/include/drm/drm_privacy_screen_consumer.h
+index 0cbd23b0453d..7f66a90d15b7 100644
+--- a/include/drm/drm_privacy_screen_consumer.h
++++ b/include/drm/drm_privacy_screen_consumer.h
+@@ -24,6 +24,11 @@ int drm_privacy_screen_set_sw_state(struct drm_privacy_screen *priv,
+ void drm_privacy_screen_get_state(struct drm_privacy_screen *priv,
+ 				  enum drm_privacy_screen_status *sw_state_ret,
+ 				  enum drm_privacy_screen_status *hw_state_ret);
++
++int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
++					 struct notifier_block *nb);
++int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
++					   struct notifier_block *nb);
+ #else
+ static inline struct drm_privacy_screen *drm_privacy_screen_get(struct device *dev,
+ 								const char *con_id)
+@@ -45,6 +50,16 @@ static inline void drm_privacy_screen_get_state(struct drm_privacy_screen *priv,
+ 	*sw_state_ret = PRIVACY_SCREEN_DISABLED;
+ 	*hw_state_ret = PRIVACY_SCREEN_DISABLED;
+ }
++static inline int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
++						       struct notifier_block *nb)
++{
++	return -ENODEV;
++}
++static inline int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
++							 struct notifier_block *nb)
++{
++	return -ENODEV;
++}
+ #endif
+ 
+ #endif
+diff --git a/include/drm/drm_privacy_screen_driver.h b/include/drm/drm_privacy_screen_driver.h
+index 5187ae52eb03..24591b607675 100644
+--- a/include/drm/drm_privacy_screen_driver.h
++++ b/include/drm/drm_privacy_screen_driver.h
+@@ -54,6 +54,8 @@ struct drm_privacy_screen {
+ 	struct mutex lock;
+ 	/** @list: privacy-screen devices list list-entry. */
+ 	struct list_head list;
++	/** @notifier_head: privacy-screen notifier head. */
++	struct blocking_notifier_head notifier_head;
+ 	/**
+ 	 * @ops: &struct drm_privacy_screen_ops for this privacy-screen.
+ 	 * This is NULL if the driver has unregistered the privacy-screen.
+@@ -77,4 +79,6 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+ 	struct device *parent, const struct drm_privacy_screen_ops *ops);
+ void drm_privacy_screen_unregister(struct drm_privacy_screen *priv);
+ 
++void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen *priv);
++
  #endif
 -- 
 2.31.1
