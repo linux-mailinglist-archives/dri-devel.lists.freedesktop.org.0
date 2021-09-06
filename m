@@ -2,124 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B644401888
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 11:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512AC401890
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 11:04:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 994A18982C;
-	Mon,  6 Sep 2021 09:01:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA37389870;
+	Mon,  6 Sep 2021 09:04:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2053.outbound.protection.outlook.com [40.107.220.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0AD3D89817;
- Mon,  6 Sep 2021 09:01:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=X8cfQeNM9uVwG3r//mvYPCffGj/YJLtO/5SuCn+Jn5nI9Md5OUITCT2guk8gCFkQfL1xAxqSaDLjTsXracTHVKo0Jp3k5+212gkWbTQWqdoaPKWr2enjZNcD4JVdVYunAVprU8nXvNZD8a2NjvvCQFqmmK1okMOyQ7x3WP9k33o7PhLcR7OiAzr5J9YjjORYmPBbzxzKxKIWCkcAgKQr9cGouktPhF1tkbyNRgcqiqJHIx5DKxwLuDQ+33G/r7SCRi4YFVS11KcnkjU+90pjvH1JHw45WgZSHukICZruBwFY4eXoa33rlCLJiaECawuKnXllCTkJd0IGUdsGVdlj5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Qbww/w8LcX+paftnA6J3s2hso3RCFHK1/KNuqEIa/A8=;
- b=kFeEm5kf+Sl/pS9lbz+rSazesd2o2jtYz3yrfo99W4hv0BYpRQIgUaYvEw+Il0Mp3JN5fXtTmIqHvTpOhNSvWbBXD584YyfqyQELYjAKs9+kgllBTtjlPHwlH92P6voTx0eLOZ5xut4KMLUdVrjSIzEKb3rmsHB/RBw0AU6azO8ptvJJ4xl4zEDY/aC/AvhIgutg6+4uG76NpxRCiCuNBpAyy5LWNnpRzX+V3i/qv1jGeuH9wlNWCrAd9Q5PAVWF2kGI6UQuMkJRR5lsA4T2Y1W87NUvUt8pObhI1txB0mzyegmEp8ThecPRMzKelFOcaf9bbepZB3fAGBX1QzKIeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Qbww/w8LcX+paftnA6J3s2hso3RCFHK1/KNuqEIa/A8=;
- b=WWXtzfh9jJv/ugxgvqFfirkedAnW8jX81srv5mUj9kPMUgktP76owP276OxOHG7w69Jbek7c/ojeKQp1xOIStk+NvApl5b89unxNsPUy8bfoWxUBjBDYYaYh6JMpwliPO7Wq5sYOC3ROsB3wy8qB35kMTsDDP0vds42LUNbFVTo=
-Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3678.namprd12.prod.outlook.com (2603:10b6:208:158::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.22; Mon, 6 Sep
- 2021 09:01:50 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4478.025; Mon, 6 Sep 2021
- 09:01:50 +0000
-Subject: Re: [PATCH v2 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64BF689870;
+ Mon,  6 Sep 2021 09:04:21 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id
+ j17-20020a05600c1c1100b002e754875260so4209631wms.4; 
+ Mon, 06 Sep 2021 02:04:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=rcvAoM3K+nv/BIhLYc8AOy2o5yvDCg6Pjk+Bk9jSVEI=;
+ b=BfaHWbTYcUn664I4ylN7KxmfbViqci69BMPWKx9A33j9t5HJQMbCt8lOSCuabz3w/p
+ F6HjMbBthc9Y1yiRoUyOnBzUYpFZ66MH7ie5uqJtNvwwCnfsVQ5aw46jwOMG12yot1J8
+ bP8llA5ux1njJ/sIFP4p/NmA7eRhZTmcIoGdO1SequybO0LYPJQpvqRgMlq+oqr108uv
+ xiiM1mVse76FcKF3QRsq21LmpeEm0VIt7L+EiUXbO1BtSNbCbfl39LbwQ7mGzWaBfP3n
+ J0BG1PGaP8bGYq7AudIJSXGxvrPFCJ8PJVnhHiiwIHO6DJfk875LAlk91i0qufpa0PWy
+ Hz6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=rcvAoM3K+nv/BIhLYc8AOy2o5yvDCg6Pjk+Bk9jSVEI=;
+ b=svH1zIWEmgVqIWCG6qXyZy0DPWcSR1zlvk+TT5GfgU8aGA72v39Olsbqgmy8a/a1WO
+ HK6N3vqZuPMlKpFFpWWxHUciOhjsAyGjB1BQBqiphdWPjdnctfuZLRgfTBcGKsnYQoKJ
+ NQDBCqc/EzO6xCJ0DBdHEEkd8lKxmj3ILbuDefj9xZWM/0KWhTOU0hpj1v6VCjcDTn0A
+ EtHGyZY/ff5Pje+6AJthyhSoyKJafjG7RHGpelf5mdtZhuIrQQrn1Wt3+Z5llzvxse5g
+ tRdHfHv8Ijb3+GNSeJDCdE3Q7M0+qHYvDbFk9METmpSUPmnQ0gFcrZFYeUBJzjiOjkhu
+ HuLg==
+X-Gm-Message-State: AOAM532s4VXh7mjjUcXrIvsS3cGuwjNGsSnTwjYrn6PIXK2Ts+TwVgTG
+ gUezarL3hUajG69F1viXOo/ojWeqycI=
+X-Google-Smtp-Source: ABdhPJwTwcgtWd7CxpajIEga3xHEKuOuA9sxbtk2wL4LqzjiTgnH66pTZSJJpfVEr2p/1cnWEtP23A==
+X-Received: by 2002:a1c:1cc:: with SMTP id 195mr10409335wmb.188.1630919059929; 
+ Mon, 06 Sep 2021 02:04:19 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:e317:935c:f697:77f0?
+ ([2a02:908:1252:fb60:e317:935c:f697:77f0])
+ by smtp.gmail.com with ESMTPSA id u16sm7546971wmc.41.2021.09.06.02.04.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 06 Sep 2021 02:04:19 -0700 (PDT)
+Subject: Re: [PATCH v2 0/2] Fix a hung during memory pressure test
 To: xinhui pan <xinhui.pan@amd.com>, amd-gfx@lists.freedesktop.org
-Cc: alexander.deucher@amd.com, chenli@uniontech.com,
- dri-devel@lists.freedesktop.org
+Cc: alexander.deucher@amd.com, christian.koenig@amd.com,
+ chenli@uniontech.com, dri-devel@lists.freedesktop.org
 References: <20210906011210.80327-1-xinhui.pan@amd.com>
- <20210906011210.80327-3-xinhui.pan@amd.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <c1d720c1-53fc-e2f7-dbe4-b7dabfe8357f@amd.com>
-Date: Mon, 6 Sep 2021 11:01:44 +0200
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <6e225a21-aa39-d196-9d11-82705599445b@gmail.com>
+Date: Mon, 6 Sep 2021 11:04:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-In-Reply-To: <20210906011210.80327-3-xinhui.pan@amd.com>
+MIME-Version: 1.0
+In-Reply-To: <20210906011210.80327-1-xinhui.pan@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-X-ClientProxiedBy: AM9P195CA0023.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::28) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
-MIME-Version: 1.0
-Received: from [IPv6:2a02:908:1252:fb60:e317:935c:f697:77f0]
- (2a02:908:1252:fb60:e317:935c:f697:77f0) by
- AM9P195CA0023.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19 via Frontend Transport; Mon, 6 Sep 2021 09:01:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: e7ad8d19-98d0-412f-1332-08d97114f62c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3678:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB367884B3D5B190380A963C2A83D29@MN2PR12MB3678.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:133;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6bOYxFRJznaYrzFYAPQoOzbJqI5fX4mppSF7mtCuirh/Ya3t0Xq1fbQXIEKxsaRRPtNDmolpUHkJBSWpaV34qiZNXJbYyks/VPXQRYBXX2SeoWfQcq2i9CgcVWVfCQGwB6OLQp4GQbvSF1UaO0RXyIL0EotWepOlbElc4+bp4kACyzhuJrrSPtfTGhi/mflEL/vt4LfEnbY1hZKmIm7k0sKsgEJu5CMdNgFz3uwLPkXWkcEa48ZwcUN2yRzv7zOopzxgQB3aFdCzZqqaa4o22V884dALBFomTZvTeKVgPL4LzY0TD9C9Gi1rPJa7cVnpvVwsw3PmxmX9i/PUs4rqw4EMxFTRaX877jg8SMAhhw9QXWKjnD/JuZaZ8N4ykEYzEc3iy3oQwQUiJmJu1hEdfpI15r2YMqradaxa2qXxLLR5zb3BVXx3inAGkKAW3EjVjoO1+FfnPeluL46weagKKwvXqbrlumnotQqsKE0kS/GdFaZ8GsCzbx63ShkYZmVlo1ygI1xMVQ4E+d5YmU1LtqhXpt2KHzbzyHynFu1kHBF9BOejIJ/WEkblAvOMFzqXdRnaJv8tikfXNgRLbLRNQeL0FHJdnZdnRgWcmRhAsgQ5F3rxd+0dLudD1hUTXt5rE6toU4mR/uo+R9Jj0F5ztRKHq1XDNi9pWbHGfJxigFiFD/+iSrf10xpFKDrBtK7Wl5cKEHugz7nnYbHkCVyR7CkhwIMovW88AHO/dVi5V14=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(366004)(136003)(39860400002)(346002)(38100700002)(478600001)(31696002)(86362001)(8676002)(31686004)(5660300002)(6666004)(6486002)(316002)(4326008)(2906002)(2616005)(36756003)(186003)(8936002)(66946007)(66476007)(66556008)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVlQWkVkRDV1dTJYeEUvRWsxekV6WUtmcW9FTzB0RnB3WlVZRHNRaW5DOHoz?=
- =?utf-8?B?Q2RIM2RHV2x4SjlFVkxUUHNXZVdyMU5KRE1EZmNSTEliSnpXN3FZUmhZQlRK?=
- =?utf-8?B?YmU5bXVWNURJUllnVVB1eXF4L3pINk5kVjhaNFE5cmo2SXBqWnNjRjNweWFO?=
- =?utf-8?B?dXNGYUVlWUJHNkhkelR1TS9jV3B4UW1mRVpHUnl4Q2krTWQzNFYzQ2tVQ3Nq?=
- =?utf-8?B?WHpyeUhsSGFZSzBsQTRJblNlRGl5WGtlUUJ4RWdNU1ZmVW9raFdpdnVZblBS?=
- =?utf-8?B?bERRRkR6bUtaV253cVdxKzYxbjNOeWRMTzE5MEZOMmM5NnM0VzVFU29yalpx?=
- =?utf-8?B?K3E2aklOblg0ZjdNV1poc1FMZklyM1FTMG9lQXVwN2NiQlhCenc0U25ZNXBL?=
- =?utf-8?B?SFkwRzdoRDhQSzZzZk1iTXNCMlk5RS9XTzlBSFlIREpZckh4ZU41alJDY2dX?=
- =?utf-8?B?QWllNlNWQk5iRldFdTdyelRLak1nU0dlUk5UWXZVWURtcFR1bm9OOTFocDRr?=
- =?utf-8?B?cEhFUTRPTTdDc1BWbmdmTjRiSldxaEtyU0JVbnExSHRud0hiQ2ZzRFRWZ2Zw?=
- =?utf-8?B?K2NaWTJQcnRBQitxelZ0RFZZYUZoWG5CL0g0NnJmUUN4SGU1T3ZXWC90dEZs?=
- =?utf-8?B?bVpyYzF3bGE2TjZwU3lqNEZ0NkNRSEJjT0svTWVLc3lmK21QWXBwQi9xMTVT?=
- =?utf-8?B?aEIrdm14K3NYUVJxS2VLbzVJbVp0UFAycis3eWZRL2IrTUQvRUJsKzhmWGI0?=
- =?utf-8?B?a0lyY3o3UFBaTzRXbjVtcmMzZXI5Qmp0NE9LYmszMSt3dzdxTnAvb0FiaTdY?=
- =?utf-8?B?SVpDZUJUOElIMkVCQVFQMVFjMDJSRVhqS1dhZnJ4QmJLd2ZxSVZHU3J2M2lk?=
- =?utf-8?B?MUNzM202TGFhNlBaSE10M2N0WVE4bkdiei9xNVc5SmE0dWl3YUU2M2tQVk5k?=
- =?utf-8?B?dk9oNitIYktmc0VnMlJmQkErSEE4ZUl2ZGpTZkNBanpncXNPeG1xL01WeElQ?=
- =?utf-8?B?TTNsZEEvME9oVDhLYWQ2Z2pzamR1Z2tOR2M0TDdDSGQ5VE1WRFFCay8wN3Rj?=
- =?utf-8?B?YnlGdk53cnpXdE1xSWZ2aTY2MTVmc1IvaWczMnJnVnI5QU4wQzRJek9penJs?=
- =?utf-8?B?NlQ1eGN4bFZXbGEyWlN3USt4RjI5cWRaeXJPZVo3ZFg2NldFdzUveERJM2NE?=
- =?utf-8?B?cCtpTHpSMDB0blZpc3FkMU1sSzNTbWcrd0F3WjlsQ29vZkZMdDMyenhNalhG?=
- =?utf-8?B?RDBpbjJnSGZEaGVUTFBRRitzTTIrdVE1Vm5YYzkwby9rd2IvMjBaRUY1dVVR?=
- =?utf-8?B?VklkSnBaR2xMUGhwVmV0dnZDaGFVNGt2ZFVqMS9TdWVzVlhQTFZNN3dMb3JS?=
- =?utf-8?B?OGVLYUpQcEJ1TGxQYlhlYmFGQ0JVU3daVTRUZFdTU1pBdUpLazAyMTZ6OVYv?=
- =?utf-8?B?a3R6TzN0ZXMwcEFwRlovYXBnejdSR0prT2RkZHZ2Z3B0WWc2RGNvTjNwT0VW?=
- =?utf-8?B?OGNpNjlBOFNFUXJxMTNkZG1ZSWFYbm05SGM4cTRPTklRaS9yRUNjaUdQTHR3?=
- =?utf-8?B?Y2ErZVNVa3FZb2treFVhamowUkpxWEo3dng0Uno0cXdQUTlFVDY5NGpiQ0FL?=
- =?utf-8?B?K1hLb0VYSXA3UlVDRE11cmR4Mk9ReHlrdnJHRUpQY3NDZ0NBOHlpSEYrT1Ez?=
- =?utf-8?B?RjN6TUhKVStMNTRJdG8xVHFBTm9pS0Z0Q3Jzck9QUGdaSUVlL25TYlpvRk0x?=
- =?utf-8?B?aC9iNnUrOTZvNHM4ajJZRFZzSHJvbVJxNkpwb0JCVnZKMVVjcVlSOG9HMFVF?=
- =?utf-8?B?VGRqUnRZSG5BT3pJU2JEMDRaRUpKQ0JtTm54KzFkS1cyNy90dHpUU1lsT2pP?=
- =?utf-8?Q?sTAjRgmddnnck?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7ad8d19-98d0-412f-1332-08d97114f62c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2021 09:01:49.8600 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3rTDASQX0eUqaP4B5+TZpQsau1Of2q+/lgOGoEdYGk7cECczkZF8DNgPYPii0O9T
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3678
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,51 +78,161 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+
+
 Am 06.09.21 um 03:12 schrieb xinhui pan:
-> Like vce/vcn does, visible VRAM is OK for ib test.
-> While commit a11d9ff3ebe0 ("drm/amdgpu: use GTT for
-> uvd_get_create/destory_msg") says VRAM is not mapped correctly in his
-> platform which is likely an arm64.
+> A long time ago, someone reports system got hung during memory test.
+> In recent days, I am trying to look for or understand the potential
+> deadlock in ttm/amdgpu code.
 >
-> So lets change back to use VRAM on x86_64 platform.
+> This patchset aims to fix the deadlock during ttm populate.
+>
+> TTM has a parameter called pages_limit, when allocated GTT memory
+> reaches this limit, swapout would be triggered. As ttm_bo_swapout does
+> not return the correct retval, populate might get hung.
+>
+> UVD ib test uses GTT which might be insufficient. So a gpu recovery
+> would hung if populate hung.
 
-That's still a rather clear NAK. This issue is not related to ARM at all 
-and you are trying to fix a problem which is independent of the platform.
+Ah, now I understand what you are trying to do.
 
+Problem is that won't work either. Allocating VRAM can easily land you 
+inside the same deadlock.
+
+We need to avoid the allocation altogether for this for work correctly.
+
+>
+> I have made one drm test which alloc two GTT BOs, submit gfx copy
+> commands and free these BOs without waiting fence. What's more, these
+> gfx copy commands will cause gfx ring hang. So gpu recovery would be
+> triggered.
+
+Mhm, that should never be possible. It is perfectly valid for an 
+application to terminate without waitting for the GFX submission to be 
+completed.
+
+Going to push patch #1 to drm-misc-fixes or drm-misc-next-fixes in a moment.
+
+Thanks,
 Christian.
 
 >
-> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
-> ---
->   drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 8 ++++++++
->   1 file changed, 8 insertions(+)
+> Now here is one possible deadlock case.
+> gpu_recovery
+>   -> stop drm scheduler
+>   -> asic reset
+>     -> ib test
+>        -> tt populate (uvd ib test)
+> 	->  ttm_bo_swapout (BO A) // this always fails as the fence of
+> 	BO A would not be signaled by schedluer or HW. Hit deadlock.
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> index d451c359606a..e4b75f33ccc8 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-> @@ -1178,7 +1178,11 @@ int amdgpu_uvd_get_create_msg(struct amdgpu_ring *ring, uint32_t handle,
->   	int r, i;
+> I paste the drm test patch below.
+> #modprobe ttm pages_limit=65536
+> #amdgpu_test -s 1 -t 4
+> ---
+>   tests/amdgpu/basic_tests.c | 32 ++++++++++++++------------------
+>   1 file changed, 14 insertions(+), 18 deletions(-)
+>
+> diff --git a/tests/amdgpu/basic_tests.c b/tests/amdgpu/basic_tests.c
+> index dbf02fee..f85ed340 100644
+> --- a/tests/amdgpu/basic_tests.c
+> +++ b/tests/amdgpu/basic_tests.c
+> @@ -65,13 +65,16 @@ static void amdgpu_direct_gma_test(void);
+>   static void amdgpu_command_submission_write_linear_helper(unsigned ip_type);
+>   static void amdgpu_command_submission_const_fill_helper(unsigned ip_type);
+>   static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type);
+> -static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+> +static void _amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+>   				       unsigned ip_type,
+>   				       int instance, int pm4_dw, uint32_t *pm4_src,
+>   				       int res_cnt, amdgpu_bo_handle *resources,
+>   				       struct amdgpu_cs_ib_info *ib_info,
+> -				       struct amdgpu_cs_request *ibs_request);
+> +				       struct amdgpu_cs_request *ibs_request, int sync, int repeat);
+>    
+> +#define amdgpu_test_exec_cs_helper(...) \
+> +	_amdgpu_test_exec_cs_helper(__VA_ARGS__, 1, 1)
+> +
+>   CU_TestInfo basic_tests[] = {
+>   	{ "Query Info Test",  amdgpu_query_info_test },
+>   	{ "Userptr Test",  amdgpu_userptr_test },
+> @@ -1341,12 +1344,12 @@ static void amdgpu_command_submission_compute(void)
+>    * pm4_src, resources, ib_info, and ibs_request
+>    * submit command stream described in ibs_request and wait for this IB accomplished
+>    */
+> -static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+> +static void _amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+>   				       unsigned ip_type,
+>   				       int instance, int pm4_dw, uint32_t *pm4_src,
+>   				       int res_cnt, amdgpu_bo_handle *resources,
+>   				       struct amdgpu_cs_ib_info *ib_info,
+> -				       struct amdgpu_cs_request *ibs_request)
+> +				       struct amdgpu_cs_request *ibs_request, int sync, int repeat)
+>   {
+>   	int r;
+>   	uint32_t expired;
+> @@ -1395,12 +1398,15 @@ static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+>   	CU_ASSERT_NOT_EQUAL(ibs_request, NULL);
 >   
->   	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
-> +#ifdef CONFIG_X86_64
-> +				      AMDGPU_GEM_DOMAIN_VRAM,
-> +#else
->   				      AMDGPU_GEM_DOMAIN_GTT,
-> +#endif
->   				      &bo, NULL, (void **)&msg);
->   	if (r)
->   		return r;
-> @@ -1210,7 +1214,11 @@ int amdgpu_uvd_get_destroy_msg(struct amdgpu_ring *ring, uint32_t handle,
->   	int r, i;
+>   	/* submit CS */
+> -	r = amdgpu_cs_submit(context_handle, 0, ibs_request, 1);
+> +	while (repeat--)
+> +		r = amdgpu_cs_submit(context_handle, 0, ibs_request, 1);
+>   	CU_ASSERT_EQUAL(r, 0);
 >   
->   	r = amdgpu_bo_create_reserved(adev, 1024, PAGE_SIZE,
-> +#ifdef CONFIG_X86_64
-> +				      AMDGPU_GEM_DOMAIN_VRAM,
-> +#else
->   				      AMDGPU_GEM_DOMAIN_GTT,
-> +#endif
->   				      &bo, NULL, (void **)&msg);
->   	if (r)
->   		return r;
+>   	r = amdgpu_bo_list_destroy(ibs_request->resources);
+>   	CU_ASSERT_EQUAL(r, 0);
+>   
+> +	if (!sync)
+> +		return;
+>   	fence_status.ip_type = ip_type;
+>   	fence_status.ip_instance = 0;
+>   	fence_status.ring = ibs_request->ring;
+> @@ -1667,7 +1673,7 @@ static void amdgpu_command_submission_sdma_const_fill(void)
+>   
+>   static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+>   {
+> -	const int sdma_write_length = 1024;
+> +	const int sdma_write_length = (255) << 20;
+>   	const int pm4_dw = 256;
+>   	amdgpu_context_handle context_handle;
+>   	amdgpu_bo_handle bo1, bo2;
+> @@ -1715,8 +1721,6 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+>   							    &bo1_va_handle);
+>   				CU_ASSERT_EQUAL(r, 0);
+>   
+> -				/* set bo1 */
+> -				memset((void*)bo1_cpu, 0xaa, sdma_write_length);
+>   
+>   				/* allocate UC bo2 for sDMA use */
+>   				r = amdgpu_bo_alloc_and_map(device_handle,
+> @@ -1727,8 +1731,6 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+>   							    &bo2_va_handle);
+>   				CU_ASSERT_EQUAL(r, 0);
+>   
+> -				/* clear bo2 */
+> -				memset((void*)bo2_cpu, 0, sdma_write_length);
+>   
+>   				resources[0] = bo1;
+>   				resources[1] = bo2;
+> @@ -1785,17 +1787,11 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+>   					}
+>   				}
+>   
+> -				amdgpu_test_exec_cs_helper(context_handle,
+> +				_amdgpu_test_exec_cs_helper(context_handle,
+>   							   ip_type, ring_id,
+>   							   i, pm4,
+>   							   2, resources,
+> -							   ib_info, ibs_request);
+> -
+> -				/* verify if SDMA test result meets with expected */
+> -				i = 0;
+> -				while(i < sdma_write_length) {
+> -					CU_ASSERT_EQUAL(bo2_cpu[i++], 0xaa);
+> -				}
+> +							   ib_info, ibs_request, 0, 100);
+>   				r = amdgpu_bo_unmap_and_free(bo1, bo1_va_handle, bo1_mc,
+>   							     sdma_write_length);
+>   				CU_ASSERT_EQUAL(r, 0);
 
