@@ -2,36 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4054E401905
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 11:42:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBF7B401935
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 11:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80F81898ED;
-	Mon,  6 Sep 2021 09:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9127989930;
+	Mon,  6 Sep 2021 09:50:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out30-43.freemail.mail.aliyun.com
- (out30-43.freemail.mail.aliyun.com [115.124.30.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DA528898ED;
- Mon,  6 Sep 2021 09:42:49 +0000 (UTC)
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R171e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=e01e04426;
- MF=jiapeng.chong@linux.alibaba.com; NM=1; PH=DS; RN=9; SR=0;
- TI=SMTPD_---0UnPH424_1630921355; 
-Received: from
- j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com
- fp:SMTPD_---0UnPH424_1630921355) by smtp.aliyun-inc.com(127.0.0.1);
- Mon, 06 Sep 2021 17:42:47 +0800
-From: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-To: alexander.deucher@amd.com
-Cc: christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- chongjiapeng <jiapeng.chong@linux.alibaba.com>
-Subject: [PATCH] drm/amd/display: make configure_lttpr_mode_transparent and
- configure_lttpr_mode_non_transparent static
-Date: Mon,  6 Sep 2021 17:42:27 +0800
-Message-Id: <1630921347-122646-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-X-Mailer: git-send-email 1.8.3.1
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C44FC89930
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 09:50:17 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10098"; a="200142545"
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="200142545"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 02:50:16 -0700
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="536692853"
+Received: from isandweg-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.251.212.194])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 02:50:10 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 02/16] drm/edid: Break out reading block 0 of the EDID
+In-Reply-To: <20210901131531.v3.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
+Date: Mon, 06 Sep 2021 12:50:07 +0300
+Message-ID: <87k0ju8240.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,48 +57,123 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: chongjiapeng <jiapeng.chong@linux.alibaba.com>
+On Wed, 01 Sep 2021, Douglas Anderson <dianders@chromium.org> wrote:
+> A future change wants to be able to read just block 0 of the EDID, so
+> break it out of drm_do_get_edid() into a sub-function.
+>
+> This is intended to be a no-op change--just code movement.
+>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
+>
+> (no changes since v1)
+>
+>  drivers/gpu/drm/drm_edid.c | 62 +++++++++++++++++++++++++++-----------
+>  1 file changed, 44 insertions(+), 18 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 6325877c5fd6..a22c38482a90 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -1905,6 +1905,43 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
+>  }
+>  EXPORT_SYMBOL(drm_add_override_edid_modes);
+>  
+> +static struct edid *drm_do_get_edid_blk0(
 
-This symbols is not used outside of dc_link_dp.c, so marks it static.
+Maybe base_block instead of blk0?
 
-Fix the following sparse warning:
+> +	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
+> +			      size_t len),
+> +	void *data, bool *edid_corrupt, int *null_edid_counter)
+> +{
+> +	int i;
+> +	u8 *edid;
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1766:16:
-warning: symbol 'configure_lttpr_mode_non_transparent' was not declared.
-Should it be static?
+With void *edid, this function wouldn't need the cast internally.
 
-drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1755:16:
-warning: symbol 'configure_lttpr_mode_transparent' was not declared.
-Should it be static?
+> +
+> +	if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
+> +		return NULL;
 
-Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-Signed-off-by: chongjiapeng <jiapeng.chong@linux.alibaba.com>
----
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Could split the allocation and NULL check to two separate lines per
+coding style, while at it?
 
-diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-index a666401..4e2cf8f 100644
---- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-+++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-@@ -1752,7 +1752,7 @@ uint8_t dp_convert_to_count(uint8_t lttpr_repeater_count)
- 	return 0; // invalid value
- }
- 
--enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
-+static enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
- {
- 	uint8_t repeater_mode = DP_PHY_REPEATER_MODE_TRANSPARENT;
- 
-@@ -1763,7 +1763,7 @@ enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
- 			sizeof(repeater_mode));
- }
- 
--enum dc_status configure_lttpr_mode_non_transparent(
-+static enum dc_status configure_lttpr_mode_non_transparent(
- 		struct dc_link *link,
- 		const struct link_training_settings *lt_settings)
- {
+BR,
+Jani.
+
+> +
+> +	/* base block fetch */
+> +	for (i = 0; i < 4; i++) {
+> +		if (get_edid_block(data, edid, 0, EDID_LENGTH))
+> +			goto out;
+> +		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
+> +			break;
+> +		if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
+> +			if (null_edid_counter)
+> +				(*null_edid_counter)++;
+> +			goto carp;
+> +		}
+> +	}
+> +	if (i == 4)
+> +		goto carp;
+> +
+> +	return (struct edid *)edid;
+> +
+> +carp:
+> +	kfree(edid);
+> +	return ERR_PTR(-EINVAL);
+> +
+> +out:
+> +	kfree(edid);
+> +	return NULL;
+> +}
+> +
+>  /**
+>   * drm_do_get_edid - get EDID data using a custom EDID block read function
+>   * @connector: connector we're probing
+> @@ -1938,25 +1975,16 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  	if (override)
+>  		return override;
+>  
+> -	if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
+> +	edid = (u8 *)drm_do_get_edid_blk0(get_edid_block, data,
+> +					  &connector->edid_corrupt,
+> +					  &connector->null_edid_counter);
+> +	if (IS_ERR_OR_NULL(edid)) {
+> +		if (IS_ERR(edid))
+> +			connector_bad_edid(connector, edid, 1);
+>  		return NULL;
+> -
+> -	/* base block fetch */
+> -	for (i = 0; i < 4; i++) {
+> -		if (get_edid_block(data, edid, 0, EDID_LENGTH))
+> -			goto out;
+> -		if (drm_edid_block_valid(edid, 0, false,
+> -					 &connector->edid_corrupt))
+> -			break;
+> -		if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
+> -			connector->null_edid_counter++;
+> -			goto carp;
+> -		}
+>  	}
+> -	if (i == 4)
+> -		goto carp;
+>  
+> -	/* if there's no extensions, we're done */
+> +	/* if there's no extensions or no connector, we're done */
+>  	valid_extensions = edid[0x7e];
+>  	if (valid_extensions == 0)
+>  		return (struct edid *)edid;
+> @@ -2010,8 +2038,6 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  
+>  	return (struct edid *)edid;
+>  
+> -carp:
+> -	connector_bad_edid(connector, edid, 1);
+>  out:
+>  	kfree(edid);
+>  	return NULL;
+
 -- 
-1.8.3.1
-
+Jani Nikula, Intel Open Source Graphics Center
