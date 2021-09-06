@@ -2,40 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42FF540171C
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:36:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE08140171D
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:36:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 125F089B78;
-	Mon,  6 Sep 2021 07:36:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C7BE89BC2;
+	Mon,  6 Sep 2021 07:36:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 23ADF89B78
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:36:05 +0000 (UTC)
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5342B89B97
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:36:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1630913764;
+ s=mimecast20190719; t=1630913767;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t/EcWDK/S2a6lcEU+Hyijrbj7K8G3WQq6PVWeyiwCTc=;
- b=RSU56n8GsBeFtDVLp+QbYQzdB5a0tvAehUOygNGC4oh5iur12CeXbRpHeFJsHeDExVYnEY
- gz6bEhqZSXUcdAwUFGCLf41ZGqUTCMnoAJTEzjnLvU/LStWJkjhDZMqG4N31GVSvSRfEhC
- oX9cdKrI7ouTi+CeBpkSBDm64UUqP4k=
+ bh=1bimw5AEo5pLlj1lhOknPnnadrUGTYW6BrWlVRTPk1g=;
+ b=Lh360Eeof2yz4W38XXmpkfY1/ro7vVDMkMmmVSCeuDbdlHFDHGX/4UsieQ4SSYO13uLYnH
+ RHpxg5jJIRRRdR3MsC1xYFYmpCuaHNvhTvdA8Gfm2xHYiqOFmQzPJCKqmfzLL5zuTk/Wza
+ 7oUQfuALLjhSKqsw9/q8oV5akU6VwTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-CP7rwctQPSyOIdKUwvUEFA-1; Mon, 06 Sep 2021 03:36:01 -0400
-X-MC-Unique: CP7rwctQPSyOIdKUwvUEFA-1
+ us-mta-143-d6gZtzltPsGnReSviRJJnw-1; Mon, 06 Sep 2021 03:36:06 -0400
+X-MC-Unique: d6gZtzltPsGnReSviRJJnw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C36A4802947;
- Mon,  6 Sep 2021 07:35:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B03DA100C607;
+ Mon,  6 Sep 2021 07:36:03 +0000 (UTC)
 Received: from x1.localdomain.com (unknown [10.39.194.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F94617A98;
- Mon,  6 Sep 2021 07:35:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 12B346091B;
+ Mon,  6 Sep 2021 07:35:58 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>,
@@ -54,10 +54,10 @@ Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: [PATCH 6/9] platform/x86: thinkpad_acpi: Add
- hotkey_notify_extended_hotkey() helper
-Date: Mon,  6 Sep 2021 09:35:16 +0200
-Message-Id: <20210906073519.4615-7-hdegoede@redhat.com>
+Subject: [PATCH 7/9] platform/x86: thinkpad_acpi: Get privacy-screen /
+ lcdshadow ACPI handles only once
+Date: Mon,  6 Sep 2021 09:35:17 +0200
+Message-Id: <20210906073519.4615-8-hdegoede@redhat.com>
 In-Reply-To: <20210906073519.4615-1-hdegoede@redhat.com>
 References: <20210906073519.4615-1-hdegoede@redhat.com>
 MIME-Version: 1.0
@@ -78,67 +78,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Factor the extended hotkey handling out of hotkey_notify_hotkey() and
-into a new hotkey_notify_extended_hotkey() helper.
-
-This is a preparation patch for adding support the privacy-screen hotkey
-toggle (which needs some special handling, it should NOT send an evdev
-key-event to userspace...).
+Get the privacy-screen / lcdshadow ACPI handles once and cache them,
+instead of retrieving them every time we need them.
 
 Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/platform/x86/thinkpad_acpi.c | 30 ++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/platform/x86/thinkpad_acpi.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/platform/x86/thinkpad_acpi.c b/drivers/platform/x86/thinkpad_acpi.c
-index 50ff04c84650..83c88a8ebaf2 100644
+index 83c88a8ebaf2..b8f2556c4797 100644
 --- a/drivers/platform/x86/thinkpad_acpi.c
 +++ b/drivers/platform/x86/thinkpad_acpi.c
-@@ -3885,6 +3885,24 @@ static bool adaptive_keyboard_hotkey_notify_hotkey(unsigned int scancode)
- 	}
- }
+@@ -9819,19 +9819,15 @@ static struct ibm_struct battery_driver_data = {
+  * LCD Shadow subdriver, for the Lenovo PrivacyGuard feature
+  */
  
-+static bool hotkey_notify_extended_hotkey(const u32 hkey)
-+{
-+	unsigned int scancode;
-+
-+	/* Extended keycodes start at 0x300 and our offset into the map
-+	 * TP_ACPI_HOTKEYSCAN_EXTENDED_START. The calculated scancode
-+	 * will be positive, but might not be in the correct range.
-+	 */
-+	scancode = (hkey & 0xfff) - (0x300 - TP_ACPI_HOTKEYSCAN_EXTENDED_START);
-+	if (scancode >= TP_ACPI_HOTKEYSCAN_EXTENDED_START &&
-+	    scancode < TPACPI_HOTKEY_MAP_LEN) {
-+		tpacpi_input_send_key(scancode);
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- static bool hotkey_notify_hotkey(const u32 hkey,
- 				 bool *send_acpi_ev,
- 				 bool *ignore_acpi_ev)
-@@ -3919,17 +3937,7 @@ static bool hotkey_notify_hotkey(const u32 hkey,
- 		return adaptive_keyboard_hotkey_notify_hotkey(scancode);
++static acpi_handle lcdshadow_get_handle;
++static acpi_handle lcdshadow_set_handle;
+ static int lcdshadow_state;
  
- 	case 3:
--		/* Extended keycodes start at 0x300 and our offset into the map
--		 * TP_ACPI_HOTKEYSCAN_EXTENDED_START. The calculated scancode
--		 * will be positive, but might not be in the correct range.
--		 */
--		scancode -= (0x300 - TP_ACPI_HOTKEYSCAN_EXTENDED_START);
--		if (scancode >= TP_ACPI_HOTKEYSCAN_EXTENDED_START &&
--		    scancode < TPACPI_HOTKEY_MAP_LEN) {
--			tpacpi_input_send_key(scancode);
--			return true;
--		}
--		break;
-+		return hotkey_notify_extended_hotkey(hkey);
+ static int lcdshadow_on_off(bool state)
+ {
+-	acpi_handle set_shadow_handle;
+ 	int output;
+ 
+-	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "SSSS", &set_shadow_handle))) {
+-		pr_warn("Thinkpad ACPI has no %s interface.\n", "SSSS");
+-		return -EIO;
+-	}
+-
+-	if (!acpi_evalf(set_shadow_handle, &output, NULL, "dd", (int)state))
++	if (!acpi_evalf(lcdshadow_set_handle, &output, NULL, "dd", (int)state))
+ 		return -EIO;
+ 
+ 	lcdshadow_state = state;
+@@ -9849,15 +9845,17 @@ static int lcdshadow_set(bool on)
+ 
+ static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
+ {
+-	acpi_handle get_shadow_handle;
++	acpi_status status1, status2;
+ 	int output;
+ 
+-	if (ACPI_FAILURE(acpi_get_handle(hkey_handle, "GSSS", &get_shadow_handle))) {
++	status1 = acpi_get_handle(hkey_handle, "GSSS", &lcdshadow_get_handle);
++	status2 = acpi_get_handle(hkey_handle, "SSSS", &lcdshadow_set_handle);
++	if (ACPI_FAILURE(status1) || ACPI_FAILURE(status2)) {
+ 		lcdshadow_state = -ENODEV;
+ 		return 0;
  	}
  
- 	return false;
+-	if (!acpi_evalf(get_shadow_handle, &output, NULL, "dd", 0)) {
++	if (!acpi_evalf(lcdshadow_get_handle, &output, NULL, "dd", 0)) {
+ 		lcdshadow_state = -EIO;
+ 		return -EIO;
+ 	}
 -- 
 2.31.1
 
