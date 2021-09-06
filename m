@@ -2,49 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F2E4016D0
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:16:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1881C4016F3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:29:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4334E89993;
-	Mon,  6 Sep 2021 07:15:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B168897F5;
+	Mon,  6 Sep 2021 07:29:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D202F89993
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:15:47 +0000 (UTC)
-X-UUID: 8038375a89f24fc399769b3cf5796548-20210906
-X-UUID: 8038375a89f24fc399769b3cf5796548-20210906
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1810491144; Mon, 06 Sep 2021 15:15:44 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 6 Sep 2021 15:15:42 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Mon, 6 Sep 2021 15:15:43 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <singo.chang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v5 16/16] drm/mediatek: add mediatek-drm of vdosys1 support
- for MT8195
-Date: Mon, 6 Sep 2021 15:15:39 +0800
-Message-ID: <20210906071539.12953-17-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210906071539.12953-1-nancy.lin@mediatek.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 764CC897F5
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:29:21 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mN948-0000Qj-Dr; Mon, 06 Sep 2021 09:29:16 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mN946-0005Cl-If; Mon, 06 Sep 2021 09:29:14 +0200
+Message-ID: <d93c6866fb8a6e9bebf3b3ed6959e2c3abaf647d.camel@pengutronix.de>
+Subject: Re: [PATCH v5 09/16] soc: mediatek: mmsys: modify reset controller
+ for MT8195 vdosys1
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: "Nancy.Lin" <nancy.lin@mediatek.com>, CK Hu <ck.hu@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie
+ <airlied@linux.ie>,  Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,  "jason-jh
+ . lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu
+ <yongqiang.niu@mediatek.com>,  dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org,  devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ singo.chang@mediatek.com,  srv_heupstream@mediatek.com
+Date: Mon, 06 Sep 2021 09:29:14 +0200
+In-Reply-To: <20210906071539.12953-10-nancy.lin@mediatek.com>
 References: <20210906071539.12953-1-nancy.lin@mediatek.com>
+ <20210906071539.12953-10-nancy.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,153 +63,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm and the sub driver.
+Hi Nancy,
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_merge.c   |  4 ++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 15 +++++++++++++++
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 17 +++++++++++++++++
- 4 files changed, 37 insertions(+)
+On Mon, 2021-09-06 at 15:15 +0800, Nancy.Lin wrote:
+> MT8195 vdosys1 has more than 32 reset bits and a different reset base
+> than other chips. Modify mmsys for support 64 bit and different reset
+> base.
+>=20
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
+> ---
+>  drivers/soc/mediatek/mt8195-mmsys.h |  1 +
+>  drivers/soc/mediatek/mtk-mmsys.c    | 15 ++++++++++++---
+>  drivers/soc/mediatek/mtk-mmsys.h    |  1 +
+>  3 files changed, 14 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/soc/mediatek/mt8195-mmsys.h b/drivers/soc/mediatek/m=
+t8195-mmsys.h
+> index 648baaec112b..f67801c42fd9 100644
+> --- a/drivers/soc/mediatek/mt8195-mmsys.h
+> +++ b/drivers/soc/mediatek/mt8195-mmsys.h
+> @@ -123,6 +123,7 @@
+>  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				0xf68
+>  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER		(0 << 0)
+> =20
+> +#define MT8195_VDO1_SW0_RST_B           0x1d0
+>  #define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
+>  #define MT8195_VDO1_MERGE1_ASYNC_CFG_WD	0xe40
+>  #define MT8195_VDO1_MERGE2_ASYNC_CFG_WD	0xe50
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-=
+mmsys.c
+> index 060065501b8a..97cb26339ef6 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -18,6 +18,8 @@
+>  #include "mt8365-mmsys.h"
+>  #include "mt8195-mmsys.h"
+> =20
+> +#define MMSYS_SW_RESET_PER_REG 32
+> +
+>  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data =3D {
+>  	.clk_driver =3D "clk-mt2701-mm",
+>  	.routes =3D mmsys_default_routing_table,
+> @@ -48,12 +50,14 @@ static const struct mtk_mmsys_driver_data mt8173_mmsy=
+s_driver_data =3D {
+>  	.clk_driver =3D "clk-mt8173-mm",
+>  	.routes =3D mmsys_default_routing_table,
+>  	.num_routes =3D ARRAY_SIZE(mmsys_default_routing_table),
+> +	.sw_reset_start =3D MMSYS_SW0_RST_B,
+>  };
+> =20
+>  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data =3D {
+>  	.clk_driver =3D "clk-mt8183-mm",
+>  	.routes =3D mmsys_mt8183_routing_table,
+>  	.num_routes =3D ARRAY_SIZE(mmsys_mt8183_routing_table),
+> +	.sw_reset_start =3D MMSYS_SW0_RST_B,
+>  };
+> =20
+>  static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data =3D {
+> @@ -74,6 +78,7 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys=
+1_driver_data =3D {
+>  	.num_routes =3D ARRAY_SIZE(mmsys_mt8195_routing_table),
+>  	.config =3D mmsys_mt8195_config_table,
+>  	.num_configs =3D ARRAY_SIZE(mmsys_mt8195_config_table),
+> +	.sw_reset_start =3D MT8195_VDO1_SW0_RST_B,
+>  };
+> =20
+>  struct mtk_mmsys {
+> @@ -126,19 +131,23 @@ static int mtk_mmsys_reset_update(struct reset_cont=
+roller_dev *rcdev, unsigned l
+>  {
+>  	struct mtk_mmsys *mmsys =3D container_of(rcdev, struct mtk_mmsys, rcdev=
+);
+>  	unsigned long flags;
+> +	u32 offset;
+>  	u32 reg;
+>  	int i;
+> =20
+> +	offset =3D (id / MMSYS_SW_RESET_PER_REG) * sizeof(u32);
+> +	id =3D id % MMSYS_SW_RESET_PER_REG;
+> +
+>  	spin_lock_irqsave(&mmsys->lock, flags);
+> =20
+> -	reg =3D readl_relaxed(mmsys->regs + MMSYS_SW0_RST_B);
+> +	reg =3D readl_relaxed(mmsys->regs + mmsys->data->sw_reset_start + offse=
+t);
+> =20
+>  	if (assert)
+>  		reg &=3D ~BIT(id);
+>  	else
+>  		reg |=3D BIT(id);
+> =20
+> -	writel_relaxed(reg, mmsys->regs + MMSYS_SW0_RST_B);
+> +	writel_relaxed(reg, mmsys->regs + mmsys->data->sw_reset_start + offset)=
+;
+> =20
+>  	spin_unlock_irqrestore(&mmsys->lock, flags);
+> =20
+> @@ -237,7 +246,7 @@ static int mtk_mmsys_probe(struct platform_device *pd=
+ev)
+>  	spin_lock_init(&mmsys->lock);
+> =20
+>  	mmsys->rcdev.owner =3D THIS_MODULE;
+> -	mmsys->rcdev.nr_resets =3D 32;
+> +	mmsys->rcdev.nr_resets =3D 64;
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index 41bff6d3a8da..13c788f67ced 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -8,6 +8,7 @@
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_drm_ddp_comp.h"
-@@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
- 
- 	mtk_merge_disable(dev, NULL);
-+
-+	if (priv->async_clk)
-+		device_reset_optional(dev);
- }
- 
- void mtk_merge_enable(struct device *dev, struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index 2885fe83162a..900f9c9f61f3 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -345,6 +345,18 @@ static const struct mtk_ddp_comp_funcs ddp_ufoe = {
- 	.start = mtk_ufoe_start,
- };
- 
-+static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
-+	.clk_enable = mtk_ovl_adaptor_clk_enable,
-+	.clk_disable = mtk_ovl_adaptor_clk_disable,
-+	.config = mtk_ovl_adaptor_config,
-+	.start = mtk_ovl_adaptor_start,
-+	.stop = mtk_ovl_adaptor_stop,
-+	.layer_nr = mtk_ovl_adaptor_layer_nr,
-+	.layer_config = mtk_ovl_adaptor_layer_config,
-+	.enable_vblank = mtk_ovl_adaptor_enable_vblank,
-+	.disable_vblank = mtk_ovl_adaptor_disable_vblank,
-+};
-+
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_AAL] = "aal",
- 	[MTK_DISP_BLS] = "bls",
-@@ -358,6 +370,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_OD] = "od",
- 	[MTK_DISP_OVL] = "ovl",
- 	[MTK_DISP_OVL_2L] = "ovl-2l",
-+	[MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
- 	[MTK_DISP_PWM] = "pwm",
- 	[MTK_DISP_RDMA] = "rdma",
- 	[MTK_DISP_UFOE] = "ufoe",
-@@ -401,6 +414,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_OVL1]	= { MTK_DISP_OVL,	1, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L0]	= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L1]	= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
-+	[DDP_COMPONENT_OVL_ADAPTOR] = { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
- 	[DDP_COMPONENT_PWM0]	= { MTK_DISP_PWM,	0, NULL },
- 	[DDP_COMPONENT_PWM1]	= { MTK_DISP_PWM,	1, NULL },
- 	[DDP_COMPONENT_PWM2]	= { MTK_DISP_PWM,	2, NULL },
-@@ -529,6 +543,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DISP_MERGE ||
- 	    type == MTK_DISP_OVL ||
- 	    type == MTK_DISP_OVL_2L ||
-+	    type == MTK_DISP_OVL_ADAPTOR ||
- 	    type == MTK_DISP_PWM ||
- 	    type == MTK_DISP_RDMA ||
- 	    type == MTK_DPI ||
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index b42a47c06956..a8e5e770ce2f 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
- 	MTK_DISP_OD,
- 	MTK_DISP_OVL,
- 	MTK_DISP_OVL_2L,
-+	MTK_DISP_OVL_ADAPTOR,
- 	MTK_DISP_PWM,
- 	MTK_DISP_RDMA,
- 	MTK_DISP_UFOE,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 782c791b368e..e831175a66f3 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -160,6 +160,12 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -216,6 +222,13 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.mmsys_dev_num = 2,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -691,6 +704,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_OVL },
- 	{ .compatible = "mediatek,mt8183-disp-ovl-2l",
- 	  .data = (void *)MTK_DISP_OVL_2L },
-+	{ .compatible = "mediatek,mt8195-disp-ethdr",
-+	  .data = (void *)MTK_DISP_OVL_ADAPTOR },
- 	{ .compatible = "mediatek,mt2701-disp-pwm",
- 	  .data = (void *)MTK_DISP_BLS },
- 	{ .compatible = "mediatek,mt8173-disp-pwm",
-@@ -809,6 +824,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DISP_MERGE ||
- 		    comp_type == MTK_DISP_OVL ||
- 		    comp_type == MTK_DISP_OVL_2L ||
-+		    comp_type == MTK_DISP_OVL_ADAPTOR ||
- 		    comp_type == MTK_DISP_RDMA ||
- 		    comp_type == MTK_DPI ||
- 		    comp_type == MTK_DSI) {
-@@ -909,6 +925,7 @@ static struct platform_driver * const mtk_drm_drivers[] = {
- 	&mtk_disp_color_driver,
- 	&mtk_disp_gamma_driver,
- 	&mtk_disp_merge_driver,
-+	&mtk_disp_ovl_adaptor_driver,
- 	&mtk_disp_ovl_driver,
- 	&mtk_disp_rdma_driver,
- 	&mtk_dpi_driver,
--- 
-2.18.0
+If only MT8195 vdosys1 has more than 32 reset bits, this should be kept
+at 32 for the others.
 
+regards
+Philipp
