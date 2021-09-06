@@ -2,73 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B495D40208B
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 21:58:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0FF84020A3
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 22:14:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82B6B89C19;
-	Mon,  6 Sep 2021 19:58:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2F7B89C17;
+	Mon,  6 Sep 2021 20:14:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55D089C1C
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 19:58:38 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id j18so9907342ioj.8
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 12:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=4jKC3FHzKHBCAnlV2/PSK1c4DpRsVjTTdfsdoygYbb4=;
- b=cY6QYaFpDCZJtp5tKnLfK0uaphhbqH2K9/5kBaf9eULECPvNH2o47Jd5uRNvq7Dblu
- Zmq7FhSN8Ih8F694W6cm+UiqOYqo+3rEhro8BtGO3UnuBy0Sfvw4fn8MCRlf3dL05agR
- PIwNbzHZKuf4mLDbRbawYMj1qFjHBCw8T7ZTcqSE6vmSJHJ+ON/fuadAoLfwzMf1GjfJ
- 7kLqPEhncOSxVJQTrLIih+c+ktk43fP2PJaSVtDzRCuVh8SrapLWJb60vnBklHbTn2b2
- A4f46gv824+6etHj6Z8ZpJKyitiZnbotGYzy2XmXusXS+9dBAgaX+dAx5CtvLE7AhOfQ
- 6l6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=4jKC3FHzKHBCAnlV2/PSK1c4DpRsVjTTdfsdoygYbb4=;
- b=t/xgXjRYAcnaDCWnlWQYc6Hztpcajlr6SKh0NjdPDYyTky6EwYQJunUclCoeCI6IPm
- OIDJi0ny6FYqOdHjTbMS+hZhEnw9TmF/+WkJ8/RCtxJel5Ejk0xhaOcQ/zr+Yzr+2K0j
- eW09jwxi3RUMqY3xAjG6bdEDUz5U0sZjtEshOp1A7SoSwd5VgXj3lBb1S47dqTGe4r6s
- CfR5wdDKTIcURi/+4SMtBO5GkoPa1+BUbwmPD49ifCuNVxoxl+hNPCGF24ocAhGUndjh
- b2oAJE+0LPuAn3zTWzxxSepIwC6XQpootOMQUM9couuv5Iez69dTDHZvolBHwh+RB6JK
- NWSw==
-X-Gm-Message-State: AOAM531tJxxuGiFczaeYh4rYvIHG9VklA2ANubQcMGCarMFS/Ngtif5s
- tw4f2+21SacKZzg92Ld2OITf5qKjcD2pf/mUEpxr4Q==
-X-Google-Smtp-Source: ABdhPJx3u2oJ0Fc1nRAkRhUH9xRAThEJHXD0P7O4XuDSF54J0Z8CpQV1r8tkxnvxrNSkipa2629NWh9Mpw7lzRY/Asg=
-X-Received: by 2002:a02:3846:: with SMTP id v6mr11926945jae.45.1630958317857; 
- Mon, 06 Sep 2021 12:58:37 -0700 (PDT)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9079389C17
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 20:14:11 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id f6bc797c-0f4e-11ec-a02a-0050568c148b;
+ Mon, 06 Sep 2021 20:13:56 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 69317194D23;
+ Mon,  6 Sep 2021 22:13:58 +0200 (CEST)
+Date: Mon, 6 Sep 2021 22:14:05 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v1 1/6] dt-bindings: mediatek,dpi: Add mt8195 dpintf
+Message-ID: <YTZ2jf0xynvvZM2s@ravnborg.org>
+References: <20210906193529.718845-1-msp@baylibre.com>
+ <20210906193529.718845-2-msp@baylibre.com>
 MIME-Version: 1.0
-References: <20210729183942.2839925-1-robdclark@gmail.com>
- <1a38a590-a64e-58ef-1bbf-0ae49c004d05@linaro.org>
- <CAF6AEGs5dzA7kfO89Uqbh3XmorXoEa=fpW+unk5_oaihHm479Q@mail.gmail.com>
- <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <CALAqxLUkyXK2gqNMBbtJFfh01ZpcG46dZaM7Zq4jG3OngvFREg@mail.gmail.com>
- <CAF6AEGsACLcDuszcgmHHs04GghLPiRfei3tGo161yBXsg7Y-YA@mail.gmail.com>
- <CAMi1Hd0dniDXPNOuh05ywqHKY+cGvAsd-cnD91K1GLppfO=x0w@mail.gmail.com>
- <CAF6AEGvtw06MYST2PdhqHVpsG4Tec2DnUA-uwFRP-6xqa9yf5Q@mail.gmail.com>
-In-Reply-To: <CAF6AEGvtw06MYST2PdhqHVpsG4Tec2DnUA-uwFRP-6xqa9yf5Q@mail.gmail.com>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Tue, 7 Sep 2021 01:28:01 +0530
-Message-ID: <CAMi1Hd1kp8ijH8y3U2sxs5cE3Zfat_v-C3rrGtTK01ry8Om6Lw@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Rob Clark <robdclark@gmail.com>
-Cc: John Stultz <john.stultz@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Rob Clark <robdclark@chromium.org>, freedreno <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, 
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210906193529.718845-2-msp@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,152 +55,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 6 Sept 2021 at 21:54, Rob Clark <robdclark@gmail.com> wrote:
->
-> On Mon, Sep 6, 2021 at 1:02 AM Amit Pundir <amit.pundir@linaro.org> wrote:
-> >
-> > On Sat, 4 Sept 2021 at 01:55, Rob Clark <robdclark@gmail.com> wrote:
-> > >
-> > > On Fri, Sep 3, 2021 at 12:39 PM John Stultz <john.stultz@linaro.org> wrote:
-> > > >
-> > > > On Thu, Jul 29, 2021 at 1:49 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > > > On Thu, Jul 29, 2021 at 1:28 PM Caleb Connolly
-> > > > > <caleb.connolly@linaro.org> wrote:
-> > > > > > On 29/07/2021 21:24, Rob Clark wrote:
-> > > > > > > On Thu, Jul 29, 2021 at 1:06 PM Caleb Connolly
-> > > > > > > <caleb.connolly@linaro.org> wrote:
-> > > > > > >>
-> > > > > > >> Hi Rob,
-> > > > > > >>
-> > > > > > >> I've done some more testing! It looks like before that patch ("drm/msm: Devfreq tuning") the GPU would never get above
-> > > > > > >> the second frequency in the OPP table (342MHz) (at least, not in glxgears). With the patch applied it would more
-> > > > > > >> aggressively jump up to the max frequency which seems to be unstable at the default regulator voltages.
-> > > > > > >
-> > > > > > > *ohh*, yeah, ok, that would explain it
-> > > > > > >
-> > > > > > >> Hacking the pm8005 s1 regulator (which provides VDD_GFX) up to 0.988v (instead of the stock 0.516v) makes the GPU stable
-> > > > > > >> at the higher frequencies.
-> > > > > > >>
-> > > > > > >> Applying this patch reverts the behaviour, and the GPU never goes above 342MHz in glxgears, losing ~30% performance in
-> > > > > > >> glxgear.
-> > > > > > >>
-> > > > > > >> I think (?) that enabling CPR support would be the proper solution to this - that would ensure that the regulators run
-> > > > > > >> at the voltage the hardware needs to be stable.
-> > > > > > >>
-> > > > > > >> Is hacking the voltage higher (although ideally not quite that high) an acceptable short term solution until we have
-> > > > > > >> CPR? Or would it be safer to just not make use of the higher frequencies on a630 for now?
-> > > > > > >>
-> > > > > > >
-> > > > > > > tbh, I'm not sure about the regulator stuff and CPR.. Bjorn is already
-> > > > > > > on CC and I added sboyd, maybe one of them knows better.
-> > > > > > >
-> > > > > > > In the short term, removing the higher problematic OPPs from dts might
-> > > > > > > be a better option than this patch (which I'm dropping), since there
-> > > > > > > is nothing stopping other workloads from hitting higher OPPs.
-> > > > > > Oh yeah that sounds like a more sensible workaround than mine .
-> > > > > > >
-> > > > > > > I'm slightly curious why I didn't have problems at higher OPPs on my
-> > > > > > > c630 laptop (sdm850)
-> > > > > > Perhaps you won the sillicon lottery - iirc sdm850 is binned for higher clocks as is out of the factory.
-> > > > > >
-> > > > > > Would it be best to drop the OPPs for all devices? Or just those affected? I guess it's possible another c630 might
-> > > > > > crash where yours doesn't?
-> > > > >
-> > > > > I've not heard any reports of similar issues from the handful of other
-> > > > > folks with c630's on #aarch64-laptops.. but I can't really say if that
-> > > > > is luck or not.
-> > > > >
-> > > > > Maybe just remove it for affected devices?  But I'll defer to Bjorn.
-> > > >
-> > > > Just as another datapoint, I was just marveling at how suddenly smooth
-> > > > the UI was performing on db845c and Caleb pointed me at the "drm/msm:
-> > > > Devfreq tuning" patch as the likely cause of the improvement, and
-> > > > mid-discussion my board crashed into USB crash mode:
-> > > > [  146.157696][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > > > [  146.163303][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > > > [  146.168837][    C0] adreno 5000000.gpu: RBBM | ATB bus overflow
-> > > > [  146.174960][    C0] adreno 5000000.gpu: CP | HW fault | status=0x00000000
-> > > > [  146.181917][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > > > [  146.187547][    C0] adreno 5000000.gpu: CP illegal instruction error
-> > > > [  146.194009][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > > > [  146.308909][    T9] Internal error: synchronous external abort:
-> > > > 96000010 [#1] PREEMPT SMP
-> > > > [  146.317150][    T9] Modules linked in:
-> > > > [  146.320941][    T9] CPU: 3 PID: 9 Comm: kworker/u16:1 Tainted: G
-> > > >     W         5.14.0-mainline-06795-g42b258c2275c #24
-> > > > [  146.331974][    T9] Hardware name: Thundercomm Dragonboar
-> > > > Format: Log Type - Time(microsec) - Message - Optional Info
-> > > > Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
-> > > > S - QC_IMAGE_VERSION_STRING=BOOT.XF.2.0-00371-SDM845LZB-1
-> > > > S - IMAGE_VARIANT_STRING=SDM845LA
-> > > > S - OEM_IMAGE_VERSION_STRING=TSBJ-FA-PC-02170
-> > > >
-> > > > So Caleb sent me to this thread. :)
-> > > >
-> > > > I'm still trying to trip it again, but it does seem like db845c is
-> > > > also seeing some stability issues with Linus' HEAD.
-> > > >
-> > >
-> > > Caleb's original pastebin seems to have expired (or at least require
-> > > some sort of ubuntu login to access).. were the crashes he was seeing
-> > > also 'AHB bus error'?
-> >
-> > I can reproduce this hard crash
-> > https://www.irccloud.com/pastebin/Cu6UJntE/ and a gpu lockup
-> > https://www.irccloud.com/pastebin/6Ryd2Pug/ at times reliably, by
-> > running antutu benchmark on pocof1.
-> >
-> > Reverting 9bc95570175a ("drm/msm: Devfreq tuning") helps and I no
-> > longer see these errors.
-> >
-> > Complete dmesg for hardcrash https://pastebin.com/raw/GLZVQFQN
-> >
->
-> Does antutu trigger this issue as easily on db845c?  If no, does
-> db845c have pmic differences compared to pocof1 and Caleb's phone?
+Hi Markus,
 
-Yes I can reproduce this hard crash with antutu on db845c as well with
-linux/master at 477f70cd2a67 ("Merge tag 'drm-next-2021-08-31-1' of
-git://anongit.freedesktop.org/drm/drm").
+On Mon, Sep 06, 2021 at 09:35:24PM +0200, Markus Schneider-Pargmann wrote:
+> DP_INTF is similar to the actual dpi. They differ in some points
+> regarding registers and what needs to be set but the function blocks
+> itself are similar in design.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 
-Dmesg: https://pastebin.com/raw/xXtvxk0G
+I fail to see why they share the same dt-schema as the main content in
+the schema is the clocks and they differ.
 
+A new mediatek,dpintf schema seems more appropriate.
 
->
-> I think we may need some help from qcom here, but I'll go back and
-> look at older downstream kernels to see if I can find any evidence
-> that we need to limit how far we change the freq in a single step.
-> It's not clear to me if there is some physical constraint that the
-> driver needs to respect, or if we have some missing/incorrect
-> configuration for a630.  IIRC the downstream kernel is letting the GMU
-> do more of the freq management, so it might be handling this case for
-> the kernel.  But the GMU is a bit of a black box to me and I don't
-> have any docs, so just a guess.
->
-> It would be helpful if someone who can repro this could try the
-> experiments I mentioned about increasing min_freq and/or decreasing
-> max_freq to limit the size of the freq change until the issue does not
-> happen.
->
-> If we have to, we can merge this hack patch to disable freq clamping
-> on a630.. but that isn't really a fix.  The root issue is a power
-> issue, 9bc95570175a just made it more likely to see the problem.
->
-> BR,
-> -R
->
-> > Regards,
-> > Amit Pundir
-> >
-> > >
-> > > If you have a reliable reproducer, I guess it would be worth seeing if
-> > > increasing the min_freq (ie. to limit how far we jump the freq in one
-> > > shot) "fixes" it?
-> > >
-> > > I guess I could check downstream kgsl to see if they were doing
-> > > something to increase freq in smaller increments.. I don't recall that
-> > > they were but it has been a while since I dug thru that code.  And I
-> > > suppose downstream it could also be done in their custom tz governor.
-> > >
-> > > BR,
-> > > -R
+I recall I though so when reading the RFC variant but failed to comment on it.
+
+	Sam
+
+> ---
+>  .../display/mediatek/mediatek,dpi.yaml        | 43 ++++++++++++++++---
+>  1 file changed, 37 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> index dd2896a40ff0..1a158b719ce6 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
+> @@ -4,7 +4,7 @@
+>  $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
+>  $schema: http://devicetree.org/meta-schemas/core.yaml#
+>  
+> -title: mediatek DPI Controller Device Tree Bindings
+> +title: mediatek DPI/DP_INTF Controller Device Tree Bindings
+>  
+>  maintainers:
+>    - CK Hu <ck.hu@mediatek.com>
+> @@ -13,7 +13,8 @@ maintainers:
+>  description: |
+>    The Mediatek DPI function block is a sink of the display subsystem and
+>    provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
+> -  output bus.
+> +  output bus. The Mediatek DP_INTF is a similar function block that is
+> +  connected to the (embedded) display port function block.
+>  
+>  properties:
+>    compatible:
+> @@ -23,6 +24,7 @@ properties:
+>        - mediatek,mt8173-dpi
+>        - mediatek,mt8183-dpi
+>        - mediatek,mt8192-dpi
+> +      - mediatek,mt8195-dpintf
+>  
+>    reg:
+>      maxItems: 1
+> @@ -37,10 +39,11 @@ properties:
+>        - description: DPI PLL
+>  
+>    clock-names:
+> -    items:
+> -      - const: pixel
+> -      - const: engine
+> -      - const: pll
+> +    description:
+> +      For dpi clocks pixel, engine and pll are required. For dpintf pixel,
+> +      hf_fmm and hf_fdp are required.
+> +    minItems: 3
+> +    maxItems: 3
+>  
+>    pinctrl-0: true
+>    pinctrl-1: true
+> @@ -64,6 +67,34 @@ required:
+>    - clock-names
+>    - port
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - mediatek,mt8195-dpintf
+> +    then:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: pixel
+> +            - const: hf_fmm
+> +            - const: hf_fdp
+> +    else:
+> +      properties:
+> +        clocks:
+> +          minItems: 3
+> +          maxItems: 3
+> +        clock-names:
+> +          items:
+> +            - const: pixel
+> +            - const: engine
+> +            - const: pll
+> +
+>  additionalProperties: false
+>  
+>  examples:
+> -- 
+> 2.33.0
