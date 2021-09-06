@@ -1,124 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB44840125F
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 03:10:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF055401262
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 03:12:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6710189A94;
-	Mon,  6 Sep 2021 01:10:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B51868959D;
+	Mon,  6 Sep 2021 01:12:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2068.outbound.protection.outlook.com [40.107.92.68])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9F83F89A94;
- Mon,  6 Sep 2021 01:10:04 +0000 (UTC)
+ (mail-bn7nam10on2055.outbound.protection.outlook.com [40.107.92.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9CC558954A;
+ Mon,  6 Sep 2021 01:12:28 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Djnp6t//jBvYMk4nQ6vTKhklbyjDONCe1CYWxXYmrll4iFMlboAPVdbjHUJEfGNf8cfsUO+6+FElnsRlOLJThvrbFXq+Q0vS+slTkadh181tmnTQ3GjoZpNlZ9sPKzs6tOD6RfCna16VD1lkYXYNj//skjceKUoxKXN9jIrp65raoyBd6btwA+56nDWLuxrTbgBhd24VgWrhfELgbUHaF+TOrGosAv4tJb2W2o4LxVxYliK0iJaJNguJwLkMt0fimkWmIU8TKZ1i6FjxXuo9GvbE/CAC0JcagubZCTy/cwX04wWeitbzvdErdGbYJhoyedQBI32ujlafshzTLU75aQ==
+ b=FMrJMVf7k1b6mYx7eP9IQ2NDvgG7j7sYXVZWZ4UDaAxqu5TrQaJ4ZDFqj1TZQitqKeauf715JgYq+u1+LbnXgVOEkQFPFsZEBeO33WFNcYN2xZLrBm7UeHL6s3g/N6dCY9qhdK0rQ2GEaTKDTffakuQ5UrTf6B6x9MswlUTmMVG3hsntdHQaOvC5IWEHnJXr9+Wm6k1nLmeOfoXAicg9oZoWtSEGH2pFF01VvxU+X/5TVqg5guuW128VW/uwrZ1RixC37dpteLenTOrVS1p9C7h0QX724l85+6Tj8QZjcxo+ldqAe42JHluN3tRBI5jvaCo+EXpM3KqAhPwuonR0Dw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=tSvjM3KmLRNzTz3Q5SQSbl7L7iBc1sLA2gNC69OlIZU=;
- b=hkvFMfLw/rdvSgad2kCLN7I4Q/lep4ey1pHfYSfe76jMUxX7qgYV8U00icOV3RmIZlB3DakYWtomaRuDicvRmmRH8bko3Rt4IvhnpXlwaX+nnEJxuWWw3T5pLSMlYqvMWg20SOue+mc73RjbSOshdl7LuxQ0ZN2ZZRviPrbCIQqRaBWD9JpciXenJWyLXC51kIeZ06NXdtRr7zSdf1amHmaTwaFMBnP0OsPXCETZRswPRaHWDMoQpd1Wv6FmSibCt5NxJpBflqOeq4PYJJJAxD6ODYncauAB7D75zkWwkvy71Mtf5znMtGTmT1PKj8ATdCEUtbJzV4kJSAUCGMr/TA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=uUPblAhfqg7vjw9iGgeqrvdzecPY+cZICHIiiiSNnVE=;
+ b=FNr6CluQJgX1xu5MyPlYE/B7/iexYa2aOCL3d5glE50nwTS6DcevMcZTYZDzKDUNhM5czg7+M3Pn4ygFTaV+oIOlV7DEe6uBmEXepyvtArQaNTW1AiSN2PfXcLBaxmXwQNrM6IxLaMYdwTw4JwInBSWiKB+GrwpXlGbuL2Fl4Kaz+jm5lwW22G2hw1QBL6EvEC8y/2UFVFpdUNHa++hWL8dSDnrAtzf2iDynwkBGmUVW+GuVBXRmKE6iq7EHK5LwurUekiTRWcAx65eQroijenMgTCqv83YBwICDtNnysRYRX2DhUNzltVUc7abba4Xohw1pNKXngSAUB5g8qC/0Dw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tSvjM3KmLRNzTz3Q5SQSbl7L7iBc1sLA2gNC69OlIZU=;
- b=j6n1wVqcD4B02DK8oPdhAZlgrbPORSnRhYzs1LoNSnJmbXGOwWrhbbHnb1yY7iwCykoF8fiVlb2ogCDzyGalmv72FYOEH4klqAgNL3JLxtlk3ngxQD9cu4I0S5XRyeqWk8YuPiewPHLmIfRlf52+g9bv4y/Nz7VBXY+TitAsbNo=
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com (2603:10b6:5:394::9) by
- DM4PR12MB5101.namprd12.prod.outlook.com (2603:10b6:5:390::10) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4478.19; Mon, 6 Sep 2021 01:10:02 +0000
-Received: from DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca]) by DM4PR12MB5165.namprd12.prod.outlook.com
- ([fe80::79d6:3902:9bcd:37ca%9]) with mapi id 15.20.4478.025; Mon, 6 Sep 2021
- 01:10:02 +0000
-From: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-To: "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "Koenig, Christian" <Christian.Koenig@amd.com>, "Deucher, Alexander"
- <Alexander.Deucher@amd.com>, "chenli@uniontech.com" <chenli@uniontech.com>
-Subject: [PATCH v2 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
-Thread-Topic: [PATCH v2 2/2] drm/amdpgu: Use VRAM domain in UVD IB test
-Thread-Index: AQHXorvQyBdrKYEtM0WaAd5AOAc+zw==
-Date: Mon, 6 Sep 2021 01:10:02 +0000
-Message-ID: <DM4PR12MB516520B50E5C61FD3C23D9CC87D29@DM4PR12MB5165.namprd12.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=True;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-06T01:10:02.228Z;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
- Official Use
- Only; MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard; 
-suggested_attachment_session_id: 3d4d5e2c-cdce-5492-819f-d55a6f6b1743
-authentication-results: lists.freedesktop.org; dkim=none (message not signed)
- header.d=none; lists.freedesktop.org;
- dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d8888978-5552-4648-f53c-08d970d30e28
-x-ms-traffictypediagnostic: DM4PR12MB5101:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM4PR12MB5101B283E8089E57B37AA7DB87D29@DM4PR12MB5101.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:127;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: qhsH8NlPI7T8jgs9zlT/VHHrZKQE1FzVBYEUQ29GjZhWbA1XzISym00P/ZVjpqfZUfaORYc30uNrrVgPK6BF1/KPcZfoo4jCBiVQj9CiZf2HvejVWdcyCKXSSTwAbB2gbIdmo6hjbcijeziT0Woat1dWlUf8ArK31eN+HUxcR2D93FjKK0r0QtpW0dKXBxd6NEp3R9EdhSchZ5Df+NvcXc4wy8GRaYhgxtXiXv+Lfdcqf7xLgL2yHlKkauGCOIp3hSe1ZU40fXb6aljb3Z58VZSGa7qn1rN1nBiCfcFccJkTB68/VIwVStpRS1iOOCaKj2MMkSmLo5ECSqbrsARSnBEUtP5Ok4B7FGXlQrAjOQKrj110WmQ9iUXvTxvedSoBXSVo8tf+HhvOd0JrNjMdXX/br3kRxcFbxjjzAS3f91cjMmADMMzvN+SOvy4jqpgymbVlFG0Omc8bhCZWlyQ218T/CWeXktjaPcLWN02PbYUbMxd/dI/RkCfW+soBg1Fu0pX8HM7BnZe8hXDhHiV4Wg0TkafBe7H3IKxVkCF5UiuXXs0fSQJw4dk4S1J4+nsau+xE3JZon6HaByAQ2gOyGS2XLCKy4YlsISD1C4JWNsASKWrVM4P/BqZzN15DoFQIElCCYboWrRU0vRgpeUvULd8lVe8sUYKXxxAO5l9LDdcCmfytbS+qiVP499fHxZUch1scbH1g+B8aOnyEZoUAzg==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM4PR12MB5165.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(136003)(376002)(39860400002)(346002)(8936002)(8676002)(91956017)(71200400001)(5660300002)(76116006)(54906003)(38100700002)(55016002)(110136005)(52536014)(26005)(66556008)(64756008)(66476007)(33656002)(66446008)(86362001)(9686003)(122000001)(66946007)(6506007)(186003)(316002)(7696005)(4326008)(38070700005)(2906002)(478600001);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?gb2312?B?U1pyWHNTUTQxeFVPb3FaK1p2aUJpNER2VlZWUzRLWVV0RG0wc0N2VnB2bUtv?=
- =?gb2312?B?YWR2UEFka0dUQkNMTXlONC9xNnI0eDhuMFczVWgyM1gvUnd5ck4wNjl0eVFU?=
- =?gb2312?B?N3FjRmFDZnd6YUZPY1hiTVIrbzhLTXJCaDRBa0V0QVg2Y21RQVBFNmMvSzZU?=
- =?gb2312?B?VVI5ckZEbHVaMXJ3Y2Rmc1NQVlM4ajB2K01PM25YOTE2TmZYZE5DNDcxakwv?=
- =?gb2312?B?dTVHQUpYcXVvZVpzbGxMSlovdFNUNjc4QitKdFJ0U1lZeFJZWlFjejNPWUdt?=
- =?gb2312?B?RkhOeGJPd1dTV2FoTkw4MkRNNlYxeEI3azA3dW1FVWlIT2tOQ1ZJUEplS0Jp?=
- =?gb2312?B?dHN2eVdkOXhGVlRPMzdDZmE3ZmtQck5ObHMzQ0hVN0xsSHEyWnJlMGVSc1gr?=
- =?gb2312?B?dDhYbHJlTUFPMVhneWRjOGZNbzN0cmw1WEVtTFRSUmMyT0Y1ejRFMUQxMnJS?=
- =?gb2312?B?N09FdWNaZjlWTjF5ZkxRKzBLc3pMT2VJTXNyRkFTSWVxd3ZhWjFndGNqOHA5?=
- =?gb2312?B?aUFSa25jOVRlUzJoUFZXMkFXZU1LVVhBbS9JQXkwKzRSTm5wVlpjQ2VTNjc0?=
- =?gb2312?B?RUc4Vm4yRTRDb2kxbU52QTNadWdTMUpSR1RrQ3JtQ1pTOVVTNE56SkkyWUZE?=
- =?gb2312?B?NEovaXRoWW5OYWdQbXhWUzhIbkJGOEJJZitMREVCS29yQjNDK0JwMzJlQTVs?=
- =?gb2312?B?d2VBbnVpVkg3a0w3S056NE1OM0ZQbkN0OXcrWkFKRWFNU2JqY2JLUCthUEhS?=
- =?gb2312?B?SWxKYXNybWpLSnpIcUJDdFJHMEJJU2ZSTWZHYVc3WFR2bUNUbHYzWmJxSGJ0?=
- =?gb2312?B?WWVYaTZIYUtqTlY0L0IwTEd5TW1EdjRPbndiR016S1U5eGptakJnUjByQ0Fr?=
- =?gb2312?B?UkE0NWF5SzgxN0xaRTFmUnp1VHQ1Y1ZQcUJPdHU0OWZ6OVplbmhoSXhBRS9j?=
- =?gb2312?B?NHk4UGJrbVpPQlRCeDRqSWlMRVYxZVFqa0NVeGNOazM5aVR0S2RBa0JTc2M2?=
- =?gb2312?B?TzJyVjZpa2QzZkZOZmxYWERLYk9CUEFkcnFkaGQwSXh5WTVVQXl2UVNTZEts?=
- =?gb2312?B?MWNZZ3ExUDAwblp6QXZ3UjdPeFVzd3I1eUVmU1cxeXJJZlI1Szl3eXBvbmgz?=
- =?gb2312?B?Z2x4bW5icTE3OU5TT1NsRURsUzU0blZuYmNRcWRZdkRCdExRYnRrQ3pubDBL?=
- =?gb2312?B?RXhVVnBndUkvWEVZYktZWkhid21Mc2dRSkh0OUkvdDZKMTBxTVJOY3M0R0JG?=
- =?gb2312?B?UVNRWTJSYnRPSUNIL3NlaUhXaUhwdmVVOFRhZ1d1Q2J2eVBCWkcwRzVWZmcv?=
- =?gb2312?B?VWlNUGt0MmloVWpvRks4VDgrTFpldHVJUFVMSlhZOXc3akpQd0J0ek9CSlhv?=
- =?gb2312?B?OU9HN2t6REZJcTc0Q1VuQVRZZEg4U2pTdWQxVVNjdHN4WDZGMENhbEkzOUJE?=
- =?gb2312?B?cENJM3o3ZFgySjBaNVJVbE5DSDliSUFKaDR0UlpqNDRjNER6VHN1SW1OdVhH?=
- =?gb2312?B?bStkcXJBOWh4a3pvU0pQem5UTmhrbVJ5dWswR3I0U0Y2Sk5KUHFPbllyOVhh?=
- =?gb2312?B?cjAwVlhTa2xKbnhKbVprOFA5dnc3dWNvSW0vbWR3NzU2bmtlbmZzazVud09v?=
- =?gb2312?B?WjBPdlg3cnkwZ0FIZ201cmRyYVpMcCtBZ2U1QmdoRXY3blpvdW5tZHpmQWtP?=
- =?gb2312?B?czQ2WGRBcXZRdEVzYUF2Y1grUVl1WlJDZHFsMzB3VUQ2RVVQbis5NjBxcmlz?=
- =?gb2312?Q?ZaDG38tbpeQENOIDlWeGfOjYY3SCgRFjNIpLx/4?=
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+ bh=uUPblAhfqg7vjw9iGgeqrvdzecPY+cZICHIiiiSNnVE=;
+ b=2J1DtxTxMYWnOCF/qeUoVs5ukKSZ4HdGmJvcS+L/TDy/JD+fgr+4m4LW8FU99muX5Z67Byw0p1DyA1vNuT1TKf3xiMTG78XTerUl9vcrm3jPscEuHBmidCmZrDzlXHuWFdiweu9pYT9tiW4XyPuAvaNAFNEz5YDe7Zfe3Hc7Ifw=
+Received: from DS7PR07CA0004.namprd07.prod.outlook.com (2603:10b6:5:3af::13)
+ by DM6PR12MB2874.namprd12.prod.outlook.com (2603:10b6:5:15e::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Mon, 6 Sep
+ 2021 01:12:25 +0000
+Received: from DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:3af:cafe::21) by DS7PR07CA0004.outlook.office365.com
+ (2603:10b6:5:3af::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend
+ Transport; Mon, 6 Sep 2021 01:12:25 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT019.mail.protection.outlook.com (10.13.172.172) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4478.19 via Frontend Transport; Mon, 6 Sep 2021 01:12:25 +0000
+Received: from pp-server-two.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Sun, 5 Sep 2021
+ 20:12:22 -0500
+From: xinhui pan <xinhui.pan@amd.com>
+To: <amd-gfx@lists.freedesktop.org>
+CC: <alexander.deucher@amd.com>, <christian.koenig@amd.com>,
+ <chenli@uniontech.com>, <dri-devel@lists.freedesktop.org>, xinhui pan
+ <xinhui.pan@amd.com>
+Subject: [PATCH v2 0/2] Fix a hung during memory pressure test
+Date: Mon, 6 Sep 2021 09:12:08 +0800
+Message-ID: <20210906011210.80327-1-xinhui.pan@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 87a14dea-1be8-46c6-7ec0-08d970d3631c
+X-MS-TrafficTypeDiagnostic: DM6PR12MB2874:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB287449212B8181230140019987D29@DM6PR12MB2874.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gr9c31I55T+kr072SGNti0fakNTxMI7/lHw4mZzvq9gHjvWqnUnGjGqmpqLrKg+/X9tGwqvduZPHD/hMUYprfojlAEqdShL0EEIBw92li3FPmlEQtTTK+grPH46HSplMMrlKB4kriL06EgBoQpLoulP1/b0zMv+KvFkHFmUnOT7lXDJn3gNvVUdcltfFKVzKWsic+3GyF0tEZi6th74LNP4E0eG6zyidvcr7Mllc/rasqjiUX2TaXIfymaU3HTFLh8HovIudDPX9p/HxSgA55va2DkFHDDYBHgtzmbcwRN9fZwoZ/ZgO+w6xmwo9qQPVRC+ZMO6Z0ZPCXBeoKfELk7nS1YmlfzX6FEQoGa+Qi8PA7fv0HXOK8zn7N7Wv24KFZ5xUcrLYdUKbwg9jE4xAxHEXjQOwVW8W6XfKzoOWWwujehRgGSePhc2ulL8oUSJflJXN80qeP8CgbMsVy3Hxyt5C/I2XlL4FW+ouuykuWn6zoKBw/gFmam2GBj9VX7cN/u7QbH80qV5bpwgg+TX3cfz1yLFz+98AqFtOH9fsNfAd6y2Qbo7SbFvpsWLQ5fqDIEVYJz+R6yGhN90pOtB+ExyFwWLY95jLzn0iMi1XeqDN4H8rsgKl3+Il+EwxedoEfHasrUtnEjbZ0oBVp0NLUO643udWAYCydZ+Vos3yykB/DzYP7Jpc7+JPqosB+fXAwXgHZY3JRkhSLptq3Op1AxBmsJvLAf4XGF1HfIBqrIU=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(376002)(396003)(346002)(136003)(39860400002)(46966006)(36840700001)(36756003)(2906002)(7696005)(336012)(426003)(2616005)(5660300002)(8676002)(316002)(6916009)(82310400003)(16526019)(81166007)(186003)(1076003)(356005)(86362001)(83380400001)(26005)(6666004)(4326008)(70206006)(478600001)(8936002)(70586007)(82740400003)(54906003)(36860700001)(47076005)(36900700001);
+ DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5165.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d8888978-5552-4648-f53c-08d970d30e28
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Sep 2021 01:10:02.6566 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: yCU1QswneBcbTgu+rk6AHgFzNk33Ncpl91FZJ1ePhMg/GERzp2rDCzru6xMQc87N
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5101
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Sep 2021 01:12:25.1898 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87a14dea-1be8-46c6-7ec0-08d970d3631c
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT019.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB2874
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,31 +107,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-W0FNRCBPZmZpY2lhbCBVc2UgT25seV0NCg0KTGlrZSB2Y2UvdmNuIGRvZXMsIHZpc2libGUgVlJB
-TSBpcyBPSyBmb3IgaWIgdGVzdC4NCldoaWxlIGNvbW1pdCBhMTFkOWZmM2ViZTAgKCJkcm0vYW1k
-Z3B1OiB1c2UgR1RUIGZvcg0KdXZkX2dldF9jcmVhdGUvZGVzdG9yeV9tc2ciKSBzYXlzIFZSQU0g
-aXMgbm90IG1hcHBlZCBjb3JyZWN0bHkgaW4gaGlzDQpwbGF0Zm9ybSB3aGljaCBpcyBsaWtlbHkg
-YW4gYXJtNjQuDQoNClNvIGxldHMgY2hhbmdlIGJhY2sgdG8gdXNlIFZSQU0gb24geDg2XzY0IHBs
-YXRmb3JtLg0KDQpTaWduZWQtb2ZmLWJ5OiB4aW5odWkgcGFuIDx4aW5odWkucGFuQGFtZC5jb20+
-DQotLS0NCiBkcml2ZXJzL2dwdS9kcm0vYW1kL2FtZGdwdS9hbWRncHVfdXZkLmMgfCA4ICsrKysr
-KysrDQogMSBmaWxlIGNoYW5nZWQsIDggaW5zZXJ0aW9ucygrKQ0KDQpkaWZmIC0tZ2l0IGEvZHJp
-dmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3V2ZC5jIGIvZHJpdmVycy9ncHUvZHJtL2Ft
-ZC9hbWRncHUvYW1kZ3B1X3V2ZC5jDQppbmRleCBkNDUxYzM1OTYwNmEuLmU0Yjc1ZjMzY2NjOCAx
-MDA2NDQNCi0tLSBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV91dmQuYw0KKysr
-IGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X3V2ZC5jDQpAQCAtMTE3OCw3ICsx
-MTc4LDExIEBAIGludCBhbWRncHVfdXZkX2dldF9jcmVhdGVfbXNnKHN0cnVjdCBhbWRncHVfcmlu
-ZyAqcmluZywgdWludDMyX3QgaGFuZGxlLA0KICAgICAgICBpbnQgciwgaTsNCg0KICAgICAgICBy
-ID0gYW1kZ3B1X2JvX2NyZWF0ZV9yZXNlcnZlZChhZGV2LCAxMDI0LCBQQUdFX1NJWkUsDQorI2lm
-ZGVmIENPTkZJR19YODZfNjQNCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-QU1ER1BVX0dFTV9ET01BSU5fVlJBTSwNCisjZWxzZQ0KICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBBTURHUFVfR0VNX0RPTUFJTl9HVFQsDQorI2VuZGlmDQogICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICZibywgTlVMTCwgKHZvaWQgKiopJm1zZyk7DQog
-ICAgICAgIGlmIChyKQ0KICAgICAgICAgICAgICAgIHJldHVybiByOw0KQEAgLTEyMTAsNyArMTIx
-NCwxMSBAQCBpbnQgYW1kZ3B1X3V2ZF9nZXRfZGVzdHJveV9tc2coc3RydWN0IGFtZGdwdV9yaW5n
-ICpyaW5nLCB1aW50MzJfdCBoYW5kbGUsDQogICAgICAgIGludCByLCBpOw0KDQogICAgICAgIHIg
-PSBhbWRncHVfYm9fY3JlYXRlX3Jlc2VydmVkKGFkZXYsIDEwMjQsIFBBR0VfU0laRSwNCisjaWZk
-ZWYgQ09ORklHX1g4Nl82NA0KKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBB
-TURHUFVfR0VNX0RPTUFJTl9WUkFNLA0KKyNlbHNlDQogICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIEFNREdQVV9HRU1fRE9NQUlOX0dUVCwNCisjZW5kaWYNCiAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgJmJvLCBOVUxMLCAodm9pZCAqKikmbXNnKTsNCiAg
-ICAgICAgaWYgKHIpDQogICAgICAgICAgICAgICAgcmV0dXJuIHI7DQotLQ0KMi4yNS4xDQoNCg==
+A long time ago, someone reports system got hung during memory test.
+In recent days, I am trying to look for or understand the potential
+deadlock in ttm/amdgpu code.
+
+This patchset aims to fix the deadlock during ttm populate.
+
+TTM has a parameter called pages_limit, when allocated GTT memory
+reaches this limit, swapout would be triggered. As ttm_bo_swapout does
+not return the correct retval, populate might get hung.
+
+UVD ib test uses GTT which might be insufficient. So a gpu recovery
+would hung if populate hung.
+
+I have made one drm test which alloc two GTT BOs, submit gfx copy
+commands and free these BOs without waiting fence. What's more, these
+gfx copy commands will cause gfx ring hang. So gpu recovery would be
+triggered.
+
+Now here is one possible deadlock case.
+gpu_recovery
+ -> stop drm scheduler
+ -> asic reset
+   -> ib test
+      -> tt populate (uvd ib test)
+	->  ttm_bo_swapout (BO A) // this always fails as the fence of
+	BO A would not be signaled by schedluer or HW. Hit deadlock.
+
+I paste the drm test patch below.
+#modprobe ttm pages_limit=65536
+#amdgpu_test -s 1 -t 4
+---
+ tests/amdgpu/basic_tests.c | 32 ++++++++++++++------------------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
+
+diff --git a/tests/amdgpu/basic_tests.c b/tests/amdgpu/basic_tests.c
+index dbf02fee..f85ed340 100644
+--- a/tests/amdgpu/basic_tests.c
++++ b/tests/amdgpu/basic_tests.c
+@@ -65,13 +65,16 @@ static void amdgpu_direct_gma_test(void);
+ static void amdgpu_command_submission_write_linear_helper(unsigned ip_type);
+ static void amdgpu_command_submission_const_fill_helper(unsigned ip_type);
+ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type);
+-static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
++static void _amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+ 				       unsigned ip_type,
+ 				       int instance, int pm4_dw, uint32_t *pm4_src,
+ 				       int res_cnt, amdgpu_bo_handle *resources,
+ 				       struct amdgpu_cs_ib_info *ib_info,
+-				       struct amdgpu_cs_request *ibs_request);
++				       struct amdgpu_cs_request *ibs_request, int sync, int repeat);
+  
++#define amdgpu_test_exec_cs_helper(...) \
++	_amdgpu_test_exec_cs_helper(__VA_ARGS__, 1, 1)
++
+ CU_TestInfo basic_tests[] = {
+ 	{ "Query Info Test",  amdgpu_query_info_test },
+ 	{ "Userptr Test",  amdgpu_userptr_test },
+@@ -1341,12 +1344,12 @@ static void amdgpu_command_submission_compute(void)
+  * pm4_src, resources, ib_info, and ibs_request
+  * submit command stream described in ibs_request and wait for this IB accomplished
+  */
+-static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
++static void _amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+ 				       unsigned ip_type,
+ 				       int instance, int pm4_dw, uint32_t *pm4_src,
+ 				       int res_cnt, amdgpu_bo_handle *resources,
+ 				       struct amdgpu_cs_ib_info *ib_info,
+-				       struct amdgpu_cs_request *ibs_request)
++				       struct amdgpu_cs_request *ibs_request, int sync, int repeat)
+ {
+ 	int r;
+ 	uint32_t expired;
+@@ -1395,12 +1398,15 @@ static void amdgpu_test_exec_cs_helper(amdgpu_context_handle context_handle,
+ 	CU_ASSERT_NOT_EQUAL(ibs_request, NULL);
+ 
+ 	/* submit CS */
+-	r = amdgpu_cs_submit(context_handle, 0, ibs_request, 1);
++	while (repeat--)
++		r = amdgpu_cs_submit(context_handle, 0, ibs_request, 1);
+ 	CU_ASSERT_EQUAL(r, 0);
+ 
+ 	r = amdgpu_bo_list_destroy(ibs_request->resources);
+ 	CU_ASSERT_EQUAL(r, 0);
+ 
++	if (!sync)
++		return;
+ 	fence_status.ip_type = ip_type;
+ 	fence_status.ip_instance = 0;
+ 	fence_status.ring = ibs_request->ring;
+@@ -1667,7 +1673,7 @@ static void amdgpu_command_submission_sdma_const_fill(void)
+ 
+ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+ {
+-	const int sdma_write_length = 1024;
++	const int sdma_write_length = (255) << 20;
+ 	const int pm4_dw = 256;
+ 	amdgpu_context_handle context_handle;
+ 	amdgpu_bo_handle bo1, bo2;
+@@ -1715,8 +1721,6 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+ 							    &bo1_va_handle);
+ 				CU_ASSERT_EQUAL(r, 0);
+ 
+-				/* set bo1 */
+-				memset((void*)bo1_cpu, 0xaa, sdma_write_length);
+ 
+ 				/* allocate UC bo2 for sDMA use */
+ 				r = amdgpu_bo_alloc_and_map(device_handle,
+@@ -1727,8 +1731,6 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+ 							    &bo2_va_handle);
+ 				CU_ASSERT_EQUAL(r, 0);
+ 
+-				/* clear bo2 */
+-				memset((void*)bo2_cpu, 0, sdma_write_length);
+ 
+ 				resources[0] = bo1;
+ 				resources[1] = bo2;
+@@ -1785,17 +1787,11 @@ static void amdgpu_command_submission_copy_linear_helper(unsigned ip_type)
+ 					}
+ 				}
+ 
+-				amdgpu_test_exec_cs_helper(context_handle,
++				_amdgpu_test_exec_cs_helper(context_handle,
+ 							   ip_type, ring_id,
+ 							   i, pm4,
+ 							   2, resources,
+-							   ib_info, ibs_request);
+-
+-				/* verify if SDMA test result meets with expected */
+-				i = 0;
+-				while(i < sdma_write_length) {
+-					CU_ASSERT_EQUAL(bo2_cpu[i++], 0xaa);
+-				}
++							   ib_info, ibs_request, 0, 100);
+ 				r = amdgpu_bo_unmap_and_free(bo1, bo1_va_handle, bo1_mc,
+ 							     sdma_write_length);
+ 				CU_ASSERT_EQUAL(r, 0);
+-- 
+
+*** BLURB HERE ***
+
+xinhui pan (2):
+  drm/ttm: Fix a deadlock if the target BO is not idle during swap
+  drm/amdpgu: Use VRAM domain in UVD IB test
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 8 ++++++++
+ drivers/gpu/drm/ttm/ttm_bo.c            | 6 +++---
+ 2 files changed, 11 insertions(+), 3 deletions(-)
+
+-- 
+2.25.1
+
