@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E2F7402074
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 21:37:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D13402075
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 21:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA14B89C16;
-	Mon,  6 Sep 2021 19:37:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DAA2A89C21;
+	Mon,  6 Sep 2021 19:37:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9414689AE6
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 19:37:03 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id d6so10548234wrc.11
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 12:37:03 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB9889BFD
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 19:37:04 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id d6so10548264wrc.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 12:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8rhksTvVQ+Nq8KlfrbrTGziwnDodu5qGkrE8LAP3ErI=;
- b=qBXwqS4/FpUi8QmqOiyukUT2bdkyXa1o1yXUbFr/856oeRKngEb5EbGLQ4yu8J24MG
- +MOgpC0A+6BkEUKLBv06l70+6J16wiiEE8hB341v3qmk4NrARtC/Z5VaudenxVc+s7YV
- vBPCmk2S1czX6gkR+iBFGBXStUjPuR1Pm8jSBzktLIWBZP6usq6rBI0hHGYc7jogE+IH
- 3zPVO6linsBCpj7TM/VUyxDKdT6un61DO+Y5JwaFuJPcWC75o/rJiFyDW/EbHbLOL2Jl
- XnmrqxkPFbO92mjZEZmQDLHRKKyi9kNR4z6vHWV+2qJl67o70KRuFuCBaEd5s3HUK/VE
- uwog==
+ bh=OpJK4P2F3fcoe9OUOgVh8n9rJy2vMiHA7cI1y8LkZwM=;
+ b=or6fRqEk6kiYRl3xh3nfEzFiDQvnkOg5aZHN2AYaf4vCPVYLl9U3enQ48XqCZ5CWPr
+ Ge6S/NTA6k/ZFNPOVHq41qcmNtx67hUz8llVFYYOKoJRdN6Feg675Z5llx6dKwgrnNS2
+ 79VABtBpK1cIfSY06E/WEwir0ykERmwwkk5J3VSrkUQVbOAiaRrTIFq/ajAQQFuuU9cY
+ Dmjo83RiLmGEJmFdyDVt9raqaBDXsJu3+EkS7do8vI5Prs3W3ntoava1FHAkjZjAcL5S
+ W1Ih5zG5TFbak9hnW81tl8E7bpHSQd7E2kaBHhx7PnhW9em4yklqPpMBRuPQwmqkt9wI
+ H/3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=8rhksTvVQ+Nq8KlfrbrTGziwnDodu5qGkrE8LAP3ErI=;
- b=GthnzbDjwLocFH0ijNgc71ftxA6Dr3pdBIICedREpxWNuSo1BqItywA86xmgWbzf2d
- wEgjGwkG+d6HWgcDlzYIa2o5ys9olD1kEpS+vMMCGCSdN5XhKNOOhZ3cB9Wmw/RQJQ6r
- h2DYcaNAUw6yKrlSBagr8n03PIFZvM1ccnV5pa7hVHgHLtTQZ20G56M5CiY+ZdU4rDmI
- gbKi4Yxz/KNuXBEBFqgEvO+GENmO3Z1UTrsAtVtdTG1OxYa4DHIFcmgpWgP5r5ogmRtb
- k6ftNfZV1gl/qAdiKFY5Gl5PfNORPvzRIj03BJYiCKZi9UiwA0Jjj10JicjUW2DJqQDm
- J7Zg==
-X-Gm-Message-State: AOAM532T4Hj0u7qyab0Tck82byV9oaR6HtVj7abP+QhrU7Ol8AZ2yBQD
- Xyn3vUlWpuPY0eM/73aMJQCjvw==
-X-Google-Smtp-Source: ABdhPJzP/DgsaBhy8hur2RweyMqFSFuzzpR0YUhyV79uSocm2gYrr3FEinvIh+6trQpHvfmzxoRiDg==
-X-Received: by 2002:adf:c44b:: with SMTP id a11mr15049199wrg.416.1630957022035; 
+ bh=OpJK4P2F3fcoe9OUOgVh8n9rJy2vMiHA7cI1y8LkZwM=;
+ b=DtYEjiIfAD3QLjMuY+kG+NC3HPnwSGaRoZSfdCoY4eXY9rlfGFt/hzd126ubPtxzvM
+ sXEGyIR0iK+1LY7SQBhWStAShvpCJp8UZiA1Zpywf4v1ZBu4KWxJzSawRwu5oE8+LKE0
+ EaAcZgsAhHb195s1M1yOIzhZ6AKjyYdCbT7QGqHWczIrEtVyH9AgBrEt1T5uS6moUYhQ
+ Kjx1QSt/V0M4Y1mJADgRNnnT0WbdYU6K86B43LV2QNH8C3BZc6dzbcLx2HyPa2tGxBP8
+ +ckb91R3V1Jkx6mvUpl0IUjv+pdR8CBmj5D7adSyVPRag5b9uRpbyTx+90u/qCkBDsma
+ l6ew==
+X-Gm-Message-State: AOAM530pzdbGvdIfB2U8CdycYvAzpPFsDxcC/uRkE17Raep4WZ9zhay5
+ lc4qqFnhjc4DbXD9C1lg+9jozg==
+X-Google-Smtp-Source: ABdhPJzIj6weOsG+HIDX0gJGaRslrN9Np5qExRczRcLdgQKklHzufSw5S8GQ2hwA3i6uUGpLOgtFAw==
+X-Received: by 2002:adf:c3c8:: with SMTP id d8mr14855254wrg.143.1630957022647; 
  Mon, 06 Sep 2021 12:37:02 -0700 (PDT)
 Received: from blmsp.lan ([2a02:2454:3e6:c900::97e])
- by smtp.gmail.com with ESMTPSA id w29sm8815202wra.88.2021.09.06.12.37.01
+ by smtp.gmail.com with ESMTPSA id w29sm8815202wra.88.2021.09.06.12.37.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 06 Sep 2021 12:37:01 -0700 (PDT)
+ Mon, 06 Sep 2021 12:37:02 -0700 (PDT)
 From: Markus Schneider-Pargmann <msp@baylibre.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>
 Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
  Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: [PATCH v1 1/6] dt-bindings: mediatek,dpi: Add mt8195 dpintf
-Date: Mon,  6 Sep 2021 21:35:24 +0200
-Message-Id: <20210906193529.718845-2-msp@baylibre.com>
+Subject: [PATCH v1 2/6] dt-bindings: mediatek,dp: Add Display Port binding
+Date: Mon,  6 Sep 2021 21:35:25 +0200
+Message-Id: <20210906193529.718845-3-msp@baylibre.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210906193529.718845-1-msp@baylibre.com>
 References: <20210906193529.718845-1-msp@baylibre.com>
@@ -75,97 +75,120 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-DP_INTF is similar to the actual dpi. They differ in some points
-regarding registers and what needs to be set but the function blocks
-itself are similar in design.
+This controller is present on different mediatek hardware. Currently
+mt8195 and mt8395 have this controller without a functional difference,
+so only one compatible is added.
+
+The controller can be in two forms, for a normal display port and for
+embedded display port.
 
 Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
 ---
- .../display/mediatek/mediatek,dpi.yaml        | 43 ++++++++++++++++---
- 1 file changed, 37 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-index dd2896a40ff0..1a158b719ce6 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dpi.yaml
-@@ -4,7 +4,7 @@
- $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
--title: mediatek DPI Controller Device Tree Bindings
-+title: mediatek DPI/DP_INTF Controller Device Tree Bindings
- 
- maintainers:
-   - CK Hu <ck.hu@mediatek.com>
-@@ -13,7 +13,8 @@ maintainers:
- description: |
-   The Mediatek DPI function block is a sink of the display subsystem and
-   provides 8-bit RGB/YUV444 or 8/10/10-bit YUV422 pixel data on a parallel
--  output bus.
-+  output bus. The Mediatek DP_INTF is a similar function block that is
-+  connected to the (embedded) display port function block.
- 
- properties:
-   compatible:
-@@ -23,6 +24,7 @@ properties:
-       - mediatek,mt8173-dpi
-       - mediatek,mt8183-dpi
-       - mediatek,mt8192-dpi
-+      - mediatek,mt8195-dpintf
- 
-   reg:
-     maxItems: 1
-@@ -37,10 +39,11 @@ properties:
-       - description: DPI PLL
- 
-   clock-names:
--    items:
--      - const: pixel
--      - const: engine
--      - const: pll
-+    description:
-+      For dpi clocks pixel, engine and pll are required. For dpintf pixel,
-+      hf_fmm and hf_fdp are required.
-+    minItems: 3
-+    maxItems: 3
- 
-   pinctrl-0: true
-   pinctrl-1: true
-@@ -64,6 +67,34 @@ required:
-   - clock-names
-   - port
- 
-+allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            enum:
-+              - mediatek,mt8195-dpintf
-+    then:
-+      properties:
-+        clocks:
-+          minItems: 3
-+          maxItems: 3
-+        clock-names:
-+          items:
-+            - const: pixel
-+            - const: hf_fmm
-+            - const: hf_fdp
-+    else:
-+      properties:
-+        clocks:
-+          minItems: 3
-+          maxItems: 3
-+        clock-names:
-+          items:
-+            - const: pixel
-+            - const: engine
-+            - const: pll
+Notes:
+    I added the mediatek maintainers in the list of maintainers as I wasn't sure
+    whom I should put there. Please let me know if I am supposed to add my mail
+    there.
+
+ .../display/mediatek/mediatek,dp.yaml         | 89 +++++++++++++++++++
+ 1 file changed, 89 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+new file mode 100644
+index 000000000000..f7a35962c23b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+@@ -0,0 +1,89 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- additionalProperties: false
- 
- examples:
++title: Mediatek Display Port Controller
++
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
++
++description: |
++  Device tree bindings for the Mediatek (embedded) Display Port controller
++  present on some Mediatek SoCs.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8195-edp_tx
++      - mediatek,mt8195-dp_tx
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: faxi clock
++
++  clock-names:
++    items:
++      - const: faxi
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Input endpoint of the controller, usually dp_intf
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description: Output endpoint of the controller
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/power/mt8195-power.h>
++    dp_tx: edp_tx@1c500000 {
++        compatible = "mediatek,mt8195-edp_tx";
++        reg = <0 0x1c500000 0 0x8000>;
++        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
++        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&edp_pin>;
++        status = "okay";
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++                edp_in: endpoint {
++                    remote-endpoint = <&dp_intf0_out>;
++                };
++            };
++            port@1 {
++                reg = <1>;
++                edp_out: endpoint {
++                	remote-endpoint = <&panel_in>;
++                };
++            };
++        };
++    };
 -- 
 2.33.0
 
