@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8E8401EC5
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 18:55:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA10401EC6
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 18:55:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2656F89B70;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D44089B84;
 	Mon,  6 Sep 2021 16:55:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF98689B62;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A00B189B20;
  Mon,  6 Sep 2021 16:55:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="219697305"
-X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="219697305"
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="219697330"
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="219697330"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2021 09:55:35 -0700
-X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="579695028"
+ 06 Sep 2021 09:55:36 -0700
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="579695047"
 Received: from mkrygin-mobl1.ccr.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.45])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2021 09:55:33 -0700
+ 06 Sep 2021 09:55:35 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v2 1/6] drm/i915/ttm: Implement a function to copy the
- contents of two TTM-base objects
-Date: Mon,  6 Sep 2021 18:55:09 +0200
-Message-Id: <20210906165515.450541-2-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 2/6] drm/i915/gem: Implement a function to process all gem
+ objects of a region
+Date: Mon,  6 Sep 2021 18:55:10 +0200
+Message-Id: <20210906165515.450541-3-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210906165515.450541-1-thomas.hellstrom@linux.intel.com>
 References: <20210906165515.450541-1-thomas.hellstrom@linux.intel.com>
@@ -52,159 +52,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When backing up or restoring contents of pinned objects at suspend /
-resume time we need to allocate a new object as the backup. Add a function
-to facilitate copies between the two. Some data needs to be copied before
-the migration context is ready for operation, so make sure we can
-disable accelerated copies.
+An upcoming common pattern is to traverse the region object list and
+perform certain actions on all objects in a region. It's a little tricky
+to get the list locking right, in particular since a gem object may
+change region unless it's pinned or the object lock is held.
+
+Define a function that does this for us and that takes an argument that
+defines the action to be performed on each object.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 69 +++++++++++++++++++++----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.h |  4 ++
- 2 files changed, 64 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_region.c | 70 ++++++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_region.h | 33 ++++++++++
+ 2 files changed, 103 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 59ca53a3ef6a..df2dcbad1eb9 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -432,6 +432,7 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 			       bool clear,
- 			       struct ttm_resource *dst_mem,
-+			       struct ttm_tt *dst_ttm,
- 			       struct sg_table *dst_st)
- {
- 	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
-@@ -441,14 +442,14 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 	struct sg_table *src_st;
- 	struct i915_request *rq;
--	struct ttm_tt *ttm = bo->ttm;
-+	struct ttm_tt *src_ttm = bo->ttm;
- 	enum i915_cache_level src_level, dst_level;
- 	int ret;
- 
- 	if (!i915->gt.migrate.context)
- 		return -EINVAL;
- 
--	dst_level = i915_ttm_cache_level(i915, dst_mem, ttm);
-+	dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
- 	if (clear) {
- 		if (bo->type == ttm_bo_type_kernel)
- 			return -EINVAL;
-@@ -465,10 +466,10 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 		}
- 		intel_engine_pm_put(i915->gt.migrate.context->engine);
- 	} else {
--		src_st = src_man->use_tt ? i915_ttm_tt_get_st(ttm) :
-+		src_st = src_man->use_tt ? i915_ttm_tt_get_st(src_ttm) :
- 			obj->ttm.cached_io_st;
- 
--		src_level = i915_ttm_cache_level(i915, bo->resource, ttm);
-+		src_level = i915_ttm_cache_level(i915, bo->resource, src_ttm);
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
- 		ret = intel_context_migrate_copy(i915->gt.migrate.context,
- 						 NULL, src_st->sgl, src_level,
-@@ -488,11 +489,14 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 
- static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 			    struct ttm_resource *dst_mem,
--			    struct sg_table *dst_st)
-+			    struct ttm_tt *dst_ttm,
-+			    struct sg_table *dst_st,
-+			    bool allow_accel)
- {
--	int ret;
-+	int ret = -EINVAL;
- 
--	ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_st);
-+	if (allow_accel)
-+		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm, dst_st);
- 	if (ret) {
- 		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 		struct intel_memory_region *dst_reg, *src_reg;
-@@ -507,7 +511,7 @@ static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 		GEM_BUG_ON(!dst_reg || !src_reg);
- 
- 		dst_iter = !cpu_maps_iomem(dst_mem) ?
--			ttm_kmap_iter_tt_init(&_dst_iter.tt, bo->ttm) :
-+			ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
- 			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
- 						 dst_st, dst_reg->region.start);
- 
-@@ -562,7 +566,7 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	clear = !cpu_maps_iomem(bo->resource) && (!ttm || !ttm_tt_is_populated(ttm));
- 	if (!(clear && ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)))
--		__i915_ttm_move(bo, clear, dst_mem, dst_st);
-+		__i915_ttm_move(bo, clear, dst_mem, bo->ttm, dst_st, true);
- 
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_adjust_domains_after_move(obj);
-@@ -973,3 +977,50 @@ i915_gem_ttm_system_setup(struct drm_i915_private *i915,
- 	intel_memory_region_set_name(mr, "system-ttm");
- 	return mr;
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+index 1f557b2178ed..a016ccec36f3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
+@@ -80,3 +80,73 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 	i915_gem_object_free(obj);
+ 	return ERR_PTR(err);
  }
 +
 +/**
-+ * i915_gem_obj_copy_ttm - Copy the contents of one ttm-based gem object to
-+ * another
-+ * @dst: The destination object
-+ * @src: The source object
-+ * @allow_accel: Allow using the blitter. Otherwise TTM memcpy is used.
-+ * @intr: Whether to perform waits interruptible:
++ * i915_gem_process_region - Iterate over all objects of a region using ops
++ * to process and optionally skip objects
++ * @mr: The memory region
++ * @apply: ops and private data
 + *
-+ * Note: The caller is responsible for assuring that the underlying
-+ * TTM objects are populated if needed and locked.
++ * This function can be used to iterate over the regions object list,
++ * checking whether to skip objects, and, if not, lock the objects and
++ * process them using the supplied ops. Note that this function temporarily
++ * removes objects from the region list while iterating, so that if run
++ * concurrently with itself may not iterate over all objects.
 + *
-+ * Return: Zero on success. Negative error code on error. If @intr == true,
-+ * then it may return -ERESTARTSYS or -EINTR.
++ * Return: 0 if successful, negative error code on failure.
 + */
-+int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
-+			  struct drm_i915_gem_object *src,
-+			  bool allow_accel, bool intr)
++int i915_gem_process_region(struct intel_memory_region *mr,
++			    struct i915_gem_apply_to_region *apply)
 +{
-+	struct ttm_buffer_object *dst_bo = i915_gem_to_ttm(dst);
-+	struct ttm_buffer_object *src_bo = i915_gem_to_ttm(src);
-+	struct ttm_operation_ctx ctx = {
-+		.interruptible = intr,
-+	};
-+	struct sg_table *dst_st;
-+	int ret;
-+
-+	assert_object_held(dst);
-+	assert_object_held(src);
++	const struct i915_gem_apply_to_region_ops *ops = apply->ops;
++	struct drm_i915_gem_object *obj;
++	struct list_head still_in_list;
++	int ret = 0;
 +
 +	/*
-+	 * Sync for now. This will change with async moves.
++	 * In the future, a non-NULL apply->ww could mean the caller is
++	 * already in a locking transaction and provides its own context.
 +	 */
-+	ret = ttm_bo_wait_ctx(dst_bo, &ctx);
-+	if (!ret)
-+		ttm_bo_wait_ctx(src_bo, &ctx);
-+	if (ret)
-+		return ret;
++	GEM_WARN_ON(apply->ww);
 +
-+	dst_st = gpu_binds_iomem(dst_bo->resource) ?
-+		dst->ttm.cached_io_st : i915_ttm_tt_get_st(dst_bo->ttm);
++	INIT_LIST_HEAD(&still_in_list);
++	mutex_lock(&mr->objects.lock);
++	for (;;) {
++		struct i915_gem_ww_ctx ww;
 +
-+	__i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
-+			dst_st, allow_accel);
++		obj = list_first_entry_or_null(&mr->objects.list, typeof(*obj),
++					       mm.region_link);
++		if (!obj)
++			break;
 +
-+	return 0;
++		list_move_tail(&obj->mm.region_link, &still_in_list);
++		if (!kref_get_unless_zero(&obj->base.refcount))
++			continue;
++
++		/*
++		 * Note: Someone else might be migrating the object at this
++		 * point. The object's region is not stable until we lock
++		 * the object.
++		 */
++		mutex_unlock(&mr->objects.lock);
++		apply->ww = &ww;
++		for_i915_gem_ww(&ww, ret, apply->interruptible) {
++			ret = i915_gem_object_lock(obj, apply->ww);
++			if (ret)
++				continue;
++
++			if (obj->mm.region == mr)
++				ret = ops->process_obj(apply, obj);
++			/* Implicit object unlock */
++		}
++
++		i915_gem_object_put(obj);
++		mutex_lock(&mr->objects.lock);
++		if (ret)
++			break;
++	}
++	list_splice_tail(&still_in_list, &mr->objects.list);
++	mutex_unlock(&mr->objects.lock);
++
++	return ret;
 +}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
-index 40927f67b6d9..34ac78d47b0d 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
-@@ -46,4 +46,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 			       resource_size_t size,
- 			       resource_size_t page_size,
- 			       unsigned int flags);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+index 1008e580a89a..f62195847056 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
+@@ -12,6 +12,37 @@ struct intel_memory_region;
+ struct drm_i915_gem_object;
+ struct sg_table;
+ 
++struct i915_gem_apply_to_region;
 +
-+int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
-+			  struct drm_i915_gem_object *src,
-+			  bool allow_accel, bool intr);
++/**
++ * struct i915_gem_apply_to_region_ops - ops to use when iterating over all
++ * region objects.
++ */
++struct i915_gem_apply_to_region_ops {
++	/**
++	 * process_obj - Process the current object
++	 * @apply: Embed this for provate data
++	 * @obj: The current object.
++	 */
++	int (*process_obj)(struct i915_gem_apply_to_region *apply,
++			   struct drm_i915_gem_object *obj);
++};
++
++/**
++ * struct i915_gem_apply_to_region - Argument to the struct
++ * i915_gem_apply_to_region_ops functions.
++ * @ops: The ops for the operation.
++ * @ww: Locking context used for the transaction.
++ * @interruptible: Whether to perform object locking interruptible.
++ *
++ * This structure is intended to be embedded in a private struct if needed
++ */
++struct i915_gem_apply_to_region {
++	const struct i915_gem_apply_to_region_ops *ops;
++	struct i915_gem_ww_ctx *ww;
++	u32 interruptible:1;
++};
++
+ void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
+ 					struct intel_memory_region *mem);
+ void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj);
+@@ -22,4 +53,6 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
+ 			      resource_size_t page_size,
+ 			      unsigned int flags);
+ 
++int i915_gem_process_region(struct intel_memory_region *mr,
++			    struct i915_gem_apply_to_region *apply);
  #endif
 -- 
 2.31.1
