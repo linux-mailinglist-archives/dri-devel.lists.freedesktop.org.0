@@ -1,47 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF7B401935
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 11:50:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB424401A00
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 12:43:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9127989930;
-	Mon,  6 Sep 2021 09:50:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF60898A4;
+	Mon,  6 Sep 2021 10:43:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C44FC89930
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 09:50:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10098"; a="200142545"
-X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="200142545"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2021 02:50:16 -0700
-X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="536692853"
-Received: from isandweg-mobl2.ger.corp.intel.com (HELO localhost)
- ([10.251.212.194])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Sep 2021 02:50:10 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Douglas Anderson <dianders@chromium.org>,
- Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
- David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
- Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 02/16] drm/edid: Break out reading block 0 of the EDID
-In-Reply-To: <20210901131531.v3.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210901201934.1084250-1-dianders@chromium.org>
- <20210901131531.v3.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
-Date: Mon, 06 Sep 2021 12:50:07 +0300
-Message-ID: <87k0ju8240.fsf@intel.com>
+Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
+ [IPv6:2607:f8b0:4864:20::d2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 051B989B20
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 08:02:34 +0000 (UTC)
+Received: by mail-io1-xd2d.google.com with SMTP id b10so7606293ioq.9
+ for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 01:02:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=WZ2JrZUxjomDnhpkXV3UkUZoXyQGVexwecJgXeES0JE=;
+ b=RkEBMsUcqXWVba6jg6GNyX1QSg9Z2w6C+7dlrHeO/RDBP0nWKvHew1z1Sbhi1QwMeC
+ 4SxnoCW+llDiw/b0TnXGbaw1wXwgwmiSVC+inI6f1Frkaln1CFkeK2/bMtpAGA40kC/T
+ TedqOSDulzE/wi0uLU5gVLrO6XNn7XFwm4cA8iO+klEcs58lR4MXXTLwxIcP5QwWTjmb
+ XvRFXqtzcirpnP8WzMxsBgCBPDB1LQ97mUcFHiGJnV2pWnUvbXCBMPSH21UcZgErHv/q
+ le/eKFXaASV2+709G+8GA7ECFAdIJumjFUUYek5/Fl1I09oftcDCmuoxJs7kNiwx+1Gi
+ 18nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=WZ2JrZUxjomDnhpkXV3UkUZoXyQGVexwecJgXeES0JE=;
+ b=hRdZ62TfxBDngspTJJx+Dp+dNR86QNGassx38hndng6pvnGADckbzkrXyfgcgxaWgc
+ ucZBTTTUPOwX1WylL7kpOfBYIUZ0ikl1/OG6sODukjp6uAzpmlGLISu+XCgfgCTPfuDq
+ mTTXvgH1/BuEIKU+o2VfVb3nueTmVtGs9yCwg9Q4TRuwmLPzSsXwovWWbf9cNlhEQtl3
+ tM3hVqSc8aM1kIlwc55FgM9v61ANcw1crJQnv9cYDDjfHbjj7cvcBHlaZ2vPntH0w19N
+ lxYXOFjkjDtY3/4aXkc5vmnMr4d0B5OZ1gFvGD8AeE7EGtQhNSyZePbdAFFVTri54iIy
+ NI0A==
+X-Gm-Message-State: AOAM53158Z35r4MW4JvJ/wK0Voq2vWkwDQ8GiJwAzm4rP/iMZfiPL4w+
+ s6f39sagnvnvMhZAv/xzHoz++2CWyWKAawnywC1/Ww==
+X-Google-Smtp-Source: ABdhPJyTvUQQpstrXnLI1vn4QAa5MprOCKyEKtqMUvuMXUR0YaUtyc1jLZkxnD+RRhbjYl/pF4jE3czU1Qh0ZEaYGtw=
+X-Received: by 2002:a6b:8bcf:: with SMTP id n198mr8922767iod.178.1630915353263; 
+ Mon, 06 Sep 2021 01:02:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210729183942.2839925-1-robdclark@gmail.com>
+ <1a38a590-a64e-58ef-1bbf-0ae49c004d05@linaro.org>
+ <CAF6AEGs5dzA7kfO89Uqbh3XmorXoEa=fpW+unk5_oaihHm479Q@mail.gmail.com>
+ <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
+ <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
+ <CALAqxLUkyXK2gqNMBbtJFfh01ZpcG46dZaM7Zq4jG3OngvFREg@mail.gmail.com>
+ <CAF6AEGsACLcDuszcgmHHs04GghLPiRfei3tGo161yBXsg7Y-YA@mail.gmail.com>
+In-Reply-To: <CAF6AEGsACLcDuszcgmHHs04GghLPiRfei3tGo161yBXsg7Y-YA@mail.gmail.com>
+From: Amit Pundir <amit.pundir@linaro.org>
+Date: Mon, 6 Sep 2021 13:31:57 +0530
+Message-ID: <CAMi1Hd0dniDXPNOuh05ywqHKY+cGvAsd-cnD91K1GLppfO=x0w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
+To: Rob Clark <robdclark@gmail.com>
+Cc: John Stultz <john.stultz@linaro.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>, 
+ Rob Clark <robdclark@chromium.org>, freedreno <freedreno@lists.freedesktop.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, 
+ David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, 
+ Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 06 Sep 2021 10:43:38 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,123 +83,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 01 Sep 2021, Douglas Anderson <dianders@chromium.org> wrote:
-> A future change wants to be able to read just block 0 of the EDID, so
-> break it out of drm_do_get_edid() into a sub-function.
+On Sat, 4 Sept 2021 at 01:55, Rob Clark <robdclark@gmail.com> wrote:
 >
-> This is intended to be a no-op change--just code movement.
+> On Fri, Sep 3, 2021 at 12:39 PM John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > On Thu, Jul 29, 2021 at 1:49 PM Rob Clark <robdclark@gmail.com> wrote:
+> > > On Thu, Jul 29, 2021 at 1:28 PM Caleb Connolly
+> > > <caleb.connolly@linaro.org> wrote:
+> > > > On 29/07/2021 21:24, Rob Clark wrote:
+> > > > > On Thu, Jul 29, 2021 at 1:06 PM Caleb Connolly
+> > > > > <caleb.connolly@linaro.org> wrote:
+> > > > >>
+> > > > >> Hi Rob,
+> > > > >>
+> > > > >> I've done some more testing! It looks like before that patch ("drm/msm: Devfreq tuning") the GPU would never get above
+> > > > >> the second frequency in the OPP table (342MHz) (at least, not in glxgears). With the patch applied it would more
+> > > > >> aggressively jump up to the max frequency which seems to be unstable at the default regulator voltages.
+> > > > >
+> > > > > *ohh*, yeah, ok, that would explain it
+> > > > >
+> > > > >> Hacking the pm8005 s1 regulator (which provides VDD_GFX) up to 0.988v (instead of the stock 0.516v) makes the GPU stable
+> > > > >> at the higher frequencies.
+> > > > >>
+> > > > >> Applying this patch reverts the behaviour, and the GPU never goes above 342MHz in glxgears, losing ~30% performance in
+> > > > >> glxgear.
+> > > > >>
+> > > > >> I think (?) that enabling CPR support would be the proper solution to this - that would ensure that the regulators run
+> > > > >> at the voltage the hardware needs to be stable.
+> > > > >>
+> > > > >> Is hacking the voltage higher (although ideally not quite that high) an acceptable short term solution until we have
+> > > > >> CPR? Or would it be safer to just not make use of the higher frequencies on a630 for now?
+> > > > >>
+> > > > >
+> > > > > tbh, I'm not sure about the regulator stuff and CPR.. Bjorn is already
+> > > > > on CC and I added sboyd, maybe one of them knows better.
+> > > > >
+> > > > > In the short term, removing the higher problematic OPPs from dts might
+> > > > > be a better option than this patch (which I'm dropping), since there
+> > > > > is nothing stopping other workloads from hitting higher OPPs.
+> > > > Oh yeah that sounds like a more sensible workaround than mine .
+> > > > >
+> > > > > I'm slightly curious why I didn't have problems at higher OPPs on my
+> > > > > c630 laptop (sdm850)
+> > > > Perhaps you won the sillicon lottery - iirc sdm850 is binned for higher clocks as is out of the factory.
+> > > >
+> > > > Would it be best to drop the OPPs for all devices? Or just those affected? I guess it's possible another c630 might
+> > > > crash where yours doesn't?
+> > >
+> > > I've not heard any reports of similar issues from the handful of other
+> > > folks with c630's on #aarch64-laptops.. but I can't really say if that
+> > > is luck or not.
+> > >
+> > > Maybe just remove it for affected devices?  But I'll defer to Bjorn.
+> >
+> > Just as another datapoint, I was just marveling at how suddenly smooth
+> > the UI was performing on db845c and Caleb pointed me at the "drm/msm:
+> > Devfreq tuning" patch as the likely cause of the improvement, and
+> > mid-discussion my board crashed into USB crash mode:
+> > [  146.157696][    C0] adreno 5000000.gpu: CP | AHB bus error
+> > [  146.163303][    C0] adreno 5000000.gpu: CP | AHB bus error
+> > [  146.168837][    C0] adreno 5000000.gpu: RBBM | ATB bus overflow
+> > [  146.174960][    C0] adreno 5000000.gpu: CP | HW fault | status=0x00000000
+> > [  146.181917][    C0] adreno 5000000.gpu: CP | AHB bus error
+> > [  146.187547][    C0] adreno 5000000.gpu: CP illegal instruction error
+> > [  146.194009][    C0] adreno 5000000.gpu: CP | AHB bus error
+> > [  146.308909][    T9] Internal error: synchronous external abort:
+> > 96000010 [#1] PREEMPT SMP
+> > [  146.317150][    T9] Modules linked in:
+> > [  146.320941][    T9] CPU: 3 PID: 9 Comm: kworker/u16:1 Tainted: G
+> >     W         5.14.0-mainline-06795-g42b258c2275c #24
+> > [  146.331974][    T9] Hardware name: Thundercomm Dragonboar
+> > Format: Log Type - Time(microsec) - Message - Optional Info
+> > Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
+> > S - QC_IMAGE_VERSION_STRING=BOOT.XF.2.0-00371-SDM845LZB-1
+> > S - IMAGE_VARIANT_STRING=SDM845LA
+> > S - OEM_IMAGE_VERSION_STRING=TSBJ-FA-PC-02170
+> >
+> > So Caleb sent me to this thread. :)
+> >
+> > I'm still trying to trip it again, but it does seem like db845c is
+> > also seeing some stability issues with Linus' HEAD.
+> >
 >
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
+> Caleb's original pastebin seems to have expired (or at least require
+> some sort of ubuntu login to access).. were the crashes he was seeing
+> also 'AHB bus error'?
+
+I can reproduce this hard crash
+https://www.irccloud.com/pastebin/Cu6UJntE/ and a gpu lockup
+https://www.irccloud.com/pastebin/6Ryd2Pug/ at times reliably, by
+running antutu benchmark on pocof1.
+
+Reverting 9bc95570175a ("drm/msm: Devfreq tuning") helps and I no
+longer see these errors.
+
+Complete dmesg for hardcrash https://pastebin.com/raw/GLZVQFQN
+
+Regards,
+Amit Pundir
+
 >
-> (no changes since v1)
+> If you have a reliable reproducer, I guess it would be worth seeing if
+> increasing the min_freq (ie. to limit how far we jump the freq in one
+> shot) "fixes" it?
 >
->  drivers/gpu/drm/drm_edid.c | 62 +++++++++++++++++++++++++++-----------
->  1 file changed, 44 insertions(+), 18 deletions(-)
+> I guess I could check downstream kgsl to see if they were doing
+> something to increase freq in smaller increments.. I don't recall that
+> they were but it has been a while since I dug thru that code.  And I
+> suppose downstream it could also be done in their custom tz governor.
 >
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-> index 6325877c5fd6..a22c38482a90 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1905,6 +1905,43 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
->  }
->  EXPORT_SYMBOL(drm_add_override_edid_modes);
->  
-> +static struct edid *drm_do_get_edid_blk0(
-
-Maybe base_block instead of blk0?
-
-> +	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
-> +			      size_t len),
-> +	void *data, bool *edid_corrupt, int *null_edid_counter)
-> +{
-> +	int i;
-> +	u8 *edid;
-
-With void *edid, this function wouldn't need the cast internally.
-
-> +
-> +	if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
-> +		return NULL;
-
-Could split the allocation and NULL check to two separate lines per
-coding style, while at it?
-
-BR,
-Jani.
-
-> +
-> +	/* base block fetch */
-> +	for (i = 0; i < 4; i++) {
-> +		if (get_edid_block(data, edid, 0, EDID_LENGTH))
-> +			goto out;
-> +		if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
-> +			break;
-> +		if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
-> +			if (null_edid_counter)
-> +				(*null_edid_counter)++;
-> +			goto carp;
-> +		}
-> +	}
-> +	if (i == 4)
-> +		goto carp;
-> +
-> +	return (struct edid *)edid;
-> +
-> +carp:
-> +	kfree(edid);
-> +	return ERR_PTR(-EINVAL);
-> +
-> +out:
-> +	kfree(edid);
-> +	return NULL;
-> +}
-> +
->  /**
->   * drm_do_get_edid - get EDID data using a custom EDID block read function
->   * @connector: connector we're probing
-> @@ -1938,25 +1975,16 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  	if (override)
->  		return override;
->  
-> -	if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
-> +	edid = (u8 *)drm_do_get_edid_blk0(get_edid_block, data,
-> +					  &connector->edid_corrupt,
-> +					  &connector->null_edid_counter);
-> +	if (IS_ERR_OR_NULL(edid)) {
-> +		if (IS_ERR(edid))
-> +			connector_bad_edid(connector, edid, 1);
->  		return NULL;
-> -
-> -	/* base block fetch */
-> -	for (i = 0; i < 4; i++) {
-> -		if (get_edid_block(data, edid, 0, EDID_LENGTH))
-> -			goto out;
-> -		if (drm_edid_block_valid(edid, 0, false,
-> -					 &connector->edid_corrupt))
-> -			break;
-> -		if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
-> -			connector->null_edid_counter++;
-> -			goto carp;
-> -		}
->  	}
-> -	if (i == 4)
-> -		goto carp;
->  
-> -	/* if there's no extensions, we're done */
-> +	/* if there's no extensions or no connector, we're done */
->  	valid_extensions = edid[0x7e];
->  	if (valid_extensions == 0)
->  		return (struct edid *)edid;
-> @@ -2010,8 +2038,6 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->  
->  	return (struct edid *)edid;
->  
-> -carp:
-> -	connector_bad_edid(connector, edid, 1);
->  out:
->  	kfree(edid);
->  	return NULL;
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+> BR,
+> -R
