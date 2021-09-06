@@ -1,66 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89A8401705
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:34:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F1040170A
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 09:35:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 01FDF89951;
-	Mon,  6 Sep 2021 07:34:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8518995F;
+	Mon,  6 Sep 2021 07:35:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
- [IPv6:2607:f8b0:4864:20::331])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 030208995F
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:34:33 +0000 (UTC)
-Received: by mail-ot1-x331.google.com with SMTP id
- k12-20020a056830150c00b0051abe7f680bso7799316otp.1
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 00:34:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KLDv73P0F0QVUgxl+s78WI8WF2RJUO8K40NpRb3AqHQ=;
- b=AySEBLAeHsj5uVKS43yZ6s3q3C829S5+QMS0aYfinQTmdXtS7JbvxxOJcj6be0Ta0E
- ZqB32nk4+F7M0IwkVWOBwR7Tta9/EP/i9LsctRGtbHGfLF90/LyUlyOIzM5jSr0gTsyL
- ETmg1qXQwAEiNDF8NRPmhEXuM/iQRbQbOR00U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=KLDv73P0F0QVUgxl+s78WI8WF2RJUO8K40NpRb3AqHQ=;
- b=ENz8DZw9j+QEtOcbemLau0GULkhC5hgndPYAZA50/kF8wrHeow5i6Xn71I1hjV0uE4
- k6kZYv/5rPjARHcp2/aiyNDbRGID5Tw86ixSzuuhRub0im7SlCWTo787RM3gZ1UUi+C8
- PtVxbXRWh6DBls67dA4kqzQqP4fhje9G34YViZjCxLFvabURtyyCxHlqcIeTQXOXeeXN
- YXMZPxI6XYcQExRdYYsqdjH9RJdrUVn+4RtzWGemMatRyupbxXq4JngMewBEvfYCXuc9
- iEIwnkVyHyHMn3N0nAzIftnjPEYCZksDwz+yTzkP4UaDxU+IzwOkUX95EnkiswTRMFPT
- M8Yg==
-X-Gm-Message-State: AOAM530qPkL7PqyhjZiBRJxJ8nU3do3jIwptEcsMYEJ0e4iQ5gXcJeli
- T+utBloC+6ollIYV8jJ3jUbcjMspA+RNBgweYs5+uQ==
-X-Google-Smtp-Source: ABdhPJx1IPLOWvU3juMO7W0BfSfAXxm8nc0F1B4hcn35OkdkhajuYdWFrNbDFUxrBcyUq7wkCAIMwhj7M36O42pmDvY=
-X-Received: by 2002:a05:6830:156:: with SMTP id
- j22mr9487069otp.75.1630913673121; 
- Mon, 06 Sep 2021 00:34:33 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E5AE8995F
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 07:35:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1630913732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=U5F+g65gvtlKtqKvVL0elOUMCwcI/xX6RWsFAr3WOYA=;
+ b=e9Bx7YlJ2sBSK1IpL7L2+p49G8McK5ZuLooHBZNuVOHatRupIoMSLXxngLQ7SBequiI2g9
+ Y3OYZXIATaGyQAZXJ0jBWwRVgK8ua0U0bspr4S7lYlgW9/6rT0Q31bWQ58OflI/uLmy7Dv
+ kg14Iv9WZD4TjX4AZbvYyB7Z5OK6cEE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-246-QYrddwH_MhSJ3uEDX4y7Uw-1; Mon, 06 Sep 2021 03:35:29 -0400
+X-MC-Unique: QYrddwH_MhSJ3uEDX4y7Uw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D80E802929;
+ Mon,  6 Sep 2021 07:35:26 +0000 (UTC)
+Received: from x1.localdomain.com (unknown [10.39.194.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB38877701;
+ Mon,  6 Sep 2021 07:35:20 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rajat Jain <rajatja@google.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude <lyude@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <mgross@linux.intel.com>,
+ Andy Shevchenko <andy@infradead.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Mark Pearson <markpearson@lenovo.com>,
+ Sebastien Bacher <seb128@ubuntu.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Subject: [PATCH 0/9] drm: Add privacy-screen class and connector properties
+Date: Mon,  6 Sep 2021 09:35:10 +0200
+Message-Id: <20210906073519.4615-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-References: <20210820123348.6535a87e@canb.auug.org.au>
- <CAK7LNASv-F1Y7kpaDF+_=TW0Jzvpo1uuNL1B5jUmCCRqv-45bA@mail.gmail.com>
- <20210902075038.7461d3c8@canb.auug.org.au>
- <20210906084947.4f65761d@canb.auug.org.au>
-In-Reply-To: <20210906084947.4f65761d@canb.auug.org.au>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Mon, 6 Sep 2021 09:34:21 +0200
-Message-ID: <CAKMK7uF6K+gdWVT09wL0sPBQs8RRixggk01e291veE0VecD=TQ@mail.gmail.com>
-Subject: Re: linux-next: build failure after merge of the drm tree
-To: Stephen Rothwell <sfr@canb.auug.org.au>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- "Nikula, Jani" <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Dave Airlie <airlied@linux.ie>, 
- DRI <dri-devel@lists.freedesktop.org>,
- John Harrison <John.C.Harrison@intel.com>, 
- Matthew Brost <matthew.brost@intel.com>, Alexey Dobriyan <adobriyan@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux Next Mailing List <linux-next@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,89 +74,117 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 6, 2021 at 12:49 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> Hi all,
->
-> On Thu, 2 Sep 2021 07:50:38 +1000 Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> >
-> > On Fri, 20 Aug 2021 15:23:34 +0900 Masahiro Yamada <masahiroy@kernel.org> wrote:
-> > >
-> > > On Fri, Aug 20, 2021 at 11:33 AM Stephen Rothwell <sfr@canb.auug.org.au> wrote:
-> > > >
->  > > After merging the drm tree, today's linux-next build (x86_64 allmodconfig)
-> > > > failed like this:
-> > > >
-> > > > In file included from drivers/gpu/drm/i915/i915_debugfs.c:39:
-> > > > drivers/gpu/drm/i915/gt/intel_gt_requests.h:9:10: fatal error: stddef.h: No such file or directory
-> > > >     9 | #include <stddef.h>
-> > > >       |          ^~~~~~~~~~
-> > > >
-> > > > Caused by commit
-> > > >
-> > > >   564f963eabd1 ("isystem: delete global -isystem compile option")
-> > > >
-> > > > from the kbuild tree interacting with commit
-> > > >
-> > > >   b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to work with GuC")
-> > > >
-> > > > I have applied the following patch for today.
-> > >
-> > >
-> > > Thanks.
-> > >
-> > > This fix-up does not depend on my kbuild tree in any way.
-> > >
-> > > So, the drm maintainer can apply it to his tree.
-> > >
-> > > Perhaps with
-> > >
-> > > Fixes: b97060a99b01 ("drm/i915/guc: Update intel_gt_wait_for_idle to
-> > > work with GuC")
-> >
-> > OK, so that didn't happen so I will now apply the merge fix up to the
-> > merge of the kbuild tree.
-> >
-> > > > From: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > Date: Fri, 20 Aug 2021 12:24:19 +1000
-> > > > Subject: [PATCH] drm/i915: use linux/stddef.h due to "isystem: trim/fixup stdarg.h and other headers"
-> > > >
-> > > > Signed-off-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> > > > ---
-> > > >  drivers/gpu/drm/i915/gt/intel_gt_requests.h | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_requests.h b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> > > > index 51dbe0e3294e..d2969f68dd64 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_requests.h
-> > > > @@ -6,7 +6,7 @@
-> > > >  #ifndef INTEL_GT_REQUESTS_H
-> > > >  #define INTEL_GT_REQUESTS_H
-> > > >
-> > > > -#include <stddef.h>
-> > > > +#include <linux/stddef.h>
-> > > >
-> > > >  struct intel_engine_cs;
-> > > >  struct intel_gt;
-> > > > --
-> > > > 2.32.0
->
-> Ping?  I am still applying this ...
+Hi all,
 
-Apologies, this fell through a lot of cracks. I applied this to drm-next now.
+Here is the privacy-screen related code which I last posted in April 2021
+To the best of my knowledge there is consensus about / everyone is in
+agreement with the new userspace API (2 connector properties) this
+patch-set add (patch 1 of the series).
 
-Matt/John, as author/committer it's your job to make sure issues and
-fixes for the stuff you're pushing don't get lost. I'd have expected
-John to apply this to at least drm-intel-gt-next (it's not even
-there).
+This is unchanged (except for a rebase on drm-tip), what has changed is
+that the first userspace consumer of the new properties is now fully ready
+for merging (it is just waiting for the kernel bits to land first):
 
-Joonas, I think this is the 2nd or 3rd or so issue this release cycle
-where some compile fix got stuck a bit because drm-intel-gt-next isn't
-in linux-next. Can we please fix that? It probably needs some changes
-to the dim script.
+ - https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/49
+ - https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1952
+ - https://gitlab.gnome.org/GNOME/gnome-control-center/-/merge_requests/1032
 
-Cheers, Daniel
+Having a userspace-consumer of the API fully ready for merging, clears the
+last blocker for this series. It has already has been reviewed before
+by Emil Velikov, but it could really do with another review.
+
+The new API works as designed and add the following features to GNOME:
+
+1. Showing an OSD notification when the privacy-screen is toggled on/off
+   through hotkeys handled by the embedded-controller
+2. Allowing control of the privacy-screen from the GNOME control-panel,
+   including the on/off slider shown there updating to match the hw-setting
+   when the setting is changed with the control-panel open.
+3. Restoring the last user-setting at login
+
+This series consists of a number of different parts:
+
+1. A new version of Rajat's privacy-screen connector properties patch,
+this adds new userspace API in the form of new properties
+
+2. Since on most devices the privacy screen is actually controlled by
+some vendor specific ACPI/WMI interface which has a driver under
+drivers/platform/x86, we need some "glue" code to make this functionality
+available to KMS drivers. Patches 2-4 add a new privacy-screen class for
+this, which allows non KMS drivers (and possibly KMS drivers too) to
+register a privacy-screen device and also adds an interface for KMS drivers
+to get access to the privacy-screen associated with a specific connector.
+This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
+kernel, including separate includes for consumers and providers(drivers).
+
+3. Some drm_connector helper functions to keep the actual changes needed
+for this in individual KMS drivers as small as possible (patch 5).
+
+4. Make the thinkpad_acpi code register a privacy-screen device on
+ThinkPads with a privacy-screen (patches 6-8)
+
+5. Make the i915 driver export the privacy-screen functionality through
+the connector properties on the eDP connector.
+
+I believe that it would be best to merge the entire series, including
+the thinkpad_acpi changes through drm-misc in one go. As the pdx86
+subsys maintainer I hereby give my ack for merging the thinkpad_acpi
+changes through drm-misc.
+
+There is one small caveat with this series, which it is good to be
+aware of. The i915 driver will now return -EPROBE_DEFER on Thinkpads
+with an eprivacy screen, until the thinkpad_acpi driver is loaded.
+This means that initrd generation tools will need to be updated to
+include thinkpad_acpi when the i915 driver is added to the initrd.
+Without this the loading of the i915 driver will be delayed to after
+the switch to real rootfs.
+
+Regards,
+
+Hans
+
+
+Hans de Goede (8):
+  drm: Add privacy-screen class (v3)
+  drm/privacy-screen: Add X86 specific arch init code
+  drm/privacy-screen: Add notifier support
+  drm/connector: Add a drm_connector privacy-screen helper functions
+  platform/x86: thinkpad_acpi: Add hotkey_notify_extended_hotkey()
+    helper
+  platform/x86: thinkpad_acpi: Get privacy-screen / lcdshadow ACPI
+    handles only once
+  platform/x86: thinkpad_acpi: Register a privacy-screen device
+  drm/i915: Add privacy-screen support
+
+Rajat Jain (1):
+  drm/connector: Add support for privacy-screen properties (v4)
+
+ Documentation/gpu/drm-kms-helpers.rst        |  15 +
+ Documentation/gpu/drm-kms.rst                |   2 +
+ MAINTAINERS                                  |   8 +
+ drivers/gpu/drm/Kconfig                      |   4 +
+ drivers/gpu/drm/Makefile                     |   1 +
+ drivers/gpu/drm/drm_atomic_uapi.c            |   4 +
+ drivers/gpu/drm/drm_connector.c              | 214 +++++++++
+ drivers/gpu/drm/drm_drv.c                    |   4 +
+ drivers/gpu/drm/drm_privacy_screen.c         | 468 +++++++++++++++++++
+ drivers/gpu/drm/drm_privacy_screen_x86.c     |  86 ++++
+ drivers/gpu/drm/i915/display/intel_display.c |   5 +
+ drivers/gpu/drm/i915/display/intel_dp.c      |  10 +
+ drivers/gpu/drm/i915/i915_pci.c              |  12 +
+ drivers/platform/x86/Kconfig                 |   2 +
+ drivers/platform/x86/thinkpad_acpi.c         | 131 ++++--
+ include/drm/drm_connector.h                  |  56 +++
+ include/drm/drm_privacy_screen_consumer.h    |  65 +++
+ include/drm/drm_privacy_screen_driver.h      |  84 ++++
+ include/drm/drm_privacy_screen_machine.h     |  46 ++
+ 19 files changed, 1175 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/drm_privacy_screen.c
+ create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
+ create mode 100644 include/drm/drm_privacy_screen_consumer.h
+ create mode 100644 include/drm/drm_privacy_screen_driver.h
+ create mode 100644 include/drm/drm_privacy_screen_machine.h
+
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.31.1
+
