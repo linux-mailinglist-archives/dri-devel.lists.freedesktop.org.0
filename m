@@ -1,73 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB424401A00
-	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 12:43:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1A1140196F
+	for <lists+dri-devel@lfdr.de>; Mon,  6 Sep 2021 12:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AF60898A4;
-	Mon,  6 Sep 2021 10:43:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 14C208946E;
+	Mon,  6 Sep 2021 10:05:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 051B989B20
- for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 08:02:34 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id b10so7606293ioq.9
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 01:02:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=WZ2JrZUxjomDnhpkXV3UkUZoXyQGVexwecJgXeES0JE=;
- b=RkEBMsUcqXWVba6jg6GNyX1QSg9Z2w6C+7dlrHeO/RDBP0nWKvHew1z1Sbhi1QwMeC
- 4SxnoCW+llDiw/b0TnXGbaw1wXwgwmiSVC+inI6f1Frkaln1CFkeK2/bMtpAGA40kC/T
- TedqOSDulzE/wi0uLU5gVLrO6XNn7XFwm4cA8iO+klEcs58lR4MXXTLwxIcP5QwWTjmb
- XvRFXqtzcirpnP8WzMxsBgCBPDB1LQ97mUcFHiGJnV2pWnUvbXCBMPSH21UcZgErHv/q
- le/eKFXaASV2+709G+8GA7ECFAdIJumjFUUYek5/Fl1I09oftcDCmuoxJs7kNiwx+1Gi
- 18nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=WZ2JrZUxjomDnhpkXV3UkUZoXyQGVexwecJgXeES0JE=;
- b=hRdZ62TfxBDngspTJJx+Dp+dNR86QNGassx38hndng6pvnGADckbzkrXyfgcgxaWgc
- ucZBTTTUPOwX1WylL7kpOfBYIUZ0ikl1/OG6sODukjp6uAzpmlGLISu+XCgfgCTPfuDq
- mTTXvgH1/BuEIKU+o2VfVb3nueTmVtGs9yCwg9Q4TRuwmLPzSsXwovWWbf9cNlhEQtl3
- tM3hVqSc8aM1kIlwc55FgM9v61ANcw1crJQnv9cYDDjfHbjj7cvcBHlaZ2vPntH0w19N
- lxYXOFjkjDtY3/4aXkc5vmnMr4d0B5OZ1gFvGD8AeE7EGtQhNSyZePbdAFFVTri54iIy
- NI0A==
-X-Gm-Message-State: AOAM53158Z35r4MW4JvJ/wK0Voq2vWkwDQ8GiJwAzm4rP/iMZfiPL4w+
- s6f39sagnvnvMhZAv/xzHoz++2CWyWKAawnywC1/Ww==
-X-Google-Smtp-Source: ABdhPJyTvUQQpstrXnLI1vn4QAa5MprOCKyEKtqMUvuMXUR0YaUtyc1jLZkxnD+RRhbjYl/pF4jE3czU1Qh0ZEaYGtw=
-X-Received: by 2002:a6b:8bcf:: with SMTP id n198mr8922767iod.178.1630915353263; 
- Mon, 06 Sep 2021 01:02:33 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7775289487
+ for <dri-devel@lists.freedesktop.org>; Mon,  6 Sep 2021 10:05:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10098"; a="207051587"
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="207051587"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 03:05:43 -0700
+X-IronPort-AV: E=Sophos;i="5.85,272,1624345200"; d="scan'208";a="536701783"
+Received: from isandweg-mobl2.ger.corp.intel.com (HELO localhost)
+ ([10.251.212.194])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Sep 2021 03:05:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Douglas Anderson <dianders@chromium.org>,
+ Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ linux-arm-msm@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 03/16] drm/edid: Allow the querying/working with the
+ panel ID from the EDID
+In-Reply-To: <20210901131531.v3.3.I4a672175ba1894294d91d3dbd51da11a8239cf4a@changeid>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210901201934.1084250-1-dianders@chromium.org>
+ <20210901131531.v3.3.I4a672175ba1894294d91d3dbd51da11a8239cf4a@changeid>
+Date: Mon, 06 Sep 2021 13:05:34 +0300
+Message-ID: <87h7ey81e9.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210729183942.2839925-1-robdclark@gmail.com>
- <1a38a590-a64e-58ef-1bbf-0ae49c004d05@linaro.org>
- <CAF6AEGs5dzA7kfO89Uqbh3XmorXoEa=fpW+unk5_oaihHm479Q@mail.gmail.com>
- <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <CALAqxLUkyXK2gqNMBbtJFfh01ZpcG46dZaM7Zq4jG3OngvFREg@mail.gmail.com>
- <CAF6AEGsACLcDuszcgmHHs04GghLPiRfei3tGo161yBXsg7Y-YA@mail.gmail.com>
-In-Reply-To: <CAF6AEGsACLcDuszcgmHHs04GghLPiRfei3tGo161yBXsg7Y-YA@mail.gmail.com>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Mon, 6 Sep 2021 13:31:57 +0530
-Message-ID: <CAMi1Hd0dniDXPNOuh05ywqHKY+cGvAsd-cnD91K1GLppfO=x0w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Rob Clark <robdclark@gmail.com>
-Cc: John Stultz <john.stultz@linaro.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Rob Clark <robdclark@chromium.org>, freedreno <freedreno@lists.freedesktop.org>,
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, 
- David Airlie <airlied@linux.ie>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Jordan Crouse <jordan@cosmicpenguin.net>, 
- Stephen Boyd <sboyd@kernel.org>, Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Sean Paul <sean@poorly.run>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Mon, 06 Sep 2021 10:43:38 +0000
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,114 +58,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 4 Sept 2021 at 01:55, Rob Clark <robdclark@gmail.com> wrote:
+On Wed, 01 Sep 2021, Douglas Anderson <dianders@chromium.org> wrote:
+> EDIDs have 32-bits worth of data which is intended to be used to
+> uniquely identify the make/model of a panel. This has historically
+> been used only internally in the EDID processing code to identify
+> quirks with panels.
 >
-> On Fri, Sep 3, 2021 at 12:39 PM John Stultz <john.stultz@linaro.org> wrote:
-> >
-> > On Thu, Jul 29, 2021 at 1:49 PM Rob Clark <robdclark@gmail.com> wrote:
-> > > On Thu, Jul 29, 2021 at 1:28 PM Caleb Connolly
-> > > <caleb.connolly@linaro.org> wrote:
-> > > > On 29/07/2021 21:24, Rob Clark wrote:
-> > > > > On Thu, Jul 29, 2021 at 1:06 PM Caleb Connolly
-> > > > > <caleb.connolly@linaro.org> wrote:
-> > > > >>
-> > > > >> Hi Rob,
-> > > > >>
-> > > > >> I've done some more testing! It looks like before that patch ("drm/msm: Devfreq tuning") the GPU would never get above
-> > > > >> the second frequency in the OPP table (342MHz) (at least, not in glxgears). With the patch applied it would more
-> > > > >> aggressively jump up to the max frequency which seems to be unstable at the default regulator voltages.
-> > > > >
-> > > > > *ohh*, yeah, ok, that would explain it
-> > > > >
-> > > > >> Hacking the pm8005 s1 regulator (which provides VDD_GFX) up to 0.988v (instead of the stock 0.516v) makes the GPU stable
-> > > > >> at the higher frequencies.
-> > > > >>
-> > > > >> Applying this patch reverts the behaviour, and the GPU never goes above 342MHz in glxgears, losing ~30% performance in
-> > > > >> glxgear.
-> > > > >>
-> > > > >> I think (?) that enabling CPR support would be the proper solution to this - that would ensure that the regulators run
-> > > > >> at the voltage the hardware needs to be stable.
-> > > > >>
-> > > > >> Is hacking the voltage higher (although ideally not quite that high) an acceptable short term solution until we have
-> > > > >> CPR? Or would it be safer to just not make use of the higher frequencies on a630 for now?
-> > > > >>
-> > > > >
-> > > > > tbh, I'm not sure about the regulator stuff and CPR.. Bjorn is already
-> > > > > on CC and I added sboyd, maybe one of them knows better.
-> > > > >
-> > > > > In the short term, removing the higher problematic OPPs from dts might
-> > > > > be a better option than this patch (which I'm dropping), since there
-> > > > > is nothing stopping other workloads from hitting higher OPPs.
-> > > > Oh yeah that sounds like a more sensible workaround than mine .
-> > > > >
-> > > > > I'm slightly curious why I didn't have problems at higher OPPs on my
-> > > > > c630 laptop (sdm850)
-> > > > Perhaps you won the sillicon lottery - iirc sdm850 is binned for higher clocks as is out of the factory.
-> > > >
-> > > > Would it be best to drop the OPPs for all devices? Or just those affected? I guess it's possible another c630 might
-> > > > crash where yours doesn't?
-> > >
-> > > I've not heard any reports of similar issues from the handful of other
-> > > folks with c630's on #aarch64-laptops.. but I can't really say if that
-> > > is luck or not.
-> > >
-> > > Maybe just remove it for affected devices?  But I'll defer to Bjorn.
-> >
-> > Just as another datapoint, I was just marveling at how suddenly smooth
-> > the UI was performing on db845c and Caleb pointed me at the "drm/msm:
-> > Devfreq tuning" patch as the likely cause of the improvement, and
-> > mid-discussion my board crashed into USB crash mode:
-> > [  146.157696][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > [  146.163303][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > [  146.168837][    C0] adreno 5000000.gpu: RBBM | ATB bus overflow
-> > [  146.174960][    C0] adreno 5000000.gpu: CP | HW fault | status=0x00000000
-> > [  146.181917][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > [  146.187547][    C0] adreno 5000000.gpu: CP illegal instruction error
-> > [  146.194009][    C0] adreno 5000000.gpu: CP | AHB bus error
-> > [  146.308909][    T9] Internal error: synchronous external abort:
-> > 96000010 [#1] PREEMPT SMP
-> > [  146.317150][    T9] Modules linked in:
-> > [  146.320941][    T9] CPU: 3 PID: 9 Comm: kworker/u16:1 Tainted: G
-> >     W         5.14.0-mainline-06795-g42b258c2275c #24
-> > [  146.331974][    T9] Hardware name: Thundercomm Dragonboar
-> > Format: Log Type - Time(microsec) - Message - Optional Info
-> > Log Type: B - Since Boot(Power On Reset),  D - Delta,  S - Statistic
-> > S - QC_IMAGE_VERSION_STRING=BOOT.XF.2.0-00371-SDM845LZB-1
-> > S - IMAGE_VARIANT_STRING=SDM845LA
-> > S - OEM_IMAGE_VERSION_STRING=TSBJ-FA-PC-02170
-> >
-> > So Caleb sent me to this thread. :)
-> >
-> > I'm still trying to trip it again, but it does seem like db845c is
-> > also seeing some stability issues with Linus' HEAD.
-> >
+> We'd like to use this panel ID in panel-simple to identify which panel
+> is hooked up and from that information figure out power sequence
+> timings. Let's expose this information from the EDID code and also
+> allow it to be accessed early, before a connector has been created.
 >
-> Caleb's original pastebin seems to have expired (or at least require
-> some sort of ubuntu login to access).. were the crashes he was seeing
-> also 'AHB bus error'?
-
-I can reproduce this hard crash
-https://www.irccloud.com/pastebin/Cu6UJntE/ and a gpu lockup
-https://www.irccloud.com/pastebin/6Ryd2Pug/ at times reliably, by
-running antutu benchmark on pocof1.
-
-Reverting 9bc95570175a ("drm/msm: Devfreq tuning") helps and I no
-longer see these errors.
-
-Complete dmesg for hardcrash https://pastebin.com/raw/GLZVQFQN
-
-Regards,
-Amit Pundir
-
+> To make matching in the panel-simple code easier, we'll return the
+> panel ID as a 32-bit value. We'll provide some functions for
+> converting this value back and forth to something more human readable.
 >
-> If you have a reliable reproducer, I guess it would be worth seeing if
-> increasing the min_freq (ie. to limit how far we jump the freq in one
-> shot) "fixes" it?
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+> ---
 >
-> I guess I could check downstream kgsl to see if they were doing
-> something to increase freq in smaller increments.. I don't recall that
-> they were but it has been a while since I dug thru that code.  And I
-> suppose downstream it could also be done in their custom tz governor.
+> Changes in v3:
+> - Decode hex product ID w/ same endianness as everyone else.
 >
-> BR,
-> -R
+>  drivers/gpu/drm/drm_edid.c | 59 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_edid.h     | 47 ++++++++++++++++++++++++++++++
+>  2 files changed, 106 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index a22c38482a90..ac128bc3478a 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -2086,6 +2086,65 @@ struct edid *drm_get_edid(struct drm_connector *connector,
+>  }
+>  EXPORT_SYMBOL(drm_get_edid);
+>  
+> +/**
+> + * drm_get_panel_id - Get a panel's ID through DDC
+> + * @adapter: I2C adapter to use for DDC
+> + *
+> + * This function reads the first block of the EDID of a panel and (assuming
+> + * that the EDID is valid) extracts the ID out of it. The ID is a 32-bit value
+> + * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) that's
+> + * supposed to be different for each different modem of panel.
+> + *
+> + * This function is intended to be used during early probing on devices where
+> + * more than one panel might be present. Because of its intended use it must
+> + * assume that the EDID of the panel is correct, at least as far as the ID
+> + * is concerned (in other words, we don't process any overrides here).
+> + *
+> + * NOTE: it's expected that this function and drm_do_get_edid() will both
+> + * be read the EDID, but there is no caching between them. Since we're only
+> + * reading the first block, hopefully this extra overhead won't be too big.
+> + *
+> + * Return: A 32-bit ID that should be different for each make/model of panel.
+> + *         See the functions encode_edid_id() and decode_edid_id() for some
+> + *         details on the structure of this ID.
+> + */
+> +u32 drm_get_panel_id(struct i2c_adapter *adapter)
+
+Please call it drm_edid_get_panel_id() because that's what it is, and
+this is in drm_edid.[ch].
+
+> +{
+> +	struct edid *edid;
+> +	u32 val;
+> +
+> +	edid = drm_do_get_edid_blk0(drm_do_probe_ddc_edid, adapter, NULL, NULL);
+> +
+> +	/*
+> +	 * There are no manufacturer IDs of 0, so if there is a problem reading
+> +	 * the EDID then we'll just return 0.
+> +	 */
+> +	if (IS_ERR_OR_NULL(edid))
+> +		return 0;
+> +
+> +	/*
+> +	 * In theory we could try to de-obfuscate this like edid_get_quirks()
+> +	 * does, but it's easier to just deal with a 32-bit number.
+
+Hmm, but is it, really? AFAICT this is just an internal representation
+for a table, where it could just as well be stored in a struct that
+could be just as compact now, but extensible later. You populate the
+table via an encoding macro, then decode the id using a function - while
+it could be in a format that's directly usable without the decode. If
+suitably chosen, the struct could perhaps be reused between the quirks
+code and your code.
+
+> +	 *
+> +	 * NOTE that we deal with endianness differently for the top half
+> +	 * of this ID than for the bottom half. The bottom half (the product
+> +	 * id) gets decoded as little endian by the EDID_PRODUCT_ID because
+> +	 * that's how everyone seems to interpret it. The top half (the mfg_id)
+> +	 * gets stored as big endian because that makes encode_edid_id() and
+> +	 * decode_edid_id() easier to write (it's easier to extract the ASCII).
+> +	 * It doesn't really matter, though, as long as the number here is
+> +	 * unique.
+> +	 */
+> +	val = (u32)edid->mfg_id[0] << 24   |
+> +	      (u32)edid->mfg_id[1] << 16   |
+> +	      (u32)EDID_PRODUCT_ID(edid);
+> +
+> +	kfree(edid);
+> +
+> +	return val;
+> +}
+> +EXPORT_SYMBOL(drm_get_panel_id);
+> +
+>  /**
+>   * drm_get_edid_switcheroo - get EDID data for a vga_switcheroo output
+>   * @connector: connector we're probing
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index deccfd39e6db..73da40d0b5d1 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -508,6 +508,52 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
+>  	return eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_CONN_TYPE_MASK;
+>  }
+>  
+> +/**
+> + * encode_edid_id - Encode an ID for matching against drm_get_panel_id()
+> + * @vend_chr_0: First character of the vendor string.
+> + * @vend_chr_2: Second character of the vendor string.
+> + * @vend_chr_3: Third character of the vendor string.
+> + * @product_id: The 16-bit product ID.
+> + *
+> + * This is a macro so that it can be calculated at compile time and used
+> + * as an initializer.
+> + *
+> + * For instance:
+> + *   encode_edid_id('B', 'O', 'E', 0x2d08) => 0x09e52d08
+> + *
+> + * Return: a 32-bit ID per panel.
+> + */
+> +#define encode_edid_id(vend_chr_0, vend_chr_1, vend_chr_2, product_id) \
+> +	((((u32)(vend_chr_0) - '@') & 0x1f) << 26 | \
+> +	 (((u32)(vend_chr_1) - '@') & 0x1f) << 21 | \
+> +	 (((u32)(vend_chr_2) - '@') & 0x1f) << 16 | \
+> +	 ((product_id) & 0xffff))
+> +
+> +/**
+> + * decode_edid_id - Decode a panel ID from encode_edid_id()
+> + * @panel_id: The panel ID to decode.
+> + * @vend: A 4-byte buffer to store the 3-letter vendor string plus a '\0'
+> + *	  termination
+> + * @product_id: The product ID will be returned here.
+> + *
+> + * For instance, after:
+> + *   decode_edid_id(0x09e52d08, vend, &product_id)
+> + * These will be true:
+> + *   vend[0] = 'B'
+> + *   vend[1] = 'O'
+> + *   vend[2] = 'E'
+> + *   vend[3] = '\0'
+> + *   product_id = 0x2d08
+> + */
+> +static inline void decode_edid_id(u32 panel_id, char vend[4], u16 *product_id)
+> +{
+> +	*product_id = (u16)(panel_id & 0xffff);
+> +	vend[0] = '@' + ((panel_id >> 26) & 0x1f);
+> +	vend[1] = '@' + ((panel_id >> 21) & 0x1f);
+> +	vend[2] = '@' + ((panel_id >> 16) & 0x1f);
+> +	vend[3] = '\0';
+> +}
+
+I think the names here could use a drm_edid_ prefix too.
+
+Maybe drm_edid_encode_panel_id and drm_edid_decode_panel_id, aligning
+nicely with drm_edid_get_panel_id.
+
+BR,
+Jani.
+
+> +
+>  bool drm_probe_ddc(struct i2c_adapter *adapter);
+>  struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
+> @@ -515,6 +561,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
+>  	void *data);
+>  struct edid *drm_get_edid(struct drm_connector *connector,
+>  			  struct i2c_adapter *adapter);
+> +u32 drm_get_panel_id(struct i2c_adapter *adapter);
+>  struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
+>  				     struct i2c_adapter *adapter);
+>  struct edid *drm_edid_duplicate(const struct edid *edid);
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
