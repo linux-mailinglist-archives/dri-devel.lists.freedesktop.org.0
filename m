@@ -2,65 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B643A40296A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 15:10:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BC0C4029A0
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 15:21:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 117CB897D4;
-	Tue,  7 Sep 2021 13:10:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9012589FAD;
+	Tue,  7 Sep 2021 13:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43CC2897D4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 13:10:09 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id g16so2348494wrb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 06:10:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=fRe+EPMUwWj2M5Apqi2GDfNODatGPkQ+oE9vKhc5lu0=;
- b=sn5sYlIFR6j1thAuLuKoDY8+NftEOJsdyEGJEYgwAw1XzkKk8bMhsa7QsOvUP5XGZi
- P0miprH2OD1QYt7XgWV79jRh7aPy1Km1GMddyCRK/Ezqor5WNZNNefN1In41stJ2Ek6i
- EHtcsz+aP4t67QeT6sfens/B/RxJZ8dE/G9/fKGcuIMpreBYP3vKjSsw7NYXzQO36cOx
- KdgQT+JqxEhm11jwDhejXbLySjaWyPSNs2sIFmZShH8vJCEWwq+MisaUXP0E6geY3zuX
- wfy2/wdYqAASVz65NCdRxVeQzDdPIv0SonGEV+Lcul6pEdOxpOPFYFpXqJZQ/Gw6UHyt
- FN8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=fRe+EPMUwWj2M5Apqi2GDfNODatGPkQ+oE9vKhc5lu0=;
- b=R7NnMslYUbT4Xh+jpiEZMNwutCC+8lgcw3SS4te/H1nCD71YywWV00R45ysH9Phq7l
- e66VNV9lHKgsTUJArdWR0N3roqk6/VLDcYCSF/sfLAuA3vdN+eAt59+hvgxGWdCTzC2F
- 8CM6QS0RF+sg0xVIPO2bU2U45FPdjvkwQfX+1GmisBuco+2ttjfLYcYZ+CUR8G0bBMnK
- pDApwc7JHBsMutO0qGIrcEJSt4/Tt6GNNsQUxKv6YlVoMbtBG0P7a5dvcHZUvpNYA1zY
- tGueDiQFlSvViDHOEYoMGZdAq/nYhGpOZg5I3bA6jlUlP3QaEkCaDlB1tPuXjPwzi9XB
- eeog==
-X-Gm-Message-State: AOAM5304JKdbhIOHShpXRHYktpHymfpUBl9LawV1ZtVZ+TY8spSDJ07d
- p4cfHuFVKlDFIR37CTbQgi5jrQ==
-X-Google-Smtp-Source: ABdhPJyZW+A8BZFEW9N28JwAelkHJ5S4BMFMip0moUTN7OPQu/LTNoSTNRHuD5+mKvM80vtJWXSobA==
-X-Received: by 2002:a5d:4305:: with SMTP id h5mr12597549wrq.4.1631020207896;
- Tue, 07 Sep 2021 06:10:07 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id f3sm2369823wmj.28.2021.09.07.06.10.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 06:10:07 -0700 (PDT)
-Date: Tue, 7 Sep 2021 14:10:05 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] backlight: propagate errors from get_brightness()
-Message-ID: <20210907131005.vvaitvcllbte37zp@maple.lan>
-References: <20210907124751.6404-1-linux@weissschuh.net>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6912D89E3B
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 13:20:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 455F9610FE
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 13:20:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631020855;
+ bh=+kfMAoxVAZyRPrHKv2yHhbJmusVWLTHq4De3jDzPJGk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZcF+obAQErGfrroCIm6+Xckd8Xl5YJZwxTQN6L+gVsqQtid/RKHQ97XSuUU4gDYEk
+ ang1+/3tmk2uCm7Gte016M/C4e4qTT8djn8igpVPDIHqdtXy2FUd6wJ2zhIgHH3xMS
+ oRYrt9L98ujxF+4Q6MhVGLqRNPnchI077e1TbUd43ZJKWonME/NKzUDh54brFbWghF
+ f0nHoBWKo5UpG5xUY5LigLbrXtysm7Bd15HCB/ck388ZREOPs0RG0cnMGPWo+yY8e/
+ jRa7YerK+Mt+JCiKOfERBW60dxCm9dSCYEOMzL5Ipq4Pyis0qxyyncFAO5LzUEpqrE
+ a9rbr6hhoNQzw==
+Received: by mail-ed1-f48.google.com with SMTP id i6so13930768edu.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 06:20:55 -0700 (PDT)
+X-Gm-Message-State: AOAM531QwVhxloIzC3mDfVzlgdSzbaZtrM/v9IQ1j63xbUexCUuJDIxw
+ 3nSwWWnk4rT188hcyS3kOLfbO8ED0iwj4G986A==
+X-Google-Smtp-Source: ABdhPJzXj11k+OPkRYSEaYLytlTGM0nIP0+GQxBiLlmsKYNMuL4l0/Tse6O6PdsaTThAFTUF6dAzjIOCN6JLotTMfqk=
+X-Received: by 2002:a50:ed09:: with SMTP id j9mr18694795eds.164.1631020853893; 
+ Tue, 07 Sep 2021 06:20:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210907124751.6404-1-linux@weissschuh.net>
+References: <20210903083155.690022-1-mperttunen@nvidia.com>
+ <20210903083155.690022-2-mperttunen@nvidia.com>
+ <YTJOg1oHJq848ZlE@robh.at.kernel.org>
+ <36d5b388-0d7f-c500-89b1-c4526849fb56@kapsi.fi>
+In-Reply-To: <36d5b388-0d7f-c500-89b1-c4526849fb56@kapsi.fi>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 7 Sep 2021 08:20:41 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJwUupfAUL_DTr=_TPfRJ88MvBex-B2ynpkDAZJFZ4+AA@mail.gmail.com>
+Message-ID: <CAL_JsqJwUupfAUL_DTr=_TPfRJ88MvBex-B2ynpkDAZJFZ4+AA@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] dt-bindings: Add YAML bindings for NVDEC
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Jon Hunter <jonathanh@nvidia.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,74 +65,170 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 07, 2021 at 02:47:51PM +0200, Thomas Weiﬂschuh wrote:
-> backlight.h documents "struct backlight_ops->get_brightness()" to return
-> a negative errno on failure.
-> So far these errors have not been handled in the backlight core.
-> This leads to negative values being exposed through sysfs although only
-> positive values are documented to be reported.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+On Fri, Sep 3, 2021 at 12:29 PM Mikko Perttunen <cyndis@kapsi.fi> wrote:
+>
+> On 9/3/21 7:34 PM, Rob Herring wrote:
+> > On Fri, Sep 03, 2021 at 11:31:53AM +0300, Mikko Perttunen wrote:
+> >> Add YAML device tree bindings for NVDEC, now in a more appropriate
+> >> place compared to the old textual Host1x bindings.
+> >>
+> >> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> >> ---
+> >> v4:
+> >> * Fix incorrect compatibility string in 'if' condition
+> >> v3:
+> >> * Drop host1x bindings
+> >> * Change read2 to read-1 in interconnect names
+> >> v2:
+> >> * Fix issues pointed out in v1
+> >> * Add T194 nvidia,instance property
+> >> ---
+> >>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 109 ++++++++++++++++++
+> >>   MAINTAINERS                                   |   1 +
+> >>   2 files changed, 110 insertions(+)
+> >>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> >>
+> >> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> >> new file mode 100644
+> >> index 000000000000..33d01c7dc759
+> >> --- /dev/null
+> >> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> >> @@ -0,0 +1,109 @@
+> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> >> +%YAML 1.2
+> >> +---
+> >> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
+> >> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
+> >> +
+> >> +title: Device tree binding for NVIDIA Tegra NVDEC
+> >> +
+> >> +description: |
+> >> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
+> >> +  and newer chips. It is located on the Host1x bus and typically
+> >> +  programmed through Host1x channels.
+> >> +
+> >> +maintainers:
+> >> +  - Thierry Reding <treding@gmail.com>
+> >> +  - Mikko Perttunen <mperttunen@nvidia.com>
+> >> +
+> >> +properties:
+> >> +  $nodename:
+> >> +    pattern: "^nvdec@[0-9a-f]*$"
+> >> +
+> >> +  compatible:
+> >> +    enum:
+> >> +      - nvidia,tegra210-nvdec
+> >> +      - nvidia,tegra186-nvdec
+> >> +      - nvidia,tegra194-nvdec
+> >> +
+> >> +  reg:
+> >> +    maxItems: 1
+> >> +
+> >> +  clocks:
+> >> +    maxItems: 1
+> >> +
+> >> +  clock-names:
+> >> +    items:
+> >> +      - const: nvdec
+> >> +
+> >> +  resets:
+> >> +    maxItems: 1
+> >> +
+> >> +  reset-names:
+> >> +    items:
+> >> +      - const: nvdec
+> >> +
+> >> +  power-domains:
+> >> +    maxItems: 1
+> >> +
+> >> +  iommus:
+> >> +    maxItems: 1
+> >> +
+> >> +  interconnects:
+> >> +    items:
+> >> +      - description: DMA read memory client
+> >> +      - description: DMA read 2 memory client
+> >> +      - description: DMA write memory client
+> >> +
+> >> +  interconnect-names:
+> >> +    items:
+> >> +      - const: dma-mem
+> >> +      - const: read-1
+> >> +      - const: write
+> >> +
+> >> +required:
+> >> +  - compatible
+> >> +  - reg
+> >> +  - clocks
+> >> +  - clock-names
+> >> +  - resets
+> >> +  - reset-names
+> >> +  - power-domains
+> >> +
+> >> +if:
+> >> +  properties:
+> >> +    compatible:
+> >> +      contains:
+> >> +        const: nvidia,tegra194-nvdec
+> >> +then:
+> >> +  properties:
+> >> +    nvidia,instance:
+> >> +      items:
+> >> +        - description: 0 for NVDEC0, or 1 for NVDEC1
+> >
+> > I still don't understand what this is needed for. What is the difference
+> > between the instances? There must be some reason you care. We should
+> > describe that difference, not some made up index.
+> >
+> > I'm not suggesting using the base address either. That's fragile too.
+>
+> This device is on the Host1x bus. On that bus, each device has an
+> identifier baked into hardware called 'class' that is used when
+> accessing devices through some mechanisms (host1x channels). As such,
+> when probing the device we need to specify the class of the device to
+> the host1x driver so it knows how to talk to it. Those class numbers are
+> fixed so we have hardcoded them in the driver, but now that we have two
+> NVDECs, we need to distinguish between them so that we can specify the
+> correct class for each instance to the host1x driver.
 
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Then why don't you have a property like 'nvidia,host1x-class'
+containing the class number?
 
 
-> ---
-> 
-> v1: https://lore.kernel.org/dri-devel/20210906215525.15418-1-linux@weissschuh.net/
-> 
-> v1 -> v2:
-> * use dev_err() instead of dev_warn() (Daniel Thompson)
-> * Finish logging format string with newline (Daniel Thompson)
-> * Log errno via dedicated error pointer format (Daniel Thompson)
-> 
->  drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
->  1 file changed, 17 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-> index 537fe1b376ad..4658cfb75aa2 100644
-> --- a/drivers/video/backlight/backlight.c
-> +++ b/drivers/video/backlight/backlight.c
-> @@ -292,10 +292,13 @@ static ssize_t actual_brightness_show(struct device *dev,
->  	struct backlight_device *bd = to_backlight_device(dev);
->  
->  	mutex_lock(&bd->ops_lock);
-> -	if (bd->ops && bd->ops->get_brightness)
-> -		rc = sprintf(buf, "%d\n", bd->ops->get_brightness(bd));
-> -	else
-> +	if (bd->ops && bd->ops->get_brightness) {
-> +		rc = bd->ops->get_brightness(bd);
-> +		if (rc >= 0)
-> +			rc = sprintf(buf, "%d\n", rc);
-> +	} else {
->  		rc = sprintf(buf, "%d\n", bd->props.brightness);
-> +	}
->  	mutex_unlock(&bd->ops_lock);
->  
->  	return rc;
-> @@ -381,9 +384,18 @@ ATTRIBUTE_GROUPS(bl_device);
->  void backlight_force_update(struct backlight_device *bd,
->  			    enum backlight_update_reason reason)
->  {
-> +	int brightness;
-> +
->  	mutex_lock(&bd->ops_lock);
-> -	if (bd->ops && bd->ops->get_brightness)
-> -		bd->props.brightness = bd->ops->get_brightness(bd);
-> +	if (bd->ops && bd->ops->get_brightness) {
-> +		brightness = bd->ops->get_brightness(bd);
-> +		if (brightness >= 0)
-> +			bd->props.brightness = brightness;
-> +		else
-> +			dev_err(&bd->dev,
-> +				"Could not update brightness from device: %pe\n",
-> +				ERR_PTR(brightness));
-> +	}
->  	mutex_unlock(&bd->ops_lock);
->  	backlight_generate_event(bd, reason);
->  }
-> 
-> base-commit: 79fad92f2e596f5a8dd085788a24f540263ef887
-> -- 
-> 2.33.0
-> 
+> >> +additionalProperties: true
+> >
+> > 'true' here is not allowed unless the schema is not complete and
+> > intended to be included in a complete schema or unconditionally applied
+> > (i.e. 'select: true'). This case is neither. As pointed out previously,
+> > 'unevaluatedProperties' is what you'd want here.
+> >
+> > However, I looked into supporting defining properties in if/then/else
+> > schemas as you have done and I don't think we will support that soon.
+> > It's problematic because we can't validate the schema under the if/then
+> > completely. The reason is properties under if/then schemas don't have to
+> > be complete as we expect a top level definition that is complete (e.g.
+> > vendor properties must have 'description'). To solve this, we'd have to
+> > only apply meta-schema checks if the property doesn't appear at the top
+> > level. That's more complicated than I care to implement ATM.
+>
+> I see two paths here: either keep 'additionalProperties: true' or remove
+> it and have this binding trigger validation failures. Which one do you
+> suggest or is there some third option?
+
+Define the property at the top level, then restrict it in the if/then schema:
+
+if:
+  properties:
+    compatible:
+      not:
+        contains:
+          const: nvidia,tegra194-nvdec
+then:
+  properties:
+    nvidia,instance: false
+
+(Or 'not: {required: [ nvidia,instance ]}' would work here, too)
+
+With that, 'additionalProperties: false' will work.
+
+Rob
