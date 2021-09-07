@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B82F402D9F
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:19:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C502F402DA8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:19:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B4E166E093;
-	Tue,  7 Sep 2021 17:19:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507216E0AF;
+	Tue,  7 Sep 2021 17:19:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B8AD6E08E;
- Tue,  7 Sep 2021 17:19:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="220322738"
-X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="220322738"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05DA56E088;
+ Tue,  7 Sep 2021 17:19:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="220322736"
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="220322736"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2021 10:19:27 -0700
-X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="605352257"
+ 07 Sep 2021 10:19:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="605352260"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  07 Sep 2021 10:19:26 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
+Cc: dri-devel@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
  Aravind Iddamsetty <aravind.iddamsetty@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>
-Subject: [PATCH 5/8] drm/i915/xehp: compute engine pipe_control
-Date: Tue,  7 Sep 2021 10:19:13 -0700
-Message-Id: <20210907171916.2548047-6-matthew.d.roper@intel.com>
+ Prasad Nallani <prasad.nallani@intel.com>
+Subject: [PATCH 6/8] drm/i915/xehp: Define context scheduling attributes in
+ lrc descriptor
+Date: Tue,  7 Sep 2021 10:19:14 -0700
+Message-Id: <20210907171916.2548047-7-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <20210907171916.2548047-1-matthew.d.roper@intel.com>
 References: <20210907171916.2548047-1-matthew.d.roper@intel.com>
@@ -51,130 +51,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+In Dual Context mode the EUs are shared between render and compute
+command streamers. The hardware provides a field in the lrc descriptor
+to indicate the prioritization of the thread dispatch associated to the
+corresponding context.
 
-CCS re-uses the RCS functions for breadcrumb and flush emission.
-However, CCS pipe_control has additional programming restrictions:
+The context priority is set to 'low' at creation time and relies on the
+existing context priority to set it to low/normal/high.
 
-- Command Streamer Stall Enable must be always set
-- Post Sync Operations must not be set to Write PS Depth Count
-- 3D-related bits must not be set
-
-Bspec: 47112
-Cc: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+HSDES: 1604462009
+Bspec: 46145, 46260
+Original-patch-by: Michel Thierry
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+Signed-off-by: Prasad Nallani <prasad.nallani@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/gen8_engine_cs.c     | 31 ++++++++++++++------
- drivers/gpu/drm/i915/gt/intel_gpu_commands.h | 15 ++++++++++
- 2 files changed, 37 insertions(+), 9 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c            |  4 +++-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h         |  1 +
+ drivers/gpu/drm/i915/gt/intel_execlists_submission.c |  6 +++++-
+ drivers/gpu/drm/i915/gt/intel_lrc.h                  | 10 ++++++++++
+ drivers/gpu/drm/i915/i915_reg.h                      |  4 ++++
+ 5 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-index 461844dffd7e..bf79e5ee3e45 100644
---- a/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-+++ b/drivers/gpu/drm/i915/gt/gen8_engine_cs.c
-@@ -200,6 +200,8 @@ static u32 *gen12_emit_aux_table_inv(const i915_reg_t inv_reg, u32 *cs)
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+index b346b946602d..2f719f0ecac3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+@@ -382,8 +382,10 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+ 		engine->props.preempt_timeout_ms = 0;
  
- int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
+ 	/* features common between engines sharing EUs */
+-	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS)
++	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS) {
+ 		engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
++		engine->flags |= I915_ENGINE_HAS_EU_PRIORITY;
++	}
+ 
+ 	engine->defaults = engine->props; /* never to change again */
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 30a0c69c36c8..00bf0296b28a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -455,6 +455,7 @@ struct intel_engine_cs {
+ #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
+ #define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
+ #define I915_ENGINE_HAS_RCS_REG_STATE  BIT(9)
++#define I915_ENGINE_HAS_EU_PRIORITY    BIT(10)
+ 	unsigned int flags;
+ 
+ 	/*
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 4c600c46414d..2b36ec7f3a04 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -662,9 +662,13 @@ static inline void execlists_schedule_out(struct i915_request *rq)
+ static u64 execlists_update_context(struct i915_request *rq)
  {
-+	struct intel_engine_cs *engine = rq->engine;
+ 	struct intel_context *ce = rq->context;
+-	u64 desc = ce->lrc.desc;
++	u64 desc;
+ 	u32 tail, prev;
+ 
++	desc = ce->lrc.desc;
++	if (rq->engine->flags & I915_ENGINE_HAS_EU_PRIORITY)
++		desc |= lrc_desc_priority(rq_prio(rq));
 +
- 	if (mode & EMIT_FLUSH) {
- 		u32 flags = 0;
- 		u32 *cs;
-@@ -218,6 +220,9 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- 		flags |= PIPE_CONTROL_CS_STALL;
- 
-+		if (engine->class == COMPUTE_CLASS)
-+			flags &= ~PIPE_CONTROL_RENDER_ONLY_FLAGS;
-+
- 		cs = intel_ring_begin(rq, 6);
- 		if (IS_ERR(cs))
- 			return PTR_ERR(cs);
-@@ -245,6 +250,9 @@ int gen12_emit_flush_rcs(struct i915_request *rq, u32 mode)
- 
- 		flags |= PIPE_CONTROL_CS_STALL;
- 
-+		if (engine->class == COMPUTE_CLASS)
-+			flags &= ~PIPE_CONTROL_RENDER_ONLY_FLAGS;
-+
- 		cs = intel_ring_begin(rq, 8 + 4);
- 		if (IS_ERR(cs))
- 			return PTR_ERR(cs);
-@@ -617,19 +625,24 @@ u32 *gen12_emit_fini_breadcrumb_xcs(struct i915_request *rq, u32 *cs)
- 
- u32 *gen12_emit_fini_breadcrumb_rcs(struct i915_request *rq, u32 *cs)
- {
-+	u32 flags = (PIPE_CONTROL_CS_STALL |
-+		     PIPE_CONTROL_TILE_CACHE_FLUSH |
-+		     PIPE_CONTROL_FLUSH_L3 |
-+		     PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
-+		     PIPE_CONTROL_DEPTH_CACHE_FLUSH |
-+		     /* Wa_1409600907:tgl,rkl,dg1,adl-p */
-+		     PIPE_CONTROL_DEPTH_STALL |
-+		     PIPE_CONTROL_DC_FLUSH_ENABLE |
-+		     PIPE_CONTROL_FLUSH_ENABLE);
-+
-+	if (rq->engine->class == COMPUTE_CLASS)
-+		flags &= ~PIPE_CONTROL_RENDER_ONLY_FLAGS;
-+
- 	cs = gen12_emit_ggtt_write_rcs(cs,
- 				       rq->fence.seqno,
- 				       hwsp_offset(rq),
- 				       PIPE_CONTROL0_HDC_PIPELINE_FLUSH,
--				       PIPE_CONTROL_CS_STALL |
--				       PIPE_CONTROL_TILE_CACHE_FLUSH |
--				       PIPE_CONTROL_FLUSH_L3 |
--				       PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH |
--				       PIPE_CONTROL_DEPTH_CACHE_FLUSH |
--				       /* Wa_1409600907:tgl */
--				       PIPE_CONTROL_DEPTH_STALL |
--				       PIPE_CONTROL_DC_FLUSH_ENABLE |
--				       PIPE_CONTROL_FLUSH_ENABLE);
-+				       flags);
- 
- 	return gen12_emit_fini_breadcrumb_tail(rq, cs);
+ 	/*
+ 	 * WaIdleLiteRestore:bdw,skl
+ 	 *
+diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.h b/drivers/gpu/drm/i915/gt/intel_lrc.h
+index 7f697845c4cf..d3f2096b3d51 100644
+--- a/drivers/gpu/drm/i915/gt/intel_lrc.h
++++ b/drivers/gpu/drm/i915/gt/intel_lrc.h
+@@ -79,4 +79,14 @@ static inline u32 lrc_get_runtime(const struct intel_context *ce)
+ 	return READ_ONCE(ce->lrc_reg_state[CTX_TIMESTAMP]);
  }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-index 1c3af0fc0456..a3c1047a2c71 100644
---- a/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gpu_commands.h
-@@ -223,11 +223,14 @@
- #define   PIPE_CONTROL_COMMAND_CACHE_INVALIDATE		(1<<29) /* gen11+ */
- #define   PIPE_CONTROL_TILE_CACHE_FLUSH			(1<<28) /* gen11+ */
- #define   PIPE_CONTROL_FLUSH_L3				(1<<27)
-+#define   PIPE_CONTROL_AMFS_FLUSH			(1<<25) /* gen12+ */
- #define   PIPE_CONTROL_GLOBAL_GTT_IVB			(1<<24) /* gen7+ */
- #define   PIPE_CONTROL_MMIO_WRITE			(1<<23)
- #define   PIPE_CONTROL_STORE_DATA_INDEX			(1<<21)
- #define   PIPE_CONTROL_CS_STALL				(1<<20)
-+#define   PIPE_CONTROL_GLOBAL_SNAPSHOT_RESET		(1<<19)
- #define   PIPE_CONTROL_TLB_INVALIDATE			(1<<18)
-+#define   PIPE_CONTROL_PSD_SYNC				(1<<17) /* gen11+ */
- #define   PIPE_CONTROL_MEDIA_STATE_CLEAR		(1<<16)
- #define   PIPE_CONTROL_WRITE_TIMESTAMP			(3<<14)
- #define   PIPE_CONTROL_QW_WRITE				(1<<14)
-@@ -249,6 +252,18 @@
- #define   PIPE_CONTROL_DEPTH_CACHE_FLUSH		(1<<0)
- #define   PIPE_CONTROL_GLOBAL_GTT (1<<2) /* in addr dword */
  
-+/* 3D-related flags can't be set on compute engine */
-+#define PIPE_CONTROL_RENDER_ONLY_FLAGS (\
-+		PIPE_CONTROL_RENDER_TARGET_CACHE_FLUSH | \
-+		PIPE_CONTROL_DEPTH_CACHE_FLUSH | \
-+		PIPE_CONTROL_TILE_CACHE_FLUSH | \
-+		PIPE_CONTROL_DEPTH_STALL | \
-+		PIPE_CONTROL_STALL_AT_SCOREBOARD | \
-+		PIPE_CONTROL_PSD_SYNC | \
-+		PIPE_CONTROL_AMFS_FLUSH | \
-+		PIPE_CONTROL_VF_CACHE_INVALIDATE | \
-+		PIPE_CONTROL_GLOBAL_SNAPSHOT_RESET)
++static inline u32 lrc_desc_priority(int prio)
++{
++	if (prio > I915_PRIORITY_NORMAL)
++		return GEN12_CTX_PRIORITY_HIGH;
++	else if (prio < I915_PRIORITY_NORMAL)
++		return GEN12_CTX_PRIORITY_LOW;
++	else
++		return GEN12_CTX_PRIORITY_NORMAL;
++}
 +
- #define MI_MATH(x)			MI_INSTR(0x1a, (x) - 1)
- #define MI_MATH_INSTR(opcode, op1, op2) ((opcode) << 20 | (op1) << 10 | (op2))
- /* Opcodes for MI_MATH_INSTR */
+ #endif /* __INTEL_LRC_H__ */
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 0bb185ce9529..5b68c02c35af 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -4212,6 +4212,10 @@ enum {
+ #define GEN8_CTX_L3LLC_COHERENT (1 << 5)
+ #define GEN8_CTX_PRIVILEGE (1 << 8)
+ #define GEN8_CTX_ADDRESSING_MODE_SHIFT 3
++#define GEN12_CTX_PRIORITY_MASK REG_GENMASK(10, 9)
++#define GEN12_CTX_PRIORITY_HIGH REG_FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 2)
++#define GEN12_CTX_PRIORITY_NORMAL REG_FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 1)
++#define GEN12_CTX_PRIORITY_LOW REG_FIELD_PREP(GEN12_CTX_PRIORITY_MASK, 0)
+ 
+ #define GEN8_CTX_ID_SHIFT 32
+ #define GEN8_CTX_ID_WIDTH 21
 -- 
 2.25.4
 
