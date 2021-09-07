@@ -2,66 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758D9402ED2
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 21:13:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06DE402EE6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 21:17:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E76AC6E0BE;
-	Tue,  7 Sep 2021 19:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 63B4E6E0B8;
+	Tue,  7 Sep 2021 19:17:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
- [IPv6:2607:f8b0:4864:20::d33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD356E060;
- Tue,  7 Sep 2021 19:13:02 +0000 (UTC)
-Received: by mail-io1-xd33.google.com with SMTP id a13so85335iol.5;
- Tue, 07 Sep 2021 12:13:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bDAmrQspvTHk4pXz96SxgqAEoYvB8Qdlb33lW2JOQKI=;
- b=iiaLA9iMJ1l/ZVUFBUL09riUqd8KCAFHSBgHpVV94Te6gjyYNUe468qaok1x0albDO
- IxsvhA9VjWjL68B2TtpsU79ayleQF+6eLhi3eOsxorE/xnyq5VsPeAV1G5rXH1XH4vwH
- 25yrQ3QdtaqOUQIimvO98kzNHEgIBnJK+fxLSSjhoy1U+KonCL69C9Bgpzhxv8L4t87q
- pIeQ+5LilhJTDuERHH0MjhPzDQ45jkofDeejMgOpldFf6hdwGuc4xMtsgv3Ic7qEriOW
- 0OThCYpCF6l7sjDKKUHyqwFX4HJ/ejjXla4KWYGl3ARlMipeZTb3UNq6WeacvSz51VB0
- blPA==
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com
+ [209.85.221.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 135C96E0B8
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 19:17:44 +0000 (UTC)
+Received: by mail-vk1-f176.google.com with SMTP id t19so125913vkk.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 12:17:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
+ d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bDAmrQspvTHk4pXz96SxgqAEoYvB8Qdlb33lW2JOQKI=;
- b=JKJwQZt1pkhpmN6LAsQ8ydPb3PngoXQ2A39YhTuGyVN72zm/Jtz4Xc/SBHtJDLaAED
- 0leO+jNsX6WUh0i+mmES0JV7Od1IrsN2DGxHkbRR6n9vZhhvpqMtg3POyLuMQMtCEWW9
- zzx1tAEF+PJySU0gltn7v1IXLdW/nZTdwOPrpvtJImCPoETnpdSi2wWKwPzK8awWu7TG
- vHZt8fqrVnhUQA9avkSGm5p32PuvJXrlABKqnOvb5L6/mSqLHVS0I0c29G38d9OjWTJE
- Y07FFAPVBxvCxWGgQYS9lQeZmqGwzv7vIflFrl/laSgQxjYcet7cc+Wq7ARo4hQ7IuZT
- RGtA==
-X-Gm-Message-State: AOAM531qALCdW7tlth8Ic1mu2F0mn0ZewK5fXlXRZVcIO6K9WSpYlVSd
- 1wbP48HG/hKvS8b2/4sb1R4vZYrKOgei02HJQyE=
-X-Google-Smtp-Source: ABdhPJwzbaiPi0tOgc36KfgAKqrn62eE1qk9JEH9OxgwGowNbmENlYJ37v4PzRRODGJoiIfiZTATjqiN8fzzPEMm/24=
-X-Received: by 2002:a05:6638:2690:: with SMTP id
- o16mr17203558jat.65.1631041981634; 
- Tue, 07 Sep 2021 12:13:01 -0700 (PDT)
+ bh=HybJMlAw2y2ijeDg8NtpVEMi7UblwoRmrxRA4Rveu7I=;
+ b=d5FrPSnS7tzgy5AgFrc5ZKk2Ti10LVC7rTJLunlzFMZ9yCEch49B7T8o820ye6ySsm
+ GGOvjq0HGGcMSUFQ6uSchfkm5fUt1/7R2QGyR7kCMCR9cLig3NOrRcYfSfi9qZWNiaFK
+ i5pp1rvvmM3KdvzjV99DTX09Q+ZkSv1rac53VuYBZ8dUWQcT0A9R9GQg0lJpLndrfS0c
+ cf58nW/hwA7WlhLqVjysjXz7ZCR1uCUxodprhwTXqApu2AwHLXtkw39/pgQ+jsZH/CAb
+ p+b+QgsodD0zwYTz1usqtzX0LfCn2ZG3SMT7RwkC94/IG8jmSuRyZJIvLQMSXeo76yz7
+ y4pA==
+X-Gm-Message-State: AOAM5324awxOq3Nwo8j6XX0XjdrPQ0tPCYE5EATRg2H+lxHdQmKBP1pI
+ tofZlABIkTHG9PfGMToYCEFoO3tV4rcu2IHd4i8=
+X-Google-Smtp-Source: ABdhPJyIH0Mriu2yKBIMyY3xYIxiPRQzP7kDyByVOL/e44hGiXY917Ry3aMp6jg6SHq1PM2/3dQZEiN5LGPiKBwRQ6U=
+X-Received: by 2002:a1f:d247:: with SMTP id j68mr9449607vkg.7.1631042263032;
+ Tue, 07 Sep 2021 12:17:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
- <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
-In-Reply-To: <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
-From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Date: Tue, 7 Sep 2021 13:12:50 -0600
-Message-ID: <CAOCk7NoOdjxp0vxu9XJzYsi7a04kpqpTOZHm42ApAN3MqkqtDw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 2/3] drm/msm/dpu1: Add MSM8998 to hw catalog
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Dave Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Rob Herring <robh+dt@kernel.org>, 
- MSM <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>, 
- konrad.dybcio@somainline.org, marijn.suijten@somainline.org, 
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, paul.bouchara@somainline.org, 
- DTML <devicetree@vger.kernel.org>
+References: <20210901233655.1602308-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdXHAfg3_VoeXUBT2-QceLR9KQ3pWjz+5=-wK1QRxK14bw@mail.gmail.com>
+ <YTezLHrRt/YpOlJZ@robh.at.kernel.org>
+In-Reply-To: <YTezLHrRt/YpOlJZ@robh.at.kernel.org>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 7 Sep 2021 21:17:31 +0200
+Message-ID: <CAMuHMdXGK=+W=C3c9GV8br9ZvQpAhj4ePiq7m1N8YBo1vzZjvQ@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: display: renesas,
+ du: Provide bindings for r8a779a0
+To: Rob Herring <robh@kernel.org>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -78,23 +66,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 1, 2021 at 12:11 PM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@somainline.org> wrote:
+Hi Rob,
+
+On Tue, Sep 7, 2021 at 8:45 PM Rob Herring <robh@kernel.org> wrote:
+> On Mon, Sep 06, 2021 at 10:13:07AM +0200, Geert Uytterhoeven wrote:
+> > On Thu, Sep 2, 2021 at 1:39 AM Kieran Bingham
+> > <kieran.bingham@ideasonboard.com> wrote:
+> > > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > >
+> > > Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> > >
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > ---
+> > > v2:
+> > >  - Collected Laurent's tag
+> > >  - Remove clock-names requirement
+> > >  - Specify only a single clock
+> >
+> > Thanks for the update!
+> >
+> > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > @@ -39,6 +39,7 @@ properties:
+> > >        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> > >        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> > >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > > +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> > >
+> > >    reg:
+> > >      maxItems: 1
+> > > @@ -773,6 +774,55 @@ allOf:
+> > >          - reset-names
+> > >          - renesas,vsps
+> > >
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - renesas,du-r8a779a0
+> > > +    then:
+> > > +      properties:
+> > > +        clocks:
+> > > +          items:
+> > > +            - description: Functional clock
+> > > +
+> > > +        clock-names:
+> > > +          maxItems: 1
+> > > +          items:
+> > > +            - const: du
+> > > +
+> > > +        interrupts:
+> > > +          maxItems: 2
+> > > +
+> > > +        resets:
+> > > +          maxItems: 1
+> > > +
+> > > +        reset-names:
+> > > +          items:
+> > > +            - const: du.0
+> >
+> > This is now inconsistent with clock-names, which doesn't use a suffix.
 >
-> Bringup functionality for MSM8998 in the DPU, driver which is mostly
-> the same as SDM845 (just a few variations).
->
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> But it is consistent with all the other cases of 'reset-names'. The
+> problem is 'clock-names' is not consistent and should be 'du.0'.
 
-I don't seem to see a cover letter for this series.
+True.
 
-Eh, there are a fair number of differences between the MDSS versions
-for 8998 and 845.
+> Ideally, the if/them schemas should not be defining the names. That
+> should be at the top level and the if/them schema just limits the number
+> of entries. That's not always possible, but I think is for clocks and
+> resets in this case.
 
-Probably a bigger question, why extend the DPU driver for 8998, when
-the MDP5 driver already supports it[1]?  The MDP/DPU split is pretty
-dumb, but I don't see a valid reason for both drivers supporting the
-same target/display revision.  IMO, if you want this support in DPU,
-remove it from MDP5.
+It's a bit tricky.
+For clocks, there's usually one clock per channel, but not always.
+Plus clocks for external inputs, if present.
+For resets, there's one reset for a group of channels, with the number
+of channels in a group depending on the SoC family.
+And then there's the special casing for SoCs where there's a gap in
+the channel numbering...
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.14&id=d6c7b2284b14c66a268a448a7a8d54f585d38785
+Still wondering if it would be better to have one device node per
+channel, and companion links...
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
