@@ -1,74 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B7A740272A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 12:28:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DFA14026AF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 12:03:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F288489E39;
-	Tue,  7 Sep 2021 10:28:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D14D89D7D;
+	Tue,  7 Sep 2021 10:03:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com
- [IPv6:2a00:1450:4864:20::441])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6EE3189DB9
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 08:39:40 +0000 (UTC)
-Received: by mail-wr1-x441.google.com with SMTP id x6so13171679wrv.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 01:39:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=tmdXYabHBlH0lzTR2aGEg4jjkPTidI1mG07cS/MQyTc=;
- b=b3dS4AUF3x8YJP0MHj9VQNJzu+5FaEBv2n1zRCv3YXmTXTkGkm+SQIVEeNELn0Ckbi
- S6aAexEhIXCCSetvenP4sRLVOQiZZPluj+9Tojdmc/XdQPToUkLX+WhtHtZqAsVToK9R
- PKS1wKnI7TIigejl8kDKT2AWgebp9s5WaMQTkWEHQRfGdtdh4UcGYFD4jHuJ1p71coHa
- El4whTjb3Qj8bHoRpMKmQp7CWpUgqYCHlI+wSwN/zANsgburryHCFv55vYf0q0eEqDjp
- rl/pSLdm4qvpRm9QMmkWJvbHVa00DnEaeRUnLyeeARI7qWzXs+uKnJIZxrxC9dxXW99j
- qnTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tmdXYabHBlH0lzTR2aGEg4jjkPTidI1mG07cS/MQyTc=;
- b=Ep7Vfzc7bN0tz26iYEDxAaj8GZq1KCEYW41xxaIUzymv85MKMjGt7YgQu+CLYzpgT9
- a4otsMNu41cujaM01zdCsXRAK+lLQGhhUIPZUiTqe7fNbVrIey+GH7LqGqdmb3yDA1Wg
- A/qGY/XOHjgkopHKxl7RpsdcIMmMF03m9+To2WPlgQEuaXaoF37ejysrhlaIUhVHNkCS
- FmddNCAnTNrnPNU0YIRolH3lEIzOHc2hq/M5Y863anY27Lsr5keo9HDPUTROtcmwMfDG
- DqGHtE3uXVCx4WzzXMtLOo4gezo5LVIOWsZR/WaBrxgjR2FGQN61MzJLm8rHdCfQLmPw
- b98w==
-X-Gm-Message-State: AOAM532wcA6Ww7IZtVaIAmdPvdsmTvvYQmLYppCst7+wTK56ykf/J08x
- 5MBFbFv4Ia9tYaIyfiUEcBMFWw==
-X-Google-Smtp-Source: ABdhPJyDgiMvPKHxYxRk/TRfiki81RSVnZoaBVGMlrlfdZYclA0TZPFkDpfqZUikhceozNhYswoUCA==
-X-Received: by 2002:adf:9e4d:: with SMTP id v13mr17418975wre.26.1631003979019; 
- Tue, 07 Sep 2021 01:39:39 -0700 (PDT)
-Received: from localhost.localdomain
- (2a02-8440-6141-3317-3074-96af-9642-0002.rev.sfr.net.
- [2a02:8440:6141:3317:3074:96af:9642:2])
- by smtp.gmail.com with ESMTPSA id m186sm1737027wme.48.2021.09.07.01.39.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 01:39:38 -0700 (PDT)
-From: Guillaume Ranquet <granquet@baylibre.com>
-To: 
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>,
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: [PATCH 4/4] dt-bindings: display: mediatek: add MT8195 hdmi bindings
-Date: Tue,  7 Sep 2021 10:37:21 +0200
-Message-Id: <20210907083723.7725-5-granquet@baylibre.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210907083723.7725-1-granquet@baylibre.com>
-References: <20210907083723.7725-1-granquet@baylibre.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2052.outbound.protection.outlook.com [40.107.96.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D66B189D7D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 10:03:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=X8E0ZFsp8NUm4LSr6xkvzEburc5Wl+TvuBepFoP0uYTpCzaNHBf4F6kyid8D7JvaivKL2CoSgHccyxXoH4vkAC7T3mTNnqykhyH0SHgsjgKGZzok0B0Vs1CgD4M+5m0hHOiodm+bmqOXKKwLPDlr6nKCDPBlZOfw5GCpzyAhIe97r4gKTe8zjbSDe6yzvuuLCT1g2l5IhBdF72RPHJVy/KUfrmyQaBaZp83uhHEs4ckmhi3UQCE/0LX7ipjgXY5zryQCRdKsrpD/2mdA58o7PUAoQT/bTWZX0syLsvERtJ5pRBXPeB3agZA2XC4SXpNoRtkShOCeND4XV6jwdMMkNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=ymdB83v2h9vcJyo3O2Oe7vm75KEd8RwGnzSjAE6Z1fA=;
+ b=NR67NulNzByGMfWgySdiMF2JMXTfOx19787a2owJnYhalV/Y+01bpZu5LS5vjR9DTmQU+Yrba/pM5gle7jQsZsaaJptOgN8CpjqfC6Bv1onPMFLioiN1gv1AEhS8300kx0pBI0ivPGtyVE4ftErtJEdFdrtgu/aTpDUcPzLWeWkKi7F89lfWC0WzP0VRKewVAzCzZUcs3HcsLbOGW3l/9Pk/wDICvTWO/nbBbBTt85GE38/vRbA6WYizXbUbsNJKPMgf8i3Rj4jHFEAI6TgtW72dA1s+VnEeSFkvYgDJ4Va35qZ+GJPAW2ctHKyXgkJnXY9l53UemICnVEltfL0AhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ffwll.ch smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ymdB83v2h9vcJyo3O2Oe7vm75KEd8RwGnzSjAE6Z1fA=;
+ b=VKiajmruLe6AaeUWGbewWcEVQhE8/bJNqCiJNq1psJylxlk5Xeizp/VQXSiAJCS1sFSYaj/y/qMGwPyZME4vSVXbow1dIAEtWjyHmUqUdsvokXsdZMoUzfxf9f4TksyiQJ7bQ/Cl8BSvTwXN5ng3QH3c7LALu0YDYYGfp4NR2Yo=
+Received: from DM5PR12CA0006.namprd12.prod.outlook.com (2603:10b6:4:1::16) by
+ MN2PR12MB3264.namprd12.prod.outlook.com (2603:10b6:208:104::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Tue, 7 Sep
+ 2021 10:03:21 +0000
+Received: from DM6NAM11FT047.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:4:1:cafe::be) by DM5PR12CA0006.outlook.office365.com
+ (2603:10b6:4:1::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19 via Frontend
+ Transport; Tue, 7 Sep 2021 10:03:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT047.mail.protection.outlook.com (10.13.172.139) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4478.19 via Frontend Transport; Tue, 7 Sep 2021 10:03:20 +0000
+Received: from hr-amd.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 7 Sep 2021
+ 05:03:18 -0500
+From: Huang Rui <ray.huang@amd.com>
+To: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>, "Daniel
+ Vetter" <daniel.vetter@ffwll.ch>, <dri-devel@lists.freedesktop.org>
+CC: Linus Torvalds <torvalds@linux-foundation.org>, Guenter Roeck
+ <linux@roeck-us.net>, <linux-kernel@vger.kernel.org>,
+ <sparclinux@vger.kernel.org>, Huang Rui <ray.huang@amd.com>
+Subject: [PATCH] drm/ttm: fix the type mismatch error on sparc64
+Date: Tue, 7 Sep 2021 18:03:02 +0800
+Message-ID: <20210907100302.3684453-1-ray.huang@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Tue, 07 Sep 2021 10:28:27 +0000
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 08ed54b0-b979-47b7-f14b-08d971e6b902
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3264:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB32642EABFEC95568D01B9892ECD39@MN2PR12MB3264.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: scZjuTrRTim9eC76wyqPXm6GV2YRxzqfKRhMMXAMQGEVGliD1vqNNOyH+NG+Zad3PGKF7rcR5KwJgL/hp97zCYPPGHkfk00icOKoqbmBjn3QLEHD5BQzahnfF121l3IwgMlrDa8WY55f4Vwhvr41Y4LDc2inc8QQ3wlpSP7zpauzaxmhOW2vjHlX3XDTnThd1zbLkuf2cEK0tOogFMcZsTuwTR7WJ9b4Ye+0M6LAnefqQitXKDCIyAIiGLg/JbxwLPjbOZLoLLwDAJL+6UFTi7OckYooa5Yf+S/QGWFhNNro+EKtVxqfZNMGPfC7dOHs/7d1Aj4FReEDxJNZgOiZdRiwPppCrx5N34C13JPVwttLPxIpF0JhctZwf402/RtPNCQF7HjEQHl/rEX4ZhWw6veB5mQ2N6hfuhyOA1HQPtS7dFpyFy/0eFxYq3c/mxHGxRvAogQebYwTDK9RvxckIruV1ZXikGct1CpOMfR5OmHOfJB2eYbR5/8DM58zXK3PYQZBllpnoUKUyVw797FCvTLiWWJLerOPERm6TjVZzFluXMPiKOHFQEAoDdQ9a/gWS7oVxRCltN7cl7jrkeZGJHc20elEbhUZxqwaNUwFyoHV3uoEiMszGrRKc0KfastXbB3ZKJkQqtA9GgG8IafItWBAdcoEtShSSI+R03eNQsr0mUFB/PnaYlF9yVLnrmqxhVQ4tXBhZ4oKaiyNiRhXLkihUyVEUTR9y4BdxfnrwRj5l55Tj7nOhe+nV2WyKBgm
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(39860400002)(136003)(346002)(46966006)(36840700001)(6666004)(1076003)(47076005)(8936002)(4326008)(82740400003)(7696005)(356005)(81166007)(36860700001)(2906002)(26005)(82310400003)(336012)(66574015)(426003)(2616005)(16526019)(186003)(110136005)(478600001)(70586007)(70206006)(5660300002)(316002)(36756003)(83380400001)(54906003)(86362001)(8676002)(36900700001)(2101003);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2021 10:03:20.9160 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 08ed54b0-b979-47b7-f14b-08d971e6b902
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT047.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3264
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,173 +107,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add Mediatek HDMI and HDMI-DDC bindings for MT8195 SoC.
+__fls() on sparc64 return "int", but here it is expected as "unsigned
+long" (x86). It will cause the build errors because the warning becomes
+fatal while it is using sparc configuration. As suggested by Linus, it
+can use min_t instead of min to force the type as "unsigned int".
 
-Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
+Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+Signed-off-by: Huang Rui <ray.huang@amd.com>
+Cc: Christian König <christian.koenig@amd.com>
 ---
- .../mediatek/mediatek,mt8195-hdmi-ddc.yaml    | 46 +++++++++
- .../mediatek/mediatek,mt8195-hdmi.yaml        | 99 +++++++++++++++++++
- 2 files changed, 145 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
- create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+ drivers/gpu/drm/ttm/ttm_pool.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
-new file mode 100644
-index 000000000000..ae3cc0ae457f
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
-@@ -0,0 +1,46 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mediatek HDMI DDC Device Tree Bindings for mt8195
-+
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
-+
-+description: |
-+  The HDMI DDC i2c controller is used to interface with the HDMI DDC pins.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8195-hdmi-ddc
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    items:
-+      - const: ddc-i2c
-+
-+required:
-+  - compatible
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/mt8195-clk.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    hdmiddc0: ddc_i2c {
-+      compatible = "mediatek,mt8195-hdmi-ddc";
-+      clocks = <&clk26m>;
-+      clock-names = "ddc-i2c";
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
-new file mode 100644
-index 000000000000..b5d5f7f79c71
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
-@@ -0,0 +1,99 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Mediatek HDMI Encoder Device Tree Bindings for mt8195
-+
-+maintainers:
-+  - CK Hu <ck.hu@mediatek.com>
-+  - Jitao shi <jitao.shi@mediatek.com>
-+
-+description: |
-+  The Mediatek HDMI encoder can generate HDMI 1.4a or MHL 2.0 signals from
-+  its parallel input.
-+
-+properties:
-+  compatible:
-+    enum:
-+      - mediatek,mt8195-hdmi
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: PLL divider
-+      - description: PLL divider
-+      - description: HDCP engine clock
-+      - description: PLL divider
-+      - description: HDCP engine clock
-+      - description: Bus clock
-+      - description: HDMI clock for vpp_split module
-+
-+  clock-names:
-+    items:
-+      - const: univpll_d6_d4
-+      - const: msdcpll_d2
-+      - const: hdmi_apb_sel
-+      - const: univpll_d4_d8
-+      - const: hdcp_sel
-+      - const: hdcp24_sel
-+      - const: split_hdmi
-+
-+  phys:
-+    maxItems: 1
-+
-+  phy-names:
-+    items:
-+      - const: hdmi
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - phys
-+  - phy-names
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/mt8195-clk.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    hdmi0: hdmi@1c300000 {
-+      compatible = "mediatek,mt8195-hdmi";
-+      reg = <0 0x1c300000 0 0x1000>;
-+      power-domains = <&spm MT8195_POWER_DOMAIN_HDMI_TX>;
-+      clocks = <&topckgen CLK_TOP_UNIVPLL_D6_D4>,
-+             <&topckgen CLK_TOP_MSDCPLL_D2>,
-+             <&topckgen CLK_TOP_HDMI_APB>,
-+             <&topckgen CLK_TOP_UNIVPLL_D4_D8>,
-+             <&topckgen CLK_TOP_HDCP>,
-+             <&topckgen CLK_TOP_HDCP_24M>,
-+             <&vppsys1 CLK_VPP1_VPP_SPLIT_HDMI>;
-+      clock-names = "univpll_d6_d4",
-+        "msdcpll_d2",
-+        "hdmi_apb_sel",
-+        "univpll_d4_d8",
-+        "hdcp_sel",
-+        "hdcp24_sel",
-+        "split_hdmi";
-+      interrupts = <GIC_SPI 677 IRQ_TYPE_LEVEL_HIGH 0>;
-+      pinctrl-names = "default";
-+      pinctrl-0 = <&hdmi_pin>;
-+      phys = <&hdmi_phy>;
-+      phy-names = "hdmi";
-+      cec = <&cec>;
-+      ddc-i2c-bus = <&hdmiddc0>;
-+      status = "disabled";
-+    };
-+
-+...
+diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
+index af1b41369626..c961a788b519 100644
+--- a/drivers/gpu/drm/ttm/ttm_pool.c
++++ b/drivers/gpu/drm/ttm/ttm_pool.c
+@@ -382,7 +382,8 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
+ 	else
+ 		gfp_flags |= GFP_HIGHUSER;
+ 
+-	for (order = min(MAX_ORDER - 1UL, __fls(num_pages)); num_pages;
++	for (order = min_t(unsigned int, MAX_ORDER - 1, __fls(num_pages));
++	     num_pages;
+ 	     order = min_t(unsigned int, order, __fls(num_pages))) {
+ 		bool apply_caching = false;
+ 		struct ttm_pool_type *pt;
 -- 
-2.31.1
+2.25.1
 
