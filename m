@@ -1,112 +1,141 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AA09402DBA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:29:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BC6402DBF
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:33:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A0B16E0C2;
-	Tue,  7 Sep 2021 17:29:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03E7188D1E;
+	Tue,  7 Sep 2021 17:33:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 97B9A6E0C1
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 17:29:10 +0000 (UTC)
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210907172909euoutp017a6e21a2eb792e4c962ac28a51eb51d5~iml9FKYRm0370403704euoutp01v
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 17:29:09 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210907172909euoutp017a6e21a2eb792e4c962ac28a51eb51d5~iml9FKYRm0370403704euoutp01v
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1631035749;
- bh=uJ8KrS108i1LXT3m5kCkRY46+7MC4pMzTI21m569ZWo=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=NI3onICegXnpuPjh6cC48e2buhlIYeV2o4HbmL0TLB6Jl9z7KF3iWG/vFQic3fBg5
- sAhAFq+BiBnBxh8uueXboM0/A7IAlXhzSCwD73VQwvIqlgVFposi+/jU6uAvSxTdlD
- 9sQ35/n63lfvcmTrUkLJ0lUJUfwSKY+T9pzw4ddU=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTP id
- 20210907172908eucas1p293bbb3c3eb35eec08b17081e32f080a0~iml8fJtBO2753727537eucas1p2x;
- Tue,  7 Sep 2021 17:29:08 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 26.73.42068.461A7316; Tue,  7
- Sep 2021 18:29:08 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210907172907eucas1p29a84a9b934d1982d756a859c689225e2~iml8DN7_43213332133eucas1p2J;
- Tue,  7 Sep 2021 17:29:07 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210907172907eusmtrp17160ea373aa38adedd79003cdc8567b1~iml8CiBqK2616326163eusmtrp1N;
- Tue,  7 Sep 2021 17:29:07 +0000 (GMT)
-X-AuditID: cbfec7f4-c71ff7000002a454-40-6137a164ae25
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 70.95.20981.361A7316; Tue,  7
- Sep 2021 18:29:07 +0100 (BST)
-Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210907172907eusmtip2593c283073e444c68117add70db6f444~iml7jTOAJ1031010310eusmtip2g;
- Tue,  7 Sep 2021 17:29:07 +0000 (GMT)
-Message-ID: <9b3d6595-0330-f716-b443-95f3f4783ac4@samsung.com>
-Date: Tue, 7 Sep 2021 19:29:07 +0200
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C031688D1E
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 17:33:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="207499164"
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="207499164"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2021 10:33:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="538076662"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2021 10:33:06 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 7 Sep 2021 10:33:06 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 7 Sep 2021 10:33:05 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 7 Sep 2021 10:33:05 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
+ by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.10; Tue, 7 Sep 2021 10:32:55 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=G8PQio2qIxEPYwgGYsfDjCi/4am8nSe4KFIckflnuN0OEtZYcobFCKYvLLGMZJGJ3rgYJzxtEfXdF5FL5guUkRIRx2k7UpLqGVhywXLb/5OPNx5wM2cJkzoleHML2rGjqDwUb0GrUcXxMof9301JUC7RLJyXHCDX7Tibvt8307sL40oTp8k5xHY3HNuW/vwfNrhcDrydeMCeGCPfVN7L+zNQ5Iy1BM3I8nJcPaLNn5GiLnmhJGaPAMwpZoxkdPY5ENsU/CVfhdeTxarOKKZjW9+mETRu0Rw8VisWSddKf2b1lCjd3sZltb2ggG1s9XyOnLHknA68RT1fuq2eyDtVvA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=vgOMyN8bnaOFNTjXcCHjPEY58hjiKGtfNaBMe2/lkcw=;
+ b=UpFlrzMABtgPb4a8Srlz4gCOpTYBVCiXISqtb4ei6x80YiZ7X0oDObAwXmbSU67S9bAsVkwTpbvbHAhzFCXt2Q03ZBQRMGgFMVeLaoFmacbpv84GRb3yBfhXweVKxMPdT6ZIOqn+pj69jdGWZEMEckHTAaNdCRsEeumVqrmOUWJCafyWPCqjiNkb8wzprs5PSdOO97tPpDtQskSzn8Zf9HFIyibdC10nxwuQsXFPHzorY0nO/oBsdhWTDF6KBBQUnsNuaj9sdS/BbtOnQKlcDTE15nxtF36qe1MTfGKMmjUknz0xXN5w2NoF8mBwrL/Z44IJ55YgcBrzBVPhID70Ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vgOMyN8bnaOFNTjXcCHjPEY58hjiKGtfNaBMe2/lkcw=;
+ b=zNWVQLU62aBs01YZD8gS3k2nZxe5AMlXS6wVcDfBU2/KYwGJu91GdENbCNukAQtsPatFvYf5i2uHCVhZvrbciVKGJiq/bttsUHz3sB41A/pQFdcEOBrDU7wb9AaZIW+yx/usNJy/9aQ2F2vj1N3iTE0RXKVT9THRvbrlrjVqRLg=
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com (2603:10b6:a03:183::10)
+ by SJ0PR11MB5200.namprd11.prod.outlook.com (2603:10b6:a03:2df::7)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4478.19; Tue, 7 Sep
+ 2021 17:32:54 +0000
+Received: from BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::e189:6f03:9fde:2062]) by BY5PR11MB4182.namprd11.prod.outlook.com
+ ([fe80::e189:6f03:9fde:2062%5]) with mapi id 15.20.4478.025; Tue, 7 Sep 2021
+ 17:32:54 +0000
+From: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+To: Kees Cook <keescook@chromium.org>
+CC: "Dea, Edmund J" <edmund.j.dea@intel.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, Sam Ravnborg <sam@ravnborg.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hardening@vger.kernel.org" <linux-hardening@vger.kernel.org>
+Subject: RE: [PATCH] drm/kmb: Avoid warnings on impossible plane_id
+Thread-Topic: [PATCH] drm/kmb: Avoid warnings on impossible plane_id
+Thread-Index: AQHXmd2XU9vEPkR5QkaaPDsb+p2SVauEr1kwgBQ4SdA=
+Date: Tue, 7 Sep 2021 17:32:53 +0000
+Message-ID: <BY5PR11MB4182FEB7263045FC3855723B8CD39@BY5PR11MB4182.namprd11.prod.outlook.com>
+References: <20210825181807.1138053-1-keescook@chromium.org>
+ <BY5PR11MB4182ABD607EB99C1F68777928CC69@BY5PR11MB4182.namprd11.prod.outlook.com>
+In-Reply-To: <BY5PR11MB4182ABD607EB99C1F68777928CC69@BY5PR11MB4182.namprd11.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.5.1.3
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+authentication-results: chromium.org; dkim=none (message not signed)
+ header.d=none;chromium.org; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 56001d0b-64ec-4b72-1cd1-08d97225863f
+x-ms-traffictypediagnostic: SJ0PR11MB5200:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SJ0PR11MB5200B71D935D2FCA1091A3BB8CD39@SJ0PR11MB5200.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:332;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: vTKjQxdQeezETPUKymbTqBYK8hbm/eahywWq+zxb7DX5e27N+9NJaM6VgJhPE1VWc443SyF6fKrNJjkLW7K+Drztuf3NXUYYBnl0PQ1F+Aa3WOFNjnneNKO/H0oI+6QEwH3pBMgrLEQfz1hCEf6YeVLBkq0103chDlqhqJ5EfllKrTzvHUmcJEM6bhon1JmRI/vyNmGBDhIq9e8+BF9BHtf6azMmmU6EuuREB2HTWvH151330spOPRPuyOgd5trl/zJ7Eb2feUdWyHOjXTTy3Bxi2fk2EZLrsYaB6O1+2/QXov4dPZ7AtpZ/dOuBcFAlmpgdxfDRlARF9dfyDex+0bCVji/ZvqmDrGeV4cUJwaFP9WiFxuPSRGwu3tnORVjr3p6JMw7Q4a0KErdLdD5pE85Aj40zjPeDq/MAsm7XdjMelbqBKiTPP2qI9/pSui/R9x0KVxE9EaKPHrh6hU+jOWvXjeREvS0XbZqSuP9VoxwVUe4RV71yiFJbnAUrizOJkxZn0j2KPPfDyaqGa2E8NoP69z7qodycxWQCGhw03D/OI/sMtZRrt+KNUD3pH+KOskZ8wA5QRgGGOfLPdcrzDRvajNYsfSDQp8J0ngRIUGUN/XbURkBDhUaIET2TIcgbUMH1lxPTMWsrsNZ743MlMr74lZ5XVDXz/YJZMPmfxm91W6iAJCY2HZnVhQFfxXd4M0sOVTMiQPb40QCLWlGWqQQZSwR9W91ztsvWZaINGLu2LFQFv2N1ElGprpmJzu8UmrEFI5SHvObo1cHdcLmg18A5/OSdFwrTsYKInYvJiWlqzpuT0TLxINcPW67yd6vxInGukdppElNUWFS2WqZnNg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR11MB4182.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39860400002)(376002)(396003)(136003)(366004)(122000001)(33656002)(4326008)(54906003)(66446008)(2906002)(66556008)(66476007)(5660300002)(71200400001)(64756008)(76116006)(53546011)(6506007)(66946007)(7696005)(8936002)(26005)(52536014)(38070700005)(186003)(55016002)(8676002)(966005)(478600001)(6916009)(9686003)(316002)(83380400001)(38100700002)(86362001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8UnCjb1jU7TYyKANVY/+fhUFCYuJ3DzD5vC1YDkRXYBO5CNOPjOZBItQ+Tia?=
+ =?us-ascii?Q?sMF8BFvZFdZ0Ei8hpmB/SJdqHIz7YT/qYIV4aRY2acc6hCiBXRSfU8Pvqa+D?=
+ =?us-ascii?Q?LoYiTuxaCUEUoP4IWm9acH9SQcX4gnA+3t8MYPwpNZR+E/N9BUtQCpFC4PaN?=
+ =?us-ascii?Q?Mu1Z0lLPXS+ncV2GV/dC4Ci4RYmV321rM3P9sptJ64GUOHiQP+SSH7KgFHpc?=
+ =?us-ascii?Q?/4oxSPQvhHkJsjpJobipODVr0pnHqWI8WdpE9sFvoasEqCeKbS91n31n69xV?=
+ =?us-ascii?Q?2nMUUxsamdlmi4IoBZ5JDGBueoym6G90nOxBSItxlfe6iR9weyo+OxPDpHO6?=
+ =?us-ascii?Q?bcNNHgGhdq0MTC7nzjlK4pTAZj66XZL49E7dfK9JyWUM3imw+LjeJAzhHEBU?=
+ =?us-ascii?Q?Di3aEbVjekBuwd9bs2KjNkuqPYK+Ya35crLInK5TvY5hiKT5iXDsVwtQKDzd?=
+ =?us-ascii?Q?g/C9e1QZ2uOAATcXRHtTrw0H8WkNKlx1z6KC8lZvPwPCrSVVdCA99NJQMr8H?=
+ =?us-ascii?Q?h9W8zjy2vwsEyTv1BzUwlPed2UJJXNZJoPEQa2ivhczNxLYV8owcDZF/kw1I?=
+ =?us-ascii?Q?jyoNf3CnMo9NbpAKosQ8zVqcNoo8fgKnlsX/HORNQe6t4C17xqmIiyV/kRYW?=
+ =?us-ascii?Q?jyoef45JupeydSFPUtUYgRsiQEXTk5KuBfv6eFCFjrHSYj2ha8wnkWfKTlC8?=
+ =?us-ascii?Q?zxxOerOX8DVdLnP/baCgBJLCmTM0uj+TNL/JrxFrHlDbn4K1bw2LFpwp2/6A?=
+ =?us-ascii?Q?vaXoJ8fT2OqpjiNuXXzgWYO32Mi1Xkv96tf87IbA8bhJN1hyMjoztPk+jBZr?=
+ =?us-ascii?Q?xa27aksPlSnMp3UaZACW3Ux/ZWFuTbA9veEavKISVO6bHAkYp/qEMeusPS2P?=
+ =?us-ascii?Q?1LnV/niz6um8cOY8H1qtZu4G3N8GLsfTSJTgYba2BjLFgCPLWuLvapS5DKnv?=
+ =?us-ascii?Q?TT/m419kTAA0qQthKq+ym6BCR/XL68whlq64zMhuGUHVjUqtwGOrMwu0jtg7?=
+ =?us-ascii?Q?/Pi/7bAwPu2/KMFWZr7/fdHpDw3rmTfxQD0NmF3hpB1MtLRFTBU5/+M+YmbQ?=
+ =?us-ascii?Q?pTKkLRSSQyqq+CQbwOQXJxjxQy9zuX1UTekYqbFPZfFYmnPQzG1ba8skyFMk?=
+ =?us-ascii?Q?CeZEroCdj2l2UTrMzBwkupChZ19wXEco/yKpppUK53mPVAvv/Brm5zWWNBYY?=
+ =?us-ascii?Q?5Slg6fdbud2qXkJ7BlaR5BCeMlZgqeX8k7cmV+uroXb7xRDCwPgd3JI89fL+?=
+ =?us-ascii?Q?eilnYg2lMZiXeGrJ+im2lqZF2SxhUYoCPr3SQ159tY40Vr/C8xrQMAQ2XzmD?=
+ =?us-ascii?Q?jao=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
- Gecko/20100101 Thunderbird/92.0
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register
- after enabling the bridge
-Content-Language: pl
-To: Marek Vasut <marex@denx.de>, dri-devel@lists.freedesktop.org
-Cc: Jagan Teki <jagan@amarulasolutions.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Linus Walleij
- <linus.walleij@linaro.org>, Robert Foss <robert.foss@linaro.org>, Sam
- Ravnborg <sam@ravnborg.org>
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrMKsWRmVeSWpSXmKPExsWy7djPc7opC80TDfrf8llc+fqezeLLpgls
- Fp0Tl7BbTPmznMniTVsjo8WnWQ+ZLVb83MrowO6x9uN9Vo95s06weMzumMnqcefaHjaP+93H
- mTyWTLvKFsAWxWWTkpqTWZZapG+XwJWx9rZEQaduxZdNlQ2MJ1W6GDk5JARMJO5sXM7axcjF
- ISSwglGi781bZgjnC6PEkrb/UM5nRol5q7awwLTcnbOCBSKxnFFi3YNFjBDOe0aJi68fM4NU
- 8QrYSXw5toYVxGYRUJH413uCFSIuKHFy5hOwSaICCRLPl35lArGFBVIl2pZdYQOxmQVEJG48
- amEEsUUEHCQOtk8GO4NZ4AajRPf5Q2BFbAKaEn833wSzOQWsJda+7WCCaJaXaN46G6xBQuAJ
- h8Slhzug7naRWPVwMzuELSzx6vgWKFtG4vTkHqiaeon7K1qgmjsYJbZu2MkMkbCWuHPuF9A2
- DqANmhLrd+lDhB0lbvzfzQoSlhDgk7jxVhDiBj6JSdumM0OEeSU62oQgqhUl7p/dCjVQXGLp
- ha9sExiVZiEFyywk789C8s0shL0LGFlWMYqnlhbnpqcWG+WllusVJ+YWl+al6yXn525iBKaj
- 0/+Of9nBuPzVR71DjEwcjIcYJTiYlUR4/5qbJQrxpiRWVqUW5ccXleakFh9ilOZgURLnTdqy
- Jl5IID2xJDU7NbUgtQgmy8TBKdXAVCC759iWm3VB8vuUTym++jXjzTf+rVEqjVNLntX/endJ
- yvhwUJHxz+n3WE+1nmeYzR/o4h6tuFDWWuEer7LYnz03tr96P79jm07TxTVylXP44tjWVk2c
- 1/qm7JzBxPmKnre3bt30rXvD1XVx6mkHpDPuSkR9cQq30f8SVm1yey6P5lTuqnlxQeH+aryf
- rjH+n/3+W97rk1s9fe92HFscJPbiSoIp2wH9mm3iNye6VWQ8fqn+99v9vwuXXSjfa1DhtlVW
- U0wiYbkS7/tDpQcuZXA2LRd9NGnSyqsCyg7rtn35tqTU1yP829OiSLdNaTKyRxqeu+seX72t
- MGzy88pNz2ZwiZwwbjAI9+XznyCzWk+JpTgj0VCLuag4EQCmbSuqtgMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrGIsWRmVeSWpSXmKPExsVy+t/xe7rJC80TDZ581rO48vU9m8WXTRPY
- LDonLmG3mPJnOZPFm7ZGRotPsx4yW6z4uZXRgd1j7cf7rB7zZp1g8ZjdMZPV4861PWwe97uP
- M3ksmXaVLYAtSs+mKL+0JFUhI7+4xFYp2tDCSM/Q0kLPyMRSz9DYPNbKyFRJ384mJTUnsyy1
- SN8uQS9j7W2Jgk7dii+bKhsYT6p0MXJySAiYSNyds4Kli5GLQ0hgKaPE4V+rmSAS4hK7579l
- hrCFJf5c62KDKHrLKNG3/A8bSIJXwE7iy7E1rCA2i4CKxL/eE6wQcUGJkzOfsIDYogIJErsP
- d7GD2MICqRJty66A9TILiEjceNTCCGKLCDhIHGyfzAyygFngBqPEjBsH2eG2nW5dDnYGm4Cm
- xN/NN8G6OQWsJda+7WCCmGQm0bW1ixHClpdo3jqbeQKj0Cwkh8xCsnAWkpZZSFoWMLKsYhRJ
- LS3OTc8tNtIrTswtLs1L10vOz93ECIzAbcd+btnBuPLVR71DjEwcjIcYJTiYlUR4/5qbJQrx
- piRWVqUW5ccXleakFh9iNAWGxkRmKdHkfGAKyCuJNzQzMDU0MbM0MLU0M1YS5zU5siZeSCA9
- sSQ1OzW1ILUIpo+Jg1OqgYnhLpOnxPJCvnADAXbngETHlG0yS87OPhnI+fZ4a6u759pzF581
- Sa0InftcoKeu7/fBPN0NfJ/ub9t64M+0M3FTXDJmBCxO5VIK+H35ykOWy4E7TJl6LldMLvqz
- 78LPbx2ngz/qaH73n25ak7JhxeqbU6wXBluYxIe9nr5mk83rYpPnNxcbGdwT/fa43UNcSJfj
- SsmFNO17O2oedyWulHlew8ayN/jL5lM1aXw1pnn9ak6Vvsw7K7nuO1fs3fiE/d064/PndNTl
- Piy7Nk9+Ap/VVeZwhvXbe3SKd2maKG+Pil7KEPRn8ado8xstvpNP/9fepNjpaqsyreSKxJrT
- HRvU4+zMJ9ZkiL95n5O2wluJpTgj0VCLuag4EQDa10SySQMAAA==
-X-CMS-MailID: 20210907172907eucas1p29a84a9b934d1982d756a859c689225e2
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210907073151eucas1p196543fbd114f34f6de700013fd0e4168
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210907073151eucas1p196543fbd114f34f6de700013fd0e4168
-References: <20210907023948.871281-1-marex@denx.de>
- <CGME20210907073151eucas1p196543fbd114f34f6de700013fd0e4168@eucas1p1.samsung.com>
- <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
- <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4182.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 56001d0b-64ec-4b72-1cd1-08d97225863f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Sep 2021 17:32:53.9496 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hQy3j/vRnLQ1Ww5vH1Sxjf9ItN1WuWaUjYakSWGaY5dI5TRsd12iXS9PzWz1sUKJxZjYcK/Z2kAN1wXejynvWXmj6tDAGLuseAENEEsPYLY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5200
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,146 +151,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Kees,
+This patch https://patchwork.kernel.org/project/dri-devel/patch/20210728003=
+126.1425028-13-anitha.chrisanthus@intel.com/ is pushed to drm-misc-fixes. T=
+his change should fix the below warnings.
 
-W dniu 07.09.2021 o 16:25, Marek Vasut pisze:
-> On 9/7/21 9:31 AM, Andrzej Hajda wrote:
->> On 07.09.2021 04:39, Marek Vasut wrote:
->>> In rare cases, the bridge may not start up correctly, which usually
->>> leads to no display output. In case this happens, warn about it in
->>> the kernel log.
->>>
->>> Signed-off-by: Marek Vasut <marex@denx.de>
->>> Cc: Jagan Teki <jagan@amarulasolutions.com>
->>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> Cc: Linus Walleij <linus.walleij@linaro.org>
->>> Cc: Robert Foss <robert.foss@linaro.org>
->>> Cc: Sam Ravnborg <sam@ravnborg.org>
->>> Cc: dri-devel@lists.freedesktop.org
->>> ---
->>> NOTE: See the following:
->>> https://e2e.ti.com/support/interface-group/interface/f/interface-forum/942005/sn65dsi83-dsi83-lvds-bridge---sporadic-behavior---no-video 
->>>
->>> https://community.nxp.com/t5/i-MX-Processors/i-MX8M-MIPI-DSI-Interface-LVDS-Bridge-Initialization/td-p/1156533 
->>>
->>> ---
->>>    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
->>>    1 file changed, 5 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c 
->>> b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> index a32f70bc68ea4..4ea71d7f0bfbc 100644
->>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->>> @@ -520,6 +520,11 @@ static void sn65dsi83_atomic_enable(struct 
->>> drm_bridge *bridge,
->>>        /* Clear all errors that got asserted during initialization. */
->>>        regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->>>        regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
->>
->>
->> It does not look as correct error handling, maybe it would be good to
->> analyze and optionally report 'unexpected' errors here as well.
->
-> The above is correct -- it clears the status register because the 
-> setup might've set random bits in that register. Then we wait a bit, 
-> let the link run, and read them again to get the real link status in 
-> this new piece of code below, hence the usleep_range there. And then 
-> if the link indicates a problem, we know it is a problem.
+I apologize for all the inconveniences.=20
 
+Thanks,
+Anitha
 
-Usually such registers are cleared on very beginning of the 
-initialization, and tested (via irq handler, or via reading), during 
-initalization, if initialization phase goes well. If it is not the case 
-forgive me.
-
-
->
->>> +
->>> +    usleep_range(10000, 12000);
->>> +    regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->>> +    if (pval)
->>> +        dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
->>
->>
->> I am not sure what is the case here but it looks like 'we do not know
->> what is going on, so let's add some diagnostic messages to gather info
->> and figure it out later'.
->
-> That's pretty much the case, see the two links above in the NOTE 
-> section. If something goes wrong, we print the value for the user 
-> (usually developer) so they can fix their problems. We cannot do much 
-> better in the attach callback.
->
-> The issue I ran into (and where this would be helpful information to 
-> me during debugging, since the issue happened real seldom, see also 
-> the NOTE links above) is that the DSI controller driver started 
-> streaming video on the data lanes before the DSI83 had a chance to 
-> initialize. This worked most of the time, except for a few exceptions 
-> here and there, where the video didn't start. This does set link 
-> status bits consistently. In the meantime, I fixed the controller 
-> driver (so far downstream, due to ongoing discussion).
-
-
-Maybe drm_connector_set_link_status_property(conn, 
-DRM_MODE_LINK_STATUS_BAD) would be usefule here.
-
-
->
->> Whole driver lacks IRQ handler which IMO could perform better diagnosis,
->> and I guess it could also help in recovery, but this is just my guess.
->> So if this patch is enough for now you can add:
->
-> No, IRQ won't help you here, because by the time you get the IRQ, the 
-> DSI host already started streaming video on data lanes and you won't 
-> be able to correctly reinit the DSI83 unless you communicate to the 
-> DSI host that it should switch the data lanes back to LP11.
->
-> And for that, there is a bigger chunk missing really. What needs to be 
-> added is a way for the DSI bridge / panel to communicate its needs to 
-> the DSI host -- things like "I need DSI clock lane frequency f MHz, I 
-> need clock lane in HS mode and data lanes in LP11 mode". If you look 
-> at the way DSI hosts and bridges/panels work out the DSI link 
-> parameters, you will notice they basically do it each on their own, 
-> there is no such API or communication channel.
-
-
-There is one-time communication channel via mipi_dsi_attach, it allows 
-to set max frequency i HS and LP, choose mode of operation (HS/LPM) and 
-few more things. If it is necessary to extend it please propse sth.
-
-Regarding requesting LP11 I am not sure if we really should have such 
-low level communication. LP11, as I remember ,is initial state in HS so 
-it should be set anyway, before starting video transmission.
-
-
-And maybe this is the main problem:
-
-DRM core calls:
-
-crtc->enable
-
-bridges->pre_enable,
-
-encoder->enable,
-
-bridges->enable.
-
-
-Usually video transmission starts in crtc->enable (CRTC->Encoder), and 
-in encoder->enable (encoder->bridge), so in bridges->enable it would be 
-too late for LP11 state - transmission can be already in progress.
-
-It shows well that this order of calls does not fit well to DSI, and 
-probably many other protocols.
-
-Maybe moving most of the bridge->enable code to bridge->pre_enable would 
-help, but I am not sur if it will not pose another issues.
-
-This is quick analysis, so please fix me if I am wrong.
-
-
-Regards
-
-Andrzej
-
+> -----Original Message-----
+> From: Chrisanthus, Anitha
+> Sent: Wednesday, August 25, 2021 1:44 PM
+> To: Kees Cook <keescook@chromium.org>
+> Cc: Dea, Edmund J <edmund.j.dea@intel.com>; David Airlie <airlied@linux.i=
+e>;
+> Daniel Vetter <daniel@ffwll.ch>; dri-devel@lists.freedesktop.org; Sam
+> Ravnborg <sam@ravnborg.org>; linux-kernel@vger.kernel.org; linux-
+> hardening@vger.kernel.org
+> Subject: RE: [PATCH] drm/kmb: Avoid warnings on impossible plane_id
+>=20
+> Hi Kees,
+> Thanks for your patch.
+> The switch statement is needed for multiple planes which is already appro=
+ved
+> in this patch series.
+> https://patchwork.kernel.org/project/dri-
+> devel/patch/20210728003126.1425028-13-anitha.chrisanthus@intel.com/
+>=20
+> This patch has dependencies on the previous patches in this series, and w=
+e are
+> waiting for reviews on those before this can be checked in.
+>=20
+> Thanks,
+> Anitha
+>=20
+> > -----Original Message-----
+> > From: Kees Cook <keescook@chromium.org>
+> > Sent: Wednesday, August 25, 2021 11:18 AM
+> > To: Chrisanthus, Anitha <anitha.chrisanthus@intel.com>
+> > Cc: Kees Cook <keescook@chromium.org>; Dea, Edmund J
+> > <edmund.j.dea@intel.com>; David Airlie <airlied@linux.ie>; Daniel Vette=
+r
+> > <daniel@ffwll.ch>; dri-devel@lists.freedesktop.org; Sam Ravnborg
+> > <sam@ravnborg.org>; linux-kernel@vger.kernel.org; linux-
+> > hardening@vger.kernel.org
+> > Subject: [PATCH] drm/kmb: Avoid warnings on impossible plane_id
+> >
+> > KMB_MAX_PLANES is defined as 1, yet kmb_plane_atomic_disable() had
+> code
+> > for writing beyond 1. It is gated by a WARN_ON() that would skip it,
+> > though, but under some compiler versions, poor Dead Code Elimination
+> > wasn't optimizing away the unused switch cases, leading to array bounds
+> > warnings when building with -Warray-bounds:
+> >
+> > drivers/gpu/drm/kmb/kmb_plane.c:135:20: warning: array subscript 3 is
+> > above array bounds of 'struct layer_status[1]' [-Warray-bounds]
+> > drivers/gpu/drm/kmb/kmb_plane.c:132:20: warning: array subscript 2 is
+> > above array bounds of 'struct layer_status[1]' [-Warray-bounds]
+> > drivers/gpu/drm/kmb/kmb_plane.c:129:20: warning: array subscript 1 is
+> > above array bounds of 'struct layer_status[1]' [-Warray-bounds]
+> >
+> > Instead, just remove the switch statement entirely and adjust the index
+> > type to match the struct "id" member.
+> >
+> > Cc: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
+> > Cc: Edmund Dea <edmund.j.dea@intel.com>
+> > Cc: David Airlie <airlied@linux.ie>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Fixes: 7f7b96a8a0a1 ("drm/kmb: Add support for KeemBay Display")
+> > Signed-off-by: Kees Cook <keescook@chromium.org>
+> > ---
+> >  drivers/gpu/drm/kmb/kmb_plane.c | 18 ++----------------
+> >  1 file changed, 2 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/kmb/kmb_plane.c
+> > b/drivers/gpu/drm/kmb/kmb_plane.c
+> > index ecee6782612d..3d46e756f2fe 100644
+> > --- a/drivers/gpu/drm/kmb/kmb_plane.c
+> > +++ b/drivers/gpu/drm/kmb/kmb_plane.c
+> > @@ -113,7 +113,7 @@ static void kmb_plane_atomic_disable(struct
+> > drm_plane *plane,
+> >  				     struct drm_atomic_state *state)
+> >  {
+> >  	struct kmb_plane *kmb_plane =3D to_kmb_plane(plane);
+> > -	int plane_id =3D kmb_plane->id;
+> > +	unsigned char plane_id =3D kmb_plane->id;
+> >  	struct kmb_drm_private *kmb;
+> >
+> >  	kmb =3D to_kmb(plane->dev);
+> > @@ -121,21 +121,7 @@ static void kmb_plane_atomic_disable(struct
+> > drm_plane *plane,
+> >  	if (WARN_ON(plane_id >=3D KMB_MAX_PLANES))
+> >  		return;
+> >
+> > -	switch (plane_id) {
+> > -	case LAYER_0:
+> > -		kmb->plane_status[plane_id].ctrl =3D LCD_CTRL_VL1_ENABLE;
+> > -		break;
+> > -	case LAYER_1:
+> > -		kmb->plane_status[plane_id].ctrl =3D LCD_CTRL_VL2_ENABLE;
+> > -		break;
+> > -	case LAYER_2:
+> > -		kmb->plane_status[plane_id].ctrl =3D LCD_CTRL_GL1_ENABLE;
+> > -		break;
+> > -	case LAYER_3:
+> > -		kmb->plane_status[plane_id].ctrl =3D LCD_CTRL_GL2_ENABLE;
+> > -		break;
+> > -	}
+> > -
+> > +	kmb->plane_status[plane_id].ctrl =3D LCD_CTRL_VL1_ENABLE;
+> >  	kmb->plane_status[plane_id].disable =3D true;
+> >  }
+> >
+> > --
+> > 2.30.2
 
