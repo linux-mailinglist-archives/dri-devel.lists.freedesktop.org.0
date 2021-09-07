@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 014E540224A
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 04:40:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505F740224E
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 04:49:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3AE8F89C5E;
-	Tue,  7 Sep 2021 02:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 59CCE8994D;
+	Tue,  7 Sep 2021 02:49:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from phobos.denx.de (phobos.denx.de
  [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 985C189C63
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 02:40:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87F678994D
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 02:49:17 +0000 (UTC)
 Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 094BC82BD6;
- Tue,  7 Sep 2021 04:40:44 +0200 (CEST)
+ by phobos.denx.de (Postfix) with ESMTPSA id 757A082C2B;
+ Tue,  7 Sep 2021 04:49:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1630982444;
- bh=jU8M8VZQu5M1/mkY5Y3gaQ0pEK8R/Gs+794vQh6PcH4=;
+ s=phobos-20191101; t=1630982955;
+ bh=q4i0mnG+dyIW4cD7ENtUsKtdOrMH3g2u1hVrAT+Rpx0=;
  h=From:To:Cc:Subject:Date:From;
- b=n2r935I5HYphumOGSw2DnREqg9df0/R5HF7nUenaNhbk9V5/7LG3z7RE1D5Ud9QR2
- XR/RiWIJQqhBHQ8/aOMaJVNcOVyyGuBf0ZSt8HodQLkF7ScaEhsVp7pGm3qK6O6ayQ
- 0nl/kI0KLLlHh7kdY5f6Hg63tEyizk8dEDNeNjO5yfKYlSAulBY5lgj1dHOCl62Cbr
- oQ+vnlFMbK+0OH2iq3h8HQMzKOlX+wtV8BhIEYR73SsLl5BLDKb8hjN0zy1FPDxDU8
- yJKyL5s/DNhLEHC4H6ptsJ5NhQ7UmTCgHk1mI8bjM+iK0YV/tsXh9bpufjtB1WsmxQ
- ZCXnXRsIkYQCw==
+ b=AX3eKsVaWcbYqGMiXphmsjVM+66DPl0tC6VNtMMwXRlREG5CCaCnfNtrusOlIWZsx
+ LZlvcnvcjTDfo/VqCM+mfZaoLxQfn2HIIPNg8VYQYxc1N+ZN8TaF3EFLl7zSsYUtD1
+ u4PdCbN8ifIxHvAphSm2tuQNX/cn6XlNuyRg9n2QKPJ8R9mAiLQ1oeiTlQ5KsRGUKk
+ cKVKSOGHczSdQWOH1PDi7Ib9r1hPTIGvrR3kYE1kQTMl7dozmDTttgWU8UelXYdyo3
+ oARvr0ZgFTCLQH6tsXF4uCZwuO65TvKcwxOEdls6fTddWtNxJWQ+5aaU9vmasao1wU
+ +FS6huqFuDyCA==
 From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+Cc: Marek Vasut <marex@denx.de>, Daniel Abrecht <public@danielabrecht.ch>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH] drm/bridge: ti-sn65dsi83: Implement .detach callback
-Date: Tue,  7 Sep 2021 04:40:38 +0200
-Message-Id: <20210907024038.871299-1-marex@denx.de>
+ Sam Ravnborg <sam@ravnborg.org>, Stefan Agner <stefan@agner.ch>
+Subject: [PATCH] drm: mxsfb: Fix NULL pointer dereference crash on unload
+Date: Tue,  7 Sep 2021 04:49:00 +0200
+Message-Id: <20210907024900.873850-1-marex@denx.de>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -58,63 +58,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Move detach implementation from sn65dsi83_remove() to dedicated
-.detach callback. There is no functional change to the code, but
-that detach is now in the correct location.
+The mxsfb->crtc.funcs may already be NULL when unloading the driver,
+in which case calling mxsfb_irq_disable() via drm_irq_uninstall() from
+mxsfb_unload() leads to NULL pointer dereference.
 
+Since all we care about is masking the IRQ and mxsfb->base is still
+valid, just use that to clear and mask the IRQ.
+
+Fixes: ae1ed00932819 ("drm: mxsfb: Stop using DRM simple display pipeline helper")
 Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Daniel Abrecht <public@danielabrecht.ch>
+Cc: Emil Velikov <emil.l.velikov@gmail.com>
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Linus Walleij <linus.walleij@linaro.org>
-Cc: Robert Foss <robert.foss@linaro.org>
 Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org
+Cc: Stefan Agner <stefan@agner.ch>
 ---
- drivers/gpu/drm/bridge/ti-sn65dsi83.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/mxsfb/mxsfb_drv.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-index 4ea71d7f0bfbc..13ee313daba96 100644
---- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-+++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-@@ -288,6 +288,19 @@ static int sn65dsi83_attach(struct drm_bridge *bridge,
- 	return ret;
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_drv.c b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+index ec0432fe1bdf8..86d78634a9799 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_drv.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_drv.c
+@@ -173,7 +173,11 @@ static void mxsfb_irq_disable(struct drm_device *drm)
+ 	struct mxsfb_drm_private *mxsfb = drm->dev_private;
+ 
+ 	mxsfb_enable_axi_clk(mxsfb);
+-	mxsfb->crtc.funcs->disable_vblank(&mxsfb->crtc);
++
++	/* Disable and clear VBLANK IRQ */
++	writel(CTRL1_CUR_FRAME_DONE_IRQ_EN, mxsfb->base + LCDC_CTRL1 + REG_CLR);
++	writel(CTRL1_CUR_FRAME_DONE_IRQ, mxsfb->base + LCDC_CTRL1 + REG_CLR);
++
+ 	mxsfb_disable_axi_clk(mxsfb);
  }
  
-+static void sn65dsi83_detach(struct drm_bridge *bridge)
-+{
-+	struct sn65dsi83 *ctx = bridge_to_sn65dsi83(bridge);
-+
-+	if (!ctx->dsi)
-+		return;
-+
-+	mipi_dsi_detach(ctx->dsi);
-+	mipi_dsi_device_unregister(ctx->dsi);
-+	drm_bridge_remove(&ctx->bridge);
-+	ctx->dsi = NULL;
-+}
-+
- static void sn65dsi83_atomic_pre_enable(struct drm_bridge *bridge,
- 					struct drm_bridge_state *old_bridge_state)
- {
-@@ -588,6 +601,7 @@ sn65dsi83_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs sn65dsi83_funcs = {
- 	.attach			= sn65dsi83_attach,
-+	.detach			= sn65dsi83_detach,
- 	.atomic_pre_enable	= sn65dsi83_atomic_pre_enable,
- 	.atomic_enable		= sn65dsi83_atomic_enable,
- 	.atomic_disable		= sn65dsi83_atomic_disable,
-@@ -702,9 +716,6 @@ static int sn65dsi83_remove(struct i2c_client *client)
- {
- 	struct sn65dsi83 *ctx = i2c_get_clientdata(client);
- 
--	mipi_dsi_detach(ctx->dsi);
--	mipi_dsi_device_unregister(ctx->dsi);
--	drm_bridge_remove(&ctx->bridge);
- 	of_node_put(ctx->host_node);
- 
- 	return 0;
 -- 
 2.33.0
 
