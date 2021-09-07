@@ -1,44 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947FF402604
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 11:12:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CE5402610
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 11:16:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92D2189DB5;
-	Tue,  7 Sep 2021 09:12:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5833A89DA9;
+	Tue,  7 Sep 2021 09:16:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 901D789DB5;
- Tue,  7 Sep 2021 09:12:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="220168220"
-X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="220168220"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2021 02:12:41 -0700
-X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="523745097"
-Received: from tcarvalx-mobl.ger.corp.intel.com (HELO [10.252.28.225])
- ([10.252.28.225])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Sep 2021 02:12:40 -0700
-Subject: Re: [PATCH v2 2/6] drm/i915/gem: Implement a function to process all
- gem objects of a region
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com
-References: <20210906165515.450541-1-thomas.hellstrom@linux.intel.com>
- <20210906165515.450541-3-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <ed27bf36-a6f2-dcf8-5787-a036ea2de3d3@intel.com>
-Date: Tue, 7 Sep 2021 10:12:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B603189C88;
+ Tue,  7 Sep 2021 09:16:14 +0000 (UTC)
+Date: Tue, 07 Sep 2021 09:16:11 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1631006172;
+ bh=kb+kPQrQ0XOUiHCLlMhIRUuVEoyp2oTFgoWLLWS5944=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=GOt3t+4li9I7nI45sPvj7K7hWjJycfLSx2Jwj/5xlOePb4qVgyAYVy18TpPWZEPOk
+ cKdfFOs1afgalDVzhKVb6JEC8lFXtRjo2no3/9Ny8Gy/AAqXa07Z6tCDf8xcKovvGL
+ LNY/TaRfvo6e+15FxBUNt6yhFmrAYSM9PC4y280dWKkskWnYO0rp6Qyvw8NPbWsGEV
+ sUWw9WVFkigNbSRCoMsMO+M9lS1bF3yl51/+ZK114/N8ky4vKNasAF7Sy6CFapogP4
+ VI14O6Gvr5SAeTOkgiHVIYimnSsZHtghEv0jWIwOUxpEEbv7Hnq5ul3hJOp+o7ab/E
+ IXS+cupywY46g==
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Cc: harry.wentland@amd.com, alexander.deucher@amd.com, michel@daenzer.net,
+ pekka.paalanen@collabora.com, daniel@fooishbar.org, daniel@ffwll.ch,
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/7] drm: add per-connector hotplug events
+Message-ID: <K_o7SuToYSYL9tTtvLoykIFhHGamEksX-WI1P5skYeWJqO55oOgKurPlx4Ix0xl0PEpVVdt7xQPWM4MbpihIQ2B__rVyB1thiTTXmmcQ7mk=@emersion.fr>
 MIME-Version: 1.0
-In-Reply-To: <20210906165515.450541-3-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,156 +50,8 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06/09/2021 17:55, Thomas Hellström wrote:
-> An upcoming common pattern is to traverse the region object list and
-> perform certain actions on all objects in a region. It's a little tricky
-> to get the list locking right, in particular since a gem object may
-> change region unless it's pinned or the object lock is held.
-> 
-> Define a function that does this for us and that takes an argument that
-> defines the action to be performed on each object.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_region.c | 70 ++++++++++++++++++++++
->   drivers/gpu/drm/i915/gem/i915_gem_region.h | 33 ++++++++++
->   2 files changed, 103 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> index 1f557b2178ed..a016ccec36f3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-> @@ -80,3 +80,73 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
->   	i915_gem_object_free(obj);
->   	return ERR_PTR(err);
->   }
-> +
-> +/**
-> + * i915_gem_process_region - Iterate over all objects of a region using ops
-> + * to process and optionally skip objects
-> + * @mr: The memory region
-> + * @apply: ops and private data
-> + *
-> + * This function can be used to iterate over the regions object list,
-> + * checking whether to skip objects, and, if not, lock the objects and
-> + * process them using the supplied ops. Note that this function temporarily
-> + * removes objects from the region list while iterating, so that if run
-> + * concurrently with itself may not iterate over all objects.
-> + *
-> + * Return: 0 if successful, negative error code on failure.
-> + */
-> +int i915_gem_process_region(struct intel_memory_region *mr,
-> +			    struct i915_gem_apply_to_region *apply)
-> +{
-> +	const struct i915_gem_apply_to_region_ops *ops = apply->ops;
-> +	struct drm_i915_gem_object *obj;
-> +	struct list_head still_in_list;
-> +	int ret = 0;
-> +
-> +	/*
-> +	 * In the future, a non-NULL apply->ww could mean the caller is
-> +	 * already in a locking transaction and provides its own context.
-> +	 */
-> +	GEM_WARN_ON(apply->ww);
-> +
-> +	INIT_LIST_HEAD(&still_in_list);
-> +	mutex_lock(&mr->objects.lock);
-> +	for (;;) {
-> +		struct i915_gem_ww_ctx ww;
-> +
-> +		obj = list_first_entry_or_null(&mr->objects.list, typeof(*obj),
-> +					       mm.region_link);
-> +		if (!obj)
-> +			break;
-> +
-> +		list_move_tail(&obj->mm.region_link, &still_in_list);
-> +		if (!kref_get_unless_zero(&obj->base.refcount))
-> +			continue;
-> +
-> +		/*
-> +		 * Note: Someone else might be migrating the object at this
-> +		 * point. The object's region is not stable until we lock
-> +		 * the object.
-> +		 */
-> +		mutex_unlock(&mr->objects.lock);
-> +		apply->ww = &ww;
-> +		for_i915_gem_ww(&ww, ret, apply->interruptible) {
-> +			ret = i915_gem_object_lock(obj, apply->ww);
-> +			if (ret)
-> +				continue;
-> +
-> +			if (obj->mm.region == mr)
-> +				ret = ops->process_obj(apply, obj);
-> +			/* Implicit object unlock */
-> +		}
-> +
-> +		i915_gem_object_put(obj);
-> +		mutex_lock(&mr->objects.lock);
-> +		if (ret)
-> +			break;
-> +	}
-> +	list_splice_tail(&still_in_list, &mr->objects.list);
-> +	mutex_unlock(&mr->objects.lock);
-> +
-> +	return ret;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-> index 1008e580a89a..f62195847056 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-> @@ -12,6 +12,37 @@ struct intel_memory_region;
->   struct drm_i915_gem_object;
->   struct sg_table;
->   
-> +struct i915_gem_apply_to_region;
-> +
-> +/**
-> + * struct i915_gem_apply_to_region_ops - ops to use when iterating over all
-> + * region objects.
-> + */
-> +struct i915_gem_apply_to_region_ops {
-> +	/**
-> +	 * process_obj - Process the current object
-
-Should we mention that returning -EDEADLK might result in re-entering 
-the process_obj?
-
-> +	 * @apply: Embed this for provate data
-
-s/provate/private
-
-> +	 * @obj: The current object.
-> +	 */
-> +	int (*process_obj)(struct i915_gem_apply_to_region *apply,
-> +			   struct drm_i915_gem_object *obj);
-> +};
-> +
-> +/**
-> + * struct i915_gem_apply_to_region - Argument to the struct
-> + * i915_gem_apply_to_region_ops functions.
-> + * @ops: The ops for the operation.
-> + * @ww: Locking context used for the transaction.
-> + * @interruptible: Whether to perform object locking interruptible.
-> + *
-> + * This structure is intended to be embedded in a private struct if needed
-> + */
-> +struct i915_gem_apply_to_region {
-> +	const struct i915_gem_apply_to_region_ops *ops;
-> +	struct i915_gem_ww_ctx *ww;
-> +	u32 interruptible:1;
-> +};
-> +
->   void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
->   					struct intel_memory_region *mem);
->   void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj);
-> @@ -22,4 +53,6 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
->   			      resource_size_t page_size,
->   			      unsigned int flags);
->   
-> +int i915_gem_process_region(struct intel_memory_region *mr,
-> +			    struct i915_gem_apply_to_region *apply);
->   #endif
-> 
+Ping, anyone up for a review?
