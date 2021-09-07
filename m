@@ -1,62 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC8F402D78
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:09:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC82F402D99
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:19:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC826E084;
-	Tue,  7 Sep 2021 17:09:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D05B96E087;
+	Tue,  7 Sep 2021 17:19:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD9F6E084;
- Tue,  7 Sep 2021 17:09:07 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id h133so13632361oib.7;
- Tue, 07 Sep 2021 10:09:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kK/sEOfN/pZIuqO14/lsd4LIY43xYqn1JYhVweF1vGI=;
- b=Mqfrhoc6dDyOOKYKg8JmzfkKcP7bC2XDcIAejCqjWUuHwRw32QFPLrMh3AFntRPgNY
- sQpyvXh2xR7YXesIdHdWl7wByP72cRua98xOmS/suC6DwFsymUUPDE5Ont6H5yR15CYq
- aXKPiSwBsyc/aLhumurGupVHGy9Hpt0/8U2WsXbB2bUHx2ID3NHDQafzyYL5uEXLP1By
- EcjHQqazagwCMzgdV/pHNhrL9s7wd7Q12U4Kr1cfAYlfSJrXHrpoFQb4J71TsR4UYUqE
- /hsenOoFDa43Qe2TSjEXj0WgAPcTJzAfdwj7Fcm/lZH9seotoMFe0NJM9Z325Hq8RISN
- snrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kK/sEOfN/pZIuqO14/lsd4LIY43xYqn1JYhVweF1vGI=;
- b=he7JzYfAdXcPB9wt8dZxrqoS3s0pAqesS1fPHr79qxlNXHIPd1J/uVR4bxMEEGgly/
- 3bn+8/n3kp2nt7xJfv8RfpjLMLCYrXb6BLKIAQ2HEcYSFBG8zpeQg2bvb5vAndbKGQ0V
- l3s27s6roF3kIDhyUnKC17tN8ZiA0HxldcW75x0EtjMuZTxMepvVOjKl14A7rK1dacyg
- 1nFD6DqiFoqvYGIOfRcrii7kGeLrOftuUDaS9spN6mjSe78p1f+gW5c4/JCN9vtDC+kJ
- MNyZgBMW60yxTIzus4GHSv59ZyvcRc1+siDjLD5OHpKeKUjfBWmmgUhFle+zEG6rf7cx
- 4gPw==
-X-Gm-Message-State: AOAM533a6zwUdGOb1fH78RVzzRc3HydSDyZEyU8kBWlr4VTKko0bQx3m
- jdCt3rrw7uXT3tZk1TkGbouB+XjhbcAzSBYXX9M=
-X-Google-Smtp-Source: ABdhPJw3/KyAiUHheOHTfy1uxzpNIALadQUdXX4RSLVEVjvJIVCLeww+QUmPCLFJXghPEihFMVQ58zj8hBJHILS7AAg=
-X-Received: by 2002:a05:6808:483:: with SMTP id z3mr3634257oid.5.1631034546918; 
- Tue, 07 Sep 2021 10:09:06 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E553E6E087;
+ Tue,  7 Sep 2021 17:19:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="220322730"
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="220322730"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2021 10:19:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="605352242"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2021 10:19:26 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+	Matt Roper <matthew.d.roper@intel.com>
+Subject: [PATCH 0/8] i915: Introduce Xe_HP compute engines
+Date: Tue,  7 Sep 2021 10:19:08 -0700
+Message-Id: <20210907171916.2548047-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-References: <1630921347-122646-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1630921347-122646-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Sep 2021 13:08:56 -0400
-Message-ID: <CADnq5_PYgN2__PLUB89LR6PNNjOOxeyVcgmBG_N2jsBFXKiQCg@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: make configure_lttpr_mode_transparent
- and configure_lttpr_mode_non_transparent static
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>, 
- xinhui pan <Xinhui.Pan@amd.com>, Dave Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,55 +46,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+The Xe_HP architecture introduces compute engines as a new engine class.
+These compute command streamers (CCS) are similar to the render engine,
+except that they're intended for GPGPU usage and lack support for the 3D
+pipeline.
 
-Alex
+The definition of I915_ENGINE_CLASS_COMPUTE is new ABI; see below for a
+link to a UMD (compute) merge request that utilizes the new ABI.
 
-On Mon, Sep 6, 2021 at 5:42 AM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
->
-> From: chongjiapeng <jiapeng.chong@linux.alibaba.com>
->
-> This symbols is not used outside of dc_link_dp.c, so marks it static.
->
-> Fix the following sparse warning:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1766:16:
-> warning: symbol 'configure_lttpr_mode_non_transparent' was not declared.
-> Should it be static?
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1755:16:
-> warning: symbol 'configure_lttpr_mode_transparent' was not declared.
-> Should it be static?
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: chongjiapeng <jiapeng.chong@linux.alibaba.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> index a666401..4e2cf8f 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
-> @@ -1752,7 +1752,7 @@ uint8_t dp_convert_to_count(uint8_t lttpr_repeater_count)
->         return 0; // invalid value
->  }
->
-> -enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
-> +static enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
->  {
->         uint8_t repeater_mode = DP_PHY_REPEATER_MODE_TRANSPARENT;
->
-> @@ -1763,7 +1763,7 @@ enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
->                         sizeof(repeater_mode));
->  }
->
-> -enum dc_status configure_lttpr_mode_non_transparent(
-> +static enum dc_status configure_lttpr_mode_non_transparent(
->                 struct dc_link *link,
->                 const struct link_training_settings *lt_settings)
->  {
-> --
-> 1.8.3.1
->
+This series adds some of the basic enablement for the CCS engines, but
+does not yet add them to the engine list for the relevant platforms
+(XeHP SDV and DG2); that will be handled in future series.
+
+UMD (compute): https://github.com/intel/compute-runtime/pull/451
+
+Daniele Ceraolo Spurio (1):
+  drm/i915/xehp: compute engine pipe_control
+
+John Harrison (1):
+  drm/i915/xehp: Extend uninterruptible OpenCL workloads to CCS
+
+Matt Roper (6):
+  drm/i915/xehp: Define compute class and engine
+  drm/i915/xehp: CCS shares the render reset domain
+  drm/i915/xehp: Add Compute CS IRQ handlers
+  drm/i915/xehp: CCS should use RCS setup functions
+  drm/i915/xehp: Define context scheduling attributes in lrc descriptor
+  drm/i915/xehp: Enable ccs/dual-ctx in RCU_MODE
+
+ .../drm/i915/gem/selftests/i915_gem_context.c |  8 ++--
+ drivers/gpu/drm/i915/gt/gen8_engine_cs.c      | 31 ++++++++++-----
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 39 ++++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  | 11 +++++-
+ drivers/gpu/drm/i915/gt/intel_engine_user.c   |  5 ++-
+ .../drm/i915/gt/intel_execlists_submission.c  | 34 +++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  | 15 +++++++
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        | 15 ++++++-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  4 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.h           | 10 +++++
+ drivers/gpu/drm/i915/gt/intel_reset.c         |  4 ++
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   | 13 ++++---
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 28 ++++++++++++-
+ drivers/gpu/drm/i915/i915_drv.h               |  2 +
+ drivers/gpu/drm/i915/i915_perf.c              |  4 +-
+ drivers/gpu/drm/i915/i915_reg.h               | 20 +++++++++-
+ include/uapi/drm/i915_drm.h                   |  1 +
+ 17 files changed, 215 insertions(+), 29 deletions(-)
+
+-- 
+2.25.4
+
