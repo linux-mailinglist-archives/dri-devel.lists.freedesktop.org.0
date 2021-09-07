@@ -1,59 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCB30402246
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 04:32:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48079402248
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 04:40:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82C98894A7;
-	Tue,  7 Sep 2021 02:32:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E792B89C33;
+	Tue,  7 Sep 2021 02:39:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 50870894A7
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 02:32:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E4F27610E8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 02:32:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1630981921;
- bh=OooN1+AvIgZ1wYRKqi+Z12qRgTfu4eW6G/BXuF3hyGk=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=ovW+IsoIiuqfgK+WV7+DofbR4B3+6oAiBDnmZrlPnAKCVJCobPxx9JWdhTKUvIJ/k
- pilG7AhvsznNSRMWGS71BPwhuCT8MLsNsyZrSTeFpwxt0RpFXN+UUjhBVVXEfO5ao1
- DPuSn9sV4Qaf5UmfoAgBD7C4TfhCyyBNCHx8qllos6SPkIJlxxJ4R/0uzivEzZziIq
- seKNtrFmk7uwG6FbKK2FhgSSj9rHs8fJ8iSK7D+PAT3nuH3XL30azUuXFXPe0l6U8x
- uyK8cd0SSmUhCnMSiNvhVtoA6tmrTdromn2/JNHlEEmMhhM602YBUaOspNJytJyIw3
- jnYN8kbeVyDjA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E0C5260F6B; Tue,  7 Sep 2021 02:32:01 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 488DE89C33
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 02:39:58 +0000 (UTC)
+Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 0B2E782BD6;
+ Tue,  7 Sep 2021 04:39:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1630982395;
+ bh=aEq5Q1L25EKmoYcKymQFyColcYb20Cj6I9LdiPjOmxE=;
+ h=From:To:Cc:Subject:Date:From;
+ b=lrfuR1O6a38pvuTzA3hnGQjMvrMMvV2MEzj1BhpHQD59kTi/fvHdtGg+VJiie6HTa
+ Uw+9vxUlxxhdTT083TcA3s9V3PDu/9LvY+HZh9z7PST+4zFALapkSLVQGu12CYKtpF
+ m0tqqiKJfDsBD7RFLgQ/jtjAEVpz09NkhEeoDozeJer7OUxTvYIerM6pRLefxeegmH
+ Y7N4IYUsdfesrO95l9BDqISwCaGGVcjq/rUSQyFe0n8h38YAdPoPLXjKvZFLYlHtTo
+ gevMfwX36/tprQ6hkhoikW5JOZ5WTeMY2Q9x5mQKyKUFGythwgr0Hv1upuJvIxmSZG
+ J2NYsHwmqbr3A==
+From: Marek Vasut <marex@denx.de>
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Tue, 07 Sep 2021 02:32:01 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: ted437@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-NGhdmZ4Zma@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Cc: Marek Vasut <marex@denx.de>, Jagan Teki <jagan@amarulasolutions.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
+Subject: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register after
+ enabling the bridge
+Date: Tue,  7 Sep 2021 04:39:48 +0200
+Message-Id: <20210907023948.871281-1-marex@denx.de>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,23 +59,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+In rare cases, the bridge may not start up correctly, which usually
+leads to no display output. In case this happens, warn about it in
+the kernel log.
 
---- Comment #53 from Anthony Rabbito (ted437@gmail.com) ---
-Thanks for chiming in James! Few things I've observed since adding 'pci=3Dn=
-oats'
-the graphic artifacts seem to happen way less. I did observe one lockup whi=
-ch
-required me to hard shut down the computer. This was a wake from suspend
-scenario.=20
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Jagan Teki <jagan@amarulasolutions.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Robert Foss <robert.foss@linaro.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: dri-devel@lists.freedesktop.org
+---
+NOTE: See the following:
+https://e2e.ti.com/support/interface-group/interface/f/interface-forum/942005/sn65dsi83-dsi83-lvds-bridge---sporadic-behavior---no-video
+https://community.nxp.com/t5/i-MX-Processors/i-MX8M-MIPI-DSI-Interface-LVDS-Bridge-Initialization/td-p/1156533
+---
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-I used to deal with somwhat similar issues here --
-https://bugs.freedesktop.org/show_bug.cgi?id=3D110674 not sure if that's of=
- any
-use. Let me know if a fresh bug is warranted.
+diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+index a32f70bc68ea4..4ea71d7f0bfbc 100644
+--- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
++++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+@@ -520,6 +520,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
+ 	/* Clear all errors that got asserted during initialization. */
+ 	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+ 	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
++
++	usleep_range(10000, 12000);
++	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
++	if (pval)
++		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+ }
+ 
+ static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+-- 
+2.33.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
