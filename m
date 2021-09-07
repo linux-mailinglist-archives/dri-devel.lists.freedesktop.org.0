@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF04402D74
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:08:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FC8F402D78
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:09:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 343C26E07B;
-	Tue,  7 Sep 2021 17:07:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0BC826E084;
+	Tue,  7 Sep 2021 17:09:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33AAF6E07B;
- Tue,  7 Sep 2021 17:07:57 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id c79so13607972oib.11;
- Tue, 07 Sep 2021 10:07:57 -0700 (PDT)
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
+ [IPv6:2607:f8b0:4864:20::22b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CD9F6E084;
+ Tue,  7 Sep 2021 17:09:07 +0000 (UTC)
+Received: by mail-oi1-x22b.google.com with SMTP id h133so13632361oib.7;
+ Tue, 07 Sep 2021 10:09:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=j29s6jGrbvtqdrpQkBZYVbTtCf9huBsKw7LAbvekqDc=;
- b=nDMbNZ9NrJI9JSLW4JBrEP3rhrTxiskApiLwhzzTBbw5bocGu3rATpSH8lOsAtCzDt
- W/yn8TNRiS/m2IlUqXDwnBFLGQNjqQsN0ff+91/df3BdpAD3K4X7YOdGM7jflgceOraf
- BFbs2tPYxzpM659Jv0vfxdHIpknDE1S70pQLxltO1wBUipwGBJ8RUjuILAfeZBqOZx7O
- HZHfkrp/QDtLwuztS84UXn+fNKToFEYfHNNUeKQgt9UrdFHqFT8TFBauVzEbe8hzTbCi
- ScEFd0qnqeBrirpapDinhjvUm9oQNA3Jk9U2mlMZyl5jHIdyjrQTwbYD+U+4OungicxA
- UXRA==
+ :cc; bh=kK/sEOfN/pZIuqO14/lsd4LIY43xYqn1JYhVweF1vGI=;
+ b=Mqfrhoc6dDyOOKYKg8JmzfkKcP7bC2XDcIAejCqjWUuHwRw32QFPLrMh3AFntRPgNY
+ sQpyvXh2xR7YXesIdHdWl7wByP72cRua98xOmS/suC6DwFsymUUPDE5Ont6H5yR15CYq
+ aXKPiSwBsyc/aLhumurGupVHGy9Hpt0/8U2WsXbB2bUHx2ID3NHDQafzyYL5uEXLP1By
+ EcjHQqazagwCMzgdV/pHNhrL9s7wd7Q12U4Kr1cfAYlfSJrXHrpoFQb4J71TsR4UYUqE
+ /hsenOoFDa43Qe2TSjEXj0WgAPcTJzAfdwj7Fcm/lZH9seotoMFe0NJM9Z325Hq8RISN
+ snrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
+ d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=j29s6jGrbvtqdrpQkBZYVbTtCf9huBsKw7LAbvekqDc=;
- b=LTpHeB3e1kGekDCQU5WIS/CQ0IxlIwbRrYrv19aZrn/BU0tUfGShIguiGoqrAfFYS/
- G53O5eJfFPA867tWmxtknlB8ohpU8ShNGYgkTucQDbKNsz/83gaO2wWSnNEGL/QvjHnL
- eEfS38/EHraO3qxPtZ785+MEFzN6Fu7bmbm7g6UFAZx4oDxJ0ppRku8O2C9rvj4pjKjH
- YSZnlP2Fb4ovBw58sREwfvG+a8dPzQjGQ/1xld6ydHCphYZZqZGU5/lhW0vBZTUMTgZr
- BML2xU2emFPpolj1IM2T6duTZfZ2DFDn0vif3xsxFcEfHeIziDw9NUQbmnJkbaLoDgYJ
- xfyg==
-X-Gm-Message-State: AOAM5318SWXR0TxNsq0eEJD6Z672um3ovyndBVUXsRhd9GAj/DnYLxvj
- LNJAg3pa0MorJS3y2AZruKDdipi2/cH4fWC9/YejpGil
-X-Google-Smtp-Source: ABdhPJyQD705JieHy8nmaQuvlsZIWn9W+PazsyLzS41xNVIzxnVtMdvH/weyFa3QYZ0PrVCTGvsf9XM9fY9Sh0UpMUI=
-X-Received: by 2002:a05:6808:1310:: with SMTP id
- y16mr3749150oiv.123.1631034476551; 
- Tue, 07 Sep 2021 10:07:56 -0700 (PDT)
+ bh=kK/sEOfN/pZIuqO14/lsd4LIY43xYqn1JYhVweF1vGI=;
+ b=he7JzYfAdXcPB9wt8dZxrqoS3s0pAqesS1fPHr79qxlNXHIPd1J/uVR4bxMEEGgly/
+ 3bn+8/n3kp2nt7xJfv8RfpjLMLCYrXb6BLKIAQ2HEcYSFBG8zpeQg2bvb5vAndbKGQ0V
+ l3s27s6roF3kIDhyUnKC17tN8ZiA0HxldcW75x0EtjMuZTxMepvVOjKl14A7rK1dacyg
+ 1nFD6DqiFoqvYGIOfRcrii7kGeLrOftuUDaS9spN6mjSe78p1f+gW5c4/JCN9vtDC+kJ
+ MNyZgBMW60yxTIzus4GHSv59ZyvcRc1+siDjLD5OHpKeKUjfBWmmgUhFle+zEG6rf7cx
+ 4gPw==
+X-Gm-Message-State: AOAM533a6zwUdGOb1fH78RVzzRc3HydSDyZEyU8kBWlr4VTKko0bQx3m
+ jdCt3rrw7uXT3tZk1TkGbouB+XjhbcAzSBYXX9M=
+X-Google-Smtp-Source: ABdhPJw3/KyAiUHheOHTfy1uxzpNIALadQUdXX4RSLVEVjvJIVCLeww+QUmPCLFJXghPEihFMVQ58zj8hBJHILS7AAg=
+X-Received: by 2002:a05:6808:483:: with SMTP id z3mr3634257oid.5.1631034546918; 
+ Tue, 07 Sep 2021 10:09:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <1630920208-37789-1-git-send-email-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <1630920208-37789-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+References: <1630921347-122646-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1630921347-122646-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Sep 2021 13:07:45 -0400
-Message-ID: <CADnq5_NNTmyPs4KL1LgaZntAurjm1vx_m9UH95tMOkojCAtLxw@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd/display: Fix warning comparing pointer to 0
+Date: Tue, 7 Sep 2021 13:08:56 -0400
+Message-ID: <CADnq5_PYgN2__PLUB89LR6PNNjOOxeyVcgmBG_N2jsBFXKiQCg@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: make configure_lttpr_mode_transparent
+ and configure_lttpr_mode_non_transparent static
 To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-Cc: "Wentland, Harry" <harry.wentland@amd.com>,
- "Leo (Sunpeng) Li" <sunpeng.li@amd.com>, 
- "Deucher, Alexander" <alexander.deucher@amd.com>,
+Cc: "Deucher, Alexander" <alexander.deucher@amd.com>,
  Christian Koenig <christian.koenig@amd.com>, 
  xinhui pan <Xinhui.Pan@amd.com>, Dave Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, 
@@ -78,35 +76,51 @@ Applied.  Thanks!
 
 Alex
 
-On Mon, Sep 6, 2021 at 5:23 AM Jiapeng Chong
+On Mon, Sep 6, 2021 at 5:42 AM Jiapeng Chong
 <jiapeng.chong@linux.alibaba.com> wrote:
 >
 > From: chongjiapeng <jiapeng.chong@linux.alibaba.com>
 >
-> Fix the following coccicheck warning:
+> This symbols is not used outside of dc_link_dp.c, so marks it static.
 >
-> ./drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c:643:35-36:
-> WARNING comparing pointer to 0.
+> Fix the following sparse warning:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1766:16:
+> warning: symbol 'configure_lttpr_mode_non_transparent' was not declared.
+> Should it be static?
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc_link_dp.c:1755:16:
+> warning: symbol 'configure_lttpr_mode_transparent' was not declared.
+> Should it be static?
 >
 > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
 > Signed-off-by: chongjiapeng <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
-> index 4a4894e..15491e3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
-> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
-> @@ -640,7 +640,7 @@ void dcn31_clk_mgr_construct(
->                                 sizeof(struct dcn31_watermarks),
->                                 &clk_mgr->smu_wm_set.mc_address.quad_part);
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> index a666401..4e2cf8f 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> @@ -1752,7 +1752,7 @@ uint8_t dp_convert_to_count(uint8_t lttpr_repeater_count)
+>         return 0; // invalid value
+>  }
 >
-> -       if (clk_mgr->smu_wm_set.wm_set == 0) {
-> +       if (!clk_mgr->smu_wm_set.wm_set) {
->                 clk_mgr->smu_wm_set.wm_set = &dummy_wms;
->                 clk_mgr->smu_wm_set.mc_address.quad_part = 0;
->         }
+> -enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
+> +static enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
+>  {
+>         uint8_t repeater_mode = DP_PHY_REPEATER_MODE_TRANSPARENT;
+>
+> @@ -1763,7 +1763,7 @@ enum dc_status configure_lttpr_mode_transparent(struct dc_link *link)
+>                         sizeof(repeater_mode));
+>  }
+>
+> -enum dc_status configure_lttpr_mode_non_transparent(
+> +static enum dc_status configure_lttpr_mode_non_transparent(
+>                 struct dc_link *link,
+>                 const struct link_training_settings *lt_settings)
+>  {
 > --
 > 1.8.3.1
 >
