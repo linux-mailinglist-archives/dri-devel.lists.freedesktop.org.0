@@ -2,71 +2,73 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4F39402F26
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 21:50:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70891402FE0
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 22:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09ABF6E09F;
-	Tue,  7 Sep 2021 19:50:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E83D36E0D6;
+	Tue,  7 Sep 2021 20:47:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E53E6E09F;
- Tue,  7 Sep 2021 19:50:46 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id a10so92753qka.12;
- Tue, 07 Sep 2021 12:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BbK79M4K1NScSC56f9H+WVaEri++PPqYND9B3MRUuGU=;
- b=KMSrSr+OYgzXWdEHpRPwrcf4fMhrB0mC+itfbrLvojQurxnPv1upC4wplV8jRnkml4
- 9QWQSER7ulkA/aUeKCckwDaiLS42qUfgE4pok9bUs/3SngMjijMyAySemf+v0jwucdW+
- 36MV9HW9DvI0sV5tPU90JHc2WWoiEDyp2g20mCeGUps8KWRTqNOIe3VdlvYKM6B3GKCk
- HSj6EYz8EkCdNwjJ70Fv7BU3IfTApzWMnBt0jBKjMPlY7jiLcWr6Doa79lD3U1veeck5
- 3WIwYPVjkZKIQdZBDWTu6NcSDr94dL0VcVI+HZymoQ2KkqojmiI08Zngjz4U52bCRTxT
- Fjeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BbK79M4K1NScSC56f9H+WVaEri++PPqYND9B3MRUuGU=;
- b=tdhyLs0QfQmnF8puRt1xKhFDcsuw0PrGmfb2CjyUNEn3W9vWJLvQ+w333HdKSXygmW
- M2KPe/G+Vyi5BzbVK2DH0a5oVj8gM3wExMQWdCeFTUO3Vs67IDuahz7IwgvrsbhV8X4l
- 8fo1X3NuvkTf3lTPdH1zqivpINzOZjGbmMjHAiqLS5N2w8bZQuntvB3PuUfhpo+Vf6LX
- ESEL7pJWNpRuJ2RCXvHLtznslg8ax+NTfPsnEdEPJJyorqe67/cngqzfhNhLbHnRfsTQ
- Zbsc+QNjLbSYZnnf9VC6u4GX4oSf4qYTFEQY6HfqyWly66K1hzqAJ8SAyzSOD8H067Ub
- CZYA==
-X-Gm-Message-State: AOAM5334G2Qr+ELkZ1uzOerYazW07Bx+YV7yGIX0gmZn2OzCJIzyJWUW
- 06BpBGgX+NtEVpRcNa0S/Dw=
-X-Google-Smtp-Source: ABdhPJy4jrz4dsxFLhW/UWMHYDJZ1OjsaqTiC38KylBj+fSKTnzLQjjo+pWzSVXRdzeHKBfP3bE6JQ==
-X-Received: by 2002:ae9:ebd5:: with SMTP id b204mr17273471qkg.83.1631044244942; 
- Tue, 07 Sep 2021 12:50:44 -0700 (PDT)
-Received: from [192.168.4.142] (pool-72-82-21-11.prvdri.fios.verizon.net.
- [72.82.21.11])
- by smtp.gmail.com with ESMTPSA id 187sm21924qke.32.2021.09.07.12.50.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 12:50:44 -0700 (PDT)
-Subject: Re: [PATCH v10 0/4] drm: update locking for modesetting
-To: daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, skhan@linuxfoundation.org,
- gregkh@linuxfoundation.org, tzimmermann@suse.de,
- linux-kernel-mentees@lists.linuxfoundation.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, airlied@linux.ie,
- christian.koenig@amd.com
-References: <20210831072501.184211-1-desmondcheongzx@gmail.com>
-From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
-Message-ID: <8fcb9450-5284-ff2e-8a0b-d16ba4591ab2@gmail.com>
-Date: Tue, 7 Sep 2021 15:50:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8FB696E0D5
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 20:47:50 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1631047670; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=84xmrz2XVH3FwGCgz/JKGOKJty2YePbiyLIkDOPrV8U=;
+ b=N4DifhmNzOxLorhAv4afzrlphd3rFZBtoEEJGgqowJqUIrIZ/bOXjzOISj3UKJgwQkXXY6GH
+ 5mbQYVDnAOYF01BbIC7+5kNSK8f8qveftyUkk2P3f4yquCFftfWYQtgrDySIQCSCJIlDTtCA
+ DjMGtlDLsaYCxfeC2WnEklkA9tI=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 6137cff56fc2cf7ad94f8776 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 07 Sep 2021 20:47:49
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 7EF79C43635; Tue,  7 Sep 2021 20:47:48 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 5A64FC43460;
+ Tue,  7 Sep 2021 20:47:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210831072501.184211-1-desmondcheongzx@gmail.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date: Tue, 07 Sep 2021 13:47:47 -0700
+From: khsieh@codeaurora.org
+To: Lyude Paul <lyude@redhat.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, robdclark@gmail.com,
+ sean@poorly.run, swboyd@chromium.org, abhinavk@codeaurora.org,
+ aravindh@codeaurora.org, rsubbia@codeaurora.org, rnayak@codeaurora.org,
+ freedreno@lists.freedesktop.org, airlied@linux.ie, daniel@ffwll.ch,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] drm/dp_mst: Fix return code on sideband message failure
+In-Reply-To: <db5ae1c8d070509580218a501cfa9caaf3f029e1.camel@redhat.com>
+References: <1625585434-9562-1-git-send-email-khsieh@codeaurora.org>
+ <87zguy7c5a.fsf@intel.com> <a514c19f712a6feeddf854dc17cb8eb5@codeaurora.org>
+ <2da3949fa3504592da42c9d01dc060691c6a8b8b.camel@redhat.com>
+ <d9ec812b4be57e32246735ca2f5e9560@codeaurora.org>
+ <79c5a60fc189261b7a9ef611acd126a41f921593.camel@redhat.com>
+ <696a009e2ab34747abd12bda03c103c7@codeaurora.org>
+ <e725235a77935184cd20dab5af55da95b28d9e88.camel@redhat.com>
+ <64049ef6c598910c1025e0e5802bb83e@codeaurora.org>
+ <88b5fbe60c95bcdf42353bec9f8c48aefa864a31.camel@redhat.com>
+ <f0fcfe7a73e87150a7a1f042269b76a3@codeaurora.org>
+ <db5ae1c8d070509580218a501cfa9caaf3f029e1.camel@redhat.com>
+Message-ID: <4937c56eb3efd91a09f8293bcec3221e@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,126 +84,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/8/21 3:24 am, Desmond Cheong Zhi Xi wrote:
-> Sorry for the noise, rebasing on top of drm-misc-next. Please ignore the
-> v9 series.
+On 2021-08-30 09:58, Lyude Paul wrote:
+> On Mon, 2021-08-30 at 08:56 -0700, khsieh@codeaurora.org wrote:
+>> On 2021-08-25 09:26, Lyude Paul wrote:
+>> > The patch was pushed yes (was part of drm-misc-next-2021-07-29), seems
+>> > like it
+>> > just hasn't trickled down to linus's branch quite yet.
+>> 
+>> Hi Stephen B,
+>> 
+>> Would you mind back porting this patch to V5.10 branch?
+>> It will have lots of helps for us to support display port MST case.
+>> Thanks,
 > 
-> Hi,
-> 
-> I updated the patch set with some suggestions by Daniel Vetter, and
-> dropped the patches after patch 4 so that we can stick the landing for
-> avoiding races with modesetting rights before dealing with the tricky
-> spinlock.
-> 
-> Overall, this series fixes races with modesetting rights, and converts
-> drm_device.master_mutex into master_rwsem.
-> 
-> - Patch 1: Fix a potential null ptr dereference in drm_master_release
-> 
-> - Patch 2: Convert master_mutex into rwsem (avoids creating a new lock)
-> 
-> - Patch 3: Update global mutex locking in the ioctl handler (avoids
-> deadlock when grabbing read lock on master_rwsem in drm_ioctl_kernel)
-> 
-> - Patch 4: Plug races with drm modesetting rights
-> 
-> v9 -> v10:
-> - Rebase on top of drm-misc-next, caught by Intel-gfx CI
-> 
-> v8 -> v9 (suggested by Daniel Vetter):
-> - Drop patches 5-7 to handle it in another series
-> - Add the appropriate Fixes: tag for the null ptr dereference fix
-> (patch 1)
-> - Create a locked_ioctl bool to clarify locking/unlocking patterns in
-> the ioctl handler (patch 3)
-> - Clarify the kernel doc for master_rwsem (patch 4)
-> 
-> v7 -> v8:
-> - Avoid calling drm_lease_held in drm_mode_setcrtc and
-> drm_wait_vblank_ioctl, caught by Intel-gfx CI
-> 
-> v6 -> v7:
-> - Export __drm_mode_object_find for loadable modules, caught by the
-> Intel-gfx CI
-> 
-> v5 -> v6:
-> - Fix recursive locking on master_rwsem, caught by the Intel-gfx CI
-> 
-> v4 -> v5:
-> - Avoid calling drm_file_get_master while holding on to the modeset
-> mutex, caught by the Intel-gfx CI
-> 
-> v3 -> v4 (suggested by Daniel Vetter):
-> - Drop a patch that added an unnecessary master_lookup_lock in
-> drm_master_release
-> - Drop a patch that addressed a non-existent race in
-> drm_is_current_master_locked
-> - Remove fixes for non-existent null ptr dereferences
-> - Protect drm_master.magic_map,unique{_len} with master_rwsem instead of
-> master_lookup_lock
-> - Drop the patch that moved master_lookup_lock into struct drm_device
-> - Drop a patch to export task_work_add
-> - Revert the check for the global mutex in the ioctl handler to use
-> drm_core_check_feature instead of drm_dev_needs_global_mutex
-> - Push down master_rwsem locking for selected ioctls to avoid lock
-> hierarchy inversions, and to allow us to hold write locks on
-> master_rwsem instead of flushing readers
-> - Remove master_lookup_lock by replacing it with master_rwsem
-> 
-> v2 -> v3:
-> - Unexport drm_master_flush, as suggested by Daniel Vetter.
-> - Merge master_mutex and master_rwsem, as suggested by Daniel Vetter.
-> - Export task_work_add, reported by kernel test robot.
-> - Make master_flush static, reported by kernel test robot.
-> - Move master_lookup_lock into struct drm_device.
-> - Add a missing lock on master_lookup_lock in drm_master_release.
-> - Fix a potential race in drm_is_current_master_locked.
-> - Fix potential null ptr dereferences in drm_{auth, ioctl}.
-> - Protect magic_map,unique{_len} with  master_lookup_lock.
-> - Convert master_mutex into a rwsem.
-> - Update global mutex locking in the ioctl handler.
-> 
-> v1 -> v2 (suggested by Daniel Vetter):
-> - Address an additional race when drm_open runs.
-> - Switch from SRCU to rwsem to synchronise readers and writers.
-> - Implement drm_master_flush with task_work so that flushes can be
-> queued to run before returning to userspace without creating a new
-> DRM_MASTER_FLUSH ioctl flag.
-> 
-> Best wishes,
-> Desmond
-> 
-> Desmond Cheong Zhi Xi (4):
->    drm: fix null ptr dereference in drm_master_release
->    drm: convert drm_device.master_mutex into a rwsem
->    drm: lock drm_global_mutex earlier in the ioctl handler
->    drm: avoid races with modesetting rights
-> 
->   drivers/gpu/drm/drm_auth.c    | 39 ++++++++++++++++------------
->   drivers/gpu/drm/drm_debugfs.c |  4 +--
->   drivers/gpu/drm/drm_drv.c     |  3 +--
->   drivers/gpu/drm/drm_file.c    |  6 ++---
->   drivers/gpu/drm/drm_ioctl.c   | 49 ++++++++++++++++++++++-------------
->   drivers/gpu/drm/drm_lease.c   | 35 +++++++++++++++++--------
->   include/drm/drm_auth.h        |  6 ++---
->   include/drm/drm_device.h      | 16 +++++++++---
->   include/drm/drm_file.h        | 12 ++++-----
->   9 files changed, 104 insertions(+), 66 deletions(-)
-> 
+> I'm assuming you're talking to someone else? A little confused because 
+> I don't
+> see a Stephen B in this thread
 
-Hi Daniel,
-
-Just pinging so this doesn't get buried, though I guess it's also a busy 
-merge window. Any thoughts on the series as it is? Tests seemed to have 
-passed with the Intel-gfx CI [1].
-
-Not sure if I can set up the CI to do otherwise, but I think this series 
-has to go in before I can test new patches to remove the 
-drm_file.master_lookup_lock spinlock.
-
-As always, thank you for your time.
-
-Link: https://patchwork.freedesktop.org/series/93864/ [1]
-
-Best wishes,
-Desmond
+Yes,
+I am asking Stephen B (swbody@chromium.org) helps to back port this 
+patch to v5.10.
+> 
+>> 
+>> 
+>> 
+>> >
+>> > On Wed, 2021-08-25 at 09:06 -0700, khsieh@codeaurora.org wrote:
+>> > > On 2021-07-27 15:44, Lyude Paul wrote:
+>> > > > Nice timing, you literally got me as I was 2 minutes away from leaving
+>> > > > work
+>> > > > for the day :P. I will go ahead and push it now.
+>> > > >
+>> > > Hi Lyude,
+>> > >
+>> > > Had you pushed this patch yet?
+>> > > We still did not see this patch at msm-nex and v5.10 branch.
+>> > > Thanks,
+>> > >
+>> > >
+>> > > > BTW - in the future I recommend using dim to add Fixes: tags as it'll
+>> > > > add Cc:
+>> > > > to stable as appropriate (this patch in particular should be Cc:
+>> > > > stable@vger.kernel.org # v5.3+). will add these tags when I push it
+>> > > >
+>> > > > On Tue, 2021-07-27 at 15:41 -0700, khsieh@codeaurora.org wrote:
+>> > > > > On 2021-07-27 12:21, Lyude Paul wrote:
+>> > > > > > On Thu, 2021-07-22 at 15:28 -0700, khsieh@codeaurora.org wrote:
+>> > > > > > >
+>> > > > > > > It looks like this patch is good to go (mainlined).
+>> > > > > > > Anything needed from me to do?
+>> > > > > > > Thanks,
+>> > > > > >
+>> > > > > > Do you have access for pushing this patch? If not let me know and
+>> > > > > > I
+>> > > > > > can
+>> > > > > > go
+>> > > > > > ahead and push it to drm-misc-next for you.
+>> > > > > no, I do not have access to drm-misc-next.
+>> > > > > Please push it for me.
+>> > > > > Thanks a lots.
+>> > > > >
+>> > >
+>> 
