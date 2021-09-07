@@ -2,79 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B49A40291B
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 14:43:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FB640292B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 14:48:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A04889F45;
-	Tue,  7 Sep 2021 12:43:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9204589F61;
+	Tue,  7 Sep 2021 12:48:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2DB689F45
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 12:43:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631018579;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KH4d7to2qGxsGFbI6vW2JkFkW7XP4klDMzdSwOEJlM0=;
- b=Cf/3pPOAULtQdzUlOEgcFM+pP2gTJgwES1hvKH6ZXsCBenoOXcDPlK/ZsUP3mj6YvUJFL+
- 4p8qZCx3M0b8awHz+njyc/Hk5btJvPaVBauI02vwzxaZngHna4XdicGg0+X80miqgB/jsF
- 55ImVxBCfpTMCizTZULFD3TVdnHGEyI=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-2QwJfYx3P8Okiv738n4u9A-1; Tue, 07 Sep 2021 08:42:58 -0400
-X-MC-Unique: 2QwJfYx3P8Okiv738n4u9A-1
-Received: by mail-ed1-f70.google.com with SMTP id
- bf22-20020a0564021a5600b003c86b59e291so5067445edb.18
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 05:42:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=KH4d7to2qGxsGFbI6vW2JkFkW7XP4klDMzdSwOEJlM0=;
- b=GQkEgX+TIv7uVrXlWDuK/cEZsrz8ZzIXTMDzFbIXDesMgkXeQ6UqFgYjTZUSw6VG+e
- qlyufTXrqNdKkk4OJ3owzm1e/jRZEqNt+v81zeT+BP3sdl2ECPY4wMOTkuL49sRn2tCz
- h/zIgcO+XIaJAOvWLNcSS2uR8Ul6uOdRxJ1yEwoE2ySyqetAMaSYfFQBv8C0OmP8z/SY
- v4xBwnW2pp6eqRTbsdosW0ysDUlvnznGWo1HuwWrXN6PTSvfBEgkJMmLaTTrRkuLF8FX
- sLIr0Hvc/FcI7upScPbe6gur019BSp7rHvEJWhLgbuXMBYSC1aw7p1+R4X+WVWemQB6e
- 3k3Q==
-X-Gm-Message-State: AOAM532RP4YnvjfuiLYmivIOxK99xkaWjWHRt7PuPzAJHqIjWMdQHu0+
- lY4YJFW0YuKFuz42tZOpnU5CyV4UZsXL8vUiYbMwABI/sEn2790LDICYd9cyOGHDwXGerikNZu1
- Y3j4Rz7Bx+c25bxbzLR4oKMg+UfUjxZgZfVz6hdP6nrz37EhrgKL8tgINNHOunXQsaJItrQJzDL
- 7uvOmm
-X-Received: by 2002:aa7:cd9a:: with SMTP id x26mr18439052edv.384.1631018577479; 
- Tue, 07 Sep 2021 05:42:57 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxVbKB7AFNgvovf1cAmiRm9S6rSeahi0EBMFkvP485WVc4eH2gVNUmT0Ner78wx3GlcDh3Yyw==
-X-Received: by 2002:aa7:cd9a:: with SMTP id x26mr18439030edv.384.1631018577268; 
- Tue, 07 Sep 2021 05:42:57 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id u16sm5523681ejy.14.2021.09.07.05.42.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 07 Sep 2021 05:42:56 -0700 (PDT)
-Subject: Re: Handling DRM master transitions cooperatively
-To: Pekka Paalanen <ppaalanen@gmail.com>, Dennis Filder <d.filder@web.de>
-Cc: dri-devel@lists.freedesktop.org
-References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
-Date: Tue, 7 Sep 2021 14:42:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B0E6889FC9
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 12:47:59 +0000 (UTC)
+From: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+ s=mail; t=1631018878;
+ bh=ATKYi2Vk5p0hBeuPNHEODB9n/mjvnxJq3rBPTJFZlp0=;
+ h=From:To:Cc:Subject:Date:From;
+ b=IooRD0Vl+15Z32+h4hNQYZl9xacLWEALyLzlP1IV3rSc3BA5DGwm9dyDsQP4+qvxv
+ 8CDNM4tcj5LCSs/cslgzcxtYRh2FCtt3yxUtUD4/rZNyJfHcjH2zrQyvB2lxxhyJjv
+ N8AcFOtaiaHs3r8Rjm2wZIxWm2JCbFZXc3kiFgfo=
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Cc: =?UTF-8?q?Thomas=20Wei=C3=9Fschuh?= <linux@weissschuh.net>,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2] backlight: propagate errors from get_brightness()
+Date: Tue,  7 Sep 2021 14:47:51 +0200
+Message-Id: <20210907124751.6404-1-linux@weissschuh.net>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <20210907130746.7b667dac@eldfell>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,60 +48,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+backlight.h documents "struct backlight_ops->get_brightness()" to return
+a negative errno on failure.
+So far these errors have not been handled in the backlight core.
+This leads to negative values being exposed through sysfs although only
+positive values are documented to be reported.
 
-On 9/7/21 12:07 PM, Pekka Paalanen wrote:
-> On Fri, 3 Sep 2021 21:08:21 +0200
-> Dennis Filder <d.filder@web.de> wrote:
-> 
->> Hans de Goede asked me to take a topic from a private discussion here.
->> I must also preface that I'm not a graphics person and my knowledge of
->> DRI/DRM is cursory at best.
->>
->> I initiated the conversation with de Goede after learning that the X
->> server now supports being started with an open DRM file descriptor
->> (this was added for Keith Packard's xlease project).  I wondered if
->> that could be used to smoothen the Plymouth->X transition somehow and
->> asked de Goede if there were any such plans.  He denied, but mentioned
->> that a new ioctl is in the works to prevent the kernel from wiping the
->> contents of a frame buffer after a device is closed, and that this
->> would help to keep transitions smooth.
-> 
-> Hi,
-> 
-> I believe the kernel is not wiping anything on device close. If
-> something in the KMS state is wiped, it originates in userspace:
-> 
-> - Plymouth doing something (e.g. RmFB on an in-use FB will turn the
->   output off, you need to be careful to "leak" your FB if you want a
->   smooth hand-over)
+Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+---
 
-The "kernel is not wiping anything on device close" is not true,
-when closing /dev/dri/card# any remaining FBs from the app closing
-it will be dealt with as if they were RmFB-ed, causing the screen
-to show what I call "the fallback fb", at least with the i915 driver.
+v1: https://lore.kernel.org/dri-devel/20210906215525.15418-1-linux@weissschuh.net/
 
-> - Xorg doing something (e.g. resetting instead of inheriting KMS state)
-> 
-> - Something missed in the hand-off sequence which allows fbcon to
->   momentarily take over between Plymouth and Xorg. This would need to
->   be fixed between Plymouth and Xorg.
-> 
-> - Maybe systemd-logind does something odd to the KMS device? It has
->   pretty wild code there. Or maybe it causes fbcon to take over.
-> 
-> What is the new ioctl you referred to?
+v1 -> v2:
+* use dev_err() instead of dev_warn() (Daniel Thompson)
+* Finish logging format string with newline (Daniel Thompson)
+* Log errno via dedicated error pointer format (Daniel Thompson)
 
-It is an ioctl to mark a FB to not have it auto-removed on device-close,
-instead leaving it in place until some some kernel/userspace client
-actively installs another FB. This was proposed by Rob Clark quite
-a while ago, but it never got anywhere because of lack of userspace
-actually interested in using it.
+ drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
-I've been thinking about reviving Rob's patch, since at least for
-plymouth this would be pretty useful to have.
+diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
+index 537fe1b376ad..4658cfb75aa2 100644
+--- a/drivers/video/backlight/backlight.c
++++ b/drivers/video/backlight/backlight.c
+@@ -292,10 +292,13 @@ static ssize_t actual_brightness_show(struct device *dev,
+ 	struct backlight_device *bd = to_backlight_device(dev);
+ 
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		rc = sprintf(buf, "%d\n", bd->ops->get_brightness(bd));
+-	else
++	if (bd->ops && bd->ops->get_brightness) {
++		rc = bd->ops->get_brightness(bd);
++		if (rc >= 0)
++			rc = sprintf(buf, "%d\n", rc);
++	} else {
+ 		rc = sprintf(buf, "%d\n", bd->props.brightness);
++	}
+ 	mutex_unlock(&bd->ops_lock);
+ 
+ 	return rc;
+@@ -381,9 +384,18 @@ ATTRIBUTE_GROUPS(bl_device);
+ void backlight_force_update(struct backlight_device *bd,
+ 			    enum backlight_update_reason reason)
+ {
++	int brightness;
++
+ 	mutex_lock(&bd->ops_lock);
+-	if (bd->ops && bd->ops->get_brightness)
+-		bd->props.brightness = bd->ops->get_brightness(bd);
++	if (bd->ops && bd->ops->get_brightness) {
++		brightness = bd->ops->get_brightness(bd);
++		if (brightness >= 0)
++			bd->props.brightness = brightness;
++		else
++			dev_err(&bd->dev,
++				"Could not update brightness from device: %pe\n",
++				ERR_PTR(brightness));
++	}
+ 	mutex_unlock(&bd->ops_lock);
+ 	backlight_generate_event(bd, reason);
+ }
 
-Regards,
-
-Hans
+base-commit: 79fad92f2e596f5a8dd085788a24f540263ef887
+-- 
+2.33.0
 
