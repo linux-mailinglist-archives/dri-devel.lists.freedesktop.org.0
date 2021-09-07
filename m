@@ -1,60 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CA16402DB0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:23:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1F4E402DB6
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:27:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B77466E0B9;
-	Tue,  7 Sep 2021 17:23:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 46CF56E09C;
+	Tue,  7 Sep 2021 17:27:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E34416E0A5;
- Tue,  7 Sep 2021 17:23:09 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- 107-20020a9d0bf4000000b0051b8be1192fso13681983oth.7; 
- Tue, 07 Sep 2021 10:23:09 -0700 (PDT)
+Received: from mail-vs1-xe2c.google.com (mail-vs1-xe2c.google.com
+ [IPv6:2607:f8b0:4864:20::e2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B743E6E08E;
+ Tue,  7 Sep 2021 17:27:13 +0000 (UTC)
+Received: by mail-vs1-xe2c.google.com with SMTP id o124so7403vsc.6;
+ Tue, 07 Sep 2021 10:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EL1xk41RjYepbun1cWxFS0jtUDWVpmZ3TzLLYdIA3IE=;
- b=cy8GAEhH431lxu4vtRIseoh6OT+rTlzy4AR5BIgtYE+TlPhEh9hgdPB5FtNyJ2lfku
- iVRnaIbYCssrGrWhWH1TH2XfLTRUuVKlobfQYtn3jUM8yg808PbKDcSJvznyKjGTuQEm
- nr5l7ukZeo4DG7nTVw4Jhkdg4K4iuQmvNdT1URzQQc9GZPGEfpbxeb4ocUUMtovKTfMa
- 8DT03wAvwNxNCAegJQtfTvNhYyZti88bAVq2SpJsc89yBeeaM7oIXzjFESIlJC33p4yL
- 5fktdttVuscNnGOj4Gxugex3/TeD+wmzkM7EIEseMBv8UY2xWu8x30wANzwLUSNbIjca
- EVUw==
+ :cc; bh=LC0TnzBIm7kldlTZWFwbiNFGUzVHexmW80QmHFbf/JU=;
+ b=ieHN2db3PcG2jtfXnwvh5b+FuSokYOFRS4Bi5bNwo/Z73PjPuSJEFj4ZLW7XIknwuC
+ TiTmzJrjhhRJ5OJCtt/7v5DCkahiBnjQJKRMb3ALmxd3D060+9+SM4SJdR1DSg/3fFfj
+ mmGXn6SyYYiLLaFdYzGcPjUQB5Qu/M0R8Wj7Yj15g9AlGxEGf0vw568pD3pSmbpW1Roa
+ 3axeG1NxT+h01zgukfg/Bq4TvnnvxRf7SOgzBtAoVp/4F/tyiymCy1+ogrQ+uyKijiaa
+ nQJ9rDDl46PTGRJbXnqhRfQzDiWfRVs3goMpzDvb4A2e/3MdLX0AtE1PQOZSVe8rhshR
+ VQNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=EL1xk41RjYepbun1cWxFS0jtUDWVpmZ3TzLLYdIA3IE=;
- b=EBV8jYNxXWQJOUtekdJVIAgUsSaZDWjRsPbCdy4fm8Fas2LyN6RPdGf6SvU7o09dSs
- U4Ysc6PyhcF+3Mxbf42IExXntmMOokTnxdpD17TMwRSuI2nLvtk1eHLENPrqhevX7lNb
- M6ZE6bNOrdWDM0uwVBLlCHA5scowYqjJejDi+rJM7jFMV379t9hfM7gNpzVqmMxu3DNv
- NEpUilq52J2379Q2ZEOo22hps2og1qKNB/9stwyzbdPdJxFpqLy1QnJA9FmN94lDovMF
- 4FKFOJ8v+zqr6fuWsIGXHYg56nytvfyh5iBTiMv4PVqs4ZVvBh5Bh/V/mPsfDGkrVhX+
- y5lQ==
-X-Gm-Message-State: AOAM533Tdm9M3Sgf3EpcXAF/0r4vXRBSmQgWwW/KM6RC8wDTmzeGQJ4Q
- YcKhQhY2nApEP3bXm20W1OcIDVA/4Ob+1vPHJks=
-X-Google-Smtp-Source: ABdhPJxk3RN46QI9ZbdOsYT5SGguOiErZO6DHnHazalCauW2MIFVJlNZFCoeOpldcy7W13/cMdtpb5ALQwYHPMjU2rs=
-X-Received: by 2002:a05:6830:214c:: with SMTP id
- r12mr16437873otd.200.1631035389086; 
- Tue, 07 Sep 2021 10:23:09 -0700 (PDT)
+ bh=LC0TnzBIm7kldlTZWFwbiNFGUzVHexmW80QmHFbf/JU=;
+ b=EqyJMR2PF5O2ZXerxgLH5535X7yRqO/w1JzW8SkVmHpLXgy425S+UZJr40TEKC/Uin
+ QrU37hgVrjJyquR++KAsKvzHsCDLyWq4qApzd7HlFrQuUkKRxhsyrbflVxjO2oEMPMsa
+ YAY2KIiaw0tjADDISFBQUNRudxWdnGehDoobIUE0OCPsM0Un13apfWTAfEMt96bbVY5t
+ iR6p4BJ9zmRQfuRJgYj9N13M9UEQELt0r/GoBX+pIwFoZN4bJMfYNTG+ioIqU9jgD6bR
+ XVUaLRzqtD4T2Yl+c2Z+aSynfJQYZIuCOTIKCWjHensR0WcSMKqCZdxXdTxilvcZ0tTA
+ PUOw==
+X-Gm-Message-State: AOAM530KuxfCyfGZeoDndsojQs0/qkwSAYG9qX98p+iRWV5nEF2HrVM1
+ kUsyAgeA93nCOEyERL1asBYZJF4S9L4swUu7yVw=
+X-Google-Smtp-Source: ABdhPJzw9KOkfNVmNb05rNdw1aVHB0qlmxd5gveD+2sJgFMYTfpkNnRkyVTydMqT9KrWCacjCgcqkNXw7ntoGqAT19Q=
+X-Received: by 2002:a67:d098:: with SMTP id s24mr9651450vsi.23.1631035632569; 
+ Tue, 07 Sep 2021 10:27:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210907085301.482579-1-daniel@qtec.com>
-In-Reply-To: <20210907085301.482579-1-daniel@qtec.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Sep 2021 13:22:58 -0400
-Message-ID: <CADnq5_N3ue6c6XzX+Nu=adsfhCZ6jkUVwNvQqy-Z_TjjGgsPmA@mail.gmail.com>
-Subject: Re: [RFC][PATCH] drm/amdgpu/powerplay/smu10: Add custom profile
-To: Daniel Gomez <daniel@qtec.com>
-Cc: amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- dagmcr@gmail.com, "Quan, Evan" <evan.quan@amd.com>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, 
- Christian Koenig <christian.koenig@amd.com>, xinhui pan <Xinhui.Pan@amd.com>
+References: <20210831202133.2165222-1-jim.cromie@gmail.com>
+ <20210831202133.2165222-4-jim.cromie@gmail.com>
+ <9fe5e962-e65e-6844-269a-058cce944a89@linux.intel.com>
+ <CAJfuBxz+cZyyDSBrDR0+Rf7K9fqpmeAfcWb1x2MkwD0P9LuDcQ@mail.gmail.com>
+ <2bfbd75c-8f7f-e756-05c3-13dff41264e4@linux.intel.com>
+ <CAJfuBxymoFx79kQzGw_Gxv1vk7kVaTN-V0Hn694C6kT=kP7u2A@mail.gmail.com>
+ <92c7639b-c8f4-cfa4-f9ca-82c0a06e0337@linux.intel.com>
+In-Reply-To: <92c7639b-c8f4-cfa4-f9ca-82c0a06e0337@linux.intel.com>
+From: jim.cromie@gmail.com
+Date: Tue, 7 Sep 2021 11:26:46 -0600
+Message-ID: <CAJfuBxxeG0-bijXvoExRyh6Zv5o8PSz42cWam6m0aVCUKPMZ+Q@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH v7 3/8] i915/gvt: use
+ DEFINE_DYNAMIC_DEBUG_CATEGORIES to create "gvt:core:" etc categories
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Sean Paul <seanpaul@chromium.org>, Jason Baron <jbaron@akamai.com>, 
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Greg KH <gregkh@linuxfoundation.org>, 
+ LKML <linux-kernel@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+ intel-gvt-dev@lists.freedesktop.org, 
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,241 +78,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 7, 2021 at 4:53 AM Daniel Gomez <daniel@qtec.com> wrote:
+On Tue, Sep 7, 2021 at 9:14 AM Tvrtko Ursulin
+<tvrtko.ursulin@linux.intel.com> wrote:
 >
-> Add custom power profile mode support on smu10.
-> Update workload bit list.
-> ---
 >
-> Hi,
+> On 06/09/2021 18:41, jim.cromie@gmail.com wrote:
+> > On Mon, Sep 6, 2021 at 6:26 AM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com <mailto:tvrtko.ursulin@linux.intel.com>>
+> > wrote:
+> >  >
+> >  >
+> >  > On 03/09/2021 20:22, jim.cromie@gmail.com
+> > <mailto:jim.cromie@gmail.com> wrote:
+> >  > > On Fri, Sep 3, 2021 at 5:07 AM Tvrtko Ursulin
+> >  > > <tvrtko.ursulin@linux.intel.com
+> > <mailto:tvrtko.ursulin@linux.intel.com>> wrote:
+> >  > >>
+> >  > >>
+> >  > >> On 31/08/2021 21:21, Jim Cromie wrote:
+> >  > >>> The gvt component of this driver has ~120 pr_debugs, in 9 categories
+> >  > >>> quite similar to those in DRM.  Following the interface model of
+> >  > >>> drm.debug, add a parameter to map bits to these categorizations.
+> >  > >>>
+> >  > >>> DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_gvt, __gvt_debug,
+> >  > >>>        "dyndbg bitmap desc",
+> >  > >>>        { "gvt:cmd: ",  "command processing" },
+> >
+> >  > >>> v7:
+> >  > >>> . move ccflags addition up to i915/Makefile from i915/gvt
+> >  > >>> ---
+> >  > >>>    drivers/gpu/drm/i915/Makefile      |  4 ++++
+> >  > >>>    drivers/gpu/drm/i915/i915_params.c | 35
+> > ++++++++++++++++++++++++++++++
+> >  > >>
+> >  > >> Can this work if put under gvt/ or at least intel_gvt.h|c?
+> >
+> > I tried this.
+> > I moved the code block into gvt/debug.c (new file)
+> > added it to Makefile GVT_SOURCES
+> > dunno why it wont make.
+> > frustratig basic err, Im not seeing.
+> > It does seem proper placement, will resolve...
+> >
+> >
+> >  > >>
+> >  > >
+> >  > > I thought it belonged here more, at least according to the name of the
+> >  > > config.var
+> >  >
+> >  > Hmm bear with me please - the categories this patch creates are intended
+> >  > to be used explicitly from the GVT "sub-module", or they somehow even
+> >  > get automatically used with no further intervention to callers required?
+> >  >
+> >
+> > 2009 - v5.9.0  the only users were admins reading/echoing
+> > /proc/dynamic_debug/control
+> > presumably cuz they wanted more info in the logs, episodically.
+> > v5.9.0 exported dynamic_debug_exec_queries for in-kernel use,
+> > reusing the stringy: echo $query_command > control  idiom.
+> > My intention was to let in-kernel users roll their own drm.debug type
+> > interface,
+> > or whatever else they needed.  nobodys using it yet.
 >
-> I'm trying to add custom profile for the Raven Ridge but not sure if
-> I'd need a different parameter than PPSMC_MSG_SetCustomPolicy to
-> configure the custom values. The code seemed to support CUSTOM for
-> workload types but it didn't show up in the menu or accept any user
-> input parameter. So far, I've added that part but a bit confusing to
-> me what is the policy I need for setting these parameters or if it's
-> maybe not possible at all.
+> What is 2009 referring to?
 >
-> After applying the changes I'd configure the CUSTOM mode as follows:
+> I am still not quite following. In case of the GVT categories you added,
+> in order for them to be used, would you or not also need to use some new
+> logging macros?
 >
-> echo manual > /sys/class/drm/card0/device/hwmon/hwmon1/device/power_dpm_force_performance_level
-> echo "6 70 90 0 0" > /sys/class/drm/card0/device/hwmon/hwmon1/device/pp_power_profile_mode
+> > patch 1/8 implements that drm.debug interface.
+> > 5/8 is the primary use case
+> > 3/8 (this patch) & 4/8 are patches of opportunity, test cases, proof of
+> > function/utility.
+> > its value as such is easier control of those pr-debugs than given by
+> > echo > control
+> >
+> > Sean Paul seanpaul@chromium.org <mailto:seanpaul@chromium.org> worked up
+> > a patchset to do runtime steering of drm-debug stream,
+> > in particular watching for drm:atomic:fail: type activity (a subcategory
+> > which doesnt exist yet).
+> > 5/8 conflicts with his patchset, I have an rfc approach to that, so his
+> > concerns are mine too.
 >
-> Then, using Darren Powell script for testing modes I get the following
-> output:
->
-> 05:00.0 VGA compatible controller [0300]: Advanced Micro Devices, Inc. [AMD/ATI] Raven Ridge [Radeon Vega Series / Radeon Vega Mobile Series] [1002:15dd] (rev 83)
-> === pp_dpm_sclk ===
-> 0: 200Mhz
-> 1: 400Mhz *
-> 2: 1100Mhz
-> === pp_dpm_mclk ===
-> 0: 400Mhz
-> 1: 933Mhz *
-> 2: 1067Mhz
-> 3: 1200Mhz
-> === pp_power_profile_mode ===
-> NUM        MODE_NAME BUSY_SET_POINT FPS USE_RLC_BUSY MIN_ACTIVE_LEVEL
->   0 BOOTUP_DEFAULT :             70  60          0              0
->   1 3D_FULL_SCREEN :             70  60          1              3
->   2   POWER_SAVING :             90  60          0              0
->   3          VIDEO :             70  60          0              0
->   4             VR :             70  90          0              0
->   5        COMPUTE :             30  60          0              6
->   6         CUSTOM*:             70  90          0              0
->
-> As you can also see in my changes, I've also updated the workload bit
-> table but I'm not completely sure about that change. With the tests
-> I've done, using bit 5 for the WORKLOAD_PPLIB_CUSTOM_BIT makes the
-> gpu sclk locked around ~36%. So, maybe I'm missing a clock limit
-> configuraton table somewhere. Would you give me some hints to
-> proceed with this?
+> What kind of runtime steering is that - would you happen to have a link?
 
-I don't think APUs support customizing the workloads the same way
-dGPUs do.  I think they just support predefined profiles.
+Sean's patches
+https://patchwork.freedesktop.org/series/78133/
 
-Alex
+what I think might work better
+https://lore.kernel.org/dri-devel/20210822222009.2035788-11-jim.cromie@gmail.com/
+
+> One idea we in the GEM team have mentioned a few time is the ability of
+> making the debug log stream per DRM client. That means opening
+> "something" (socket, fd, etc), enabling debug, which would only show
+> debug logs belonging to one client. That can sometimes be useful (and
+> more secure) than enabling a lot of debug for the system as a whole. But
+> of course there isn't much overlap with your dyndbg work. So just
+> mentioning this since the word "runtime steering" reminded me of it.
+>
+
+my rfc patch above might help. it adds
+   register_dyndbg_tracer ( selector_query, handler_callback)
+
+I think you could write a single handler to further select / steer the
+debug stream
+according to your pr_debug arguments.
+
 
 >
-> Thanks in advance,
-> Daniel
+> >      > unsigned long __gvt_debug;
+> >      > EXPORT_SYMBOL(__gvt_debug);
+> >      >
+> >      >
+> >      >>> +
+> >      >>>    # Please keep these build lists sorted!
+> >      >>>
+> >      >>>    # core driver code
+> >      >>> diff --git a/drivers/gpu/drm/i915/i915_params.c
+> >     b/drivers/gpu/drm/i915/i915_params.c
+> >      >>> index e07f4cfea63a..e645e149485e 100644
+> >      >>> --- a/drivers/gpu/drm/i915/i915_params.c
+> >      >>> +++ b/drivers/gpu/drm/i915/i915_params.c
+> >      >>> @@ -265,3 +265,38 @@ void i915_params_free(struct i915_params
+> >     *params)
+> >      >>> +                             _DD_cat_("gvt:mmio:"),
+> >      >>> +                             _DD_cat_("gvt:render:"),
+> >      >>> +                             _DD_cat_("gvt:sched:"));
+> >      >>> +
+> >      >>> +#endif
+> >      >>
+> >      >> So just the foundation - no actual use sites I mean? How would
+> >     these be
+> >      >> used from the code?
+> >      >>
+> >      >
+> >      > there are 120 pr_debug "users" :-)
+> >      >
+> >      > no users per se, but anyone using drm.debug
+> >      > /sys/module/drm/parameters/debug
+> >      > might use this too.
+> >      > its a bit easier than composing queries for
+> >      >/proc/dyamic_debug/control
+> >
+> >     Same as my previous question, perhaps I am not up to speed with this
+> >     yet.. Even if pr_debug is used inside GVT - are the categories and
+> >     debug_gvt global as of this patch (or series)?
+> >
+> >
+> > they are already global in the sense that if kernel is built with
+> > DYNAMIC_DEBUG,
+> > the admin can turn those pr_debugs on and off, and change their
+> > decorations in the log (mod,func.line).
+> > Nor are modules protected from each other; drm-core could use
+> > dd-exec-queries to enable/disable
+> > pr-debugs in i915 etc
+> >
+> > This patch just adds a gvt-debug knob like drm-debug. using the existing
+> > format prefixes to categorize them.
+> > Whether those prefixes should be bent towards consistency with the rest
+> > of drm-debug
+> > or adapted towards some gvt community need I couldnt say.
+> >
+> > Its no save-the-world feature, but its pretty cheap.
+> >
+> > Id expect the same users as those who play with drm.debug, for similar
+> > reasons.
+> >
+> > does this clarify ?
 >
+> Not yet I'm afraid. :)
+
+heh - 2 blind dudes describing their side of the elephant !
+
+When you say "using the existing format
+> prefixes", but it is not using __drm_debug but __gvt_debug (which isn't
+> a modparam). So I am lost as to what is __gvt_debug for and how does it
+> tie to existing DRM categories.
 >
->  drivers/gpu/drm/amd/pm/inc/smu10.h            | 14 +++--
->  .../drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c  | 57 +++++++++++++++++--
->  .../drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h  |  1 +
->  3 files changed, 61 insertions(+), 11 deletions(-)
+
+we have 2 kinds of "categories":
+1- proper drm categories - one of 10
+2- ad-hoc categories - these are systematized - using small set of
+format-prefixes
+i915 has 120 of these in GVT, with 9 different prefixes, touched in patches 2,3
+i915 also has ~1500 uses of drm-debug API  (with proper drm category enums)
+amdgpu also has lots of both kinds of debug; 13 kinds of prefixes.
+
+Ive probably created some confusion by stealing the "category" name,
+it could have been "class", but I thought we didnt need new vocabulary with
+subtle and ambiguous differences from the original term.
+
+Long term, maybe those ad-hoc prefixes can be aligned better with proper drm
+categories, but thats a separate discussion.
+
+But we can control them now, using a well oiled idiom, a drm.debug
+"style" bitmap.
+Its like drm.debug's little sisters, __gvt_debug & __debug_dc.  not
+identical, but related.
+
+Anyway, patches 2,3,4 work the ad-hoc prefix categorizations so theyre
+controllable.
+
+5/8 adapts DRM-debug itself - obsoleting enum category for most of drm-debug api
+this is where dyndbg's data table gets bigger - core & drivers! have
+many drm-debug uses,
+rivaling all builtin prdebugs in size.
+
+Then, we have a unified foundation on dyndbg, using glorified prefix strings
+for both formal DRM_DBG_CAT_* categories, and for similar existing uses.
+
+Then we could evolve / extend / bikeshed the categories (spelling,
+separator char '.' is nice too)
+
+Sean has already suggested "drm:atomic:fail:" sub-category.
+I agree - it is using the new stringy flexibility to significant
+expressive benefit.
+dyndbg makes new categories actionable.
+
+istm "*:fail:" is maybe a meta-sub-category (dont read that too closely;)
+maybe "*:warn:" "*:err:" ( what about warning, error ? here lies
+bikeshed madness !!)
+
+> Regards,
 >
-> diff --git a/drivers/gpu/drm/amd/pm/inc/smu10.h b/drivers/gpu/drm/amd/pm/inc/smu10.h
-> index 9e837a5014c5..b96520528240 100644
-> --- a/drivers/gpu/drm/amd/pm/inc/smu10.h
-> +++ b/drivers/gpu/drm/amd/pm/inc/smu10.h
-> @@ -136,12 +136,14 @@
->  #define FEATURE_CORE_CSTATES_MASK     (1 << FEATURE_CORE_CSTATES_BIT)
->
->  /* Workload bits */
-> -#define WORKLOAD_PPLIB_FULL_SCREEN_3D_BIT 0
-> -#define WORKLOAD_PPLIB_VIDEO_BIT          2
-> -#define WORKLOAD_PPLIB_VR_BIT             3
-> -#define WORKLOAD_PPLIB_COMPUTE_BIT        4
-> -#define WORKLOAD_PPLIB_CUSTOM_BIT         5
-> -#define WORKLOAD_PPLIB_COUNT              6
-> +#define WORKLOAD_DEFAULT_BIT              0
-> +#define WORKLOAD_PPLIB_FULL_SCREEN_3D_BIT 1
-> +#define WORKLOAD_PPLIB_POWER_SAVING_BIT   2
-> +#define WORKLOAD_PPLIB_VIDEO_BIT          3
-> +#define WORKLOAD_PPLIB_VR_BIT             4
-> +#define WORKLOAD_PPLIB_COMPUTE_BIT        5
-> +#define WORKLOAD_PPLIB_CUSTOM_BIT         6
-> +#define WORKLOAD_PPLIB_COUNT              7
->
->  typedef struct {
->         /* MP1_EXT_SCRATCH0 */
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> index 1de3ae77e03e..fef9f9ac1c56 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.c
-> @@ -110,6 +110,11 @@ static int smu10_initialize_dpm_defaults(struct pp_hwmgr *hwmgr)
->         smu10_data->num_active_display = 0;
->         smu10_data->deep_sleep_dcefclk = 0;
->
-> +       smu10_data->custom_profile_mode[0] = 0;
-> +       smu10_data->custom_profile_mode[1] = 0;
-> +       smu10_data->custom_profile_mode[2] = 0;
-> +       smu10_data->custom_profile_mode[3] = 0;
-> +
->         phm_cap_unset(hwmgr->platform_descriptor.platformCaps,
->                                         PHM_PlatformCaps_SclkDeepSleep);
->
-> @@ -544,6 +549,10 @@ static int smu10_hwmgr_backend_init(struct pp_hwmgr *hwmgr)
->
->         hwmgr->backend = data;
->
-> +       hwmgr->workload_mask = 1 << hwmgr->workload_prority[PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT];
-> +       hwmgr->power_profile_mode = PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT;
-> +       hwmgr->default_power_profile_mode = PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT;
-> +
->         result = smu10_initialize_dpm_defaults(hwmgr);
->         if (result != 0) {
->                 pr_err("smu10_initialize_dpm_defaults failed\n");
-> @@ -1408,9 +1417,15 @@ static int conv_power_profile_to_pplib_workload(int power_profile)
->         int pplib_workload = 0;
->
->         switch (power_profile) {
-> +       case PP_SMC_POWER_PROFILE_BOOTUP_DEFAULT:
-> +               pplib_workload = WORKLOAD_DEFAULT_BIT;
-> +               break;
->         case PP_SMC_POWER_PROFILE_FULLSCREEN3D:
->                 pplib_workload = WORKLOAD_PPLIB_FULL_SCREEN_3D_BIT;
->                 break;
-> +       case PP_SMC_POWER_PROFILE_POWERSAVING:
-> +               pplib_workload = WORKLOAD_PPLIB_POWER_SAVING_BIT;
-> +               break;
->         case PP_SMC_POWER_PROFILE_VIDEO:
->                 pplib_workload = WORKLOAD_PPLIB_VIDEO_BIT;
->                 break;
-> @@ -1430,22 +1445,24 @@ static int conv_power_profile_to_pplib_workload(int power_profile)
->
->  static int smu10_get_power_profile_mode(struct pp_hwmgr *hwmgr, char *buf)
->  {
-> +       struct smu10_hwmgr *smu10_data = (struct smu10_hwmgr *)(hwmgr->backend);
->         uint32_t i, size = 0;
->         static const uint8_t
-> -               profile_mode_setting[6][4] = {{70, 60, 0, 0,},
-> +               profile_mode_setting[7][4] = {{70, 60, 0, 0,},
->                                                 {70, 60, 1, 3,},
->                                                 {90, 60, 0, 0,},
->                                                 {70, 60, 0, 0,},
->                                                 {70, 90, 0, 0,},
->                                                 {30, 60, 0, 6,},
->                                                 };
-> -       static const char *profile_name[6] = {
-> +       static const char *profile_name[7] = {
->                                         "BOOTUP_DEFAULT",
->                                         "3D_FULL_SCREEN",
->                                         "POWER_SAVING",
->                                         "VIDEO",
->                                         "VR",
-> -                                       "COMPUTE"};
-> +                                       "COMPUTE",
-> +                                       "CUSTOM"};
->         static const char *title[6] = {"NUM",
->                         "MODE_NAME",
->                         "BUSY_SET_POINT",
-> @@ -1459,11 +1476,15 @@ static int smu10_get_power_profile_mode(struct pp_hwmgr *hwmgr, char *buf)
->         size += sysfs_emit_at(buf, size, "%s %16s %s %s %s %s\n",title[0],
->                         title[1], title[2], title[3], title[4], title[5]);
->
-> -       for (i = 0; i <= PP_SMC_POWER_PROFILE_COMPUTE; i++)
-> +       for (i = 0; i < PP_SMC_POWER_PROFILE_CUSTOM; i++)
->                 size += sysfs_emit_at(buf, size, "%3d %14s%s: %14d %3d %10d %14d\n",
->                         i, profile_name[i], (i == hwmgr->power_profile_mode) ? "*" : " ",
->                         profile_mode_setting[i][0], profile_mode_setting[i][1],
->                         profile_mode_setting[i][2], profile_mode_setting[i][3]);
-> +       size += sysfs_emit_at(buf, size, "%3d %14s%s: %14d %3d %10d %14d\n", i,
-> +                       profile_name[i], (i == hwmgr->power_profile_mode) ? "*" : " ",
-> +                       smu10_data->custom_profile_mode[0], smu10_data->custom_profile_mode[1],
-> +                       smu10_data->custom_profile_mode[2], smu10_data->custom_profile_mode[3]);
->
->         return size;
->  }
-> @@ -1480,16 +1501,42 @@ static bool smu10_is_raven1_refresh(struct pp_hwmgr *hwmgr)
->
->  static int smu10_set_power_profile_mode(struct pp_hwmgr *hwmgr, long *input, uint32_t size)
->  {
-> +       struct smu10_hwmgr *smu10_data = (struct smu10_hwmgr *)(hwmgr->backend);
-> +       uint8_t busy_set_point, FPS, use_rlc_busy, min_active_level;
-> +       uint32_t power_profile_mode = input[size];
->         int workload_type = 0;
->         int result = 0;
->
-> -       if (input[size] > PP_SMC_POWER_PROFILE_COMPUTE) {
-> +       if (input[size] > PP_SMC_POWER_PROFILE_CUSTOM) {
->                 pr_err("Invalid power profile mode %ld\n", input[size]);
->                 return -EINVAL;
->         }
->         if (hwmgr->power_profile_mode == input[size])
->                 return 0;
->
-> +       if (power_profile_mode == PP_SMC_POWER_PROFILE_CUSTOM) {
-> +               if (size != 0 && size != 4)
-> +                       return -EINVAL;
-> +
-> +               if (size == 0) {
-> +                       if (smu10_data->custom_profile_mode[0] != 0)
-> +                               goto out;
-> +                       else
-> +                               return -EINVAL;
-> +               }
-> +
-> +               smu10_data->custom_profile_mode[0] = busy_set_point = input[0];
-> +               smu10_data->custom_profile_mode[1] = FPS = input[1];
-> +               smu10_data->custom_profile_mode[2] = use_rlc_busy = input[2];
-> +               smu10_data->custom_profile_mode[3] = min_active_level = input[3];
-> +               smum_send_msg_to_smc_with_parameter(hwmgr,
-> +                                       PPSMC_MSG_SetCustomPolicy,
-> +                                       busy_set_point | FPS<<8 |
-> +                                       use_rlc_busy << 16 | min_active_level<<24,
-> +                                       NULL);
-> +       }
-> +
-> +out:
->         /* conv PP_SMC_POWER_PROFILE* to WORKLOAD_PPLIB_*_BIT */
->         workload_type =
->                 conv_power_profile_to_pplib_workload(input[size]);
-> diff --git a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
-> index 808e0ecbe1f0..4c4b2b1b510a 100644
-> --- a/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
-> +++ b/drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu10_hwmgr.h
-> @@ -302,6 +302,7 @@ struct smu10_hwmgr {
->         uint32_t                             num_active_display;
->
->         bool                                                    fine_grain_enabled;
-> +       uint8_t                              custom_profile_mode[4];
->  };
->
->  struct pp_hwmgr;
-> --
-> 2.30.2
->
+> Tvrtko
+
+thanks
+JIm
