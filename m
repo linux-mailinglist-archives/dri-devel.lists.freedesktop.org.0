@@ -2,59 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76F70402999
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 15:20:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B49A40291B
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 14:43:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C80C689D5C;
-	Tue,  7 Sep 2021 13:20:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A04889F45;
+	Tue,  7 Sep 2021 12:43:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 444 seconds by postgrey-1.36 at gabe;
- Tue, 07 Sep 2021 12:34:19 UTC
-Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
- (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
- by gabe.freedesktop.org (Postfix) with SMTP id 913D789DBF;
- Tue,  7 Sep 2021 12:34:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
- Message-Id; bh=DqqdvAhQhT8ubUpthKcwBqEGHjOC11SOaq08JX4tQd8=; b=O
- ZBGiOn3u9Idg2NzkuxY75lk8m5lYt5pelCZaAeY+SD6Oh6tNImXlVbxHLHxzpQhg
- SumjUuyys6PTbKVijLxTuKPXssYNdC3ILZtgflHCy6c4YrnzVV5uLnyJ6oNTgLaz
- zv1GT16/F/WRIc0FbIAv4tETV0W1yH582LocC53hq4=
-Received: from t640 (unknown [10.176.36.8])
- by app1 (Coremail) with SMTP id XAUFCgDnkaR9WjdhdkUvAA--.44636S3;
- Tue, 07 Sep 2021 20:26:37 +0800 (CST)
-From: Chenyuan Mi <cymi20@fudan.edu.cn>
-To: 
-Cc: yuanxzhang@fudan.edu.cn, Chenyuan Mi <cymi20@fudan.edu.cn>,
- Xiyu Yang <xiyuyang19@fudan.edu.cn>, Xin Tan <tanxin.ctf@gmail.com>,
- Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/svm: Fix refcount leak bug and missing check
- against null bug
-Date: Tue,  7 Sep 2021 20:26:33 +0800
-Message-Id: <20210907122633.16665-1-cymi20@fudan.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: XAUFCgDnkaR9WjdhdkUvAA--.44636S3
-X-Coremail-Antispam: 1UD129KBjvJXoWrtry5AF18JrW5CFy8Kr17ZFb_yoW8Jr4fpa
- 1DCFy2vrs8KayxKw1Iy3Z5uFyfAanrKayfGay7tas0gw1rAFy5Xw4YqryDtry7Xr1Ska4a
- vFnIgFZI9Fs8AFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDU0xBIdaVrnRJUUUBq14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
- rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
- 1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4U
- JVWxJr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
- CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
- F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_JrylYx0Ex4A2jsIE14v26r1j6r
- 4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
- 648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK6svPMxAIw28IcxkI7VAKI48JMx
- C20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAF
- wI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwC2zVAIFx02awCIc40Y0x0EwIxGrwCI42
- IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY
- 6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
- 80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRia0P7UUUUU==
-X-CM-SenderInfo: isqsiiisuqikmt6i3vldqovvfxof0/
-X-Mailman-Approved-At: Tue, 07 Sep 2021 13:20:26 +0000
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D2DB689F45
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 12:43:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631018579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KH4d7to2qGxsGFbI6vW2JkFkW7XP4klDMzdSwOEJlM0=;
+ b=Cf/3pPOAULtQdzUlOEgcFM+pP2gTJgwES1hvKH6ZXsCBenoOXcDPlK/ZsUP3mj6YvUJFL+
+ 4p8qZCx3M0b8awHz+njyc/Hk5btJvPaVBauI02vwzxaZngHna4XdicGg0+X80miqgB/jsF
+ 55ImVxBCfpTMCizTZULFD3TVdnHGEyI=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-2QwJfYx3P8Okiv738n4u9A-1; Tue, 07 Sep 2021 08:42:58 -0400
+X-MC-Unique: 2QwJfYx3P8Okiv738n4u9A-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ bf22-20020a0564021a5600b003c86b59e291so5067445edb.18
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 05:42:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=KH4d7to2qGxsGFbI6vW2JkFkW7XP4klDMzdSwOEJlM0=;
+ b=GQkEgX+TIv7uVrXlWDuK/cEZsrz8ZzIXTMDzFbIXDesMgkXeQ6UqFgYjTZUSw6VG+e
+ qlyufTXrqNdKkk4OJ3owzm1e/jRZEqNt+v81zeT+BP3sdl2ECPY4wMOTkuL49sRn2tCz
+ h/zIgcO+XIaJAOvWLNcSS2uR8Ul6uOdRxJ1yEwoE2ySyqetAMaSYfFQBv8C0OmP8z/SY
+ v4xBwnW2pp6eqRTbsdosW0ysDUlvnznGWo1HuwWrXN6PTSvfBEgkJMmLaTTrRkuLF8FX
+ sLIr0Hvc/FcI7upScPbe6gur019BSp7rHvEJWhLgbuXMBYSC1aw7p1+R4X+WVWemQB6e
+ 3k3Q==
+X-Gm-Message-State: AOAM532RP4YnvjfuiLYmivIOxK99xkaWjWHRt7PuPzAJHqIjWMdQHu0+
+ lY4YJFW0YuKFuz42tZOpnU5CyV4UZsXL8vUiYbMwABI/sEn2790LDICYd9cyOGHDwXGerikNZu1
+ Y3j4Rz7Bx+c25bxbzLR4oKMg+UfUjxZgZfVz6hdP6nrz37EhrgKL8tgINNHOunXQsaJItrQJzDL
+ 7uvOmm
+X-Received: by 2002:aa7:cd9a:: with SMTP id x26mr18439052edv.384.1631018577479; 
+ Tue, 07 Sep 2021 05:42:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxVbKB7AFNgvovf1cAmiRm9S6rSeahi0EBMFkvP485WVc4eH2gVNUmT0Ner78wx3GlcDh3Yyw==
+X-Received: by 2002:aa7:cd9a:: with SMTP id x26mr18439030edv.384.1631018577268; 
+ Tue, 07 Sep 2021 05:42:57 -0700 (PDT)
+Received: from x1.localdomain
+ (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
+ [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
+ by smtp.gmail.com with ESMTPSA id u16sm5523681ejy.14.2021.09.07.05.42.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 07 Sep 2021 05:42:56 -0700 (PDT)
+Subject: Re: Handling DRM master transitions cooperatively
+To: Pekka Paalanen <ppaalanen@gmail.com>, Dennis Filder <d.filder@web.de>
+Cc: dri-devel@lists.freedesktop.org
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
+Date: Tue, 7 Sep 2021 14:42:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
+MIME-Version: 1.0
+In-Reply-To: <20210907130746.7b667dac@eldfell>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,45 +90,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The reference counting issue happens in one exception handling path of
-nouveau_svmm_bind(). When cli->svm.svmm is null, the function forgets
-to decrease the refcount of mm increased by get_task_mm(), causing a
-refcount leak.
+Hi,
 
-Fix this issue by using mmput() to decrease the refcount in the
-exception handling path.
+On 9/7/21 12:07 PM, Pekka Paalanen wrote:
+> On Fri, 3 Sep 2021 21:08:21 +0200
+> Dennis Filder <d.filder@web.de> wrote:
+> 
+>> Hans de Goede asked me to take a topic from a private discussion here.
+>> I must also preface that I'm not a graphics person and my knowledge of
+>> DRI/DRM is cursory at best.
+>>
+>> I initiated the conversation with de Goede after learning that the X
+>> server now supports being started with an open DRM file descriptor
+>> (this was added for Keith Packard's xlease project).  I wondered if
+>> that could be used to smoothen the Plymouth->X transition somehow and
+>> asked de Goede if there were any such plans.  He denied, but mentioned
+>> that a new ioctl is in the works to prevent the kernel from wiping the
+>> contents of a frame buffer after a device is closed, and that this
+>> would help to keep transitions smooth.
+> 
+> Hi,
+> 
+> I believe the kernel is not wiping anything on device close. If
+> something in the KMS state is wiped, it originates in userspace:
+> 
+> - Plymouth doing something (e.g. RmFB on an in-use FB will turn the
+>   output off, you need to be careful to "leak" your FB if you want a
+>   smooth hand-over)
 
-Also, the function forgets to do check against null when get mm
-by get_task_mm().
+The "kernel is not wiping anything on device close" is not true,
+when closing /dev/dri/card# any remaining FBs from the app closing
+it will be dealt with as if they were RmFB-ed, causing the screen
+to show what I call "the fallback fb", at least with the i915 driver.
 
-Fix this issue by adding null check after get mm by get_task_mm().
+> - Xorg doing something (e.g. resetting instead of inheriting KMS state)
+> 
+> - Something missed in the hand-off sequence which allows fbcon to
+>   momentarily take over between Plymouth and Xorg. This would need to
+>   be fixed between Plymouth and Xorg.
+> 
+> - Maybe systemd-logind does something odd to the KMS device? It has
+>   pretty wild code there. Or maybe it causes fbcon to take over.
+> 
+> What is the new ioctl you referred to?
 
-Signed-off-by: Chenyuan Mi <cymi20@fudan.edu.cn>
-Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
----
- drivers/gpu/drm/nouveau/nouveau_svm.c | 4 ++++
- 1 file changed, 4 insertions(+)
+It is an ioctl to mark a FB to not have it auto-removed on device-close,
+instead leaving it in place until some some kernel/userspace client
+actively installs another FB. This was proposed by Rob Clark quite
+a while ago, but it never got anywhere because of lack of userspace
+actually interested in using it.
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-index b0c3422cb01f..9985bfde015a 100644
---- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-@@ -162,10 +162,14 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
- 	 */
- 
- 	mm = get_task_mm(current);
-+	if (!mm) {
-+		return -EINVAL;
-+	}
- 	mmap_read_lock(mm);
- 
- 	if (!cli->svm.svmm) {
- 		mmap_read_unlock(mm);
-+		mmput(mm);
- 		return -EINVAL;
- 	}
- 
--- 
-2.17.1
+I've been thinking about reviving Rob's patch, since at least for
+plymouth this would be pretty useful to have.
+
+Regards,
+
+Hans
 
