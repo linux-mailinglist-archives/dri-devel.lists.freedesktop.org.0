@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4F14024D0
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 10:02:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2514024CE
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 10:01:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98A3C89D53;
-	Tue,  7 Sep 2021 08:01:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E80FB89D5B;
+	Tue,  7 Sep 2021 08:01:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A8D6899D6
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0195B89C63
  for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 08:01:43 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso1088144wmb.2
+Received: by mail-wr1-x432.google.com with SMTP id i28so1817904wrb.2
  for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 01:01:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zajWujuBFDhvR4bfH13b+n++yTBgcdYE78FvWxSPeYE=;
- b=ix0BjHwN4RgI6lNBdcaqiJcLFEiwUXKgIDBMECibUTCU/Qsiz+Va56QCRXZJtO+UNa
- AkM5Cm+RKspa7+tQU1o/gyeJAT81dQkrGtEOzsRRf716zHIZwr2t+lGhcpjskiJF7Mq6
- M0is0/kla7t/Fz0AVRHcASNOTpMAsifyFHcR1RWECTMM6MJ1tgFJW2Ukzu7boUijy2tF
- aYid/1663dn0mTYw4EHoSSBt+xR8jljj1SkR1praqsBwRUl+4fBJVpswNy0t9LObTPVJ
- kbJ+ypIKMTHF/JbTg/VzHGUdLdGBMUmAWsDNabwTJ/GcmEhXQmRwsBYoYEokIt5KKVjN
- 7BJw==
+ bh=hYwBMrGyN8v4mRkb3bCYiWgxmbQRs6DCaUelO+FBX9Q=;
+ b=W/SYVSXP8ICwFw5lBX8DomddK60B5bpRZ33qORXiDvqW++cDHVqi/YQY6zI1RFdokX
+ VAVgQx5jVRGcjZgmPg4tDzOOzdbCeqEl6lNszGRewAqySAlfQnoslZV1gjIUlQSojXsf
+ t1WD/Yon6zGUg2v6NxHo9pip1Swn3uV4vQ/YtV+T2kFNtYqVjrBY8YKbmalIOPef4z5J
+ AGOo3SWWIeHiN9r2hcevsM7/weTy+HxBXffyEdfcVp7Kge/5lGTiTiTk9Nmwfaw6pWHH
+ DjdrveC2DckRUqXt0QOguivrv+QWK/TkeamM5ahYrKMQQaIyL1zeJm2duRkystO30ii8
+ YOcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zajWujuBFDhvR4bfH13b+n++yTBgcdYE78FvWxSPeYE=;
- b=BdrX1IWplKQHu0F7+hJIOG9ftgOPBQQEvQRmObrwJXZw00zZPFVUCybsuoIXksb4dJ
- QJ9zcUAQz1A590Q+3gmXwUj1PJUqsFAOFkQ+ezb65opaf4YAkpcPMO3cFnaPK/fqT46C
- HXbillxx4Z18XdOmbzj0HIz7VH7m0mgnBeLkbILoTRFpnMMBhK+eJqi3cQ59CDo+gfTw
- c0FSzXBPa3f+TCa/2MDBkquDUW5QvX1qji28yJ+sQ5hB19og3nbjMvpus8nwQr5o68mi
- Z+/Xc9Eywk/Ic3KC7vM8QShPfj0v0SxtLyu28JUZwI7cu1J1QoKUySPbnYiwvznsU0Nd
- XG8w==
-X-Gm-Message-State: AOAM531g+UbuBBADb6fUnJMJ/fV3PJY5I7SgMUemYPVxq5BThfell37c
- tpQs6el7Z3Z0Jqkx+J6akaCWiq8EvYcza3P0
-X-Google-Smtp-Source: ABdhPJx4/aUYTpzJZavhK3N2Av5QwhZv7WcHVrqNgb6PS1JdDGUNMezIJLGVDOcHirlAFuukP+71EQ==
-X-Received: by 2002:a1c:7c12:: with SMTP id x18mr2628877wmc.114.1631001701959; 
- Tue, 07 Sep 2021 01:01:41 -0700 (PDT)
+ bh=hYwBMrGyN8v4mRkb3bCYiWgxmbQRs6DCaUelO+FBX9Q=;
+ b=GGMt3Rk1m4FpsRhByQnXh+H0kpNWr/BK0KvbatTSq/pHVE+eBLPw5FxrmrO+iQ6Z+b
+ o7KcsK3vVKAXVJHkfQk6MrfTBbNMOkDyeRwkqDNmxp4ybSgjrcSGml6WUHz+q5oUEtT8
+ LGIz5lsREKnBo1INdqEKfEMPffOjZ3wbNEhQc5kl5j+3WwF56BL9p15lndw6uZkIaAdu
+ c53u0rDGHborHClMfywPPj4WFu9SdcIitjvRs8r65QQdKl99mB9hXsjymc2JuwTKqqH2
+ NSOyumASjAl68+MbM9VZ3GDt+kq7WS0vLce2MRUJDuHlD9yLEzML+k8oW9IF40AVOgEj
+ 3PYA==
+X-Gm-Message-State: AOAM533Xpab4W1NE9yY2ksGAJLDuC48M1QWQo3s9AKJ/41N094pOzIlw
+ oQJgHvLyNOCo4XF9vldmW03++MEtQbNMZhco
+X-Google-Smtp-Source: ABdhPJyZ/jKU3h1zwbcQn1vQVainabXDTRRAxYk00D7XLF6xWIxgkqy3fUVrW44IXjuDSH8CZUfR5A==
+X-Received: by 2002:adf:82a9:: with SMTP id 38mr17395206wrc.82.1631001702607; 
+ Tue, 07 Sep 2021 01:01:42 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- g1sm2248242wmk.2.2021.09.07.01.01.41
+ g1sm2248242wmk.2.2021.09.07.01.01.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 01:01:41 -0700 (PDT)
+ Tue, 07 Sep 2021 01:01:42 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: dri-devel@lists.freedesktop.org
 Cc: matthew.william.auld@gmail.com
-Subject: [PATCH 7/8] drm/ttm: enable TTM TT object kerneldoc v2
-Date: Tue,  7 Sep 2021 10:01:34 +0200
-Message-Id: <20210907080135.101452-7-christian.koenig@amd.com>
+Subject: [PATCH 8/8] drm/ttm: enable TTM page pool kerneldoc
+Date: Tue,  7 Sep 2021 10:01:35 +0200
+Message-Id: <20210907080135.101452-8-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210907080135.101452-1-christian.koenig@amd.com>
 References: <20210907080135.101452-1-christian.koenig@amd.com>
@@ -78,80 +77,56 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Fix the remaining warnings and finally enable this.
 
-v2: add caching enum link
-
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- Documentation/gpu/drm-mm.rst |  9 +++++++++
- include/drm/ttm/ttm_tt.h     | 11 ++++++++---
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ Documentation/gpu/drm-mm.rst | 9 +++++++++
+ include/drm/ttm/ttm_pool.h   | 5 +++--
+ 2 files changed, 12 insertions(+), 2 deletions(-)
 
 diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 1c9930fb5e7d..69c4a20b95d0 100644
+index 69c4a20b95d0..e0538083a2c0 100644
 --- a/Documentation/gpu/drm-mm.rst
 +++ b/Documentation/gpu/drm-mm.rst
-@@ -58,6 +58,15 @@ TTM resource object reference
- .. kernel-doc:: drivers/gpu/drm/ttm/ttm_resource.c
+@@ -67,6 +67,15 @@ TTM TT object reference
+ .. kernel-doc:: drivers/gpu/drm/ttm/ttm_tt.c
     :export:
  
-+TTM TT object reference
++TTM page pool reference
 +-----------------------
 +
-+.. kernel-doc:: include/drm/ttm/ttm_tt.h
++.. kernel-doc:: include/drm/ttm/ttm_pool.h
 +   :internal:
 +
-+.. kernel-doc:: drivers/gpu/drm/ttm/ttm_tt.c
++.. kernel-doc:: drivers/gpu/drm/ttm/ttm_pool.c
 +   :export:
 +
  The Graphics Execution Manager (GEM)
  ====================================
  
-diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index e402dab1d0f6..b3963ab12e1f 100644
---- a/include/drm/ttm/ttm_tt.h
-+++ b/include/drm/ttm/ttm_tt.h
-@@ -54,7 +54,7 @@ struct ttm_operation_ctx;
-  * @dma_address: The DMA (bus) addresses of the pages
-  * @swap_storage: Pointer to shmem struct file for swap storage.
-  * @pages_list: used by some page allocation backend
-- * @caching: The current caching state of the pages.
-+ * @caching: The current caching state of the pages, see enum ttm_caching.
-  *
-  * This is a structure holding the pages, caching- and aperture binding
-  * status for a buffer object that isn't backed by fixed (VRAM / AGP)
-@@ -126,8 +126,9 @@ int ttm_sg_tt_init(struct ttm_tt *ttm_dma, struct ttm_buffer_object *bo,
- void ttm_tt_fini(struct ttm_tt *ttm);
+diff --git a/include/drm/ttm/ttm_pool.h b/include/drm/ttm/ttm_pool.h
+index 4321728bdd11..ef09b23d29e3 100644
+--- a/include/drm/ttm/ttm_pool.h
++++ b/include/drm/ttm/ttm_pool.h
+@@ -37,7 +37,7 @@ struct ttm_pool;
+ struct ttm_operation_ctx;
  
  /**
-- * ttm_ttm_destroy:
-+ * ttm_tt_destroy:
+- * ttm_pool_type - Pool for a certain memory type
++ * struct ttm_pool_type - Pool for a certain memory type
   *
-+ * @bdev: the ttm_device this object belongs to
-  * @ttm: The struct ttm_tt.
-  *
-  * Unbind, unpopulate and destroy common struct ttm_tt.
-@@ -148,15 +149,19 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
- /**
-  * ttm_tt_populate - allocate pages for a ttm
-  *
-+ * @bdev: the ttm_device this object belongs to
-  * @ttm: Pointer to the ttm_tt structure
-+ * @ctx: operation context for populating the tt object.
-  *
-  * Calls the driver method to allocate pages for a ttm
-  */
--int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm, struct ttm_operation_ctx *ctx);
-+int ttm_tt_populate(struct ttm_device *bdev, struct ttm_tt *ttm,
-+		    struct ttm_operation_ctx *ctx);
+  * @pool: the pool we belong to, might be NULL for the global ones
+  * @order: the allocation order our pages have
+@@ -58,8 +58,9 @@ struct ttm_pool_type {
+ };
  
  /**
-  * ttm_tt_unpopulate - free pages from a ttm
+- * ttm_pool - Pool for all caching and orders
++ * struct ttm_pool - Pool for all caching and orders
   *
-+ * @bdev: the ttm_device this object belongs to
-  * @ttm: Pointer to the ttm_tt structure
-  *
-  * Calls the driver method to free all pages from a ttm
++ * @dev: the device we allocate pages for
+  * @use_dma_alloc: if coherent DMA allocations should be used
+  * @use_dma32: if GFP_DMA32 should be used
+  * @caching: pools for each caching/order
 -- 
 2.25.1
 
