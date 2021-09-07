@@ -1,61 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB690402D6E
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:06:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF04402D74
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 19:08:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3D6EE6E075;
-	Tue,  7 Sep 2021 17:06:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 343C26E07B;
+	Tue,  7 Sep 2021 17:07:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E0B26E075;
- Tue,  7 Sep 2021 17:06:08 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id 6so13614588oiy.8;
- Tue, 07 Sep 2021 10:06:08 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AAF6E07B;
+ Tue,  7 Sep 2021 17:07:57 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id c79so13607972oib.11;
+ Tue, 07 Sep 2021 10:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LvLnME+IjjXBdlapd7qwu3ckCRmUspxnvArgV5vhrZs=;
- b=p7bvjkWXysVTS4dKlzkBHNI0Mh2Ex6LJErKRsDYC6PVaIdcwIhfzGMNcrVeAvjcB2N
- lPjSwJBCVFki7J736XxBScmH+iYS31DmnOhzzHcq+Yrql2ayrSwZprAv3+CImVQSQVCQ
- psPhSwmoRy0mL7JL4baFLy0N5j4thDzc/tRP2ooL7dF7FFtRCVI4fGbNjrKgzP29Nwal
- BTpKD44nZRaJRiNT6o/tqQzfFxbUi1TKdMNL/cj5LpMvVNKwKK4+UCmfO/FU9Fa3Z22n
- GYhUyvfOQim9/RaYGbZsfFOElPt2QDnQVQkkHEaJJzLSTqlgovAAl4l0CJaGhCJio3D9
- R8sw==
+ :cc; bh=j29s6jGrbvtqdrpQkBZYVbTtCf9huBsKw7LAbvekqDc=;
+ b=nDMbNZ9NrJI9JSLW4JBrEP3rhrTxiskApiLwhzzTBbw5bocGu3rATpSH8lOsAtCzDt
+ W/yn8TNRiS/m2IlUqXDwnBFLGQNjqQsN0ff+91/df3BdpAD3K4X7YOdGM7jflgceOraf
+ BFbs2tPYxzpM659Jv0vfxdHIpknDE1S70pQLxltO1wBUipwGBJ8RUjuILAfeZBqOZx7O
+ HZHfkrp/QDtLwuztS84UXn+fNKToFEYfHNNUeKQgt9UrdFHqFT8TFBauVzEbe8hzTbCi
+ ScEFd0qnqeBrirpapDinhjvUm9oQNA3Jk9U2mlMZyl5jHIdyjrQTwbYD+U+4OungicxA
+ UXRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
+ d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=LvLnME+IjjXBdlapd7qwu3ckCRmUspxnvArgV5vhrZs=;
- b=Te/M2OenNYQAyBmE3b8KtiK08eyOJvXJBFpLRKORvqfGvXsQV/0d9QsYKXOUnAyX4V
- z2wnC66/N/6htL+pnPhj6tcSixK+Ry6IjEh3eyHENNhTX7sYoA1QjFutO4E8eTrBgMd9
- Zu/5INdqnqOQs8PXs6linBNtYK84Jx10kFw1BAhz6OGuEO/4Tuqe++MKmgpHBtePWAsQ
- TadyNwt61M29lhWFsXcbAWLb4SJJ16/0fRf1jt1tR6HVsKTWQx2iSCI9rN4TXnvCmiS1
- KcrBwl4Zs32WnWqhHZgkdMO3FVc5LZhQcRoodwax87x4pFwPfbRbsmAyt2txov2B1jm/
- 8JoA==
-X-Gm-Message-State: AOAM532jLFggfVW7hvT2X8C1rxc8GZVjNe3wokbRQaMK3gpq+vHT+Vrt
- qQMwSSdDGRrfL7nZXUKzOHHWmfh1+q+BpGZlsfg=
-X-Google-Smtp-Source: ABdhPJx3mbR9TZRmahMq3/ZF7VUfLVN5NKyz2LJ9Td2mGx+cyp97pCLl0NghVieRW05ckB4pOBB81dxwCcF4itvsl08=
-X-Received: by 2002:a05:6808:483:: with SMTP id z3mr3622068oid.5.1631034367521; 
- Tue, 07 Sep 2021 10:06:07 -0700 (PDT)
+ bh=j29s6jGrbvtqdrpQkBZYVbTtCf9huBsKw7LAbvekqDc=;
+ b=LTpHeB3e1kGekDCQU5WIS/CQ0IxlIwbRrYrv19aZrn/BU0tUfGShIguiGoqrAfFYS/
+ G53O5eJfFPA867tWmxtknlB8ohpU8ShNGYgkTucQDbKNsz/83gaO2wWSnNEGL/QvjHnL
+ eEfS38/EHraO3qxPtZ785+MEFzN6Fu7bmbm7g6UFAZx4oDxJ0ppRku8O2C9rvj4pjKjH
+ YSZnlP2Fb4ovBw58sREwfvG+a8dPzQjGQ/1xld6ydHCphYZZqZGU5/lhW0vBZTUMTgZr
+ BML2xU2emFPpolj1IM2T6duTZfZ2DFDn0vif3xsxFcEfHeIziDw9NUQbmnJkbaLoDgYJ
+ xfyg==
+X-Gm-Message-State: AOAM5318SWXR0TxNsq0eEJD6Z672um3ovyndBVUXsRhd9GAj/DnYLxvj
+ LNJAg3pa0MorJS3y2AZruKDdipi2/cH4fWC9/YejpGil
+X-Google-Smtp-Source: ABdhPJyQD705JieHy8nmaQuvlsZIWn9W+PazsyLzS41xNVIzxnVtMdvH/weyFa3QYZ0PrVCTGvsf9XM9fY9Sh0UpMUI=
+X-Received: by 2002:a05:6808:1310:: with SMTP id
+ y16mr3749150oiv.123.1631034476551; 
+ Tue, 07 Sep 2021 10:07:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210907110913.15499-1-colin.king@canonical.com>
-In-Reply-To: <20210907110913.15499-1-colin.king@canonical.com>
+References: <1630920208-37789-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <1630920208-37789-1-git-send-email-jiapeng.chong@linux.alibaba.com>
 From: Alex Deucher <alexdeucher@gmail.com>
-Date: Tue, 7 Sep 2021 13:05:56 -0400
-Message-ID: <CADnq5_PsA5KsH5D2=-GKLgq2HQ-_5x=-0SJF3htvKEzK5cKVYQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon/ci_dpm: Remove redundant initialization of
- variables hi_sidd, lo_sidd
-To: Colin King <colin.king@canonical.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- xinhui pan <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+Date: Tue, 7 Sep 2021 13:07:45 -0400
+Message-ID: <CADnq5_NNTmyPs4KL1LgaZntAurjm1vx_m9UH95tMOkojCAtLxw@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix warning comparing pointer to 0
+To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc: "Wentland, Harry" <harry.wentland@amd.com>,
+ "Leo (Sunpeng) Li" <sunpeng.li@amd.com>, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ xinhui pan <Xinhui.Pan@amd.com>, Dave Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, 
  amd-gfx list <amd-gfx@lists.freedesktop.org>, 
  Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+ LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -76,34 +78,35 @@ Applied.  Thanks!
 
 Alex
 
-On Tue, Sep 7, 2021 at 7:09 AM Colin King <colin.king@canonical.com> wrote:
+On Mon, Sep 6, 2021 at 5:23 AM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
 >
-> From: Colin Ian King <colin.king@canonical.com>
+> From: chongjiapeng <jiapeng.chong@linux.alibaba.com>
 >
-> The variables hi_sidd and lo_sidd are being initialized with a values
-> that are never read, they are being updated later on. The assignments
-> are redundant and can be removed.
+> Fix the following coccicheck warning:
 >
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ./drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c:643:35-36:
+> WARNING comparing pointer to 0.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: chongjiapeng <jiapeng.chong@linux.alibaba.com>
 > ---
->  drivers/gpu/drm/radeon/ci_dpm.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/ci_dpm.c b/drivers/gpu/drm/radeon/ci_dpm.c
-> index f0cfb58da467..ac006bed4743 100644
-> --- a/drivers/gpu/drm/radeon/ci_dpm.c
-> +++ b/drivers/gpu/drm/radeon/ci_dpm.c
-> @@ -390,8 +390,7 @@ static int ci_min_max_v_gnbl_pm_lid_from_bapm_vddc(struct radeon_device *rdev)
->  static int ci_populate_bapm_vddc_base_leakage_sidd(struct radeon_device *rdev)
->  {
->         struct ci_power_info *pi = ci_get_pi(rdev);
-> -       u16 hi_sidd = pi->smc_powertune_table.BapmVddCBaseLeakageHiSidd;
-> -       u16 lo_sidd = pi->smc_powertune_table.BapmVddCBaseLeakageLoSidd;
-> +       u16 hi_sidd, lo_sidd;
->         struct radeon_cac_tdp_table *cac_tdp_table =
->                 rdev->pm.dpm.dyn_state.cac_tdp_table;
+> diff --git a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
+> index 4a4894e..15491e3 100644
+> --- a/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
+> +++ b/drivers/gpu/drm/amd/display/dc/clk_mgr/dcn31/dcn31_clk_mgr.c
+> @@ -640,7 +640,7 @@ void dcn31_clk_mgr_construct(
+>                                 sizeof(struct dcn31_watermarks),
+>                                 &clk_mgr->smu_wm_set.mc_address.quad_part);
 >
+> -       if (clk_mgr->smu_wm_set.wm_set == 0) {
+> +       if (!clk_mgr->smu_wm_set.wm_set) {
+>                 clk_mgr->smu_wm_set.wm_set = &dummy_wms;
+>                 clk_mgr->smu_wm_set.mc_address.quad_part = 0;
+>         }
 > --
-> 2.32.0
+> 1.8.3.1
 >
