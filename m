@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97EEF402C94
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 18:07:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F05402CD8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 18:30:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F9B36E049;
-	Tue,  7 Sep 2021 16:07:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A39988F0A;
+	Tue,  7 Sep 2021 16:30:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDF896E049
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 16:07:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A069F610F8
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 16:07:10 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 968B388F0A
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 16:30:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 70A1261104
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 16:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631030830;
- bh=+lJkGZeGmmojxoICOoYZ2t3AkosVDnXKocMMyh1szbs=;
+ s=k20201202; t=1631032208;
+ bh=/i//j1fOwb+XWtxuMbanMqqYVLUzNfmK+qoMX+CZRPA=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=QNp9p1TUa3ei4z9ns0GgLtkR1OizOQ1pIKoqKY9MUoxNy8GDuZPe4KneNrFTgnfgT
- E5kOgdQcr4hRziJAzNysLzkRrlDhNh15STVAo5CHzaCvancScfsROamjR1oK+tA2Bc
- VttM+LqvNou2xrah3U5hbymBHgQCcn7wSOV1TrHBYiYB93nN0ihhLs0bzLBRyq7HkS
- wQbGox70OLqF1/49ssoeu1lXRI9v6lv58EBotXOr3odPC4xUwuM9eCPaWPxZJEGSJw
- PF2ikN6g2TRR30hkCYKlox6Qhfh1OGRVI/AyA47mAOeTg1hZgJNoiphaF5Cm41JVmh
- XYLmMUswh8UOg==
-Received: by mail-ej1-f52.google.com with SMTP id u14so20647449ejf.13
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 09:07:10 -0700 (PDT)
-X-Gm-Message-State: AOAM533D3rXcveY5EO4CNiquqPGJpl38QCzuNQh2fQvyab56imi1EgX6
- XPVx6TuS1zqbOXo9b7GKtY3uv72zl46P2Df4ng==
-X-Google-Smtp-Source: ABdhPJyY5G5Fp3aIZKKQwfIH3FO1wAURJJPIvo91MbXQo53v/T6+cQCTl2RcTXSYs4lmdwE+fxWw+K47Vu/yjAvvJpc=
-X-Received: by 2002:a17:906:26c4:: with SMTP id
- u4mr18904991ejc.511.1631030829293; 
- Tue, 07 Sep 2021 09:07:09 -0700 (PDT)
+ b=mkZu7pmXbunqidV6Z4TfVTgG0f4GSI5hVnMQOaf9tX6yhq4GqTta9ha6MZUZRx+tI
+ HPMDGM5KOeI03HKlMwXRCJdZOtGzGtrWe58CYs5V6TtP5i+i21nmPnAR6Gfe/BzqiQ
+ /aB4b9JyWuM5XjJ+Qa4AnukeCL6S/6Rzsslye/t6iSlTifwkna0bOgVDnpHrOq2fNP
+ grNJ/VVOKspovDWPFV+janTR2jIRhWqCSLSBhTWCwtjTUX25yyEtVbi+PC3XOZaI3V
+ /lElVXr4ZxuQjwE3xuH3ta9bNs5FFpPVRBieujtlxvbs8CVlC3I/yZnAl2ApWGS3Qs
+ TEJ/T0PlQjiew==
+Received: by mail-ej1-f49.google.com with SMTP id bt14so20853204ejb.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 09:30:08 -0700 (PDT)
+X-Gm-Message-State: AOAM533oxASfoH2OX7RSy4ZDdBeZX2tM1lINnGLYnpEYdvmP77/am2cJ
+ nw8E92suiPItCk8fjZAzNdXtb5qvxZFyL7b6Bw==
+X-Google-Smtp-Source: ABdhPJzLkwddxnUcVX7bVwwUpGSHGMnvVQjKfrWTpYvJ7hWPLwru5ku9P/Cjopdi8PWOnTY9S83DeW/a1j3JAydcmCc=
+X-Received: by 2002:a17:906:158f:: with SMTP id
+ k15mr19791012ejd.241.1631032206943; 
+ Tue, 07 Sep 2021 09:30:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210906071539.12953-1-nancy.lin@mediatek.com>
- <20210906071539.12953-5-nancy.lin@mediatek.com>
-In-Reply-To: <20210906071539.12953-5-nancy.lin@mediatek.com>
+ <20210906071539.12953-9-nancy.lin@mediatek.com>
+In-Reply-To: <20210906071539.12953-9-nancy.lin@mediatek.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 8 Sep 2021 00:06:58 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
-Message-ID: <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
-Subject: Re: [PATCH v5 04/16] dt-bindings: reset: mt8195: add vdosys1 reset
- control bit
+Date: Wed, 8 Sep 2021 00:29:55 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8aQkx55C=mqK-4bULpG_biHkq4brBF2SDdtbpnhP3Rvw@mail.gmail.com>
+Message-ID: <CAAOTY_8aQkx55C=mqK-4bULpG_biHkq4brBF2SDdtbpnhP3Rvw@mail.gmail.com>
+Subject: Re: [PATCH v5 08/16] soc: mediatek: add cmdq support of mtk-mmsys
+ config API for mt8195 vdosys1
 To: "Nancy.Lin" <nancy.lin@mediatek.com>
 Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
  Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
@@ -77,41 +77,125 @@ Hi, Nancy:
 Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=886=E6=97=
 =A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:15=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> Add vdosys1 reset control bit for MT8195 platform.
+> Add cmdq support for mtk-mmsys config API.
+> The mmsys config register settings need to take effect with the other
+> HW settings(like OVL_ADAPTOR...) at the same vblanking time.
+>
+> If we use CPU to write the mmsys reg, we can't guarantee all the
+> settings can be written in the same vblanking time.
+> Cmdq is used for this purpose. We prepare all the related HW settings
+> in one cmdq packet. The first command in the packet is "wait stream done"=
+,
+> and then following with all the HW settings. After the cmdq packet is
+> flush to GCE HW. The GCE waits for the "stream done event" to coming
+> and then starts flushing all the HW settings. This can guarantee all
+> the settings flush in the same vblanking.
 >
 > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > ---
->  include/dt-bindings/reset/mt8195-resets.h | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
+>  drivers/soc/mediatek/mtk-mmsys.c       | 28 +++++++++++++++++++++-----
+>  include/linux/soc/mediatek/mtk-mmsys.h |  6 +++++-
+>  2 files changed, 28 insertions(+), 6 deletions(-)
 >
-> diff --git a/include/dt-bindings/reset/mt8195-resets.h b/include/dt-bindi=
-ngs/reset/mt8195-resets.h
-> index a26bccc8b957..eaaa882c09bd 100644
-> --- a/include/dt-bindings/reset/mt8195-resets.h
-> +++ b/include/dt-bindings/reset/mt8195-resets.h
-> @@ -26,4 +26,16 @@
+> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-=
+mmsys.c
+> index 3a38b8269c71..060065501b8a 100644
+> --- a/drivers/soc/mediatek/mtk-mmsys.c
+> +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> @@ -81,6 +81,7 @@ struct mtk_mmsys {
+>         const struct mtk_mmsys_driver_data *data;
+>         spinlock_t lock; /* protects mmsys_sw_rst_b reg */
+>         struct reset_controller_dev rcdev;
+> +       struct cmdq_client_reg cmdq_base;
+>  };
 >
->  #define MT8195_TOPRGU_SW_RST_NUM               16
+>  void mtk_mmsys_ddp_connect(struct device *dev,
+> @@ -174,7 +175,7 @@ static const struct reset_control_ops mtk_mmsys_reset=
+_ops =3D {
+>  };
 >
-> +/* VDOSYS1 */
-> +#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC 25
-> +#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC 26
-> +#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC 27
-> +#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC 28
-> +#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC 29
-> +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC 51
-> +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC 52
-> +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC 53
-> +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC 54
-> +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC 55
+>  void mtk_mmsys_ddp_config(struct device *dev, enum mtk_mmsys_config_type=
+ config,
+> -                         u32 id, u32 val)
+> +                         u32 id, u32 val, struct cmdq_pkt *cmdq_pkt)
+>  {
+>         struct mtk_mmsys *mmsys =3D dev_get_drvdata(dev);
+>         const struct mtk_mmsys_config *mmsys_config =3D mmsys->data->conf=
+ig;
+> @@ -197,10 +198,20 @@ void mtk_mmsys_ddp_config(struct device *dev, enum =
+mtk_mmsys_config_type config,
+>         mask =3D mmsys_config[i].mask;
+>         reg_val =3D val << mmsys_config[i].shift;
+>
+> -       u32 tmp =3D readl(mmsys->regs + offset);
+> -
+> -       tmp =3D (tmp & ~mask) | reg_val;
+> -       writel(tmp, mmsys->regs + offset);
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       if (cmdq_pkt && mmsys->cmdq_base.size) {
+> +               cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
+> +                                   mmsys->cmdq_base.offset + offset, reg=
+_val,
+> +                                   mask);
+> +       } else {
+> +#endif
+> +               u32 tmp =3D readl(mmsys->regs + offset);
+> +
+> +               tmp =3D (tmp & ~mask) | reg_val;
+> +               writel(tmp, mmsys->regs + offset);
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       }
+> +#endif
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+>
+> @@ -236,6 +247,13 @@ static int mtk_mmsys_probe(struct platform_device *p=
+dev)
+>         }
+>
+>         mmsys->data =3D of_device_get_match_data(&pdev->dev);
+> +
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +       ret =3D cmdq_dev_get_client_reg(dev, &mmsys->cmdq_base, 0);
 
-Maybe you should align the indent style with TOPRGU.
+Define mediatek,gce-client-reg in binding document first.
 
 Regards,
 Chun-Kuang.
 
+> +       if (ret)
+> +               dev_dbg(dev, "No mediatek,gce-client-reg!\n");
+> +#endif
 > +
->  #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
+>         platform_set_drvdata(pdev, mmsys);
+>
+>         clks =3D platform_device_register_data(&pdev->dev, mmsys->data->c=
+lk_driver,
+> diff --git a/include/linux/soc/mediatek/mtk-mmsys.h b/include/linux/soc/m=
+ediatek/mtk-mmsys.h
+> index ef2a6d9a834b..9705d242849a 100644
+> --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> @@ -6,6 +6,10 @@
+>  #ifndef __MTK_MMSYS_H
+>  #define __MTK_MMSYS_H
+>
+> +#include <linux/mailbox_controller.h>
+> +#include <linux/mailbox/mtk-cmdq-mailbox.h>
+> +#include <linux/soc/mediatek/mtk-cmdq.h>
+> +
+>  enum mtk_ddp_comp_id;
+>  struct device;
+>
+> @@ -75,6 +79,6 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+>                               enum mtk_ddp_comp_id next);
+>
+>  void mtk_mmsys_ddp_config(struct device *dev, enum mtk_mmsys_config_type=
+ config,
+> -                         u32 id, u32 val);
+> +                         u32 id, u32 val, struct cmdq_pkt *cmdq_pkt);
+>
+>  #endif /* __MTK_MMSYS_H */
 > --
 > 2.18.0
 >
