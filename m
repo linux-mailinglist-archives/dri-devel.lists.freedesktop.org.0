@@ -1,61 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4476E402540
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 10:40:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBA5402550
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 10:42:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AF67B89DA4;
-	Tue,  7 Sep 2021 08:39:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B2C4389DA8;
+	Tue,  7 Sep 2021 08:42:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1633789DA4
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 08:39:57 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id z4so13209459wrr.6
- for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 01:39:57 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5ED589D60
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 08:42:52 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id d6so12597150wrc.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 07 Sep 2021 01:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=2Z/Jxh5I58nqAJS74N7U1/ESI0ix562GJVtyAJnxTIM=;
- b=gU2zhI6vtlnAnLEcrdfZ0zfk0ugaj7OJE6l2hRo9n3wubPF0tn9l0fgP0E3oS7+mtY
- w7qhcESnV2snyj8T0qFCklNSggYYjDDUPwaiTV13J1p7D5XfK7mNN11SMW5pXxVZGbE/
- 9hYaCN5DRlzYSKfmAnj2Ro1HyRxtiIzKf0ouk=
+ :content-disposition:in-reply-to;
+ bh=1AjW4Kc6ZGOu180e/pv9qa4D2oUwYVALvaaYfq7mkpU=;
+ b=ZXOfQiRF7AoffAtrkihEs3ZF2QqQsHfVGeOqtVJMGJci4ev78qJ/OomWcZHqwwwuCQ
+ cdYl/4wVu4jGx8eIMTzDc3LiGSgNw3etgm04wUF7hrcxI8voYj/nUvZcgzpJjBB7511n
+ iuYtuhdMyMvLhOn2KOqJGv+gKX6tpDbZp1as4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=2Z/Jxh5I58nqAJS74N7U1/ESI0ix562GJVtyAJnxTIM=;
- b=eR0/aywuXCqxBqkmr5VNKrvGtZ+s5iPmIJ6FNCUk8xLHb4lqzrMJBBi+XTgEgKmta5
- uCDiKJmddloVe7u5me0qotbmpJBYL/h2ln4lDULfClKhF0Jcgs++dlp4zNuwvYWvvgYx
- G0D3EYuVTTLeicccC/PnVzE0/SrOth9fHY1ROvHxPP38ab2GVQBq0FFOV7r7bHwhCC5I
- 2P4goYqxUtadfLABP7nkyAubQvepFeKgiDVG86ZGpN6/TJGnd7HOrdf7n4VzF24g+1LP
- gGS6FGYpcRQdaden67c0m5wmMSWGM34mjuxvuojoVHTNWpsmnY7btyPUjCizsCyHUDyl
- SLeQ==
-X-Gm-Message-State: AOAM531qiCTNcRyP5Mf3QAtIkUpLxS2VPR3y7JtQMlfIxFDEhDAwBYBD
- JL4uSrCuuuUb0/5tf5BRx7x+nw==
-X-Google-Smtp-Source: ABdhPJwgcmbvWUx6cIR6rIIsUeC/SzvzO26JPvkLm/o/RXVzlPK5ajMKh3KkeSUfaEfB9cI4KkhFwg==
-X-Received: by 2002:a05:6000:10:: with SMTP id
- h16mr17986219wrx.24.1631003995631; 
- Tue, 07 Sep 2021 01:39:55 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=1AjW4Kc6ZGOu180e/pv9qa4D2oUwYVALvaaYfq7mkpU=;
+ b=EPOLFaBVwfgkBqtMBaWcR0sarAJsdWMcsQzuwpNt1odNLwyxBMJM7Zy66fS2ueSyxb
+ 8/D0bO8vX7h7poPDWe4VSInfh16lfNfxn/sk8XS74wiqXAL7XeIzbX7Fml91Enybc1Kv
+ 0MQbsY4AY0/23DAmFDJZBFQ+TpHV+O3VUIofo8cE5KHUqF7fGiRkGEGi01LHWVH5b/iu
+ 8IVdJEjv+Azg8o9Yv546O9nWKU+el0ZjZi4cAmbZPGDW7/iyfh2+L/nsI8nnYqa1Isqx
+ RFsW1P2XnCi026n8hF0l/hwMGZb6gS8Jf59whOHxKL2GdaaQlta19TqJ2w1AI9BnPIdO
+ udFw==
+X-Gm-Message-State: AOAM530WTonccHL0xMo/ow5JbTANbTiM8Aan2dG82zJInIPQv6GAsrcW
+ D2M+u0xG2Jd9KGODvJMh8pl5JA==
+X-Google-Smtp-Source: ABdhPJx9yu5rT9NBxVQtAwN/o9g7BfgrQCFHeuntsG69nuWrDkH5b7HdWIETSHoX+KDV9jZV3TswLg==
+X-Received: by 2002:adf:ff86:: with SMTP id j6mr17501660wrr.299.1631004171366; 
+ Tue, 07 Sep 2021 01:42:51 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id v28sm10464146wrv.93.2021.09.07.01.39.55
+ by smtp.gmail.com with ESMTPSA id d7sm9197126wrf.3.2021.09.07.01.42.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 07 Sep 2021 01:39:55 -0700 (PDT)
-Date: Tue, 7 Sep 2021 10:39:47 +0200
+ Tue, 07 Sep 2021 01:42:50 -0700 (PDT)
+Date: Tue, 7 Sep 2021 10:42:49 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, matthew.william.auld@gmail.com
-Subject: Re: [PATCH 1/8] drm/ttm: remove the outdated kerneldoc section
-Message-ID: <YTclUy9VaU8sSQGZ@phenom.ffwll.local>
-References: <20210907080135.101452-1-christian.koenig@amd.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ intel-gfx <Intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915: Use Transparent Hugepages when IOMMU is
+ enabled
+Message-ID: <YTcmCSr5HJZDeRNH@phenom.ffwll.local>
+References: <20210729133420.770672-1-tvrtko.ursulin@linux.intel.com>
+ <20210729133420.770672-2-tvrtko.ursulin@linux.intel.com>
+ <CAKMK7uE412nf5RisGBR2GrNsvgPH+omHv4K+m5McJv1t55DQMQ@mail.gmail.com>
+ <c8aecd1e-f6d6-cec2-3352-e01c9427248b@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210907080135.101452-1-christian.koenig@amd.com>
+In-Reply-To: <c8aecd1e-f6d6-cec2-3352-e01c9427248b@linux.intel.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -72,83 +81,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 07, 2021 at 10:01:28AM +0200, Christian König wrote:
-> Clean up to start over with new and more accurate documentation.
+On Fri, Sep 03, 2021 at 01:47:52PM +0100, Tvrtko Ursulin wrote:
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> On 29/07/2021 15:06, Daniel Vetter wrote:
+> > On Thu, Jul 29, 2021 at 3:34 PM Tvrtko Ursulin
+> > <tvrtko.ursulin@linux.intel.com> wrote:
+> > > 
+> > > From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > 
+> > > Usage of Transparent Hugepages was disabled in 9987da4b5dcf
+> > > ("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
+> > > appears majority of performance regressions reported with an enabled IOMMU
+> > > can be almost eliminated by turning them on, lets just do that.
+> > > 
+> > > To err on the side of safety we keep the current default in cases where
+> > > IOMMU is not active, and only when it is default to the "huge=within_size"
+> > > mode. Although there probably would be wins to enable them throughout,
+> > > more extensive testing across benchmarks and platforms would need to be
+> > > done.
+> > > 
+> > > With the patch and IOMMU enabled my local testing on a small Skylake part
+> > > shows OglVSTangent regression being reduced from ~14% (IOMMU on versus
+> > > IOMMU off) to ~2% (same comparison but with THP on).
+> > > 
+> > > v2:
+> > >   * Add Kconfig dependency to transparent hugepages and some help text.
+> > >   * Move to helper for easier handling of kernel build options.
+> > > 
+> > > v3:
+> > >   * Drop Kconfig. (Daniel)
+> > > 
+> > > References: b901bb89324a ("drm/i915/gemfs: enable THP")
+> > > References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
+> > > References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
+> > > Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+> > > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > > Cc: Matthew Auld <matthew.auld@intel.com>
+> > > Cc: Eero Tamminen <eero.t.tamminen@intel.com>
+> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > > Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # v1
+> > 
+> > On both patches: Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> 
+> Eero's testing results at
+> https://gitlab.freedesktop.org/drm/intel/-/issues/430 are looking good -
+> seem to show this to be a net win for at least Gen9 and Gen12 platforms.
+> 
+> Is the ack enough to merge in this case or I should look for an r-b as well?
 
-Burried in mails, but thanks a lot for kicking this can so we can start
-the journey!
--Daniel
+Since your back to defacto v1 with the 2nd patch I think you have full r-b
+already. So more than enough I think.
 
-> ---
->  Documentation/gpu/drm-mm.rst | 49 ------------------------------------
->  1 file changed, 49 deletions(-)
+Please do record the relative perf numbers from Eero in that issue in the
+commit message so that we have that on the git log record too. It's easier
+to find there than following the link and finding the right comment in the
+issue.
+
+Thanks, Daniel
+
 > 
-> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-> index 0198fa43d254..8ca981065e1a 100644
-> --- a/Documentation/gpu/drm-mm.rst
-> +++ b/Documentation/gpu/drm-mm.rst
-> @@ -30,55 +30,6 @@ The Translation Table Manager (TTM)
->  
->  TTM design background and information belongs here.
->  
-> -TTM initialization
-> -------------------
-> -
-> -    **Warning**
-> -    This section is outdated.
-> -
-> -Drivers wishing to support TTM must pass a filled :c:type:`ttm_bo_driver
-> -<ttm_bo_driver>` structure to ttm_bo_device_init, together with an
-> -initialized global reference to the memory manager.  The ttm_bo_driver
-> -structure contains several fields with function pointers for
-> -initializing the TTM, allocating and freeing memory, waiting for command
-> -completion and fence synchronization, and memory migration.
-> -
-> -The :c:type:`struct drm_global_reference <drm_global_reference>` is made
-> -up of several fields:
-> -
-> -.. code-block:: c
-> -
-> -              struct drm_global_reference {
-> -                      enum ttm_global_types global_type;
-> -                      size_t size;
-> -                      void *object;
-> -                      int (*init) (struct drm_global_reference *);
-> -                      void (*release) (struct drm_global_reference *);
-> -              };
-> -
-> -
-> -There should be one global reference structure for your memory manager
-> -as a whole, and there will be others for each object created by the
-> -memory manager at runtime. Your global TTM should have a type of
-> -TTM_GLOBAL_TTM_MEM. The size field for the global object should be
-> -sizeof(struct ttm_mem_global), and the init and release hooks should
-> -point at your driver-specific init and release routines, which probably
-> -eventually call ttm_mem_global_init and ttm_mem_global_release,
-> -respectively.
-> -
-> -Once your global TTM accounting structure is set up and initialized by
-> -calling ttm_global_item_ref() on it, you need to create a buffer
-> -object TTM to provide a pool for buffer object allocation by clients and
-> -the kernel itself. The type of this object should be
-> -TTM_GLOBAL_TTM_BO, and its size should be sizeof(struct
-> -ttm_bo_global). Again, driver-specific init and release functions may
-> -be provided, likely eventually calling ttm_bo_global_ref_init() and
-> -ttm_bo_global_ref_release(), respectively. Also, like the previous
-> -object, ttm_global_item_ref() is used to create an initial reference
-> -count for the TTM, which will call your initialization function.
-> -
-> -See the radeon_ttm.c file for an example of usage.
-> -
->  The Graphics Execution Manager (GEM)
->  ====================================
->  
-> -- 
-> 2.25.1
+> Regards,
 > 
+> Tvrtko
+> 
+> > > ---
+> > >   drivers/gpu/drm/i915/gem/i915_gemfs.c | 22 +++++++++++++++++++---
+> > >   1 file changed, 19 insertions(+), 3 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> > > index 5e6e8c91ab38..dbdbdc344d87 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+> > > @@ -6,7 +6,6 @@
+> > > 
+> > >   #include <linux/fs.h>
+> > >   #include <linux/mount.h>
+> > > -#include <linux/pagemap.h>
+> > > 
+> > >   #include "i915_drv.h"
+> > >   #include "i915_gemfs.h"
+> > > @@ -15,6 +14,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+> > >   {
+> > >          struct file_system_type *type;
+> > >          struct vfsmount *gemfs;
+> > > +       char *opts;
+> > > 
+> > >          type = get_fs_type("tmpfs");
+> > >          if (!type)
+> > > @@ -26,10 +26,26 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+> > >           *
+> > >           * One example, although it is probably better with a per-file
+> > >           * control, is selecting huge page allocations ("huge=within_size").
+> > > -        * Currently unused due to bandwidth issues (slow reads) on Broadwell+.
+> > > +        * However, we only do so to offset the overhead of iommu lookups
+> > > +        * due to bandwidth issues (slow reads) on Broadwell+.
+> > >           */
+> > > 
+> > > -       gemfs = kern_mount(type);
+> > > +       opts = NULL;
+> > > +       if (intel_vtd_active()) {
+> > > +               if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
+> > > +                       static char huge_opt[] = "huge=within_size"; /* r/w */
+> > > +
+> > > +                       opts = huge_opt;
+> > > +                       drm_info(&i915->drm,
+> > > +                                "Transparent Hugepage mode '%s'\n",
+> > > +                                opts);
+> > > +               } else {
+> > > +                       drm_notice(&i915->drm,
+> > > +                                  "Transparent Hugepage support is recommended for optimal performance when IOMMU is enabled!\n");
+> > > +               }
+> > > +       }
+> > > +
+> > > +       gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, opts);
+> > >          if (IS_ERR(gemfs))
+> > >                  return PTR_ERR(gemfs);
+> > > 
+> > > --
+> > > 2.30.2
+> > > 
+> > 
+> > 
 
 -- 
 Daniel Vetter
