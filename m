@@ -1,56 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1543402ABC
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 16:25:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D639402B06
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 16:49:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890E889FCA;
-	Tue,  7 Sep 2021 14:25:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B01FD6E02B;
+	Tue,  7 Sep 2021 14:48:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7732489FCA
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 14:25:46 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 223EF804E7;
- Tue,  7 Sep 2021 16:25:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1631024744;
- bh=ps+Ls6QIFNjdsSEVz8sj7fIdP2Jg7tEcWpLmRQCuVnc=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=JcRduDOpUzM4wGdYNwXjDj2HlEEtXsJhH7OgvtL1TBk/h00XUDljjnYAmzfrxIsiQ
- AaHUM2XB9vvfP0IbJ+brenPMUt19x+0JO1IwMBCltxOgvRzLwKGi+NtiSmNRR/6ZDA
- WniJHU4BE/swOpfzCmPheLhal9S2p8ijjoJMzAIKNO5NUj60PmOgJEF11yOqXdA+bZ
- KQ6Z5fEaJFwiepsKhgUQMkULb20pkbzHI5msDXQJTxWgKI2YvOgY9mRVUiic0eMgpt
- 2KAEC149vijXQlq7NRHcIk9tzXQrt5+drblF8ajnCPWjFzXbQz55JxfnIz67cP/Uq/
- YUQ1VoTpKF5ng==
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register
- after enabling the bridge
-To: Andrzej Hajda <a.hajda@samsung.com>, dri-devel@lists.freedesktop.org
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linus Walleij <linus.walleij@linaro.org>,
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>
-References: <20210907023948.871281-1-marex@denx.de>
- <CGME20210907073151eucas1p196543fbd114f34f6de700013fd0e4168@eucas1p1.samsung.com>
- <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
-Date: Tue, 7 Sep 2021 16:25:41 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 52BCE89781;
+ Tue,  7 Sep 2021 14:48:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10099"; a="217057554"
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="217057554"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2021 07:48:52 -0700
+X-IronPort-AV: E=Sophos;i="5.85,274,1624345200"; d="scan'208";a="464848587"
+Received: from ikcrook-mobl.amr.corp.intel.com (HELO [10.213.197.103])
+ ([10.213.197.103])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Sep 2021 07:48:50 -0700
+Subject: Re: [Intel-gfx] [PATCH 05/11] drm/i915: Rename
+ i915_gem_context_get_vm_rcu to i915_gem_context_get_eb_vm
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ Jon Bloomfield <jon.bloomfield@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Dave Airlie <airlied@redhat.com>, Jason Ekstrand <jason@jlekstrand.net>
+References: <20210902142057.929669-1-daniel.vetter@ffwll.ch>
+ <20210902142057.929669-5-daniel.vetter@ffwll.ch>
+ <2a1f1395-2fe3-3c3d-48a6-bf741f910023@linux.intel.com>
+ <YTXWmy0DRBmDtQVK@phenom.ffwll.local>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <ed2865c4-bb18-7956-af23-6d3dca72a004@linux.intel.com>
+Date: Tue, 7 Sep 2021 15:48:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
+In-Reply-To: <YTXWmy0DRBmDtQVK@phenom.ffwll.local>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,106 +67,210 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/7/21 9:31 AM, Andrzej Hajda wrote:
-> On 07.09.2021 04:39, Marek Vasut wrote:
->> In rare cases, the bridge may not start up correctly, which usually
->> leads to no display output. In case this happens, warn about it in
->> the kernel log.
+
+On 06/09/2021 09:51, Daniel Vetter wrote:
+> On Fri, Sep 03, 2021 at 09:05:00AM +0100, Tvrtko Ursulin wrote:
 >>
->> Signed-off-by: Marek Vasut <marex@denx.de>
->> Cc: Jagan Teki <jagan@amarulasolutions.com>
->> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> Cc: Linus Walleij <linus.walleij@linaro.org>
->> Cc: Robert Foss <robert.foss@linaro.org>
->> Cc: Sam Ravnborg <sam@ravnborg.org>
->> Cc: dri-devel@lists.freedesktop.org
->> ---
->> NOTE: See the following:
->> https://e2e.ti.com/support/interface-group/interface/f/interface-forum/942005/sn65dsi83-dsi83-lvds-bridge---sporadic-behavior---no-video
->> https://community.nxp.com/t5/i-MX-Processors/i-MX8M-MIPI-DSI-Interface-LVDS-Bridge-Initialization/td-p/1156533
->> ---
->>    drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
->>    1 file changed, 5 insertions(+)
+>> On 02/09/2021 15:20, Daniel Vetter wrote:
+>>> The important part isn't so much that this does an rcu lookup - that's
+>>> more an implementation detail, which will also be removed.
+>>>
+>>> The thing that makes this different from other functions is that it's
+>>> gettting you the vm that batchbuffers will run in for that gem
+>>> context, which is either a full ppgtt stored in gem->ctx, or the ggtt.
+>>>
+>>> We'll make more use of this function later on.
+>>>
+>>> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>>> Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>> Cc: "Thomas Hellström" <thomas.hellstrom@linux.intel.com>
+>>> Cc: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+>>> Cc: Dave Airlie <airlied@redhat.com>
+>>> Cc: Jason Ekstrand <jason@jlekstrand.net>
+>>> ---
+>>>    drivers/gpu/drm/i915/gem/i915_gem_context.h           | 2 +-
+>>>    drivers/gpu/drm/i915/gem/selftests/huge_pages.c       | 4 ++--
+>>>    drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 4 ++--
+>>>    drivers/gpu/drm/i915/gt/selftest_execlists.c          | 2 +-
+>>>    drivers/gpu/drm/i915/gt/selftest_hangcheck.c          | 2 +-
+>>>    drivers/gpu/drm/i915/selftests/i915_gem_gtt.c         | 4 ++--
+>>>    drivers/gpu/drm/i915/selftests/i915_vma.c             | 2 +-
+>>>    7 files changed, 10 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.h b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> index 18060536b0c2..da6e8b506d96 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.h
+>>> @@ -155,7 +155,7 @@ i915_gem_context_vm(struct i915_gem_context *ctx)
+>>>    }
+>>>    static inline struct i915_address_space *
+>>> -i915_gem_context_get_vm_rcu(struct i915_gem_context *ctx)
+>>> +i915_gem_context_get_eb_vm(struct i915_gem_context *ctx)
+>>>    {
+>>>    	struct i915_address_space *vm;
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>>> index a094f3ce1a90..6c68fe26bb32 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+>>> @@ -1456,7 +1456,7 @@ static int igt_tmpfs_fallback(void *arg)
+>>>    	struct i915_gem_context *ctx = arg;
+>>>    	struct drm_i915_private *i915 = ctx->i915;
+>>>    	struct vfsmount *gemfs = i915->mm.gemfs;
+>>> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(ctx);
+>>>    	struct drm_i915_gem_object *obj;
+>>>    	struct i915_vma *vma;
+>>>    	u32 *vaddr;
+>>> @@ -1512,7 +1512,7 @@ static int igt_shrink_thp(void *arg)
+>>>    {
+>>>    	struct i915_gem_context *ctx = arg;
+>>>    	struct drm_i915_private *i915 = ctx->i915;
+>>> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(ctx);
 >>
->> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> index a32f70bc68ea4..4ea71d7f0bfbc 100644
->> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
->> @@ -520,6 +520,11 @@ static void sn65dsi83_atomic_enable(struct drm_bridge *bridge,
->>    	/* Clear all errors that got asserted during initialization. */
->>    	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->>    	regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> 
-> 
-> It does not look as correct error handling, maybe it would be good to
-> analyze and optionally report 'unexpected' errors here as well.
-
-The above is correct -- it clears the status register because the setup 
-might've set random bits in that register. Then we wait a bit, let the 
-link run, and read them again to get the real link status in this new 
-piece of code below, hence the usleep_range there. And then if the link 
-indicates a problem, we know it is a problem.
-
->> +
->> +	usleep_range(10000, 12000);
->> +	regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
->> +	if (pval)
->> +		dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> 
-> 
-> I am not sure what is the case here but it looks like 'we do not know
-> what is going on, so let's add some diagnostic messages to gather info
-> and figure it out later'.
-
-That's pretty much the case, see the two links above in the NOTE 
-section. If something goes wrong, we print the value for the user 
-(usually developer) so they can fix their problems. We cannot do much 
-better in the attach callback.
-
-The issue I ran into (and where this would be helpful information to me 
-during debugging, since the issue happened real seldom, see also the 
-NOTE links above) is that the DSI controller driver started streaming 
-video on the data lanes before the DSI83 had a chance to initialize. 
-This worked most of the time, except for a few exceptions here and 
-there, where the video didn't start. This does set link status bits 
-consistently. In the meantime, I fixed the controller driver (so far 
-downstream, due to ongoing discussion).
-
-> Whole driver lacks IRQ handler which IMO could perform better diagnosis,
-> and I guess it could also help in recovery, but this is just my guess.
-> So if this patch is enough for now you can add:
-
-No, IRQ won't help you here, because by the time you get the IRQ, the 
-DSI host already started streaming video on data lanes and you won't be 
-able to correctly reinit the DSI83 unless you communicate to the DSI 
-host that it should switch the data lanes back to LP11.
-
-And for that, there is a bigger chunk missing really. What needs to be 
-added is a way for the DSI bridge / panel to communicate its needs to 
-the DSI host -- things like "I need DSI clock lane frequency f MHz, I 
-need clock lane in HS mode and data lanes in LP11 mode". If you look at 
-the way DSI hosts and bridges/panels work out the DSI link parameters, 
-you will notice they basically do it each on their own, there is no such 
-API or communication channel.
-
-With the above in place, you could have an interrupt which would use it, 
-notify the host to configure the DSI bus in required way, then you would 
-be able to reinit the DSI83, and then again notify the DSI host to start 
-streaming video.
-
-> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-> 
-> Regards
-> Andrzej
-> 
-> 
->>    }
->>    
->>    static void sn65dsi83_atomic_disable(struct drm_bridge *bridge,
+>> Problem here (and probably elsewhere) is that this test does no "eb", nor
+>> even submits any requests for execution.
 >>
+>> More so, execbuf path does currently rely on intel_context->vm which is
+>> always set. So I really wonder how it would look, what I touched on
+>> elsewhere in the thread, if we instead made ctx->vm always point to
+>> something. It would align the rules between intel_context and GEM context
+>> and may end up with a more consistent situation.
 > 
+> The entire thing is substantially more messy, and my few quick attempts at
+> fixing this went flat.
+> 
+> The thing is, this _is_ the vm we use for execbuf, patch 8 changes intel
+> context initialization to also use this function. I do think it would make
+> sense to always set the right vm in gem_ctx->vm, but when I tried to do
+> that I've also tried to implement a bit stricter rules for
+> intel_context->vm. Currently that's initialized to the single gt vm deep
+> down in the per-type (virtual vs engine ctx) code, and then later on we'd
+> overwrite that. My idea was that we'd no longer set the intel_context->vm
+> in low-level code at all, but instead the variuos callers that create the
+> ctx either pass the right vm down, or set it after initial setup is done.
+> 
+> This way we'd be guaranteed that we never accidentally run a userspace
+> context on the kernel's gt vm, which would be bad.
+> 
+> The problem was that the entire refactor became really messy, and it was
+> conflicting against the GuC stuff and the changed engines there, so I
+> figured I'll drop it. There's more locking cleanup tbd, so I'll keep that
+> on the list of things. Maybe once intel_context creation is a bit more
+> untangled.
+
+I understood you were dropping this from the series but now that I 
+noticed it all landed I realized you probably meant something else.
+
+I think it's not ideal that you repeatedly ignored my comments to have a 
+cover letter and not mix independent work in the same series. I am 
+pretty sure this exact mode of operation was quite frowned upon, to put 
+it mildly, not so long ago.
+
+If I need to be explicit - large series doing multiple things, with no 
+cover letter giving overview, plus merging with outstanding opens.
+
+As I was not expecting this would go in so quick, I did not even read 
+the whole series yet.
+
+Even on the most prosaic level I even disagree with putting execbuf in 
+the helper name which gets the VM from a GEM context. Proof in the 
+pudding is that you have non-execbuf parts of the driver using this helper.
+
+Regards,
+
+Tvrtko
 
 
--- 
-Best regards,
-Marek Vasut
+> -Daniel
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>    	struct drm_i915_gem_object *obj;
+>>>    	struct i915_gem_engines_iter it;
+>>>    	struct intel_context *ce;
+>>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> index 4d2758718d21..fc7fb33a3a52 100644
+>>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>>> @@ -1528,7 +1528,7 @@ static int write_to_scratch(struct i915_gem_context *ctx,
+>>>    	intel_gt_chipset_flush(engine->gt);
+>>> -	vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +	vm = i915_gem_context_get_eb_vm(ctx);
+>>>    	vma = i915_vma_instance(obj, vm, NULL);
+>>>    	if (IS_ERR(vma)) {
+>>>    		err = PTR_ERR(vma);
+>>> @@ -1607,7 +1607,7 @@ static int read_from_scratch(struct i915_gem_context *ctx,
+>>>    	if (GRAPHICS_VER(i915) >= 8) {
+>>>    		const u32 GPR0 = engine->mmio_base + 0x600;
+>>> -		vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +		vm = i915_gem_context_get_eb_vm(ctx);
+>>>    		vma = i915_vma_instance(obj, vm, NULL);
+>>>    		if (IS_ERR(vma)) {
+>>>    			err = PTR_ERR(vma);
+>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>>> index f12ffe797639..b3863abc51f5 100644
+>>> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>>> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+>>> @@ -3493,7 +3493,7 @@ static int smoke_submit(struct preempt_smoke *smoke,
+>>>    	if (batch) {
+>>>    		struct i915_address_space *vm;
+>>> -		vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +		vm = i915_gem_context_get_eb_vm(ctx);
+>>>    		vma = i915_vma_instance(batch, vm, NULL);
+>>>    		i915_vm_put(vm);
+>>>    		if (IS_ERR(vma))
+>>> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> index 2c1ed32ca5ac..8be23e0f9306 100644
+>>> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+>>> @@ -117,7 +117,7 @@ static struct i915_request *
+>>>    hang_create_request(struct hang *h, struct intel_engine_cs *engine)
+>>>    {
+>>>    	struct intel_gt *gt = h->gt;
+>>> -	struct i915_address_space *vm = i915_gem_context_get_vm_rcu(h->ctx);
+>>> +	struct i915_address_space *vm = i915_gem_context_get_eb_vm(h->ctx);
+>>>    	struct drm_i915_gem_object *obj;
+>>>    	struct i915_request *rq = NULL;
+>>>    	struct i915_vma *hws, *vma;
+>>> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>>> index f843a5040706..2d60a5a5b065 100644
+>>> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>>> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+>>> @@ -1300,7 +1300,7 @@ static int exercise_mock(struct drm_i915_private *i915,
+>>>    	if (!ctx)
+>>>    		return -ENOMEM;
+>>> -	vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +	vm = i915_gem_context_get_eb_vm(ctx);
+>>>    	err = func(vm, 0, min(vm->total, limit), end_time);
+>>>    	i915_vm_put(vm);
+>>> @@ -1848,7 +1848,7 @@ static int igt_cs_tlb(void *arg)
+>>>    		goto out_unlock;
+>>>    	}
+>>> -	vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +	vm = i915_gem_context_get_eb_vm(ctx);
+>>>    	if (i915_is_ggtt(vm))
+>>>    		goto out_vm;
+>>> diff --git a/drivers/gpu/drm/i915/selftests/i915_vma.c b/drivers/gpu/drm/i915/selftests/i915_vma.c
+>>> index dd0607254a95..79ba72da0813 100644
+>>> --- a/drivers/gpu/drm/i915/selftests/i915_vma.c
+>>> +++ b/drivers/gpu/drm/i915/selftests/i915_vma.c
+>>> @@ -118,7 +118,7 @@ static int create_vmas(struct drm_i915_private *i915,
+>>>    				struct i915_vma *vma;
+>>>    				int err;
+>>> -				vm = i915_gem_context_get_vm_rcu(ctx);
+>>> +				vm = i915_gem_context_get_eb_vm(ctx);
+>>>    				vma = checked_vma_instance(obj, vm, NULL);
+>>>    				i915_vm_put(vm);
+>>>    				if (IS_ERR(vma))
+>>>
+> 
