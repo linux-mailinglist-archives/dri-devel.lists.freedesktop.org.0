@@ -1,68 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2DE2402393
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 08:46:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E4C04023A8
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 08:55:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 390CA894FF;
-	Tue,  7 Sep 2021 06:46:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CFA89CDD;
+	Tue,  7 Sep 2021 06:55:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9430E894FF
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 06:46:32 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id b6so12807251wrh.10
- for <dri-devel@lists.freedesktop.org>; Mon, 06 Sep 2021 23:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=Nx2PNTO1YHFoXZZxRMnydn4sjqSGxiSwf95PhaqI9Hw=;
- b=ngI7vI2isQQc5W1Qz4hoRem7qRV9s8htgljBRtnUuEHRTZiR6KdJRscNiRtgl1/Sbv
- sNbGUpMiJ9weEU3NYDuEHqUUaMhw5tZnf73Z1OqUvtw+iaeqxMdhWhZ6tYaox2XwALz6
- MOUbN6Un3tdgK4l5dMOjzuyBpbTn6evU+GjQXEQy0drgaTMfB6LfgBHdNwk9mimerbFD
- PiMRfWKUFoHm9ViwS04HNuK6vRa+oTTWrqMgS7Cv8PwnYShZONPIJoB6d8ufvsQKUxeQ
- Z91LHHhCf/SwLk7sKjBur7w8oNK5z2cAFecsGW1eJpy6Tr4njbs2tPXioKmwqHYZmo11
- MtsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=Nx2PNTO1YHFoXZZxRMnydn4sjqSGxiSwf95PhaqI9Hw=;
- b=ubUupewPc1gt3pNwXnLs314WRgI1YYG45TgjEoRx4nuIN9jNFxmwzwGRCp4EkimLPH
- 7+wtME9HhAC58Ays/8g6YT1hLGcGOWcIz4rVhLZrnZg9F4I2z6EjOdWb7UYreajw6JH4
- B0l3o7HkAWJE+uMUK5ewzcCCnNDV6pT1eparGZcTdj6JoU8cmfmubw/yH8p3xTTaApu/
- jY1KHUFMuabbhGvQBLlV9250oOA0f/HBR8sI7zfBN/hGtwYBiToVIfHdTMUN55TFLN3X
- xjoFsc/wuIfA2tJETUS0Fda2ZAX/7X5DHVXli6BEDISGQjl5FPGIF92XBfGhJZ0y5HEd
- mW7A==
-X-Gm-Message-State: AOAM530nMekoNu6Zgf5vtFqcc549cF+wDC+zJlW0f7hxJE+aa0+76YkX
- HCO/512YIkqO1CjzMPOqYyqVUbbmN7K+zglV
-X-Google-Smtp-Source: ABdhPJwc0s+JAA3msxE00H/4vz5G1BP2/v0Ehz+8BSb24ie+DbpESNNXQp4v9wMM5I0b3RNRRpwDBg==
-X-Received: by 2002:a05:6000:34e:: with SMTP id
- e14mr16782553wre.401.1630997191195; 
- Mon, 06 Sep 2021 23:46:31 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id x11sm10071853wro.83.2021.09.06.23.46.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 06 Sep 2021 23:46:30 -0700 (PDT)
-Subject: Re: [PATCH 1/5] drm/ttm: remove the outdated kerneldoc section
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Cc: ML dri-devel <dri-devel@lists.freedesktop.org>
-References: <20210903123123.116575-1-christian.koenig@amd.com>
- <CAM0jSHMdNUbbE2EzFnpfaVJn6gg2JEiPUL=qV2STmgEtfoEsjQ@mail.gmail.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <bcdd369c-bef3-4b39-40a9-a5dc3fc85147@gmail.com>
-Date: Tue, 7 Sep 2021 08:46:29 +0200
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com
+ [91.207.212.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3297589CD3
+ for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 06:55:26 +0000 (UTC)
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+ by mx07-00178001.pphosted.com (8.16.1.2/8.16.0.43) with SMTP id 1872qDNW030676;
+ Tue, 7 Sep 2021 08:55:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=selector1;
+ bh=pPWWaNwMDzyikRTWDISy5sjjTX8UIPo1qSx4LUPLwxA=;
+ b=mxD6e0fuEA913caHEUABA1NDOa6dqb+EnzE8ByiidNC5kiF0ZcpYnou85R0Y8H1sJbuU
+ oionhz6yi3OMoprhgzrtNW6hzviBPJAhw5UmwUTH7BVNaE+Gh+7OyeKq1Iu4glQf84bI
+ Y58qydwyqegXSDY4mG1O4yeZjzR3sDFzz5AU2eqXjROo3AGkmHNAPChNemk2MNF8+20V
+ 8K1aY+kdrWdwZqHhOhdAm5pyyn7Cx35LcCyDQbArSr99BMzXfFdYbTei0icrtVc6lUJT
+ aG4mMzeXWvIwfyvm6/yChPkPHjJyLtwQRlftfyHRMTW3yfzbt3yqZYxMJdpI2ucKboWK Hg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+ by mx07-00178001.pphosted.com with ESMTP id 3awyp0rwwa-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 07 Sep 2021 08:55:18 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+ by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 97DC910002A;
+ Tue,  7 Sep 2021 08:55:15 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag1node3.st.com [10.75.127.3])
+ by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 64CE52122E8;
+ Tue,  7 Sep 2021 08:55:15 +0200 (CEST)
+Received: from lmecxl0951.lme.st.com (10.75.127.45) by SFHDAG1NODE3.st.com
+ (10.75.127.3) with Microsoft SMTP Server (TLS) id 15.0.1497.18; Tue, 7 Sep
+ 2021 08:55:14 +0200
+Subject: Re: [PATCH] drm/stm: ltdc: add layer alpha support
+To: Raphael GALLAIS-POU - foss <raphael.gallais-pou@foss.st.com>, "Philippe
+ CORNU - foss" <philippe.cornu@foss.st.com>, Benjamin Gaignard
+ <benjamin.gaignard@linaro.org>
+CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Maxime
+ Coquelin" <mcoquelin.stm32@gmail.com>, Alexandre TORGUE - foss
+ <alexandre.torgue@foss.st.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,
+ "linux-stm32@st-md-mailman.stormreply.com"
+ <linux-stm32@st-md-mailman.stormreply.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Raphael GALLAIS-POU
+ <raphael.gallais-pou@st.com>
+References: <20210903085740.23108-1-raphael.gallais-pou@foss.st.com>
+From: yannick Fertre <yannick.fertre@foss.st.com>
+Message-ID: <19331273-3464-869e-8e62-a0c3e096ed70@foss.st.com>
+Date: Tue, 7 Sep 2021 08:55:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHMdNUbbE2EzFnpfaVJn6gg2JEiPUL=qV2STmgEtfoEsjQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210903085740.23108-1-raphael.gallais-pou@foss.st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG1NODE3.st.com
+ (10.75.127.3)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-07_02,2021-09-03_01,2020-04-07_01
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,97 +85,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Raphael,
+thanks for the patch.
 
+Acked-by: Yannick Fertre <yannick.fertre@foss.st.com>
+Reviewed-by: Yannick Fertre <yannick.fertre@foss.st.com>
 
-Am 03.09.21 um 16:22 schrieb Matthew Auld:
-> On Fri, 3 Sept 2021 at 13:31, Christian König
-> <ckoenig.leichtzumerken@gmail.com> wrote:
->> Clean up to start over with new and more accurate documentation.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
-> For the series,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-Thanks.
-
->
-> We could maybe also bring in ttm_pool.[ch]? It looks like it already
-> has near complete kernel-doc?
-
-Yes, just didn't had time to cleanup the remaining fallout yet.
-
-The last and most important remaining beast is the BO documentation, but 
-that will still take a while.
-
-Regards,
-Christian.
-
->
->> ---
->>   Documentation/gpu/drm-mm.rst | 49 ------------------------------------
->>   1 file changed, 49 deletions(-)
->>
->> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
->> index 0198fa43d254..8ca981065e1a 100644
->> --- a/Documentation/gpu/drm-mm.rst
->> +++ b/Documentation/gpu/drm-mm.rst
->> @@ -30,55 +30,6 @@ The Translation Table Manager (TTM)
->>
->>   TTM design background and information belongs here.
->>
->> -TTM initialization
->> -------------------
->> -
->> -    **Warning**
->> -    This section is outdated.
->> -
->> -Drivers wishing to support TTM must pass a filled :c:type:`ttm_bo_driver
->> -<ttm_bo_driver>` structure to ttm_bo_device_init, together with an
->> -initialized global reference to the memory manager.  The ttm_bo_driver
->> -structure contains several fields with function pointers for
->> -initializing the TTM, allocating and freeing memory, waiting for command
->> -completion and fence synchronization, and memory migration.
->> -
->> -The :c:type:`struct drm_global_reference <drm_global_reference>` is made
->> -up of several fields:
->> -
->> -.. code-block:: c
->> -
->> -              struct drm_global_reference {
->> -                      enum ttm_global_types global_type;
->> -                      size_t size;
->> -                      void *object;
->> -                      int (*init) (struct drm_global_reference *);
->> -                      void (*release) (struct drm_global_reference *);
->> -              };
->> -
->> -
->> -There should be one global reference structure for your memory manager
->> -as a whole, and there will be others for each object created by the
->> -memory manager at runtime. Your global TTM should have a type of
->> -TTM_GLOBAL_TTM_MEM. The size field for the global object should be
->> -sizeof(struct ttm_mem_global), and the init and release hooks should
->> -point at your driver-specific init and release routines, which probably
->> -eventually call ttm_mem_global_init and ttm_mem_global_release,
->> -respectively.
->> -
->> -Once your global TTM accounting structure is set up and initialized by
->> -calling ttm_global_item_ref() on it, you need to create a buffer
->> -object TTM to provide a pool for buffer object allocation by clients and
->> -the kernel itself. The type of this object should be
->> -TTM_GLOBAL_TTM_BO, and its size should be sizeof(struct
->> -ttm_bo_global). Again, driver-specific init and release functions may
->> -be provided, likely eventually calling ttm_bo_global_ref_init() and
->> -ttm_bo_global_ref_release(), respectively. Also, like the previous
->> -object, ttm_global_item_ref() is used to create an initial reference
->> -count for the TTM, which will call your initialization function.
->> -
->> -See the radeon_ttm.c file for an example of usage.
->> -
->>   The Graphics Execution Manager (GEM)
->>   ====================================
->>
->> --
->> 2.25.1
->>
-
+On 9/3/21 10:58 AM, Raphael GALLAIS-POU - foss wrote:
+> Android Hardware Composer supports alpha values applied to layers.
+> Enabling non-opaque layers for the STM CRTC could help offload GPU
+> resources for screen composition.
+> 
+> Signed-off-by: Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>
+> ---
+>   drivers/gpu/drm/stm/ltdc.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/stm/ltdc.c b/drivers/gpu/drm/stm/ltdc.c
+> index 195de30eb90c..e0fef8bacfa8 100644
+> --- a/drivers/gpu/drm/stm/ltdc.c
+> +++ b/drivers/gpu/drm/stm/ltdc.c
+> @@ -845,7 +845,7 @@ static void ltdc_plane_atomic_update(struct drm_plane *plane,
+>   			LXCFBLR_CFBLL | LXCFBLR_CFBP, val);
+>   
+>   	/* Specifies the constant alpha value */
+> -	val = CONSTA_MAX;
+> +	val = newstate->alpha >> 8;
+>   	reg_update_bits(ldev->regs, LTDC_L1CACR + lofs, LXCACR_CONSTA, val);
+>   
+>   	/* Specifies the blending factors */
+> @@ -997,6 +997,8 @@ static struct drm_plane *ltdc_plane_create(struct drm_device *ddev,
+>   
+>   	drm_plane_helper_add(plane, &ltdc_plane_helper_funcs);
+>   
+> +	drm_plane_create_alpha_property(plane);
+> +
+>   	DRM_DEBUG_DRIVER("plane:%d created\n", plane->base.id);
+>   
+>   	return plane;
+> 
