@@ -2,41 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3F7402EAA
-	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 21:01:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758D9402ED2
+	for <lists+dri-devel@lfdr.de>; Tue,  7 Sep 2021 21:13:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A613B89333;
-	Tue,  7 Sep 2021 19:01:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E76AC6E0BE;
+	Tue,  7 Sep 2021 19:13:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay02.th.seeweb.it (relay02.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::163])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 987A989333
- for <dri-devel@lists.freedesktop.org>; Tue,  7 Sep 2021 19:01:49 +0000 (UTC)
-Received: from Marijn-Arch-PC.localdomain
- (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 4886F1F8E8;
- Tue,  7 Sep 2021 21:01:46 +0200 (CEST)
-Date: Tue, 7 Sep 2021 21:01:45 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Cc: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, robh+dt@kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, paul.bouchara@somainline.org
-Subject: Re: [PATCH 1/2] drm/panel: Add driver for Novatek NT35950 DSI
- DriverIC panels
-Message-ID: <20210907190145.7iqvcmjnkmz4t7jo@Marijn-Arch-PC.localdomain>
-References: <20210901173127.998901-1-angelogioacchino.delregno@somainline.org>
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8AD356E060;
+ Tue,  7 Sep 2021 19:13:02 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id a13so85335iol.5;
+ Tue, 07 Sep 2021 12:13:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=bDAmrQspvTHk4pXz96SxgqAEoYvB8Qdlb33lW2JOQKI=;
+ b=iiaLA9iMJ1l/ZVUFBUL09riUqd8KCAFHSBgHpVV94Te6gjyYNUe468qaok1x0albDO
+ IxsvhA9VjWjL68B2TtpsU79ayleQF+6eLhi3eOsxorE/xnyq5VsPeAV1G5rXH1XH4vwH
+ 25yrQ3QdtaqOUQIimvO98kzNHEgIBnJK+fxLSSjhoy1U+KonCL69C9Bgpzhxv8L4t87q
+ pIeQ+5LilhJTDuERHH0MjhPzDQ45jkofDeejMgOpldFf6hdwGuc4xMtsgv3Ic7qEriOW
+ 0OThCYpCF6l7sjDKKUHyqwFX4HJ/ejjXla4KWYGl3ARlMipeZTb3UNq6WeacvSz51VB0
+ blPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bDAmrQspvTHk4pXz96SxgqAEoYvB8Qdlb33lW2JOQKI=;
+ b=JKJwQZt1pkhpmN6LAsQ8ydPb3PngoXQ2A39YhTuGyVN72zm/Jtz4Xc/SBHtJDLaAED
+ 0leO+jNsX6WUh0i+mmES0JV7Od1IrsN2DGxHkbRR6n9vZhhvpqMtg3POyLuMQMtCEWW9
+ zzx1tAEF+PJySU0gltn7v1IXLdW/nZTdwOPrpvtJImCPoETnpdSi2wWKwPzK8awWu7TG
+ vHZt8fqrVnhUQA9avkSGm5p32PuvJXrlABKqnOvb5L6/mSqLHVS0I0c29G38d9OjWTJE
+ Y07FFAPVBxvCxWGgQYS9lQeZmqGwzv7vIflFrl/laSgQxjYcet7cc+Wq7ARo4hQ7IuZT
+ RGtA==
+X-Gm-Message-State: AOAM531qALCdW7tlth8Ic1mu2F0mn0ZewK5fXlXRZVcIO6K9WSpYlVSd
+ 1wbP48HG/hKvS8b2/4sb1R4vZYrKOgei02HJQyE=
+X-Google-Smtp-Source: ABdhPJwzbaiPi0tOgc36KfgAKqrn62eE1qk9JEH9OxgwGowNbmENlYJ37v4PzRRODGJoiIfiZTATjqiN8fzzPEMm/24=
+X-Received: by 2002:a05:6638:2690:: with SMTP id
+ o16mr17203558jat.65.1631041981634; 
+ Tue, 07 Sep 2021 12:13:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210901173127.998901-1-angelogioacchino.delregno@somainline.org>
+References: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
+ <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
+In-Reply-To: <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
+From: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
+Date: Tue, 7 Sep 2021 13:12:50 -0600
+Message-ID: <CAOCk7NoOdjxp0vxu9XJzYsi7a04kpqpTOZHm42ApAN3MqkqtDw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 2/3] drm/msm/dpu1: Add MSM8998 to hw catalog
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Dave Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>, Rob Herring <robh+dt@kernel.org>, 
+ MSM <linux-arm-msm@vger.kernel.org>, 
+ "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>,
+ lkml <linux-kernel@vger.kernel.org>, 
+ konrad.dybcio@somainline.org, marijn.suijten@somainline.org, 
+ martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ phone-devel@vger.kernel.org, paul.bouchara@somainline.org, 
+ DTML <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,13 +78,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-01 19:31:26, AngeloGioacchino Del Regno wrote:
-> Add a driver for panels using the Novatek NT35950 Display Driver IC,
-> including support for the Sharp LS055D1SX04, found in some Sony Xperia
-> Z5 Premium and XZ Premium smartphones.
-> 
+On Wed, Sep 1, 2021 at 12:11 PM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@somainline.org> wrote:
+>
+> Bringup functionality for MSM8998 in the DPU, driver which is mostly
+> the same as SDM845 (just a few variations).
+>
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-Somehow this got lost in the heat of the moment:
+I don't seem to see a cover letter for this series.
 
-Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
+Eh, there are a fair number of differences between the MDSS versions
+for 8998 and 845.
+
+Probably a bigger question, why extend the DPU driver for 8998, when
+the MDP5 driver already supports it[1]?  The MDP/DPU split is pretty
+dumb, but I don't see a valid reason for both drivers supporting the
+same target/display revision.  IMO, if you want this support in DPU,
+remove it from MDP5.
+
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.14&id=d6c7b2284b14c66a268a448a7a8d54f585d38785
