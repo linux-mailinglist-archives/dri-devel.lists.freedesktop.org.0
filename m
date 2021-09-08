@@ -2,26 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D656440387D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 13:01:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEFB3403888
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 13:07:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B344E6E0AB;
-	Wed,  8 Sep 2021 11:01:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7CAF6E18E;
+	Wed,  8 Sep 2021 11:07:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADD486E0AB;
- Wed,  8 Sep 2021 11:01:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="284158155"
-X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="284158155"
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 545726E18E;
+ Wed,  8 Sep 2021 11:07:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="281469100"
+X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="281469100"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 04:01:18 -0700
-X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="538501807"
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 04:07:19 -0700
+X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="538503413"
 Received: from cofaolai-mobl1.ger.corp.intel.com (HELO [10.213.198.69])
  ([10.213.198.69])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 04:01:17 -0700
+ 08 Sep 2021 04:07:18 -0700
 Subject: Re: [PATCH v2 5/6] drm/i915: Don't back up pinned LMEM context images
  and rings during suspend
 To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
@@ -30,8 +30,8 @@ Cc: maarten.lankhorst@linux.intel.com
 References: <20210906165515.450541-1-thomas.hellstrom@linux.intel.com>
  <20210906165515.450541-6-thomas.hellstrom@linux.intel.com>
 From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <3c841396-0720-8374-eea6-155cf85edbd4@intel.com>
-Date: Wed, 8 Sep 2021 12:01:13 +0100
+Message-ID: <160c96ac-3cf2-5542-9ad0-bbc0b5ebec55@intel.com>
+Date: Wed, 8 Sep 2021 12:07:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.10.1
 MIME-Version: 1.0
@@ -87,10 +87,11 @@ On 06/09/2021 17:55, Thomas Hellström wrote:
 > +#define I915_BO_ALLOC_CPU_CLEAR   BIT(2)
 > +#define I915_BO_ALLOC_USER        BIT(3)
 > +/* Object may lose its contents on suspend / resume */
-
-+ if we can't evict it?
-
 > +#define I915_BO_ALLOC_PM_VOLATILE BIT(4)
+
+PM_SKIP_PINNED? Not sure if that is better.
+
+
 >   #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
 >   			     I915_BO_ALLOC_VOLATILE | \
 >   			     I915_BO_ALLOC_CPU_CLEAR | \
