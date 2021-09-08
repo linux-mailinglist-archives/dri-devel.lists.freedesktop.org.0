@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC6F403AA6
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:30:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BDE403A9D
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:29:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3566E1B7;
-	Wed,  8 Sep 2021 13:29:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D3CD6E1B2;
+	Wed,  8 Sep 2021 13:29:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03BDA6E1A7
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB1406E1A8
  for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:29:41 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id i28so3348596wrb.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:29:40 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id
+ l7-20020a1c2507000000b002e6be5d86b3so1554755wml.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:29:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KbxFDLUp765zTrkAl1EbUb8CRqIXIgA+M9qP6QXf738=;
- b=RCcVw/GY+WyUg+FyLbSuLJjIHHEfwGkHNlSam0sFnpVkKc2lrTa5epkhqp5yzOZwkB
- GLQJ0nxSJnL6AIr/vp0H0qZQ4TQUj56M62RYO25x2oyVBInzIB62YMQRYFry3DpN4GFg
- lXF7Zxrs9pFdgRg77DBg2XJlzKCwsnqHt6ejr2EtSzL0Q+ZXlAqMmG6d+9MqUlQH62Kk
- MiWNsnvKba/npC0PJK+Va0b/gn/0fNfxdp8n6GcplGMRI00VaADqxbeSW2sKNtoowwgC
- 9yaMbIPujasULhdXLc/xmHJ31MKOtmUvWLsVBLMoF7F8CIG4QqIg/xers8DfdHetzpmc
- EK6w==
+ bh=VRiQiAfh4aWlyCBzPZskZLhwC/Ct6jq6iiXSc+kPpfo=;
+ b=P96Z6i0tjmD1qJHvaNInM34s8FzDgmgOSVVqo1VoVOCVJQED/SMpXtbix+RINVU+lm
+ kzOGiCZvLvL9up8JPSMACV8+BU8tMbXuHWP6rUMap1pjb/owJH3kBauIHElswmQyJr0g
+ TmnyEcbbEX6VcyBXbH6D8NY/gYj6vUyPOE+t02IGjGm0hWn9vGPtT0no3o75uJyk2WFs
+ 8KLL9zOrnCwnAbXSH8lQAnsvsq5x7HVrj8EJAy7RmVZAxGYlnGBY98SmRU3b2I3Y2ahP
+ TO+eKQ0EQY8ZqALFiZGH82oKqY7E8X79uu1WCqWCdkEv8P/WpQTXSTi8c2YHTBzUkvc5
+ hYCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
+ d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KbxFDLUp765zTrkAl1EbUb8CRqIXIgA+M9qP6QXf738=;
- b=OuLv8Kv8WVksIDo1UMg0uSasmbwU/Oek6flZtpS7fUJdiDs2/15YJxwUT+b6LNVuxg
- YU3uOFF/IijWddOpfoj3zD+n4bc2Kg9t7JTIsCm27TG2NeDa8FCuYwDUKdZmzW8L1VxI
- zWOTFqWXy9pNFfjw437XdCCCKXOXHX9gKcjkuM2brusxOBs0Htpfd4JtJ2QmB03mIUcN
- kaP0Xfs5CPPRiRacTc7WWLEo+0DbBDWRPtqVXQfMlMlQcHpGn7zAxP8zn7FQKFFxTDps
- HVtgbF6z9+d+faHu7j86ECLlg3ouIWjWim6j6YrLVPzsHAD2mfcZhHnV5l3uFWkSsQqt
- rLKw==
-X-Gm-Message-State: AOAM531ZJd/xgvtLX6Mly3tDbwRbI21F9w8zplbkKw0OynBKZlnQ3Wwo
- qhPVlIiii8lmcq2vHQdjRbjKrq3fhG+OmY88
-X-Google-Smtp-Source: ABdhPJzR4RUtIHMYsYjG9meUCr3R08fylESUAixrSTDD67HvVpfKi8FV36tjRbQ3mx1wFUAxSIaLcw==
-X-Received: by 2002:adf:e745:: with SMTP id c5mr4132421wrn.321.1631107779699; 
- Wed, 08 Sep 2021 06:29:39 -0700 (PDT)
+ bh=VRiQiAfh4aWlyCBzPZskZLhwC/Ct6jq6iiXSc+kPpfo=;
+ b=ZP1actFEK1R/9s6FAnCRXtUzjWhjXagmvAvqkzM+uFS9IUeB2RdsI7efN5vScHepxB
+ j9l6lGd2b3XoxMXACoMkEUSdHd3jZoJbimKHR45Ow1XsOsjc2eHOB5MGQyqWc/foBNvK
+ HDE7cYdp5zM4jz95MHtynLUYPEC2sffoG8ZqJ62l9x519P1DragDiaJ3iSgPEDVZHDi0
+ itLF9mwVt0tT96LLGEI2ONP8coBTEvrUR54IfjpwP/rJYfT3BFTHHU7VJ3MCYAAPJGtb
+ JRNZ3ixeOxg7LsAzop9A++8PBfs5qoEc3L5KTYGRSx1o6ZHz0tU3tqkCyO3ZOAQLwSq2
+ QliA==
+X-Gm-Message-State: AOAM531ZR8D7CKvr3fo1MjVBnq3lvf1O2G0xE1MatC4b2z9BWxZUJ80k
+ YpH+aVDoIyI6A0OwwY8RSE45PVtoRDtrzZ0d
+X-Google-Smtp-Source: ABdhPJzT0GSmgqBvrl2LBzpHtidEoefJc+Yw/1UhK/pcp9Shq6jtGU90tRilW31zmP3unUWG/TKNxA==
+X-Received: by 2002:a05:600c:3542:: with SMTP id
+ i2mr3565012wmq.170.1631107780488; 
+ Wed, 08 Sep 2021 06:29:40 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- k18sm2138959wmi.25.2021.09.08.06.29.38
+ k18sm2138959wmi.25.2021.09.08.06.29.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 06:29:39 -0700 (PDT)
+ Wed, 08 Sep 2021 06:29:40 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +55,9 @@ To: dri-devel@lists.freedesktop.org
 Cc: matthew.william.auld@gmail.com,
 	daniel@ffwll.ch,
 	alexdeucher@gmail.com
-Subject: [PATCH 3/8] drm/ttm: add kerneldoc for enum ttm_caching
-Date: Wed,  8 Sep 2021 15:29:28 +0200
-Message-Id: <20210908132933.3269-4-christian.koenig@amd.com>
+Subject: [PATCH 4/8] drm/ttm: enable TTM device object kerneldoc v2
+Date: Wed,  8 Sep 2021 15:29:29 +0200
+Message-Id: <20210908132933.3269-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210908132933.3269-1-christian.koenig@amd.com>
 References: <20210908132933.3269-1-christian.koenig@amd.com>
@@ -77,60 +79,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Briefly describe what this is all about.
+Fix the remaining warnings, switch to inline structure documentation
+and finally enable this.
+
+v2: adjust based on suggestions from Alex
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- Documentation/gpu/drm-mm.rst  |  3 +++
- include/drm/ttm/ttm_caching.h | 17 +++++++++++++++++
- 2 files changed, 20 insertions(+)
+ Documentation/gpu/drm-mm.rst |  9 +++++
+ include/drm/ttm/ttm_device.h | 72 +++++++++++++++++++-----------------
+ 2 files changed, 48 insertions(+), 33 deletions(-)
 
 diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 6b7717af4f88..f22c9f9a2c0e 100644
+index f22c9f9a2c0e..3da81b7b4e71 100644
 --- a/Documentation/gpu/drm-mm.rst
 +++ b/Documentation/gpu/drm-mm.rst
-@@ -31,6 +31,9 @@ The Translation Table Manager (TTM)
- .. kernel-doc:: drivers/gpu/drm/ttm/ttm_module.c
-    :doc: TTM
+@@ -34,6 +34,15 @@ The Translation Table Manager (TTM)
+ .. kernel-doc:: include/drm/ttm/ttm_caching.h
+    :internal:
  
-+.. kernel-doc:: include/drm/ttm/ttm_caching.h
++TTM device object reference
++---------------------------
++
++.. kernel-doc:: include/drm/ttm/ttm_device.h
 +   :internal:
++
++.. kernel-doc:: drivers/gpu/drm/ttm/ttm_device.c
++   :export:
 +
  The Graphics Execution Manager (GEM)
  ====================================
  
-diff --git a/include/drm/ttm/ttm_caching.h b/include/drm/ttm/ttm_caching.h
-index 3c9dd65f5aaf..235a743d90e1 100644
---- a/include/drm/ttm/ttm_caching.h
-+++ b/include/drm/ttm/ttm_caching.h
-@@ -27,9 +27,26 @@
+diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
+index 07d722950d5b..3cc1d9b76131 100644
+--- a/include/drm/ttm/ttm_device.h
++++ b/include/drm/ttm/ttm_device.h
+@@ -39,31 +39,23 @@ struct ttm_operation_ctx;
  
- #define TTM_NUM_CACHING_TYPES	3
+ /**
+  * struct ttm_global - Buffer object driver global data.
+- *
+- * @dummy_read_page: Pointer to a dummy page used for mapping requests
+- * of unpopulated pages.
+- * @shrink: A shrink callback object used for buffer object swap.
+- * @device_list_mutex: Mutex protecting the device list.
+- * This mutex is held while traversing the device list for pm options.
+- * @lru_lock: Spinlock protecting the bo subsystem lru lists.
+- * @device_list: List of buffer object devices.
+- * @swap_lru: Lru list of buffer objects used for swapping.
+  */
+ extern struct ttm_global {
  
-+/**
-+ * enum ttm_caching - CPU caching and BUS snooping behavior.
-+ */
- enum ttm_caching {
+ 	/**
+-	 * Constant after init.
++	 * @dummy_read_page: Pointer to a dummy page used for mapping requests
++	 * of unpopulated pages. Constant after init.
+ 	 */
+-
+ 	struct page *dummy_read_page;
+ 
+ 	/**
+-	 * Protected by ttm_global_mutex.
++	 * @device_list: List of buffer object devices. Protected by
++	 * ttm_global_mutex.
+ 	 */
+ 	struct list_head device_list;
+ 
+ 	/**
+-	 * Internal protection.
++	 * @bo_count: Number of buffer objects allocated by devices.
+ 	 */
+ 	atomic_t bo_count;
+ } ttm_glob;
+@@ -230,50 +222,64 @@ struct ttm_device_funcs {
+ 
+ /**
+  * struct ttm_device - Buffer object driver device-specific data.
+- *
+- * @device_list: Our entry in the global device list.
+- * @funcs: Function table for the device.
+- * @sysman: Resource manager for the system domain.
+- * @man_drv: An array of resource_managers.
+- * @vma_manager: Address space manager.
+- * @pool: page pool for the device.
+- * @dev_mapping: A pointer to the struct address_space representing the
+- * device address space.
+- * @wq: Work queue structure for the delayed delete workqueue.
+  */
+ struct ttm_device {
+-	/*
 +	/**
-+	 * @ttm_uncached: Most defensive option for device mappings,
-+	 * don't even allow write combining.
-+	 */
- 	ttm_uncached,
++	 * @device_list: Our entry in the global device list.
+ 	 * Constant after bo device init
+ 	 */
+ 	struct list_head device_list;
 +
 +	/**
-+	 * @ttm_write_combined: Don't cache read accesses, but allow at least
-+	 * writes to be combined.
++	 * @funcs: Function table for the device.
++	 * Constant after bo device init
 +	 */
- 	ttm_write_combined,
+ 	struct ttm_device_funcs *funcs;
+ 
+-	/*
++	/**
++	 * @sysman: Resource manager for the system domain.
+ 	 * Access via ttm_manager_type.
+ 	 */
+ 	struct ttm_resource_manager sysman;
 +
 +	/**
-+	 * @ttm_cached: Fully cached like normal system memory, requires that
-+	 * devices snoop the CPU cache on accesses.
++	 * @man_drv: An array of resource_managers, one per resource type.
 +	 */
- 	ttm_cached
+ 	struct ttm_resource_manager *man_drv[TTM_NUM_MEM_TYPES];
+ 
+-	/*
+-	 * Protected by internal locks.
++	/**
++	 * @vma_manager: Address space manager for finding BOs to mmap.
+ 	 */
+ 	struct drm_vma_offset_manager *vma_manager;
++
++	/**
++	 * @pool: page pool for the device.
++	 */
+ 	struct ttm_pool pool;
+ 
+-	/*
+-	 * Protection for the per manager LRU and ddestroy lists.
++	/**
++	 * @lru_lock: Protection for the per manager LRU and ddestroy lists.
+ 	 */
+ 	spinlock_t lru_lock;
++
++	/**
++	 * @ddestroy: Destroyed but not yet cleaned up buffer objects.
++	 */
+ 	struct list_head ddestroy;
++
++	/**
++	 * @pinned: Buffer objects which are pinned and so not on any LRU list.
++	 */
+ 	struct list_head pinned;
+ 
+-	/*
+-	 * Protected by load / firstopen / lastclose /unload sync.
++	/**
++	 * @dev_mapping: A pointer to the struct address_space for invalidating
++	 * CPU mappings on buffer move. Protected by load/unload sync.
+ 	 */
+ 	struct address_space *dev_mapping;
+ 
+-	/*
+-	 * Internal protection.
++	/**
++	 * @wq: Work queue structure for the delayed delete workqueue.
+ 	 */
+ 	struct delayed_work wq;
  };
- 
 -- 
 2.25.1
 
