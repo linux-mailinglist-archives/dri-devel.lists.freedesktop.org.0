@@ -1,86 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9881A403AEF
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:49:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 325C3403B0B
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:54:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C00B56E101;
-	Wed,  8 Sep 2021 13:49:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4CD6E151;
+	Wed,  8 Sep 2021 13:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com
- [IPv6:2a00:1450:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4C98B6E101
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:49:35 +0000 (UTC)
-Received: by mail-wm1-x332.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso1607794wmi.5
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:49:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y0lh+sRHyJvQUVAPP40k5yKczJum04OO6ZyC4AudIkU=;
- b=oZdIoJNdme6vvjVB/0Gc1a7V21qx2XE+NiQ7TRgrELm+J9yaO9LaPpFJsvpQq9klZ/
- HqLtUaAcz/afrFGiy/d6OenFiDKWhNBr4WzUK8xj0l3U8eBSB09TxVjGjLv1jQEIVV88
- 38AIqd6sUEPv91QTXD8fOV3yV8/49Qak7CX7o+Rhpe1GNDNYGPsrJ3GuYah3GcCkCeyC
- uTngstmz4BsZWCCwUWZMj50LjGbKdnATC4bR3O2b3dEpTu3yWtydzGCUsgmrnSgsyzDb
- I1II2grn8UkgJ9c7osJMgRbDQjL3p+okgD7IkB1rW27pukzY+p6xPiBiRuzIdvM3mLqD
- E60Q==
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
+ [IPv6:2607:f8b0:4864:20::232])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F30D6E151
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:54:09 +0000 (UTC)
+Received: by mail-oi1-x232.google.com with SMTP id h133so3182530oib.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:54:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PoThhVHI+CpdzEgbh+scXgZrwASU+pwID9AwwUPF63k=;
+ b=JB/hOY4azKr0nOZp3JVoVVjfLTG9LraA3gH4xiwvDXq6AYDNEaa0UVomjx69L9YMH+
+ 73pG7pHWPRVffZ5ChzV15wOYUXTFrXUjkggGrPuYMV0Eimwl9uHhuhHmRMsNkOEk/7HG
+ lo5xT3/3Wu0WNYxGd1Lv5LGNfH/DrI+3Wp4uTDrVPWpBk+xSMA6fYmDbnPIJZI1aZx0v
+ yKcn6hvYXzmB4UsjVkLz+AGGKUy5/vdTdc8PHkcvdkb2vKNXabol265AkPRtctZ32kAw
+ 8FtlSdLQshpHtSrZts+KgboteBhhsV5F2/MFwitj4Qj+v8XEHfXgmiVZjBEL3POJqtCt
+ e0SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=y0lh+sRHyJvQUVAPP40k5yKczJum04OO6ZyC4AudIkU=;
- b=31rm7pV7Nq66OPhfRxLza9Vah+KUIpDhF3FHMKCaHeIlF0Pczl+fQfXb03D1V5LX2O
- zK5ZJKxoVYbnx0eQFYTu8rNrjoEADspCGGtOM6uXhS7zEx1NcIcJZ7qsynwkQTaHd+PW
- Y77RHZAW7UlQr6leDyonaCxjkiAaI7f2OqITmC4lGKplXaHihegyzIfwd4poFwdJc1fi
- LLh0xvpm5Nxpkp6O9uJbInmaSpiDHATX9zRcWLrUkELRFv4rj6jbT2dDcEkKspjPpWwv
- kDG05YyGEFKGGlMeOEV2Y6kprwJzpfpvOvnUtliFU8mGSm8qRoG7NZRr5PnCJAPA8t9+
- Psaw==
-X-Gm-Message-State: AOAM5332j+Lh4OV8WJwZV2HRJkLHLZ/NMh2njLtmIfRvb0xfm16BQCvC
- m4h9mFhiELafmTb9jKl8Crg4aw==
-X-Google-Smtp-Source: ABdhPJxbIMavCBh55V8iWCnGjzV8EOJfy9bGnqV2NbUt8wggKrAvSL1Pd11a9RjPE+B2TkXi099IMA==
-X-Received: by 2002:a1c:7515:: with SMTP id o21mr3714062wmc.150.1631108973796; 
- Wed, 08 Sep 2021 06:49:33 -0700 (PDT)
-Received: from [192.168.1.12] (host-92-17-50-173.as13285.net. [92.17.50.173])
- by smtp.gmail.com with ESMTPSA id
- w1sm2193690wmc.19.2021.09.08.06.49.32
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 06:49:33 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Akhil P Oommen <akhilpo@codeaurora.org>
-Cc: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek
- <jonathan@marek.ca>, Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-References: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <YTgeIuwumPoR9ZTE@ripper>
-From: Caleb Connolly <caleb.connolly@linaro.org>
-Message-ID: <076cb487-7929-2af4-b2c0-385cd731ee48@linaro.org>
-Date: Wed, 8 Sep 2021 14:49:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=PoThhVHI+CpdzEgbh+scXgZrwASU+pwID9AwwUPF63k=;
+ b=CEXs50x0LUymSPT7WxqQ3enLp39c2CYFmY3dgrwERExOsEqOzd9UxFfRQP2ZndfLhG
+ wXjDPD+GqVhbRPkO9l+u6QaAO+QcJCpaoQSO0H+krYc4kMtCtpoawyY34p7aDeyiJSd4
+ MD46AZt1bHo9frOMwTJYIymzBSzEstXr40LyvcfDEK0onT+Y7WclkMYunc2tJR+u7Jzl
+ 2i/RJG4cviBuKGyzXPkiea7z8H58dYoTafrE77lVyaJddmKEM+i6ubv5kQtbR90oCTuH
+ KQMUCiX+SYQAlBxtFlx0eSqemIs6wRwYp0eGKAAc8GAD2JFGEmhxtuKCE9f4FIPXD7fH
+ fx1g==
+X-Gm-Message-State: AOAM533VqIrLNQu98Igj8BIRwjcN3mVhlILALepnKe4lxQE36+Peg0VG
+ dJ9YIBTGgg7pglBvBCGgG7g=
+X-Google-Smtp-Source: ABdhPJxS/hL9sd8p8yzOu6wDDTwZSa0fSfI/mWESuQWUWYwOgMmMKq23McgrFeyRjE5eu6Tah4Opwg==
+X-Received: by 2002:a54:4714:: with SMTP id k20mr2407177oik.103.1631109248826; 
+ Wed, 08 Sep 2021 06:54:08 -0700 (PDT)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
+ [76.183.134.35])
+ by smtp.gmail.com with ESMTPSA id q26sm463704otf.39.2021.09.08.06.54.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Sep 2021 06:54:08 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@linux.ie,
+ heiko@sntech.de, hjc@rock-chips.com, andriy.shevchenko@linux.intel.com,
+ zhangqing@rock-chips.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH] drm/rockchip: Update crtc fixup to account for fractional clk
+ change
+Date: Wed,  8 Sep 2021 08:53:56 -0500
+Message-Id: <20210908135356.18689-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YTgeIuwumPoR9ZTE@ripper>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -97,91 +73,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Chris Morgan <macromorgan@hotmail.com>
 
+After commit 928f9e268611 ("clk: fractional-divider: Hide
+clk_fractional_divider_ops from wide audience") was merged it appears
+that the DSI panel on my Odroid Go Advance stopped working. Upon closer
+examination of the problem, it looks like it was the fixup in the
+rockchip_drm_vop.c file was causing the issue. The changes made to the
+clk driver appear to change some assumptions made in the fixup.
 
-On 08/09/2021 03:21, Bjorn Andersson wrote:
-> On Mon 09 Aug 10:26 PDT 2021, Akhil P Oommen wrote:
-> 
->> On 8/9/2021 9:48 PM, Caleb Connolly wrote:
->>>
->>>
->>> On 09/08/2021 17:12, Rob Clark wrote:
->>>> On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen
->>>> <akhilpo@codeaurora.org> wrote:
-> [..]
->>>>> I am a bit confused. We don't define a power domain for gpu in dt,
->>>>> correct? Then what exactly set_opp do here? Do you think this usleep is
->>>>> what is helping here somehow to mask the issue?
->>> The power domains (for cx and gx) are defined in the GMU DT, the OPPs in
->>> the GPU DT. For the sake of simplicity I'll refer to the lowest
->>> frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
->>> the "min" state, and the highest frequency (710000000) and OPP level
->>> (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are defined in
->>> sdm845.dtsi under the gpu node.
->>>
->>> The new devfreq behaviour unmasks what I think is a driver bug, it
->>> inadvertently puts much more strain on the GPU regulators than they
->>> usually get. With the new behaviour the GPU jumps from it's min state to
->>> the max state and back again extremely rapidly under workloads as small
->>> as refreshing UI. Where previously the GPU would rarely if ever go above
->>> 342MHz when interacting with the device, it now jumps between min and
->>> max many times per second.
->>>
->>> If my understanding is correct, the current implementation of the GMU
->>> set freq is the following:
->>>    - Get OPP for frequency to set
->>>    - Push the frequency to the GMU - immediately updating the core clock
->>>    - Call dev_pm_opp_set_opp() which triggers a notify chain, this winds
->>> up somewhere in power management code and causes the gx regulator level
->>> to be updated
->>
->> Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing else. We
->> were using a different api earlier which got deprecated -
->> dev_pm_opp_set_bw().
->>
-> 
-> On the Lenovo Yoga C630 this is reproduced by starting alacritty and if
-> I'm lucky I managed to hit a few keys before it crashes, so I spent a
-> few hours looking into this as well...
-> 
-> As you say, the dev_pm_opp_set_opp() will only cast a interconnect vote.
-> The opp-level is just there for show and isn't used by anything, at
-> least not on 845.
-> 
-> Further more, I'm missing something in my tree, so the interconnect
-> doesn't hit sync_state, and as such we're not actually scaling the
-> buses. So the problem is not that Linux doesn't turn on the buses in
-> time.
-> 
-> So I suspect that the "AHB bus error" isn't saying that we turned off
-> the bus, but rather that the GPU becomes unstable or something of that
-> sort.
-> 
-> 
-> Lastly, I reverted 9bc95570175a ("drm/msm: Devfreq tuning") and ran
-> Aquarium for 20 minutes without a problem. I then switched the gpu
-> devfreq governor to "userspace" and ran the following:
-> 
-> while true; do
->    echo 257000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
->    echo 710000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> done
-> 
-> It took 19 iterations of this loop to crash the GPU.
-> 
-> So the problem doesn't seem to be Rob's change, it's just that prior to
-> it the chance to hitting it is way lower. Question is still what it is
-> that we're triggering.
+After debugging the working 5.14 kernel and the no-longer working
+5.15 kernel, it looks like this was broken all along but still
+worked, whereas after the fractional clock change it stopped
+working despite the issue (it went from sort-of broken to very broken).
 
-Do the opp-levels in DTS represent how the hardware behaves? If so then it does just
-appear to be that whatever is responsible for scaling the GX rail voltage
-has no time limits and will attempt to switch the regulator between min/max
-voltage as often as we tell it to which is probably not something the hardware expected.
-> 
-> Regards,
-> Bjorn
-> 
+In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
+17000999 on my board. The clock driver was taking the value of the
+parent clock and attempting to divide the requested value from it
+(17000000/17000999 = 0), then subtracting 1 from it (making it -1),
+and running it through fls_long to get 64. It would then subtract
+the value of fd->mwidth from it to get 48, and then bit shift
+17000999 to the left by 48, coming up with a very large number of
+7649082492112076800. This resulted in a numerator of 65535 and a
+denominator of 1 from the clk driver. The driver seemingly would
+try again and get a correct 1:1 value later, and then move on.
 
+Output from my 5.14 kernel (with some printfs for good measure):
+[    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.855980] Clock is dclk_vopb_frac
+[    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
+[    2.903529] Clock is dclk_vopb_frac
+[    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
+[    2.903579] Clock is dclk_vopb_frac
+[    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
+
+Contrast this with 5.15 after the clk change where the rate of 17000999
+was getting passed and resulted in numerators/denomiators of 17001/
+17000.
+
+Output from my 5.15 kernel (with some printfs added for good measure):
+[    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
+[    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+
+After tracing through the code it appeared that this function here was
+adding a 999 to the requested frequency because of how the clk driver
+was rounding/accepting those frequencies. I believe after the changes
+made in the commit listed above the assumptions listed in this driver
+are no longer true. When I remove the + 999 from the driver the DSI
+panel begins to work again.
+
+Output from my 5.15 kernel with 999 removed (printfs added):
+[    2.852054] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.864483] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.880869] Clock is dclk_vopb_frac
+[    2.880892] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
+[    2.928521] Clock is dclk_vopb_frac
+[    2.928551] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
+[    2.928570] Clock is dclk_vopb_frac
+[    2.928574] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
+
+I have tested the change extensively on my Odroid Go Advance (Rockchip
+RK3326) and it appears to work well. However, this change will affect
+all Rockchip SoCs that use this driver so I believe further testing
+is warranted. Please note that without this change I can confirm
+at least all PX30s with DSI panels will stop working with the 5.15
+kernel.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 21 +++------------------
+ 1 file changed, 3 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba9e14da41b4..bfef4f52dce6 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1169,31 +1169,16 @@ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+ 	 *
+ 	 * - DRM works in in kHz.
+ 	 * - Clock framework works in Hz.
+-	 * - Rockchip's clock driver picks the clock rate that is the
+-	 *   same _OR LOWER_ than the one requested.
+ 	 *
+ 	 * Action plan:
+ 	 *
+-	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
+-	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
+-	 *    make 60000 kHz then the clock framework will actually give us
+-	 *    the right clock.
+-	 *
+-	 *    NOTE: if the PLL (maybe through a divider) could actually make
+-	 *    a clock rate 999 Hz higher instead of the one we want then this
+-	 *    could be a problem.  Unfortunately there's not much we can do
+-	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
+-	 *    practice since Rockchip PLLs are controlled by tables and
+-	 *    even if there is a divider in the middle I wouldn't expect PLL
+-	 *    rates in the table that are just a few kHz different.
+-	 *
+-	 * 2. Get the clock framework to round the rate for us to tell us
++	 * 1. Get the clock framework to round the rate for us to tell us
+ 	 *    what it will actually make.
+ 	 *
+-	 * 3. Store the rounded up rate so that we don't need to worry about
++	 * 2. Store the rounded up rate so that we don't need to worry about
+ 	 *    this in the actual clk_set_rate().
+ 	 */
+-	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
++	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
+ 	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
+ 
+ 	return true;
 -- 
-Kind Regards,
-Caleb (they/them)
+2.25.1
+
