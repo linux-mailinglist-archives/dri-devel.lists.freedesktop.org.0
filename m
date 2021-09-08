@@ -1,45 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2F34037A2
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 12:13:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B093F4037E4
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 12:32:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6E6F6E182;
-	Wed,  8 Sep 2021 10:13:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2ABE76E0A6;
+	Wed,  8 Sep 2021 10:32:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D6606E17E;
- Wed,  8 Sep 2021 10:13:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="207557995"
-X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="207557995"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 03:13:14 -0700
-X-IronPort-AV: E=Sophos;i="5.85,277,1624345200"; d="scan'208";a="465464557"
-Received: from eoinwals-mobl.ger.corp.intel.com (HELO [10.213.233.175])
- ([10.213.233.175])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 03:13:13 -0700
-Subject: Re: [PATCH 4/8] drm/i915/xehp: CCS should use RCS setup functions
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-References: <20210907171916.2548047-1-matthew.d.roper@intel.com>
- <20210907171916.2548047-5-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <bbe1d640-5583-9da3-0524-bf231ab3a19a@linux.intel.com>
-Date: Wed, 8 Sep 2021 11:13:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+X-Greylist: delayed 1087 seconds by postgrey-1.36 at gabe;
+ Wed, 08 Sep 2021 10:32:38 UTC
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA3E86E0A6;
+ Wed,  8 Sep 2021 10:32:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=0ciSKTQVg9jB/JRJoAkcU2i5AuVKoWJVYLmKxmFW0dM=; b=l7+Z82aBQnq1R3K5PazXQAzEJP
+ IWQoiNUrAooJEXd4P7SHQB1oLoOYQj/Pa+TdliJjR8Peq3rtKnYQxBO8GmQLc53tkcU6/+rM83Ni0
+ iaiX5mhUZSyRnbmUfA6FdESgxucQ2TbIasegfBGA9OGCvdY/yHAZDBXaKx45XqcCMYMjWkLFr51rX
+ hOqZrx91SyCvnwb3N6si5jbGFBXyChyhywAOaofGZosKzqO+tJNS74AG7sxUhHHydZWZAm29o4xva
+ bRb8h5PZkhFxvubcE9o7N31BPpeidvUEHNz5dXUQeNcCYDvguwX5ndYU8OiQ7E6W99kRgqvuUXex4
+ JzizeQ7w==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mNub3-001cTF-BM; Wed, 08 Sep 2021 10:14:25 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 7FD16300332;
+ Wed,  8 Sep 2021 12:14:23 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 681AF2067E684; Wed,  8 Sep 2021 12:14:23 +0200 (CEST)
+Date: Wed, 8 Sep 2021 12:14:23 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] kernel/locking: Add context to ww_mutex_trylock.
+Message-ID: <YTiM/zf8BuNw7wes@hirez.programming.kicks-ass.net>
+References: <20210907132044.157225-1-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210907171916.2548047-5-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210907132044.157225-1-maarten.lankhorst@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,195 +68,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 07, 2021 at 03:20:44PM +0200, Maarten Lankhorst wrote:
+> i915 will soon gain an eviction path that trylock a whole lot of locks
+> for eviction, getting dmesg failures like below:
+> 
+> BUG: MAX_LOCK_DEPTH too low!
+> turning off the locking correctness validator.
+> depth: 48  max: 48!
+> 48 locks held by i915_selftest/5776:
+>  #0: ffff888101a79240 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x88/0x160
+>  #1: ffffc900009778c0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: i915_vma_pin.constprop.63+0x39/0x1b0 [i915]
+>  #2: ffff88800cf74de8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_vma_pin.constprop.63+0x5f/0x1b0 [i915]
+>  #3: ffff88810c7f9e38 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c4/0x9d0 [i915]
+>  #4: ffff88810bad5768 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
+>  #5: ffff88810bad60e8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
+> ...
+>  #46: ffff88811964d768 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
+>  #47: ffff88811964e0e8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
+> INFO: lockdep is turned off.
 
-On 07/09/2021 18:19, Matt Roper wrote:
-> The compute engine handles the same commands the render engine can
-> (except 3D pipeline), so it makes sense that CCS is more similar to RCS
-> than non-render engines.
-> 
-> The CCS context state (lrc) is also similar to the render one, so reuse
-> it. Note that the compute engine has its own CTX_R_PWR_CLK_STATE
-> register.
-> 
-> In order to avoid having multiple RCS && CCS checks, add the following
-> engine flag:
->   - I915_ENGINE_HAS_RCS_REG_STATE - use the render (larger) reg state ctx.
-> 
-> BSpec: 46260
-> Original-patch-by: Michel Thierry
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 8 +++++---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c             | 6 ++++++
->   drivers/gpu/drm/i915/gt/intel_engine_types.h          | 1 +
->   drivers/gpu/drm/i915/gt/intel_execlists_submission.c  | 2 +-
->   drivers/gpu/drm/i915/gt/intel_lrc.c                   | 4 ++--
->   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c     | 2 +-
->   drivers/gpu/drm/i915/i915_perf.c                      | 4 ++--
->   drivers/gpu/drm/i915/i915_reg.h                       | 2 +-
->   8 files changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> index b32f7fed2d9c..fbe10783628b 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
-> @@ -883,7 +883,9 @@ static int igt_shared_ctx_exec(void *arg)
->   	return err;
->   }
->   
-> -static int rpcs_query_batch(struct drm_i915_gem_object *rpcs, struct i915_vma *vma)
-> +static int rpcs_query_batch(struct drm_i915_gem_object *rpcs,
-> +			    struct i915_vma *vma,
-> +			    struct intel_engine_cs *engine)
->   {
->   	u32 *cmd;
->   
-> @@ -894,7 +896,7 @@ static int rpcs_query_batch(struct drm_i915_gem_object *rpcs, struct i915_vma *v
->   		return PTR_ERR(cmd);
->   
->   	*cmd++ = MI_STORE_REGISTER_MEM_GEN8;
-> -	*cmd++ = i915_mmio_reg_offset(GEN8_R_PWR_CLK_STATE);
-> +	*cmd++ = i915_mmio_reg_offset(GEN8_R_PWR_CLK_STATE(engine->mmio_base));
->   	*cmd++ = lower_32_bits(vma->node.start);
->   	*cmd++ = upper_32_bits(vma->node.start);
->   	*cmd = MI_BATCH_BUFFER_END;
-> @@ -955,7 +957,7 @@ emit_rpcs_query(struct drm_i915_gem_object *obj,
->   	if (err)
->   		goto err_vma;
->   
-> -	err = rpcs_query_batch(rpcs, vma);
-> +	err = rpcs_query_batch(rpcs, vma, ce->engine);
->   	if (err)
->   		goto err_batch;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 69944bd8c19d..b346b946602d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -205,6 +205,8 @@ u32 intel_engine_context_size(struct intel_gt *gt, u8 class)
->   	BUILD_BUG_ON(I915_GTT_PAGE_SIZE != PAGE_SIZE);
->   
->   	switch (class) {
-> +	case COMPUTE_CLASS:
-> +		fallthrough;
->   	case RENDER_CLASS:
->   		switch (GRAPHICS_VER(gt->i915)) {
->   		default:
-> @@ -379,6 +381,10 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->   	if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
->   		engine->props.preempt_timeout_ms = 0;
->   
-> +	/* features common between engines sharing EUs */
-> +	if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS)
-> +		engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
+> As an intermediate solution, add an acquire context to ww_mutex_trylock,
+> which allows us to do proper nesting annotations on the trylocks, making
+> the above lockdep splat disappear.
+
+Fair enough I suppose.
+
+> +/**
+> + * ww_mutex_trylock - tries to acquire the w/w mutex with optional acquire context
+> + * @lock: mutex to lock
+> + * @ctx: optional w/w acquire context
+> + *
+> + * Trylocks a mutex with the optional acquire context; no deadlock detection is
+> + * possible. Returns 1 if the mutex has been acquired successfully, 0 otherwise.
+> + *
+> + * Unlike ww_mutex_lock, no deadlock handling is performed. However, if a @ctx is
+> + * specified, -EALREADY and -EDEADLK handling may happen in calls to ww_mutex_lock.
+> + *
+> + * A mutex acquired with this function must be released with ww_mutex_unlock.
+> + */
+> +int __sched
+> +ww_mutex_trylock(struct ww_mutex *ww, struct ww_acquire_ctx *ctx)
+> +{
+> +	bool locked;
 > +
->   	engine->defaults = engine->props; /* never to change again */
->   
->   	engine->context_size = intel_engine_context_size(gt, engine->class);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index dcb9d8b2362a..30a0c69c36c8 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -454,6 +454,7 @@ struct intel_engine_cs {
->   #define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
->   #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
->   #define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
-> +#define I915_ENGINE_HAS_RCS_REG_STATE  BIT(9)
->   	unsigned int flags;
->   
->   	/*
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index de5f9c86b9a4..4c600c46414d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -3406,7 +3406,7 @@ int intel_execlists_submission_setup(struct intel_engine_cs *engine)
->   	logical_ring_default_vfuncs(engine);
->   	logical_ring_default_irqs(engine);
->   
-> -	if (engine->class == RENDER_CLASS)
-> +	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE)
->   		rcs_submission_override(engine);
+> +	if (!ctx)
+> +		return mutex_trylock(&ww->base);
+> +
+> +#ifdef CONFIG_DEBUG_MUTEXES
+> +	DEBUG_LOCKS_WARN_ON(ww->base.magic != &ww->base);
+> +#endif
+> +
+> +	preempt_disable();
+> +	locked = __mutex_trylock(&ww->base);
+> +
+> +	if (locked) {
+> +		ww_mutex_set_context_fastpath(ww, ctx);
+> +		mutex_acquire_nest(&ww->base.dep_map, 0, 1, &ctx->dep_map, _RET_IP_);
+> +	}
+> +	preempt_enable();
+> +
+> +	return locked;
+> +}
+> +EXPORT_SYMBOL(ww_mutex_trylock);
 
-Hm, what do pipe control flushes which relate to 3d pipeline end up 
-doing on CCS engines?
-
-Regards,
-
-Tvrtko
-
->   
->   	lrc_init_wa_ctx(engine);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> index 6ba8daea2f56..6490dce0a73f 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-> @@ -619,7 +619,7 @@ static const u8 *reg_offsets(const struct intel_engine_cs *engine)
->   	GEM_BUG_ON(GRAPHICS_VER(engine->i915) >= 12 &&
->   		   !intel_engine_has_relative_mmio(engine));
->   
-> -	if (engine->class == RENDER_CLASS) {
-> +	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
->   		if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
->   			return dg2_rcs_offsets;
->   		else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
-> @@ -1572,7 +1572,7 @@ void lrc_init_wa_ctx(struct intel_engine_cs *engine)
->   	unsigned int i;
->   	int err;
->   
-> -	if (engine->class != RENDER_CLASS)
-> +	if (!(engine->flags & I915_ENGINE_HAS_RCS_REG_STATE))
->   		return;
->   
->   	switch (GRAPHICS_VER(engine->i915)) {
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 87d8dc8f51b9..2f5bf7aa7e3b 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2517,7 +2517,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
->   	guc_default_irqs(engine);
->   	guc_init_breadcrumbs(engine);
->   
-> -	if (engine->class == RENDER_CLASS)
-> +	if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE)
->   		rcs_submission_override(engine);
->   
->   	lrc_init_wa_ctx(engine);
-> diff --git a/drivers/gpu/drm/i915/i915_perf.c b/drivers/gpu/drm/i915/i915_perf.c
-> index 2f01b8c0284c..5e12a9726c43 100644
-> --- a/drivers/gpu/drm/i915/i915_perf.c
-> +++ b/drivers/gpu/drm/i915/i915_perf.c
-> @@ -2418,7 +2418,7 @@ gen12_configure_all_contexts(struct i915_perf_stream *stream,
->   {
->   	struct flex regs[] = {
->   		{
-> -			GEN8_R_PWR_CLK_STATE,
-> +			GEN8_R_PWR_CLK_STATE(RENDER_RING_BASE),
->   			CTX_R_PWR_CLK_STATE,
->   		},
->   	};
-> @@ -2438,7 +2438,7 @@ lrc_configure_all_contexts(struct i915_perf_stream *stream,
->   #define ctx_flexeuN(N) (ctx_flexeu0 + 2 * (N) + 1)
->   	struct flex regs[] = {
->   		{
-> -			GEN8_R_PWR_CLK_STATE,
-> +			GEN8_R_PWR_CLK_STATE(RENDER_RING_BASE),
->   			CTX_R_PWR_CLK_STATE,
->   		},
->   		{
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index 31e9c2cc4c0c..0bb185ce9529 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -441,7 +441,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->   #define GEN8_RING_PDP_UDW(base, n)	_MMIO((base) + 0x270 + (n) * 8 + 4)
->   #define GEN8_RING_PDP_LDW(base, n)	_MMIO((base) + 0x270 + (n) * 8)
->   
-> -#define GEN8_R_PWR_CLK_STATE		_MMIO(0x20C8)
-> +#define GEN8_R_PWR_CLK_STATE(base)	_MMIO((base)+0xc8)
->   #define   GEN8_RPCS_ENABLE		(1 << 31)
->   #define   GEN8_RPCS_S_CNT_ENABLE	(1 << 18)
->   #define   GEN8_RPCS_S_CNT_SHIFT		15
-> 
+You'll need a similar hunk in ww_rt_mutex.c
