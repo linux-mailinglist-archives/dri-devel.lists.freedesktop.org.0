@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71065403A9A
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC6F403AA6
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:30:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A6E436E1A7;
-	Wed,  8 Sep 2021 13:29:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1C3566E1B7;
+	Wed,  8 Sep 2021 13:29:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
  [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 436A36E0EC
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:29:40 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d6so3280427wrc.11
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03BDA6E1A7
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:29:41 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id i28so3348596wrb.2
  for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xcJdLHU6Go8+IFOAWyMibgRPmZ3htM4s/PKOMF0uNQA=;
- b=Gr2zGO7Lcod/T304z8qSBNDEMuaFxCnKR4H4elcGlz3Gjx25jaG9TOehyfdzQg6y70
- DsxoYYy8z29R/E9nhQx42HZKEBAGHfSAfOMDwJYxWZqYIIkQysS/UVBcicaMrYWj4+uZ
- /WKqDZoSOxK/aUsu9BAH9TEn1RxqT0xvK4BZn+Bo7C1VxxNvisH0ZfyzLNpYXuoNlcce
- tCy9UnfZu+nHZPTlPl1znsDVZ6qXb0ahu8hjq9UDPpieGPf2WoqLnwG2PRh4xDhCQFeD
- hx1VC36g38RDaAP6fdVwa3CIG8CbqiSlzJ93Lmmmcu5KyLzroMHSf6FseyuifseMl8ey
- Mn5w==
+ bh=KbxFDLUp765zTrkAl1EbUb8CRqIXIgA+M9qP6QXf738=;
+ b=RCcVw/GY+WyUg+FyLbSuLJjIHHEfwGkHNlSam0sFnpVkKc2lrTa5epkhqp5yzOZwkB
+ GLQJ0nxSJnL6AIr/vp0H0qZQ4TQUj56M62RYO25x2oyVBInzIB62YMQRYFry3DpN4GFg
+ lXF7Zxrs9pFdgRg77DBg2XJlzKCwsnqHt6ejr2EtSzL0Q+ZXlAqMmG6d+9MqUlQH62Kk
+ MiWNsnvKba/npC0PJK+Va0b/gn/0fNfxdp8n6GcplGMRI00VaADqxbeSW2sKNtoowwgC
+ 9yaMbIPujasULhdXLc/xmHJ31MKOtmUvWLsVBLMoF7F8CIG4QqIg/xers8DfdHetzpmc
+ EK6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xcJdLHU6Go8+IFOAWyMibgRPmZ3htM4s/PKOMF0uNQA=;
- b=n++wWQDvS1T1yLoeUi3x+eLLSwbWppqV9fC0v7G9/vrbk3VmSZ3qbPTcJbfF60rIBQ
- 7rSBGPpSmbGorOxmDqHOHHi5ldwneCzfTLtnB13/+mCUK3ANsxhSLNC89vUxcPNdPA2r
- v3LyvDrqudQ9uUmoh96HJTNhoSN66J1fNfgVo+EQoJGOE+Z55i5RhQ3S1ibV4OsNl3v/
- soDO7L4jYHS/voRkHgXnl2QsSjfCllTW4pmrCSXJKtCSvmhIoTO/xSbOrGISYg0aE4Ll
- rZ//Sndq55WWuJBkVokvH2igTNqoEoQCWSRWNE0TR8G98MjMTVKJ5cajoSGTY7F8Hz72
- JSiA==
-X-Gm-Message-State: AOAM5307tDynyK5CrvS740kfY0Oh7Vix44qHSQEKkPI1khsgsngL8Lb5
- SO16Gn3rG6zC8kEWgf1X5tOS3EA3iOQGXegI
-X-Google-Smtp-Source: ABdhPJxEWspGH/w3ru3mvriypkQYkTvSKZBqm5QmKKI5rjIspMTzT60GyPnkFo300TaeXHzd9KWHfg==
-X-Received: by 2002:a05:6000:1b8d:: with SMTP id
- r13mr4206105wru.230.1631107778887; 
- Wed, 08 Sep 2021 06:29:38 -0700 (PDT)
+ bh=KbxFDLUp765zTrkAl1EbUb8CRqIXIgA+M9qP6QXf738=;
+ b=OuLv8Kv8WVksIDo1UMg0uSasmbwU/Oek6flZtpS7fUJdiDs2/15YJxwUT+b6LNVuxg
+ YU3uOFF/IijWddOpfoj3zD+n4bc2Kg9t7JTIsCm27TG2NeDa8FCuYwDUKdZmzW8L1VxI
+ zWOTFqWXy9pNFfjw437XdCCCKXOXHX9gKcjkuM2brusxOBs0Htpfd4JtJ2QmB03mIUcN
+ kaP0Xfs5CPPRiRacTc7WWLEo+0DbBDWRPtqVXQfMlMlQcHpGn7zAxP8zn7FQKFFxTDps
+ HVtgbF6z9+d+faHu7j86ECLlg3ouIWjWim6j6YrLVPzsHAD2mfcZhHnV5l3uFWkSsQqt
+ rLKw==
+X-Gm-Message-State: AOAM531ZJd/xgvtLX6Mly3tDbwRbI21F9w8zplbkKw0OynBKZlnQ3Wwo
+ qhPVlIiii8lmcq2vHQdjRbjKrq3fhG+OmY88
+X-Google-Smtp-Source: ABdhPJzR4RUtIHMYsYjG9meUCr3R08fylESUAixrSTDD67HvVpfKi8FV36tjRbQ3mx1wFUAxSIaLcw==
+X-Received: by 2002:adf:e745:: with SMTP id c5mr4132421wrn.321.1631107779699; 
+ Wed, 08 Sep 2021 06:29:39 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
  k18sm2138959wmi.25.2021.09.08.06.29.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 06:29:38 -0700 (PDT)
+ Wed, 08 Sep 2021 06:29:39 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -54,9 +53,9 @@ To: dri-devel@lists.freedesktop.org
 Cc: matthew.william.auld@gmail.com,
 	daniel@ffwll.ch,
 	alexdeucher@gmail.com
-Subject: [PATCH 2/8] drm/ttm: add some general module kerneldoc
-Date: Wed,  8 Sep 2021 15:29:27 +0200
-Message-Id: <20210908132933.3269-3-christian.koenig@amd.com>
+Subject: [PATCH 3/8] drm/ttm: add kerneldoc for enum ttm_caching
+Date: Wed,  8 Sep 2021 15:29:28 +0200
+Message-Id: <20210908132933.3269-4-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210908132933.3269-1-christian.koenig@amd.com>
 References: <20210908132933.3269-1-christian.koenig@amd.com>
@@ -78,51 +77,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For now just a brief description of what TTM is all about.
+Briefly describe what this is all about.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Alex Deucher <alexander.deucher@amd.com>
 ---
- Documentation/gpu/drm-mm.rst     |  3 ++-
- drivers/gpu/drm/ttm/ttm_module.c | 12 ++++++++++++
- 2 files changed, 14 insertions(+), 1 deletion(-)
+ Documentation/gpu/drm-mm.rst  |  3 +++
+ include/drm/ttm/ttm_caching.h | 17 +++++++++++++++++
+ 2 files changed, 20 insertions(+)
 
 diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index 8ca981065e1a..6b7717af4f88 100644
+index 6b7717af4f88..f22c9f9a2c0e 100644
 --- a/Documentation/gpu/drm-mm.rst
 +++ b/Documentation/gpu/drm-mm.rst
-@@ -28,7 +28,8 @@ UMA devices.
- The Translation Table Manager (TTM)
- ===================================
+@@ -31,6 +31,9 @@ The Translation Table Manager (TTM)
+ .. kernel-doc:: drivers/gpu/drm/ttm/ttm_module.c
+    :doc: TTM
  
--TTM design background and information belongs here.
-+.. kernel-doc:: drivers/gpu/drm/ttm/ttm_module.c
-+   :doc: TTM
- 
++.. kernel-doc:: include/drm/ttm/ttm_caching.h
++   :internal:
++
  The Graphics Execution Manager (GEM)
  ====================================
-diff --git a/drivers/gpu/drm/ttm/ttm_module.c b/drivers/gpu/drm/ttm/ttm_module.c
-index 997c458f68a9..6c19290f7ea9 100644
---- a/drivers/gpu/drm/ttm/ttm_module.c
-+++ b/drivers/gpu/drm/ttm/ttm_module.c
-@@ -39,6 +39,18 @@
  
- #include "ttm_module.h"
+diff --git a/include/drm/ttm/ttm_caching.h b/include/drm/ttm/ttm_caching.h
+index 3c9dd65f5aaf..235a743d90e1 100644
+--- a/include/drm/ttm/ttm_caching.h
++++ b/include/drm/ttm/ttm_caching.h
+@@ -27,9 +27,26 @@
+ 
+ #define TTM_NUM_CACHING_TYPES	3
  
 +/**
-+ * DOC: TTM
-+ *
-+ * TTM is a memory manager for accelerator devices with dedicated memory.
-+ *
-+ * The basic idea is that resources are grouped together in buffer objects of
-+ * certain size and TTM handles lifetime, movement and CPU mappings of those
-+ * objects.
-+ *
-+ * TODO: Add more design background and information here.
++ * enum ttm_caching - CPU caching and BUS snooping behavior.
 + */
+ enum ttm_caching {
++	/**
++	 * @ttm_uncached: Most defensive option for device mappings,
++	 * don't even allow write combining.
++	 */
+ 	ttm_uncached,
 +
- /**
-  * ttm_prot_from_caching - Modify the page protection according to the
-  * ttm cacing mode
++	/**
++	 * @ttm_write_combined: Don't cache read accesses, but allow at least
++	 * writes to be combined.
++	 */
+ 	ttm_write_combined,
++
++	/**
++	 * @ttm_cached: Fully cached like normal system memory, requires that
++	 * devices snoop the CPU cache on accesses.
++	 */
+ 	ttm_cached
+ };
+ 
 -- 
 2.25.1
 
