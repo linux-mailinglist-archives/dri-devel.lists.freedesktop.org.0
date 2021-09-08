@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325C3403B0B
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:54:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10F06403B15
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 15:57:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B4CD6E151;
-	Wed,  8 Sep 2021 13:54:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D604089852;
+	Wed,  8 Sep 2021 13:57:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com
- [IPv6:2607:f8b0:4864:20::232])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7F30D6E151
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 13:54:09 +0000 (UTC)
-Received: by mail-oi1-x232.google.com with SMTP id h133so3182530oib.7
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 06:54:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PoThhVHI+CpdzEgbh+scXgZrwASU+pwID9AwwUPF63k=;
- b=JB/hOY4azKr0nOZp3JVoVVjfLTG9LraA3gH4xiwvDXq6AYDNEaa0UVomjx69L9YMH+
- 73pG7pHWPRVffZ5ChzV15wOYUXTFrXUjkggGrPuYMV0Eimwl9uHhuhHmRMsNkOEk/7HG
- lo5xT3/3Wu0WNYxGd1Lv5LGNfH/DrI+3Wp4uTDrVPWpBk+xSMA6fYmDbnPIJZI1aZx0v
- yKcn6hvYXzmB4UsjVkLz+AGGKUy5/vdTdc8PHkcvdkb2vKNXabol265AkPRtctZ32kAw
- 8FtlSdLQshpHtSrZts+KgboteBhhsV5F2/MFwitj4Qj+v8XEHfXgmiVZjBEL3POJqtCt
- e0SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PoThhVHI+CpdzEgbh+scXgZrwASU+pwID9AwwUPF63k=;
- b=CEXs50x0LUymSPT7WxqQ3enLp39c2CYFmY3dgrwERExOsEqOzd9UxFfRQP2ZndfLhG
- wXjDPD+GqVhbRPkO9l+u6QaAO+QcJCpaoQSO0H+krYc4kMtCtpoawyY34p7aDeyiJSd4
- MD46AZt1bHo9frOMwTJYIymzBSzEstXr40LyvcfDEK0onT+Y7WclkMYunc2tJR+u7Jzl
- 2i/RJG4cviBuKGyzXPkiea7z8H58dYoTafrE77lVyaJddmKEM+i6ubv5kQtbR90oCTuH
- KQMUCiX+SYQAlBxtFlx0eSqemIs6wRwYp0eGKAAc8GAD2JFGEmhxtuKCE9f4FIPXD7fH
- fx1g==
-X-Gm-Message-State: AOAM533VqIrLNQu98Igj8BIRwjcN3mVhlILALepnKe4lxQE36+Peg0VG
- dJ9YIBTGgg7pglBvBCGgG7g=
-X-Google-Smtp-Source: ABdhPJxS/hL9sd8p8yzOu6wDDTwZSa0fSfI/mWESuQWUWYwOgMmMKq23McgrFeyRjE5eu6Tah4Opwg==
-X-Received: by 2002:a54:4714:: with SMTP id k20mr2407177oik.103.1631109248826; 
- Wed, 08 Sep 2021 06:54:08 -0700 (PDT)
-Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
- [76.183.134.35])
- by smtp.gmail.com with ESMTPSA id q26sm463704otf.39.2021.09.08.06.54.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 06:54:08 -0700 (PDT)
-From: Chris Morgan <macroalpha82@gmail.com>
-To: linux-rockchip@lists.infradead.org
-Cc: dri-devel@lists.freedesktop.org, daniel@ffwll.ch, airlied@linux.ie,
- heiko@sntech.de, hjc@rock-chips.com, andriy.shevchenko@linux.intel.com,
- zhangqing@rock-chips.com, Chris Morgan <macromorgan@hotmail.com>
-Subject: [PATCH] drm/rockchip: Update crtc fixup to account for fractional clk
- change
-Date: Wed,  8 Sep 2021 08:53:56 -0500
-Message-Id: <20210908135356.18689-1-macroalpha82@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA7B897BC;
+ Wed,  8 Sep 2021 13:57:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10100"; a="281505361"
+X-IronPort-AV: E=Sophos;i="5.85,278,1624345200"; d="scan'208";a="281505361"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 06:57:30 -0700
+X-IronPort-AV: E=Sophos;i="5.85,278,1624345200"; d="scan'208";a="465640606"
+Received: from eoinwals-mobl.ger.corp.intel.com (HELO [10.213.233.175])
+ ([10.213.233.175])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 06:57:29 -0700
+Subject: Re: [PATCH 4/8] drm/i915/xehp: CCS should use RCS setup functions
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+References: <20210907171916.2548047-1-matthew.d.roper@intel.com>
+ <20210907171916.2548047-5-matthew.d.roper@intel.com>
+ <bbe1d640-5583-9da3-0524-bf231ab3a19a@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <321db881-d8d2-d4a9-f369-96e5b781f070@linux.intel.com>
+Date: Wed, 8 Sep 2021 14:57:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <bbe1d640-5583-9da3-0524-bf231ab3a19a@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,121 +56,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Chris Morgan <macromorgan@hotmail.com>
 
-After commit 928f9e268611 ("clk: fractional-divider: Hide
-clk_fractional_divider_ops from wide audience") was merged it appears
-that the DSI panel on my Odroid Go Advance stopped working. Upon closer
-examination of the problem, it looks like it was the fixup in the
-rockchip_drm_vop.c file was causing the issue. The changes made to the
-clk driver appear to change some assumptions made in the fixup.
+On 08/09/2021 11:13, Tvrtko Ursulin wrote:
+> 
+> On 07/09/2021 18:19, Matt Roper wrote:
+>> The compute engine handles the same commands the render engine can
+>> (except 3D pipeline), so it makes sense that CCS is more similar to RCS
+>> than non-render engines.
+>>
+>> The CCS context state (lrc) is also similar to the render one, so reuse
+>> it. Note that the compute engine has its own CTX_R_PWR_CLK_STATE
+>> register.
+>>
+>> In order to avoid having multiple RCS && CCS checks, add the following
+>> engine flag:
+>>   - I915_ENGINE_HAS_RCS_REG_STATE - use the render (larger) reg state 
+>> ctx.
+>>
+>> BSpec: 46260
+>> Original-patch-by: Michel Thierry
+>> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Signed-off-by: Aravind Iddamsetty <aravind.iddamsetty@intel.com>
+>> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c | 8 +++++---
+>>   drivers/gpu/drm/i915/gt/intel_engine_cs.c             | 6 ++++++
+>>   drivers/gpu/drm/i915/gt/intel_engine_types.h          | 1 +
+>>   drivers/gpu/drm/i915/gt/intel_execlists_submission.c  | 2 +-
+>>   drivers/gpu/drm/i915/gt/intel_lrc.c                   | 4 ++--
+>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c     | 2 +-
+>>   drivers/gpu/drm/i915/i915_perf.c                      | 4 ++--
+>>   drivers/gpu/drm/i915/i915_reg.h                       | 2 +-
+>>   8 files changed, 19 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c 
+>> b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> index b32f7fed2d9c..fbe10783628b 100644
+>> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_context.c
+>> @@ -883,7 +883,9 @@ static int igt_shared_ctx_exec(void *arg)
+>>       return err;
+>>   }
+>> -static int rpcs_query_batch(struct drm_i915_gem_object *rpcs, struct 
+>> i915_vma *vma)
+>> +static int rpcs_query_batch(struct drm_i915_gem_object *rpcs,
+>> +                struct i915_vma *vma,
+>> +                struct intel_engine_cs *engine)
+>>   {
+>>       u32 *cmd;
+>> @@ -894,7 +896,7 @@ static int rpcs_query_batch(struct 
+>> drm_i915_gem_object *rpcs, struct i915_vma *v
+>>           return PTR_ERR(cmd);
+>>       *cmd++ = MI_STORE_REGISTER_MEM_GEN8;
+>> -    *cmd++ = i915_mmio_reg_offset(GEN8_R_PWR_CLK_STATE);
+>> +    *cmd++ = 
+>> i915_mmio_reg_offset(GEN8_R_PWR_CLK_STATE(engine->mmio_base));
+>>       *cmd++ = lower_32_bits(vma->node.start);
+>>       *cmd++ = upper_32_bits(vma->node.start);
+>>       *cmd = MI_BATCH_BUFFER_END;
+>> @@ -955,7 +957,7 @@ emit_rpcs_query(struct drm_i915_gem_object *obj,
+>>       if (err)
+>>           goto err_vma;
+>> -    err = rpcs_query_batch(rpcs, vma);
+>> +    err = rpcs_query_batch(rpcs, vma, ce->engine);
+>>       if (err)
+>>           goto err_batch;
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c 
+>> b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> index 69944bd8c19d..b346b946602d 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>> @@ -205,6 +205,8 @@ u32 intel_engine_context_size(struct intel_gt *gt, 
+>> u8 class)
+>>       BUILD_BUG_ON(I915_GTT_PAGE_SIZE != PAGE_SIZE);
+>>       switch (class) {
+>> +    case COMPUTE_CLASS:
+>> +        fallthrough;
+>>       case RENDER_CLASS:
+>>           switch (GRAPHICS_VER(gt->i915)) {
+>>           default:
+>> @@ -379,6 +381,10 @@ static int intel_engine_setup(struct intel_gt 
+>> *gt, enum intel_engine_id id)
+>>       if (GRAPHICS_VER(i915) == 12 && engine->class == RENDER_CLASS)
+>>           engine->props.preempt_timeout_ms = 0;
+>> +    /* features common between engines sharing EUs */
+>> +    if (engine->class == RENDER_CLASS || engine->class == COMPUTE_CLASS)
+>> +        engine->flags |= I915_ENGINE_HAS_RCS_REG_STATE;
+>> +
+>>       engine->defaults = engine->props; /* never to change again */
+>>       engine->context_size = intel_engine_context_size(gt, 
+>> engine->class);
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h 
+>> b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>> index dcb9d8b2362a..30a0c69c36c8 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>> @@ -454,6 +454,7 @@ struct intel_engine_cs {
+>>   #define I915_ENGINE_HAS_RELATIVE_MMIO BIT(6)
+>>   #define I915_ENGINE_REQUIRES_CMD_PARSER BIT(7)
+>>   #define I915_ENGINE_WANT_FORCED_PREEMPTION BIT(8)
+>> +#define I915_ENGINE_HAS_RCS_REG_STATE  BIT(9)
+>>       unsigned int flags;
+>>       /*
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c 
+>> b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> index de5f9c86b9a4..4c600c46414d 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>> @@ -3406,7 +3406,7 @@ int intel_execlists_submission_setup(struct 
+>> intel_engine_cs *engine)
+>>       logical_ring_default_vfuncs(engine);
+>>       logical_ring_default_irqs(engine);
+>> -    if (engine->class == RENDER_CLASS)
+>> +    if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE)
+>>           rcs_submission_override(engine);
+> 
+> Hm, what do pipe control flushes which relate to 3d pipeline end up 
+> doing on CCS engines?
 
-After debugging the working 5.14 kernel and the no-longer working
-5.15 kernel, it looks like this was broken all along but still
-worked, whereas after the fractional clock change it stopped
-working despite the issue (it went from sort-of broken to very broken).
+Right, answer found in the following patch.
 
-In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
-17000999 on my board. The clock driver was taking the value of the
-parent clock and attempting to divide the requested value from it
-(17000000/17000999 = 0), then subtracting 1 from it (making it -1),
-and running it through fls_long to get 64. It would then subtract
-the value of fd->mwidth from it to get 48, and then bit shift
-17000999 to the left by 48, coming up with a very large number of
-7649082492112076800. This resulted in a numerator of 65535 and a
-denominator of 1 from the clk driver. The driver seemingly would
-try again and get a correct 1:1 value later, and then move on.
+Ideally the two would swap places in the series so by the time vfunc are 
+assigned to the engines they actually handle them correctly. It's a 
+minor point since it's all disabled until the very end of the series so 
+either way:
 
-Output from my 5.14 kernel (with some printfs for good measure):
-[    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-[    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-[    2.855980] Clock is dclk_vopb_frac
-[    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
-[    2.903529] Clock is dclk_vopb_frac
-[    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
-[    2.903579] Clock is dclk_vopb_frac
-[    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Contrast this with 5.15 after the clk change where the rate of 17000999
-was getting passed and resulted in numerators/denomiators of 17001/
-17000.
+Regards,
 
-Output from my 5.15 kernel (with some printfs added for good measure):
-[    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-[    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-[    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
-[    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-[    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-[    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+Tvrtko
 
-After tracing through the code it appeared that this function here was
-adding a 999 to the requested frequency because of how the clk driver
-was rounding/accepting those frequencies. I believe after the changes
-made in the commit listed above the assumptions listed in this driver
-are no longer true. When I remove the + 999 from the driver the DSI
-panel begins to work again.
-
-Output from my 5.15 kernel with 999 removed (printfs added):
-[    2.852054] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-[    2.864483] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-[    2.880869] Clock is dclk_vopb_frac
-[    2.880892] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
-[    2.928521] Clock is dclk_vopb_frac
-[    2.928551] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
-[    2.928570] Clock is dclk_vopb_frac
-[    2.928574] Rate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1
-
-I have tested the change extensively on my Odroid Go Advance (Rockchip
-RK3326) and it appears to work well. However, this change will affect
-all Rockchip SoCs that use this driver so I believe further testing
-is warranted. Please note that without this change I can confirm
-at least all PX30s with DSI panels will stop working with the 5.15
-kernel.
-
-Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
----
- drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 21 +++------------------
- 1 file changed, 3 insertions(+), 18 deletions(-)
-
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-index ba9e14da41b4..bfef4f52dce6 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-@@ -1169,31 +1169,16 @@ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
- 	 *
- 	 * - DRM works in in kHz.
- 	 * - Clock framework works in Hz.
--	 * - Rockchip's clock driver picks the clock rate that is the
--	 *   same _OR LOWER_ than the one requested.
- 	 *
- 	 * Action plan:
- 	 *
--	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
--	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
--	 *    make 60000 kHz then the clock framework will actually give us
--	 *    the right clock.
--	 *
--	 *    NOTE: if the PLL (maybe through a divider) could actually make
--	 *    a clock rate 999 Hz higher instead of the one we want then this
--	 *    could be a problem.  Unfortunately there's not much we can do
--	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
--	 *    practice since Rockchip PLLs are controlled by tables and
--	 *    even if there is a divider in the middle I wouldn't expect PLL
--	 *    rates in the table that are just a few kHz different.
--	 *
--	 * 2. Get the clock framework to round the rate for us to tell us
-+	 * 1. Get the clock framework to round the rate for us to tell us
- 	 *    what it will actually make.
- 	 *
--	 * 3. Store the rounded up rate so that we don't need to worry about
-+	 * 2. Store the rounded up rate so that we don't need to worry about
- 	 *    this in the actual clk_set_rate().
- 	 */
--	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
-+	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
- 	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
- 
- 	return true;
--- 
-2.25.1
-
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>       lrc_init_wa_ctx(engine);
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c 
+>> b/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> index 6ba8daea2f56..6490dce0a73f 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+>> @@ -619,7 +619,7 @@ static const u8 *reg_offsets(const struct 
+>> intel_engine_cs *engine)
+>>       GEM_BUG_ON(GRAPHICS_VER(engine->i915) >= 12 &&
+>>              !intel_engine_has_relative_mmio(engine));
+>> -    if (engine->class == RENDER_CLASS) {
+>> +    if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE) {
+>>           if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 55))
+>>               return dg2_rcs_offsets;
+>>           else if (GRAPHICS_VER_FULL(engine->i915) >= IP_VER(12, 50))
+>> @@ -1572,7 +1572,7 @@ void lrc_init_wa_ctx(struct intel_engine_cs 
+>> *engine)
+>>       unsigned int i;
+>>       int err;
+>> -    if (engine->class != RENDER_CLASS)
+>> +    if (!(engine->flags & I915_ENGINE_HAS_RCS_REG_STATE))
+>>           return;
+>>       switch (GRAPHICS_VER(engine->i915)) {
+>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c 
+>> b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> index 87d8dc8f51b9..2f5bf7aa7e3b 100644
+>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>> @@ -2517,7 +2517,7 @@ int intel_guc_submission_setup(struct 
+>> intel_engine_cs *engine)
+>>       guc_default_irqs(engine);
+>>       guc_init_breadcrumbs(engine);
+>> -    if (engine->class == RENDER_CLASS)
+>> +    if (engine->flags & I915_ENGINE_HAS_RCS_REG_STATE)
+>>           rcs_submission_override(engine);
+>>       lrc_init_wa_ctx(engine);
+>> diff --git a/drivers/gpu/drm/i915/i915_perf.c 
+>> b/drivers/gpu/drm/i915/i915_perf.c
+>> index 2f01b8c0284c..5e12a9726c43 100644
+>> --- a/drivers/gpu/drm/i915/i915_perf.c
+>> +++ b/drivers/gpu/drm/i915/i915_perf.c
+>> @@ -2418,7 +2418,7 @@ gen12_configure_all_contexts(struct 
+>> i915_perf_stream *stream,
+>>   {
+>>       struct flex regs[] = {
+>>           {
+>> -            GEN8_R_PWR_CLK_STATE,
+>> +            GEN8_R_PWR_CLK_STATE(RENDER_RING_BASE),
+>>               CTX_R_PWR_CLK_STATE,
+>>           },
+>>       };
+>> @@ -2438,7 +2438,7 @@ lrc_configure_all_contexts(struct 
+>> i915_perf_stream *stream,
+>>   #define ctx_flexeuN(N) (ctx_flexeu0 + 2 * (N) + 1)
+>>       struct flex regs[] = {
+>>           {
+>> -            GEN8_R_PWR_CLK_STATE,
+>> +            GEN8_R_PWR_CLK_STATE(RENDER_RING_BASE),
+>>               CTX_R_PWR_CLK_STATE,
+>>           },
+>>           {
+>> diff --git a/drivers/gpu/drm/i915/i915_reg.h 
+>> b/drivers/gpu/drm/i915/i915_reg.h
+>> index 31e9c2cc4c0c..0bb185ce9529 100644
+>> --- a/drivers/gpu/drm/i915/i915_reg.h
+>> +++ b/drivers/gpu/drm/i915/i915_reg.h
+>> @@ -441,7 +441,7 @@ static inline bool i915_mmio_reg_valid(i915_reg_t 
+>> reg)
+>>   #define GEN8_RING_PDP_UDW(base, n)    _MMIO((base) + 0x270 + (n) * 8 
+>> + 4)
+>>   #define GEN8_RING_PDP_LDW(base, n)    _MMIO((base) + 0x270 + (n) * 8)
+>> -#define GEN8_R_PWR_CLK_STATE        _MMIO(0x20C8)
+>> +#define GEN8_R_PWR_CLK_STATE(base)    _MMIO((base)+0xc8)
+>>   #define   GEN8_RPCS_ENABLE        (1 << 31)
+>>   #define   GEN8_RPCS_S_CNT_ENABLE    (1 << 18)
+>>   #define   GEN8_RPCS_S_CNT_SHIFT        15
+>>
