@@ -2,55 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25979403419
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 08:04:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A5B403456
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 08:39:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C48E26E13A;
-	Wed,  8 Sep 2021 06:04:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9F746E133;
+	Wed,  8 Sep 2021 06:39:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E60C6E11C
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 06:04:23 +0000 (UTC)
-X-UUID: 6f1d39e3b3fc4fc48e199046f628b830-20210908
-X-UUID: 6f1d39e3b3fc4fc48e199046f628b830-20210908
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 200682830; Wed, 08 Sep 2021 14:04:19 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 8 Sep 2021 14:04:19 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Wed, 8 Sep 2021 14:04:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 8 Sep 2021 14:04:18 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>
-CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE2156E133
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 06:39:51 +0000 (UTC)
+Received: from lupine.hi.pengutronix.de
+ ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mNrF7-000821-T7; Wed, 08 Sep 2021 08:39:33 +0200
+Received: from pza by lupine with local (Exim 4.92)
+ (envelope-from <p.zabel@pengutronix.de>)
+ id 1mNrF3-00031K-86; Wed, 08 Sep 2021 08:39:29 +0200
+Message-ID: <5ffef736524f3d7fb69f97332576ee9913032bcd.camel@pengutronix.de>
+Subject: Re: [PATCH v10 07/17] dt-bindings: display: mediatek: merge: add
+ additional prop for mt8195
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>, Rob Herring
+ <robh+dt@kernel.org>,  Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
  <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <hsinyi@chromium.org>, <fshao@chromium.org>, <jason-jh.lin@mediatek.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>, <devicetree@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v10 17/17] drm/mediatek: add mediatek-drm of vdosys0 support
- for mt8195
-Date: Wed, 8 Sep 2021 14:03:12 +0800
-Message-ID: <20210908060312.24007-18-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210908060312.24007-1-jason-jh.lin@mediatek.com>
+ <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ hsinyi@chromium.org, fshao@chromium.org, Yongqiang Niu
+ <yongqiang.niu@mediatek.com>,  nancy.lin@mediatek.com,
+ singo.chang@mediatek.com, devicetree@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org
+Date: Wed, 08 Sep 2021 08:39:29 +0200
+In-Reply-To: <20210908060312.24007-8-jason-jh.lin@mediatek.com>
 References: <20210908060312.24007-1-jason-jh.lin@mediatek.com>
+ <20210908060312.24007-8-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,121 +66,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys0 to mediatek-drm and the sub driver.
+Hi Jason,
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
-rebase on series [1]
+On Wed, 2021-09-08 at 14:03 +0800, jason-jh.lin wrote:
+> add MERGE additional properties description for mt8195:
+> 1. async clock
+> 2. fifo setting enable
+> 3. reset controller
+>=20
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  .../display/mediatek/mediatek,merge.yaml      | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
+merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,me=
+rge.yaml
+> index 75beeb207ceb..0fe204d9ad2c 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
+aml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
+aml
+> @@ -38,6 +38,19 @@ properties:
+>    clocks:
+>      items:
+>        - description: MERGE Clock
+> +      - description: MERGE Async Clock
+> +          Controlling the synchronous process between MERGE and other di=
+splay
+> +          function blocks cross clock domain.
+> +
+> +  mediatek,merge-fifo-en:
+> +    description:
+> +      The setting of merge fifo is mainly provided for the display laten=
+cy
+> +      buffer to ensure that the back-end panel display data will not be
+> +      underrun, a little more data is needed in the fifo.
+> +      According to the merge fifo settings, when the water level is dete=
+cted
+> +      to be insufficient, it will trigger RDMA sending ultra and preulra
+> +      command to SMI to speed up the data rate.
+> +    type: boolean
+> =20
+>    mediatek,gce-client-reg:
+>      description:
+> @@ -50,6 +63,10 @@ properties:
+>      $ref: /schemas/types.yaml#/definitions/phandle-array
+>      maxItems: 1
+> =20
+> +  resets:
+> +    description: reset controller
+> +      See Documentation/devicetree/bindings/reset/reset.txt for details.
 
-[1] drm/mediatek: add support for mediatek SOC MT8192
-- https://patchwork.kernel.org/project/linux-mediatek/list/?series=529489
----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c |  6 +++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c   | 28 ++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+From the example this looks like it could have a maxItems: 1.
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index a2386aa302da..2d1ef1059f8e 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -357,6 +357,10 @@ static const struct mtk_disp_rdma_data mt8192_rdma_driver_data = {
- 	.fifo_size = 5 * SZ_1K,
- };
- 
-+static const struct mtk_disp_rdma_data mt8195_rdma_driver_data = {
-+	.fifo_size = 1920,
-+};
-+
- static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = &mt2701_rdma_driver_data},
-@@ -366,6 +370,8 @@ static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	  .data = &mt8183_rdma_driver_data},
- 	{ .compatible = "mediatek,mt8192-disp-rdma",
- 	  .data = &mt8192_rdma_driver_data},
-+	{ .compatible = "mediatek,mt8195-disp-rdma",
-+	  .data = &mt8195_rdma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 3cb3baff97e2..a7fdbd1f30dc 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -166,6 +166,19 @@ static const enum mtk_ddp_comp_id mt8192_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSC0,
-+	DDP_COMPONENT_MERGE0,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -212,6 +225,11 @@ static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
-+	.main_path = mt8195_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
-+};
-+
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -438,10 +456,14 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_COLOR },
- 	{ .compatible = "mediatek,mt8183-disp-dither",
- 	  .data = (void *)MTK_DISP_DITHER },
-+	{ .compatible = "mediatek,mt8195-disp-dsc",
-+	  .data = (void *)MTK_DISP_DSC },
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8183-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8195-disp-merge",
-+	  .data = (void *)MTK_DISP_MERGE },
- 	{ .compatible = "mediatek,mt2701-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2712-disp-mutex",
-@@ -452,6 +474,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8195-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
-@@ -480,6 +504,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8192-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8195-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-ufoe",
- 	  .data = (void *)MTK_DISP_UFOE },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
-@@ -512,6 +538,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8183_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
-+	{.compatible = "mediatek,mt8195-vdosys0",
-+	  .data = &mt8195_vdosys0_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
--- 
-2.18.0
+> +
+>  required:
+>    - compatible
+>    - reg
 
+Should the resets property be required for "mediatek,mt8195-disp-merge"?
+
+> @@ -67,3 +84,16 @@ examples:
+>          power-domains =3D <&spm MT8173_POWER_DOMAIN_MM>;
+>          clocks =3D <&mmsys CLK_MM_DISP_MERGE>;
+>      };
+> +
+> +    merge5: disp_vpp_merge5@1c110000 {
+> +        compatible =3D "mediatek,mt8195-disp-merge";
+> +        reg =3D <0 0x1c110000 0 0x1000>;
+> +        interrupts =3D <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        clocks =3D <&vdosys1 CLK_VDO1_VPP_MERGE4>,
+> +                 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
+> +        clock-names =3D "merge","merge_async";
+> +        power-domains =3D <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+> +        mediatek,gce-client-reg =3D <&gce1 SUBSYS_1c11XXXX 0x0000 0x1000=
+>;
+> +        mediatek,merge-fifo-en =3D <1>;
+> +        resets =3D <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
+> +    };
+
+regards
+Philipp
