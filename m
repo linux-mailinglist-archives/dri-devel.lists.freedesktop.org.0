@@ -2,57 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 918A0403541
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 09:24:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBA5403584
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 09:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 682F36E14D;
-	Wed,  8 Sep 2021 07:24:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F0CF6E150;
+	Wed,  8 Sep 2021 07:36:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9A7086E14D
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 07:24:43 +0000 (UTC)
-X-UUID: 55abe93ce43d45f18f51a92e5edc81da-20210908
-X-UUID: 55abe93ce43d45f18f51a92e5edc81da-20210908
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw01.mediatek.com (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1865226570; Wed, 08 Sep 2021 15:24:38 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 8 Sep 2021 15:24:36 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by mtkcas07.mediatek.inc
- (172.21.101.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Wed, 8 Sep 2021 15:24:36 +0800
-Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 8 Sep 2021 15:24:36 +0800
-Message-ID: <adf8bebaccba94a3d84f6c3400628ea8adaebed1.camel@mediatek.com>
-Subject: Re: [PATCH v10 07/17] dt-bindings: display: mediatek: merge: add
- additional prop for mt8195
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <hsinyi@chromium.org>, <fshao@chromium.org>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>, <devicetree@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Date: Wed, 8 Sep 2021 15:24:36 +0800
-In-Reply-To: <5ffef736524f3d7fb69f97332576ee9913032bcd.camel@pengutronix.de>
-References: <20210908060312.24007-1-jason-jh.lin@mediatek.com>
- <20210908060312.24007-8-jason-jh.lin@mediatek.com>
- <5ffef736524f3d7fb69f97332576ee9913032bcd.camel@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com
+ [IPv6:2a00:1450:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 290706E151
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 07:36:15 +0000 (UTC)
+Received: by mail-lj1-x22c.google.com with SMTP id p15so1959356ljn.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 00:36:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=o/VoJvWuPVlxJiTqir+EO4k/QwNOn1gsnrn9IbwP1PA=;
+ b=aBnMYeKzYH/MW0Rnney0B153BAX5s7SwUa3k8iFrRu9x1fmsP8qYMcPJW9Ag1kJNTJ
+ HB2UscA0+jNLll2of0pXN54VNzbEJzdYhQURgHitJnOUaMivrLi5cXX8yNrYjVXs/m1z
+ hdQ2Vbs+p48ojlLLWiRNRKVsnTx/JxPUeLk6FUIrB0Dk3bu8e/Rk02qE9sf7LD0MmYdz
+ Y3mXzBxnYFNf2kaF77jmZmYzbijodiKPmU0Hf9nakO/ViA970IMdV986bIGKpA6ko096
+ i8y3SkWuHNhJGPXGpVLOyhL5YL6DY3AW0Q+51tHNSEg3iqtJIncNSuygXqJDJHRvUUvv
+ PxpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=o/VoJvWuPVlxJiTqir+EO4k/QwNOn1gsnrn9IbwP1PA=;
+ b=VR9Rw5r7qPTI+oe4G+XNGGiYvdtotp4Ede0WtUsOiY6LDi1fpzj8ZKf1JnlJ8fJ4eP
+ sz12jKUgxS1bXbJX3iEOzoo5PE079G/dW6cva6G6pmH+YfQvHwNrwwA4FsPcxJKFfZsH
+ NnuyLZULdpOTIv0l35TV8jG7NsazzMdhqVsdo5GaJqUwscdkZBFTvcb9oUwSjor5EjSR
+ WjUXduSYpEyNWuAdYE5d9tyR3WOYr2OfrDXY6WWGfzp9JSURL3YrSp313ebblxfX1MYE
+ O/60UMRg1whMRkyTkRqwv03kgzHahuQyCNpPWaJAZxVRY72UorLTXiiTRIIg5nOvopmY
+ uoNw==
+X-Gm-Message-State: AOAM531qJKDGOdxD0antg8j9zgt8haMY1PLpN1d9IB4xUGLaZGIm/Ai/
+ MVbJpYBtsXmrtod3NNzDBNQ=
+X-Google-Smtp-Source: ABdhPJwhSFCwjbYLJoPBWQP3eLfbrXhDXhWHRl92jK98wZPDYvPsdk1NcI8BWVS0tzAfDHcKGbMiOg==
+X-Received: by 2002:a05:651c:1057:: with SMTP id
+ x23mr1691350ljm.377.1631086573388; 
+ Wed, 08 Sep 2021 00:36:13 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id l3sm114832lfk.245.2021.09.08.00.36.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Sep 2021 00:36:13 -0700 (PDT)
+Date: Wed, 8 Sep 2021 10:36:03 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: Dennis Filder <d.filder@web.de>, dri-devel@lists.freedesktop.org
+Subject: Re: Handling DRM master transitions cooperatively
+Message-ID: <20210908103603.44a533bb@eldfell>
+In-Reply-To: <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+ <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-MTK: N
+Content-Type: multipart/signed; boundary="Sig_/guyGmiRj.Xsnz3BgZb6mCm6";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,115 +73,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Philipp,
+--Sig_/guyGmiRj.Xsnz3BgZb6mCm6
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the reviews.
+On Tue, 7 Sep 2021 14:42:56 +0200
+Hans de Goede <hdegoede@redhat.com> wrote:
 
-On Wed, 2021-09-08 at 08:39 +0200, Philipp Zabel wrote:
-> Hi Jason,
-> 
-> On Wed, 2021-09-08 at 14:03 +0800, jason-jh.lin wrote:
-> > add MERGE additional properties description for mt8195:
-> > 1. async clock
-> > 2. fifo setting enable
-> > 3. reset controller
-> > 
-> > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> > ---
-> >  .../display/mediatek/mediatek,merge.yaml      | 30
-> > +++++++++++++++++++
-> >  1 file changed, 30 insertions(+)
-> > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge
-> > .yaml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge
-> > .yaml
-> > index 75beeb207ceb..0fe204d9ad2c 100644
-> > ---
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge
-> > .yaml
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge
-> > .yaml
-> > @@ -38,6 +38,19 @@ properties:
-> >    clocks:
-> >      items:
-> >        - description: MERGE Clock
-> > +      - description: MERGE Async Clock
-> > +          Controlling the synchronous process between MERGE and
-> > other display
-> > +          function blocks cross clock domain.
-> > +
-> > +  mediatek,merge-fifo-en:
-> > +    description:
-> > +      The setting of merge fifo is mainly provided for the display
-> > latency
-> > +      buffer to ensure that the back-end panel display data will
-> > not be
-> > +      underrun, a little more data is needed in the fifo.
-> > +      According to the merge fifo settings, when the water level
-> > is detected
-> > +      to be insufficient, it will trigger RDMA sending ultra and
-> > preulra
-> > +      command to SMI to speed up the data rate.
-> > +    type: boolean
-> >  
-> >    mediatek,gce-client-reg:
-> >      description:
-> > @@ -50,6 +63,10 @@ properties:
-> >      $ref: /schemas/types.yaml#/definitions/phandle-array
-> >      maxItems: 1
-> >  
-> > +  resets:
-> > +    description: reset controller
-> > +      See Documentation/devicetree/bindings/reset/reset.txt for
-> > details.
-> 
-> From the example this looks like it could have a maxItems: 1.
+> Hi,
+>=20
+> On 9/7/21 12:07 PM, Pekka Paalanen wrote:
+> > On Fri, 3 Sep 2021 21:08:21 +0200
+> > Dennis Filder <d.filder@web.de> wrote:
+> >  =20
+> >> Hans de Goede asked me to take a topic from a private discussion here.
+> >> I must also preface that I'm not a graphics person and my knowledge of
+> >> DRI/DRM is cursory at best.
+> >>
+> >> I initiated the conversation with de Goede after learning that the X
+> >> server now supports being started with an open DRM file descriptor
+> >> (this was added for Keith Packard's xlease project).  I wondered if
+> >> that could be used to smoothen the Plymouth->X transition somehow and
+> >> asked de Goede if there were any such plans.  He denied, but mentioned
+> >> that a new ioctl is in the works to prevent the kernel from wiping the
+> >> contents of a frame buffer after a device is closed, and that this
+> >> would help to keep transitions smooth. =20
+> >=20
+> > Hi,
+> >=20
+> > I believe the kernel is not wiping anything on device close. If
+> > something in the KMS state is wiped, it originates in userspace:
+> >=20
+> > - Plymouth doing something (e.g. RmFB on an in-use FB will turn the
+> >   output off, you need to be careful to "leak" your FB if you want a
+> >   smooth hand-over) =20
+>=20
+> The "kernel is not wiping anything on device close" is not true,
+> when closing /dev/dri/card# any remaining FBs from the app closing
+> it will be dealt with as if they were RmFB-ed, causing the screen
+> to show what I call "the fallback fb", at least with the i915 driver.
 
-OK, I think it could have a maxItems: 1 in mt8195 because
-merge1~megre5 only have one async clock.
+No, that's not what should happen AFAIK.
 
-> 
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> 
-> Should the resets property be required for "mediatek,mt8195-disp-
-> merge"?
+True, all FBs that are not referenced by active CRTCs or planes will
+get freed, since their refcount drops to zero, but those CRTCs and
+planes that are active will remain active and therefore keep their
+reference to the respective FBs and so the FBs remain until replaced or
+turned off explicitly (by e.g. fbcon if you switch to that rather than
+another userspace KMS client). I believe that is the whole reason why
+e.g. DRM_IOCTL_MODE_GETFB2 can be useful, otherwise the next KMS client
+would not have anything to scrape.
 
-I think the resets property is not the required propoerty.
-The reset controller is for async clock of MERGE module on vdosys1.
-MERGE module on vdosys0 doesn't have async clock, so it doesn't need to
-add the resets property.
+danvet, what is the DRM core intention?
 
-Regards,
-Jason-JH.Lin
-> 
-> > @@ -67,3 +84,16 @@ examples:
-> >          power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
-> >          clocks = <&mmsys CLK_MM_DISP_MERGE>;
-> >      };
-> > +
-> > +    merge5: disp_vpp_merge5@1c110000 {
-> > +        compatible = "mediatek,mt8195-disp-merge";
-> > +        reg = <0 0x1c110000 0 0x1000>;
-> > +        interrupts = <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +        clocks = <&vdosys1 CLK_VDO1_VPP_MERGE4>,
-> > +                 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
-> > +        clock-names = "merge","merge_async";
-> > +        power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +        mediatek,gce-client-reg = <&gce1 SUBSYS_1c11XXXX 0x0000
-> > 0x1000>;
-> > +        mediatek,merge-fifo-en = <1>;
-> > +        resets = <&vdosys1
-> > MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
-> > +    };
-> 
-> regards
-> Philipp
--- 
-Jason-JH Lin <jason-jh.lin@mediatek.com>
+Or am I confused because display servers do not tend to close the DRM
+device fd on switch-out but Plymouth does (too early)?
 
+If so, why can't Plymouth keep the device open longer and quit only
+when the hand-off is complete? Not quitting too early would be a
+prerequisite for any explicit hand-off protocol as well.
+
+
+Thanks,
+pq
+
+> > - Xorg doing something (e.g. resetting instead of inheriting KMS state)
+> >=20
+> > - Something missed in the hand-off sequence which allows fbcon to
+> >   momentarily take over between Plymouth and Xorg. This would need to
+> >   be fixed between Plymouth and Xorg.
+> >=20
+> > - Maybe systemd-logind does something odd to the KMS device? It has
+> >   pretty wild code there. Or maybe it causes fbcon to take over.
+> >=20
+> > What is the new ioctl you referred to? =20
+>=20
+> It is an ioctl to mark a FB to not have it auto-removed on device-close,
+> instead leaving it in place until some some kernel/userspace client
+> actively installs another FB. This was proposed by Rob Clark quite
+> a while ago, but it never got anywhere because of lack of userspace
+> actually interested in using it.
+>=20
+> I've been thinking about reviving Rob's patch, since at least for
+> plymouth this would be pretty useful to have.
+>=20
+> Regards,
+>=20
+> Hans
+>=20
+
+
+--Sig_/guyGmiRj.Xsnz3BgZb6mCm6
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmE4Z+MACgkQI1/ltBGq
+qqd+Xw//YYg5s/y1PMWoUy4cxMW7/CgNkj6+yjiLv4fhbVfeRiarLvFtBWdI4DAq
+fe6Px+bd2R2mb4mdUTSWy7qK2zQh2l06TTFQBBsZIYERAxEOdI3/RHNBrXKcYQBs
+WGOubmOlrNHosGUXiKJESA0RFjVK0gOvL7IU/rgMRQYJbgVOzvGvID1aqDL2XFGw
+PBcHRymN65NcOs9WKtu3jlKlCqzfv74qjPEJomWRBpPlwrAIskHzfC5eIFDjC8gs
+ynWSbRmRNtvTEghw6kUiR6Qv75POnnuTNoo6LS3UmMLOa16jgjPCYuReRlMP4T55
+iAGesOuuO414klT30otuUy5T9aImuKDsCYWPqHPcgnF9bC7TjOIWipxJRijtZMun
+mFp6+XfnKNhc3B7W2pHPHJYxc8u7CSMt9jUuwZQRsWYT5TtxFsX7qCp7Jp8ybCqu
+vlBtAYgm/F+CeMcDof/9eCwvKJjju75QNRdVO0LAh/ULADDuqwDbtEmTXKFvgjvB
+PwN+AxrIxrLjkNHdJjAogyWuCztAmb76jnPAPiBtoS8cDCKH7YB3VMhKY1zxafyk
+TdjpN8ZavkTZlm6vUfGA/G7j4M/pnQ4ZPXSDKLper09bXCbRKqs0aeXZ6+MlNBba
+cOjH43ulnf9ZD2cpG0DmISx1S4HnAmtXt37UtJuYm4vG6m+GT4A=
+=a44X
+-----END PGP SIGNATURE-----
+
+--Sig_/guyGmiRj.Xsnz3BgZb6mCm6--
