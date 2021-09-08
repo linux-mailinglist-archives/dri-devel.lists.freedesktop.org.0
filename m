@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F636403EF6
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 20:18:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E92403EF7
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 20:18:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E6B1E6E243;
-	Wed,  8 Sep 2021 18:18:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C4156E250;
+	Wed,  8 Sep 2021 18:18:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 82CB06E243
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 18:18:21 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id x7so2763881pfa.8
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 11:18:21 -0700 (PDT)
+Received: from mail-pg1-x52d.google.com (mail-pg1-x52d.google.com
+ [IPv6:2607:f8b0:4864:20::52d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2716E241
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 18:18:23 +0000 (UTC)
+Received: by mail-pg1-x52d.google.com with SMTP id 17so3504020pgp.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 11:18:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dc8bU3FuTk4waaTc7T6xBFFGAsFlK1NcO7ssuYFs6YY=;
- b=EQQ8GS8AroJXzU87ZB9buYPTkkZ3DYI19V3O+HgIBO0Upm0ZmVX5XSMZBcP9RRGY4P
- kB2r+GNl4JIWhqDY6slQyIT9D28hVzvwv20BZPWEZueHRAy8gN1St0EKkH2AQWrEheph
- mg2v8g2FC1rXz00O+BhgjHw5yBHdyPA7F6uGY=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=6QH0RDVPeUL0uAEEBFwJbknOg+BdYfx7CH2ypXTwO2w=;
+ b=giEp0q8J6UXeA/d1SLYcpRaU1ZjhSNWr6Zok/12qH11RdsMmboBwH+tnmog2G0hHbG
+ ncWe0rPFBfyCAvfEBdz8r2AiKjfnQ0GkhQUdJf9wU030gaFI8ZnZ+brqRNC4qe4CxB5/
+ Rlw0pSZMf8AvD4vn5NHOp0aK6yfn3D6dvsw2o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=dc8bU3FuTk4waaTc7T6xBFFGAsFlK1NcO7ssuYFs6YY=;
- b=3rCMG+ahrUzPl9eWcO/LpQADtBAm285WNTQH7bt4dWnTAFYnoAYB0lrpxZqiXo7CcA
- OLMTEP1UgL+A9nfkWcRUa15HlvOsxXDz4cxQTerIY6WjtVpukLl1IZSD9D6r3vc0QSUY
- DAFcaQ7RlRi2WqxMVEs6wt4mHQIZXJ/RNMDDhnuV3EomzNxX6NbuV99NlBi81EGYVqjZ
- KA8gF4sW3mT80gJQdUTDFZJV9FHCvSpoBovk2ltZ20LOOJlADf8ShjpKFd1DZYeIISjD
- Pgo8bDZm30WcHZm3NAru0ZKABVYK+KTTccIschBsJRV04LrmR6kDIXmpjUP2OTrc9QaB
- eCcA==
-X-Gm-Message-State: AOAM533oG48fFSDEZ5i546DT19w2Zbguatj19yqUFcAgpviD98Yz6gjY
- SyTVD0HSwEtHNA2DSxNCWkamEQ==
-X-Google-Smtp-Source: ABdhPJxUNTQZ1PbbukdNQ4H5YtW6c/pagbiOvhCgyhOQlJ7N+YFrhT9emI9RxtA3hdpDf3k3mMRIBg==
-X-Received: by 2002:a62:60c7:0:b0:40a:4bd7:752c with SMTP id
- u190-20020a6260c7000000b0040a4bd7752cmr5037144pfb.52.1631125101069; 
- Wed, 08 Sep 2021 11:18:21 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=6QH0RDVPeUL0uAEEBFwJbknOg+BdYfx7CH2ypXTwO2w=;
+ b=gu608u7MVZfc8+Ep0ZVNAqWQ38YBeoOOrIO/yvs4MzrHW3FW1z472u/VjVI04M/rKN
+ dG6WETrf21LZEZjlJuV7yIRyT1Jg3CbUINu4N2j/8Z8WdQ0gAw0F2d2shV3qb2iCmwGA
+ qtCiZK2Zy/yIMabTqXv1IWlyXqerO1gb8P6fBFDPFZZDUi1mLs+T2DUQXBs0WE09YvHZ
+ u0+MXQN6shztiYMiPsrzt8spo0x921z4XZONTz0yIgxDegs3q4hEhf4QGPc7J0eYExgz
+ lydL+RBpJ6ChdseGxyVIRAupBQRBkjbX+qYadkwzxkoXxer9SVyP8apfermM0yzDF0Lu
+ 1lUg==
+X-Gm-Message-State: AOAM530sph718nAfVV3quTRX7PTJ9g2G6tPfuhMEzp1Yb87dUGE09MYf
+ rIcDalB4HYfixq+zcCWuKzckog==
+X-Google-Smtp-Source: ABdhPJzlngk5m6DfitZJu/F5uavnw6y2sXHYRt7J0/1hqNxGVrL/EMFn5/WRKrUXb7qoJ4oCus5XAg==
+X-Received: by 2002:aa7:86cb:0:b0:412:448c:89c8 with SMTP id
+ h11-20020aa786cb000000b00412448c89c8mr5015182pfo.84.1631125103206; 
+ Wed, 08 Sep 2021 11:18:23 -0700 (PDT)
 Received: from philipchen.mtv.corp.google.com
  ([2620:15c:202:201:527e:e80d:8e14:9d07])
- by smtp.gmail.com with ESMTPSA id mq12sm2917584pjb.38.2021.09.08.11.18.19
+ by smtp.gmail.com with ESMTPSA id mq12sm2917584pjb.38.2021.09.08.11.18.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 11:18:20 -0700 (PDT)
+ Wed, 08 Sep 2021 11:18:22 -0700 (PDT)
 From: Philip Chen <philipchen@chromium.org>
 To: LKML <linux-kernel@vger.kernel.org>
 Cc: swboyd@chromium.org, dianders@chromium.org,
@@ -53,10 +53,12 @@ Cc: swboyd@chromium.org, dianders@chromium.org,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/bridge: parade-ps8640: Use regmap APIs
-Date: Wed,  8 Sep 2021 11:18:05 -0700
-Message-Id: <20210908111500.1.I9f6dac462da830fa0a8ccccbe977ca918bf14e4a@changeid>
+Subject: [PATCH 2/2] drm/bridge: parade-ps8640: Add support for AUX channel
+Date: Wed,  8 Sep 2021 11:18:06 -0700
+Message-Id: <20210908111500.2.Iac57921273b27d7f7d65e12ff7be169657f4c1eb@changeid>
 X-Mailer: git-send-email 2.33.0.153.gba50c8fa24-goog
+In-Reply-To: <20210908111500.1.I9f6dac462da830fa0a8ccccbe977ca918bf14e4a@changeid>
+References: <20210908111500.1.I9f6dac462da830fa0a8ccccbe977ca918bf14e4a@changeid>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -74,157 +76,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Replace the direct i2c access (i2c_smbus_* functions) with regmap APIs,
-which will simplify the future update on ps8640 driver.
+Implement the first version of AUX support, which will be useful as
+we expand the driver to support varied use cases.
 
 Signed-off-by: Philip Chen <philipchen@chromium.org>
 ---
 
- drivers/gpu/drm/bridge/parade-ps8640.c | 66 +++++++++++++++-----------
- 1 file changed, 39 insertions(+), 27 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 123 +++++++++++++++++++++++++
+ 1 file changed, 123 insertions(+)
 
 diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 685e9c38b2db..a16725dbf912 100644
+index a16725dbf912..3f0241a60357 100644
 --- a/drivers/gpu/drm/bridge/parade-ps8640.c
 +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -9,6 +9,7 @@
+@@ -9,15 +9,36 @@
  #include <linux/i2c.h>
  #include <linux/module.h>
  #include <linux/of_graph.h>
-+#include <linux/regmap.h>
++#include <linux/pm_runtime.h>
+ #include <linux/regmap.h>
  #include <linux/regulator/consumer.h>
  
  #include <drm/drm_bridge.h>
-@@ -64,12 +65,29 @@ struct ps8640 {
++#include <drm/drm_dp_helper.h>
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_of.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_print.h>
+ 
++#define PAGE0_AUXCH_CFG3	0x76
++#define  AUXCH_CFG3_RESET	0xff
++#define PAGE0_AUX_ADDR_7_0	0x7d
++#define PAGE0_AUX_ADDR_15_8	0x7e
++#define PAGE0_AUX_ADDR_23_16	0x7f
++#define  AUX_ADDR_19_16_MASK	GENMASK(3, 0)
++#define  AUX_CMD_MASK		GENMASK(7, 4)
++#define PAGE0_AUX_LENGTH	0x80
++#define  AUX_LENGTH_MASK	GENMASK(3, 0)
++#define PAGE0_AUX_WDATA		0x81
++#define PAGE0_AUX_RDATA		0x82
++#define PAGE0_AUX_CTRL		0x83
++#define  AUX_START		0x01
++#define PAGE0_AUX_STATUS	0x84
++#define  AUX_STATUS_MASK	GENMASK(7, 5)
++#define  AUX_STATUS_TIMEOUT	(0x7 << 5)
++#define  AUX_STATUS_DEFER	(0x2 << 5)
++#define  AUX_STATUS_NACK	(0x1 << 5)
++
+ #define PAGE2_GPIO_H		0xa7
+ #define  PS_GPIO9		BIT(1)
+ #define PAGE2_I2C_BYPASS	0xea
+@@ -63,6 +84,7 @@ enum ps8640_vdo_control {
+ struct ps8640 {
+ 	struct drm_bridge bridge;
  	struct drm_bridge *panel_bridge;
++	struct drm_dp_aux aux;
  	struct mipi_dsi_device *dsi;
  	struct i2c_client *page[MAX_DEVS];
-+	struct regmap	*regmap[MAX_DEVS];
- 	struct regulator_bulk_data supplies[2];
- 	struct gpio_desc *gpio_reset;
- 	struct gpio_desc *gpio_powerdown;
- 	bool powered;
- };
- 
-+static const struct regmap_range ps8640_volatile_ranges[] = {
-+	{ .range_min = 0, .range_max = 0xff },
-+};
-+
-+static const struct regmap_access_table ps8640_volatile_table = {
-+	.yes_ranges = ps8640_volatile_ranges,
-+	.n_yes_ranges = ARRAY_SIZE(ps8640_volatile_ranges),
-+};
-+
-+static const struct regmap_config ps8640_regmap_config = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.volatile_table = &ps8640_volatile_table,
-+	.cache_type = REGCACHE_NONE,
-+};
-+
- static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
- {
+ 	struct regmap	*regmap[MAX_DEVS];
+@@ -93,6 +115,102 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
  	return container_of(e, struct ps8640, bridge);
-@@ -78,13 +96,13 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+ }
+ 
++static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
++{
++	return container_of(aux, struct ps8640, aux);
++}
++
++static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
++				   struct drm_dp_aux_msg *msg)
++{
++	struct ps8640 *ps_bridge = aux_to_ps8640(aux);
++	struct i2c_client *client = ps_bridge->page[PAGE0_DP_CNTL];
++	struct regmap *map = ps_bridge->regmap[PAGE0_DP_CNTL];
++	unsigned int len = msg->size;
++	unsigned int data;
++	int ret;
++	u8 request = msg->request &
++		     ~(DP_AUX_I2C_MOT | DP_AUX_I2C_WRITE_STATUS_UPDATE);
++	u8 *buf = msg->buffer;
++	bool is_native_aux = false;
++
++	if (len > DP_AUX_MAX_PAYLOAD_BYTES)
++		return -EINVAL;
++
++	pm_runtime_get_sync(&client->dev);
++
++	switch (request) {
++	case DP_AUX_NATIVE_WRITE:
++	case DP_AUX_NATIVE_READ:
++		is_native_aux = true;
++	case DP_AUX_I2C_WRITE:
++	case DP_AUX_I2C_READ:
++		regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
++		break;
++	default:
++		ret = -EINVAL;
++		goto exit;
++	}
++
++	/* Assume it's good */
++	msg->reply = 0;
++
++	data = ((request << 4) & AUX_CMD_MASK) |
++	       ((msg->address >> 16) & AUX_ADDR_19_16_MASK);
++	regmap_write(map, PAGE0_AUX_ADDR_23_16, data);
++	data = (msg->address >> 8) & 0xff;
++	regmap_write(map, PAGE0_AUX_ADDR_15_8, data);
++	data = msg->address & 0xff;
++	regmap_write(map, PAGE0_AUX_ADDR_7_0, msg->address & 0xff);
++
++	data = (len - 1) & AUX_LENGTH_MASK;
++	regmap_write(map, PAGE0_AUX_LENGTH, data);
++
++	if (request == DP_AUX_NATIVE_WRITE || request == DP_AUX_I2C_WRITE) {
++		ret = regmap_noinc_write(map, PAGE0_AUX_WDATA, buf, len);
++		if (ret < 0) {
++			DRM_ERROR("failed to write PAGE0_AUX_WDATA");
++			goto exit;
++		}
++	}
++
++	regmap_write(map, PAGE0_AUX_CTRL, AUX_START);
++
++	regmap_read(map, PAGE0_AUX_STATUS, &data);
++	switch (data & AUX_STATUS_MASK) {
++	case AUX_STATUS_DEFER:
++		if (is_native_aux)
++			msg->reply |= DP_AUX_NATIVE_REPLY_DEFER;
++		else
++			msg->reply |= DP_AUX_I2C_REPLY_DEFER;
++		goto exit;
++	case AUX_STATUS_NACK:
++		if (is_native_aux)
++			msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
++		else
++			msg->reply |= DP_AUX_I2C_REPLY_NACK;
++		goto exit;
++	case AUX_STATUS_TIMEOUT:
++		ret = -ETIMEDOUT;
++		goto exit;
++	}
++
++	if (request == DP_AUX_NATIVE_READ || request == DP_AUX_I2C_READ) {
++		ret = regmap_noinc_read(map, PAGE0_AUX_RDATA, buf, len);
++		if (ret < 0)
++			DRM_ERROR("failed to read PAGE0_AUX_RDATA");
++	}
++
++exit:
++	pm_runtime_mark_last_busy(&client->dev);
++	pm_runtime_put_autosuspend(&client->dev);
++
++	if (ret)
++		return ret;
++
++	return len;
++}
++
  static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
  				     const enum ps8640_vdo_control ctrl)
  {
--	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
--	u8 vdo_ctrl_buf[] = { VDO_CTL_ADD, ctrl };
-+	struct regmap *map = ps_bridge->regmap[PAGE3_DSI_CNTL1];
-+	u8 vdo_ctrl_buf[] = {VDO_CTL_ADD, ctrl};
- 	int ret;
- 
--	ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
--					     sizeof(vdo_ctrl_buf),
--					     vdo_ctrl_buf);
-+	ret = regmap_bulk_write(map, PAGE3_SET_ADD,
-+				vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
-+
- 	if (ret < 0) {
- 		DRM_ERROR("failed to %sable VDO: %d\n",
- 			  ctrl == ENABLE ? "en" : "dis", ret);
-@@ -96,8 +114,7 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
- 
- static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
- {
--	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
--	unsigned long timeout;
-+	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
- 	int ret, status;
- 
- 	if (ps_bridge->powered)
-@@ -121,18 +138,12 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
- 	 */
- 	msleep(200);
- 
--	timeout = jiffies + msecs_to_jiffies(200) + 1;
-+	ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
-+			status & PS_GPIO9, 20 * 1000, 200 * 1000);
- 
--	while (time_is_after_jiffies(timeout)) {
--		status = i2c_smbus_read_byte_data(client, PAGE2_GPIO_H);
--		if (status < 0) {
--			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", status);
--			goto err_regulators_disable;
--		}
--		if ((status & PS_GPIO9) == PS_GPIO9)
--			break;
--
--		msleep(20);
-+	if (ret < 0) {
-+		DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", ret);
-+		goto err_regulators_disable;
- 	}
- 
- 	msleep(50);
-@@ -144,22 +155,15 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
- 	 * disabled by the manufacturer. Once disabled, all MCS commands are
- 	 * ignored by the display interface.
- 	 */
--	status = i2c_smbus_read_byte_data(client, PAGE2_MCS_EN);
--	if (status < 0) {
--		DRM_ERROR("failed read PAGE2_MCS_EN: %d\n", status);
--		goto err_regulators_disable;
--	}
- 
--	ret = i2c_smbus_write_byte_data(client, PAGE2_MCS_EN,
--					status & ~MCS_EN);
-+	ret = regmap_update_bits(map, PAGE2_MCS_EN, MCS_EN, 0);
- 	if (ret < 0) {
- 		DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
- 		goto err_regulators_disable;
- 	}
- 
- 	/* Switch access edp panel's edid through i2c */
--	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
--					I2C_BYPASS_EN);
-+	ret = regmap_write(map, PAGE2_I2C_BYPASS, I2C_BYPASS_EN);
- 	if (ret < 0) {
- 		DRM_ERROR("failed write PAGE2_I2C_BYPASS: %d\n", ret);
- 		goto err_regulators_disable;
-@@ -361,6 +365,10 @@ static int ps8640_probe(struct i2c_client *client)
- 	ps_bridge->bridge.type = DRM_MODE_CONNECTOR_eDP;
- 
- 	ps_bridge->page[PAGE0_DP_CNTL] = client;
-+	ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client,
-+						&ps8640_regmap_config);
-+	if (IS_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]))
-+		return PTR_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]);
- 
- 	for (i = 1; i < ARRAY_SIZE(ps_bridge->page); i++) {
- 		ps_bridge->page[i] = devm_i2c_new_dummy_device(&client->dev,
-@@ -371,6 +379,10 @@ static int ps8640_probe(struct i2c_client *client)
- 				client->addr + i);
- 			return PTR_ERR(ps_bridge->page[i]);
- 		}
-+		ps_bridge->regmap[i] = devm_regmap_init_i2c(ps_bridge->page[i],
-+							&ps8640_regmap_config);
-+		if (IS_ERR(ps_bridge->regmap))
-+			return PTR_ERR(ps_bridge->regmap[i]);
- 	}
+@@ -387,6 +505,11 @@ static int ps8640_probe(struct i2c_client *client)
  
  	i2c_set_clientdata(client, ps_bridge);
+ 
++	ps_bridge->aux.name = "parade-ps8640-aux";
++	ps_bridge->aux.dev = dev;
++	ps_bridge->aux.transfer = ps8640_aux_transfer;
++	drm_dp_aux_init(&ps_bridge->aux);
++
+ 	drm_bridge_add(&ps_bridge->bridge);
+ 
+ 	return 0;
 -- 
 2.33.0.153.gba50c8fa24-goog
 
