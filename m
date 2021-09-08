@@ -2,68 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5814D403D6D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 18:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E46D403D71
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 18:14:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EBFE36E204;
-	Wed,  8 Sep 2021 16:13:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 449576E207;
+	Wed,  8 Sep 2021 16:14:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 392376E204
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 16:13:27 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id z4so4111385wrr.6
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 09:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=otJIaIZEIwpUP1sL+L4KgyYMZE4bOcczh+iqfbaQBAw=;
- b=WPSFbvJU0+Jm7BfUh8RUdYJu7SgseAXjg+zCuY/jFI/DmFCHSHDm6++MhW7f1X389W
- 0GPQbQauiKOAoquN834zbRgaihl0IiIL+aaT6l6hCbmwvoOVMMB85tXEOPTNKRt5wWis
- US7U37Ei4VxQu3aJ+NCbVN1031RcttbP2UxJ71juu6SLQUOKAZwCK5bLBzXQS+0Spcag
- o5xns6XrhabernhyUCSAoqOqn5GB1agNrSB5yVgzd5XDuaXxjNKFn6VxxYG4P5m3PhNd
- e8F7BrqxCNcEejl6b/7XpHrHKFNss8tVHGTPVBzcvNwbptliSz1pfcV0KsC5u2vafxjV
- K6lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=otJIaIZEIwpUP1sL+L4KgyYMZE4bOcczh+iqfbaQBAw=;
- b=eTp5U4s0TqUbf95B7fPe/5skM7VWVbh5Jnx2UkJ1z4ffnc+QtrzMNyQlAyIqvQs6kG
- XQDDa/qbR+IHM4GhgGEsWoVO3bvJ2/HqdQQj4oy652WxogAdGRc8Uxt1+vf6gE4pa+s4
- Bqo7cQ5SOpOggieUMwCbI0RiH6bcx3YV5gG+pICC5G1G7qliqjyPXvyW+jQ6MFz9timu
- MvaZMuieHntcc+QDSkSXKDEcbGhvhkVlr1XmsyhcFCtfI0e4H9obn3596rK8Hb2YLWmX
- L9xLOyaxR8H976FiRjZUVjsEHT/cgaMZwMjM/f+2/Xn472cxYaOYl5nl0Ffm875zjxZq
- Aijw==
-X-Gm-Message-State: AOAM531ElivOctVnXiG1426EdH1LWt1Frpy9q1YOc0xxL0tU7WgrRIBV
- LBV/IqL64S8/AojknpBIEuG1eiDHPSR3yR9pg5JqiA==
-X-Google-Smtp-Source: ABdhPJzE41ItDvcz2jBLOuUeQvDPWoHfBis4KfqDpGWKW/93P9IJ34MOVuRFUNvDd7b7STqbUwTYYLTjappUWXgwcEw=
-X-Received: by 2002:a5d:424c:: with SMTP id s12mr5039823wrr.8.1631117605635;
- Wed, 08 Sep 2021 09:13:25 -0700 (PDT)
+Received: from mout.web.de (mout.web.de [212.227.17.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09ABB6E207
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 16:14:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1631117688;
+ bh=SDKQCiJOvH5asAxA25gbqHPetI8smS6fMLt+kuu9yiM=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=okbUDYuJEFOz+OjE0IN+9EyTIRkgvRdaT9QAJQEICEU/jvkWA9u14+LWcP5MXXneq
+ 50XKXyE3q/VhkMzYOHyBFtzgBr44GBpV4oB0TVV4jkWDeypXtGBCumDaScNO7IyZ9B
+ 0Wav48UqPf9ah0WnV6/nqCqUcfTijqo+LxK7KLSk=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from reader ([171.25.193.77]) by smtp.web.de (mrweb101
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 0Lu52Q-1n7Ppe0r4Q-011RtL; Wed, 08
+ Sep 2021 18:14:48 +0200
+Received: by reader (Postfix, from userid 1000)
+ id 8A01537B8; Wed,  8 Sep 2021 18:14:40 +0200 (CEST)
+Date: Wed, 8 Sep 2021 18:14:40 +0200
+From: Dennis Filder <d.filder@web.de>
+To: Simon Ser <contact@emersion.fr>, Pekka Paalanen <ppaalanen@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Hans de Goede <hdegoede@redhat.com>,
+ Sebastian Wick <sebastian@sebastianwick.net>
+Subject: Re: Handling DRM master transitions cooperatively
+Message-ID: <YTjhcMmkkAKCC/zW@reader>
+Mail-Followup-To: Simon Ser <contact@emersion.fr>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
+ dri-devel@lists.freedesktop.org,
+ Hans de Goede <hdegoede@redhat.com>,
+ Sebastian Wick <sebastian@sebastianwick.net>
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+ <Kh2hM9odvPcbqNUxhSEwQbnUCLt6nyrAzGhxnQ0JO1CcAzI6y31enf8_AmgAynFxWo3E1QUlW1m8UvKPDAq0gFLQi2CF1b3FFNMRfiUzOAI=@emersion.fr>
+ <20210907155214.285b3561@eldfell>
+ <jSyTJ5Ev5ZkQFBv0Ar_6MALQ4Vj1e5lvB9gXrWcYkilCvhQ_Zo-9zpuPti5L0h1flBJuc4N_ayBmoqTbfqiSaUMwk3b08EgQ1DYKTHMYQsI=@emersion.fr>
 MIME-Version: 1.0
-References: <20210907023948.871281-1-marex@denx.de>
- <CGME20210907073151eucas1p196543fbd114f34f6de700013fd0e4168@eucas1p1.samsung.com>
- <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
- <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
- <9b3d6595-0330-f716-b443-95f3f4783ac4@samsung.com>
- <2bf8e1fe-3f55-85ab-715a-c53ad98bb6d2@denx.de>
- <CAPY8ntBVdvHSofXcd7nU5Z4uCMUzmiMF3GmJn=VpLDVoe6xL2g@mail.gmail.com>
- <13ecc7df-37b9-a686-9314-04a26359fc0d@denx.de>
-In-Reply-To: <13ecc7df-37b9-a686-9314-04a26359fc0d@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 8 Sep 2021 17:13:09 +0100
-Message-ID: <CAPY8ntAWYivHeAi0-srQ21vh=MJSbi2yw8oDSf+7ZP_Ak9NtdA@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register
- after enabling the bridge
-To: Marek Vasut <marex@denx.de>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Robert Foss <robert.foss@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <jSyTJ5Ev5ZkQFBv0Ar_6MALQ4Vj1e5lvB9gXrWcYkilCvhQ_Zo-9zpuPti5L0h1flBJuc4N_ayBmoqTbfqiSaUMwk3b08EgQ1DYKTHMYQsI=@emersion.fr>
+X-Provags-ID: V03:K1:9PhfjBWjXWAriXOpzeVSUUavPFZUeJJlmdD5ZPpvxgrUEIKDDgD
+ U2XGn4WRfob79WVeNJ+0Jn8mKu61g7j3s/8uzJfAsXmCBPYwbzKkqZVcU2NL1dJd3lchdNA
+ 9ymG2glACZbDXVogY8AAh4EHSy6EtY1FT/iXstIWw9W0kRpVNCRABTJaUJkqDD8RFe5r7qC
+ XIEUCVDuqIEwjmjr4LAYQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:LDh8+BjQ8Z8=:BAmRL4UubYobACzXkK9Qaq
+ Y9adwnw8PKtpcVWsguc2vkRy1wRc8dLFcNlxhB9eTExq35WJE54aIpjF9QJCfIWjbtSBFnpH1
+ KEQCEMYJuIh2kUFUDLQYq+oFxVrAQocchikwAmBHDSSfSvu9u4L0Aq0TyNTlQTSUHcYV+B+Zs
+ x7TTucZtxnDwj9eP4M8dzrE2U5aOo/UKmv5tMS3y2/E5jsAAYk6W0P4zzKWtsLp6wfQmhryAq
+ /b9Ice/trPSdQ5UN00ujAlVQkPZE/i7rtmRgo6Uxx1u38aWxPlmG1gyzSjvW9FuwPupQFP1O5
+ H8RhAGjbRh9HXK5BUODjbk47bY3HvSElH7FEx7P1bj4F9n7Ahsr6OdrdQy1kfB+sXEphEukkT
+ invjm10tebiNRiA9uRw9Jm2qd+Op8KzRxPerUtyMKnEbvoeSvPKALb+IU/BFMJlYUnCA0niA2
+ 4zJkEMtV1nFOlxSYB4gLBgjXyV1GhkafRhHZjRymchswjBQuxWyAl+Vl6WM/EH5YYMz+vq+F8
+ cPQhJ2cAGpRMSFNczKx1d57dD/3Q1MOJ0OCtx9o6S1j00P/NAWWrkKHDLI3onmJEDeuuzmGxK
+ 6pe3tUkGeNHqeyfu+JXltvMiQ6Dg95uFXxask9gnTSi9QpjkQjh5FmOLylZOD5j3xMybzFzgJ
+ rR3T5TxWQ0SAmLJ6aiEVjTvz9OurMd6uqCff//yozyXkRkyfyGuWUQh1m6UoUnx23tm8z0gjz
+ 4HcHQpUxWWe3gZa7qaSnvV6fo1ZW8RWc3tRe8jwJ4Ep5O+uWG0lJw8PByBzkbIRMQxlImEP1H
+ dIgzf46eqqEsbNqEZ25meAB4oFyxlb2VUnGUlAlvxp6JLgit3j0kAV3wzVzq1s98NCd4Su1d5
+ 3abHFyh19X3e8GZ454wIUhb7577D0/eOB7VcBp56pW2HvT9nqTPxDo7zuQ5nvap8a/I+LfRgT
+ fOkrqIHQ1RySXlpna9oCAtQ8+zZKPrqMCM3UkBokZVgYEmCZ0z7EmiHpPYScicKKYQmJvjCcP
+ BLkNl7DZvg7tKiC84d+SgH7DpyU12vlQyEGIztGfsPfqrHXruhB5PT/mM5hR10sZQnCKjW3z+
+ bV4gLoAhad8jeM=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,100 +83,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Sept 2021 at 16:26, Marek Vasut <marex@denx.de> wrote:
->
-> On 9/8/21 1:11 PM, Dave Stevenson wrote:
-> > Hi Marek and Andrzej
->
-> Hello Dave,
->
-> skipping the protocol discussion, which I hope Andrej will pick up.
->
-> [...]
->
-> >>> Usually video transmission starts in crtc->enable (CRTC->Encoder), and
-> >>> in encoder->enable (encoder->bridge), so in bridges->enable it would be
-> >>> too late for LP11 state - transmission can be already in progress.
-> >>>
-> >>> It shows well that this order of calls does not fit well to DSI, and
-> >>> probably many other protocols.
-> >>>
-> >>> Maybe moving most of the bridge->enable code to bridge->pre_enable would
-> >>> help, but I am not sur if it will not pose another issues.
-> >>
-> >> Yep, that won't work e.g. with the exynos DSIM, because
-> >> exynos_dsi_set_display_mode() sets the data lanes to LP11.
+On Wed, Sep 08, 2021 at 09:51:54AM +0000, Simon Ser wrote:
+> > On Tue, 07 Sep 2021 10:19:03 +0000
+> > Simon Ser <contact@emersion.fr> wrote:
 > >
-> > Isn't the bigger question for SN65DSI8[3|4|5] whether the clock lane
-> > is running or not in pre_enable?
->
-> I think the bigger question really is -- how do we cater for all the
-> different bridges with different init-time requirements.
->
-> >>> This is quick analysis, so please fix me if I am wrong.
-> >>
-> >> I pretty much agree that the current state of things does not fit with
-> >> DSI too well.
+> > > FWIW, I've just hit a case where a compositor leaves a "rotation" KM=
+S
+> > > prop set behind, then Xorg tries to startup and fails because it doe=
+sn't
+> > > reset this prop. So none of this is theoretical.
+> > >
+> > > I still think a "reset all KMS props to an arbitrary default value" =
+flag
+> > > in drmModeAtomicCommit is the best way forward. I'm not sure a user-=
+space
+> > > protocol would help too much.
 > >
-> > That was why I was questioning how DSI was meant to be implemented in
-> > https://lore.kernel.org/dri-devel/CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com/
+> > Hi Simon,
 > >
-> > The need to have the DSI host in a defined idle state (often LP-11,
-> > but varying whether the clock lane is in HS) before powering up the
-> > panel/bridge is incredibly common, but currently undefined in DRM.
+> > for the "reset KMS state" problem, sure. Thanks for confirming the
+> > problem, too.
 > >
-> > Taking the SN65DSI83 as an example, the datasheet [1] section 7.4.2
-> > states that the clock lane must be in HS mode, and data lanes in LP-11
-> > when coming out of reset. That means that we can't be "enable" as that
-> > will have the data lanes in HS mode and sending video, and as we can't
-> > be in "pre_enable" as the DSI PHY will be powered down and so we won't
-> > have the clock lanes in HS mode.
-> >
-> > I've hit a similar one with the Toshiba TC358762 where it seems to get
-> > upset if it is receiving video data when it gets configured.
-> > panel-raspberrypi-touchscreen[2] which drives that chip is
-> > intermittent when using panel enable, whereas panel prepare is
-> > significantly more reliable but relies on the DSI host being
-> > initialised to LP-11 by breaking the chain.
+> > The hand-off problem does need userspace protocol though, so that the
+> > two parties can negotiate what part of KMS state can be inherited by
+> > the receiver and who will do the animation from the first to the secon=
+d
+> > state in case you want to avoid abrupt changes. It would also be usefu=
+l
+> > for a cross-fade as a perhaps more flexible way than the current "leak
+> > an FB, let the next KMS client scrape it via ioctls and copy it so it
+> > can be textured from".
 >
-> Right
+> The KMS state can be limited to single FB on primary plane covering the =
+whole
+> CRTC, no scaling, no other property set than FB_ID/CRTC_*/SRC_*.
 >
-> To make it worse, not initing the DSI bridge exactly per spec leads to
-> intermittent failures, not consistently occuring ones.
+> Is it useful to make the previous client perform the animation? I don't =
+really
+> understand the use-case here.
 
-Yes, I suspect it's been just down to timing as to whether the display
-side starts producing video data before or after all the configuration
-has been sent, and I get random LP commands timing out. (We're only
-dropping to LP in vertical blanking, so there isn't a huge amount of
-time).
+The use case for the animation is e.g. the transition from Plymouth to
+the display server.  Currently it is done as a still frame transition,
+maybe with a blend-over effect.  But with the current design it is not
+possible to blend Plymouth's animation over into another animation in
+the display server because the second client lacks the knowledge how
+to keep it going for a little bit.
 
-> >    Dave
-> >
-> > [1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
-> > [2] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
->
-> Unrelated to this discussion -- there is a tc358762 driver, driver for
-> that attiny88 regulator, and driver for the touchscreen chip, on that
-> rpi 7" display, in upstream. You can use those to replace the composite
-> panel driver (it works at least against stm32mp1 DSI host with the rpi
-> 7" panel). Sadly there is little documentation for that attiny88
-> protocol or firmware, that's what I don't like about that panel.
+Another use case is switching between sessions which currently also is
+only possible as a still frame transition.  However, if you wanted to
+present the session switching by doing e.g. a shaking screen animation
+and blending the old display content over into the new content then
+the first client would have to render the first half of the animation,
+and the second client would have to render the second half during
+which it would then blend away the content of the first screen while
+blending in its own content and also slowing the shaking to a stop.
+For that to work the second client would need all the information
+necessary to render that animation, and also a way to perform the
+frame-perfect change-over.
 
-Thank you, I know they exist, and I'm looking at exactly that problem
-at the moment!
+Granted, that is a very complicated, eye-candy-oriented use case, but
+it would serve to show-case the potential of the design.
 
-panel-raspberrypi-touchscreen doesn't expose any form of regulator
-control, so trying to hook edt-ft54x6 on for the touchscreen sees it
-getting the power yanked from under it. I'm trying to switch to those
-drivers so that the two play nicely.
-
-The Atmel is a bit nasty in trying to initialise the bridge, panel,
-and touch all at the same time. The edt-ft54x6 driver generally probes
-first and powers everything up when the DSI host isn't initialised.
-This seems to upset the TC358762 and it then won't initialise.
-It is possible to poke most things manually through the PORTA, PORTB
-and PORTC commands, but I'm currently failing to create a reliable
-mechanism :-( I have the advantage that I have the source code for the
-Atmel (it's not nice)
-
-  Dave
+Regards.
