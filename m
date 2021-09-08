@@ -1,62 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1781E403F79
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 21:08:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BCCB403FD3
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 21:31:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9120F6E283;
-	Wed,  8 Sep 2021 19:08:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 987FE6E28B;
+	Wed,  8 Sep 2021 19:31:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22a.google.com (mail-oi1-x22a.google.com
- [IPv6:2607:f8b0:4864:20::22a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75B96E283;
- Wed,  8 Sep 2021 19:08:21 +0000 (UTC)
-Received: by mail-oi1-x22a.google.com with SMTP id y128so4415861oie.4;
- Wed, 08 Sep 2021 12:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bw+JG+aQMrwPzIAhtsSSwIELKeZ1QyarX3T49Luud4c=;
- b=TbXlV3D9n7GMa1t1MJOGjHEwWpRdK7WxXe/JR06eo5TUDQYhiXt0NZpizFDnpJDQhZ
- 4OaPfdJfCFEOtUdnhdH4O9DbKAxNnrIT7MiDfXdWYDJFrSW4YolXKDKnDwh0HkbjP6zD
- uoF4wqd49GJl9rA+GVBV6vbEd1CpVG9XxrjLb+2nZJI63KzMVpq1yWSiLjPHIZpPWbiY
- BtuFVFW4Ly6JdO42eRKB3VHvXVE8p4/M6CHeb7AyF/ZU+1wGPPp7tmpN2nZlzg8bhgXw
- 2yWjaP5/icauhrhgp1eiD3BElRoFrWuSPQVKBfL0oSuJkiT4apceWJKzwRZZ5DajEiyQ
- Bb4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=bw+JG+aQMrwPzIAhtsSSwIELKeZ1QyarX3T49Luud4c=;
- b=KwCqBF0cCMyBkl7U9YbUpo0pWEWjvNGLGO2hWEtJeLXmcgRS9h7X8vVylFZ3BCRPT7
- 6zozwXb9+AFXYQDA88SzhiH0lY22liCO7mUYYKndVOuwI0gsjUZeK0EUyGv6U10anQk5
- PrxElFrVVDaiaBFeGOO2eyB0niT08+NIC6Ptnmk5wfELYaVKwrxUUCXEO9Kx1bS1/I+9
- oB4xkdX/1i5AfXGJwoy6YxvP/0kqbosXWNCv2AuLhlzBLXnXgKdnxtEXwoNLvCSZikEo
- uIp/dWLfIVQzBBLabOmB5htKoJtrY7sbzSVthcwzdrvZ3H++/1WmiB9HtqeBqnYslQ2q
- mcJA==
-X-Gm-Message-State: AOAM530errOj22F9UWESTFtvX4K9NsDdxfJkqboboXs8rbop2mE1GQvs
- UZe9kxVFbOnFjgFfgZe+Nk8=
-X-Google-Smtp-Source: ABdhPJx5bURId7fRLqo29FhLyipAcn4Q2zfAltA/3QWnCbeeW+Tdz8wJYdLDdGu8vIjxCvPSnGob9Q==
-X-Received: by 2002:aca:5f04:: with SMTP id t4mr3563120oib.53.1631128100985;
- Wed, 08 Sep 2021 12:08:20 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
- by smtp.gmail.com with ESMTPSA id
- r7sm591936oog.48.2021.09.08.12.08.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 12:08:20 -0700 (PDT)
-From: Guenter Roeck <linux@roeck-us.net>
-To: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Subject: [PATCH] drm/nouveau/nvkm: Replace -ENOSYS with -ENODEV
-Date: Wed,  8 Sep 2021 12:08:17 -0700
-Message-Id: <20210908190817.1213486-1-linux@roeck-us.net>
-X-Mailer: git-send-email 2.33.0
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E4CF6E28B
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 19:31:19 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 4fb18110-10db-11ec-a02a-0050568c148b;
+ Wed, 08 Sep 2021 19:31:06 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 52FBB194BC4;
+ Wed,  8 Sep 2021 21:31:08 +0200 (CEST)
+Date: Wed, 8 Sep 2021 21:31:14 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Dea, Edmund J" <edmund.j.dea@intel.com>
+Subject: Re: [PATCH 13/14] drm/kmb: Enable alpha blended second plane
+Message-ID: <YTkPguPS+DR/uHXP@ravnborg.org>
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-13-anitha.chrisanthus@intel.com>
+ <YQEHQ56Qwl0GzvKg@ravnborg.org>
+ <BY5PR11MB41821BFC25FECD3D9834C7D58CEF9@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <YQjP1e+XrYrrsggB@ravnborg.org>
+ <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,38 +58,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-nvkm test builds fail with the following error.
+Hi Thomas,
 
-drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c:
-	In function 'nvkm_control_mthd_pstate_info':
-drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c:60:35: error:
-	overflow in conversion from 'int' to '__s8' {aka 'signed char'}
-		changes value from '-251' to '5'
+On Wed, Sep 08, 2021 at 07:50:42PM +0200, Thomas Zimmermann wrote:
+> Hi
+> 
+> Am 03.08.21 um 07:10 schrieb Sam Ravnborg:
+> > Hi Anitha,
+> > 
+> > On Mon, Aug 02, 2021 at 08:44:26PM +0000, Chrisanthus, Anitha wrote:
+> > > Hi Sam,
+> > > Thanks. Where should this go, drm-misc-fixes or drm-misc-next?
+> > 
+> > Looks like a drm-misc-next candidate to me.
+> > I may improve something for existing users, but it does not look like it
+> > fixes an existing bug.
+> 
+> I found this patch in drm-misc-fixes, although it doesn't look like a
+> bugfix. It should have gone into drm-misc-next. See [1]. If it indeed
+> belongs into drm-misc-fixes, it certainly should have contained a Fixes tag.
 
-The code builds on most architectures, but fails on parisc where ENOSYS
-is defined as 251. Replace the error code with -ENODEV (-19). The actual
-error code does not really matter and is not passed to userspace - it
-just has to be negative.
+The patch fixes some warnings that has become errors the last week.
+Anitha pinged me about it, but I failed to followup. So in the end it
+was applied to shut up the warning => errors.
 
-Fixes: 7238eca4cf18 ("drm/nouveau: expose pstate selection per-power source in sysfs")
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
----
- drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c b/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c
-index b0ece71aefde..ce774579c89d 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/device/ctrl.c
-@@ -57,7 +57,7 @@ nvkm_control_mthd_pstate_info(struct nvkm_control *ctrl, void *data, u32 size)
- 		args->v0.count = 0;
- 		args->v0.ustate_ac = NVIF_CONTROL_PSTATE_INFO_V0_USTATE_DISABLE;
- 		args->v0.ustate_dc = NVIF_CONTROL_PSTATE_INFO_V0_USTATE_DISABLE;
--		args->v0.pwrsrc = -ENOSYS;
-+		args->v0.pwrsrc = -ENODEV;
- 		args->v0.pstate = NVIF_CONTROL_PSTATE_INFO_V0_PSTATE_UNKNOWN;
- 	}
- 
--- 
-2.33.0
-
+	Sam
