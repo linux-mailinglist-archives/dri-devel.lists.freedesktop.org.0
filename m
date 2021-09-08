@@ -2,68 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AC240360F
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 10:26:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E5D5403621
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 10:33:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 960E06E157;
-	Wed,  8 Sep 2021 08:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0123B6E154;
+	Wed,  8 Sep 2021 08:33:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com
- [IPv6:2607:f8b0:4864:20::82e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30C976E154
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 08:26:02 +0000 (UTC)
-Received: by mail-qt1-x82e.google.com with SMTP id u4so1176039qta.2
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 01:26:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=I2GYoAF05W4QlTQNUCm2X4ED9hxXNWtrDyXhLShUptk=;
- b=e7g/IsbTln55dVeqTe5gmEnqabfSh7kHTb727uLUnyovBvkSGw8go8jXg95jjjF7tX
- R3bxp8omNg2Es3zR/CXIfV9ZMzXzQv+UEh4eSsWJkGl23Kssli7oOmRZQy9Pkaz7gEQy
- T44E5FFPOfRGx0HrA7fHZ6ZY2+IQ+KdzAvmJAeRJMA//xqk3Km7DEs34HVTG8+rE4tdi
- Nbz5dPeEyxoWv4I3QLfTHj1lYqM5Pp+pZfwjb075mSYqkvPbTo02Io6Avm0Rim4MyC0R
- 4CYSQPxj0VXCNf6T7mcbGmua46gZ5pVoJTpvZBN/cJg4xb18jQYmvSm3Laik4qD63ecW
- Eo7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=I2GYoAF05W4QlTQNUCm2X4ED9hxXNWtrDyXhLShUptk=;
- b=IPrhJ/mq3VniAitqLnt1dl49uXCB3DQRrO4teuYsjS207sycbkvdtzvIoft66jERa4
- 4UrIUfaAd8y+ouD3DS6MCvJfv8YdRQZqIW066/QgLU/hMdtczD+mBZ2mQF08za66UwHh
- FBOx6Mq6hLAxQtUiwwYlAUp5psRFKepMQozYhgevkbxOJIAzQWETyhDgl47SFA1AP4Th
- OsIx3ydkBJsosojiWvi5neQ8xyTMSZz/o+WpodFVp1QMh61PZpGXpJzPx4UEiadPgUR3
- /J2OWFUm9CyejgJNKPkjeQGvNKytoRe+3zyaCUECTcOuSo/JOyk3x58O/IrX3++AzT6E
- sdEw==
-X-Gm-Message-State: AOAM532kx5+idLVBXkuNiHdvq0BcdfjgGL2YtDBX5BOyFVGPumpNq+/S
- BBvvwGsCA16SOFiu2Oxkedf1C+Oh5Ukzhfz9FLRqnw==
-X-Google-Smtp-Source: ABdhPJxJhjzUMRnWrBQrlHB5E1FH9Zjc6focYT3nA4MBbnlIPOsA5Rm9xuH5jYYfBZrGvUDOGlMTALwyLQ7v5Mh8YaQ=
-X-Received: by 2002:ac8:578e:: with SMTP id v14mr2471269qta.285.1631089561173; 
- Wed, 08 Sep 2021 01:26:01 -0700 (PDT)
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7CB216E154
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 08:33:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: eballetbo) with ESMTPSA id 34E781F43198
+Subject: Re: [PATCH v10 01/17] dt-bindings: arm: mediatek: mmsys: add power
+ and gce properties
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, hsinyi@chromium.org,
+ fshao@chromium.org, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ nancy.lin@mediatek.com, singo.chang@mediatek.com,
+ devicetree@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
+References: <20210908060312.24007-1-jason-jh.lin@mediatek.com>
+ <20210908060312.24007-2-jason-jh.lin@mediatek.com>
+From: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+Message-ID: <8de99666-f9be-320d-96c0-b9e140d3d4b4@collabora.com>
+Date: Wed, 8 Sep 2021 10:32:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-References: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
- <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
- <CAOCk7NoOdjxp0vxu9XJzYsi7a04kpqpTOZHm42ApAN3MqkqtDw@mail.gmail.com>
-In-Reply-To: <CAOCk7NoOdjxp0vxu9XJzYsi7a04kpqpTOZHm42ApAN3MqkqtDw@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 8 Sep 2021 11:25:50 +0300
-Message-ID: <CAA8EJpp6tj10A0QUR1E75t7BZf2Y3jHUyVNniYhEUd9rXj8Vrg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 2/3] drm/msm/dpu1: Add MSM8998 to hw catalog
-To: Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Dave Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Abhinav Kumar <abhinavk@codeaurora.org>, 
- Rob Herring <robh+dt@kernel.org>, MSM <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>, 
- Konrad Dybcio <konrad.dybcio@somainline.org>, 
- Marijn Suijten <marijn.suijten@somainline.org>,
- Martin Botka <martin.botka@somainline.org>, 
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- paul.bouchara@somainline.org, DTML <devicetree@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210908060312.24007-2-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,38 +55,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Hi Jason,
 
-On Tue, 7 Sept 2021 at 22:13, Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
->
-> On Wed, Sep 1, 2021 at 12:11 PM AngeloGioacchino Del Regno
-> <angelogioacchino.delregno@somainline.org> wrote:
-> >
-> > Bringup functionality for MSM8998 in the DPU, driver which is mostly
-> > the same as SDM845 (just a few variations).
-> >
-> > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
->
-> I don't seem to see a cover letter for this series.
->
-> Eh, there are a fair number of differences between the MDSS versions
-> for 8998 and 845.
->
-> Probably a bigger question, why extend the DPU driver for 8998, when
-> the MDP5 driver already supports it[1]?  The MDP/DPU split is pretty
-> dumb, but I don't see a valid reason for both drivers supporting the
-> same target/display revision.  IMO, if you want this support in DPU,
-> remove it from MDP5.
->
-> [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.14&id=d6c7b2284b14c66a268a448a7a8d54f585d38785
+Thank you for your patch. One small comment below.
 
-I don't think that we should enforce such requirements. Having support
-both in MDP5 and DPU would allow one to compare those two drivers,
-performance, features, etc.
-It might be that all MDP5-supported hardware would be also supported
-by DPU, thus allowing us to remove the former driver. But until that
-time I'd suggest leaving support in place.
+On 8/9/21 8:02, jason-jh.lin wrote:
+> Power:
+> 1. Add description for power-domains property.
+> 
+> GCE:
+> 1. Add description for mboxes property.
+> 2. Add description for mediatek,gce-client-reg property.
+> 
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  .../bindings/arm/mediatek/mediatek,mmsys.yaml | 30 ++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> index 2d4ff0ce387b..a2e7bddfed03 100644
+> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+> @@ -39,6 +39,30 @@ properties:
+>    reg:
+>      maxItems: 1
+>  
+> +  power-domains:
+> +    description:
+> +      A phandle and PM domain specifier as defined by bindings
+> +      of the power controller specified by phandle. See
+> +      Documentation/devicetree/bindings/power/power-domain.yaml for details.
+> +
+> +  mboxes:
+> +    description:
+> +      Using mailbox to communicate with GCE, it should have this
+> +      property and list of phandle, mailbox specifiers. See
+> +      Documentation/devicetree/bindings/mailbox/mtk-gce.txt for details.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +  mediatek,gce-client-reg:
+> +    description:
+> +      The register of client driver can be configured by gce with 4 arguments
+> +      defined in this property, such as phandle of gce, subsys id,
+> +      register offset and size.
+> +      Each subsys id is mapping to a base address of display function blocks
+> +      register which is defined in the gce header
+> +      include/dt-bindings/gce/<chip>-gce.h.
+> +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> +    maxItems: 1
+> +
+>    "#clock-cells":
+>      const: 1
+>  
+> @@ -53,6 +77,10 @@ examples:
+>    - |
+>      mmsys: syscon@14000000 {
+>          compatible = "mediatek,mt8173-mmsys", "syscon";
+> -        reg = <0x14000000 0x1000>;
+> +        reg = <0 0x14000000 0 0x1000>;
 
--- 
-With best wishes
-Dmitry
+Why this change?
+
+Thanks,
+  Enric
+
+
+> +        power-domains = <&spm MT8173_POWER_DOMAIN_MM>;
+>          #clock-cells = <1>;
+> +        mboxes = <&gce 0 CMDQ_THR_PRIO_HIGHEST>,
+> +                 <&gce 1 CMDQ_THR_PRIO_HIGHEST>;
+> +        mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
+>      };
+> 
