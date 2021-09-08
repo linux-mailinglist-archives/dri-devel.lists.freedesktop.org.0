@@ -2,62 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BB6403E6C
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 19:39:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 631CF403E6E
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 19:44:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7022B8961E;
-	Wed,  8 Sep 2021 17:39:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99F7A6E21D;
+	Wed,  8 Sep 2021 17:44:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com
- [IPv6:2a00:1450:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8B0F28961E
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 17:39:08 +0000 (UTC)
-Received: by mail-ej1-x636.google.com with SMTP id e21so5738123ejz.12
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 10:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DZWBZ7D0lOsmiUja3fV8Q9y2p8lxH2st5nZHoQidNQI=;
- b=RLaGOEnJubuek23Sdhc+OmYFKUEk7wwJJlZm7hSEVG38gbRoNP5UPYqruWT56ez/3B
- pRa+ebExcsHxCx7jIpE15wQ/zWYz3GnpFDVegEKhzbMQP18MM7aZ/WY/wJEjIs8PaXk7
- 1eGHPvKnigwslcnNN75zpMohBSP6eB+Zu+IZg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DZWBZ7D0lOsmiUja3fV8Q9y2p8lxH2st5nZHoQidNQI=;
- b=kxSzehoBgyKZ97lgiGq47OcIeiS7Ab3T1EdkhyCFmM1EP5HkMu5mBqpVz7NNYipk5/
- Gt5NKGxk1Z7iY7sWzaNhc9FH1m/DjFBT79bZWlyDhBRyD95SiSeimGKTPW273OTmnv6M
- cDTaDHrW8jrpo+qjDauSK0EerMwoRNlqpWTspaYRAUflcFksMFCj48w24fXBoiPWSinE
- u1+8FoXQjkAst0dHEDdI5Y9/kV5+DK8FHmIpvy5/bQ7Wz+DSXQ8ncln/zWMLCEYAZSUH
- b6aJQN113RSlYqbUxgNnfZFdgV46piss5qGWzsua7Zdef9QsfzaqtNBllPrRZrd/ZQgs
- ap5Q==
-X-Gm-Message-State: AOAM530VeZ3ES7GTLxgh2G8GSTHXcKGD5i1JX/ZgHxVHt/kQl5Cm0TYm
- WYJcE1j5qOtslJQJcU9hdpMBz1TnQltV5A==
-X-Google-Smtp-Source: ABdhPJyItOp1y15phY6osZJtJ+LUmcw+OoPQjCFN+DZYaR89CiPy9+J7vU+hID8Tz4ZSSDbjsHvumw==
-X-Received: by 2002:a17:906:8281:: with SMTP id
- h1mr1042956ejx.352.1631122747111; 
- Wed, 08 Sep 2021 10:39:07 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id p23sm1710554edw.94.2021.09.08.10.39.06
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 10:39:06 -0700 (PDT)
-Date: Wed, 8 Sep 2021 19:39:05 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
- Keith Packard <keithp@keithp.com>
-Subject: Re: [PATCH v2 1/2] drm: document drm_mode_create_lease object
- requirements
-Message-ID: <YTj1OTyh8jOZS/WR@phenom.ffwll.local>
-References: <20210903130000.1590-1-contact@emersion.fr>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA0346E21D;
+ Wed,  8 Sep 2021 17:44:06 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 03D6220172;
+ Wed,  8 Sep 2021 17:44:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1631123045; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sCCMRd9tDuFNVUsYVAtVGgAkaAK5OvQwhj+u0zzTCLY=;
+ b=1+rmIiAAZFI924lYlYRrIGgG0oxkzCxuwpFfX6bzv4BKS3CA2CEmirNSEa2IdQRNvo9kLW
+ fCRezg/sM9XmYjhVnZ2M1DOjsh5qY+35wjSPwN5kiloGEWnESVad30+v82tdC1z3xg+nn1
+ rh1tt3ZjyPsqxpKwmbx9w+YEQBe6FiY=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1631123045;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=sCCMRd9tDuFNVUsYVAtVGgAkaAK5OvQwhj+u0zzTCLY=;
+ b=gRuYCe0PVxz0SZ2PghOnwE0OpPlRsEm5TWnXchBzoDzukDpLw+mEo5zZfJdxkM+WKJbICo
+ 8MKBAicQkTKXrPBQ==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id B468813A9F;
+ Wed,  8 Sep 2021 17:44:04 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id CdC3KmT2OGFpXAAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Wed, 08 Sep 2021 17:44:04 +0000
+Date: Wed, 8 Sep 2021 19:44:03 +0200
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <YTj2Y0MKu51CZdbW@linux-uq9g.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210903130000.1590-1-contact@emersion.fr>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,40 +73,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 03, 2021 at 01:00:16PM +0000, Simon Ser wrote:
-> validate_lease expects one CRTC, one connector and one plane.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> Cc: Keith Packard <keithp@keithp.com>
+Hi Dave and Daniel,
 
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+here's this week's PR for drm-misc-fixes. One patch is a potential deadlock
+in TTM, the other enables an additional plane in kmb. I'm slightly unhappy
+that the latter one ended up in -fixes as it's not a bugfix AFAICT.
 
-> ---
->  include/uapi/drm/drm_mode.h | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index 90c55383f1ee..e4a2570a6058 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -1110,6 +1110,9 @@ struct drm_mode_destroy_blob {
->   * struct drm_mode_create_lease - Create lease
->   *
->   * Lease mode resources, creating another drm_master.
-> + *
-> + * The @object_ids array must reference at least one CRTC, one connector and
-> + * one plane if &DRM_CLIENT_CAP_UNIVERSAL_PLANES is enabled.
->   */
->  struct drm_mode_create_lease {
->  	/** @object_ids: Pointer to array of object ids (__u32) */
-> -- 
-> 2.33.0
-> 
-> 
+Best regards
+Thomas
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+drm-misc-fixes-2021-09-08:
+Short summary of fixes pull:
+
+ * kmb: Emable second plane
+ * ttm: Fix potential deadlock during swap
+
+The following changes since commit fa0b1ef5f7a694f48e00804a391245f3471aa155:
+
+  drm: Copy drm_wait_vblank to user before returning (2021-08-17 13:56:03 -0400)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-09-08
+
+for you to fetch changes up to c8704b7ec182f9293e6a994310c7d4203428cdfb:
+
+  drm/kmb: Enable alpha blended second plane (2021-09-07 10:10:30 -0700)
+
+----------------------------------------------------------------
+Short summary of fixes pull:
+
+ * kmb: Emable second plane
+ * ttm: Fix potential deadlock during swap
+
+----------------------------------------------------------------
+Edmund Dea (1):
+      drm/kmb: Enable alpha blended second plane
+
+xinhui pan (1):
+      drm/ttm: Fix a deadlock if the target BO is not idle during swap
+
+ drivers/gpu/drm/kmb/kmb_drv.c   |  8 ++--
+ drivers/gpu/drm/kmb/kmb_drv.h   |  5 +++
+ drivers/gpu/drm/kmb/kmb_plane.c | 81 ++++++++++++++++++++++++++++++++++++-----
+ drivers/gpu/drm/kmb/kmb_plane.h |  5 ++-
+ drivers/gpu/drm/kmb/kmb_regs.h  |  3 ++
+ drivers/gpu/drm/ttm/ttm_bo.c    |  6 +--
+ 6 files changed, 90 insertions(+), 18 deletions(-)
+
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 Nürnberg, Germany
+(HRB 36809, AG Nürnberg)
+Geschäftsführer: Felix Imendörffer
