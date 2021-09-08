@@ -1,56 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A5B403456
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 08:39:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA901403482
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 08:50:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E9F746E133;
-	Wed,  8 Sep 2021 06:39:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E7426E134;
+	Wed,  8 Sep 2021 06:50:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE2156E133
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 06:39:51 +0000 (UTC)
-Received: from lupine.hi.pengutronix.de
- ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mNrF7-000821-T7; Wed, 08 Sep 2021 08:39:33 +0200
-Received: from pza by lupine with local (Exim 4.92)
- (envelope-from <p.zabel@pengutronix.de>)
- id 1mNrF3-00031K-86; Wed, 08 Sep 2021 08:39:29 +0200
-Message-ID: <5ffef736524f3d7fb69f97332576ee9913032bcd.camel@pengutronix.de>
-Subject: Re: [PATCH v10 07/17] dt-bindings: display: mediatek: merge: add
- additional prop for mt8195
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>, Rob Herring
- <robh+dt@kernel.org>,  Matthias Brugger <matthias.bgg@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Cc: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- hsinyi@chromium.org, fshao@chromium.org, Yongqiang Niu
- <yongqiang.niu@mediatek.com>,  nancy.lin@mediatek.com,
- singo.chang@mediatek.com, devicetree@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com,
- linux-arm-kernel@lists.infradead.org,  linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org,  dri-devel@lists.freedesktop.org
-Date: Wed, 08 Sep 2021 08:39:29 +0200
-In-Reply-To: <20210908060312.24007-8-jason-jh.lin@mediatek.com>
-References: <20210908060312.24007-1-jason-jh.lin@mediatek.com>
- <20210908060312.24007-8-jason-jh.lin@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.30.5-1.1 
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A1366E134
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 06:50:46 +0000 (UTC)
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
+ bits)) (No client certificate requested)
+ (Authenticated sender: bbrezillon)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 02ED51F430F1;
+ Wed,  8 Sep 2021 07:50:43 +0100 (BST)
+Date: Wed, 8 Sep 2021 08:50:38 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Cc: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Emma Anholt
+ <emma@anholt.net>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ dri-devel@lists.freedesktop.org, Steven Price <steven.price@arm.com>, Rob
+ Herring <robh+dt@kernel.org>, Alyssa Rosenzweig
+ <alyssa.rosenzweig@collabora.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Qiang Yu <yuq825@gmail.com>, Robin Murphy
+ <robin.murphy@arm.com>
+Subject: Re: [PATCH v5 02/16] drm/sched: Allow using a dedicated workqueue
+ for the timeout/fault tdr
+Message-ID: <20210908085038.0feeda7c@collabora.com>
+In-Reply-To: <eaaad39f-832b-0c43-5043-061dc717a756@amd.com>
+References: <20210629073510.2764391-1-boris.brezillon@collabora.com>
+ <20210629073510.2764391-3-boris.brezillon@collabora.com>
+ <5b619624-ca5d-6b9a-0600-f122a4d68c58@amd.com>
+ <20210629131858.1a598182@collabora.com>
+ <532d1f9d-1092-18c3-c87d-463cfda60ed7@amd.com>
+ <eaaad39f-832b-0c43-5043-061dc717a756@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,85 +58,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Jason,
+On Tue, 7 Sep 2021 14:53:58 -0400
+Andrey Grodzovsky <andrey.grodzovsky@amd.com> wrote:
 
-On Wed, 2021-09-08 at 14:03 +0800, jason-jh.lin wrote:
-> add MERGE additional properties description for mt8195:
-> 1. async clock
-> 2. fifo setting enable
-> 3. reset controller
+> On 2021-06-29 7:24 a.m., Christian K=C3=B6nig wrote:
 >=20
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-> ---
->  .../display/mediatek/mediatek,merge.yaml      | 30 +++++++++++++++++++
->  1 file changed, 30 insertions(+)
+> > Am 29.06.21 um 13:18 schrieb Boris Brezillon: =20
+> >> Hi Christian,
+> >>
+> >> On Tue, 29 Jun 2021 13:03:58 +0200
+> >> Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+> >> =20
+> >>> Am 29.06.21 um 09:34 schrieb Boris Brezillon: =20
+> >>>> Mali Midgard/Bifrost GPUs have 3 hardware queues but only a global G=
+PU
+> >>>> reset. This leads to extra complexity when we need to synchronize=20
+> >>>> timeout
+> >>>> works with the reset work. One solution to address that is to have an
+> >>>> ordered workqueue at the driver level that will be used by the=20
+> >>>> different
+> >>>> schedulers to queue their timeout work. Thanks to the serialization
+> >>>> provided by the ordered workqueue we are guaranteed that timeout
+> >>>> handlers are executed sequentially, and can thus easily reset the GPU
+> >>>> from the timeout handler without extra synchronization. =20
+> >>> Well, we had already tried this and it didn't worked the way it is=20
+> >>> expected.
+> >>>
+> >>> The major problem is that you not only want to serialize the queue, b=
+ut
+> >>> rather have a single reset for all queues.
+> >>>
+> >>> Otherwise you schedule multiple resets for each hardware queue. E.g.=
+=20
+> >>> for
+> >>> your 3 hardware queues you would reset the GPU 3 times if all of them
+> >>> time out at the same time (which is rather likely).
+> >>>
+> >>> Using a single delayed work item doesn't work either because you then
+> >>> only have one timeout.
+> >>>
+> >>> What could be done is to cancel all delayed work items from all stopp=
+ed
+> >>> schedulers. =20
+> >> drm_sched_stop() does that already, and since we call drm_sched_stop()
+> >> on all queues in the timeout handler, we end up with only one global
+> >> reset happening even if several queues report a timeout at the same
+> >> time. =20
+> >
+> > Ah, nice. Yeah, in this case it should indeed work as expected.
+> >
+> > Feel free to add an Acked-by: Christian K=C3=B6nig=20
+> > <christian.koenig@amd.com> to it.
+> >
+> > Regards,
+> > Christian. =20
 >=20
-> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,=
-merge.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,me=
-rge.yaml
-> index 75beeb207ceb..0fe204d9ad2c 100644
-> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,merge.y=
-aml
-> @@ -38,6 +38,19 @@ properties:
->    clocks:
->      items:
->        - description: MERGE Clock
-> +      - description: MERGE Async Clock
-> +          Controlling the synchronous process between MERGE and other di=
-splay
-> +          function blocks cross clock domain.
-> +
-> +  mediatek,merge-fifo-en:
-> +    description:
-> +      The setting of merge fifo is mainly provided for the display laten=
-cy
-> +      buffer to ensure that the back-end panel display data will not be
-> +      underrun, a little more data is needed in the fifo.
-> +      According to the merge fifo settings, when the water level is dete=
-cted
-> +      to be insufficient, it will trigger RDMA sending ultra and preulra
-> +      command to SMI to speed up the data rate.
-> +    type: boolean
-> =20
->    mediatek,gce-client-reg:
->      description:
-> @@ -50,6 +63,10 @@ properties:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
->      maxItems: 1
-> =20
-> +  resets:
-> +    description: reset controller
-> +      See Documentation/devicetree/bindings/reset/reset.txt for details.
+>=20
+> Seems to me that for this to work we need to change cancel_delayed_work=20
+> to cancel_delayed_work_sync
+> so not only pending TO handlers=C2=A0 are cancelled but also any in progr=
+ess=20
+> are waited for and to to prevent rearming.
+> Also move it right after kthread_park - before we start touching pending=
+=20
+> list.
 
-From the example this looks like it could have a maxItems: 1.
-
-> +
->  required:
->    - compatible
->    - reg
-
-Should the resets property be required for "mediatek,mt8195-disp-merge"?
-
-> @@ -67,3 +84,16 @@ examples:
->          power-domains =3D <&spm MT8173_POWER_DOMAIN_MM>;
->          clocks =3D <&mmsys CLK_MM_DISP_MERGE>;
->      };
-> +
-> +    merge5: disp_vpp_merge5@1c110000 {
-> +        compatible =3D "mediatek,mt8195-disp-merge";
-> +        reg =3D <0 0x1c110000 0 0x1000>;
-> +        interrupts =3D <GIC_SPI 507 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        clocks =3D <&vdosys1 CLK_VDO1_VPP_MERGE4>,
-> +                 <&vdosys1 CLK_VDO1_MERGE4_DL_ASYNC>;
-> +        clock-names =3D "merge","merge_async";
-> +        power-domains =3D <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> +        mediatek,gce-client-reg =3D <&gce1 SUBSYS_1c11XXXX 0x0000 0x1000=
->;
-> +        mediatek,merge-fifo-en =3D <1>;
-> +        resets =3D <&vdosys1 MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC>;
-> +    };
-
-regards
-Philipp
+I'm probably missing something, but I don't really see why this
+specific change would require replacing cancel_delayed_work() calls by
+the sync variant. I mean, if there's a situation where we need to wait
+for in-flight timeout handler to return, it was already the case before
+that patch. Note that we need to be careful to not call the sync
+variant in helpers that are called from the interrupt handler itself
+to avoid deadlocks (i.e. drm_sched_stop()).
