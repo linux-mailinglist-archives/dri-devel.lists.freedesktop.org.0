@@ -2,67 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AA50403890
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 13:11:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5E5403891
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 13:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F3266E18F;
-	Wed,  8 Sep 2021 11:11:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9326E190;
+	Wed,  8 Sep 2021 11:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4056E18F
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 11:11:28 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- m25-20020a7bcb99000000b002e751bcb5dbso1217873wmi.5
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 04:11:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1XPvlN/w5rw4NW/sVeYLFAWcn49tP72bXQarOjTRE8k=;
- b=PSKOvwZNIifvy444hFTjddco9EMIjQztIvP89NdC5gqIxrmLYFN5//1Xp9J88Ekabv
- w9Z6IDhsZ1Qx6oUD24UkICFVQn0lHsIxcx0AHv8H5ahDj7otRb41WOK2/BbHa8rFgRro
- IAwwawXzt8W/6F9DCRrK+chSa7Xj6bDH4EmyGrJQHvq9t0NqeRI32Q8bscyyHVdWdIYb
- wPE0Pyg/3CGZFsY377T+lpV8B0nGyvRhpY5SLVMHr1G6Aw9oDGWFxyRDM0JkgV5HxowR
- nOC8slb6AK9MJocXCv1lxB4EA8KoJOxbpfecCJLZ4fUdOe57opLVA1al5aBUM+SUXyQR
- rPIg==
+Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
+ [IPv6:2a00:1450:4864:20::12e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E9DF6E190
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 11:13:27 +0000 (UTC)
+Received: by mail-lf1-x12e.google.com with SMTP id f18so3657226lfk.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 04:13:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=a0AwZqCISlDdDTJUtxZvX791tIdeTIm+uggGZuEbUjk=;
+ b=mdj+vMcSj1iI0HTYGzQ4yEE3TaNUObCnvshIs31nBPZHWofuO9fQnEPkoItT531NVA
+ sz1ZD/JP9hXU9j2R7VACsZVGvaMLbwhDvOCsLHiZhLEr5wqk1uwnksOe76sL08oGE7Pl
+ SO61hh+3f6oYK5fT4r9E58DRy4ZHmf1ixo4chxLJEw+5Tffs+zS0KkJyH06dTrsx1FgB
+ xCi0oU68SWGgvZDkJod1y1QPDbKjha2UUovKVtFPaxZ6HJmsoobsiHqatEse1c/JC1FY
+ 9/3fZgU41hHx8L6uDPhVw26Vb4zTcDBwVbgt0gvcLxUD3xBx4xY9XczJ1IcPs2qFpv7O
+ TpBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=1XPvlN/w5rw4NW/sVeYLFAWcn49tP72bXQarOjTRE8k=;
- b=hxD61mGAuOy2EeTH/TL4hUXUKt/uMy9sQy4S24C/ErJ4luj/k51BkHarnI85L3zBZb
- F24IaXFEiZFuXmY0LlrlkvbxJgFR68eSKOnFjaevXCgBSe6I9ii06iZpC9X2KHjyfa9E
- R+uXfCPNw4Lfnn+rpkxF9UbGPiz+X8OeLVSizF2XzVV1UJUXrOwZStFyQLXttpUQ8Ja2
- SX9yRcH2xnL3GAmtJ7x+yHPujcrnAaH1B+ZvFWdwFrb9G41HajaQuu0ZUk83C3IEAW67
- 1mrY5o9ldDQ9RXKInK09eYTNBTSs+zhaJGc2Uk93l1holtYpH9TnREwZg1wVTBcJXcjt
- 9Ccg==
-X-Gm-Message-State: AOAM530Y5uq4EFINaxbjUrrth2ZbkSWfU8Y8WTJWQ7Pmw4yVUxhkJo42
- dfhCQsdF7u67gPZEhBGUGD4+I8uHLmq9dpFWB0hwaw==
-X-Google-Smtp-Source: ABdhPJwo6CsJOqHxp22SoWavMhc1IcCyIbEXblkwbw9+hFZTkiz/JoB0gNoxzAIVUU+JhZZg+a0a4JvzVl3kvHD1brE=
-X-Received: by 2002:a7b:c959:: with SMTP id i25mr3053276wml.55.1631099487113; 
- Wed, 08 Sep 2021 04:11:27 -0700 (PDT)
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=a0AwZqCISlDdDTJUtxZvX791tIdeTIm+uggGZuEbUjk=;
+ b=GlT4eeAEGpBFys/7WBa5T4seDQvQigv2PVZz6sXea5y+jy5RMMwIvee+x3bIT9zdYL
+ 3h0epyVWrfQEkWVLITlMpCzVwgnlqVNeJ+46H9xqW7VnXWV9ZhaUj8wlZfGi3qooUw2y
+ 0fWjbu1TBls4y/8k98zTUmyYKyyiqEXwazK91Zd/G+WIRTuhYqn9mviKfiic3bOa5nV2
+ K1MupbZNnzuLY+lDgwbP86aW16XaGNM/o+9MP+8aybLDMf9BteIqpcYKAjE2rX4q3LT+
+ z0gqu0aq8SkC99HzYcG1srW23gslnH4HLd7yEFe5TtDE6WLw6N/nwNJtDnRQ4EYNH1uW
+ bIgQ==
+X-Gm-Message-State: AOAM532r7COmyWHIazgooZbsgKOzAiDYtUVnOYcUMOEPASBn55Ofnk35
+ x2WautX9rirUvVMhvAlzARg=
+X-Google-Smtp-Source: ABdhPJzpJKRKNAV0vhtJJklDLr16K8PvoIOSM0CSEHt71vu27aS0a6+WLPqkxKZcOII15dZRvH8ALQ==
+X-Received: by 2002:a05:6512:3982:: with SMTP id
+ j2mr2220761lfu.1.1631099605374; 
+ Wed, 08 Sep 2021 04:13:25 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id b21sm162989lfi.104.2021.09.08.04.13.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 08 Sep 2021 04:13:24 -0700 (PDT)
+Date: Wed, 8 Sep 2021 14:13:15 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: Dennis Filder <d.filder@web.de>, dri-devel@lists.freedesktop.org, Hans
+ de Goede <hdegoede@redhat.com>
+Subject: Re: Handling DRM master transitions cooperatively
+Message-ID: <20210908141315.4868f5d5@eldfell>
+In-Reply-To: <jSyTJ5Ev5ZkQFBv0Ar_6MALQ4Vj1e5lvB9gXrWcYkilCvhQ_Zo-9zpuPti5L0h1flBJuc4N_ayBmoqTbfqiSaUMwk3b08EgQ1DYKTHMYQsI=@emersion.fr>
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+ <Kh2hM9odvPcbqNUxhSEwQbnUCLt6nyrAzGhxnQ0JO1CcAzI6y31enf8_AmgAynFxWo3E1QUlW1m8UvKPDAq0gFLQi2CF1b3FFNMRfiUzOAI=@emersion.fr>
+ <20210907155214.285b3561@eldfell>
+ <jSyTJ5Ev5ZkQFBv0Ar_6MALQ4Vj1e5lvB9gXrWcYkilCvhQ_Zo-9zpuPti5L0h1flBJuc4N_ayBmoqTbfqiSaUMwk3b08EgQ1DYKTHMYQsI=@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20210907023948.871281-1-marex@denx.de>
- <CGME20210907073151eucas1p196543fbd114f34f6de700013fd0e4168@eucas1p1.samsung.com>
- <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
- <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
- <9b3d6595-0330-f716-b443-95f3f4783ac4@samsung.com>
- <2bf8e1fe-3f55-85ab-715a-c53ad98bb6d2@denx.de>
-In-Reply-To: <2bf8e1fe-3f55-85ab-715a-c53ad98bb6d2@denx.de>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 8 Sep 2021 12:11:11 +0100
-Message-ID: <CAPY8ntBVdvHSofXcd7nU5Z4uCMUzmiMF3GmJn=VpLDVoe6xL2g@mail.gmail.com>
-Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register
- after enabling the bridge
-To: Marek Vasut <marex@denx.de>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Jagan Teki <jagan@amarulasolutions.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Linus Walleij <linus.walleij@linaro.org>, Robert Foss <robert.foss@linaro.org>,
- Sam Ravnborg <sam@ravnborg.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/9Jw/PYk_xOPxC73CeuRu.jn";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,245 +76,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek and Andrzej
+--Sig_/9Jw/PYk_xOPxC73CeuRu.jn
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Sept 2021 at 22:24, Marek Vasut <marex@denx.de> wrote:
->
-> On 9/7/21 7:29 PM, Andrzej Hajda wrote:
-> >
-> > W dniu 07.09.2021 o 16:25, Marek Vasut pisze:
-> >> On 9/7/21 9:31 AM, Andrzej Hajda wrote:
-> >>> On 07.09.2021 04:39, Marek Vasut wrote:
-> >>>> In rare cases, the bridge may not start up correctly, which usually
-> >>>> leads to no display output. In case this happens, warn about it in
-> >>>> the kernel log.
-> >>>>
-> >>>> Signed-off-by: Marek Vasut <marex@denx.de>
-> >>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
-> >>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> Cc: Linus Walleij <linus.walleij@linaro.org>
-> >>>> Cc: Robert Foss <robert.foss@linaro.org>
-> >>>> Cc: Sam Ravnborg <sam@ravnborg.org>
-> >>>> Cc: dri-devel@lists.freedesktop.org
-> >>>> ---
-> >>>> NOTE: See the following:
-> >>>> https://e2e.ti.com/support/interface-group/interface/f/interface-forum/942005/sn65dsi83-dsi83-lvds-bridge---sporadic-behavior---no-video
-> >>>>
-> >>>> https://community.nxp.com/t5/i-MX-Processors/i-MX8M-MIPI-DSI-Interface-LVDS-Bridge-Initialization/td-p/1156533
-> >>>>
-> >>>> ---
-> >>>>     drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
-> >>>>     1 file changed, 5 insertions(+)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >>>> b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >>>> index a32f70bc68ea4..4ea71d7f0bfbc 100644
-> >>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
-> >>>> @@ -520,6 +520,11 @@ static void sn65dsi83_atomic_enable(struct
-> >>>> drm_bridge *bridge,
-> >>>>         /* Clear all errors that got asserted during initialization. */
-> >>>>         regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> >>>>         regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
-> >>>
-> >>>
-> >>> It does not look as correct error handling, maybe it would be good to
-> >>> analyze and optionally report 'unexpected' errors here as well.
-> >>
-> >> The above is correct -- it clears the status register because the
-> >> setup might've set random bits in that register. Then we wait a bit,
-> >> let the link run, and read them again to get the real link status in
-> >> this new piece of code below, hence the usleep_range there. And then
-> >> if the link indicates a problem, we know it is a problem.
-> >
-> >
-> > Usually such registers are cleared on very beginning of the
-> > initialization, and tested (via irq handler, or via reading), during
-> > initalization, if initialization phase goes well. If it is not the case
-> > forgive me.
->
-> The init just flips the bit at random in the IRQ_STAT register, so no,
-> that's not really viable here. That's why we clear them at the end, and
-> then wait a bit, and then check whether something new appeared in them.
->
-> If not, all is great.
->
-> Sure, we could generate an IRQ, but then IRQ line is not always
-> connected to this chip on all hardware I have available. So this gives
-> the user at least some indication that something is wrong with their HW.
->
-> >>>> +
-> >>>> +    usleep_range(10000, 12000);
-> >>>> +    regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
-> >>>> +    if (pval)
-> >>>> +        dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
-> >>>
-> >>>
-> >>> I am not sure what is the case here but it looks like 'we do not know
-> >>> what is going on, so let's add some diagnostic messages to gather info
-> >>> and figure it out later'.
-> >>
-> >> That's pretty much the case, see the two links above in the NOTE
-> >> section. If something goes wrong, we print the value for the user
-> >> (usually developer) so they can fix their problems. We cannot do much
-> >> better in the attach callback.
-> >>
-> >> The issue I ran into (and where this would be helpful information to
-> >> me during debugging, since the issue happened real seldom, see also
-> >> the NOTE links above) is that the DSI controller driver started
-> >> streaming video on the data lanes before the DSI83 had a chance to
-> >> initialize. This worked most of the time, except for a few exceptions
-> >> here and there, where the video didn't start. This does set link
-> >> status bits consistently. In the meantime, I fixed the controller
-> >> driver (so far downstream, due to ongoing discussion).
-> >
-> >
-> > Maybe drm_connector_set_link_status_property(conn,
-> > DRM_MODE_LINK_STATUS_BAD) would be usefule here.
->
-> Hmm, this works on connector, the dsi83 is a bridge and it can be stuck
-> between two other bridges. That doesn't seem like the right tool, no ?
->
-> >>> Whole driver lacks IRQ handler which IMO could perform better diagnosis,
-> >>> and I guess it could also help in recovery, but this is just my guess.
-> >>> So if this patch is enough for now you can add:
-> >>
-> >> No, IRQ won't help you here, because by the time you get the IRQ, the
-> >> DSI host already started streaming video on data lanes and you won't
-> >> be able to correctly reinit the DSI83 unless you communicate to the
-> >> DSI host that it should switch the data lanes back to LP11.
-> >>
-> >> And for that, there is a bigger chunk missing really. What needs to be
-> >> added is a way for the DSI bridge / panel to communicate its needs to
-> >> the DSI host -- things like "I need DSI clock lane frequency f MHz, I
-> >> need clock lane in HS mode and data lanes in LP11 mode". If you look
-> >> at the way DSI hosts and bridges/panels work out the DSI link
-> >> parameters, you will notice they basically do it each on their own,
-> >> there is no such API or communication channel.
-> >
-> >
-> > There is one-time communication channel via mipi_dsi_attach, it allows
-> > to set max frequency i HS and LP, choose mode of operation (HS/LPM) and
-> > few more things. If it is necessary to extend it please propse sth.
->
-> Well, take for example the drivers/gpu/drm/exynos/exynos_drm_dsi.c ,
-> there is this:
->
-> static void exynos_dsi_enable(struct drm_encoder *encoder)
-> ...
->                  list_for_each_entry_reverse(iter, &dsi->bridge_chain,
->                                              chain_node) {
->                          if (iter->funcs->pre_enable)
->                                  iter->funcs->pre_enable(iter);
-> ...
->          exynos_dsi_set_display_mode(dsi);
->          exynos_dsi_set_display_enable(dsi, true);
-> ...
->                  list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
->                          if (iter->funcs->enable)
->                                  iter->funcs->enable(iter);
->                  }
-> ...
->
-> So the bridge enable callback is called with clock lane already in HS
-> mode, and data lanes streaming video. This doesn't work with the DSI83,
-> which would need clock lane in HS and providing clock , but data lanes
-> in LP11 with no video.
->
-> Sure, I could probably move exynos_dsi_set_display_enable(dsi, true);
-> after the enable call, but is that really the right solution ? What
-> about bridges which need some other specific configuration of the data
-> lanes during init ?
+On Wed, 08 Sep 2021 09:51:54 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-I hadn't noticed that Exynos was doing that.
-vc4 DSI is doing the same thing in deliberately breaking the
-panel/bridge chain so that it gets a chance to do some initialisation
-before panel/bridge pre_enable.
-
-Another issue I've noted in doing this is that it breaks calls to the
-bridge's mode_set, mode_valid, and mode_fixup hooks. The framework
-doesn't know about the bridges/panels beyond the encoder, and the
-encoder doesn't get all the information required in order to replicate
-those calls.
-I'm about to look into whether switching the DSI host to being a
-bridge instead of an encoder allows me to overcome that one.
-Doing so doesn't solve the issue of the DSI host bridge pre_enable
-being called after the panel/bridge pre_enable though.
-
-> > Regarding requesting LP11 I am not sure if we really should have such
-> > low level communication. LP11, as I remember ,is initial state in HS so
-> > it should be set anyway, before starting video transmission.
-
-LP-11 is the idle LP state. Both P and N lines of the pair are at
-LP-high (~1.2V).
-You then have an escape sequence to shift to HS mode (LP-01 for
-T(lpx), LP-00 for T(hs-prepare), enable HS driver) when you are
-wishing to send data bursts. The signalling levels for HS drop to
-~100mV for low and ~300mV for high.
-
-Add in ULPS which is effectively powered off but has a specific entry
-and escape sequence to sleep/wake up the receiving device. ULPS seems
-to be totally ignored in DRM as it seems to rely on regulator or other
-control of the panel/bridge to power down.
-
-> Well, see above, that's the problem I ran across recently.
->
-> > And maybe this is the main problem:
+> > On Tue, 07 Sep 2021 10:19:03 +0000
+> > Simon Ser <contact@emersion.fr> wrote:
+> > =20
+> > > FWIW, I've just hit a case where a compositor leaves a "rotation" KMS
+> > > prop set behind, then Xorg tries to startup and fails because it does=
+n't
+> > > reset this prop. So none of this is theoretical.
+> > >
+> > > I still think a "reset all KMS props to an arbitrary default value" f=
+lag
+> > > in drmModeAtomicCommit is the best way forward. I'm not sure a user-s=
+pace
+> > > protocol would help too much. =20
 > >
-> > DRM core calls:
+> > Hi Simon,
 > >
-> > crtc->enable
+> > for the "reset KMS state" problem, sure. Thanks for confirming the
+> > problem, too.
 > >
-> > bridges->pre_enable,
-> >
-> > encoder->enable,
-> >
-> > bridges->enable.
-> >
-> >
-> > Usually video transmission starts in crtc->enable (CRTC->Encoder), and
-> > in encoder->enable (encoder->bridge), so in bridges->enable it would be
-> > too late for LP11 state - transmission can be already in progress.
-> >
-> > It shows well that this order of calls does not fit well to DSI, and
-> > probably many other protocols.
-> >
-> > Maybe moving most of the bridge->enable code to bridge->pre_enable would
-> > help, but I am not sur if it will not pose another issues.
->
-> Yep, that won't work e.g. with the exynos DSIM, because
-> exynos_dsi_set_display_mode() sets the data lanes to LP11.
+> > The hand-off problem does need userspace protocol though, so that the
+> > two parties can negotiate what part of KMS state can be inherited by
+> > the receiver and who will do the animation from the first to the second
+> > state in case you want to avoid abrupt changes. It would also be useful
+> > for a cross-fade as a perhaps more flexible way than the current "leak
+> > an FB, let the next KMS client scrape it via ioctls and copy it so it
+> > can be textured from". =20
+>=20
+> The KMS state can be limited to single FB on primary plane covering the w=
+hole
+> CRTC, no scaling, no other property set than FB_ID/CRTC_*/SRC_*.
+>=20
+> Is it useful to make the previous client perform the animation? I don't r=
+eally
+> understand the use-case here.
 
-Isn't the bigger question for SN65DSI8[3|4|5] whether the clock lane
-is running or not in pre_enable?
+I guess the use cases are more or less imaginary for now.
 
-> > This is quick analysis, so please fix me if I am wrong.
->
-> I pretty much agree that the current state of things does not fit with
-> DSI too well.
+Imagine one HDR-capable display server handing off to another
+HDR-capable display server. If the releasing display server does not
+know the receiving display server understands HDR, the releasing
+display server might run an animation to turn HDR off - fade to black,
+for instance, so that the impact from changing from HDR to SDR is
+minimized. Then the receiving display server sees KMS is in SDR mode,
+and maybe sets up a black image and then switches back to HDR.
 
-That was why I was questioning how DSI was meant to be implemented in
-https://lore.kernel.org/dri-devel/CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com/
+If you're happy with fade-to-black on switch, then no problem. However,
+the only way to not fade-to-black or even come cross-fade is
+some negotiation to see that both sides understand HDR.
 
-The need to have the DSI host in a defined idle state (often LP-11,
-but varying whether the clock lane is in HS) before powering up the
-panel/bridge is incredibly common, but currently undefined in DRM.
+If the previous FB was rendered for HDR display, you will need to know
+a lot from it if you want to do a cross-fade that doesn't glitch.
 
-Taking the SN65DSI83 as an example, the datasheet [1] section 7.4.2
-states that the clock lane must be in HS mode, and data lanes in LP-11
-when coming out of reset. That means that we can't be "enable" as that
-will have the data lanes in HS mode and sending video, and as we can't
-be in "pre_enable" as the DSI PHY will be powered down and so we won't
-have the clock lanes in HS mode.
+Also, while I don't see why changing between SDR and HDR would require
+a modeset in KMS, I suppose it might take a moment for the monitor to
+adapt. It might cause glitches similar to changing video modes.
 
-I've hit a similar one with the Toshiba TC358762 where it seems to get
-upset if it is receiving video data when it gets configured.
-panel-raspberrypi-touchscreen[2] which drives that chip is
-intermittent when using panel enable, whereas panel prepare is
-significantly more reliable but relies on the DSI host being
-initialised to LP-11 by breaking the chain.
+> > Userspace protocol is also useful for starting the next KMS client
+> > first and handing off only later once it's actually running. I'm not
+> > sure if that is already possible with the session switching stuff, but
+> > I have a feeling it might be fragile or miss pieces like the next KMS
+> > client signalling ready before actually switching to it. =20
+>=20
+> Hm, right. I'm not 100% clear if it's possible for the next client to set
+> everything up while the VT is not active.
+>=20
+> It would help to make logind/seatd give a non-master DRM FD when VT-switc=
+hed
+> away. Not sure they do it atm.
 
-  Dave
+Oh yeah, that may be an obvious gap I missed.
 
-[1] https://www.ti.com/lit/ds/symlink/sn65dsi83.pdf
-[2] https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/panel/panel-raspberrypi-touchscreen.c
+
+Thanks,
+pq
+
+--Sig_/9Jw/PYk_xOPxC73CeuRu.jn
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmE4mssACgkQI1/ltBGq
+qqctLA/8Dea9xtE3unkm9pikGb+KRMXI4KgnElSVx5Y6LTaDDjPZPOyVCfF9CVqR
+MpHg7N9T6Ca002k+YpZMmdDyPokvOVBoVy4yHgL7iFmt1Y4IsJr2AYi7uvFqI9g9
+6GgPO1Ms1JP/tRR1zr5m+gdq0UftiC22P4hsVEYdrB1G4VP9KlFIHMp0IptyUNOa
+lpGiqSdDuLQ7qaHN8PNs2oosoE7WyqpbFQg1TF/10fiY1QJ14ZgEtWYGEJEKqqP8
+LC3tSSFmpJJBtQMa1DY9El6gjNIUFl9p+CSzs2SCfKRS5s6Y0tXKCqC6NluP4Oa1
+ZMHU8//fc+NZ+tp/BtHtb7IgrBkLePOnxIu1DIxjpoqBg+6LSl6tmdaU63FPPVXv
+R+X6iSN893rzefuZ4s8gsi1K05ksqMZmtMBvygTpiD0pdCfli17+FHD47Sge681N
+LmP+VRpxOmE6rNvShWvqsGgS6I12CZjkZg+O4HURJNYeoNQNnlt+tzTZTkUvNyNI
+C4NTy3lvTekRq1Neh9V3q0mmyQHlj1bCpPO+LaD1gA+NfrXLaMS1gm9hNAll87TS
+2wWCe7AlloXBu76JnNqbJD1fe4bZ+/a914/B6+7BdXCo9Wpnymb8P1czg7M4gvg0
+DlKQvdXO7GIJS5nYN6a7hGRsHlkTfnjX+aEIHHY9FbTmd2OaaV8=
+=W4KA
+-----END PGP SIGNATURE-----
+
+--Sig_/9Jw/PYk_xOPxC73CeuRu.jn--
