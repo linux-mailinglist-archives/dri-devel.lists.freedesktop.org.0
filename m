@@ -1,82 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A007D403E9D
-	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 19:50:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 436D1403EA0
+	for <lists+dri-devel@lfdr.de>; Wed,  8 Sep 2021 19:50:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A9D2C6E21A;
-	Wed,  8 Sep 2021 17:50:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0D816E223;
+	Wed,  8 Sep 2021 17:50:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com
- [IPv6:2a00:1450:4864:20::62c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D1EA26E21A
- for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 17:50:35 +0000 (UTC)
-Received: by mail-ej1-x62c.google.com with SMTP id me10so5803898ejb.11
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 10:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=vuSk6k+wa7pbmbqWvCvDdZqbC/SZgYreAXUEe3eNDTI=;
- b=CrZPXrbRVBTI1Aeeq3S3hJAKJib2O3JHOIozuY4W+uOWFio621qYyJ7hq1RO+8crgh
- wRDjLG+SqzqtDTHBtVhkPIB/T34XJ4owMRBT6j3Id9cEMkVbnt+iBJ9W3MQ+v4amOHmz
- gkeffzcDQEBIZk+ujoZFNjxsDJ1MuSZpSvfqA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=vuSk6k+wa7pbmbqWvCvDdZqbC/SZgYreAXUEe3eNDTI=;
- b=en0SIDhDttGvjBwSecc2KTDHJ8q4l6spQMbx8WCNyDBpMqgMU5bS11D8FYzEkeWJSc
- GXfUFRLiFaLjjc1BEWUjz/h7rMZ4d1qgmOqpMKOf03dqMHy/zb9VwuErtWeRmo2yC4R9
- g02w1jCvzbjZAb5uaS8CWpzf0GXBaJ0mKajOfROULvwVBIVSWOPrMObnd9F9daipUy9T
- UwdMK/9eTRd4TPQAiyMcNMPAWeU5kRds5hKBaBfbyCIAo+VCGVMag0Da1e3wN/ZBXdwy
- +j2mJp1X09xfV7dF6KWQHrO5b0PAgdT+c0mHiOQfwGPyNBxb6g6H87y/MafchUgJ5uz/
- a3aA==
-X-Gm-Message-State: AOAM532CXbTTONOv3OAjJ9sVUSi+wjVo9PbGlDjGR5CXLVIJtMqpwi3c
- M/mQZaIGxTCB4YvGDqXoio1tug==
-X-Google-Smtp-Source: ABdhPJyLY5ZP+DrKCEiNDoixuHHNHP6eq1Kk0XYL+iCJY9nnpI/B5uHAvbhuiIkC29KGm61OMQLXTw==
-X-Received: by 2002:a17:906:c1d0:: with SMTP id
- bw16mr1160810ejb.146.1631123434349; 
- Wed, 08 Sep 2021 10:50:34 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id w3sm1475271edc.42.2021.09.08.10.50.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 08 Sep 2021 10:50:33 -0700 (PDT)
-Date: Wed, 8 Sep 2021 19:50:32 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Daniel Vetter <daniel@ffwll.ch>,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
-Message-ID: <YTj36NbUNxnn6uBU@phenom.ffwll.local>
-Mail-Followup-To: Rob Clark <robdclark@gmail.com>,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Rob Clark <robdclark@chromium.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <20210903184806.1680887-9-robdclark@gmail.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 53B486E223
+ for <dri-devel@lists.freedesktop.org>; Wed,  8 Sep 2021 17:50:45 +0000 (UTC)
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 9F498220B3;
+ Wed,  8 Sep 2021 17:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1631123443; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lWoSuFDKULCQ5rcWthSgmLilmCXcf3SGKfzEQ7gY8ZQ=;
+ b=teV5hRbRbrUhPytGJ0Lqv5mDPlzUG7QsN+Gh95qtd/JZr52TkTSAR8mcm2zYg1vbRwFGes
+ 6Rac4Q2qG2DpFnAAWNu8jM1btaVtqy8qVS9MfgrnVQJmwJdsIPWIi2UEkiBPyjVrqo+GYW
+ /OVhhrplyfh2DcmcE12uLifw4oB3598=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1631123443;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lWoSuFDKULCQ5rcWthSgmLilmCXcf3SGKfzEQ7gY8ZQ=;
+ b=Gjr78VO/h1nf4gAwjWUnZcZAYy93aoc/Tp4pi9VU5n45xI1K1OP//6jz5Sxi3mBOSh2wXg
+ bzkugwZHQo92VyBg==
+Received: from imap1.suse-dmz.suse.de (imap1.suse-dmz.suse.de [192.168.254.73])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap1.suse-dmz.suse.de (Postfix) with ESMTPS id 7C4D613A9F;
+ Wed,  8 Sep 2021 17:50:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap1.suse-dmz.suse.de with ESMTPSA id JMHYHPP3OGHtXQAAGKfGzw
+ (envelope-from <tzimmermann@suse.de>); Wed, 08 Sep 2021 17:50:43 +0000
+Message-ID: <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
+Date: Wed, 8 Sep 2021 19:50:42 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210903184806.1680887-9-robdclark@gmail.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH 13/14] drm/kmb: Enable alpha blended second plane
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>,
+ "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Dea, Edmund J" <edmund.j.dea@intel.com>
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-13-anitha.chrisanthus@intel.com>
+ <YQEHQ56Qwl0GzvKg@ravnborg.org>
+ <BY5PR11MB41821BFC25FECD3D9834C7D58CEF9@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <YQjP1e+XrYrrsggB@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YQjP1e+XrYrrsggB@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------h4Yf1wgGnYfdVujbEGFSPI8x"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,102 +79,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 03, 2021 at 11:47:59AM -0700, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> The initial purpose is for igt tests, but this would also be useful for
-> compositors that wait until close to vblank deadline to make decisions
-> about which frame to show.
-> 
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------h4Yf1wgGnYfdVujbEGFSPI8x
+Content-Type: multipart/mixed; boundary="------------07g4arbTQh0j7boR9ex5MJcq";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>,
+ "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>
+Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Dea, Edmund J" <edmund.j.dea@intel.com>
+Message-ID: <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
+Subject: Re: [PATCH 13/14] drm/kmb: Enable alpha blended second plane
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-13-anitha.chrisanthus@intel.com>
+ <YQEHQ56Qwl0GzvKg@ravnborg.org>
+ <BY5PR11MB41821BFC25FECD3D9834C7D58CEF9@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <YQjP1e+XrYrrsggB@ravnborg.org>
+In-Reply-To: <YQjP1e+XrYrrsggB@ravnborg.org>
 
-Needs userspace and I think ideally also some igts to make sure it works
-and doesn't go boom.
--Daniel
+--------------07g4arbTQh0j7boR9ex5MJcq
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> ---
->  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
->  include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
->  2 files changed, 39 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> index 394e6e1e9686..f295772d5169 100644
-> --- a/drivers/dma-buf/sync_file.c
-> +++ b/drivers/dma-buf/sync_file.c
-> @@ -459,6 +459,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
->  	return ret;
->  }
->  
-> +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
-> +					unsigned long arg)
-> +{
-> +	struct sync_set_deadline ts;
-> +
-> +	if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
-> +		return -EFAULT;
-> +
-> +	if (ts.pad)
-> +		return -EINVAL;
-> +
-> +	dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nsec));
-> +
-> +	return 0;
-> +}
-> +
->  static long sync_file_ioctl(struct file *file, unsigned int cmd,
->  			    unsigned long arg)
->  {
-> @@ -471,6 +487,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
->  	case SYNC_IOC_FILE_INFO:
->  		return sync_file_ioctl_fence_info(sync_file, arg);
->  
-> +	case SYNC_IOC_SET_DEADLINE:
-> +		return sync_file_ioctl_set_deadline(sync_file, arg);
-> +
->  	default:
->  		return -ENOTTY;
->  	}
-> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> index ee2dcfb3d660..f67d4ffe7566 100644
-> --- a/include/uapi/linux/sync_file.h
-> +++ b/include/uapi/linux/sync_file.h
-> @@ -67,6 +67,18 @@ struct sync_file_info {
->  	__u64	sync_fence_info;
->  };
->  
-> +/**
-> + * struct sync_set_deadline - set a deadline on a fence
-> + * @tv_sec:	seconds elapsed since epoch
-> + * @tv_nsec:	nanoseconds elapsed since the time given by the tv_sec
-> + * @pad:	must be zero
-> + */
-> +struct sync_set_deadline {
-> +	__s64	tv_sec;
-> +	__s32	tv_nsec;
-> +	__u32	pad;
-> +};
-> +
->  #define SYNC_IOC_MAGIC		'>'
->  
->  /**
-> @@ -95,4 +107,12 @@ struct sync_file_info {
->   */
->  #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
->  
-> +
-> +/**
-> + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
-> + *
-> + * Allows userspace to set a deadline on a fence, see dma_fence_set_deadline()
-> + */
-> +#define SYNC_IOC_SET_DEADLINE	_IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
-> +
->  #endif /* _UAPI_LINUX_SYNC_H */
-> -- 
-> 2.31.1
-> 
+SGkNCg0KQW0gMDMuMDguMjEgdW0gMDc6MTAgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IEFuaXRoYSwNCj4gDQo+IE9uIE1vbiwgQXVnIDAyLCAyMDIxIGF0IDA4OjQ0OjI2UE0gKzAw
+MDAsIENocmlzYW50aHVzLCBBbml0aGEgd3JvdGU6DQo+PiBIaSBTYW0sDQo+PiBUaGFua3Mu
+IFdoZXJlIHNob3VsZCB0aGlzIGdvLCBkcm0tbWlzYy1maXhlcyBvciBkcm0tbWlzYy1uZXh0
+Pw0KPiANCj4gTG9va3MgbGlrZSBhIGRybS1taXNjLW5leHQgY2FuZGlkYXRlIHRvIG1lLg0K
+PiBJIG1heSBpbXByb3ZlIHNvbWV0aGluZyBmb3IgZXhpc3RpbmcgdXNlcnMsIGJ1dCBpdCBk
+b2VzIG5vdCBsb29rIGxpa2UgaXQNCj4gZml4ZXMgYW4gZXhpc3RpbmcgYnVnLg0KDQpJIGZv
+dW5kIHRoaXMgcGF0Y2ggaW4gZHJtLW1pc2MtZml4ZXMsIGFsdGhvdWdoIGl0IGRvZXNuJ3Qg
+bG9vayBsaWtlIGEgDQpidWdmaXguIEl0IHNob3VsZCBoYXZlIGdvbmUgaW50byBkcm0tbWlz
+Yy1uZXh0LiBTZWUgWzFdLiBJZiBpdCBpbmRlZWQgDQpiZWxvbmdzIGludG8gZHJtLW1pc2Mt
+Zml4ZXMsIGl0IGNlcnRhaW5seSBzaG91bGQgaGF2ZSBjb250YWluZWQgYSBGaXhlcyB0YWcu
+DQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vZHJtLnBhZ2VzLmZy
+ZWVkZXNrdG9wLm9yZy9tYWludGFpbmVyLXRvb2xzL2NvbW1pdHRlci1kcm0tbWlzYy5odG1s
+I3doZXJlLWRvLWktYXBwbHktbXktcGF0Y2gNCg0KPiANCj4gCVNhbQ0KPiANCg0KLS0gDQpU
+aG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0
+d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xy
+bmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNm
+w7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+--------------07g4arbTQh0j7boR9ex5MJcq--
+
+--------------h4Yf1wgGnYfdVujbEGFSPI8x
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmE49/IFAwAAAAAACgkQlh/E3EQov+DA
+iw//aUoyX2uydEAa/P4s2OxTdN7/4tLr5Cjwe5L/IWmKkmKl2wdyn5cHzwE3f7c+V5VHNH/xdiuk
+y0h7bkyhvl7Bm1cbhT2+WIS0GMlfR7Zv5KU0qt3KDg81SpZFrDIGMOdciioznm142NDgIp5mZBxA
+Gy80EG1jGAQCCIUXy2XzZeQa1WI+4I08iNJHlJCILjZDlFkY5Kh9dbwXJ3WJXAcaNXZO9/Zwctjl
+Rx6UUkxvWvrXb8DcFmObCl/T20gVNbhiwtcXSWRLFqC724IKAxbWkEQxVVDVIXYK88Z+zHq7jWyi
+++o6eZvEGnSFoFvfI2Wj7/Cy9H2srZiWEOZQaoU25vYhvdTCUnVk8rhfKMNYRgHmSbMTvF7eKCwL
+oa5r/g1xkdKqSH6sFdI8f6d1YRT15y/JEaCUTizamU3zfMZ61RKHzbxhizBYUsY2Se1ZO9bj51Fk
+iQh4awA+bRvNFf5c2WPXxxQzANEkV6o9wLS85P/zhSOgkWknNLEy448bOJSQ7QY3K39psWkZy79O
+KKLglfy3sAhwSTquLPxAKrzIoYO12nnuoL5vO39nXYuf5ofB9B3JtXmbkIpMbEVWskyMPi1NmZcA
+KyuQuU0bvlDfm6hPEc0LzRqy57eenEmRVI3XxmnWK6ys4efXJv0fthB4MaiXGQU6BobITIpjD3xf
+X1k=
+=lhRu
+-----END PGP SIGNATURE-----
+
+--------------h4Yf1wgGnYfdVujbEGFSPI8x--
