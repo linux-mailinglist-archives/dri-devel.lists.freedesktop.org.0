@@ -2,53 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB6D4059CF
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 16:57:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4863A405A23
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 17:22:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1F2676E85F;
-	Thu,  9 Sep 2021 14:57:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE3CE6E877;
+	Thu,  9 Sep 2021 15:22:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75996E85F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 14:57:23 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id b64so2102192qkg.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 07:57:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=eh9zb6x4R+av+0Ip8O73HGfErcPJrTHpqHsaliXsyNI=;
- b=hRnNCcGd2RVDUzc7JBZ6OPREbI1uIbT8ZtwGbdEcYgUM3Yq75qMvZJEIaq4xVyrzyE
- wdkCFVP90DRwX0/zdTyadfRP0NOdA/04Jp5Q+m6enUkXsIMXotwVu9qs6QJguP5hN+8g
- iizvT2+tE7pUCcKwCEOrdzgtlYgGvcyG+3U3ylzMpx/YzVew2ghz2d3h2gVaHqB0bSRm
- OMh/ZG3KiB7IaAA6sVviPUlB8MSaPWCnfY/AeSCN5AbqiNABjvVV+VK9L/aBE9uD0ada
- kO/sZO/CmnPU3qz9V/GYiKpCGltES40iDVzwzEi+sTGEbchrLhVT1XQ8heAgQbxKXlhO
- OBrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=eh9zb6x4R+av+0Ip8O73HGfErcPJrTHpqHsaliXsyNI=;
- b=BauNxUwU1nfPk7d11A+ykwJ+pkDbHz6ctcXcfpQoJDYkUHF5BJTuj2UUIRG6JvBWoz
- /Yl6ky7Tmu+HrFxnM+pep7DPH8GqTybAAFhrvuwR24an4WUXvyuWr2HgNbVuk9NtNn2i
- Kr2I2a8q6mIbLR9Ztd8dUQ2tQO2h04t/+mdBj4x12wtmHovoK5WkOzQ4v2N77u0UnIOr
- dcKO2ss1Eo9IdMT59Ylp3wpSKS4aE4vDUvh3K5BR8jNMOT+8PNyh7xcpxzujddAcg0n0
- NCvWLX8ncAWw7WMKrfNRU+nBorx/zHFufpLyOmkidQk2E2HrecDaTj8nkADq+PFtX0E2
- RMxw==
-X-Gm-Message-State: AOAM532+uJGcOAS0BN5+1vafkGQsGTXmv5IZzvpiPHJVHgKN3Wcnx6Q7
- UyLm+22G3vFRdJLPhDuRmHzGObuS2jIAKAkaBR8=
-X-Google-Smtp-Source: ABdhPJwaiDHZ70fnbScVi9snrmpiBzoGUHN3EWLka4ihQMu/E80QoRASg1E4KkmCS/X5VraEZGlZVKg40IMgk+gSoYY=
-X-Received: by 2002:ae9:f701:: with SMTP id s1mr3173369qkg.223.1631199442729; 
- Thu, 09 Sep 2021 07:57:22 -0700 (PDT)
+Received: from smtp.domeneshop.no (smtp.domeneshop.no
+ [IPv6:2a01:5b40:0:3005::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09B156E877
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 15:22:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
+ ; s=ds202012;
+ h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+ MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+ Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=/WR/WDqoxPZkbqsjtoysj4eKdz0odOJ3LSqaMxTsMRc=; b=M/7pXCFXpajXSpoYz1LOh5ueJ0
+ IPUEUrfsnZ9oiqPIOobMPX/KkOoNpK9htwSPa1PuhBD43gY5FpWbZ8ktto87XKDX/8+MeKZ/Djzfd
+ sQk43bfry+WzgTlaF2AcSAxnxFeNkEUvA7AXjhgE9kzIMcKBbJuwu/bjNY/bmZnBO1BwYedyLx+dT
+ qROvVq1idejGhK+9jyUNXOs+JdGPiqviCGFN83aFRXmhMZFG7h6TCg+nDYR7WAoBtYbC5KXTNHpBa
+ yyJnTEcX30zOSDtPD9mu9H17cANyc+jzRamcNBUVFVUxVfBF5Rl+2LYKZBgzrQ2MupVAvQREx119O
+ d96ht5rQ==;
+Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51039
+ helo=[192.168.10.61])
+ by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <noralf@tronnes.org>)
+ id 1mOLsg-0001lR-Re; Thu, 09 Sep 2021 17:22:26 +0200
+Subject: Re: [PATCH v2 7/7] drm/gud: Add module parameter to control
+ emulation: xrgb8888
+To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Cc: peter@stuge.se, linus.walleij@linaro.org
+References: <20210907115752.6181-1-noralf@tronnes.org>
+ <20210907115752.6181-8-noralf@tronnes.org>
+ <3428e1f0-7586-a0e2-6334-b7362cdb75b4@suse.de>
+From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
+Message-ID: <86906388-6c6f-a82b-3c66-93f50ed37d99@tronnes.org>
+Date: Thu, 9 Sep 2021 17:22:23 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.12.0
 MIME-Version: 1.0
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Thu, 9 Sep 2021 15:56:55 +0100
-Message-ID: <CAM0jSHO+vBwJmB=bsYcdjzHFfnaLYSDrPYWNUmEe1BqmrVOBxA@mail.gmail.com>
-Subject: i915 ttm_tt shmem backend
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <3428e1f0-7586-a0e2-6334-b7362cdb75b4@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,23 +62,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Christian,
 
-We are looking into using shmem as a ttm_tt backend in i915 for cached
-system memory objects. We would also like to make such objects visible
-to the i915-gem shrinker, so that they may be swapped out or discarded
-when under memory pressure.
 
-One idea for handling this is roughly something like:
-- Add a new TTM_PAGE_FLAG_SHMEM flag, or similar.
-- Skip the ttm_pages_allocated accounting on such objects, similar to
-how FLAG_SG is already handled.
-- Skip all the page->mapping and page->index related bits, like in
-tt_add_mapping, since it looks like these are set and used by shmem.
-Not sure what functionally this might break, but looks like it's maybe
-only driver specific?
-- Skip calling into ttm_bo_swap_out/in and just have
-ttm_populate/unpopulate handle this directly for such objects.
-- Make such objects visible to the i915-gem shrinker.
+Den 08.09.2021 20.10, skrev Thomas Zimmermann:
+> Hi
+> 
+> Am 07.09.21 um 13:57 schrieb Noralf Trønnes:
+>> For devices that don't support XRGB8888 give the user the ability to
+>> choose what's most important: Color depth or frames per second.
+>>
+>> Add an 'xrgb8888' module parameter to override the emulation format.
+>>
+>> Assume the user wants full control if xrgb8888 is set and don't set
+>> DRM_CAP_DUMB_PREFERRED_DEPTH if RGB565 is supported (AFAIK only X.org
+>> supports this).
+> 
+> More of a general statement: wouldn't it make more sense to auto-detect
+> this entirely? The GUD protocol could order the list of supported
+> formats by preference (maybe it does already). Or you could take the
+> type of USB connection into account.
+> 
 
-Does this approach look acceptable?
+There is preference in that the driver will use xrgb8888 emulation on
+the first format returned by the device. Yeah USB speed could be used as
+a metric for preferred depth, but I don't know of anyone else than X.org
+using it so I'm unsure about the value.
+
+Daniel mentioned that this parameter targets all devices, so it's not a
+very good solution.
+
+Maybe I should drop this patch and gather more user experience with the
+depth/speed challenge before trying to come up with a solution.
+
+> Additionally, xrgb8888 is really a fall-back for lazy userspace
+> programs, but userspace should do better IMHO.
+> 
+
+I don't think even the most agile userspace supports monochrome,
+greyscale or even RGB332 ;)
+
+Noralf.
+
+> Best regards
+> Thomas
+> 
+>>
+>> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
+>> ---
+>>   drivers/gpu/drm/gud/gud_drv.c | 13 ++++++++++---
+>>   1 file changed, 10 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/gud/gud_drv.c
+>> b/drivers/gpu/drm/gud/gud_drv.c
+>> index 3f9d4b9a1e3d..60d27ee5ddbd 100644
+>> --- a/drivers/gpu/drm/gud/gud_drv.c
+>> +++ b/drivers/gpu/drm/gud/gud_drv.c
+>> @@ -30,6 +30,10 @@
+>>     #include "gud_internal.h"
+>>   +static int gud_xrgb8888;
+>> +module_param_named(xrgb8888, gud_xrgb8888, int, 0644);
+>> +MODULE_PARM_DESC(xrgb8888, "XRGB8888 emulation format:
+>> GUD_PIXEL_FORMAT_* value, 0=auto, -1=disable [default=auto]");
+>> +
+>>   /* Only used internally */
+>>   static const struct drm_format_info gud_drm_format_r1 = {
+>>       .format = GUD_DRM_FORMAT_R1,
+>> @@ -530,12 +534,12 @@ static int gud_probe(struct usb_interface *intf,
+>> const struct usb_device_id *id)
+>>           case DRM_FORMAT_RGB332:
+>>               fallthrough;
+>>           case DRM_FORMAT_RGB888:
+>> -            if (!xrgb8888_emulation_format)
+>> +            if (!gud_xrgb8888 && !xrgb8888_emulation_format)
+>>                   xrgb8888_emulation_format = info;
+>>               break;
+>>           case DRM_FORMAT_RGB565:
+>>               rgb565_supported = true;
+>> -            if (!xrgb8888_emulation_format)
+>> +            if (!gud_xrgb8888 && !xrgb8888_emulation_format)
+>>                   xrgb8888_emulation_format = info;
+>>               break;
+>>           case DRM_FORMAT_XRGB8888:
+>> @@ -543,6 +547,9 @@ static int gud_probe(struct usb_interface *intf,
+>> const struct usb_device_id *id)
+>>               break;
+>>           }
+>>   +        if (gud_xrgb8888 == formats_dev[i])
+>> +            xrgb8888_emulation_format = info;
+>> +
+>>           fmt_buf_size = drm_format_info_min_pitch(info, 0,
+>> drm->mode_config.max_width) *
+>>                      drm->mode_config.max_height;
+>>           max_buffer_size = max(max_buffer_size, fmt_buf_size);
+>> @@ -559,7 +566,7 @@ static int gud_probe(struct usb_interface *intf,
+>> const struct usb_device_id *id)
+>>       }
+>>         /* Prefer speed over color depth */
+>> -    if (rgb565_supported)
+>> +    if (!gud_xrgb8888 && rgb565_supported)
+>>           drm->mode_config.preferred_depth = 16;
+>>         if (!xrgb8888_supported && xrgb8888_emulation_format) {
+>>
+> 
