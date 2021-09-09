@@ -1,76 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D04E405A8E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:13:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54098405A93
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:16:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8094F6E8AB;
-	Thu,  9 Sep 2021 16:13:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B7C6E8AC;
+	Thu,  9 Sep 2021 16:16:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
- [IPv6:2607:f8b0:4864:20::d2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 122856E8AA
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 16:13:29 +0000 (UTC)
-Received: by mail-io1-xd2a.google.com with SMTP id f6so3051863iox.0
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 09:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pACnzJlHMR2izPaEcZdZJlVxKc2mAvyrU+PyfYWuqjY=;
- b=t6b96zprUu+yVzDHJupCAH73jnub/kQdWCLt5XJgNoL33Oiellv9B1ido23G4XTORY
- 7k9Hh37OLWFfZcZlwIJVrbE2YWyDirMOczoUQ6/EofSVVgQ+Ol8mrcRsTmFdzvzRv6wF
- elvTuv8Ea4SJP+CKYRit3qTfis4np14DXqIbiqW0B8J1mYwUI23q1FdzYQ+guyA4My+6
- O00/IyGfcO6QP6VZc9+6jh//JSE2zz4WxNMOQPfZV8j0r9Zfgvxm5mHfBzyEKvoKGZdQ
- KD8m6joLHqL4VV3E3b0GgqeIETpWKbSItcDG/lvtFdw8lzZ9vAtF7VxS5rioJduy6ztD
- J3fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=pACnzJlHMR2izPaEcZdZJlVxKc2mAvyrU+PyfYWuqjY=;
- b=lGrqAZjg5u1jWI6pquQwgFufta5BxmrfjXSwa8b0EVwFcdv8tJUzyGQkXe30J1UQYu
- dL6QqDYol8O6tfvWuF4Km5p8QWd1QHh4z0mTuLUQV7w5ajBBOAR5lPkH3/wqDjjLg7pZ
- KNRRzggHt4p3oslxi/CXvk9rgIlclVd0Kphkx5wy0r/WXK+Kd5lyMvfT4skDYTTaLKk2
- 3JcLV0ETUA71PkaE3+/Y4luX5FWjX/3UhmAjTSd1YRUjL7zp4UMCNG/IoSqY1088fP4t
- SKgpGsyWMCF3BwM/+3GXRYNmcKRuS6MX9AVyWiEqtdZPIYaG80XksTBBbGsPSYiZG+UX
- kHnQ==
-X-Gm-Message-State: AOAM530/MRntnmGYxw8elA2s8/HxYd0Q40S5mx/oLYzf2SRvFxrCJWJv
- ++GZOuAOYmTix1iy4fNtVyyeDdIOFsV5Sudt0iAKLg==
-X-Google-Smtp-Source: ABdhPJxt/WFs4KqqqwMz/AgcK0MKJvBdp6ymGY5KAiQiTL/VZpyvs3S9RKg1jPGlq525uKKkkgkmSwOdN7n8iEtOMo0=
-X-Received: by 2002:a02:9204:: with SMTP id x4mr523733jag.45.1631204009109;
- Thu, 09 Sep 2021 09:13:29 -0700 (PDT)
+Received: from mail1.protonmail.ch (mail1.protonmail.ch [185.70.40.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D243E6E8AC
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 16:16:09 +0000 (UTC)
+Date: Thu, 09 Sep 2021 16:16:05 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1631204166;
+ bh=Apv6GQaf8fKyhLu5mqniN1a3E749tLdfKHwBJJCqpnM=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=Bwja9UO1rUqLY5hqjqW8ns3FrWLdpUn9SyKSzlHRCF//Yngt12sVjx7jaryvLbXrF
+ HqfFGr6Le7ohW1gp6JokPdA1qk7+6ICL8CvqGulmwqjEdzHxvG/eivDp49v2FWYvU9
+ 2LJmaaBmXgzRbIeHDbAAugPlgU4hlCzu//WiySq4NkRR9uheLEMgxboG+iCR7ZSgn4
+ O4iCuvQHWhvstlDqtdQbhFwPwMAdSM3cW4y64wu8Mmhd5fZRhQ8sRHQojxn++hOaCS
+ zwiVsa+uK0yDM/ekde0NPPjy8MwNL/94DN1TbKuCEE4x8V79RHTaUxZtW4xyuBfEM3
+ H0/oo/bRurDgg==
+To: Rob Clark <robdclark@gmail.com>
+From: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
+ Pekka Paalanen <ppaalanen@gmail.com>, Rob Clark <robdclark@chromium.org>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, freedreno@lists.freedesktop.org,
+ Gustavo Padovan <gustavo@padovan.org>, Jack Zhang <Jack.Zhang1@amd.com>,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, Luben Tuikov <luben.tuikov@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Steven Price <steven.price@arm.com>,
+ Tian Tao <tiantao6@hisilicon.com>
+Subject: Re: [PATCH v3 0/9] dma-fence: Deadline awareness
+Message-ID: <i-XmBd_5J3_d8cdm-IT6Ery2kHN0FPZCX968aU5idvxQxNlvDJguLLThtF2NF15LF8gGsH4uI2w0s0CL_39KGpzoGpuCgcz2_-4Wjf3AYEM=@emersion.fr>
+In-Reply-To: <20210903184806.1680887-1-robdclark@gmail.com>
+References: <20210903184806.1680887-1-robdclark@gmail.com>
 MIME-Version: 1.0
-References: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <YTgeIuwumPoR9ZTE@ripper>
- <CAMi1Hd1TOFj5USToEhuvZz8vgboQbMWco7gN413-jHJp-A7Ozg@mail.gmail.com>
-In-Reply-To: <CAMi1Hd1TOFj5USToEhuvZz8vgboQbMWco7gN413-jHJp-A7Ozg@mail.gmail.com>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Thu, 9 Sep 2021 21:42:52 +0530
-Message-ID: <CAMi1Hd2gmo-qzDSDpi1hwpX=N1eGM+Q5HqPSvdbq9LdqwNuK+w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Akhil P Oommen <akhilpo@codeaurora.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, 
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,97 +64,16 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 9 Sept 2021 at 17:47, Amit Pundir <amit.pundir@linaro.org> wrote:
->
-> On Wed, 8 Sept 2021 at 07:50, Bjorn Andersson
-> <bjorn.andersson@linaro.org> wrote:
-> >
-> > On Mon 09 Aug 10:26 PDT 2021, Akhil P Oommen wrote:
-> >
-> > > On 8/9/2021 9:48 PM, Caleb Connolly wrote:
-> > > >
-> > > >
-> > > > On 09/08/2021 17:12, Rob Clark wrote:
-> > > > > On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen
-> > > > > <akhilpo@codeaurora.org> wrote:
-> > [..]
-> > > > > > I am a bit confused. We don't define a power domain for gpu in dt,
-> > > > > > correct? Then what exactly set_opp do here? Do you think this usleep is
-> > > > > > what is helping here somehow to mask the issue?
-> > > > The power domains (for cx and gx) are defined in the GMU DT, the OPPs in
-> > > > the GPU DT. For the sake of simplicity I'll refer to the lowest
-> > > > frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
-> > > > the "min" state, and the highest frequency (710000000) and OPP level
-> > > > (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are defined in
-> > > > sdm845.dtsi under the gpu node.
-> > > >
-> > > > The new devfreq behaviour unmasks what I think is a driver bug, it
-> > > > inadvertently puts much more strain on the GPU regulators than they
-> > > > usually get. With the new behaviour the GPU jumps from it's min state to
-> > > > the max state and back again extremely rapidly under workloads as small
-> > > > as refreshing UI. Where previously the GPU would rarely if ever go above
-> > > > 342MHz when interacting with the device, it now jumps between min and
-> > > > max many times per second.
-> > > >
-> > > > If my understanding is correct, the current implementation of the GMU
-> > > > set freq is the following:
-> > > >   - Get OPP for frequency to set
-> > > >   - Push the frequency to the GMU - immediately updating the core clock
-> > > >   - Call dev_pm_opp_set_opp() which triggers a notify chain, this winds
-> > > > up somewhere in power management code and causes the gx regulator level
-> > > > to be updated
-> > >
-> > > Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing else. We
-> > > were using a different api earlier which got deprecated -
-> > > dev_pm_opp_set_bw().
-> > >
-> >
-> > On the Lenovo Yoga C630 this is reproduced by starting alacritty and if
-> > I'm lucky I managed to hit a few keys before it crashes, so I spent a
-> > few hours looking into this as well...
-> >
-> > As you say, the dev_pm_opp_set_opp() will only cast a interconnect vote.
-> > The opp-level is just there for show and isn't used by anything, at
-> > least not on 845.
-> >
-> > Further more, I'm missing something in my tree, so the interconnect
-> > doesn't hit sync_state, and as such we're not actually scaling the
-> > buses. So the problem is not that Linux doesn't turn on the buses in
-> > time.
-> >
-> > So I suspect that the "AHB bus error" isn't saying that we turned off
-> > the bus, but rather that the GPU becomes unstable or something of that
-> > sort.
-> >
-> >
-> > Lastly, I reverted 9bc95570175a ("drm/msm: Devfreq tuning") and ran
-> > Aquarium for 20 minutes without a problem. I then switched the gpu
-> > devfreq governor to "userspace" and ran the following:
-> >
-> > while true; do
-> >   echo 257000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> >   echo 710000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> > done
-> >
-> > It took 19 iterations of this loop to crash the GPU.
->
-> Ack. With your above script, I can reproduce a crash too on db845c
-> (A630) running v5.14. I didn't get any crash log though and device
-> just rebooted to USB crash mode.
->
-> And same crash on RB5 (A650) too https://hastebin.com/raw/ejutetuwun
+Out of curiosity, would it be reasonable to allow user-space (more
+precisely, the compositor) to set the deadline via an IOCTL without
+actually performing an atomic commit with the FB?
 
-fwiw I can't reproduce this crash on RB5 so far with v5.15-rc1 merge
-window (HEAD: 477f70cd2a67)
-
->
-> >
-> > So the problem doesn't seem to be Rob's change, it's just that prior to
-> > it the chance to hitting it is way lower. Question is still what it is
-> > that we're triggering.
-> >
-> > Regards,
-> > Bjorn
+Some compositors might want to wait themselves for FB fence completions
+to ensure a client doesn't block the whole desktop (by submitting a
+very costly rendering job). In this case it would make sense for the
+compositor to indicate that it intends to display the buffer on next
+vblank if it's ready by that point, without queueing a page-flip yet.
