@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C664A404AC2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:47:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C099C404AC4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:48:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E7F8B6E5AB;
-	Thu,  9 Sep 2021 11:47:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A07266E5B2;
+	Thu,  9 Sep 2021 11:48:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB786E5B4
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:47:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C2CD611BF;
- Thu,  9 Sep 2021 11:47:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 60EC26E5B2
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:48:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7442461245;
+ Thu,  9 Sep 2021 11:48:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188075;
- bh=L6dGz8/J8+Yzbn3xmkmqNCDjXg+BWLDTee5jp1EzVqE=;
+ s=k20201202; t=1631188093;
+ bh=JCUyILyV+6ACnUJ0rjVdIkqYyZqashxOxCmyeCo/XRk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P9KEJxRBXOD30Ye5NOaVOIJq4QGdu2+3Fy//ZT/ORfxtol/CpH7pqPPhHMJRIOMih
- K/cvnw79W8UjAm6IBv0s1SkMK9csSAhDmxb6e/eSa6GkDfujJcCZtBFyCJQEIjO0iO
- e3XyK0t4FoGX48Tq1oOJ3HBIUVKttWuKM1phMhVGU1DgIe5vTS4PDwyHr0NHkAvMDl
- NXZ485NJOA2wDUXm/1wbkHL3IA5t6ZahJmMcHWDM8JYAlXYkSJoHYL7jRFZwAcnesZ
- lSEgOJhWlt9MxldzKKwHewN8jMm5gsdUH/IZJbsXRMGrZ29P9xUH/N+yUVAp5WkxWs
- lj2D9cVa6wrcg==
+ b=h6H7OTvYtpEIhEqiIBvND4fCn4ixDLyYSWG5u07hujcKoEum6xrGhw9TN/MYTgkpl
+ Jqcv1VZykby/c18dfeTwNVKmQiur+EVfjz45mZgEcrcr3cYWRwfQqt7jU5cfugiSnI
+ dSGH7QpG0VYva9gzm+dJzRX2cz3tTkaTTUQ9JZBbVdivXic9xtCI/dvxxICyUjdYCM
+ +bw1x+NgzMsFVdHIolvjoYmak+NoB1V55cPbbywnXCnVFhdkwJ38c/mE+h4WncyFyx
+ /worvX5GO9Jr4b+C4DjzNQ/eRPfgsGUJqdf3d7YPAGFABnHRD7VXDEYbV79C011vfT
+ 7jMVN8kXyGGTA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 061/219] video: fbdev: riva: Error out if
- 'pixclock' equals zero
-Date: Thu,  9 Sep 2021 07:43:57 -0400
-Message-Id: <20210909114635.143983-61-sashal@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 076/219] drm: rcar-du: Shutdown the display on
+ system shutdown
+Date: Thu,  9 Sep 2021 07:44:12 -0400
+Message-Id: <20210909114635.143983-76-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -56,69 +57,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit f92763cb0feba247e0939ed137b495601fd072a5 ]
+[ Upstream commit 015f2ebb93767d40c442e749642fffaf10316d78 ]
 
-The userspace program could pass any values to the driver through
-ioctl() interface. If the driver doesn't check the value of 'pixclock',
-it may cause divide error.
+When the system shuts down or warm reboots, the display may be active,
+with the hardware accessing system memory. Upon reboot, the DDR will not
+be accessible, which may cause issues.
 
-Fix this by checking whether 'pixclock' is zero first.
+Implement the platform_driver .shutdown() operation and shut down the
+display to fix this.
 
-The following log reveals it:
-
-[   33.396850] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-[   33.396864] CPU: 5 PID: 11754 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #222
-[   33.396883] RIP: 0010:riva_load_video_mode+0x417/0xf70
-[   33.396969] Call Trace:
-[   33.396973]  ? debug_smp_processor_id+0x1c/0x20
-[   33.396984]  ? tick_nohz_tick_stopped+0x1a/0x90
-[   33.396996]  ? rivafb_copyarea+0x3c0/0x3c0
-[   33.397003]  ? wake_up_klogd.part.0+0x99/0xd0
-[   33.397014]  ? vprintk_emit+0x110/0x4b0
-[   33.397024]  ? vprintk_default+0x26/0x30
-[   33.397033]  ? vprintk+0x9c/0x1f0
-[   33.397041]  ? printk+0xba/0xed
-[   33.397054]  ? record_print_text.cold+0x16/0x16
-[   33.397063]  ? __kasan_check_read+0x11/0x20
-[   33.397074]  ? profile_tick+0xc0/0x100
-[   33.397084]  ? __sanitizer_cov_trace_const_cmp4+0x24/0x80
-[   33.397094]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397102]  rivafb_set_par+0xbe/0x610
-[   33.397111]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397119]  fb_set_var+0x5bf/0xeb0
-[   33.397127]  ? fb_blank+0x1a0/0x1a0
-[   33.397134]  ? lock_acquire+0x1ef/0x530
-[   33.397143]  ? lock_release+0x810/0x810
-[   33.397151]  ? lock_is_held_type+0x100/0x140
-[   33.397159]  ? ___might_sleep+0x1ee/0x2d0
-[   33.397170]  ? __mutex_lock+0x620/0x1190
-[   33.397180]  ? trace_hardirqs_on+0x6a/0x1c0
-[   33.397190]  do_fb_ioctl+0x31e/0x700
-
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1627293835-17441-4-git-send-email-zheyuma97@gmail.com
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/riva/fbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 55554b0433cb..84d5e23ad7d3 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -1084,6 +1084,9 @@ static int rivafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- 	int mode_valid = 0;
- 	
- 	NVTRACE_ENTER();
-+	if (!var->pixclock)
-+		return -EINVAL;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index bfbff90588cb..43de3d8686e8 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -561,6 +561,13 @@ static int rcar_du_remove(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
++static void rcar_du_shutdown(struct platform_device *pdev)
++{
++	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
 +
- 	switch (var->bits_per_pixel) {
- 	case 1 ... 8:
- 		var->red.offset = var->green.offset = var->blue.offset = 0;
++	drm_atomic_helper_shutdown(&rcdu->ddev);
++}
++
+ static int rcar_du_probe(struct platform_device *pdev)
+ {
+ 	struct rcar_du_device *rcdu;
+@@ -617,6 +624,7 @@ static int rcar_du_probe(struct platform_device *pdev)
+ static struct platform_driver rcar_du_platform_driver = {
+ 	.probe		= rcar_du_probe,
+ 	.remove		= rcar_du_remove,
++	.shutdown	= rcar_du_shutdown,
+ 	.driver		= {
+ 		.name	= "rcar-du",
+ 		.pm	= &rcar_du_pm_ops,
 -- 
 2.30.2
 
