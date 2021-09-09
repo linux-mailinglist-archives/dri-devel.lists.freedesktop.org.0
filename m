@@ -2,51 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4863A405A23
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 17:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F6F2405A67
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 17:50:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE3CE6E877;
-	Thu,  9 Sep 2021 15:22:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3E926E8A4;
+	Thu,  9 Sep 2021 15:50:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.domeneshop.no (smtp.domeneshop.no
- [IPv6:2a01:5b40:0:3005::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 09B156E877
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 15:22:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=tronnes.org
- ; s=ds202012;
- h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=/WR/WDqoxPZkbqsjtoysj4eKdz0odOJ3LSqaMxTsMRc=; b=M/7pXCFXpajXSpoYz1LOh5ueJ0
- IPUEUrfsnZ9oiqPIOobMPX/KkOoNpK9htwSPa1PuhBD43gY5FpWbZ8ktto87XKDX/8+MeKZ/Djzfd
- sQk43bfry+WzgTlaF2AcSAxnxFeNkEUvA7AXjhgE9kzIMcKBbJuwu/bjNY/bmZnBO1BwYedyLx+dT
- qROvVq1idejGhK+9jyUNXOs+JdGPiqviCGFN83aFRXmhMZFG7h6TCg+nDYR7WAoBtYbC5KXTNHpBa
- yyJnTEcX30zOSDtPD9mu9H17cANyc+jzRamcNBUVFVUxVfBF5Rl+2LYKZBgzrQ2MupVAvQREx119O
- d96ht5rQ==;
-Received: from 211.81-166-168.customer.lyse.net ([81.166.168.211]:51039
- helo=[192.168.10.61])
- by smtp.domeneshop.no with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <noralf@tronnes.org>)
- id 1mOLsg-0001lR-Re; Thu, 09 Sep 2021 17:22:26 +0200
-Subject: Re: [PATCH v2 7/7] drm/gud: Add module parameter to control
- emulation: xrgb8888
-To: Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
-Cc: peter@stuge.se, linus.walleij@linaro.org
-References: <20210907115752.6181-1-noralf@tronnes.org>
- <20210907115752.6181-8-noralf@tronnes.org>
- <3428e1f0-7586-a0e2-6334-b7362cdb75b4@suse.de>
-From: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>
-Message-ID: <86906388-6c6f-a82b-3c66-93f50ed37d99@tronnes.org>
-Date: Thu, 9 Sep 2021 17:22:23 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 770C56E8A4
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 15:50:15 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id d6so3228781wrc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 08:50:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=UgP20PrIjaTH77RP4kewdyN9wQEEh5IFwR5t0ONAROk=;
+ b=E9R0uHinsMH85srsjgg10G3dtMfBjLUdMFl4gYyTHK8HaCrwER0ZnIqdl8swtNJ9lY
+ gL0DeGfhwsLewqa5GeFoIhbBLaeMnDVVBhvpmzJejZvt78a/oi3p1ayvkSEybf3OUInv
+ U8rGEKJjdyWJbXKUijcJuS60AMqm4ehx7d+JjRMTI5nKqr8mZ/vrSLUgedBfWIS9gnb2
+ 6AUp0YqxW6zjN2ns1lt6sc67jwaCVRiQ5u513J+Quoa+OD0z1xW8gMsdfvkVFZswiw9g
+ EPXORwNq1OdbtiVu1+ZnhK6brRXGpamKGo6Cz+yiZgz6DPlPiaeel6A0pR3LXnFubgbH
+ Z9/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=UgP20PrIjaTH77RP4kewdyN9wQEEh5IFwR5t0ONAROk=;
+ b=vBgzk5+dyenvHuX8fZr8+0PLYqD7ZhCjKZ9ORt+GpTe9V79V3u9GAdr377Fw0EF1Ho
+ Z7jnm7Maj5kCmndftfi+9QpyMAhlQw5ciGBg/4COqPpbw/cHMqhQBu1BoM0LwTNd19im
+ esEP0Xqx8WDA0ldTb2rQUf17cwpO5EFmf5gHVGOZZ+Hll/Ow5Nq5AA+qPqk0b7Vwrdql
+ eeIUY0kttOeyIGeln3lgrPHfxU9PYM1phJw7+pm21v5YjFHjmlvWJJtGF9vAveo/Wco7
+ 75Gqh1A0PTNDFb2tggnpR5tOk0BGdDYrVsEdtFKyH5BIFAeXLcBGNX31XF6WEzWq6WNn
+ mEzA==
+X-Gm-Message-State: AOAM5307YT6qkVhAccJ3cJjyIojAANLZfuQfIe+an+hIeJW9lF9KjMrY
+ VZ4PcZhtg6w26dJlgf+7Cj2ZA7bNkgg=
+X-Google-Smtp-Source: ABdhPJwo2IIYAn1bAwLxHc47/PlXZfXpv/knmpVL0UN+YIsuyIbIGw1CIyQe8pUnhnQA+s1xcJfD8w==
+X-Received: by 2002:adf:8170:: with SMTP id 103mr4532254wrm.167.1631202613917; 
+ Thu, 09 Sep 2021 08:50:13 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id a133sm2155797wme.5.2021.09.09.08.50.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 08:50:12 -0700 (PDT)
+Date: Thu, 9 Sep 2021 17:50:11 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm: panel-orientation-quirks: Add quirk for the Chuwi
+ HiBook
+Message-ID: <YTotMyMq/dfv9Jaa@orome.fritz.box>
+References: <20210905130501.32980-1-hdegoede@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <3428e1f0-7586-a0e2-6334-b7362cdb75b4@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mD/m3EjSRGe1wsnH"
+Content-Disposition: inline
+In-Reply-To: <20210905130501.32980-1-hdegoede@redhat.com>
+User-Agent: Mutt/2.1.2 (9a92dba0) (2021-08-24)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,104 +77,71 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--mD/m3EjSRGe1wsnH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Den 08.09.2021 20.10, skrev Thomas Zimmermann:
-> Hi
-> 
-> Am 07.09.21 um 13:57 schrieb Noralf Trønnes:
->> For devices that don't support XRGB8888 give the user the ability to
->> choose what's most important: Color depth or frames per second.
->>
->> Add an 'xrgb8888' module parameter to override the emulation format.
->>
->> Assume the user wants full control if xrgb8888 is set and don't set
->> DRM_CAP_DUMB_PREFERRED_DEPTH if RGB565 is supported (AFAIK only X.org
->> supports this).
-> 
-> More of a general statement: wouldn't it make more sense to auto-detect
-> this entirely? The GUD protocol could order the list of supported
-> formats by preference (maybe it does already). Or you could take the
-> type of USB connection into account.
-> 
+On Sun, Sep 05, 2021 at 03:05:01PM +0200, Hans de Goede wrote:
+> The Chuwi HiBook uses a panel which has been mounted
+> 90 degrees rotated. Add a quirk for this.
+>=20
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_panel_orientation_quirks.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 
-There is preference in that the driver will use xrgb8888 emulation on
-the first format returned by the device. Yeah USB speed could be used as
-a metric for preferred depth, but I don't know of anyone else than X.org
-using it so I'm unsure about the value.
+I'm not very familiar with these quirks, but this looks correct and
+inline with other entries in this table.
 
-Daniel mentioned that this parameter targets all devices, so it's not a
-very good solution.
+> diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu=
+/drm/drm_panel_orientation_quirks.c
+> index 4e965b0f5502..7e0f581a360e 100644
+> --- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> +++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+> @@ -140,6 +140,14 @@ static const struct dmi_system_id orientation_data[]=
+ =3D {
+>  		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "T103HAF"),
+>  		},
+>  		.driver_data =3D (void *)&lcd800x1280_rightside_up,
+> +	}, {	/* Chuwi HiBook (CWI514) */
+> +		.matches =3D {
+> +			DMI_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
+> +			DMI_MATCH(DMI_BOARD_NAME, "Cherry Trail CR"),
+> +			/* Above matches are too generic, add bios-date match */
+> +			DMI_MATCH(DMI_BIOS_DATE, "05/07/2016"),
+> +		},
+> +		.driver_data =3D (void *)&lcd1200x1920_rightside_up,
+>  	}, {	/* Chuwi Hi10 Pro (CWI529) */
+>  		.matches =3D {
+>  		  DMI_EXACT_MATCH(DMI_BOARD_VENDOR, "Hampoo"),
 
-Maybe I should drop this patch and gather more user experience with the
-depth/speed challenge before trying to come up with a solution.
+One thing I noticed is that there doesn't seem to be an entry for Chuwi
+Hi10 anywhere in linux-next. Perhaps that's from a different patch in
+your local tree, or it's based on some other tree that already has that.
+In any case, I trust that this can be resolved when applying, so this
+seems okay:
 
-> Additionally, xrgb8888 is really a fall-back for lazy userspace
-> programs, but userspace should do better IMHO.
-> 
+Reviewed-by: Thierry Reding <treding@nvidia.com>
 
-I don't think even the most agile userspace supports monochrome,
-greyscale or even RGB332 ;)
+--mD/m3EjSRGe1wsnH
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Noralf.
+-----BEGIN PGP SIGNATURE-----
 
-> Best regards
-> Thomas
-> 
->>
->> Signed-off-by: Noralf Trønnes <noralf@tronnes.org>
->> ---
->>   drivers/gpu/drm/gud/gud_drv.c | 13 ++++++++++---
->>   1 file changed, 10 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/gud/gud_drv.c
->> b/drivers/gpu/drm/gud/gud_drv.c
->> index 3f9d4b9a1e3d..60d27ee5ddbd 100644
->> --- a/drivers/gpu/drm/gud/gud_drv.c
->> +++ b/drivers/gpu/drm/gud/gud_drv.c
->> @@ -30,6 +30,10 @@
->>     #include "gud_internal.h"
->>   +static int gud_xrgb8888;
->> +module_param_named(xrgb8888, gud_xrgb8888, int, 0644);
->> +MODULE_PARM_DESC(xrgb8888, "XRGB8888 emulation format:
->> GUD_PIXEL_FORMAT_* value, 0=auto, -1=disable [default=auto]");
->> +
->>   /* Only used internally */
->>   static const struct drm_format_info gud_drm_format_r1 = {
->>       .format = GUD_DRM_FORMAT_R1,
->> @@ -530,12 +534,12 @@ static int gud_probe(struct usb_interface *intf,
->> const struct usb_device_id *id)
->>           case DRM_FORMAT_RGB332:
->>               fallthrough;
->>           case DRM_FORMAT_RGB888:
->> -            if (!xrgb8888_emulation_format)
->> +            if (!gud_xrgb8888 && !xrgb8888_emulation_format)
->>                   xrgb8888_emulation_format = info;
->>               break;
->>           case DRM_FORMAT_RGB565:
->>               rgb565_supported = true;
->> -            if (!xrgb8888_emulation_format)
->> +            if (!gud_xrgb8888 && !xrgb8888_emulation_format)
->>                   xrgb8888_emulation_format = info;
->>               break;
->>           case DRM_FORMAT_XRGB8888:
->> @@ -543,6 +547,9 @@ static int gud_probe(struct usb_interface *intf,
->> const struct usb_device_id *id)
->>               break;
->>           }
->>   +        if (gud_xrgb8888 == formats_dev[i])
->> +            xrgb8888_emulation_format = info;
->> +
->>           fmt_buf_size = drm_format_info_min_pitch(info, 0,
->> drm->mode_config.max_width) *
->>                      drm->mode_config.max_height;
->>           max_buffer_size = max(max_buffer_size, fmt_buf_size);
->> @@ -559,7 +566,7 @@ static int gud_probe(struct usb_interface *intf,
->> const struct usb_device_id *id)
->>       }
->>         /* Prefer speed over color depth */
->> -    if (rgb565_supported)
->> +    if (!gud_xrgb8888 && rgb565_supported)
->>           drm->mode_config.preferred_depth = 16;
->>         if (!xrgb8888_supported && xrgb8888_emulation_format) {
->>
-> 
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmE6LTEACgkQ3SOs138+
+s6HK9Q//VAJlaTv7H/ox7oqp7l9TlhyF4RNqryJV+MY/7zBseMw1MZJBgltx2yLN
+UNItIJ0zYaZ2f2AljoXLjfG3VoMAy/KB2HqJWOKBfPU8M9JdJaQ7/sGiqWMfqmsO
+Z22vLYYon5gcNVCPKqlTTyh9obYv9+SVL9QUEol/p5uOcT3lFVH3ZX/d2uYq9gIf
+XJ0m2pp1FuUFxXDmY4YHQbuJ94J/dLRvDlZ68ZhhUzqYzqcIUttwYzVJ6pVksntF
+WH/l7CeoGIE06X8x0+I9mv/JsbT26GeU5l7zv+/aI51VXizObDwhw9cvsmZQn008
+a2poNMCC+Le8UY5CQDjqQ4nUkVb7KmKePrViHxvjHby/Ge5P3ANF2dFa0szuzQtk
+9O7Uq4thHeQ4yxTiVHk5GEzSLeV23FqJRk860oRwZCaxzeQ/+nJvPcsZmAVyGMme
+1ZnoMR+GzRXNRHJTh5ikUvXaatrvgECQsytuxBeinigSYH0q1lWOwvlQ16gGpeA1
+lcVZ0QcTzqLFIbsWBIaKcuhfgYCrnXW1iAgOg4YEfL6NbxsLFTy4GHbjkJiIqOzn
+B4HOINbi1kVWMzI78DypZ7m9sZkzht+2pDB+XOzRFI6yVAPggB1vuJWy1Fb5doNh
+Jrelkdd82ze2HEwSGyevPgRleBBEvOZDvKl+V383BqCKr8f2mv0=
+=gDpf
+-----END PGP SIGNATURE-----
+
+--mD/m3EjSRGe1wsnH--
