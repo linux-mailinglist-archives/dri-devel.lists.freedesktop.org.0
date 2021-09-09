@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9158B404B6E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:51:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8EE4404B82
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:51:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D59C86E7D3;
-	Thu,  9 Sep 2021 11:51:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98FD86E523;
+	Thu,  9 Sep 2021 11:51:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E535C6E7D1;
- Thu,  9 Sep 2021 11:51:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CFC9161AFB;
- Thu,  9 Sep 2021 11:51:20 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 247B36E523
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:51:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 37F27611C8;
+ Thu,  9 Sep 2021 11:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188281;
- bh=66PsxHGFF27Jtkv9Tx0NBeYhrP2C21IWHYups0lC3cM=;
+ s=k20201202; t=1631188298;
+ bh=35atDnHr5kKPvD7ZRVCpmrxJQhwkKsyZnBkWc0xcL9g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=rzeErnJQGc6ApPTB2vJeajUp5fRjdyRui1eC6DWvPoKYVwKFD/FyL5Vv4IDIFIl3u
- Q0cMBfkhlUYkQWN2t6cTLRKTWYfC3dSWIG43ma+1rUR2nw2PL6Ejrz6R/jo6ck8n7Q
- /wvd5eR8JjyTDJxG/x6wCnHaMVhs/ic+4QTuqmFVGIsKkmjz/vw2kaacYqpvHoltAZ
- cutnonBbKtDYbi8pkdHQNi67IIqSjHoTzhpHh2QKRbcx2wQ89mMeSiV/eFpWHoMeS5
- 7s9l0IUeMGN4NuJSiKTRvwWCGVUTOQzUYanhqXa2le9Ksh3ETS1BThzsIVhZmpdj1x
- xccX9RA4EOwYA==
+ b=Fm7AQmayuqZZ218/3Ncq5GOAAoUqzwU71F/NWXDQNwzg9tALe4M4YmYXzQOeK6SJ0
+ 2+FY24yGVQj3Y6t/XfgcB6Xgp7f0UvD0hKOr6P7CtCn11ls+o2VcmN1CRRZy2hFWbe
+ I1FPWWB6RBSHQ603qQKyoz2/UTonDXMZp8ocHe3OCnWPiXZ29j0VZh6wXl4iVbxS7v
+ P04x6Ig+V3QXg3RSMZe9g7ugfrtzpMrkT7zW1f6k9XwP7Qy7MKBmvUIZuT/ErZX7+s
+ vQORmIC7Ug8WGjoN/FIC3d9W32E2HDMFLDSIYCjUHvv6QWXsQzWiwt2Z0YC0A1dtJ3
+ BPfCZ51N3iacw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Luben Tuikov <luben.tuikov@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Alexander Deucher <Alexander.Deucher@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 002/176] drm/amdgpu: Fix amdgpu_ras_eeprom_init()
-Date: Thu,  9 Sep 2021 07:48:24 -0400
-Message-Id: <20210909115118.146181-2-sashal@kernel.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 015/176] video: fbdev: kyro: fix a DoS bug by
+ restricting user input
+Date: Thu,  9 Sep 2021 07:48:37 -0400
+Message-Id: <20210909115118.146181-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -57,37 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Luben Tuikov <luben.tuikov@amd.com>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit dce4400e6516d18313d23de45b5be8a18980b00e ]
+[ Upstream commit 98a65439172dc69cb16834e62e852afc2adb83ed ]
 
-No need to account for the 2 bytes of EEPROM
-address--this is now well abstracted away by
-the fixes the the lower layers.
+The user can pass in any value to the driver through the 'ioctl'
+interface. The driver dost not check, which may cause DoS bugs.
 
-Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: Alexander Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
-Acked-by: Alexander Deucher <Alexander.Deucher@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+The following log reveals it:
+
+divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+RIP: 0010:SetOverlayViewPort+0x133/0x5f0 drivers/video/fbdev/kyro/STG4000OverlayDevice.c:476
+Call Trace:
+ kyro_dev_overlay_viewport_set drivers/video/fbdev/kyro/fbdev.c:378 [inline]
+ kyrofb_ioctl+0x2eb/0x330 drivers/video/fbdev/kyro/fbdev.c:603
+ do_fb_ioctl+0x1f3/0x700 drivers/video/fbdev/core/fbmem.c:1171
+ fb_ioctl+0xeb/0x130 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x19b/0x220 fs/ioctl.c:739
+ do_syscall_64+0x32/0x80 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1626235762-2590-1-git-send-email-zheyuma97@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/kyro/fbdev.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
-index 0e64c39a2372..7c3efc5f1be0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
-@@ -305,7 +305,7 @@ int amdgpu_ras_eeprom_init(struct amdgpu_ras_eeprom_control *control,
- 		return ret;
- 	}
+diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
+index 8fbde92ae8b9..4b8c7c16b1df 100644
+--- a/drivers/video/fbdev/kyro/fbdev.c
++++ b/drivers/video/fbdev/kyro/fbdev.c
+@@ -372,6 +372,11 @@ static int kyro_dev_overlay_viewport_set(u32 x, u32 y, u32 ulWidth, u32 ulHeight
+ 		/* probably haven't called CreateOverlay yet */
+ 		return -EINVAL;
  
--	__decode_table_header_from_buff(hdr, &buff[2]);
-+	__decode_table_header_from_buff(hdr, buff);
++	if (ulWidth == 0 || ulWidth == 0xffffffff ||
++	    ulHeight == 0 || ulHeight == 0xffffffff ||
++	    (x < 2 && ulWidth + 2 == 0))
++		return -EINVAL;
++
+ 	/* Stop Ramdac Output */
+ 	DisableRamdacOutput(deviceInfo.pSTGReg);
  
- 	if (hdr->header == EEPROM_TABLE_HDR_VAL) {
- 		control->num_recs = (hdr->tbl_size - EEPROM_TABLE_HEADER_SIZE) /
 -- 
 2.30.2
 
