@@ -2,39 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DE354049B3
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:42:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8287F4049B5
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:42:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2734E6E508;
-	Thu,  9 Sep 2021 11:42:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 40D036E509;
+	Thu,  9 Sep 2021 11:42:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C35F26E50C;
- Thu,  9 Sep 2021 11:42:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B93D76124E;
- Thu,  9 Sep 2021 11:42:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FBAB6E509;
+ Thu,  9 Sep 2021 11:42:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 666CF611EE;
+ Thu,  9 Sep 2021 11:42:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187732;
- bh=fQ418/f7pqUObBNI+0drbdk82ICbaLCrqZ5MotFMp5w=;
+ s=k20201202; t=1631187745;
+ bh=UG3wFphemK0QyVhxrHNI+4F4NkJgNfaz6M0NIhwyY/8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=OF0RhlnoJvxaWpZhWClvI05aGUmrpg3pEoeG8w+iq7855liLxchDFbJt/2atwWQ7f
- NZNxgFBUYSkgyNIZT3UlTQUvP2PcQARAV7qssOpjOa7HDXBOK1I8J0XKkGKH1czcei
- 2skS3oWXAHto7vZ51f7Wq7PJpEC6ag+YppI6/eB40npkSBwfRmzCxrw5QgPW99AkRQ
- ZeA0d4Tao8UZUOeqQNKkJjNlEto3I/y35KlxYBmIkmyti8cgqNF7IgtK1azI20J1Tp
- 2EsxEjvgClxPHfxgk9j2vJ9auwyEAr7aNJCugcUpzehCft6rIQX8OX+767egjbxtvg
- 37WC0RCBPC+iQ==
+ b=CMml/Jz3QRwsVV9ADyWngB0VFQWP5VnLpK1cBDm2ulchn/4p45YHusB9+V46M/nUU
+ SszZui3GR/8J2rx0ig6vFbQo3JoHblZ7/u/tUnprE2uzUhMOZK4dIdHkzwUScvhqLF
+ zxmN2hhAwbgtaBSCQ2/1tOt+BH5lYhP8tCD306DbAP88SPS5ZdoY4CHpVoooXLcAj2
+ 1Jm01SinmBjtJfOTgvA/+B2CRyofXLjrtNoXf9k4W88VKwi5mIOqB6qgANBlvDNqfI
+ wJvAX3z8QDoU+OSCFQlxBt7JB6Lm4br3KxEAeZRBpGlB2+pm3Py0BF0wN64pntoCcy
+ zm6Vw/sUbU75A==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Oliver Logush <oliver.logush@amd.com>,
+Cc: Jake Wang <haonan.wang2@amd.com>,
+ Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>,
  Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 052/252] drm/amd/display: Fix timer_per_pixel
- unit error
-Date: Thu,  9 Sep 2021 07:37:46 -0400
-Message-Id: <20210909114106.141462-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 061/252] drm/amd/display: Fixed hardware power
+ down bypass during headless boot
+Date: Thu,  9 Sep 2021 07:37:55 -0400
+Message-Id: <20210909114106.141462-61-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -57,39 +58,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Oliver Logush <oliver.logush@amd.com>
+From: Jake Wang <haonan.wang2@amd.com>
 
-[ Upstream commit 23e55639b87fb16a9f0f66032ecb57060df6c46c ]
+[ Upstream commit 3addbde269f21ffc735f6d3d0c2237664923824e ]
 
-[why]
-The units of the time_per_pixel variable were incorrect, this had to be
-changed for the code to properly function.
+[Why]
+During headless boot, DIG may be on which causes HW/SW discrepancies.
+To avoid this we power down hardware on boot if DIG is turned on. With
+introduction of multiple eDP, hardware power down is being bypassed
+under certain conditions.
 
-[how]
-The change was very straightforward, only required one line of code to
-be changed where the calculation was done.
+[How]
+Fixed hardware power down bypass, and ensured hardware will power down
+if DIG is on and seamless boot is not enabled.
 
+Reviewed-by: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 Acked-by: Rodrigo Siqueira <Rodrigo.Siqueira@amd.com>
-Signed-off-by: Oliver Logush <oliver.logush@amd.com>
+Signed-off-by: Jake Wang <haonan.wang2@amd.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../amd/display/dc/dcn10/dcn10_hw_sequencer.c | 27 +++++++++----------
+ .../drm/amd/display/dc/dcn30/dcn30_hwseq.c    | 25 ++++++++---------
+ .../drm/amd/display/dc/dcn31/dcn31_hwseq.c    |  5 +++-
+ 3 files changed, 27 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-index b173fa3653b5..c78933a9d31c 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_resource.c
-@@ -2462,7 +2462,7 @@ void dcn20_set_mcif_arb_params(
- 				wb_arb_params->cli_watermark[k] = get_wm_writeback_urgent(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
- 				wb_arb_params->pstate_watermark[k] = get_wm_writeback_dram_clock_change(&context->bw_ctx.dml, pipes, pipe_cnt) * 1000;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index c545eddabdcc..dee1ce5f9609 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -1502,25 +1502,22 @@ void dcn10_init_hw(struct dc *dc)
+ void dcn10_power_down_on_boot(struct dc *dc)
+ {
+ 	struct dc_link *edp_links[MAX_NUM_EDP];
+-	struct dc_link *edp_link;
++	struct dc_link *edp_link = NULL;
+ 	int edp_num;
+ 	int i = 0;
+ 
+ 	get_edp_links(dc, edp_links, &edp_num);
+-
+-	if (edp_num) {
+-		for (i = 0; i < edp_num; i++) {
+-			edp_link = edp_links[i];
+-			if (edp_link->link_enc->funcs->is_dig_enabled &&
+-					edp_link->link_enc->funcs->is_dig_enabled(edp_link->link_enc) &&
+-					dc->hwseq->funcs.edp_backlight_control &&
+-					dc->hwss.power_down &&
+-					dc->hwss.edp_power_control) {
+-				dc->hwseq->funcs.edp_backlight_control(edp_link, false);
+-				dc->hwss.power_down(dc);
+-				dc->hwss.edp_power_control(edp_link, false);
+-			}
+-		}
++	if (edp_num)
++		edp_link = edp_links[0];
++
++	if (edp_link && edp_link->link_enc->funcs->is_dig_enabled &&
++			edp_link->link_enc->funcs->is_dig_enabled(edp_link->link_enc) &&
++			dc->hwseq->funcs.edp_backlight_control &&
++			dc->hwss.power_down &&
++			dc->hwss.edp_power_control) {
++		dc->hwseq->funcs.edp_backlight_control(edp_link, false);
++		dc->hwss.power_down(dc);
++		dc->hwss.edp_power_control(edp_link, false);
+ 	} else {
+ 		for (i = 0; i < dc->link_count; i++) {
+ 			struct dc_link *link = dc->links[i];
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index c68e3a708a33..2e8ab9775fa3 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -580,22 +580,19 @@ void dcn30_init_hw(struct dc *dc)
+ 	 */
+ 	if (dc->config.power_down_display_on_boot) {
+ 		struct dc_link *edp_links[MAX_NUM_EDP];
+-		struct dc_link *edp_link;
++		struct dc_link *edp_link = NULL;
+ 
+ 		get_edp_links(dc, edp_links, &edp_num);
+-		if (edp_num) {
+-			for (i = 0; i < edp_num; i++) {
+-				edp_link = edp_links[i];
+-				if (edp_link->link_enc->funcs->is_dig_enabled &&
+-						edp_link->link_enc->funcs->is_dig_enabled(edp_link->link_enc) &&
+-						dc->hwss.edp_backlight_control &&
+-						dc->hwss.power_down &&
+-						dc->hwss.edp_power_control) {
+-					dc->hwss.edp_backlight_control(edp_link, false);
+-					dc->hwss.power_down(dc);
+-					dc->hwss.edp_power_control(edp_link, false);
+-				}
+-			}
++		if (edp_num)
++			edp_link = edp_links[0];
++		if (edp_link && edp_link->link_enc->funcs->is_dig_enabled &&
++				edp_link->link_enc->funcs->is_dig_enabled(edp_link->link_enc) &&
++				dc->hwss.edp_backlight_control &&
++				dc->hwss.power_down &&
++				dc->hwss.edp_power_control) {
++			dc->hwss.edp_backlight_control(edp_link, false);
++			dc->hwss.power_down(dc);
++			dc->hwss.edp_power_control(edp_link, false);
+ 		} else {
+ 			for (i = 0; i < dc->link_count; i++) {
+ 				struct dc_link *link = dc->links[i];
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+index 8a2119d8ca0d..8189606537c5 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn31/dcn31_hwseq.c
+@@ -226,6 +226,7 @@ void dcn31_init_hw(struct dc *dc)
+ 	if (dc->config.power_down_display_on_boot) {
+ 		struct dc_link *edp_links[MAX_NUM_EDP];
+ 		struct dc_link *edp_link;
++		bool power_down = false;
+ 
+ 		get_edp_links(dc, edp_links, &edp_num);
+ 		if (edp_num) {
+@@ -239,9 +240,11 @@ void dcn31_init_hw(struct dc *dc)
+ 					dc->hwss.edp_backlight_control(edp_link, false);
+ 					dc->hwss.power_down(dc);
+ 					dc->hwss.edp_power_control(edp_link, false);
++					power_down = true;
+ 				}
  			}
--			wb_arb_params->time_per_pixel = 16.0 / context->res_ctx.pipe_ctx[i].stream->phy_pix_clk; /* 4 bit fraction, ms */
-+			wb_arb_params->time_per_pixel = 16.0 * 1000 / (context->res_ctx.pipe_ctx[i].stream->phy_pix_clk / 1000); /* 4 bit fraction, ms */
- 			wb_arb_params->slice_lines = 32;
- 			wb_arb_params->arbitration_slice = 2;
- 			wb_arb_params->max_scaled_time = dcn20_calc_max_scaled_time(wb_arb_params->time_per_pixel,
+-		} else {
++		}
++		if (!power_down) {
+ 			for (i = 0; i < dc->link_count; i++) {
+ 				struct dc_link *link = dc->links[i];
+ 
 -- 
 2.30.2
 
