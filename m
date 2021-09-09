@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A6A4049D4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC2E94049E4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:43:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB7C56E51A;
-	Thu,  9 Sep 2021 11:42:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A918E6E51B;
+	Thu,  9 Sep 2021 11:43:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E4A356E51A;
- Thu,  9 Sep 2021 11:42:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B4421611CE;
- Thu,  9 Sep 2021 11:42:52 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 21CA76E51B
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:43:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 313C06124D;
+ Thu,  9 Sep 2021 11:42:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187773;
- bh=WNI+MCurftRnG04/cAAncVCu0T2V7AVRB41i1UNH/r4=;
+ s=k20201202; t=1631187780;
+ bh=JCUyILyV+6ACnUJ0rjVdIkqYyZqashxOxCmyeCo/XRk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=LiN7IlocnQMfOvg2xZoKcjwmX/n1QzGGRVzgr0Q/rBq3YIIoGhkZQatchfCnAC0Rv
- T71orvtkezfW/SeARaBzL88EfwBX4MOyJDhAHCKkKOtI//uWtETFD5TxEIUVs+TmcT
- N/+BmPZfZlfNM2W/D9kSvaXc+ySWi0Hs+2zckfLBWbM+KrDIcxiDDj5Dqhs4/1+gAq
- pGyfa17uQJhx6F6OzRe6Ho5Gf3iy37a7v77TK7REIKW80ZCFwxiMCvNLocHR6oB8CE
- 0VA9Pd7rIlCMSkEqp7r5PStpAh7GB2+sLXIO7dAm3GBxI86UN3wc9ZErnrkRQrHTdM
- kp5E+WV0DShuw==
+ b=AntwiYDacIqm8tgjvmMtijk0hFSM91A5fwSDR3tmGsUcpPPKBPDAKMjq470YBxkIU
+ 52UemGmQ3/OoAuwdZJEqhK+osES+dTCldmfNIsIId1+TAea2GkkFJtG4OxmTpzgD65
+ Ke8WAH065j3hZD4kB/3SaHSOkw4/sQr43hPNnO91H9AcvbQwA2c0SY8zqOrfQI+evE
+ RrF/qFTQiJdEwqVZ50vOQru2m8kyM8OCPB/ZFwrYsb//RDDNGuiB+z1htHs4rARJ9K
+ yUhS8ffr2WINrIlMKbM2qTiVOMqlk38LpIWNlCRswafud5S3rkNtPF2QvHEaU7HpSB
+ zF96JRd8MpEZg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Mikita Lipski <mikita.lipski@amd.com>, Wood Wyatt <Wyatt.Wood@amd.com>,
- Solomon Chiu <solomon.chiu@amd.com>,
- Daniel Wheeler <daniel.wheeler@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 084/252] drm/amd/display: Fix PSR command version
-Date: Thu,  9 Sep 2021 07:38:18 -0400
-Message-Id: <20210909114106.141462-84-sashal@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 089/252] drm: rcar-du: Shutdown the display on
+ system shutdown
+Date: Thu,  9 Sep 2021 07:38:23 -0400
+Message-Id: <20210909114106.141462-89-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -57,49 +57,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mikita Lipski <mikita.lipski@amd.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit af1f2b19fd7d404d299355cc95930efee5b3ed8b ]
+[ Upstream commit 015f2ebb93767d40c442e749642fffaf10316d78 ]
 
-[why]
-For dual eDP when setting the new settings we need to set
-command version to DMUB_CMD_PSR_CONTROL_VERSION_1, otherwise
-DMUB will not read panel_inst parameter.
-[how]
-Instead of PSR_VERSION_1 pass DMUB_CMD_PSR_CONTROL_VERSION_1
+When the system shuts down or warm reboots, the display may be active,
+with the hardware accessing system memory. Upon reboot, the DDR will not
+be accessible, which may cause issues.
 
-Reviewed-by: Wood Wyatt <Wyatt.Wood@amd.com>
-Acked-by: Solomon Chiu <solomon.chiu@amd.com>
-Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
-Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Implement the platform_driver .shutdown() operation and shut down the
+display to fix this.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-index 10d42ae0cffe..3428334c6c57 100644
---- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-+++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
-@@ -207,7 +207,7 @@ static void dmub_psr_set_level(struct dmub_psr *dmub, uint16_t psr_level, uint8_
- 	cmd.psr_set_level.header.sub_type = DMUB_CMD__PSR_SET_LEVEL;
- 	cmd.psr_set_level.header.payload_bytes = sizeof(struct dmub_cmd_psr_set_level_data);
- 	cmd.psr_set_level.psr_set_level_data.psr_level = psr_level;
--	cmd.psr_set_level.psr_set_level_data.cmd_version = PSR_VERSION_1;
-+	cmd.psr_set_level.psr_set_level_data.cmd_version = DMUB_CMD_PSR_CONTROL_VERSION_1;
- 	cmd.psr_set_level.psr_set_level_data.panel_inst = panel_inst;
- 	dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
- 	dc_dmub_srv_cmd_execute(dc->dmub_srv);
-@@ -293,7 +293,7 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
- 	copy_settings_data->debug.bitfields.use_hw_lock_mgr		= 1;
- 	copy_settings_data->fec_enable_status = (link->fec_state == dc_link_fec_enabled);
- 	copy_settings_data->fec_enable_delay_in100us = link->dc->debug.fec_enable_delay_in100us;
--	copy_settings_data->cmd_version =  PSR_VERSION_1;
-+	copy_settings_data->cmd_version =  DMUB_CMD_PSR_CONTROL_VERSION_1;
- 	copy_settings_data->panel_inst = panel_inst;
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index bfbff90588cb..43de3d8686e8 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -561,6 +561,13 @@ static int rcar_du_remove(struct platform_device *pdev)
+ 	return 0;
+ }
  
- 	dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
++static void rcar_du_shutdown(struct platform_device *pdev)
++{
++	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
++
++	drm_atomic_helper_shutdown(&rcdu->ddev);
++}
++
+ static int rcar_du_probe(struct platform_device *pdev)
+ {
+ 	struct rcar_du_device *rcdu;
+@@ -617,6 +624,7 @@ static int rcar_du_probe(struct platform_device *pdev)
+ static struct platform_driver rcar_du_platform_driver = {
+ 	.probe		= rcar_du_probe,
+ 	.remove		= rcar_du_remove,
++	.shutdown	= rcar_du_shutdown,
+ 	.driver		= {
+ 		.name	= "rcar-du",
+ 		.pm	= &rcar_du_pm_ops,
 -- 
 2.30.2
 
