@@ -1,73 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DC5405EA4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:14:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11789405EBC
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:25:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FEB56E92F;
-	Thu,  9 Sep 2021 21:14:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E966E6E930;
+	Thu,  9 Sep 2021 21:25:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12e.google.com (mail-il1-x12e.google.com
- [IPv6:2607:f8b0:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9915D6E92F
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 21:14:43 +0000 (UTC)
-Received: by mail-il1-x12e.google.com with SMTP id s16so3408167ilo.9
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 14:14:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=oLZSZYIwz1ps13bllE/o8ZftzcSljG2It1aK1Q5Nz8I=;
- b=HO9YtQ6MlJn7+IDzJn7EdvK39R44d47kXV2OtfDfuDavIeSBisnixpV/pJ5OUPA1Cw
- KuK2YPHieOQeeEM50Mitcyt3MN1e54I0TivXX6ogT9xokBZ8ER5jwGiuqw5RqAR+Vxtd
- oIW3N48LLG7r//8yaMeDC5lgT3fSeKsKF4h/Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=oLZSZYIwz1ps13bllE/o8ZftzcSljG2It1aK1Q5Nz8I=;
- b=rp8h+MJXTM50NRLSXICIN19vg+JAUjNmDVS+KjWh8DzwVZXEsg8NI66FsL0CLvnk4k
- 00NQRw/pMEIBeGkgQvy3ukHixZ3HRw5tYYQZtTsIZIhBkWgPAjp7mcV51uYBYg2AdmBW
- q36UTxHQmhqH67dIapcluIl2181xNy8FUFTPNmdZHsV7oOD+9Thx+Olb6M919rakrUaW
- qNUBthS5jbDiIEpTdrwayBfKuqyvBeiQPAp4b5/S57rmimnZ8EogKIMAzcQbjU75TzeZ
- 2J6TFlrCfCsDwdvjh6MLGzWPTSfZ5o/ZwqsTdSJ8oa11HNpSwXyboaCflgkC8xAOvThV
- GCpg==
-X-Gm-Message-State: AOAM531raGH0vGqGrHTpsEl9mS8KxU3cxonGyt0Acst+7ZSlPL56OCM+
- D16zFSDP4pluKmMnG343Wl8ThMDzMNinwQ==
-X-Google-Smtp-Source: ABdhPJyjmE+cnRB0RlXLPseV7dXe536wLU2OvfPWy5C4X21P5gSAj+mYfBJlvF+Guglzhob8hnIQQQ==
-X-Received: by 2002:a92:cb4d:: with SMTP id f13mr3689321ilq.220.1631222082615; 
- Thu, 09 Sep 2021 14:14:42 -0700 (PDT)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com.
- [209.85.166.181])
- by smtp.gmail.com with ESMTPSA id s5sm1476186iol.33.2021.09.09.14.14.41
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 09 Sep 2021 14:14:41 -0700 (PDT)
-Received: by mail-il1-f181.google.com with SMTP id q14so3416519ils.5
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 14:14:41 -0700 (PDT)
-X-Received: by 2002:a05:6e02:214e:: with SMTP id
- d14mr3552572ilv.142.1631222081152; 
- Thu, 09 Sep 2021 14:14:41 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38D7E6E930;
+ Thu,  9 Sep 2021 21:25:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="220963017"
+X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="220963017"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 14:25:30 -0700
+X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="539956815"
+Received: from echaconr-mobl1.amr.corp.intel.com (HELO intel.com)
+ ([10.255.36.43])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 14:25:27 -0700
+Date: Thu, 9 Sep 2021 17:25:25 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [Intel-gfx] [PATCH v8 16/17] drm/i915/pxp: add PXP documentation
+Message-ID: <YTp7xTNtJlDa55AA@intel.com>
+References: <20210909122915.971652-1-daniele.ceraolospurio@intel.com>
+ <20210909122915.971652-17-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
-References: <20210908111500.1.I9f6dac462da830fa0a8ccccbe977ca918bf14e4a@changeid>
- <CAE-0n52ia_Em6GYU-ketmzi4OQxcdux3uLjMGhzVTUJbC0Yz-Q@mail.gmail.com>
- <CA+cxXh=FJtvAzb0UeMXYs3PKxcdoR7hG23BJQ5Xtj_ywjLUQ_w@mail.gmail.com>
- <CAE-0n51GPe4aWqmbm4htArS716dKhYPPV2KbKtk-d6MsUe8UpA@mail.gmail.com>
-In-Reply-To: <CAE-0n51GPe4aWqmbm4htArS716dKhYPPV2KbKtk-d6MsUe8UpA@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 9 Sep 2021 14:14:29 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=Uzy5vagh2G4pbqpSgVVjaGoswiH=udBH5RVZ96cNu=eQ@mail.gmail.com>
-Message-ID: <CAD=FV=Uzy5vagh2G4pbqpSgVVjaGoswiH=udBH5RVZ96cNu=eQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/bridge: parade-ps8640: Use regmap APIs
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Philip Chen <philipchen@chromium.org>, LKML <linux-kernel@vger.kernel.org>,
- Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210909122915.971652-17-daniele.ceraolospurio@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,49 +50,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Thu, Sep 09, 2021 at 05:29:14AM -0700, Daniele Ceraolo Spurio wrote:
+> Now that all the pieces are in place we can add a description of how the
+> feature works. Also modify the comments in struct intel_pxp into
+> kerneldoc.
+> 
+> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> Cc: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> ---
+>  Documentation/gpu/i915.rst                 |  8 ++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp.c       | 28 +++++++++++++
+>  drivers/gpu/drm/i915/pxp/intel_pxp_types.h | 47 ++++++++++++++++------
+>  3 files changed, 71 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/gpu/i915.rst b/Documentation/gpu/i915.rst
+> index 101dde3eb1ea..78ecb9d5ec20 100644
+> --- a/Documentation/gpu/i915.rst
+> +++ b/Documentation/gpu/i915.rst
+> @@ -471,6 +471,14 @@ Object Tiling IOCTLs
+>  .. kernel-doc:: drivers/gpu/drm/i915/gem/i915_gem_tiling.c
+>     :doc: buffer object tiling
+>  
+> +Protected Objects
+> +-----------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp.c
+> +   :doc: PXP
+> +
+> +.. kernel-doc:: drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> +
+>  Microcontrollers
+>  ================
+>  
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> index d8815e91e091..4e095a9a9f07 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+> @@ -11,6 +11,34 @@
+>  #include "gt/intel_context.h"
+>  #include "i915_drv.h"
+>  
+> +/**
+> + * DOC: PXP
+> + *
+> + * PXP (Protected Xe Path) is a Gen12+ feature that allows execution and
 
-On Thu, Sep 9, 2021 at 12:09 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Philip Chen (2021-09-09 11:29:19)
-> > Hi,
-> >
-> > On Wed, Sep 8, 2021 at 2:54 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > >
-> > > Quoting Philip Chen (2021-09-08 11:18:05)
-> > > > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > > index 685e9c38b2db..a16725dbf912 100644
-> > > > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > > > @@ -64,12 +65,29 @@ struct ps8640 {
-> > > >         struct drm_bridge *panel_bridge;
-> > > >         struct mipi_dsi_device *dsi;
-> > > >         struct i2c_client *page[MAX_DEVS];
-> > > > +       struct regmap   *regmap[MAX_DEVS];
-> > > >         struct regulator_bulk_data supplies[2];
-> > > >         struct gpio_desc *gpio_reset;
-> > > >         struct gpio_desc *gpio_powerdown;
-> > > >         bool powered;
-> > > >  };
-> > > >
-> > > > +static const struct regmap_range ps8640_volatile_ranges[] = {
-> > > > +       { .range_min = 0, .range_max = 0xff },
-> > >
-> > > Is the plan to fill this out later or is 0xff the max register? If it's
-> > > the latter then I think adding the max register to regmap_config is
-> > > simpler.
-> > It's the former.
-> > The real accessible register range is different per page, E.g.:
-> > - For page0, the register range is 0x00 - 0xbf.
-> > - For page1, the register range is 0x00 - 0xff.
-> > - For page2, the register range is 0x80 - 0xff.
->
-> Oh does this have register pages? regmap has support for pages where you
-> write some indirection register and then access the same i2c address for
-> the next page. This looks different though and has a different i2c
-> address for each page?
+We should start avoiding the + naming to identify this-and-newer. This will
+soon conflict with some other Xe naming.
 
-I haven't looked in tons of detail, but I think the right solution
-here is a separate regmap config per page.
+what about something like:
 
--Doug
+PXP (Protected Xe Path) is a feature available in Gen12 and newer platforms. It
+allows...
+
+> + * flip to display of protected (i.e. encrypted) objects. The SW support is
+> + * enabled via the CONFIG_DRM_I915_PXP kconfig.
+> + *
+> + * Some of the PXP setup operations are performed by the Management Engine,
+> + * which is handled by the mei driver; communication between i915 and mei is
+> + * performed via the mei_pxp component module.
+
+I believe this is kind of secondary so it should go below the context buffer
+and flag information. Is there any MEI mandatory command or something we should
+also make sure we document here?
+
+> + *
+> + * Objects can opt-in to PXP encryption at creation time via the
+> + * I915_GEM_CREATE_EXT_PROTECTED_CONTENT create_ext flag. For objects to be
+> + * correctly protected they must be used in conjunction with a context created
+> + * with the I915_CONTEXT_PARAM_PROTECTED_CONTENT flag. See the documentation
+> + * of those two uapi flags for details and restrictions.
+
+Instead of pointing to see their documentation, could we add some concrete
+example of usage in this section? Our goal is to have documentation that exemplifies
+how the UMD could really use them, without having to go to IGT or Mesa codes to
+check for examples.
+
+> + *
+> + * Protected objects are tied to a pxp session; currently we only support one
+> + * session, which i915 manages and whose index is available in the uapi
+> + * (I915_PROTECTED_CONTENT_DEFAULT_SESSION) for use in instructions targeting
+> + * protected objects.
+> + * The session is invalidated by the HW when certain events occur (e.g.
+> + * suspend/resume). When this happens, all the objects that were used with the
+> + * session are marked as invalid and all contexts marked as using protected
+> + * content are banned. Any further attempt at using them in an execbuf call is
+> + * rejected, while flips are converted to black frames.
+> + */
+> +
+>  /* KCR register definitions */
+>  #define KCR_INIT _MMIO(0x320f0)
+>  
+> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> index ae24064bb57e..73ef7d1754e1 100644
+> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+> @@ -16,42 +16,65 @@
+>  struct intel_context;
+>  struct i915_pxp_component;
+>  
+> +/**
+> + * struct intel_pxp - pxp state
+> + */
+>  struct intel_pxp {
+> +	/**
+> +	 * @pxp_component: i915_pxp_component struct of the bound mei_pxp
+> +	 * module. Only set and cleared inside component bind/unbind functions,
+> +	 * which are protected by &tee_mutex.
+> +	 */
+>  	struct i915_pxp_component *pxp_component;
+> +	/**
+> +	 * @pxp_component_added: track if the pxp component has been added.
+> +	 * Set and cleared in tee init and fini functions respectively.
+> +	 */
+>  	bool pxp_component_added;
+>  
+> +	/** @ce: kernel-owned context used for PXP operations */
+>  	struct intel_context *ce;
+>  
+> -	/*
+> +	/** @arb_mutex: protects arb session start */
+> +	struct mutex arb_mutex;
+> +	/**
+> +	 * @arb_is_valid: tracks arb session status.
+>  	 * After a teardown, the arb session can still be in play on the HW
+>  	 * even if the keys are gone, so we can't rely on the HW state of the
+>  	 * session to know if it's valid and need to track the status in SW.
+>  	 */
+> -	struct mutex arb_mutex; /* protects arb session start */
+>  	bool arb_is_valid;
+>  
+> -	/*
+> -	 * Keep track of which key instance we're on, so we can use it to
+> -	 * determine if an object was created using the current key or a
+> +	/**
+> +	 * @key_instance: tracks which key instance we're on, so we can use it
+> +	 * to determine if an object was created using the current key or a
+>  	 * previous one.
+>  	 */
+>  	u32 key_instance;
+>  
+> -	struct mutex tee_mutex; /* protects the tee channel binding */
+> +	/** @tee_mutex: protects the tee channel binding and messaging. */
+> +	struct mutex tee_mutex;
+>  
+> -	/*
+> -	 * If the HW perceives an attack on the integrity of the encryption it
+> -	 * will invalidate the keys and expect SW to re-initialize the session.
+> -	 * We keep track of this state to make sure we only re-start the arb
+> -	 * session when required.
+> +	/**
+> +	 * @hw_state_invalidated: if the HW perceives an attack on the integrity
+> +	 * of the encryption it will invalidate the keys and expect SW to
+> +	 * re-initialize the session. We keep track of this state to make sure
+> +	 * we only re-start the arb session when required.
+>  	 */
+>  	bool hw_state_invalidated;
+>  
+> +	/** @irq_enabled: tracks the status of the kcr irqs */
+>  	bool irq_enabled;
+> +	/**
+> +	 * @termination: tracks the status of a pending termination. Only
+> +	 * re-initialized under gt->irq_lock and completed in &session_work.
+> +	 */
+>  	struct completion termination;
+>  
+> +	/** @session_work: worker that manages session events. */
+>  	struct work_struct session_work;
+> -	u32 session_events; /* protected with gt->irq_lock */
+> +	/** @session_events: pending session events, protected with gt->irq_lock. */
+> +	u32 session_events;
+
+I know, nowadays our doc is too centric on documenting the internals... I mean, it is
+good that we have this documentation, but we should in general focus more on documenting
+how the UMD uses our APIs and less on the internals. The developers really interested
+on the internals would read this comment in the code anyway.
+
+But it is just a general comment. Since you already converted that to doc let's keep it ;)
+
+>  #define PXP_TERMINATION_REQUEST  BIT(0)
+>  #define PXP_TERMINATION_COMPLETE BIT(1)
+>  #define PXP_INVAL_REQUIRED       BIT(2)
+> -- 
+> 2.25.1
+> 
