@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DE0A404ABE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:47:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077B1404AC0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:47:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 80AC16E5A9;
-	Thu,  9 Sep 2021 11:47:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C346E6E5AE;
+	Thu,  9 Sep 2021 11:47:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 460466E5A9
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:47:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 20C9D6187C;
- Thu,  9 Sep 2021 11:47:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6F7C6E5AB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:47:52 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B9969617E4;
+ Thu,  9 Sep 2021 11:47:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188070;
- bh=6dNN8OQPe/wsB34uoI/ICMKD2qSsK5yWqTj8ezysK4A=;
+ s=k20201202; t=1631188072;
+ bh=CFxoJqTD6D2XgEUt9WJ2SR1eXohXAMMWRfLmxb/Gz8Q=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=dvhvezXZHeA/O2LVaHLLUQPiUT4NjajO8ngtrwd2VheHH+NXfi0N+b+DjXErO/KTc
- 6TpyHcd+PM6SMQKLCVU7SN5bjXgrBa0bDqv5BQ5cCTiUMPc/zqCTMhw4JYDmB5V+EK
- 0v2sKbwC0r2Zs+jcCRPA81Bu8buiRfYaBwjC4P29DgHexW/aQBARPU6mISiIVN8Lc8
- Ew7hNTS6mS5rO2bYvtekh/PBTisWYpTwECy7BEiunS4DqQfCUmRO5OwrJcPZXmeBBR
- eYDj4JE7zAqdpAQ29N8V6wRMPuGpV33+b3yP+/9w6NltOKVBwraguWC8STYKsVqlhx
- 3NHCdFK/oBxqg==
+ b=dSMKEKwtZ8kb0sYaVbqRkgSBr2kZA1UOBa8CqmgOLvYLBj6dxNbGyxD5OklHiNxbJ
+ V+DMz4QuWRK0E9jCYSaEIPueR852r7Jpant3ICo6xXVh3Wm1GH+BG6DN5TNgciPG8b
+ OB2sAlEA1wt4ooeI2j4OVr0VouoA5fs6ie+/fw+TrquGF/mFAo+1+m2VFcUCpO55HD
+ KTfsVSJqIlRFKEPTbwfEt7rp5r96BQoRTco17JIeZoQSYhpW60KCFrklwwNt/tsFuS
+ 08d1P5nm1plWjKjcSEnxcd/Xkad42YbZYFxHd3xZ0+7dKIqaHekg2A7SGLeCS9gvY3
+ e4wNewHR5q9nw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
- Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 057/219] drm/bridge: nwl-dsi: Avoid potential
- multiplication overflow on 32-bit
-Date: Thu,  9 Sep 2021 07:43:53 -0400
-Message-Id: <20210909114635.143983-57-sashal@kernel.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.13 059/219] video: fbdev: asiliantfb: Error out if
+ 'pixclock' equals zero
+Date: Thu,  9 Sep 2021 07:43:55 -0400
+Message-Id: <20210909114635.143983-59-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -58,46 +56,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Geert Uytterhoeven <geert+renesas@glider.be>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit 47956bc86ee4e8530cac386a04f62a6095f7afbe ]
+[ Upstream commit b36b242d4b8ea178f7fd038965e3cac7f30c3f09 ]
 
-As nwl_dsi.lanes is u32, and NSEC_PER_SEC is 1000000000L, the second
-multiplication in
+The userspace program could pass any values to the driver through
+ioctl() interface. If the driver doesn't check the value of 'pixclock',
+it may cause divide error.
 
-    dsi->lanes * 8 * NSEC_PER_SEC
+Fix this by checking whether 'pixclock' is zero first.
 
-will overflow on a 32-bit platform.  Fix this by making the constant
-unsigned long long, forcing 64-bit arithmetic.
+The following log reveals it:
 
-As iMX8 is arm64, this driver is currently used on 64-bit platforms
-only, where long is 64-bit, so this cannot happen.  But the issue will
-start to happen when the driver is reused for a 32-bit SoC (e.g.
-i.MX7ULP), or when code is copied for a new driver.
+[   43.861711] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+[   43.861737] CPU: 2 PID: 11764 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #224
+[   43.861756] RIP: 0010:asiliantfb_check_var+0x4e/0x730
+[   43.861843] Call Trace:
+[   43.861848]  ? asiliantfb_remove+0x190/0x190
+[   43.861858]  fb_set_var+0x2e4/0xeb0
+[   43.861866]  ? fb_blank+0x1a0/0x1a0
+[   43.861873]  ? lock_acquire+0x1ef/0x530
+[   43.861884]  ? lock_release+0x810/0x810
+[   43.861892]  ? lock_is_held_type+0x100/0x140
+[   43.861903]  ? ___might_sleep+0x1ee/0x2d0
+[   43.861914]  ? __mutex_lock+0x620/0x1190
+[   43.861921]  ? do_fb_ioctl+0x313/0x700
+[   43.861929]  ? mutex_lock_io_nested+0xfa0/0xfa0
+[   43.861936]  ? __this_cpu_preempt_check+0x1d/0x30
+[   43.861944]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+[   43.861952]  ? lockdep_hardirqs_on+0x59/0x100
+[   43.861959]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+[   43.861967]  ? trace_hardirqs_on+0x6a/0x1c0
+[   43.861978]  do_fb_ioctl+0x31e/0x700
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-Reviewed-by: Fabio Estevam <festevam@gmail.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/ebb82941a86b4e35c4fcfb1ef5a5cfad7c1fceab.1626255956.git.geert+renesas@glider.be
+Link: https://patchwork.freedesktop.org/patch/msgid/1627293835-17441-2-git-send-email-zheyuma97@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/bridge/nwl-dsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/asiliantfb.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
-index c65ca860712d..6cac2e58cd15 100644
---- a/drivers/gpu/drm/bridge/nwl-dsi.c
-+++ b/drivers/gpu/drm/bridge/nwl-dsi.c
-@@ -196,7 +196,7 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
- 	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
+diff --git a/drivers/video/fbdev/asiliantfb.c b/drivers/video/fbdev/asiliantfb.c
+index 3e006da47752..84c56f525889 100644
+--- a/drivers/video/fbdev/asiliantfb.c
++++ b/drivers/video/fbdev/asiliantfb.c
+@@ -227,6 +227,9 @@ static int asiliantfb_check_var(struct fb_var_screeninfo *var,
+ {
+ 	unsigned long Ftarget, ratio, remainder;
  
- 	return DIV64_U64_ROUND_UP(ps * dsi->mode.clock * bpp,
--				  dsi->lanes * 8 * NSEC_PER_SEC);
-+				  dsi->lanes * 8ULL * NSEC_PER_SEC);
- }
- 
- /*
++	if (!var->pixclock)
++		return -EINVAL;
++
+ 	ratio = 1000000 / var->pixclock;
+ 	remainder = 1000000 % var->pixclock;
+ 	Ftarget = 1000000 * ratio + (1000000 * remainder) / var->pixclock;
 -- 
 2.30.2
 
