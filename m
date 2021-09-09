@@ -2,41 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D52A7404B63
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DF9404B6C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:51:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 675F36E5D5;
-	Thu,  9 Sep 2021 11:50:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 205DE6E7D1;
+	Thu,  9 Sep 2021 11:51:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD6C66E5D4;
- Thu,  9 Sep 2021 11:50:50 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D13F761AE4;
- Thu,  9 Sep 2021 11:50:49 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89ACB6E7D1
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:51:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9C1106121E;
+ Thu,  9 Sep 2021 11:51:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188250;
- bh=BJ5jpffpZV24DZA1GQvEEw0dm+XQ1zpkg6i3g/vhDS0=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=YIdwS7bcNBCfdwRyEHb9s51nfgPWmfwcCpLHCC/xKUBLZ+KTXgnwg1bXBBAxgFCxT
- 4FWOMKYK/sAODb+qWymks5nCP/nj7YtdZPlPt9bGdCjh5SC7kr7GH/+ZeVvw7mo93V
- 8RKah/9rMvN5guB4ON5atq92ExLYWU5lN1Ot6vqYrEJ21+1YERFXeqRfjTlYKiH23o
- dKB99AQ89aVBp09Onk9Zdb4T0OMbFraGdwwfpylv30lLkRlv03ySmbqblDLwHgq0KK
- XqFC8etbYul2LaNEogLQmGT6Ht47CaPuLAjlqTvvpcca+cL3VmFBHB/9Q23ttlSvy6
- B0aw1RIns3pZw==
+ s=k20201202; t=1631188280;
+ bh=l6otXLWJKbzqWhRfS+K84WrcdbPANIzdtDGgV0fqRvo=;
+ h=From:To:Cc:Subject:Date:From;
+ b=u9pyV3EACFswVQNUlJwsKFJ9gjHThlH5cx8hFGhJ9ZItsneo8Fm9MIXDsdAl+nwmS
+ tuAqA96a1CTiEd5dGSmqZRmql/Aij3dHbSON9bdvXVp0HYuAoT4ozC4oMS5QuqYqCZ
+ gLyP2r3wX4gDLMxDzAfoBL8/DbRU1ZOvL/jU2B0ewMzWYACR95/4kfCZNSGzEMJwl+
+ 56Ny1ienETgKrryWQ7jqKrgzEqkGDbVZjl/WC0FF10Lw08Eti28C4t644vS9qlkxt+
+ p5da5qn0UqOFGDAOlUx0qtBtifDAKiv9cApVSb64yTw9gXr9cvNlJ4OfBDeIRHPJ0E
+ 5pUFHa1E3q2Vw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Sean Keely <Sean.Keely@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 198/219] drm/amdkfd: Account for SH/SE count when
- setting up cu masks.
-Date: Thu,  9 Sep 2021 07:46:14 -0400
-Message-Id: <20210909114635.143983-198-sashal@kernel.org>
+Cc: Dom Cobley <popcornmix@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 001/176] drm/vc4: hdmi: Set HD_CTL_WHOLSMP and
+ HD_CTL_CHALIGN_SET
+Date: Thu,  9 Sep 2021 07:48:23 -0400
+Message-Id: <20210909115118.146181-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,148 +54,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Sean Keely <Sean.Keely@amd.com>
+From: Dom Cobley <popcornmix@gmail.com>
 
-[ Upstream commit 1ec06c2dee679e9f089e78ed20cb74ee90155f61 ]
+[ Upstream commit 1698ecb218eb82587dbfc71a2e26ded66e5ecf59 ]
 
-On systems with multiple SH per SE compute_static_thread_mgmt_se#
-is split into independent masks, one for each SH, in the upper and
-lower 16 bits.  We need to detect this and apply cu masking to each
-SH.  The cu mask bits are assigned first to each SE, then to
-alternate SHs, then finally to higher CU id.  This ensures that
-the maximum number of SPIs are engaged as early as possible while
-balancing CU assignment to each SH.
+Symptom is random switching of speakers when using multichannel.
 
-v2: Use max SH/SE rather than max SH in cu_per_sh.
+Repeatedly running speakertest -c8 occasionally starts with
+channels jumbled. This is fixed with HD_CTL_WHOLSMP.
 
-v3: Fix comment blocks, ensure se_mask is initially zero filled,
-    and correctly assign se.sh.cu positions to unset bits in cu_mask.
+The other bit looks beneficial and apears harmless in testing so
+I'd suggest adding it too.
 
-Signed-off-by: Sean Keely <Sean.Keely@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Documentation says: HD_CTL_WHILSMP_SET
+Wait for whole sample. When this bit is set MAI transmit will start
+only when there is at least one whole sample available in the fifo.
+
+Documentation says: HD_CTL_CHALIGN_SET
+Channel Align When Overflow. This bit is used to realign the audio
+channels in case of an overflow.
+If this bit is set, after the detection of an overflow, equal
+amount of dummy words to the missing words will be written to fifo,
+filling up the broken sample and maintaining alignment.
+
+Signed-off-by: Dom Cobley <popcornmix@gmail.com>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210525132354.297468-7-maxime@cerno.tech
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c | 84 +++++++++++++++-----
- drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h |  1 +
- 2 files changed, 64 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-index 88813dad731f..c021519af810 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.c
-@@ -98,36 +98,78 @@ void mqd_symmetrically_map_cu_mask(struct mqd_manager *mm,
- 		uint32_t *se_mask)
- {
- 	struct kfd_cu_info cu_info;
--	uint32_t cu_per_se[KFD_MAX_NUM_SE] = {0};
--	int i, se, sh, cu = 0;
--
-+	uint32_t cu_per_sh[KFD_MAX_NUM_SE][KFD_MAX_NUM_SH_PER_SE] = {0};
-+	int i, se, sh, cu;
- 	amdgpu_amdkfd_get_cu_info(mm->dev->kgd, &cu_info);
- 
- 	if (cu_mask_count > cu_info.cu_active_number)
- 		cu_mask_count = cu_info.cu_active_number;
- 
-+	/* Exceeding these bounds corrupts the stack and indicates a coding error.
-+	 * Returning with no CU's enabled will hang the queue, which should be
-+	 * attention grabbing.
-+	 */
-+	if (cu_info.num_shader_engines > KFD_MAX_NUM_SE) {
-+		pr_err("Exceeded KFD_MAX_NUM_SE, chip reports %d\n", cu_info.num_shader_engines);
-+		return;
-+	}
-+	if (cu_info.num_shader_arrays_per_engine > KFD_MAX_NUM_SH_PER_SE) {
-+		pr_err("Exceeded KFD_MAX_NUM_SH, chip reports %d\n",
-+			cu_info.num_shader_arrays_per_engine * cu_info.num_shader_engines);
-+		return;
-+	}
-+	/* Count active CUs per SH.
-+	 *
-+	 * Some CUs in an SH may be disabled.	HW expects disabled CUs to be
-+	 * represented in the high bits of each SH's enable mask (the upper and lower
-+	 * 16 bits of se_mask) and will take care of the actual distribution of
-+	 * disabled CUs within each SH automatically.
-+	 * Each half of se_mask must be filled only on bits 0-cu_per_sh[se][sh]-1.
-+	 *
-+	 * See note on Arcturus cu_bitmap layout in gfx_v9_0_get_cu_info.
-+	 */
- 	for (se = 0; se < cu_info.num_shader_engines; se++)
- 		for (sh = 0; sh < cu_info.num_shader_arrays_per_engine; sh++)
--			cu_per_se[se] += hweight32(cu_info.cu_bitmap[se % 4][sh + (se / 4)]);
--
--	/* Symmetrically map cu_mask to all SEs:
--	 * cu_mask[0] bit0 -> se_mask[0] bit0;
--	 * cu_mask[0] bit1 -> se_mask[1] bit0;
--	 * ... (if # SE is 4)
--	 * cu_mask[0] bit4 -> se_mask[0] bit1;
-+			cu_per_sh[se][sh] = hweight32(cu_info.cu_bitmap[se % 4][sh + (se / 4)]);
-+
-+	/* Symmetrically map cu_mask to all SEs & SHs:
-+	 * se_mask programs up to 2 SH in the upper and lower 16 bits.
-+	 *
-+	 * Examples
-+	 * Assuming 1 SH/SE, 4 SEs:
-+	 * cu_mask[0] bit0 -> se_mask[0] bit0
-+	 * cu_mask[0] bit1 -> se_mask[1] bit0
-+	 * ...
-+	 * cu_mask[0] bit4 -> se_mask[0] bit1
-+	 * ...
-+	 *
-+	 * Assuming 2 SH/SE, 4 SEs
-+	 * cu_mask[0] bit0 -> se_mask[0] bit0 (SE0,SH0,CU0)
-+	 * cu_mask[0] bit1 -> se_mask[1] bit0 (SE1,SH0,CU0)
-+	 * ...
-+	 * cu_mask[0] bit4 -> se_mask[0] bit16 (SE0,SH1,CU0)
-+	 * cu_mask[0] bit5 -> se_mask[1] bit16 (SE1,SH1,CU0)
-+	 * ...
-+	 * cu_mask[0] bit8 -> se_mask[0] bit1 (SE0,SH0,CU1)
- 	 * ...
-+	 *
-+	 * First ensure all CUs are disabled, then enable user specified CUs.
- 	 */
--	se = 0;
--	for (i = 0; i < cu_mask_count; i++) {
--		if (cu_mask[i / 32] & (1 << (i % 32)))
--			se_mask[se] |= 1 << cu;
--
--		do {
--			se++;
--			if (se == cu_info.num_shader_engines) {
--				se = 0;
--				cu++;
-+	for (i = 0; i < cu_info.num_shader_engines; i++)
-+		se_mask[i] = 0;
-+
-+	i = 0;
-+	for (cu = 0; cu < 16; cu++) {
-+		for (sh = 0; sh < cu_info.num_shader_arrays_per_engine; sh++) {
-+			for (se = 0; se < cu_info.num_shader_engines; se++) {
-+				if (cu_per_sh[se][sh] > cu) {
-+					if (cu_mask[i / 32] & (1 << (i % 32)))
-+						se_mask[se] |= 1 << (cu + sh * 16);
-+					i++;
-+					if (i == cu_mask_count)
-+						return;
-+				}
- 			}
--		} while (cu >= cu_per_se[se] && cu < 32);
-+		}
- 	}
- }
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
-index b5e2ea7550d4..6e6918ccedfd 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_mqd_manager.h
-@@ -27,6 +27,7 @@
- #include "kfd_priv.h"
- 
- #define KFD_MAX_NUM_SE 8
-+#define KFD_MAX_NUM_SH_PER_SE 2
- 
- /**
-  * struct mqd_manager
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index c58b8840090a..ee293f061f0a 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1074,7 +1074,9 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
+ 		HDMI_WRITE(HDMI_MAI_CTL,
+ 			   VC4_SET_FIELD(vc4_hdmi->audio.channels,
+ 					 VC4_HD_MAI_CTL_CHNUM) |
+-			   VC4_HD_MAI_CTL_ENABLE);
++					 VC4_HD_MAI_CTL_WHOLSMP |
++					 VC4_HD_MAI_CTL_CHALIGN |
++					 VC4_HD_MAI_CTL_ENABLE);
+ 		break;
+ 	case SNDRV_PCM_TRIGGER_STOP:
+ 		HDMI_WRITE(HDMI_MAI_CTL,
 -- 
 2.30.2
 
