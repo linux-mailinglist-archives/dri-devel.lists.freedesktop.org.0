@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDC540499E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED6464049A0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 78AB86E500;
-	Thu,  9 Sep 2021 11:41:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDF86E507;
+	Thu,  9 Sep 2021 11:41:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F34BE6E507
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:41:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 17992611CA;
- Thu,  9 Sep 2021 11:41:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D82C76E505
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:41:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0277F61131;
+ Thu,  9 Sep 2021 11:41:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187704;
- bh=kGXbNKcYX2nS3OMh1RxXIHO3hMuuK6b0q/CJlBpnRlU=;
+ s=k20201202; t=1631187710;
+ bh=TUaNbGijjf16dwoOSELXxmYWLOmllXRTFAu0Q8E1m3U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IfXKUAI7nV8dpmOun8VRKIsSwPG7+Ck7And25+ifw4UMhGh8zazJhYqSs4WMVYTz5
- 9jxrIgcqORDLu4QXTndimO8qisW5jGpcih1F3TwA5rN+Ue7JBb8VZEh82JqdN7EgA7
- WypBar0pDMSgX/aFv48tzuhLLwFOg/2Zqa5xOUCzQIUP8EZZyBiF+GL+xzk4Mz/T1F
- KnR1nwxU3xUvqlv5gIUGxjBQ8p5gP3LMzj9NMd7iyckG7Seh6FhoALAMgV1qPhrdVB
- r2hPg7/JZUJEJb+TenaaRpaMNSMzmVkeAQk++g09LQ+e4Y0ivomCs1nW+cc1BZ8Gfv
- 4VaVzGFjTCyMQ==
+ b=Ae5XeBdiXzzLUuU7HMnm8h6eyob+jGHvlzPzip8wHMV+wwITZJ7MQRUVYhE1gTFwI
+ +UFJV9Duh8XhNCaaQ1WqBmXot4SsZSDCBECcUz0G9BZwLNQcd9veqQw8YE/KCIgeQL
+ h73fj/MJkcFqEvViythSXRorPb1z/oIp1ZO1ti9RlnGjdPLv8bx0q4aUBz/HktEFaC
+ ykZ07zDWkiDn0UfuW5gBvFpg4fpNEI8u0FDlKycEBi4d0kUDInfEZ82UJ3Crxlv5dX
+ mE6cWQGW5raUr3tC8hiOZC852Iea3vPXuOoLcCy3uD2kCeT6NqBja0zRyl46erw3Eo
+ j566DPS7kdnRQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Sasha Levin <sashal@kernel.org>,
+Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>,
  dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 029/252] drm/ast: Disable fast reset after DRAM
- initial
-Date: Thu,  9 Sep 2021 07:37:23 -0400
-Message-Id: <20210909114106.141462-29-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 034/252] drm: avoid blocking in
+ drm_clients_info's rcu section
+Date: Thu,  9 Sep 2021 07:37:28 -0400
+Message-Id: <20210909114106.141462-34-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -56,208 +56,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 
-[ Upstream commit f34bf652d680cf65783e7c57d61c94ee87f092bd ]
+[ Upstream commit 5eff9585de220cdd131237f5665db5e6c6bdf590 ]
 
-[Bug][AST2500]
+Inside drm_clients_info, the rcu_read_lock is held to lock
+pid_task()->comm. However, within this protected section, a call to
+drm_is_current_master is made, which involves a mutex lock in a future
+patch. However, this is illegal because the mutex lock might block
+while in the RCU read-side critical section.
 
-V1:
-When AST2500 acts as stand-alone VGA so that DRAM and DVO initialization
-have to be achieved by VGA driver with P2A (PCI to AHB) enabling.
-However, HW suggests disable Fast reset mode after DRAM initializaton,
-because fast reset mode is mainly designed for ARM ICE debugger.
-Once Fast reset is checked as enabling, WDT (Watch Dog Timer) should be
-first enabled to avoid system deadlock before disable fast reset mode.
+Since drm_is_current_master isn't protected by rcu_read_lock, we avoid
+this by moving it out of the RCU critical section.
 
-V2:
-Use to_pci_dev() to get revision of PCI configuration.
+The following report came from intel-gfx ci's
+igt@debugfs_test@read_all_entries testcase:
 
-V3:
-If SCU00 is not unlocked, just enter its password again.
-It is unnecessary to clear AHB lock condition and restore WDT default
-setting again, before Fast-reset clearing.
+=============================
+[ BUG: Invalid wait context ]
+5.13.0-CI-Patchwork_20515+ #1 Tainted: G        W
+-----------------------------
+debugfs_test/1101 is trying to lock:
+ffff888132d901a8 (&dev->master_mutex){+.+.}-{3:3}, at:
+drm_is_current_master+0x1e/0x50
+other info that might help us debug this:
+context-{4:4}
+3 locks held by debugfs_test/1101:
+ #0: ffff88810fdffc90 (&p->lock){+.+.}-{3:3}, at:
+ seq_read_iter+0x53/0x3b0
+ #1: ffff888132d90240 (&dev->filelist_mutex){+.+.}-{3:3}, at:
+ drm_clients_info+0x63/0x2a0
+ #2: ffffffff82734220 (rcu_read_lock){....}-{1:2}, at:
+ drm_clients_info+0x1b1/0x2a0
+stack backtrace:
+CPU: 8 PID: 1101 Comm: debugfs_test Tainted: G        W
+5.13.0-CI-Patchwork_20515+ #1
+Hardware name: Intel Corporation CometLake Client Platform/CometLake S
+UDIMM (ERB/CRB), BIOS CMLSFWR1.R00.1263.D00.1906260926 06/26/2019
+Call Trace:
+ dump_stack+0x7f/0xad
+ __lock_acquire.cold.78+0x2af/0x2ca
+ lock_acquire+0xd3/0x300
+ ? drm_is_current_master+0x1e/0x50
+ ? __mutex_lock+0x76/0x970
+ ? lockdep_hardirqs_on+0xbf/0x130
+ __mutex_lock+0xab/0x970
+ ? drm_is_current_master+0x1e/0x50
+ ? drm_is_current_master+0x1e/0x50
+ ? drm_is_current_master+0x1e/0x50
+ drm_is_current_master+0x1e/0x50
+ drm_clients_info+0x107/0x2a0
+ seq_read_iter+0x178/0x3b0
+ seq_read+0x104/0x150
+ full_proxy_read+0x4e/0x80
+ vfs_read+0xa5/0x1b0
+ ksys_read+0x5a/0xd0
+ do_syscall_64+0x39/0xb0
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-V4:
-repatch after "error : could not build fake ancestor" resolved.
-
-V5:
-Since CVE_2019_6260 item3, Most of AST2500 have disabled P2A(PCIe to AMBA).
-However, for backward compatibility, some patches about P2A, such as items
-of v5.2 and v5.3, are considered to be upstreamed with comments.
-1. Add define macro to improve source readability.
-ast_drv.h, ast_main.c, ast_post.c
-2. Add comment about "Fast restet" is enabled for ARM-ICE debugger
-ast_post.c
-3. Add comment about Reset USB port to patch USB unknown device issue
-ast_post.c
-
-Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210709080900.4056-1-kuohsiang_chou@aspeedtech.com
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210712043508.11584-3-desmondcheongzx@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/ast/ast_drv.h  |  6 +++
- drivers/gpu/drm/ast/ast_main.c |  5 ++
- drivers/gpu/drm/ast/ast_post.c | 91 ++++++++++++++++++++++++----------
- 3 files changed, 76 insertions(+), 26 deletions(-)
+ drivers/gpu/drm/drm_debugfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/ast/ast_drv.h b/drivers/gpu/drm/ast/ast_drv.h
-index 911f9f414774..39ca338eb80b 100644
---- a/drivers/gpu/drm/ast/ast_drv.h
-+++ b/drivers/gpu/drm/ast/ast_drv.h
-@@ -337,6 +337,11 @@ int ast_mode_config_init(struct ast_private *ast);
- #define AST_DP501_LINKRATE	0xf014
- #define AST_DP501_EDID_DATA	0xf020
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 3d7182001004..b0a826489488 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -91,6 +91,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
+ 	mutex_lock(&dev->filelist_mutex);
+ 	list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
+ 		struct task_struct *task;
++		bool is_current_master = drm_is_current_master(priv);
  
-+/* Define for Soc scratched reg */
-+#define AST_VRAM_INIT_STATUS_MASK	GENMASK(7, 6)
-+//#define AST_VRAM_INIT_BY_BMC		BIT(7)
-+//#define AST_VRAM_INIT_READY		BIT(6)
-+
- int ast_mm_init(struct ast_private *ast);
- 
- /* ast post */
-@@ -346,6 +351,7 @@ bool ast_is_vga_enabled(struct drm_device *dev);
- void ast_post_gpu(struct drm_device *dev);
- u32 ast_mindwm(struct ast_private *ast, u32 r);
- void ast_moutdwm(struct ast_private *ast, u32 r, u32 v);
-+void ast_patch_ahb_2500(struct ast_private *ast);
- /* ast dp501 */
- void ast_set_dp501_video_output(struct drm_device *dev, u8 mode);
- bool ast_backup_fw(struct drm_device *dev, u8 *addr, u32 size);
-diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
-index 2aff2e6cf450..79a361867955 100644
---- a/drivers/gpu/drm/ast/ast_main.c
-+++ b/drivers/gpu/drm/ast/ast_main.c
-@@ -97,6 +97,11 @@ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
- 	jregd0 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
- 	jregd1 = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd1, 0xff);
- 	if (!(jregd0 & 0x80) || !(jregd1 & 0x10)) {
-+		/* Patch AST2500 */
-+		if (((pdev->revision & 0xF0) == 0x40)
-+			&& ((jregd0 & AST_VRAM_INIT_STATUS_MASK) == 0))
-+			ast_patch_ahb_2500(ast);
-+
- 		/* Double check it's actually working */
- 		data = ast_read32(ast, 0xf004);
- 		if ((data != 0xFFFFFFFF) && (data != 0x00)) {
-diff --git a/drivers/gpu/drm/ast/ast_post.c b/drivers/gpu/drm/ast/ast_post.c
-index 0607658dde51..b5d92f652fd8 100644
---- a/drivers/gpu/drm/ast/ast_post.c
-+++ b/drivers/gpu/drm/ast/ast_post.c
-@@ -2028,6 +2028,40 @@ static bool ast_dram_init_2500(struct ast_private *ast)
- 	return true;
- }
- 
-+void ast_patch_ahb_2500(struct ast_private *ast)
-+{
-+	u32	data;
-+
-+	/* Clear bus lock condition */
-+	ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
-+	ast_moutdwm(ast, 0x1e600084, 0x00010000);
-+	ast_moutdwm(ast, 0x1e600088, 0x00000000);
-+	ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+	data = ast_mindwm(ast, 0x1e6e2070);
-+	if (data & 0x08000000) {					/* check fast reset */
-+		/*
-+		 * If "Fast restet" is enabled for ARM-ICE debugger,
-+		 * then WDT needs to enable, that
-+		 * WDT04 is WDT#1 Reload reg.
-+		 * WDT08 is WDT#1 counter restart reg to avoid system deadlock
-+		 * WDT0C is WDT#1 control reg
-+		 *	[6:5]:= 01:Full chip
-+		 *	[4]:= 1:1MHz clock source
-+		 *	[1]:= 1:WDT will be cleeared and disabled after timeout occurs
-+		 *	[0]:= 1:WDT enable
-+		 */
-+		ast_moutdwm(ast, 0x1E785004, 0x00000010);
-+		ast_moutdwm(ast, 0x1E785008, 0x00004755);
-+		ast_moutdwm(ast, 0x1E78500c, 0x00000033);
-+		udelay(1000);
-+	}
-+	do {
-+		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
-+		data = ast_mindwm(ast, 0x1e6e2000);
-+	}	while (data != 1);
-+	ast_moutdwm(ast, 0x1e6e207c, 0x08000000);	/* clear fast reset */
-+}
-+
- void ast_post_chip_2500(struct drm_device *dev)
- {
- 	struct ast_private *ast = to_ast_private(dev);
-@@ -2035,39 +2069,44 @@ void ast_post_chip_2500(struct drm_device *dev)
- 	u8 reg;
- 
- 	reg = ast_get_index_reg_mask(ast, AST_IO_CRTC_PORT, 0xd0, 0xff);
--	if ((reg & 0x80) == 0) {/* vga only */
-+	if ((reg & AST_VRAM_INIT_STATUS_MASK) == 0) {/* vga only */
- 		/* Clear bus lock condition */
--		ast_moutdwm(ast, 0x1e600000, 0xAEED1A03);
--		ast_moutdwm(ast, 0x1e600084, 0x00010000);
--		ast_moutdwm(ast, 0x1e600088, 0x00000000);
--		ast_moutdwm(ast, 0x1e6e2000, 0x1688A8A8);
--		ast_write32(ast, 0xf004, 0x1e6e0000);
--		ast_write32(ast, 0xf000, 0x1);
--		ast_write32(ast, 0x12000, 0x1688a8a8);
--		while (ast_read32(ast, 0x12000) != 0x1)
--			;
--
--		ast_write32(ast, 0x10000, 0xfc600309);
--		while (ast_read32(ast, 0x10000) != 0x1)
--			;
-+		ast_patch_ahb_2500(ast);
-+
-+		/* Disable watchdog */
-+		ast_moutdwm(ast, 0x1E78502C, 0x00000000);
-+		ast_moutdwm(ast, 0x1E78504C, 0x00000000);
-+
-+		/*
-+		 * Reset USB port to patch USB unknown device issue
-+		 * SCU90 is Multi-function Pin Control #5
-+		 *	[29]:= 1:Enable USB2.0 Host port#1 (that the mutually shared USB2.0 Hub
-+		 *				port).
-+		 * SCU94 is Multi-function Pin Control #6
-+		 *	[14:13]:= 1x:USB2.0 Host2 controller
-+		 * SCU70 is Hardware Strap reg
-+		 *	[23]:= 1:CLKIN is 25MHz and USBCK1 = 24/48 MHz (determined by
-+		 *				[18]: 0(24)/1(48) MHz)
-+		 * SCU7C is Write clear reg to SCU70
-+		 *	[23]:= write 1 and then SCU70[23] will be clear as 0b.
-+		 */
-+		ast_moutdwm(ast, 0x1E6E2090, 0x20000000);
-+		ast_moutdwm(ast, 0x1E6E2094, 0x00004000);
-+		if (ast_mindwm(ast, 0x1E6E2070) & 0x00800000) {
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00800000);
-+			mdelay(100);
-+			ast_moutdwm(ast, 0x1E6E2070, 0x00800000);
-+		}
-+		/* Modify eSPI reset pin */
-+		temp = ast_mindwm(ast, 0x1E6E2070);
-+		if (temp & 0x02000000)
-+			ast_moutdwm(ast, 0x1E6E207C, 0x00004000);
- 
- 		/* Slow down CPU/AHB CLK in VGA only mode */
- 		temp = ast_read32(ast, 0x12008);
- 		temp |= 0x73;
- 		ast_write32(ast, 0x12008, temp);
- 
--		/* Reset USB port to patch USB unknown device issue */
--		ast_moutdwm(ast, 0x1e6e2090, 0x20000000);
--		temp  = ast_mindwm(ast, 0x1e6e2094);
--		temp |= 0x00004000;
--		ast_moutdwm(ast, 0x1e6e2094, temp);
--		temp  = ast_mindwm(ast, 0x1e6e2070);
--		if (temp & 0x00800000) {
--			ast_moutdwm(ast, 0x1e6e207c, 0x00800000);
--			mdelay(100);
--			ast_moutdwm(ast, 0x1e6e2070, 0x00800000);
--		}
--
- 		if (!ast_dram_init_2500(ast))
- 			drm_err(dev, "DRAM init failed !\n");
- 
+ 		rcu_read_lock(); /* locks pid_task()->comm */
+ 		task = pid_task(priv->pid, PIDTYPE_PID);
+@@ -99,7 +100,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
+ 			   task ? task->comm : "<unknown>",
+ 			   pid_vnr(priv->pid),
+ 			   priv->minor->index,
+-			   drm_is_current_master(priv) ? 'y' : 'n',
++			   is_current_master ? 'y' : 'n',
+ 			   priv->authenticated ? 'y' : 'n',
+ 			   from_kuid_munged(seq_user_ns(m), uid),
+ 			   priv->magic);
 -- 
 2.30.2
 
