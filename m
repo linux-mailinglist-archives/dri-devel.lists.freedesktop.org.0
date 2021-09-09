@@ -2,38 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE5F6404A7E
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:46:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A041C404A87
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:46:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CAF06E57A;
-	Thu,  9 Sep 2021 11:46:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A6AB6E581;
+	Thu,  9 Sep 2021 11:46:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B76FC6E57A
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:46:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C1CBF6113E;
- Thu,  9 Sep 2021 11:46:39 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 038EB6E57E
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:46:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F393261507;
+ Thu,  9 Sep 2021 11:46:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188000;
- bh=5ANBYZHGT6lDyKTeylFDsecgH0x2gUQwZcIgDogmUro=;
+ s=k20201202; t=1631188001;
+ bh=h7WoPbhk4P1tddmUKXsOWaZI7zGyW1QsZZxFbB4hm/E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=JDYjS8fltVmpLJaqTnPrxPYZSDZAoI/QUUrXOH7X4FpHwXu/DDlOW2XZQQvvki5rO
- jK0LhbsyTW+7QQxznpj75iKW5aGBpZa6sTnBVqYSivh35GY4MirigqHbKI9eOIapQM
- ZPnj9OYWE11hZf6Yw9cltRUo0hGdOsbSSi14X8dnNX/bSfcVDrv0oCNLLXIxE6XSP+
- nyKursH+xGce8dKiMkGe9jADNUAMf/f8CzTzlKskmCC7wvxSG8Qwd8OheUVo+OOzMF
- a5gpWFH7l5cwJLG2cULiinTZ64ceSRX3QdAiBlWpvfOIT4AnKO20Ms+YvQXByPUtnU
- 0/qmrln3FUquQ==
+ b=jC7YsuWuxmjAQAdMsB0lUP15vWilvUh+pJxdeIB9aBvGQFECvWRKvhWm1AwYp9RoK
+ kuqbRRO0EHiHgNQASa/7jygon/wjHOBOtb6SQhIb3nHtDQ0Qrl+nIZehakpHCYTQxy
+ b5NSCqyadzOcs68vIKGiC/i8jOB8J7jPtOlvZIy46sMOAhU8QYpxa9I2sXyNC1p7AV
+ sFQDGSY3HcMdVD/DNvkEATspKzIc61vT+z3efy2xs0+tGLKE1PXzHiNK3l0CPamd33
+ akwc9ebbxboZ+dI8zeU1sVwq+pXwBJm2leywLvmz31BdoqNKArfU7ASiJxgaWzvLI1
+ QkW3ABSs6AW2g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Dom Cobley <popcornmix@gmail.com>, Maxime Ripard <maxime@cerno.tech>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Daniel Vetter <daniel.vetter@intel.com>, Tomi Valkeinen <tomba@kernel.org>,
  Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 003/219] drm/vc4: hdmi: Set HD_CTL_WHOLSMP and
- HD_CTL_CHALIGN_SET
-Date: Thu,  9 Sep 2021 07:42:59 -0400
-Message-Id: <20210909114635.143983-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.13 004/219] drm/omap: Follow implicit fencing in
+ prepare_fb
+Date: Thu,  9 Sep 2021 07:43:00 -0400
+Message-Id: <20210909114635.143983-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -56,53 +57,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Dom Cobley <popcornmix@gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-[ Upstream commit 1698ecb218eb82587dbfc71a2e26ded66e5ecf59 ]
+[ Upstream commit 942d8344d5f14b9ea2ae43756f319b9f44216ba4 ]
 
-Symptom is random switching of speakers when using multichannel.
+I guess no one ever tried running omap together with lima or panfrost,
+not even sure that's possible. Anyway for consistency, fix this.
 
-Repeatedly running speakertest -c8 occasionally starts with
-channels jumbled. This is fixed with HD_CTL_WHOLSMP.
-
-The other bit looks beneficial and apears harmless in testing so
-I'd suggest adding it too.
-
-Documentation says: HD_CTL_WHILSMP_SET
-Wait for whole sample. When this bit is set MAI transmit will start
-only when there is at least one whole sample available in the fifo.
-
-Documentation says: HD_CTL_CHALIGN_SET
-Channel Align When Overflow. This bit is used to realign the audio
-channels in case of an overflow.
-If this bit is set, after the detection of an overflow, equal
-amount of dummy words to the missing words will be written to fifo,
-filling up the broken sample and maintaining alignment.
-
-Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210525132354.297468-7-maxime@cerno.tech
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210622165511.3169559-12-daniel.vetter@ffwll.ch
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/omapdrm/omap_plane.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index edee565334d8..155f305e7c4e 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1205,7 +1205,9 @@ static int vc4_hdmi_audio_trigger(struct snd_pcm_substream *substream, int cmd,
- 		HDMI_WRITE(HDMI_MAI_CTL,
- 			   VC4_SET_FIELD(vc4_hdmi->audio.channels,
- 					 VC4_HD_MAI_CTL_CHNUM) |
--			   VC4_HD_MAI_CTL_ENABLE);
-+					 VC4_HD_MAI_CTL_WHOLSMP |
-+					 VC4_HD_MAI_CTL_CHALIGN |
-+					 VC4_HD_MAI_CTL_ENABLE);
- 		break;
- 	case SNDRV_PCM_TRIGGER_STOP:
- 		HDMI_WRITE(HDMI_MAI_CTL,
+diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
+index 801da917507d..512af976b7e9 100644
+--- a/drivers/gpu/drm/omapdrm/omap_plane.c
++++ b/drivers/gpu/drm/omapdrm/omap_plane.c
+@@ -6,6 +6,7 @@
+ 
+ #include <drm/drm_atomic.h>
+ #include <drm/drm_atomic_helper.h>
++#include <drm/drm_gem_atomic_helper.h>
+ #include <drm/drm_plane_helper.h>
+ 
+ #include "omap_dmm_tiler.h"
+@@ -29,6 +30,8 @@ static int omap_plane_prepare_fb(struct drm_plane *plane,
+ 	if (!new_state->fb)
+ 		return 0;
+ 
++	drm_gem_plane_helper_prepare_fb(plane, new_state);
++
+ 	return omap_framebuffer_pin(new_state->fb);
+ }
+ 
 -- 
 2.30.2
 
