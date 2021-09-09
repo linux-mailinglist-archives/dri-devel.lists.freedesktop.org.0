@@ -2,33 +2,33 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 319F540426A
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 02:52:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354A640426D
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 02:52:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 423976E3F5;
-	Thu,  9 Sep 2021 00:51:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4077C6E405;
+	Thu,  9 Sep 2021 00:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C086E3F0;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2C446E3EF;
  Thu,  9 Sep 2021 00:51:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="200171452"
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="200171452"
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="200171453"
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="200171453"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Sep 2021 17:50:28 -0700
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="539077196"
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="539077201"
 Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 17:50:26 -0700
+ 08 Sep 2021 17:50:27 -0700
 From: Lucas De Marchi <lucas.demarchi@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
  Andi Shyti <andi.shyti@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: [PATCH 2/4] drm/i915: rename debugfs_engines files
-Date: Wed,  8 Sep 2021 17:49:39 -0700
-Message-Id: <20210909004941.379035-2-lucas.demarchi@intel.com>
+Subject: [PATCH 3/4] drm/i915: rename debugfs_gt_pm files
+Date: Wed,  8 Sep 2021 17:49:40 -0700
+Message-Id: <20210909004941.379035-3-lucas.demarchi@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210909004941.379035-1-lucas.demarchi@intel.com>
 References: <20210909004941.379035-1-lucas.demarchi@intel.com>
@@ -51,45 +51,45 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 We shouldn't be using debugfs_ namespace for this functionality. Rename
-debugfs_engines.[ch] to intel_gt_engines_debugfs.[ch] and then make
+debugfs_gt_pm.[ch] to intel_gt_pm_debugfs.[ch] and then make
 functions, defines and structs follow suit.
 
 Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
 ---
  drivers/gpu/drm/i915/Makefile                      |  2 +-
- drivers/gpu/drm/i915/gt/debugfs_engines.h          | 14 --------------
+ drivers/gpu/drm/i915/gt/debugfs_gt_pm.h            | 14 --------------
  drivers/gpu/drm/i915/gt/intel_gt_debugfs.c         |  4 ++--
- ...ebugfs_engines.c => intel_gt_engines_debugfs.c} |  4 ++--
- drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.h | 14 ++++++++++++++
+ .../gt/{debugfs_gt_pm.c => intel_gt_pm_debugfs.c}  |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h      | 14 ++++++++++++++
  5 files changed, 19 insertions(+), 19 deletions(-)
- delete mode 100644 drivers/gpu/drm/i915/gt/debugfs_engines.h
- rename drivers/gpu/drm/i915/gt/{debugfs_engines.c => intel_gt_engines_debugfs.c} (85%)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.h
+ delete mode 100644 drivers/gpu/drm/i915/gt/debugfs_gt_pm.h
+ rename drivers/gpu/drm/i915/gt/{debugfs_gt_pm.c => intel_gt_pm_debugfs.c} (99%)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
 
 diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 3e171f0b5f6a..232c9673a2e5 100644
+index 232c9673a2e5..dd656f2d7721 100644
 --- a/drivers/gpu/drm/i915/Makefile
 +++ b/drivers/gpu/drm/i915/Makefile
 @@ -79,7 +79,6 @@ i915-$(CONFIG_PERF_EVENTS) += i915_pmu.o
  
  # "Graphics Technology" (aka we talk to the gpu)
  gt-y += \
--	gt/debugfs_engines.o \
- 	gt/debugfs_gt_pm.o \
+-	gt/debugfs_gt_pm.o \
  	gt/gen2_engine_cs.o \
  	gt/gen6_engine_cs.o \
-@@ -101,6 +100,7 @@ gt-y += \
- 	gt/intel_gt_buffer_pool.o \
- 	gt/intel_gt_clock_utils.o \
- 	gt/intel_gt_debugfs.o \
-+	gt/intel_gt_engines_debugfs.o \
+ 	gt/gen6_ppgtt.o \
+@@ -103,6 +102,7 @@ gt-y += \
+ 	gt/intel_gt_engines_debugfs.o \
  	gt/intel_gt_irq.o \
  	gt/intel_gt_pm.o \
++	gt/intel_gt_pm_debugfs.o \
  	gt/intel_gt_pm_irq.o \
-diff --git a/drivers/gpu/drm/i915/gt/debugfs_engines.h b/drivers/gpu/drm/i915/gt/debugfs_engines.h
+ 	gt/intel_gt_requests.o \
+ 	gt/intel_gtt.o \
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.h b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.h
 deleted file mode 100644
-index f69257eaa1cc..000000000000
---- a/drivers/gpu/drm/i915/gt/debugfs_engines.h
+index 4cf5f5c9da7d..000000000000
+--- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.h
 +++ /dev/null
 @@ -1,14 +0,0 @@
 -/* SPDX-License-Identifier: MIT */
@@ -97,88 +97,90 @@ index f69257eaa1cc..000000000000
 - * Copyright © 2019 Intel Corporation
 - */
 -
--#ifndef DEBUGFS_ENGINES_H
--#define DEBUGFS_ENGINES_H
+-#ifndef DEBUGFS_GT_PM_H
+-#define DEBUGFS_GT_PM_H
 -
 -struct intel_gt;
 -struct dentry;
 -
--void debugfs_engines_register(struct intel_gt *gt, struct dentry *root);
+-void debugfs_gt_pm_register(struct intel_gt *gt, struct dentry *root);
 -
--#endif /* DEBUGFS_ENGINES_H */
+-#endif /* DEBUGFS_GT_PM_H */
 diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
-index a27ba11605d8..e5d173c235a3 100644
+index e5d173c235a3..4096ee893b69 100644
 --- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
 +++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
 @@ -5,10 +5,10 @@
  
  #include <linux/debugfs.h>
  
--#include "debugfs_engines.h"
- #include "debugfs_gt_pm.h"
+-#include "debugfs_gt_pm.h"
  #include "i915_drv.h"
  #include "intel_gt_debugfs.h"
-+#include "intel_gt_engines_debugfs.h"
+ #include "intel_gt_engines_debugfs.h"
++#include "intel_gt_pm_debugfs.h"
  #include "intel_sseu_debugfs.h"
  #include "uc/intel_uc_debugfs.h"
  
-@@ -23,7 +23,7 @@ void intel_gt_register_debugfs(struct intel_gt *gt)
- 	if (IS_ERR(root))
+@@ -24,7 +24,7 @@ void intel_gt_register_debugfs(struct intel_gt *gt)
  		return;
  
--	debugfs_engines_register(gt, root);
-+	intel_gt_engines_register_debugfs(gt, root);
- 	debugfs_gt_pm_register(gt, root);
+ 	intel_gt_engines_register_debugfs(gt, root);
+-	debugfs_gt_pm_register(gt, root);
++	intel_gt_pm_register_debugfs(gt, root);
  	intel_sseu_debugfs_register(gt, root);
  
-diff --git a/drivers/gpu/drm/i915/gt/debugfs_engines.c b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-similarity index 85%
-rename from drivers/gpu/drm/i915/gt/debugfs_engines.c
-rename to drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-index 2980dac5b171..44b22384fcb2 100644
---- a/drivers/gpu/drm/i915/gt/debugfs_engines.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.c
-@@ -6,10 +6,10 @@
+ 	intel_uc_debugfs_register(&gt->uc, root);
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+similarity index 99%
+rename from drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
+rename to drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 9222cf68c56c..baca153c05dd 100644
+--- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -6,12 +6,12 @@
  
- #include <drm/drm_print.h>
+ #include <linux/seq_file.h>
  
--#include "debugfs_engines.h"
- #include "i915_drv.h" /* for_each_engine! */
- #include "intel_engine.h"
+-#include "debugfs_gt_pm.h"
+ #include "i915_drv.h"
+ #include "intel_gt.h"
+ #include "intel_gt_clock_utils.h"
  #include "intel_gt_debugfs.h"
-+#include "intel_gt_engines_debugfs.h"
+ #include "intel_gt_pm.h"
++#include "intel_gt_pm_debugfs.h"
+ #include "intel_llc.h"
+ #include "intel_rc6.h"
+ #include "intel_rps.h"
+@@ -614,7 +614,7 @@ static bool rps_eval(void *data)
  
- static int engines_show(struct seq_file *m, void *data)
- {
-@@ -26,7 +26,7 @@ static int engines_show(struct seq_file *m, void *data)
- }
- DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(engines);
+ DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(rps_boost);
  
--void debugfs_engines_register(struct intel_gt *gt, struct dentry *root)
-+void intel_gt_engines_register_debugfs(struct intel_gt *gt, struct dentry *root)
+-void debugfs_gt_pm_register(struct intel_gt *gt, struct dentry *root)
++void intel_gt_pm_register_debugfs(struct intel_gt *gt, struct dentry *root)
  {
  	static const struct intel_gt_debugfs_file files[] = {
- 		{ "engines", &engines_fops },
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.h
+ 		{ "drpc", &drpc_fops, NULL },
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
 new file mode 100644
-index 000000000000..4163b496937b
+index 000000000000..f44894579604
 --- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_engines_debugfs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
 @@ -0,0 +1,14 @@
 +/* SPDX-License-Identifier: MIT */
 +/*
 + * Copyright © 2019 Intel Corporation
 + */
 +
-+#ifndef INTEL_GT_ENGINES_DEBUGFS_H
-+#define INTEL_GT_ENGINES_DEBUGFS_H
++#ifndef INTEL_GT_PM_DEBUGFS_H
++#define INTEL_GT_PM_DEBUGFS_H
 +
 +struct intel_gt;
 +struct dentry;
 +
-+void intel_gt_engines_register_debugfs(struct intel_gt *gt, struct dentry *root);
++void intel_gt_pm_register_debugfs(struct intel_gt *gt, struct dentry *root);
 +
-+#endif /* INTEL_GT_ENGINES_DEBUGFS_H */
++#endif /* INTEL_GT_PM_DEBUGFS_H */
 -- 
 2.32.0
 
