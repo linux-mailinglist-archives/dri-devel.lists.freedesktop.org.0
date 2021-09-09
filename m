@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95C2404AEE
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:49:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2F20404AF0
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:49:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 54CFD6E5C0;
-	Thu,  9 Sep 2021 11:49:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A405B6E5BE;
+	Thu,  9 Sep 2021 11:49:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB5EC6E5BE
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:49:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D96BC61A56;
- Thu,  9 Sep 2021 11:49:03 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C85286E5BE;
+ Thu,  9 Sep 2021 11:49:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 95E3161A64;
+ Thu,  9 Sep 2021 11:49:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188144;
- bh=o2FipU2T4oBNLWJncdRN5X/QBl6xzwY3qSkx4eTQtaU=;
+ s=k20201202; t=1631188148;
+ bh=0GwvvP46Zyz0mNfzThYXUff6tsrhucZGmH8nfJY0V5E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TnDuI4iEYA2PpeMTsXuIlN1JOEFWzF1ILqJcTFyHqNxFYK6SLq9QAeuSq2rWP+7Qj
- nhIqGBGiXQ378qNhdnqBIK7kiCJiGjYGo4j0mBONs0Wt8WnKVPgPEiN3nRkNsBRooM
- 619dmgEfXRStDpN9BT2krI+J5/2E9PJ9yWychJjztSK643KwFBFRB6huxlat2endON
- /N1fC+U3DhH2Ex6pK3DiCnf6QziXougF6Lv8biS7wvcHe5b18pzxkBSPBM5VwTTFCt
- 3atj1euDcaMVrVtEXowbhUmBiSndyAypyJJmHZHorb71dijppFuFg7jiUu79ilLkvQ
- xkJPKVCclqsGA==
+ b=t+hTbKxXhk/RJjJKzb/TP9hKUprPwQiTjiUPZYwayr9g4pzh01ib0mzoL8mv0ZzT2
+ GS6T+k3zEXs6H1aF9hdnMjgwkSO86JMOp2BH0Zs9+rv0gAPhN5ZDTWEuDDdmhoysB6
+ ppt4OeL0pTkwcG6DOhhCTyVm4R4aIyIx36Q+jqJ1ZJq126dmwmujdYHeSTZormMViG
+ uUr2NRo0y4thgVlESSYBUdACXbRd7rV4lcYoM94hxi7y5AhgMhR1V9eacTfzwrX2ci
+ G8RorZ/FnI9njWKXgrWGcsgdtSDdm5UkjR5iwav0IDSFm7h2I6sEz+ttwisFnZwINF
+ ulrCnr1qjp+kQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Quanyang Wang <quanyang.wang@windriver.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.13 115/219] drm: xlnx: zynqmp: release reset to DP
- controller before accessing DP registers
-Date: Thu,  9 Sep 2021 07:44:51 -0400
-Message-Id: <20210909114635.143983-115-sashal@kernel.org>
+Cc: Roy Chan <roy.chan@amd.com>, Anson Jacob <Anson.Jacob@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.13 118/219] drm/amd/display: fix missing writeback
+ disablement if plane is removed
+Date: Thu,  9 Sep 2021 07:44:54 -0400
+Message-Id: <20210909114635.143983-118-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -57,119 +57,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+From: Roy Chan <roy.chan@amd.com>
 
-[ Upstream commit a338619bd76011035d462f0f9e8b2f24d7fe5a1e ]
+[ Upstream commit 82367e7f22d085092728f45fd5fbb15e3fb997c0 ]
 
-When insmod zynqmp-dpsub.ko after rmmod it, system will hang with the
-error log as below:
+[Why]
+If the plane has been removed, the writeback disablement logic
+doesn't run
 
-root@xilinx-zynqmp:~# insmod zynqmp-dpsub.ko
-[   88.391289] [drm] Initialized zynqmp-dpsub 1.0.0 20130509 for fd4a0000.display on minor 0
-[   88.529906] Console: switching to colour frame buffer device 128x48
-[   88.549402] zynqmp-dpsub fd4a0000.display: [drm] fb0: zynqmp-dpsubdrm frame buffer device
-[   88.571624] zynqmp-dpsub fd4a0000.display: ZynqMP DisplayPort Subsystem driver probed
-root@xilinx-zynqmp:~# rmmod zynqmp_dpsub
-[   94.023404] Console: switching to colour dummy device 80x25
-root@xilinx-zynqmp:~# insmod zynqmp-dpsub.ko
-	<hang here>
+[How]
+fix the logic order
 
-This is because that in zynqmp_dp_probe it tries to access some DP
-registers while the DP controller is still in the reset state. When
-running "rmmod zynqmp_dpsub", zynqmp_dp_reset(dp, true) in
-zynqmp_dp_phy_exit is called to force the DP controller into the reset
-state. Then insmod will call zynqmp_dp_probe to program the DP registers,
-but at this moment the DP controller hasn't been brought out of the reset
-state yet since the function zynqmp_dp_reset(dp, false) is called later and
-this will result the system hang.
-
-Releasing the reset to DP controller before any read/write operation to it
-will fix this issue. And for symmetry, move zynqmp_dp_reset() call from
-zynqmp_dp_phy_exit() to zynqmp_dp_remove().
-
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Acked-by: Anson Jacob <Anson.Jacob@amd.com>
+Signed-off-by: Roy Chan <roy.chan@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/xlnx/zynqmp_dp.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c | 14 ++++++++------
+ drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c | 12 +++++++++++-
+ 2 files changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/xlnx/zynqmp_dp.c b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-index 59d1fb017da0..13811332b349 100644
---- a/drivers/gpu/drm/xlnx/zynqmp_dp.c
-+++ b/drivers/gpu/drm/xlnx/zynqmp_dp.c
-@@ -402,10 +402,6 @@ static int zynqmp_dp_phy_init(struct zynqmp_dp *dp)
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+index 793554e61c52..03b941e76de2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn20/dcn20_hwseq.c
+@@ -1703,13 +1703,15 @@ void dcn20_program_front_end_for_ctx(
+ 				dcn20_program_pipe(dc, pipe, context);
+ 				pipe = pipe->bottom_pipe;
+ 			}
+-			/* Program secondary blending tree and writeback pipes */
+-			pipe = &context->res_ctx.pipe_ctx[i];
+-			if (!pipe->prev_odm_pipe && pipe->stream->num_wb_info > 0
+-					&& (pipe->update_flags.raw || pipe->plane_state->update_flags.raw || pipe->stream->update_flags.raw)
+-					&& hws->funcs.program_all_writeback_pipes_in_tree)
+-				hws->funcs.program_all_writeback_pipes_in_tree(dc, pipe->stream, context);
  		}
++		/* Program secondary blending tree and writeback pipes */
++		pipe = &context->res_ctx.pipe_ctx[i];
++		if (!pipe->top_pipe && !pipe->prev_odm_pipe
++				&& pipe->stream && pipe->stream->num_wb_info > 0
++				&& (pipe->update_flags.raw || (pipe->plane_state && pipe->plane_state->update_flags.raw)
++					|| pipe->stream->update_flags.raw)
++				&& hws->funcs.program_all_writeback_pipes_in_tree)
++			hws->funcs.program_all_writeback_pipes_in_tree(dc, pipe->stream, context);
  	}
- 
--	ret = zynqmp_dp_reset(dp, false);
--	if (ret < 0)
--		return ret;
--
- 	zynqmp_dp_clr(dp, ZYNQMP_DP_PHY_RESET, ZYNQMP_DP_PHY_RESET_ALL_RESET);
- 
- 	/*
-@@ -441,8 +437,6 @@ static void zynqmp_dp_phy_exit(struct zynqmp_dp *dp)
- 				ret);
- 	}
- 
--	zynqmp_dp_reset(dp, true);
--
- 	for (i = 0; i < dp->num_lanes; i++) {
- 		ret = phy_exit(dp->phy[i]);
- 		if (ret)
-@@ -1682,9 +1676,13 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 		return PTR_ERR(dp->reset);
- 	}
- 
-+	ret = zynqmp_dp_reset(dp, false);
-+	if (ret < 0)
-+		return ret;
-+
- 	ret = zynqmp_dp_phy_probe(dp);
- 	if (ret)
--		return ret;
-+		goto err_reset;
- 
- 	/* Initialize the hardware. */
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TX_PHY_POWER_DOWN,
-@@ -1696,7 +1694,7 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 
- 	ret = zynqmp_dp_phy_init(dp);
- 	if (ret)
--		return ret;
-+		goto err_reset;
- 
- 	zynqmp_dp_write(dp, ZYNQMP_DP_TRANSMITTER_ENABLE, 1);
- 
-@@ -1708,15 +1706,18 @@ int zynqmp_dp_probe(struct zynqmp_dpsub *dpsub, struct drm_device *drm)
- 					zynqmp_dp_irq_handler, IRQF_ONESHOT,
- 					dev_name(dp->dev), dp);
- 	if (ret < 0)
--		goto error;
-+		goto err_phy_exit;
- 
- 	dev_dbg(dp->dev, "ZynqMP DisplayPort Tx probed with %u lanes\n",
- 		dp->num_lanes);
- 
- 	return 0;
- 
--error:
-+err_phy_exit:
- 	zynqmp_dp_phy_exit(dp);
-+err_reset:
-+	zynqmp_dp_reset(dp, true);
-+
- 	return ret;
  }
  
-@@ -1734,4 +1735,5 @@ void zynqmp_dp_remove(struct zynqmp_dpsub *dpsub)
- 	zynqmp_dp_write(dp, ZYNQMP_DP_INT_DS, 0xffffffff);
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+index d53f8b39699b..37944f94c693 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn30/dcn30_hwseq.c
+@@ -396,12 +396,22 @@ void dcn30_program_all_writeback_pipes_in_tree(
+ 			for (i_pipe = 0; i_pipe < dc->res_pool->pipe_count; i_pipe++) {
+ 				struct pipe_ctx *pipe_ctx = &context->res_ctx.pipe_ctx[i_pipe];
  
- 	zynqmp_dp_phy_exit(dp);
-+	zynqmp_dp_reset(dp, true);
- }
++				if (!pipe_ctx->plane_state)
++					continue;
++
+ 				if (pipe_ctx->plane_state == wb_info.writeback_source_plane) {
+ 					wb_info.mpcc_inst = pipe_ctx->plane_res.mpcc_inst;
+ 					break;
+ 				}
+ 			}
+-			ASSERT(wb_info.mpcc_inst != -1);
++
++			if (wb_info.mpcc_inst == -1) {
++				/* Disable writeback pipe and disconnect from MPCC
++				 * if source plane has been removed
++				 */
++				dc->hwss.disable_writeback(dc, wb_info.dwb_pipe_inst);
++				continue;
++			}
+ 
+ 			ASSERT(wb_info.dwb_pipe_inst < dc->res_pool->res_cap->num_dwb);
+ 			dwb = dc->res_pool->dwbc[wb_info.dwb_pipe_inst];
 -- 
 2.30.2
 
