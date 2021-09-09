@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4E24404C8C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:56:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA3D404C90
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:56:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89FC26E82E;
-	Thu,  9 Sep 2021 11:56:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3861C6E82A;
+	Thu,  9 Sep 2021 11:56:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 33EF288AA1;
- Thu,  9 Sep 2021 11:56:28 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 302A26320F;
- Thu,  9 Sep 2021 11:56:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 77F836E82A
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:56:48 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3C336613A3;
+ Thu,  9 Sep 2021 11:56:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188588;
- bh=YnPxrhg1s49V4lWDuTNR+ipJ7ngFuFI9dD3b1ucm4Hk=;
+ s=k20201202; t=1631188608;
+ bh=QOZ5zytWglQA3/+3KXYARHhWSKqxTsAXNpce4qfrPMQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hlinMPMc4Rx/HCSndH3dy2rDmge8l3Saox46aYshFwMpRBTEcGP0CDwQSTtVB+PXB
- wQLzY6FVTtP4b7kJpN/T6HMI+qt6cS20qfWTzcJ0qxjcOtjTNztLr11oE71XcE9XNN
- J8Inu84vbTAOMsFZyxEj/DcE83owx+K0CZaH2H4EeqvsJ8ZSMHvHY3w/rd+TpDqQ1D
- NBROvU3ahEQ5YgNHgpHOZfWI09j7MfRK5E93VsuSdOm279W1znK4jye0sDJmeGqKq3
- AlfkMFdDLuweu8eX8XOwgPyA+RQ9k5m8VjpZV3+xr7bWDIzID6LnXfQlvsYfodX+TF
- NFGlKsz/qFTWQ==
+ b=oSdzFhimbbD+Ta8wuaAYihw/lVKidoGnMxQXIU2GVHWUQV3nJn37lTq8EQ2MsPy7M
+ rnMAywK6YF7g6wFiicmRk6+0KblZrJpiA3KOeqtnnTKDeRE3kFb0q9sMZN2Szvd6hC
+ eKfSEtI4Lm5LD4+869wo31Tcgx2fhFYIhHIsaz2CoibYNOkm9mCMm1w9pZKpYInUnu
+ usMVEGFEN/Wvvs8tCkjJdYwpn2bhzoVIfvK/bKrdVrwXUyUlVE/lQE8VLMBg5s/hoT
+ guLwMYilPf0jByLYs+yP/atuBL6fbv3jZCDOt30C9jAalfk3FmWnw0J+fJHnEV3TYq
+ Tqjy47hZ+RDHg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 063/109] drm/display: fix possible null-pointer
- dereference in dcn10_set_clock()
-Date: Thu,  9 Sep 2021 07:54:20 -0400
-Message-Id: <20210909115507.147917-63-sashal@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, kernel test robot <lkp@intel.com>,
+ Inki Dae <inki.dae@samsung.com>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-samsung-soc@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH AUTOSEL 5.4 079/109] drm/exynos: Always initialize mapping in
+ exynos_drm_register_dma()
+Date: Thu,  9 Sep 2021 07:54:36 -0400
+Message-Id: <20210909115507.147917-79-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
 References: <20210909115507.147917-1-sashal@kernel.org>
@@ -56,60 +57,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tuo Li <islituo@gmail.com>
+From: Nathan Chancellor <nathan@kernel.org>
 
-[ Upstream commit 554594567b1fa3da74f88ec7b2dc83d000c58e98 ]
+[ Upstream commit c626f3864bbbb28bbe06476b0b497c1330aa4463 ]
 
-The variable dc->clk_mgr is checked in:
-  if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
+In certain randconfigs, clang warns:
 
-This indicates dc->clk_mgr can be NULL.
-However, it is dereferenced in:
-    if (!dc->clk_mgr->funcs->get_clock)
+drivers/gpu/drm/exynos/exynos_drm_dma.c:121:19: warning: variable
+'mapping' is uninitialized when used here [-Wuninitialized]
+                priv->mapping = mapping;
+                                ^~~~~~~
+drivers/gpu/drm/exynos/exynos_drm_dma.c:111:16: note: initialize the
+variable 'mapping' to silence this warning
+                void *mapping;
+                             ^
+                              = NULL
+1 warning generated.
 
-To fix this null-pointer dereference, check dc->clk_mgr and the function
-pointer dc->clk_mgr->funcs->get_clock earlier, and return if one of them
-is NULL.
+This occurs when CONFIG_EXYNOS_IOMMU is enabled and both
+CONFIG_ARM_DMA_USE_IOMMU and CONFIG_IOMMU_DMA are disabled, which makes
+the code look like
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+  void *mapping;
+
+  if (0)
+    mapping = arm_iommu_create_mapping()
+  else if (0)
+    mapping = iommu_get_domain_for_dev()
+
+  ...
+  priv->mapping = mapping;
+
+Add an else branch that initializes mapping to the -ENODEV error pointer
+so that there is no more warning and the driver does not change during
+runtime.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+Signed-off-by: Inki Dae <inki.dae@samsung.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dma.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-index 60123db7ba02..bc5ebea1abed 100644
---- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-+++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
-@@ -3264,13 +3264,12 @@ static enum dc_status dcn10_set_clock(struct dc *dc,
- 	struct dc_clock_config clock_cfg = {0};
- 	struct dc_clocks *current_clocks = &context->bw_ctx.bw.dcn.clk;
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dma.c b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+index 58b89ec11b0e..a3c9d8b9e1a1 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dma.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dma.c
+@@ -140,6 +140,8 @@ int exynos_drm_register_dma(struct drm_device *drm, struct device *dev,
+ 				EXYNOS_DEV_ADDR_START, EXYNOS_DEV_ADDR_SIZE);
+ 		else if (IS_ENABLED(CONFIG_IOMMU_DMA))
+ 			mapping = iommu_get_domain_for_dev(priv->dma_dev);
++		else
++			mapping = ERR_PTR(-ENODEV);
  
--	if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
--				dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
--						context, clock_type, &clock_cfg);
--
--	if (!dc->clk_mgr->funcs->get_clock)
-+	if (!dc->clk_mgr || !dc->clk_mgr->funcs->get_clock)
- 		return DC_FAIL_UNSUPPORTED_1;
- 
-+	dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
-+		context, clock_type, &clock_cfg);
-+
- 	if (clk_khz > clock_cfg.max_clock_khz)
- 		return DC_FAIL_CLK_EXCEED_MAX;
- 
-@@ -3288,7 +3287,7 @@ static enum dc_status dcn10_set_clock(struct dc *dc,
- 	else
- 		return DC_ERROR_UNEXPECTED;
- 
--	if (dc->clk_mgr && dc->clk_mgr->funcs->update_clocks)
-+	if (dc->clk_mgr->funcs->update_clocks)
- 				dc->clk_mgr->funcs->update_clocks(dc->clk_mgr,
- 				context, true);
- 	return DC_OK;
+ 		if (IS_ERR(mapping))
+ 			return PTR_ERR(mapping);
 -- 
 2.30.2
 
