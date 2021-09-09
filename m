@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B169404CB0
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:59:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE4D404CB5
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:00:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 820D76E840;
-	Thu,  9 Sep 2021 11:59:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F01E6E846;
+	Thu,  9 Sep 2021 12:00:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E8436E83F;
- Thu,  9 Sep 2021 11:59:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8954263294;
- Thu,  9 Sep 2021 11:59:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8602A6E847
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 12:00:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9251763293;
+ Thu,  9 Sep 2021 12:00:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188786;
- bh=0af7XYpiDaqKh3arO7Wo+2DKVh53HZlCjD+rRxGqUBg=;
+ s=k20201202; t=1631188821;
+ bh=zkJXNiOWHCHmQ+k/IaEzh/5tMPvplbf31/yZRRetPMg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=EgaqPTEPPsRHjJuLOabqlaLN8GwRj5jsV6a38ydbcmLGfm7iAsJ8Lqmrn0gXJao9f
- E6EbU+jxnfjmcqFfXFEqFcDesTxPGQqp1xcb1S8TJUk5Bgh/bXq2pNjzrzEogxA19j
- ubavicwRAmKjE+d5YYNhn7ddqZ/2DhyAHAJizvymzhz4hxwWgp7mOu/09L9sz04/S3
- w7QN861T8k0qL7zO2pSrju0JfKpZEWuidhU4qqNvD10SK781lw+PQIWX5BACbAJ8/x
- dINkfG0foBM5cXIj/sWrF9OMS2wR5tJmgUfdbA9TSEzzItKay4q/5D3m+/Ye215Mts
- AlUjlh0BIK0dA==
+ b=Ij8i2g2PIk6TCwzgjUFybPG4SksDWI/nuTnSUSFIjKyt+NYswv8b8sHlmIUsehvXq
+ 9To9bLq8Tc5CsXYH3D0xuAbbdVQB1r4iwkoZhsyl2brDOUeJIWSRhfEeDEeC6vH3o6
+ vTVbJB4Knu0rSqu0VQc+xtgv5nZCiMpbDjBT8X504sru2xn79Dxlp1HrfcXI6n/2Rg
+ Ad1kbL0CYji1NT6sIx4JRhwvYErhu+Qc0B4lsgUWpSMvEhICIV+jxtyDNxR5v31XNz
+ bj3VoUXgcsOR9QyEKsJLQmXcSPT8rWxj6l8CGtgYVVIxlJOiY1rvanjc0LK9fLIyGS
+ pdUmahbiNXJsQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 4.14 36/59] gpu: drm: amd: amdgpu: amdgpu_i2c: fix
- possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
-Date: Thu,  9 Sep 2021 07:58:37 -0400
-Message-Id: <20210909115900.149795-36-sashal@kernel.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.9 04/48] video: fbdev: kyro: fix a DoS bug by
+ restricting user input
+Date: Thu,  9 Sep 2021 07:59:31 -0400
+Message-Id: <20210909120015.150411-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909115900.149795-1-sashal@kernel.org>
-References: <20210909115900.149795-1-sashal@kernel.org>
+In-Reply-To: <20210909120015.150411-1-sashal@kernel.org>
+References: <20210909120015.150411-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -56,44 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tuo Li <islituo@gmail.com>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit a211260c34cfadc6068fece8c9e99e0fe1e2a2b6 ]
+[ Upstream commit 98a65439172dc69cb16834e62e852afc2adb83ed ]
 
-The variable val is declared without initialization, and its address is
-passed to amdgpu_i2c_get_byte(). In this function, the value of val is
-accessed in:
-  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
-       addr, *val);
+The user can pass in any value to the driver through the 'ioctl'
+interface. The driver dost not check, which may cause DoS bugs.
 
-Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized,
-but it is accessed in:
-  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
+The following log reveals it:
 
-To fix this possible uninitialized-variable access, initialize val to 0 in
-amdgpu_i2c_router_select_ddc_port().
+divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+RIP: 0010:SetOverlayViewPort+0x133/0x5f0 drivers/video/fbdev/kyro/STG4000OverlayDevice.c:476
+Call Trace:
+ kyro_dev_overlay_viewport_set drivers/video/fbdev/kyro/fbdev.c:378 [inline]
+ kyrofb_ioctl+0x2eb/0x330 drivers/video/fbdev/kyro/fbdev.c:603
+ do_fb_ioctl+0x1f3/0x700 drivers/video/fbdev/core/fbmem.c:1171
+ fb_ioctl+0xeb/0x130 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x19b/0x220 fs/ioctl.c:739
+ do_syscall_64+0x32/0x80 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1626235762-2590-1-git-send-email-zheyuma97@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/video/fbdev/kyro/fbdev.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-index f2739995c335..199eccee0b0b 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-@@ -338,7 +338,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
- void
- amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
- {
--	u8 val;
-+	u8 val = 0;
+diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
+index f77478fb3d14..517057a48dd4 100644
+--- a/drivers/video/fbdev/kyro/fbdev.c
++++ b/drivers/video/fbdev/kyro/fbdev.c
+@@ -372,6 +372,11 @@ static int kyro_dev_overlay_viewport_set(u32 x, u32 y, u32 ulWidth, u32 ulHeight
+ 		/* probably haven't called CreateOverlay yet */
+ 		return -EINVAL;
  
- 	if (!amdgpu_connector->router.ddc_valid)
- 		return;
++	if (ulWidth == 0 || ulWidth == 0xffffffff ||
++	    ulHeight == 0 || ulHeight == 0xffffffff ||
++	    (x < 2 && ulWidth + 2 == 0))
++		return -EINVAL;
++
+ 	/* Stop Ramdac Output */
+ 	DisableRamdacOutput(deviceInfo.pSTGReg);
+ 
 -- 
 2.30.2
 
