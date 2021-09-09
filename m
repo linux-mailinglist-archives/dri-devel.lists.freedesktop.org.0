@@ -1,40 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC2E94049E4
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:43:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C9D4049EA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:43:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A918E6E51B;
-	Thu,  9 Sep 2021 11:43:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 374486E520;
+	Thu,  9 Sep 2021 11:43:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21CA76E51B
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:43:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 313C06124D;
- Thu,  9 Sep 2021 11:42:59 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91816E51D;
+ Thu,  9 Sep 2021 11:43:08 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A48A361245;
+ Thu,  9 Sep 2021 11:43:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187780;
- bh=JCUyILyV+6ACnUJ0rjVdIkqYyZqashxOxCmyeCo/XRk=;
+ s=k20201202; t=1631187788;
+ bh=N+oKi7eeVnuYEUVTGN5wXiWpy68Vo34sA0FAwHUYF8I=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AntwiYDacIqm8tgjvmMtijk0hFSM91A5fwSDR3tmGsUcpPPKBPDAKMjq470YBxkIU
- 52UemGmQ3/OoAuwdZJEqhK+osES+dTCldmfNIsIId1+TAea2GkkFJtG4OxmTpzgD65
- Ke8WAH065j3hZD4kB/3SaHSOkw4/sQr43hPNnO91H9AcvbQwA2c0SY8zqOrfQI+evE
- RrF/qFTQiJdEwqVZ50vOQru2m8kyM8OCPB/ZFwrYsb//RDDNGuiB+z1htHs4rARJ9K
- yUhS8ffr2WINrIlMKbM2qTiVOMqlk38LpIWNlCRswafud5S3rkNtPF2QvHEaU7HpSB
- zF96JRd8MpEZg==
+ b=nCCV6U8x3s3v1ch5xWkNyDRwLzdVak9idScxJcLrwf0XMnfLpduLdle5aBIxgyfFg
+ 6EiYbz8cK1pRx7g7dxStRjnh1leuxY1/JXzgw9pqeJwS73p6s4hZjUfiiLJKkmKQRJ
+ 8h8+ffxGP6ALXG73hitW3RfKahNDWSW1Gy/Lg6wA5L+01S2MOd3w0Yob7WcqgmACbW
+ ZGkHbM38njwOcpfTERed3sn9T0cGPAL3kC1fKlDKQbQPqoeuBZYRIakZ5aNvyuo2V5
+ DBNneQJU+N9bgfGPJoyPgqCzspnorvqLSGiWeTmke2iJfg5F+hbvmtup8V4TOtrlGL
+ WnXGCnqm3wShA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.14 089/252] drm: rcar-du: Shutdown the display on
- system shutdown
-Date: Thu,  9 Sep 2021 07:38:23 -0400
-Message-Id: <20210909114106.141462-89-sashal@kernel.org>
+Cc: Akhil P Oommen <akhilpo@codeaurora.org>,
+ Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 095/252] drm/msm/a6xx: Fix llcc configuration for
+ a660 gpu
+Date: Thu,  9 Sep 2021 07:38:29 -0400
+Message-Id: <20210909114106.141462-95-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -57,50 +57,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
 
-[ Upstream commit 015f2ebb93767d40c442e749642fffaf10316d78 ]
+[ Upstream commit a6f24383f6c0a8d64d1f6afa10733ae4e8f236e0 ]
 
-When the system shuts down or warm reboots, the display may be active,
-with the hardware accessing system memory. Upon reboot, the DDR will not
-be accessible, which may cause issues.
+Add the missing scache_cntl0 register programing which is required for
+a660 gpu.
 
-Implement the platform_driver .shutdown() operation and shut down the
-display to fix this.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Akhil P Oommen <akhilpo@codeaurora.org>
+Link: https://lore.kernel.org/r/20210730011945.v4.1.I110b87677ef16d97397fb7c81c07a16e1f5d211e@changeid
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/rcar-du/rcar_du_drv.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 46 ++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-index bfbff90588cb..43de3d8686e8 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-@@ -561,6 +561,13 @@ static int rcar_du_remove(struct platform_device *pdev)
- 	return 0;
+diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+index 9c5e4618aa0a..183b9f9c1b31 100644
+--- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
++++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+@@ -1383,13 +1383,13 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+ {
+ 	struct adreno_gpu *adreno_gpu = &a6xx_gpu->base;
+ 	struct msm_gpu *gpu = &adreno_gpu->base;
+-	u32 cntl1_regval = 0;
++	u32 gpu_scid, cntl1_regval = 0;
+ 
+ 	if (IS_ERR(a6xx_gpu->llc_mmio))
+ 		return;
+ 
+ 	if (!llcc_slice_activate(a6xx_gpu->llc_slice)) {
+-		u32 gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
++		gpu_scid = llcc_get_slice_id(a6xx_gpu->llc_slice);
+ 
+ 		gpu_scid &= 0x1f;
+ 		cntl1_regval = (gpu_scid << 0) | (gpu_scid << 5) | (gpu_scid << 10) |
+@@ -1409,26 +1409,34 @@ static void a6xx_llc_activate(struct a6xx_gpu *a6xx_gpu)
+ 		}
+ 	}
+ 
+-	if (cntl1_regval) {
++	if (!cntl1_regval)
++		return;
++
++	/*
++	 * Program the slice IDs for the various GPU blocks and GPU MMU
++	 * pagetables
++	 */
++	if (!a6xx_gpu->have_mmu500) {
++		a6xx_llc_write(a6xx_gpu,
++			REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
++
+ 		/*
+-		 * Program the slice IDs for the various GPU blocks and GPU MMU
+-		 * pagetables
++		 * Program cacheability overrides to not allocate cache
++		 * lines on a write miss
+ 		 */
+-		if (a6xx_gpu->have_mmu500)
+-			gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0),
+-				cntl1_regval);
+-		else {
+-			a6xx_llc_write(a6xx_gpu,
+-				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_1, cntl1_regval);
+-
+-			/*
+-			 * Program cacheability overrides to not allocate cache
+-			 * lines on a write miss
+-			 */
+-			a6xx_llc_rmw(a6xx_gpu,
+-				REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
+-		}
++		a6xx_llc_rmw(a6xx_gpu,
++			REG_A6XX_CX_MISC_SYSTEM_CACHE_CNTL_0, 0xF, 0x03);
++		return;
+ 	}
++
++	gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL1, GENMASK(24, 0), cntl1_regval);
++
++	/* On A660, the SCID programming for UCHE traffic is done in
++	 * A6XX_GBIF_SCACHE_CNTL0[14:10]
++	 */
++	if (adreno_is_a660(adreno_gpu))
++		gpu_rmw(gpu, REG_A6XX_GBIF_SCACHE_CNTL0, (0x1f << 10) |
++			(1 << 8), (gpu_scid << 10) | (1 << 8));
  }
  
-+static void rcar_du_shutdown(struct platform_device *pdev)
-+{
-+	struct rcar_du_device *rcdu = platform_get_drvdata(pdev);
-+
-+	drm_atomic_helper_shutdown(&rcdu->ddev);
-+}
-+
- static int rcar_du_probe(struct platform_device *pdev)
- {
- 	struct rcar_du_device *rcdu;
-@@ -617,6 +624,7 @@ static int rcar_du_probe(struct platform_device *pdev)
- static struct platform_driver rcar_du_platform_driver = {
- 	.probe		= rcar_du_probe,
- 	.remove		= rcar_du_remove,
-+	.shutdown	= rcar_du_shutdown,
- 	.driver		= {
- 		.name	= "rcar-du",
- 		.pm	= &rcar_du_pm_ops,
+ static void a6xx_llc_slices_destroy(struct a6xx_gpu *a6xx_gpu)
 -- 
 2.30.2
 
