@@ -1,40 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E53404A0F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:44:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 753D1404A12
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 972486E55C;
-	Thu,  9 Sep 2021 11:44:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 98D396E56A;
+	Thu,  9 Sep 2021 11:44:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4FD826E544;
- Thu,  9 Sep 2021 11:44:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2C2F561288;
- Thu,  9 Sep 2021 11:44:15 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCA16E55E;
+ Thu,  9 Sep 2021 11:44:19 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4170D61374;
+ Thu,  9 Sep 2021 11:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187856;
- bh=0bo7ow20Vjjagu611zzbdx4DpyRacN4U9snfytX4aUM=;
+ s=k20201202; t=1631187859;
+ bh=taatuuLuDBoBSsvAWC34YtQ3EAR1kJj2dTPwEIz+LIE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kuOpgUP2sAbxb6Zpe01vzmgWpkRpI1lAikCNlW5RFmCgKsavnYCAEQHPxoYb7PeUc
- W0NxXOqtVZwH9kPFeqYGTDfCTzgpu0WdLGBFCcTBqSlq0ZVkkunSnSbmvxutT3S2v9
- XJyLwZVyQeCoDk0OlGrzyP4U9nrEZ8X01PIrilO/fmbj5zirg6F2GFjDoDsXeN16BU
- gqvKfye116fZesSuMtDoLhRFAr7rYtchzgd5R6baSdF3+Ry0oToc3lm/+YwXWNkXUm
- GY88KGH5CjqnU4Cu6lG0VXnw2FNTDjuFVaCALai2GcDYYt2ODyrBa7TFTQAO52dQC7
- E3WS8oc5gRV8w==
+ b=sqmvIMqSnu8towf9gCQL4g3PmBOMQcOf3/7R2cWEdHlUFwMqBMAfaRzvz+mtbFla0
+ ceSARKFzbo5UAHgY4UaxnyN63t8/0acKbbnmlwj0Lvj26qRFNwLCGvSLQuF7KEKDsp
+ Dii6LbgeQhBkg+GKpyrCf08NAq/2VukOHHItpkDsisD+JdXfPjyU2qPM9tvqirSR5c
+ x6q8e/7Lpv8WxGpbdQUlagOxviKuEhRbjYIKTPVasgwZG/b93PdEo73cIMaRiFTYLC
+ GxB/9BCInor+hGYPYDoACjkBuhScILqyTGMVb3bWGdEDp5KwsnFm3pJgZ/Usu96yA4
+ +YxJch3hhBt+g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kuogee Hsieh <khsieh@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>,
- Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 145/252] drm/msm/dp: do not end dp link training
- until video is ready
-Date: Thu,  9 Sep 2021 07:39:19 -0400
-Message-Id: <20210909114106.141462-145-sashal@kernel.org>
+Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 147/252] gpu: drm: amd: amdgpu: amdgpu_i2c: fix
+ possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
+Date: Thu,  9 Sep 2021 07:39:21 -0400
+Message-Id: <20210909114106.141462-147-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -57,146 +56,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kuogee Hsieh <khsieh@codeaurora.org>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit 2e0adc765d884cc080baa501e250bfad97035b09 ]
+[ Upstream commit a211260c34cfadc6068fece8c9e99e0fe1e2a2b6 ]
 
-Initialize both pre-emphasis and voltage swing level to 0 before
-start link training and do not end link training until video is
-ready to reduce the period between end of link training and video
-start to meet Link Layer CTS requirement.  Some dongle main link
-symbol may become unlocked again if host did not end link training
-soon enough after completion of link training 2. Host have to re
-train main link if loss of symbol locked detected before end link
-training so that the coming video stream can be transmitted to sink
-properly. This fixes Link Layer CTS cases 4.3.2.1, 4.3.2.2, 4.3.2.3
-and 4.3.2.4.
+The variable val is declared without initialization, and its address is
+passed to amdgpu_i2c_get_byte(). In this function, the value of val is
+accessed in:
+  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
+       addr, *val);
 
-Changes in v3:
--- merge retrain link if loss of symbol locked happen into this patch
--- replace dp_ctrl_loss_symbol_lock() with dp_ctrl_channel_eq_ok()
+Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized,
+but it is accessed in:
+  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
 
-Signed-off-by: Kuogee Hsieh <khsieh@codeaurora.org>
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-Link: https://lore.kernel.org/r/1628196295-7382-7-git-send-email-khsieh@codeaurora.org
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+To fix this possible uninitialized-variable access, initialize val to 0 in
+amdgpu_i2c_router_select_ddc_port().
+
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/dp/dp_ctrl.c | 56 +++++++++++++++++++++++---------
- 1 file changed, 41 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-index 30d20e3beb29..6f5e45d54b26 100644
---- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
-+++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
-@@ -1480,6 +1480,9 @@ static int dp_ctrl_link_maintenance(struct dp_ctrl_private *ctrl)
- 
- 	dp_ctrl_push_idle(&ctrl->dp_ctrl);
- 
-+	ctrl->link->phy_params.p_level = 0;
-+	ctrl->link->phy_params.v_level = 0;
-+
- 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
- 	ret = dp_ctrl_setup_main_link(ctrl, &training_step);
-@@ -1632,6 +1635,16 @@ static bool dp_ctrl_clock_recovery_any_ok(
- 	return drm_dp_clock_recovery_ok(link_status, reduced_cnt);
- }
- 
-+static bool dp_ctrl_channel_eq_ok(struct dp_ctrl_private *ctrl)
-+{
-+	u8 link_status[DP_LINK_STATUS_SIZE];
-+	int num_lanes = ctrl->link->link_params.num_lanes;
-+
-+	dp_ctrl_read_link_status(ctrl, link_status);
-+
-+	return drm_dp_channel_eq_ok(link_status, num_lanes);
-+}
-+
- int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+index bca4dddd5a15..82608df43396 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+@@ -339,7 +339,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
+ void
+ amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
  {
- 	int rc = 0;
-@@ -1666,6 +1679,9 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 		ctrl->link->link_params.rate,
- 		ctrl->link->link_params.num_lanes, ctrl->dp_ctrl.pixel_rate);
+-	u8 val;
++	u8 val = 0;
  
-+	ctrl->link->phy_params.p_level = 0;
-+	ctrl->link->phy_params.v_level = 0;
-+
- 	rc = dp_ctrl_enable_mainlink_clocks(ctrl);
- 	if (rc)
- 		return rc;
-@@ -1731,17 +1747,19 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 	if (ctrl->link->sink_request & DP_TEST_LINK_PHY_TEST_PATTERN)
- 		return rc;
- 
--	/* stop txing train pattern */
--	dp_ctrl_clear_training_pattern(ctrl);
-+	if (rc == 0) {  /* link train successfully */
-+		/*
-+		 * do not stop train pattern here
-+		 * stop link training at on_stream
-+		 * to pass compliance test
-+		 */
-+	} else  {
-+		/*
-+		 * link training failed
-+		 * end txing train pattern here
-+		 */
-+		dp_ctrl_clear_training_pattern(ctrl);
- 
--	/*
--	 * keep transmitting idle pattern until video ready
--	 * to avoid main link from loss of sync
--	 */
--	if (rc == 0)  /* link train successfully */
--		dp_ctrl_push_idle(dp_ctrl);
--	else  {
--		/* link training failed */
- 		dp_ctrl_deinitialize_mainlink(ctrl);
- 		rc = -ECONNRESET;
- 	}
-@@ -1749,9 +1767,15 @@ int dp_ctrl_on_link(struct dp_ctrl *dp_ctrl)
- 	return rc;
- }
- 
-+static int dp_ctrl_link_retrain(struct dp_ctrl_private *ctrl)
-+{
-+	int training_step = DP_TRAINING_NONE;
-+
-+	return dp_ctrl_setup_main_link(ctrl, &training_step);
-+}
-+
- int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- {
--	u32 rate = 0;
- 	int ret = 0;
- 	bool mainlink_ready = false;
- 	struct dp_ctrl_private *ctrl;
-@@ -1761,10 +1785,6 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 
- 	ctrl = container_of(dp_ctrl, struct dp_ctrl_private, dp_ctrl);
- 
--	rate = ctrl->panel->link_info.rate;
--
--	ctrl->link->link_params.rate = rate;
--	ctrl->link->link_params.num_lanes = ctrl->panel->link_info.num_lanes;
- 	ctrl->dp_ctrl.pixel_rate = ctrl->panel->dp_mode.drm_mode.clock;
- 
- 	DRM_DEBUG_DP("rate=%d, num_lanes=%d, pixel_rate=%d\n",
-@@ -1779,6 +1799,12 @@ int dp_ctrl_on_stream(struct dp_ctrl *dp_ctrl)
- 		}
- 	}
- 
-+	if (!dp_ctrl_channel_eq_ok(ctrl))
-+		dp_ctrl_link_retrain(ctrl);
-+
-+	/* stop txing train pattern to end link training */
-+	dp_ctrl_clear_training_pattern(ctrl);
-+
- 	ret = dp_ctrl_enable_stream_clocks(ctrl);
- 	if (ret) {
- 		DRM_ERROR("Failed to start pixel clocks. ret=%d\n", ret);
+ 	if (!amdgpu_connector->router.ddc_valid)
+ 		return;
 -- 
 2.30.2
 
