@@ -1,76 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98289404E70
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:17:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9BF405015
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:31:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2D826E866;
-	Thu,  9 Sep 2021 12:17:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F7CE6E862;
+	Thu,  9 Sep 2021 12:31:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
- [IPv6:2607:f8b0:4864:20::d2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0ED3B6E865
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 12:17:53 +0000 (UTC)
-Received: by mail-io1-xd2c.google.com with SMTP id z1so1969579ioh.7
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 05:17:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rYmN9+Vy/Zm7v0RZi8m78PsGaMbXCo9rwM4fXnlFa0A=;
- b=jw+iTpcLGi33/KUcEaVR3lYwDq9++0Zt56YuT9/orXgQXI25hLKmgRmzW2toJi7myz
- JPbld8zzLLon+cNCj7SMJHWAl067f8z7RD/RvROUFdI3Ou9HjZc9T162pgu15ZOYJZWf
- 8l6XWBvHQpCKJinTzZt7rdtsbGzQav/fEejvqKQbrPDpfyb0sFGaBk0BRRnT7PFZbdPv
- yDVqfSiMT2ie32yRsY5ei1vNEx8mK2qHqgyP2v9nXFZ+u09F6NjF7dVD9o9Dow2NTDdo
- xk3EumusBusF2wvolA+8go4RMKS8aOVH48wEZotYmp2DTIahIZFdmmYTDp8UB7F2vQc+
- wEzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rYmN9+Vy/Zm7v0RZi8m78PsGaMbXCo9rwM4fXnlFa0A=;
- b=ttoClG3QJxQuaa/fBS7T6urWz1rx1ZaQg3ljCA5gZvNRj6Hry2kHecNRsCkuHEe6VQ
- iR9JoE+znffJIwbNt66FkwNxii1E6dzNJ3JLkQhE755EnHRer9hr+jZEdodVhJYtyRyQ
- LCPUIF64yN9wcZn5cZ7YZCGHnFytFs0Xmxb8iAWXCP2ZcOsDuvr7VBNgRMGM02AI+pDL
- Tkf/uu12VqyEJPpj278nsXH+F2nTVUkeE0WJacW7ur9LeOItaPIAb7VR/XmlCM8N48uo
- ncX8HEkIvDLFH6hvH6EjIuarNxu4AnU/pBkK9CQO1W0JxL65dE8ViVN4pT6CHOUZlUMm
- uEpQ==
-X-Gm-Message-State: AOAM530PgJ1HlfJltGF25NzRvuGYe5o225CiftoKs9FtZDhBG45hSjOL
- 6oYH8jnvrLPUOwtNSX8mD/DaJ2mo3xG0yxwbrE122A==
-X-Google-Smtp-Source: ABdhPJzzGnEJRhZfFJ5kL+XJ9LhYV5UeHMmZWo/JVUq5RLvA5TfAvwZJL681YJ5O4yJaKOgNEx7M/kGJZcKwTSrjL5c=
-X-Received: by 2002:a6b:3f02:: with SMTP id m2mr2358919ioa.136.1631189872259; 
- Thu, 09 Sep 2021 05:17:52 -0700 (PDT)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F02B6E861;
+ Thu,  9 Sep 2021 12:31:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="208005386"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="208005386"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 05:31:52 -0700
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="470057666"
+Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 05:31:52 -0700
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Juston Li <juston.li@intel.com>,
+ Alan Previn <alan.previn.teres.alexis@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH v8 00/17] drm/i915: Introduce Intel PXP
+Date: Thu,  9 Sep 2021 05:28:58 -0700
+Message-Id: <20210909122915.971652-1-daniele.ceraolospurio@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <YTgeIuwumPoR9ZTE@ripper>
-In-Reply-To: <YTgeIuwumPoR9ZTE@ripper>
-From: Amit Pundir <amit.pundir@linaro.org>
-Date: Thu, 9 Sep 2021 17:47:16 +0530
-Message-ID: <CAMi1Hd1TOFj5USToEhuvZz8vgboQbMWco7gN413-jHJp-A7Ozg@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Akhil P Oommen <akhilpo@codeaurora.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, 
- Rob Clark <robdclark@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, 
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sharat Masetty <smasetty@codeaurora.org>, 
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,88 +56,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 8 Sept 2021 at 07:50, Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Mon 09 Aug 10:26 PDT 2021, Akhil P Oommen wrote:
->
-> > On 8/9/2021 9:48 PM, Caleb Connolly wrote:
-> > >
-> > >
-> > > On 09/08/2021 17:12, Rob Clark wrote:
-> > > > On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen
-> > > > <akhilpo@codeaurora.org> wrote:
-> [..]
-> > > > > I am a bit confused. We don't define a power domain for gpu in dt,
-> > > > > correct? Then what exactly set_opp do here? Do you think this usleep is
-> > > > > what is helping here somehow to mask the issue?
-> > > The power domains (for cx and gx) are defined in the GMU DT, the OPPs in
-> > > the GPU DT. For the sake of simplicity I'll refer to the lowest
-> > > frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
-> > > the "min" state, and the highest frequency (710000000) and OPP level
-> > > (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are defined in
-> > > sdm845.dtsi under the gpu node.
-> > >
-> > > The new devfreq behaviour unmasks what I think is a driver bug, it
-> > > inadvertently puts much more strain on the GPU regulators than they
-> > > usually get. With the new behaviour the GPU jumps from it's min state to
-> > > the max state and back again extremely rapidly under workloads as small
-> > > as refreshing UI. Where previously the GPU would rarely if ever go above
-> > > 342MHz when interacting with the device, it now jumps between min and
-> > > max many times per second.
-> > >
-> > > If my understanding is correct, the current implementation of the GMU
-> > > set freq is the following:
-> > >   - Get OPP for frequency to set
-> > >   - Push the frequency to the GMU - immediately updating the core clock
-> > >   - Call dev_pm_opp_set_opp() which triggers a notify chain, this winds
-> > > up somewhere in power management code and causes the gx regulator level
-> > > to be updated
-> >
-> > Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing else. We
-> > were using a different api earlier which got deprecated -
-> > dev_pm_opp_set_bw().
-> >
->
-> On the Lenovo Yoga C630 this is reproduced by starting alacritty and if
-> I'm lucky I managed to hit a few keys before it crashes, so I spent a
-> few hours looking into this as well...
->
-> As you say, the dev_pm_opp_set_opp() will only cast a interconnect vote.
-> The opp-level is just there for show and isn't used by anything, at
-> least not on 845.
->
-> Further more, I'm missing something in my tree, so the interconnect
-> doesn't hit sync_state, and as such we're not actually scaling the
-> buses. So the problem is not that Linux doesn't turn on the buses in
-> time.
->
-> So I suspect that the "AHB bus error" isn't saying that we turned off
-> the bus, but rather that the GPU becomes unstable or something of that
-> sort.
->
->
-> Lastly, I reverted 9bc95570175a ("drm/msm: Devfreq tuning") and ran
-> Aquarium for 20 minutes without a problem. I then switched the gpu
-> devfreq governor to "userspace" and ran the following:
->
-> while true; do
->   echo 257000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
->   echo 710000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> done
->
-> It took 19 iterations of this loop to crash the GPU.
+PXP (Protected Xe Path) is an i915 component, available on
+GEN12+, that helps to establish the hardware protected session
+and manage the status of the alive software session, as well
+as its life cycle.
 
-Ack. With your above script, I can reproduce a crash too on db845c
-(A630) running v5.14. I didn't get any crash log though and device
-just rebooted to USB crash mode.
+The main change from v7 is that we no longer increase the guilty count
+when a context is banned due to PXP invalidation
 
-And same crash on RB5 (A650) too https://hastebin.com/raw/ejutetuwun
+Tested with: https://patchwork.freedesktop.org/series/87570/
 
->
-> So the problem doesn't seem to be Rob's change, it's just that prior to
-> it the chance to hitting it is way lower. Question is still what it is
-> that we're triggering.
->
-> Regards,
-> Bjorn
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+
+Anshuman Gupta (2):
+  drm/i915/pxp: Add plane decryption support
+  drm/i915/pxp: black pixels on pxp disabled
+
+Daniele Ceraolo Spurio (9):
+  drm/i915/pxp: Define PXP component interface
+  drm/i915/pxp: define PXP device flag and kconfig
+  drm/i915/pxp: allocate a vcs context for pxp usage
+  drm/i915/pxp: set KCR reg init
+  drm/i915/pxp: interfaces for using protected objects
+  drm/i915/pxp: start the arb session on demand
+  drm/i915/pxp: add pxp debugfs
+  drm/i915/pxp: add PXP documentation
+  drm/i915/pxp: enable PXP for integrated Gen12
+
+Huang, Sean Z (5):
+  drm/i915/pxp: Implement funcs to create the TEE channel
+  drm/i915/pxp: Create the arbitrary session after boot
+  drm/i915/pxp: Implement arb session teardown
+  drm/i915/pxp: Implement PXP irq handler
+  drm/i915/pxp: Enable PXP power management
+
+Vitaly Lubart (1):
+  mei: pxp: export pavp client to me client bus
+
+ Documentation/gpu/i915.rst                    |   8 +
+ drivers/gpu/drm/i915/Kconfig                  |  11 +
+ drivers/gpu/drm/i915/Makefile                 |  10 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  34 +++
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  49 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   | 100 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   6 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  28 ++
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +++--
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  18 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   8 +
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   4 +-
+ drivers/gpu/drm/i915/gt/debugfs_gt.c          |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  15 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  48 +++
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 287 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  67 ++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c      | 141 +++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h      |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |  78 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h  |  21 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 100 ++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |  32 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  40 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  23 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  | 175 +++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 172 +++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |  17 ++
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  37 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  83 +++++
+ drivers/misc/mei/Kconfig                      |   2 +
+ drivers/misc/mei/Makefile                     |   1 +
+ drivers/misc/mei/pxp/Kconfig                  |  13 +
+ drivers/misc/mei/pxp/Makefile                 |   7 +
+ drivers/misc/mei/pxp/mei_pxp.c                | 229 ++++++++++++++
+ drivers/misc/mei/pxp/mei_pxp.h                |  18 ++
+ include/drm/i915_component.h                  |   1 +
+ include/drm/i915_pxp_tee_interface.h          |  42 +++
+ include/uapi/drm/i915_drm.h                   |  55 +++-
+ 52 files changed, 2102 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ create mode 100644 drivers/misc/mei/pxp/Kconfig
+ create mode 100644 drivers/misc/mei/pxp/Makefile
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+ create mode 100644 include/drm/i915_pxp_tee_interface.h
+
+-- 
+2.25.1
+
