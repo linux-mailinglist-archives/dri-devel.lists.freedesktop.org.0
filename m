@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485C5404ABD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:47:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE0A404ABE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:47:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57AB46E5A5;
-	Thu,  9 Sep 2021 11:47:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80AC16E5A9;
+	Thu,  9 Sep 2021 11:47:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 620576E5A4;
- Thu,  9 Sep 2021 11:47:46 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4FB306187A;
- Thu,  9 Sep 2021 11:47:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 460466E5A9
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:47:50 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 20C9D6187C;
+ Thu,  9 Sep 2021 11:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188066;
- bh=UZo5Yy7QTYhzHVk71euLtpgz+jm8v+bFd92XXXXGbD8=;
+ s=k20201202; t=1631188070;
+ bh=6dNN8OQPe/wsB34uoI/ICMKD2qSsK5yWqTj8ezysK4A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=E2HST6E6gybMTq4wv6o7ftbC0q+sOFbce3FNkDtC2j0HNvEQxqJ+qsZPamkiwUYVT
- eoWVlJPI6659czRu/C4Xw6R8rC1f302FZFto/hZNj4SO9cD6MZwY5dL/+awcn3B97l
- qW+FVw++e1k21GXE4/j/d/AThH5kpoSAd1xRQZmrGm9fES9A09YwgcjK7s4wvoBSJH
- RQ53h8vIxbI72pA5NOBEeKU1Uacbs3ddppZ1onHrJbNRJaeV7P8ecRHPyjGntS+8zi
- GoZ03i3+XyXrpubZksl30q3sEoL0p2UGGpBQOObyd40Qwss5ed/H0dJi34fZ1+8JD3
- 6YHCUpZbYjYKA==
+ b=dvhvezXZHeA/O2LVaHLLUQPiUT4NjajO8ngtrwd2VheHH+NXfi0N+b+DjXErO/KTc
+ 6TpyHcd+PM6SMQKLCVU7SN5bjXgrBa0bDqv5BQ5cCTiUMPc/zqCTMhw4JYDmB5V+EK
+ 0v2sKbwC0r2Zs+jcCRPA81Bu8buiRfYaBwjC4P29DgHexW/aQBARPU6mISiIVN8Lc8
+ Ew7hNTS6mS5rO2bYvtekh/PBTisWYpTwECy7BEiunS4DqQfCUmRO5OwrJcPZXmeBBR
+ eYDj4JE7zAqdpAQ29N8V6wRMPuGpV33+b3yP+/9w6NltOKVBwraguWC8STYKsVqlhx
+ 3NHCdFK/oBxqg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Anson Jacob <Anson.Jacob@amd.com>, Harry Wentland <harry.wentland@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 054/219] drm/amd/amdgpu: Update debugfs
- link_settings output link_rate field in hex
-Date: Thu,  9 Sep 2021 07:43:50 -0400
-Message-Id: <20210909114635.143983-54-sashal@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Fabio Estevam <festevam@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.13 057/219] drm/bridge: nwl-dsi: Avoid potential
+ multiplication overflow on 32-bit
+Date: Thu,  9 Sep 2021 07:43:53 -0400
+Message-Id: <20210909114635.143983-57-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
 References: <20210909114635.143983-1-sashal@kernel.org>
@@ -56,72 +58,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Anson Jacob <Anson.Jacob@amd.com>
+From: Geert Uytterhoeven <geert+renesas@glider.be>
 
-[ Upstream commit 1a394b3c3de2577f200cb623c52a5c2b82805cec ]
+[ Upstream commit 47956bc86ee4e8530cac386a04f62a6095f7afbe ]
 
-link_rate is updated via debugfs using hex values, set it to output
-in hex as well.
+As nwl_dsi.lanes is u32, and NSEC_PER_SEC is 1000000000L, the second
+multiplication in
 
-eg: Resolution: 1920x1080@144Hz
-cat /sys/kernel/debug/dri/0/DP-1/link_settings
-Current:  4  0x14  0  Verified:  4  0x1e  0  Reported:  4  0x1e  16  Preferred:  0  0x0  0
+    dsi->lanes * 8 * NSEC_PER_SEC
 
-echo "4 0x1e" > /sys/kernel/debug/dri/0/DP-1/link_settings
+will overflow on a 32-bit platform.  Fix this by making the constant
+unsigned long long, forcing 64-bit arithmetic.
 
-cat /sys/kernel/debug/dri/0/DP-1/link_settings
-Current:  4  0x1e  0  Verified:  4  0x1e  0  Reported:  4  0x1e  16  Preferred:  4  0x1e  0
+As iMX8 is arm64, this driver is currently used on 64-bit platforms
+only, where long is 64-bit, so this cannot happen.  But the issue will
+start to happen when the driver is reused for a 32-bit SoC (e.g.
+i.MX7ULP), or when code is copied for a new driver.
 
-Signed-off-by: Anson Jacob <Anson.Jacob@amd.com>
-Reviewed-by: Harry Wentland <harry.wentland@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Reviewed-by: Fabio Estevam <festevam@gmail.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/ebb82941a86b4e35c4fcfb1ef5a5cfad7c1fceab.1626255956.git.geert+renesas@glider.be
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c    | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ drivers/gpu/drm/bridge/nwl-dsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 1b6b15708b96..08ff1166ffc8 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -197,29 +197,29 @@ static ssize_t dp_link_settings_read(struct file *f, char __user *buf,
+diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+index c65ca860712d..6cac2e58cd15 100644
+--- a/drivers/gpu/drm/bridge/nwl-dsi.c
++++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+@@ -196,7 +196,7 @@ static u32 ps2bc(struct nwl_dsi *dsi, unsigned long long ps)
+ 	u32 bpp = mipi_dsi_pixel_format_to_bpp(dsi->format);
  
- 	rd_buf_ptr = rd_buf;
+ 	return DIV64_U64_ROUND_UP(ps * dsi->mode.clock * bpp,
+-				  dsi->lanes * 8 * NSEC_PER_SEC);
++				  dsi->lanes * 8ULL * NSEC_PER_SEC);
+ }
  
--	str_len = strlen("Current:  %d  %d  %d  ");
--	snprintf(rd_buf_ptr, str_len, "Current:  %d  %d  %d  ",
-+	str_len = strlen("Current:  %d  0x%x  %d  ");
-+	snprintf(rd_buf_ptr, str_len, "Current:  %d  0x%x  %d  ",
- 			link->cur_link_settings.lane_count,
- 			link->cur_link_settings.link_rate,
- 			link->cur_link_settings.link_spread);
- 	rd_buf_ptr += str_len;
- 
--	str_len = strlen("Verified:  %d  %d  %d  ");
--	snprintf(rd_buf_ptr, str_len, "Verified:  %d  %d  %d  ",
-+	str_len = strlen("Verified:  %d  0x%x  %d  ");
-+	snprintf(rd_buf_ptr, str_len, "Verified:  %d  0x%x  %d  ",
- 			link->verified_link_cap.lane_count,
- 			link->verified_link_cap.link_rate,
- 			link->verified_link_cap.link_spread);
- 	rd_buf_ptr += str_len;
- 
--	str_len = strlen("Reported:  %d  %d  %d  ");
--	snprintf(rd_buf_ptr, str_len, "Reported:  %d  %d  %d  ",
-+	str_len = strlen("Reported:  %d  0x%x  %d  ");
-+	snprintf(rd_buf_ptr, str_len, "Reported:  %d  0x%x  %d  ",
- 			link->reported_link_cap.lane_count,
- 			link->reported_link_cap.link_rate,
- 			link->reported_link_cap.link_spread);
- 	rd_buf_ptr += str_len;
- 
--	str_len = strlen("Preferred:  %d  %d  %d  ");
--	snprintf(rd_buf_ptr, str_len, "Preferred:  %d  %d  %d\n",
-+	str_len = strlen("Preferred:  %d  0x%x  %d  ");
-+	snprintf(rd_buf_ptr, str_len, "Preferred:  %d  0x%x  %d\n",
- 			link->preferred_link_setting.lane_count,
- 			link->preferred_link_setting.link_rate,
- 			link->preferred_link_setting.link_spread);
+ /*
 -- 
 2.30.2
 
