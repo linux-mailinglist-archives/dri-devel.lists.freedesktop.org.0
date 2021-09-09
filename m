@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D61404993
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:41:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACFC40499C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:41:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B31A6E4D7;
-	Thu,  9 Sep 2021 11:41:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6A3A6E506;
+	Thu,  9 Sep 2021 11:41:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E08326E4D7
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:41:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0CBE2611AF;
- Thu,  9 Sep 2021 11:41:29 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B33B46E505
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:41:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BAFE5611ED;
+ Thu,  9 Sep 2021 11:41:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187690;
- bh=lZPFsafQ4x9ZhcGx2SHXD6JQ8EyomNZhe2cZ6YQnL5I=;
+ s=k20201202; t=1631187703;
+ bh=35atDnHr5kKPvD7ZRVCpmrxJQhwkKsyZnBkWc0xcL9g=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=AN0DcgNTGF9usL6YT3HZ5+zoQTVHAXwQ1ltJKsOgEJXyWGJI+cr1uaM1UhC6f0OFk
- x/tKntb3IIk0VDeHtw2GI4d5I6BJJZYupZKYyI4AN53LYl6Cpvo2Ia0x6MnOx/REQ2
- eRqeOD374GNFpndrp7EJ5GL4rH5lCP+I7bY7JEn34XDGLtQ1eK9E7CVNC2wRpIWjtd
- DkIdwdX7SkDUfw0iZKlpk5ei24Nulv9tUOMOCaJN/kUI1JnyUfYbu1eTjEUDRwoDJo
- 0gZSKOCQ3wMynJwApSiH3UXpHVgjMX788L96JktzMUiFB9yAGfX4B/w5sg0KRUtgUG
- 0v2ZaBkSxa66w==
+ b=VrpCArfMUVdLkRmeiFkXMk3WK7EXRot/42pj4T6na8OeubQNnXIbg6pLwWtv8V7kp
+ 3+6Hf7+ef057UwLnZOb5UXmV+oJ2f2lv27q6c9oXa3nYagrUEQSrmPiyMMZH0fz09g
+ KUyJNmOqeEKHBY8WQj/pI0gOG2Ef/W6bfgjmhOY+mmgK2zAXRDJcIHp3E1Bw0Zv3vS
+ bgnGhgYfFj+CyTeaOnFaYUveCIfXOSsWaqf+TRlY15NtiKV+Dp4ppKBsnrt1uHP5sR
+ /Z0sQui+vy6j8wHcI6FZuIHHWlzD0X6w1dmtQBu8TTpk4Q9canMSld8fqwU2vZfSll
+ 0TOezxI6sE99g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Thomas Zimmermann <tzimmermann@suse.de>,
- Melissa Wen <melissa.srw@gmail.com>, Sasha Levin <sashal@kernel.org>,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 018/252] drm/vkms: Let shadow-plane helpers
- prepare the plane's FB
-Date: Thu,  9 Sep 2021 07:37:12 -0400
-Message-Id: <20210909114106.141462-18-sashal@kernel.org>
+Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.14 028/252] video: fbdev: kyro: fix a DoS bug by
+ restricting user input
+Date: Thu,  9 Sep 2021 07:37:22 -0400
+Message-Id: <20210909114106.141462-28-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -56,90 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+From: Zheyu Ma <zheyuma97@gmail.com>
 
-[ Upstream commit b43e2ec03b0de040d536591713ea9c875ff34ba9 ]
+[ Upstream commit 98a65439172dc69cb16834e62e852afc2adb83ed ]
 
-Replace vkms' prepare_fb and cleanup_fb functions with the generic
-code for shadow-buffered planes. No functional changes.
+The user can pass in any value to the driver through the 'ioctl'
+interface. The driver dost not check, which may cause DoS bugs.
 
-This change also fixes a problem where IGT kms_flip tests would
-create a segmentation fault within vkms. The driver's prepare_fb
-function did not report an error if a BO's vmap operation failed.
-The kernel later tried to operate on the non-mapped memory areas.
-The shared shadow-plane helpers handle errors correctly, so that
-the driver now avoids the segmantation fault.
+The following log reveals it:
 
-v2:
-	* include paragraph about IGT tests in commit message (Melissa)
+divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+RIP: 0010:SetOverlayViewPort+0x133/0x5f0 drivers/video/fbdev/kyro/STG4000OverlayDevice.c:476
+Call Trace:
+ kyro_dev_overlay_viewport_set drivers/video/fbdev/kyro/fbdev.c:378 [inline]
+ kyrofb_ioctl+0x2eb/0x330 drivers/video/fbdev/kyro/fbdev.c:603
+ do_fb_ioctl+0x1f3/0x700 drivers/video/fbdev/core/fbmem.c:1171
+ fb_ioctl+0xeb/0x130 drivers/video/fbdev/core/fbmem.c:1185
+ vfs_ioctl fs/ioctl.c:48 [inline]
+ __do_sys_ioctl fs/ioctl.c:753 [inline]
+ __se_sys_ioctl fs/ioctl.c:739 [inline]
+ __x64_sys_ioctl+0x19b/0x220 fs/ioctl.c:739
+ do_syscall_64+0x32/0x80 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Reviewed-by: Melissa Wen <melissa.srw@gmail.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210705074633.9425-4-tzimmermann@suse.de
+Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
+Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+Link: https://patchwork.freedesktop.org/patch/msgid/1626235762-2590-1-git-send-email-zheyuma97@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/vkms/vkms_plane.c | 38 +------------------------------
- 1 file changed, 1 insertion(+), 37 deletions(-)
+ drivers/video/fbdev/kyro/fbdev.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/gpu/drm/vkms/vkms_plane.c b/drivers/gpu/drm/vkms/vkms_plane.c
-index 107521ace597..092514a2155f 100644
---- a/drivers/gpu/drm/vkms/vkms_plane.c
-+++ b/drivers/gpu/drm/vkms/vkms_plane.c
-@@ -8,7 +8,6 @@
- #include <drm/drm_gem_atomic_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_plane_helper.h>
--#include <drm/drm_gem_shmem_helper.h>
+diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
+index 8fbde92ae8b9..4b8c7c16b1df 100644
+--- a/drivers/video/fbdev/kyro/fbdev.c
++++ b/drivers/video/fbdev/kyro/fbdev.c
+@@ -372,6 +372,11 @@ static int kyro_dev_overlay_viewport_set(u32 x, u32 y, u32 ulWidth, u32 ulHeight
+ 		/* probably haven't called CreateOverlay yet */
+ 		return -EINVAL;
  
- #include "vkms_drv.h"
++	if (ulWidth == 0 || ulWidth == 0xffffffff ||
++	    ulHeight == 0 || ulHeight == 0xffffffff ||
++	    (x < 2 && ulWidth + 2 == 0))
++		return -EINVAL;
++
+ 	/* Stop Ramdac Output */
+ 	DisableRamdacOutput(deviceInfo.pSTGReg);
  
-@@ -150,45 +149,10 @@ static int vkms_plane_atomic_check(struct drm_plane *plane,
- 	return 0;
- }
- 
--static int vkms_prepare_fb(struct drm_plane *plane,
--			   struct drm_plane_state *state)
--{
--	struct drm_gem_object *gem_obj;
--	struct dma_buf_map map;
--	int ret;
--
--	if (!state->fb)
--		return 0;
--
--	gem_obj = drm_gem_fb_get_obj(state->fb, 0);
--	ret = drm_gem_shmem_vmap(gem_obj, &map);
--	if (ret)
--		DRM_ERROR("vmap failed: %d\n", ret);
--
--	return drm_gem_plane_helper_prepare_fb(plane, state);
--}
--
--static void vkms_cleanup_fb(struct drm_plane *plane,
--			    struct drm_plane_state *old_state)
--{
--	struct drm_gem_object *gem_obj;
--	struct drm_gem_shmem_object *shmem_obj;
--	struct dma_buf_map map;
--
--	if (!old_state->fb)
--		return;
--
--	gem_obj = drm_gem_fb_get_obj(old_state->fb, 0);
--	shmem_obj = to_drm_gem_shmem_obj(drm_gem_fb_get_obj(old_state->fb, 0));
--	dma_buf_map_set_vaddr(&map, shmem_obj->vaddr);
--	drm_gem_shmem_vunmap(gem_obj, &map);
--}
--
- static const struct drm_plane_helper_funcs vkms_primary_helper_funcs = {
- 	.atomic_update		= vkms_plane_atomic_update,
- 	.atomic_check		= vkms_plane_atomic_check,
--	.prepare_fb		= vkms_prepare_fb,
--	.cleanup_fb		= vkms_cleanup_fb,
-+	DRM_GEM_SHADOW_PLANE_HELPER_FUNCS,
- };
- 
- struct vkms_plane *vkms_plane_init(struct vkms_device *vkmsdev,
 -- 
 2.30.2
 
