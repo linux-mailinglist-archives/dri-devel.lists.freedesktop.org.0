@@ -1,46 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5BBC404515
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 07:38:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BD0404628
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 09:29:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F5A76E159;
-	Thu,  9 Sep 2021 05:38:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B79496E459;
+	Thu,  9 Sep 2021 07:28:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 63C346E14F;
- Thu,  9 Sep 2021 05:38:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="284389226"
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="284389226"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 22:38:10 -0700
-X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="548340145"
-Received: from shishpan-mobl2.ccr.corp.intel.com (HELO [10.252.43.251])
- ([10.252.43.251])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Sep 2021 22:38:08 -0700
-Subject: Re: [PATCH] kernel/locking: Add context to ww_mutex_trylock.
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
- Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- linux-kernel@vger.kernel.org
-References: <20210907132044.157225-1-maarten.lankhorst@linux.intel.com>
- <YTiM/zf8BuNw7wes@hirez.programming.kicks-ass.net>
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <96ab9cf1-250a-8f34-51ec-4a7f66a87b39@linux.intel.com>
-Date: Thu, 9 Sep 2021 07:38:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <YTiM/zf8BuNw7wes@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-Greylist: delayed 409 seconds by postgrey-1.36 at gabe;
+ Thu, 09 Sep 2021 04:34:48 UTC
+Received: from zg8tmty1ljiyny4xntqumjca.icoremail.net
+ (zg8tmty1ljiyny4xntqumjca.icoremail.net [165.227.154.27])
+ by gabe.freedesktop.org (Postfix) with SMTP id 0470A6E434;
+ Thu,  9 Sep 2021 04:34:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+ Message-Id; bh=2doZqT3NoobKWKqgUHi+C9s95x4GgY11UNIdMKKqyxI=; b=M
+ JItkHWxqVxjpc/sUtCuq9lkntR7rs96kds+MPnXUyuyj7SVYauqRT80DmB8OQmxs
+ VS8hsf5srTxOS+/2dEA0MpfY9UTFVjhRpkKVT8fKfo0Rfu36z4Vl5JsIeWcdq2Hr
+ hgayVXynrxxJ/GljFGajmb4IM+eRwqBptxjO8/fY7U=
+Received: from localhost.localdomain (unknown [10.162.127.118])
+ by app1 (Coremail) with SMTP id XAUFCgBXX18+jTlh3nQ9AA--.1062S3;
+ Thu, 09 Sep 2021 12:27:42 +0800 (CST)
+From: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+To: Felix Kuehling <Felix.Kuehling@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: yuanxzhang@fudan.edu.cn, Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+ Xin Xiong <xiongx18@fudan.edu.cn>, Xin Tan <tanxin.ctf@gmail.com>
+Subject: [PATCH] drm/amd/amdkfd: fix possible memory leak in
+ svm_range_restore_pages
+Date: Thu,  9 Sep 2021 12:27:39 +0800
+Message-Id: <1631161659-76719-1-git-send-email-xiyuyang19@fudan.edu.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: XAUFCgBXX18+jTlh3nQ9AA--.1062S3
+X-Coremail-Antispam: 1UD129KBjvdXoWruF1DZr1Utr13tFW8Ar4ruFg_yoWkArc_G3
+ 48X3s3Zr42yF1kZF42vw4rZF929r1UAF4kWw1vqa4rtryavrW5W345Xrn3Xr15ursruFsr
+ Aan8Wr4Sy3sxCjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+ 9fnUUIcSsGvfJTRUUUbTkFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+ 6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+ A2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j
+ 6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+ Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+ 0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr
+ 1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+ rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE-syl42xK82IYc2Ij64vIr41l4I
+ 8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AK
+ xVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcV
+ AFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8I
+ cIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+ 0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x0JUQZ23UUUUU=
+X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/
+X-Mailman-Approved-At: Thu, 09 Sep 2021 07:28:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,68 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Op 08-09-2021 om 12:14 schreef Peter Zijlstra:
-> On Tue, Sep 07, 2021 at 03:20:44PM +0200, Maarten Lankhorst wrote:
->> i915 will soon gain an eviction path that trylock a whole lot of locks
->> for eviction, getting dmesg failures like below:
->>
->> BUG: MAX_LOCK_DEPTH too low!
->> turning off the locking correctness validator.
->> depth: 48  max: 48!
->> 48 locks held by i915_selftest/5776:
->>  #0: ffff888101a79240 (&dev->mutex){....}-{3:3}, at: __driver_attach+0x88/0x160
->>  #1: ffffc900009778c0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: i915_vma_pin.constprop.63+0x39/0x1b0 [i915]
->>  #2: ffff88800cf74de8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_vma_pin.constprop.63+0x5f/0x1b0 [i915]
->>  #3: ffff88810c7f9e38 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c4/0x9d0 [i915]
->>  #4: ffff88810bad5768 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
->>  #5: ffff88810bad60e8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
->> ...
->>  #46: ffff88811964d768 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
->>  #47: ffff88811964e0e8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: i915_gem_evict_something+0x110/0x860 [i915]
->> INFO: lockdep is turned off.
->> As an intermediate solution, add an acquire context to ww_mutex_trylock,
->> which allows us to do proper nesting annotations on the trylocks, making
->> the above lockdep splat disappear.
-> Fair enough I suppose.
->
->> +/**
->> + * ww_mutex_trylock - tries to acquire the w/w mutex with optional acquire context
->> + * @lock: mutex to lock
->> + * @ctx: optional w/w acquire context
->> + *
->> + * Trylocks a mutex with the optional acquire context; no deadlock detection is
->> + * possible. Returns 1 if the mutex has been acquired successfully, 0 otherwise.
->> + *
->> + * Unlike ww_mutex_lock, no deadlock handling is performed. However, if a @ctx is
->> + * specified, -EALREADY and -EDEADLK handling may happen in calls to ww_mutex_lock.
->> + *
->> + * A mutex acquired with this function must be released with ww_mutex_unlock.
->> + */
->> +int __sched
->> +ww_mutex_trylock(struct ww_mutex *ww, struct ww_acquire_ctx *ctx)
->> +{
->> +	bool locked;
->> +
->> +	if (!ctx)
->> +		return mutex_trylock(&ww->base);
->> +
->> +#ifdef CONFIG_DEBUG_MUTEXES
->> +	DEBUG_LOCKS_WARN_ON(ww->base.magic != &ww->base);
->> +#endif
->> +
->> +	preempt_disable();
->> +	locked = __mutex_trylock(&ww->base);
->> +
->> +	if (locked) {
->> +		ww_mutex_set_context_fastpath(ww, ctx);
->> +		mutex_acquire_nest(&ww->base.dep_map, 0, 1, &ctx->dep_map, _RET_IP_);
->> +	}
->> +	preempt_enable();
->> +
->> +	return locked;
->> +}
->> +EXPORT_SYMBOL(ww_mutex_trylock);
-> You'll need a similar hunk in ww_rt_mutex.c
+The memory leak issue may take place in an error handling path. When
+p->xnack_enabled is NULL, the function simply returns with -EFAULT and
+forgets to decrement the reference count of a kfd_process object bumped
+by kfd_lookup_process_by_pasid, which may incur memory leaks.
 
-What tree has that file?
+Fix it by jumping to label "out", in which kfd_unref_process() decreases
+the refcount.
+
+Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Signed-off-by: Xin Xiong <xiongx18@fudan.edu.cn>
+Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+---
+ drivers/gpu/drm/amd/amdkfd/kfd_svm.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+index e883731c3f8f..0f7f1e5621ea 100644
+--- a/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
++++ b/drivers/gpu/drm/amd/amdkfd/kfd_svm.c
+@@ -2426,7 +2426,8 @@ svm_range_restore_pages(struct amdgpu_device *adev, unsigned int pasid,
+ 	}
+ 	if (!p->xnack_enabled) {
+ 		pr_debug("XNACK not enabled for pasid 0x%x\n", pasid);
+-		return -EFAULT;
++		r = -EFAULT;
++		goto out;
+ 	}
+ 	svms = &p->svms;
+ 
+-- 
+2.7.4
 
