@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8EE4404B82
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:51:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36561404B85
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:51:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98FD86E523;
-	Thu,  9 Sep 2021 11:51:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD1AF6E525;
+	Thu,  9 Sep 2021 11:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 247B36E523
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:51:38 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 37F27611C8;
- Thu,  9 Sep 2021 11:51:37 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B49A76E525
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:51:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DDB46610FF;
+ Thu,  9 Sep 2021 11:51:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188298;
- bh=35atDnHr5kKPvD7ZRVCpmrxJQhwkKsyZnBkWc0xcL9g=;
+ s=k20201202; t=1631188301;
+ bh=TUaNbGijjf16dwoOSELXxmYWLOmllXRTFAu0Q8E1m3U=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Fm7AQmayuqZZ218/3Ncq5GOAAoUqzwU71F/NWXDQNwzg9tALe4M4YmYXzQOeK6SJ0
- 2+FY24yGVQj3Y6t/XfgcB6Xgp7f0UvD0hKOr6P7CtCn11ls+o2VcmN1CRRZy2hFWbe
- I1FPWWB6RBSHQ603qQKyoz2/UTonDXMZp8ocHe3OCnWPiXZ29j0VZh6wXl4iVbxS7v
- P04x6Ig+V3QXg3RSMZe9g7ugfrtzpMrkT7zW1f6k9XwP7Qy7MKBmvUIZuT/ErZX7+s
- vQORmIC7Ug8WGjoN/FIC3d9W32E2HDMFLDSIYCjUHvv6QWXsQzWiwt2Z0YC0A1dtJ3
- BPfCZ51N3iacw==
+ b=FvH6a23QSt2fNhfNmL96o60zLxhYx9wraGuml6IIl8IUBpESzFD1ZQKH/17f0FdUz
+ oyLwUXWn59qsn1rEoU1l7UJr/j8M8IiGrFjEjzkcHDqrOZpEbKy91P1kt1owNgUClm
+ WSaXIikWrn9oNZqR1qsEx2UjQZ/Z2C1LKi2/+1ssKiIadhC+tJt2/XXq8ekjHJcHT3
+ zkG+9/alnN0Lu126HeZvKXl/LiZQcuIxojB9IYyge7yzVqq4Q4J/ZxJcU+ieYjjzQv
+ czW69IHk59EQVr01SZjFCWIZtxDQnK/qkz9yes/cmszJTT6UaVtICSLINuduw7NY6h
+ WfWKHvFK2wHJw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sasha Levin <sashal@kernel.org>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 015/176] video: fbdev: kyro: fix a DoS bug by
- restricting user input
-Date: Thu,  9 Sep 2021 07:48:37 -0400
-Message-Id: <20210909115118.146181-15-sashal@kernel.org>
+Cc: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Sasha Levin <sashal@kernel.org>,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 018/176] drm: avoid blocking in
+ drm_clients_info's rcu section
+Date: Thu,  9 Sep 2021 07:48:40 -0400
+Message-Id: <20210909115118.146181-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -56,53 +56,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
 
-[ Upstream commit 98a65439172dc69cb16834e62e852afc2adb83ed ]
+[ Upstream commit 5eff9585de220cdd131237f5665db5e6c6bdf590 ]
 
-The user can pass in any value to the driver through the 'ioctl'
-interface. The driver dost not check, which may cause DoS bugs.
+Inside drm_clients_info, the rcu_read_lock is held to lock
+pid_task()->comm. However, within this protected section, a call to
+drm_is_current_master is made, which involves a mutex lock in a future
+patch. However, this is illegal because the mutex lock might block
+while in the RCU read-side critical section.
 
-The following log reveals it:
+Since drm_is_current_master isn't protected by rcu_read_lock, we avoid
+this by moving it out of the RCU critical section.
 
-divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-RIP: 0010:SetOverlayViewPort+0x133/0x5f0 drivers/video/fbdev/kyro/STG4000OverlayDevice.c:476
+The following report came from intel-gfx ci's
+igt@debugfs_test@read_all_entries testcase:
+
+=============================
+[ BUG: Invalid wait context ]
+5.13.0-CI-Patchwork_20515+ #1 Tainted: G        W
+-----------------------------
+debugfs_test/1101 is trying to lock:
+ffff888132d901a8 (&dev->master_mutex){+.+.}-{3:3}, at:
+drm_is_current_master+0x1e/0x50
+other info that might help us debug this:
+context-{4:4}
+3 locks held by debugfs_test/1101:
+ #0: ffff88810fdffc90 (&p->lock){+.+.}-{3:3}, at:
+ seq_read_iter+0x53/0x3b0
+ #1: ffff888132d90240 (&dev->filelist_mutex){+.+.}-{3:3}, at:
+ drm_clients_info+0x63/0x2a0
+ #2: ffffffff82734220 (rcu_read_lock){....}-{1:2}, at:
+ drm_clients_info+0x1b1/0x2a0
+stack backtrace:
+CPU: 8 PID: 1101 Comm: debugfs_test Tainted: G        W
+5.13.0-CI-Patchwork_20515+ #1
+Hardware name: Intel Corporation CometLake Client Platform/CometLake S
+UDIMM (ERB/CRB), BIOS CMLSFWR1.R00.1263.D00.1906260926 06/26/2019
 Call Trace:
- kyro_dev_overlay_viewport_set drivers/video/fbdev/kyro/fbdev.c:378 [inline]
- kyrofb_ioctl+0x2eb/0x330 drivers/video/fbdev/kyro/fbdev.c:603
- do_fb_ioctl+0x1f3/0x700 drivers/video/fbdev/core/fbmem.c:1171
- fb_ioctl+0xeb/0x130 drivers/video/fbdev/core/fbmem.c:1185
- vfs_ioctl fs/ioctl.c:48 [inline]
- __do_sys_ioctl fs/ioctl.c:753 [inline]
- __se_sys_ioctl fs/ioctl.c:739 [inline]
- __x64_sys_ioctl+0x19b/0x220 fs/ioctl.c:739
- do_syscall_64+0x32/0x80 arch/x86/entry/common.c:46
+ dump_stack+0x7f/0xad
+ __lock_acquire.cold.78+0x2af/0x2ca
+ lock_acquire+0xd3/0x300
+ ? drm_is_current_master+0x1e/0x50
+ ? __mutex_lock+0x76/0x970
+ ? lockdep_hardirqs_on+0xbf/0x130
+ __mutex_lock+0xab/0x970
+ ? drm_is_current_master+0x1e/0x50
+ ? drm_is_current_master+0x1e/0x50
+ ? drm_is_current_master+0x1e/0x50
+ drm_is_current_master+0x1e/0x50
+ drm_clients_info+0x107/0x2a0
+ seq_read_iter+0x178/0x3b0
+ seq_read+0x104/0x150
+ full_proxy_read+0x4e/0x80
+ vfs_read+0xa5/0x1b0
+ ksys_read+0x5a/0xd0
+ do_syscall_64+0x39/0xb0
  entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1626235762-2590-1-git-send-email-zheyuma97@gmail.com
+Signed-off-by: Desmond Cheong Zhi Xi <desmondcheongzx@gmail.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210712043508.11584-3-desmondcheongzx@gmail.com
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/kyro/fbdev.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/gpu/drm/drm_debugfs.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/kyro/fbdev.c b/drivers/video/fbdev/kyro/fbdev.c
-index 8fbde92ae8b9..4b8c7c16b1df 100644
---- a/drivers/video/fbdev/kyro/fbdev.c
-+++ b/drivers/video/fbdev/kyro/fbdev.c
-@@ -372,6 +372,11 @@ static int kyro_dev_overlay_viewport_set(u32 x, u32 y, u32 ulWidth, u32 ulHeight
- 		/* probably haven't called CreateOverlay yet */
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+index 3d7182001004..b0a826489488 100644
+--- a/drivers/gpu/drm/drm_debugfs.c
++++ b/drivers/gpu/drm/drm_debugfs.c
+@@ -91,6 +91,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
+ 	mutex_lock(&dev->filelist_mutex);
+ 	list_for_each_entry_reverse(priv, &dev->filelist, lhead) {
+ 		struct task_struct *task;
++		bool is_current_master = drm_is_current_master(priv);
  
-+	if (ulWidth == 0 || ulWidth == 0xffffffff ||
-+	    ulHeight == 0 || ulHeight == 0xffffffff ||
-+	    (x < 2 && ulWidth + 2 == 0))
-+		return -EINVAL;
-+
- 	/* Stop Ramdac Output */
- 	DisableRamdacOutput(deviceInfo.pSTGReg);
- 
+ 		rcu_read_lock(); /* locks pid_task()->comm */
+ 		task = pid_task(priv->pid, PIDTYPE_PID);
+@@ -99,7 +100,7 @@ static int drm_clients_info(struct seq_file *m, void *data)
+ 			   task ? task->comm : "<unknown>",
+ 			   pid_vnr(priv->pid),
+ 			   priv->minor->index,
+-			   drm_is_current_master(priv) ? 'y' : 'n',
++			   is_current_master ? 'y' : 'n',
+ 			   priv->authenticated ? 'y' : 'n',
+ 			   from_kuid_munged(seq_user_ns(m), uid),
+ 			   priv->magic);
 -- 
 2.30.2
 
