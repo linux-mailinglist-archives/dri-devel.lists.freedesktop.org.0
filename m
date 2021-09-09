@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57DE4405B6C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:53:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F34405B71
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:53:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18BCB6E8D8;
-	Thu,  9 Sep 2021 16:53:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 437C76E8E8;
+	Thu,  9 Sep 2021 16:53:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812C16E8C6;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B063F6E8C7;
  Thu,  9 Sep 2021 16:52:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="218988842"
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="218988842"
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="218988843"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="218988843"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Sep 2021 09:52:50 -0700
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="649003792"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="649003795"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  09 Sep 2021 09:52:50 -0700
@@ -26,9 +26,9 @@ To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>,
 	<daniele.ceraolospurio@intel.com>
-Subject: [PATCH 02/23] drm/i915/guc: Fix outstanding G2H accounting
-Date: Thu,  9 Sep 2021 09:47:23 -0700
-Message-Id: <20210909164744.31249-3-matthew.brost@intel.com>
+Subject: [PATCH 03/23] drm/i915/guc: Unwind context requests in reverse order
+Date: Thu,  9 Sep 2021 09:47:24 -0700
+Message-Id: <20210909164744.31249-4-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210909164744.31249-1-matthew.brost@intel.com>
 References: <20210909164744.31249-1-matthew.brost@intel.com>
@@ -49,197 +49,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A small race that could result in incorrect accounting of the number
-of outstanding G2H. Basically prior to this patch we did not increment
-the number of outstanding G2H if we encoutered a GT reset while sending
-a H2G. This was incorrect as the context state had already been updated
-to anticipate a G2H response thus the counter should be incremented.
+When unwinding requests on a reset context, if other requests in the
+context are in the priority list the requests could be resubmitted out
+of seqno order. Traverse the list of active requests in reverse and
+append to the head of the priority list to fix this.
 
-As part of this change we remove a legacy (now unused) path that was the
-last caller requiring a G2H response that was not guaranteed to loop.
-This allows us to simplify the accounting as we don't need to handle the
-case where the send fails due to the channel being busy.
-
-Also always use helper when decrementing this value.
-
-v2 (Daniele): update GEM_BUG_ON check, pull in dead code removal from
-later patch, remove loop param from context_deregister.
-
-Fixes: f4eb1f3fe946 ("drm/i915/guc: Ensure G2H response has space in buffer")
+Fixes: eb5e7da736f3 ("drm/i915/guc: Reset implementation for new GuC interface")
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 Cc: <stable@vger.kernel.org>
-Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 79 +++++++++----------
- 1 file changed, 37 insertions(+), 42 deletions(-)
+ drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 69faa39da178..aff5dd247a88 100644
+index aff5dd247a88..0c1e6b465fba 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -352,20 +352,29 @@ static inline void set_lrc_desc_registered(struct intel_guc *guc, u32 id,
- 	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
+@@ -806,9 +806,9 @@ __unwind_incomplete_requests(struct intel_context *ce)
  
-+static void decr_outstanding_submission_g2h(struct intel_guc *guc)
-+{
-+	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
-+		wake_up_all(&guc->ct.wq);
-+}
-+
- static int guc_submission_send_busy_loop(struct intel_guc *guc,
- 					 const u32 *action,
- 					 u32 len,
- 					 u32 g2h_len_dw,
- 					 bool loop)
- {
--	int err;
--
--	err = intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
-+	/*
-+	 * We always loop when a send requires a reply (i.e. g2h_len_dw > 0),
-+	 * so we don't handle the case where we don't get a reply because we
-+	 * aborted the send due to the channel being busy.
-+	 */
-+	GEM_BUG_ON(g2h_len_dw && !loop);
+ 	spin_lock_irqsave(&sched_engine->lock, flags);
+ 	spin_lock(&ce->guc_active.lock);
+-	list_for_each_entry_safe(rq, rn,
+-				 &ce->guc_active.requests,
+-				 sched.link) {
++	list_for_each_entry_safe_reverse(rq, rn,
++					 &ce->guc_active.requests,
++					 sched.link) {
+ 		if (i915_request_completed(rq))
+ 			continue;
  
--	if (!err && g2h_len_dw)
-+	if (g2h_len_dw)
- 		atomic_inc(&guc->outstanding_submission_g2h);
- 
--	return err;
-+	return intel_guc_send_busy_loop(guc, action, len, g2h_len_dw, loop);
- }
- 
- int intel_guc_wait_for_pending_msg(struct intel_guc *guc,
-@@ -616,7 +625,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 		init_sched_state(ce);
- 
- 		if (pending_enable || destroyed || deregister) {
--			atomic_dec(&guc->outstanding_submission_g2h);
-+			decr_outstanding_submission_g2h(guc);
- 			if (deregister)
- 				guc_signal_context_fence(ce);
- 			if (destroyed) {
-@@ -635,7 +644,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 				intel_engine_signal_breadcrumbs(ce->engine);
- 			}
- 			intel_context_sched_disable_unpin(ce);
--			atomic_dec(&guc->outstanding_submission_g2h);
-+			decr_outstanding_submission_g2h(guc);
- 			spin_lock_irqsave(&ce->guc_state.lock, flags);
- 			guc_blocked_fence_complete(ce);
- 			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-@@ -1233,8 +1242,7 @@ static int register_context(struct intel_context *ce, bool loop)
- }
- 
- static int __guc_action_deregister_context(struct intel_guc *guc,
--					   u32 guc_id,
--					   bool loop)
-+					   u32 guc_id)
- {
- 	u32 action[] = {
- 		INTEL_GUC_ACTION_DEREGISTER_CONTEXT,
-@@ -1243,16 +1251,16 @@ static int __guc_action_deregister_context(struct intel_guc *guc,
- 
- 	return guc_submission_send_busy_loop(guc, action, ARRAY_SIZE(action),
- 					     G2H_LEN_DW_DEREGISTER_CONTEXT,
--					     loop);
-+					     true);
- }
- 
--static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
-+static int deregister_context(struct intel_context *ce, u32 guc_id)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
- 
- 	trace_intel_context_deregister(ce);
- 
--	return __guc_action_deregister_context(guc, guc_id, loop);
-+	return __guc_action_deregister_context(guc, guc_id);
- }
- 
- static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
-@@ -1340,26 +1348,23 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 	 * registering this context.
- 	 */
- 	if (context_registered) {
-+		bool disabled;
-+		unsigned long flags;
-+
- 		trace_intel_context_steal_guc_id(ce);
--		if (!loop) {
-+		GEM_BUG_ON(!loop);
-+
-+		/* Seal race with Reset */
-+		spin_lock_irqsave(&ce->guc_state.lock, flags);
-+		disabled = submission_disabled(guc);
-+		if (likely(!disabled)) {
- 			set_context_wait_for_deregister_to_register(ce);
- 			intel_context_get(ce);
--		} else {
--			bool disabled;
--			unsigned long flags;
--
--			/* Seal race with Reset */
--			spin_lock_irqsave(&ce->guc_state.lock, flags);
--			disabled = submission_disabled(guc);
--			if (likely(!disabled)) {
--				set_context_wait_for_deregister_to_register(ce);
--				intel_context_get(ce);
--			}
--			spin_unlock_irqrestore(&ce->guc_state.lock, flags);
--			if (unlikely(disabled)) {
--				reset_lrc_desc(guc, desc_idx);
--				return 0;	/* Will get registered later */
--			}
-+		}
-+		spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+		if (unlikely(disabled)) {
-+			reset_lrc_desc(guc, desc_idx);
-+			return 0;	/* Will get registered later */
+@@ -825,7 +825,7 @@ __unwind_incomplete_requests(struct intel_context *ce)
  		}
+ 		GEM_BUG_ON(i915_sched_engine_is_empty(sched_engine));
  
- 		/*
-@@ -1367,13 +1372,9 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
- 		 * context whose guc_id was stolen.
- 		 */
- 		with_intel_runtime_pm(runtime_pm, wakeref)
--			ret = deregister_context(ce, ce->guc_id, loop);
--		if (unlikely(ret == -EBUSY)) {
--			clr_context_wait_for_deregister_to_register(ce);
--			intel_context_put(ce);
--		} else if (unlikely(ret == -ENODEV)) {
-+			ret = deregister_context(ce, ce->guc_id);
-+		if (unlikely(ret == -ENODEV))
- 			ret = 0;	/* Will get registered later */
--		}
- 	} else {
- 		with_intel_runtime_pm(runtime_pm, wakeref)
- 			ret = register_context(ce, loop);
-@@ -1730,7 +1731,7 @@ static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(context_enabled(ce));
+-		list_add_tail(&rq->sched.link, pl);
++		list_add(&rq->sched.link, pl);
+ 		set_bit(I915_FENCE_FLAG_PQUEUE, &rq->fence.flags);
  
- 	clr_context_registered(ce);
--	deregister_context(ce, ce->guc_id, true);
-+	deregister_context(ce, ce->guc_id);
- }
- 
- static void __guc_context_destroy(struct intel_context *ce)
-@@ -2583,12 +2584,6 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
- 	return ce;
- }
- 
--static void decr_outstanding_submission_g2h(struct intel_guc *guc)
--{
--	if (atomic_dec_and_test(&guc->outstanding_submission_g2h))
--		wake_up_all(&guc->ct.wq);
--}
--
- int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 					  const u32 *msg,
- 					  u32 len)
+ 		spin_lock(&ce->guc_active.lock);
 -- 
 2.32.0
 
