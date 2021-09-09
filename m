@@ -1,130 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB946404253
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 02:33:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AC140426E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 02:52:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBE36E3EC;
-	Thu,  9 Sep 2021 00:32:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9207B6E3F4;
+	Thu,  9 Sep 2021 00:52:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com
- [IPv6:2607:f8b0:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6AD766E3E3
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 00:32:57 +0000 (UTC)
-Received: by mail-il1-x136.google.com with SMTP id z2so182289iln.0
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 17:32:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5TYYBxc50K8ZMZBZ7awprT/bOkKTiGesfrb7WFjJZ+A=;
- b=KCg85QMP/OVnq6/fqe2waVZlGw1gFTsTbflgSC3G8O1iDp1IJHUm3MOwpZoQjxxDR7
- Atw25rhjAEpmxxhj1rRyXedydjURMxf4JnVSadGKtWgcyetFjVG75upvVHgaoqHaOe7Q
- i7ClThKtbyUxOILSABwytp3A6HENqxe+XgPEA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5TYYBxc50K8ZMZBZ7awprT/bOkKTiGesfrb7WFjJZ+A=;
- b=jv9w9SEgsLlSlXZZcOpJcJvgRIC0z3u5yoz5tW1RVLrtIXteKamJLmhcOcaA/7MCXB
- 9BQQ5iSpK3x84DnsDZvg2ZNk+XRfva4Xa0FIvQFCLcTSZ6VJGlpGRCrXMgTOCB/EIWXt
- gdg4PqFU3Pxt9Qj4qwi0HZdHwDbUkN5t10w+oGETzwEKZOJ/YG8p9hoValPrbkXX3IcP
- TT5hYSuh3cTz9Pq0VPM33eVzq3JQQCy2GbRrDZF4J621g0E/4zBAtWAmfa/qs7Anz5O5
- bfG2A9IADmLBmKFHdFY+Gay9hG0b6hLiD4kIki+m+qDcQGMomUsKs4n/ulGAFA1EuavK
- f5iQ==
-X-Gm-Message-State: AOAM5332kgPsED3Q1Ot1a0KrmzBGTFVI0YLQEZrsqiolmB3MQy50hggs
- 6FlU8ZDjUs33YQ5T5Ni3PztnKOa4KZIOOw==
-X-Google-Smtp-Source: ABdhPJwrMhZ0YwhPXMlqSaVzd9E0SI8seN/2wwG0K1R2UCHFk20hC3g5qpv0Ujr1IzWwx1eR9ds6NQ==
-X-Received: by 2002:a92:c5c2:: with SMTP id s2mr177575ilt.278.1631147576736;
- Wed, 08 Sep 2021 17:32:56 -0700 (PDT)
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com.
- [209.85.166.182])
- by smtp.gmail.com with ESMTPSA id f2sm115150ioz.14.2021.09.08.17.32.56
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 08 Sep 2021 17:32:56 -0700 (PDT)
-Received: by mail-il1-f182.google.com with SMTP id v16so130231ilo.10
- for <dri-devel@lists.freedesktop.org>; Wed, 08 Sep 2021 17:32:56 -0700 (PDT)
-X-Received: by 2002:a05:6e02:214e:: with SMTP id
- d14mr150446ilv.142.1631147079713; 
- Wed, 08 Sep 2021 17:24:39 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFE246E3FC;
+ Thu,  9 Sep 2021 00:51:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="200171450"
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="200171450"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 17:50:27 -0700
+X-IronPort-AV: E=Sophos;i="5.85,279,1624345200"; d="scan'208";a="539077191"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Sep 2021 17:50:26 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: [PATCH 1/4] drm/i915: rename debugfs_gt files
+Date: Wed,  8 Sep 2021 17:49:38 -0700
+Message-Id: <20210909004941.379035-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210901201934.1084250-1-dianders@chromium.org>
- <YTUSiHiCgihz1AcO@ravnborg.org>
-In-Reply-To: <YTUSiHiCgihz1AcO@ravnborg.org>
-From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 8 Sep 2021 17:24:28 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U+dnyuGc9OuvMJpYWVx1x6yYQPJgi6fh+6Ne37+veedw@mail.gmail.com>
-Message-ID: <CAD=FV=U+dnyuGc9OuvMJpYWVx1x6yYQPJgi6fh+6Ne37+veedw@mail.gmail.com>
-Subject: Re: [PATCH v3 00/16] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- David Airlie <airlied@linux.ie>, dri-devel <dri-devel@lists.freedesktop.org>, 
- Al Viro <viro@zeniv.linux.org.uk>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andreas Kemnade <andreas@kemnade.info>, 
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Anson Huang <Anson.Huang@nxp.com>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Chen-Yu Tsai <wens@csie.org>, 
- Claudiu Beznea <claudiu.beznea@microchip.com>, 
- Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
- Corentin Labbe <clabbe@baylibre.com>, 
- Daniel Thompson <daniel.thompson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Dmitry Osipenko <digetx@gmail.com>, Emil Velikov <emil.velikov@collabora.com>, 
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, 
- Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, 
- Florian Fainelli <f.fainelli@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Grygorii Strashko <grygorii.strashko@ti.com>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
- Kees Cook <keescook@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, 
- Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Manivannan Sadhasivam <mani@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- =?UTF-8?Q?Martin_J=C3=BCcker?= <martin.juecker@gmail.com>, 
- Michael Walle <michael@walle.cc>, NXP Linux Team <linux-imx@nxp.com>, 
- Nicolas Ferre <nicolas.ferre@microchip.com>, Nishanth Menon <nm@ti.com>, 
- Olivier Moysan <olivier.moysan@st.com>, Olof Johansson <olof@lixom.net>, 
- Otavio Salvador <otavio@ossystems.com.br>, Paul Cercueil <paul@crapouillou.net>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Razvan Stefanescu <razvan.stefanescu@microchip.com>, 
- Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
- Stefan Wahren <stefan.wahren@i2se.com>, Sudeep Holla <sudeep.holla@arm.com>, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Tony Lindgren <tony@atomide.com>, 
- Tudor Ambarus <tudor.ambarus@microchip.com>, Vinod Koul <vkoul@kernel.org>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Will Deacon <will@kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- linux-mips <linux-mips@vger.kernel.org>,
- linux-omap <linux-omap@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- linux-sunxi@lists.linux.dev, 
- "open list:TEGRA ARCHITECTURE SUPPORT" <linux-tegra@vger.kernel.org>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -140,130 +48,453 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+We shouldn't be using debugfs_ namespace for this functionality. Rename
+debugfs_gt.[ch] to intel_gt_debugfs.[ch] and then make functions,
+defines and structs follow suit.
 
-On Sun, Sep 5, 2021 at 11:55 AM Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> Hi Douglas,
->
-> On Wed, Sep 01, 2021 at 01:19:18PM -0700, Douglas Anderson wrote:
-> > The goal of this patch series is to move away from hardcoding exact
-> > eDP panels in device tree files. As discussed in the various patches
-> > in this series (I'm not repeating everything here), most eDP panels
-> > are 99% probable and we can get that last 1% by allowing two "power
-> > up" delays to be specified in the device tree file and then using the
-> > panel ID (found in the EDID) to look up additional power sequencing
-> > delays for the panel.
-> >
-> > This patch series is the logical contiunation of a previous patch
-> > series where I proposed solving this problem by adding a
-> > board-specific compatible string [1]. In the discussion that followed
-> > it sounded like people were open to something like the solution
-> > proposed in this new series.
-> >
-> > In version 2 I got rid of the idea that we could have a "fallback"
-> > compatible string that we'd use if we didn't recognize the ID in the
-> > EDID. This simplifies the bindings a lot and the implementation
-> > somewhat. As a result of not having a "fallback", though, I'm not
-> > confident in transitioning any existing boards over to this since
-> > we'll have to fallback to very conservative timings if we don't
-> > recognize the ID from the EDID and I can't guarantee that I've seen
-> > every panel that might have shipped on an existing product. The plan
-> > is to use "edp-panel" only on new boards or new revisions of old
-> > boards where we can guarantee that every EDID that ships out of the
-> > factory has an ID in the table.
-> >
-> > Version 3 of this series now splits out all eDP panels to their own
-> > driver and adds the generic eDP panel support to this new driver. I
-> > believe this is what Sam was looking for [2].
-> >
-> > [1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
-> > [2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
-> >
-> > Changes in v3:
-> > - Decode hex product ID w/ same endianness as everyone else.
-> > - ("Reorder logicpd_type_28...") patch new for v3.
-> > - Split eDP panels patch new for v3.
-> > - Move wayward panels patch new for v3.
-> > - ("Non-eDP panels don't need "HPD" handling") new for v3.
-> > - Split the delay structure out patch just on eDP now.
-> > - ("Better describe eDP panel delays") new for v3.
-> > - Fix "prepare_to_enable" patch new for v3.
-> > - ("Don't re-read the EDID every time") moved to eDP only patch.
-> > - Generic "edp-panel" handled by the eDP panel driver now.
-> > - Change init order to we power at the end.
-> > - Adjust endianness of product ID.
-> > - Fallback to conservative delays if panel not recognized.
-> > - Add Sharp LQ116M1JW10 to table.
-> > - Add AUO B116XAN06.1 to table.
-> > - Rename delays more generically so they can be reused.
-> >
-> > Changes in v2:
-> > - No longer allow fallback to panel-simple.
-> > - Add "-ms" suffix to delays.
-> > - Don't support a "fallback" panel. Probed panels must be probed.
-> > - Not based on patch to copy "desc"--just allocate for probed panels.
-> > - Add "-ms" suffix to delays.
-> >
-> > Douglas Anderson (16):
-> >   dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
-> >   drm/edid: Break out reading block 0 of the EDID
-> >   drm/edid: Allow the querying/working with the panel ID from the EDID
-> >   drm/panel-simple: Reorder logicpd_type_28 / mitsubishi_aa070mc01
-> >   drm/panel-simple-edp: Split eDP panels out of panel-simple
-> >   ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
-> >   arm64: defconfig: Everyone who had PANEL_SIMPLE now gets
-> >     PANEL_SIMPLE_EDP
-> >   MIPS: configs: Everyone who had PANEL_SIMPLE now gets PANEL_SIMPLE_EDP
-> >   drm/panel-simple-edp: Move some wayward panels to the eDP driver
-> >   drm/panel-simple: Non-eDP panels don't need "HPD" handling
-> >   drm/panel-simple-edp: Split the delay structure out
-> >   drm/panel-simple-edp: Better describe eDP panel delays
-> >   drm/panel-simple-edp: hpd_reliable shouldn't be subtraced from
-> >     hpd_absent
-> >   drm/panel-simple-edp: Fix "prepare_to_enable" if panel doesn't handle
-> >     HPD
-> >   drm/panel-simple-edp: Don't re-read the EDID every time we power off
-> >     the panel
-> >   drm/panel-simple-edp: Implement generic "edp-panel"s probed by EDID
->
-> Thanks for looking into this. I really like the outcome.
-> We have panel-simple that now (mostly) handle simple panels,
-> and thus all the eDP functionality is in a separate driver.
->
-> I have provided a few nits.
-> My only take on this is the naming - as we do not want to confuse
-> panel-simple and panel-edp I strongly suggest renaming the driver to
-> panel-edp.
+While at it and since we are renaming the header, sort the includes
+alphabetically.
 
-Sure, I'll do that. I was trying to express the fact that the new
-"panel-edp" driver won't actually handle _all_ eDP panels, only the
-eDP panels that are (comparatively) simpler. For instance, I'm not
-planning to handle panel-samsung-atna33xc20.c in "panel-edp". I guess
-people will figure it out, though.
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+---
+ drivers/gpu/drm/i915/Makefile                  |  2 +-
+ drivers/gpu/drm/i915/gt/debugfs_engines.c      |  6 +++---
+ drivers/gpu/drm/i915/gt/debugfs_gt_pm.c        | 14 +++++++-------
+ drivers/gpu/drm/i915/gt/intel_gt.c             |  6 +++---
+ .../gt/{debugfs_gt.c => intel_gt_debugfs.c}    |  8 ++++----
+ .../gt/{debugfs_gt.h => intel_gt_debugfs.h}    | 14 +++++++-------
+ drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c   | 10 +++++-----
+ drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c | 18 +++++++++---------
+ .../gpu/drm/i915/gt/uc/intel_guc_log_debugfs.c |  8 ++++----
+ drivers/gpu/drm/i915/gt/uc/intel_huc_debugfs.c |  6 +++---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c  |  6 +++---
+ 11 files changed, 49 insertions(+), 49 deletions(-)
+ rename drivers/gpu/drm/i915/gt/{debugfs_gt.c => intel_gt_debugfs.c} (87%)
+ rename drivers/gpu/drm/i915/gt/{debugfs_gt.h => intel_gt_debugfs.h} (71%)
 
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index c36c8a4f0716..3e171f0b5f6a 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -80,7 +80,6 @@ i915-$(CONFIG_PERF_EVENTS) += i915_pmu.o
+ # "Graphics Technology" (aka we talk to the gpu)
+ gt-y += \
+ 	gt/debugfs_engines.o \
+-	gt/debugfs_gt.o \
+ 	gt/debugfs_gt_pm.o \
+ 	gt/gen2_engine_cs.o \
+ 	gt/gen6_engine_cs.o \
+@@ -101,6 +100,7 @@ gt-y += \
+ 	gt/intel_gt.o \
+ 	gt/intel_gt_buffer_pool.o \
+ 	gt/intel_gt_clock_utils.o \
++	gt/intel_gt_debugfs.o \
+ 	gt/intel_gt_irq.o \
+ 	gt/intel_gt_pm.o \
+ 	gt/intel_gt_pm_irq.o \
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_engines.c b/drivers/gpu/drm/i915/gt/debugfs_engines.c
+index 5e3725e62241..2980dac5b171 100644
+--- a/drivers/gpu/drm/i915/gt/debugfs_engines.c
++++ b/drivers/gpu/drm/i915/gt/debugfs_engines.c
+@@ -7,9 +7,9 @@
+ #include <drm/drm_print.h>
+ 
+ #include "debugfs_engines.h"
+-#include "debugfs_gt.h"
+ #include "i915_drv.h" /* for_each_engine! */
+ #include "intel_engine.h"
++#include "intel_gt_debugfs.h"
+ 
+ static int engines_show(struct seq_file *m, void *data)
+ {
+@@ -24,11 +24,11 @@ static int engines_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(engines);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(engines);
+ 
+ void debugfs_engines_register(struct intel_gt *gt, struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "engines", &engines_fops },
+ 	};
+ 
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
+index f6733f279890..9222cf68c56c 100644
+--- a/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/debugfs_gt_pm.c
+@@ -6,11 +6,11 @@
+ 
+ #include <linux/seq_file.h>
+ 
+-#include "debugfs_gt.h"
+ #include "debugfs_gt_pm.h"
+ #include "i915_drv.h"
+ #include "intel_gt.h"
+ #include "intel_gt_clock_utils.h"
++#include "intel_gt_debugfs.h"
+ #include "intel_gt_pm.h"
+ #include "intel_llc.h"
+ #include "intel_rc6.h"
+@@ -36,7 +36,7 @@ static int fw_domains_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(fw_domains);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(fw_domains);
+ 
+ static void print_rc6_res(struct seq_file *m,
+ 			  const char *title,
+@@ -238,7 +238,7 @@ static int drpc_show(struct seq_file *m, void *unused)
+ 
+ 	return err;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(drpc);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(drpc);
+ 
+ static int frequency_show(struct seq_file *m, void *unused)
+ {
+@@ -480,7 +480,7 @@ static int frequency_show(struct seq_file *m, void *unused)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(frequency);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(frequency);
+ 
+ static int llc_show(struct seq_file *m, void *data)
+ {
+@@ -533,7 +533,7 @@ static bool llc_eval(void *data)
+ 	return HAS_LLC(gt->i915);
+ }
+ 
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(llc);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(llc);
+ 
+ static const char *rps_power_to_str(unsigned int power)
+ {
+@@ -612,11 +612,11 @@ static bool rps_eval(void *data)
+ 	return HAS_RPS(gt->i915);
+ }
+ 
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(rps_boost);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(rps_boost);
+ 
+ void debugfs_gt_pm_register(struct intel_gt *gt, struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "drpc", &drpc_fops, NULL },
+ 		{ "frequency", &frequency_fops, NULL },
+ 		{ "forcewake", &fw_domains_fops, NULL },
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+index 2aeaae036a6f..9dda17553e12 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+@@ -3,7 +3,7 @@
+  * Copyright © 2019 Intel Corporation
+  */
+ 
+-#include "debugfs_gt.h"
++#include "intel_gt_debugfs.h"
+ 
+ #include "gem/i915_gem_lmem.h"
+ #include "i915_drv.h"
+@@ -15,11 +15,11 @@
+ #include "intel_gt_requests.h"
+ #include "intel_migrate.h"
+ #include "intel_mocs.h"
++#include "intel_pm.h"
+ #include "intel_rc6.h"
+ #include "intel_renderstate.h"
+ #include "intel_rps.h"
+ #include "intel_uncore.h"
+-#include "intel_pm.h"
+ #include "shmem_utils.h"
+ 
+ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
+@@ -434,7 +434,7 @@ void intel_gt_driver_register(struct intel_gt *gt)
+ {
+ 	intel_rps_driver_register(&gt->rps);
+ 
+-	debugfs_gt_register(gt);
++	intel_gt_register_debugfs(gt);
+ }
+ 
+ static int intel_gt_init_scratch(struct intel_gt *gt, unsigned int size)
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+similarity index 87%
+rename from drivers/gpu/drm/i915/gt/debugfs_gt.c
+rename to drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+index 591eb60785db..a27ba11605d8 100644
+--- a/drivers/gpu/drm/i915/gt/debugfs_gt.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+@@ -6,13 +6,13 @@
+ #include <linux/debugfs.h>
+ 
+ #include "debugfs_engines.h"
+-#include "debugfs_gt.h"
+ #include "debugfs_gt_pm.h"
++#include "i915_drv.h"
++#include "intel_gt_debugfs.h"
+ #include "intel_sseu_debugfs.h"
+ #include "uc/intel_uc_debugfs.h"
+-#include "i915_drv.h"
+ 
+-void debugfs_gt_register(struct intel_gt *gt)
++void intel_gt_register_debugfs(struct intel_gt *gt)
+ {
+ 	struct dentry *root;
+ 
+@@ -31,7 +31,7 @@ void debugfs_gt_register(struct intel_gt *gt)
+ }
+ 
+ void intel_gt_debugfs_register_files(struct dentry *root,
+-				     const struct debugfs_gt_file *files,
++				     const struct intel_gt_debugfs_file *files,
+ 				     unsigned long count, void *data)
+ {
+ 	while (count--) {
+diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt.h b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+similarity index 71%
+rename from drivers/gpu/drm/i915/gt/debugfs_gt.h
+rename to drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+index f77540f727e9..cab0f2cb5009 100644
+--- a/drivers/gpu/drm/i915/gt/debugfs_gt.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+@@ -3,14 +3,14 @@
+  * Copyright © 2019 Intel Corporation
+  */
+ 
+-#ifndef DEBUGFS_GT_H
+-#define DEBUGFS_GT_H
++#ifndef INTEL_GT_DEBUGFS_H
++#define INTEL_GT_DEBUGFS_H
+ 
+ #include <linux/file.h>
+ 
+ struct intel_gt;
+ 
+-#define DEFINE_GT_DEBUGFS_ATTRIBUTE(__name)				\
++#define DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(__name)				\
+ 	static int __name ## _open(struct inode *inode, struct file *file) \
+ {									\
+ 	return single_open(file, __name ## _show, inode->i_private);	\
+@@ -23,16 +23,16 @@ static const struct file_operations __name ## _fops = {			\
+ 	.release = single_release,					\
+ }
+ 
+-void debugfs_gt_register(struct intel_gt *gt);
++void intel_gt_register_debugfs(struct intel_gt *gt);
+ 
+-struct debugfs_gt_file {
++struct intel_gt_debugfs_file {
+ 	const char *name;
+ 	const struct file_operations *fops;
+ 	bool (*eval)(void *data);
+ };
+ 
+ void intel_gt_debugfs_register_files(struct dentry *root,
+-				     const struct debugfs_gt_file *files,
++				     const struct intel_gt_debugfs_file *files,
+ 				     unsigned long count, void *data);
+ 
+-#endif /* DEBUGFS_GT_H */
++#endif /* INTEL_GT_DEBUGFS_H */
+diff --git a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
+index 1ba8b7da9d37..8bb3a91dad82 100644
+--- a/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_sseu_debugfs.c
+@@ -4,9 +4,9 @@
+  * Copyright © 2020 Intel Corporation
+  */
+ 
+-#include "debugfs_gt.h"
+-#include "intel_sseu_debugfs.h"
+ #include "i915_drv.h"
++#include "intel_gt_debugfs.h"
++#include "intel_sseu_debugfs.h"
+ 
+ static void sseu_copy_subslices(const struct sseu_dev_info *sseu,
+ 				int slice, u8 *to_mask)
+@@ -282,7 +282,7 @@ static int sseu_status_show(struct seq_file *m, void *unused)
+ 
+ 	return intel_sseu_status(m, gt);
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(sseu_status);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(sseu_status);
+ 
+ static int rcs_topology_show(struct seq_file *m, void *unused)
+ {
+@@ -293,11 +293,11 @@ static int rcs_topology_show(struct seq_file *m, void *unused)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(rcs_topology);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(rcs_topology);
+ 
+ void intel_sseu_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "sseu_status", &sseu_status_fops, NULL },
+ 		{ "rcs_topology", &rcs_topology_fops, NULL },
+ 	};
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+index 887c8c8f35db..25f09a420561 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+@@ -5,14 +5,14 @@
+ 
+ #include <drm/drm_print.h>
+ 
+-#include "gt/debugfs_gt.h"
++#include "gt/intel_gt_debugfs.h"
++#include "gt/uc/intel_guc_ads.h"
++#include "gt/uc/intel_guc_ct.h"
++#include "gt/uc/intel_guc_slpc.h"
++#include "gt/uc/intel_guc_submission.h"
+ #include "intel_guc.h"
+ #include "intel_guc_debugfs.h"
+ #include "intel_guc_log_debugfs.h"
+-#include "gt/uc/intel_guc_ct.h"
+-#include "gt/uc/intel_guc_ads.h"
+-#include "gt/uc/intel_guc_submission.h"
+-#include "gt/uc/intel_guc_slpc.h"
+ 
+ static int guc_info_show(struct seq_file *m, void *data)
+ {
+@@ -35,7 +35,7 @@ static int guc_info_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_info);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(guc_info);
+ 
+ static int guc_registered_contexts_show(struct seq_file *m, void *data)
+ {
+@@ -49,7 +49,7 @@ static int guc_registered_contexts_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(guc_registered_contexts);
+ 
+ static int guc_slpc_info_show(struct seq_file *m, void *unused)
+ {
+@@ -62,7 +62,7 @@ static int guc_slpc_info_show(struct seq_file *m, void *unused)
+ 
+ 	return intel_guc_slpc_print_info(slpc, &p);
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_slpc_info);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(guc_slpc_info);
+ 
+ static bool intel_eval_slpc_support(void *data)
+ {
+@@ -73,7 +73,7 @@ static bool intel_eval_slpc_support(void *data)
+ 
+ void intel_guc_debugfs_register(struct intel_guc *guc, struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "guc_info", &guc_info_fops, NULL },
+ 		{ "guc_registered_contexts", &guc_registered_contexts_fops, NULL },
+ 		{ "guc_slpc_info", &guc_slpc_info_fops, &intel_eval_slpc_support},
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_log_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_log_debugfs.c
+index 64e0b86bf258..46026c2c1722 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_log_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_log_debugfs.c
+@@ -6,7 +6,7 @@
+ #include <linux/fs.h>
+ #include <drm/drm_print.h>
+ 
+-#include "gt/debugfs_gt.h"
++#include "gt/intel_gt_debugfs.h"
+ #include "intel_guc.h"
+ #include "intel_guc_log.h"
+ #include "intel_guc_log_debugfs.h"
+@@ -17,7 +17,7 @@ static int guc_log_dump_show(struct seq_file *m, void *data)
+ 
+ 	return intel_guc_log_dump(m->private, &p, false);
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_log_dump);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(guc_log_dump);
+ 
+ static int guc_load_err_log_dump_show(struct seq_file *m, void *data)
+ {
+@@ -25,7 +25,7 @@ static int guc_load_err_log_dump_show(struct seq_file *m, void *data)
+ 
+ 	return intel_guc_log_dump(m->private, &p, true);
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(guc_load_err_log_dump);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(guc_load_err_log_dump);
+ 
+ static int guc_log_level_get(void *data, u64 *val)
+ {
+@@ -109,7 +109,7 @@ static const struct file_operations guc_log_relay_fops = {
+ void intel_guc_log_debugfs_register(struct intel_guc_log *log,
+ 				    struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "guc_log_dump", &guc_log_dump_fops, NULL },
+ 		{ "guc_load_err_log_dump", &guc_load_err_log_dump_fops, NULL },
+ 		{ "guc_log_level", &guc_log_level_fops, NULL },
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_huc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_huc_debugfs.c
+index 5733c15fd123..15998963b863 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_huc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_huc_debugfs.c
+@@ -5,7 +5,7 @@
+ 
+ #include <drm/drm_print.h>
+ 
+-#include "gt/debugfs_gt.h"
++#include "gt/intel_gt_debugfs.h"
+ #include "intel_huc.h"
+ #include "intel_huc_debugfs.h"
+ 
+@@ -21,11 +21,11 @@ static int huc_info_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(huc_info);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(huc_info);
+ 
+ void intel_huc_debugfs_register(struct intel_huc *huc, struct dentry *root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "huc_info", &huc_info_fops, NULL },
+ 	};
+ 
+diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+index 089d98662f46..c2f7924295e7 100644
+--- a/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_debugfs.c
+@@ -6,7 +6,7 @@
+ #include <linux/debugfs.h>
+ #include <drm/drm_print.h>
+ 
+-#include "gt/debugfs_gt.h"
++#include "gt/intel_gt_debugfs.h"
+ #include "intel_guc_debugfs.h"
+ #include "intel_huc_debugfs.h"
+ #include "intel_uc.h"
+@@ -32,11 +32,11 @@ static int uc_usage_show(struct seq_file *m, void *data)
+ 
+ 	return 0;
+ }
+-DEFINE_GT_DEBUGFS_ATTRIBUTE(uc_usage);
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(uc_usage);
+ 
+ void intel_uc_debugfs_register(struct intel_uc *uc, struct dentry *gt_root)
+ {
+-	static const struct debugfs_gt_file files[] = {
++	static const struct intel_gt_debugfs_file files[] = {
+ 		{ "usage", &uc_usage_fops, NULL },
+ 	};
+ 	struct dentry *root;
+-- 
+2.32.0
 
-> And then rename the corresponding Kconfig entry.
->
-> With these few changes all patches are:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
-
-Thanks, I'll add it to the patches. If there's anything major I need
-to change I'll give you a yell to make sure you see it.
-
-
-> For bisectability I suggest to move the defconfig patches up before you
-> introduce the new Kconfig symbol. Or maybe they will be added via
-> another tree and then this is not possible to control
-
-Yup, I'll do that. There was some question about the defconfig patch
-but they are hopefully cleared up now.
-
-
-> I assume you will apply the patches yourself.
-
-Sure, I can do that with your Ack. I'll also make sure that patches
-that Jani commented on get resolved.
-
-
--Doug
