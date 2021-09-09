@@ -2,39 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE14840502F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:33:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27076405031
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:33:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A8126E897;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7AF26E899;
 	Thu,  9 Sep 2021 12:32:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CBFB6E883;
- Thu,  9 Sep 2021 12:32:07 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="208005472"
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="208005472"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 900C76E887;
+ Thu,  9 Sep 2021 12:32:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="208005474"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="208005474"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 05:32:07 -0700
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="470057776"
+ 09 Sep 2021 05:32:08 -0700
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="470057790"
 Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 05:32:06 -0700
+ 09 Sep 2021 05:32:07 -0700
 From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
-	"Huang, Sean Z" <sean.z.huang@intel.com>, Huang@freedesktop.org,
-	Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
-	Chris Wilson <chris@chris-wilson.co.uk>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v8 12/17] drm/i915/pxp: Enable PXP power management
-Date: Thu,  9 Sep 2021 05:29:10 -0700
-Message-Id: <20210909122915.971652-13-daniele.ceraolospurio@intel.com>
+Cc: dri-devel@lists.freedesktop.org, Anshuman Gupta <anshuman.gupta@intel.com>,
+ Bommu Krishnaiah <krishnaiah.bommu@intel.com>,
+ Huang Sean Z <sean.z.huang@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Juston Li <juston.li@intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Uma Shankar <uma.shankar@intel.com>
+Subject: [PATCH v8 13/17] drm/i915/pxp: Add plane decryption support
+Date: Thu,  9 Sep 2021 05:29:11 -0700
+Message-Id: <20210909122915.971652-14-daniele.ceraolospurio@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210909122915.971652-1-daniele.ceraolospurio@intel.com>
 References: <20210909122915.971652-1-daniele.ceraolospurio@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,320 +55,255 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: "Huang, Sean Z" <sean.z.huang@intel.com>
+From: Anshuman Gupta <anshuman.gupta@intel.com>
 
-During the power event S3+ sleep/resume, hardware will lose all the
-encryption keys for every hardware session, even though the
-session state might still be marked as alive after resume. Therefore,
-we should consider the session as dead on suspend and invalidate all the
-objects. The session will be automatically restarted on the first
-protected submission on resume.
+Add support to enable/disable PLANE_SURF Decryption Request bit.
+It requires only to enable plane decryption support when following
+condition met.
+1. PXP session is enabled.
+2. Buffer object is protected.
 
-v2: runtime suspend also invalidates the keys
-v3: fix return codes, simplify rpm ops (Chris), use the new worker func
-v4: invalidate the objects on suspend, don't re-create the arb sesson on
-resume (delayed to first submission).
-v5: move irq changes back to irq patch (Rodrigo)
+v2:
+- Used gen fb obj user_flags instead gem_object_metadata. [Krishna]
 
-Signed-off-by: Huang, Sean Z <sean.z.huang@intel.com>
+v3:
+- intel_pxp_gem_object_status() API changes.
+
+v4: use intel_pxp_is_active (Daniele)
+
+v5: rebase and use the new protected object status checker (Daniele)
+
+v6: used plane state for plane_decryption to handle async flip
+    as suggested by Ville.
+
+v7: check pxp session while plane decrypt state computation. [Ville]
+    removed pointless code. [Ville]
+
+v8 (Daniele): update PXP check
+
+v9: move decrypt check after icl_check_nv12_planes() when overlays
+    have fb set (Juston)
+
+v10 (Daniele): update PXP check again to match rework in earlier patches and
+don't consider protection valid if the object has not been used in an
+execbuf beforehand.
+
+Cc: Bommu Krishnaiah <krishnaiah.bommu@intel.com>
+Cc: Huang Sean Z <sean.z.huang@intel.com>
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Anshuman Gupta <anshuman.gupta@intel.com>
 Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Signed-off-by: Juston Li <juston.li@intel.com>
 Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Reviewed-by: Uma Shankar <uma.shankar@intel.com> #v9
 ---
- drivers/gpu/drm/i915/Makefile                |  1 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.c        | 15 +++++++-
- drivers/gpu/drm/i915/i915_drv.c              |  2 +
- drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     |  1 +
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.c      | 40 ++++++++++++++++++++
- drivers/gpu/drm/i915/pxp/intel_pxp_pm.h      | 23 +++++++++++
- drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 38 ++++++++++++++-----
- drivers/gpu/drm/i915/pxp/intel_pxp_tee.c     |  9 +++++
- 8 files changed, 118 insertions(+), 11 deletions(-)
- create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
- create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ drivers/gpu/drm/i915/display/intel_display.c  | 26 +++++++++++++++++++
+ .../drm/i915/display/intel_display_types.h    |  3 +++
+ .../drm/i915/display/skl_universal_plane.c    | 15 ++++++++---
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  2 +-
+ drivers/gpu/drm/i915/i915_reg.h               |  1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          |  9 ++++---
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  7 +++--
+ 7 files changed, 54 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index b22b8c195bb8..366e82cec44d 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -286,6 +286,7 @@ i915-$(CONFIG_DRM_I915_PXP) += \
- 	pxp/intel_pxp.o \
- 	pxp/intel_pxp_cmd.o \
- 	pxp/intel_pxp_irq.o \
-+	pxp/intel_pxp_pm.o \
- 	pxp/intel_pxp_session.o \
- 	pxp/intel_pxp_tee.o
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 134c792e1dbd..d472a2e4cb7c 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -71,6 +71,8 @@
+ #include "gt/intel_rps.h"
+ #include "gt/gen8_ppgtt.h"
  
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-index dea8e2479897..0fd1acab68c0 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-@@ -18,6 +18,7 @@
- #include "intel_rc6.h"
- #include "intel_rps.h"
- #include "intel_wakeref.h"
-+#include "pxp/intel_pxp_pm.h"
- 
- static void user_forcewake(struct intel_gt *gt, bool suspend)
- {
-@@ -262,6 +263,8 @@ int intel_gt_resume(struct intel_gt *gt)
- 
- 	intel_uc_resume(&gt->uc);
- 
-+	intel_pxp_resume(&gt->pxp);
++#include "pxp/intel_pxp.h"
 +
- 	user_forcewake(gt, false);
- 
- out_fw:
-@@ -296,6 +299,7 @@ void intel_gt_suspend_prepare(struct intel_gt *gt)
- 	user_forcewake(gt, true);
- 	wait_for_suspend(gt);
- 
-+	intel_pxp_suspend(&gt->pxp);
- 	intel_uc_suspend(&gt->uc);
- }
- 
-@@ -346,6 +350,7 @@ void intel_gt_suspend_late(struct intel_gt *gt)
- 
- void intel_gt_runtime_suspend(struct intel_gt *gt)
- {
-+	intel_pxp_suspend(&gt->pxp);
- 	intel_uc_runtime_suspend(&gt->uc);
- 
- 	GT_TRACE(gt, "\n");
-@@ -353,11 +358,19 @@ void intel_gt_runtime_suspend(struct intel_gt *gt)
- 
- int intel_gt_runtime_resume(struct intel_gt *gt)
- {
-+	int ret;
-+
- 	GT_TRACE(gt, "\n");
- 	intel_gt_init_swizzling(gt);
- 	intel_ggtt_restore_fences(gt->ggtt);
- 
--	return intel_uc_runtime_resume(&gt->uc);
-+	ret = intel_uc_runtime_resume(&gt->uc);
-+	if (ret)
-+		return ret;
-+
-+	intel_pxp_resume(&gt->pxp);
-+
-+	return 0;
- }
- 
- static ktime_t __intel_gt_get_awake_time(const struct intel_gt *gt)
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 59fb4c710c8c..d5bcc70a22d4 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -67,6 +67,8 @@
- #include "gt/intel_gt_pm.h"
- #include "gt/intel_rc6.h"
- 
-+#include "pxp/intel_pxp_pm.h"
-+
- #include "i915_debugfs.h"
+ #include "g4x_dp.h"
+ #include "g4x_hdmi.h"
  #include "i915_drv.h"
- #include "i915_ioc32.h"
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-index 340f20d130a8..9e5847c653f2 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-@@ -9,6 +9,7 @@
- #include "gt/intel_gt_irq.h"
- #include "i915_irq.h"
- #include "i915_reg.h"
-+#include "intel_runtime_pm.h"
- 
- /**
-  * intel_pxp_irq_handler - Handles PXP interrupts.
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-new file mode 100644
-index 000000000000..4507756b2977
---- /dev/null
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-@@ -0,0 +1,40 @@
-+// SPDX-License-Identifier: MIT
-+/*
-+ * Copyright(c) 2020 Intel Corporation.
-+ */
-+
-+#include "intel_pxp.h"
-+#include "intel_pxp_irq.h"
-+#include "intel_pxp_pm.h"
-+#include "intel_pxp_session.h"
-+
-+void intel_pxp_suspend(struct intel_pxp *pxp)
-+{
-+	if (!intel_pxp_is_enabled(pxp))
-+		return;
-+
-+	pxp->arb_is_valid = false;
-+
-+	/* invalidate protected objects */
-+	intel_pxp_invalidate(pxp);
-+
-+	intel_pxp_fini_hw(pxp);
-+
-+	pxp->hw_state_invalidated = false;
-+}
-+
-+void intel_pxp_resume(struct intel_pxp *pxp)
-+{
-+	if (!intel_pxp_is_enabled(pxp))
-+		return;
-+
-+	/*
-+	 * The PXP component gets automatically unbound when we go into S3 and
-+	 * re-bound after we come out, so in that scenario we can defer the
-+	 * hw init to the bind call.
-+	 */
-+	if (!pxp->pxp_component)
-+		return;
-+
-+	intel_pxp_init_hw(pxp);
-+}
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-new file mode 100644
-index 000000000000..6f488789db6a
---- /dev/null
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-@@ -0,0 +1,23 @@
-+/* SPDX-License-Identifier: MIT */
-+/*
-+ * Copyright(c) 2020, Intel Corporation. All rights reserved.
-+ */
-+
-+#ifndef __INTEL_PXP_PM_H__
-+#define __INTEL_PXP_PM_H__
-+
-+#include "i915_drv.h"
-+
-+#ifdef CONFIG_DRM_I915_PXP
-+void intel_pxp_suspend(struct intel_pxp *pxp);
-+void intel_pxp_resume(struct intel_pxp *pxp);
-+#else
-+static inline void intel_pxp_suspend(struct intel_pxp *pxp)
-+{
-+}
-+static inline void intel_pxp_resume(struct intel_pxp *pxp)
-+{
-+}
-+#endif
-+
-+#endif /* __INTEL_PXP_PM_H__ */
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-index a95cc443a48d..d02732f04757 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-@@ -21,29 +21,36 @@
- 
- static bool intel_pxp_session_is_in_play(struct intel_pxp *pxp, u32 id)
- {
--	struct intel_gt *gt = pxp_to_gt(pxp);
-+	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
- 	intel_wakeref_t wakeref;
- 	u32 sip = 0;
- 
--	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
--		sip = intel_uncore_read(gt->uncore, GEN12_KCR_SIP);
-+	/* if we're suspended the session is considered off */
-+	with_intel_runtime_pm_if_in_use(uncore->rpm, wakeref)
-+		sip = intel_uncore_read(uncore, GEN12_KCR_SIP);
- 
- 	return sip & BIT(id);
+@@ -8994,13 +8996,23 @@ static int intel_bigjoiner_add_affected_planes(struct intel_atomic_state *state)
+ 	return 0;
  }
  
- static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_play)
++static bool bo_has_valid_encryption(struct drm_i915_gem_object *obj)
++{
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
++
++	return intel_pxp_key_check(&i915->gt.pxp, obj, false) == 0;
++}
++
+ static int intel_atomic_check_planes(struct intel_atomic_state *state)
  {
--	struct intel_gt *gt = pxp_to_gt(pxp);
-+	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
- 	intel_wakeref_t wakeref;
- 	u32 mask = BIT(id);
- 	int ret;
+ 	struct drm_i915_private *dev_priv = to_i915(state->base.dev);
+ 	struct intel_crtc_state *old_crtc_state, *new_crtc_state;
+ 	struct intel_plane_state *plane_state;
+ 	struct intel_plane *plane;
++	struct intel_plane_state *new_plane_state;
++	struct intel_plane_state *old_plane_state;
+ 	struct intel_crtc *crtc;
++	const struct drm_framebuffer *fb;
+ 	int i, ret;
  
--	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
--		ret = intel_wait_for_register(gt->uncore,
--					      GEN12_KCR_SIP,
--					      mask,
--					      in_play ? mask : 0,
--					      100);
-+	/* if we're suspended the session is considered off */
-+	wakeref = intel_runtime_pm_get_if_in_use(uncore->rpm);
-+	if (!wakeref)
-+		return in_play ? -ENODEV : 0;
-+
-+	ret = intel_wait_for_register(uncore,
-+				      GEN12_KCR_SIP,
-+				      mask,
-+				      in_play ? mask : 0,
-+				      100);
-+
-+	intel_runtime_pm_put(uncore->rpm, wakeref);
+ 	ret = icl_add_linked_planes(state);
+@@ -9048,6 +9060,16 @@ static int intel_atomic_check_planes(struct intel_atomic_state *state)
+ 			return ret;
+ 	}
  
- 	return ret;
- }
-@@ -135,6 +142,7 @@ void intel_pxp_session_work(struct work_struct *work)
- {
- 	struct intel_pxp *pxp = container_of(work, typeof(*pxp), session_work);
- 	struct intel_gt *gt = pxp_to_gt(pxp);
-+	intel_wakeref_t wakeref;
- 	u32 events = 0;
- 
- 	spin_lock_irq(&gt->irq_lock);
-@@ -147,6 +155,14 @@ void intel_pxp_session_work(struct work_struct *work)
- 	if (events & PXP_INVAL_REQUIRED)
- 		intel_pxp_invalidate(pxp);
- 
-+	/*
-+	 * If we're processing an event while suspending then don't bother,
-+	 * we're going to re-init everything on resume anyway.
-+	 */
-+	wakeref = intel_runtime_pm_get_if_in_use(gt->uncore->rpm);
-+	if (!wakeref)
-+		return;
-+
- 	if (events & PXP_TERMINATION_REQUEST) {
- 		events &= ~PXP_TERMINATION_COMPLETE;
- 		pxp_terminate(pxp);
-@@ -154,4 +170,6 @@ void intel_pxp_session_work(struct work_struct *work)
- 
- 	if (events & PXP_TERMINATION_COMPLETE)
- 		pxp_terminate_complete(pxp);
-+
-+	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
- }
-diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-index 3fc3ddfd02b3..49508f31dcb7 100644
---- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-+++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-@@ -78,16 +78,25 @@ static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
- static int i915_pxp_tee_component_bind(struct device *i915_kdev,
- 				       struct device *tee_kdev, void *data)
- {
-+	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
- 	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
-+	intel_wakeref_t wakeref;
- 
- 	mutex_lock(&pxp->tee_mutex);
- 	pxp->pxp_component = data;
- 	pxp->pxp_component->tee_dev = tee_kdev;
- 	mutex_unlock(&pxp->tee_mutex);
- 
-+	/* if we are suspended, the HW will be re-initialized on resume */
-+	wakeref = intel_runtime_pm_get_if_in_use(&i915->runtime_pm);
-+	if (!wakeref)
-+		return 0;
-+
- 	/* the component is required to fully start the PXP HW */
- 	intel_pxp_init_hw(pxp);
- 
-+	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
++	for_each_new_intel_plane_in_state(state, plane, plane_state, i) {
++		new_plane_state = intel_atomic_get_new_plane_state(state, plane);
++		old_plane_state = intel_atomic_get_old_plane_state(state, plane);
++		fb = new_plane_state->hw.fb;
++		if (fb)
++			new_plane_state->decrypt = bo_has_valid_encryption(intel_fb_obj(fb));
++		else
++			new_plane_state->decrypt = old_plane_state->decrypt;
++	}
 +
  	return 0;
  }
  
+@@ -9334,6 +9356,10 @@ static int intel_atomic_check_async(struct intel_atomic_state *state)
+ 			drm_dbg_kms(&i915->drm, "Color range cannot be changed in async flip\n");
+ 			return -EINVAL;
+ 		}
++
++		/* plane decryption is allow to change only in synchronous flips */
++		if (old_plane_state->decrypt != new_plane_state->decrypt)
++			return -EINVAL;
+ 	}
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/display/intel_display_types.h b/drivers/gpu/drm/i915/display/intel_display_types.h
+index c7bcf9183447..6d4ea1d5bf7b 100644
+--- a/drivers/gpu/drm/i915/display/intel_display_types.h
++++ b/drivers/gpu/drm/i915/display/intel_display_types.h
+@@ -629,6 +629,9 @@ struct intel_plane_state {
+ 
+ 	struct intel_fb_view view;
+ 
++	/* Plane pxp decryption state */
++	bool decrypt;
++
+ 	/* plane control register */
+ 	u32 ctl;
+ 
+diff --git a/drivers/gpu/drm/i915/display/skl_universal_plane.c b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+index 724e7b04f3b6..55e3f093b951 100644
+--- a/drivers/gpu/drm/i915/display/skl_universal_plane.c
++++ b/drivers/gpu/drm/i915/display/skl_universal_plane.c
+@@ -18,6 +18,7 @@
+ #include "intel_sprite.h"
+ #include "skl_scaler.h"
+ #include "skl_universal_plane.h"
++#include "pxp/intel_pxp.h"
+ 
+ static const u32 skl_plane_formats[] = {
+ 	DRM_FORMAT_C8,
+@@ -1024,7 +1025,7 @@ skl_program_plane(struct intel_plane *plane,
+ 	u8 alpha = plane_state->hw.alpha >> 8;
+ 	u32 plane_color_ctl = 0, aux_dist = 0;
+ 	unsigned long irqflags;
+-	u32 keymsk, keymax;
++	u32 keymsk, keymax, plane_surf;
+ 	u32 plane_ctl = plane_state->ctl;
+ 
+ 	plane_ctl |= skl_plane_ctl_crtc(crtc_state);
+@@ -1113,8 +1114,16 @@ skl_program_plane(struct intel_plane *plane,
+ 	 * the control register just before the surface register.
+ 	 */
+ 	intel_de_write_fw(dev_priv, PLANE_CTL(pipe, plane_id), plane_ctl);
+-	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id),
+-			  intel_plane_ggtt_offset(plane_state) + surf_addr);
++	plane_surf = intel_plane_ggtt_offset(plane_state) + surf_addr;
++
++	/*
++	 * FIXME: pxp session invalidation can hit any time even at time of commit
++	 * or after the commit, display content will be garbage.
++	 */
++	if (plane_state->decrypt)
++		plane_surf |= PLANE_SURF_DECRYPT;
++
++	intel_de_write_fw(dev_priv, PLANE_SURF(pipe, plane_id), plane_surf);
+ 
+ 	spin_unlock_irqrestore(&dev_priv->uncore.lock, irqflags);
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+index d129a9f951da..c75afc8784e3 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+@@ -832,7 +832,7 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
+ 		 */
+ 		if (i915_gem_context_uses_protected_content(eb->gem_context) &&
+ 		    i915_gem_object_is_protected(obj)) {
+-			err = intel_pxp_key_check(&vm->gt->pxp, obj);
++			err = intel_pxp_key_check(&vm->gt->pxp, obj, true);
+ 			if (err) {
+ 				i915_gem_object_put(obj);
+ 				return ERR_PTR(err);
+diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+index 84bc884bd474..562711dc806e 100644
+--- a/drivers/gpu/drm/i915/i915_reg.h
++++ b/drivers/gpu/drm/i915/i915_reg.h
+@@ -7376,6 +7376,7 @@ enum {
+ #define _PLANE_SURF_3(pipe)	_PIPE(pipe, _PLANE_SURF_3_A, _PLANE_SURF_3_B)
+ #define PLANE_SURF(pipe, plane)	\
+ 	_MMIO_PLANE(plane, _PLANE_SURF_1(pipe), _PLANE_SURF_2(pipe))
++#define   PLANE_SURF_DECRYPT			REG_BIT(2)
+ 
+ #define _PLANE_OFFSET_1_B			0x711a4
+ #define _PLANE_OFFSET_2_B			0x712a4
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.c b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+index c4d17e22e9cd..d8815e91e091 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.c
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.c
+@@ -179,7 +179,9 @@ void intel_pxp_fini_hw(struct intel_pxp *pxp)
+ 	intel_pxp_irq_disable(pxp);
+ }
+ 
+-int intel_pxp_key_check(struct intel_pxp *pxp, struct drm_i915_gem_object *obj)
++int intel_pxp_key_check(struct intel_pxp *pxp,
++			struct drm_i915_gem_object *obj,
++			bool assign)
+ {
+ 	if (!intel_pxp_is_active(pxp))
+ 		return -ENODEV;
+@@ -195,9 +197,10 @@ int intel_pxp_key_check(struct intel_pxp *pxp, struct drm_i915_gem_object *obj)
+ 	 * as such. If the object is already encrypted, check instead if the
+ 	 * used key is still valid.
+ 	 */
+-	if (!obj->pxp_key_instance)
++	if (!obj->pxp_key_instance && assign)
+ 		obj->pxp_key_instance = pxp->key_instance;
+-	else if (obj->pxp_key_instance != pxp->key_instance)
++
++	if (obj->pxp_key_instance != pxp->key_instance)
+ 		return -ENOEXEC;
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+index 424fe00a91fb..edafbfbe9ff4 100644
+--- a/drivers/gpu/drm/i915/pxp/intel_pxp.h
++++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
+@@ -37,7 +37,9 @@ void intel_pxp_mark_termination_in_progress(struct intel_pxp *pxp);
+ 
+ int intel_pxp_start(struct intel_pxp *pxp);
+ 
+-int intel_pxp_key_check(struct intel_pxp *pxp, struct drm_i915_gem_object *obj);
++int intel_pxp_key_check(struct intel_pxp *pxp,
++			struct drm_i915_gem_object *obj,
++			bool assign);
+ 
+ void intel_pxp_invalidate(struct intel_pxp *pxp);
+ #else
+@@ -55,7 +57,8 @@ static inline int intel_pxp_start(struct intel_pxp *pxp)
+ }
+ 
+ static inline int intel_pxp_key_check(struct intel_pxp *pxp,
+-				      struct drm_i915_gem_object *obj)
++				      struct drm_i915_gem_object *obj,
++				      bool assing)
+ {
+ 	return -ENODEV;
+ }
 -- 
 2.25.1
 
