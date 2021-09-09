@@ -1,39 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F21E404CB8
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:00:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E49C0404CBF
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:01:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3BCC96E845;
-	Thu,  9 Sep 2021 12:00:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13F7D6E84A;
+	Thu,  9 Sep 2021 12:00:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE6706E845
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 12:00:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D31A2632B2;
- Thu,  9 Sep 2021 12:00:36 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8297B6E847;
+ Thu,  9 Sep 2021 12:00:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7593E61452;
+ Thu,  9 Sep 2021 12:00:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188837;
- bh=fszcVQ54+MRHL1zDTWIOZl6b4IzBfRpD5N0vgFm23/Y=;
+ s=k20201202; t=1631188856;
+ bh=UmH3tyQhlZMb5iouAeSw2MzsrySdnZUzxrI6Fv6GO2E=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Oe5kbj9FvMIzPKsqBOJnkeDqMccHTV4nJ1Woo0F+QU943yN5PtuSlarZGSSQ9cZpa
- LdGM6QJQBj+UpL6ZJ/wktpMSgrWkAzwHZnjzUel9XmdtJoDZCSC5LVqqQ3rK7beHrK
- AjKmzR+u/d+VgYGBIjfjcapGJqy8ze2ClF+LxjFuL/UleIVcycoOHz1QLfU4yrPF+E
- 0yaXaVSkB/sjgryCNiy0DbLn1WVfnLx4z9LthDOEabIgWoUpKfrnkEZJGmK5/JlZer
- QnLd1Hcxd7ROpF+uzO/rGbkl025GMW2wTZ0PBj8C55iGj+Z2wEw7+SjIuVl6lmMNdn
- jHJ835/xYlEAw==
+ b=j3UkJ2AwKYi8nQG1vrVFzLMsDbhfbAc7Hi0J8d+M3G0cqOB7Ga9s0+1Ehmzm890zb
+ vSyWrmkOtAB/gbd6N8CWcnlUsWtuPjksVMrClJqjlA/Grwno+2JMRmEb6sThTUNRfN
+ Jrd6l+ByTgwr6gwI4OvflGupGO3Uw0jqOMkYUpaW9E7enbgtnu8fAFTZQXVmKyIwZV
+ vfczDA1W2zKzs8PrI5djNtsjzu73yIzXjXUFhNrVNNet92GBL3XIk5Eu9kVXQNtZpU
+ vwinyxKyE3UVRzEnw1kYnq4hISKW15Q5Rxi30iEufgiuNd500t45oBEGxY/Vz82tOk
+ RMQPTboPqdB7Q==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 4.9 17/48] video: fbdev: riva: Error out if 'pixclock'
- equals zero
-Date: Thu,  9 Sep 2021 07:59:44 -0400
-Message-Id: <20210909120015.150411-17-sashal@kernel.org>
+Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 4.9 32/48] gpu: drm: amd: amdgpu: amdgpu_i2c: fix
+ possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
+Date: Thu,  9 Sep 2021 07:59:59 -0400
+Message-Id: <20210909120015.150411-32-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909120015.150411-1-sashal@kernel.org>
 References: <20210909120015.150411-1-sashal@kernel.org>
@@ -56,69 +56,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit f92763cb0feba247e0939ed137b495601fd072a5 ]
+[ Upstream commit a211260c34cfadc6068fece8c9e99e0fe1e2a2b6 ]
 
-The userspace program could pass any values to the driver through
-ioctl() interface. If the driver doesn't check the value of 'pixclock',
-it may cause divide error.
+The variable val is declared without initialization, and its address is
+passed to amdgpu_i2c_get_byte(). In this function, the value of val is
+accessed in:
+  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
+       addr, *val);
 
-Fix this by checking whether 'pixclock' is zero first.
+Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized,
+but it is accessed in:
+  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
 
-The following log reveals it:
+To fix this possible uninitialized-variable access, initialize val to 0 in
+amdgpu_i2c_router_select_ddc_port().
 
-[   33.396850] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-[   33.396864] CPU: 5 PID: 11754 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #222
-[   33.396883] RIP: 0010:riva_load_video_mode+0x417/0xf70
-[   33.396969] Call Trace:
-[   33.396973]  ? debug_smp_processor_id+0x1c/0x20
-[   33.396984]  ? tick_nohz_tick_stopped+0x1a/0x90
-[   33.396996]  ? rivafb_copyarea+0x3c0/0x3c0
-[   33.397003]  ? wake_up_klogd.part.0+0x99/0xd0
-[   33.397014]  ? vprintk_emit+0x110/0x4b0
-[   33.397024]  ? vprintk_default+0x26/0x30
-[   33.397033]  ? vprintk+0x9c/0x1f0
-[   33.397041]  ? printk+0xba/0xed
-[   33.397054]  ? record_print_text.cold+0x16/0x16
-[   33.397063]  ? __kasan_check_read+0x11/0x20
-[   33.397074]  ? profile_tick+0xc0/0x100
-[   33.397084]  ? __sanitizer_cov_trace_const_cmp4+0x24/0x80
-[   33.397094]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397102]  rivafb_set_par+0xbe/0x610
-[   33.397111]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397119]  fb_set_var+0x5bf/0xeb0
-[   33.397127]  ? fb_blank+0x1a0/0x1a0
-[   33.397134]  ? lock_acquire+0x1ef/0x530
-[   33.397143]  ? lock_release+0x810/0x810
-[   33.397151]  ? lock_is_held_type+0x100/0x140
-[   33.397159]  ? ___might_sleep+0x1ee/0x2d0
-[   33.397170]  ? __mutex_lock+0x620/0x1190
-[   33.397180]  ? trace_hardirqs_on+0x6a/0x1c0
-[   33.397190]  do_fb_ioctl+0x31e/0x700
-
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1627293835-17441-4-git-send-email-zheyuma97@gmail.com
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/riva/fbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 2ef26ad99341..69f3acd405c5 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -1088,6 +1088,9 @@ static int rivafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- 	int mode_valid = 0;
- 	
- 	NVTRACE_ENTER();
-+	if (!var->pixclock)
-+		return -EINVAL;
-+
- 	switch (var->bits_per_pixel) {
- 	case 1 ... 8:
- 		var->red.offset = var->green.offset = var->blue.offset = 0;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+index 91d367399956..a334eb7dbff4 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+@@ -339,7 +339,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
+ void
+ amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
+ {
+-	u8 val;
++	u8 val = 0;
+ 
+ 	if (!amdgpu_connector->router.ddc_valid)
+ 		return;
 -- 
 2.30.2
 
