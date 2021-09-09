@@ -1,55 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0320E405C7C
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 20:01:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AF39405C7E
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 20:01:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 815B06E8ED;
-	Thu,  9 Sep 2021 18:01:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7BF6E8EE;
+	Thu,  9 Sep 2021 18:01:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay07.th.seeweb.it (relay07.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::168])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E2716E8ED
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 18:01:00 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 95A573EBAE;
- Thu,  9 Sep 2021 20:00:57 +0200 (CEST)
-Subject: Re: [Freedreno] [PATCH 2/3] drm/msm/dpu1: Add MSM8998 to hw catalog
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Abhinav Kumar <abhinavk@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
- MSM <linux-arm-msm@vger.kernel.org>,
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- lkml <linux-kernel@vger.kernel.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- paul.bouchara@somainline.org, DTML <devicetree@vger.kernel.org>
-References: <20210901181138.1052653-1-angelogioacchino.delregno@somainline.org>
- <20210901181138.1052653-2-angelogioacchino.delregno@somainline.org>
- <CAOCk7NoOdjxp0vxu9XJzYsi7a04kpqpTOZHm42ApAN3MqkqtDw@mail.gmail.com>
- <CAA8EJpp6tj10A0QUR1E75t7BZf2Y3jHUyVNniYhEUd9rXj8Vrg@mail.gmail.com>
- <CAOCk7NqhuCJqh-u6ke=Mn=EPgHnc7C2RS_X1nSCg_Nc8An=yPA@mail.gmail.com>
- <2d25526f-dd9c-e336-970d-e8882f848d65@linaro.org>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Message-ID: <dcae0f15-8568-0b13-9d3c-b5641bdade10@somainline.org>
-Date: Thu, 9 Sep 2021 20:00:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
+ [210.118.77.12])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 154D96E8EE
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 18:01:46 +0000 (UTC)
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+ by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210909180144euoutp023701a7e55c7f73dfed439d1d7719d7e3~jOU_empTI2789327893euoutp02t
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 18:01:44 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
+ 20210909180144euoutp023701a7e55c7f73dfed439d1d7719d7e3~jOU_empTI2789327893euoutp02t
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1631210504;
+ bh=Arwj0otlihx/wAhFKqYkNqbDC6Ue2LTwGy21YiXkvqs=;
+ h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+ b=g8/Qek3K/aat6Stm5ki7k5RcDYtM5fD1THrMEpC3Q9JMvzqZHRubPjOrrTu1p5tIj
+ CZ52dtqhq5ZZmew60d/F1AtQRCUAuSaGdmJ+bpMZr+xVJg65UqSjmoUGUt4glyUkaM
+ f2TEek+sjUTquyZI11yEElyVzGDFliSnI9cXGlEw=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210909180143eucas1p1e55a60e1364ee1eca9c691d0193f4bed~jOU_IIZsW2784227842eucas1p11;
+ Thu,  9 Sep 2021 18:01:43 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+ eusmges3new.samsung.com (EUCPMTA) with SMTP id C0.1A.56448.70C4A316; Thu,  9
+ Sep 2021 19:01:43 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210909180142eucas1p188adef2d3cf8cd8241a2a91989174b05~jOU9WPB4Q2784227842eucas1p10;
+ Thu,  9 Sep 2021 18:01:42 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+ eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+ 20210909180142eusmtrp16dcbd7cd604030119503490c39d194ec~jOU9VlrKG1744317443eusmtrp1j;
+ Thu,  9 Sep 2021 18:01:42 +0000 (GMT)
+X-AuditID: cbfec7f5-d3bff7000002dc80-68-613a4c0752fd
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms1.samsung.com (EUCPMTA) with SMTP id 79.B2.31287.60C4A316; Thu,  9
+ Sep 2021 19:01:42 +0100 (BST)
+Received: from [106.210.131.79] (unknown [106.210.131.79]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210909180142eusmtip1a1dc1031813eccb31d70502a9a1795d8~jOU9Ah86k2085820858eusmtip1h;
+ Thu,  9 Sep 2021 18:01:42 +0000 (GMT)
+Message-ID: <cdcfac40-08d0-6918-1287-03b7a03cc348@samsung.com>
+Date: Thu, 9 Sep 2021 20:01:42 +0200
 MIME-Version: 1.0
-In-Reply-To: <2d25526f-dd9c-e336-970d-e8882f848d65@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0)
+ Gecko/20100101 Thunderbird/92.0
+Subject: Re: [PATCH 1/8] drm/ttm: remove the outdated kerneldoc section
+Content-Language: pl
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ dri-devel@lists.freedesktop.org
+Cc: matthew.william.auld@gmail.com, daniel@ffwll.ch, alexdeucher@gmail.com
+From: Andrzej Hajda <a.hajda@samsung.com>
+In-Reply-To: <20210908132933.3269-2-christian.koenig@amd.com>
 Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupgleLIzCtJLcpLzFFi42LZduznOV12H6tEg0f31Czu/JnFbvF6zmkm
+ i//bJjJbXPn6ns2if+pPVgdWj73fFrB47Jx1l93jfvdxpgDmKC6blNSczLLUIn27BK6ML1PP
+ MBVckqzYf/AGWwPjQpEuRk4OCQETiR/fl7B0MXJxCAmsYJR40n+ACcL5wigx4+spVgjnM6PE
+ +omLWGBaGk5NZYZILGeUWHHhIiOE855R4vSCJvYuRg4OXgE7iSOvCkAaWARUJI5fmM0IYvMK
+ CEqcnPkEbJCoQILE86VfmUBsYQF3iSU3roPVMAuISNx41MIIMkZEIEti18wUiLCXxIYZ38FK
+ 2AQ0Jf5uvskGYnMK2EpMa1jJBlEjL9G8dTbYbRICBzgkZs87wwIyR0LAReLmaUeI+4UlXh3f
+ wg5hy0icntwD9Ve9xP0VLVC9HYwSWzfsZIZIWEvcOfeLDWQOM9Di9bv0IcKOEs0PL7NCjOeT
+ uPFWEOIEPolJ26YzQ4R5JTrahCCqFSXun90KNVBcYumFr2wTGJVmIYXJLCS/z0LyzCyEvQsY
+ WVYxiqeWFuempxYb56WW6xUn5haX5qXrJefnbmIEJpbT/45/3cG44tVHvUOMTByMhxglOJiV
+ RHhPbLBMFOJNSaysSi3Kjy8qzUktPsQozcGiJM67a+uaeCGB9MSS1OzU1ILUIpgsEwenVAPT
+ vEjN/e2WB6cIMNl1RQm8+FVofYXjjeBy5r9PMoRMp0zs8Mt4sZ1lheHzubff6x97fWTZhAPH
+ LLbq/y608apINT8dc2q3g5fix7t+k69NXNywLSt71oJfM++meHu4XF22o9nk6dXHTyQutm7z
+ acjq17O88uLbHkOhhsP+LxbpCOYc5PE0U2Tom3vJzzLfvO/lp5Pnp7++krhO1Hx9vvKLkBuL
+ rs9m6fD+kfH/V8fMBINpm5fOfjvvwbSrX7oNlrXtnPn7kIOHos/mOv2z0YGtt3VC5NZsZT75
+ arLltcm2kVMSS3b4CVjpHqnI/JH8JkPDZvv245V3HP1FtlxUbflw7rq2RtvEhKV3mvZvs6rx
+ CVBiKc5INNRiLipOBACpOxgTmwMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprLIsWRmVeSWpSXmKPExsVy+t/xu7psPlaJBt+3mVjc+TOL3eL1nNNM
+ Fv+3TWS2uPL1PZtF/9SfrA6sHnu/LWDx2DnrLrvH/e7jTAHMUXo2RfmlJakKGfnFJbZK0YYW
+ RnqGlhZ6RiaWeobG5rFWRqZK+nY2Kak5mWWpRfp2CXoZX6aeYSq4JFmx/+ANtgbGhSJdjJwc
+ EgImEg2npjJ3MXJxCAksZZRY9mA6O0RCXGL3/LfMELawxJ9rXWwQRW8ZJW5/2wuU4ODgFbCT
+ OPKqAKSGRUBF4viF2YwgNq+AoMTJmU9YQGxRgQSJ3Ye7wGYKC7hLLLlxHayGWUBE4sajFjBb
+ RCBL4nPzV6i4l8SGGd8ZIXYdZpRYfXkSWDObgKbE38032UBsTgFbiWkNK9kgGswkurZ2QTXL
+ SzRvnc08gVFoFpI7ZiHZNwtJyywkLQsYWVYxiqSWFuem5xYb6hUn5haX5qXrJefnbmIExtO2
+ Yz8372Cc9+qj3iFGJg7GQ4wSHMxKIrwnNlgmCvGmJFZWpRblxxeV5qQWH2I0BQbGRGYp0eR8
+ YETnlcQbmhmYGpqYWRqYWpoZK4nzbp27Jl5IID2xJDU7NbUgtQimj4mDU6qBaUeAaubKZzL3
+ zvSkNTV8SwkID9Kt+Tf9HI/C5EjrsxqaGRNeyAbW7NCf5baOR7jtS9PVJe4Jq5+861L0mhf/
+ z+ryrb//BEQs9rSXMrH0HGA9VfqFa+epqULMRzhFrwoZbKk9tPhaxafiS8nHZ6ZP7X+9q85I
+ 4MwtFa2mw9FnJ1lU6dvYLr5oeqNnfoB8cbfz5KD/n7JnbJC97BbEvn3rv2UG9r9nq8VcsXhr
+ /nYpY6/YvT3z/jp7Lg/wPB7beyIrX3r74a933vzzUq71+D51w/6oD9NmFu61eF4Z1tOjs0v1
+ dZ3Lt0ua6Ztmiy6a2RYXmGRsPZFff0bfNtV55eUmKUyWj50ibNfJ83Zu+nzrjxJLcUaioRZz
+ UXEiAK1vpYowAwAA
+X-CMS-MailID: 20210909180142eucas1p188adef2d3cf8cd8241a2a91989174b05
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210908132952eucas1p1a12bfa29e9e02b88823ac897c570dd16
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210908132952eucas1p1a12bfa29e9e02b88823ac897c570dd16
+References: <20210908132933.3269-1-christian.koenig@amd.com>
+ <CGME20210908132952eucas1p1a12bfa29e9e02b88823ac897c570dd16@eucas1p1.samsung.com>
+ <20210908132933.3269-2-christian.koenig@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,153 +118,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Il 09/09/21 15:46, Dmitry Baryshkov ha scritto:
-> On 08/09/2021 17:22, Jeffrey Hugo wrote:
->> On Wed, Sep 8, 2021 at 2:26 AM Dmitry Baryshkov
->> <dmitry.baryshkov@linaro.org> wrote:
->>>
->>> Hi,
->>>
->>> On Tue, 7 Sept 2021 at 22:13, Jeffrey Hugo <jeffrey.l.hugo@gmail.com> wrote:
->>>>
->>>> On Wed, Sep 1, 2021 at 12:11 PM AngeloGioacchino Del Regno
->>>> <angelogioacchino.delregno@somainline.org> wrote:
->>>>>
->>>>> Bringup functionality for MSM8998 in the DPU, driver which is mostly
->>>>> the same as SDM845 (just a few variations).
->>>>>
->>>>> Signed-off-by: AngeloGioacchino Del Regno 
->>>>> <angelogioacchino.delregno@somainline.org>
->>>>
->>>> I don't seem to see a cover letter for this series.
->>>>
->>>> Eh, there are a fair number of differences between the MDSS versions
->>>> for 8998 and 845.
->>>>
->>>> Probably a bigger question, why extend the DPU driver for 8998, when
->>>> the MDP5 driver already supports it[1]?  The MDP/DPU split is pretty
->>>> dumb, but I don't see a valid reason for both drivers supporting the
->>>> same target/display revision.  IMO, if you want this support in DPU,
->>>> remove it from MDP5.
->>>>
->>>> [1] 
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?h=v5.14&id=d6c7b2284b14c66a268a448a7a8d54f585d38785 
->>>>
->>>
->>> I don't think that we should enforce such requirements. Having support
->>> both in MDP5 and DPU would allow one to compare those two drivers,
->>> performance, features, etc.
->>> It might be that all MDP5-supported hardware would be also supported
->>> by DPU, thus allowing us to remove the former driver. But until that
->>> time I'd suggest leaving support in place.
->>
->> Well, then you have a host of problems to solve.
->>
->> Lets ignore the code duplication for a minute and assume we've gone
->> with this grand experiment.  Two drivers enter, one leaves the victor.
->>
 
-I know you said let's ignore - but anyway, the code duplication is already
-there: DPU1 supports most of the features that are supported by the MDP5
-driver *anyway*, lacking support for the very very old hardware.
-
->> How are the clients supposed to pick which driver to use in the mean
->> time?  We already have one DT binding for 8998 (which the MDP5 driver
->> services).  This series proposes a second.  If we go forward with what
->> you propose, we'll have two bindings for the same hardware, which IMO
->> doesn't make sense in the context of DT, and the reason for that is to
->> select which driver is "better".  Driver selection is not supposed to
->> be tied to DT like this.
->>
->> So, some boards think MDP5 is better, and some boards think DPU is
->> better.  At some point, we decide one of the drivers is the clear
->> winner (lets assume DPU).  Then what happens to the existing DTs that
->> were using the MDP5 description?  Are they really compatible with DPU?
->>
-
-I don't see any MSM8998 dts/dtsi file using mdp5 upstream anyway, so we wouldn't
-even need to convert anything to using dpu1.
-
->>  From a DT perspective, there should be one description, but then how
->> do you pick which driver to load?  Both can't bind on the single
->> description, and while you could argue that the users should build one
->> driver or the other, but not both (thus picking which one at build
->> time), that doesn't work for distros that want to build both drivers
->> so that they can support all platforms with a single build (per arch).
-> 
-> Yep, the DT issue wasn't thought about from my side at the review time. I 
-> considered qcom,msm8998-dpu as an extension/upgrade of bare qcom,mdp5 compatibility 
-> string (as we usually add chip-specific compatibilities).
-> 
-> In fact using just 'qcom,mdp5' prevents us from having such kind of driver upgrades.
-> 
-> What I'd propose if everybody else agrees on moving 8998 (and maybe others later) 
-> from MDP5 to DPU would be to continue supporting qcom,mdp5 binding in the mdp5 
-> driver and to add qcom,msm8998-dpu binding used by the DPU driver. Maybe with the 
-> warning telling to update the binding. Then at some point if all the MDP5-supported 
-> hardware is supported by the DPU we can drop the MDP5 driver and implement required 
-> bindings compatibility in the DPU.
-> 
-
-Since there's no upstream dtsi using mdp5, this problem practically does not exist.
-In any case, removing MSM8998 support from mdp5 is probably a good idea.. dpu1 is
-"more featureful" already, so it wouldn't really make sense to use mdp5 for a 8998
-board right now.
-I've also validated this on different 8998 devices with both command mode and video
-mode panels (cmd on Sony Yoshino, video on FxTec Pro1) and they both work fine.
-
->>
->>  From where I sit, your position starts with a good idea, but isn't
->> fully thought out and leads to problems.
->>
->> If there is some reason why DPU is better for 8998, please enumerate
->> it.  Does DPU support some config that MDP5 doesn't, which is valuable
->> to you? 
-> 
-> The DPU receives more attention from both Qualcomm and Linaro, so it will continue 
-> acquiring features (which MDP5 might not have at the moment).
-> 
-> For example consider the SmartDMA (multirect) support. For now the multirect 
-> patchset it is limited to newer versions, but it might be extended to support older 
-> chips (in the DPU) too. We did not have plans to backport SmartDMA v1 support to MDP5.
-> 
-> Writeback also has more chances to be supported in the DPU rather than in the MDP5 
-> driver (I remember Rob's patches for the MDP5, but they never actually landed 
-> upstream).
-> 
-
-Not to mention the probably coming PCC support (since DSPP is already supported on
-DPU), and the fact that there's Display Stream Compression (DSC) support in the
-works (I saw some patches around on LKML), which is actually needed by at least the
-Sony Xperia XZ Premium (1080p scaled no dsc, or 4k non-scaled but needs dsc).
-
-> Last but not least at this moment DPU has bandwidth scaling support, while MDP5 
-> does not. I've sent a patch for MDP5 earlier, which then got reverted because of 
-> armv7 support. At this moment I did not resend it since we found some underrun 
-> issues on resume or when quickly changing bw down and up.
-> 
->> I'm ok with ripping out the MDP5 support, the reason I didn't
->> go with DPU was that the DPU driver was clearly written only for 845
->> at the time, and needed significant rework to "downgrade" to an
->> earlier hardware.  However, the "reason" DPU exists separate from MDP5
->> is the claim that the MDP hardware underwent a significant
->> rearchitecture, and thus it was too cumbersome to extend MDP5.  While
->> I disagree with the premise, that "rearch" started with 8998.
-> 
-> Just checked, the SDE, the origin (or parent) of the DPU driver starts it's support 
-> from the 8996 and 8998.
-> 
-> 
-> 
-> 
-
-Yes you are correct, I saw the same downstream, even though I've never tried SDE on
-MSM8996, on Sony downstream kernels we successfully use SDE on MSM8998 since we did
-the porting on the newer kernel (not sure, I think that was 3.18).
+W dniu 08.09.2021 o 15:29, Christian König pisze:
+> Clean up to start over with new and more accurate documentation.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 
 
-Also, sorry for not being immediately ready to reply to my own patch series, my
-days are a bit messy, currently.
+Thanks for fixing documentation, I hope it will be also expanded :)
 
-Cheers,
-- Angelo
+For the whole series:
+
+Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+
+Regards
+Andrzej
+
+
+> ---
+>   Documentation/gpu/drm-mm.rst | 49 ------------------------------------
+>   1 file changed, 49 deletions(-)
+>
+> diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
+> index 0198fa43d254..8ca981065e1a 100644
+> --- a/Documentation/gpu/drm-mm.rst
+> +++ b/Documentation/gpu/drm-mm.rst
+> @@ -30,55 +30,6 @@ The Translation Table Manager (TTM)
+>   
+>   TTM design background and information belongs here.
+>   
+> -TTM initialization
+> -------------------
+> -
+> -    **Warning**
+> -    This section is outdated.
+> -
+> -Drivers wishing to support TTM must pass a filled :c:type:`ttm_bo_driver
+> -<ttm_bo_driver>` structure to ttm_bo_device_init, together with an
+> -initialized global reference to the memory manager.  The ttm_bo_driver
+> -structure contains several fields with function pointers for
+> -initializing the TTM, allocating and freeing memory, waiting for command
+> -completion and fence synchronization, and memory migration.
+> -
+> -The :c:type:`struct drm_global_reference <drm_global_reference>` is made
+> -up of several fields:
+> -
+> -.. code-block:: c
+> -
+> -              struct drm_global_reference {
+> -                      enum ttm_global_types global_type;
+> -                      size_t size;
+> -                      void *object;
+> -                      int (*init) (struct drm_global_reference *);
+> -                      void (*release) (struct drm_global_reference *);
+> -              };
+> -
+> -
+> -There should be one global reference structure for your memory manager
+> -as a whole, and there will be others for each object created by the
+> -memory manager at runtime. Your global TTM should have a type of
+> -TTM_GLOBAL_TTM_MEM. The size field for the global object should be
+> -sizeof(struct ttm_mem_global), and the init and release hooks should
+> -point at your driver-specific init and release routines, which probably
+> -eventually call ttm_mem_global_init and ttm_mem_global_release,
+> -respectively.
+> -
+> -Once your global TTM accounting structure is set up and initialized by
+> -calling ttm_global_item_ref() on it, you need to create a buffer
+> -object TTM to provide a pool for buffer object allocation by clients and
+> -the kernel itself. The type of this object should be
+> -TTM_GLOBAL_TTM_BO, and its size should be sizeof(struct
+> -ttm_bo_global). Again, driver-specific init and release functions may
+> -be provided, likely eventually calling ttm_bo_global_ref_init() and
+> -ttm_bo_global_ref_release(), respectively. Also, like the previous
+> -object, ttm_global_item_ref() is used to create an initial reference
+> -count for the TTM, which will call your initialization function.
+> -
+> -See the radeon_ttm.c file for an example of usage.
+> -
+>   The Graphics Execution Manager (GEM)
+>   ====================================
+>   
