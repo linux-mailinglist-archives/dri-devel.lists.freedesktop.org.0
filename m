@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91EB5404BA2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:52:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 393D6404BAE
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:53:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C216E7EA;
-	Thu,  9 Sep 2021 11:52:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 352D46E7E2;
+	Thu,  9 Sep 2021 11:53:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E326E7E2
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:52:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id A223D61B3E;
- Thu,  9 Sep 2021 11:52:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 344D96E7E2;
+ Thu,  9 Sep 2021 11:53:17 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1A5C661372;
+ Thu,  9 Sep 2021 11:53:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188340;
- bh=6Kf2fT33VSvHv+eQRO4BHv76VEVqVr3MVAltcQ0IzkM=;
+ s=k20201202; t=1631188397;
+ bh=3Vy7/M5mIyhzA+A/04/ihekB3kBig3WcfRZfZinvzpg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=hpo4dnI6ZAQuG6cSuFABCCpjKUqo9pmCFajpLfLutqTz7UPD06gqDivUolMULBrjw
- 8BZv8EYO7moofXWHPsKlYJrYjsrvCblrsCPWlh0hpZvs0hn+YSQea6SvNm/RaxvVgj
- YY0m1pZ26ygyJ340CenfdDnUyNNGEJiiqrKtFSoHbnlX99MemMzrfqHIKUusQdU8Fx
- /+F/VVipFzswWz0m8FC1pidYTRRgY3a/YSPk4Ez+E4pLWOupxRS0TECfU93H1uNtcb
- lgCm3+b18fal/6Vp7jUyNYY7d+Qq6uwW5HAm7bIN/mcFPsigzigEMVEUniT7DfA+nC
- KaHRVVFHixGcg==
+ b=sfwivGifuZM0DWGn4mlWx5wUXA43weMoKVUtHFVfeM+XVDvj01jV3MtmEOmF/GPAj
+ 37ZzHaWpi4PW7wKqCil5Y9420COFkNnauAndGDdIzM7+o7ZF9wpLzY7D6vOdjaUdGD
+ Dm45DTsrf7/bUII6G4KnTHaATgsJ+04g5noWpUATDHOBw8ht26bD8TWhu1aaeIwPom
+ jyXW/UKcHICrPeDItcJBEGHV1dhJ+blH8V3XrJrT6jWOLviiP8LF8jwINu2h294Df8
+ bWyjXLQS4JNA6tLCBcLrWcrid3coZjOSmse6ABcXUVdy5RS8MOCad1HyvPuSmqWup9
+ fYuT0H9tW5mSQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.10 048/176] video: fbdev: riva: Error out if
- 'pixclock' equals zero
-Date: Thu,  9 Sep 2021 07:49:10 -0400
-Message-Id: <20210909115118.146181-48-sashal@kernel.org>
+Cc: David Heidelberg <david@ixit.cz>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.10 092/176] drm/msm: mdp4: drop vblank get/put from
+ prepare/complete_commit
+Date: Thu,  9 Sep 2021 07:49:54 -0400
+Message-Id: <20210909115118.146181-92-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115118.146181-1-sashal@kernel.org>
 References: <20210909115118.146181-1-sashal@kernel.org>
@@ -56,69 +58,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: David Heidelberg <david@ixit.cz>
 
-[ Upstream commit f92763cb0feba247e0939ed137b495601fd072a5 ]
+[ Upstream commit 56bd931ae506730c9ab1e4cc4bfefa43fc2d18fa ]
 
-The userspace program could pass any values to the driver through
-ioctl() interface. If the driver doesn't check the value of 'pixclock',
-it may cause divide error.
+msm_atomic is doing vblank get/put's already,
+currently there no need to duplicate the effort in MDP4
 
-Fix this by checking whether 'pixclock' is zero first.
+Fix warning:
+...
+WARNING: CPU: 3 PID: 79 at drivers/gpu/drm/drm_vblank.c:1194 drm_vblank_put+0x1cc/0x1d4
+...
+and multiple vblank time-outs:
+...
+msm 5100000.mdp: vblank time out, crtc=1
+...
 
-The following log reveals it:
+Tested on Nexus 7 2013 (deb), LTS 5.10.50.
 
-[   33.396850] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-[   33.396864] CPU: 5 PID: 11754 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #222
-[   33.396883] RIP: 0010:riva_load_video_mode+0x417/0xf70
-[   33.396969] Call Trace:
-[   33.396973]  ? debug_smp_processor_id+0x1c/0x20
-[   33.396984]  ? tick_nohz_tick_stopped+0x1a/0x90
-[   33.396996]  ? rivafb_copyarea+0x3c0/0x3c0
-[   33.397003]  ? wake_up_klogd.part.0+0x99/0xd0
-[   33.397014]  ? vprintk_emit+0x110/0x4b0
-[   33.397024]  ? vprintk_default+0x26/0x30
-[   33.397033]  ? vprintk+0x9c/0x1f0
-[   33.397041]  ? printk+0xba/0xed
-[   33.397054]  ? record_print_text.cold+0x16/0x16
-[   33.397063]  ? __kasan_check_read+0x11/0x20
-[   33.397074]  ? profile_tick+0xc0/0x100
-[   33.397084]  ? __sanitizer_cov_trace_const_cmp4+0x24/0x80
-[   33.397094]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397102]  rivafb_set_par+0xbe/0x610
-[   33.397111]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397119]  fb_set_var+0x5bf/0xeb0
-[   33.397127]  ? fb_blank+0x1a0/0x1a0
-[   33.397134]  ? lock_acquire+0x1ef/0x530
-[   33.397143]  ? lock_release+0x810/0x810
-[   33.397151]  ? lock_is_held_type+0x100/0x140
-[   33.397159]  ? ___might_sleep+0x1ee/0x2d0
-[   33.397170]  ? __mutex_lock+0x620/0x1190
-[   33.397180]  ? trace_hardirqs_on+0x6a/0x1c0
-[   33.397190]  do_fb_ioctl+0x31e/0x700
+Introduced by: 119ecb7fd3b5 ("drm/msm/mdp4: request vblank during modeset")
 
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1627293835-17441-4-git-send-email-zheyuma97@gmail.com
+Signed-off-by: David Heidelberg <david@ixit.cz>
+Link: https://lore.kernel.org/r/20210715060925.7880-1-david@ixit.cz
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/riva/fbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index ce55b9d2e862..7dd621c7afe4 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -1084,6 +1084,9 @@ static int rivafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- 	int mode_valid = 0;
- 	
- 	NVTRACE_ENTER();
-+	if (!var->pixclock)
-+		return -EINVAL;
-+
- 	switch (var->bits_per_pixel) {
- 	case 1 ... 8:
- 		var->red.offset = var->green.offset = var->blue.offset = 0;
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+index 2f75e3905202..dfc67c947ad8 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
+@@ -108,13 +108,6 @@ static void mdp4_disable_commit(struct msm_kms *kms)
+ 
+ static void mdp4_prepare_commit(struct msm_kms *kms, struct drm_atomic_state *state)
+ {
+-	int i;
+-	struct drm_crtc *crtc;
+-	struct drm_crtc_state *crtc_state;
+-
+-	/* see 119ecb7fd */
+-	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
+-		drm_crtc_vblank_get(crtc);
+ }
+ 
+ static void mdp4_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
+@@ -133,12 +126,6 @@ static void mdp4_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
+ 
+ static void mdp4_complete_commit(struct msm_kms *kms, unsigned crtc_mask)
+ {
+-	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
+-	struct drm_crtc *crtc;
+-
+-	/* see 119ecb7fd */
+-	for_each_crtc_mask(mdp4_kms->dev, crtc, crtc_mask)
+-		drm_crtc_vblank_put(crtc);
+ }
+ 
+ static long mdp4_round_pixclk(struct msm_kms *kms, unsigned long rate,
 -- 
 2.30.2
 
