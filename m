@@ -2,78 +2,116 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7D2405E3B
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 22:50:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36CD405E41
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:01:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D939C6E90E;
-	Thu,  9 Sep 2021 20:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 71E566E911;
+	Thu,  9 Sep 2021 21:01:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2207E6E90E;
- Thu,  9 Sep 2021 20:50:01 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id n5so4362561wro.12;
- Thu, 09 Sep 2021 13:50:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aaLbY2Tz0R78gM5UFyzV3LES/psE8wo8ewJyYFtaGmE=;
- b=M3sRkj5UCFFxWHbtvRCrqQogUWXztMX+umO/Fg+EG1xChVQpXicgxu7gvlC9YY2bTk
- JbMKLpuNoijQ1Kj9gEbQxrNYKJDwjpjkXIjmTEKdd65hOcdjs3YA6SzoHLYl4kVS/K7U
- wvBZ/yO3gsUyIvnHcgs0AqT6TMLDp++0yr1NJGHXqgf1eTaXqcUhK5DK5FUy46JtvUgS
- 2T+a5IVMxYE4lM2sr1YpH9jtzgsuRXD0oLap47Yd+rZPXBZvAAJtOFvch5aqzhoRas/8
- zBeohRfEYcUdiuoduv0JESigNg7lYZIzAByKfaE6NXp9YbAhr/TAYIN94NUm2XYKjnz+
- CxQg==
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com
+ [IPv6:2607:f8b0:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8222B6E911
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 21:01:19 +0000 (UTC)
+Received: by mail-pf1-x42c.google.com with SMTP id e16so2856537pfc.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 14:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgYZsymCmqy6vs2OAQuoPF75DcvJ7dTHyXuxA0yEqwQ=;
+ b=l3z9MTSjdnlmhP5mE7FA5iEXUZFoTQXDdRHC+RW4FVdcmwc4PenpU06QOYEENGQV7u
+ G2ulyEeNyekNayLflnSI2V4wHKdy9EH9yUa50gYrRaW6weQ6+jrhJXV2earkNzZQ2rFB
+ KtCzrZPvcxxigSjMFri/KLpVSnvl/0QKhpJOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aaLbY2Tz0R78gM5UFyzV3LES/psE8wo8ewJyYFtaGmE=;
- b=dxH+7HmjoLBx8lKOQPjVIccocVc2ZKdzP9KGZ2BTgK3bLiRsxdLQoAJypVvDcUftYy
- 8djfF7FXeYrriZSUUXeNalKtmiDn1Is7gDSCey8vY41QXOcRqd+3gOufetULHpN8zn/G
- 2N3lVARdNkSAEq4CklMck9do97L2vN7UtO5SJ2ZeNd7tG3MyI4SoEGynQyZUJKKa8zIm
- DvcC1zmXQO30LjY9/ZHm05twrqD/QxlQ+X+9HxdNDr9I4ijfw7kzKUXgz4BtfoF3Ss0Y
- G16kqnfB8rvZ57Iph7TkiDBQgKQsGbmy+JC0hl1Do9yCH8ilbgVoUulrk+zeDWmWejME
- SrWQ==
-X-Gm-Message-State: AOAM531VyHtnU8yYsEZBz8X3k0F6anxdpwaSlcRf/yH0UCtxhjxTDqug
- oMgPNIYK32gw9ppZo+LRQ8Hle/rM8Oa1aX8yqZ4=
-X-Google-Smtp-Source: ABdhPJx/Ub7e1GmbjPXeYixhcXbC0J+o/GQmR9fJDlfxq9p1WW/IYvC8I8ePRPlX6Yd9TfwCCOlcoo0G92X2v9QjjUE=
-X-Received: by 2002:adf:e5c2:: with SMTP id a2mr5852512wrn.251.1631220599548; 
- Thu, 09 Sep 2021 13:49:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TgYZsymCmqy6vs2OAQuoPF75DcvJ7dTHyXuxA0yEqwQ=;
+ b=G+Rmb+MAVmZdGCgnVrusvrnQe07TQ/1h1wrCH7lPx1Y6qUcU+oPdB84FztTdwi1GON
+ t8QdpRfTZxN+zggjYZS9PSQTxZSQkcdy8cKBS7mXsHnUg0B3cryX9GxugCxQI8izdiiA
+ CkWDbsNsBLFRPOGiFVfgIBJvTH+cYbGY6NrQnEk9zlrlbOPasUto4dsga43oW+DnN34t
+ vQBs4yzpODisODR2KIOwJZZgOVFEXuoEYChAxWfnC+6Qw/8n2pcKNtibpA8W9ic7ZR2L
+ Z3oon/39QazGsfNajYfbp0B0rEai0Ktp40SA4sgNL7ec+Ze3+cGH/TUun/XafYOc30LZ
+ m1qg==
+X-Gm-Message-State: AOAM532TvDdVRNPITJv2gWARdiworWOSoCJ7G3y6d+0gxOb6YqEu7phv
+ o6U8EFmaNZMpZnuogBdtOvOfCw==
+X-Google-Smtp-Source: ABdhPJzNYdLP54ZPrpCmZ3ORzDC7zdYKwrZ7BBoTmjOUbsHF+UzEN4SItH8EnPA93NK8fIF0hPxZ7g==
+X-Received: by 2002:a63:9a19:: with SMTP id o25mr4440039pge.61.1631221279054; 
+ Thu, 09 Sep 2021 14:01:19 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:8da3:b0fb:4261:2c10])
+ by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 09 Sep 2021 14:01:18 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+Cc: devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Linus W <linus.walleij@linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
+ Douglas Anderson <dianders@chromium.org>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Andreas Kemnade <andreas@kemnade.info>,
+ Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
+ Anson Huang <Anson.Huang@nxp.com>, Arnd Bergmann <arnd@arndb.de>,
+ Catalin Marinas <catalin.marinas@arm.com>, Chen-Yu Tsai <wens@csie.org>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Codrin Ciubotariu <codrin.ciubotariu@microchip.com>,
+ Corentin Labbe <clabbe@baylibre.com>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+ Eugen Hristev <eugen.hristev@microchip.com>,
+ Fabio Estevam <festevam@gmail.com>,
+ Fabrice Gasnier <fabrice.gasnier@st.com>,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Grygorii Strashko <grygorii.strashko@ti.com>,
+ =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>,
+ Jagan Teki <jagan@amarulasolutions.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Joel Stanley <joel@jms.id.au>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Ludovic Desroches <ludovic.desroches@microchip.com>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ =?UTF-8?q?Martin=20J=C3=BCcker?= <martin.juecker@gmail.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Michael Walle <michael@walle.cc>, NXP Linux Team <linux-imx@nxp.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>, Nishanth Menon <nm@ti.com>,
+ Olivier Moysan <olivier.moysan@st.com>, Olof Johansson <olof@lixom.net>,
+ Otavio Salvador <otavio@ossystems.com.br>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Razvan Stefanescu <razvan.stefanescu@microchip.com>,
+ Robert Richter <rric@kernel.org>, Russell King <linux@armlinux.org.uk>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ Stefan Wahren <stefan.wahren@i2se.com>,
+ Sudeep Holla <sudeep.holla@arm.com>, Tony Lindgren <tony@atomide.com>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>,
+ Will Deacon <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
+ =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>
+Subject: [PATCH v4 00/15] eDP: Support probing eDP panels dynamically instead
+ of hardcoding
+Date: Thu,  9 Sep 2021 14:00:16 -0700
+Message-Id: <20210909210032.465570-1-dianders@chromium.org>
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 MIME-Version: 1.0
-References: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <YTgeIuwumPoR9ZTE@ripper>
- <CAMi1Hd1TOFj5USToEhuvZz8vgboQbMWco7gN413-jHJp-A7Ozg@mail.gmail.com>
- <CAMi1Hd2gmo-qzDSDpi1hwpX=N1eGM+Q5HqPSvdbq9LdqwNuK+w@mail.gmail.com>
- <ea5c23cb-0de4-3f1d-3052-c41fa9317984@codeaurora.org>
-In-Reply-To: <ea5c23cb-0de4-3f1d-3052-c41fa9317984@codeaurora.org>
-From: Rob Clark <robdclark@gmail.com>
-Date: Thu, 9 Sep 2021 13:54:26 -0700
-Message-ID: <CAF6AEGtTNK0t6HVvL8284E4RGnNn=wtDXjT=8DK2dXUuRF+gBQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Akhil P Oommen <akhilpo@codeaurora.org>
-Cc: Amit Pundir <amit.pundir@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Caleb Connolly <caleb.connolly@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, 
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek <jonathan@marek.ca>, 
- Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,111 +127,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 9, 2021 at 12:50 PM Akhil P Oommen <akhilpo@codeaurora.org> wrote:
->
-> On 9/9/2021 9:42 PM, Amit Pundir wrote:
-> > On Thu, 9 Sept 2021 at 17:47, Amit Pundir <amit.pundir@linaro.org> wrote:
-> >>
-> >> On Wed, 8 Sept 2021 at 07:50, Bjorn Andersson
-> >> <bjorn.andersson@linaro.org> wrote:
-> >>>
-> >>> On Mon 09 Aug 10:26 PDT 2021, Akhil P Oommen wrote:
-> >>>
-> >>>> On 8/9/2021 9:48 PM, Caleb Connolly wrote:
-> >>>>>
-> >>>>>
-> >>>>> On 09/08/2021 17:12, Rob Clark wrote:
-> >>>>>> On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen
-> >>>>>> <akhilpo@codeaurora.org> wrote:
-> >>> [..]
-> >>>>>>> I am a bit confused. We don't define a power domain for gpu in dt,
-> >>>>>>> correct? Then what exactly set_opp do here? Do you think this usleep is
-> >>>>>>> what is helping here somehow to mask the issue?
-> >>>>> The power domains (for cx and gx) are defined in the GMU DT, the OPPs in
-> >>>>> the GPU DT. For the sake of simplicity I'll refer to the lowest
-> >>>>> frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
-> >>>>> the "min" state, and the highest frequency (710000000) and OPP level
-> >>>>> (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are defined in
-> >>>>> sdm845.dtsi under the gpu node.
-> >>>>>
-> >>>>> The new devfreq behaviour unmasks what I think is a driver bug, it
-> >>>>> inadvertently puts much more strain on the GPU regulators than they
-> >>>>> usually get. With the new behaviour the GPU jumps from it's min state to
-> >>>>> the max state and back again extremely rapidly under workloads as small
-> >>>>> as refreshing UI. Where previously the GPU would rarely if ever go above
-> >>>>> 342MHz when interacting with the device, it now jumps between min and
-> >>>>> max many times per second.
-> >>>>>
-> >>>>> If my understanding is correct, the current implementation of the GMU
-> >>>>> set freq is the following:
-> >>>>>    - Get OPP for frequency to set
-> >>>>>    - Push the frequency to the GMU - immediately updating the core clock
-> >>>>>    - Call dev_pm_opp_set_opp() which triggers a notify chain, this winds
-> >>>>> up somewhere in power management code and causes the gx regulator level
-> >>>>> to be updated
-> >>>>
-> >>>> Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing else. We
-> >>>> were using a different api earlier which got deprecated -
-> >>>> dev_pm_opp_set_bw().
-> >>>>
-> >>>
-> >>> On the Lenovo Yoga C630 this is reproduced by starting alacritty and if
-> >>> I'm lucky I managed to hit a few keys before it crashes, so I spent a
-> >>> few hours looking into this as well...
-> >>>
-> >>> As you say, the dev_pm_opp_set_opp() will only cast a interconnect vote.
-> >>> The opp-level is just there for show and isn't used by anything, at
-> >>> least not on 845.
-> >>>
-> >>> Further more, I'm missing something in my tree, so the interconnect
-> >>> doesn't hit sync_state, and as such we're not actually scaling the
-> >>> buses. So the problem is not that Linux doesn't turn on the buses in
-> >>> time.
-> >>>
-> >>> So I suspect that the "AHB bus error" isn't saying that we turned off
-> >>> the bus, but rather that the GPU becomes unstable or something of that
-> >>> sort.
-> >>>
-> >>>
-> >>> Lastly, I reverted 9bc95570175a ("drm/msm: Devfreq tuning") and ran
-> >>> Aquarium for 20 minutes without a problem. I then switched the gpu
-> >>> devfreq governor to "userspace" and ran the following:
-> >>>
-> >>> while true; do
-> >>>    echo 257000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> >>>    echo 710000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
-> >>> done
-> >>>
-> >>> It took 19 iterations of this loop to crash the GPU.
-> >>
-> >> Ack. With your above script, I can reproduce a crash too on db845c
-> >> (A630) running v5.14. I didn't get any crash log though and device
-> >> just rebooted to USB crash mode.
-> >>
-> >> And same crash on RB5 (A650) too https://hastebin.com/raw/ejutetuwun
->
-> Are we sure this is the same issue? It could be, but I thought we were
-> seeing a bunch of random gpu errors (which may eventually hit device crash).
+The goal of this patch series is to move away from hardcoding exact
+eDP panels in device tree files. As discussed in the various patches
+in this series (I'm not repeating everything here), most eDP panels
+are 99% probable and we can get that last 1% by allowing two "power
+up" delays to be specified in the device tree file and then using the
+panel ID (found in the EDID) to look up additional power sequencing
+delays for the panel.
 
-In the sense that async-serror often seems to be a clk issue, it
-*could* be related.. but this would have to be triggered by CPU
-access.  The symptom does seem very different.
+This patch series is the logical contiunation of a previous patch
+series where I proposed solving this problem by adding a
+board-specific compatible string [1]. In the discussion that followed
+it sounded like people were open to something like the solution
+proposed in this new series.
 
-BR,
--R
+In version 2 I got rid of the idea that we could have a "fallback"
+compatible string that we'd use if we didn't recognize the ID in the
+EDID. This simplifies the bindings a lot and the implementation
+somewhat. As a result of not having a "fallback", though, I'm not
+confident in transitioning any existing boards over to this since
+we'll have to fallback to very conservative timings if we don't
+recognize the ID from the EDID and I can't guarantee that I've seen
+every panel that might have shipped on an existing product. The plan
+is to use "edp-panel" only on new boards or new revisions of old
+boards where we can guarantee that every EDID that ships out of the
+factory has an ID in the table.
 
-> -Akhil
->
-> >
-> > fwiw I can't reproduce this crash on RB5 so far with v5.15-rc1 merge
-> > window (HEAD: 477f70cd2a67)
-> >
-> >>
-> >>>
-> >>> So the problem doesn't seem to be Rob's change, it's just that prior to
-> >>> it the chance to hitting it is way lower. Question is still what it is
-> >>> that we're triggering.
-> >>>
-> >>> Regards,
-> >>> Bjorn
->
+Version 3 of this series now splits out all eDP panels to their own
+driver and adds the generic eDP panel support to this new driver. I
+believe this is what Sam was looking for [2].
+
+Version 4 of this series is mostly small fixes / renames from review
+feedback. It's largely the same as v3. Other than naming /
+description / comment changes, the differences are:
+- Dropped the MIPS config patch as per request.
+- Reorder config patches first.
+- Added a new patch to use the panel ID scheme for quirks.
+- Landed the reorder of logicpd_type_28 / mitsubishi_aa070mc01
+It could possibly be ready to land?
+
+[1] https://lore.kernel.org/r/YFKQaXOmOwYyeqvM@google.com/
+[2] https://lore.kernel.org/r/YRTsFNTn%2FT8fLxyB@ravnborg.org/
+
+Changes in v4:
+- "u8 *edid" => "void *edid" to avoid cast.
+- ("Use new encoded panel id style for quirks matching") new for v4.
+- Don't put kmalloc() in the "if" test even if the old code did.
+- Don't refer to "panel-simple" in commit message.
+- PANEL_SIMPLE_EDP => PANEL_EDP
+- Remove "non-eDP" in panel-simple description.
+- Reordered config patches to be before code patch
+- decode_edid_id() => drm_edid_decode_panel_id()
+- drm_do_get_edid_blk0() => drm_do_get_edid_base_block()
+- drm_get_panel_id() => drm_edid_get_panel_id()
+- encode_edid_id() => drm_edid_encode_panel_id()
+- panel-simple-edp => panel-edp
+- split panel id extraction out to its own function.
+
+Changes in v3:
+- ("Better describe eDP panel delays") new for v3.
+- ("Don't re-read the EDID every time") moved to eDP only patch.
+- ("Non-eDP panels don't need "HPD" handling") new for v3.
+- Add AUO B116XAN06.1 to table.
+- Add Sharp LQ116M1JW10 to table.
+- Adjust endianness of product ID.
+- Change init order to we power at the end.
+- Decode hex product ID w/ same endianness as everyone else.
+- Fallback to conservative delays if panel not recognized.
+- Fix "prepare_to_enable" patch new for v3.
+- Generic "edp-panel" handled by the eDP panel driver now.
+- Move wayward panels patch new for v3.
+- Rename delays more generically so they can be reused.
+- Split eDP panels patch new for v3.
+- Split the delay structure out patch just on eDP now.
+
+Changes in v2:
+- Add "-ms" suffix to delays.
+- Don't support a "fallback" panel. Probed panels must be probed.
+- No longer allow fallback to panel-simple.
+- Not based on patch to copy "desc"--just allocate for probed panels.
+
+Douglas Anderson (15):
+  dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
+  drm/edid: Break out reading block 0 of the EDID
+  drm/edid: Allow querying/working with the panel ID from the EDID
+  drm/edid: Use new encoded panel id style for quirks matching
+  ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
+  drm/panel-edp: Split eDP panels out of panel-simple
+  drm/panel-edp: Move some wayward panels to the eDP driver
+  drm/panel-simple: Non-eDP panels don't need "HPD" handling
+  drm/panel-edp: Split the delay structure out
+  drm/panel-edp: Better describe eDP panel delays
+  drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
+  drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
+  drm/panel-edp: Don't re-read the EDID every time we power off the
+    panel
+  drm/panel-edp: Implement generic "edp-panel"s probed by EDID
+
+ .../bindings/display/panel/panel-edp.yaml     |  188 ++
+ arch/arm/configs/at91_dt_defconfig            |    1 +
+ arch/arm/configs/exynos_defconfig             |    1 +
+ arch/arm/configs/imx_v6_v7_defconfig          |    1 +
+ arch/arm/configs/lpc32xx_defconfig            |    1 +
+ arch/arm/configs/multi_v5_defconfig           |    1 +
+ arch/arm/configs/multi_v7_defconfig           |    1 +
+ arch/arm/configs/omap2plus_defconfig          |    1 +
+ arch/arm/configs/qcom_defconfig               |    1 +
+ arch/arm/configs/realview_defconfig           |    1 +
+ arch/arm/configs/sama5_defconfig              |    1 +
+ arch/arm/configs/shmobile_defconfig           |    1 +
+ arch/arm/configs/sunxi_defconfig              |    1 +
+ arch/arm/configs/tegra_defconfig              |    1 +
+ arch/arm/configs/versatile_defconfig          |    1 +
+ arch/arm/configs/vexpress_defconfig           |    1 +
+ arch/arm64/configs/defconfig                  |    1 +
+ drivers/gpu/drm/drm_edid.c                    |  281 ++-
+ drivers/gpu/drm/panel/Kconfig                 |   16 +-
+ drivers/gpu/drm/panel/Makefile                |    1 +
+ drivers/gpu/drm/panel/panel-edp.c             | 1896 +++++++++++++++++
+ drivers/gpu/drm/panel/panel-simple.c          | 1072 +---------
+ include/drm/drm_edid.h                        |   47 +
+ 23 files changed, 2355 insertions(+), 1162 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/panel/panel-edp.yaml
+ create mode 100644 drivers/gpu/drm/panel/panel-edp.c
+
+-- 
+2.33.0.309.g3052b89438-goog
+
