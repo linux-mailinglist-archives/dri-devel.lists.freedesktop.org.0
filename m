@@ -2,61 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9556405B16
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:42:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6BED405B3C
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 18:48:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 949C26E8C0;
-	Thu,  9 Sep 2021 16:42:15 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 25E206E8C0
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 16:42:13 +0000 (UTC)
-Date: Thu, 09 Sep 2021 16:42:07 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1631205730;
- bh=CRhRrcUbVIk/J340UbBHAnIQ+ohX2n1/c8QCeVn2Jpo=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=y7yBqNtkhgsRmIfQ4GPpRJvlsGGmxCbL9NUJ/m538lQMlZMvYSQ2UAxRJkZ1CMNg5
- 6Iv3yvDrCMOeOwxYbbRVvn+/X/+zaHrT9dGoLGonuL/WPiFACJE0voRMT+1AkymQaf
- xpMkgU49orWB5Ct8we5uSjumO9OVNfB1cftFq9FyfmngXj1PPLacl2K9kbTJmbEl4j
- aKAH+OyZIMBgh1wodGYRej1Mj3bebYZh8blbXxAt8VosQXyk9oxFR2Ly+lqY9xaKtu
- 5zFUSyYhMpr2A/t850v6DwTCFLOsflPVrr0IubhqCObbRVJsygo5uWr5+rZ3P5VgHm
- EoGGfdSu+tOXg==
-To: Rob Clark <robdclark@gmail.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- =?utf-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>, Rob Clark <robdclark@chromium.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- freedreno <freedreno@lists.freedesktop.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- Luben Tuikov <luben.tuikov@amd.com>, Melissa Wen <mwen@igalia.com>,
- Steven Price <steven.price@arm.com>, Tian Tao <tiantao6@hisilicon.com>
-Subject: Re: [PATCH v3 0/9] dma-fence: Deadline awareness
-Message-ID: <CZ2qg4SOe8RnrJpAfZtag_GZTFRt6wAdspKbP4RqpFQCE9Wiuf4xyHTUyKIkaXGu6LfKpSALrmOC3jxgfPdMRjgIAkrkvTnNd9stjXqnPNI=@emersion.fr>
-In-Reply-To: <CAF6AEGuD2bnFpmSWtGxU5+AFj1HVKtnOZmLKRr-pDVbLn0nPVw@mail.gmail.com>
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <i-XmBd_5J3_d8cdm-IT6Ery2kHN0FPZCX968aU5idvxQxNlvDJguLLThtF2NF15LF8gGsH4uI2w0s0CL_39KGpzoGpuCgcz2_-4Wjf3AYEM=@emersion.fr>
- <CAF6AEGuD2bnFpmSWtGxU5+AFj1HVKtnOZmLKRr-pDVbLn0nPVw@mail.gmail.com>
+	by gabe.freedesktop.org (Postfix) with ESMTP id 206306E8C4;
+	Thu,  9 Sep 2021 16:48:19 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EA7F16E8C2;
+ Thu,  9 Sep 2021 16:48:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="217682221"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="217682221"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 09:48:16 -0700
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="548653426"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 09:48:15 -0700
+Date: Thu, 9 Sep 2021 09:43:14 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John.C.Harrison@Intel.com
+Cc: Intel-GFX@Lists.FreeDesktop.Org, DRI-Devel@Lists.FreeDesktop.Org,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Kenneth Graunke <kenneth.w.graunke@intel.com>,
+ Michal Wajdeczko <michal.wajdeczko@intel.com>,
+ Slawomir Milczarek <slawomir.milczarek@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/uapi: Add query for hwconfig table
+Message-ID: <20210909164313.GA30405@jons-linux-dev-box>
+References: <20210903005333.3627255-1-John.C.Harrison@Intel.com>
+ <20210903005333.3627255-3-John.C.Harrison@Intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210903005333.3627255-3-John.C.Harrison@Intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,26 +52,126 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thursday, September 9th, 2021 at 18:31, Rob Clark <robdclark@gmail.com> =
-wrote:
+On Thu, Sep 02, 2021 at 05:53:33PM -0700, John.C.Harrison@Intel.com wrote:
+> From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> 
+> GuC contains a consolidated table with a bunch of information about the
+> current device.
+> 
+> Previously, this information was spread and hardcoded to all the components
+> including GuC, i915 and various UMDs. The goal here is to consolidate
+> the data into GuC in a way that all interested components can grab the
+> very latest and synchronized information using a simple query.
+> 
+> As per most of the other queries, this one can be called twice.
+> Once with item.length=0 to determine the exact buffer size, then
+> allocate the user memory and call it again for to retrieve the
+> table data. For example:
+>   struct drm_i915_query_item item = {
+>     .query_id = DRM_I915_QUERY_HWCONCFIG_TABLE;
+>   };
+>   query.items_ptr = (int64_t) &item;
+>   query.num_items = 1;
+> 
+>   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+> 
+>   if (item.length <= 0)
+>     return -ENOENT;
+> 
+>   data = malloc(item.length);
+>   item.data_ptr = (int64_t) &data;
+>   ioctl(fd, DRM_IOCTL_I915_QUERY, query, sizeof(query));
+> 
+>   // Parse the data as appropriate...
+> 
+> The returned array is a simple and flexible KLV (Key/Length/Value)
+> formatted table. For example, it could be just:
+>   enum device_attr {
+>      ATTR_SOME_VALUE = 0,
+>      ATTR_SOME_MASK  = 1,
+>   };
+> 
+>   static const u32 hwconfig[] = {
+>       ATTR_SOME_VALUE,
+>       1,             // Value Length in DWords
+>       8,             // Value
+> 
+>       ATTR_SOME_MASK,
+>       3,
+>       0x00FFFFFFFF, 0xFFFFFFFF, 0xFF000000,
+>   };
+> 
+> The attribute ids are defined in a hardware spec.
+> 
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+> Cc: Kenneth Graunke <kenneth.w.graunke@intel.com>
+> Cc: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: Slawomir Milczarek <slawomir.milczarek@intel.com>
+> Signed-off-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 
-> Yes, I think it would.. and "dma-buf/sync_file: Add SET_DEADLINE
-> ioctl" adds such an ioctl.. just for the benefit of igt tests at this
-> point, but the thought was it would be also used by compositors that
-> are doing such frame scheduling. Ofc danvet is a bit grumpy that
-> there isn't a more real (than igt) userspace for the ioctl yet ;-)
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
-Ah, very nice, I somehow missed it.
-
-I guess one issue is that explicit sync isn't quite plumbed through
-compositors yet, so without Jason's DMA-BUF to sync_file IOCTL it'd be
-a bit difficult to use.
-
-Can anybody set the deadline? I wonder if clients should be allowed to.
-
-What happens if the deadline is exceeded? I'd assume nothing in
-particular, the deadline being just a hint?
+> ---
+>  drivers/gpu/drm/i915/i915_query.c | 23 +++++++++++++++++++++++
+>  include/uapi/drm/i915_drm.h       |  1 +
+>  2 files changed, 24 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index 5e2b909827f4..96989a37453c 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -477,12 +477,35 @@ static int query_memregion_info(struct drm_i915_private *i915,
+>  	return total_length;
+>  }
+>  
+> +static int query_hwconfig_table(struct drm_i915_private *i915,
+> +				struct drm_i915_query_item *query_item)
+> +{
+> +	struct intel_gt *gt = &i915->gt;
+> +	struct intel_guc_hwconfig *hwconfig = &gt->uc.guc.hwconfig;
+> +
+> +	if (!hwconfig->size || !hwconfig->ptr)
+> +		return -ENODEV;
+> +
+> +	if (query_item->length == 0)
+> +		return hwconfig->size;
+> +
+> +	if (query_item->length < hwconfig->size)
+> +		return -EINVAL;
+> +
+> +	if (copy_to_user(u64_to_user_ptr(query_item->data_ptr),
+> +			 hwconfig->ptr, hwconfig->size))
+> +		return -EFAULT;
+> +
+> +	return hwconfig->size;
+> +}
+> +
+>  static int (* const i915_query_funcs[])(struct drm_i915_private *dev_priv,
+>  					struct drm_i915_query_item *query_item) = {
+>  	query_topology_info,
+>  	query_engine_info,
+>  	query_perf_config,
+>  	query_memregion_info,
+> +	query_hwconfig_table,
+>  };
+>  
+>  int i915_query_ioctl(struct drm_device *dev, void *data, struct drm_file *file)
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index bde5860b3686..a1281f35b190 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2499,6 +2499,7 @@ struct drm_i915_query_item {
+>  #define DRM_I915_QUERY_ENGINE_INFO	2
+>  #define DRM_I915_QUERY_PERF_CONFIG      3
+>  #define DRM_I915_QUERY_MEMORY_REGIONS   4
+> +#define DRM_I915_QUERY_HWCONFIG_TABLE   5
+>  /* Must be kept compact -- no holes and well documented */
+>  
+>  	/**
+> -- 
+> 2.25.1
+> 
