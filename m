@@ -1,53 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B379A405C4F
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 19:42:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 526FE405C55
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 19:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 235926E8DC;
-	Thu,  9 Sep 2021 17:42:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 677C26E8D7;
+	Thu,  9 Sep 2021 17:47:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 762BA6E8D7;
- Thu,  9 Sep 2021 17:42:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="219001511"
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="219001511"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 10:42:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="606934602"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 09 Sep 2021 10:42:16 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 09 Sep 2021 20:42:15 +0300
-Date: Thu, 9 Sep 2021 20:42:15 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Add separate MOCS table for
- Gen12 devices other than TGL/RKL
-Message-ID: <YTpHdx84rEkdB6FK@intel.com>
-References: <20210907171639.1221287-1-ayaz.siddiqui@intel.com>
- <20210907172728.GF461228@mdroper-desk1.amr.corp.intel.com>
- <YTekMq0Kfb3Xkeid@intel.com>
- <20210907181929.GG461228@mdroper-desk1.amr.corp.intel.com>
- <YToTGr2kSQjGtpan@intel.com>
- <20210909142933.GZ461228@mdroper-desk1.amr.corp.intel.com>
- <YTocngFdY1dynYrc@intel.com>
- <20210909150002.GA461228@mdroper-desk1.amr.corp.intel.com>
- <YTojw4z1JkfBoI+q@intel.com>
- <20210909171556.GC461228@mdroper-desk1.amr.corp.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4413F6E8D7
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 17:47:00 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 93113223A2;
+ Thu,  9 Sep 2021 17:46:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1631209618; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CPxlEc+ISc2xmd2mi1OLcRKWH7kQd4f1OJgFfYTAjOc=;
+ b=FF567ow14jEsB9ypdXIHrM2GtaLnWtdesx4nJMdYaygOM3fxUcWVPsUpY5EIYywInexlJG
+ N85ngmySsmi4nbOOQeNOzHa0tMmAk4vafiEqHAGKc9JZ3XA4XI4Hyr56tX7uqnR61qzIJR
+ dQrxtLXtzFoyEYQnZQckhBlgd8g9ujM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1631209618;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CPxlEc+ISc2xmd2mi1OLcRKWH7kQd4f1OJgFfYTAjOc=;
+ b=GGubFbS9xsYJGYDgBAgUpPbL6zOXu+an9eGjGCLCbV7N7xGirhePXciZgxIvk7s77E/KfH
+ xs23Y98cRodpnTBw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 746DF13CC8;
+ Thu,  9 Sep 2021 17:46:58 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id DghUG5JIOmHIEwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 09 Sep 2021 17:46:58 +0000
+Message-ID: <8dad829b-d603-d2ea-2ea9-2dd248b7f561@suse.de>
+Date: Thu, 9 Sep 2021 19:46:57 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210909171556.GC461228@mdroper-desk1.amr.corp.intel.com>
-X-Patchwork-Hint: comment
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.0.1
+Subject: Re: [PATCH 13/14] drm/kmb: Enable alpha blended second plane
+Content-Language: en-US
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Dea, Edmund J" <edmund.j.dea@intel.com>, David Airlie <airlied@redhat.com>
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-13-anitha.chrisanthus@intel.com>
+ <YQEHQ56Qwl0GzvKg@ravnborg.org>
+ <BY5PR11MB41821BFC25FECD3D9834C7D58CEF9@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <YQjP1e+XrYrrsggB@ravnborg.org>
+ <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
+ <YTkPguPS+DR/uHXP@ravnborg.org>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <YTkPguPS+DR/uHXP@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------naTK992loUTV8IuJY2sCBjZr"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,197 +81,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09, 2021 at 10:15:56AM -0700, Matt Roper wrote:
-> On Thu, Sep 09, 2021 at 06:09:55PM +0300, Ville Syrjälä wrote:
-> > On Thu, Sep 09, 2021 at 08:00:02AM -0700, Matt Roper wrote:
-> > > On Thu, Sep 09, 2021 at 05:39:26PM +0300, Ville Syrjälä wrote:
-> > > > On Thu, Sep 09, 2021 at 07:29:33AM -0700, Matt Roper wrote:
-> > > > > On Thu, Sep 09, 2021 at 04:58:50PM +0300, Ville Syrjälä wrote:
-> > > > > > On Tue, Sep 07, 2021 at 11:19:29AM -0700, Matt Roper wrote:
-> > > > > > > On Tue, Sep 07, 2021 at 08:41:06PM +0300, Ville Syrjälä wrote:
-> > > > > > > > On Tue, Sep 07, 2021 at 10:27:28AM -0700, Matt Roper wrote:
-> > > > > > > > > On Tue, Sep 07, 2021 at 10:46:39PM +0530, Ayaz A Siddiqui wrote:
-> > > > > > > > > > MOCS table of TGL/RKL has MOCS[1] set to L3_UC.
-> > > > > > > > > > While for other gen12 devices we need to set MOCS[1] as L3_WB,
-> > > > > > > > > > So adding a new MOCS table for other gen 12 devices eg. ADL.
-> > > > > > > > > > 
-> > > > > > > > > > Fixes: cfbe5291a189 ("drm/i915/gt: Initialize unused MOCS entries with device specific values")
-> > > > > > > > > > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > > > > > > > > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > > > > > > > 
-> > > > > > > > > Yep, we overlooked that the TGL table still had an explicit entry for
-> > > > > > > > > I915_MOCS_PTE and wasn't just using an implicit 'unused_entries' lookup
-> > > > > > > > > for MOCS[1].  The new table is the same as the TGL table, just with
-> > > > > > > > > I915_MOCS_PTE (1) removed.
-> > > > > > > > 
-> > > > > > > > And just how are people planning on handling display cacheability
-> > > > > > > > control without a PTE MOCS entry? Is Mesa/etc. already making all
-> > > > > > > > external bos uncached on these platforms just in case we might
-> > > > > > > > scan out said bo?
-> > > > > > > 
-> > > > > > > MOCS entry 1 has never been considered a valid MOCS table entry on gen12
-> > > > > > > platforms (despite the old #define, it's not actually related to PTE,
-> > > > > > > display, etc. anymore).
-> > > > > > 
-> > > > > > So can someone finally explain to me how we're supposed to cache
-> > > > > > anything that might become a scanout buffer later (eg. window system
-> > > > > > buffers)? Or are we just making everything like that UC now, and is
-> > > > > > everyone happy with that? Is userspace actually following that?
-> > > > > 
-> > > > > Table entry #1 has never had anything to do with scanout on gen12+.  I
-> > > > > would assume that UMDs are either using the display entry in the MOCS
-> > > > > table (which is 61 on gen12+) or some other UC entry.
-> > > > 
-> > > > If 61 is meant to to be the new PTE entry wy hasn't it been defines as
-> > > > such in the code? And I know for a fact that userspace (Mesa) is not
-> > > 
-> > > There is no "PTE" entry anymore.  But 61 is already documented as
-> > > "displayable" in both the spec and the code:
-> > > 
-> > >         /* HW Special Case (Displayable) */                                      
-> > >         MOCS_ENTRY(61,                             
-> > 
-> > Why is it called a "HW special case"? I don't think there's any hw
-> > magic in there?
-> > 
-> > And why aren't we setting it to PTE to get some cacheability for
-> > window back buffers and such?
-> 
-> Who is "we" here?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------naTK992loUTV8IuJY2sCBjZr
+Content-Type: multipart/mixed; boundary="------------sdTGG00BY027bQAYZOYLzD5Y";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: "Chrisanthus, Anitha" <anitha.chrisanthus@intel.com>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "Dea, Edmund J" <edmund.j.dea@intel.com>, David Airlie <airlied@redhat.com>
+Message-ID: <8dad829b-d603-d2ea-2ea9-2dd248b7f561@suse.de>
+Subject: Re: [PATCH 13/14] drm/kmb: Enable alpha blended second plane
+References: <20210728003126.1425028-1-anitha.chrisanthus@intel.com>
+ <20210728003126.1425028-13-anitha.chrisanthus@intel.com>
+ <YQEHQ56Qwl0GzvKg@ravnborg.org>
+ <BY5PR11MB41821BFC25FECD3D9834C7D58CEF9@BY5PR11MB4182.namprd11.prod.outlook.com>
+ <YQjP1e+XrYrrsggB@ravnborg.org>
+ <82bffd36-130a-48b3-69c2-20479daa35f5@suse.de>
+ <YTkPguPS+DR/uHXP@ravnborg.org>
+In-Reply-To: <YTkPguPS+DR/uHXP@ravnborg.org>
 
-We who care about the performance of the system.
+--------------sdTGG00BY027bQAYZOYLzD5Y
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-> The MOCS table is a pre-defined set of per-platform
-> magic numbers.  The software teams don't get to decide what the values
-> are, we just program the hardware with the per-platform numbers that
-> have been agreed upon as part of a platform-wide stack (everything from
-> low-level firmware to high level userspace should be working from the
-> same table, defined in the bspec).
+SGkNCg0KQW0gMDguMDkuMjEgdW0gMjE6MzEgc2NocmllYiBTYW0gUmF2bmJvcmc6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIFdlZCwgU2VwIDA4LCAyMDIxIGF0IDA3OjUwOjQyUE0gKzAy
+MDAsIFRob21hcyBaaW1tZXJtYW5uIHdyb3RlOg0KPj4gSGkNCj4+DQo+PiBBbSAwMy4wOC4y
+MSB1bSAwNzoxMCBzY2hyaWViIFNhbSBSYXZuYm9yZzoNCj4+PiBIaSBBbml0aGEsDQo+Pj4N
+Cj4+PiBPbiBNb24sIEF1ZyAwMiwgMjAyMSBhdCAwODo0NDoyNlBNICswMDAwLCBDaHJpc2Fu
+dGh1cywgQW5pdGhhIHdyb3RlOg0KPj4+PiBIaSBTYW0sDQo+Pj4+IFRoYW5rcy4gV2hlcmUg
+c2hvdWxkIHRoaXMgZ28sIGRybS1taXNjLWZpeGVzIG9yIGRybS1taXNjLW5leHQ/DQo+Pj4N
+Cj4+PiBMb29rcyBsaWtlIGEgZHJtLW1pc2MtbmV4dCBjYW5kaWRhdGUgdG8gbWUuDQo+Pj4g
+SSBtYXkgaW1wcm92ZSBzb21ldGhpbmcgZm9yIGV4aXN0aW5nIHVzZXJzLCBidXQgaXQgZG9l
+cyBub3QgbG9vayBsaWtlIGl0DQo+Pj4gZml4ZXMgYW4gZXhpc3RpbmcgYnVnLg0KPj4NCj4+
+IEkgZm91bmQgdGhpcyBwYXRjaCBpbiBkcm0tbWlzYy1maXhlcywgYWx0aG91Z2ggaXQgZG9l
+c24ndCBsb29rIGxpa2UgYQ0KPj4gYnVnZml4LiBJdCBzaG91bGQgaGF2ZSBnb25lIGludG8g
+ZHJtLW1pc2MtbmV4dC4gU2VlIFsxXS4gSWYgaXQgaW5kZWVkDQo+PiBiZWxvbmdzIGludG8g
+ZHJtLW1pc2MtZml4ZXMsIGl0IGNlcnRhaW5seSBzaG91bGQgaGF2ZSBjb250YWluZWQgYSBG
+aXhlcyB0YWcuDQo+IA0KPiBUaGUgcGF0Y2ggZml4ZXMgc29tZSB3YXJuaW5ncyB0aGF0IGhh
+cyBiZWNvbWUgZXJyb3JzIHRoZSBsYXN0IHdlZWsuDQo+IEFuaXRoYSBwaW5nZWQgbWUgYWJv
+dXQgaXQsIGJ1dCBJIGZhaWxlZCB0byBmb2xsb3d1cC4gU28gaW4gdGhlIGVuZCBpdA0KPiB3
+YXMgYXBwbGllZCB0byBzaHV0IHVwIHRoZSB3YXJuaW5nID0+IGVycm9ycy4NCg0KVGhhbmtz
+IGZvciByZXBseS4gSSBjYydkIERhdmUsIGFzIGhlIGludGVuZGVkIHRvIG5vdCBtZXJnZSB0
+aGUgcnNwIFBSIA0KdGhpcyB3ZWVrLiBNYXliZSB0aGUgcGF0Y2ggaXMgaW1wb3J0YW50IGVu
+b3VnaC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4gCVNhbQ0KPiANCg0KLS0g
+DQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBT
+b2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBO
+w7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6Rm
+dHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
 
-The magic numbers must be based on something. If that something is
-purely Windows behaviour/performance then we might be shooting
-ourselves in the foot here.
+--------------sdTGG00BY027bQAYZOYLzD5Y--
 
-> 
-> Once we know what the per-platform magic numbers are, we're supposed to
-> pick the table entry that matches the behavior we're trying to
-> accomplish.  If you want some specific level of cacheability, then you
-> select a table row that gives you that.  Maybe 61 isn't the best
-> setting, I don't know; userspace can pick whichever defined setting is
-> actually best, using the data from the table.  But table row #1 is
-> already well-documented as reserved/dontuse across the full stack; the
-> fact that row #1 had values similar to PTE on Icelake hardware doesn't
-> carry forward to any post-gen11 platform.
+--------------naTK992loUTV8IuJY2sCBjZr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
 
-The only way you can get LLC cacheability for an external BO (window
-back buffers and such) is by using a MOCS entry that directs the hardware
-to consult the PTEs. Otherwise the client doing the rendering would have
-to know ahead of time whether the buffer is going to be directly scanned
-out by the compositor or not, for which there is no protocol in
-X or wayland.
+-----BEGIN PGP SIGNATURE-----
 
-Historically I believe LLC cacheability has been on average a win.
-Some workloads can do better with UC though. So if we are giving up
-on LLC cacheability we should have some numbers to back up that
-decision so that we're not dropping tons of performance on the floor.
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmE6SJEFAwAAAAAACgkQlh/E3EQov+DY
+0BAAwixkpe7UN0n7yX4Pdr6WULU4C1pLyVdD/9NJ1B0Jz7funrOzm+tVB9kb7s7ZCcLg+MELCnS5
+CJ0uT7PJiP6Quhn+u97l6Tzx8PaE/RXvNLEpyfx6ZbGltYTnl7FolzIPconPENtgiRHQJoGKZlz+
+Jl3jO3Wk9PxgOF3cScmI82fOJwqd9ha2Uk/wHNITw10+ZNJvkYgmRII7MoEfYrH0WAFbNpaCou2l
+3WbPIcWPeMj+yoZYZzuCq3UgE0VNtGJjizW9n1Mimr4ycwQK+gOU7drjsG9HjqxeIx/Hp21N4Z5n
+WVXOZ+/EPFb+44jucU0ja2RszUEjK5ry1WxFjHtdNVyS2b/28LEeoaOzYa9RZjewWICzJytPWNs4
+r1yA21GCHnIELlg2vvVpFUIlUWQYckbtNV6PnUdgRLk1PHRpamp7kK4ilItoo7t+Ye3zLP09LZuE
+iF9UAC11/T0w8tujAtPS+mTd0RtT7+/iUNBe+PU4QLChtumOuJEOTWWNMB+gVELko/QdtEmy9zgy
+9Kll0u982t3zGT/pLbj0XNhRIOaDuV8FxXXR5Q58Uo/sI7hW15cPdCZzvrSe0kvKabLnfy3OKWp9
+0Nx/gwiRJPnjkiXyRgpJyUIHLKkuqeYjHnbOVDmLzLvHXCfvFWTDMjxJddfqsp4f2qe7s0GV652i
+HLU=
+=tKYc
+-----END PGP SIGNATURE-----
 
-> > > > using entry 61. I think there is a massive communication gap here
-> > > > where everyone just seems to assume the other side is doing something.
-> > > > 
-> > > > Could someone actually come up with a clear abi definition for this
-> > > > and get all the stakeholders to sign off on it?
-> > > 
-> > > The agreement between the i915 team, various userspace teams, Windows
-> > > driver team, hardware architects, software architects, and bspec writers
-> > > was just completed; that's what triggered the kernel updates here (and
-> > > I'm guessing is triggering similar work on the UMD side).  It's also why
-> > > we held off on removing the force_probe flag on ADL until now since we
-> > > couldn't consider enablement of the platform complete until the
-> > > agreement and definitions here was finalized.
-> > 
-> > Can we get that agreement visible on the mailing list? Since MOCS is
-> > abi I don't see why we shouldn't follow the normal abi rules for these,
-> > ie. post to dri-devel, get acks from relevant people, links to agreed
-> > userspace changes, etc.
-> 
-> The ABI design here was designed and agreed upon years ago, during early
-> gen11 development.  The ABI design is that the kernel driver will
-> faithfully initialize the hardware with the pre-determined set of magic
-> numbers documented by the hardware team.  Since these are
-> well-documented and unchanging numbers per-platform, there's no
-> ambiguity for userspace, firmware, etc. about what a specific mocs index
-> means, and no need to provide additional ABI for userspace to query what
-> the kernel used in each row or anything like that.  The specific magic
-> numbers are also ABI in the sense that we can't change the set of
-> defined values once they're set for a platform (and it's been a long
-> road to get the hardware and other OS software teams to understand and
-> agree to this requirement), but we don't get to define or overrule what
-> the initial values and order of those magic numbers are.
-
-And this apporach has clearly not worked considering userspace and
-kernel have not agreed on what the abi is. We need to do better.
-
-> 
-> What is a bit vague in the formal documentation is what should be done
-> about the reserved/dontuse table entries.  In theory it wouldn't matter
-> since they'd never be used anyway, but in reality userspace can still
-> use them by accident, such as by forgetting to update their MOCS
-> selection logic from past platforms (e.g., still trying to use row #1 on
-> platforms where it isn't defined).  Given that it's legal for entries to
-> be added to MOCS tables, but never removed/modified, it follows that we
-> should always initialize the undefined entries to fully cached; if a
-> MOCS table update happens in the future and new rows show up, they can
-> only become more coherent, and any userspace software that was
-> incorrectly trying to use them previously will remain functionally
-> correct.
-> 
-> What you're proposing would be a change to existing ABI --- instead of
-> following the agreed upon contract, i915 would start defining its own
-> set of magic numbers that potentially contradict the documentation that
-> every other team is depending on.  We already made this mistake on
-> TGL/RKL, so due to an i915 bug we're outside the spec; if entry #1 ever
-> becomes a formally defined setting in the future, the rest of the
-> software stack will need to explicitly work around i915's bug since we
-> can't fix it now without breaking ABI.
-> 
-> If you really want to redefine how the MOCS ABI works and have i915 no
-> longer follow the current contract, I think you need to do the
-> following:
-
-I want the abi to be actually defined properly, and some assurance that
-all the stakeholders implement it correctly. Following the proper abi
-rules for kernel development would guarantee that.
-
-I would also like if the abi can give us the best performance rather
-than potentially crippling it. Ie. I would expect to have a PTE MOCS
-setting for potential scanout buffers, or some proof that pure UC
-will in fact be a better choice.
-
-> 
->  * Re-add force_probe requirement to ADL and add appropriate Fixes: so
->    that the platform isn't enabled yet.
->  * Document clearly how you want i915 to select the MOCS settings it
->    uses for each table row if we're no longer going to follow the
->    documented values in the bspec.
->  * Provide a way for userspace to determine how i915 has defined the
->    MOCS settings (since they can no longer rely on us following the
->    previously agreed upon contract).
->  * Get acks from all the userspace teams on the new direction you're
->    proposing.
->  * Get an ack from the GuC team to make sure that programming
->    MOCS values differently than documented in the bspec won't have any
->    kind of impact on their operation.
-> 
-> Alternatively, you could lobby for a new table row #1 to be added to the
-> formal MOCS table for gen12. It's legal for new MOCS entries to show up
-> in the future, so if that happens, we can follow up with the
-> corresponding change in i915; since we'll be moving to a more coherent
-> value (from today's fully cached entry), we'll be becoming more
-> permissive from a correctness point of view.  But we absolutely should
-> not try to add entries unilaterally in i915 that haven't been formally
-> agreed upon because they may clash with a different definition of the
-> row that shows up in the future through formal channels.
-
--- 
-Ville Syrjälä
-Intel
+--------------naTK992loUTV8IuJY2sCBjZr--
