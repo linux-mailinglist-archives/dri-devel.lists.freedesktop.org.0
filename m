@@ -2,46 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A3F404AEA
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:49:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4FA404A39
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:45:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1933F6E5B4;
-	Thu,  9 Sep 2021 11:49:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A5366E56D;
+	Thu,  9 Sep 2021 11:45:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB3F26E5B4;
- Thu,  9 Sep 2021 11:49:00 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id CD86161A04;
- Thu,  9 Sep 2021 11:48:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188140;
- bh=xL8R0xhcv7lM2CtakF54LGe40ktCPUaMQx6L5gTtMWA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=HDNMOp9V1fiuqlJz1rfD0paJbo5/rl2lhA21TolT8e9aY6TikJN2PKpjG3KmUHTlV
- EwVD1N3E3g6Or5XF0nipAOuC464hXxQPONC+ShzY/3GlJuFWqrkWL+G9s6ntdFSR88
- 8jO75uaCWjzDVWp5iNmb+fG9LPDlq0pPTkk6pm0eHMYIs+4VNl92hQT90HkJSXTsXk
- sh4vUbcK1e28y538gYJVfIFtDY0j2oSHmbSlzR01LcVwQv0LhB1j3rwM6Ug/hbx9T/
- f0zt7Amf/1UTCty8YiZVQeSVnUK+aWJr6lp+XI5k3V82LKcdls2ZDyzjcWu+lYs2MT
- 4+micmTXxta7w==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: David Heidelberg <david@ixit.cz>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.13 112/219] drm/msm: mdp4: drop vblank get/put from
- prepare/complete_commit
-Date: Thu,  9 Sep 2021 07:44:48 -0400
-Message-Id: <20210909114635.143983-112-sashal@kernel.org>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF6096E563;
+ Thu,  9 Sep 2021 11:44:59 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="218908370"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="218908370"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 04:44:59 -0700
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="548513678"
+Received: from ccoakley-mobl1.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.232.129])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 04:44:57 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Eero Tamminen <eero.t.tamminen@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Daniel Vetter <daniel@ffwll.ch>
+Subject: [PATCH v5] drm/i915: Use Transparent Hugepages when IOMMU is enabled
+Date: Thu,  9 Sep 2021 12:44:48 +0100
+Message-Id: <20210909114448.508493-1-tvrtko.ursulin@linux.intel.com>
 X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210909114635.143983-1-sashal@kernel.org>
-References: <20210909114635.143983-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,66 +51,217 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-[ Upstream commit 56bd931ae506730c9ab1e4cc4bfefa43fc2d18fa ]
+Usage of Transparent Hugepages was disabled in 9987da4b5dcf
+("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
+appears majority of performance regressions reported with an enabled IOMMU
+can be almost eliminated by turning them on, lets just do that.
 
-msm_atomic is doing vblank get/put's already,
-currently there no need to duplicate the effort in MDP4
+To err on the side of safety we keep the current default in cases where
+IOMMU is not active, and only when it is default to the "huge=within_size"
+mode. Although there probably would be wins to enable them throughout,
+more extensive testing across benchmarks and platforms would need to be
+done.
 
-Fix warning:
-...
-WARNING: CPU: 3 PID: 79 at drivers/gpu/drm/drm_vblank.c:1194 drm_vblank_put+0x1cc/0x1d4
-...
-and multiple vblank time-outs:
-...
-msm 5100000.mdp: vblank time out, crtc=1
-...
+With the patch and IOMMU enabled my local testing on a small Skylake part
+shows OglVSTangent regression being reduced from ~14% (IOMMU on versus
+IOMMU off) to ~2% (same comparison but with THP on).
 
-Tested on Nexus 7 2013 (deb), LTS 5.10.50.
+More detailed testing done in the below referenced Gitlab issue by Eero:
 
-Introduced by: 119ecb7fd3b5 ("drm/msm/mdp4: request vblank during modeset")
+Skylake GT4e:
 
-Signed-off-by: David Heidelberg <david@ixit.cz>
-Link: https://lore.kernel.org/r/20210715060925.7880-1-david@ixit.cz
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Performance drops from enabling IOMMU:
+
+    30-35% SynMark CSDof
+    20-25% Unigine Heaven, MemBW GPU write, SynMark VSTangent
+    ~20% GLB Egypt  (1/2 screen window)
+    10-15% GLB T-Rex (1/2 screen window)
+    8-10% GfxBench T-Rex, MemBW GPU blit
+    7-8% SynMark DeferredAA + TerrainFly* + ZBuffer
+    6-7% GfxBench Manhattan 3.0 + 3.1, SynMark TexMem128 & CSCloth
+    5-6% GfxBench CarChase, Unigine Valley
+    3-5% GfxBench Vulkan & GL AztecRuins + ALU2, MemBW GPU texture,
+         SynMark Fill*, Deferred, TerrainPan*
+    1-2% Most of the other tests
+
+With the patch drops become:
+
+    20-25% SynMark TexMem*
+    15-20% GLB Egypt (1/2 screen window)
+    10-15% GLB T-Rex (1/2 screen window)
+    4-7% GfxBench T-Rex, GpuTest Triangle
+    1-8% GfxBench ALU2 (offscreen 1%, onscreen 8%)
+    3% GfxBench Manhattan 3.0, SynMark CSDof
+    2-3% Unigine Heaven + Valley, MemBW GPU texture
+    1-3 GfxBench Manhattan 3.1 + CarChase + Vulkan & GL AztecRuins
+
+Broxton:
+
+Performance drops from IOMMU, without patch:
+
+    30% MemBW GPU write
+    25% SynMark ZBuffer + Fill*
+    20% MemBW GPU blit
+    15% MemBW GPU blend, GpuTest Triangle
+    10-15% MemBW GPU texture
+    10% GLB Egypt, Unigine Heaven (had hangs), SynMark TerrainFly*
+    7-9% GLB T-Rex, GfxBench Manhattan 3.0 + T-Rex,
+         SynMark Deferred* + TexMem*
+    6-8% GfxBench CarChase, Unigine Valley,
+         SynMark CSCloth + ShMapVsm + TerrainPan*
+    5-6% GfxBench Manhattan 3.1 + GL AztecRuins,
+         SynMark CSDof + TexFilterTri
+    2-4% GfxBench ALU2, SynMark DrvRes + GSCloth + ShMapPcf + Batch[0-5] +
+         TexFilterAniso, GpuTest GiMark + 32-bit Julia
+
+And with patch:
+
+    15-20% MemBW GPU texture
+    10% SynMark TexMem*
+    8-9% GLB Egypt (1/2 screen window)
+    4-5% GLB T-Rex (1/2 screen window)
+    3-6% GfxBench Manhattan 3.0, GpuTest FurMark,
+         SynMark Deferred + TexFilterTri
+    3-4% GfxBench Manhattan 3.1 + T-Rex, SynMark VSInstancing
+    2-4% GpuTest Triangle, SynMark DeferredAA
+    2-3% Unigine Heaven + Valley
+    1-3% SynMark Terrain*
+    1-2% GfxBench CarChase, SynMark TexFilterAniso + ZBuffer
+
+Tigerlake-H:
+
+    20-25% MemBW GPU texture
+    15-20% GpuTest Triangle
+    13-15% SynMark TerrainFly* + DeferredAA + HdrBloom
+    8-10% GfxBench Manhattan 3.1, SynMark TerrainPan* + DrvRes
+    6-7% GfxBench Manhattan 3.0, SynMark TexMem*
+    4-8% GLB onscreen Fill + T-Rex + Egypt (more in onscreen than
+         offscreen versions of T-Rex/Egypt)
+    4-6% GfxBench CarChase + GLES AztecRuins + ALU2, GpuTest 32-bit Julia,
+         SynMark CSDof + DrvState
+    3-5% GfxBench T-Rex + Egypt, Unigine Heaven + Valley, GpuTest Plot3D
+    1-7% Media tests
+    2-3% MemBW GPU blit
+    1-3% Most of the rest of 3D tests
+
+With the patch:
+
+    6-8% MemBW GPU blend => the only regression in these tests (compared
+         to IOMMU without THP)
+    4-6% SynMark DrvState (not impacted) + HdrBloom (improved)
+    3-4% GLB T-Rex
+    ~3% GLB Egypt, SynMark DrvRes
+    1-3% GfxBench T-Rex + Egypt, SynMark TexFilterTri
+    1-2% GfxBench CarChase + GLES AztecRuins, Unigine Valley,
+        GpuTest Triangle
+    ~1% GfxBench Manhattan 3.0/3.1, Unigine Heaven
+
+Perf of several tests actually improved with IOMMU + THP, compared to no
+IOMMU / no THP:
+
+    10-15% SynMark Batch[0-3]
+    5-10% MemBW GPU texture, SynMark ShMapVsm
+    3-4% SynMark Fill* + Geom*
+    2-3% SynMark TexMem512 + CSCloth
+    1-2% SynMark TexMem128 + DeferredAA
+
+As a summary across all platforms, these are the benchmarks where enabling
+THP on top of IOMMU enabled brings regressions:
+
+ * Skylake GT4e:
+   20-25% SynMark TexMem*
+   (whereas all MemBW GPU tests either improve or are not affected)
+
+ * Broxton J4205:
+   7% MemBW GPU texture
+   2-3% SynMark TexMem*
+
+ * Tigerlake-H:
+   7% MemBW GPU blend
+
+Other benchmarks show either lowering of regressions or improvements.
+
+v2:
+ * Add Kconfig dependency to transparent hugepages and some help text.
+ * Move to helper for easier handling of kernel build options.
+
+v3:
+ * Drop Kconfig. (Daniel)
+
+v4:
+ * Add some benchmark results to commit message.
+
+v5:
+ * Add explicit regression summary to commit message. (Eero)
+
+References: b901bb89324a ("drm/i915/gemfs: enable THP")
+References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
+References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
+Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
+Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Matthew Auld <matthew.auld@intel.com>
+Cc: Eero Tamminen <eero.t.tamminen@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # v1
 ---
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gemfs.c | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 4a5b518288b0..1325731282f7 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -108,13 +108,6 @@ static void mdp4_disable_commit(struct msm_kms *kms)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gemfs.c b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+index 5e6e8c91ab38..dbdbdc344d87 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gemfs.c
++++ b/drivers/gpu/drm/i915/gem/i915_gemfs.c
+@@ -6,7 +6,6 @@
  
- static void mdp4_prepare_commit(struct msm_kms *kms, struct drm_atomic_state *state)
+ #include <linux/fs.h>
+ #include <linux/mount.h>
+-#include <linux/pagemap.h>
+ 
+ #include "i915_drv.h"
+ #include "i915_gemfs.h"
+@@ -15,6 +14,7 @@ int i915_gemfs_init(struct drm_i915_private *i915)
  {
--	int i;
--	struct drm_crtc *crtc;
--	struct drm_crtc_state *crtc_state;
--
--	/* see 119ecb7fd */
--	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
--		drm_crtc_vblank_get(crtc);
- }
+ 	struct file_system_type *type;
+ 	struct vfsmount *gemfs;
++	char *opts;
  
- static void mdp4_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
-@@ -133,12 +126,6 @@ static void mdp4_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
+ 	type = get_fs_type("tmpfs");
+ 	if (!type)
+@@ -26,10 +26,26 @@ int i915_gemfs_init(struct drm_i915_private *i915)
+ 	 *
+ 	 * One example, although it is probably better with a per-file
+ 	 * control, is selecting huge page allocations ("huge=within_size").
+-	 * Currently unused due to bandwidth issues (slow reads) on Broadwell+.
++	 * However, we only do so to offset the overhead of iommu lookups
++	 * due to bandwidth issues (slow reads) on Broadwell+.
+ 	 */
  
- static void mdp4_complete_commit(struct msm_kms *kms, unsigned crtc_mask)
- {
--	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
--	struct drm_crtc *crtc;
--
--	/* see 119ecb7fd */
--	for_each_crtc_mask(mdp4_kms->dev, crtc, crtc_mask)
--		drm_crtc_vblank_put(crtc);
- }
+-	gemfs = kern_mount(type);
++	opts = NULL;
++	if (intel_vtd_active()) {
++		if (IS_ENABLED(CONFIG_TRANSPARENT_HUGEPAGE)) {
++			static char huge_opt[] = "huge=within_size"; /* r/w */
++
++			opts = huge_opt;
++			drm_info(&i915->drm,
++				 "Transparent Hugepage mode '%s'\n",
++				 opts);
++		} else {
++			drm_notice(&i915->drm,
++				   "Transparent Hugepage support is recommended for optimal performance when IOMMU is enabled!\n");
++		}
++	}
++
++	gemfs = vfs_kern_mount(type, SB_KERNMOUNT, type->name, opts);
+ 	if (IS_ERR(gemfs))
+ 		return PTR_ERR(gemfs);
  
- static long mdp4_round_pixclk(struct msm_kms *kms, unsigned long rate,
 -- 
 2.30.2
 
