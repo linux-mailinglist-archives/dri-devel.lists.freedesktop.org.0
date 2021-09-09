@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1423A4053AD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:53:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A91114053AA
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 14:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A36806E84F;
-	Thu,  9 Sep 2021 12:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69EB96E84C;
+	Thu,  9 Sep 2021 12:53:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66D8F6E86E;
- Thu,  9 Sep 2021 12:53:22 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="217618635"
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="217618635"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 05:53:19 -0700
-X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="504318701"
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8A76E6E84C;
+ Thu,  9 Sep 2021 12:53:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10101"; a="284484566"
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="284484566"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 05:53:16 -0700
+X-IronPort-AV: E=Sophos;i="5.85,280,1624345200"; d="scan'208";a="694103772"
 Received: from okozlyk-mobl.ger.corp.intel.com (HELO localhost)
  ([10.251.214.52])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 05:53:07 -0700
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 05:53:13 -0700
 From: Jani Nikula <jani.nikula@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org, jani.nikula@intel.com,
  ville.syrjala@linux.intel.com, manasi.d.navare@intel.com
-Subject: [PATCH v3 09/13] drm/i915/dg2: configure TRANS_DP2_CTL for DP 2.0
-Date: Thu,  9 Sep 2021 15:52:01 +0300
-Message-Id: <c88b08d80a96d1229ae941b296590633be4d8711.1631191763.git.jani.nikula@intel.com>
+Subject: [PATCH v3 10/13] drm/i915/dp: add HAS_DP20 macro
+Date: Thu,  9 Sep 2021 15:52:02 +0300
+Message-Id: <3746e700641bc17eff270569387fe869707d92ed.1631191763.git.jani.nikula@intel.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <cover.1631191763.git.jani.nikula@intel.com>
 References: <cover.1631191763.git.jani.nikula@intel.com>
@@ -50,52 +50,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Set the DP 2.0 128b/132b channel encoding for UHBR rates.
+Let's abstract the DP 2.0 feature. Initially just DG2.
 
-v2: Fix UHBR port clock check, use intel_dp_is_uhbr()
-
-Bspec: 54128
-Reviewed-by: Manasi Navare <manasi.d.navare@intel.com> # v1
 Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_ddi.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/i915/i915_drv.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-index 2361f48537b5..a7b7e4fafcb3 100644
---- a/drivers/gpu/drm/i915/display/intel_ddi.c
-+++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-@@ -408,6 +408,20 @@ static u32 bdw_trans_port_sync_master_select(enum transcoder master_transcoder)
- 		return master_transcoder + 1;
- }
+diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
+index 37c1ca266bcd..14416bd789b6 100644
+--- a/drivers/gpu/drm/i915/i915_drv.h
++++ b/drivers/gpu/drm/i915/i915_drv.h
+@@ -1641,6 +1641,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
+ #define HAS_IPS(dev_priv)	(IS_HSW_ULT(dev_priv) || IS_BROADWELL(dev_priv))
  
-+static void
-+intel_ddi_config_transcoder_dp2(struct intel_encoder *encoder,
-+				const struct intel_crtc_state *crtc_state)
-+{
-+	struct drm_i915_private *i915 = to_i915(encoder->base.dev);
-+	enum transcoder cpu_transcoder = crtc_state->cpu_transcoder;
-+	u32 val = 0;
-+
-+	if (intel_dp_is_uhbr(crtc_state))
-+		val = TRANS_DP2_128B132B_CHANNEL_CODING;
-+
-+	intel_de_write(i915, TRANS_DP2_CTL(cpu_transcoder), val);
-+}
-+
- /*
-  * Returns the TRANS_DDI_FUNC_CTL value based on CRTC state.
-  *
-@@ -2376,7 +2390,8 @@ static void dg2_ddi_pre_enable_dp(struct intel_atomic_state *state,
- 	 */
- 	intel_ddi_enable_pipe_clock(encoder, crtc_state);
+ #define HAS_DP_MST(dev_priv)	(INTEL_INFO(dev_priv)->display.has_dp_mst)
++#define HAS_DP20(dev_priv)	(IS_DG2(dev_priv))
  
--	/* 5.b Not relevant to i915 for now */
-+	/* 5.b Configure transcoder for DP 2.0 128b/132b */
-+	intel_ddi_config_transcoder_dp2(encoder, crtc_state);
- 
- 	/*
- 	 * 5.c Configure TRANS_DDI_FUNC_CTL DDI Select, DDI Mode Select & MST
+ #define HAS_CDCLK_CRAWL(dev_priv)	 (INTEL_INFO(dev_priv)->display.has_cdclk_crawl)
+ #define HAS_DDI(dev_priv)		 (INTEL_INFO(dev_priv)->display.has_ddi)
 -- 
 2.30.2
 
