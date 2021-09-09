@@ -1,41 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394C9404C86
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:56:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BC6404C89
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:56:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE0796E829;
-	Thu,  9 Sep 2021 11:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67A426E82B;
+	Thu,  9 Sep 2021 11:56:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21B506E829;
- Thu,  9 Sep 2021 11:56:20 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 026BF613D0;
- Thu,  9 Sep 2021 11:56:18 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D8904892EA;
+ Thu,  9 Sep 2021 11:56:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D3390630EE;
+ Thu,  9 Sep 2021 11:56:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631188580;
- bh=6sB9V2TH2YXKggSm4ORmhaVpFYlE+jF8nGZ2tX7oayk=;
+ s=k20201202; t=1631188586;
+ bh=+UA7cOAeOBiOkWjQPLj3hBk6pksEt7VW9MrjfqOBPX0=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=C37/nFb8NQvJIw7Chtpb6dP33LMvufkhlvmlA3pdcTRkfOkWYY5amuOgWdqGZBnnw
- ktNxYB/ZaMtSgldW9w22waXoHPL4l+ZhUh/6iLoJrn5/1az0hCExr5Dcv9wYDTKuln
- cEMuvEkO7QXztlrbXrDwC5GQD9/mV0a/rznJoeOP12DYZSSO9SZkZuX1h6irqeQH+3
- FGUG+JChBMfFNZ0tgyWwYf2hGiX7BgD1v4rnLSh5Gr+vZkhC+3jwpy7C38Ze0Z+PFZ
- WjC3i0FhnZwc0aFyXIIDrTUimAevRInI6GhryJe7AAIztRogpGVGtav5Zcf31gEb8f
- 8XrW2ur7j12Aw==
+ b=kElG4SBj/6i8IkJHJUskRsped9jLdZLqpZWsJ1gJHfJa5CTYSUdrS6qFUMWe6ZAhm
+ 4bcNpHZw4chuuHciXT4PuK9qFd+n32V1H9HCJeAkiatsx3lfWw7rwkF2PtYCTMNWVU
+ gyaDGzybXmoxioEbCZEIRcPup6EOITLst8daVJxWGin9oOcizenVSYC0S/Pxl1fKyM
+ YMT7ndq9HsZCo9sLlrp1U7vsNJvOS3exrfGwa5O8VtQKxZY+eM5R9Z+oCp3oqr+ZkR
+ HRzBFituTkpfNNwBXJojw68D51Lmjknuz2Ruumv1e64h8KA8UewO9wZWrWmriUZlis
+ lH6gmA4dCaZYw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: David Heidelberg <david@ixit.cz>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@chromium.org>, Sasha Levin <sashal@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 057/109] drm/msm: mdp4: drop vblank get/put from
- prepare/complete_commit
-Date: Thu,  9 Sep 2021 07:54:14 -0400
-Message-Id: <20210909115507.147917-57-sashal@kernel.org>
+Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.4 062/109] gpu: drm: amd: amdgpu: amdgpu_i2c: fix
+ possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
+Date: Thu,  9 Sep 2021 07:54:19 -0400
+Message-Id: <20210909115507.147917-62-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909115507.147917-1-sashal@kernel.org>
 References: <20210909115507.147917-1-sashal@kernel.org>
@@ -58,66 +56,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: David Heidelberg <david@ixit.cz>
+From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit 56bd931ae506730c9ab1e4cc4bfefa43fc2d18fa ]
+[ Upstream commit a211260c34cfadc6068fece8c9e99e0fe1e2a2b6 ]
 
-msm_atomic is doing vblank get/put's already,
-currently there no need to duplicate the effort in MDP4
+The variable val is declared without initialization, and its address is
+passed to amdgpu_i2c_get_byte(). In this function, the value of val is
+accessed in:
+  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
+       addr, *val);
 
-Fix warning:
-...
-WARNING: CPU: 3 PID: 79 at drivers/gpu/drm/drm_vblank.c:1194 drm_vblank_put+0x1cc/0x1d4
-...
-and multiple vblank time-outs:
-...
-msm 5100000.mdp: vblank time out, crtc=1
-...
+Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized,
+but it is accessed in:
+  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
 
-Tested on Nexus 7 2013 (deb), LTS 5.10.50.
+To fix this possible uninitialized-variable access, initialize val to 0 in
+amdgpu_i2c_router_select_ddc_port().
 
-Introduced by: 119ecb7fd3b5 ("drm/msm/mdp4: request vblank during modeset")
-
-Signed-off-by: David Heidelberg <david@ixit.cz>
-Link: https://lore.kernel.org/r/20210715060925.7880-1-david@ixit.cz
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
+Signed-off-by: Tuo Li <islituo@gmail.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c | 13 -------------
- 1 file changed, 13 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-index 20194d86d033..5d50e93efe36 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c
-@@ -108,13 +108,6 @@ static void mdp4_disable_commit(struct msm_kms *kms)
- 
- static void mdp4_prepare_commit(struct msm_kms *kms, struct drm_atomic_state *state)
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+index 70dbe343f51d..89cecdba81ac 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
+@@ -339,7 +339,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
+ void
+ amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
  {
--	int i;
--	struct drm_crtc *crtc;
--	struct drm_crtc_state *crtc_state;
--
--	/* see 119ecb7fd */
--	for_each_new_crtc_in_state(state, crtc, crtc_state, i)
--		drm_crtc_vblank_get(crtc);
- }
+-	u8 val;
++	u8 val = 0;
  
- static void mdp4_flush_commit(struct msm_kms *kms, unsigned crtc_mask)
-@@ -133,12 +126,6 @@ static void mdp4_wait_flush(struct msm_kms *kms, unsigned crtc_mask)
- 
- static void mdp4_complete_commit(struct msm_kms *kms, unsigned crtc_mask)
- {
--	struct mdp4_kms *mdp4_kms = to_mdp4_kms(to_mdp_kms(kms));
--	struct drm_crtc *crtc;
--
--	/* see 119ecb7fd */
--	for_each_crtc_mask(mdp4_kms->dev, crtc, crtc_mask)
--		drm_crtc_vblank_put(crtc);
- }
- 
- static long mdp4_round_pixclk(struct msm_kms *kms, unsigned long rate,
+ 	if (!amdgpu_connector->router.ddc_valid)
+ 		return;
 -- 
 2.30.2
 
