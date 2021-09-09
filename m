@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 636B8405E44
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:01:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A266405E45
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:01:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A671893DB;
-	Thu,  9 Sep 2021 21:01:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4EA16E915;
+	Thu,  9 Sep 2021 21:01:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
- [IPv6:2607:f8b0:4864:20::529])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 589096E916
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 21:01:24 +0000 (UTC)
-Received: by mail-pg1-x529.google.com with SMTP id t1so3121570pgv.3
- for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 14:01:24 -0700 (PDT)
+Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com
+ [IPv6:2607:f8b0:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37C3893DB
+ for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 21:01:27 +0000 (UTC)
+Received: by mail-pf1-x430.google.com with SMTP id q22so2890197pfu.0
+ for <dri-devel@lists.freedesktop.org>; Thu, 09 Sep 2021 14:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wgdd7k2meN+TTX6Jg3GzgzE7H76ZLGquQVy1sMGiGZ4=;
- b=MGMmmuxNGOl5nA2L8i1UACBEDd+APufRbYL5wqzKPPpNcAV+1Zp4qsTrTzUuWBhYNZ
- RW6cG6JJAeckRKgjnRag/Gb6VdL6aoK0eVIAGWiXcKioTmZIswINTzMBt24Ov/kf5Q8w
- VxpkJRryXxXMQGR+R6bHJ/Q1IWToWdEMQPgwo=
+ bh=zmwud1GTMesTQEP84XT/WJcugI6WLDFjMGvzu6UqTfI=;
+ b=Eif97koPhz1gxH67YD8TH57OfovVp8AruNCiDu1oW1SUOVdErP2K5zE1T3mzjfHN9D
+ sKQiHU2RulTjxpV4gopNMzidaluCEWiUQ1jbq6C512ogZaarHntA1GtR33U2JPJ9Rm95
+ Fyy5EvettRQGRijxcM+24Uk3CsLA7i6GLPBzQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wgdd7k2meN+TTX6Jg3GzgzE7H76ZLGquQVy1sMGiGZ4=;
- b=PskW1jB45p0x6f184mFdIiarZaJMiaGntgmJ1SOvCGnnDXKe5zNZJZPjyohlfoRXp+
- Oc8jAP8Fv45tUZwBnoE1jc3jvx28ZR4zX8N2JXBtkktpkpUnf58/SZKdPNXCWQyE0W8b
- OxUQWiNeUZ875i2ndsu5yKNqim9GlizeoZdkAgEjHCrcL1/M4OSpLptz2bn3urbywTju
- RADW0hYR1y2sg+Q9GQmLv/INcAoxZS6dH5X+c7rOyUvp1QXG6iSxiz9mBvLUCXOF1SZA
- 6gLisdnSMpfru5W0w6WxM3bIObQnjntPl4TuDhUncHZ9A01vzCnz+razqfXgmQ8Ww77a
- w8AQ==
-X-Gm-Message-State: AOAM533GmhLeVlaCKNVsznlp5c9il3RxQafqlcIb0wD+RulcX4anbkRy
- UFPrl+0RwOq3l5ZWAznhTsuuhA==
-X-Google-Smtp-Source: ABdhPJxQgS0HpYosTZpAWKSO5dwrgqpNc6QSn0MBODteWKAZ7JkDBz3BTPwOp8wNUPQiYT4+HVYx1Q==
-X-Received: by 2002:a63:2d07:: with SMTP id t7mr4411763pgt.101.1631221283830; 
- Thu, 09 Sep 2021 14:01:23 -0700 (PDT)
+ bh=zmwud1GTMesTQEP84XT/WJcugI6WLDFjMGvzu6UqTfI=;
+ b=yyeh6U9d9YvIC9tVS5Ddh+EK/MyGJrrxRq8bBUALh6yRfyf9155ecWK/HnyZLX/gv9
+ DmwJng/fLZRQiHrwx8NF9SlPzR5l6Q8y82STLykd1FcOhgwFQgrTcfsr3P2ucv/H+AKv
+ eHd8anRjosLgwCOPkGPavABlteQoWFHH8QOUtLGdpXO0EhGrKFKHUjAbgZaCS0xDAFPr
+ QaOjVf2pF+L5Di2J0OgvZI8ZNRQx87SQy6k/S+arLyF4XF5mXLWTiUUVgtyHLF94M35g
+ A27gc1Qod6NG3dDF9z6jmtZsgCjXJuuQw1a4CCal09LBS1m3q6lcEn0z+dBBYlMW1utW
+ bzWQ==
+X-Gm-Message-State: AOAM533IxMVGuWT+eUlJuQOg+8No8l3NqQ0mjEASb+dcEXjuEnbXb7m9
+ gsM1tCj3tFdTznlTGNhTmCwYJQ==
+X-Google-Smtp-Source: ABdhPJxsKQPd4Vy12Q0GuTzr1MAZuSF3o/eUmm/s6Ap6Sm70Dhn4a9DDNnkKNvvZW/cloCCPw9fcnA==
+X-Received: by 2002:a63:f84f:: with SMTP id v15mr4373288pgj.204.1631221287316; 
+ Thu, 09 Sep 2021 14:01:27 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:8da3:b0fb:4261:2c10])
- by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.22
+ by smtp.gmail.com with ESMTPSA id l143sm177069pfd.60.2021.09.09.14.01.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 09 Sep 2021 14:01:23 -0700 (PDT)
+ Thu, 09 Sep 2021 14:01:25 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
@@ -54,10 +54,10 @@ Cc: devicetree@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
  Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v4 03/15] drm/edid: Allow querying/working with the panel ID
- from the EDID
-Date: Thu,  9 Sep 2021 14:00:19 -0700
-Message-Id: <20210909135838.v4.3.I4a672175ba1894294d91d3dbd51da11a8239cf4a@changeid>
+Subject: [PATCH v4 04/15] drm/edid: Use new encoded panel id style for quirks
+ matching
+Date: Thu,  9 Sep 2021 14:00:20 -0700
+Message-Id: <20210909135838.v4.4.I6103ce2b16e5e5a842b14c7022a034712b434609@changeid>
 X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 In-Reply-To: <20210909210032.465570-1-dianders@chromium.org>
 References: <20210909210032.465570-1-dianders@chromium.org>
@@ -78,182 +78,283 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-EDIDs have 32-bits worth of data which is intended to be used to
-uniquely identify the make/model of a panel. This has historically
-been used only internally in the EDID processing code to identify
-quirks with panels.
+In the patch ("drm/edid: Allow the querying/working with the panel ID
+from the EDID") we introduced a different way of working with the
+panel ID stored in the EDID. Let's use this new way for the quirks
+code.
 
-We'd like to use this panel ID in panel drivers to identify which
-panel is hooked up and from that information figure out power sequence
-timings. Let's expose this information from the EDID code and also
-allow it to be accessed early, before a connector has been created.
+Advantages of the new style:
+* Smaller data structure size. Saves 4 bytes per panel.
+* Iterate through quirks structure with just "==" instead of strncmp()
+* In-kernel storage is more similar to what's stored in the EDID
+  itself making it easier to grok that they are referring to the same
+  value.
 
-To make matching in the panel drivers code easier, we'll return the
-panel ID as a 32-bit value. We'll provide some functions for
-converting this value back and forth to something more human readable.
+The quirk table itself is arguably a bit less readable in the new
+style but not a ton less and it feels like the above advantages make
+up for it.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
 ---
+This commit is only compile-tested. I don't have any DP panels that
+exercise this code. Transition from the old table to the new one was
+done with a regexp.
 
 Changes in v4:
-- Don't refer to "panel-simple" in commit message.
-- decode_edid_id() => drm_edid_decode_panel_id()
-- drm_do_get_edid_blk0() => drm_do_get_edid_base_block()
-- drm_get_panel_id() => drm_edid_get_panel_id()
-- encode_edid_id() => drm_edid_encode_panel_id()
-- split panel id extraction out to its own function.
+- ("Use new encoded panel id style for quirks matching") new for v4.
 
-Changes in v3:
-- Decode hex product ID w/ same endianness as everyone else.
-
- drivers/gpu/drm/drm_edid.c | 67 ++++++++++++++++++++++++++++++++++++++
- include/drm/drm_edid.h     | 47 ++++++++++++++++++++++++++
- 2 files changed, 114 insertions(+)
+ drivers/gpu/drm/drm_edid.c | 157 +++++++++++++++++--------------------
+ 1 file changed, 71 insertions(+), 86 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 520fe1391769..f84e0dd264f4 100644
+index f84e0dd264f4..9b19eee0e1b4 100644
 --- a/drivers/gpu/drm/drm_edid.c
 +++ b/drivers/gpu/drm/drm_edid.c
-@@ -2087,6 +2087,73 @@ struct edid *drm_get_edid(struct drm_connector *connector,
- }
- EXPORT_SYMBOL(drm_get_edid);
+@@ -100,122 +100,128 @@ struct detailed_mode_closure {
+ #define LEVEL_GTF2	2
+ #define LEVEL_CVT	3
  
-+static u32 edid_extract_panel_id(const struct edid *edid)
-+{
-+	/*
-+	 * In theory we could try to de-obfuscate this like edid_get_quirks()
-+	 * does, but it's easier to just deal with a 32-bit number since then
-+	 * it can be compared with "==".
-+	 *
-+	 * NOTE that we deal with endianness differently for the top half
-+	 * of this ID than for the bottom half. The bottom half (the product
-+	 * id) gets decoded as little endian by the EDID_PRODUCT_ID because
-+	 * that's how everyone seems to interpret it. The top half (the mfg_id)
-+	 * gets stored as big endian because that makes
-+	 * drm_edid_encode_panel_id() and drm_edid_decode_panel_id() easier
-+	 * to write (it's easier to extract the ASCII). It doesn't really
-+	 * matter, though, as long as the number here is unique.
-+	 */
-+	return (u32)edid->mfg_id[0] << 24   |
-+	       (u32)edid->mfg_id[1] << 16   |
-+	       (u32)EDID_PRODUCT_ID(edid);
++#define EDID_QUIRK(vend_chr_0, vend_chr_1, vend_chr_2, product_id, _quirks) \
++{ \
++	.panel_id = drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, \
++					     product_id), \
++	.quirks = _quirks \
 +}
 +
-+/**
-+ * drm_edid_get_panel_id - Get a panel's ID through DDC
-+ * @adapter: I2C adapter to use for DDC
-+ *
-+ * This function reads the first block of the EDID of a panel and (assuming
-+ * that the EDID is valid) extracts the ID out of it. The ID is a 32-bit value
-+ * (16 bits of manufacturer ID and 16 bits of per-manufacturer ID) that's
-+ * supposed to be different for each different modem of panel.
-+ *
-+ * This function is intended to be used during early probing on devices where
-+ * more than one panel might be present. Because of its intended use it must
-+ * assume that the EDID of the panel is correct, at least as far as the ID
-+ * is concerned (in other words, we don't process any overrides here).
-+ *
-+ * NOTE: it's expected that this function and drm_do_get_edid() will both
-+ * be read the EDID, but there is no caching between them. Since we're only
-+ * reading the first block, hopefully this extra overhead won't be too big.
-+ *
-+ * Return: A 32-bit ID that should be different for each make/model of panel.
-+ *         See the functions drm_edid_encode_panel_id() and
-+ *         drm_edid_decode_panel_id() for some details on the structure of this
-+ *         ID.
-+ */
-+
-+u32 drm_edid_get_panel_id(struct i2c_adapter *adapter)
-+{
-+	struct edid *edid;
+ static const struct edid_quirk {
+-	char vendor[4];
+-	int product_id;
 +	u32 panel_id;
-+
-+	edid = drm_do_get_edid_base_block(drm_do_probe_ddc_edid, adapter,
-+					  NULL, NULL);
-+
-+	/*
-+	 * There are no manufacturer IDs of 0, so if there is a problem reading
-+	 * the EDID then we'll just return 0.
-+	 */
-+	if (IS_ERR_OR_NULL(edid))
-+		return 0;
-+
-+	panel_id = edid_extract_panel_id(edid);
-+	kfree(edid);
-+
-+	return panel_id;
-+}
-+EXPORT_SYMBOL(drm_edid_get_panel_id);
-+
- /**
-  * drm_get_edid_switcheroo - get EDID data for a vga_switcheroo output
-  * @connector: connector we're probing
-diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
-index deccfd39e6db..4d17cd04fff7 100644
---- a/include/drm/drm_edid.h
-+++ b/include/drm/drm_edid.h
-@@ -508,6 +508,52 @@ static inline u8 drm_eld_get_conn_type(const uint8_t *eld)
- 	return eld[DRM_ELD_SAD_COUNT_CONN_TYPE] & DRM_ELD_CONN_TYPE_MASK;
- }
+ 	u32 quirks;
+ } edid_quirk_list[] = {
+ 	/* Acer AL1706 */
+-	{ "ACR", 44358, EDID_QUIRK_PREFER_LARGE_60 },
++	EDID_QUIRK('A', 'C', 'R', 44358, EDID_QUIRK_PREFER_LARGE_60),
+ 	/* Acer F51 */
+-	{ "API", 0x7602, EDID_QUIRK_PREFER_LARGE_60 },
++	EDID_QUIRK('A', 'P', 'I', 0x7602, EDID_QUIRK_PREFER_LARGE_60),
  
-+/**
-+ * drm_edid_encode_panel_id - Encode an ID for matching against drm_edid_get_panel_id()
-+ * @vend_chr_0: First character of the vendor string.
-+ * @vend_chr_2: Second character of the vendor string.
-+ * @vend_chr_3: Third character of the vendor string.
-+ * @product_id: The 16-bit product ID.
-+ *
-+ * This is a macro so that it can be calculated at compile time and used
-+ * as an initializer.
-+ *
-+ * For instance:
-+ *   drm_edid_encode_panel_id('B', 'O', 'E', 0x2d08) => 0x09e52d08
-+ *
-+ * Return: a 32-bit ID per panel.
-+ */
-+#define drm_edid_encode_panel_id(vend_chr_0, vend_chr_1, vend_chr_2, product_id) \
-+	((((u32)(vend_chr_0) - '@') & 0x1f) << 26 | \
-+	 (((u32)(vend_chr_1) - '@') & 0x1f) << 21 | \
-+	 (((u32)(vend_chr_2) - '@') & 0x1f) << 16 | \
-+	 ((product_id) & 0xffff))
-+
-+/**
-+ * drm_edid_decode_panel_id - Decode a panel ID from drm_edid_encode_panel_id()
-+ * @panel_id: The panel ID to decode.
-+ * @vend: A 4-byte buffer to store the 3-letter vendor string plus a '\0'
-+ *	  termination
-+ * @product_id: The product ID will be returned here.
-+ *
-+ * For instance, after:
-+ *   drm_edid_decode_panel_id(0x09e52d08, vend, &product_id)
-+ * These will be true:
-+ *   vend[0] = 'B'
-+ *   vend[1] = 'O'
-+ *   vend[2] = 'E'
-+ *   vend[3] = '\0'
-+ *   product_id = 0x2d08
-+ */
-+static inline void drm_edid_decode_panel_id(u32 panel_id, char vend[4], u16 *product_id)
-+{
-+	*product_id = (u16)(panel_id & 0xffff);
-+	vend[0] = '@' + ((panel_id >> 26) & 0x1f);
-+	vend[1] = '@' + ((panel_id >> 21) & 0x1f);
-+	vend[2] = '@' + ((panel_id >> 16) & 0x1f);
-+	vend[3] = '\0';
-+}
-+
- bool drm_probe_ddc(struct i2c_adapter *adapter);
- struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
-@@ -515,6 +561,7 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
- 	void *data);
- struct edid *drm_get_edid(struct drm_connector *connector,
- 			  struct i2c_adapter *adapter);
-+u32 drm_edid_get_panel_id(struct i2c_adapter *adapter);
- struct edid *drm_get_edid_switcheroo(struct drm_connector *connector,
- 				     struct i2c_adapter *adapter);
- struct edid *drm_edid_duplicate(const struct edid *edid);
+ 	/* AEO model 0 reports 8 bpc, but is a 6 bpc panel */
+-	{ "AEO", 0, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('A', 'E', 'O', 0, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* BOE model on HP Pavilion 15-n233sl reports 8 bpc, but is a 6 bpc panel */
+-	{ "BOE", 0x78b, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('B', 'O', 'E', 0x78b, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* CPT panel of Asus UX303LA reports 8 bpc, but is a 6 bpc panel */
+-	{ "CPT", 0x17df, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('C', 'P', 'T', 0x17df, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* SDC panel of Lenovo B50-80 reports 8 bpc, but is a 6 bpc panel */
+-	{ "SDC", 0x3652, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('S', 'D', 'C', 0x3652, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* BOE model 0x0771 reports 8 bpc, but is a 6 bpc panel */
+-	{ "BOE", 0x0771, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('B', 'O', 'E', 0x0771, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* Belinea 10 15 55 */
+-	{ "MAX", 1516, EDID_QUIRK_PREFER_LARGE_60 },
+-	{ "MAX", 0x77e, EDID_QUIRK_PREFER_LARGE_60 },
++	EDID_QUIRK('M', 'A', 'X', 1516, EDID_QUIRK_PREFER_LARGE_60),
++	EDID_QUIRK('M', 'A', 'X', 0x77e, EDID_QUIRK_PREFER_LARGE_60),
+ 
+ 	/* Envision Peripherals, Inc. EN-7100e */
+-	{ "EPI", 59264, EDID_QUIRK_135_CLOCK_TOO_HIGH },
++	EDID_QUIRK('E', 'P', 'I', 59264, EDID_QUIRK_135_CLOCK_TOO_HIGH),
+ 	/* Envision EN2028 */
+-	{ "EPI", 8232, EDID_QUIRK_PREFER_LARGE_60 },
++	EDID_QUIRK('E', 'P', 'I', 8232, EDID_QUIRK_PREFER_LARGE_60),
+ 
+ 	/* Funai Electronics PM36B */
+-	{ "FCM", 13600, EDID_QUIRK_PREFER_LARGE_75 |
+-	  EDID_QUIRK_DETAILED_IN_CM },
++	EDID_QUIRK('F', 'C', 'M', 13600, EDID_QUIRK_PREFER_LARGE_75 |
++				       EDID_QUIRK_DETAILED_IN_CM),
+ 
+ 	/* LGD panel of HP zBook 17 G2, eDP 10 bpc, but reports unknown bpc */
+-	{ "LGD", 764, EDID_QUIRK_FORCE_10BPC },
++	EDID_QUIRK('L', 'G', 'D', 764, EDID_QUIRK_FORCE_10BPC),
+ 
+ 	/* LG Philips LCD LP154W01-A5 */
+-	{ "LPL", 0, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE },
+-	{ "LPL", 0x2a00, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE },
++	EDID_QUIRK('L', 'P', 'L', 0, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE),
++	EDID_QUIRK('L', 'P', 'L', 0x2a00, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE),
+ 
+ 	/* Samsung SyncMaster 205BW.  Note: irony */
+-	{ "SAM", 541, EDID_QUIRK_DETAILED_SYNC_PP },
++	EDID_QUIRK('S', 'A', 'M', 541, EDID_QUIRK_DETAILED_SYNC_PP),
+ 	/* Samsung SyncMaster 22[5-6]BW */
+-	{ "SAM", 596, EDID_QUIRK_PREFER_LARGE_60 },
+-	{ "SAM", 638, EDID_QUIRK_PREFER_LARGE_60 },
++	EDID_QUIRK('S', 'A', 'M', 596, EDID_QUIRK_PREFER_LARGE_60),
++	EDID_QUIRK('S', 'A', 'M', 638, EDID_QUIRK_PREFER_LARGE_60),
+ 
+ 	/* Sony PVM-2541A does up to 12 bpc, but only reports max 8 bpc */
+-	{ "SNY", 0x2541, EDID_QUIRK_FORCE_12BPC },
++	EDID_QUIRK('S', 'N', 'Y', 0x2541, EDID_QUIRK_FORCE_12BPC),
+ 
+ 	/* ViewSonic VA2026w */
+-	{ "VSC", 5020, EDID_QUIRK_FORCE_REDUCED_BLANKING },
++	EDID_QUIRK('V', 'S', 'C', 5020, EDID_QUIRK_FORCE_REDUCED_BLANKING),
+ 
+ 	/* Medion MD 30217 PG */
+-	{ "MED", 0x7b8, EDID_QUIRK_PREFER_LARGE_75 },
++	EDID_QUIRK('M', 'E', 'D', 0x7b8, EDID_QUIRK_PREFER_LARGE_75),
+ 
+ 	/* Lenovo G50 */
+-	{ "SDC", 18514, EDID_QUIRK_FORCE_6BPC },
++	EDID_QUIRK('S', 'D', 'C', 18514, EDID_QUIRK_FORCE_6BPC),
+ 
+ 	/* Panel in Samsung NP700G7A-S01PL notebook reports 6bpc */
+-	{ "SEC", 0xd033, EDID_QUIRK_FORCE_8BPC },
++	EDID_QUIRK('S', 'E', 'C', 0xd033, EDID_QUIRK_FORCE_8BPC),
+ 
+ 	/* Rotel RSX-1058 forwards sink's EDID but only does HDMI 1.1*/
+-	{ "ETR", 13896, EDID_QUIRK_FORCE_8BPC },
++	EDID_QUIRK('E', 'T', 'R', 13896, EDID_QUIRK_FORCE_8BPC),
+ 
+ 	/* Valve Index Headset */
+-	{ "VLV", 0x91a8, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b0, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b1, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b2, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b3, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b4, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b5, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b6, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b7, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b8, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91b9, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91ba, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91bb, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91bc, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91bd, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91be, EDID_QUIRK_NON_DESKTOP },
+-	{ "VLV", 0x91bf, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('V', 'L', 'V', 0x91a8, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b0, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b1, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b2, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b3, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b4, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b5, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b6, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b7, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b8, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91b9, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91ba, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91bb, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91bc, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91bd, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91be, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('V', 'L', 'V', 0x91bf, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* HTC Vive and Vive Pro VR Headsets */
+-	{ "HVR", 0xaa01, EDID_QUIRK_NON_DESKTOP },
+-	{ "HVR", 0xaa02, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('H', 'V', 'R', 0xaa01, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('H', 'V', 'R', 0xaa02, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* Oculus Rift DK1, DK2, CV1 and Rift S VR Headsets */
+-	{ "OVR", 0x0001, EDID_QUIRK_NON_DESKTOP },
+-	{ "OVR", 0x0003, EDID_QUIRK_NON_DESKTOP },
+-	{ "OVR", 0x0004, EDID_QUIRK_NON_DESKTOP },
+-	{ "OVR", 0x0012, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('O', 'V', 'R', 0x0001, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('O', 'V', 'R', 0x0003, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('O', 'V', 'R', 0x0004, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('O', 'V', 'R', 0x0012, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* Windows Mixed Reality Headsets */
+-	{ "ACR", 0x7fce, EDID_QUIRK_NON_DESKTOP },
+-	{ "HPN", 0x3515, EDID_QUIRK_NON_DESKTOP },
+-	{ "LEN", 0x0408, EDID_QUIRK_NON_DESKTOP },
+-	{ "LEN", 0xb800, EDID_QUIRK_NON_DESKTOP },
+-	{ "FUJ", 0x1970, EDID_QUIRK_NON_DESKTOP },
+-	{ "DEL", 0x7fce, EDID_QUIRK_NON_DESKTOP },
+-	{ "SEC", 0x144a, EDID_QUIRK_NON_DESKTOP },
+-	{ "AUS", 0xc102, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('A', 'C', 'R', 0x7fce, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('H', 'P', 'N', 0x3515, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('L', 'E', 'N', 0x0408, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('L', 'E', 'N', 0xb800, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('F', 'U', 'J', 0x1970, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('D', 'E', 'L', 0x7fce, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('S', 'E', 'C', 0x144a, EDID_QUIRK_NON_DESKTOP),
++	EDID_QUIRK('A', 'U', 'S', 0xc102, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* Sony PlayStation VR Headset */
+-	{ "SNY", 0x0704, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('S', 'N', 'Y', 0x0704, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* Sensics VR Headsets */
+-	{ "SEN", 0x1019, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('S', 'E', 'N', 0x1019, EDID_QUIRK_NON_DESKTOP),
+ 
+ 	/* OSVR HDK and HDK2 VR Headsets */
+-	{ "SVR", 0x1019, EDID_QUIRK_NON_DESKTOP },
++	EDID_QUIRK('S', 'V', 'R', 0x1019, EDID_QUIRK_NON_DESKTOP),
+ };
+ 
+ /*
+@@ -2090,9 +2096,8 @@ EXPORT_SYMBOL(drm_get_edid);
+ static u32 edid_extract_panel_id(const struct edid *edid)
+ {
+ 	/*
+-	 * In theory we could try to de-obfuscate this like edid_get_quirks()
+-	 * does, but it's easier to just deal with a 32-bit number since then
+-	 * it can be compared with "==".
++	 * We represent the ID as a 32-bit number so it can easily be compared
++	 * with "==".
+ 	 *
+ 	 * NOTE that we deal with endianness differently for the top half
+ 	 * of this ID than for the bottom half. The bottom half (the product
+@@ -2197,25 +2202,6 @@ EXPORT_SYMBOL(drm_edid_duplicate);
+ 
+ /*** EDID parsing ***/
+ 
+-/**
+- * edid_vendor - match a string against EDID's obfuscated vendor field
+- * @edid: EDID to match
+- * @vendor: vendor string
+- *
+- * Returns true if @vendor is in @edid, false otherwise
+- */
+-static bool edid_vendor(const struct edid *edid, const char *vendor)
+-{
+-	char edid_vendor[3];
+-
+-	edid_vendor[0] = ((edid->mfg_id[0] & 0x7c) >> 2) + '@';
+-	edid_vendor[1] = (((edid->mfg_id[0] & 0x3) << 3) |
+-			  ((edid->mfg_id[1] & 0xe0) >> 5)) + '@';
+-	edid_vendor[2] = (edid->mfg_id[1] & 0x1f) + '@';
+-
+-	return !strncmp(edid_vendor, vendor, 3);
+-}
+-
+ /**
+  * edid_get_quirks - return quirk flags for a given EDID
+  * @edid: EDID to process
+@@ -2224,14 +2210,13 @@ static bool edid_vendor(const struct edid *edid, const char *vendor)
+  */
+ static u32 edid_get_quirks(const struct edid *edid)
+ {
++	u32 panel_id = edid_extract_panel_id(edid);
+ 	const struct edid_quirk *quirk;
+ 	int i;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(edid_quirk_list); i++) {
+ 		quirk = &edid_quirk_list[i];
+-
+-		if (edid_vendor(edid, quirk->vendor) &&
+-		    (EDID_PRODUCT_ID(edid) == quirk->product_id))
++		if (quirk->panel_id == panel_id)
+ 			return quirk->quirks;
+ 	}
+ 
 -- 
 2.33.0.309.g3052b89438-goog
 
