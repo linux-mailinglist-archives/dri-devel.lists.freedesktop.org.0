@@ -1,53 +1,144 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D7B405EC2
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 23:28:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 993CB405F47
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 00:13:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CC366E938;
-	Thu,  9 Sep 2021 21:28:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED1E788BF3;
+	Thu,  9 Sep 2021 22:13:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3EA6E931;
- Thu,  9 Sep 2021 21:28:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="243230067"
-X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="243230067"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 14:28:39 -0700
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C15C288BF3;
+ Thu,  9 Sep 2021 22:13:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="208032939"
+X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="208032939"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 15:13:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="548786313"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga002.fm.intel.com with SMTP; 09 Sep 2021 14:28:36 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 10 Sep 2021 00:28:36 +0300
-Date: Fri, 10 Sep 2021 00:28:36 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- mesa-dev@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/gt: Add separate MOCS table for
- Gen12 devices other than TGL/RKL
-Message-ID: <YTp8hNicqwwzRC1H@intel.com>
-References: <YToTGr2kSQjGtpan@intel.com>
- <20210909142933.GZ461228@mdroper-desk1.amr.corp.intel.com>
- <YTocngFdY1dynYrc@intel.com>
- <20210909150002.GA461228@mdroper-desk1.amr.corp.intel.com>
- <YTojw4z1JkfBoI+q@intel.com>
- <20210909171556.GC461228@mdroper-desk1.amr.corp.intel.com>
- <YTpHdx84rEkdB6FK@intel.com>
- <20210909181415.GE461228@mdroper-desk1.amr.corp.intel.com>
- <YTpnqFh3Nn6iTNd9@intel.com>
- <20210909203323.GF461228@mdroper-desk1.amr.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.85,281,1624345200"; d="scan'208";a="470273207"
+Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
+ by orsmga007.jf.intel.com with ESMTP; 09 Sep 2021 15:13:34 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Thu, 9 Sep 2021 15:13:33 -0700
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Thu, 9 Sep 2021 15:13:33 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.170)
+ by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Thu, 9 Sep 2021 15:13:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lSUiJFEzU+O17NRhhCcduNuLUgH3PxrJhlEVp8AuaAK6nj4oVgo1i0PWXyIzN1N6NI/0wsyx+bw1bWC9+X6M2TYlkFoASgZW35aNy9oXwpGg7NmqJ8nBzVbDmuBBNembzZdgHgoUTQS2uSeGO3rvsZ+pRcUVU0pXAAYTL8/Lt/Rc9svxxeSEb5wllbwaQyUMuE2ONpn8Pf8uHzJyhe2GTct95w63V/kfcc7YYSq3rgZkG02QKNlwRgSMijxYBc84pJlL6YBMgmjxM25kkTrGjbxdywB3lTN2EC/IBcF279u/PZg2HaKmi4FcyFdqLpj4jZ3ABombl82716NCM+YR+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=YevHlRugXcw3xoQBhQDCqfysQ0FxQBC0zJRNSc64wWg=;
+ b=Tf3zofnOu6gwvNAKDPGcFmXvbvDswnc17WGesJOWyKrk+6lVDCH9gMbGUH885TQZD1f/8bzFHUtjnH6qlpiEJR3XW7UTfBN9rIAzd5wM64YOfzpzQiz6QJbh7xx6TsHW2GrlB9fZvwld8nTTwKxJsGYcXuIn0wDtqOkNy6eE0PYUzHNa96/7A0WVdvStccrs9b0ZoypT/x7iVTJshzG7dE6kGnc0+JUqZjFLxxm0KTTYMWvYsYopdMwT8+qMRQ+n9uBRV2mEj9j61yzHyHReRmYzG0InOaOAJVzesddKeMJuCXouzUWQDFE5VKtSm/VgoIDAIDWXMH4nr5FbSfdbew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YevHlRugXcw3xoQBhQDCqfysQ0FxQBC0zJRNSc64wWg=;
+ b=Fxocw684OoXRKCd7G7pP8XHMre2Vr3orgDLmBy6pwUz2RDoBOGFoNBSw248MreRPzsMXSexnWZn+Vcdu04E43Pelbqz1urb84LEKx34rr+gEEWH38LpnJngT8NDgO/PFbRHskwrVr7iURjLe0MHwcLdPg+1X7SPgm7Dn+Q4xI8k=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
+ by PH0PR11MB5580.namprd11.prod.outlook.com (2603:10b6:510:e5::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Thu, 9 Sep
+ 2021 22:13:32 +0000
+Received: from PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
+ ([fe80::880d:1a54:ca07:738a%9]) with mapi id 15.20.4478.027; Thu, 9 Sep 2021
+ 22:13:32 +0000
+Subject: Re: [Intel-gfx] [PATCH 02/27] drm/i915/guc: Allow flexible number of
+ context ids
+To: Matthew Brost <matthew.brost@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <daniel.vetter@ffwll.ch>, <tony.ye@intel.com>, <zhengguo.xu@intel.com>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-3-matthew.brost@intel.com>
+From: John Harrison <john.c.harrison@intel.com>
+Message-ID: <29e4e25f-0296-c096-b483-de63f01daf69@intel.com>
+Date: Thu, 9 Sep 2021 15:13:29 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
+In-Reply-To: <20210820224446.30620-3-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+X-ClientProxiedBy: MW4PR03CA0156.namprd03.prod.outlook.com
+ (2603:10b6:303:8d::11) To PH0PR11MB5642.namprd11.prod.outlook.com
+ (2603:10b6:510:e5::13)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210909203323.GF461228@mdroper-desk1.amr.corp.intel.com>
-X-Patchwork-Hint: comment
+Received: from [192.168.1.221] (73.157.192.58) by
+ MW4PR03CA0156.namprd03.prod.outlook.com (2603:10b6:303:8d::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4500.14 via Frontend Transport; Thu, 9 Sep 2021 22:13:31 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f1e5d579-9997-4a60-866a-08d973df0f2c
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5580:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <PH0PR11MB5580D81460D6DA254F098265BDD59@PH0PR11MB5580.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6iaOoNztvWVdiMXdq3fWB/OxEahJVyE09M0hjlEq/fIt5zrO9O4kRagfbrXEyjcHQOVo0dM++KpRsSjZ3Nw1uWBdqrdgULWeQnKp17YpiRP5Eeg0UEmk/TX0syuO1FBXIQdJ1riW1biIvP8j4sxUifojKbX501v4c+DBSXWpfmdDai981wtPJcG2IQLSJ4OngN6SQUwttuppRdr4dA/yCGti4+S6VL8T4f/o6vM2pJ4ei/SGECled+56wgUaWWVOhBe1Er7AGN5Yy6+ZRTsTq8WCyXZ7jjFUeAOWXk0gzryPw3oZJha6H7oJczK+fu9y6bHkdxZPRJG/+e28uGfB9VuQwU6Tr5wYJ2Oq2xmt6elMO3xcqPrMwougVYgGRTg2+Q2xFM9b2AqbzoGqB/GkQvpi2R8cBNIAt0pfA2Bqsjz57MrGqptI9mRXVhr1TEcvPbWwJRwpbX2fKQ//JAy2C14R6qiqSA8fndLroRVm0K23/96KJYLnRRDJAnFf4Q/aZXO2YNjuImXQwyf9q3UfEtnZB2TA1xErDtHzVNtGAtTZ491BtZb/B8PQxPHaEPmjVCugK+tLqfWUutrhTr20YqQBsHZ044VwV+ou94W2NzWFUlBkDEAri/xBx5WMlS72rRDo1FWwTNjLL+w2f75GLx1RIGFG3aKCPZHhG9dFw+gI+p1LN63XxXUKC95bqaVYxzF6dT/dC2sWGWAqe5xyd75k7YM6HYHIS93yLKObBMPQ2iFklSchXvzoCScE4mn2
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(346002)(396003)(366004)(376002)(956004)(5660300002)(2616005)(38100700002)(86362001)(36756003)(16576012)(316002)(107886003)(2906002)(26005)(66556008)(31686004)(83380400001)(8936002)(31696002)(478600001)(8676002)(186003)(66476007)(53546011)(4326008)(66946007)(6486002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NGQ2UWRuMXJLNitubUlTaTlhRy9RQnQvNjdrWTk5M1lxKzNhWVVhWjUzUWhN?=
+ =?utf-8?B?Z25NSFo1VUZzUCtPRXl2RHRRWEFSNXRydkptUlFLbnF3Ly9VYjZJK2lqK2xD?=
+ =?utf-8?B?K3BPeFdJaGlvMFVOWW1wbUdpU1hVV3hnRk9iajNIYzlTL0swZ1BrS3l2MGNJ?=
+ =?utf-8?B?ckVkNnphdVBCL1BBTjEvK0diVDBydWNUQWJuNW9xU2hqRnRVenJyak5Nbnlt?=
+ =?utf-8?B?OWFzdmFzNkdOWHZEU3Jwb3JDT3YzZktSTWVBZEFyMEZKSXhTajFMWFJVRHpl?=
+ =?utf-8?B?U3Q2aE16Zy9RSnhOSHB3SldkMlpSVTZSMHlNLzNldHhSMEx5VjNURG9NWDhF?=
+ =?utf-8?B?K1RHNThQcktXN0NRTERZZmt2UFh5ZG9XWVh4UGpRNlJvTDBqb2pmODI3LzE2?=
+ =?utf-8?B?YzB1NFZWbG5zWVpXTlVjaHBJWWU3R1BJOGVud2E2OGpQbHZTdzBiRVE3QXhI?=
+ =?utf-8?B?NFpFd1cvYThzUnNocVo5YlozYkttSmZGN3BpeEJpZnkzNDk1RkI2WW1MclZ1?=
+ =?utf-8?B?RVBTbVFWRmVHaDl3OUFyQXo2dExnWVpWeWh3dE5hQTYxQTUxVlR3ZzhwSUds?=
+ =?utf-8?B?MnRsUWVKZUV5aERWd0t5YTE1K3ZlSS9RSzdCL1VOcm55S3k0Sm9MMHB2Rm9O?=
+ =?utf-8?B?Um9SM1prbFRBQmJjLzVRNVdwZlhEVzl3WmQ5OWNscmV3Rmtld1R0R1FsQWVu?=
+ =?utf-8?B?dit2UmMySmlQTWNVSExHWTE2OHJpU0NKZUNQWWJDSnFGRi9ZTmtabStSTW9Y?=
+ =?utf-8?B?eXowdG5QUDl5L2ZVUmUzSngxMHpCdDYxZ2F2SmVFcWVySDQ2N0t3aEVQT1lN?=
+ =?utf-8?B?SWk2bFZoQW5PRVphNzFqY1VoQUFVeE9RK3dvYW5naXZyYlY3RlpiR0lRSlFm?=
+ =?utf-8?B?MWFvSVNPK1lCL1NnUVc4N0llZTJEVVk3OTRpbUNiYmtnMWkwVCtib0w5ZThp?=
+ =?utf-8?B?a2Z0ZHJZWXI4Zi80WUR5SU4vTFAwVlErU3doSHd2MFRxK2J0cGJWNlRTT25i?=
+ =?utf-8?B?WmQ1bUtJbURWbUJvOERnbnUydXJneE8vdTFHS0RGemxvSCtPVHRVOWcwSkVw?=
+ =?utf-8?B?b2R4aGVKSWJlYWgwMlZ4RThGQWFQb0JqMU91NEVRdEhNQTUyazdSYVI2K0s5?=
+ =?utf-8?B?eGZBS0x1ZSswYi9vczFsSWN3Z1lYNFJvQjJYRjdEOGJ2ejNCSExhY0ExSUgx?=
+ =?utf-8?B?TE5Eb0oxZXZQQzl0TmVjM21OSnRwazB3ZW13aHVFNDgzR1VlSUpLbnRYVVpM?=
+ =?utf-8?B?cUtJSkhubStNTHc4T2l6UlZLcU5HZHN3dFhKTzRzNXRaUWZLVlBQZGk5SWFZ?=
+ =?utf-8?B?OWJ2bE01VmtSdTBsQ3RaR1puaWJLSGc1M0wrWUdRRjlYV1VqaU93L245QzI1?=
+ =?utf-8?B?MFNwTjVQU2lIa2h3aGFYS3A1c0ZRZWFYVkVSRUNsTTQ1Mksvc1N4QWs4NlVE?=
+ =?utf-8?B?aWZwMWk0cCtoVFF4OVlwTHBmbjFjY1VPampBMkkreXpzeHBLRTFabWxVcFRD?=
+ =?utf-8?B?aHhGc3RvUWRldVhmVnBXQ1I3MFpXd2tQaTlJbmpuMFpVeWRESXlXTmZWcGMw?=
+ =?utf-8?B?bjF2cFVocFlaakdPcTVJWjBvc2xwNk1ja0tHNGcrV05vL1VtVXh3YnZnaFRR?=
+ =?utf-8?B?VGh6MTRpcGRvSE9YeGFzbGZ3a2R3SnJHRWhVM1BnVmxwcjVYUGVaVkVzckJY?=
+ =?utf-8?B?K2JIWklKTHZQWmJuK3BqR2w0U1RKRWt2NGhQSHZjQVNPVFh1NjI0c2RNb3RW?=
+ =?utf-8?Q?XcM1V/FlD5edbqdfIwAQXq8KZfMXV3rOTutkygA?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: f1e5d579-9997-4a60-866a-08d973df0f2c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2021 22:13:32.2100 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8Sewn37VPBreGrCrqM5Q6DlUtCeye3cTOUBUkO3R5GCb5IirdyiixVZfguR5J0Cu/orloVFPRc98X63UOiQMvXntjKQMxJTnueXEypYeCA4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5580
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,367 +154,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09, 2021 at 01:33:23PM -0700, Matt Roper wrote:
-> On Thu, Sep 09, 2021 at 10:59:36PM +0300, Ville Syrjälä wrote:
-> > On Thu, Sep 09, 2021 at 11:14:15AM -0700, Matt Roper wrote:
-> > > On Thu, Sep 09, 2021 at 08:42:15PM +0300, Ville Syrjälä wrote:
-> > > > On Thu, Sep 09, 2021 at 10:15:56AM -0700, Matt Roper wrote:
-> > > > > On Thu, Sep 09, 2021 at 06:09:55PM +0300, Ville Syrjälä wrote:
-> > > > > > On Thu, Sep 09, 2021 at 08:00:02AM -0700, Matt Roper wrote:
-> > > > > > > On Thu, Sep 09, 2021 at 05:39:26PM +0300, Ville Syrjälä wrote:
-> > > > > > > > On Thu, Sep 09, 2021 at 07:29:33AM -0700, Matt Roper wrote:
-> > > > > > > > > On Thu, Sep 09, 2021 at 04:58:50PM +0300, Ville Syrjälä wrote:
-> > > > > > > > > > On Tue, Sep 07, 2021 at 11:19:29AM -0700, Matt Roper wrote:
-> > > > > > > > > > > On Tue, Sep 07, 2021 at 08:41:06PM +0300, Ville Syrjälä wrote:
-> > > > > > > > > > > > On Tue, Sep 07, 2021 at 10:27:28AM -0700, Matt Roper wrote:
-> > > > > > > > > > > > > On Tue, Sep 07, 2021 at 10:46:39PM +0530, Ayaz A Siddiqui wrote:
-> > > > > > > > > > > > > > MOCS table of TGL/RKL has MOCS[1] set to L3_UC.
-> > > > > > > > > > > > > > While for other gen12 devices we need to set MOCS[1] as L3_WB,
-> > > > > > > > > > > > > > So adding a new MOCS table for other gen 12 devices eg. ADL.
-> > > > > > > > > > > > > > 
-> > > > > > > > > > > > > > Fixes: cfbe5291a189 ("drm/i915/gt: Initialize unused MOCS entries with device specific values")
-> > > > > > > > > > > > > > Cc: Matt Roper <matthew.d.roper@intel.com>
-> > > > > > > > > > > > > > Signed-off-by: Ayaz A Siddiqui <ayaz.siddiqui@intel.com>
-> > > > > > > > > > > > > 
-> > > > > > > > > > > > > Yep, we overlooked that the TGL table still had an explicit entry for
-> > > > > > > > > > > > > I915_MOCS_PTE and wasn't just using an implicit 'unused_entries' lookup
-> > > > > > > > > > > > > for MOCS[1].  The new table is the same as the TGL table, just with
-> > > > > > > > > > > > > I915_MOCS_PTE (1) removed.
-> > > > > > > > > > > > 
-> > > > > > > > > > > > And just how are people planning on handling display cacheability
-> > > > > > > > > > > > control without a PTE MOCS entry? Is Mesa/etc. already making all
-> > > > > > > > > > > > external bos uncached on these platforms just in case we might
-> > > > > > > > > > > > scan out said bo?
-> > > > > > > > > > > 
-> > > > > > > > > > > MOCS entry 1 has never been considered a valid MOCS table entry on gen12
-> > > > > > > > > > > platforms (despite the old #define, it's not actually related to PTE,
-> > > > > > > > > > > display, etc. anymore).
-> > > > > > > > > > 
-> > > > > > > > > > So can someone finally explain to me how we're supposed to cache
-> > > > > > > > > > anything that might become a scanout buffer later (eg. window system
-> > > > > > > > > > buffers)? Or are we just making everything like that UC now, and is
-> > > > > > > > > > everyone happy with that? Is userspace actually following that?
-> > > > > > > > > 
-> > > > > > > > > Table entry #1 has never had anything to do with scanout on gen12+.  I
-> > > > > > > > > would assume that UMDs are either using the display entry in the MOCS
-> > > > > > > > > table (which is 61 on gen12+) or some other UC entry.
-> > > > > > > > 
-> > > > > > > > If 61 is meant to to be the new PTE entry wy hasn't it been defines as
-> > > > > > > > such in the code? And I know for a fact that userspace (Mesa) is not
-> > > > > > > 
-> > > > > > > There is no "PTE" entry anymore.  But 61 is already documented as
-> > > > > > > "displayable" in both the spec and the code:
-> > > > > > > 
-> > > > > > >         /* HW Special Case (Displayable) */                                      
-> > > > > > >         MOCS_ENTRY(61,                             
-> > > > > > 
-> > > > > > Why is it called a "HW special case"? I don't think there's any hw
-> > > > > > magic in there?
-> > > > > > 
-> > > > > > And why aren't we setting it to PTE to get some cacheability for
-> > > > > > window back buffers and such?
-> > > > > 
-> > > > > Who is "we" here?
-> > > > 
-> > > > We who care about the performance of the system.
-> > > > 
-> > > > > The MOCS table is a pre-defined set of per-platform
-> > > > > magic numbers.  The software teams don't get to decide what the values
-> > > > > are, we just program the hardware with the per-platform numbers that
-> > > > > have been agreed upon as part of a platform-wide stack (everything from
-> > > > > low-level firmware to high level userspace should be working from the
-> > > > > same table, defined in the bspec).
-> > > > 
-> > > > The magic numbers must be based on something. If that something is
-> > > > purely Windows behaviour/performance then we might be shooting
-> > > > ourselves in the foot here.
-> > > 
-> > > That's not how MOCS works.  The MOCS tables define every meaningful
-> > > combination of settings somewhere in the table.  The *types* of settings
-> > > that can be expressed change from platform to platform (e.g.,
-> > > "PAGETABLE" setting simply doesn't exist anymore hardware-wise) so the
-> > > tables themselves differ between platforms and you may need to use
-> > > different indices to get the same behavior between platforms.  But if
-> > > you're actually paying attention to the tables and choosing the right
-> > > entries, you're not going to leave any performance on the table.
-> > > 
-> > > > 
-> > > > > 
-> > > > > Once we know what the per-platform magic numbers are, we're supposed to
-> > > > > pick the table entry that matches the behavior we're trying to
-> > > > > accomplish.  If you want some specific level of cacheability, then you
-> > > > > select a table row that gives you that.  Maybe 61 isn't the best
-> > > > > setting, I don't know; userspace can pick whichever defined setting is
-> > > > > actually best, using the data from the table.  But table row #1 is
-> > > > > already well-documented as reserved/dontuse across the full stack; the
-> > > > > fact that row #1 had values similar to PTE on Icelake hardware doesn't
-> > > > > carry forward to any post-gen11 platform.
-> > > > 
-> > > > The only way you can get LLC cacheability for an external BO (window
-> > > > back buffers and such) is by using a MOCS entry that directs the hardware
-> > > > to consult the PTEs. Otherwise the client doing the rendering would have
-> > > > to know ahead of time whether the buffer is going to be directly scanned
-> > > > out by the compositor or not, for which there is no protocol in
-> > > > X or wayland.
-> > > 
-> > > It sounds like you're complaining about gen12 hardware design rather
-> > > than anything actually software or ABI related.  'Consult the PTEs'
-> > > hasn't been something the hardware has supported since gen11. We still
-> > > have macros with PTE or PAGETABLE in their names, but those aren't
-> > > accurate descriptions of what they do on current platforms.
-> > 
-> > I've heard this a few times, but so far I've not been able to find
-> > any evidence for it in bspec. I suppose to find out for sure I'm
-> > going to have to test it on actual hardware.
-> 
-> For gen11, bspec page 560 describes the layout of the GFX_MOCS_x
-> registers (which at the time were per-engine).  Specifically:
-> 
->         Memory type information used in LLC/eDRAM.
-> 
->         00b: Use Cacheability Controls from page table / UC with Fence
->              (if coherent cycle).
->         01b: Uncacheable (UC) – non-cacheable.
->         10b: Writethrough (WT).
->         11b: Writeback (WB).
->         
-> So on that platform you can get the PTE behavior you're after by
-> programming a value of 00 into the relevant bits (1:0).
-> 
-> For gen12+, bspec page 44053 describes the layout of GLOB_MOCS_LECC_x
-> (which is now a global value, not per-engine):
-> 
-> 	Memory type information used in LLC/eDRAM.
-> 
-> 	00: Uncacheable (UC)
-> 	01: Uncacheable (WC)
-> 	10: Writethrough (WT)
-> 	11: Writeback (WB)
-> 
-> So the value of '00' as expressed in a MOCS table no longer means what
-> it did on older platforms.  There's also a "Description" field on this
-> page that shows that the old meaning of 00 is explicitly removed by
-> gen12 design.
+On 8/20/2021 15:44, Matthew Brost wrote:
+> Number of available GuC contexts ids might be limited.
+> Stop referring in code to macro and use variable instead.
+>
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.h            |  4 ++++
+>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 +++++++++------
+>   2 files changed, 13 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> index 112dd29a63fe..6fd2719d1b75 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> @@ -60,6 +60,10 @@ struct intel_guc {
+>   	spinlock_t contexts_lock;
+>   	/** @guc_ids: used to allocate new guc_ids */
+>   	struct ida guc_ids;
+> +	/** @num_guc_ids: number of guc_ids that can be used */
+> +	u32 num_guc_ids;
+> +	/** @max_guc_ids: max number of guc_ids that can be used */
+> +	u32 max_guc_ids;
+How do these differ? The description needs to say how or why 'num' might 
+be less than 'max'. And surely 'max' is not the count 'that can be 
+used'? Num is how many can be used, but max is how many are physically 
+possible or something?
 
-Page 45100 still has the old description for tgl. Sigh.
+John.
 
-> 
-> > 
-> > I did stumble on some future platform stuff that shuffles around the
-> > MOCS stuff once again, and looks like it adds in a specific PTE vs.
-> > MOCS bit. So if it was removed, it's almost immediately coming back.
-> 
-> Yes, bspec page 65553 makes it look like there is a new bit to handle
-> this eventually on a future platform.  But we have multiple new
-> platforms between now and then that we still need to support properly,
-> starting with ADL, and that bit (and the rest of the various MOCS
-> changes) aren't something we can use yet.
-> 
-> > 
-> > > We note
-> > > this in the code:
-> > > 
-> > >    /*
-> > >     * Note: LE_0_PAGETABLE works only up to Gen11; for newer gens it means
-> > >     * the same as LE_UC
-> > >     */
-> > > 
-> > > Even on gen11 the PAT entry was documented as being deprecated, so we
-> > > knew it was going away.  I don't know why the hardware design changed,
-> > > but it did.
-> > 
-> > Yeah, I've seen it, but could never figure out on what it was based.
-> > 
-> > > 
-> > > > 
-> > > > Historically I believe LLC cacheability has been on average a win.
-> > > > Some workloads can do better with UC though. So if we are giving up
-> > > > on LLC cacheability we should have some numbers to back up that
-> > > > decision so that we're not dropping tons of performance on the floor.
-> > > 
-> > > It's not our decision to make.  The hardware design has already made
-> > > this decision for us.  No matter what we program into the MOCS tables;
-> > > we're simply not getting back the behavior you're asking for and blindly
-> > > using the "LE_0_PAGETABLE" flags or whatever is just giving you
-> > > uncached.
-> > 
-> > As said it looks to be coming back soon, if it ever went away.
-> > 
-> > > 
-> > > > 
-> > > > > > > > using entry 61. I think there is a massive communication gap here
-> > > > > > > > where everyone just seems to assume the other side is doing something.
-> > > > > > > > 
-> > > > > > > > Could someone actually come up with a clear abi definition for this
-> > > > > > > > and get all the stakeholders to sign off on it?
-> > > > > > > 
-> > > > > > > The agreement between the i915 team, various userspace teams, Windows
-> > > > > > > driver team, hardware architects, software architects, and bspec writers
-> > > > > > > was just completed; that's what triggered the kernel updates here (and
-> > > > > > > I'm guessing is triggering similar work on the UMD side).  It's also why
-> > > > > > > we held off on removing the force_probe flag on ADL until now since we
-> > > > > > > couldn't consider enablement of the platform complete until the
-> > > > > > > agreement and definitions here was finalized.
-> > > > > > 
-> > > > > > Can we get that agreement visible on the mailing list? Since MOCS is
-> > > > > > abi I don't see why we shouldn't follow the normal abi rules for these,
-> > > > > > ie. post to dri-devel, get acks from relevant people, links to agreed
-> > > > > > userspace changes, etc.
-> > > > > 
-> > > > > The ABI design here was designed and agreed upon years ago, during early
-> > > > > gen11 development.  The ABI design is that the kernel driver will
-> > > > > faithfully initialize the hardware with the pre-determined set of magic
-> > > > > numbers documented by the hardware team.  Since these are
-> > > > > well-documented and unchanging numbers per-platform, there's no
-> > > > > ambiguity for userspace, firmware, etc. about what a specific mocs index
-> > > > > means, and no need to provide additional ABI for userspace to query what
-> > > > > the kernel used in each row or anything like that.  The specific magic
-> > > > > numbers are also ABI in the sense that we can't change the set of
-> > > > > defined values once they're set for a platform (and it's been a long
-> > > > > road to get the hardware and other OS software teams to understand and
-> > > > > agree to this requirement), but we don't get to define or overrule what
-> > > > > the initial values and order of those magic numbers are.
-> > > > 
-> > > > And this apporach has clearly not worked considering userspace and
-> > > > kernel have not agreed on what the abi is. We need to do better.
-> > > 
-> > > Userspace and kernel *do* agree on what the ABI is.  There may be a
-> > > delay in userspace enabling the MOCS properly on a new platform.
-> > 
-> > The fact that Mesa never started to use the MOCS entry supposedly
-> > meant for display stuff is evidence to the contrary.
-> 
-> I think this is just an oversight by the Mesa team where they didn't
-> notice the gen12 table was different from gen11.  I don't think it's
-> because they don't agree that the table described in the bspec provides
-> the right settings.
+>   	/**
+>   	 * @guc_id_list: list of intel_context with valid guc_ids but no refs
+>   	 */
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> index 46158d996bf6..8235e49bb347 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> @@ -344,7 +344,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+>   {
+>   	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+>   
+> -	GEM_BUG_ON(index >= GUC_MAX_LRC_DESCRIPTORS);
+> +	GEM_BUG_ON(index >= guc->max_guc_ids);
+>   
+>   	return &base[index];
+>   }
+> @@ -353,7 +353,7 @@ static struct intel_context *__get_context(struct intel_guc *guc, u32 id)
+>   {
+>   	struct intel_context *ce = xa_load(&guc->context_lookup, id);
+>   
+> -	GEM_BUG_ON(id >= GUC_MAX_LRC_DESCRIPTORS);
+> +	GEM_BUG_ON(id >= guc->max_guc_ids);
+>   
+>   	return ce;
+>   }
+> @@ -363,8 +363,7 @@ static int guc_lrc_desc_pool_create(struct intel_guc *guc)
+>   	u32 size;
+>   	int ret;
+>   
+> -	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) *
+> -			  GUC_MAX_LRC_DESCRIPTORS);
+> +	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) * guc->max_guc_ids);
+>   	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->lrc_desc_pool,
+>   					     (void **)&guc->lrc_desc_pool_vaddr);
+>   	if (ret)
+> @@ -1193,7 +1192,7 @@ static void guc_submit_request(struct i915_request *rq)
+>   static int new_guc_id(struct intel_guc *guc)
+>   {
+>   	return ida_simple_get(&guc->guc_ids, 0,
+> -			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
+> +			      guc->num_guc_ids, GFP_KERNEL |
+>   			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+>   }
+>   
+> @@ -2704,6 +2703,8 @@ static bool __guc_submission_selected(struct intel_guc *guc)
+>   
+>   void intel_guc_submission_init_early(struct intel_guc *guc)
+>   {
+> +	guc->max_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+> +	guc->num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>   	guc->submission_supported = __guc_submission_supported(guc);
+>   	guc->submission_selected = __guc_submission_selected(guc);
+>   }
+> @@ -2713,7 +2714,7 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+>   {
+>   	struct intel_context *ce;
+>   
+> -	if (unlikely(desc_idx >= GUC_MAX_LRC_DESCRIPTORS)) {
+> +	if (unlikely(desc_idx >= guc->max_guc_ids)) {
+>   		drm_err(&guc_to_gt(guc)->i915->drm,
+>   			"Invalid desc_idx %u", desc_idx);
+>   		return NULL;
+> @@ -3063,6 +3064,8 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+>   
+>   	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+>   		   atomic_read(&guc->outstanding_submission_g2h));
+> +	drm_printf(p, "GuC Number GuC IDs: %u\n", guc->num_guc_ids);
+> +	drm_printf(p, "GuC Max GuC IDs: %u\n", guc->max_guc_ids);
+>   	drm_printf(p, "GuC tasklet count: %u\n\n",
+>   		   atomic_read(&sched_engine->tasklet.count));
+>   
 
-I never suggested they didn't agree. I'm saying that because the
-documentation/communication is poor these kinds of oversights just
-tend to happen. That's why some real abi docs explaining which 
-entry one should use would be good. And following the usual abi
-rules of having links to corresponding userspace changes would
-guarantee that userspace is in sync before we lock things down.
-
-> 
-> 
-> > 
-> > > But
-> > > the changes here (which make everything fully cached by default) will
-> > > help catch those cases where a bit of enablement was forgotten on the
-> > > UMD side.  They won't "accidentally work" on initial bringup on the new
-> > > platform, and the lack of proper MOCS programming will be quickly
-> > > identified.
-> > 
-> > I'm looking at the history and not really convinced.
-> 
-> We don't have history to compare to yet because we screwed up on TGL/RKL
-> and the use of an outdated MOCS entry by Mesa went unnoticed.  If we
-> actually do things right on ADL from day 1, then this will be our chance
-> to catch the mistakes like this.
-
-tgl wasn't the only time when our MOCS stuff was
-unclear/used wrong. In fact the L3 cacheability vs.
-display question is still open and I never managed
-to get a straight answer what userspace wants. So
-for the time being we make scanout buffers L3 cacheable
-on most platforms, which means at least theoretically 
-evictions from L3 into LLC can cause display corruption.
-
-And on a few platforms we don't use L3 for display buffers
-mostly by accident. CHV being one case where I think L3
-caching would actually be safe since there's no LLC to
-mess up the display coherency.
-
-We also didn't even have the proper MOCS entries defined for
-L3 evictions/etc. until recently when I+Chris noticed that
-this stuff is just totally missing.
-
-> 
-> > 
-> > > 
-> > > > 
-> > > > > 
-> > > > > What is a bit vague in the formal documentation is what should be done
-> > > > > about the reserved/dontuse table entries.  In theory it wouldn't matter
-> > > > > since they'd never be used anyway, but in reality userspace can still
-> > > > > use them by accident, such as by forgetting to update their MOCS
-> > > > > selection logic from past platforms (e.g., still trying to use row #1 on
-> > > > > platforms where it isn't defined).  Given that it's legal for entries to
-> > > > > be added to MOCS tables, but never removed/modified, it follows that we
-> > > > > should always initialize the undefined entries to fully cached; if a
-> > > > > MOCS table update happens in the future and new rows show up, they can
-> > > > > only become more coherent, and any userspace software that was
-> > > > > incorrectly trying to use them previously will remain functionally
-> > > > > correct.
-> > > > > 
-> > > > > What you're proposing would be a change to existing ABI --- instead of
-> > > > > following the agreed upon contract, i915 would start defining its own
-> > > > > set of magic numbers that potentially contradict the documentation that
-> > > > > every other team is depending on.  We already made this mistake on
-> > > > > TGL/RKL, so due to an i915 bug we're outside the spec; if entry #1 ever
-> > > > > becomes a formally defined setting in the future, the rest of the
-> > > > > software stack will need to explicitly work around i915's bug since we
-> > > > > can't fix it now without breaking ABI.
-> > > > > 
-> > > > > If you really want to redefine how the MOCS ABI works and have i915 no
-> > > > > longer follow the current contract, I think you need to do the
-> > > > > following:
-> > > > 
-> > > > I want the abi to be actually defined properly, and some assurance that
-> > > > all the stakeholders implement it correctly. Following the proper abi
-> > > > rules for kernel development would guarantee that.
-> > > 
-> > > This is what we have today.  As I said, if you want to propose a change
-> > > to the ABI, then you need to take the proper steps to do so.  But as far
-> > > as I can tell, most of your concern here boils down to not realizing
-> > > that the hardware capabilities you want to use were taken away from us
-> > > in gen12.
-> > 
-> > The fact that it's not actually properly documented anywhere certainly
-> > doesn't help in figuring out what is going on.
-> 
-> There's a pretty lengthy comment explaining everything right before the
-> tables start in intel_mocs.c already.  And the table values themselves
-> are well-documented in the bspec (although justification for why things
-> like PTE capability have disappeared in gen12 hardware design is
-> something only the hardware teams know).  We can extend the code comment
-> if you think something is still lacking from the description.
-
-Proper abi docs should probably be somewhere a bit more prominent.
-Maybe we should even have real defines for these in some uapi header.
-
-> 
-> > 
-> > > 
-> > > > 
-> > > > I would also like if the abi can give us the best performance rather
-> > > > than potentially crippling it. Ie. I would expect to have a PTE MOCS
-> > > > setting for potential scanout buffers, or some proof that pure UC
-> > > > will in fact be a better choice.
-> > > 
-> > > Again, this isn't a choice.  This is a fact of how the hardware works on
-> > > gen12.  Maybe you'll regain PTE flags on a future platform, but that's
-> > > simply not something software can ask for on today's platforms.
-> > 
-> > There should be clear guidelines what MOCS index userspace is
-> > supposed to use in each case. That more or less used to be the
-> > case with the handful of MOCS entries we had defined (always
-> > uncached vs. always cached vs. potential scanout buffers which
-> > could be either depending on the situation). But that nice simple
-> > approach wasn't good enough for whatever reason.
-> 
-> I think the reality is that the real world doesn't fit into those small
-> handful of nice categories.  Userspace works with lots of different
-> buffers, many of which are only ever used by a single process and in
-> relation to a single IP block, and the userspace teams are really the
-> experts on the precise cache behavior they need.
-
-Well, Mesa just uses just two entries. Maybe three these days (iirc
-there was some magic index thing for some extra data cache thing).
-I'm sure you could no end of very workload/resolution specific tuning.
-Maybe the Windows people do a lot of that but Mesa certainly doesn't.
-
--- 
-Ville Syrjälä
-Intel
