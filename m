@@ -1,39 +1,40 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9D54049BD
-	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:42:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2A6A4049D4
+	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:42:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05B936E519;
-	Thu,  9 Sep 2021 11:42:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BB7C56E51A;
+	Thu,  9 Sep 2021 11:42:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ECBCD6E517
- for <dri-devel@lists.freedesktop.org>; Thu,  9 Sep 2021 11:42:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 00F6861216;
- Thu,  9 Sep 2021 11:42:35 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4A356E51A;
+ Thu,  9 Sep 2021 11:42:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B4421611CE;
+ Thu,  9 Sep 2021 11:42:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187756;
- bh=L6dGz8/J8+Yzbn3xmkmqNCDjXg+BWLDTee5jp1EzVqE=;
+ s=k20201202; t=1631187773;
+ bh=WNI+MCurftRnG04/cAAncVCu0T2V7AVRB41i1UNH/r4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=NOkcNb2uOwtZZm9MkZgxifg//Vz6lCyStCA1dlNYku2w66Z5RfO5/EyIz24SoDukH
- nvKk4Zcn9LJ4DHrRNVcdEQ6GLVLBcKWDNKGVfsHX3QmsOAZID9n075sQqrYFDVIK0x
- VesBPEFJKnb3fWSkRVgmE/I1Cc1MQZ7HTHGSqsRin3N2EBqi2ZNI5xpPRld1y13pB8
- lM9RHbCOYnJSvJbPem9Wta8xwhCyt5uJk226/ILzYHYhDe2X20oPgso2zSbaezUlPI
- dRGrAY2r6SPYSx2hjXuW2/QFrQ+7Ktql6hp6OYSpQxhDZGuOse9VticArOAyFsYeh7
- h0Hz16TJ4VxlA==
+ b=LiN7IlocnQMfOvg2xZoKcjwmX/n1QzGGRVzgr0Q/rBq3YIIoGhkZQatchfCnAC0Rv
+ T71orvtkezfW/SeARaBzL88EfwBX4MOyJDhAHCKkKOtI//uWtETFD5TxEIUVs+TmcT
+ N/+BmPZfZlfNM2W/D9kSvaXc+ySWi0Hs+2zckfLBWbM+KrDIcxiDDj5Dqhs4/1+gAq
+ pGyfa17uQJhx6F6OzRe6Ho5Gf3iy37a7v77TK7REIKW80ZCFwxiMCvNLocHR6oB8CE
+ 0VA9Pd7rIlCMSkEqp7r5PStpAh7GB2+sLXIO7dAm3GBxI86UN3wc9ZErnrkRQrHTdM
+ kp5E+WV0DShuw==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Zheyu Ma <zheyuma97@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- Sasha Levin <sashal@kernel.org>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 070/252] video: fbdev: riva: Error out if
- 'pixclock' equals zero
-Date: Thu,  9 Sep 2021 07:38:04 -0400
-Message-Id: <20210909114106.141462-70-sashal@kernel.org>
+Cc: Mikita Lipski <mikita.lipski@amd.com>, Wood Wyatt <Wyatt.Wood@amd.com>,
+ Solomon Chiu <solomon.chiu@amd.com>,
+ Daniel Wheeler <daniel.wheeler@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 084/252] drm/amd/display: Fix PSR command version
+Date: Thu,  9 Sep 2021 07:38:18 -0400
+Message-Id: <20210909114106.141462-84-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -56,69 +57,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Zheyu Ma <zheyuma97@gmail.com>
+From: Mikita Lipski <mikita.lipski@amd.com>
 
-[ Upstream commit f92763cb0feba247e0939ed137b495601fd072a5 ]
+[ Upstream commit af1f2b19fd7d404d299355cc95930efee5b3ed8b ]
 
-The userspace program could pass any values to the driver through
-ioctl() interface. If the driver doesn't check the value of 'pixclock',
-it may cause divide error.
+[why]
+For dual eDP when setting the new settings we need to set
+command version to DMUB_CMD_PSR_CONTROL_VERSION_1, otherwise
+DMUB will not read panel_inst parameter.
+[how]
+Instead of PSR_VERSION_1 pass DMUB_CMD_PSR_CONTROL_VERSION_1
 
-Fix this by checking whether 'pixclock' is zero first.
-
-The following log reveals it:
-
-[   33.396850] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
-[   33.396864] CPU: 5 PID: 11754 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #222
-[   33.396883] RIP: 0010:riva_load_video_mode+0x417/0xf70
-[   33.396969] Call Trace:
-[   33.396973]  ? debug_smp_processor_id+0x1c/0x20
-[   33.396984]  ? tick_nohz_tick_stopped+0x1a/0x90
-[   33.396996]  ? rivafb_copyarea+0x3c0/0x3c0
-[   33.397003]  ? wake_up_klogd.part.0+0x99/0xd0
-[   33.397014]  ? vprintk_emit+0x110/0x4b0
-[   33.397024]  ? vprintk_default+0x26/0x30
-[   33.397033]  ? vprintk+0x9c/0x1f0
-[   33.397041]  ? printk+0xba/0xed
-[   33.397054]  ? record_print_text.cold+0x16/0x16
-[   33.397063]  ? __kasan_check_read+0x11/0x20
-[   33.397074]  ? profile_tick+0xc0/0x100
-[   33.397084]  ? __sanitizer_cov_trace_const_cmp4+0x24/0x80
-[   33.397094]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397102]  rivafb_set_par+0xbe/0x610
-[   33.397111]  ? riva_set_rop_solid+0x2a0/0x2a0
-[   33.397119]  fb_set_var+0x5bf/0xeb0
-[   33.397127]  ? fb_blank+0x1a0/0x1a0
-[   33.397134]  ? lock_acquire+0x1ef/0x530
-[   33.397143]  ? lock_release+0x810/0x810
-[   33.397151]  ? lock_is_held_type+0x100/0x140
-[   33.397159]  ? ___might_sleep+0x1ee/0x2d0
-[   33.397170]  ? __mutex_lock+0x620/0x1190
-[   33.397180]  ? trace_hardirqs_on+0x6a/0x1c0
-[   33.397190]  do_fb_ioctl+0x31e/0x700
-
-Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Link: https://patchwork.freedesktop.org/patch/msgid/1627293835-17441-4-git-send-email-zheyuma97@gmail.com
+Reviewed-by: Wood Wyatt <Wyatt.Wood@amd.com>
+Acked-by: Solomon Chiu <solomon.chiu@amd.com>
+Signed-off-by: Mikita Lipski <mikita.lipski@amd.com>
+Tested-by: Daniel Wheeler <daniel.wheeler@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/video/fbdev/riva/fbdev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/video/fbdev/riva/fbdev.c b/drivers/video/fbdev/riva/fbdev.c
-index 55554b0433cb..84d5e23ad7d3 100644
---- a/drivers/video/fbdev/riva/fbdev.c
-+++ b/drivers/video/fbdev/riva/fbdev.c
-@@ -1084,6 +1084,9 @@ static int rivafb_check_var(struct fb_var_screeninfo *var, struct fb_info *info)
- 	int mode_valid = 0;
- 	
- 	NVTRACE_ENTER();
-+	if (!var->pixclock)
-+		return -EINVAL;
-+
- 	switch (var->bits_per_pixel) {
- 	case 1 ... 8:
- 		var->red.offset = var->green.offset = var->blue.offset = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+index 10d42ae0cffe..3428334c6c57 100644
+--- a/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
++++ b/drivers/gpu/drm/amd/display/dc/dce/dmub_psr.c
+@@ -207,7 +207,7 @@ static void dmub_psr_set_level(struct dmub_psr *dmub, uint16_t psr_level, uint8_
+ 	cmd.psr_set_level.header.sub_type = DMUB_CMD__PSR_SET_LEVEL;
+ 	cmd.psr_set_level.header.payload_bytes = sizeof(struct dmub_cmd_psr_set_level_data);
+ 	cmd.psr_set_level.psr_set_level_data.psr_level = psr_level;
+-	cmd.psr_set_level.psr_set_level_data.cmd_version = PSR_VERSION_1;
++	cmd.psr_set_level.psr_set_level_data.cmd_version = DMUB_CMD_PSR_CONTROL_VERSION_1;
+ 	cmd.psr_set_level.psr_set_level_data.panel_inst = panel_inst;
+ 	dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
+ 	dc_dmub_srv_cmd_execute(dc->dmub_srv);
+@@ -293,7 +293,7 @@ static bool dmub_psr_copy_settings(struct dmub_psr *dmub,
+ 	copy_settings_data->debug.bitfields.use_hw_lock_mgr		= 1;
+ 	copy_settings_data->fec_enable_status = (link->fec_state == dc_link_fec_enabled);
+ 	copy_settings_data->fec_enable_delay_in100us = link->dc->debug.fec_enable_delay_in100us;
+-	copy_settings_data->cmd_version =  PSR_VERSION_1;
++	copy_settings_data->cmd_version =  DMUB_CMD_PSR_CONTROL_VERSION_1;
+ 	copy_settings_data->panel_inst = panel_inst;
+ 
+ 	dc_dmub_srv_cmd_queue(dc->dmub_srv, &cmd);
 -- 
 2.30.2
 
