@@ -2,38 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753D1404A12
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A93404A13
 	for <lists+dri-devel@lfdr.de>; Thu,  9 Sep 2021 13:44:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98D396E56A;
-	Thu,  9 Sep 2021 11:44:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A28D76E55E;
+	Thu,  9 Sep 2021 11:44:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCA16E55E;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F24E6E55E;
+ Thu,  9 Sep 2021 11:44:20 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 9094A61372;
  Thu,  9 Sep 2021 11:44:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4170D61374;
- Thu,  9 Sep 2021 11:44:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631187859;
- bh=taatuuLuDBoBSsvAWC34YtQ3EAR1kJj2dTPwEIz+LIE=;
+ s=k20201202; t=1631187860;
+ bh=5LuBohqvQBhRmRYfLetL1XDC8lNwVpB96plU8EyjnMM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=sqmvIMqSnu8towf9gCQL4g3PmBOMQcOf3/7R2cWEdHlUFwMqBMAfaRzvz+mtbFla0
- ceSARKFzbo5UAHgY4UaxnyN63t8/0acKbbnmlwj0Lvj26qRFNwLCGvSLQuF7KEKDsp
- Dii6LbgeQhBkg+GKpyrCf08NAq/2VukOHHItpkDsisD+JdXfPjyU2qPM9tvqirSR5c
- x6q8e/7Lpv8WxGpbdQUlagOxviKuEhRbjYIKTPVasgwZG/b93PdEo73cIMaRiFTYLC
- GxB/9BCInor+hGYPYDoACjkBuhScILqyTGMVb3bWGdEDp5KwsnFm3pJgZ/Usu96yA4
- +YxJch3hhBt+g==
+ b=ufjZFbIDtH/Z1PlygCu0+XRxul0D4vk7yv330DCSH7D0qjWT7MftDcypZvJKwNu/G
+ LEBudBfHomszFy8X3usc+kOHGWXySJ7muKT+rWjrlNmD9smJQr1zy9SJtPpnS9pJhF
+ DiBGE51G25Ccq4W4ZR5YgTPtxYR2fS9kFN+C8KjP8EUM5A5RymQ3NqAjO4RKSx21bS
+ bRFAKhAbJM6B5S+1X92aBa3nxRnqhS1gTlCraY4pQ4MELrCGIdtMsJ3fSXqfBB9KtM
+ f53QIkvmAQVeq1Ha0b1ZroKWOkeRXNvoIYZFTtZmC2NZm4x4Y/E2pf2lrq6tnLcYif
+ F0JD1UsdRJMRg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
 Cc: Tuo Li <islituo@gmail.com>, TOTE Robot <oslab@tsinghua.edu.cn>,
  Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
  amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 147/252] gpu: drm: amd: amdgpu: amdgpu_i2c: fix
- possible uninitialized-variable access in amdgpu_i2c_router_select_ddc_port()
-Date: Thu,  9 Sep 2021 07:39:21 -0400
-Message-Id: <20210909114106.141462-147-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.14 148/252] drm/display: fix possible null-pointer
+ dereference in dcn10_set_clock()
+Date: Thu,  9 Sep 2021 07:39:22 -0400
+Message-Id: <20210909114106.141462-148-sashal@kernel.org>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210909114106.141462-1-sashal@kernel.org>
 References: <20210909114106.141462-1-sashal@kernel.org>
@@ -58,42 +58,58 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Tuo Li <islituo@gmail.com>
 
-[ Upstream commit a211260c34cfadc6068fece8c9e99e0fe1e2a2b6 ]
+[ Upstream commit 554594567b1fa3da74f88ec7b2dc83d000c58e98 ]
 
-The variable val is declared without initialization, and its address is
-passed to amdgpu_i2c_get_byte(). In this function, the value of val is
-accessed in:
-  DRM_DEBUG("i2c 0x%02x 0x%02x read failed\n",
-       addr, *val);
+The variable dc->clk_mgr is checked in:
+  if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
 
-Also, when amdgpu_i2c_get_byte() returns, val may remain uninitialized,
-but it is accessed in:
-  val &= ~amdgpu_connector->router.ddc_mux_control_pin;
+This indicates dc->clk_mgr can be NULL.
+However, it is dereferenced in:
+    if (!dc->clk_mgr->funcs->get_clock)
 
-To fix this possible uninitialized-variable access, initialize val to 0 in
-amdgpu_i2c_router_select_ddc_port().
+To fix this null-pointer dereference, check dc->clk_mgr and the function
+pointer dc->clk_mgr->funcs->get_clock earlier, and return if one of them
+is NULL.
 
 Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
 Signed-off-by: Tuo Li <islituo@gmail.com>
 Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-index bca4dddd5a15..82608df43396 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_i2c.c
-@@ -339,7 +339,7 @@ static void amdgpu_i2c_put_byte(struct amdgpu_i2c_chan *i2c_bus,
- void
- amdgpu_i2c_router_select_ddc_port(const struct amdgpu_connector *amdgpu_connector)
- {
--	u8 val;
-+	u8 val = 0;
+diff --git a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+index dee1ce5f9609..75fa4adcf5f4 100644
+--- a/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
++++ b/drivers/gpu/drm/amd/display/dc/dcn10/dcn10_hw_sequencer.c
+@@ -3628,13 +3628,12 @@ enum dc_status dcn10_set_clock(struct dc *dc,
+ 	struct dc_clock_config clock_cfg = {0};
+ 	struct dc_clocks *current_clocks = &context->bw_ctx.bw.dcn.clk;
  
- 	if (!amdgpu_connector->router.ddc_valid)
- 		return;
+-	if (dc->clk_mgr && dc->clk_mgr->funcs->get_clock)
+-				dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
+-						context, clock_type, &clock_cfg);
+-
+-	if (!dc->clk_mgr->funcs->get_clock)
++	if (!dc->clk_mgr || !dc->clk_mgr->funcs->get_clock)
+ 		return DC_FAIL_UNSUPPORTED_1;
+ 
++	dc->clk_mgr->funcs->get_clock(dc->clk_mgr,
++		context, clock_type, &clock_cfg);
++
+ 	if (clk_khz > clock_cfg.max_clock_khz)
+ 		return DC_FAIL_CLK_EXCEED_MAX;
+ 
+@@ -3652,7 +3651,7 @@ enum dc_status dcn10_set_clock(struct dc *dc,
+ 	else
+ 		return DC_ERROR_UNEXPECTED;
+ 
+-	if (dc->clk_mgr && dc->clk_mgr->funcs->update_clocks)
++	if (dc->clk_mgr->funcs->update_clocks)
+ 				dc->clk_mgr->funcs->update_clocks(dc->clk_mgr,
+ 				context, true);
+ 	return DC_OK;
 -- 
 2.30.2
 
