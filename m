@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EAC9406991
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:12:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F16D406999
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:12:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B8D626E9BD;
-	Fri, 10 Sep 2021 10:12:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11D96E9BF;
+	Fri, 10 Sep 2021 10:12:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 03DC06E9BD
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:12:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABBBB6E9BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:12:55 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 68B1B2B0094B;
- Fri, 10 Sep 2021 06:12:48 -0400 (EDT)
+ by mailnew.west.internal (Postfix) with ESMTP id 037582B0094D;
+ Fri, 10 Sep 2021 06:12:52 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 10 Sep 2021 06:12:50 -0400
+ by compute5.internal (MEProxy); Fri, 10 Sep 2021 06:12:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=//PdX3qAZ6LQH
- C2/gchQ+ogB7t0gtOhnylWlMf4N1sE=; b=1tXCQiVETicjO+Q+IyuF1yNhGbldj
- whfNJ3aghKYKx0cstTMih1p0MN2tMom9CQXKM1J47++Oxy2ofKO7aFvWXI19Tsvs
- lHueFIeNtR7mK7J8hvolPypwT24xeUrk/bZuCs0wtXqaE57AhrJdj+zwTisbRi1P
- QCzReNDx943cgbkhed/K1zNi4L/JNMFsHsTRAlCY3ranVFwMy5D+7OfBjOCG6xTX
- gLLuh45ta3LA4XsBoCka1jov085XeXTkozRHqemiWV+bMf2+v0FN5wwgdvxn/8wn
- hCDZ+SucEMDzpeoSAd9Ld/bBLershkUDPJsdB9AZMuj5QpXe/WppEoUHg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=1YX5njk0kRv3r
+ NsS7AJ+7rDWNovGCl+gZ2FuKuYsCtY=; b=155IEI/O4BaxC5xRHhz3+ld10fI7l
+ jhjgJEYbqtinb4uGZWec+pUZov/PohSvyd2cWKjt+V3plY9asBrq1b029+Lot9vI
+ syUFBV5TsBmrPNqMAZixpmuU86nZ/KQ4kE3zeN2fHusFDVQscnm4UUyMwILEVXm4
+ peR0pxKr+BSdZWl6xP8M6/BzdEfioTOQDpMwdv7TkEZSFCXOYWlL6r8FgoFqW/vJ
+ altFyo/nrft1Xo6zBjMTK81VjKfCoBHt37WXeoXNziL60BpTCFUhGxyd0VCRdDCP
+ 4+mrUVyg8/uX90oqvLlrCLU00MFPu7h3yioihUXtrK4DiGwZ4eLz0g+zw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=//PdX3qAZ6LQHC2/gchQ+ogB7t0gtOhnylWlMf4N1sE=; b=RsLhHWUH
- s6qspdu3NxZNEPg3DM4rCKh+OTtjz0P65tgZXxGtjn81KwedEhRRz4oFIoWaPu9g
- LglxAtPlAoLxKo2Kno1l3Rrnq35+EXel0gj6F1s2nFhD7leemD5Zxs7tgaLprMLG
- 4fyZrS6ZC8CYC6L72ZlxtaQVwVjdnIkBqRPLy4yY/X+TdvJZJrhLrKUnVe/2gl17
- Oyd5M/MmxsFSo+fFybpUYfB3xVmv048+qUx0T6ApXoe3IGtz2ijDnIt85qm0FX4i
- 9ntBJ7f8pNAd8T+hqtjox7Li/lXgXjfCWVG9CeDxvbsmnBC767CijNPocyI6f4+m
- 9t8PqqKFOn6JlA==
-X-ME-Sender: <xms:ny87YR2oSjTSJPn0itMOKpB5CdIyveL2ghzAV7j1yuRYsOSpDxv3QA>
- <xme:ny87YYG-hb8MvAl_R_ekEumjiStUMWv1yRLj386RirXNM0a4f45Mqk1HpHcYIWTlj
- tjktROkMqrSydLHFLo>
-X-ME-Received: <xmr:ny87YR5bZikUHXzZusyqOYjxCzdR5CcUXmIhVe31kPCOhwwCm-rPkC-BJcZ1eW6Fdxr04tonDJ044U8Od2RBJ84MdMO5Xo_OGThf>
+ fm3; bh=1YX5njk0kRv3rNsS7AJ+7rDWNovGCl+gZ2FuKuYsCtY=; b=MWZ/LMsJ
+ nJCVGI3FWIxFArS4DOlCBzKFneUelMbr2C3dahKGyJuAW7hFJXB5YPgIQ2OHw1xI
+ EuqxO1az4gfxRXfLkCrdDb48rDHarV2wXSEB1y7jLDfleJua9/fHS0HdMm9u4CYU
+ Aah65c8NbllI17PVIx1hLNdMumbR1ua6n69Hhk8VCZ8BRoLIBwunfSSI18EvgR9b
+ JqlWaBXL/lNDDbM3XOFMqSphKYe+2Y9NIR++x9MNjWdi4qEUkbHTUZDH5KL1buYt
+ 4TOoTw1NHUOEP78uA29EUDFYRsEByphwtJi+Pme/6dLzfh+gbGEDtKCf0ZfggkOf
+ VrC8eBV4hXJmqA==
+X-ME-Sender: <xms:pC87YaduLfN67R4VfxvKaKsXNKhH0QiBa620t-yDb_aAvac00YIeHQ>
+ <xme:pC87YUNDrHdFAp9S8n5dto1BEX__oH90TbGF3fxbiqnnLsx8LusW5VRSyJGKwrmUx
+ 1kJIcr8Qcaulw7JuEw>
+X-ME-Received: <xmr:pC87Ybgt68tfT9pdtCoFJofE4qrB8PPJ3wcItMrg6F1oWuH7mzHLy9y5z6M1xrRQrENsaTQzq-IzL4iNVg3v2hbwuYVYOpKLEQaI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ny87Ye0r_d5IeITfhMWhqA4saBIedZB9UCH26mMIqUKXAuRFuqy5qg>
- <xmx:ny87YUFmAqjU0vTP6nJodt-rx99oOo8oHByI5jXDtQheJcL1fhKMEA>
- <xmx:ny87Yf-LttPNeTkcwP4W_zNCRcRN9fzp_p9aECCXXBQE5SjY3Cx89Q>
- <xmx:ny87YUWkwZUlEuTSzBSzgFV8h7hBXfM-oOpiJCqFNbR3aczMNklXwOWVSck>
+X-ME-Proxy: <xmx:pC87YX8zuRhVfEyJJEzKGMzPC2YHqdsPggF7bvxD7fUPQhKi2oV6fw>
+ <xmx:pC87YWvLdsIOdgM6qWjDzW6CCYyHTlj8WiM0BuYuEd3BgmTuRE19aQ>
+ <xmx:pC87YeFa4VhT5h2d1dEdGdxBU6uULNk1T0JqFHaOjijEO0Y9HF_quQ>
+ <xmx:pC87YSeMt-PyvPVcHknWpLUtOd-L7YfzwFNkSyLea2V_WUVEdncNg1rbLPI>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 06:12:47 -0400 (EDT)
+ 10 Sep 2021 06:12:52 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -77,9 +77,9 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
  Chen Feng <puck.chen@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: [PATCH v4 04/24] drm/mipi-dsi: Create devm device attachment
-Date: Fri, 10 Sep 2021 12:11:58 +0200
-Message-Id: <20210910101218.1632297-5-maxime@cerno.tech>
+Subject: [PATCH v4 05/24] drm/bridge: adv7533: Switch to devm MIPI-DSI helpers
+Date: Fri, 10 Sep 2021 12:11:59 +0200
+Message-Id: <20210910101218.1632297-6-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 References: <20210910101218.1632297-1-maxime@cerno.tech>
@@ -100,80 +100,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MIPI-DSI devices need to call mipi_dsi_attach() when their probe is done
-to attach against their host.
+Let's switch to the new devm MIPI-DSI function to register and attach
+our secondary device. This also avoids leaking the device when we detach
+the bridge.
 
-However, at removal or when an error occurs, that attachment needs to be
-undone through a call to mipi_dsi_detach().
-
-Let's create a device-managed variant of the attachment function that
-will automatically detach the device at unbind.
-
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/drm_mipi_dsi.c | 35 ++++++++++++++++++++++++++++++++++
- include/drm/drm_mipi_dsi.h     |  1 +
- 2 files changed, 36 insertions(+)
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |  1 -
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  2 --
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     | 20 ++++----------------
+ 3 files changed, 4 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_mipi_dsi.c b/drivers/gpu/drm/drm_mipi_dsi.c
-index ddf67463eaa1..18cef04df2f2 100644
---- a/drivers/gpu/drm/drm_mipi_dsi.c
-+++ b/drivers/gpu/drm/drm_mipi_dsi.c
-@@ -391,6 +391,41 @@ int mipi_dsi_detach(struct mipi_dsi_device *dsi)
- }
- EXPORT_SYMBOL(mipi_dsi_detach);
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511.h b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+index 05e3abb5a0c9..592ecfcf00ca 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511.h
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511.h
+@@ -401,7 +401,6 @@ void adv7533_mode_set(struct adv7511 *adv, const struct drm_display_mode *mode);
+ int adv7533_patch_registers(struct adv7511 *adv);
+ int adv7533_patch_cec_registers(struct adv7511 *adv);
+ int adv7533_attach_dsi(struct adv7511 *adv);
+-void adv7533_detach_dsi(struct adv7511 *adv);
+ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv);
  
-+static void devm_mipi_dsi_detach(void *arg)
-+{
-+	struct mipi_dsi_device *dsi = arg;
-+
-+	mipi_dsi_detach(dsi);
-+}
-+
-+/**
-+ * devm_mipi_dsi_attach - Attach a MIPI-DSI device to its DSI Host
-+ * @dev: device to tie the MIPI-DSI device attachment lifetime to
-+ * @dsi: DSI peripheral
-+ *
-+ * This is the managed version of mipi_dsi_attach() which automatically
-+ * calls mipi_dsi_detach() when @dev is unbound.
-+ *
-+ * Returns:
-+ * 0 on success, a negative error code on failure.
-+ */
-+int devm_mipi_dsi_attach(struct device *dev,
-+			 struct mipi_dsi_device *dsi)
-+{
-+	int ret;
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret)
-+		return ret;
-+
-+	ret = devm_add_action_or_reset(dev, devm_mipi_dsi_detach, dsi);
-+	if (ret)
-+		return ret;
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(devm_mipi_dsi_attach);
-+
- static ssize_t mipi_dsi_device_transfer(struct mipi_dsi_device *dsi,
- 					struct mipi_dsi_msg *msg)
+ #ifdef CONFIG_DRM_I2C_ADV7511_AUDIO
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+index 76555ae64e9c..9e3585f23cf1 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
+@@ -1307,8 +1307,6 @@ static int adv7511_remove(struct i2c_client *i2c)
  {
-diff --git a/include/drm/drm_mipi_dsi.h b/include/drm/drm_mipi_dsi.h
-index d0032e435e08..147e51b6d241 100644
---- a/include/drm/drm_mipi_dsi.h
-+++ b/include/drm/drm_mipi_dsi.h
-@@ -233,6 +233,7 @@ devm_mipi_dsi_device_register_full(struct device *dev, struct mipi_dsi_host *hos
- struct mipi_dsi_device *of_find_mipi_dsi_device_by_node(struct device_node *np);
- int mipi_dsi_attach(struct mipi_dsi_device *dsi);
- int mipi_dsi_detach(struct mipi_dsi_device *dsi);
-+int devm_mipi_dsi_attach(struct device *dev, struct mipi_dsi_device *dsi);
- int mipi_dsi_shutdown_peripheral(struct mipi_dsi_device *dsi);
- int mipi_dsi_turn_on_peripheral(struct mipi_dsi_device *dsi);
- int mipi_dsi_set_maximum_return_packet_size(struct mipi_dsi_device *dsi,
+ 	struct adv7511 *adv7511 = i2c_get_clientdata(i2c);
+ 
+-	if (adv7511->type == ADV7533 || adv7511->type == ADV7535)
+-		adv7533_detach_dsi(adv7511);
+ 	i2c_unregister_device(adv7511->i2c_cec);
+ 	clk_disable_unprepare(adv7511->cec_clk);
+ 
+diff --git a/drivers/gpu/drm/bridge/adv7511/adv7533.c b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+index 59d718bde8c4..eb7579dec40a 100644
+--- a/drivers/gpu/drm/bridge/adv7511/adv7533.c
++++ b/drivers/gpu/drm/bridge/adv7511/adv7533.c
+@@ -153,11 +153,10 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+ 		return -EPROBE_DEFER;
+ 	}
+ 
+-	dsi = mipi_dsi_device_register_full(host, &info);
++	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	if (IS_ERR(dsi)) {
+ 		dev_err(dev, "failed to create dsi device\n");
+-		ret = PTR_ERR(dsi);
+-		goto err_dsi_device;
++		return PTR_ERR(dsi);
+ 	}
+ 
+ 	adv->dsi = dsi;
+@@ -167,24 +166,13 @@ int adv7533_attach_dsi(struct adv7511 *adv)
+ 	dsi->mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
+ 			  MIPI_DSI_MODE_NO_EOT_PACKET | MIPI_DSI_MODE_VIDEO_HSE;
+ 
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to attach dsi to host\n");
+-		goto err_dsi_attach;
++		return ret;
+ 	}
+ 
+ 	return 0;
+-
+-err_dsi_attach:
+-	mipi_dsi_device_unregister(dsi);
+-err_dsi_device:
+-	return ret;
+-}
+-
+-void adv7533_detach_dsi(struct adv7511 *adv)
+-{
+-	mipi_dsi_detach(adv->dsi);
+-	mipi_dsi_device_unregister(adv->dsi);
+ }
+ 
+ int adv7533_parse_dt(struct device_node *np, struct adv7511 *adv)
 -- 
 2.31.1
 
