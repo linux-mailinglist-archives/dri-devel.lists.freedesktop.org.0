@@ -2,48 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B08406F93
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83368406F15
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:10:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2CF6EA2D;
-	Fri, 10 Sep 2021 16:22:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5F36EA23;
+	Fri, 10 Sep 2021 16:09:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC716EA2D
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:22:39 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id cfa7e488-1252-11ec-a02a-0050568c148b;
- Fri, 10 Sep 2021 16:19:02 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 73D00194BF7;
- Fri, 10 Sep 2021 18:05:52 +0200 (CEST)
-Date: Fri, 10 Sep 2021 18:05:58 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
-Cc: airlied@linux.ie, bp@alien8.de, dri-devel@lists.freedesktop.org,
- gregkh@linuxfoundation.org, hdegoede@redhat.com, hpa@zytor.com,
- javierm@redhat.com, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- mingo@redhat.com, mripard@kernel.org, pbrobinson@gmail.com,
- tglx@linutronix.de, tzimmermann@suse.de, x86@kernel.org
-Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
- CONFIG_FB disabled
-Message-ID: <YTuCZjdV1tH5+tB/@ravnborg.org>
-References: <2527f0ef-dae1-9ad5-84a4-00712c44940d@tronnes.org>
- <ff6a590e-19ee-b2b6-bed5-236962637418@tronnes.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 78D876EA23
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:09:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631290196;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6/69qBPEq+ZxoLUCx7D3iUMKDE0eou/SmM/DmrEsT78=;
+ b=FN005Z4iU0lqZChXTlZ+78Ze9k/Sqaf9Oc4bzTV28KKla6lMOy1qrkGIAaSotlWG7KeZtN
+ oh14wFh9gU6cZcLbioHR0uYj4zEK2qIri4Zepu4SF9T2X6Jg+KToEgdpb04S3JYVmq224U
+ MPdh0awidgOGAAtHMviaQATtG/mXwN4=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-456-YtxE_Y3dMzKz-LrEkdwIYQ-1; Fri, 10 Sep 2021 12:09:55 -0400
+X-MC-Unique: YtxE_Y3dMzKz-LrEkdwIYQ-1
+Received: by mail-io1-f70.google.com with SMTP id
+ n189-20020a6b8bc6000000b005b92c64b625so4105939iod.20
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 09:09:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:organization:mime-version:content-transfer-encoding;
+ bh=6/69qBPEq+ZxoLUCx7D3iUMKDE0eou/SmM/DmrEsT78=;
+ b=zUkIVg8jULxl3aYXtEZCLefZNdG2Q2VAPa2mu8x8ork97RsMSs6EX8aO7VudVC308y
+ QeJq1NJoSz3Abe8EXnq2paOfqKcIdT1JCV08N3S6CTMj9O+XhMXre/P+InFLBTXKIKGD
+ wrz7JoSQm9rvXnAVk2HDT3upKi9W06ndumONbk6iFqB4Hw8APET8vwi8yYCKs1BotkZ7
+ zd90Quf8+eZKYt8cnFrfQU1RXYR/Ede65Wqx22FnFWiojYpvMm2YDuDyhInuNYe6ZgOi
+ kSc/hhFXhFzSEw/L51deuI4G6dCOfNr5N/xJslPx3RbK6aKzxHOzyKiUcTe5qSPNCCYw
+ kYiw==
+X-Gm-Message-State: AOAM533ywgZNBOTgjxXYL1HkpGTnJiixozmBoZn45QKd/H51G46sGNzQ
+ uMF52+E9uhoPea+MU/zgP56d6Zv/EWho/Y1T5XenetUjn6ObRUdFQM3vguzH512u+MbJcHDugja
+ cbgR+k2oV0gk/wsnfFOhhEvjvJB4T
+X-Received: by 2002:a05:6e02:8f2:: with SMTP id
+ n18mr6862648ilt.256.1631290194644; 
+ Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxP8Y1TihJai/O/xPIO5JmfEsEgfV81tQvv38D8IJQRDSK+KLhAXgtQ59aQINI+2fQswrVxaA==
+X-Received: by 2002:a05:6e02:8f2:: with SMTP id
+ n18mr6862610ilt.256.1631290194398; 
+ Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
+Received: from redhat.com (c-73-14-100-188.hsd1.co.comcast.net.
+ [73.14.100.188])
+ by smtp.gmail.com with ESMTPSA id y10sm2555019ilv.35.2021.09.10.09.09.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
+Date: Fri, 10 Sep 2021 10:09:51 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Christoph Hellwig <hch@infradead.org>, David Airlie <airlied@linux.ie>,
+ Tony Krowiak <akrowiak@linux.ibm.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Cornelia Huck <cohuck@redhat.com>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Eric Farman
+ <farman@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>, Vasily
+ Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, Jani
+ Nikula <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org, Matthew
+ Rosato <mjrosato@linux.ibm.com>, Peter Oberparleiter
+ <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu
+ Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>, Christoph
+ Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 5/9] vfio/mdev: Consolidate all the device_api sysfs
+ into the core code
+Message-ID: <20210910100951.4da06602.alex.williamson@redhat.com>
+In-Reply-To: <20210910133850.GT2505917@nvidia.com>
+References: <0-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+ <5-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+ <YTtLRmiXq+QtJ+la@infradead.org>
+ <20210910133850.GT2505917@nvidia.com>
+Organization: Red Hat
+X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ff6a590e-19ee-b2b6-bed5-236962637418@tronnes.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,40 +106,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Noralf,
+On Fri, 10 Sep 2021 10:38:50 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-On Thu, Sep 09, 2021 at 06:27:02PM +0200, Noralf Trønnes wrote:
+> On Fri, Sep 10, 2021 at 01:10:46PM +0100, Christoph Hellwig wrote:
+> > On Thu, Sep 09, 2021 at 04:38:45PM -0300, Jason Gunthorpe wrote:  
+> > > Every driver just emits a static string, simply feed it through the ops
+> > > and provide a standard sysfs show function.  
+> > 
+> > Looks sensible.  But can you make the attribute optional and add a
+> > comment marking it deprecated?  Because it really is completely useless.
+> > We don't version userspace APIs, userspae has to discover new features
+> > individually by e.g. finding new sysfs files or just trying new ioctls.  
 > 
-> > > Hi Daniel,
-> > >
-> > > >
-> > > > I think for a substantial improvement here in robustness what you
-> really
-> > > > want is
-> > > > - kmscon in userspace
-> > > > - disable FB layer
-> > > > - ideally also disable console/vt layer in the kernel
-> > > > - have a minimal emergency/boot-up log thing in drm, patches for that
-> > > >   floated around a few times
-> > >
-> > > I assume you refer to this work by David Herrmann:
-> > > "[RFC] drm: add kernel-log renderer"
-> > > https://lists.freedesktop.org/archives/dri-devel/2014-March/055136.html
-> > >
-> >
-> > There's also this:
-> >
-> > [PATCH v2 0/3] drm: Add panic handling
-> >
-> https://lore.kernel.org/dri-devel/20190311174218.51899-1-noralf@tronnes.org/
+> To be honest I have no idea what side effects that would have..
 > 
-> And here's a DRM console example that was part of the early drm_client work:
+> device code search tells me libvirt reads it and stuffs it into some
+> XML
 > 
-> [RFC v4 25/25] drm/client: Hack: Add DRM VT console client
-> https://lore.kernel.org/dri-devel/20180414115318.14500-26-noralf@tronnes.org/
+> Something called mdevctl touches it, feeds it into some JSON and
+> other stuff..
+> 
+> qemu has some VFIO_DEVICE_API_* constants but it is all dead code
+> 
+> I agree it shouldn't have been there in the first place
+> 
+> Cornelia? Alex? Any thoughts?
 
-Thanks for providing these pointers. Looks forwards to find time to play
-with all this. Having an embedded board without any fbdev stuff seems
-like a nice goal.
+It's not a version, it's a means for userspace to determine the basic
+API for an mdev device without needing to go through the process of
+creating a container, adding the group, setting an IOMMU type, opening
+the device before being able to call VFIO_DEVICE_GET_INFO to determine
+the API.  For example, it wouldn't make sense for libvirt to attach a
+vfio-ccw device to a PCIe root port in a VM.  It's a means to say this
+mdev device is a vfio-pci or that mdev device is a vfio-ccw.  If it were
+optional, then management tools would have no basic idea how to attach
+the device to a VM without gaining access to the device themselves.
+Thanks,
 
-	Sam
+Alex
+
