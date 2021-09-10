@@ -2,44 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E974C406AAA
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 13:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DE41406ABA
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 13:31:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 155F86E9E2;
-	Fri, 10 Sep 2021 11:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 569666E9E4;
+	Fri, 10 Sep 2021 11:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 691EA6E9E2;
- Fri, 10 Sep 2021 11:25:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="306623555"
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="306623555"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 04:25:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="540561704"
-Received: from cmmooney-mobl3.ger.corp.intel.com (HELO [10.213.215.191])
- ([10.213.215.191])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 04:25:45 -0700
-Subject: Re: [Intel-gfx] [PATCH 23/27] drm/i915/guc: Implement no mid batch
- preemption for multi-lrc
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
-References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-24-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <a2a377cb-c0f0-fcae-b1bd-ee5da3566411@linux.intel.com>
-Date: Fri, 10 Sep 2021 12:25:43 +0100
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96E0B6E9E4;
+ Fri, 10 Sep 2021 11:31:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="208289200"
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="208289200"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 10 Sep 2021 04:31:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="694758413"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga006.fm.intel.com with ESMTP; 10 Sep 2021 04:31:04 -0700
+Received: from orsmsx608.amr.corp.intel.com (10.22.229.21) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 04:31:04 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX608.amr.corp.intel.com (10.22.229.21) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 10 Sep 2021 04:31:03 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Fri, 10 Sep 2021 04:31:03 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Fri, 10 Sep 2021 04:31:03 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BC0jZjfUCdNHkQHLp+/PE9p5p37jblYFLz0mzvAvXXOABwkUkoLGAUkYS2kdWu7cBntVQoxH6EBtUpwmRAsvC0wJFvlIOS7IpCCPq3q3qvA0hZQdMWqmkvAYS3ayaQRDQdZnTcAgT8U3ZGi+0HKPJsxhQN/TLyjd/DxRL23m6dQWf+2SjiB+5j9SLS6F0ZkEeGabs/8zGjbwaaDZXNhvPtXJK6VfL7Bl5qaU6aHVv7AHgi0pNkjRWJwjibM8z/DZFqIDClyR21hbH6vDOXUDX8u9UrbEuRJCcKMqgpSR1b0xlB/CY+CNGh/fCdMUb7GnPNMWCikEFtiPrK9zbgAsXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=9iJjfh9mIuYdZcjMO7UqQ47/cJqAacwZjDePLvqTeMc=;
+ b=d7WdQlU0DD9oLKrHN2P8FzkeXBumvfoA7ozj5JGzH1bZ4z9FZVII2KzGxylm+8mz7tLFPzNN8L5rUQ7QkQ3lfW+MyPj5aS4j3Z9xNk0qM1QU6wdP/0HIzZ/niAQfjVcP5eHeynM3cyzNhix5ovneeFP71WdHtoqblB/wStkSxO2K5xy1078pjR/dhp/n1/zuzGxPamG8mflZVgcgsKX6fxlMlaFRjkK62fAJ8/yWJ+nX4sU+T+gpiSHBIt72miA57lwaCtZM6yfo3KbVLc2YSXP0wHfDsYrzkzP0Tiqjax657wqz4W1CiDlwM1RU5e3CbAsGja2Wk9VdtgDQqCD6cg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9iJjfh9mIuYdZcjMO7UqQ47/cJqAacwZjDePLvqTeMc=;
+ b=HxNXOL+rEC0D8JJF5+bINv/tA/5SnuvMGJygHmLUn1niU0AfxV87qdQ7qcAcF3p7yEOuZyNwOl/+vSsAFEUzSYVuhrg6+1UCAvoJLCXQabGdyT+2pk+uPNPorNSzjWG7DKvTSI/fUJh3UdPM9VhiCl9bQIH4e8ghWuMV8RbkRvM=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com (2603:10b6:5:394::7) by
+ DM6PR11MB4491.namprd11.prod.outlook.com (2603:10b6:5:204::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4478.22; Fri, 10 Sep 2021 11:31:03 +0000
+Received: from DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::2992:dfa6:f8a:b368]) by DM4PR11MB5373.namprd11.prod.outlook.com
+ ([fe80::2992:dfa6:f8a:b368%8]) with mapi id 15.20.4500.016; Fri, 10 Sep 2021
+ 11:31:03 +0000
+Subject: Re: [PATCH RESEND] drm/i915: Mark GPU wedging on driver unregister
+ unrecoverable
+To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
+ <intel-gfx@lists.freedesktop.org>
+CC: <dri-devel@lists.freedesktop.org>
+References: <20210903142837.216978-1-janusz.krzysztofik@linux.intel.com>
+From: =?UTF-8?Q?Micha=c5=82_Winiarski?= <michal.winiarski@intel.com>
+Message-ID: <379660d2-0253-5b04-3abb-60397447a4c8@intel.com>
+Date: Fri, 10 Sep 2021 13:31:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <20210820224446.30620-24-matthew.brost@intel.com>
+ Firefox/78.0 Thunderbird/78.12.0
+In-Reply-To: <20210903142837.216978-1-janusz.krzysztofik@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: DB6PR1001CA0007.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:4:b7::17) To DM4PR11MB5373.namprd11.prod.outlook.com
+ (2603:10b6:5:394::7)
+MIME-Version: 1.0
+Received: from [10.249.149.238] (134.191.196.76) by
+ DB6PR1001CA0007.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:b7::17) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4500.15 via Frontend Transport; Fri, 10 Sep 2021 11:31:02 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c21927a0-b725-4ec8-868d-08d9744e789f
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4491:
+X-Microsoft-Antispam-PRVS: <DM6PR11MB4491AFCD40CC3DA6E24D3FEE98D69@DM6PR11MB4491.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: l7wkCvQ3Iq+NYD90xmko7CKXTSd8U1ND0uQcOxMUq4AbtMPXOgR+cWSUILrBpW46nMFZR91oupYaQh/LbWmqoM4TEQvXQXsYm/hNI/5onO6Psn2mogszPhQl7R4sw3CB+dKpjmooAH0Lf6wih+G+HUw352i+pZrjKypMDiQ2Fe8fkqesps5u3hTzYVLnEYuyuodr7lTmElWQxBYlLB6dk2TniGfVxLkhGkvyxXw6IITrpaUZdU7gikE3KXndAIi/O4T3dqHs2uCFzu2b8h07rykc2C31hLP76X60kNKzLFzZqMN2JdfHXzrlZTj8tDGntAwpxo4n7okMqNwbvcJxtHEW3gZ3NGyS7L6eTdgSg9NzVCiiOUFCDvtTIp5feQ0wm3aZnvqTXXjUJi0qO0A4Xf78T72+xdRo9d5/1xduQotLaSAjKQpFEjfbJlJzZJXp2dOhHqvPPp+34wgxpC96FUo/yVz1+NA7wJKHZ8Df/IccfdNulvoiTJ1t+KpOqjjFbWz9Y7MQSp2/v5ekPBaMXYyr3RlyYqfdXV2JiD2Q40PDwIrjYwW8VJdL1NImETRXGvLEEhevXltnviX7OrTTTAt0aa1pFnPHmNZoNI8In17tu2LwYaDCgJifCmlR7bPotio3RhbamvgV4klJdvJ0lShBKA+LjmkU0CkvF6kzZvDjWDsNItt41tzjDiKhcBeFcyh8m4abjVbvtHLtCX4Msy1pK9p8gOMIBZTdSKnK5DM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(366004)(346002)(376002)(31686004)(316002)(36756003)(86362001)(38100700002)(186003)(6666004)(66476007)(2906002)(26005)(66946007)(66556008)(2616005)(8676002)(6486002)(4326008)(31696002)(8936002)(956004)(16576012)(83380400001)(53546011)(478600001)(5660300002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K0MwMUZ4N1kzN2RxLzFGYWRaZmhRM3lIN08zRnZOSzk4TU1nRFh4UUROOVh3?=
+ =?utf-8?B?SGlKTnZsYnlhTkFKZU00K2xWaElRWnlQb1JuNW9mM0hnV29CT3JiNkZOR2M5?=
+ =?utf-8?B?N2NIamx3MWJOODBvUndrZXVjRW1NRlNSbW9TdzViK3BZZHJublRKS2ZiZW1U?=
+ =?utf-8?B?TmYyQzBlRFZVYWo2Q0dtVWxmbHN3K0M2U2tYemZ5Y082RWdEUWk2dE9SbE14?=
+ =?utf-8?B?WEpLbStFdWtmaFRDTVkrM2QxbnFDNXZUbkt3SlhJL0NNL095YzVxWXBUbTBM?=
+ =?utf-8?B?aURhYTdSNUM5OU9OMjRzRHJzeUo4OGNCTEZjRVRBVE5XVmJFVUVJSlQ4WERB?=
+ =?utf-8?B?Y2xkUGtmdUlmSWRrUnpVZjFvS2FTWVh6RDA1MlJ4RjJMSjZJU3BKMHEvQjI5?=
+ =?utf-8?B?R0R5bDhGb0wwYTdFSFI3OWZHaENjSlNVMHpYTHpUbEt2TEViWEFzdWVJQWVn?=
+ =?utf-8?B?U1lObmpseEQ5bUF6REtuczl2cmVkVVpPbTZ0aTNGOHZoQm1YMDliR3dxSTZN?=
+ =?utf-8?B?RHJCbHBYN0EzU2NRQ0d4aS9SREd3WitCaE9RQ0pmWHpQRHBQc0hiWHdGSWtR?=
+ =?utf-8?B?TjlQYXo2Y0RLWTdvb0dZT2NxM3FSNFp2QUl4Ni9XVmpnekJ3UzdYUkNDSlRq?=
+ =?utf-8?B?R1hPZVBDMTJLVnRiT3pZS3QxQkpJZzRkUENSdytTR3E2eE1CVEFLQTQ5Z2Uy?=
+ =?utf-8?B?Rk5zVlBLWGNuMmlpckhnNnJhYkNsYWNVa0hyMmlvaXplZllDTFdWM3NLclZq?=
+ =?utf-8?B?Mmp5cTZ5WnU4b1czdUJacml3RFdHMU5MYVNMc3hGZ1pOOEpLc05PZTltaFQ2?=
+ =?utf-8?B?UE1hRGUrR2RoOEYwaVlVT245N0hiRzJzczFsTnlZeGdwbWs5VDhYa0RGTkR5?=
+ =?utf-8?B?ckNJK1pMS0RPRUU4aXltZjZveTdsNE90UHJ6eUtjWVozMjFPR1BKbk9KYW9l?=
+ =?utf-8?B?ekQ5aEtXenFFemRSeXlITzRhRmpmSXVpRUpiN1htenZtSGZaK1JpNVI3UCs5?=
+ =?utf-8?B?WGRrUHk4RjZZMmNvcDNQTGRkQXlDNVRHN1RUUG5WdU51bHdjVWwrU1lEVjg1?=
+ =?utf-8?B?Y2p6K2Jrcmt4TmVjQzlGNEpUcDN2VTMyVzd3anhvVHZpRjJzZ1RXQWVDRWZN?=
+ =?utf-8?B?bkJZNExxcVUzRlhoZXVWQnJmVFh2K3JiejBMSVVLV1diSWFLVUdFUU4wR0Vh?=
+ =?utf-8?B?RCtnSzdEbXlCb0NoUm9Pd21VVjE1cWZDRkZVcXlJOVlGRlRWTU5HQ25vN3A0?=
+ =?utf-8?B?bXJ1U0htWnkwWk9LOUxzREFHZWJ5U0NNNE92YWtsQWk0UDkwRzBFVWFrNlE0?=
+ =?utf-8?B?UGdRVEVFODZuMjV4aEQ3VGN3RUI5NWVvQ1ZOTVp2aG56bWFkSWg0dGlHcWU4?=
+ =?utf-8?B?Rjk1U2kyM2VRdGlwZEg2bnhtRVh6b0dQbnBqTXZuNTE4V0dkcEFyNkZQWFA0?=
+ =?utf-8?B?QU5IRGlHVFl4WGpac3FBdEFiMjM4TXNSVnV5SkJ6T3krUUZSTWl6OHVWQURw?=
+ =?utf-8?B?c1VpdE4yek9CazF0QkpBaWVGSC9XREwyOTNqY0Nid1FuNU5MOS94MVNqdHFV?=
+ =?utf-8?B?bUVtellwbGJ0cVY4WDcrcWtBaTUxOEpvVE1LZHgrSzh3QTQ5cHlJUHJBcXBz?=
+ =?utf-8?B?UldMY3pTM2xZbzR1TVpXZjdmVGF1T2tJUjhZcWs0dVoxYS84N3kxY28rNDBx?=
+ =?utf-8?B?UVZVZVkyYk5heWdvTjB4MHczWEJndElIbGhnV05HbFFZM1RCcmpid0lKM2Fq?=
+ =?utf-8?Q?WIlgdcZxgfVXfyA49IC38yXRRipDrFgP7MkctGW?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: c21927a0-b725-4ec8-868d-08d9744e789f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 11:31:03.1738 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lQl1Zv+ecptZUbVCm7VyX8WDfrD2tYn1Rs3vNFoKPSdwAZYutB7lBXCZ85jxYNsFeKOgLef8WQgja+nq6dS8g6GeDmwPC/uW4hLJ9OKynJg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4491
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,415 +156,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 03.09.2021 16:28, Janusz Krzysztofik wrote:
+> GPU wedged flag now set on driver unregister to prevent from further
+> using the GPU can be then cleared unintentionally when calling
+> __intel_gt_unset_wedged() still before the flag is finally marked
+> unrecoverable.  We need to have it marked unrecoverable earlier.
+> Implement that by replacing a call to intel_gt_set_wedged() in
+> intel_gt_driver_unregister() with intel_gt_set_wedged_on_fini().
+> 
+> With the above in place, intel_gt_set_wedged_on_fini() is now called
+> twice on driver remove, second time from __intel_gt_disable().  This
+> seems harmless, while dropping intel_gt_set_wedged_on_fini() from
+> __intel_gt_disable() proved to break some driver probe error unwind
+> paths as well as mock selftest exit path.
+> 
+> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+> Cc: Michał Winiarski <michal.winiarski@intel.com>
 
-On 20/08/2021 23:44, Matthew Brost wrote:
-> For some users of multi-lrc, e.g. split frame, it isn't safe to preempt
-> mid BB. To safely enable preemption at the BB boundary, a handshake
-> between to parent and child is needed. This is implemented via custom
-> emit_bb_start & emit_fini_breadcrumb functions and enabled via by
-> default if a context is configured by set parallel extension.
+Reviewed-by: Michał Winiarski <michal.winiarski@intel.com>
 
-FWIW I think it's wrong to hardcode the requirements of a particular 
-hardware generation fixed media pipeline into the uapi. IMO better 
-solution was when concept of parallel submission was decoupled from the 
-no preemption mid batch preambles. Otherwise might as well call the 
-extension I915_CONTEXT_ENGINES_EXT_MEDIA_SPLIT_FRAME_SUBMIT or something.
+-Michał
 
-Regards,
-
-Tvrtko
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > ---
->   drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
->   drivers/gpu/drm/i915/gt/intel_context_types.h |   3 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 283 +++++++++++++++++-
->   4 files changed, 287 insertions(+), 3 deletions(-)
+> Resending with Cc: dri-devel@lists.freedesktop.org as requested.
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index 5615be32879c..2de62649e275 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -561,7 +561,7 @@ void intel_context_bind_parent_child(struct intel_context *parent,
->   	GEM_BUG_ON(intel_context_is_child(child));
->   	GEM_BUG_ON(intel_context_is_parent(child));
->   
-> -	parent->guc_number_children++;
-> +	child->guc_child_index = parent->guc_number_children++;
->   	list_add_tail(&child->guc_child_link,
->   		      &parent->guc_child_list);
->   	child->parent = parent;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index 713d85b0b364..727f91e7f7c2 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -246,6 +246,9 @@ struct intel_context {
->   		/** @guc_number_children: number of children if parent */
->   		u8 guc_number_children;
->   
-> +		/** @guc_child_index: index into guc_child_list if child */
-> +		u8 guc_child_index;
-> +
->   		/**
->   		 * @parent_page: page in context used by parent for work queue,
->   		 * work queue descriptor
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index 6cd26dc060d1..9f61cfa5566a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -188,7 +188,7 @@ struct guc_process_desc {
->   	u32 wq_status;
->   	u32 engine_presence;
->   	u32 priority;
-> -	u32 reserved[30];
-> +	u32 reserved[36];
->   } __packed;
->   
->   #define CONTEXT_REGISTRATION_FLAG_KMD	BIT(0)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 91330525330d..1a18f99bf12a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -11,6 +11,7 @@
->   #include "gt/intel_context.h"
->   #include "gt/intel_engine_pm.h"
->   #include "gt/intel_engine_heartbeat.h"
-> +#include "gt/intel_gpu_commands.h"
->   #include "gt/intel_gt.h"
->   #include "gt/intel_gt_irq.h"
->   #include "gt/intel_gt_pm.h"
-> @@ -366,10 +367,14 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
->   
->   /*
->    * When using multi-lrc submission an extra page in the context state is
-> - * reserved for the process descriptor and work queue.
-> + * reserved for the process descriptor, work queue, and preempt BB boundary
-> + * handshake between the parent + childlren contexts.
->    *
->    * The layout of this page is below:
->    * 0						guc_process_desc
-> + * + sizeof(struct guc_process_desc)		child go
-> + * + CACHELINE_BYTES				child join ...
-> + * + CACHELINE_BYTES ...
->    * ...						unused
->    * PAGE_SIZE / 2				work queue start
->    * ...						work queue
-> @@ -1785,6 +1790,30 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
->   	return __guc_action_deregister_context(guc, guc_id, loop);
->   }
->   
-> +static inline void clear_children_join_go_memory(struct intel_context *ce)
-> +{
-> +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> +	u8 i;
-> +
-> +	for (i = 0; i < ce->guc_number_children + 1; ++i)
-> +		mem[i * (CACHELINE_BYTES / sizeof(u32))] = 0;
-> +}
-> +
-> +static inline u32 get_children_go_value(struct intel_context *ce)
-> +{
-> +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> +
-> +	return mem[0];
-> +}
-> +
-> +static inline u32 get_children_join_value(struct intel_context *ce,
-> +					  u8 child_index)
-> +{
-> +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> +
-> +	return mem[(child_index + 1) * (CACHELINE_BYTES / sizeof(u32))];
-> +}
-> +
->   static void guc_context_policy_init(struct intel_engine_cs *engine,
->   				    struct guc_lrc_desc *desc)
->   {
-> @@ -1867,6 +1896,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->   			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->   			guc_context_policy_init(engine, desc);
->   		}
-> +
-> +		clear_children_join_go_memory(ce);
->   	}
->   
->   	/*
-> @@ -2943,6 +2974,31 @@ static const struct intel_context_ops virtual_child_context_ops = {
->   	.get_sibling = guc_virtual_get_sibling,
->   };
->   
-> +/*
-> + * The below override of the breadcrumbs is enabled when the user configures a
-> + * context for parallel submission (multi-lrc, parent-child).
-> + *
-> + * The overridden breadcrumbs implements an algorithm which allows the GuC to
-> + * safely preempt all the hw contexts configured for parallel submission
-> + * between each BB. The contract between the i915 and GuC is if the parent
-> + * context can be preempted, all the children can be preempted, and the GuC will
-> + * always try to preempt the parent before the children. A handshake between the
-> + * parent / children breadcrumbs ensures the i915 holds up its end of the deal
-> + * creating a window to preempt between each set of BBs.
-> + */
-> +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						     u64 offset, u32 len,
-> +						     const unsigned int flags);
-> +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
-> +						    u64 offset, u32 len,
-> +						    const unsigned int flags);
-> +static u32 *
-> +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						 u32 *cs);
-> +static u32 *
-> +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-> +						u32 *cs);
-> +
->   static struct intel_context *
->   guc_create_parallel(struct intel_engine_cs **engines,
->   		    unsigned int num_siblings,
-> @@ -2978,6 +3034,20 @@ guc_create_parallel(struct intel_engine_cs **engines,
->   		}
->   	}
->   
-> +	parent->engine->emit_bb_start =
-> +		emit_bb_start_parent_no_preempt_mid_batch;
-> +	parent->engine->emit_fini_breadcrumb =
-> +		emit_fini_breadcrumb_parent_no_preempt_mid_batch;
-> +	parent->engine->emit_fini_breadcrumb_dw =
-> +		12 + 4 * parent->guc_number_children;
-> +	for_each_child(parent, ce) {
-> +		ce->engine->emit_bb_start =
-> +			emit_bb_start_child_no_preempt_mid_batch;
-> +		ce->engine->emit_fini_breadcrumb =
-> +			emit_fini_breadcrumb_child_no_preempt_mid_batch;
-> +		ce->engine->emit_fini_breadcrumb_dw = 16;
-> +	}
-> +
->   	kfree(siblings);
->   	return parent;
->   
-> @@ -3362,6 +3432,204 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
->   	guc->submission_selected = __guc_submission_selected(guc);
->   }
->   
-> +static inline u32 get_children_go_addr(struct intel_context *ce)
-> +{
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	return i915_ggtt_offset(ce->state) +
-> +		__get_process_desc_offset(ce) +
-> +		sizeof(struct guc_process_desc);
-> +}
-> +
-> +static inline u32 get_children_join_addr(struct intel_context *ce,
-> +					 u8 child_index)
-> +{
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	return get_children_go_addr(ce) + (child_index + 1) * CACHELINE_BYTES;
-> +}
-> +
-> +#define PARENT_GO_BB			1
-> +#define PARENT_GO_FINI_BREADCRUMB	0
-> +#define CHILD_GO_BB			1
-> +#define CHILD_GO_FINI_BREADCRUMB	0
-> +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						     u64 offset, u32 len,
-> +						     const unsigned int flags)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +	u32 *cs;
-> +	u8 i;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	cs = intel_ring_begin(rq, 10 + 4 * ce->guc_number_children);
-> +	if (IS_ERR(cs))
-> +		return PTR_ERR(cs);
-> +
-> +	/* Wait on chidlren */
-> +	for (i = 0; i < ce->guc_number_children; ++i) {
-> +		*cs++ = (MI_SEMAPHORE_WAIT |
-> +			 MI_SEMAPHORE_GLOBAL_GTT |
-> +			 MI_SEMAPHORE_POLL |
-> +			 MI_SEMAPHORE_SAD_EQ_SDD);
-> +		*cs++ = PARENT_GO_BB;
-> +		*cs++ = get_children_join_addr(ce, i);
-> +		*cs++ = 0;
-> +	}
-> +
-> +	/* Turn off preemption */
-> +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
-> +	*cs++ = MI_NOOP;
-> +
-> +	/* Tell children go */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  CHILD_GO_BB,
-> +				  get_children_go_addr(ce),
-> +				  0);
-> +
-> +	/* Jump to batch */
-> +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
-> +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
-> +	*cs++ = lower_32_bits(offset);
-> +	*cs++ = upper_32_bits(offset);
-> +	*cs++ = MI_NOOP;
-> +
-> +	intel_ring_advance(rq, cs);
-> +
-> +	return 0;
-> +}
-> +
-> +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
-> +						    u64 offset, u32 len,
-> +						    const unsigned int flags)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +	u32 *cs;
-> +
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +
-> +	cs = intel_ring_begin(rq, 12);
-> +	if (IS_ERR(cs))
-> +		return PTR_ERR(cs);
-> +
-> +	/* Signal parent */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  PARENT_GO_BB,
-> +				  get_children_join_addr(ce->parent,
-> +							 ce->guc_child_index),
-> +				  0);
-> +
-> +	/* Wait parent on for go */
-> +	*cs++ = (MI_SEMAPHORE_WAIT |
-> +		 MI_SEMAPHORE_GLOBAL_GTT |
-> +		 MI_SEMAPHORE_POLL |
-> +		 MI_SEMAPHORE_SAD_EQ_SDD);
-> +	*cs++ = CHILD_GO_BB;
-> +	*cs++ = get_children_go_addr(ce->parent);
-> +	*cs++ = 0;
-> +
-> +	/* Turn off preemption */
-> +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
-> +
-> +	/* Jump to batch */
-> +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
-> +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
-> +	*cs++ = lower_32_bits(offset);
-> +	*cs++ = upper_32_bits(offset);
-> +
-> +	intel_ring_advance(rq, cs);
-> +
-> +	return 0;
-> +}
-> +
-> +static u32 *
-> +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						 u32 *cs)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +	u8 i;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	/* Wait on children */
-> +	for (i = 0; i < ce->guc_number_children; ++i) {
-> +		*cs++ = (MI_SEMAPHORE_WAIT |
-> +			 MI_SEMAPHORE_GLOBAL_GTT |
-> +			 MI_SEMAPHORE_POLL |
-> +			 MI_SEMAPHORE_SAD_EQ_SDD);
-> +		*cs++ = PARENT_GO_FINI_BREADCRUMB;
-> +		*cs++ = get_children_join_addr(ce, i);
-> +		*cs++ = 0;
-> +	}
-> +
-> +	/* Turn on preemption */
-> +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
-> +	*cs++ = MI_NOOP;
-> +
-> +	/* Tell children go */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  CHILD_GO_FINI_BREADCRUMB,
-> +				  get_children_go_addr(ce),
-> +				  0);
-> +
-> +	/* Emit fini breadcrumb */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  rq->fence.seqno,
-> +				  i915_request_active_timeline(rq)->hwsp_offset,
-> +				  0);
-> +
-> +	/* User interrupt */
-> +	*cs++ = MI_USER_INTERRUPT;
-> +	*cs++ = MI_NOOP;
-> +
-> +	rq->tail = intel_ring_offset(rq, cs);
-> +
-> +	return cs;
-> +}
-> +
-> +static u32 *
-> +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +
-> +	/* Turn on preemption */
-> +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
-> +	*cs++ = MI_NOOP;
-> +
-> +	/* Signal parent */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  PARENT_GO_FINI_BREADCRUMB,
-> +				  get_children_join_addr(ce->parent,
-> +							 ce->guc_child_index),
-> +				  0);
-> +
-> +	/* Wait parent on for go */
-> +	*cs++ = (MI_SEMAPHORE_WAIT |
-> +		 MI_SEMAPHORE_GLOBAL_GTT |
-> +		 MI_SEMAPHORE_POLL |
-> +		 MI_SEMAPHORE_SAD_EQ_SDD);
-> +	*cs++ = CHILD_GO_FINI_BREADCRUMB;
-> +	*cs++ = get_children_go_addr(ce->parent);
-> +	*cs++ = 0;
-> +
-> +	/* Emit fini breadcrumb */
-> +	cs = gen8_emit_ggtt_write(cs,
-> +				  rq->fence.seqno,
-> +				  i915_request_active_timeline(rq)->hwsp_offset,
-> +				  0);
-> +
-> +	/* User interrupt */
-> +	*cs++ = MI_USER_INTERRUPT;
-> +	*cs++ = MI_NOOP;
-> +
-> +	rq->tail = intel_ring_offset(rq, cs);
-> +
-> +	return cs;
-> +}
-> +
->   static struct intel_context *
->   g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
->   {
-> @@ -3807,6 +4075,19 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
->   			drm_printf(p, "\t\tWQI Status: %u\n\n",
->   				   READ_ONCE(desc->wq_status));
->   
-> +			drm_printf(p, "\t\tNumber Children: %u\n\n",
-> +				   ce->guc_number_children);
-> +			if (ce->engine->emit_bb_start ==
-> +			    emit_bb_start_parent_no_preempt_mid_batch) {
-> +				u8 i;
-> +
-> +				drm_printf(p, "\t\tChildren Go: %u\n\n",
-> +					   get_children_go_value(ce));
-> +				for (i = 0; i < ce->guc_number_children; ++i)
-> +					drm_printf(p, "\t\tChildren Join: %u\n",
-> +						   get_children_join_value(ce, i));
-> +			}
-> +
->   			for_each_child(ce, child)
->   				guc_log_context(p, child);
->   		}
+> Thanks,
+> Janusz
 > 
+>   drivers/gpu/drm/i915/gt/intel_gt.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 62d40c986642..173b53cb2b47 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -750,7 +750,7 @@ void intel_gt_driver_unregister(struct intel_gt *gt)
+>   	 * all in-flight requests so that we can quickly unbind the active
+>   	 * resources.
+>   	 */
+> -	intel_gt_set_wedged(gt);
+> +	intel_gt_set_wedged_on_fini(gt);
+>   
+>   	/* Scrub all HW state upon release */
+>   	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+> 
+
