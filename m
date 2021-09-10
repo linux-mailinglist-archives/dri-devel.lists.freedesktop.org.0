@@ -1,96 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92FC240697E
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCB7406988
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:12:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CC70B6E9B5;
-	Fri, 10 Sep 2021 10:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 39FF86E9B3;
+	Fri, 10 Sep 2021 10:12:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2087.outbound.protection.outlook.com [40.107.93.87])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1213D6E9B2;
- Fri, 10 Sep 2021 10:09:47 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j6Bgp9qde1VC2vk1pkOfrDaz1/2Z2pQ8Apq+k3up48O3hp/mny9rn1uZSwJMsNw9qotLy6Y4l6hCO9M/RDimDMWXhzoSeBtFouXY7XLLbv9kDMmahFNATWe/sPSZp/oLin7VPrSa1RHSIE85EFSzqwtC7Bpd3qTrvknAaG5S/eYxf6TamQ5aDSGHcSJ+Qe9g/ePWLXd2VBViqb0O1IiWm+foOoELYs/JSPCL8o0/zqGAgtSICCsgmnd35aFB+n8EcDm8ae4IVuvJ8F6ygEydC/vYFyBpSXZT8I+FtsiJBx/46YuhRCAaYcOO+Buqb6lfwvdI8+M5GI9KDjQHfNxRMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=M/HQZQuM3Bnszs8FFD34x6cpqNzlLEjpzjh2KMOOerk=;
- b=lDsCyuDtySieX7Tx0drrUpvVsLvi+fIOJ90BpMU9XUWXE5XpI1O1TACV0olf4/SekHx0aNI5vwIrGDhH8sc6SfskWjGEhQpcQl4QWSGlSEEmSeE1HUiHLQSS0LnbWxGNYzXNqv2sqonYfyto33GZefyZtA436B2NOblvCfC2jyfJuLh+xzahSjZmr4/wxXCMIdYgW+WhfBVzW2DtgdXlpJ957KTJZ7odvGxQBJkVWeyg3HFw1ZE3s1ao+sLGQckTyJWB0sOcwMiWUHJk36ysH0RBEjRFNGSiNV3kkvyFlyde6Pz2/5iBVfb/iSiJOG3v4wmvozXPbbOPzJJhWM4uRg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M/HQZQuM3Bnszs8FFD34x6cpqNzlLEjpzjh2KMOOerk=;
- b=c0FfoMJAfKYZaXEykul4csc3aovRSKK3InSouGZaYVM+EJvAR1bljVcUspAoUgLR9IgUgtXaK06Jy1c0fJyfkC5rG0r6jPN68F8Lo+c3ZzLfUAcYjAxmZvjHzIPRy+MbQmWbWMOxHMfqLWt/dn9/DuS9tHTxofDxI5IhpVQjWD4=
-Received: from BN0PR07CA0012.namprd07.prod.outlook.com (2603:10b6:408:141::34)
- by MWHPR12MB1918.namprd12.prod.outlook.com (2603:10b6:300:114::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.15; Fri, 10 Sep
- 2021 10:09:42 +0000
-Received: from BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
- (2603:10b6:408:141:cafe::b9) by BN0PR07CA0012.outlook.office365.com
- (2603:10b6:408:141::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend
- Transport; Fri, 10 Sep 2021 10:09:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN8NAM11FT019.mail.protection.outlook.com (10.13.176.158) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4500.14 via Frontend Transport; Fri, 10 Sep 2021 10:09:42 +0000
-Received: from guchchen-System-Product-Name.amd.com (10.180.168.240) by
- SATLEXMB04.amd.com (10.181.40.145) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2308.8; Fri, 10 Sep 2021 05:09:38 -0500
-From: Guchun Chen <guchun.chen@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <christian.koenig@amd.com>, <xinhui.pan@amd.com>, <alexander.deucher@amd.com>
-CC: Guchun Chen <guchun.chen@amd.com>, Leslie Shi <Yuliang.Shi@amd.com>
-Subject: [PATCH] drm/ttm: add a WARN_ON in ttm_set_driver_manager when array
- bounds (v2)
-Date: Fri, 10 Sep 2021 18:09:22 +0800
-Message-ID: <20210910100922.12097-1-guchun.chen@amd.com>
-X-Mailer: git-send-email 2.17.1
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3C12B6E9B3
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:12:28 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 478942B00939;
+ Fri, 10 Sep 2021 06:12:23 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Fri, 10 Sep 2021 06:12:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=/wYkDAweBEVV6XEJJiBjkmdd+f
+ sR/vIPk4SFnyRJIEw=; b=Z61vRn/pjHuIVK0U8iQQc6o02wWjGgSy5Mq7VhkrtG
+ 9KszoGSplOrJbMAi690ob1Z1Rbd6CXaR0bSdSKloPkNc+4MadfECmZcsS+Iyqg9p
+ wNh+rC18qzcHP5JJUUrGVSUzBgTA/SgkNH5ZsIkacsKcfGDwkjzYgyoV/8tFkqYc
+ M9igqVSgwO5qcewjWPkP11YhCGrq81Qao6UmtRA988I+FV2FJkQPbDonbvBulIfF
+ b9LRs4TR/1m8RlY9zO6rhexNIqQanbrnqQ1a2/QOo8SHhVlfM/Ob9Gu/FWnkjmX/
+ MDod8kaA/25VHLY3v4qc94NOZO5nSZ8fXOfFa3rMpSmQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=/wYkDA
+ weBEVV6XEJJiBjkmdd+fsR/vIPk4SFnyRJIEw=; b=Tp3/xf5wSTYdhQexa5+jVb
+ /Xr2459iQLqKuECB5obggKx1lCx+O/eqxynoA7E5Jjt9EQf4op6D3dPnOTs31XVY
+ Yo/g7EK8pytjoO5L5bzIEu+dNFNUCIFwBmbKYGDFibf5n3mNDeL44Cg90xk3d1VN
+ +k08B81vz2EBeUAOZ9SWmb1NXeEZgvmfahmSCQiYzThjnNDtCXCCnJxJYXdqc8qw
+ nqKfTYEi0KIA5VHD1ODoNYop3lWLl6ASkwLXZbIXmiyUGgBBzkTvTCDsE5tBsOp+
+ kPYm2rVnR3nYOudb6qmTPmLegTjDSZEAlbOEr4p1qrTE0ZM7NxmT6f/FVWvUPgYg
+ ==
+X-ME-Sender: <xms:hC87YeY799W2Yyv2QDfsd-tYZ2W7aAkkRgJ5QgiICmhoaGFLPe7g3A>
+ <xme:hC87YRZBEy4-3J19eGLjtu5DbtZkWtCTHA9FPt1k-F-ArpCbHasHT-mt4MxNxKw_s
+ xP-JNhJmFVULw4klEg>
+X-ME-Received: <xmr:hC87YY_SVPYz8G2Oq5uYvcK9Grsw4MzqvssnWrr7G9VVLiypbrN30TPSWoj_tMPqMFbY8HOh5GNqxl3e34MlZzkY4gmdHKAtbIrz>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:hC87YQqNAXq2zy6WSo4ZWBQPuS1MJxeUD0ccg-23d0LOWDB7CWFgMQ>
+ <xmx:hC87YZrN20R_GiKpG2lpYUyI2SSLzPTNOUbV08kGX3K4luyaodfl5g>
+ <xmx:hC87YeSCLWOMLfr75sxnvaLE4mJgFnJ9va92ZH1JnLBg_EMStvoyUQ>
+ <xmx:hi87Yarx_m8WB5_rbYe9o-RAM7XgThkPPtirosv1HQfRudXcuLYL4BCbmKo>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Sep 2021 06:12:19 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Inki Dae <inki.dae@samsung.com>, linux-samsung-soc@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ dri-devel@lists.freedesktop.org, John Stultz <john.stultz@linaro.org>,
+ Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: [PATCH v4 00/24] drm/bridge: Make panel and bridge probe order
+ consistent
+Date: Fri, 10 Sep 2021 12:11:54 +0200
+Message-Id: <20210910101218.1632297-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8d2b57c4-5127-4e30-d5f3-08d974431ba0
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1918:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB191880C2CDA47E94EF92BA88F1D69@MWHPR12MB1918.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1303;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l8new74jwbw8kYJbPXPMIzZxzQANqgV5i6941CGmJbWghOG+24XXo8wHicmElvTVspAoesGaF/Fc/wv7xAqJD6+SxsvRJ/QA2WcmXuRyfKilZ48Kyezl+6R8g8Qd8UQBAFbn0dTKJxJOcmYoYbW+Yf+k7Z4aFrqPKKHr9u46OKtf+sU4mcFZGa/CbPSQIjiZrle71BeLS820jMrQoMO1nC+r4b5gyhiGeh/mrHctE3JdFoX8I8IIOZtR2mdp5eu2D7cukGA/M9BvPlIrkjh8/2Q+3gXFo2BAcBp9sJb/xkNo9ZvA4E8ezqXuxi5JE9XMp3yIafKIOXTUju9HQBkfwrskQl6FOdmlmVT45/eaW2HJzLcxNBDCXmIuLqoeYcjk7UrLwxF8ERgcqCD+0Qc276pUXS+ii1u0vPoYpjgRDiO5O2JjJ0fL+HBBddD1yNUTJupQjmr3oTaagwoisSjGdr7UwqJ4iBLLRhtr9hkkWxf5J7c9KLQy3PhsE8po+nPExft1WLeomkiYgXTLtnl+52F8v8Zw3szqd6d1u7cp6e1Ei9M7PeV6reRNZu6YIEklS5QXV7iziaT4+RK/7oN3JUnr3oP/lpKt3hVIfWfTU2S9zF8qVnQ2hTWOrw4cHJzVx2F9nDH/cClX1iJMHRWmCdICClA58GQCFLbO9uKihXrCBdF3ZBV3+pv7oZDiDaVXOrs73rFyeYx5ywY8zJpXxtXFdFh8B4zQ2behciMg3Dk=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(46966006)(36840700001)(336012)(81166007)(36860700001)(36756003)(6636002)(5660300002)(44832011)(7696005)(426003)(186003)(16526019)(82310400003)(26005)(86362001)(4326008)(4744005)(47076005)(110136005)(2906002)(508600001)(54906003)(316002)(2616005)(450100002)(8676002)(8936002)(70586007)(6666004)(1076003)(70206006)(356005)(36900700001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 10:09:42.4372 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d2b57c4-5127-4e30-d5f3-08d974431ba0
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT019.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1918
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,31 +100,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Vendor will define their own memory types on top of TTM_PL_PRIV,
-but call ttm_set_driver_manager directly without checking mem_type
-value when setting up memory manager. So add such check to aware
-the case when array bounds.
-
-v2: lower check level to WARN_ON
-
-Signed-off-by: Leslie Shi <Yuliang.Shi@amd.com>
-Signed-off-by: Guchun Chen <guchun.chen@amd.com>
----
- include/drm/ttm/ttm_device.h | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-index 07d722950d5b..aa79953c807c 100644
---- a/include/drm/ttm/ttm_device.h
-+++ b/include/drm/ttm/ttm_device.h
-@@ -291,6 +291,7 @@ ttm_manager_type(struct ttm_device *bdev, int mem_type)
- static inline void ttm_set_driver_manager(struct ttm_device *bdev, int type,
- 					  struct ttm_resource_manager *manager)
- {
-+	WARN_ON(type >= TTM_NUM_MEM_TYPES);
- 	bdev->man_drv[type] = manager;
- }
- 
--- 
-2.17.1
-
+Hi,=0D
+=0D
+We've encountered an issue with the RaspberryPi DSI panel that prevented th=
+e=0D
+whole display driver from probing.=0D
+=0D
+The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:=
+=0D
+Only register our component once a DSI device is attached"), but the basic =
+idea=0D
+is that since the panel is probed through i2c, there's no synchronization=0D
+between its probe and the registration of the MIPI-DSI host it's attached t=
+o.=0D
+=0D
+We initially moved the component framework registration to the MIPI-DSI Hos=
+t=0D
+attach hook to make sure we register our component only when we have a DSI=
+=0D
+device attached to our MIPI-DSI host, and then use lookup our DSI device in=
+ our=0D
+bind hook.=0D
+=0D
+However, all the DSI bridges controlled through i2c are only registering th=
+eir=0D
+associated DSI device in their bridge attach hook, meaning with our change=
+=0D
+above, we never got that far, and therefore ended up in the same situation =
+than=0D
+the one we were trying to fix for panels.=0D
+=0D
+The best practice to avoid those issues is to register its functions only a=
+fter=0D
+all its dependencies are live. We also shouldn't wait any longer than we sh=
+ould=0D
+to play nice with the other components that are waiting for us, so in our c=
+ase=0D
+that would mean moving the DSI device registration to the bridge probe.=0D
+=0D
+I also had a look at all the DSI hosts, and it seems that exynos, kirin and=
+ msm=0D
+would be affected by this and wouldn't probe anymore after those changes.=0D
+Exynos and kirin seems to be simple enough for a mechanical change (that st=
+ill=0D
+requires to be tested), but the changes in msm seemed to be far more import=
+ant=0D
+and I wasn't confortable doing them.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+---=0D
+=0D
+Changes from v3:=0D
+  - Converted exynos and kirin=0D
+  - Converted all the affected bridge drivers=0D
+  - Reworded the documentation a bit=0D
+=0D
+Changes from v2:=0D
+  - Changed the approach as suggested by Andrzej, and aligned the bridge on=
+ the=0D
+    panel this time.=0D
+  - Fixed some typos=0D
+=0D
+Changes from v1:=0D
+  - Change the name of drm_of_get_next function to drm_of_get_bridge=0D
+  - Mention the revert of 87154ff86bf6 and squash the two patches that were=
+=0D
+    reverting that commit=0D
+  - Add some documentation=0D
+  - Make drm_panel_attach and _detach succeed when no callback is there=0D
+=0D
+Maxime Ripard (24):=0D
+  drm/bridge: Add documentation sections=0D
+  drm/bridge: Document the probe issue with MIPI-DSI bridges=0D
+  drm/mipi-dsi: Create devm device registration=0D
+  drm/mipi-dsi: Create devm device attachment=0D
+  drm/bridge: adv7533: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: adv7511: Register and attach our DSI device at probe=0D
+  drm/bridge: anx7625: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: anx7625: Register and attach our DSI device at probe=0D
+  drm/bridge: lt8912b: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt8912b: Register and attach our DSI device at probe=0D
+  drm/bridge: lt9611: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt9611: Register and attach our DSI device at probe=0D
+  drm/bridge: lt9611uxc: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: lt9611uxc: Register and attach our DSI device at probe=0D
+  drm/bridge: ps8640: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: ps8640: Register and attach our DSI device at probe=0D
+  drm/bridge: sn65dsi83: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: sn65dsi83: Register and attach our DSI device at probe=0D
+  drm/bridge: sn65dsi86: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: sn65dsi86: Register and attach our DSI device at probe=0D
+  drm/bridge: tc358775: Switch to devm MIPI-DSI helpers=0D
+  drm/bridge: tc358775: Register and attach our DSI device at probe=0D
+  drm/kirin: dsi: Adjust probe order=0D
+  drm/exynos: dsi: Adjust probe order=0D
+=0D
+ Documentation/gpu/drm-kms-helpers.rst        |  12 +++=0D
+ drivers/gpu/drm/bridge/adv7511/adv7511.h     |   1 -=0D
+ drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  15 ++-=0D
+ drivers/gpu/drm/bridge/adv7511/adv7533.c     |  20 +---=0D
+ drivers/gpu/drm/bridge/analogix/anx7625.c    |  40 ++++----=0D
+ drivers/gpu/drm/bridge/lontium-lt8912b.c     |  31 ++----=0D
+ drivers/gpu/drm/bridge/lontium-lt9611.c      |  62 +++++-------=0D
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c   |  65 +++++-------=0D
+ drivers/gpu/drm/bridge/parade-ps8640.c       | 101 ++++++++++---------=0D
+ drivers/gpu/drm/bridge/tc358775.c            |  50 +++++----=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi83.c        |  86 ++++++++--------=0D
+ drivers/gpu/drm/bridge/ti-sn65dsi86.c        |  94 ++++++++---------=0D
+ drivers/gpu/drm/drm_bridge.c                 |  69 ++++++++++++-=0D
+ drivers/gpu/drm/drm_mipi_dsi.c               |  81 +++++++++++++++=0D
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c      |  19 ++--=0D
+ drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c |  27 +++--=0D
+ include/drm/drm_mipi_dsi.h                   |   4 +=0D
+ 17 files changed, 460 insertions(+), 317 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
