@@ -1,42 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27E6640611D
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 02:39:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6E4B40637F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 02:46:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C5336E94F;
-	Fri, 10 Sep 2021 00:39:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FB4F6E94C;
+	Fri, 10 Sep 2021 00:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C8B16E94C;
- Fri, 10 Sep 2021 00:39:13 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="208059975"
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="208059975"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 17:39:12 -0700
-X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="466833178"
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C37C76E94C;
+ Fri, 10 Sep 2021 00:46:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="217789019"
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="217789019"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 17:46:44 -0700
+X-IronPort-AV: E=Sophos;i="5.85,282,1624345200"; d="scan'208";a="504726850"
 Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
  ([10.1.27.20])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 09 Sep 2021 17:39:12 -0700
-Date: Thu, 9 Sep 2021 17:34:11 -0700
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 09 Sep 2021 17:46:43 -0700
+Date: Thu, 9 Sep 2021 17:41:42 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: John Harrison <john.c.harrison@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
-Subject: Re: [Intel-gfx] [PATCH 05/27] drm/i915: Add GT PM unpark worker
-Message-ID: <20210910003411.GA23380@jons-linux-dev-box>
+Subject: Re: [Intel-gfx] [PATCH 06/27] drm/i915/guc: Take engine PM when a
+ context is pinned with GuC submission
+Message-ID: <20210910004142.GA36638@jons-linux-dev-box>
 References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-6-matthew.brost@intel.com>
- <3d07a1aa-811b-2862-40e7-3556ce8588b6@intel.com>
+ <20210820224446.30620-7-matthew.brost@intel.com>
+ <a741a93f-7a23-6188-1455-beff457d6189@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3d07a1aa-811b-2862-40e7-3556ce8588b6@intel.com>
+In-Reply-To: <a741a93f-7a23-6188-1455-beff457d6189@intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,312 +53,215 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09, 2021 at 03:36:44PM -0700, John Harrison wrote:
+On Thu, Sep 09, 2021 at 03:46:43PM -0700, John Harrison wrote:
 > On 8/20/2021 15:44, Matthew Brost wrote:
-> > Sometimes it is desirable to queue work up for later if the GT PM isn't
-> > held and run that work on next GT PM unpark.
-> What is the reason for doing this? Why is it important? Why not just take
-> the GT PM at the time the work is requested?
->
-
-This was suggestion from a long time back, don't take GT PM (waking the
-GPU) if is is idle. I believe Daniele suggested this a couple years ago
-/ we still have this FIXME comment in DII.
- 
-> > 
-> > Implemented with a list in the GT of all pending work, workqueues in
-> > the list, a callback to add a workqueue to the list, and finally a
-> > wakeref post_get callback that iterates / drains the list + queues the
-> > workqueues.
-> > 
-> > First user of this is deregistration of GuC contexts.
-> This statement should be in the first paragraph but needs to be more
-> detailed - why is it necessary to add all this extra complexity rather than
-> just taking the GT PM?
+> > Taking a PM reference to prevent intel_gt_wait_for_idle from short
+> > circuiting while a scheduling of user context could be enabled.
+> As with earlier PM patch, needs more explanation of what the problem is and
+> why it is only now a problem.
 > 
->
+> 
 
-This is just an optimization - don't take the GT PM when deregistering a
-context if the GT is idle. If you think it is too complex we can can
-delete this but IMO it really isn't any more complex than the previous
-patch as either way we need a list + worker. Also once we have this
-framework in place we might be able to find other users of this.
- 
+Same explaination, will add here.
+
+> > 
+> > v2:
+> >   (Daniel Vetter)
+> >    - Add might_lock annotations to pin / unpin function
 > > 
 > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 > > ---
-> >   drivers/gpu/drm/i915/Makefile                 |  1 +
-> >   drivers/gpu/drm/i915/gt/intel_gt.c            |  3 ++
-> >   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  8 ++++
-> >   .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.c | 35 ++++++++++++++++
-> >   .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.h | 40 +++++++++++++++++++
-> >   drivers/gpu/drm/i915/gt/intel_gt_types.h      | 10 +++++
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  8 ++--
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 +++++--
-> >   drivers/gpu/drm/i915/intel_wakeref.c          |  5 +++
-> >   drivers/gpu/drm/i915/intel_wakeref.h          |  1 +
-> >   10 files changed, 119 insertions(+), 7 deletions(-)
-> >   create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
-> >   create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
+> >   drivers/gpu/drm/i915/gt/intel_context.c       |  3 ++
+> >   drivers/gpu/drm/i915/gt/intel_engine_pm.h     | 15 ++++++++
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 10 ++++++
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++--
+> >   drivers/gpu/drm/i915/intel_wakeref.h          | 12 +++++++
+> >   5 files changed, 73 insertions(+), 3 deletions(-)
 > > 
-> > diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> > index 642a5b5a1b81..579bdc069f25 100644
-> > --- a/drivers/gpu/drm/i915/Makefile
-> > +++ b/drivers/gpu/drm/i915/Makefile
-> > @@ -103,6 +103,7 @@ gt-y += \
-> >   	gt/intel_gt_clock_utils.o \
-> >   	gt/intel_gt_irq.o \
-> >   	gt/intel_gt_pm.o \
-> > +	gt/intel_gt_pm_unpark_work.o \
-> >   	gt/intel_gt_pm_irq.o \
-> >   	gt/intel_gt_requests.o \
-> >   	gt/intel_gtt.o \
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > index 62d40c986642..7e690e74baa2 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> > @@ -29,6 +29,9 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
-> >   	spin_lock_init(&gt->irq_lock);
-> > +	spin_lock_init(&gt->pm_unpark_work_lock);
-> > +	INIT_LIST_HEAD(&gt->pm_unpark_work_list);
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > index c8595da64ad8..508cfe5770c0 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > @@ -240,6 +240,8 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
+> >   	if (err)
+> >   		goto err_post_unpin;
+> > +	intel_engine_pm_might_get(ce->engine);
 > > +
-> >   	INIT_LIST_HEAD(&gt->closed_vma);
-> >   	spin_lock_init(&gt->closed_lock);
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > index dea8e2479897..564c11a3748b 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> > @@ -90,6 +90,13 @@ static int __gt_unpark(struct intel_wakeref *wf)
-> >   	return 0;
-> >   }
-> > +static void __gt_unpark_work_queue(struct intel_wakeref *wf)
-> > +{
-> > +	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
-> > +
-> > +	intel_gt_pm_unpark_work_queue(gt);
-> > +}
-> > +
-> >   static int __gt_park(struct intel_wakeref *wf)
-> >   {
-> >   	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
-> > @@ -118,6 +125,7 @@ static int __gt_park(struct intel_wakeref *wf)
-> >   static const struct intel_wakeref_ops wf_ops = {
-> >   	.get = __gt_unpark,
-> > +	.post_get = __gt_unpark_work_queue,
-> >   	.put = __gt_park,
-> >   };
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
-> > new file mode 100644
-> > index 000000000000..23162dbd0c35
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
-> > @@ -0,0 +1,35 @@
-> > +// SPDX-License-Identifier: MIT
-> > +/*
-> > + * Copyright © 2021 Intel Corporation
-> > + */
-> > +
-> > +#include "i915_drv.h"
-> > +#include "intel_runtime_pm.h"
+> >   	if (unlikely(intel_context_is_closed(ce))) {
+> >   		err = -ENOENT;
+> >   		goto err_unlock;
+> > @@ -313,6 +315,7 @@ void __intel_context_do_unpin(struct intel_context *ce, int sub)
+> >   		return;
+> >   	CE_TRACE(ce, "unpin\n");
+> > +	intel_engine_pm_might_put(ce->engine);
+> >   	ce->ops->unpin(ce);
+> >   	ce->ops->post_unpin(ce);
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > index 17a5028ea177..3fe2ae1bcc26 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > @@ -9,6 +9,7 @@
+> >   #include "i915_request.h"
+> >   #include "intel_engine_types.h"
+> >   #include "intel_wakeref.h"
 > > +#include "intel_gt_pm.h"
-> > +
-> > +void intel_gt_pm_unpark_work_queue(struct intel_gt *gt)
+> >   static inline bool
+> >   intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
+> > @@ -31,6 +32,13 @@ static inline bool intel_engine_pm_get_if_awake(struct intel_engine_cs *engine)
+> >   	return intel_wakeref_get_if_active(&engine->wakeref);
+> >   }
+> > +static inline void intel_engine_pm_might_get(struct intel_engine_cs *engine)
 > > +{
-> > +	struct intel_gt_pm_unpark_work *work, *next;
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&gt->pm_unpark_work_lock, flags);
-> > +	list_for_each_entry_safe(work, next,
-> > +				 &gt->pm_unpark_work_list, link) {
-> > +		list_del_init(&work->link);
-> > +		queue_work(system_unbound_wq, &work->worker);
-> > +	}
-> > +	spin_unlock_irqrestore(&gt->pm_unpark_work_lock, flags);
-> > +}
-> > +
-> > +void intel_gt_pm_unpark_work_add(struct intel_gt *gt,
-> > +				 struct intel_gt_pm_unpark_work *work)
-> > +{
-> > +	unsigned long flags;
-> > +
-> > +	spin_lock_irqsave(&gt->pm_unpark_work_lock, flags);
-> > +	if (intel_gt_pm_is_awake(gt))
-> > +		queue_work(system_unbound_wq, &work->worker);
-> > +	else if (list_empty(&work->link))
-> > +		list_add_tail(&work->link, &gt->pm_unpark_work_list);
-> > +	spin_unlock_irqrestore(&gt->pm_unpark_work_lock, flags);
-> > +}
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
-> > new file mode 100644
-> > index 000000000000..eaf1dc313aa2
-> > --- /dev/null
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
-> > @@ -0,0 +1,40 @@
-> > +/* SPDX-License-Identifier: MIT */
-> > +/*
-> > + * Copyright © 2021 Intel Corporation
-> > + */
-> > +
-> > +#ifndef INTEL_GT_PM_UNPARK_WORK_H
-> > +#define INTEL_GT_PM_UNPARK_WORK_H
-> > +
-> > +#include <linux/list.h>
-> > +#include <linux/workqueue.h>
-> > +
-> > +struct intel_gt;
-> > +
-> > +/**
-> > + * struct intel_gt_pm_unpark_work - work to be scheduled when GT unparked
-> > + */
-> > +struct intel_gt_pm_unpark_work {
-> > +	/**
-> > +	 * @link: link into gt->pm_unpark_work_list of workers that need to be
-> > +	 * scheduled when GT is unpark, protected by gt->pm_unpark_work_lock
-> > +	 */
-> > +	struct list_head link;
-> > +	/** @worker: will be scheduled when GT unparked */
-> > +	struct work_struct worker;
-> > +};
-> > +
-> > +void intel_gt_pm_unpark_work_queue(struct intel_gt *gt);
-> > +
-> > +void intel_gt_pm_unpark_work_add(struct intel_gt *gt,
-> > +				 struct intel_gt_pm_unpark_work *work);
-> > +
-> > +static inline void
-> > +intel_gt_pm_unpark_work_init(struct intel_gt_pm_unpark_work *work,
-> > +			     work_func_t fn)
-> > +{
-> > +	INIT_LIST_HEAD(&work->link);
-> > +	INIT_WORK(&work->worker, fn);
-> > +}
-> > +
-> > +#endif /* INTEL_GT_PM_UNPARK_WORK_H */
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > index a81e21bf1bd1..4480312f0add 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> > @@ -96,6 +96,16 @@ struct intel_gt {
-> >   	struct intel_wakeref wakeref;
-> >   	atomic_t user_wakeref;
-> > +	/**
-> > +	 * @pm_unpark_work_list: list of delayed work to scheduled which GT is
-> > +	 * unparked, protected by pm_unpark_work_lock
-> > +	 */
-> > +	struct list_head pm_unpark_work_list;
-> > +	/**
-> > +	 * @pm_unpark_work_lock: protects pm_unpark_work_list
-> > +	 */
-> > +	spinlock_t pm_unpark_work_lock;
-> > +
-> >   	struct list_head closed_vma;
-> >   	spinlock_t closed_lock; /* guards the list of closed_vma */
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index 7358883f1540..023953e77553 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -19,6 +19,7 @@
-> >   #include "intel_uc_fw.h"
-> >   #include "i915_utils.h"
-> >   #include "i915_vma.h"
-> > +#include "gt/intel_gt_pm_unpark_work.h"
-> >   struct __guc_ads_blob;
-> > @@ -78,11 +79,12 @@ struct intel_guc {
-> >   		 */
-> >   		struct list_head destroyed_contexts;
-> >   		/**
-> > -		 * @destroyed_worker: worker to deregister contexts, need as we
-> > +		 * @destroyed_worker: Worker to deregister contexts, need as we
-> >   		 * need to take a GT PM reference and can't from destroy
-> > -		 * function as it might be in an atomic context (no sleeping)
-> > +		 * function as it might be in an atomic context (no sleeping).
-> These corrections should be squashed into the previous patch that added
-> these comments in the first place.
+> > +	if (!intel_engine_is_virtual(engine))
+> > +		intel_wakeref_might_get(&engine->wakeref);
+> Why doesn't this need to iterate through the physical engines of the virtual
+> engine?
 > 
 
-Yep.
+Yea, technically it should. This is just an annotation though to check
+if we do something horribly wrong in our code. If we use any physical
+engine in our stack this annotation should pop and we can fix it. I just
+don't see what making this 100% correct for virtual engines buys us. If
+you want I can fix this but thinking the more complex we make this
+annotation the less likely it just gets compiled out with lockdep off
+which is what we are aiming for.
 
 Matt
 
 > John.
 > 
-> 
-> > +		 * Worker only issues deregister when GT is unparked.
-> >   		 */
-> > -		struct work_struct destroyed_worker;
-> > +		struct intel_gt_pm_unpark_work destroyed_worker;
-> >   	} submission_state;
-> >   	bool submission_supported;
+> > +	intel_gt_pm_might_get(engine->gt);
+> > +}
+> > +
+> >   static inline void intel_engine_pm_put(struct intel_engine_cs *engine)
+> >   {
+> >   	intel_wakeref_put(&engine->wakeref);
+> > @@ -52,6 +60,13 @@ static inline void intel_engine_pm_flush(struct intel_engine_cs *engine)
+> >   	intel_wakeref_unlock_wait(&engine->wakeref);
+> >   }
+> > +static inline void intel_engine_pm_might_put(struct intel_engine_cs *engine)
+> > +{
+> > +	if (!intel_engine_is_virtual(engine))
+> > +		intel_wakeref_might_put(&engine->wakeref);
+> > +	intel_gt_pm_might_put(engine->gt);
+> > +}
+> > +
+> >   static inline struct i915_request *
+> >   intel_engine_create_kernel_request(struct intel_engine_cs *engine)
+> >   {
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > index a17bf0d4592b..3c173033ce23 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > @@ -31,6 +31,11 @@ static inline bool intel_gt_pm_get_if_awake(struct intel_gt *gt)
+> >   	return intel_wakeref_get_if_active(&gt->wakeref);
+> >   }
+> > +static inline void intel_gt_pm_might_get(struct intel_gt *gt)
+> > +{
+> > +	intel_wakeref_might_get(&gt->wakeref);
+> > +}
+> > +
+> >   static inline void intel_gt_pm_put(struct intel_gt *gt)
+> >   {
+> >   	intel_wakeref_put(&gt->wakeref);
+> > @@ -41,6 +46,11 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
+> >   	intel_wakeref_put_async(&gt->wakeref);
+> >   }
+> > +static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+> > +{
+> > +	intel_wakeref_might_put(&gt->wakeref);
+> > +}
+> > +
+> >   #define with_intel_gt_pm(gt, tmp) \
+> >   	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+> >   	     intel_gt_pm_put(gt), tmp = 0)
 > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index f835e06e5f9f..dbf919801de2 100644
+> > index dbf919801de2..e0eed70f9b92 100644
 > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -1135,7 +1135,8 @@ int intel_guc_submission_init(struct intel_guc *guc)
-> >   	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
-> >   	ida_init(&guc->submission_state.guc_ids);
-> >   	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-> > -	INIT_WORK(&guc->submission_state.destroyed_worker, destroyed_worker_func);
-> > +	intel_gt_pm_unpark_work_init(&guc->submission_state.destroyed_worker,
-> > +				     destroyed_worker_func);
-> >   	return 0;
-> >   }
-> > @@ -1942,13 +1943,18 @@ static void deregister_destroyed_contexts(struct intel_guc *guc)
-> >   static void destroyed_worker_func(struct work_struct *w)
+> > @@ -1550,7 +1550,12 @@ static int guc_context_pre_pin(struct intel_context *ce,
+> >   static int guc_context_pin(struct intel_context *ce, void *vaddr)
 > >   {
-> > -	struct intel_guc *guc = container_of(w, struct intel_guc,
-> > +	struct intel_gt_pm_unpark_work *destroyed_worker =
-> > +		container_of(w, struct intel_gt_pm_unpark_work, worker);
-> > +	struct intel_guc *guc = container_of(destroyed_worker, struct intel_guc,
-> >   					     submission_state.destroyed_worker);
-> >   	struct intel_gt *gt = guc_to_gt(guc);
-> >   	int tmp;
-> > -	with_intel_gt_pm(gt, tmp)
-> > +	with_intel_gt_pm_if_awake(gt, tmp)
-> >   		deregister_destroyed_contexts(guc);
+> > -	return __guc_context_pin(ce, ce->engine, vaddr);
+> > +	int ret = __guc_context_pin(ce, ce->engine, vaddr);
 > > +
-> > +	if (!list_empty(&guc->submission_state.destroyed_contexts))
-> > +		intel_gt_pm_unpark_work_add(gt, destroyed_worker);
+> > +	if (likely(!ret && !intel_context_is_barrier(ce)))
+> > +		intel_engine_pm_get(ce->engine);
+> > +
+> > +	return ret;
 > >   }
-> >   static void guc_context_destroy(struct kref *kref)
-> > @@ -1985,7 +1991,8 @@ static void guc_context_destroy(struct kref *kref)
-> >   	 * take the GT PM for the first time which isn't allowed from an atomic
-> >   	 * context.
-> >   	 */
-> > -	queue_work(system_unbound_wq, &guc->submission_state.destroyed_worker);
-> > +	intel_gt_pm_unpark_work_add(guc_to_gt(guc),
-> > +				    &guc->submission_state.destroyed_worker);
+> >   static void guc_context_unpin(struct intel_context *ce)
+> > @@ -1559,6 +1564,9 @@ static void guc_context_unpin(struct intel_context *ce)
+> >   	unpin_guc_id(guc, ce);
+> >   	lrc_unpin(ce);
+> > +
+> > +	if (likely(!intel_context_is_barrier(ce)))
+> > +		intel_engine_pm_put_async(ce->engine);
 > >   }
-> >   static int guc_context_alloc(struct intel_context *ce)
-> > diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
-> > index dfd87d082218..282fc4f312e3 100644
-> > --- a/drivers/gpu/drm/i915/intel_wakeref.c
-> > +++ b/drivers/gpu/drm/i915/intel_wakeref.c
-> > @@ -24,6 +24,8 @@ static void rpm_put(struct intel_wakeref *wf)
-> >   int __intel_wakeref_get_first(struct intel_wakeref *wf)
+> >   static void guc_context_post_unpin(struct intel_context *ce)
+> > @@ -2328,8 +2336,30 @@ static int guc_virtual_context_pre_pin(struct intel_context *ce,
+> >   static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
 > >   {
-> > +	bool do_post = false;
+> >   	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
+> > +	int ret = __guc_context_pin(ce, engine, vaddr);
+> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
 > > +
-> >   	/*
-> >   	 * Treat get/put as different subclasses, as we may need to run
-> >   	 * the put callback from under the shrinker and do not want to
-> > @@ -44,8 +46,11 @@ int __intel_wakeref_get_first(struct intel_wakeref *wf)
-> >   		}
-> >   		smp_mb__before_atomic(); /* release wf->count */
-> > +		do_post = true;
-> >   	}
-> >   	atomic_inc(&wf->count);
-> > +	if (do_post && wf->ops->post_get)
-> > +		wf->ops->post_get(wf);
-> >   	mutex_unlock(&wf->mutex);
-> >   	INTEL_WAKEREF_BUG_ON(atomic_read(&wf->count) <= 0);
+> > +	if (likely(!ret))
+> > +		for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> > +			intel_engine_pm_get(engine);
+> > -	return __guc_context_pin(ce, engine, vaddr);
+> > +	return ret;
+> > +}
+> > +
+> > +static void guc_virtual_context_unpin(struct intel_context *ce)
+> > +{
+> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
+> > +	struct intel_engine_cs *engine;
+> > +	struct intel_guc *guc = ce_to_guc(ce);
+> > +
+> > +	GEM_BUG_ON(context_enabled(ce));
+> > +	GEM_BUG_ON(intel_context_is_barrier(ce));
+> > +
+> > +	unpin_guc_id(guc, ce);
+> > +	lrc_unpin(ce);
+> > +
+> > +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> > +		intel_engine_pm_put_async(engine);
+> >   }
+> >   static void guc_virtual_context_enter(struct intel_context *ce)
+> > @@ -2366,7 +2396,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
+> >   	.pre_pin = guc_virtual_context_pre_pin,
+> >   	.pin = guc_virtual_context_pin,
+> > -	.unpin = guc_context_unpin,
+> > +	.unpin = guc_virtual_context_unpin,
+> >   	.post_unpin = guc_context_post_unpin,
+> >   	.ban = guc_context_ban,
 > > diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
-> > index 545c8f277c46..ef7e6a698e8a 100644
+> > index ef7e6a698e8a..dd530ae028e0 100644
 > > --- a/drivers/gpu/drm/i915/intel_wakeref.h
 > > +++ b/drivers/gpu/drm/i915/intel_wakeref.h
-> > @@ -30,6 +30,7 @@ typedef depot_stack_handle_t intel_wakeref_t;
-> >   struct intel_wakeref_ops {
-> >   	int (*get)(struct intel_wakeref *wf);
-> > +	void (*post_get)(struct intel_wakeref *wf);
-> >   	int (*put)(struct intel_wakeref *wf);
+> > @@ -124,6 +124,12 @@ enum {
+> >   	__INTEL_WAKEREF_PUT_LAST_BIT__
 > >   };
+> > +static inline void
+> > +intel_wakeref_might_get(struct intel_wakeref *wf)
+> > +{
+> > +	might_lock(&wf->mutex);
+> > +}
+> > +
+> >   /**
+> >    * intel_wakeref_put_flags: Release the wakeref
+> >    * @wf: the wakeref
+> > @@ -171,6 +177,12 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
+> >   			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
+> >   }
+> > +static inline void
+> > +intel_wakeref_might_put(struct intel_wakeref *wf)
+> > +{
+> > +	might_lock(&wf->mutex);
+> > +}
+> > +
+> >   /**
+> >    * intel_wakeref_lock: Lock the wakeref (mutex)
+> >    * @wf: the wakeref
 > 
