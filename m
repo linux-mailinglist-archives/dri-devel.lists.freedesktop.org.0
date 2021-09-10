@@ -2,124 +2,151 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29D31406743
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 08:36:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2684067AE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 09:30:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37CE86E97A;
-	Fri, 10 Sep 2021 06:36:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70FBB6E97F;
+	Fri, 10 Sep 2021 07:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2060.outbound.protection.outlook.com [40.107.93.60])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB7B56E976;
- Fri, 10 Sep 2021 06:36:53 +0000 (UTC)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1895C6E97F
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 07:30:18 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18A5RBDC013688; 
+ Fri, 10 Sep 2021 07:30:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=ZDREntCrS84JL3Tt9UwTvYnGZCQzC2gcnV2KKjxRVto=;
+ b=ETyX195N6zuz2W+aTWWJ9mQdyJGCex0NFx8HFpOSOY4ssoflhmJz10KQNnDLgYugkZdk
+ ywSNwXaOxtQkcDWruC9WSgWl+xfcGRVVSowmvMd5ONPXwnOzQR+ikjmCaPx6lyjZRX0Z
+ O5+kjGQxtWbtnQ6IvuImry8hYc8Hpz8T1VgXy39KjFOO/dS6UJSVG/Xm4ZFmiuQMzjFP
+ rWd2HmgZ8Ue+aUo/fga0iiqLMBIH3b1PLpL18osAh4oH/1/Im2AOPAp44lZPcUc/7P+c
+ wBgQ6BM5x16K5Nxk4KKcomMOf/NzNZHPjI2fYVOTOGYz8ysWv6V2x2Ry6Cd2UCFtsUF/ Nw== 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2020-01-29;
+ bh=ZDREntCrS84JL3Tt9UwTvYnGZCQzC2gcnV2KKjxRVto=;
+ b=yARbjBQ/crvPmFuJ8zOl29Ok1pLB5DNtGmLjpjArK/GRpufZoGW2tT88OW47XWjYHdMi
+ FzBlvz36NF07KZrGbBZjin605M3KbXFL1e+YgbAM+OaMw57VSYUxFwDWgv0MLUzUseAZ
+ f9pzNSbNPTikadnOsFzljWHCDlKpgbcXgVsncyHq5TygK2cR5Nx5h+8/hlVUeMmLq73m
+ XHwf6/tDdBrV0ZmI2miGMsGNZkxiTIi5IcTC2/ZMzzclp5kD6ODTZL3G9s24i1jpLbVx
+ K3V3meNpbp0nGB0ZQu7DwoPJE2VmbFO4PF9eMI6QPzBOzr4ZtNWsJg3/vJ8PzKqkc4wJ iQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3ayty48yt6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Sep 2021 07:30:17 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 18A7QKUR146042;
+ Fri, 10 Sep 2021 07:30:16 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
+ by aserp3030.oracle.com with ESMTP id 3aytge8gaf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 10 Sep 2021 07:30:16 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lMv8i6k7Ku0kkLiFGX25SUI2DzNbGy2ZqGPGOhg2h384BGAKAhOs7EhYndH2IWJ5h3A8cHQoposSjQGRKY/RJjV7yQNV5RW+D1F7j0Z1J0mkcIGoeDLCS3ZOeZW7Pp5sjTjn1HQaLlFeM/AM2DUoWo/WeRqlZ4IcAd0tNti5mD+sc512skSJEzFjcTU6Y9zvLjmuTRqSnuOgpdMwXm+3+TE686bjo2iR/nc0CxmoSasxFdnuQ3aVyUkgsfCnTAJ1B6jmyKO1r3PvWPjx08C4/90f/4dJSEsAxCwpVWI4cuPM/+mOrcrxdMe2pihnQ0rT5Q5qVRNHfyIIfv9j5jQhuw==
+ b=OB3Ox0eix6xfK3zk1H2RqFOBKAyq6ORptRjpg555XtwFJf6zjiGni6Fdm/rKBQ6ATGgD5Ic+/+1TNWjZttjAjoAUXxZ+G3Zgs36Zg7Nh1+OYfLjqSHidR5CXeYpttHMvaICavjHta9AJf2X9zyWyTawkaysIdiViHA3e4W6qp7dk83J8c16x9oYRg5zqmiBNz+eshvYPCngkC0xO2OVVm0XZG7chFE9IczCWagZqv7XNn+hpQaYq2ETReBGf3pHOnmICTy8RWksUjWZ/DkiOst1bo6WdidnE/SSS274vv2qY9x8HUk0YZ+cqw7asnG2CW8peDuEBKKlYvTXjmAbczA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=ZB5MhS/2JXRZ+vzCSaM/yVkm9fX00ubq8QQY4PcerS0=;
- b=XOSTWsvScMab7sL9S9CykcEZseXqZW4FJmE62foY5oBOsP2BmIBYjabMeKp/vvVPberlHRM2FkiS/mUdQByw2cH7d9ryfwURhRfaZ1oULubTNOQf4AFYTb1UEfMtyaCQ0V/nZ1S5wK5G9fP5DZrrhpoQat1wywwCHimWuEKlvBepzDt1gC3haAj/DL0Ry6kMtSAYY7z44ID84tlE6utrgSqy6hW8eh8vISSy7x7GiErYA37WYTGzJN6KX8HTz72ednycVyKLKih2Q+sEr+pY04sVO14uEvDq+uCIzrGrduJX9UPz13iKQberqb1NYycC8H1HnKZhW5fs0G9nWDWBKg==
+ bh=ZDREntCrS84JL3Tt9UwTvYnGZCQzC2gcnV2KKjxRVto=;
+ b=AZBdTWmS2QdgOVU/GJvH8yM/3elJV/W9FXtaonw63cZL/Bq540N5aizIrKdNf+EEPls0GIUU3cHvW4rGnfZ5Qry43HRzE9w7fc1kep9yBlkiORjq69YSOhZU8mkF8TnXzPZkPSz6ios8pymzetocdyPoFu3q+hEv9lmHbn6GkkyG5LcVrtgHMm4cPFJ+D0T66vAyl3SnoIb0EjzrmXWcj9jcBtUrxf9lKIh7R/Y8zBb3U1phpstRBWx2mm4QJ7+AKMy7PwLLCT6EFt8OOd2nawxwzginh1xO2Oja0If+pBmnHkr9KGgPDYoCrlb/QkVyDCHhuO7EOj34wWFl/zLY/g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZB5MhS/2JXRZ+vzCSaM/yVkm9fX00ubq8QQY4PcerS0=;
- b=W9xRl9BmeadnvmihwUKn1TxUAxCbCqw+wpMdeeWu/TYMowEWeFGLv3o2M0wn/nn5kA9svResxT+audezWtBWb4NXFMggqk1s6A9e49F3a43RHcthG3mMl87ZdCSg0egyvcOXJWGDpNyEkk/TrqLWzlwsvqjh9WX2v2Vm8OsIxV4=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2484.namprd12.prod.outlook.com (2603:10b6:207:4e::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Fri, 10 Sep
- 2021 06:36:50 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4500.015; Fri, 10 Sep 2021
- 06:36:50 +0000
-Subject: Re: [PATCH] drm/ttm: add a BUG_ON in ttm_set_driver_manager when
- array bounds
-To: "Pan, Xinhui" <Xinhui.Pan@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "Chen, Guchun" <Guchun.Chen@amd.com>
-Cc: "Shi, Leslie" <Yuliang.Shi@amd.com>
-References: <20210910043014.529-1-guchun.chen@amd.com>
- <DM4PR12MB5165EC993C7CF4413D52925E87D69@DM4PR12MB5165.namprd12.prod.outlook.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <b065dd8d-5914-883e-b51d-8a718dae534f@amd.com>
-Date: Fri, 10 Sep 2021 08:36:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
-In-Reply-To: <DM4PR12MB5165EC993C7CF4413D52925E87D69@DM4PR12MB5165.namprd12.prod.outlook.com>
-Content-Type: multipart/alternative;
- boundary="------------EF7F06416C9E2F57D5325C60"
-Content-Language: en-US
-X-ClientProxiedBy: AM8P190CA0003.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:20b:219::8) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ bh=ZDREntCrS84JL3Tt9UwTvYnGZCQzC2gcnV2KKjxRVto=;
+ b=NsSoJhWBYP4lbx/0f+Vg49XTaqBZvPIbvHtoggC56VVVPbraSJiLRfjoFoVswShPgB/523XRb8e0Bx7A508kfQo3vrK1zQzZ8MS3fkkhw7w1ZkEfTDJlM6KylzBpIrBqFMMp/c/oCFlAJv2uBUv4cWtJQEixgv4OQS77RfPDkOk=
+Authentication-Results: vmware.com; dkim=none (message not signed)
+ header.d=none;vmware.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR10MB1952.namprd10.prod.outlook.com
+ (2603:10b6:300:10f::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Fri, 10 Sep
+ 2021 07:30:15 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::5820:e42b:73d7:4268%7]) with mapi id 15.20.4500.017; Fri, 10 Sep 2021
+ 07:30:15 +0000
+Date: Fri, 10 Sep 2021 10:30:14 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: thellstrom@vmware.com
+Cc: dri-devel@lists.freedesktop.org
+Subject: [bug report] vmwgfx: Implement fence objects
+Message-ID: <20210910073014.GA32250@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: AM0PR06CA0093.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::34) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-Received: from [192.168.178.21] (91.14.161.181) by
- AM8P190CA0003.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::8) with Microsoft
+Received: from kili (2a02:6900:8208:1848::11d1) by
+ AM0PR06CA0093.eurprd06.prod.outlook.com (2603:10a6:208:fa::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4500.15 via Frontend Transport; Fri, 10 Sep 2021 06:36:48 +0000
+ 15.20.4500.14 via Frontend Transport; Fri, 10 Sep 2021 07:30:12 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b971e0c7-46d3-47b9-110d-08d974255e95
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2484:
+X-MS-Office365-Filtering-Correlation-Id: 934973c7-728e-4ddd-365c-08d9742cd4f8
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1952:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB248438A2C7DB49685015C18683D69@BL0PR12MB2484.namprd12.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <MWHPR10MB19528413694D053FBBEF5DDB8ED69@MWHPR10MB1952.namprd10.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zqJ6650XqxlgcY/BQCX8TRtf29f6M8ifg+rmVqJ0tEIhRdnNKfroGJjQY1H6NQe6bBPlJ4pubZcFP6c2pnVZDmvOL+gFp4g0sfZOD7Z+CMj53ZmkCxkJ+cvevnqztHaZt1Szzibyd5vr5eKEcV1CEauExX82XdhY+F1nzUWI4OZmhYgKWBg5+ADfYiwWO/gvYYuVsnzlhP0cHwndrWYmZfQD7hRVlcmq3az/3AW47CyXxSrtKBQt4K5qS1wfVbpqWu2A689FQCzVXwX1yfjfVZe2F2pRCJE3dlIWoog9IukgrBe2koM1zcnF/kSppGT5/UN4efoxEJ3uyvodw4XHwZ9UAbIopraUA4wD5xzIMPfkNa5PXPeD34XdhUJBfM3Hs6SyqUErQxprhB3C3uJI521w+Zp7+RNFxwYxAnrec+zqmyktP3QeqZ4JxRDI8VhWK5ozhQx6xq4bN7VStpf7KCm7is3lTEbWwDUvFR7+RednVnRsZ+z3QYLL+5irGyLsbD8qP/m6kq8CfMzw6tLubeIrBhqyyQuHhkIADFgjfk6C+QsrpxRh2ZoMHGDJVN2lzgdoabi2c91OyN1bLmOB2tUh1LRnM4cWcexF23QASFhmbeQpbZL8kBQCUE5TV4BuODiKOD0CN8U3M6smBuFy8FNoGy50VR3U2RWF3X7SRjA/PSdQiuFNHCWgLp/YjS28SLPpU2YZtqf3Sz7CLxXKo3Sm6+Lyptl+8EpGsNiIdSc=
+X-Microsoft-Antispam-Message-Info: 30H4ukyvjL6wwwl/nJw6FJ89+RF3jAlYwJ/XMMZQyIFdEX9UyFR58Lc15X1DdDdedHP5JZ6A2zcru2b9Nh+AGdKNiwk7p0lmZXLiVqssRB8dx+A3nAPP4K21Ahph7F8D3VdmXRzbTTXEQqV1KLeFWq64LvvJndo23YHmy3LJkqHbBJTqwtcFh7k3EVOg7TehUFsT7kMHpoI+EHuArWtReBjvQShoOUyDZNv3wJv2jQY9ywbtCmJNYHepEhp+mUhSnvd+CCM+olAvzSKi3tK8FfL4k7JVpgJzUihtTt2UOJjWezX1fi0AVly55X0jzJgihcz7VHZfIhavpnKbp9iw3+aF/LLX8Lijb2SHPj+4j/ZjVoLTZSbWfv1Qg3gzlzh1jT6rqI1vDgYT9BAATLRVHRXCw6KWCLP+QnxZzLzg3FQ3XkhnO6QDAeCbhbfZJUR5mJdy1j6XF+0+TgaXTqg81avnEtbOiMfdv8qlAX+KYPJ8rpKsHYJbjuuLYLy3quuaOXRm2jUdwQI6KLe7nuR5p9x5Av1OAKwAn9D3XNAoNknab1VRFwZ+E2PXTL4VJskyGs8JKp+tcqs0DPn0gWoz82xH89e5/8VP3sOTHIgYoZGMMzpbjcr05HqapzFwCxEUfeQPfFy14QDl+jynoTmH9w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(39860400002)(136003)(366004)(346002)(36756003)(26005)(66946007)(6636002)(66556008)(66476007)(8936002)(2906002)(110136005)(6666004)(83380400001)(16576012)(316002)(478600001)(53546011)(31686004)(956004)(38100700002)(2616005)(33964004)(5660300002)(450100002)(8676002)(6486002)(86362001)(31696002)(186003)(4326008)(45980500001)(43740500002);
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(376002)(366004)(39860400002)(136003)(346002)(396003)(83380400001)(33656002)(44832011)(5660300002)(316002)(1076003)(186003)(478600001)(33716001)(9576002)(2906002)(6496006)(38100700002)(9686003)(66476007)(55016002)(52116002)(4326008)(6916009)(8936002)(66556008)(8676002)(66946007)(86362001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?MGNuSm5rdEVNNHBtWkNpbWZlWWxlTUVLU3VIKzA1U09CQnE0aXZ6cXdUSDJT?=
- =?utf-8?B?ci8wbmFldEV5cEQrYzFUV2V2YUVGQitWRW95TzlGbE5KZDllWjlOWVNpY1lv?=
- =?utf-8?B?dEdBN1Z2d0QyQldtNVNvUFk0VkkvZHN0amcxZ0krKzZENUtyUWVnL0JOK2tv?=
- =?utf-8?B?TWptcWZINUdndGtzR0g3ZU9FUXIxUkJtbFJ5WVBCbmsrYVl0ampvaFJvaFVJ?=
- =?utf-8?B?bmsxQThmMm5mcUdObTBISUs4Q1h0emFiNndmanpyVzlUODM4aDAxQ2JFWkpo?=
- =?utf-8?B?allGdTRzMkVkbUJIakY0cFNMVTd1WW5yU1BhM2lNYTJKMVBudTRLUE5LMGVN?=
- =?utf-8?B?YkJMbXZsVFhhYUg5WGFWQ3YweVFYSFdqK0c5RTU0NzNvZjdMaUVVWk1WNDJW?=
- =?utf-8?B?S3dZUHRmNWVBY0xBTGdyWTBZK29CWXJzd243N3dHMWV0UVR6RzAydVFBcUlS?=
- =?utf-8?B?RjVsSS9pRnJWaWw0bThHb0lqNFlyd0hKeDF1dnpQOVNWK3NVeFlMdUtCR1Z0?=
- =?utf-8?B?K2RzSmZTRkx3NHRZOGpudkl5ODRiSlZkSmhIRHdNS0Jnd2dkZkRLMU5UVWVw?=
- =?utf-8?B?T0gyb2QxUWhQZzc3bzZDZk1IQ04rT0JjazNNTFNHdmZsZWdsVVdsVkQxSXp3?=
- =?utf-8?B?WEkyd01YMmxWaDU2V2YwRUkrdUhyeXcvV3RFTnNxbFpmc3JZdHlScktOS0VC?=
- =?utf-8?B?RkowVFd6d1lCYlpqUFJOSGxlQjJROW5BRm5tZU1NUkxHQWgxdCtERlA3c2JZ?=
- =?utf-8?B?d3V3ZkR3NFVycE9xTC9maGVQcVlZYUZUTCtjczA0ZGphVHJFQTJBZVZqcXhD?=
- =?utf-8?B?NStEcGlveHArOW5wN1VTalF3Y0VjSVptRnFXYmRhZHEyZ1llZlpGdjJlbG9k?=
- =?utf-8?B?blJ3VlFIb3BQQ0ZkV3Nrd2xrZkVPdk1aVUwzQkZDZUxSejB3enNtZjFtUHl3?=
- =?utf-8?B?aitJbzQzNHpLa0hFWENFQkRUR3R5eC9nN1A2dWZSbHlsY2I5ZCszVkQ0cWVI?=
- =?utf-8?B?bmo1THFKN3FMRGJKSkpDQ2NWcXBUQ2NIdHJxVHZKZG05UnpqSGVmc3hCNnMy?=
- =?utf-8?B?M01LS1RMQWFUQTlHZzd1eTUwemFsV25NdGxMdFJnckZlRXZFT09WU2d1dW0w?=
- =?utf-8?B?STQvWUdxMzlhem9sdkh2Z1phMCtJMlBzaGZ3amljR1RKenQvSDJnS0dEcjdH?=
- =?utf-8?B?VVJtVG5SaGVGdHpmdStkQjdaL3F5ZGtIeHFDcE9nb25DTXB3Rm1qMFdONFNG?=
- =?utf-8?B?ZVl4ZHlLOEsyTmMraVcwTUtrdWY5bUdldUVyemxIKzB3dWNUSWRhT1A2amxx?=
- =?utf-8?B?OXNJMTFFUkJlRnIzdjFTZ2EwczZPdS9RcDl5QS9tNjhtUVQySXI3Q3dsOHlF?=
- =?utf-8?B?VjdadFdXNkcza0VmTUxuR2xUZ3g3d01qR0FzeDE0OENZWTJvbnBMK0s0akxo?=
- =?utf-8?B?OGRxTW9hT2MzOWxtaXFtVnhZcmptYStNa3FUUFZ0cUl2MjRhSW9YZGJkc3Nh?=
- =?utf-8?B?UkcvcW1mNXBTTVZ5eUhPa2VuVHhFMVJMVEZDemZPMUZvS2UxK00wWm5vS0lz?=
- =?utf-8?B?OWlFR0FsRDFJQ3lHRGwyQm05UTVzU0pBZVhtVVowVjJjVjdmMm0wQjA5L2VL?=
- =?utf-8?B?bGhLbWU5SDNmZ3NpZG45NTJOc2Fyb3RQd2wvVFFJYW9DdVZkZ2pGVndsUFA4?=
- =?utf-8?B?MFkycWNPRUtHOFVHZUJiUEFMRGdmWjdGVXZBUjlBdGoyMGJhSTc3Z2ttb0Zy?=
- =?utf-8?Q?fNRF5vsW8UpCJNKwdq78jlbMrrqJZS5+1kUr3i8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b971e0c7-46d3-47b9-110d-08d974255e95
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?6n77ZrpIa1aK9o6cCtXRDtvL794X3ocGTHBGv+LFOMhmlMGeeG8EPcG2jz0a?=
+ =?us-ascii?Q?Bv7J+KFXvRwjqu1md4AJte8qU2Ke+ODFHS5e9IGFRbzkPTT7qnhQVzthzr7b?=
+ =?us-ascii?Q?8l0YblpDnFwv2oDPd0tCV+uyZnymua95TIXHYY1Js5ZRZ+HXd0JggpaJh2Yk?=
+ =?us-ascii?Q?WV4gSfdVCRqGn57koWSnHU4iUc02fv7HNgqIMmgewOl++p/X0fP6qYZ4XSga?=
+ =?us-ascii?Q?NY0WISIJcbbWKiNCF8uTUCjzcXqMbcg15U3jeeqekfX/iP2P4DazCMGoJYN3?=
+ =?us-ascii?Q?FnhNI+pCisf0u3+qiycxpgDt8FkVTj8wW0yCPZLb4HwXvCgJqlIvCMW/VmY9?=
+ =?us-ascii?Q?3XtTYTJtHOctUkZDfXzlFAUnPSzgci69vHR4WfgSaEb8k07biatf4veKxzwJ?=
+ =?us-ascii?Q?zXcNrF5OsA0GXFd7lT9h2DGZB/TXGtGUjCfn3+u86E9VmK42IVrjbS8XWYYe?=
+ =?us-ascii?Q?uarVswMVpm3RThqrf8xlYsTAIkmLF6OuFCIFtI/WlgJkM15QBaFLBzldn/8S?=
+ =?us-ascii?Q?eSa8Wqu28voPD5J7kXMwmX7bcgwBrHXQcB/sXNPoNyO8sJ5gRNi8EbQYzRGy?=
+ =?us-ascii?Q?pfuUNjk6tc7nkHxd7SNzMduRPOBOS2iL07HeNBbTrJtbwjz8ZsJKQ/d5Kri8?=
+ =?us-ascii?Q?tlEwGF66550OhS1UfNIhyL2dT6+10V7EOd/RIuYyQc7LFH2wRZ/NJGM2LwBt?=
+ =?us-ascii?Q?0qXS+ESQJVkeNi1nMFdIGaqMnINqkNK8yMK40Eew6X8Bm6jPNK1MRGITp9zi?=
+ =?us-ascii?Q?ku3aYz6GdaM0RBUyqhdAHoSg5fFGK9Z5smQ4CFakAiY9+45Yd7hzcm45dp62?=
+ =?us-ascii?Q?RCV+//pQ1Z9MPccfLXBrNFPCdtK9dbT+LW4f866nSCNnqKamtStr/fXruegn?=
+ =?us-ascii?Q?Z+MatZ9uSpm4IhfYI5kMCcoJqE3SG0Aznof7kuiWDJyEGANQPPh2/2m39+Yh?=
+ =?us-ascii?Q?mrz+li2ErzGt5ZUFnwRbA0cjaFeoJfx3IUDQafWXGj5gUHVAb8ecSM0RSpbG?=
+ =?us-ascii?Q?yM7HwqnT1qYFH18U6246AMBDESfsMT+F5dvARMwEKU2tP2OEup7wGBZ3fyyR?=
+ =?us-ascii?Q?EcrDB35mUZFU/ugQQe6IZ1v+Sorbn13ySSE0PUDU2N3tsjvS+Sx66BbPjt/G?=
+ =?us-ascii?Q?1dLCWZq7SsPDmH/Fb8WGj9KGwihMDIVlls4cKu31kxmLwLe5S0rnO63S1V73?=
+ =?us-ascii?Q?1Jfpm1k6Y3hPIQXnAYmoF7KOWixtPuoOHtORLFAel56I2F1wnbrdcIzbgn18?=
+ =?us-ascii?Q?+OqUY8noRyENyoDSZlppQoybwhKQ34kpUo9HT3FKeiBWXJbVPE/bD8PfT62L?=
+ =?us-ascii?Q?43QZiYOShxPXErYumawniaeZaafQMaF/XVc2+5k8Oe5BYg44XwJQXRDGn7SY?=
+ =?us-ascii?Q?ICdC9fg=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 934973c7-728e-4ddd-365c-08d9742cd4f8
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 06:36:50.1084 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 07:30:15.1434 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: W/fe+YR1lfaeCteIvuQ3ChaZTFVChJ+ys2K54i9cl495SKRVpSytzFaedwbblwHz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2484
+X-MS-Exchange-CrossTenant-UserPrincipalName: XRX6Xuvk+2wL5r/2R3plgOXOB4NbTQ8HhEluqjie3PSWT5ynrS3kmWdYS7WMcwQjmnf/97rLGH5jmRznvIRgXFcfC01rKv4MiR6ueumz9q0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1952
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10102
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0
+ mlxlogscore=999 bulkscore=0 adultscore=0 malwarescore=0 mlxscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2109030001 definitions=main-2109100045
+X-Proofpoint-ORIG-GUID: ZGvO7Vg-ek6tR39zF953hqveIOyhpaTY
+X-Proofpoint-GUID: ZGvO7Vg-ek6tR39zF953hqveIOyhpaTY
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -135,169 +162,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------EF7F06416C9E2F57D5325C60
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Hello Thomas Hellstrom,
 
-Yeah, that's a good point.
+The patch ae2a104058e2: "vmwgfx: Implement fence objects" from Sep 1,
+2011, leads to the following
+Smatch static checker warning:
 
-If build_bug_on() doesn't works for some reason then we at least need to 
-lower this to a WARN_ON.
+	drivers/dma-buf/dma-fence.c:790 dma_fence_default_wait()
+	warn: user controlled unbound timeout
 
-A BUG_ON() is only justified if we prevent strong data corruption with 
-it or note a NULL pointer earlier on or similar.
+drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
+   784  int vmw_fence_obj_wait_ioctl(struct drm_device *dev, void *data,
+   785                               struct drm_file *file_priv)
+   786  {
+   787          struct drm_vmw_fence_wait_arg *arg =
+   788              (struct drm_vmw_fence_wait_arg *)data;
+   789          unsigned long timeout;
+   790          struct ttm_base_object *base;
+   791          struct vmw_fence_obj *fence;
+   792          struct ttm_object_file *tfile = vmw_fpriv(file_priv)->tfile;
+   793          int ret;
+   794          uint64_t wait_timeout = ((uint64_t)arg->timeout_us * HZ);
 
-Regards,
-Christian.
+timeout comes from the ioctl.
 
-Am 10.09.21 um 06:36 schrieb Pan, Xinhui:
->
-> [AMD Official Use Only]
->
->
-> looks good to me.
-> But maybe build_bug_on works too and more reasonable to detect such 
-> wrong usage.
-> ------------------------------------------------------------------------
-> *From:* Chen, Guchun <Guchun.Chen@amd.com>
-> *Sent:* Friday, September 10, 2021 12:30:14 PM
-> *To:* amd-gfx@lists.freedesktop.org <amd-gfx@lists.freedesktop.org>; 
-> dri-devel@lists.freedesktop.org <dri-devel@lists.freedesktop.org>; 
-> Koenig, Christian <Christian.Koenig@amd.com>; Pan, Xinhui 
-> <Xinhui.Pan@amd.com>; Deucher, Alexander <Alexander.Deucher@amd.com>
-> *Cc:* Chen, Guchun <Guchun.Chen@amd.com>; Shi, Leslie 
-> <Yuliang.Shi@amd.com>
-> *Subject:* [PATCH] drm/ttm: add a BUG_ON in ttm_set_driver_manager 
-> when array bounds
-> Vendor will define their own memory types on top of TTM_PL_PRIV,
-> but call ttm_set_driver_manager directly without checking mem_type
-> value when setting up memory manager. So add such check to aware
-> the case when array bounds.
->
-> Signed-off-by: Leslie Shi <Yuliang.Shi@amd.com>
-> Signed-off-by: Guchun Chen <guchun.chen@amd.com>
-> ---
->  include/drm/ttm/ttm_device.h | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-> index 7a0f561c57ee..24ad76ca8022 100644
-> --- a/include/drm/ttm/ttm_device.h
-> +++ b/include/drm/ttm/ttm_device.h
-> @@ -308,6 +308,7 @@ ttm_manager_type(struct ttm_device *bdev, int 
-> mem_type)
->  static inline void ttm_set_driver_manager(struct ttm_device *bdev, 
-> int type,
->                                            struct ttm_resource_manager 
-> *manager)
->  {
-> +       BUG_ON(type >= TTM_NUM_MEM_TYPES);
->          bdev->man_drv[type] = manager;
->  }
->
-> -- 
-> 2.17.1
->
+   795  
+   796          /*
+   797           * 64-bit division not present on 32-bit systems, so do an
+   798           * approximation. (Divide by 1000000).
+   799           */
+   800  
+   801          wait_timeout = (wait_timeout >> 20) + (wait_timeout >> 24) -
+   802            (wait_timeout >> 26);
+   803  
+   804          if (!arg->cookie_valid) {
+   805                  arg->cookie_valid = 1;
+   806                  arg->kernel_cookie = jiffies + wait_timeout;
+   807          }
+   808  
+   809          base = vmw_fence_obj_lookup(tfile, arg->handle);
+   810          if (IS_ERR(base))
+   811                  return PTR_ERR(base);
+   812  
+   813          fence = &(container_of(base, struct vmw_user_fence, base)->fence);
+   814  
+   815          timeout = jiffies;
+   816          if (time_after_eq(timeout, (unsigned long)arg->kernel_cookie)) {
+   817                  ret = ((vmw_fence_obj_signaled(fence)) ?
+   818                         0 : -EBUSY);
+   819                  goto out;
+   820          }
+   821  
+   822          timeout = (unsigned long)arg->kernel_cookie - timeout;
+   823  
+   824          ret = vmw_fence_obj_wait(fence, arg->lazy, true, timeout);
 
+This is a new Smatch warning.  To try figure out places which can
+trigger sysbot "task hung" warnings.  I don't know if an upper bound on
+timeout is appropriate here because this is new experimental check...
 
---------------EF7F06416C9E2F57D5325C60
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+   825  
+   826  out:
+   827          ttm_base_object_unref(&base);
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    Yeah, that's a good point.<br>
-    <br>
-    If build_bug_on() doesn't works for some reason then we at least
-    need to lower this to a WARN_ON.<br>
-    <br>
-    A BUG_ON() is only justified if we prevent strong data corruption
-    with it or note a NULL pointer earlier on or similar.<br>
-    <br>
-    Regards,<br>
-    Christian.<br>
-    <br>
-    <div class="moz-cite-prefix">Am 10.09.21 um 06:36 schrieb Pan,
-      Xinhui:<br>
-    </div>
-    <blockquote type="cite" cite="mid:DM4PR12MB5165EC993C7CF4413D52925E87D69@DM4PR12MB5165.namprd12.prod.outlook.com">
-      
-      <p style="font-family:Arial;font-size:10pt;color:#0000FF;margin:5pt;" align="Left">
-        [AMD Official Use Only]<br>
-      </p>
-      <br>
-      <div>
-        <div dir="auto" style="direction: ltr; margin: 0; padding: 0;
-          font-family: sans-serif; font-size: 11pt; color: black; ">
-          looks good to me.<br>
-        </div>
-        <div dir="auto" style="direction: ltr; margin: 0; padding: 0;
-          font-family: sans-serif; font-size: 11pt; color: black; ">
-        </div>
-        <div dir="auto" style="direction: ltr; margin: 0px; padding:
-          0px; font-family: sans-serif; font-size: 11pt; color: black;
-          text-align: left;">
-          But maybe build_bug_on works too and more reasonable to detect
-          such wrong usage.</div>
-        <hr style="display:inline-block;width:98%" tabindex="-1">
-        <div id="divRplyFwdMsg" dir="ltr"><font style="font-size:11pt" face="Calibri, sans-serif" color="#000000"><b>From:</b>
-            Chen, Guchun <a class="moz-txt-link-rfc2396E" href="mailto:Guchun.Chen@amd.com">&lt;Guchun.Chen@amd.com&gt;</a><br>
-            <b>Sent:</b> Friday, September 10, 2021 12:30:14 PM<br>
-            <b>To:</b> <a class="moz-txt-link-abbreviated" href="mailto:amd-gfx@lists.freedesktop.org">amd-gfx@lists.freedesktop.org</a>
-            <a class="moz-txt-link-rfc2396E" href="mailto:amd-gfx@lists.freedesktop.org">&lt;amd-gfx@lists.freedesktop.org&gt;</a>;
-            <a class="moz-txt-link-abbreviated" href="mailto:dri-devel@lists.freedesktop.org">dri-devel@lists.freedesktop.org</a>
-            <a class="moz-txt-link-rfc2396E" href="mailto:dri-devel@lists.freedesktop.org">&lt;dri-devel@lists.freedesktop.org&gt;</a>; Koenig, Christian
-            <a class="moz-txt-link-rfc2396E" href="mailto:Christian.Koenig@amd.com">&lt;Christian.Koenig@amd.com&gt;</a>; Pan, Xinhui
-            <a class="moz-txt-link-rfc2396E" href="mailto:Xinhui.Pan@amd.com">&lt;Xinhui.Pan@amd.com&gt;</a>; Deucher, Alexander
-            <a class="moz-txt-link-rfc2396E" href="mailto:Alexander.Deucher@amd.com">&lt;Alexander.Deucher@amd.com&gt;</a><br>
-            <b>Cc:</b> Chen, Guchun <a class="moz-txt-link-rfc2396E" href="mailto:Guchun.Chen@amd.com">&lt;Guchun.Chen@amd.com&gt;</a>; Shi,
-            Leslie <a class="moz-txt-link-rfc2396E" href="mailto:Yuliang.Shi@amd.com">&lt;Yuliang.Shi@amd.com&gt;</a><br>
-            <b>Subject:</b> [PATCH] drm/ttm: add a BUG_ON in
-            ttm_set_driver_manager when array bounds</font>
-          <div>&nbsp;</div>
-        </div>
-        <div class="BodyFragment"><font size="2"><span style="font-size:11pt;">
-              <div class="PlainText">Vendor will define their own memory
-                types on top of TTM_PL_PRIV,<br>
-                but call ttm_set_driver_manager directly without
-                checking mem_type<br>
-                value when setting up memory manager. So add such check
-                to aware<br>
-                the case when array bounds.<br>
-                <br>
-                Signed-off-by: Leslie Shi <a class="moz-txt-link-rfc2396E" href="mailto:Yuliang.Shi@amd.com">&lt;Yuliang.Shi@amd.com&gt;</a><br>
-                Signed-off-by: Guchun Chen <a class="moz-txt-link-rfc2396E" href="mailto:guchun.chen@amd.com">&lt;guchun.chen@amd.com&gt;</a><br>
-                ---<br>
-                &nbsp;include/drm/ttm/ttm_device.h | 1 +<br>
-                &nbsp;1 file changed, 1 insertion(+)<br>
-                <br>
-                diff --git a/include/drm/ttm/ttm_device.h
-                b/include/drm/ttm/ttm_device.h<br>
-                index 7a0f561c57ee..24ad76ca8022 100644<br>
-                --- a/include/drm/ttm/ttm_device.h<br>
-                +++ b/include/drm/ttm/ttm_device.h<br>
-                @@ -308,6 +308,7 @@ ttm_manager_type(struct ttm_device
-                *bdev, int mem_type)<br>
-                &nbsp;static inline void ttm_set_driver_manager(struct
-                ttm_device *bdev, int type,<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct
-                ttm_resource_manager *manager)<br>
-                &nbsp;{<br>
-                +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BUG_ON(type &gt;= TTM_NUM_MEM_TYPES);<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bdev-&gt;man_drv[type] = manager;<br>
-                &nbsp;}<br>
-                &nbsp;<br>
-                -- <br>
-                2.17.1<br>
-                <br>
-              </div>
-            </span></font></div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------EF7F06416C9E2F57D5325C60--
+regards,
+dan carpenter
