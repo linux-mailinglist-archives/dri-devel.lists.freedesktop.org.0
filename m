@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68C64069BD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:13:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 933434069C4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:13:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 738616E9C8;
-	Fri, 10 Sep 2021 10:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297AF6E9CB;
+	Fri, 10 Sep 2021 10:13:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2E26E9C8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:13:47 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id A4ED42B013E1;
- Fri, 10 Sep 2021 06:13:44 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D37096E9CB
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:13:53 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 4D8A22B013E3;
+ Fri, 10 Sep 2021 06:13:51 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 10 Sep 2021 06:13:46 -0400
+ by compute1.internal (MEProxy); Fri, 10 Sep 2021 06:13:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=NN3eBrtri6Inn
- 2bzE3OGtV8ML/5ceQ1O31aiU9aFohA=; b=Z88z88SED5vFpCDjnObQErA0pyWmg
- wLXICelTOpGbHutyUeqSQUSMebOupABh4WQq+OnVTiFKW2Au2Mv2KnaozZquxfoT
- vByU7gKGKsioZGQOmO4AqSONRI5rIuANJ0juqIAK9joP5A/uyKqHE/iZGK8HuBVn
- TgmFqpeJYob6je4Ou+N29tQrHl+ppGNrD99PULei4zbRY5jLonfVgD5CDbLBIG0v
- ARZ+Gw+hNba8ixXnd6xIeRUNyMPovWYTFY088hriyYB8llgcOtFyGeTBlojcDDOl
- FcSuQwG40ZKLvnDl1VLvCmfgLPUo4SNKNfsB59nsH9LWFJ/194zKt2IAQ==
+ :mime-version:content-transfer-encoding; s=fm3; bh=ElwsU250aG/tu
+ 9y6tqB4Q8NGUP8iiIiI7vQRc+08/+w=; b=VF2K0F/P2QiCc1Cs8Q+aI+t6kNyiV
+ tmWi6oryyVsvBvTYIhar+XpYdpwmFYoQrDbbsd6s5x1bJZnW3/kNQxDeVSsWGMoJ
+ z07CtEcYLcNuUZxRnshPwfw6ssK4uZXqJ3NhAYVFxw+hALCpW/nPJyiW37hxZaa5
+ 4tcrwTcatkqVYERWDPEazgcHreEXq/1BmVRBklGsE3Y+Ah3MRkTkHTBFVU8UuSPY
+ yZeWv75jiHIMdB0O7Uwm4XdPnrRqYTS/X4cjRORBxxbdpq2sY8tkcfkLGeocpc4V
+ 05eD4f7vTqAH3mebp/Re55GEhqcgwhiafmZiPBYRG39QPCW5pGcerH4BA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=NN3eBrtri6Inn2bzE3OGtV8ML/5ceQ1O31aiU9aFohA=; b=tDC/wOId
- MfzkQdPc5bAj4JzMbe7XLUKfyq/lzxcEklfmhCvnSunwBPqjVuFMSLnLBMan8Lsy
- gGVrGAnDiKmVV5zDES/yFBEocTbgtdhLBnpDzqqYsKmnXs1CTZSpmWdBZymmfGTc
- qJJY3dPpNt4GzA2u2bBqvNEL7IBmAQBo8nrPc6iiwBL2Oywf1eW7wirTlR4DMRvZ
- epcnettFPXDFCFR01TubsOIHhf9cgoyim3WoBQHCmTLWron48dTQgixcjmXXkKYf
- pkcUEKJ4e6zeeyTyqiqQwarGErQJc6PTqzgmVymCAxDdW2OJmhFdbZdnJNKINt6S
- 1x/Fkb/84gPgbQ==
-X-ME-Sender: <xms:2C87YSBEKBrLsbWsh83TVwUCal4aWAMnhb7LJ-3pUxUWNgdEl9ZUEQ>
- <xme:2C87YcjdzyUkQsWC8XkUdAsZdFbYLSb6VGwG9A9PWiU_rl8PufV223nz2yOObSJEI
- FD-wWWipiY-aeRviPU>
-X-ME-Received: <xmr:2C87YVl2g7YBKQP8asOpbB-htWhVVDqgCyUMQVPdnL7xDXw8JEnGZZqCV2nQ-V04Y2tnHAJownChPnfmjGmoonUIbEjcxWNC_gk5>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
+ fm3; bh=ElwsU250aG/tu9y6tqB4Q8NGUP8iiIiI7vQRc+08/+w=; b=kEExk7L/
+ 9bf2Zp2eRTdaShQkrhIidnZCMkBXPZ4mv+jCZ83BUqPtGDfgq5be4U+PpwP1AEUo
+ sY9vIn4aGylNa/3b6syKjgcoCFecfxoE9y0BXWclWDmMjM3nibvbfaqH0Flnu3mc
+ JW8U8loQ0cdV6CAHG6HjHTjy2zOzB/plhWA/eIiX+CGeScRfMBepRKNtncgPhG+n
+ 0TESBpuX6cZqz4P35vOgOIITt8djZtYfY7XcsJGQBTUZ8P/r0EVjXeLuEfC0XTVy
+ rWOgqs/MgVFnm4nsD3fc9I9LLtLCghIoPBiks50CsuEjLcLgWKCYGZ9MxT69wvmz
+ ZiclNzS7+VJTJw==
+X-ME-Sender: <xms:3C87YR2qM4JMrVmEXPSP_EZtBfHKhtdTLWmmSojyg1et2aK0UIPvcw>
+ <xme:3C87YYGYhxupgcckAyf_m6NylFH7XiGYk5jlQlzuk958BVYeYLZ8hMEyyNd_OipLs
+ PJKY33efI7priiAFfE>
+X-ME-Received: <xmr:3C87YR4tDPhMt5es4pACsKCti3X3Smdd7n6i_CRzP7RzqZc8uUpqONzVfMJZ36fsQa2qTLUglv5DCuDKihfMA-tIzZwDJmzQqLN3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:2C87YQzGPF9-QSr9wiUXmbXqzDZZeJV4cnPkNh6jDlXMR_7rWj1Ssg>
- <xmx:2C87YXTfIl4ET6vhBfPEOFPaNjd1E5aN9e1v4n7uu4qPb1deVMrQng>
- <xmx:2C87Ybb4cYHBX7k-zgleyf2XldkGfgSw-dN9-XbBKZl2DI-91WTNrg>
- <xmx:2C87YXy4HNE8mb59ma9DhmSV0-tFXl1cvjvj9MQfTvHOvj28EdxzvsmKXJM>
+X-ME-Proxy: <xmx:3C87Ye2VQ27Oj_dV3-egQLiEJV_NHUiTag2v69vcfDA80Y67OcAWgQ>
+ <xmx:3C87YUGIOaRcptO1uZmuCh4cJIN_qjwWS1ecr4XtZoffVNZo4lSxRg>
+ <xmx:3C87Yf8FvBfeCzPFPHYTXzwWUPwdhLEStg3x008iWQVoh1CaPjgFTw>
+ <xmx:3i87YUUeDDzEpkgEB3he3_eBF3UKQjSJ93LwbD0re7sCZ5u0hv2vKn_XzT0>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 06:13:43 -0400 (EDT)
+ 10 Sep 2021 06:13:48 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -77,10 +77,9 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
  Chen Feng <puck.chen@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: [PATCH v4 14/24] drm/bridge: lt9611uxc: Register and attach our DSI
- device at probe
-Date: Fri, 10 Sep 2021 12:12:08 +0200
-Message-Id: <20210910101218.1632297-15-maxime@cerno.tech>
+Subject: [PATCH v4 15/24] drm/bridge: ps8640: Switch to devm MIPI-DSI helpers
+Date: Fri, 10 Sep 2021 12:12:09 +0200
+Message-Id: <20210910101218.1632297-16-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 References: <20210910101218.1632297-1-maxime@cerno.tech>
@@ -101,66 +100,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to avoid any probe ordering issue, the best practice is to move
-the secondary MIPI-DSI device registration and attachment to the
-MIPI-DSI host at probe time. Let's do this.
+Let's switch to the new devm MIPI-DSI function to register and attach
+our secondary device. This also avoids leaking the device on removal.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 31 +++++++++++++---------
- 1 file changed, 19 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/bridge/parade-ps8640.c | 10 +++-------
+ 1 file changed, 3 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-index e5083bdf4c89..78c4175e0a12 100644
---- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-+++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-@@ -364,18 +364,6 @@ static int lt9611uxc_bridge_attach(struct drm_bridge *bridge,
- 			return ret;
- 	}
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 685e9c38b2db..c943045f3370 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -243,7 +243,7 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 	if (!host)
+ 		return -ENODEV;
  
--	/* Attach primary DSI */
--	lt9611uxc->dsi0 = lt9611uxc_attach_dsi(lt9611uxc, lt9611uxc->dsi0_node);
--	if (IS_ERR(lt9611uxc->dsi0))
--		return PTR_ERR(lt9611uxc->dsi0);
+-	dsi = mipi_dsi_device_register_full(host, &info);
++	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	if (IS_ERR(dsi)) {
+ 		dev_err(dev, "failed to create dsi device\n");
+ 		ret = PTR_ERR(dsi);
+@@ -257,17 +257,13 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
+ 			  MIPI_DSI_MODE_VIDEO_SYNC_PULSE;
+ 	dsi->format = MIPI_DSI_FMT_RGB888;
+ 	dsi->lanes = NUM_MIPI_LANES;
+-	ret = mipi_dsi_attach(dsi);
++	ret = devm_mipi_dsi_attach(dev, dsi);
+ 	if (ret)
+-		goto err_dsi_attach;
++		return ret;
+ 
+ 	/* Attach the panel-bridge to the dsi bridge */
+ 	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
+ 				 &ps_bridge->bridge, flags);
 -
--	/* Attach secondary DSI, if specified */
--	if (lt9611uxc->dsi1_node) {
--		lt9611uxc->dsi1 = lt9611uxc_attach_dsi(lt9611uxc, lt9611uxc->dsi1_node);
--		if (IS_ERR(lt9611uxc->dsi1))
--			return PTR_ERR(lt9611uxc->dsi1);
--	}
--
- 	return 0;
+-err_dsi_attach:
+-	mipi_dsi_device_unregister(dsi);
+-	return ret;
  }
  
-@@ -955,8 +943,27 @@ static int lt9611uxc_probe(struct i2c_client *client,
- 
- 	drm_bridge_add(&lt9611uxc->bridge);
- 
-+	/* Attach primary DSI */
-+	lt9611uxc->dsi0 = lt9611uxc_attach_dsi(lt9611uxc, lt9611uxc->dsi0_node);
-+	if (IS_ERR(lt9611uxc->dsi0)) {
-+		ret = PTR_ERR(lt9611uxc->dsi0);
-+		goto err_remove_bridge;
-+	}
-+
-+	/* Attach secondary DSI, if specified */
-+	if (lt9611uxc->dsi1_node) {
-+		lt9611uxc->dsi1 = lt9611uxc_attach_dsi(lt9611uxc, lt9611uxc->dsi1_node);
-+		if (IS_ERR(lt9611uxc->dsi1)) {
-+			ret = PTR_ERR(lt9611uxc->dsi1);
-+			goto err_remove_bridge;
-+		}
-+	}
-+
- 	return lt9611uxc_audio_init(dev, lt9611uxc);
- 
-+err_remove_bridge:
-+	drm_bridge_remove(&lt9611uxc->bridge);
-+
- err_disable_regulators:
- 	regulator_bulk_disable(ARRAY_SIZE(lt9611uxc->supplies), lt9611uxc->supplies);
- 
+ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
 -- 
 2.31.1
 
