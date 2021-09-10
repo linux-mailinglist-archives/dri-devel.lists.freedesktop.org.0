@@ -2,60 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37A07406CB3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:10:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC66A406CB4
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:10:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 206A46E9F4;
-	Fri, 10 Sep 2021 13:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 405786EA00;
+	Fri, 10 Sep 2021 13:10:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
  [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D780D6E9F4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 13:09:56 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id C00052B012A6;
- Fri, 10 Sep 2021 09:09:55 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 10 Sep 2021 09:09:56 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFEB06E9F8
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 13:09:59 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id B10742B012ED;
+ Fri, 10 Sep 2021 09:09:58 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 10 Sep 2021 09:09:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=foGgf4V/HXkaP
- 7N33tq+jhHErQtWL7Z9BGtAet+z27I=; b=LKhgWSRFkIIsq/dG12LOeNfVg8U8k
- ePm/Rq+vb60VSLQzpOjNeEd6MsAMgo+s+GVUx3N1FVxCx6JnDzFyJ5pVy+0U7lI1
- cea9iqGdFOZWVsWDL1PQ6hh+7j1mRG85WRKdRkwRAbwjdmzd3SynAzEpN0CqVRYQ
- aq95Zw/2diP2EwZ1r4Wvh+t+CqgLuXNcliqOW4wRAp6J/fyHvl4XP5nDMrMyX2kg
- ddRvpqV0bqCUdY61O/ERBDL7mz0aMJv5T/pUQkQ4WOgyMJEqvRCDelPalcL8hKML
- FAdT7DlTfHGBnRl9J2oa522XdhXo+J8uOhQtkHPHgThfywKbk+qyZnCwA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=FtHZI078C/VgC
+ ILuM5ySV9+sM4uUlGpEEk7Loo+/Zdk=; b=UifnRQ+COqKdGQV08a2PaP9qrrBF9
+ 1Uj1q1D1iC29OWLCaCuYVMbPHr1J+rxMz+MyYeYrdksX4P82djOX6iXb7LTK2dfb
+ FWfwq5AN5zPI1B+xQvg1+Bn+xwfcX3ay3VikQBmnvvEER1mQKUC9wW6W1sLuhSBg
+ aOcwvub4WyyHvAeejBxuf57VfpeP77nG3LGShkV20/J4hSzEBnl8gcc/vZgyIAch
+ gERF5nBpt8H/sdwkFtrNkIRQUqbq3RLYkEYlIpp0vyII75vRnRh8wGvPdFDQlxCk
+ lheamJG716I+eXJhzzCeDIdS0PPc6xiwI8f0U1zDhhNJH+4xCsOUui3vw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=foGgf4V/HXkaP7N33tq+jhHErQtWL7Z9BGtAet+z27I=; b=BlHnIi76
- OkVX1M9BaXvCg9sAfie2Q3UsGsNC8o2D5NRffvyeWF2e8+GxEqwqNG5UyNEd/hgM
- aZKKz5T8faKVhBxee/yMB81h1xoZu4oY4mFdeYMZ0R7UDy9sEp5wqUrR9yidWjr3
- rdeestSlCYy7d7gZPD1+vuDLVyXI2H7fkkgrQz3qD7OqqPD9NCLG1U/ITh54/+r/
- DFJBvXb7t0VAH9lPd+mCZ+yx7QQ8d1+nVGLfPf0V57UpMRAWW4sTli1U5jMeZEsY
- iUCb7kSD8Kq2/2yulTfQ0aOLwcpaPXqDhLd/y4xrR8XFUrV2OdCNPmItbB18sDC8
- Y8WFDre7E6P/AQ==
-X-ME-Sender: <xms:I1k7YQhT9yuUASYx5qh3yncUG3QALSLPteGxzGVY6WU7ra2Wt-clxA>
- <xme:I1k7YZCmPbA7RPsnlz5ItilnsboBVIxI46HQV0ky11QBvz5UpcStGU9b-HNc9EWoO
- rxk-8SbmaOKFLf9hXQ>
-X-ME-Received: <xmr:I1k7YYGjBdJ7d5FCuE-Wf_AdS49etJ0HnzG3n5-fjpD3NN59AmXDB0XsNnrMz-VTR2Mf3RKD_pzEVC3qPxRU8YgPr1u95kMl9oSf>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgiedtucetufdoteggodetrfdotf
+ fm3; bh=FtHZI078C/VgCILuM5ySV9+sM4uUlGpEEk7Loo+/Zdk=; b=M9bl17Y3
+ XGNLR2TVPfnoqSHUIkv1Ok4Ap2NoivacGj2OlJFuPwRK9MIAZIF3csVdLED57jvp
+ Vn7F7YSqTctCOTD87MxkxRQAkGsfjVv/oqfR1lAHFPybQdX0rwGnou9c0JuwnFRg
+ /2cGjG9ZwwOQRawsZMg4mWMwVFh+OtL75KAK6FJjnjyXZ83SyFqDH6rs6+A/QelX
+ fsXxPwcNst0A/WAteVZJ7fVSO51A5RLNKaEH3iw5pBWilXa1NtPJy22UEY79JCiy
+ 04SoxwijiAaHhnrqjNyUaBwcWdLW+Gmkz5AT9OYk7G/8GLlCymkDBpdscrKe8rfR
+ YGo6luX5tfiSHA==
+X-ME-Sender: <xms:Jlk7YWRgPFoX_GlT_J1MOYijp8HMiNYO2skC-KejkreRcNQJkY4f0A>
+ <xme:Jlk7Ybz-dIbl7F50Ge5oFFYzuGoi4VDN9_Utqg2r4Vv-EDdeptBZa3ZmWhiwRf7rG
+ pxgXMpVid0YwegxPxM>
+X-ME-Received: <xmr:Jlk7YT22XTEA_w5aIgcnrO9cwdLrf_BkdDM0GSnF-WX5TcEphvx_x3XP03JwZmAP6h4nJ4D5JOnGvWWPWa7c_a-zDOpv1UyVTvV_>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgheelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:I1k7YRTwG1u5tWawwPuH4Y3EJMP5t_gktlXJf2K0nupNnFLiZZhADw>
- <xmx:I1k7Ydz0SsvKn-t4CTqXnEr_ztBCw1H54Q6kOeQzMgv83chKIuK2sg>
- <xmx:I1k7Yf6Fnur-aRfbvIcIoxq7ZWwJIQQmLv-WHkcHCbaexOoRnlSTeQ>
- <xmx:I1k7YSp2CDha8izUuR765CyikjfRZ2j9SoIDq-1pR35_H2HgaFdQrFwAzZY>
+X-ME-Proxy: <xmx:Jlk7YSDSwGE22hnspw0j_lbYj1sL60i_5oZrfFmg7QGhltAiR_N0Pw>
+ <xmx:Jlk7Yfj7pY12WK3_IUREMyrxyl0W_cTjt3mcO9ifzE4VzJpq2hdfuA>
+ <xmx:Jlk7Yeq0k0kaEDz5chbwD1C8REM_iY0t3q5U5Dk6FflTeZeA7amw8Q>
+ <xmx:Jlk7YUZ84__us1vVxqCcZ6yuToznOQha3DhfDLvbOLFoQtp2ZQp87KXlHLE>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 09:09:54 -0400 (EDT)
+ 10 Sep 2021 09:09:57 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Robert Foss <robert.foss@linaro.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -66,9 +66,9 @@ To: Robert Foss <robert.foss@linaro.org>,
  Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
 Cc: dri-devel@lists.freedesktop.org
-Subject: [PATCH 2/3] drm/vc4: dpi: Switch to devm_drm_of_get_bridge
-Date: Fri, 10 Sep 2021 15:09:40 +0200
-Message-Id: <20210910130941.1740182-3-maxime@cerno.tech>
+Subject: [PATCH 3/3] drm/vc4: dsi: Switch to devm_drm_of_get_bridge
+Date: Fri, 10 Sep 2021 15:09:41 +0200
+Message-Id: <20210910130941.1740182-4-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910130941.1740182-1-maxime@cerno.tech>
 References: <20210910130941.1740182-1-maxime@cerno.tech>
@@ -94,44 +94,77 @@ have to deal with. Let's switch to it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/vc4/vc4_dpi.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/vc4/vc4_drv.c |  2 ++
+ drivers/gpu/drm/vc4/vc4_dsi.c | 28 ++++------------------------
+ 2 files changed, 6 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
-index a90f2545baee..c180eb60bee8 100644
---- a/drivers/gpu/drm/vc4/vc4_dpi.c
-+++ b/drivers/gpu/drm/vc4/vc4_dpi.c
-@@ -229,26 +229,19 @@ static const struct of_device_id vc4_dpi_dt_match[] = {
- static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
- {
- 	struct device *dev = &dpi->pdev->dev;
+diff --git a/drivers/gpu/drm/vc4/vc4_drv.c b/drivers/gpu/drm/vc4/vc4_drv.c
+index 16abc3a3d601..96c526f1022e 100644
+--- a/drivers/gpu/drm/vc4/vc4_drv.c
++++ b/drivers/gpu/drm/vc4/vc4_drv.c
+@@ -25,7 +25,9 @@
+ #include <linux/device.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/io.h>
++#include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+diff --git a/drivers/gpu/drm/vc4/vc4_dsi.c b/drivers/gpu/drm/vc4/vc4_dsi.c
+index a185027911ce..a229da58962a 100644
+--- a/drivers/gpu/drm/vc4/vc4_dsi.c
++++ b/drivers/gpu/drm/vc4/vc4_dsi.c
+@@ -1497,7 +1497,6 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 	struct drm_device *drm = dev_get_drvdata(master);
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 	struct vc4_dsi_encoder *vc4_dsi_encoder;
 -	struct drm_panel *panel;
- 	struct drm_bridge *bridge;
--	int ret;
- 
--	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
--					  &panel, &bridge);
--	if (ret) {
-+	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
-+	if (IS_ERR(bridge)) {
- 		/* If nothing was connected in the DT, that's not an
- 		 * error.
- 		 */
--		if (ret == -ENODEV)
-+		if (PTR_ERR(bridge) == -ENODEV)
- 			return 0;
- 		else
--			return ret;
-+			return PTR_ERR(bridge);
+ 	const struct of_device_id *match;
+ 	dma_cap_mask_t dma_mask;
+ 	int ret;
+@@ -1609,27 +1608,9 @@ static int vc4_dsi_bind(struct device *dev, struct device *master, void *data)
+ 		return ret;
  	}
  
--	if (panel)
--		bridge = drm_panel_bridge_add_typed(panel,
--						    DRM_MODE_CONNECTOR_DPI);
+-	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+-					  &panel, &dsi->bridge);
+-	if (ret) {
+-		/* If the bridge or panel pointed by dev->of_node is not
+-		 * enabled, just return 0 here so that we don't prevent the DRM
+-		 * dev from being registered. Of course that means the DSI
+-		 * encoder won't be exposed, but that's not a problem since
+-		 * nothing is connected to it.
+-		 */
+-		if (ret == -ENODEV)
+-			return 0;
 -
- 	return drm_bridge_attach(dpi->encoder, bridge, NULL, 0);
- }
+-		return ret;
+-	}
+-
+-	if (panel) {
+-		dsi->bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+-							      DRM_MODE_CONNECTOR_DSI);
+-		if (IS_ERR(dsi->bridge))
+-			return PTR_ERR(dsi->bridge);
+-	}
++	dsi->bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
++	if (IS_ERR(dsi->bridge))
++		return PTR_ERR(dsi->bridge);
  
+ 	/* The esc clock rate is supposed to always be 100Mhz. */
+ 	ret = clk_set_rate(dsi->escape_clock, 100 * 1000000);
+@@ -1667,8 +1648,7 @@ static void vc4_dsi_unbind(struct device *dev, struct device *master,
+ {
+ 	struct vc4_dsi *dsi = dev_get_drvdata(dev);
+ 
+-	if (dsi->bridge)
+-		pm_runtime_disable(dev);
++	pm_runtime_disable(dev);
+ 
+ 	/*
+ 	 * Restore the bridge_chain so the bridge detach procedure can happen
 -- 
 2.31.1
 
