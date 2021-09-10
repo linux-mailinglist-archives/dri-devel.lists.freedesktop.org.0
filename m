@@ -2,95 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83368406F15
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:10:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDFCE406F2A
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:10:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A5F36EA23;
-	Fri, 10 Sep 2021 16:09:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 17E316EA29;
+	Fri, 10 Sep 2021 16:10:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 78D876EA23
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631290196;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6/69qBPEq+ZxoLUCx7D3iUMKDE0eou/SmM/DmrEsT78=;
- b=FN005Z4iU0lqZChXTlZ+78Ze9k/Sqaf9Oc4bzTV28KKla6lMOy1qrkGIAaSotlWG7KeZtN
- oh14wFh9gU6cZcLbioHR0uYj4zEK2qIri4Zepu4SF9T2X6Jg+KToEgdpb04S3JYVmq224U
- MPdh0awidgOGAAtHMviaQATtG/mXwN4=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-YtxE_Y3dMzKz-LrEkdwIYQ-1; Fri, 10 Sep 2021 12:09:55 -0400
-X-MC-Unique: YtxE_Y3dMzKz-LrEkdwIYQ-1
-Received: by mail-io1-f70.google.com with SMTP id
- n189-20020a6b8bc6000000b005b92c64b625so4105939iod.20
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 09:09:55 -0700 (PDT)
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9DB6EA29
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:10:39 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ g66-20020a9d12c8000000b0051aeba607f1so2867621otg.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 09:10:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Jo5OwxEWWhiw1vRCZY9Md42z//D7x07LY6Hl1A6tjps=;
+ b=a0BoFV2TX+cHGSEkivRtqdXQcXf3GOKizfSbi6dcn7QP9OoYDw1ehnFhDE/QjMj511
+ FCZZhv+ouEx5reHS+gkUQDH/M+ewX1aX1Xgg6XZQDp85y7pT+zngdTdq2+vS9wva64ll
+ JzfFxb9DqiDM1q/QIF89slqZpHJyyzwVKNvPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:organization:mime-version:content-transfer-encoding;
- bh=6/69qBPEq+ZxoLUCx7D3iUMKDE0eou/SmM/DmrEsT78=;
- b=zUkIVg8jULxl3aYXtEZCLefZNdG2Q2VAPa2mu8x8ork97RsMSs6EX8aO7VudVC308y
- QeJq1NJoSz3Abe8EXnq2paOfqKcIdT1JCV08N3S6CTMj9O+XhMXre/P+InFLBTXKIKGD
- wrz7JoSQm9rvXnAVk2HDT3upKi9W06ndumONbk6iFqB4Hw8APET8vwi8yYCKs1BotkZ7
- zd90Quf8+eZKYt8cnFrfQU1RXYR/Ede65Wqx22FnFWiojYpvMm2YDuDyhInuNYe6ZgOi
- kSc/hhFXhFzSEw/L51deuI4G6dCOfNr5N/xJslPx3RbK6aKzxHOzyKiUcTe5qSPNCCYw
- kYiw==
-X-Gm-Message-State: AOAM533ywgZNBOTgjxXYL1HkpGTnJiixozmBoZn45QKd/H51G46sGNzQ
- uMF52+E9uhoPea+MU/zgP56d6Zv/EWho/Y1T5XenetUjn6ObRUdFQM3vguzH512u+MbJcHDugja
- cbgR+k2oV0gk/wsnfFOhhEvjvJB4T
-X-Received: by 2002:a05:6e02:8f2:: with SMTP id
- n18mr6862648ilt.256.1631290194644; 
- Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxP8Y1TihJai/O/xPIO5JmfEsEgfV81tQvv38D8IJQRDSK+KLhAXgtQ59aQINI+2fQswrVxaA==
-X-Received: by 2002:a05:6e02:8f2:: with SMTP id
- n18mr6862610ilt.256.1631290194398; 
- Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
-Received: from redhat.com (c-73-14-100-188.hsd1.co.comcast.net.
- [73.14.100.188])
- by smtp.gmail.com with ESMTPSA id y10sm2555019ilv.35.2021.09.10.09.09.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 09:09:54 -0700 (PDT)
-Date: Fri, 10 Sep 2021 10:09:51 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Christoph Hellwig <hch@infradead.org>, David Airlie <airlied@linux.ie>,
- Tony Krowiak <akrowiak@linux.ibm.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, Cornelia Huck <cohuck@redhat.com>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Eric Farman
- <farman@linux.ibm.com>, Harald Freudenberger <freude@linux.ibm.com>, Vasily
- Gorbik <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org, Matthew
- Rosato <mjrosato@linux.ibm.com>, Peter Oberparleiter
- <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu
- Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>, Christoph
- Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 5/9] vfio/mdev: Consolidate all the device_api sysfs
- into the core code
-Message-ID: <20210910100951.4da06602.alex.williamson@redhat.com>
-In-Reply-To: <20210910133850.GT2505917@nvidia.com>
-References: <0-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
- <5-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
- <YTtLRmiXq+QtJ+la@infradead.org>
- <20210910133850.GT2505917@nvidia.com>
-Organization: Red Hat
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Jo5OwxEWWhiw1vRCZY9Md42z//D7x07LY6Hl1A6tjps=;
+ b=6KnXFK4tBh5roiS3ZCDnTurF7k/b9LpC8s7xoSRI7dn6G7sqeYO1mMQkLyVZMDae4+
+ pCu6+2H0BcOPLcmSAUq4wIKF2799oG7F3EoKxJCyXCrgnlAl9AMgXOFfPkEiASMk/WD/
+ NiUHBirZiNBuT3wajKBb9PJRD94lkDXOLB/djxpP3bYcBzDgryD2fgj1EX1AwD0iaXm3
+ KsmOyxTWIxCFhx6dQUTa7NEZ36Ffx5AwDvBjjr+48p4sOSTzlpWISWwoUT1Yp0SeBYax
+ 8dp1ROCEnZOS2Qu+xgOH5hMczqgmSxZ857fq/AoeRuSoX4s+HpSGLUp2s89zc3qplsgK
+ gNSw==
+X-Gm-Message-State: AOAM531vhMKctzCXXuhGykSBLuKW2uWTos2PTG693I5Vmskj/KtU10V+
+ BR7lcFuTCoQwwr+6uFO4UOiZC7nTX68PaglPcYHgNA==
+X-Google-Smtp-Source: ABdhPJys2gnxbrHm2zi8RWfzvu1eIvi6jhZXOMYm/oQiNsIMFOEpuQ0wxhKujydoIGCLqH9b8BU5AlqILlp4u13Kfc0=
+X-Received: by 2002:a9d:67c1:: with SMTP id c1mr5195333otn.239.1631290238353; 
+ Fri, 10 Sep 2021 09:10:38 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CAFCwf119s7iXk+qpwoVPnRtOGcxeuZb3rnihf6NWWoVT-4ODHA@mail.gmail.com>
+ <YTsQJ753sm701R/n@kroah.com>
+ <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
+In-Reply-To: <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
+From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date: Fri, 10 Sep 2021 18:10:27 +0200
+Message-ID: <CAKMK7uFj-m4y+N-q8uoNasJuksgDj-oRK3K=SjoyKMQL=QCENw@mail.gmail.com>
+Subject: Re: Habanalabs Open-Source TPC LLVM compiler and SynapseAI Core
+ library
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Cc: Oded Gabbay <ogabbay@kernel.org>, mzuckerman@habana.ai, dsinger@habana.ai, 
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Dave Airlie <airlied@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,43 +70,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Sep 2021 10:38:50 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Forgot to add dri-devel.
 
-> On Fri, Sep 10, 2021 at 01:10:46PM +0100, Christoph Hellwig wrote:
-> > On Thu, Sep 09, 2021 at 04:38:45PM -0300, Jason Gunthorpe wrote:  
-> > > Every driver just emits a static string, simply feed it through the ops
-> > > and provide a standard sysfs show function.  
-> > 
-> > Looks sensible.  But can you make the attribute optional and add a
-> > comment marking it deprecated?  Because it really is completely useless.
-> > We don't version userspace APIs, userspae has to discover new features
-> > individually by e.g. finding new sysfs files or just trying new ioctls.  
-> 
-> To be honest I have no idea what side effects that would have..
-> 
-> device code search tells me libvirt reads it and stuffs it into some
-> XML
-> 
-> Something called mdevctl touches it, feeds it into some JSON and
-> other stuff..
-> 
-> qemu has some VFIO_DEVICE_API_* constants but it is all dead code
-> 
-> I agree it shouldn't have been there in the first place
-> 
-> Cornelia? Alex? Any thoughts?
+On Fri, Sep 10, 2021 at 6:09 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+>
+> On Fri, Sep 10, 2021 at 9:58 AM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > On Fri, Sep 10, 2021 at 10:26:56AM +0300, Oded Gabbay wrote:
+> > > Hi Greg,
+> > >
+> > > Following our conversations a couple of months ago, I'm happy to tell you that
+> > > Habanalabs has open-sourced its TPC (Tensor Processing Core) LLVM compiler,
+> > > which is a fork of the LLVM open-source project.
+> > >
+> > > The project can be found on Habanalabs GitHub website at:
+> > > https://github.com/HabanaAI/tpc_llvm
+> > >
+> > > There is a companion guide on how to write TPC kernels at:
+> > > https://docs.habana.ai/en/latest/TPC_User_Guide/TPC_User_Guide.html
+> >
+> > That's great news, thanks for pushing for this and releasing it all!
+>
+> Yeah this is neat.
+>
+> There's still the problem that we spent the past 2.5 years pissing off
+> a lot of people for an imo questionable political project, bypassing
+> all the technical review and expertise. Now that the political
+> nonsense is resolved I think we need to look at at least the technical
+> cleanup. The angered people are much harder to fix, so let's maybe
+> ignore that (or perhaps a ks topic, no idea, I'm honestly not super
+> motivated to rehash this entire story again). Here's what I think we
+> should do:
+>
+> - move drivers/misc/habanalabs under drivers/gpu/habanalabs and
+> review/discussions on dri-devel
+> - grandfather the entire current situation in as-is, it's not the only
+> driver we have with a funny uapi of its own (but the other driver did
+> manage to get their compiler into upstream llvm even, and not like 2
+> years late)
+> - review the dma-buf stuff on dri-devel and then land it through
+> standard flows, not the gregk-misc bypass
+> - close drivers/misc backdoor for further accel driver submissions,
+> I'd like to focus on technical stuff in this area going forward and
+> not pointless exercises in bypassing due process and all that
+>
+> I expect we'll have a proper discussion what the stack should look
+> like with the next submission (from a different vendor maybe), that
+> ship kinda sailed with habanalabs.
+>
+> Cheers, Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-It's not a version, it's a means for userspace to determine the basic
-API for an mdev device without needing to go through the process of
-creating a container, adding the group, setting an IOMMU type, opening
-the device before being able to call VFIO_DEVICE_GET_INFO to determine
-the API.  For example, it wouldn't make sense for libvirt to attach a
-vfio-ccw device to a PCIe root port in a VM.  It's a means to say this
-mdev device is a vfio-pci or that mdev device is a vfio-ccw.  If it were
-optional, then management tools would have no basic idea how to attach
-the device to a VM without gaining access to the device themselves.
-Thanks,
 
-Alex
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
