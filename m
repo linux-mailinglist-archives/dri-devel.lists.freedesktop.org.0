@@ -2,41 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6003406DF6
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 17:07:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F60406E09
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 17:17:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 690F36EA07;
-	Fri, 10 Sep 2021 15:07:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B4466EA10;
+	Fri, 10 Sep 2021 15:17:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D5F6EA07;
- Fri, 10 Sep 2021 15:07:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="220768519"
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="220768519"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 08:07:19 -0700
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="432276992"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 08:07:19 -0700
-Date: Fri, 10 Sep 2021 08:07:17 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 0/6] i915: Simplify mmio handling & add new
- DG2 shadow table
-Message-ID: <20210910150717.GL461228@mdroper-desk1.amr.corp.intel.com>
-References: <20210910053317.3379249-1-matthew.d.roper@intel.com>
- <8d211f7a-9dcb-dc5e-8703-5ffc33898ee7@linux.intel.com>
- <20210910142402.GJ461228@mdroper-desk1.amr.corp.intel.com>
- <6039a619-9240-75ad-0291-e654411fdb40@linux.intel.com>
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+ [209.85.217.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 818C06EA10
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 15:17:00 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id a25so1888304vso.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 08:17:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3BcYGTvP/p5y9awC2x3olztEkOI5xebLT4gUcpSRmlY=;
+ b=vPMUO3F4MjeVn2np4pPSC4UK8+Z3AwFvJungFECXdJ1dxaB73kjo0b2oRcz6Sed55S
+ 8ttrN+m1LxxdHUPlzsNYeLttWtnoCXl13gjlRh/eOuf/YcfPNZc3FDoP0s6iygF/ACcD
+ sFkPpVyJi3xO/oYuhgyAcPZUeFBPTZzaLeDs5Z0KeVtZlRANGHXfQycTyjFw50f0V6X1
+ cpcBJNBZaOwPJseK7ENwIqdKBa6vnisgHgJimtlxmGBg290vgXzT+AlMcs32dB9D6UeK
+ QQ27yWjQ9vH9cLzfVsf3ImQzBV9FCRdu1HEc/HYaiV58kFKPaww38HpgQUWfQtdeOXpY
+ xBxQ==
+X-Gm-Message-State: AOAM531RNbLVJgt5X7OK6O5OJfbxdtt/m6k+yzLzOTQ/7oLioK1zxXZB
+ 0yB1nRNlXU5ngFJkVaBh1XXyQLOmosymhmcNbQ8=
+X-Google-Smtp-Source: ABdhPJwT5ETyKLWcQ5k7xuhcbA0yvTD3jh/UbJMdE4jvWnM+tTSMk70pO5NvxTo6u5XWka0X6xtHA4gmLbXeWevGZoo=
+X-Received: by 2002:a05:6102:b10:: with SMTP id
+ b16mr5775448vst.41.1631287016565; 
+ Fri, 10 Sep 2021 08:16:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6039a619-9240-75ad-0291-e654411fdb40@linux.intel.com>
+References: <1627293835-17441-1-git-send-email-zheyuma97@gmail.com>
+ <1627293835-17441-2-git-send-email-zheyuma97@gmail.com>
+In-Reply-To: <1627293835-17441-2-git-send-email-zheyuma97@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Fri, 10 Sep 2021 17:16:44 +0200
+Message-ID: <CAMuHMdXB_HHgi1iPSnjusQvgdUYJDBwQc=+f+5vpmEjXBKArng@mail.gmail.com>
+Subject: Re: [PATCH v2 1/3] video: fbdev: asiliantfb: Error out if 'pixclock'
+ equals zero
+To: Zheyu Ma <zheyuma97@gmail.com>
+Cc: "Antonino A. Daplas" <adaplas@gmail.com>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux Fbdev development list <linux-fbdev@vger.kernel.org>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,111 +63,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 10, 2021 at 04:03:50PM +0100, Tvrtko Ursulin wrote:
-> 
-> On 10/09/2021 15:24, Matt Roper wrote:
-> > On Fri, Sep 10, 2021 at 02:03:44PM +0100, Tvrtko Ursulin wrote:
-> > > 
-> > > On 10/09/2021 06:33, Matt Roper wrote:
-> > > > Our uncore MMIO functions for reading/writing registers have become very
-> > > > complicated over time.  There's significant macro magic used to generate
-> > > > several nearly-identical functions that only really differ in terms of
-> > > > which platform-specific shadow register table they should check on write
-> > > > operations.  We can significantly simplify our MMIO handlers by storing
-> > > > a reference to the current platform's shadow table within the 'struct
-> > > > intel_uncore' the same way we already do for forcewake; this allows us
-> > > > to consolidate the multiple variants of each 'write' function down to
-> > > > just a single 'fwtable' version that gets the shadow table out of the
-> > > > uncore struct rather than hardcoding the name of a specific platform's
-> > > > table.  We can do similar consolidation on the MMIO read side by
-> > > > creating a single-entry forcewake table to replace the open-coded range
-> > > > check they had been using previously.
-> > > > 
-> > > > The final patch of the series adds a new shadow table for DG2; this
-> > > > becomes quite clean and simple now, given the refactoring in the first
-> > > > five patches.
-> > > 
-> > > Tidy and it ends up saving kernel binary size.
-> > > 
-> > > However I am undecided yet, because one thing to note is that the trade off
-> > > is source code and kernel text consolidation at the expense of more indirect
-> > > calls at runtime and larger common read/write functions.
-> > > 
-> > > To expand, current code generates a bunch of per gen functions but in doing
-> > > so it manages to inline a bunch of checks like NEEDS_FORCE_WAKE and BSEARCH
-> > > (from find_fw_domain) so at runtime each platform mmio read/write does not
-> > > have to do indirect calls to do lookups.
-> > > 
-> > > It may matter a lot in the grand scheme of things but this trade off is
-> > > something to note in the cover letter I think.
-> > 
-> > That's true.  However it seems like if the extra indirect calls are good
-> > enough for our forcewake lookups (which are called more frequently and
-> > have to search through much larger tables) then using the same strategy
-> > for shadow registers should be less of a concern.  Plus most of
-> > timing-critical parts of the code don't call through this at all; they
-> > just grab an explicit forcewake and then issue a bunch of *_fw()
-> > operations that skip all the per-register forcewake and shadow handling.
-> 
-> With lookups you mean intel_uncore_forcewake_for_reg? Yeah I don't have a
-> good idea of how many of those followed by "_fw" accessors we have vs
-> "un-optimized" access. But it's a good point.
-> 
-> I was mostly coming from the point of view of old platforms like gen6, where
-> with this series reads go from inlined checks (NEEDS_FORCE_WAKE) to always
-> calling find_fw_domain. Just because it is a bit unfortunate to burden old
-> CPUs (they are not getting any faster) with executing more code. It's not
-> nice when old hardware gets slower and slower with software updates. :) But
-> whether or not this case would at all be measurable.. probably not. Unless
-> some compounding effects, like "death by thousand cuts", would come into
-> play.
+Hi Zheyu,
 
-Chris pointed out in an offline mail that NEEDS_FORCE_WAKE does cut cut
-out a lot of display MMIO lookups.  So I think it might be worth adding
-that back, but also adding an "|| GEN11_BSD_RING_BASE" so that it will
-still be accurate for the newer platforms too.
+On Mon, Jul 26, 2021 at 12:04 PM Zheyu Ma <zheyuma97@gmail.com> wrote:
+> The userspace program could pass any values to the driver through
+> ioctl() interface. If the driver doesn't check the value of 'pixclock',
+> it may cause divide error.
+>
+> Fix this by checking whether 'pixclock' is zero first.
+>
+> The following log reveals it:
+>
+> [   43.861711] divide error: 0000 [#1] PREEMPT SMP KASAN PTI
+> [   43.861737] CPU: 2 PID: 11764 Comm: i740 Not tainted 5.14.0-rc2-00513-gac532c9bbcfb-dirty #224
+> [   43.861756] RIP: 0010:asiliantfb_check_var+0x4e/0x730
+> [   43.861843] Call Trace:
+> [   43.861848]  ? asiliantfb_remove+0x190/0x190
+> [   43.861858]  fb_set_var+0x2e4/0xeb0
+> [   43.861866]  ? fb_blank+0x1a0/0x1a0
+> [   43.861873]  ? lock_acquire+0x1ef/0x530
+> [   43.861884]  ? lock_release+0x810/0x810
+> [   43.861892]  ? lock_is_held_type+0x100/0x140
+> [   43.861903]  ? ___might_sleep+0x1ee/0x2d0
+> [   43.861914]  ? __mutex_lock+0x620/0x1190
+> [   43.861921]  ? do_fb_ioctl+0x313/0x700
+> [   43.861929]  ? mutex_lock_io_nested+0xfa0/0xfa0
+> [   43.861936]  ? __this_cpu_preempt_check+0x1d/0x30
+> [   43.861944]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+> [   43.861952]  ? lockdep_hardirqs_on+0x59/0x100
+> [   43.861959]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+> [   43.861967]  ? trace_hardirqs_on+0x6a/0x1c0
+> [   43.861978]  do_fb_ioctl+0x31e/0x700
+>
+> Signed-off-by: Zheyu Ma <zheyuma97@gmail.com>
 
-But I think another thing to consider here would be that we might want
-to switch our intel_de_{read,write} wrappers to call raw mmio directly,
-to completely bypass forcewake and shadow logic.
+Thanks for your patch!
+
+> ---
+> Changes in v2:
+>     - Make commit log more descriptive
+> ---
+>  drivers/video/fbdev/asiliantfb.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/video/fbdev/asiliantfb.c b/drivers/video/fbdev/asiliantfb.c
+> index 3e006da47752..84c56f525889 100644
+> --- a/drivers/video/fbdev/asiliantfb.c
+> +++ b/drivers/video/fbdev/asiliantfb.c
+> @@ -227,6 +227,9 @@ static int asiliantfb_check_var(struct fb_var_screeninfo *var,
+>  {
+>         unsigned long Ftarget, ratio, remainder;
+>
+> +       if (!var->pixclock)
+> +               return -EINVAL;
+
+While this fixes the crash, it is not correct: according to the
+fbdev API, invalid values must be rounded up to a supported value,
+if possible.  -EINVAL should only be returned if rounding up values
+in fb_var_screeninfo cannot give a valid mode.
+
+The same comment applies to the other patches in this series:
+[PATCH v2 2/3] video: fbdev: kyro: Error out if 'pixclock' equals zero
+[PATCH v2 3/3] video: fbdev: riva: Error out if 'pixclock' equals zero
+
+> +
+>         ratio = 1000000 / var->pixclock;
+>         remainder = 1000000 % var->pixclock;
+>         Ftarget = 1000000 * ratio + (1000000 * remainder) / var->pixclock;
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 
-Matt
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> > But you're right that this is something I should mention more clearly in
-> > the cover letter.
-> > 
-> > 
-> > Matt
-> > 
-> > > 
-> > > Regards,
-> > > 
-> > > Tvrtko
-> > > 
-> > > > Matt Roper (6):
-> > > >     drm/i915/uncore: Convert gen6/gen7 read operations to fwtable
-> > > >     drm/i915/uncore: Associate shadow table with uncore
-> > > >     drm/i915/uncore: Replace gen8 write functions with general fwtable
-> > > >     drm/i915/uncore: Drop gen11/gen12 mmio write handlers
-> > > >     drm/i915/uncore: Drop gen11 mmio read handlers
-> > > >     drm/i915/dg2: Add DG2-specific shadow register table
-> > > > 
-> > > >    drivers/gpu/drm/i915/intel_uncore.c           | 190 ++++++++++--------
-> > > >    drivers/gpu/drm/i915/intel_uncore.h           |   7 +
-> > > >    drivers/gpu/drm/i915/selftests/intel_uncore.c |   1 +
-> > > >    3 files changed, 110 insertions(+), 88 deletions(-)
-> > > > 
-> > 
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
