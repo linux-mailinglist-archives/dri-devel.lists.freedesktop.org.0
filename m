@@ -1,56 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30B7406CA3
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:08:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86103406CB1
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:09:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22D6F6E9F1;
-	Fri, 10 Sep 2021 13:08:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 190E46E9F2;
+	Fri, 10 Sep 2021 13:09:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2AA036E9F1
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 13:08:09 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- o16-20020a9d2210000000b0051b1e56c98fso2129586ota.8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 06:08:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=283Y9UlcMi+APx5COV8qDm1rdMUU5aXjcw1zhBbMwjw=;
- b=jkz0B1MibU5h8xAsr2UCiLzzn2d+wOgUdovOskac1sniyZtDepxhG8DfTxxQF+FANm
- DrMpVq/tAmbC/GIGRANzyM0V0QXDWCcXRpabUoUy42p4VjyKm5sk58OMqfM9XAiwaH7K
- o6yuXNTuAW54y29hR1cbAMcTejs1HvDUmJJ4euTP8VXMKz8ot2wrkiocWKtupu+HWgVI
- LKGfnSKXcNexJNdA/O8ZDzIf+VL3OYcYlmYL2mYuU1Bgohejg8ECXmvvkpKiLNz31P2a
- jKV6n5G80eFh/5VFw5xtoGKzolrFehDj0qG0s4SkPZYRVifF83JtBI4yrgKuo+6qArZS
- 3cuQ==
-X-Gm-Message-State: AOAM5300Vjph8IGhC6lAe0EaxqL7q6rje+0WxVJ96oF9+t/a4fv+NP4k
- g8aysk9Vn2i+ngmTB6xeMQ==
-X-Google-Smtp-Source: ABdhPJxV1nuJALXEy7y62dHRYbTZIvGmh4x5J83MUZxSWKiJ5l8KiRjl6RNLgHuhCAfQpQrnxr78Jg==
-X-Received: by 2002:a05:6830:788:: with SMTP id
- w8mr1983528ots.235.1631279287960; 
- Fri, 10 Sep 2021 06:08:07 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id p81sm1235173oia.48.2021.09.10.06.08.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 10 Sep 2021 06:08:05 -0700 (PDT)
-Received: (nullmailer pid 2509935 invoked by uid 1000);
- Fri, 10 Sep 2021 13:08:04 -0000
-From: Rob Herring <robh@kernel.org>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- jonathanh@nvidia.com, robh+dt@kernel.org, linux-tegra@vger.kernel.org,
- daniel@ffwll.ch, devicetree@vger.kernel.org, airlied@linux.ie
-In-Reply-To: <20210910104247.1206716-2-mperttunen@nvidia.com>
-References: <20210910104247.1206716-1-mperttunen@nvidia.com>
- <20210910104247.1206716-2-mperttunen@nvidia.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: Add YAML bindings for NVDEC
-Date: Fri, 10 Sep 2021 08:08:04 -0500
-Message-Id: <1631279284.846111.2509934.nullmailer@robh.at.kernel.org>
+Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
+ [64.147.123.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62A406E9F2
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 13:09:51 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 0F1042B012A6;
+ Fri, 10 Sep 2021 09:09:46 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Fri, 10 Sep 2021 09:09:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm3; bh=Q9z3lLEAaevDUD49j6RHOkYod/
+ ot7jQUn3ZBL3TnwVg=; b=ULkDc5ydZ0lzCerUrWcfR4AsM6ZC1zEKmQs/Cmq/Yf
+ 7QE/q4bDWap99ZjPxMSbCmcChg9AXBfF0i7rKa6LHQpqb5lr6ziPlAOzIEwc4Tat
+ pRPDZG4EUCjdWEjGHspYRLbGE9a+jdxH5EtnZPxAOYrrRpPDlijOBEesdyoSPqe3
+ C44aDhsmpTRjT4ORZ/heldngD++d0/PSZcMAdi26L4m99njTlbp3Xfu7kme5vS0z
+ IJ7OumUcDiGYrViYGdoGbPUm66rMfer6ZEFHQComptlqNOhwHBaP9Oh3UVBMEEfm
+ YLCT9MipuTgoodb8rgos5kcQRRATsgKpqZJ3pZlivQDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Q9z3lL
+ EAaevDUD49j6RHOkYod/ot7jQUn3ZBL3TnwVg=; b=poTjO7yzoGlZJfn7uixG7A
+ wqIi5QyVNexwTteJYYTMx6A+6IqdFpBfuJbmn3BYZTJ42Odsudr9of4eplg339E3
+ /CQK3JzyMidtVkRcXAydOsDoigvU+WzYVIofs67Jf6Hrvx+WC4UkE7FEsjYs6fQv
+ k7RBU0RWbfx8MBNmsgsKXyeKyEW4kBFaQ4wyCJQZ5kPinGpHnpik8fRC7/0YukGh
+ 8UFpdvj09IVEfqC5UsZVnOBCX3WVAnUVzSC8O9wAygPeXOtbfYYGwZEZ6MAhWSEv
+ NoXCNL78jWunKAf613B3nCIa4h+OsR0iGGsANDCT5205yrWkiY2d4EhOqiDQlnQw
+ ==
+X-ME-Sender: <xms:F1k7YaDmnrZD1x6L12sAoHWy-iGbb9u4LarWKYN0x_68bWMsnnZ0dw>
+ <xme:F1k7YUgOUihzf3babzsKEOv-UMCY8uCP7-nKaOUy0Pvx2tfizanUecSabkDn7__Wq
+ gxXyhPqHjyQqa59UeQ>
+X-ME-Received: <xmr:F1k7YdkchXVBbSPszlMV2CIZ0U2_udmhlmVe-4tXHNeukxBtCVULbdFvhcVRQv71s0m-P_fvjSzYcuB_YNFzOyPRt9EuoRoJbo9l>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgiedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
+ feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:F1k7YYyqh6zOWlwwfJy71W6uddqcim9gnkSXmGNBzKqNkQb0pBac0A>
+ <xmx:F1k7YfQpUTbekC6uvwlVzUWr9XacTpM1AZ3xvji85q4cu1b_SVUmuQ>
+ <xmx:F1k7YTaxFtKCaFeHkiUQL6t2PtcD5PqZ-qy-Rx5BGDj0N9fnMALTOA>
+ <xmx:Glk7YUIh5n_VfkLMxzX4ctJKsnogVNYlTB-rXXLk_xMxuvQaAcZ0JVJozAo>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 10 Sep 2021 09:09:43 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Robert Foss <robert.foss@linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, Jonas Karlman <jonas@kwiboo.se>
+Cc: dri-devel@lists.freedesktop.org
+Subject: [PATCH 0/3] drm/bridge: Create a function to abstract panels away
+Date: Fri, 10 Sep 2021 15:09:38 +0200
+Message-Id: <20210910130941.1740182-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,51 +88,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 10 Sep 2021 13:42:45 +0300, Mikko Perttunen wrote:
-> Add YAML device tree bindings for NVDEC, now in a more appropriate
-> place compared to the old textual Host1x bindings.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
-> v5:
-> * Changed from nvidia,instance to nvidia,host1x-class optional
->   property.
-> * Added dma-coherent
-> v4:
-> * Fix incorrect compatibility string in 'if' condition
-> v3:
-> * Drop host1x bindings
-> * Change read2 to read-1 in interconnect names
-> v2:
-> * Fix issues pointed out in v1
-> * Add T194 nvidia,instance property
-> ---
->  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 104 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 105 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml:104:1: [warning] too many blank lines (2 > 1) (empty-lines)
-
-dtschema/dtc warnings/errors:
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1526459
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Hi,=0D
+=0D
+This series used to be part of the DSI probe order series, but got removed=
+=0D
+since it wasn't useful there anymore.=0D
+=0D
+However, I still believe there is value in moving towards merging bridges a=
+nd=0D
+panels by only making encoder (or upstream bridges) manipulate bridges.=0D
+=0D
+The first patch creates a new helper that does just this by looking for a=0D
+bridge and a panel, and if a panel is found create a panel_bridge to return=
+=0D
+that bridge instead.=0D
+=0D
+The next two patches convert the vc4 encoders to use it.=0D
+=0D
+If it's accepted, I plan on converting all the relevant users over time.=0D
+=0D
+Let me know what you think,=0D
+Maxime=0D
+=0D
+Maxime Ripard (3):=0D
+  drm/bridge: Add a function to abstract away panels=0D
+  drm/vc4: dpi: Switch to devm_drm_of_get_bridge=0D
+  drm/vc4: dsi: Switch to devm_drm_of_get_bridge=0D
+=0D
+ drivers/gpu/drm/drm_bridge.c  | 42 +++++++++++++++++++++++++++++++----=0D
+ drivers/gpu/drm/drm_of.c      |  3 +++=0D
+ drivers/gpu/drm/vc4/vc4_dpi.c | 15 ++++---------=0D
+ drivers/gpu/drm/vc4/vc4_drv.c |  2 ++=0D
+ drivers/gpu/drm/vc4/vc4_dsi.c | 28 ++++-------------------=0D
+ include/drm/drm_bridge.h      |  2 ++=0D
+ 6 files changed, 53 insertions(+), 39 deletions(-)=0D
+=0D
+-- =0D
+2.31.1=0D
+=0D
