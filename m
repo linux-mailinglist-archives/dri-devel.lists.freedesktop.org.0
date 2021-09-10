@@ -2,48 +2,133 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745B2406CEE
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A14406CFB
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 15:38:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD8C46E9FC;
-	Fri, 10 Sep 2021 13:33:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D7CDB6E9FB;
+	Fri, 10 Sep 2021 13:38:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B20FD6E9FA;
- Fri, 10 Sep 2021 13:33:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10102"; a="284781118"
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="284781118"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 06:33:32 -0700
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="540603282"
-Received: from cmmooney-mobl3.ger.corp.intel.com (HELO [10.213.215.191])
- ([10.213.215.191])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 06:33:30 -0700
-Subject: Re: [Intel-gfx] [PATCH v5] drm/i915: Use Transparent Hugepages when
- IOMMU is enabled
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32B5A6E9FB;
+ Fri, 10 Sep 2021 13:38:55 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=esBmszfN7ygIFwQDVjJ9ItaeW62+LfRhiFasQ/CT+9BCUtx9Pdvi94Z1huYQKojTp4l7kwCCGzAlkWVmySDqjBwJZtzpLkqDH6BkHeQUcRvW7k0TFu4HgjD9oJ+O3mWBg467iHvgcEjC0+oc5nlqy0z2/I9Uhfj/0SH/z1CGWcSRAKzOo6coKimIssOlSJrr8LY7GPU9FMCIFLzZW0c04FUTjHH7cKGviQYzhnKKaD8DbK0+/4GnQ8G6WEFJHhck/tX8HC5K0UR4xemgBMCUvyiiYxs+6zBIsBh6+UrVIlvt0ixTjvdvs5+o8XCj9lWu2fyvIBa68bvOT0O0r1NAQQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=dJMidaqVcfyWf0MdzqgXZUXLoJR5ARnHL7UICuS7LIk=;
+ b=n7gdf+nELSd3YJmwK2HnQzeUsIxflPXLq9p0qodBLQP1wlp+hEAgI251eU1/ZVwvFtKqVPX2ZROo4Fdm+oCZFgmBCJiUF/QcOEl/kXi7i5jDNS5YN834aAoI+isfgtaWF/Bnay41FmX4amn6rnCs0jXX358cvA4K0ELiMJiH1P6qOdza4D5D7L0C/CFchsse1BGsxoLNCKjwY4gVkiDsdWVAR7lLuKs5j2cCnyUvyt8qIZzhyqsLUBtgWiWoreSW4Q/GM3r5V21uV/I9raqxSuHh66yMy5G+c//KHoARc4eAvF9JsgsyN281MhIdQFZibDa/3e5qYk5VYt1langNXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dJMidaqVcfyWf0MdzqgXZUXLoJR5ARnHL7UICuS7LIk=;
+ b=PKypkT2vMeUJCdS1yqDRvcEpqCQRFvgquKtCv/YKQo0c9ULuwKRDiCER8+93QiIyc2zwRp48LF6aa8gQHeMXZctwzzdAFH8XwD5Es8UY1GAqMCtON17XSUqAgkjKt/oEw+oD2vUwqg0L3lEM8eeNEx6217O1VO9sxeJDeQDI8HsUMKu31IloL9k/JCwQfnI0dQpcKc7RTm4BdP/YF8o/3oLFjpssvSxPCP0qFxy40hNcNzU9r/q+mH9zcW4Bdq3H4Qh30GQFS5tHj8CCbU3tUJLc7uuT3ZtI73KOuNkfM/LhzYYK314WAkqLnUyBOEqM6vhv1Lxq+xqKpD6sPAUn0w==
+Authentication-Results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=nvidia.com;
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
+ by BL1PR12MB5094.namprd12.prod.outlook.com (2603:10b6:208:312::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Fri, 10 Sep
+ 2021 13:38:53 +0000
+Received: from BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
+ ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4500.014; Fri, 10 Sep 2021
+ 13:38:53 +0000
+Date: Fri, 10 Sep 2021 10:38:50 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, Eric Farman <farman@linux.ibm.com>,
+ Harald Freudenberger <freude@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>,
+ Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
+ intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Eero Tamminen <eero.t.tamminen@intel.com>, Daniel Vetter <daniel@ffwll.ch>
-References: <20210909114448.508493-1-tvrtko.ursulin@linux.intel.com>
- <YTozpuYiH4pr7r+S@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <0b8a687f-80c7-8b1d-167a-4c2a72ce1812@linux.intel.com>
-Date: Fri, 10 Sep 2021 14:33:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
+ linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Peter Oberparleiter <oberpar@linux.ibm.com>,
+ Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Vineeth Vijayan <vneethv@linux.ibm.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, Christoph Hellwig <hch@lst.de>
+Subject: Re: [PATCH v2 5/9] vfio/mdev: Consolidate all the device_api sysfs
+ into the core code
+Message-ID: <20210910133850.GT2505917@nvidia.com>
+References: <0-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+ <5-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+ <YTtLRmiXq+QtJ+la@infradead.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YTtLRmiXq+QtJ+la@infradead.org>
+X-ClientProxiedBy: MN2PR15CA0013.namprd15.prod.outlook.com
+ (2603:10b6:208:1b4::26) To BL0PR12MB5506.namprd12.prod.outlook.com
+ (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
-In-Reply-To: <YTozpuYiH4pr7r+S@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ MN2PR15CA0013.namprd15.prod.outlook.com (2603:10b6:208:1b4::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend
+ Transport; Fri, 10 Sep 2021 13:38:53 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mOgjy-00FYKl-S3; Fri, 10 Sep 2021 10:38:50 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: bc9ce347-3a26-4990-bcfe-08d97460545f
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5094:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL1PR12MB50944810E5831AC511C6DC59C2D69@BL1PR12MB5094.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: rw6wTOETbaR5wnDZar/FDz1hKdSdi8d8rkankYBjLBOVhnpMhHRcmiky4eBcW4Z10hd3z+kr4Nq8CRXn/V9hAozd/FMTeImpIxCXlwDVxZmuvyvM4h9m1kpdv4n4tBNNasn/LQHnNYvqXUdsM0XM9zK+W4j9DtEjidRfMmD7VpIgX9Qqg2Ly8NNsDaaJrFmIX5fj5+WrA+aOAjLIWvBIgRLqt+QfEyEKP/3xjrQyv8GtbTghaYpIZDi2obm2uO7bSFrpWqccUkfhJSCZw7H+RtRopHDNWdPigael1kYalDXr4SEtnd4JeppVkoyWqPOiZetk/TWR5EwILiXn/5RS3H6TnaIF+R417EZ8WcOlVkydZYpxK4muQSZzWZcfTlRneOpamwyWwy6Fk5vgtPStQbjEAf5nCA9WeUU7rJo0ZoRkqcdM2axckSl/kok5pj61VIC5CASiANNcRrXdZwZjLxoWXRyq1x3Xjn9YjS91Fc5GIdfTpi5nwAcKUNVfs9wj3R5RZ7Y6ysRGMZl0QD0gJQfufgnYgk4AnvqJMBtYzrPC+clX8FvVvydcoV024QNEXdTomvM9S98E4bqLu555Zz4KadP+HCeIVkrlNlAKOKp5ZaiLGwPhUaJS/+Cm1LO9KZkuF11GUsJtdqtsd3pFPw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(54906003)(4744005)(2616005)(5660300002)(316002)(508600001)(186003)(426003)(36756003)(26005)(2906002)(9746002)(33656002)(7416002)(6916009)(66556008)(8936002)(38100700002)(66476007)(86362001)(66946007)(8676002)(9786002)(4326008)(1076003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?SDuZHjki13zUwWqTkTr7KjStUMTTx2mIlrBGo5di3sDN9ZYP4S1srjRfXdhe?=
+ =?us-ascii?Q?yBZ1m+l0gKPsWTry3GtdSn27bAZQXCGlx1DflRf7VikwAl4lyNK7++xQxrXZ?=
+ =?us-ascii?Q?ZZXh09EjpVWvLRR/f/lfcCcCpJSfcSeoAi/LZ3l8rSsiz9Yuy/0hjoYHXdXJ?=
+ =?us-ascii?Q?5TwCbSdKy0QN8oE8IRee/77qqgl68aPHXx2hx9j6Nf4LtX+z4f8frNT0C7Ww?=
+ =?us-ascii?Q?bQgsJmtyLW+z97+CFA2SRRuixiqnhM/+4kvrrGZfl3hyq1FzVl+BOnS90hp/?=
+ =?us-ascii?Q?Ht/W0iY8xW5F1kHhZkLtQ1GJ1et6gJ5OWEQKWL7eSb5nY9/46mXhXXVj9Tua?=
+ =?us-ascii?Q?86mC2sG5ADhDQC+m8Csm9ygfUQoaXJoKJrGEsbL3v1h71wa3D2rbW5AeywSM?=
+ =?us-ascii?Q?/unVFSkcBv9u6ppGxqOuChJVuDCfMFRO6DarkrRQ1zgZScmL+TEDBFny5adg?=
+ =?us-ascii?Q?7+d0fGKRzEYrjHJXw54jI5V9nitcH4jSiOTNKMhlqrvIg3BqfguEpAKvy6o+?=
+ =?us-ascii?Q?KYOvqpJTHq46AwnBZbywFXjgYq2nUyXEcHOOAhhtfeDmoED4xZN14KJdocOc?=
+ =?us-ascii?Q?yB6g/ZYykq1LtrlCDCTCiwJQ0+t4/9Gz9czRAKkq0mmtUpoZaFvn8o4Q9btr?=
+ =?us-ascii?Q?C7AZzAaNdGxEbUqc0IgGrWUFv3x/xLprpzH+ye6aSc1aIHLPhC/6m9Q8B9FV?=
+ =?us-ascii?Q?CNgB1JFfdDllqmqmwkvlDajmGiBqVE7YClzhcamraM0pVtDWiCM60Lhv8bYI?=
+ =?us-ascii?Q?KvjiB6BoqIdwEdJLw0aJeRXzqLe+5rcYChfJ+6jOtHiOc1Rvvm0TzVOflHtw?=
+ =?us-ascii?Q?tDGER69md7QwPnmWDh2jHJVNryaGcOKXlFtntRzYsFCWNOq2m7f+uG3an5K2?=
+ =?us-ascii?Q?caikoEE8O6bX0xRhnAigxsqHpfkkRg7d2YcRSOMKoq8i6FfkR5/gInVu3N0w?=
+ =?us-ascii?Q?k2AlT3XOiKZf3YnTQlvp8dNVha0D+aUWPOfLj4OqKTxx/FL2c3qRt/qT7/49?=
+ =?us-ascii?Q?yCiwXml/H43g6Ah4NcPOobLGHcOyf1OTfaxt2OzmPEmdtalT3GU7NzkRPBKq?=
+ =?us-ascii?Q?x10zWixxsLpvq64I3fgh2YQtXJzDVB/zu7rHVdVFsbnwYCqBmvPUH3KptaV+?=
+ =?us-ascii?Q?vZ/mK/qquPQPSZn2KqcF3gS2URaVtIFEUp9U2fzjHWLb9iHpnufo84+8z9+Y?=
+ =?us-ascii?Q?Zx1WfnrzFqcfy+RO4DCvsxoa4zdlyvX9fuk9DFA8Sh2IrKYwK1kMO33WHHP6?=
+ =?us-ascii?Q?hjL/o7TmWdTKIcQcwX2g6Fs6UatyD3NYV7f3JOCp6GghUyn9cHOGSEhOHRmo?=
+ =?us-ascii?Q?jjau38st9pCB0yPXzWAx2TZn?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc9ce347-3a26-4990-bcfe-08d97460545f
+X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2021 13:38:53.3138 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: TV5+xS3vTlme0eZ+DdsHsePBh6+WmMwawNfZUrGTjE7w6tx/4RSsxsavHYbc9xDi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5094
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,173 +144,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 09/09/2021 17:17, Rodrigo Vivi wrote:
-> On Thu, Sep 09, 2021 at 12:44:48PM +0100, Tvrtko Ursulin wrote:
->> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Usage of Transparent Hugepages was disabled in 9987da4b5dcf
->> ("drm/i915: Disable THP until we have a GPU read BW W/A"), but since it
->> appears majority of performance regressions reported with an enabled IOMMU
->> can be almost eliminated by turning them on, lets just do that.
->>
->> To err on the side of safety we keep the current default in cases where
->> IOMMU is not active, and only when it is default to the "huge=within_size"
->> mode. Although there probably would be wins to enable them throughout,
->> more extensive testing across benchmarks and platforms would need to be
->> done.
->>
->> With the patch and IOMMU enabled my local testing on a small Skylake part
->> shows OglVSTangent regression being reduced from ~14% (IOMMU on versus
->> IOMMU off) to ~2% (same comparison but with THP on).
->>
->> More detailed testing done in the below referenced Gitlab issue by Eero:
->>
->> Skylake GT4e:
->>
->> Performance drops from enabling IOMMU:
->>
->>      30-35% SynMark CSDof
->>      20-25% Unigine Heaven, MemBW GPU write, SynMark VSTangent
->>      ~20% GLB Egypt  (1/2 screen window)
->>      10-15% GLB T-Rex (1/2 screen window)
->>      8-10% GfxBench T-Rex, MemBW GPU blit
->>      7-8% SynMark DeferredAA + TerrainFly* + ZBuffer
->>      6-7% GfxBench Manhattan 3.0 + 3.1, SynMark TexMem128 & CSCloth
->>      5-6% GfxBench CarChase, Unigine Valley
->>      3-5% GfxBench Vulkan & GL AztecRuins + ALU2, MemBW GPU texture,
->>           SynMark Fill*, Deferred, TerrainPan*
->>      1-2% Most of the other tests
->>
->> With the patch drops become:
->>
->>      20-25% SynMark TexMem*
->>      15-20% GLB Egypt (1/2 screen window)
->>      10-15% GLB T-Rex (1/2 screen window)
->>      4-7% GfxBench T-Rex, GpuTest Triangle
->>      1-8% GfxBench ALU2 (offscreen 1%, onscreen 8%)
->>      3% GfxBench Manhattan 3.0, SynMark CSDof
->>      2-3% Unigine Heaven + Valley, MemBW GPU texture
->>      1-3 GfxBench Manhattan 3.1 + CarChase + Vulkan & GL AztecRuins
->>
->> Broxton:
->>
->> Performance drops from IOMMU, without patch:
->>
->>      30% MemBW GPU write
->>      25% SynMark ZBuffer + Fill*
->>      20% MemBW GPU blit
->>      15% MemBW GPU blend, GpuTest Triangle
->>      10-15% MemBW GPU texture
->>      10% GLB Egypt, Unigine Heaven (had hangs), SynMark TerrainFly*
->>      7-9% GLB T-Rex, GfxBench Manhattan 3.0 + T-Rex,
->>           SynMark Deferred* + TexMem*
->>      6-8% GfxBench CarChase, Unigine Valley,
->>           SynMark CSCloth + ShMapVsm + TerrainPan*
->>      5-6% GfxBench Manhattan 3.1 + GL AztecRuins,
->>           SynMark CSDof + TexFilterTri
->>      2-4% GfxBench ALU2, SynMark DrvRes + GSCloth + ShMapPcf + Batch[0-5] +
->>           TexFilterAniso, GpuTest GiMark + 32-bit Julia
->>
->> And with patch:
->>
->>      15-20% MemBW GPU texture
->>      10% SynMark TexMem*
->>      8-9% GLB Egypt (1/2 screen window)
->>      4-5% GLB T-Rex (1/2 screen window)
->>      3-6% GfxBench Manhattan 3.0, GpuTest FurMark,
->>           SynMark Deferred + TexFilterTri
->>      3-4% GfxBench Manhattan 3.1 + T-Rex, SynMark VSInstancing
->>      2-4% GpuTest Triangle, SynMark DeferredAA
->>      2-3% Unigine Heaven + Valley
->>      1-3% SynMark Terrain*
->>      1-2% GfxBench CarChase, SynMark TexFilterAniso + ZBuffer
->>
->> Tigerlake-H:
->>
->>      20-25% MemBW GPU texture
->>      15-20% GpuTest Triangle
->>      13-15% SynMark TerrainFly* + DeferredAA + HdrBloom
->>      8-10% GfxBench Manhattan 3.1, SynMark TerrainPan* + DrvRes
->>      6-7% GfxBench Manhattan 3.0, SynMark TexMem*
->>      4-8% GLB onscreen Fill + T-Rex + Egypt (more in onscreen than
->>           offscreen versions of T-Rex/Egypt)
->>      4-6% GfxBench CarChase + GLES AztecRuins + ALU2, GpuTest 32-bit Julia,
->>           SynMark CSDof + DrvState
->>      3-5% GfxBench T-Rex + Egypt, Unigine Heaven + Valley, GpuTest Plot3D
->>      1-7% Media tests
->>      2-3% MemBW GPU blit
->>      1-3% Most of the rest of 3D tests
->>
->> With the patch:
->>
->>      6-8% MemBW GPU blend => the only regression in these tests (compared
->>           to IOMMU without THP)
->>      4-6% SynMark DrvState (not impacted) + HdrBloom (improved)
->>      3-4% GLB T-Rex
->>      ~3% GLB Egypt, SynMark DrvRes
->>      1-3% GfxBench T-Rex + Egypt, SynMark TexFilterTri
->>      1-2% GfxBench CarChase + GLES AztecRuins, Unigine Valley,
->>          GpuTest Triangle
->>      ~1% GfxBench Manhattan 3.0/3.1, Unigine Heaven
->>
->> Perf of several tests actually improved with IOMMU + THP, compared to no
->> IOMMU / no THP:
->>
->>      10-15% SynMark Batch[0-3]
->>      5-10% MemBW GPU texture, SynMark ShMapVsm
->>      3-4% SynMark Fill* + Geom*
->>      2-3% SynMark TexMem512 + CSCloth
->>      1-2% SynMark TexMem128 + DeferredAA
->>
->> As a summary across all platforms, these are the benchmarks where enabling
->> THP on top of IOMMU enabled brings regressions:
->>
->>   * Skylake GT4e:
->>     20-25% SynMark TexMem*
->>     (whereas all MemBW GPU tests either improve or are not affected)
->>
->>   * Broxton J4205:
->>     7% MemBW GPU texture
->>     2-3% SynMark TexMem*
->>
->>   * Tigerlake-H:
->>     7% MemBW GPU blend
->>
->> Other benchmarks show either lowering of regressions or improvements.
->>
->> v2:
->>   * Add Kconfig dependency to transparent hugepages and some help text.
->>   * Move to helper for easier handling of kernel build options.
->>
->> v3:
->>   * Drop Kconfig. (Daniel)
->>
->> v4:
->>   * Add some benchmark results to commit message.
->>
->> v5:
->>   * Add explicit regression summary to commit message. (Eero)
->>
->> References: b901bb89324a ("drm/i915/gemfs: enable THP")
->> References: 9987da4b5dcf ("drm/i915: Disable THP until we have a GPU read BW W/A")
->> References: https://gitlab.freedesktop.org/drm/intel/-/issues/430
->> Co-developed-by: Chris Wilson <chris@chris-wilson.co.uk>
->> Signed-off-by: Chris Wilson <chris@chris-wilson.co.uk>
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Matthew Auld <matthew.auld@intel.com>
->> Cc: Eero Tamminen <eero.t.tamminen@intel.com>
->> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com> # v1
+On Fri, Sep 10, 2021 at 01:10:46PM +0100, Christoph Hellwig wrote:
+> On Thu, Sep 09, 2021 at 04:38:45PM -0300, Jason Gunthorpe wrote:
+> > Every driver just emits a static string, simply feed it through the ops
+> > and provide a standard sysfs show function.
 > 
-> Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> Looks sensible.  But can you make the attribute optional and add a
+> comment marking it deprecated?  Because it really is completely useless.
+> We don't version userspace APIs, userspae has to discover new features
+> individually by e.g. finding new sysfs files or just trying new ioctls.
 
-Thanks, I've pushed it now so hopefully some goodness comes out of it 
-for someone.
+To be honest I have no idea what side effects that would have..
 
-Regards,
+device code search tells me libvirt reads it and stuffs it into some
+XML
 
-Tvrtko
+Something called mdevctl touches it, feeds it into some JSON and
+other stuff..
+
+qemu has some VFIO_DEVICE_API_* constants but it is all dead code
+
+I agree it shouldn't have been there in the first place
+
+Cornelia? Alex? Any thoughts?
+
+Jason
