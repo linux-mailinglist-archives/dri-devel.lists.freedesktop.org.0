@@ -2,45 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777C6406552
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 03:40:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623E54064FF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 03:16:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3ACEB6E951;
-	Fri, 10 Sep 2021 01:40:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 634D06E950;
+	Fri, 10 Sep 2021 01:16:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 1997 seconds by postgrey-1.36 at gabe;
- Fri, 10 Sep 2021 01:40:33 UTC
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C9436E951
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 01:40:32 +0000 (UTC)
-Received: from tazenda.hos.anvin.org
- ([IPv6:2601:646:8600:3c70:7285:c2ff:fefb:fd4]) (authenticated bits=0)
- by mail.zytor.com (8.16.1/8.15.2) with ESMTPSA id 18A1729L277238
- (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
- Thu, 9 Sep 2021 18:07:08 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 18A1729L277238
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
- s=2021083001; t=1631236030;
- bh=V6F7bdaXf2OKxaplYOc+J8bYBVsMAGw7SiKf5H6zkvY=;
- h=From:To:Cc:Subject:Date:From;
- b=UqI+VY9J3gscDPibGFV+GaghgePB3g8ITCLAyDkkf7xFk6KRPA1sX9Tr3anudTCD5
- 2REygG/vPnLwhylBlCQuoMFPJ3ZoxcOB+H0XKK7jPKkqzlnCEQzCdqC1KYH/oX6NgV
- 96i6oWwzW1kpUv8X/kx01vvLYMVmCwCBtt7Vsb1h+ZiZla3Cfc7D/ke0U/I/1EJWEw
- DuIY4xVSQWWvKrd+lZGuJkFn+KZhUe5+0AKZe6qFOk3HsvgBzqGaJTDAYh2bEx0u5i
- bV3ewWGmA+C0IcriU0B341jt74JYOK+nSYi4smIFrpsdchw8XuC9duCtGO+WxAYgds
- Aw0kvtB3U7r1g==
-From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: virtualization@lists.linux-foundation.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, "H. Peter Anvin (Intel)" <hpa@zytor.com>
-Subject: [PATCH] drm/bochs: add Bochs PCI ID for Simics model
-Date: Thu,  9 Sep 2021 18:06:55 -0700
-Message-Id: <20210910010655.2356245-1-hpa@zytor.com>
-X-Mailer: git-send-email 2.31.1
+Received: from ozlabs.org (ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 110646E950
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 01:16:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1631236587;
+ bh=oc7tZR+KeNwMUHPKR2Q77kfHas/Q0/ikomXLgkYdZm4=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+ b=s4qBzyYhza2LK3+BC2f7121igUqLGOXidPkncccg9o/LwyN1T6+kYJQ+yEZLiuAxy
+ Fv5diyt/BS4QJARDAhLTTCY/NdaRWVd5DC1BcCOZ7Z78fpt9hywrEmW0Jz9HPSUzwB
+ CliNQ96yCUFuxZNxtPzBPCO8UW6bJXSAqB12Op+5CIBwckiGWjMxlUDLbQtE22AeOB
+ +OxKivkH93RlEFceNTTqhxgR7RUjdDNmPWuhDPKLJ/xP82iiiUsuwAqxi4axb/EuLE
+ j6laYACYH9jC272NVH509MXHqqBLD6RcUO3WIW6sxhNS/UsJS02YV8KIbupqybNk6z
+ p4WcyYin438RA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4H5HyK4XC8z9sVw;
+ Fri, 10 Sep 2021 11:16:25 +1000 (AEST)
+Date: Fri, 10 Sep 2021 11:16:15 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>
+Cc: Alex Deucher <alexdeucher@gmail.com>, Alex Deucher
+ <alexander.deucher@amd.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, Luben Tuikov <luben.tuikov@amd.com>, DRI
+ <dri-devel@lists.freedesktop.org>
+Subject: Re: linux-next: manual merge of the amdgpu tree with Linus' tree
+Message-ID: <20210910111615.50aa19aa@canb.auug.org.au>
+In-Reply-To: <20210902112208.23c226c8@canb.auug.org.au>
+References: <20210902112208.23c226c8@canb.auug.org.au>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; boundary="Sig_/BCp7KyTTiIFwpL2JVsB5mnd";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,46 +58,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Current (and older) Simics models for the Bochs VGA used the wrong PCI
-vendor ID (0x4321 instead of 0x1234).  Although this can hopefully be
-fixed in the future, it is a problem for users of the current version,
-not the least because to update the device ID the BIOS has to be
-rebuilt in order to see BIOS output.
+--Sig_/BCp7KyTTiIFwpL2JVsB5mnd
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Add support for the 4321:1111 device number in addition to the
-1234:1111 one.
+Hi all,
 
-Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
----
- drivers/gpu/drm/tiny/bochs.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+On Thu, 2 Sep 2021 11:22:08 +1000 Stephen Rothwell <sfr@canb.auug.org.au> w=
+rote:
+>
+> Today's linux-next merge of the amdgpu tree got a conflict in:
+>=20
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c
+>=20
+> between commit:
+>=20
+>   477f70cd2a67 ("Merge tag 'drm-next-2021-08-31-1' of git://anongit.freed=
+esktop.org/drm/drm")
+>=20
+> from Linus' tree and commit:
+>=20
+>   cc947bf91bad ("drm/amdgpu: Process any VBIOS RAS EEPROM address")
+>=20
+> from the amdgpu tree.
+>=20
+> I fixed it up (I used the latter version) and can carry the fix as
+> necessary. This is now fixed as far as linux-next is concerned, but any
+> non trivial conflicts should be mentioned to your upstream maintainer
+> when your tree is submitted for merging.  You may also want to consider
+> cooperating with the maintainer of the conflicting tree to minimise any
+> particularly complex conflicts.
 
-diff --git a/drivers/gpu/drm/tiny/bochs.c b/drivers/gpu/drm/tiny/bochs.c
-index 73415fa9ae0f..2ce3bd903b70 100644
---- a/drivers/gpu/drm/tiny/bochs.c
-+++ b/drivers/gpu/drm/tiny/bochs.c
-@@ -63,6 +63,7 @@ MODULE_PARM_DESC(defy, "default y resolution");
- 
- enum bochs_types {
- 	BOCHS_QEMU_STDVGA,
-+	BOCHS_SIMICS,
- 	BOCHS_UNKNOWN,
- };
- 
-@@ -695,6 +696,13 @@ static const struct pci_device_id bochs_pci_tbl[] = {
- 		.subdevice   = PCI_ANY_ID,
- 		.driver_data = BOCHS_UNKNOWN,
- 	},
-+	{
-+		.vendor      = 0x4321,
-+		.device      = 0x1111,
-+		.subvendor   = PCI_ANY_ID,
-+		.subdevice   = PCI_ANY_ID,
-+		.driver_data = BOCHS_SIMICS,
-+	},
- 	{ /* end of list */ }
- };
- 
--- 
-2.31.1
+This is now a conflict between the drm tree and Linus' tree.
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/BCp7KyTTiIFwpL2JVsB5mnd
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmE6seAACgkQAVBC80lX
+0GxBrggAnHHX2ADaOdAsEV4PBTzxzBW2MPGieyYcPSGn/oAPVIBaDh/Wc1IlUt9b
+UrRH9ldAeb6Z9JGFb8q3KSb1add/K8HHH+2r+7PkiDoK9DnN6guJZebP+6cWDU6b
+olK/B7/EX23+kbHAICzchXvqiJca09VjPxgtp0o0xgceIODdA3qlMmCiMKpIYrso
+ffXask+VZSLxxdWTIYyf6KACXluzpLCXY488zgAZMjAP1T+YgIAfWjAmW+Y/Itvm
+j+jwSHOhqSwrUFMIG8xFxDYuPI+Q953aX9KgCRHw70JqvK9cngACWH2Y46sXvHgD
+QyQ6MK5f/LdqPlxO5+vGDzTvnTMhUg==
+=ZAHz
+-----END PGP SIGNATURE-----
+
+--Sig_/BCp7KyTTiIFwpL2JVsB5mnd--
