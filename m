@@ -2,59 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFCE406F2A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:10:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD8A406FFF
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:52:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17E316EA29;
-	Fri, 10 Sep 2021 16:10:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20E0F6EA42;
+	Fri, 10 Sep 2021 16:51:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E9DB6EA29
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:10:39 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- g66-20020a9d12c8000000b0051aeba607f1so2867621otg.11
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 09:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Jo5OwxEWWhiw1vRCZY9Md42z//D7x07LY6Hl1A6tjps=;
- b=a0BoFV2TX+cHGSEkivRtqdXQcXf3GOKizfSbi6dcn7QP9OoYDw1ehnFhDE/QjMj511
- FCZZhv+ouEx5reHS+gkUQDH/M+ewX1aX1Xgg6XZQDp85y7pT+zngdTdq2+vS9wva64ll
- JzfFxb9DqiDM1q/QIF89slqZpHJyyzwVKNvPk=
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com
+ [209.85.161.53])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 938456EA42;
+ Fri, 10 Sep 2021 16:51:55 +0000 (UTC)
+Received: by mail-oo1-f53.google.com with SMTP id
+ v20-20020a4a2554000000b0028f8cc17378so815911ooe.0; 
+ Fri, 10 Sep 2021 09:51:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Jo5OwxEWWhiw1vRCZY9Md42z//D7x07LY6Hl1A6tjps=;
- b=6KnXFK4tBh5roiS3ZCDnTurF7k/b9LpC8s7xoSRI7dn6G7sqeYO1mMQkLyVZMDae4+
- pCu6+2H0BcOPLcmSAUq4wIKF2799oG7F3EoKxJCyXCrgnlAl9AMgXOFfPkEiASMk/WD/
- NiUHBirZiNBuT3wajKBb9PJRD94lkDXOLB/djxpP3bYcBzDgryD2fgj1EX1AwD0iaXm3
- KsmOyxTWIxCFhx6dQUTa7NEZ36Ffx5AwDvBjjr+48p4sOSTzlpWISWwoUT1Yp0SeBYax
- 8dp1ROCEnZOS2Qu+xgOH5hMczqgmSxZ857fq/AoeRuSoX4s+HpSGLUp2s89zc3qplsgK
- gNSw==
-X-Gm-Message-State: AOAM531vhMKctzCXXuhGykSBLuKW2uWTos2PTG693I5Vmskj/KtU10V+
- BR7lcFuTCoQwwr+6uFO4UOiZC7nTX68PaglPcYHgNA==
-X-Google-Smtp-Source: ABdhPJys2gnxbrHm2zi8RWfzvu1eIvi6jhZXOMYm/oQiNsIMFOEpuQ0wxhKujydoIGCLqH9b8BU5AlqILlp4u13Kfc0=
-X-Received: by 2002:a9d:67c1:: with SMTP id c1mr5195333otn.239.1631290238353; 
- Fri, 10 Sep 2021 09:10:38 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3fjHrC7rWcF9dMNWywAFcF4cWpH6lABHS4xRvn07uCE=;
+ b=n0pLQC/m1h5A1fn2MzWqrUX4oQarb7I7knb3VW4HsCxe2kMxM9rGP+PkMf6kSyHydx
+ bJbu7aiNg6qs2s8MGulF60T8xpksuVjtATtboNvB4wh+8jXrQg65ZvK+KKz3m1nUHiAD
+ 3xnNpGxISsktCzNdBuAsdHO5W7XBRivlmEg8zOt7D/tPqM1FBQmhYhnpGU2yZze0Aak4
+ 9p3hoK+ECAOWUXM6d/MId5N0H/HLe+r1nbjNdhlAFbQnA/hDC29ACO5bWSWmL2jhiuCI
+ LRQ9/YguJBnotN0AjUNp1c9TVSwB9YYv0jennGtFTuUk+8LmL92LvtLX/MSbjnu57Hvo
+ y3uQ==
+X-Gm-Message-State: AOAM531HwcqjLqOf2YkSdpoRRNSdQXtvfhxL1EngERpaEe+nw3EJu118
+ 3vTreO2zB90fPeky9Y7F9w==
+X-Google-Smtp-Source: ABdhPJyUedNY2XQSRkDXYf15LP5DG4AvPSI+WgwkX0ecJs/T2gYdw2UpbTWOv/R1eADi4gUxBwt0FQ==
+X-Received: by 2002:a4a:33d6:: with SMTP id q205mr5077583ooq.83.1631292714765; 
+ Fri, 10 Sep 2021 09:51:54 -0700 (PDT)
+Received: from xps15.herring.priv (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.googlemail.com with ESMTPSA id f17sm1347223otl.24.2021.09.10.09.51.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 09:51:54 -0700 (PDT)
+From: Rob Herring <robh@kernel.org>
+To: devicetree@vger.kernel.org
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Mark Brown <broonie@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Jonathan Marek <jonathan@marek.ca>,
+ Aswath Govindraju <a-govindraju@ti.com>, Marc Zyngier <maz@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ linux-watchdog@vger.kernel.org
+Subject: [PATCH] dt-bindings: More use 'enum' instead of 'oneOf' plus 'const'
+ entries
+Date: Fri, 10 Sep 2021 11:51:53 -0500
+Message-Id: <20210910165153.2843871-1-robh@kernel.org>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <CAFCwf119s7iXk+qpwoVPnRtOGcxeuZb3rnihf6NWWoVT-4ODHA@mail.gmail.com>
- <YTsQJ753sm701R/n@kroah.com>
- <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
-In-Reply-To: <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date: Fri, 10 Sep 2021 18:10:27 +0200
-Message-ID: <CAKMK7uFj-m4y+N-q8uoNasJuksgDj-oRK3K=SjoyKMQL=QCENw@mail.gmail.com>
-Subject: Re: Habanalabs Open-Source TPC LLVM compiler and SynapseAI Core
- library
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Oded Gabbay <ogabbay@kernel.org>, mzuckerman@habana.ai, dsinger@habana.ai, 
- Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,63 +68,92 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Forgot to add dri-devel.
+'enum' is equivalent to 'oneOf' with a list of 'const' entries, but 'enum'
+is more concise and yields better error messages.
 
-On Fri, Sep 10, 2021 at 6:09 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->
-> On Fri, Sep 10, 2021 at 9:58 AM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > On Fri, Sep 10, 2021 at 10:26:56AM +0300, Oded Gabbay wrote:
-> > > Hi Greg,
-> > >
-> > > Following our conversations a couple of months ago, I'm happy to tell you that
-> > > Habanalabs has open-sourced its TPC (Tensor Processing Core) LLVM compiler,
-> > > which is a fork of the LLVM open-source project.
-> > >
-> > > The project can be found on Habanalabs GitHub website at:
-> > > https://github.com/HabanaAI/tpc_llvm
-> > >
-> > > There is a companion guide on how to write TPC kernels at:
-> > > https://docs.habana.ai/en/latest/TPC_User_Guide/TPC_User_Guide.html
-> >
-> > That's great news, thanks for pushing for this and releasing it all!
->
-> Yeah this is neat.
->
-> There's still the problem that we spent the past 2.5 years pissing off
-> a lot of people for an imo questionable political project, bypassing
-> all the technical review and expertise. Now that the political
-> nonsense is resolved I think we need to look at at least the technical
-> cleanup. The angered people are much harder to fix, so let's maybe
-> ignore that (or perhaps a ks topic, no idea, I'm honestly not super
-> motivated to rehash this entire story again). Here's what I think we
-> should do:
->
-> - move drivers/misc/habanalabs under drivers/gpu/habanalabs and
-> review/discussions on dri-devel
-> - grandfather the entire current situation in as-is, it's not the only
-> driver we have with a funny uapi of its own (but the other driver did
-> manage to get their compiler into upstream llvm even, and not like 2
-> years late)
-> - review the dma-buf stuff on dri-devel and then land it through
-> standard flows, not the gregk-misc bypass
-> - close drivers/misc backdoor for further accel driver submissions,
-> I'd like to focus on technical stuff in this area going forward and
-> not pointless exercises in bypassing due process and all that
->
-> I expect we'll have a proper discussion what the stack should look
-> like with the next submission (from a different vendor maybe), that
-> ship kinda sailed with habanalabs.
->
-> Cheers, Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+Fix a couple more cases which have appeared.
 
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>
+Cc: Guenter Roeck <linux@roeck-us.net>
+Cc: Jonathan Marek <jonathan@marek.ca>
+Cc: Aswath Govindraju <a-govindraju@ti.com>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org
+Cc: linux-spi@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/display/msm/dsi-phy-7nm.yaml          |  8 ++++----
+ .../devicetree/bindings/spi/omap-spi.yaml          |  6 +++---
+ .../bindings/watchdog/maxim,max63xx.yaml           | 14 +++++++-------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-
+diff --git a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+index 4265399bb154..c851770bbdf2 100644
+--- a/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
++++ b/Documentation/devicetree/bindings/display/msm/dsi-phy-7nm.yaml
+@@ -14,10 +14,10 @@ allOf:
+ 
+ properties:
+   compatible:
+-    oneOf:
+-      - const: qcom,dsi-phy-7nm
+-      - const: qcom,dsi-phy-7nm-8150
+-      - const: qcom,sc7280-dsi-phy-7nm
++    enum:
++      - qcom,dsi-phy-7nm
++      - qcom,dsi-phy-7nm-8150
++      - qcom,sc7280-dsi-phy-7nm
+ 
+   reg:
+     items:
+diff --git a/Documentation/devicetree/bindings/spi/omap-spi.yaml b/Documentation/devicetree/bindings/spi/omap-spi.yaml
+index e55538186cf6..9952199cae11 100644
+--- a/Documentation/devicetree/bindings/spi/omap-spi.yaml
++++ b/Documentation/devicetree/bindings/spi/omap-spi.yaml
+@@ -84,9 +84,9 @@ unevaluatedProperties: false
+ if:
+   properties:
+     compatible:
+-      oneOf:
+-        - const: ti,omap2-mcspi
+-        - const: ti,omap4-mcspi
++      enum:
++        - ti,omap2-mcspi
++        - ti,omap4-mcspi
+ 
+ then:
+   properties:
+diff --git a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+index f2105eedac2c..ab9641e845db 100644
+--- a/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
++++ b/Documentation/devicetree/bindings/watchdog/maxim,max63xx.yaml
+@@ -15,13 +15,13 @@ maintainers:
+ 
+ properties:
+   compatible:
+-    oneOf:
+-      - const: maxim,max6369
+-      - const: maxim,max6370
+-      - const: maxim,max6371
+-      - const: maxim,max6372
+-      - const: maxim,max6373
+-      - const: maxim,max6374
++    enum:
++      - maxim,max6369
++      - maxim,max6370
++      - maxim,max6371
++      - maxim,max6372
++      - maxim,max6373
++      - maxim,max6374
+ 
+   reg:
+     description: This is a 1-byte memory-mapped address
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.30.2
+
