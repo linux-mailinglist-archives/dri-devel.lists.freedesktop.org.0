@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 106E840699A
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:13:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B93DD4069A1
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BE4E6E9C0;
-	Fri, 10 Sep 2021 10:13:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FF166E9C5;
+	Fri, 10 Sep 2021 10:13:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFBB46E9C0
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:13:02 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 1A41E2B00953;
- Fri, 10 Sep 2021 06:13:00 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F3486E9C1
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:13:09 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id F2EC22B00949;
+ Fri, 10 Sep 2021 06:13:06 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Fri, 10 Sep 2021 06:13:02 -0400
+ by compute4.internal (MEProxy); Fri, 10 Sep 2021 06:13:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=590Q5CeovMlaY
- Iqfzw6ds099mwIGojrXNZbg0b8wkuw=; b=J9M2mIikzifZlxbJ5aACPcn0CM1eb
- UvcMIQ9TYQn9Ueaf/lCkviYmDiixIG8aitinPRMOUfg0ziWy6c0rPVD5rnlexO+w
- OWpq8OqT4vHBNb3BZIIbdgoig6Q9sPDyamAY2zUt3jsqcuiwVj8FFmiF4YVEZTa7
- F7KdqXGrqZMLK08+opvm2mPorKaTpBjhGnfzVQkEhITKKKqpRoKChRF+2CgSLj7E
- x6eBEOf/ROTmTHdfxG2aVNY2ctLItFFEW85GM/Uw7ZG81lVjPlJFpTg4W9ZJ0w5I
- 1deTf8McYVldb0TTMje0XtMr3K9M2aAcm5k+VAs4J5DzOvfdwncBGoFhw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=3jjbep7aYkKtz
+ HJrCVgdlqOXkJlt6QrmU7gPROvp2+k=; b=KJn4UARhgxXWiO0rQC5x2xvphsAxG
+ YN5cw+35EjwCjwx6k19GryQAS1c619aY7n1jqTEfggtcGY+t267x7N9fQcVvvCr6
+ fwOe7iNLXqh8/v7k/RFD1YNVyPrKAWrXOjuAAiSRb4eC1/wI03pRpdynJTJYbTMa
+ qH7oPSulE5yb+RUdA1zvLWFwKZ3YY7nakfMIJmpJR4XcD9nn25au3n3mFbq8HVgL
+ AW8uhgV6dTTcbA5Lss94HG8oYak7PQoDOhAxqOV+azB1DykuvX60C5kvikGa/laH
+ HOg9QrXvfFLSAsMluKDNy/VewrIRW2CxuNCMCH0K/tp2INIC9droDrkKg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=590Q5CeovMlaYIqfzw6ds099mwIGojrXNZbg0b8wkuw=; b=Wr/k4YTC
- Zd9hw5dbFJRwjaV6njUiw04aM/Wjy6pDT0tt5j6IKtyetp3lJtx93vzmIuMDmRD4
- dS/OhUvE56WjebEtWYeCEus6vB/ZeKloNp9TSVqIPb8fcuy7GR6akjaNAGyAgdBw
- HQ0TY1FFuc31JAEBEBjco7zD3Dl0+qhRHpo8UXSxwEFcbu0y5neT3W4TdTTmIUDk
- 0hxr3Y4fIY3ZOnI19fJ5l/zrVgE83c5oq3h8wfEHSx5gwHv1CNsCj2zX5OsuQnv7
- VmFOwAKRGLFGsEH5qcKk3HpWC2AazNdBgPPyMnvlWmraxNsnP5Qh+0j2F4dx/for
- HEgPXaSespv8Lg==
-X-ME-Sender: <xms:qS87YW2s-oDf_j5gcTDkQHaXLytP_O2jLFavpsoT_krEHkJ19L84Cw>
- <xme:qS87YZF0F-SDUWFljm-Hghn0XPSabZXnmW854ylthF9qsA8c8Nvzdv7aZ5qxohWlc
- cQhkYMSh4GSQ-tnKww>
-X-ME-Received: <xmr:qS87Ye4_w1uZ-WeBWc3Km2QvXnnnAPndtnMtzueAb3kHVuLUO-VCCmqCbg1Slh6RaFV1u8aUu1l33V-x945c6NMbtByfE-Zs7Del>
+ fm3; bh=3jjbep7aYkKtzHJrCVgdlqOXkJlt6QrmU7gPROvp2+k=; b=mi0wDuw7
+ K8r9Fhi83dvlkbQ83308yX4pHzk9vBo8lYM8Vu09ZBeycFt4w/oU5aS1VCFKbCTF
+ LULLpZJR97JQWCg7OcQ1MwXHzYasmwGyvV9LOFU/x/5hSx6/ip7lVnwpW1e2fWp1
+ g3aQYjKGlNIHbUA9jgLxeUxxzcS2ba35AoZHfz1luOpQhPKasLcXQsRbkmKvcH7k
+ UFFeDUfMVYUoRz9EfydZSO7pRVNhFIzt8rB9/aJmv5iypAoYWZBr2uhBBGYFI7Ji
+ QafRhb8DcdW738EnMQHfjmyjvg2NX7CwWkGI1/1L+ZZvLIEkd2K8FR4/+I2yvIFy
+ IW4mJVAfyhmYpw==
+X-ME-Sender: <xms:sC87YbPrGbXDGPIBN2rslTBgObXMrU3WrSunHzxdEk4pX0q0RPOzMQ>
+ <xme:sC87YV9JxjAZ-a9QwV5Ib74nalUxRw-lBSh8JvWvGoEdbohkdgINmap6eIR6pGq7U
+ OiohWNxkruVlKyPjKM>
+X-ME-Received: <xmr:sC87YaTvTOdbAygwAdlhoMamdOYQqUNg4HRRiuoOoE3vw1bLqLfSGXRSEcSIp9BlsEzS6RXtt-51r8skgvNrC4RFtfW2LaHHSHL9>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:qS87YX143RUqatALbYCStc0cyqBCFGh6dHVFsYvx1wlnTsvg0nss8Q>
- <xmx:qS87YZFfDP8e5BC-MtZP_mqBUJAdCsNUXvu_roa6BBd1yjgRE7jWDw>
- <xmx:qS87YQ-Tsw7mAIMjacpLi-YlobhBddrexyPXyDPA5q1vfZC2dG9lGw>
- <xmx:qy87YVVznz3SficJgGpcNlQqgV54Eywzn5tedaM2u4AnQk4kue2WHyfYoiY>
+X-ME-Proxy: <xmx:sC87YfvMIgMiLQV9bbWlQzk5M3123eK-31XlHgo3ZQG8zxmwq0_AAA>
+ <xmx:sC87YTeNone5ID_hKqQJhdUZJbXraqzY4z8D_AIJGaOp8ggintcSig>
+ <xmx:sC87Yb0msFxokr42S9L5G6Y2zfJgAr2aczsrBgKCfClcQICCE521-w>
+ <xmx:si87YQN2hUnYQsOgGvQTvrxTFtNspjeSypBFOHI5g2EpTPJd1ymhMjJQt9o>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 06:12:56 -0400 (EDT)
+ 10 Sep 2021 06:13:03 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -77,10 +77,9 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
  Chen Feng <puck.chen@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: [PATCH v4 06/24] drm/bridge: adv7511: Register and attach our DSI
- device at probe
-Date: Fri, 10 Sep 2021 12:12:00 +0200
-Message-Id: <20210910101218.1632297-7-maxime@cerno.tech>
+Subject: [PATCH v4 07/24] drm/bridge: anx7625: Switch to devm MIPI-DSI helpers
+Date: Fri, 10 Sep 2021 12:12:01 +0200
+Message-Id: <20210910101218.1632297-8-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 References: <20210910101218.1632297-1-maxime@cerno.tech>
@@ -101,48 +100,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In order to avoid any probe ordering issue, the best practice is to move
-the secondary MIPI-DSI device registration and attachment to the
-MIPI-DSI host at probe time. Let's do this.
+Let's switch to the new devm MIPI-DSI function to register and attach
+our secondary device.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/bridge/adv7511/adv7511_drv.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/bridge/analogix/anx7625.c | 20 +++++---------------
+ 1 file changed, 5 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-index 9e3585f23cf1..f8e5da148599 100644
---- a/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-+++ b/drivers/gpu/drm/bridge/adv7511/adv7511_drv.c
-@@ -910,9 +910,6 @@ static int adv7511_bridge_attach(struct drm_bridge *bridge,
- 			return ret;
+diff --git a/drivers/gpu/drm/bridge/analogix/anx7625.c b/drivers/gpu/drm/bridge/analogix/anx7625.c
+index 1a871f6b6822..4adeb2bad03a 100644
+--- a/drivers/gpu/drm/bridge/analogix/anx7625.c
++++ b/drivers/gpu/drm/bridge/analogix/anx7625.c
+@@ -1316,6 +1316,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+ 		.channel = 0,
+ 		.node = NULL,
+ 	};
++	int ret;
+ 
+ 	DRM_DEV_DEBUG_DRIVER(dev, "attach dsi\n");
+ 
+@@ -1325,7 +1326,7 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+ 		return -EINVAL;
  	}
  
--	if (adv->type == ADV7533 || adv->type == ADV7535)
--		ret = adv7533_attach_dsi(adv);
--
- 	if (adv->i2c_main->irq)
- 		regmap_write(adv->regmap, ADV7511_REG_INT_ENABLE(0),
- 			     ADV7511_INT0_HPD);
-@@ -1288,8 +1285,18 @@ static int adv7511_probe(struct i2c_client *i2c, const struct i2c_device_id *id)
- 	drm_bridge_add(&adv7511->bridge);
+-	dsi = mipi_dsi_device_register_full(host, &info);
++	dsi = devm_mipi_dsi_device_register_full(dev, host, &info);
+ 	if (IS_ERR(dsi)) {
+ 		DRM_DEV_ERROR(dev, "fail to create dsi device.\n");
+ 		return -EINVAL;
+@@ -1337,10 +1338,10 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
+ 		MIPI_DSI_MODE_VIDEO_SYNC_PULSE	|
+ 		MIPI_DSI_MODE_VIDEO_HSE;
  
- 	adv7511_audio_init(dev, adv7511);
-+
-+	if (adv7511->type == ADV7533 || adv7511->type == ADV7535) {
-+		ret = adv7533_attach_dsi(adv7511);
-+		if (ret)
-+			goto err_unregister_audio;
-+	}
-+
+-	if (mipi_dsi_attach(dsi) < 0) {
++	ret = devm_mipi_dsi_attach(dev, dsi);
++	if (ret) {
+ 		DRM_DEV_ERROR(dev, "fail to attach dsi to host.\n");
+-		mipi_dsi_device_unregister(dsi);
+-		return -EINVAL;
++		return ret;
+ 	}
+ 
+ 	ctx->dsi = dsi;
+@@ -1350,16 +1351,6 @@ static int anx7625_attach_dsi(struct anx7625_data *ctx)
  	return 0;
+ }
  
-+err_unregister_audio:
-+	adv7511_audio_exit(adv7511);
-+	drm_bridge_remove(&adv7511->bridge);
- err_unregister_cec:
- 	i2c_unregister_device(adv7511->i2c_cec);
- 	clk_disable_unprepare(adv7511->cec_clk);
+-static void anx7625_bridge_detach(struct drm_bridge *bridge)
+-{
+-	struct anx7625_data *ctx = bridge_to_anx7625(bridge);
+-
+-	if (ctx->dsi) {
+-		mipi_dsi_detach(ctx->dsi);
+-		mipi_dsi_device_unregister(ctx->dsi);
+-	}
+-}
+-
+ static int anx7625_bridge_attach(struct drm_bridge *bridge,
+ 				 enum drm_bridge_attach_flags flags)
+ {
+@@ -1624,7 +1615,6 @@ static struct edid *anx7625_bridge_get_edid(struct drm_bridge *bridge,
+ 
+ static const struct drm_bridge_funcs anx7625_bridge_funcs = {
+ 	.attach = anx7625_bridge_attach,
+-	.detach = anx7625_bridge_detach,
+ 	.disable = anx7625_bridge_disable,
+ 	.mode_valid = anx7625_bridge_mode_valid,
+ 	.mode_set = anx7625_bridge_mode_set,
 -- 
 2.31.1
 
