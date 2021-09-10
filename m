@@ -2,49 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AB140700C
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E41A940701B
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0AD16EA44;
-	Fri, 10 Sep 2021 16:55:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 064296EA41;
+	Fri, 10 Sep 2021 16:58:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EB0236EA44;
- Fri, 10 Sep 2021 16:55:30 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2BCBB60295;
- Fri, 10 Sep 2021 16:55:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631292930;
- bh=U+sZ6nVPSNJ9MS3GXenkUY7bzKhjXvmMIhpRXmmrLgk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=o/pwgWMSgenytzhnrdMbPEMISfwbvVHTOqYThFhxyQpynEdnoBkZq2rXtxa+EjUo+
- pbMCppirDEyEWW/HY+HlFJY/lV9Vkl11wV008oDXrJVWLT8X/tvlQZkVIisg9gmK0b
- U0nOukSEckI9fOVCPfWOYRlnawe1vCJGixH4NsIPP8xD50gj1bybku1fjxn16RoqPE
- TiySjwARsx3S341bHwaRlHjBEFFLG93CKFnr3eazA3eeqYcqtdJy7AB6m5Xg8BnN9y
- KtnFCY0uMmYs3tBXJfwOeohMsurvvKFRVRnBF/NwpiFlKKZslOCTd9fVH0KgF4WgYb
- TGfWF8b6ABTBg==
-Date: Fri, 10 Sep 2021 17:54:53 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Rob Herring <robh@kernel.org>
-Cc: devicetree@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Jonathan Marek <jonathan@marek.ca>,
- Aswath Govindraju <a-govindraju@ti.com>, Marc Zyngier <maz@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-spi@vger.kernel.org, linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: More use 'enum' instead of 'oneOf' plus
- 'const' entries
-Message-ID: <20210910165453.GF4474@sirena.org.uk>
-References: <20210910165153.2843871-1-robh@kernel.org>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F1D76EA41
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:58:47 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 2B6AB3F04C; 
+ Fri, 10 Sep 2021 16:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1631293125;
+ bh=P4J0uP+mvBeCpdSBmGVI2spIor3xRsNEZjAeWnGcryo=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=DG0kXV2QncuQ1VkQGiYLOTf9w1Tq0m32MF9+mIoDus8+TlQsxzFSx60hPb0Z3FuBS
+ QXY0iK7RHnjsUf1xSKjirRw7M7F5LsycIOLQFNMFI5bCgV/VSmRxZUFhO+G/mXcd2I
+ peMd159lomSA/M121gSRQcD8nGudZEOJCnhazk++veFYTGmg71/l9KPSBZAMndj5Lw
+ /IEslUJGu7bV03tcEnqV3W+xZB2rmrX9DmTGcZENeo50SufQVD4w0IPS4sXnKKpYMH
+ EumnL09/TEMUbMY24PRfpm6zMctAQRS8uyXQEuDpwXnRpT0AGP1BVaA3HZdGRZCg3j
+ aO0YVOmw1aafg==
+From: Colin King <colin.king@canonical.com>
+To: dri-devel@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] video: fbdev: atyfb: Remove assigned but never used variable
+ statements
+Date: Fri, 10 Sep 2021 17:58:44 +0100
+Message-Id: <20210910165844.98940-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="SxgehGEc6vB0cZwN"
-Content-Disposition: inline
-In-Reply-To: <20210910165153.2843871-1-robh@kernel.org>
-X-Cookie: You are standing on my toes.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,31 +57,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Colin Ian King <colin.king@canonical.com>
 
---SxgehGEc6vB0cZwN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+There are a couple of statements where local variables are being assigned
+values that are never read because the function returns immediately after
+the assignment. Clean up the code by removing them.
 
-On Fri, Sep 10, 2021 at 11:51:53AM -0500, Rob Herring wrote:
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/video/fbdev/aty/mach64_gx.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-> 'enum' is equivalent to 'oneOf' with a list of 'const' entries, but 'enum'
-> is more concise and yields better error messages.
+diff --git a/drivers/video/fbdev/aty/mach64_gx.c b/drivers/video/fbdev/aty/mach64_gx.c
+index 9c37e28fb78b..d06d24830080 100644
+--- a/drivers/video/fbdev/aty/mach64_gx.c
++++ b/drivers/video/fbdev/aty/mach64_gx.c
+@@ -352,10 +352,8 @@ static int aty_var_to_pll_18818(const struct fb_info *info, u32 vclk_per,
+ 	post_divider = 1;
+ 
+ 	if (MHz100 > MAX_FREQ_2595) {
+-		MHz100 = MAX_FREQ_2595;
+ 		return -EINVAL;
+ 	} else if (MHz100 < ABS_MIN_FREQ_2595) {
+-		program_bits = 0;	/* MHz100 = 257 */
+ 		return -EINVAL;
+ 	} else {
+ 		while (MHz100 < MIN_FREQ_2595) {
+-- 
+2.32.0
 
-Acked-by: Mark Brown <broonie@kernel.org>
-
---SxgehGEc6vB0cZwN
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmE7jdwACgkQJNaLcl1U
-h9CHLAf/ce1bTYSeCkAdzRg3md0W2wpv1rXAh9bxgQH9A915d4ZJQWmJSEbZ7tl7
-41CCMQMRuDFAtTcI55NtNY/gt4vvetWJsFWw1ynNSsDm2FD0M10RluMLiC+AuUXB
-XkTyvl21NhRJvWEazXKnG34R6EkFBKIoHY8xEDE7mgfPVrJG+vLp4fkxzpgIAMWH
-evEppWB/IamjiDxVrSZqYYz3fpBfSp6OVOC9TwMMiKoPsUd+2CaJM7/UN+ws/wJh
-xWw7TC2Y/Fif1De47ztTg7KybIQoxLaNU1ZwV6BTj2Wq787hOpbC1ec2hZJBtgIr
-svGZRyp2dBXL0vaksYgJd2wOThdTJg==
-=U85h
------END PGP SIGNATURE-----
-
---SxgehGEc6vB0cZwN--
