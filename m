@@ -1,39 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BBA8406E6F
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 17:40:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B08406F93
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 18:22:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A96246EA36;
-	Fri, 10 Sep 2021 15:39:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2CF6EA2D;
+	Fri, 10 Sep 2021 16:22:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F213C6EA3F;
- Fri, 10 Sep 2021 15:39:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="284807897"
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="284807897"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 08:39:26 -0700
-X-IronPort-AV: E=Sophos;i="5.85,283,1624345200"; d="scan'208";a="649412421"
-Received: from valcore-skull-1.fm.intel.com ([10.1.27.19])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 10 Sep 2021 08:39:26 -0700
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH v9 17/17] drm/i915/pxp: enable PXP for integrated Gen12
-Date: Fri, 10 Sep 2021 08:36:27 -0700
-Message-Id: <20210910153627.1060858-18-daniele.ceraolospurio@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210910153627.1060858-1-daniele.ceraolospurio@intel.com>
-References: <20210910153627.1060858-1-daniele.ceraolospurio@intel.com>
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AC716EA2D
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 16:22:39 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id cfa7e488-1252-11ec-a02a-0050568c148b;
+ Fri, 10 Sep 2021 16:19:02 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 73D00194BF7;
+ Fri, 10 Sep 2021 18:05:52 +0200 (CEST)
+Date: Fri, 10 Sep 2021 18:05:58 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>
+Cc: airlied@linux.ie, bp@alien8.de, dri-devel@lists.freedesktop.org,
+ gregkh@linuxfoundation.org, hdegoede@redhat.com, hpa@zytor.com,
+ javierm@redhat.com, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ mingo@redhat.com, mripard@kernel.org, pbrobinson@gmail.com,
+ tglx@linutronix.de, tzimmermann@suse.de, x86@kernel.org
+Subject: Re: [RFC PATCH 0/4] Allow to use DRM fbdev emulation layer with
+ CONFIG_FB disabled
+Message-ID: <YTuCZjdV1tH5+tB/@ravnborg.org>
+References: <2527f0ef-dae1-9ad5-84a4-00712c44940d@tronnes.org>
+ <ff6a590e-19ee-b2b6-bed5-236962637418@tronnes.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <ff6a590e-19ee-b2b6-bed5-236962637418@tronnes.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,35 +59,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Note that discrete cards can support PXP as well, but we haven't tested
-on those yet so keeping it disabled for now.
+Hi Noralf,
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Reviewed-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
----
- drivers/gpu/drm/i915/i915_pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Thu, Sep 09, 2021 at 06:27:02PM +0200, Noralf Trønnes wrote:
+> 
+> > > Hi Daniel,
+> > >
+> > > >
+> > > > I think for a substantial improvement here in robustness what you
+> really
+> > > > want is
+> > > > - kmscon in userspace
+> > > > - disable FB layer
+> > > > - ideally also disable console/vt layer in the kernel
+> > > > - have a minimal emergency/boot-up log thing in drm, patches for that
+> > > >   floated around a few times
+> > >
+> > > I assume you refer to this work by David Herrmann:
+> > > "[RFC] drm: add kernel-log renderer"
+> > > https://lists.freedesktop.org/archives/dri-devel/2014-March/055136.html
+> > >
+> >
+> > There's also this:
+> >
+> > [PATCH v2 0/3] drm: Add panic handling
+> >
+> https://lore.kernel.org/dri-devel/20190311174218.51899-1-noralf@tronnes.org/
+> 
+> And here's a DRM console example that was part of the early drm_client work:
+> 
+> [RFC v4 25/25] drm/client: Hack: Add DRM VT console client
+> https://lore.kernel.org/dri-devel/20180414115318.14500-26-noralf@tronnes.org/
 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index d4a6a9dcf182..169837de395d 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -865,6 +865,7 @@ static const struct intel_device_info jsl_info = {
- 	}, \
- 	TGL_CURSOR_OFFSETS, \
- 	.has_global_mocs = 1, \
-+	.has_pxp = 1, \
- 	.display.has_dsb = 1
- 
- static const struct intel_device_info tgl_info = {
-@@ -891,6 +892,7 @@ static const struct intel_device_info rkl_info = {
- #define DGFX_FEATURES \
- 	.memory_regions = REGION_SMEM | REGION_LMEM | REGION_STOLEN_LMEM, \
- 	.has_llc = 0, \
-+	.has_pxp = 0, \
- 	.has_snoop = 1, \
- 	.is_dgfx = 1
- 
--- 
-2.25.1
+Thanks for providing these pointers. Looks forwards to find time to play
+with all this. Having an embedded board without any fbdev stuff seems
+like a nice goal.
 
+	Sam
