@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE354069CD
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:14:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F00814069CE
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:14:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 508576E9D4;
-	Fri, 10 Sep 2021 10:14:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 297E46E9D5;
+	Fri, 10 Sep 2021 10:14:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BBA36E9D4
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:14:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id D64D92B013F3;
- Fri, 10 Sep 2021 06:14:31 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 10 Sep 2021 06:14:34 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE9246E9D5
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:14:38 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 789FF2B013F5;
+ Fri, 10 Sep 2021 06:14:36 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 10 Sep 2021 06:14:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=2hzEIPSbc5wkY
- vt/zitoXwWaQ6LFoXtgzPoVlTVzm0A=; b=O0GCdUGOGtlbB4T25fRtg/unFV7oh
- jmfMPf1NRY6CNssmwPLiH4okiWCZA4zFVd1AK7ntGgpRTAWXZneG9leGgwppzpQ/
- 1JTrrWtIx4Uirk+hdUQv3oi/NHfmgSDKPBjB/DVFZAGawkDUKZOQvoG5et/P2aWP
- saz4AJ8tCoYEEWsCJsvCdIMYkSZ7/Fj+JjNVE65KGTBEgbHXtoH32DrscXJYeb4i
- 2B+QUQBUiIdjhZ8dj/QpMFPX9/UZrRIWOK4aZ7JmvTP7OywbeAUig6rkAOOydwE8
- 6QBGblzaiNsTtVjHjUlY2Oz+8Ws3Sso0AsBkTO/X0hERoWIdsjYN/1DtA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=THjyt/udMqvIS
+ g7/C7BNDCUAlJStjMNR1MB6XhOeOzg=; b=os1ue1yYQlHuSypaKJXgRcobxzFOn
+ KLQPB1ItAoZPXtNimByXgLZFOft9KD0rswZ/ljtTjM803FvgmpVpgUh3CLnBbTY0
+ +nMXLnN1xuzdWGCM5HhgkBxW/u+yA3y2Q3UHB6rT3n1YWbdFpca1GY4UtHRchBKm
+ COpjCIHHZcTBmkQdwgiv4Uan1QPqDKasI+L08A/RNNnbEf9+NDKdffpAvetiF9kq
+ 7MmNdm3LKfo1L5+uLBVrSc3eLYb5YJJZzBHJsttc2qEIEKPHKof41uhufmhduPtV
+ 7qewwX66bSERofVMxgg79lZNXb/5mnxIVCcwOWVnPBnpSDqFVSumenz9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=2hzEIPSbc5wkYvt/zitoXwWaQ6LFoXtgzPoVlTVzm0A=; b=GouFiGoq
- +27I3/LcrSZMUYF6eQYlmwmFdIBTCoo6GhQ46PAWqd/dEEH8GmwzfMv/4C8IauUx
- JzK6yk3/lJn6eJq5M1wcE1xyEQJR8Fo4h6bq/CFnBGSnlb5wMeAya7XTp+zPPrXk
- XMsQCdS/rmCCdI1WvePCaQpgHtfViZum1a3ha0R7tsEPH2bWiywJrgKxTCLIYsJm
- QclD9anb/kQRk0HKw+/gRFcgo5rYji+JAYfPxq/yfsLibVj4ZuoHpkrkCNJhOiNs
- 3yxyicIsi7NJTE1JoHFYOuyyS1HglCsqbTiethdkuGGGf7J78ekt5gMUPnV6VA5I
- 3Hi1ULkHGxc9Rg==
-X-ME-Sender: <xms:BzA7YdFjhqTnMshcfjV_-Vtd8j4WZKpDchjsdApsIAPfkFwnhvO_Bw>
- <xme:BzA7YSViiFWeulQBz2cmin14az2z_2T4i4_EU4GMLM3F0JkxUrx9JTioDCAf-v4Nx
- w17OSDgBhtOUzbV1QY>
-X-ME-Received: <xmr:BzA7YfJfu3ovOYD3M8L9eKbuda6TqnKQ5EIA8s-5Xjl1UiGHIfXFB4R2FHzXdLNQi1jA92A_OCP_xM1d_0IpjVhZ2HKjMnVXAqw7>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
+ fm3; bh=THjyt/udMqvISg7/C7BNDCUAlJStjMNR1MB6XhOeOzg=; b=Q0KUlGP3
+ 5KdAE/kmRk0YcujRCdB7e0GLja4wNw1lQuGdErGpwpOt5o1Uai7qISUJbKfU9E5u
+ DhS0pRuYcChRHkPQFazXVXDlAHccyRoOK9NVgT9c5oAZImoMzxNR9f9+9kdp/dRG
+ iUE7yPvIUE8MUKygMsPUkFNVJDPl9opXwhwiq2thmkvbGF5/+cI95sGw0Fah+//x
+ GWG5N0HHME0qpbhavr8SY11w1e8nFmNd8P10rfb5bKliuavo/PGAsGEVJlKCq/Ca
+ fkiu2l0oI4N8JMKVs5NT7f7qAh1n/gWS9+W7WzRBuSOlz5j1jyXyA0sY6+qNGlzl
+ c3MnO7MJ+pBysQ==
+X-ME-Sender: <xms:CzA7YdMhu3iTLixe02I63ClFyYUVOUN8nfj0rK3R9JKRSYSfj_L0vQ>
+ <xme:CzA7Yf8Ui_id_eU3GTRWD7wVpCll385nG2thLcVrjNR4gasOJITCAxo01nymlRzUV
+ SUScKHLJNxHH5LiLbo>
+X-ME-Received: <xmr:CzA7YcRiiTw5xkGl5JhaHflTJyl8q92nAL3PnKZHqdmx4bUNbxe4VQLTBrOxPR2-3Jq9lux5Ft5all6m16a03fE9u31wvkPu5soW>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdehucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
  vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepgeenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ hedvnecuvehluhhsthgvrhfuihiivgepfeenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:BzA7YTGy9i1wL4DXIyPLvm-hezNHm3plQ_5qyJTReANsQxXLNyqfZw>
- <xmx:BzA7YTWpkTXpWwozJoXKRWXMMfBYucUYU5ZpAkqXRKADUniLdEq-4A>
- <xmx:BzA7YeNFzSDqbMf9HCV7Nixecl2yDVW2dezesniBIJuUVq3yM1oiiQ>
- <xmx:BzA7YSkgzzRD6Jax0Ie6vu92u8NUc9qpiPhz-iEAfNl1W1HWtPHPVXEB-Js>
+X-ME-Proxy: <xmx:CzA7YZuRzn4u0_5t8-e10A6krjJKBbwScWzVS7UBTUZ0TXXbtoTSqw>
+ <xmx:CzA7YVcF7XWqV-91dmSyu7PK3C9oKOHKnvlxCFgM5JRGK5RBKhQdDA>
+ <xmx:CzA7YV0M0gcE2OpSMZJvVcnwSBB5Q5kzC-YyvnuY33zK9_xBuUt8ww>
+ <xmx:DDA7YaOrqgA3bperzcYGWWGF1DaEU7uJHdSFWXcLg1h3edluSjMMDJ-sZ5c>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 06:14:30 -0400 (EDT)
+ 10 Sep 2021 06:14:35 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -77,9 +77,9 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
  Chen Feng <puck.chen@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: [PATCH v4 23/24] drm/kirin: dsi: Adjust probe order
-Date: Fri, 10 Sep 2021 12:12:17 +0200
-Message-Id: <20210910101218.1632297-24-maxime@cerno.tech>
+Subject: [PATCH v4 24/24] drm/exynos: dsi: Adjust probe order
+Date: Fri, 10 Sep 2021 12:12:18 +0200
+Message-Id: <20210910101218.1632297-25-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 References: <20210910101218.1632297-1-maxime@cerno.tech>
@@ -109,86 +109,94 @@ but not all of them were following the same conventions, resulting in
 various incompatibilities between DSI hosts and devices.
 
 Now that we have a sequence agreed upon and documented, let's convert
-kirin to it.
+exynos to it.
 
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c | 27 +++++++++++++++-----
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/exynos/exynos_drm_dsi.c | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-index 952cfdb1961d..be20c2ffe798 100644
---- a/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-+++ b/drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c
-@@ -720,10 +720,13 @@ static int dw_drm_encoder_init(struct device *dev,
- 	return 0;
- }
+diff --git a/drivers/gpu/drm/exynos/exynos_drm_dsi.c b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+index e39fac889edc..dfda2b259c44 100644
+--- a/drivers/gpu/drm/exynos/exynos_drm_dsi.c
++++ b/drivers/gpu/drm/exynos/exynos_drm_dsi.c
+@@ -1529,6 +1529,7 @@ static const struct drm_encoder_helper_funcs exynos_dsi_encoder_helper_funcs = {
  
-+static const struct component_ops dsi_ops;
- static int dsi_host_attach(struct mipi_dsi_host *host,
- 			   struct mipi_dsi_device *mdsi)
+ MODULE_DEVICE_TABLE(of, exynos_dsi_of_match);
+ 
++static const struct component_ops exynos_dsi_component_ops;
+ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 				  struct mipi_dsi_device *device)
  {
- 	struct dw_dsi *dsi = host_to_dsi(host);
+@@ -1536,6 +1537,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 	struct drm_encoder *encoder = &dsi->encoder;
+ 	struct drm_device *drm = encoder->dev;
+ 	struct drm_bridge *out_bridge;
 +	struct device *dev = host->dev;
-+	int ret;
  
- 	if (mdsi->lanes < 1 || mdsi->lanes > 4) {
- 		DRM_ERROR("dsi device params invalid\n");
-@@ -734,13 +737,20 @@ static int dsi_host_attach(struct mipi_dsi_host *host,
- 	dsi->format = mdsi->format;
- 	dsi->mode_flags = mdsi->mode_flags;
+ 	out_bridge  = of_drm_find_bridge(device->dev.of_node);
+ 	if (out_bridge) {
+@@ -1585,7 +1587,7 @@ static int exynos_dsi_host_attach(struct mipi_dsi_host *host,
+ 	if (drm->mode_config.poll_enabled)
+ 		drm_kms_helper_hotplug_event(drm);
  
-+	ret = component_add(dev, &dsi_ops);
-+	if (ret)
-+		return ret;
-+
- 	return 0;
+-	return 0;
++	return component_add(dev, &exynos_dsi_component_ops);
  }
  
- static int dsi_host_detach(struct mipi_dsi_host *host,
- 			   struct mipi_dsi_device *mdsi)
+ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
+@@ -1593,6 +1595,9 @@ static int exynos_dsi_host_detach(struct mipi_dsi_host *host,
  {
--	/* do nothing */
+ 	struct exynos_dsi *dsi = host_to_dsi(host);
+ 	struct drm_device *drm = dsi->encoder.dev;
 +	struct device *dev = host->dev;
 +
-+	component_del(dev, &dsi_ops);
-+
- 	return 0;
- }
++	component_del(dev, &exynos_dsi_component_ops);
  
-@@ -785,10 +795,6 @@ static int dsi_bind(struct device *dev, struct device *master, void *data)
- 	if (ret)
- 		return ret;
+ 	if (dsi->panel) {
+ 		mutex_lock(&drm->mode_config.mutex);
+@@ -1716,7 +1721,7 @@ static int exynos_dsi_bind(struct device *dev, struct device *master,
+ 		of_node_put(in_bridge_node);
+ 	}
  
--	ret = dsi_host_init(dev, dsi);
--	if (ret)
--		return ret;
--
- 	ret = dsi_bridge_init(drm_dev, dsi);
- 	if (ret)
- 		return ret;
-@@ -859,12 +865,19 @@ static int dsi_probe(struct platform_device *pdev)
- 
- 	platform_set_drvdata(pdev, data);
- 
--	return component_add(&pdev->dev, &dsi_ops);
-+	ret = dsi_host_init(&pdev->dev, dsi);
-+	if (ret)
-+		return ret;
-+
+-	return mipi_dsi_host_register(&dsi->dsi_host);
 +	return 0;
  }
  
- static int dsi_remove(struct platform_device *pdev)
- {
--	component_del(&pdev->dev, &dsi_ops);
-+	struct dsi_data *data = platform_get_drvdata(pdev);
-+	struct dw_dsi *dsi = &data->dsi;
-+
-+	mipi_dsi_host_unregister(&dsi->host);
+ static void exynos_dsi_unbind(struct device *dev, struct device *master,
+@@ -1726,8 +1731,6 @@ static void exynos_dsi_unbind(struct device *dev, struct device *master,
+ 	struct drm_encoder *encoder = &dsi->encoder;
  
+ 	exynos_dsi_disable(encoder);
+-
+-	mipi_dsi_host_unregister(&dsi->dsi_host);
+ }
+ 
+ static const struct component_ops exynos_dsi_component_ops = {
+@@ -1821,7 +1824,7 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_enable(dev);
+ 
+-	ret = component_add(dev, &exynos_dsi_component_ops);
++	ret = mipi_dsi_host_register(&dsi->dsi_host);
+ 	if (ret)
+ 		goto err_disable_runtime;
+ 
+@@ -1835,10 +1838,12 @@ static int exynos_dsi_probe(struct platform_device *pdev)
+ 
+ static int exynos_dsi_remove(struct platform_device *pdev)
+ {
++	struct exynos_dsi *dsi = platform_get_drvdata(pdev);
++
++	mipi_dsi_host_unregister(&dsi->dsi_host);
++
+ 	pm_runtime_disable(&pdev->dev);
+ 
+-	component_del(&pdev->dev, &exynos_dsi_component_ops);
+-
  	return 0;
  }
+ 
 -- 
 2.31.1
 
