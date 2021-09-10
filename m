@@ -1,47 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22D5940698B
-	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:12:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B72940698F
+	for <lists+dri-devel@lfdr.de>; Fri, 10 Sep 2021 12:12:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 432A96E9B8;
-	Fri, 10 Sep 2021 10:12:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 370076E9BB;
+	Fri, 10 Sep 2021 10:12:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D255D6E9B8
- for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:12:32 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 367F62B0093C;
- Fri, 10 Sep 2021 06:12:30 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC2976E9BB
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 10:12:39 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id 103372B00938;
+ Fri, 10 Sep 2021 06:12:36 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Fri, 10 Sep 2021 06:12:32 -0400
+ by compute3.internal (MEProxy); Fri, 10 Sep 2021 06:12:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=+C7OJe5sNIMZw
- mEGQnOoCPrkx3fLlGr9milBM2XXFQc=; b=xILZADf3Uvaen6TUX4iMahD2o8qPo
- QJYM6q6Y9BU2bIA3Swb3DMEVfGCK5Up1Vmch450y/cdgmUdhF2TW0pKxJDQitfjH
- o/yYafvAKLLmrQp1Y6sM7t9XctlSbViIAyJuqqXXU+06v9FFn6Degw08zYpu1H20
- PHXvsyjRyL376F1xlmZAtcmpY1QStxYkXfpUkVQDGLK0DVxNPeColj9rts+qASlj
- WYQaZyDSZGrCzcUZJiHraVR3On6g/iPBE+krWjXKwfew4/TovaGN1c9KQy4Ux9tx
- rJJ+qukX6OnhQ6ADQApCRsC9XrJBefnDeM5uao1OVwjdd/pyADgQX+Zxw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=bC6Qg+WSUjJuy
+ 8/H41PXAgS7iT5lIcAqR3nnFPZQTjU=; b=A0jde9XNNQM6+JV5JRvXJ+djXGhLu
+ n6Kav7Tksk8vlm7ZkrQiboBGg56Jz+mwTpHV6Xi2s6wkq0tS7PJtZxefeFpitXvb
+ 2FhLx50EEoDvrqkSdzC8eANCbJJGPaS/ki1uQFnP4RhZQYiMaD6DU4ndyWgQsmbj
+ K/ogPtpU7hwgflVFsA/BfSSxGv/0PHheOIA5YxdCX1RGeXiPZaOH2rUh5yQ7x5ks
+ Ps64kUpYlOSktFTG4e/1E4UGZcaZdxAGdllGhGIUgljXPGSmokKDOvIVosekUbvR
+ cUSw79/Uj2nY26cf/Vfrn5J1cIMZy3F9uuCZgjNFja+Vl2oJai4EdLAtQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+C7OJe5sNIMZwmEGQnOoCPrkx3fLlGr9milBM2XXFQc=; b=O72zPaDm
- nXVCboODbUw0RAvxMvJOjlzcnS5qF58LRU27dxd91zz3jooSLj+Len1Ld+OdTDNt
- 9tS3JF1UhpIdH/y8hvPGCRU/QcIRAaViuAwlmYa6Rh4K/9NcDuBC9ADlUSEDdkir
- xJbjj6uFEcVZr21ORmKz0p6Nkb/ByVchlKyxqmJWrYjh6lzxYl6wUS4Q+TOXNV1d
- qZXed2km8gmdIJiEA79IP9kmrfDAcDC5zVQY6OWwaysX1JMmO9q4BTJKdZVeGO+a
- kQJW2bMD2WlLDakvoWYiFHrapMK7ZLeX24LZSOCzjndXlqXcxBfYWwrYqjThSVLN
- ZTJkc4PPydxnoA==
-X-ME-Sender: <xms:jS87Yc4m1Cl-F4fl_HYeYxFCLcv_NBMQkJlfWN1zXpjPdun74Xf02g>
- <xme:jS87Yd61DxxZ38dT9P95KOcn8Ot35E-8SNXkJh6DKBi3TJTGrqSCfDskVEYbyP-jQ
- vidM3E41qeO-PIucmk>
-X-ME-Received: <xmr:jS87Ybc7HjSfNDXX_EkmooEaTAEpuuSqr_d5dBpZXm5n1aRJbC316iPavVffP-miM6VZodHJbtCrPvCq520mRK2LVGVZ2Hcp5ZHC>
+ fm3; bh=bC6Qg+WSUjJuy8/H41PXAgS7iT5lIcAqR3nnFPZQTjU=; b=XdIeHopA
+ K5yvJ9Nnt7og/15uywzWq1AJzkzerNxMQ01HRBJVKqqvNPZV0IeKglCToAP6GjDj
+ 4rpDHRTmDWePu0Ex/Ou054Nhurb9W3iP/OGON9h7cn751nvTTqCyicpncXKZlMzG
+ F9N04TgqHkp8gUI26/lE9WWampqwCLVuQfPXlGWs39TvSMg3KZUl7ecKoZRy7gS/
+ It2Vnkv59sLoU3zhpvcbGQJGCDP0Fxn3A2t9hXaoTa7q64TB/WYaFKMDg5YhOR1+
+ Yhrv1q31TOq08bEpIbln8iFjop7J6tTxRjL/8Ri/eza8oqTlYc72ExHC2Bb2QKpW
+ A6dJESrX5hygug==
+X-ME-Sender: <xms:ki87YVHRC3yXf-N5bR_bjvn9s8oSl35xoSKc2qnwTxetlHGguMkGxQ>
+ <xme:ki87YaUBueuMDzN1n6va424Xgitn0hckWPxMmDjzPIbUqagw_nIbownEaC79mgC9w
+ ua1RWBM9tKED_JztOI>
+X-ME-Received: <xmr:ki87YXJJvCYUZgp--o6OjogUMgTKwxjjsscxqTz4t4WJw63I54gMafbvylwagPh_zJw5L1p5hzdapd1GTOU9rI2CnRNluEIPVQd4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -50,12 +50,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeguddgvdegucetufdoteggod
  htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
  hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:jS87YRJDHV7JPNfV_0KI-0XwsnP8hMpfSWfMZeklkD8Cs0LvTySGAA>
- <xmx:jS87YQJ_kwnN1Ualjjbd5Vtnu6b7ctDlcLduzJ4ROqot4AAJehqYcA>
- <xmx:jS87YSx8p-qKQbzOVV1qlY-aZ9fxTR0RqhRQJAV6UAlf5edKAO_Elw>
- <xmx:jS87YfIul9MeNv-e-FKnE480dmVFqY7jKOBpfeKHlbCyGixEncKj75sc2HQ>
+X-ME-Proxy: <xmx:ki87YbEdI34NBqg7QQzLgN1hCB7h2ov1HVA75_C7Iz8DEyYJIiOjXQ>
+ <xmx:ki87YbVuEFtVrdexrdd0upi9SUCn3vqTUykrHU3d_ik7wMWiS4aHIg>
+ <xmx:ki87YWNdOA-3RdkFDvOt_pVKGHyvXosFQwZfA1QZFXFZU2jB6TyZ0A>
+ <xmx:lC87Yan3G3gEyA1pN2ABBqgpnXMYnFN4BkgFJv0bJdP9pQWIQjtJXqCs5HU>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 10 Sep 2021 06:12:29 -0400 (EDT)
+ 10 Sep 2021 06:12:33 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
  Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
@@ -77,9 +77,10 @@ Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
  Chen Feng <puck.chen@hisilicon.com>,
  Xinwei Kong <kong.kongxinwei@hisilicon.com>,
  Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: [PATCH v4 01/24] drm/bridge: Add documentation sections
-Date: Fri, 10 Sep 2021 12:11:55 +0200
-Message-Id: <20210910101218.1632297-2-maxime@cerno.tech>
+Subject: [PATCH v4 02/24] drm/bridge: Document the probe issue with MIPI-DSI
+ bridges
+Date: Fri, 10 Sep 2021 12:11:56 +0200
+Message-Id: <20210910101218.1632297-3-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
 References: <20210910101218.1632297-1-maxime@cerno.tech>
@@ -100,68 +101,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The bridge documentation overview is quite packed already, and we'll add
-some more documentation that isn't part of an overview at all.
+Interactions between bridges, panels, MIPI-DSI host and the component
+framework are not trivial and can lead to probing issues when
+implementing a display driver. Let's document the various cases we need
+too consider, and the solution to support all the cases.
 
-Let's add some sections to the documentation to separate each bits.
-
-Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 ---
- Documentation/gpu/drm-kms-helpers.rst |  6 ++++++
- drivers/gpu/drm/drm_bridge.c          | 14 +++++++++-----
- 2 files changed, 15 insertions(+), 5 deletions(-)
+ Documentation/gpu/drm-kms-helpers.rst |  6 +++
+ drivers/gpu/drm/drm_bridge.c          | 57 +++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
 
 diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-index 389892f36185..10f8df7aecc0 100644
+index 10f8df7aecc0..ec2f65b31930 100644
 --- a/Documentation/gpu/drm-kms-helpers.rst
 +++ b/Documentation/gpu/drm-kms-helpers.rst
-@@ -151,6 +151,12 @@ Overview
+@@ -157,6 +157,12 @@ Display Driver Integration
  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-    :doc: overview
+    :doc: display driver integration
  
-+Display Driver Integration
-+--------------------------
++Special Care with MIPI-DSI bridges
++----------------------------------
 +
 +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-+   :doc: display driver integration
++   :doc: special care dsi
 +
  Bridge Operations
  -----------------
  
 diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-index a8ed66751c2d..baff74ea4a33 100644
+index baff74ea4a33..7cc2d2f94ae3 100644
 --- a/drivers/gpu/drm/drm_bridge.c
 +++ b/drivers/gpu/drm/drm_bridge.c
-@@ -49,6 +49,15 @@
-  * Chaining multiple bridges to the output of a bridge, or the same bridge to
-  * the output of different bridges, is not supported.
-  *
-+ * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
-+ * CRTCs, encoders or connectors and hence are not visible to userspace. They
-+ * just provide additional hooks to get the desired output at the end of the
-+ * encoder chain.
-+ */
-+
-+/**
-+ * DOC:	display driver integration
-+ *
-  * Display drivers are responsible for linking encoders with the first bridge
-  * in the chains. This is done by acquiring the appropriate bridge with
-  * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
-@@ -85,11 +94,6 @@
-  * helper to create the &drm_connector, or implement it manually on top of the
-  * connector-related operations exposed by the bridge (see the overview
+@@ -96,6 +96,63 @@
   * documentation of bridge operations for more details).
-- *
-- * &drm_bridge, like &drm_panel, aren't &drm_mode_object entities like planes,
-- * CRTCs, encoders or connectors and hence are not visible to userspace. They
-- * just provide additional hooks to get the desired output at the end of the
-- * encoder chain.
   */
  
++/**
++ * DOC: special care dsi
++ *
++ * The interaction between the bridges and other frameworks involved in
++ * the probing of the upstream driver and the bridge driver can be
++ * challenging. Indeed, there's multiple cases that needs to be
++ * considered:
++ *
++ * - The upstream driver doesn't use the component framework and isn't a
++ *   MIPI-DSI host. In this case, the bridge driver will probe at some
++ *   point and the upstream driver should try to probe again by returning
++ *   EPROBE_DEFER as long as the bridge driver hasn't probed.
++ *
++ * - The upstream driver doesn't use the component framework, but is a
++ *   MIPI-DSI host. The bridge device uses the MIPI-DCS commands to be
++ *   controlled. In this case, the bridge device is a child of the
++ *   display device and when it will probe it's assured that the display
++ *   device (and MIPI-DSI host) is present. The upstream driver will be
++ *   assured that the bridge driver is connected between the
++ *   &mipi_dsi_host_ops.attach and &mipi_dsi_host_ops.detach operations.
++ *   Therefore, it must run mipi_dsi_host_register() in its probe
++ *   function, and then run drm_bridge_attach() in its
++ *   &mipi_dsi_host_ops.attach hook.
++ *
++ * - The upstream driver uses the component framework and is a MIPI-DSI
++ *   host. The bridge device uses the MIPI-DCS commands to be
++ *   controlled. This is the same situation than above, and can run
++ *   mipi_dsi_host_register() in either its probe or bind hooks.
++ *
++ * - The upstream driver uses the component framework and is a MIPI-DSI
++ *   host. The bridge device uses a separate bus (such as I2C) to be
++ *   controlled. In this case, there's no correlation between the probe
++ *   of the bridge and upstream drivers, so care must be taken to avoid
++ *   an endless EPROBE_DEFER loop, with each driver waiting for the
++ *   other to probe.
++ *
++ * The ideal pattern to cover the last item (and all the others in the
++ * MIPI-DSI host driver case) is to split the operations like this:
++ *
++ * - The MIPI-DSI host driver must run mipi_dsi_host_register() in its
++ *   probe hook. It will make sure that the MIPI-DSI host sticks around,
++ *   and that the driver's bind can be called.
++ *
++ * - In its probe hook, the bridge driver must try to find its MIPI-DSI
++ *   host, register as a MIPI-DSI device and attach the MIPI-DSI device
++ *   to its host. The bridge driver is now functional.
++ *
++ * - In its &struct mipi_dsi_host_ops.attach hook, the MIPI-DSI host can
++ *   now add its component. Its bind hook will now be called and since
++ *   the bridge driver is attached and registered, we can now look for
++ *   and attach it.
++ *
++ * At this point, we're now certain that both the upstream driver and
++ * the bridge driver are functional and we can't have a deadlock-like
++ * situation when probing.
++ */
++
  static DEFINE_MUTEX(bridge_lock);
+ static LIST_HEAD(bridge_list);
+ 
 -- 
 2.31.1
 
