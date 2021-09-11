@@ -1,28 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD424075DC
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:35:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8053D4075DD
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:35:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E29C6EB5F;
-	Sat, 11 Sep 2021 09:35:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC856EB60;
+	Sat, 11 Sep 2021 09:35:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DC126EB5F
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:35:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 76F02610F8;
- Sat, 11 Sep 2021 09:35:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF106EB60
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:35:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B7CA610F8;
+ Sat, 11 Sep 2021 09:35:38 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
  Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V5 04/11] PCI/VGA: Split out vga_arb_update_default_device()
-Date: Sat, 11 Sep 2021 17:30:49 +0800
-Message-Id: <20210911093056.1555274-5-chenhuacai@loongson.cn>
+Subject: [PATCH V5 05/11] PCI/VGA: Update default VGA device if a better one
+ found
+Date: Sat, 11 Sep 2021 17:30:50 +0800
+Message-Id: <20210911093056.1555274-6-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210911093056.1555274-1-chenhuacai@loongson.cn>
 References: <20210911093056.1555274-1-chenhuacai@loongson.cn>
@@ -43,60 +44,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is the first step of the rework: If there's no default VGA
-device, and we find a VGA device that owns the legacy VGA resources, we
-make that device the default. Split this logic out from vga_arbiter_add_
-pci_device() into a new function, vga_arb_update_default_device().
+This patch is the second step of the rework: Update default VGA device if
+a better one is found. What is a better one? A device with legacy I/O
+resources enabled is better those not enabled. And the integrated GPU is
+better than others.
 
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ drivers/pci/vgaarb.c | 24 +++++++++++++++++++++---
+ 1 file changed, 21 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 29e725ebaa43..f8f95244d499 100644
+index f8f95244d499..02b68810273a 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -579,6 +579,21 @@ static bool vga_arb_integrated_gpu(struct device *dev)
- }
- #endif
+@@ -582,14 +582,32 @@ static bool vga_arb_integrated_gpu(struct device *dev)
+ static void vga_arb_update_default_device(struct vga_device *vgadev)
+ {
+ 	struct pci_dev *pdev = vgadev->pdev;
++	struct device *dev = &pdev->dev;
++	struct vga_device *vgadev_default;
  
-+static void vga_arb_update_default_device(struct vga_device *vgadev)
-+{
-+	struct pci_dev *pdev = vgadev->pdev;
-+
-+	/*
-+	 * If we don't have a default VGA device yet, and this device owns
-+	 * the legacy VGA resources, make it the default.
-+	 */
-+	if (!vga_default_device() &&
-+	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
-+		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
-+		vga_set_default_device(pdev);
-+	}
-+}
-+
- /*
-  * Rules for using a bridge to control a VGA descendant decoding: if a bridge
-  * has only one VGA descendant then it can be used to control the VGA routing
-@@ -706,15 +721,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 		bus = bus->parent;
- 	}
- 
--	/* Deal with VGA default device. Use first enabled one
--	 * by default if arch doesn't have it's own hook
--	 */
+ 	/*
+ 	 * If we don't have a default VGA device yet, and this device owns
+ 	 * the legacy VGA resources, make it the default.
+ 	 */
 -	if (!vga_default_device() &&
 -	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
 -		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
--		vga_set_default_device(pdev);
--	}
--
-+	vga_arb_update_default_device(vgadev);
- 	vga_arbiter_check_bridge_sharing(vgadev);
- 
- 	/* Add to the list */
++	if (!vga_default_device()) {
++		if ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
++			vgaarb_info(dev, "setting as boot VGA device\n");
++		else
++			vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
++		vga_set_default_device(pdev);
++	}
++
++	vgadev_default = vgadev_find(vga_default);
++
++	/* Overridden by a better device */
++	if (vgadev_default && ((vgadev_default->owns & VGA_RSRC_LEGACY_MASK) == 0)
++		&& ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
++		vgaarb_info(dev, "overriding boot VGA device\n");
++		vga_set_default_device(pdev);
++	}
++
++	if (vga_arb_integrated_gpu(dev)) {
++		vgaarb_info(dev, "overriding boot VGA device\n");
+ 		vga_set_default_device(pdev);
+ 	}
+ }
 -- 
 2.27.0
 
