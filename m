@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F03084074BE
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 04:50:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67D814074F2
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 05:49:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F6C6EB39;
-	Sat, 11 Sep 2021 02:50:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 323AB6EB49;
+	Sat, 11 Sep 2021 03:49:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 966776EB38;
- Sat, 11 Sep 2021 02:50:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=lXPY8M8Y0FN23tN6vtiG+/UAEm0QHFlPVzDxxKVLyeI=; b=cMrKyQhCSTHspPx9hTklI610jh
- myl4XPPx3jiFlBs6A+8wEUzQh7fJCxgsoYhj0y1FNqUbSXAz+uWxfvlOB2yuL0TiUvgRJ13FZUA7Z
- wAJ24qACFYVD2mAPB8ZJhMsRZH6/OaR6OTxBlsJY+K4VdY0FstLbH1W6myP2TUZGO4CrNmn0a1DM2
- 6KIvO468zhY9/shumZ+wOpf2s3H/zGJFTQ8LtfavvqtKR9b6tGvUqzaAkZ3eIFQ8mQYOJTEpjf2we
- qjAakm7b/obGzYefrbMFZ2bBddkBaUaenBMyDyce201DUXJnKY24m/4dDyJw8IjO5xsmvLwz2Av2K
- imTFuVxg==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mOt5m-00EAl5-QC; Sat, 11 Sep 2021 02:50:11 +0000
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Intel UHD resolutions
-Message-ID: <d7487c6a-43c9-3940-4f42-b8fa31704e2e@infradead.org>
-Date: Fri, 10 Sep 2021 19:50:10 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com
+ [IPv6:2607:f8b0:4864:20::633])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 772086EB49
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 03:49:05 +0000 (UTC)
+Received: by mail-pl1-x633.google.com with SMTP id v1so2379277plo.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 10 Sep 2021 20:49:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:date:message-id:mime-version:content-transfer-encoding:cc
+ :from:to; bh=DzaIdSdfFubKopkCOrptYgOiLd7HKVfZtJyuoqzoNt8=;
+ b=C8UBBiko8kEn/wSOUZVcwwN7OH6XGDrT1X48dR7/CZ7kTBkVKWQu5rR/jHct9gqFnU
+ h/gmZWSW2MGUKMqlW7/AA/WhBbDPTc3n1mKjHYCPYj2+0f8ffubhgbjvujGkWobH/uAl
+ ATnCNhGYlbPR0TLuymKV1KyJIfIN5aJ8Ry+iBkaO7AtYTR6hnZTJ4Dbi0Rf83N62Y+bi
+ eEemDpRXY2M7PQaHc1HZ17clcosVJFGZg76MRO/QeF0F+z2L2QqOo9aQB/qkJn5ctKC9
+ plth2//1t4vWhVWIdxFprrxCz92FN+zRf4bNKfPudl2oeQSiLHus29sp6gNmLY7+7jNz
+ lJHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:date:message-id:mime-version
+ :content-transfer-encoding:cc:from:to;
+ bh=DzaIdSdfFubKopkCOrptYgOiLd7HKVfZtJyuoqzoNt8=;
+ b=gCYL9smrzmboJB1YxAYNteXF/SV5OFq5sypJqMaPdykZNA9G9rxl8TNa61la8ZM15E
+ 8FyXXnj1UxiIAES1SrP76239vg6Or4v5IqBAqY3oJ5nM0Fv0oOMIqMu4M+VvmF5niozF
+ NqtyAKMiCYtISLX1bhptFZEN8RmwmSYQ0W+kdItVspCmw7pfdGez1JMkKxppf5xejGso
+ TDH4ppa0ieS+AWBe0xLYZCVaYeT/qMi4ASI8O1JUp93MkmlAK3KZLpVU0CsaMvy876bN
+ 2dW53DQ9Qdsu9ke9wESb2SbYTlJoF7+H0mBlUS4X2Fda1p89LBEtGwQwaHKOFD3KK2Ah
+ OpWA==
+X-Gm-Message-State: AOAM533OWJLoGTRYsWvwbgNgaOP7TnjSiNro3/uJ5ok90bbSH29t8WWl
+ niaf59c4udmCemjYzoE5negoNw==
+X-Google-Smtp-Source: ABdhPJwvLN8bfHfGluy9Iw3pbtnJt2AuK5+jLiz6yCRmD84GF/OziqDW9kPdqQEWqXQfc8FHYONa2g==
+X-Received: by 2002:a17:90a:da02:: with SMTP id
+ e2mr1051170pjv.89.1631332144742; 
+ Fri, 10 Sep 2021 20:49:04 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id n1sm301315pfv.209.2021.09.10.20.49.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 10 Sep 2021 20:49:04 -0700 (PDT)
+Subject: [PATCH v2] drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused warning
+Date: Fri, 10 Sep 2021 20:43:18 -0700
+Message-Id: <20210911034317.1719619-1-palmer@dabbelt.com>
+X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, 
+ kernel-team@android.com, Palmer Dabbelt <palmerdabbelt@google.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: hjc@rock-chips.com, heiko@sntech.de, Arnd Bergmann <arnd@arndb.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,87 +75,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Palmer Dabbelt <palmerdabbelt@google.com>
 
-I would like to use QHD resolution (2560x1440) with my shiny new
-computer and display. That resolution works if I boot Windows 10
-(cough).
+cdn_dp_resume is only used under PM_SLEEP, and now that it's static an
+unused function warning is triggered undner !PM_SLEEP.  This marks the
+function as possibly unused, to avoid triggering compiler warnings.
 
-What do I need to do to use that resolution in Linux?
+Fixes: 7c49abb4c2f8 ("drm/rockchip: cdn-dp-core: Make cdn_dp_core_suspend/resume static")
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Palmer Dabbelt <palmerdabbelt@google.com>
+---
+This is breaking my builds and looks like it'll land after -rc1, so I've put it
+on a shared tag for-rockchip-cdn_dp_resume-v2 which will let me pull it in to
+my fixes.  LMK if you guys want me to send this up on my own, but I'm assuming
+that the drm/rockchip folks will handle it.
+---
+ drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I first tried openSUSE 15.3 (kernel 5.3.18-59.19-default)
-then I build a v5.14 kernel and tried that.
-Both of them max out at FHD (1920x1080).
-
-I am booting with "i915.force_probe=4c8a" on the kernel command line.
-
-My desktop is XFCE4.
-
-CPU is:
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 167
-model name	: 11th Gen Intel(R) Core(TM) i9-11900 @ 2.50GHz
-stepping	: 1
-microcode	: 0x40
-cpu MHz		: 1021.742
-cache size	: 16384 KB
-physical id	: 0
-siblings	: 16
-
-with an H470 chipset. (ASRock DeskMini H470)
-
-00:02.0 VGA compatible controller: Intel Corporation RocketLake-S GT1 [UHD Graphics 750] (rev 04)
-
-or verbose:
-
-00:02.0 VGA compatible controller: Intel Corporation RocketLake-S GT1 [UHD Graphics 750] (rev 04) (prog-if 00 [VGA controller])
-	Subsystem: ASRock Incorporation Device 4c8a
-	Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx+
-	Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast >TAbort- <TAbort-
-<MAbort- >SERR- <PERR- INTx-
-	Latency: 0, Cache Line Size: 64 bytes
-	Interrupt: pin A routed to IRQ 153
-	Region 0: Memory at b0000000 (64-bit, non-prefetchable) [size=16M]
-	Region 2: Memory at a0000000 (64-bit, prefetchable) [size=256M]
-	Region 4: I/O ports at 3000 [size=64]
-	[virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-	Capabilities: [40] Vendor Specific Information: Len=0c <?>
-	Capabilities: [70] Express (v2) Root Complex Integrated Endpoint, MSI 00
-		DevCap:	MaxPayload 128 bytes, PhantFunc 0
-			ExtTag- RBE+
-		DevCtl:	Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
-			RlxdOrd- ExtTag- PhantFunc- AuxPwr- NoSnoop-
-			MaxPayload 128 bytes, MaxReadReq 128 bytes
-		DevSta:	CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
-		DevCap2: Completion Timeout: Not Supported, TimeoutDis-, LTR-, O
-BFF Not Supported
-			 AtomicOpsCap: 32bit- 64bit- 128bitCAS-
-		DevCtl2: Completion Timeout: 50us to 50ms, TimeoutDis-, LTR-, OBFF Disabled
-			 AtomicOpsCtl: ReqEn-
-	Capabilities: [ac] MSI: Enable+ Count=1/1 Maskable+ 64bit-
-		Address: fee00018  Data: 0000
-		Masking: 00000000  Pending: 00000000
-	Capabilities: [d0] Power Management version 2
-		Flags: PMEClk- DSI+ D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot
--,D3cold-)
-		Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-	Capabilities: [100 v1] Process Address Space ID (PASID)
-		PASIDCap: Exec- Priv-, Max PASID Width: 14
-		PASIDCtl: Enable- Exec- Priv-
-	Capabilities: [200 v1] Address Translation Service (ATS)
-		ATSCap:	Invalidate Queue Depth: 00
-		ATSCtl:	Enable-, Smallest Translation Unit: 00
-	Capabilities: [300 v1] Page Request Interface (PRI)
-		PRICtl: Enable- Reset-
-		PRISta: RF- UPRGI- Stopped+
-		Page Request Capacity: 00008000, Page Request Allocation: 00000000
-	Kernel driver in use: i915
-	Kernel modules: i915
-
-
-thanks.
+diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+index 8ab3247dbc4a..13c6b857158f 100644
+--- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
++++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+@@ -1123,7 +1123,7 @@ static int cdn_dp_suspend(struct device *dev)
+ 	return ret;
+ }
+ 
+-static int cdn_dp_resume(struct device *dev)
++static __maybe_unused int cdn_dp_resume(struct device *dev)
+ {
+ 	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+ 
 -- 
-~Randy
+2.33.0.309.g3052b89438-goog
 
