@@ -1,45 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4FB40769C
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 14:55:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 007564077CA
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 15:19:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 36D3B6EB79;
-	Sat, 11 Sep 2021 12:55:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A5366EB7E;
+	Sat, 11 Sep 2021 13:19:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 596246EB79
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 12:55:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10103"; a="282304628"
-X-IronPort-AV: E=Sophos;i="5.85,285,1624345200"; d="scan'208";a="282304628"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Sep 2021 05:55:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,285,1624345200"; d="scan'208";a="470958122"
-Received: from lkp-server01.sh.intel.com (HELO 730d49888f40) ([10.239.97.150])
- by orsmga007.jf.intel.com with ESMTP; 11 Sep 2021 05:55:00 -0700
-Received: from kbuild by 730d49888f40 with local (Exim 4.92)
- (envelope-from <lkp@intel.com>)
- id 1mP2X6-0005Ro-1X; Sat, 11 Sep 2021 12:55:00 +0000
-Date: Sat, 11 Sep 2021 20:54:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Cc: kbuild-all@lists.01.org, daniel@ffwll.ch
-Subject: [PATCH] dma-buf: fix noderef.cocci warnings
-Message-ID: <20210911125418.GA43370@6494e1c1ac26>
-References: <20210910082655.82168-4-christian.koenig@amd.com>
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it [5.144.164.164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 210C46EB7F
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 13:19:26 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 776401F50C;
+ Sat, 11 Sep 2021 15:19:23 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Stephen Boyd <sboyd@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jonathan Marek <jonathan@marek.ca>, Matthias Kaehlcke <mka@chromium.org>,
+ Douglas Anderson <dianders@chromium.org>, linux-arm-msm@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Subject: [PATCH v3 0/2] Use "ref" clocks from firmware for DSI PLL VCO parent
+Date: Sat, 11 Sep 2021 15:19:19 +0200
+Message-Id: <20210911131922.387964-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210910082655.82168-4-christian.koenig@amd.com>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,36 +60,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: kernel test robot <lkp@intel.com>
+All DSI PHY/PLL drivers were referencing their VCO parent clock by a
+global name, most of which don't exist or have been renamed.  These
+clock drivers seem to function fine without that except the 14nm driver
+for sdm6xx [1].
 
-drivers/dma-buf/dma-resv.c:525:7-13: ERROR: application of sizeof to pointer
+At the same time all DTs provide a "ref" clock as per the requirements
+of dsi-phy-common.yaml, but the clock is never used.  This patchset puts
+that clock to use without relying on a global clock name, so that all
+dependencies are explicitly defined in DT (the firmware) in the end.
 
- sizeof when applied to a pointer typed expression gives the size of
- the pointer
+[1]: https://lore.kernel.org/linux-arm-msm/386db1a6-a1cd-3c7d-a88e-dc83f8a1be96@somainline.org/
 
-Generated by: scripts/coccinelle/misc/noderef.cocci
+Changes since v2:
+  - Added Stephen's a-b and Angelo's r-bs;
+  - Added .name fallback in msm8974's dsi_phy_28nm for a more graceful
+    transition period;
+  - Documented possible breakage in 1/2 if firmware isn't updated in
+    parallel with the kernel.
 
-CC: Christian König <ckoenig.leichtzumerken@gmail.com>
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: kernel test robot <lkp@intel.com>
----
+Changes since v1:
+  - Dropped "arm: dts: qcom: apq8064: Use 27MHz PXO clock as DSI PLL
+    reference" which has made its way into 5.15-fixes in advance of this
+    patchset landing in 5.16;
+  - Added Fixes: tags for commits that added missing "ref" clocks to DT
+    while this firmware clock was never used (until this patchset);
+  - Documented missing/wrong and later-added clocks (by aforementioned
+    patches) in patch 1/2 more clearly.
 
-url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/dma-buf-add-dma_resv_for_each_fence_unlocked/20210910-163040
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-:::::: branch date: 28 hours ago
-:::::: commit date: 28 hours ago
+Marijn Suijten (2):
+  drm/msm/dsi: Use "ref" fw clock instead of global name for VCO parent
+  clk: qcom: gcc-sdm660: Remove transient global "xo" clock
 
- dma-resv.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/clk/qcom/gcc-sdm660.c                   | 14 --------------
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_10nm.c      |  4 +++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      |  4 +++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c      |  4 +++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  4 +++-
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c       |  4 +++-
+ 6 files changed, 15 insertions(+), 19 deletions(-)
 
---- a/drivers/dma-buf/dma-resv.c
-+++ b/drivers/dma-buf/dma-resv.c
-@@ -522,7 +522,7 @@ int dma_resv_get_fences(struct dma_resv
- 
- 			/* Eventually re-allocate the array */
- 			*shared = krealloc_array(*shared, count,
--						 sizeof(*shared),
-+						 sizeof(**shared),
- 						 GFP_KERNEL);
- 			if (count && !*shared)
- 				return -ENOMEM;
+--
+2.33.0
+
