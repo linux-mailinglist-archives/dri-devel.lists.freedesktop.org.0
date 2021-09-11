@@ -2,28 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC864075D2
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1D94075D3
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:33:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 821D26EB59;
-	Sat, 11 Sep 2021 09:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 450266EB5A;
+	Sat, 11 Sep 2021 09:33:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6B3746EB59
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:32:15 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6AFC160F9D;
- Sat, 11 Sep 2021 09:32:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7EE5D6EB5A
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:32:59 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id B09A4610F8;
+ Sat, 11 Sep 2021 09:32:56 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
- Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V5 00/11] PCI/VGA: Rework default VGA device selection
-Date: Sat, 11 Sep 2021 17:30:45 +0800
-Message-Id: <20210911093056.1555274-1-chenhuacai@loongson.cn>
+ Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>
+Subject: [PATCH V5 01/11] PCI/VGA: Move vgaarb to drivers/pci
+Date: Sat, 11 Sep 2021 17:30:46 +0800
+Message-Id: <20210911093056.1555274-2-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210911093056.1555274-1-chenhuacai@loongson.cn>
+References: <20210911093056.1555274-1-chenhuacai@loongson.cn>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -41,84 +42,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-My original work is at [1].
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-Current default VGA device selection fails in some cases:
+The VGA arbiter is really PCI-specific and doesn't depend on any GPU
+things.  Move it to the PCI subsystem.
 
-  - On BMC system, the AST2500 bridge [1a03:1150] does not implement
-    PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
-    legacy VGA resources won't reach downstream devices unless they're
-    included in the usual bridge windows.
-
-  - vga_arb_select_default_device() will set a device below such a
-    bridge as the default VGA device as long as it has PCI_COMMAND_IO
-    and PCI_COMMAND_MEMORY enabled.
-
-  - vga_arbiter_add_pci_device() is called for every VGA device,
-    either at boot-time or at hot-add time, and it will also set the
-    device as the default VGA device, but ONLY if all bridges leading
-    to it implement PCI_BRIDGE_CTL_VGA.
-
-  - This difference between vga_arb_select_default_device() and
-    vga_arbiter_add_pci_device() means that a device below an AST2500
-    or similar bridge can only be set as the default if it is
-    enumerated before vga_arb_device_init().
-
-  - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
-    which runs before vga_arb_device_init().
-
-  - On non-ACPI systems, like on MIPS system, they are enumerated by
-    pcibios_init(), which typically runs *after*
-    vga_arb_device_init().
-
-So I made vga_arb_update_default_device() to replace the current vga_
-arb_select_default_device(), which will be call from vga_arbiter_add_
-pci_device(), set the default device even if it does not own the VGA
-resources because an upstream bridge doesn't implement PCI_BRIDGE_CTL_
-VGA. And the default VGA device is updated if a better one is found
-(device with legacy resources enabled is better, device owns the
-firmware framebuffer is even better).
-
-Bjorn do some rework and extension in V2. It moves the VGA arbiter to
-the PCI subsystem, fixes a few nits, and breaks a few pieces to make
-the main patch a little smaller.
-
-V3 rewrite the commit log of the last patch (which is also summarized
-by Bjorn).
-
-V4 split the last patch to two steps.
-
-V5 split big patches again and sort the patches.
-
-All comments welcome!
-
-[1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
-
-Bjorn Helgaas (4):
-  PCI/VGA: Move vgaarb to drivers/pci
-  PCI/VGA: Remove empty vga_arb_device_card_gone()
-  PCI/VGA: Use unsigned format string to print lock counts
-  PCI/VGA: Replace full MIT license text with SPDX identifier
-
-Huacai Chen (7):
-  PCI/VGA: Prefer vga_default_device()
-  PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
-  PCI/VGA: Split out vga_arb_update_default_device()
-  PCI/VGA: Update default VGA device if a better one found
-  PCI/VGA: Update default VGA device again for X86/IA64
-  PCI/VGA: Remove vga_arb_select_default_device()
-  PCI/VGA: Log bridge control messages when adding devices
-
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com> 
+Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/gpu/vga/Kconfig           |  19 ---
- drivers/gpu/vga/Makefile          |   1 -
- drivers/pci/Kconfig               |  19 +++
- drivers/pci/Makefile              |   1 +
- drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
- 5 files changed, 126 insertions(+), 183 deletions(-)
- rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
---
+ drivers/gpu/vga/Kconfig           | 19 -------------------
+ drivers/gpu/vga/Makefile          |  1 -
+ drivers/pci/Kconfig               | 19 +++++++++++++++++++
+ drivers/pci/Makefile              |  1 +
+ drivers/{gpu/vga => pci}/vgaarb.c |  0
+ 5 files changed, 20 insertions(+), 20 deletions(-)
+ rename drivers/{gpu/vga => pci}/vgaarb.c (100%)
+
+diff --git a/drivers/gpu/vga/Kconfig b/drivers/gpu/vga/Kconfig
+index 1ad4c4ef0b5e..eb8b14ab22c3 100644
+--- a/drivers/gpu/vga/Kconfig
++++ b/drivers/gpu/vga/Kconfig
+@@ -1,23 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-config VGA_ARB
+-	bool "VGA Arbitration" if EXPERT
+-	default y
+-	depends on (PCI && !S390)
+-	help
+-	  Some "legacy" VGA devices implemented on PCI typically have the same
+-	  hard-decoded addresses as they did on ISA. When multiple PCI devices
+-	  are accessed at same time they need some kind of coordination. Please
+-	  see Documentation/gpu/vgaarbiter.rst for more details. Select this to
+-	  enable VGA arbiter.
+-
+-config VGA_ARB_MAX_GPUS
+-	int "Maximum number of GPUs"
+-	default 16
+-	depends on VGA_ARB
+-	help
+-	  Reserves space in the kernel to maintain resource locking for
+-	  multiple GPUS.  The overhead for each GPU is very small.
+-
+ config VGA_SWITCHEROO
+ 	bool "Laptop Hybrid Graphics - GPU switching support"
+ 	depends on X86
+diff --git a/drivers/gpu/vga/Makefile b/drivers/gpu/vga/Makefile
+index e92064442d60..9800620deda3 100644
+--- a/drivers/gpu/vga/Makefile
++++ b/drivers/gpu/vga/Makefile
+@@ -1,3 +1,2 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+-obj-$(CONFIG_VGA_ARB)  += vgaarb.o
+ obj-$(CONFIG_VGA_SWITCHEROO) += vga_switcheroo.o
+diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+index 0c473d75e625..7c9e56d7b857 100644
+--- a/drivers/pci/Kconfig
++++ b/drivers/pci/Kconfig
+@@ -252,6 +252,25 @@ config PCIE_BUS_PEER2PEER
+ 
+ endchoice
+ 
++config VGA_ARB
++	bool "VGA Arbitration" if EXPERT
++	default y
++	depends on (PCI && !S390)
++	help
++	  Some "legacy" VGA devices implemented on PCI typically have the same
++	  hard-decoded addresses as they did on ISA. When multiple PCI devices
++	  are accessed at same time they need some kind of coordination. Please
++	  see Documentation/gpu/vgaarbiter.rst for more details. Select this to
++	  enable VGA arbiter.
++
++config VGA_ARB_MAX_GPUS
++	int "Maximum number of GPUs"
++	default 16
++	depends on VGA_ARB
++	help
++	  Reserves space in the kernel to maintain resource locking for
++	  multiple GPUS.  The overhead for each GPU is very small.
++
+ source "drivers/pci/hotplug/Kconfig"
+ source "drivers/pci/controller/Kconfig"
+ source "drivers/pci/endpoint/Kconfig"
+diff --git a/drivers/pci/Makefile b/drivers/pci/Makefile
+index d62c4ac4ae1b..ebe720f69b15 100644
+--- a/drivers/pci/Makefile
++++ b/drivers/pci/Makefile
+@@ -29,6 +29,7 @@ obj-$(CONFIG_PCI_PF_STUB)	+= pci-pf-stub.o
+ obj-$(CONFIG_PCI_ECAM)		+= ecam.o
+ obj-$(CONFIG_PCI_P2PDMA)	+= p2pdma.o
+ obj-$(CONFIG_XEN_PCIDEV_FRONTEND) += xen-pcifront.o
++obj-$(CONFIG_VGA_ARB)		+= vgaarb.o
+ 
+ # Endpoint library must be initialized before its users
+ obj-$(CONFIG_PCI_ENDPOINT)	+= endpoint/
+diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/pci/vgaarb.c
+similarity index 100%
+rename from drivers/gpu/vga/vgaarb.c
+rename to drivers/pci/vgaarb.c
+-- 
 2.27.0
 
