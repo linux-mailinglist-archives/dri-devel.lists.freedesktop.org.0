@@ -1,42 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684C440799B
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 18:39:29 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E5194079CD
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 19:16:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3714F6EBFB;
-	Sat, 11 Sep 2021 16:39:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 80CAD6EC0D;
+	Sat, 11 Sep 2021 17:16:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay01.th.seeweb.it (relay01.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::162])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5234D6EC03
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 16:39:23 +0000 (UTC)
-Received: from IcarusMOD.eternityproject.eu (unknown [2.237.20.237])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 828391F511;
- Sat, 11 Sep 2021 18:39:21 +0200 (CEST)
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-To: robdclark@gmail.com
-Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
- dmitry.baryshkov@linaro.org, abhinavk@codeaurora.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- konrad.dybcio@somainline.org, marijn.suijten@somainline.org,
- martin.botka@somainline.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, paul.bouchara@somainline.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Subject: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode panels
-Date: Sat, 11 Sep 2021 18:39:19 +0200
-Message-Id: <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
-References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 87E0A6EC0D
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 17:16:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5263C60FDA
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 17:16:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631380573;
+ bh=GEXnwb/0WLMlJxgKrzF38WWArP4W23tIiyg9U82pHtA=;
+ h=From:To:Subject:Date:From;
+ b=f0h11SawyZJMvBllMasagC/RJ0tDUqPxecNfZVufk2TsGlTZCXQTQZmHf+JlcDcmG
+ 4PJ2hwkUVdgsoPU78TvQUSEFVmRpag4QeMQQc04aHNOfAFr7zW4GrNXIETCyyq3HBU
+ 01t+51NJk3xiANpUC1yHJ74z7TYzdhOHgL3EQMHVaRP0StCgenQz8JTBaIcxThEs9/
+ +VxfQRuul1QJy9RpTY0V4iPaq3NvsCKh3njm0AxKAQRo42w8IE58+m5gBakwGQZm0B
+ 153rBeFP1kKs+2pYYWsSyN3e7yMq9vlYpieEcqkeJvrBOfXFXMwwp4sEKZqcM+z+bl
+ dbQo4jBoYbTRA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 3E28D603E7; Sat, 11 Sep 2021 17:16:13 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214369] New: Radeon HD5770 incorrect refresh rate via display
+ port
+Date: Sat, 11 Sep 2021 17:16:12 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: roxmail@list.ru
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression attachments.created
+Message-ID: <bug-214369-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,40 +69,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
-checking if the relative CTL is started by waiting for an interrupt
-to fire: it is fine to do that, but then sometimes we call this
-function while the CTL is up and has never been put down, but that
-interrupt gets raised only when the CTL gets a state change from
-0 to 1 (disabled to enabled), so we're going to wait for something
-that will never happen on its own.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214369
 
-Solving this while avoiding to restart the CTL is actually possible
-and can be done by just checking if it is already up and running
-when the wait_for_commit_done function is called: in this case, so,
-if the CTL was already running, we can say that the commit is done
-if the command transmission is complete (in other terms, if the
-interface has been flushed).
+            Bug ID: 214369
+           Summary: Radeon HD5770 incorrect refresh rate via display port
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.14.2
+          Hardware: All
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: roxmail@list.ru
+        Regression: No
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
----
- drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
- 1 file changed, 3 insertions(+)
+Created attachment 298751
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298751&action=3Dedit
+dmesg
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-index aa01698d6b25..aa5d3b3cef15 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
-@@ -682,6 +682,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
- 	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
- 		return 0;
- 
-+	if (phys_enc->hw_ctl->ops.is_started(phys_enc->hw_ctl))
-+		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
-+
- 	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
- }
- 
--- 
-2.32.0
+Monitor connected via display port to radeon hd5770 card.
+Mouse cursor and windows movements are choppy, monitor says that video mode=
+ are
+1920x1080 at 44Hz.
+$ xrandr
+Screen 0: minimum 320 x 200, current 1920 x 1080, maximum 8192 x 8192
+DisplayPort-0 connected primary 1920x1080+0+0 (normal left inverted right x
+axis y axis) 600mm x 340mm
+   1920x1080     60.00*+  59.94=20=20
+   3840x2160     30.00=20=20
+   2560x1440     59.95=20=20
+   1920x1080_59.94  59.94=20=20
+   1920x1080_59.55  59.53=20=20
+   1920x1080_59.57  59.57=20=20
+   1920x1080_59.56  59.56=20=20
+   1920x1080_59.53  59.53=20=20
+   1600x900      60.00=20=20
+   1280x1024     60.02=20=20
+   1280x800      59.81=20=20
+   1280x720      60.00    59.94=20=20
+   1024x768      60.00=20=20
+   800x600       60.32=20=20
+   720x480       60.00    59.94=20=20
+   640x480       60.00    59.94=20=20
+HDMI-0 disconnected (normal left inverted right x axis y axis)
+DVI-0 disconnected (normal left inverted right x axis y axis)
+DVI-1 disconnected (normal left inverted right x axis y axis)
 
+With 2560x1440 refresh rate are 27Hz (from monitor), and there are black sc=
+reen
+while trying to set 3840x2160. I don't know whether it's regression. hdmi a=
+nd
+dvi works as expected (at least with 1920x1080).
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
