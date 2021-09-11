@@ -2,27 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117B54075D6
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:33:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F4A4075D9
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:34:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A785F6EB5B;
-	Sat, 11 Sep 2021 09:33:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7089B6EB5C;
+	Sat, 11 Sep 2021 09:34:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA57C6EB5B
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:33:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 868CF610F8;
- Sat, 11 Sep 2021 09:33:50 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 166C76EB5C
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:34:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 04D9D611B0;
+ Sat, 11 Sep 2021 09:34:32 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
  Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V5 02/11] PCI/VGA: Prefer vga_default_device()
-Date: Sat, 11 Sep 2021 17:30:47 +0800
-Message-Id: <20210911093056.1555274-3-chenhuacai@loongson.cn>
+Subject: [PATCH V5 03/11] PCI/VGA: Move vga_arb_integrated_gpu() earlier in
+ file
+Date: Sat, 11 Sep 2021 17:30:48 +0800
+Message-Id: <20210911093056.1555274-4-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210911093056.1555274-1-chenhuacai@loongson.cn>
 References: <20210911093056.1555274-1-chenhuacai@loongson.cn>
@@ -43,47 +44,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use the vga_default_device() interface consistently instead of directly
-testing vga_default.  No functional change intended.
+Move vga_arb_integrated_gpu() earlier in file to prepare for future patch.
+No functional change intended.
 
-[bhelgaas: split to separate patch and extended]
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/pci/vgaarb.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index 569930552957..6a5169d8578f 100644
+index 6a5169d8578f..29e725ebaa43 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -193,7 +193,7 @@ int vga_remove_vgacon(struct pci_dev *pdev)
+@@ -565,6 +565,20 @@ void vga_put(struct pci_dev *pdev, unsigned int rsrc)
+ }
+ EXPORT_SYMBOL(vga_put);
+ 
++#if defined(CONFIG_ACPI)
++static bool vga_arb_integrated_gpu(struct device *dev)
++{
++	struct acpi_device *adev = ACPI_COMPANION(dev);
++
++	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
++}
++#else
++static bool vga_arb_integrated_gpu(struct device *dev)
++{
++	return false;
++}
++#endif
++
+ /*
+  * Rules for using a bridge to control a VGA descendant decoding: if a bridge
+  * has only one VGA descendant then it can be used to control the VGA routing
+@@ -1430,20 +1444,6 @@ static struct miscdevice vga_arb_device = {
+ 	MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
+ };
+ 
+-#if defined(CONFIG_ACPI)
+-static bool vga_arb_integrated_gpu(struct device *dev)
+-{
+-	struct acpi_device *adev = ACPI_COMPANION(dev);
+-
+-	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+-}
+-#else
+-static bool vga_arb_integrated_gpu(struct device *dev)
+-{
+-	return false;
+-}
+-#endif
+-
+ static void __init vga_arb_select_default_device(void)
  {
- 	int ret = 0;
- 
--	if (pdev != vga_default)
-+	if (pdev != vga_default_device())
- 		return 0;
- 	vgaarb_info(&pdev->dev, "deactivate vga console\n");
- 
-@@ -695,7 +695,7 @@ static bool vga_arbiter_add_pci_device(struct pci_dev *pdev)
- 	/* Deal with VGA default device. Use first enabled one
- 	 * by default if arch doesn't have it's own hook
- 	 */
--	if (vga_default == NULL &&
-+	if (!vga_default_device() &&
- 	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
- 		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
- 		vga_set_default_device(pdev);
-@@ -732,7 +732,7 @@ static bool vga_arbiter_del_pci_device(struct pci_dev *pdev)
- 		goto bail;
- 	}
- 
--	if (vga_default == pdev)
-+	if (vga_default_device() == pdev)
- 		vga_set_default_device(NULL);
- 
- 	if (vgadev->decodes & (VGA_RSRC_LEGACY_IO | VGA_RSRC_LEGACY_MEM))
+ 	struct pci_dev *pdev, *found = NULL;
 -- 
 2.27.0
 
