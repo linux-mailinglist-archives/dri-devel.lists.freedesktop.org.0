@@ -2,28 +2,27 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8053D4075DD
-	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:35:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B2B4075E0
+	for <lists+dri-devel@lfdr.de>; Sat, 11 Sep 2021 11:36:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3CC856EB60;
-	Sat, 11 Sep 2021 09:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E6D1E6EB61;
+	Sat, 11 Sep 2021 09:36:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF106EB60
- for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:35:41 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B7CA610F8;
- Sat, 11 Sep 2021 09:35:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED2A46EB61
+ for <dri-devel@lists.freedesktop.org>; Sat, 11 Sep 2021 09:36:07 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D9AE460F9D;
+ Sat, 11 Sep 2021 09:36:04 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
  Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V5 05/11] PCI/VGA: Update default VGA device if a better one
- found
-Date: Sat, 11 Sep 2021 17:30:50 +0800
-Message-Id: <20210911093056.1555274-6-chenhuacai@loongson.cn>
+Subject: [PATCH V5 06/11] PCI/VGA: Update default VGA device again for X86/IA64
+Date: Sat, 11 Sep 2021 17:30:51 +0800
+Message-Id: <20210911093056.1555274-7-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210911093056.1555274-1-chenhuacai@loongson.cn>
 References: <20210911093056.1555274-1-chenhuacai@loongson.cn>
@@ -44,57 +43,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch is the second step of the rework: Update default VGA device if
-a better one is found. What is a better one? A device with legacy I/O
-resources enabled is better those not enabled. And the integrated GPU is
-better than others.
+This patch is the third step of the rework: On X86 and IA64 platform,
+update default VGA device if the new found device owns the firmware
+framebuffer.
 
 Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
-Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
 ---
- drivers/pci/vgaarb.c | 24 +++++++++++++++++++++---
- 1 file changed, 21 insertions(+), 3 deletions(-)
+ drivers/pci/vgaarb.c | 45 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/drivers/pci/vgaarb.c b/drivers/pci/vgaarb.c
-index f8f95244d499..02b68810273a 100644
+index 02b68810273a..c768365138b6 100644
 --- a/drivers/pci/vgaarb.c
 +++ b/drivers/pci/vgaarb.c
-@@ -582,14 +582,32 @@ static bool vga_arb_integrated_gpu(struct device *dev)
- static void vga_arb_update_default_device(struct vga_device *vgadev)
- {
+@@ -584,6 +584,14 @@ static void vga_arb_update_default_device(struct vga_device *vgadev)
  	struct pci_dev *pdev = vgadev->pdev;
-+	struct device *dev = &pdev->dev;
-+	struct vga_device *vgadev_default;
+ 	struct device *dev = &pdev->dev;
+ 	struct vga_device *vgadev_default;
++#if defined(CONFIG_X86) || defined(CONFIG_IA64)
++	int i;
++	unsigned long flags;
++	u64 base = screen_info.lfb_base;
++	u64 size = screen_info.lfb_size;
++	u64 limit;
++	resource_size_t start, end;
++#endif
  
  	/*
  	 * If we don't have a default VGA device yet, and this device owns
- 	 * the legacy VGA resources, make it the default.
- 	 */
--	if (!vga_default_device() &&
--	    ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
--		vgaarb_info(&pdev->dev, "setting as boot VGA device\n");
-+	if (!vga_default_device()) {
-+		if ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)
-+			vgaarb_info(dev, "setting as boot VGA device\n");
-+		else
-+			vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
-+		vga_set_default_device(pdev);
-+	}
-+
-+	vgadev_default = vgadev_find(vga_default);
-+
-+	/* Overridden by a better device */
-+	if (vgadev_default && ((vgadev_default->owns & VGA_RSRC_LEGACY_MASK) == 0)
-+		&& ((vgadev->owns & VGA_RSRC_LEGACY_MASK) == VGA_RSRC_LEGACY_MASK)) {
-+		vgaarb_info(dev, "overriding boot VGA device\n");
-+		vga_set_default_device(pdev);
-+	}
-+
-+	if (vga_arb_integrated_gpu(dev)) {
-+		vgaarb_info(dev, "overriding boot VGA device\n");
+@@ -610,6 +618,43 @@ static void vga_arb_update_default_device(struct vga_device *vgadev)
+ 		vgaarb_info(dev, "overriding boot VGA device\n");
  		vga_set_default_device(pdev);
  	}
++
++#if defined(CONFIG_X86) || defined(CONFIG_IA64)
++	if (screen_info.capabilities & VIDEO_CAPABILITY_64BIT_BASE)
++		base |= (u64)screen_info.ext_lfb_base << 32;
++
++	limit = base + size;
++
++	/*
++	 * Override vga_arbiter_add_pci_device()'s I/O based detection
++	 * as it may take the wrong device (e.g. on Apple system under
++	 * EFI).
++	 *
++	 * Select the device owning the boot framebuffer if there is
++	 * one.
++	 */
++
++	/* Does firmware framebuffer belong to us? */
++	for (i = 0; i < DEVICE_COUNT_RESOURCE; i++) {
++		flags = pci_resource_flags(vgadev->pdev, i);
++
++		if ((flags & IORESOURCE_MEM) == 0)
++			continue;
++
++		start = pci_resource_start(vgadev->pdev, i);
++		end  = pci_resource_end(vgadev->pdev, i);
++
++		if (!start || !end)
++			continue;
++
++		if (base < start || limit >= end)
++			continue;
++
++		if (vgadev->pdev != vga_default_device())
++			vgaarb_info(dev, "overriding boot device\n");
++		vga_set_default_device(vgadev->pdev);
++	}
++#endif
  }
+ 
+ /*
 -- 
 2.27.0
 
