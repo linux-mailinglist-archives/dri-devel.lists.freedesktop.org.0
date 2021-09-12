@@ -2,57 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96D8A4083D6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 07:35:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF70F408499
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 08:21:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5882789CD3;
-	Mon, 13 Sep 2021 05:35:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 16E9E6E0E4;
+	Mon, 13 Sep 2021 06:21:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 872FC89CD3;
- Mon, 13 Sep 2021 05:35:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="285277255"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="285277255"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2021 22:35:14 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="543005901"
-Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137])
- by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2021 22:35:14 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- IRSMSX604.ger.corp.intel.com (163.33.146.137) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 13 Sep 2021 06:35:12 +0100
-Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
- BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
- Mon, 13 Sep 2021 11:05:11 +0530
-From: "Shankar, Uma" <uma.shankar@intel.com>
-To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
- <intel-gfx@lists.freedesktop.org>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, "Nikula,
- Jani" <jani.nikula@intel.com>
-Subject: RE: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
-Thread-Topic: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
-Thread-Index: AQHXnnMH2FLEsoz68E6Q5w9RC/wPy6uhhThw
-Date: Mon, 13 Sep 2021 05:35:10 +0000
-Message-ID: <e1c4d6369d8a4f7cb94bca5e03e6a6a3@intel.com>
-References: <cover.1630419362.git.jani.nikula@intel.com>
- <2f43032d5f001510c7eed059321ceeb76d07a606.1630419362.git.jani.nikula@intel.com>
-In-Reply-To: <2f43032d5f001510c7eed059321ceeb76d07a606.1630419362.git.jani.nikula@intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-x-originating-ip: [10.223.10.1]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com
+ [IPv6:2a00:1450:4864:20::543])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C6AB89B98
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 22:05:32 +0000 (UTC)
+Received: by mail-ed1-x543.google.com with SMTP id h17so1215351edj.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 15:05:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Gsw3HQI/E9TwC/JC/Uvpmt4Q2Sj6/F4ssD+a1Ax5o1c=;
+ b=ZrtCTyWOlbUMMilXz4T9VaOiEfDBfjm9kGmxyUOa2O2LQf39uG17LNE9zCc2atDxi8
+ D3Sz+MwEM1Rlukt//Fxfv+iryk/O3ZjZeqfncbsslGQpUHmi2yOr4H+xulK+pxNz8WfV
+ RQ2eRqzwELA6VeHUS44ZaDld3LyxJhwSA/w+RJa780ReYP2U3GArJwARZtG6PWgo/dfX
+ niuCmlXwgyp5flO3xgM5PDp/O7BKPmuJCI8GFoezE621MKAE4KxBm5Uohkh/D4PleE0B
+ h7NkE4KUyHKT2Qsj4vJBO9jkY1CdB9WYOoYV95OAMpwS5EmuqUxvUetxrBHEb9vo6+W8
+ /HcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Gsw3HQI/E9TwC/JC/Uvpmt4Q2Sj6/F4ssD+a1Ax5o1c=;
+ b=0pW9YzMEl8TvA5KNwczE3CKGjr/xks31j+MNH86FuEDTuJVWxiM81tKdtxA+9y0N6m
+ /wEInDYe1Zz/ChryHSFpEIZsso5bnMgeE/3rf+vCMvqKEoXBUysk+7gj7+S3JVGiC9gB
+ itDINMlpGun3W5OzFZ7QrALt8CMdx61uRNX48Omcs5L1rhKR8bCnZG4K28D741ZkRdHB
+ 7zLG1TMVtM4uzWaRZAFHyU6H6ycA7vL6EsCy619PDYg2LynLt3d8lcHdFN4TsTKuRGRE
+ Rhp1cXhFQ+OJah9ws62jtZ9t095vJi2iSOUhY1MIVHs0m6QNlxAiFBUYJg+0sOG/xQDl
+ IGaw==
+X-Gm-Message-State: AOAM531VzkGwmeWKiLUlDkQ1cafhyqSQ2nzBxIiTj8gtSIlJhfxFRToZ
+ CKWngbeQmUg/NtevAz3N/Uw=
+X-Google-Smtp-Source: ABdhPJwY79Py82Co2FO620xbNi6IqrncYa7AumskksivIbO7qrmf+1r924bxxpyuDRGx6VBEwQmuuw==
+X-Received: by 2002:a05:6402:3487:: with SMTP id
+ v7mr9815129edc.102.1631484331039; 
+ Sun, 12 Sep 2021 15:05:31 -0700 (PDT)
+Received: from archbook.localnet (84-72-105-84.dclient.hispeed.ch.
+ [84.72.105.84])
+ by smtp.gmail.com with ESMTPSA id q11sm2896077edv.73.2021.09.12.15.05.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 12 Sep 2021 15:05:30 -0700 (PDT)
+From: Nicolas Frattaroli <frattaroli.nicolas@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-rockchip@lists.infradead.org
+Cc: Adam Borowski <kilobyte@angband.pl>, Adam Borowski <kilobyte@angband.pl>
+Subject: Re: [PATCH] drm/rockchip: fix a -Werror fail on !CONFIG_PM_SLEEP
+Date: Mon, 13 Sep 2021 00:05:29 +0200
+Message-ID: <6944260.REve3BRNNo@archbook>
+In-Reply-To: <20210912212935.11965-1-kilobyte@angband.pl>
+References: <20210912212935.11965-1-kilobyte@angband.pl>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Mailman-Approved-At: Mon, 13 Sep 2021 06:21:14 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,81 +77,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Adam,
 
-
-> -----Original Message-----
-> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Ja=
-ni Nikula
-> Sent: Tuesday, August 31, 2021 7:48 PM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com; Nikul=
-a, Jani
-> <jani.nikula@intel.com>
-> Subject: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
->=20
-> Replace the open coded OUI conversion from three bytes to a 24-bit int, a=
-s we'll be
-> adding one more user shortly. No functional changes.
->=20
-> Side note: CTA-861 format has the OUI bytes in reverse order.
-
-Looks ok to me.
-Reviewed-by: Uma Shankar <uma.shankar@intel.com>
-
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On Sonntag, 12. September 2021 23:29:35 CEST Adam Borowski wrote:
+> Signed-off-by: Adam Borowski <kilobyte@angband.pl>
 > ---
->  drivers/gpu/drm/drm_edid.c | 17 +++++++----------
->  1 file changed, 7 insertions(+), 10 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c inde=
-x
-> 6325877c5fd6..92974b1478bc 100644
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -49,6 +49,11 @@
->  	(((edid)->version > (maj)) || \
->  	 ((edid)->version =3D=3D (maj) && (edid)->revision > (min)))
->=20
-> +static int oui(u8 first, u8 second, u8 third) {
-> +	return (first << 16) | (second << 8) | third; }
-> +
->  #define EDID_EST_TIMINGS 16
->  #define EDID_STD_TIMINGS 8
->  #define EDID_DETAILED_TIMINGS 4
-> @@ -4113,32 +4118,24 @@ cea_db_offsets(const u8 *cea, int *start, int *en=
-d)
->=20
->  static bool cea_db_is_hdmi_vsdb(const u8 *db)  {
-> -	int hdmi_id;
-> -
->  	if (cea_db_tag(db) !=3D VENDOR_BLOCK)
->  		return false;
->=20
->  	if (cea_db_payload_len(db) < 5)
->  		return false;
->=20
-> -	hdmi_id =3D db[1] | (db[2] << 8) | (db[3] << 16);
-> -
-> -	return hdmi_id =3D=3D HDMI_IEEE_OUI;
-> +	return oui(db[3], db[2], db[1]) =3D=3D HDMI_IEEE_OUI;
+>  With Linus suddenly loving -Werror, let's get clean.
+> 
+>  drivers/gpu/drm/rockchip/cdn-dp-core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> b/drivers/gpu/drm/rockchip/cdn-dp-core.c index 8ab3247dbc4a..bee0f2d2a9be
+> 100644
+> --- a/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> +++ b/drivers/gpu/drm/rockchip/cdn-dp-core.c
+> @@ -1123,6 +1123,7 @@ static int cdn_dp_suspend(struct device *dev)
+>  	return ret;
 >  }
->=20
->  static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)  {
-> -	unsigned int oui;
-> -
->  	if (cea_db_tag(db) !=3D VENDOR_BLOCK)
->  		return false;
->=20
->  	if (cea_db_payload_len(db) < 7)
->  		return false;
->=20
-> -	oui =3D db[3] << 16 | db[2] << 8 | db[1];
-> -
-> -	return oui =3D=3D HDMI_FORUM_IEEE_OUI;
-> +	return oui(db[3], db[2], db[1]) =3D=3D HDMI_FORUM_IEEE_OUI;
+> 
+> +#ifdef CONFIG_PM_SLEEP
+
+I think we prefer the function attribute __maybe_unused here, because it also 
+makes sure to get rid of the warning for any functions it references.
+
+>  static int cdn_dp_resume(struct device *dev)
+>  {
+>  	struct cdn_dp_device *dp = dev_get_drvdata(dev);
+> @@ -1135,6 +1136,7 @@ static int cdn_dp_resume(struct device *dev)
+> 
+>  	return 0;
 >  }
->=20
->  static bool cea_db_is_vcdb(const u8 *db)
-> --
-> 2.30.2
+> +#endif
+> 
+>  static int cdn_dp_probe(struct platform_device *pdev)
+>  {
+
+Regards,
+Nicolas Frattaroli
+
 
