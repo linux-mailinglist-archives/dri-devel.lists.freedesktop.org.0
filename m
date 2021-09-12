@@ -2,44 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE40407EAB
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 18:37:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C88F407EAF
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 18:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977FF6E02F;
-	Sun, 12 Sep 2021 16:37:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF58D898E8;
+	Sun, 12 Sep 2021 16:41:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F17EC6E02F
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 16:37:49 +0000 (UTC)
-Date: Sun, 12 Sep 2021 16:37:43 +0000
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E54256E030
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 16:41:25 +0000 (UTC)
+Date: Sun, 12 Sep 2021 16:41:21 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1631464666;
- bh=iWrsRXODT54fDjqbomuMW+tTamZc86GMmNWS6hNNFB8=;
+ s=protonmail; t=1631464884;
+ bh=pBuKQvl727OM53Seayb1jaMZ4mZrh3M8X7DcCVHr6po=;
  h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=O/hynjvK8++aD+Cgq1/CvOwTKI0hr91VGbBx3avDCjd84t91P9UnNaqQIPOoAEICM
- xFi7eNm13Vh6aCSM2JrhLTZ50PjBjI96AFC8BAf4CvxvPKNaUdYg7PTrM/JC7+iZ3D
- DqRzpSD1x31vPa0Y9o8DUlm6OzfLc+pVTwE4R4KpS0uEWzhN4oyLeeEJps5qqgru2v
- 6PsH9HVq9BhVzkVoPKjBsTG9Nt5tkDApBLnSYFQk2cwVdwtFOFNQ8Tkfq3GQUkcECl
- flMewAJ1ylCoutOibTmhIqjHaLo7ZN8CsMfQDxf8gMONlkdDs6XgSAvtMOOzaT89f9
- PKLsK17qLfbGg==
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+ b=MUMwParXJ4j/osZvvvt8fRHhoGxUNoUNeaXPRctYPOr1kZVHujAW844EfKYXP+WJL
+ u03dioejTxHH2aK4ags8HdzwSAjbbdzbChqEKd5v4ewsok/QrCfOfU3SwoZn+xii/r
+ VjHKTAKM1N4MHesSFXuDgW/cAZQ+wXfzenMaqL+/1DF4EtY75fO9Zpa9QWKSO9p57s
+ 70cYnd8MCuwy8uMayZiEyr8c9/zxYSGeiH9LkDfAFoTd7x0t7C+hXdYBum3miMcHDj
+ UwSALd8MTJT/vCrnW2ehjgXOISHTKGBwAQH+PbwbOF18VjchQiQhrvYP5zrQjdrVb+
+ +DMpPSzSpxVBw==
+To: Hans de Goede <hdegoede@redhat.com>
 From: Simon Ser <contact@emersion.fr>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
- dri-devel <dri-devel@lists.freedesktop.org>, Oded Gabbay <ogabbay@kernel.org>,
- mzuckerman@habana.ai, dsinger@habana.ai,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Dave Airlie <airlied@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
-Subject: Re: Accelerator drivers going forward (was Re: Habanalabs Open-Source
- TPC LLVM compiler and SynapseAI Core library)
-Message-ID: <acTm3IX-o1RL5nSrZMIEFg_B0T1ENN1Q7iAom58GH0pfJpVTNbghLwqKrLPDzyCjFKVsLmqmDy1PXrytJrXROTKs_ssjbf17oByM0UKVzIE=@emersion.fr>
-In-Reply-To: <YT4GxO7ab+s0nbze@kroah.com>
-References: <CAFCwf119s7iXk+qpwoVPnRtOGcxeuZb3rnihf6NWWoVT-4ODHA@mail.gmail.com>
- <YTsQJ753sm701R/n@kroah.com>
- <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
- <CAKMK7uFj-m4y+N-q8uoNasJuksgDj-oRK3K=SjoyKMQL=QCENw@mail.gmail.com>
- <YT4GxO7ab+s0nbze@kroah.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ Jared Baldridge <jrb@expunge.us>, Emil Velikov <emil.l.velikov@gmail.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: Re: [PATCH] drm/panel-orientation-quirks: add Valve Steam Deck
+Message-ID: <xcDD5WE2nt7zv6oC1GLWBaZ8Lss5Z6hJWCqe83wH9kYzrkNZRHydylCPYJ-6lYeiMRuk1Oa7rYoJd-DuKEOLbFXwGd6UITWmjUuIrbMlqew=@emersion.fr>
+In-Reply-To: <7b70f7c8-51bf-8e52-4f34-bc0294a918ec@redhat.com>
+References: <20210911102430.253986-1-contact@emersion.fr>
+ <YTz7gKnpXxIbhPGF@ravnborg.org>
+ <7b70f7c8-51bf-8e52-4f34-bc0294a918ec@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -64,22 +58,4 @@ Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > > - move drivers/misc/habanalabs under drivers/gpu/habanalabs and
-> > > review/discussions on dri-devel
->
-> Wait, why move into gpu?  Are we going to do that for all hardware
-> accelerators that we currently have in the kernel tree?
->
-> These things are not GPUs in the sense of them being "do some work and
-> write out to a screen", which is what I would associate with a GPU (G
-> does stand for "Graphical", right?)
->
-> Yes, GPUs can do things that some accelerators can do, but they can do
-> things that accelerators can not do, and the other way around as well.
-> I doubt you want all of the existing gpu drivers to be only treated as
-> an "accelerator driver" now, as where would the logic that has to happen
-> to get the bits out to a screen live?
-
-This seems like a description of the "display" part of the drivers, driven
-by KMS. There are many chips which can't do the "display" part, only the
-"render" part. Their drivers are living in drivers/gpu/ as well.
+Thanks for the fixup and the quick review!
