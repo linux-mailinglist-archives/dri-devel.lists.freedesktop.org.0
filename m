@@ -1,59 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008B9407F0E
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 19:48:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CAD5407FB9
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 21:32:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B84E6E042;
-	Sun, 12 Sep 2021 17:48:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66F066E047;
+	Sun, 12 Sep 2021 19:32:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E8516E042
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 17:48:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 19E3361050
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 17:48:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631468924;
- bh=v0oOrgs5HiyZjmJNcap3Cwe7ac8gDPDbyMIOiXF9Ckc=;
- h=From:To:Subject:Date:From;
- b=lyy7KoLu/99VXBpLitY5TzgChz0YzzupJ36rF8lJnwEPeRQCgq0JnL2HeTpmIBUWi
- YtV+vdwGQnBckj24KgcLg75ItoBOs03WykI/RXQDzT3TDyldR+PmimGqELIBYaFTl2
- KMr8xhhpRK/MQHD76Zrto1h/iQnd4LzjDL2bqktWGgk/uKqi95xMkSGFdQNCl51+YN
- zb9KjuuvJFK1VPXI8M1EzZrzAnT0qKiFwlO/RFo8q0kpC7oAC8n9zkVEUt+Xl5WYSo
- pBb009/amh3dc+ouQirNKWmHzzaoCfiftOTK3wVeLss6Vnzgm1lL95yiG0fuX30rB0
- /y9bNhDwtXFUg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 0D33560F44; Sun, 12 Sep 2021 17:48:44 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214375] New: 5.14 Regression: Null pointer dereference in
- radeon_agp_head_init
-Date: Sun, 12 Sep 2021 17:48:43 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: calvin.walton@kepstin.ca
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-214375-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 79BE06E047
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 19:32:44 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id v24so4796234eda.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 12:32:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5SVsnoLNZz98KC5XdHanLaZg9ljygI/W7sX9Y5UNjvQ=;
+ b=U+1Wp8ZvqNL6vpeuhOuS+73PxgokTdSOFDmVgJlAK14kDT1Dim2x+NJk1nhmQS17SO
+ R6ovsreL8MwYEAOM1lR5t0XH0oHV1RU30m8qKfi9zBU2Mz4aaXEp47J7kMYCSoS8jztj
+ XlZ1m6LGxfvkXKmV5TUzhvM4xJiOSV7XryhOG/9w2yIF7v3rzmpBZLHimQF+p41HIDvJ
+ EIUsV90ljyXyRgCgNHjW/6jufoocG0d8B22cnIOmjHAO4+jTeZpyW0yuGmwMat5LoUEB
+ ge0hpGXfYRysNBgN+6iTKFLRX/nCDINhGHRHiqKOsa9xBWvyNXytnPxMC3h26JwsBgfP
+ Db4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5SVsnoLNZz98KC5XdHanLaZg9ljygI/W7sX9Y5UNjvQ=;
+ b=Ku3KA19fe8l5ekBUcdlmHKJcQhCYROPPT6C2rZmCJgHLimfGSANwcypjbDFXyRMEu9
+ G1aTWF+m+CkdV5dWPleL80NwSsW7syQeGmVONgQ2DnsN9liQegJnasLqtOtZYuADea+M
+ SCwi6eNoYvhW7/wZ1jy95HrABiaeelQUZthnku4al/ggjtU4eHycyGiJF9ijutoURGZM
+ AvXm2AO487jwkuh6X8UuoNefgQo0bTRP0qjwBBXVmSs+RwsCMA4AWpiE834s0tN6vNCi
+ /YSWdHZRFdyBYkCIWUyVd8QiIGkB8cKN4IiNgFmAtnt/mRLPx56YI5eksjyfaombuw+3
+ Q+nQ==
+X-Gm-Message-State: AOAM5313lfExbtcUsXjyp/3xRlmdfHEP/teXdVqBXoeXsckIT/ERBAHL
+ /WiSP3IwLNYbXEVtV2mjG1lfXmZv8pOyqW/z+rY=
+X-Google-Smtp-Source: ABdhPJz92+WCf0rq8WfEwxOyHA1ET5ArCTRSZ5HOJ0qMCWcDUKije+b/axBIJkW+/aTJDwj5ZeDmg194bRb2LLfWYQA=
+X-Received: by 2002:a50:cc08:: with SMTP id m8mr9371648edi.60.1631475162758;
+ Sun, 12 Sep 2021 12:32:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAFCwf119s7iXk+qpwoVPnRtOGcxeuZb3rnihf6NWWoVT-4ODHA@mail.gmail.com>
+ <YTsQJ753sm701R/n@kroah.com>
+ <CAKMK7uFLBmdHphtnEa1nyAGUHdcP1KgmaK+vtV_GOU6wZZAOxg@mail.gmail.com>
+ <CAKMK7uFj-m4y+N-q8uoNasJuksgDj-oRK3K=SjoyKMQL=QCENw@mail.gmail.com>
+ <YT4GxO7ab+s0nbze@kroah.com>
+In-Reply-To: <YT4GxO7ab+s0nbze@kroah.com>
+From: Dave Airlie <airlied@gmail.com>
+Date: Mon, 13 Sep 2021 05:32:31 +1000
+Message-ID: <CAPM=9tx2xyFGHBAfMT_D88JDbCJ4V6Ni2tiYx0=VNj5SmtdJxA@mail.gmail.com>
+Subject: Re: Accelerator drivers going forward (was Re: Habanalabs Open-Source
+ TPC LLVM compiler and SynapseAI Core library)
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, mzuckerman@habana.ai, dsinger@habana.ai, 
+ Linus Torvalds <torvalds@linux-foundation.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,140 +74,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214375
+On Sun, 12 Sept 2021 at 23:55, Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Fri, Sep 10, 2021 at 06:10:27PM +0200, Daniel Vetter wrote:
+> > Forgot to add dri-devel.
+> >
+> > On Fri, Sep 10, 2021 at 6:09 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >
+> > > On Fri, Sep 10, 2021 at 9:58 AM Greg Kroah-Hartman
+> > > <gregkh@linuxfoundation.org> wrote:
+> > > > On Fri, Sep 10, 2021 at 10:26:56AM +0300, Oded Gabbay wrote:
+> > > > > Hi Greg,
+> > > > >
+> > > > > Following our conversations a couple of months ago, I'm happy to tell you that
+> > > > > Habanalabs has open-sourced its TPC (Tensor Processing Core) LLVM compiler,
+> > > > > which is a fork of the LLVM open-source project.
+> > > > >
+> > > > > The project can be found on Habanalabs GitHub website at:
+> > > > > https://github.com/HabanaAI/tpc_llvm
+> > > > >
+> > > > > There is a companion guide on how to write TPC kernels at:
+> > > > > https://docs.habana.ai/en/latest/TPC_User_Guide/TPC_User_Guide.html
+> > > >
+> > > > That's great news, thanks for pushing for this and releasing it all!
+> > >
+> > > Yeah this is neat.
+> > >
+> > > There's still the problem that we spent the past 2.5 years pissing off
+> > > a lot of people for an imo questionable political project, bypassing
+> > > all the technical review and expertise. Now that the political
+> > > nonsense is resolved I think we need to look at at least the technical
+> > > cleanup. The angered people are much harder to fix, so let's maybe
+> > > ignore that (or perhaps a ks topic, no idea, I'm honestly not super
+> > > motivated to rehash this entire story again). Here's what I think we
+> > > should do:
+> > >
+> > > - move drivers/misc/habanalabs under drivers/gpu/habanalabs and
+> > > review/discussions on dri-devel
+>
+> Wait, why move into gpu?  Are we going to do that for all hardware
+> accelerators that we currently have in the kernel tree?
+>
 
-            Bug ID: 214375
-           Summary: 5.14 Regression: Null pointer dereference in
-                    radeon_agp_head_init
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.14.2
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: calvin.walton@kepstin.ca
-        Regression: No
+We could just mv drivers/gpu drivers/accel if that helps your mental model here.
 
-Created attachment 298753
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298753&action=3Dedit
-Complete kernel dmesg
+> These things are not GPUs in the sense of them being "do some work and
+> write out to a screen", which is what I would associate with a GPU (G
+> does stand for "Graphical", right?)
 
-I have an i586 system (ALi chipset, AMD CPU) running with a Radeon 9200 SE =
-in
-an AGP slot. This system was working correctly with the 5.13 kernel series,=
- but
-after switching to 5.14 I no longer have kms graphics output.
+Neither are a lot of the gpu drivers, it's almost like we evolved the
+subsystem in 20 years,
+and the name got away from us.
 
-The radeon module fails to initialize with the following backtrace:
+As an example:
+etnaviv, panfrost, lima and vgem drivers have no display interfaces at
+all. Nada, they do nothing except accelerate and use dma-buf to talk
+to other drivers.
 
-Sep 12 13:15:53 mai kernel: [drm] radeon kernel modesetting enabled.
-Sep 12 13:15:53 mai kernel: radeon 0000:01:00.0: vgaarb: deactivate vga con=
-sole
-Sep 12 13:15:53 mai kernel: Console: switching to colour dummy device 80x25
-Sep 12 13:15:53 mai kernel: BUG: kernel NULL pointer dereference, address:
-00000008
-Sep 12 13:15:53 mai kernel: #PF: supervisor read access in kernel mode
-Sep 12 13:15:53 mai kernel: #PF: error_code(0x0000) - not-present page
-Sep 12 13:15:53 mai kernel: *pde =3D 00000000=20
-Sep 12 13:15:53 mai kernel: Oops: 0000 [#1]
-Sep 12 13:15:53 mai kernel: CPU: 0 PID: 288 Comm: systemd-udevd Tainted: G=
-=20=20=20=20=20
-  W         5.14.2 #2
-Sep 12 13:15:53 mai kernel: Hardware name: American Megatrends Inc.=20=20=
-=20=20=20=20=20=20
-Uknown                          /PT-2200                         , BIOS 062=
-710=20=20
-Sep 12 13:15:53 mai kernel: EIP: radeon_agp_head_init+0xa/0xa0 [radeon]
-Sep 12 13:15:53 mai kernel: Code: 85 fb fe ff 74 d6 84 c9 74 d6 84 c9 ff ff=
- e9
-f7 ff ff e9 f7 90 66 90 66 90 66 90 66 55 ba c0 0d 55 ba c0 0d 56 53 8b 70 =
-56
-53 <8b> 70 6>
-Sep 12 13:15:53 mai kernel: EAX: 00000000 EBX: b3978c00 ECX: b3a21ce8 EDX:
-00000dc0
-Sep 12 13:15:53 mai kernel: ESI: b493e000 EDI: b1cad000 EBP: b3a21cf8 ESP:
-b3a21cf0
-Sep 12 13:15:53 mai kernel: DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 0068
-EFLAGS: 00210202
-Sep 12 13:15:53 mai kernel: CR0: 80050033 CR2: 00000008 CR3: 03f86000 CR4:
-00000090
-Sep 12 13:15:53 mai kernel: Call Trace:
-Sep 12 13:15:53 mai kernel:  radeon_driver_load_kms+0x168/0x1a0 [radeon]
-Sep 12 13:15:53 mai kernel:  drm_dev_register+0xb5/0x1a0 [drm]
-Sep 12 13:15:53 mai kernel:  radeon_pci_probe+0xa1/0xe0 [radeon]
-Sep 12 13:15:53 mai kernel:  pci_device_probe+0x88/0x100
-Sep 12 13:15:53 mai kernel:  really_probe.part.0+0x78/0x220
-Sep 12 13:15:53 mai kernel:  __driver_probe_device+0x7e/0x100
-Sep 12 13:15:53 mai kernel:  driver_probe_device+0x19/0xe0
-Sep 12 13:15:53 mai kernel:  __driver_attach+0x81/0x140
-Sep 12 13:15:53 mai kernel:  ? __device_attach_driver+0xe0/0xe0
-Sep 12 13:15:53 mai kernel:  bus_for_each_dev+0x47/0x80
-Sep 12 13:15:53 mai kernel:  driver_attach+0x17/0x20
-Sep 12 13:15:53 mai kernel:  ? __device_attach_driver+0xe0/0xe0
-Sep 12 13:15:53 mai kernel:  bus_add_driver+0xec/0x1a0
-Sep 12 13:15:53 mai kernel:  driver_register+0x74/0xc0
-Sep 12 13:15:53 mai kernel:  ? 0xf0e5f000
-Sep 12 13:15:53 mai kernel:  __pci_register_driver+0x37/0x40
-Sep 12 13:15:53 mai kernel:  radeon_module_init+0x65/0x1000 [radeon]
-Sep 12 13:15:53 mai kernel:  do_one_initcall+0x33/0x120
-Sep 12 13:15:53 mai kernel:  ? kfree+0x151/0x160
-Sep 12 13:15:53 mai kernel:  ? __vunmap+0x1d5/0x260
-Sep 12 13:15:53 mai kernel:  ? kmem_cache_alloc+0x10a/0x160
-Sep 12 13:15:53 mai kernel:  do_init_module+0x45/0x240
-Sep 12 13:15:53 mai kernel:  load_module+0x1cc3/0x2020
-Sep 12 13:15:53 mai kernel:  ? 0xf0e5f000
-Sep 12 13:15:53 mai kernel:  __ia32_sys_finit_module+0x89/0xc0
-Sep 12 13:15:53 mai kernel:  do_int80_syscall_32+0x2e/0x80
-Sep 12 13:15:53 mai kernel:  entry_INT80_32+0x109/0x109
-Sep 12 13:15:53 mai kernel: EIP: 0xa7b66332
-Sep 12 13:15:53 mai kernel: Code: 90 66 90 66 90 66 90 90 55 57 56 53 8b 6c=
- 24
-2c 8b 7c 24 28 8b 74 24 24 8b 54 24 20 8b 4c 24 1c 8b 5c 24 18 8b 44 24 14 =
-cd
-80 <5b> 5e 5>
-Sep 12 13:15:53 mai kernel: EAX: ffffffda EBX: 00000016 ECX: a7cbfb05 EDX:
-00000000
-Sep 12 13:15:53 mai kernel: ESI: 02068a50 EDI: 020677c0 EBP: ffffffff ESP:
-affc0fcc
-Sep 12 13:15:53 mai kernel: DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
-EFLAGS: 00200292
-Sep 12 13:15:53 mai kernel: Modules linked in: r8169 radeon(+) realtek
-mdio_devres libphy snd_emu10k1 snd_ac97_codec ac97_bus snd_util_mem
-i2c_algo_bit snd_hwdep drm_ttm>
-Sep 12 13:15:53 mai kernel: CR2: 0000000000000008
-Sep 12 13:15:53 mai kernel: ---[ end trace d1e7fe80690cc5a8 ]---
-Sep 12 13:15:53 mai kernel: EIP: radeon_agp_head_init+0xa/0xa0 [radeon]
-Sep 12 13:15:53 mai kernel: Code: 85 fb fe ff 74 d6 84 c9 74 d6 84 c9 ff ff=
- e9
-f7 ff ff e9 f7 90 66 90 66 90 66 90 66 55 ba c0 0d 55 ba c0 0d 56 53 8b 70 =
-56
-53 <8b> 70 6>
-Sep 12 13:15:53 mai kernel: EAX: 00000000 EBX: b3978c00 ECX: b3a21ce8 EDX:
-00000dc0
-Sep 12 13:15:53 mai kernel: ESI: b493e000 EDI: b1cad000 EBP: b3a21cf8 ESP:
-b3a21cf0
-Sep 12 13:15:53 mai kernel: DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 0068
-EFLAGS: 00210202
-Sep 12 13:15:53 mai kernel: CR0: 80050033 CR2: 00000008 CR3: 03f86000 CR4:
-00000090
 
-It looks like this issue should be easy to bisect, but the system is pretty
-slow, so that will take a while. Please let me know if there are any other =
-logs
-or debug options that you would like me to try. I've attached the full kern=
-el
-boot log from the boot that this backtrace was taken from.
+> Yes, GPUs can do things that some accelerators can do, but they can do
+> things that accelerators can not do, and the other way around as well.
+> I doubt you want all of the existing gpu drivers to be only treated as
+> an "accelerator driver" now, as where would the logic that has to happen
+> to get the bits out to a screen live?
 
-Note that although I'm running Gentoo, I am using an unpatched upstream ker=
-nel.
+Don't care, totally doesn't matter if a driver is accelerator +
+display, you could write in-driver buses if you wanted to abstract
+this more, since internally most GPUs are just SoCs, the display and
+accelerator pieces talk to power management, irqs and dma-buf like
+functionality internally in the driver, the thing is for most GPUs
+there is a single PCI device to bind to, so historically nobody has
+seen the value in splitting them more or adding an in-driver bus for
+one set of devices.
 
---=20
-You may reply to this email to add a comment.
+> And since we have a long history of accepting accelerator drivers (I see
+> some in our tree since 2018 at the least), and there is no common
+> userspace collation trying to make a common userspace api, why do they
+> have to live in the same place?  What makes them common except for the
+> fact that they use the kernel as a semi-dumb pipe to send work to and
+> from a different processor?
+>
+> Look at drivers/misc/cxl/ and drivers/misc/ocxl and drivers/misc/uacce/
+> and drivers/misc/sgi-gru and drivers/misc/bcm-vk/ even drivers/misc/mei/
+> as that is an off-load engine we talk to, right?
+>
+> What about the drivers/fpga/ api we have, it handles accelerators as
+> well.  I'm sure we have many other examples in the kernel tree as well,
+> I just did a quick look and found these.
+>
+> All the above accelerators do things in different ways because their
+> hardware is different, so they need different user/kernel apis, right?
+> How are we going to unify them?  Who is going to unify them?
+>
+> So drivers/accel/ perhaps?  I would be able to get rid of loads of
+> drivers/misc/ code that way :)
+>
+> Who is going to be the new maintainer of this subsystem?
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+We already said if we could get agreement on having things follow the
+rules, then they can be merged under drm trees or we'd start a new
+accel tree.
+
+The problem is the free-for-all merge with no barriers approach that
+you and I believe Olof are campaigning for, doesn't seem to create
+communities, it may create consulting or training opportunities for
+the Linux Foundation, but thus far I don't see any communities.
+
+Graphics accelerator community exists because of and has itself
+refined the rules over time. I don't think our rules will necessarily
+work for other groups immediately but I think other groups need to
+construct acceptable merge criteria beyond the kernel, and kernel
+maintainers have to take more responsibility for saying no if they
+don't have time for community building.
+
+
+> So far they have all been going into drivers/misc/ because no one else
+> stepped up to do the review of them except me.  I would _LOVE_ the help
+> here as I end up reviewing a new one every kernel release at the least,
+> but companies do not seem to be willing to fund developers to be
+> maintainers these days :(
+>
+> And yes, I have been reviewing the fpga code as well, even though they
+> do have a good maintainer, as those patches flow through my tree due to
+> historical reasons.  I know the fpga developers would have loved some
+> help with review of those patches.
+
+Lack of reviewing isn't the problem here, lack of responsibility for
+creating a long term mess is. You are creating long term dumping
+grounds for badly thought out stuff. Saying people keeping adding more
+trash to my dump and it's overloading me is just the effect of having
+created the dump with no rules to follow in the first place.
+
+>
+> > > - review the dma-buf stuff on dri-devel and then land it through
+> > > standard flows, not the gregk-misc bypass
+>
+> Are dma-bufs somehow required to be reviewed on dri-devel?  As others
+> have asked in the past, they are already being used in other subsystems
+> (like IB) today, did those authors also get review there?
+
+Yes any use of dma-buf has to be cc'ed to dri-devel and linux-media
+per MAINTAINERS
+
+>
+> If so, great, if not, that feels odd to me, as I am seeing lots of
+> out-of-tree drivers start to use these structures, which is why the api
+> was created (to stop the roll-your-own-implementations.)  Does dri-devel
+> want me to have those vendors cc: you all when those get submitted?
+
+Yes. MAINTAINERS has matching for this, are you not advising people to
+use the proper submission techniques and thus bypassing that file?
+
+The reason is dma-buf and later by extension dma-fence can create
+really bad problems for the kernel around memory management.
+
+https://dri.freedesktop.org/docs/drm/driver-api/dma-buf.html#indefinite-dma-fences
+
+When a driver is self contained and doesn't interact with other kernel
+drivers nobody really has to care. However once a driver starts
+interacting with other drivers in the kernel, a responsible maintainer
+has to check that these new drivers aren't going to crap all over the
+existing drivers and destabilise the kernel. Someone has to review the
+hardware design to see if page faulting works or if preemption works
+or a bunch of other gotchas. Someone has to review the userspace to
+make sure it isn't doing knowingly bad things or making assumptions
+based on the kernel driver doing bad things.
+
+The thing is we've had code merged into our in-tree i915 driver that
+broke a bunch of these assumptions, and have had to spend a year
+cleaning it out, now this happened post-merge and diligence had
+lessened, having the expertise to spot this in new dma-buf/fence users
+is why we insist on having access to way more than just the 1000 line
+kernel driver submission.
+
+
+> I will be glad to not accept any more, but as I say above, what are the
+> new requirements going to be so that those companies that do want to
+> submit their code know what to do?
+
+I'm proposing a patch for documentation that maintainers can sign up
+for (it's mentioned in the ksummit thread).
+
+> And what exactly are we using as a definition of an accelerator?  We
+> have networking cards that are "accelerators" as well as crypto
+> "accelerators" :)
+>
+> > > I expect we'll have a proper discussion what the stack should look
+> > > like with the next submission (from a different vendor maybe), that
+> > > ship kinda sailed with habanalabs.
+>
+> Who is going to define this stack?  As there is no industry standard,
+> why would we define this?
+
+Because someone has to help, saying yes isn't helping, it's enabling
+back behaviour. Parenting and maintaining both involve saying No for
+the future prosperity of the ecosystem.
+
+Dave.
