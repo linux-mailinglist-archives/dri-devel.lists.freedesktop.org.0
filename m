@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D004408022
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 22:10:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FECB40800E
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 22:10:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C9936E072;
-	Sun, 12 Sep 2021 20:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9AAE6E06E;
+	Sun, 12 Sep 2021 20:10:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEDE06E06B
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 20:10:23 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id t18so11367424wrb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 13:10:23 -0700 (PDT)
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C97E76E072
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 20:10:25 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id g16so11355463wrb.3
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 13:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=apzhG9AwrXRFxs3ODZKNaR4nm2mT0cK013Pk2TABi5o=;
- b=G5xNsKzspSyMXBLhNWfJTUF4kwwMsUzG1zJzKVa5cOSMjJEj2UHfMdsXz5lWguk2LL
- kzBUHAnoDDvfq3rJH+XG+1QfCG/Ag328s2gDeycG00DXGsXDiuQeY/km0MKIQwU9m11f
- tOD9sg2kwdUPrYyWGdhb6ZqtIRykeLFBnemJj5UnL+RJfI55UBi/OYmD/Y35IJrPvQmy
- 2I66F5F/KVa5Brq8fxLhpfc4Ljpb7sAARASVhz4Ejhf3O6mBJ1UOO//YbLP0KscVf0JH
- mVTF9qhoii3tqOJyQ5I61SuQQmmGnYNMg21eiMmnZRntG+3ro+sMmWsdgI+hrNqgEr8H
- rkgA==
+ bh=i9QYtupMPLyzQnqOhwfXP4oUoMqt4gxj3ewFZ5B73Ts=;
+ b=likXWSDZ1v4Sks8GU89iHowLqcUIMbRx2wPVX1eQxhP6OFsM0KOWZ9FJZhC5u81DH3
+ Xwm7v1MdGjoALtI6tmFDtN9SbW8Kim3JApNeY1SY7TKt6OC3vh3EBVSiwtbK2CClM+Ch
+ FhxtDJVGkWKHaFxatJVQimK5oi2xZwnonEV9O9Hrp+ECsZvXzfCdLC8zgVxxOYSRih5G
+ 12j0KRIHdXQWild9q2nxvAMdxgj+OwpAwzhwLSe1w/X5a7wf6YfGu84X+25CvvWmqTUf
+ QalIstKqSUiPtJtPgkLrvVVp7FeQ0qN5uKfG0LxgAwDZYuXuoEfCI6CAeaviK7SONxJF
+ jWzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=apzhG9AwrXRFxs3ODZKNaR4nm2mT0cK013Pk2TABi5o=;
- b=NvEmdjlh7LjlsGzXv8lzFhCyov0ERpErhnaf3Pl/Pdt/P7ZN5QqTCO2Gw/FSgwQcSG
- wJuOHp2SRKqPD65hScoeCrTiHVfOyZFOPExsHvDeyokeYK0Re+caOhh/q98IMuvw2Izh
- DEE//T3iyaobfgo+pc4c0vRESDRt1VqYBOilJaEKUTKzjhz1XMaBi0+rqw2bCGIXfOz5
- /eVgeFB/O55GvsAJsgkbN1/nFAImIpzhXDJ2tpqt6Hqc3Fmb/jqP+jY9sJ+97WeSAXH1
- 0z4sBrPrkmu/01RqNkThj0CEQIzqQygfXbkZte5CKypi2tTGtZLIAtdwZA/OCTpaNVAA
- 1h+Q==
-X-Gm-Message-State: AOAM531avmN1491YhMAfgRPf/ZC/Oq7R+I//3JCQ5Pjvm06yeffIQkKX
- 4jgwq1uB9iWPZ/mg/XlJVZA=
-X-Google-Smtp-Source: ABdhPJwk9Cj/2oEYwphitbzyfR7wHc2o7mBd5Jvy4lfer8k7bRcMkDdXwW7Zmb5ZP0pEESsJVIRvWA==
-X-Received: by 2002:a5d:53c8:: with SMTP id a8mr8785601wrw.168.1631477422053; 
- Sun, 12 Sep 2021 13:10:22 -0700 (PDT)
+ bh=i9QYtupMPLyzQnqOhwfXP4oUoMqt4gxj3ewFZ5B73Ts=;
+ b=IW3E8l+pJsklFdvRTsaY/sQjXVykHv9sco/YAbiRbYVartM0QXGUbKDhUMMhOI/1jo
+ LLHpLHLzJH3VA9Pgtr8mdfrXEWibtduNTOTCH44NCRixEGzNzKLrLpNpUkurOD1liBZw
+ Mupea5SoCpswk4wQWo0r4vH8Clox6YZ2m+Y0edaebWqAu2+UB0Rkvr7zG6P92erLubS4
+ hy7AcuE/it526ZNvFLPHu2PW2GZ3FuYn9Vi43W62ck6miuKvgmYiBompOwubGtpTYBFp
+ A8UM1TbVuVeFhI4CAk5k6YRNvEAXn+1PYxsrT/H67f9VAut5umbXZI2SAjGmjioC+lob
+ z3Cw==
+X-Gm-Message-State: AOAM5304+vCm++9FoqX/hygrlYYVFkDpbuHvLwfW8fwz3SAS/FV7ORfI
+ SeRHWM/qgvb2VRhcpNvrsgI=
+X-Google-Smtp-Source: ABdhPJwCmjRwTNEp+XF6+uJ6s3Fjckg+MJaBPqelfkfezkcz9fDISHUtIGjPc0rD/uibc9ZFzImTJA==
+X-Received: by 2002:a05:6000:124b:: with SMTP id
+ j11mr9073974wrx.147.1631477424444; 
+ Sun, 12 Sep 2021 13:10:24 -0700 (PDT)
 Received: from localhost.localdomain (46-138-83-36.dynamic.spd-mgts.ru.
  [46.138.83.36])
- by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.10.19
+ by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.10.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 13:10:21 -0700 (PDT)
+ Sun, 12 Sep 2021 13:10:24 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -70,9 +71,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v11 20/34] mtd: rawnand: tegra: Add runtime PM and OPP support
-Date: Sun, 12 Sep 2021 23:08:18 +0300
-Message-Id: <20210912200832.12312-21-digetx@gmail.com>
+Subject: [PATCH v11 21/34] spi: tegra20-slink: Add OPP support
+Date: Sun, 12 Sep 2021 23:08:19 +0300
+Message-Id: <20210912200832.12312-22-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210912200832.12312-1-digetx@gmail.com>
 References: <20210912200832.12312-1-digetx@gmail.com>
@@ -93,140 +94,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The NAND on Tegra belongs to the core power domain and we're going to
-enable GENPD support for the core domain. Now NAND must be resumed using
-runtime PM API in order to initialize the NAND power state. Add runtime PM
-and OPP support to the NAND driver.
+The SPI on Tegra belongs to the core power domain and we're going to
+enable GENPD support for the core domain. Now SPI driver must use OPP
+API for driving the controller's clock rate because OPP API takes care
+of reconfiguring the domain's performance state in accordance to the
+rate. Add OPP support to the driver.
 
-Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+Acked-by: Mark Brown <broonie@kernel.org>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/mtd/nand/raw/tegra_nand.c | 55 ++++++++++++++++++++++++++-----
- 1 file changed, 47 insertions(+), 8 deletions(-)
+ drivers/spi/spi-tegra20-slink.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/mtd/nand/raw/tegra_nand.c b/drivers/mtd/nand/raw/tegra_nand.c
-index fbf67722a049..2cce38c58a26 100644
---- a/drivers/mtd/nand/raw/tegra_nand.c
-+++ b/drivers/mtd/nand/raw/tegra_nand.c
-@@ -17,8 +17,11 @@
- #include <linux/mtd/rawnand.h>
- #include <linux/of.h>
+diff --git a/drivers/spi/spi-tegra20-slink.c b/drivers/spi/spi-tegra20-slink.c
+index 8ce840c7ecc8..1a92978d2120 100644
+--- a/drivers/spi/spi-tegra20-slink.c
++++ b/drivers/spi/spi-tegra20-slink.c
+@@ -18,12 +18,15 @@
+ #include <linux/kthread.h>
+ #include <linux/module.h>
  #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/of.h>
+ #include <linux/of_device.h>
  #include <linux/reset.h>
+ #include <linux/spi/spi.h>
  
 +#include <soc/tegra/common.h>
 +
- #define COMMAND					0x00
- #define   COMMAND_GO				BIT(31)
- #define   COMMAND_CLE				BIT(30)
-@@ -1152,6 +1155,7 @@ static int tegra_nand_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	ctrl->dev = &pdev->dev;
-+	platform_set_drvdata(pdev, ctrl);
- 	nand_controller_init(&ctrl->controller);
- 	ctrl->controller.ops = &tegra_nand_controller_ops;
- 
-@@ -1168,14 +1172,22 @@ static int tegra_nand_probe(struct platform_device *pdev)
- 	if (IS_ERR(ctrl->clk))
- 		return PTR_ERR(ctrl->clk);
- 
--	err = clk_prepare_enable(ctrl->clk);
-+	err = devm_pm_runtime_enable(&pdev->dev);
-+	if (err)
-+		return err;
-+
-+	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-+	if (err)
-+		return err;
-+
-+	err = pm_runtime_resume_and_get(&pdev->dev);
- 	if (err)
- 		return err;
- 
- 	err = reset_control_reset(rst);
- 	if (err) {
- 		dev_err(ctrl->dev, "Failed to reset HW: %d\n", err);
--		goto err_disable_clk;
-+		goto err_put_pm;
+ #define SLINK_COMMAND			0x000
+ #define SLINK_BIT_LENGTH(x)		(((x) & 0x1f) << 0)
+ #define SLINK_WORD_SIZE(x)		(((x) & 0x1f) << 5)
+@@ -680,7 +683,7 @@ static int tegra_slink_start_transfer_one(struct spi_device *spi,
+ 	bits_per_word = t->bits_per_word;
+ 	speed = t->speed_hz;
+ 	if (speed != tspi->cur_speed) {
+-		clk_set_rate(tspi->clk, speed * 4);
++		dev_pm_opp_set_rate(tspi->dev, speed * 4);
+ 		tspi->cur_speed = speed;
  	}
  
- 	writel_relaxed(HWSTATUS_CMD_DEFAULT, ctrl->regs + HWSTATUS_CMD);
-@@ -1190,21 +1202,19 @@ static int tegra_nand_probe(struct platform_device *pdev)
- 			       dev_name(&pdev->dev), ctrl);
- 	if (err) {
- 		dev_err(ctrl->dev, "Failed to get IRQ: %d\n", err);
--		goto err_disable_clk;
-+		goto err_put_pm;
- 	}
+@@ -1082,6 +1085,11 @@ static int tegra_slink_probe(struct platform_device *pdev)
+ 	init_completion(&tspi->xfer_completion);
  
- 	writel_relaxed(DMA_MST_CTRL_IS_DONE, ctrl->regs + DMA_MST_CTRL);
- 
- 	err = tegra_nand_chips_init(ctrl->dev, ctrl);
- 	if (err)
--		goto err_disable_clk;
--
--	platform_set_drvdata(pdev, ctrl);
-+		goto err_put_pm;
- 
- 	return 0;
- 
--err_disable_clk:
--	clk_disable_unprepare(ctrl->clk);
-+err_put_pm:
-+	pm_runtime_put(ctrl->dev);
- 	return err;
- }
- 
-@@ -1221,11 +1231,39 @@ static int tegra_nand_remove(struct platform_device *pdev)
- 
- 	nand_cleanup(chip);
- 
-+	pm_runtime_put(ctrl->dev);
+ 	pm_runtime_enable(&pdev->dev);
 +
-+	return 0;
-+}
++	ret = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	if (ret)
++		goto exit_pm_disable;
 +
-+static int __maybe_unused tegra_nand_runtime_resume(struct device *dev)
-+{
-+	struct tegra_nand_controller *ctrl = dev_get_drvdata(dev);
-+	int err;
-+
-+	err = clk_prepare_enable(ctrl->clk);
-+	if (err) {
-+		dev_err(dev, "Failed to enable clock: %d\n", err);
-+		return err;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused tegra_nand_runtime_suspend(struct device *dev)
-+{
-+	struct tegra_nand_controller *ctrl = dev_get_drvdata(dev);
-+
- 	clk_disable_unprepare(ctrl->clk);
- 
- 	return 0;
- }
- 
-+static const struct dev_pm_ops tegra_nand_pm = {
-+	SET_RUNTIME_PM_OPS(tegra_nand_runtime_suspend, tegra_nand_runtime_resume,
-+			   NULL)
-+};
-+
- static const struct of_device_id tegra_nand_of_match[] = {
- 	{ .compatible = "nvidia,tegra20-nand" },
- 	{ /* sentinel */ }
-@@ -1236,6 +1274,7 @@ static struct platform_driver tegra_nand_driver = {
- 	.driver = {
- 		.name = "tegra-nand",
- 		.of_match_table = tegra_nand_of_match,
-+		.pm = &tegra_nand_pm,
- 	},
- 	.probe = tegra_nand_probe,
- 	.remove = tegra_nand_remove,
+ 	ret = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "pm runtime get failed, e = %d\n", ret);
 -- 
 2.32.0
 
