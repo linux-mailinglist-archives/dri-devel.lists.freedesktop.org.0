@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BECD4407FC1
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 21:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6BD407FC5
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 21:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9196889BCD;
-	Sun, 12 Sep 2021 19:42:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 871E089C1F;
+	Sun, 12 Sep 2021 19:42:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
- [91.221.196.215])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C83789BCD
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 19:42:11 +0000 (UTC)
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CDEED89C1F
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 19:42:57 +0000 (UTC)
 Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx1.smtp.larsendata.com (Halon) with ESMTPS
- id 7e1fcdfe-1401-11ec-a02a-0050568c148b;
- Sun, 12 Sep 2021 19:41:58 +0000 (UTC)
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 9973ecc9-1401-11ec-9416-0050568cd888;
+ Sun, 12 Sep 2021 19:42:44 +0000 (UTC)
 Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
  [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
  (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 59168194C8C;
- Sun, 12 Sep 2021 21:41:58 +0200 (CEST)
-Date: Sun, 12 Sep 2021 21:42:04 +0200
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 33C8C194C71;
+ Sun, 12 Sep 2021 21:42:47 +0200 (CEST)
+Date: Sun, 12 Sep 2021 21:42:53 +0200
 X-Report-Abuse-To: abuse@mxhotel.dk
 From: Sam Ravnborg <sam@ravnborg.org>
 To: Maxime Ripard <maxime@cerno.tech>
@@ -37,14 +37,14 @@ Cc: Robert Foss <robert.foss@linaro.org>,
  Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/bridge: Add a function to abstract away panels
-Message-ID: <YT5YDI3SGr2Xkhi8@ravnborg.org>
+Subject: Re: [PATCH 2/3] drm/vc4: dpi: Switch to devm_drm_of_get_bridge
+Message-ID: <YT5YPYjKQk+DIKhB@ravnborg.org>
 References: <20210910130941.1740182-1-maxime@cerno.tech>
- <20210910130941.1740182-2-maxime@cerno.tech>
+ <20210910130941.1740182-3-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210910130941.1740182-2-maxime@cerno.tech>
+In-Reply-To: <20210910130941.1740182-3-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,127 +60,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-On Fri, Sep 10, 2021 at 03:09:39PM +0200, Maxime Ripard wrote:
-> Display drivers so far need to have a lot of boilerplate to first
-> retrieve either the panel or bridge that they are connected to using
-> drm_of_find_panel_or_bridge(), and then either deal with each with ad-hoc
-> functions or create a drm panel bridge through drm_panel_bridge_add.
-> 
-> In order to reduce the boilerplate and hopefully create a path of least
-> resistance towards using the DRM panel bridge layer, let's create the
-> function devm_drm_of_get_next to reduce that boilerplate.
-s/devm_drm_of_get_next/devm_drm_of_get_bridge/
-
+On Fri, Sep 10, 2021 at 03:09:40PM +0200, Maxime Ripard wrote:
+> The new devm_drm_of_get_bridge removes most of the boilerplate we
+> have to deal with. Let's switch to it.
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-I like how this makes panels and bridges much more alike for the display
-drivers.
-
-With the changelog fixed:
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-
-(I assume you will apply yourself - otherwise tell me to do it).
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
 > ---
->  drivers/gpu/drm/drm_bridge.c | 42 ++++++++++++++++++++++++++++++++----
->  drivers/gpu/drm/drm_of.c     |  3 +++
->  include/drm/drm_bridge.h     |  2 ++
->  3 files changed, 43 insertions(+), 4 deletions(-)
+>  drivers/gpu/drm/vc4/vc4_dpi.c | 15 ++++-----------
+>  1 file changed, 4 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index a8ed66751c2d..10ddca4638b0 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -28,6 +28,7 @@
->  #include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_of.h>
->  #include <drm/drm_print.h>
+> diff --git a/drivers/gpu/drm/vc4/vc4_dpi.c b/drivers/gpu/drm/vc4/vc4_dpi.c
+> index a90f2545baee..c180eb60bee8 100644
+> --- a/drivers/gpu/drm/vc4/vc4_dpi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_dpi.c
+> @@ -229,26 +229,19 @@ static const struct of_device_id vc4_dpi_dt_match[] = {
+>  static int vc4_dpi_init_bridge(struct vc4_dpi *dpi)
+>  {
+>  	struct device *dev = &dpi->pdev->dev;
+> -	struct drm_panel *panel;
+>  	struct drm_bridge *bridge;
+> -	int ret;
 >  
->  #include "drm_crtc_internal.h"
-> @@ -51,10 +52,8 @@
->   *
->   * Display drivers are responsible for linking encoders with the first bridge
->   * in the chains. This is done by acquiring the appropriate bridge with
-> - * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
-> - * panel with drm_panel_bridge_add_typed() (or the managed version
-> - * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
-> - * attached to the encoder with a call to drm_bridge_attach().
-> + * devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to the
-> + * encoder with a call to drm_bridge_attach().
->   *
->   * Bridges are responsible for linking themselves with the next bridge in the
->   * chain, if any. This is done the same way as for encoders, with the call to
-> @@ -1233,6 +1232,41 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  	return NULL;
+> -	ret = drm_of_find_panel_or_bridge(dev->of_node, 0, 0,
+> -					  &panel, &bridge);
+> -	if (ret) {
+> +	bridge = devm_drm_of_get_bridge(dev, dev->of_node, 0, 0);
+> +	if (IS_ERR(bridge)) {
+>  		/* If nothing was connected in the DT, that's not an
+>  		 * error.
+>  		 */
+> -		if (ret == -ENODEV)
+> +		if (PTR_ERR(bridge) == -ENODEV)
+>  			return 0;
+>  		else
+> -			return ret;
+> +			return PTR_ERR(bridge);
+>  	}
+>  
+> -	if (panel)
+> -		bridge = drm_panel_bridge_add_typed(panel,
+> -						    DRM_MODE_CONNECTOR_DPI);
+> -
+>  	return drm_bridge_attach(dpi->encoder, bridge, NULL, 0);
 >  }
->  EXPORT_SYMBOL(of_drm_find_bridge);
-> +
-> +/**
-> + * devm_drm_of_get_bridge - Return next bridge in the chain
-> + * @dev: device to tie the bridge lifetime to
-> + * @np: device tree node containing encoder output ports
-> + * @port: port in the device tree node
-> + * @endpoint: endpoint in the device tree node
-> + *
-> + * Given a DT node's port and endpoint number, finds the connected node
-> + * and returns the associated bridge if any, or creates and returns a
-> + * drm panel bridge instance if a panel is connected.
-> + *
-> + * Returns a pointer to the bridge if successful, or an error pointer
-> + * otherwise.
-> + */
-> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> +					  struct device_node *np,
-> +					  unsigned int port,
-> +					  unsigned int endpoint)
-> +{
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
-> +
-> +	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
-> +					  &panel, &bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	if (panel)
-> +		bridge = devm_drm_panel_bridge_add(dev, panel);
-> +
-> +	return bridge;
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_get_bridge);
->  #endif
->  
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 997b8827fed2..37c34146eea8 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -231,6 +231,9 @@ EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
->   * return either the associated struct drm_panel or drm_bridge device. Either
->   * @panel or @bridge must not be NULL.
->   *
-> + * This function is deprecated and should not be used in new drivers. Use
-> + * devm_drm_of_get_bridge() instead.
-> + *
->   * Returns zero if successful, or one of the standard error codes if it fails.
->   */
->  int drm_of_find_panel_or_bridge(const struct device_node *np,
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 46bdfa48c413..f70c88ca96ef 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -911,6 +911,8 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
->  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
->  						   struct drm_panel *panel,
->  						   u32 connector_type);
-> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
-> +					unsigned int port, unsigned int endpoint);
->  struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
->  #endif
 >  
 > -- 
 > 2.31.1
