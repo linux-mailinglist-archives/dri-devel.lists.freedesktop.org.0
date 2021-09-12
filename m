@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00915407FF7
-	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 22:09:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE3407FF8
+	for <lists+dri-devel@lfdr.de>; Sun, 12 Sep 2021 22:09:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B59826E059;
-	Sun, 12 Sep 2021 20:09:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E15486E057;
+	Sun, 12 Sep 2021 20:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5FA526E059
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 20:09:51 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id u16so11318388wrn.5
- for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 13:09:51 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA9FA6E057
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 20:09:53 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id g128so690814wma.5
+ for <dri-devel@lists.freedesktop.org>; Sun, 12 Sep 2021 13:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+TXI1PsD2CP95PVSZQdBoUU6aVsve75rwezr3hbKqQc=;
- b=gszyN4Ob1/oTX3YH7MjCAHMRrfD1D08CcHDvg+2Eaba3Hp18pl+snY9UTTj6XI8Fii
- QSsiZRyR4VSgcsD7hvV8fmhFMmrFvE9OEEgfeB4Xsj2buu6U0PISTrd78ArRWV9lpAfv
- +FlU38BkxMhEXM9QxQ9cJOQ6R14gReIDdA1CQWajhzrJPWrExvibMAC1JDUqgjCNfrXO
- qChnqFGlsNDY7x74H+CyYFkiGZh+VXJx6bipF8ZjhilCppzsc2MAgubfU3wNNfqs8sqG
- hf0KrBfB2RFomn2QT0xLpz+snJWWUJuGxxsjUe6oXZM2S8IgVgLOL83n+0capBaigXIC
- ew1A==
+ bh=1AOM2RfjwsrGWR/uPrYeS/Sf+AYl6Sxk5Zgv7MiC4jY=;
+ b=Dq3P3RRgJcqhcBh5BG9KO6CwsVH0mrKQnWOGCvOT4T1EFxj1AAlWyrHItGMz3hadTC
+ lwz6mX2UdEXVMPLyyEUpCx8CRfbN0DQ+byj4Sy0rmHY3whnxhPMXVI5prvpxA2YWNsZ2
+ KkNXQhfT+Vd5SjTt8wehgzX4wSdNOrqfP1m5rqm/xZ6b+7b25rvaalgv8G8myN2HCB4F
+ jZslbkJsNeOWiy8sk/nT4Y7T3XGE1SzHXOgvlL0RWEDSdpwv5l4zveiR9pMXBCaiRLhR
+ X1ulXY03uY6Qk36KfGgg9hK5mFE1ACgns2v7NgdU6Nk566CAx+Ldnf37dN3/n/nFsrdO
+ LwkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+TXI1PsD2CP95PVSZQdBoUU6aVsve75rwezr3hbKqQc=;
- b=ZCrwPfkRM6PGphs0hf8rIV2U43nD2EZBIUD5M1Bp97rRD+BcRZ1jKwDVFfEi66A6Ub
- zIuAGukQ2AdtFYL6JCyvpv5ElXxEoEK0mPJ/VjBtF6IB6E9besrSYAyK1CvSBpaSDZzW
- zHa0iA+stXYrmiRqYWlTaplceSXbEWya2ORBqqLYtGLCAbrfeDQfJSIZZ+mxzu1tfxZY
- izWbP6CV51KaeSUcbfZz/5fg634kRrVTjaUh3HVhQOQozyZzkztQleVlO9LPkvBRiH3R
- dMmkIgniaEuJeVd3EMJwOIIGyYrfyVhE7ibd8z406Y6Xg9Ku8o8i4DajMsW6yZ6FlQbT
- Cqqg==
-X-Gm-Message-State: AOAM533q0ZIWZkumQjhdomlZ86NvrxFeu8/QJKCypGVIVjwwsd4tvV4I
- a7VE8SmEGoOLADeb3VCoNSY=
-X-Google-Smtp-Source: ABdhPJxrC7UvXeGBzJzc3ULNujz5pyNgDGwAX1heJBjx3fkEqLqFO8sByFpQCLZ8KKKBKtScaKoZ5Q==
-X-Received: by 2002:adf:e5c2:: with SMTP id a2mr8786552wrn.251.1631477389947; 
- Sun, 12 Sep 2021 13:09:49 -0700 (PDT)
+ bh=1AOM2RfjwsrGWR/uPrYeS/Sf+AYl6Sxk5Zgv7MiC4jY=;
+ b=SR2zcNn1ucqW2eyMVWK6Hs1Iasu0DxSwO9MYxWz+KcnAXmmgnGfBtFjwubqrtQLFi2
+ 6q9CGS1niQ51lUqmaxCBXB6cuTZ74+tacq6+1vFIbD4jVvd9pLgWpQBGudSwjZOev1R4
+ YU4VJ+Lwct+FY2YF1qvvM9DERwd6+xlixMWtaIcXmW9dc0kNibh2zX2boLMYgA0WIFjM
+ m+qEYhYbd3l3CUDI6eu2cLYvXgf+BNVl5HiN6oFkdcA+qejWhfRYLdPkUbfiACgco/gs
+ JWs9yzhBi5OtXgGqZLB/kj86Y8qhWV4F2RIzuA4zhOyC1uEhL7ItcP8JjeW+OCrGZ5Xk
+ TUQA==
+X-Gm-Message-State: AOAM531MtC45k18Yxqf3Be13Ucaw/Uok8FXfS2zD7CoqBnxuPLv0nbnp
+ aNnRf+6YfktI7ghkjRVIM6g=
+X-Google-Smtp-Source: ABdhPJxw34GNDCRDT8MU7zKTgdsV2n63kBh9Hmu14z0qokFeoDFjF2GQ8OyM2QjooyQFpIy1D/5WBw==
+X-Received: by 2002:a1c:7208:: with SMTP id n8mr7712537wmc.7.1631477392315;
+ Sun, 12 Sep 2021 13:09:52 -0700 (PDT)
 Received: from localhost.localdomain (46-138-83-36.dynamic.spd-mgts.ru.
  [46.138.83.36])
- by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.09.47
+ by smtp.gmail.com with ESMTPSA id v10sm5463476wrg.15.2021.09.12.13.09.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 12 Sep 2021 13:09:49 -0700 (PDT)
+ Sun, 12 Sep 2021 13:09:52 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -70,10 +70,10 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  linux-mmc@vger.kernel.org, linux-media@vger.kernel.org,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-clk@vger.kernel.org
-Subject: [PATCH v11 07/34] dt-bindings: host1x: Document OPP and power domain
- properties
-Date: Sun, 12 Sep 2021 23:08:05 +0300
-Message-Id: <20210912200832.12312-8-digetx@gmail.com>
+Subject: [PATCH v11 08/34] dt-bindings: host1x: Document Memory Client resets
+ of Host1x, GR2D and GR3D
+Date: Sun, 12 Sep 2021 23:08:06 +0300
+Message-Id: <20210912200832.12312-9-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210912200832.12312-1-digetx@gmail.com>
 References: <20210912200832.12312-1-digetx@gmail.com>
@@ -94,222 +94,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Document new DVFS OPP table and power domain properties of the Host1x bus
-and devices sitting on the bus.
+Memory Client should be blocked before hardware reset is asserted in order
+to prevent memory corruption and hanging of memory controller.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Document Memory Client resets of Host1x, GR2D and GR3D hardware units.
+
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- .../display/tegra/nvidia,tegra20-host1x.txt   | 49 +++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ .../bindings/display/tegra/nvidia,tegra20-host1x.txt          | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-index 8a6d3e1ee306..62861a8fb5c6 100644
+index 62861a8fb5c6..e61999ce54e9 100644
 --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
 +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-@@ -20,6 +20,18 @@ Required properties:
+@@ -19,6 +19,7 @@ Required properties:
+   See ../reset/reset.txt for details.
  - reset-names: Must include the following entries:
    - host1x
++  - mc
  
-+Optional properties:
-+- operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to HEG or core power domain.
-+
-+For each opp entry in 'operating-points-v2' table of host1x and its modules:
-+- opp-supported-hw: One bitfield indicating:
-+	On Tegra20: SoC process ID mask
-+	On Tegra30+: SoC speedo ID mask
-+
-+	A bitwise AND is performed against the value and if any bit
-+	matches, the OPP gets enabled.
-+
- Each host1x client module having to perform DMA through the Memory Controller
- should have the interconnect endpoints set to the Memory Client and External
- Memory respectively.
-@@ -45,6 +57,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to MPE power domain.
+ Optional properties:
+ - operating-points-v2: See ../bindings/opp/opp.txt for details.
+@@ -198,6 +199,7 @@ of the following host1x client modules:
+     See ../reset/reset.txt for details.
+   - reset-names: Must include the following entries:
+     - 2d
++    - mc
  
- - vi: video input
+   Optional properties:
+   - interconnects: Must contain entry for the GR2D memory clients.
+@@ -224,6 +226,8 @@ of the following host1x client modules:
+   - reset-names: Must include the following entries:
+     - 3d
+     - 3d2 (Only required on SoCs with two 3D clocks)
++    - mc
++    - mc2 (Only required on SoCs with two 3D clocks)
  
-@@ -128,6 +142,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to VENC power domain.
- 
- - epp: encoder pre-processor
- 
-@@ -147,6 +163,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to HEG or core power domain.
- 
- - isp: image signal processor
- 
-@@ -166,6 +184,7 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - power-domains: Phandle to VENC or core power domain.
- 
- - gr2d: 2D graphics engine
- 
-@@ -185,6 +204,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to HEG or core power domain.
- 
- - gr3d: 3D graphics engine
- 
-@@ -209,6 +230,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandles to 3D or core power domain.
- 
- - dc: display controller
- 
-@@ -241,6 +264,8 @@ of the following host1x client modules:
-   - interconnect-names: Must include name of the interconnect path for each
-     interconnect entry. Consult TRM documentation for information about
-     available memory clients, see MEMORY CONTROLLER section.
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to core power domain.
- 
- - hdmi: High Definition Multimedia Interface
- 
-@@ -267,6 +292,7 @@ of the following host1x client modules:
-   - nvidia,hpd-gpio: specifies a GPIO used for hotplug detection
-   - nvidia,edid: supplies a binary EDID blob
-   - nvidia,panel: phandle of a display panel
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
- 
- - tvo: TV encoder output
- 
-@@ -277,6 +303,10 @@ of the following host1x client modules:
-   - clocks: Must contain one entry, for the module clock.
-     See ../clocks/clock-bindings.txt for details.
- 
-+  Optional properties:
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
-+  - power-domains: Phandle to core power domain.
-+
- - dsi: display serial interface
- 
-   Required properties:
-@@ -305,6 +335,7 @@ of the following host1x client modules:
-   - nvidia,panel: phandle of a display panel
-   - nvidia,ganged-mode: contains a phandle to a second DSI controller to gang
-     up with in order to support up to 8 data lanes
-+  - operating-points-v2: See ../bindings/opp/opp.txt for details.
- 
- - sor: serial output resource
- 
-@@ -408,6 +439,8 @@ Example:
- 		clocks = <&tegra_car TEGRA20_CLK_HOST1X>;
- 		resets = <&tegra_car 28>;
- 		reset-names = "host1x";
-+		operating-points-v2 = <&dvfs_opp_table>;
-+		power-domains = <&domain>;
- 
- 		#address-cells = <1>;
- 		#size-cells = <1>;
-@@ -421,6 +454,8 @@ Example:
- 			clocks = <&tegra_car TEGRA20_CLK_MPE>;
- 			resets = <&tegra_car 60>;
- 			reset-names = "mpe";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 		};
- 
- 		vi@54080000 {
-@@ -429,6 +464,7 @@ Example:
- 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
- 			assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
- 			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
-+			operating-points-v2 = <&dvfs_opp_table>;
- 
- 			clocks = <&tegra_car TEGRA210_CLK_VI>;
- 			power-domains = <&pd_venc>;
-@@ -510,6 +546,8 @@ Example:
- 			clocks = <&tegra_car TEGRA20_CLK_EPP>;
- 			resets = <&tegra_car 19>;
- 			reset-names = "epp";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 		};
- 
- 		isp {
-@@ -528,6 +566,8 @@ Example:
- 			clocks = <&tegra_car TEGRA20_CLK_GR2D>;
- 			resets = <&tegra_car 21>;
- 			reset-names = "2d";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 		};
- 
- 		gr3d {
-@@ -536,6 +576,8 @@ Example:
- 			clocks = <&tegra_car TEGRA20_CLK_GR3D>;
- 			resets = <&tegra_car 24>;
- 			reset-names = "3d";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 		};
- 
- 		dc@54200000 {
-@@ -547,6 +589,8 @@ Example:
- 			clock-names = "dc", "parent";
- 			resets = <&tegra_car 27>;
- 			reset-names = "dc";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 
- 			interconnects = <&mc TEGRA20_MC_DISPLAY0A &emc>,
- 					<&mc TEGRA20_MC_DISPLAY0B &emc>,
-@@ -571,6 +615,8 @@ Example:
- 			clock-names = "dc", "parent";
- 			resets = <&tegra_car 26>;
- 			reset-names = "dc";
-+			operating-points-v2 = <&dvfs_opp_table>;
-+			power-domains = <&domain>;
- 
- 			interconnects = <&mc TEGRA20_MC_DISPLAY0AB &emc>,
- 					<&mc TEGRA20_MC_DISPLAY0BB &emc>,
-@@ -596,6 +642,7 @@ Example:
- 			resets = <&tegra_car 51>;
- 			reset-names = "hdmi";
- 			status = "disabled";
-+			operating-points-v2 = <&dvfs_opp_table>;
- 		};
- 
- 		tvo {
-@@ -604,6 +651,7 @@ Example:
- 			interrupts = <0 76 0x04>;
- 			clocks = <&tegra_car TEGRA20_CLK_TVO>;
- 			status = "disabled";
-+			operating-points-v2 = <&dvfs_opp_table>;
- 		};
- 
- 		dsi {
-@@ -615,6 +663,7 @@ Example:
- 			resets = <&tegra_car 48>;
- 			reset-names = "dsi";
- 			status = "disabled";
-+			operating-points-v2 = <&dvfs_opp_table>;
- 		};
- 	};
- 
+   Optional properties:
+   - interconnects: Must contain entry for the GR3D memory clients.
 -- 
 2.32.0
 
