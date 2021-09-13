@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4EDF409A34
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 18:59:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DF2E409A38
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 19:00:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74C7B6E20F;
-	Mon, 13 Sep 2021 16:59:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C71506ECCC;
+	Mon, 13 Sep 2021 17:00:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 082556E1F4;
- Mon, 13 Sep 2021 16:59:32 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="201242482"
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="201242482"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 57B086ECC8;
+ Mon, 13 Sep 2021 17:00:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="219857055"
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="219857055"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 09:59:31 -0700
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="515517327"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 10:00:04 -0700
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="515517559"
 Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
  ([10.1.27.20])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 09:59:30 -0700
-Date: Mon, 13 Sep 2021 09:54:31 -0700
+ 13 Sep 2021 10:00:04 -0700
+Date: Mon, 13 Sep 2021 09:55:04 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: John Harrison <john.c.harrison@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
 Subject: Re: [Intel-gfx] [PATCH 07/27] drm/i915/guc: Don't call
  switch_to_kernel_context with GuC submission
-Message-ID: <20210913165430.GA8862@jons-linux-dev-box>
+Message-ID: <20210913165504.GB8862@jons-linux-dev-box>
 References: <20210820224446.30620-1-matthew.brost@intel.com>
  <20210820224446.30620-8-matthew.brost@intel.com>
  <7b0f2535-a0f7-e423-d929-63f31febee14@intel.com>
@@ -67,17 +67,6 @@ On Thu, Sep 09, 2021 at 03:51:27PM -0700, John Harrison wrote:
 > Also, the comment in the code does not mention anything about PM references,
 > it just says 'not necessary with GuC' but no explanation at all.
 > 
-
-Yea, this need to be explained better. How about this?
-
-Calling switch_to_kernel_context isn't needed if the engine PM reference
-is take while all user contexts have scheduling enabled. Once scheduling
-is disabled on all user contexts the GuC is guaranteed to not touch any
-user context state which is effectively the same pointing to a kernel
-context.
-
-Matt
-
 > 
 > > v2:
 > >   (Daniel Vetter)
@@ -104,6 +93,11 @@ Matt
 > 
 > "this should be" -> "it should be"
 > 
+
+Missed this. Will fix in next rev.
+
+Matt
+
 > John.
 > 
 > > +	 * should be pushed to the backend.
