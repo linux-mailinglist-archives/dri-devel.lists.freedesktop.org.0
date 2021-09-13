@@ -1,86 +1,125 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401C440848D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 08:16:05 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65C6C408491
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 08:17:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B8926E0DE;
-	Mon, 13 Sep 2021 06:16:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3479389D7F;
+	Mon, 13 Sep 2021 06:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A840C6E0DE
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 06:15:58 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1631513758; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=pREX3LGwYAggCgYEPmLhKYdIv1mP8IQUL0WMH1SUxdA=;
- b=wLMsUZ3UShA1TC05KHGw6gSEM1w+5NzGCxyEe60NY43Mg4DjQo8w3VI7tUVJjBH+tpnSBfh7
- JpNC6f7v7QO6xULA9TBZyE3AYU/vniAO4t50bnPyeTpMdODRVoGmZeNCafqgn5ICWaFbW9A3
- i6kRZUzVBec0bRbGUrFR8TpydUU=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 613eec9dc1b30e2f024dbea0 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 13 Sep 2021 06:15:57
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2FF8CC43618; Mon, 13 Sep 2021 06:15:56 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=unavailable autolearn_force=no
- version=3.4.0
-Received: from [192.168.1.12] (unknown [59.89.228.88])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id CEDFAC4338F;
- Mon, 13 Sep 2021 06:15:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org CEDFAC4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-Subject: Re: [PATCH] drm/msm: Disable frequency clamping on a630
-To: Caleb Connolly <caleb.connolly@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jordan Crouse <jordan@cosmicpenguin.net>, Jonathan Marek
- <jonathan@marek.ca>, Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- open list <linux-kernel@vger.kernel.org>, Stephen Boyd <sboyd@kernel.org>
-References: <e2cebf65-012d-f818-8202-eb511c996e28@linaro.org>
- <CAF6AEGs11aYnkL30kp79pMqLTg3_4otFwG2Oc890Of2ndLbELw@mail.gmail.com>
- <b7334a1a-c4ad-da90-03b4-0d19e1811b13@linaro.org>
- <CAF6AEGv0WWB3Z1hmXf8vxm1_-d7fsNBRcaQF35aE2JXcJn8-cA@mail.gmail.com>
- <8aa590be-6a9f-9343-e897-18e86ea48202@linaro.org>
- <CAF6AEGtd_5jKhixp6h+NnN8-aqjBHTLopRozASE73oT3rfnFHA@mail.gmail.com>
- <6eefedb2-9e59-56d2-7703-2faf6cb0ca3a@codeaurora.org>
- <CAF6AEGvhqPHWNK=6GYz+Mu5aKe8+iE4_Teem6o=X6eiANhWsPg@mail.gmail.com>
- <83ecbe74-caf0-6c42-e6f5-4887b3b534c6@linaro.org>
- <53d3e5b7-9dc0-a806-70e9-b9b5ff877462@codeaurora.org>
- <YTgeIuwumPoR9ZTE@ripper>
- <CAF6AEGt2f16=WWpKgGiWw1OJLrWMSunzrm853H+mGxPQuf2Xug@mail.gmail.com>
- <de162479-c4cb-e8b7-6044-e7ccd3cf29f6@linaro.org>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-Message-ID: <b385ee2c-fd3c-86e7-c0a5-c3d5bfc59a17@codeaurora.org>
-Date: Mon, 13 Sep 2021 11:45:50 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2086.outbound.protection.outlook.com [40.107.220.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DE5489D7F;
+ Mon, 13 Sep 2021 06:17:38 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e9U0RoDVLnW3YxoLoeleF9vlTZwHuDuRKK/u9XiHviYT/+Fo+2tjnv1xEwNqhSYJHCFjuBBN4nyMXrjRAzFsZqyIdEUjCj1UeTcpq6bWimzqFa3JkoLwsbPMNPDrKaXJuEhjlSJRs6k4S8Gf+tDkxB7UbHatWEA/F4FxrXGGlKFwXJFoJ2Bp1Py6CsIzrqIUfDMcxhLhHzsWPrrQ7r9bB4ba1ao4FLGc5TkMbTChepGQOzvGoeVpqjSOx30amlUX9PlcCUcyM/dUQ6OoGRFKbgnxe2IZlS0q7MXPO7ufatmAbLdv+sfkrjRoLT8cZ2nkE+66NC5jqQ+WjIh6nSfDRw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=IysUHUFPJZwcyDsYUhT0SWjdU+eOOYAn6wiF1sUkLAo=;
+ b=gQoUn0ijQESVqInHZRJ8Qwyzl8VH7FhmUdPeB29HchMShLtcYmcmAbxhhIAArU1LEo4v+A3cX5V02PT+kk9lfxD24vpN8fMlFO5u1stsiD4DqnZSpZ3wDqCPhF0TifVijXdA8yeKm1N1BmoEdvMDU9EGRa8KTPrw93Ftx1bJXuoXitTC9+4FVMg42Fnv0vh1EnHEfyl3qlCdMryQAmvDoQ7gEx9j1qlX2edRLDn+Z6kxGB3U3YVph5R5aZALDWa+1eFyGr/x/Z+Ba+gG9AuY8CIqpSnMaDA9yW3MOBf4Ix7eC+ahLMZjUCiHdDs7ZlV9RgT9Ps2RZ/+2J2QwyovpRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IysUHUFPJZwcyDsYUhT0SWjdU+eOOYAn6wiF1sUkLAo=;
+ b=1aYQTsHSKo39d+U2ClH/5x92V7iwvxx8A2n0n+v9JXuxS4DTVGoABSnlsXEGWlE/IxQQL0bLsYf8GZJXJ+C4sprRb2fGn0ork11Zx9GCR9YW+ucEn9QThXol/YI5KrCC32IUTU3HX0au2zmbs/QkOuWikJ035uwpJOPKbhmR10M=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB3677.namprd12.prod.outlook.com (2603:10b6:208:15a::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14; Mon, 13 Sep
+ 2021 06:17:30 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4500.018; Mon, 13 Sep 2021
+ 06:17:30 +0000
+Subject: Re: [RFC PATCH] drm/ttm: Add a private member to the struct
+ ttm_resource
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ Matthew Auld <matthew.william.auld@gmail.com>
+References: <20210910131512.161655-1-thomas.hellstrom@linux.intel.com>
+ <d7570cab-d402-761d-40e0-3d08d9b9d3c9@amd.com>
+ <a1a8fd3f1ca13b84192bd3c8719f510e5b655b2c.camel@linux.intel.com>
+ <c8484b51-4365-bedd-be73-4c0898ac70b1@amd.com>
+ <5ea3f498cc5ae84fa6aeba97a64e4eb8ab32e02b.camel@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <c67b3b42-d260-44dc-81cb-1d1eb18db643@amd.com>
+Date: Mon, 13 Sep 2021 08:17:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <de162479-c4cb-e8b7-6044-e7ccd3cf29f6@linaro.org>
+In-Reply-To: <5ea3f498cc5ae84fa6aeba97a64e4eb8ab32e02b.camel@linux.intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM8P251CA0009.EURP251.PROD.OUTLOOK.COM
+ (2603:10a6:20b:21b::14) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM8P251CA0009.EURP251.PROD.OUTLOOK.COM (2603:10a6:20b:21b::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4500.14 via Frontend Transport; Mon, 13 Sep 2021 06:17:28 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5ad3b162-a37c-4e74-8de5-08d9767e2a37
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3677:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB36779B8782B43D4346968FB983D99@MN2PR12MB3677.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: d7xXmdq6nn59m8mCiJxeRe027UAQMW25PCSgiPZqCujmyh0/MDCEvlF4+DIawR23R8XmrvBSDaHwUk9tJXBQSrsE1kE8GMhIZAIMfVUAgINy9DkcqsPPyxq9m5zDLcV63LmuqXaL1zviHmIhjrVoZHghmNW9fSLY9SYZiYzMIFA/h5FC6ud96v5PvhcNg/Wpcc9+Rct0QAp5Ayah+TZWAgO5QW6yWIPQ6qlARP1GB4lc6WeVeoaKo2bUQ4eSHuoZXWBiw8AZ4AY+EEWTA4l1g2a0UD91nCp0mJ7iiBk2UEjdG8RwGVRkSExhvEIvjvzyrAPhA9NI60Kk0lC+XSpI5w2dVD38iuepkFJBxOeDA+LdUqtI9wSz2cWg3r8H+hHyyTPg+gGRM8ZRqZo3jhbJnAlUObVE0cwRq0qMFlZCx/oj9CsAg8+TQtFyQzB60j7x1cXTAr1VYAHwp4oKCYNBd6C74m+tMT/UuIu8IQsD9bDGNgYAFqG/+ImRqjhuF1RyD3Fw4KDiCjJvbsUlNanHSPtB8Pk6iiuonQSCgpaCvYPDH2cX6OetVzuDMpzbwY3MDALxRqF3aB2P88ueXtWD4D4bIzxW7uujNCkmFmMbGCHlEK1x03yY66AiV05zvTyoO7aB+V8IExarUKg6kXJT1FOiRtbRvceeGhw5U/1RcMBL8uMJwyGNbedrcYD8aqhiSHCWTRGPO6cj1pizITpBTntBVkOcrYFaPzcbbfhZnKNSfQlVgoXYAMZOct+zBcMS
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(376002)(346002)(136003)(396003)(366004)(26005)(8936002)(186003)(5660300002)(38100700002)(16576012)(316002)(2616005)(2906002)(956004)(31696002)(66946007)(66556008)(66476007)(6486002)(86362001)(4326008)(6666004)(83380400001)(31686004)(66574015)(478600001)(36756003)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?STRKNG5iTW5nVkZ3N2dvTWFZekVWa0dxWHZyZDNxTHpKQzRlcDVqZ2xIK21a?=
+ =?utf-8?B?Nk5LVG9CRzJLdnhZSytxMkpsQjJsMzA1OVlzWTlTV2FqN3BCOGpGVTh1WC9T?=
+ =?utf-8?B?ZjJwQUtyUHBtWVZzSElSZk9kcjg4b1BiOEx1bENZYnVmQUdXZkZveUxqTXRp?=
+ =?utf-8?B?SFBCd3NySUl0ZVFBYTV2aFVOaThwTkFZeVIzUWU4TEtZM3NhUGcwNkdsdVRp?=
+ =?utf-8?B?NDMrTUJrWXZrOUt0WG5adFQ2Z3VJelBSR3d4MFNjZlVZbitHbzllUkJ5dVNB?=
+ =?utf-8?B?ckdoOGs0SkJkZ0VSTHFmU3gyNHhNZ05Tdy9WQWhHVTZTd1o5WVFnRkpXSnVM?=
+ =?utf-8?B?bGYxcm51YlFlanpEWHBxVjU4U2QwNGxEVVJKN05OTzNlNy9yU2l4RXJOamVp?=
+ =?utf-8?B?ejlKQ1I0cHczWURsNVFhSWRPYTZ3UUg3aHhjNWdtRzJRM1daVlNRMjRTVUli?=
+ =?utf-8?B?VzIraW9Ld2p0YS9qaFQ1TXgrMzJWQUR2SXBiT2VkUW1wZm1NQlhQdFcreGZ2?=
+ =?utf-8?B?bVhEODlwZGJqZWwzckU4NkdNcTlqRTVCS0dyWitrZ21HWkp4MXZIdmRRa2lK?=
+ =?utf-8?B?dDFpVWp1UlBXSi9WZkx5cUFJdlJQUEp5RkVUSFFRbW1NdGNMemZ5RGI0bXdX?=
+ =?utf-8?B?M0ZKQzg1MG9UMDl5VnQ4TWRrNW1SNlBwcktEajJScEtDQnVGemxDOFh2UnBY?=
+ =?utf-8?B?VE1ldnVZQ3hZZ2UzbjJ6K3VVdnV3dEFDYjgwRU5pSWVhazRkRXdXa2RWcm91?=
+ =?utf-8?B?a1BXa2psN2hHbGJMaGRKRFJLdUNSZUQ1bFUwa3oxTXhLVjZZb0J5cWVZSjR2?=
+ =?utf-8?B?T3lLdmNlMGxSN3hmYnhoR3hsWU5LNGpUelViUkF3ZG5Sc1U3NFRKSW1zTVNS?=
+ =?utf-8?B?MzBScGpnMFpEUm16M1FkcVlJaW1QYjk3YlB5Q2tnUENHT2pxTml1QTNKNTZr?=
+ =?utf-8?B?YXVCYXhmbUliSVp6ZjRldzJGMDBGNGRNMURIY2U5Ui92Rk9oUHNTQ2dkWVJ4?=
+ =?utf-8?B?Wm1ycng2Y3N3aU5zWlpzRTEwOVJESVdkV1ZBMGIwSDFvNlFJSE41OG42YnZ4?=
+ =?utf-8?B?OFZ0eXNWR0ZwU2d4cXFkWFVoNDlBbExRWVdqTzg3RWZQckVhQ2lnK2hwVXdp?=
+ =?utf-8?B?VHRSTVVjVDJkRkRpSDZpRXJWRkYyT1lsNGhOb3hncklQZFloaC9xT1NFdnlH?=
+ =?utf-8?B?VURsSUliZnVVNVY1S20xTnl3czdhbyt0dnUzN1BlTHFNd2NrNTdNR2R2R1d3?=
+ =?utf-8?B?N3VaSm84bDM2bVkvRkI5MW9yVGhoWWxMWjNvelExMmxlOHVTM0ovZGd0eVJI?=
+ =?utf-8?B?Tkg0cVFlbmdmWXhIbFg0eG43OEZkdjRweGNJMjRrb2MrK3Ftejd0ZWFCYldz?=
+ =?utf-8?B?RXROb29BOEMzRUJBUm1jZ2FCYzNNSEtFbFU3Uk5uNW5PMVVoN1RRL3lxNFVn?=
+ =?utf-8?B?RXMxSy9zbmMwYjc3V3AyWURXNnZjZnlkWU1UbHNBcjhXbXhkZE1GaUZVU1I4?=
+ =?utf-8?B?OXhlTVM5eTVRcGovYkxaUkZURkxVSTlOd0sySjE4bng2TFBQSXI0c3g1YkpH?=
+ =?utf-8?B?R0krUW1VVTdSeTNMenJiQ2U2ZlZsR2FBakJrVllzdVhVODcxYk1MVStwYi9P?=
+ =?utf-8?B?Ry9XMWFIdkRLOXpqR2ZXWGR6azlYUUNqVG5vQ1lMNHpTdnBzQ2dtbEY2MHRi?=
+ =?utf-8?B?NjVxOUhaSVdlQTA0NlpDY09rbWFwY0cyOURkcm1ldWN1S0tZV3FqbVdmVmZ4?=
+ =?utf-8?Q?ouP5AgxPrLRTUujjJ9U0rVXLem/E4DuvR2Ejjo4?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ad3b162-a37c-4e74-8de5-08d9767e2a37
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2021 06:17:29.9774 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: soV9QonpKNAafO542AXONzrOK9uMk0dEpWaEKIWfJJ6oT9eMBnEzDhqhPRYK5+yh
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3677
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,152 +135,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/2021 11:04 PM, Caleb Connolly wrote:
-> 
-> 
-> On 10/09/2021 18:18, Rob Clark wrote:
->> On Tue, Sep 7, 2021 at 7:20 PM Bjorn Andersson
->> <bjorn.andersson@linaro.org> wrote:
->>>
->>> On Mon 09 Aug 10:26 PDT 2021, Akhil P Oommen wrote:
->>>
->>>> On 8/9/2021 9:48 PM, Caleb Connolly wrote:
+Am 11.09.21 um 08:07 schrieb Thomas Hellström:
+> On Fri, 2021-09-10 at 19:03 +0200, Christian König wrote:
+>> Am 10.09.21 um 17:30 schrieb Thomas Hellström:
+>>> On Fri, 2021-09-10 at 16:40 +0200, Christian König wrote:
+>>>> Am 10.09.21 um 15:15 schrieb Thomas Hellström:
+>>>>> Both the provider (resource manager) and the consumer (the TTM
+>>>>> driver)
+>>>>> want to subclass struct ttm_resource. Since this is left for
+>>>>> the
+>>>>> resource
+>>>>> manager, we need to provide a private pointer for the TTM
+>>>>> driver.
 >>>>>
+>>>>> Provide a struct ttm_resource_private for the driver to
+>>>>> subclass
+>>>>> for
+>>>>> data with the same lifetime as the struct ttm_resource: In the
+>>>>> i915
+>>>>> case
+>>>>> it will, for example, be an sg-table and radix tree into the
+>>>>> LMEM
+>>>>> /VRAM pages that currently are awkwardly attached to the GEM
+>>>>> object.
 >>>>>
->>>>> On 09/08/2021 17:12, Rob Clark wrote:
->>>>>> On Mon, Aug 9, 2021 at 7:52 AM Akhil P Oommen
->>>>>> <akhilpo@codeaurora.org> wrote:
->>> [..]
->>>>>>> I am a bit confused. We don't define a power domain for gpu in dt,
->>>>>>> correct? Then what exactly set_opp do here? Do you think this 
->>>>>>> usleep is
->>>>>>> what is helping here somehow to mask the issue?
->>>>> The power domains (for cx and gx) are defined in the GMU DT, the 
->>>>> OPPs in
->>>>> the GPU DT. For the sake of simplicity I'll refer to the lowest
->>>>> frequency (257000000) and OPP level (RPMH_REGULATOR_LEVEL_LOW_SVS) as
->>>>> the "min" state, and the highest frequency (710000000) and OPP level
->>>>> (RPMH_REGULATOR_LEVEL_TURBO_L1) as the "max" state. These are 
->>>>> defined in
->>>>> sdm845.dtsi under the gpu node.
+>>>>> Provide an ops structure for associated ops (Which is only
+>>>>> destroy() ATM)
+>>>>> It might seem pointless to provide a separate ops structure,
+>>>>> but
+>>>>> Linus
+>>>>> has previously made it clear that that's the norm.
 >>>>>
->>>>> The new devfreq behaviour unmasks what I think is a driver bug, it
->>>>> inadvertently puts much more strain on the GPU regulators than they
->>>>> usually get. With the new behaviour the GPU jumps from it's min 
->>>>> state to
->>>>> the max state and back again extremely rapidly under workloads as 
->>>>> small
->>>>> as refreshing UI. Where previously the GPU would rarely if ever go 
+>>>>> After careful audit one could perhaps also on a per-driver
+>>>>> basis
+>>>>> replace the delete_mem_notify() TTM driver callback with the
 >>>>> above
->>>>> 342MHz when interacting with the device, it now jumps between min and
->>>>> max many times per second.
->>>>>
->>>>> If my understanding is correct, the current implementation of the GMU
->>>>> set freq is the following:
->>>>>    - Get OPP for frequency to set
->>>>>    - Push the frequency to the GMU - immediately updating the core 
->>>>> clock
->>>>>    - Call dev_pm_opp_set_opp() which triggers a notify chain, this 
->>>>> winds
->>>>> up somewhere in power management code and causes the gx regulator 
->>>>> level
->>>>> to be updated
+>>>>> destroy function.
+>>>> Well this is a really big NAK to this approach.
 >>>>
->>>> Nope. dev_pm_opp_set_opp() sets the bandwidth for gpu and nothing 
->>>> else. We
->>>> were using a different api earlier which got deprecated -
->>>> dev_pm_opp_set_bw().
->>>>
->>>
->>> On the Lenovo Yoga C630 this is reproduced by starting alacritty and if
->>> I'm lucky I managed to hit a few keys before it crashes, so I spent a
->>> few hours looking into this as well...
->>>
->>> As you say, the dev_pm_opp_set_opp() will only cast a interconnect vote.
->>> The opp-level is just there for show and isn't used by anything, at
->>> least not on 845.
->>>
->>> Further more, I'm missing something in my tree, so the interconnect
->>> doesn't hit sync_state, and as such we're not actually scaling the
->>> buses. So the problem is not that Linux doesn't turn on the buses in
->>> time.
->>>
->>> So I suspect that the "AHB bus error" isn't saying that we turned off
->>> the bus, but rather that the GPU becomes unstable or something of that
->>> sort.
->>>
->>>
->>> Lastly, I reverted 9bc95570175a ("drm/msm: Devfreq tuning") and ran
->>> Aquarium for 20 minutes without a problem. I then switched the gpu
->>> devfreq governor to "userspace" and ran the following:
->>>
->>> while true; do
->>>    echo 257000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
->>>    echo 710000000 > /sys/class/devfreq/5000000.gpu/userspace/set_freq
->>> done
->>>
->>> It took 19 iterations of this loop to crash the GPU.
+>>>> If you need to attach some additional information to the resource
+>>>> then
+>>>> implement your own resource manager like everybody else does.
+>>> Well this was the long discussion we had back then when the
+>>> resource
+>>> mangagers started to derive from struct resource and I was under
+>>> the
+>>> impression that we had come to an agreement about the different
+>>> use-
+>>> cases here, and this was my main concern.
+>> Ok, then we somehow didn't understood each other.
 >>
->> I assume you still had aquarium running, to keep the gpu awake while
->> you ran that loop?
+>>> I mean, it's a pretty big layer violation to do that for this use-
+>>> case.
+>> Well exactly that's the point. TTM should not have a layer design in
+>> the
+>> first place.
 >>
->> Fwiw, I modified this slightly to match sc7180's min/max gpu freq and
->> could not trigger any issue.. interestingly sc7180 has a lower min
->> freq (180) and higher max freq (800) so it was toggling over a wider
->> freq range.  I also tried on a device that  had the higher 825MHz opp
->> (since I noticed that was the only opp that used
->> RPMH_REGULATOR_LEVEL_TURBO_L1 and wanted to rule that out), but could
->> not reproduce.
+>> Devices, BOs, resources etc.. are base classes which should implement
+>> a
+>> base functionality which is then extended by the drivers to implement
+>> the driver specific functionality.
 >>
->> I guess a630 (sdm845) should have higher power draw (it is 2x # of
->> shader cores and 2x GMEM size, but lower max freq).. the question is,
->> is this the reason we see this on sdm845 and not sc7180?  Or is there
->> some other difference.  On the gpu side of this, they are both closely
->> related (ie. the same "sub-generation" of a6xx, same gmu fw, etc)..
->> I'm less sure about the other parts (icc, rpmh, etc)
-> 
-> My guess would be power draw, nobody has mentioned this yet but I've 
-> realised that the vdd_gfx rail is powered by a buck converter, which 
-> could explain a lot of the symptoms.
-> 
-> Buck converters depend on high frequency switching and inductors to 
-> work, this inherently leads to some lag time when changing voltages, and 
-> also means that the behaviour of the regulator is defined in part by how 
-> much current is being drawn. Wikipedia has a pretty good explanation: 
-> https://en.wikipedia.org/wiki/Buck_converter
-> 
-> At the best of times these regulators have a known voltage ripple, when 
-> under load and when rapidly switching voltages this will get a lot worse.
-> 
-> Someone with an oscilloscope and schematics could probe the rail and 
-> probably see exactly what's going on when the GPU crashes. Because of 
-> the lag time in the regulator changing voltage, it might be 
-> undershooting whilst the GPU is trying to clock up and draw more current 
-> - causing instability and crashes.
-
-Both of you are correct. The GPU is very similar including the GMU (we 
-have same fw for both), except the GBIF block. As far as I am aware, the 
-non-gpu blocks within SoC should be similar except the configs.
-
-And yes, for these sort of issues where we suspect a power issue, gx 
-rail should be probed for droops using a very high resolution 
-oscilloscopes (these droops might last less than 1us).
-
-I am aware of only Dragonboard that is still alive from QC perspective. 
-Can someone report this issue to DB support team as it is fairly easy to 
-reproduce?
-
--Akhil.
-
+>> That is a component based approach, and not layered at all.
 >>
->> BR,
->> -R
+>>> The TTM resource manager doesn't want to know about this data at
+>>> all,
+>>> it's private to the ttm resource user layer and the resource
+>>> manager
+>>> works perfectly well without it. (I assume the other drivers that
+>>> implement their own resource managers need the data that the
+>>> subclassing provides?)
+>> Yes, that's exactly why we have the subclassing.
 >>
->>> So the problem doesn't seem to be Rob's change, it's just that prior to
->>> it the chance to hitting it is way lower. Question is still what it is
->>> that we're triggering.
+>>> The fundamental problem here is that there are two layers wanting
+>>> to
+>>> subclass struct ttm_resource. That means one layer gets to do that,
+>>> the
+>>> second gets to use a private pointer, (which in turn can provide
+>>> yet
+>>> another private pointer to a potential third layer). With your
+>>> suggestion, the second layer instead is forced to subclass each
+>>> subclassed instance it uses from  the first layer provides?
+>> Well completely drop the layer approach/thinking here.
+>>
+>> The resource is an object with a base class. The base class
+>> implements
+>> the interface TTM needs to handle the object, e.g.
+>> create/destroy/debug
+>> etc...
+>>
+>> Then we need to subclass this object because without any additional
+>> information the object is pretty pointless.
+>>
+>> One possibility for this is to use the range manager to implement
+>> something drm_mm based. BTW: We should probably rename that to
+>> something
+>> like ttm_res_drm_mm or similar.
+> Sure I'm all in on that, but my point is this becomes pretty awkward
+> because the reusable code already subclasses struct ttm_resource. Let
+> me give you an example:
+>
+> Prereqs:
+> 1) We want to be able to re-use resource manager implementations among
+> drivers.
+> 2) A driver might want to re-use multiple implementations and have
+> identical data "struct i915_data" attached to both
+
+Well that's the point I don't really understand. Why would a driver want 
+to do this?
+
+It's perfectly possible that you have ttm_range_manager extended and a 
+potential ttm_page_manager, but that are two different objects then 
+which also need different handling.
+
+> ....
+> This would be identical to how we subclass a struct ttm_buffer_object
+> or a struct ttm_tt. But It can't look like this because then we can't
+> reuse exising implementations that *already subclass* struct
+> ttm_resource.
+>
+> What we have currently ttm_resource-wise is like having a struct
+> tt_bo_vram, a struct ttm_bo_system, a struct ttm_bo_gtt and trying to
+> subclass them all combined into a struct i915_bo. It would become
+> awkward without a dynamic backend that facilitates subclassing a single
+> struct ttm_buffer_object?
+
+Why? They all implement different handling.
+
+When you add a private point to ttm_resource you allow common handling 
+which doesn't take into account that this ttm_resource object is 
+subclassed.
+
+> So basically the question boils down to: Why do we do struct
+> ttm_resources differently?
+
+ttm_buffer_object is a subclass of drm_gem_object and I hope to make 
+ttm_device a subclass of drm_device in the near term.
+
+I really try to understand what you mean hear, but I even after reading 
+that multiple times I absolutely don't get it.
+
+Regards,
+Christian.
+
+>> What we should avoid is to abuse TTM resource interfaces in the
+>> driver,
+>> e.g. what i915 is currently doing. This is a TTM->resource mgr
+>> interface
+>> and should not be used by drivers at all.
+> Yes I guess that can be easily fixed when whatever we end up with above
+> lands.
+>
+>>> Ofc we can do that, but it does indeed feel pretty awkward.
 >>>
->>> Regards,
->>> Bjorn
-> 
+>>> In any case, if you still think that's the approach we should go
+>>> for,
+>>> I'd need to add init() and fini() members to the
+>>> ttm_range_manager_func
+>>> struct to allow subclassing without having to unnecessarily copy
+>>> the
+>>> full code?
+>> Yes, exporting the ttm_range_manager functions as needed is one thing
+>> I
+>> wanted to do for the amdgpu_gtt_mgr.c code as well.
+>>
+>> Just don't extend the function table but rather directly export the
+>> necessary functions.
+> Sure.
+> /Thomas
+>
+>
 
