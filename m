@@ -2,48 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46C534083D4
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 07:33:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D8A4083D6
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 07:35:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DC3716E0D8;
-	Mon, 13 Sep 2021 05:33:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5882789CD3;
+	Mon, 13 Sep 2021 05:35:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E444D89CD3;
- Mon, 13 Sep 2021 05:33:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="201750969"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="201750969"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2021 22:33:13 -0700
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 872FC89CD3;
+ Mon, 13 Sep 2021 05:35:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="285277255"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="285277255"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2021 22:35:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="696524740"
-Received: from irsmsx601.ger.corp.intel.com ([163.33.146.7])
- by fmsmga006.fm.intel.com with ESMTP; 12 Sep 2021 22:33:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="543005901"
+Received: from irsmsx604.ger.corp.intel.com ([163.33.146.137])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2021 22:35:14 -0700
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- irsmsx601.ger.corp.intel.com (163.33.146.7) with Microsoft SMTP Server
+ IRSMSX604.ger.corp.intel.com (163.33.146.137) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 13 Sep 2021 06:33:09 +0100
+ 15.1.2242.12; Mon, 13 Sep 2021 06:35:12 +0100
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
- Mon, 13 Sep 2021 11:03:08 +0530
+ Mon, 13 Sep 2021 11:05:11 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
  <intel-gfx@lists.freedesktop.org>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, "Nikula,
  Jani" <jani.nikula@intel.com>
-Subject: RE: [Intel-gfx] [PATCH v2 2/6] drm/displayid: add DisplayID v2.0 data
- blocks and primary use cases
-Thread-Topic: [Intel-gfx] [PATCH v2 2/6] drm/displayid: add DisplayID v2.0
- data blocks and primary use cases
-Thread-Index: AQHXnnMBiMXTUxHpzU+trdVompxVW6uhhK7w
-Date: Mon, 13 Sep 2021 05:33:07 +0000
-Message-ID: <13762ce10fb84a82bd3ee44dd842e353@intel.com>
+Subject: RE: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
+Thread-Topic: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
+Thread-Index: AQHXnnMH2FLEsoz68E6Q5w9RC/wPy6uhhThw
+Date: Mon, 13 Sep 2021 05:35:10 +0000
+Message-ID: <e1c4d6369d8a4f7cb94bca5e03e6a6a3@intel.com>
 References: <cover.1630419362.git.jani.nikula@intel.com>
- <5a5c7e4477782c174f494947e2a2ea618b2b1ef2.1630419362.git.jani.nikula@intel.com>
-In-Reply-To: <5a5c7e4477782c174f494947e2a2ea618b2b1ef2.1630419362.git.jani.nikula@intel.com>
+ <2f43032d5f001510c7eed059321ceeb76d07a606.1630419362.git.jani.nikula@intel.com>
+In-Reply-To: <2f43032d5f001510c7eed059321ceeb76d07a606.1630419362.git.jani.nikula@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -73,85 +71,78 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 > -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Ja=
+> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of Ja=
 ni Nikula
 > Sent: Tuesday, August 31, 2021 7:48 PM
 > To: intel-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com; Nikul=
 a, Jani
 > <jani.nikula@intel.com>
-> Subject: [Intel-gfx] [PATCH v2 2/6] drm/displayid: add DisplayID v2.0 dat=
-a blocks and
-> primary use cases
+> Subject: [PATCH v2 3/6] drm/edid: abstract OUI conversion to 24-bit int
 >=20
-> DisplayID v2.0 changes the data block identifiers and product types (now =
-called
-> primary use cases).
+> Replace the open coded OUI conversion from three bytes to a 24-bit int, a=
+s we'll be
+> adding one more user shortly. No functional changes.
+>=20
+> Side note: CTA-861 format has the OUI bytes in reverse order.
 
 Looks ok to me.
 Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  include/drm/drm_displayid.h | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
+>  drivers/gpu/drm/drm_edid.c | 17 +++++++----------
+>  1 file changed, 7 insertions(+), 10 deletions(-)
 >=20
-> diff --git a/include/drm/drm_displayid.h b/include/drm/drm_displayid.h in=
-dex
-> 0ed9445b5482..79771091771a 100644
-> --- a/include/drm/drm_displayid.h
-> +++ b/include/drm/drm_displayid.h
-> @@ -26,6 +26,10 @@
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c inde=
+x
+> 6325877c5fd6..92974b1478bc 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -49,6 +49,11 @@
+>  	(((edid)->version > (maj)) || \
+>  	 ((edid)->version =3D=3D (maj) && (edid)->revision > (min)))
 >=20
->  struct edid;
->=20
-> +/* DisplayID Structure versions */
-> +#define DISPLAY_ID_STRUCTURE_VER_12		0x12
-> +#define DISPLAY_ID_STRUCTURE_VER_20		0x20
+> +static int oui(u8 first, u8 second, u8 third) {
+> +	return (first << 16) | (second << 8) | third; }
 > +
->  /* DisplayID Structure v1r2 Data Blocks */
->  #define DATA_BLOCK_PRODUCT_ID			0x00
->  #define DATA_BLOCK_DISPLAY_PARAMETERS		0x01
-> @@ -48,6 +52,20 @@ struct edid;
->  #define DATA_BLOCK_VENDOR_SPECIFIC		0x7f
->  #define DATA_BLOCK_CTA				0x81
+>  #define EDID_EST_TIMINGS 16
+>  #define EDID_STD_TIMINGS 8
+>  #define EDID_DETAILED_TIMINGS 4
+> @@ -4113,32 +4118,24 @@ cea_db_offsets(const u8 *cea, int *start, int *en=
+d)
 >=20
-> +/* DisplayID Structure v2r0 Data Blocks */
-> +#define DATA_BLOCK_2_PRODUCT_ID			0x20
-> +#define DATA_BLOCK_2_DISPLAY_PARAMETERS		0x21
-> +#define DATA_BLOCK_2_TYPE_7_DETAILED_TIMING	0x22
-> +#define DATA_BLOCK_2_TYPE_8_ENUMERATED_TIMING	0x23
-> +#define DATA_BLOCK_2_TYPE_9_FORMULA_TIMING	0x24
-> +#define DATA_BLOCK_2_DYNAMIC_VIDEO_TIMING	0x25
-> +#define DATA_BLOCK_2_DISPLAY_INTERFACE_FEATURES	0x26
-> +#define DATA_BLOCK_2_STEREO_DISPLAY_INTERFACE	0x27
-> +#define DATA_BLOCK_2_TILED_DISPLAY_TOPOLOGY	0x28
-> +#define DATA_BLOCK_2_CONTAINER_ID		0x29
-> +#define DATA_BLOCK_2_VENDOR_SPECIFIC		0x7e
-> +#define DATA_BLOCK_2_CTA_DISPLAY_ID		0x81
-> +
->  /* DisplayID Structure v1r2 Product Type */
->  #define PRODUCT_TYPE_EXTENSION			0
->  #define PRODUCT_TYPE_TEST			1
-> @@ -57,6 +75,17 @@ struct edid;
->  #define PRODUCT_TYPE_REPEATER			5
->  #define PRODUCT_TYPE_DIRECT_DRIVE		6
+>  static bool cea_db_is_hdmi_vsdb(const u8 *db)  {
+> -	int hdmi_id;
+> -
+>  	if (cea_db_tag(db) !=3D VENDOR_BLOCK)
+>  		return false;
 >=20
-> +/* DisplayID Structure v2r0 Display Product Primary Use Case (~Product T=
-ype) */
-> +#define PRIMARY_USE_EXTENSION			0
-> +#define PRIMARY_USE_TEST			1
-> +#define PRIMARY_USE_GENERIC			2
-> +#define PRIMARY_USE_TV				3
-> +#define PRIMARY_USE_DESKTOP_PRODUCTIVITY	4
-> +#define PRIMARY_USE_DESKTOP_GAMING		5
-> +#define PRIMARY_USE_PRESENTATION		6
-> +#define PRIMARY_USE_HEAD_MOUNTED_VR		7
-> +#define PRIMARY_USE_HEAD_MOUNTED_AR		8
-> +
->  struct displayid_header {
->  	u8 rev;
->  	u8 bytes;
+>  	if (cea_db_payload_len(db) < 5)
+>  		return false;
+>=20
+> -	hdmi_id =3D db[1] | (db[2] << 8) | (db[3] << 16);
+> -
+> -	return hdmi_id =3D=3D HDMI_IEEE_OUI;
+> +	return oui(db[3], db[2], db[1]) =3D=3D HDMI_IEEE_OUI;
+>  }
+>=20
+>  static bool cea_db_is_hdmi_forum_vsdb(const u8 *db)  {
+> -	unsigned int oui;
+> -
+>  	if (cea_db_tag(db) !=3D VENDOR_BLOCK)
+>  		return false;
+>=20
+>  	if (cea_db_payload_len(db) < 7)
+>  		return false;
+>=20
+> -	oui =3D db[3] << 16 | db[2] << 8 | db[1];
+> -
+> -	return oui =3D=3D HDMI_FORUM_IEEE_OUI;
+> +	return oui(db[3], db[2], db[1]) =3D=3D HDMI_FORUM_IEEE_OUI;
+>  }
+>=20
+>  static bool cea_db_is_vcdb(const u8 *db)
 > --
 > 2.30.2
 
