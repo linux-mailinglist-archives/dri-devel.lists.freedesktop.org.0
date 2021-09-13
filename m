@@ -2,66 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EC1408C67
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 15:18:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905384092A0
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 16:14:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 881B96ECA6;
-	Mon, 13 Sep 2021 13:18:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96D846E0CC;
+	Mon, 13 Sep 2021 14:14:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 173C36EC8D;
- Mon, 13 Sep 2021 13:17:49 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id u16so14660277wrn.5;
- Mon, 13 Sep 2021 06:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=FH+1Y8etpSt7hl5BvOARvtVNTQnEKf9GJ8OSstB4GW0=;
- b=IRBEB/Z+uCUNNkQZrfkgIhbJIwP2pgNtoD3UDZYc9GFrjVoQemzgAWzQdNEiefvCsz
- m+RqoK9rB+6LydBB1G3ol89TFYhzaY7Bb4sa64uo8qbrvDefpdvIsxUzX3ZIEfsThCA5
- ek5ExJ2wiqx56JaMtXcPYSTx/Aw4FNMYlT0j5MryEIkdVskf5OJfvtRNYw44LkB8l42t
- 7XV3py4qEvmh+Y0Jgzrp887rBfbHzMqPUPHHqZqofhp113bYW6ArPbRTfgWGfoL2weGh
- cohH5f3H0eB9Amw5/roZlGNzi7lIWlKHktTiOqbBZB2OaTE0gVdDa81MH8PvGeYLgdKP
- 02Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=FH+1Y8etpSt7hl5BvOARvtVNTQnEKf9GJ8OSstB4GW0=;
- b=QWF0V5P0SHQYpCyA0slqiqqM71xKWmGm65rJsG0xD5kopNXMCCJLm//1PtXZCUA9u9
- Y1tNpUNZ0pay7cg3Uptqte6+qdpnDT4LU3REdmJKRd6R2gHtcuYPUKPwQzmjSzrV7C86
- 0kQBr6h2xRZC0HMvA2VyzvJBYK2kbDeWnv/lnDhZPvxpBGvD+/0ln/PgEoIwx3YEHFZ5
- HQ8RDPlmuIp6W44YoZx2HjerVKO0VO2qwdlR6yZ4jsD5v9ElY+2i8jeNfNbAT/HAvyL0
- FTDTCvf9Yu9ARTfMXSFKizrWRyxBxI7OSdEkIjcvMXzbUBCVrABnrRoxmL3fLXIj0Eqf
- TibQ==
-X-Gm-Message-State: AOAM531mAOLqAEy7y12u4ZR2hpgs+ZYiDeVHIAKSWvOBcYOrQ2rd+jr4
- brpqQzkACROndQIMFpr/x3o=
-X-Google-Smtp-Source: ABdhPJzDBDz9n7p6FviVglwiX9to5ht8Ev+V3kXammh1L6gotOGiN99UxVy/CWUMpe7mH0cAtrMT0A==
-X-Received: by 2002:adf:8b52:: with SMTP id v18mr7251297wra.1.1631539065006;
- Mon, 13 Sep 2021 06:17:45 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- h18sm7602834wrb.33.2021.09.13.06.17.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 06:17:44 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-Cc: daniel@ffwll.ch,
-	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
-Date: Mon, 13 Sep 2021 15:17:07 +0200
-Message-Id: <20210913131707.45639-27-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210913131707.45639-1-christian.koenig@amd.com>
-References: <20210913131707.45639-1-christian.koenig@amd.com>
+Received: from relay03.th.seeweb.it (relay03.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::164])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 657916E0CC
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 14:14:21 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id 6CC6A1F4B9;
+ Mon, 13 Sep 2021 16:14:18 +0200 (CEST)
+Date: Mon, 13 Sep 2021 16:14:17 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+Cc: robdclark@gmail.com, sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ dmitry.baryshkov@linaro.org, abhinavk@codeaurora.org,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ konrad.dybcio@somainline.org, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ paul.bouchara@somainline.org
+Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode
+ panels
+Message-ID: <20210913141417.7brqczhagufgqch2@SoMainline.org>
+References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
+ <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,50 +54,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Heureka, that's finally not used any more.
+On 2021-09-11 18:39:19, AngeloGioacchino Del Regno wrote:
+> In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
+> checking if the relative CTL is started by waiting for an interrupt
+> to fire: it is fine to do that, but then sometimes we call this
+> function while the CTL is up and has never been put down, but that
+> interrupt gets raised only when the CTL gets a state change from
+> 0 to 1 (disabled to enabled), so we're going to wait for something
+> that will never happen on its own.
+> 
+> Solving this while avoiding to restart the CTL is actually possible
+> and can be done by just checking if it is already up and running
+> when the wait_for_commit_done function is called: in this case, so,
+> if the CTL was already running, we can say that the commit is done
+> if the command transmission is complete (in other terms, if the
+> interface has been flushed).
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- include/linux/dma-resv.h | 26 --------------------------
- 1 file changed, 26 deletions(-)
+This has unfortunately not solved any ctl_start timeout issues for me/us
+on other platforms yet, but for the code:
 
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 6f9bb7e4c538..90c15cbe7d92 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -370,32 +370,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
- 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
- }
- 
--/**
-- * dma_resv_get_excl_unlocked - get the reservation object's
-- * exclusive fence, without lock held.
-- * @obj: the reservation object
-- *
-- * If there is an exclusive fence, this atomically increments it's
-- * reference count and returns it.
-- *
-- * RETURNS
-- * The exclusive fence or NULL if none
-- */
--static inline struct dma_fence *
--dma_resv_get_excl_unlocked(struct dma_resv *obj)
--{
--	struct dma_fence *fence;
--
--	if (!rcu_access_pointer(obj->fence_excl))
--		return NULL;
--
--	rcu_read_lock();
--	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
--	rcu_read_unlock();
--
--	return fence;
--}
--
- /**
-  * dma_resv_shared_list - get the reservation object's shared fence list
-  * @obj: the reservation object
--- 
-2.25.1
+Reviewed-by: Marijn Suijten <marijn.suijten@somainline.org>
 
+> ---
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index aa01698d6b25..aa5d3b3cef15 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -682,6 +682,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
+>  	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
+>  		return 0;
+>  
+> +	if (phys_enc->hw_ctl->ops.is_started(phys_enc->hw_ctl))
+> +		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
+> +
+>  	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
+>  }
+>  
+> -- 
+> 2.32.0
+> 
