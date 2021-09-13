@@ -1,51 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 912A1408C5C
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 15:18:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5275408C57
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 15:18:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1828F6EC9E;
-	Mon, 13 Sep 2021 13:17:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C00906EC8B;
+	Mon, 13 Sep 2021 13:17:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 165186E1A5;
- Mon, 13 Sep 2021 13:17:42 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id b6so14629697wrh.10;
- Mon, 13 Sep 2021 06:17:41 -0700 (PDT)
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
+ [IPv6:2a00:1450:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 134D16EB17;
+ Mon, 13 Sep 2021 13:17:43 +0000 (UTC)
+Received: by mail-wm1-x334.google.com with SMTP id
+ c8-20020a7bc008000000b002e6e462e95fso6961455wmb.2; 
+ Mon, 13 Sep 2021 06:17:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aaz1/XKVq6nri9Uw2UQQseQfjyJkmrID5vYRDnEleeE=;
- b=j5ApZPjuGQSysR3D2rbwxwT0NziPLN8aIS6xGHDYJfIEG6npP+fSZzcA8ChWpt/NSn
- pyu7jaEzbr61aIbCz5NzAjJb5bxa93okLzdjBXmjA+0jfBhVGDNeWorL+VF8iAbr0x9d
- j1HkejHfFZBHRhqNBbAn7/VPD2OOS5BFGEEoYzqaKL39WDWiQj7FmDhVvnYITRWVR8OZ
- tO1e/mQPZgSSIICro0jrgr/Axg1xFFZ9OKPqro0uSM9R4dyCWbfV9UY3jjkr066gZCce
- tiQV3Lt415N8gpXIpqW4Ru0VYj/IpX/YjXX5KQrVUhUtzMsY1CoiaTCNVOruh+NDrs1l
- qZiQ==
+ bh=ywYiPBqYLCJ23trq34bYRpm7rnat1pMXJ6GgV3mhHgc=;
+ b=A5lNs2MC/N0NsksmvdHX/ybghY3pb390BUp8YGF91muqiTAho89imbSUvtWtO0svRP
+ lYstGtNDVY0ikAKhwKuM11qNKiVdYZXbzOXpPwzXc4Jt5UukYV8PjLou6zK/l+uM0VOX
+ Klb+hmB2u2G9Ub8UPA54IoiUjp2mw2qMaeYHvzWPStvc11BtCIQ1QcL4bfpsiRJ+zaSp
+ 0bSz0Agre+2HiHecyk1hrShlKkVwNHREX9GV/EYX1oz4tO1xwlAmPTGbDZBBjrtpj4H6
+ 2Ls+so7KMHz/GW6GQS+NTXewXWkWmrYoGLMRM0WvO/ZuWl/ejbKnI16r4OhxSNXvzcik
+ q3DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aaz1/XKVq6nri9Uw2UQQseQfjyJkmrID5vYRDnEleeE=;
- b=5BojaabEak5RpX7j9H+4VE3r7x5WZdiIe2TejNI7G2C7i17bYD8X12zUsUOy/dfF9y
- l9Br3I60pmkyp11vZvJ0nyuvCBMqNe5Qv3rFh5QmHs5SDdmoSfXfdSJlZfBcGK/RVTfp
- SJK1GIze1V3udkJU8OaBugIM3JWO+wmOA4rdUObjE/MGdLkIX7RZRBPNIFHYOWyCL08W
- lGJYfYQMAR+uKExHPIiM2l8iEbYmL6vR3/0wRbu3CW9imwmCaNi4qDkSvKY+ZR70tFAc
- DNXYzPJ/Xba4fXTugjlWWFled6fNdZVvXDAdmW52OyQrWmvPiXVH7jr3TXBBFKTL9OPY
- 0+Sg==
-X-Gm-Message-State: AOAM531PP04owmaK4qbmw84EYFvMRkFm9cOoW68EuGhhRyoJFj6TRCVH
- f6IqFyGUPHZOqbh/iPPCNtE=
-X-Google-Smtp-Source: ABdhPJxX0s81w0+HJgCXtbBFD53hSzsmklMXxNzsAXztcryHleJTU3rmTPSVM5YgEFZEVyP0HdEfLQ==
-X-Received: by 2002:adf:ce89:: with SMTP id r9mr9243123wrn.238.1631539060549; 
- Mon, 13 Sep 2021 06:17:40 -0700 (PDT)
+ bh=ywYiPBqYLCJ23trq34bYRpm7rnat1pMXJ6GgV3mhHgc=;
+ b=aNIQnRHQsJAoXT5R+zfHg1/RURzTjGS7CPz7lSWgUhPttx1GBWe4n9e46QQNNAwHK5
+ TgEUGuQvYAeWw73RYHj/ai20huxn0/u9oLt3UmKfx1Xpe5SflpHtcB7d1A5YGgV6F8tS
+ e7ASCmAa/Cmf8W3e3M101nL2T1gxDraTuQCYj6LCivoMmyGtNq+oALqf8NmeYCkInIVM
+ Ke7PuED2iwVCEW+hvVjA7Uo5rv96zlbZkDBNz+tHZADuHmuNpAvyC24zfhe8uzKQSR97
+ YZXVaDJH8aKP6X0vIhwEyoG5ixO5sDHuBu5gqhwrfOXNK402xa1blnnwfSXa3mZ+Vyr1
+ fzdQ==
+X-Gm-Message-State: AOAM531cUUvFCr2Yn6tjYVz3BPRzYZ+yJ+wRTS6w0HZxRyLAPQ+WhMtg
+ acHzRNIcw6/bL1066e01wrZHIiRrZQTeTTNB
+X-Google-Smtp-Source: ABdhPJzqAAz9usdIPSG+fQU4iIicyc4vSAGCAFCzdcYdUrhMteKzMJM6QOeBvNhZH9MSD7CZy4OBOg==
+X-Received: by 2002:a05:600c:2259:: with SMTP id
+ a25mr4541562wmm.133.1631539061673; 
+ Mon, 13 Sep 2021 06:17:41 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- h18sm7602834wrb.33.2021.09.13.06.17.39
+ h18sm7602834wrb.33.2021.09.13.06.17.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 06:17:40 -0700 (PDT)
+ Mon, 13 Sep 2021 06:17:41 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +55,10 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org
 Cc: daniel@ffwll.ch,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 22/26] drm/nouveau: use the new iterator in nouveau_fence_sync
-Date: Mon, 13 Sep 2021 15:17:03 +0200
-Message-Id: <20210913131707.45639-23-christian.koenig@amd.com>
+Subject: [PATCH 23/26] drm/nouveau: use the new interator in
+ nv50_wndw_prepare_fb
+Date: Mon, 13 Sep 2021 15:17:04 +0200
+Message-Id: <20210913131707.45639-24-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210913131707.45639-1-christian.koenig@amd.com>
 References: <20210913131707.45639-1-christian.koenig@amd.com>
@@ -77,97 +80,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplifying the code a bit.
+Makes the handling a bit more complex, but avoids the use of
+dma_resv_get_excl_unlocked().
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 48 +++++++------------------
- 1 file changed, 12 insertions(+), 36 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/wndw.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 05d0b3eb3690..dc8d7ca1e239 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -339,14 +339,15 @@ nouveau_fence_wait(struct nouveau_fence *fence, bool lazy, bool intr)
- }
- 
- int
--nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool exclusive, bool intr)
-+nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
-+		   bool exclusive, bool intr)
- {
- 	struct nouveau_fence_chan *fctx = chan->fence;
--	struct dma_fence *fence;
- 	struct dma_resv *resv = nvbo->bo.base.resv;
--	struct dma_resv_list *fobj;
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+index 8d048bacd6f0..9a0c42d38a47 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
+@@ -539,6 +539,8 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+ 	struct nouveau_bo *nvbo;
+ 	struct nv50_head_atom *asyh;
+ 	struct nv50_wndw_ctxdma *ctxdma;
 +	struct dma_resv_cursor cursor;
 +	struct dma_fence *fence;
- 	struct nouveau_fence *f;
--	int ret = 0, i;
-+	int ret;
+ 	int ret;
  
- 	if (!exclusive) {
- 		ret = dma_resv_reserve_shared(resv, 1);
-@@ -355,10 +356,7 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
- 			return ret;
+ 	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
+@@ -561,7 +563,12 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
+ 			asyw->image.handle[0] = ctxdma->object.handle;
  	}
  
--	fobj = dma_resv_shared_list(resv);
--	fence = dma_resv_excl_fence(resv);
--
--	if (fence) {
-+	dma_resv_for_each_fence(resv, &cursor, exclusive, fence) {
- 		struct nouveau_channel *prev = NULL;
- 		bool must_wait = true;
+-	asyw->state.fence = dma_resv_get_excl_unlocked(nvbo->bo.base.resv);
++	dma_resv_for_each_fence_unlocked(nvbo->bo.base.resv, &cursor, false,
++					 fence) {
++		/* TODO: We only use the first writer here */
++		asyw->state.fence = fence;
++		break;
++	}
+ 	asyw->image.offset[0] = nvbo->offset;
  
-@@ -366,41 +364,19 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
- 		if (f) {
- 			rcu_read_lock();
- 			prev = rcu_dereference(f->channel);
--			if (prev && (prev == chan || fctx->sync(f, prev, chan) == 0))
-+			if (prev && (prev == chan ||
-+				     fctx->sync(f, prev, chan) == 0))
- 				must_wait = false;
- 			rcu_read_unlock();
- 		}
- 
--		if (must_wait)
-+		if (must_wait) {
- 			ret = dma_fence_wait(fence, intr);
--
--		return ret;
--	}
--
--	if (!exclusive || !fobj)
--		return ret;
--
--	for (i = 0; i < fobj->shared_count && !ret; ++i) {
--		struct nouveau_channel *prev = NULL;
--		bool must_wait = true;
--
--		fence = rcu_dereference_protected(fobj->shared[i],
--						dma_resv_held(resv));
--
--		f = nouveau_local_fence(fence, chan->drm);
--		if (f) {
--			rcu_read_lock();
--			prev = rcu_dereference(f->channel);
--			if (prev && (prev == chan || fctx->sync(f, prev, chan) == 0))
--				must_wait = false;
--			rcu_read_unlock();
-+			if (ret)
-+				return ret;
- 		}
--
--		if (must_wait)
--			ret = dma_fence_wait(fence, intr);
- 	}
--
--	return ret;
-+	return 0;
- }
- 
- void
+ 	if (wndw->func->prepare) {
 -- 
 2.25.1
 
