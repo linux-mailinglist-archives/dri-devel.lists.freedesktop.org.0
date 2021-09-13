@@ -1,34 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 433AF409BCC
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 20:08:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86731409BC7
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 20:08:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B97996ECD1;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 414696E221;
 	Mon, 13 Sep 2021 18:08:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1D3736E220;
- Mon, 13 Sep 2021 18:08:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="221792526"
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="221792526"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BA876E220;
+ Mon, 13 Sep 2021 18:08:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="221792530"
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="221792530"
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 11:08:17 -0700
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="551796981"
+ 13 Sep 2021 11:08:19 -0700
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="551796987"
 Received: from jpcooney-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.5.201])
  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 11:08:16 -0700
+ 13 Sep 2021 11:08:18 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 4/8] drm/i915/ttm: use cached system pages when evicting lmem
-Date: Mon, 13 Sep 2021 19:06:01 +0100
-Message-Id: <20210913180605.2778493-4-matthew.auld@intel.com>
+Subject: [PATCH 5/8] drm/i915: remember to call i915_sw_fence_fini
+Date: Mon, 13 Sep 2021 19:06:02 +0100
+Message-Id: <20210913180605.2778493-5-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
 In-Reply-To: <20210913180605.2778493-1-matthew.auld@intel.com>
 References: <20210913180605.2778493-1-matthew.auld@intel.com>
@@ -50,36 +50,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This should let us do an accelerated copy directly to the shmem pages
-when temporarily moving lmem-only objects, where the i915-gem shrinker
-can later kick in to swap out the pages, if needed.
+Fixes some object-debug splat which appeared while debugging something
+unrelated.
 
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/i915/gt/intel_context.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 8f022c2889c0..08894f6a296b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -123,11 +123,11 @@ static enum ttm_caching
- i915_ttm_select_tt_caching(const struct drm_i915_gem_object *obj)
- {
- 	/*
--	 * Objects only allowed in system get cached cpu-mappings.
--	 * Other objects get WC mapping for now. Even if in system.
-+	 * Objects only allowed in system get cached cpu-mappings, or when
-+	 * evicting lmem-only buffers to system for swapping. Other objects get
-+	 * WC mapping for now. Even if in system.
- 	 */
--	if (obj->mm.region->type == INTEL_MEMORY_SYSTEM &&
--	    obj->mm.n_placements <= 1)
-+	if (obj->mm.n_placements <= 1)
- 		return ttm_cached;
+diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+index 745e84c72c90..0e7dd12a0871 100644
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -420,6 +420,7 @@ void intel_context_fini(struct intel_context *ce)
  
- 	return ttm_write_combined;
+ 	mutex_destroy(&ce->pin_mutex);
+ 	i915_active_fini(&ce->active);
++	i915_sw_fence_fini(&ce->guc_blocked);
+ }
+ 
+ void i915_context_module_exit(void)
 -- 
 2.26.3
 
