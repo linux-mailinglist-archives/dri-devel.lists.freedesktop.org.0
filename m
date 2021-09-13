@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8391C4089B5
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 12:59:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F7C408A0B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 13:21:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1C4F46E16D;
-	Mon, 13 Sep 2021 10:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9FE656E174;
+	Mon, 13 Sep 2021 11:21:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 296AA6E167
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 10:59:54 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- f11-20020a17090aa78b00b0018e98a7cddaso6165435pjq.4
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 03:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uE5WlZJx7+XF/f8bRbtAqgsitFd74Lsy2HIzniKL4kE=;
- b=K9uQ/LfxX972OGN8S7KHCuLF4d1ydXtixvSA/URTi9kY2yJONXNsn/KCBNIsXVzyXx
- RLl6MZH2hqvkoCciZndpY4lfvCD4NhPWU/L0ZqrkE5kbw2uXWpSDZQ9FsUuOpOSrZs08
- aRvcmD7LMSnG7Hv+f7n39yJbDtqTmTafWmoVPEoGzQSTXT3Ho1rnjv7sKVDQzp6lQT3A
- +tyYIcLP2rq2+SPFR9+evbquCXYBv27v10u6QQuCre3I1QBHVs3Z8zXJoq7ANr73zYSD
- l9rcSMMEAwMECPcYW9RBnYLBxaDg/23YZEc9H2nkTMQh8QHqnGPHrPV/NsZlA5iHu/o6
- 2VbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uE5WlZJx7+XF/f8bRbtAqgsitFd74Lsy2HIzniKL4kE=;
- b=K3KM+o9L5SSS5FONdfluqugKiKbTEEdH2nTvQ5v117bnTrB+umTBmoP5uTV5/t/yG9
- 6+1502bl/E3yXLe+eYaSq5ZKw1ryIieHtF9i7EVvoFLNzvJGr3Fth15A1CXhQtYfZnbw
- D9zosvix03yM/VMgeCo/np91at/+v5QOiPgS7U/dsHm/R9CFE46qCcT0aJycVWZGuBU9
- /A5Qa29/uFpKbA415od9avHpLdnvZS3424G6wwhTC4xt2Mqo45rOcpMVlpDfGB/NSJ1T
- NCyjMMBWqdsMsmwkAsm+74SooriuwGD1mC+3RujbckwaGeRlChOWNebe0KbSww9jLtNA
- rdEg==
-X-Gm-Message-State: AOAM532vmYmFqKybOd0uhmBW9MJL7xsi/CS8UgOLha7350e/HL4d0sNc
- BgYIdYzBFXQ6pAJON5M1sOBhBw==
-X-Google-Smtp-Source: ABdhPJzLyIxvZoajaGrnQcr/x0pgcPnOqFQazMavi8LlyQYGrE9tJdA5JIDPjzNESNrqoSRDT2ZzVw==
-X-Received: by 2002:a17:902:a604:b029:12c:dda2:30c4 with SMTP id
- u4-20020a170902a604b029012cdda230c4mr9828052plq.73.1631530793667; 
- Mon, 13 Sep 2021 03:59:53 -0700 (PDT)
-Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id l22sm8279641pgo.45.2021.09.13.03.59.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 03:59:53 -0700 (PDT)
-From: yangcong <yangcong5@huaqin.corp-partner.google.com>
-To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
- daniel@ffwll.ch, dianders@google.com
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- yangcong <yangcong5@huaqin.corp-partner.google.com>
-Subject: [v5 5/5] drm/panel: Update BOE and INX init code to support touch
- function
-Date: Mon, 13 Sep 2021 18:59:20 +0800
-Message-Id: <20210913105920.3719525-6-yangcong5@huaqin.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210913105920.3719525-1-yangcong5@huaqin.corp-partner.google.com>
-References: <20210913105920.3719525-1-yangcong5@huaqin.corp-partner.google.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 25C926E174;
+ Mon, 13 Sep 2021 11:21:16 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="307193506"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="307193506"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 04:21:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="528003173"
+Received: from irsmsx602.ger.corp.intel.com ([163.33.146.8])
+ by fmsmga004.fm.intel.com with ESMTP; 13 Sep 2021 04:21:14 -0700
+Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
+ irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 13 Sep 2021 12:21:13 +0100
+Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
+ BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
+ Mon, 13 Sep 2021 16:51:12 +0530
+From: "Shankar, Uma" <uma.shankar@intel.com>
+To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
+ <intel-gfx@lists.freedesktop.org>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>
+Subject: RE: [PATCH v2 4/6] drm/edid: parse the DisplayID v2.0 VESA vendor
+ block for MSO
+Thread-Topic: [PATCH v2 4/6] drm/edid: parse the DisplayID v2.0 VESA vendor
+ block for MSO
+Thread-Index: AQHXnnMP3ZkKGG/hO0qHTdOFN1KAfKuhjZ7Q///dN4CAAHTBUA==
+Date: Mon, 13 Sep 2021 11:21:11 +0000
+Message-ID: <5bea734572a341f3bc8ca721718a18a3@intel.com>
+References: <cover.1630419362.git.jani.nikula@intel.com>
+ <73ca2887e7b37880690f5c9ba4594c9cd1170669.1630419362.git.jani.nikula@intel.com>
+ <264db723a9c34755bd8c2a052e3e5bf6@intel.com> <87wnnk3jro.fsf@intel.com>
+In-Reply-To: <87wnnk3jro.fsf@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.5.1.3
+x-originating-ip: [10.223.10.1]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,758 +70,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an incell IC, TDDI use time division multiplexing.
-Init code effect touch sensing.
-Support touch function we needed to handle were:
-a) Update init code for the panel driver, adjust the porch value.
-b) After update init code these two panels can support DSI HS mode.
 
-Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
----
- .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 399 +++++-------------
- 1 file changed, 110 insertions(+), 289 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index 2acbb5c623d8..cb80daff3783 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -36,7 +36,6 @@ struct panel_desc {
- 	const struct panel_init_cmd *init_cmds;
- 	unsigned int lanes;
- 	bool discharge_on_disable;
--	bool unsupport_dsi_hs_mode;
- };
- 
- struct boe_panel {
-@@ -84,6 +83,8 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0x07, 0x78),
- 	_INIT_DCS_CMD(0x08, 0x5A),
- 	_INIT_DCS_CMD(0x0D, 0x63),
-+	_INIT_DCS_CMD(0x0E, 0x91),
-+	_INIT_DCS_CMD(0x0F, 0x73),
- 	_INIT_DCS_CMD(0x95, 0xEB),
- 	_INIT_DCS_CMD(0x96, 0xEB),
- 	_INIT_DCS_CMD(0x30, 0x11),
-@@ -199,18 +200,15 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0x37, 0x44),
- 	_INIT_DCS_CMD(0x38, 0x40),
- 	_INIT_DCS_CMD(0x39, 0x00),
--	_INIT_DCS_CMD(0x3A, 0x9A),
--	_INIT_DCS_CMD(0x3B, 0xA0),
-+	_INIT_DCS_CMD(0x3A, 0x5D),
-+	_INIT_DCS_CMD(0x3B, 0x60),
- 	_INIT_DCS_CMD(0x3D, 0x42),
--
- 	_INIT_DCS_CMD(0x3F, 0x06),
- 	_INIT_DCS_CMD(0x43, 0x06),
--
- 	_INIT_DCS_CMD(0x47, 0x66),
--	_INIT_DCS_CMD(0x4A, 0x9A),
--	_INIT_DCS_CMD(0x4B, 0xA0),
-+	_INIT_DCS_CMD(0x4A, 0x5D),
-+	_INIT_DCS_CMD(0x4B, 0x60),
- 	_INIT_DCS_CMD(0x4C, 0x91),
--
- 	_INIT_DCS_CMD(0x4D, 0x21),
- 	_INIT_DCS_CMD(0x4E, 0x43),
- 	_INIT_DCS_CMD(0x51, 0x12),
-@@ -219,90 +217,68 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0x56, 0x04),
- 	_INIT_DCS_CMD(0x58, 0x21),
- 	_INIT_DCS_CMD(0x59, 0x30),
--	_INIT_DCS_CMD(0x5A, 0xBA),
--	_INIT_DCS_CMD(0x5B, 0xA0),
-+	_INIT_DCS_CMD(0x5A, 0x60),
-+	_INIT_DCS_CMD(0x5B, 0x50),
- 	_INIT_DCS_CMD(0x5E, 0x00, 0x06),
- 	_INIT_DCS_CMD(0x5F, 0x00),
--
- 	_INIT_DCS_CMD(0x65, 0x82),
--
- 	_INIT_DCS_CMD(0x7E, 0x20),
- 	_INIT_DCS_CMD(0x7F, 0x3C),
- 	_INIT_DCS_CMD(0x82, 0x04),
- 	_INIT_DCS_CMD(0x97, 0xC0),
--
- 	_INIT_DCS_CMD(0xB6, 0x05, 0x00, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x05, 0x05, 0x00, 0x00),
--
--	_INIT_DCS_CMD(0x92, 0xC4),
-+	_INIT_DCS_CMD(0x91, 0x44),
-+	_INIT_DCS_CMD(0x92, 0xA9),
- 	_INIT_DCS_CMD(0x93, 0x1A),
--	_INIT_DCS_CMD(0x94, 0x5F),
--
-+	_INIT_DCS_CMD(0x94, 0x96),
- 	_INIT_DCS_CMD(0xD7, 0x55),
- 	_INIT_DCS_CMD(0xDA, 0x0A),
- 	_INIT_DCS_CMD(0xDE, 0x08),
--
- 	_INIT_DCS_CMD(0xDB, 0x05),
--	_INIT_DCS_CMD(0xDC, 0xC4),
-+	_INIT_DCS_CMD(0xDC, 0xA9),
- 	_INIT_DCS_CMD(0xDD, 0x22),
- 
- 	_INIT_DCS_CMD(0xDF, 0x05),
--	_INIT_DCS_CMD(0xE0, 0xC4),
--
-+	_INIT_DCS_CMD(0xE0, 0xA9),
- 	_INIT_DCS_CMD(0xE1, 0x05),
--	_INIT_DCS_CMD(0xE2, 0xC4),
--
-+	_INIT_DCS_CMD(0xE2, 0xA9),
- 	_INIT_DCS_CMD(0xE3, 0x05),
--	_INIT_DCS_CMD(0xE4, 0xC4),
-+	_INIT_DCS_CMD(0xE4, 0xA9),
- 	_INIT_DCS_CMD(0xE5, 0x05),
--	_INIT_DCS_CMD(0xE6, 0xC4),
--	_INIT_DCS_CMD(0x5C, 0x88),
--	_INIT_DCS_CMD(0x5D, 0x08),
--	_INIT_DCS_CMD(0x8D, 0x88),
--	_INIT_DCS_CMD(0x8E, 0x08),
-+	_INIT_DCS_CMD(0xE6, 0xA9),
-+	_INIT_DCS_CMD(0x5C, 0x00),
-+	_INIT_DCS_CMD(0x5D, 0x00),
-+	_INIT_DCS_CMD(0x8D, 0x00),
-+	_INIT_DCS_CMD(0x8E, 0x00),
- 	_INIT_DCS_CMD(0xB5, 0x90),
- 	_INIT_DCS_CMD(0xFF, 0x25),
- 	_INIT_DCS_CMD(0xFB, 0x01),
--
- 	_INIT_DCS_CMD(0x05, 0x00),
--
- 	_INIT_DCS_CMD(0x19, 0x07),
--
--	_INIT_DCS_CMD(0x1F, 0xBA),
--	_INIT_DCS_CMD(0x20, 0xA0),
--
--	_INIT_DCS_CMD(0x26, 0xBA),
--	_INIT_DCS_CMD(0x27, 0xA0),
--
--	_INIT_DCS_CMD(0x33, 0xBA),
--	_INIT_DCS_CMD(0x34, 0xA0),
--
-+	_INIT_DCS_CMD(0x1F, 0x60),
-+	_INIT_DCS_CMD(0x20, 0x50),
-+	_INIT_DCS_CMD(0x26, 0x60),
-+	_INIT_DCS_CMD(0x27, 0x50),
-+	_INIT_DCS_CMD(0x33, 0x60),
-+	_INIT_DCS_CMD(0x34, 0x50),
- 	_INIT_DCS_CMD(0x3F, 0xE0),
--
- 	_INIT_DCS_CMD(0x40, 0x00),
--
- 	_INIT_DCS_CMD(0x44, 0x00),
- 	_INIT_DCS_CMD(0x45, 0x40),
--
--	_INIT_DCS_CMD(0x48, 0xBA),
--	_INIT_DCS_CMD(0x49, 0xA0),
--
-+	_INIT_DCS_CMD(0x48, 0x60),
-+	_INIT_DCS_CMD(0x49, 0x50),
- 	_INIT_DCS_CMD(0x5B, 0x00),
- 	_INIT_DCS_CMD(0x5C, 0x00),
- 	_INIT_DCS_CMD(0x5D, 0x00),
- 	_INIT_DCS_CMD(0x5E, 0xD0),
--
--	_INIT_DCS_CMD(0x61, 0xBA),
--	_INIT_DCS_CMD(0x62, 0xA0),
--
-+	_INIT_DCS_CMD(0x61, 0x60),
-+	_INIT_DCS_CMD(0x62, 0x50),
- 	_INIT_DCS_CMD(0xF1, 0x10),
--
- 	_INIT_DCS_CMD(0xFF, 0x2A),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
- 	_INIT_DCS_CMD(0x64, 0x16),
--
- 	_INIT_DCS_CMD(0x67, 0x16),
--
- 	_INIT_DCS_CMD(0x6A, 0x16),
- 
- 	_INIT_DCS_CMD(0x70, 0x30),
-@@ -316,86 +292,79 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 
- 	_INIT_DCS_CMD(0xFF, 0x26),
- 	_INIT_DCS_CMD(0xFB, 0x01),
--
- 	_INIT_DCS_CMD(0x00, 0xA1),
- 
--	_INIT_DCS_CMD(0x0A, 0xF2),
--
-+	_INIT_DCS_CMD(0x02, 0x31),
- 	_INIT_DCS_CMD(0x04, 0x28),
- 	_INIT_DCS_CMD(0x06, 0x30),
--	_INIT_DCS_CMD(0x0C, 0x13),
--	_INIT_DCS_CMD(0x0D, 0x0A),
--	_INIT_DCS_CMD(0x0F, 0x0A),
-+	_INIT_DCS_CMD(0x0C, 0x16),
-+	_INIT_DCS_CMD(0x0D, 0x0D),
-+	_INIT_DCS_CMD(0x0F, 0x00),
- 	_INIT_DCS_CMD(0x11, 0x00),
- 	_INIT_DCS_CMD(0x12, 0x50),
--	_INIT_DCS_CMD(0x13, 0x51),
--	_INIT_DCS_CMD(0x14, 0x65),
-+	_INIT_DCS_CMD(0x13, 0x56),
-+	_INIT_DCS_CMD(0x14, 0x57),
- 	_INIT_DCS_CMD(0x15, 0x00),
- 	_INIT_DCS_CMD(0x16, 0x10),
- 	_INIT_DCS_CMD(0x17, 0xA0),
- 	_INIT_DCS_CMD(0x18, 0x86),
--	_INIT_DCS_CMD(0x19, 0x11),
--	_INIT_DCS_CMD(0x1A, 0x7B),
--	_INIT_DCS_CMD(0x1B, 0x10),
--	_INIT_DCS_CMD(0x1C, 0xBB),
-+	_INIT_DCS_CMD(0x19, 0x0D),
-+	_INIT_DCS_CMD(0x1A, 0x7F),
-+	_INIT_DCS_CMD(0x1B, 0x0C),
-+	_INIT_DCS_CMD(0x1C, 0xBF),
- 	_INIT_DCS_CMD(0x22, 0x00),
- 	_INIT_DCS_CMD(0x23, 0x00),
--	_INIT_DCS_CMD(0x2A, 0x11),
--	_INIT_DCS_CMD(0x2B, 0x7B),
-+	_INIT_DCS_CMD(0x2A, 0x0D),
-+	_INIT_DCS_CMD(0x2B, 0x7F),
- 
- 	_INIT_DCS_CMD(0x1D, 0x00),
--	_INIT_DCS_CMD(0x1E, 0xC3),
--	_INIT_DCS_CMD(0x1F, 0xC3),
-+	_INIT_DCS_CMD(0x1E, 0x65),
-+	_INIT_DCS_CMD(0x1F, 0x65),
- 	_INIT_DCS_CMD(0x24, 0x00),
--	_INIT_DCS_CMD(0x25, 0xC3),
-+	_INIT_DCS_CMD(0x25, 0x65),
- 	_INIT_DCS_CMD(0x2F, 0x05),
--	_INIT_DCS_CMD(0x30, 0xC3),
--	_INIT_DCS_CMD(0x31, 0x00),
--	_INIT_DCS_CMD(0x32, 0xC3),
-+	_INIT_DCS_CMD(0x30, 0x65),
-+	_INIT_DCS_CMD(0x31, 0x05),
-+	_INIT_DCS_CMD(0x32, 0x7D),
- 	_INIT_DCS_CMD(0x39, 0x00),
--	_INIT_DCS_CMD(0x3A, 0xC3),
--
-+	_INIT_DCS_CMD(0x3A, 0x65),
- 	_INIT_DCS_CMD(0x20, 0x01),
--
- 	_INIT_DCS_CMD(0x33, 0x11),
- 	_INIT_DCS_CMD(0x34, 0x78),
- 	_INIT_DCS_CMD(0x35, 0x16),
--
- 	_INIT_DCS_CMD(0xC8, 0x04),
--	_INIT_DCS_CMD(0xC9, 0x82),
-+	_INIT_DCS_CMD(0xC9, 0x80),
- 	_INIT_DCS_CMD(0xCA, 0x4E),
- 	_INIT_DCS_CMD(0xCB, 0x00),
- 	_INIT_DCS_CMD(0xA9, 0x4C),
- 	_INIT_DCS_CMD(0xAA, 0x47),
-+
- 	_INIT_DCS_CMD(0xFF, 0x27),
- 	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x56, 0x06),
- 
-+	_INIT_DCS_CMD(0x56, 0x06),
- 	_INIT_DCS_CMD(0x58, 0x80),
--	_INIT_DCS_CMD(0x59, 0x53),
-+	_INIT_DCS_CMD(0x59, 0x75),
- 	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x14),
-+	_INIT_DCS_CMD(0x5B, 0x02),
- 	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x01),
-+	_INIT_DCS_CMD(0x5D, 0x00),
- 	_INIT_DCS_CMD(0x5E, 0x20),
- 	_INIT_DCS_CMD(0x5F, 0x10),
- 	_INIT_DCS_CMD(0x60, 0x00),
--	_INIT_DCS_CMD(0x61, 0x1D),
-+	_INIT_DCS_CMD(0x61, 0x2E),
- 	_INIT_DCS_CMD(0x62, 0x00),
- 	_INIT_DCS_CMD(0x63, 0x01),
--	_INIT_DCS_CMD(0x64, 0x24),
--	_INIT_DCS_CMD(0x65, 0x1C),
-+	_INIT_DCS_CMD(0x64, 0x43),
-+	_INIT_DCS_CMD(0x65, 0x2D),
- 	_INIT_DCS_CMD(0x66, 0x00),
- 	_INIT_DCS_CMD(0x67, 0x01),
--	_INIT_DCS_CMD(0x68, 0x25),
-+	_INIT_DCS_CMD(0x68, 0x44),
- 
- 	_INIT_DCS_CMD(0x00, 0x00),
- 	_INIT_DCS_CMD(0x78, 0x00),
- 	_INIT_DCS_CMD(0xC3, 0x00),
- 
--	_INIT_DCS_CMD(0xD1, 0x24),
--	_INIT_DCS_CMD(0xD2, 0x30),
--
- 	_INIT_DCS_CMD(0xFF, 0x2A),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
-@@ -403,7 +372,7 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0x23, 0x08),
- 
- 	_INIT_DCS_CMD(0x24, 0x00),
--	_INIT_DCS_CMD(0x25, 0xC3),
-+	_INIT_DCS_CMD(0x25, 0x65),
- 	_INIT_DCS_CMD(0x26, 0xF8),
- 	_INIT_DCS_CMD(0x27, 0x00),
- 	_INIT_DCS_CMD(0x28, 0x1A),
-@@ -416,105 +385,34 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
- 	_INIT_DCS_CMD(0x00, 0x80),
--
- 	_INIT_DCS_CMD(0x07, 0x00),
- 
--	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DCS_CMD(0xFB, 0x01),
--
--	_INIT_DCS_CMD(0x3A, 0x5D),
--	_INIT_DCS_CMD(0x3B, 0x60),
--
--	_INIT_DCS_CMD(0x4A, 0x5D),
--	_INIT_DCS_CMD(0x4B, 0x60),
--
--	_INIT_DCS_CMD(0x5A, 0x70),
--	_INIT_DCS_CMD(0x5B, 0x60),
--
--	_INIT_DCS_CMD(0x91, 0x44),
--	_INIT_DCS_CMD(0x92, 0x75),
--
--	_INIT_DCS_CMD(0xDB, 0x05),
--	_INIT_DCS_CMD(0xDC, 0x75),
--	_INIT_DCS_CMD(0xDD, 0x22),
--
--	_INIT_DCS_CMD(0xDF, 0x05),
--	_INIT_DCS_CMD(0xE0, 0x75),
--
--	_INIT_DCS_CMD(0xE1, 0x05),
--	_INIT_DCS_CMD(0xE2, 0x75),
--
--	_INIT_DCS_CMD(0xE3, 0x05),
--	_INIT_DCS_CMD(0xE4, 0x75),
--
--	_INIT_DCS_CMD(0xE5, 0x05),
--	_INIT_DCS_CMD(0xE6, 0x75),
--
--	_INIT_DCS_CMD(0x5C, 0x00),
--	_INIT_DCS_CMD(0x5D, 0x00),
--
--	_INIT_DCS_CMD(0x8D, 0x00),
--	_INIT_DCS_CMD(0x8E, 0x00),
--
--	_INIT_DCS_CMD(0xFF, 0x25),
--	_INIT_DCS_CMD(0xFB, 0x01),
--
--	_INIT_DCS_CMD(0x1F, 0x70),
--	_INIT_DCS_CMD(0x20, 0x60),
--
--	_INIT_DCS_CMD(0x26, 0x70),
--	_INIT_DCS_CMD(0x27, 0x60),
--	_INIT_DCS_CMD(0x33, 0x70),
--	_INIT_DCS_CMD(0x34, 0x60),
--	_INIT_DCS_CMD(0x48, 0x70),
--	_INIT_DCS_CMD(0x49, 0x60),
--	_INIT_DCS_CMD(0x5B, 0x00),
--	_INIT_DCS_CMD(0x61, 0x70),
--	_INIT_DCS_CMD(0x62, 0x60),
--	_INIT_DCS_CMD(0xFF, 0x26),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x02, 0x31),
--	_INIT_DCS_CMD(0x19, 0x0A),
--	_INIT_DCS_CMD(0x1A, 0x7F),
--	_INIT_DCS_CMD(0x1B, 0x0A),
--	_INIT_DCS_CMD(0x1C, 0x0C),
--	_INIT_DCS_CMD(0x2A, 0x0A),
--	_INIT_DCS_CMD(0x2B, 0x7F),
--	_INIT_DCS_CMD(0x1E, 0x75),
--	_INIT_DCS_CMD(0x1F, 0x75),
--	_INIT_DCS_CMD(0x25, 0x75),
--	_INIT_DCS_CMD(0x30, 0x75),
--	_INIT_DCS_CMD(0x31, 0x05),
--	_INIT_DCS_CMD(0x32, 0x8D),
--	_INIT_DCS_CMD(0x3A, 0x75),
--	_INIT_DCS_CMD(0xFF, 0x2A),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x25, 0x75),
- 	_INIT_DCS_CMD(0xFF, 0xE0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x14, 0x60),
- 	_INIT_DCS_CMD(0x16, 0xC0),
-+
- 	_INIT_DCS_CMD(0xFF, 0xF0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x3A, 0x08),
-+
- 	_INIT_DCS_CMD(0xFF, 0x10),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0xB9, 0x01),
- 	_INIT_DCS_CMD(0xFF, 0x20),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x18, 0x40),
--	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DCS_CMD(0xC2, 0x06),
-+
- 	_INIT_DCS_CMD(0xFF, 0x10),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0xB9, 0x02),
--	_INIT_DCS_CMD(0x3B, 0x03, 0x5F, 0x1A, 0x04, 0x04),
- 	_INIT_DCS_CMD(0x35, 0x00),
- 	_INIT_DCS_CMD(0x51, 0x00, 0xFF),
- 	_INIT_DCS_CMD(0x53, 0x24),
- 	_INIT_DCS_CMD(0x55, 0x00),
- 	_INIT_DCS_CMD(0xBB, 0x13),
--
-+	_INIT_DCS_CMD(0x3B, 0x03, 0x96, 0x1A, 0x04, 0x04),
-+	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0x11),
- 	_INIT_DELAY_CMD(200),
- 	_INIT_DCS_CMD(0x29),
-@@ -523,12 +421,7 @@ static const struct panel_init_cmd boe_tv110c9m_init_cmd[] = {
- };
- 
- static const struct panel_init_cmd inx_init_cmd[] = {
--
--	_INIT_DCS_CMD(0xFF, 0x26),
--	_INIT_DCS_CMD(0xA7, 0x03),
--
- 	_INIT_DCS_CMD(0xFF, 0x20),
--	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x05, 0xD1),
- 	_INIT_DCS_CMD(0x0D, 0x63),
-@@ -536,37 +429,26 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0x08, 0x4B),
- 	_INIT_DCS_CMD(0x0E, 0x91),
- 	_INIT_DCS_CMD(0x0F, 0x69),
--
--	_INIT_DCS_CMD(0x95, 0xF5),
--	_INIT_DCS_CMD(0x96, 0xF5),
--
--	_INIT_DCS_CMD(0x9D, 0x14),
--	_INIT_DCS_CMD(0x9E, 0x14),
--	_INIT_DCS_CMD(0x6D, 0x33),
-+	_INIT_DCS_CMD(0x95, 0xFF),
-+	_INIT_DCS_CMD(0x96, 0xFF),
-+	_INIT_DCS_CMD(0x9D, 0x0A),
-+	_INIT_DCS_CMD(0x9E, 0x0A),
- 	_INIT_DCS_CMD(0x69, 0x98),
- 	_INIT_DCS_CMD(0x75, 0xA2),
- 	_INIT_DCS_CMD(0x77, 0xB3),
--
- 	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x91, 0x44),
--
- 	_INIT_DCS_CMD(0x92, 0x7A),
--
- 	_INIT_DCS_CMD(0x93, 0x1A),
--
- 	_INIT_DCS_CMD(0x94, 0x40),
- 	_INIT_DCS_CMD(0x9A, 0x08),
- 	_INIT_DCS_CMD(0x60, 0x96),
- 	_INIT_DCS_CMD(0x61, 0xD0),
- 	_INIT_DCS_CMD(0x63, 0x70),
--	_INIT_DCS_CMD(0xC2, 0xC6),
-+	_INIT_DCS_CMD(0xC2, 0xCF),
- 	_INIT_DCS_CMD(0x9B, 0x0F),
- 	_INIT_DCS_CMD(0x9A, 0x08),
--	_INIT_DCS_CMD(0xA5, 0x00),
--	_INIT_DCS_CMD(0xA6, 0x41),
--
- 	_INIT_DCS_CMD(0x00, 0x03),
- 	_INIT_DCS_CMD(0x01, 0x03),
- 	_INIT_DCS_CMD(0x02, 0x03),
-@@ -654,11 +536,7 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0x81, 0x00),
- 	_INIT_DCS_CMD(0x82, 0x08),
- 	_INIT_DCS_CMD(0x97, 0x02),
--
- 	_INIT_DCS_CMD(0xC5, 0x10),
--	_INIT_DCS_CMD(0xD7, 0x55),
--	_INIT_DCS_CMD(0xD8, 0x55),
--	_INIT_DCS_CMD(0xD9, 0x23),
- 	_INIT_DCS_CMD(0xDA, 0x05),
- 	_INIT_DCS_CMD(0xDB, 0x01),
- 	_INIT_DCS_CMD(0xDC, 0x7A),
-@@ -703,20 +581,13 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 
- 	_INIT_DCS_CMD(0x48, 0x09),
- 	_INIT_DCS_CMD(0x49, 0x46),
--
- 	_INIT_DCS_CMD(0x5B, 0x80),
--
- 	_INIT_DCS_CMD(0x5C, 0x00),
- 	_INIT_DCS_CMD(0x5D, 0x01),
- 	_INIT_DCS_CMD(0x5E, 0x46),
--
- 	_INIT_DCS_CMD(0x61, 0x01),
- 	_INIT_DCS_CMD(0x62, 0x46),
- 	_INIT_DCS_CMD(0x68, 0x10),
--
--	_INIT_DCS_CMD(0x13, 0x02),
--	_INIT_DCS_CMD(0x14, 0xF2),
--
- 	_INIT_DCS_CMD(0xFF, 0x26),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 
-@@ -724,28 +595,26 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0x02, 0x31),
- 	_INIT_DCS_CMD(0x0A, 0xF2),
- 	_INIT_DCS_CMD(0x04, 0x28),
--	_INIT_DCS_CMD(0x06, 0x20),
--	_INIT_DCS_CMD(0x0C, 0x13),
--	_INIT_DCS_CMD(0x0D, 0x0A),
--	_INIT_DCS_CMD(0x0F, 0x0A),
-+	_INIT_DCS_CMD(0x06, 0x30),
-+	_INIT_DCS_CMD(0x0C, 0x16),
-+	_INIT_DCS_CMD(0x0D, 0x0D),
-+	_INIT_DCS_CMD(0x0F, 0x00),
- 	_INIT_DCS_CMD(0x11, 0x00),
- 	_INIT_DCS_CMD(0x12, 0x50),
--	_INIT_DCS_CMD(0x13, 0x51),
--	_INIT_DCS_CMD(0x14, 0x65),
-+	_INIT_DCS_CMD(0x13, 0x56),
-+	_INIT_DCS_CMD(0x14, 0x57),
- 	_INIT_DCS_CMD(0x15, 0x00),
- 	_INIT_DCS_CMD(0x16, 0x10),
- 	_INIT_DCS_CMD(0x17, 0xA0),
- 	_INIT_DCS_CMD(0x18, 0x86),
- 	_INIT_DCS_CMD(0x22, 0x00),
- 	_INIT_DCS_CMD(0x23, 0x00),
--
--	_INIT_DCS_CMD(0x19, 0x30),
--	_INIT_DCS_CMD(0x1A, 0x00),
--	_INIT_DCS_CMD(0x1B, 0x09),
--	_INIT_DCS_CMD(0x1C, 0xC0),
--	_INIT_DCS_CMD(0x2A, 0x30),
--	_INIT_DCS_CMD(0x2B, 0x00),
--
-+	_INIT_DCS_CMD(0x19, 0x0D),
-+	_INIT_DCS_CMD(0x1A, 0x7F),
-+	_INIT_DCS_CMD(0x1B, 0x0C),
-+	_INIT_DCS_CMD(0x1C, 0xBF),
-+	_INIT_DCS_CMD(0x2A, 0x0D),
-+	_INIT_DCS_CMD(0x2B, 0x7F),
- 	_INIT_DCS_CMD(0x20, 0x00),
- 
- 	_INIT_DCS_CMD(0x1D, 0x00),
-@@ -773,32 +642,29 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0xAC, 0x4A),
- 	_INIT_DCS_CMD(0xAD, 0x48),
- 	_INIT_DCS_CMD(0xAE, 0x46),
--
- 	_INIT_DCS_CMD(0xFF, 0x27),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0xC0, 0x18),
- 	_INIT_DCS_CMD(0xC1, 0x00),
- 	_INIT_DCS_CMD(0xC2, 0x00),
--
- 	_INIT_DCS_CMD(0x56, 0x06),
- 	_INIT_DCS_CMD(0x58, 0x80),
--	_INIT_DCS_CMD(0x59, 0x53),
-+	_INIT_DCS_CMD(0x59, 0x75),
- 	_INIT_DCS_CMD(0x5A, 0x00),
--	_INIT_DCS_CMD(0x5B, 0x14),
-+	_INIT_DCS_CMD(0x5B, 0x02),
- 	_INIT_DCS_CMD(0x5C, 0x00),
- 	_INIT_DCS_CMD(0x5D, 0x00),
- 	_INIT_DCS_CMD(0x5E, 0x20),
- 	_INIT_DCS_CMD(0x5F, 0x10),
- 	_INIT_DCS_CMD(0x60, 0x00),
--	_INIT_DCS_CMD(0x61, 0x1C),
-+	_INIT_DCS_CMD(0x61, 0x2E),
- 	_INIT_DCS_CMD(0x62, 0x00),
- 	_INIT_DCS_CMD(0x63, 0x01),
--	_INIT_DCS_CMD(0x64, 0x24),
--	_INIT_DCS_CMD(0x65, 0x1B),
-+	_INIT_DCS_CMD(0x64, 0x43),
-+	_INIT_DCS_CMD(0x65, 0x2D),
- 	_INIT_DCS_CMD(0x66, 0x00),
- 	_INIT_DCS_CMD(0x67, 0x01),
--	_INIT_DCS_CMD(0x68, 0x25),
--
-+	_INIT_DCS_CMD(0x68, 0x43),
- 	_INIT_DCS_CMD(0x98, 0x01),
- 	_INIT_DCS_CMD(0xB4, 0x03),
- 	_INIT_DCS_CMD(0x9B, 0xBD),
-@@ -814,7 +680,7 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0x23, 0x08),
- 
- 	_INIT_DCS_CMD(0x24, 0x00),
--	_INIT_DCS_CMD(0x25, 0x79),
-+	_INIT_DCS_CMD(0x25, 0x65),
- 	_INIT_DCS_CMD(0x26, 0xF8),
- 	_INIT_DCS_CMD(0x27, 0x00),
- 	_INIT_DCS_CMD(0x28, 0x1A),
-@@ -832,89 +698,42 @@ static const struct panel_init_cmd inx_init_cmd[] = {
- 	_INIT_DCS_CMD(0x70, 0x92),
- 	_INIT_DCS_CMD(0x71, 0x00),
- 	_INIT_DCS_CMD(0x72, 0x00),
--
- 	_INIT_DCS_CMD(0xA2, 0x33),
- 	_INIT_DCS_CMD(0xA3, 0x30),
- 	_INIT_DCS_CMD(0xA4, 0xC0),
--
- 	_INIT_DCS_CMD(0xE8, 0x00),
--
--	_INIT_DCS_CMD(0x97, 0x3C),
--	_INIT_DCS_CMD(0x98, 0x02),
--	_INIT_DCS_CMD(0x99, 0x95),
--	_INIT_DCS_CMD(0x9A, 0x06),
--	_INIT_DCS_CMD(0x9B, 0x00),
--	_INIT_DCS_CMD(0x9C, 0x0B),
--	_INIT_DCS_CMD(0x9D, 0x0A),
--	_INIT_DCS_CMD(0x9E, 0x90),
--
--	_INIT_DCS_CMD(0xFF, 0x27),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0xD0, 0x13),
--	_INIT_DCS_CMD(0xD1, 0x54),
--	_INIT_DCS_CMD(0xD2, 0x30),
--	_INIT_DCS_CMD(0xDE, 0x43),
--	_INIT_DCS_CMD(0xDF, 0x02),
--
- 	_INIT_DCS_CMD(0xFF, 0xF0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x3A, 0x08),
--
- 	_INIT_DCS_CMD(0xFF, 0xD0),
- 	_INIT_DCS_CMD(0xFB, 0x01),
-+	_INIT_DCS_CMD(0x00, 0x33),
- 	_INIT_DCS_CMD(0x02, 0x77),
-+	_INIT_DCS_CMD(0x08, 0x01),
- 	_INIT_DCS_CMD(0x09, 0xBF),
--	_INIT_DCS_CMD(0x00, 0x22),
--	_INIT_DCS_CMD(0x2F, 0x22),
--
-+	_INIT_DCS_CMD(0x28, 0x30),
-+	_INIT_DCS_CMD(0x2F, 0x33),
- 	_INIT_DCS_CMD(0xFF, 0x23),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x00, 0x80),
- 	_INIT_DCS_CMD(0x07, 0x00),
--
- 	_INIT_DCS_CMD(0xFF, 0x20),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0x30, 0x00),
--
--	_INIT_DCS_CMD(0xFF, 0x25),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x17, 0xCF),
--	_INIT_DCS_CMD(0x19, 0x1F),
--	_INIT_DCS_CMD(0x1B, 0x5B),
--	_INIT_DCS_CMD(0x1D, 0x00),
--
--	_INIT_DCS_CMD(0xFF, 0x10),
--	_INIT_DCS_CMD(0xB0, 0x01),
--
- 	_INIT_DCS_CMD(0xFF, 0x10),
--	_INIT_DELAY_CMD(10),
- 	_INIT_DCS_CMD(0xB9, 0x01),
--
- 	_INIT_DCS_CMD(0xFF, 0x20),
--	_INIT_DELAY_CMD(10),
- 	_INIT_DCS_CMD(0x18, 0x40),
--
- 	_INIT_DCS_CMD(0xFF, 0x10),
--	_INIT_DELAY_CMD(10),
- 	_INIT_DCS_CMD(0xB9, 0x02),
--
- 	_INIT_DCS_CMD(0xFF, 0x10),
--	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0xFB, 0x01),
- 	_INIT_DCS_CMD(0xBB, 0x13),
--
--	_INIT_DCS_CMD(0x3B, 0x03, 0x5F, 0x1A, 0x04, 0x04),
-+	_INIT_DCS_CMD(0x3B, 0x03, 0x96, 0x1A, 0x04, 0x04),
- 	_INIT_DCS_CMD(0x35, 0x00),
--
--	_INIT_DCS_CMD(0xFF, 0x24),
--	_INIT_DCS_CMD(0xC2, 0x06),
--
--	_INIT_DCS_CMD(0xFF, 0x10),
--	_INIT_DCS_CMD(0xFB, 0x01),
--	_INIT_DCS_CMD(0x51, 0x00, 0xFF),
-+	_INIT_DCS_CMD(0x51, 0x0F, 0xFF),
- 	_INIT_DCS_CMD(0x53, 0x24),
--	_INIT_DCS_CMD(0x55, 0x00),
--
-+	_INIT_DELAY_CMD(100),
- 	_INIT_DCS_CMD(0x11),
- 	_INIT_DELAY_CMD(200),
- 	_INIT_DCS_CMD(0x29),
-@@ -1323,8 +1142,7 @@ static int boe_panel_enter_sleep_mode(struct boe_panel *boe)
- 	struct mipi_dsi_device *dsi = boe->dsi;
- 	int ret;
- 
--	if (!boe->desc->unsupport_dsi_hs_mode)
--		dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
- 
- 	ret = mipi_dsi_dcs_set_display_off(dsi);
- 	if (ret < 0)
-@@ -1442,15 +1260,15 @@ static int boe_panel_enable(struct drm_panel *panel)
- }
- 
- static const struct drm_display_mode boe_tv110c9m_default_mode = {
--	.clock = 162383,
-+	.clock = 166594,
- 	.hdisplay = 1200,
- 	.hsync_start = 1200 + 40,
- 	.hsync_end = 1200 + 40 + 8,
- 	.htotal = 1200 + 40 + 8 + 28,
- 	.vdisplay = 2000,
- 	.vsync_start = 2000 + 26,
--	.vsync_end = 2000 + 26 + 1,
--	.vtotal = 2000 + 26 + 1 + 94,
-+	.vsync_end = 2000 + 26 + 2,
-+	.vtotal = 2000 + 26 + 2 + 148,
- 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
- };
- 
-@@ -1463,14 +1281,15 @@ static const struct panel_desc boe_tv110c9m_desc = {
- 	},
- 	.lanes = 4,
- 	.format = MIPI_DSI_FMT_RGB888,
--	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
--		      MIPI_DSI_MODE_LPM,
-+	.mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_VIDEO
-+			| MIPI_DSI_MODE_VIDEO_HSE
-+			| MIPI_DSI_CLOCK_NON_CONTINUOUS
-+			| MIPI_DSI_MODE_VIDEO_BURST,
- 	.init_cmds = boe_tv110c9m_init_cmd,
--	.unsupport_dsi_hs_mode = true,
- };
- 
- static const struct drm_display_mode inx_hj110iz_default_mode = {
--	.clock = 162383,
-+	.clock = 166594,
- 	.hdisplay = 1200,
- 	.hsync_start = 1200 + 40,
- 	.hsync_end = 1200 + 40 + 8,
-@@ -1478,7 +1297,7 @@ static const struct drm_display_mode inx_hj110iz_default_mode = {
- 	.vdisplay = 2000,
- 	.vsync_start = 2000 + 26,
- 	.vsync_end = 2000 + 26 + 1,
--	.vtotal = 2000 + 26 + 1 + 94,
-+	.vtotal = 2000 + 26 + 1 + 149,
- 	.type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED,
- };
- 
-@@ -1491,8 +1310,10 @@ static const struct panel_desc inx_hj110iz_desc = {
- 	},
- 	.lanes = 4,
- 	.format = MIPI_DSI_FMT_RGB888,
--	.mode_flags = MIPI_DSI_MODE_VIDEO | MIPI_DSI_MODE_VIDEO_SYNC_PULSE |
--		      MIPI_DSI_MODE_LPM,
-+	.mode_flags = MIPI_DSI_MODE_LPM | MIPI_DSI_MODE_VIDEO
-+			| MIPI_DSI_MODE_VIDEO_HSE
-+			| MIPI_DSI_CLOCK_NON_CONTINUOUS
-+			| MIPI_DSI_MODE_VIDEO_BURST,
- 	.init_cmds = inx_init_cmd,
- };
- 
--- 
-2.25.1
+> -----Original Message-----
+> From: Nikula, Jani <jani.nikula@intel.com>
+> Sent: Monday, September 13, 2021 3:00 PM
+> To: Shankar, Uma <uma.shankar@intel.com>; intel-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com
+> Subject: RE: [PATCH v2 4/6] drm/edid: parse the DisplayID v2.0 VESA vendo=
+r block
+> for MSO
+>=20
+> On Mon, 13 Sep 2021, "Shankar, Uma" <uma.shankar@intel.com> wrote:
+> >> -----Original Message-----
+> >> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf
+> >> Of Jani Nikula
+> >> Sent: Tuesday, August 31, 2021 7:48 PM
+> >> To: intel-gfx@lists.freedesktop.org
+> >> Cc: dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com;
+> >> Nikula, Jani <jani.nikula@intel.com>
+> >> Subject: [PATCH v2 4/6] drm/edid: parse the DisplayID v2.0 VESA
+> >> vendor block for MSO
+> >>
+> >> The VESA Organization Vendor-Specific Data Block, defined in VESA
+> >> DisplayID Standard v2.0, specifies the eDP Multi-SST Operation (MSO)
+> >> stream count and segment pixel overlap.
+> >>
+> >> DisplayID v1.3 has Appendix B: DisplayID as an EDID Extension,
+> >> describing how DisplayID sections may be embedded in EDID extension
+> >> blocks. DisplayID v2.0 does not have such a section, perhaps implying
+> >> that DisplayID v2.0 data should not be included in EDID extensions,
+> >> but rather in a "pure" DisplayID structure at its own DDC address pair=
+ A4h/A5h, as
+> described in VESA E-DDC Standard v1.3 chapter 3.
+> >>
+> >> However, in practice, displays out in the field have embedded
+> >> DisplayID
+> >> v2.0 data blocks in EDID extensions, including, in particular, some
+> >> eDP MSO displays, where a pure DisplayID structure is not available at=
+ all.
+> >>
+> >> Parse the MSO data from the DisplayID data block. Do it as part of
+> >> drm_add_display_info(), extending it to parse also DisplayID data to
+> >> avoid requiring extra calls to update the information.
+> >>
+> >> v2: Check for VESA OUI (Ville)
+> >>
+> >> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> >> ---
+> >>  drivers/gpu/drm/drm_edid.c  | 72
+> >> +++++++++++++++++++++++++++++++++++++
+> >>  include/drm/drm_connector.h | 12 +++++++
+> >> include/drm/drm_displayid.h | 13
+> >> +++++++
+> >>  3 files changed, 97 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> >> index 92974b1478bc..c45c225267ca 100644
+> >> --- a/drivers/gpu/drm/drm_edid.c
+> >> +++ b/drivers/gpu/drm/drm_edid.c
+> >> @@ -28,6 +28,7 @@
+> >>   * DEALINGS IN THE SOFTWARE.
+> >>   */
+> >>
+> >> +#include <linux/bitfield.h>
+> >>  #include <linux/hdmi.h>
+> >>  #include <linux/i2c.h>
+> >>  #include <linux/kernel.h>
+> >> @@ -5145,6 +5146,71 @@ void drm_get_monitor_range(struct
+> >> drm_connector *connector,
+> >>  		      info->monitor_range.max_vfreq);  }
+> >>
+> >> +static void drm_parse_vesa_mso_data(struct drm_connector *connector,
+> >> +				    const struct displayid_block *block) {
+> >> +	struct displayid_vesa_vendor_specific_block *vesa =3D
+> >> +		(struct displayid_vesa_vendor_specific_block *)block;
+> >> +	struct drm_display_info *info =3D &connector->display_info;
+> >> +
+> >> +	if (block->num_bytes < 3) {
+> >> +		drm_dbg_kms(connector->dev, "Unexpected vendor block size
+> >> %u\n",
+> >> +			    block->num_bytes);
+> >> +		return;
+> >> +	}
+> >> +
+> >> +	if (oui(vesa->oui[0], vesa->oui[1], vesa->oui[2]) !=3D VESA_IEEE_OUI=
+)
+> >> +		return;
+> >> +
+> >> +	if (sizeof(*vesa) !=3D sizeof(*block) + block->num_bytes) {
+> >> +		drm_dbg_kms(connector->dev, "Unexpected VESA vendor block
+> >> size\n");
+> >> +		return;
+> >> +	}
+> >> +
+> >> +	switch (FIELD_GET(DISPLAYID_VESA_MSO_MODE, vesa->mso)) {
+> >> +	default:
+> >> +		drm_dbg_kms(connector->dev, "Reserved MSO mode value\n");
+> >> +		fallthrough;
+> >> +	case 0:
+> >> +		info->mso_stream_count =3D 0;
+> >> +		break;
+> >> +	case 1:
+> >> +		info->mso_stream_count =3D 2; /* 2 or 4 links */
+> >> +		break;
+> >> +	case 2:
+> >> +		info->mso_stream_count =3D 4; /* 4 links */
+> >> +		break;
+> >> +	}
+> >> +
+> >> +	if (!info->mso_stream_count) {
+> >> +		info->mso_pixel_overlap =3D 0;
+> >> +		return;
+> >> +	}
+> >> +
+> >> +	info->mso_pixel_overlap =3D FIELD_GET(DISPLAYID_VESA_MSO_OVERLAP,
+> >> vesa->mso);
+> >> +	if (info->mso_pixel_overlap > 8) {
+> >> +		drm_dbg_kms(connector->dev, "Reserved MSO pixel overlap value
+> >> %u\n",
+> >> +			    info->mso_pixel_overlap);
+> >> +		info->mso_pixel_overlap =3D 8;
+> >
+> > Going beyond 8 is not right from a vendor perspective as it goes into r=
+eserved
+> region.
+> > Should we not just set to 0 or how we decide that we fixed overlap at
+> > 8. It seems an undefined operation and it may vary from sink to sink.
+>=20
+> I don't know if there's a right choice here. I don't mind setting it to
+> 0 if you prefer that.
 
+I feel it will be wrong on a vendor's behalf if he programs anything above =
+8. But not sure what
+should driver do in such case, it's an undefined behavior. If he intentiona=
+lly programs it as say 20,
+fixing at 8 will still lead to some artifacts. 0 only helps in case where t=
+his field is corrupted and has
+garbage data.
+
+No strong objection, I will leave to your discretion Jani.
+
+With this, all else looks good to me.
+Reviewed-by: Uma Shankar <uma.shankar@intel.com>
+
+Regards,
+Uma Shankar
+
+> BR,
+> Jani.
+>=20
+>=20
+> >
+> > Regards,
+> > Uma Shankar
+> >
+> >> +	}
+> >> +
+> >> +	drm_dbg_kms(connector->dev, "MSO stream count %u, pixel overlap %u\n=
+",
+> >> +		    info->mso_stream_count, info->mso_pixel_overlap); }
+> >> +
+> >> +static void drm_update_mso(struct drm_connector *connector, const
+> >> +struct edid *edid) {
+> >> +	const struct displayid_block *block;
+> >> +	struct displayid_iter iter;
+> >> +
+> >> +	displayid_iter_edid_begin(edid, &iter);
+> >> +	displayid_iter_for_each(block, &iter) {
+> >> +		if (block->tag =3D=3D DATA_BLOCK_2_VENDOR_SPECIFIC)
+> >> +			drm_parse_vesa_mso_data(connector, block);
+> >> +	}
+> >> +	displayid_iter_end(&iter);
+> >> +}
+> >> +
+> >>  /* A connector has no EDID information, so we've got no EDID to
+> >> compute quirks from. Reset
+> >>   * all of the values which would have been set from EDID
+> >>   */
+> >> @@ -5168,6 +5234,9 @@ drm_reset_display_info(struct drm_connector
+> >> *connector)
+> >>
+> >>  	info->non_desktop =3D 0;
+> >>  	memset(&info->monitor_range, 0, sizeof(info->monitor_range));
+> >> +
+> >> +	info->mso_stream_count =3D 0;
+> >> +	info->mso_pixel_overlap =3D 0;
+> >>  }
+> >>
+> >>  u32 drm_add_display_info(struct drm_connector *connector, const
+> >> struct edid
+> >> *edid) @@ -5246,6 +5315,9 @@ u32 drm_add_display_info(struct
+> >> drm_connector *connector, const struct edid *edi
+> >>  		info->color_formats |=3D DRM_COLOR_FORMAT_YCRCB444;
+> >>  	if (edid->features & DRM_EDID_FEATURE_RGB_YCRCB422)
+> >>  		info->color_formats |=3D DRM_COLOR_FORMAT_YCRCB422;
+> >> +
+> >> +	drm_update_mso(connector, edid);
+> >> +
+> >>  	return quirks;
+> >>  }
+> >>
+> >> diff --git a/include/drm/drm_connector.h
+> >> b/include/drm/drm_connector.h index 79fa34e5ccdb..379746d3266f 100644
+> >> --- a/include/drm/drm_connector.h
+> >> +++ b/include/drm/drm_connector.h
+> >> @@ -590,6 +590,18 @@ struct drm_display_info {
+> >>  	 * @monitor_range: Frequency range supported by monitor range descri=
+ptor
+> >>  	 */
+> >>  	struct drm_monitor_range_info monitor_range;
+> >> +
+> >> +	/**
+> >> +	 * @mso_stream_count: eDP Multi-SST Operation (MSO) stream count fro=
+m
+> >> +	 * the DisplayID VESA vendor block. 0 for conventional Single-Stream
+> >> +	 * Transport (SST), or 2 or 4 MSO streams.
+> >> +	 */
+> >> +	u8 mso_stream_count;
+> >> +
+> >> +	/**
+> >> +	 * @mso_pixel_overlap: eDP MSO segment pixel overlap, 0-8 pixels.
+> >> +	 */
+> >> +	u8 mso_pixel_overlap;
+> >>  };
+> >>
+> >>  int drm_display_info_set_bus_formats(struct drm_display_info *info,
+> >> diff --git a/include/drm/drm_displayid.h
+> >> b/include/drm/drm_displayid.h index
+> >> 79771091771a..7ffbd9f7bfc7 100644
+> >> --- a/include/drm/drm_displayid.h
+> >> +++ b/include/drm/drm_displayid.h
+> >> @@ -23,9 +23,12 @@
+> >>  #define DRM_DISPLAYID_H
+> >>
+> >>  #include <linux/types.h>
+> >> +#include <linux/bits.h>
+> >>
+> >>  struct edid;
+> >>
+> >> +#define VESA_IEEE_OUI				0x3a0292
+> >> +
+> >>  /* DisplayID Structure versions */
+> >>  #define DISPLAY_ID_STRUCTURE_VER_12		0x12
+> >>  #define DISPLAY_ID_STRUCTURE_VER_20		0x20
+> >> @@ -126,6 +129,16 @@ struct displayid_detailed_timing_block {
+> >>  	struct displayid_detailed_timings_1 timings[];  };
+> >>
+> >> +#define DISPLAYID_VESA_MSO_OVERLAP	GENMASK(3, 0)
+> >> +#define DISPLAYID_VESA_MSO_MODE		GENMASK(6, 5)
+> >> +
+> >> +struct displayid_vesa_vendor_specific_block {
+> >> +	struct displayid_block base;
+> >> +	u8 oui[3];
+> >> +	u8 data_structure_type;
+> >> +	u8 mso;
+> >> +} __packed;
+> >> +
+> >>  /* DisplayID iteration */
+> >>  struct displayid_iter {
+> >>  	const struct edid *edid;
+> >> --
+> >> 2.30.2
+> >
+>=20
+> --
+> Jani Nikula, Intel Open Source Graphics Center
