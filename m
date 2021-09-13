@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A894084A6
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 08:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3688E4084AB
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 08:26:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 00D9F89FD7;
-	Mon, 13 Sep 2021 06:24:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B56996E0E9;
+	Mon, 13 Sep 2021 06:26:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA52B89FE3;
- Mon, 13 Sep 2021 06:24:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="221627923"
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="221627923"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Sep 2021 23:24:55 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5502489FE3;
+ Mon, 13 Sep 2021 06:26:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="307137938"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="307137938"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Sep 2021 23:26:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="696541805"
-Received: from irsmsx605.ger.corp.intel.com ([163.33.146.138])
- by fmsmga006.fm.intel.com with ESMTP; 12 Sep 2021 23:24:45 -0700
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="543019897"
+Received: from irsmsx603.ger.corp.intel.com ([163.33.146.9])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Sep 2021 23:26:04 -0700
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- IRSMSX605.ger.corp.intel.com (163.33.146.138) with Microsoft SMTP Server
+ irsmsx603.ger.corp.intel.com (163.33.146.9) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 13 Sep 2021 07:24:43 +0100
+ 15.1.2242.12; Mon, 13 Sep 2021 07:26:02 +0100
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
- Mon, 13 Sep 2021 11:54:42 +0530
+ Mon, 13 Sep 2021 11:56:01 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: "Nikula, Jani" <jani.nikula@intel.com>, "intel-gfx@lists.freedesktop.org"
  <intel-gfx@lists.freedesktop.org>
 CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
  "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>, "Nikula,
  Jani" <jani.nikula@intel.com>
-Subject: RE: [Intel-gfx] [PATCH v2 5/6] drm/i915/edp: postpone MSO init until
- after EDID read
-Thread-Topic: [Intel-gfx] [PATCH v2 5/6] drm/i915/edp: postpone MSO init until
- after EDID read
-Thread-Index: AQHXnnMOgaHoCccHdk6FUbLUUi720quhkxWA
-Date: Mon, 13 Sep 2021 06:24:42 +0000
-Message-ID: <36cfcb3765d8402798b96c60e20fcc91@intel.com>
+Subject: RE: [Intel-gfx] [PATCH v2 6/6] drm/i915/edp: use MSO pixel overlap
+ from DisplayID data
+Thread-Topic: [Intel-gfx] [PATCH v2 6/6] drm/i915/edp: use MSO pixel overlap
+ from DisplayID data
+Thread-Index: AQHXnnMRYfT60hCnxkmXHPx5ESPrdauhk2/A
+Date: Mon, 13 Sep 2021 06:26:01 +0000
+Message-ID: <5a3ed8934466442895654a9adb1af9f3@intel.com>
 References: <cover.1630419362.git.jani.nikula@intel.com>
- <7a360fca01be0f971337b3635f4e4752922ffebe.1630419362.git.jani.nikula@intel.com>
-In-Reply-To: <7a360fca01be0f971337b3635f4e4752922ffebe.1630419362.git.jani.nikula@intel.com>
+ <87d8d80ba205eb2ecb50f613219e0a821a842616.1630419362.git.jani.nikula@intel.com>
+In-Reply-To: <87d8d80ba205eb2ecb50f613219e0a821a842616.1630419362.git.jani.nikula@intel.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -80,13 +80,11 @@ ni Nikula
 > Cc: dri-devel@lists.freedesktop.org; ville.syrjala@linux.intel.com; Nikul=
 a, Jani
 > <jani.nikula@intel.com>
-> Subject: [Intel-gfx] [PATCH v2 5/6] drm/i915/edp: postpone MSO init until=
- after EDID
-> read
+> Subject: [Intel-gfx] [PATCH v2 6/6] drm/i915/edp: use MSO pixel overlap f=
+rom
+> DisplayID data
 >=20
-> MSO will require segment pixel overlap information from the EDID. Postpon=
-e MSO
-> init until after we've read and cached the EDID.
+> Now that we have MSO pixel overlap in display info, use it.
 >=20
 
 Looks ok to me.
@@ -94,35 +92,49 @@ Reviewed-by: Uma Shankar <uma.shankar@intel.com>
 
 > Signed-off-by: Jani Nikula <jani.nikula@intel.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_dp.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/i915/display/intel_dp.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >=20
 > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c
 > b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 64e8151d13a4..df402f63b741 100644
+> index df402f63b741..baf21f9aa40e 100644
 > --- a/drivers/gpu/drm/i915/display/intel_dp.c
 > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -2536,8 +2536,6 @@ intel_edp_init_dpcd(struct intel_dp *intel_dp)
->  	 */
->  	intel_edp_init_source_oui(intel_dp, true);
+> @@ -2420,6 +2420,8 @@ static void intel_edp_mso_mode_fixup(struct
+> intel_connector *connector,  static void intel_edp_mso_init(struct intel_=
+dp
+> *intel_dp)  {
+>  	struct drm_i915_private *i915 =3D dp_to_i915(intel_dp);
+> +	struct intel_connector *connector =3D intel_dp->attached_connector;
+> +	struct drm_display_info *info =3D &connector->base.display_info;
+>  	u8 mso;
 >=20
-> -	intel_edp_mso_init(intel_dp);
-> -
->  	return true;
+>  	if (intel_dp->edp_dpcd[0] < DP_EDP_14) @@ -2438,8 +2440,9 @@ static
+> void intel_edp_mso_init(struct intel_dp *intel_dp)
+>  	}
+>=20
+>  	if (mso) {
+> -		drm_dbg_kms(&i915->drm, "Sink MSO %ux%u configuration\n",
+> -			    mso, drm_dp_max_lane_count(intel_dp->dpcd) / mso);
+> +		drm_dbg_kms(&i915->drm, "Sink MSO %ux%u configuration, pixel
+> overlap %u\n",
+> +			    mso, drm_dp_max_lane_count(intel_dp->dpcd) / mso,
+> +			    info->mso_pixel_overlap);
+>  		if (!HAS_MSO(i915)) {
+>  			drm_err(&i915->drm, "No source MSO support,
+> disabling\n");
+>  			mso =3D 0;
+> @@ -2447,7 +2450,7 @@ static void intel_edp_mso_init(struct intel_dp *int=
+el_dp)
+>  	}
+>=20
+>  	intel_dp->mso_link_count =3D mso;
+> -	intel_dp->mso_pixel_overlap =3D 0; /* FIXME: read from DisplayID v2.0 *=
+/
+> +	intel_dp->mso_pixel_overlap =3D mso ? info->mso_pixel_overlap : 0;
 >  }
 >=20
-> @@ -4804,6 +4802,9 @@ static bool intel_edp_init_connector(struct intel_d=
-p
-> *intel_dp,
->  	if (fixed_mode)
->  		downclock_mode =3D intel_drrs_init(intel_connector, fixed_mode);
->=20
-> +	/* MSO requires information from the EDID */
-> +	intel_edp_mso_init(intel_dp);
-> +
->  	/* multiply the mode clock and horizontal timings for MSO */
->  	intel_edp_mso_mode_fixup(intel_connector, fixed_mode);
->  	intel_edp_mso_mode_fixup(intel_connector, downclock_mode);
+>  static bool
 > --
 > 2.30.2
 
