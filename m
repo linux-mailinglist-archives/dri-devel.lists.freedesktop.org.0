@@ -1,51 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9942409D66
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 21:49:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 914BB409D9B
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 22:01:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E8F6E233;
-	Mon, 13 Sep 2021 19:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB546E243;
+	Mon, 13 Sep 2021 20:01:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 274DE6E233
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 19:49:15 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id a5040253-14cb-11ec-9416-0050568cd888;
- Mon, 13 Sep 2021 19:49:02 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id AB861194BCB;
- Mon, 13 Sep 2021 21:49:03 +0200 (CEST)
-Date: Mon, 13 Sep 2021 21:49:09 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] drm/probe-helper: Create a HPD IRQ event helper
- for a single connector
-Message-ID: <YT+rNWslVgmEp8BC@ravnborg.org>
-References: <20210830094910.150713-1-maxime@cerno.tech>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1C2366E241;
+ Mon, 13 Sep 2021 20:01:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="221817785"
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="221817785"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 13:01:09 -0700
+X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="469642615"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 13:01:08 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <tvrtko.ursulin@intel.com>
+Subject: [PATCH] drm/i915/selftests: Add a cancel request selftest that
+ triggers a reset
+Date: Mon, 13 Sep 2021 12:56:04 -0700
+Message-Id: <20210913195604.16181-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210830094910.150713-1-maxime@cerno.tech>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,251 +47,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+Add a cancel request selftest that results in an engine reset to cancel
+the request as it is non-preemptable. Also insert a NOP request after
+the cancelled request and confirm that it completes successfully.
 
-thanks for the ping on irc. I had accidently deleted v2 of this patch.
+v2:
+ (Tvrtko)
+  - Skip test if preemption timeout compiled out
+  - Skip test if engine reset isn't supported
+  - Update debug prints to be more descriptive
 
-	Sam
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/i915/selftests/i915_request.c | 106 ++++++++++++++++++
+ 1 file changed, 106 insertions(+)
 
-On Mon, Aug 30, 2021 at 11:49:09AM +0200, Maxime Ripard wrote:
-> The drm_helper_hpd_irq_event() function is iterating over all the
-> connectors when an hotplug event is detected.
-> 
-> During that iteration, it will call each connector detect function and
-> figure out if its status changed.
-> 
-> Finally, if any connector changed, it will notify the user-space and the
-> clients that something changed on the DRM device.
-> 
-> This is supposed to be used for drivers that don't have a hotplug
-> interrupt for individual connectors. However, drivers that can use an
-> interrupt for a single connector are left in the dust and can either
-> reimplement the logic used during the iteration for each connector or
-> use that helper and iterate over all connectors all the time.
-> 
-> Since both are suboptimal, let's create a helper that will only perform
-> the status detection on a single connector.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+diff --git a/drivers/gpu/drm/i915/selftests/i915_request.c b/drivers/gpu/drm/i915/selftests/i915_request.c
+index d67710d10615..299fc586488a 100644
+--- a/drivers/gpu/drm/i915/selftests/i915_request.c
++++ b/drivers/gpu/drm/i915/selftests/i915_request.c
+@@ -772,6 +772,104 @@ static int __cancel_completed(struct intel_engine_cs *engine)
+ 	return err;
+ }
+ 
++static int __cancel_reset(struct drm_i915_private *i915,
++			  struct intel_engine_cs *engine)
++{
++	struct intel_context *ce;
++	struct igt_spinner spin;
++	struct i915_request *rq, *nop;
++	unsigned long preempt_timeout_ms;
++	int err = 0;
++
++	if (!CONFIG_DRM_I915_PREEMPT_TIMEOUT ||
++	    !intel_has_reset_engine(engine->gt))
++		return 0;
++
++	preempt_timeout_ms = engine->props.preempt_timeout_ms;
++	engine->props.preempt_timeout_ms = 100;
++
++	if (igt_spinner_init(&spin, engine->gt))
++		goto out_restore;
++
++	ce = intel_context_create(engine);
++	if (IS_ERR(ce)) {
++		err = PTR_ERR(ce);
++		goto out_spin;
++	}
++
++	rq = igt_spinner_create_request(&spin, ce, MI_NOOP);
++	if (IS_ERR(rq)) {
++		err = PTR_ERR(rq);
++		goto out_ce;
++	}
++
++	pr_debug("%s: Cancelling active non-preemptable request\n",
++		 engine->name);
++	i915_request_get(rq);
++	i915_request_add(rq);
++	if (!igt_wait_for_spinner(&spin, rq)) {
++		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
++
++		pr_err("Failed to start spinner on %s\n", engine->name);
++		intel_engine_dump(engine, &p, "%s\n", engine->name);
++		err = -ETIME;
++		goto out_rq;
++	}
++
++	nop = intel_context_create_request(ce);
++	if (IS_ERR(nop))
++		goto out_nop;
++	i915_request_get(nop);
++	i915_request_add(nop);
++
++	i915_request_cancel(rq, -EINTR);
++
++	if (i915_request_wait(rq, 0, HZ) < 0) {
++		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
++
++		pr_err("%s: Failed to cancel hung request\n", engine->name);
++		intel_engine_dump(engine, &p, "%s\n", engine->name);
++		err = -ETIME;
++		goto out_nop;
++	}
++
++	if (rq->fence.error != -EINTR) {
++		pr_err("%s: fence not cancelled (%u)\n",
++		       engine->name, rq->fence.error);
++		err = -EINVAL;
++		goto out_nop;
++	}
++
++	if (i915_request_wait(nop, 0, HZ) < 0) {
++		struct drm_printer p = drm_info_printer(engine->i915->drm.dev);
++
++		pr_err("%s: Failed to complete nop request\n", engine->name);
++		intel_engine_dump(engine, &p, "%s\n", engine->name);
++		err = -ETIME;
++		goto out_nop;
++	}
++
++	if (nop->fence.error != 0) {
++		pr_err("%s: Nop request errored (%u)\n",
++		       engine->name, nop->fence.error);
++		err = -EINVAL;
++	}
++
++out_nop:
++	i915_request_put(nop);
++out_rq:
++	i915_request_put(rq);
++out_ce:
++	intel_context_put(ce);
++out_spin:
++	igt_spinner_fini(&spin);
++out_restore:
++	engine->props.preempt_timeout_ms = preempt_timeout_ms;
++	if (err)
++		pr_err("%s: %s error %d\n", __func__, engine->name, err);
++	return err;
++}
++
+ static int live_cancel_request(void *arg)
+ {
+ 	struct drm_i915_private *i915 = arg;
+@@ -804,6 +902,14 @@ static int live_cancel_request(void *arg)
+ 			return err;
+ 		if (err2)
+ 			return err2;
++
++		/* Expects reset so call outside of igt_live_test_* */
++		err = __cancel_reset(i915, engine);
++		if (err)
++			return err;
++
++		if (igt_flush_test(i915))
++			return -EIO;
+ 	}
+ 
+ 	return 0;
+-- 
+2.32.0
 
-A few comments in the following.
-
-	Sam
-
-> 
-> ---
-> 
-> Changes from v1:
->   - Rename the shared function
->   - Move the hotplug event notification out of the shared function
->   - Added missing locks
->   - Improve the documentation
->   - Switched to drm_dbg_kms
-> ---
->  drivers/gpu/drm/drm_probe_helper.c | 120 ++++++++++++++++++++---------
->  include/drm/drm_probe_helper.h     |   1 +
->  2 files changed, 86 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 5606bca3caa8..fcf32ec0b0c8 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -795,6 +795,86 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->  
-> +static bool check_connector_changed(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	enum drm_connector_status old_status;
-> +	u64 old_epoch_counter;
-> +	bool changed = false;
-> +
-> +	/* Only handle HPD capable connectors. */
-> +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
-> +
-> +	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
-> +
-> +	old_status = connector->status;
-> +	old_epoch_counter = connector->epoch_counter;
-> +
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Old epoch counter %llu\n",
-> +		    connector->base.id,
-> +		    connector->name,
-> +		    old_epoch_counter);
-> +
-> +	connector->status = drm_helper_probe_detect(connector, NULL, false);
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> +		    connector->base.id,
-> +		    connector->name,
-> +		    drm_get_connector_status_name(old_status),
-> +		    drm_get_connector_status_name(connector->status));
-> +
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] New epoch counter %llu\n",
-> +		    connector->base.id,
-> +		    connector->name,
-> +		    connector->epoch_counter);
-> +
-> +	/*
-> +	 * Check if epoch counter had changed, meaning that we need
-> +	 * to send a uevent.
-> +	 */
-> +	if (old_epoch_counter != connector->epoch_counter)
-> +		changed = true;
-
-If logging is included here we could do it like:
-   	if (old_epoch_counter != connector->epoch_counter) {
-		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Changed epoch counter %llu => %llu\n",
-                    connector->base.id,
-                    connector->name,
-		    old_epoch_counter,
-                    connector->epoch_counter);
-		return true;
-	} else {
-		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Same epoch counter %llu\n",
-                    connector->base.id,
-                    connector->name,
-                    connector->epoch_counter);
-		return false;
-	}
-}	
-
-So we only log epoch counter once.
-And the changed local variable is gone.
-
-Just a suggestion.
-
-> +
-> +	return changed;
-> +}
-> +
-> +/**
-> + * drm_connector_helper_hpd_irq_event - hotplug processing
-> + * @connector: drm_connector
-> + *
-> + * Drivers can use this helper function to run a detect cycle on a connector
-> + * which has the DRM_CONNECTOR_POLL_HPD flag set in its &polled member.
-> + *
-> + * This helper function is useful for drivers which can track hotplug
-> + * interrupts for a single connector. Drivers that want to send a
-> + * hotplug event for all connectors or can't track hotplug interrupts
-> + * per connector need to use drm_helper_hpd_irq_event().
-> + *
-> + * This function must be called from process context with no mode
-> + * setting locks held.
-> + *
-> + * Note that a connector can be both polled and probed from the hotplug
-> + * handler, in case the hotplug interrupt is known to be unreliable.
-
-Documentation of the return value would be nice.
-
-> + */
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	bool changed;
-> +
-> +	mutex_lock(&dev->mode_config.mutex);
-> +	changed = check_connector_changed(connector);
-> +	mutex_unlock(&dev->mode_config.mutex);
-> +
-> +	if (changed) {
-> +		drm_kms_helper_hotplug_event(dev);
-> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Sent hotplug event\n",
-> +			    connector->base.id,
-> +			    connector->name);
-> +	}
-> +
-> +	return changed;
-> +}
-> +EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
-> +
->  /**
->   * drm_helper_hpd_irq_event - hotplug processing
->   * @dev: drm_device
-> @@ -808,9 +888,10 @@ EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->   * interrupts for each connector.
->   *
->   * Drivers which support hotplug interrupts for each connector individually and
-> - * which have a more fine-grained detect logic should bypass this code and
-> - * directly call drm_kms_helper_hotplug_event() in case the connector state
-> - * changed.
-> + * which have a more fine-grained detect logic can use
-> + * drm_connector_helper_hpd_irq_event(). Alternatively, they should bypass this
-> + * code and directly call drm_kms_helper_hotplug_event() in case the connector
-> + * state changed.
->   *
->   * This function must be called from process context with no mode
->   * setting locks held.
-
-Documentation of the return value would also be nice here.
-There are a few uses of the return value so we cannot just ignore it.
-
-> @@ -822,9 +903,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_list_iter conn_iter;
-> -	enum drm_connector_status old_status;
->  	bool changed = false;
-> -	u64 old_epoch_counter;
->  
->  	if (!dev->mode_config.poll_enabled)
->  		return false;
-> @@ -832,37 +911,8 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  	mutex_lock(&dev->mode_config.mutex);
->  	drm_connector_list_iter_begin(dev, &conn_iter);
->  	drm_for_each_connector_iter(connector, &conn_iter) {
-> -		/* Only handle HPD capable connectors. */
-> -		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
-> -			continue;
-The old code skips connectors without DRM_CONNECTOR_POLL_HPD,
-where the new code will WARN is DRM_CONNECTOR_POLL_HPD is not set.
-This seems like a bigger change than what is intended.
-
-> -
-> -		old_status = connector->status;
-> -
-> -		old_epoch_counter = connector->epoch_counter;
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n", connector->base.id,
-> -			      connector->name,
-> -			      old_epoch_counter);
-> -
-> -		connector->status = drm_helper_probe_detect(connector, NULL, false);
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      drm_get_connector_status_name(old_status),
-> -			      drm_get_connector_status_name(connector->status));
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      connector->epoch_counter);
-> -
-> -		/*
-> -		 * Check if epoch counter had changed, meaning that we need
-> -		 * to send a uevent.
-> -		 */
-> -		if (old_epoch_counter != connector->epoch_counter)
-> +		if (check_connector_changed(connector))
->  			changed = true;
-> -
->  	}
->  	drm_connector_list_iter_end(&conn_iter);
->  	mutex_unlock(&dev->mode_config.mutex);
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 8d3ed2834d34..04c57564c397 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -18,6 +18,7 @@ int drm_helper_probe_detect(struct drm_connector *connector,
->  void drm_kms_helper_poll_init(struct drm_device *dev);
->  void drm_kms_helper_poll_fini(struct drm_device *dev);
->  bool drm_helper_hpd_irq_event(struct drm_device *dev);
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector);
->  void drm_kms_helper_hotplug_event(struct drm_device *dev);
->  
->  void drm_kms_helper_poll_disable(struct drm_device *dev);
-> -- 
-> 2.31.1
-> 
