@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F61408C56
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 15:18:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8EA0408C63
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 15:18:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 24AD36EC9A;
-	Mon, 13 Sep 2021 13:17:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6E76EB17;
+	Mon, 13 Sep 2021 13:17:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8DE7A6E1A5;
- Mon, 13 Sep 2021 13:17:39 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id m9so14677068wrb.1;
- Mon, 13 Sep 2021 06:17:39 -0700 (PDT)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E15406E1B5;
+ Mon, 13 Sep 2021 13:17:40 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id q11so14636188wrr.9;
+ Mon, 13 Sep 2021 06:17:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=cqrPgfWJBnrlrJStbHT4p1XHhorqFS0NFap8w3SO71w=;
- b=dVp9YQTGSPQdK6XKvV0Dou4jqoLAYTi0I3Dt7ZW6manhGGTT0tHQyzVs19XZA6acv/
- W6T1Jkz2TC1YngzprtNG+UWiiozq8pALeSGRfsqvgk1rWOf4cQXdaJmu5omeDBtS2WOH
- vjBSbKel/plaBmCnJn+MGaC+9wHGEw39H2EEFlZYbk/QYJtB2iMzbP+xgDsACUyYMm+S
- klRFfyLN9G4QIN8AJnNpuB4rTJJ6I8lWXS1G8giLTUPc3N1axuOZDlHLB2WuHl7P3ov5
- VjLCxI5MGwU+AeC+tnYFKpGVxCtkgyOvfDTPWBP60ZsueKCoAlKjQUlxz3LCk62d675a
- Uwiw==
+ bh=3dTnv0wZDKxkTKIX7G+9uQukAnU514pBLlNXg29d5fI=;
+ b=Lgl8jFt56FEVABP4weWNvGk/OVvu10QCGLGUUofKJsRqFEbGhFfGR1qdVYJQvKSWWT
+ nTAjH5rflOIuPro5rPslw3CLOKtWa1ZNMLOiwwT9gOgnTACex5+PlP3KWDyCggFjje7A
+ Bbe+GMZq9MbwL2sQsiZTB8YcwWW9vBhWSCfSFK7X+12l3fYMDHuLKiZ++DMXsSrwkJr3
+ qCMqaZYpcHHEcPIz0HCpzA/RGM8yJhiXdXEObIKr/fyyiW9DMa3RfvteN8NRzyOQuSRP
+ ug8LiQq46fFt1Kk5caTZm+hLk8R1MVAVCXYVWzP0S7314Ra7SERyUcWGcRCJDm6mnZVM
+ c4/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cqrPgfWJBnrlrJStbHT4p1XHhorqFS0NFap8w3SO71w=;
- b=Ns2UI0tyxJi3UwhVg/KBQ006EI6amYLB2FwS2enqqbu/CKWC44LcLTAeHveD+J7H+m
- DDVX8CB2lkDQjxsQMiJaTkHy3bAIfu0UinG14uDpqy1Eg39yqCkVQsETRKJsJMiuxMaw
- ZwXna+KLlJjX+xG+2ZD7nwmXAhiTIyMCrbKs2hgc4nrSoucE+rlcCAXrhpVeAs1TdFq6
- c2+JgxK+B2M99QZfn6mHtXAbi5sFebuILHd72XRYYb3UGimyhpP/ZvbzWGzICK7TMuRe
- AjvdXB/FkJI3MK1fez4M3y9UfZLgxrYt6OTholXAt2buQxtxqys/OlTjcyRrGciyIgJo
- Fo5Q==
-X-Gm-Message-State: AOAM531wH8xNz4Eh85tXVBgV7O9JRDcbTC30sh822aCrbkLYEyBkP3eA
- 3MnwT/F+2pYeYErasdq45mc=
-X-Google-Smtp-Source: ABdhPJzR6Mgxb45Lu2WU1DaeNVT4R7szGLx4B2hlz5wyz1oQoklArO9DPkMc6QvaZrE8NwiXbnSE/Q==
-X-Received: by 2002:adf:9e0b:: with SMTP id u11mr12590484wre.85.1631539058200; 
- Mon, 13 Sep 2021 06:17:38 -0700 (PDT)
+ bh=3dTnv0wZDKxkTKIX7G+9uQukAnU514pBLlNXg29d5fI=;
+ b=wLKIx62GCPpCuFhzv7QV5+GyH/BoUjFLjlo/CQtxQi0E9lGGY2q98gh3SDoEoPYMN0
+ Q0tw+HrS4nCyFJP3Ttm1/EhMZEdSFo4iil6p0ZNao6VqodXI4NfWLr2MKH9TaNE8oYNw
+ aAqtReCrCSlpZYx7qhKTHFCavpdFwio2xRa2/Si0mwvgsdYWpfh2nuMVKmfsMcELcAcD
+ MzAkTYJgJ/wVc6NEE9gQMhQGg7qklj30sEanLsqYiIKLk/4IOnN2og5SbgCzLwNa4ppu
+ XWh6XkvUrfAyf9l4gm0cH+96T9ysuc9Yk65NoZd+EdD3RCdbDDYq7yeFCufIUeZBNSty
+ fogQ==
+X-Gm-Message-State: AOAM531ToEiAazrquSUnW7WMIe/252dMPXVTOysVCyrUv2aFWJ3oSUSN
+ p1+YfCNQdBcCJy0gyecd/SQ=
+X-Google-Smtp-Source: ABdhPJzDYlRjaCjqMmgzMr0ONYoy8hQKmWyShaF7QubY5uWmm6+5jeTpCRHXkCQI288FNs6ni5jddg==
+X-Received: by 2002:a5d:6292:: with SMTP id k18mr7102371wru.110.1631539059525; 
+ Mon, 13 Sep 2021 06:17:39 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- h18sm7602834wrb.33.2021.09.13.06.17.36
+ h18sm7602834wrb.33.2021.09.13.06.17.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 06:17:37 -0700 (PDT)
+ Mon, 13 Sep 2021 06:17:38 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,10 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org
 Cc: daniel@ffwll.ch,
 	intel-gfx@lists.freedesktop.org
-Subject: [PATCH 20/26] drm: use new iterator in
- drm_gem_fence_array_add_implicit
-Date: Mon, 13 Sep 2021 15:17:01 +0200
-Message-Id: <20210913131707.45639-21-christian.koenig@amd.com>
+Subject: [PATCH 21/26] drm: use new iterator in drm_gem_plane_helper_prepare_fb
+Date: Mon, 13 Sep 2021 15:17:02 +0200
+Message-Id: <20210913131707.45639-22-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210913131707.45639-1-christian.koenig@amd.com>
 References: <20210913131707.45639-1-christian.koenig@amd.com>
@@ -78,57 +77,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplifying the code a bit.
+Makes the handling a bit more complex, but avoids the use of
+dma_resv_get_excl_unlocked().
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_gem.c | 30 ++++++++----------------------
- 1 file changed, 8 insertions(+), 22 deletions(-)
+ drivers/gpu/drm/drm_gem_atomic_helper.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-index 09c820045859..6e3b8491be68 100644
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1340,31 +1340,17 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
- 				     struct drm_gem_object *obj,
- 				     bool write)
+diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
+index e570398abd78..9f51fef82644 100644
+--- a/drivers/gpu/drm/drm_gem_atomic_helper.c
++++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+@@ -143,6 +143,7 @@
+  */
+ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
  {
--	int ret;
--	struct dma_fence **fences;
--	unsigned int i, fence_count;
--
--	if (!write) {
--		struct dma_fence *fence =
--			dma_resv_get_excl_unlocked(obj->resv);
--
--		return drm_gem_fence_array_add(fence_array, fence);
--	}
--
--	ret = dma_resv_get_fences(obj->resv, NULL,
--						&fence_count, &fences);
--	if (ret || !fence_count)
--		return ret;
 +	struct dma_resv_cursor cursor;
-+	struct dma_fence *fence;
-+	int ret = 0;
+ 	struct drm_gem_object *obj;
+ 	struct dma_fence *fence;
  
--	for (i = 0; i < fence_count; i++) {
--		ret = drm_gem_fence_array_add(fence_array, fences[i]);
--		if (ret)
-+	dma_resv_for_each_fence_unlocked(obj->resv, &cursor, write, fence) {
-+		ret = drm_gem_fence_array_add(fence_array, fence);
-+		if (ret) {
-+			dma_fence_put(fence);
- 			break;
-+		}
- 	}
--
--	for (; i < fence_count; i++)
--		dma_fence_put(fences[i]);
--	kfree(fences);
- 	return ret;
+@@ -150,9 +151,13 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
+ 		return 0;
+ 
+ 	obj = drm_gem_fb_get_obj(state->fb, 0);
+-	fence = dma_resv_get_excl_unlocked(obj->resv);
+-	drm_atomic_set_fence_for_plane(state, fence);
++	dma_resv_for_each_fence_unlocked(obj->resv, &cursor, false, fence) {
++		/* TODO: We only use the first write fence here */
++		drm_atomic_set_fence_for_plane(state, fence);
++		return 0;
++	}
+ 
++	drm_atomic_set_fence_for_plane(state, NULL);
+ 	return 0;
  }
- EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+ EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
 -- 
 2.25.1
 
