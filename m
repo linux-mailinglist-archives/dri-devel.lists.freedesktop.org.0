@@ -1,146 +1,146 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808CA40A092
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 00:38:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D2F40A13B
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 01:06:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65ADE89F6D;
-	Mon, 13 Sep 2021 22:38:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D970889E9B;
+	Mon, 13 Sep 2021 23:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0BABB89F6D;
- Mon, 13 Sep 2021 22:38:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285504753"
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; 
- d="scan'208,217";a="285504753"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ABAFA89E9B;
+ Mon, 13 Sep 2021 23:06:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285510330"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="285510330"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 15:38:52 -0700
+ 13 Sep 2021 16:06:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; 
- d="scan'208,217";a="507576669"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga008.fm.intel.com with ESMTP; 13 Sep 2021 15:38:50 -0700
-Received: from fmsmsx601.amr.corp.intel.com (10.18.126.81) by
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="471750390"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by orsmga007.jf.intel.com with ESMTP; 13 Sep 2021 16:06:41 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 13 Sep 2021 16:06:40 -0700
+Received: from fmsmsx606.amr.corp.intel.com (10.18.126.86) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Mon, 13 Sep 2021 16:06:40 -0700
+Received: from fmsedg601.ED.cps.intel.com (10.1.192.135) by
  fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 13 Sep 2021 15:38:49 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Mon, 13 Sep 2021 15:38:49 -0700
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.176)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
+ 15.1.2242.12 via Frontend Transport; Mon, 13 Sep 2021 16:06:40 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
+ by edgegateway.intel.com (192.55.55.70) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Mon, 13 Sep 2021 15:38:49 -0700
+ 15.1.2242.12; Mon, 13 Sep 2021 16:06:39 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=m7wDMFeTVTI81isqFNZKEaF5LiYajvQEOiEgLgby6EYzrEVj2BLr9JwCse2oNg/xvnl3uiU2sLKzjxOsY9b8VjPCbxQWmZOIPbgDMgPzdyc0HpR2OggUOMwhdgF+CYtt8ht3A1tKF3GELlIOLkj8bT/cFyt0E92IvtalaZn/QtPjIxiv3f7/+9vzr4NXLPiYp3l64Tjqu4cLyBvuquNrSkAk3d9NsuS2F8fJB2Z1YyW31/tT8tZQYOJJlpXvLdUoZJO/mE9wF3Yev7m1Z1JoykWWfJvoKJeSAh7tpw0AXgtk61Fq3vC/CnT5hYBcppE52ShCEK+Gr7pDkN7DFpCoYw==
+ b=mAR/RNCPm0QhgnEdQTnsLZEqjOXcUqii/Fq8k94KapWjN7uyfW9fMb35y9+BNnYnxX9Nkm2IZD45gIwu+/iq9aIjPhcwGqlhj8O4XDuBpV8EP6UUCuDQuK+r8gIUDYdKxRmSr8pQzOMFT8WzvU0JXoJZ8anL867Q1lAab0RWLyU54YFSLCcgGcpY53dDwVcKPlD7qQg5U+lWhXj45GYWhbNYmpESvsuekrRhdI2yGHtfl8keQnbrYLWKIE4dyFbnc1VDRzYcfoieyU5i7gw1+8wGbZo0WopGrcWb/oRVtJZvlOPxDhMTbdYNiAbX1XCQMj6GS2rUfLMxUAfxbOSD9Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=iZG6OoYYWZNcSh5sN0PClRDvmPfuG+Z6MbaYQM8SQrw=;
- b=bqsHAbHDaA4Aqdda2KxCDI1+/1NxeuhQv1zerSmPXNadZMAdmZGjthixDItmipJI8O60Z/ipQnGgtM9Qf0j1WrX1Ily93q72jei8QSuR0rJTV2ItWJsmwYWsZ5yft3b5xZv1eHvKbzuVd2Ll4tw/oJXgeM7FUUqQq2HHjP9nfAvVqhuF2LrdkgYpAazG8CJw91zAu2jezF+RdfYY+LylXEF4VU4KyLsZ1h791sFjnHbxTi8Ta957RxXN54eaEOLmKcHysl+4YItxZ4Aus2vjLhJNbztLrDNzhzpUSxC3X+0Sg2Q1bTcUFurVo975x4IcO+GNPjB51t9Ld06VwuRjMw==
+ bh=8IFguXbJ+SRkWyvRSNpgodiQy5aQ1a5lkINRXZzKu+s=;
+ b=TbN1VXrj2COJcOZcRHexmRgN0LIbXTPmAhFYqiAuqj5JyrCeUIOHon2gO4+4uiU9DYJmXstmbw4L2iuc9e2F5ozCdlgO/kP0nTEwgjgSxeEZ6Cih41FhcyKClNikAFMvKijXvbZrFjH4XX2dnnPwGli4UC0GB2kKNulqnCaQ3c9nG1eiqA1mUMY5mBK1jsed9iCQHgzTtza7cyMpbz7k5LU6C8cjx/8pZCTiw0f3/U13TQklvMR8Wc1MnVt0mh/mrlVlwuBLaoUA6JyDHtwRfEKluMjaxRKpIrDrqRxXOeELGM7XEd2GmxcCcfth7e/w2qrLIRyvt4JlKuXJMtHdMg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iZG6OoYYWZNcSh5sN0PClRDvmPfuG+Z6MbaYQM8SQrw=;
- b=ii4CSZqEz/y9EZBkaRA3aCb4/8ekbcw2Q1x4u0NdCSCEheTjBhbsuPeeRiNFRyltFutijejOAyJ/kodEKTK912KJWSlZabvfFLYxujedVyJ56hSSlxtXE48wixQtsTj89u3cspo8QH7tySp51rgehnoYV3qMh5NViZtTi/PBJZ0=
+ bh=8IFguXbJ+SRkWyvRSNpgodiQy5aQ1a5lkINRXZzKu+s=;
+ b=A/ZPfqURGOF84K+vWDg9gwO9o4/1mnZXH0tGqOHJC3fEL9DbDW7iZDRYSO0BebWfyizm1uk86hk1/JOfAZPQvZIJv2Q/REdygar9/JdspB0YpQo/AHGwQr8t5vcQINJ4loj7UPcQ9C89PgaWQIErTFZHSgiPP8tsETVi92zRee8=
 Authentication-Results: intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
 Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
  by PH0PR11MB5628.namprd11.prod.outlook.com (2603:10b6:510:d4::22)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Mon, 13 Sep
- 2021 22:38:47 +0000
+ 2021 23:06:36 +0000
 Received: from PH0PR11MB5642.namprd11.prod.outlook.com
  ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
  ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4500.019; Mon, 13 Sep 2021
- 22:38:47 +0000
-Subject: Re: [Intel-gfx] [PATCH 07/27] drm/i915/guc: Don't call
- switch_to_kernel_context with GuC submission
-To: Matthew Brost <matthew.brost@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <daniel.vetter@ffwll.ch>, <tony.ye@intel.com>, <zhengguo.xu@intel.com>
+ 23:06:36 +0000
+Subject: Re: [Intel-gfx] [PATCH 09/27] drm/i915: Expose logical engine
+ instance to user
+To: Matthew Brost <matthew.brost@intel.com>,
+ <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
+CC: <daniel.vetter@ffwll.ch>, <tony.ye@intel.com>, <zhengguo.xu@intel.com>
 References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-8-matthew.brost@intel.com>
- <7b0f2535-a0f7-e423-d929-63f31febee14@intel.com>
- <20210913165430.GA8862@jons-linux-dev-box>
+ <20210820224446.30620-10-matthew.brost@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <5c023168-b32e-e6db-5b04-149a2aee1a10@intel.com>
-Date: Mon, 13 Sep 2021 15:38:44 -0700
+Message-ID: <7f3495e7-d66a-3254-3473-b25e4c757b5c@intel.com>
+Date: Mon, 13 Sep 2021 16:06:33 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.13.0
-In-Reply-To: <20210913165430.GA8862@jons-linux-dev-box>
-Content-Type: multipart/alternative;
- boundary="------------E30DC6B09D728B7155B1DE49"
+In-Reply-To: <20210820224446.30620-10-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-GB
-X-ClientProxiedBy: MW4PR03CA0194.namprd03.prod.outlook.com
- (2603:10b6:303:b8::19) To PH0PR11MB5642.namprd11.prod.outlook.com
+X-ClientProxiedBy: MWHPR22CA0011.namprd22.prod.outlook.com
+ (2603:10b6:300:ef::21) To PH0PR11MB5642.namprd11.prod.outlook.com
  (2603:10b6:510:e5::13)
 MIME-Version: 1.0
 Received: from [192.168.1.221] (73.157.192.58) by
- MW4PR03CA0194.namprd03.prod.outlook.com (2603:10b6:303:b8::19) with Microsoft
+ MWHPR22CA0011.namprd22.prod.outlook.com (2603:10b6:300:ef::21) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4500.16 via Frontend Transport; Mon, 13 Sep 2021 22:38:46 +0000
+ 15.20.4500.14 via Frontend Transport; Mon, 13 Sep 2021 23:06:35 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 88eb60a2-9432-4b7b-9bf6-08d977073fe5
+X-MS-Office365-Filtering-Correlation-Id: 4f404601-eec6-478d-a64a-08d9770b22ef
 X-MS-TrafficTypeDiagnostic: PH0PR11MB5628:
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5628910BFD465147BA33481BBDD99@PH0PR11MB5628.namprd11.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <PH0PR11MB5628136FB132AFE72D9F57FFBDD99@PH0PR11MB5628.namprd11.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lXNn+boOMESQD77R4mqBhZ8aW+Uo+ZpJIUMze9tmjtU95mG2vENlZGQ05cfobmOhLMKi3bVUDSKlIQ7GYX8NBzUWEupo3P69JEby7eA/xZNL9SXZJZeskwBHqMcnS4L/6Em8KloC4VDXOForl2bUk+0ueZrZiEnOH7t5Fuws/h9H1p4Cwbbz1Bgp4VpyuhOlKDuMEhNU0MiCevpWRL4uPyRjbVKa10rBNMOW5IWRd0T/LkfrsSCCulhEsIW1yKdF4b3zHhBYVoPJTdFZtdihrsILFhtVEaYX2cxV7GKmBhk53Oo6mKYP2uNkoKBF72Ih+vCTienwLyaiGDoR+Bw1YIrxDHcrrv1W9CgT0LjCl2fb8H34M0S6x/rbL8zq88DNIKiem55eySARNnRgW9MaPgY8m7CusMnKVHq5NV94J65+J/aR46UtgIgPPkEYzdhRiCgwnb/q3PV3zew1fP1WAGGw8dvdrZ0l+qVwTt/HE1dYo+I+Pxfnod860+ROgk2D7Dlo5FKNDHpeyfDH3XObYp+5dkDXe7gpeCSrYr9Y4IDS/nLG40FQIZzFhwHNWnr9BgX5LybIKFhhPSN8KLJ2QvnJj9dd5s4+TSjwRNrUH3pun7yglhCVP9Zhl33tjgDOK05UPVp41KXlb+rlWG8/tO44ivMLeV+j7ImYie7MPxqlZ38BB+1JlPfGxJ+tBpZeCMSH5OpytuzDHMbL2aaeR45vJomZiTsX7U4+qHGXuekCf7wRYSL4zsxe0RQjQ72K
+X-Microsoft-Antispam-Message-Info: ndb1gVcPgSZ8DO5VIK7Bi063KVNTAgyzvr6GHP3n48zfhUSdnueCn8ZBn9IucsjYIdJ/ZEBo/3xztkRDR5wHk/uatsDpH+/Nv+KPIph3y4e5a0/o5xJTssFcCVN9TsX10wWF9Mhyx/26Yu/YfQd1vMBt556fsVLktHed5dc/iwDUKrfUVxPOpcvhJvc89Z+Or6UCWEt/K/ywvtTFkP4vHjW/KfiCXZbgbSf9qjrq7jzkZax3j2qOT5wr1/+UNcL7jXrgrqNn57VoF6EzOevIIytVg4GJyvAgkgYk0usd/gD57rhqZUNN1+31WUl2qOA/msYoTOgA+9oSqL2jl9lV1w51EriCTg/D/SnteMBejvitS4XDS7pwoLSHrk6lXGqwZCiJ3IUJrYANEuazzWETWPBH8Q1vW6aTHOrXK1XDyCYW7PF8WEAtf13U8LRvsfnFZz2uaWLcfZiLGT77Mk/X8hkDVqODYWKd+AuPulQjjra/4YdKqr4b80gUfr8JrBKaOOXLfbJ1eTyiBS1L8Fi6AmNbcQOuqkuKyUyf3K13liWk0gSa0Vg4/oDgX+yWBKQWiyBOJhlX66vj/dcjBir5V0YSRU+ei7kWYGLg5stbp7S3NBK8stSNaAln5CXsalIKMyH5PBmxZiSFp0l19DOS2qWE2b9zTs5sydnRJ7LiZ8K42wC/d2qhYXtpCo/40IAmHUcIdVre0Vd4KdW1J9FtvOBk6o9r6GlYO9KYqt/rGwBiLllQL7rP3KgGY0a+zt7/
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(366004)(136003)(376002)(346002)(396003)(16576012)(6636002)(26005)(6862004)(53546011)(186003)(478600001)(66556008)(4326008)(956004)(2906002)(8936002)(66946007)(107886003)(316002)(66476007)(6486002)(8676002)(31696002)(31686004)(36756003)(33964004)(37006003)(38100700002)(2616005)(86362001)(5660300002)(83380400001)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(136003)(39860400002)(346002)(396003)(376002)(16576012)(26005)(53546011)(186003)(478600001)(966005)(4326008)(956004)(2906002)(8936002)(66946007)(107886003)(66556008)(316002)(66476007)(6486002)(8676002)(31696002)(31686004)(36756003)(38100700002)(2616005)(86362001)(5660300002)(83380400001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?V2tqZ1N1bzN4bmhyc3dUQ3E0bmlQZ3p6ekJqZ2s2VnVvelhaZ0hWTm9JTHpv?=
- =?utf-8?B?WEFoZ0gxdzBwSCt5bm8zWUFUZ2d4emxSeGJGbXZYNGVLbk4xUEpJQWM5U0xn?=
- =?utf-8?B?M2k2eDdyajBrWDI1ei95WUpxSUZrTlYxb0FHME51clNKOC9PYkFDa1VkVFFO?=
- =?utf-8?B?NDBkemRDUHhKVDJtR0NWb0oySHV0NVZiZ2MrTHBTTDdQSldMTnh0b21jRnY0?=
- =?utf-8?B?VVdQbjlmdXQvMmJEOEVsZHgweFB3ck9zbGxxa0dweS9CcmcrWDE2OS93cDA4?=
- =?utf-8?B?RmJXalZBRHhGVDYrd3JHMDBQYkNsOWwwZldGYm5FcmYrMzRUbzBXNC81aUxs?=
- =?utf-8?B?ck1TSUVISXRibSsySWdIbnlBMjd0OU9rSThHUnJFbEUwdHdOQk05bHdFUHY0?=
- =?utf-8?B?MS9OY0hob2tkVWhIL2UzWC9EOHVJZ0ZPcjN1Rmt0MjE4dU5pYkFid20wcW1O?=
- =?utf-8?B?RlpKYk5jczFSUHYyZHRjYzhxelVBcjZmbGtGQlZBL0x5eEpIREphOHA3Z2dI?=
- =?utf-8?B?WGtxZjgzdkduZ2FzNDZMSEYyeWwvb21ma2M1alIyczNYSmNsNTgzdXh5Z0xv?=
- =?utf-8?B?dkpzeGthWDFDc0E2YmhFaVREZUxlTHVvQmpWTUs4a2ttWitFNklTWC9kSUJI?=
- =?utf-8?B?UmFDUmRPdUdhYkJlWHdUeDArdlNWc3cvcnViWGhFV1RjaTNybWs0UUJtUjU0?=
- =?utf-8?B?andPVGlKZ05sa0FDS2V6L0FYUERZUzJkRkpVMXArSEkyN0kxUUVMVFN2SThh?=
- =?utf-8?B?bjM5OWFXcXhjMlQ4R3hyK2d0aTJUNHUyeHZNWmFOQXVNVUp2RWFmUk5nMVRa?=
- =?utf-8?B?cHNWT0dhbkw5UEo1czhHMkl6QWRVU2hvNmZFWWpvRW5XeFE4eTlHSENjb0lC?=
- =?utf-8?B?N0cySk9GM3dvNTJrTkM4aGdpNVpObDVtelI3Skx6MDNubm5aSkVEdDYrbHlp?=
- =?utf-8?B?WUpDdjdBTHcyYTM5TVpNUVVEaDRjbnJOQ1FyOTQrendjOGhMVnl0cURjb1k0?=
- =?utf-8?B?dGxSYkg0dEYwdUlPQzJUR1kyNWU2NDVhR0lyUFliSnM1MDRtU2tUbkZTRTNq?=
- =?utf-8?B?T3B6TE00SjBkSlZoVzNnenpwUFgzUHlzUDMwVVBrYklGK3A1Qi95RzB1WFhN?=
- =?utf-8?B?WFozK3Y1ZXdITmxnaUhCeHkxSzVQY1VVQ21QeEROUTBGamFWeGVybExsODZx?=
- =?utf-8?B?VlF1YmpFdFg1NmN6dURzKzQzL0lFSkk0Yzhvcmo5TGI4TElvbFNvdXVvL3Uz?=
- =?utf-8?B?dEhLS01mMU1zNDNsMmxyOFFtaWF4MXlKK0lNcU9iTWNzSjRBSkd2ZVdFQXo4?=
- =?utf-8?B?b1R1K0krVmdtam9xbURQUXlqc1R0d0hFbFltcXd4QmdxcTJ6dStiNWc4aUJS?=
- =?utf-8?B?TGd2Z3pLaENPeWxZbHdWWDh6OWlXcDUzK3dEOC91QVhKUHljeitIeC85RERk?=
- =?utf-8?B?cTlvenJIeFdtdi84aVM2VFNHU3dNU0dQV1puZCtFUllZTEUxQ3pvTTJEV1NU?=
- =?utf-8?B?d0U0NUlOZVlJdGlNMjh6TURDemlKY0p1cmI3dnQ2QXdxVDFGdTRITGcvWWxw?=
- =?utf-8?B?MGZuaHh1SXlzUVUvWGg3eW9XdlpxTXZPck8rTVZsUVF5NFJWeC91MGpLWWlu?=
- =?utf-8?B?WStDMlY3OW1VVlNGb2VkVmprS3d2aFhiL3FSNUpnNjd4dFY5ZEJGaVhybVFC?=
- =?utf-8?B?dGl6b1ZQTFJJdmRCcFEwaDhIUGdadGJHaUtpYnNXd0JJeDRpSWVXMllVR0x4?=
- =?utf-8?Q?BbhxCOHwMFhZuU9o7fOsEOAHRgHKWhGLUtvgpuZ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 88eb60a2-9432-4b7b-9bf6-08d977073fe5
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnJQSi9oZExma3lFRHNnanZIcmp3eVZteUU0NndZTFFaRzNNNzVYSjN2VkF1?=
+ =?utf-8?B?Vm85TXVWdTUwdWhJMk82cTBjK3RZL2RjcThvQmxPU3pVdTBoVFJkT0p3czRX?=
+ =?utf-8?B?aTJtNVJtZ1pBY1U4emFiMU8vUlliYTlZTG1oNmxBUHlHZmp1V2dTMVZxZGty?=
+ =?utf-8?B?ek0za2RpOU5GdC8yMGJyOGxpdzVYaGc1RFV6M3YxZXZuRm1aUElITXRMSU95?=
+ =?utf-8?B?OGc1WWc5RkdIS1NDYW1JOUlVamV2dng4MVdiL0J0ZnRDamFzaHNsQjZXQUkz?=
+ =?utf-8?B?ZzNlQ0hFekt1MERlcHlZNXVuYWliUlg0K3NSS25qSm4wUGNMeW5mWk1aWlFT?=
+ =?utf-8?B?Tk04MDFIendFTSs0OVo2Z2FnVWVPU1JZQ1pvNVpXQkNleWw2bFZMQm1vUFNJ?=
+ =?utf-8?B?RkdVMmxDTmtFSDJTdk5JMTRUSXFpbzVLTzVWRU1iMVZkSEM4R0p1bzJUMHh1?=
+ =?utf-8?B?bk41VU5WZytLTFlRSC9PNmhnSng1Q21KRHB5dnVUVVpyZVZXV1hmS3JBYXVE?=
+ =?utf-8?B?Sk5XUlRuMVpEV1BnRUlGZjhaYkNzREtTMXc1ejQzMGdOYkR6V3hRTzRsY0xU?=
+ =?utf-8?B?czhRREhsa0JjZXV2d1ptdkdBKzZpUGNmYzRkYWMrTXRFMDNpL3YyUHJ4L1dq?=
+ =?utf-8?B?S2Z2Q0ZyY2pXeGtGSmNuRmdFa2xZSlUvOTdpMG1yWHBJRUtOc1hzR09BYVVv?=
+ =?utf-8?B?bTlteVl2WFVJb0hlWU5TRnlpVFhRREIzTzZBcVNxeDZWQ0NQRUErRmZuODhY?=
+ =?utf-8?B?WGM1cks0MktRODAzNWRickhVTTU0clpISDZVWUxKbFFQUDE0WE54VkRkOEVw?=
+ =?utf-8?B?RzM1eVViY0RsNklsc1VPRTVBcExkQnI1OUYrdDNCUVVxWE1aaVZyTEtHcnRt?=
+ =?utf-8?B?NWw3a0xjM3VBSGcyQXlOOE5mN1JUNVMxWjRrWkVUSmZRV3BQdUxOVHhPclVC?=
+ =?utf-8?B?aFB0OWFMcTJBUUZkVlNEQVhjNjhyUXdWeUh4ZzhjZDJ4ODJ4UG83eklzUkkv?=
+ =?utf-8?B?T0Y3VHRuYXBoUXFScGZzREFqMXpMN1ZWaXgrdlpFQ0FHdkY3VDk0SUh4R0dv?=
+ =?utf-8?B?ZmFRbXB1d05wQkdXaS81dkk3Tm0wOVdPVVNPTDQwVFVkdkhlcUNCVnI2cW5R?=
+ =?utf-8?B?TVcwUjltYXRPb2E5VzRyYnFpOXgvRzhCUXBBQkxUUkNxOEpObUhEY0EwTWdZ?=
+ =?utf-8?B?R1ZkL0E4dFAwa3dtK3hPWkltazE5TlVKNy9UWTdyR0p6b1llQjY4RExUSVVZ?=
+ =?utf-8?B?c1BwWkpKMWhsSWI3bHgyQWR4NTlvRzltSUhJYnZFa0VWTm5EbU55Y3M5OTBu?=
+ =?utf-8?B?eFNEWVh3YW9pdTMwVUcrNXp1NW12TnVFS3ZYcjVMQkFRMWF2d3FwNDlBVXNV?=
+ =?utf-8?B?emNkUTRrWFQ0VFEvM1lhVE9vc1VNbjd0RkdScnR3WDdLNEtkekVTamtkZ2Np?=
+ =?utf-8?B?LzlMMVp6Snd5ZENlM2ZEcjNNMXVnbldsNlFDcElGVHZJWXplNnB6VXl0YVF5?=
+ =?utf-8?B?eXNyMXhxMVl4ZnB4U3NBUFVWcStPeCszYUtIVHFlVDRsUDk5QXhrbWkvYzRL?=
+ =?utf-8?B?akhJdVd4OGtsd0N3ZnFsa2MzcGtIelZocndmUVJjYnhzRDBUalNUSGF4R2pw?=
+ =?utf-8?B?NmcvbkF3MW0ySUJZd3B0VEtKTkU1dHRKR2VtSCtpZnQ5VmNxNWxWVEpmWnpL?=
+ =?utf-8?B?M2pldnIvbUVVV043UWdlQzZyNkd4djZ6eUNxbGRwem1FL2RuNWN0Wk1Fd25a?=
+ =?utf-8?Q?JjLA+uc/qw5+YpwOIk+NG/nT+p3ui5lxM63S2Qb?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f404601-eec6-478d-a64a-08d9770b22ef
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2021 22:38:47.1468 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Sep 2021 23:06:36.5416 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v1nJ7OwNyNJjt2gjDElopL89ZxqB+vujmsq5og+dd1HoBil6jrOZ2J+hBvp4OFYCxMcUf2xJpvjaJ8rVl5iaiwvMxo0683BFudMLxFb8m0I=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ekj0an4Tc/KB6mPpY0CXKIFrgsE6O6gjo0BjtY7zEHjEj3vBB/LCZxXnh9VKq86TghuhcNOTdfUYuJzLokst8K0ksWXPaXkbtTn404R+tMU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5628
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -158,213 +158,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---------------E30DC6B09D728B7155B1DE49
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 9/13/2021 09:54, Matthew Brost wrote:
-> On Thu, Sep 09, 2021 at 03:51:27PM -0700, John Harrison wrote:
->> On 8/20/2021 15:44, Matthew Brost wrote:
->>> Calling switch_to_kernel_context isn't needed if the engine PM reference
->>> is taken while all contexts are pinned. By not calling
->>> switch_to_kernel_context we save on issuing a request to the engine.
->> I thought the intention of the switch_to_kernel was to ensure that the GPU
->> is not touching any user context and is basically idle. That is not a valid
->> assumption with an external scheduler such as GuC. So why is the description
->> above only mentioning PM references? What is the connection between the PM
->> ref and the switch_to_kernel?
->>
->> Also, the comment in the code does not mention anything about PM references,
->> it just says 'not necessary with GuC' but no explanation at all.
->>
-> Yea, this need to be explained better. How about this?
+On 8/20/2021 15:44, Matthew Brost wrote:
+> Expose logical engine instance to user via query engine info IOCTL. This
+> is required for split-frame workloads as these needs to be placed on
+> engines in a logically contiguous order. The logical mapping can change
+> based on fusing. Rather than having user have knowledge of the fusing we
+> simply just expose the logical mapping with the existing query engine
+> info IOCTL.
 >
-> Calling switch_to_kernel_context isn't needed if the engine PM reference
-> is take while all user contexts have scheduling enabled. Once scheduling
-> is disabled on all user contexts the GuC is guaranteed to not touch any
-> user context state which is effectively the same pointing to a kernel
-> context.
+> IGT: https://patchwork.freedesktop.org/patch/445637/?series=92854&rev=1
+> media UMD: link coming soon
 >
-> Matt
-I'm still not seeing how the PM reference is involved?
-
-Also, IMHO the focus is wrong in the above text. The fundamental 
-requirement is the ensure the hardware is idle. Execlist achieves this 
-by switching to a safe context. GuC achieves it by disabling scheduling. 
-Indeed, switching to a 'safe' context really has no effect with GuC 
-submission. So 'effectively the same as pointing to a kernel context' is 
-an incorrect description. I would go with something like:
-
-    "This is execlist specific behaviour intended to ensure the GPU is
-    idle by switching to a known 'safe' context. With GuC submission,
-    the same idle guarantee is achieved by other means (disabling
-    scheduling). Further, switching to a 'safe' context has no effect
-    with GuC submission as the scheduler can just switch back again.
-    FIXME: Move this backend scheduler specific behaviour into the
-    scheduler backend."
-
-
-John.
-
-
+> v2:
+>   (Daniel Vetter)
+>    - Add IGT link, placeholder for media UMD
 >
->>> v2:
->>>    (Daniel Vetter)
->>>     - Add FIXME comment about pushing switch_to_kernel_context to backend
->>>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->>> ---
->>>    drivers/gpu/drm/i915/gt/intel_engine_pm.c | 9 +++++++++
->>>    1 file changed, 9 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>> index 1f07ac4e0672..11fee66daf60 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
->>> @@ -162,6 +162,15 @@ static bool switch_to_kernel_context(struct intel_engine_cs *engine)
->>>    	unsigned long flags;
->>>    	bool result = true;
->>> +	/*
->>> +	 * No need to switch_to_kernel_context if GuC submission
->>> +	 *
->>> +	 * FIXME: This execlists specific backend behavior in generic code, this
->> "This execlists" -> "This is execlist"
->>
->> "this should be" -> "it should be"
->>
->> John.
->>
->>> +	 * should be pushed to the backend.
->>> +	 */
->>> +	if (intel_engine_uses_guc(engine))
->>> +		return true;
->>> +
->>>    	/* GPU is pointing to the void, as good as in the kernel context. */
->>>    	if (intel_gt_is_wedged(engine->gt))
->>>    		return true;
+> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> ---
+>   drivers/gpu/drm/i915/i915_query.c | 2 ++
+>   include/uapi/drm/i915_drm.h       | 8 +++++++-
+>   2 files changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> index e49da36c62fb..8a72923fbdba 100644
+> --- a/drivers/gpu/drm/i915/i915_query.c
+> +++ b/drivers/gpu/drm/i915/i915_query.c
+> @@ -124,7 +124,9 @@ query_engine_info(struct drm_i915_private *i915,
+>   	for_each_uabi_engine(engine, i915) {
+>   		info.engine.engine_class = engine->uabi_class;
+>   		info.engine.engine_instance = engine->uabi_instance;
+> +		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
+>   		info.capabilities = engine->uabi_capabilities;
+> +		info.logical_instance = ilog2(engine->logical_mask);
+>   
+>   		if (copy_to_user(info_ptr, &info, sizeof(info)))
+>   			return -EFAULT;
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index bde5860b3686..b1248a67b4f8 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -2726,14 +2726,20 @@ struct drm_i915_engine_info {
+>   
+>   	/** @flags: Engine flags. */
+>   	__u64 flags;
+> +#define I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE		(1 << 0)
+>   
+>   	/** @capabilities: Capabilities of this engine. */
+>   	__u64 capabilities;
+>   #define I915_VIDEO_CLASS_CAPABILITY_HEVC		(1 << 0)
+>   #define I915_VIDEO_AND_ENHANCE_CLASS_CAPABILITY_SFC	(1 << 1)
+>   
+> +	/** @logical_instance: Logical instance of engine */
+> +	__u16 logical_instance;
+> +
+>   	/** @rsvd1: Reserved fields. */
+> -	__u64 rsvd1[4];
+> +	__u16 rsvd1[3];
+> +	/** @rsvd2: Reserved fields. */
+> +	__u64 rsvd2[3];
+>   };
+>   
+>   /**
+Any idea why the padding? Would be useful if the comment said 'this 
+structure must be at least/exactly X bytes in size / a multiple of X 
+bytes in size because ...' or whatever.
 
+However, not really anything to do with this patch as such, so either way:
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
---------------E30DC6B09D728B7155B1DE49
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    On 9/13/2021 09:54, Matthew Brost wrote:<br>
-    <blockquote type="cite" cite="mid:20210913165430.GA8862@jons-linux-dev-box">
-      <pre class="moz-quote-pre" wrap="">On Thu, Sep 09, 2021 at 03:51:27PM -0700, John Harrison wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">On 8/20/2021 15:44, Matthew Brost wrote:
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">Calling switch_to_kernel_context isn't needed if the engine PM reference
-is taken while all contexts are pinned. By not calling
-switch_to_kernel_context we save on issuing a request to the engine.
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">I thought the intention of the switch_to_kernel was to ensure that the GPU
-is not touching any user context and is basically idle. That is not a valid
-assumption with an external scheduler such as GuC. So why is the description
-above only mentioning PM references? What is the connection between the PM
-ref and the switch_to_kernel?
-
-Also, the comment in the code does not mention anything about PM references,
-it just says 'not necessary with GuC' but no explanation at all.
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Yea, this need to be explained better. How about this?
-
-Calling switch_to_kernel_context isn't needed if the engine PM reference
-is take while all user contexts have scheduling enabled. Once scheduling
-is disabled on all user contexts the GuC is guaranteed to not touch any
-user context state which is effectively the same pointing to a kernel
-context.
-
-Matt</pre>
-    </blockquote>
-    I'm still not seeing how the PM reference is involved?<br>
-    <br>
-    Also, IMHO the focus is wrong in the above text. The fundamental
-    requirement is the ensure the hardware is idle. Execlist achieves
-    this by switching to a safe context. GuC achieves it by disabling
-    scheduling. Indeed, switching to a 'safe' context really has no
-    effect with GuC submission. So 'effectively the same as pointing to
-    a kernel context' is an incorrect description. I would go with
-    something like:<br>
-    <blockquote>&quot;This is execlist specific behaviour intended to ensure
-      the GPU is idle by switching to a known 'safe' context. With GuC
-      submission, the same idle guarantee is achieved by other means
-      (disabling scheduling). Further, switching to a 'safe' context has
-      no effect with GuC submission as the scheduler can just switch
-      back again.<br>
-      FIXME: Move this backend scheduler specific behaviour into the
-      scheduler backend.&quot;<br>
-    </blockquote>
-    <br>
-    John.<br>
-    <br>
-    <br>
-    <blockquote type="cite" cite="mid:20210913165430.GA8862@jons-linux-dev-box">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">v2:
-  (Daniel Vetter)
-   - Add FIXME comment about pushing switch_to_kernel_context to backend
-
-Signed-off-by: Matthew Brost <a class="moz-txt-link-rfc2396E" href="mailto:matthew.brost@intel.com">&lt;matthew.brost@intel.com&gt;</a>
-Reviewed-by: Daniel Vetter <a class="moz-txt-link-rfc2396E" href="mailto:daniel.vetter@ffwll.ch">&lt;daniel.vetter@ffwll.ch&gt;</a>
----
-  drivers/gpu/drm/i915/gt/intel_engine_pm.c | 9 +++++++++
-  1 file changed, 9 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.c b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-index 1f07ac4e0672..11fee66daf60 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.c
-@@ -162,6 +162,15 @@ static bool switch_to_kernel_context(struct intel_engine_cs *engine)
-  	unsigned long flags;
-  	bool result = true;
-+	/*
-+	 * No need to switch_to_kernel_context if GuC submission
-+	 *
-+	 * FIXME: This execlists specific backend behavior in generic code, this
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">&quot;This execlists&quot; -&gt; &quot;This is execlist&quot;
-
-&quot;this should be&quot; -&gt; &quot;it should be&quot;
-
-John.
-
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">+	 * should be pushed to the backend.
-+	 */
-+	if (intel_engine_uses_guc(engine))
-+		return true;
-+
-  	/* GPU is pointing to the void, as good as in the kernel context. */
-  	if (intel_gt_is_wedged(engine-&gt;gt))
-  		return true;
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-      </blockquote>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------E30DC6B09D728B7155B1DE49--
