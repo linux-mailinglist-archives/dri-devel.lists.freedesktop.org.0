@@ -1,41 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D26B240A1B5
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 01:48:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C366840A1B4
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 01:48:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F15E6E2C8;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83CDF6E2D5;
 	Mon, 13 Sep 2021 23:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80A466E2C8
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE0FF6E2D5
  for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 23:48:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285516268"
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="285516268"
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285516270"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="285516270"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 16:48:38 -0700
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="543534418"
+ 13 Sep 2021 16:48:39 -0700
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="543534421"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Sep 2021 16:48:38 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
 To: dri-devel@lists.freedesktop.org
-Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Simon Ser <contact@emersion.fr>,
- =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
- Tina Zhang <tina.zhang@intel.com>, Dongwon Kim <dongwon.kim@intel.com>,
- Satyeshwar Singh <satyeshwar.singh@intel.com>
-Subject: [RFC v1 0/6] drm: Add support for DRM_CAP_RELEASE_FENCE capability
-Date: Mon, 13 Sep 2021 16:35:23 -0700
-Message-Id: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [RFC v1 1/6] drm/atomic: Move out_fence creation/setup into a
+ separate function
+Date: Mon, 13 Sep 2021 16:35:24 -0700
+Message-Id: <20210913233529.3194401-2-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
+References: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,94 +48,98 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The main idea behind DRM_CAP_RELEASE_FENCE is to add an additional
-signaling mechanism for a pageflip completion in addition to out_fence
-or DRM_EVENT_FLIP_COMPLETE event. This allows a compositor to start
-a new repaint cycle with a new buffer instead of waiting for the
-old buffer to be free. 
+This is needed to leverage the out_fence machinery for similar but
+additional singalling mechanisms.
 
-Why?
-So, an atomic pageflip completion indicates two things to a compositor:
-- that it can repaint again and
-- that the old fb is free and can be reused (that was submitted in
-  the previous repaint cycle)
+Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+---
+ drivers/gpu/drm/drm_atomic_uapi.c | 57 ++++++++++++++++++++-----------
+ 1 file changed, 37 insertions(+), 20 deletions(-)
 
-Essentially, DRM_CAP_RELEASE_FENCE is about separating out the above
-two assumptions. DRM_EVENT_FLIP_COMPLETE event or out_fence would 
-serve as a signal to repaint and newly added release_fence would 
-provide a way to determine when old fbs can be re-used again. 
-
-This separation is really needed when the fb(s) associated with a
-pageflip are shared outside of the OS -- which is indeed the 
-case with Virtio-gpu, a Virtual KMS driver. The Virtio-gpu driver
-runs in a Virtual Machine and can share the fb with the Host -- 
-via Wayland UI -- in a zero-copy way. And, in this particular
-environment where the Host and Guest/VM are running Wayland based
-compositors, it would be desirable to have the Guest compositor's
-scanout fb be placed directly on a hardware plane on the Host --
-to improve performance when there are multiple Guests running.
-To ensure 60 FPS and to prevent Guest and Host compositors from
-using an fb at the same time, the signaling of Guest's release_fence
-is tied to Host's wl_buffer_release event and DRM_EVENT_FLIP_COMPLETE/
-out_fence signaling is tied to Host compositor's frame callback event.
-
-Implementation:
-Since release_fence is almost identical to out_fence, it is implemented
-by making use of the existing out_fence machinery. And, although, the
-drm core creates the release_fence, the Virtio-gpu driver takes care
-of signaling it when it gets notified by the Host that the fb is free.
-
-This work is based on the idea/suggestion from Simon and Pekka.
-
-And, this patch series provides a solution for this Weston issue:
-https://gitlab.freedesktop.org/wayland/weston/-/issues/514
-
-Tested with:
-Weston MR:
-https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/668
-and
-Qemu patches:
-https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg03463.html
-
-Earlier version/discussion of this patch series can be found at:
-https://lists.freedesktop.org/archives/dri-devel/2021-July/317672.html
-
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: Michel Dänzer <michel@daenzer.net>
-Cc: Tina Zhang <tina.zhang@intel.com>
-Cc: Dongwon Kim <dongwon.kim@intel.com>
-Cc: Satyeshwar Singh <satyeshwar.singh@intel.com>
-
-Vivek Kasireddy (6):
-  drm/atomic: Move out_fence creation/setup into a separate function
-  drm/atomic: Add support for release_fence and its associated property
-  drm: Add a capability flag to support additional flip completion
-    signalling
-  drm/virtio: Probe and implement VIRTIO_GPU_F_RELEASE_FENCE feature
-  drm/virtio: Prepare set_scanout_blob to accept a fence
-  drm/virtio: Add a fence to set_scanout_blob
-
- drivers/gpu/drm/drm_atomic_uapi.c        | 100 ++++++++++++++++++-----
- drivers/gpu/drm/drm_crtc.c               |   2 +
- drivers/gpu/drm/drm_ioctl.c              |   3 +
- drivers/gpu/drm/drm_mode_config.c        |   6 ++
- drivers/gpu/drm/virtio/virtgpu_debugfs.c |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     |   1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     |   5 +-
- drivers/gpu/drm/virtio/virtgpu_fence.c   |   9 ++
- drivers/gpu/drm/virtio/virtgpu_kms.c     |   9 +-
- drivers/gpu/drm/virtio/virtgpu_plane.c   |  63 ++++++++++++--
- drivers/gpu/drm/virtio/virtgpu_vq.c      |   7 +-
- include/drm/drm_atomic.h                 |   1 +
- include/drm/drm_file.h                   |   9 ++
- include/drm/drm_mode_config.h            |  15 ++++
- include/uapi/drm/drm.h                   |   1 +
- include/uapi/linux/virtio_gpu.h          |   2 +
- 16 files changed, 200 insertions(+), 34 deletions(-)
-
+diff --git a/drivers/gpu/drm/drm_atomic_uapi.c b/drivers/gpu/drm/drm_atomic_uapi.c
+index 909f31833181..6436677fa2f8 100644
+--- a/drivers/gpu/drm/drm_atomic_uapi.c
++++ b/drivers/gpu/drm/drm_atomic_uapi.c
+@@ -1135,6 +1135,38 @@ static int setup_out_fence(struct drm_out_fence_state *fence_state,
+ 	return 0;
+ }
+ 
++static struct dma_fence *crtc_create_out_fence(struct drm_crtc *crtc,
++				struct drm_out_fence_state **fence_state,
++				s32 __user *fence_ptr,
++				unsigned int *num_fences)
++{
++	struct dma_fence *fence;
++	struct drm_out_fence_state *f;
++	int ret;
++
++	f = krealloc(*fence_state, sizeof(**fence_state) *
++		     (*num_fences + 1), GFP_KERNEL);
++	if (!f)
++		return ERR_PTR(-ENOMEM);
++
++	memset(&f[*num_fences], 0, sizeof(*f));
++
++	f[*num_fences].out_fence_ptr = fence_ptr;
++	*fence_state = f;
++
++	fence = drm_crtc_create_fence(crtc);
++	if (!fence)
++		return ERR_PTR(-ENOMEM);
++
++	ret = setup_out_fence(&f[(*num_fences)++], fence);
++	if (ret) {
++		dma_fence_put(fence);
++		return ERR_PTR(ret);
++	}
++
++	return fence;
++}
++
+ static int prepare_signaling(struct drm_device *dev,
+ 				  struct drm_atomic_state *state,
+ 				  struct drm_mode_atomic *arg,
+@@ -1152,6 +1184,7 @@ static int prepare_signaling(struct drm_device *dev,
+ 		return 0;
+ 
+ 	for_each_new_crtc_in_state(state, crtc, crtc_state, i) {
++		struct dma_fence *fence;
+ 		s32 __user *fence_ptr;
+ 
+ 		fence_ptr = get_out_fence_for_crtc(crtc_state->state, crtc);
+@@ -1182,28 +1215,12 @@ static int prepare_signaling(struct drm_device *dev,
+ 		}
+ 
+ 		if (fence_ptr) {
+-			struct dma_fence *fence;
+-			struct drm_out_fence_state *f;
+-
+-			f = krealloc(*fence_state, sizeof(**fence_state) *
+-				     (*num_fences + 1), GFP_KERNEL);
+-			if (!f)
+-				return -ENOMEM;
+-
+-			memset(&f[*num_fences], 0, sizeof(*f));
++			fence = crtc_create_out_fence(crtc, fence_state,
++						      fence_ptr, num_fences);
++			if (IS_ERR(fence))
++				return PTR_ERR(fence);
+ 
+-			f[*num_fences].out_fence_ptr = fence_ptr;
+-			*fence_state = f;
+ 
+-			fence = drm_crtc_create_fence(crtc);
+-			if (!fence)
+-				return -ENOMEM;
+-
+-			ret = setup_out_fence(&f[(*num_fences)++], fence);
+-			if (ret) {
+-				dma_fence_put(fence);
+-				return ret;
+-			}
+ 
+ 			crtc_state->event->base.fence = fence;
+ 		}
 -- 
 2.30.2
 
