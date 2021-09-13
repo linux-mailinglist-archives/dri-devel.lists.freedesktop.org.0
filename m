@@ -1,92 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1277240890D
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 12:34:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB16040890F
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 12:34:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 029B76E150;
-	Mon, 13 Sep 2021 10:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F24136E15A;
+	Mon, 13 Sep 2021 10:34:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22DBB6E150
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 10:33:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631529232;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WmccRh4NFFHd/GLsqDlsJId99Nc/0CkvaEVlagcImLE=;
- b=LjcyirKl7htrDS31522b7IkYWssJKkgdBvi31lewzexYC+Kb4YziiR444vy5tM+jAFwXzh
- vFLTH29BlU8VgNb4xGBhiJl5wgclbWfKxw00U8/DZNx6qEPMjyQOXqdKVWEj6DKuLj13JF
- JtNh6okqcOyJY0QA++g/InT3WMEaguI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-e3o3uo-9MWu8ncNqFOdONQ-1; Mon, 13 Sep 2021 06:33:49 -0400
-X-MC-Unique: e3o3uo-9MWu8ncNqFOdONQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- f10-20020a170906390a00b005eeb8ca19f7so1902275eje.7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 03:33:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=WmccRh4NFFHd/GLsqDlsJId99Nc/0CkvaEVlagcImLE=;
- b=RK6WuXqCabB66HiFQ4eT+N8lrkkqjY+YV3Aip1CWB2yH0p60Ws9Payfst6krbL8ef7
- u2tm8vvaloO1SuOzXxcQPSN8rV2IicsqiEa1XDF0RitFrkROg4tnMT6T6uG4BQbW/WYj
- 3z+wgXgBBWX1d0TCxieNiG0Gs4tdWb+DDW3kIkd5WxAtoZmdKAfniiUHRT/TiULfIEb6
- Wjlg2VCptrA9iboKLbT08Y/HloMVyezg9E+i1wEhCLUxY3yAyWhvwrjPHs8kbXc9Z4XX
- ox+7HDBrjslpN9wHi7kqAzRx4B5mH8DVicp4rgRvtKzmZW97bZO8YVRemTPQRGbJ1YUI
- 2aXA==
-X-Gm-Message-State: AOAM53385oGCBK7L1z8xPHh/lY0k+B7jDL0K6W/n7iDZd97v7OVFt237
- nR7qmuQ1QjREV95sfROHEjxjihYhFjJthMtfSbbKtrpW7Gzuz98yKtkqy1+nStshiDfsq2jTdhI
- 0H5cbcP4AlQbUzb8oDepuGbZHCM7V
-X-Received: by 2002:a05:6402:40e:: with SMTP id
- q14mr10383610edv.11.1631529227598; 
- Mon, 13 Sep 2021 03:33:47 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzAkGIUyY457cbpjejmUdefwTgXeIoIb67nfCUewmNi8VAMWd7WVbLzYn8kSdDFUlkBMiX9EQ==
-X-Received: by 2002:a05:6402:40e:: with SMTP id
- q14mr10383594edv.11.1631529227339; 
- Mon, 13 Sep 2021 03:33:47 -0700 (PDT)
-Received: from x1.localdomain ([81.30.35.201])
- by smtp.gmail.com with ESMTPSA id i26sm3661682edt.62.2021.09.13.03.33.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 03:33:46 -0700 (PDT)
-Subject: Re: [GIT PULL] drm-misc + drm-intel: Add support for out-of-band
- hotplug notification
-To: "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
- "maxime@cerno.tech" <maxime@cerno.tech>
-Cc: "tzimmermann@suse.de" <tzimmermann@suse.de>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
- "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>
-References: <34f13e21-9b1a-5f54-7e03-9705a6b51428@redhat.com>
- <871r6jgrin.fsf@intel.com> <15400f71-dfe6-3142-d191-596ef9af7e7a@redhat.com>
- <b24d3733d0b0c79fa6fce4f4e696b0c3a338469a.camel@intel.com>
- <20210826082357.xttccb5thrv2eo2e@gilmour>
- <aee6d8d5cad5cb989208a6e5533c59c7828ec69b.camel@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <3d490f59-5a1e-da51-6086-5bb947e0c1fd@redhat.com>
-Date: Mon, 13 Sep 2021 12:33:46 +0200
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2E196E157;
+ Mon, 13 Sep 2021 10:34:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10105"; a="218451961"
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="218451961"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 03:33:50 -0700
+X-IronPort-AV: E=Sophos;i="5.85,288,1624345200"; d="scan'208";a="469154818"
+Received: from dennis-mobl.ger.corp.intel.com (HELO [10.213.217.72])
+ ([10.213.217.72])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 03:33:48 -0700
+Subject: Re: [Intel-gfx] [PATCH 05/27] drm/i915: Add GT PM unpark worker
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-6-matthew.brost@intel.com>
+ <7073241c-2520-d8e2-2afe-cdc9faefda55@linux.intel.com>
+ <20210910200938.GA24255@jons-linux-dev-box>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <2b6daf2f-c20c-cc2d-c4fe-a705931fa82b@linux.intel.com>
+Date: Mon, 13 Sep 2021 11:33:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <aee6d8d5cad5cb989208a6e5533c59c7828ec69b.camel@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210910200938.GA24255@jons-linux-dev-box>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -102,95 +56,433 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On 8/26/21 1:43 PM, Vivi, Rodrigo wrote:
-> On Thu, 2021-08-26 at 10:23 +0200, Maxime Ripard wrote:
->> On Wed, Aug 25, 2021 at 04:03:43PM +0000, Vivi, Rodrigo wrote:
->>> On Tue, 2021-08-24 at 18:48 +0200, Hans de Goede wrote:
->>>> Hi,
->>>>
->>>> On 8/24/21 10:45 AM, Jani Nikula wrote:
->>>>> On Fri, 20 Aug 2021, Hans de Goede <hdegoede@redhat.com> wrote:
->>>>>> Hello drm-misc and drm-intel maintainers,
->>>>>>
->>>>>> My "Add support for out-of-band hotplug notification"
->>>>>> patchset:
->>>>>> https://patchwork.freedesktop.org/series/93763/
->>>>>>
->>>>>> Is ready for merging now, as discussed on IRC I based this
->>>>>> series
->>>>>> on top drm-tip and when trying to apply the i915 parts on top
->>>>>> of drm-misc this fails due to conflict.
->>>>>>
->>>>>> So as Jani suggested here is a pull-req for a topic-branch
->>>>>> with
->>>>>> the
->>>>>> entire set, minus the troublesome i915 bits. Once this has
->>>>>> been
->>>>>> merged
->>>>>> into both drm-misc-next and drm-intel-next I can push the 2
->>>>>> i915
->>>>>> patch do drm-intel-next on top of the merge.
->>>>>>
->>>>>> Note there are also 2 drivers/usb/typec patches in here these
->>>>>> have Greg KH's Reviewed-by for merging through the drm tree,
->>>>>> Since this USB code does not change all that much. I also
->>>>>> checked
->>>>>> and the drm-misc-next-2021-08-12 base of this tree contains
->>>>>> the
->>>>>> same last commit to the modified file as usb-next.
->>>>>>
->>>>>> Daniel Vetter mentioned on IRC that it might be better for
->>>>>> you to
->>>>>> simply
->>>>>> pick-up the series directly from patchwork, that is fine too
->>>>>> in
->>>>>> that
->>>>>> case don't forget to add:
->>>>>>
->>>>>> Reviewed-by: Lyude Paul <lyude@redhat.com>
->>>>>>
->>>>>> To the entire series (given in a reply to the cover-letter)
->>>>>>
->>>>>> And:
->>>>>>
->>>>>> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->>>>>>
->>>>>> To the usb/typec patches (patch 7/8), this was given in reply
->>>>>> to a previous posting of the series and I forgot to add this
->>>>>> in the resend.
->>>>>
->>>>> Since this is mostly touching drm core, I think it should be
->>>>> merged
->>>>> to
->>>>> drm-misc-next first, and drm-intel-next after. Please let us
->>>>> know.
->>>>
->>>> I agree this should go to drm-misc-next first.
->>>>
->>>> (I was planning on pushing this to drm-misc-next myself,
->>>> but then ended up going with the topic branch because of the
->>>> conflict in the i915 bits.)
->>>
->>> Just to be clear and avoid confusion: This pull request does apply
->>> cleanly on drm-misc-next nd drm-intel-next right now.
->>>
->>> I'm just waiting for drm-misc-next maintainers to pull this to drm-
->>> misc-next so I can pull it to drm-intel-next.
->>>
->>> Maxime, is that your round now?
->>> or Thomas?
+On 10/09/2021 21:09, Matthew Brost wrote:
+> On Fri, Sep 10, 2021 at 09:36:17AM +0100, Tvrtko Ursulin wrote:
 >>
->> That's me, I just pushed it to drm-misc-next
+>> On 20/08/2021 23:44, Matthew Brost wrote:
+>>> Sometimes it is desirable to queue work up for later if the GT PM isn't
+>>> held and run that work on next GT PM unpark.
+>>
+>> Sounds maybe plausible, but it depends how much work can happen on unpark
+>> and whether it can have too much of a negative impact on latency for
+>> interactive loads? Or from a reverse angle, why the work wouldn't be done on
 > 
-> Thank you!
-> I also pushed to drm-intel-next.
+> All it is does is add an interface to kick a work queue on unpark. i.e.
+> All the actually work is done async in the work queue so it shouldn't
+> add any latency.
+> 
+>> parking?
+>>
+>> Also what kind of mechanism for dealing with too much stuff being put on
+>> this list you have? Can there be pressure which triggers (or would need to
+> 
+> No limits on pressure. See above, I don't think this is a concern.
 
-Thanks, I pushed the remaining 2 i915 patches depending on this
-to drm-intel-next last week (but I forgot to reply to this email then).
+On unpark it has the potential to send an unbound amount of actions for 
+the GuC to process. Which will be competing, in GuC internal processing 
+power, with the user action which caused the unpark. That logically does 
+feel like can have effect on initial latency. Why you think it cannot?
+
+Why the work wouldn't be done on parking?
+
+With this scheme couldn't we end up with a situation that the worker 
+keeps missing the GT unparked state and so keeps piling items on the 
+deregistration list? Can you run of some ids like that (which is related 
+to my question of how is pressure handled here).
+
+Unpark
+Register context
+Submit work
+Retire
+Schedule context deregister
+Park
+
+Worker runs
+GT parked
+Work put on a list
+
+Unpark
+Schedule deregistration worker
+Register new context
+Submit work
+Retire
+Schedule contect deregister
+Park
+
+Worker runs (lets say there was CPU pressure)
+GT already parked
+  -> deregistration queue now has two contexts on it
+
+... repeat until disaster ...
+
+Unless I have misunderstood the logic.
+
+>> trigger) these deregistrations to happen at runtime (no park/unpark
+>> transitions)?
+>>
+>>> Implemented with a list in the GT of all pending work, workqueues in
+>>> the list, a callback to add a workqueue to the list, and finally a
+>>> wakeref post_get callback that iterates / drains the list + queues the
+>>> workqueues.
+>>>
+>>> First user of this is deregistration of GuC contexts.
+>>
+>> Does first imply there are more incoming?
+>>
+> 
+> Haven't found another user yet but this is generic mechanism so we can
+> add more in the future if other use cases arrise.
+
+My feeling is it would be best to leave it for later.
+
+>   
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/Makefile                 |  1 +
+>>>    drivers/gpu/drm/i915/gt/intel_gt.c            |  3 ++
+>>>    drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  8 ++++
+>>>    .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.c | 35 ++++++++++++++++
+>>>    .../gpu/drm/i915/gt/intel_gt_pm_unpark_work.h | 40 +++++++++++++++++++
+>>>    drivers/gpu/drm/i915/gt/intel_gt_types.h      | 10 +++++
+>>>    drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  8 ++--
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 15 +++++--
+>>>    drivers/gpu/drm/i915/intel_wakeref.c          |  5 +++
+>>>    drivers/gpu/drm/i915/intel_wakeref.h          |  1 +
+>>>    10 files changed, 119 insertions(+), 7 deletions(-)
+>>>    create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
+>>>    create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>>> index 642a5b5a1b81..579bdc069f25 100644
+>>> --- a/drivers/gpu/drm/i915/Makefile
+>>> +++ b/drivers/gpu/drm/i915/Makefile
+>>> @@ -103,6 +103,7 @@ gt-y += \
+>>>    	gt/intel_gt_clock_utils.o \
+>>>    	gt/intel_gt_irq.o \
+>>>    	gt/intel_gt_pm.o \
+>>> +	gt/intel_gt_pm_unpark_work.o \
+>>>    	gt/intel_gt_pm_irq.o \
+>>>    	gt/intel_gt_requests.o \
+>>>    	gt/intel_gtt.o \
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+>>> index 62d40c986642..7e690e74baa2 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+>>> @@ -29,6 +29,9 @@ void intel_gt_init_early(struct intel_gt *gt, struct drm_i915_private *i915)
+>>>    	spin_lock_init(&gt->irq_lock);
+>>> +	spin_lock_init(&gt->pm_unpark_work_lock);
+>>> +	INIT_LIST_HEAD(&gt->pm_unpark_work_list);
+>>> +
+>>>    	INIT_LIST_HEAD(&gt->closed_vma);
+>>>    	spin_lock_init(&gt->closed_lock);
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>> index dea8e2479897..564c11a3748b 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>> @@ -90,6 +90,13 @@ static int __gt_unpark(struct intel_wakeref *wf)
+>>>    	return 0;
+>>>    }
+>>> +static void __gt_unpark_work_queue(struct intel_wakeref *wf)
+>>> +{
+>>> +	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
+>>> +
+>>> +	intel_gt_pm_unpark_work_queue(gt);
+>>> +}
+>>> +
+>>>    static int __gt_park(struct intel_wakeref *wf)
+>>>    {
+>>>    	struct intel_gt *gt = container_of(wf, typeof(*gt), wakeref);
+>>> @@ -118,6 +125,7 @@ static int __gt_park(struct intel_wakeref *wf)
+>>>    static const struct intel_wakeref_ops wf_ops = {
+>>>    	.get = __gt_unpark,
+>>> +	.post_get = __gt_unpark_work_queue,
+>>>    	.put = __gt_park,
+>>>    };
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
+>>> new file mode 100644
+>>> index 000000000000..23162dbd0c35
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.c
+>>> @@ -0,0 +1,35 @@
+>>> +// SPDX-License-Identifier: MIT
+>>> +/*
+>>> + * Copyright © 2021 Intel Corporation
+>>> + */
+>>> +
+>>> +#include "i915_drv.h"
+>>> +#include "intel_runtime_pm.h"
+>>> +#include "intel_gt_pm.h"
+>>> +
+>>> +void intel_gt_pm_unpark_work_queue(struct intel_gt *gt)
+>>> +{
+>>> +	struct intel_gt_pm_unpark_work *work, *next;
+>>> +	unsigned long flags;
+>>> +
+>>> +	spin_lock_irqsave(&gt->pm_unpark_work_lock, flags);
+>>> +	list_for_each_entry_safe(work, next,
+>>> +				 &gt->pm_unpark_work_list, link) {
+>>> +		list_del_init(&work->link);
+>>> +		queue_work(system_unbound_wq, &work->worker);
+>>> +	}
+>>> +	spin_unlock_irqrestore(&gt->pm_unpark_work_lock, flags);
+>>> +}
+>>> +
+>>> +void intel_gt_pm_unpark_work_add(struct intel_gt *gt,
+>>> +				 struct intel_gt_pm_unpark_work *work)
+>>> +{
+>>> +	unsigned long flags;
+>>> +
+>>> +	spin_lock_irqsave(&gt->pm_unpark_work_lock, flags);
+>>> +	if (intel_gt_pm_is_awake(gt))
+>>> +		queue_work(system_unbound_wq, &work->worker);
+>>> +	else if (list_empty(&work->link))
+>>
+>> What's the list_empty check for, something can race by design?
+>>
+> 
+> This function is allowed to be called twice, e.g. Two contexts can be
+> tried to be deregistered while the GT PM is ideal but only first context
+> results in the worker being added to the list of workers to be kicked on
+> unpark.
+
+Hmm okay.
+
+> 
+>>> +		list_add_tail(&work->link, &gt->pm_unpark_work_list);
+>>> +	spin_unlock_irqrestore(&gt->pm_unpark_work_lock, flags);
+>>> +}
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
+>>> new file mode 100644
+>>> index 000000000000..eaf1dc313aa2
+>>> --- /dev/null
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_unpark_work.h
+>>> @@ -0,0 +1,40 @@
+>>> +/* SPDX-License-Identifier: MIT */
+>>> +/*
+>>> + * Copyright © 2021 Intel Corporation
+>>> + */
+>>> +
+>>> +#ifndef INTEL_GT_PM_UNPARK_WORK_H
+>>> +#define INTEL_GT_PM_UNPARK_WORK_H
+>>> +
+>>> +#include <linux/list.h>
+>>> +#include <linux/workqueue.h>
+>>> +
+>>> +struct intel_gt;
+>>> +
+>>> +/**
+>>> + * struct intel_gt_pm_unpark_work - work to be scheduled when GT unparked
+>>> + */
+>>> +struct intel_gt_pm_unpark_work {
+>>> +	/**
+>>> +	 * @link: link into gt->pm_unpark_work_list of workers that need to be
+>>> +	 * scheduled when GT is unpark, protected by gt->pm_unpark_work_lock
+>>> +	 */
+>>> +	struct list_head link;
+>>> +	/** @worker: will be scheduled when GT unparked */
+>>> +	struct work_struct worker;
+>>> +};
+>>> +
+>>> +void intel_gt_pm_unpark_work_queue(struct intel_gt *gt);
+>>> +
+>>> +void intel_gt_pm_unpark_work_add(struct intel_gt *gt,
+>>> +				 struct intel_gt_pm_unpark_work *work);
+>>> +
+>>> +static inline void
+>>> +intel_gt_pm_unpark_work_init(struct intel_gt_pm_unpark_work *work,
+>>> +			     work_func_t fn)
+>>> +{
+>>> +	INIT_LIST_HEAD(&work->link);
+>>> +	INIT_WORK(&work->worker, fn);
+>>> +}
+>>> +
+>>> +#endif /* INTEL_GT_PM_UNPARK_WORK_H */
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>>> index a81e21bf1bd1..4480312f0add 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
+>>> @@ -96,6 +96,16 @@ struct intel_gt {
+>>>    	struct intel_wakeref wakeref;
+>>>    	atomic_t user_wakeref;
+>>> +	/**
+>>> +	 * @pm_unpark_work_list: list of delayed work to scheduled which GT is
+>>> +	 * unparked, protected by pm_unpark_work_lock
+>>> +	 */
+>>> +	struct list_head pm_unpark_work_list;
+>>> +	/**
+>>> +	 * @pm_unpark_work_lock: protects pm_unpark_work_list
+>>> +	 */
+>>> +	spinlock_t pm_unpark_work_lock;
+>>> +
+>>>    	struct list_head closed_vma;
+>>>    	spinlock_t closed_lock; /* guards the list of closed_vma */
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> index 7358883f1540..023953e77553 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> @@ -19,6 +19,7 @@
+>>>    #include "intel_uc_fw.h"
+>>>    #include "i915_utils.h"
+>>>    #include "i915_vma.h"
+>>> +#include "gt/intel_gt_pm_unpark_work.h"
+>>>    struct __guc_ads_blob;
+>>> @@ -78,11 +79,12 @@ struct intel_guc {
+>>>    		 */
+>>>    		struct list_head destroyed_contexts;
+>>>    		/**
+>>> -		 * @destroyed_worker: worker to deregister contexts, need as we
+>>> +		 * @destroyed_worker: Worker to deregister contexts, need as we
+>>>    		 * need to take a GT PM reference and can't from destroy
+>>> -		 * function as it might be in an atomic context (no sleeping)
+>>> +		 * function as it might be in an atomic context (no sleeping).
+>>> +		 * Worker only issues deregister when GT is unparked.
+>>>    		 */
+>>> -		struct work_struct destroyed_worker;
+>>> +		struct intel_gt_pm_unpark_work destroyed_worker;
+>>>    	} submission_state;
+>>>    	bool submission_supported;
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index f835e06e5f9f..dbf919801de2 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -1135,7 +1135,8 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>>>    	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+>>>    	ida_init(&guc->submission_state.guc_ids);
+>>>    	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+>>> -	INIT_WORK(&guc->submission_state.destroyed_worker, destroyed_worker_func);
+>>> +	intel_gt_pm_unpark_work_init(&guc->submission_state.destroyed_worker,
+>>> +				     destroyed_worker_func);
+>>>    	return 0;
+>>>    }
+>>> @@ -1942,13 +1943,18 @@ static void deregister_destroyed_contexts(struct intel_guc *guc)
+>>>    static void destroyed_worker_func(struct work_struct *w)
+>>>    {
+>>> -	struct intel_guc *guc = container_of(w, struct intel_guc,
+>>> +	struct intel_gt_pm_unpark_work *destroyed_worker =
+>>> +		container_of(w, struct intel_gt_pm_unpark_work, worker);
+>>> +	struct intel_guc *guc = container_of(destroyed_worker, struct intel_guc,
+>>>    					     submission_state.destroyed_worker);
+>>>    	struct intel_gt *gt = guc_to_gt(guc);
+>>>    	int tmp;
+>>> -	with_intel_gt_pm(gt, tmp)
+>>> +	with_intel_gt_pm_if_awake(gt, tmp)
+>>>    		deregister_destroyed_contexts(guc);
+>>> +
+>>> +	if (!list_empty(&guc->submission_state.destroyed_contexts))
+>>> +		intel_gt_pm_unpark_work_add(gt, destroyed_worker);
+>>
+>> This is the worker itself, right?
+>>
+> 
+> Yes.
+> 
+>> There's a "if awake" here followed by another "if awake" inside
+>> intel_gt_pm_unpark_work_add which raises questions.
+>>
+> 
+> Even in the worker we only deregister the context if the GT is awake.
+
+Yeah but the two "if awake" checks followed by one another is the 
+confusing part since it is not atomic. Coupled with the list empty check 
+I mean. So two external async condition can influence the flow, one of 
+which is even checked twice.
+
+The worker can decide not to deregister, but by the time 
+intel_gt_pm_unpark_work_add runs GT may have became unparked so worker 
+gets queued. When it runs GT is parked again and so it can bounce in a 
+loop forever.
+
+>   
+>> Second question is what's the list_empty for - why is the state of the list
+>> itself relevant to a single worker deciding whether to re-add itself to it
+>> or not? And is there a lock protecting this list?
+>>
+> 
+> Yes we have locking - pm_unpark_work_lock. It is basically all 2
+> threads to call intel_gt_pm_unpark_work_add while the GT is idle - in
+> that case only the first call adds the worker to the list of workers to
+> kick when unparked (same explaination as above).
+>   
+>> On the overall it feels questionable to have unpark work which apparently
+>> can race with subsequent parking. Presumably you cannot have it run sync on
+>> unpark due execution context issues?
+>>
+> 
+> No race, just allowed to be called twice.
+
+But list_empty check is not under any locks so I don't follow.
+
+> 
+>>>    }
+>>>    static void guc_context_destroy(struct kref *kref)
+>>> @@ -1985,7 +1991,8 @@ static void guc_context_destroy(struct kref *kref)
+>>>    	 * take the GT PM for the first time which isn't allowed from an atomic
+>>>    	 * context.
+>>>    	 */
+>>> -	queue_work(system_unbound_wq, &guc->submission_state.destroyed_worker);
+>>> +	intel_gt_pm_unpark_work_add(guc_to_gt(guc),
+>>> +				    &guc->submission_state.destroyed_worker);
+>>>    }
+>>>    static int guc_context_alloc(struct intel_context *ce)
+>>> diff --git a/drivers/gpu/drm/i915/intel_wakeref.c b/drivers/gpu/drm/i915/intel_wakeref.c
+>>> index dfd87d082218..282fc4f312e3 100644
+>>> --- a/drivers/gpu/drm/i915/intel_wakeref.c
+>>> +++ b/drivers/gpu/drm/i915/intel_wakeref.c
+>>> @@ -24,6 +24,8 @@ static void rpm_put(struct intel_wakeref *wf)
+>>>    int __intel_wakeref_get_first(struct intel_wakeref *wf)
+>>>    {
+>>> +	bool do_post = false;
+>>> +
+>>>    	/*
+>>>    	 * Treat get/put as different subclasses, as we may need to run
+>>>    	 * the put callback from under the shrinker and do not want to
+>>> @@ -44,8 +46,11 @@ int __intel_wakeref_get_first(struct intel_wakeref *wf)
+>>>    		}
+>>>    		smp_mb__before_atomic(); /* release wf->count */
+>>> +		do_post = true;
+>>>    	}
+>>>    	atomic_inc(&wf->count);
+>>> +	if (do_post && wf->ops->post_get)
+>>> +		wf->ops->post_get(wf);
+>>
+>> You want this hook under the wf->mutex and why?
+>>
+> 
+> I didn't really think about this but everything else in under the mutex
+> so I included this under the mutex too. In this case this post_get op
+> could likely be outside the mutex but I think it harmless to keep it
+> under the mutex. For future safety, I think it should stay under the
+> mutex.
+
+If it is under the mutex then what is the point of two hooks? The only 
+difference is get sees wf->count == 0, while post_get sees it as one.
+
+No wait.. you have put post_get outside the 0->1 transition check so 
+potentially called more than once. You probably do not want this.. But 
+could you just do this from the existing hook is the main question.
 
 Regards,
 
-Hans
+Tvrtko
 
+> 
+> Matt
+> 
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>    	mutex_unlock(&wf->mutex);
+>>>    	INTEL_WAKEREF_BUG_ON(atomic_read(&wf->count) <= 0);
+>>> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+>>> index 545c8f277c46..ef7e6a698e8a 100644
+>>> --- a/drivers/gpu/drm/i915/intel_wakeref.h
+>>> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
+>>> @@ -30,6 +30,7 @@ typedef depot_stack_handle_t intel_wakeref_t;
+>>>    struct intel_wakeref_ops {
+>>>    	int (*get)(struct intel_wakeref *wf);
+>>> +	void (*post_get)(struct intel_wakeref *wf);
+>>>    	int (*put)(struct intel_wakeref *wf);
+>>>    };
+>>>
