@@ -2,39 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8138B409F10
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 23:22:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 575CB409F27
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 23:32:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6C6446E255;
-	Mon, 13 Sep 2021 21:22:44 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DF0B36E252;
- Mon, 13 Sep 2021 21:22:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="307351331"
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="307351331"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 14:22:42 -0700
-X-IronPort-AV: E=Sophos;i="5.85,290,1624345200"; d="scan'208";a="543490066"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 14:22:42 -0700
-Date: Mon, 13 Sep 2021 14:17:42 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John.C.Harrison@Intel.com
-Cc: Intel-GFX@Lists.FreeDesktop.Org, DRI-Devel@Lists.FreeDesktop.Org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Refcount context during error
- capture
-Message-ID: <20210913211742.GA6940@jons-linux-dev-box>
-References: <20210913211016.2299138-1-John.C.Harrison@Intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210913211016.2299138-1-John.C.Harrison@Intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572586E283;
+	Mon, 13 Sep 2021 21:32:00 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+ [209.85.210.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F14A26E25A;
+ Mon, 13 Sep 2021 21:31:58 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id
+ i3-20020a056830210300b0051af5666070so15362350otc.4; 
+ Mon, 13 Sep 2021 14:31:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=QU12R93C/2HpZJoOcgXvSj7FddUhGVnWB6kugUlE2BE=;
+ b=Um1uBF7zCMtuawMsLnQIMGefVBnlv4f/hGDaDK527BZp+d/r3KdO3h2Xv2kPvcCNNA
+ 5+TGrw8k/gXGpC4RYBQsd6Qk1tSvBo6gShUt+nAwlW8qsAiQ3NNFWET5Ue346+N4S0EP
+ 60JN0AeNosZunDx4q2aPQg7OoesbpdhlU1rVMRBidLhVp77QTAzCOqhWRCbZWbhq+k52
+ zRG4p1hIL8ddNYaCjy4fysdpjEMda70W3+EyK6d6nhE3iG+QGYcbT2mcfvK5mdm5o2/n
+ YOLWxDZ0Mvm3oZR7yNFVKCVrFTKhaFcWEN/Qsd2asF6rekP1D0E243pXO/QTpSfDJfg1
+ kI/g==
+X-Gm-Message-State: AOAM532OiLDJzRgXAljEhSNkpd7musS7EKIMpq8rA1/36lz0ZxfQorHQ
+ x7f3s/IgSNeYDvxezirULQ==
+X-Google-Smtp-Source: ABdhPJws5hIKPlUv/5PkbnyXdCuMInLDuRZvOVl9H4kZSwlpFdEIIwEw12ixvJugCp4dooNmhS8Yaw==
+X-Received: by 2002:a9d:71c6:: with SMTP id z6mr11552420otj.382.1631568718235; 
+ Mon, 13 Sep 2021 14:31:58 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id i19sm2180255ooe.44.2021.09.13.14.31.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 13 Sep 2021 14:31:57 -0700 (PDT)
+Received: (nullmailer pid 1413000 invoked by uid 1000);
+ Mon, 13 Sep 2021 21:31:54 -0000
+From: Rob Herring <robh@kernel.org>
+To: Sean Paul <sean@poorly.run>
+Cc: David Airlie <airlied@linux.ie>, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>,
+ intel-gfx@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org
+In-Reply-To: <20210913175747.47456-13-sean@poorly.run>
+References: <20210913175747.47456-1-sean@poorly.run>
+ <20210913175747.47456-13-sean@poorly.run>
+Subject: Re: [PATCH 12/14] dt-bindings: msm/dp: Add bindings for HDCP registers
+Date: Mon, 13 Sep 2021 16:31:54 -0500
+Message-Id: <1631568714.653445.1412999.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,77 +68,108 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 13, 2021 at 02:10:16PM -0700, John.C.Harrison@Intel.com wrote:
-> From: John Harrison <John.C.Harrison@Intel.com>
+On Mon, 13 Sep 2021 13:57:43 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> When i915 receives a context reset notification from GuC, it triggers
-> an error capture before resetting any outstanding requsts of that
-> context. Unfortunately, the error capture is not a time bound
-> operation. In certain situations it can take a long time, particularly
-> when multiple large LMEM buffers must be read back and eoncoded. If
-> this delay is longer than other timeouts (heartbeat, test recovery,
-> etc.) then a full GT reset can be triggered in the middle.
+> This patch adds the bindings for the MSM DisplayPort HDCP registers
+> which are required to write the HDCP key into the display controller as
+> well as the registers to enable HDCP authentication/key
+> exchange/encryption.
 > 
-> That can result in the context being reset by GuC actually being
-> destroyed before the error capture completes and the GuC submission
-> code resumes. Thus, the GuC side can start dereferencing stale
-> pointers and Bad Things ensue.
-> 
-> So add a refcount get of the context during the entire reset
-> operation. That way, the context can't be destroyed part way through
-> no matter what other resets or user interactions occur.
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
 > ---
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+>  .../bindings/display/msm/dp-controller.yaml           | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index c7a41802b448..7291fd8f68a6 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2920,6 +2920,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
->  {
->  	struct intel_context *ce;
->  	int desc_idx;
-> +	unsigned long flags;
->  
->  	if (unlikely(len != 1)) {
->  		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-> @@ -2927,11 +2928,24 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
->  	}
->  
->  	desc_idx = msg[0];
-> +
-> +	/*
-> +	 * The context lookup uses the xarray but lookups only require an RCU lock
-> +	 * not the full spinlock. So take the lock explicitly and keep it until the
-> +	 * context has been reference count locked to ensure it can't be destroyed
-> +	 * asynchronously until the reset is done.
-> +	 */
-> +	xa_lock_irqsave(&guc->context_lookup, flags);
->  	ce = g2h_context_lookup(guc, desc_idx);
-> +	if (ce)
-> +		intel_context_get(ce);
-> +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> +
->  	if (unlikely(!ce))
->  		return -EPROTO;
->  
->  	guc_handle_context_reset(guc, ce);
-> +	intel_context_put(ce);
 
-So this is going to directly conflict with a patch that I'm about to
-post as I'm going to change the error capture to async operation. In
-that case the intel_context_put would need to be done once that op
-completes. I'll likely pull this patch into that series. I'd expect it
-to be posted by the end of the day.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Matt 
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/msm/dp-controller.yaml:26:5: [error] duplication of key "const" in mapping (key-duplicates)
+./Documentation/devicetree/bindings/display/msm/dp-controller.yaml:27:5: [error] duplication of key "const" in mapping (key-duplicates)
 
->  
->  	return 0;
->  }
-> -- 
-> 2.25.1
-> 
+dtschema/dtc warnings/errors:
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/msm/dp-controller.example.dts'
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 45, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 25, column 5
+found duplicate key "const" with value "hdcp_key" (original value: "dp_controller")
+  in "<unicode string>", line 26, column 5
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/display/msm/dp-controller.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 25, in check_doc
+    testtree = dtschema.load(filename, line_number=line_number)
+  File "/usr/local/lib/python3.8/dist-packages/dtschema/lib.py", line 623, in load
+    return yaml.load(f.read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 122, in get_single_data
+    return self.construct_document(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 132, in construct_document
+    for _dummy in generator:
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 722, in construct_yaml_map
+    value = self.construct_mapping(node)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 446, in construct_mapping
+    return BaseConstructor.construct_mapping(self, node, deep=deep)
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 264, in construct_mapping
+    if self.check_mapping_key(node, key_node, mapping, key, value):
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 295, in check_mapping_key
+    raise DuplicateKeyError(*args)
+ruamel.yaml.constructor.DuplicateKeyError: while constructing a mapping
+  in "<unicode string>", line 25, column 5
+found duplicate key "const" with value "hdcp_key" (original value: "dp_controller")
+  in "<unicode string>", line 26, column 5
+
+To suppress this check see:
+    http://yaml.readthedocs.io/en/latest/api.html#duplicate-keys
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-doc-validate", line 67, in <module>
+    ret = check_doc(f)
+  File "/usr/local/bin/dt-doc-validate", line 30, in check_doc
+    print(filename + ":", exc.path[-1], exc.message, file=sys.stderr)
+AttributeError: 'DuplicateKeyError' object has no attribute 'path'
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/msm/dp-controller.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/display/msm/dp-controller.yaml
+make: *** [Makefile:1441: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1527534
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
