@@ -1,62 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB154089A9
-	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 12:59:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE7A4089AD
+	for <lists+dri-devel@lfdr.de>; Mon, 13 Sep 2021 12:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3339E6E15F;
-	Mon, 13 Sep 2021 10:59:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C077B6E160;
+	Mon, 13 Sep 2021 10:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com
- [IPv6:2607:f8b0:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E5A66E160
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 10:59:33 +0000 (UTC)
-Received: by mail-pf1-x42d.google.com with SMTP id 18so8417823pfh.9
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 03:59:33 -0700 (PDT)
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com
+ [IPv6:2607:f8b0:4864:20::62a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6DF6E160
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 10:59:38 +0000 (UTC)
+Received: by mail-pl1-x62a.google.com with SMTP id w6so5533921pll.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 03:59:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=huaqin-corp-partner-google-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zVxaxVLkHd1OjVLGEtEzeZhPd4oQXGRtOBcdwaIOQoo=;
- b=nkGrONgO+9jvojA+DdRyyt8wT6S8EQkToGs0Zh0JbY07F0VY3sc3I6BTxg4R3qW2nb
- cawzAA4SouMkriXE8zj7D80n0rUrGkrJZHWYx3gH3J1X7ZMO3+yHFSW5TKgsRvzJz72J
- 6aI5W1FSt418C3cH1nIpy7zXiue6cjEZkXzzWYxI6vq7fFGYSfEEjN1rtZnteUelWKf4
- yIuG+AsKcD4hQma2xgdp83vTLBc65z8RrV4CZS/HCm3QyODEvtFF9mQLmu5tZiE4V85z
- o9gyKTK9RkFRg3skn2GpBT4KzxajszfT8dlgfZz9jDhMI+2pW/IpYE43RQYzbMivkIF7
- JxoA==
+ bh=xXGxvZeRy11wrq81EuFsuIuGp1cxXAYLGS+zZfcIkQ8=;
+ b=scm3Agzn64NCaeJ9kze2BH9zZPJ3JWjFGBzUENGevvAR7dJi2wq/l26a+oCyFFF2bI
+ 2WHboZ/qUUw7kM+Zxn2qhxCmHflJVYl5zjDH9GDPh/jP4d8mqTbmeEh4kg4n8lOw/70M
+ 1KTxonW7v5pb4/y78fljlsE/5BjzmUuiUwOm7go2GU6Fbbpdqx/71zpSwXSjyMEF8bFI
+ EE/q0a7nDKkREl/0pGYtbCAsA1kb5Kfdken4I7DrfQy6aSx2xlt1B2LDfyRS68q79akO
+ GijexyxDOukcI+XxPpg6bzyRNtcbJA97+0gKaLHdHb0tMK3zPU+wRQUigDvpoRaQjJ7K
+ mjiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zVxaxVLkHd1OjVLGEtEzeZhPd4oQXGRtOBcdwaIOQoo=;
- b=stOJ/gbH6bd363ckhqdtY3gI0RQBA+JLP0t1uE6GH50sAHsbKYwgogJgwmnmiBp0Gk
- yVFr+YHRYeHBZD9yYQ1qnysGPs66OyrTTw2wV6L3qXTMsnOTvb05iQAq3VdGARARNTVY
- n9jKBjUIPygzuv6SlaXcluBqfYkRPHo0s2W9h3UyCiXhdjEzfW48Gpn52le9M0IrCG7E
- OB2BB9Wk1WSolGAXEkEZnfY6Rt1W2+PitL5cTkPo+i87P5BqciAokSfeDqdyAMCyxzdq
- STrY9JyIjVgwVgaWNPNYIe4v0ARisRRCTAM0Xdl/9X4O8aiMvZKlOYx3MRdccT0jlRKn
- LfkA==
-X-Gm-Message-State: AOAM531ia+uCZvrTy7iZBjNUcRq40BD3iwfaAG+qtHPSd83PVt0ukECu
- fBY+PDp9h09ym6XEWkAWb+1nZg==
-X-Google-Smtp-Source: ABdhPJxe+BoPBZeknKbQgemdH/QK/Ir5E6BakKMtH74ZWPv/P3x2S4vAn3ypNLpbeJdW7s3qybhUhg==
-X-Received: by 2002:a05:6a00:1a4b:b0:43d:3d45:37cb with SMTP id
- h11-20020a056a001a4b00b0043d3d4537cbmr5519147pfv.77.1631530772970; 
- Mon, 13 Sep 2021 03:59:32 -0700 (PDT)
+ bh=xXGxvZeRy11wrq81EuFsuIuGp1cxXAYLGS+zZfcIkQ8=;
+ b=FaFgFxBWROE81pFzGD3tmz98k2COhBZQjbtkTBFOtZzeEJwAqJ5KPU7vDgbWWR8Y6v
+ KJCsaYcLGr7VGKonufivyxnbUTcCKuy0PjFh6Lq3rLv4o6jOV2NVL82GZ+RDBiD6XuDF
+ Um8JiPVV9vAekRSQ/iZ/hyyWU8spVYlrVAtN+sLVTAQsB5cYcpQ+IrJnlNg38Env2KoS
+ B9vHGl+rOVFG8NZ7Fh3cOBeifGhYTZn3QIjfGtxry2T7flMAJDW6LaQ3IWS1g3EXsWp5
+ 7tnGpHBwN48ozugOWppCFdnfqF+xnCoHjQgLrVjYjYPvwueS6ECXSI2KC3aJtXX4cr14
+ xyvg==
+X-Gm-Message-State: AOAM531ALuYH0VFZaVNxaKUP599C7lBkZy+ajmriAp+GBkGnCNCvBlDu
+ khB8uzvbpcC65P79EsiIhC5g2w==
+X-Google-Smtp-Source: ABdhPJz4NPRdoHNetAHXZGIJVMEYtvswwAebbRUWgXm056DPe2NqGkzVMyseA4o2RCUCl1hQpUut8A==
+X-Received: by 2002:a17:90b:1957:: with SMTP id
+ nk23mr12405121pjb.180.1631530777637; 
+ Mon, 13 Sep 2021 03:59:37 -0700 (PDT)
 Received: from yc.huaqin.com ([101.78.151.214])
- by smtp.gmail.com with ESMTPSA id l22sm8279641pgo.45.2021.09.13.03.59.30
+ by smtp.gmail.com with ESMTPSA id l22sm8279641pgo.45.2021.09.13.03.59.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 13 Sep 2021 03:59:32 -0700 (PDT)
+ Mon, 13 Sep 2021 03:59:37 -0700 (PDT)
 From: yangcong <yangcong5@huaqin.corp-partner.google.com>
 To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch, dianders@google.com
 Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  yangcong <yangcong5@huaqin.corp-partner.google.com>,
- Douglas Anderson <dianders@chromium.org>
-Subject: [v5 1/5] drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-Date: Mon, 13 Sep 2021 18:59:16 +0800
-Message-Id: <20210913105920.3719525-2-yangcong5@huaqin.corp-partner.google.com>
+ Douglas Anderson <dianders@chromium.org>, Rob Herring <robh@kernel.org>
+Subject: [v5 2/5] dt-bindings: drm/panel: boe-tv101wum-nl6: Support enabling a
+ 3.3V rail
+Date: Mon, 13 Sep 2021 18:59:17 +0800
+Message-Id: <20210913105920.3719525-3-yangcong5@huaqin.corp-partner.google.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210913105920.3719525-1-yangcong5@huaqin.corp-partner.google.com>
 References: <20210913105920.3719525-1-yangcong5@huaqin.corp-partner.google.com>
@@ -81,64 +82,29 @@ The auo,b101uan08.3 panel (already supported by this driver) has
 a 3.3V rail that needs to be turned on. For previous users of
 this panel this voltage was directly output by pmic. On a new
 user (the not-yet-upstream sc7180-trogdor-mrbland board) we need
-to turn the 3.3V rail on. Add support in the driver for this.
+to turn the 3.3V rail on.
 
 Signed-off-by: yangcong <yangcong5@huaqin.corp-partner.google.com>
 Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
 ---
- drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml    | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-index db9d0b86d542..9a644433629e 100644
---- a/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-+++ b/drivers/gpu/drm/panel/panel-boe-tv101wum-nl6.c
-@@ -45,6 +45,7 @@ struct boe_panel {
- 	const struct panel_desc *desc;
+diff --git a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+index 38bc1d1b511e..a7091ae0f791 100644
+--- a/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
++++ b/Documentation/devicetree/bindings/display/panel/boe,tv101wum-nl6.yaml
+@@ -36,6 +36,9 @@ properties:
+   pp1800-supply:
+     description: core voltage supply
  
- 	enum drm_panel_orientation orientation;
-+	struct regulator *pp3300;
- 	struct regulator *pp1800;
- 	struct regulator *avee;
- 	struct regulator *avdd;
-@@ -511,6 +512,7 @@ static int boe_panel_unprepare(struct drm_panel *panel)
- 		gpiod_set_value(boe->enable_gpio, 0);
- 		usleep_range(5000, 7000);
- 		regulator_disable(boe->pp1800);
-+		regulator_disable(boe->pp3300);
- 	} else {
- 		gpiod_set_value(boe->enable_gpio, 0);
- 		usleep_range(500, 1000);
-@@ -518,6 +520,7 @@ static int boe_panel_unprepare(struct drm_panel *panel)
- 		regulator_disable(boe->avdd);
- 		usleep_range(5000, 7000);
- 		regulator_disable(boe->pp1800);
-+		regulator_disable(boe->pp3300);
- 	}
- 
- 	boe->prepared = false;
-@@ -536,6 +539,10 @@ static int boe_panel_prepare(struct drm_panel *panel)
- 	gpiod_set_value(boe->enable_gpio, 0);
- 	usleep_range(1000, 1500);
- 
-+	ret = regulator_enable(boe->pp3300);
-+	if (ret < 0)
-+		return ret;
++  pp3300-supply:
++    description: core voltage supply
 +
- 	ret = regulator_enable(boe->pp1800);
- 	if (ret < 0)
- 		return ret;
-@@ -767,6 +774,10 @@ static int boe_panel_add(struct boe_panel *boe)
- 	if (IS_ERR(boe->avee))
- 		return PTR_ERR(boe->avee);
+   avdd-supply:
+     description: phandle of the regulator that provides positive voltage
  
-+	boe->pp3300 = devm_regulator_get(dev, "pp3300");
-+	if (IS_ERR(boe->pp3300))
-+		return PTR_ERR(boe->pp3300);
-+
- 	boe->pp1800 = devm_regulator_get(dev, "pp1800");
- 	if (IS_ERR(boe->pp1800))
- 		return PTR_ERR(boe->pp1800);
 -- 
 2.25.1
 
