@@ -1,56 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B1D240A192
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 01:26:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id D26B240A1B5
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 01:48:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0849C6E2D1;
-	Mon, 13 Sep 2021 23:26:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F15E6E2C8;
+	Mon, 13 Sep 2021 23:48:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A7636E2C7
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 23:26:01 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C0E66108B
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 23:26:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631575561;
- bh=SZfWHa7IQnfymZBbvB/IITjGY3lBRm0VkGWuGsnsZ1k=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=USCj8yz6cSUqz9C+LZ0WKU0WrF5cYzizw+EdMfC84x920AazAPkB7eYgBsK46vem0
- TOOEvR7jPJPDgcQk+cMxUaCGHonNw4XCbRj7kEP6glKnXgPaIbQ45jnMuh1ML9CrN8
- bdxDQ8Iwmp5qkKA2dvajQX4aPD554yOzGyHp20K2inj13onjQhkPwlh1samWhI1Dna
- 9Pps454JMu4La5iUXDwAOAxVRkxgJwF8SUqhQ6B+dxx9Jesk1Gz1RafXJZEpx1rHVd
- EPWqsWVPTcei7KlTlLZARq8YOGofRUEul71vqAJv/w422zW/f4dhKuTDG0IK608bmg
- 0DRLDI2TKE/8w==
-Received: by mail-ej1-f46.google.com with SMTP id n27so24563208eja.5
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 16:26:01 -0700 (PDT)
-X-Gm-Message-State: AOAM530JQVIbOAPkOxt0r8awPz7BS6iwiI2U0VjUAACSzZOdlbhvfbNg
- c+H3aZFxUO3RJ/JEf1in1eWacmBkNlAA5G3D5w==
-X-Google-Smtp-Source: ABdhPJwC+YRFgHO3oXqN1ILwRVSXw5zQypPb+g6HlsHuD5Pphqsneci671cI+6kOZeR0S4W/XnY5HKlQE/Kd89tQtbA=
-X-Received: by 2002:a17:907:995a:: with SMTP id
- kl26mr15563491ejc.6.1631575559662; 
- Mon, 13 Sep 2021 16:25:59 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80A466E2C8
+ for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 23:48:39 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285516268"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="285516268"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 16:48:38 -0700
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="543534418"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 16:48:38 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Gerd Hoffmann <kraxel@redhat.com>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Simon Ser <contact@emersion.fr>,
+ =?UTF-8?q?Michel=20D=C3=A4nzer?= <michel@daenzer.net>,
+ Tina Zhang <tina.zhang@intel.com>, Dongwon Kim <dongwon.kim@intel.com>,
+ Satyeshwar Singh <satyeshwar.singh@intel.com>
+Subject: [RFC v1 0/6] drm: Add support for DRM_CAP_RELEASE_FENCE capability
+Date: Mon, 13 Sep 2021 16:35:23 -0700
+Message-Id: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210906193529.718845-1-msp@baylibre.com>
- <20210906193529.718845-7-msp@baylibre.com>
- <CAAOTY__cJMqcAieEraJ2sz4gi0Zs-aiNXz38_x7dPQea6HvYEg@mail.gmail.com>
- <20210910053614.7l2yh3e25izzlwob@blmsp>
-In-Reply-To: <20210910053614.7l2yh3e25izzlwob@blmsp>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 14 Sep 2021 07:25:48 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_-gUXZnpfEC9e9HY+Sde9gw_WCe7CzEQ6d45_gW2voD6A@mail.gmail.com>
-Message-ID: <CAAOTY_-gUXZnpfEC9e9HY+Sde9gw_WCe7CzEQ6d45_gW2voD6A@mail.gmail.com>
-Subject: Re: [PATCH v1 6/6] drm/mediatek: Add mt8195 DisplayPort driver
-To: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,278 +52,94 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Markus:
+The main idea behind DRM_CAP_RELEASE_FENCE is to add an additional
+signaling mechanism for a pageflip completion in addition to out_fence
+or DRM_EVENT_FLIP_COMPLETE event. This allows a compositor to start
+a new repaint cycle with a new buffer instead of waiting for the
+old buffer to be free. 
 
-Markus Schneider-Pargmann <msp@baylibre.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
-=8810=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=881:36=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Hi Chun-Kuang,
->
-> On Fri, Sep 10, 2021 at 07:37:50AM +0800, Chun-Kuang Hu wrote:
-> > Hi, Markus:
-> >
-> > Markus Schneider-Pargmann <msp@baylibre.com> =E6=96=BC 2021=E5=B9=B49=
-=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=883:37=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > >
-> > > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > >
-> > > It supports both functional units on the mt8195, the embedded
-> > > DisplayPort as well as the external DisplayPort units. It offers
-> > > hot-plug-detection, audio up to 8 channels, and DisplayPort 1.4 with =
-up
-> > > to 4 lanes.
-> > >
-> > > This driver is based on an initial version by
-> > > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > >
-> > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > ---
-> > >
-> > > Notes:
-> > >     Changes RFC -> v1:
-> > >     - Removed unused register definitions.
-> > >     - Replaced workqueue with threaded irq.
-> > >     - Removed connector code.
-> > >     - Move to atomic_* drm functions.
-> > >     - General cleanups of the code.
-> > >     - Remove unused select GENERIC_PHY.
-> > >
-> > >  drivers/gpu/drm/mediatek/Kconfig      |    6 +
-> > >  drivers/gpu/drm/mediatek/Makefile     |    2 +
-> > >  drivers/gpu/drm/mediatek/mtk_dp.c     | 2881 +++++++++++++++++++++++=
-++
-> > >  drivers/gpu/drm/mediatek/mtk_dp_reg.h |  580 +++++
-> > >  4 files changed, 3469 insertions(+)
-> > >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
-> > >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> > >
->
-> ...
->
-> > > +#define TOP_OFFSET             0x2000
-> > > +#define ENC0_OFFSET            0x3000
-> > > +#define ENC1_OFFSET            0x3200
-> > > +#define TRANS_OFFSET           0x3400
-> > > +#define AUX_OFFSET             0x3600
-> > > +#define SEC_OFFSET             0x4000
->
-> ...
->
-> > > +
-> > > +#define DP_PHY_DIG_PLL_CTL_1                                   0x101=
-4
-> > > +# define TPLL_SSC_EN                                           BIT(3=
-)
-> >
-> > It seems that register 0x1000 ~ 0x1fff is to control phy and 0x2000 ~
-> > 0x4fff is to control non-phy part. For mipi and hdmi, the phy part is
-> > an independent device [1] and the phy driver is independent [2] , so I
-> > would like this phy to be an independent device.
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=3Dv5.14
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/phy/mediatek?h=3Dv5.14
->
-> Thanks for your feedback. I looked into both mipi and hdmi phy drivers
-> that you referenced. It looks like both are really separate units in
-> their SoCs having their own registerspaces located at a completely
-> different range than the units using the phy.
->
-> For this displayport driver, the phy registers are listed as part of the
-> (e)DP_TX unit in the datasheet. Next to the phy registers all the other
-> parts are listed as well in the same overall register ranges (see
-> above), e.g. TOP_OFFSET, ENC_OFFSET or SEC_OFFSET. Also I would like to
-> avoid splitting it up into a separate unit in the devicetree as the
-> datasheet handles it as a single unit (including the phy registers).
+Why?
+So, an atomic pageflip completion indicates two things to a compositor:
+- that it can repaint again and
+- that the old fb is free and can be reused (that was submitted in
+  the previous repaint cycle)
 
-OK, according to the datasheet, let it to be a single device.
+Essentially, DRM_CAP_RELEASE_FENCE is about separating out the above
+two assumptions. DRM_EVENT_FLIP_COMPLETE event or out_fence would 
+serve as a signal to repaint and newly added release_fence would 
+provide a way to determine when old fbs can be re-used again. 
 
->
-> From a practical perspective there is also not much to these PHY
-> registers. The only things that would be done in the driver are:
-> - initializing the lane driving parameters with static values
-> - setup the bitrate
-> - enable/disable SSC
-> - do a reset
-> Exporting these four used functions over a driver boundary wouldn't help
-> clarity I think and the code probably can't be reused by any other
-> component anyways.
+This separation is really needed when the fb(s) associated with a
+pageflip are shared outside of the OS -- which is indeed the 
+case with Virtio-gpu, a Virtual KMS driver. The Virtio-gpu driver
+runs in a Virtual Machine and can share the fb with the Host -- 
+via Wayland UI -- in a zero-copy way. And, in this particular
+environment where the Host and Guest/VM are running Wayland based
+compositors, it would be desirable to have the Guest compositor's
+scanout fb be placed directly on a hardware plane on the Host --
+to improve performance when there are multiple Guests running.
+To ensure 60 FPS and to prevent Guest and Host compositors from
+using an fb at the same time, the signaling of Guest's release_fence
+is tied to Host's wl_buffer_release event and DRM_EVENT_FLIP_COMPLETE/
+out_fence signaling is tied to Host compositor's frame callback event.
 
-Use mmsys device [1] as an example. mmsys has both clock control
-function and other function including routing function. The main
-driver [2] is placed in soc folder, and the clock control part [3] is
-separated to clk folder but the clock control part just simply control
-clock gating.
+Implementation:
+Since release_fence is almost identical to out_fence, it is implemented
+by making use of the existing out_fence machinery. And, although, the
+drm core creates the release_fence, the Virtio-gpu driver takes care
+of signaling it when it gets notified by the Host that the fb is free.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=3Dv5.15-rc1#n992
-[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/drivers/soc/mediatek/mtk-mmsys.c?h=3Dv5.15-rc1
-[3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/drivers/clk/mediatek/clk-mt8173-mm.c?h=3Dv5.15-rc1
+This work is based on the idea/suggestion from Simon and Pekka.
 
-I think many phy driver could be used only by single device driver, so
-we don't need to consider the reusability.
+And, this patch series provides a solution for this Weston issue:
+https://gitlab.freedesktop.org/wayland/weston/-/issues/514
 
-Regards,
-Chun-Kuang.
+Tested with:
+Weston MR:
+https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/668
+and
+Qemu patches:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-09/msg03463.html
 
->
-> So I personally would prefer keeping it as part of the whole driver
-> because of the above mentioned reasons. What do you think?
->
-> Thanks,
-> Markus
->
-> >
-> > Regards,
-> > Chun-Kuang.
-> >
-> > > +
-> > > +#define DP_PHY_DIG_BIT_RATE                                    0x103=
-C
-> > > +# define BIT_RATE_RBR                                          0
-> > > +# define BIT_RATE_HBR                                          1
-> > > +# define BIT_RATE_HBR2                                         2
-> > > +# define BIT_RATE_HBR3                                         3
-> > > +
-> > > +#define DP_PHY_DIG_SW_RST                                      0x103=
-8
-> > > +# define DP_GLB_SW_RST_PHYD                                    BIT(0=
-)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_3                           0x113=
-8
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_3                           0x123=
-8
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_3                           0x133=
-8
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_3                           0x143=
-8
-> > > +# define XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT                     0x10
-> > > +# define XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT                     (0x14=
- << 8)
-> > > +# define XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT                     (0x18=
- << 16)
-> > > +# define XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT                     (0x20=
- << 24)
-> > > +# define DRIVING_PARAM_3_DEFAULT                               (XTP_=
-LN_TX_LCTXC0_SW0_PRE0_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW0_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW0_PRE2_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW0_PRE3_DEFAULT)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_4                           0x113=
-C
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_4                           0x123=
-C
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_4                           0x133=
-C
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_4                           0x143=
-C
-> > > +# define XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT                     0x18
-> > > +# define XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT                     (0x1e=
- << 8)
-> > > +# define XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT                     (0x24=
- << 16)
-> > > +# define XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT                     (0x20=
- << 24)
-> > > +# define DRIVING_PARAM_4_DEFAULT                               (XTP_=
-LN_TX_LCTXC0_SW1_PRE0_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW1_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW1_PRE2_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW2_PRE0_DEFAULT)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_5                           0x114=
-0
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_5                           0x124=
-0
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_5                           0x134=
-0
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_5                           0x144=
-0
-> > > +# define XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT                     0x28
-> > > +# define XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT                     (0x30=
- << 8)
-> > > +# define DRIVING_PARAM_5_DEFAULT                               (XTP_=
-LN_TX_LCTXC0_SW2_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXC0_SW3_PRE0_DEFAULT)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_6                           0x114=
-4
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_6                           0x124=
-4
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_6                           0x134=
-4
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_6                           0x144=
-4
-> > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT                    0x00
-> > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT                    (0x04=
- << 8)
-> > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT                    (0x08=
- << 16)
-> > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT                    (0x10=
- << 24)
-> > > +# define DRIVING_PARAM_6_DEFAULT                               (XTP_=
-LN_TX_LCTXCP1_SW0_PRE0_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW0_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW0_PRE2_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW0_PRE3_DEFAULT)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_7                           0x114=
-8
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_7                           0x124=
-8
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_7                           0x134=
-8
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_7                           0x144=
-8
-> > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT                    0x00
-> > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT                    (0x06=
- << 8)
-> > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT                    (0x0c=
- << 16)
-> > > +# define XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT                    (0x00=
- << 24)
-> > > +# define DRIVING_PARAM_7_DEFAULT                               (XTP_=
-LN_TX_LCTXCP1_SW1_PRE0_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW1_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW1_PRE2_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW2_PRE0_DEFAULT)
-> > > +
-> > > +#define MTK_DP_LANE0_DRIVING_PARAM_8                           0x114=
-C
-> > > +#define MTK_DP_LANE1_DRIVING_PARAM_8                           0x124=
-C
-> > > +#define MTK_DP_LANE2_DRIVING_PARAM_8                           0x134=
-C
-> > > +#define MTK_DP_LANE3_DRIVING_PARAM_8                           0x144=
-C
-> > > +# define XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT                    0x08
-> > > +# define XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT                    (0x00=
- << 8)
-> > > +# define DRIVING_PARAM_8_DEFAULT                               (XTP_=
-LN_TX_LCTXCP1_SW2_PRE1_DEFAULT | \
-> > > +                                                                XTP_=
-LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
-> > > +
-> > > +#endif /*_MTK_DP_REG_H_*/
-> > > --
-> > > 2.33.0
-> > >
+Earlier version/discussion of this patch series can be found at:
+https://lists.freedesktop.org/archives/dri-devel/2021-July/317672.html
+
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Michel Dänzer <michel@daenzer.net>
+Cc: Tina Zhang <tina.zhang@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+Cc: Satyeshwar Singh <satyeshwar.singh@intel.com>
+
+Vivek Kasireddy (6):
+  drm/atomic: Move out_fence creation/setup into a separate function
+  drm/atomic: Add support for release_fence and its associated property
+  drm: Add a capability flag to support additional flip completion
+    signalling
+  drm/virtio: Probe and implement VIRTIO_GPU_F_RELEASE_FENCE feature
+  drm/virtio: Prepare set_scanout_blob to accept a fence
+  drm/virtio: Add a fence to set_scanout_blob
+
+ drivers/gpu/drm/drm_atomic_uapi.c        | 100 ++++++++++++++++++-----
+ drivers/gpu/drm/drm_crtc.c               |   2 +
+ drivers/gpu/drm/drm_ioctl.c              |   3 +
+ drivers/gpu/drm/drm_mode_config.c        |   6 ++
+ drivers/gpu/drm/virtio/virtgpu_debugfs.c |   1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.c     |   1 +
+ drivers/gpu/drm/virtio/virtgpu_drv.h     |   5 +-
+ drivers/gpu/drm/virtio/virtgpu_fence.c   |   9 ++
+ drivers/gpu/drm/virtio/virtgpu_kms.c     |   9 +-
+ drivers/gpu/drm/virtio/virtgpu_plane.c   |  63 ++++++++++++--
+ drivers/gpu/drm/virtio/virtgpu_vq.c      |   7 +-
+ include/drm/drm_atomic.h                 |   1 +
+ include/drm/drm_file.h                   |   9 ++
+ include/drm/drm_mode_config.h            |  15 ++++
+ include/uapi/drm/drm.h                   |   1 +
+ include/uapi/linux/virtio_gpu.h          |   2 +
+ 16 files changed, 200 insertions(+), 34 deletions(-)
+
+-- 
+2.30.2
+
