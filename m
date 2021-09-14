@@ -2,134 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4FF40B67D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 20:04:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E61740B68E
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 20:12:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09B3F6E52A;
-	Tue, 14 Sep 2021 18:03:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 122B689B49;
+	Tue, 14 Sep 2021 18:12:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com
- (mail-bn7nam10on2071.outbound.protection.outlook.com [40.107.92.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 530466E528;
- Tue, 14 Sep 2021 18:03:55 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KtwvNpDHcIyxn4MJ/4XS6T1OngN0PAwuwhbsb6ELoUyfhKhc3ZKf6uYE3TQu6ikUAG3tuhN8kftVs+FWD2YHFXvDa9d0gXxFDo9iVYy10gk49DdrOVOvVoXOJOPxp7CNPFmOHHoAp9V9eSalr/4Irikp2QAjpUr13A8vlxUvLyS6py5SYRwNrRkhpYLADceRKaFt9qZj+NQvqtsLsie3n10+A2YYqBFMdphnL7TahA7LQ8ePFDfMdSPG4RMWabzgK6qVYiTTkLRmq1AbzuHXbhfTPU5EEw6enmW1pq5mQrBK8CzTokgfJv4ddmjsblEtsFpWhBCBFq+8gir+tLhO5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=CziS3kcNiMlg1T3C8z/0IzI6f+KlNa+AU7IFzvLvNOY=;
- b=SsJsqzN6PgTKGEFYUvWarmjNoFSQ2qkhoL6baz/0myqxd9kV0yKTycKJkFGCFbCAlBiM9chjhuUWfTn9lZdC7ce4R7HWqVoTUFzXTi9fAGfRMLVvJ8GPDm4/l09Aahs9hPQ2L7pAgBO6Skvp8CjC8ZRb5GAhT2O0VdY924ZURtRgewSt2pVYiZHZY8CLHcKIBzJMDCkFTAnKmg0nNVI+HktHpmCE4daVHNLZye8RHQk5YztfXIrLKfUme4iXZQ/LalVRyiNN28+FSxLButHjsv5maDYkQKAoytsDs35zL3Wrb69wayDO15TAwW+Z7Aos7Yq5AydmzdS21S83suOSog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CziS3kcNiMlg1T3C8z/0IzI6f+KlNa+AU7IFzvLvNOY=;
- b=Kzu6wjOgHbHR5u0XYGPZTfHdZEIYe5+NFEUif88/qAstW60i69Hstzao7CAh8n7G0jqGcg3eka8hOK7zjEIr+G2P3mSQ043SclEPxhV5VH0wAY6yvTGDqrpbrwFQ201lQklnpckM9wTZgPtO0u4KkCBuLnuHhDsAR8BJMHlN4Mo20CXuKCwVNjbfHyMfjgYkzARAz8HTatR6ZYjpHRJyPSars/P0RNaloAcX7HG76Bu5Awnl0ETeJIE+jMXAWnm07VHDPuoTHk6tP8LQ1eFBP0qqItY5KOhRd2K9Pctqb36ZPSpSClmN9kH6vr3dUyeLXAueTA2yZXjwYydeO4Y4YA==
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5190.namprd12.prod.outlook.com (2603:10b6:208:31c::23)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.16; Tue, 14 Sep
- 2021 18:03:53 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4500.019; Tue, 14 Sep 2021
- 18:03:53 +0000
-Date: Tue, 14 Sep 2021 15:03:50 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Cc: Christoph Hellwig <hch@infradead.org>, David Airlie <airlied@linux.ie>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Eric Farman <farman@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, intel-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- kvm@vger.kernel.org, Kirti Wankhede <kwankhede@nvidia.com>,
- linux-s390@vger.kernel.org, Matthew Rosato <mjrosato@linux.ibm.com>,
- Peter Oberparleiter <oberpar@linux.ibm.com>,
- Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Vineeth Vijayan <vneethv@linux.ibm.com>,
- Zhenyu Wang <zhenyuw@linux.intel.com>,
- Zhi Wang <zhi.a.wang@intel.com>, Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 1/9] vfio/ccw: Use functions for alloc/free of the
- vfio_ccw_private
-Message-ID: <20210914180350.GG4065468@nvidia.com>
-References: <0-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
- <1-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
- <YTtBDbVsRveVE3i9@infradead.org> <87sfy7gnr2.fsf@redhat.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE17D89B49;
+ Tue, 14 Sep 2021 18:12:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="307643576"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="307643576"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 11:09:37 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="544222390"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 11:09:37 -0700
+Date: Tue, 14 Sep 2021 11:04:38 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 08/27] drm/i915: Add logical engine mapping
+Message-ID: <20210914180436.GA11006@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-9-matthew.brost@intel.com>
+ <c599bfef-418f-9a25-9e90-c20117dc4665@linux.intel.com>
+ <20210910194955.GA24003@jons-linux-dev-box>
+ <d95ee5e5-7118-cd98-49c0-964f22ade45d@linux.intel.com>
+ <20210913165029.GA8526@jons-linux-dev-box>
+ <68b40289-b8c6-9740-b1a6-f37ea4ffc2f7@linux.intel.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <87sfy7gnr2.fsf@redhat.com>
-X-ClientProxiedBy: MN2PR18CA0017.namprd18.prod.outlook.com
- (2603:10b6:208:23c::22) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
-MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- MN2PR18CA0017.namprd18.prod.outlook.com (2603:10b6:208:23c::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.14 via Frontend
- Transport; Tue, 14 Sep 2021 18:03:53 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mQCmc-000YTR-VB; Tue, 14 Sep 2021 15:03:50 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2b13a6db-b226-4577-a1da-08d977aa0339
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5190:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5190B774E2E3C55C34B9C5AAC2DA9@BL1PR12MB5190.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: E8FvhBcqOISa6XICjz1Urr5f0S5w++LUFgonvJkfaBk29RMP28L4qo5s3oQt59hG9fOEopIwgordIOJoC6S/PgMXIAoXBX051wRKeoFv9KVovPJg0hxRLdsVnygNGVldmLwCCWsfUt+/8Fb86+Py7GWODhKkEunE/50BHsNXtXtjTrgxNI4yQ6ywgs8KZJt9ezQt6+v0v0hBVbuGN85BvrjKE5UAIhA6hpWyPJsr9yeyutdOQQ0gMhpHH1pzyZQy81vwWzasYOn4yWyM2elsHHNbnkjBrsO7RZch/4h8tY8xP8vueoSQVuGyDyuhDuO3lS6s7+CNhI+kxcxLPhTH5TuUiCkBANZdaSFq3PaTykNN6QDYDbECL2Bx5lS9Y+V8LGGYmK5SZI3bKIXHIEEakpuzvTm77RmrDoNF/P7XQizULyZ7SvYzEN8Mdq5WjIAYaijauB6TLDnet2fupBMx0UvNFzj/PUKrEr5SjTE7rArwNo1QbjBPNlpQQtiC1Go9TurxoVZ2Gc/KV+dKju0leoqJWIYWVrEwbEYSD1i0bw+bn6UxzbkYHcYkdldGBuqSMbvh2gUQokjSL3o+BLKo2l2ppNb2e8zGi8mUWpgj86pQso/82xxy/PGSldAwf4vcOhV+QhdlVT1GDRy0wePX3Q==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(396003)(366004)(39860400002)(66556008)(66476007)(8936002)(36756003)(54906003)(1076003)(33656002)(66946007)(26005)(316002)(2616005)(6916009)(2906002)(38100700002)(8676002)(83380400001)(9786002)(53546011)(9746002)(7416002)(4326008)(186003)(5660300002)(478600001)(86362001)(426003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?GHPDTgXzphz0Ldlv8YB1F4hm5ZM03ta0Da3ZwQaUAzgDE2kv8UmbP2G5qt2g?=
- =?us-ascii?Q?hxiUk8cRiNKIhsymVKVIjKpWEnwi+OnYudFrF4LG93DDPzmNH5ML1kS1D6X/?=
- =?us-ascii?Q?3beC/TcY3QUKlV+HNDSSS7LzvylRIW4GF5C5LVTbBcQDO3TlDSCymu5svldU?=
- =?us-ascii?Q?v2MpKtGG6iES93gHJfveougMyxJCUlajFav2H70vRdvYmU/Qrlhlk4ij7nZ0?=
- =?us-ascii?Q?bFNxyB9Xb8IU5IwE6qWo0HQVuFmsV5D7GBUx+OMnBbxoTh49gLndBNwdV8mz?=
- =?us-ascii?Q?R7seBqxTFa8XZ4jCbocKExaKYUNSL6JHrDjwauCbtoQSeg1K6vxnZtxWV9dw?=
- =?us-ascii?Q?0W9/lTy0DiwrXcWdq4Ag8yroo5fumACOLx8Dnbi5RyBYNdC/wM+FM6fsCxd8?=
- =?us-ascii?Q?3VT8/YWTcOK0Ms5jo3tzuCC/gKCygcgDlKtCuyLqQj8OCv9n6vA/tQfV+pRd?=
- =?us-ascii?Q?iXgVMweqVy+0C6bMp859cQZtLkAEZgPsfve1P6PL+5fjmCFUg9jFACQWRS0T?=
- =?us-ascii?Q?kKmKcLAIy2dJkPRdAz9t7KWHiIgCcWlm06/3fBqwcRe7aBOGMShXHzxFKjDy?=
- =?us-ascii?Q?q2HaZgVrxjRUoGgL/1dFgJJeP7Phw0YVU/4WZc2EUGEDXtEKPXUQLEbe1Zty?=
- =?us-ascii?Q?GfIiq/4dJLYc4+lsn1BG2nLrcfVvaMh0Q4fplm1BPGnNw4RqJScO3tqIg4dV?=
- =?us-ascii?Q?UEuwhegiAO7CZ2NdcBbU4zq+Mw+3T4Jih52svi5aXrA7i4nLuCjRhbtHVd7T?=
- =?us-ascii?Q?IshRGZM1e8iS3laYC/n5rkbanpax8ZHGvFbBK1HCg95VYDyrPrM1yXGztj33?=
- =?us-ascii?Q?1sG3RTTM98yoy2C3zdWv//7+3Fofu6GR5B6K7UFsAQQ1FsT64ydKRvsbFznK?=
- =?us-ascii?Q?17QOG7amMojqLYHYCudovW4rCR5yRLcy7vLvLpQ5q6PYZ7q4LBrIkWg0Gpu3?=
- =?us-ascii?Q?DjnKUs9l2Ua3UYDief5JZBXNaBCgLArx66oxvokkzUUNIjDTJ4KohpqjhxWY?=
- =?us-ascii?Q?ORwwo3Y7HatMvJ7wesnTGZsfn+ww3DhCVGqYU1D6ZBqWpNRVBV+gqDkhUo8M?=
- =?us-ascii?Q?V+IzkYHdOLAGZGb4oNCcx6MLPdUjQMX322PX7/KmguNGwvg510GmZFj0yOlA?=
- =?us-ascii?Q?q58lGigmKMY4Z2KIO5bXaI0sZ0qWHQZf5ZdiRBRgObZrG6g/vWEwbdcV2TZU?=
- =?us-ascii?Q?RF4ZCYjiyKtuB9jJDV0STOfoU5eGxNXY1YB2glBAc050c777r3+KR//yMYX3?=
- =?us-ascii?Q?ZAZ51TDLIdFxB5qs8rzsR76Z+3WZ/FeKpER9OvuYC41xv+NafteriiVSods5?=
- =?us-ascii?Q?U3b/07a/5b5LY+mbDeLTOrCJ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b13a6db-b226-4577-a1da-08d977aa0339
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2021 18:03:53.4628 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: b/ZiNFS2yVlx68HZ5fHXXIR9x17lLounB9lOkHMK61x9rj/8mQhVeik2FEHF9p6P
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5190
+In-Reply-To: <68b40289-b8c6-9740-b1a6-f37ea4ffc2f7@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -145,54 +56,436 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 14, 2021 at 05:50:25PM +0200, Cornelia Huck wrote:
-> On Fri, Sep 10 2021, Christoph Hellwig <hch@infradead.org> wrote:
+On Tue, Sep 14, 2021 at 09:34:08AM +0100, Tvrtko Ursulin wrote:
 > 
-> > On Thu, Sep 09, 2021 at 04:38:41PM -0300, Jason Gunthorpe wrote:
-> >> +
-> >> +	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
-> >> +	if (!private)
-> >> +		return ERR_PTR(-ENOMEM);
-> >
-> > Nit: there is no need to add GFP_KERNEL when using GFP_DMA.
-> >
-> > Also a question to the s390 maintainers: why do we need 31-bit
-> > addressability for the main private data structure?
+> On 13/09/2021 17:50, Matthew Brost wrote:
+> > On Mon, Sep 13, 2021 at 10:24:43AM +0100, Tvrtko Ursulin wrote:
+> > > 
+> > > On 10/09/2021 20:49, Matthew Brost wrote:
+> > > > On Fri, Sep 10, 2021 at 12:12:42PM +0100, Tvrtko Ursulin wrote:
+> > > > > 
+> > > > > On 20/08/2021 23:44, Matthew Brost wrote:
+> > > > > > Add logical engine mapping. This is required for split-frame, as
+> > > > > > workloads need to be placed on engines in a logically contiguous manner.
+> > > > > > 
+> > > > > > v2:
+> > > > > >     (Daniel Vetter)
+> > > > > >      - Add kernel doc for new fields
+> > > > > > 
+> > > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > > ---
+> > > > > >     drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 60 ++++++++++++++++---
+> > > > > >     drivers/gpu/drm/i915/gt/intel_engine_types.h  |  5 ++
+> > > > > >     .../drm/i915/gt/intel_execlists_submission.c  |  1 +
+> > > > > >     drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
+> > > > > >     .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +------
+> > > > > >     5 files changed, 60 insertions(+), 29 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > > > > index 0d9105a31d84..4d790f9a65dd 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+> > > > > > @@ -290,7 +290,8 @@ static void nop_irq_handler(struct intel_engine_cs *engine, u16 iir)
+> > > > > >     	GEM_DEBUG_WARN_ON(iir);
+> > > > > >     }
+> > > > > > -static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+> > > > > > +static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
+> > > > > > +			      u8 logical_instance)
+> > > > > >     {
+> > > > > >     	const struct engine_info *info = &intel_engines[id];
+> > > > > >     	struct drm_i915_private *i915 = gt->i915;
+> > > > > > @@ -334,6 +335,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
+> > > > > >     	engine->class = info->class;
+> > > > > >     	engine->instance = info->instance;
+> > > > > > +	engine->logical_mask = BIT(logical_instance);
+> > > > > >     	__sprint_engine_name(engine);
+> > > > > >     	engine->props.heartbeat_interval_ms =
+> > > > > > @@ -572,6 +574,37 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
+> > > > > >     	return info->engine_mask;
+> > > > > >     }
+> > > > > > +static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
+> > > > > > +				 u8 class, const u8 *map, u8 num_instances)
+> > > > > > +{
+> > > > > > +	int i, j;
+> > > > > > +	u8 current_logical_id = 0;
+> > > > > > +
+> > > > > > +	for (j = 0; j < num_instances; ++j) {
+> > > > > > +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
+> > > > > > +			if (!HAS_ENGINE(gt, i) ||
+> > > > > > +			    intel_engines[i].class != class)
+> > > > > > +				continue;
+> > > > > > +
+> > > > > > +			if (intel_engines[i].instance == map[j]) {
+> > > > > > +				logical_ids[intel_engines[i].instance] =
+> > > > > > +					current_logical_id++;
+> > > > > > +				break;
+> > > > > > +			}
+> > > > > > +		}
+> > > > > > +	}
+> > > > > > +}
+> > > > > > +
+> > > > > > +static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
+> > > > > > +{
+> > > > > > +	int i;
+> > > > > > +	u8 map[MAX_ENGINE_INSTANCE + 1];
+> > > > > > +
+> > > > > > +	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
+> > > > > > +		map[i] = i;
+> > > > > 
+> > > > > What's the point of the map array since it is 1:1 with instance?
+> > > > > 
+> > > > 
+> > > > Future products do not have a 1 to 1 mapping and that mapping can change
+> > > > based on fusing, e.g. XeHP SDV.
+> > > > 
+> > > > Also technically ICL / TGL / ADL physical instance 2 maps to logical
+> > > > instance 1.
+> > > 
+> > > I don't follow the argument. All I can see is that "map[i] = i" always in
+> > > the proposed code, which is then used to check "instance == map[instance]".
+> > > So I'd suggest to remove this array from the code until there is a need for
+> > > it.
+> > > 
+> > 
+> > Ok, this logic is slightly confusing and makes more sense once we have
+> > non-standard mappings. Yes, map is setup in a 1 to 1 mapping by default
+> > with the value in map[i] being a physical instance. Populate_logical_ids
+> > searches the map finding all physical instances present in the map
+> > assigning each found instance a new logical id increasing by 1 each
+> > time.
+> > 
+> > e.g. If the map is setup 0-N and only physical instance 0 / 2 are
+> > present they will get logical mapping 0 / 1 respectfully.
+> > 
+> > This algorithm works for non-standard mappings too /w fused parts. e.g.
+> > on XeHP SDV the map is: { 0, 2, 4, 6, 1, 3, 5, 7 } and if any of the
+> > physical instances can't be found due to fusing the logical mapping is
+> > still correct per the bspec.
+> > 
+> > This array is absolutely needed for multi-lrc submission to work, even
+> > on ICL / TGL / ADL as the GuC only supports logically contiguous engine
+> > instances.
 > 
-> I don't think we need it anymore since c98e16b2fa12 ("s390/cio: Convert
-> ccw_io_region to pointer") and probably should just drop the GFP_DMA.
+> No idea how can an array fixed at "map[i] = i" be absolutely needed when you
+> can just write it like "i". Sometimes it is okay to lay some ground work for
 
-I added this to the series:
+You can't write "i", that is the point. The map is a search array saying
+if entry is present assign + increase the logical id. That is how a map
+of 0, 1, 2 with physical instancnes 0, 2 present result in a logical
+mapping of 0, 1. This is the algorithm we use for all parts, albeit some
+parts have different maps (e.g. XeHP SDV, PVC, etc...) compared to here
+where we use the default map of sequential numbers.
 
-From 0d40f9c57430400a81aa60920b70761535967048 Mon Sep 17 00:00:00 2001
-From: Jason Gunthorpe <jgg@nvidia.com>
-Date: Tue, 14 Sep 2021 14:21:49 -0300
-Subject: [PATCH] vfio/ccw: Remove unneeded GFP_DMA
+> future platforms but in this case to me it's just obfuscation which should
+> be added later, when it is required.
 
-Since the ccw_io_region was split out of the private the allocation no
-longer needs the GFP_DMA. Remove it.
+Same algorithm, see above. This should land is as it doesn't make sense
+to hack a different algorithm only to replace it with the correct
+algorithm later.
 
-Reported-by: Christoph Hellwig <hch@infradead.org>
-Fixes: c98e16b2fa12 ("s390/cio: Convert ccw_io_region to pointer")
-Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
----
- drivers/s390/cio/vfio_ccw_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> > > > > > +	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
+> > > > > > +}
+> > > > > > +
+> > > > > >     /**
+> > > > > >      * intel_engines_init_mmio() - allocate and prepare the Engine Command Streamers
+> > > > > >      * @gt: pointer to struct intel_gt
+> > > > > > @@ -583,7 +616,8 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+> > > > > >     	struct drm_i915_private *i915 = gt->i915;
+> > > > > >     	const unsigned int engine_mask = init_engine_mask(gt);
+> > > > > >     	unsigned int mask = 0;
+> > > > > > -	unsigned int i;
+> > > > > > +	unsigned int i, class;
+> > > > > > +	u8 logical_ids[MAX_ENGINE_INSTANCE + 1];
+> > > > > >     	int err;
+> > > > > >     	drm_WARN_ON(&i915->drm, engine_mask == 0);
+> > > > > > @@ -593,15 +627,23 @@ int intel_engines_init_mmio(struct intel_gt *gt)
+> > > > > >     	if (i915_inject_probe_failure(i915))
+> > > > > >     		return -ENODEV;
+> > > > > > -	for (i = 0; i < ARRAY_SIZE(intel_engines); i++) {
+> > > > > > -		if (!HAS_ENGINE(gt, i))
+> > > > > > -			continue;
+> > > > > > +	for (class = 0; class < MAX_ENGINE_CLASS + 1; ++class) {
+> > > > > > +		setup_logical_ids(gt, logical_ids, class);
+> > > > > > -		err = intel_engine_setup(gt, i);
+> > > > > > -		if (err)
+> > > > > > -			goto cleanup;
+> > > > > > +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
+> > > > > > +			u8 instance = intel_engines[i].instance;
+> > > > > > +
+> > > > > > +			if (intel_engines[i].class != class ||
+> > > > > > +			    !HAS_ENGINE(gt, i))
+> > > > > > +				continue;
+> > > > > > -		mask |= BIT(i);
+> > > > > > +			err = intel_engine_setup(gt, i,
+> > > > > > +						 logical_ids[instance]);
+> > > > > > +			if (err)
+> > > > > > +				goto cleanup;
+> > > > > > +
+> > > > > > +			mask |= BIT(i);
+> > > > > 
+> > > > > I still this there is a less clunky way to set this up in less code and more
+> > > > > readable at the same time. Like do it in two passes so you can iterate
+> > > > > gt->engine_class[] array instead of having to implement a skip condition
+> > > > > (both on class and HAS_ENGINE at two places) and also avoid walking the flat
+> > > > > intel_engines array recursively.
+> > > > > 
+> > > > 
+> > > > Kinda a bikeshed arguing about a pretty simple loop structure, don't you
+> > > > think? I personally like the way it laid out.
+> > > > 
+> > > > Pseudo code for your suggestion?
+> > > 
+> > > Leave the existing setup loop as is and add an additional "for engine class"
+> > > walk after it. That way you can walk already setup gt->engine_class[] array
+> > > so wouldn't need to skip wrong classes and have HAS_ENGINE checks when
+> > > walking the flat intel_engines[] array several times. It also applies to the
+> > > helper which counts logical instances per class.
+> > > 
+> > 
+> > Ok, I think I see what you are getting at. Again IMO this is a total
+> > bikeshed as this is 1 time setup step that we really should only care if
+> > the loop works or not rather than it being optimized / looks a way a
+> > certain person wants. I can change this if you really insist but again
+> > IMO disucssing this is a total waste of energy.
+> 
+> It should be such a no brainer to go with simpler and less invasive change
+> that I honestly don't understand where is the big deal. Here is my pseudo
+> code one more time and that will be the last from me on the topic.
+> 
+> Today we have:
+> 
+> for_each intel_engines: // intel_engines is a flat list of all engines
+> 	intel_engine_setup()
+> 
+> You propose to change it to:
+> 
+> for_each engine_class:
+>    for 0..max_global_engine_instance:
+>       for_each intel_engines:
+>          skip engine not present
+>          skip class not matching
+> 
+>          count logical instance
+> 
+>    for_each intel_engines:
+>       skip engine not present
+>       skip wrong class
+> 
+>       intel_engine_setup()
+> 
+> 
+> I propose:
+> 
+> // Leave as is:
+> 
+> for_each intel_engines:
+>    intel_engine_setup()
+> 
+> // Add:
+> 
+> for_each engine_class:
+>    logical = 0
+>    for_each gt->engine_class[class]:
+>       skip engine not present
+> 
+>       engine->logical_instance = logical++
+> 
+> 
+> When code which actually needs a preturbed "map" arrives you add that in to
+> this second loop.
+>
 
-diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
-index 76099bcb765b45..371558ec92045d 100644
---- a/drivers/s390/cio/vfio_ccw_drv.c
-+++ b/drivers/s390/cio/vfio_ccw_drv.c
-@@ -161,7 +161,7 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
- 		return -ENODEV;
- 	}
+See above, why introduce an algorithm that doesn't work for future parts
++ future patches are land imminently? It makes zero sense whatsoever.
+With your proposal we would literally land code to just throw it away a
+couple of months from now + break patches we intend to land soon. This
+algorithm works and has no reason whatsoever to be optimal as it a one
+time setup call. I really don't understand why we are still talking
+about this paint color.
+
+> > > > > > +		}
+> > > > > >     	}
+> > > > > >     	/*
+> > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > > > > index ed91bcff20eb..fddf35546b58 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+> > > > > > @@ -266,6 +266,11 @@ struct intel_engine_cs {
+> > > > > >     	unsigned int guc_id;
+> > > > > >     	intel_engine_mask_t mask;
+> > > > > > +	/**
+> > > > > > +	 * @logical_mask: logical mask of engine, reported to user space via
+> > > > > > +	 * query IOCTL and used to communicate with the GuC in logical space
+> > > > > > +	 */
+> > > > > > +	intel_engine_mask_t logical_mask;
+> > > > > 
+> > > > > You could prefix the new field with uabi_ to match the existing scheme and
+> > > > > to signify to anyone who might be touching it in the future it should not be
+> > > > > changed.
+> > > > 
+> > > > This is kinda uabi, but also kinda isn't. We do report a logical
+> > > > instance via IOCTL but it also really is tied the GuC backend as we only
+> > > > can communicate with the GuC in logical space. IMO we should leave as
+> > > > is.
+> > > 
+> > > Perhaps it would be best to call the new field uabi_logical_instance so it's
+> > > clear it is reported in the query directly and do the BIT() transformation
+> > > in the GuC backend?
+> > > 
+> > 
+> > Virtual engines can have a multiple bits set in this mask, so this is
+> > used for both the query on physical engines via UABI and submission in
+> > the GuC backend.
+> 
+> You could add both fields if that would help. I just think it is preferrable
+> to keep the existing convetion of uabi_ prefix for the fields which i915
+> refactors must not change willy-nilly.
+>
+
+Sure can add another field to make the separation clear.
  
--	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
-+	private = kzalloc(sizeof(*private), GFP_KERNEL);
- 	if (!private)
- 		return -ENOMEM;
+> > 
+> > > > 
+> > > > > 
+> > > > > Also, I think comment should explain what is logical space ie. how the
+> > > > > numbering works.
+> > > > > 
+> > > > 
+> > > > Don't I already do that? I suppose I could add something like:
+> > > 
+> > > Where is it? Can't see it in the uapi kerneldoc AFAICS (for the new query)
+> > > or here.
+> > > 
+> > 
+> > 	/**
+> > 	 * @logical_mask: logical mask of engine, reported to user space via
+> > 	 * query IOCTL and used to communicate with the GuC in logical space
+> > 	 */
+> > > > 
+> > > > The logical mask within engine class must be contiguous across all
+> > > > instances.
+> > > 
+> > > Best not to start mentioning the mask for the first time. Just explain what
+> > > logical numbering is in terms of how engines are enumerated in order of
+> > > physical instances but skipping the fused off ones. In the kerneldoc for the
+> > > new query is I think the right place.
+> > > 
+> > 
+> > Maybe I can add:
+> > 
+> > The logical mapping is defined on per part basis in the bspec and can
+> > very based the parts fusing.
+> 
+> Sounds good, I think that would be useful. But in the uapi kerneldoc.
+> 
+> Perhaps a cross-link to/from the kernel doc which talks about frame split to
+> explain consecutive logical instances have to be used. That would tie the
+> new query with that uapi in the narrative.
+>
+
+Sure, let me see what I can do here.
+
+Matt
  
--- 
-2.33.0
-
-
+> Regards,
+> 
+> Tvrtko
+> 
+> > > > > Not sure the part about GuC needs to be in the comment since uapi is
+> > > > > supposed to be backend agnostic.
+> > > > > 
+> > > > 
+> > > > Communicating with the GuC in logical space is a pretty key point here.
+> > > > The communication with the GuC in logical space is backend specific but
+> > > > how our hardware works (e.g. split frame workloads must be placed
+> > > > logical contiguous) is not. Mentioning the GuC requirement here makes
+> > > > sense to me for completeness.
+> > > 
+> > > Yeah might be, I was thinking more about the new query. Query definitely is
+> > > backend agnostic but yes it is fine to say in the comment here the new field
+> > > is used both for the query and for communicating with GuC.
+> > > 
+> > 
+> > Sounds good, will make it clear it used for the query and from
+> > communicating with the GuC.
+> > 
+> > Matt
+> > > Regards,
+> > > 
+> > > Tvrtko
+> > > 
+> > > > 
+> > > > Matt
+> > > > 
+> > > > > Regards,
+> > > > > 
+> > > > > Tvrtko
+> > > > > 
+> > > > > >     	u8 class;
+> > > > > >     	u8 instance;
+> > > > > > diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > index cafb0608ffb4..813a6de01382 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+> > > > > > @@ -3875,6 +3875,7 @@ execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+> > > > > >     		ve->siblings[ve->num_siblings++] = sibling;
+> > > > > >     		ve->base.mask |= sibling->mask;
+> > > > > > +		ve->base.logical_mask |= sibling->logical_mask;
+> > > > > >     		/*
+> > > > > >     		 * All physical engines must be compatible for their emission
+> > > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > > > > index 6926919bcac6..9f5f43a16182 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+> > > > > > @@ -176,7 +176,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
+> > > > > >     	for_each_engine(engine, gt, id) {
+> > > > > >     		u8 guc_class = engine_class_to_guc_class(engine->class);
+> > > > > > -		system_info->mapping_table[guc_class][engine->instance] =
+> > > > > > +		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
+> > > > > >     			engine->instance;
+> > > > > >     	}
+> > > > > >     }
+> > > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > index e0eed70f9b92..ffafbac7335e 100644
+> > > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > > > @@ -1401,23 +1401,6 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
+> > > > > >     	return __guc_action_deregister_context(guc, guc_id, loop);
+> > > > > >     }
+> > > > > > -static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
+> > > > > > -{
+> > > > > > -	switch (class) {
+> > > > > > -	case RENDER_CLASS:
+> > > > > > -		return mask >> RCS0;
+> > > > > > -	case VIDEO_ENHANCEMENT_CLASS:
+> > > > > > -		return mask >> VECS0;
+> > > > > > -	case VIDEO_DECODE_CLASS:
+> > > > > > -		return mask >> VCS0;
+> > > > > > -	case COPY_ENGINE_CLASS:
+> > > > > > -		return mask >> BCS0;
+> > > > > > -	default:
+> > > > > > -		MISSING_CASE(class);
+> > > > > > -		return 0;
+> > > > > > -	}
+> > > > > > -}
+> > > > > > -
+> > > > > >     static void guc_context_policy_init(struct intel_engine_cs *engine,
+> > > > > >     				    struct guc_lrc_desc *desc)
+> > > > > >     {
+> > > > > > @@ -1459,8 +1442,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> > > > > >     	desc = __get_lrc_desc(guc, desc_idx);
+> > > > > >     	desc->engine_class = engine_class_to_guc_class(engine->class);
+> > > > > > -	desc->engine_submit_mask = adjust_engine_mask(engine->class,
+> > > > > > -						      engine->mask);
+> > > > > > +	desc->engine_submit_mask = engine->logical_mask;
+> > > > > >     	desc->hw_context_desc = ce->lrc.lrca;
+> > > > > >     	desc->priority = ce->guc_state.prio;
+> > > > > >     	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > > > > > @@ -3260,6 +3242,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
+> > > > > >     		}
+> > > > > >     		ve->base.mask |= sibling->mask;
+> > > > > > +		ve->base.logical_mask |= sibling->logical_mask;
+> > > > > >     		if (n != 0 && ve->base.class != sibling->class) {
+> > > > > >     			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
+> > > > > > 
