@@ -2,116 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B4DB40BAFE
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 00:12:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC1B40BB77
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 00:31:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFC386E82B;
-	Tue, 14 Sep 2021 22:12:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E81DA6E832;
+	Tue, 14 Sep 2021 22:31:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A91DA6E82B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 22:12:35 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id g1so1545456lfj.12
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 15:12:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LAvaIUH5OlRWAZQfOb+bWm3uVreewxT3eR+cClts1uI=;
- b=VLrCs/+hNIGuWHNfFM8FPpo9MdASxRdZfjTQbnUJQyNoarhnB48pzOHj92Uv+amr9p
- ixzRcYtYvH4tHeMTkq392YF521gX9qRP6RXpjY/MbnIpiM/U1DAP4rT3mhItZ+smgYPC
- HAnvOKCP691XE//yBgTqBGfOzo3Xk8LHh+rXW30yKTdtiIQEgJZOMlPkWV+fJ3uxpW4R
- nToOeYf0EHRW6z3YX/fLoUtleulbtYB1Liz6pppbcIZmFmkKstGWGpmXGDPpdxxXQDOO
- To6zI2pt1uDGWX1qSHzdUDUBiwjbHPMgxHrVOk9ocyyjcFoQBRhXrj0omC1wbF+Moi96
- n6BQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LAvaIUH5OlRWAZQfOb+bWm3uVreewxT3eR+cClts1uI=;
- b=hurwVRHSwbCAnClt03tqO2xdexq/sKcvWPw53U2eaZkbtttNDs6TCYKQAjiWbCeABo
- Q6FUgXb2Fg0XvAAoTl6IbMDD26P8IgmU03By8MX8UObtiCjtsnnR5/mnx7C2yK4aNJIw
- a9r5ZIifqLPFY/+mDwTRlSFpKHOtG6ZYB1EJj0TpERe483TQelTR/Ma8+8uxHS5yHLxa
- 9WxiYj35Rzse6yIqrzbrejOt3sLr6mWukmlDdIypd3Dc2vQxypPuUftHEQDLMW58thcZ
- PoGFNiCXHDMWmZrOv711l86VRtwm8igVM+0wRf0ZHnzDxkPcLfPIjHHunZ/nzkpLNIOb
- 7/lg==
-X-Gm-Message-State: AOAM5326oARObNQKFbgNbJ8FC4IFXbYseUyfVfvqyfTapQAiqXnIuEIj
- M3NLqBTtP4VRvKm33ZEOnuZeTwjIes/Twjra7necWQ==
-X-Google-Smtp-Source: ABdhPJwu3ztXRgAHEffeDYZFOfptVugQFO781IvsJ0Ym9L4qfm8T9QJBx3b1mwEoJsYA+Z6NYJX/ewEtSqtF71Fz60g=
-X-Received: by 2002:a05:6512:132a:: with SMTP id
- x42mr14797863lfu.291.1631657553855; 
- Tue, 14 Sep 2021 15:12:33 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 70ED66E832;
+ Tue, 14 Sep 2021 22:31:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="307702043"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="307702043"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 15:31:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="544316594"
+Received: from lveltman-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.251.216.6])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 15:31:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lyude Paul <lyude@redhat.com>, Vasily Khoruzhick <anarsoul@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>, Aaron
+ Ma <aaron.ma@canonical.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915/dp: add a delay before setting panel brightness
+ after power on
+In-Reply-To: <410de2c8e865446ec7f9d72a419b2674d34891bf.camel@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210913193509.3575-1-anarsoul@gmail.com>
+ <87r1dr34nk.fsf@intel.com>
+ <410de2c8e865446ec7f9d72a419b2674d34891bf.camel@redhat.com>
+Date: Wed, 15 Sep 2021 01:31:04 +0300
+Message-ID: <87v932zt5j.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210914202202.1702601-1-dianders@chromium.org>
-In-Reply-To: <20210914202202.1702601-1-dianders@chromium.org>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Wed, 15 Sep 2021 00:12:22 +0200
-Message-ID: <CACRpkdaTb4_UfFzCqw=fiAnQhHD+1sDDua529KdGQbgMVfjYBw@mail.gmail.com>
-Subject: Re: [PATCH v5 00/15] eDP: Support probing eDP panels dynamically
- instead of hardcoding
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, 
- "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
- MSM <linux-arm-msm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
- Adam Ford <aford173@gmail.com>, Al Viro <viro@zeniv.linux.org.uk>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Andreas Kemnade <andreas@kemnade.info>, 
- Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>,
- Anson Huang <Anson.Huang@nxp.com>, 
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Chen-Yu Tsai <wens@csie.org>, 
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Corentin Labbe <clabbe@baylibre.com>, 
- Daniel Thompson <daniel.thompson@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Dmitry Osipenko <digetx@gmail.com>, Emil Velikov <emil.velikov@collabora.com>, 
- Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- Eugen Hristev <eugen.hristev@microchip.com>, 
- Fabio Estevam <festevam@gmail.com>, Fabrice Gasnier <fabrice.gasnier@st.com>, 
- Florian Fainelli <f.fainelli@gmail.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Grygorii Strashko <grygorii.strashko@ti.com>,
- =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
- Jagan Teki <jagan@amarulasolutions.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Joel Stanley <joel@jms.id.au>, Jonathan Hunter <jonathanh@nvidia.com>,
- Kees Cook <keescook@chromium.org>, Krzysztof Kozlowski <krzk@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>, 
- Lionel Debieve <lionel.debieve@st.com>, Liviu Dudau <liviu.dudau@arm.com>, 
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, 
- Ludovic Desroches <ludovic.desroches@microchip.com>,
- Magnus Damm <magnus.damm@gmail.com>, 
- Manivannan Sadhasivam <mani@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, 
- =?UTF-8?Q?Martin_J=C3=BCcker?= <martin.juecker@gmail.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Michael Walle <michael@walle.cc>, 
- NXP Linux Team <linux-imx@nxp.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
- Nishanth Menon <nm@ti.com>, Olivier Moysan <olivier.moysan@st.com>, 
- Otavio Salvador <otavio@ossystems.com.br>,
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Razvan Stefanescu <razvan.stefanescu@microchip.com>,
- Robert Richter <rric@kernel.org>, 
- Russell King <linux@armlinux.org.uk>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Stefan Wahren <stefan.wahren@i2se.com>, 
- Sudeep Holla <sudeep.holla@arm.com>, Tony Lindgren <tony@atomide.com>, 
- Viresh Kumar <viresh.kumar@linaro.org>, Vladimir Zapolskiy <vz@mleia.com>,
- Will Deacon <will@kernel.org>, William Cohen <wcohen@redhat.com>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>,
- Linux-OMAP <linux-omap@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- linux-sunxi@lists.linux.dev, linux-tegra <linux-tegra@vger.kernel.org>,
- =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -127,16 +56,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 14, 2021 at 10:22 PM Douglas Anderson <dianders@chromium.org> wrote:
-
-> Version 5 of this series just fixes the panel ID encode macro to be
-> cleaner and adds Jani's review tags.
+On Tue, 14 Sep 2021, Lyude Paul <lyude@redhat.com> wrote:
+> On Tue, 2021-09-14 at 12:09 +0300, Jani Nikula wrote:
+>> On Mon, 13 Sep 2021, Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+>> > Panel in my Dell XPS 7590, that uses Intel's HDR backlight interface to
+>> > control brightness, apparently needs a delay before setting brightness
+>> > after power on. Without this delay the panel does accept the setting
+>> > and may come up with some arbitrary brightness (sometimes it's too dar=
+k,
+>> > sometimes it's too bright, I wasn't able to find a system).
+>> >=20
+>> > I don't have access to the spec, so I'm not sure if it's expected
+>> > behavior or a quirk for particular device.
+>> >=20
+>> > Delay was chosen by experiment: it works with 100ms, but fails with
+>> > anything lower than 75ms.
+>>=20
+>> Looks like we don't respect the panel delays for DPCD backlight. The
+>> values are used for setting up the panel power sequencer, and thus PWM
+>> based backlight, but we should probably use the delays in DPCD backlight
+>> code too.
 >
-> It could possibly be ready to land?
+> This makes sense to me, you're referring to the panel delays in the VBT
+> correct?
 
-Definitely IMO, the kernel look so much better after this change,
-so for the series:
-Acked-by: Linus Walleij <linus.walleij@linaro.org>
+Yes. See pps_init_delays() and intel_pps_backlight_on(). The delays
+aren't applied to DPCD backlight, I think it would make sense if they
+were.
 
-Yours,
-Linus Walleij
+BR,
+Jani.
+
+>
+>>=20
+>> BR,
+>> Jani.
+>>=20
+>>=20
+>> >=20
+>> > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+>> > ---
+>> > =C2=A0drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 4 ++++
+>> > =C2=A01 file changed, 4 insertions(+)
+>> >=20
+>> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>> > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>> > index 4f8337c7fd2e..c4f35e1b5870 100644
+>> > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>> > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+>> > @@ -210,6 +210,10 @@ intel_dp_aux_hdr_enable_backlight(const struct
+>> > intel_crtc_state *crtc_state,
+>> > =C2=A0
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ctrl =3D old_ctrl;
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (panel->backlight.e=
+dp.intel.sdr_uses_aux) {
+>> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0/* Wait 100ms to ensure that panel is ready otherwise =
+it
+>> > may not
+>> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 * set chosen backlight level
+>> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 */
+>> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0msleep(100);
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0ctrl |=3D INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENAB=
+LE;
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0intel_dp_aux_hdr_set_aux_backlight(conn_state, l=
+evel);
+>> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0} else {
+>>=20
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
