@@ -1,52 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B08F40A925
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 771EF40A935
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B2766E429;
-	Tue, 14 Sep 2021 08:27:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8F516E42F;
+	Tue, 14 Sep 2021 08:29:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C3976E429;
- Tue, 14 Sep 2021 08:27:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285614522"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="285614522"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 01:27:51 -0700
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="481713398"
-Received: from skofoed-mobl.ger.corp.intel.com (HELO [10.249.254.174])
- ([10.249.254.174])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 01:27:49 -0700
-Message-ID: <4add643ae0b1a1daa4657106f5554894145a9778.camel@linux.intel.com>
-Subject: Re: [RFC PATCH] drm/ttm: Add a private member to the struct
- ttm_resource
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com, Matthew Auld
- <matthew.william.auld@gmail.com>
-Date: Tue, 14 Sep 2021 10:27:47 +0200
-In-Reply-To: <0a0f1b45-a668-e0a8-dcd0-d4413ec3b39b@amd.com>
-References: <20210910131512.161655-1-thomas.hellstrom@linux.intel.com>
- <d7570cab-d402-761d-40e0-3d08d9b9d3c9@amd.com>
- <a1a8fd3f1ca13b84192bd3c8719f510e5b655b2c.camel@linux.intel.com>
- <c8484b51-4365-bedd-be73-4c0898ac70b1@amd.com>
- <5ea3f498cc5ae84fa6aeba97a64e4eb8ab32e02b.camel@linux.intel.com>
- <c67b3b42-d260-44dc-81cb-1d1eb18db643@amd.com>
- <a6badfa3-efbb-7830-e019-1dd61b0f800e@linux.intel.com>
- <5ca10e93-9bac-bd8f-39b0-d60fe06bc289@amd.com>
- <4b9e25e3-0a9d-a7a8-e092-8355c6b5878f@linux.intel.com>
- <7c0b6e6d-fd36-9a5c-758d-7c172c0c5e05@linux.intel.com>
- <0a0f1b45-a668-e0a8-dcd0-d4413ec3b39b@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
+ [64.147.123.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 465566E42C
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 08:29:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 571AE3200973;
+ Tue, 14 Sep 2021 04:29:50 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Tue, 14 Sep 2021 04:29:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=R446ykKm4hYk+KQbYAm4UOZlHE0
+ QxxiwrNEFW40rYYU=; b=dXuLzYtldob5E+xqOKneWq/Ew5iLf7ESDnBOnDLvzlK
+ Or6nuJjlipbf8/MKea3aooZMgNGe2Wy17keX+Sd/B4rE+b/aOGcp89MJLuj8W9qb
+ Z91M2VhvU2pOOlCH2h1O7DC8GunVKkNFrCav/8rJZpSStOsv2Eqy5qGozc4yjFcs
+ E8dowFHf9JZJ9HTA6A4ibgZfgfLBr7uvdkejqK1HgGCN5PhXUNQTftyN6Ol6p0Cz
+ dn88piv1k4Qd/l211RMbwN4JVCcfWIQqbyWuQpULf6wqCfVMyJDgeiFonkjkx/eL
+ 8PpI0LTTlyhYhLdWko1nhr/JEIl2N1eFG9CPKCy9/SA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=R446yk
+ Km4hYk+KQbYAm4UOZlHE0QxxiwrNEFW40rYYU=; b=u11vVXpwEpEN+5t+wbQ22+
+ m1CCvbeM1nKD5B/dEWyvh6bgGHNRPbu0JHqv6iRYSn4S1k/lpKkf3EnL5VrN5Gfu
+ NJF8jMm+IACuhC0XzEjgNOFO3eAO1Jwg9aD73D8ET7xZt3BKGy/WrmqfXH03DCH5
+ iMwnzmkr/cXTBqPa7aEut0tZVVXKu1M4odIKstjQ3lyWkCdywCL0mecKv4o7NsaJ
+ 0MflvxZTFf/MGeLBVHo0USHk2G4FRrhJjCeT+cw/Gw/Ed8LlYyYsvD7xlQcAgCKL
+ 3p1PvGI8HxhMZ9ErQ7BeRDsO/QsNC5PAkL8blUU1N/XkJI0wBk2rJeYwAAlPaz9w
+ ==
+X-ME-Sender: <xms:fV1AYeaGxIHG46Pvfb3z6tuXHxk44YJtaz3me-nJ7sGrtXyZwhh3Lw>
+ <xme:fV1AYRYw3ummNYXGb4nVeRGYfXa7mfUgOGINxW2QgVey-3w7SSXrjwmadG9s4sKNU
+ _Mscy4EZstCr3d-V4g>
+X-ME-Received: <xmr:fV1AYY-VdpIjbvI4kHF5xjiA96iKPdqoLJTvvm-d1qMqdZaq5Gn82ib8dcmXuoVRsyE2sx-Wid23PrGZZtXXmLPA-_xoBMjmclLe>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledgtdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepjeduvdfhkeekhfdtgeeihfeluddtvedthfektdelfeejgfeludfhteduveej
+ hefhnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecuvehluhhsthgvrh
+ fuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhho
+ rdhtvggthh
+X-ME-Proxy: <xmx:fV1AYQqUkw0UnpeI2fRcTJYhbtw6U_a1MJUCVYXbVWyelNgjCEB8hQ>
+ <xmx:fV1AYZrIUsDhq-s18Ik_asefMY_zjjn06lvFea_KZbZkFnQrF-ArhQ>
+ <xmx:fV1AYeRhWD5x_n3TjosfsODnxa-PAeZdaowiNW8_y_2S4z9UZwXwgQ>
+ <xmx:fV1AYak_gTkX1jn6jZ-Lw8haEU5tAkHX3uVZAdiI6PH71PhnNcueWg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Sep 2021 04:29:48 -0400 (EDT)
+Date: Tue, 14 Sep 2021 10:29:46 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com
+Subject: Re: [PATCH v2 0/6] drm/displayid: VESA vendor block and drm/i915 MSO
+ use of it
+Message-ID: <20210914082946.jhgj7rk7awkkisv2@gilmour>
+References: <cover.1630419362.git.jani.nikula@intel.com>
+ <87tuio2zn4.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yz34dxbs2awj3423"
+Content-Disposition: inline
+In-Reply-To: <87tuio2zn4.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,176 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-09-14 at 09:40 +0200, Christian König wrote:
-> Am 13.09.21 um 14:41 schrieb Thomas Hellström:
-> > [SNIP]
-> > > > > Let's say you have a struct ttm_object_vram and a struct 
-> > > > > ttm_object_gtt, both subclassing drm_gem_object. Then I'd say
-> > > > > a 
-> > > > > driver would want to subclass those to attach identical data,
-> > > > > extend functionality and provide a single i915_gem_object to
-> > > > > the 
-> > > > > rest of the driver, which couldn't care less whether it's
-> > > > > vram or 
-> > > > > gtt? Wouldn't you say having separate struct ttm_object_vram
-> > > > > and a 
-> > > > > struct ttm_object_gtt in this case would be awkward?. We
-> > > > > *want* to 
-> > > > > allow common handling.
-> > > > 
-> > > > Yeah, but that's a bad idea. This is like diamond inheritance
-> > > > in C++.
-> > > > 
-> > > > When you need the same functionality in different backends you 
-> > > > implement that as separate object and then add a parent class.
-> > > > 
-> > > > > 
-> > > > > It's the exact same situation here. With struct ttm_resource
-> > > > > you 
-> > > > > let *different* implementation flavours subclass it, which
-> > > > > makes it 
-> > > > > awkward for the driver to extend the functionality in a
-> > > > > common way 
-> > > > > by subclassing, unless the driver only uses a single
-> > > > > implementation.
-> > > > 
-> > > > Well the driver should use separate implementations for their 
-> > > > different domains as much as possible.
-> > > > 
-> > > Hmm, Now you lost me a bit. Are you saying that the way we do
-> > > dynamic 
-> > > backends in the struct ttm_buffer_object to facilitate driver 
-> > > subclassing is a bad idea or that the RFC with backpointer is a
-> > > bad 
-> > > idea?
-> > > 
-> > > 
-> > Or if you mean diamond inheritance is bad, yes that's basically my
-> > point.
-> 
-> That diamond inheritance is a bad idea. What I don't understand is
-> why 
-> you need that in the first place?
-> 
-> Information that you attach to a resource are specific to the domain 
-> where the resource is allocated from. So why do you want to attach
-> the 
-> same information to a resources from different domains?
 
-Again, for the same reason that we do that with struct i915_gem_objects
-and struct ttm_tts, to extend the functionality. I mean information
-that we attach when we subclass a struct ttm_buffer_object doesn't
-necessarily care about whether it's a VRAM or a GTT object. In exactly
-the same way, information that we want to attach to a struct
-ttm_resource doesn't necessarily care whether it's a system or a VRAM
-resource, and need not be specific to any of those.
+--yz34dxbs2awj3423
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In this particular case, as memory management becomes asynchronous, you
-can't attach things like sg-tables and gpu binding information to the
-gem object anymore, because the object may have a number of migrations
-in the pipeline. Such things need to be attached to the structure that
-abstracts the memory allocation, and which may have a completely
-different lifetime than the object itself.
+Hi,
 
-In our particular case we want to attach information for cached page
-lookup and and sg-table, and moving forward probably the gpu binding
-(vma) information, and that is the same information for any
-ttm_resource regardless where it's allocated from.
+On Mon, Sep 13, 2021 at 07:45:03PM +0300, Jani Nikula wrote:
+> On Tue, 31 Aug 2021, Jani Nikula <jani.nikula@intel.com> wrote:
+> > v2 of https://patchwork.freedesktop.org/series/94161/ with the VESA OUI
+> > check and an OUI helper patch added.
+>=20
+> Maarten, Maxime, Thomas - may I have an ack for merging this via
+> drm-intel? I think at this time we can get the merge to drm-next and
+> backmerge to drm-misc fairly quickly, and a topic branch would be
+> overkill.
 
-Typical example: A pipelined GPU operation happening before an async
-eviction goes wrong. We need to error capture and reset. But if we look
-at the object for error capturing, it's already updated pointing to an
-after-eviction resource, and the resource sits on a ghost object (or in
-the future when ghost objects go away perhaps in limbo somewhere).
+Yep, that works for me
 
-We need to capture the memory pointed to by the struct ttm_resource the
-GPU was referencing, and to be able to do that we need to cache driver-
-specific info on the resource. Typically an sg-list and GPU binding
-information. 
+Acked-by: Maxime Ripard <maxime@cerno.tech>
 
-Anyway, that cached information needs to be destroyed together with the
-resource and thus we need to be able to access that information from
-the resource in some way, regardless whether it's a pointer or whether
-we embed the struct resource.
+Maxime
 
-I think it's pretty important here that we (using the inheritance
-diagram below) recognize the need for D to inherit from A, just like we
-do for objects or ttm_tts.
+--yz34dxbs2awj3423
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> > 
-> > Looking at
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FMultiple_inheritance%23%2Fmedia%2FFile%3ADiamond_inheritance.svg&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cece4bd8aab644feacc1808d976b3ca56%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637671336950757656%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=LPMnfvC1px0bW8o420vP72oBbkm1v76A%2B0PDUw7urQY%3D&amp;reserved=0
-> >  
-> > 
-> > 
-> > 1)
-> > 
-> > A would be the struct ttm_resource itself,
-> > D would be struct i915_resource,
-> > B would be struct ttm_range_mgr_node,
-> > C would be struct i915_ttm_buddy_resource
-> > 
-> > And we need to resolve the ambiguity using the awkward union 
-> > construct, iff we need to derive from both B and C.
-> > 
-> > Struct ttm_buffer_object and struct ttm_tt instead have B) and C) 
-> > being dynamic backends of A) or a single type derived from A) Hence
-> > the problem doesn't exist for these types.
-> > 
-> > So the question from last email remains, if ditching this RFC, can
-> > we 
-> > have B) and C) implemented by helpers that can be used from D) and 
-> > that don't derive from A?
-> 
-> Well we already have that in the form of drm_mm. I mean the 
-> ttm_range_manager is just a relatively small glue code which
-> implements 
-> the TTMs resource interface using the drm_mm object and a spinlock.
-> IIRC 
-> that less than 200 lines of code.
-> 
-> So you should already have the necessary helpers and just need to 
-> implement the resource manager as far as I can see.
-> 
-> I mean I reused the ttm_range_manager_node in for amdgpu_gtt_mgr and 
-> could potentially reuse a bit more of the ttm_range_manager code. But
-> I 
-> don't see that as much of an issue, the extra functionality there is 
-> just minimal.
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUBdegAKCRDj7w1vZxhR
+xRwLAP4jJscnSG6duUo3VJxyzQNG4XAE1in1LTbdyJb+f77uqgD/bedUoXZDj06z
+03Ku9cGHj5cR3A4RyxWL/ZAxtV0JQwE=
+=8I0A
+-----END PGP SIGNATURE-----
 
-Sure but that would give up the prereq of having reusable resource
-manager implementations. What happens if someone would like to reuse
-the buddy manager? And to complicate things even more, the information
-we attach to VRAM resources also needs to be attached to system
-resources. Sure we could probably re-implement a combined system-buddy-
-range manager, but that seems like something overly complex.
-
-The other object examples resolve the diamond inheritance with a
-pointer to the specialization (BC) and let D derive from A.
-
-TTM resources do it backwards. If we can just recognize that and ponder
-what's the easiest way to resolve this given the current design, I
-actually think we'd arrive at a backpointer to allow downcasting from A
-to D.
-
-Thanks,
-Thomas
-
-
-
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > Thanks,
-> > 
-> > Thomas
-> > 
-> > 
-> > 
-> 
-
-
+--yz34dxbs2awj3423--
