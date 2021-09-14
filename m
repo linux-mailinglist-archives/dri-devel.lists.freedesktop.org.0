@@ -1,80 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F023E40AB85
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 12:17:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB9B40ABA0
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 12:27:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7D06E45E;
-	Tue, 14 Sep 2021 10:17:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A8B556E462;
+	Tue, 14 Sep 2021 10:27:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6FF996E45D
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 10:17:36 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 306872B01316;
- Tue, 14 Sep 2021 06:17:35 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Tue, 14 Sep 2021 06:17:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=+ide+UmLneTo5
- vJdUf22CynDGpfUvW89sPLSj2e8DUg=; b=DtyUB/xrQZAkOeVn8YmRLGTRbzIZ1
- VwTLc/PnqwMdCVm1qSCQlsEooLhsTOBwiW06MuonRNX94yNWIOYo4C3S2ukocoqF
- kvnsFhd99s29pQaT8OLgLvbod2mrNZ+52lBOlPZU9/334HaSGCdPCiGCm6TcN487
- vZyoTYLM9bZOx/bX+DprlzHus796VbqfgqpegN/rUHiyw5hkDa32G0gkD4hfWuVH
- NsX3HD2VRCc3r2mfLpZu3BPZlmNH57avepqzQOe7dq5lywZzI15etv3JUfp4CxZc
- 4ZS2C2B8EUeR6WHwaBL7hTV6fN4qLv25KyzzBcBuQpajNPYiyJ+ABwGgQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=+ide+UmLneTo5vJdUf22CynDGpfUvW89sPLSj2e8DUg=; b=ukmegH38
- Nl8NHCwrN7VBblycDB0Wf2Y4paOHFE+qR166XYCOTgc2V3zmr2QwdWAFmeZI+50q
- Lvd5f9pgIQqxm6+rjPGy/DszBzETiqQ5OnzSJislwAxCTs++AXGkzN8ONhLvMxBk
- Ck4TwJbBTv52wApL+65YkNFxz9SF+0ToHLe2EzcTp6ImP5Ze2RU/KGGktQez2+A9
- TJSsDDu6WS8DdAOdgjDXF2O827U5HZY7oJxySv96ElPAJByfoz55M3J49HPwoh4m
- uQzD0ZrOfyTyZGbPHehWZv0cyVYAKvMDWyjVXnC0U7oE0FvvYT0W16IHLqP3xz5n
- 7Ij8W9H2vBg8Og==
-X-ME-Sender: <xms:vnZAYbG0QBW_C7C4ylIf8IzRGYXBVick_MnQ2FitnGherPh3C8oh-A>
- <xme:vnZAYYURBogC18nCWGyPT21LcGgc48BJdhmKqUDbCQVlgCu6EtfP76YXg8ufvRLKj
- CK6lDpS3ou79Ducv_s>
-X-ME-Received: <xmr:vnZAYdJLT9JqtgKcIo6DzG4wTmxXH7FaZXNW029xGCRHbOy7yvsxCbNf3yn7TAs8OEXCFLlstXHsZI_UM37zhhKl3U5iDGoNtjj4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledgvdehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
- hedvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vnZAYZFgXRBa0_LnPObyuhGNoI3N_oWewSAzG-ljQzypRTSTjn3Rqw>
- <xmx:vnZAYRUodNwALj_G2DqWnZTnBvvwx2ewbbU9k2HzFaemGIA3QhCrbQ>
- <xmx:vnZAYUOLuuPK-s8fKbfcQtdnoOro6kKU9CBzhUQ8B9jmsWrIOYYlBg>
- <xmx:vnZAYSukMZ33-h_TF-ZZVDz3P-JL7-2QLo6fQXS8O_QzNxj1A8OO0EbHai4>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Sep 2021 06:17:34 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
-Cc: Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, Sam Ravnborg <sam@ravnborg.org>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/3] drm/vc4: hdmi: Actually check for the connector status
- in hotplug
-Date: Tue, 14 Sep 2021 12:17:24 +0200
-Message-Id: <20210914101724.266570-3-maxime@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210914101724.266570-1-maxime@cerno.tech>
-References: <20210914101724.266570-1-maxime@cerno.tech>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C2B5B6E462;
+ Tue, 14 Sep 2021 10:27:04 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="307501834"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="307501834"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 03:26:47 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="432945409"
+Received: from ocascan-mobl.ger.corp.intel.com (HELO [10.213.234.116])
+ ([10.213.234.116])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 03:26:45 -0700
+Subject: Re: [Intel-gfx] [PATCH 15/26] drm/i915: use the new iterator in
+ i915_request_await_object
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Cc: daniel@ffwll.ch, intel-gfx@lists.freedesktop.org
+References: <20210913131707.45639-1-christian.koenig@amd.com>
+ <20210913131707.45639-16-christian.koenig@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <f9ebc539-3965-b57f-7040-78aaba72afbd@linux.intel.com>
+Date: Tue, 14 Sep 2021 11:26:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20210913131707.45639-16-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -91,62 +56,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The drm_helper_hpd_irq_event() documentation states that this function
-is "useful for drivers which can't or don't track hotplug interrupts for
-each connector." and that "Drivers which support hotplug interrupts for
-each connector individually and which have a more fine-grained detect
-logic should bypass this code and directly call
-drm_kms_helper_hotplug_event()". This is thus what we ended-up doing.
 
-However, what this actually means, and is further explained in the
-drm_kms_helper_hotplug_event() documentation, is that
-drm_kms_helper_hotplug_event() should be called by drivers that can
-track the connection status change, and if it has changed we should call
-that function.
+On 13/09/2021 14:16, Christian König wrote:
+> Simplifying the code a bit.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/i915/i915_request.c | 36 ++++++-----------------------
+>   1 file changed, 7 insertions(+), 29 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+> index 37aef1308573..b81045ceb619 100644
+> --- a/drivers/gpu/drm/i915/i915_request.c
+> +++ b/drivers/gpu/drm/i915/i915_request.c
+> @@ -1583,38 +1583,16 @@ i915_request_await_object(struct i915_request *to,
+>   			  struct drm_i915_gem_object *obj,
+>   			  bool write)
+>   {
+> -	struct dma_fence *excl;
+> +	struct dma_resv_cursor cursor;
+> +	struct dma_fence *fence;
+>   	int ret = 0;
+>   
+> -	if (write) {
+> -		struct dma_fence **shared;
+> -		unsigned int count, i;
+> -
+> -		ret = dma_resv_get_fences(obj->base.resv, &excl, &count,
+> -					  &shared);
+> -		if (ret)
+> -			return ret;
+> -
+> -		for (i = 0; i < count; i++) {
+> -			ret = i915_request_await_dma_fence(to, shared[i]);
+> -			if (ret)
+> -				break;
+> -
+> -			dma_fence_put(shared[i]);
+> +	dma_resv_for_each_fence_unlocked(obj->base.resv, &cursor, write, fence) {
 
-This underlying expectation we failed to provide is that the caller of
-drm_kms_helper_hotplug_event() should call drm_helper_probe_detect() to
-probe the new status of the connector.
+I think callers have the object locked for this one. At least if you 
+haven't tried it it's worth asking CI (you have the assert already so it 
+will tell you). But I think it's important to have an atomic snapshot here.
 
-Since we didn't do it, it meant that even though we were sending the
-notification to user-space and the DRM clients that something changed we
-never probed or updated our internal connector status ourselves.
+Regards,
 
-This went mostly unnoticed since the detect callback usually doesn't
-have any side-effect. Also, if we were using the DRM fbdev emulation
-(which is a DRM client), or any user-space application that can deal
-with hotplug events, chances are they would react to the hotplug event
-by probing the connector status eventually.
+Tvrtko
 
-However, now that we have to enable the scrambler in detect() if it was
-enabled it has a side effect, and an application such as Kodi or
-modetest doesn't deal with hotplug events. This resulted with a black
-screen when Kodi or modetest was running when a screen was disconnected
-and then reconnected, or switched off and on.
-
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/gpu/drm/vc4/vc4_hdmi.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index a3dbd1fdff7d..d9e001b9314f 100644
---- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-+++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -1578,10 +1578,11 @@ static int vc4_hdmi_audio_init(struct vc4_hdmi *vc4_hdmi)
- static irqreturn_t vc4_hdmi_hpd_irq_thread(int irq, void *priv)
- {
- 	struct vc4_hdmi *vc4_hdmi = priv;
--	struct drm_device *dev = vc4_hdmi->connector.dev;
-+	struct drm_connector *connector = &vc4_hdmi->connector;
-+	struct drm_device *dev = connector->dev;
- 
- 	if (dev && dev->registered)
--		drm_kms_helper_hotplug_event(dev);
-+		drm_connector_helper_hpd_irq_event(connector);
- 
- 	return IRQ_HANDLED;
- }
--- 
-2.31.1
-
+> +		ret = i915_request_await_dma_fence(to, fence);
+> +		if (ret) {
+> +			dma_fence_put(fence);
+> +			break;
+>   		}
+> -
+> -		for (; i < count; i++)
+> -			dma_fence_put(shared[i]);
+> -		kfree(shared);
+> -	} else {
+> -		excl = dma_resv_get_excl_unlocked(obj->base.resv);
+> -	}
+> -
+> -	if (excl) {
+> -		if (ret == 0)
+> -			ret = i915_request_await_dma_fence(to, excl);
+> -
+> -		dma_fence_put(excl);
+>   	}
+>   
+>   	return ret;
+> 
