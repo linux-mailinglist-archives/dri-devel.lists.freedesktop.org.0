@@ -2,51 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18E0C40ABE2
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 12:42:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1789340AC09
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 12:53:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53AAB6E466;
-	Tue, 14 Sep 2021 10:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1CC66E9D8;
+	Tue, 14 Sep 2021 10:53:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 190026E466
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 10:42:01 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 5c71c42e-1548-11ec-9416-0050568cd888;
- Tue, 14 Sep 2021 10:41:47 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 9F778194B9B;
- Tue, 14 Sep 2021 12:41:49 +0200 (CEST)
-Date: Tue, 14 Sep 2021 12:41:55 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] drm/probe-helper: Create a HPD IRQ event helper
- for a single connector
-Message-ID: <YUB8c2If+E851x4A@ravnborg.org>
-References: <20210914101724.266570-1-maxime@cerno.tech>
- <20210914101724.266570-2-maxime@cerno.tech>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16B436E49C;
+ Tue, 14 Sep 2021 10:53:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="282959597"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="282959597"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 03:53:40 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="432952180"
+Received: from ocascan-mobl.ger.corp.intel.com (HELO [10.213.234.116])
+ ([10.213.234.116])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 03:53:38 -0700
+Subject: Re: [Intel-gfx] [PATCH 01/26] dma-buf: add
+ dma_resv_for_each_fence_unlocked
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Cc: daniel@ffwll.ch, intel-gfx@lists.freedesktop.org
+References: <20210913131707.45639-1-christian.koenig@amd.com>
+ <20210913131707.45639-2-christian.koenig@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <1eee4105-e154-9d1d-b92b-d17c6f8f8432@linux.intel.com>
+Date: Tue, 14 Sep 2021 11:53:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210914101724.266570-2-maxime@cerno.tech>
+In-Reply-To: <20210913131707.45639-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,213 +56,188 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
 
-On Tue, Sep 14, 2021 at 12:17:23PM +0200, Maxime Ripard wrote:
-> The drm_helper_hpd_irq_event() function is iterating over all the
-> connectors when an hotplug event is detected.
+On 13/09/2021 14:16, Christian König wrote:
+> Abstract the complexity of iterating over all the fences
+> in a dma_resv object.
 > 
-> During that iteration, it will call each connector detect function and
-> figure out if its status changed.
+> The new loop handles the whole RCU and retry dance and
+> returns only fences where we can be sure we grabbed the
+> right one.
 > 
-> Finally, if any connector changed, it will notify the user-space and the
-> clients that something changed on the DRM device.
-> 
-> This is supposed to be used for drivers that don't have a hotplug
-> interrupt for individual connectors. However, drivers that can use an
-> interrupt for a single connector are left in the dust and can either
-> reimplement the logic used during the iteration for each connector or
-> use that helper and iterate over all connectors all the time.
-> 
-> Since both are suboptimal, let's create a helper that will only perform
-> the status detection on a single connector.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
-> Changes from v2:
->   - Skip connectors with DRM_CONNECTOR_POLL_HPD in drm_helper_hpd_irq_event
->   - Add drm_connector_helper_hpd_irq_event returned value documentation
->   - Improve logging
+>   drivers/dma-buf/dma-resv.c | 63 ++++++++++++++++++++++++++++++++++++++
+>   include/linux/dma-resv.h   | 36 ++++++++++++++++++++++
+>   2 files changed, 99 insertions(+)
 > 
-> Changes from v1:
->   - Rename the shared function
->   - Move the hotplug event notification out of the shared function
->   - Added missing locks
->   - Improve the documentation
->   - Switched to drm_dbg_kms
-> ---
->  drivers/gpu/drm/drm_probe_helper.c | 117 +++++++++++++++++++++--------
->  include/drm/drm_probe_helper.h     |   1 +
->  2 files changed, 87 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
-> index 5b77fb5c1a32..a1ffc0c30b3a 100644
-> --- a/drivers/gpu/drm/drm_probe_helper.c
-> +++ b/drivers/gpu/drm/drm_probe_helper.c
-> @@ -795,6 +795,87 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
->  }
->  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->  
-> +static bool check_connector_changed(struct drm_connector *connector)
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 84fbe60629e3..213a9b7251ca 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -323,6 +323,69 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>   }
+>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>   
+> +/**
+> + * dma_resv_walk_unlocked - walk over fences in a dma_resv obj
+> + * @obj: the dma_resv object
+> + * @cursor: cursor to record the current position
+> + * @all_fences: true returns also the shared fences
+> + * @first: if we should start over
+> + *
+> + * Return all the fences in the dma_resv object which are not yet signaled.
+> + * The returned fence has an extra local reference so will stay alive.
+> + * If a concurrent modify is detected the whole iterator is started over again.
+> + */
+> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+> +					 struct dma_resv_cursor *cursor,
+> +					 bool all_fences, bool first)
 > +{
-> +	struct drm_device *dev = connector->dev;
-> +	enum drm_connector_status old_status;
-> +	u64 old_epoch_counter;
-> +	bool changed = false;
+> +	struct dma_fence *fence = NULL;
 > +
-> +	/* Only handle HPD capable connectors. */
-> +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
-This will WARN if DRM_CONNECTOR_POLL_HPD is not set - which the previous
-code did not. I am not sure this is intentional.
-Or have I missed something?
+> +	do {
+> +		/* Drop the reference from the previous round */
+> +		dma_fence_put(fence);
+> +
+> +		cursor->is_first = first;
+> +		if (first) {
+> +			cursor->seq = read_seqcount_begin(&obj->seq);
+> +			cursor->index = -1;
+> +			cursor->fences = dma_resv_shared_list(obj);
+> +			cursor->is_exclusive = true;
+> +
+> +			fence = dma_resv_excl_fence(obj);
+> +			if (fence && test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> +					      &fence->flags))
+> +				fence = NULL;
+> +		} else {
+> +			fence = NULL;
+> +		}
+> +
+> +		if (fence) {
+> +			fence = dma_fence_get_rcu(fence);
+> +		} else if (all_fences && cursor->fences) {
+> +			struct dma_resv_list *fences = cursor->fences;
 
-	Sam
+If rcu lock is allowed to be dropped while walking the list what 
+guarantees list of fences hasn't been freed?
+
+Like:
+
+1st call
+   -> gets seqcount
+   -> stores cursor->fences
+
+rcu lock dropped/re-acquired
+
+2nd call
+   -> dereferences into cursor->fences -> boom?
+
 > +
-> +	drm_WARN_ON(dev, !mutex_is_locked(&dev->mode_config.mutex));
+> +			cursor->is_exclusive = false;
+> +			while (++cursor->index < fences->shared_count) {
+> +				fence = rcu_dereference(fences->shared[
+> +							cursor->index]);
+> +				if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> +					      &fence->flags))
+> +					break;
+> +			}
+> +			if (cursor->index < fences->shared_count)
+> +				fence = dma_fence_get_rcu(fence);
+> +			else
+> +				fence = NULL;
+> +		}
 > +
-> +	old_status = connector->status;
-> +	old_epoch_counter = connector->epoch_counter;
-> +	connector->status = drm_helper_probe_detect(connector, NULL, false);
+> +		/* For the eventually next round */
+> +		first = true;
+> +	} while (read_seqcount_retry(&obj->seq, cursor->seq));
 > +
-> +	if (old_epoch_counter == connector->epoch_counter) {
-> +                drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Same epoch counter %llu\n",
-> +			    connector->base.id,
-> +			    connector->name,
-> +			    connector->epoch_counter);
-> +
-> +                return false;
-> +	}
-> +
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> +		    connector->base.id,
-> +		    connector->name,
-> +		    drm_get_connector_status_name(old_status)
-> +		    drm_get_connector_status_name(connector->status));
-> +
-> +	drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Changed epoch counter %llu => %llu\n",
-> +                    connector->base.id,
-> +                    connector->name,
-> +                    old_epoch_counter,
-> +                    connector->epoch_counter);
-> +
-> +	return true;
+> +	return fence;
 > +}
+> +EXPORT_SYMBOL_GPL(dma_resv_walk_unlocked);
+> +
+>   /**
+>    * dma_resv_copy_fences - Copy all fences from src to dst.
+>    * @dst: the destination reservation object
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 9100dd3dc21f..f5b91c292ee0 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -149,6 +149,39 @@ struct dma_resv {
+>   	struct dma_resv_list __rcu *fence;
+>   };
+>   
+> +/**
+> + * struct dma_resv_cursor - current position into the dma_resv fences
+> + * @seq: sequence number to check
+> + * @index: index into the shared fences
+> + * @shared: the shared fences
+> + * @is_first: true if this is the first returned fence
+> + * @is_exclusive: if the current fence is the exclusive one
+> + */
+> +struct dma_resv_cursor {
+> +	unsigned int seq;
+> +	unsigned int index;
+> +	struct dma_resv_list *fences;
+> +	bool is_first;
+
+Is_first is useful to callers - like they are legitimately allowed to 
+look inside this, what could otherwise be private object? What is the 
+intended use case, given when true the returned fence can be either 
+exclusive or first from a shared list?
+
+> +	bool is_exclusive;
+
+Is_exclusive could be written as index == -1 in the code, right? If so 
+then an opportunity to remove some redundancy.
+
+> +};
 > +
 > +/**
-> + * drm_connector_helper_hpd_irq_event - hotplug processing
-> + * @connector: drm_connector
+> + * dma_resv_for_each_fence_unlocked - fence iterator
+> + * @obj: a dma_resv object pointer
+> + * @cursor: a struct dma_resv_cursor pointer
+> + * @all_fences: true if all fences should be returned
+> + * @fence: the current fence
 > + *
-> + * Drivers can use this helper function to run a detect cycle on a connector
-> + * which has the DRM_CONNECTOR_POLL_HPD flag set in its &polled member.
-> + *
-> + * This helper function is useful for drivers which can track hotplug
-> + * interrupts for a single connector. Drivers that want to send a
-> + * hotplug event for all connectors or can't track hotplug interrupts
-> + * per connector need to use drm_helper_hpd_irq_event().
-> + *
-> + * This function must be called from process context with no mode
-> + * setting locks held.
-> + *
-> + * Note that a connector can be both polled and probed from the hotplug
-> + * handler, in case the hotplug interrupt is known to be unreliable.
-> + *
-> + * Returns:
-> + * A boolean indicating whether the connector status changed or not
+> + * Iterate over the fences in a struct dma_resv object without holding the
+> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
+> + * be dropped and re-taken as necessary inside the loop. @all_fences controls
+> + * if the shared fences are returned as well.
 > + */
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector)
-> +{
-> +	struct drm_device *dev = connector->dev;
-> +	bool changed;
+> +#define dma_resv_for_each_fence_unlocked(obj, cursor, all_fences, fence)    \
+> +	for (fence = dma_resv_walk_unlocked(obj, cursor, all_fences, true); \
+> +	     fence; dma_fence_put(fence),				    \
+> +	     fence = dma_resv_walk_unlocked(obj, cursor, all_fences, false))
+
+Has the fact RCU lock can be dropped so there is potential to walk over 
+completely different snapshots been discussed?
+
+At least if I followed the code correctly - it appears there is 
+potential the walk restarts from the start (exclusive slot) at any point 
+during the walk.
+
+Because theoretically I think you could take an atomic snapshot of 
+everything (given you have a cursor object) and then release it on the 
+end condition.
+
+Regards,
+
+Tvrtko
+
 > +
-> +	mutex_lock(&dev->mode_config.mutex);
-> +	changed = check_connector_changed(connector);
-> +	mutex_unlock(&dev->mode_config.mutex);
-> +
-> +	if (changed) {
-> +		drm_kms_helper_hotplug_event(dev);
-> +		drm_dbg_kms(dev, "[CONNECTOR:%d:%s] Sent hotplug event\n",
-> +			    connector->base.id,
-> +			    connector->name);
-> +	}
-> +
-> +	return changed;
-> +}
-> +EXPORT_SYMBOL(drm_connector_helper_hpd_irq_event);
-> +
->  /**
->   * drm_helper_hpd_irq_event - hotplug processing
->   * @dev: drm_device
-> @@ -808,9 +889,10 @@ EXPORT_SYMBOL(drm_kms_helper_poll_fini);
->   * interrupts for each connector.
->   *
->   * Drivers which support hotplug interrupts for each connector individually and
-> - * which have a more fine-grained detect logic should bypass this code and
-> - * directly call drm_kms_helper_hotplug_event() in case the connector state
-> - * changed.
-> + * which have a more fine-grained detect logic can use
-> + * drm_connector_helper_hpd_irq_event(). Alternatively, they should bypass this
-> + * code and directly call drm_kms_helper_hotplug_event() in case the connector
-> + * state changed.
->   *
->   * This function must be called from process context with no mode
->   * setting locks held.
-> @@ -825,9 +907,7 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  {
->  	struct drm_connector *connector;
->  	struct drm_connector_list_iter conn_iter;
-> -	enum drm_connector_status old_status;
->  	bool changed = false;
-> -	u64 old_epoch_counter;
->  
->  	if (!dev->mode_config.poll_enabled)
->  		return false;
-> @@ -839,33 +919,8 @@ bool drm_helper_hpd_irq_event(struct drm_device *dev)
->  		if (!(connector->polled & DRM_CONNECTOR_POLL_HPD))
->  			continue;
->  
-> -		old_status = connector->status;
-> -
-> -		old_epoch_counter = connector->epoch_counter;
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] Old epoch counter %llu\n", connector->base.id,
-> -			      connector->name,
-> -			      old_epoch_counter);
-> -
-> -		connector->status = drm_helper_probe_detect(connector, NULL, false);
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] status updated from %s to %s\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      drm_get_connector_status_name(old_status),
-> -			      drm_get_connector_status_name(connector->status));
-> -
-> -		DRM_DEBUG_KMS("[CONNECTOR:%d:%s] New epoch counter %llu\n",
-> -			      connector->base.id,
-> -			      connector->name,
-> -			      connector->epoch_counter);
-> -
-> -		/*
-> -		 * Check if epoch counter had changed, meaning that we need
-> -		 * to send a uevent.
-> -		 */
-> -		if (old_epoch_counter != connector->epoch_counter)
-> +		if (check_connector_changed(connector))
->  			changed = true;
-> -
->  	}
->  	drm_connector_list_iter_end(&conn_iter);
->  	mutex_unlock(&dev->mode_config.mutex);
-> diff --git a/include/drm/drm_probe_helper.h b/include/drm/drm_probe_helper.h
-> index 8d3ed2834d34..04c57564c397 100644
-> --- a/include/drm/drm_probe_helper.h
-> +++ b/include/drm/drm_probe_helper.h
-> @@ -18,6 +18,7 @@ int drm_helper_probe_detect(struct drm_connector *connector,
->  void drm_kms_helper_poll_init(struct drm_device *dev);
->  void drm_kms_helper_poll_fini(struct drm_device *dev);
->  bool drm_helper_hpd_irq_event(struct drm_device *dev);
-> +bool drm_connector_helper_hpd_irq_event(struct drm_connector *connector);
->  void drm_kms_helper_hotplug_event(struct drm_device *dev);
->  
->  void drm_kms_helper_poll_disable(struct drm_device *dev);
-> -- 
-> 2.31.1
+>   #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
+>   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+>   
+> @@ -366,6 +399,9 @@ void dma_resv_fini(struct dma_resv *obj);
+>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+> +					 struct dma_resv_cursor *cursor,
+> +					 bool first, bool all_fences);
+>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>   			unsigned *pshared_count, struct dma_fence ***pshared);
+>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+> 
