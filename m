@@ -2,68 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC0940AA21
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 11:03:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D83DE40AA46
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 11:09:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8796E43F;
-	Tue, 14 Sep 2021 09:03:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F33FE6E448;
+	Tue, 14 Sep 2021 09:09:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8714E6E43B;
- Tue, 14 Sep 2021 09:03:44 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id ECC0F1FDD8;
- Tue, 14 Sep 2021 09:03:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1631610222; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ve4sP6yJHxAL69h9Bdn3UH8pkWd4FZ+IdPOqhXFmJbY=;
- b=WSeLTVlyw4te/geWZhAPdf9of7DuXKdQo9vWnS6RGOPpa1P/2i27cezzyap0ifEwZt/7Ev
- 6ikLRSb3mol1Jfr3D8cRXateWSWxYeX4iEFj/sIBecKWRM/p6WJ8aHaE5x56be+sc2xmcf
- 2a3zdfwA8cr6gJJ93uNiKWSBINhcqsk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1631610222;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ve4sP6yJHxAL69h9Bdn3UH8pkWd4FZ+IdPOqhXFmJbY=;
- b=hnmLWSLB8KPA6QhtjGXHclQMdwFMUwfGXqgX3x1TFeCk6oE1p2f1gzzNIyVS5ed9IiFWGN
- JGv9QbJFxWgpqnBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 73F0E13D3F;
- Tue, 14 Sep 2021 09:03:42 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id MxqKGW5lQGEuNgAAMHmgww
- (envelope-from <vbabka@suse.cz>); Tue, 14 Sep 2021 09:03:42 +0000
-Message-ID: <efc1564c-d39c-c6d2-80de-5f79772732e4@suse.cz>
-Date: Tue, 14 Sep 2021 11:03:41 +0200
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 788316E441;
+ Tue, 14 Sep 2021 09:09:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="201441794"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="201441794"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 02:09:11 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="543866223"
+Received: from lveltman-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.251.216.6])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 02:09:07 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Vasily Khoruzhick <anarsoul@gmail.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Lyude Paul <lyude@redhat.com>,
+ Sean Paul <seanpaul@chromium.org>, Aaron Ma <aaron.ma@canonical.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: Vasily Khoruzhick <anarsoul@gmail.com>
+Subject: Re: [PATCH] drm/i915/dp: add a delay before setting panel brightness
+ after power on
+In-Reply-To: <20210913193509.3575-1-anarsoul@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210913193509.3575-1-anarsoul@gmail.com>
+Date: Tue, 14 Sep 2021 12:09:03 +0300
+Message-ID: <87r1dr34nk.fsf@intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH 0/1] lib, stackdepot: Add helper to print stack entries
- into buffer.
-Content-Language: en-US
-To: Imran Khan <imran.f.khan@oracle.com>, geert@linux-m68k.org,
- akpm@linux-foundation.org, ryabinin.a.a@gmail.com, glider@google.com,
- andreyknvl@gmail.com, dvyukov@google.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- intel-gfx@lists.freedesktop.org, linux-mm@kvack.org
-References: <20210910141001.1622130-1-imran.f.khan@oracle.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20210910141001.1622130-1-imran.f.khan@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,34 +54,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/10/21 16:10, Imran Khan wrote:
-> This change is in response to discussion at [1].
-> The patch has been created on top of my earlier changes [2] and [3].
-> If needed I can resend all of these patches together, though my
-> earlier patches have been Acked.
+On Mon, 13 Sep 2021, Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+> Panel in my Dell XPS 7590, that uses Intel's HDR backlight interface to
+> control brightness, apparently needs a delay before setting brightness
+> after power on. Without this delay the panel does accept the setting
+> and may come up with some arbitrary brightness (sometimes it's too dark,
+> sometimes it's too bright, I wasn't able to find a system).
+>
+> I don't have access to the spec, so I'm not sure if it's expected
+> behavior or a quirk for particular device.
+>
+> Delay was chosen by experiment: it works with 100ms, but fails with
+> anything lower than 75ms.
 
-I think you sent those at the beginning of merge window, so it would be best
-to gather everything in a self-contained series now and resend. I suggested
-another change for one of those anyway.
+Looks like we don't respect the panel delays for DPCD backlight. The
+values are used for setting up the panel power sequencer, and thus PWM
+based backlight, but we should probably use the delays in DPCD backlight
+code too.
 
-You can of course resend including the Acks you already got, as you did
-already with "[PATCH v2 1/1] lib, stackdepot: Add helper to print stack
-entries into buffer."
+BR,
+Jani.
 
-> [1] https://lore.kernel.org/lkml/e6f6fb85-1d83-425b-9e36-b5784cc9e69a@suse.cz/
-> [2] https://lore.kernel.org/lkml/fe94ffd8-d235-87d8-9c3d-80f7f73e0c4e@suse.cz/
-> [3] https://lore.kernel.org/lkml/85f4f073-0b5a-9052-0ba9-74d450608656@suse.cz/
-> 
-> Imran Khan (1):
->   lib, stackdepot: Add helper to print stack entries into buffer.
-> 
->  drivers/gpu/drm/drm_dp_mst_topology.c   |  5 +----
->  drivers/gpu/drm/drm_mm.c                |  5 +----
->  drivers/gpu/drm/i915/i915_vma.c         |  5 +----
->  drivers/gpu/drm/i915/intel_runtime_pm.c | 20 +++++---------------
->  include/linux/stackdepot.h              |  3 +++
->  lib/stackdepot.c                        | 23 +++++++++++++++++++++++
->  mm/page_owner.c                         |  5 +----
->  7 files changed, 35 insertions(+), 31 deletions(-)
-> 
 
+>
+> Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> index 4f8337c7fd2e..c4f35e1b5870 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> @@ -210,6 +210,10 @@ intel_dp_aux_hdr_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  
+>  	ctrl = old_ctrl;
+>  	if (panel->backlight.edp.intel.sdr_uses_aux) {
+> +		/* Wait 100ms to ensure that panel is ready otherwise it may not
+> +		 * set chosen backlight level
+> +		 */
+> +		msleep(100);
+>  		ctrl |= INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE;
+>  		intel_dp_aux_hdr_set_aux_backlight(conn_state, level);
+>  	} else {
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
