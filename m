@@ -1,23 +1,23 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E78E40A56F
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 06:30:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8FE40A56D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 06:30:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A0246E3E3;
-	Tue, 14 Sep 2021 04:29:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABDB6E3DB;
+	Tue, 14 Sep 2021 04:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4014B6E3C4;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BEB246E3BB;
  Tue, 14 Sep 2021 04:29:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="218696859"
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="218696859"
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="218696863"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="218696863"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Sep 2021 21:29:52 -0700
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="543660554"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="543660556"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  13 Sep 2021 21:29:47 -0700
@@ -26,9 +26,9 @@ To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>,
 	<daniele.ceraolospurio@intel.com>
-Subject: [PATCH 3/4] drm/i915/guc: Flush G2H work queue during reset
-Date: Mon, 13 Sep 2021 21:24:44 -0700
-Message-Id: <20210914042445.29466-4-matthew.brost@intel.com>
+Subject: [PATCH 4/4] drm/i915/guc: Refcount context during error capture
+Date: Mon, 13 Sep 2021 21:24:45 -0700
+Message-Id: <20210914042445.29466-5-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210914042445.29466-1-matthew.brost@intel.com>
 References: <20210914042445.29466-1-matthew.brost@intel.com>
@@ -49,52 +49,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It isn't safe to scrub for missing G2H or continue with the reset until
-all G2H processing is complete. Flush the G2H work queue during reset to
-ensure it is done running. No need to call the IRQ handler directly
-either as the scrubbing code can deal with any missing G2H.
+From: John Harrison <John.C.Harrison@Intel.com>
 
+When i915 receives a context reset notification from GuC, it triggers
+an error capture before resetting any outstanding requsts of that
+context. Unfortunately, the error capture is not a time bound
+operation. In certain situations it can take a long time, particularly
+when multiple large LMEM buffers must be read back and eoncoded. If
+this delay is longer than other timeouts (heartbeat, test recovery,
+etc.) then a full GT reset can be triggered in the middle.
+
+That can result in the context being reset by GuC actually being
+destroyed before the error capture completes and the GuC submission
+code resumes. Thus, the GuC side can start dereferencing stale
+pointers and Bad Things ensue.
+
+So add a refcount get of the context during the entire reset
+operation. That way, the context can't be destroyed part way through
+no matter what other resets or user interactions occur.
+
+v2:
+ (Matthew Brost)
+  - Update patch to work with async error capture
+
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c  | 18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 24 +++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index ba6838a35a69..1986a57b52cc 100644
+index 1986a57b52cc..02917fc4d4a8 100644
 --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -800,8 +800,6 @@ static void guc_flush_submissions(struct intel_guc *guc)
+@@ -2888,6 +2888,8 @@ static void capture_worker_func(struct work_struct *w)
+ 	intel_engine_set_hung_context(engine, ce);
+ 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
+ 		i915_capture_error_state(gt, ce->engine->mask);
++
++	intel_context_put(ce);
+ }
  
- void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+ static void capture_error_state(struct intel_guc *guc,
+@@ -2924,7 +2926,7 @@ static void guc_context_replay(struct intel_context *ce)
+ 	tasklet_hi_schedule(&sched_engine->tasklet);
+ }
+ 
+-static void guc_handle_context_reset(struct intel_guc *guc,
++static bool guc_handle_context_reset(struct intel_guc *guc,
+ 				     struct intel_context *ce)
  {
--	int i;
--
- 	if (unlikely(!guc_submission_initialized(guc))) {
- 		/* Reset called during driver load? GuC not yet initialised! */
- 		return;
-@@ -816,21 +814,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
- 	spin_unlock_irq(&guc_to_gt(guc)->irq_lock);
+ 	trace_intel_context_reset(ce);
+@@ -2937,7 +2939,11 @@ static void guc_handle_context_reset(struct intel_guc *guc,
+ 		   !context_blocked(ce))) {
+ 		capture_error_state(guc, ce);
+ 		guc_context_replay(ce);
++
++		return false;
+ 	}
++
++	return true;
+ }
  
- 	guc_flush_submissions(guc);
--
--	/*
--	 * Handle any outstanding G2Hs before reset. Call IRQ handler directly
--	 * each pass as interrupt have been disabled. We always scrub for
--	 * outstanding G2H as it is possible for outstanding_submission_g2h to
--	 * be incremented after the context state update.
--	 */
--	for (i = 0; i < 4 && atomic_read(&guc->outstanding_submission_g2h); ++i) {
--		intel_guc_to_host_event_handler(guc);
--#define wait_for_reset(guc, wait_var) \
--		intel_guc_wait_for_pending_msg(guc, wait_var, false, (HZ / 20))
--		do {
--			wait_for_reset(guc, &guc->outstanding_submission_g2h);
--		} while (!list_empty(&guc->ct.requests.incoming));
--	}
-+	flush_work(&guc->ct.requests.worker);
+ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+@@ -2945,6 +2951,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+ {
+ 	struct intel_context *ce;
+ 	int desc_idx;
++	unsigned long flags;
  
- 	scrub_guc_desc_for_outstanding_g2h(guc);
+ 	if (unlikely(len != 1)) {
+ 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
+@@ -2952,11 +2959,24 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+ 	}
+ 
+ 	desc_idx = msg[0];
++
++	/*
++	 * The context lookup uses the xarray but lookups only require an RCU lock
++	 * not the full spinlock. So take the lock explicitly and keep it until the
++	 * context has been reference count locked to ensure it can't be destroyed
++	 * asynchronously until the reset is done.
++	 */
++	xa_lock_irqsave(&guc->context_lookup, flags);
+ 	ce = g2h_context_lookup(guc, desc_idx);
++	if (ce)
++		intel_context_get(ce);
++	xa_unlock_irqrestore(&guc->context_lookup, flags);
++
+ 	if (unlikely(!ce))
+ 		return -EPROTO;
+ 
+-	guc_handle_context_reset(guc, ce);
++	if (guc_handle_context_reset(guc, ce))
++		intel_context_put(ce);
+ 
+ 	return 0;
  }
 -- 
 2.32.0
