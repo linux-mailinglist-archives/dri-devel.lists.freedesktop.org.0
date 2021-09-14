@@ -2,44 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F87B40A954
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:34:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7373740A977
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:41:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F6F56E433;
-	Tue, 14 Sep 2021 08:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9CFF46E422;
+	Tue, 14 Sep 2021 08:41:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C9AB6E432;
- Tue, 14 Sep 2021 08:34:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="202099417"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="202099417"
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 16CA76E422;
+ Tue, 14 Sep 2021 08:41:13 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="209156221"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="209156221"
 Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 01:34:11 -0700
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="432915056"
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 01:41:12 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="432916729"
 Received: from ocascan-mobl.ger.corp.intel.com (HELO [10.213.234.116])
  ([10.213.234.116])
  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 01:34:10 -0700
-Subject: Re: [Intel-gfx] [PATCH 08/27] drm/i915: Add logical engine mapping
+ 14 Sep 2021 01:41:10 -0700
+Subject: Re: [Intel-gfx] [PATCH 04/27] drm/i915/guc: Take GT PM ref when
+ deregistering context
 To: Matthew Brost <matthew.brost@intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
  daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
 References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-9-matthew.brost@intel.com>
- <c599bfef-418f-9a25-9e90-c20117dc4665@linux.intel.com>
- <20210910194955.GA24003@jons-linux-dev-box>
- <d95ee5e5-7118-cd98-49c0-964f22ade45d@linux.intel.com>
- <20210913165029.GA8526@jons-linux-dev-box>
+ <20210820224446.30620-5-matthew.brost@intel.com>
+ <98a1afea-b57d-6a19-0367-ef1adc461843@linux.intel.com>
+ <20210913171209.GA8883@jons-linux-dev-box>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <68b40289-b8c6-9740-b1a6-f37ea4ffc2f7@linux.intel.com>
-Date: Tue, 14 Sep 2021 09:34:08 +0100
+Message-ID: <283aead8-ff9b-06db-43e9-01437275078f@linux.intel.com>
+Date: Tue, 14 Sep 2021 09:41:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210913165029.GA8526@jons-linux-dev-box>
+In-Reply-To: <20210913171209.GA8883@jons-linux-dev-box>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -59,407 +58,637 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-On 13/09/2021 17:50, Matthew Brost wrote:
-> On Mon, Sep 13, 2021 at 10:24:43AM +0100, Tvrtko Ursulin wrote:
+On 13/09/2021 18:12, Matthew Brost wrote:
+> On Mon, Sep 13, 2021 at 10:55:59AM +0100, Tvrtko Ursulin wrote:
 >>
->> On 10/09/2021 20:49, Matthew Brost wrote:
->>> On Fri, Sep 10, 2021 at 12:12:42PM +0100, Tvrtko Ursulin wrote:
->>>>
->>>> On 20/08/2021 23:44, Matthew Brost wrote:
->>>>> Add logical engine mapping. This is required for split-frame, as
->>>>> workloads need to be placed on engines in a logically contiguous manner.
->>>>>
->>>>> v2:
->>>>>     (Daniel Vetter)
->>>>>      - Add kernel doc for new fields
->>>>>
->>>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>>>> ---
->>>>>     drivers/gpu/drm/i915/gt/intel_engine_cs.c     | 60 ++++++++++++++++---
->>>>>     drivers/gpu/drm/i915/gt/intel_engine_types.h  |  5 ++
->>>>>     .../drm/i915/gt/intel_execlists_submission.c  |  1 +
->>>>>     drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  2 +-
->>>>>     .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 21 +------
->>>>>     5 files changed, 60 insertions(+), 29 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> index 0d9105a31d84..4d790f9a65dd 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
->>>>> @@ -290,7 +290,8 @@ static void nop_irq_handler(struct intel_engine_cs *engine, u16 iir)
->>>>>     	GEM_DEBUG_WARN_ON(iir);
->>>>>     }
->>>>> -static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->>>>> +static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id,
->>>>> +			      u8 logical_instance)
->>>>>     {
->>>>>     	const struct engine_info *info = &intel_engines[id];
->>>>>     	struct drm_i915_private *i915 = gt->i915;
->>>>> @@ -334,6 +335,7 @@ static int intel_engine_setup(struct intel_gt *gt, enum intel_engine_id id)
->>>>>     	engine->class = info->class;
->>>>>     	engine->instance = info->instance;
->>>>> +	engine->logical_mask = BIT(logical_instance);
->>>>>     	__sprint_engine_name(engine);
->>>>>     	engine->props.heartbeat_interval_ms =
->>>>> @@ -572,6 +574,37 @@ static intel_engine_mask_t init_engine_mask(struct intel_gt *gt)
->>>>>     	return info->engine_mask;
->>>>>     }
->>>>> +static void populate_logical_ids(struct intel_gt *gt, u8 *logical_ids,
->>>>> +				 u8 class, const u8 *map, u8 num_instances)
->>>>> +{
->>>>> +	int i, j;
->>>>> +	u8 current_logical_id = 0;
->>>>> +
->>>>> +	for (j = 0; j < num_instances; ++j) {
->>>>> +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
->>>>> +			if (!HAS_ENGINE(gt, i) ||
->>>>> +			    intel_engines[i].class != class)
->>>>> +				continue;
->>>>> +
->>>>> +			if (intel_engines[i].instance == map[j]) {
->>>>> +				logical_ids[intel_engines[i].instance] =
->>>>> +					current_logical_id++;
->>>>> +				break;
->>>>> +			}
->>>>> +		}
->>>>> +	}
->>>>> +}
->>>>> +
->>>>> +static void setup_logical_ids(struct intel_gt *gt, u8 *logical_ids, u8 class)
->>>>> +{
->>>>> +	int i;
->>>>> +	u8 map[MAX_ENGINE_INSTANCE + 1];
->>>>> +
->>>>> +	for (i = 0; i < MAX_ENGINE_INSTANCE + 1; ++i)
->>>>> +		map[i] = i;
->>>>
->>>> What's the point of the map array since it is 1:1 with instance?
->>>>
+>> On 20/08/2021 23:44, Matthew Brost wrote:
+>>> Taking a PM reference to prevent intel_gt_wait_for_idle from short
+>>> circuiting while a deregister context H2G is in flight.
 >>>
->>> Future products do not have a 1 to 1 mapping and that mapping can change
->>> based on fusing, e.g. XeHP SDV.
+>>> FIXME: Move locking / structure changes into different patch
 >>>
->>> Also technically ICL / TGL / ADL physical instance 2 maps to logical
->>> instance 1.
->>
->> I don't follow the argument. All I can see is that "map[i] = i" always in
->> the proposed code, which is then used to check "instance == map[instance]".
->> So I'd suggest to remove this array from the code until there is a need for
->> it.
->>
-> 
-> Ok, this logic is slightly confusing and makes more sense once we have
-> non-standard mappings. Yes, map is setup in a 1 to 1 mapping by default
-> with the value in map[i] being a physical instance. Populate_logical_ids
-> searches the map finding all physical instances present in the map
-> assigning each found instance a new logical id increasing by 1 each
-> time.
-> 
-> e.g. If the map is setup 0-N and only physical instance 0 / 2 are
-> present they will get logical mapping 0 / 1 respectfully.
-> 
-> This algorithm works for non-standard mappings too /w fused parts. e.g.
-> on XeHP SDV the map is: { 0, 2, 4, 6, 1, 3, 5, 7 } and if any of the
-> physical instances can't be found due to fusing the logical mapping is
-> still correct per the bspec.
-> 
-> This array is absolutely needed for multi-lrc submission to work, even
-> on ICL / TGL / ADL as the GuC only supports logically contiguous engine
-> instances.
-
-No idea how can an array fixed at "map[i] = i" be absolutely needed when 
-you can just write it like "i". Sometimes it is okay to lay some ground 
-work for future platforms but in this case to me it's just obfuscation 
-which should be added later, when it is required.
-
->>>>> +	populate_logical_ids(gt, logical_ids, class, map, ARRAY_SIZE(map));
->>>>> +}
->>>>> +
->>>>>     /**
->>>>>      * intel_engines_init_mmio() - allocate and prepare the Engine Command Streamers
->>>>>      * @gt: pointer to struct intel_gt
->>>>> @@ -583,7 +616,8 @@ int intel_engines_init_mmio(struct intel_gt *gt)
->>>>>     	struct drm_i915_private *i915 = gt->i915;
->>>>>     	const unsigned int engine_mask = init_engine_mask(gt);
->>>>>     	unsigned int mask = 0;
->>>>> -	unsigned int i;
->>>>> +	unsigned int i, class;
->>>>> +	u8 logical_ids[MAX_ENGINE_INSTANCE + 1];
->>>>>     	int err;
->>>>>     	drm_WARN_ON(&i915->drm, engine_mask == 0);
->>>>> @@ -593,15 +627,23 @@ int intel_engines_init_mmio(struct intel_gt *gt)
->>>>>     	if (i915_inject_probe_failure(i915))
->>>>>     		return -ENODEV;
->>>>> -	for (i = 0; i < ARRAY_SIZE(intel_engines); i++) {
->>>>> -		if (!HAS_ENGINE(gt, i))
->>>>> -			continue;
->>>>> +	for (class = 0; class < MAX_ENGINE_CLASS + 1; ++class) {
->>>>> +		setup_logical_ids(gt, logical_ids, class);
->>>>> -		err = intel_engine_setup(gt, i);
->>>>> -		if (err)
->>>>> -			goto cleanup;
->>>>> +		for (i = 0; i < ARRAY_SIZE(intel_engines); ++i) {
->>>>> +			u8 instance = intel_engines[i].instance;
->>>>> +
->>>>> +			if (intel_engines[i].class != class ||
->>>>> +			    !HAS_ENGINE(gt, i))
->>>>> +				continue;
->>>>> -		mask |= BIT(i);
->>>>> +			err = intel_engine_setup(gt, i,
->>>>> +						 logical_ids[instance]);
->>>>> +			if (err)
->>>>> +				goto cleanup;
->>>>> +
->>>>> +			mask |= BIT(i);
->>>>
->>>> I still this there is a less clunky way to set this up in less code and more
->>>> readable at the same time. Like do it in two passes so you can iterate
->>>> gt->engine_class[] array instead of having to implement a skip condition
->>>> (both on class and HAS_ENGINE at two places) and also avoid walking the flat
->>>> intel_engines array recursively.
->>>>
+>>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>>> ---
+>>>    drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
+>>>    drivers/gpu/drm/i915/gt/intel_context_types.h |  13 +-
+>>>    drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   5 +
+>>>    drivers/gpu/drm/i915/gt/intel_gt_pm.h         |  13 ++
+>>>    .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+>>>    drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  46 ++--
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_debugfs.c    |  13 +-
+>>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 212 +++++++++++-------
+>>>    8 files changed, 199 insertions(+), 106 deletions(-)
 >>>
->>> Kinda a bikeshed arguing about a pretty simple loop structure, don't you
->>> think? I personally like the way it laid out.
->>>
->>> Pseudo code for your suggestion?
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> index adfe49b53b1b..c8595da64ad8 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>>> @@ -399,6 +399,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
+>>>    	ce->guc_id.id = GUC_INVALID_LRC_ID;
+>>>    	INIT_LIST_HEAD(&ce->guc_id.link);
+>>> +	INIT_LIST_HEAD(&ce->destroyed_link);
+>>> +
+>>>    	/*
+>>>    	 * Initialize fence to be complete as this is expected to be complete
+>>>    	 * unless there is a pending schedule disable outstanding.
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> index 80bbdc7810f6..fd338a30617e 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+>>> @@ -190,22 +190,29 @@ struct intel_context {
+>>>    		/**
+>>>    		 * @id: unique handle which is used to communicate information
+>>>    		 * with the GuC about this context, protected by
+>>> -		 * guc->contexts_lock
+>>> +		 * guc->submission_state.lock
+>>>    		 */
+>>>    		u16 id;
+>>>    		/**
+>>>    		 * @ref: the number of references to the guc_id, when
+>>>    		 * transitioning in and out of zero protected by
+>>> -		 * guc->contexts_lock
+>>> +		 * guc->submission_state.lock
+>>>    		 */
+>>>    		atomic_t ref;
+>>>    		/**
+>>>    		 * @link: in guc->guc_id_list when the guc_id has no refs but is
+>>> -		 * still valid, protected by guc->contexts_lock
+>>> +		 * still valid, protected by guc->submission_state.lock
+>>>    		 */
+>>>    		struct list_head link;
+>>>    	} guc_id;
+>>> +	/**
+>>> +	 * @destroyed_link: link in guc->submission_state.destroyed_contexts, in
+>>> +	 * list when context is pending to be destroyed (deregistered with the
+>>> +	 * GuC), protected by guc->submission_state.lock
+>>> +	 */
+>>> +	struct list_head destroyed_link;
+>>> +
+>>>    #ifdef CONFIG_DRM_I915_SELFTEST
+>>>    	/**
+>>>    	 * @drop_schedule_enable: Force drop of schedule enable G2H for selftest
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+>>> index 70ea46d6cfb0..17a5028ea177 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+>>> @@ -16,6 +16,11 @@ intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
+>>>    	return intel_wakeref_is_active(&engine->wakeref);
+>>>    }
+>>> +static inline void __intel_engine_pm_get(struct intel_engine_cs *engine)
+>>> +{
+>>> +	__intel_wakeref_get(&engine->wakeref);
+>>> +}
+>>> +
+>>>    static inline void intel_engine_pm_get(struct intel_engine_cs *engine)
+>>>    {
+>>>    	intel_wakeref_get(&engine->wakeref);
+>>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+>>> index d0588d8aaa44..a17bf0d4592b 100644
+>>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+>>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+>>> @@ -41,6 +41,19 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
+>>>    	intel_wakeref_put_async(&gt->wakeref);
+>>>    }
+>>> +#define with_intel_gt_pm(gt, tmp) \
+>>> +	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+>>> +	     intel_gt_pm_put(gt), tmp = 0)
+>>> +#define with_intel_gt_pm_async(gt, tmp) \
+>>> +	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+>>> +	     intel_gt_pm_put_async(gt), tmp = 0)
+>>> +#define with_intel_gt_pm_if_awake(gt, tmp) \
+>>> +	for (tmp = intel_gt_pm_get_if_awake(gt); tmp; \
+>>> +	     intel_gt_pm_put(gt), tmp = 0)
+>>> +#define with_intel_gt_pm_if_awake_async(gt, tmp) \
+>>> +	for (tmp = intel_gt_pm_get_if_awake(gt); tmp; \
+>>> +	     intel_gt_pm_put_async(gt), tmp = 0)
+>>> +
+>>>    static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
+>>>    {
+>>>    	return intel_wakeref_wait_for_idle(&gt->wakeref);
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>> index 8ff582222aff..ba10bd374cee 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>> @@ -142,6 +142,7 @@ enum intel_guc_action {
+>>>    	INTEL_GUC_ACTION_REGISTER_COMMAND_TRANSPORT_BUFFER = 0x4505,
+>>>    	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
+>>>    	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
+>>> +	INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC = 0x4601,
+>>>    	INTEL_GUC_ACTION_RESET_CLIENT = 0x5507,
+>>>    	INTEL_GUC_ACTION_LIMIT
+>>>    };
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> index 6fd2719d1b75..7358883f1540 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>> @@ -53,21 +53,37 @@ struct intel_guc {
+>>>    		void (*disable)(struct intel_guc *guc);
+>>>    	} interrupts;
+>>> -	/**
+>>> -	 * @contexts_lock: protects guc_ids, guc_id_list, ce->guc_id.id, and
+>>> -	 * ce->guc_id.ref when transitioning in and out of zero
+>>> -	 */
+>>> -	spinlock_t contexts_lock;
+>>> -	/** @guc_ids: used to allocate new guc_ids */
+>>> -	struct ida guc_ids;
+>>> -	/** @num_guc_ids: number of guc_ids that can be used */
+>>> -	u32 num_guc_ids;
+>>> -	/** @max_guc_ids: max number of guc_ids that can be used */
+>>> -	u32 max_guc_ids;
+>>> -	/**
+>>> -	 * @guc_id_list: list of intel_context with valid guc_ids but no refs
+>>> -	 */
+>>> -	struct list_head guc_id_list;
+>>> +	struct {
+>>> +		/**
+>>> +		 * @lock: protects everything in submission_state, ce->guc_id,
+>>> +		 * and ce->destroyed_link
+>>> +		 */
+>>> +		spinlock_t lock;
+>>> +		/**
+>>> +		 * @guc_ids: used to allocate new guc_ids
+>>> +		 */
+>>> +		struct ida guc_ids;
+>>> +		/** @num_guc_ids: number of guc_ids that can be used */
+>>> +		u32 num_guc_ids;
+>>> +		/** @max_guc_ids: max number of guc_ids that can be used */
+>>> +		u32 max_guc_ids;
+>>> +		/**
+>>> +		 * @guc_id_list: list of intel_context with valid guc_ids but no
+>>> +		 * refs
+>>> +		 */
+>>> +		struct list_head guc_id_list;
+>>> +		/**
+>>> +		 * @destroyed_contexts: list of contexts waiting to be destroyed
+>>> +		 * (deregistered with the GuC)
+>>> +		 */
+>>> +		struct list_head destroyed_contexts;
+>>> +		/**
+>>> +		 * @destroyed_worker: worker to deregister contexts, need as we
+>>> +		 * need to take a GT PM reference and can't from destroy
+>>> +		 * function as it might be in an atomic context (no sleeping)
+>>> +		 */
+>>> +		struct work_struct destroyed_worker;
+>>> +	} submission_state;
+>>>    	bool submission_supported;
+>>>    	bool submission_selected;
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>>> index b88d343ee432..27655460ee84 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_debugfs.c
+>>> @@ -78,7 +78,7 @@ static int guc_num_id_get(void *data, u64 *val)
+>>>    	if (!intel_guc_submission_is_used(guc))
+>>>    		return -ENODEV;
+>>> -	*val = guc->num_guc_ids;
+>>> +	*val = guc->submission_state.num_guc_ids;
+>>>    	return 0;
+>>>    }
+>>> @@ -86,16 +86,21 @@ static int guc_num_id_get(void *data, u64 *val)
+>>>    static int guc_num_id_set(void *data, u64 val)
+>>>    {
+>>>    	struct intel_guc *guc = data;
+>>> +	unsigned long flags;
+>>>    	if (!intel_guc_submission_is_used(guc))
+>>>    		return -ENODEV;
+>>> -	if (val > guc->max_guc_ids)
+>>> -		val = guc->max_guc_ids;
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +
+>>> +	if (val > guc->submission_state.max_guc_ids)
+>>> +		val = guc->submission_state.max_guc_ids;
+>>>    	else if (val < 256)
+>>>    		val = 256;
+>>> -	guc->num_guc_ids = val;
+>>> +	guc->submission_state.num_guc_ids = val;
+>>> +
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>    	return 0;
+>>>    }
+>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> index 68742b612692..f835e06e5f9f 100644
+>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>> @@ -86,9 +86,9 @@
+>>>     * submitting at a time. Currently only 1 sched_engine used for all of GuC
+>>>     * submission but that could change in the future.
+>>>     *
+>>> - * guc->contexts_lock
+>>> - * Protects guc_id allocation. Global lock i.e. Only 1 context that uses GuC
+>>> - * submission can hold this at a time.
+>>> + * guc->submission_state.lock
+>>> + * Global lock for GuC submission state. Protects guc_ids and destroyed contexts
+>>> + * list.
+>>>     *
+>>>     * ce->guc_state.lock
+>>>     * Protects everything under ce->guc_state. Ensures that a context is in the
+>>> @@ -100,7 +100,7 @@
+>>>     *
+>>>     * Lock ordering rules:
+>>>     * sched_engine->lock -> ce->guc_state.lock
+>>> - * guc->contexts_lock -> ce->guc_state.lock
+>>> + * guc->submission_state.lock -> ce->guc_state.lock
+>>>     *
+>>>     * Reset races:
+>>>     * When a GPU full reset is triggered it is assumed that some G2H responses to
+>>> @@ -344,7 +344,7 @@ static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+>>>    {
+>>>    	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+>>> -	GEM_BUG_ON(index >= guc->max_guc_ids);
+>>> +	GEM_BUG_ON(index >= guc->submission_state.max_guc_ids);
+>>>    	return &base[index];
+>>>    }
+>>> @@ -353,7 +353,7 @@ static struct intel_context *__get_context(struct intel_guc *guc, u32 id)
+>>>    {
+>>>    	struct intel_context *ce = xa_load(&guc->context_lookup, id);
+>>> -	GEM_BUG_ON(id >= guc->max_guc_ids);
+>>> +	GEM_BUG_ON(id >= guc->submission_state.max_guc_ids);
+>>>    	return ce;
+>>>    }
+>>> @@ -363,7 +363,8 @@ static int guc_lrc_desc_pool_create(struct intel_guc *guc)
+>>>    	u32 size;
+>>>    	int ret;
+>>> -	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) * guc->max_guc_ids);
+>>> +	size = PAGE_ALIGN(sizeof(struct guc_lrc_desc) *
+>>> +			  guc->submission_state.max_guc_ids);
+>>>    	ret = intel_guc_allocate_and_map_vma(guc, size, &guc->lrc_desc_pool,
+>>>    					     (void **)&guc->lrc_desc_pool_vaddr);
+>>>    	if (ret)
+>>> @@ -711,6 +712,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>>>    			if (deregister)
+>>>    				guc_signal_context_fence(ce);
+>>>    			if (destroyed) {
+>>> +				intel_gt_pm_put_async(guc_to_gt(guc));
+>>>    				release_guc_id(guc, ce);
+>>>    				__guc_context_destroy(ce);
+>>>    			}
+>>> @@ -789,6 +791,8 @@ static void guc_flush_submissions(struct intel_guc *guc)
+>>>    	spin_unlock_irqrestore(&sched_engine->lock, flags);
+>>>    }
+>>> +static void guc_flush_destroyed_contexts(struct intel_guc *guc);
+>>> +
+>>>    void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>>>    {
+>>>    	if (unlikely(!guc_submission_initialized(guc))) {
+>>> @@ -805,6 +809,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>>>    	spin_unlock_irq(&guc_to_gt(guc)->irq_lock);
+>>>    	flush_work(&guc->ct.requests.worker);
+>>> +	guc_flush_destroyed_contexts(guc);
+>>>    	scrub_guc_desc_for_outstanding_g2h(guc);
+>>>    }
+>>> @@ -1102,6 +1107,8 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+>>>    	intel_gt_unpark_heartbeats(guc_to_gt(guc));
+>>>    }
+>>> +static void destroyed_worker_func(struct work_struct *w);
+>>> +
+>>>    /*
+>>>     * Set up the memory resources to be shared with the GuC (via the GGTT)
+>>>     * at firmware loading time.
+>>> @@ -1124,9 +1131,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>>>    	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
+>>> -	spin_lock_init(&guc->contexts_lock);
+>>> -	INIT_LIST_HEAD(&guc->guc_id_list);
+>>> -	ida_init(&guc->guc_ids);
+>>> +	spin_lock_init(&guc->submission_state.lock);
+>>> +	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
+>>> +	ida_init(&guc->submission_state.guc_ids);
+>>> +	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
+>>> +	INIT_WORK(&guc->submission_state.destroyed_worker, destroyed_worker_func);
+>>>    	return 0;
+>>>    }
+>>> @@ -1137,6 +1146,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
+>>>    		return;
+>>>    	guc_lrc_desc_pool_destroy(guc);
+>>> +	guc_flush_destroyed_contexts(guc);
+>>>    	i915_sched_engine_put(guc->sched_engine);
+>>>    }
+>>> @@ -1191,15 +1201,16 @@ static void guc_submit_request(struct i915_request *rq)
+>>>    static int new_guc_id(struct intel_guc *guc)
+>>>    {
+>>> -	return ida_simple_get(&guc->guc_ids, 0,
+>>> -			      guc->num_guc_ids, GFP_KERNEL |
+>>> +	return ida_simple_get(&guc->submission_state.guc_ids, 0,
+>>> +			      guc->submission_state.num_guc_ids, GFP_KERNEL |
+>>>    			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+>>>    }
+>>>    static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>>>    {
+>>>    	if (!context_guc_id_invalid(ce)) {
+>>> -		ida_simple_remove(&guc->guc_ids, ce->guc_id.id);
+>>> +		ida_simple_remove(&guc->submission_state.guc_ids,
+>>> +				  ce->guc_id.id);
+>>>    		reset_lrc_desc(guc, ce->guc_id.id);
+>>>    		set_context_guc_id_invalid(ce);
+>>>    	}
+>>> @@ -1211,9 +1222,9 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>>>    {
+>>>    	unsigned long flags;
+>>> -	spin_lock_irqsave(&guc->contexts_lock, flags);
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>>    	__release_guc_id(guc, ce);
+>>> -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>    }
+>>>    static int steal_guc_id(struct intel_guc *guc)
+>>> @@ -1221,10 +1232,10 @@ static int steal_guc_id(struct intel_guc *guc)
+>>>    	struct intel_context *ce;
+>>>    	int guc_id;
+>>> -	lockdep_assert_held(&guc->contexts_lock);
+>>> +	lockdep_assert_held(&guc->submission_state.lock);
+>>> -	if (!list_empty(&guc->guc_id_list)) {
+>>> -		ce = list_first_entry(&guc->guc_id_list,
+>>> +	if (!list_empty(&guc->submission_state.guc_id_list)) {
+>>> +		ce = list_first_entry(&guc->submission_state.guc_id_list,
+>>>    				      struct intel_context,
+>>>    				      guc_id.link);
+>>> @@ -1249,7 +1260,7 @@ static int assign_guc_id(struct intel_guc *guc, u16 *out)
+>>>    {
+>>>    	int ret;
+>>> -	lockdep_assert_held(&guc->contexts_lock);
+>>> +	lockdep_assert_held(&guc->submission_state.lock);
+>>>    	ret = new_guc_id(guc);
+>>>    	if (unlikely(ret < 0)) {
+>>> @@ -1271,7 +1282,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>>>    	GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
+>>>    try_again:
+>>> -	spin_lock_irqsave(&guc->contexts_lock, flags);
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>>    	might_lock(&ce->guc_state.lock);
+>>> @@ -1286,7 +1297,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>>>    	atomic_inc(&ce->guc_id.ref);
+>>>    out_unlock:
+>>> -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>    	/*
+>>>    	 * -EAGAIN indicates no guc_id are available, let's retire any
+>>> @@ -1322,11 +1333,12 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+>>>    	if (unlikely(context_guc_id_invalid(ce)))
+>>>    		return;
+>>> -	spin_lock_irqsave(&guc->contexts_lock, flags);
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>>    	if (!context_guc_id_invalid(ce) && list_empty(&ce->guc_id.link) &&
+>>>    	    !atomic_read(&ce->guc_id.ref))
+>>> -		list_add_tail(&ce->guc_id.link, &guc->guc_id_list);
+>>> -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
+>>> +		list_add_tail(&ce->guc_id.link,
+>>> +			      &guc->submission_state.guc_id_list);
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>>    }
+>>>    static int __guc_action_register_context(struct intel_guc *guc,
+>>> @@ -1841,11 +1853,30 @@ static void guc_context_sched_disable(struct intel_context *ce)
+>>>    static void guc_lrc_desc_unpin(struct intel_context *ce)
+>>>    {
+>>>    	struct intel_guc *guc = ce_to_guc(ce);
+>>> +	struct intel_gt *gt = guc_to_gt(guc);
+>>> +	unsigned long flags;
+>>> +	bool disabled;
+>>> +	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
+>>>    	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
+>>>    	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
+>>>    	GEM_BUG_ON(context_enabled(ce));
+>>> +	/* Seal race with Reset */
+>>> +	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>>> +	disabled = submission_disabled(guc);
+>>> +	if (likely(!disabled)) {
+>>> +		__intel_gt_pm_get(gt);
+>>> +		set_context_destroyed(ce);
+>>> +		clr_context_registered(ce);
+>>> +	}
+>>> +	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>> +	if (unlikely(disabled)) {
+>>> +		release_guc_id(guc, ce);
+>>> +		__guc_context_destroy(ce);
+>>> +		return;
+>>> +	}
+>>> +
+>>>    	deregister_context(ce, ce->guc_id.id, true);
+>>>    }
+>>> @@ -1873,78 +1904,88 @@ static void __guc_context_destroy(struct intel_context *ce)
+>>>    	}
+>>>    }
+>>> +static void guc_flush_destroyed_contexts(struct intel_guc *guc)
+>>> +{
+>>> +	struct intel_context *ce, *cn;
+>>> +	unsigned long flags;
+>>> +
+>>> +	GEM_BUG_ON(!submission_disabled(guc) &&
+>>> +		   guc_submission_initialized(guc));
+>>> +
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +	list_for_each_entry_safe(ce, cn,
+>>> +				 &guc->submission_state.destroyed_contexts,
+>>> +				 destroyed_link) {
+>>> +		list_del_init(&ce->destroyed_link);
+>>> +		__release_guc_id(guc, ce);
+>>> +		__guc_context_destroy(ce);
+>>> +	}
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>> +}
+>>> +
+>>> +static void deregister_destroyed_contexts(struct intel_guc *guc)
+>>> +{
+>>> +	struct intel_context *ce, *cn;
+>>> +	unsigned long flags;
+>>> +
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +	list_for_each_entry_safe(ce, cn,
+>>> +				 &guc->submission_state.destroyed_contexts,
+>>> +				 destroyed_link) {
+>>> +		list_del_init(&ce->destroyed_link);
+>>> +		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
 >>
->> Leave the existing setup loop as is and add an additional "for engine class"
->> walk after it. That way you can walk already setup gt->engine_class[] array
->> so wouldn't need to skip wrong classes and have HAS_ENGINE checks when
->> walking the flat intel_engines[] array several times. It also applies to the
->> helper which counts logical instances per class.
+>> Lock drop and re-acquire is not safe - list_for_each_entry_safe only deal
+>> with the list_del_init above. It does not help if someone else modifies the
+>> list in the window while the lock is not held, in which case things will go
+>> BOOM!
 >>
 > 
-> Ok, I think I see what you are getting at. Again IMO this is a total
-> bikeshed as this is 1 time setup step that we really should only care if
-> the loop works or not rather than it being optimized / looks a way a
-> certain person wants. I can change this if you really insist but again
-> IMO disucssing this is a total waste of energy.
-
-It should be such a no brainer to go with simpler and less invasive 
-change that I honestly don't understand where is the big deal. Here is 
-my pseudo code one more time and that will be the last from me on the topic.
-
-Today we have:
-
-for_each intel_engines: // intel_engines is a flat list of all engines
-	intel_engine_setup()
-
-You propose to change it to:
-
-for_each engine_class:
-    for 0..max_global_engine_instance:
-       for_each intel_engines:
-          skip engine not present
-          skip class not matching
-
-          count logical instance
-
-    for_each intel_engines:
-       skip engine not present
-       skip wrong class
-
-       intel_engine_setup()
-
-
-I propose:
-
-// Leave as is:
-
-for_each intel_engines:
-    intel_engine_setup()
-
-// Add:
-
-for_each engine_class:
-    logical = 0
-    for_each gt->engine_class[class]:
-       skip engine not present
-
-       engine->logical_instance = logical++
-
-
-When code which actually needs a preturbed "map" arrives you add that in 
-to this second loop.
-
->   
->>>>> +		}
->>>>>     	}
->>>>>     	/*
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>>>> index ed91bcff20eb..fddf35546b58 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
->>>>> @@ -266,6 +266,11 @@ struct intel_engine_cs {
->>>>>     	unsigned int guc_id;
->>>>>     	intel_engine_mask_t mask;
->>>>> +	/**
->>>>> +	 * @logical_mask: logical mask of engine, reported to user space via
->>>>> +	 * query IOCTL and used to communicate with the GuC in logical space
->>>>> +	 */
->>>>> +	intel_engine_mask_t logical_mask;
->>>>
->>>> You could prefix the new field with uabi_ to match the existing scheme and
->>>> to signify to anyone who might be touching it in the future it should not be
->>>> changed.
->>>
->>> This is kinda uabi, but also kinda isn't. We do report a logical
->>> instance via IOCTL but it also really is tied the GuC backend as we only
->>> can communicate with the GuC in logical space. IMO we should leave as
->>> is.
->>
->> Perhaps it would be best to call the new field uabi_logical_instance so it's
->> clear it is reported in the query directly and do the BIT() transformation
->> in the GuC backend?
->>
+> Good catch, but is this true? We always add via list_add_tail which if
+> I'm reading the list_for_each_entry_safe macro correctly I think is safe
+> to do as 'n = list_next_entry(n, member)' will just evaluate to the new
+> tail on each iteration, right?
 > 
-> Virtual engines can have a multiple bits set in this mask, so this is
-> used for both the query on physical engines via UABI and submission in
-> the GuC backend.
-
-You could add both fields if that would help. I just think it is 
-preferrable to keep the existing convetion of uabi_ prefix for the 
-fields which i915 refactors must not change willy-nilly.
-
+> Reference to macro below:
+> #define list_for_each_entry_safe(pos, n, head, member)			\
+> 	for (pos = list_first_entry(head, typeof(*pos), member),	\
+> 		n = list_next_entry(pos, member);			\
+> 	     &pos->member != (head); 					\
+> 	     pos = n, n = list_next_entry(n, member))
 > 
->>>
->>>>
->>>> Also, I think comment should explain what is logical space ie. how the
->>>> numbering works.
->>>>
->>>
->>> Don't I already do that? I suppose I could add something like:
->>
->> Where is it? Can't see it in the uapi kerneldoc AFAICS (for the new query)
->> or here.
->>
-> 
-> 	/**
-> 	 * @logical_mask: logical mask of engine, reported to user space via
-> 	 * query IOCTL and used to communicate with the GuC in logical space
-> 	 */
->   
->>>
->>> The logical mask within engine class must be contiguous across all
->>> instances.
->>
->> Best not to start mentioning the mask for the first time. Just explain what
->> logical numbering is in terms of how engines are enumerated in order of
->> physical instances but skipping the fused off ones. In the kerneldoc for the
->> new query is I think the right place.
->>
-> 
-> Maybe I can add:
-> 
-> The logical mapping is defined on per part basis in the bspec and can
-> very based the parts fusing.
+> Regardless probably safer to just not drop the lock.
 
-Sounds good, I think that would be useful. But in the uapi kerneldoc.
+Yes, otherwise a comment is needed to explain, but best to avoid such 
+smarts.
 
-Perhaps a cross-link to/from the kernel doc which talks about frame 
-split to explain consecutive logical instances have to be used. That 
-would tie the new query with that uapi in the narrative.
+Or just use a different list if it fits better. As mentioned if it is a 
+very simple producer/consumer relationship which always unlinks all 
+items, and list head is not re-used for something else, then you can 
+consider llist_add/llist_del_all.
 
 Regards,
 
 Tvrtko
 
->>>> Not sure the part about GuC needs to be in the comment since uapi is
->>>> supposed to be backend agnostic.
->>>>
->>>
->>> Communicating with the GuC in logical space is a pretty key point here.
->>> The communication with the GuC in logical space is backend specific but
->>> how our hardware works (e.g. split frame workloads must be placed
->>> logical contiguous) is not. Mentioning the GuC requirement here makes
->>> sense to me for completeness.
->>
->> Yeah might be, I was thinking more about the new query. Query definitely is
->> backend agnostic but yes it is fine to say in the comment here the new field
->> is used both for the query and for communicating with GuC.
+> 
+>> Not sure in what differnt ways you use this list, but perhaps you could
+>> employ a lockless single linked list for this. In which case you could
+>> atomically unlink all elements. Or just change this to not do lock dropping,
+>> if you can safely use the same list_head to put on a local list or
+>> something.
 >>
 > 
-> Sounds good, will make it clear it used for the query and from
-> communicating with the GuC.
+> I think both options work - not sure why I drop the lock here. I'll play
+> around with this and fix in the next rev.
 > 
 > Matt
->   
+> 
 >> Regards,
 >>
 >> Tvrtko
 >>
+>>> +		guc_lrc_desc_unpin(ce);
+>>> +		spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +	}
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>> +}
+>>> +
+>>> +static void destroyed_worker_func(struct work_struct *w)
+>>> +{
+>>> +	struct intel_guc *guc = container_of(w, struct intel_guc,
+>>> +					     submission_state.destroyed_worker);
+>>> +	struct intel_gt *gt = guc_to_gt(guc);
+>>> +	int tmp;
+>>> +
+>>> +	with_intel_gt_pm(gt, tmp)
+>>> +		deregister_destroyed_contexts(guc);
+>>> +}
+>>> +
+>>>    static void guc_context_destroy(struct kref *kref)
+>>>    {
+>>>    	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
+>>> -	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
+>>>    	struct intel_guc *guc = ce_to_guc(ce);
+>>> -	intel_wakeref_t wakeref;
+>>>    	unsigned long flags;
+>>> -	bool disabled;
+>>> +	bool destroy;
+>>>    	/*
+>>>    	 * If the guc_id is invalid this context has been stolen and we can free
+>>>    	 * it immediately. Also can be freed immediately if the context is not
+>>>    	 * registered with the GuC or the GuC is in the middle of a reset.
+>>>    	 */
+>>> -	if (context_guc_id_invalid(ce)) {
+>>> -		__guc_context_destroy(ce);
+>>> -		return;
+>>> -	} else if (submission_disabled(guc) ||
+>>> -		   !lrc_desc_registered(guc, ce->guc_id.id)) {
+>>> -		release_guc_id(guc, ce);
+>>> -		__guc_context_destroy(ce);
+>>> -		return;
+>>> -	}
+>>> -
+>>> -	/*
+>>> -	 * We have to acquire the context spinlock and check guc_id again, if it
+>>> -	 * is valid it hasn't been stolen and needs to be deregistered. We
+>>> -	 * delete this context from the list of unpinned guc_id available to
+>>> -	 * steal to seal a race with guc_lrc_desc_pin(). When the G2H CTB
+>>> -	 * returns indicating this context has been deregistered the guc_id is
+>>> -	 * returned to the pool of available guc_id.
+>>> -	 */
+>>> -	spin_lock_irqsave(&guc->contexts_lock, flags);
+>>> -	if (context_guc_id_invalid(ce)) {
+>>> -		spin_unlock_irqrestore(&guc->contexts_lock, flags);
+>>> -		__guc_context_destroy(ce);
+>>> -		return;
+>>> -	}
+>>> -
+>>> -	if (!list_empty(&ce->guc_id.link))
+>>> -		list_del_init(&ce->guc_id.link);
+>>> -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
+>>> -
+>>> -	/* Seal race with Reset */
+>>> -	spin_lock_irqsave(&ce->guc_state.lock, flags);
+>>> -	disabled = submission_disabled(guc);
+>>> -	if (likely(!disabled)) {
+>>> -		set_context_destroyed(ce);
+>>> -		clr_context_registered(ce);
+>>> +	spin_lock_irqsave(&guc->submission_state.lock, flags);
+>>> +	destroy = submission_disabled(guc) || context_guc_id_invalid(ce) ||
+>>> +		!lrc_desc_registered(guc, ce->guc_id.id);
+>>> +	if (likely(!destroy)) {
+>>> +		if (!list_empty(&ce->guc_id.link))
+>>> +			list_del_init(&ce->guc_id.link);
+>>> +		list_add_tail(&ce->destroyed_link,
+>>> +			      &guc->submission_state.destroyed_contexts);
+>>> +	} else {
+>>> +		__release_guc_id(guc, ce);
+>>>    	}
+>>> -	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>>> -	if (unlikely(disabled)) {
+>>> -		release_guc_id(guc, ce);
+>>> +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+>>> +	if (unlikely(destroy)) {
+>>>    		__guc_context_destroy(ce);
+>>>    		return;
+>>>    	}
+>>>    	/*
+>>> -	 * We defer GuC context deregistration until the context is destroyed
+>>> -	 * in order to save on CTBs. With this optimization ideally we only need
+>>> -	 * 1 CTB to register the context during the first pin and 1 CTB to
+>>> -	 * deregister the context when the context is destroyed. Without this
+>>> -	 * optimization, a CTB would be needed every pin & unpin.
+>>> -	 *
+>>> -	 * XXX: Need to acqiure the runtime wakeref as this can be triggered
+>>> -	 * from context_free_worker when runtime wakeref is not held.
+>>> -	 * guc_lrc_desc_unpin requires the runtime as a GuC register is written
+>>> -	 * in H2G CTB to deregister the context. A future patch may defer this
+>>> -	 * H2G CTB if the runtime wakeref is zero.
+>>> +	 * We use a worker to issue the H2G to deregister the context as we can
+>>> +	 * take the GT PM for the first time which isn't allowed from an atomic
+>>> +	 * context.
+>>>    	 */
+>>> -	with_intel_runtime_pm(runtime_pm, wakeref)
+>>> -		guc_lrc_desc_unpin(ce);
+>>> +	queue_work(system_unbound_wq, &guc->submission_state.destroyed_worker);
+>>>    }
+>>>    static int guc_context_alloc(struct intel_context *ce)
+>>> @@ -2703,8 +2744,8 @@ static bool __guc_submission_selected(struct intel_guc *guc)
+>>>    void intel_guc_submission_init_early(struct intel_guc *guc)
+>>>    {
+>>> -	guc->max_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>>> -	guc->num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>>> +	guc->submission_state.max_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>>> +	guc->submission_state.num_guc_ids = GUC_MAX_LRC_DESCRIPTORS;
+>>>    	guc->submission_supported = __guc_submission_supported(guc);
+>>>    	guc->submission_selected = __guc_submission_selected(guc);
+>>>    }
+>>> @@ -2714,10 +2755,10 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+>>>    {
+>>>    	struct intel_context *ce;
+>>> -	if (unlikely(desc_idx >= guc->max_guc_ids)) {
+>>> +	if (unlikely(desc_idx >= guc->submission_state.max_guc_ids)) {
+>>>    		drm_err(&guc_to_gt(guc)->i915->drm,
+>>>    			"Invalid desc_idx %u, max %u",
+>>> -			desc_idx, guc->max_guc_ids);
+>>> +			desc_idx, guc->submission_state.max_guc_ids);
+>>>    		return NULL;
+>>>    	}
+>>> @@ -2771,6 +2812,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
+>>>    		intel_context_put(ce);
+>>>    	} else if (context_destroyed(ce)) {
+>>>    		/* Context has been destroyed */
+>>> +		intel_gt_pm_put_async(guc_to_gt(guc));
+>>>    		release_guc_id(guc, ce);
+>>>    		__guc_context_destroy(ce);
+>>>    	}
+>>> @@ -3065,8 +3107,10 @@ void intel_guc_submission_print_info(struct intel_guc *guc,
+>>>    	drm_printf(p, "GuC Number Outstanding Submission G2H: %u\n",
+>>>    		   atomic_read(&guc->outstanding_submission_g2h));
+>>> -	drm_printf(p, "GuC Number GuC IDs: %u\n", guc->num_guc_ids);
+>>> -	drm_printf(p, "GuC Max GuC IDs: %u\n", guc->max_guc_ids);
+>>> +	drm_printf(p, "GuC Number GuC IDs: %u\n",
+>>> +		   guc->submission_state.num_guc_ids);
+>>> +	drm_printf(p, "GuC Max GuC IDs: %u\n",
+>>> +		   guc->submission_state.max_guc_ids);
+>>>    	drm_printf(p, "GuC tasklet count: %u\n\n",
+>>>    		   atomic_read(&sched_engine->tasklet.count));
 >>>
->>> Matt
->>>
->>>> Regards,
->>>>
->>>> Tvrtko
->>>>
->>>>>     	u8 class;
->>>>>     	u8 instance;
->>>>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>>>> index cafb0608ffb4..813a6de01382 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>>>> @@ -3875,6 +3875,7 @@ execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
->>>>>     		ve->siblings[ve->num_siblings++] = sibling;
->>>>>     		ve->base.mask |= sibling->mask;
->>>>> +		ve->base.logical_mask |= sibling->logical_mask;
->>>>>     		/*
->>>>>     		 * All physical engines must be compatible for their emission
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>>>> index 6926919bcac6..9f5f43a16182 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
->>>>> @@ -176,7 +176,7 @@ static void guc_mapping_table_init(struct intel_gt *gt,
->>>>>     	for_each_engine(engine, gt, id) {
->>>>>     		u8 guc_class = engine_class_to_guc_class(engine->class);
->>>>> -		system_info->mapping_table[guc_class][engine->instance] =
->>>>> +		system_info->mapping_table[guc_class][ilog2(engine->logical_mask)] =
->>>>>     			engine->instance;
->>>>>     	}
->>>>>     }
->>>>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> index e0eed70f9b92..ffafbac7335e 100644
->>>>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>>>> @@ -1401,23 +1401,6 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
->>>>>     	return __guc_action_deregister_context(guc, guc_id, loop);
->>>>>     }
->>>>> -static intel_engine_mask_t adjust_engine_mask(u8 class, intel_engine_mask_t mask)
->>>>> -{
->>>>> -	switch (class) {
->>>>> -	case RENDER_CLASS:
->>>>> -		return mask >> RCS0;
->>>>> -	case VIDEO_ENHANCEMENT_CLASS:
->>>>> -		return mask >> VECS0;
->>>>> -	case VIDEO_DECODE_CLASS:
->>>>> -		return mask >> VCS0;
->>>>> -	case COPY_ENGINE_CLASS:
->>>>> -		return mask >> BCS0;
->>>>> -	default:
->>>>> -		MISSING_CASE(class);
->>>>> -		return 0;
->>>>> -	}
->>>>> -}
->>>>> -
->>>>>     static void guc_context_policy_init(struct intel_engine_cs *engine,
->>>>>     				    struct guc_lrc_desc *desc)
->>>>>     {
->>>>> @@ -1459,8 +1442,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->>>>>     	desc = __get_lrc_desc(guc, desc_idx);
->>>>>     	desc->engine_class = engine_class_to_guc_class(engine->class);
->>>>> -	desc->engine_submit_mask = adjust_engine_mask(engine->class,
->>>>> -						      engine->mask);
->>>>> +	desc->engine_submit_mask = engine->logical_mask;
->>>>>     	desc->hw_context_desc = ce->lrc.lrca;
->>>>>     	desc->priority = ce->guc_state.prio;
->>>>>     	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->>>>> @@ -3260,6 +3242,7 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
->>>>>     		}
->>>>>     		ve->base.mask |= sibling->mask;
->>>>> +		ve->base.logical_mask |= sibling->logical_mask;
->>>>>     		if (n != 0 && ve->base.class != sibling->class) {
->>>>>     			DRM_DEBUG("invalid mixing of engine class, sibling %d, already %d\n",
->>>>>
