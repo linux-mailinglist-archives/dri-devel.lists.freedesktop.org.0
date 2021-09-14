@@ -2,63 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056A840B8AF
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:05:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA00940B8C1
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:13:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 71CF46E5D1;
-	Tue, 14 Sep 2021 20:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2203A6E5D5;
+	Tue, 14 Sep 2021 20:12:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D01566E5CF
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:05:07 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id t8so171873wrq.4
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:05:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DDG9PdcmOXa2n3le33QPKji3syUWiWHWOF/c2oJOhJM=;
- b=cIp1QsqoMwufYhWeI4pmD4rACA3V2Rm8ZGseTnlKuQ9aCf1f3fVwgglQNiTlHD9C85
- liyI2Rvrm1gSXQruoIvmDxsF5iDmpR5fHreJ+pq3O4zI3KeGKno+Vp3/Kwgscf504zcg
- i73pwKq0EGyAy1fSxnHTde7UMVWilsrfTqmuQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DDG9PdcmOXa2n3le33QPKji3syUWiWHWOF/c2oJOhJM=;
- b=42D8LUYwriBC1VOUqXw2SgBI7bTVtyBukJYnqlIvQ21Tp/kXZgeAv5TdD2Am9eOB4x
- hAdqeimtjjOe+FcdOY27I8qxyK82GY1wZATqGwZPwW9rzGCvJxJmXJft1dW8FJHCRhWD
- b7Fu0vxonr3HkIZZcosXEh5AqaqfpbNbCKG9LPfI5sM3tk0wfaQI60/hxcnkz6akABCy
- dg9qFXfK9wkCuwthjgHMuqChGqQMrtoKMO+FuSTIzMI3mmITqncvhZ1rFm/cC3I0ulWk
- 3PtayA5XpQHfXr+Ynmy1cyAAWMc3twG+RAF5VB10rUift0eetURBdXh9HJosmRWxQ3qX
- Co0g==
-X-Gm-Message-State: AOAM533ixoC68P35Z8jWyw/DT/4mvLUeZa1rGtr4jaruUn1g3KaL/iXz
- EQZ78Se2Yvub3Xzs25boxEEV5g==
-X-Google-Smtp-Source: ABdhPJzgcukybCLJiXvHjYhJgi55RRlLKMwzdXaeZxCkc6sBhSx/mWN3v/72WEfVb16XjaFEW3HMOw==
-X-Received: by 2002:adf:f805:: with SMTP id s5mr926880wrp.259.1631649906282;
- Tue, 14 Sep 2021 13:05:06 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id r26sm2033278wmh.27.2021.09.14.13.05.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 13:05:05 -0700 (PDT)
-Date: Tue, 14 Sep 2021 22:05:03 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Dave Airlie <airlied@gmail.com>,
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, john.c.harrison@intel.com
-Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Do not define vma on stack
-Message-ID: <YUEAb30j+TPBMKGN@phenom.ffwll.local>
-References: <20210914044933.22932-1-matthew.brost@intel.com>
- <20210914044933.22932-2-matthew.brost@intel.com>
- <CAPM=9tzHmYkf_y2W_1TO2MPeohFQ9MzkTD1s0gmpNgLcWbX1NA@mail.gmail.com>
- <20210914153656.GA23874@jons-linux-dev-box>
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4239C6E5D5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:12:55 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id 3169DCAE67
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:06:11 +0000 (UTC)
+Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 930BEFF802;
+ Tue, 14 Sep 2021 20:05:47 +0000 (UTC)
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: [PATCH v9 0/4] drm: LogiCVC display controller support
+Date: Tue, 14 Sep 2021 22:05:35 +0200
+Message-Id: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210914153656.GA23874@jons-linux-dev-box>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,106 +49,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 14, 2021 at 08:36:56AM -0700, Matthew Brost wrote:
-> On Tue, Sep 14, 2021 at 03:04:59PM +1000, Dave Airlie wrote:
-> > On Tue, 14 Sept 2021 at 14:55, Matthew Brost <matthew.brost@intel.com> wrote:
-> > >
-> > > From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> > >
-> > > Defining vma on stack can cause stack overflow, if
-> > > vma gets populated with new fields.
-> > 
-> > Is there some higher level locking stopping that from getting trashed?
-> > or a guarantee that uc_fw_bind_ggtt is only entered by one thread at a
-> > time?
-> > 
-> 
-> I believe this function is only called during driver load (inherently
-> one thread) or during a GT reset (protected by reset mutex) so at most 1
-> thread can be executing this code at once, thus it is safe to use a
-> global dummy vma in this function.
+This series introduces support for the LogiCVC display controller.
+The controller is a bit unusual since it is usually loaded as
+programmable logic on Xilinx FPGAs or Zynq-7000 SoCs.
+More details are presented on the main commit for the driver.
 
-This kind of stuff must be documented in kerneldoc comments. Please use
-the inline struct member format.
+More information about the controller is available on the dedicated
+web page: https://www.logicbricks.com/Products/logiCVC-ML.aspx
 
-Also please document the other fields in that struct, cant hurt :-)
--Daniel
+Note that this driver has rather simple connector management, which was
+not converted to drm_panel_bridge to keep the ability to enable the panel
+at first vblank but also to support DVI.
 
-> 
-> Matt
-> 
-> > Dave.
-> > 
-> > >
-> > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> > > Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-> > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > > ---
-> > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 +++++++++---------
-> > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h |  2 ++
-> > >  2 files changed, 11 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> > > index 3a16d08608a5..f632dbd32b42 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
-> > > @@ -413,20 +413,20 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw *uc_fw)
-> > >  {
-> > >         struct drm_i915_gem_object *obj = uc_fw->obj;
-> > >         struct i915_ggtt *ggtt = __uc_fw_to_gt(uc_fw)->ggtt;
-> > > -       struct i915_vma dummy = {
-> > > -               .node.start = uc_fw_ggtt_offset(uc_fw),
-> > > -               .node.size = obj->base.size,
-> > > -               .pages = obj->mm.pages,
-> > > -               .vm = &ggtt->vm,
-> > > -       };
-> > > +       struct i915_vma *dummy = &uc_fw->dummy;
-> > > +
-> > > +       dummy->node.start = uc_fw_ggtt_offset(uc_fw);
-> > > +       dummy->node.size = obj->base.size;
-> > > +       dummy->pages = obj->mm.pages;
-> > > +       dummy->vm = &ggtt->vm;
-> > >
-> > >         GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
-> > > -       GEM_BUG_ON(dummy.node.size > ggtt->uc_fw.size);
-> > > +       GEM_BUG_ON(dummy->node.size > ggtt->uc_fw.size);
-> > >
-> > >         /* uc_fw->obj cache domains were not controlled across suspend */
-> > > -       drm_clflush_sg(dummy.pages);
-> > > +       drm_clflush_sg(dummy->pages);
-> > >
-> > > -       ggtt->vm.insert_entries(&ggtt->vm, &dummy, I915_CACHE_NONE, 0);
-> > > +       ggtt->vm.insert_entries(&ggtt->vm, dummy, I915_CACHE_NONE, 0);
-> > >  }
-> > >
-> > >  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
-> > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> > > index 99bb1fe1af66..693cc0ebcd63 100644
-> > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
-> > > @@ -10,6 +10,7 @@
-> > >  #include "intel_uc_fw_abi.h"
-> > >  #include "intel_device_info.h"
-> > >  #include "i915_gem.h"
-> > > +#include "i915_vma.h"
-> > >
-> > >  struct drm_printer;
-> > >  struct drm_i915_private;
-> > > @@ -75,6 +76,7 @@ struct intel_uc_fw {
-> > >         bool user_overridden;
-> > >         size_t size;
-> > >         struct drm_i915_gem_object *obj;
-> > > +       struct i915_vma dummy;
-> > >
-> > >         /*
-> > >          * The firmware build process will generate a version header file with major and
-> > > --
-> > > 2.32.0
-> > >
+Changes since v8:
+- Rebased on top of the latest drm-misc-next;
+- Dropped useless phandle-based syscon regmap support;
+- Switched to a single-port graph description;
+- Updated the device-tree schema to the port schema and added a
+  description for the port.
+
+Change since v7:
+- Replaced DRM_INFO/DRM_ERROR/DRM_DEBUG_DRIVER with fashions using drm_device;
+- Fixed yaml binding alignment issue;
+- Renamed logicvc-display name to the generic "display" name;
+- Added patternProperties match for display in the parent mfd binding;
+- Used drm_atomic_get_new_crtc_state when needed;
+- Checked mode in mode_valid instead of atomic_check;
+- Switched to drmm_mode_config_init;
+- Removed useless logicvc_connector_destroy wrapper;
+- Removed useless drm_dev_put calls;
+- Removed atomic_commit_tail that enables the panel and streamlined the logic;
+- Reworked Makefile cosmetics;
+- Fixed checkpatch issues.
+
+Changes since v6:
+- Updated to the latest DRM internal API changes; 
+- Used an enum to index dt properties instead of the name string.
+
+Changes since v5:
+- Subclass DRM device and use devm_drm_dev_alloc for allocation;
+- Removed call to drm_mode_config_cleanup (done automatically with devm);
+- Some related code cleanups;
+- Bring back not-for-merge patch adding colorkey support.
+
+Changes since v4:
+- Updated to internal DRM API changes (rebased on drm-misc-next);
+- Added Kconfig dependency on OF;
+- Added MAINTAINERS entry;
+- Used drm_err and dev_err instead of DRM_ERROR where possible;
+- Various cosmetic changes.
+
+Changes since v3:
+- Rebased on latest drm-misc;
+- Improved event lock wrapping;
+- Added collect tag;
+- Added color-key support patch (not for merge, for reference only).
+
+Changes since v2:
+- Fixed and slightly improved dt schema.
+
+Changes since v1:
+- Switched dt bindings documentation to dt schema;
+- Described more possible dt parameters;
+- Added support for the lvds-3bit interface;
+- Added support for grabbing syscon regmap from parent node;
+- Removed layers count property and count layers child nodes instead.
+
+Paul Kocialkowski (4):
+  dt-bindings: display: Document the Xylon LogiCVC display controller
+  dt-bindings: mfd: logicvc: Add patternProperties for the display
+  drm: Add support for the LogiCVC display controller
+  NOTFORMERGE: drm/logicvc: Add plane colorkey support
+
+ .../display/xylon,logicvc-display.yaml        | 302 +++++++
+ .../bindings/mfd/xylon,logicvc.yaml           |   3 +
+ MAINTAINERS                                   |   6 +
+ drivers/gpu/drm/Kconfig                       |   2 +
+ drivers/gpu/drm/Makefile                      |   1 +
+ drivers/gpu/drm/logicvc/Kconfig               |   9 +
+ drivers/gpu/drm/logicvc/Makefile              |   9 +
+ drivers/gpu/drm/logicvc/logicvc_crtc.c        | 280 +++++++
+ drivers/gpu/drm/logicvc/logicvc_crtc.h        |  21 +
+ drivers/gpu/drm/logicvc/logicvc_drm.c         | 471 +++++++++++
+ drivers/gpu/drm/logicvc/logicvc_drm.h         |  67 ++
+ drivers/gpu/drm/logicvc/logicvc_interface.c   | 214 +++++
+ drivers/gpu/drm/logicvc/logicvc_interface.h   |  28 +
+ drivers/gpu/drm/logicvc/logicvc_layer.c       | 767 ++++++++++++++++++
+ drivers/gpu/drm/logicvc/logicvc_layer.h       |  71 ++
+ drivers/gpu/drm/logicvc/logicvc_mode.c        |  80 ++
+ drivers/gpu/drm/logicvc/logicvc_mode.h        |  15 +
+ drivers/gpu/drm/logicvc/logicvc_of.c          | 185 +++++
+ drivers/gpu/drm/logicvc/logicvc_of.h          |  46 ++
+ drivers/gpu/drm/logicvc/logicvc_regs.h        |  88 ++
+ 20 files changed, 2665 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+ create mode 100644 drivers/gpu/drm/logicvc/Kconfig
+ create mode 100644 drivers/gpu/drm/logicvc/Makefile
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.c
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.h
+ create mode 100644 drivers/gpu/drm/logicvc/logicvc_regs.h
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.32.0
+
