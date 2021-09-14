@@ -1,93 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A767940AF0D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 15:39:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00D2E40AF79
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 15:45:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 286A089B33;
-	Tue, 14 Sep 2021 13:38:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79CDC89F06;
+	Tue, 14 Sep 2021 13:45:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6961989A9B
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:38:58 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id y132so9304064wmc.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 06:38:58 -0700 (PDT)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C77089F06
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:45:25 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id m9so20361549wrb.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 06:45:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to; bh=Y4e5uc+b/mXvn82YV560U0kDtuDse53Hm+g6AvhQ+10=;
- b=cRCGLSjpOumdJWDUZpWUygx0y5XwpVaxvf0ABlKpZc4NDoxDDxSU1Bm6TePvE3ZCR7
- z2Fhwwrp4ZzquB4zaVLA08XBG+Kdhd0tEfg0fzVXF6WvTlOe2cgpTjqJsUZvg0VJj2PB
- xdd2lsKtIYiVDJPebDIntj9d47YW3lhkKXJJs=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=q88PHoVb5jvhEfJnS/DCAVr7Ruy8cemNefYxYmwyLPg=;
+ b=VtLFTNghM0LZuPJF89yYY0uOgmTI/iJzJV6UIhyHRpZYR1rfLWohpNmulB7/jFURw/
+ fNpb5b3YzTDm/WVsPpqQGQ03HVGqsu0BXwMu6j7bxvC8mrjnATLp7oeXU5KGeWVry+6A
+ 3H/aC7uJEjy7ovV5YJxdZec7n4JdbIJzqZMoo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :content-transfer-encoding:in-reply-to;
- bh=Y4e5uc+b/mXvn82YV560U0kDtuDse53Hm+g6AvhQ+10=;
- b=iF20ZoSuc7gIwke7VR7RhNC3iaakcBXnXRP70p+NmpjmX19vHEMGqTz7VH1xnNrgna
- bQvnWbosvmfBW4MyD8ooZbLMo7VRxfIknrJFdbrw+X3qfm+QYdt4ath6KIUmxp0EqS2R
- 6YFrKDddHSpSoG77fOyh8QhgR+AyltSUF6HSrVYn13VJfetJtalmPOt+Kx14SnipGcOG
- FHnIbSTQjHlcaBMvizv/F7/V3UA6co0pQBv1NFlfDE3aY/3VHxBBqPrASHpULkoeJDfz
- PkskRG8u5jNeJPLGCwmy2DDIwCgAN2YIh/Gzeyti1z+faC5MPv5lSc3rAgxX+T27lWQR
- TiJg==
-X-Gm-Message-State: AOAM532nPeMfcmvrc9P8btOTYnNICBaY+pbZeyjfZgg03rH5igfZqq7h
- zRef8+61qOSbnqCnupyOSJxEcA==
-X-Google-Smtp-Source: ABdhPJy44heDH0/myzM0p4WV8kDMxZciiPNEvcqA3vLhsHkOYn6T2IYrGqjVF1OkN3TnBwEJXU4emg==
-X-Received: by 2002:a1c:c903:: with SMTP id f3mr2326509wmb.101.1631626736944; 
- Tue, 14 Sep 2021 06:38:56 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=q88PHoVb5jvhEfJnS/DCAVr7Ruy8cemNefYxYmwyLPg=;
+ b=gjcSa2RvuxT8kl5TfGHAT73GrKmRyWcsVCvOn42NVVkjwW/2XPWsL9Tcl1JOZHjV1k
+ oDb2M2KiZH1xFFlm34888Hc7ZwJjsaimCggvIx5fT62zSnuEQmusGMg+pKg+rALKLAVz
+ 894uUyC+gO1+oavIiVffTbmeJTU7gkwpX2bCVwlHcCaPvPMhTdeennPoArgOVz+52ylp
+ O94Wb8Nkdl/HQW3Fv1X7q9dlB5JK+SdmbeU6G5zE3s7z9+PWdZo+vlofDNrYrz6CRqBX
+ mvzF+9fwfQ7wftBBHuyU7mUFuTxEPSos8mdC4Q9WkJ1ZAsB9zi9O6qOF5L2+XTi/kyve
+ t48g==
+X-Gm-Message-State: AOAM533DMvG2XFg3m6WUoqvUxYbAMEXXkuB4O8oo9NI/0A9TCqUWHx4G
+ 88bDMQR1luB5RPsUiICv1lk9kg==
+X-Google-Smtp-Source: ABdhPJyq3Ugx3TTf5dB/kirmHu9/SKZVJmwF+NgKj8J2HtRd4EzCe+4a5EW0VSVxBxZZhlp9UzwJOw==
+X-Received: by 2002:adf:d239:: with SMTP id k25mr9868206wrh.383.1631627124049; 
+ Tue, 14 Sep 2021 06:45:24 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id j18sm10195344wro.1.2021.09.14.06.38.55
+ by smtp.gmail.com with ESMTPSA id l3sm1170307wms.4.2021.09.14.06.45.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 06:38:56 -0700 (PDT)
-Date: Tue, 14 Sep 2021 15:38:53 +0200
+ Tue, 14 Sep 2021 06:45:23 -0700 (PDT)
+Date: Tue, 14 Sep 2021 15:45:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Tian Tao <tiantao6@hisilicon.com>,
- Steven Price <steven.price@arm.com>, Melissa Wen <mwen@igalia.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jack Zhang <Jack.Zhang1@amd.com>, open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v3 4/9] drm/scheduler: Add fence deadline support
-Message-ID: <YUCl7cHXpgGa6DhP@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?=
- <ckoenig.leichtzumerken@gmail.com>, 
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org,
- Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
- Pekka Paalanen <ppaalanen@gmail.com>,
- Rob Clark <robdclark@chromium.org>, David Airlie <airlied@linux.ie>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Tian Tao <tiantao6@hisilicon.com>,
- Steven Price <steven.price@arm.com>, Melissa Wen <mwen@igalia.com>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Andrey Grodzovsky <andrey.grodzovsky@amd.com>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jack Zhang <Jack.Zhang1@amd.com>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <20210903184806.1680887-5-robdclark@gmail.com>
- <YTj2scNdCHAdF+cl@phenom.ffwll.local>
- <0bb5f8e0-9c42-c97f-16bd-8dbe0f878157@gmail.com>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Hans de Goede <hdegoede@redhat.com>,
+ Dennis Filder <d.filder@web.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: Handling DRM master transitions cooperatively
+Message-ID: <YUCncex3woPlAhI6@phenom.ffwll.local>
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+ <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
+ <20210908103603.44a533bb@eldfell>
+ <CAKMK7uGeuaZDYkr=mFiA4Okhod6KqKRnv_RfF-NJG=2KzG-=WQ@mail.gmail.com>
+ <20210909103703.09a573e4@eldfell>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0bb5f8e0-9c42-c97f-16bd-8dbe0f878157@gmail.com>
+In-Reply-To: <20210909103703.09a573e4@eldfell>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,157 +75,139 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09, 2021 at 08:22:59AM +0200, Christian König wrote:
-> Am 08.09.21 um 19:45 schrieb Daniel Vetter:
-> > On Fri, Sep 03, 2021 at 11:47:55AM -0700, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > > 
-> > > As the finished fence is the one that is exposed to userspace, and
-> > > therefore the one that other operations, like atomic update, would
-> > > block on, we need to propagate the deadline from from the finished
-> > > fence to the actual hw fence.
-> > > 
-> > > v2: Split into drm_sched_fence_set_parent() (ckoenig)
-> > > 
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >   drivers/gpu/drm/scheduler/sched_fence.c | 34 +++++++++++++++++++++++++
-> > >   drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
-> > >   include/drm/gpu_scheduler.h             |  8 ++++++
-> > >   3 files changed, 43 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > index bcea035cf4c6..4fc41a71d1c7 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> > > @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
-> > >   	dma_fence_put(&fence->scheduled);
-> > >   }
-> > > +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
-> > > +						  ktime_t deadline)
-> > > +{
-> > > +	struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> > > +	unsigned long flags;
-> > > +
-> > > +	spin_lock_irqsave(&fence->lock, flags);
-> > > +
-> > > +	/* If we already have an earlier deadline, keep it: */
-> > > +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
-> > > +	    ktime_before(fence->deadline, deadline)) {
-> > > +		spin_unlock_irqrestore(&fence->lock, flags);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	fence->deadline = deadline;
-> > > +	set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
-> > > +
-> > > +	spin_unlock_irqrestore(&fence->lock, flags);
-> > > +
-> > > +	if (fence->parent)
-> > > +		dma_fence_set_deadline(fence->parent, deadline);
-> > > +}
-> > > +
-> > >   static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
-> > >   	.get_driver_name = drm_sched_fence_get_driver_name,
-> > >   	.get_timeline_name = drm_sched_fence_get_timeline_name,
-> > > @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
-> > >   	.get_driver_name = drm_sched_fence_get_driver_name,
-> > >   	.get_timeline_name = drm_sched_fence_get_timeline_name,
-> > >   	.release = drm_sched_fence_release_finished,
-> > > +	.set_deadline = drm_sched_fence_set_deadline_finished,
-> > >   };
-> > >   struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-> > > @@ -152,6 +177,15 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-> > >   }
-> > >   EXPORT_SYMBOL(to_drm_sched_fence);
-> > > +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> > > +				struct dma_fence *fence)
-> > > +{
-> > > +	s_fence->parent = dma_fence_get(fence);
-> > > +	if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> > > +		     &s_fence->finished.flags))
-> > Don't you need the spinlock here too to avoid races? test_bit is very
-> > unordered, so guarantees nothing. Spinlock would need to be both around
-> > ->parent = and the test_bit.
+On Thu, Sep 09, 2021 at 10:37:03AM +0300, Pekka Paalanen wrote:
+> On Wed, 8 Sep 2021 18:27:09 +0200
+> Daniel Vetter <daniel@ffwll.ch> wrote:
+> 
+> > On Wed, Sep 8, 2021 at 9:36 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:
+> > >
+> > > On Tue, 7 Sep 2021 14:42:56 +0200
+> > > Hans de Goede <hdegoede@redhat.com> wrote:
+> > >  
+> > > > Hi,
+> > > >
+> > > > On 9/7/21 12:07 PM, Pekka Paalanen wrote:  
+> > > > > On Fri, 3 Sep 2021 21:08:21 +0200
+> > > > > Dennis Filder <d.filder@web.de> wrote:
+> > > > >  
+> > > > >> Hans de Goede asked me to take a topic from a private discussion here.
+> > > > >> I must also preface that I'm not a graphics person and my knowledge of
+> > > > >> DRI/DRM is cursory at best.
+> > > > >>
+> > > > >> I initiated the conversation with de Goede after learning that the X
+> > > > >> server now supports being started with an open DRM file descriptor
+> > > > >> (this was added for Keith Packard's xlease project).  I wondered if
+> > > > >> that could be used to smoothen the Plymouth->X transition somehow and
+> > > > >> asked de Goede if there were any such plans.  He denied, but mentioned
+> > > > >> that a new ioctl is in the works to prevent the kernel from wiping the
+> > > > >> contents of a frame buffer after a device is closed, and that this
+> > > > >> would help to keep transitions smooth.  
+> > > > >
+> > > > > Hi,
+> > > > >
+> > > > > I believe the kernel is not wiping anything on device close. If
+> > > > > something in the KMS state is wiped, it originates in userspace:
+> > > > >
+> > > > > - Plymouth doing something (e.g. RmFB on an in-use FB will turn the
+> > > > >   output off, you need to be careful to "leak" your FB if you want a
+> > > > >   smooth hand-over)  
+> > > >
+> > > > The "kernel is not wiping anything on device close" is not true,
+> > > > when closing /dev/dri/card# any remaining FBs from the app closing
+> > > > it will be dealt with as if they were RmFB-ed, causing the screen
+> > > > to show what I call "the fallback fb", at least with the i915 driver.  
+> > >
+> > > No, that's not what should happen AFAIK.
+> > >
+> > > True, all FBs that are not referenced by active CRTCs or planes will
+> > > get freed, since their refcount drops to zero, but those CRTCs and
+> > > planes that are active will remain active and therefore keep their
+> > > reference to the respective FBs and so the FBs remain until replaced or
+> > > turned off explicitly (by e.g. fbcon if you switch to that rather than
+> > > another userspace KMS client). I believe that is the whole reason why
+> > > e.g. DRM_IOCTL_MODE_GETFB2 can be useful, otherwise the next KMS client
+> > > would not have anything to scrape.
+> > >
+> > > danvet, what is the DRM core intention?  
 > > 
-> > Entirely aside, but there's discussions going on to preallocate the hw
-> > fence somehow. If we do that we could make the deadline forwarding
-> > lockless here. Having a spinlock just to set the parent is a bit annoying
+> > Historical accidents mostly. There's two things that foil easy
+> > handover to the next compositor:
+> > - RMFB instead of CLOSEFB semantics, especially when closing the
+> > drmfd. This is uapi, so anything we change needs to be opt-in
 > 
-> Well previously we didn't needed the spinlock to set the parent because the
-> parent wasn't used outside of the main thread.
+> What does this mean and refer to?
 > 
-> This becomes an issue now because we can race with setting the deadline. So
-> yeah we probably do need the spinlock here now.
-
-Yeah tbh this is the part I don't like, because it means the scheduler
-thread locking becomes more complex.
-
-We might need to look at this again when we include stuff like boosting
-priorities and things like that. Maybe it would be better if we have a
-request queue which the scheduler thread could then pick up whenever it
-gets around to the next scheduling decision?
-
-I think for now just the spinlock in more places should be fine.
--Daniel
-
-
-> Christian.
+> Are you trying to say, that closing the DRM device fd (freeing the file
+> description) causes an implicit RmFB on all the FBs tied to that DRM
+> device file description?
 > 
-> > ...
+> I never realised that before.
+
+Yes, final close does iterate over fb and do an RMFB. Which is why we've
+had this discussion whether closefb semantics should be an ADDFB2 flag at
+creation time instead.
+
+> > - Forced fbdev restore on final close of all drm fd. This is only
+> > prevented if there's a drm master left around (systemd-logind can keep
+> > that instead of forcing the compositor to survive until the other has
+> > taken over, which it needs to do anyway to prevent the drm master
+> > handover from going sideways). This can be fixed by simply disabling
+> > fbdev completely, which you really want to do anyway. Again it's uabi,
+> > people will complain if we break this I think.
+> 
+> Do you mean that it is not enough to leave the tty in KD_GRAPHICS mode
+> to stop fbcon/fbdev from taking over?
+
+Nope. You need an open drm master.
+
+This is because we do actually support /dev/fb clients rendering in
+KD_GRAPHICS mode for backwards compat with the fbdev subsystem.
+
+> Is it really fbdev on its own rather than fbcon (poking at fbdev) that
+> will change the KMS state?
+> 
+> That is, it's not enough to disable fbcon?
+
+fbcon doesn't disable fbdev, and the only way to block fbdev is to have a
+drm master around.
+
+I guess we could try and make this smarter by creating some kind of weak
+master status for fbdev, but only when either fbcon or fbdev is opened.
+Maybe this would help?
+
+fbdev already keep track of this open count, so wouldn't be too onerous to
+wire that up into drm_client.
+
+The problem there is then that not yet all drivers use the drm_client
+stuff for fbdev emulation, so you'd need to either convert more, or hack
+up a few more things to make this consistent.
+
+> > > Or am I confused because display servers do not tend to close the DRM
+> > > device fd on switch-out but Plymouth does (too early)?  
 > > 
-> > Alternative is that you do this locklessly with barriers and a _lot_ of
-> > comments. Would be good to benchmark whether the overhead matters though
-> > first.
-> > -Daniel
-> > 
-> > > +		dma_fence_set_deadline(fence, s_fence->deadline);
-> > > +}
-> > > +
-> > >   struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
-> > >   					      void *owner)
-> > >   {
-> > > diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> > > index 595e47ff7d06..27bf0ac0625f 100644
-> > > --- a/drivers/gpu/drm/scheduler/sched_main.c
-> > > +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> > > @@ -978,7 +978,7 @@ static int drm_sched_main(void *param)
-> > >   		drm_sched_fence_scheduled(s_fence);
-> > >   		if (!IS_ERR_OR_NULL(fence)) {
-> > > -			s_fence->parent = dma_fence_get(fence);
-> > > +			drm_sched_fence_set_parent(s_fence, fence);
-> > >   			r = dma_fence_add_callback(fence, &sched_job->cb,
-> > >   						   drm_sched_job_done_cb);
-> > >   			if (r == -ENOENT)
-> > > diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> > > index 7f77a455722c..158ddd662469 100644
-> > > --- a/include/drm/gpu_scheduler.h
-> > > +++ b/include/drm/gpu_scheduler.h
-> > > @@ -238,6 +238,12 @@ struct drm_sched_fence {
-> > >            */
-> > >   	struct dma_fence		finished;
-> > > +	/**
-> > > +	 * @deadline: deadline set on &drm_sched_fence.finished which
-> > > +	 * potentially needs to be propagated to &drm_sched_fence.parent
-> > > +	 */
-> > > +	ktime_t				deadline;
-> > > +
-> > >           /**
-> > >            * @parent: the fence returned by &drm_sched_backend_ops.run_job
-> > >            * when scheduling the job on hardware. We signal the
-> > > @@ -505,6 +511,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
-> > >   				   enum drm_sched_priority priority);
-> > >   bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-> > > +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> > > +				struct dma_fence *fence);
-> > >   struct drm_sched_fence *drm_sched_fence_alloc(
-> > >   	struct drm_sched_entity *s_entity, void *owner);
-> > >   void drm_sched_fence_init(struct drm_sched_fence *fence,
-> > > -- 
-> > > 2.31.1
-> > > 
+> > Yeah, that stops both forced restore/disable from kicking in.
 > 
+> Which "that"?
 
+that = open drm master. Open drm master alwasy wins agains fbdev/fbcon,
+and with latest patches it's guaranteed to be race free.
+
+> > > If so, why can't Plymouth keep the device open longer and quit only
+> > > when the hand-off is complete? Not quitting too early would be a
+> > > prerequisite for any explicit hand-off protocol as well.  
+> > 
+> > With closefb semantics and fbdev disabled plymouth could quit early,
+> > and things still work.
+> 
+> What is "closefb semantics"?
+
+closefb semantics = no forced plane/crtc disable, active plane keeps a
+drm_fb reference
+
+rmfb semantics = forced plane/crtc disable, the drm_fb is guaranteed to be
+forcefully removed from the system
+
+Cheers, Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
