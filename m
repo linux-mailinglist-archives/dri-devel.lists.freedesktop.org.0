@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA00940B8C1
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:13:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B1D140B8C6
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:13:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2203A6E5D5;
-	Tue, 14 Sep 2021 20:12:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB58D6E7D2;
+	Tue, 14 Sep 2021 20:12:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4239C6E5D5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:12:55 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6AAEE6E7D1
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:12:57 +0000 (UTC)
 Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
- by mslow1.mail.gandi.net (Postfix) with ESMTP id 3169DCAE67
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id B734AC3DDA
  for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:06:11 +0000 (UTC)
 Received: (Authenticated sender: paul.kocialkowski@bootlin.com)
- by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 930BEFF802;
- Tue, 14 Sep 2021 20:05:47 +0000 (UTC)
+ by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 01521FF804;
+ Tue, 14 Sep 2021 20:05:48 +0000 (UTC)
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
@@ -27,11 +27,15 @@ Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v9 0/4] drm: LogiCVC display controller support
-Date: Tue, 14 Sep 2021 22:05:35 +0200
-Message-Id: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Rob Herring <robh@kernel.org>
+Subject: [PATCH v9 1/4] dt-bindings: display: Document the Xylon LogiCVC
+ display controller
+Date: Tue, 14 Sep 2021 22:05:36 +0200
+Message-Id: <20210914200539.732093-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
+References: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,116 +53,324 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series introduces support for the LogiCVC display controller.
-The controller is a bit unusual since it is usually loaded as
-programmable logic on Xilinx FPGAs or Zynq-7000 SoCs.
-More details are presented on the main commit for the driver.
+The Xylon LogiCVC is a display controller implemented as programmable
+logic in Xilinx FPGAs.
 
-More information about the controller is available on the dedicated
-web page: https://www.logicbricks.com/Products/logiCVC-ML.aspx
-
-Note that this driver has rather simple connector management, which was
-not converted to drm_panel_bridge to keep the ability to enable the panel
-at first vblank but also to support DVI.
-
-Changes since v8:
-- Rebased on top of the latest drm-misc-next;
-- Dropped useless phandle-based syscon regmap support;
-- Switched to a single-port graph description;
-- Updated the device-tree schema to the port schema and added a
-  description for the port.
-
-Change since v7:
-- Replaced DRM_INFO/DRM_ERROR/DRM_DEBUG_DRIVER with fashions using drm_device;
-- Fixed yaml binding alignment issue;
-- Renamed logicvc-display name to the generic "display" name;
-- Added patternProperties match for display in the parent mfd binding;
-- Used drm_atomic_get_new_crtc_state when needed;
-- Checked mode in mode_valid instead of atomic_check;
-- Switched to drmm_mode_config_init;
-- Removed useless logicvc_connector_destroy wrapper;
-- Removed useless drm_dev_put calls;
-- Removed atomic_commit_tail that enables the panel and streamlined the logic;
-- Reworked Makefile cosmetics;
-- Fixed checkpatch issues.
-
-Changes since v6:
-- Updated to the latest DRM internal API changes; 
-- Used an enum to index dt properties instead of the name string.
-
-Changes since v5:
-- Subclass DRM device and use devm_drm_dev_alloc for allocation;
-- Removed call to drm_mode_config_cleanup (done automatically with devm);
-- Some related code cleanups;
-- Bring back not-for-merge patch adding colorkey support.
-
-Changes since v4:
-- Updated to internal DRM API changes (rebased on drm-misc-next);
-- Added Kconfig dependency on OF;
-- Added MAINTAINERS entry;
-- Used drm_err and dev_err instead of DRM_ERROR where possible;
-- Various cosmetic changes.
-
-Changes since v3:
-- Rebased on latest drm-misc;
-- Improved event lock wrapping;
-- Added collect tag;
-- Added color-key support patch (not for merge, for reference only).
-
-Changes since v2:
-- Fixed and slightly improved dt schema.
-
-Changes since v1:
-- Switched dt bindings documentation to dt schema;
-- Described more possible dt parameters;
-- Added support for the lvds-3bit interface;
-- Added support for grabbing syscon regmap from parent node;
-- Removed layers count property and count layers child nodes instead.
-
-Paul Kocialkowski (4):
-  dt-bindings: display: Document the Xylon LogiCVC display controller
-  dt-bindings: mfd: logicvc: Add patternProperties for the display
-  drm: Add support for the LogiCVC display controller
-  NOTFORMERGE: drm/logicvc: Add plane colorkey support
-
- .../display/xylon,logicvc-display.yaml        | 302 +++++++
- .../bindings/mfd/xylon,logicvc.yaml           |   3 +
- MAINTAINERS                                   |   6 +
- drivers/gpu/drm/Kconfig                       |   2 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/logicvc/Kconfig               |   9 +
- drivers/gpu/drm/logicvc/Makefile              |   9 +
- drivers/gpu/drm/logicvc/logicvc_crtc.c        | 280 +++++++
- drivers/gpu/drm/logicvc/logicvc_crtc.h        |  21 +
- drivers/gpu/drm/logicvc/logicvc_drm.c         | 471 +++++++++++
- drivers/gpu/drm/logicvc/logicvc_drm.h         |  67 ++
- drivers/gpu/drm/logicvc/logicvc_interface.c   | 214 +++++
- drivers/gpu/drm/logicvc/logicvc_interface.h   |  28 +
- drivers/gpu/drm/logicvc/logicvc_layer.c       | 767 ++++++++++++++++++
- drivers/gpu/drm/logicvc/logicvc_layer.h       |  71 ++
- drivers/gpu/drm/logicvc/logicvc_mode.c        |  80 ++
- drivers/gpu/drm/logicvc/logicvc_mode.h        |  15 +
- drivers/gpu/drm/logicvc/logicvc_of.c          | 185 +++++
- drivers/gpu/drm/logicvc/logicvc_of.h          |  46 ++
- drivers/gpu/drm/logicvc/logicvc_regs.h        |  88 ++
- 20 files changed, 2665 insertions(+)
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Acked-by: Rob Herring <robh@kernel.org>
+---
+ .../display/xylon,logicvc-display.yaml        | 302 ++++++++++++++++++
+ 1 file changed, 302 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
- create mode 100644 drivers/gpu/drm/logicvc/Kconfig
- create mode 100644 drivers/gpu/drm/logicvc/Makefile
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_crtc.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_drm.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_interface.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_layer.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_mode.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.c
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_of.h
- create mode 100644 drivers/gpu/drm/logicvc/logicvc_regs.h
 
+diff --git a/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+new file mode 100644
+index 000000000000..6ac1a76005ce
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
+@@ -0,0 +1,302 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2019 Bootlin
++%YAML 1.2
++---
++$id: "http://devicetree.org/schemas/display/xylon,logicvc-display.yaml#"
++$schema: "http://devicetree.org/meta-schemas/core.yaml#"
++
++title: Xylon LogiCVC display controller
++
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++
++description: |
++  The Xylon LogiCVC is a display controller that supports multiple layers.
++  It is usually implemented as programmable logic and was optimized for use
++  with Xilinx Zynq-7000 SoCs and Xilinx FPGAs.
++
++  Because the controller is intended for use in a FPGA, most of the
++  configuration of the controller takes place at logic configuration bitstream
++  synthesis time. As a result, many of the device-tree bindings are meant to
++  reflect the synthesis configuration and must not be configured differently.
++  Matching synthesis parameters are provided when applicable.
++
++  Layers are declared in the "layers" sub-node and have dedicated configuration.
++  In version 3 of the controller, each layer has fixed memory offset and address
++  starting from the video memory base address for its framebuffer. In version 4,
++  framebuffers are configured with a direct memory address instead.
++
++properties:
++  compatible:
++    enum:
++      - xylon,logicvc-3.02.a-display
++      - xylon,logicvc-4.01.a-display
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    minItems: 1
++    maxItems: 4
++
++  clock-names:
++    minItems: 1
++    maxItems: 4
++    items:
++      # vclk is required and must be provided as first item.
++      - const: vclk
++      # Other clocks are optional and can be provided in any order.
++      - enum:
++          - vclk2
++          - lvdsclk
++          - lvdsclkn
++      - enum:
++          - vclk2
++          - lvdsclk
++          - lvdsclkn
++      - enum:
++          - vclk2
++          - lvdsclk
++          - lvdsclkn
++
++  interrupts:
++    maxItems: 1
++
++  memory-region:
++    maxItems: 1
++
++  xylon,display-interface:
++    enum:
++      # Parallel RGB interface (C_DISPLAY_INTERFACE == 0)
++      - parallel-rgb
++      # ITU-T BR656 interface (C_DISPLAY_INTERFACE == 1)
++      - bt656
++      # 4-bit LVDS interface (C_DISPLAY_INTERFACE == 2)
++      - lvds-4bits
++      # 3-bit LVDS interface (C_DISPLAY_INTERFACE == 4)
++      - lvds-3bits
++      # DVI interface (C_DISPLAY_INTERFACE == 5)
++      - dvi
++    description: Display output interface (C_DISPLAY_INTERFACE).
++
++  xylon,display-colorspace:
++    enum:
++      # RGB colorspace (C_DISPLAY_COLOR_SPACE == 0)
++      - rgb
++      # YUV 4:2:2 colorspace (C_DISPLAY_COLOR_SPACE == 1)
++      - yuv422
++      # YUV 4:4:4 colorspace (C_DISPLAY_COLOR_SPACE == 2)
++      - yuv444
++    description: Display output colorspace (C_DISPLAY_COLOR_SPACE).
++
++  xylon,display-depth:
++    $ref: "/schemas/types.yaml#/definitions/uint32"
++    description: Display output depth (C_PIXEL_DATA_WIDTH).
++
++  xylon,row-stride:
++    $ref: "/schemas/types.yaml#/definitions/uint32"
++    description: Fixed number of pixels in a framebuffer row (C_ROW_STRIDE).
++
++  xylon,dithering:
++    $ref: "/schemas/types.yaml#/definitions/flag"
++    description: Dithering module is enabled (C_XCOLOR)
++
++  xylon,background-layer:
++    $ref: "/schemas/types.yaml#/definitions/flag"
++    description: |
++      The last layer is used to display a black background (C_USE_BACKGROUND).
++      The layer must still be registered.
++
++  xylon,layers-configurable:
++    $ref: "/schemas/types.yaml#/definitions/flag"
++    description: |
++      Configuration of layers' size, position and offset is enabled
++      (C_USE_SIZE_POSITION).
++
++  layers:
++    type: object
++
++    properties:
++      "#address-cells":
++        const: 1
++
++      "#size-cells":
++        const: 0
++
++    patternProperties:
++      "^layer@[0-9]+$":
++        type: object
++
++        properties:
++          reg:
++            maxItems: 1
++
++          xylon,layer-depth:
++            $ref: "/schemas/types.yaml#/definitions/uint32"
++            description: Layer depth (C_LAYER_X_DATA_WIDTH).
++
++          xylon,layer-colorspace:
++            enum:
++              # RGB colorspace (C_LAYER_X_TYPE == 0)
++              - rgb
++              # YUV packed colorspace (C_LAYER_X_TYPE == 0)
++              - yuv
++            description: Layer colorspace (C_LAYER_X_TYPE).
++
++          xylon,layer-alpha-mode:
++            enum:
++              # Alpha is configured layer-wide (C_LAYER_X_ALPHA_MODE == 0)
++              - layer
++              # Alpha is configured per-pixel (C_LAYER_X_ALPHA_MODE == 1)
++              - pixel
++            description: Alpha mode for the layer (C_LAYER_X_ALPHA_MODE).
++
++          xylon,layer-base-offset:
++            $ref: "/schemas/types.yaml#/definitions/uint32"
++            description: |
++              Offset in number of lines (C_LAYER_X_OFFSET) starting from the
++              video RAM base (C_VMEM_BASEADDR), only for version 3.
++
++          xylon,layer-buffer-offset:
++            $ref: "/schemas/types.yaml#/definitions/uint32"
++            description: |
++              Offset in number of lines (C_BUFFER_*_OFFSET) starting from the
++              layer base offset for the second buffer used in double-buffering.
++
++          xylon,layer-primary:
++            $ref: "/schemas/types.yaml#/definitions/flag"
++            description: |
++              Layer should be registered as a primary plane (exactly one is
++              required).
++
++        additionalProperties: false
++
++        required:
++          - reg
++          - xylon,layer-depth
++          - xylon,layer-colorspace
++          - xylon,layer-alpha-mode
++
++    required:
++      - "#address-cells"
++      - "#size-cells"
++      - layer@0
++
++    additionalProperties: false
++
++    description: |
++      The description of the display controller layers, containing layer
++      sub-nodes that each describe a registered layer.
++
++  port:
++    $ref: /schemas/graph.yaml#/properties/port
++    description: |
++      Video output port, typically connected to a panel or bridge.
++
++additionalProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - interrupts
++  - xylon,display-interface
++  - xylon,display-colorspace
++  - xylon,display-depth
++  - xylon,row-stride
++  - layers
++  - port
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    logicvc: logicvc@43c00000 {
++      compatible = "xylon,logicvc-3.02.a", "syscon", "simple-mfd";
++      reg = <0x43c00000 0x6000>;
++
++      #address-cells = <1>;
++      #size-cells = <1>;
++
++      logicvc_display: display@0 {
++        compatible = "xylon,logicvc-3.02.a-display";
++        reg = <0x0 0x6000>;
++
++        memory-region = <&logicvc_cma>;
++
++        clocks = <&logicvc_vclk 0>, <&logicvc_lvdsclk 0>;
++        clock-names = "vclk", "lvdsclk";
++
++        interrupt-parent = <&intc>;
++        interrupts = <0 34 IRQ_TYPE_LEVEL_HIGH>;
++
++        xylon,display-interface = "lvds-4bits";
++        xylon,display-colorspace = "rgb";
++        xylon,display-depth = <16>;
++        xylon,row-stride = <1024>;
++
++        xylon,layers-configurable;
++
++        layers {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          layer@0 {
++            reg = <0>;
++            xylon,layer-depth = <16>;
++            xylon,layer-colorspace = "rgb";
++            xylon,layer-alpha-mode = "layer";
++            xylon,layer-base-offset = <0>;
++            xylon,layer-buffer-offset = <480>;
++            xylon,layer-primary;
++          };
++
++          layer@1 {
++            reg = <1>;
++            xylon,layer-depth = <16>;
++            xylon,layer-colorspace = "rgb";
++            xylon,layer-alpha-mode = "layer";
++            xylon,layer-base-offset = <2400>;
++            xylon,layer-buffer-offset = <480>;
++          };
++
++          layer@2 {
++            reg = <2>;
++            xylon,layer-depth = <16>;
++            xylon,layer-colorspace = "rgb";
++            xylon,layer-alpha-mode = "layer";
++            xylon,layer-base-offset = <960>;
++            xylon,layer-buffer-offset = <480>;
++          };
++
++          layer@3 {
++            reg = <3>;
++            xylon,layer-depth = <16>;
++            xylon,layer-colorspace = "rgb";
++            xylon,layer-alpha-mode = "layer";
++            xylon,layer-base-offset = <480>;
++            xylon,layer-buffer-offset = <480>;
++          };
++
++          layer@4 {
++            reg = <4>;
++            xylon,layer-depth = <16>;
++            xylon,layer-colorspace = "rgb";
++            xylon,layer-alpha-mode = "layer";
++            xylon,layer-base-offset = <8192>;
++            xylon,layer-buffer-offset = <480>;
++          };
++        };
++
++        port {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          logicvc_output: endpoint@0 {
++            reg = <0>;
++            remote-endpoint = <&panel_input>;
++          };
++        };
++      };
++    };
 -- 
 2.32.0
 
