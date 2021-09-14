@@ -2,82 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7A640A993
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:47:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E27340A99F
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 10:51:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 193F96E439;
-	Tue, 14 Sep 2021 08:47:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB8C6E43D;
+	Tue, 14 Sep 2021 08:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5BADC6E439
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 08:47:28 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 26AF92B012A0;
- Tue, 14 Sep 2021 04:47:27 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 14 Sep 2021 04:47:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=0dt2/BAoIsfEnu/Rsj50e+W3GW/
- O40fHdDZb/rJgECI=; b=mre0lgwyGASablneVh0xTyJj7ag4eSghqVGodCyI6q/
- eyekXLCv0gM78o5aj/pQqZ4d9kUkaqa1pJFuBLhxIWXe/sUrYv0O6J7w71e4qh74
- tCvyyvNJI+HcaifQ0Rvh+QSkyN0cHkenbAWCTulTVl30t37w8EF1BSQyeW8jenXk
- v1MO03pco2LzQZP02Xr278ev3cyLJcRiM2Byua0KvjS6ZzNY2N1yKbtY8vdEORxs
- DbsFz+eF8OUqguU9Ko0Fx82PNisW6ureSCUV2hH47bmv71Gc1AWhvlE5nGqfKVPm
- qVyHveka03x/XyvT/4UyXqkviHRY4PfMEzl3Rw1/bjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=0dt2/B
- AoIsfEnu/Rsj50e+W3GW/O40fHdDZb/rJgECI=; b=eS7Ab9fX0kVOObNFXGUw17
- Z2v6pRWNG0wTO0b3GkdpORf3nqze7pdzE2UwH3s1YhZeyMAR1ilezqfqoL7OKQJU
- xT+p57zqGkJDxNQ32RdWoCmlrvMvP4hFdVbZd4hieJR5Y2Z4fcDyHVrOBqtnKB/n
- u9NlSNjwVCsHsEuzgs7xBrbCvyngkIiyyxXSIkGoaC7EfR0JNa/89DeE9aVHluae
- 6lJL7mPAytQxWgHXFmLYjerZM93OJ2QVaPdLeVYBb73p9eFqtG/ir83XwpK+cRbL
- jXLeXB9u0ngVyOkYN6jT86TdM8qEuZhNFwY1i8TI2E0kmPrLW2WWNOYN+Xb4Lo1g
- ==
-X-ME-Sender: <xms:nGFAYf5p9E_axobDuLh-1kBiqOLG0tWSRIt7usPX5qHlIHlHuJvtZQ>
- <xme:nGFAYU5xaeTVnjsSuypfC71MWU8t9wkOo2M2Hlsv8Nc50T1fTIyLGTf-DUEi7j0LE
- jsu3dZA-9qNcOOVQm8>
-X-ME-Received: <xmr:nGFAYWeq-QvRNG8IwRerl-NB_rzMiD48WRN_4wQiYKDyQyilQAJjtB5OQA44WGmJtd7Rp8f-27E1LKEpYJKXB2R5MGcSTjOIeXgr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:nGFAYQKEPRYnI6__9D45hBtx0GeAA_JCiQ9DBlXlpmM1939XBX9wsQ>
- <xmx:nGFAYTLF5mYtXEyPFEVdrD7PLS-BmpbLIzehIFRmFzjEqDWWCCmx1w>
- <xmx:nGFAYZx-a8zgF41OXMjq2ToE1bSTVAkOKqpWTWWBu4ks6LGGZRBJWA>
- <xmx:nmFAYQAIMZmaUS89DBchgpp9tjn7NejS-FZ1dR62tVTbV4uYNI52OCkXJ3I>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Sep 2021 04:47:24 -0400 (EDT)
-Date: Tue, 14 Sep 2021 10:47:22 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Robert Foss <robert.foss@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 3/3] drm/vc4: dsi: Switch to devm_drm_of_get_bridge
-Message-ID: <20210914084722.yfjpk5wbwxybtqgg@gilmour>
-References: <20210910130941.1740182-1-maxime@cerno.tech>
- <20210910130941.1740182-4-maxime@cerno.tech>
- <YT5ZJjeJ23qjelDv@ravnborg.org>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1D30B6E43A;
+ Tue, 14 Sep 2021 08:51:15 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="285619141"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="285619141"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 01:51:14 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="470046180"
+Received: from aodohert-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.213.243.118])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 01:51:10 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v2 1/7] drm/i915/gem: Break out some shmem backend utils
+Date: Tue, 14 Sep 2021 09:50:27 +0100
+Message-Id: <20210914085033.2833993-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="v6sesvhkurtlxowf"
-Content-Disposition: inline
-In-Reply-To: <YT5ZJjeJ23qjelDv@ravnborg.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,39 +48,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
---v6sesvhkurtlxowf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Break out some shmem backend utils for future reuse by the TTM backend:
+shmem_alloc_st(), shmem_free_st() and __shmem_writeback() which we can
+use to provide a shmem-backed TTM page pool for cached-only TTM
+buffer objects.
 
-Hi,
+Main functional change here is that we now compute the page sizes using
+the dma segments rather than using the physical page address segments.
 
-On Sun, Sep 12, 2021 at 09:46:46PM +0200, Sam Ravnborg wrote:
-> On Fri, Sep 10, 2021 at 03:09:41PM +0200, Maxime Ripard wrote:
-> > The new devm_drm_of_get_bridge removes most of the boilerplate we
-> > have to deal with. Let's switch to it.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
->=20
-> With the includes updated:
+v2(Reported-by: kernel test robot <lkp@intel.com>)
+    - Make sure we initialise the mapping on the error path in
+      shmem_get_pages()
 
-I'm not sure why they were even here to begin with, I've removed them.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 181 +++++++++++++---------
+ 1 file changed, 106 insertions(+), 75 deletions(-)
 
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 11f072193f3b..36b711ae9e28 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -25,46 +25,61 @@ static void check_release_pagevec(struct pagevec *pvec)
+ 	cond_resched();
+ }
+ 
+-static int shmem_get_pages(struct drm_i915_gem_object *obj)
++static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
++			  bool dirty, bool backup)
+ {
+-	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+-	struct intel_memory_region *mem = obj->mm.region;
+-	const unsigned long page_count = obj->base.size / PAGE_SIZE;
++	struct sgt_iter sgt_iter;
++	struct pagevec pvec;
++	struct page *page;
++
++	mapping_clear_unevictable(mapping);
++
++	pagevec_init(&pvec);
++	for_each_sgt_page(page, sgt_iter, st) {
++		if (dirty)
++			set_page_dirty(page);
++
++		if (backup)
++			mark_page_accessed(page);
++
++		if (!pagevec_add(&pvec, page))
++			check_release_pagevec(&pvec);
++	}
++	if (pagevec_count(&pvec))
++		check_release_pagevec(&pvec);
++
++	sg_free_table(st);
++	kfree(st);
++}
++
++static struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
++				       size_t size, struct intel_memory_region *mr,
++				       struct address_space *mapping,
++				       unsigned int max_segment)
++{
++	const unsigned long page_count = size / PAGE_SIZE;
+ 	unsigned long i;
+-	struct address_space *mapping;
+ 	struct sg_table *st;
+ 	struct scatterlist *sg;
+-	struct sgt_iter sgt_iter;
+ 	struct page *page;
+ 	unsigned long last_pfn = 0;	/* suppress gcc warning */
+-	unsigned int max_segment = i915_sg_segment_size();
+-	unsigned int sg_page_sizes;
+ 	gfp_t noreclaim;
+ 	int ret;
+ 
+-	/*
+-	 * Assert that the object is not currently in any GPU domain. As it
+-	 * wasn't in the GTT, there shouldn't be any way it could have been in
+-	 * a GPU cache
+-	 */
+-	GEM_BUG_ON(obj->read_domains & I915_GEM_GPU_DOMAINS);
+-	GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
+-
+ 	/*
+ 	 * If there's no chance of allocating enough pages for the whole
+ 	 * object, bail early.
+ 	 */
+-	if (obj->base.size > resource_size(&mem->region))
+-		return -ENOMEM;
++	if (size > resource_size(&mr->region))
++		return ERR_PTR(-ENOMEM);
+ 
+ 	st = kmalloc(sizeof(*st), GFP_KERNEL);
+ 	if (!st)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+-rebuild_st:
+ 	if (sg_alloc_table(st, page_count, GFP_KERNEL)) {
+ 		kfree(st);
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+ 	/*
+@@ -73,14 +88,12 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	 *
+ 	 * Fail silently without starting the shrinker
+ 	 */
+-	mapping = obj->base.filp->f_mapping;
+ 	mapping_set_unevictable(mapping);
+ 	noreclaim = mapping_gfp_constraint(mapping, ~__GFP_RECLAIM);
+ 	noreclaim |= __GFP_NORETRY | __GFP_NOWARN;
+ 
+ 	sg = st->sgl;
+ 	st->nents = 0;
+-	sg_page_sizes = 0;
+ 	for (i = 0; i < page_count; i++) {
+ 		const unsigned int shrink[] = {
+ 			I915_SHRINK_BOUND | I915_SHRINK_UNBOUND,
+@@ -135,10 +148,9 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 		if (!i ||
+ 		    sg->length >= max_segment ||
+ 		    page_to_pfn(page) != last_pfn + 1) {
+-			if (i) {
+-				sg_page_sizes |= sg->length;
++			if (i)
+ 				sg = sg_next(sg);
+-			}
++
+ 			st->nents++;
+ 			sg_set_page(sg, page, PAGE_SIZE, 0);
+ 		} else {
+@@ -149,14 +161,65 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 		/* Check that the i965g/gm workaround works. */
+ 		GEM_BUG_ON(gfp & __GFP_DMA32 && last_pfn >= 0x00100000UL);
+ 	}
+-	if (sg) { /* loop terminated early; short sg table */
+-		sg_page_sizes |= sg->length;
++	if (sg) /* loop terminated early; short sg table */
+ 		sg_mark_end(sg);
+-	}
+ 
+ 	/* Trim unused sg entries to avoid wasting memory. */
+ 	i915_sg_trim(st);
+ 
++	return st;
++err_sg:
++	sg_mark_end(sg);
++	if (sg != st->sgl) {
++		shmem_free_st(st, mapping, false, false);
++	} else {
++		mapping_clear_unevictable(mapping);
++		sg_free_table(st);
++		kfree(st);
++	}
++
++	/*
++	 * shmemfs first checks if there is enough memory to allocate the page
++	 * and reports ENOSPC should there be insufficient, along with the usual
++	 * ENOMEM for a genuine allocation failure.
++	 *
++	 * We use ENOSPC in our driver to mean that we have run out of aperture
++	 * space and so want to translate the error from shmemfs back to our
++	 * usual understanding of ENOMEM.
++	 */
++	if (ret == -ENOSPC)
++		ret = -ENOMEM;
++
++	return ERR_PTR(ret);
++}
++
++static int shmem_get_pages(struct drm_i915_gem_object *obj)
++{
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
++	struct intel_memory_region *mem = obj->mm.region;
++	struct address_space *mapping = obj->base.filp->f_mapping;
++	const unsigned long page_count = obj->base.size / PAGE_SIZE;
++	unsigned int max_segment = i915_sg_segment_size();
++	struct sg_table *st;
++	struct sgt_iter sgt_iter;
++	struct page *page;
++	int ret;
++
++	/*
++	 * Assert that the object is not currently in any GPU domain. As it
++	 * wasn't in the GTT, there shouldn't be any way it could have been in
++	 * a GPU cache
++	 */
++	GEM_BUG_ON(obj->read_domains & I915_GEM_GPU_DOMAINS);
++	GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
++
++rebuild_st:
++	st = shmem_alloc_st(i915, obj->base.size, mem, mapping, max_segment);
++	if (IS_ERR(st)) {
++		ret = PTR_ERR(st);
++		goto err_st;
++	}
++
+ 	ret = i915_gem_gtt_prepare_pages(obj, st);
+ 	if (ret) {
+ 		/*
+@@ -168,6 +231,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 			for_each_sgt_page(page, sgt_iter, st)
+ 				put_page(page);
+ 			sg_free_table(st);
++			kfree(st);
+ 
+ 			max_segment = PAGE_SIZE;
+ 			goto rebuild_st;
+@@ -200,28 +264,12 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	if (IS_JSL_EHL(i915) && obj->flags & I915_BO_ALLOC_USER)
+ 		obj->cache_dirty = true;
+ 
+-	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
++	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+ 
+ 	return 0;
+ 
+-err_sg:
+-	sg_mark_end(sg);
+ err_pages:
+-	mapping_clear_unevictable(mapping);
+-	if (sg != st->sgl) {
+-		struct pagevec pvec;
+-
+-		pagevec_init(&pvec);
+-		for_each_sgt_page(page, sgt_iter, st) {
+-			if (!pagevec_add(&pvec, page))
+-				check_release_pagevec(&pvec);
+-		}
+-		if (pagevec_count(&pvec))
+-			check_release_pagevec(&pvec);
+-	}
+-	sg_free_table(st);
+-	kfree(st);
+-
++	shmem_free_st(st, mapping, false, false);
+ 	/*
+ 	 * shmemfs first checks if there is enough memory to allocate the page
+ 	 * and reports ENOSPC should there be insufficient, along with the usual
+@@ -231,6 +279,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	 * space and so want to translate the error from shmemfs back to our
+ 	 * usual understanding of ENOMEM.
+ 	 */
++err_st:
+ 	if (ret == -ENOSPC)
+ 		ret = -ENOMEM;
+ 
+@@ -251,10 +300,8 @@ shmem_truncate(struct drm_i915_gem_object *obj)
+ 	obj->mm.pages = ERR_PTR(-EFAULT);
+ }
+ 
+-static void
+-shmem_writeback(struct drm_i915_gem_object *obj)
++static void __shmem_writeback(size_t size, struct address_space *mapping)
+ {
+-	struct address_space *mapping;
+ 	struct writeback_control wbc = {
+ 		.sync_mode = WB_SYNC_NONE,
+ 		.nr_to_write = SWAP_CLUSTER_MAX,
+@@ -270,10 +317,9 @@ shmem_writeback(struct drm_i915_gem_object *obj)
+ 	 * instead of invoking writeback so they are aged and paged out
+ 	 * as normal.
+ 	 */
+-	mapping = obj->base.filp->f_mapping;
+ 
+ 	/* Begin writeback on each dirty page */
+-	for (i = 0; i < obj->base.size >> PAGE_SHIFT; i++) {
++	for (i = 0; i < size >> PAGE_SHIFT; i++) {
+ 		struct page *page;
+ 
+ 		page = find_lock_page(mapping, i);
+@@ -296,6 +342,12 @@ shmem_writeback(struct drm_i915_gem_object *obj)
+ 	}
+ }
+ 
++static void
++shmem_writeback(struct drm_i915_gem_object *obj)
++{
++	__shmem_writeback(obj->base.size, obj->base.filp->f_mapping);
++}
++
+ void
+ __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
+ 				struct sg_table *pages,
+@@ -316,11 +368,6 @@ __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
+ 
+ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_table *pages)
+ {
+-	struct sgt_iter sgt_iter;
+-	struct pagevec pvec;
+-	struct page *page;
+-
+-	GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
+ 	__i915_gem_object_release_shmem(obj, pages, true);
+ 
+ 	i915_gem_gtt_finish_pages(obj, pages);
+@@ -328,25 +375,9 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
+ 	if (i915_gem_object_needs_bit17_swizzle(obj))
+ 		i915_gem_object_save_bit_17_swizzle(obj, pages);
+ 
+-	mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
+-
+-	pagevec_init(&pvec);
+-	for_each_sgt_page(page, sgt_iter, pages) {
+-		if (obj->mm.dirty)
+-			set_page_dirty(page);
+-
+-		if (obj->mm.madv == I915_MADV_WILLNEED)
+-			mark_page_accessed(page);
+-
+-		if (!pagevec_add(&pvec, page))
+-			check_release_pagevec(&pvec);
+-	}
+-	if (pagevec_count(&pvec))
+-		check_release_pagevec(&pvec);
++	shmem_free_st(pages, file_inode(obj->base.filp)->i_mapping,
++		      obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
+ 	obj->mm.dirty = false;
+-
+-	sg_free_table(pages);
+-	kfree(pages);
+ }
+ 
+ static void
+-- 
+2.26.3
 
-Applied the series with your comments addressed, thanks!
-Maxime
-
---v6sesvhkurtlxowf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUBhmgAKCRDj7w1vZxhR
-xYTbAP9gtyTJIqafDKNpV5X8+6vgTzQAinp6PedmxB6uv9MPDAD8C8jmDRh0wz5E
-VOqGDmc1v3AVKiBev81JwerXzNgoWQo=
-=IvkZ
------END PGP SIGNATURE-----
-
---v6sesvhkurtlxowf--
