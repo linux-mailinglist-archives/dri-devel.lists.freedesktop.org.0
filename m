@@ -1,37 +1,33 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982BC40A5D4
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 07:15:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68FAC40A654
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 07:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 17A9B6E405;
-	Tue, 14 Sep 2021 05:15:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A35376E3FE;
+	Tue, 14 Sep 2021 05:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 624276E3F7;
- Tue, 14 Sep 2021 05:15:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="208976891"
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="208976891"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 22:15:00 -0700
-X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="697404488"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Sep 2021 22:14:59 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <daniele.ceraolospurio@intel.com>,
-	<john.c.harrison@intel.com>
-Subject: [PATCH 4/4] drm/i915/guc: Refcount context during error capture
-Date: Mon, 13 Sep 2021 22:09:56 -0700
-Message-Id: <20210914050956.30685-5-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210914050956.30685-1-matthew.brost@intel.com>
-References: <20210914050956.30685-1-matthew.brost@intel.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33C976E3FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 05:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=3O5qPh9B9CukE5UqdcdI1jL5rwSTJCLiW4ZfHGkg0qQ=; 
+ b=aG/tXfTj4uXc6FLHmVqhSsAEV0uMc87/iT1aevzAilDjjfv+2EVcxp1tW8xyyGCJE4mOgzhV2dMwM+XJAiWhZyQxsNbLTBmRh5lllClaHPca6Z1Ce3tOcXKto5Ukul2psAuOjv6QK3eM+O9a0GrCYWaMZBSB2wZhMBKF6mlyh3fB9zsXrTMTSQtBEBFJ+X8Xe7yL6wCUvzKfgeUGRS+RBc/Wf1+jb5jL7PHn9PiwbYKTY57bbdl3OaczYHBEYVFj6MukhjdTt9k0Htq/zG6oGuXENoWKTJTV7zeoDwGxu7lUlVqBmoaEPjtI6IfOi4athd7RgKCsl1+1zEfPiS/xYA==;
+Received: from 11.48.165.83.dynamic.reverse-mundo-r.com ([83.165.48.11]
+ helo=zeus.mundo-R.com) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1mQ1QF-0007tb-EH; Tue, 14 Sep 2021 07:55:59 +0200
+From: Iago Toral Quiroga <itoral@igalia.com>
+To: dri-devel@lists.freedesktop.org
+Cc: mwen@igalia.com
+Subject: [PATCH] drm/v3d: fix wait for TMU write combiner flush
+Date: Tue, 14 Sep 2021 07:55:49 +0200
+Message-Id: <20210914055549.4340-1-itoral@igalia.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -49,103 +45,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: John Harrison <John.C.Harrison@Intel.com>
+The hardware sets the TMUWCF bit back to 0 when the TMU write
+combiner flush completes so we should be checking for that instead
+of the L2TFLS bit.
 
-When i915 receives a context reset notification from GuC, it triggers
-an error capture before resetting any outstanding requsts of that
-context. Unfortunately, the error capture is not a time bound
-operation. In certain situations it can take a long time, particularly
-when multiple large LMEM buffers must be read back and eoncoded. If
-this delay is longer than other timeouts (heartbeat, test recovery,
-etc.) then a full GT reset can be triggered in the middle.
-
-That can result in the context being reset by GuC actually being
-destroyed before the error capture completes and the GuC submission
-code resumes. Thus, the GuC side can start dereferencing stale
-pointers and Bad Things ensue.
-
-So add a refcount get of the context during the entire reset
-operation. That way, the context can't be destroyed part way through
-no matter what other resets or user interactions occur.
-
-v2:
- (Matthew Brost)
-  - Update patch to work with async error capture
-
-Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Fixes spurious Vulkan CTS failures in:
+dEQP-VK.binding_model.descriptorset_random.*
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 24 +++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/v3d/v3d_gem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 1986a57b52cc..02917fc4d4a8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2888,6 +2888,8 @@ static void capture_worker_func(struct work_struct *w)
- 	intel_engine_set_hung_context(engine, ce);
- 	with_intel_runtime_pm(&i915->runtime_pm, wakeref)
- 		i915_capture_error_state(gt, ce->engine->mask);
-+
-+	intel_context_put(ce);
- }
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index a3529809d547..5159f544bc16 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -197,7 +197,7 @@ v3d_clean_caches(struct v3d_dev *v3d)
  
- static void capture_error_state(struct intel_guc *guc,
-@@ -2924,7 +2926,7 @@ static void guc_context_replay(struct intel_context *ce)
- 	tasklet_hi_schedule(&sched_engine->tasklet);
- }
- 
--static void guc_handle_context_reset(struct intel_guc *guc,
-+static bool guc_handle_context_reset(struct intel_guc *guc,
- 				     struct intel_context *ce)
- {
- 	trace_intel_context_reset(ce);
-@@ -2937,7 +2939,11 @@ static void guc_handle_context_reset(struct intel_guc *guc,
- 		   !context_blocked(ce))) {
- 		capture_error_state(guc, ce);
- 		guc_context_replay(ce);
-+
-+		return false;
- 	}
-+
-+	return true;
- }
- 
- int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-@@ -2945,6 +2951,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
- {
- 	struct intel_context *ce;
- 	int desc_idx;
-+	unsigned long flags;
- 
- 	if (unlikely(len != 1)) {
- 		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-@@ -2952,11 +2959,24 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
+ 	V3D_CORE_WRITE(core, V3D_CTL_L2TCACTL, V3D_L2TCACTL_TMUWCF);
+ 	if (wait_for(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
+-		       V3D_L2TCACTL_L2TFLS), 100)) {
++		       V3D_L2TCACTL_TMUWCF), 100)) {
+ 		DRM_ERROR("Timeout waiting for L1T write combiner flush\n");
  	}
  
- 	desc_idx = msg[0];
-+
-+	/*
-+	 * The context lookup uses the xarray but lookups only require an RCU lock
-+	 * not the full spinlock. So take the lock explicitly and keep it until the
-+	 * context has been reference count locked to ensure it can't be destroyed
-+	 * asynchronously until the reset is done.
-+	 */
-+	xa_lock_irqsave(&guc->context_lookup, flags);
- 	ce = g2h_context_lookup(guc, desc_idx);
-+	if (ce)
-+		intel_context_get(ce);
-+	xa_unlock_irqrestore(&guc->context_lookup, flags);
-+
- 	if (unlikely(!ce))
- 		return -EPROTO;
- 
--	guc_handle_context_reset(guc, ce);
-+	if (guc_handle_context_reset(guc, ce))
-+		intel_context_put(ce);
- 
- 	return 0;
- }
 -- 
-2.32.0
+2.25.1
 
