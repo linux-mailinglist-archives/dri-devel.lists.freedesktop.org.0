@@ -1,83 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6022040B9A0
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 23:08:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F96B40B9D3
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 23:15:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C89689F31;
-	Tue, 14 Sep 2021 21:08:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DBD776E825;
+	Tue, 14 Sep 2021 21:15:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8261F89F35
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 21:08:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631653716;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OPVYUaa4q0JMTrFQlPjMgLUYioMDrptsB6v0OwyeL30=;
- b=HHkb+gxxEENVqeJ0B0fZ8kpKp7gMTmS+zluzNQXl1aqbvJywaLR/QPigsydZKA1/m6WuMY
- 1CJ5LydJb36TkVa+mrWLWIazZfqyErNmSO1FEWAKTM+VYcZFqZOG1Ya0fzlwNIt7DcqBnn
- TcPXGKn2Wpx17ni2+VIrVuPp72ZwSPc=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-b3NzmrWCN1up70BpakzPhA-1; Tue, 14 Sep 2021 17:08:35 -0400
-X-MC-Unique: b3NzmrWCN1up70BpakzPhA-1
-Received: by mail-qk1-f199.google.com with SMTP id
- h135-20020a379e8d000000b003f64b0f4865so937706qke.12
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 14:08:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=OPVYUaa4q0JMTrFQlPjMgLUYioMDrptsB6v0OwyeL30=;
- b=5CvN4UkbZiGcBbFmGA96VXjfmur3Usrs6D/SPuRG9uaEWigyxdOZcz8OKmFe1sLZNB
- daxEvV45+dwOHFPzUpTnHBdCUxPX1+skChnurlCqFJbzp840POLvlizcxFPztLN16QTO
- nbZBID4ldDFWIuEfyEQnarAZZUtVJc4TrTrIIodD+cnv1y9lEw9zfS3mJttMOr/ceAgM
- qhCT3ohCMyOJqN414aeqSwkqOaiQeeElPDvCkHAvXFnZI5W2pbxqJHNfsz4ICSJyWZAj
- oXjO8E6baytZNx3WD9EDnnywy3KUudBioIWFkPjKe/p/xacVlLcRVB56wWw5Ma2P7T+E
- OQ2Q==
-X-Gm-Message-State: AOAM532KVfT7Mpqbp498PqaNN259P/Ak4ELoSY+pNQRKuMZCs52gSJpL
- Ky6WEEBuDrPNuPP176cSt8Wv2847fvgCB0p8XYzdlVEt1Pv+TFsLFpbuu8KJi/yWppY7yhMPF0r
- nZy7Gam5MKT+ktCB4RxjL/OVc28O1
-X-Received: by 2002:ad4:54ea:: with SMTP id k10mr6640538qvx.25.1631653714743; 
- Tue, 14 Sep 2021 14:08:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz0+Z22sjfUZHtZx9EapanuMNFi+HsTNb8/Z5vHEZJQ+JdxKJlAdgwvwXw55vH9n9BiuWCDhw==
-X-Received: by 2002:ad4:54ea:: with SMTP id k10mr6640521qvx.25.1631653714548; 
- Tue, 14 Sep 2021 14:08:34 -0700 (PDT)
-Received: from [192.168.8.206] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id w12sm6539773qtc.47.2021.09.14.14.08.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 14:08:34 -0700 (PDT)
-Message-ID: <410de2c8e865446ec7f9d72a419b2674d34891bf.camel@redhat.com>
-Subject: Re: [PATCH] drm/i915/dp: add a delay before setting panel
- brightness after power on
-From: Lyude Paul <lyude@redhat.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>, Vasily Khoruzhick
- <anarsoul@gmail.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,  Sean Paul <seanpaul@chromium.org>, Aaron
- Ma <aaron.ma@canonical.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Date: Tue, 14 Sep 2021 17:08:32 -0400
-In-Reply-To: <87r1dr34nk.fsf@intel.com>
-References: <20210913193509.3575-1-anarsoul@gmail.com>
- <87r1dr34nk.fsf@intel.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 20F466E824;
+ Tue, 14 Sep 2021 21:15:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="222175013"
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="222175013"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 14:15:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="508312014"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 14 Sep 2021 14:15:21 -0700
+Date: Tue, 14 Sep 2021 14:10:22 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Dave Airlie <airlied@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, john.c.harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Do not define vma on stack
+Message-ID: <20210914211022.GA15442@jons-linux-dev-box>
+References: <20210914044933.22932-1-matthew.brost@intel.com>
+ <20210914044933.22932-2-matthew.brost@intel.com>
+ <CAPM=9tzHmYkf_y2W_1TO2MPeohFQ9MzkTD1s0gmpNgLcWbX1NA@mail.gmail.com>
+ <20210914153656.GA23874@jons-linux-dev-box>
+ <YUEAb30j+TPBMKGN@phenom.ffwll.local>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YUEAb30j+TPBMKGN@phenom.ffwll.local>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,61 +55,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-09-14 at 12:09 +0300, Jani Nikula wrote:
-> On Mon, 13 Sep 2021, Vasily Khoruzhick <anarsoul@gmail.com> wrote:
-> > Panel in my Dell XPS 7590, that uses Intel's HDR backlight interface to
-> > control brightness, apparently needs a delay before setting brightness
-> > after power on. Without this delay the panel does accept the setting
-> > and may come up with some arbitrary brightness (sometimes it's too dark,
-> > sometimes it's too bright, I wasn't able to find a system).
+On Tue, Sep 14, 2021 at 10:05:03PM +0200, Daniel Vetter wrote:
+> On Tue, Sep 14, 2021 at 08:36:56AM -0700, Matthew Brost wrote:
+> > On Tue, Sep 14, 2021 at 03:04:59PM +1000, Dave Airlie wrote:
+> > > On Tue, 14 Sept 2021 at 14:55, Matthew Brost <matthew.brost@intel.com> wrote:
+> > > >
+> > > > From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> > > >
+> > > > Defining vma on stack can cause stack overflow, if
+> > > > vma gets populated with new fields.
+> > > 
+> > > Is there some higher level locking stopping that from getting trashed?
+> > > or a guarantee that uc_fw_bind_ggtt is only entered by one thread at a
+> > > time?
+> > > 
 > > 
-> > I don't have access to the spec, so I'm not sure if it's expected
-> > behavior or a quirk for particular device.
-> > 
-> > Delay was chosen by experiment: it works with 100ms, but fails with
-> > anything lower than 75ms.
+> > I believe this function is only called during driver load (inherently
+> > one thread) or during a GT reset (protected by reset mutex) so at most 1
+> > thread can be executing this code at once, thus it is safe to use a
+> > global dummy vma in this function.
 > 
-> Looks like we don't respect the panel delays for DPCD backlight. The
-> values are used for setting up the panel power sequencer, and thus PWM
-> based backlight, but we should probably use the delays in DPCD backlight
-> code too.
-
-This makes sense to me, you're referring to the panel delays in the VBT
-correct?
-
-> 
-> BR,
-> Jani.
-> 
-> 
-> > 
-> > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > index 4f8337c7fd2e..c4f35e1b5870 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-> > @@ -210,6 +210,10 @@ intel_dp_aux_hdr_enable_backlight(const struct
-> > intel_crtc_state *crtc_state,
-> >  
-> >         ctrl = old_ctrl;
-> >         if (panel->backlight.edp.intel.sdr_uses_aux) {
-> > +               /* Wait 100ms to ensure that panel is ready otherwise it
-> > may not
-> > +                * set chosen backlight level
-> > +                */
-> > +               msleep(100);
-> >                 ctrl |= INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE;
-> >                 intel_dp_aux_hdr_set_aux_backlight(conn_state, level);
-> >         } else {
+> This kind of stuff must be documented in kerneldoc comments. Please use
+> the inline struct member format.
 > 
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+Forgot to include kerneldoc for this new field, will add.
 
+> Also please document the other fields in that struct, cant hurt :-)
+
+I'll see what I can do but I didn't write this code and may not fully
+understand all the fields off hand.
+
+Matt
+
+> -Daniel
+> 
+> > 
+> > Matt
+> > 
+> > > Dave.
+> > > 
+> > > >
+> > > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 +++++++++---------
+> > > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h |  2 ++
+> > > >  2 files changed, 11 insertions(+), 9 deletions(-)
+> > > >
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > index 3a16d08608a5..f632dbd32b42 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > @@ -413,20 +413,20 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw *uc_fw)
+> > > >  {
+> > > >         struct drm_i915_gem_object *obj = uc_fw->obj;
+> > > >         struct i915_ggtt *ggtt = __uc_fw_to_gt(uc_fw)->ggtt;
+> > > > -       struct i915_vma dummy = {
+> > > > -               .node.start = uc_fw_ggtt_offset(uc_fw),
+> > > > -               .node.size = obj->base.size,
+> > > > -               .pages = obj->mm.pages,
+> > > > -               .vm = &ggtt->vm,
+> > > > -       };
+> > > > +       struct i915_vma *dummy = &uc_fw->dummy;
+> > > > +
+> > > > +       dummy->node.start = uc_fw_ggtt_offset(uc_fw);
+> > > > +       dummy->node.size = obj->base.size;
+> > > > +       dummy->pages = obj->mm.pages;
+> > > > +       dummy->vm = &ggtt->vm;
+> > > >
+> > > >         GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+> > > > -       GEM_BUG_ON(dummy.node.size > ggtt->uc_fw.size);
+> > > > +       GEM_BUG_ON(dummy->node.size > ggtt->uc_fw.size);
+> > > >
+> > > >         /* uc_fw->obj cache domains were not controlled across suspend */
+> > > > -       drm_clflush_sg(dummy.pages);
+> > > > +       drm_clflush_sg(dummy->pages);
+> > > >
+> > > > -       ggtt->vm.insert_entries(&ggtt->vm, &dummy, I915_CACHE_NONE, 0);
+> > > > +       ggtt->vm.insert_entries(&ggtt->vm, dummy, I915_CACHE_NONE, 0);
+> > > >  }
+> > > >
+> > > >  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > index 99bb1fe1af66..693cc0ebcd63 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > @@ -10,6 +10,7 @@
+> > > >  #include "intel_uc_fw_abi.h"
+> > > >  #include "intel_device_info.h"
+> > > >  #include "i915_gem.h"
+> > > > +#include "i915_vma.h"
+> > > >
+> > > >  struct drm_printer;
+> > > >  struct drm_i915_private;
+> > > > @@ -75,6 +76,7 @@ struct intel_uc_fw {
+> > > >         bool user_overridden;
+> > > >         size_t size;
+> > > >         struct drm_i915_gem_object *obj;
+> > > > +       struct i915_vma dummy;
+> > > >
+> > > >         /*
+> > > >          * The firmware build process will generate a version header file with major and
+> > > > --
+> > > > 2.32.0
+> > > >
+> 
+> -- 
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
