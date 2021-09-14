@@ -1,39 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E1340B85D
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 21:52:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D3140B866
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 21:53:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 182906E5AE;
-	Tue, 14 Sep 2021 19:52:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B47426E5C3;
+	Tue, 14 Sep 2021 19:53:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 545E36E5AE;
- Tue, 14 Sep 2021 19:52:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="285805008"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="285805008"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 12:52:08 -0700
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="516082450"
-Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 12:52:08 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Vinay Belgaumkar <vinay.belgaumkar@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Subject: [PATCH] drm/i915/guc/slpc: remove unneeded clflush calls
-Date: Tue, 14 Sep 2021 12:51:51 -0700
-Message-Id: <20210914195151.560793-1-lucas.demarchi@intel.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4F1D36E5C3;
+ Tue, 14 Sep 2021 19:53:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3760161108;
+ Tue, 14 Sep 2021 19:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631649218;
+ bh=th9TFOXsR06Xg/2ttcv1rjgy5eK+72XXt8aYRu+bByo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=J5M0TLTr0U8YWN17ZphgSgOsr2LkfGc/XojytM3rF1QIuC2MWJk+hTrgoPUij63Tf
+ ZbK1iGOjiaztEHrnL5vad2ePLBAKUcN1kbiRKDdllueg705sx3t9CQPF/dksuWcCpF
+ zlj9V/fW3WAvq5nZxn6+YWn1IPxkJ4ru23CZmt8YAU/PZ03YdtlWMiMmoghpuNkSeh
+ S4NZsiBS+u+8Wx1VRDVaVJMazZM2ZRgiyu6L77M8++T3suP5qVHK3rnjA5DQCkChLN
+ 18yNPa2S3CWiv3K22BWh1xIG6nTmWleS/yUu/XLKdD/bCeditfV4GkDlflsqU1n3KB
+ /VfLJbmib9UcA==
+Date: Tue, 14 Sep 2021 12:53:31 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ "Michael J. Ruhl" <michael.j.ruhl@intel.com>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
+ llvm@lists.linux.dev
+Subject: Re: [PATCH 0/3] drm/i915: Enable -Wsometimes-uninitialized
+Message-ID: <YUD9u88IGvdZ7MqW@archlinux-ax161>
+References: <20210824225427.2065517-1-nathan@kernel.org>
+ <YT+QmKyKCdotTcqA@archlinux-ax161> <87wnnj13t5.fsf@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87wnnj13t5.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,42 +60,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The clflush calls here aren't doing anything since we are not writting
-something and flushing the cache lines to be visible to GuC. Here the
-intention seems to be to make sure whatever GuC has written is visible
-to the CPU before we read them. However a clflush from the CPU side is
-the wrong instruction to use.
+On Tue, Sep 14, 2021 at 08:10:14PM +0300, Jani Nikula wrote:
+> On Mon, 13 Sep 2021, Nathan Chancellor <nathan@kernel.org> wrote:
+> > On Tue, Aug 24, 2021 at 03:54:24PM -0700, Nathan Chancellor wrote:
+> >> Commit 46e2068081e9 ("drm/i915: Disable some extra clang warnings")
+> >> disabled -Wsometimes-uninitialized as noisy but there have been a few
+> >> fixes to clang that make the false positive rate fairly low so it should
+> >> be enabled to help catch obvious mistakes. The first two patches fix
+> >> revent instances of this warning then enables it for i915 like the rest
+> >> of the tree.
+> >> 
+> >> Cheers,
+> >> Nathan
+> >> 
+> >> Nathan Chancellor (3):
+> >>   drm/i915/selftests: Do not use import_obj uninitialized
+> >>   drm/i915/selftests: Always initialize err in
+> >>     igt_dmabuf_import_same_driver_lmem()
+> >>   drm/i915: Enable -Wsometimes-uninitialized
+> >> 
+> >>  drivers/gpu/drm/i915/Makefile                        | 1 -
+> >>  drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c | 7 ++++---
+> >>  2 files changed, 4 insertions(+), 4 deletions(-)
+> >> 
+> >> 
+> >> base-commit: fb43ebc83e069625cfeeb2490efc3ffa0013bfa4
+> >> -- 
+> >> 2.33.0
+> >> 
+> >> 
+> >
+> > Ping, could this be picked up for an -rc as these are very clearly bugs?
+> 
+> Thanks for the patches and review. Pushed to drm-intel-gt-next and
+> cherry-picked to drm-intel-fixes, header to -rc2.
 
-From code inspection on the other clflush() calls in i915/gt/uc/ these
-are the only ones with this behavrior. The others are apparently making
-sure what we write is visible to GuC.
+Thanks a lot!
 
-Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
----
- drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 3 ---
- 1 file changed, 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-index 65a3e7fdb2b2..2e996b77df80 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
-@@ -108,7 +108,6 @@ static u32 slpc_get_state(struct intel_guc_slpc *slpc)
- 
- 	GEM_BUG_ON(!slpc->vma);
- 
--	drm_clflush_virt_range(slpc->vaddr, sizeof(u32));
- 	data = slpc->vaddr;
- 
- 	return data->header.global_state;
-@@ -172,8 +171,6 @@ static int slpc_query_task_state(struct intel_guc_slpc *slpc)
- 		drm_err(&i915->drm, "Failed to query task state (%pe)\n",
- 			ERR_PTR(ret));
- 
--	drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
--
- 	return ret;
- }
- 
--- 
-2.32.0
-
+Cheers,
+Nathan
