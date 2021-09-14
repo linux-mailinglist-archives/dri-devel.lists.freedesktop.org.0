@@ -1,63 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F34A40B8A4
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:02:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03B8B40B8A7
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:02:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FA036E5CD;
-	Tue, 14 Sep 2021 20:02:24 +0000 (UTC)
-X-Original-To: DRI-Devel@lists.freedesktop.org
-Delivered-To: DRI-Devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 682166E5C8
- for <DRI-Devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:02:23 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso3065543wmb.2
- for <DRI-Devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:02:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=7gkhnE8xcHFQRgQ3yyBk6B1LuGC8MWLx9fbs+zjL4ic=;
- b=am4PjtkOZq2srvkJXiKv0eoTC3H73oHft4nyDpB/yw5+mIPZ/eSZProHFxTuaEskw2
- 8FWUBd5hN2nV8z1+0kegJd5bANQdjlWMxZWzBhWNsNOCK0BEkcFBohL2R+k6Yk1UEqg0
- G79jSiH5ldlsCYKxqJtRggA+TM73AYcCgVZpo=
+	by gabe.freedesktop.org (Postfix) with ESMTP id 700A96E5D3;
+	Tue, 14 Sep 2021 20:02:35 +0000 (UTC)
+X-Original-To: dri-devel@lists.freedesktop.org
+Delivered-To: dri-devel@lists.freedesktop.org
+Received: from mail-io1-xd33.google.com (mail-io1-xd33.google.com
+ [IPv6:2607:f8b0:4864:20::d33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DA5C16E7D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:02:34 +0000 (UTC)
+Received: by mail-io1-xd33.google.com with SMTP id b10so285441ioq.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:02:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2K42Cco3VEzvh5/q/0m2XAwxpLXefoWzF9vdOC1B4Gw=;
+ b=BJhND6MG+JUZihcXSCVNsVkdDkscbXLe8kths9jHgjS4SLgYrqGaQp9OPqfXejdGA/
+ ZIntkKlQZztXJwl/c/22qlX12SBrSu9xI7kd5YDbYcDWkLHLSQisKoAr972kYDUnT241
+ jPCyXtIrFjVVOZz3sqJrKkZeNMO/myXFIEVEc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=7gkhnE8xcHFQRgQ3yyBk6B1LuGC8MWLx9fbs+zjL4ic=;
- b=NDiJAKRXOBCd4qhi5S2YLCDbsuJdJjAUBqRGb4GeHXeXhTETCXLZ/2Wxa42l8yLuyv
- 8arsCRHxVoBG4z0EMs8vD0QBrmV2n9r1RW7IUMQ4RO+y7HW4qRP5J9wQ1i83FXGwYyiq
- WjpfFfkGLS9IDr+9H4M5tiEvrctOfgw0jpwIDCs6ZcqoY+9EJ+cXjXZv30kowTfrHCNc
- 7SsNqHmdD/FnhvpEJY8bOAaH8OiBn9JrbAih5Ov+ijE446PLDzR3gDRyBxxEPbRGAZJf
- U+Iwn1+SNOq/7bgx9HTzlNX/el6v1jf3Urfd58kKFWoEQNH+MnL1BcgjftIMJtJmMyWY
- 8GJw==
-X-Gm-Message-State: AOAM531jNUvcuKmUKbV8MSk7WpspMocgAnuUOoT2dVuQEOf5QWQl3Rwk
- YI8yiahqCZNL4L6IM1yjrg7siw==
-X-Google-Smtp-Source: ABdhPJw6P+GZzwIXEClNIIob4nlt/TvKu0QO1t7E1Rtw1dO3dcec7L2mVTUP/s7wECQ14zWbSEgmVw==
-X-Received: by 2002:a1c:22c3:: with SMTP id i186mr771700wmi.145.1631649741734; 
- Tue, 14 Sep 2021 13:02:21 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id d24sm2046557wmb.35.2021.09.14.13.02.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 13:02:21 -0700 (PDT)
-Date: Tue, 14 Sep 2021 22:02:19 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: John.C.Harrison@intel.com, Intel-GFX@lists.freedesktop.org,
- DRI-Devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915/guc: Refcount context during error
- capture
-Message-ID: <YUD/y4u59ea9bXIl@phenom.ffwll.local>
-References: <20210913211016.2299138-1-John.C.Harrison@Intel.com>
- <20210913211742.GA6940@jons-linux-dev-box>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2K42Cco3VEzvh5/q/0m2XAwxpLXefoWzF9vdOC1B4Gw=;
+ b=Gb3e3yj/uZkIajGez0ngDkjJQDvM1N18vNb6NGyE3dp43bG0XnLzuDqfOS36SiVCQJ
+ 8U1DH52SqjQ5Xs7fYhqjS+EVfAFFphD9KbygPLQWKnDeSjRhu2xHTx8syDq7j0YWi6HS
+ J+2zzprxLfQk71IUs2TadGV9cpiVbiFzJkz7/0HtXUvyPMzvoCnuNEFcXF3Mn4zQP5Jo
+ WvnY1jx5/lQrl4XfNG18yi+BjO18zNiGy08fzjcoduwBFjasWGj9dpGfcL4PBCxzkExZ
+ otrMeGhlFMhYu1bbdonfa5nnNNHszyvVGWlebVm2RbAKmX8PCQRuCLaa0neuF5e+JQ10
+ +Wdw==
+X-Gm-Message-State: AOAM532SSH7p/4hvIUwsDQeAFqN9NQcV2Dyzs9hqDaG2SAwiE+ORfc6m
+ gZIvpZsQJzja+dEL8t0jRrG/Ild1zpM0xQ==
+X-Google-Smtp-Source: ABdhPJypCLYMiQz6BFWzX0mjBnvt65OhbhtJzeChEVHsd+41wx6BbOBuStK5ctECDZ3bJXYTVHoKzA==
+X-Received: by 2002:a05:6638:2644:: with SMTP id
+ n4mr5860266jat.10.1631649753967; 
+ Tue, 14 Sep 2021 13:02:33 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46])
+ by smtp.gmail.com with ESMTPSA id m11sm7494620ilc.2.2021.09.14.13.02.32
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 14 Sep 2021 13:02:33 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id b200so251779iof.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:02:32 -0700 (PDT)
+X-Received: by 2002:a05:6638:dc8:: with SMTP id
+ m8mr16281460jaj.93.1631649751964; 
+ Tue, 14 Sep 2021 13:02:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210913211742.GA6940@jons-linux-dev-box>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20210909210032.465570-1-dianders@chromium.org>
+ <20210909135838.v4.4.I6103ce2b16e5e5a842b14c7022a034712b434609@changeid>
+ <87ee9r10qw.fsf@intel.com>
+ <CAD=FV=XgLcOBOOp9kgShE4+T8g8UZcO_Ff3hhAbGTyLkdE7HNA@mail.gmail.com>
+ <CGME20210914185943eucas1p145cf1b087572ec1c4da1f1e269c6f11b@eucas1p1.samsung.com>
+ <87y27zyodw.fsf@intel.com> <5af6cd50-0ed3-1a70-d7d0-66ca18a83d65@samsung.com>
+In-Reply-To: <5af6cd50-0ed3-1a70-d7d0-66ca18a83d65@samsung.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 14 Sep 2021 13:02:20 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XHvFq5+Rtax7WNq2-BieQr-BM4UnmOcma_eTzkX2ZtNA@mail.gmail.com>
+Message-ID: <CAD=FV=XHvFq5+Rtax7WNq2-BieQr-BM4UnmOcma_eTzkX2ZtNA@mail.gmail.com>
+Subject: Re: [PATCH v4 04/15] drm/edid: Use new encoded panel id style for
+ quirks matching
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Linus W <linus.walleij@linaro.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Steev Klimaszewski <steev@kali.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Bjorn Andersson <bjorn.andersson@linaro.org>, David Airlie <airlied@linux.ie>, 
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,98 +92,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 13, 2021 at 02:17:42PM -0700, Matthew Brost wrote:
-> On Mon, Sep 13, 2021 at 02:10:16PM -0700, John.C.Harrison@Intel.com wrote:
-> > From: John Harrison <John.C.Harrison@Intel.com>
-> > 
-> > When i915 receives a context reset notification from GuC, it triggers
-> > an error capture before resetting any outstanding requsts of that
-> > context. Unfortunately, the error capture is not a time bound
-> > operation. In certain situations it can take a long time, particularly
-> > when multiple large LMEM buffers must be read back and eoncoded. If
-> > this delay is longer than other timeouts (heartbeat, test recovery,
-> > etc.) then a full GT reset can be triggered in the middle.
-> > 
-> > That can result in the context being reset by GuC actually being
-> > destroyed before the error capture completes and the GuC submission
-> > code resumes. Thus, the GuC side can start dereferencing stale
-> > pointers and Bad Things ensue.
-> > 
-> > So add a refcount get of the context during the entire reset
-> > operation. That way, the context can't be destroyed part way through
-> > no matter what other resets or user interactions occur.
-> > 
-> > Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> > ---
-> >  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c | 14 ++++++++++++++
-> >  1 file changed, 14 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index c7a41802b448..7291fd8f68a6 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -2920,6 +2920,7 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-> >  {
-> >  	struct intel_context *ce;
-> >  	int desc_idx;
-> > +	unsigned long flags;
-> >  
-> >  	if (unlikely(len != 1)) {
-> >  		drm_err(&guc_to_gt(guc)->i915->drm, "Invalid length %u", len);
-> > @@ -2927,11 +2928,24 @@ int intel_guc_context_reset_process_msg(struct intel_guc *guc,
-> >  	}
-> >  
-> >  	desc_idx = msg[0];
-> > +
-> > +	/*
-> > +	 * The context lookup uses the xarray but lookups only require an RCU lock
-> > +	 * not the full spinlock. So take the lock explicitly and keep it until the
-> > +	 * context has been reference count locked to ensure it can't be destroyed
-> > +	 * asynchronously until the reset is done.
-> > +	 */
-> > +	xa_lock_irqsave(&guc->context_lookup, flags);
-> >  	ce = g2h_context_lookup(guc, desc_idx);
-> > +	if (ce)
-> > +		intel_context_get(ce);
-> > +	xa_unlock_irqrestore(&guc->context_lookup, flags);
-> > +
-> >  	if (unlikely(!ce))
-> >  		return -EPROTO;
-> >  
-> >  	guc_handle_context_reset(guc, ce);
-> > +	intel_context_put(ce);
-> 
-> So this is going to directly conflict with a patch that I'm about to
-> post as I'm going to change the error capture to async operation. In
-> that case the intel_context_put would need to be done once that op
-> completes. I'll likely pull this patch into that series. I'd expect it
-> to be posted by the end of the day.
+Hi,
 
-tbh this entire thing is looking very scary. Somehow we can race with
-other processing while we try to handle a reset. That's fragile at best.
+On Tue, Sep 14, 2021 at 12:36 PM Andrzej Hajda <a.hajda@samsung.com> wrote:
+>
+>
+> W dniu 14.09.2021 o 20:59, Jani Nikula pisze:
+> > On Tue, 14 Sep 2021, Doug Anderson <dianders@chromium.org> wrote:
+> >> Hi,
+> >>
+> >> On Tue, Sep 14, 2021 at 11:16 AM Jani Nikula
+> >> <jani.nikula@linux.intel.com> wrote:
+> >>> On Thu, 09 Sep 2021, Douglas Anderson <dianders@chromium.org> wrote:
+> >>>> In the patch ("drm/edid: Allow the querying/working with the panel ID
+> >>>> from the EDID") we introduced a different way of working with the
+> >>>> panel ID stored in the EDID. Let's use this new way for the quirks
+> >>>> code.
+> >>>>
+> >>>> Advantages of the new style:
+> >>>> * Smaller data structure size. Saves 4 bytes per panel.
+> >>>> * Iterate through quirks structure with just "==" instead of strncmp()
+> >>>> * In-kernel storage is more similar to what's stored in the EDID
+> >>>>    itself making it easier to grok that they are referring to the same
+> >>>>    value.
+> >>>>
+> >>>> The quirk table itself is arguably a bit less readable in the new
+> >>>> style but not a ton less and it feels like the above advantages make
+> >>>> up for it.
+> >>> I suppose you could pass vendor as a string to EDID_QUIRK() to retain
+> >>> better readability?
+> >> I would love to, but I couldn't figure out how to do this and have it
+> >> compile! Notably I need the compiler to be able to do math at compile
+> >> time to compute the final u32 to store in the init data. I don't think
+> >> the compiler can dereference strings (even constant strings) and do
+> >> math on the result at compile time.
+> > Ah, right.
+>
+>
+> What about:
+>
+> +#define drm_edid_encode_panel_id(vend, product_id) \
+> +       ((((u32)((vend)[0]) - '@') & 0x1f) << 26 | \
+> +        (((u32)((vend)[1]) - '@') & 0x1f) << 21 | \
+> +        (((u32)((vend)[2]) - '@') & 0x1f) << 16 | \
+> +        ((product_id) & 0xffff))
 
-Proper fix is to exclude these kind of problems by design, by either
-guaranteeing that no concurrent dequeuing of guc2host message can happen,
-or by holding appropriate locks, or by keeping track of anything pending
-in a more controlled way (something like expected g2h messages as separate
-structs, instead of the current spaghetti layering violation chaos we have
-for processing g2h message).
+Wow, I _swear_ I tried exactly that syntax, but clearly I didn't. It
+works great and it looks _sooo_ much nicer now. Thanks! I'll send out
+a v5 shortly with this.
 
-We maybe should use a few of these things when we're going through the
-locking engineering training with guc team.
--Daniel
-
-> 
-> Matt 
-> 
-> >  
-> >  	return 0;
-> >  }
-> > -- 
-> > 2.25.1
-> > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-Doug
