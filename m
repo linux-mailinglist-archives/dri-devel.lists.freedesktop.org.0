@@ -1,85 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A5F40B281
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 17:06:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B010340B28D
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 17:08:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1C06E4EC;
-	Tue, 14 Sep 2021 15:06:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 70EEC6E4F4;
+	Tue, 14 Sep 2021 15:08:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew2-smtp.messagingengine.com (wnew2-smtp.messagingengine.com
- [64.147.123.27])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 31AC46E4EC
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 15:06:46 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id B54472B0125B;
- Tue, 14 Sep 2021 11:06:44 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 14 Sep 2021 11:06:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=86VIvVWA0lpTbdksYCftwNrqcOF
- h/mOj0+p0+34vYa0=; b=GBWYZ2MrlxZs/yCyBjJFDWobiKhCA1JpRuX4IzzO7R0
- g6KXAfxkZ8+5BVhPMZtYxQ3E+D5aJHsU1t2/g9/gNh+V+UrWnK1veCe7VzmXfuoC
- wMxQlPc1Dnqz9QBzp7GnIpXSD44G2qfUMMKj68wiwOb4GArjRI/8x/MxHjp4awXQ
- Hdlx4+k9afysKw6qjsaTowisXWKNrtrqf9lBRqSHjaOwV49dj34TgWg2E2ammK1C
- k/TKR4HiB7/UY7ObaGfA8clDDgnLYU5nohZnlotJCeyhSr1dld+SmIb0eL17kFHd
- /rphFtPd7RrIxMCfSGT6F6eY3VY7syLNXiMFCkZ0KIA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=86VIvV
- WA0lpTbdksYCftwNrqcOFh/mOj0+p0+34vYa0=; b=uBY8Wu+PwwK/jvUId+NYNQ
- 0ra5aFFTIuB8iwMn7zQKI3lH9F1uDUDUfh8MwgG3CwhlFijJ6fSOTDcHOetrzNwa
- eM/hGryovBF1dweQS0ahdvQTbMiTAQNfkT7G2ETtOR2g2q4MyHGp5dfMUSgLsJNq
- 2aafV9764pougbDJBDMsEkvN0s89heqPFZkijvgt+VuJ6lfbnkhvZLjvjiisFx//
- HXfG7znHxTXcjwM8q+ZIHDHbUS6MOjVJOxQncHQg3hI/5aaBaXxIt/7N85uQcBO7
- BC9aDIZ4pw9bSlp9f8V6lBwtbH/gkU4yoaP/l2+PVgiVUFMg3us75UVthIEKIpng
- ==
-X-ME-Sender: <xms:grpAYTY6mFwp0TaPkR99QS2WD4quaLE1pDnbiCqV7LqAS4vsa7-2oA>
- <xme:grpAYSZp2_YRHNft-NxGSgBFZJ5zMF6gkopEivB3tiJcrm9CLwQPHfk0pOZMxT527
- n6ewO5qC0aaZcBmkQY>
-X-ME-Received: <xmr:grpAYV9BTBZFnG_h52EyUY-tSzGzeUTN77Wh2LAuaamHQvu9mjtsmCUH4H-P_kzVhHzWsH2qPgZNpGJHhRnNokdctnKVazNEbAQZ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudegledgkeefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:grpAYZqbqusuLlwsjH6rp5W4_FsR5r79A8nWAlh9qCsOkDCgdr6bHQ>
- <xmx:grpAYepgrNk1xeO5LE0Ip2ATARaouOQKGQ-Wu_ORMChjt-PvpPVtBA>
- <xmx:grpAYfQbFlIYjggKlP1cewJi_tJLaAnGnduUnnhLs7GtE-pwv8FTUQ>
- <xmx:hLpAYT79UIPtUb-CPqNHk7eR5Rp51hSgi1OfT3RTXZtvhby14LEqlN3lb3g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Sep 2021 11:06:42 -0400 (EDT)
-Date: Tue, 14 Sep 2021 17:06:41 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] drm/probe-helper: Create a HPD IRQ event helper
- for a single connector
-Message-ID: <20210914150641.dzyioa3wkoyv2o7k@gilmour>
-References: <20210914101724.266570-1-maxime@cerno.tech>
- <20210914101724.266570-2-maxime@cerno.tech>
- <YUB8c2If+E851x4A@ravnborg.org>
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9915F6E4F4
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 15:08:13 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id u15so14717305wru.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 08:08:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CRIlQg+upo5hP8weBxz0PNmeSI1bR0RemM+MM+p+Is0=;
+ b=WIPErERmvzG8kE+ee3gXEEaoYRJv5QdAd6mEUXBL1KiRLiBqfHT99QafcJEsV5HQRE
+ EyxBpxCwwlSJTmhJLueVm9BDnrqkSpOWCvzem0bbVGlCwj6Uk6gNuaiJG5UGDNpuS5mL
+ oZbVBZH/yTYcYVqsLKoffx7F5Wg3XXotg/OwQRSsRZ+739oVRz2CE+sMMnWOwgWvsTPS
+ G5JUUr5Rs22DDBvIyc/XSk9Q2u1E3IZKdoY+s9nbedyu6asgEULeAijPb918sjmFwaVn
+ 6OFA+zvQRmxBZSYZkhkmjVp5xtk87vDER4PZ9tOpQ132GQLmgBlAXm59c8vx3ohTPvWW
+ ZNZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CRIlQg+upo5hP8weBxz0PNmeSI1bR0RemM+MM+p+Is0=;
+ b=DNW/usPKfcPwdVk/UcEc2n39eK7ejUSh9viLZHzc8mp7vklHMXTyTeCz2cnhiVyp0x
+ cbi6UytkXURwihDRluN50VuAgA8/tfYq4tA41YiFzr9aL1m7yH7qpTYiz2YzyVFzvwen
+ ZqGy+TPNYbPb6LTIA1S9k+QMAQTPQmfPbiDwvTfkDwMS8xOBFsrqjiogSsh5A8efW1Yt
+ DQliXseAnE4VIk9z6geKX/B1eS7a9EipvDZVxsMprpZovDQjooKhK95w/embSKgCwcwD
+ mkE5Iteh8eqIB5Hd8ZHOqSs5kWrIrU6/gJ58BJXP42ESrw4ZDU4t5I4znlQ6ZwumwP4i
+ ZPjw==
+X-Gm-Message-State: AOAM5334YSIhFx7NI+0jrIQXJvnq/bsrvHm3H/qEMm0fpZNEvOeSBe/S
+ YirzISph6EpE75JRASvKZw==
+X-Google-Smtp-Source: ABdhPJxFKWizTvgkbxISpyz7IpsBM8Sxby+VDRXDNDfqeOTD9NprIar1qRNoqr847/8XwV7/VlJmrA==
+X-Received: by 2002:a5d:6ca2:: with SMTP id a2mr19329229wra.291.1631632092081; 
+ Tue, 14 Sep 2021 08:08:12 -0700 (PDT)
+Received: from alex-ThinkPad-E480.. ([2a02:810b:f40:4200:b79e:d9e1:c821:37f2])
+ by smtp.googlemail.com with ESMTPSA id
+ k1sm10589441wrz.61.2021.09.14.08.08.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 14 Sep 2021 08:08:11 -0700 (PDT)
+From: Alex Bee <knaerzche@gmail.com>
+To: Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>
+Cc: Jonathan McDowell <noodles@earth.li>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Alex Bee <knaerzche@gmail.com>
+Subject: [PATCH] drm/rockchip: handle non-platform devices in
+ rockchip_drm_endpoint_is_subdriver
+Date: Tue, 14 Sep 2021 17:07:56 +0200
+Message-Id: <20210914150756.85190-1-knaerzche@gmail.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="h7ls47b3z6ubt5au"
-Content-Disposition: inline
-In-Reply-To: <YUB8c2If+E851x4A@ravnborg.org>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,94 +76,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+As discussed at [1] rockchip_drm_endpoint_is_subdriver will currently always
+return -ENODEV for non-platform-devices (e.g. external i2c bridges), what
+makes them never being considered in rockchip_rgb_init.
 
---h7ls47b3z6ubt5au
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As suggested at [1] this additionally adds a of_device_is_available for
+the node found, which will work for both platform and non-platform devices.
+Also we can return early for non-platform-devices if they are enabled,
+as rockchip_sub_drivers contains exclusively platform-devices.
 
-Hi Sam,
+[1] https://lore.kernel.org/all/20210316182753.GA25685@earth.li/
 
-On Tue, Sep 14, 2021 at 12:41:55PM +0200, Sam Ravnborg wrote:
-> On Tue, Sep 14, 2021 at 12:17:23PM +0200, Maxime Ripard wrote:
-> > The drm_helper_hpd_irq_event() function is iterating over all the
-> > connectors when an hotplug event is detected.
-> >=20
-> > During that iteration, it will call each connector detect function and
-> > figure out if its status changed.
-> >=20
-> > Finally, if any connector changed, it will notify the user-space and the
-> > clients that something changed on the DRM device.
-> >=20
-> > This is supposed to be used for drivers that don't have a hotplug
-> > interrupt for individual connectors. However, drivers that can use an
-> > interrupt for a single connector are left in the dust and can either
-> > reimplement the logic used during the iteration for each connector or
-> > use that helper and iterate over all connectors all the time.
-> >=20
-> > Since both are suboptimal, let's create a helper that will only perform
-> > the status detection on a single connector.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> >=20
-> > ---
-> > Changes from v2:
-> >   - Skip connectors with DRM_CONNECTOR_POLL_HPD in drm_helper_hpd_irq_e=
-vent
-> >   - Add drm_connector_helper_hpd_irq_event returned value documentation
-> >   - Improve logging
-> >=20
-> > Changes from v1:
-> >   - Rename the shared function
-> >   - Move the hotplug event notification out of the shared function
-> >   - Added missing locks
-> >   - Improve the documentation
-> >   - Switched to drm_dbg_kms
-> > ---
-> >  drivers/gpu/drm/drm_probe_helper.c | 117 +++++++++++++++++++++--------
-> >  include/drm/drm_probe_helper.h     |   1 +
-> >  2 files changed, 87 insertions(+), 31 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_p=
-robe_helper.c
-> > index 5b77fb5c1a32..a1ffc0c30b3a 100644
-> > --- a/drivers/gpu/drm/drm_probe_helper.c
-> > +++ b/drivers/gpu/drm/drm_probe_helper.c
-> > @@ -795,6 +795,87 @@ void drm_kms_helper_poll_fini(struct drm_device *d=
-ev)
-> >  }
-> >  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
-> > =20
-> > +static bool check_connector_changed(struct drm_connector *connector)
-> > +{
-> > +	struct drm_device *dev =3D connector->dev;
-> > +	enum drm_connector_status old_status;
-> > +	u64 old_epoch_counter;
-> > +	bool changed =3D false;
-> > +
-> > +	/* Only handle HPD capable connectors. */
-> > +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
->
-> This will WARN if DRM_CONNECTOR_POLL_HPD is not set - which the previous
-> code did not. I am not sure this is intentional.
-> Or have I missed something?
+Suggested-by: Heiko Stuebner <heiko@sntech.de>
+Signed-off-by: Alex Bee <knaerzche@gmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-Sorry, I misunderstood your previous comment and thought you wanted to
-skip the !HPD connectors in the drm_helper_hpd_irq_event loop.
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+index bfba9793d238..81a5ec30ef4f 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.c
+@@ -275,10 +275,17 @@ int rockchip_drm_endpoint_is_subdriver(struct device_node *ep)
+ 		return -ENODEV;
+ 
+ 	/* status disabled will prevent creation of platform-devices */
++	if (!of_device_is_available(node)) {
++		of_node_put(node);
++		return -ENODEV;
++	}
++
+ 	pdev = of_find_device_by_node(node);
+ 	of_node_put(node);
++
++	/* enabled non-platform-devices can immediately return here */
+ 	if (!pdev)
+-		return -ENODEV;
++		return false;
+ 
+ 	/*
+ 	 * All rockchip subdrivers have probed at this point, so
 
-What do you think would be the proper scenario here? Just return false?
+base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+-- 
+2.30.2
 
-Maxime
-
---h7ls47b3z6ubt5au
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUC6gQAKCRDj7w1vZxhR
-xfvLAQCvjHZIOLIX10NwRDDeWNnz+BQt6EGDstR3f6aiQVq/zwD7Ba+EN1wlpHpD
-MiKDu9/bU4ZSc+apGZo9YgFu6QLNCQ4=
-=1ekQ
------END PGP SIGNATURE-----
-
---h7ls47b3z6ubt5au--
