@@ -2,40 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A03A40B7B3
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 21:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F7C040B7C4
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 21:18:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 079166E59D;
-	Tue, 14 Sep 2021 19:13:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8E30D6E5A5;
+	Tue, 14 Sep 2021 19:18:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 662286E5A3;
- Tue, 14 Sep 2021 19:13:45 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="218925650"
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="218925650"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 12:13:44 -0700
-X-IronPort-AV: E=Sophos;i="5.85,292,1624345200"; d="scan'208";a="472124692"
-Received: from lwang61-mobl1.amr.corp.intel.com (HELO intel.com)
- ([10.255.34.215])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 14 Sep 2021 12:13:43 -0700
-Date: Tue, 14 Sep 2021 15:13:42 -0400
-From: Rodrigo Vivi <rodrigo.vivi@intel.com>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- "Huang, Sean Z" <sean.z.huang@intel.com>, Huang@freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH v9 12/17] drm/i915/pxp: Enable PXP power management
-Message-ID: <YUD0Zo590QmMiHOS@intel.com>
-References: <20210910153627.1060858-1-daniele.ceraolospurio@intel.com>
- <20210910153627.1060858-13-daniele.ceraolospurio@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB1F06E5A5
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 19:18:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 36E4A61056;
+ Tue, 14 Sep 2021 19:18:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631647129;
+ bh=lSJtyN1p/GXEGUbXOwvgRy04qIo0QpvCRGtPvbVHV7k=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=ZYJ973d8K6ibmK4VCZOxbz8liVixRbZxcn/+aFOllyTBPYYyibZXyY6X/rcW5U7w5
+ lCqTOm8s4WYqp5CJYv2wsAj7oziMOWyJCKxWSTMqhlS8Rsn7VlD7Kt6yLtcCvAyWF3
+ ttqd6PmOf96edRMrjP3K6ZmMS/o4leHPRpVN2OgOz59I+q9XCON9bIpBYqyUMWR25x
+ 2HoPY0JewNnVzr6TUd6uVAn4Y+IF9ILu/3EkCfX65Bgx9MdwKWJTMav5ofGv1qKBd2
+ YJexpM1Kqn8JU4usJSfX95CT39eI03QFBX9jmCVaDHA7u9+3EVewU717K3ct4yY7De
+ Xs5uZB1JAi8qA==
+Date: Tue, 14 Sep 2021 14:18:47 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Xuefeng Li <lixuefeng@loongson.cn>,
+ Huacai Chen <chenhuacai@gmail.com>
+Subject: Re: [PATCH V5 00/11] PCI/VGA: Rework default VGA device selection
+Message-ID: <20210914191847.GA1446332@bjorn-Precision-5520>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210910153627.1060858-13-daniele.ceraolospurio@intel.com>
+In-Reply-To: <20210911093056.1555274-1-chenhuacai@loongson.cn>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,343 +52,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 10, 2021 at 08:36:22AM -0700, Daniele Ceraolo Spurio wrote:
-> From: "Huang, Sean Z" <sean.z.huang@intel.com>
+On Sat, Sep 11, 2021 at 05:30:45PM +0800, Huacai Chen wrote:
+> My original work is at [1].
 > 
-> During the power event S3+ sleep/resume, hardware will lose all the
-> encryption keys for every hardware session, even though the
-> session state might still be marked as alive after resume. Therefore,
-> we should consider the session as dead on suspend and invalidate all the
-> objects. The session will be automatically restarted on the first
-> protected submission on resume.
+> Current default VGA device selection fails in some cases:
 > 
-> v2: runtime suspend also invalidates the keys
-> v3: fix return codes, simplify rpm ops (Chris), use the new worker func
-> v4: invalidate the objects on suspend, don't re-create the arb sesson on
-> resume (delayed to first submission).
-> v5: move irq changes back to irq patch (Rodrigo)
-> v6: drop invalidation in runtime suspend (Rodrigo)
+>   - On BMC system, the AST2500 bridge [1a03:1150] does not implement
+>     PCI_BRIDGE_CTL_VGA [1].  This is perfectly legal but means the
+>     legacy VGA resources won't reach downstream devices unless they're
+>     included in the usual bridge windows.
 > 
-> Signed-off-by: Huang, Sean Z <sean.z.huang@intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>   - vga_arb_select_default_device() will set a device below such a
+>     bridge as the default VGA device as long as it has PCI_COMMAND_IO
+>     and PCI_COMMAND_MEMORY enabled.
+> 
+>   - vga_arbiter_add_pci_device() is called for every VGA device,
+>     either at boot-time or at hot-add time, and it will also set the
+>     device as the default VGA device, but ONLY if all bridges leading
+>     to it implement PCI_BRIDGE_CTL_VGA.
+> 
+>   - This difference between vga_arb_select_default_device() and
+>     vga_arbiter_add_pci_device() means that a device below an AST2500
+>     or similar bridge can only be set as the default if it is
+>     enumerated before vga_arb_device_init().
+> 
+>   - On ACPI-based systems, PCI devices are enumerated by acpi_init(),
+>     which runs before vga_arb_device_init().
+> 
+>   - On non-ACPI systems, like on MIPS system, they are enumerated by
+>     pcibios_init(), which typically runs *after*
+>     vga_arb_device_init().
+> 
+> So I made vga_arb_update_default_device() to replace the current vga_
+> arb_select_default_device(), which will be call from vga_arbiter_add_
+> pci_device(), set the default device even if it does not own the VGA
+> resources because an upstream bridge doesn't implement PCI_BRIDGE_CTL_
+> VGA. And the default VGA device is updated if a better one is found
+> (device with legacy resources enabled is better, device owns the
+> firmware framebuffer is even better).
+> 
+> Bjorn do some rework and extension in V2. It moves the VGA arbiter to
+> the PCI subsystem, fixes a few nits, and breaks a few pieces to make
+> the main patch a little smaller.
+> 
+> V3 rewrite the commit log of the last patch (which is also summarized
+> by Bjorn).
+> 
+> V4 split the last patch to two steps.
+> 
+> V5 split big patches again and sort the patches.
 
-ops, I had missed this patch. Sorry
-and thanks Alan for the ping.
+Not sure if I'm missing something, or if this is an interim version
+and you're working on a v6.
 
+From https://lore.kernel.org/r/20210909175926.GA996660@bjorn-Precision-5520,
+I was looking for:
+
+  BUT as I mentioned, I want the very first patch to be the very
+  simple 2-line change to vga_arb_update_default_device() that actually
+  fixes your problem.
+
+That doesn't seem to be what we have here.
+
+> All comments welcome!
+> 
+> [1] https://lore.kernel.org/dri-devel/20210705100503.1120643-1-chenhuacai@loongson.cn/
+> 
+> Bjorn Helgaas (4):
+>   PCI/VGA: Move vgaarb to drivers/pci
+>   PCI/VGA: Remove empty vga_arb_device_card_gone()
+>   PCI/VGA: Use unsigned format string to print lock counts
+>   PCI/VGA: Replace full MIT license text with SPDX identifier
+> 
+> Huacai Chen (7):
+>   PCI/VGA: Prefer vga_default_device()
+>   PCI/VGA: Move vga_arb_integrated_gpu() earlier in file
+>   PCI/VGA: Split out vga_arb_update_default_device()
+>   PCI/VGA: Update default VGA device if a better one found
+>   PCI/VGA: Update default VGA device again for X86/IA64
+>   PCI/VGA: Remove vga_arb_select_default_device()
+>   PCI/VGA: Log bridge control messages when adding devices
+> 
+> Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
+> Signed-off-by: Bjorn Helgaas <bhelgaas@google.com> 
 > ---
->  drivers/gpu/drm/i915/Makefile                |  1 +
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c        | 15 ++++++-
->  drivers/gpu/drm/i915/i915_drv.c              |  2 +
->  drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     |  1 +
->  drivers/gpu/drm/i915/pxp/intel_pxp_pm.c      | 46 ++++++++++++++++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp_pm.h      | 23 ++++++++++
->  drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 38 +++++++++++-----
->  drivers/gpu/drm/i915/pxp/intel_pxp_tee.c     |  9 ++++
->  8 files changed, 124 insertions(+), 11 deletions(-)
->  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
->  create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-> 
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index b22b8c195bb8..366e82cec44d 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -286,6 +286,7 @@ i915-$(CONFIG_DRM_I915_PXP) += \
->  	pxp/intel_pxp.o \
->  	pxp/intel_pxp_cmd.o \
->  	pxp/intel_pxp_irq.o \
-> +	pxp/intel_pxp_pm.o \
->  	pxp/intel_pxp_session.o \
->  	pxp/intel_pxp_tee.o
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index dea8e2479897..b47a8d8f1bb5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -18,6 +18,7 @@
->  #include "intel_rc6.h"
->  #include "intel_rps.h"
->  #include "intel_wakeref.h"
-> +#include "pxp/intel_pxp_pm.h"
->  
->  static void user_forcewake(struct intel_gt *gt, bool suspend)
->  {
-> @@ -262,6 +263,8 @@ int intel_gt_resume(struct intel_gt *gt)
->  
->  	intel_uc_resume(&gt->uc);
->  
-> +	intel_pxp_resume(&gt->pxp);
-> +
->  	user_forcewake(gt, false);
->  
->  out_fw:
-> @@ -296,6 +299,7 @@ void intel_gt_suspend_prepare(struct intel_gt *gt)
->  	user_forcewake(gt, true);
->  	wait_for_suspend(gt);
->  
-> +	intel_pxp_suspend(&gt->pxp, false);
->  	intel_uc_suspend(&gt->uc);
->  }
->  
-> @@ -346,6 +350,7 @@ void intel_gt_suspend_late(struct intel_gt *gt)
->  
->  void intel_gt_runtime_suspend(struct intel_gt *gt)
->  {
-> +	intel_pxp_suspend(&gt->pxp, true);
-
-We should actually remove this from here
-
->  	intel_uc_runtime_suspend(&gt->uc);
->  
->  	GT_TRACE(gt, "\n");
-> @@ -353,11 +358,19 @@ void intel_gt_runtime_suspend(struct intel_gt *gt)
->  
->  int intel_gt_runtime_resume(struct intel_gt *gt)
->  {
-> +	int ret;
-> +
->  	GT_TRACE(gt, "\n");
->  	intel_gt_init_swizzling(gt);
->  	intel_ggtt_restore_fences(gt->ggtt);
->  
-> -	return intel_uc_runtime_resume(&gt->uc);
-> +	ret = intel_uc_runtime_resume(&gt->uc);
-> +	if (ret)
-> +		return ret;
-> +
-> +	intel_pxp_resume(&gt->pxp);
-
-And from here...
-
-> +
-> +	return 0;
->  }
->  
->  static ktime_t __intel_gt_get_awake_time(const struct intel_gt *gt)
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 59fb4c710c8c..d5bcc70a22d4 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -67,6 +67,8 @@
->  #include "gt/intel_gt_pm.h"
->  #include "gt/intel_rc6.h"
->  
-> +#include "pxp/intel_pxp_pm.h"
-> +
->  #include "i915_debugfs.h"
->  #include "i915_drv.h"
->  #include "i915_ioc32.h"
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> index 340f20d130a8..9e5847c653f2 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
-> @@ -9,6 +9,7 @@
->  #include "gt/intel_gt_irq.h"
->  #include "i915_irq.h"
->  #include "i915_reg.h"
-> +#include "intel_runtime_pm.h"
->  
->  /**
->   * intel_pxp_irq_handler - Handles PXP interrupts.
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-> new file mode 100644
-> index 000000000000..23fd86de5a24
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
-> @@ -0,0 +1,46 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright(c) 2020 Intel Corporation.
-> + */
-> +
-> +#include "intel_pxp.h"
-> +#include "intel_pxp_irq.h"
-> +#include "intel_pxp_pm.h"
-> +#include "intel_pxp_session.h"
-> +
-> +void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime)
-> +{
-> +	if (!intel_pxp_is_enabled(pxp))
-> +		return;
-> +
-> +	pxp->arb_is_valid = false;
-> +
-> +	/*
-> +	 * Contexts using protected objects keep a runtime PM reference, so we
-> +	 * can only runtime suspend when all of them have been either closed
-> +	 * or banned. Therefore, there is no need to invalidate in that
-> +	 * scenario.
-> +	 */
-
-and remove this comment
-
-> +	if (!runtime)
-
-and remove the runtime boolean entirely.
-
-> +		intel_pxp_invalidate(pxp);
-> +
-> +	intel_pxp_fini_hw(pxp);
-> +
-> +	pxp->hw_state_invalidated = false;
-> +}
-> +
-> +void intel_pxp_resume(struct intel_pxp *pxp)
-> +{
-> +	if (!intel_pxp_is_enabled(pxp))
-> +		return;
-> +
-> +	/*
-> +	 * The PXP component gets automatically unbound when we go into S3 and
-> +	 * re-bound after we come out, so in that scenario we can defer the
-> +	 * hw init to the bind call.
-> +	 */
-> +	if (!pxp->pxp_component)
-> +		return;
-> +
-> +	intel_pxp_init_hw(pxp);
-> +}
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-> new file mode 100644
-> index 000000000000..e6a357996e19
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
-> @@ -0,0 +1,23 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright(c) 2020, Intel Corporation. All rights reserved.
-> + */
-> +
-> +#ifndef __INTEL_PXP_PM_H__
-> +#define __INTEL_PXP_PM_H__
-> +
-> +#include "i915_drv.h"
-> +
-> +#ifdef CONFIG_DRM_I915_PXP
-> +void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime);
-> +void intel_pxp_resume(struct intel_pxp *pxp);
-> +#else
-> +static inline void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime)
-> +{
-> +}
-> +static inline void intel_pxp_resume(struct intel_pxp *pxp)
-> +{
-> +}
-> +#endif
-> +
-> +#endif /* __INTEL_PXP_PM_H__ */
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> index a95cc443a48d..d02732f04757 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
-> @@ -21,29 +21,36 @@
->  
->  static bool intel_pxp_session_is_in_play(struct intel_pxp *pxp, u32 id)
->  {
-> -	struct intel_gt *gt = pxp_to_gt(pxp);
-> +	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
->  	intel_wakeref_t wakeref;
->  	u32 sip = 0;
->  
-> -	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
-> -		sip = intel_uncore_read(gt->uncore, GEN12_KCR_SIP);
-> +	/* if we're suspended the session is considered off */
-> +	with_intel_runtime_pm_if_in_use(uncore->rpm, wakeref)
-> +		sip = intel_uncore_read(uncore, GEN12_KCR_SIP);
->  
->  	return sip & BIT(id);
->  }
->  
->  static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_play)
->  {
-> -	struct intel_gt *gt = pxp_to_gt(pxp);
-> +	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
->  	intel_wakeref_t wakeref;
->  	u32 mask = BIT(id);
->  	int ret;
->  
-> -	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
-> -		ret = intel_wait_for_register(gt->uncore,
-> -					      GEN12_KCR_SIP,
-> -					      mask,
-> -					      in_play ? mask : 0,
-> -					      100);
-> +	/* if we're suspended the session is considered off */
-> +	wakeref = intel_runtime_pm_get_if_in_use(uncore->rpm);
-> +	if (!wakeref)
-> +		return in_play ? -ENODEV : 0;
-> +
-> +	ret = intel_wait_for_register(uncore,
-> +				      GEN12_KCR_SIP,
-> +				      mask,
-> +				      in_play ? mask : 0,
-> +				      100);
-> +
-> +	intel_runtime_pm_put(uncore->rpm, wakeref);
->  
->  	return ret;
->  }
-> @@ -135,6 +142,7 @@ void intel_pxp_session_work(struct work_struct *work)
->  {
->  	struct intel_pxp *pxp = container_of(work, typeof(*pxp), session_work);
->  	struct intel_gt *gt = pxp_to_gt(pxp);
-> +	intel_wakeref_t wakeref;
->  	u32 events = 0;
->  
->  	spin_lock_irq(&gt->irq_lock);
-> @@ -147,6 +155,14 @@ void intel_pxp_session_work(struct work_struct *work)
->  	if (events & PXP_INVAL_REQUIRED)
->  		intel_pxp_invalidate(pxp);
->  
-> +	/*
-> +	 * If we're processing an event while suspending then don't bother,
-> +	 * we're going to re-init everything on resume anyway.
-> +	 */
-> +	wakeref = intel_runtime_pm_get_if_in_use(gt->uncore->rpm);
-> +	if (!wakeref)
-> +		return;
-> +
->  	if (events & PXP_TERMINATION_REQUEST) {
->  		events &= ~PXP_TERMINATION_COMPLETE;
->  		pxp_terminate(pxp);
-> @@ -154,4 +170,6 @@ void intel_pxp_session_work(struct work_struct *work)
->  
->  	if (events & PXP_TERMINATION_COMPLETE)
->  		pxp_terminate_complete(pxp);
-> +
-> +	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
->  }
-> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> index 3fc3ddfd02b3..49508f31dcb7 100644
-> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
-> @@ -78,16 +78,25 @@ static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
->  static int i915_pxp_tee_component_bind(struct device *i915_kdev,
->  				       struct device *tee_kdev, void *data)
->  {
-> +	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
->  	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
-> +	intel_wakeref_t wakeref;
->  
->  	mutex_lock(&pxp->tee_mutex);
->  	pxp->pxp_component = data;
->  	pxp->pxp_component->tee_dev = tee_kdev;
->  	mutex_unlock(&pxp->tee_mutex);
->  
-> +	/* if we are suspended, the HW will be re-initialized on resume */
-> +	wakeref = intel_runtime_pm_get_if_in_use(&i915->runtime_pm);
-> +	if (!wakeref)
-> +		return 0;
-> +
->  	/* the component is required to fully start the PXP HW */
->  	intel_pxp_init_hw(pxp);
->  
-> +	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.25.1
+>  drivers/gpu/vga/Kconfig           |  19 ---
+>  drivers/gpu/vga/Makefile          |   1 -
+>  drivers/pci/Kconfig               |  19 +++
+>  drivers/pci/Makefile              |   1 +
+>  drivers/{gpu/vga => pci}/vgaarb.c | 269 ++++++++++++------------------
+>  5 files changed, 126 insertions(+), 183 deletions(-)
+>  rename drivers/{gpu/vga => pci}/vgaarb.c (90%)
+> --
+> 2.27.0
 > 
