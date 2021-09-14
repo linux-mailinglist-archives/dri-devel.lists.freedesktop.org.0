@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423AA40B917
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:22:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FEDE40B918
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 22:22:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 768956E7FE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id A10446E7FA;
 	Tue, 14 Sep 2021 20:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com
- [IPv6:2607:f8b0:4864:20::635])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F8D56E7F1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:22:39 +0000 (UTC)
-Received: by mail-pl1-x635.google.com with SMTP id n18so158826plp.7
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:22:39 -0700 (PDT)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com
+ [IPv6:2607:f8b0:4864:20::62f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7FC36E7FA
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 20:22:40 +0000 (UTC)
+Received: by mail-pl1-x62f.google.com with SMTP id bg1so129042plb.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 13:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rzFpNJqBOGrvK8PxTEisk5vASJ81UtyTd+SuH+Jj6C4=;
- b=DLM6eGapNxE2vVc3P4C/IXZ7ewDC2TZAzbBclSO9gAO+g3JjjVDgx9Xk2xGLZmSyPH
- N+5Mhsv+LxHtby729s8U9pukPgT0vbL6ulWqBCO+Bj6l3Ui4h8sOSg11KomCnOBFwOv/
- gTtVKSWGY0KJFBkzwniJNF+9O9yI0QI709x2o=
+ bh=vpEXnbBKR0bloKgXMxBkZufR69FGR0namo850/sSuY0=;
+ b=QD10I0+TVx4/lj2zfWzAgsFTRCOeUemwh5dNMsa7Dl3/o3jNo71bM29C3c1wQjJnog
+ qNHCZT3p5Go/d2liL5u5rqpZiqfFAWm+tSypPxiw4MTgjDCWgYwSGRSX8WkDVu5c5hpg
+ eBPZD62X+jCyS9fgUWHAmPz8GUjZK+sepSqD4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rzFpNJqBOGrvK8PxTEisk5vASJ81UtyTd+SuH+Jj6C4=;
- b=D1qiFOKG0+23FJN6hgBW/paBAFYdRd5d5fAghSRJXg0ThYVgJQ+TM3eOp5x+PfTjwx
- AaIvDny2lZgvdlC5PB4t/NhTsF/2nTXkxgh4+S5R12FmcXQb8cEaBb8hRRXIvSRAIk2X
- OsxnT4ZQ4YdhIxKnltzm0Np0ltpJLM9w0dngbE2jNbt7KchdEKzVHKlEfK8VoVV8IPM6
- lqw95LfhlzF8MaLPbU1I+cebBkv4+E8ptvVehyPIjwul9BmKS3WYQ0qOTYbPd5/tVNby
- evTpAKjnxrlgZZH8P/l1iIyb8jVGwaQIQTNAsQZhJhLYSyt9nrMx6HLTn0eedASKM0R1
- c8Jw==
-X-Gm-Message-State: AOAM532WYOdVCYklkR9P+QSXzGNcvtRHfy3ED88Pc2ScjNK6YRJHfMyf
- u57FZsaNHEg6l7i8xTQSqpKlHQ==
-X-Google-Smtp-Source: ABdhPJy8i/dFscfXlM3GCb7yl0yPY+U0rw+Ib7iozR9Nz10ZdHDtYe4aRkU+gU9znARPbJw7KL2xoQ==
-X-Received: by 2002:a17:902:6546:b0:13a:339a:6616 with SMTP id
- d6-20020a170902654600b0013a339a6616mr16644770pln.34.1631650958848; 
- Tue, 14 Sep 2021 13:22:38 -0700 (PDT)
+ bh=vpEXnbBKR0bloKgXMxBkZufR69FGR0namo850/sSuY0=;
+ b=CPOtQhTIof0U756B8xZvzW72hVlYP/TH0OrMHS0uL1BH33aJOzH7+hEAIWyYjFYIh7
+ JKthU+EtsVd7tP6gJCmJAJOTvNvxufnd1TJpAsKV0gjxjEk93IrmYCfSqVAiPBbHfOC2
+ z5hoRcTZgM5lsX4Ms5xkanXD5oTDr65j4Oi7F0CuFCokcahKwhJZV91urk4AqpWxof9e
+ vIBThMUrOp+l31J6IjtQnmc/YCRuSEvJBP1K7QtiZ/6s3MhhB0vrPcq3CXIKPPDIJIY3
+ nQK5Pf9KkKFI5p4A5icXsSWD/liNtDVyQDH8lsQvJ9tqqOqLTEysaZC3H2UrJJ73dhJ2
+ wvZQ==
+X-Gm-Message-State: AOAM531n5ptcMRtCEieLpNA9PPH522I1G2TWL9YYE0H+W1kVRc60IOti
+ LNSz7jEmfL7nYIwRRUoTVCrf8A==
+X-Google-Smtp-Source: ABdhPJwPexQPBm3N8BIYYm1w0FBveH0mVeVCcozwvbwFgJXed/YNyR9bZk3JoDvWePbXriTorIBX1Q==
+X-Received: by 2002:a17:902:650b:b0:13a:123a:4ef9 with SMTP id
+ b11-20020a170902650b00b0013a123a4ef9mr16501693plk.49.1631650960249; 
+ Tue, 14 Sep 2021 13:22:40 -0700 (PDT)
 Received: from tictac2.mtv.corp.google.com
  ([2620:15c:202:201:f38f:9d0f:3eba:f8c4])
- by smtp.gmail.com with ESMTPSA id 141sm12185393pgg.16.2021.09.14.13.22.37
+ by smtp.gmail.com with ESMTPSA id 141sm12185393pgg.16.2021.09.14.13.22.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 14 Sep 2021 13:22:38 -0700 (PDT)
+ Tue, 14 Sep 2021 13:22:39 -0700 (PDT)
 From: Douglas Anderson <dianders@chromium.org>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Rob Herring <robh+dt@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
@@ -56,10 +56,10 @@ Cc: devicetree@vger.kernel.org, Steev Klimaszewski <steev@kali.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
  Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>,
  Douglas Anderson <dianders@chromium.org>, linux-kernel@vger.kernel.org
-Subject: [PATCH v5 12/15] drm/panel-edp: hpd_reliable shouldn't be subtraced
- from hpd_absent
-Date: Tue, 14 Sep 2021 13:21:59 -0700
-Message-Id: <20210914132020.v5.12.I2522235fca3aa6790ede0bf22a93d79a1f694e6b@changeid>
+Subject: [PATCH v5 13/15] drm/panel-edp: Fix "prepare_to_enable" if panel
+ doesn't handle HPD
+Date: Tue, 14 Sep 2021 13:22:00 -0700
+Message-Id: <20210914132020.v5.13.Ia8288d36df4b12770af59ae3ff73ef7e08fb4e2e@changeid>
 X-Mailer: git-send-email 2.33.0.309.g3052b89438-goog
 In-Reply-To: <20210914202202.1702601-1-dianders@chromium.org>
 References: <20210914202202.1702601-1-dianders@chromium.org>
@@ -80,14 +80,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Now that the delays are named / described with eDP-centric names, it
-becomes clear that we should really specify the "hpd_reliable" and
-"hpd_absent" separately without taking the other into account. Let's
-fix it.
-
-This should be a no-op change and just adjust how we specify
-things. The actual delays should be the same before and after for the
-one panel that currently species both "hpd_reliable" and "hpd_absent".
+While cleaning up the descriptions of the delay for eDP panels I
+realized that we'd have a bug if any panels need the
+"prepare_to_enable" but HPD handling isn't happening in the panel
+driver. Let's put in a stopgap to at least make us not violate
+timings. This is not perfectly optimal but trying to do better is
+hard. At the moment only 2 panels specify this delay and only 30 ms is
+at stake. These panels are also currently hooked up with "hpd-gpios"
+so effectively this "fix" is just a theoretical fix and won't actually
+do anything for any devices currently supported in mainline.
 
 Signed-off-by: Douglas Anderson <dianders@chromium.org>
 Acked-by: Sam Ravnborg <sam@ravnborg.org>
@@ -98,40 +99,51 @@ Acked-by: Sam Ravnborg <sam@ravnborg.org>
 Changes in v4:
 - panel-simple-edp => panel-edp
 
- drivers/gpu/drm/panel/panel-edp.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
+Changes in v3:
+- Fix "prepare_to_enable" patch new for v3.
+
+ drivers/gpu/drm/panel/panel-edp.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/panel/panel-edp.c b/drivers/gpu/drm/panel/panel-edp.c
-index 1547e4797594..80a37a4e5750 100644
+index 80a37a4e5750..a83ef9905ea7 100644
 --- a/drivers/gpu/drm/panel/panel-edp.c
 +++ b/drivers/gpu/drm/panel/panel-edp.c
-@@ -423,7 +423,7 @@ static int panel_edp_prepare_once(struct panel_edp *p)
+@@ -508,12 +508,32 @@ static int panel_edp_prepare(struct drm_panel *panel)
+ static int panel_edp_enable(struct drm_panel *panel)
+ {
+ 	struct panel_edp *p = to_panel_edp(panel);
++	unsigned int delay;
  
- 	delay = p->desc->delay.hpd_reliable;
- 	if (p->no_hpd)
--		delay += p->desc->delay.hpd_absent;
-+		delay = max(delay, p->desc->delay.hpd_absent);
- 	if (delay)
- 		msleep(delay);
+ 	if (p->enabled)
+ 		return 0;
  
-@@ -1039,15 +1039,13 @@ static const struct panel_desc boe_nv133fhm_n61 = {
- 		 * spike on the HPD line.  It was explained that this spike
- 		 * was until the TCON data download was complete.  On
- 		 * one system this was measured at 8 ms.  We'll put 15 ms
--		 * in the prepare delay just to be safe and take it away
--		 * from the hpd_absent (which would otherwise be 200 ms)
--		 * to handle this.  That means:
-+		 * in the prepare delay just to be safe.  That means:
- 		 * - If HPD isn't hooked up you still have 200 ms delay.
- 		 * - If HPD is hooked up we won't try to look at it for the
- 		 *   first 15 ms.
- 		 */
- 		.hpd_reliable = 15,
--		.hpd_absent = 185,
-+		.hpd_absent = 200,
+-	if (p->desc->delay.enable)
+-		msleep(p->desc->delay.enable);
++	delay = p->desc->delay.enable;
++
++	/*
++	 * If there is a "prepare_to_enable" delay then that's supposed to be
++	 * the delay from HPD going high until we can turn the backlight on.
++	 * However, we can only count this if HPD is handled by the panel
++	 * driver, not if it goes to a dedicated pin on the controller.
++	 * If we aren't handling the HPD pin ourselves then the best we
++	 * can do is assume that HPD went high immediately before we were
++	 * called (and link training took zero time).
++	 *
++	 * NOTE: if we ever end up in this "if" statement then we're
++	 * guaranteed that the panel_edp_wait() call below will do no delay.
++	 * It already handles that case, though, so we don't need any special
++	 * code for it.
++	 */
++	if (p->desc->delay.prepare_to_enable && !p->hpd_gpio && !p->no_hpd)
++		delay = max(delay, p->desc->delay.prepare_to_enable);
++
++	if (delay)
++		msleep(delay);
  
- 		.unprepare = 500,
- 	},
+ 	panel_edp_wait(p->prepared_time, p->desc->delay.prepare_to_enable);
+ 
 -- 
 2.33.0.309.g3052b89438-goog
 
