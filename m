@@ -2,64 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAB840B2CF
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 17:17:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACC840B2E9
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 17:19:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2924A6E504;
-	Tue, 14 Sep 2021 15:17:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBDAA89EF7;
+	Tue, 14 Sep 2021 15:19:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com
- [IPv6:2a00:1450:4864:20::22d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7E0C6E4FB
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 15:17:49 +0000 (UTC)
-Received: by mail-lj1-x22d.google.com with SMTP id f2so24587825ljn.1
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 08:17:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ASAhUY+G41HZqeopdHM7aTSiw9njl3EyKHtj3rFVhDs=;
- b=ak1UeKaRxOfiClhnXWFlc5Tj5KPMuwNRFkYKCr7CwkblbA9Paw3cSpCmNNjhx8WlAR
- mQVYneNQpWpRsZWGMZ81ZIH34dZdZtDMUoN3cV1bET1XUla44MYMFwHm0OhiEQ8yDSmx
- qIaoPgDcted70DTDgGFCvmz8jNdMD5pdByWJCotfqt94eCEE9xwH05GjiwEKYbRedWR4
- 30qkyVGox3STWReT2o7u8OHwQAuOXe+zFCSrKHiFssbja0kfMIeSsjW2Sr2fq8/kTIQF
- +/vCVb4lldH/n0uweX+WPK3fJki6M57mqQNhADYjgGtODprzhcTxJXAhbuz6QZRBBdd7
- OpfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ASAhUY+G41HZqeopdHM7aTSiw9njl3EyKHtj3rFVhDs=;
- b=2bntTinBc4mIyHbQ962oBrbivMC48SmJP6ebgjNm0OWCuDSmTSanD+QISaWrx/hBg5
- Q0FzTCAFIoREOXQ43wdIlA6kiReuOkDde6+1wi9QdcCgAw4JQzEmCy0vnwQUKjlqePcv
- CgZDG/vEafSG/vw/zVHMfud8dVgtRSPj1LWtCrVmOOaPTypsDWxKNh9weLFDe/w+mguC
- ubitIplXeN3CsK4anYtHS9EVyiNKWE7puINJQS3XfM4rnE8kOPFTr/FE2hXlS6PTXhvE
- M1Py7I6d1nncjG+zQNbGpOfTk1Kor+3qcewTGeXc6VhBaUewRI5Io3ESMTNrMgSTRg2e
- 6g6Q==
-X-Gm-Message-State: AOAM532IN30cP2EtSjJyTruHw/g7sL7LAHTw+xUihm/Uwd8JABxguPRx
- djXRrNMfYmtmZDPM1L7FVG+Ebdy2/Dc1Uafg5dgvCA==
-X-Google-Smtp-Source: ABdhPJxrwrgQsvLdH3TFcygl7m8RHug7EOm+c31xSSPd1GollBX37JTf9f8IkkS/AT1bBnL51Z4Z9YyVU7EsQK1Cxs0=
-X-Received: by 2002:a2e:99da:: with SMTP id l26mr15293313ljj.339.1631632667834; 
- Tue, 14 Sep 2021 08:17:47 -0700 (PDT)
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38F1D89EF7
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 15:19:28 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 1f7e259b-156f-11ec-a02a-0050568c148b;
+ Tue, 14 Sep 2021 15:19:15 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id E946A194C00;
+ Tue, 14 Sep 2021 17:19:12 +0200 (CEST)
+Date: Tue, 14 Sep 2021 17:19:18 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>, linux-rpi-kernel@lists.infradead.org,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
+ Dom Cobley <dom@raspberrypi.com>,
+ Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] drm/probe-helper: Create a HPD IRQ event helper
+ for a single connector
+Message-ID: <YUC9dsgz6siHYVGD@ravnborg.org>
+References: <20210914101724.266570-1-maxime@cerno.tech>
+ <20210914101724.266570-2-maxime@cerno.tech>
+ <YUB8c2If+E851x4A@ravnborg.org>
+ <20210914150641.dzyioa3wkoyv2o7k@gilmour>
 MIME-Version: 1.0
-References: <20210824225427.2065517-1-nathan@kernel.org>
- <20210824225427.2065517-4-nathan@kernel.org>
-In-Reply-To: <20210824225427.2065517-4-nathan@kernel.org>
-From: Nick Desaulniers <ndesaulniers@google.com>
-Date: Tue, 14 Sep 2021 08:17:36 -0700
-Message-ID: <CAKwvOdmASG7XM5Lkv5aVttwQZkaLjm2jo+-BxBkG97h3hZ_Pew@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/i915: Enable -Wsometimes-uninitialized
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Jason Ekstrand <jason@jlekstrand.net>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>, 
- Matthew Auld <matthew.auld@intel.com>,
- "Michael J. Ruhl" <michael.j.ruhl@intel.com>, 
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com, 
- llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210914150641.dzyioa3wkoyv2o7k@gilmour>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,39 +64,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Aug 24, 2021 at 3:54 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> This warning helps catch uninitialized variables. It should have been
-> enabled at the same time as commit b2423184ac33 ("drm/i915: Enable
-> -Wuninitialized") but I did not realize they were disabled separately.
-> Enable it now that i915 is clean so that it stays that way.
->
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+On Tue, Sep 14, 2021 at 05:06:41PM +0200, Maxime Ripard wrote:
+> Hi Sam,
+> 
+> On Tue, Sep 14, 2021 at 12:41:55PM +0200, Sam Ravnborg wrote:
+> > On Tue, Sep 14, 2021 at 12:17:23PM +0200, Maxime Ripard wrote:
+> > > The drm_helper_hpd_irq_event() function is iterating over all the
+> > > connectors when an hotplug event is detected.
+> > > 
+> > > During that iteration, it will call each connector detect function and
+> > > figure out if its status changed.
+> > > 
+> > > Finally, if any connector changed, it will notify the user-space and the
+> > > clients that something changed on the DRM device.
+> > > 
+> > > This is supposed to be used for drivers that don't have a hotplug
+> > > interrupt for individual connectors. However, drivers that can use an
+> > > interrupt for a single connector are left in the dust and can either
+> > > reimplement the logic used during the iteration for each connector or
+> > > use that helper and iterate over all connectors all the time.
+> > > 
+> > > Since both are suboptimal, let's create a helper that will only perform
+> > > the status detection on a single connector.
+> > > 
+> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > > 
+> > > ---
+> > > Changes from v2:
+> > >   - Skip connectors with DRM_CONNECTOR_POLL_HPD in drm_helper_hpd_irq_event
+> > >   - Add drm_connector_helper_hpd_irq_event returned value documentation
+> > >   - Improve logging
+> > > 
+> > > Changes from v1:
+> > >   - Rename the shared function
+> > >   - Move the hotplug event notification out of the shared function
+> > >   - Added missing locks
+> > >   - Improve the documentation
+> > >   - Switched to drm_dbg_kms
+> > > ---
+> > >  drivers/gpu/drm/drm_probe_helper.c | 117 +++++++++++++++++++++--------
+> > >  include/drm/drm_probe_helper.h     |   1 +
+> > >  2 files changed, 87 insertions(+), 31 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/drm_probe_helper.c b/drivers/gpu/drm/drm_probe_helper.c
+> > > index 5b77fb5c1a32..a1ffc0c30b3a 100644
+> > > --- a/drivers/gpu/drm/drm_probe_helper.c
+> > > +++ b/drivers/gpu/drm/drm_probe_helper.c
+> > > @@ -795,6 +795,87 @@ void drm_kms_helper_poll_fini(struct drm_device *dev)
+> > >  }
+> > >  EXPORT_SYMBOL(drm_kms_helper_poll_fini);
+> > >  
+> > > +static bool check_connector_changed(struct drm_connector *connector)
+> > > +{
+> > > +	struct drm_device *dev = connector->dev;
+> > > +	enum drm_connector_status old_status;
+> > > +	u64 old_epoch_counter;
+> > > +	bool changed = false;
+> > > +
+> > > +	/* Only handle HPD capable connectors. */
+> > > +	drm_WARN_ON(dev, !(connector->polled & DRM_CONNECTOR_POLL_HPD));
+> >
+> > This will WARN if DRM_CONNECTOR_POLL_HPD is not set - which the previous
+> > code did not. I am not sure this is intentional.
+> > Or have I missed something?
+> 
+> Sorry, I misunderstood your previous comment and thought you wanted to
+> skip the !HPD connectors in the drm_helper_hpd_irq_event loop.
+> 
+> What do you think would be the proper scenario here? Just return false?
+Re-reading the patch it looks good.
+I missed that the check is no longer deleted - and it is now done
+exactly as I thought it should be.
 
-Thanks for the series!
-Reviewed-by: Nick Desaulniers <ndesaulniers@google.com>
+So patch is:
+Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
 
-> ---
->  drivers/gpu/drm/i915/Makefile | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index 642a5b5a1b81..335ba9f43d8f 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -19,7 +19,6 @@ subdir-ccflags-y += $(call cc-disable-warning, missing-field-initializers)
->  subdir-ccflags-y += $(call cc-disable-warning, unused-but-set-variable)
->  # clang warnings
->  subdir-ccflags-y += $(call cc-disable-warning, sign-compare)
-> -subdir-ccflags-y += $(call cc-disable-warning, sometimes-uninitialized)
->  subdir-ccflags-y += $(call cc-disable-warning, initializer-overrides)
->  subdir-ccflags-y += $(call cc-disable-warning, frame-address)
->  subdir-ccflags-$(CONFIG_DRM_I915_WERROR) += -Werror
-> --
-> 2.33.0
->
+	Sam
 
-
--- 
-Thanks,
-~Nick Desaulniers
