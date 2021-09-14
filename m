@@ -2,59 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5280E40B249
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 16:56:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3318240B250
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 16:57:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D2E06E4C7;
-	Tue, 14 Sep 2021 14:56:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 19A3889D2E;
+	Tue, 14 Sep 2021 14:56:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4281B6E4C7;
- Tue, 14 Sep 2021 14:56:25 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f1048001ab509412f10df56.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f10:4800:1ab5:941:2f10:df56])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 3AA951EC04D1;
- Tue, 14 Sep 2021 16:56:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1631631379;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=fC6oRVekYYeOWo6Ou3mRPO8RAeBaCtshKbuZA0gycas=;
- b=DjTjeMWi1aTZkXxq8Lf9KyX6WC0t0Xl9olO8XFqhK7E+qGjzzzpMJxBPFDqtXa7lxuvLMF
- BJZxFO3MGqQdmfuJdFwoNpN1Q2f2YF1GOFt4ptUcVjuOWJnOJOQqL4VXuXLUK8z4I3mRHF
- ddNSSmZuSk4r3r8c6iL+tcOt78DT0h0=
-Date: Tue, 14 Sep 2021 16:56:09 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Michael Ellerman <mpe@ellerman.id.au>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- platform-driver-x86@vger.kernel.org,
- Paul Mackerras <paulus@samba.org>, linux-s390@vger.kernel.org,
- Andi Kleen <ak@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
- x86@kernel.org, amd-gfx@lists.freedesktop.org,
- Christoph Hellwig <hch@infradead.org>,
- linux-graphics-maintainer@vmware.com,
- Tom Lendacky <thomas.lendacky@amd.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, kexec@lists.infradead.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
- linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v3 4/8] powerpc/pseries/svm: Add a powerpc version of
- cc_platform_has()
-Message-ID: <YUC4CW02tqEttZZJ@zn.tnic>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <9d4fc3f8ea7b325aaa1879beab1286876f45d450.1631141919.git.thomas.lendacky@amd.com>
- <YUCOTIPPsJJpLO/d@zn.tnic>
- <41b93dae-2f10-15a3-a079-c632381bec73@csgroup.eu>
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com
+ [IPv6:2a00:1450:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22A9B89D2E
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 14:56:56 +0000 (UTC)
+Received: by mail-lj1-x233.google.com with SMTP id h1so24415843ljl.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 07:56:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=32RtfxSjG9sP/kIUfnN+bsrpnlPSA3iRbY0ztFhcO1k=;
+ b=g1blrE6JWLFlISD43DfLBsNCmJMHG7OgT6BtlTPAhH4bPy239jRIor5E6XtKGxd4OJ
+ 7EdyhWmvDX37aY6E/GXP9AYiE+/+E+wxKsjaMwQo6vMmd7UBJf3FvbE5TRes47YjVxtz
+ YoURR3UBON8M36HXELphQ4nP3UX1Y3hdCFiW0R6wfuakERNgszQoNquAKZhYhMLNtZQD
+ 4Z3G35XKyY7z14jMwT/T5HV+gWgNBRVSB3+gFFjFB3tDKFh+2mhJfvUyUNYvKCgizSw8
+ aUC7/hvkEpIHsezgj8H91jbzmegcYauM4kRnXQqRoZu0fOd7NLSrW4x8W52J5m3hJGZ3
+ 32rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=32RtfxSjG9sP/kIUfnN+bsrpnlPSA3iRbY0ztFhcO1k=;
+ b=rXtKLFDpQWNpEtlnnI4kOAjV0ZdBL9hvUBEl3L5xCio3cSki/SbxHrhwzL/1aC2vfO
+ jJKRQXr7IRy9Ve9YmTRSeoAa/wMAbmPUXXYw7Sqcof4WpvE99NtzdiMGYyg8YwnsrMLr
+ vo+rF2pjN1hribLcPA2geGBd3PPIDxy5t3PMe498n+P1IQYfyWZBCIACbO0GtHUYMgjT
+ IPEtLW70Zb73eC9k3bDFLXp6N+ViUV3I0tPGGMG/3xrOIdKiYvH1sEFUUYFrjjm3ZvsJ
+ gwTrPdALvOtNAzVaXzepk6DoVDaQxQ8OMrbSxwH+DUelBFfzLeJHuOsfwdvdwuRRaD+Y
+ p3DA==
+X-Gm-Message-State: AOAM530AQcv5ilAgBX1BXQ/EnrrPZRqiYAcBk3fv0gmGKBtoBR0PB3c3
+ o0d6UjC0ErDhyRUo2C4FvoZBxLmeTKn1owFcSpaBLw==
+X-Google-Smtp-Source: ABdhPJyN4Gk+w1SqRvWCMhYlWwXBQTnF9kGXxlYteM5XO81E0lzwURPIhsqxkIDPE4IyeA8D51INwkfKvRBNLaacWoA=
+X-Received: by 2002:a2e:8e8f:: with SMTP id z15mr15505095ljk.121.1631631414295; 
+ Tue, 14 Sep 2021 07:56:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <41b93dae-2f10-15a3-a079-c632381bec73@csgroup.eu>
+References: <20210909023741.2592429-1-john.stultz@linaro.org>
+ <YUCqFfalhgSTX249@phenom.ffwll.local>
+In-Reply-To: <YUCqFfalhgSTX249@phenom.ffwll.local>
+From: Sumit Semwal <sumit.semwal@linaro.org>
+Date: Tue, 14 Sep 2021 20:26:42 +0530
+Message-ID: <CAO_48GGtwDJPFqfsQvDPGwF-B+9GAVxEjS+jSWvmbeFHSkutiA@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: system_heap: Avoid warning on mid-order
+ allocations
+To: John Stultz <john.stultz@linaro.org>, lkml <linux-kernel@vger.kernel.org>, 
+ Christian Koenig <christian.koenig@amd.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ Liam Mark <lmark@codeaurora.org>, Chris Goldsworthy <cgoldswo@codeaurora.org>, 
+ Laura Abbott <labbott@kernel.org>, Brian Starkey <Brian.Starkey@arm.com>, 
+ Hridya Valsaraju <hridya@google.com>, Suren Baghdasaryan <surenb@google.com>, 
+ Sandeep Patil <sspatil@google.com>, Daniel Mentz <danielmentz@google.com>, 
+ =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Simon Ser <contact@emersion.fr>, 
+ James Jones <jajones@nvidia.com>, Leo Yan <leo.yan@linaro.org>, 
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+ DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,17 +80,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 14, 2021 at 04:47:41PM +0200, Christophe Leroy wrote:
-> Yes, see https://lore.kernel.org/linuxppc-dev/20210914123919.58203eef@canb.auug.org.au/T/#t
+Thanks John!
 
-Aha, more compiler magic stuff ;-\
+On Tue, 14 Sept 2021 at 19:26, Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Sep 09, 2021 at 02:37:41AM +0000, John Stultz wrote:
+> > When trying to do mid-order allocations, set __GFP_NOWARN to
+> > avoid warning messages if the allocation fails, as we will
+> > still fall back to single page allocatitions in that case.
+> > This is the similar to what we already do for large order
+> > allocations.
+> >
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Cc: Christian Koenig <christian.koenig@amd.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Liam Mark <lmark@codeaurora.org>
+> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> > Cc: Laura Abbott <labbott@kernel.org>
+> > Cc: Brian Starkey <Brian.Starkey@arm.com>
+> > Cc: Hridya Valsaraju <hridya@google.com>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Sandeep Patil <sspatil@google.com>
+> > Cc: Daniel Mentz <danielmentz@google.com>
+> > Cc: =C3=98rjan Eide <orjan.eide@arm.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: James Jones <jajones@nvidia.com>
+> > Cc: Leo Yan <leo.yan@linaro.org>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> > Signed-off-by: John Stultz <john.stultz@linaro.org>
+>
+> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+>
+Pushed to drm-misc-next.
 
-Oh well, I guess that fix will land upstream soon.
+> > ---
+> >  drivers/dma-buf/heaps/system_heap.c | 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
+s/system_heap.c
+> > index 23a7e74ef966..f57a39ddd063 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -40,11 +40,12 @@ struct dma_heap_attachment {
+> >       bool mapped;
+> >  };
+> >
+> > +#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
+> > +#define MID_ORDER_GFP (LOW_ORDER_GFP | __GFP_NOWARN)
+> >  #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
+> >                               | __GFP_NORETRY) & ~__GFP_RECLAIM) \
+> >                               | __GFP_COMP)
+> > -#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
+> > -static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORD=
+ER_GFP};
+> > +static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, MID_ORDER_GFP, LOW_ORD=
+ER_GFP};
+> >  /*
+> >   * The selection of the orders used for allocation (1MB, 64K, 4K) is d=
+esigned
+> >   * to match with the sizes often found in IOMMUs. Using order 4 pages =
+instead
+> > --
+> > 2.25.1
+> >
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
 
-Thx.
 
--- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+Best,
+Sumit.
