@@ -2,69 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C41A40A211
-	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 02:32:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423E540A260
+	for <lists+dri-devel@lfdr.de>; Tue, 14 Sep 2021 03:14:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F7636E2D8;
-	Tue, 14 Sep 2021 00:32:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D719D6E303;
+	Tue, 14 Sep 2021 01:13:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x129.google.com (mail-il1-x129.google.com
- [IPv6:2607:f8b0:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE5106E2D8
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 00:32:16 +0000 (UTC)
-Received: by mail-il1-x129.google.com with SMTP id b15so11635669ils.10
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 17:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Fc2qpd7/HkED54Dmv5q2n398ZaaGwNXVhIhrR+B9+xg=;
- b=fzBPJpuTidCguo+0rpVlS9ym+yazP5tQsqID/R/IBgyphfqbxgahDj1x5RehTy+98X
- +ZGJ1PxOCKK46fxVEihbOpl06s9gLSmHjeu1H9ECcc4Mdn2o31bvHIhC0aBQs8KLG6Gj
- Ib5rp1ioVdAUNCCvwvScdVCMBRQgtzl69rCMY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Fc2qpd7/HkED54Dmv5q2n398ZaaGwNXVhIhrR+B9+xg=;
- b=h26iZUNgMOzKSDU+M1kgoTaI3tWhJ5XMGBTIFKBtJsPXpGRU8qmHe1bfpN97ke8bgO
- Q6yR/u3/XNzDCyWLv7McJsLJFAJYIHfxWmZ6fC1jRnt2EnaupNgFq4XlsmO/yXK90vot
- ytRtxiSRgtT2KhMkIl1tkht+vKx2QkpSbRqH+OObJ3gvlc5qD9EldrfZgy49M06Eera5
- MRTeCfyfOQMb7Rx1cRi3h43y0ZNjukCEEksVwIleez+hslV6xJwJvE8zKdbP4A1ldVcT
- mecwDgsbeGwv6e+yreFOu0GNkNsothuxsquQiYLf96ux+7e2Ko7sQ/KTSPWx0M8Y6GYp
- 3hew==
-X-Gm-Message-State: AOAM532gPDRztix4RRtJYHnUSEfDMOvh/rGMLNQYuuxBpZbG7bMWEUad
- YhszK05oQRtXfz4Inumb3IyXuHXe8SbhOQ==
-X-Google-Smtp-Source: ABdhPJzgJR+DJAgc3vEZjI7zP+Z8KRZzBjtL8tlJ1kMLKf5KF8VVRbSTxLMx8jThQJB7pb7m6p+1Hw==
-X-Received: by 2002:a05:6e02:f13:: with SMTP id
- x19mr10108711ilj.216.1631579535915; 
- Mon, 13 Sep 2021 17:32:15 -0700 (PDT)
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com.
- [209.85.166.181])
- by smtp.gmail.com with ESMTPSA id 12sm5746462ilq.37.2021.09.13.17.32.15
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 13 Sep 2021 17:32:15 -0700 (PDT)
-Received: by mail-il1-f181.google.com with SMTP id v16so7304921ilg.3
- for <dri-devel@lists.freedesktop.org>; Mon, 13 Sep 2021 17:32:15 -0700 (PDT)
-X-Received: by 2002:a92:da0c:: with SMTP id z12mr9860853ilm.120.1631579534828; 
- Mon, 13 Sep 2021 17:32:14 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EF0D6E2F2;
+ Tue, 14 Sep 2021 01:13:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10106"; a="307391284"
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="307391284"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 18:13:50 -0700
+X-IronPort-AV: E=Sophos;i="5.85,291,1624345200"; d="scan'208";a="551980428"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Sep 2021 18:13:50 -0700
+Date: Mon, 13 Sep 2021 18:08:51 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 09/27] drm/i915: Expose logical engine
+ instance to user
+Message-ID: <20210914010851.GA9126@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-10-matthew.brost@intel.com>
+ <7f3495e7-d66a-3254-3473-b25e4c757b5c@intel.com>
 MIME-Version: 1.0
-References: <20210913143255.RFC.v2.1.I8ad7a535bb18a1f41f3858f83379beedb397a9db@changeid>
-In-Reply-To: <20210913143255.RFC.v2.1.I8ad7a535bb18a1f41f3858f83379beedb397a9db@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 13 Sep 2021 17:32:01 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XDn3XWt5USOmkhikYMUqY1gt7MQfOQhu7v+soy=u3_0g@mail.gmail.com>
-Message-ID: <CAD=FV=XDn3XWt5USOmkhikYMUqY1gt7MQfOQhu7v+soy=u3_0g@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/2] drm/bridge: parade-ps8640: Use regmap APIs
-To: Philip Chen <philipchen@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
- Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7f3495e7-d66a-3254-3473-b25e4c757b5c@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,106 +53,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Sep 13, 2021 at 04:06:33PM -0700, John Harrison wrote:
+> On 8/20/2021 15:44, Matthew Brost wrote:
+> > Expose logical engine instance to user via query engine info IOCTL. This
+> > is required for split-frame workloads as these needs to be placed on
+> > engines in a logically contiguous order. The logical mapping can change
+> > based on fusing. Rather than having user have knowledge of the fusing we
+> > simply just expose the logical mapping with the existing query engine
+> > info IOCTL.
+> > 
+> > IGT: https://patchwork.freedesktop.org/patch/445637/?series=92854&rev=1
+> > media UMD: link coming soon
+> > 
+> > v2:
+> >   (Daniel Vetter)
+> >    - Add IGT link, placeholder for media UMD
+> > 
+> > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/i915_query.c | 2 ++
+> >   include/uapi/drm/i915_drm.h       | 8 +++++++-
+> >   2 files changed, 9 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/i915_query.c b/drivers/gpu/drm/i915/i915_query.c
+> > index e49da36c62fb..8a72923fbdba 100644
+> > --- a/drivers/gpu/drm/i915/i915_query.c
+> > +++ b/drivers/gpu/drm/i915/i915_query.c
+> > @@ -124,7 +124,9 @@ query_engine_info(struct drm_i915_private *i915,
+> >   	for_each_uabi_engine(engine, i915) {
+> >   		info.engine.engine_class = engine->uabi_class;
+> >   		info.engine.engine_instance = engine->uabi_instance;
+> > +		info.flags = I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE;
+> >   		info.capabilities = engine->uabi_capabilities;
+> > +		info.logical_instance = ilog2(engine->logical_mask);
+> >   		if (copy_to_user(info_ptr, &info, sizeof(info)))
+> >   			return -EFAULT;
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index bde5860b3686..b1248a67b4f8 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -2726,14 +2726,20 @@ struct drm_i915_engine_info {
+> >   	/** @flags: Engine flags. */
+> >   	__u64 flags;
+> > +#define I915_ENGINE_INFO_HAS_LOGICAL_INSTANCE		(1 << 0)
+> >   	/** @capabilities: Capabilities of this engine. */
+> >   	__u64 capabilities;
+> >   #define I915_VIDEO_CLASS_CAPABILITY_HEVC		(1 << 0)
+> >   #define I915_VIDEO_AND_ENHANCE_CLASS_CAPABILITY_SFC	(1 << 1)
+> > +	/** @logical_instance: Logical instance of engine */
+> > +	__u16 logical_instance;
+> > +
+> >   	/** @rsvd1: Reserved fields. */
+> > -	__u64 rsvd1[4];
+> > +	__u16 rsvd1[3];
+> > +	/** @rsvd2: Reserved fields. */
+> > +	__u64 rsvd2[3];
+> >   };
+> >   /**
+> Any idea why the padding? Would be useful if the comment said 'this
+> structure must be at least/exactly X bytes in size / a multiple of X bytes
+> in size because ...' or whatever.
+> 
 
-On Mon, Sep 13, 2021 at 2:33 PM Philip Chen <philipchen@chromium.org> wrote:
->
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 685e9c38b2db..1b2414601538 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -9,6 +9,7 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/of_graph.h>
-> +#include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->
->  #include <drm/drm_bridge.h>
-> @@ -31,6 +32,11 @@
->
->  #define NUM_MIPI_LANES         4
->
-> +#define COMMON_PS8640_REGMAP_CONFIG \
-> +       .reg_bits = 8, \
-> +       .val_bits = 8, \
-> +       .cache_type = REGCACHE_NONE
+I think this is pretty standard in UABI interface - add a bunch of
+padding bits in case you need them in the future (i.e. this patch is an
+example of that).
 
-At some point we should see if we get any speed gains by actually
-caching, but that could be done later and isn't terribly high
-priority.
+Matt 
 
-
-> +
->  /*
->   * PS8640 uses multiple addresses:
->   * page[0]: for DP control
-> @@ -64,12 +70,48 @@ struct ps8640 {
->         struct drm_bridge *panel_bridge;
->         struct mipi_dsi_device *dsi;
->         struct i2c_client *page[MAX_DEVS];
-> +       struct regmap   *regmap[MAX_DEVS];
->         struct regulator_bulk_data supplies[2];
->         struct gpio_desc *gpio_reset;
->         struct gpio_desc *gpio_powerdown;
->         bool powered;
->  };
->
-> +static const struct regmap_config ps8640_regmap_config[] = {
-> +       [PAGE0_DP_CNTL] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xbf
-> +       },
-> +       [PAGE1_VDO_BDG] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       },
-> +       [PAGE2_TOP_CNTL] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       },
-> +       [PAGE3_DSI_CNTL1] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       },
-> +       [PAGE4_MIPI_PHY] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       },
-> +       [PAGE5_VPLL] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0x7f
-> +       },
-> +       [PAGE6_DSI_CNTL2] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       },
-> +       [PAGE7_SPI_CNTL] = {
-> +               COMMON_PS8640_REGMAP_CONFIG,
-> +               .max_register = 0xff
-> +       }
-
-nit: stylistically it's nice to add a "," after the last brace too.
-It's not technically needed but it makes diffs cleaner if another
-config is later added.
-
-
-> @@ -362,6 +390,10 @@ static int ps8640_probe(struct i2c_client *client)
->
->         ps_bridge->page[PAGE0_DP_CNTL] = client;
->
-> +       ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client, ps8640_regmap_config);
-> +       if (IS_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]))
-> +               return PTR_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]);
-
-I'm a huge fan of dev_err_probe(). I wonder if it makes sense to use
-it here? Untested:
-
-if (IS_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]))
-  return dev_err_probe(dev, PTR_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]),
-                       "Error initting page 0 regmap\n");
-
-
-All of that is just nits, so:
-
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+> However, not really anything to do with this patch as such, so either way:
+> Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
+> 
