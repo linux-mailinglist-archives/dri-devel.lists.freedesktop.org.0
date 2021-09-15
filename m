@@ -1,61 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22BDA40CAC6
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 18:41:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D80240CACC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 18:41:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 471726E98F;
-	Wed, 15 Sep 2021 16:40:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBE16E9BA;
+	Wed, 15 Sep 2021 16:40:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7232D6E98F;
- Wed, 15 Sep 2021 16:40:44 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id n128so4273603iod.5;
- Wed, 15 Sep 2021 09:40:44 -0700 (PDT)
+Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
+ [IPv6:2607:f8b0:4864:20::d2e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 67A546E9A4;
+ Wed, 15 Sep 2021 16:40:47 +0000 (UTC)
+Received: by mail-io1-xd2e.google.com with SMTP id f6so4352672iox.0;
+ Wed, 15 Sep 2021 09:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MDBpZYzyfsOqK+11ijg+a75kY42bBVtFKRaRrgH1FO8=;
- b=DVICViiuPnjZpQqGsNBIlpx0DXfDVwzwfXtPCJr3cNuvsGci/Tp0gAtHtDJlEOJ8t7
- gKVMRt2YK8TpwiWUEaTxXmMqxaCu9WzJDPDC8Po2Jo9CGDCFhVjg8ZEvrZPeupqFbM73
- S+aWvmJYnxwM7y2fiZqgGos4DESURPoFO5o0lgmeSfeBDpv7scIQyvjiElK5t4iH9nsS
- Mg+X8qv8bQrpB3E9v2d2x7tVwP5GLqmNH1Xj++UET2hjrt/z7mX3sDi9yuhRhD5NXcPS
- R25Ovo609ecesIsEhSV7FxoA7wYu8OlLhEd7rKV10y0bXncp7HdxtZZXLYXmvvCavJAd
- cQhQ==
+ bh=XB/xyYwxwBAmIJHfc4hKxFHXrq1UVZ3eu3582ed7hX8=;
+ b=DXWFMrUePduPkhJUeUikZrZJYpnNyQRvsEgVL4LmtmSZZMFnAUa3JkSD1oUYhwag25
+ T6V/XBgMidIidjS7C2vpCQMKi1iqp1BeM+AS+IlDH2dY8X2i3YuCd1lh07StIGVzvqhg
+ YZT8/vn+ppEulinrEkDXEcksE2MZzCx8gOKzhGHXk2owwvMM//L02nLb2+yiHlqhHY/j
+ aXAbVoXDAwCtQjfKqDb8wBXdSSLnwm83QsmbR/y2XGEdn49DejSyIXXtFMtWcb4UGiBQ
+ jCx/e70Fp/csP81A5W1rsGsb2TPUcSYgWlmYzEO0Z72JjSLVkyytP6xAxCnRVmA2OzuI
+ HCNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MDBpZYzyfsOqK+11ijg+a75kY42bBVtFKRaRrgH1FO8=;
- b=ZxmFXid2HWJrnzsasRCr5WgbExmHLges2eTyL8LmgDuAB0Ck4dkaW38exYIKQwXxnb
- FMfiGpBn9Ifaq1jR+RDfMrmb0s1heOte/dsr/PYYqXxGCXpHN9X5zMnMkY3lZyyz1sKk
- kB6mCzssQokO/BsJlj1cjwObW4qyanz0apO05n6xiE2bQlxf+f1capuoJnIKGjE1DFiS
- Gyr//zUY/XBvC2vncKqTFN3uS41JvwKCIxNH2xkdFi3F1bQPKaTSRKG3vtR9htIagnM2
- l+lvn9hYBBmZUcrtBu2zWJVhpyeUDKLiFobAB69KEv+kNVfzMzFaxDFr95AVtNlHjdiH
- dW1Q==
-X-Gm-Message-State: AOAM533mYEh++/pEjzszSydsT+aJKvKiK0ZYD52oRZBna4vJd22YrzJt
- M5bdTyZOiPb2BBR2WMFd1v0=
-X-Google-Smtp-Source: ABdhPJyMJU47mJz+Hw8YkwZorXgD50Cw4vn6wJLPu3FeV1Lpa1FuwQv1qXG65pqT47+WIRDYPv496g==
-X-Received: by 2002:a05:6602:2ac7:: with SMTP id
- m7mr805009iov.66.1631724043738; 
- Wed, 15 Sep 2021 09:40:43 -0700 (PDT)
+ bh=XB/xyYwxwBAmIJHfc4hKxFHXrq1UVZ3eu3582ed7hX8=;
+ b=W1+gaQ0alFpah3X4m0/iIFJ2Kvz4P5xPYqyA8X55NzEHxR0VTFJssEL6i5Wpy18q1G
+ aHoivSVJcySA+U9fdOuf3qeX4s6lXJBsQCvp4A8aYWCmVYAUmSwDzBoeDCIvGuaW7AuI
+ keS6PU033P7H9Y/GtHeglPEXigh/BleiBVNNIGijgd3QuaYkPuvvNFvnWQeaS9ROB+8M
+ elvwhQPqhTDbkN49v/2WKJXBouf5VCPbrN18UnMmDs/vmT91mQVqlasvlFGJ6wBq88Xa
+ ftoHZonkJJgFEFmVtf5QrmgpwwgS8Kz9mJxpm68jngPjJURq7wFylilNliDaSCcKNA4X
+ jvFg==
+X-Gm-Message-State: AOAM533xR8Ey6NfYuiSXYZq5tQpqBC/+Bif55Rhv/6t9FjRAREZBMhac
+ WPHfrFdqocwd7H1kT97ww9UX5CVXpNk=
+X-Google-Smtp-Source: ABdhPJxqu+089Osk7hjsC7fuIwiWknAbm0fb+4lnzX9SFQho779bpmIk/xl1hCFpYDhp5Q+128KIGg==
+X-Received: by 2002:a6b:24d:: with SMTP id 74mr791712ioc.134.1631724046632;
+ Wed, 15 Sep 2021 09:40:46 -0700 (PDT)
 Received: from frodo.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id a5sm299540ilf.27.2021.09.15.09.40.41
+ by smtp.googlemail.com with ESMTPSA id a5sm299540ilf.27.2021.09.15.09.40.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 09:40:42 -0700 (PDT)
+ Wed, 15 Sep 2021 09:40:45 -0700 (PDT)
 From: Jim Cromie <jim.cromie@gmail.com>
 To: jbaron@akamai.com, gregkh@linuxfoundation.org,
  linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, daniel@ffwll.ch
 Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH v8 11/16] i915/gvt: use DEFINE_DYNAMIC_DEBUG_CATEGORIES for
+Subject: [PATCH v8 12/16] amdgpu: use DEFINE_DYNAMIC_DEBUG_CATEGORIES on
  existing prdbgs
-Date: Wed, 15 Sep 2021 10:39:52 -0600
-Message-Id: <20210915163957.2949166-12-jim.cromie@gmail.com>
+Date: Wed, 15 Sep 2021 10:39:53 -0600
+Message-Id: <20210915163957.2949166-13-jim.cromie@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210915163957.2949166-1-jim.cromie@gmail.com>
 References: <20210915163957.2949166-1-jim.cromie@gmail.com>
@@ -76,41 +75,24 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The gvt component of this driver has ~120 pr_debugs, in 9 categories
-quite similar to those in DRM.  Following the interface model of
-drm.debug, add a parameter to map bits to these categorizations.
+logger_types.h defines many DC_LOG_*() categorized debug wrappers.
+Most of these already use DRM debug API, so are controllable using
+drm.debug, but others use a bare pr_debug("$prefix: .."), with 1 of 13
+different class-prefixes matching ~/^\[[_A-Z]+\]:/
 
-DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_gvt, __gvt_debug,
-	"dyndbg bitmap desc",
-	_DD_cat_(0, "gvt:cmd:"),
-	_DD_cat_(1, "gvt:core:"),
-	_DD_cat_(2, "gvt:dpy:"),
-	_DD_cat_(3, "gvt:el:"),
-	_DD_cat_(4, "gvt:irq:"),
-	_DD_cat_(5, "gvt:mm:"),
-	_DD_cat_(6, "gvt:mmio:"),
-	_DD_cat_(7, "gvt:render:"),
-	_DD_cat_(8, "gvt:sched:"));
+Use DEFINE_DYNAMIC_DEBUG_CATEGORIES to create a sysfs location which
+maps from bits to these 13 sets of categorized pr_debugs to en/disable.
 
-If CONFIG_DYNAMIC_DEBUG_CORE=y, then gvt/Makefile adds
--DDYNAMIC_DEBUG_MODULE to cflags, which CONFIG_DYNAMIC_DEBUG=n
-(CORE-only) builds need.  This is redone more comprehensively soon.
+Makefile adds -DDYNAMIC_DEBUG_MODULE for CONFIG_DYNAMIC_DEBUG_CORE,
+otherwise BUILD_BUG_ON triggers (obvious misuses are better than
+mysterious ones).
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
-v5:
-. static decl of vector of bit->class descriptors - Emil.V
-. relocate gvt-makefile chunk from elsewhere
-
-v7:
-. move ccflags addition up to i915/Makefile from i915/gvt
-
-v8:
-. relocate DDD_CAT decl code into intel_gvt.c - Tvrtko
-  cflags back to i915/Makefile
-. add -DDYNAMIC_DEBUG_MODULE to support DYNAMIC_DEBUG_CORE-only builds
-
-heres unchanged? footprint:
+Anyway heres a baseline, of existing prdbg use.
+Each callsite costs 56 bytes of kernel .data
+amdgpu has "extra" prdbgs due to macro expansion.
+(see repeating linenos in control)
+(it also has substantial use of drm.debug)
+- tedious fix but clear size payoff, as a separate patch, later.
 
 bash-5.1# for m in i915 amdgpu nouveau; do modprobe $m; done
 dyndbg:   1 debug prints in module drm
@@ -118,72 +100,83 @@ dyndbg:   2 debug prints in module ttm
 dyndbg:   8 debug prints in module video
 dyndbg: 167 debug prints in module i915
 dyndbg: 2339 debug prints in module amdgpu
-[drm] amdgpu kernel modesetting enabled.
-amdgpu: CRAT table disabled by module option
-amdgpu: Virtual CRAT table created for CPU
-amdgpu: Topology: Add CPU node
 dyndbg:   3 debug prints in module wmi
 dyndbg:   3 debug prints in module nouveau
----
- drivers/gpu/drm/i915/Makefile    |  2 ++
- drivers/gpu/drm/i915/intel_gvt.c | 34 ++++++++++++++++++++++++++++++++
- 2 files changed, 36 insertions(+)
 
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index 4f22cac1c49b..038fd29c89d4 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -295,6 +295,8 @@ i915-y += intel_gvt.o
- include $(src)/gvt/Makefile
- endif
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/Makefile           |  2 +
+ .../gpu/drm/amd/display/dc/core/dc_debug.c    | 43 ++++++++++++++++++-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/Makefile b/drivers/gpu/drm/amd/amdgpu/Makefile
+index c56320e78c0e..1f084919294c 100644
+--- a/drivers/gpu/drm/amd/amdgpu/Makefile
++++ b/drivers/gpu/drm/amd/amdgpu/Makefile
+@@ -38,6 +38,8 @@ ccflags-y := -I$(FULL_AMD_PATH)/include/asic_reg \
+ 	-I$(FULL_AMD_DISPLAY_PATH)/amdgpu_dm \
+ 	-I$(FULL_AMD_PATH)/amdkfd
  
-+ccflags-$(CONFIG_DYNAMIC_DEBUG_CORE) += -DDYNAMIC_DEBUG_MODULE
++ccflags-$(CONFIG_DYNAMIC_DEBUG_CORE) += -DYNAMIC_DEBUG_MODULE
 +
- obj-$(CONFIG_DRM_I915) += i915.o
- obj-$(CONFIG_DRM_I915_GVT_KVMGT) += gvt/kvmgt.o
+ amdgpu-y := amdgpu_drv.o
  
-diff --git a/drivers/gpu/drm/i915/intel_gvt.c b/drivers/gpu/drm/i915/intel_gvt.c
-index 4e70c1a9ef2e..eb0da9173b23 100644
---- a/drivers/gpu/drm/i915/intel_gvt.c
-+++ b/drivers/gpu/drm/i915/intel_gvt.c
-@@ -162,3 +162,37 @@ void intel_gvt_resume(struct drm_i915_private *dev_priv)
- 	if (intel_gvt_active(dev_priv))
- 		intel_gvt_pm_resume(dev_priv->gvt);
- }
+ # add KMS driver
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
+index 21be2a684393..ae462e5d42c6 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_debug.c
+@@ -36,8 +36,49 @@
+ 
+ #include "resource.h"
+ 
+-#define DC_LOGGER_INIT(logger)
++#ifdef CONFIG_DRM_USE_DYNAMIC_DEBUG
++/* define a drm.debug style dyndbg pr-debug control point */
++#include <linux/dynamic_debug.h>
 +
-+#if defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
++unsigned long __debug_dc;
++EXPORT_SYMBOL(__debug_dc);
 +
-+unsigned long __gvt_debug;
-+EXPORT_SYMBOL(__gvt_debug);
++#define help_(_N, _cat)	"\t  Bit-" #_N "\t" _cat "\n"
 +
-+#define help_(_N, _cat)	"\t  Bit-" #_N ":\t" _cat "\n"
++#define DC_DYNDBG_BITMAP_DESC(name)					\
++	"Control pr_debugs via /sys/module/amdgpu/parameters/" #name	\
++	", where each bit controls a debug category.\n"			\
++	help_(0, "[SURFACE]:")						\
++	help_(1, "[CURSOR]:")						\
++	help_(2, "[PFLIP]:")						\
++	help_(3, "[VBLANK]:")						\
++	help_(4, "[HW_LINK_TRAINING]:")				\
++	help_(5, "[HW_AUDIO]:")					\
++	help_(6, "[SCALER]:")						\
++	help_(7, "[BIOS]:")						\
++	help_(8, "[BANDWIDTH_CALCS]:")					\
++	help_(9, "[DML]:")						\
++	help_(10, "[IF_TRACE]:")					\
++	help_(11, "[GAMMA]:")						\
++	help_(12, "[SMU_MSG]:")
 +
-+#define I915_GVT_CATEGORIES(name) \
-+	" Enable debug output via /sys/module/i915/parameters/" #name	\
-+	", where each bit enables a debug category.\n"			\
-+	help_(0, "gvt:cmd:")						\
-+	help_(1, "gvt:core:")						\
-+	help_(2, "gvt:dpy:")						\
-+	help_(3, "gvt:el:")						\
-+	help_(4, "gvt:irq:")						\
-+	help_(5, "gvt:mm:")						\
-+	help_(6, "gvt:mmio:")						\
-+	help_(7, "gvt:render:")						\
-+	help_(8, "gvt:sched:")
-+
-+DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_gvt, __gvt_debug,
-+				I915_GVT_CATEGORIES(debug_gvt),
-+				_DD_cat_(0, "gvt:cmd:"),
-+				_DD_cat_(1, "gvt:core:"),
-+				_DD_cat_(2, "gvt:dpy:"),
-+				_DD_cat_(3, "gvt:el:"),
-+				_DD_cat_(4, "gvt:irq:"),
-+				_DD_cat_(5, "gvt:mm:"),
-+				_DD_cat_(6, "gvt:mmio:"),
-+				_DD_cat_(7, "gvt:render:"),
-+				_DD_cat_(8, "gvt:sched:"));
-+
++DEFINE_DYNAMIC_DEBUG_CATEGORIES(debug_dc, __debug_dc,
++				DC_DYNDBG_BITMAP_DESC(debug_dc),
++				_DD_cat_(0, "[CURSOR]:"),
++				_DD_cat_(1, "[PFLIP]:"),
++				_DD_cat_(2, "[VBLANK]:"),
++				_DD_cat_(3, "[HW_LINK_TRAINING]:"),
++				_DD_cat_(4, "[HW_AUDIO]:"),
++				_DD_cat_(5, "[SCALER]:"),
++				_DD_cat_(6, "[BIOS]:"),
++				_DD_cat_(7, "[BANDWIDTH_CALCS]:"),
++				_DD_cat_(8, "[DML]:"),
++				_DD_cat_(9, "[IF_TRACE]:"),
++				_DD_cat_(10, "[GAMMA]:"),
++				_DD_cat_(11, "[SMU_MSG]:"));
 +#endif
+ 
++#define DC_LOGGER_INIT(logger)
+ 
+ #define SURFACE_TRACE(...) do {\
+ 		if (dc->debug.surface_trace) \
 -- 
 2.31.1
 
