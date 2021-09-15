@@ -1,65 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 331D340CEC2
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:27:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F8DA40CF14
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:57:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7141D6EA67;
-	Wed, 15 Sep 2021 21:27:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C6C0C6EA6E;
+	Wed, 15 Sep 2021 21:57:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x834.google.com (mail-qt1-x834.google.com
- [IPv6:2607:f8b0:4864:20::834])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C486E6EA67
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:27:54 +0000 (UTC)
-Received: by mail-qt1-x834.google.com with SMTP id c19so3735891qte.7
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:27:54 -0700 (PDT)
+Received: from mail-io1-xd2c.google.com (mail-io1-xd2c.google.com
+ [IPv6:2607:f8b0:4864:20::d2c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1056B6EA6E
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:57:46 +0000 (UTC)
+Received: by mail-io1-xd2c.google.com with SMTP id g9so5412406ioq.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:57:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xdzl68kgUwZsmDH1EOQb6npCsfHZBZag3uzeD/gnyF0=;
- b=dXtqHIzgU5z0jfyNbPBAdO6dyOruzGJqO7SF8KPSfg+bsVT/RjMQd049CA7t89Gysc
- +WgEUpfDGwtgJloX3zzSa1FOvOYu3f8dw7VO6TL5Anyu6ciPSOIYFD2yXSUlolcsRzlv
- 8srN5A8mW91oOQksU6orqNMRDt9SAmZSbXIsA=
+ :cc; bh=TzpBTwqbvFq/TilgQetFLjjI03dWCIPzcsLrYptjiKc=;
+ b=K6TMOauirSkiFMCwCeX2VqFIOB5bE6uQEXKKkqTILVEQ91KLpfHsDFwiS5d9bhVgbZ
+ IXMsjXJ8tPickITCEI9YSB4pK1mF2nWDXBajTRZ9yYTPo08FP5w5PSgK1EJiKI+9MxtD
+ flsuvMHCXjN2ePJgCg7E55UUs+Skjlpgj+9KM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Xdzl68kgUwZsmDH1EOQb6npCsfHZBZag3uzeD/gnyF0=;
- b=Pem0PHk6pZjNuMn7f7lbDNAb66Z4KeE22ewTkzvJdI3sq9XNki9xU7DIso8FPwPGMo
- GkPrQwGgSKhDVph3RqkGk1UbcDKlJYnwaPz7YeQIMqj9Pe6OMMH9q2ZoKQxct5iFriXQ
- f0s+EgRNnGAUOTnHfBiThV7E7X22IyqRMG4h25IBfpHxJYUAPW43pj05P5XlUxelL6xT
- bBBpqsO+lBnPgczxPDLVZGbP2fFvfy/Vm/pq7Zthq7pIVUO1KmGtjPqNtP1J8QIN2rNv
- dvTT81sAOitwC/osmhsmrRJ1JXvt4bAicADGN8p0yk4ESJRbME02YTX4i5oDvbrAaget
- Wlew==
-X-Gm-Message-State: AOAM533qf1xRD/FdhBZeTMr0d+7WT+8x0m9q68b/hDB15o4WVzozth39
- NQELwr2UZkIr3nD4tR5IUKM+/ie9wjWYNg==
-X-Google-Smtp-Source: ABdhPJy6hNITW/TvkgrxB1zpGpluVkj2Zhi5z4JzC1aUvNZCBxeiKm3Ll0cLlE29wEOWX3FED6SuIw==
-X-Received: by 2002:ac8:5247:: with SMTP id y7mr1953050qtn.289.1631741273381; 
- Wed, 15 Sep 2021 14:27:53 -0700 (PDT)
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com.
- [209.85.219.170])
- by smtp.gmail.com with ESMTPSA id h70sm949518qke.54.2021.09.15.14.27.52
+ bh=TzpBTwqbvFq/TilgQetFLjjI03dWCIPzcsLrYptjiKc=;
+ b=PR2TVR1aT3/uydrc1AHDwEnO151KriMVRONx1BmBiqk+UNgkcXsr8CluDPQOakSCif
+ AngqJdSHbmE2oyL9Z09Jb/pdpjgWfTIvSRGF4gOS8+MMYXzXvRDw04G0R8QS2IZZAYsf
+ fQETA6ZILlo+8VVIjL1tD8c2lj2KylDrrtZscRQY4bF9FSVMneluALKsME3xQIeEawPi
+ C1uXUqajwR6maBw/039GylpVmppf0/UGPnTEJ9icyluH+BmKWVZQUIsgV+QRmu9UWvsw
+ 0ToYwj6gTLru9gP9ip9hHz5w+EHXPKlzQoqm847whvY4dnMkfBic4qLEGHgDlVk0K1aR
+ u5fA==
+X-Gm-Message-State: AOAM531McfiB2NUopnXQ3asy3lVDwf7hnpuw6mYEB2NfrIS5whiVK1+j
+ PGyPeSxYzypJCoHk6W0z8u93sqxzI78MvQ==
+X-Google-Smtp-Source: ABdhPJwhW0EnfuXfrNNt5JlPUk2lv0Z5g8k457DifbHHvNf/vvLA1HnLa2cYDYroQCsHOwK0zkF5eA==
+X-Received: by 2002:a05:6638:1613:: with SMTP id
+ x19mr1772020jas.77.1631743065008; 
+ Wed, 15 Sep 2021 14:57:45 -0700 (PDT)
+Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
+ [209.85.166.46])
+ by smtp.gmail.com with ESMTPSA id h9sm560152ioz.30.2021.09.15.14.57.43
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 14:27:53 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id s16so8792052ybe.0
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:27:52 -0700 (PDT)
-X-Received: by 2002:a25:bb93:: with SMTP id y19mr2716698ybg.266.1631741272077; 
- Wed, 15 Sep 2021 14:27:52 -0700 (PDT)
+ Wed, 15 Sep 2021 14:57:43 -0700 (PDT)
+Received: by mail-io1-f46.google.com with SMTP id a15so5447393iot.2
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:57:43 -0700 (PDT)
+X-Received: by 2002:a02:6d59:: with SMTP id e25mr1826747jaf.68.1631743062700; 
+ Wed, 15 Sep 2021 14:57:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
- <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
- <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
-In-Reply-To: <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
+References: <20210913143255.RFC.v2.1.I8ad7a535bb18a1f41f3858f83379beedb397a9db@changeid>
+ <20210913143255.RFC.v2.2.I2f55fee564b0008908d8a25a8825117119c80c4a@changeid>
+ <CAD=FV=UGicZhuZHmc8asQU6kGgGGg+nZDqKPJ5QOc5tH3eBf9Q@mail.gmail.com>
+ <CA+cxXhnqOjRah_K5OoTE1SN8u5WK0WkLkZwsaTiFoBVijaVw_Q@mail.gmail.com>
+In-Reply-To: <CA+cxXhnqOjRah_K5OoTE1SN8u5WK0WkLkZwsaTiFoBVijaVw_Q@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Wed, 15 Sep 2021 14:27:40 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WtC3AQr44idgzVe9RCjb9i=+ekJ_wKKnKMcHRSQX7dfQ@mail.gmail.com>
-Message-ID: <CAD=FV=WtC3AQr44idgzVe9RCjb9i=+ekJ_wKKnKMcHRSQX7dfQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
+Date: Wed, 15 Sep 2021 14:57:30 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VH767enDNFO01+Y9Y3QEyAqSzCLzCd=cTuGGYziK5icA@mail.gmail.com>
+Message-ID: <CAD=FV=VH767enDNFO01+Y9Y3QEyAqSzCLzCd=cTuGGYziK5icA@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] drm/bridge: parade-ps8640: Add support for AUX
  channel
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Philip Chen <philipchen@chromium.org>,
+To: Philip Chen <philipchen@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
  Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
  David Airlie <airlied@linux.ie>, 
  Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
@@ -84,100 +86,52 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Tue, Sep 14, 2021 at 5:57 PM Stephen Boyd <swboyd@chromium.org> wrote:
+On Tue, Sep 14, 2021 at 5:28 PM Philip Chen <philipchen@chromium.org> wrote:
 >
-> Quoting Philip Chen (2021-09-14 16:28:45)
-> > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > index 8d3e7a147170..dc349d729f5a 100644
-> > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> > @@ -117,6 +144,129 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
-> [...]
-> > +       case DP_AUX_I2C_WRITE:
-> > +       case DP_AUX_I2C_READ:
-> > +               break;
-> > +       default:
-> > +               return -EINVAL;
-> > +       }
-> > +
-> > +       ret = regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
-> > +       if (ret) {
-> > +               dev_err(dev, "failed to write PAGE0_AUXCH_CFG3: %d\n", ret);
->
-> Can we use DRM_DEV_ERROR()?
+> > > Changes in v2:
+> > > - Handle the case where an AUX transaction has no payload
+> > > - Add a reg polling for p0.0x83 to confirm AUX cmd is issued and
+> > >   read data is returned
+> > > - Replace regmap_noinc_read/write with looped regmap_read/write,
+> > >   as regmap_noinc_read/write doesn't read one byte at a time unless
+> > >   max_raw_read/write is set to 1.
+> >
+> > What about if you set val_bytes? I think you just need to set that to
+> > "1" and it'll work?
+> I think val_bytes is already set to 1 as we set val_bits to 8. See:
+> map->format.val_bytes = DIV_ROUND_UP(config->val_bits, 8);
 
-I've never gotten clear guidance here. For instance, in some other
-review I suggested using the DRM wrapper and got told "no" [1]. ;-)
-The driver landed without the DRM_ERROR versions. I don't really care
-lots so it's fine with me to use use DRM_DEV_ERROR, I just wish I
-understood the rules...
+To me that feels like a bug in the regmap API, then. I can't see how
+it would make any sense for this function not to take val_bytes into
+account...
 
-[1] https://lore.kernel.org/all/49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de/
+I wonder if other users are somehow getting lucky today. Maybe users
+that are using this for MMIO get lucky because max_raw_read is set
+properly. ...and maybe other i2c users get lucky because some
+peripherals are OK w/ this bug? AKA, maybe this actually works in most
+cases for FIFOs:
 
+write address of bridge chip on i2c bus
+write R/W bit on i2c bus
+write FIFO register address on i2c bus
+read byte
+read byte
+read byte
+...
+read byte
+read byte
+end transaction
 
-> > +               return ret;
-> > +       }
-> > +
-> > +       /* Assume it's good */
-> > +       msg->reply = 0;
-> > +
-> > +       addr_len[0] = msg->address & 0xff;
-> > +       addr_len[1] = (msg->address >> 8) & 0xff;
-> > +       addr_len[2] = ((msg->request << 4) & SWAUX_CMD_MASK) |
-> > +               ((msg->address >> 16) & SWAUX_ADDR_19_16_MASK);
->
-> It really feels like this out to be possible with some sort of
-> cpu_to_le32() API. We're shoving msg->address into 3 bytes and then
-> adding in the request and some length. So we could do something like:
->
->         u32 addr_len;
->
->         addr_len = FIELD_PREP(SWAUX_ADDR_MASK, msg->address);
->         addr_len |= FIELD_PREP(SWAUX_CMD_MASK, msg->request);
->         if (len)
->                 addr_len |= FIELD_PREP(LEN_MASK, len - 1);
->         else
->                 addr_len |= FIELD_PREP(LEN_MASK, SWAUX_NO_PAYLOAD );
->
->         cpu_to_le32s(&addr_len);
->
->         regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, &addr_len, sizeof(addr_len));
-
-You're arguing that your version of the code is more efficient? Easier
-to understand? Something else? To me, Philip's initial version is
-crystal clear and easy to map to the bridge datasheet but I need to
-think more to confirm that your version is right. Thinking is hard and
-I like to avoid it when possible.
-
-In any case, it's definitely bikeshedding and I'll yield if everyone
-likes the other version better. ;-)
+Normally for i2c you assume that the other side will read from
+subsequent register addresses for each "read byte", but I suppose it's
+possible that some i2c devices are setup to realize that if the
+register address was the address of a FIFO that it shouldn't read from
+the next register address but should just read the next byte in the
+FIFO?
 
 
-> > +               return ret;
-> > +       }
-> > +
-> > +       switch (data & SWAUX_STATUS_MASK) {
-> > +       /* Ignore the DEFER cases as they are already handled in hardware */
-> > +       case SWAUX_STATUS_NACK:
-> > +       case SWAUX_STATUS_I2C_NACK:
-> > +               /*
-> > +                * The programming guide is not clear about whether a I2C NACK
-> > +                * would trigger SWAUX_STATUS_NACK or SWAUX_STATUS_I2C_NACK. So
-> > +                * we handle both cases together.
-> > +                */
-> > +               if (is_native_aux)
-> > +                       msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
-> > +               else
-> > +                       msg->reply |= DP_AUX_I2C_REPLY_NACK;
-> > +
-> > +               len = data & SWAUX_M_MASK;
-> > +               return len;
->
-> Why no 'return data & SWAUX_M_MASK;' and skip the assignment?
-
-Actually, I think it's the "return" that's a bug, isn't it? If we're
-doing a "read" and we're returning a positive number of bytes then we
-need to actually _read_ them. Reading happens below, doesn't it?
+In any case, it's fine to do it with a loop like you're doing but it
+still seems weird that you'd need to.
 
 
 -Doug
