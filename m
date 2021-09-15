@@ -2,37 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F93E40C229
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 10:57:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA65440C2E1
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 11:39:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 128296E8EB;
-	Wed, 15 Sep 2021 08:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C9FB66E8EE;
+	Wed, 15 Sep 2021 09:39:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 821666E8EB
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 08:57:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=3FPgUcEP/4l20/MeFbecSZBXGYRkb+JiuiXdE3qdmyk=; 
- b=HLaZHY1k8NEmUpJBVPHSd6khaeDE83f2vRNiNbWB1vwQS28xXZn0InGzt/M0DrnYv/CGaHI0esE8+Z5OeCcy4PwoyNYPZcj0hD86ASO9Hm1/PKnLBq5Rk1+ryjI2p6Lzq3EdBf2sO9EuHvgK4RnlZqh/xAG6rKAajxmXQ5YBAwg15Ksm+5API4S89JsGK7gu92BlRq3nnGpOCYZQBjJlUmRzod2eWmlRqKCPGpo8SNgTuXUypRp7BDrtuFIjGKZzHy8wc4KKOhY6FO2JEFwUcP7tN6tQUlgzJWSgTRk5UgwTeKKqhFsg9lXfgs6iL7aNqJZ2Xic7Q4DWFIYMjjHVNA==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mQQje-0004A4-M9; Wed, 15 Sep 2021 10:57:42 +0200
-Date: Wed, 15 Sep 2021 09:57:07 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Iago Toral Quiroga <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/v3d: fix wait for TMU write combiner flush
-Message-ID: <20210915085707.7ph5sx4nnetb2mbn@mail.igalia.com>
-References: <20210914055549.4340-1-itoral@igalia.com>
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com
+ [IPv6:2607:f8b0:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCA316E8EE;
+ Wed, 15 Sep 2021 09:39:31 +0000 (UTC)
+Received: by mail-pf1-x433.google.com with SMTP id e16so2176505pfc.6;
+ Wed, 15 Sep 2021 02:39:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:subject:to:cc:message-id:date:user-agent:mime-version
+ :content-transfer-encoding:content-language;
+ bh=9DwEurpv8pV9WAKblxk8PQ6MlsJLKqkLsk2uIwjdOs8=;
+ b=CHYtUWpojKuDZDp8++kUB6sBOmGkVp2FVI419Trr5GXtgFzVzUVDD+wZ339WENrz8n
+ LzaoQW5ksPbkLJC57SCoeeombrDIjB05zvwUeYFBhf86tHsq+kpPxZjubz3XaRw++fAl
+ OYw/wlU/FwEWtvGkrcHgyFb4U98CqPZNAPRZkbgScMMtXZQlg/cgcXREcnWskkH98n8i
+ bdOBFAwLupdlx4R+W5KqPTAH4bOdCKCQoJhvScfHvKs1JkO7sfHpJfdSZii+yLoHz2j9
+ ++COGMH++Ee04AmkKCF+dov94QQVsYm4Cw4ofpRlliJ/IKPSeJcj15g680EclieKGCgq
+ U8WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+ :mime-version:content-transfer-encoding:content-language;
+ bh=9DwEurpv8pV9WAKblxk8PQ6MlsJLKqkLsk2uIwjdOs8=;
+ b=fNNTLLdsuqL5S+nxYqv5fsU1u3R7ZDld+bpkTjurKgPIcFpdRIDPNIapvYsIcaqanz
+ m8ExqZLt5s1Qrovag0eQ66+hBlvSQsNbJDutZVRBnXDCEHm/61DX0JQtnBB9+Dug9Bk0
+ u2TO6DVW9RhMNQe9Vf50Dt9dT4Zfpiy+YEZCTY3UoQoOqLe4m3r9nZo6y7x+NFHBOVjS
+ u6zPHrZeX3EvqmHAi1Sv/5NAOq3NK1EaXK50+mvUqpwjoptpsnIHbS5XYPSfkdA7t75w
+ EVvXpLw9lRPj3VgJqWYnhcil+c82XTer4rlx7pEloJWxnpgE5iQ6ekd22rvCq0NaoTCh
+ hp9Q==
+X-Gm-Message-State: AOAM533jGnTt0+wYCOsyBo7xr73EBHEd6w87o2Um40xB6n45ftQOSqsN
+ bMmTR1z/ttkIwXALd9a3Z4g=
+X-Google-Smtp-Source: ABdhPJz79Ykf/6lng9i3x2nmL9Wuw9ciMpAMALdLeYK2rnjmpUMc21B1gNwkYS30l6z927RkIZSdhw==
+X-Received: by 2002:a62:e902:0:b0:414:aaf2:2b4 with SMTP id
+ j2-20020a62e902000000b00414aaf202b4mr9587556pfh.10.1631698771533; 
+ Wed, 15 Sep 2021 02:39:31 -0700 (PDT)
+Received: from [166.111.139.129] ([166.111.139.129])
+ by smtp.gmail.com with ESMTPSA id w5sm14342387pgp.79.2021.09.15.02.39.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 02:39:31 -0700 (PDT)
+From: Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [BUG] gpu: drm: amd: amdgpu: possible ABBA deadlock in
+ amdgpu_set_power_dpm_force_performance_level() and
+ amdgpu_debugfs_process_reg_op()
+To: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, Hawking.Zhang@amd.com,
+ Felix.Kuehling@amd.com, ray.huang@amd.com, lee.jones@linaro.org
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Message-ID: <2dc31435-ba62-b6a4-76dc-cfe9747f4cfb@gmail.com>
+Date: Wed, 15 Sep 2021 17:39:28 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="xuofpj6nig6uj3yk"
-Content-Disposition: inline
-In-Reply-To: <20210914055549.4340-1-itoral@igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,75 +78,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---xuofpj6nig6uj3yk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+My static analysis tool reports a possible ABBA deadlock in the amdgpu 
+driver in Linux 5.10:
 
-On 09/14, Iago Toral Quiroga wrote:
-> The hardware sets the TMUWCF bit back to 0 when the TMU write
-> combiner flush completes so we should be checking for that instead
-> of the L2TFLS bit.
->=20
-> Fixes spurious Vulkan CTS failures in:
-> dEQP-VK.binding_model.descriptorset_random.*
-Hi Iago,
+amdgpu_debugfs_process_reg_op()
+   mutex_lock(&adev->grbm_idx_mutex); --> Line 250 (Lock A)
+   mutex_lock(&adev->pm.mutex); --> Line 259 (Lock B)
 
-makes sense to me.
+amdgpu_set_power_dpm_force_performance_level()
+   mutex_lock(&adev->pm.mutex); --> Line 381 (Lock B)
+     pp_dpm_force_performance_level() --> function pointer via 
+"amdgpu_dpm_force_performance_level()"
+       pp_dpm_en_umd_pstate()
+         amdgpu_device_ip_set_clockgating_state()
+           gfx_v7_0_set_clockgating_state() --> function pointer via 
+"funcs->set_clockgating_state()"
+             gfx_v7_0_enable_mgcg()
+               mutex_lock(&adev->grbm_idx_mutex); --> Line 3646 (Lock A)
+               mutex_lock(&adev->grbm_idx_mutex); --> Line 3697 (Lock A)
 
-can you add the fix tag?
-Fixes: d223f98f02099 ("drm/v3d: Add support for compute shader dispatch")=
-=20
+When amdgpu_debugfs_process_reg_op() and 
+amdgpu_set_power_dpm_force_performance_level() are concurrently 
+executed, the deadlock can occur.
 
-also, you forgot to add your Signed-off-by tag.
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index a3529809d547..5159f544bc16 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -197,7 +197,7 @@ v3d_clean_caches(struct v3d_dev *v3d)
-> =20
->  	V3D_CORE_WRITE(core, V3D_CTL_L2TCACTL, V3D_L2TCACTL_TMUWCF);
->  	if (wait_for(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
-> -		       V3D_L2TCACTL_L2TFLS), 100)) {
-> +		       V3D_L2TCACTL_TMUWCF), 100)) {
->  		DRM_ERROR("Timeout waiting for L1T write combiner flush\n");
-hm.. would it be clearer to say "TMU write combiner" here?
+I am not quite sure whether this possible deadlock is real and how to 
+fix it if it is real.
+Any feedback would be appreciated, thanks :)
 
-in the next version, you can already include:
-Reviewed-by: Melissa Wen <mwen@igalia.com>
+Reported-by: TOTE Robot <oslab@tsinghua.edu.cn>
 
-Thanks,
 
-Melissa
->  	}
-> =20
-> --=20
-> 2.25.1
->=20
-
---xuofpj6nig6uj3yk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFBtV4ACgkQwqF3j0dL
-ehzlww/9HefTR/Jf0sBaLElhwT4enavgFiwGzq8eoqRAhtzI3Ek19stMuhT/mu55
-fdYt29UACp2fL/3C41SEgTqvnIOilRYem6Xm4nujxiON0CkUI6FrzDWVrZ2PqhhP
-UFjm1TqHQf9I1SvGLKzw2m9GFNwIHOgtPUo/TniBMAc7NN4u+sde1dvkA2FKWhai
-dvK5WRCwWk9UegRE9ECsvtJzv4S9gm6noWJY/9JpCT9H3tNKAG7SHq+SjOaiAC5a
-vAl0+SQR+LNzbIWXO4MAwtewydeU4kn4C+DaVp48sMWICfGFq+oMVwqYJfFaBuN+
-GC8yyn3h8Ek2DPIS6cqqcN7pXhPu74yioKXOKPEzK8JW5L/M1iIQ1iFiZpi2+4bS
-8A2gpKnOHXJcG14nAWfLpmkQg13I1W+A762l5DIwnNbihqTlvYIWzudiefxta2G5
-dAh2UlDcso6iq53FHk8jKJRyKOQY4an6g9zzHwTqroHdq2kFHeQR/L/sKt3fiWGE
-e3zyn38fmfhjB3rFlKlywPyvuUofBuQohSuTLmFfOWgbo7MBodpoRevmxcTwL/tM
-EhLwEY/GFlUXw2G5ANPVKJ876LinAepiYafWIrbfiCI5pdKU2JeXaqb3kGlf+mjX
-tInAvjq5hdrPCdFZxNFqj3JcVfvDCF8LHVbzUHajegIFjCB7Ii4=
-=q7VP
------END PGP SIGNATURE-----
-
---xuofpj6nig6uj3yk--
+Best wishes,
+Jia-Ju Bai
