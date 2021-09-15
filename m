@@ -1,62 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA9040CC05
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 19:54:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB99540CC19
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 19:58:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D581D6E9CA;
-	Wed, 15 Sep 2021 17:54:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0DDE6E9CD;
+	Wed, 15 Sep 2021 17:58:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9301F6E9CA
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 17:54:46 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u15so5208958wru.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 10:54:46 -0700 (PDT)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39E1F6E9CD
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 17:58:42 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id n10so6519468eda.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 10:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=0nM+Ut8/xj3dbQ99zPBxyvR9R2SDTaP5d+cRnZK/aqE=;
- b=JuK6+X5E0UstYx4PeCHWkaMLiIRmagVgiq5a+jSaGqoYnCfowsfIL2P8C/Q+hEq/2C
- sHA3Zcl27hJ5GBOF2d3UVX4HN9m5pes62w2IS6DgE+wgV4KBeBn5C5e5yeuknx71m5sR
- 6JYA/upKsFgovzSZqPoweiCuTPMH7sT3DvQYC0xrwu9mRiBm3xOp0bf9fn0iU1nD+80F
- i9LcD7W0bP1kLli6SF+XXk+dZpDry7x1aI78cwr+WAjciqNK5/twKWhDKeVJ2THFeIIh
- e3MFxwWl5rOQ8pk8Fk0na7OQXkZIVWdQa3BYWE2WNKoWVoZmdzw6OtTwjcwhM4QPVnTg
- Iamg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
+ b=pI6ibrBUGZ/y3BQiGt9xj8Sn6cIX8dKbwDaBSAkBdO8IEMU4t2EKuzO7KivRBLg5Fv
+ dlHaFEmQDUcMqlITguLRyZgVhmibbESbnSvex4JJFwy9a4ZOYB/zMK6bBy6RJqIaWdZp
+ LYVQTCpZfDh0CWc1tpKogFHUavq1s2T6Qad0iebdgjDzNS3DLsIyKWuPMKnX4sEzpz9+
+ Cf9Ac5F4iKiyZXlRQygLsWnOdtMD9wAeLFNJ1tT8ELWnBWkjhP5DW2emd0VahOgO2Yp2
+ yOgDkf6SXuKceqrTnzNoaisOwH7mrUd7v4d1CKQIsDF4lrj8Wb5FH6X7hn7ccR7oo5UA
+ 8s+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0nM+Ut8/xj3dbQ99zPBxyvR9R2SDTaP5d+cRnZK/aqE=;
- b=XmY4yHevvAe3I4Iy7Ln+fs7dHLr8cTBh7U7fpYM79BnHvLlEvKw6bmDnGgvy4bIGhs
- UPdhRZoJI/QJdk/x+dAco+U+NIQrllf0bFrlO0Kab5sk+XvXceGBlkeKGomEUwTEPuwl
- jYEqPu7591roIzUrcD458rnCkloiIHp6cnzWxo1Sml+F0OBgZzpLvCRgVZIZiJJVw0iO
- CaKN8TqIrkJqUevMSpwVR3oG2Kst2vp8hotFJNWL7HvtZsoCUV48y1T2LOS2wFuEO3yD
- XC8R6a86PUO5fIx0uMpDkUlONr5JfVrwGR2wU3fg3qDEfY+lHkmvytHdA22hg1YYLtV1
- RA7Q==
-X-Gm-Message-State: AOAM530fDvc0I0nE0GuiyHoCdH2mBUH7EbLHCp2Kc7cOvegZ4g7UXvOD
- t+/yWEztVL1FxjBQi7Vp/oVqfk2FbhI+nw==
-X-Google-Smtp-Source: ABdhPJxlT7F6A1KRVA7R7aP3Mb4v0oHN+WF51hua1CS3EupdlzfQztmVWRLupzNgXt7ye/2kHRiZgg==
-X-Received: by 2002:adf:f688:: with SMTP id v8mr1387322wrp.189.1631728485057; 
- Wed, 15 Sep 2021 10:54:45 -0700 (PDT)
-Received: from smtp.gmail.com (a95-92-181-29.cpe.netcabo.pt. [95.92.181.29])
- by smtp.gmail.com with ESMTPSA id s24sm583246wmh.34.2021.09.15.10.54.43
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
+ b=goM1zEHf0/4VaIsbOxHbHSESK+RJdDzheKFCxrorZrTQ5HZlO9nYOcgOLNwNTo+pS6
+ eDA+2AKIP33lR66Hq6ZzGn4bJYyYu83R1BWjYkj+R2caJVeXynHMY7JdjgwaCaLdms9R
+ zyduP4gQLznHYwBGjmKPHgN+Svbsmk+UEvFUmkPBQs+NqS5Vp4TuyYWSxfAWvAn2a/qL
+ Wp9H8X66HsSiC1DB1owzAD7DseAJODpVH3P6kdQ39cfZ10r1MHKb8f/k0a/SB+qKpOrm
+ NEeNLVb7HxQzLucxXH4vZZCnJ2aNpSi4JZkJAsmHMHUxT8m0BXYKPy6MvDruFWSwojc6
+ V67g==
+X-Gm-Message-State: AOAM532DdDTKofjxls2UWiC1vzsPs4F0NXQBmj9HwbLVrhAx4G1wQC6y
+ VPi/pmovFMuqHstjovKLMAk=
+X-Google-Smtp-Source: ABdhPJxdi/JG8c10XwZsrcZvXDgA1bTfn3nW2pCMiwj4CtChcE4eBzyauVxrOJzsOeZsN+TZEssHew==
+X-Received: by 2002:aa7:d2ce:: with SMTP id k14mr1386600edr.396.1631728720668; 
+ Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
+Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net.
+ [86.58.29.253])
+ by smtp.gmail.com with ESMTPSA id b38sm314843edf.46.2021.09.15.10.58.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 10:54:44 -0700 (PDT)
-Date: Wed, 15 Sep 2021 18:54:37 +0100
-From: Melissa Wen <melissa.srw@gmail.com>
-To: Iago Toral Quiroga <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, mwen@igalia.com
-Subject: Re: [PATCH v2] drm/v3d: fix wait for TMU write combiner flush
-Message-ID: <20210915175437.g6mepp3blbbps6gb@smtp.gmail.com>
-References: <20210915085707.7ph5sx4nnetb2mbn@mail.igalia.com>
- <20210915100507.3945-1-itoral@igalia.com>
+ Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
+From: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: mripard@kernel.org,
+	wens@csie.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, saravanak@google.com, megous@megous.com,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
+ Jernej Skrabec <jernej.skrabec@gmail.com>
+Subject: [PATCH v2] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
+Date: Wed, 15 Sep 2021 19:58:36 +0200
+Message-Id: <20210915175836.3158839-1-jernej.skrabec@gmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210915100507.3945-1-itoral@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,47 +74,219 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 09/15, Iago Toral Quiroga wrote:
-> The hardware sets the TMUWCF bit back to 0 when the TMU write
-> combiner flush completes so we should be checking for that instead
-> of the L2TFLS bit.
-> 
-> v2 (Melissa Wen):
->   - Add Signed-off-by and Fixes tags.
->   - Change the error message for the timeout to be more clear.
-> 
-> Fixes spurious Vulkan CTS failures in:
-> dEQP-VK.binding_model.descriptorset_random.*
-> 
-> Fixes: d223f98f02099 ("drm/v3d: Add support for compute shader dispatch")
-> Signed-off-by: Iago Toral Quiroga <itoral@igalia.com>
-> Reviewed-by: Melissa Wen <mwen@igalia.com>
+Recent rework, which made HDMI PHY driver a platform device, inadvertely
+reversed clock setup order. HW is very touchy about it. Proper way is to
+handle controllers resets and clocks first and HDMI PHYs second.
 
-Applied to drm-misc-next.
+Currently, without this fix, first mode set completely fails (nothing on
+HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
 
-Thanks,
+Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
+will assure that code is executed after controllers reset & clocks are
+handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
+them at controllers driver unload.
 
-Melissa
+Tested on A64, H3, H6 and R40.
 
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index a3529809d547..1953706bdaeb 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -197,8 +197,8 @@ v3d_clean_caches(struct v3d_dev *v3d)
->  
->  	V3D_CORE_WRITE(core, V3D_CTL_L2TCACTL, V3D_L2TCACTL_TMUWCF);
->  	if (wait_for(!(V3D_CORE_READ(core, V3D_CTL_L2TCACTL) &
-> -		       V3D_L2TCACTL_L2TFLS), 100)) {
-> -		DRM_ERROR("Timeout waiting for L1T write combiner flush\n");
-> +		       V3D_L2TCACTL_TMUWCF), 100)) {
-> +		DRM_ERROR("Timeout waiting for TMU write combiner flush\n");
->  	}
->  
->  	mutex_lock(&v3d->cache_clean_lock);
-> -- 
-> 2.25.1
-> 
+Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device")
+Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+---
+
+Changes from v1:
+- if sun8i_hdmi_phy_init() fails, go to error hanling instead of returning
+  immediately
+- rename err_deassert_rst_phy -> err_assert_rst_phy
+
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  7 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  4 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 97 ++++++++++++++------------
+ 3 files changed, 61 insertions(+), 47 deletions(-)
+
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+index f75fb157f2ff..016b877051da 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
+@@ -216,11 +216,13 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
+ 		goto err_disable_clk_tmds;
+ 	}
+ 
++	ret = sun8i_hdmi_phy_init(hdmi->phy);
++	if (ret)
++		goto err_disable_clk_tmds;
++
+ 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
+ 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
+ 
+-	sun8i_hdmi_phy_init(hdmi->phy);
+-
+ 	plat_data->mode_valid = hdmi->quirks->mode_valid;
+ 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
+ 	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
+@@ -262,6 +264,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
+ 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
+ 
+ 	dw_hdmi_unbind(hdmi->hdmi);
++	sun8i_hdmi_phy_deinit(hdmi->phy);
+ 	clk_disable_unprepare(hdmi->clk_tmds);
+ 	reset_control_assert(hdmi->rst_ctrl);
+ 	gpiod_set_value(hdmi->ddc_en, 0);
+diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+index 74f6ed0e2570..bffe1b9cd3dc 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
++++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
+@@ -169,6 +169,7 @@ struct sun8i_hdmi_phy {
+ 	struct clk			*clk_phy;
+ 	struct clk			*clk_pll0;
+ 	struct clk			*clk_pll1;
++	struct device			*dev;
+ 	unsigned int			rcal;
+ 	struct regmap			*regs;
+ 	struct reset_control		*rst_phy;
+@@ -205,7 +206,8 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
+ 
+ int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
+ 
+-void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
++int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
++void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy);
+ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+ 			    struct dw_hdmi_plat_data *plat_data);
+ 
+diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+index c9239708d398..b64d93da651d 100644
+--- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
++++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
+@@ -506,9 +506,60 @@ static void sun8i_hdmi_phy_init_h3(struct sun8i_hdmi_phy *phy)
+ 	phy->rcal = (val & SUN8I_HDMI_PHY_ANA_STS_RCAL_MASK) >> 2;
+ }
+ 
+-void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
++int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
+ {
++	int ret;
++
++	ret = reset_control_deassert(phy->rst_phy);
++	if (ret) {
++		dev_err(phy->dev, "Cannot deassert phy reset control: %d\n", ret);
++		return ret;
++	}
++
++	ret = clk_prepare_enable(phy->clk_bus);
++	if (ret) {
++		dev_err(phy->dev, "Cannot enable bus clock: %d\n", ret);
++		goto err_assert_rst_phy;
++	}
++
++	ret = clk_prepare_enable(phy->clk_mod);
++	if (ret) {
++		dev_err(phy->dev, "Cannot enable mod clock: %d\n", ret);
++		goto err_disable_clk_bus;
++	}
++
++	if (phy->variant->has_phy_clk) {
++		ret = sun8i_phy_clk_create(phy, phy->dev,
++					   phy->variant->has_second_pll);
++		if (ret) {
++			dev_err(phy->dev, "Couldn't create the PHY clock\n");
++			goto err_disable_clk_mod;
++		}
++
++		clk_prepare_enable(phy->clk_phy);
++	}
++
+ 	phy->variant->phy_init(phy);
++
++	return 0;
++
++err_disable_clk_mod:
++	clk_disable_unprepare(phy->clk_mod);
++err_disable_clk_bus:
++	clk_disable_unprepare(phy->clk_bus);
++err_assert_rst_phy:
++	reset_control_assert(phy->rst_phy);
++
++	return ret;
++}
++
++void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy)
++{
++	clk_disable_unprepare(phy->clk_mod);
++	clk_disable_unprepare(phy->clk_bus);
++	clk_disable_unprepare(phy->clk_phy);
++
++	reset_control_assert(phy->rst_phy);
+ }
+ 
+ void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
+@@ -638,6 +689,7 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
+ 
+ 	phy->variant = (struct sun8i_hdmi_phy_variant *)match->data;
++	phy->dev = dev;
+ 
+ 	ret = of_address_to_resource(node, 0, &res);
+ 	if (ret) {
+@@ -696,47 +748,10 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
+ 		goto err_put_clk_pll1;
+ 	}
+ 
+-	ret = reset_control_deassert(phy->rst_phy);
+-	if (ret) {
+-		dev_err(dev, "Cannot deassert phy reset control: %d\n", ret);
+-		goto err_put_rst_phy;
+-	}
+-
+-	ret = clk_prepare_enable(phy->clk_bus);
+-	if (ret) {
+-		dev_err(dev, "Cannot enable bus clock: %d\n", ret);
+-		goto err_deassert_rst_phy;
+-	}
+-
+-	ret = clk_prepare_enable(phy->clk_mod);
+-	if (ret) {
+-		dev_err(dev, "Cannot enable mod clock: %d\n", ret);
+-		goto err_disable_clk_bus;
+-	}
+-
+-	if (phy->variant->has_phy_clk) {
+-		ret = sun8i_phy_clk_create(phy, dev,
+-					   phy->variant->has_second_pll);
+-		if (ret) {
+-			dev_err(dev, "Couldn't create the PHY clock\n");
+-			goto err_disable_clk_mod;
+-		}
+-
+-		clk_prepare_enable(phy->clk_phy);
+-	}
+-
+ 	platform_set_drvdata(pdev, phy);
+ 
+ 	return 0;
+ 
+-err_disable_clk_mod:
+-	clk_disable_unprepare(phy->clk_mod);
+-err_disable_clk_bus:
+-	clk_disable_unprepare(phy->clk_bus);
+-err_deassert_rst_phy:
+-	reset_control_assert(phy->rst_phy);
+-err_put_rst_phy:
+-	reset_control_put(phy->rst_phy);
+ err_put_clk_pll1:
+ 	clk_put(phy->clk_pll1);
+ err_put_clk_pll0:
+@@ -753,12 +768,6 @@ static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
+ {
+ 	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
+ 
+-	clk_disable_unprepare(phy->clk_mod);
+-	clk_disable_unprepare(phy->clk_bus);
+-	clk_disable_unprepare(phy->clk_phy);
+-
+-	reset_control_assert(phy->rst_phy);
+-
+ 	reset_control_put(phy->rst_phy);
+ 
+ 	clk_put(phy->clk_pll0);
+-- 
+2.33.0
+
