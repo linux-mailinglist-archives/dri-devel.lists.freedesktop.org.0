@@ -1,48 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F67940CB5C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 19:03:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E693F40CB8B
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 19:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1CF16E987;
-	Wed, 15 Sep 2021 17:03:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5E086E9AC;
+	Wed, 15 Sep 2021 17:18:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6F4086E978;
- Wed, 15 Sep 2021 17:03:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220502962"
-X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="220502962"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 10:03:32 -0700
-X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="508882361"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 10:03:32 -0700
-Date: Wed, 15 Sep 2021 09:58:33 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
-Subject: Re: [Intel-gfx] [PATCH 08/27] drm/i915: Add logical engine mapping
-Message-ID: <20210915165833.GA15792@jons-linux-dev-box>
-References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-9-matthew.brost@intel.com>
- <c599bfef-418f-9a25-9e90-c20117dc4665@linux.intel.com>
- <20210910194955.GA24003@jons-linux-dev-box>
- <d95ee5e5-7118-cd98-49c0-964f22ade45d@linux.intel.com>
- <20210913165029.GA8526@jons-linux-dev-box>
- <68b40289-b8c6-9740-b1a6-f37ea4ffc2f7@linux.intel.com>
- <20210914180436.GA11006@jons-linux-dev-box>
- <04d062aa-1978-ec0d-5905-a9914fd5e2f9@linux.intel.com>
+Received: from pegase2.c-s.fr (pegase2.c-s.fr [93.17.235.10])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D15F06E9AC;
+ Wed, 15 Sep 2021 17:18:39 +0000 (UTC)
+Received: from localhost (mailhub3.si.c-s.fr [172.26.127.67])
+ by localhost (Postfix) with ESMTP id 4H8n4F0x0Hz9sV4;
+ Wed, 15 Sep 2021 19:18:37 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from pegase2.c-s.fr ([172.26.127.65])
+ by localhost (pegase2.c-s.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id PKzNyxImFUbI; Wed, 15 Sep 2021 19:18:37 +0200 (CEST)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+ by pegase2.c-s.fr (Postfix) with ESMTP id 4H8n4D73HWz9sV3;
+ Wed, 15 Sep 2021 19:18:36 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id D8C808B77C;
+ Wed, 15 Sep 2021 19:18:36 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+ by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+ with ESMTP id QXqNkIx7zBCr; Wed, 15 Sep 2021 19:18:36 +0200 (CEST)
+Received: from PO20335.IDSI0.si.c-s.fr (unknown [192.168.204.250])
+ by messagerie.si.c-s.fr (Postfix) with ESMTP id 11BA38B763;
+ Wed, 15 Sep 2021 19:18:34 +0200 (CEST)
+Subject: Re: [PATCH v3 4/8] powerpc/pseries/svm: Add a powerpc version of
+ cc_platform_has()
+To: Borislav Petkov <bp@alien8.de>, Michael Ellerman <mpe@ellerman.id.au>
+Cc: Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org, Paul Mackerras <paulus@samba.org>,
+ linux-s390@vger.kernel.org, Andi Kleen <ak@linux.intel.com>,
+ Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ linux-graphics-maintainer@vmware.com, Tom Lendacky
+ <thomas.lendacky@amd.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+References: <cover.1631141919.git.thomas.lendacky@amd.com>
+ <9d4fc3f8ea7b325aaa1879beab1286876f45d450.1631141919.git.thomas.lendacky@amd.com>
+ <YUCOTIPPsJJpLO/d@zn.tnic> <87lf3yk7g4.fsf@mpe.ellerman.id.au>
+ <YUHGDbtiGrDz5+NS@zn.tnic>
+From: Christophe Leroy <christophe.leroy@csgroup.eu>
+Message-ID: <f8388f18-5e90-5d0f-d681-0b17f8307dd4@csgroup.eu>
+Date: Wed, 15 Sep 2021 19:18:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <04d062aa-1978-ec0d-5905-a9914fd5e2f9@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <YUHGDbtiGrDz5+NS@zn.tnic>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr-FR
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,93 +76,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 15, 2021 at 09:24:15AM +0100, Tvrtko Ursulin wrote:
-> 
-> On 14/09/2021 19:04, Matthew Brost wrote:
-> > On Tue, Sep 14, 2021 at 09:34:08AM +0100, Tvrtko Ursulin wrote:
-> > > 
-> 
-> 8<
-> 
-> > > Today we have:
-> > > 
-> > > for_each intel_engines: // intel_engines is a flat list of all engines
-> > > 	intel_engine_setup()
-> > > 
-> > > You propose to change it to:
-> > > 
-> > > for_each engine_class:
-> > >     for 0..max_global_engine_instance:
-> > >        for_each intel_engines:
-> > >           skip engine not present
-> > >           skip class not matching
-> > > 
-> > >           count logical instance
-> > > 
-> > >     for_each intel_engines:
-> > >        skip engine not present
-> > >        skip wrong class
-> > > 
-> > >        intel_engine_setup()
-> > > 
-> > > 
-> > > I propose:
-> > > 
-> > > // Leave as is:
-> > > 
-> > > for_each intel_engines:
-> > >     intel_engine_setup()
-> > > 
-> > > // Add:
-> > > 
-> > > for_each engine_class:
-> > >     logical = 0
-> > >     for_each gt->engine_class[class]:
-> > >        skip engine not present
-> > > 
-> > >        engine->logical_instance = logical++
-> > > 
-> > > 
-> > > When code which actually needs a preturbed "map" arrives you add that in to
-> > > this second loop.
-> > > 
-> > 
-> > See above, why introduce an algorithm that doesn't work for future parts
-> > + future patches are land imminently? It makes zero sense whatsoever.
-> > With your proposal we would literally land code to just throw it away a
-> > couple of months from now + break patches we intend to land soon. This
-> 
-> It sure works, it just walks the per class list instead of walking the flat
-> list skipping one class at the time.
-> 
-> Just add the map based transformation to the second pass later, when it
-> becomes required.
-> 
 
-I can flatten the algorithm if that helps alleviate your concerns but
-with that being said, I've played around this locally and IMO makes the
-code way more ugly. Sure it eliminates some iterations of the loop but
-who really cares about that in a one time setup function?
 
-> > algorithm works and has no reason whatsoever to be optimal as it a one
-> > time setup call. I really don't understand why we are still talking
-> > about this paint color.
+Le 15/09/2021 à 12:08, Borislav Petkov a écrit :
+> On Wed, Sep 15, 2021 at 10:28:59AM +1000, Michael Ellerman wrote:
+>> I don't love it, a new C file and an out-of-line call to then call back
+>> to a static inline that for most configuration will return false ... but
+>> whatever :)
 > 
-> I don't think bike shedding is not an appropriate term when complaint is how
-> proposed algorithm is needlessly complicated.
->
-
-Are you just ignoring the fact that the algorithm (map) is needed in
-pending patches? IMO it is more complicated to write throw away code
-when the proper algorithm is already written. If the logical mapping was
-straight forward on all platforms as the ones currently upstream I would
-100% agree with your suggestion, but it isn't on unembargoed platforms
-eminently going upstream. The algorithm I have works for the current
-platforms + the pending platforms. IMO is 100% acceptable to merge
-something looking towards a known future.
-
-Matt
-
-> Regards,
+> Yeah, hch thinks it'll cause a big mess otherwise:
 > 
-> Tvrtko
+> https://lore.kernel.org/lkml/YSScWvpXeVXw%2Fed5@infradead.org/
+
+Could you please provide more explicit explanation why inlining such an 
+helper is considered as bad practice and messy ?
+
+Because as demonstrated in my previous response some days ago, taking 
+that outline ends up with an unneccessary ugly generated code and we 
+don't benefit front GCC's capability to fold in and opt out unreachable 
+code.
+
+As pointed by Michael in most cases the function will just return false 
+so behind the performance concern, there is also the code size and code 
+coverage topic that is to be taken into account. And even when the 
+function doesn't return false, the only thing it does folds into a 
+single powerpc instruction so there is really no point in making a 
+dedicated out-of-line fonction for that and suffer the cost and the size 
+of a function call and to justify the addition of a dedicated C file.
+
+
+> 
+> I guess less ifdeffery is nice too.
+
+I can't see your point here. Inlining the function wouldn't add any 
+ifdeffery as far as I can see.
+
+So, would you mind reconsidering your approach and allow architectures 
+to provide inline implementation by just not enforcing a generic 
+prototype ? Or otherwise provide more details and exemple of why the 
+cons are more important versus the pros ?
+
+Thanks
+Christophe
