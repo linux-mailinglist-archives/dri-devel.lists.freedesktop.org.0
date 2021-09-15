@@ -2,63 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB99540CC19
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 19:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D6E240CCC7
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 20:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0DDE6E9CD;
-	Wed, 15 Sep 2021 17:58:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7AE56E9D9;
+	Wed, 15 Sep 2021 18:47:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39E1F6E9CD
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 17:58:42 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id n10so6519468eda.10
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 10:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
- b=pI6ibrBUGZ/y3BQiGt9xj8Sn6cIX8dKbwDaBSAkBdO8IEMU4t2EKuzO7KivRBLg5Fv
- dlHaFEmQDUcMqlITguLRyZgVhmibbESbnSvex4JJFwy9a4ZOYB/zMK6bBy6RJqIaWdZp
- LYVQTCpZfDh0CWc1tpKogFHUavq1s2T6Qad0iebdgjDzNS3DLsIyKWuPMKnX4sEzpz9+
- Cf9Ac5F4iKiyZXlRQygLsWnOdtMD9wAeLFNJ1tT8ELWnBWkjhP5DW2emd0VahOgO2Yp2
- yOgDkf6SXuKceqrTnzNoaisOwH7mrUd7v4d1CKQIsDF4lrj8Wb5FH6X7hn7ccR7oo5UA
- 8s+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=MYK/rcJt6mcsUvGT1TCac6dx4jsTZ6GmnFn7Urn0Nzo=;
- b=goM1zEHf0/4VaIsbOxHbHSESK+RJdDzheKFCxrorZrTQ5HZlO9nYOcgOLNwNTo+pS6
- eDA+2AKIP33lR66Hq6ZzGn4bJYyYu83R1BWjYkj+R2caJVeXynHMY7JdjgwaCaLdms9R
- zyduP4gQLznHYwBGjmKPHgN+Svbsmk+UEvFUmkPBQs+NqS5Vp4TuyYWSxfAWvAn2a/qL
- Wp9H8X66HsSiC1DB1owzAD7DseAJODpVH3P6kdQ39cfZ10r1MHKb8f/k0a/SB+qKpOrm
- NEeNLVb7HxQzLucxXH4vZZCnJ2aNpSi4JZkJAsmHMHUxT8m0BXYKPy6MvDruFWSwojc6
- V67g==
-X-Gm-Message-State: AOAM532DdDTKofjxls2UWiC1vzsPs4F0NXQBmj9HwbLVrhAx4G1wQC6y
- VPi/pmovFMuqHstjovKLMAk=
-X-Google-Smtp-Source: ABdhPJxdi/JG8c10XwZsrcZvXDgA1bTfn3nW2pCMiwj4CtChcE4eBzyauVxrOJzsOeZsN+TZEssHew==
-X-Received: by 2002:aa7:d2ce:: with SMTP id k14mr1386600edr.396.1631728720668; 
- Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
-Received: from kista.localdomain (cpe-86-58-29-253.static.triera.net.
- [86.58.29.253])
- by smtp.gmail.com with ESMTPSA id b38sm314843edf.46.2021.09.15.10.58.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 10:58:40 -0700 (PDT)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: mripard@kernel.org,
-	wens@csie.org
-Cc: airlied@linux.ie, daniel@ffwll.ch, saravanak@google.com, megous@megous.com,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
- Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH v2] drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
-Date: Wed, 15 Sep 2021 19:58:36 +0200
-Message-Id: <20210915175836.3158839-1-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.33.0
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B361C6E9D9;
+ Wed, 15 Sep 2021 18:47:48 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0d0700f7a2811245428a79.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0d:700:f7a2:8112:4542:8a79])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 2DD591EC0257;
+ Wed, 15 Sep 2021 20:47:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1631731663;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=lm6vQs2/Rhr3v+Gkqez9mosqAUPoKD4IW0wHjidPrGY=;
+ b=XN5RscNfsftBTFcuRzGdY1iuAMSDX6NKtwpYReOnfaZk/QSrf/8VqAHOkAjfLPxC1UO6qn
+ 9BHTplTlRlxpF7vtQWQch60eAekg1676yowhlJTxL/nJGxhj8z9rv3ulfK5vkpFuCcwh8v
+ CPa1Q28irpOcNBFG98fwkSAbgq7mLSg=
+Date: Wed, 15 Sep 2021 20:47:37 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Michael Ellerman <mpe@ellerman.id.au>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ linux-efi@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ kvm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org,
+ Paul Mackerras <paulus@samba.org>, linux-s390@vger.kernel.org,
+ Andi Kleen <ak@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+ x86@kernel.org, amd-gfx@lists.freedesktop.org,
+ Christoph Hellwig <hch@infradead.org>,
+ linux-graphics-maintainer@vmware.com,
+ Tom Lendacky <thomas.lendacky@amd.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>, kexec@lists.infradead.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux-foundation.org,
+ linux-fsdevel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 4/8] powerpc/pseries/svm: Add a powerpc version of
+ cc_platform_has()
+Message-ID: <YUI/yaut2f9ZoJBd@zn.tnic>
+References: <cover.1631141919.git.thomas.lendacky@amd.com>
+ <9d4fc3f8ea7b325aaa1879beab1286876f45d450.1631141919.git.thomas.lendacky@amd.com>
+ <YUCOTIPPsJJpLO/d@zn.tnic> <87lf3yk7g4.fsf@mpe.ellerman.id.au>
+ <YUHGDbtiGrDz5+NS@zn.tnic>
+ <f8388f18-5e90-5d0f-d681-0b17f8307dd4@csgroup.eu>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f8388f18-5e90-5d0f-d681-0b17f8307dd4@csgroup.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,219 +71,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Recent rework, which made HDMI PHY driver a platform device, inadvertely
-reversed clock setup order. HW is very touchy about it. Proper way is to
-handle controllers resets and clocks first and HDMI PHYs second.
+On Wed, Sep 15, 2021 at 07:18:34PM +0200, Christophe Leroy wrote:
+> Could you please provide more explicit explanation why inlining such an
+> helper is considered as bad practice and messy ?
 
-Currently, without this fix, first mode set completely fails (nothing on
-HDMI monitor) on H3 era PHYs. On H6, it still somehow work.
+Tom already told you to look at the previous threads. Let's read them
+together. This one, for example:
 
-Move HDMI PHY reset & clocks handling to sun8i_hdmi_phy_init() which
-will assure that code is executed after controllers reset & clocks are
-handled. Additionally, add sun8i_hdmi_phy_deinit() which will deinit
-them at controllers driver unload.
+https://lore.kernel.org/lkml/YSScWvpXeVXw%2Fed5@infradead.org/
 
-Tested on A64, H3, H6 and R40.
+| > To take it out of line, I'm leaning towards the latter, creating a new
+| > file that is built based on the ARCH_HAS_PROTECTED_GUEST setting.
+| 
+| Yes.  In general everytime architectures have to provide the prototype
+| and not just the implementation of something we end up with a giant mess
+| sooner or later.  In a few cases that is still warranted due to
+| performance concerns, but i don't think that is the case here.
 
-Fixes: 9bf3797796f5 ("drm/sun4i: dw-hdmi: Make HDMI PHY into a platform device")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
+So I think what Christoph means here is that you want to have the
+generic prototype defined in a header and arches get to implement it
+exactly to the letter so that there's no mess.
 
-Changes from v1:
-- if sun8i_hdmi_phy_init() fails, go to error hanling instead of returning
-  immediately
-- rename err_deassert_rst_phy -> err_assert_rst_phy
+As to what mess exactly, I'd let him explain that.
 
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c  |  7 +-
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h  |  4 +-
- drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c | 97 ++++++++++++++------------
- 3 files changed, 61 insertions(+), 47 deletions(-)
+> Because as demonstrated in my previous response some days ago, taking that
+> outline ends up with an unneccessary ugly generated code and we don't
+> benefit front GCC's capability to fold in and opt out unreachable code.
 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-index f75fb157f2ff..016b877051da 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c
-@@ -216,11 +216,13 @@ static int sun8i_dw_hdmi_bind(struct device *dev, struct device *master,
- 		goto err_disable_clk_tmds;
- 	}
- 
-+	ret = sun8i_hdmi_phy_init(hdmi->phy);
-+	if (ret)
-+		goto err_disable_clk_tmds;
-+
- 	drm_encoder_helper_add(encoder, &sun8i_dw_hdmi_encoder_helper_funcs);
- 	drm_simple_encoder_init(drm, encoder, DRM_MODE_ENCODER_TMDS);
- 
--	sun8i_hdmi_phy_init(hdmi->phy);
--
- 	plat_data->mode_valid = hdmi->quirks->mode_valid;
- 	plat_data->use_drm_infoframe = hdmi->quirks->use_drm_infoframe;
- 	sun8i_hdmi_phy_set_ops(hdmi->phy, plat_data);
-@@ -262,6 +264,7 @@ static void sun8i_dw_hdmi_unbind(struct device *dev, struct device *master,
- 	struct sun8i_dw_hdmi *hdmi = dev_get_drvdata(dev);
- 
- 	dw_hdmi_unbind(hdmi->hdmi);
-+	sun8i_hdmi_phy_deinit(hdmi->phy);
- 	clk_disable_unprepare(hdmi->clk_tmds);
- 	reset_control_assert(hdmi->rst_ctrl);
- 	gpiod_set_value(hdmi->ddc_en, 0);
-diff --git a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-index 74f6ed0e2570..bffe1b9cd3dc 100644
---- a/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-+++ b/drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h
-@@ -169,6 +169,7 @@ struct sun8i_hdmi_phy {
- 	struct clk			*clk_phy;
- 	struct clk			*clk_pll0;
- 	struct clk			*clk_pll1;
-+	struct device			*dev;
- 	unsigned int			rcal;
- 	struct regmap			*regs;
- 	struct reset_control		*rst_phy;
-@@ -205,7 +206,8 @@ encoder_to_sun8i_dw_hdmi(struct drm_encoder *encoder)
- 
- int sun8i_hdmi_phy_get(struct sun8i_dw_hdmi *hdmi, struct device_node *node);
- 
--void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
-+int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy);
-+void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy);
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
- 			    struct dw_hdmi_plat_data *plat_data);
- 
-diff --git a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-index c9239708d398..b64d93da651d 100644
---- a/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-+++ b/drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c
-@@ -506,9 +506,60 @@ static void sun8i_hdmi_phy_init_h3(struct sun8i_hdmi_phy *phy)
- 	phy->rcal = (val & SUN8I_HDMI_PHY_ANA_STS_RCAL_MASK) >> 2;
- }
- 
--void sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
-+int sun8i_hdmi_phy_init(struct sun8i_hdmi_phy *phy)
- {
-+	int ret;
-+
-+	ret = reset_control_deassert(phy->rst_phy);
-+	if (ret) {
-+		dev_err(phy->dev, "Cannot deassert phy reset control: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(phy->clk_bus);
-+	if (ret) {
-+		dev_err(phy->dev, "Cannot enable bus clock: %d\n", ret);
-+		goto err_assert_rst_phy;
-+	}
-+
-+	ret = clk_prepare_enable(phy->clk_mod);
-+	if (ret) {
-+		dev_err(phy->dev, "Cannot enable mod clock: %d\n", ret);
-+		goto err_disable_clk_bus;
-+	}
-+
-+	if (phy->variant->has_phy_clk) {
-+		ret = sun8i_phy_clk_create(phy, phy->dev,
-+					   phy->variant->has_second_pll);
-+		if (ret) {
-+			dev_err(phy->dev, "Couldn't create the PHY clock\n");
-+			goto err_disable_clk_mod;
-+		}
-+
-+		clk_prepare_enable(phy->clk_phy);
-+	}
-+
- 	phy->variant->phy_init(phy);
-+
-+	return 0;
-+
-+err_disable_clk_mod:
-+	clk_disable_unprepare(phy->clk_mod);
-+err_disable_clk_bus:
-+	clk_disable_unprepare(phy->clk_bus);
-+err_assert_rst_phy:
-+	reset_control_assert(phy->rst_phy);
-+
-+	return ret;
-+}
-+
-+void sun8i_hdmi_phy_deinit(struct sun8i_hdmi_phy *phy)
-+{
-+	clk_disable_unprepare(phy->clk_mod);
-+	clk_disable_unprepare(phy->clk_bus);
-+	clk_disable_unprepare(phy->clk_phy);
-+
-+	reset_control_assert(phy->rst_phy);
- }
- 
- void sun8i_hdmi_phy_set_ops(struct sun8i_hdmi_phy *phy,
-@@ -638,6 +689,7 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- 		return -ENOMEM;
- 
- 	phy->variant = (struct sun8i_hdmi_phy_variant *)match->data;
-+	phy->dev = dev;
- 
- 	ret = of_address_to_resource(node, 0, &res);
- 	if (ret) {
-@@ -696,47 +748,10 @@ static int sun8i_hdmi_phy_probe(struct platform_device *pdev)
- 		goto err_put_clk_pll1;
- 	}
- 
--	ret = reset_control_deassert(phy->rst_phy);
--	if (ret) {
--		dev_err(dev, "Cannot deassert phy reset control: %d\n", ret);
--		goto err_put_rst_phy;
--	}
--
--	ret = clk_prepare_enable(phy->clk_bus);
--	if (ret) {
--		dev_err(dev, "Cannot enable bus clock: %d\n", ret);
--		goto err_deassert_rst_phy;
--	}
--
--	ret = clk_prepare_enable(phy->clk_mod);
--	if (ret) {
--		dev_err(dev, "Cannot enable mod clock: %d\n", ret);
--		goto err_disable_clk_bus;
--	}
--
--	if (phy->variant->has_phy_clk) {
--		ret = sun8i_phy_clk_create(phy, dev,
--					   phy->variant->has_second_pll);
--		if (ret) {
--			dev_err(dev, "Couldn't create the PHY clock\n");
--			goto err_disable_clk_mod;
--		}
--
--		clk_prepare_enable(phy->clk_phy);
--	}
--
- 	platform_set_drvdata(pdev, phy);
- 
- 	return 0;
- 
--err_disable_clk_mod:
--	clk_disable_unprepare(phy->clk_mod);
--err_disable_clk_bus:
--	clk_disable_unprepare(phy->clk_bus);
--err_deassert_rst_phy:
--	reset_control_assert(phy->rst_phy);
--err_put_rst_phy:
--	reset_control_put(phy->rst_phy);
- err_put_clk_pll1:
- 	clk_put(phy->clk_pll1);
- err_put_clk_pll0:
-@@ -753,12 +768,6 @@ static int sun8i_hdmi_phy_remove(struct platform_device *pdev)
- {
- 	struct sun8i_hdmi_phy *phy = platform_get_drvdata(pdev);
- 
--	clk_disable_unprepare(phy->clk_mod);
--	clk_disable_unprepare(phy->clk_bus);
--	clk_disable_unprepare(phy->clk_phy);
--
--	reset_control_assert(phy->rst_phy);
--
- 	reset_control_put(phy->rst_phy);
- 
- 	clk_put(phy->clk_pll0);
+And this is real fast path where a couple of instructions matter or what?
+
+set_memory_encrypted/_decrypted doesn't look like one to me.
+
+> I can't see your point here. Inlining the function wouldn't add any
+> ifdeffery as far as I can see.
+
+If the function is touching defines etc, they all need to be visible.
+If that function needs to call other functions - which is the case on
+x86, perhaps not so much on power - then you need to either ifdef around
+them or provide stubs with ifdeffery in the headers. And you need to
+make them global functions instead of keeping them static to the same
+compilation unit, etc, etc.
+
+With a separate compilation unit, you don't need any of that and it is
+all kept in that single file.
+
 -- 
-2.33.0
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
