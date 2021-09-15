@@ -1,29 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A05040C40B
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 12:59:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE9340C448
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 13:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A1446E908;
-	Wed, 15 Sep 2021 10:59:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E8F276E90C;
+	Wed, 15 Sep 2021 11:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mblankhorst.nl (mblankhorst.nl
- [IPv6:2a02:2308:0:7ec:e79c:4e97:b6c4:f0ae])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D76B36E908;
- Wed, 15 Sep 2021 10:59:51 +0000 (UTC)
-From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Subject: [PATCH] drm/i915: Add mmap lock around vma_lookup() to prevent
- lockdep splats
-Date: Wed, 15 Sep 2021 12:59:46 +0200
-Message-Id: <20210915105946.394412-1-maarten.lankhorst@linux.intel.com>
-X-Mailer: git-send-email 2.33.0
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC8676E90C;
+ Wed, 15 Sep 2021 11:19:54 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id q26so3270792wrc.7;
+ Wed, 15 Sep 2021 04:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=93lsXU/Z3uxd8n34/9P2RUUBOmtBhYmL6uqJmdWmF/o=;
+ b=FQNYqWS4ukF31jcFARjgKDPNO9U9aouBEuBONB/qI4hHlUp1KzR9maed8WVf3OWJO8
+ 85TLH+YTmkH3tw0CfVzOXwI+iOtJF4kOffF0dTr1s/Pjd2670p2Qf4LuQFyIqp8JXQFi
+ XWkenTcCx01zB81GfqOYW4UP/io6X8tVe9sT0ndKSlPfX4HE/EP1HzYCGTYLITN/H6Dc
+ 3jxKXiSzQt+ZEIcz7DzBtRD4eNIU501L864O2eOyBIyFgvTf7mKxgiAtev3bjuTcF/nW
+ kVbw7aRw3wSsT7OzhJhjOZNXXZSmicoz4m/9xxj3L8xv/Mjc5bmoWY876ggpDz0AOyS6
+ utbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=93lsXU/Z3uxd8n34/9P2RUUBOmtBhYmL6uqJmdWmF/o=;
+ b=yF0TbF1WTjek6dvCRnvjRy9NgwCTwI9LFKHmKp/8+9gQ0p0vV9ZHqTtAcK5i3Ek224
+ Jz7EUdFVGrmmjjdI5jz2/cTl4/sgPVk0yPtUQs0c7BPdkVZmjZyc06P4yv01nKQSQuvZ
+ y93uiIty3zrAqmOEnt8/wAUYOVehje3isqf2rYy6a5AIFzT63WLxHvyr8RSivqyqqlcz
+ X4b+U6JTdHGIOW3WnkmWERalqlJtHFDXioHSG3Xbar0uYfyLsZd672EgswpzWgoAcd75
+ dxdI1UVtTXbtYh2oWslNdTxgwGpVU8hRxwlyOqE/EgNL933+23BYNWAUcNwTthylXLT5
+ 9sLA==
+X-Gm-Message-State: AOAM531TljYEelEQbxSEedDIa/jj7jztYE59FSSlBe5/ZDP81p534mvI
+ kja2/ELsSz6qBMy97FogkuH7goQI0xk=
+X-Google-Smtp-Source: ABdhPJzo7z9Zb7dkNgAWCsWWmzcOTtaDbeuyUXJErhg6OxOAjyeFUh0u1y5yexp4OvMxrUy1oSqjJQ==
+X-Received: by 2002:a5d:43d2:: with SMTP id v18mr4451441wrr.98.1631704793321; 
+ Wed, 15 Sep 2021 04:19:53 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:d03d:8939:3840:1f95?
+ ([2a02:908:1252:fb60:d03d:8939:3840:1f95])
+ by smtp.gmail.com with ESMTPSA id l1sm3450397wmq.8.2021.09.15.04.19.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 15 Sep 2021 04:19:52 -0700 (PDT)
+Subject: Re: [Intel-gfx] [PATCH 18/26] drm/i915: use new iterator in
+ i915_gem_object_last_write_engine
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org
+Cc: daniel@ffwll.ch, intel-gfx@lists.freedesktop.org
+References: <20210913131707.45639-1-christian.koenig@amd.com>
+ <20210913131707.45639-19-christian.koenig@amd.com>
+ <46a40614-b448-7f2d-7b6b-0705c4277e2b@linux.intel.com>
+ <6c0217a7-6ac8-0c12-4087-ee55f456f99c@gmail.com>
+ <f9b65430-de19-7c3b-c77f-5a88114037c5@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <be670538-cba3-1362-c79d-910a0bb54b3d@gmail.com>
+Date: Wed, 15 Sep 2021 13:19:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <f9b65430-de19-7c3b-c77f-5a88114037c5@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -39,58 +83,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fixes the following splat:
+Am 14.09.21 um 14:47 schrieb Tvrtko Ursulin:
+>
+> On 14/09/2021 13:32, Christian König wrote:
+>> Am 14.09.21 um 14:27 schrieb Tvrtko Ursulin:
+>>>
+>>> On 13/09/2021 14:16, Christian König wrote:
+>>>> This is maybe even a fix since the RCU usage here looks incorrect.
+>>>
+>>> What you think is incorrect? Pointless extra rcu locking?
+>>
+>> Yeah, exactly that. I also wondered for a second if rcu_read_lock() 
+>> can nest or not. But obviously it either works or lockdep hasn't 
+>> complained yet.
+>>
+>> But I've made a mistake here and at a couple of other places to 
+>> remove to many rcu_read_lock() calls. Thanks for pointing that out, 
+>> going to fix it as well.
+>
+> Ack.
+>
+>>> Also, FWIW, I submitted a patch to remove this function altogether 
+>>> since its IMO pretty useless, just failed in getting anyone to ack 
+>>> it so far.
+>>
+>> I was on the edge of suggesting that as well since it's only debugfs 
+>> usage looked quite pointless to me.
+>>
+>> Feel free to CC me on the patch and you can have my acked-by.
+>
+> Patch is here 
+> https://patchwork.freedesktop.org/patch/451864/?series=94202&rev=1, 
+> thanks!
 
-i915: Running i915_gem_mman_live_selftests/igt_mmap
-------------[ cut here ]------------
-WARNING: CPU: 3 PID: 5654 at include/linux/mmap_lock.h:164 find_vma+0x4e/0xb0
-Modules linked in: i915(+) vgem fuse snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic ledtrig_audio mei_hdcp x86_pkg_temp_thermal coretemp crct10dif_pclmul crc32_pclmul ghash_clmulni_intel snd_intel_dspcfg snd_hda_codec snd_hwdep e1000e snd_hda_core ptp snd_pcm ttm mei_me pps_core i2c_i801 prime_numbers i2c_smbus mei [last unloaded: i915]
-CPU: 3 PID: 5654 Comm: i915_selftest Tainted: G     U            5.15.0-rc1-CI-Trybot_7984+ #1
-Hardware name: Micro-Star International Co., Ltd. MS-7B54/Z370M MORTAR (MS-7B54), BIOS 1.00 10/31/2017
-RIP: 0010:find_vma+0x4e/0xb0
-Code: de 48 89 ef e8 d3 94 fe ff 48 85 c0 74 34 48 83 c4 08 5b 5d c3 48 8d bf 28 01 00 00 be ff ff ff ff e8 d6 46 8b 00 85 c0 75 c8 <0f> 0b 48 8b 85 b8 00 00 00 48 85 c0 75 c6 48 89 ef e8 12 26 87 00
-RSP: 0018:ffffc900013df980 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 00007f9df2b80000 RCX: 0000000000000000
-RDX: 0000000000000001 RSI: ffffffff822e314c RDI: ffffffff8233c83f
-RBP: ffff88811bafc840 R08: ffff888107d0ddb8 R09: 00000000fffffffe
-R10: 0000000000000001 R11: 00000000ffbae7ba R12: 0000000000000000
-R13: 0000000000000000 R14: ffff88812a710000 R15: ffff888114fa42c0
-FS:  00007f9def9d4c00(0000) GS:ffff888266580000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f799627fe50 CR3: 000000011bbc2006 CR4: 00000000003706e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- __igt_mmap+0xe0/0x490 [i915]
- igt_mmap+0xd2/0x160 [i915]
- ? __trace_bprintk+0x6e/0x80
- __i915_subtests.cold.7+0x42/0x92 [i915]
- ? i915_perf_selftests+0x20/0x20 [i915]
- ? __i915_nop_setup+0x10/0x10 [i915]
- __run_selftests.part.3+0x10d/0x172 [i915]
- i915_live_selftests.cold.5+0x1f/0x47 [i915]
- i915_pci_probe+0x93/0x1d0 [i915]
+Feel free to add an Acked-by: Christian König <christian.koenig@amd.com> 
+to that one.
 
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Closes: https://gitlab.freedesktop.org/drm/intel/issues/4129
----
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c | 2 ++
- 1 file changed, 2 insertions(+)
+Regards,
+Christian.
 
-diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-index 02d40eb31a4c..e69e8861352d 100644
---- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
-@@ -907,7 +907,9 @@ static int __igt_mmap(struct drm_i915_private *i915,
- 
- 	pr_debug("igt_mmap(%s, %d) @ %lx\n", obj->mm.region->name, type, addr);
- 
-+	mmap_read_lock(current->mm);
- 	area = vma_lookup(current->mm, addr);
-+	mmap_read_unlock(current->mm);
- 	if (!area) {
- 		pr_err("%s: Did not create a vm_area_struct for the mmap\n",
- 		       obj->mm.region->name);
--- 
-2.33.0
+>
+> Regards,
+>
+> Tvrtko
+>
+>> Thanks,
+>> Christian.
+>>
+>>>
+>>> Regards,
+>>>
+>>> Tvrtko
+>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>   drivers/gpu/drm/i915/gem/i915_gem_object.h | 15 +++++++--------
+>>>>   1 file changed, 7 insertions(+), 8 deletions(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
+>>>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> index e9eecebf5c9d..3343922af4d6 100644
+>>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>>>> @@ -500,16 +500,15 @@ static inline struct intel_engine_cs *
+>>>>   i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>>>   {
+>>>>       struct intel_engine_cs *engine = NULL;
+>>>> +    struct dma_resv_cursor cursor;
+>>>>       struct dma_fence *fence;
+>>>>   -    rcu_read_lock();
+>>>> -    fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>>>> -    rcu_read_unlock();
+>>>> -
+>>>> -    if (fence && dma_fence_is_i915(fence) && 
+>>>> !dma_fence_is_signaled(fence))
+>>>> -        engine = to_request(fence)->engine;
+>>>> -    dma_fence_put(fence);
+>>>> -
+>>>> +    dma_resv_for_each_fence_unlocked(obj->base.resv, &cursor, false,
+>>>> +                     fence) {
+>>>> +        if (fence && dma_fence_is_i915(fence) &&
+>>>> +            !dma_fence_is_signaled(fence))
+>>>> +            engine = to_request(fence)->engine;
+>>>> +    }
+>>>>       return engine;
+>>>>   }
+>>>>
+>>
 
