@@ -1,149 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C828F40CD36
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 21:29:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CE340CD4A
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 21:36:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3270F6E9E3;
-	Wed, 15 Sep 2021 19:29:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDE089907;
+	Wed, 15 Sep 2021 19:36:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D1946E9E3;
- Wed, 15 Sep 2021 19:29:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="222467684"
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="222467684"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 12:29:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="529750558"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga004.fm.intel.com with ESMTP; 15 Sep 2021 12:29:18 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 15 Sep 2021 12:29:17 -0700
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 15 Sep 2021 12:29:17 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Wed, 15 Sep 2021 12:29:17 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Wed, 15 Sep 2021 12:29:17 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BTHeyj6zOAFxYGfi6uT60Feilqyg7S3sqQSXMLko5dQmZjtPxrAzI6D9kwqjrKBHeTnzvDc+al8CkygNNEACVyaMMBO7vQbX9+dcbgNv8GjOcGg46RgYtzyGVO9UrLRLGVbZoJuf9cW/0FY/ePQpVTmZ4TntLAyzKq8g03wR2bbjAoh7KojwQjJqQsUkDaqEzRxxyn0U2p0Ul217XlqnthmzUxdwVgPg7Jfnp6L+6iEvx81OL38JkrLkhH1JAYY2EjO1cAVb0sX+ZXKBXthAL8QVKFatqkURN83juQuF9x6ZkyFiYu75Socve7sMvPK7IK9am6u+w11y8c77rcpiJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=QhUEPJg/KLg8Tm6peWBvo6MQzUnJYa48QjocHb2Xhcg=;
- b=dhTWIzpRXyTuVCV3+tGnmcFhPMNPXezmdhgccXgc8qXbULcwx0J0Yuz4mySgrsD2Jx/wAypiiHAJEDWUnm3whicqLgQjPyqsgShBYLIkhzcGg0JLvylqi5sNJx9j52T2/cY+MlAPvocP7XS7Rr3YNiIBubN7DXZMEKVZe0zOS5viwmz7Wl7OdYojpRFeAsK7ekCA79hFUkfVix0orhoc0dwjJYJvSUiMNACno6g3ilE2asl6pnxKRyY5p1fD9iQf0v+5KFJU763h8PqygyeaR6DN2lonwZSO+OVGasYCuFB+ZLSjvk5IriI/TMa/3voziPpQMWrtuGeReLb+0DvbHA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QhUEPJg/KLg8Tm6peWBvo6MQzUnJYa48QjocHb2Xhcg=;
- b=uZWc6fImYIs1wQCM6YwsUDH05yz9xFM3AsVVG4S/3Ran4PtC+jbO0Z4gsj2UcM3OyBr58QO1nYZ+NqbNRWcdhZ6P2nE7ZHL0tKwNFg8Tcv9ol0FaVN6ML9cPhP/302DnAIsWqBixH5zbV+kt7fxB9GsqB2i2Vs0XUYXCucWUDwI=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5643.namprd11.prod.outlook.com (2603:10b6:510:d5::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4500.17; Wed, 15 Sep
- 2021 19:29:16 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4500.019; Wed, 15 Sep 2021
- 19:29:16 +0000
-Subject: Re: [PATCH] drm/i915/guc/slpc: remove unneeded clflush calls
-To: "Belgaumkar, Vinay" <vinay.belgaumkar@intel.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, <intel-gfx@lists.freedesktop.org>
-CC: <dri-devel@lists.freedesktop.org>, Matthew Brost
- <matthew.brost@intel.com>, Daniele Ceraolo Spurio
- <daniele.ceraolospurio@intel.com>
-References: <20210914195151.560793-1-lucas.demarchi@intel.com>
- <27c071ae-13b8-d71d-d869-e9cbd7431afd@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <b6b996be-b60c-41f1-e531-77c2bcdda920@intel.com>
-Date: Wed, 15 Sep 2021 12:29:12 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
-In-Reply-To: <27c071ae-13b8-d71d-d869-e9cbd7431afd@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-GB
-X-ClientProxiedBy: MWHPR13CA0040.namprd13.prod.outlook.com
- (2603:10b6:300:95::26) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 04B0A898BC;
+ Wed, 15 Sep 2021 19:36:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="202573228"
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="202573228"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 12:36:13 -0700
+X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="545074461"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 12:36:13 -0700
+Date: Wed, 15 Sep 2021 12:31:15 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 12/27] drm/i915/guc: Add multi-lrc context
+ registration
+Message-ID: <20210915193115.GA1933@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-13-matthew.brost@intel.com>
+ <64a5c154-1a00-820e-2b30-d95af73937d7@intel.com>
 MIME-Version: 1.0
-Received: from [192.168.1.221] (73.157.192.58) by
- MWHPR13CA0040.namprd13.prod.outlook.com (2603:10b6:300:95::26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.6 via Frontend Transport; Wed, 15 Sep 2021 19:29:15 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f327f19a-dd7d-4194-c055-08d9787f1b09
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5643:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5643D5BF960E9D454D24F6E6BDDB9@PH0PR11MB5643.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s8OSVKmaXhSq9GIUWBdb6ejQXKOXyCU/RAUXsfsKOfSiuuOHXL+cxL5bR8rKKJ0NGsVkHnZ9b+FHYF/3FYtKhc0QBr7gOqVQYyUlJoys9lVOOzNAYzO/fdhzXKKoD8EqF3bRDXAYW5y4aKrjpjBCGzKut7HYj/iCCiMDquCLltOiD4cq8RE3cKfKp7NRKDZyKwVE17gHsPPgWS7z6ARJp+o2EQAxfVeXoBMVgJ1c9xES+x3zgHt3+eGUTgfTaFOo2nNmKEvuHVLdSbASImjMm7ebAKSAu4bBLxc3/loHVtAKBGSat/5wPy8/SFuChxxV0lTGPb3vWAi0albPql65cQc1nQTFCCR2K6+iOHnsmuig2OfgVX64SaocJhJgM+TVWYPRvXibkcOFQyo8KXSOyMtS+IApThx3LkTcaPIXBVswXrHi0GjZObdK096qo4M1oUX2B9b0YjHbEfA5z/ENX+eYf+pWuDci25YAVwS5u5M/AvKoBajyiz2rwWcvoGOEyNnD0arlxQ/m4gIqK1Mc4Ufh6zDRFaetotYYO1T9JPA6bMrpOb9yvFbW8TUs4/3QH024Z5CUWqt1/LntcdTegpDlK0waGXIIrC5fGXppj4a4mR9dP/NwWhD3YKGEjm+7etmCfamImR/rD+vz2RcynoxkGJ1vi0euB/gVId5wg+3RwtR9qzLA6dlcv2GnQWQTDxd/A5TErfIMZVT1FTfDMPsG1NI3hsERNcaZ063xu1xyvZHgmo7yc/jI9hhmNRwJ
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(346002)(136003)(366004)(396003)(39860400002)(2906002)(31686004)(6666004)(107886003)(6486002)(4326008)(316002)(53546011)(478600001)(8676002)(16576012)(31696002)(2616005)(956004)(110136005)(66556008)(66476007)(83380400001)(8936002)(54906003)(5660300002)(186003)(36756003)(450100002)(86362001)(26005)(66946007)(38100700002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?K3hGNnY3RG1Xb2d2b0c1Mm1ybFhXWnIzUUIyTEJGZWJKU3pIYWlnV05BQmRF?=
- =?utf-8?B?b016WVFDSlJFTWM2UDY1UGprdFhSN0ZFVCtVYmZ6cHUxV1U2TlBsOVBMa3M3?=
- =?utf-8?B?NEIxN253L3lmMlkrVzRDRFBVRDdyaVRTekJXajRNRENHWGwvWkZpSzZrb0Z3?=
- =?utf-8?B?djFoRFNiR1ZITzA5ZDQ0Sk0vSDVaTXpjRDhFaVF4NlpvMUFLYXV3L0M4YVRr?=
- =?utf-8?B?blpLTEhURTJjc1dQM1doSmgxSGFhNkIvZGg4OVkxN1NrT0ZTb1FUbVhPbVll?=
- =?utf-8?B?cWdRc3VmQTlCZk1hQXNFb0RIeXFFYTc4ZVdnUFFxeGtHaXdSTVNWSGVyZFFz?=
- =?utf-8?B?QmJITzJVQndaZTZ5N2dNSXhtelNGYksrVUNXTTVRVDZ3eUlPekl3KzdJbjdZ?=
- =?utf-8?B?cGNCTlFadXdxMDY1WnkzKytDZis5RGxsWGNvODYwTHRxRU4xRWU0TlUxQ1NO?=
- =?utf-8?B?WXBZd3ovcm1kZVF5YWd5eG52TGdoNk5ENm9iN05YbWlhYlRwVjgwS2VpcW5Z?=
- =?utf-8?B?RUY3RytUekZHQ214VmFlamZPZFlwMlRNZ053S1pxL1I0MDUrNVdQU3lIbnVX?=
- =?utf-8?B?Q3ZKMzlvZlk2eFFMZ01Lei83MnRmMkppckZ6Wk10Wk5VdDlHclFsMWVTSGJ2?=
- =?utf-8?B?NHl6amdYVHNnNnV1cEdHVHQzZFJ3Y0NBZVJXNU96S1BWTDZSUzIwWGM4V0Nu?=
- =?utf-8?B?VDVYcTM0QTdPMXFZVGJ1dEVNR3dHVU1sZlpzR0xlWm40WEtVUzlud1ZFaU9H?=
- =?utf-8?B?SXR1UnBneHpQb29ldHVoUUhFWTkxRmlMOS9HVHNUZjJYRzFObkFORmNXbWZ4?=
- =?utf-8?B?RUFyd2dlQVdWRUVzUFF3WXp4alFtZnkwWjF0QS9VbDBPcDdKTEtOaWJ1VVB0?=
- =?utf-8?B?MUlkZEZyaXhuc1lkRkwyeHdUVTQ0TnBHbm1PbVB0Q1U1RlF0NTVIUGtpZ0w4?=
- =?utf-8?B?eE8rTENKdnFLNDZVVVM5ajZNd2xZOWx1NU5Ha0ZXUk00Yy9RM1JSMzdHRGhu?=
- =?utf-8?B?Um9nei9sNy9ZZVduQWo2bEg2aGlCTEVTNmd3S1dwWDFVMGhhWFFYMDk3V0J2?=
- =?utf-8?B?cklrMXIvQVdDYWdTZFZoRnBHYlg4TWdmN2xKVlIrNFM2clBPV25GU1RwSEh6?=
- =?utf-8?B?bkhob2F4QjJuZW5pK21BTlBUMW5yTFVDNFpRSzY2T1Ftd29CT2piREdlckts?=
- =?utf-8?B?ZTk1S2U1QlhZc2VuT3QvajMyelNBdG9wV3NWUmRrQnZEZUpqSkRrTUNYd0Nh?=
- =?utf-8?B?Ynk2enpZL1BDVkxzdUZIM2FtRG81b0o3VndyRXVLRTFLWUtoeGk2MzAzQnFt?=
- =?utf-8?B?VnhsQ08yY1ByeUNvSExOQWY1UEhEdXlMb3BEL25KSmJjNnFmQUo5bmo1Q0Uv?=
- =?utf-8?B?c0ZMNHRsSHJjTWJSWFFEbERCZSs1UThOc0ZtL0tvNlRFZTFaazlxMlFad0o3?=
- =?utf-8?B?aTJDcnR2a2kvVkNGcEtYL2hCamZ2R1hmMmZPNktNOWU2dUtxQndpcUF3SzNl?=
- =?utf-8?B?dEk0a293TVBNSk1pK213WlJTQkx6Vm1BQXJhRDdsNHppQVBFbllob1kxc3VT?=
- =?utf-8?B?ZHBxS1ZjQnJ3QjZvVlRqSDJhQTFiSUJDTHZEVjZtZTJ3amFQZ09SRHdHL0Q2?=
- =?utf-8?B?YndWbitUQzZQMnhKUzJaeFBVc1N5bVM1OGc1Mm84cnNPYkdoMStaYXo2YU9W?=
- =?utf-8?B?UXlmdFVSdWw0cUtJTDF2dHJHMkxwL0MyMldnUGNPOWZjN1gvdTArK1pyQXRz?=
- =?utf-8?Q?ABtKbvf5ShrEgKQMZYYHHcePaPfAO/Iwh8nJYxx?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f327f19a-dd7d-4194-c055-08d9787f1b09
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2021 19:29:16.0773 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6cEeviDq7N1WllYuM0SZ3poV9Ft718ovLkZo8m7XF6Wkfe6Os5IvZBluQos1KrlLmTgCuxaOaicFwwZKbgEjJvwQN7TDDqxxQwO8GHyT0sg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5643
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <64a5c154-1a00-820e-2b30-d95af73937d7@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -159,51 +53,299 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/15/2021 12:24, Belgaumkar, Vinay wrote:
-> On 9/14/2021 12:51 PM, Lucas De Marchi wrote:
->> The clflush calls here aren't doing anything since we are not writting
->> something and flushing the cache lines to be visible to GuC. Here the
->> intention seems to be to make sure whatever GuC has written is visible
->> to the CPU before we read them. However a clflush from the CPU side is
->> the wrong instruction to use.
-Is there a right instruction to use? Either we need to verify that no 
-flush/invalidate is required or we need to add in a replacement that 
-does the correct thing?
+On Wed, Sep 15, 2021 at 12:21:35PM -0700, John Harrison wrote:
+> On 8/20/2021 15:44, Matthew Brost wrote:
+> > Add multi-lrc context registration H2G. In addition a workqueue and
+> > process descriptor are setup during multi-lrc context registration as
+> > these data structures are needed for multi-lrc submission.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context_types.h |  12 ++
+> >   drivers/gpu/drm/i915/gt/intel_lrc.c           |   5 +
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 109 +++++++++++++++++-
+> >   4 files changed, 126 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > index 0fafc178cf2c..6f567ebeb039 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > @@ -232,8 +232,20 @@ struct intel_context {
+> >   		/** @parent: pointer to parent if child */
+> >   		struct intel_context *parent;
+> > +
+> > +		/** @guc_wqi_head: head pointer in work queue */
+> > +		u16 guc_wqi_head;
+> > +		/** @guc_wqi_tail: tail pointer in work queue */
+> > +		u16 guc_wqi_tail;
+> > +
+> These should be in the 'guc_state' sub-struct? Would be good to keep all GuC
+> specific content in one self-contained struct. Especially given the other
+> child/parent fields are no going to be guc_ prefixed any more.
+> 
 
-John.
+Right now I have everything in guc_state protected by guc_state.lock,
+these fields are not protected by this lock. IMO it is better to use a
+different sub-structure for the parallel fields (even if anonymous).
 
->>
->>  From code inspection on the other clflush() calls in i915/gt/uc/ these
->> are the only ones with this behavrior. The others are apparently making
->> sure what we write is visible to GuC.
->>
->> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->> ---
->>   drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c | 3 ---
->>   1 file changed, 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c 
->> b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> index 65a3e7fdb2b2..2e996b77df80 100644
->> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_slpc.c
->> @@ -108,7 +108,6 @@ static u32 slpc_get_state(struct intel_guc_slpc 
->> *slpc)
->>         GEM_BUG_ON(!slpc->vma);
->>   -    drm_clflush_virt_range(slpc->vaddr, sizeof(u32));
->>       data = slpc->vaddr;
->>         return data->header.global_state;
->> @@ -172,8 +171,6 @@ static int slpc_query_task_state(struct 
->> intel_guc_slpc *slpc)
->>           drm_err(&i915->drm, "Failed to query task state (%pe)\n",
->>               ERR_PTR(ret));
->>   -    drm_clflush_virt_range(slpc->vaddr, SLPC_PAGE_SIZE_BYTES);
->> -
+> 
+> >   		/** @guc_number_children: number of children if parent */
+> >   		u8 guc_number_children;
+> > +
+> > +		/**
+> > +		 * @parent_page: page in context used by parent for work queue,
+> Maybe 'page in context record'? Otherwise, exactly what 'context' is meant
+> here? It isn't the 'struct intel_context'. The contetx record is saved as
+> 'ce->state' / 'ce->lrc_reg_state', yes? Is it possible to link to either of
+
+It is the page in ce->state / page minus LRC reg offset in
+ce->lrg_reg_state. Will update the commit to make that clear.
+
+> those field? Probably not given that they don't appear to have any kerneldoc
+> description :(. Maybe add that in too :).
+> 
+> > +		 * work queue descriptor
+> Later on, it is described as 'process descriptor and work queue'. It would
+> be good to be consistent.
 >
-> LGTM.
-> Reviewed-by: Vinay Belgaumkar <vinay.belgaumkar@intel.com>
->
->>       return ret;
->>   }
->>
 
+Yep. Will fix.
+
+> > +		 */
+> > +		u8 parent_page;
+> >   	};
+> >   #ifdef CONFIG_DRM_I915_SELFTEST
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > index bb4af4977920..0ddbad4e062a 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
+> > @@ -861,6 +861,11 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
+> >   		context_size += PAGE_SIZE;
+> >   	}
+> > +	if (intel_context_is_parent(ce)) {
+> > +		ce->parent_page = context_size / PAGE_SIZE;
+> > +		context_size += PAGE_SIZE;
+> > +	}
+> > +
+> >   	obj = i915_gem_object_create_lmem(engine->i915, context_size, 0);
+> >   	if (IS_ERR(obj))
+> >   		obj = i915_gem_object_create_shmem(engine->i915, context_size);
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > index fa4be13c8854..0e600a3b8f1e 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > @@ -52,7 +52,7 @@
+> >   #define GUC_DOORBELL_INVALID		256
+> > -#define GUC_WQ_SIZE			(PAGE_SIZE * 2)
+> > +#define GUC_WQ_SIZE			(PAGE_SIZE / 2)
+> Is this size actually dictated by the GuC API? Or is it just a driver level
+> decision? If the latter, shouldn't this be below instead?
+>
+
+Driver level decision. What exactly do you mean by below?
+ 
+> >   /* Work queue item header definitions */
+> >   #define WQ_STATUS_ACTIVE		1
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 14b24298cdd7..dbcb9ab28a9a 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -340,6 +340,39 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
+> >   	return rb_entry(rb, struct i915_priolist, node);
+> >   }
+> > +/*
+> > + * When using multi-lrc submission an extra page in the context state is
+> > + * reserved for the process descriptor and work queue.
+> > + *
+> > + * The layout of this page is below:
+> > + * 0						guc_process_desc
+> > + * ...						unused
+> > + * PAGE_SIZE / 2				work queue start
+> > + * ...						work queue
+> > + * PAGE_SIZE - 1				work queue end
+> > + */
+> > +#define WQ_OFFSET	(PAGE_SIZE / 2)
+> Can this not be derived from GUC_WQ_SIZE given that the two are
+> fundamentally linked? E.g. '#define WQ_OFFSET (PAGE_SIZE - GUC_WQ_SIZE)'?
+
+Yes. I like 'define WQ_OFFSET (PAGE_SIZE - GUC_WQ_SIZE)'. Will change.
+
+> And maybe have a '#define WQ_TOTAL_SIZE PAGE_SIZE' and use that in all of
+> WQ_OFFSET, GUC_WQ_SIZE and the allocation itself in intel_lrc.c?
+> 
+> Also, the process descriptor is actually an array of descriptors sized by
+> the number of children? Or am I misunderstanding the code below? In so,
+
+No, it is fixed size descriptor.
+
+A later patch in the series uses the space of above the process
+descriptor for insertation of preeemption points handshake. That does
+depend on the number of children. I will add a COMPILE_BUG_ON for that
+to ensure everything fits in the memory layout.
+
+> shouldn't there be a 'COMPILE_BUG_ON((MAX_ENGINE_INSTANCE *
+> sizeof(descriptor)) < (WQ_DESC_SIZE)' where WQ_DESC_SIZE is WQ_TOTAL_SIZE -
+> WQ_SIZE?
+> 
+> > +static u32 __get_process_desc_offset(struct intel_context *ce)
+> > +{
+> > +	GEM_BUG_ON(!ce->parent_page);
+> > +
+> > +	return ce->parent_page * PAGE_SIZE;
+> > +}
+> > +
+> > +static u32 __get_wq_offset(struct intel_context *ce)
+> > +{
+> > +	return __get_process_desc_offset(ce) + WQ_OFFSET;
+> > +}
+> > +
+> > +static struct guc_process_desc *
+> > +__get_process_desc(struct intel_context *ce)
+> > +{
+> > +	return (struct guc_process_desc *)
+> > +		(ce->lrc_reg_state +
+> > +		 ((__get_process_desc_offset(ce) -
+> > +		   LRC_STATE_OFFSET) / sizeof(u32)));
+> Where did the LRC_STATE_OFFSET come from? Is that built in to the
+> lrg_reg_state pointer itself? That needs to be documented somewhere.
+> 
+
+In gt/intel_lrc.c (lrc_pin) ce->lrc_reg_state is assigned to
+mmap(ce->state) + LRC_STATE_OFFSET. I can update the kerneldoc for that
+field in this patch.
+
+> > +}
+> > +
+> >   static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
+> >   {
+> >   	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
+> > @@ -1342,6 +1375,30 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> >   }
+> > +static int __guc_action_register_multi_lrc(struct intel_guc *guc,
+> > +					   struct intel_context *ce,
+> > +					   u32 guc_id,
+> > +					   u32 offset,
+> > +					   bool loop)
+> > +{
+> > +	struct intel_context *child;
+> > +	u32 action[4 + MAX_ENGINE_INSTANCE];
+> > +	int len = 0;
+> > +
+> > +	GEM_BUG_ON(ce->guc_number_children > MAX_ENGINE_INSTANCE);
+> > +
+> > +	action[len++] = INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC;
+> > +	action[len++] = guc_id;
+> > +	action[len++] = ce->guc_number_children + 1;
+> > +	action[len++] = offset;
+> > +	for_each_child(ce, child) {
+> > +		offset += sizeof(struct guc_lrc_desc);
+> > +		action[len++] = offset;
+> > +	}
+> > +
+> > +	return guc_submission_send_busy_loop(guc, action, len, 0, loop);
+> > +}
+> > +
+> >   static int __guc_action_register_context(struct intel_guc *guc,
+> >   					 u32 guc_id,
+> >   					 u32 offset,
+> > @@ -1364,9 +1421,15 @@ static int register_context(struct intel_context *ce, bool loop)
+> >   		ce->guc_id.id * sizeof(struct guc_lrc_desc);
+> >   	int ret;
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> >   	trace_intel_context_register(ce);
+> > -	ret = __guc_action_register_context(guc, ce->guc_id.id, offset, loop);
+> > +	if (intel_context_is_parent(ce))
+> > +		ret = __guc_action_register_multi_lrc(guc, ce, ce->guc_id.id,
+> > +						      offset, loop);
+> > +	else
+> > +		ret = __guc_action_register_context(guc, ce->guc_id.id, offset,
+> > +						    loop);
+> >   	if (likely(!ret)) {
+> >   		unsigned long flags;
+> > @@ -1396,6 +1459,7 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
+> >   {
+> >   	struct intel_guc *guc = ce_to_guc(ce);
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> >   	trace_intel_context_deregister(ce);
+> >   	return __guc_action_deregister_context(guc, guc_id, loop);
+> > @@ -1423,6 +1487,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> >   	struct guc_lrc_desc *desc;
+> >   	bool context_registered;
+> >   	intel_wakeref_t wakeref;
+> > +	struct intel_context *child;
+> >   	int ret = 0;
+> >   	GEM_BUG_ON(!engine->mask);
+> > @@ -1448,6 +1513,42 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> >   	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> >   	guc_context_policy_init(engine, desc);
+> > +	/*
+> > +	 * Context is a parent, we need to register a process descriptor
+> > +	 * describing a work queue and register all child contexts.
+> Technically, this should say 'If the context is a parent'. Or just move it
+> to be inside the if block.
+> 
+
+I will add the "If the".
+
+> > +	 */
+> > +	if (intel_context_is_parent(ce)) {
+> > +		struct guc_process_desc *pdesc;
+> > +
+> > +		ce->guc_wqi_tail = 0;
+> > +		ce->guc_wqi_head = 0;
+> > +
+> > +		desc->process_desc = i915_ggtt_offset(ce->state) +
+> > +			__get_process_desc_offset(ce);
+> > +		desc->wq_addr = i915_ggtt_offset(ce->state) +
+> > +			__get_wq_offset(ce);
+> > +		desc->wq_size = GUC_WQ_SIZE;
+> > +
+> > +		pdesc = __get_process_desc(ce);
+> > +		memset(pdesc, 0, sizeof(*(pdesc)));
+> > +		pdesc->stage_id = ce->guc_id.id;
+> > +		pdesc->wq_base_addr = desc->wq_addr;
+> > +		pdesc->wq_size_bytes = desc->wq_size;
+> > +		pdesc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
+> Should this not be inherited from the ce? And same below. Or are we not
+> using this priority in that way?
+> 
+
+Honestly I don't think this field is used or maybe doesn't even exist
+anymore. I'll check the GuC code and likely delete this or if it is
+still present I'll inherited this from the ce.
+
+Matt
+
+> John.
+> 
+> > +		pdesc->wq_status = WQ_STATUS_ACTIVE;
+> > +
+> > +		for_each_child(ce, child) {
+> > +			desc = __get_lrc_desc(guc, child->guc_id.id);
+> > +
+> > +			desc->engine_class =
+> > +				engine_class_to_guc_class(engine->class);
+> > +			desc->hw_context_desc = child->lrc.lrca;
+> > +			desc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
+> > +			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > +			guc_context_policy_init(engine, desc);
+> > +		}
+> > +	}
+> > +
+> >   	/*
+> >   	 * The context_lookup xarray is used to determine if the hardware
+> >   	 * context is currently registered. There are two cases in which it
+> > @@ -2858,6 +2959,12 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+> >   		return NULL;
+> >   	}
+> > +	if (unlikely(intel_context_is_child(ce))) {
+> > +		drm_err(&guc_to_gt(guc)->i915->drm,
+> > +			"Context is child, desc_idx %u", desc_idx);
+> > +		return NULL;
+> > +	}
+> > +
+> >   	return ce;
+> >   }
+> 
