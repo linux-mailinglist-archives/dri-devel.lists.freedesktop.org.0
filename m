@@ -2,58 +2,145 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9323240C7AD
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 16:46:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3134340C7EC
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 17:12:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C6A546E950;
-	Wed, 15 Sep 2021 14:46:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1772C6E958;
+	Wed, 15 Sep 2021 15:12:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C0FB96E94F
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:46:33 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 4D99760E90
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:46:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631717193;
- bh=2MRmkc5iIHv8dMceSy/08epkls2mE1p6UN35RzKeyIU=;
- h=From:To:Subject:Date:From;
- b=jGkixnQstsomITdiMV+Zj78Fb+HeCtYbEQKOJf7rHw4BQJIRnxJKzc3cC5BGcmQ3g
- vENB5OXCCV5YNsh/5e/U5pTmIK0X4G2N+tzNwZZl+Jdx1FQ3IlRqI8gGp4MHDzZ3yX
- kf5yoX2U1mUqerwd1IlqMwn3K1KpamEMEkzJEv87Gew4YGGhUGV2gRdZrhI9a27zaI
- 8mQ+QtbuSOWjogySExwvg/ut9t0tNzl8akLJjuvLCRWU+h7EBMwfjWMAIJKiQTJUJQ
- HkvO1yHCvsDV5RNzX7BPSxibxHJJYyfBckcfqSOkCxrw2nR0bNxKb8m5x7FACihpfe
- ETBOE3Ss/5nnQ==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 4739761001; Wed, 15 Sep 2021 14:46:33 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214413] New: Kernel oops on boot for amdgpu (in
- si_dpm_set_power_state)
-Date: Wed, 15 Sep 2021 14:46:32 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: mpiazza@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-214413-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A0346E957;
+ Wed, 15 Sep 2021 15:12:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="220471425"
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="220471425"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 08:12:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="553336039"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2021 08:12:07 -0700
+Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 15 Sep 2021 08:12:07 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Wed, 15 Sep 2021 08:12:07 -0700
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.105)
+ by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Wed, 15 Sep 2021 08:12:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gZScfA0+OIWDHxySCHNYFYZ79SUvGIJ0g72+SX8DGaWu20DybcHLaCYJbW08XdEo6b6bcXc5DY6RGDSLnWWWXS73Vz+TvgL38JGFLfVfza8siQhtDrYoRAP/rwsZDCOvoxlXcr5MXOyRFoJPxgcOauHr+zaJCOAc5Ci7nJw9f859ZiQf4+dtDnvKmFA5lTBVOhV0F0CdzV8WIBXIOZBZ6Sho/t6Ps8opQfFMbsav3OxNr/4sl9waEi1MuzENa6rpPP2CnS2/bIkwl4TYJAJTjS/coNRbjo1Qi93dSvuf4hcLjKPEOpzKTeSAngOHHiFnGp+LQb3sfmRejPCqFk2Ztw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=8Enwp+qbA60EBccow9XAlIHQojXaPLtLpFbCFqsnB/s=;
+ b=kYgag1EjODTfFG4fuQE5TqP94Na9Zwrpb1UgsuDuWQncKLOEgBBuCPChzGYXs0v87Au50qfxWLlLfNF/DGludk4diWL3fGcf6uXA14xbkoceQ7pSftnVm9QenvTU4PsAtkXupTl/0ie+ZuK0Flvxr9n0Mac5y/6fA8BbSN9RirpG0u5g+QDBCZtyC3ZCOitGjpfikYpK9rG4aTw7YwKgyaH/kyLHewaN9mripgmQu0VdZsNgaOQcp8MtOI/rhKORwmJlW9MNrbxRplW/wZf7P3IAK4jtVmDkX0cF+v4Q+GS1P6INY/DEhNiTSJvb6mgCMAe7WAGlIggADmvjcEvG8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8Enwp+qbA60EBccow9XAlIHQojXaPLtLpFbCFqsnB/s=;
+ b=OU7IhOwvqA9tg6f/m3amzlocCddyLGqx/bzGMKTT7jwbSe4Qd3X9rmcy+BCGEMyI686+9Rhy0PkIW1B7so35QnqYRrVuWV0QzODzRZUqfSbDN1xtUkOx8rcecPuDGFBDKov0NDZXE1E5gypZGmuLlHezfIbUGafIC8/ka6sh07A=
+Authentication-Results: chris-wilson.co.uk; dkim=none (message not signed)
+ header.d=none;chris-wilson.co.uk; dmarc=none action=none
+ header.from=intel.com;
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com (2603:10b6:5:39d::5) by
+ DM6PR11MB2890.namprd11.prod.outlook.com (2603:10b6:5:63::20) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14; Wed, 15 Sep 2021 15:12:00 +0000
+Received: from DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::450:6ab1:b0a:a165]) by DM4PR11MB5488.namprd11.prod.outlook.com
+ ([fe80::450:6ab1:b0a:a165%8]) with mapi id 15.20.4523.014; Wed, 15 Sep 2021
+ 15:12:00 +0000
+Subject: Re: [PATCH v9 12/17] drm/i915/pxp: Enable PXP power management
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ "Huang, Sean Z" <sean.z.huang@intel.com>, <Huang@freedesktop.org>, "Chris
+ Wilson" <chris@chris-wilson.co.uk>
+References: <20210910153627.1060858-1-daniele.ceraolospurio@intel.com>
+ <20210910153627.1060858-13-daniele.ceraolospurio@intel.com>
+ <YUD0Zo590QmMiHOS@intel.com>
+From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Message-ID: <c01fe2ab-2431-0767-7c55-6881e0a31aa1@intel.com>
+Date: Wed, 15 Sep 2021 08:11:54 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
+In-Reply-To: <YUD0Zo590QmMiHOS@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: DB8PR06CA0029.eurprd06.prod.outlook.com
+ (2603:10a6:10:100::42) To DM4PR11MB5488.namprd11.prod.outlook.com
+ (2603:10b6:5:39d::5)
 MIME-Version: 1.0
+Received: from [192.168.1.56] (2.236.112.29) by
+ DB8PR06CA0029.eurprd06.prod.outlook.com (2603:10a6:10:100::42) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14 via Frontend Transport; Wed, 15 Sep 2021 15:11:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ba4f2647-68b5-4eeb-fd50-08d9785b2a5e
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2890:
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR11MB2890CB2B77DF5C056AF0EE8AF4DB9@DM6PR11MB2890.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 22/JH+T4TjaGPcKdzUwHd3IQhTr7LhAsQoH0T6Scbr07sT8LM2LDgZGcqe6PSL+NEbHtT7vyEMr1OgORtNjo+ntP4u8qif//N6GuCmlhY4lv1laRKG82j2uAjpU/rWZJwbmQ+aaxdA5hrIFlPGDclG8iM/A3U+sIDD9fRWGr2zg1wXbRoX8LSvOTkwszjtBY3h/VONVvK3WxM/kE9YN/NxuxeAm00sfS3OoZqyftvHSeFbE4j5ChzrbmH3+Ox4QVHpLa/zR0o3GmJl30HBlGIzHxg4jtTLS4ad0otXQ0LiFs1Q/saFIjvraarTZCDkL8hntvozfPpQH6ebOBkF2JW3t3091iO531lMPhO4fwwCkZ4j3Ofas6M7BVCsADcSj3+/aBGUUZcSFOPySuKj3g/kiecAPB1Jl2jDTfkmf98/nSJVmpSzteRRzcFwrd2y9zJ6x+UvgzBas7pni47P8xJmYyxVTczMUrF8mB8DvzDPVruLIWgjkxPF9Pa870tdF+P1EDlPWi7DImVeVtQiK+7IXtlI+K+1NdoCsH+bhyJmzPjNgE4Oitk2eSwUidhocRlgLFjR6B1gebFWPYd+AyKGzLEqHHEBiimc3rnUFTZ4aHdvxHlybvh/RZLrvrcSXyr0wsvjvMBZNR7PA7fIiVfBn1f3W/qohKDpXXpZvK9sIzDp44O02BnMtaegSTFSElyDUzmm+cc49hzKxbQFQmQeB+/pcZQBFx84wT2a7KV9E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5488.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(376002)(346002)(136003)(38100700002)(6666004)(66946007)(66476007)(66556008)(30864003)(31696002)(8936002)(37006003)(26005)(956004)(53546011)(31686004)(6636002)(6862004)(2616005)(478600001)(54906003)(316002)(2906002)(186003)(83380400001)(5660300002)(4326008)(16576012)(86362001)(8676002)(6486002)(36756003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QWhZaGhZZTU0VHpSR1JNbGdtdGxZSXVIVjlya1NISkZLTEZTUkJCcktkdUty?=
+ =?utf-8?B?VFJXRDdpRUFqeHN1aldhUzRnMSs0R2Z1UzI5NTArU1pqZUZqUkxMWlBUajU0?=
+ =?utf-8?B?TU5GUWF4bEdiVWNMR1JJZlo1MjRPVkE3NlhtVzkzSTYxalI4UERlYmJ4dlhF?=
+ =?utf-8?B?MHhzOEttWStFRS91M1NVUEYwVWo2S2NLWXpzNGUyTXBoaEI5eDZzaDloajF4?=
+ =?utf-8?B?ZWVaTHgyOXBpTTMxMjJoMUozWGY4WW1oRWpkaDRvaGxmcnFLWEdiYVBNZzBW?=
+ =?utf-8?B?K3J2ZlFWV2Q2YjQ3cHNYeStUVlpZLzRsZVZKQ3Z6SXZyZksvTUsvUzUzRjB1?=
+ =?utf-8?B?MmxKTENPQ2p4eklwcG5TbXFteTNWdll6Z2NlcC92QzB2M2Y3SmNlR3MxUnBi?=
+ =?utf-8?B?TXNqLzlROU4velZkeW80cHh0clFHeWtpcVJUS2dOYThWbmtPVmhkTHdUTlVm?=
+ =?utf-8?B?bklzTExKbnlWQ1NNeG13YTBkTU5jQ2pCbk82bER2elhGZmhjOHZxV2M4SUNQ?=
+ =?utf-8?B?NFNMYTZHS1R5QkVMb25uTkJzZkVhd3hqeU91UDZwY1FRSzd4WjU1OW1XWm9I?=
+ =?utf-8?B?VHREN0E5TkZNbU1tbkpJWmNYWlMzczN3RWdFMGwwalNTVk1tM3dSS2FMSGN2?=
+ =?utf-8?B?Sm5hRXRaU3FUc1d6cjMyVHI3Uk1abElGenRJUzZGM2ZUTm5hdGs4MXJWVmI5?=
+ =?utf-8?B?V0NwSUpCSitqUVYxckVpZUtlWUcyQWZQcFdydS85Z1ZGdHk0NzdhYzgwWDIx?=
+ =?utf-8?B?ZXBqcEIxODRnUm9aWVAzenEzYkhJOHZBVkxWbFZLQnNNQWJtN2dEN3p2M05I?=
+ =?utf-8?B?enFlTHVXTmlEODRyY0tWRjdKTTFvclVrbm5NSWI3cjY1VlM2RkdyNjJMc1J0?=
+ =?utf-8?B?dGFoWDZqK2ZnbkxieVpQZ1BubEovWlltQUlTY2FZODROWnB2S2FzQ3JyQnBJ?=
+ =?utf-8?B?d1VkT0hmWVdSK1phb3owbXNxV2NUazRrb1U1R1psQWZKV1dMS0laeTZuMDBH?=
+ =?utf-8?B?d3VadElMWkFsOGRKOEtUdzhHN3hCVzJSK0FDd1VCaEc3eXhTSGV6TXV3Z09R?=
+ =?utf-8?B?SndXVk5UQkJ4SGtmQWlOU1VwYUUvOHRhcDIwSlFuS3dJSVVsMC9mc1M5dFJG?=
+ =?utf-8?B?UlgzNFRmbjhTVUs1alUvTU5Bbml4N3FDajFRcm5WOU5FWHVMRGdzRXgrVnJF?=
+ =?utf-8?B?d1o3c3NtRmNTWFkvNUwwbGcvMkJ5VTBIQTBJSDc4SlkvTzRLbU5OZTRlS2dx?=
+ =?utf-8?B?UGhIcnZyMWM0UVIxczVVVmpKTmNhaDlWNGZBREZhTFhYbHBxVmNnRmtxZzJE?=
+ =?utf-8?B?V2RsWFEvdHNFMmVKckNXem81b2VmV25uZ09KWlFkcWxoWTlIKzBvdnJHSHU1?=
+ =?utf-8?B?RXhuOWZodVEyaW9kVXhiYjEra1lXWGk1Q1NKenNhc29IQWRlUVFmQXFyQ3BM?=
+ =?utf-8?B?S3hVcHdxVnNneHJCakxzZEFyNFRoMjNpcnFZWGN2MndQQ29nOE5FOERsQk1P?=
+ =?utf-8?B?UjNpb0VXUmpicThwbE0zeEdQRkVDVWtIb2RUdzhPRnNYak5jRElFelNsMElp?=
+ =?utf-8?B?S0xDRWk3azNOMVd2elJyVE41L1AyQjV3Rm1TU1Z2YzdRazJabVp0dmRwUzM2?=
+ =?utf-8?B?STkrcWw1bE5rZE8rWE1oR3RzRWFLMXFZcGhWclozT0t5TlNwM2ZhUEIxVUYw?=
+ =?utf-8?B?Vi9aeS9zWmdyOWhmSi8xdnZ1MENWWnp5Nnp3SDdzd0NOKzNOMnZ1Wnp6ZmtT?=
+ =?utf-8?Q?GIMgyU7R6Xvuw0c+KK1W/cxXAVzgO4MY43w8eMd?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba4f2647-68b5-4eeb-fd50-08d9785b2a5e
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5488.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2021 15:11:59.8986 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vouuCJpBT3NIqQc9KH03rEZEiQSxHnOMBgeXPXvXNnYBZzRxrDN+KUfFyz5Diuk2EhPPmRt2GU/67W07XsdIkW8D7E2w72dCyhqaJQ180fk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2890
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,191 +156,350 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214413
-
-            Bug ID: 214413
-           Summary: Kernel oops on boot for amdgpu (in
-                    si_dpm_set_power_state)
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.14.4
-          Hardware: All
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: mpiazza@gmail.com
-        Regression: No
-
-Created attachment 298817
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298817&action=3Dedit
-Dmesg log with kernel oops
-
-Booting from a fresh self-compiled kernel 5.14.4 causes the following kerne=
-ll
-oops.
-
-[   11.451662] RIP: 0010:si_dpm_set_power_state+0xde3/0x1250 [amdgpu]
-[   11.452272] Code: 0f 84 8e f5 ff ff c7 44 24 30 ea ff ff ff 48 c7 c7 38 =
-a5
-d6 a0 e8 9d 44 ae ff e9 75 f5 ff ff 45 31 c0 49 8b b4 24 10 0e 00 00 <0f
-> b7 0e 66 85 c9 0f 84 eb 03 00 00 83 e9 01 48 8d 46 14 48 8d 0c
-[   11.452468] RSP: 0018:ffff888106c0baa8 EFLAGS: 00010246
-[   11.452530] RAX: ffff8881116a9a00 RBX: 000000000000ffff RCX:
-0000000000000000
-[   11.452608] RDX: 0000000000000000 RSI: 0000000000000000 RDI:
-ffff8881116c0000
-[   11.452686] RBP: ffff8881116c0000 R08: 0000000000000000 R09:
-ffff8881116a8e58
-[   11.452764] R10: ffff8881116c8400 R11: ffff8881116a99d8 R12:
-ffff8881116a8000
-[   11.452841] R13: ffff8881116a8000 R14: 0000000000000000 R15:
-0000000000000005
-[   11.452919] FS:  00007face07fa040(0000) GS:ffff8881a9400000(0000)
-knlGS:0000000000000000
-[   11.453008] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   11.453073] CR2: 0000000000000000 CR3: 0000000104e7a000 CR4:
-00000000000406f0
-[   11.453151] Call Trace:
-[   11.453190]  ? _raw_spin_unlock_irqrestore+0x15/0x30
-[   11.453256]  ? si_dpm_pre_set_power_state+0x506/0xa50 [amdgpu]
-[   11.453818]  amdgpu_pm_compute_clocks.part.0+0x31c/0x5c0 [amdgpu]
-[   11.454382]  si_dpm_hw_init+0x72/0x80 [amdgpu]
-[   11.454928]  amdgpu_device_init.cold+0xd5a/0x1761 [amdgpu]
-[   11.455479]  ? pci_conf1_read+0x9f/0xf0
-[   11.455533]  ? pci_bus_read_config_word+0x44/0x70
-[   11.455595]  amdgpu_driver_load_kms+0x63/0x2e0 [amdgpu]
-[   11.456078]  amdgpu_pci_probe+0xf6/0x180 [amdgpu]
-[   11.456554]  local_pci_probe+0x3d/0x70
-[   11.456603]  ? pci_match_device+0xd2/0x100
-[   11.456655]  pci_device_probe+0xf5/0x1b0
-[   11.456706]  really_probe.part.0+0xb3/0x2a0
-[   11.456761]  __driver_probe_device+0x8b/0x120
-[   11.456816]  driver_probe_device+0x19/0xd0
-[   11.456868]  __driver_attach+0xa6/0x170
-[   11.456916]  ? __device_attach_driver+0xe0/0xe0
-[   11.456972]  bus_for_each_dev+0x73/0xb0
-[   11.457022]  bus_add_driver+0x106/0x1b0
-[   11.457072]  driver_register+0x86/0xd0
-[   11.457120]  ? 0xffffffffa0f33000
-[   11.459179]  do_one_initcall+0x48/0x200
-[   11.461264]  ? kmem_cache_alloc_trace+0x2c9/0x430
-[   11.463394]  do_init_module+0x56/0x240
-[   11.465492]  __do_sys_finit_module+0xa0/0xe0
-[   11.467586]  do_syscall_64+0x43/0x90
-[   11.469658]  entry_SYSCALL_64_after_hwframe+0x44/0xae
-[   11.471773] RIP: 0033:0x7face0986f49
-[   11.473851] Code: 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 =
-89
-f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48
-> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 17 3f 0c 00 f7 d8 64 89 01 48
-[   11.478308] RSP: 002b:00007ffe5da504d8 EFLAGS: 00000246 ORIG_RAX:
-0000000000000139
-[   11.480601] RAX: ffffffffffffffda RBX: 00005599b42ece30 RCX:
-00007face0986f49
-[   11.482914] RDX: 0000000000000000 RSI: 00005599b42eedb0 RDI:
-0000000000000014
-[   11.485212] RBP: 00005599b42eedb0 R08: 0000000000000000 R09:
-0000000000000000
-[   11.487483] R10: 0000000000000014 R11: 0000000000000246 R12:
-0000000000000000
-[   11.489715] R13: 00005599b42f2a10 R14: 0000000000020000 R15:
-0000000000000000
-[   11.491855] Modules linked in: ext4 crc32c_generic mbcache jbd2 ath3k bt=
-usb
-btrtl btbcm btintel bluetooth jitterentropy_rng uvcvideo videobuf2_vmal
-loc videobuf2_memops videobuf2_v4l2 sha512_generic videobuf2_common hmac
-videodev mc drbg ecdh_generic ecc crc16 toshiba_wmi wmi_bmof sparse_keymap =
-am
-d_freq_sensitivity ath9k ath9k_common ath9k_hw kvm_amd mac80211 ath kvm
-irqbypass sha256_generic snd_hda_codec_idt snd_hda_codec_generic amdgpu(+) =
-gha
-sh_clmulni_intel ledtrig_audio snd_hda_codec_hdmi deflate cryptd joydev
-snd_hda_intel evdev mfd_core snd_intel_dspcfg cfg80211 gpu_sched serio_raw =
-efi
-_pstore toshiba_bluetooth fam15h_power sg snd_hda_codec snd_hda_core snd_hw=
-dep
-snd_pcm wmi rfkill libarc4 i2c_algo_bit snd_timer snd drm_ttm_helper tt
-m soundcore drm_kms_helper ac battery video acpi_cpufreq button sch_cake lo=
-op
-msr parport_pc ppdev lp parport drm fuse configfs sunrpc efivarfs ip_tab
-les x_tables autofs4 btrfs zstd_compress raid10 raid456 async_raid6_recov
-async_memcpy async_pq
-[   11.492046]  async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 linear
-md_mod hid_generic usbhid hid sd_mod t10_pi uas usb_storage ohci_pci crc3
-2c_intel xhci_pci psmouse i2c_piix4 ahci ohci_hcd libahci ehci_pci xhci_hcd
-ehci_hcd i2c_core libata usbcore scsi_mod alx usb_common mdio fan thermal
-[   11.512445] CR2: 0000000000000000
-[   11.515877] ---[ end trace 9d0f57da9351a59c ]---
-[   11.524001] ------------[ cut here ]------------
 
 
+On 9/14/2021 12:13 PM, Rodrigo Vivi wrote:
+> On Fri, Sep 10, 2021 at 08:36:22AM -0700, Daniele Ceraolo Spurio wrote:
+>> From: "Huang, Sean Z" <sean.z.huang@intel.com>
+>>
+>> During the power event S3+ sleep/resume, hardware will lose all the
+>> encryption keys for every hardware session, even though the
+>> session state might still be marked as alive after resume. Therefore,
+>> we should consider the session as dead on suspend and invalidate all the
+>> objects. The session will be automatically restarted on the first
+>> protected submission on resume.
+>>
+>> v2: runtime suspend also invalidates the keys
+>> v3: fix return codes, simplify rpm ops (Chris), use the new worker func
+>> v4: invalidate the objects on suspend, don't re-create the arb sesson on
+>> resume (delayed to first submission).
+>> v5: move irq changes back to irq patch (Rodrigo)
+>> v6: drop invalidation in runtime suspend (Rodrigo)
+>>
+>> Signed-off-by: Huang, Sean Z <sean.z.huang@intel.com>
+>> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> ops, I had missed this patch. Sorry
+> and thanks Alan for the ping.
+>
+>> ---
+>>   drivers/gpu/drm/i915/Makefile                |  1 +
+>>   drivers/gpu/drm/i915/gt/intel_gt_pm.c        | 15 ++++++-
+>>   drivers/gpu/drm/i915/i915_drv.c              |  2 +
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_irq.c     |  1 +
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_pm.c      | 46 ++++++++++++++++++++
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_pm.h      | 23 ++++++++++
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_session.c | 38 +++++++++++-----
+>>   drivers/gpu/drm/i915/pxp/intel_pxp_tee.c     |  9 ++++
+>>   8 files changed, 124 insertions(+), 11 deletions(-)
+>>   create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+>>   create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+>>
+>> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+>> index b22b8c195bb8..366e82cec44d 100644
+>> --- a/drivers/gpu/drm/i915/Makefile
+>> +++ b/drivers/gpu/drm/i915/Makefile
+>> @@ -286,6 +286,7 @@ i915-$(CONFIG_DRM_I915_PXP) += \
+>>   	pxp/intel_pxp.o \
+>>   	pxp/intel_pxp_cmd.o \
+>>   	pxp/intel_pxp_irq.o \
+>> +	pxp/intel_pxp_pm.o \
+>>   	pxp/intel_pxp_session.o \
+>>   	pxp/intel_pxp_tee.o
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> index dea8e2479897..b47a8d8f1bb5 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>> @@ -18,6 +18,7 @@
+>>   #include "intel_rc6.h"
+>>   #include "intel_rps.h"
+>>   #include "intel_wakeref.h"
+>> +#include "pxp/intel_pxp_pm.h"
+>>   
+>>   static void user_forcewake(struct intel_gt *gt, bool suspend)
+>>   {
+>> @@ -262,6 +263,8 @@ int intel_gt_resume(struct intel_gt *gt)
+>>   
+>>   	intel_uc_resume(&gt->uc);
+>>   
+>> +	intel_pxp_resume(&gt->pxp);
+>> +
+>>   	user_forcewake(gt, false);
+>>   
+>>   out_fw:
+>> @@ -296,6 +299,7 @@ void intel_gt_suspend_prepare(struct intel_gt *gt)
+>>   	user_forcewake(gt, true);
+>>   	wait_for_suspend(gt);
+>>   
+>> +	intel_pxp_suspend(&gt->pxp, false);
+>>   	intel_uc_suspend(&gt->uc);
+>>   }
+>>   
+>> @@ -346,6 +350,7 @@ void intel_gt_suspend_late(struct intel_gt *gt)
+>>   
+>>   void intel_gt_runtime_suspend(struct intel_gt *gt)
+>>   {
+>> +	intel_pxp_suspend(&gt->pxp, true);
+> We should actually remove this from here
 
-This is my hardware:
-marco@albireo:~$ lspci=20
-00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Root Complex
-00:01.0 VGA compatible controller: Advanced Micro Devices, Inc. [AMD/ATI]
-Kabini [Radeon HD 8330]
-00:01.1 Audio device: Advanced Micro Devices, Inc. [AMD/ATI] Kabini HDMI/DP
-Audio
-00:02.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 0
-00:02.1 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Functions 5:1
-00:02.3 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Functions 5:1
-00:02.4 PCI bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Functions 5:1
-00:10.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB XHCI
-Controller (rev 01)
-00:11.0 SATA controller: Advanced Micro Devices, Inc. [AMD] FCH SATA Contro=
-ller
-[AHCI mode]
-00:12.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB OHCI
-Controller (rev 39)
-00:12.2 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB EHCI
-Controller (rev 39)
-00:13.0 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB OHCI
-Controller (rev 39)
-00:13.2 USB controller: Advanced Micro Devices, Inc. [AMD] FCH USB EHCI
-Controller (rev 39)
-00:14.0 SMBus: Advanced Micro Devices, Inc. [AMD] FCH SMBus Controller (rev=
- 3a)
-00:14.2 Audio device: Advanced Micro Devices, Inc. [AMD] FCH Azalia Control=
-ler
-(rev 02)
-00:14.3 ISA bridge: Advanced Micro Devices, Inc. [AMD] FCH LPC Bridge (rev =
-11)
-00:18.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 0
-00:18.1 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 1
-00:18.2 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 2
-00:18.3 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 3
-00:18.4 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 4
-00:18.5 Host bridge: Advanced Micro Devices, Inc. [AMD] Family 16h Processor
-Function 5
-01:00.0 Display controller: Advanced Micro Devices, Inc. [AMD/ATI] Sun PRO
-[Radeon HD 8570A/8570M]
-02:00.0 Network controller: Qualcomm Atheros QCA9565 / AR9565 Wireless Netw=
-ork
-Adapter (rev 01)
-03:00.0 Ethernet controller: Qualcomm Atheros QCA8172 Fast Ethernet (rev 10)
+No we shouldn't. The PXP suspend does other things in addition to the 
+invalidation (e.g. marking the ARB session as invalid) and those must be 
+performed, otherwise the SW state won't match the HW. That's why I added 
+a variable instead of dropping the call. Similar for the resume.
 
+Daniele
 
-Attached the full dmesg log
+>
+>>   	intel_uc_runtime_suspend(&gt->uc);
+>>   
+>>   	GT_TRACE(gt, "\n");
+>> @@ -353,11 +358,19 @@ void intel_gt_runtime_suspend(struct intel_gt *gt)
+>>   
+>>   int intel_gt_runtime_resume(struct intel_gt *gt)
+>>   {
+>> +	int ret;
+>> +
+>>   	GT_TRACE(gt, "\n");
+>>   	intel_gt_init_swizzling(gt);
+>>   	intel_ggtt_restore_fences(gt->ggtt);
+>>   
+>> -	return intel_uc_runtime_resume(&gt->uc);
+>> +	ret = intel_uc_runtime_resume(&gt->uc);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	intel_pxp_resume(&gt->pxp);
+> And from here...
+>
+>> +
+>> +	return 0;
+>>   }
+>>   
+>>   static ktime_t __intel_gt_get_awake_time(const struct intel_gt *gt)
+>> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+>> index 59fb4c710c8c..d5bcc70a22d4 100644
+>> --- a/drivers/gpu/drm/i915/i915_drv.c
+>> +++ b/drivers/gpu/drm/i915/i915_drv.c
+>> @@ -67,6 +67,8 @@
+>>   #include "gt/intel_gt_pm.h"
+>>   #include "gt/intel_rc6.h"
+>>   
+>> +#include "pxp/intel_pxp_pm.h"
+>> +
+>>   #include "i915_debugfs.h"
+>>   #include "i915_drv.h"
+>>   #include "i915_ioc32.h"
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+>> index 340f20d130a8..9e5847c653f2 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+>> @@ -9,6 +9,7 @@
+>>   #include "gt/intel_gt_irq.h"
+>>   #include "i915_irq.h"
+>>   #include "i915_reg.h"
+>> +#include "intel_runtime_pm.h"
+>>   
+>>   /**
+>>    * intel_pxp_irq_handler - Handles PXP interrupts.
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+>> new file mode 100644
+>> index 000000000000..23fd86de5a24
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+>> @@ -0,0 +1,46 @@
+>> +// SPDX-License-Identifier: MIT
+>> +/*
+>> + * Copyright(c) 2020 Intel Corporation.
+>> + */
+>> +
+>> +#include "intel_pxp.h"
+>> +#include "intel_pxp_irq.h"
+>> +#include "intel_pxp_pm.h"
+>> +#include "intel_pxp_session.h"
+>> +
+>> +void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime)
+>> +{
+>> +	if (!intel_pxp_is_enabled(pxp))
+>> +		return;
+>> +
+>> +	pxp->arb_is_valid = false;
+>> +
+>> +	/*
+>> +	 * Contexts using protected objects keep a runtime PM reference, so we
+>> +	 * can only runtime suspend when all of them have been either closed
+>> +	 * or banned. Therefore, there is no need to invalidate in that
+>> +	 * scenario.
+>> +	 */
+> and remove this comment
+>
+>> +	if (!runtime)
+> and remove the runtime boolean entirely.
+>
+>> +		intel_pxp_invalidate(pxp);
+>> +
+>> +	intel_pxp_fini_hw(pxp);
+>> +
+>> +	pxp->hw_state_invalidated = false;
+>> +}
+>> +
+>> +void intel_pxp_resume(struct intel_pxp *pxp)
+>> +{
+>> +	if (!intel_pxp_is_enabled(pxp))
+>> +		return;
+>> +
+>> +	/*
+>> +	 * The PXP component gets automatically unbound when we go into S3 and
+>> +	 * re-bound after we come out, so in that scenario we can defer the
+>> +	 * hw init to the bind call.
+>> +	 */
+>> +	if (!pxp->pxp_component)
+>> +		return;
+>> +
+>> +	intel_pxp_init_hw(pxp);
+>> +}
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+>> new file mode 100644
+>> index 000000000000..e6a357996e19
+>> --- /dev/null
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+>> @@ -0,0 +1,23 @@
+>> +/* SPDX-License-Identifier: MIT */
+>> +/*
+>> + * Copyright(c) 2020, Intel Corporation. All rights reserved.
+>> + */
+>> +
+>> +#ifndef __INTEL_PXP_PM_H__
+>> +#define __INTEL_PXP_PM_H__
+>> +
+>> +#include "i915_drv.h"
+>> +
+>> +#ifdef CONFIG_DRM_I915_PXP
+>> +void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime);
+>> +void intel_pxp_resume(struct intel_pxp *pxp);
+>> +#else
+>> +static inline void intel_pxp_suspend(struct intel_pxp *pxp, bool runtime)
+>> +{
+>> +}
+>> +static inline void intel_pxp_resume(struct intel_pxp *pxp)
+>> +{
+>> +}
+>> +#endif
+>> +
+>> +#endif /* __INTEL_PXP_PM_H__ */
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> index a95cc443a48d..d02732f04757 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+>> @@ -21,29 +21,36 @@
+>>   
+>>   static bool intel_pxp_session_is_in_play(struct intel_pxp *pxp, u32 id)
+>>   {
+>> -	struct intel_gt *gt = pxp_to_gt(pxp);
+>> +	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
+>>   	intel_wakeref_t wakeref;
+>>   	u32 sip = 0;
+>>   
+>> -	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+>> -		sip = intel_uncore_read(gt->uncore, GEN12_KCR_SIP);
+>> +	/* if we're suspended the session is considered off */
+>> +	with_intel_runtime_pm_if_in_use(uncore->rpm, wakeref)
+>> +		sip = intel_uncore_read(uncore, GEN12_KCR_SIP);
+>>   
+>>   	return sip & BIT(id);
+>>   }
+>>   
+>>   static int pxp_wait_for_session_state(struct intel_pxp *pxp, u32 id, bool in_play)
+>>   {
+>> -	struct intel_gt *gt = pxp_to_gt(pxp);
+>> +	struct intel_uncore *uncore = pxp_to_gt(pxp)->uncore;
+>>   	intel_wakeref_t wakeref;
+>>   	u32 mask = BIT(id);
+>>   	int ret;
+>>   
+>> -	with_intel_runtime_pm(gt->uncore->rpm, wakeref)
+>> -		ret = intel_wait_for_register(gt->uncore,
+>> -					      GEN12_KCR_SIP,
+>> -					      mask,
+>> -					      in_play ? mask : 0,
+>> -					      100);
+>> +	/* if we're suspended the session is considered off */
+>> +	wakeref = intel_runtime_pm_get_if_in_use(uncore->rpm);
+>> +	if (!wakeref)
+>> +		return in_play ? -ENODEV : 0;
+>> +
+>> +	ret = intel_wait_for_register(uncore,
+>> +				      GEN12_KCR_SIP,
+>> +				      mask,
+>> +				      in_play ? mask : 0,
+>> +				      100);
+>> +
+>> +	intel_runtime_pm_put(uncore->rpm, wakeref);
+>>   
+>>   	return ret;
+>>   }
+>> @@ -135,6 +142,7 @@ void intel_pxp_session_work(struct work_struct *work)
+>>   {
+>>   	struct intel_pxp *pxp = container_of(work, typeof(*pxp), session_work);
+>>   	struct intel_gt *gt = pxp_to_gt(pxp);
+>> +	intel_wakeref_t wakeref;
+>>   	u32 events = 0;
+>>   
+>>   	spin_lock_irq(&gt->irq_lock);
+>> @@ -147,6 +155,14 @@ void intel_pxp_session_work(struct work_struct *work)
+>>   	if (events & PXP_INVAL_REQUIRED)
+>>   		intel_pxp_invalidate(pxp);
+>>   
+>> +	/*
+>> +	 * If we're processing an event while suspending then don't bother,
+>> +	 * we're going to re-init everything on resume anyway.
+>> +	 */
+>> +	wakeref = intel_runtime_pm_get_if_in_use(gt->uncore->rpm);
+>> +	if (!wakeref)
+>> +		return;
+>> +
+>>   	if (events & PXP_TERMINATION_REQUEST) {
+>>   		events &= ~PXP_TERMINATION_COMPLETE;
+>>   		pxp_terminate(pxp);
+>> @@ -154,4 +170,6 @@ void intel_pxp_session_work(struct work_struct *work)
+>>   
+>>   	if (events & PXP_TERMINATION_COMPLETE)
+>>   		pxp_terminate_complete(pxp);
+>> +
+>> +	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+>> index 3fc3ddfd02b3..49508f31dcb7 100644
+>> --- a/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+>> +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+>> @@ -78,16 +78,25 @@ static int intel_pxp_tee_io_message(struct intel_pxp *pxp,
+>>   static int i915_pxp_tee_component_bind(struct device *i915_kdev,
+>>   				       struct device *tee_kdev, void *data)
+>>   {
+>> +	struct drm_i915_private *i915 = kdev_to_i915(i915_kdev);
+>>   	struct intel_pxp *pxp = i915_dev_to_pxp(i915_kdev);
+>> +	intel_wakeref_t wakeref;
+>>   
+>>   	mutex_lock(&pxp->tee_mutex);
+>>   	pxp->pxp_component = data;
+>>   	pxp->pxp_component->tee_dev = tee_kdev;
+>>   	mutex_unlock(&pxp->tee_mutex);
+>>   
+>> +	/* if we are suspended, the HW will be re-initialized on resume */
+>> +	wakeref = intel_runtime_pm_get_if_in_use(&i915->runtime_pm);
+>> +	if (!wakeref)
+>> +		return 0;
+>> +
+>>   	/* the component is required to fully start the PXP HW */
+>>   	intel_pxp_init_hw(pxp);
+>>   
+>> +	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
+>> +
+>>   	return 0;
+>>   }
+>>   
+>> -- 
+>> 2.25.1
+>>
 
-Marco
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
