@@ -1,146 +1,91 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6BC40CDE7
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 22:23:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750CE40CDEA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 22:26:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ED3916EA21;
-	Wed, 15 Sep 2021 20:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6414B6EA26;
+	Wed, 15 Sep 2021 20:26:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B72C6EA21;
- Wed, 15 Sep 2021 20:23:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="222476267"
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="222476267"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Sep 2021 13:23:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,296,1624345200"; d="scan'208";a="700357679"
-Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
- by fmsmga005.fm.intel.com with ESMTP; 15 Sep 2021 13:23:25 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 15 Sep 2021 13:23:25 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Wed, 15 Sep 2021 13:23:25 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.168)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Wed, 15 Sep 2021 13:23:24 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Y488tTiCwGdyetSgv97K2GnB8RBSsAJnfF2jtyKbDeV3Kf7s8NwqhrwIkDySHGa3RIyTi3i34fdYA6q/WqfY5Bq0LE7ty3V1lvkAqf16cEZpu21IN3pD5p8cZuH0Q9WdiGaDpeS9b1QJ/fX2TEh6m6mondabI2CoEhoAKiH4350LjE1c0V2jdkMFDl2xmFvryWsmEkrN8FxmHnJ2VqzNTKg2TVo+hss++s0ETpbD3twz1Ht7vhloxgAo524HhWlI86waZ/KLQUcKmidKLwFqorlBsTeVX3YFiOZgbZ8cDHB2nTeFXs+AXeUg34D1QDqRmgOr+izR0lEqROwsgvOpPQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=1ApgzzJQ5EvgW+dgUcRajzvJ88OHIa5gNSW/MoErfEg=;
- b=H6krYWMYm8FfhKii2rfGYmigaASjGp1fuW2vqmiJIo63fg1wNUlt4cPm/L8tWEdvtXkF1fOJnv0cg+kqitCQuKBuvh91diqsWmdmBypUayPbuTE3AZ66VoAQtKrrvF0mpLXVHvFDrjR2+P7gRemZuZoqcA9MFo4N46+p8itgBukD5CaVr3PTu97nwyY+PbprYkJQCp9OAu/vV2yrA2QuEDDCSDy8+oN5Mq24/Kvdhytyzgnu3JE0d/bEOC1GZwO4c8/9rtHsEva/d5OogsFJ4EiNZZznGb77ih4RmiSrIiY5P+Kfdtn9nzabIx7LxBbQiMIWWOd1+n9rOlpY5Tvq9A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ApgzzJQ5EvgW+dgUcRajzvJ88OHIa5gNSW/MoErfEg=;
- b=Sp3hpBFNhpR/1XGlyryTT7dFZx2z1asUe16QaufJCPM8i4H8EoG44UqZC/W4eIL3zy6V+RSNjQoRteqUu4oRJM7+UiQyW+BAXD8/dKxv0Y6Z126nC30flZzi7j4B6TU+ySaoThl4fapO8Y8G4G3TbWUvzKQehbWxdEmSg+Luzw4=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5611.namprd11.prod.outlook.com (2603:10b6:510:ed::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14; Wed, 15 Sep
- 2021 20:23:22 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4500.019; Wed, 15 Sep 2021
- 20:23:22 +0000
-Subject: Re: [Intel-gfx] [PATCH 12/27] drm/i915/guc: Add multi-lrc context
- registration
-To: Matthew Brost <matthew.brost@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <daniel.vetter@ffwll.ch>, <tony.ye@intel.com>, <zhengguo.xu@intel.com>
-References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-13-matthew.brost@intel.com>
- <64a5c154-1a00-820e-2b30-d95af73937d7@intel.com>
- <20210915193115.GA1933@jons-linux-dev-box>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <1a6800f8-24ac-ebbb-03a5-1121e86e893f@intel.com>
-Date: Wed, 15 Sep 2021 13:23:19 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
-In-Reply-To: <20210915193115.GA1933@jons-linux-dev-box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MWHPR01CA0037.prod.exchangelabs.com (2603:10b6:300:101::23)
- To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 735836EA24
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 20:26:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631737568;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aEOcbUkGPZ7blNBJVJc9F7vTSn5ckBc/PVtnTYcF2yM=;
+ b=BkEK3zUz4fzB+p8sA50vzibu6s1E8OgpPZVyPIqPDMMr7JNprlU2s0+EowTYawXeMHJIW7
+ 92Tjbz31Li8zhcjLAseyZPgGwz+EJ138HUDjnh0ZDN/HFBdJCi49SO6doWmjHS27geHyhs
+ IiBPHd8QFnWZbITuPphY9yAaJIX++Lw=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-oJZyWOo2NvO4AVQphvmKEg-1; Wed, 15 Sep 2021 16:26:07 -0400
+X-MC-Unique: oJZyWOo2NvO4AVQphvmKEg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ 21-20020a370815000000b003d5a81a4d12so7984243qki.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 13:26:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=aEOcbUkGPZ7blNBJVJc9F7vTSn5ckBc/PVtnTYcF2yM=;
+ b=AObnYsmPmsrHNnychPLMQ0GWbfU2lYPU0Hdaej/LN+GwvFTdoOka35XELxecwrkkRp
+ tr8UYx8XfbiTEqxTp2ynmy/xJRKfI0WEJqzvJ4fKfQazSaiOq7RNqdf/2j84Y6QCXUrL
+ Z46nJdHxEGZpIweaZD04mvZQEzEJvjYC1wP9FHRyatdbN/yxeDVnFT3HDw1LxewxKfkm
+ LZMyhKRi+4ntjtF3yJVOwK7EeEsnXd/z8ll2Jdfq94YHVG0Iuizyg7E0okCqOw4fWcRf
+ YA+fKjVSlwmrAc6asCyDgkNrLVqsn/tlD4uY9Havbq/oYfaVoVoH3xBKQGuXaFSf7zMF
+ P+Tg==
+X-Gm-Message-State: AOAM531SXZIJsmMdgLqfQKgG9rM3KLd68Xv6ALJN6YJo3bxDMwWlRIfP
+ +kRPgAiRv3FRMx4MFS70iwXh6SPq253i7SL/PeoX515IjzEDvCtIKuLrcxkHdCBpNfYma6klzBJ
+ 4UPe1OU8FvVVmWFvwV9dYfb398Ogg
+X-Received: by 2002:a05:6214:12ee:: with SMTP id
+ w14mr1743720qvv.52.1631737566952; 
+ Wed, 15 Sep 2021 13:26:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyefS1x0VI2E7eu3q7MWppZQFPVXd0FOIKTCBizvMduza4mRH0kgLODGVglI1yQQshxbSqLdA==
+X-Received: by 2002:a05:6214:12ee:: with SMTP id
+ w14mr1743689qvv.52.1631737566677; 
+ Wed, 15 Sep 2021 13:26:06 -0700 (PDT)
+Received: from [192.168.8.206] (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id 187sm768778qke.32.2021.09.15.13.26.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 15 Sep 2021 13:26:06 -0700 (PDT)
+Message-ID: <6c9daf86dbbd5fe98f84efd3bae3240f0bf93387.camel@redhat.com>
+Subject: Re: [PATCH 4/9] drm/privacy-screen: Add notifier support
+From: Lyude Paul <lyude@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rajat Jain <rajatja@google.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,  Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Mark Gross <mgross@linux.intel.com>, Andy Shevchenko <andy@infradead.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Pekka
+ Paalanen <pekka.paalanen@collabora.com>, Mario Limonciello
+ <mario.limonciello@outlook.com>, Mark Pearson <markpearson@lenovo.com>,
+ Sebastien Bacher <seb128@ubuntu.com>, Marco Trevisan
+ <marco.trevisan@canonical.com>, Emil Velikov <emil.l.velikov@gmail.com>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org
+Date: Wed, 15 Sep 2021 16:26:04 -0400
+In-Reply-To: <20210906073519.4615-5-hdegoede@redhat.com>
+References: <20210906073519.4615-1-hdegoede@redhat.com>
+ <20210906073519.4615-5-hdegoede@redhat.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
-Received: from [192.168.1.221] (73.157.192.58) by
- MWHPR01CA0037.prod.exchangelabs.com (2603:10b6:300:101::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.14 via Frontend Transport; Wed, 15 Sep 2021 20:23:21 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5df2ced6-6986-49e7-4abc-08d97886a9f8
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5611:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB56112A7CE9CEED26C482957BBDDB9@PH0PR11MB5611.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xhXuaruxlgdqOw5sMHlX7zOLLH7m8CVVT0if+fkfJevv9YrocEe9eDHlRw8y4gVNaBKFldxCwlA9yE3yNTvq+Ll8cXJPK4OvJzKXTRxUzK3EZGHjryJVKzFFlqlE0Q87Yhew2goLJ1bDGNrwZAtqdiAaenjRANKT6p+DyYHuoVQPliL+Sz/MP0GtAwoEo4mVrRSVSgum/EvH37NtSzFaqxqdMWgnnLNaHJYXyWSTnV2ycXJe0moP/na3df/oQUDnPrQGFVeP79L+WpZtMKm+wqtfdD3vSz/c2vtKM5ZUXm4BiSxbtr4U++sCe4525tIN59HY0oqvZQTBhnTGeVU3m/PjKh13s00+j6vXXZ3K4iJ+/KJlDzGR1yVtum4hSxR+nE8WqGgDlPVT3QsUuapdaGVds7GaEk81PARBKDni+Sg5ww9BZmc8TfcZrQf5CKGVVlhhmBR1xyIlYD7nNmS9RbUFhNrCcP0lorFpMyuouqRVkMhX4rjICiBf5NSdN6L43y8V+3jj3nwkRZHDefFKV7bXCWIPK6aM4ulp8RnAcB4DZiwVcpImd+om1zDU8Dnw2McnsaUYnzOswgw4PykPiJHJHGtL3MHd6V+U5oh+ockPdu0FwnOuFApTeAx1SfK/L9TFVcd3fSwPNNToUiA0Olz28QaWZoGlo+p3Wy0CDN9qWnCw3q0smMhEJTaPY5or+3AsSn6fApze7rO5PU1GYQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(346002)(366004)(396003)(39860400002)(2906002)(16576012)(31686004)(86362001)(37006003)(107886003)(186003)(36756003)(316002)(30864003)(478600001)(26005)(8936002)(83380400001)(6636002)(6486002)(8676002)(31696002)(6862004)(956004)(2616005)(66556008)(66476007)(66946007)(5660300002)(4326008)(38100700002)(53546011)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?QjRjcHFKaHVsYndxcWZuN1FGOThYQ2NuQzJtVHNnaFdWaWdtZm44NkZEVkFx?=
- =?utf-8?B?aEM3MzF2Q2h5ejVLSEF4b1dCcWtvWFdGcE80ZjFPUkRpV0lJSVJ2YjZKS3dK?=
- =?utf-8?B?UFdDQzNkSjFXWk5ZY1VXTk1HdkN2QXJCWkZ6V3RiNWt0WGhFVTJlQXpxY3Bz?=
- =?utf-8?B?UDM2Sno5c1h4VXp3YnlESlNyVkFwcXQya3VjdGZDL0pxZzFvTmo5TjRXaUFT?=
- =?utf-8?B?a2VQWnZ6eTArQTRxdUhKdXdqRU9vVDAzd2FxcjdVYVExdkovdTlPbTRBL3FI?=
- =?utf-8?B?WG5qWmMzQUUwUE0raHFGUG9CVTZnbTQwOW5iVjBkenVKQnp4RDJsblZxRDha?=
- =?utf-8?B?MXl5RGxYbG01OFVHQ3lIdzBETE1VZHg5ZHlwblZDWGVXRmlyQjZwL2NWeUFp?=
- =?utf-8?B?N3RHUURTZkhUVlBnYzZiMTgyWlEvS05sc1I3T1RMcjdhaEdRdXBWeVNLMU5W?=
- =?utf-8?B?cVoydzkyamhUVHgyVWtQN2RyWkVJZkZ0a3o0SFM4T2VzWTZiWmJJTWRQM0RX?=
- =?utf-8?B?WnV3R1BpZTRDd2gzRWFRdStxVDQ1WVVxYzFCVGExenRiVlExeE5RcFBTa1Nu?=
- =?utf-8?B?V0ZjWUx5RW8rS0JWWHFwd3p1SzBkQ2NxTXlXbURHM2VFYU5KU0FXRTl5NVFs?=
- =?utf-8?B?SXQ4WWVyOTVpYjY2MHM3VllSWnBZTFk2Z0RDenRoaENqdURSdC95NlVhZlBx?=
- =?utf-8?B?MzhDeVJXcHVpSDRPZU1LT1hCOFdDRVB4YW9KOHlySXJhWGJNVmd5UytlT3dP?=
- =?utf-8?B?N1FzRWNKbGZ0V1ljTGxMV2J5YmRXTVhKU0xDM2ZMdnE4STlDbnNxOXNhY1Vk?=
- =?utf-8?B?b2dLTjlQR1dhZEdFNmVaRzU4c3hQRkRuVzlFcVhmTVNEYnJNVjNra1BSWFFO?=
- =?utf-8?B?NGJWbzN1UkhEdjBvTW9lVWJvMkY5bFg0WGhqS0VNYUd0NTFZSDRyR3NjQ1BP?=
- =?utf-8?B?Z01FVDJHTWFhQWlveExyckUwbzhUa1dBZHF5bFhUQnF5MjVzeGt3TWNoSUEy?=
- =?utf-8?B?SCtwNWJLN21NYllhZU5vdUlINlVzZkhSYUVxT3VXTjJGbHZyOVpFNW53S1Fw?=
- =?utf-8?B?S0pCdVFSd0dWMGtJWFczMWt4YmdNR0VoTDNiUjhUVUc4VnoyQ0ZEaEpBSjR6?=
- =?utf-8?B?TmhrcHdxWjhWWlhwUGxydzRXU2hOLzBjUC9aQkMzRTdSNWV3b3VKaVFGbGRZ?=
- =?utf-8?B?cWxoZk15MENSVHNNMVhwaE1lNXhPQlZpRGJzTEVDME9mZ0gxczJGNmVoTHpH?=
- =?utf-8?B?L09idEZuSDNUUXFtMzNvTFR6bEUzRmoxMkYxaHcrZmlBSDduS3VseDJSUEMy?=
- =?utf-8?B?Mmw5eEZZWXBUTG9ITVJCeXhRaFlndHI3TVcwVW5vSnJDRkxZUEVYVWxxeU92?=
- =?utf-8?B?N1VXeE01ODl4NUhGNk1uMHROeU1kQWF5N1NUUHh5bjNweitJYkRiSm1LMGdB?=
- =?utf-8?B?RUhHWHR5M3REMWhoMXJ5K0plZnd4R0VsbURYekl0SzZGTVFLSWZRK29IdCth?=
- =?utf-8?B?T3U5andFM3M4R0VDSVp2S0doSEJyL3hmYzNpN0dzeUZibEtrcEIvYzl5Ujlu?=
- =?utf-8?B?TTg5WDAvMGl3K2JRSDVZSDNnbkJmU0lrVEFCV2FGam1tUFBBYzRTRDRHaFlm?=
- =?utf-8?B?U1hoTXp6OGtOclJKNko2T3A1Um9YMnZEWUgvQURETXEvNEkxUWZWdHcyTDcv?=
- =?utf-8?B?clpCWC9VUDRzTGUzaHFkdGFoZEdsRmN5SklWUThLaWhDNzBmWWJxb0UzNVlB?=
- =?utf-8?Q?LmkuOf8JOqVQmiks1YnR2R0EjYuIPPeLxKJJVdQ?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5df2ced6-6986-49e7-4abc-08d97886a9f8
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2021 20:23:22.3631 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xwUWVTKz6gUsk70wj7Z8PJdyz7VfTUM9dJmMdJnKXUv5/YqXNumemXACrD1xe59EuGa6rI/PCNTLVpicxIA4Nvos+bqwiUHcFHHwWQ3n2fY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5611
-X-OriginatorOrg: intel.com
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -156,309 +101,193 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/15/2021 12:31, Matthew Brost wrote:
-> On Wed, Sep 15, 2021 at 12:21:35PM -0700, John Harrison wrote:
->> On 8/20/2021 15:44, Matthew Brost wrote:
->>> Add multi-lrc context registration H2G. In addition a workqueue and
->>> process descriptor are setup during multi-lrc context registration as
->>> these data structures are needed for multi-lrc submission.
->>>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gt/intel_context_types.h |  12 ++
->>>    drivers/gpu/drm/i915/gt/intel_lrc.c           |   5 +
->>>    drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
->>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 109 +++++++++++++++++-
->>>    4 files changed, 126 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
->>> index 0fafc178cf2c..6f567ebeb039 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
->>> @@ -232,8 +232,20 @@ struct intel_context {
->>>    		/** @parent: pointer to parent if child */
->>>    		struct intel_context *parent;
->>> +
->>> +		/** @guc_wqi_head: head pointer in work queue */
->>> +		u16 guc_wqi_head;
->>> +		/** @guc_wqi_tail: tail pointer in work queue */
->>> +		u16 guc_wqi_tail;
->>> +
->> These should be in the 'guc_state' sub-struct? Would be good to keep all GuC
->> specific content in one self-contained struct. Especially given the other
->> child/parent fields are no going to be guc_ prefixed any more.
->>
-> Right now I have everything in guc_state protected by guc_state.lock,
-> these fields are not protected by this lock. IMO it is better to use a
-> different sub-structure for the parallel fields (even if anonymous).
-Hmm, I still think it is bad to be scattering back-end specific fields 
-amongst regular fields. The GuC patches include a whole bunch of 
-complaints about execlist back-end specific stuff leaking through to the 
-higher levels, we really shouldn't be guilty of doing the same with GuC 
-if at all possible. At the very least, the GuC specific fields should be 
-grouped together at the end of the struct rather than inter-mingled.
+On Mon, 2021-09-06 at 09:35 +0200, Hans de Goede wrote:
+> Add support for privacy-screen consumers to register a notifier to
+> be notified of external (e.g. done by the hw itself on a hotkey press)
+> state changes.
+> 
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_privacy_screen.c      | 67 +++++++++++++++++++++++
+>  include/drm/drm_privacy_screen_consumer.h | 15 +++++
+>  include/drm/drm_privacy_screen_driver.h   |  4 ++
+>  3 files changed, 86 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_privacy_screen.c
+> b/drivers/gpu/drm/drm_privacy_screen.c
+> index 294a09194bfb..7a5f878c3171 100644
+> --- a/drivers/gpu/drm/drm_privacy_screen.c
+> +++ b/drivers/gpu/drm/drm_privacy_screen.c
+> @@ -255,6 +255,49 @@ void drm_privacy_screen_get_state(struct
+> drm_privacy_screen *priv,
+>  }
+>  EXPORT_SYMBOL(drm_privacy_screen_get_state);
+>  
+> +/**
+> + * drm_privacy_screen_register_notifier - register a notifier
+> + * @priv: Privacy screen to register the notifier with
+> + * @nb: Notifier-block for the notifier to register
+> + *
+> + * Register a notifier with the privacy-screen to be notified of changes
+> made
+> + * to the privacy-screen state from outside of the privacy-screen class.
+> + * E.g. the state may be changed by the hardware itself in response to a
+> + * hotkey press.
+> + *
+> + * The notifier is called with no locks held. The new hw_state and sw_state
+> + * can be retrieved using the drm_privacy_screen_get_state() function.
+> + * A pointer to the drm_privacy_screen's struct is passed as the void *data
+> + * argument of the notifier_block's notifier_call.
+> + *
+> + * The notifier will NOT be called when changes are made through
+> + * drm_privacy_screen_set_sw_state(). It is only called for external
+> changes.
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
+> +                                        struct notifier_block *nb)
+> +{
+> +       return blocking_notifier_chain_register(&priv->notifier_head, nb);
+> +}
+> +EXPORT_SYMBOL(drm_privacy_screen_register_notifier);
+> +
+> +/**
+> + * drm_privacy_screen_unregister_notifier - unregister a notifier
+> + * @priv: Privacy screen to register the notifier with
+> + * @nb: Notifier-block for the notifier to register
+> + *
+> + * Unregister a notifier registered with
+> drm_privacy_screen_register_notifier().
+> + *
+> + * Return: 0 on success, negative error code on failure.
+> + */
+> +int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
+> +                                          struct notifier_block *nb)
+> +{
+> +       return blocking_notifier_chain_unregister(&priv->notifier_head, nb);
+> +}
+> +EXPORT_SYMBOL(drm_privacy_screen_unregister_notifier);
+> +
+>  /*** drm_privacy_screen_driver.h functions ***/
+>  
+>  static ssize_t sw_state_show(struct device *dev,
+> @@ -352,6 +395,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+>                 return ERR_PTR(-ENOMEM);
+>  
+>         mutex_init(&priv->lock);
+> +       BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
+>  
+>         priv->dev.class = drm_class;
+>         priv->dev.type = &drm_privacy_screen_type;
+> @@ -399,3 +443,26 @@ void drm_privacy_screen_unregister(struct
+> drm_privacy_screen *priv)
+>         device_unregister(&priv->dev);
+>  }
+>  EXPORT_SYMBOL(drm_privacy_screen_unregister);
+> +
+> +/**
+> + * drm_privacy_screen_call_notifier_chain - notify consumers of state
+> change
+> + * @priv: Privacy screen to register the notifier with
+> + *
+> + * A privacy-screen provider driver can call this functions upon external
+> + * changes to the privacy-screen state. E.g. the state may be changed by
+> the
+> + * hardware itself in response to a hotkey press.
+> + * This function must be called without holding the privacy-screen lock.
+> + * the driver must update sw_state and hw_state to reflect the new state
+> before
+> + * calling this function.
+> + * The expected behavior from the driver upon receiving an external state
+> + * change event is: 1. Take the lock; 2. Update sw_state and hw_state;
+> + * 3. Release the lock. 4. Call drm_privacy_screen_call_notifier_chain().
+> + */
+> +void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen
+> *priv)
+> +{
+> +       if (WARN_ON(mutex_is_locked(&priv->lock)))
+> +               return;
 
->
->>>    		/** @guc_number_children: number of children if parent */
->>>    		u8 guc_number_children;
->>> +
->>> +		/**
->>> +		 * @parent_page: page in context used by parent for work queue,
->> Maybe 'page in context record'? Otherwise, exactly what 'context' is meant
->> here? It isn't the 'struct intel_context'. The contetx record is saved as
->> 'ce->state' / 'ce->lrc_reg_state', yes? Is it possible to link to either of
-> It is the page in ce->state / page minus LRC reg offset in
-> ce->lrg_reg_state. Will update the commit to make that clear.
->
->> those field? Probably not given that they don't appear to have any kerneldoc
->> description :(. Maybe add that in too :).
->>
->>> +		 * work queue descriptor
->> Later on, it is described as 'process descriptor and work queue'. It would
->> be good to be consistent.
->>
-> Yep. Will fix.
->
->>> +		 */
->>> +		u8 parent_page;
->>>    	};
->>>    #ifdef CONFIG_DRM_I915_SELFTEST
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
->>> index bb4af4977920..0ddbad4e062a 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_lrc.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
->>> @@ -861,6 +861,11 @@ __lrc_alloc_state(struct intel_context *ce, struct intel_engine_cs *engine)
->>>    		context_size += PAGE_SIZE;
->>>    	}
->>> +	if (intel_context_is_parent(ce)) {
->>> +		ce->parent_page = context_size / PAGE_SIZE;
->>> +		context_size += PAGE_SIZE;
->>> +	}
->>> +
->>>    	obj = i915_gem_object_create_lmem(engine->i915, context_size, 0);
->>>    	if (IS_ERR(obj))
->>>    		obj = i915_gem_object_create_shmem(engine->i915, context_size);
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> index fa4be13c8854..0e600a3b8f1e 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
->>> @@ -52,7 +52,7 @@
->>>    #define GUC_DOORBELL_INVALID		256
->>> -#define GUC_WQ_SIZE			(PAGE_SIZE * 2)
->>> +#define GUC_WQ_SIZE			(PAGE_SIZE / 2)
->> Is this size actually dictated by the GuC API? Or is it just a driver level
->> decision? If the latter, shouldn't this be below instead?
->>
-> Driver level decision. What exactly do you mean by below?
-The next chunk of the patch - where WQ_OFFSET is defined and the whole 
-caboodle is described.
+Are we sure about this check? mutex_is_locked() checks whether a mutex is
+locked by anyone, not just us. So this seems like it would cause us to
+WARN_ON() and abort if anyone else (not just ourselves) is holding the lock to
+read the privacy screen state.
 
->   
->>>    /* Work queue item header definitions */
->>>    #define WQ_STATUS_ACTIVE		1
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index 14b24298cdd7..dbcb9ab28a9a 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -340,6 +340,39 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
->>>    	return rb_entry(rb, struct i915_priolist, node);
->>>    }
->>> +/*
->>> + * When using multi-lrc submission an extra page in the context state is
->>> + * reserved for the process descriptor and work queue.
->>> + *
->>> + * The layout of this page is below:
->>> + * 0						guc_process_desc
->>> + * ...						unused
->>> + * PAGE_SIZE / 2				work queue start
->>> + * ...						work queue
->>> + * PAGE_SIZE - 1				work queue end
->>> + */
->>> +#define WQ_OFFSET	(PAGE_SIZE / 2)
->> Can this not be derived from GUC_WQ_SIZE given that the two are
->> fundamentally linked? E.g. '#define WQ_OFFSET (PAGE_SIZE - GUC_WQ_SIZE)'?
-> Yes. I like 'define WQ_OFFSET (PAGE_SIZE - GUC_WQ_SIZE)'. Will change.
->
->> And maybe have a '#define WQ_TOTAL_SIZE PAGE_SIZE' and use that in all of
->> WQ_OFFSET, GUC_WQ_SIZE and the allocation itself in intel_lrc.c?
->>
->> Also, the process descriptor is actually an array of descriptors sized by
->> the number of children? Or am I misunderstanding the code below? In so,
-> No, it is fixed size descriptor.
-Yeah, I think I was getting confused between pdesc and desc in the code 
-below.
+> +
+> +       blocking_notifier_call_chain(&priv->notifier_head, 0, priv);
+> +}
+> +EXPORT_SYMBOL(drm_privacy_screen_call_notifier_chain);
+> diff --git a/include/drm/drm_privacy_screen_consumer.h
+> b/include/drm/drm_privacy_screen_consumer.h
+> index 0cbd23b0453d..7f66a90d15b7 100644
+> --- a/include/drm/drm_privacy_screen_consumer.h
+> +++ b/include/drm/drm_privacy_screen_consumer.h
+> @@ -24,6 +24,11 @@ int drm_privacy_screen_set_sw_state(struct
+> drm_privacy_screen *priv,
+>  void drm_privacy_screen_get_state(struct drm_privacy_screen *priv,
+>                                   enum drm_privacy_screen_status
+> *sw_state_ret,
+>                                   enum drm_privacy_screen_status
+> *hw_state_ret);
+> +
+> +int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
+> +                                        struct notifier_block *nb);
+> +int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
+> +                                          struct notifier_block *nb);
+>  #else
+>  static inline struct drm_privacy_screen *drm_privacy_screen_get(struct
+> device *dev,
+>                                                                 const char
+> *con_id)
+> @@ -45,6 +50,16 @@ static inline void drm_privacy_screen_get_state(struct
+> drm_privacy_screen *priv,
+>         *sw_state_ret = PRIVACY_SCREEN_DISABLED;
+>         *hw_state_ret = PRIVACY_SCREEN_DISABLED;
+>  }
+> +static inline int drm_privacy_screen_register_notifier(struct
+> drm_privacy_screen *priv,
+> +                                                      struct notifier_block
+> *nb)
+> +{
+> +       return -ENODEV;
+> +}
+> +static inline int drm_privacy_screen_unregister_notifier(struct
+> drm_privacy_screen *priv,
+> +                                                        struct
+> notifier_block *nb)
+> +{
+> +       return -ENODEV;
+> +}
+>  #endif
+>  
+>  #endif
+> diff --git a/include/drm/drm_privacy_screen_driver.h
+> b/include/drm/drm_privacy_screen_driver.h
+> index 5187ae52eb03..24591b607675 100644
+> --- a/include/drm/drm_privacy_screen_driver.h
+> +++ b/include/drm/drm_privacy_screen_driver.h
+> @@ -54,6 +54,8 @@ struct drm_privacy_screen {
+>         struct mutex lock;
+>         /** @list: privacy-screen devices list list-entry. */
+>         struct list_head list;
+> +       /** @notifier_head: privacy-screen notifier head. */
+> +       struct blocking_notifier_head notifier_head;
+>         /**
+>          * @ops: &struct drm_privacy_screen_ops for this privacy-screen.
+>          * This is NULL if the driver has unregistered the privacy-screen.
+> @@ -77,4 +79,6 @@ struct drm_privacy_screen *drm_privacy_screen_register(
+>         struct device *parent, const struct drm_privacy_screen_ops *ops);
+>  void drm_privacy_screen_unregister(struct drm_privacy_screen *priv);
+>  
+> +void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen
+> *priv);
+> +
+>  #endif
 
-I still think it would be a good idea to have everything explicitly 
-named and the only mention of PAGE_SIZE is in the 'total size' definition.
-
-John.
-
-
->
-> A later patch in the series uses the space of above the process
-> descriptor for insertation of preeemption points handshake. That does
-> depend on the number of children. I will add a COMPILE_BUG_ON for that
-> to ensure everything fits in the memory layout.
->
->> shouldn't there be a 'COMPILE_BUG_ON((MAX_ENGINE_INSTANCE *
->> sizeof(descriptor)) < (WQ_DESC_SIZE)' where WQ_DESC_SIZE is WQ_TOTAL_SIZE -
->> WQ_SIZE?
->>
->>> +static u32 __get_process_desc_offset(struct intel_context *ce)
->>> +{
->>> +	GEM_BUG_ON(!ce->parent_page);
->>> +
->>> +	return ce->parent_page * PAGE_SIZE;
->>> +}
->>> +
->>> +static u32 __get_wq_offset(struct intel_context *ce)
->>> +{
->>> +	return __get_process_desc_offset(ce) + WQ_OFFSET;
->>> +}
->>> +
->>> +static struct guc_process_desc *
->>> +__get_process_desc(struct intel_context *ce)
->>> +{
->>> +	return (struct guc_process_desc *)
->>> +		(ce->lrc_reg_state +
->>> +		 ((__get_process_desc_offset(ce) -
->>> +		   LRC_STATE_OFFSET) / sizeof(u32)));
->> Where did the LRC_STATE_OFFSET come from? Is that built in to the
->> lrg_reg_state pointer itself? That needs to be documented somewhere.
->>
-> In gt/intel_lrc.c (lrc_pin) ce->lrc_reg_state is assigned to
-> mmap(ce->state) + LRC_STATE_OFFSET. I can update the kerneldoc for that
-> field in this patch.
->
->>> +}
->>> +
->>>    static struct guc_lrc_desc *__get_lrc_desc(struct intel_guc *guc, u32 index)
->>>    {
->>>    	struct guc_lrc_desc *base = guc->lrc_desc_pool_vaddr;
->>> @@ -1342,6 +1375,30 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
->>>    	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->>>    }
->>> +static int __guc_action_register_multi_lrc(struct intel_guc *guc,
->>> +					   struct intel_context *ce,
->>> +					   u32 guc_id,
->>> +					   u32 offset,
->>> +					   bool loop)
->>> +{
->>> +	struct intel_context *child;
->>> +	u32 action[4 + MAX_ENGINE_INSTANCE];
->>> +	int len = 0;
->>> +
->>> +	GEM_BUG_ON(ce->guc_number_children > MAX_ENGINE_INSTANCE);
->>> +
->>> +	action[len++] = INTEL_GUC_ACTION_REGISTER_CONTEXT_MULTI_LRC;
->>> +	action[len++] = guc_id;
->>> +	action[len++] = ce->guc_number_children + 1;
->>> +	action[len++] = offset;
->>> +	for_each_child(ce, child) {
->>> +		offset += sizeof(struct guc_lrc_desc);
->>> +		action[len++] = offset;
->>> +	}
->>> +
->>> +	return guc_submission_send_busy_loop(guc, action, len, 0, loop);
->>> +}
->>> +
->>>    static int __guc_action_register_context(struct intel_guc *guc,
->>>    					 u32 guc_id,
->>>    					 u32 offset,
->>> @@ -1364,9 +1421,15 @@ static int register_context(struct intel_context *ce, bool loop)
->>>    		ce->guc_id.id * sizeof(struct guc_lrc_desc);
->>>    	int ret;
->>> +	GEM_BUG_ON(intel_context_is_child(ce));
->>>    	trace_intel_context_register(ce);
->>> -	ret = __guc_action_register_context(guc, ce->guc_id.id, offset, loop);
->>> +	if (intel_context_is_parent(ce))
->>> +		ret = __guc_action_register_multi_lrc(guc, ce, ce->guc_id.id,
->>> +						      offset, loop);
->>> +	else
->>> +		ret = __guc_action_register_context(guc, ce->guc_id.id, offset,
->>> +						    loop);
->>>    	if (likely(!ret)) {
->>>    		unsigned long flags;
->>> @@ -1396,6 +1459,7 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
->>>    {
->>>    	struct intel_guc *guc = ce_to_guc(ce);
->>> +	GEM_BUG_ON(intel_context_is_child(ce));
->>>    	trace_intel_context_deregister(ce);
->>>    	return __guc_action_deregister_context(guc, guc_id, loop);
->>> @@ -1423,6 +1487,7 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->>>    	struct guc_lrc_desc *desc;
->>>    	bool context_registered;
->>>    	intel_wakeref_t wakeref;
->>> +	struct intel_context *child;
->>>    	int ret = 0;
->>>    	GEM_BUG_ON(!engine->mask);
->>> @@ -1448,6 +1513,42 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
->>>    	desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->>>    	guc_context_policy_init(engine, desc);
->>> +	/*
->>> +	 * Context is a parent, we need to register a process descriptor
->>> +	 * describing a work queue and register all child contexts.
->> Technically, this should say 'If the context is a parent'. Or just move it
->> to be inside the if block.
->>
-> I will add the "If the".
->
->>> +	 */
->>> +	if (intel_context_is_parent(ce)) {
->>> +		struct guc_process_desc *pdesc;
->>> +
->>> +		ce->guc_wqi_tail = 0;
->>> +		ce->guc_wqi_head = 0;
->>> +
->>> +		desc->process_desc = i915_ggtt_offset(ce->state) +
->>> +			__get_process_desc_offset(ce);
->>> +		desc->wq_addr = i915_ggtt_offset(ce->state) +
->>> +			__get_wq_offset(ce);
->>> +		desc->wq_size = GUC_WQ_SIZE;
->>> +
->>> +		pdesc = __get_process_desc(ce);
->>> +		memset(pdesc, 0, sizeof(*(pdesc)));
->>> +		pdesc->stage_id = ce->guc_id.id;
->>> +		pdesc->wq_base_addr = desc->wq_addr;
->>> +		pdesc->wq_size_bytes = desc->wq_size;
->>> +		pdesc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
->> Should this not be inherited from the ce? And same below. Or are we not
->> using this priority in that way?
->>
-> Honestly I don't think this field is used or maybe doesn't even exist
-> anymore. I'll check the GuC code and likely delete this or if it is
-> still present I'll inherited this from the ce.
->
-> Matt
->
->> John.
->>
->>> +		pdesc->wq_status = WQ_STATUS_ACTIVE;
->>> +
->>> +		for_each_child(ce, child) {
->>> +			desc = __get_lrc_desc(guc, child->guc_id.id);
->>> +
->>> +			desc->engine_class =
->>> +				engine_class_to_guc_class(engine->class);
->>> +			desc->hw_context_desc = child->lrc.lrca;
->>> +			desc->priority = GUC_CLIENT_PRIORITY_KMD_NORMAL;
->>> +			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
->>> +			guc_context_policy_init(engine, desc);
->>> +		}
->>> +	}
->>> +
->>>    	/*
->>>    	 * The context_lookup xarray is used to determine if the hardware
->>>    	 * context is currently registered. There are two cases in which it
->>> @@ -2858,6 +2959,12 @@ g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
->>>    		return NULL;
->>>    	}
->>> +	if (unlikely(intel_context_is_child(ce))) {
->>> +		drm_err(&guc_to_gt(guc)->i915->drm,
->>> +			"Context is child, desc_idx %u", desc_idx);
->>> +		return NULL;
->>> +	}
->>> +
->>>    	return ce;
->>>    }
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
