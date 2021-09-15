@@ -2,89 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DCEB40CEA1
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:12:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F9A40CEB3
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:18:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84BCE6EA5E;
-	Wed, 15 Sep 2021 21:12:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 270EA6EA62;
+	Wed, 15 Sep 2021 21:18:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D21436EA5E
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631740366;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ztaTSSh2XyMIxLKcfUEMRsL1SM5pP6oaQc/cGjspv6E=;
- b=A3QoJd4LEoPSkBsI1EzA1vuB+7n5sNHHEYdhcW0lbnoOfKQ5HDczxiv5ecByowZxwgZ03W
- Yarae5mH2VbvrT4x+J1QIqSznqrkcs7mu5AbB/nLYooo1CFgxI9pVRf3q04hK9eytM9o/F
- 7h8alqupe+7eIuQR56oGGvbpmd7xbfk=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-HsIyb0iZPv-5m1HqtN7ywg-1; Wed, 15 Sep 2021 17:12:42 -0400
-X-MC-Unique: HsIyb0iZPv-5m1HqtN7ywg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- y185-20020a3764c20000b02903d2c78226ceso9452348qkb.6
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:12:42 -0700 (PDT)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E91F26EA64
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:18:38 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id y13so8598218ybi.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=o3veXBIZnvUKtnHxWTaozM/HSbOfDNjRTmGu3zb3EfU=;
+ b=T2gxgE71iotL62qHgp9HhDUB18cqI7roSzz75Zt/y2U4xEJ+gNBwoTRJK6fDzLIAIX
+ RMSQFGJ+pxrFbdf9ZY3FitomLZY9LNLGE8yn2O8bcOc0yghhvE2HbrS/zOxY95Gj44+L
+ JtvaBq94TiQEVvSbsqv7I3jo4DXW9p2+ZwYUY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=ztaTSSh2XyMIxLKcfUEMRsL1SM5pP6oaQc/cGjspv6E=;
- b=xalBSpq10IRTBp//bw6Mh0uKPFshCfYfzsMu3caD+wCNha4i6sFNlTLe3WbirAZKwA
- esDhOQUV6HFiwk2lMPIhr2RX5AAnmXN9O2foYJPjyEeqlC9rVsexpwBsBSWyxDk5n5cN
- NUERZebOUDbGe+iWvfrAJVhNZJYTNMErsXAXpuDiWudC9wgcUvQTw0bcbLHOJVuVMdzw
- ISdwQvn/JPbsynpNCiy0+yWAgJYX5OGg24jE2cmOuF6+viW2ADHUs4MJMl70HLE4SDuV
- Q4xn55HedHQhEb8byhB+sSkX4Z4nZEj90RXEVqmFL5aBiO3/ByHicsmOrBcdFVWNGzdO
- Qv9g==
-X-Gm-Message-State: AOAM532MzpQwzrpNN6wwYW4ZXFa8zgwV11x2GIAKQK/EvKzk8iBTh17H
- HCRtJj+PKJQEdCINK7WQsb0Q4LN+w1gs9ZOjtnpifo8Xsqf0dYgzChX5JABwM4DwYej+ccxP4Nm
- qA2hOLESVNL1+PsE1IJZxqrFIQYRl
-X-Received: by 2002:a05:6214:387:: with SMTP id
- l7mr1978280qvy.18.1631740362147; 
- Wed, 15 Sep 2021 14:12:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPITxYBjWa5zyX+wpFjDWfNzNlOnZPkx+q623qbE3sktoD4mTGRlKk5f7+ZAiElykpCVKq8Q==
-X-Received: by 2002:a05:6214:387:: with SMTP id
- l7mr1978244qvy.18.1631740361922; 
- Wed, 15 Sep 2021 14:12:41 -0700 (PDT)
-Received: from [192.168.8.206] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id o12sm752839qtt.94.2021.09.15.14.12.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 14:12:41 -0700 (PDT)
-Message-ID: <ddd8ba1e22adb6fd536c9d72384a30bb9c945997.camel@redhat.com>
-Subject: Re: [PATCH 0/9] drm: Add privacy-screen class and connector properties
-From: Lyude Paul <lyude@redhat.com>
-To: Hans de Goede <hdegoede@redhat.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, Rajat Jain <rajatja@google.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,  Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Mark Gross <mgross@linux.intel.com>, Andy Shevchenko <andy@infradead.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Pekka
- Paalanen <pekka.paalanen@collabora.com>, Mario Limonciello
- <mario.limonciello@outlook.com>, Mark Pearson <markpearson@lenovo.com>,
- Sebastien Bacher <seb128@ubuntu.com>, Marco Trevisan
- <marco.trevisan@canonical.com>, Emil Velikov <emil.l.velikov@gmail.com>, 
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org
-Date: Wed, 15 Sep 2021 17:12:40 -0400
-In-Reply-To: <20210906073519.4615-1-hdegoede@redhat.com>
-References: <20210906073519.4615-1-hdegoede@redhat.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=o3veXBIZnvUKtnHxWTaozM/HSbOfDNjRTmGu3zb3EfU=;
+ b=gZz0ToyyMFln25LeyOQROoC92BOqM5Z0kNwtkwnseoGdFdwonSuoWjNbwLAlhOn6YT
+ DYO2Qdph1Hk9XxRP/vaIw52B+jTfT5K4W584/YZe3CnSLEoHytY5FcpgpgjPbWh9IVXD
+ 9YNUM0QQSDdS5GgUhFRiecNscoc3PcUH/a9Ksq3ZaeLb8zAooJ9kvtvLTwigjYrKkr/F
+ GXTSAo1J02fRJKH60+y/TdK66oTjkI4pQCfFFI91aQp0cissOQ3BYcPVKwI0zCvt/l2N
+ 3jXm7hOFj4sJxCrTBFq3OPy/oSWvYszCvvS8AtOtcyg9ILy+zD8cWTfcTDJDgz8iWJ67
+ zZqg==
+X-Gm-Message-State: AOAM533KgWl6O6P6bIICBtmLuvbeD3LNajOKPAgP1d1DJv1QH/0z5/mX
+ xwzp7Vduo7lO38YKF5rbgbC1HVfweUROaA3VliJc5w==
+X-Google-Smtp-Source: ABdhPJwafmtANzZaofILn25DpwsrttNeT0o2NtqIHVBfMTOg9T5WN29WNXyWHOoiaGfXzSK3F5p308f7zEAXADaSQCo=
+X-Received: by 2002:a25:b94:: with SMTP id 142mr2619354ybl.508.1631740718136; 
+ Wed, 15 Sep 2021 14:18:38 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
+ <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
+ <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
+ <CA+cxXhn-gLt37oyEq3wSh3qf=UkY=H6fY3ahC=gyhKhGwu_dXw@mail.gmail.com>
+ <CAOMZO5B_J29npC+yu2freuwNLjKAmwas7gVaB6qRabAmVWy2KQ@mail.gmail.com>
+In-Reply-To: <CAOMZO5B_J29npC+yu2freuwNLjKAmwas7gVaB6qRabAmVWy2KQ@mail.gmail.com>
+From: Philip Chen <philipchen@chromium.org>
+Date: Wed, 15 Sep 2021 14:18:26 -0700
+Message-ID: <CA+cxXhnA5LV=E_rcaE=V=GerC=b53tMXHvq-pdtPm8JyEmvxzA@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
+ channel
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,129 +74,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-OK! Looked over all of these patches. Patches 2 and 4 have some comments that
-should be addressed, but otherwise this series is:
+Hi Fabio
 
-Reviewed-by: Lyude Paul <lyude@redhat.com>
+On Wed, Sep 15, 2021 at 2:00 PM Fabio Estevam <festevam@gmail.com> wrote:
+>
+> On Wed, Sep 15, 2021 at 5:41 PM Philip Chen <philipchen@chromium.org> wrote:
+>
+> > As regmap_read() should always read 1 byte at a time, should I just do:
+> > regmap_read(map, PAGE0_SWAUX_RDATA, (unsigned int*)(buf + i))
+>
+> There is also regmap_bulk_read() if you need to read more data.
 
-Let me know when/if you need help pushing this upstream
-
-On Mon, 2021-09-06 at 09:35 +0200, Hans de Goede wrote:
-> Hi all,
-> 
-> Here is the privacy-screen related code which I last posted in April 2021
-> To the best of my knowledge there is consensus about / everyone is in
-> agreement with the new userspace API (2 connector properties) this
-> patch-set add (patch 1 of the series).
-> 
-> This is unchanged (except for a rebase on drm-tip), what has changed is
-> that the first userspace consumer of the new properties is now fully ready
-> for merging (it is just waiting for the kernel bits to land first):
-> 
->  -
-> https://gitlab.gnome.org/GNOME/gsettings-desktop-schemas/-/merge_requests/49
->  - https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1952
->  - https://gitlab.gnome.org/GNOME/gnome-control-center/-/merge_requests/1032
-> 
-> Having a userspace-consumer of the API fully ready for merging, clears the
-> last blocker for this series. It has already has been reviewed before
-> by Emil Velikov, but it could really do with another review.
-> 
-> The new API works as designed and add the following features to GNOME:
-> 
-> 1. Showing an OSD notification when the privacy-screen is toggled on/off
->    through hotkeys handled by the embedded-controller
-> 2. Allowing control of the privacy-screen from the GNOME control-panel,
->    including the on/off slider shown there updating to match the hw-setting
->    when the setting is changed with the control-panel open.
-> 3. Restoring the last user-setting at login
-> 
-> This series consists of a number of different parts:
-> 
-> 1. A new version of Rajat's privacy-screen connector properties patch,
-> this adds new userspace API in the form of new properties
-> 
-> 2. Since on most devices the privacy screen is actually controlled by
-> some vendor specific ACPI/WMI interface which has a driver under
-> drivers/platform/x86, we need some "glue" code to make this functionality
-> available to KMS drivers. Patches 2-4 add a new privacy-screen class for
-> this, which allows non KMS drivers (and possibly KMS drivers too) to
-> register a privacy-screen device and also adds an interface for KMS drivers
-> to get access to the privacy-screen associated with a specific connector.
-> This is modelled similar to how we deal with e.g. PWMs and GPIOs in the
-> kernel, including separate includes for consumers and providers(drivers).
-> 
-> 3. Some drm_connector helper functions to keep the actual changes needed
-> for this in individual KMS drivers as small as possible (patch 5).
-> 
-> 4. Make the thinkpad_acpi code register a privacy-screen device on
-> ThinkPads with a privacy-screen (patches 6-8)
-> 
-> 5. Make the i915 driver export the privacy-screen functionality through
-> the connector properties on the eDP connector.
-> 
-> I believe that it would be best to merge the entire series, including
-> the thinkpad_acpi changes through drm-misc in one go. As the pdx86
-> subsys maintainer I hereby give my ack for merging the thinkpad_acpi
-> changes through drm-misc.
-> 
-> There is one small caveat with this series, which it is good to be
-> aware of. The i915 driver will now return -EPROBE_DEFER on Thinkpads
-> with an eprivacy screen, until the thinkpad_acpi driver is loaded.
-> This means that initrd generation tools will need to be updated to
-> include thinkpad_acpi when the i915 driver is added to the initrd.
-> Without this the loading of the i915 driver will be delayed to after
-> the switch to real rootfs.
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> Hans de Goede (8):
->   drm: Add privacy-screen class (v3)
->   drm/privacy-screen: Add X86 specific arch init code
->   drm/privacy-screen: Add notifier support
->   drm/connector: Add a drm_connector privacy-screen helper functions
->   platform/x86: thinkpad_acpi: Add hotkey_notify_extended_hotkey()
->     helper
->   platform/x86: thinkpad_acpi: Get privacy-screen / lcdshadow ACPI
->     handles only once
->   platform/x86: thinkpad_acpi: Register a privacy-screen device
->   drm/i915: Add privacy-screen support
-> 
-> Rajat Jain (1):
->   drm/connector: Add support for privacy-screen properties (v4)
-> 
->  Documentation/gpu/drm-kms-helpers.rst        |  15 +
->  Documentation/gpu/drm-kms.rst                |   2 +
->  MAINTAINERS                                  |   8 +
->  drivers/gpu/drm/Kconfig                      |   4 +
->  drivers/gpu/drm/Makefile                     |   1 +
->  drivers/gpu/drm/drm_atomic_uapi.c            |   4 +
->  drivers/gpu/drm/drm_connector.c              | 214 +++++++++
->  drivers/gpu/drm/drm_drv.c                    |   4 +
->  drivers/gpu/drm/drm_privacy_screen.c         | 468 +++++++++++++++++++
->  drivers/gpu/drm/drm_privacy_screen_x86.c     |  86 ++++
->  drivers/gpu/drm/i915/display/intel_display.c |   5 +
->  drivers/gpu/drm/i915/display/intel_dp.c      |  10 +
->  drivers/gpu/drm/i915/i915_pci.c              |  12 +
->  drivers/platform/x86/Kconfig                 |   2 +
->  drivers/platform/x86/thinkpad_acpi.c         | 131 ++++--
->  include/drm/drm_connector.h                  |  56 +++
->  include/drm/drm_privacy_screen_consumer.h    |  65 +++
->  include/drm/drm_privacy_screen_driver.h      |  84 ++++
->  include/drm/drm_privacy_screen_machine.h     |  46 ++
->  19 files changed, 1175 insertions(+), 42 deletions(-)
->  create mode 100644 drivers/gpu/drm/drm_privacy_screen.c
->  create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
->  create mode 100644 include/drm/drm_privacy_screen_consumer.h
->  create mode 100644 include/drm/drm_privacy_screen_driver.h
->  create mode 100644 include/drm/drm_privacy_screen_machine.h
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+Thanks for the review.
+PAGE0_SWAUX_RDATA is a single-byte FIFO buffer.
+So I'll need to read one byte at a time cyclically.
