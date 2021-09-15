@@ -2,59 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A77BA40C5BF
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 14:56:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA78B40C5DA
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 15:03:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60DA889C37;
-	Wed, 15 Sep 2021 12:56:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3D196E928;
+	Wed, 15 Sep 2021 13:03:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com
- [209.85.161.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BD089C37
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 12:56:38 +0000 (UTC)
-Received: by mail-oo1-f43.google.com with SMTP id
- k18-20020a4abd92000000b002915ed21fb8so843772oop.11
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 05:56:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=eNJrp4hkkii6jSrN5pnjt5uJ56GHQYA0aPuGCrBxI38=;
- b=Kt1TIJpHtYMBNObSFei4NjS3rt9Xo6YXV/WBRyMtKDV/FdmNfyrOLELnVMKcd2TSCh
- 3XtPcVa1hEn4YDU7pNeNCkzadO0DEpgnP4lHMDUBm4WsUwb0jtdB7UKqVeSV4Ot7sUOH
- 0QV/Jjow3RQpAty/Aw7vaCuKX/5dLBAc9Zq57Eimmnhosv7DHAjqnBTck2xAWRQyQPmR
- ByR7/LFggY6Qt/BIXpJk5uoaGo9Fl0ASTIeQa1tu4agE0NpbH3nZIsYBykwXY1aAkoZH
- X4aAVs0gzl/KStWe3lpqd7mqpVUw5plcUCUw83vba26TCmaSFa/g+DgRMt9drTg56waX
- 9Eog==
-X-Gm-Message-State: AOAM532EzrQXvkhYyX/c+C5hvuTeEwfhncIWVVpCSLm675pnjr9x4oi1
- lacIsrjIma8ki42WOF+GnA==
-X-Google-Smtp-Source: ABdhPJzp3e1pp9Lsc7MCgmkwuRwGFXmv0jtuzCmDwFtPZNWP0m1xO3VgLzrqd10S/HkZQ6dlvYS0Sg==
-X-Received: by 2002:a4a:de90:: with SMTP id v16mr18232123oou.42.1631710597319; 
- Wed, 15 Sep 2021 05:56:37 -0700 (PDT)
-Received: from robh.at.kernel.org ([12.252.7.226])
- by smtp.gmail.com with ESMTPSA id y24sm3394365oto.40.2021.09.15.05.56.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 15 Sep 2021 05:56:36 -0700 (PDT)
-Received: (nullmailer pid 935948 invoked by uid 1000);
- Wed, 15 Sep 2021 12:56:34 -0000
-From: Rob Herring <robh@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Lee Jones <lee.jones@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, dri-devel@lists.freedesktop.org,
- Rob Herring <robh+dt@kernel.org>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20210914200539.732093-2-paul.kocialkowski@bootlin.com>
-References: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
- <20210914200539.732093-2-paul.kocialkowski@bootlin.com>
-Subject: Re: [PATCH v9 1/4] dt-bindings: display: Document the Xylon LogiCVC
- display controller
-Date: Wed, 15 Sep 2021 07:56:34 -0500
-Message-Id: <1631710594.961761.935947.nullmailer@robh.at.kernel.org>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 953AF6E925;
+ Wed, 15 Sep 2021 13:03:17 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="201813672"
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="201813672"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 06:03:11 -0700
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="544916455"
+Received: from vmastnak-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.214.245])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 06:02:49 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Randy Dunlap <rdunlap@infradead.org>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] Intel UHD resolutions
+In-Reply-To: <d7487c6a-43c9-3940-4f42-b8fa31704e2e@infradead.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <d7487c6a-43c9-3940-4f42-b8fa31704e2e@infradead.org>
+Date: Wed, 15 Sep 2021 16:02:46 +0300
+Message-ID: <87fsu6xa89.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,39 +48,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Sep 2021 22:05:36 +0200, Paul Kocialkowski wrote:
-> The Xylon LogiCVC is a display controller implemented as programmable
-> logic in Xilinx FPGAs.
-> 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Acked-by: Rob Herring <robh@kernel.org>
-> ---
->  .../display/xylon,logicvc-display.yaml        | 302 ++++++++++++++++++
->  1 file changed, 302 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/xylon,logicvc-display.yaml
-> 
+On Fri, 10 Sep 2021, Randy Dunlap <rdunlap@infradead.org> wrote:
+> Hi,
+>
+> I would like to use QHD resolution (2560x1440) with my shiny new
+> computer and display. That resolution works if I boot Windows 10
+> (cough).
+>
+> What do I need to do to use that resolution in Linux?
+>
+> I first tried openSUSE 15.3 (kernel 5.3.18-59.19-default)
+> then I build a v5.14 kernel and tried that.
+> Both of them max out at FHD (1920x1080).
+>
+> I am booting with "i915.force_probe=4c8a" on the kernel command line.
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+I'm guessing you're hitting some dual mode adapter limit.
 
-yamllint warnings/errors:
+Please file a bug over at [1], add drm.debug=14 module parameter, and
+attach dmesg from boot to hitting the issue.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/xylon,logicvc-display.example.dt.yaml: logicvc@43c00000: 'display@0' does not match any of the regexes: '^gpio@[0-9a-f]+$', 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/mfd/xylon,logicvc.yaml
+BR,
+Jani.
 
-doc reference errors (make refcheckdocs):
+[1] https://gitlab.freedesktop.org/drm/intel/issues/new
 
-See https://patchwork.ozlabs.org/patch/1528119
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
