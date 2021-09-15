@@ -2,74 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FA7F40C346
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 12:05:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CEA40C34C
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 12:07:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 728C36E8F6;
-	Wed, 15 Sep 2021 10:05:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0F256E8F7;
+	Wed, 15 Sep 2021 10:07:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 89C286E8F5;
- Wed, 15 Sep 2021 10:05:41 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id q11so2932316wrr.9;
- Wed, 15 Sep 2021 03:05:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=aHbX+vh7p38j0aXlja9z9KexFfI+M632QTahTG9s6tA=;
- b=b+IEIGbJlAHO+fQWnJYrQww2FDpPPTVNVkP3V5NkcLfhvOJBQw70d5D0uQxWNeZnQI
- /hufIj9DSeY3VMas8ZcWJ8S3JSS2kPQsIqfT/rtgqgHvJay9m3VT/o67/8K38k54uoON
- pZRMfUqoO3jl3vX/jqJl8c17ZcKWfvuqs7NX3aQa34FKBuHboBU8Pu5jjAEWczR7l4IE
- e0jSsDUF/1rTYjN4vL9AtGWkQ2LHDKE4HVMIPR7EzD7qI7B5YpPSHIP+VN5jPYWh54tb
- p0ImxUIXvcgGeVbZKh0OBBOhDxcw9AaisMuXAVSk0qPgjp2WziTA+P0VEt7IMr3DVVEK
- NHGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=aHbX+vh7p38j0aXlja9z9KexFfI+M632QTahTG9s6tA=;
- b=hDNCf3Bc0/Xi9rMmCwo47URp36B2rbA9czkjpshLTsa+ONdsNMWYCp1UG6dqKHsySR
- LHsbnT6ygxZBaqrkAcf3Uck0NgwBmmql7UTaPS1LnoZ2RrcEZaGOFR+883OBUErMSclM
- UkIVqmyrEq2+p6hVnl6b8g/PWfgCMHmoKqEG4raQ3X7sRJ7vSFQTMf6+363hJ47KWHFd
- n/Aa2zzxYrb917QpZRiq0ICiITfw0YUiCWjVSEHJ0YHeqnbOgKgron3vd9jPHHXfVNXN
- oTuesTPf960GGps+X8VJz1B6qFNlts6II9Vuahmnn+BliCqnHyA/uWfYw7hgjKEMXZLI
- sU7Q==
-X-Gm-Message-State: AOAM530H+Gqk36M4pgw6KQF8xqSs66Y8CHJDbSS3I1OgtMisYEfnzNOW
- YmijC2SfyNNmKWcCqH0PM3DY2e9ohKU=
-X-Google-Smtp-Source: ABdhPJxByZZifTgDAjusP/293DDqsduEQUSsO+jbNrveCzk0+DMeUUonBdxOljE5gtnnZksri3rqPw==
-X-Received: by 2002:adf:b348:: with SMTP id k8mr4053447wrd.123.1631700339762; 
- Wed, 15 Sep 2021 03:05:39 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:d03d:8939:3840:1f95?
- ([2a02:908:1252:fb60:d03d:8939:3840:1f95])
- by smtp.gmail.com with ESMTPSA id v8sm11569293wrt.12.2021.09.15.03.05.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 15 Sep 2021 03:05:33 -0700 (PDT)
-Subject: Re: [resend PATCH] drm/ttm: Fix a deadlock if the target BO is not
- idle during swap
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: xinhui pan <xinhui.pan@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210907040832.1107747-1-xinhui.pan@amd.com>
- <074efe24-db7a-df68-3624-05989596f44a@amd.com>
- <YTcrcw+hxWuyyl4C@phenom.ffwll.local>
- <37412f7e-9f6f-04bb-41b1-72931ea1381e@amd.com>
- <YTkAnDncKU7ewW+5@phenom.ffwll.local>
- <97ccbd16-ba3f-1b21-b6fb-5568d34f1af3@amd.com>
- <YUCowZxEhECTlgAH@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e87ad40d-9c07-c307-2b61-75ecc3d0986c@gmail.com>
-Date: Wed, 15 Sep 2021 12:05:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E4816E8F7;
+ Wed, 15 Sep 2021 10:07:03 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10107"; a="283275447"
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="283275447"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 03:07:02 -0700
+X-IronPort-AV: E=Sophos;i="5.85,295,1624345200"; d="scan'208";a="544776325"
+Received: from vmastnak-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.214.245])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 03:06:55 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Imran Khan <imran.f.khan@oracle.com>, vbabka@suse.cz, geert@linux-m68k.org,
+ akpm@linux-foundation.org, ryabinin.a.a@gmail.com, glider@google.com,
+ andreyknvl@gmail.com, dvyukov@google.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, airlied@linux.ie, daniel@ffwll.ch
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, linux-mm@kvack.org
+Subject: Re: [PATCH 1/1] lib,
+ stackdepot: Add helper to print stack entries into buffer.
+In-Reply-To: <20210910141001.1622130-2-imran.f.khan@oracle.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210910141001.1622130-1-imran.f.khan@oracle.com>
+ <20210910141001.1622130-2-imran.f.khan@oracle.com>
+Date: Wed, 15 Sep 2021 13:06:52 +0300
+Message-ID: <87mtoeywxv.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YUCowZxEhECTlgAH@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,105 +54,227 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.09.21 um 15:50 schrieb Daniel Vetter:
-> On Thu, Sep 09, 2021 at 09:10:39AM +0200, Christian König wrote:
->> Am 08.09.21 um 20:27 schrieb Daniel Vetter:
->>> On Tue, Sep 07, 2021 at 11:28:23AM +0200, Christian König wrote:
->>>> Am 07.09.21 um 11:05 schrieb Daniel Vetter:
->>>>> On Tue, Sep 07, 2021 at 08:22:20AM +0200, Christian König wrote:
->>>>>> Added a Fixes tag and pushed this to drm-misc-fixes.
->>>>> We're in the merge window, this should have been drm-misc-next-fixes. I'll
->>>>> poke misc maintainers so it's not lost.
->>>> Hui? It's a fix for a problem in stable and not in drm-misc-next.
->>> Ah the flow chart is confusing. There is no current -rc, so it's always
->>> -next-fixes. Or you're running the risk that it's lost until after -rc1.
->>> Maybe we should clarify that "is the bug in current -rc?" only applies if
->>> there is a current -rc.
->> Yeah, I've noticed this as well.
->>
->> But when there is no current -rc because we are in the merge window then the
->> question is how do I submit patches to the current stable?
-> You never submit patches directly to stable. It's always "get it into
-> Linus' tree asap" plus either Cc: stable or a Fixes: line.
-
-But what if the code in drm-misc-next-fixes has been restructured and 
-doesn't have that issue any more?
-
-How do I get the patch into stable then? Submitting directly to Greg?
-
-Thanks,
-Christian.
-
->   During merge
-> window "get into Linus' tree asap" means "put it into drm-misc-next-fixes"
+On Sat, 11 Sep 2021, Imran Khan <imran.f.khan@oracle.com> wrote:
+> To print stack entries into a buffer, users of stackdepot,
+> first get a list of stack entries using stack_depot_fetch
+> and then print this list into a buffer using stack_trace_snprint.
+> Provide a helper in stackdepot for this purpose.
+> Also change above mentioned users to use this helper.
 >
->> In other words this patch here is really for 5.14 and should then be
->> backported to 5.13 and maybe even 5.10 as well.
->>
->> The code was restructured for 5.15 and I even need to double check if that
->> still applies there as well.
->>
->> Or should I send patches like those directly to Greg?
-> Nope. Just fastest path into Linus' tree is good enough. Greg picks up
-> patches directly from the merge window if it has one of the tags. There's
-> occasionally a bit of grumbling because there's so many stable patches
-> coming in during the merge window, but otherwise it should be in stable in
-> the next release like during -rc phase.
-> -Daniel
->
->> Regards,
->> Christian.
->>
->>> Anyway Thomas sent out a pr, so it's all good.
->>> -Daniel
->>>
->>>> Christian.
->>>>
->>>>> -Daniel
->>>>>
->>>>>> It will take a while until it cycles back into the development branches, so
->>>>>> feel free to push some version to amd-staging-drm-next as well. Just ping
->>>>>> Alex when you do this.
->>>>>>
->>>>>> Thanks,
->>>>>> Christian.
->>>>>>
->>>>>> Am 07.09.21 um 06:08 schrieb xinhui pan:
->>>>>>> The ret value might be -EBUSY, caller will think lru lock is still
->>>>>>> locked but actually NOT. So return -ENOSPC instead. Otherwise we hit
->>>>>>> list corruption.
->>>>>>>
->>>>>>> ttm_bo_cleanup_refs might fail too if BO is not idle. If we return 0,
->>>>>>> caller(ttm_tt_populate -> ttm_global_swapout ->ttm_device_swapout) will
->>>>>>> be stuck as we actually did not free any BO memory. This usually happens
->>>>>>> when the fence is not signaled for a long time.
->>>>>>>
->>>>>>> Signed-off-by: xinhui pan <xinhui.pan@amd.com>
->>>>>>> Reviewed-by: Christian König <christian.koenig@amd.com>
->>>>>>> ---
->>>>>>>      drivers/gpu/drm/ttm/ttm_bo.c | 6 +++---
->>>>>>>      1 file changed, 3 insertions(+), 3 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
->>>>>>> index 8d7fd65ccced..23f906941ac9 100644
->>>>>>> --- a/drivers/gpu/drm/ttm/ttm_bo.c
->>>>>>> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
->>>>>>> @@ -1152,9 +1152,9 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->>>>>>>      	}
->>>>>>>      	if (bo->deleted) {
->>>>>>> -		ttm_bo_cleanup_refs(bo, false, false, locked);
->>>>>>> +		ret = ttm_bo_cleanup_refs(bo, false, false, locked);
->>>>>>>      		ttm_bo_put(bo);
->>>>>>> -		return 0;
->>>>>>> +		return ret == -EBUSY ? -ENOSPC : ret;
->>>>>>>      	}
->>>>>>>      	ttm_bo_del_from_lru(bo);
->>>>>>> @@ -1208,7 +1208,7 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
->>>>>>>      	if (locked)
->>>>>>>      		dma_resv_unlock(bo->base.resv);
->>>>>>>      	ttm_bo_put(bo);
->>>>>>> -	return ret;
->>>>>>> +	return ret == -EBUSY ? -ENOSPC : ret;
->>>>>>>      }
->>>>>>>      void ttm_bo_tt_destroy(struct ttm_buffer_object *bo)
+> Signed-off-by: Imran Khan <imran.f.khan@oracle.com>
+> Suggested-by: Vlastimil Babka <vbabka@suse.cz>
+> ---
+>  drivers/gpu/drm/drm_dp_mst_topology.c   |  5 +----
+>  drivers/gpu/drm/drm_mm.c                |  5 +----
+>  drivers/gpu/drm/i915/i915_vma.c         |  5 +----
+>  drivers/gpu/drm/i915/intel_runtime_pm.c | 20 +++++---------------
 
+For the i915 parts,
+
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+
+for merging via whichever tree suits you best.
+
+>  include/linux/stackdepot.h              |  3 +++
+>  lib/stackdepot.c                        | 23 +++++++++++++++++++++++
+>  mm/page_owner.c                         |  5 +----
+>  7 files changed, 35 insertions(+), 31 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 86d13d6bc463..2d1adab9e360 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -1668,13 +1668,10 @@ __dump_topology_ref_history(struct drm_dp_mst_topology_ref_history *history,
+>  	for (i = 0; i < history->len; i++) {
+>  		const struct drm_dp_mst_topology_ref_entry *entry =
+>  			&history->entries[i];
+> -		ulong *entries;
+> -		uint nr_entries;
+>  		u64 ts_nsec = entry->ts_nsec;
+>  		u32 rem_nsec = do_div(ts_nsec, 1000000000);
+>  
+> -		nr_entries = stack_depot_fetch(entry->backtrace, &entries);
+> -		stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 4);
+> +		stack_depot_snprint(entry->backtrace, buf, PAGE_SIZE, 4);
+>  
+>  		drm_printf(&p, "  %d %ss (last at %5llu.%06u):\n%s",
+>  			   entry->count,
+> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+> index 93d48a6f04ab..ca04d7f6f7b5 100644
+> --- a/drivers/gpu/drm/drm_mm.c
+> +++ b/drivers/gpu/drm/drm_mm.c
+> @@ -118,8 +118,6 @@ static noinline void save_stack(struct drm_mm_node *node)
+>  static void show_leaks(struct drm_mm *mm)
+>  {
+>  	struct drm_mm_node *node;
+> -	unsigned long *entries;
+> -	unsigned int nr_entries;
+>  	char *buf;
+>  
+>  	buf = kmalloc(BUFSZ, GFP_KERNEL);
+> @@ -133,8 +131,7 @@ static void show_leaks(struct drm_mm *mm)
+>  			continue;
+>  		}
+>  
+> -		nr_entries = stack_depot_fetch(node->stack, &entries);
+> -		stack_trace_snprint(buf, BUFSZ, entries, nr_entries, 0);
+> +		stack_depot_snprint(node->stack, buf, BUFSZ);
+>  		DRM_ERROR("node [%08llx + %08llx]: inserted at\n%s",
+>  			  node->start, node->size, buf);
+>  	}
+> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+> index 4b7fc4647e46..f2d9ed375109 100644
+> --- a/drivers/gpu/drm/i915/i915_vma.c
+> +++ b/drivers/gpu/drm/i915/i915_vma.c
+> @@ -56,8 +56,6 @@ void i915_vma_free(struct i915_vma *vma)
+>  
+>  static void vma_print_allocator(struct i915_vma *vma, const char *reason)
+>  {
+> -	unsigned long *entries;
+> -	unsigned int nr_entries;
+>  	char buf[512];
+>  
+>  	if (!vma->node.stack) {
+> @@ -66,8 +64,7 @@ static void vma_print_allocator(struct i915_vma *vma, const char *reason)
+>  		return;
+>  	}
+>  
+> -	nr_entries = stack_depot_fetch(vma->node.stack, &entries);
+> -	stack_trace_snprint(buf, sizeof(buf), entries, nr_entries, 0);
+> +	stack_depot_snprint(vma->node.stack, buf, sizeof(buf), 0);
+>  	DRM_DEBUG_DRIVER("vma.node [%08llx + %08llx] %s: inserted at %s\n",
+>  			 vma->node.start, vma->node.size, reason, buf);
+>  }
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index eaf7688f517d..cc312f0a05eb 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -65,16 +65,6 @@ static noinline depot_stack_handle_t __save_depot_stack(void)
+>  	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
+>  }
+>  
+> -static void __print_depot_stack(depot_stack_handle_t stack,
+> -				char *buf, int sz, int indent)
+> -{
+> -	unsigned long *entries;
+> -	unsigned int nr_entries;
+> -
+> -	nr_entries = stack_depot_fetch(stack, &entries);
+> -	stack_trace_snprint(buf, sz, entries, nr_entries, indent);
+> -}
+> -
+>  static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+>  {
+>  	spin_lock_init(&rpm->debug.lock);
+> @@ -146,12 +136,12 @@ static void untrack_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm,
+>  		if (!buf)
+>  			return;
+>  
+> -		__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> +		stack_depot_snprint(stack, buf, PAGE_SIZE, 2);
+>  		DRM_DEBUG_DRIVER("wakeref %x from\n%s", stack, buf);
+>  
+>  		stack = READ_ONCE(rpm->debug.last_release);
+>  		if (stack) {
+> -			__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> +			stack_depot_snprint(stack, buf, PAGE_SIZE, 2);
+>  			DRM_DEBUG_DRIVER("wakeref last released at\n%s", buf);
+>  		}
+>  
+> @@ -183,12 +173,12 @@ __print_intel_runtime_pm_wakeref(struct drm_printer *p,
+>  		return;
+>  
+>  	if (dbg->last_acquire) {
+> -		__print_depot_stack(dbg->last_acquire, buf, PAGE_SIZE, 2);
+> +		stack_depot_snprint(dbg->last_acquire, buf, PAGE_SIZE, 2);
+>  		drm_printf(p, "Wakeref last acquired:\n%s", buf);
+>  	}
+>  
+>  	if (dbg->last_release) {
+> -		__print_depot_stack(dbg->last_release, buf, PAGE_SIZE, 2);
+> +		stack_depot_snprint(dbg->last_release, buf, PAGE_SIZE, 2);
+>  		drm_printf(p, "Wakeref last released:\n%s", buf);
+>  	}
+>  
+> @@ -203,7 +193,7 @@ __print_intel_runtime_pm_wakeref(struct drm_printer *p,
+>  		rep = 1;
+>  		while (i + 1 < dbg->count && dbg->owners[i + 1] == stack)
+>  			rep++, i++;
+> -		__print_depot_stack(stack, buf, PAGE_SIZE, 2);
+> +		stack_depot_print(stack, buf, PAGE_SIZE, 2);
+>  		drm_printf(p, "Wakeref x%lu taken at:\n%s", rep, buf);
+>  	}
+>  
+> diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
+> index d77a30543dd4..88b0b4cc9906 100644
+> --- a/include/linux/stackdepot.h
+> +++ b/include/linux/stackdepot.h
+> @@ -19,6 +19,9 @@ depot_stack_handle_t stack_depot_save(unsigned long *entries,
+>  unsigned int stack_depot_fetch(depot_stack_handle_t handle,
+>  			       unsigned long **entries);
+>  
+> +int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+> +		       int spaces);
+> +
+>  void stack_depot_print(depot_stack_handle_t stack);
+>  
+>  unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_entries);
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 873aeb152f52..e1c1d7683f6b 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -214,6 +214,29 @@ static inline struct stack_record *find_stack(struct stack_record *bucket,
+>  	return NULL;
+>  }
+>  
+> +/**
+> + * stack_depot_snprint - print stack entries from a depot into a buffer
+> + *
+> + * @handle:	Stack depot handle which was returned from
+> + *		stack_depot_save().
+> + * @buf:	Pointer to the print buffer
+> + *
+> + * @size:	Size of the print buffer
+> + *
+> + * @spaces:	Number of leading spaces to print
+> + *
+> + * Return:	Number of bytes printed.
+> + */
+> +int stack_depot_snprint(depot_stack_handle_t handle, char *buf, size_t size,
+> +		       int spaces)
+> +{
+> +	unsigned long *entries;
+> +	unsigned int nr_entries;
+> +
+> +	nr_entries = stack_depot_fetch(handle, &entries);
+> +	return stack_trace_snprint(buf, size, entries, nr_entries, 0);
+> +}
+> +
+>  /**
+>   * stack_depot_print - print stack entries from a depot
+>   *
+> diff --git a/mm/page_owner.c b/mm/page_owner.c
+> index 7918770c2b2b..a83f546c06b5 100644
+> --- a/mm/page_owner.c
+> +++ b/mm/page_owner.c
+> @@ -329,8 +329,6 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+>  		depot_stack_handle_t handle)
+>  {
+>  	int ret, pageblock_mt, page_mt;
+> -	unsigned long *entries;
+> -	unsigned int nr_entries;
+>  	char *kbuf;
+>  
+>  	count = min_t(size_t, count, PAGE_SIZE);
+> @@ -361,8 +359,7 @@ print_page_owner(char __user *buf, size_t count, unsigned long pfn,
+>  	if (ret >= count)
+>  		goto err;
+>  
+> -	nr_entries = stack_depot_fetch(handle, &entries);
+> -	ret += stack_trace_snprint(kbuf + ret, count - ret, entries, nr_entries, 0);
+> +	ret += stack_depot_snprint(handle, kbuf + ret, count - ret, 0);
+>  	if (ret >= count)
+>  		goto err;
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
