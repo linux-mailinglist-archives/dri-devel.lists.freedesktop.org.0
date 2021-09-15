@@ -1,66 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF6C40CE7C
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:00:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1099640CE87
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 23:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7FDE26EA49;
-	Wed, 15 Sep 2021 21:00:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF926EA36;
+	Wed, 15 Sep 2021 21:09:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2E16EA49
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:00:41 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id c8so9632704lfi.3
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 14:00:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6051UbgrRMqDxiwjhzZkrwFi5IKkmuXa1gzwXfPNWkw=;
- b=V9NRrB2CS1yeigqK9Ue6Dtwu1U6p2jRsXG+HSc0iLZA6dsDHxkcqMA9s8nU/IAI5du
- TUzkThscVDc4LqTE0D4bNdDMJnI39D4Cvv4pin63v/fGhIgvWapPi8fM1PJ+dzbsjAJn
- 4CuWWXQxZz2acwXCDbCtSfNxiAMJys+bcXLvzBz9zQWUxyV+TudQpal5XXhPQa1xysjz
- og8Ri3Hx5q3ohoNhs7msnZO3P3n63Y++vMD+ITHHGxK0DO984wKzDmfp3wcR3WghBEYB
- OUdF15j4QfzV/LVEk63ATcGIgYiomSE3zSd5hdR13ROBBRgE24iAi4MurR5fh9xiVHKa
- CPow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6051UbgrRMqDxiwjhzZkrwFi5IKkmuXa1gzwXfPNWkw=;
- b=5mISH6NnD6wV07QEXEHdwHHEdHAn2dlCCR2Qqxp/clZ/E2/L3dRtWD9beH5FbXAbVs
- BJ8k//2A2+v9sCUdn9GOQQvTg9fjeScB8hq05CAP46nGXNzVRTUMKQkUN2fXvCfsTs9T
- OmQel9Zn/HbDNRoXaoyDwlT3X1TBrOpVuIyi8K3hn+lqixe0+c4xvNIcQUzOuLPZHZAq
- 2vjA2oPKldw2ze99NQ8GAHt/4b71oVQ/yEfNTHAStu6ZEqMJ2wXKOu3vmyoTH9mC1yfO
- XjV5UiPDVA4JUM+8vILLwT1GJ9vrE2VEH3EgvnWvWWPtKSsq2/aGfOLHBkzH0NJcVW0h
- 8+3A==
-X-Gm-Message-State: AOAM532VE3ALKXJA34h0jbWgNP6hu+SZt/x/yH6BptR9DvkdrfWT3Ogx
- Ja8m/hFcCE6pt+kxs2k56XNjTBgn6MJNP4uAQS8=
-X-Google-Smtp-Source: ABdhPJzwTh8ZGukPXzZsfLlsL05t09qPNouVPdAoTX8yDhkINktq09DsX8rU+3tF3qfGORyB1CbOY+VDqpFMaB7eJX8=
-X-Received: by 2002:ac2:5d49:: with SMTP id w9mr1379832lfd.450.1631739639394; 
- Wed, 15 Sep 2021 14:00:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
- <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
- <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
- <CA+cxXhn-gLt37oyEq3wSh3qf=UkY=H6fY3ahC=gyhKhGwu_dXw@mail.gmail.com>
-In-Reply-To: <CA+cxXhn-gLt37oyEq3wSh3qf=UkY=H6fY3ahC=gyhKhGwu_dXw@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 15 Sep 2021 18:00:27 -0300
-Message-ID: <CAOMZO5B_J29npC+yu2freuwNLjKAmwas7gVaB6qRabAmVWy2KQ@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
- channel
-To: Philip Chen <philipchen@chromium.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
- Douglas Anderson <dianders@chromium.org>,
- Andrzej Hajda <a.hajda@samsung.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38DD36EA36
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:09:56 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 132BC60FED
+ for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 21:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631740196;
+ bh=gTSJNjeVBt41gxuTTmWm2DQT37J73c5hPnIKA48AeA8=;
+ h=From:To:Subject:Date:From;
+ b=QQG3uNNDo1JtbgNU3vpWcJZbz/fpjS3JKrjy83IkTsAUjcTGV/2ZeUNioTmWdxv0f
+ tKCQGGEdTmVJqGXsCXauvzL3BhEk+xUG72wpIRPXeBW99CRelp495UMi6syb+7jNh/
+ 57L5ZwSGnWvdmwCDGNtszB0dKCma4czc6n5wt6fiGLXsG/JHP5dgridIYnabQE/h02
+ IR5xlPjtVRk2LbQy1WwmIB/LrnLdbPwFRFjjZnSxaQHZMyEv7BoKRpi53TWqkYWL/W
+ 7V9wVyLhM9aEqIJG5OIIi3UgMgZPvJeaDkt5zA6OsjQodBBdwEFwZmccR01yV7472Z
+ p63HEAugwRPwA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 1083E61001; Wed, 15 Sep 2021 21:09:56 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214425] New: [drm][amdgpu][TTM] Page pool memory never gets freed
+Date: Wed, 15 Sep 2021 21:09:55 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: doucha@swarmtech.cz
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version
+ cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
+ priority component assigned_to reporter cf_regression
+Message-ID: <bug-214425-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,9 +68,102 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 15, 2021 at 5:41 PM Philip Chen <philipchen@chromium.org> wrote:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214425
 
-> As regmap_read() should always read 1 byte at a time, should I just do:
-> regmap_read(map, PAGE0_SWAUX_RDATA, (unsigned int*)(buf + i))
+            Bug ID: 214425
+           Summary: [drm][amdgpu][TTM] Page pool memory never gets freed
+           Product: Drivers
+           Version: 2.5
+    Kernel Version: 5.14.3
+          Hardware: x86-64
+                OS: Linux
+              Tree: Mainline
+            Status: NEW
+          Severity: normal
+          Priority: P1
+         Component: Video(DRI - non Intel)
+          Assignee: drivers_video-dri@kernel-bugs.osdl.org
+          Reporter: doucha@swarmtech.cz
+        Regression: No
 
-There is also regmap_bulk_read() if you need to read more data.
+Hello,
+while playing certain webGL games, I've noticed what appears to be a memory
+leak in the kernel. Further investigation revealed that after about an hour=
+ of
+gameplay, over 3GB of memory (half of all available RAM on my machine) will=
+ be
+taken by the TTM page pool.
+
+While the excessive allocation may be caused by a resource leak in the game
+itself (I need to investigate that further), the larger problem is that TTM
+never releases the memory even after I quit the game. Closing the game only
+moves the allocated memory from active buffer objects to idle memory pool w=
+here
+it'll get stuck until I reboot the system. Shutting down X server doesn't
+release the memory either.
+
+System specs:
+HP Probook 455 G7
+AMD Ryzen 5 4500U CPU
+AMD Renoir GPU (Mesa 21.2.1, LLVM 12.0)
+Gentoo Linux
+
+TTM statistics before quitting the game:
+/sys/kernel/debug/ttm/buffer_objects:
+3116
+
+/sys/kernel/debug/ttm/page_pool:
+          --- 0--- --- 1--- --- 2--- --- 3--- --- 4--- --- 5--- --- 6--- ---
+7--- --- 8--- --- 9--- ---10---
+wc      :        2        2        1        1        8        2        0=20=
+=20=20=20=20=20=20
+1        2        1        2
+uc      :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+wc 32   :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+uc 32   :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+
+total   :     3410 of   939433
+
+/sys/kernel/debug/ttm/page_pool_shrink:
+2898/512
+
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+TTM statistics after quitting the game (until reboot):
+/sys/kernel/debug/ttm/buffer_objects:
+403
+
+/sys/kernel/debug/ttm/page_pool:
+          --- 0--- --- 1--- --- 2--- --- 3--- --- 4--- --- 5--- --- 6--- ---
+7--- --- 8--- --- 9--- ---10---
+wc      :      151      134       20        5      255      241      790=20=
+=20=20=20=20
+193      416     1121       83
+uc      :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+wc 32   :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+uc 32   :        0        0        0        0        0        0        0=20=
+=20=20=20=20=20=20
+0        0        0        0
+
+total   :   853035 of   939433
+
+/sys/kernel/debug/ttm/page_pool_shrink:
+853034/1
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
