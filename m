@@ -1,64 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F385A40BCCA
-	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 02:57:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 129A540BCEF
+	for <lists+dri-devel@lfdr.de>; Wed, 15 Sep 2021 03:11:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E4CC96E881;
-	Wed, 15 Sep 2021 00:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76E116E885;
+	Wed, 15 Sep 2021 01:10:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 29C5F6E881
- for <dri-devel@lists.freedesktop.org>; Wed, 15 Sep 2021 00:57:19 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- i8-20020a056830402800b0051afc3e373aso1252607ots.5
- for <dri-devel@lists.freedesktop.org>; Tue, 14 Sep 2021 17:57:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=A+8E2Y0vn6pdEtI3eg1yYcrgDg6slBoozFfrvzmkDcg=;
- b=FDTRV2auKoz4uUsAoyif0Q11y2E562FCDY7HCF7DFrPkkI6Kfce2CyG8oB/DMgR+0q
- LGmgXs3MLsFmNga+bucZQniDLmW5O9s6p5QExDDHdx0QpYQHBkx3epWlMnq/D3AGc6lp
- pFaf8Ctzrx53uDIsf1X7WHwfjRPnMAELSSL1c=
+Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
+ [IPv6:2607:f8b0:4864:20::733])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 22DFD6E884;
+ Wed, 15 Sep 2021 01:10:51 +0000 (UTC)
+Received: by mail-qk1-x733.google.com with SMTP id a66so1728870qkc.1;
+ Tue, 14 Sep 2021 18:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IFsIrIsUJA10emZTQ9WdZY7m0L0AdB4Qt0/aDsH3C0o=;
+ b=DUMxrgRYECkVYyGpJy1IZ6TwdNDkgGWRI9+iOFO/XyPYGQCFY0ooLK8O86eGSOHF6j
+ mGOT4twS4+/LjpiFaJ4ummDPmU69Vecd9vy3nz/n8FzK5w0wGt6TRqlKeycGLEXTQcgb
+ 9DbiDHpFHM23T7fQ6Ix3oP8b4tF6/yREX7AA5yRL8C4mRGqOcJZkpVPs8tEQyDwXOpVx
+ doQe0vYkQPxIlF+IRNU37R/NKYUzZ07OhYTK7lI8WmtcfacVIeZc6h2auayc4Kjqfm78
+ PTewg/6YMQjx9lLSwGjTiqYpT6kl3CITB3fOfSLVkuXdLgAOgJfwuGeLoPZS3e7PwmYg
+ kTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=A+8E2Y0vn6pdEtI3eg1yYcrgDg6slBoozFfrvzmkDcg=;
- b=A0YAlq4ZwzZpil7UtRXFQ192jcxiexGunDqc6EXPhP3hIaIwAKOPxmAlnR0Vq5vGe/
- GUnQRX6bljnbAikWjuVYZf8MgIqFMbdXJgVq2o/sk58EOIGyGCYEiFUb9MNQRSxdJxIN
- y3iKBHJ0NTl9EgiFk1LMX3ibSh+NAL15ZX3X8PaVhJjn4KNJFIpP8UiD3d+d2xu2tulL
- b2H9VI6QEn+d3wj8fTReCFAxWLSKIGUM5YMuXEKVGJfwn9IySB7KPSzHDoVgvG5iKcI+
- pMh5rDzkcq2eNEvlFCwrR4XtOKecbkHJJA7N1e/5tVhWrSu73B9zydfD+E/dl+qVXMGF
- bNtw==
-X-Gm-Message-State: AOAM531QlY4AMn0Mlu1gZIvWmvl2jDgfJDZBT3dIA1VS4kjD6mY00Oxq
- 7LfGc/yow84tjhhzsh1H1nFPTHEfa6pEIDDgCOWPHQ==
-X-Google-Smtp-Source: ABdhPJwhCQ4YlSpqKn4QcawGKsoKnUPsrOU6EgMd9jfkqCyoLjwLS+kyW1x+b1hMSt3cYBytE10AaSLnR4fGJxqsgWY=
-X-Received: by 2002:a05:6830:18c7:: with SMTP id
- v7mr17202302ote.126.1631667438319; 
- Tue, 14 Sep 2021 17:57:18 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 14 Sep 2021 17:57:17 -0700
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IFsIrIsUJA10emZTQ9WdZY7m0L0AdB4Qt0/aDsH3C0o=;
+ b=Ky+nZ3tDAYcMB0dzNnIuQAJryFI/nq8BmgZ9EY0OHE6LiFhW+KuSq92wlytSS9CAbz
+ lhzHqVNLKsHrj5GM0kNRJ41roL4cKcVIKgGb/tl3dYiuD/qWf1ea79dNE7YkjhyiyqrQ
+ 5aM6z2onBdUiNt6+KGQy5gy+PW0mC01h7++U/SyM4byMlPXPUL6HGluY0NNa0RglUeCu
+ uQFap4QeDB5XReC+717Nhn/ySAjlr9a4zFZf6R9JidiC97EKNAzVew62aqWHNlYehwCS
+ JFzMq3//Ib5mT2Z0ayJb2nfLsy72xsRJXhAUZByZggnYpjfGho30BysMOvy/YAr1qxHB
+ Dwxw==
+X-Gm-Message-State: AOAM531Lv9tg0A/l3QFx0Ba4fnkD+A4zDKA82e2AxEJIsacciuNTDx55
+ cYhx7Sox2/i4xlTJgcyQqi6z14+L7538VxnH1M0=
+X-Google-Smtp-Source: ABdhPJzu+c1FhspoPYhHLZWxGOnO2JWauEKNmChoxGK3avx1CYb6bFVTwYYn3YuioXwKHth49+HYcqY4QLT8J6U29w0=
+X-Received: by 2002:a37:68d0:: with SMTP id d199mr7536284qkc.96.1631668249998; 
+ Tue, 14 Sep 2021 18:10:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
-References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
- <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Tue, 14 Sep 2021 17:57:17 -0700
-Message-ID: <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
-Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
- channel
-To: LKML <linux-kernel@vger.kernel.org>, Philip Chen <philipchen@chromium.org>
-Cc: dianders@chromium.org, Andrzej Hajda <a.hajda@samsung.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel@lists.freedesktop.org
+References: <20210913193509.3575-1-anarsoul@gmail.com>
+ <87r1dr34nk.fsf@intel.com>
+ <410de2c8e865446ec7f9d72a419b2674d34891bf.camel@redhat.com>
+ <87v932zt5j.fsf@intel.com>
+In-Reply-To: <87v932zt5j.fsf@intel.com>
+From: Vasily Khoruzhick <anarsoul@gmail.com>
+Date: Tue, 14 Sep 2021 18:10:24 -0700
+Message-ID: <CA+E=qVdELSDKWBwyayTDjRr+RXuWjXN6Vb8EzbgS_0YTb=1dFg@mail.gmail.com>
+Subject: Re: [PATCH] drm/i915/dp: add a delay before setting panel brightness
+ after power on
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Lyude Paul <lyude@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Sean Paul <seanpaul@chromium.org>, 
+ Aaron Ma <aaron.ma@canonical.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,140 +74,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Philip Chen (2021-09-14 16:28:45)
-> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-> index 8d3e7a147170..dc349d729f5a 100644
-> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
-> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-> @@ -117,6 +144,129 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
-[...]
-> +       case DP_AUX_I2C_WRITE:
-> +       case DP_AUX_I2C_READ:
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +
-> +       ret = regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
-> +       if (ret) {
-> +               dev_err(dev, "failed to write PAGE0_AUXCH_CFG3: %d\n", ret);
+On Tue, Sep 14, 2021 at 3:31 PM Jani Nikula <jani.nikula@linux.intel.com> wrote:
+>
+> On Tue, 14 Sep 2021, Lyude Paul <lyude@redhat.com> wrote:
+> > On Tue, 2021-09-14 at 12:09 +0300, Jani Nikula wrote:
+> >> On Mon, 13 Sep 2021, Vasily Khoruzhick <anarsoul@gmail.com> wrote:
+> >> > Panel in my Dell XPS 7590, that uses Intel's HDR backlight interface to
+> >> > control brightness, apparently needs a delay before setting brightness
+> >> > after power on. Without this delay the panel does accept the setting
+> >> > and may come up with some arbitrary brightness (sometimes it's too dark,
+> >> > sometimes it's too bright, I wasn't able to find a system).
+> >> >
+> >> > I don't have access to the spec, so I'm not sure if it's expected
+> >> > behavior or a quirk for particular device.
+> >> >
+> >> > Delay was chosen by experiment: it works with 100ms, but fails with
+> >> > anything lower than 75ms.
+> >>
+> >> Looks like we don't respect the panel delays for DPCD backlight. The
+> >> values are used for setting up the panel power sequencer, and thus PWM
+> >> based backlight, but we should probably use the delays in DPCD backlight
+> >> code too.
+> >
+> > This makes sense to me, you're referring to the panel delays in the VBT
+> > correct?
+>
+> Yes. See pps_init_delays() and intel_pps_backlight_on(). The delays
+> aren't applied to DPCD backlight, I think it would make sense if they
+> were.
 
-Can we use DRM_DEV_ERROR()?
+I guess it explains why it usually stops working after suspend.
+Probably BIOS doesn't re-init the power sequencer on resume.
 
-> +               return ret;
-> +       }
-> +
-> +       /* Assume it's good */
-> +       msg->reply = 0;
-> +
-> +       addr_len[0] = msg->address & 0xff;
-> +       addr_len[1] = (msg->address >> 8) & 0xff;
-> +       addr_len[2] = ((msg->request << 4) & SWAUX_CMD_MASK) |
-> +               ((msg->address >> 16) & SWAUX_ADDR_19_16_MASK);
-
-It really feels like this out to be possible with some sort of
-cpu_to_le32() API. We're shoving msg->address into 3 bytes and then
-adding in the request and some length. So we could do something like:
-
-	u32 addr_len;
-
-	addr_len = FIELD_PREP(SWAUX_ADDR_MASK, msg->address);
-	addr_len |= FIELD_PREP(SWAUX_CMD_MASK, msg->request);
-	if (len)
-		addr_len |= FIELD_PREP(LEN_MASK, len - 1);
-	else
-		addr_len |= FIELD_PREP(LEN_MASK, SWAUX_NO_PAYLOAD );
-	
-	cpu_to_le32s(&addr_len);
-
-	regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, &addr_len, sizeof(addr_len));
-
-> +       addr_len[3] = (len == 0) ? SWAUX_NO_PAYLOAD :
-> +                       ((len - 1) & SWAUX_LENGTH_MASK);
-> +
-> +       regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, addr_len,
-> +                         ARRAY_SIZE(addr_len));
-> +
-> +       if (len && (request == DP_AUX_NATIVE_WRITE ||
-> +                   request == DP_AUX_I2C_WRITE)) {
-> +               /* Write to the internal FIFO buffer */
-> +               for (i = 0; i < len; i++) {
-> +                       ret = regmap_write(map, PAGE0_SWAUX_WDATA, buf[i]);
-> +                       if (ret) {
-> +                               dev_err(dev, "failed to write WDATA: %d\n",
-
-DRM_DEV_ERROR?
-
-> +                                       ret);
-> +                               return ret;
-> +                       }
-> +               }
-> +       }
-> +
-> +       regmap_write(map, PAGE0_SWAUX_CTRL, SWAUX_SEND);
-> +
-> +       /* Zero delay loop because i2c transactions are slow already */
-> +       regmap_read_poll_timeout(map, PAGE0_SWAUX_CTRL, data,
-> +                                !(data & SWAUX_SEND), 0, 50 * 1000);
-> +
-> +       regmap_read(map, PAGE0_SWAUX_STATUS, &data);
-> +       if (ret) {
-> +               dev_err(dev, "failed to read PAGE0_SWAUX_STATUS: %d\n", ret);
-
-DRM_DEV_ERROR?
-
-> +               return ret;
-> +       }
-> +
-> +       switch (data & SWAUX_STATUS_MASK) {
-> +       /* Ignore the DEFER cases as they are already handled in hardware */
-> +       case SWAUX_STATUS_NACK:
-> +       case SWAUX_STATUS_I2C_NACK:
-> +               /*
-> +                * The programming guide is not clear about whether a I2C NACK
-> +                * would trigger SWAUX_STATUS_NACK or SWAUX_STATUS_I2C_NACK. So
-> +                * we handle both cases together.
-> +                */
-> +               if (is_native_aux)
-> +                       msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
-> +               else
-> +                       msg->reply |= DP_AUX_I2C_REPLY_NACK;
-> +
-> +               len = data & SWAUX_M_MASK;
-> +               return len;
-
-Why no 'return data & SWAUX_M_MASK;' and skip the assignment?
-
-> +       case SWAUX_STATUS_ACKM:
-
-Move this up and add fallthrough?
-
-> +               len = data & SWAUX_M_MASK;
-> +               return len;
-> +       case SWAUX_STATUS_INVALID:
-> +               return -EOPNOTSUPP;
-> +       case SWAUX_STATUS_TIMEOUT:
-> +               return -ETIMEDOUT;
-> +       }
-> +
-> +       if (len && (request == DP_AUX_NATIVE_READ ||
-> +                   request == DP_AUX_I2C_READ)) {
-> +               /* Read from the internal FIFO buffer */
-> +               for (i = 0; i < len; i++) {
-> +                       ret = regmap_read(map, PAGE0_SWAUX_RDATA, &data);
-> +                       buf[i] = data;
-
-Can drop a line
-
-		ret = regmap_read(map, PAGE0_SWAUX_RDATA, buf + i);
-
-> +                       if (ret) {
-> +                               dev_err(dev, "failed to read RDATA: %d\n",
-> +                                       ret);
-> +                               return ret;
-> +                       }
-> +               }
-> +       }
-> +
-> +       return len;
-> +}
+> BR,
+> Jani.
+>
+> >
+> >>
+> >> BR,
+> >> Jani.
+> >>
+> >>
+> >> >
+> >> > Signed-off-by: Vasily Khoruzhick <anarsoul@gmail.com>
+> >> > ---
+> >> >  drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c | 4 ++++
+> >> >  1 file changed, 4 insertions(+)
+> >> >
+> >> > diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> >> > b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> >> > index 4f8337c7fd2e..c4f35e1b5870 100644
+> >> > --- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> >> > +++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
+> >> > @@ -210,6 +210,10 @@ intel_dp_aux_hdr_enable_backlight(const struct
+> >> > intel_crtc_state *crtc_state,
+> >> >
+> >> >         ctrl = old_ctrl;
+> >> >         if (panel->backlight.edp.intel.sdr_uses_aux) {
+> >> > +               /* Wait 100ms to ensure that panel is ready otherwise it
+> >> > may not
+> >> > +                * set chosen backlight level
+> >> > +                */
+> >> > +               msleep(100);
+> >> >                 ctrl |= INTEL_EDP_HDR_TCON_BRIGHTNESS_AUX_ENABLE;
+> >> >                 intel_dp_aux_hdr_set_aux_backlight(conn_state, level);
+> >> >         } else {
+> >>
+>
+> --
+> Jani Nikula, Intel Open Source Graphics Center
