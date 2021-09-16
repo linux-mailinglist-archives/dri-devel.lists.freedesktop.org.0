@@ -1,40 +1,78 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2084840DBAD
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:49:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0302640DBA6
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:47:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F3FB56EDD7;
-	Thu, 16 Sep 2021 13:49:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 883646EDD3;
+	Thu, 16 Sep 2021 13:47:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C63C76EDD7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:49:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 18A9160F21;
- Thu, 16 Sep 2021 13:49:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1631800153;
- bh=CYZ8KNNm5qrMXoQi57tE2FJk64Df7om7bwjid5+8gSQ=;
- h=Subject:To:Cc:From:Date:From;
- b=JgaCoUqZnP2z6HVoPu4uPrcw4XSIiTYGJg31IBDwj92BYk4Nq+Qdye7P2xfxRiufC
- FB19eEhtq3wHt3MZpn5NMc1RTQrYulKwcHEXh+syWQlTggMw/z4ArUxbSpgCRvD5S9
- qpnS1qzKQYFHKlMBxnws6IlIiSfof6aNfbfRvow8=
-Subject: Patch "drm/mgag200: Select clock in PLL update functions" has been
- added to the 5.14-stable tree
-To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
- emil.velikov@collabora.com, gregkh@linuxfoundation.org, sam@ravnborg.org,
- tzimmermann@suse.de
-Cc: <stable-commits@vger.kernel.org>
-From: <gregkh@linuxfoundation.org>
-Date: Thu, 16 Sep 2021 15:47:17 +0200
-Message-ID: <163180003716946@kroah.com>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+ [64.147.123.21])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 661646EDD3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:47:41 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id 53571320098F;
+ Thu, 16 Sep 2021 09:47:38 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Thu, 16 Sep 2021 09:47:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=rZIDhlnuGK6V5cK46t4Uvw4Yatx
+ suOQ9msENEMMFQqI=; b=uv/epXvay+8cnwW6oginqM584OwhufyHQT+S40iMGgK
+ vPXbLjOOX8k6QAS5g6DCS3j31W3GVXuX56KJNa+hPnrem0A9pJdpLbSvTZAR2EoJ
+ nts2jUyVa+bl62kUBk8L8wMhqb8T106TVur2xcPSbVAZD3c9paMK+Es/u5wX5Xpu
+ 1OCuOtRxycdvbvYCk7qEc6jlKyU+mTEs8i1O4aWO1buVOxnelsc4z2BnE9L3Leex
+ FkoLYfKVg15qL29ayW+K+yOyQzE08ZbIz5MFIlNh6UYwi3uLRICTUv+3bUUXjDCf
+ keY0idC36xt0JbjEFn89iMI6tjgmkqXyi26LEcdEQFA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rZIDhl
+ nuGK6V5cK46t4Uvw4YatxsuOQ9msENEMMFQqI=; b=dJS9yWAXBKBHPQoeFPhIOm
+ UKsY5+U52WPnXbNE9gbXqCfpxuzqnVyY8u4H0k9HeCianCiXsAjjVHVRgxckijP8
+ UT/KvgCcy3Da+t9XvO8rcta3RyyA7kW6m2JoSJOVRsqTGMFh/ic5i+HTbYRvYsoS
+ IlkoL9ChqdWfz3Yn723dEA3yiA5vMNj0kezOZWFeXgP2Qcz0DclhmZQbDj5P+znU
+ qnAwhGao/ezWiENFRfkatARJumjp+HlAxJBoJHM0DYPTM2x47TkTaNVF5aFXOweV
+ sTVfD4rsjJu7dUIE/MsidkjSOiDOtuDSnvHtgv694QuVomGjHBGasuiXcUtgoYeg
+ ==
+X-ME-Sender: <xms:90pDYYKz52dtZfZFQPIdBg6vYDuZXW7Jezd71XKuATEWfEz7WLNVQQ>
+ <xme:90pDYYJWvOhOpLL6HuEk0VpBDCta_IUVGmAOhmgLSDUvGprUYipkyxEnP5cU2cREq
+ nmdzAuUOKp-mkXOQL8>
+X-ME-Received: <xmr:90pDYYv5IcH41WLpUpttmTdYUwCwM-o-rcvcWVJT6G3R-pUZA1LVuIqQG3O-DocYWc8ZB0vem_GhNsDdxRyELJJ_DKpEEpPZeObx>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+ gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:90pDYVaOsZxLsFhBUfmXtDfXH0cGlAmgLCtWSWGSazV-Exr14QD6dg>
+ <xmx:90pDYfaiBkWcPrDkuh1x39HoFVYH9UD1tE4A_ibDllbSKHpk3_9WAQ>
+ <xmx:90pDYRAD62klcaI8dDpBd3EYP6s3UPfaJegCdazVOwsF35g7738ZLw>
+ <xmx:-UpDYT6F0HWMwp2jPwntqaXgoi2LhKh1ktAA5XNnHsw8POUml6VI3Q>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Sep 2021 09:47:34 -0400 (EDT)
+Date: Thu, 16 Sep 2021 15:47:32 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Make use of the helper function
+ dev_err_probe()
+Message-ID: <20210916134732.nrzetz4io5fmbxpq@gilmour>
+References: <20210916105633.12162-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ANSI_X3.4-1968
-Content-Transfer-Encoding: 8bit
-X-stable: commit
-X-Patchwork-Hint: ignore 
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="42fvjejcppad3kvp"
+Content-Disposition: inline
+In-Reply-To: <20210916105633.12162-1-caihuoqing@baidu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,183 +89,32 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
-This is a note to let you know that I've just added the patch titled
+--42fvjejcppad3kvp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-    drm/mgag200: Select clock in PLL update functions
+On Thu, Sep 16, 2021 at 06:56:32PM +0800, Cai Huoqing wrote:
+> When possible use dev_err_probe help to properly deal with the
+> PROBE_DEFER error, the benefit is that DEFER issue will be logged
+> in the devices_deferred debugfs file.
+> And using dev_err_probe() can reduce code size, the error value
+> gets printed.
+>=20
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-to the 5.14-stable tree which can be found at:
-    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+Applied, thanks
+Maxime
 
-The filename of the patch is:
-     drm-mgag200-select-clock-in-pll-update-functions.patch
-and it can be found in the queue-5.14 subdirectory.
+--42fvjejcppad3kvp
+Content-Type: application/pgp-signature; name="signature.asc"
 
-If you, or anyone else, feels it should not be added to the stable tree,
-please let <stable@vger.kernel.org> know about it.
+-----BEGIN PGP SIGNATURE-----
 
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNK9AAKCRDj7w1vZxhR
+xTSkAP98QRtzTOPuHy5A4zj83HE4sXcoxFGmghpXGhbYDhK6EAEAgs7KVG1NXR0z
+loVt2Z3KCbUWVguTpLIBYkbQxonnMAE=
+=vbrR
+-----END PGP SIGNATURE-----
 
-From 147696720eca12ae48d020726208b9a61cdd80bc Mon Sep 17 00:00:00 2001
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Date: Wed, 14 Jul 2021 16:22:28 +0200
-Subject: drm/mgag200: Select clock in PLL update functions
-
-From: Thomas Zimmermann <tzimmermann@suse.de>
-
-commit 147696720eca12ae48d020726208b9a61cdd80bc upstream.
-
-Put the clock-selection code into each of the PLL-update functions to
-make them select the correct pixel clock. Instead of copying the code,
-introduce a new helper WREG_MISC_MASKED, which does masked writes into
-<MISC>. Use it from each individual PLL update function.
-
-The pixel clock for video output was not actually set before programming
-the clock's values. It worked because the device had the correct clock
-pre-set.
-
-v2:
-	* don't duplicate <MISC> update code (Sam)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: db05f8d3dc87 ("drm/mgag200: Split MISC register update into PLL selection, SYNC and I/O")
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Emil Velikov <emil.velikov@collabora.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.9+
-Link: https://patchwork.freedesktop.org/patch/msgid/20210714142240.21979-2-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/mgag200/mgag200_drv.h  |   16 ++++++++++++++++
- drivers/gpu/drm/mgag200/mgag200_mode.c |   20 +++++++++++++-------
- drivers/gpu/drm/mgag200/mgag200_reg.h  |    9 ++++-----
- 3 files changed, 33 insertions(+), 12 deletions(-)
-
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -43,6 +43,22 @@
- #define ATTR_INDEX 0x1fc0
- #define ATTR_DATA 0x1fc1
- 
-+#define WREG_MISC(v)						\
-+	WREG8(MGA_MISC_OUT, v)
-+
-+#define RREG_MISC(v)						\
-+	((v) = RREG8(MGA_MISC_IN))
-+
-+#define WREG_MISC_MASKED(v, mask)				\
-+	do {							\
-+		u8 misc_;					\
-+		u8 mask_ = (mask);				\
-+		RREG_MISC(misc_);				\
-+		misc_ &= ~mask_;				\
-+		misc_ |= ((v) & mask_);				\
-+		WREG_MISC(misc_);				\
-+	} while (0)
-+
- #define WREG_ATTR(reg, v)					\
- 	do {							\
- 		RREG8(0x1fda);					\
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -174,6 +174,8 @@ static int mgag200_g200_set_plls(struct
- 	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
- 		    clock, f_vco, m, n, p, s);
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
- 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
- 	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
-@@ -289,6 +291,8 @@ static int mga_g200se_set_plls(struct mg
- 		return 1;
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
- 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
- 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
-@@ -385,6 +389,8 @@ static int mga_g200wb_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	for (i = 0; i <= 32 && pll_locked == false; i++) {
- 		if (i > 0) {
- 			WREG8(MGAREG_CRTC_INDEX, 0x1e);
-@@ -522,6 +528,8 @@ static int mga_g200ev_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 	tmp = RREG8(DAC_DATA);
- 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -654,6 +662,9 @@ static int mga_g200eh_set_plls(struct mg
- 			}
- 		}
- 	}
-+
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	for (i = 0; i <= 32 && pll_locked == false; i++) {
- 		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 		tmp = RREG8(DAC_DATA);
-@@ -754,6 +765,8 @@ static int mga_g200er_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 	tmp = RREG8(DAC_DATA);
- 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -787,8 +800,6 @@ static int mga_g200er_set_plls(struct mg
- 
- static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
- {
--	u8 misc;
--
- 	switch(mdev->type) {
- 	case G200_PCI:
- 	case G200_AGP:
-@@ -808,11 +819,6 @@ static int mgag200_crtc_set_plls(struct
- 		return mga_g200er_set_plls(mdev, clock);
- 	}
- 
--	misc = RREG8(MGA_MISC_IN);
--	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
--	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
--	WREG8(MGA_MISC_OUT, misc);
--
- 	return 0;
- }
- 
---- a/drivers/gpu/drm/mgag200/mgag200_reg.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
-@@ -222,11 +222,10 @@
- 
- #define MGAREG_MISC_IOADSEL	(0x1 << 0)
- #define MGAREG_MISC_RAMMAPEN	(0x1 << 1)
--#define MGAREG_MISC_CLK_SEL_MASK	GENMASK(3, 2)
--#define MGAREG_MISC_CLK_SEL_VGA25	(0x0 << 2)
--#define MGAREG_MISC_CLK_SEL_VGA28	(0x1 << 2)
--#define MGAREG_MISC_CLK_SEL_MGA_PIX	(0x2 << 2)
--#define MGAREG_MISC_CLK_SEL_MGA_MSK	(0x3 << 2)
-+#define MGAREG_MISC_CLKSEL_MASK		GENMASK(3, 2)
-+#define MGAREG_MISC_CLKSEL_VGA25	(0x0 << 2)
-+#define MGAREG_MISC_CLKSEL_VGA28	(0x1 << 2)
-+#define MGAREG_MISC_CLKSEL_MGA		(0x3 << 2)
- #define MGAREG_MISC_VIDEO_DIS	(0x1 << 4)
- #define MGAREG_MISC_HIGH_PG_SEL	(0x1 << 5)
- #define MGAREG_MISC_HSYNCPOL		BIT(6)
-
-
-Patches currently in stable-queue which might be from tzimmermann@suse.de are
-
-queue-5.14/drm-mgag200-select-clock-in-pll-update-functions.patch
-queue-5.14/drm-ast-disable-fast-reset-after-dram-initial.patch
-queue-5.14/drm-vkms-let-shadow-plane-helpers-prepare-the-plane-.patch
+--42fvjejcppad3kvp--
