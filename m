@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72D2740DBA5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:47:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2084840DBAD
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:49:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF346EDD2;
-	Thu, 16 Sep 2021 13:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FB56EDD7;
+	Thu, 16 Sep 2021 13:49:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E51A6EDD2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:47:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F0A160F58;
- Thu, 16 Sep 2021 13:47:34 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C63C76EDD7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:49:13 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 18A9160F21;
+ Thu, 16 Sep 2021 13:49:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1631800055;
- bh=vescLYK6z/f/duIFeCk+bR1nAWf6JYUP7+ckuk7osMQ=;
+ s=korg; t=1631800153;
+ bh=CYZ8KNNm5qrMXoQi57tE2FJk64Df7om7bwjid5+8gSQ=;
  h=Subject:To:Cc:From:Date:From;
- b=IcLhwiJACcS6jWsvzaGKXT4nKbhRQIFKqMw9/ct7WKlPNnOumlKEUeOrHlrPmkYFn
- 23BsKnRuxb6Qc1GC/Oraa1VAEo4Vham63XSEy2OFvOVbUhijdmsRD0yKbpMB/OutUk
- Menbw0htYcMhSeKkoE3KEktXjMkAzpCgjw+vHpAU=
+ b=JgaCoUqZnP2z6HVoPu4uPrcw4XSIiTYGJg31IBDwj92BYk4Nq+Qdye7P2xfxRiufC
+ FB19eEhtq3wHt3MZpn5NMc1RTQrYulKwcHEXh+syWQlTggMw/z4ArUxbSpgCRvD5S9
+ qpnS1qzKQYFHKlMBxnws6IlIiSfof6aNfbfRvow8=
 Subject: Patch "drm/mgag200: Select clock in PLL update functions" has been
- added to the 5.13-stable tree
+ added to the 5.14-stable tree
 To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
  emil.velikov@collabora.com, gregkh@linuxfoundation.org, sam@ravnborg.org,
  tzimmermann@suse.de
 Cc: <stable-commits@vger.kernel.org>
 From: <gregkh@linuxfoundation.org>
-Date: Thu, 16 Sep 2021 15:46:52 +0200
-Message-ID: <16318000122203@kroah.com>
+Date: Thu, 16 Sep 2021 15:47:17 +0200
+Message-ID: <163180003716946@kroah.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
@@ -55,12 +55,12 @@ This is a note to let you know that I've just added the patch titled
 
     drm/mgag200: Select clock in PLL update functions
 
-to the 5.13-stable tree which can be found at:
+to the 5.14-stable tree which can be found at:
     http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
 
 The filename of the patch is:
      drm-mgag200-select-clock-in-pll-update-functions.patch
-and it can be found in the queue-5.13 subdirectory.
+and it can be found in the queue-5.14 subdirectory.
 
 If you, or anyone else, feels it should not be added to the stable tree,
 please let <stable@vger.kernel.org> know about it.
@@ -228,6 +228,6 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-queue-5.13/drm-mgag200-select-clock-in-pll-update-functions.patch
-queue-5.13/drm-ast-disable-fast-reset-after-dram-initial.patch
-queue-5.13/drm-vkms-let-shadow-plane-helpers-prepare-the-plane-.patch
+queue-5.14/drm-mgag200-select-clock-in-pll-update-functions.patch
+queue-5.14/drm-ast-disable-fast-reset-after-dram-initial.patch
+queue-5.14/drm-vkms-let-shadow-plane-helpers-prepare-the-plane-.patch
