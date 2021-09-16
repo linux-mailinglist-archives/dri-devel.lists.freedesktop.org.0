@@ -1,68 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F50C40DD79
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 17:02:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 484F740DD9D
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 17:09:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 293B96EB8E;
-	Thu, 16 Sep 2021 15:02:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61A176EB8F;
+	Thu, 16 Sep 2021 15:09:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9CD2C6EB86;
- Thu, 16 Sep 2021 15:02:52 +0000 (UTC)
-Received: from zn.tnic (p200300ec2f11c600e73b4cdd38695acb.dip0.t-ipconnect.de
- [IPv6:2003:ec:2f11:c600:e73b:4cdd:3869:5acb])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 56F431EC0136;
- Thu, 16 Sep 2021 17:02:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
- t=1631804566;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
- bh=Ry9NO0W0dY1PlRpeMUb1ltduv1HjeDhspaE6VFY8fE0=;
- b=dzihOSpZSIsZh7rL/9DrKrEUKj+fwC3WBoadhJkTSM7ks3hY+DLbUVbUxsNt3sZ013SNbv
- 1uoFXr/UPHLRN/IWfbqSc9ua9o0PdzpF9X5dQXtDeWZUajOJiu0Yx7FrtLENXoeeq5i90A
- kjm7WIQn/Y72ZtAGCfVPiXsaokbbn6M=
-Date: Thu, 16 Sep 2021 17:02:40 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: "Kuppuswamy, Sathyanarayanan" <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, iommu@lists.linux-foundation.org,
- kvm@vger.kernel.org, linux-efi@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Christoph Hellwig <hch@infradead.org>,
- Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Baoquan He <bhe@redhat.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dave Young <dyoung@redhat.com>, David Airlie <airlied@linux.ie>,
- Heiko Carstens <hca@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Paul Mackerras <paulus@samba.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Vasily Gorbik <gor@linux.ibm.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 0/8] Implement generic cc_platform_has() helper function
-Message-ID: <YUNckGH0+KXdEmqu@zn.tnic>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <YUIjS6lKEY5AadZx@zn.tnic>
- <d48e6a17-d2b4-67da-56d1-fc9a61dfe2b8@linux.intel.com>
+Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 193EF6EB8F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 15:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+ s=20161220; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
+ :Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=1Qt8eZVGXXPoJliytaxomQR7Nt9R4Kd4tnZSMiZb234=; b=ITEDWgRTX8u92noycsKy8kC8zW
+ uoEBd5MsebiVz5tfHkaj0h/NVe5yN6qVj9xdeMloF3SzbGxhzvvEFvA/p5bVo0vfKR1PlvpNo/X4h
+ RnBPVRHAkEXzdUtXlDuxqrEc7gv5PyPIi+5r5tvicgbruONp0h0fX0wxEQ1BG2so6mYTerCz28jBJ
+ j3XpBj98nEHwI2xz3NJyRehLYA+hDt5qRpfTFqN/mVPzQSGlnJ8MmR4Iit18PS4s2M+zRx+la9NFY
+ gR0MMCMCSy4SXWBvbc/0oGRDhvQo26e9shKfz8hXFSN0nSbh69za6N4ugOzFhgEvMxgHu3Ij778pA
+ qbyx0F4A==;
+Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
+ helo=toshino.localdomain)
+ by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
+ id 1mQt0v-0006by-QU; Thu, 16 Sep 2021 18:09:25 +0300
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: thierry.reding@gmail.com,
+	jonathanh@nvidia.com
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mikko Perttunen <mperttunen@nvidia.com>
+Subject: [PATCH] drm/tegra: Bump VIC/NVDEC clock rates to Fmax
+Date: Thu, 16 Sep 2021 18:09:20 +0300
+Message-Id: <20210916150920.2136180-1-mperttunen@nvidia.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <d48e6a17-d2b4-67da-56d1-fc9a61dfe2b8@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 84.249.134.236
+X-SA-Exim-Mail-From: mperttunen@nvidia.com
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,18 +58,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 15, 2021 at 10:26:06AM -0700, Kuppuswamy, Sathyanarayanan wrote:
-> I have a Intel variant patch (please check following patch). But it includes
-> TDX changes as well. Shall I move TDX changes to different patch and just
-> create a separate patch for adding intel_cc_platform_has()?
+To get full performance out of these engines, bump their clock rates
+to maximum. In the future we may want something smarter but this
+should be fine for now.
 
-Yes, please, so that I can expedite that stuff separately and so that it
-can go in early in order for future work to be based ontop.
+Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+---
+ drivers/gpu/drm/tegra/nvdec.c | 6 ++++++
+ drivers/gpu/drm/tegra/vic.c   | 6 ++++++
+ 2 files changed, 12 insertions(+)
 
-Thx.
-
+diff --git a/drivers/gpu/drm/tegra/nvdec.c b/drivers/gpu/drm/tegra/nvdec.c
+index c3b6fe7fb454..48c90e26e90a 100644
+--- a/drivers/gpu/drm/tegra/nvdec.c
++++ b/drivers/gpu/drm/tegra/nvdec.c
+@@ -374,6 +374,12 @@ static int nvdec_probe(struct platform_device *pdev)
+ 		return PTR_ERR(nvdec->clk);
+ 	}
+ 
++	err = clk_set_rate(nvdec->clk, ULONG_MAX);
++	if (err < 0) {
++		dev_err(&pdev->dev, "failed to set clock rate\n");
++		return err;
++	}
++
+ 	err = of_property_read_u32(dev->of_node, "nvidia,host1x-class", &host_class);
+ 	if (err < 0)
+ 		host_class = HOST1X_CLASS_NVDEC;
+diff --git a/drivers/gpu/drm/tegra/vic.c b/drivers/gpu/drm/tegra/vic.c
+index c02010ff2b7f..dec5e56f6780 100644
+--- a/drivers/gpu/drm/tegra/vic.c
++++ b/drivers/gpu/drm/tegra/vic.c
+@@ -441,6 +441,12 @@ static int vic_probe(struct platform_device *pdev)
+ 		return PTR_ERR(vic->clk);
+ 	}
+ 
++	err = clk_set_rate(vic->clk, ULONG_MAX);
++	if (err < 0) {
++		dev_err(&pdev->dev, "failed to set clock rate\n");
++		return err;
++	}
++
+ 	if (!dev->pm_domain) {
+ 		vic->rst = devm_reset_control_get(dev, "vic");
+ 		if (IS_ERR(vic->rst)) {
 -- 
-Regards/Gruss,
-    Boris.
+2.32.0
 
-https://people.kernel.org/tglx/notes-about-netiquette
