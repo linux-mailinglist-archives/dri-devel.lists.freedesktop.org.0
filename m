@@ -1,58 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEFFD40EB7E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:15:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD1840EBB2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:29:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B9BCD6E82A;
-	Thu, 16 Sep 2021 20:15:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 388DB6E5CF;
+	Thu, 16 Sep 2021 20:29:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
- [IPv6:2a00:1450:4864:20::532])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 133856E82A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:15:55 +0000 (UTC)
-Received: by mail-ed1-x532.google.com with SMTP id q3so21310970edt.5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:15:54 -0700 (PDT)
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B07D36E5CF
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:29:11 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ m7-20020a9d4c87000000b0051875f56b95so9932554otf.6
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:from:date:message-id:subject:to:cc
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6AWUDPsWwtrqPx9907EkcEI/G/RnCXM0GxmUPoB46Lg=;
- b=Gn+AVCdJalYkHFqAtLhvtm2/Kdq8CYY9J6scElVKCWtYJrStog34taNEUtxI4KAnxb
- t8OdluDIwe2fJlXrLbOvcMWm7qIEOgKrWCx8ht6+Vku34Jabfu677gYC2K0mbcmz1XoR
- r2PDOZJSangszGu4uaSWLhWHY4ddRYYc+PBp8ZrW8NNoQMWd/SoZ7fcyuhjOamr6rOFL
- eZIYWoFx7ljzqr0y0+imIiwDjU9UY6WrWegNI+0HzT0avLJEz9T7Bufmqxsi3vZrPJ4u
- PzTC4nSeBTBB7HZnzx1PCJf+ws+mZr560V3wFTkuR45nOf3GL3ONevrg8R6kRbjJYTZ6
- X2zg==
+ bh=yNctjf35lUthrXasNpAfnSa3+mxWwbl0dKJmlnMfucc=;
+ b=U909RySMNj79YQVR1pi51ImHa2K/klM0f9/P6Sj/rTf0tjPwN7WF6KAwonUe5naqUF
+ P9bHXsaeolz9BAgDp/poAKxAYDqMbjhyfNgkazHHLlyuO49kETEb+j1nJqsP3OjQm/Wx
+ n9804N2F3rx6mzK1ZFcWaHxTbarHuDpD3RVNfH8cpQllLPL7eyfrruHFlhESWxkAB5UP
+ 0tFI0aiw6D/ueRsIc05TgrXzN1BhoB97Mz53bhDLak/uNjb5voy3fHHKyY7b7vtndwMm
+ F+avqlTBfXuvFyHD7TY0LrayvGL8C/lIswLxCU3eW74Dzj9ih9+ju2zNMSpObFHL3Qpx
+ X9qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=6AWUDPsWwtrqPx9907EkcEI/G/RnCXM0GxmUPoB46Lg=;
- b=sKWdrMPmOo/phOyNkKQT/6M1uC67F/Ck/TMd4BGomN80FSP+cY16o0nv3H6foRN1Ru
- aeJvonl3ELngPpVHcqUqy4GEBLspGH+8wRoOwll93vCz8gE/O5eeThfEXGukWpoi/MpJ
- 9VRNnzs50STAhX4oMMr9vJ7uEqByDOrn/ZwCOdOjFq3Xu+O+t4qJgKQmfy7UbM5pbYKg
- mEuVB1cWbHLaOiYYtn7tDgY8ctrKdJX6NI/dJu3gBHIHWcQloaRmaVHTKVyci9FYGo+w
- kRABsSraqezvbIV6YJehWU0K32mf88+V3RgbsJv8skMEYjYaRvR2oPzVXI5vTEj8XCYC
- 3Zwg==
-X-Gm-Message-State: AOAM532qgSeW9uCvzUDP7H6rvBxRlfraXr0Sr64OaMqgl6b0Z3ET+dmE
- w2KZci5iXCc51tNElA6cKqvf9sGK0eOj1lIYmxg=
-X-Google-Smtp-Source: ABdhPJx8abzzjv+Z2jF4KSdHidfC3idcealLXNUC+JPAsHwy7fJU7GoAYf6T3CLj5OVa1h86r92Ko2rT+aCP7UngHNM=
-X-Received: by 2002:a17:906:31d7:: with SMTP id
- f23mr7901661ejf.190.1631823353421; 
- Thu, 16 Sep 2021 13:15:53 -0700 (PDT)
+ bh=yNctjf35lUthrXasNpAfnSa3+mxWwbl0dKJmlnMfucc=;
+ b=DuJP6X70BKk8AamfP3pV4UHOscS+JOjwFwudhXUm9ulGAMtyJeQ+4tHnCWG9E5EOnY
+ vaU+pPWfgL1kZqm8VgAAyur6KSYBJhhCz9C4ZA6a4BvL7RXo+w7lpbn3SWA3iFgv/wQp
+ xTnmYU/5b8xedDl7t2Ss7rKHntcoPcL7sUcprrKorz8mnJpdiQmp3uG0htuAM5Hmj4dN
+ QiwelpQc4iOnDOCBuo8Wx6dfqcSeEdRpWAgT1zXfvOwsxkEeVhXkMWk+8+Sp8slIaa+W
+ 41DPQ6Tr1hfokjEVQ6Sw+oOjvRjGw2uiJtnwTVlfqw20ntrl6pEltL28kAYDhar5acUn
+ SZkQ==
+X-Gm-Message-State: AOAM531zPA7siAp8KeE3fDBmPewxb1pl0ra/twvLvPN5HFRTzXNKh6Qn
+ LguIU0N8LiLuCv6a+PiRgj0=
+X-Google-Smtp-Source: ABdhPJwYPCWTBSt9I1/4C80v5KXYCnIfXpYs0w1/Z2o+nX2Ltx4xp29fhQYw7JWEQZoqQ9aHMDE95Q==
+X-Received: by 2002:a05:6830:25d1:: with SMTP id
+ d17mr2573192otu.253.1631824150956; 
+ Thu, 16 Sep 2021 13:29:10 -0700 (PDT)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
+ [76.183.134.35])
+ by smtp.gmail.com with ESMTPSA id m24sm958186oie.50.2021.09.16.13.29.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Sep 2021 13:29:10 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: dri-devel@lists.freedesktop.org, dianders@chromium.org,
+ seanpaul@chromium.org, daniel@ffwll.ch, airlied@linux.ie, heiko@sntech.de,
+ hjc@rock-chips.com, Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH v3] drm/rockchip: Update crtc fixup to account for fractional
+ clk change
+Date: Thu, 16 Sep 2021 15:29:07 -0500
+Message-Id: <20210916202907.18394-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-From: Dave Airlie <airlied@gmail.com>
-Date: Fri, 17 Sep 2021 06:15:42 +1000
-Message-ID: <CAPM=9tyrmDa4qCvu0pf0JHU1DmDnq5H=1uE1JaGjLs6E6dPZNQ@mail.gmail.com>
-Subject: [git pull] drm fixes for 5.15-rc2
-To: Linus Torvalds <torvalds@linux-foundation.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,260 +75,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-Slightly busier than usual rc2, but mostly scattered amdgpu fixes,
-some i915 and etnaviv resolves an MMU/runtime PM blowup, otherwise I'm
-offline for next few days, but back early next week.
+After commit 928f9e268611 ("clk: fractional-divider: Hide
+clk_fractional_divider_ops from wide audience") was merged it appears
+that the DSI panel on my Odroid Go Advance stopped working. Upon closer
+examination of the problem, it looks like it was the fixup in the
+rockchip_drm_vop.c file was causing the issue. The changes made to the
+clk driver appear to change some assumptions made in the fixup.
 
-drm-fixes-2021-09-17:
-drm fixes for 5.15-rc2
+After debugging the working 5.14 kernel and the no-longer working
+5.15 kernel, it looks like this was broken all along but still
+worked, whereas after the fractional clock change it stopped
+working despite the issue (it went from sort-of broken to very broken).
 
-amdgpu:
-- UBSAN fix
-- Powerplay table update fix
-- Fix use after free in BO moves
-- Debugfs init fixes
-- vblank workqueue fixes for headless devices
-- FPU fixes
-- sysfs_emit fixes
-- SMU updates for cyan skillfish
-- Backlight fixes when DMCU is not initialized
-- DP MST fixes
-- HDCP compliance fix
-- Link training fix
-- Runtime pm fix
-- Panel orientation fixes
-- Display GPUVM fix for yellow carp
-- Add missing license
+In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
+17000999 on my board. The clock driver was taking the value of the
+parent clock and attempting to divide the requested value from it
+(17000000/17000999 = 0), then subtracting 1 from it (making it -1),
+and running it through fls_long to get 64. It would then subtract
+the value of fd->mwidth from it to get 48, and then bit shift
+17000999 to the left by 48, coming up with a very large number of
+7649082492112076800. This resulted in a numerator of 65535 and a
+denominator of 1 from the clk driver. The driver seemingly would
+try again and get a correct 1:1 value later, and then move on.
 
-amdkfd:
-- Drop PCI atomics requirement if proper firmware is available
-- Suspend/resume fixes for IOMMUv2 cases
+Output from my 5.14 kernel (with some printfs for good measure):
+[    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.855980] Clock is dclk_vopb_frac
+[    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
+[    2.903529] Clock is dclk_vopb_frac
+[    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
+[    2.903579] Clock is dclk_vopb_frac
+[    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
 
-radeon:
-- AGP fix
+Contrast this with 5.15 after the clk change where the rate of 17000999
+was getting passed and resulted in numerators/denomiators of 17001/
+17000.
 
-i915:
-- Propagate DP link training error returns
-- Use max link params for eDP 1.3 and earlier
-- Build warning fixes
-- Gem selftest fixes
-- Ensure wakeref is held before hardware access
+Output from my 5.15 kernel (with some printfs added for good measure):
+[    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
+[    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
 
-etnaviv:
-- MMU context vs runtime PM fix
-The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f=
-:
+I have tested the change extensively on my Odroid Go Advance (Rockchip
+RK3326) and it appears to work well. However, this change will affect
+all Rockchip SoCs that use this driver so I believe further testing
+is warranted. Please note that without this change I can confirm
+at least all PX30s with DSI panels will stop working with the 5.15
+kernel.
 
-  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+Upon advice from Doug Anderson <dianders@chromium.org> it was decided
+that we would first check if the clock rate can be set exactly as
+requested, and only if it could not would we then add 999 to it and
+attempt the process again. This way we can preserve the behavior for
+clocks that still need it while resolving the specific issue for the
+PX30 and DSI panels (since it is using a fractional clock).
 
-are available in the Git repository at:
+Changes since v2:
+ - Moved fixes to correct location.
 
-  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-09-17
+Changes since v1:
+ - Made the addition of 999 conditional based on whether the clock
+   subsystem can set the actual clock rate as requested.
+ - Updated the notes in the fixup routine to reflect this new behavior.
+ - Added reference to original commit, as this has technically been
+   broken since then however only now is it an issue due to the clock
+   changes.
 
-for you to fetch changes up to 109f7ea9aedce437b4b7737ab60bfea65d9dbdd3:
+Fixes: 287422a95fe2 ("drm/rockchip: Round up _before_ giving to the clock framework")
 
-  Merge tag 'amd-drm-fixes-5.15-2021-09-16' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-09-17
-05:58:55 +1000)
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 26 ++++++++++-----------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-----------------------------------------------------------------
-drm fixes for 5.15-rc2
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba9e14da41b4..a25b98b7f5bd 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1174,26 +1174,24 @@ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+ 	 *
+ 	 * Action plan:
+ 	 *
+-	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
+-	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
+-	 *    make 60000 kHz then the clock framework will actually give us
+-	 *    the right clock.
++	 * 1. Try to set the exact rate first, and confirm the clock framework
++	 *    can provide it.
+ 	 *
+-	 *    NOTE: if the PLL (maybe through a divider) could actually make
+-	 *    a clock rate 999 Hz higher instead of the one we want then this
+-	 *    could be a problem.  Unfortunately there's not much we can do
+-	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
+-	 *    practice since Rockchip PLLs are controlled by tables and
+-	 *    even if there is a divider in the middle I wouldn't expect PLL
+-	 *    rates in the table that are just a few kHz different.
++	 * 2. If the clock framework cannot provide the exact rate, we should
++	 *    add 999 Hz to the requested rate.  That way if the clock we need
++	 *    is 60000001 Hz (~60 MHz) and DRM tells us to make 60000 kHz then
++	 *    the clock framework will actually give us the right clock.
+ 	 *
+-	 * 2. Get the clock framework to round the rate for us to tell us
++	 * 3. Get the clock framework to round the rate for us to tell us
+ 	 *    what it will actually make.
+ 	 *
+-	 * 3. Store the rounded up rate so that we don't need to worry about
++	 * 4. Store the rounded up rate so that we don't need to worry about
+ 	 *    this in the actual clk_set_rate().
+ 	 */
+-	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
++	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
++	if (rate / 1000 != adjusted_mode->clock)
++		rate = clk_round_rate(vop->dclk,
++				      adjusted_mode->clock * 1000 + 999);
+ 	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
+ 
+ 	return true;
+-- 
+2.25.1
 
-amdgpu:
-- UBSAN fix
-- Powerplay table update fix
-- Fix use after free in BO moves
-- Debugfs init fixes
-- vblank workqueue fixes for headless devices
-- FPU fixes
-- sysfs_emit fixes
-- SMU updates for cyan skillfish
-- Backlight fixes when DMCU is not initialized
-- DP MST fixes
-- HDCP compliance fix
-- Link training fix
-- Runtime pm fix
-- Panel orientation fixes
-- Display GPUVM fix for yellow carp
-- Add missing license
-
-amdkfd:
-- Drop PCI atomics requirement if proper firmware is available
-- Suspend/resume fixes for IOMMUv2 cases
-
-radeon:
-- AGP fix
-
-i915:
-- Propagate DP link training error returns
-- Use max link params for eDP 1.3 and earlier
-- Build warning fixes
-- Gem selftest fixes
-- Ensure wakeref is held before hardware access
-
-etnaviv:
-- MMU context vs runtime PM fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      drm/amdgpu/display: add a proper license to dc_link_dp.c
-
-Anson Jacob (1):
-      drm/amd/display: dc_assert_fp_enabled assert only if FPU is not enabl=
-ed
-
-Christian K=C3=B6nig (1):
-      drm/amdgpu: fix use after free during BO move
-
-Daniel Vetter (1):
-      drm/i915: Release ctx->syncobj on final put, not on ctx close
-
-Daniele Ceraolo Spurio (1):
-      drm/i915/guc: drop guc_communication_enabled
-
-Dave Airlie (3):
-      Merge branch 'etnaviv/fixes' of
-https://git.pengutronix.de/git/lst/linux into drm-fixes
-      Merge tag 'drm-intel-fixes-2021-09-16' of
-ssh://git.freedesktop.org/git/drm/drm-intel into drm-fixes
-      Merge tag 'amd-drm-fixes-5.15-2021-09-16' of
-https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
-
-Ernst Sj=C3=B6strand (1):
-      drm/amd/amdgpu: Increase HWIP_MAX_INSTANCE to 10
-
-Evan Quan (1):
-      drm/amd/pm: fix runpm hang when amdgpu loaded prior to sound driver
-
-Felix Kuehling (1):
-      drm/amdkfd: make needs_pcie_atomics FW-version dependent
-
-Harry Wentland (1):
-      drm/amd/display: Get backlight from PWM if DMCU is not initialized
-
-Hersen Wu (1):
-      drm/amd/display: dsc mst 2 4K displays go dark with 2 lane HBR3
-
-James Zhu (3):
-      drm/amdkfd: separate kfd_iommu_resume from kfd_resume
-      drm/amdgpu: add amdgpu_amdkfd_resume_iommu
-      drm/amdgpu: move iommu_resume before ip init/resume
-
-Kai-Heng Feng (1):
-      drm/i915/dp: Use max params for panels < eDP 1.4
-
-Kenneth Feng (1):
-      drm/amd/pm: fix the issue of uploading powerplay table
-
-Lang Yu (5):
-      drm/amdgpu: fix sysfs_emit/sysfs_emit_at warnings(v2)
-      drm/amdgpu: update SMU PPSMC for cyan skilfish
-      drm/amdgpu: update SMU driver interface for cyan skilfish(v3)
-      drm/amdgpu: add some pptable funcs for cyan skilfish(v3)
-      drm/amdgpu: add manual sclk/vddc setting support for cyan skilfish(v3=
-)
-
-Lee Shawn C (1):
-      drm/i915/dp: return proper DPRX link training result
-
-Lucas Stach (8):
-      drm/etnaviv: return context from etnaviv_iommu_context_get
-      drm/etnaviv: put submit prev MMU context when it exists
-      drm/etnaviv: stop abusing mmu_context as FE running marker
-      drm/etnaviv: keep MMU context across runtime suspend/resume
-      drm/etnaviv: exec and MMU state is lost when resetting the GPU
-      drm/etnaviv: fix MMU context leak on GPU reset
-      drm/etnaviv: reference MMU context when setting up hardware state
-      drm/etnaviv: add missing MMU context put when reaping MMU mapping
-
-Meenakshikumar Somasundaram (1):
-      drm/amd/display: Link training retry fix for abort case
-
-Michel D=C3=A4nzer (1):
-      drm/amdgpu: Drop inline from amdgpu_ras_eeprom_max_record_count
-
-Nathan Chancellor (3):
-      drm/i915/selftests: Do not use import_obj uninitialized
-      drm/i915/selftests: Always initialize err in
-igt_dmabuf_import_same_driver_lmem()
-      drm/i915: Enable -Wsometimes-uninitialized
-
-Nicholas Kazlauskas (2):
-      drm/amd/display: Add NULL checks for vblank workqueue
-      drm/amd/display: Fix white screen page fault for gpuvm
-
-Nirmoy Das (2):
-      drm/amdgpu: use IS_ERR for debugfs APIs
-      drm/radeon: pass drm dev radeon_agp_head_init directly
-
-Paul Menzel (1):
-      drm/amdgpu: Demote TMZ unsupported log message from warning to info
-
-Qingqing Zhuo (1):
-      drm/amd/display: Fix unstable HPCP compliance on Chrome Barcelo
-
-Simon Ser (2):
-      amd/display: downgrade validation failure log level
-      amd/display: enable panel orientation quirks
-
-Thomas Hellstr=C3=B6m (1):
-      drm/i915/gem: Fix the mman selftest
-
-Vinay Belgaumkar (1):
-      drm/i915: Get PM ref before accessing HW register
-
- drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  10 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   7 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |  10 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  12 +
- drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.h     |   2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |   4 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  18 +-
- drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  56 ++-
- drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   1 +
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 109 ++++-
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  18 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |  11 +-
- drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c     |   2 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  16 +-
- drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  34 +-
- .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.c    |  10 -
- .../amd/pm/inc/smu11_driver_if_cyan_skillfish.h    |  86 ++--
- drivers/gpu/drm/amd/pm/inc/smu_types.h             |   5 +-
- drivers/gpu/drm/amd/pm/inc/smu_v11_8_ppsmc.h       |   9 +-
- drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   2 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |   8 +-
- .../drm/amd/pm/swsmu/smu11/cyan_skillfish_ppt.c    | 481 +++++++++++++++++=
-++++
- drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  28 +-
- .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   8 +-
- drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  16 +-
- drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |   2 +
- drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  12 +-
- .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |   6 +-
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  21 +
- drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |  15 +
- drivers/gpu/drm/etnaviv/etnaviv_buffer.c           |   3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem.c              |   3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c       |   3 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c              |  43 +-
- drivers/gpu/drm/etnaviv/etnaviv_gpu.h              |   1 +
- drivers/gpu/drm/etnaviv/etnaviv_iommu.c            |   4 +
- drivers/gpu/drm/etnaviv/etnaviv_iommu_v2.c         |   8 +
- drivers/gpu/drm/etnaviv/etnaviv_mmu.c              |   1 +
- drivers/gpu/drm/etnaviv/etnaviv_mmu.h              |   4 +-
- drivers/gpu/drm/i915/Makefile                      |   1 -
- drivers/gpu/drm/i915/display/intel_dp.c            |   5 +-
- .../gpu/drm/i915/display/intel_dp_link_training.c  |   2 +-
- drivers/gpu/drm/i915/gem/i915_gem_context.c        |   6 +-
- .../gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c   |   7 +-
- drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c |  26 +-
- drivers/gpu/drm/i915/gt/intel_rps.c                |   8 +-
- drivers/gpu/drm/i915/gt/uc/intel_uc.c              |  11 +-
- drivers/gpu/drm/radeon/radeon_kms.c                |   2 +-
- 51 files changed, 945 insertions(+), 218 deletions(-)
