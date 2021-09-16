@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CDBC40D1A2
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 04:22:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F2840D1B3
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 04:33:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E1106EA92;
-	Thu, 16 Sep 2021 02:22:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B31616E9DB;
+	Thu, 16 Sep 2021 02:33:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7BF6D6EA92
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:22:49 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1631758971; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=PEK9TEZywfdNw/09e0JsNMsCaTjkdxWwYJarz23KSOc=;
- b=UyOdYUbD3CNuuMcdpGY4RZnOSL/2NS+BWvem+AEoeCxFhtKaoxciXS7Q4oHjOUo/POapqvkD
- ES4sNaCi/7IAqmnTiVuEWUmMWyQH41LWqTn4x0w6YSNjweuLdv+A+qD8Di5pRuuZQh8JBy/8
- ogZ/XiSDzqD0eeAs/j9awpCmCa8=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 6142aa62b585cc7d24d98b91 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 16 Sep 2021 02:22:26
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 59249C4360D; Thu, 16 Sep 2021 02:22:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id C0266C4338F;
- Thu, 16 Sep 2021 02:22:25 +0000 (UTC)
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 178F56E9DB
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:33:33 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="219285313"
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="219285313"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Sep 2021 19:33:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="553636030"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2021 19:33:31 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 15 Sep 2021 19:33:30 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Wed, 15 Sep 2021 19:33:30 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.012;
+ Wed, 15 Sep 2021 19:33:30 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Subject: RE: [RFC v1 4/6] drm/virtio: Probe and implement
+ VIRTIO_GPU_F_RELEASE_FENCE feature
+Thread-Topic: [RFC v1 4/6] drm/virtio: Probe and implement
+ VIRTIO_GPU_F_RELEASE_FENCE feature
+Thread-Index: AQHXqPngfbE2Y7A8AU2aCmCx54ngjaulBQAAgADtJtA=
+Date: Thu, 16 Sep 2021 02:33:30 +0000
+Message-ID: <4bc93b23444b4b95b000e1bb3c177555@intel.com>
+References: <20210913233529.3194401-1-vivek.kasireddy@intel.com>
+ <20210913233529.3194401-5-vivek.kasireddy@intel.com>
+ <20210915051614.wgdk2su5p6k2pb3b@sirius.home.kraxel.org>
+In-Reply-To: <20210915051614.wgdk2su5p6k2pb3b@sirius.home.kraxel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Wed, 15 Sep 2021 19:22:25 -0700
-From: abhinavk@codeaurora.org
-To: Fabio Estevam <festevam@gmail.com>
-Cc: robdclark@gmail.com, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, dmitry.baryshkov@linaro.org,
- stable@vger.kernel.org
-Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
- devices
-In-Reply-To: <20210914174831.2044420-1-festevam@gmail.com>
-References: <20210914174831.2044420-1-festevam@gmail.com>
-Message-ID: <96038e06b1141ad3348611a25544356e@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,64 +72,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio
+Hi Gerd,
 
-On 2021-09-14 10:48, Fabio Estevam wrote:
-> Since commit 98659487b845 ("drm/msm: add support to take dpu snapshot")
-> the following NULL pointer dereference is seen on i.MX53:
-> 
-> [ 3.275493] msm msm: bound 30000000.gpu (ops a3xx_ops)
-> [ 3.287174] [drm] Initialized msm 1.8.0 20130625 for msm on minor 0
-> [ 3.293915] 8<--- cut here ---
-> [ 3.297012] Unable to handle kernel NULL pointer dereference at
-> virtual address 00000028
-> [ 3.305244] pgd = (ptrval)
-> [ 3.307989] [00000028] *pgd=00000000
-> [ 3.311624] Internal error: Oops: 805 [#1] SMP ARM
-> [ 3.316430] Modules linked in:
-> [ 3.319503] CPU: 0 PID: 1 Comm: swapper/0 Not tainted 
-> 5.14.0+g682d702b426b #1
-> [ 3.326652] Hardware name: Freescale i.MX53 (Device Tree Support)
-> [ 3.332754] PC is at __mutex_init+0x14/0x54
-> [ 3.336969] LR is at msm_disp_snapshot_init+0x24/0xa0
-> 
-> i.MX53 does not use the DPU controller.
-> 
-> Fix the problem by only calling msm_disp_snapshot_init() on platforms 
-> that
-> use the DPU controller.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 98659487b845 ("drm/msm: add support to take dpu snapshot")
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
->  drivers/gpu/drm/msm/msm_drv.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_drv.c 
-> b/drivers/gpu/drm/msm/msm_drv.c
-> index 2e6fc185e54d..2aa2266454b7 100644
-> --- a/drivers/gpu/drm/msm/msm_drv.c
-> +++ b/drivers/gpu/drm/msm/msm_drv.c
-> @@ -630,10 +630,11 @@ static int msm_drm_init(struct device *dev,
-> const struct drm_driver *drv)
->  	if (ret)
->  		goto err_msm_uninit;
-> 
-> -	ret = msm_disp_snapshot_init(ddev);
-> -	if (ret)
-> -		DRM_DEV_ERROR(dev, "msm_disp_snapshot_init failed ret = %d\n", ret);
-> -
-> +	if (kms) {
-> +		ret = msm_disp_snapshot_init(ddev);
-> +		if (ret)
-> +			DRM_DEV_ERROR(dev, "msm_disp_snapshot_init failed ret = %d\n", 
-> ret);
-> +	}
-Are you not using DPU or are you not using mdp4/mdp5 as well? Even if 
-you are using any of mdps, kms should
-not be NULL. Hence wanted to check the test case.
+>   Hi,
+>=20
+> > --- a/include/uapi/linux/virtio_gpu.h
+> > +++ b/include/uapi/linux/virtio_gpu.h
+> > @@ -60,6 +60,8 @@
+> >   */
+> >  #define VIRTIO_GPU_F_RESOURCE_BLOB       3
+> >
+> > +#define VIRTIO_GPU_F_RELEASE_FENCE	 4
+> > +
+> >  enum virtio_gpu_ctrl_type {
+> >  	VIRTIO_GPU_UNDEFINED =3D 0,
+>=20
+> Where is the virtio-spec update for that?
+[Kasireddy, Vivek] I was going to do that if there'd a consensus over DRM_C=
+AP_RELEASE_FENCE.
+Otherwise, I don't think VIRTIO_GPU_F_RELEASE_FENCE is needed.
 
->  	drm_mode_config_reset(ddev);
-> 
->  #ifdef CONFIG_DRM_FBDEV_EMULATION
+Thanks,
+Vivek
+
+>=20
+> thanks,
+>   Gerd
+
