@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E16740D45C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:18:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03EC940D460
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:20:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F39176EACF;
-	Thu, 16 Sep 2021 08:18:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 76D506EAD3;
+	Thu, 16 Sep 2021 08:20:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7736EACF
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 42F8361207
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C971C6EAD3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:20:24 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 9D9D16113E
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:20:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631780285;
- bh=Rhqih0HnVO1qd2rNYMtvbbcljDCKwFJYMBJSa4b1ieY=;
+ s=k20201202; t=1631780424;
+ bh=OQN0fLpENf96i1/HFDgiJEKkExWxZIOK1Z8v7n0083Y=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=rjHIeEoDygvnlqms9JkKmUhHBrK6BzbpD+K3+prSW190aJy+MiQYwMZbI/fQuDmJj
- XA9kfB/oKIwEH8js1kCR++AwXQVYs/GRg793HWGP01zetrGxmb527zsiAqwvDwT4vZ
- mui3zLbeOCDG/scQIfFe93WKWytVGEgdwalL9RKRSWgHgT65HPIR5gWGbu/Ge1TItu
- Odv69FAnX6FyWI0BMe6ELeu9cLY7Cw/+e049HDOp/SBpEZmnFcYX039UZ39PV8z0i1
- meSpHZHYmtgEtJM9uXVr0Jw0Kaehl9o+5ja/VAEXKo5Z0V/PuJC4iyJqRx+VYEOFu0
- doiMzRtmdsWqg==
+ b=SXGeGvoBosAfi4P+69A6Q+YAii7PcNCkOfGYDmbkZHjAXKzloYX9c9fODtHXrwtgr
+ rcbXPmtYpE11fCi9a1SSbPO02zVyZiyjgKA5HSBG/yuQFEfat8rstnw06eNwJMy4CC
+ nxhTOWWQqDMsMgZf0Tefhp4KGi+FggySI2VTEwpHGb1b6LgIVf74g7KxpJWAToq6k2
+ C5b8dQS6Kk9+Cq7M5kZChi6HYxbaRM7TXia9xbTWDCZh3E8PzrScO9UFBqJZJj6J4V
+ ONuudH+N6asJQ6FCKuM0hzgzeZlOfS/buiZXLgFfOpotoRLvRa0mr9VUH8WJpIfEW6
+ hqJ7E3yDONAjQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3FFF261001; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
+ id 92E8E610CA; Thu, 16 Sep 2021 08:20:24 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 214427] Amdgpu hangs kernel on boot trying init debugfs
-Date: Thu, 16 Sep 2021 08:18:04 +0000
+Date: Thu, 16 Sep 2021 08:20:24 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -44,8 +44,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-214427-2300-XsYI94Qspj@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214427-2300-e8Emr2hElL@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-214427-2300@https.bugzilla.kernel.org/>
 References: <bug-214427-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -70,10 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214427
 
---- Comment #1 from Ilia (inferrna@gmail.com) ---
-Created attachment 298833
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298833&action=3Dedit
-Kernel config
+--- Comment #2 from Ilia (inferrna@gmail.com) ---
+Also my GPU is Polaris RX460 (ASUS ROG 4Gb) flashed with bios from RX560. P=
+ast
+3 years all was working good.
 
 --=20
 You may reply to this email to add a comment.
