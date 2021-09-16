@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C100840D1E9
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 05:05:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 216A740D1EA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 05:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 340B66EA94;
-	Thu, 16 Sep 2021 03:05:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7572E6EA9C;
+	Thu, 16 Sep 2021 03:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18DF26EA94
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 03:05:19 +0000 (UTC)
-X-UUID: 32a18a05b87c409e9717969d6a02d5c2-20210916
-X-UUID: 32a18a05b87c409e9717969d6a02d5c2-20210916
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 14BB46EA95
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 03:07:20 +0000 (UTC)
+X-UUID: 118a83b17f3e47a8828ad8e8f4f66b7e-20210916
+X-UUID: 118a83b17f3e47a8828ad8e8f4f66b7e-20210916
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 299611125; Thu, 16 Sep 2021 11:05:08 +0800
+ with ESMTP id 269446731; Thu, 16 Sep 2021 11:07:08 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 16 Sep 2021 11:05:06 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 16 Sep 2021 11:07:07 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 16 Sep 2021 11:05:06 +0800
-Message-ID: <607a9a1a0269db8934e8d18940bc25c52a8c60d0.camel@mediatek.com>
-Subject: Re: [PATCH v5 04/16] dt-bindings: reset: mt8195: add vdosys1 reset
- control bit
+ Transport; Thu, 16 Sep 2021 11:07:07 +0800
+Message-ID: <f67fd64ba276177d1590829b83dd2fae43334495.camel@mediatek.com>
+Subject: Re: [PATCH v5 08/16] soc: mediatek: add cmdq support of mtk-mmsys
+ config API for mt8195 vdosys1
 From: Nancy.Lin <nancy.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
@@ -39,11 +39,11 @@ CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
  <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
  srv_heupstream <srv_heupstream@mediatek.com>
-Date: Thu, 16 Sep 2021 11:05:06 +0800
-In-Reply-To: <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
+Date: Thu, 16 Sep 2021 11:07:06 +0800
+In-Reply-To: <CAAOTY_8aQkx55C=mqK-4bULpG_biHkq4brBF2SDdtbpnhP3Rvw@mail.gmail.com>
 References: <20210906071539.12953-1-nancy.lin@mediatek.com>
- <20210906071539.12953-5-nancy.lin@mediatek.com>
- <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
+ <20210906071539.12953-9-nancy.lin@mediatek.com>
+ <CAAOTY_8aQkx55C=mqK-4bULpG_biHkq4brBF2SDdtbpnhP3Rvw@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -68,51 +68,144 @@ Hi Chun-Kuang,
 
 Thanks for the review.
 
-On Wed, 2021-09-08 at 00:06 +0800, Chun-Kuang Hu wrote:
+On Wed, 2021-09-08 at 00:29 +0800, Chun-Kuang Hu wrote:
 > Hi, Nancy:
 > 
 > Nancy.Lin <nancy.lin@mediatek.com> 於 2021年9月6日 週一 下午3:15寫道：
 > > 
-> > Add vdosys1 reset control bit for MT8195 platform.
+> > Add cmdq support for mtk-mmsys config API.
+> > The mmsys config register settings need to take effect with the
+> > other
+> > HW settings(like OVL_ADAPTOR...) at the same vblanking time.
+> > 
+> > If we use CPU to write the mmsys reg, we can't guarantee all the
+> > settings can be written in the same vblanking time.
+> > Cmdq is used for this purpose. We prepare all the related HW
+> > settings
+> > in one cmdq packet. The first command in the packet is "wait stream
+> > done",
+> > and then following with all the HW settings. After the cmdq packet
+> > is
+> > flush to GCE HW. The GCE waits for the "stream done event" to
+> > coming
+> > and then starts flushing all the HW settings. This can guarantee
+> > all
+> > the settings flush in the same vblanking.
 > > 
 > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > > ---
-> >  include/dt-bindings/reset/mt8195-resets.h | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
+> >  drivers/soc/mediatek/mtk-mmsys.c       | 28 +++++++++++++++++++++-
+> > ----
+> >  include/linux/soc/mediatek/mtk-mmsys.h |  6 +++++-
+> >  2 files changed, 28 insertions(+), 6 deletions(-)
 > > 
-> > diff --git a/include/dt-bindings/reset/mt8195-resets.h
-> > b/include/dt-bindings/reset/mt8195-resets.h
-> > index a26bccc8b957..eaaa882c09bd 100644
-> > --- a/include/dt-bindings/reset/mt8195-resets.h
-> > +++ b/include/dt-bindings/reset/mt8195-resets.h
-> > @@ -26,4 +26,16 @@
+> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
+> > b/drivers/soc/mediatek/mtk-mmsys.c
+> > index 3a38b8269c71..060065501b8a 100644
+> > --- a/drivers/soc/mediatek/mtk-mmsys.c
+> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
+> > @@ -81,6 +81,7 @@ struct mtk_mmsys {
+> >         const struct mtk_mmsys_driver_data *data;
+> >         spinlock_t lock; /* protects mmsys_sw_rst_b reg */
+> >         struct reset_controller_dev rcdev;
+> > +       struct cmdq_client_reg cmdq_base;
+> >  };
 > > 
-> >  #define MT8195_TOPRGU_SW_RST_NUM               16
+> >  void mtk_mmsys_ddp_connect(struct device *dev,
+> > @@ -174,7 +175,7 @@ static const struct reset_control_ops
+> > mtk_mmsys_reset_ops = {
+> >  };
 > > 
-> > +/* VDOSYS1 */
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC 25
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC 26
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC 27
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC 28
-> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC 29
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC 51
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC 52
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC 53
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC 54
-> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC 55
+> >  void mtk_mmsys_ddp_config(struct device *dev, enum
+> > mtk_mmsys_config_type config,
+> > -                         u32 id, u32 val)
+> > +                         u32 id, u32 val, struct cmdq_pkt
+> > *cmdq_pkt)
+> >  {
+> >         struct mtk_mmsys *mmsys = dev_get_drvdata(dev);
+> >         const struct mtk_mmsys_config *mmsys_config = mmsys->data-
+> > >config;
+> > @@ -197,10 +198,20 @@ void mtk_mmsys_ddp_config(struct device *dev,
+> > enum mtk_mmsys_config_type config,
+> >         mask = mmsys_config[i].mask;
+> >         reg_val = val << mmsys_config[i].shift;
+> > 
+> > -       u32 tmp = readl(mmsys->regs + offset);
+> > -
+> > -       tmp = (tmp & ~mask) | reg_val;
+> > -       writel(tmp, mmsys->regs + offset);
+> > +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > +       if (cmdq_pkt && mmsys->cmdq_base.size) {
+> > +               cmdq_pkt_write_mask(cmdq_pkt, mmsys-
+> > >cmdq_base.subsys,
+> > +                                   mmsys->cmdq_base.offset +
+> > offset, reg_val,
+> > +                                   mask);
+> > +       } else {
+> > +#endif
+> > +               u32 tmp = readl(mmsys->regs + offset);
+> > +
+> > +               tmp = (tmp & ~mask) | reg_val;
+> > +               writel(tmp, mmsys->regs + offset);
+> > +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > +       }
+> > +#endif
+> >  }
+> >  EXPORT_SYMBOL_GPL(mtk_mmsys_ddp_config);
+> > 
+> > @@ -236,6 +247,13 @@ static int mtk_mmsys_probe(struct
+> > platform_device *pdev)
+> >         }
+> > 
+> >         mmsys->data = of_device_get_match_data(&pdev->dev);
+> > +
+> > +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > +       ret = cmdq_dev_get_client_reg(dev, &mmsys->cmdq_base, 0);
 > 
-> Maybe you should align the indent style with TOPRGU.
+> Define mediatek,gce-client-reg in binding document first.
 > 
 > Regards,
 > Chun-Kuang.
 > 
-OK, I will modify it in the next revision.
+OK, I will add binding document in the next revision.
 
 Regards,
 Nancy Lin
 
+> > +       if (ret)
+> > +               dev_dbg(dev, "No mediatek,gce-client-reg!\n");
+> > +#endif
 > > +
-> >  #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
+> >         platform_set_drvdata(pdev, mmsys);
+> > 
+> >         clks = platform_device_register_data(&pdev->dev, mmsys-
+> > >data->clk_driver,
+> > diff --git a/include/linux/soc/mediatek/mtk-mmsys.h
+> > b/include/linux/soc/mediatek/mtk-mmsys.h
+> > index ef2a6d9a834b..9705d242849a 100644
+> > --- a/include/linux/soc/mediatek/mtk-mmsys.h
+> > +++ b/include/linux/soc/mediatek/mtk-mmsys.h
+> > @@ -6,6 +6,10 @@
+> >  #ifndef __MTK_MMSYS_H
+> >  #define __MTK_MMSYS_H
+> > 
+> > +#include <linux/mailbox_controller.h>
+> > +#include <linux/mailbox/mtk-cmdq-mailbox.h>
+> > +#include <linux/soc/mediatek/mtk-cmdq.h>
+> > +
+> >  enum mtk_ddp_comp_id;
+> >  struct device;
+> > 
+> > @@ -75,6 +79,6 @@ void mtk_mmsys_ddp_disconnect(struct device *dev,
+> >                               enum mtk_ddp_comp_id next);
+> > 
+> >  void mtk_mmsys_ddp_config(struct device *dev, enum
+> > mtk_mmsys_config_type config,
+> > -                         u32 id, u32 val);
+> > +                         u32 id, u32 val, struct cmdq_pkt
+> > *cmdq_pkt);
+> > 
+> >  #endif /* __MTK_MMSYS_H */
 > > --
 > > 2.18.0
 > > 
