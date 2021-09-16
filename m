@@ -1,69 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CA240EB73
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:11:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 810BE40EB79
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA08A6E81B;
-	Thu, 16 Sep 2021 20:11:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 572156E824;
+	Thu, 16 Sep 2021 20:15:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2e.google.com (mail-io1-xd2e.google.com
- [IPv6:2607:f8b0:4864:20::d2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35C7C6E81B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:11:23 +0000 (UTC)
-Received: by mail-io1-xd2e.google.com with SMTP id b200so9402590iof.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:11:23 -0700 (PDT)
+Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
+ [IPv6:2607:f8b0:4864:20::334])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 703456E824
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:15:32 +0000 (UTC)
+Received: by mail-ot1-x334.google.com with SMTP id
+ l7-20020a0568302b0700b0051c0181deebso9830428otv.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=APWqHBEzdXZzdLiOIyrdv4QWCbABBWwTYsZdYBOwgKo=;
- b=QBLdwUFqXd1ByjixIWMqkf/7ci57a2fBos1DwOE7LjmLAVDGmDDnf5gVjqUX7yrDsI
- hl7C8/pUlNbzkmw8fisw229fO9Thg9JbkBnVyMUPyWCZTgCvz7O1Nd9vzE/BhNDcnbH/
- bgkTSaEaae6c5M4f6+tXWlJk2IkJ0rXB6Amgw=
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=ojoWMvWYiGgf8hZbpbLo/au+nVIOyXutlWB62AfZAFw=;
+ b=GfloMrd2w/KYv4zk0CGJz9edZXIutQAmTBaa5aaDUIGci3XF1xOKwOwFF7KDN4gWK6
+ Chvmx9+KqA0rt4GCN4G1on/YjJGR/eWtdpkfVxXdeuaCcsY7f3fMsgDg4g0cTYb4oKcX
+ VB+7JGwkeN/g2GcdMVaHm9g6URAoilmovScgo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=APWqHBEzdXZzdLiOIyrdv4QWCbABBWwTYsZdYBOwgKo=;
- b=2KM8Oa2bfmBOtGR6GafJiMt4vIg6RrT3Y3C3LqNt+w7NO5o1acdxsSz5t9mDkDOiOy
- CV17Vs364fcUKx8sUw/oQ2TFEDBcpYDX2YgxMlebI4v36yUxZ6qM+duipn6Tts0LSP1k
- by0wOSCfYxi6ctAjRH8E3wV+nHiakuutIsZg/+GnBD+1DPY1c3rX+SQ69uHnl5y6VuSV
- JzSZcESADopkix57/FjUuzDaT/+4pmTRpJrD2HS6DTczNvepAwM16MOwKp52kSUcJ3Q5
- I1CD1ohvcb9hL9lv8ocjpJJ4OAu8FjX53kkyBjFWNwEhUz5grYi9MobtZ7mmRHnBXs0x
- Iwaw==
-X-Gm-Message-State: AOAM531I1WnwjFcuM3CAHP4VeHYoiCAyweRNaQq84bmaIb25flThfzhk
- KSwDkLQkbJRkYuGbOzvmRvX9eCkA+tYsQg==
-X-Google-Smtp-Source: ABdhPJy7nfjP2+kNau+hsNwT/VMEGhTN+y3z5EprlxY2gX+0A7jnKFMG67vrO9pkqJHwwNfdEs0AnQ==
-X-Received: by 2002:a5e:8711:: with SMTP id y17mr5740850ioj.16.1631823081595; 
- Thu, 16 Sep 2021 13:11:21 -0700 (PDT)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com.
- [209.85.166.50])
- by smtp.gmail.com with ESMTPSA id c11sm2226094ioh.50.2021.09.16.13.11.20
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 13:11:20 -0700 (PDT)
-Received: by mail-io1-f50.google.com with SMTP id a15so9413562iot.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:11:20 -0700 (PDT)
-X-Received: by 2002:a5d:8458:: with SMTP id w24mr5699438ior.168.1631823080237; 
- Thu, 16 Sep 2021 13:11:20 -0700 (PDT)
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=ojoWMvWYiGgf8hZbpbLo/au+nVIOyXutlWB62AfZAFw=;
+ b=4P+pQeY3G/mkV2eeTDrXgkD74zlwnYFTiQGAOifJ+VojmmoqCdspzEUSQcKomdkghc
+ sL+6x2S7lXdd4wbBDB2F2BCSVRxItVG73UeXWexN3pmt18dUIyxhzzUNt2Z3//peNzRX
+ 346ltkCMMRpF7xpgMF0rLzrMe2JdYEoQPNEB6ZvUxDgOAmL/3laG8Ji4KmwVUAJLa9KO
+ w2atQp0fPQSrjip6vJrZr8ReiKY/ukRupYPn5ayjoasysXakljQRyCP5nqcC51O0OkNa
+ cO1mEw4vD4WCfG7xARZLb8W6PApoHFcYTRLD0iHoJRGEq4/0lKcvUwaR+mxIQZCX0XP8
+ 18zQ==
+X-Gm-Message-State: AOAM531q19Dh4BnzEdNXrGyMXlBa1f9iwcwJmwK6tM4tyAdsV8Csah8a
+ vESEtE9lzZCqePR0UjdCV7ER4GP5s74K3+KzWBQang==
+X-Google-Smtp-Source: ABdhPJw7pGqvIB2k2CpkvI7RssSaZPxmsZiSwx0HbdCnkzcDAjZu5wVjSAIrBe9RIjq2GBNHiYywWy/MzGu/BaeTbxU=
+X-Received: by 2002:a05:6830:18c7:: with SMTP id
+ v7mr6307269ote.126.1631823331648; 
+ Thu, 16 Sep 2021 13:15:31 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 16 Sep 2021 13:15:31 -0700
 MIME-Version: 1.0
-References: <20210916193343.10206-1-macroalpha82@gmail.com>
-In-Reply-To: <20210916193343.10206-1-macroalpha82@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 16 Sep 2021 13:11:07 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VGX2xV88_S37bSAd9KQsBX7ko3W046JMp8EFUuuQhJFA@mail.gmail.com>
-Message-ID: <CAD=FV=VGX2xV88_S37bSAd9KQsBX7ko3W046JMp8EFUuuQhJFA@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/rockchip: Update crtc fixup to account for
- fractional clk change
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sandy Huang <hjc@rock-chips.com>, 
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- Chris Morgan <macromorgan@hotmail.com>, 
- Brian Norris <briannorris@chromium.org>, Chen-Yu Tsai <wenst@chromium.org>
+In-Reply-To: <CAD=FV=WtC3AQr44idgzVe9RCjb9i=+ekJ_wKKnKMcHRSQX7dfQ@mail.gmail.com>
+References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
+ <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
+ <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
+ <CAD=FV=WtC3AQr44idgzVe9RCjb9i=+ekJ_wKKnKMcHRSQX7dfQ@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 16 Sep 2021 13:15:31 -0700
+Message-ID: <CAE-0n51AAXbDGH-V6527nT1Fp1BU8oWKEYmHnL6FkYs=P9OPOw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
+ channel
+To: Doug Anderson <dianders@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Philip Chen <philipchen@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -80,92 +78,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Quoting Doug Anderson (2021-09-15 14:27:40)
+> Hi,
+>
+> On Tue, Sep 14, 2021 at 5:57 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Philip Chen (2021-09-14 16:28:45)
+> > > diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> > > index 8d3e7a147170..dc349d729f5a 100644
+> > > --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> > > +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> > > @@ -117,6 +144,129 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+> > [...]
+> > > +       case DP_AUX_I2C_WRITE:
+> > > +       case DP_AUX_I2C_READ:
+> > > +               break;
+> > > +       default:
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
+> > > +       if (ret) {
+> > > +               dev_err(dev, "failed to write PAGE0_AUXCH_CFG3: %d\n", ret);
+> >
+> > Can we use DRM_DEV_ERROR()?
+>
+> I've never gotten clear guidance here. For instance, in some other
+> review I suggested using the DRM wrapper and got told "no" [1]. ;-)
+> The driver landed without the DRM_ERROR versions. I don't really care
+> lots so it's fine with me to use use DRM_DEV_ERROR, I just wish I
+> understood the rules...
+>
+> [1] https://lore.kernel.org/all/49db7ef3-fa53-a274-7c69-c2d840b13058@denx.de/
 
-On Thu, Sep 16, 2021 at 12:33 PM Chris Morgan <macroalpha82@gmail.com> wrote:
->
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> Fixes commit 287422a95fe2 ("drm/rockchip: Round up _before_ giving to
-> the clock framework")
+I think the rule is that the DRM specific printk stuff should be used so
+that they can be stuck into the drm logs. On chromeOS we also have a
+record of the drm logs that we can use to debug things, split away from
+the general kernel printk logs. So using DRM prints when there's a DRM
+device around is a good thing to do.
 
-This belongs at the bottom of the commit and needs a colon. It also
-shouldn't be word-wrapped.
+>
+>
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       /* Assume it's good */
+> > > +       msg->reply = 0;
+> > > +
+> > > +       addr_len[0] = msg->address & 0xff;
+> > > +       addr_len[1] = (msg->address >> 8) & 0xff;
+> > > +       addr_len[2] = ((msg->request << 4) & SWAUX_CMD_MASK) |
+> > > +               ((msg->address >> 16) & SWAUX_ADDR_19_16_MASK);
+> >
+> > It really feels like this out to be possible with some sort of
+> > cpu_to_le32() API. We're shoving msg->address into 3 bytes and then
+> > adding in the request and some length. So we could do something like:
+> >
+> >         u32 addr_len;
+> >
+> >         addr_len = FIELD_PREP(SWAUX_ADDR_MASK, msg->address);
+> >         addr_len |= FIELD_PREP(SWAUX_CMD_MASK, msg->request);
+> >         if (len)
+> >                 addr_len |= FIELD_PREP(LEN_MASK, len - 1);
+> >         else
+> >                 addr_len |= FIELD_PREP(LEN_MASK, SWAUX_NO_PAYLOAD );
+> >
+> >         cpu_to_le32s(&addr_len);
+> >
+> >         regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, &addr_len, sizeof(addr_len));
+>
+> You're arguing that your version of the code is more efficient? Easier
+> to understand? Something else? To me, Philip's initial version is
+> crystal clear and easy to map to the bridge datasheet but I need to
+> think more to confirm that your version is right. Thinking is hard and
+> I like to avoid it when possible.
+>
+> In any case, it's definitely bikeshedding and I'll yield if everyone
+> likes the other version better. ;-)
 
+Yeah it's bikeshedding. I don't really care about this either but I find
+it easier to read when the assignment isn't wrapped across multiple
+lines. If the buffer approach is preferable then maybe use the address
+macros to clarify which register is being set?
 
-> After commit 928f9e268611 ("clk: fractional-divider: Hide
-> clk_fractional_divider_ops from wide audience") was merged it appears
-> that the DSI panel on my Odroid Go Advance stopped working. Upon closer
-> examination of the problem, it looks like it was the fixup in the
-> rockchip_drm_vop.c file was causing the issue. The changes made to the
-> clk driver appear to change some assumptions made in the fixup.
->
-> After debugging the working 5.14 kernel and the no-longer working
-> 5.15 kernel, it looks like this was broken all along but still
-> worked, whereas after the fractional clock change it stopped
-> working despite the issue (it went from sort-of broken to very broken).
->
-> In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
-> 17000999 on my board. The clock driver was taking the value of the
-> parent clock and attempting to divide the requested value from it
-> (17000000/17000999 = 0), then subtracting 1 from it (making it -1),
-> and running it through fls_long to get 64. It would then subtract
-> the value of fd->mwidth from it to get 48, and then bit shift
-> 17000999 to the left by 48, coming up with a very large number of
-> 7649082492112076800. This resulted in a numerator of 65535 and a
-> denominator of 1 from the clk driver. The driver seemingly would
-> try again and get a correct 1:1 value later, and then move on.
->
-> Output from my 5.14 kernel (with some printfs for good measure):
-> [    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-> [    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-> [    2.855980] Clock is dclk_vopb_frac
-> [    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
-> [    2.903529] Clock is dclk_vopb_frac
-> [    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
-> [    2.903579] Clock is dclk_vopb_frac
-> [    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
->
-> Contrast this with 5.15 after the clk change where the rate of 17000999
-> was getting passed and resulted in numerators/denomiators of 17001/
-> 17000.
->
-> Output from my 5.15 kernel (with some printfs added for good measure):
-> [    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-> [    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-> [    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
-> [    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-> [    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-> [    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
->
-> I have tested the change extensively on my Odroid Go Advance (Rockchip
-> RK3326) and it appears to work well. However, this change will affect
-> all Rockchip SoCs that use this driver so I believe further testing
-> is warranted. Please note that without this change I can confirm
-> at least all PX30s with DSI panels will stop working with the 5.15
-> kernel.
->
-> Upon advice from Doug Anderson <dianders@chromium.org> it was decided
-> that we would first check if the clock rate can be set exactly as
-> requested, and only if it could not would we then add 999 to it and
-> attempt the process again. This way we can preserve the behavior for
-> clocks that still need it while resolving the specific issue for the
-> PX30 and DSI panels (since it is using a fractional clock).
->
-> Changes since v1:
->
->  - Made the addition of 999 conditional based on whether the clock
->    subsystem can set the actual clock rate as requested.
->  - Updated the notes in the fixup routine to reflect this new behavior.
->  - Added reference to original commit, as this has technically been
->    broken since then however only now is it an issue due to the clock
->    changes.
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
-> ---
->  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 26 ++++++++++-----------
->  1 file changed, 12 insertions(+), 14 deletions(-)
+	unsigned int base = PAGE0_SWAUX_ADDR_7_0;
 
-I'm happy with this as a fix.
+	addr_len[PAGE0_SWAUX_ADDR_7_0 - base] = msg->address;
+	addr_len[PAGE0_SWAUX_ADDR_15_8 - base] = msg->address >> 8;
+	addr_len[PAGE0_SWAUX_ADDR_23_16 - base] = msg->address >> 16;
+	addr_len[PAGE0_SWAUX_ADDR_23_16 - base] |= msg->request << 4;
+	...
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>
+>
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       switch (data & SWAUX_STATUS_MASK) {
+> > > +       /* Ignore the DEFER cases as they are already handled in hardware */
+> > > +       case SWAUX_STATUS_NACK:
+> > > +       case SWAUX_STATUS_I2C_NACK:
+> > > +               /*
+> > > +                * The programming guide is not clear about whether a I2C NACK
+> > > +                * would trigger SWAUX_STATUS_NACK or SWAUX_STATUS_I2C_NACK. So
+> > > +                * we handle both cases together.
+> > > +                */
+> > > +               if (is_native_aux)
+> > > +                       msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
+> > > +               else
+> > > +                       msg->reply |= DP_AUX_I2C_REPLY_NACK;
+> > > +
+> > > +               len = data & SWAUX_M_MASK;
+> > > +               return len;
+> >
+> > Why no 'return data & SWAUX_M_MASK;' and skip the assignment?
+>
+> Actually, I think it's the "return" that's a bug, isn't it? If we're
+> doing a "read" and we're returning a positive number of bytes then we
+> need to actually _read_ them. Reading happens below, doesn't it?
+>
+
+Oh I missed that. We're still supposed to return data to upper
+layers on a NACKed read?
