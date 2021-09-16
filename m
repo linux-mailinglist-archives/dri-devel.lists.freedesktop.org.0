@@ -2,54 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8EA40DD1F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADC140DD40
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:52:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE3AC6EB7F;
-	Thu, 16 Sep 2021 14:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 329366EE18;
+	Thu, 16 Sep 2021 14:52:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 61C696EB7F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 14:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
- s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
- MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=xTm1NaRptFZFSmCrLe8ZDubXtDPN1FNQ3UUquBBkFTA=; b=q3GRRUqLLOZxg2lFURWvmGFCf4
- /7RiofdSzBX/4+CnHgX2vifQKLEImTH+bgoKrYOwoeRfkAO9eA5U6pDsm6voeJnwXGllVhxSy9Vht
- 2oKJvhwZ9KThO+TtxjcaIouqVo4sNX+loMPdFyTeM6Y7L4WgYEGgUrrTQFuPjvB1RGuSeIn49sjKZ
- hQJHDhbmWb7rJlkjiFhVQNuHkWCRrWi+rfYV4KKhB431wcM1pmSPRMtZp5DAFL+q8Y7bN3XxAxz76
- 9A6XYca5N4z2uxACRd8gcZIATe2j+RRcV/WE2SHctZMc48XmGmwdO+pSXDY5bAPUtosAGIy5U4LSs
- lyvn2g4A==;
-Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
- helo=[192.168.1.10])
- by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.89) (envelope-from <cyndis@kapsi.fi>)
- id 1mQscu-00009G-O6; Thu, 16 Sep 2021 17:44:36 +0300
-Subject: Re: [PATCH v5 1/3] dt-bindings: Add YAML bindings for NVDEC
-To: Rob Herring <robh@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>
-Cc: thierry.reding@gmail.com, jonathanh@nvidia.com, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, devicetree@vger.kernel.org
-References: <20210910104247.1206716-1-mperttunen@nvidia.com>
- <20210910104247.1206716-2-mperttunen@nvidia.com>
- <YUDCRb75pIqGZX1S@robh.at.kernel.org>
-From: Mikko Perttunen <cyndis@kapsi.fi>
-Message-ID: <8e84e7e8-7930-db49-f5dd-5dfb0ce6cb11@kapsi.fi>
-Date: Thu, 16 Sep 2021 17:44:36 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.12.0
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BD1CA6EE17
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 14:51:59 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id g16so9963165wrb.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 07:51:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=KeUrkXA0A4CcChYAHFziiO0SmiZRckl+S1wuDhrNlWQ=;
+ b=XZPCFEiJSsD2EfLXo+2ejigCRj88g+HsC/dfXLW16HxuyEPMrloSaxc/DgwL24tfTp
+ CQrg5H+LRRLIUFVzxxpMrd9A2LWLPx+O6zpdaclM/nFsxhGiOQb8C+bHgFX1CAo7cO8u
+ qbvgMUmKX5yYHYXO60dtWx7rHAdHE7oOzDDJFxcAu2y7NbA40WJ3e0UyvszYRYxFq7vx
+ WhV7aNg3I6udjGAK9rhWnRum/Y6uy17pMGJ6P4XvhhVpbNujqtKenhIPVEehM+k2gMBh
+ yyPG8X98/TlSUrOh3kFeM38Od9eUAGfkzNyjjMZHbAQXoI3vwUZax6dnS+giPGgavKCY
+ L1rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=KeUrkXA0A4CcChYAHFziiO0SmiZRckl+S1wuDhrNlWQ=;
+ b=8I58gxPqCOz5bTF9Z42tAswTEiPJPhYdP+WwcFXAiC3v2eaNL28nK9vz5pMw0UcXvA
+ e78y8qaVVDWpe3sTQ4rA65hI3T1tAqol9XO5FyRM/bWDFu8NZnVIQsdWkAC6YyzchdTd
+ M7XGAoAyhK7lKQDr+gVwIa43VPR5g/kgREkjMMKDQJQds0JAql/bdFavO33ePNO1TF3S
+ BOb3ZH0P94YnI0sh6dqfa3dkMZ0nGkiYYVOy1mtKD0BrZHQ6VmjXCkqwkx+2m0KSH5Hn
+ F8EqPPhXXb6BgZcF2Oa/UIw2xl5cij3Ohtz7F4bH/9s9IjBmGDEN33L0aS8mzZibCFN8
+ 0l8A==
+X-Gm-Message-State: AOAM5329579JKjNPb69BgQCs8YGqwYJ9BiRTfUQguga7EhcpZQigFdM8
+ b1yfIvx1B/vwMggemTfw7T8=
+X-Google-Smtp-Source: ABdhPJxaB+D2s+s/Slot9cFr18Vwo+Ar93q7MwYl23iy5dUuQ877sYvbSf6YQL2MQeyKspzPdEH5Tw==
+X-Received: by 2002:a5d:590a:: with SMTP id v10mr6824995wrd.87.1631803918252; 
+ Thu, 16 Sep 2021 07:51:58 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id m29sm3922741wrb.89.2021.09.16.07.51.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Sep 2021 07:51:56 -0700 (PDT)
+Date: Thu, 16 Sep 2021 16:51:55 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <cyndis@kapsi.fi>
+Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 3/6] drm/tegra: Implement buffer object cache
+Message-ID: <YUNaCyVISEKYfiKL@orome.fritz.box>
+References: <20210916094404.888267-1-thierry.reding@gmail.com>
+ <20210916094404.888267-3-thierry.reding@gmail.com>
+ <741e628f-8ae2-6c73-2ca4-185659b18ccf@kapsi.fi>
 MIME-Version: 1.0
-In-Reply-To: <YUDCRb75pIqGZX1S@robh.at.kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 84.249.134.236
-X-SA-Exim-Mail-From: cyndis@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="vMrpbtKEQBdKLUbF"
+Content-Disposition: inline
+In-Reply-To: <741e628f-8ae2-6c73-2ca4-185659b18ccf@kapsi.fi>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,121 +75,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/14/21 6:39 PM, Rob Herring wrote:
-> On Fri, Sep 10, 2021 at 01:42:45PM +0300, Mikko Perttunen wrote:
->> Add YAML device tree bindings for NVDEC, now in a more appropriate
->> place compared to the old textual Host1x bindings.
->>
->> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
->> ---
->> v5:
->> * Changed from nvidia,instance to nvidia,host1x-class optional
->>    property.
->> * Added dma-coherent
->> v4:
->> * Fix incorrect compatibility string in 'if' condition
->> v3:
->> * Drop host1x bindings
->> * Change read2 to read-1 in interconnect names
->> v2:
->> * Fix issues pointed out in v1
->> * Add T194 nvidia,instance property
->> ---
->>   .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 104 ++++++++++++++++++
->>   MAINTAINERS                                   |   1 +
->>   2 files changed, 105 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->>
->> diff --git a/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> new file mode 100644
->> index 000000000000..f1f8d083d736
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
->> @@ -0,0 +1,104 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: "http://devicetree.org/schemas/gpu/host1x/nvidia,tegra210-nvdec.yaml#"
->> +$schema: "http://devicetree.org/meta-schemas/core.yaml#"
->> +
->> +title: Device tree binding for NVIDIA Tegra NVDEC
->> +
->> +description: |
->> +  NVDEC is the hardware video decoder present on NVIDIA Tegra210
->> +  and newer chips. It is located on the Host1x bus and typically
->> +  programmed through Host1x channels.
->> +
->> +maintainers:
->> +  - Thierry Reding <treding@gmail.com>
->> +  - Mikko Perttunen <mperttunen@nvidia.com>
->> +
->> +properties:
->> +  $nodename:
->> +    pattern: "^nvdec@[0-9a-f]*$"
->> +
->> +  compatible:
->> +    enum:
->> +      - nvidia,tegra210-nvdec
->> +      - nvidia,tegra186-nvdec
->> +      - nvidia,tegra194-nvdec
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  clock-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  reset-names:
->> +    items:
->> +      - const: nvdec
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  iommus:
->> +    maxItems: 1
->> +
->> +  dma-coherent: true
->> +
->> +  interconnects:
->> +    items:
->> +      - description: DMA read memory client
->> +      - description: DMA read 2 memory client
->> +      - description: DMA write memory client
->> +
->> +  interconnect-names:
->> +    items:
->> +      - const: dma-mem
->> +      - const: read-1
->> +      - const: write
->> +
->> +  nvidia,host1x-class:
->> +    description: Host1x class of the engine. If not specified, defaults to 0xf0.
-> 
-> Define what this is with more than just repeating what is in the
-> property name.
 
-Sure, I'll add a description.
+--vMrpbtKEQBdKLUbF
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> 
->> +    $ref: /schemas/types.yaml#/definitions/uint32
-> 
-> default: 0xf0
-> 
-> Is there a range or set of valid values you specify as schema?
+On Thu, Sep 16, 2021 at 01:39:49PM +0300, Mikko Perttunen wrote:
+> On 9/16/21 12:44 PM, Thierry Reding wrote:
+> > From: Thierry Reding <treding@nvidia.com>
+> > ...
+> > diff --git a/drivers/gpu/drm/tegra/uapi.c b/drivers/gpu/drm/tegra/uapi.c
+> > index 794c400c38b1..66fe8717e747 100644
+> > --- a/drivers/gpu/drm/tegra/uapi.c
+> > +++ b/drivers/gpu/drm/tegra/uapi.c
+> > @@ -201,7 +201,8 @@ int tegra_drm_ioctl_channel_map(struct drm_device *=
+drm, void *data, struct drm_f
+> >   		goto put_gem;
+> >   	}
+> > -	mapping->map =3D host1x_bo_pin(context->client->base.dev, mapping->bo=
+, direction);
+> > +	mapping->map =3D host1x_bo_pin(context->client->base.dev, mapping->bo=
+, direction,
+> > +				     &context->client->base.cache);
+>=20
+> Do we need caching here? The map/unmap operation is explicit and should n=
+ot
+> be on the hot path, and this will complicate context isolation support wh=
+ere
+> we cannot have an engine-specific cache.
 
-Only to the same extent that there is a set of valid MMIO addresses in 
-the 'reg' field.
+Yeah, we can probably leave it out here. I more or less blindly added
+caches for everything, but really they're the most useful for cursors
+and large framebuffers that will otherwise get mapped/unmapped once
+every frame.
 
-Mikko
+Thierry
 
-> 
-> Rob
-> 
+--vMrpbtKEQBdKLUbF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmFDWgkACgkQ3SOs138+
+s6Gr7g//fS3DAJw52CKhnLU6mUzm1U2SB84t9llhN1Zer98vmZ1paKAEtOYm4Jqj
+p4zTQagOzkIf3SWCDvlAtJk/jVRVfHF4/VGFhgzhYv+yq9Jta0z5p0WzPmaBxoQl
+i7uMe3yiz3uBHvCkOkzIjRL0mlMLUQ6TBroXY4PnyqjmAnLLaY4W6qCUwIH6e64m
+KjkL5peok8z2T6k8B3zm3WPqExo4niEgcu2eXOfJxzol4n8xXuGd4ZzVRyU19vYD
+QqKCQATdcl8zvL8ucYcHSXqYZ65ev6saZZnP/Gz2y25VS79295umzdebeKvSvgWL
+z79K28Xo45BEUdn4k9hxxpikjLfX4TlKVrKLzFAGTD7WHh0N2ZpxG4Y6P+bgkkK2
+MogEqUEOMt18F52pFLA2EaNC3x+cm2BKMPXxPi5S1EFji9h37q4wmtPI7Ca9qT89
++TA6vHonnf67F/vzqTgZo0OADA5qcyUtANfLGSSO3V6LSuE8Gk7eJoNCB4D9QyEd
+NjownDWzgEIJr8i7S4V/gH/u3lkKCiTaZ8pt7RhrVmtAn+z+xsS8ZuWx1jl58ZUo
+L5BlWDiUojC6nPYLnUKcR9SQzWGr9lrzocu8Lpdl07e9KWlibb0B+ZQY5n/KzDeQ
+RCqTvIctGlLnau9F+/+219eTEgHyYRGKXPuRI0AyRUXU8ZiTy/I=
+=fpes
+-----END PGP SIGNATURE-----
+
+--vMrpbtKEQBdKLUbF--
