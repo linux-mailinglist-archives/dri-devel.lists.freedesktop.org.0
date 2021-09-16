@@ -2,65 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B1140EA01
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 20:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AF840EA12
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 20:40:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 13DEB6E5D4;
-	Thu, 16 Sep 2021 18:38:11 +0000 (UTC)
-X-Original-To: dri-devel@lists.freedesktop.org
-Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 21B756E831;
- Thu, 16 Sep 2021 18:38:10 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="209724832"
-X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="209724832"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 11:38:09 -0700
-X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="516866664"
-Received: from yunyizha-mobl2.amr.corp.intel.com (HELO
- skuppusw-mobl5.amr.corp.intel.com) ([10.212.124.4])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 11:38:07 -0700
-Subject: Re: [PATCH v3 0/8] Implement generic cc_platform_has() helper function
-To: Borislav Petkov <bp@alien8.de>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>, Christoph Hellwig
- <hch@infradead.org>, Andy Lutomirski <luto@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dave Young <dyoung@redhat.com>, David Airlie <airlied@linux.ie>,
- Heiko Carstens <hca@linux.ibm.com>, Ingo Molnar <mingo@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Paul Mackerras <paulus@samba.org>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Thomas Zimmermann
- <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
- Will Deacon <will@kernel.org>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <YUIjS6lKEY5AadZx@zn.tnic>
- <d48e6a17-d2b4-67da-56d1-fc9a61dfe2b8@linux.intel.com>
- <YUNckGH0+KXdEmqu@zn.tnic>
-From: "Kuppuswamy, Sathyanarayanan"
- <sathyanarayanan.kuppuswamy@linux.intel.com>
-Message-ID: <9fee1cec-fc91-f87d-d590-5e606211f1b7@linux.intel.com>
-Date: Thu, 16 Sep 2021 11:38:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABDBB6E91B;
+	Thu, 16 Sep 2021 18:40:15 +0000 (UTC)
+X-Original-To: DRI-Devel@lists.freedesktop.org
+Delivered-To: DRI-Devel@lists.freedesktop.org
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDB886E8EC;
+ Thu, 16 Sep 2021 18:40:13 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="286320735"
+X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="286320735"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 11:40:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,299,1624345200"; d="scan'208";a="482809919"
+Received: from relo-linux-5.jf.intel.com ([10.165.21.134])
+ by orsmga008.jf.intel.com with ESMTP; 16 Sep 2021 11:40:12 -0700
+From: John.C.Harrison@Intel.com
+To: Intel-GFX@Lists.FreeDesktop.Org
+Cc: DRI-Devel@Lists.FreeDesktop.Org, John Harrison <John.C.Harrison@Intel.com>,
+ Katarzyna Cencelewska <katarzyna.cencelewska@intel.com>,
+ Tony Ye <tony.ye@intel.com>, Jason Ekstrand <jason.ekstrand@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: [PATCH v2 0/2] Add support for querying hw info that UMDs need
+Date: Thu, 16 Sep 2021 11:40:10 -0700
+Message-Id: <20210916184012.2642295-1-John.C.Harrison@Intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YUNckGH0+KXdEmqu@zn.tnic>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+ Swindon SN3 1RJ
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +50,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: John Harrison <John.C.Harrison@Intel.com>
+
+Various UMDs require hardware configuration information about the
+current platform. A bunch of static information is available in a
+fixed table that can be retrieved from the GuC.
+
+v2: Add a kerneldoc comment.
+
+Test-with: 20210915215558.2473428-2-John.C.Harrison@Intel.com
+UMD: https://github.com/intel/compute-runtime/pull/432/files
+UMD: https://github.com/intel/media-driver/pull/1239/files
+
+CC: Katarzyna Cencelewska <katarzyna.cencelewska@intel.com>
+CC: Tony Ye <tony.ye@intel.com>
+CC: Jason Ekstrand <jason.ekstrand@intel.com>
+Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+Reviewed-by: Matthew Brost <matthew.brost@intel.com>
 
 
-On 9/16/21 8:02 AM, Borislav Petkov wrote:
-> On Wed, Sep 15, 2021 at 10:26:06AM -0700, Kuppuswamy, Sathyanarayanan wrote:
->> I have a Intel variant patch (please check following patch). But it includes
->> TDX changes as well. Shall I move TDX changes to different patch and just
->> create a separate patch for adding intel_cc_platform_has()?
-> 
-> Yes, please, so that I can expedite that stuff separately and so that it
-> can go in early in order for future work to be based ontop.
+John Harrison (1):
+  drm/i915/guc: Add fetch of hwconfig table
 
-Sent it part of TDX patch series. Please check and cherry pick it.
+Rodrigo Vivi (1):
+  drm/i915/uapi: Add query for hwconfig table
 
-https://lore.kernel.org/lkml/20210916183550.15349-2-sathyanarayanan.kuppuswamy@linux.intel.com/
-
-> 
-> Thx.
-> 
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+ .../gpu/drm/i915/gt/uc/abi/guc_errors_abi.h   |   4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   3 +
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.c   | 156 ++++++++++++++++++
+ .../gpu/drm/i915/gt/uc/intel_guc_hwconfig.h   |  19 +++
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |   6 +
+ drivers/gpu/drm/i915/i915_query.c             |  23 +++
+ include/uapi/drm/i915_drm.h                   |   1 +
+ 10 files changed, 216 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.c
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/intel_guc_hwconfig.h
 
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.25.1
+
