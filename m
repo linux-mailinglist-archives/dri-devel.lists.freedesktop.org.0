@@ -1,38 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A7240D79E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 12:42:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7F540D79F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 12:42:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 068FD6EB56;
-	Thu, 16 Sep 2021 10:42:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3FCF06EB5A;
+	Thu, 16 Sep 2021 10:42:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from baidu.com (mx22.baidu.com [220.181.50.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id C664E6EB56
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 10:42:32 +0000 (UTC)
-Received: from BC-Mail-Ex25.internal.baidu.com (unknown [172.31.51.19])
- by Forcepoint Email with ESMTPS id AB5455EE24748AF6A15F;
- Thu, 16 Sep 2021 18:42:31 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTP id AFDC16EB58
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 10:42:39 +0000 (UTC)
+Received: from BC-Mail-Ex24.internal.baidu.com (unknown [172.31.51.18])
+ by Forcepoint Email with ESMTPS id A1F19544CB62490528FE;
+ Thu, 16 Sep 2021 18:42:38 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex25.internal.baidu.com (172.31.51.19) with Microsoft SMTP Server
+ BC-Mail-Ex24.internal.baidu.com (172.31.51.18) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 18:42:30 +0800
+ 15.1.2242.12; Thu, 16 Sep 2021 18:42:38 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 18:42:30 +0800
+ 15.1.2308.14; Thu, 16 Sep 2021 18:42:37 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
-CC: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
- <sam@ravnborg.org>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/panel: ej030na: Make use of the helper function
+CC: Jagan Teki <jagan@amarulasolutions.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm/panel: fy07024di26a30d: Make use of the helper function
  dev_err_probe()
-Date: Thu, 16 Sep 2021 18:42:24 +0800
-Message-ID: <20210916104225.11111-1-caihuoqing@baidu.com>
+Date: Thu, 16 Sep 2021 18:42:32 +0800
+Message-ID: <20210916104232.11164-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -62,36 +62,45 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/gpu/drm/panel/panel-innolux-ej030na.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ .../drm/panel/panel-feiyang-fy07024di26a30d.c | 21 ++++++++-----------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-innolux-ej030na.c b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-index 34b98f70bd22..c558de3f99be 100644
---- a/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-+++ b/drivers/gpu/drm/panel/panel-innolux-ej030na.c
-@@ -198,16 +198,14 @@ static int ej030na_probe(struct spi_device *spi)
- 		return -EINVAL;
+diff --git a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+index 581661b506f8..acb439fbe59b 100644
+--- a/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
++++ b/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c
+@@ -200,22 +200,19 @@ static int feiyang_dsi_probe(struct mipi_dsi_device *dsi)
+ 		       DRM_MODE_CONNECTOR_DSI);
  
- 	priv->supply = devm_regulator_get(dev, "power");
--	if (IS_ERR(priv->supply)) {
--		dev_err(dev, "Failed to get power supply\n");
--		return PTR_ERR(priv->supply);
+ 	ctx->dvdd = devm_regulator_get(&dsi->dev, "dvdd");
+-	if (IS_ERR(ctx->dvdd)) {
+-		dev_err(&dsi->dev, "Couldn't get dvdd regulator\n");
+-		return PTR_ERR(ctx->dvdd);
 -	}
-+	if (IS_ERR(priv->supply))
-+		return dev_err_probe(dev, PTR_ERR(priv->supply),
-+				     "Failed to get power supply\n");
++	if (IS_ERR(ctx->dvdd))
++		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->dvdd),
++				     "Couldn't get dvdd regulator\n");
  
- 	priv->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
--	if (IS_ERR(priv->reset_gpio)) {
--		dev_err(dev, "Failed to get reset GPIO\n");
--		return PTR_ERR(priv->reset_gpio);
+ 	ctx->avdd = devm_regulator_get(&dsi->dev, "avdd");
+-	if (IS_ERR(ctx->avdd)) {
+-		dev_err(&dsi->dev, "Couldn't get avdd regulator\n");
+-		return PTR_ERR(ctx->avdd);
 -	}
-+	if (IS_ERR(priv->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(priv->reset_gpio),
-+				     "Failed to get reset GPIO\n");
++	if (IS_ERR(ctx->avdd))
++		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->avdd),
++				     "Couldn't get avdd regulator\n");
  
- 	drm_panel_init(&priv->panel, dev, &ej030na_funcs,
- 		       DRM_MODE_CONNECTOR_DPI);
+ 	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
+-	if (IS_ERR(ctx->reset)) {
+-		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
+-		return PTR_ERR(ctx->reset);
+-	}
++	if (IS_ERR(ctx->reset))
++		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
++				     "Couldn't get our reset GPIO\n");
+ 
+ 	ret = drm_panel_of_backlight(&ctx->panel);
+ 	if (ret)
 -- 
 2.25.1
 
