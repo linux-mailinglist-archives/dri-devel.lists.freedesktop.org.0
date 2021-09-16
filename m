@@ -2,68 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD6440D50C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2379540D513
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:51:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E66D46EB11;
-	Thu, 16 Sep 2021 08:50:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 754586E3F7;
+	Thu, 16 Sep 2021 08:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
- [IPv6:2a00:1450:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D6F846EB11
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:50:45 +0000 (UTC)
-Received: by mail-wm1-x32e.google.com with SMTP id
- j17-20020a05600c1c1100b002e754875260so3906291wms.4
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 01:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=PilEIyPDzJ/vHkRNW8mWcn0rY279xvGJ8VytXsNfdxg=;
- b=BEQZaN/YqxYSBySdLFlA2Qt4YezIWKWr++O7tI096wOBIoAYslO7e3oJijcEr3BPSE
- W53E16slPNvKxvG7h6jVCT1Y18g4Bkb6IJ9noH7bny55Jc63J2DMJ7+6iwoT3a7pmjGi
- t/iEyOHP1+HjEiaZtS1v5GdQmPNh7zo/DcGVHOg8VEnFUkczptYkEkwhCQlpVv+SRNzQ
- EBqa18L0KWVVSz9FsEK4agb1LVc368+WyHWCHuoOkWX/jNuMmKAaFy4z9nNqNR2bvCES
- L/mNScwDewQQSQhVF4OOl5BuYySbd4NIV1db7C7q3kxgwyJ9L5KIejPDbtcPHGQbg0zi
- STWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=PilEIyPDzJ/vHkRNW8mWcn0rY279xvGJ8VytXsNfdxg=;
- b=ylg4cgAbpKz/wFUrbrgPdxpFrma4PuQ5l02Ws7zdYfcqUj5mONxytnKRDvis4bQXbV
- WQsFlOGKcCS+BdOV91fyrS9z4G/50k4IrNdwm88T3CNrLv+RWNAoFLfHXnUjYnWk9TM/
- bHC6l8yHlTOvr5TF/olgSSEhGTHKlPAWkJxMCmr/7dCw+/Y5sGpelQXVQQvXk0JLlIMA
- B43Wnkc9OhYGzr6djg/HF1dkmchHaR5bnmQLz0igthrrNpOX4ve67Gmq5ShaUP8K9NaH
- DAb6tNClTbOAsAmD65bXF2cWvctuxS/NADx/uZTMy+dr0GmNZWfbbUP3x+ZhOBVzVt+u
- XXxA==
-X-Gm-Message-State: AOAM533oHfeUaYBu/MOwn6QTRxY8SmY5IPjoeOBmVrPMnCg00AE4RzTQ
- uUCJ/5mNgdTkQvV0jYmsuap4gk3sKII6GlpS
-X-Google-Smtp-Source: ABdhPJzNh4a8/BNBtpIRKBCZ7NOCUkwleKD7LJGru4SwOhtzfKVf91HqvZFkEVD2V5oUcIZQQM6lsg==
-X-Received: by 2002:a1c:210a:: with SMTP id h10mr3784909wmh.165.1631782244304; 
- Thu, 16 Sep 2021 01:50:44 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id c15sm2678522wrc.83.2021.09.16.01.50.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 01:50:43 -0700 (PDT)
-Subject: Re: [PATCH 01/14] dma-buf: add dma_resv_for_each_fence_unlocked
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org
-References: <20210910082655.82168-1-christian.koenig@amd.com>
- <YUDWHw19iUMfFr7K@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <26f766c9-9a3c-3894-9256-e07090655dc2@gmail.com>
-Date: Thu, 16 Sep 2021 10:50:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 42AE96E3F7;
+ Thu, 16 Sep 2021 08:51:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="209609621"
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="209609621"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 01:51:37 -0700
+X-IronPort-AV: E=Sophos;i="5.85,297,1624345200"; d="scan'208";a="545444144"
+Received: from djustese-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.34.120])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 01:51:11 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rajat Jain <rajatja@google.com>, Lyude <lyude@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <mgross@linux.intel.com>,
+ Andy Shevchenko <andy@infradead.org>
+Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Mark Pearson <markpearson@lenovo.com>, Sebastien Bacher <seb128@ubuntu.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>, dri-devel@lists.freedesktop.org,
+ platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 3/9] drm/privacy-screen: Add X86 specific arch init code
+In-Reply-To: <20210906073519.4615-4-hdegoede@redhat.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210906073519.4615-1-hdegoede@redhat.com>
+ <20210906073519.4615-4-hdegoede@redhat.com>
+Date: Thu, 16 Sep 2021 11:51:08 +0300
+Message-ID: <87v930x5s3.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <YUDWHw19iUMfFr7K@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,181 +62,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 14.09.21 um 19:04 schrieb Daniel Vetter:
-> On Fri, Sep 10, 2021 at 10:26:42AM +0200, Christian König wrote:
->> Abstract the complexity of iterating over all the fences
->> in a dma_resv object.
->>
->> The new loop handles the whole RCU and retry dance and
->> returns only fences where we can be sure we grabbed the
->> right one.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> ---
->>   drivers/dma-buf/dma-resv.c | 63 ++++++++++++++++++++++++++++++++++++++
->>   include/linux/dma-resv.h   | 36 ++++++++++++++++++++++
->>   2 files changed, 99 insertions(+)
->>
->> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->> index 84fbe60629e3..213a9b7251ca 100644
->> --- a/drivers/dma-buf/dma-resv.c
->> +++ b/drivers/dma-buf/dma-resv.c
->> @@ -323,6 +323,69 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->>   }
->>   EXPORT_SYMBOL(dma_resv_add_excl_fence);
->>   
->> +/**
->> + * dma_resv_walk_unlocked - walk over fences in a dma_resv obj
->> + * @obj: the dma_resv object
->> + * @cursor: cursor to record the current position
->> + * @all_fences: true returns also the shared fences
->> + * @first: if we should start over
->> + *
->> + * Return all the fences in the dma_resv object which are not yet signaled.
->> + * The returned fence has an extra local reference so will stay alive.
->> + * If a concurrent modify is detected the whole iterator is started over again.
->> + */
->> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
->> +					 struct dma_resv_cursor *cursor,
->> +					 bool all_fences, bool first)
->> +{
->> +	struct dma_fence *fence = NULL;
->> +
->> +	do {
->> +		/* Drop the reference from the previous round */
->> +		dma_fence_put(fence);
->> +
->> +		cursor->is_first = first;
->> +		if (first) {
->> +			cursor->seq = read_seqcount_begin(&obj->seq);
->> +			cursor->index = -1;
->> +			cursor->fences = dma_resv_shared_list(obj);
->> +			cursor->is_exclusive = true;
->> +
->> +			fence = dma_resv_excl_fence(obj);
->> +			if (fence && test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->> +					      &fence->flags))
->> +				fence = NULL;
->> +		} else {
->> +			fence = NULL;
->> +		}
->> +
->> +		if (fence) {
->> +			fence = dma_fence_get_rcu(fence);
->> +		} else if (all_fences && cursor->fences) {
->> +			struct dma_resv_list *fences = cursor->fences;
->> +
->> +			cursor->is_exclusive = false;
->> +			while (++cursor->index < fences->shared_count) {
->> +				fence = rcu_dereference(fences->shared[
->> +							cursor->index]);
->> +				if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->> +					      &fence->flags))
->> +					break;
->> +			}
->> +			if (cursor->index < fences->shared_count)
->> +				fence = dma_fence_get_rcu(fence);
->> +			else
->> +				fence = NULL;
->> +		}
->> +
->> +		/* For the eventually next round */
->> +		first = true;
->> +	} while (read_seqcount_retry(&obj->seq, cursor->seq));
->> +
->> +	return fence;
->> +}
->> +EXPORT_SYMBOL_GPL(dma_resv_walk_unlocked);
->> +
->>   /**
->>    * dma_resv_copy_fences - Copy all fences from src to dst.
->>    * @dst: the destination reservation object
->> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
->> index 9100dd3dc21f..f5b91c292ee0 100644
->> --- a/include/linux/dma-resv.h
->> +++ b/include/linux/dma-resv.h
->> @@ -149,6 +149,39 @@ struct dma_resv {
->>   	struct dma_resv_list __rcu *fence;
->>   };
->>   
->> +/**
->> + * struct dma_resv_cursor - current position into the dma_resv fences
->> + * @seq: sequence number to check
->> + * @index: index into the shared fences
->> + * @shared: the shared fences
->> + * @is_first: true if this is the first returned fence
->> + * @is_exclusive: if the current fence is the exclusive one
->> + */
->> +struct dma_resv_cursor {
->> +	unsigned int seq;
->> +	unsigned int index;
->> +	struct dma_resv_list *fences;
->> +	bool is_first;
->> +	bool is_exclusive;
->> +};
-> A bit a bikeshed, but I think I'd be nice to align this with the other
-> iterators we have, e.g. for the drm_connector list.
+On Mon, 06 Sep 2021, Hans de Goede <hdegoede@redhat.com> wrote:
+> Add X86 specific arch init code, which fills the privacy-screen lookup
+> table by checking for various vendor specific ACPI interfaces for
+> controlling the privacy-screen.
 >
-> So struct dma_resv_fence_iter, dma_resv_fence_iter_begin/next/end().
-
-I've renamed the structure to dma_resv_iter.
-
-> Also I think the for_each macro must not include begin/end calls. If we
-> include that then it saves 2 lines of code at the cost of a pile of
-> awkward bugs because people break; out of the loop or return early  (only
-> continue is safe) and we leak a fence. Or worse.
+> This initial version only checks for the Lenovo Thinkpad specific ACPI
+> methods for privacy-screen control.
 >
-> Explicit begin/end is much more robust at a very marginal cost imo.
-
-The key point is that this makes it quite a bunch more complicated to 
-implement. See those functions are easiest when you centralize them and 
-try to not spread the functionality into begin/end.
-
-The only thing I could see in the end function would be to drop the 
-reference for the dma_fence and that is not really something I would 
-like to do because we actually need to keep that reference in a bunch of 
-cases.
-
-Regards,
-Christian.
-
+> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  drivers/gpu/drm/Makefile                 |  2 +-
+>  drivers/gpu/drm/drm_privacy_screen_x86.c | 86 ++++++++++++++++++++++++
+>  include/drm/drm_privacy_screen_machine.h |  5 ++
+>  3 files changed, 92 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/gpu/drm/drm_privacy_screen_x86.c
 >
-> Otherwise I think this fence iterator is a solid concept that yeah we
-> should roll out everywhere.
-> -Daniel
->
->> +
->> +/**
->> + * dma_resv_for_each_fence_unlocked - fence iterator
->> + * @obj: a dma_resv object pointer
->> + * @cursor: a struct dma_resv_cursor pointer
->> + * @all_fences: true if all fences should be returned
->> + * @fence: the current fence
->> + *
->> + * Iterate over the fences in a struct dma_resv object without holding the
->> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
->> + * be dropped and re-taken as necessary inside the loop. @all_fences controls
->> + * if the shared fences are returned as well.
->> + */
->> +#define dma_resv_for_each_fence_unlocked(obj, cursor, all_fences, fence)    \
->> +	for (fence = dma_resv_walk_unlocked(obj, cursor, all_fences, true); \
->> +	     fence; dma_fence_put(fence),				    \
->> +	     fence = dma_resv_walk_unlocked(obj, cursor, all_fences, false))
->> +
->>   #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->>   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
->>   
->> @@ -366,6 +399,9 @@ void dma_resv_fini(struct dma_resv *obj);
->>   int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
->>   void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
->>   void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
->> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
->> +					 struct dma_resv_cursor *cursor,
->> +					 bool first, bool all_fences);
->>   int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
->>   			unsigned *pshared_count, struct dma_fence ***pshared);
->>   int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
->> -- 
->> 2.25.1
->>
+> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
+> index 788fc37096f6..12997ca5670d 100644
+> --- a/drivers/gpu/drm/Makefile
+> +++ b/drivers/gpu/drm/Makefile
+> @@ -32,7 +32,7 @@ drm-$(CONFIG_OF) += drm_of.o
+>  drm-$(CONFIG_PCI) += drm_pci.o
+>  drm-$(CONFIG_DEBUG_FS) += drm_debugfs.o drm_debugfs_crc.o
+>  drm-$(CONFIG_DRM_LOAD_EDID_FIRMWARE) += drm_edid_load.o
+> -drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o
+> +drm-$(CONFIG_DRM_PRIVACY_SCREEN) += drm_privacy_screen.o drm_privacy_screen_x86.o
 
+Would be nice to avoid building drm_privacy_screen_x86.o altogether for
+CONFIG_X86=n, and avoid...
+
+>  
+>  obj-$(CONFIG_DRM_DP_AUX_BUS) += drm_dp_aux_bus.o
+>  
+> diff --git a/drivers/gpu/drm/drm_privacy_screen_x86.c b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> new file mode 100644
+> index 000000000000..a2cafb294ca6
+> --- /dev/null
+> +++ b/drivers/gpu/drm/drm_privacy_screen_x86.c
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: MIT
+> +/*
+> + * Copyright (C) 2020 Red Hat, Inc.
+> + *
+> + * Authors:
+> + * Hans de Goede <hdegoede@redhat.com>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <drm/drm_privacy_screen_machine.h>
+> +
+> +#ifdef CONFIG_X86
+
+...ifdefs that cover the entire file. This can be a future improvement,
+though.
+
+> +static struct drm_privacy_screen_lookup arch_lookup;
+> +
+> +struct arch_init_data {
+> +	struct drm_privacy_screen_lookup lookup;
+> +	bool (*detect)(void);
+> +};
+> +
+> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
+> +static acpi_status __init acpi_set_handle(acpi_handle handle, u32 level,
+> +					  void *context, void **return_value)
+> +{
+> +	*(acpi_handle *)return_value = handle;
+> +	return AE_CTRL_TERMINATE;
+> +}
+> +
+> +static bool __init detect_thinkpad_privacy_screen(void)
+> +{
+> +	union acpi_object obj = { .type = ACPI_TYPE_INTEGER };
+> +	struct acpi_object_list args = { .count = 1, .pointer = &obj, };
+> +	acpi_handle ec_handle = NULL;
+> +	unsigned long long output;
+> +	acpi_status status;
+> +
+> +	/* Get embedded-controller handle */
+> +	status = acpi_get_devices("PNP0C09", acpi_set_handle, NULL, &ec_handle);
+> +	if (ACPI_FAILURE(status) || !ec_handle)
+> +		return false;
+> +
+> +	/* And call the privacy-screen get-status method */
+> +	status = acpi_evaluate_integer(ec_handle, "HKEY.GSSS", &args, &output);
+> +	if (ACPI_FAILURE(status))
+> +		return false;
+> +
+> +	return (output & 0x10000) ? true : false;
+> +}
+> +#endif
+> +
+> +static const struct arch_init_data arch_init_data[] __initconst = {
+> +#if IS_ENABLED(CONFIG_THINKPAD_ACPI)
+> +	{
+> +		.lookup = {
+> +			.dev_id = NULL,
+> +			.con_id = NULL,
+> +			.provider = "privacy_screen-thinkpad_acpi",
+> +		},
+> +		.detect = detect_thinkpad_privacy_screen,
+> +	},
+> +#endif
+> +};
+> +
+> +void __init drm_privacy_screen_lookup_init(void)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(arch_init_data); i++) {
+> +		if (!arch_init_data[i].detect())
+> +			continue;
+> +
+> +		pr_info("Found '%s' privacy-screen provider\n",
+> +			arch_init_data[i].lookup.provider);
+> +
+> +		/* Make a copy because arch_init_data is __initconst */
+> +		arch_lookup = arch_init_data[i].lookup;
+> +		drm_privacy_screen_lookup_add(&arch_lookup);
+> +		break;
+> +	}
+> +}
+> +
+> +void drm_privacy_screen_lookup_exit(void)
+> +{
+> +	if (arch_lookup.provider)
+> +		drm_privacy_screen_lookup_remove(&arch_lookup);
+> +}
+> +#endif /* ifdef CONFIG_X86 */
+> diff --git a/include/drm/drm_privacy_screen_machine.h b/include/drm/drm_privacy_screen_machine.h
+> index aaa0d38cce92..02e5371904d3 100644
+> --- a/include/drm/drm_privacy_screen_machine.h
+> +++ b/include/drm/drm_privacy_screen_machine.h
+> @@ -31,11 +31,16 @@ struct drm_privacy_screen_lookup {
+>  void drm_privacy_screen_lookup_add(struct drm_privacy_screen_lookup *lookup);
+>  void drm_privacy_screen_lookup_remove(struct drm_privacy_screen_lookup *lookup);
+>  
+> +#if IS_ENABLED(CONFIG_DRM_PRIVACY_SCREEN) && IS_ENABLED(CONFIG_X86)
+> +void drm_privacy_screen_lookup_init(void);
+> +void drm_privacy_screen_lookup_exit(void);
+> +#else
+>  static inline void drm_privacy_screen_lookup_init(void)
+>  {
+>  }
+>  static inline void drm_privacy_screen_lookup_exit(void)
+>  {
+>  }
+> +#endif
+>  
+>  #endif
+
+-- 
+Jani Nikula, Intel Open Source Graphics Center
