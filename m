@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B936040E19A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:33:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F7B140E1B8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8195C6EE41;
-	Thu, 16 Sep 2021 16:33:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B55A16EB9F;
+	Thu, 16 Sep 2021 16:53:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CB36B6EE3F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:33:39 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DEA861B01;
- Thu, 16 Sep 2021 16:33:38 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AEEA96EB9F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:53:09 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F0CA661AA2;
+ Thu, 16 Sep 2021 16:53:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1631810019;
+ s=korg; t=1631811189;
  bh=hiZVbOzKz6FJ1lqu2ced98widGKPNPXQdE93qPRkpKQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=f5tI+oqXZ57XoxRZB8EUjmaz6P/PbHK3zzoo1fzzxoHVZ2cPOboZQCYi27a/6fIDK
- 0K0t83ccr3mc++ncAxcDNv22AhT5ucENmdCgDk2K4CW/+0V6ha6PeurteuGNL9xzCq
- 8G70WTNKtYEiG5ylTKJPJwQ4YuQDV6sfmVSOUfv4=
+ b=IGh4bZVDPJ4wluEej1XOUZk5+lOmAMrWYSn522lkmRjzIcYnm5rUqnF4kRZw2viAi
+ CsOSmKYxkhIO6G71UI4h8mmX00cL84BKtbgyL60r0AYfBSoVwxU08VjMzsj1dadeWK
+ 5898nnQlqxp7l2OsmXSyHVyInY8bWe3VHYB9CAwM=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>,
  Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.13 368/380] drm/mgag200: Select clock in PLL update functions
-Date: Thu, 16 Sep 2021 18:02:05 +0200
-Message-Id: <20210916155816.574593093@linuxfoundation.org>
+Subject: [PATCH 5.14 416/432] drm/mgag200: Select clock in PLL update functions
+Date: Thu, 16 Sep 2021 18:02:45 +0200
+Message-Id: <20210916155824.934365580@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916155803.966362085@linuxfoundation.org>
-References: <20210916155803.966362085@linuxfoundation.org>
+In-Reply-To: <20210916155810.813340753@linuxfoundation.org>
+References: <20210916155810.813340753@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
