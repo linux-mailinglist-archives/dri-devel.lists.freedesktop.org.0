@@ -2,83 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4737640EACE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 21:29:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72B340EADE
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 21:34:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4326A6E83B;
-	Thu, 16 Sep 2021 19:29:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 825CE6E81A;
+	Thu, 16 Sep 2021 19:33:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A846E858
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 19:28:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631820537;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FS75qvg/QGalPD7nT7v60HvIHwPw+UZ+LYto6G3gDGo=;
- b=WRxm9WZW9YXKCoAvLa5jCVCs52TQcZ4KU9xK9kAiiIN5eJXYTlPFKRhguxVMdBGXfMGHE4
- iuR0deUjwEMttoBTRcQg2dQjGTzDG8UuYTyjXMMT/NvzXX3YIojqTOCW0SXEEHJTT7hKC+
- lkUf++j+oh5jkQdFUupL1yM2zZ86Yb0=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-cT5St3MyMuOtvjwbmNmVXg-1; Thu, 16 Sep 2021 15:28:56 -0400
-X-MC-Unique: cT5St3MyMuOtvjwbmNmVXg-1
-Received: by mail-ed1-f71.google.com with SMTP id
- r7-20020aa7c147000000b003d1f18329dcso6572276edp.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 12:28:56 -0700 (PDT)
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD3246E81A
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 19:33:55 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id w19so10549888oik.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 12:33:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CZPcoorTRtVxE7M+3h0YLcNGxhcvhAsboXIY+BlbX2A=;
+ b=C5JdOnnNpRmIPdDWWqWMHe3o+7BxTFIyFTnDJYIkY+EbWiDuFjGvrLsuy7MFgCFbOM
+ q8Kwfw6EA1uNJrx33wPzts+WmyDUbC2DpEZt+7mjS12IP8XqHJBJ5nBAPgcA7OqO2Npd
+ GRXX+PIkPUWzahSjVLMmEX61ToPoR4USZ7q73/m7tL/5lWdc95C4dKraUkxPZHvU/MWQ
+ OILHPmdCmFdhs7B62VFsTqaHAkQxM6qBvP3sdc0Q7Hv84OAQbwc41jTXizb259uXVMhP
+ xuaVRJO4eLtFM63Q26gBl0ZOVq4++abdAzbu2KlraRCah+KSnp6ynIZSjXE3isl55ho5
+ OI8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=FS75qvg/QGalPD7nT7v60HvIHwPw+UZ+LYto6G3gDGo=;
- b=zHvhaonroyDvF3E2CNF0zeTDf4U+LzbYdHFPz7v5uHECOaNbFwh4zto3lVi09bXFwP
- MBePU7ny75fYWRHuStFFA4xjSYpnepImbsn1mn2aUiyc6tnVrS7RXt1ruM8Z3Qir1SJM
- mXilAeaaebyq/PLBRyOeNT4wIGZ4KC5XbD8ueWCeHXTNw6FW4+gDXOBJPQgpGlPJHUZq
- 2A30Gv7oVE/uWC8tdxHe0PA7zEP1QFr752cEc+GmfigBeqApjzJBxgJfcaTQOWYRFaE+
- euGkDhEFupbByDLDLyBjNadApGcFLOfCzpSD98F4/EszYW5zE5cRuLJ+KrhUtn5LRtJ7
- oFWg==
-X-Gm-Message-State: AOAM5318qrlqm6lLkHhYVZ8pts9nqumB3hbYT20+AZTtlEKq6Utz3LaJ
- q7cHVjioWGNhF6FTp08bcYn3AozAmrIk8jBALNefYQHXeEZuFDH5fSKl5wkFRh5CFp5eE9S4I8S
- vEcwcdhSp58kbQ/0BbHbMJS1xyxPp
-X-Received: by 2002:a50:be8f:: with SMTP id b15mr8414149edk.200.1631820535547; 
- Thu, 16 Sep 2021 12:28:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymHX5bRV0/tke6JXHg2Y4bqYtXuIZ73eH/jyIPwD4p+V7vHFhL3IQ9beEu/DNayIwW6S3o3w==
-X-Received: by 2002:a50:be8f:: with SMTP id b15mr8414132edk.200.1631820535385; 
- Thu, 16 Sep 2021 12:28:55 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id dn28sm1761628edb.76.2021.09.16.12.28.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 12:28:55 -0700 (PDT)
-Subject: Re: [PATCH 5/5] drm/vboxvideo: Use managed interfaces for framebuffer
- write combining
-To: Thomas Zimmermann <tzimmermann@suse.de>, airlied@redhat.com,
- airlied@linux.ie, daniel@ffwll.ch, marcan@marcan.st, maz@kernel.org,
- akpm@linux-foundation.org, npiggin@gmail.com, thunder.leizhen@huawei.com,
- gregkh@linuxfoundation.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20210916181601.9146-1-tzimmermann@suse.de>
- <20210916181601.9146-6-tzimmermann@suse.de>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <353180c3-4184-4723-a8ae-a633931beec4@redhat.com>
-Date: Thu, 16 Sep 2021 21:28:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ bh=CZPcoorTRtVxE7M+3h0YLcNGxhcvhAsboXIY+BlbX2A=;
+ b=FpfJpKuPSm6NnI+UfZxz3CrvuOUdgj8/v8T0OiTZ8tgG4BzcGgRwig4YgTCnZC0tW8
+ 7go+wjBFJurX2qoZED4pqCdDfSLC6tllCBjGJA+zbvvwmFrMKIfVcZZ27EXcJYglRMLl
+ h5kWh686XvTrW82ILWCalnKG0ZQ9M7/4aDFrxXUncaWqPbXW08Fxaqrni2lUzE9J07j7
+ yvbvjR+9C8QkhYia+0Xta+H2MV3NacBItGDGF/PBl4tNM1YVz77DoXutjUOgfL49jOsA
+ /7cUJZKK0WyTgneJ7PjLuyeuPPAW+JUd1gzhNtX/RWzh0c5uUrkxGj8JuwN0pSzZYSCs
+ fvXg==
+X-Gm-Message-State: AOAM532SeeemywYi6fhCienYlMrlmGYQF7htDrvVfpdi9CEy+r3X+OIG
+ 28oP89ai2VvamBe7hvEuNds=
+X-Google-Smtp-Source: ABdhPJxfdWxIyzx/RNvXk7jV5b7uC/rUs5yQvp06pO3dqcpjiP8gpI5qHUAXi/CRcLoVxRofDX5ejg==
+X-Received: by 2002:a54:4714:: with SMTP id k20mr1134355oik.103.1631820835063; 
+ Thu, 16 Sep 2021 12:33:55 -0700 (PDT)
+Received: from wintermute.localdomain (cpe-76-183-134-35.tx.res.rr.com.
+ [76.183.134.35])
+ by smtp.gmail.com with ESMTPSA id b11sm919458ooi.0.2021.09.16.12.33.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 16 Sep 2021 12:33:54 -0700 (PDT)
+From: Chris Morgan <macroalpha82@gmail.com>
+To: linux-rockchip@lists.infradead.org
+Cc: dianders@chromium.org, hjc@rock-chips.com, heiko@sntech.de,
+ airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ Chris Morgan <macromorgan@hotmail.com>
+Subject: [PATCH v2] drm/rockchip: Update crtc fixup to account for fractional
+ clk change
+Date: Thu, 16 Sep 2021 14:33:43 -0500
+Message-Id: <20210916193343.10206-1-macroalpha82@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210916181601.9146-6-tzimmermann@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,105 +73,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Chris Morgan <macromorgan@hotmail.com>
 
-On 9/16/21 8:16 PM, Thomas Zimmermann wrote:
-> Replace arch_phys_wc_add() with the rsp managed function. Allows for
-> removing the cleanup code for memory management
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes commit 287422a95fe2 ("drm/rockchip: Round up _before_ giving to
+the clock framework")
 
-Thanks, patch looks good to me:
+After commit 928f9e268611 ("clk: fractional-divider: Hide
+clk_fractional_divider_ops from wide audience") was merged it appears
+that the DSI panel on my Odroid Go Advance stopped working. Upon closer
+examination of the problem, it looks like it was the fixup in the
+rockchip_drm_vop.c file was causing the issue. The changes made to the
+clk driver appear to change some assumptions made in the fixup.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+After debugging the working 5.14 kernel and the no-longer working
+5.15 kernel, it looks like this was broken all along but still
+worked, whereas after the fractional clock change it stopped
+working despite the issue (it went from sort-of broken to very broken).
 
-Regards,
+In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
+17000999 on my board. The clock driver was taking the value of the
+parent clock and attempting to divide the requested value from it
+(17000000/17000999 = 0), then subtracting 1 from it (making it -1),
+and running it through fls_long to get 64. It would then subtract
+the value of fd->mwidth from it to get 48, and then bit shift
+17000999 to the left by 48, coming up with a very large number of
+7649082492112076800. This resulted in a numerator of 65535 and a
+denominator of 1 from the clk driver. The driver seemingly would
+try again and get a correct 1:1 value later, and then move on.
 
-Hans
+Output from my 5.14 kernel (with some printfs for good measure):
+[    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.855980] Clock is dclk_vopb_frac
+[    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
+[    2.903529] Clock is dclk_vopb_frac
+[    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
+[    2.903579] Clock is dclk_vopb_frac
+[    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
 
+Contrast this with 5.15 after the clk change where the rate of 17000999
+was getting passed and resulted in numerators/denomiators of 17001/
+17000.
 
-> ---
->  drivers/gpu/drm/vboxvideo/vbox_drv.c |  5 +----
->  drivers/gpu/drm/vboxvideo/vbox_drv.h |  1 -
->  drivers/gpu/drm/vboxvideo/vbox_ttm.c | 17 ++++++++---------
->  3 files changed, 9 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.c b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> index 2b81cb259d23..a6c81af37345 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.c
-> @@ -69,7 +69,7 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  	ret = vbox_mode_init(vbox);
->  	if (ret)
-> -		goto err_mm_fini;
-> +		goto err_hw_fini;
->  
->  	ret = vbox_irq_init(vbox);
->  	if (ret)
-> @@ -87,8 +87,6 @@ static int vbox_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	vbox_irq_fini(vbox);
->  err_mode_fini:
->  	vbox_mode_fini(vbox);
-> -err_mm_fini:
-> -	vbox_mm_fini(vbox);
->  err_hw_fini:
->  	vbox_hw_fini(vbox);
->  	return ret;
-> @@ -101,7 +99,6 @@ static void vbox_pci_remove(struct pci_dev *pdev)
->  	drm_dev_unregister(&vbox->ddev);
->  	vbox_irq_fini(vbox);
->  	vbox_mode_fini(vbox);
-> -	vbox_mm_fini(vbox);
->  	vbox_hw_fini(vbox);
->  }
->  
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_drv.h b/drivers/gpu/drm/vboxvideo/vbox_drv.h
-> index 4903b91d7fe4..e77bd6512eb1 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_drv.h
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_drv.h
-> @@ -139,7 +139,6 @@ void vbox_mode_fini(struct vbox_private *vbox);
->  void vbox_report_caps(struct vbox_private *vbox);
->  
->  int vbox_mm_init(struct vbox_private *vbox);
-> -void vbox_mm_fini(struct vbox_private *vbox);
->  
->  /* vbox_irq.c */
->  int vbox_irq_init(struct vbox_private *vbox);
-> diff --git a/drivers/gpu/drm/vboxvideo/vbox_ttm.c b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> index fd8a53a4d8d6..dc24c2172fd4 100644
-> --- a/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> +++ b/drivers/gpu/drm/vboxvideo/vbox_ttm.c
-> @@ -13,22 +13,21 @@
->  int vbox_mm_init(struct vbox_private *vbox)
->  {
->  	int ret;
-> +	resource_size_t base, size;
->  	struct drm_device *dev = &vbox->ddev;
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
-> -	ret = drmm_vram_helper_init(dev, pci_resource_start(pdev, 0),
-> -				       vbox->available_vram_size);
-> +	base = pci_resource_start(pdev, 0);
-> +	size = pci_resource_len(pdev, 0);
-> +
-> +	/* Don't fail on errors, but performance might be reduced. */
-> +	devm_arch_phys_wc_add(&pdev->dev, base, size);
-> +
-> +	ret = drmm_vram_helper_init(dev, base, vbox->available_vram_size);
->  	if (ret) {
->  		DRM_ERROR("Error initializing VRAM MM; %d\n", ret);
->  		return ret;
->  	}
->  
-> -	vbox->fb_mtrr = arch_phys_wc_add(pci_resource_start(pdev, 0),
-> -					 pci_resource_len(pdev, 0));
->  	return 0;
->  }
-> -
-> -void vbox_mm_fini(struct vbox_private *vbox)
-> -{
-> -	arch_phys_wc_del(vbox->fb_mtrr);
-> -}
-> 
+Output from my 5.15 kernel (with some printfs added for good measure):
+[    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
+[    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
+[    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
+[    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+[    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
+
+I have tested the change extensively on my Odroid Go Advance (Rockchip
+RK3326) and it appears to work well. However, this change will affect
+all Rockchip SoCs that use this driver so I believe further testing
+is warranted. Please note that without this change I can confirm
+at least all PX30s with DSI panels will stop working with the 5.15
+kernel.
+
+Upon advice from Doug Anderson <dianders@chromium.org> it was decided
+that we would first check if the clock rate can be set exactly as
+requested, and only if it could not would we then add 999 to it and
+attempt the process again. This way we can preserve the behavior for
+clocks that still need it while resolving the specific issue for the
+PX30 and DSI panels (since it is using a fractional clock).
+
+Changes since v1:
+
+ - Made the addition of 999 conditional based on whether the clock
+   subsystem can set the actual clock rate as requested.
+ - Updated the notes in the fixup routine to reflect this new behavior.
+ - Added reference to original commit, as this has technically been
+   broken since then however only now is it an issue due to the clock
+   changes.
+
+Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+---
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 26 ++++++++++-----------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba9e14da41b4..a25b98b7f5bd 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -1174,26 +1174,24 @@ static bool vop_crtc_mode_fixup(struct drm_crtc *crtc,
+ 	 *
+ 	 * Action plan:
+ 	 *
+-	 * 1. When DRM gives us a mode, we should add 999 Hz to it.  That way
+-	 *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells us to
+-	 *    make 60000 kHz then the clock framework will actually give us
+-	 *    the right clock.
++	 * 1. Try to set the exact rate first, and confirm the clock framework
++	 *    can provide it.
+ 	 *
+-	 *    NOTE: if the PLL (maybe through a divider) could actually make
+-	 *    a clock rate 999 Hz higher instead of the one we want then this
+-	 *    could be a problem.  Unfortunately there's not much we can do
+-	 *    since it's baked into DRM to use kHz.  It shouldn't matter in
+-	 *    practice since Rockchip PLLs are controlled by tables and
+-	 *    even if there is a divider in the middle I wouldn't expect PLL
+-	 *    rates in the table that are just a few kHz different.
++	 * 2. If the clock framework cannot provide the exact rate, we should
++	 *    add 999 Hz to the requested rate.  That way if the clock we need
++	 *    is 60000001 Hz (~60 MHz) and DRM tells us to make 60000 kHz then
++	 *    the clock framework will actually give us the right clock.
+ 	 *
+-	 * 2. Get the clock framework to round the rate for us to tell us
++	 * 3. Get the clock framework to round the rate for us to tell us
+ 	 *    what it will actually make.
+ 	 *
+-	 * 3. Store the rounded up rate so that we don't need to worry about
++	 * 4. Store the rounded up rate so that we don't need to worry about
+ 	 *    this in the actual clk_set_rate().
+ 	 */
+-	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
++	rate = clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
++	if (rate / 1000 != adjusted_mode->clock)
++		rate = clk_round_rate(vop->dclk,
++				      adjusted_mode->clock * 1000 + 999);
+ 	adjusted_mode->clock = DIV_ROUND_UP(rate, 1000);
+ 
+ 	return true;
+-- 
+2.25.1
 
