@@ -2,41 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7B140E1B8
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BF640DFEC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:15:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55A16EB9F;
-	Thu, 16 Sep 2021 16:53:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C11B06EE28;
+	Thu, 16 Sep 2021 16:15:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AEEA96EB9F
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:53:09 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id F0CA661AA2;
- Thu, 16 Sep 2021 16:53:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1631811189;
- bh=hiZVbOzKz6FJ1lqu2ced98widGKPNPXQdE93qPRkpKQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=IGh4bZVDPJ4wluEej1XOUZk5+lOmAMrWYSn522lkmRjzIcYnm5rUqnF4kRZw2viAi
- CsOSmKYxkhIO6G71UI4h8mmX00cL84BKtbgyL60r0AYfBSoVwxU08VjMzsj1dadeWK
- 5898nnQlqxp7l2OsmXSyHVyInY8bWe3VHYB9CAwM=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
- Emil Velikov <emil.velikov@collabora.com>,
- Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.14 416/432] drm/mgag200: Select clock in PLL update functions
-Date: Thu, 16 Sep 2021 18:02:45 +0200
-Message-Id: <20210916155824.934365580@linuxfoundation.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916155810.813340753@linuxfoundation.org>
-References: <20210916155810.813340753@linuxfoundation.org>
-User-Agent: quilt/0.66
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B98F6EE29
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:15:33 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1631808935; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=VopVy3p4TBJI0nA0siqV1XpbK3ZcX0Kn9uhei4SlZuU=;
+ b=egNTKZ9yHhgUuvlUfNpAX4M174WQWS4FQwzkdmeKNrzimksqwHEj5lNC9KUYoVCH2QIMgBn8
+ GMfoo2Ah1HygctLMOW5ZL2ZsuPjHdqHC7NpBxQpje4Vkn5Q9X8ez8JCH/VIVrt+h4a082Mu7
+ og1HpztMI+sZWf62YIpEbRLOWgk=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-east-1.postgun.com with SMTP id
+ 61436d98bd6681d8ed92e170 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 16 Sep 2021 16:15:20
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D0885C4361B; Thu, 16 Sep 2021 16:15:19 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 6CE32C4360D;
+ Thu, 16 Sep 2021 16:15:16 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 16 Sep 2021 09:15:16 -0700
+From: abhinavk@codeaurora.org
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>, DRI mailing list
+ <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <freedreno@lists.freedesktop.org>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, stable <stable@vger.kernel.org>
+Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
+ devices
+In-Reply-To: <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
+References: <20210914174831.2044420-1-festevam@gmail.com>
+ <96038e06b1141ad3348611a25544356e@codeaurora.org>
+ <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
+Message-ID: <5409ccef7ee4359d070eed3acd955590@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,158 +75,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Thomas Zimmermann <tzimmermann@suse.de>
+Hi Fabio
 
-commit 147696720eca12ae48d020726208b9a61cdd80bc upstream.
+Thanks for confirming.
 
-Put the clock-selection code into each of the PLL-update functions to
-make them select the correct pixel clock. Instead of copying the code,
-introduce a new helper WREG_MISC_MASKED, which does masked writes into
-<MISC>. Use it from each individual PLL update function.
+Although I have no issues with your change, I am curious why even msm is 
+probing and/or binding.
+Your device tree should not be having any mdp/dpu nodes then.
 
-The pixel clock for video output was not actually set before programming
-the clock's values. It worked because the device had the correct clock
-pre-set.
+Thanks
 
-v2:
-	* don't duplicate <MISC> update code (Sam)
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: db05f8d3dc87 ("drm/mgag200: Split MISC register update into PLL selection, SYNC and I/O")
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Emil Velikov <emil.velikov@collabora.com>
-Cc: Dave Airlie <airlied@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: <stable@vger.kernel.org> # v5.9+
-Link: https://patchwork.freedesktop.org/patch/msgid/20210714142240.21979-2-tzimmermann@suse.de
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/gpu/drm/mgag200/mgag200_drv.h  |   16 ++++++++++++++++
- drivers/gpu/drm/mgag200/mgag200_mode.c |   20 +++++++++++++-------
- drivers/gpu/drm/mgag200/mgag200_reg.h  |    9 ++++-----
- 3 files changed, 33 insertions(+), 12 deletions(-)
-
---- a/drivers/gpu/drm/mgag200/mgag200_drv.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
-@@ -43,6 +43,22 @@
- #define ATTR_INDEX 0x1fc0
- #define ATTR_DATA 0x1fc1
- 
-+#define WREG_MISC(v)						\
-+	WREG8(MGA_MISC_OUT, v)
-+
-+#define RREG_MISC(v)						\
-+	((v) = RREG8(MGA_MISC_IN))
-+
-+#define WREG_MISC_MASKED(v, mask)				\
-+	do {							\
-+		u8 misc_;					\
-+		u8 mask_ = (mask);				\
-+		RREG_MISC(misc_);				\
-+		misc_ &= ~mask_;				\
-+		misc_ |= ((v) & mask_);				\
-+		WREG_MISC(misc_);				\
-+	} while (0)
-+
- #define WREG_ATTR(reg, v)					\
- 	do {							\
- 		RREG8(0x1fda);					\
---- a/drivers/gpu/drm/mgag200/mgag200_mode.c
-+++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -174,6 +174,8 @@ static int mgag200_g200_set_plls(struct
- 	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
- 		    clock, f_vco, m, n, p, s);
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
- 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
- 	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
-@@ -289,6 +291,8 @@ static int mga_g200se_set_plls(struct mg
- 		return 1;
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
- 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
- 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
-@@ -385,6 +389,8 @@ static int mga_g200wb_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	for (i = 0; i <= 32 && pll_locked == false; i++) {
- 		if (i > 0) {
- 			WREG8(MGAREG_CRTC_INDEX, 0x1e);
-@@ -522,6 +528,8 @@ static int mga_g200ev_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 	tmp = RREG8(DAC_DATA);
- 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -654,6 +662,9 @@ static int mga_g200eh_set_plls(struct mg
- 			}
- 		}
- 	}
-+
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	for (i = 0; i <= 32 && pll_locked == false; i++) {
- 		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 		tmp = RREG8(DAC_DATA);
-@@ -754,6 +765,8 @@ static int mga_g200er_set_plls(struct mg
- 		}
- 	}
- 
-+	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
-+
- 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
- 	tmp = RREG8(DAC_DATA);
- 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -787,8 +800,6 @@ static int mga_g200er_set_plls(struct mg
- 
- static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
- {
--	u8 misc;
--
- 	switch(mdev->type) {
- 	case G200_PCI:
- 	case G200_AGP:
-@@ -808,11 +819,6 @@ static int mgag200_crtc_set_plls(struct
- 		return mga_g200er_set_plls(mdev, clock);
- 	}
- 
--	misc = RREG8(MGA_MISC_IN);
--	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
--	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
--	WREG8(MGA_MISC_OUT, misc);
--
- 	return 0;
- }
- 
---- a/drivers/gpu/drm/mgag200/mgag200_reg.h
-+++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
-@@ -222,11 +222,10 @@
- 
- #define MGAREG_MISC_IOADSEL	(0x1 << 0)
- #define MGAREG_MISC_RAMMAPEN	(0x1 << 1)
--#define MGAREG_MISC_CLK_SEL_MASK	GENMASK(3, 2)
--#define MGAREG_MISC_CLK_SEL_VGA25	(0x0 << 2)
--#define MGAREG_MISC_CLK_SEL_VGA28	(0x1 << 2)
--#define MGAREG_MISC_CLK_SEL_MGA_PIX	(0x2 << 2)
--#define MGAREG_MISC_CLK_SEL_MGA_MSK	(0x3 << 2)
-+#define MGAREG_MISC_CLKSEL_MASK		GENMASK(3, 2)
-+#define MGAREG_MISC_CLKSEL_VGA25	(0x0 << 2)
-+#define MGAREG_MISC_CLKSEL_VGA28	(0x1 << 2)
-+#define MGAREG_MISC_CLKSEL_MGA		(0x3 << 2)
- #define MGAREG_MISC_VIDEO_DIS	(0x1 << 4)
- #define MGAREG_MISC_HIGH_PG_SEL	(0x1 << 5)
- #define MGAREG_MISC_HSYNCPOL		BIT(6)
-
-
+Abhinav
+On 2021-09-16 04:42, Fabio Estevam wrote:
+> Hi Abhinav,
+> 
+> On Wed, Sep 15, 2021 at 11:22 PM <abhinavk@codeaurora.org> wrote:
+> 
+>> Are you not using DPU or are you not using mdp4/mdp5 as well? Even if
+>> you are using any of mdps, kms should
+>> not be NULL. Hence wanted to check the test case.
+> 
+> I am running i.MX53, which is an NXP SoC, not Qualcomm's.
+> 
+> It does not use DPU, nor MDP4/5 and kms is NULL in this case.
+> 
+> Some debug prints to confirm:
+> 
+> --- a/drivers/gpu/drm/msm/msm_drv.c
+> +++ b/drivers/gpu/drm/msm/msm_drv.c
+> @@ -557,18 +557,22 @@ static int msm_drm_init(struct device *dev,
+> const struct drm_driver *drv)
+>         case KMS_MDP4:
+>                 kms = mdp4_kms_init(ddev);
+>                 priv->kms = kms;
+> +               pr_err("******** KMS_MDP4\n");
+>                 break;
+>         case KMS_MDP5:
+>                 kms = mdp5_kms_init(ddev);
+> +               pr_err("******** KMS_MDP5\n");
+>                 break;
+>         case KMS_DPU:
+>                 kms = dpu_kms_init(ddev);
+> +               pr_err("******** KMS_DPU\n");
+>                 priv->kms = kms;
+>                 break;
+>         default:
+>                 /* valid only for the dummy headless case, where 
+> of_node=NULL */
+>                 WARN_ON(dev->of_node);
+>                 kms = NULL;
+> +               pr_err("******** KMS is NULL\n");
+>                 break;
+>         }
+> 
+> # dmesg | grep KMS
+> [    3.153215] ******** KMS is NULL
