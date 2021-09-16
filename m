@@ -1,16 +1,16 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DBF940DCD3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:33:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A77540DCD0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:33:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3B9356EE0A;
-	Thu, 16 Sep 2021 14:33:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2CCC6EE07;
+	Thu, 16 Sep 2021 14:33:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 922B46EE07
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AAF86EE08
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 14:33:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  s=20161220; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
@@ -18,17 +18,17 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=IJdFG9sMOSaGH8Ycs7Mr3zlh8NBxtLFtGUMD/WPJXNE=; b=oMKhm4XsZJC52ze+W1piapHShI
- oVwSykl+Hf8+mxoIgZisS3kEkBSeCQOMTOujipr02tdkPDw53qzXibcEZW8acg7uvXM+7DuLdKX+D
- 8eVHuO5V3lm1rDcpSqVbUfdp3N3QHtR46llXU//65Eg2/ouz+rF5L5fde6MXZjqgYapV0MzstoXF6
- rrlIcM5T8CVP5/nptr4E4Lxs9qNfx+M3NV3CasPSpIh62EvMcc+heeys9DLOTm2sn6NIVU+oQSO4C
- dyg1IzrJ17E81hYy3oRLJMoKKSPt/ESH5eBLcBwBMm7WlvmIf+YISxJS7YhGPevWDGaFhk2J7Wyuh
- 75Xg6b1Q==;
+ bh=FAxQfVs0XUgPOc5w57uRZTWwy52AV59K8Fd1WIGVx2A=; b=f/tL66xeF24xoPcEiNGy8a0tIK
+ i42YS2NH7KBptGaFg7VkMooZ4M5qGIMDQZUU6qKrQYd2lisuDPYXN12VLRh1AJSnTbfaJmmZ8DIn8
+ Knhd5ZooULTIMm6ssamr9RAK73QMJoVThwApalDCPDdUkCmhsmDMPgL13hyOy5//dpx5yxbInAJ7/
+ 0NpCH0qcvh6QYPfLgwsbOzEAuIIhI+ioRZj962taOZmlDiYOMZI2I3kDoKA9K8MBfD6KQ9b5pXnCf
+ fpAUeHy4PXtPb9FkkO787JTA8HuA70cCbz6vJfRe8GutZEGHk/BEHmKWGpop40mGjDVGpZfsDHcZ/
+ bwe815Kg==;
 Received: from dsl-hkibng22-54f986-236.dhcp.inet.fi ([84.249.134.236]
  helo=toshino.localdomain)
  by mail.kapsi.fi with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.89) (envelope-from <mperttunen@nvidia.com>)
- id 1mQsRv-0005Xx-Tx; Thu, 16 Sep 2021 17:33:15 +0300
+ id 1mQsRw-0005Xx-1M; Thu, 16 Sep 2021 17:33:16 +0300
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: thierry.reding@gmail.com, jonathanh@nvidia.com, joro@8bytes.org,
  will@kernel.org, robh+dt@kernel.org, robin.murphy@arm.com
@@ -36,9 +36,9 @@ Cc: linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
  iommu@lists.linux-foundation.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  Mikko Perttunen <mperttunen@nvidia.com>
-Subject: [PATCH v2 2/8] gpu: host1x: Add context device management code
-Date: Thu, 16 Sep 2021 17:32:56 +0300
-Message-Id: <20210916143302.2024933-3-mperttunen@nvidia.com>
+Subject: [PATCH v2 3/8] gpu: host1x: Program context stream ID on submission
+Date: Thu, 16 Sep 2021 17:32:57 +0300
+Message-Id: <20210916143302.2024933-4-mperttunen@nvidia.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210916143302.2024933-1-mperttunen@nvidia.com>
 References: <20210916143302.2024933-1-mperttunen@nvidia.com>
@@ -62,343 +62,157 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add code to register context devices from device tree, allocate them
-out and manage their refcounts.
+Add code to do stream ID switching at the beginning of a job. The
+stream ID is switched to the stream ID specified by the context
+passed in the job structure.
+
+Before switching the stream ID, an OP_DONE wait is done on the
+channel's engine to ensure that there is no residual ongoing
+work that might do DMA using the new stream ID.
 
 Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
-v2:
-* Directly set DMA mask instead of inheriting from Host1x.
-* Use iommu-map instead of custom DT property.
----
- drivers/gpu/host1x/Makefile  |   1 +
- drivers/gpu/host1x/context.c | 174 +++++++++++++++++++++++++++++++++++
- drivers/gpu/host1x/context.h |  27 ++++++
- drivers/gpu/host1x/dev.c     |  12 ++-
- drivers/gpu/host1x/dev.h     |   2 +
- include/linux/host1x.h       |  17 ++++
- 6 files changed, 232 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/host1x/context.c
- create mode 100644 drivers/gpu/host1x/context.h
+ drivers/gpu/host1x/hw/channel_hw.c        | 52 +++++++++++++++++++++--
+ drivers/gpu/host1x/hw/host1x06_hardware.h | 10 +++++
+ drivers/gpu/host1x/hw/host1x07_hardware.h | 10 +++++
+ include/linux/host1x.h                    |  4 ++
+ 4 files changed, 72 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/host1x/Makefile b/drivers/gpu/host1x/Makefile
-index c891a3e33844..8a65e13d113a 100644
---- a/drivers/gpu/host1x/Makefile
-+++ b/drivers/gpu/host1x/Makefile
-@@ -10,6 +10,7 @@ host1x-y = \
- 	debug.o \
- 	mipi.o \
- 	fence.o \
-+	context.o \
- 	hw/host1x01.o \
- 	hw/host1x02.o \
- 	hw/host1x04.o \
-diff --git a/drivers/gpu/host1x/context.c b/drivers/gpu/host1x/context.c
-new file mode 100644
-index 000000000000..987c08a1e2f2
---- /dev/null
-+++ b/drivers/gpu/host1x/context.c
-@@ -0,0 +1,174 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2021, NVIDIA Corporation.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/kref.h>
-+#include <linux/of.h>
-+#include <linux/of_platform.h>
-+#include <linux/pid.h>
-+#include <linux/slab.h>
-+
-+#include "context.h"
-+#include "dev.h"
-+
-+/*
-+ * Due to an issue with T194 NVENC, only 38 bits can be used.
-+ * Anyway, 256GiB of IOVA ought to be enough for anyone.
-+ */
-+static dma_addr_t context_device_dma_mask = DMA_BIT_MASK(38);
-+
-+int host1x_context_list_init(struct host1x *host1x)
+diff --git a/drivers/gpu/host1x/hw/channel_hw.c b/drivers/gpu/host1x/hw/channel_hw.c
+index 1999780a7203..d451f8437f62 100644
+--- a/drivers/gpu/host1x/hw/channel_hw.c
++++ b/drivers/gpu/host1x/hw/channel_hw.c
+@@ -159,6 +159,45 @@ static void host1x_channel_set_streamid(struct host1x_channel *channel)
+ #endif
+ }
+ 
++static void host1x_channel_program_engine_streamid(struct host1x_job *job)
 +{
-+	struct host1x_context_list *cdl = &host1x->context_list;
-+	struct host1x_context *ctx;
-+	struct device_node *node;
-+	int index;
-+	int err;
++#if HOST1X_HW >= 6
++	u32 fence;
 +
-+	node = of_get_child_by_name(host1x->dev->of_node, "memory-contexts");
-+	if (!node)
-+		return 0;
++	if (!job->context)
++		return;
 +
-+	cdl->devs = NULL;
-+	cdl->len = 0;
-+	mutex_init(&cdl->lock);
++	fence = host1x_syncpt_incr_max(job->syncpt, 1);
 +
-+	err = of_property_count_u32_elems(node, "iommu-map");
-+	if (err < 0) {
-+		err = 0;
-+		goto put_node;
-+	}
++	/* First, increment a syncpoint on OP_DONE condition.. */
 +
-+	cdl->devs = kcalloc(err, sizeof(*cdl->devs), GFP_KERNEL);
-+	if (!cdl->devs) {
-+		err = -ENOMEM;
-+		goto put_node;
-+	}
-+	cdl->len = err / 4;
++	host1x_cdma_push(&job->channel->cdma,
++		host1x_opcode_nonincr(HOST1X_UCLASS_INCR_SYNCPT, 1),
++		HOST1X_UCLASS_INCR_SYNCPT_INDX_F(job->syncpt->id) |
++			HOST1X_UCLASS_INCR_SYNCPT_COND_F(1));
 +
-+	for (index = 0; index < cdl->len; index++) {
-+		struct iommu_fwspec *fwspec;
++	/* Wait for syncpoint to increment */
 +
-+		ctx = &cdl->devs[index];
++	host1x_cdma_push(&job->channel->cdma,
++		host1x_opcode_setclass(HOST1X_CLASS_HOST1X,
++			host1x_uclass_wait_syncpt_r(), 1),
++		host1x_class_host_wait_syncpt(job->syncpt->id, fence));
 +
-+		ctx->host = host1x;
++	/*
++	 * Now that we know the engine is idle, return to class and
++	 * change stream ID.
++	 */
 +
-+		device_initialize(&ctx->dev);
++	host1x_cdma_push(&job->channel->cdma,
++		host1x_opcode_setclass(job->class, 0, 0),
++		HOST1X_OPCODE_NOP);
 +
-+		ctx->dev.dma_mask = &context_device_dma_mask;
-+		ctx->dev.coherent_dma_mask = context_device_dma_mask;
-+		dev_set_name(&ctx->dev, "host1x-ctx.%d", index);
-+		ctx->dev.bus = &host1x_context_device_bus_type;
-+		ctx->dev.parent = host1x->dev;
-+
-+		dma_set_max_seg_size(&ctx->dev, UINT_MAX);
-+
-+		err = device_add(&ctx->dev);
-+		if (err) {
-+			dev_err(host1x->dev, "could not add context device %d: %d\n", index, err);
-+			goto del_devices;
-+		}
-+
-+		err = of_dma_configure_id(&ctx->dev, node, true, &index);
-+		if (err) {
-+			dev_err(host1x->dev, "IOMMU configuration failed for context device %d: %d\n",
-+				index, err);
-+			device_del(&ctx->dev);
-+			goto del_devices;
-+		}
-+
-+		fwspec = dev_iommu_fwspec_get(&ctx->dev);
-+		if (!fwspec) {
-+			dev_err(host1x->dev, "Context device %d has no IOMMU!\n", index);
-+			device_del(&ctx->dev);
-+			goto del_devices;
-+		}
-+
-+		ctx->stream_id = fwspec->ids[0] & 0xffff;
-+	}
-+
-+	of_node_put(node);
-+
-+	return 0;
-+
-+del_devices:
-+	while (--index >= 0)
-+		device_del(&cdl->devs[index].dev);
-+
-+	kfree(cdl->devs);
-+	cdl->len = 0;
-+
-+put_node:
-+	of_node_put(node);
-+
-+	return err;
-+}
-+
-+void host1x_context_list_free(struct host1x_context_list *cdl)
-+{
-+	int i;
-+
-+	for (i = 0; i < cdl->len; i++)
-+		device_del(&cdl->devs[i].dev);
-+
-+	kfree(cdl->devs);
-+	cdl->len = 0;
-+}
-+
-+struct host1x_context *host1x_context_alloc(struct host1x *host1x,
-+					    struct pid *pid)
-+{
-+	struct host1x_context_list *cdl = &host1x->context_list;
-+	struct host1x_context *free = NULL;
-+	int i;
-+
-+	if (!cdl->len)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	mutex_lock(&cdl->lock);
-+
-+	for (i = 0; i < cdl->len; i++) {
-+		struct host1x_context *cd = &cdl->devs[i];
-+
-+		if (cd->owner == pid) {
-+			refcount_inc(&cd->ref);
-+			mutex_unlock(&cdl->lock);
-+			return cd;
-+		} else if (!cd->owner && !free) {
-+			free = cd;
-+		}
-+	}
-+
-+	if (!free) {
-+		mutex_unlock(&cdl->lock);
-+		return ERR_PTR(-EBUSY);
-+	}
-+
-+	refcount_set(&free->ref, 1);
-+	free->owner = get_pid(pid);
-+
-+	mutex_unlock(&cdl->lock);
-+
-+	return free;
-+}
-+EXPORT_SYMBOL(host1x_context_alloc);
-+
-+void host1x_context_get(struct host1x_context *cd)
-+{
-+	refcount_inc(&cd->ref);
-+}
-+EXPORT_SYMBOL(host1x_context_get);
-+
-+void host1x_context_put(struct host1x_context *cd)
-+{
-+	struct host1x_context_list *cdl = &cd->host->context_list;
-+
-+	if (refcount_dec_and_mutex_lock(&cd->ref, &cdl->lock)) {
-+		put_pid(cd->owner);
-+		cd->owner = NULL;
-+		mutex_unlock(&cdl->lock);
-+	}
-+}
-+EXPORT_SYMBOL(host1x_context_put);
-diff --git a/drivers/gpu/host1x/context.h b/drivers/gpu/host1x/context.h
-new file mode 100644
-index 000000000000..268ecdf6b1bb
---- /dev/null
-+++ b/drivers/gpu/host1x/context.h
-@@ -0,0 +1,27 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Host1x context devices
-+ *
-+ * Copyright (c) 2020, NVIDIA Corporation.
-+ */
-+
-+#ifndef __HOST1X_CONTEXT_H
-+#define __HOST1X_CONTEXT_H
-+
-+#include <linux/mutex.h>
-+#include <linux/refcount.h>
-+
-+struct host1x;
-+
-+extern struct bus_type host1x_context_device_bus_type;
-+
-+struct host1x_context_list {
-+	struct mutex lock;
-+	struct host1x_context *devs;
-+	unsigned int len;
-+};
-+
-+int host1x_context_list_init(struct host1x *host1x);
-+void host1x_context_list_free(struct host1x_context_list *cdl);
-+
++	host1x_cdma_push(&job->channel->cdma,
++		host1x_opcode_setpayload(job->context->stream_id),
++		host1x_opcode_setstreamid(job->engine_streamid_offset / 4));
 +#endif
-diff --git a/drivers/gpu/host1x/dev.c b/drivers/gpu/host1x/dev.c
-index e2ddf3fcaa9a..736cd2b4a149 100644
---- a/drivers/gpu/host1x/dev.c
-+++ b/drivers/gpu/host1x/dev.c
-@@ -20,6 +20,7 @@
- 
- #include "bus.h"
- #include "channel.h"
-+#include "context.h"
- #include "debug.h"
- #include "dev.h"
- #include "intr.h"
-@@ -461,10 +462,16 @@ static int host1x_probe(struct platform_device *pdev)
- 		goto iommu_exit;
- 	}
- 
-+	err = host1x_context_list_init(host);
-+	if (err) {
-+		dev_err(&pdev->dev, "failed to initialize context list\n");
-+		goto free_channels;
-+	}
++}
 +
- 	err = clk_prepare_enable(host->clk);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "failed to enable clock\n");
--		goto free_channels;
-+		goto free_contexts;
- 	}
+ static int channel_submit(struct host1x_job *job)
+ {
+ 	struct host1x_channel *ch = job->channel;
+@@ -214,18 +253,23 @@ static int channel_submit(struct host1x_job *job)
+ 	if (sp->base)
+ 		synchronize_syncpt_base(job);
  
- 	err = reset_control_deassert(host->rst);
-@@ -511,6 +518,8 @@ static int host1x_probe(struct platform_device *pdev)
- 	reset_control_assert(host->rst);
- unprepare_disable:
- 	clk_disable_unprepare(host->clk);
-+free_contexts:
-+	host1x_context_list_free(&host->context_list);
- free_channels:
- 	host1x_channel_list_free(&host->channel_list);
- iommu_exit:
-@@ -529,6 +538,7 @@ static int host1x_remove(struct platform_device *pdev)
- 	host1x_syncpt_deinit(host);
- 	reset_control_assert(host->rst);
- 	clk_disable_unprepare(host->clk);
-+	host1x_context_list_free(&host->context_list);
- 	host1x_iommu_exit(host);
+-	syncval = host1x_syncpt_incr_max(sp, user_syncpt_incrs);
+-
+ 	host1x_hw_syncpt_assign_to_channel(host, sp, ch);
  
- 	return 0;
-diff --git a/drivers/gpu/host1x/dev.h b/drivers/gpu/host1x/dev.h
-index fa6d4bc46e98..cfc42de78fa9 100644
---- a/drivers/gpu/host1x/dev.h
-+++ b/drivers/gpu/host1x/dev.h
-@@ -14,6 +14,7 @@
+-	job->syncpt_end = syncval;
+-
+ 	/* add a setclass for modules that require it */
+ 	if (job->class)
+ 		host1x_cdma_push(&ch->cdma,
+ 				 host1x_opcode_setclass(job->class, 0, 0),
+ 				 HOST1X_OPCODE_NOP);
  
- #include "cdma.h"
- #include "channel.h"
-+#include "context.h"
- #include "intr.h"
- #include "job.h"
- #include "syncpt.h"
-@@ -140,6 +141,7 @@ struct host1x {
- 	struct mutex syncpt_mutex;
++	/*
++	 * Ensure engine DMA is idle and set new stream ID. May increment
++	 * syncpt max.
++	 */
++	host1x_channel_program_engine_streamid(job);
++
++	syncval = host1x_syncpt_incr_max(sp, user_syncpt_incrs);
++	job->syncpt_end = syncval;
++
+ 	submit_gathers(job, syncval - user_syncpt_incrs);
  
- 	struct host1x_channel_list channel_list;
-+	struct host1x_context_list context_list;
+ 	/* end CDMA submit & stash pinned hMems into sync queue */
+diff --git a/drivers/gpu/host1x/hw/host1x06_hardware.h b/drivers/gpu/host1x/hw/host1x06_hardware.h
+index 01a142a09800..5d515745eee7 100644
+--- a/drivers/gpu/host1x/hw/host1x06_hardware.h
++++ b/drivers/gpu/host1x/hw/host1x06_hardware.h
+@@ -127,6 +127,16 @@ static inline u32 host1x_opcode_gather_incr(unsigned offset, unsigned count)
+ 	return (6 << 28) | (offset << 16) | BIT(15) | BIT(14) | count;
+ }
  
- 	struct dentry *debugfs;
++static inline u32 host1x_opcode_setstreamid(unsigned streamid)
++{
++	return (7 << 28) | streamid;
++}
++
++static inline u32 host1x_opcode_setpayload(unsigned payload)
++{
++	return (9 << 28) | payload;
++}
++
+ static inline u32 host1x_opcode_gather_wide(unsigned count)
+ {
+ 	return (12 << 28) | count;
+diff --git a/drivers/gpu/host1x/hw/host1x07_hardware.h b/drivers/gpu/host1x/hw/host1x07_hardware.h
+index e6582172ebfd..82c0cc9bb0b5 100644
+--- a/drivers/gpu/host1x/hw/host1x07_hardware.h
++++ b/drivers/gpu/host1x/hw/host1x07_hardware.h
+@@ -127,6 +127,16 @@ static inline u32 host1x_opcode_gather_incr(unsigned offset, unsigned count)
+ 	return (6 << 28) | (offset << 16) | BIT(15) | BIT(14) | count;
+ }
  
++static inline u32 host1x_opcode_setstreamid(unsigned streamid)
++{
++	return (7 << 28) | streamid;
++}
++
++static inline u32 host1x_opcode_setpayload(unsigned payload)
++{
++	return (9 << 28) | payload;
++}
++
+ static inline u32 host1x_opcode_gather_wide(unsigned count)
+ {
+ 	return (12 << 28) | count;
 diff --git a/include/linux/host1x.h b/include/linux/host1x.h
-index 2a1b53ebee77..f3073738564a 100644
+index f3073738564a..eb0ca304ca92 100644
 --- a/include/linux/host1x.h
 +++ b/include/linux/host1x.h
-@@ -396,4 +396,21 @@ int tegra_mipi_disable(struct tegra_mipi_device *device);
- int tegra_mipi_start_calibration(struct tegra_mipi_device *device);
- int tegra_mipi_finish_calibration(struct tegra_mipi_device *device);
+@@ -277,6 +277,10 @@ struct host1x_job {
  
-+/* host1x context devices */
+ 	/* Whether host1x-side firewall should be ran for this job or not */
+ 	bool enable_firewall;
 +
-+struct host1x_context {
-+	struct host1x *host;
-+
-+	refcount_t ref;
-+	struct pid *owner;
-+
-+	struct device dev;
-+	u32 stream_id;
-+};
-+
-+struct host1x_context *host1x_context_alloc(struct host1x *host1x,
-+					    struct pid *pid);
-+void host1x_context_get(struct host1x_context *cd);
-+void host1x_context_put(struct host1x_context *cd);
-+
- #endif
++	/* Options for configuring engine data stream ID */
++	struct host1x_context *context;
++	u32 engine_streamid_offset;
+ };
+ 
+ struct host1x_job *host1x_job_alloc(struct host1x_channel *ch,
 -- 
 2.32.0
 
