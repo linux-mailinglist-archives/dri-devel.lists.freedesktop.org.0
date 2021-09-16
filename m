@@ -1,47 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F0340E1BA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:57:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25A7440E1B9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:56:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 075C76EBC4;
-	Thu, 16 Sep 2021 16:56:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 94B726EBA4;
+	Thu, 16 Sep 2021 16:56:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
- [209.85.166.198])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD1776EDA3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 12:36:21 +0000 (UTC)
-Received: by mail-il1-f198.google.com with SMTP id
- x7-20020a920607000000b002302afca41bso11469722ilg.6
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 05:36:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
- bh=QPHEIdxU7DQNimsTFhfi84oUywJMvtus7syU0lNoVtM=;
- b=F2rkt2yWBaZqXIGDkzxh0QgFQgAGdCotexYocgrAUjxFrdcd9PsNs+4lb4GSg/7kID
- pQgS35GOfMlKi6wfvwRixrMhao5hGv13+eB374utp9G5ic/+7DgGcq0jy3P15z4+oMxW
- WRpOejV+6NqYId6fyWe09DZsAeaSgkGAtodLDTP1uohKaYTTD/NMQR8lf+IyRpahEpI8
- MBpHts5kQR3Uq50+8yfOBV12wE2+haHj1gHyRyMtRqvkEjO0s9Nfzf5RvzLq9SVeNAEL
- 68BO5tBKuucFgxli07BhK+JzdEMh6PeO6F96pLAgDsIghomQaCuR/pdYbLlbNyDmR2O1
- vjfg==
-X-Gm-Message-State: AOAM530WulXMkI6HRmVYF6dQuYuI3bZYOEYoltllSYyJdYF7K66OPuxR
- /354PXOH4lW/VJcfea39PPDSlXjbfBRlULbdFAzx58IQj2vq
-X-Google-Smtp-Source: ABdhPJyoi78sxYRFgsqNmZe4NnbBQthKjTf5W/BF8nJoc75jbfLhyUYulbLltLsOds7mscnDl5McGuqxPuK3OAZgkaremrCk5+8y
-MIME-Version: 1.0
-X-Received: by 2002:a6b:6918:: with SMTP id e24mr4136362ioc.71.1631795781178; 
- Thu, 16 Sep 2021 05:36:21 -0700 (PDT)
-Date: Thu, 16 Sep 2021 05:36:21 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e217b005cc1c0fcb@google.com>
-Subject: [syzbot] BUG: unable to handle kernel paging request in cfb_imageblit
- (2)
-From: syzbot <syzbot+219cc51510158a7d8290@syzkaller.appspotmail.com>
-To: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, syzkaller-bugs@googlegroups.com
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Sep 2021 12:57:46 UTC
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33CDA6EDA4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 12:57:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1631797066; x=1663333066;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=6plUJPuIO09066G85hIHzTnYEmymxOdL/SU9LjssE8Y=;
+ b=WYkCUle6JmtH08G9xubITuNGBkCNPGA9trKQEmhsQFZpb/daTayYDea5
+ OClePY6XL5HX/d/GU9pCQqNpf1okTJKxhMjQOdcaDkhN2WerkGClR2+qp
+ 7vlcJRp9VopUNaAAIMwDEI+KXBGA2OicFjBILbxN/VYNh1aXsp0V6XqWn
+ Rg5QSCVOOOMq/8i/zAEIXu1hYfjLPdRQAmYWRMEP0Id/61mBVPPurQjUH
+ EduqQEjABsIJr+to69maqe8pJLTFwjQgNM+8Ess0+dWkoVqSLXxTEBvMx
+ dd5L3zEAyXho8Oat4cTeekl/3+BM/2N1ud/CXTdMq9MvL/vg/gcyzoNpw w==;
+X-IronPort-AV: E=Sophos;i="5.85,298,1624312800"; d="scan'208";a="19552601"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 16 Sep 2021 14:50:33 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Thu, 16 Sep 2021 14:50:33 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Thu, 16 Sep 2021 14:50:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1631796633; x=1663332633;
+ h=message-id:subject:from:to:cc:date:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=6plUJPuIO09066G85hIHzTnYEmymxOdL/SU9LjssE8Y=;
+ b=hRMXot9k3BMTciaVtF4OIeBasZDAfh0foXzHJVq4KiTHtS6UJM5agMpq
+ 1OoX1MQnjKbY360ibL6np05SuahCXp3bc8JIjLt2+ZdRsj8Fseq2Ntr+K
+ pm6IYtUOklVgIPOFQ0xDqY/ZxDL03t/Ffc5bhy+0FZwX4GQjnHzquu2mB
+ 1q2iEuIzOAnZUNZidPcoAes1Z06IvNVFo4qH2nZpVv5Uyvzb+i7go+IyZ
+ ApRhsU6FPJEoOLLnhR7YS/GSQz31UwSHXlcR8N8fXP48G4XTDd0wWhs7O
+ AJR2QcAX427EW1Wz3FcvuKWxgpoldJnQVtHb8jwft0EvRchfTrUQryKdT Q==;
+X-IronPort-AV: E=Sophos;i="5.85,298,1624312800"; d="scan'208";a="19552599"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 16 Sep 2021 14:50:28 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+ [10.121.48.12])
+ by vtuxmail01.tq-net.de (Postfix) with ESMTPA id A2C88280070;
+ Thu, 16 Sep 2021 14:50:27 +0200 (CEST)
+Message-ID: <5015d9c9fe02733f8dfb2714a903ab725e7cdd7f.camel@ew.tq-group.com>
+Subject: Re: [PATCH] drm: fsl-dcu: enable PIXCLK on LS1021A
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Stefan Agner <stefan@agner.ch>, sboyd@kernel.org, mturquette@baylibre.com
+Cc: Alison Wang <alison.wang@nxp.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 16 Sep 2021 14:50:27 +0200
+In-Reply-To: <0321e3b1a9def003322b71f2a5fdfe08@agner.ch>
+References: <20200820105832.22331-1-matthias.schiffer@ew.tq-group.com>
+ <0321e3b1a9def003322b71f2a5fdfe08@agner.ch>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
 X-Mailman-Approved-At: Thu, 16 Sep 2021 16:56:50 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,99 +84,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Fri, 2020-08-21 at 15:41 +0200, Stefan Agner wrote:
+> Hi Matthias,
+> 
+> On 2020-08-20 12:58, Matthias Schiffer wrote:
+> > The PIXCLK needs to be enabled in SCFG before accessing the DCU on LS1021A,
+> > or the access will hang.
+> 
+> Hm, this seems a rather ad-hoc access to SCFG from the DCU. We do
+> support a pixel clock in the device tree bindings of fsl-dcu, so ideally
+> we should enable the pixel clock through the clock framework.
+> 
+> On the other hand, I guess that would mean adding a clock driver to flip
+> a single bit, which seems a bit excessive too.
+> 
+> I'd like a second opinion on that. Adding clk framework maintainers.
 
-syzbot found the following issue on:
+It's been a while, and nobody else has given their opinion. How should
+we proceed with this patch?
 
-HEAD commit:    78e709522d2c Merge tag 'for_linus' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16029aed300000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2150ebd7e72fa695
-dashboard link: https://syzkaller.appspot.com/bug?extid=219cc51510158a7d8290
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.1
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+219cc51510158a7d8290@syzkaller.appspotmail.com
-
-BUG: unable to handle page fault for address: ffff88800010f038
-#PF: supervisor write access in kernel mode
-#PF: error_code(0x0003) - permissions violation
-PGD 10801067 P4D 10801067 PUD 10802067 PMD 10803067 PTE 800000000010f161
-Oops: 0003 [#1] PREEMPT SMP KASAN
-CPU: 0 PID: 7973 Comm: kworker/0:4 Not tainted 5.14.0-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: events_power_efficient fb_flashcursor
-RIP: 0010:__writel arch/x86/include/asm/io.h:71 [inline]
-RIP: 0010:fast_imageblit drivers/video/fbdev/core/cfbimgblt.c:257 [inline]
-RIP: 0010:cfb_imageblit+0x648/0x1240 drivers/video/fbdev/core/cfbimgblt.c:300
-Code: 42 0f b6 0c 3a 48 89 c2 83 e2 07 83 c2 03 38 ca 7c 08 84 c9 0f 85 1f 0b 00 00 8b 7c 24 18 49 8d 5e 04 23 38 8b 44 24 10 31 f8 <41> 89 06 31 ff 44 89 e6 e8 ab 85 69 fd 45 85 e4 75 0f e8 61 7e 69
-RSP: 0018:ffffc900171af970 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff88800010f03c RCX: 0000000000000000
-RDX: 0000000000000003 RSI: ffffffff840c8e86 RDI: 0000000000000000
-RBP: ffff8880180a5359 R08: 000000000000001f R09: ffffffff840c8d14
-R10: ffffffff840c8e77 R11: 0000000000000008 R12: 0000000000000004
-R13: 0000000000000001 R14: ffff88800010f038 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88800010f038 CR3: 000000001e6a0000 CR4: 0000000000350ef0
-Call Trace:
- vga_imageblit_expand drivers/video/fbdev/vga16fb.c:1207 [inline]
- vga16fb_imageblit+0x681/0x2200 drivers/video/fbdev/vga16fb.c:1260
- soft_cursor+0x514/0xa30 drivers/video/fbdev/core/softcursor.c:74
- bit_cursor+0xd07/0x1740 drivers/video/fbdev/core/bitblit.c:377
- fb_flashcursor+0x38b/0x430 drivers/video/fbdev/core/fbcon.c:387
- process_one_work+0x9bf/0x16b0 kernel/workqueue.c:2297
- worker_thread+0x658/0x11f0 kernel/workqueue.c:2444
- kthread+0x3e5/0x4d0 kernel/kthread.c:319
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:295
-Modules linked in:
-CR2: ffff88800010f038
----[ end trace 3e2fb001e55b5406 ]---
-RIP: 0010:__writel arch/x86/include/asm/io.h:71 [inline]
-RIP: 0010:fast_imageblit drivers/video/fbdev/core/cfbimgblt.c:257 [inline]
-RIP: 0010:cfb_imageblit+0x648/0x1240 drivers/video/fbdev/core/cfbimgblt.c:300
-Code: 42 0f b6 0c 3a 48 89 c2 83 e2 07 83 c2 03 38 ca 7c 08 84 c9 0f 85 1f 0b 00 00 8b 7c 24 18 49 8d 5e 04 23 38 8b 44 24 10 31 f8 <41> 89 06 31 ff 44 89 e6 e8 ab 85 69 fd 45 85 e4 75 0f e8 61 7e 69
-RSP: 0018:ffffc900171af970 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff88800010f03c RCX: 0000000000000000
-RDX: 0000000000000003 RSI: ffffffff840c8e86 RDI: 0000000000000000
-RBP: ffff8880180a5359 R08: 000000000000001f R09: ffffffff840c8d14
-R10: ffffffff840c8e77 R11: 0000000000000008 R12: 0000000000000004
-R13: 0000000000000001 R14: ffff88800010f038 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880b9c00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: ffff88800010f038 CR3: 000000001e6a0000 CR4: 0000000000350ef0
-----------------
-Code disassembly (best guess):
-   0:	42 0f b6 0c 3a       	movzbl (%rdx,%r15,1),%ecx
-   5:	48 89 c2             	mov    %rax,%rdx
-   8:	83 e2 07             	and    $0x7,%edx
-   b:	83 c2 03             	add    $0x3,%edx
-   e:	38 ca                	cmp    %cl,%dl
-  10:	7c 08                	jl     0x1a
-  12:	84 c9                	test   %cl,%cl
-  14:	0f 85 1f 0b 00 00    	jne    0xb39
-  1a:	8b 7c 24 18          	mov    0x18(%rsp),%edi
-  1e:	49 8d 5e 04          	lea    0x4(%r14),%rbx
-  22:	23 38                	and    (%rax),%edi
-  24:	8b 44 24 10          	mov    0x10(%rsp),%eax
-  28:	31 f8                	xor    %edi,%eax
-* 2a:	41 89 06             	mov    %eax,(%r14) <-- trapping instruction
-  2d:	31 ff                	xor    %edi,%edi
-  2f:	44 89 e6             	mov    %r12d,%esi
-  32:	e8 ab 85 69 fd       	callq  0xfd6985e2
-  37:	45 85 e4             	test   %r12d,%r12d
-  3a:	75 0f                	jne    0x4b
-  3c:	e8                   	.byte 0xe8
-  3d:	61                   	(bad)
-  3e:	7e 69                	jle    0xa9
+Matthias
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> --
+> Stefan
+> 
+> > 
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > ---
+> >  drivers/gpu/drm/fsl-dcu/Kconfig           |  1 +
+> >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 25 +++++++++++++++++++++++
+> >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h |  3 +++
+> >  3 files changed, 29 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
+> > index d7dd8ba90e3a..9e5a35e7c00c 100644
+> > --- a/drivers/gpu/drm/fsl-dcu/Kconfig
+> > +++ b/drivers/gpu/drm/fsl-dcu/Kconfig
+> > @@ -8,6 +8,7 @@ config DRM_FSL_DCU
+> >  	select DRM_PANEL
+> >  	select REGMAP_MMIO
+> >  	select VIDEOMODE_HELPERS
+> > +	select MFD_SYSCON if SOC_LS1021A
+> >  	help
+> >  	  Choose this option if you have an Freescale DCU chipset.
+> >  	  If M is selected the module will be called fsl-dcu-drm.
+> > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> > index abbc1ddbf27f..8a7556655581 100644
+> > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+> > @@ -51,6 +51,23 @@ static const struct regmap_config fsl_dcu_regmap_config = {
+> >  	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
+> >  };
+> >  
+> > +static int fsl_dcu_scfg_config_ls1021a(struct device_node *np)
+> > +{
+> > +	struct regmap *scfg;
+> > +
+> > +	scfg = syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
+> > +	if (IS_ERR(scfg))
+> > +		return PTR_ERR(scfg);
+> > +
+> > +	/*
+> > +	 * For simplicity, enable the PIXCLK unconditionally. It might
+> > +	 * be possible to disable the clock in PM or on unload as a future
+> > +	 * improvement.
+> > +	 */
+> > +	return regmap_update_bits(scfg, SCFG_PIXCLKCR, SCFG_PIXCLKCR_PXCEN,
+> > +				  SCFG_PIXCLKCR_PXCEN);
+> > +}
+> > +
+> >  static void fsl_dcu_irq_uninstall(struct drm_device *dev)
+> >  {
+> >  	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+> > @@ -70,6 +87,14 @@ static int fsl_dcu_load(struct drm_device *dev,
+> > unsigned long flags)
+> >  		return ret;
+> >  	}
+> >  
+> > +	if (of_device_is_compatible(fsl_dev->np, "fsl,ls1021a-dcu")) {
+> > +		ret = fsl_dcu_scfg_config_ls1021a(fsl_dev->np);
+> > +		if (ret < 0) {
+> > +			dev_err(dev->dev, "failed to enable pixclk\n");
+> > +			goto done;
+> > +		}
+> > +	}
+> > +
+> >  	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+> >  	if (ret < 0) {
+> >  		dev_err(dev->dev, "failed to initialize vblank\n");
+> > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> > index e2049a0e8a92..566396013c04 100644
+> > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+> > @@ -160,6 +160,9 @@
+> >  #define FSL_DCU_ARGB4444		12
+> >  #define FSL_DCU_YUV422			14
+> >  
+> > +#define SCFG_PIXCLKCR			0x28
+> > +#define SCFG_PIXCLKCR_PXCEN		BIT(31)
+> > +
+> >  #define VF610_LAYER_REG_NUM		9
+> >  #define LS1021A_LAYER_REG_NUM		10
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
