@@ -2,31 +2,31 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F11C40D1D0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 04:56:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C100840D1E9
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 05:05:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE94F89DD5;
-	Thu, 16 Sep 2021 02:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 340B66EA94;
+	Thu, 16 Sep 2021 03:05:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5207789DD5
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:56:45 +0000 (UTC)
-X-UUID: f043e734a6f54b0c81552b2a13b543b5-20210916
-X-UUID: f043e734a6f54b0c81552b2a13b543b5-20210916
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
- mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18DF26EA94
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 03:05:19 +0000 (UTC)
+X-UUID: 32a18a05b87c409e9717969d6a02d5c2-20210916
+X-UUID: 32a18a05b87c409e9717969d6a02d5c2-20210916
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+ (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1940946546; Thu, 16 Sep 2021 10:56:40 +0800
+ with ESMTP id 299611125; Thu, 16 Sep 2021 11:05:08 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 16 Sep 2021 10:56:38 +0800
+ mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 16 Sep 2021 11:05:06 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 16 Sep 2021 10:56:38 +0800
-Message-ID: <9068426be6ba2a0eb05d77b18a8f131a2d00ca21.camel@mediatek.com>
-Subject: Re: [PATCH v5 01/16] dt-bindings: mediatek: add vdosys1 RDMA
- definition for mt8195
+ Transport; Thu, 16 Sep 2021 11:05:06 +0800
+Message-ID: <607a9a1a0269db8934e8d18940bc25c52a8c60d0.camel@mediatek.com>
+Subject: Re: [PATCH v5 04/16] dt-bindings: reset: mt8195: add vdosys1 reset
+ control bit
 From: Nancy.Lin <nancy.lin@mediatek.com>
 To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
@@ -39,11 +39,11 @@ CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
  <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
  Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
  srv_heupstream <srv_heupstream@mediatek.com>
-Date: Thu, 16 Sep 2021 10:56:38 +0800
-In-Reply-To: <CAAOTY_-rVhh4_m39JPRnE-zwW38k-OPArVv6GqOmORaD=qStVQ@mail.gmail.com>
+Date: Thu, 16 Sep 2021 11:05:06 +0800
+In-Reply-To: <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
 References: <20210906071539.12953-1-nancy.lin@mediatek.com>
- <20210906071539.12953-2-nancy.lin@mediatek.com>
- <CAAOTY_-rVhh4_m39JPRnE-zwW38k-OPArVv6GqOmORaD=qStVQ@mail.gmail.com>
+ <20210906071539.12953-5-nancy.lin@mediatek.com>
+ <CAAOTY_9pvtP-Ri4UHjRGDvA3j0F7J+HsRqOiNzPbEeE=NmAsqA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
@@ -68,150 +68,51 @@ Hi Chun-Kuang,
 
 Thanks for the review.
 
-On Tue, 2021-09-07 at 07:42 +0800, Chun-Kuang Hu wrote:
+On Wed, 2021-09-08 at 00:06 +0800, Chun-Kuang Hu wrote:
 > Hi, Nancy:
 > 
 > Nancy.Lin <nancy.lin@mediatek.com> 於 2021年9月6日 週一 下午3:15寫道：
 > > 
-> > Add vdosys1 RDMA definition.
+> > Add vdosys1 reset control bit for MT8195 platform.
 > > 
 > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > > ---
-> >  .../display/mediatek/mediatek,mdp-rdma.yaml   | 77
-> > +++++++++++++++++++
-> >  1 file changed, 77 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
+> >  include/dt-bindings/reset/mt8195-resets.h | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
 > > 
-> > diff --git
-> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
-> > new file mode 100644
-> > index 000000000000..3610093848e1
-> > --- /dev/null
-> > +++
-> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
-> > rdma.yaml
+> > diff --git a/include/dt-bindings/reset/mt8195-resets.h
+> > b/include/dt-bindings/reset/mt8195-resets.h
+> > index a26bccc8b957..eaaa882c09bd 100644
+> > --- a/include/dt-bindings/reset/mt8195-resets.h
+> > +++ b/include/dt-bindings/reset/mt8195-resets.h
+> > @@ -26,4 +26,16 @@
+> > 
+> >  #define MT8195_TOPRGU_SW_RST_NUM               16
+> > 
+> > +/* VDOSYS1 */
+> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE0_DL_ASYNC 25
+> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE1_DL_ASYNC 26
+> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE2_DL_ASYNC 27
+> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE3_DL_ASYNC 28
+> > +#define MT8195_VDOSYS1_SW0_RST_B_MERGE4_DL_ASYNC 29
+> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE0_DL_ASYNC 51
+> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_FE1_DL_ASYNC 52
+> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE0_DL_ASYNC 53
+> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_GFX_FE1_DL_ASYNC 54
+> > +#define MT8195_VDOSYS1_SW1_RST_B_HDR_VDO_BE_DL_ASYNC 55
 > 
-> I've compared the rdma driver in mdp [1] with the rdma driver in
-> display [2], both are similar. The difference are like merge0 versus
-> merge5. So I would like both binding document are placed together. In
-> display folder? In media folder? In SoC folder? I've no idea which
-> one
-> is better, but at lease put together.
-> 
-> [1] 
-> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210824100027.25989-6-moudy.ho@mediatek.com/__;!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMqH3vrJ3$
->  
-> [2] 
-> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210906071539.12953-12-nancy.lin@mediatek.com/__;!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMuM29V9T$
->  
+> Maybe you should align the indent style with TOPRGU.
 > 
 > Regards,
 > Chun-Kuang.
 > 
-OK, I will discuss this with Moudy.
+OK, I will modify it in the next revision.
 
 Regards,
 Nancy Lin
-> > @@ -0,0 +1,77 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: 
-> > https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMheRB2bL$
-> >  
-> > +$schema: 
-> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMkoF4_Zs$
-> >  
+
 > > +
-> > +title: mediatek display MDP RDMA
-> > +
-> > +maintainers:
-> > +  - CK Hu <ck.hu@mediatek.com>
-> > +
-> > +description: |
-> > +  The mediatek display MDP RDMA stands for Read Direct Memory
-> > Access.
-> > +  It provides real time data to the back-end panel driver, such as
-> > DSI,
-> > +  DPI and DP_INTF.
-> > +  It contains one line buffer to store the sufficient pixel data.
-> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
-> > node.
-> > +  For a description of the MMSYS_CONFIG binding, see
-> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
-> > ml for details.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - items:
-> > +          - const: mediatek,mt8195-vdo1-rdma
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    description: A phandle and PM domain specifier as defined by
-> > bindings of
-> > +      the power controller specified by phandle. See
-> > +      Documentation/devicetree/bindings/power/power-domain.yaml
-> > for details.
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: RDMA Clock
-> > +
-> > +  iommus:
-> > +    description:
-> > +      This property should point to the respective IOMMU block
-> > with master port as argument,
-> > +      see
-> > Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
-> > details.
-> > +
-> > +  mediatek,gce-client-reg:
-> > +    description:
-> > +      The register of display function block to be set by gce.
-> > There are 4 arguments,
-> > +      such as gce node, subsys id, offset and register size. The
-> > subsys id that is
-> > +      mapping to the register of display function blocks is
-> > defined in the gce header
-> > +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    maxItems: 1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - power-domains
-> > +  - clocks
-> > +  - iommus
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +
-> > +    vdo1_rdma0: vdo1_rdma@1c104000 {
-> > +        compatible = "mediatek,mt8195-vdo1-rdma";
-> > +        reg = <0 0x1c104000 0 0x1000>;
-> > +        interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
-> > +        clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
-> > +        power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
-> > +        iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
-> > +        mediatek,gce-client-reg = <&gce1 SUBSYS_1c10XXXX 0x4000
-> > 0x1000>;
-> > +    };
-> > +
+> >  #endif  /* _DT_BINDINGS_RESET_CONTROLLER_MT8195 */
 > > --
 > > 2.18.0
 > > 
