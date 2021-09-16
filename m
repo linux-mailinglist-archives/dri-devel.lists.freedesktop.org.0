@@ -2,58 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC1740E9B3
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 20:16:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2E640E9B2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 20:16:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5F89D6E909;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4C6EA6E57E;
 	Thu, 16 Sep 2021 18:16:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097E66E821
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AD216E57E
  for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:16:06 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 36002223E4;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 7C323223E7;
  Thu, 16 Sep 2021 18:16:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1631816164; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dMdYSH8yHZ1KdMOhwOuuE+SL6YgkkXhlg3PLd/C/J7I=;
- b=xiXdyMWyIZhzyai4Dle9GImcw6OLbUV9wcSdAhL9We20zQoEiE6aV7zY3aLtnvIDGckiFS
- ndybaEFZLsucNIWdlfH8TfSeJKkZ0Ri7B2Tmh/ldrcCeo8EcFrd96nuwSGZKxNY3vwvcyd
- UTQa9hwRxzMpw55XTCQ64lkR+ZDVE6o=
+ bh=X5jWyntKao/5/t7BXjsuPe0qf6PhsdqVWHUX41cSqV8=;
+ b=QsDxTcWUPVm71MKVOp7upKy5w7yLwFyodAu5vullxKqogX6yF5N7NLP0+dastxIeF586R9
+ 7tH7so5zuV6tEBNwFksuIR9JvjMRNc/+dlrr9HS4CsZ8r5Q9S2L0maAZzR2Hg2HvTP/TX7
+ x4ACZS26Y1xeyP7bPDtsHjY41d5l0sw=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1631816164;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dMdYSH8yHZ1KdMOhwOuuE+SL6YgkkXhlg3PLd/C/J7I=;
- b=Y4XSCKyYoBbKGiL4dQ6LY5T/sKsvhySvG1O14vD2n8HEwCH5f3i890wBHUm6u/LhThd7j0
- LDN0Ht9ZXQ79xWBg==
+ bh=X5jWyntKao/5/t7BXjsuPe0qf6PhsdqVWHUX41cSqV8=;
+ b=um+qbOU96VBrhaTdUOJ+9+MdC0Xzkhfdu8X1tob+24YQ6wNX+yhwSCC4WuGllx4yrf8Xo+
+ xuRYRjjGztnhqbDA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E9AE113F79;
- Thu, 16 Sep 2021 18:16:03 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 3CADD13D67;
+ Thu, 16 Sep 2021 18:16:04 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4HwaOOOJQ2FleQAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 16 Sep 2021 18:16:03 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id wEPaDeSJQ2FleQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 16 Sep 2021 18:16:04 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: airlied@redhat.com, airlied@linux.ie, daniel@ffwll.ch, hdegoede@redhat.com,
  marcan@marcan.st, maz@kernel.org, akpm@linux-foundation.org,
  npiggin@gmail.com, thunder.leizhen@huawei.com, gregkh@linuxfoundation.org
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 1/5] lib: devres: Add managed arch_phys_wc_add()
-Date: Thu, 16 Sep 2021 20:15:57 +0200
-Message-Id: <20210916181601.9146-2-tzimmermann@suse.de>
+Subject: [PATCH 2/5] lib: devres: Add managed arch_io_reserve_memtype_wc()
+Date: Thu, 16 Sep 2021 20:15:58 +0200
+Message-Id: <20210916181601.9146-3-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210916181601.9146-1-tzimmermann@suse.de>
 References: <20210916181601.9146-1-tzimmermann@suse.de>
@@ -74,73 +74,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add devm_arch_phys_wc_add() as managed wrapper around arch_phys_wc_add().
-Useful for several grahpics drivers that set framebuffer memory to write
-combining.
+Add devm_arch_io_reserve_memtype_wc() as managed wrapper around
+arch_io_reserve_memtype_wc(). Useful for several grahpics drivers
+that set framebuffer memory to write combining.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- include/linux/io.h |  2 ++
- lib/devres.c       | 36 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 38 insertions(+)
+ include/linux/io.h |  3 +++
+ lib/devres.c       | 46 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
 
 diff --git a/include/linux/io.h b/include/linux/io.h
-index 9595151d800d..fcd8ea79c5df 100644
+index fcd8ea79c5df..5fc800390fe4 100644
 --- a/include/linux/io.h
 +++ b/include/linux/io.h
-@@ -132,6 +132,8 @@ static inline int arch_phys_wc_index(int handle)
- #endif
+@@ -168,4 +168,7 @@ static inline void arch_io_free_memtype_wc(resource_size_t base,
+ }
  #endif
  
-+int devm_arch_phys_wc_add(struct device *dev, unsigned long base, unsigned long size);
++int devm_arch_io_reserve_memtype_wc(struct device *dev, resource_size_t start,
++				    resource_size_t size);
 +
- enum {
- 	/* See memremap() kernel-doc for usage description... */
- 	MEMREMAP_WB = 1 << 0,
+ #endif /* _LINUX_IO_H */
 diff --git a/lib/devres.c b/lib/devres.c
-index b0e1c6702c71..24d4d849ff67 100644
+index 24d4d849ff67..14664bbb4875 100644
 --- a/lib/devres.c
 +++ b/lib/devres.c
-@@ -528,3 +528,39 @@ void pcim_iounmap_regions(struct pci_dev *pdev, int mask)
+@@ -564,3 +564,49 @@ int devm_arch_phys_wc_add(struct device *dev, unsigned long base, unsigned long
+ 	return ret;
  }
- EXPORT_SYMBOL(pcim_iounmap_regions);
- #endif /* CONFIG_PCI */
+ EXPORT_SYMBOL(devm_arch_phys_wc_add);
 +
-+static void devm_arch_phys_ac_add_release(struct device *dev, void *res)
++struct arch_io_reserve_memtype_wc_devres {
++	resource_size_t start;
++	resource_size_t size;
++};
++
++static void devm_arch_io_free_memtype_wc_release(struct device *dev, void *res)
 +{
-+	arch_phys_wc_del(*((int *)res));
++	const struct arch_io_reserve_memtype_wc_devres *this = res;
++
++	arch_io_free_memtype_wc(this->start, this->size);
 +}
 +
 +/**
-+ * devm_arch_phys_wc_add - Managed arch_phys_wc_add()
++ * devm_arch_io_reserve_memtype_wc - Managed arch_io_reserve_memtype_wc()
 + * @dev: Managed device
-+ * @base: Memory base address
++ * @start: Memory base address
 + * @size: Size of memory range
 + *
-+ * Adds a WC MTRR using arch_phys_wc_add() and sets up a release callback.
-+ * See arch_phys_wc_add() for more information.
++ * Reserves a memory range with WC caching using arch_io_reserve_memtype_wc()
++ * and sets up a release callback See arch_io_reserve_memtype_wc() for more
++ * information.
 + */
-+int devm_arch_phys_wc_add(struct device *dev, unsigned long base, unsigned long size)
++int devm_arch_io_reserve_memtype_wc(struct device *dev, resource_size_t start,
++				    resource_size_t size)
 +{
-+	int *mtrr;
++	struct arch_io_reserve_memtype_wc_devres *dr;
 +	int ret;
 +
-+	mtrr = devres_alloc(devm_arch_phys_ac_add_release, sizeof(*mtrr), GFP_KERNEL);
-+	if (!mtrr)
++	dr = devres_alloc(devm_arch_io_free_memtype_wc_release, sizeof(*dr), GFP_KERNEL);
++	if (!dr)
 +		return -ENOMEM;
 +
-+	ret = arch_phys_wc_add(base, size);
++	ret = arch_io_reserve_memtype_wc(start, size);
 +	if (ret < 0) {
-+		devres_free(mtrr);
++		devres_free(dr);
 +		return ret;
 +	}
 +
-+	*mtrr = ret;
-+	devres_add(dev, mtrr);
++	dr->start = start;
++	dr->size = size;
++	devres_add(dev, dr);
 +
 +	return ret;
 +}
-+EXPORT_SYMBOL(devm_arch_phys_wc_add);
++EXPORT_SYMBOL(devm_arch_io_reserve_memtype_wc);
 -- 
 2.33.0
 
