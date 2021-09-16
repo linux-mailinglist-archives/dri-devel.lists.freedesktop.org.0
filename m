@@ -2,40 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D0340DB9F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72D2740DBA5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:47:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C18D6EDD0;
-	Thu, 16 Sep 2021 13:46:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5DF346EDD2;
+	Thu, 16 Sep 2021 13:47:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8DF36EDD0;
- Thu, 16 Sep 2021 13:46:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="202063484"
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="202063484"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 06:46:05 -0700
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="700620639"
-Received: from mkrygin-mobl1.ccr.corp.intel.com (HELO [10.249.254.218])
- ([10.249.254.218])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 06:46:03 -0700
-Message-ID: <eea198e7003983b3bd77b23c2f70cd366afa507f.camel@linux.intel.com>
-Subject: Re: [PATCH v3 08/12] drm/i915/ttm: add tt shmem backend
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Christian =?ISO-8859-1?Q?K=F6nig?=
- <christian.koenig@amd.com>
-Date: Thu, 16 Sep 2021 15:45:59 +0200
-In-Reply-To: <20210915185954.3114858-8-matthew.auld@intel.com>
-References: <20210915185954.3114858-1-matthew.auld@intel.com>
- <20210915185954.3114858-8-matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1E51A6EDD2
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:47:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F0A160F58;
+ Thu, 16 Sep 2021 13:47:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1631800055;
+ bh=vescLYK6z/f/duIFeCk+bR1nAWf6JYUP7+ckuk7osMQ=;
+ h=Subject:To:Cc:From:Date:From;
+ b=IcLhwiJACcS6jWsvzaGKXT4nKbhRQIFKqMw9/ct7WKlPNnOumlKEUeOrHlrPmkYFn
+ 23BsKnRuxb6Qc1GC/Oraa1VAEo4Vham63XSEy2OFvOVbUhijdmsRD0yKbpMB/OutUk
+ Menbw0htYcMhSeKkoE3KEktXjMkAzpCgjw+vHpAU=
+Subject: Patch "drm/mgag200: Select clock in PLL update functions" has been
+ added to the 5.13-stable tree
+To: airlied@redhat.com, dri-devel@lists.freedesktop.org,
+ emil.velikov@collabora.com, gregkh@linuxfoundation.org, sam@ravnborg.org,
+ tzimmermann@suse.de
+Cc: <stable-commits@vger.kernel.org>
+From: <gregkh@linuxfoundation.org>
+Date: Thu, 16 Sep 2021 15:46:52 +0200
+Message-ID: <16318000122203@kroah.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=ANSI_X3.4-1968
 Content-Transfer-Encoding: 8bit
+X-stable: commit
+X-Patchwork-Hint: ignore 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,100 +50,184 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 2021-09-15 at 19:59 +0100, Matthew Auld wrote:
-> For cached objects we can allocate our pages directly in shmem. This
-> should make it possible(in a later patch) to utilise the existing
-> i915-gem shrinker code for such objects. For now this is still
-> disabled.
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_object.h |   8 +
->  drivers/gpu/drm/i915/gem/i915_gem_shmem.c  |  14 +-
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 217 ++++++++++++++++++-
-> --
->  3 files changed, 209 insertions(+), 30 deletions(-)
-> 
-> 
 
-...
+This is a note to let you know that I've just added the patch titled
 
->  }
-> @@ -223,6 +349,10 @@ static bool i915_ttm_eviction_valuable(struct
-> ttm_buffer_object *bo,
->  {
->         struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->  
-> +       if (place->mem_type == TTM_PL_SYSTEM &&
-> +           bo->ttm && bo->ttm->page_flags & I915_TTM_TT_SHMEM)
-> +               return false;
-> +
+    drm/mgag200: Select clock in PLL update functions
+
+to the 5.13-stable tree which can be found at:
+    http://www.kernel.org/git/?p=linux/kernel/git/stable/stable-queue.git;a=summary
+
+The filename of the patch is:
+     drm-mgag200-select-clock-in-pll-update-functions.patch
+and it can be found in the queue-5.13 subdirectory.
+
+If you, or anyone else, feels it should not be added to the stable tree,
+please let <stable@vger.kernel.org> know about it.
 
 
-Should we use ttm_bo_pin() / ttm_bo_unpin() to remove the bo from the
-TTM LRU lists when it's SHMEM populated, and change the above to a
-GEM_BUG_ON()?
+From 147696720eca12ae48d020726208b9a61cdd80bc Mon Sep 17 00:00:00 2001
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Date: Wed, 14 Jul 2021 16:22:28 +0200
+Subject: drm/mgag200: Select clock in PLL update functions
+
+From: Thomas Zimmermann <tzimmermann@suse.de>
+
+commit 147696720eca12ae48d020726208b9a61cdd80bc upstream.
+
+Put the clock-selection code into each of the PLL-update functions to
+make them select the correct pixel clock. Instead of copying the code,
+introduce a new helper WREG_MISC_MASKED, which does masked writes into
+<MISC>. Use it from each individual PLL update function.
+
+The pixel clock for video output was not actually set before programming
+the clock's values. It worked because the device had the correct clock
+pre-set.
+
+v2:
+	* don't duplicate <MISC> update code (Sam)
+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: db05f8d3dc87 ("drm/mgag200: Split MISC register update into PLL selection, SYNC and I/O")
+Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Emil Velikov <emil.velikov@collabora.com>
+Cc: Dave Airlie <airlied@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: <stable@vger.kernel.org> # v5.9+
+Link: https://patchwork.freedesktop.org/patch/msgid/20210714142240.21979-2-tzimmermann@suse.de
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/gpu/drm/mgag200/mgag200_drv.h  |   16 ++++++++++++++++
+ drivers/gpu/drm/mgag200/mgag200_mode.c |   20 +++++++++++++-------
+ drivers/gpu/drm/mgag200/mgag200_reg.h  |    9 ++++-----
+ 3 files changed, 33 insertions(+), 12 deletions(-)
+
+--- a/drivers/gpu/drm/mgag200/mgag200_drv.h
++++ b/drivers/gpu/drm/mgag200/mgag200_drv.h
+@@ -43,6 +43,22 @@
+ #define ATTR_INDEX 0x1fc0
+ #define ATTR_DATA 0x1fc1
+ 
++#define WREG_MISC(v)						\
++	WREG8(MGA_MISC_OUT, v)
++
++#define RREG_MISC(v)						\
++	((v) = RREG8(MGA_MISC_IN))
++
++#define WREG_MISC_MASKED(v, mask)				\
++	do {							\
++		u8 misc_;					\
++		u8 mask_ = (mask);				\
++		RREG_MISC(misc_);				\
++		misc_ &= ~mask_;				\
++		misc_ |= ((v) & mask_);				\
++		WREG_MISC(misc_);				\
++	} while (0)
++
+ #define WREG_ATTR(reg, v)					\
+ 	do {							\
+ 		RREG8(0x1fda);					\
+--- a/drivers/gpu/drm/mgag200/mgag200_mode.c
++++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
+@@ -174,6 +174,8 @@ static int mgag200_g200_set_plls(struct
+ 	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
+ 		    clock, f_vco, m, n, p, s);
+ 
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+ 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+ 	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
+@@ -289,6 +291,8 @@ static int mga_g200se_set_plls(struct mg
+ 		return 1;
+ 	}
+ 
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	WREG_DAC(MGA1064_PIX_PLLC_M, m);
+ 	WREG_DAC(MGA1064_PIX_PLLC_N, n);
+ 	WREG_DAC(MGA1064_PIX_PLLC_P, p);
+@@ -385,6 +389,8 @@ static int mga_g200wb_set_plls(struct mg
+ 		}
+ 	}
+ 
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	for (i = 0; i <= 32 && pll_locked == false; i++) {
+ 		if (i > 0) {
+ 			WREG8(MGAREG_CRTC_INDEX, 0x1e);
+@@ -522,6 +528,8 @@ static int mga_g200ev_set_plls(struct mg
+ 		}
+ 	}
+ 
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 	tmp = RREG8(DAC_DATA);
+ 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+@@ -654,6 +662,9 @@ static int mga_g200eh_set_plls(struct mg
+ 			}
+ 		}
+ 	}
++
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	for (i = 0; i <= 32 && pll_locked == false; i++) {
+ 		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 		tmp = RREG8(DAC_DATA);
+@@ -754,6 +765,8 @@ static int mga_g200er_set_plls(struct mg
+ 		}
+ 	}
+ 
++	WREG_MISC_MASKED(MGAREG_MISC_CLKSEL_MGA, MGAREG_MISC_CLKSEL_MASK);
++
+ 	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
+ 	tmp = RREG8(DAC_DATA);
+ 	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
+@@ -787,8 +800,6 @@ static int mga_g200er_set_plls(struct mg
+ 
+ static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
+ {
+-	u8 misc;
+-
+ 	switch(mdev->type) {
+ 	case G200_PCI:
+ 	case G200_AGP:
+@@ -808,11 +819,6 @@ static int mgag200_crtc_set_plls(struct
+ 		return mga_g200er_set_plls(mdev, clock);
+ 	}
+ 
+-	misc = RREG8(MGA_MISC_IN);
+-	misc &= ~MGAREG_MISC_CLK_SEL_MASK;
+-	misc |= MGAREG_MISC_CLK_SEL_MGA_MSK;
+-	WREG8(MGA_MISC_OUT, misc);
+-
+ 	return 0;
+ }
+ 
+--- a/drivers/gpu/drm/mgag200/mgag200_reg.h
++++ b/drivers/gpu/drm/mgag200/mgag200_reg.h
+@@ -222,11 +222,10 @@
+ 
+ #define MGAREG_MISC_IOADSEL	(0x1 << 0)
+ #define MGAREG_MISC_RAMMAPEN	(0x1 << 1)
+-#define MGAREG_MISC_CLK_SEL_MASK	GENMASK(3, 2)
+-#define MGAREG_MISC_CLK_SEL_VGA25	(0x0 << 2)
+-#define MGAREG_MISC_CLK_SEL_VGA28	(0x1 << 2)
+-#define MGAREG_MISC_CLK_SEL_MGA_PIX	(0x2 << 2)
+-#define MGAREG_MISC_CLK_SEL_MGA_MSK	(0x3 << 2)
++#define MGAREG_MISC_CLKSEL_MASK		GENMASK(3, 2)
++#define MGAREG_MISC_CLKSEL_VGA25	(0x0 << 2)
++#define MGAREG_MISC_CLKSEL_VGA28	(0x1 << 2)
++#define MGAREG_MISC_CLKSEL_MGA		(0x3 << 2)
+ #define MGAREG_MISC_VIDEO_DIS	(0x1 << 4)
+ #define MGAREG_MISC_HIGH_PG_SEL	(0x1 << 5)
+ #define MGAREG_MISC_HSYNCPOL		BIT(6)
 
 
->         /* Will do for now. Our pinned objects are still on TTM's LRU
-> lists */
->         return i915_gem_object_evictable(obj);
->  }
-> @@ -316,9 +446,11 @@ static void
-> i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
->         i915_gem_object_set_cache_coherency(obj, cache_level);
->  }
->  
-> -static void i915_ttm_purge(struct drm_i915_gem_object *obj)
-> +static void i915_ttm_writeback(struct drm_i915_gem_object *obj)
->  {
->         struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-> +       struct i915_ttm_tt *i915_tt =
-> +               container_of(bo->ttm, typeof(*i915_tt), ttm);
->         struct ttm_operation_ctx ctx = {
->                 .interruptible = true,
->                 .no_wait_gpu = false,
-> @@ -326,18 +458,52 @@ static void i915_ttm_purge(struct
-> drm_i915_gem_object *obj)
->         struct ttm_placement place = {};
->         int ret;
->  
-> -       if (obj->mm.madv == __I915_MADV_PURGED)
-> +       if (!bo->ttm || !(bo->ttm->page_flags & I915_TTM_TT_SHMEM))
->                 return;
->  
-> -       /* TTM's purge interface. Note that we might be reentering.
-> */
-> +       i915_tt->backup = true;
->         ret = ttm_bo_validate(bo, &place, &ctx);
+Patches currently in stable-queue which might be from tzimmermann@suse.de are
 
-It looks like writeback() becomes the backend's primary callback for
-shrinking, although for the shmem backend, this is put_pages(), and the
-writeback() callback is only called if needed to accelerate shmem's
-transfer of pages to the swap cache. It appears like this will break
-the shrinker reporting of shrunken pages?
-
-Should we try to do the primary shrinking from the put_pages() callback
-instead, like the shmem backend? Although we'd have to allow NULL pages
-in put_pages() to account for evicted-to-shmem and adjust other
-backends if necessary.
-
-
-
-> -       if (!ret) {
-> -               obj->write_domain = 0;
-> -               obj->read_domains = 0;
-> -               i915_ttm_adjust_gem_after_move(obj);
-> -               i915_ttm_free_cached_io_st(obj);
-> -               obj->mm.madv = __I915_MADV_PURGED;
-> +       i915_tt->backup = false;
-> +       if (ret)
-> +               return;
-> +
-> +       __shmem_writeback(obj->base.size, i915_tt->filp->f_mapping);
-> +}
-> +
-
-
+queue-5.13/drm-mgag200-select-clock-in-pll-update-functions.patch
+queue-5.13/drm-ast-disable-fast-reset-after-dram-initial.patch
+queue-5.13/drm-vkms-let-shadow-plane-helpers-prepare-the-plane-.patch
