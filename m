@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3141F40D8CC
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CF9140D89F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EA4AE6ED09;
-	Thu, 16 Sep 2021 11:31:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 731FD6ECF8;
+	Thu, 16 Sep 2021 11:31:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8276ECF1;
- Thu, 16 Sep 2021 11:30:58 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id y132so4568295wmc.1;
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 160006ECE7;
+ Thu, 16 Sep 2021 11:30:59 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id y132so4568354wmc.1;
  Thu, 16 Sep 2021 04:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k0OTgPLj5/kZbUOkhqk9NSO3/CkxGkvCYnJw/k/qjCI=;
- b=TI5K0ilOVbnZM/XwAm/seTvTSzhbru89RUBDeeOE7/Vy9vUHojENTRDsrem5Q4/L0U
- /b5vMg12+v4RnZTZLmN1f+GYz2ojB8iFwntOwn3u6TAhGxT5n42xFOD8vYgyiW+Fe7YX
- NSkWnkXd8d16uA8MYyJu7Gx435UyeXK/9TvgzYISQuiqCwMlaiGIiKQgvrml+PsXzjun
- PzAQy4yYX93oYlBMWvKEG0L7NMBSbAfsZE3rGpJ5EHP8kj0SjndyeyQg024VjUCctMFn
- XDT0IPz7dYR2vzsgiGZBndm2nafL4KSG7qOTX/kBOAxWPJfvAybRog5+o1XDdh349b/J
- TUIg==
+ bh=619EAz9TvrXlFEEg1bXuHi1QdjRBbwVPPanVgBf3wcw=;
+ b=eIOI2c8bvusaWxzxUusQ8CJabg6fj2kTwK1gPAobaKP6AFAu/5cx08fiSmduHcJHq3
+ p7bCajLfrsbum4xAKMfk4Vi2QioxbtN2m8tO8blw0v2OvP9XGDiy8HIDN+p3KLcyPwzd
+ dYnOJZXDpKrUFMIaSmwj5xygzcLUxKfyAsEckA063l4JTBjCuWm1JUi/wLr2r46wMOqv
+ 8DUjD1YILD7zccxDi1BJBkwhiOEzIomt3yTgwVo5jdQlv2P93jblrUFm8mN5vWDyUaiR
+ AyPcHl6yOXcB8NZnppTApPT324tIsxF6uRR83kvHLE4uVDsFBUCw9TsGgKVxVVtz4qmV
+ VZ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k0OTgPLj5/kZbUOkhqk9NSO3/CkxGkvCYnJw/k/qjCI=;
- b=gykyQpk1d4KKwyf49WTZLHrP3Qd/hCy5x8hSAWx6Jkbx5mkzSt3acEPQt/5rp33Q6Z
- 3nKvc/6ELCkhWnSNCWkciVm/b+zvEJrwBGhEBWD2dmufWN1au5/Ws3a1hF/U6DAOmn/Z
- r4Rtb6/wVD09ldHMl1C5n2L//tenraL3l5KlfVtKHUS/X6Kp65O1iwSqE7EqNEj8amN5
- UXwWxi6fbNJ3ZspW5ssbx623iJJmkf7fRhriRvQpYqD6P5UHkmhAb1nuuU0H7oUREZFY
- dnBjOA7Fqz3idsBlW3sEiJfMURoa4MNrrsQVU/xPmzecWQYU+F2S+YjzEhpaHqyXObpp
- p5XQ==
-X-Gm-Message-State: AOAM532m6Q/ahUaE+jo2nvquzehNh5ZkrAL6AY3KnOW+DqXkvHvqtsCb
- 9ReQy/a1/JwBrJm6SqoHmeM=
-X-Google-Smtp-Source: ABdhPJwLEl2QmPWQ2LggYqWGMl4Nkr4hC1T9Yq1jkr6BsuBkMjrwe0T4qkJGOxUAntZijUG5Ih1f0Q==
-X-Received: by 2002:a1c:800e:: with SMTP id b14mr9700962wmd.54.1631791856706; 
- Thu, 16 Sep 2021 04:30:56 -0700 (PDT)
+ bh=619EAz9TvrXlFEEg1bXuHi1QdjRBbwVPPanVgBf3wcw=;
+ b=RUQ8J1NpGMT3td1xFFjtiH0krSa3gtfuESQEQjPLDwaVotLxVyjS0ahXTcI0N/WSAm
+ IL+ALm/WpMxNtoG4fFYtl/1cYzaVT/W3Ey5l2z4IMv96Dhqd4xC+6OF/4mhfHqFKbQda
+ 0Hrj4PcfRsyCoINxA0Eq3X3L4V9vxGc6k+hsyVeC3gfWC6licdp3tkKkF6F/2L9PJJPj
+ bpi7/Xcb/f4Fnxxn6onnu/7GXcSnsC3R1ahYN/yz7DvhRhQmEPZWNjWaZYD8A4XmwBV7
+ em7fLL9c7syT43gLBic9bSf5V8TwxhCP8ggWjsLpvi7SlN/NLqyODSScC5YoIaqFm8o/
+ JHbw==
+X-Gm-Message-State: AOAM5337YJbrHPyEkWAx1DO5OCtmKIdUnRC6wqe/mUwB3h2tuH0af58t
+ gq+p6x/MlUhn0OEZDuVbCSw=
+X-Google-Smtp-Source: ABdhPJx+LVHV0RoCdRxrz79zGczQwIUfnEDaV9mE/KpbaDXh/TdYi9OVCpLSSb6QOCq+D3ep2yVHPQ==
+X-Received: by 2002:a05:600c:2057:: with SMTP id
+ p23mr9530967wmg.25.1631791857611; 
+ Thu, 16 Sep 2021 04:30:57 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- c17sm3803674wrn.54.2021.09.16.04.30.55
+ c17sm3803674wrn.54.2021.09.16.04.30.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 04:30:56 -0700 (PDT)
+ Thu, 16 Sep 2021 04:30:57 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,10 +54,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 12/26] drm/scheduler: use new iterator in
- drm_sched_job_add_implicit_dependencies v2
-Date: Thu, 16 Sep 2021 13:30:28 +0200
-Message-Id: <20210916113042.3631-13-christian.koenig@amd.com>
+Subject: [PATCH 13/26] drm/i915: use the new iterator in i915_gem_busy_ioctl
+Date: Thu, 16 Sep 2021 13:30:29 +0200
+Message-Id: <20210916113042.3631-14-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916113042.3631-1-christian.koenig@amd.com>
 References: <20210916113042.3631-1-christian.koenig@amd.com>
@@ -78,56 +78,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplifying the code a bit.
-
-v2: use dma_resv_for_each_fence
+This makes the function much simpler since the complex
+retry logic is now handled else where.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/scheduler/sched_main.c | 26 ++++++--------------------
- 1 file changed, 6 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_busy.c | 30 +++++++-----------------
+ 1 file changed, 9 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 042c16b5d54a..ee2fe37ee724 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -699,30 +699,16 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
- 					    struct drm_gem_object *obj,
- 					    bool write)
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+index 6234e17259c1..adf9a8413446 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+@@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
  {
+ 	struct drm_i915_gem_busy *args = data;
+ 	struct drm_i915_gem_object *obj;
+-	struct dma_resv_list *list;
+-	unsigned int seq;
 +	struct dma_resv_iter cursor;
 +	struct dma_fence *fence;
- 	int ret;
--	struct dma_fence **fences;
--	unsigned int i, fence_count;
--
--	if (!write) {
--		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
--
--		return drm_sched_job_add_dependency(job, fence);
--	}
--
--	ret = dma_resv_get_fences(obj->resv, NULL, &fence_count, &fences);
--	if (ret || !fence_count)
--		return ret;
+ 	int err;
  
--	for (i = 0; i < fence_count; i++) {
--		ret = drm_sched_job_add_dependency(job, fences[i]);
-+	dma_resv_for_each_fence(obj->resv, &cursor, write, fence) {
-+		ret = drm_sched_job_add_dependency(job, fence);
- 		if (ret)
--			break;
-+			return ret;
+ 	err = -ENOENT;
+@@ -109,28 +109,16 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+ 	 * to report the overall busyness. This is what the wait-ioctl does.
+ 	 *
+ 	 */
+-retry:
+-	seq = raw_read_seqcount(&obj->base.resv->seq);
+-
+-	/* Translate the exclusive fence to the READ *and* WRITE engine */
+-	args->busy = busy_check_writer(dma_resv_excl_fence(obj->base.resv));
+-
+-	/* Translate shared fences to READ set of engines */
+-	list = dma_resv_shared_list(obj->base.resv);
+-	if (list) {
+-		unsigned int shared_count = list->shared_count, i;
+-
+-		for (i = 0; i < shared_count; ++i) {
+-			struct dma_fence *fence =
+-				rcu_dereference(list->shared[i]);
+-
++	args->busy = false;
++	dma_resv_for_each_fence_unlocked(obj->base.resv, &cursor, true, fence) {
++		if (dma_resv_iter_is_exclusive(&cursor))
++			/* Translate the exclusive fence to the READ *and* WRITE engine */
++			args->busy = busy_check_writer(fence);
++		else
++			/* Translate shared fences to READ set of engines */
+ 			args->busy |= busy_check_reader(fence);
+-		}
  	}
--
--	for (; i < fence_count; i++)
--		dma_fence_put(fences[i]);
--	kfree(fences);
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL(drm_sched_job_add_implicit_dependencies);
  
+-	if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
+-		goto retry;
+-
+ 	err = 0;
+ out:
+ 	rcu_read_unlock();
 -- 
 2.25.1
 
