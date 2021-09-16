@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C3840D8F4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:42:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DF740D917
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:51:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7776D6ED16;
-	Thu, 16 Sep 2021 11:42:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9EEE6EB72;
+	Thu, 16 Sep 2021 11:51:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 936CC6ED0E;
- Thu, 16 Sep 2021 11:42:43 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i25so17395135lfg.6;
- Thu, 16 Sep 2021 04:42:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PUQk7iybu5WtIm/qZMASrmynw7Z5a2vpy/m8p2+iZe8=;
- b=MDg7v6ox6x0o3dfn7tgSllIApU6+EXugjT5h/sHE1X8f3CJ9vYDfcGnDMLhjlMEzzn
- NlYB0ZabvKyD3RBCK1cS4R1nvvh9S7HtvgYtXH88QdwIZBei7fIiT1sNb+A7dfFlSFmq
- xCRCRz5dkiR1j64YTuhzS3mPVgfRODdqwxX46cu/bNCjGXo0QuaultoU15K+lJUGnWz2
- z9UBHuILkhBIC9HW7FPfkqPQ3mOBGUUpZZZZ/xgCQP9RQHwbfvKnx1Y+VBPieN6jzVvc
- 2kE2ra+vvY7GY33loXSss7lZYiG+0k/Qm1gKs66R+F7mp22AZ//RBYTjeJLT+sxZJIFf
- vzig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PUQk7iybu5WtIm/qZMASrmynw7Z5a2vpy/m8p2+iZe8=;
- b=TsVGbFRTpbtHHlBhosMmt7HFC/s3sxRgeYDuc4fFs8m5uzsIFC7WpLMOOJTiqIDxLM
- fIbJhR7iK4hhCr2uwa5yJvuE7DcXTVu686IK1IeArg6U/M5leOBJBLOKpHLLRt326JHM
- CbM/zzEjQdOWxIgxcywWFEx3Pzl0fjl3SIHfPoRQipsMyYIxKOG9VcLw0ZIpaL7lvPZN
- mESZJ80Tjrn+nGDS0mu3JlSiT5Vfjtopj5TnRrOVBs/8ARnYy3+okbCHvzn+jr2ZQS09
- dC2hs0tKBZ9MX+mMzq4p7zluUy/WnJ+sk63NWW04Rvb/JIsZCpnwKmgyNdPJLy/YFYoN
- vGMw==
-X-Gm-Message-State: AOAM530oOuFrTwM/tMQQR78bkWRVHYTbe312vGgJSk91SBnHRn8d0kA5
- Ts89cBBLVhPgkX4vpbVKIWAIjj2QXr958uVn68k=
-X-Google-Smtp-Source: ABdhPJza6hu/ncrOpwL7Lf2mvCRXBLaEbrjvI29b1pcjk3aPpiyh9OcqUow6EQtX7q/hL3NBu594dbpJIuOD+B8W4P4=
-X-Received: by 2002:ac2:5d49:: with SMTP id w9mr3665501lfd.450.1631792561854; 
- Thu, 16 Sep 2021 04:42:41 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B1AD6EB72;
+ Thu, 16 Sep 2021 11:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+ s=201909; t=1631793098;
+ bh=hO8MM7rkDgtjlX2BKCZzkCfApidbr4y2lSSjjuo6Spc=;
+ h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+ b=T879eZw4oyZmXCoQBzMn6TSL7TK2u4yA9WcOVdZAZ0H1ES0BfZh+c8qlaAlgIPIpC
+ EZnQfXlJ4z5xni7cnClkogAdyVLHlN0VyzknQ+r9zr6EpGugkqsddQqZZrBGZDfrR0
+ 9M+jMUqC/HazPpVpqowHJ+tlxvnuziqzSjk0KDQRmXiXxxaF7vMYJKwoebP5X7vITE
+ bMJsOzJQ7uNDCIvfTBD7ylQk7c+vA2OSB/um9B8TH/DnrN+ZCARHPzrHaVfJh6WWqX
+ eRpDp98PeMg6OvGq/UiCuletGr7nCgKoxmLkqF4TIS7Ah9AEH2oeKN2Got5wDxjEQU
+ 5Tn4zy5KEZ4Kw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4H9FmR1HjKz9sXS;
+ Thu, 16 Sep 2021 21:51:33 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Christoph Hellwig <hch@infradead.org>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>
+Cc: Borislav Petkov <bp@alien8.de>, Sathyanarayanan Kuppuswamy
+ <sathyanarayanan.kuppuswamy@linux.intel.com>, linux-efi@vger.kernel.org,
+ Brijesh Singh <brijesh.singh@amd.com>, kvm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org, Paul
+ Mackerras <paulus@samba.org>, linux-s390@vger.kernel.org, Andi Kleen
+ <ak@linux.intel.com>, Joerg Roedel <joro@8bytes.org>, x86@kernel.org,
+ amd-gfx@lists.freedesktop.org, Christoph Hellwig <hch@infradead.org>,
+ linux-graphics-maintainer@vmware.com, Tom Lendacky
+ <thomas.lendacky@amd.com>, Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ iommu@lists.linux-foundation.org, linux-fsdevel@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v3 4/8] powerpc/pseries/svm: Add a powerpc version of
+ cc_platform_has()
+In-Reply-To: <YULztMRLJ55YLVU9@infradead.org>
+References: <cover.1631141919.git.thomas.lendacky@amd.com>
+ <9d4fc3f8ea7b325aaa1879beab1286876f45d450.1631141919.git.thomas.lendacky@amd.com>
+ <YUCOTIPPsJJpLO/d@zn.tnic> <87lf3yk7g4.fsf@mpe.ellerman.id.au>
+ <YUHGDbtiGrDz5+NS@zn.tnic>
+ <f8388f18-5e90-5d0f-d681-0b17f8307dd4@csgroup.eu>
+ <YULztMRLJ55YLVU9@infradead.org>
+Date: Thu, 16 Sep 2021 21:51:30 +1000
+Message-ID: <87czp8kabh.fsf@mpe.ellerman.id.au>
 MIME-Version: 1.0
-References: <20210914174831.2044420-1-festevam@gmail.com>
- <96038e06b1141ad3348611a25544356e@codeaurora.org>
-In-Reply-To: <96038e06b1141ad3348611a25544356e@codeaurora.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 16 Sep 2021 08:42:30 -0300
-Message-ID: <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
- devices
-To: abhinavk@codeaurora.org
-Cc: Rob Clark <robdclark@gmail.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,45 +71,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+Christoph Hellwig <hch@infradead.org> writes:
+> On Wed, Sep 15, 2021 at 07:18:34PM +0200, Christophe Leroy wrote:
+>> Could you please provide more explicit explanation why inlining such an
+>> helper is considered as bad practice and messy ?
+>
+> Because now we get architectures to all subly differ.  Look at the mess
+> for ioremap and the ioremap* variant.
+>
+> The only good reason to allow for inlines if if they are used in a hot
+> path.  Which cc_platform_has is not, especially not on powerpc.
 
-On Wed, Sep 15, 2021 at 11:22 PM <abhinavk@codeaurora.org> wrote:
+Yes I agree, it's not a hot path so it doesn't really matter, which is
+why I Acked it.
 
-> Are you not using DPU or are you not using mdp4/mdp5 as well? Even if
-> you are using any of mdps, kms should
-> not be NULL. Hence wanted to check the test case.
+I think it is possible to do both, share the declaration across arches
+but also give arches flexibility to use an inline if they prefer, see
+patch below.
 
-I am running i.MX53, which is an NXP SoC, not Qualcomm's.
+I'm not suggesting we actually do that for this series now, but I think
+it would solve the problem if we ever needed to in future.
 
-It does not use DPU, nor MDP4/5 and kms is NULL in this case.
+cheers
 
-Some debug prints to confirm:
 
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -557,18 +557,22 @@ static int msm_drm_init(struct device *dev,
-const struct drm_driver *drv)
-        case KMS_MDP4:
-                kms = mdp4_kms_init(ddev);
-                priv->kms = kms;
-+               pr_err("******** KMS_MDP4\n");
-                break;
-        case KMS_MDP5:
-                kms = mdp5_kms_init(ddev);
-+               pr_err("******** KMS_MDP5\n");
-                break;
-        case KMS_DPU:
-                kms = dpu_kms_init(ddev);
-+               pr_err("******** KMS_DPU\n");
-                priv->kms = kms;
-                break;
-        default:
-                /* valid only for the dummy headless case, where of_node=NULL */
-                WARN_ON(dev->of_node);
-                kms = NULL;
-+               pr_err("******** KMS is NULL\n");
-                break;
-        }
+diff --git a/arch/powerpc/platforms/pseries/cc_platform.c b/arch/powerpc/include/asm/cc_platform.h
+similarity index 74%
+rename from arch/powerpc/platforms/pseries/cc_platform.c
+rename to arch/powerpc/include/asm/cc_platform.h
+index e8021af83a19..6285c3c385a6 100644
+--- a/arch/powerpc/platforms/pseries/cc_platform.c
++++ b/arch/powerpc/include/asm/cc_platform.h
+@@ -7,13 +7,10 @@
+  * Author: Tom Lendacky <thomas.lendacky@amd.com>
+  */
+ 
+-#include <linux/export.h>
+ #include <linux/cc_platform.h>
+-
+-#include <asm/machdep.h>
+ #include <asm/svm.h>
+ 
+-bool cc_platform_has(enum cc_attr attr)
++static inline bool arch_cc_platform_has(enum cc_attr attr)
+ {
+ 	switch (attr) {
+ 	case CC_ATTR_MEM_ENCRYPT:
+@@ -23,4 +20,3 @@ bool cc_platform_has(enum cc_attr attr)
+ 		return false;
+ 	}
+ }
+-EXPORT_SYMBOL_GPL(cc_platform_has);
+diff --git a/arch/x86/include/asm/cc_platform.h b/arch/x86/include/asm/cc_platform.h
+new file mode 100644
+index 000000000000..0a4220697043
+--- /dev/null
++++ b/arch/x86/include/asm/cc_platform.h
+@@ -0,0 +1,7 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++#ifndef _ASM_X86_CC_PLATFORM_H_
++#define _ASM_X86_CC_PLATFORM_H_
++
++bool arch_cc_platform_has(enum cc_attr attr);
++
++#endif // _ASM_X86_CC_PLATFORM_H_
+diff --git a/arch/x86/kernel/cc_platform.c b/arch/x86/kernel/cc_platform.c
+index 3c9bacd3c3f3..77e8c3465979 100644
+--- a/arch/x86/kernel/cc_platform.c
++++ b/arch/x86/kernel/cc_platform.c
+@@ -11,11 +11,11 @@
+ #include <linux/cc_platform.h>
+ #include <linux/mem_encrypt.h>
+ 
+-bool cc_platform_has(enum cc_attr attr)
++bool arch_cc_platform_has(enum cc_attr attr)
+ {
+ 	if (sme_me_mask)
+ 		return amd_cc_platform_has(attr);
+ 
+ 	return false;
+ }
+-EXPORT_SYMBOL_GPL(cc_platform_has);
++EXPORT_SYMBOL_GPL(arch_cc_platform_has);
+diff --git a/include/linux/cc_platform.h b/include/linux/cc_platform.h
+index 253f3ea66cd8..f3306647c5d9 100644
+--- a/include/linux/cc_platform.h
++++ b/include/linux/cc_platform.h
+@@ -65,6 +65,8 @@ enum cc_attr {
+ 
+ #ifdef CONFIG_ARCH_HAS_CC_PLATFORM
+ 
++#include <asm/cc_platform.h>
++
+ /**
+  * cc_platform_has() - Checks if the specified cc_attr attribute is active
+  * @attr: Confidential computing attribute to check
+@@ -77,7 +79,10 @@ enum cc_attr {
+  * * TRUE  - Specified Confidential Computing attribute is active
+  * * FALSE - Specified Confidential Computing attribute is not active
+  */
+-bool cc_platform_has(enum cc_attr attr);
++static inline bool cc_platform_has(enum cc_attr attr)
++{
++	return arch_cc_platform_has(attr);
++}
+ 
+ #else	/* !CONFIG_ARCH_HAS_CC_PLATFORM */
+ 
 
-# dmesg | grep KMS
-[    3.153215] ******** KMS is NULL
+
