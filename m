@@ -2,43 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 428F340D81F
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1978E40D883
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:27:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C155A6EB6E;
-	Thu, 16 Sep 2021 11:07:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEC836ECE1;
+	Thu, 16 Sep 2021 11:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C47C96EB68;
- Thu, 16 Sep 2021 11:07:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="222195440"
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="222195440"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 04:07:02 -0700
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="545530152"
-Received: from djustese-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.34.120])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 04:06:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [Intel-gfx] [PATCH v9 04/17] drm/i915/pxp: allocate a vcs context
- for pxp usage
-In-Reply-To: <YUJe4Az/in46lPkg@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210910153627.1060858-1-daniele.ceraolospurio@intel.com>
- <20210910153627.1060858-5-daniele.ceraolospurio@intel.com>
- <874kamx7vk.fsf@intel.com> <YUJe4Az/in46lPkg@intel.com>
-Date: Thu, 16 Sep 2021 14:06:56 +0300
-Message-ID: <87bl4swzhr.fsf@intel.com>
+X-Greylist: delayed 492 seconds by postgrey-1.36 at gabe;
+ Thu, 16 Sep 2021 11:27:43 UTC
+Received: from relay-us1.mymailcheap.com (relay-us1.mymailcheap.com
+ [51.81.35.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 13BA56ECEA
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 11:27:43 +0000 (UTC)
+Received: from relay5.mymailcheap.com (relay5.mymailcheap.com
+ [159.100.248.207])
+ by relay-us1.mymailcheap.com (Postfix) with ESMTPS id 0171C2020D
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 11:19:30 +0000 (UTC)
+Received: from relay2.mymailcheap.com (relay2.mymailcheap.com [217.182.66.162])
+ by relay5.mymailcheap.com (Postfix) with ESMTPS id EB6B8260EB
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 11:19:26 +0000 (UTC)
+Received: from filter2.mymailcheap.com (filter2.mymailcheap.com
+ [91.134.140.82])
+ by relay2.mymailcheap.com (Postfix) with ESMTPS id AD5F73EDFC;
+ Thu, 16 Sep 2021 13:19:24 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+ by filter2.mymailcheap.com (Postfix) with ESMTP id 8B6C32A514;
+ Thu, 16 Sep 2021 13:19:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mymailcheap.com;
+ s=default; t=1631791164;
+ bh=c0cxHUOunQ7UqVHmtLLuSnBhU/nmnvkIbtapLtavi7I=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=HDs3113Q4GwcksJ4lqz8Px1YGq5AfrSfZEQGGLma0lro+GyNFiJ7udH2XZ1y7q8M6
+ ht0PWQsx1nbhg7YjXxlW6R6ATzdr/hMdJK9JieBUDPhXD1CAn26ajpCSSo/omzbDOs
+ NlWLEMoECCBunaucYvq11GOkNMl9z0+07G66NySg=
+X-Virus-Scanned: Debian amavisd-new at filter2.mymailcheap.com
+Received: from filter2.mymailcheap.com ([127.0.0.1])
+ by localhost (filter2.mymailcheap.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 1J677zBbw3Oy; Thu, 16 Sep 2021 13:19:23 +0200 (CEST)
+Received: from mail20.mymailcheap.com (mail20.mymailcheap.com [51.83.111.147])
+ (using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by filter2.mymailcheap.com (Postfix) with ESMTPS;
+ Thu, 16 Sep 2021 13:19:23 +0200 (CEST)
+Received: from [213.133.102.83] (ml.mymailcheap.com [213.133.102.83])
+ by mail20.mymailcheap.com (Postfix) with ESMTP id 9096440496;
+ Thu, 16 Sep 2021 11:19:22 +0000 (UTC)
+Authentication-Results: mail20.mymailcheap.com; dkim=pass (1024-bit key;
+ unprotected) header.d=aosc.io header.i=@aosc.io header.b="LUbFn9PH"; 
+ dkim-atps=neutral
+AI-Spam-Status: Not processed
+Received: from ice-e5v2.lan (unknown [59.41.163.223])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail20.mymailcheap.com (Postfix) with ESMTPSA id CC86E41A61;
+ Thu, 16 Sep 2021 11:18:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=aosc.io; s=default;
+ t=1631791134; bh=c0cxHUOunQ7UqVHmtLLuSnBhU/nmnvkIbtapLtavi7I=;
+ h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+ b=LUbFn9PHSPjdS3qoTcbqHBsUTuajtu+RJph7RHT0ajGsIHXFKcJCCzsRJ5WrIcFLC
+ /lzDNaP9zWgzh4G58vzxj4y0lX/hv2uVOtqcWJfTd0yyJ+k4xjIg8aNuqz77zz39SV
+ uHjoE4VqXQX2567yPDjslIAvUGrntMtnXgyUrdzc=
+Message-ID: <21f916800a8852d4e7fd60480403270e146f065e.camel@aosc.io>
+Subject: Re: [PATCH] drm/panel: k101-im2ba02: Make use of the helper
+ function dev_err_probe()
+From: Icenowy Zheng <icenowy@aosc.io>
+To: Cai Huoqing <caihuoqing@baidu.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg
+ <sam@ravnborg.org>,  David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 16 Sep 2021 19:18:43 +0800
+In-Reply-To: <20210916104247.11270-1-caihuoqing@baidu.com>
+References: <20210916104247.11270-1-caihuoqing@baidu.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.40.4 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 9096440496
+X-Rspamd-Server: mail20.mymailcheap.com
+X-Spamd-Result: default: False [1.40 / 10.00]; RCVD_VIA_SMTP_AUTH(0.00)[];
+ ARC_NA(0.00)[]; R_DKIM_ALLOW(0.00)[aosc.io:s=default];
+ MID_RHS_MATCH_FROM(0.00)[]; FROM_HAS_DN(0.00)[];
+ TO_DN_SOME(0.00)[]; FREEMAIL_ENVRCPT(0.00)[gmail.com];
+ TO_MATCH_ENVRCPT_ALL(0.00)[]; TAGGED_RCPT(0.00)[];
+ MIME_GOOD(-0.10)[text/plain]; DMARC_NA(0.00)[aosc.io];
+ R_SPF_SOFTFAIL(0.00)[~all];
+ HFILTER_HELO_BAREIP(3.00)[213.133.102.83,1];
+ ML_SERVERS(-3.10)[213.133.102.83]; DKIM_TRACE(0.00)[aosc.io:+];
+ RCPT_COUNT_SEVEN(0.00)[7];
+ RECEIVED_SPAMHAUS_PBL(0.00)[59.41.163.223:received];
+ RCVD_NO_TLS_LAST(0.10)[]; FROM_EQ_ENVFROM(0.00)[];
+ MIME_TRACE(0.00)[0:+];
+ ASN(0.00)[asn:24940, ipnet:213.133.96.0/19, country:DE];
+ FREEMAIL_CC(0.00)[gmail.com,ravnborg.org,linux.ie,ffwll.ch,lists.freedesktop.org,vger.kernel.org];
+ SUSPICIOUS_RECIPS(1.50)[]; RCVD_COUNT_TWO(0.00)[2]
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,124 +113,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 15 Sep 2021, Rodrigo Vivi <rodrigo.vivi@intel.com> wrote:
-> On Wed, Sep 15, 2021 at 04:53:35PM +0300, Jani Nikula wrote:
->> On Fri, 10 Sep 2021, Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com> wrote:
->> > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp.h b/drivers/gpu/drm/i915/pxp/intel_pxp.h
->> > new file mode 100644
->> > index 000000000000..e87550fb9821
->> > --- /dev/null
->> > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp.h
->> > @@ -0,0 +1,35 @@
->> > +/* SPDX-License-Identifier: MIT */
->> > +/*
->> > + * Copyright(c) 2020, Intel Corporation. All rights reserved.
->> > + */
->> > +
->> > +#ifndef __INTEL_PXP_H__
->> > +#define __INTEL_PXP_H__
->> > +
->> > +#include "gt/intel_gt_types.h"
->> 
->> I've been trying to promote the idea that we don't include headers from
->> headers, unless really necessary. It helps with build times by reducing
->> rebuilds due to changes, but more importantly, it helps with coming up
->> with abstractions that don't need to look at the guts of other
->> components.
->> 
->> The above include line pulls in 67 other includes. And it has to look at
->> the same files a *lot* more times to know not to include them again.
->> 
->> Maybe we need to start being more aggressive about hiding the
->> abstractions behind the interfaces and headers. Static inlines are
->> nothing but micro-optimizations that leak abstractions. Do we need
->> these?
->
-> Yeap, we have a few cases where this is already happening...
->
-> Should we start using the container_of more directly and avoid the a_to_b()
-> helpers?
->
-> Should we create the a_to_b() helpers only inside .c files like we have
-> in a few other cases?
->
-> In this pxp case here it looks like using the container of directly is
-> everywhere is better... is this your recommendation?
+在 2021-09-16星期四的 18:42 +0800，Cai Huoqing写道：
+> When possible use dev_err_probe help to properly deal with the
+> PROBE_DEFER error, the benefit is that DEFER issue will be logged
+> in the devices_deferred debugfs file.
+> And using dev_err_probe() can reduce code size, and the error value
+> gets printed.
+> 
+> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
-Either that, or make it a non-inline function that's actually
-abstracted. Yes, it leads to a function call, but I'm really starting to
-wonder about the costs of a function call vs. maintainability across the
-board.
+Looks good to me, and thanks for pointing out this helper.
 
-Static inlines considered harmful.
+Acked-by: Icenowy Zheng <icenowy@aosc.io>
 
+> ---
+>  drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c | 13 +++++--------
+>  1 file changed, 5 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> index 2a602aee61c3..cb0bb3076099 100644
+> --- a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> +++ b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
+> @@ -456,16 +456,13 @@ static int k101_im2ba02_dsi_probe(struct
+> mipi_dsi_device *dsi)
+>  
+>         ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx-
+> >supplies),
+>                                       ctx->supplies);
+> -       if (ret < 0) {
+> -               dev_err(&dsi->dev, "Couldn't get regulators\n");
+> -               return ret;
+> -       }
+> +       if (ret < 0)
+> +               return dev_err_probe(&dsi->dev, ret, "Couldn't get
+> regulators\n");
+>  
+>         ctx->reset = devm_gpiod_get(&dsi->dev, "reset",
+> GPIOD_OUT_LOW);
+> -       if (IS_ERR(ctx->reset)) {
+> -               dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
+> -               return PTR_ERR(ctx->reset);
+> -       }
+> +       if (IS_ERR(ctx->reset))
+> +               return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
+> +                                    "Couldn't get our reset
+> GPIO\n");
+>  
+>         drm_panel_init(&ctx->panel, &dsi->dev, &k101_im2ba02_funcs,
+>                        DRM_MODE_CONNECTOR_DSI);
 
-BR,
-Jani.
-
-
->
->> 
->> > +#include "intel_pxp_types.h"
->> > +
->> > +static inline struct intel_gt *pxp_to_gt(const struct intel_pxp *pxp)
->> > +{
->> > +	return container_of(pxp, struct intel_gt, pxp);
->> > +}
->> 
->> I think it's questionable to claim the parameter is const, when you can
->> do:
->> 
->> 	const struct intel_pxp *const_pxp = something;
->> 	struct intel_pxp *pxp = &pxp_to_gt(const_pxp)->pxp;
->> 
->> BR,
->> Jani.
->> 
->> > +
->> > +static inline bool intel_pxp_is_enabled(const struct intel_pxp *pxp)
->> > +{
->> > +	return pxp->ce;
->> > +}
->> > +
->> > +#ifdef CONFIG_DRM_I915_PXP
->> > +void intel_pxp_init(struct intel_pxp *pxp);
->> > +void intel_pxp_fini(struct intel_pxp *pxp);
->> > +#else
->> > +static inline void intel_pxp_init(struct intel_pxp *pxp)
->> > +{
->> > +}
->> > +
->> > +static inline void intel_pxp_fini(struct intel_pxp *pxp)
->> > +{
->> > +}
->> > +#endif
->> > +
->> > +#endif /* __INTEL_PXP_H__ */
->> > diff --git a/drivers/gpu/drm/i915/pxp/intel_pxp_types.h b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
->> > new file mode 100644
->> > index 000000000000..bd12c520e60a
->> > --- /dev/null
->> > +++ b/drivers/gpu/drm/i915/pxp/intel_pxp_types.h
->> > @@ -0,0 +1,15 @@
->> > +/* SPDX-License-Identifier: MIT */
->> > +/*
->> > + * Copyright(c) 2020, Intel Corporation. All rights reserved.
->> > + */
->> > +
->> > +#ifndef __INTEL_PXP_TYPES_H__
->> > +#define __INTEL_PXP_TYPES_H__
->> > +
->> > +struct intel_context;
->> > +
->> > +struct intel_pxp {
->> > +	struct intel_context *ce;
->> > +};
->> > +
->> > +#endif /* __INTEL_PXP_TYPES_H__ */
->> 
->> -- 
->> Jani Nikula, Intel Open Source Graphics Center
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
