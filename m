@@ -2,84 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B80940D8EE
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:37:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C3840D8F4
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:42:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E85E86ED0A;
-	Thu, 16 Sep 2021 11:37:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7776D6ED16;
+	Thu, 16 Sep 2021 11:42:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-1.canonical.com
- (smtp-relay-internal-1.canonical.com [185.125.188.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9C9266ED0D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 11:37:52 +0000 (UTC)
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com
- [209.85.216.69])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id D10963FE02
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 11:37:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1631792270;
- bh=908BDomxjWW13dJ+h5+IM/p6bjjEbnfsipmAx3G+qQk=;
- h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
- In-Reply-To:Content-Type;
- b=TmHyCqKLEh4lMGmWRujkRmFghHu8m4wl8V/vJYKy5FdxC1UW9UZJ4hsnw8zhpgcw+
- tO4ljjsrIl5J62pBbrpoGV0RJyag/eUR1qx9EdH1U3q+xgr/taQIsUFX2MLDUbGoH2
- 9IcZaJzogT4kaTc3t+5NuD6CqN/talFtvbCh601G8yVgXAvNCnFd5kHfVrNisY2GBU
- Js4wY7vCj5dyVUhDsHEVu/Ih3s7g2l6HhWmzUDmDE3oQQt5Gud/410pkdf1zEvMCsQ
- tooXzgpIHbcuaw1cQ31euBh2R+1WmhA2cGPV4gBs5XGNWdJ2ZD4pP/BeikCpXHggaV
- mlIZckdh4VhvA==
-Received: by mail-pj1-f69.google.com with SMTP id
- s13-20020a17090a760d00b001996da9681dso4484485pjk.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 04:37:50 -0700 (PDT)
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 936CC6ED0E;
+ Thu, 16 Sep 2021 11:42:43 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id i25so17395135lfg.6;
+ Thu, 16 Sep 2021 04:42:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PUQk7iybu5WtIm/qZMASrmynw7Z5a2vpy/m8p2+iZe8=;
+ b=MDg7v6ox6x0o3dfn7tgSllIApU6+EXugjT5h/sHE1X8f3CJ9vYDfcGnDMLhjlMEzzn
+ NlYB0ZabvKyD3RBCK1cS4R1nvvh9S7HtvgYtXH88QdwIZBei7fIiT1sNb+A7dfFlSFmq
+ xCRCRz5dkiR1j64YTuhzS3mPVgfRODdqwxX46cu/bNCjGXo0QuaultoU15K+lJUGnWz2
+ z9UBHuILkhBIC9HW7FPfkqPQ3mOBGUUpZZZZ/xgCQP9RQHwbfvKnx1Y+VBPieN6jzVvc
+ 2kE2ra+vvY7GY33loXSss7lZYiG+0k/Qm1gKs66R+F7mp22AZ//RBYTjeJLT+sxZJIFf
+ vzig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=908BDomxjWW13dJ+h5+IM/p6bjjEbnfsipmAx3G+qQk=;
- b=MQ/d4K9E6Ymp2vZ3CVxbQ3XP9oG11fWV1hqDdoCPh3xOHiEDHL8CboefhRxclM+/X9
- Qh2aUmfe8Eg/7Ab0go7Rs/mizu1YokSmXjzWFQQkIFNTjXEz+1P7zW9Ts0i6J2T9Cg9b
- Wv+fvMFeMl9CHMDbhHfiFoB+cW/D+Dltj3Ac6C+IVbQ0oPKQvX60WjimeDb3ZQE5MJWy
- +KNxYnWOrysslqfX8LMnxO7nityXHKnnDF6aUszrJCK6FykzuRx7YDxjA9Sb5lvs306F
- MjI3MqKBfOa1BtH4zZsO2SjqR9ZIvUCJMrUQp1r3G2JArcdkt9szSSDbHB2Uj/ZIyKOV
- 15ag==
-X-Gm-Message-State: AOAM532/cZ4nip9h4M+1VXMV/9tjjNdsqab41aZYLRRY0ajRZZ4OY9+Z
- 6z5P2OWNsa4UcFdj9R2l4m5UArYo+UgjVQlxLDLJLrHeWGOp0QP59k3LD7Wcur17y3z+PQ+wtVO
- yMChm/xn1+Ivcok8uRq8PsVDuNACYsITL9qUNUGe5yPcwlA==
-X-Received: by 2002:a17:90b:1642:: with SMTP id
- il2mr14228767pjb.133.1631792269409; 
- Thu, 16 Sep 2021 04:37:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLagWl0Y6m5fry/PR5aoSchKNH70gRTQIBS9Soy65wMzgO8Re9fUCU8+kZz5YLK+ougSaEog==
-X-Received: by 2002:a17:90b:1642:: with SMTP id
- il2mr14228747pjb.133.1631792269161; 
- Thu, 16 Sep 2021 04:37:49 -0700 (PDT)
-Received: from [192.168.1.124] ([69.163.84.166])
- by smtp.gmail.com with ESMTPSA id j25sm2783466pff.34.2021.09.16.04.37.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 04:37:48 -0700 (PDT)
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: zero fill vma name buffer
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, linux-kernel@vger.kernel.org
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-References: <20210915192318.2061-1-tim.gardner@canonical.com>
- <7a653532-046d-c68a-3dc9-ef2deaf455f9@linux.intel.com>
- <87ee9ox0kv.fsf@intel.com>
-From: Tim Gardner <tim.gardner@canonical.com>
-Message-ID: <dc88e195-949c-bb46-b7d3-18e90df9b064@canonical.com>
-Date: Thu, 16 Sep 2021 05:37:47 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PUQk7iybu5WtIm/qZMASrmynw7Z5a2vpy/m8p2+iZe8=;
+ b=TsVGbFRTpbtHHlBhosMmt7HFC/s3sxRgeYDuc4fFs8m5uzsIFC7WpLMOOJTiqIDxLM
+ fIbJhR7iK4hhCr2uwa5yJvuE7DcXTVu686IK1IeArg6U/M5leOBJBLOKpHLLRt326JHM
+ CbM/zzEjQdOWxIgxcywWFEx3Pzl0fjl3SIHfPoRQipsMyYIxKOG9VcLw0ZIpaL7lvPZN
+ mESZJ80Tjrn+nGDS0mu3JlSiT5Vfjtopj5TnRrOVBs/8ARnYy3+okbCHvzn+jr2ZQS09
+ dC2hs0tKBZ9MX+mMzq4p7zluUy/WnJ+sk63NWW04Rvb/JIsZCpnwKmgyNdPJLy/YFYoN
+ vGMw==
+X-Gm-Message-State: AOAM530oOuFrTwM/tMQQR78bkWRVHYTbe312vGgJSk91SBnHRn8d0kA5
+ Ts89cBBLVhPgkX4vpbVKIWAIjj2QXr958uVn68k=
+X-Google-Smtp-Source: ABdhPJza6hu/ncrOpwL7Lf2mvCRXBLaEbrjvI29b1pcjk3aPpiyh9OcqUow6EQtX7q/hL3NBu594dbpJIuOD+B8W4P4=
+X-Received: by 2002:ac2:5d49:: with SMTP id w9mr3665501lfd.450.1631792561854; 
+ Thu, 16 Sep 2021 04:42:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <87ee9ox0kv.fsf@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210914174831.2044420-1-festevam@gmail.com>
+ <96038e06b1141ad3348611a25544356e@codeaurora.org>
+In-Reply-To: <96038e06b1141ad3348611a25544356e@codeaurora.org>
+From: Fabio Estevam <festevam@gmail.com>
+Date: Thu, 16 Sep 2021 08:42:30 -0300
+Message-ID: <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
+ devices
+To: abhinavk@codeaurora.org
+Cc: Rob Clark <robdclark@gmail.com>,
+ DRI mailing list <dri-devel@lists.freedesktop.org>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,102 +70,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Abhinav,
 
+On Wed, Sep 15, 2021 at 11:22 PM <abhinavk@codeaurora.org> wrote:
 
-On 9/16/21 4:43 AM, Jani Nikula wrote:
-> On Thu, 16 Sep 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
->> On 15/09/2021 20:23, Tim Gardner wrote:
->>> In capture_vma() Coverity complains of a possible buffer overrun. Even
->>> though this is a static function where all call sites can be checked,
->>> limiting the copy length could save some future grief.
->>>
->>> CID 93300 (#1 of 1): Copy into fixed size buffer (STRING_OVERFLOW)
->>> 4. fixed_size_dest: You might overrun the 16-character fixed-size string c->name
->>>      by copying name without checking the length.
->>> 5. parameter_as_source: Note: This defect has an elevated risk because the
->>>      source argument is a parameter of the current function.
->>> 1326        strcpy(c->name, name);
->>>
->>> Fix any possible overflows by using strncpy(). Zero fill the name buffer to
->>> guarantee ASCII string NULL termination.
->>>
->>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
->>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
->>> Cc: David Airlie <airlied@linux.ie>
->>> Cc: Daniel Vetter <daniel@ffwll.ch>
->>> Cc: intel-gfx@lists.freedesktop.org
->>> Cc: dri-devel@lists.freedesktop.org
->>> Cc: linux-kernel@vger.kernel.org
->>> Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
->>> ---
->>>    drivers/gpu/drm/i915/i915_gpu_error.c | 7 ++++---
->>>    1 file changed, 4 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
->>> index 9cf6ac575de1..154df174e2d7 100644
->>> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
->>> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
->>> @@ -1297,10 +1297,11 @@ static bool record_context(struct i915_gem_context_coredump *e,
->>>    	return simulated;
->>>    }
->>>    
->>> +#define VMA_NAME_LEN 16
->>>    struct intel_engine_capture_vma {
->>>    	struct intel_engine_capture_vma *next;
->>>    	struct i915_vma *vma;
->>> -	char name[16];
->>> +	char name[VMA_NAME_LEN];
->>>    };
->>>    
->>>    static struct intel_engine_capture_vma *
->>> @@ -1314,7 +1315,7 @@ capture_vma(struct intel_engine_capture_vma *next,
->>>    	if (!vma)
->>>    		return next;
->>>    
->>> -	c = kmalloc(sizeof(*c), gfp);
->>> +	c = kzalloc(sizeof(*c), gfp);
->>>    	if (!c)
->>>    		return next;
->>>    
->>> @@ -1323,7 +1324,7 @@ capture_vma(struct intel_engine_capture_vma *next,
->>>    		return next;
->>>    	}
->>>    
->>> -	strcpy(c->name, name);
->>> +	strncpy(c->name, name, VMA_NAME_LEN-1);
->>
->> GCC is supposed to catch any problems here as you say in the commit message.
->>
->> But to fix I suggest a single line change to strlcpy(c->name, name,
->> sizeof(c->name)) which always null terminates as bonus.
-> 
-> strscpy() is preferred over both strncpy() and strlcpy(). :)
-> 
-> BR,
-> Jani.
-> 
+> Are you not using DPU or are you not using mdp4/mdp5 as well? Even if
+> you are using any of mdps, kms should
+> not be NULL. Hence wanted to check the test case.
 
-Good call. v2 on the way.
+I am running i.MX53, which is an NXP SoC, not Qualcomm's.
 
-rtg
+It does not use DPU, nor MDP4/5 and kms is NULL in this case.
 
->>
->> Probably same in i915_vma_coredump_create() which with strncpy would
->> have a theoretical chance of attempting to copy over a
->> non-null-terminated string.
->>
->> Regards,
->>
->> Tvrtko
->>
->>>    	c->vma = vma; /* reference held while active */
->>>    
->>>    	c->next = next;
->>>
-> 
+Some debug prints to confirm:
 
--- 
------------
-Tim Gardner
-Canonical, Inc
+--- a/drivers/gpu/drm/msm/msm_drv.c
++++ b/drivers/gpu/drm/msm/msm_drv.c
+@@ -557,18 +557,22 @@ static int msm_drm_init(struct device *dev,
+const struct drm_driver *drv)
+        case KMS_MDP4:
+                kms = mdp4_kms_init(ddev);
+                priv->kms = kms;
++               pr_err("******** KMS_MDP4\n");
+                break;
+        case KMS_MDP5:
+                kms = mdp5_kms_init(ddev);
++               pr_err("******** KMS_MDP5\n");
+                break;
+        case KMS_DPU:
+                kms = dpu_kms_init(ddev);
++               pr_err("******** KMS_DPU\n");
+                priv->kms = kms;
+                break;
+        default:
+                /* valid only for the dummy headless case, where of_node=NULL */
+                WARN_ON(dev->of_node);
+                kms = NULL;
++               pr_err("******** KMS is NULL\n");
+                break;
+        }
+
+# dmesg | grep KMS
+[    3.153215] ******** KMS is NULL
