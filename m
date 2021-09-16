@@ -1,64 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A30EE40DA3E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 14:44:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BE8040DA4F
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 14:49:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 68F206EB76;
-	Thu, 16 Sep 2021 12:44:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E90526EAC7;
+	Thu, 16 Sep 2021 12:49:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A3A36EB76;
- Thu, 16 Sep 2021 12:44:53 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 058B56113E;
- Thu, 16 Sep 2021 12:44:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631796293;
- bh=KLzBiW3VVJ+O27eDAUHuH818CfcF0FIggjnNJ955TqI=;
- h=References:In-Reply-To:From:Date:Subject:To:From;
- b=Ufylq44NB1rynFax2+iP0pEyc1lFGZxtmemt4XTmxqqQXVkOF9rYMFRXt5I6zC1jY
- 2eYV6JOxKPkcQUuAeumz6QOIM6NJBa8ziT9lFeDqMlyL1Ycvtyb3U9GmCbHBkhpZMx
- EXB5Eq7occlceD/WiPQ2kPhoTBl7twxT+nFovEAE9QE4/pAtCmwA33rUowdoPMCI+F
- ZeVevgvTXw21w3Eo3TslI1jqLMAoybOMV2ihcZGyKgbOimzwSYxuy+4RYMOTE5g/t2
- c/Tx7icnJShaG/sQHI8DazpmhP0/GIoOMYQSGAkyVNOLb7f7f/iu9071Hqjmd5RpK6
- so0eXkmFZge8w==
-Received: by mail-ot1-f50.google.com with SMTP id
- k12-20020a056830150c00b0051abe7f680bso8159228otp.1; 
- Thu, 16 Sep 2021 05:44:52 -0700 (PDT)
-X-Gm-Message-State: AOAM532Pvvf0eshTfnulB9pHw5L4RS9yxBmTGn/C9MpgYE5NP4uEhF0N
- 09xlJDXPTEuVr06hbk1o8vUOT2pzDfbqAYHKxH0=
-X-Google-Smtp-Source: ABdhPJzYLUSJZsh0jo8CcdLUrWa60FoaIm/wgPz4w5rfGXbsO/CMqYBIPFe4um0VFr4rFpmdHQF7TW4xUd8HJFD8LqY=
-X-Received: by 2002:a05:6830:12d7:: with SMTP id
- a23mr4519312otq.102.1631796292308; 
- Thu, 16 Sep 2021 05:44:52 -0700 (PDT)
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D33586EAC7
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 12:49:29 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id x6so9251593wrv.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 05:49:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=xan4JHyE1sQXPeWAfMc8biRg66/q6tOFxECti70ntsw=;
+ b=Y/6hSIJGKB2yj2ulvtSJ1g8B8E2aOlT6uu8IO+blZPM3mYV9x8OsiFFi7jqGN/gzCb
+ khmzRJ3hTARljDY+eg0E6RZGEfVXxf6sI5hqrr08DN6VvFhToRoZGmfCMflQGcpquCmb
+ ZLYGpKF6bpNKZZ8/Itujjj4DPNXxNVy2JIwJo0c+NgHKgOWhhlIvEhoi8m8lPv6GSh4e
+ hSelmfJbVYMCfCgPts4XWGLt1HRQM+AEPjXVrEx+WxfvfYXMrf49KzM13E5mzHXtP39j
+ PiBjH1DU9EgnuRSu532dJivkF4OARMwzPH+kO+KXTK0JhB2a0xA5595M303pHR7iNlBr
+ GxAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=xan4JHyE1sQXPeWAfMc8biRg66/q6tOFxECti70ntsw=;
+ b=y+NJUxjeJWiN+Wc1lNi/wkzqp/KZchHluO8YzHGzcEH25nSzYsxu+kMAWAE/IlQKNu
+ HsTj1w0BlGY0MGMgFyk2lhbQrz9t4KZBA/zHrl2TGjeiYj9ifpVKMP7CgbolSBhUovVL
+ l9PwP5pH03VEefua3+/08w/LB9jiL/Ox5/kLeroLjI7/CHTj4qjeTth88kMILr3VpG2Y
+ 50nrYOpD82JMhcjpVE74S92BoIlsB2HD4rYf+HWDo9fRwgw9k7qtmNhyF3AlDgoDxsg9
+ hLrz+iIfVGNK+XsI2MMqCXtEJ/zmIkGa4v3blvOMPon2vU1G4SmH+9qD3/96OLCd42Go
+ Vsig==
+X-Gm-Message-State: AOAM530ZUR44n2yV3BCqm6uenDPykaYBtXxAFdmUC7pVv7x+21hrhFmK
+ EjonWVm8HUA+rlVFu31Ve5o=
+X-Google-Smtp-Source: ABdhPJxwL9EJly9TltpWDFEwDzb96el5ousEYklUg6qHOydF4JRL/8er+s/2Rc0TcdKNTOyJEjIDOw==
+X-Received: by 2002:adf:fb07:: with SMTP id c7mr5730765wrr.399.1631796568344; 
+ Thu, 16 Sep 2021 05:49:28 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id j21sm3488536wmj.40.2021.09.16.05.49.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 16 Sep 2021 05:49:27 -0700 (PDT)
+Subject: Re: [PATCH 01/14] dma-buf: add dma_resv_for_each_fence_unlocked
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210910082655.82168-1-christian.koenig@amd.com>
+ <YUDWHw19iUMfFr7K@phenom.ffwll.local>
+ <26f766c9-9a3c-3894-9256-e07090655dc2@gmail.com>
+ <CAKMK7uFcU-Dh8kMDrfY1rigVf0J-_R8GJ-d+C-iYNmOWx57W7Q@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <0bc024c5-a54c-eb3c-4c88-3eb7fbf77261@gmail.com>
+Date: Thu, 16 Sep 2021 14:49:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <YUCvNzpyC091KeaJ@phenom.ffwll.local>
- <20210914161218.GF3544071@ziepe.ca>
- <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
- <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
-In-Reply-To: <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Thu, 16 Sep 2021 15:44:25 +0300
-X-Gmail-Original-Message-ID: <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
-Message-ID: <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-To: Oded Gabbay <ogabbay@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, 
- Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKMK7uFcU-Dh8kMDrfY1rigVf0J-_R8GJ-d+C-iYNmOWx57W7Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,103 +82,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 3:31 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+Am 16.09.21 um 14:14 schrieb Daniel Vetter:
+> On Thu, Sep 16, 2021 at 10:50 AM Christian König <ckoenig.leichtzumerken@gmail.com> wrote:
+>> Am 14.09.21 um 19:04 schrieb Daniel Vetter:
+>>> On Fri, Sep 10, 2021 at 10:26:42AM +0200, Christian König wrote:
+>>>> Abstract the complexity of iterating over all the fences
+>>>> in a dma_resv object.
+>>>>
+>>>> The new loop handles the whole RCU and retry dance and
+>>>> returns only fences where we can be sure we grabbed the
+>>>> right one.
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> ---
+>>>>    drivers/dma-buf/dma-resv.c | 63 ++++++++++++++++++++++++++++++++++++++
+>>>>    include/linux/dma-resv.h   | 36 ++++++++++++++++++++++
+>>>>    2 files changed, 99 insertions(+)
+>>>>
+>>>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>>>> index 84fbe60629e3..213a9b7251ca 100644
+>>>> --- a/drivers/dma-buf/dma-resv.c
+>>>> +++ b/drivers/dma-buf/dma-resv.c
+>>>> @@ -323,6 +323,69 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>>>>    }
+>>>>    EXPORT_SYMBOL(dma_resv_add_excl_fence);
+>>>>   
+>>>> +/**
+>>>> + * dma_resv_walk_unlocked - walk over fences in a dma_resv obj
+>>>> + * @obj: the dma_resv object
+>>>> + * @cursor: cursor to record the current position
+>>>> + * @all_fences: true returns also the shared fences
+>>>> + * @first: if we should start over
+>>>> + *
+>>>> + * Return all the fences in the dma_resv object which are not yet signaled.
+>>>> + * The returned fence has an extra local reference so will stay alive.
+>>>> + * If a concurrent modify is detected the whole iterator is started over again.
+>>>> + */
+>>>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+>>>> +                                     struct dma_resv_cursor *cursor,
+>>>> +                                     bool all_fences, bool first)
+>>>> +{
+>>>> +    struct dma_fence *fence = NULL;
+>>>> +
+>>>> +    do {
+>>>> +            /* Drop the reference from the previous round */
+>>>> +            dma_fence_put(fence);
+>>>> +
+>>>> +            cursor->is_first = first;
+>>>> +            if (first) {
+>>>> +                    cursor->seq = read_seqcount_begin(&obj->seq);
+>>>> +                    cursor->index = -1;
+>>>> +                    cursor->fences = dma_resv_shared_list(obj);
+>>>> +                    cursor->is_exclusive = true;
+>>>> +
+>>>> +                    fence = dma_resv_excl_fence(obj);
+>>>> +                    if (fence && test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>> +                                          &fence->flags))
+>>>> +                            fence = NULL;
+>>>> +            } else {
+>>>> +                    fence = NULL;
+>>>> +            }
+>>>> +
+>>>> +            if (fence) {
+>>>> +                    fence = dma_fence_get_rcu(fence);
+>>>> +            } else if (all_fences && cursor->fences) {
+>>>> +                    struct dma_resv_list *fences = cursor->fences;
+>>>> +
+>>>> +                    cursor->is_exclusive = false;
+>>>> +                    while (++cursor->index < fences->shared_count) {
+>>>> +                            fence = rcu_dereference(fences->shared[
+>>>> +                                                    cursor->index]);
+>>>> +                            if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+>>>> +                                          &fence->flags))
+>>>> +                                    break;
+>>>> +                    }
+>>>> +                    if (cursor->index < fences->shared_count)
+>>>> +                            fence = dma_fence_get_rcu(fence);
+>>>> +                    else
+>>>> +                            fence = NULL;
+>>>> +            }
+>>>> +
+>>>> +            /* For the eventually next round */
+>>>> +            first = true;
+>>>> +    } while (read_seqcount_retry(&obj->seq, cursor->seq));
+>>>> +
+>>>> +    return fence;
+>>>> +}
+>>>> +EXPORT_SYMBOL_GPL(dma_resv_walk_unlocked);
+>>>> +
+>>>>    /**
+>>>>     * dma_resv_copy_fences - Copy all fences from src to dst.
+>>>>     * @dst: the destination reservation object
+>>>> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+>>>> index 9100dd3dc21f..f5b91c292ee0 100644
+>>>> --- a/include/linux/dma-resv.h
+>>>> +++ b/include/linux/dma-resv.h
+>>>> @@ -149,6 +149,39 @@ struct dma_resv {
+>>>>       struct dma_resv_list __rcu *fence;
+>>>>    };
+>>>>   
+>>>> +/**
+>>>> + * struct dma_resv_cursor - current position into the dma_resv fences
+>>>> + * @seq: sequence number to check
+>>>> + * @index: index into the shared fences
+>>>> + * @shared: the shared fences
+>>>> + * @is_first: true if this is the first returned fence
+>>>> + * @is_exclusive: if the current fence is the exclusive one
+>>>> + */
+>>>> +struct dma_resv_cursor {
+>>>> +    unsigned int seq;
+>>>> +    unsigned int index;
+>>>> +    struct dma_resv_list *fences;
+>>>> +    bool is_first;
+>>>> +    bool is_exclusive;
+>>>> +};
+>>> A bit a bikeshed, but I think I'd be nice to align this with the other
+>>> iterators we have, e.g. for the drm_connector list.
+>>>
+>>> So struct dma_resv_fence_iter, dma_resv_fence_iter_begin/next/end().
+>> I've renamed the structure to dma_resv_iter.
+>>
+>>> Also I think the for_each macro must not include begin/end calls. If we
+>>> include that then it saves 2 lines of code at the cost of a pile of
+>>> awkward bugs because people break; out of the loop or return early  (only
+>>> continue is safe) and we leak a fence. Or worse.
+>>>
+>>> Explicit begin/end is much more robust at a very marginal cost imo.
+>> The key point is that this makes it quite a bunch more complicated to
+>> implement. See those functions are easiest when you centralize them and
+>> try to not spread the functionality into begin/end.
+>>
+>> The only thing I could see in the end function would be to drop the
+>> reference for the dma_fence and that is not really something I would
+>> like to do because we actually need to keep that reference in a bunch of
+>> cases.
+> Yeah but it's extremely fragile. See with drm_connector_iter we also have
+> the need to grab a reference to that connector in a few place, and I do
+> think that open-code that is much clearer instead of inheriting a
+> reference that the for_each macro acquired for you, and which you cleverly
+> leaked through a break; Compare
 >
-> On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
-> > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
-> > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
-> > > > > Hi,
-> > > > > Re-sending this patch-set following the release of our user-space TPC
-> > > > > compiler and runtime library.
-> > > > >
-> > > > > I would appreciate a review on this.
-> > > >
-> > > > I think the big open we have is the entire revoke discussions. Having the
-> > > > option to let dma-buf hang around which map to random local memory ranges,
-> > > > without clear ownership link and a way to kill it sounds bad to me.
-> > > >
-> > > > I think there's a few options:
-> > > > - We require revoke support. But I've heard rdma really doesn't like that,
-> > > >   I guess because taking out an MR while holding the dma_resv_lock would
-> > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
-> > > >   hold-up was again that makes this a no-go?
-> > >
-> > > RDMA HW can't do revoke.
+> for_each_fence(fence) {
+> 	if (fence) {
+> 		found_fence = fence;
+> 		break;
+> 	}
+> }
 >
-> Like why? I'm assuming when the final open handle or whatever for that MR
-> is closed, you do clean up everything? Or does that MR still stick around
-> forever too?
+> /* do some itneresting stuff with found_fence */
 >
-> > > So we have to exclude almost all the HW and several interesting use
-> > > cases to enable a revoke operation.
-> > >
-> > > >   - For non-revokable things like these dma-buf we'd keep a drm_master
-> > > >     reference around. This would prevent the next open to acquire
-> > > >     ownership rights, which at least prevents all the nasty potential
-> > > >     problems.
-> > >
-> > > This is what I generally would expect, the DMABUF FD and its DMA
-> > > memory just floats about until the unrevokable user releases it, which
-> > > happens when the FD that is driving the import eventually gets closed.
-> > This is exactly what we are doing in the driver. We make sure
-> > everything is valid until the unrevokable user releases it and that
-> > happens only when the dmabuf fd gets closed.
-> > And the user can't close it's fd of the device until he performs the
-> > above, so there is no leakage between users.
+> dma_fence_put(found_fence); /* wtf, where is this fence reference from */
 >
-> Maybe I got the device security model all wrong, but I thought Guadi is
-> single user, and the only thing it protects is the system against the
-> Gaudi device trhough iommu/device gart. So roughly the following can
-> happen:
+> Versus what I'm proposing:
 >
-> 1. User A opens gaudi device, sets up dma-buf export
+> fence_iter_init(&fence_iter)
+> for_each_fence(fence, &fence_iter) {
+> 	if (fence) {
+> 		found_fence = fence;
+> 		dma_fence_get(found_fence);
+> 		break;
+> 	}
+> }
+> fence_iter_end(&fence_iter)
 >
-> 2. User A registers that with RDMA, or anything else that doesn't support
-> revoke.
+> /* do some itneresting stuff with found_fence */
 >
-> 3. User A closes gaudi device
-This can not happen without User A closing the FD of the dma-buf it exported.
-We prevent User A from closing the device because when it exported the
-dma-buf, the driver's code took a refcnt of the user's private
-structure. You can see that in export_dmabuf_common() in the 2nd
-patch. There is a call there to hl_ctx_get.
-So even if User A calls close(device_fd), the driver won't let any
-other user open the device until User A closes the fd of the dma-buf
-object.
+> dma_fence_put(found_fence); /* 100% clear which reference we're putting here */
+>
+> One of these patterns is maintainable and clear, at the cost of 3 more
+> lines. The other one is frankly just clever but fragile nonsense.
+>
+> So yeah I really think we need the iter_init/end/next triple of functions
+> here. Too clever is no good at all. And yes that version means you have an
+> additional kref_get/put in there for the found fence, but I really don't
+> think that matters in any of these paths here.
 
-Moreover, once User A will close the dma-buf fd and the device is
-released, the driver will scrub the device memory (this is optional
-for systems who care about security).
+Yeah, that's what I've pondered on as well but I thought that avoiding 
+the extra get/put dance would be more important to avoid.
 
-And AFAIK, User A can't close the dma-buf fd once it registered it
-with RDMA, without doing unregister.
-This can be seen in ib_umem_dmabuf_get() which calls dma_buf_get()
-which does fget(fd)
+Anyway, going to change that to make clear what happens here.
 
+But question is can you go over the patch set and see if we can replace 
+some more dma_fence_for_each_fence_unlock() with 
+dma_fence_for_each_fence() because the lock is either held or can be 
+taken? I would have a much better feeling to avoid the unlocked access 
+in the first place.
+
+Thanks,
+Christian.
 
 >
-> 4. User B opens gaudi device, assumes that it has full control over the
-> device and uploads some secrets, which happen to end up in the dma-buf
-> region user A set up
+> Cheers, Daniel
 >
-> 5. User B extracts secrets.
+>> Regards,
+>> Christian.
+>>
+>>> Otherwise I think this fence iterator is a solid concept that yeah we
+>>> should roll out everywhere.
+>>> -Daniel
+>>>
+>>>> +
+>>>> +/**
+>>>> + * dma_resv_for_each_fence_unlocked - fence iterator
+>>>> + * @obj: a dma_resv object pointer
+>>>> + * @cursor: a struct dma_resv_cursor pointer
+>>>> + * @all_fences: true if all fences should be returned
+>>>> + * @fence: the current fence
+>>>> + *
+>>>> + * Iterate over the fences in a struct dma_resv object without holding the
+>>>> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
+>>>> + * be dropped and re-taken as necessary inside the loop. @all_fences controls
+>>>> + * if the shared fences are returned as well.
+>>>> + */
+>>>> +#define dma_resv_for_each_fence_unlocked(obj, cursor, all_fences, fence)    \
+>>>> +    for (fence = dma_resv_walk_unlocked(obj, cursor, all_fences, true); \
+>>>> +         fence; dma_fence_put(fence),                                   \
+>>>> +         fence = dma_resv_walk_unlocked(obj, cursor, all_fences, false))
+>>>> +
+>>>>    #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
+>>>>    #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
+>>>>   
+>>>> @@ -366,6 +399,9 @@ void dma_resv_fini(struct dma_resv *obj);
+>>>>    int dma_resv_reserve_shared(struct dma_resv *obj, unsigned int num_fences);
+>>>>    void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>>>    void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence);
+>>>> +struct dma_fence *dma_resv_walk_unlocked(struct dma_resv *obj,
+>>>> +                                     struct dma_resv_cursor *cursor,
+>>>> +                                     bool first, bool all_fences);
+>>>>    int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
+>>>>                       unsigned *pshared_count, struct dma_fence ***pshared);
+>>>>    int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src);
+>>>> --
+>>>> 2.25.1
+>>>>
 >
-> > > I still don't think any of the complexity is needed, pinnable memory
-> > > is a thing in Linux, just account for it in mlocked and that is
-> > > enough.
->
-> It's not mlocked memory, it's mlocked memory and I can exfiltrate it.
-> Mlock is fine, exfiltration not so much. It's mlock, but a global pool and
-> if you didn't munlock then the next mlock from a completely different user
-> will alias with your stuff.
->
-> Or is there something that prevents that? Oded at least explain that gaudi
-> works like a gpu from 20 years ago, single user, no security at all within
-> the device.
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+
