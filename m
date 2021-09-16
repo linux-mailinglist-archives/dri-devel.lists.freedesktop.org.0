@@ -2,37 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E05A40E011
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:16:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B936040E19A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:33:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8F8D56EE25;
-	Thu, 16 Sep 2021 16:16:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8195C6EE41;
+	Thu, 16 Sep 2021 16:33:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ED58B6EE25
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:16:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 271EB613B5;
- Thu, 16 Sep 2021 16:16:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CB36B6EE3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:33:39 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DEA861B01;
+ Thu, 16 Sep 2021 16:33:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1631808985;
- bh=tf9OrmOWdZrKDyB7NvmpyNm12addAN9827dFW//GZRU=;
+ s=korg; t=1631810019;
+ bh=hiZVbOzKz6FJ1lqu2ced98widGKPNPXQdE93qPRkpKQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=c3nHFRWO4Imd8e7FIQZph7sIKbmQMYMTZ85M+sZtsrammu+S2b0lkuFKJJKZ7kQuM
- pnZofdXRrBR6PWRp0KAbX6RcgAOaoNHeknb4eTQNhthPQvUPPoEoC1XugfYM/mQGh3
- KE8k/apatBHFh0Ll7D14NimrpN3lJJCgxZCbeh5U=
+ b=f5tI+oqXZ57XoxRZB8EUjmaz6P/PbHK3zzoo1fzzxoHVZ2cPOboZQCYi27a/6fIDK
+ 0K0t83ccr3mc++ncAxcDNv22AhT5ucENmdCgDk2K4CW/+0V6ha6PeurteuGNL9xzCq
+ 8G70WTNKtYEiG5ylTKJPJwQ4YuQDV6sfmVSOUfv4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: linux-kernel@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
  Thomas Zimmermann <tzimmermann@suse.de>, Sam Ravnborg <sam@ravnborg.org>,
  Emil Velikov <emil.velikov@collabora.com>,
  Dave Airlie <airlied@redhat.com>, dri-devel@lists.freedesktop.org
-Subject: [PATCH 5.10 296/306] drm/mgag200: Select clock in PLL update functions
-Date: Thu, 16 Sep 2021 18:00:41 +0200
-Message-Id: <20210916155804.189022669@linuxfoundation.org>
+Subject: [PATCH 5.13 368/380] drm/mgag200: Select clock in PLL update functions
+Date: Thu, 16 Sep 2021 18:02:05 +0200
+Message-Id: <20210916155816.574593093@linuxfoundation.org>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916155753.903069397@linuxfoundation.org>
-References: <20210916155753.903069397@linuxfoundation.org>
+In-Reply-To: <20210916155803.966362085@linuxfoundation.org>
+References: <20210916155803.966362085@linuxfoundation.org>
 User-Agent: quilt/0.66
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -111,7 +111,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  		RREG8(0x1fda);					\
 --- a/drivers/gpu/drm/mgag200/mgag200_mode.c
 +++ b/drivers/gpu/drm/mgag200/mgag200_mode.c
-@@ -172,6 +172,8 @@ static int mgag200_g200_set_plls(struct
+@@ -174,6 +174,8 @@ static int mgag200_g200_set_plls(struct
  	drm_dbg_kms(dev, "clock: %ld vco: %ld m: %d n: %d p: %d s: %d\n",
  		    clock, f_vco, m, n, p, s);
  
@@ -120,7 +120,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	WREG_DAC(MGA1064_PIX_PLLC_M, m);
  	WREG_DAC(MGA1064_PIX_PLLC_N, n);
  	WREG_DAC(MGA1064_PIX_PLLC_P, (p | (s << 3)));
-@@ -287,6 +289,8 @@ static int mga_g200se_set_plls(struct mg
+@@ -289,6 +291,8 @@ static int mga_g200se_set_plls(struct mg
  		return 1;
  	}
  
@@ -129,7 +129,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	WREG_DAC(MGA1064_PIX_PLLC_M, m);
  	WREG_DAC(MGA1064_PIX_PLLC_N, n);
  	WREG_DAC(MGA1064_PIX_PLLC_P, p);
-@@ -383,6 +387,8 @@ static int mga_g200wb_set_plls(struct mg
+@@ -385,6 +389,8 @@ static int mga_g200wb_set_plls(struct mg
  		}
  	}
  
@@ -138,7 +138,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	for (i = 0; i <= 32 && pll_locked == false; i++) {
  		if (i > 0) {
  			WREG8(MGAREG_CRTC_INDEX, 0x1e);
-@@ -520,6 +526,8 @@ static int mga_g200ev_set_plls(struct mg
+@@ -522,6 +528,8 @@ static int mga_g200ev_set_plls(struct mg
  		}
  	}
  
@@ -147,7 +147,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
  	tmp = RREG8(DAC_DATA);
  	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -652,6 +660,9 @@ static int mga_g200eh_set_plls(struct mg
+@@ -654,6 +662,9 @@ static int mga_g200eh_set_plls(struct mg
  			}
  		}
  	}
@@ -157,7 +157,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	for (i = 0; i <= 32 && pll_locked == false; i++) {
  		WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
  		tmp = RREG8(DAC_DATA);
-@@ -752,6 +763,8 @@ static int mga_g200er_set_plls(struct mg
+@@ -754,6 +765,8 @@ static int mga_g200er_set_plls(struct mg
  		}
  	}
  
@@ -166,7 +166,7 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	WREG8(DAC_INDEX, MGA1064_PIX_CLK_CTL);
  	tmp = RREG8(DAC_DATA);
  	tmp |= MGA1064_PIX_CLK_CTL_CLK_DIS;
-@@ -785,8 +798,6 @@ static int mga_g200er_set_plls(struct mg
+@@ -787,8 +800,6 @@ static int mga_g200er_set_plls(struct mg
  
  static int mgag200_crtc_set_plls(struct mga_device *mdev, long clock)
  {
@@ -175,8 +175,8 @@ Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
  	switch(mdev->type) {
  	case G200_PCI:
  	case G200_AGP:
-@@ -811,11 +822,6 @@ static int mgag200_crtc_set_plls(struct
- 		break;
+@@ -808,11 +819,6 @@ static int mgag200_crtc_set_plls(struct
+ 		return mga_g200er_set_plls(mdev, clock);
  	}
  
 -	misc = RREG8(MGA_MISC_IN);
