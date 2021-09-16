@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA42D40D58A
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 11:06:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3535B40D595
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 11:09:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FF1388304;
-	Thu, 16 Sep 2021 09:06:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B9C4F6EB1B;
+	Thu, 16 Sep 2021 09:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B1DC6EB1D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 09:06:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2762B6EB1C
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 09:09:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1631783184;
+ s=mimecast20190719; t=1631783361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LBNq/IZRKvDUDlLEmm4qZWf9ThqqYBUHWFqW0uYwUcc=;
- b=BQBslHJ0/KcI0Pfaw3jD/glX0YyPiRck6R8MATRRQCuVg+ad94Sc3r+tRu5Re7PdWmN8Pd
- ZzUVfOaeGMmxunk44vmlQ6UAp8tSINIntktBsWS93JVYFU3PIdjgNlvOV1wSmB+b9tZxJk
- ISn457SZZXFKf7Q4BAsJxM6zRF4dWvw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-95-NWaSn0B9PE-yM5-bAVlQjg-1; Thu, 16 Sep 2021 05:06:20 -0400
-X-MC-Unique: NWaSn0B9PE-yM5-bAVlQjg-1
-Received: by mail-ed1-f69.google.com with SMTP id
- y17-20020a50e611000000b003d051004603so4700224edm.8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:06:20 -0700 (PDT)
+ bh=P8CwGwSR2HPI7MPxSjUtZUcjt18D1N/5m5bFIAtOdMI=;
+ b=QiEdDSyR4EiJjqmGA3+kwSCKneXPKTBrHmnn3hhF5K1tnW4m96nlAGRzo3T+CTH+4zUq5B
+ xRzcC6xiEUK7KCl24pvoIL/9DKJg4Z0OeUaeX5ZXCo4R1D8RzNiTBihzv39M7D2eOXpdRa
+ QhaEmj/vPUOP3uhft9k5mYqEwOeu8jE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-483-ZY445OdhMoSfQnTrCvULUQ-1; Thu, 16 Sep 2021 05:09:20 -0400
+X-MC-Unique: ZY445OdhMoSfQnTrCvULUQ-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ m30-20020a50999e000000b003cdd7680c8cso4690603edb.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:09:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=LBNq/IZRKvDUDlLEmm4qZWf9ThqqYBUHWFqW0uYwUcc=;
- b=qU9QmHiwSeCxXDfQEa+zI2jv/BDf6Dzd2dBwyIg5Fxhl8NzwwR3bCqx4WYV9rqWvNd
- qPJb2eu89FzBbXXtqaiXuTtTr6nYQBCqk/KmwUChTBwLiht99HKjrkqggHJ5mQsVM8i9
- yZnBAvZzwFWFypDbo3SgEV80MGnz6Ma0PTG+ojlfLRyK+pwkR3UxQ+IHSvnrwtNafOlo
- VjgPCxoMgFkb4W1pXAEegr60yar7kPOsbq1pNBe6QJl4LOiHTsXCAOlVSKExr7VnG5Bo
- P3JJIN/+/sBOmPE5qLL0uMo37oa0dMnMeWt5+9UCNhSUwrGjgFGllsCPxqFWWT2vXz9N
- VPtQ==
-X-Gm-Message-State: AOAM533Pl+NnfSTnzKW1csYKj1fHRwJ+LBuoyb7yk8nY+OqxLIxxCMtC
- mRE/606viIQVox11UCllZXO6gfAlNxq2B1rx3RVecnQ862Lxi+S5wqkaxNqcukf1ZDZUFpVt1BW
- jL/nHgmM5sHduesdTEfLcwRIEGzO1
-X-Received: by 2002:a17:906:5f88:: with SMTP id
- a8mr5364401eju.564.1631783179096; 
- Thu, 16 Sep 2021 02:06:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJymTTExy+bgsEYxI9HN7jV0IXPaRRwrMjMSYNvFWOd9EnZNZEPfdH44LQFB6ZoJ+uDSvuYLAQ==
-X-Received: by 2002:a17:906:5f88:: with SMTP id
- a8mr5364181eju.564.1631783176326; 
- Thu, 16 Sep 2021 02:06:16 -0700 (PDT)
+ bh=P8CwGwSR2HPI7MPxSjUtZUcjt18D1N/5m5bFIAtOdMI=;
+ b=FOVslyejYJ3mdUhIOJsqaVeKTLln2tDwCOuvCe67F3EHgjc1GTuJJ/cjC01phlaAYr
+ A6Z58rpYCM/Tng/YX8nJ2dgYNnkjxZ8MsouhpNa2V9DR5IOAa/Y0ZDYRvS9mrzvr1IR/
+ ibG8VVjZk1DHxc9TCVS+Pfgq4xQd/JWB1GbPMP+HYM9b/LBEUzVpFrsDYhfpTjTc2Smb
+ boJc9rYb3hIw3d6UL1E+hPNirvZxeuriPjLhdG8ZPDshQ8npCivUg3pXF79U/qr6jqLY
+ VKSlKa+aWS5xZM0/PJW8i+ZpFd5zqM5CnyCaLZgK4Y/R0o4KNhXhOhxMfgo34abGZ9Bi
+ q4KA==
+X-Gm-Message-State: AOAM532SukiP1bsnn6ZEo3PmhPUSBanJbPkURo1aQxgwVckHIaXgZTbS
+ s84qxDjescpbGMiRb7Yzn7TBudjyy21dvOuq8TdzovkGlOGG5PyglcbOMvpBUuY9A3zpqC/Tn0f
+ If/yYGKMNMAfuxW06DYzL8QwOvmwu
+X-Received: by 2002:a17:906:16d4:: with SMTP id
+ t20mr5205696ejd.482.1631783358853; 
+ Thu, 16 Sep 2021 02:09:18 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyIyaARcu7dIKdOmjFRqRdjoldE7ETMvMH4jERsjVdNrH5erERDPgvhFooGdzlVf1jaCJCibg==
+X-Received: by 2002:a17:906:16d4:: with SMTP id
+ t20mr5205652ejd.482.1631783358561; 
+ Thu, 16 Sep 2021 02:09:18 -0700 (PDT)
 Received: from x1.localdomain
  (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
  [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id b8sm1099418edv.96.2021.09.16.02.06.15
+ by smtp.gmail.com with ESMTPSA id s11sm1102228edy.64.2021.09.16.02.09.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 02:06:16 -0700 (PDT)
-Subject: Re: [PATCH 4/9] drm/privacy-screen: Add notifier support
+ Thu, 16 Sep 2021 02:09:18 -0700 (PDT)
+Subject: Re: [PATCH 8/9] platform/x86: thinkpad_acpi: Register a
+ privacy-screen device
 To: Lyude Paul <lyude@redhat.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -75,15 +76,15 @@ Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
 References: <20210906073519.4615-1-hdegoede@redhat.com>
- <20210906073519.4615-5-hdegoede@redhat.com>
- <6c9daf86dbbd5fe98f84efd3bae3240f0bf93387.camel@redhat.com>
+ <20210906073519.4615-9-hdegoede@redhat.com>
+ <b6c1346378af6792a0a0b4bcf334d21b56747fc6.camel@redhat.com>
 From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <b3583afa-6801-7c32-daab-6085e463c137@redhat.com>
-Date: Thu, 16 Sep 2021 11:06:15 +0200
+Message-ID: <4265988f-246c-9dbe-3d25-38c5194c5a18@redhat.com>
+Date: Thu, 16 Sep 2021 11:09:17 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <6c9daf86dbbd5fe98f84efd3bae3240f0bf93387.camel@redhat.com>
+In-Reply-To: <b6c1346378af6792a0a0b4bcf334d21b56747fc6.camel@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,129 +109,210 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On 9/15/21 10:26 PM, Lyude Paul wrote:
+On 9/15/21 10:55 PM, Lyude Paul wrote:
 > On Mon, 2021-09-06 at 09:35 +0200, Hans de Goede wrote:
->> Add support for privacy-screen consumers to register a notifier to
->> be notified of external (e.g. done by the hw itself on a hotkey press)
->> state changes.
+>> Register a privacy-screen device on laptops with a privacy-screen,
+>> this exports the PrivacyGuard features to user-space using a
+>> standardized vendor-agnostic sysfs interface. Note the sysfs interface
+>> is read-only.
+>>
+>> Registering a privacy-screen device with the new privacy-screen class
+>> code will also allow the GPU driver to get a handle to it and export
+>> the privacy-screen setting as a property on the DRM connector object
+>> for the LCD panel. This DRM connector property is news standardized
+> 
+> Looks like a typo here ------------------------------^
+
+Ack I will fix this before pushing this out.
+
+> 
+>> interface which all user-space code should use to query and control
+>> the privacy-screen.
 >>
 >> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
 >> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 >> ---
->>  drivers/gpu/drm/drm_privacy_screen.c      | 67 +++++++++++++++++++++++
->>  include/drm/drm_privacy_screen_consumer.h | 15 +++++
->>  include/drm/drm_privacy_screen_driver.h   |  4 ++
->>  3 files changed, 86 insertions(+)
+>> Changes in v2:
+>> - Make the new lcdshadow_set_sw_state, lcdshadow_get_hw_state and
+>>   lcdshadow_ops symbols static
+>> - Update state and call drm_privacy_screen_call_notifier_chain()
+>>   when the state is changed by pressing the Fn + D hotkey combo
+>> ---
+>>  drivers/platform/x86/Kconfig         |  2 +
+>>  drivers/platform/x86/thinkpad_acpi.c | 91 ++++++++++++++++++++--------
+>>  2 files changed, 68 insertions(+), 25 deletions(-)
 >>
->> diff --git a/drivers/gpu/drm/drm_privacy_screen.c
->> b/drivers/gpu/drm/drm_privacy_screen.c
->> index 294a09194bfb..7a5f878c3171 100644
->> --- a/drivers/gpu/drm/drm_privacy_screen.c
->> +++ b/drivers/gpu/drm/drm_privacy_screen.c
->> @@ -255,6 +255,49 @@ void drm_privacy_screen_get_state(struct
->> drm_privacy_screen *priv,
+>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+>> index d12db6c316ea..ae00a27f9f95 100644
+>> --- a/drivers/platform/x86/Kconfig
+>> +++ b/drivers/platform/x86/Kconfig
+>> @@ -509,7 +509,9 @@ config THINKPAD_ACPI
+>>         depends on ACPI_VIDEO || ACPI_VIDEO = n
+>>         depends on BACKLIGHT_CLASS_DEVICE
+>>         depends on I2C
+>> +       depends on DRM
+>>         select ACPI_PLATFORM_PROFILE
+>> +       select DRM_PRIVACY_SCREEN
+>>         select HWMON
+>>         select NVRAM
+>>         select NEW_LEDS
+>> diff --git a/drivers/platform/x86/thinkpad_acpi.c
+>> b/drivers/platform/x86/thinkpad_acpi.c
+>> index b8f2556c4797..044b238730ba 100644
+>> --- a/drivers/platform/x86/thinkpad_acpi.c
+>> +++ b/drivers/platform/x86/thinkpad_acpi.c
+>> @@ -73,6 +73,7 @@
+>>  #include <linux/uaccess.h>
+>>  #include <acpi/battery.h>
+>>  #include <acpi/video.h>
+>> +#include <drm/drm_privacy_screen_driver.h>
+>>  #include "dual_accel_detect.h"
+>>  
+>>  /* ThinkPad CMOS commands */
+>> @@ -157,6 +158,7 @@ enum tpacpi_hkey_event_t {
+>>         TP_HKEY_EV_VOL_UP               = 0x1015, /* Volume up or unmute */
+>>         TP_HKEY_EV_VOL_DOWN             = 0x1016, /* Volume down or unmute
+>> */
+>>         TP_HKEY_EV_VOL_MUTE             = 0x1017, /* Mixer output mute */
+>> +       TP_HKEY_EV_PRIVACYGUARD_TOGGLE  = 0x130f, /* Toggle priv.guard
+>> on/off */
+>>  
+>>         /* Reasons for waking up from S3/S4 */
+>>         TP_HKEY_EV_WKUP_S3_UNDOCK       = 0x2304, /* undock requested, S3 */
+>> @@ -3889,6 +3891,12 @@ static bool hotkey_notify_extended_hotkey(const u32
+>> hkey)
+>>  {
+>>         unsigned int scancode;
+>>  
+>> +       switch (hkey) {
+>> +       case TP_HKEY_EV_PRIVACYGUARD_TOGGLE:
+>> +               tpacpi_driver_event(hkey);
+>> +               return true;
+>> +       }
+>> +
+>>         /* Extended keycodes start at 0x300 and our offset into the map
+>>          * TP_ACPI_HOTKEYSCAN_EXTENDED_START. The calculated scancode
+>>          * will be positive, but might not be in the correct range.
+>> @@ -9819,30 +9827,40 @@ static struct ibm_struct battery_driver_data = {
+>>   * LCD Shadow subdriver, for the Lenovo PrivacyGuard feature
+>>   */
+>>  
+>> +static struct drm_privacy_screen *lcdshadow_dev;
+>>  static acpi_handle lcdshadow_get_handle;
+>>  static acpi_handle lcdshadow_set_handle;
+>> -static int lcdshadow_state;
+>>  
+>> -static int lcdshadow_on_off(bool state)
+>> +static int lcdshadow_set_sw_state(struct drm_privacy_screen *priv,
+>> +                                 enum drm_privacy_screen_status state)
+>>  {
+>>         int output;
+>>  
+>> +       if (WARN_ON(!mutex_is_locked(&priv->lock)))
+>> +               return -EIO;
+>> +
+>>         if (!acpi_evalf(lcdshadow_set_handle, &output, NULL, "dd",
+>> (int)state))
+>>                 return -EIO;
+>>  
+>> -       lcdshadow_state = state;
+>> +       priv->hw_state = priv->sw_state = state;
+>>         return 0;
 >>  }
->>  EXPORT_SYMBOL(drm_privacy_screen_get_state);
 >>  
->> +/**
->> + * drm_privacy_screen_register_notifier - register a notifier
->> + * @priv: Privacy screen to register the notifier with
->> + * @nb: Notifier-block for the notifier to register
->> + *
->> + * Register a notifier with the privacy-screen to be notified of changes
->> made
->> + * to the privacy-screen state from outside of the privacy-screen class.
->> + * E.g. the state may be changed by the hardware itself in response to a
->> + * hotkey press.
->> + *
->> + * The notifier is called with no locks held. The new hw_state and sw_state
->> + * can be retrieved using the drm_privacy_screen_get_state() function.
->> + * A pointer to the drm_privacy_screen's struct is passed as the void *data
->> + * argument of the notifier_block's notifier_call.
->> + *
->> + * The notifier will NOT be called when changes are made through
->> + * drm_privacy_screen_set_sw_state(). It is only called for external
->> changes.
->> + *
->> + * Return: 0 on success, negative error code on failure.
->> + */
->> +int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
->> +                                        struct notifier_block *nb)
->> +{
->> +       return blocking_notifier_chain_register(&priv->notifier_head, nb);
->> +}
->> +EXPORT_SYMBOL(drm_privacy_screen_register_notifier);
+>> -static int lcdshadow_set(bool on)
+>> +static void lcdshadow_get_hw_state(struct drm_privacy_screen *priv)
+>>  {
+>> -       if (lcdshadow_state < 0)
+>> -               return lcdshadow_state;
+>> -       if (lcdshadow_state == on)
+>> -               return 0;
+>> -       return lcdshadow_on_off(on);
+>> +       int output;
 >> +
->> +/**
->> + * drm_privacy_screen_unregister_notifier - unregister a notifier
->> + * @priv: Privacy screen to register the notifier with
->> + * @nb: Notifier-block for the notifier to register
->> + *
->> + * Unregister a notifier registered with
->> drm_privacy_screen_register_notifier().
->> + *
->> + * Return: 0 on success, negative error code on failure.
->> + */
->> +int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
->> +                                          struct notifier_block *nb)
->> +{
->> +       return blocking_notifier_chain_unregister(&priv->notifier_head, nb);
->> +}
->> +EXPORT_SYMBOL(drm_privacy_screen_unregister_notifier);
->> +
->>  /*** drm_privacy_screen_driver.h functions ***/
->>  
->>  static ssize_t sw_state_show(struct device *dev,
->> @@ -352,6 +395,7 @@ struct drm_privacy_screen *drm_privacy_screen_register(
->>                 return ERR_PTR(-ENOMEM);
->>  
->>         mutex_init(&priv->lock);
->> +       BLOCKING_INIT_NOTIFIER_HEAD(&priv->notifier_head);
->>  
->>         priv->dev.class = drm_class;
->>         priv->dev.type = &drm_privacy_screen_type;
->> @@ -399,3 +443,26 @@ void drm_privacy_screen_unregister(struct
->> drm_privacy_screen *priv)
->>         device_unregister(&priv->dev);
->>  }
->>  EXPORT_SYMBOL(drm_privacy_screen_unregister);
->> +
->> +/**
->> + * drm_privacy_screen_call_notifier_chain - notify consumers of state
->> change
->> + * @priv: Privacy screen to register the notifier with
->> + *
->> + * A privacy-screen provider driver can call this functions upon external
->> + * changes to the privacy-screen state. E.g. the state may be changed by
->> the
->> + * hardware itself in response to a hotkey press.
->> + * This function must be called without holding the privacy-screen lock.
->> + * the driver must update sw_state and hw_state to reflect the new state
->> before
->> + * calling this function.
->> + * The expected behavior from the driver upon receiving an external state
->> + * change event is: 1. Take the lock; 2. Update sw_state and hw_state;
->> + * 3. Release the lock. 4. Call drm_privacy_screen_call_notifier_chain().
->> + */
->> +void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen
->> *priv)
->> +{
->> +       if (WARN_ON(mutex_is_locked(&priv->lock)))
+>> +       if (!acpi_evalf(lcdshadow_get_handle, &output, NULL, "dd", 0))
 >> +               return;
+>> +
+>> +       priv->hw_state = priv->sw_state = output & 0x1;
+>>  }
+>>  
+>> +static const struct drm_privacy_screen_ops lcdshadow_ops = {
+>> +       .set_sw_state = lcdshadow_set_sw_state,
+>> +       .get_hw_state = lcdshadow_get_hw_state,
+>> +};
+>> +
+>>  static int tpacpi_lcdshadow_init(struct ibm_init_struct *iibm)
+>>  {
+>>         acpi_status status1, status2;
+>> @@ -9850,36 +9868,44 @@ static int tpacpi_lcdshadow_init(struct
+>> ibm_init_struct *iibm)
+>>  
+>>         status1 = acpi_get_handle(hkey_handle, "GSSS",
+>> &lcdshadow_get_handle);
+>>         status2 = acpi_get_handle(hkey_handle, "SSSS",
+>> &lcdshadow_set_handle);
+>> -       if (ACPI_FAILURE(status1) || ACPI_FAILURE(status2)) {
+>> -               lcdshadow_state = -ENODEV;
+>> +       if (ACPI_FAILURE(status1) || ACPI_FAILURE(status2))
+>>                 return 0;
+>> -       }
+>>  
+>> -       if (!acpi_evalf(lcdshadow_get_handle, &output, NULL, "dd", 0)) {
+>> -               lcdshadow_state = -EIO;
+>> +       if (!acpi_evalf(lcdshadow_get_handle, &output, NULL, "dd", 0))
+>>                 return -EIO;
+>> -       }
+>> -       if (!(output & 0x10000)) {
+>> -               lcdshadow_state = -ENODEV;
+>> +
+>> +       if (!(output & 0x10000))
+>>                 return 0;
+>> -       }
+>> -       lcdshadow_state = output & 0x1;
+>> +
+>> +       lcdshadow_dev = drm_privacy_screen_register(&tpacpi_pdev->dev,
+>> +                                                   &lcdshadow_ops);
+>> +       if (IS_ERR(lcdshadow_dev))
+>> +               return PTR_ERR(lcdshadow_dev);
+>>  
+>>         return 0;
+>>  }
+>>  
+>> +static void lcdshadow_exit(void)
+>> +{
+>> +       drm_privacy_screen_unregister(lcdshadow_dev);
+>> +}
+>> +
+>>  static void lcdshadow_resume(void)
+>>  {
+>> -       if (lcdshadow_state >= 0)
+>> -               lcdshadow_on_off(lcdshadow_state);
+>> +       if (!lcdshadow_dev)
+>> +               return;
+>> +
+>> +       mutex_lock(&lcdshadow_dev->lock);
+>> +       lcdshadow_set_sw_state(lcdshadow_dev, lcdshadow_dev->sw_state);
+>> +       mutex_unlock(&lcdshadow_dev->lock);
+>>  }
+>>  
 > 
-> Are we sure about this check? mutex_is_locked() checks whether a mutex is
-> locked by anyone, not just us. So this seems like it would cause us to
-> WARN_ON() and abort if anyone else (not just ourselves) is holding the lock to
-> read the privacy screen state.
+> For privacy screens provided by x86 platform drivers this is -probably-
+> correct, but only so long as we're confident that the privacy screen is always
+> going to be controllable regardless of the power state of the actual LCD
+> panel.
 
-Thank you for catching this, yes this check indeed is wrong. AFAIK
-there is no way to check that the mutex has been locked by us, so this
-extra sanity check simply needs to be removed.
+Right, in this case the privacy-screen control is entirely independent
+of the actual LCD state. Also notice that this code does not introduce
+the re-storing of the privacy-screen state, that was already there, it
+merely changes it to go through the new drm_privacy_screen API.
 
-I'll drop the check before pushing this to drm-misc-next (more on
-that in a reply to the cover letter), if that is ok with you.
 
-Or do you want me to do a new version addressing this?
+> I'd think we would need to handle suspend/resume in the atomic commit though
+> if we ever have to support systems where the two are dependent on one another,
+> but, that's a simple enough change to do later if it arises that I think we
+> can ignore it for now.
+
+Ack.
 
 Regards,
 
@@ -239,75 +321,61 @@ Hans
 
 
 > 
+>>  static int lcdshadow_read(struct seq_file *m)
+>>  {
+>> -       if (lcdshadow_state < 0) {
+>> +       if (!lcdshadow_dev) {
+>>                 seq_puts(m, "status:\t\tnot supported\n");
+>>         } else {
+>> -               seq_printf(m, "status:\t\t%d\n", lcdshadow_state);
+>> +               seq_printf(m, "status:\t\t%d\n", lcdshadow_dev->hw_state);
+>>                 seq_puts(m, "commands:\t0, 1\n");
+>>         }
+>>  
+>> @@ -9891,7 +9917,7 @@ static int lcdshadow_write(char *buf)
+>>         char *cmd;
+>>         int res, state = -EINVAL;
+>>  
+>> -       if (lcdshadow_state < 0)
+>> +       if (!lcdshadow_dev)
+>>                 return -ENODEV;
+>>  
+>>         while ((cmd = strsep(&buf, ","))) {
+>> @@ -9903,11 +9929,18 @@ static int lcdshadow_write(char *buf)
+>>         if (state >= 2 || state < 0)
+>>                 return -EINVAL;
+>>  
+>> -       return lcdshadow_set(state);
+>> +       mutex_lock(&lcdshadow_dev->lock);
+>> +       res = lcdshadow_set_sw_state(lcdshadow_dev, state);
+>> +       mutex_unlock(&lcdshadow_dev->lock);
 >> +
->> +       blocking_notifier_call_chain(&priv->notifier_head, 0, priv);
->> +}
->> +EXPORT_SYMBOL(drm_privacy_screen_call_notifier_chain);
->> diff --git a/include/drm/drm_privacy_screen_consumer.h
->> b/include/drm/drm_privacy_screen_consumer.h
->> index 0cbd23b0453d..7f66a90d15b7 100644
->> --- a/include/drm/drm_privacy_screen_consumer.h
->> +++ b/include/drm/drm_privacy_screen_consumer.h
->> @@ -24,6 +24,11 @@ int drm_privacy_screen_set_sw_state(struct
->> drm_privacy_screen *priv,
->>  void drm_privacy_screen_get_state(struct drm_privacy_screen *priv,
->>                                   enum drm_privacy_screen_status
->> *sw_state_ret,
->>                                   enum drm_privacy_screen_status
->> *hw_state_ret);
+>> +       drm_privacy_screen_call_notifier_chain(lcdshadow_dev);
 >> +
->> +int drm_privacy_screen_register_notifier(struct drm_privacy_screen *priv,
->> +                                        struct notifier_block *nb);
->> +int drm_privacy_screen_unregister_notifier(struct drm_privacy_screen *priv,
->> +                                          struct notifier_block *nb);
->>  #else
->>  static inline struct drm_privacy_screen *drm_privacy_screen_get(struct
->> device *dev,
->>                                                                 const char
->> *con_id)
->> @@ -45,6 +50,16 @@ static inline void drm_privacy_screen_get_state(struct
->> drm_privacy_screen *priv,
->>         *sw_state_ret = PRIVACY_SCREEN_DISABLED;
->>         *hw_state_ret = PRIVACY_SCREEN_DISABLED;
+>> +       return res;
 >>  }
->> +static inline int drm_privacy_screen_register_notifier(struct
->> drm_privacy_screen *priv,
->> +                                                      struct notifier_block
->> *nb)
->> +{
->> +       return -ENODEV;
->> +}
->> +static inline int drm_privacy_screen_unregister_notifier(struct
->> drm_privacy_screen *priv,
->> +                                                        struct
->> notifier_block *nb)
->> +{
->> +       return -ENODEV;
->> +}
->>  #endif
 >>  
->>  #endif
->> diff --git a/include/drm/drm_privacy_screen_driver.h
->> b/include/drm/drm_privacy_screen_driver.h
->> index 5187ae52eb03..24591b607675 100644
->> --- a/include/drm/drm_privacy_screen_driver.h
->> +++ b/include/drm/drm_privacy_screen_driver.h
->> @@ -54,6 +54,8 @@ struct drm_privacy_screen {
->>         struct mutex lock;
->>         /** @list: privacy-screen devices list list-entry. */
->>         struct list_head list;
->> +       /** @notifier_head: privacy-screen notifier head. */
->> +       struct blocking_notifier_head notifier_head;
->>         /**
->>          * @ops: &struct drm_privacy_screen_ops for this privacy-screen.
->>          * This is NULL if the driver has unregistered the privacy-screen.
->> @@ -77,4 +79,6 @@ struct drm_privacy_screen *drm_privacy_screen_register(
->>         struct device *parent, const struct drm_privacy_screen_ops *ops);
->>  void drm_privacy_screen_unregister(struct drm_privacy_screen *priv);
->>  
->> +void drm_privacy_screen_call_notifier_chain(struct drm_privacy_screen
->> *priv);
+>>  static struct ibm_struct lcdshadow_driver_data = {
+>>         .name = "lcdshadow",
+>> +       .exit = lcdshadow_exit,
+>>         .resume = lcdshadow_resume,
+>>         .read = lcdshadow_read,
+>>         .write = lcdshadow_write,
+>> @@ -10717,6 +10750,14 @@ static void tpacpi_driver_event(const unsigned int
+>> hkey_event)
+>>                 if (!atomic_add_unless(&dytc_ignore_event, -1, 0))
+>>                         dytc_profile_refresh();
+>>         }
 >> +
->>  #endif
+>> +       if (lcdshadow_dev && hkey_event == TP_HKEY_EV_PRIVACYGUARD_TOGGLE) {
+>> +               mutex_lock(&lcdshadow_dev->lock);
+>> +               lcdshadow_get_hw_state(lcdshadow_dev);
+>> +               mutex_unlock(&lcdshadow_dev->lock);
+>> +
+>> +               drm_privacy_screen_call_notifier_chain(lcdshadow_dev);
+>> +       }
+>>  }
+>>  
+>>  static void hotkey_driver_event(const unsigned int scancode)
 > 
 
