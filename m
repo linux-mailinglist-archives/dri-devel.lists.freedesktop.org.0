@@ -2,46 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0302640DBA6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC47740DBA8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 15:47:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 883646EDD3;
-	Thu, 16 Sep 2021 13:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFC636EDD4;
+	Thu, 16 Sep 2021 13:47:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
  [64.147.123.21])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 661646EDD3
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:47:41 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 53571320098F;
- Thu, 16 Sep 2021 09:47:38 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED4496EDD4
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:47:48 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 28A233200976;
+ Thu, 16 Sep 2021 09:47:48 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 16 Sep 2021 09:47:38 -0400
+ by compute5.internal (MEProxy); Thu, 16 Sep 2021 09:47:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=rZIDhlnuGK6V5cK46t4Uvw4Yatx
- suOQ9msENEMMFQqI=; b=uv/epXvay+8cnwW6oginqM584OwhufyHQT+S40iMGgK
- vPXbLjOOX8k6QAS5g6DCS3j31W3GVXuX56KJNa+hPnrem0A9pJdpLbSvTZAR2EoJ
- nts2jUyVa+bl62kUBk8L8wMhqb8T106TVur2xcPSbVAZD3c9paMK+Es/u5wX5Xpu
- 1OCuOtRxycdvbvYCk7qEc6jlKyU+mTEs8i1O4aWO1buVOxnelsc4z2BnE9L3Leex
- FkoLYfKVg15qL29ayW+K+yOyQzE08ZbIz5MFIlNh6UYwi3uLRICTUv+3bUUXjDCf
- keY0idC36xt0JbjEFn89iMI6tjgmkqXyi26LEcdEQFA==
+ :content-type:in-reply-to; s=fm3; bh=ZsbUYBExbqhrIvcodkWis41pjnV
+ EaK1V3/eLOX62TBQ=; b=W+s6UTB6l8lSVuMjAxWYuNkuG8F7xxYigx53h6P0ioI
+ 4DidS0a/xXDLC330xrwf1TBWMHWNO4nthqwr3+NmAg4CYWDNxCH8kb2RrrsYiW0e
+ BmveAq4tgqg+4Hx64XzcNqr8pb2QDxt9rQk7kqQLQgJ9UmMamVLz5zSh3xUxEvFl
+ UgLBvjlUnVaGUJDKDe/73amPv8D8e9ojLnHvdCoSGTY4LfBoo8Jf+sgLLJtDbSv/
+ xS6834GcIV1va1Zz2h/hWQHTlarqXFTqcxTCYIAYFMc7D1Q2fNTipuy/VJ3Nf5Od
+ kOKutV+K7ddIHRx3Vh+KrypT2Yp1bn3JXEXPSwuJ3Gw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=rZIDhl
- nuGK6V5cK46t4Uvw4YatxsuOQ9msENEMMFQqI=; b=dJS9yWAXBKBHPQoeFPhIOm
- UKsY5+U52WPnXbNE9gbXqCfpxuzqnVyY8u4H0k9HeCianCiXsAjjVHVRgxckijP8
- UT/KvgCcy3Da+t9XvO8rcta3RyyA7kW6m2JoSJOVRsqTGMFh/ic5i+HTbYRvYsoS
- IlkoL9ChqdWfz3Yn723dEA3yiA5vMNj0kezOZWFeXgP2Qcz0DclhmZQbDj5P+znU
- qnAwhGao/ezWiENFRfkatARJumjp+HlAxJBoJHM0DYPTM2x47TkTaNVF5aFXOweV
- sTVfD4rsjJu7dUIE/MsidkjSOiDOtuDSnvHtgv694QuVomGjHBGasuiXcUtgoYeg
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=ZsbUYB
+ ExbqhrIvcodkWis41pjnVEaK1V3/eLOX62TBQ=; b=jSJLqlrt0ZVjNe9Xj/KMZJ
+ TbtDTvi7HORgYAVtc6ZEV1U+5wp0t9J73aFA/vy0mOntfJkDBCpMwSfWc/4WSvhQ
+ aJsfKuolUOmrDJFLYLRR8CBelIkNYgordHlGe6sBBTT5YgUCFKu/SH7crSf+ab+O
+ xOD5BefIxge3+nHBAbiqZvlpP/QuPQqXYF2p1lRHrcHAjpgrxODT1j5lFV+iWa5G
+ N76k1xVXlp3DOYZhyl0gOnk/bIlywMSk3+zEksCmYtMYd9ROA0nJmIrXJC1OYP3W
+ 2UNechr5oPDImK5yf+YccfGvo/QeayS+mo2J1CpHpXcYSQY51PhBxmoqjxaBcF+w
  ==
-X-ME-Sender: <xms:90pDYYKz52dtZfZFQPIdBg6vYDuZXW7Jezd71XKuATEWfEz7WLNVQQ>
- <xme:90pDYYJWvOhOpLL6HuEk0VpBDCta_IUVGmAOhmgLSDUvGprUYipkyxEnP5cU2cREq
- nmdzAuUOKp-mkXOQL8>
-X-ME-Received: <xmr:90pDYYv5IcH41WLpUpttmTdYUwCwM-o-rcvcWVJT6G3R-pUZA1LVuIqQG3O-DocYWc8ZB0vem_GhNsDdxRyELJJ_DKpEEpPZeObx>
+X-ME-Sender: <xms:AktDYUJc1hmn3vnqglBnsH4U2c0M9qpvBv-Zt-zxMdZFCtiPljRJbA>
+ <xme:AktDYUKw9iejnp3gWuU57bbRSMfhhPbQBv6gQvcWjxgy6jugkqwmwg7eZEGjiAkLr
+ W-B63Yf1i0-m6cvdMc>
+X-ME-Received: <xmr:AktDYUuwnFb2WovRidvArhBpjyjDbn67NQKl_iRYIvDNuWG0-yL36CBi5liIU8bw7Jo_HYLT9eG9zTnfxs0mqAAeAn1afUYj4frA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -50,29 +50,29 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgieefucetufdoteggod
  htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
  gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
  grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:90pDYVaOsZxLsFhBUfmXtDfXH0cGlAmgLCtWSWGSazV-Exr14QD6dg>
- <xmx:90pDYfaiBkWcPrDkuh1x39HoFVYH9UD1tE4A_ibDllbSKHpk3_9WAQ>
- <xmx:90pDYRAD62klcaI8dDpBd3EYP6s3UPfaJegCdazVOwsF35g7738ZLw>
- <xmx:-UpDYT6F0HWMwp2jPwntqaXgoi2LhKh1ktAA5XNnHsw8POUml6VI3Q>
+X-ME-Proxy: <xmx:AktDYRbeIXtb8CNe4T_GFjWWFmYZbbhbSxOmhqvzbkvi-AWp-JHtxA>
+ <xmx:AktDYbYXf-et9YM1lCtxJu5W1d72JMv7eVWavilMAVFHlfFvZrujjA>
+ <xmx:AktDYdA4GfEICEcMs0NeC-xnzggsww-5N-UoLtB-0mtPveHjcRwl8A>
+ <xmx:A0tDYf7OVKMmnwE975Gbg2JIqxN3KF-pb3nDk-cqhDhfDvwWpyxFlA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 09:47:34 -0400 (EDT)
-Date: Thu, 16 Sep 2021 15:47:32 +0200
+ 16 Sep 2021 09:47:46 -0400 (EDT)
+Date: Thu, 16 Sep 2021 15:47:45 +0200
 From: Maxime Ripard <maxime@cerno.tech>
 To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Cc: Chen-Yu Tsai <wens@csie.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jernej Skrabec <jernej.skrabec@gmail.com>,
  dri-devel@lists.freedesktop.org,
  linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/sun4i: dw-hdmi: Make use of the helper function
+Subject: Re: [PATCH] drm/sun4i: dsi: Make use of the helper function
  dev_err_probe()
-Message-ID: <20210916134732.nrzetz4io5fmbxpq@gilmour>
-References: <20210916105633.12162-1-caihuoqing@baidu.com>
+Message-ID: <20210916134745.xhnnu6gszcvlxxvy@gilmour>
+References: <20210916105625.12109-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="42fvjejcppad3kvp"
+ protocol="application/pgp-signature"; boundary="6g2ybwxxr5blhdme"
 Content-Disposition: inline
-In-Reply-To: <20210916105633.12162-1-caihuoqing@baidu.com>
+In-Reply-To: <20210916105625.12109-1-caihuoqing@baidu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,12 +89,12 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---42fvjejcppad3kvp
+--6g2ybwxxr5blhdme
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 16, 2021 at 06:56:32PM +0800, Cai Huoqing wrote:
+On Thu, Sep 16, 2021 at 06:56:24PM +0800, Cai Huoqing wrote:
 > When possible use dev_err_probe help to properly deal with the
 > PROBE_DEFER error, the benefit is that DEFER issue will be logged
 > in the devices_deferred debugfs file.
@@ -106,15 +106,15 @@ On Thu, Sep 16, 2021 at 06:56:32PM +0800, Cai Huoqing wrote:
 Applied, thanks
 Maxime
 
---42fvjejcppad3kvp
+--6g2ybwxxr5blhdme
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNK9AAKCRDj7w1vZxhR
-xTSkAP98QRtzTOPuHy5A4zj83HE4sXcoxFGmghpXGhbYDhK6EAEAgs7KVG1NXR0z
-loVt2Z3KCbUWVguTpLIBYkbQxonnMAE=
-=vbrR
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUNLAQAKCRDj7w1vZxhR
+xTMPAQDzNZ+t8LIuIVzLhPMZ/9gUqrnyYy7kPviLapc0Zu6l9AD/TygXQ+IKJysl
+7C52jM60DNbDDF+Wnmktxs+JaD2sxwE=
+=/2Gv
 -----END PGP SIGNATURE-----
 
---42fvjejcppad3kvp--
+--6g2ybwxxr5blhdme--
