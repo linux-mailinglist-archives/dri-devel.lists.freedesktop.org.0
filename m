@@ -2,43 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7896F40D7A4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 12:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E0D740D7A7
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 12:43:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5C17D6EB5C;
-	Thu, 16 Sep 2021 10:42:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DA66EB5E;
+	Thu, 16 Sep 2021 10:43:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx22.baidu.com [220.181.50.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id A29556EB5B
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 10:42:54 +0000 (UTC)
-Received: from BC-Mail-Ex22.internal.baidu.com (unknown [172.31.51.16])
- by Forcepoint Email with ESMTPS id 8D4F57F9998EC7D6044A;
- Thu, 16 Sep 2021 18:42:53 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex22.internal.baidu.com (172.31.51.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Thu, 16 Sep 2021 18:42:53 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Thu, 16 Sep 2021 18:42:52 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Icenowy Zheng <icenowy@aosc.io>, Thierry Reding
- <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH] drm/panel: k101-im2ba02: Make use of the helper function
- dev_err_probe()
-Date: Thu, 16 Sep 2021 18:42:47 +0800
-Message-ID: <20210916104247.11270-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7436EB5B;
+ Thu, 16 Sep 2021 10:43:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="244911700"
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="244911700"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 03:43:36 -0700
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="553817313"
+Received: from djustese-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.34.120])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 03:43:31 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Tim Gardner <tim.gardner@canonical.com>, linux-kernel@vger.kernel.org
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: zero fill vma name buffer
+In-Reply-To: <7a653532-046d-c68a-3dc9-ef2deaf455f9@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210915192318.2061-1-tim.gardner@canonical.com>
+ <7a653532-046d-c68a-3dc9-ef2deaf455f9@linux.intel.com>
+Date: Thu, 16 Sep 2021 13:43:28 +0300
+Message-ID: <87ee9ox0kv.fsf@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BC-Mail-Ex15.internal.baidu.com (172.31.51.55) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +53,91 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When possible use dev_err_probe help to properly deal with the
-PROBE_DEFER error, the benefit is that DEFER issue will be logged
-in the devices_deferred debugfs file.
-And using dev_err_probe() can reduce code size, and the error value
-gets printed.
+On Thu, 16 Sep 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
+> On 15/09/2021 20:23, Tim Gardner wrote:
+>> In capture_vma() Coverity complains of a possible buffer overrun. Even
+>> though this is a static function where all call sites can be checked,
+>> limiting the copy length could save some future grief.
+>> 
+>> CID 93300 (#1 of 1): Copy into fixed size buffer (STRING_OVERFLOW)
+>> 4. fixed_size_dest: You might overrun the 16-character fixed-size string c->name
+>>     by copying name without checking the length.
+>> 5. parameter_as_source: Note: This defect has an elevated risk because the
+>>     source argument is a parameter of the current function.
+>> 1326        strcpy(c->name, name);
+>> 
+>> Fix any possible overflows by using strncpy(). Zero fill the name buffer to
+>> guarantee ASCII string NULL termination.
+>> 
+>> Cc: Jani Nikula <jani.nikula@linux.intel.com>
+>> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+>> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+>> Cc: David Airlie <airlied@linux.ie>
+>> Cc: Daniel Vetter <daniel@ffwll.ch>
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linux-kernel@vger.kernel.org
+>> Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
+>> ---
+>>   drivers/gpu/drm/i915/i915_gpu_error.c | 7 ++++---
+>>   1 file changed, 4 insertions(+), 3 deletions(-)
+>> 
+>> diff --git a/drivers/gpu/drm/i915/i915_gpu_error.c b/drivers/gpu/drm/i915/i915_gpu_error.c
+>> index 9cf6ac575de1..154df174e2d7 100644
+>> --- a/drivers/gpu/drm/i915/i915_gpu_error.c
+>> +++ b/drivers/gpu/drm/i915/i915_gpu_error.c
+>> @@ -1297,10 +1297,11 @@ static bool record_context(struct i915_gem_context_coredump *e,
+>>   	return simulated;
+>>   }
+>>   
+>> +#define VMA_NAME_LEN 16
+>>   struct intel_engine_capture_vma {
+>>   	struct intel_engine_capture_vma *next;
+>>   	struct i915_vma *vma;
+>> -	char name[16];
+>> +	char name[VMA_NAME_LEN];
+>>   };
+>>   
+>>   static struct intel_engine_capture_vma *
+>> @@ -1314,7 +1315,7 @@ capture_vma(struct intel_engine_capture_vma *next,
+>>   	if (!vma)
+>>   		return next;
+>>   
+>> -	c = kmalloc(sizeof(*c), gfp);
+>> +	c = kzalloc(sizeof(*c), gfp);
+>>   	if (!c)
+>>   		return next;
+>>   
+>> @@ -1323,7 +1324,7 @@ capture_vma(struct intel_engine_capture_vma *next,
+>>   		return next;
+>>   	}
+>>   
+>> -	strcpy(c->name, name);
+>> +	strncpy(c->name, name, VMA_NAME_LEN-1);
+>
+> GCC is supposed to catch any problems here as you say in the commit message.
+>
+> But to fix I suggest a single line change to strlcpy(c->name, name, 
+> sizeof(c->name)) which always null terminates as bonus.
 
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
----
- drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c | 13 +++++--------
- 1 file changed, 5 insertions(+), 8 deletions(-)
+strscpy() is preferred over both strncpy() and strlcpy(). :)
 
-diff --git a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-index 2a602aee61c3..cb0bb3076099 100644
---- a/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-+++ b/drivers/gpu/drm/panel/panel-feixin-k101-im2ba02.c
-@@ -456,16 +456,13 @@ static int k101_im2ba02_dsi_probe(struct mipi_dsi_device *dsi)
- 
- 	ret = devm_regulator_bulk_get(&dsi->dev, ARRAY_SIZE(ctx->supplies),
- 				      ctx->supplies);
--	if (ret < 0) {
--		dev_err(&dsi->dev, "Couldn't get regulators\n");
--		return ret;
--	}
-+	if (ret < 0)
-+		return dev_err_probe(&dsi->dev, ret, "Couldn't get regulators\n");
- 
- 	ctx->reset = devm_gpiod_get(&dsi->dev, "reset", GPIOD_OUT_LOW);
--	if (IS_ERR(ctx->reset)) {
--		dev_err(&dsi->dev, "Couldn't get our reset GPIO\n");
--		return PTR_ERR(ctx->reset);
--	}
-+	if (IS_ERR(ctx->reset))
-+		return dev_err_probe(&dsi->dev, PTR_ERR(ctx->reset),
-+				     "Couldn't get our reset GPIO\n");
- 
- 	drm_panel_init(&ctx->panel, &dsi->dev, &k101_im2ba02_funcs,
- 		       DRM_MODE_CONNECTOR_DSI);
+BR,
+Jani.
+
+>
+> Probably same in i915_vma_coredump_create() which with strncpy would 
+> have a theoretical chance of attempting to copy over a 
+> non-null-terminated string.
+>
+> Regards,
+>
+> Tvrtko
+>
+>>   	c->vma = vma; /* reference held while active */
+>>   
+>>   	c->next = next;
+>> 
+
 -- 
-2.25.1
-
+Jani Nikula, Intel Open Source Graphics Center
