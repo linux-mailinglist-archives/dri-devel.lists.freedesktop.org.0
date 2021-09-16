@@ -2,50 +2,52 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A428340D1C1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 04:51:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F11C40D1D0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 04:56:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4EC146EA93;
-	Thu, 16 Sep 2021 02:51:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CE94F89DD5;
+	Thu, 16 Sep 2021 02:56:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A69C6EA93
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:51:23 +0000 (UTC)
-X-UUID: 8fd52dd9c2c34f739b8823885c0ab749-20210916
-X-UUID: 8fd52dd9c2c34f739b8823885c0ab749-20210916
-Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
- (envelope-from <nancy.lin@mediatek.com>)
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5207789DD5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 02:56:45 +0000 (UTC)
+X-UUID: f043e734a6f54b0c81552b2a13b543b5-20210916
+X-UUID: f043e734a6f54b0c81552b2a13b543b5-20210916
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1386424549; Thu, 16 Sep 2021 10:51:09 +0800
+ with ESMTP id 1940946546; Thu, 16 Sep 2021 10:56:40 +0800
 Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 16 Sep 2021 10:51:08 +0800
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 16 Sep 2021 10:56:38 +0800
 Received: from mtksdccf07 (172.21.84.99) by mtkcas07.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 16 Sep 2021 10:51:07 +0800
-Message-ID: <dc2b882b49078251c8a90708a6231ec38c4aaa94.camel@mediatek.com>
-Subject: Re: [PATCH v5 09/16] soc: mediatek: mmsys: modify reset controller
- for MT8195 vdosys1
+ Transport; Thu, 16 Sep 2021 10:56:38 +0800
+Message-ID: <9068426be6ba2a0eb05d77b18a8f131a2d00ca21.camel@mediatek.com>
+Subject: Re: [PATCH v5 01/16] dt-bindings: mediatek: add vdosys1 RDMA
+ definition for mt8195
 From: Nancy.Lin <nancy.lin@mediatek.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>, CK Hu <ck.hu@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, "jason-jh . lin"
- <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- <dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>,
- <srv_heupstream@mediatek.com>
-Date: Thu, 16 Sep 2021 10:51:08 +0800
-In-Reply-To: <d93c6866fb8a6e9bebf3b3ed6959e2c3abaf647d.camel@pengutronix.de>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+CC: CK Hu <ck.hu@mediatek.com>, Philipp Zabel <p.zabel@pengutronix.de>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "Rob Herring"
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh .
+ lin" <jason-jh.lin@mediatek.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, "moderated
+ list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>, DTML
+ <devicetree@vger.kernel.org>, linux-kernel <linux-kernel@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, <singo.chang@mediatek.com>, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Date: Thu, 16 Sep 2021 10:56:38 +0800
+In-Reply-To: <CAAOTY_-rVhh4_m39JPRnE-zwW38k-OPArVv6GqOmORaD=qStVQ@mail.gmail.com>
 References: <20210906071539.12953-1-nancy.lin@mediatek.com>
- <20210906071539.12953-10-nancy.lin@mediatek.com>
- <d93c6866fb8a6e9bebf3b3ed6959e2c3abaf647d.camel@pengutronix.de>
+ <20210906071539.12953-2-nancy.lin@mediatek.com>
+ <CAAOTY_-rVhh4_m39JPRnE-zwW38k-OPArVv6GqOmORaD=qStVQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,128 +64,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Dear Philipp,
+Hi Chun-Kuang,
 
 Thanks for the review.
 
-On Mon, 2021-09-06 at 09:29 +0200, Philipp Zabel wrote:
-> Hi Nancy,
+On Tue, 2021-09-07 at 07:42 +0800, Chun-Kuang Hu wrote:
+> Hi, Nancy:
 > 
-> On Mon, 2021-09-06 at 15:15 +0800, Nancy.Lin wrote:
-> > MT8195 vdosys1 has more than 32 reset bits and a different reset
-> > base
-> > than other chips. Modify mmsys for support 64 bit and different
-> > reset
-> > base.
+> Nancy.Lin <nancy.lin@mediatek.com> 於 2021年9月6日 週一 下午3:15寫道：
+> > 
+> > Add vdosys1 RDMA definition.
 > > 
 > > Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > > ---
-> >  drivers/soc/mediatek/mt8195-mmsys.h |  1 +
-> >  drivers/soc/mediatek/mtk-mmsys.c    | 15 ++++++++++++---
-> >  drivers/soc/mediatek/mtk-mmsys.h    |  1 +
-> >  3 files changed, 14 insertions(+), 3 deletions(-)
+> >  .../display/mediatek/mediatek,mdp-rdma.yaml   | 77
+> > +++++++++++++++++++
+> >  1 file changed, 77 insertions(+)
+> >  create mode 100644
+> > Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
 > > 
-> > diff --git a/drivers/soc/mediatek/mt8195-mmsys.h
-> > b/drivers/soc/mediatek/mt8195-mmsys.h
-> > index 648baaec112b..f67801c42fd9 100644
-> > --- a/drivers/soc/mediatek/mt8195-mmsys.h
-> > +++ b/drivers/soc/mediatek/mt8195-mmsys.h
-> > @@ -123,6 +123,7 @@
-> >  #define MT8195_VDO1_MIXER_SOUT_SEL_IN				
-> > 0xf68
-> >  #define MT8195_MIXER_SOUT_SEL_IN_FROM_DISP_MIXER		(0 <<
-> > 0)
-> >  
-> > +#define MT8195_VDO1_SW0_RST_B           0x1d0
-> >  #define MT8195_VDO1_MERGE0_ASYNC_CFG_WD	0xe30
-> >  #define MT8195_VDO1_MERGE1_ASYNC_CFG_WD	0xe40
-> >  #define MT8195_VDO1_MERGE2_ASYNC_CFG_WD	0xe50
-> > diff --git a/drivers/soc/mediatek/mtk-mmsys.c
-> > b/drivers/soc/mediatek/mtk-mmsys.c
-> > index 060065501b8a..97cb26339ef6 100644
-> > --- a/drivers/soc/mediatek/mtk-mmsys.c
-> > +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> > @@ -18,6 +18,8 @@
-> >  #include "mt8365-mmsys.h"
-> >  #include "mt8195-mmsys.h"
-> >  
-> > +#define MMSYS_SW_RESET_PER_REG 32
-> > +
-> >  static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data
-> > = {
-> >  	.clk_driver = "clk-mt2701-mm",
-> >  	.routes = mmsys_default_routing_table,
-> > @@ -48,12 +50,14 @@ static const struct mtk_mmsys_driver_data
-> > mt8173_mmsys_driver_data = {
-> >  	.clk_driver = "clk-mt8173-mm",
-> >  	.routes = mmsys_default_routing_table,
-> >  	.num_routes = ARRAY_SIZE(mmsys_default_routing_table),
-> > +	.sw_reset_start = MMSYS_SW0_RST_B,
-> >  };
-> >  
-> >  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data
-> > = {
-> >  	.clk_driver = "clk-mt8183-mm",
-> >  	.routes = mmsys_mt8183_routing_table,
-> >  	.num_routes = ARRAY_SIZE(mmsys_mt8183_routing_table),
-> > +	.sw_reset_start = MMSYS_SW0_RST_B,
-> >  };
-> >  
-> >  static const struct mtk_mmsys_driver_data mt8365_mmsys_driver_data
-> > = {
-> > @@ -74,6 +78,7 @@ static const struct mtk_mmsys_driver_data
-> > mt8195_vdosys1_driver_data = {
-> >  	.num_routes = ARRAY_SIZE(mmsys_mt8195_routing_table),
-> >  	.config = mmsys_mt8195_config_table,
-> >  	.num_configs = ARRAY_SIZE(mmsys_mt8195_config_table),
-> > +	.sw_reset_start = MT8195_VDO1_SW0_RST_B,
-> >  };
-> >  
-> >  struct mtk_mmsys {
-> > @@ -126,19 +131,23 @@ static int mtk_mmsys_reset_update(struct
-> > reset_controller_dev *rcdev, unsigned l
-> >  {
-> >  	struct mtk_mmsys *mmsys = container_of(rcdev, struct mtk_mmsys,
-> > rcdev);
-> >  	unsigned long flags;
-> > +	u32 offset;
-> >  	u32 reg;
-> >  	int i;
-> >  
-> > +	offset = (id / MMSYS_SW_RESET_PER_REG) * sizeof(u32);
-> > +	id = id % MMSYS_SW_RESET_PER_REG;
-> > +
-> >  	spin_lock_irqsave(&mmsys->lock, flags);
-> >  
-> > -	reg = readl_relaxed(mmsys->regs + MMSYS_SW0_RST_B);
-> > +	reg = readl_relaxed(mmsys->regs + mmsys->data->sw_reset_start +
-> > offset);
-> >  
-> >  	if (assert)
-> >  		reg &= ~BIT(id);
-> >  	else
-> >  		reg |= BIT(id);
-> >  
-> > -	writel_relaxed(reg, mmsys->regs + MMSYS_SW0_RST_B);
-> > +	writel_relaxed(reg, mmsys->regs + mmsys->data->sw_reset_start +
-> > offset);
-> >  
-> >  	spin_unlock_irqrestore(&mmsys->lock, flags);
-> >  
-> > @@ -237,7 +246,7 @@ static int mtk_mmsys_probe(struct
-> > platform_device *pdev)
-> >  	spin_lock_init(&mmsys->lock);
-> >  
-> >  	mmsys->rcdev.owner = THIS_MODULE;
-> > -	mmsys->rcdev.nr_resets = 32;
-> > +	mmsys->rcdev.nr_resets = 64;
+> > diff --git
+> > a/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
+> > new file mode 100644
+> > index 000000000000..3610093848e1
+> > --- /dev/null
+> > +++
+> > b/Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-
+> > rdma.yaml
 > 
-> If only MT8195 vdosys1 has more than 32 reset bits, this should be
-> kept
-> at 32 for the others.
+> I've compared the rdma driver in mdp [1] with the rdma driver in
+> display [2], both are similar. The difference are like merge0 versus
+> merge5. So I would like both binding document are placed together. In
+> display folder? In media folder? In SoC folder? I've no idea which
+> one
+> is better, but at lease put together.
 > 
-> regards
+> [1] 
+> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210824100027.25989-6-moudy.ho@mediatek.com/__;!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMqH3vrJ3$
+>  
+> [2] 
+> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20210906071539.12953-12-nancy.lin@mediatek.com/__;!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMuM29V9T$
+>  
+> 
+> Regards,
+> Chun-Kuang.
+> 
+OK, I will discuss this with Moudy.
 
-OK, I will modify it in the next revision.
-> Philipp
+Regards,
+Nancy Lin
+> > @@ -0,0 +1,77 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: 
+> > https://urldefense.com/v3/__http://devicetree.org/schemas/display/mediatek/mediatek,mdp-rdma.yaml*__;Iw!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMheRB2bL$
+> >  
+> > +$schema: 
+> > https://urldefense.com/v3/__http://devicetree.org/meta-schemas/core.yaml*__;Iw!!CTRNKA9wMg0ARbw!1MjfK1sAMDvP9fU1GX6QvfLEfapYEcLmsYP2AhkAOZ6LVaLTLi6vAnJMMkoF4_Zs$
+> >  
+> > +
+> > +title: mediatek display MDP RDMA
+> > +
+> > +maintainers:
+> > +  - CK Hu <ck.hu@mediatek.com>
+> > +
+> > +description: |
+> > +  The mediatek display MDP RDMA stands for Read Direct Memory
+> > Access.
+> > +  It provides real time data to the back-end panel driver, such as
+> > DSI,
+> > +  DPI and DP_INTF.
+> > +  It contains one line buffer to store the sufficient pixel data.
+> > +  RDMA device node must be siblings to the central MMSYS_CONFIG
+> > node.
+> > +  For a description of the MMSYS_CONFIG binding, see
+> > +  Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.ya
+> > ml for details.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - const: mediatek,mt8195-vdo1-rdma
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  power-domains:
+> > +    description: A phandle and PM domain specifier as defined by
+> > bindings of
+> > +      the power controller specified by phandle. See
+> > +      Documentation/devicetree/bindings/power/power-domain.yaml
+> > for details.
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: RDMA Clock
+> > +
+> > +  iommus:
+> > +    description:
+> > +      This property should point to the respective IOMMU block
+> > with master port as argument,
+> > +      see
+> > Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for
+> > details.
+> > +
+> > +  mediatek,gce-client-reg:
+> > +    description:
+> > +      The register of display function block to be set by gce.
+> > There are 4 arguments,
+> > +      such as gce node, subsys id, offset and register size. The
+> > subsys id that is
+> > +      mapping to the register of display function blocks is
+> > defined in the gce header
+> > +      include/include/dt-bindings/gce/<chip>-gce.h of each chips.
+> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
+> > +    maxItems: 1
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - power-domains
+> > +  - clocks
+> > +  - iommus
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +
+> > +    vdo1_rdma0: vdo1_rdma@1c104000 {
+> > +        compatible = "mediatek,mt8195-vdo1-rdma";
+> > +        reg = <0 0x1c104000 0 0x1000>;
+> > +        interrupts = <GIC_SPI 495 IRQ_TYPE_LEVEL_HIGH 0>;
+> > +        clocks = <&vdosys1 CLK_VDO1_MDP_RDMA0>;
+> > +        power-domains = <&spm MT8195_POWER_DOMAIN_VDOSYS1>;
+> > +        iommus = <&iommu_vdo M4U_PORT_L2_MDP_RDMA0>;
+> > +        mediatek,gce-client-reg = <&gce1 SUBSYS_1c10XXXX 0x4000
+> > 0x1000>;
+> > +    };
+> > +
+> > --
+> > 2.18.0
+> > 
 
