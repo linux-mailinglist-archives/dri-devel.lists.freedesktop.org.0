@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA6A40ECA1
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 23:27:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 372DE40ECA5
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 23:27:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 435396EA2D;
-	Thu, 16 Sep 2021 21:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3B6606E9DE;
+	Thu, 16 Sep 2021 21:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
  [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 367CD6E927;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A9806E940;
  Thu, 16 Sep 2021 21:25:56 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.west.internal (Postfix) with ESMTP id B84122B011F6;
- Thu, 16 Sep 2021 17:16:41 -0400 (EDT)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id EA78C2B011F7;
+ Thu, 16 Sep 2021 17:16:46 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Thu, 16 Sep 2021 17:16:42 -0400
+ by compute6.internal (MEProxy); Thu, 16 Sep 2021 17:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=R/tidGid4Cs5Z
- uAv4KbqJodwLkPczaEEwqfZnwHWGhA=; b=Ww7IZCgPdJ/+CnohNULzwbPegKHZm
- 2Fh5R4WPjB4Y81MyzS3+EckYPDynlcPE6sQQOwSX53OyiSKkaWOiMh4AFh7EXpAn
- +wRjliC1GBDKWX5G1m4fueYXC+jQSswijqD/0wZJqisS8vsNWQws2SQA6eUwCafY
- MHQOjNAXbFTxsRNiTHnC3h7rkVCBzSF2Oawk9eHriy7p/Vzg8/SWCnDOktGqTUiK
- hHnLWRzO8sTDjGtc3LmanAWho+I4FiCGWBu1Dk6yov6gMr5nILEIaP0xCHaNlad6
- LrhaLPss+rRkMvjBGCoOSMS8ODKXzKZT2C1Eu45YnxFpHw6YczUOlVMqA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=nH01XLqPXIfEo
+ lLg5yobc0MAi8VZM/gVE7nKa7sEIlw=; b=vZR6GCU4Y+DTS1Mm7h2bzVIO3Paka
+ T29Vo2iHpuCNyAqvFhZPvKpAlERQGPRSKSWVU9Nbat/b1vI3UN2oR22aAu8IpVLt
+ vWwGP/2QthedSktoWva/yz3Fj/0dIsdbTpWm82JqWEMtdm052oOo5fFogEn5poFY
+ lyZTfKkDw/mNPkP46EoHrXGnf7Yfa/EF+mD/31sy8OtAsq/0KDLTkATgmRNdq+1k
+ DmnWBdgF2u0UrDT6b0+eocqfUSALlNRGfRmv7gGT0/1F76ppZAwh8WGBQl/8XXez
+ lEKSjomp6tbJ3Vq0BKAe8YUe2x5X26rG9Id6n2XkrazeyV8q0RbxK6yNQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=R/tidGid4Cs5ZuAv4KbqJodwLkPczaEEwqfZnwHWGhA=; b=o2nanYhl
- tJ6IrghK66DSKGstszmQbsNs/9ffr+s17BLdUcdTnDI3rES+6plBw1YtKahLbuFS
- D7jh8Qsic4+7+WuHiuLkbWiW2lfzMcRVI7TNMQstY2LKhw52HpTdPMBmnjaJt1Pr
- ECf2x0ftFJsjdXBsCT2TYpM5KJ47mBouT4whPF9N4YWFiKvqtrgCLmTtOZYQ7LzV
- gid6YHc3rF79+xNIxdyspAc1qkeb2otfhnE4smCW438kzJSwBffyt8BuevAUGtZr
- ZsQ3berHJ20M3Q8vLhfStTq99P/WQTAVsCh+PTetDRRj147Bh3TfnrztmyZ7AzgD
- e14RaGyP6+Btwg==
-X-ME-Sender: <xms:ObRDYZ7yhET2pR1O0lfl4voYSG-yazq9YUaMssrZkS_WrbqM35ojJw>
- <xme:ObRDYW5dM5Rhn0yZr-imNxIZlf4uNUFx0uZnzTLDpIxPUr9Y5crukNzN_UMVNFAEj
- MEkrxqyjd-ps51_tg>
-X-ME-Received: <xmr:ObRDYQf0l7yIpvoFLSWko3l9G7_o-Ie0q0pyE5Fx0QHc4GpIqVSIElCUvkIeam1VkgsU>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudehvdcutefuodetggdotefrod
+ fm3; bh=nH01XLqPXIfEolLg5yobc0MAi8VZM/gVE7nKa7sEIlw=; b=jSjQeKwq
+ 5NsbATMWjTVVvtucAmegFkjAjMSrb9hQQEZCr3hoMDyYnFtLo8LfaxEhnSNFg4qg
+ Ayyhrp6n0xzRilHG7zGj95uEOiSeDGduV0hJriXcHZRduGs2g0k1ZR5r0TRhsMBs
+ KuFbkmV8OEDsnYd6NGWNWtPk+LF4CeS2oh087vyGNkGtOxoo5YvLcXdChW59vqGo
+ whHyDCYwaK3T7b6wUO0gpVVHQL33Bjsx55Igvz8XzS6cvTV3nzoJsGB1T6JA6qQW
+ rSau7sCf33LYKQaerMlH1TlZTvQofXyWPyQoNGNPlvl497f3RIeshjZxGF3t9SKP
+ r9pgqg4ZEInrBQ==
+X-ME-Sender: <xms:PrRDYUzkRn4_bdy59vuwlz_Y7RCxsppseI8ylqzzTjCSWZUgwz_UYA>
+ <xme:PrRDYYSYURs-BqYcIUB0RZRCh99MXEjz9Q_Blvkya2s6VfQrng49Tzq9Eb2G9gmKU
+ -mmNUeCd8Ax9TcUEQ>
+X-ME-Received: <xmr:PrRDYWXg1Pkwsp6en2FfK_R83kwrmNxzokQiQOdGjVdcaXADN5Nr9RbtHjUGasTaAgv1>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudehfecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeehnecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:ObRDYSKdSB9h_UDhyjspM0TmpwERkwU-s9SzKBZGZmRHmZJQJEG9WA>
- <xmx:ObRDYdI3syJRkb3v7NwoxSWpd2tkAe33QrtMsNoivpLMUdz2bG09Sg>
- <xmx:ObRDYbwM9NzW-pIW8WdhdnP5TknDBiBWtTdeJTK_PjMKfzvEbNmD1Q>
- <xmx:ObRDYWVKJ5P7d5DsQZ0etF8JKSpwYUb9y0RBJdrIsKrDIl9KPSyZkKNK1M0>
+X-ME-Proxy: <xmx:PrRDYSi1PVkmQeSnGriwNiloT7zK1oUdMAuS1of5nE_lXKzkwPw7HQ>
+ <xmx:PrRDYWDWK13uR6Def8ZXfwlgQ9WJ2hAEvVRe7v8-oPqsQnHNoFqVBw>
+ <xmx:PrRDYTIjq29bQ_ofN6DgbJUPKCauhvnfHSUuKQC585AKDlxfajrpig>
+ <xmx:PrRDYetvSle2C8LMrXQgK20L1Yf2dhwrLh5GY2ZKmyNuJMEdPWkSFqqsuSk>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 17:16:38 -0400 (EDT)
+ 16 Sep 2021 17:16:42 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH 10/15] drm/nouveau: cleanup: drm_modeset_lock_all() -->
+Subject: [PATCH 11/15] drm/msm: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Date: Thu, 16 Sep 2021 23:15:47 +0200
-Message-Id: <20210916211552.33490-11-greenfoo@u92.eu>
+Date: Thu, 16 Sep 2021 23:15:48 +0200
+Message-Id: <20210916211552.33490-12-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210916211552.33490-1-greenfoo@u92.eu>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
@@ -92,50 +92,40 @@ DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 ---
- drivers/gpu/drm/nouveau/dispnv50/disp.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-index d7b9f7f8c9e3..eb613af4cdd5 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
-@@ -667,15 +667,17 @@ nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
- 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
- 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
- 	struct drm_audio_component *acomp = data;
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+index 768012243b44..4cbc79eaee17 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
+@@ -1172,14 +1172,16 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+ 	struct drm_display_mode *mode;
+ 	struct drm_framebuffer *fb;
+ 	struct drm_plane_state *state;
 +	struct drm_modeset_acquire_ctx ctx;
+ 	struct dpu_crtc_state *cstate;
+ 
+ 	int i, out_width;
 +	int ret;
  
- 	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
- 		return -ENOMEM;
+ 	dpu_crtc = s->private;
+ 	crtc = &dpu_crtc->base;
  
--	drm_modeset_lock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
- 	acomp->ops = &nv50_audio_component_ops;
- 	acomp->dev = kdev;
- 	drm->audio.component = acomp;
--	drm_modeset_unlock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
+-	drm_modeset_lock_all(crtc->dev);
++	DRM_MODESET_LOCK_ALL_BEGIN(crtc->dev, ctx, 0, ret);
+ 	cstate = to_dpu_crtc_state(crtc->state);
+ 
+ 	mode = &crtc->state->adjusted_mode;
+@@ -1263,7 +1265,7 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
+ 		dpu_crtc->vblank_cb_time = ktime_set(0, 0);
+ 	}
+ 
+-	drm_modeset_unlock_all(crtc->dev);
++	DRM_MODESET_LOCK_ALL_END(crtc->dev, ctx, ret);
+ 
  	return 0;
  }
- 
-@@ -686,12 +688,14 @@ nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
- 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
- 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
- 	struct drm_audio_component *acomp = data;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int ret;
- 
--	drm_modeset_lock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
- 	drm->audio.component = NULL;
- 	acomp->ops = NULL;
- 	acomp->dev = NULL;
--	drm_modeset_unlock_all(drm_dev);
-+	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
- }
- 
- static const struct component_ops nv50_audio_component_bind_ops = {
 -- 
 2.33.0
 
