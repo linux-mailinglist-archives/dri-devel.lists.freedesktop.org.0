@@ -2,75 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D032740EC9E
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 23:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC1DF40ECA8
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 23:27:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E33A46EA3F;
-	Thu, 16 Sep 2021 21:26:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 631D76E8E5;
+	Thu, 16 Sep 2021 21:27:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 516426E939;
- Thu, 16 Sep 2021 21:25:56 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id 075AE2B011FE;
- Thu, 16 Sep 2021 17:17:04 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 16 Sep 2021 17:17:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=iroseorgTS5+5
- 6n4OvAi9A0zE9zzgwEyhNq+UyaK88I=; b=JqB6MykZyikjd8FHQpkP2BVRiApCi
- p97PKlwm5G0/L/4XVX3lqmTmwqebWnYTO76yp5b24TACA4mDucytOHtFwCKVR8pi
- 5Ut3HOIY7pMqcVlQPruSd3NBk1nqJmyk6Q8GmUt/PhC6uecC5BsJCQbe7izkUB1N
- 1oODFBA15PXUkwVN1edova19IWI1k7sl3D7GZlEfJxWteVbHVqnCXIiBON1YeF6Q
- ke7f46GEo8x9M8/x8g/68cQq+/34OnakZm4nftR794yVgm7HS84DcfEz9/9Xquzn
- NQIrRugchM7CwmINRox74fte0FisiWe+QHwoEe63kzk/D7XsFOC+W5/Hg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=iroseorgTS5+56n4OvAi9A0zE9zzgwEyhNq+UyaK88I=; b=KFmCLz46
- 1FPNUNZEQDILKwJHhkCM3LDNBWvz+Du0FfVwgzscjCIa1lfAFUMCnimOCnz+v2VN
- OIGyPho+V34dOTg+c/liZ3nhJ8V7rjnRiHRq7+K4LuplvVdLlICSGB4EQRysKM3m
- XsRnIfK3DrD1MuKduXDb3s4qXdjLNNXnWPtLpx+Svp+INZSW7vWv7S+5pgFBVO/7
- YKtF8vjl/idG8MDmrMGP+k7KpEgPEie9FYkCHdSaT6Qs2myEMyviDTW4WP8Qkv3U
- y+kmKM4SWxPDHOWwdVvrKTSZPvdibP0auTw41yvGQfEUDCrBhInYnVVyzHzf1P8w
- /zDqSRxgO6ai9A==
-X-ME-Sender: <xms:ULRDYUreEiKr9-wfH7gjUQbDYKJlFusHfKWDogv7Ge602Ckdj2vj2g>
- <xme:ULRDYao97dVnQm7nZvkBz6y2xX7-1i4D6m8xRuEBPuUiX83LHVnC-ALNHac7hyfxI
- eqfXjkzgZz4MQdYaQ>
-X-ME-Received: <xmr:ULRDYZNVgneZAgEhKnokbUl8KnYcgUKXaZlcEOsOsRIX_j_8iuHMQKyHUnZMPLTcfbv1>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehgedgudehfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
- ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeefnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:ULRDYb7tx52V7V4Uy3ZFmKN34pzWAWKKXV2pf9Luy9WJAsmvqBWktg>
- <xmx:ULRDYT6yJPnE9_oDxHhEFQK0wZYXfux_ly9TKvbmMj96gpW4clHJnQ>
- <xmx:ULRDYbg00qLPg30a5Fg6nDCEH4CMmlk7HY8xQlq1WDVb42fpgWPiGQ>
- <xmx:ULRDYQH6y7bdl-ZVVuxrF3UsbDA2Ufy00zFfyaZw0zyk9jss2N3JQIvlack>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 16 Sep 2021 17:17:01 -0400 (EDT)
-From: Fernando Ramos <greenfoo@u92.eu>
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EE1886E8E5
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 21:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date;
+ bh=LSg5nqY71lwKzR27KlZInkjrvBbvnlFaDI0LBxG80tc=; 
+ b=dxfF5RzfTBGVUZouE3FOQ9VAc1jEhMljgjHb3IHgsoaziHaXzrnCNEh1lDRLXLpZEaGcHdLFn1nUqYsfptd0aYATZg2EzypJLi0ado0ufNaooMgxVGCNySXpl+u5wlfO5YEqUQ4mFWUggl3tjH23ZiRdnL6TvlZNBh/0rEEWjPKF4lDN4QESp6bEJSHDZIzsSF9Xxq8NQBLgYayMwPsVYJNiTdbRUvkUFB6rhYtUrNWmPTT1PFYTFLkvwSSodoTXXfg7VJoG3OEOjO/5AbSNSO9Z9MJP4FpRJqw9acMlfD0GTLz5uoiqDGrGMwOKGhQGex0l5VTmEp2FVyuJY4powg==;
+Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
+ helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1mQyuy-0007og-Te; Thu, 16 Sep 2021 23:27:41 +0200
+Date: Thu, 16 Sep 2021 22:27:26 +0100
+From: Melissa Wen <mwen@igalia.com>
 To: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: [PATCH 15/15] doc: drm: remove TODO entry regarding
- DRM_MODSET_LOCK_ALL cleanup
-Date: Thu, 16 Sep 2021 23:15:52 +0200
-Message-Id: <20210916211552.33490-16-greenfoo@u92.eu>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210916211552.33490-1-greenfoo@u92.eu>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Iago Toral <itoral@igalia.com>
+Subject: [PATCH] drm/v3d: fix sched job resources cleanup when a job is aborted
+Message-ID: <20210916212726.2u2psq2egwy2mdva@mail.igalia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="ih32c5ijzknmu2ad"
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,56 +47,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous commits do exactly what this entry in the TODO file asks
-for, thus we can remove it now as it is no longer applicable.
 
-Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+--ih32c5ijzknmu2ad
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+In a cl submission, when bin job initialization fails, sched job resources
+were already allocated for the render job. At this point,
+drm_sched_job_init(render) was done in v3d_job_init but the render job is
+aborted before drm_sched_job_arm (in v3d_job_push) happens; therefore, not
+only v3d_job_put but also drm_sched_job_cleanup should be called (by
+v3d_job_cleanup). A similar issue is addressed for csd and tfu submissions.
+
+The issue was noticed from a review by Iago Toral in a patch that touches
+the same part of the code.
+
+Fixes: 916044fac8623 ("drm/v3d: Move drm_sched_job_init to v3d_job_init")
+Signed-off-by: Melissa Wen <mwen@igalia.com>
 ---
- Documentation/gpu/todo.rst                | 17 -----------------
- Documentation/locking/ww-mutex-design.rst |  2 +-
- 2 files changed, 1 insertion(+), 18 deletions(-)
+ drivers/gpu/drm/v3d/v3d_gem.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 12e61869939e..6613543955e9 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -353,23 +353,6 @@ converted, except for struct drm_driver.gem_prime_mmap.
- 
- Level: Intermediate
- 
--Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
-----------------------------------------------------------
--
--For cases where drivers are attempting to grab the modeset locks with a local
--acquire context. Replace the boilerplate code surrounding
--drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
--DRM_MODESET_LOCK_ALL_END() instead.
--
--This should also be done for all places where drm_modeset_lock_all() is still
--used.
--
--As a reference, take a look at the conversions already completed in drm core.
--
--Contact: Sean Paul, respective driver maintainers
--
--Level: Starter
--
- Rename CMA helpers to DMA helpers
- ---------------------------------
- 
-diff --git a/Documentation/locking/ww-mutex-design.rst b/Documentation/locking/ww-mutex-design.rst
-index 6a4d7319f8f0..6a8f8beb9ec4 100644
---- a/Documentation/locking/ww-mutex-design.rst
-+++ b/Documentation/locking/ww-mutex-design.rst
-@@ -60,7 +60,7 @@ Concepts
- Compared to normal mutexes two additional concepts/objects show up in the lock
- interface for w/w mutexes:
- 
--Acquire context: To ensure eventual forward progress it is important the a task
-+Acquire context: To ensure eventual forward progress it is important that a task
- trying to acquire locks doesn't grab a new reservation id, but keeps the one it
- acquired when starting the lock acquisition. This ticket is stored in the
- acquire context. Furthermore the acquire context keeps track of debugging state
--- 
-2.33.0
+diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
+index 1953706bdaeb..ead0be8d48a7 100644
+--- a/drivers/gpu/drm/v3d/v3d_gem.c
++++ b/drivers/gpu/drm/v3d/v3d_gem.c
+@@ -567,14 +567,14 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
+a,
+ 	if (args->bcl_start !=3D args->bcl_end) {
+ 		bin =3D kcalloc(1, sizeof(*bin), GFP_KERNEL);
+ 		if (!bin) {
+-			v3d_job_put(&render->base);
++			v3d_job_cleanup(&render->base);
+ 			return -ENOMEM;
+ 		}
+=20
+ 		ret =3D v3d_job_init(v3d, file_priv, &bin->base,
+ 				   v3d_job_free, args->in_sync_bcl, V3D_BIN);
+ 		if (ret) {
+-			v3d_job_put(&render->base);
++			v3d_job_cleanup(&render->base);
+ 			kfree(bin);
+ 			return ret;
+ 		}
+@@ -716,7 +716,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
+ 	job->base.bo =3D kcalloc(ARRAY_SIZE(args->bo_handles),
+ 			       sizeof(*job->base.bo), GFP_KERNEL);
+ 	if (!job->base.bo) {
+-		v3d_job_put(&job->base);
++		v3d_job_cleanup(&job->base);
+ 		return -ENOMEM;
+ 	}
+=20
+@@ -810,14 +810,13 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *da=
+ta,
+=20
+ 	clean_job =3D kcalloc(1, sizeof(*clean_job), GFP_KERNEL);
+ 	if (!clean_job) {
+-		v3d_job_put(&job->base);
+-		kfree(job);
++		v3d_job_cleanup(&job->base);
+ 		return -ENOMEM;
+ 	}
+=20
+ 	ret =3D v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACH=
+E_CLEAN);
+ 	if (ret) {
+-		v3d_job_put(&job->base);
++		v3d_job_cleanup(&job->base);
+ 		kfree(clean_job);
+ 		return ret;
+ 	}
+--=20
+2.30.2
 
+
+--ih32c5ijzknmu2ad
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIyBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFDtrkACgkQwqF3j0dL
+ehw0gg/4/ur/Qr3orkVDu++/mCechkhQaHvLAXSaMZOYTXDbJTE2tzYQNdbg6PeD
+0S6i6m7A0TlZUGiATgA+rjvxcgdvsxrhhuIVXxaV/DW5BwVW4k/aaAtbiPmZ1oe0
+XgbPOXRSxVo4L5SK73KeZiNnahuj4lftWeZ0V0HSxoHGAiQIdTJhOgbKVcq1OM6r
+RcwUKbblFGdoF5iG7i9/177H2a8+QZVhEVtfY3Gc+mf974GqlP1ATD9YWAoB8RqV
+EOHb08L2FfLrUkc4vck8L17Y9dAe9IiyWrr0VsK2z4euNqn6L76ikBmk9cjec8J3
+VnUKpz3XgoF1X0hQ2cfWE/5LJ5HToIqqiCQyLHUtjZAOAeYKwq++1UF3SUMwIpWN
+064iJw0y5L32o+sJdXDTZNbo5e32L4M/2l9YwH553l728Y9M+MCjf+yzXWfRoej6
+g73lgssErdLmn/pVb0CfRAvErMQGs9F0zobho+RLnUgpAqSEjPLP46LlPvMP2Yzi
+Wb4INPGEqXtGt2GTSEFq2mgC3A6HvIfotOFFTl6lwYfVmC7ovkRxxk6xDp9NYNGT
+hY6oSGaCdXNm3liEtsH+xGk6wyW6L1bhqMVdBH8VK8694nI6l9gXnXcbY1UDhVL6
+N/f4/zgNAiGE0Scuj++gqMBCahS8PV3sXnd6Qc7WZetxiPvArg==
+=mYng
+-----END PGP SIGNATURE-----
+
+--ih32c5ijzknmu2ad--
