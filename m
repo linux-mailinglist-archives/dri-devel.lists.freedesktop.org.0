@@ -2,28 +2,28 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4565E40D4AA
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:36:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E095840D4AC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E52F6EADB;
-	Thu, 16 Sep 2021 08:36:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C78206EB09;
+	Thu, 16 Sep 2021 08:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D60976EADB
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:36:49 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8A86060F58;
- Thu, 16 Sep 2021 08:36:47 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2F74E6EB09
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:37:30 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id DFE9460F58;
+ Thu, 16 Sep 2021 08:37:27 +0000 (UTC)
 From: Huacai Chen <chenhuacai@loongson.cn>
 To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  Bjorn Helgaas <bhelgaas@google.com>
 Cc: linux-pci@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Xuefeng Li <lixuefeng@loongson.cn>, Huacai Chen <chenhuacai@gmail.com>,
  Huacai Chen <chenhuacai@loongson.cn>
-Subject: [PATCH V6 09/12] PCI/VGA: Log bridge control messages when adding
- devices
-Date: Thu, 16 Sep 2021 16:29:38 +0800
-Message-Id: <20210916082941.3421838-10-chenhuacai@loongson.cn>
+Subject: [PATCH V6 10/12] PCI/VGA: Use unsigned format string to print lock
+ counts
+Date: Thu, 16 Sep 2021 16:29:39 +0800
+Message-Id: <20210916082941.3421838-11-chenhuacai@loongson.cn>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210916082941.3421838-1-chenhuacai@loongson.cn>
 References: <20210916082941.3421838-1-chenhuacai@loongson.cn>
@@ -44,75 +44,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Previously vga_arb_device_init() iterated through all VGA devices and
-indicated whether legacy VGA routing to each could be controlled by an
-upstream bridge.
+From: Bjorn Helgaas <bhelgaas@google.com>
 
-But we determine that information in vga_arbiter_add_pci_device(), which we
-call for every device, so we can log it there without iterating through the
-VGA devices again.
+In struct vga_device, io_lock_cnt and mem_lock_cnt are unsigned, but we
+previously printed them with "%d", the signed decimal format.  Print them
+with the unsigned format "%u" instead.
 
-Note that we call vga_arbiter_check_bridge_sharing() before adding the
-device to vga_list, so we have to handle the very first device separately.
-
-Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 Signed-off-by: Bjorn Helgaas <bhelgaas@google.com>
+Signed-off-by: Huacai Chen <chenhuacai@loongson.cn>
 ---
- drivers/gpu/vga/vgaarb.c | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ drivers/gpu/vga/vgaarb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-index 7cd989c5d03b..7f52db439c11 100644
+index 7f52db439c11..8d07279cb49d 100644
 --- a/drivers/gpu/vga/vgaarb.c
 +++ b/drivers/gpu/vga/vgaarb.c
-@@ -672,8 +672,10 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
+@@ -1103,7 +1103,7 @@ static ssize_t vga_arb_read(struct file *file, char __user *buf,
  
- 	vgadev->bridge_has_one_vga = true;
- 
--	if (list_empty(&vga_list))
-+	if (list_empty(&vga_list)) {
-+		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
- 		return;
-+	}
- 
- 	/* okay iterate the new devices bridge hierarachy */
- 	new_bus = vgadev->pdev->bus;
-@@ -712,6 +714,11 @@ static void vga_arbiter_check_bridge_sharing(struct vga_device *vgadev)
- 		}
- 		new_bus = new_bus->parent;
- 	}
-+
-+	if (vgadev->bridge_has_one_vga)
-+		vgaarb_info(&vgadev->pdev->dev, "bridge control possible\n");
-+	else
-+		vgaarb_info(&vgadev->pdev->dev, "no bridge control possible\n");
- }
- 
- /*
-@@ -1504,7 +1511,6 @@ static int __init vga_arb_device_init(void)
- {
- 	int rc;
- 	struct pci_dev *pdev;
--	struct vga_device *vgadev;
- 
- 	rc = misc_register(&vga_arb_device);
- 	if (rc < 0)
-@@ -1520,15 +1526,6 @@ static int __init vga_arb_device_init(void)
- 			       PCI_ANY_ID, pdev)) != NULL)
- 		vga_arbiter_add_pci_device(pdev);
- 
--	list_for_each_entry(vgadev, &vga_list, list) {
--		struct device *dev = &vgadev->pdev->dev;
--
--		if (vgadev->bridge_has_one_vga)
--			vgaarb_info(dev, "bridge control possible\n");
--		else
--			vgaarb_info(dev, "no bridge control possible\n");
--	}
--
- 	return rc;
- }
- subsys_initcall(vga_arb_device_init);
+ 	/* Fill the buffer with infos */
+ 	len = snprintf(lbuf, 1024,
+-		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%d:%d)\n",
++		       "count:%d,PCI:%s,decodes=%s,owns=%s,locks=%s(%u:%u)\n",
+ 		       vga_decode_count, pci_name(pdev),
+ 		       vga_iostate_to_str(vgadev->decodes),
+ 		       vga_iostate_to_str(vgadev->owns),
 -- 
 2.27.0
 
