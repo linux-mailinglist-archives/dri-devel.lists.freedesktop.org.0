@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96CC640D8D0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3141F40D8CC
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 31DC288AEF;
-	Thu, 16 Sep 2021 11:31:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EA4AE6ED09;
+	Thu, 16 Sep 2021 11:31:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
- [IPv6:2a00:1450:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A1C06ECF6;
- Thu, 16 Sep 2021 11:30:57 +0000 (UTC)
-Received: by mail-wr1-x429.google.com with SMTP id u18so7190039wrg.5;
- Thu, 16 Sep 2021 04:30:57 -0700 (PDT)
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
+ [IPv6:2a00:1450:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C8276ECF1;
+ Thu, 16 Sep 2021 11:30:58 +0000 (UTC)
+Received: by mail-wm1-x330.google.com with SMTP id y132so4568295wmc.1;
+ Thu, 16 Sep 2021 04:30:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KcGBgTqPip6/dZ1AoQyg0Edp54HfoO6axaUUT+kNZpA=;
- b=m+pyF6jf44i4RFjZqLoivuaADocbP/v5QWB06GPgd1/roGp9WvfNytXzKBle2L6Zg+
- mXyqPQlUVZyn0Tdrle2F+DVwrvdzCxUtK0OykRLWv+xUYlynlOx+zb44EcfwYz08Nzql
- 547FX8c15NPftjpGuJdDtv2A3mDNnPbwuFkk4dQdYh+Yy0wV2b6Ruqsqi3nqJzWJE6XD
- u5fMcQuxLDZvK2qot1O5pzPZFlu9OvFq2BE+GEldPNlXvOrlP3dmgIyQoEhRbfBpONgZ
- z3xM4JTg6fRcIB55W+je3nazucPxWZqTLDtOQfMEBWvnUFiN8fjc3GJ5qqB1Kk3a+7Ry
- fwVQ==
+ bh=k0OTgPLj5/kZbUOkhqk9NSO3/CkxGkvCYnJw/k/qjCI=;
+ b=TI5K0ilOVbnZM/XwAm/seTvTSzhbru89RUBDeeOE7/Vy9vUHojENTRDsrem5Q4/L0U
+ /b5vMg12+v4RnZTZLmN1f+GYz2ojB8iFwntOwn3u6TAhGxT5n42xFOD8vYgyiW+Fe7YX
+ NSkWnkXd8d16uA8MYyJu7Gx435UyeXK/9TvgzYISQuiqCwMlaiGIiKQgvrml+PsXzjun
+ PzAQy4yYX93oYlBMWvKEG0L7NMBSbAfsZE3rGpJ5EHP8kj0SjndyeyQg024VjUCctMFn
+ XDT0IPz7dYR2vzsgiGZBndm2nafL4KSG7qOTX/kBOAxWPJfvAybRog5+o1XDdh349b/J
+ TUIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KcGBgTqPip6/dZ1AoQyg0Edp54HfoO6axaUUT+kNZpA=;
- b=F5vTyTFj7pbn5lMVOmdhA1BjSQl7AHITipwZZDSzmW2bS0drSMaeaXT2NB/xcT2bI3
- Xg0jttb3E9VBj3I2+dvyeeVfdOqtu2X3xCQ+SxE3qtcy++P/m9qtL9aeQ5p002brfP4J
- 5NkP0B3X325qi9Iu0Uk+7Y4UTPNFDrMcMXmVXIONnjq1DGnd3K1qwULxnmGfz6xCoEbW
- tosKe3DsqX6mpGCgq8j9dPserFwK5Pb4NzkRgdq59CEMRJZfV0IXxbRgt/tJZTDEThRR
- XlR3Hkl7QvMsmtgfsMaOOO17gJ9Hjykx7Zhb9WLW1ndnesktqzZUK7EKCC6LVJZsKlGe
- K3sQ==
-X-Gm-Message-State: AOAM531kZSSvGphVVx7lBXyScnTYbT963SIRpiObexSmMxgc39UEo3yV
- HLBjeJjJIX/eiF8zAChnMbkOW0wVwE8mhmR1
-X-Google-Smtp-Source: ABdhPJzituzq4pK7OzQD32lgKLYW+PH2DCitMAhYPsU+lk7Ipv+2utGYpP1F4S0XgzV0ZuuuDedxMQ==
-X-Received: by 2002:a5d:6283:: with SMTP id k3mr5550180wru.324.1631791855784; 
- Thu, 16 Sep 2021 04:30:55 -0700 (PDT)
+ bh=k0OTgPLj5/kZbUOkhqk9NSO3/CkxGkvCYnJw/k/qjCI=;
+ b=gykyQpk1d4KKwyf49WTZLHrP3Qd/hCy5x8hSAWx6Jkbx5mkzSt3acEPQt/5rp33Q6Z
+ 3nKvc/6ELCkhWnSNCWkciVm/b+zvEJrwBGhEBWD2dmufWN1au5/Ws3a1hF/U6DAOmn/Z
+ r4Rtb6/wVD09ldHMl1C5n2L//tenraL3l5KlfVtKHUS/X6Kp65O1iwSqE7EqNEj8amN5
+ UXwWxi6fbNJ3ZspW5ssbx623iJJmkf7fRhriRvQpYqD6P5UHkmhAb1nuuU0H7oUREZFY
+ dnBjOA7Fqz3idsBlW3sEiJfMURoa4MNrrsQVU/xPmzecWQYU+F2S+YjzEhpaHqyXObpp
+ p5XQ==
+X-Gm-Message-State: AOAM532m6Q/ahUaE+jo2nvquzehNh5ZkrAL6AY3KnOW+DqXkvHvqtsCb
+ 9ReQy/a1/JwBrJm6SqoHmeM=
+X-Google-Smtp-Source: ABdhPJwLEl2QmPWQ2LggYqWGMl4Nkr4hC1T9Yq1jkr6BsuBkMjrwe0T4qkJGOxUAntZijUG5Ih1f0Q==
+X-Received: by 2002:a1c:800e:: with SMTP id b14mr9700962wmd.54.1631791856706; 
+ Thu, 16 Sep 2021 04:30:56 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
  c17sm3803674wrn.54.2021.09.16.04.30.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 04:30:55 -0700 (PDT)
+ Thu, 16 Sep 2021 04:30:56 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +53,10 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 11/26] drm/radeon: use new iterator in radeon_sync_resv
-Date: Thu, 16 Sep 2021 13:30:27 +0200
-Message-Id: <20210916113042.3631-12-christian.koenig@amd.com>
+Subject: [PATCH 12/26] drm/scheduler: use new iterator in
+ drm_sched_job_add_implicit_dependencies v2
+Date: Thu, 16 Sep 2021 13:30:28 +0200
+Message-Id: <20210916113042.3631-13-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916113042.3631-1-christian.koenig@amd.com>
 References: <20210916113042.3631-1-christian.koenig@amd.com>
@@ -79,52 +80,54 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Simplifying the code a bit.
 
+v2: use dma_resv_for_each_fence
+
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/radeon/radeon_sync.c | 22 +++-------------------
- 1 file changed, 3 insertions(+), 19 deletions(-)
+ drivers/gpu/drm/scheduler/sched_main.c | 26 ++++++--------------------
+ 1 file changed, 6 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon_sync.c b/drivers/gpu/drm/radeon/radeon_sync.c
-index 9257b60144c4..23fa98dfe04b 100644
---- a/drivers/gpu/drm/radeon/radeon_sync.c
-+++ b/drivers/gpu/drm/radeon/radeon_sync.c
-@@ -91,33 +91,17 @@ int radeon_sync_resv(struct radeon_device *rdev,
- 		     struct dma_resv *resv,
- 		     bool shared)
+diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+index 042c16b5d54a..ee2fe37ee724 100644
+--- a/drivers/gpu/drm/scheduler/sched_main.c
++++ b/drivers/gpu/drm/scheduler/sched_main.c
+@@ -699,30 +699,16 @@ int drm_sched_job_add_implicit_dependencies(struct drm_sched_job *job,
+ 					    struct drm_gem_object *obj,
+ 					    bool write)
  {
--	struct dma_resv_list *flist;
--	struct dma_fence *f;
 +	struct dma_resv_iter cursor;
- 	struct radeon_fence *fence;
--	unsigned i;
-+	struct dma_fence *f;
- 	int r = 0;
++	struct dma_fence *fence;
+ 	int ret;
+-	struct dma_fence **fences;
+-	unsigned int i, fence_count;
+-
+-	if (!write) {
+-		struct dma_fence *fence = dma_resv_get_excl_unlocked(obj->resv);
+-
+-		return drm_sched_job_add_dependency(job, fence);
+-	}
+-
+-	ret = dma_resv_get_fences(obj->resv, NULL, &fence_count, &fences);
+-	if (ret || !fence_count)
+-		return ret;
  
--	/* always sync to the exclusive fence */
--	f = dma_resv_excl_fence(resv);
--	fence = f ? to_radeon_fence(f) : NULL;
--	if (fence && fence->rdev == rdev)
--		radeon_sync_fence(sync, fence);
--	else if (f)
--		r = dma_fence_wait(f, true);
--
--	flist = dma_resv_shared_list(resv);
--	if (shared || !flist || r)
--		return r;
--
--	for (i = 0; i < flist->shared_count; ++i) {
--		f = rcu_dereference_protected(flist->shared[i],
--					      dma_resv_held(resv));
-+	dma_resv_for_each_fence(resv, &cursor, shared, f) {
- 		fence = to_radeon_fence(f);
- 		if (fence && fence->rdev == rdev)
- 			radeon_sync_fence(sync, fence);
- 		else
- 			r = dma_fence_wait(f, true);
--
- 		if (r)
- 			break;
+-	for (i = 0; i < fence_count; i++) {
+-		ret = drm_sched_job_add_dependency(job, fences[i]);
++	dma_resv_for_each_fence(obj->resv, &cursor, write, fence) {
++		ret = drm_sched_job_add_dependency(job, fence);
+ 		if (ret)
+-			break;
++			return ret;
  	}
+-
+-	for (; i < fence_count; i++)
+-		dma_fence_put(fences[i]);
+-	kfree(fences);
+-	return ret;
++	return 0;
+ }
+ EXPORT_SYMBOL(drm_sched_job_add_implicit_dependencies);
+ 
 -- 
 2.25.1
 
