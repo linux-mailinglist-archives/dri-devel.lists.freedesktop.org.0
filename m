@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6477240D8C5
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB2140D8CA
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 13:31:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1755E6ECE7;
-	Thu, 16 Sep 2021 11:31:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 537C16ED02;
+	Thu, 16 Sep 2021 11:31:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DA016ECF6;
- Thu, 16 Sep 2021 11:31:06 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id d6so8877518wrc.11;
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18B246ECE7;
+ Thu, 16 Sep 2021 11:31:07 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id g16so8936582wrb.3;
  Thu, 16 Sep 2021 04:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kyOleDVWOJBAX5Al9bzCsD71zDRQwDAxTJRFXlsx32E=;
- b=nH6Fv1srD6vAMImVhu4qkDwJ1DeJ6EHRkTvSHSAiPq1DizBUmg4INVBj7TmvQfN1wk
- s7JN6sTZIm9dz1n5q79HkQJgPRvUic/5SWooR9JTzKPBxkDlM4Vu2E0wd7EDNJkKmJ98
- /M06J8x2kU/X6HhpeOZSK0dF3w7YFWt8WWEhC4a5m4CTDdw7rQ+PzbYLb3TURDnZVYWj
- SXCw6wK6rWrnT1EsKBXe/c6HbppvFPKhPqIgS7EC50/Vy/0lcQW+ToemKTfL2OTQMGO2
- 55aVzZQxbqGneo9E5u/wZv2butWkkQeDIumjyOWFVcIzxmesLz+XSneo4DPscDGkAtT4
- o7uQ==
+ bh=T5DpcdED+phJfKVqBt5o/EY6OXcAzmvE0YoSHl5BvtE=;
+ b=fU0uZ2J+RWIVpW3DVAc8sgy4js4N5IF5HUiLnumZX7CwWYlCQj1o8SF4+pP0pjNDr/
+ PfmAp2IWKPlEa061UWBfkdc+kT7ftsk6t0qM0e+3iin4JRN/j3AOEEYzAcMbHSSjxhFV
+ ehYmyCLWBUBk+TQKYYi1Z056TEOUl35zFps/GJcuiFReWVO95lsd4yx8rYoocpqaCfUg
+ ReJykU+0c1018M5cKEc1PMEzLcPlEon0pYVApNIcqqXw7OMMIhOlYHiW4n278xr0JnHg
+ 3Xi5HPWBxlbj8fIqL9YX2nEimV23EBK1qDBHgg2XK9YPzAF75tyYsdQqXJDf04Mr6X++
+ ziMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kyOleDVWOJBAX5Al9bzCsD71zDRQwDAxTJRFXlsx32E=;
- b=AFIOoaqlvIVuW0wUSFUy+97VDsu8SNSXXHukyh8YZ0PulU8z1DZ5AyHCNYA6fQZESx
- ekOJ48QF6M5C7hBniAGo+cR5T6xhK60Mb1oK2xn22iAyzYJAy/PJ/KrqbAe3pPWXz9bQ
- uKXUMs9UPpL6FKgXQy1BfZcz8/DlGSF1lU4S0J/mMW5tKlyg9rMnsBH61PE4MDQI5oxi
- 2BZP8SC5M7aZNMY7IdWsYP1eaftmgyVW2XIV/e6SJuu29JmK3lyz0nEeQyqw9U+EA9DK
- ZoX9lMJHu3nApl2qyo9cq24i/87LBV7dqjSPtfrx9nyVFsf9lo/psnv7pAr5moYBEzME
- Q6vA==
-X-Gm-Message-State: AOAM533W1rRGfYq0q77mgR9f9cDcOFOyd0oVhuc7qAtFJR9XI3Jn5Gqw
- OsiKH7JQU20wCd3p5/bKFdU=
-X-Google-Smtp-Source: ABdhPJy866PHT8ShEH7QsAqiVUda4amf1rPNdv5LwqdkBFidDrfgrIhuDY1ULhqtsFASvUk9b2bsHg==
-X-Received: by 2002:adf:e406:: with SMTP id g6mr5582396wrm.172.1631791864748; 
- Thu, 16 Sep 2021 04:31:04 -0700 (PDT)
+ bh=T5DpcdED+phJfKVqBt5o/EY6OXcAzmvE0YoSHl5BvtE=;
+ b=L1EHUa5O5zvpr58RrzbtZjFj0GfJCyWgSOH7ZyWTSXIonWTOW0e58KvocFquW+LR+J
+ jR85P+HD6jbMLpB1D/0stG+lUa+O6RSry2uNIXk+gpKdaO2qMLnCtk6HeIGtL4z4WEoy
+ wSKwDaQcZJ+dz0XesC0GZ7ihTkjF8BQRPjM24Hl/0VkoOVVhZVr4TU/WNOZVYqDHUR0J
+ wP6U80Hlc3zAGbkW47A8pluKQlwQnOjS4AM9quZdhjaKF1ZoQU7nXUXL6193YLV7FaQQ
+ qW34A/pEi74Jy9cj/Llv4QwnhN1Gkscyfi1x+ysolGdEHxucHICahwURm3tf5XjkcXx9
+ OFkg==
+X-Gm-Message-State: AOAM533m6JnjLwEBEVTa8Om97R/X7trKUFJSbAiSs8rQHaFodH7HlCGu
+ xlXr6jziWIl2iq9/mlYOCt1liJtK47GIOjFt
+X-Google-Smtp-Source: ABdhPJxIpVQhY2q/5xndvHi56fGo62qGWSuTVugbwaz+TG+lrzUbPfyvd1h/e4YHKxL+T1luxuGFoQ==
+X-Received: by 2002:adf:fc0e:: with SMTP id i14mr5444215wrr.173.1631791865576; 
+ Thu, 16 Sep 2021 04:31:05 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- c17sm3803674wrn.54.2021.09.16.04.31.03
+ c17sm3803674wrn.54.2021.09.16.04.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 04:31:04 -0700 (PDT)
+ Thu, 16 Sep 2021 04:31:05 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,10 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 21/26] drm: use new iterator in
- drm_gem_plane_helper_prepare_fb v2
-Date: Thu, 16 Sep 2021 13:30:37 +0200
-Message-Id: <20210916113042.3631-22-christian.koenig@amd.com>
+Subject: [PATCH 22/26] drm/nouveau: use the new iterator in nouveau_fence_sync
+Date: Thu, 16 Sep 2021 13:30:38 +0200
+Message-Id: <20210916113042.3631-23-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210916113042.3631-1-christian.koenig@amd.com>
 References: <20210916113042.3631-1-christian.koenig@amd.com>
@@ -78,47 +77,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes the handling a bit more complex, but avoids the use of
-dma_resv_get_excl_unlocked().
-
-v2: add missing rcu_read_lock()/unlock()
+Simplifying the code a bit.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/drm_gem_atomic_helper.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 48 +++++++------------------
+ 1 file changed, 12 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c b/drivers/gpu/drm/drm_gem_atomic_helper.c
-index e570398abd78..86df75b2f8eb 100644
---- a/drivers/gpu/drm/drm_gem_atomic_helper.c
-+++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
-@@ -143,6 +143,7 @@
-  */
- int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- {
-+	struct dma_resv_iter cursor;
- 	struct drm_gem_object *obj;
- 	struct dma_fence *fence;
- 
-@@ -150,9 +151,16 @@ int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct drm_plane_st
- 		return 0;
- 
- 	obj = drm_gem_fb_get_obj(state->fb, 0);
--	fence = dma_resv_get_excl_unlocked(obj->resv);
--	drm_atomic_set_fence_for_plane(state, fence);
-+	rcu_read_lock();
-+	dma_resv_for_each_fence_unlocked(obj->resv, &cursor, false, fence) {
-+		rcu_read_unlock();
-+		/* TODO: We only use the first write fence here */
-+		drm_atomic_set_fence_for_plane(state, fence);
-+		return 0;
-+	}
-+	rcu_read_unlock();
- 
-+	drm_atomic_set_fence_for_plane(state, NULL);
- 	return 0;
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 05d0b3eb3690..f3584d840edc 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -339,14 +339,15 @@ nouveau_fence_wait(struct nouveau_fence *fence, bool lazy, bool intr)
  }
- EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
+ 
+ int
+-nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool exclusive, bool intr)
++nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan,
++		   bool exclusive, bool intr)
+ {
+ 	struct nouveau_fence_chan *fctx = chan->fence;
+-	struct dma_fence *fence;
+ 	struct dma_resv *resv = nvbo->bo.base.resv;
+-	struct dma_resv_list *fobj;
++	struct dma_resv_iter cursor;
++	struct dma_fence *fence;
+ 	struct nouveau_fence *f;
+-	int ret = 0, i;
++	int ret;
+ 
+ 	if (!exclusive) {
+ 		ret = dma_resv_reserve_shared(resv, 1);
+@@ -355,10 +356,7 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
+ 			return ret;
+ 	}
+ 
+-	fobj = dma_resv_shared_list(resv);
+-	fence = dma_resv_excl_fence(resv);
+-
+-	if (fence) {
++	dma_resv_for_each_fence(resv, &cursor, exclusive, fence) {
+ 		struct nouveau_channel *prev = NULL;
+ 		bool must_wait = true;
+ 
+@@ -366,41 +364,19 @@ nouveau_fence_sync(struct nouveau_bo *nvbo, struct nouveau_channel *chan, bool e
+ 		if (f) {
+ 			rcu_read_lock();
+ 			prev = rcu_dereference(f->channel);
+-			if (prev && (prev == chan || fctx->sync(f, prev, chan) == 0))
++			if (prev && (prev == chan ||
++				     fctx->sync(f, prev, chan) == 0))
+ 				must_wait = false;
+ 			rcu_read_unlock();
+ 		}
+ 
+-		if (must_wait)
++		if (must_wait) {
+ 			ret = dma_fence_wait(fence, intr);
+-
+-		return ret;
+-	}
+-
+-	if (!exclusive || !fobj)
+-		return ret;
+-
+-	for (i = 0; i < fobj->shared_count && !ret; ++i) {
+-		struct nouveau_channel *prev = NULL;
+-		bool must_wait = true;
+-
+-		fence = rcu_dereference_protected(fobj->shared[i],
+-						dma_resv_held(resv));
+-
+-		f = nouveau_local_fence(fence, chan->drm);
+-		if (f) {
+-			rcu_read_lock();
+-			prev = rcu_dereference(f->channel);
+-			if (prev && (prev == chan || fctx->sync(f, prev, chan) == 0))
+-				must_wait = false;
+-			rcu_read_unlock();
++			if (ret)
++				return ret;
+ 		}
+-
+-		if (must_wait)
+-			ret = dma_fence_wait(fence, intr);
+ 	}
+-
+-	return ret;
++	return 0;
+ }
+ 
+ void
 -- 
 2.25.1
 
