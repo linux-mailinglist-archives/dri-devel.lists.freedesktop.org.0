@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BCA40D459
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:17:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E16740D45C
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 10:18:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 880E86EACE;
-	Thu, 16 Sep 2021 08:17:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F39176EACF;
+	Thu, 16 Sep 2021 08:18:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2C1C36EACE
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:17:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id EA5A36105A
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:17:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E7736EACF
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 42F8361207
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631780221;
- bh=A1KgN/BKdzFqw2IvcqbNn2/tItfe/AQG4ohJ9B0YRm4=;
- h=From:To:Subject:Date:From;
- b=DeAlRofwl7+Y2/HvbWcebGmPwOTXxUCwWSjLP0lUOXLj+hYPo69z8nNBE/VIG8vIJ
- LDdMMRYSweoBc7hITNAOIYbGGLFOgfWKQLj6iwSY3JwmRungov5d5CBdj6RWZy+Vn9
- y/2rFkr181FdVMdhg63k3S3mWUuDeDv5m6xbP3tNsSN11Q7dhrRsQraObtyuTOvs2f
- JJxah1DISVfg+Q8MJo/DpvwdE2fKo+6IhTpkFphO8JmvU0Y8C+AZcv5D2FJz6KqprN
- 99ts/9ZVs9ADhxHfCmmClfdUA54wQur4Gb92mSlcRn7bCAKRXOdgIngLlkhGqcL49t
- hgcuY/a+zKxiw==
+ s=k20201202; t=1631780285;
+ bh=Rhqih0HnVO1qd2rNYMtvbbcljDCKwFJYMBJSa4b1ieY=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=rjHIeEoDygvnlqms9JkKmUhHBrK6BzbpD+K3+prSW190aJy+MiQYwMZbI/fQuDmJj
+ XA9kfB/oKIwEH8js1kCR++AwXQVYs/GRg793HWGP01zetrGxmb527zsiAqwvDwT4vZ
+ mui3zLbeOCDG/scQIfFe93WKWytVGEgdwalL9RKRSWgHgT65HPIR5gWGbu/Ge1TItu
+ Odv69FAnX6FyWI0BMe6ELeu9cLY7Cw/+e049HDOp/SBpEZmnFcYX039UZ39PV8z0i1
+ meSpHZHYmtgEtJM9uXVr0Jw0Kaehl9o+5ja/VAEXKo5Z0V/PuJC4iyJqRx+VYEOFu0
+ doiMzRtmdsWqg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id D9E47610CA; Thu, 16 Sep 2021 08:17:01 +0000 (UTC)
+ id 3FFF261001; Thu, 16 Sep 2021 08:18:05 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214427] New: Amdgpu hangs kernel on boot trying init debugfs
-Date: Thu, 16 Sep 2021 08:17:01 +0000
+Subject: [Bug 214427] Amdgpu hangs kernel on boot trying init debugfs
+Date: Thu, 16 Sep 2021 08:18:04 +0000
 X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
+X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Product: Drivers
 X-Bugzilla-Component: Video(DRI - non Intel)
@@ -44,10 +44,10 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version
- cf_kernel_version rep_platform op_sys cf_tree bug_status bug_severity
- priority component assigned_to reporter cf_regression attachments.created
-Message-ID: <bug-214427-2300@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-214427-2300-XsYI94Qspj@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214427-2300@https.bugzilla.kernel.org/>
+References: <bug-214427-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Bugzilla-URL: https://bugzilla.kernel.org/
@@ -70,41 +70,10 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214427
 
-            Bug ID: 214427
-           Summary: Amdgpu hangs kernel on boot trying init debugfs
-           Product: Drivers
-           Version: 2.5
-    Kernel Version: 5.14.4
-          Hardware: x86-64
-                OS: Linux
-              Tree: Mainline
-            Status: NEW
-          Severity: normal
-          Priority: P1
-         Component: Video(DRI - non Intel)
-          Assignee: drivers_video-dri@kernel-bugs.osdl.org
-          Reporter: inferrna@gmail.com
-        Regression: No
-
-Created attachment 298831
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298831&action=3Dedit
-Screenshot
-
-Early on kernel 5.10 and before it was just
-[drm] Initialized amdgpu 3.40.0 20150101 for 0000:05:00.0 on minor 0
-[drm:amdgpu_debugfs_init] *ERROR* Failed to init debugfs
-[drm:amdgpu_pci_probe] *ERROR* Creating debugfs files failed (-1).
-
-but now it became panic. Kernel patched with
-https://github.com/dolohow/uksm/blob/master/v5.x/uksm-5.14.patch - I'm usin=
-g it
-since version 4 without problems.
-
-Panic starts with
-
-RIP: 0010:debugfs_create_file_size+0x2e/0x40
-
-..and see more on the picture
+--- Comment #1 from Ilia (inferrna@gmail.com) ---
+Created attachment 298833
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298833&action=3Dedit
+Kernel config
 
 --=20
 You may reply to this email to add a comment.
