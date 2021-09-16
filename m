@@ -1,67 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1410B40E1A0
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:37:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E5E40E1A1
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5479C6EB7D;
-	Thu, 16 Sep 2021 16:37:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23A126EB83;
+	Thu, 16 Sep 2021 16:37:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D7D4E6EB7D
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:37:30 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1631810255; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=gVEj4dzgzrzJlW1qXcUVinQb3TzvihTAGFLdLH6ovGk=;
- b=qPqMZvC+XG0dfAPTjhE8Sq3mmi5UWzeAzgXuDzY69nuZYd+ZRO29y2biM+Zw8sGR3Zffagwg
- BW43x3O9sH8JBsoswIwOqsmtP5t4bV940zsJTP5UXgRf5xMBSl8hPHHgeavdsjYjWiQ9wKKB
- tJsGPBH2NB8aGmEcbv3UlVqFdL8=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n06.prod.us-west-2.postgun.com with SMTP id
- 614372b5b585cc7d24dc38c2 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 16 Sep 2021 16:37:09
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 02683C0044B; Thu, 16 Sep 2021 16:37:08 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 76447C43637;
- Thu, 16 Sep 2021 16:37:06 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91AB16EB83
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 16:37:57 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1D20A61B4F;
+ Thu, 16 Sep 2021 16:37:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631810277;
+ bh=xHw2IsddA05zwge0IIPYU87cx7/lezcngaOiXWY6cJE=;
+ h=Date:From:To:Cc:Subject:In-Reply-To:From;
+ b=cj8IXlDlTeFbyNUaf+ZMuWYnZaJIHz/Ce5d4hIH6yDewYGC8vifIwazuuAX4GoM+V
+ lCWLxehY+1XhCvUGnMM4oqhmpVIxtzZGQzNdif/oAkyl51JNHtTnLGscjY90y0LfUB
+ yO3uGKxFss9m7uja0BltRIEO1etgA13QxzSB2FejOOZPGHuraP61th2HIXYDB0fRnf
+ lp3Zl2dLQlJ+UPhwr1lmmmpBrYMCOzrJbllK4Tm8wE9LG//fvr/lC5AMRqRC7ebrW/
+ 4UBR7y/fJ0yZBOxBV/E1qKxhAuvBnvJUf9KggrA+aSD4zbZO6cAnUZAbSn4OuF5FcH
+ KpnTEZ3tXVIAw==
+Date: Thu, 16 Sep 2021 11:37:55 -0500
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Kai-Heng Feng <kai.heng.feng@canonical.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, alexander.deucher@amd.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>
+Subject: Re: [PATCH] vgaarb: Use ACPI HID name to find integrated GPU
+Message-ID: <20210916163755.GA1620802@bjorn-Precision-5520>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 16 Sep 2021 09:37:05 -0700
-From: abhinavk@codeaurora.org
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Rob Clark <robdclark@gmail.com>, DRI mailing list
- <dri-devel@lists.freedesktop.org>, "open list:DRM DRIVER FOR MSM ADRENO GPU"
- <freedreno@lists.freedesktop.org>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, stable <stable@vger.kernel.org>
-Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
- devices
-In-Reply-To: <CAOMZO5CgFFmKmKF0C_1okmu7N24=udevT3LE=0bRoZqUeDQSWg@mail.gmail.com>
-References: <20210914174831.2044420-1-festevam@gmail.com>
- <96038e06b1141ad3348611a25544356e@codeaurora.org>
- <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
- <5409ccef7ee4359d070eed3acd955590@codeaurora.org>
- <CAOMZO5CgFFmKmKF0C_1okmu7N24=udevT3LE=0bRoZqUeDQSWg@mail.gmail.com>
-Message-ID: <f027fcafc30d922b64f954de213a583d@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210519135723.525997-1-kai.heng.feng@canonical.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,57 +52,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Fabio
+[+cc Huacai, linux-pci]
 
-Ah, I did not realize that amd compatible is present in the list and its 
-quite a surprise.
+On Wed, May 19, 2021 at 09:57:23PM +0800, Kai-Heng Feng wrote:
+> Commit 3d42f1ddc47a ("vgaarb: Keep adding VGA device in queue") assumes
+> the first device is an integrated GPU. However, on AMD platforms an
+> integrated GPU can have higher PCI device number than a discrete GPU.
+> 
+> Integrated GPU on ACPI platform generally has _DOD and _DOS method, so
+> use that as predicate to find integrated GPU. If the new strategy
+> doesn't work, fallback to use the first device as boot VGA.
+> 
+> Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
+> ---
+>  drivers/gpu/vga/vgaarb.c | 31 ++++++++++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
+> index 5180c5687ee5..949fde433ea2 100644
+> --- a/drivers/gpu/vga/vgaarb.c
+> +++ b/drivers/gpu/vga/vgaarb.c
+> @@ -50,6 +50,7 @@
+>  #include <linux/screen_info.h>
+>  #include <linux/vt.h>
+>  #include <linux/console.h>
+> +#include <linux/acpi.h>
+>  
+>  #include <linux/uaccess.h>
+>  
+> @@ -1450,9 +1451,23 @@ static struct miscdevice vga_arb_device = {
+>  	MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
+>  };
+>  
+> +#if defined(CONFIG_ACPI)
+> +static bool vga_arb_integrated_gpu(struct device *dev)
+> +{
+> +	struct acpi_device *adev = ACPI_COMPANION(dev);
+> +
+> +	return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
+> +}
+> +#else
+> +static bool vga_arb_integrated_gpu(struct device *dev)
+> +{
+> +	return false;
+> +}
+> +#endif
+> +
+>  static void __init vga_arb_select_default_device(void)
+>  {
+> -	struct pci_dev *pdev;
+> +	struct pci_dev *pdev, *found = NULL;
+>  	struct vga_device *vgadev;
+>  
+>  #if defined(CONFIG_X86) || defined(CONFIG_IA64)
+> @@ -1505,20 +1520,26 @@ static void __init vga_arb_select_default_device(void)
+>  #endif
+>  
+>  	if (!vga_default_device()) {
+> -		list_for_each_entry(vgadev, &vga_list, list) {
+> +		list_for_each_entry_reverse(vgadev, &vga_list, list) {
 
-/*
-  * We don't know what's the best binding to link the gpu with the drm 
-device.
-  * Fow now, we just hunt for all the possible gpus that we support, and 
-add them
-  * as components.
-  */
-static const struct of_device_id msm_gpu_match[] = {
-	{ .compatible = "qcom,adreno" },
-	{ .compatible = "qcom,adreno-3xx" },
-	{ .compatible = "amd,imageon" },
-	{ .compatible = "qcom,kgsl-3d0" },
-	{ },
-};
+Hi Kai-Heng, do you remember why you changed the order of this list
+traversal?
 
-https://github.com/torvalds/linux/commit/e6f6d63ed14c20528aa6df05a8f0707c183c6ba3
+I guess the list_add_tail() in vga_arbiter_add_pci_device() means
+vga_list is generally ordered with small device numbers first and
+large ones last.
 
-For this change itself,
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+So you pick the integrated GPU with the largest device number.  Are
+there systems with more than one integrated GPU?  If so, I would
+naively expect that in the absence of an indication otherwise, we'd
+want the one with the *smallest* device number.
 
-On 2021-09-16 09:24, Fabio Estevam wrote:
-> Hi Abhinav,
+>  			struct device *dev = &vgadev->pdev->dev;
+>  			u16 cmd;
+>  
+>  			pdev = vgadev->pdev;
+>  			pci_read_config_word(pdev, PCI_COMMAND, &cmd);
+>  			if (cmd & (PCI_COMMAND_IO | PCI_COMMAND_MEMORY)) {
+> -				vgaarb_info(dev, "setting as boot device (VGA legacy resources not available)\n");
+> -				vga_set_default_device(pdev);
+> -				break;
+> +				found = pdev;
+> +				if (vga_arb_integrated_gpu(dev))
+> +					break;
+>  			}
+>  		}
+>  	}
+>  
+> +	if (found) {
+> +		vgaarb_info(&found->dev, "setting as boot device (VGA legacy resources not available)\n");
+> +		vga_set_default_device(found);
+> +		return;
+> +	}
+> +
+>  	if (!vga_default_device()) {
+>  		vgadev = list_first_entry_or_null(&vga_list,
+>  						  struct vga_device, list);
+> -- 
+> 2.31.1
 > 
-> On Thu, Sep 16, 2021 at 1:15 PM <abhinavk@codeaurora.org> wrote:
->> 
->> Hi Fabio
->> 
->> Thanks for confirming.
->> 
->> Although I have no issues with your change, I am curious why even msm 
->> is
->> probing and/or binding.
->> Your device tree should not be having any mdp/dpu nodes then.
-> 
-> The i.MX53 does have the following GPU node:
-> 
-> compatible = "amd,imageon-200.0", "amd,imageon";
-> 
-> That's why it probes the msm driver.
-> 
-> However, i.MX53 does not have any of the Qualcomm display controllers.
-> 
-> It uses the i.MX IPU display controller instead.
-> 
-> Hope that clarifies.
-> 
-> Please reply with a Reviewed-by if you are happy with my fix.
-> 
-> Thanks
