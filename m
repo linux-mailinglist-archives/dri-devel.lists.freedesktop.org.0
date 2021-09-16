@@ -2,61 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A972C40E0A4
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:24:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3895240E192
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 18:33:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5D366EE34;
-	Thu, 16 Sep 2021 16:24:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48DB46EE37;
+	Thu, 16 Sep 2021 16:33:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3B3C86EE34;
- Thu, 16 Sep 2021 16:24:38 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id b18so19234358lfb.1;
- Thu, 16 Sep 2021 09:24:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uCbvTsHrDfqrbHo7IDUZ1BawMYMw+OHW2eckD6leFrw=;
- b=SKdjY5FEaQ0GqG9e7SUgo3EJSdJ9cBYQfxQTaKIHYZlyV4GZikhSGj/4oOjIDWk5Wb
- Edk0aD9yZxW1Ze/5veona7v7EhD0rk69CslNznNbGzx61hz2Pnu82abABw8+gqdSHsoT
- geqFzAv+UZ+DCqHZE2jBeRQkVdl1JC5M9HYZ73S/dwMHkj8W+elzP9reXkaAQm5L8aRK
- woMVia+kvmYjfmJnGUoYgxOT+SNPICULOARPEM3WmqSK5XZdr0ZwtEFcT64NtSoGNBYc
- LS/a03kc0rRbDgV+YeV/gf6C3oBkmriTLlTZzXCedGAMrtxGX30oMRzS90xOUopFT6P/
- M5wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uCbvTsHrDfqrbHo7IDUZ1BawMYMw+OHW2eckD6leFrw=;
- b=LGO0F7fOzA9UqZOCRv40u1UV02qqVDodLNR1hLLluwoHIh8dCXgC0BnyYOt85Q3fQx
- vSr2Hel6jtst04A7uObDiDwh7HKBzUDi7HPPCJ4MI3Z/esQ48D6x2yG0eBExcv31M/3r
- ZcNrnDx3pw9cfRtOEVQjL6X5BcIDLzOKsqo7Lp/Zvnonw14tS7APPX3gbXMD5p1zISCu
- prYEZiReFdJ42gAApqJcFE/FJqWKXRQPZWGcgdvfGlUp2eljZPNVlG51eHRnOGjuBxOd
- HV6mYxI8eL4NUGE/6c8s9juUhZJtlVcDMB1MQ5Dg/K+RHRIOQ84blmoaMG35gm2FJDOm
- E+wg==
-X-Gm-Message-State: AOAM531BVl3vyQPhBMuIw6yovZY+r4Y1eXDRKm1D+S6s7Id5jTOXXbY0
- 6zN9VYLYIHPQ0e8o6/P4twMHmxeEVPioxp0tq2Q=
-X-Google-Smtp-Source: ABdhPJytnDVsosxCMngJE5yp0mRR8F94qT0u4e2mWXWm3g/0VWW/3nL+Ga0NESVIvac7i3Nkv2XPSJi9VgDnP2OqOq4=
-X-Received: by 2002:ac2:5d49:: with SMTP id w9mr4596739lfd.450.1631809476327; 
- Thu, 16 Sep 2021 09:24:36 -0700 (PDT)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 083576EE32;
+ Thu, 16 Sep 2021 16:33:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="286292476"
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="286292476"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 09:33:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="433843925"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 09:33:21 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <thomas.hellstrom@linux.intel.com>,
+	<john.c.harrison@intel.com>
+Subject: [PATCH 0/5] Enable GuC submission by default on DG1
+Date: Thu, 16 Sep 2021 09:28:14 -0700
+Message-Id: <20210916162819.27848-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-References: <20210914174831.2044420-1-festevam@gmail.com>
- <96038e06b1141ad3348611a25544356e@codeaurora.org>
- <CAOMZO5BzU3_x7nb8sEF_NDeDOxYM0bQLEpbRzv39jayX=fudYg@mail.gmail.com>
- <5409ccef7ee4359d070eed3acd955590@codeaurora.org>
-In-Reply-To: <5409ccef7ee4359d070eed3acd955590@codeaurora.org>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Thu, 16 Sep 2021 13:24:25 -0300
-Message-ID: <CAOMZO5CgFFmKmKF0C_1okmu7N24=udevT3LE=0bRoZqUeDQSWg@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH] drm/msm: Do not run snapshot on non-DPU
- devices
-To: abhinavk@codeaurora.org
-Cc: Rob Clark <robdclark@gmail.com>,
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, stable <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,30 +48,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Abhinav,
+Minimum set of patches to enable GuC submission on DG1 and enable it by
+default.
 
-On Thu, Sep 16, 2021 at 1:15 PM <abhinavk@codeaurora.org> wrote:
->
-> Hi Fabio
->
-> Thanks for confirming.
->
-> Although I have no issues with your change, I am curious why even msm is
-> probing and/or binding.
-> Your device tree should not be having any mdp/dpu nodes then.
+A little difficult to test as IGTs do not work with DG1 due to a bunch
+of uAPI features being disabled (e.g. relocations, caching memory
+options, etc...) and CI for DG1 isn't all that useful yet. Tested quite
+thoroughly locally though.
 
-The i.MX53 does have the following GPU node:
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-compatible = "amd,imageon-200.0", "amd,imageon";
+Daniele Ceraolo Spurio (2):
+  drm/i915/guc: put all guc objects in lmem when available
+  drm/i915/guc: Add DG1 GuC / HuC firmware defs
 
-That's why it probes the msm driver.
+Matthew Brost (2):
+  drm/i915/guc: Enable GuC submission by default on DG1
+  drm/i915: Take pinning into account in __i915_gem_object_is_lmem
 
-However, i.MX53 does not have any of the Qualcomm display controllers.
+Venkata Sandeep Dhanalakota (1):
+  drm/i915: Do not define vma on stack
 
-It uses the i.MX IPU display controller instead.
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c  | 33 ++++++++-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.h  |  4 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c    |  9 ++-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fw.c | 13 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_huc.c    | 14 +++-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c     |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c  | 90 ++++++++++++++++++++---
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h  |  9 +++
+ 8 files changed, 150 insertions(+), 24 deletions(-)
 
-Hope that clarifies.
+-- 
+2.32.0
 
-Please reply with a Reviewed-by if you are happy with my fix.
-
-Thanks
