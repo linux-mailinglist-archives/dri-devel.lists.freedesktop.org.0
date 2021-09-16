@@ -1,75 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A09440E1C6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 19:08:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF2DE40E1EF
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 19:15:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09D506EBB7;
-	Thu, 16 Sep 2021 17:08:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DE36EBED;
+	Thu, 16 Sep 2021 17:15:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com
- [IPv6:2607:f8b0:4864:20::d35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2A2D56EBB7
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 17:08:20 +0000 (UTC)
-Received: by mail-io1-xd35.google.com with SMTP id p80so2160672iod.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 10:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=kYMlWhMWuy4ezwiyEISjGOPG2Tpg02MXtGhpcC6x5jo=;
- b=Bjxl2kjQCmg31G/NCUver1eYiLHkGB/1Y1w9waW7LSegF9Z14kd+xODw3WPIMAO+Ey
- qBbY3WC0dJdZxz9noKgAgH98Cnhd9dtdTCjlejvY04B54CJHEu7WwrFAZ70dkwUeObeH
- 6ocuojYwUz03+nMzS0NxUmRVIghZ7nj1WWnGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=kYMlWhMWuy4ezwiyEISjGOPG2Tpg02MXtGhpcC6x5jo=;
- b=poZHYgKAj8EpReKuWETM6eJ2vQ3KinavuHU0eYRThlmDz/KyQLq/RykEd9/9jRqARe
- GqK7pj8YLxeFxINdsKiOmOUICGc420tvqQ6If/q6iPSSap24bg3uyMqun7SztD8qnGAU
- GpCByHyNiBKLkLEsvNz7GBwX0zuMhaFSG+QKKmRjfcwZBVOnrW8TRTj3bJFV9eg4RR+4
- gjgf14gHS6A/WdoToxjerFBkLA1lc4N4IMKSiOmjh7VLHez3Ew7GSoR5G0Q91eAcKaaW
- xbjXmH0jiHwMcIbdCW2WnuQ5K93Sgqxyi4YripxfA9R4iiwOxNKCLY82z8GDCSGTgKuM
- i47A==
-X-Gm-Message-State: AOAM5315z3R3U1+D4OzFdWZBSdzyw1/oONV87VAW8V/MNfjK/SzonZVG
- 2raYa6k3VAzzC+QBnW4kbPYfDI+1PwfLbA==
-X-Google-Smtp-Source: ABdhPJwdSFziVqHXeZLIds2uY3/YlOWiF2w4NKjA2OAZwbCCPUkSbzNl4ZKfCVSYEyuqpP24fmdsrg==
-X-Received: by 2002:a5d:9da4:: with SMTP id ay36mr5328852iob.153.1631812098775; 
- Thu, 16 Sep 2021 10:08:18 -0700 (PDT)
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
- [209.85.166.48])
- by smtp.gmail.com with ESMTPSA id b12sm656725ioj.55.2021.09.16.10.08.16
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 10:08:17 -0700 (PDT)
-Received: by mail-io1-f48.google.com with SMTP id j18so8706391ioj.8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 10:08:16 -0700 (PDT)
-X-Received: by 2002:a6b:6a14:: with SMTP id x20mr5042916iog.177.1631812096362; 
- Thu, 16 Sep 2021 10:08:16 -0700 (PDT)
+Received: from na01-obe.outbound.protection.outlook.com
+ (mail-oln040093003013.outbound.protection.outlook.com [40.93.3.13])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81B666EBED
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 17:15:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mAbDFyUdvlGPu2qOy0nCRtAZWWkUejAlUUjgFcI9CBfZO1nzS/wWo0B+ouJHfyGsNsmLNf1vovztch9lIRYavjSV5+zk5VRVpuIn4obo3e4ZSpcm2aGQb4jgyJqmPNISNKXuTh/RbcFjIE97vn3kU61Ke6wlTzByQe7fK481CJoS5JCemUcmh0w6eXz6jWxtGN3woao6Lh10SFxQNw2H6lhb8y+LtPlc47pq0tKBPS622umuHxp4cf9TTMsYXkW5NLX/ryR7x9NtNBJt8NWEg2/TCgpr6JgWlJUPSrmTOSmITSez1/OF/OwwUVaxDdWLgEAsRxf8GeU7SLDkAVw0PQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=V9/0ht69rSgHA4RWeq8iM0wgw9sbIqL8c7I7quy/ZzU=;
+ b=PijiFFcB/rarZfDponz+pWsdx45fBuc18u5mtcPix+f4+6MEDamu0+D9P4jLP3tvAxsR+iEqN4aBDGEkeAR6c3WJISnIFmEYvRrRnMyAjLcIAg1DCrUuWxuBd2bv+5NNFyKZ+Lw7lXVwVjfpCJFtZi/Uh7U8sS7Suxr7zhygyqQX8ZX6xnM9Q91XaIdzjdHrecgAiYfuhfF7ttqiDIpU7nyvdDECfLxa5FUTYjHKJwoOZP+0Jjp7UqIEm5WsSKdA5X+YKan19OMpccr6vJDVIAThzZZA7uMF1ZAyR2LXvrhVFF5DOVDR41cBhPdkXied0xbpJm3zM/KjFNytWTt4MQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microsoft.com; dmarc=pass action=none
+ header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=V9/0ht69rSgHA4RWeq8iM0wgw9sbIqL8c7I7quy/ZzU=;
+ b=RxOjrZREf6ZDnd9jLH/TxCt+FK6RZgpXnTeHfHmYEeYrKEhNK6wzMNR3Pd95e9yorFl6GvPcSnzv9s/zZPbJhMrzViG35oHBrmlKTgpOxSORTnp5NUebcbBrEIP794jaiX2JqT4AJINfcczyLxKH+MzngOqNSlwJZJKJQEMhpGw=
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
+ by BYAPR21MB1176.namprd21.prod.outlook.com (2603:10b6:a03:104::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.3; Thu, 16 Sep
+ 2021 17:15:02 +0000
+Received: from BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::e56b:9b01:9633:78c0]) by BYAPR21MB1270.namprd21.prod.outlook.com
+ ([fe80::e56b:9b01:9633:78c0%7]) with mapi id 15.20.4544.002; Thu, 16 Sep 2021
+ 17:15:02 +0000
+From: Dexuan Cui <decui@microsoft.com>
+To: Deepak Rawat <drawat.floss@gmail.com>
+CC: Haiyang Zhang <haiyangz@microsoft.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] drm/hyperv: Fix double mouse pointers
+Thread-Topic: [PATCH] drm/hyperv: Fix double mouse pointers
+Thread-Index: AQHXqYGDSoFNik8c8kWZU0a77zui5aukpo7QgAIzCwCAAA9bQA==
+Date: Thu, 16 Sep 2021 17:15:02 +0000
+Message-ID: <BYAPR21MB1270E92AFA833942EB6B75C8BFDC9@BYAPR21MB1270.namprd21.prod.outlook.com>
+References: <20210913182645.17075-1-decui@microsoft.com>
+ <CAHFnvW0iX1FMTcJzQQtjHGosavSJ6-9wkRb7C0Ljv3c+BBUEXQ@mail.gmail.com>
+ <BYAPR21MB1270C4427C264D14F151A0CCBFDB9@BYAPR21MB1270.namprd21.prod.outlook.com>
+ <CAHFnvW3J-9LGCUSP_5mvYFyiUMCy63=egu1X3Uv9GrecfOJvRQ@mail.gmail.com>
+In-Reply-To: <CAHFnvW3J-9LGCUSP_5mvYFyiUMCy63=egu1X3Uv9GrecfOJvRQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=20d8c9ba-e140-4051-a0c6-422e94604b97;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-09-16T17:12:09Z;
+ MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=microsoft.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fa0bef30-1f83-4c5f-60ea-08d97935852d
+x-ms-traffictypediagnostic: BYAPR21MB1176:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR21MB11762F484EC1C5F3F795F64ABFDC9@BYAPR21MB1176.namprd21.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6430;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9WZgm6BFrf4Z0l6nqrLgNR7LJ8mpycC4NKtrLKuA3wR6bkocptv1vxLvJB0sQzVjIjAuxfk18NeljXKCIk95ucTQJLvfSWlyl42AB76ycVH1N01yetBmvKl0PUifKO9VolZkCcbGp2vmmcj29pOxg/2PYuMsbj/+wAU43qhVzzNL+qRzIdOeDF04RbTG7jpIILpM6iZ9PRwio3LFluco6enFzNhkvcGINgNVKnDSxA6DB3jeDvzvU8gNfmPbhsKzTLjlDHsZFfl99UbokrtFca9ZlA7Y3YiLNJwnhHfisZ1cXMFtLmFElHk9FniTHnvLkL0jp3CbIcmzojA2EUiMrATjHCVJNyUBGF79eZgtQ2JJxK+Zvws2d0nlSaj/kJHyKDu7oyjX+v8Nl9m88VSSAw284iXqkck8xtk+O4K4IFISfMGZqpqHoi0rZpcQmINxXmvkou7n5uRvRtcMHITN1q22J7Vu/YK8rDdwosOkD1Oafk0tbZkp4W+p1JHfaMFZyLwh7tk69X0teeYJyRi7wJXKmnsUdmtw5SMLdF9Ljr4ON3X8eclF9pcx8UeepIbn1q4RLiQjOVSxeKl4heSSFglCzmGH+xGjVyY4yR8TWsHBCK72Z7CBj/arwgMQIiw5Z4M3to+V+fUIIF2BVsqTyBA0qgsOEW6gc/bT/tq0OMQ8MTPWpx7bKVfW+DHhibC6d/7aYYhyqNM0cvSGiQmdGw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR21MB1270.namprd21.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(7696005)(52536014)(82960400001)(82950400001)(38070700005)(4744005)(4326008)(38100700002)(186003)(8676002)(8990500004)(122000001)(33656002)(9686003)(54906003)(55016002)(2906002)(10290500003)(66446008)(64756008)(53546011)(66556008)(316002)(6916009)(26005)(86362001)(71200400001)(76116006)(83380400001)(5660300002)(66946007)(6506007)(66476007)(8936002)(508600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?ekV5NmFzQWRNUld2SWEydGpURk5QVWNudzcxZ3JpMmJDa0RodkhnbnFkWEpR?=
+ =?utf-8?B?d1hhV1cvKy96ajVYVk9vbVhZZDQ0Z1VUUllnUTBpWHE1cG4ra1c5Q09DZTNU?=
+ =?utf-8?B?VThhYTd5b3NDazR1TGMwS2ttd2kyQkE2bFkvUHk2Sy9hVWw5Z0JlNDJCZFlF?=
+ =?utf-8?B?V2tKcVVBMys2OTkrclZoVkgwSE5QeTRrdGk4Ry9wak1ndDNEZy9JM3Faa0Ns?=
+ =?utf-8?B?MDNPR05ZR2FCNTV3cUw0OFBtYTQxWWRhUDMyWFBWYVJVd0I0ZjFLNTNLam9G?=
+ =?utf-8?B?ZEZ0R2c0b0NwMzYxNGlMRFdiSUZXK00yYmE3RzZJWTBIbVNoMldwWmZ6Y05W?=
+ =?utf-8?B?TUpDVjQxdVpUaXQxQ2I3SnRHa0Jnd056Wm1OcjkyaGlwR2tvYWhKeFJ4ZDBn?=
+ =?utf-8?B?dXJ3L0JxNUltbXhQMFFjMjhkSTMrTjhQY2tsQjNPRHJBbWVXUHV1YjZSOWNT?=
+ =?utf-8?B?WkZXUDN4VVE3Snl6Qks0Z0NzQ0tZblA3K29QQmMxUnE3cXN5M1BKVHpXN3FB?=
+ =?utf-8?B?cjdYblZwd1NWbWVicU1iYTZsWkJmNkJ2dU5xM0xWb0FRWE5uWTNNZTVpblRa?=
+ =?utf-8?B?blBSZEFiUmhzMDJYRmZSZmh0VDhnT25jMDd5Q05NUGlLNW5LM1dMaTkvb3Ru?=
+ =?utf-8?B?Q2VEZjcrV2tIalFyWGpJN3dROUJiaTlnQnBhMTNoV0M3eHhHb1psZFZIRVdh?=
+ =?utf-8?B?R2hkOGxDeXUzK1FlQThzSGV2TGxaQ3lvQnNaa29EbFQ1VFdtb1NpbkxnbFhD?=
+ =?utf-8?B?SVVnM0Y4d2ZLNlRkV2RkT2toNnp0RFpMVHVCMVBVN3RTWlpLT1F1S2JXT3V4?=
+ =?utf-8?B?K0Z6MzBFOUdJYlNMcjVkZVJ5ZUFVSkdHekNGZXZwSnZkS25NR0ZBeS9KSkpX?=
+ =?utf-8?B?Z0pIeWYxemV3UjNOU3c1QlBiY1BFQlJYL2NvcFE3SlNrVGo1Y3NwejBmSS9H?=
+ =?utf-8?B?alpvaUtCdjdjV0NYM0dVUWwrdHBuUCtia0Fkdnc4Tk9UUGFBU3FPZWJ1K3hW?=
+ =?utf-8?B?ZlFYL2pTM2tpaGlVZERQNlZiRGp3dnJIU05rY0dldytSN2FNMzREVmdyY2hO?=
+ =?utf-8?B?L3E1bS84bHVLSDZkYUNzRzVjeG1FdkkwZURvTXFINUhWK0pCcUo1QlNsUUlu?=
+ =?utf-8?B?M2xLd2hoTUh2Mi9OdUVmNkhDMndpc3lqSUlFTEhKT0w5UWpuZ3lyd1RRUDQ0?=
+ =?utf-8?B?M2x0YUEyWFVvTDZUQUtyWE1NTHpyNkNyZjgwRnB6TFUyYkFPazhvSUc3K0t2?=
+ =?utf-8?B?WFBVcVdJV3NKWit6OGlQeS8wb1VubG40Tk5Td0V6K2hkb2RHREQ3MFJyTTc2?=
+ =?utf-8?B?bWRCNFNRYyt1bHErK3Bmd3JlcEFJbnp0SzNCS3ZUWGpUbGVCNUszd3ZSZm9m?=
+ =?utf-8?B?L2hZWjBhd2trR2F5LzZEL1VlZXdaT1M1UHhEaU5vcnp3WXhGeU82b0dqdWFF?=
+ =?utf-8?B?NEpsQzVHMUQ3Sm1UbzNuc3RBSjkyc1F5SGhpVThEdUp5VEdkVVJ3c3VHYzhU?=
+ =?utf-8?B?aG5abndHSjh1RTF3Vjlla3RjNndkSTl4b096cDkrTEFsTTJEOXp3c1h6cnZy?=
+ =?utf-8?B?alRDVlk5N04yaGVYajJNL002VDAzNDBpU1BBVHR5MWJrejA3K1hpbkVvOThj?=
+ =?utf-8?B?Qm0yRHhPaVVOMTRWZUFJcmtkSmZkaysrMndaR2YzZkFLd3B2Vys3Wk83NDhO?=
+ =?utf-8?B?QlJIUi94TUxtZFNuNU4rWTdIbi80Wk5JM3I4eFpCRzB2R29YM1h1WVBTSlZz?=
+ =?utf-8?Q?KCwZ8tI1rK8VQcsPq6jl4BBvZoroGoZCT7k6b7g?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210908135356.18689-1-macroalpha82@gmail.com>
- <2719341.5nTrVeAVQv@diego>
-In-Reply-To: <2719341.5nTrVeAVQv@diego>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 16 Sep 2021 10:08:05 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VhOu7v5s0Jx1ATA62LJbFJgtpHNiPUDo9+sxarsef3dw@mail.gmail.com>
-Message-ID: <CAD=FV=VhOu7v5s0Jx1ATA62LJbFJgtpHNiPUDo9+sxarsef3dw@mail.gmail.com>
-Subject: Re: [PATCH] drm/rockchip: Update crtc fixup to account for fractional
- clk change
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>
-Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
- Chris Morgan <macroalpha82@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Sandy Huang <hjc@rock-chips.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- zhangqing <zhangqing@rock-chips.com>, 
- Chris Morgan <macromorgan@hotmail.com>, Brian Norris <briannorris@chromium.org>,
- Chen-Yu Tsai <wenst@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: microsoft.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fa0bef30-1f83-4c5f-60ea-08d97935852d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2021 17:15:02.2797 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hkAl/BJqc35HMaiTKcktJFlmLOyq5ds47c14SmpzR6+5et//QVRdh8v1G0gIslxJ6fNJWfhmzMAH6pAhgHcorg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR21MB1176
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,216 +140,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Tue, Sep 14, 2021 at 4:14 AM Heiko St=C3=BCbner <heiko@sntech.de> wrote:
->
-> Hi,
->
-> Am Mittwoch, 8. September 2021, 15:53:56 CEST schrieb Chris Morgan:
-> > From: Chris Morgan <macromorgan@hotmail.com>
-> >
-> > After commit 928f9e268611 ("clk: fractional-divider: Hide
-> > clk_fractional_divider_ops from wide audience") was merged it appears
-> > that the DSI panel on my Odroid Go Advance stopped working. Upon closer
-> > examination of the problem, it looks like it was the fixup in the
-> > rockchip_drm_vop.c file was causing the issue. The changes made to the
-> > clk driver appear to change some assumptions made in the fixup.
-> >
-> > After debugging the working 5.14 kernel and the no-longer working
-> > 5.15 kernel, it looks like this was broken all along but still
-> > worked, whereas after the fractional clock change it stopped
-> > working despite the issue (it went from sort-of broken to very broken).
-> >
-> > In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
-> > 17000999 on my board. The clock driver was taking the value of the
-> > parent clock and attempting to divide the requested value from it
-> > (17000000/17000999 =3D 0), then subtracting 1 from it (making it -1),
-> > and running it through fls_long to get 64. It would then subtract
-> > the value of fd->mwidth from it to get 48, and then bit shift
-> > 17000999 to the left by 48, coming up with a very large number of
-> > 7649082492112076800. This resulted in a numerator of 65535 and a
-> > denominator of 1 from the clk driver. The driver seemingly would
-> > try again and get a correct 1:1 value later, and then move on.
-> >
-> > Output from my 5.14 kernel (with some printfs for good measure):
-> > [    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops =
-vop_component_ops)
-> > [    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops =
-dw_mipi_dsi_rockchip_ops)
-> > [    2.855980] Clock is dclk_vopb_frac
-> > [    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Pa=
-rent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
-> > [    2.903529] Clock is dclk_vopb_frac
-> > [    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17=
-000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
-> > [    2.903579] Clock is dclk_vopb_frac
-> > [    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17=
-000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
-> >
-> > Contrast this with 5.15 after the clk change where the rate of 17000999
-> > was getting passed and resulted in numerators/denomiators of 17001/
-> > 17000.
-> >
-> > Output from my 5.15 kernel (with some printfs added for good measure):
-> > [    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops =
-vop_component_ops)
-> > [    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops =
-dw_mipi_dsi_rockchip_ops)
-> > [    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 1701=
-8, Best Denominator 17017
-> > [    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 1700=
-1, Best Denominator 17000
-> > [    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 1700=
-1, Best Denominator 17000
-> > [    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 1700=
-1, Best Denominator 17000
-> >
-> > After tracing through the code it appeared that this function here was
-> > adding a 999 to the requested frequency because of how the clk driver
-> > was rounding/accepting those frequencies. I believe after the changes
-> > made in the commit listed above the assumptions listed in this driver
-> > are no longer true. When I remove the + 999 from the driver the DSI
-> > panel begins to work again.
-> >
-> > Output from my 5.15 kernel with 999 removed (printfs added):
-> > [    2.852054] rockchip-drm display-subsystem: bound ff460000.vop (ops =
-vop_component_ops)
-> > [    2.864483] rockchip-drm display-subsystem: bound ff450000.dsi (ops =
-dw_mipi_dsi_rockchip_ops)
-> > [    2.880869] Clock is dclk_vopb_frac
-> > [    2.880892] Rate 17000000, Parent Rate 17000000, Best Numerator 1, B=
-est Denominator 1
-> > [    2.928521] Clock is dclk_vopb_frac
-> > [    2.928551] Rate 17000000, Parent Rate 17000000, Best Numerator 1, B=
-est Denominator 1
-> > [    2.928570] Clock is dclk_vopb_frac
-> > [    2.928574] Rate 17000000, Parent Rate 17000000, Best Numerator 1, B=
-est Denominator 1
-> >
-> > I have tested the change extensively on my Odroid Go Advance (Rockchip
-> > RK3326) and it appears to work well. However, this change will affect
-> > all Rockchip SoCs that use this driver so I believe further testing
-> > is warranted. Please note that without this change I can confirm
-> > at least all PX30s with DSI panels will stop working with the 5.15
-> > kernel.
-> >
-> > Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
->
-> With 5.15-rc1 on:
-> - rk3288-pinky+eDP (was working -> still working)
-> - rk3399-kevin+eDP (was working -> still working)
-> - px30-minievb (was broken -> working again)
->
-> Tested-by: Heiko Stuebner <heiko@sntech.de>
->
->
-> I've also added Doug, maybe he remembers some historic artifact
-> to keep in mind about the original patch.
-
-So when you say "was working" -> "still working", how did you test
-that? Did you just confirm that something was showing up on the
-screen, or did you check debugfs and make sure that the PLLs were all
-being set correctly? Also, I can't quite remember if the problems here
-were related to the internal display (and on which rockchip device) or
-HDMI where we could have a whole lot more possible pixel clocks. I can
-dig if need be. ...but I'm fairly certain that we can't just delete
-the "+ 999" and expect everything to work. All of the stuff in the
-comment above the "+ 999" is still as true today as it was when I
-wrote it. DRM is still in kHz and the Rockchip clock driver still
-rounds down.
-
-I suspect that the problem here is that the logic I wrote up just
-doesn't work great if your display clock is made by a "frac" clock.
-That's pretty much what I was saying when I wrote the comment:
-
-> NOTE: if the PLL (maybe through a divider) could actually make
-> a clock rate 999 Hz higher instead of the one we want then this
-> could be a problem.
-
-Maybe we can come up with a solution, though.
-
-So one thing is that I'd suspect that the problem is actually a bug
-with the fractional clock driver. "Best Numerator 17001, Best
-Denominator 17000" is probably not a valid thing to set and the clock
-driver should know this and seek out a different rate. I haven't dug
-through your code paths but, for instance, the comments above
-rockchip_fractional_approximation() say that denominator must be 20x
-the numerator if you want a good clock. That's clearly not the case
-here. There could also be maximum values of the numerator /
-denominator that are being ignored. I would sorta bet that if the frac
-clock driver was fixed that a clock anywhere between 17000000 and
-17000999 would work just fine for you.
-
-In any case, despite the clock driver being screwy, probably this
-would fix it for you (untested) and is a better solution I think:
-
-rate =3D clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
-if (rate / 1000 !=3D adjusted_mode->clock)
-  rate =3D clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + 999);
-
-Basically: if we can happen to make the rate exactly then we're good.
-Otherwise then try bumping up by 999.
-
-
-> > ---
-> >  drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 21 +++------------------
-> >  1 file changed, 3 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/=
-drm/rockchip/rockchip_drm_vop.c
-> > index ba9e14da41b4..bfef4f52dce6 100644
-> > --- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> > +++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
-> > @@ -1169,31 +1169,16 @@ static bool vop_crtc_mode_fixup(struct drm_crtc=
- *crtc,
-> >        *
-> >        * - DRM works in in kHz.
-> >        * - Clock framework works in Hz.
-> > -      * - Rockchip's clock driver picks the clock rate that is the
-> > -      *   same _OR LOWER_ than the one requested.
-> >        *
-> >        * Action plan:
-> >        *
-> > -      * 1. When DRM gives us a mode, we should add 999 Hz to it.  That=
- way
-> > -      *    if the clock we need is 60000001 Hz (~60 MHz) and DRM tells=
- us to
-> > -      *    make 60000 kHz then the clock framework will actually give =
-us
-> > -      *    the right clock.
-> > -      *
-> > -      *    NOTE: if the PLL (maybe through a divider) could actually m=
-ake
-> > -      *    a clock rate 999 Hz higher instead of the one we want then =
-this
-> > -      *    could be a problem.  Unfortunately there's not much we can =
-do
-> > -      *    since it's baked into DRM to use kHz.  It shouldn't matter =
-in
-> > -      *    practice since Rockchip PLLs are controlled by tables and
-> > -      *    even if there is a divider in the middle I wouldn't expect =
-PLL
-> > -      *    rates in the table that are just a few kHz different.
-> > -      *
-> > -      * 2. Get the clock framework to round the rate for us to tell us
-> > +      * 1. Get the clock framework to round the rate for us to tell us
-> >        *    what it will actually make.
-> >        *
-> > -      * 3. Store the rounded up rate so that we don't need to worry ab=
-out
-> > +      * 2. Store the rounded up rate so that we don't need to worry ab=
-out
-> >        *    this in the actual clk_set_rate().
-> >        */
-> > -     rate =3D clk_round_rate(vop->dclk, adjusted_mode->clock * 1000 + =
-999);
-> > +     rate =3D clk_round_rate(vop->dclk, adjusted_mode->clock * 1000);
-> >       adjusted_mode->clock =3D DIV_ROUND_UP(rate, 1000);
-> >
-> >       return true;
-> >
->
->
->
->
+PiBGcm9tOiBEZWVwYWsgUmF3YXQgPGRyYXdhdC5mbG9zc0BnbWFpbC5jb20+DQo+IFNlbnQ6IFRo
+dXJzZGF5LCBTZXB0ZW1iZXIgMTYsIDIwMjEgOToxNyBBTQ0KPiBUbzogRGV4dWFuIEN1aSA8ZGVj
+dWlAbWljcm9zb2Z0LmNvbT4NCj4gQ2M6IEhhaXlhbmcgWmhhbmcgPGhhaXlhbmd6QG1pY3Jvc29m
+dC5jb20+OyBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+Ow0KPiBEYW5pZWwgVmV0dGVy
+IDxkYW5pZWxAZmZ3bGwuY2g+OyBUaG9tYXMgWmltbWVybWFubg0KPiA8dHppbW1lcm1hbm5Ac3Vz
+ZS5kZT47IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmc7DQo+IGxpbnV4LWh5cGVydkB2
+Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDog
+UmU6IFtQQVRDSF0gZHJtL2h5cGVydjogRml4IGRvdWJsZSBtb3VzZSBwb2ludGVycw0KPiANCj4g
+SEkgRGV4dWFuLCB0aGFua3MgZm9yIGNvbmZpcm1pbmcuIENvdWxkIHlvdSBwbGVhc2UgYWRkIHRo
+aXMgYXMgYQ0KPiBjb21tZW50IHRvIHRoZSBmdW5jdGlvbi4NCj4gDQo+IFJldmlld2VkLWJ5OiBE
+ZWVwYWsgUmF3YXQgPGRyYXdhdC5mbG9zc0BnbWFpbC5jb20+DQoNClRoYW5rcywgRGVlcGFrISAN
+CldpbGwgZG8sIGFuZCBJJ2xsIHJlbmFtZSB0aGUgZnVuY3Rpb24gdG8gaHlwZXJ2X2hpZGVfaHdf
+cHRyKCkgdG8NCmJldHRlciBleHByZXNzIHRoZSBpbnRlbnQgb2YgdGhlIGZ1bmN0aW9uLg0K
