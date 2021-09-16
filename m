@@ -2,58 +2,95 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987D640DC4C
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9007240DC5A
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 16:06:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF03D6EDDE;
-	Thu, 16 Sep 2021 14:04:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 535626EDE2;
+	Thu, 16 Sep 2021 14:06:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2E8546EDDE;
- Thu, 16 Sep 2021 14:04:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="219382226"
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="219382226"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 16 Sep 2021 07:04:08 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="545717360"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 16 Sep 2021 07:04:01 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Thu, 16 Sep 2021 17:04:01 +0300
-Date: Thu, 16 Sep 2021 17:04:01 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Rajat Jain <rajatja@google.com>, Lyude <lyude@redhat.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <mgross@linux.intel.com>,
- Andy Shevchenko <andy@infradead.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Mario Limonciello <mario.limonciello@outlook.com>,
- Mark Pearson <markpearson@lenovo.com>,
- Sebastien Bacher <seb128@ubuntu.com>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 9/9] drm/i915: Add privacy-screen support
-Message-ID: <YUNO0VrffuPZa02O@intel.com>
-References: <20210906073519.4615-1-hdegoede@redhat.com>
- <20210906073519.4615-10-hdegoede@redhat.com>
- <87sfy4x3ic.fsf@intel.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2067.outbound.protection.outlook.com [40.107.244.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 88B9D6EDE2;
+ Thu, 16 Sep 2021 14:06:26 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GixEw+XJ30DX2/LCioV2B1o3S8UwKwpuHI8JC7swbLLS+RPfq30AXD5ovggqjPkMRAasxZie9EFR0e48Gqxo3Zv6PN/J6eh6XEqJxPsuPanX21ZQG7tFiV4zVoQJo6rqrRATp9GLgf4Dfr40YEmp8xr6Szuaern/flg/XK447CnmbkVjWJropAPlgyBziJr4/9T25tZ9sdnbp2x8j+6gLnDV0U3gQmoJmfyBu2xGR3c9KPnn9DHSMDkChJGp3g2sLiC/7V76KXI9JyttqQsik7IGc/V790XBVTP2zO6ZBwOmBJH8dk0UHr74HaDXzExLq1ZP4E79hWnDpEX95j8BHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=vPWTSEU1hoGh5QZmyKc13MaOPHjC8zMbp9R4+sMpGA0=;
+ b=R34S6dje7G1eJWyl97Gk1lBQ7xl/DaH5bIzX9aELnHtPvUmzEA4HDxcUsRT7ZQNkEII7PLl3sFPGuEe48BnCHez5HAxU2A7Muzuf9YO5kW30YaHWaoT9DDkED28NIqCgOWKl04CcGS13KOGtWx7iiXb9+0rgMxthobPMe9SZmN0IHzB89n4Jn44/ErOUdIoMTXjLOIIvJUQyVdH6Gx0kOjRFaLrOZkkMxaMHvFRyOQeDKaVwl6PaDOTe/ZgwYXYq0oxlht9ge8R2lLM32c5z3OsFTHvIDNL01BQ5WkIZKU42abZRC/sawITkkRIQHzshVz/pgtuKVrV4KFe57ECC8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vPWTSEU1hoGh5QZmyKc13MaOPHjC8zMbp9R4+sMpGA0=;
+ b=sWRudbhMc3f/1EfkOQ+TKw2ZKSjkzQRkUYKiaEeTHAgNK1I7nyBL6Z2cJn65x+e4yS2ZCxdvqywPOksHDB3ND2A/3R18/eX4pQHBwgv1kPafiwk6hFdxAOSevgVLSwfyGAymXoG+WPWMOOMf1ZUmZ3bOKPQW0Nc1rlWdq0A8Bxk=
+Received: from DM3PR11CA0002.namprd11.prod.outlook.com (2603:10b6:0:54::12) by
+ DM6PR12MB4987.namprd12.prod.outlook.com (2603:10b6:5:163::31) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14; Thu, 16 Sep 2021 14:06:24 +0000
+Received: from DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:0:54:cafe::2f) by DM3PR11CA0002.outlook.office365.com
+ (2603:10b6:0:54::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.14 via Frontend
+ Transport; Thu, 16 Sep 2021 14:06:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ DM6NAM11FT068.mail.protection.outlook.com (10.13.173.67) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4523.14 via Frontend Transport; Thu, 16 Sep 2021 14:06:24 +0000
+Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Thu, 16 Sep
+ 2021 09:06:22 -0500
+From: Alex Deucher <alexander.deucher@amd.com>
+To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+ <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
+CC: Alex Deucher <alexander.deucher@amd.com>
+Subject: [pull] amdgpu, amdkfd, radeon drm-fixes-5.15
+Date: Thu, 16 Sep 2021 10:06:11 -0400
+Message-ID: <20210916140611.59816-1-alexander.deucher@amd.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87sfy4x3ic.fsf@intel.com>
-X-Patchwork-Hint: comment
+X-Originating-IP: [10.180.168.240]
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a8c6cd99-d0fc-4fac-378e-08d9791b2b10
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4987:
+X-Microsoft-Antispam-PRVS: <DM6PR12MB49878C57EAE885348600B6CAF7DC9@DM6PR12MB4987.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:163;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0e9Z1a8ih22BLJm0iL1pVJujpW6mW2zhvXMP7zi1a3xxflx62+1+UsQozGdQG352wG9e+pv7nwI0ZFdo8ChVaMGCWfvkLpfRpNwX97+PPdqwlVkIKuNACIvPjWZ727edm1yh4V4v+rnawdW7B/ZX6g3LQWJEMQ21Wgg+c0Oi2jyV6PhZyvryxkoBFbWBQMlP7irwJytJsebzqC9yC4J/jcg9t4ohUqa85EWMhSQXEfMQEnVfX16N+GXf6ZI/U7yvv/GASuR4kRUveKayyJcmIZQTr26t34Ek9ymEwG43o0vSoBKP29SWS3jGTvJ2xUQQFO0wfVqN90NT76zciXGFiZj1DsN+wo5jgUvMLS6H5IE1eiFjkHvKMHOVQND0dM+h9fyEbDXHdWqUW+55e6oSnZfVUnHAuc5zOqJrZpfo+QAZhMUnNq340zWkKU6RY/N7lgVqXhnaWj5ZFN+EjxHjgvl5zO48v0wnDmqKiHsl6qpk+JuGJNZv7I35Z3qaiyki3Z2gnCWfzF3IYhxy88gjNIeXhlwFbJfYNZx7kraZwE5TuU8IV3qNMx+Bpxw3wmgPGZctO19IaDsSAZgEQDsjbxy2cvTUYGD1Mk1og3M6JTUFAUdNrNHyiCOd12z1PbxsiVTKNTXoxiSVJkD9vuOunt1e2nVAhr5Khu8TGHRZT4IL1AxT3ZLNqZCaoCEx+AytRb7Q702AzHAGCbMGB4iXlzMBbgSeq2oENexclkPPks8=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(39860400002)(136003)(346002)(36840700001)(46966006)(336012)(1076003)(426003)(82740400003)(47076005)(2616005)(70206006)(70586007)(86362001)(66574015)(82310400003)(36756003)(36860700001)(7696005)(8936002)(8676002)(356005)(4326008)(2906002)(81166007)(966005)(5660300002)(26005)(110136005)(186003)(16526019)(316002)(6666004)(83380400001)(478600001)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2021 14:06:24.2407 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a8c6cd99-d0fc-4fac-378e-08d9791b2b10
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT068.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4987
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,186 +106,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 12:40:11PM +0300, Jani Nikula wrote:
-> 
-> Cc: Ville for input here, see question inline.
-> 
-> On Mon, 06 Sep 2021, Hans de Goede <hdegoede@redhat.com> wrote:
-> > Add support for eDP panels with a built-in privacy screen using the
-> > new drm_privacy_screen class.
-> >
-> > One thing which stands out here is the addition of these 2 lines to
-> > intel_atomic_commit_tail:
-> >
-> > 	for_each_new_connector_in_state(&state->base, connector, ...
-> > 		drm_connector_update_privacy_screen(connector, state);
-> >
-> > It may seem more logical to instead take care of updating the
-> > privacy-screen state by marking the crtc as needing a modeset and then
-> > do this in both the encoder update_pipe (for fast-sets) and enable
-> > (for full modesets) callbacks. But ATM these callbacks only get passed
-> > the new connector_state and these callbacks are all called after
-> > drm_atomic_helper_swap_state() at which point there is no way to get
-> > the old state from the new state.
-> >
-> > Without access to the old state, we do not know if the sw_state of
-> > the privacy-screen has changes so we would need to call
-> > drm_privacy_screen_set_sw_state() unconditionally. This is undesirable
-> > since all current known privacy-screen providers use ACPI calls which
-> > are somewhat expensive to make.
-> >
-> > Also, as all providers use ACPI calls, rather then poking GPU registers,
-> > there is no need to order this together with other encoder operations.
-> > Since no GPU poking is involved having this as a separate step of the
-> > commit process actually is the logical thing to do.
-> >
-> > Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_display.c |  5 +++++
-> >  drivers/gpu/drm/i915/display/intel_dp.c      | 10 ++++++++++
-> >  drivers/gpu/drm/i915/i915_pci.c              | 12 ++++++++++++
-> >  3 files changed, 27 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> > index 5560d2f4c352..7285873d329a 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > @@ -10140,6 +10140,8 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
-> >  	struct drm_device *dev = state->base.dev;
-> >  	struct drm_i915_private *dev_priv = to_i915(dev);
-> >  	struct intel_crtc_state *new_crtc_state, *old_crtc_state;
-> > +	struct drm_connector_state *new_connector_state;
-> > +	struct drm_connector *connector;
-> >  	struct intel_crtc *crtc;
-> >  	u64 put_domains[I915_MAX_PIPES] = {};
-> >  	intel_wakeref_t wakeref = 0;
-> > @@ -10237,6 +10239,9 @@ static void intel_atomic_commit_tail(struct intel_atomic_state *state)
-> >  			intel_color_load_luts(new_crtc_state);
-> >  	}
-> >  
-> > +	for_each_new_connector_in_state(&state->base, connector, new_connector_state, i)
-> > +		drm_connector_update_privacy_screen(connector, &state->base);
-> > +
-> >  	/*
-> >  	 * Now that the vblank has passed, we can go ahead and program the
-> >  	 * optimal watermarks on platforms that need two-step watermark
-> > diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> > index 7f8e8865048f..3aa2072cccf6 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> > @@ -37,6 +37,7 @@
-> >  #include <drm/drm_crtc.h>
-> >  #include <drm/drm_dp_helper.h>
-> >  #include <drm/drm_edid.h>
-> > +#include <drm/drm_privacy_screen_consumer.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  
-> >  #include "g4x_dp.h"
-> > @@ -5217,6 +5218,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
-> >  	struct drm_connector *connector = &intel_connector->base;
-> >  	struct drm_display_mode *fixed_mode = NULL;
-> >  	struct drm_display_mode *downclock_mode = NULL;
-> > +	struct drm_privacy_screen *privacy_screen;
-> >  	bool has_dpcd;
-> >  	enum pipe pipe = INVALID_PIPE;
-> >  	struct edid *edid;
-> > @@ -5308,6 +5310,14 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
-> >  				fixed_mode->hdisplay, fixed_mode->vdisplay);
-> >  	}
-> >  
-> > +	privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
-> > +	if (!IS_ERR(privacy_screen)) {
-> > +		drm_connector_attach_privacy_screen_provider(connector,
-> > +							     privacy_screen);
-> > +	} else if (PTR_ERR(privacy_screen) != -ENODEV) {
-> > +		drm_warn(&dev_priv->drm, "Error getting privacy-screen\n");
-> > +	}
-> > +
-> >  	return true;
-> >  
-> >  out_vdd_off:
-> > diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-> > index 146f7e39182a..d6913f567a1c 100644
-> > --- a/drivers/gpu/drm/i915/i915_pci.c
-> > +++ b/drivers/gpu/drm/i915/i915_pci.c
-> > @@ -25,6 +25,7 @@
-> >  #include <linux/vga_switcheroo.h>
-> >  
-> >  #include <drm/drm_drv.h>
-> > +#include <drm/drm_privacy_screen_consumer.h>
-> >  #include <drm/i915_pciids.h>
-> >  
-> >  #include "i915_drv.h"
-> > @@ -1167,6 +1168,7 @@ static int i915_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> >  {
-> >  	struct intel_device_info *intel_info =
-> >  		(struct intel_device_info *) ent->driver_data;
-> > +	struct drm_privacy_screen *privacy_screen;
-> >  	int err;
-> >  
-> >  	if (intel_info->require_force_probe &&
-> > @@ -1195,7 +1197,17 @@ static int i915_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
-> >  	if (vga_switcheroo_client_probe_defer(pdev))
-> >  		return -EPROBE_DEFER;
-> >  
-> > +	/*
-> > +	 * We do not handle -EPROBE_DEFER further into the probe process, so
-> > +	 * check if we have a laptop-panel privacy-screen for which the driver
-> > +	 * has not loaded yet here.
-> > +	 */
-> > +	privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
-> > +	if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
-> > +		return -EPROBE_DEFER;
-> > +
-> >  	err = i915_driver_probe(pdev, ent);
-> > +	drm_privacy_screen_put(privacy_screen);
-> >  	if (err)
-> >  		return err;
-> 
-> Ideally, neither i915_pci_probe() nor i915_driver_probe() should assume
-> we have display. We might not. We should not wait if we are never going
-> to initialize display.
-> 
-> Alas, we'll only know after i915_driver_probe() ->
-> i915_driver_mmio_probe() -> intel_device_info_runtime_init(), which
-> modifies ->pipe_mask, which is the single point of truth. See
-> HAS_DISPLAY().
-> 
-> We do have tests for failing probe at various points (see the
-> i915_inject_probe_failure() calls) to stress the cleanup paths in
-> CI. Part of the point was to prepare us for -EPROBE_DEFER returns.
-> 
-> Looks like the earliest/cleanest point for checking this is in
-> intel_modeset_init_noirq(), i.e. first display init call. But I admit it
-> gives me an uneasy feeling to return -EPROBE_DEFER at that stage. The
-> only -EPROBE_DEFER return we currently have is the vga switcheroo stuff
-> you see in the patch context, and most platforms never return that.
-> 
-> Ville, I'd like to get your thoughts on that.
+Hi Dave, Daniel,
 
-I'm just scaread about everything to do with deferred probing.
+Fixes for 5.15.
 
-For example, I don't even know what would happen if you have some kind
-of mismatch betwen i915 and thinkpad_acpi y/m/n? Or you have one but not
-the other in the initrd? Is the machine at least guaranteed to boot
-properly and light up the display at some point?
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
 
-But yeah, failing the probe at some stage when we've already clobbered
-a bunch of things sounds like an "interesting" idea. I don't think we've
-given the error paths any real though beyond the "ci+error injection
-seems to not explode too badly" approach.
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-> Anyway, even if we decide not to, err, defer returning -EPROBE_DEFER, I
-> think we should abstract this better. For example, add a
-> intel_modeset_probe_defer() function in intel_display.c that checks
-> this, and call that as the first thing in i915_driver_probe(). Just to
-> keep the display specific code out of the high level functions, even if
-> that is functionally the same as what you're doing here.
+are available in the Git repository at:
 
-Yeah, I guess something like that could be the safest option
-for the moment.
+  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.15-2021-09-16
 
--- 
-Ville Syrj‰l‰
-Intel
+for you to fetch changes up to 92554cbe0a36494f6dd760bc25ce5e5cdc60fc47:
+
+  drm/amdgpu/display: add a proper license to dc_link_dp.c (2021-09-16 09:56:24 -0400)
+
+----------------------------------------------------------------
+amd-drm-fixes-5.15-2021-09-16:
+
+amdgpu:
+- UBSAN fix
+- Powerplay table update fix
+- Fix use after free in BO moves
+- Debugfs init fixes
+- vblank workqueue fixes for headless devices
+- FPU fixes
+- sysfs_emit fixes
+- SMU updates for cyan skillfish
+- Backlight fixes when DMCU is not initialized
+- DP MST fixes
+- HDCP compliance fix
+- Link training fix
+- Runtime pm fix
+- Panel orientation fixes
+- Display GPUVM fix for yellow carp
+- Add missing license
+
+amdkfd:
+- Drop PCI atomics requirement if proper firmware is available
+- Suspend/resume fixes for IOMMUv2 cases
+
+radeon:
+- AGP fix
+
+----------------------------------------------------------------
+Alex Deucher (1):
+      drm/amdgpu/display: add a proper license to dc_link_dp.c
+
+Anson Jacob (1):
+      drm/amd/display: dc_assert_fp_enabled assert only if FPU is not enabled
+
+Christian K√∂nig (1):
+      drm/amdgpu: fix use after free during BO move
+
+Ernst Sj√∂strand (1):
+      drm/amd/amdgpu: Increase HWIP_MAX_INSTANCE to 10
+
+Evan Quan (1):
+      drm/amd/pm: fix runpm hang when amdgpu loaded prior to sound driver
+
+Felix Kuehling (1):
+      drm/amdkfd: make needs_pcie_atomics FW-version dependent
+
+Harry Wentland (1):
+      drm/amd/display: Get backlight from PWM if DMCU is not initialized
+
+Hersen Wu (1):
+      drm/amd/display: dsc mst 2 4K displays go dark with 2 lane HBR3
+
+James Zhu (3):
+      drm/amdkfd: separate kfd_iommu_resume from kfd_resume
+      drm/amdgpu: add amdgpu_amdkfd_resume_iommu
+      drm/amdgpu: move iommu_resume before ip init/resume
+
+Kenneth Feng (1):
+      drm/amd/pm: fix the issue of uploading powerplay table
+
+Lang Yu (5):
+      drm/amdgpu: fix sysfs_emit/sysfs_emit_at warnings(v2)
+      drm/amdgpu: update SMU PPSMC for cyan skilfish
+      drm/amdgpu: update SMU driver interface for cyan skilfish(v3)
+      drm/amdgpu: add some pptable funcs for cyan skilfish(v3)
+      drm/amdgpu: add manual sclk/vddc setting support for cyan skilfish(v3)
+
+Meenakshikumar Somasundaram (1):
+      drm/amd/display: Link training retry fix for abort case
+
+Michel D√§nzer (1):
+      drm/amdgpu: Drop inline from amdgpu_ras_eeprom_max_record_count
+
+Nicholas Kazlauskas (2):
+      drm/amd/display: Add NULL checks for vblank workqueue
+      drm/amd/display: Fix white screen page fault for gpuvm
+
+Nirmoy Das (2):
+      drm/amdgpu: use IS_ERR for debugfs APIs
+      drm/radeon: pass drm dev radeon_agp_head_init directly
+
+Paul Menzel (1):
+      drm/amdgpu: Demote TMZ unsupported log message from warning to info
+
+Qingqing Zhuo (1):
+      drm/amd/display: Fix unstable HPCP compliance on Chrome Barcelo
+
+Simon Ser (2):
+      amd/display: downgrade validation failure log level
+      amd/display: enable panel orientation quirks
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c         |  10 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.h         |   7 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c        |  10 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  12 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c            |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.c     |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras_eeprom.h     |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c           |   4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c            |  18 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |  56 ++-
+ drivers/gpu/drm/amd/amdkfd/kfd_priv.h              |   1 +
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c  | 109 ++++-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.c    |  18 +-
+ .../amd/display/amdgpu_dm/amdgpu_dm_mst_types.h    |  11 +-
+ drivers/gpu/drm/amd/display/amdgpu_dm/dc_fpu.c     |   2 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link.c      |  16 +-
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |  34 +-
+ .../gpu/drm/amd/display/dc/dce/dce_panel_cntl.c    |  10 -
+ .../amd/pm/inc/smu11_driver_if_cyan_skillfish.h    |  86 ++--
+ drivers/gpu/drm/amd/pm/inc/smu_types.h             |   5 +-
+ drivers/gpu/drm/amd/pm/inc/smu_v11_8_ppsmc.h       |   9 +-
+ drivers/gpu/drm/amd/pm/swsmu/amdgpu_smu.c          |   2 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/arcturus_ppt.c  |   8 +-
+ .../drm/amd/pm/swsmu/smu11/cyan_skillfish_ppt.c    | 481 +++++++++++++++++++++
+ drivers/gpu/drm/amd/pm/swsmu/smu11/navi10_ppt.c    |  28 +-
+ .../drm/amd/pm/swsmu/smu11/sienna_cichlid_ppt.c    |   8 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu11/vangogh_ppt.c   |  16 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu12/renoir_ppt.c    |   2 +
+ drivers/gpu/drm/amd/pm/swsmu/smu13/aldebaran_ppt.c |  12 +-
+ .../gpu/drm/amd/pm/swsmu/smu13/yellow_carp_ppt.c   |   6 +-
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.c             |  21 +
+ drivers/gpu/drm/amd/pm/swsmu/smu_cmn.h             |  15 +
+ drivers/gpu/drm/radeon/radeon_kms.c                |   2 +-
+ 34 files changed, 858 insertions(+), 169 deletions(-)
