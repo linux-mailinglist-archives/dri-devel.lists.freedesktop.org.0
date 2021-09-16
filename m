@@ -1,51 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E32440D6A6
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 11:55:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A15240D6F0
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 11:58:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1411B6EB3F;
-	Thu, 16 Sep 2021 09:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F526EB43;
+	Thu, 16 Sep 2021 09:58:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D86666EB3E
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2886261209;
- Thu, 16 Sep 2021 09:55:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631786126;
- bh=zDcDBX6eE0bO8UITevPPoTLTO8JLB4xPsBz8UuRXPe4=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=feSKElMW4rq1yHiIKDtA7h/hVpjTffl1JyFKYr8M677T2LwZkphh8+2XQYBfWyRUk
- /Xx+OwBX7NvghS7UMziBtE89z6YJJWIOFrIu5eN9jcnoX82V/6DETnKT3//g1gfBah
- Z7bW2rkuNC9GSxyGgsoveSWI5P2Hnor6G9ggR7QJ2YrRBRK0dTkUpjyowh8TGxrdhj
- g6sGPRhWb7pHyMD5Ntytop1pHu+T/onq4TIhrQXwicW3iZknRN1KrxRvc+0o06Kcb8
- 3WnXG3WA9McHjg69CLBCRRGhMkRWwsZOaUdFPpwNqTAt9jyC+UXbX+Yq1YLjrldZuz
- Q570TEWpcloFA==
-Received: by mail.kernel.org with local (Exim 4.94.2)
- (envelope-from <mchehab@kernel.org>)
- id 1mQo72-001vTT-7I; Thu, 16 Sep 2021 11:55:24 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Fabien Parent <fparent@baylibre.com>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, Rob Herring <robh+dt@kernel.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Subject: [PATCH v2 03/23] dt-bindings: arm: mediatek: mmsys: update mediatek,
- mmsys.yaml reference
-Date: Thu, 16 Sep 2021 11:55:02 +0200
-Message-Id: <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1631785820.git.mchehab+huawei@kernel.org>
-References: <cover.1631785820.git.mchehab+huawei@kernel.org>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 585F56EB41;
+ Thu, 16 Sep 2021 09:58:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10108"; a="209619424"
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="209619424"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 02:58:43 -0700
+X-IronPort-AV: E=Sophos;i="5.85,298,1624345200"; d="scan'208";a="700563391"
+Received: from mmullen-mobl1.ger.corp.intel.com (HELO [10.213.235.197])
+ ([10.213.235.197])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 16 Sep 2021 02:58:42 -0700
+Subject: Re: [PATCH v3 06/12] drm/ttm: add TTM_PAGE_FLAG_EXTERNAL_MAPPABLE
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org
+References: <20210915185954.3114858-1-matthew.auld@intel.com>
+ <20210915185954.3114858-6-matthew.auld@intel.com>
+ <00e355ba-fa5a-945e-d9ea-48260a2c56ae@amd.com>
+ <7548b96f116883a4f0db6a6d82c3023488761ea4.camel@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <f14ae06d-63a0-9ac2-7623-9fa3140d2de6@intel.com>
+Date: Thu, 16 Sep 2021 10:58:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <7548b96f116883a4f0db6a6d82c3023488761ea4.camel@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,31 +56,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Changeset cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-renamed: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-to: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
+On 16/09/2021 10:03, Thomas Hellström wrote:
+> On Thu, 2021-09-16 at 08:55 +0200, Christian König wrote:
+>>
+>>
+>> Am 15.09.21 um 20:59 schrieb Matthew Auld:
+>>> In commit:
+>>>
+>>> commit 667a50db0477d47fdff01c666f5ee1ce26b5264c
+>>> Author: Thomas Hellstrom <thellstrom@vmware.com>
+>>> Date:   Fri Jan 3 11:17:18 2014 +0100
+>>>
+>>>       drm/ttm: Refuse to fault (prime-) imported pages
+>>>
+>>> we introduced the restriction that imported pages should not be
+>>> directly
+>>> mappable through TTM(this also extends to userptr). In the next
+>>> patch we
+>>> want to introduce a shmem_tt backend, which should follow all the
+>>> existing rules with TTM_PAGE_FLAG_EXTERNAL, since it will need to
+>>> handle
+>>> swapping itself, but with the above mapping restriction lifted.
+>>>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> Cc: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>    drivers/gpu/drm/ttm/ttm_bo_vm.c | 6 ++++--
+>>>    include/drm/ttm/ttm_tt.h        | 7 +++++++
+>>>    2 files changed, 11 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> index 708390588c7c..fd6e18f12f50 100644
+>>> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+>>> @@ -163,8 +163,10 @@ vm_fault_t ttm_bo_vm_reserve(struct
+>>> ttm_buffer_object *bo,
+>>>           * (if at all) by redirecting mmap to the exporter.
+>>>           */
+>>>          if (bo->ttm && (bo->ttm->page_flags &
+>>> TTM_PAGE_FLAG_EXTERNAL)) {
+>>> -               dma_resv_unlock(bo->base.resv);
+>>> -               return VM_FAULT_SIGBUS;
+>>> +               if (!(bo->ttm->page_flags &
+>>> TTM_PAGE_FLAG_EXTERNAL_MAPPABLE)) {
+> 
+> I saw there was previously a thought about testing for ttm_bo_type_sg
+> here. Was that a dead end?
 
-Update its cross-reference accordingly.
+I guess the issue was userptr, which is also EXTERNAL and needs to be 
+rejected here, but underneath it's not type_sg.
 
-Fixes: cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Just having an explicit MAPPABLE flag or similar seemed the more 
+flexible approach? Happy to try out other ideas.
 
-diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-index fbb59c9ddda6..78044c340e20 100644
---- a/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-+++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,disp.txt
-@@ -9,7 +9,7 @@ function block.
- 
- All DISP device tree nodes must be siblings to the central MMSYS_CONFIG node.
- For a description of the MMSYS_CONFIG binding, see
--Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt.
-+Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
- 
- DISP function blocks
- ====================
--- 
-2.31.1
-
+> 
+> Thanks,
+> Thomas
+> 
+> 
