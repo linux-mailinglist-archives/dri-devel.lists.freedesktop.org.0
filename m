@@ -1,69 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81FE940EBBB
-	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:34:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EA4C40EBD2
+	for <lists+dri-devel@lfdr.de>; Thu, 16 Sep 2021 22:42:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75EBB6E82C;
-	Thu, 16 Sep 2021 20:34:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D4F66E839;
+	Thu, 16 Sep 2021 20:42:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com
- [IPv6:2607:f8b0:4864:20::d34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 260776E82C
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:34:13 +0000 (UTC)
-Received: by mail-io1-xd34.google.com with SMTP id a15so9483674iot.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:34:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TKdGoRFVr/xOsqOTZ1eLQM7yw4i7V3khOzi95TcJgnE=;
- b=Y8WZDaV2hz12Ge0wgPOBJjF6T4Td5Az39tBFIdOpOhIVzjqm1qPE/JxsIZDXPqezXY
- vDWotK4/xR8U0uIBLb4IUlJKX1ko5gsroVuu574Vzi8v3YcLtDgBZNz/e6oV08JME6Vb
- /3wIMOUcp+AlNR7SpCdXdYMoLFlkOIDDYXNic=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=TKdGoRFVr/xOsqOTZ1eLQM7yw4i7V3khOzi95TcJgnE=;
- b=f9WTQ3F11LkAfkARMai2jogl2tzxkOKw8+my/oLn2rjbz0ag5gMD9VL7Gz1F0VF3tD
- QPRTC6FMh1zREZagp2LMGhM2Cw5WnxROyIlZdV61B19i08v8/qZHL98XZxZ9FxoNXSe1
- lJqgme5h9m7df1E2S/QbMY/NoQ/q7O4+7OeXY7+vFC4OepxJwYR4ywTb8cpHrbgcI88i
- LU42IuKQ3foBsR4uHgl97/0QsDWa64UEfrWKGkFWaN8Gjsw4DCjJlKCoBFuGZcTJAhcE
- AGnaoumeQR09t7t8QTpXHDZ4Q//B9HZd0nTeFvunM0rT5aYrNvPSiOKtjrTzwill+ZgI
- vTiA==
-X-Gm-Message-State: AOAM530CptvXnrzlVLh+lKNAHo34ue26KNcAeotM56ATsf958BMqmevs
- XCYoqZ2/LH/ICHHOYx9YyLivqLsLmGJ49w==
-X-Google-Smtp-Source: ABdhPJwj5nAQXjvzv78jv2/9u8UbYDTFuZ8QqLtDAkaJyEW1W3yolKmyxuLzUBFni/1MX2kSnSD9Cg==
-X-Received: by 2002:a02:77c4:: with SMTP id g187mr4364486jac.56.1631824452005; 
- Thu, 16 Sep 2021 13:34:12 -0700 (PDT)
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com.
- [209.85.166.172])
- by smtp.gmail.com with ESMTPSA id q11sm2291672ilg.85.2021.09.16.13.34.11
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 16 Sep 2021 13:34:11 -0700 (PDT)
-Received: by mail-il1-f172.google.com with SMTP id d11so4019378ilc.8
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 13:34:11 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1bad:: with SMTP id
- n13mr3106011ili.142.1631824451177; 
- Thu, 16 Sep 2021 13:34:11 -0700 (PDT)
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 92F076E839
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:42:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
+ bh=XnllSxU17EsSQsbN8ob6TuGqX8riaAfzyvAvAY6hVCo=; 
+ b=daZcbcNNN4GQJanF+5DbQLPitMcCMXMWAx4oemXlLSK7NrpujgM9qNL9ueMY4tnU0lQ+Kj3aIG8sE8IErm3qaZcaS125o+XPpfmlZhYSnprfuM3lx4zFJOjeJuygEsNeFwFnnYkSFiDiwAB3CtpxL8dDdf627/tNQ0s8n7XMTKim+E7VD6Lx95EsuDNIkqjD1sh2HnrSsztMv3btPmG5I+bdzIWeqC72XZX/UxiO0e9izvuXB9YOaWdInt+jkaCTxZ2MD0W0xeDP9YExdG2BT/SqxSDFa7J6qRlr0TmDG4qg2xQHedjewZ4Qqg1Tk1E/wRSxmC1e5PpTw9ffXAsK1Q==;
+Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
+ helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1mQyDN-00045K-JG; Thu, 16 Sep 2021 22:42:37 +0200
+Date: Thu, 16 Sep 2021 21:42:19 +0100
+From: Melissa Wen <mwen@igalia.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
+ David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Subject: Re: [PATCH 2/3] drm/v3d: add generic ioctl extension
+Message-ID: <20210916204219.rgnajfuwyazvydwq@mail.igalia.com>
+References: <cover.1629307160.git.mwen@igalia.com>
+ <d5647f22567a71e5ecd3f86f0110aa14f8c6006d.1629307160.git.mwen@igalia.com>
+ <YUM2ZQ/c5H2As58X@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20210916202907.18394-1-macroalpha82@gmail.com>
-In-Reply-To: <20210916202907.18394-1-macroalpha82@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Thu, 16 Sep 2021 13:33:59 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VBNbFyiy45toCV44rJmT2ZrTbf-bbOrXVJG2ri6bnakw@mail.gmail.com>
-Message-ID: <CAD=FV=VBNbFyiy45toCV44rJmT2ZrTbf-bbOrXVJG2ri6bnakw@mail.gmail.com>
-Subject: Re: [PATCH v3] drm/rockchip: Update crtc fixup to account for
- fractional clk change
-To: Chris Morgan <macroalpha82@gmail.com>
-Cc: "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, Sean Paul <seanpaul@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Sandy Huang <hjc@rock-chips.com>, Chris Morgan <macromorgan@hotmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="up6wzrgyywidyv3e"
+Content-Disposition: inline
+In-Reply-To: <YUM2ZQ/c5H2As58X@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,92 +52,327 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
 
-On Thu, Sep 16, 2021 at 1:29 PM Chris Morgan <macroalpha82@gmail.com> wrote:
->
-> From: Chris Morgan <macromorgan@hotmail.com>
->
-> After commit 928f9e268611 ("clk: fractional-divider: Hide
-> clk_fractional_divider_ops from wide audience") was merged it appears
-> that the DSI panel on my Odroid Go Advance stopped working. Upon closer
-> examination of the problem, it looks like it was the fixup in the
-> rockchip_drm_vop.c file was causing the issue. The changes made to the
-> clk driver appear to change some assumptions made in the fixup.
->
-> After debugging the working 5.14 kernel and the no-longer working
-> 5.15 kernel, it looks like this was broken all along but still
-> worked, whereas after the fractional clock change it stopped
-> working despite the issue (it went from sort-of broken to very broken).
->
-> In the 5.14 kernel the dclk_vopb_frac was being requested to be set to
-> 17000999 on my board. The clock driver was taking the value of the
-> parent clock and attempting to divide the requested value from it
-> (17000000/17000999 = 0), then subtracting 1 from it (making it -1),
-> and running it through fls_long to get 64. It would then subtract
-> the value of fd->mwidth from it to get 48, and then bit shift
-> 17000999 to the left by 48, coming up with a very large number of
-> 7649082492112076800. This resulted in a numerator of 65535 and a
-> denominator of 1 from the clk driver. The driver seemingly would
-> try again and get a correct 1:1 value later, and then move on.
->
-> Output from my 5.14 kernel (with some printfs for good measure):
-> [    2.830066] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-> [    2.839431] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-> [    2.855980] Clock is dclk_vopb_frac
-> [    2.856004] Scale 64, Rate 7649082492112076800, Oldrate 17000999, Parent Rate 17000000, Best Numerator 65535, Best Denominator 1, fd->mwidth 16
-> [    2.903529] Clock is dclk_vopb_frac
-> [    2.903556] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
-> [    2.903579] Clock is dclk_vopb_frac
-> [    2.903583] Scale 0, Rate 17000000, Oldrate 17000000, Parent Rate 17000000, Best Numerator 1, Best Denominator 1, fd->mwidth 16
->
-> Contrast this with 5.15 after the clk change where the rate of 17000999
-> was getting passed and resulted in numerators/denomiators of 17001/
-> 17000.
->
-> Output from my 5.15 kernel (with some printfs added for good measure):
-> [    2.817571] rockchip-drm display-subsystem: bound ff460000.vop (ops vop_component_ops)
-> [    2.826975] rockchip-drm display-subsystem: bound ff450000.dsi (ops dw_mipi_dsi_rockchip_ops)
-> [    2.843430] Rate 17000999, Parent Rate 17000000, Best Numerator 17018, Best Denominator 17017
-> [    2.891073] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-> [    2.891269] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
-> [    2.891281] Rate 17001000, Parent Rate 17000000, Best Numerator 17001, Best Denominator 17000
->
-> I have tested the change extensively on my Odroid Go Advance (Rockchip
-> RK3326) and it appears to work well. However, this change will affect
-> all Rockchip SoCs that use this driver so I believe further testing
-> is warranted. Please note that without this change I can confirm
-> at least all PX30s with DSI panels will stop working with the 5.15
-> kernel.
->
-> Upon advice from Doug Anderson <dianders@chromium.org> it was decided
-> that we would first check if the clock rate can be set exactly as
-> requested, and only if it could not would we then add 999 to it and
-> attempt the process again. This way we can preserve the behavior for
-> clocks that still need it while resolving the specific issue for the
-> PX30 and DSI panels (since it is using a fractional clock).
->
-> Changes since v2:
->  - Moved fixes to correct location.
->
-> Changes since v1:
->  - Made the addition of 999 conditional based on whether the clock
->    subsystem can set the actual clock rate as requested.
->  - Updated the notes in the fixup routine to reflect this new behavior.
->  - Added reference to original commit, as this has technically been
->    broken since then however only now is it an issue due to the clock
->    changes.
->
-> Fixes: 287422a95fe2 ("drm/rockchip: Round up _before_ giving to the clock framework")
->
-> Signed-off-by: Chris Morgan <macromorgan@hotmail.com>
+--up6wzrgyywidyv3e
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Not worth making a v4 since it can be fixed when applying, but
-normally there is no blank line between the "Fixes" and
-"Signed-off-by" lines.
+On 09/16, Daniel Vetter wrote:
+> On Wed, Aug 18, 2021 at 06:56:41PM +0100, Melissa Wen wrote:
+> > Add support to attach generic extensions on job submission.
+> > This patch is a second prep work to enable multiple syncobjs on job
+> > submission. With this work, when the job submission interface needs
+> > to be extended to accomodate a new feature, we will use a generic
+> > extension struct where an id determines the data type to be pointed.
+> > The first application is to enable multiples in/out syncobj (next
+> > patch), but the base is already done for future features.
+> >=20
+> > Signed-off-by: Melissa Wen <mwen@igalia.com>
+> > ---
+> >  drivers/gpu/drm/v3d/v3d_drv.c |  4 +-
+> >  drivers/gpu/drm/v3d/v3d_gem.c | 80 ++++++++++++++++++++++++++++++++---
+> >  include/uapi/drm/v3d_drm.h    | 38 ++++++++++++++++-
+> >  3 files changed, 113 insertions(+), 9 deletions(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c b/drivers/gpu/drm/v3d/v3d_dr=
+v.c
+> > index 9403c3b36aca..6a0516160bb2 100644
+> > --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> > @@ -83,7 +83,6 @@ static int v3d_get_param_ioctl(struct drm_device *dev=
+, void *data,
+> >  		return 0;
+> >  	}
+> > =20
+> > -
+> >  	switch (args->param) {
+> >  	case DRM_V3D_PARAM_SUPPORTS_TFU:
+> >  		args->value =3D 1;
+> > @@ -147,7 +146,7 @@ v3d_postclose(struct drm_device *dev, struct drm_fi=
+le *file)
+> >  DEFINE_DRM_GEM_FOPS(v3d_drm_fops);
+> > =20
+> >  /* DRM_AUTH is required on SUBMIT_CL for now, while we don't have GMP
+> > - * protection between clients.  Note that render nodes would be be
+> > + * protection between clients.  Note that render nodes would be
+> >   * able to submit CLs that could access BOs from clients authenticated
+> >   * with the master node.  The TFU doesn't use the GMP, so it would
+> >   * need to stay DRM_AUTH until we do buffer size/offset validation.
+> > @@ -222,7 +221,6 @@ static int v3d_platform_drm_probe(struct platform_d=
+evice *pdev)
+> >  	u32 mmu_debug;
+> >  	u32 ident1;
+> > =20
+> > -
+> >  	v3d =3D devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev, drm);
+> >  	if (IS_ERR(v3d))
+> >  		return PTR_ERR(v3d);
+> > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_ge=
+m.c
+> > index 593ed2206d74..e254919b6c5e 100644
+> > --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> > @@ -521,6 +521,38 @@ v3d_attach_fences_and_unlock_reservation(struct dr=
+m_file *file_priv,
+> >  	}
+> >  }
+> > =20
+> > +static int
+> > +v3d_get_extensions(struct drm_file *file_priv,
+> > +		   u32 ext_count, u64 ext_handles)
+> > +{
+> > +	int i;
+> > +	struct drm_v3d_extension __user *handles;
+> > +
+> > +	if (!ext_count)
+> > +		return 0;
+> > +
+> > +	handles	=3D u64_to_user_ptr(ext_handles);
+> > +	for (i =3D 0; i < ext_count; i++) {
+> > +		struct drm_v3d_extension ext;
+> > +
+> > +		if (copy_from_user(&ext, handles, sizeof(ext))) {
+> > +			DRM_DEBUG("Failed to copy submit extension\n");
+> > +			return -EFAULT;
+> > +		}
+> > +
+> > +		switch (ext.id) {
+> > +		case 0:
+> > +		default:
+> > +			DRM_DEBUG_DRIVER("Unknown extension id: %d\n", ext.id);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		handles =3D u64_to_user_ptr(ext.next);
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  /**
+> >   * v3d_submit_cl_ioctl() - Submits a job (frame) to the V3D.
+> >   * @dev: DRM device
+> > @@ -549,15 +581,23 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void =
+*data,
+> > =20
+> >  	trace_v3d_submit_cl_ioctl(&v3d->drm, args->rcl_start, args->rcl_end);
+> > =20
+> > -	if (args->pad !=3D 0)
+> > -		return -EINVAL;
+> > -
+> > -	if (args->flags !=3D 0 &&
+> > -	    args->flags !=3D DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
+> > +	if (args->flags &&
+> > +	    args->flags & ~(DRM_V3D_SUBMIT_CL_FLUSH_CACHE |
+> > +			    DRM_V3D_SUBMIT_EXTENSION)) {
+> >  		DRM_INFO("invalid flags: %d\n", args->flags);
+> >  		return -EINVAL;
+> >  	}
+> > =20
+> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> > +		ret =3D v3d_get_extensions(file_priv,
+> > +					 args->extension_count,
+> > +					 args->extensions);
+> > +		if (ret) {
+> > +			DRM_DEBUG("Failed to get extensions.\n");
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> >  	render =3D kcalloc(1, sizeof(*render), GFP_KERNEL);
+> >  	if (!render)
+> >  		return -ENOMEM;
+> > @@ -711,6 +751,21 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void =
+*data,
+> > =20
+> >  	trace_v3d_submit_tfu_ioctl(&v3d->drm, args->iia);
+> > =20
+> > +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
+> > +		DRM_DEBUG("invalid flags: %d\n", args->flags);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> > +		ret =3D v3d_get_extensions(file_priv,
+> > +					 args->extension_count,
+> > +					 args->extensions);
+> > +		if (ret) {
+> > +			DRM_DEBUG("Failed to get extensions.\n");
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> >  	job =3D kcalloc(1, sizeof(*job), GFP_KERNEL);
+> >  	if (!job)
+> >  		return -ENOMEM;
+> > @@ -806,6 +861,21 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void =
+*data,
+> >  		return -EINVAL;
+> >  	}
+> > =20
+> > +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
+> > +		DRM_DEBUG("Invalid flags: %d\n", args->flags);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> > +		ret =3D v3d_get_extensions(file_priv,
+> > +					 args->extension_count,
+> > +					 args->extensions);
+> > +		if (ret) {
+> > +			DRM_DEBUG("Failed to get extensions.\n");
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> >  	job =3D kcalloc(1, sizeof(*job), GFP_KERNEL);
+> >  	if (!job)
+> >  		return -ENOMEM;
+> > diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+> > index 4104f22fb3d3..1f4706010eb5 100644
+> > --- a/include/uapi/drm/v3d_drm.h
+> > +++ b/include/uapi/drm/v3d_drm.h
+> > @@ -58,6 +58,19 @@ extern "C" {
+> >  						   struct drm_v3d_perfmon_get_values)
+> > =20
+> >  #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
+> > +#define DRM_V3D_SUBMIT_EXTENSION		  0x02
+> > +
+> > +/* struct drm_v3d_extension - ioctl extensions
+> > + *
+> > + * Linked-list of generic extensions where the id identify which struc=
+t is
+> > + * pointed by ext_data. Therefore, DRM_V3D_EXT_ID_* is used on id to i=
+dentify
+> > + * the extension type.
+> > + */
+> > +struct drm_v3d_extension {
+> > +	__u64 next;
+>=20
+> Why do you both need a next pointer here and extension_count everywhere?
+> That seems one too much.
+>=20
+> > +	__u64 ext_data;
+>=20
+> This isn't needed if you link them. Instead each extension can subclass
+> this struct here, and add whatever parameter they need there. Some
+> extensions could be just a flag which only needs to be the extension
+> present. Maybe what you want here is a __u32 for flags? Solves also the
+> aligning.
+>=20
+> > +	__u32 id;
+>=20
+> Align to 64bit just to be save.
 
-Also, for trivial small fixes like this you're expected to carry
-forward reviews to the next versions. Here I'll re-add it for you,
-though:
+Hi Daniel,
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Thanks for suggesting these improvements. I'll polish it for the next versi=
+on.
+
+>=20
+> One thing I wondered is whether we shouldn't lift this to be a drm thing.
+> i915 has something similar with i915_user_extension.
+>=20
+> That way we could share some helpers for parsing these, and people would
+> do extensible drm ioctls all the same way?
+
+I think so. I've based on solutions from i915 and amd drivers for ioctl
+extension. The motivations presented in the commit message for
+i915_user_extension (vulkan) are similar to ours, and maybe being in drm
+will make it simpler for the drivers to adopt too.
+
+Melissa
+
+> -Daniel
+>=20
+>=20
+>=20
+> > +};
+> > =20
+> >  /**
+> >   * struct drm_v3d_submit_cl - ioctl argument for submitting commands t=
+o the 3D
+> > @@ -135,12 +148,17 @@ struct drm_v3d_submit_cl {
+> >  	/* Number of BO handles passed in (size is that times 4). */
+> >  	__u32 bo_handle_count;
+> > =20
+> > +	/* DRM_V3D_SUBMIT_* properties */
+> >  	__u32 flags;
+> > =20
+> >  	/* ID of the perfmon to attach to this job. 0 means no perfmon. */
+> >  	__u32 perfmon_id;
+> > =20
+> > -	__u32 pad;
+> > +	/* Number of extensions*/
+> > +	__u32 extension_count;
+> > +
+> > +	/* Pointer to a list of ioctl extensions*/
+> > +	__u64 extensions;
+> >  };
+> > =20
+> >  /**
+> > @@ -248,6 +266,15 @@ struct drm_v3d_submit_tfu {
+> >  	__u32 in_sync;
+> >  	/* Sync object to signal when the TFU job is done. */
+> >  	__u32 out_sync;
+> > +
+> > +	/* Number of extensions*/
+> > +	__u32 extension_count;
+> > +
+> > +	/* Pointer to an array of ioctl extensions*/
+> > +	__u64 extensions;
+> > +
+> > +	/* DRM_V3D_SUBMIT_* properties */
+> > +	__u32 flags;
+> >  };
+> > =20
+> >  /* Submits a compute shader for dispatch.  This job will block on any
+> > @@ -276,6 +303,15 @@ struct drm_v3d_submit_csd {
+> > =20
+> >  	/* ID of the perfmon to attach to this job. 0 means no perfmon. */
+> >  	__u32 perfmon_id;
+> > +
+> > +	/* DRM_V3D_SUBMIT_* properties */
+> > +	__u32 flags;
+> > +
+> > +	/* Number of extensions*/
+> > +	__u32 extension_count;
+> > +
+> > +	/* Pointer to a list of ioctl extensions*/
+> > +	__u64 extensions;
+> >  };
+> > =20
+> >  enum {
+> > --=20
+> > 2.30.2
+> >=20
+>=20
+>=20
+>=20
+> --=20
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+--up6wzrgyywidyv3e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFDrCYACgkQwqF3j0dL
+ehyezxAAlqdLXSXHcve1gd7kKgexg5v4nL0Fd2H7sq8Kd60U+Tp7+Glkr7nm1REv
+0AWq30iBge6kLRlB0o3+iwCN7eglmdtJMQd2nJ9N6Pd98tORxy5gHNnQd2YXwfMK
+dXesUZtTM5MDcfz0P4rlGu/RiowgX4ZuNy56N8OfjKo6kZh8/iHm5iE7C8I0P/Hk
+58nBl1exQTVvtrbmEU/hadWrFZMFe79a1Hl05FpQtmmWQ7qAy6yKYSvVKfepmgHw
+V8f03LgVVrfJRzX4I15lpdzMA4rChHBoJpltH/t7fSP6wyOHJ66OmqIU4pBrAisO
+0snzNAjWKZAMT8aClE1QqgirF+u3xv7rDRPmkTPPfDiFb5Q5TezF2aC0AwlHfH0j
+FBG1yPaxJSlmxIFMfAmKI0bCgfFjQcPvnFmsv8iuyxULpVCg8sJjehNcaA0hmscf
+ZePxGu0Om3HkyA0uCank44ujKyFQJUegtixxEKgmp0k0c3AbEa9N/rEOPXF8Ufq0
+Abb8VrycrJlIMa4Z8fQlfymPZVvqnwuztSaNR39cXeMfHtaQ4o8K+MqgwBImr4Fx
+HG5mtG4/x5M0HSm8YzDZ17ErsAQV8Q5mOQyx9COFd2IKcg1K6skECJv810+RWByr
+425gLI1O6Vr/498PhiGg3Nxb0qfq4PuaV1IdE6oW8qLc/qbtjoE=
+=MKSG
+-----END PGP SIGNATURE-----
+
+--up6wzrgyywidyv3e--
