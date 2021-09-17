@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72CAA40FCDB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 17:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5A340FCE6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 17:41:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 60BA16EE1D;
-	Fri, 17 Sep 2021 15:41:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2B72E6EDC8;
+	Fri, 17 Sep 2021 15:41:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
- [IPv6:2607:f8b0:4864:20::72f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A52126EE2A
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:41:00 +0000 (UTC)
-Received: by mail-qk1-x72f.google.com with SMTP id a66so18717201qkc.1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 08:41:00 -0700 (PDT)
+Received: from mail-qk1-x736.google.com (mail-qk1-x736.google.com
+ [IPv6:2607:f8b0:4864:20::736])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 317806EE2A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:41:39 +0000 (UTC)
+Received: by mail-qk1-x736.google.com with SMTP id a10so18688901qka.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 08:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=G/b3XiXy0Sb8x2PtTRvVL/40239eORGz1ZL98EY1EC8=;
- b=fzPGLaz85DNSjT8BpuMHmKOqlTmjcQ0qE3xixhpENWlDBqA/2YO/GHW63weTUvqukt
- /hTvkY+SrTcPo885plyDeFM72/dI9tOCbng/4AcduL2xIMkCXnVtu7q+T7+a/dD51gTH
- L7gwVnqTw/HxFpzCGCbsHv4pnw4VgWgPaHdZVIoNesVklyEarxWWcfWZeFjT4RjtbAt0
- zKMyHOGfRmRVSf82T/XUmWcFRHrKWywI2DYIEWYrkh+TpOc6k/7I+sqzH4nT9t/FGY5F
- hAHLlOmKX+HDxFDYattoDa8cZNtr6c5DAixr6gOGgaZ9CCc1QkEkWDxuavEl/4geEn+l
- 1U9g==
+ bh=sD9uOm5tvP8G0xyXDbxUkajObP/tQsvPQSYJ5ZYdDAM=;
+ b=Rg3pQPgRu26LSb3Ym25tiFmMLVhLfw9SdEEPoUud66ykQ931PiVOz52pLoXgAwC0ox
+ /mHm2+hTiXHgLGuu8t2OWBPxQeOxDuKiW2UWpQCJgV/9B2iyAFVPcdrDxhJyA8LPkxyJ
+ OVEGgkK3fO0TjncIvsrXlzuOkF9DG2sCzr1V8nefKneQvr08Iin7PI1M/USyeat1+qSV
+ cOlTWgRk5Y/SwKT1Vqv7vzUsbBQS0nxnQuYMU4VQRwxuRpApDeTEvusujkPUACV+t5Rr
+ PqWzgleLdsIFdM+KfFpZGV0L6vGeeHDCvPQNK/XrwqX+BsWpcls4hgKiAqKiOlKNQk9K
+ vi7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=G/b3XiXy0Sb8x2PtTRvVL/40239eORGz1ZL98EY1EC8=;
- b=Ty0umYF1cqcTjeD3DoprzbU1MNqmGKhUDUACW70M+jecy0wZBaiy38jXhhXt9dD3qo
- EICzRaLGbWhSG0m5HauKyoGlkDlYq/WxaZzucnDtgGxrS9UL1GjSwYuZrpHdBBX4XYnn
- DeTSvENKwA8IXGkbsAWWZ5KFd2lY16SJsCpXBKqsTudzy2KwN4oo3kpLEQa8ZVpZ8lOY
- Ab82sa/WtZKtwsr0uwEqP58791ocDARdziuXrLJ4VdZCiHmR0dcdOum/MNUT0ZMzhGgM
- 4FRbxvMiObHOClaTje+GEGD7H80Q4ORUrU4Ytoq8t0gFyojGdUjreSHVUe7yvCgzu2q0
- KC7Q==
-X-Gm-Message-State: AOAM533WPZzndXPz0Id+ek+LT+VPaEsLZbrYUno8SQnNCGm69uUk4SfT
- n6CdVJqU3Zk0q+tpvlU5xyHnFg==
-X-Google-Smtp-Source: ABdhPJwEOXquIsSStFswyl2f30Mm94RU8fNeBCXsfk8xn7q1LDa0ztl6hhBn29sVtbQXy6Bzc6IuSA==
-X-Received: by 2002:a37:9b93:: with SMTP id
- d141mr10910675qke.236.1631893259801; 
- Fri, 17 Sep 2021 08:40:59 -0700 (PDT)
+ bh=sD9uOm5tvP8G0xyXDbxUkajObP/tQsvPQSYJ5ZYdDAM=;
+ b=sFFEQCvo7FdBE0ngzcsY8bMiSRyKTUzxXjIHnSSgf0mXQ9zoDpXtjlIrgbmxhlKcYY
+ on/wXhHwg0v3ZDrG/Hd4mRjQwuNwDZuoMfqEfKVhhrs7D8gHis7blBe08RNUzOanbt49
+ 5uGbOtOmDnknXZztZYKHsaV61TNjnQ8mbbCeNIQbFcUGIRmx/Z17XnbCFywhVNYTnOhr
+ ngZPXox5IXBTyZ0+pJugN3k7clS4sGuZdVjr+okw1tS7VwqqL2pzOen9gQk3GP2EI+HZ
+ 8LY40nQY3LhwgnZBANgVqeSAvda7/qtf3j9zmshJwGgte7sfiKBBc0H2+2YJFaF6pYmx
+ zcuA==
+X-Gm-Message-State: AOAM530AprgCmEj/s3ByV1pyPXDi7sTp+PQGJE8cWxAdPrCMOFHZ8fBo
+ luPgwLuoWoR+5r6WhYY6vCbb27Hp2LRqpw==
+X-Google-Smtp-Source: ABdhPJyjGqSsuJH7awGUj/YMxh1AbnFOYdGXvCtauKtD0RAp5YpZ9/RTGbsIl79Pjc1kmnuFaGBLDw==
+X-Received: by 2002:a37:a87:: with SMTP id 129mr3162058qkk.448.1631893298377; 
+ Fri, 17 Sep 2021 08:41:38 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id l195sm3821941qke.98.2021.09.17.08.40.58
+ by smtp.gmail.com with ESMTPSA id 9sm4122038qtz.83.2021.09.17.08.41.37
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 17 Sep 2021 08:40:59 -0700 (PDT)
-Date: Fri, 17 Sep 2021 11:40:57 -0400
+ Fri, 17 Sep 2021 08:41:37 -0700 (PDT)
+Date: Fri, 17 Sep 2021 11:41:36 -0400
 From: Sean Paul <sean@poorly.run>
 To: Fernando Ramos <greenfoo@u92.eu>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -57,7 +56,7 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-tegra@vger.kernel.org
 Subject: Re: [PATCH 09/15] drm/omapdrm: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <20210917154057.GI2515@art_vandelay>
+Message-ID: <20210917154136.GJ2515@art_vandelay>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
  <20210916211552.33490-10-greenfoo@u92.eu>
 MIME-Version: 1.0
@@ -112,7 +111,10 @@ On Thu, Sep 16, 2021 at 11:15:46PM +0200, Fernando Ramos wrote:
 >  
 >  	return 0;
 
-Return ret here
+Return ret here, with that,
+
+Reviewed-by: Sean Paul <sean@poorly.run>
+
 
 >  }
 > -- 
