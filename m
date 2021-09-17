@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010FC40F105
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:22:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE8A740F107
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EB9316EB5B;
-	Fri, 17 Sep 2021 04:22:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 74BE86EB6F;
+	Fri, 17 Sep 2021 04:22:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from baidu.com (mx24.baidu.com [111.206.215.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id 83EE06EB55
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:22:31 +0000 (UTC)
-Received: from BJHW-MAIL-EX04.internal.baidu.com (unknown [10.127.64.14])
- by Forcepoint Email with ESMTPS id 78C4A4A5BDB8D0256D64;
- Fri, 17 Sep 2021 12:22:30 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTP id A2CBE6EB5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:22:33 +0000 (UTC)
+Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
+ by Forcepoint Email with ESMTPS id 9BA9452307335D260215;
+ Fri, 17 Sep 2021 12:22:32 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BJHW-MAIL-EX04.internal.baidu.com (10.127.64.14) with Microsoft SMTP Server
+ BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 17 Sep 2021 12:22:30 +0800
+ 15.1.2242.12; Fri, 17 Sep 2021 12:22:32 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 17 Sep 2021 12:22:29 +0800
+ 15.1.2308.14; Fri, 17 Sep 2021 12:22:31 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
 CC: Jingoo Han <jingoohan1@gmail.com>, <dri-devel@lists.freedesktop.org>,
  <linux-fbdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 5/6] fbdev: s3c-fb: Make use of the helper function
+Subject: [PATCH 6/6] fbdev: mmp: Make use of the helper function
  dev_err_probe()
-Date: Fri, 17 Sep 2021 12:22:11 +0800
-Message-ID: <20210917042213.17689-5-caihuoqing@baidu.com>
+Date: Fri, 17 Sep 2021 12:22:12 +0800
+Message-ID: <20210917042213.17689-6-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210917042213.17689-1-caihuoqing@baidu.com>
 References: <20210917042213.17689-1-caihuoqing@baidu.com>
@@ -62,37 +62,23 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/video/fbdev/s3c-fb.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/video/fbdev/s3c-fb.c b/drivers/video/fbdev/s3c-fb.c
-index 3b134e1bbc38..459d159879a3 100644
---- a/drivers/video/fbdev/s3c-fb.c
-+++ b/drivers/video/fbdev/s3c-fb.c
-@@ -1392,18 +1392,17 @@ static int s3c_fb_probe(struct platform_device *pdev)
- 	spin_lock_init(&sfb->slock);
- 
- 	sfb->bus_clk = devm_clk_get(dev, "lcd");
--	if (IS_ERR(sfb->bus_clk)) {
--		dev_err(dev, "failed to get bus clock\n");
--		return PTR_ERR(sfb->bus_clk);
--	}
-+	if (IS_ERR(sfb->bus_clk))
-+		return dev_err_probe(dev, PTR_ERR(sfb->bus_clk),
-+				     "failed to get bus clock\n");
- 
- 	clk_prepare_enable(sfb->bus_clk);
- 
- 	if (!sfb->variant.has_clksel) {
- 		sfb->lcd_clk = devm_clk_get(dev, "sclk_fimd");
- 		if (IS_ERR(sfb->lcd_clk)) {
--			dev_err(dev, "failed to get lcd clock\n");
--			ret = PTR_ERR(sfb->lcd_clk);
-+			ret = dev_err_probe(dev, PTR_ERR(sfb->lcd_clk),
-+					    "failed to get lcd clock\n");
- 			goto err_bus_clk;
- 		}
- 
+diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
+index 061a105afb86..a9df8ee79810 100644
+--- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
++++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
+@@ -514,7 +514,8 @@ static int mmphw_probe(struct platform_device *pdev)
+ 	/* get clock */
+ 	ctrl->clk = devm_clk_get(ctrl->dev, mi->clk_name);
+ 	if (IS_ERR(ctrl->clk)) {
+-		dev_err(ctrl->dev, "unable to get clk %s\n", mi->clk_name);
++		dev_err_probe(ctrl->dev, ret,
++			      "unable to get clk %s\n", mi->clk_name);
+ 		ret = -ENOENT;
+ 		goto failed;
+ 	}
 -- 
 2.25.1
 
