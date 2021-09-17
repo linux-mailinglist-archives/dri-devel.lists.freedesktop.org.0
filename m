@@ -1,52 +1,53 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2D9740F76E
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:25:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD71840F77F
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:30:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9C1396EC39;
-	Fri, 17 Sep 2021 12:25:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 756B16EC40;
+	Fri, 17 Sep 2021 12:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34C2F6EC39
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:25:24 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id u18so13150055wrg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:25:24 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5746EC3C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:30:04 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id t18so14975297wrb.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:30:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:mail-followup-to:references
  :mime-version:content-disposition:in-reply-to;
- bh=B4xbw9gEcqky1hkIaKGJsZCnwDYURbkYMy8wOSBcFZM=;
- b=DBbT+Z73wXFx7Ix5ddCqc9nQajcrsU49nmmjtksdzvj4VIUhu9a12X6mxydVGcyr31
- hkbTnOZYoHZBblsPGhC4cqiN5vTy2EZ/ap7N566BgNdEzkAG+xpa6VwhSk6rstGS1sPD
- 4IZWgIghyDL60XFxmzUrIJNR7pW0cc0ak4VI0=
+ bh=ohehD+AgX2cOYuT0Vdlc+XEexxlJP7h+rPjbbPGV0JI=;
+ b=R10SS4VV0BCpiZybmOMrjaWEfv3d2ZD+2k6TYKYqIZCusUIZXiqYs5rTuV6bruYLls
+ zYGmlZhSOPyZgErxGr8GftAAzypBiEQnXw94kdl46vb10zeP8O7zkrXWklJipXggLivr
+ Ihoa4mj+eAbhnzb6QO020N9VvyKryVDicfnPg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id
  :mail-followup-to:references:mime-version:content-disposition
  :in-reply-to;
- bh=B4xbw9gEcqky1hkIaKGJsZCnwDYURbkYMy8wOSBcFZM=;
- b=gltS9xjed0YmTLiDRqi8ZaWIaILpZEKJ6gXM/Mr76P6LXUQhLv7oRTFlBW1xs+qmCI
- VWTymsqBWQbEGjyGCBveSzC6ACzDYoCRvbWxrKz8U4S8/U51ODfrpjt6ndfbub01B8DY
- x/OrlWKlgIlMdJBOgM8F8oAe65oOET5aR8HrsIi3aPdKZUspthFfso50XKIxjDW5at3v
- EdpIjdaTXuv9ZUPGgTlEB1N7PfqADDDZhIxt4oOeCQMrS59BFwZ9Pu/fWKqiOjuH+C/1
- PZCUuTMnmiQ5abpWyBY71NWIqcJHFp1bhcJDQ3DVJ9I/gIg9M7dqC8P7QLcHdo50b7as
- zlRg==
-X-Gm-Message-State: AOAM532PVQINbyYTx/FrQ/eHRZeWfv9IVXgexowVQAXm6Us9fSFd2Ggl
- +BiQoDcQK9omXEJE0G74FTpg+A==
-X-Google-Smtp-Source: ABdhPJyMTcWyIQ8nzIGUt+EPkzWzvWClhn2Q1W8KmqNiWLuXSRA7doL/03EbIbn3t2AAXB96e7Moyg==
-X-Received: by 2002:adf:f084:: with SMTP id n4mr12033899wro.362.1631881522631; 
- Fri, 17 Sep 2021 05:25:22 -0700 (PDT)
+ bh=ohehD+AgX2cOYuT0Vdlc+XEexxlJP7h+rPjbbPGV0JI=;
+ b=cHfeLZJTy2e1K1MLJkPEnV2zgTiTtrlzQeOjp9Vy3ZrLB85DIU+KqJraJ7g7lXoK90
+ +izngxD86t4EF5NZqmXPnVjuPB1YOT2z2brSUIfVy437TuuT8smF540FlGRwVlmsCFan
+ Jm91gjHy2V1XYOCInsrqMb1+rOXErIbxTKSQUKXudNFynbA5Vsk8oXOZA3KS6QbtQew1
+ 3Nq+122llGhQBnI9XwDI1wPPeMR1UH6Q6AEl2WkrEcfCSOdKy3mP8QqqvR+Uhsa9qf0t
+ BVlzdCbQWDhDSPZVotshOSq+eGD44/485koBGePU6mil7hiSucvfNorz5yzivXefb4c3
+ RRJw==
+X-Gm-Message-State: AOAM533n7GEfCrxd47eTV7vrhjNCn6q8b+ViuyQbCOsk9TkJglcTRoDM
+ obsoqb5JMJdpZjHQcNstOAjq2g==
+X-Google-Smtp-Source: ABdhPJxbi7SvIHU6eF4mLO2NNjFKYkKbUTWnBTtOPShG0ZBGp4wQE5JGTFm/UZzjlZerlKL7ilx7Kg==
+X-Received: by 2002:a05:6000:124b:: with SMTP id
+ j11mr11906176wrx.147.1631881802837; 
+ Fri, 17 Sep 2021 05:30:02 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id m18sm6529557wrn.85.2021.09.17.05.25.21
+ by smtp.gmail.com with ESMTPSA id z6sm6483202wmp.1.2021.09.17.05.30.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:25:21 -0700 (PDT)
-Date: Fri, 17 Sep 2021 14:25:19 +0200
+ Fri, 17 Sep 2021 05:30:02 -0700 (PDT)
+Date: Fri, 17 Sep 2021 14:30:00 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Oded Gabbay <ogabbay@kernel.org>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Oded Gabbay <ogabbay@kernel.org>,
  "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
@@ -60,9 +61,9 @@ Cc: Jason Gunthorpe <jgg@ziepe.ca>,
  amd-gfx list <amd-gfx@lists.freedesktop.org>,
  "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
 Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <YUSJL9ml1MljOwzB@phenom.ffwll.local>
-Mail-Followup-To: Oded Gabbay <ogabbay@kernel.org>,
- Jason Gunthorpe <jgg@ziepe.ca>,
+Message-ID: <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+ Oded Gabbay <ogabbay@kernel.org>,
  "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
  Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
@@ -81,11 +82,11 @@ References: <20210912165309.98695-1-ogabbay@kernel.org>
  <20210914161218.GF3544071@ziepe.ca>
  <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
  <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
- <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
+ <20210916131014.GK3544071@ziepe.ca>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFCwf10MnK5KPBaeWar4tALGz9n8+-B8toXnqurcebZ8Y_Jjpw@mail.gmail.com>
+In-Reply-To: <20210916131014.GK3544071@ziepe.ca>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -102,9 +103,8 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 03:44:25PM +0300, Oded Gabbay wrote:
-> On Thu, Sep 16, 2021 at 3:31 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
+On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
+> On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
 > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
 > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > > > >
@@ -127,86 +127,68 @@ On Thu, Sep 16, 2021 at 03:44:25PM +0300, Oded Gabbay wrote:
 > > > > >   hold-up was again that makes this a no-go?
 > > > >
 > > > > RDMA HW can't do revoke.
-> >
+> > 
 > > Like why? I'm assuming when the final open handle or whatever for that MR
 > > is closed, you do clean up everything? Or does that MR still stick around
 > > forever too?
-> >
-> > > > So we have to exclude almost all the HW and several interesting use
-> > > > cases to enable a revoke operation.
-> > > >
-> > > > >   - For non-revokable things like these dma-buf we'd keep a drm_master
-> > > > >     reference around. This would prevent the next open to acquire
-> > > > >     ownership rights, which at least prevents all the nasty potential
-> > > > >     problems.
-> > > >
-> > > > This is what I generally would expect, the DMABUF FD and its DMA
-> > > > memory just floats about until the unrevokable user releases it, which
-> > > > happens when the FD that is driving the import eventually gets closed.
-> > > This is exactly what we are doing in the driver. We make sure
-> > > everything is valid until the unrevokable user releases it and that
-> > > happens only when the dmabuf fd gets closed.
-> > > And the user can't close it's fd of the device until he performs the
-> > > above, so there is no leakage between users.
-> >
-> > Maybe I got the device security model all wrong, but I thought Guadi is
-> > single user, and the only thing it protects is the system against the
-> > Gaudi device trhough iommu/device gart. So roughly the following can
-> > happen:
-> >
+> 
+> It is a combination of uAPI and HW specification.
+> 
+> revoke here means you take a MR object and tell it to stop doing DMA
+> without causing the MR object to be destructed.
+> 
+> All the drivers can of course destruct the MR, but doing such a
+> destruction without explicit synchronization with user space opens
+> things up to a serious use-after potential that could be a security
+> issue.
+> 
+> When the open handle closes the userspace is synchronized with the
+> kernel and we can destruct the HW objects safely.
+> 
+> So, the special HW feature required is 'stop doing DMA but keep the
+> object in an error state' which isn't really implemented, and doesn't
+> extend very well to other object types beyond simple MRs.
+
+Yeah revoke without destroying the MR doesn't work, and it sounds like
+revoke by destroying the MR just moves the can of worms around to another
+place.
+
 > > 1. User A opens gaudi device, sets up dma-buf export
-> >
+> > 
 > > 2. User A registers that with RDMA, or anything else that doesn't support
 > > revoke.
-> >
+> > 
 > > 3. User A closes gaudi device
-> This can not happen without User A closing the FD of the dma-buf it exported.
-> We prevent User A from closing the device because when it exported the
-> dma-buf, the driver's code took a refcnt of the user's private
-> structure. You can see that in export_dmabuf_common() in the 2nd
-> patch. There is a call there to hl_ctx_get.
-> So even if User A calls close(device_fd), the driver won't let any
-> other user open the device until User A closes the fd of the dma-buf
-> object.
-> 
-> Moreover, once User A will close the dma-buf fd and the device is
-> released, the driver will scrub the device memory (this is optional
-> for systems who care about security).
-> 
-> And AFAIK, User A can't close the dma-buf fd once it registered it
-> with RDMA, without doing unregister.
-> This can be seen in ib_umem_dmabuf_get() which calls dma_buf_get()
-> which does fget(fd)
-
-Yeah that's essentially what I was looking for. This is defacto
-hand-rolling the drm_master owner tracking stuff. As long as we have
-something like this in place it should be fine I think.
--Daniel
-
+> > 
 > > 4. User B opens gaudi device, assumes that it has full control over the
 > > device and uploads some secrets, which happen to end up in the dma-buf
 > > region user A set up
-> >
-> > 5. User B extracts secrets.
-> >
-> > > > I still don't think any of the complexity is needed, pinnable memory
-> > > > is a thing in Linux, just account for it in mlocked and that is
-> > > > enough.
-> >
-> > It's not mlocked memory, it's mlocked memory and I can exfiltrate it.
-> > Mlock is fine, exfiltration not so much. It's mlock, but a global pool and
-> > if you didn't munlock then the next mlock from a completely different user
-> > will alias with your stuff.
-> >
-> > Or is there something that prevents that? Oded at least explain that gaudi
-> > works like a gpu from 20 years ago, single user, no security at all within
-> > the device.
-> > -Daniel
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> 
+> I would expect this is blocked so long as the DMABUF exists - eg the
+> DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
+> that #3 can't actually happen.
+> 
+> > It's not mlocked memory, it's mlocked memory and I can exfiltrate
+> > it.
+> 
+> That's just bug, don't make buggy drivers :)
 
+Well yeah, but given that habanalabs hand rolled this I can't just check
+for the usual things we have to enforce this in drm. And generally you can
+just open chardevs arbitrarily, and multiple users fighting over each
+another. The troubles only start when you have private state or memory
+allocations of some kind attached to the struct file (instead of the
+underlying device), or something else that requires device exclusivity.
+There's no standard way to do that.
+
+Plus in many cases you really want revoke on top (can't get that here
+unfortunately it seems), and the attempts to get towards a generic
+revoke() just never went anywhere. So again it's all hand-rolled
+per-subsystem. *insert lament about us not having done this through a
+proper subsystem*
+
+Anyway it sounds like the code takes care of that.
+-Daniel
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
