@@ -1,64 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FC5F40EF04
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 03:59:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ED2940EF1B
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 04:07:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 467636EA4C;
-	Fri, 17 Sep 2021 01:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 674566EA56;
+	Fri, 17 Sep 2021 02:07:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
- [209.85.166.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6D746EA4C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 01:59:05 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id h20so8616841ilj.13
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:59:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=QncgAYsEAj4J6mbF3tLEr0rEZvz4D8ZpN12NlUMUfpg=;
- b=OoE3mfR4qwgasfF9kENv+L65RRRHSeSM+eUs86GXXB14kM+2Yr8ID4fWAeBca9hAwQ
- cE98ebWJ1vVWgy7xLv4aaSHKgMhEQPZR/dvLQ0aj3d9XEvr1HkuyK7Vpeet9j7J5TLLS
- ASlpeVUIMfp1sFsoCr6lcwJg7S5SH17heCsmIu2lMPhGuYjRMs67/b2FavVSEU69jwZe
- 16k+rWo2DQpWeNFBAhqltqBwAUaRU1CLItu/hcyeJztA1a7+/goxbxcDoqbKPeo2XtDn
- Q2J6SjgeQiY/kEgl/m6D4Rn92Rg2hqSAjQhUhrC1uTVqSXYBBgSOrqE+VmX53lP+khWU
- ZlHg==
-X-Gm-Message-State: AOAM5307qenDk58ggMgThrPB2fkgmwZYBwZKyIinxsIvr8Pr2pNnR+7v
- KU5+aCltTDWGK4s0CKaV8ik4nGW0qg==
-X-Google-Smtp-Source: ABdhPJy4oTaM24SB6z0pQT/ToKAlRejgZB3SLM155KVMirfdI7mWZ3F3MD1XWjhJyelSQtEkJV3ltw==
-X-Received: by 2002:a05:6e02:20c3:: with SMTP id
- 3mr1021317ilq.269.1631843944967; 
- Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
-Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net.
- [96.84.70.89])
- by smtp.gmail.com with ESMTPSA id 9sm2670305ily.9.2021.09.16.18.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
-Received: (nullmailer pid 1610039 invoked by uid 1000);
- Fri, 17 Sep 2021 01:58:57 -0000
-Date: Thu, 16 Sep 2021 20:58:57 -0500
-From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
- devicetree@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org,
- Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: Re: [PATCH v2 03/23] dt-bindings: arm: mediatek: mmsys: update
- mediatek,mmsys.yaml reference
-Message-ID: <YUP2YYKTVHdvTfD+@robh.at.kernel.org>
-References: <cover.1631785820.git.mchehab+huawei@kernel.org>
- <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
+Received: from baidu.com (mx24.baidu.com [111.206.215.185])
+ by gabe.freedesktop.org (Postfix) with ESMTP id EAE6E6EA56
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 02:07:50 +0000 (UTC)
+Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
+ by Forcepoint Email with ESMTPS id 0D4B134AA735FED9982D;
+ Fri, 17 Sep 2021 10:07:48 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2242.12; Fri, 17 Sep 2021 10:07:47 +0800
+Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Fri, 17 Sep 2021 10:07:47 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: <caihuoqing@baidu.com>
+CC: Thierry Reding <thierry.reding@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter
+ <jonathanh@nvidia.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v2] drm/tegra: sor: Make use of the helper function
+ dev_err_probe()
+Date: Fri, 17 Sep 2021 10:07:41 +0800
+Message-ID: <20210917020741.17525-1-caihuoqing@baidu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,18 +54,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Sep 2021 11:55:02 +0200, Mauro Carvalho Chehab wrote:
-> Changeset cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-> renamed: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
-> to: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
-> 
-> Update its cross-reference accordingly.
-> 
-> Fixes: cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
+When possible use dev_err_probe help to properly deal with the
+PROBE_DEFER error, the benefit is that DEFER issue will be logged
+in the devices_deferred debugfs file.
+And using dev_err_probe() can reduce code size, the error value
+gets printed.
 
-Applied, thanks!
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+---
+v1->v2: Fix compile error-add ';'
+
+ drivers/gpu/drm/tegra/sor.c | 24 +++++++++---------------
+ 1 file changed, 9 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 0ea320c1092b..d7964e498da9 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -2964,11 +2964,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
+ 	int err;
+ 
+ 	sor->avdd_io_supply = devm_regulator_get(sor->dev, "avdd-io-hdmi-dp");
+-	if (IS_ERR(sor->avdd_io_supply)) {
+-		dev_err(sor->dev, "cannot get AVDD I/O supply: %ld\n",
+-			PTR_ERR(sor->avdd_io_supply));
+-		return PTR_ERR(sor->avdd_io_supply);
+-	}
++	if (IS_ERR(sor->avdd_io_supply))
++		return dev_err_probe(sor->dev, PTR_ERR(sor->avdd_io_supply),
++				     "cannot get AVDD I/O supply\n");
+ 
+ 	err = tegra_sor_enable_regulator(sor, sor->avdd_io_supply);
+ 	if (err < 0) {
+@@ -2978,11 +2976,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
+ 	}
+ 
+ 	sor->vdd_pll_supply = devm_regulator_get(sor->dev, "vdd-hdmi-dp-pll");
+-	if (IS_ERR(sor->vdd_pll_supply)) {
+-		dev_err(sor->dev, "cannot get VDD PLL supply: %ld\n",
+-			PTR_ERR(sor->vdd_pll_supply));
+-		return PTR_ERR(sor->vdd_pll_supply);
+-	}
++	if (IS_ERR(sor->vdd_pll_supply))
++		return dev_err_probe(sor->dev, PTR_ERR(sor->vdd_pll_supply),
++				     "cannot get VDD PLL supply\n");
+ 
+ 	err = tegra_sor_enable_regulator(sor, sor->vdd_pll_supply);
+ 	if (err < 0) {
+@@ -2992,11 +2988,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
+ 	}
+ 
+ 	sor->hdmi_supply = devm_regulator_get(sor->dev, "hdmi");
+-	if (IS_ERR(sor->hdmi_supply)) {
+-		dev_err(sor->dev, "cannot get HDMI supply: %ld\n",
+-			PTR_ERR(sor->hdmi_supply));
+-		return PTR_ERR(sor->hdmi_supply);
+-	}
++	if (IS_ERR(sor->hdmi_supply))
++		return dev_err_probe(sor->dev, PTR_ERR(sor->hdmi_supply),
++				     "cannot get HDMI supply\n");
+ 
+ 	err = tegra_sor_enable_regulator(sor, sor->hdmi_supply);
+ 	if (err < 0) {
+-- 
+2.25.1
+
