@@ -2,42 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8A740F107
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B230740F117
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:24:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74BE86EB6F;
-	Fri, 17 Sep 2021 04:22:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A4DED6EB75;
+	Fri, 17 Sep 2021 04:24:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id A2CBE6EB5B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:22:33 +0000 (UTC)
-Received: from BC-Mail-Ex32.internal.baidu.com (unknown [172.31.51.26])
- by Forcepoint Email with ESMTPS id 9BA9452307335D260215;
- Fri, 17 Sep 2021 12:22:32 +0800 (CST)
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C1E7D6EB71
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:24:24 +0000 (UTC)
+Received: from BC-Mail-Ex29.internal.baidu.com (unknown [172.31.51.23])
+ by Forcepoint Email with ESMTPS id EF57B883484BA65A75EB;
+ Fri, 17 Sep 2021 12:24:20 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex32.internal.baidu.com (172.31.51.26) with Microsoft SMTP Server
+ BC-Mail-Ex29.internal.baidu.com (172.31.51.23) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 17 Sep 2021 12:22:32 +0800
+ 15.1.2242.12; Fri, 17 Sep 2021 12:24:20 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 17 Sep 2021 12:22:31 +0800
+ 15.1.2308.14; Fri, 17 Sep 2021 12:24:20 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
-CC: Jingoo Han <jingoohan1@gmail.com>, <dri-devel@lists.freedesktop.org>,
- <linux-fbdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 6/6] fbdev: mmp: Make use of the helper function
- dev_err_probe()
-Date: Fri, 17 Sep 2021 12:22:12 +0800
-Message-ID: <20210917042213.17689-6-caihuoqing@baidu.com>
+CC: <linux-fbdev@vger.kernel.org>, <linux-omap@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH 1/4] fbdev: omapfb: panel-lgphilips-lb035q02: Make use of the
+ helper function dev_err_probe()
+Date: Fri, 17 Sep 2021 12:24:10 +0800
+Message-ID: <20210917042414.17787-1-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210917042213.17689-1-caihuoqing@baidu.com>
-References: <20210917042213.17689-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex05.internal.baidu.com (10.127.64.15) To
+X-ClientProxiedBy: BC-Mail-Ex15.internal.baidu.com (172.31.51.55) To
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,23 +60,27 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/video/fbdev/mmp/hw/mmp_ctrl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-index 061a105afb86..a9df8ee79810 100644
---- a/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-+++ b/drivers/video/fbdev/mmp/hw/mmp_ctrl.c
-@@ -514,7 +514,8 @@ static int mmphw_probe(struct platform_device *pdev)
- 	/* get clock */
- 	ctrl->clk = devm_clk_get(ctrl->dev, mi->clk_name);
- 	if (IS_ERR(ctrl->clk)) {
--		dev_err(ctrl->dev, "unable to get clk %s\n", mi->clk_name);
-+		dev_err_probe(ctrl->dev, ret,
-+			      "unable to get clk %s\n", mi->clk_name);
- 		ret = -ENOENT;
- 		goto failed;
- 	}
+diff --git a/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c b/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
+index 1bec7a4422e8..6befd22dbd5c 100644
+--- a/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
++++ b/drivers/video/fbdev/omap2/omapfb/displays/panel-lgphilips-lb035q02.c
+@@ -244,10 +244,9 @@ static int lb035q02_probe_of(struct spi_device *spi)
+ 	struct gpio_desc *gpio;
+ 
+ 	gpio = devm_gpiod_get(&spi->dev, "enable", GPIOD_OUT_LOW);
+-	if (IS_ERR(gpio)) {
+-		dev_err(&spi->dev, "failed to parse enable gpio\n");
+-		return PTR_ERR(gpio);
+-	}
++	if (IS_ERR(gpio))
++		return dev_err_probe(&spi->dev, PTR_ERR(gpio),
++				     "failed to parse enable gpio\n");
+ 
+ 	ddata->enable_gpio = gpio;
+ 
 -- 
 2.25.1
 
