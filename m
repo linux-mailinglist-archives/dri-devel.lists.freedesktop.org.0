@@ -1,32 +1,32 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8104101DA
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 01:43:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D9C4101DC
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 01:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 641256EEA6;
-	Fri, 17 Sep 2021 23:43:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83B0B6EEA8;
+	Fri, 17 Sep 2021 23:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 475C66EEA5;
- Fri, 17 Sep 2021 23:43:13 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="286576805"
-X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="286576805"
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EFED6EEA7;
+ Fri, 17 Sep 2021 23:43:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="221014319"
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="221014319"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 16:43:12 -0700
-X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="473271926"
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 16:43:18 -0700
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="473271932"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 16:43:12 -0700
+ 17 Sep 2021 16:43:18 -0700
 From: Matthew Brost <matthew.brost@intel.com>
 To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Subject: [PATCH] drm/i915: fix blank screen booting crashes
-Date: Fri, 17 Sep 2021 16:38:08 -0700
-Message-Id: <20210917233808.32009-1-matthew.brost@intel.com>
+Date: Fri, 17 Sep 2021 16:38:18 -0700
+Message-Id: <20210917233818.33659-1-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
