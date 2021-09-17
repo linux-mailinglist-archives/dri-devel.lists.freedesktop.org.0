@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B22C40FFA9
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 21:09:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BC940FFAE
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 21:13:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C266EE61;
-	Fri, 17 Sep 2021 19:09:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A434E6EE64;
+	Fri, 17 Sep 2021 19:13:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E53F56EE61
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 19:09:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 95EB061261
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 19:09:14 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9A84C6EE64
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 19:13:42 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 483306127A
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 19:13:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631905754;
- bh=AiNrjNmMY2q/d1CCIs594pjre2WH+xrssRpjho5s9Vs=;
+ s=k20201202; t=1631906022;
+ bh=1GqZpUpq1VOVFyfFpGiBWMiOsKyvg6PMO0uH6r1mHYs=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=A7+r0h/tShJHsNAg8IJROh8HmO4aaZHpQTpbu+sQkKphucr2Aquv+b+c4l8pjkSaT
- yaDKtyMCjo6/eMOAqEOK8fmwgTdey2nEIRHa7tcgJVOC91O6v1mIypPdPxMvmy1b2m
- Mj5NGiTppodwl78Q0K/vnJHX3qdoCvMmwvOkiSZJZhkSJc7fYsy+AZVbw3ZVUHyadH
- kpdFNs2RyzO7sCTzkcCf419bnwQvcyWRlj81rgVfp+aLlPjK3ZDx3XsFWyrssWclPa
- EWGxC2DCDwcxaVUuUGGohFn/5jMkytOUQDl/OQ4IhUyOUVqMNKHIdYZQErak0n3YUF
- oXZiBw5vkiPCw==
+ b=Ck4KGrkkxzwl2LPLH1WKojLTcUlQe62A9R2BVWVvMmn+AsHEwTGW+AU2ROzpzByIV
+ 6JR182/EFv5LoyJx0X2SiXXvtc4oj8RaV+G+cRsmUxDtDYI66UR9nx0QtBMVNyh5Eh
+ D4fj0vK6YKQNXkuUzRtt0m4/PACReX1nwjyHY99YyghcR4uJPaIAUhtUFSNS1aqb3X
+ deSxERxjR+aRQAP/z7Qr6WvR7cJR/DgRqFRovdEQvpafpxm23zqf8gDZq4yuS+1Lkl
+ lbOuzDxI4ybOEhwAYf9l5zJ5PxB3J4/g4YyF0YOUDDbrNUI4LrPDTmMoN09/w8uabj
+ 6xzyU/0mId3yQ==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 925CE610D0; Fri, 17 Sep 2021 19:09:14 +0000 (UTC)
+ id 44E5A610D0; Fri, 17 Sep 2021 19:13:42 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
  000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Fri, 17 Sep 2021 19:09:14 +0000
+Date: Fri, 17 Sep 2021 19:13:41 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -39,14 +39,14 @@ X-Bugzilla-Component: Video(DRI - non Intel)
 X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: low
-X-Bugzilla-Who: parker.l.reed@gmail.com
+X-Bugzilla-Who: alexdeucher@gmail.com
 X-Bugzilla-Status: NEW
 X-Bugzilla-Resolution: 
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-211807-2300-qNjWAdXn0K@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211807-2300-EOae4gAJNH@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
 References: <bug-211807-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,18 +71,16 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
 
---- Comment #6 from Parker Reed (parker.l.reed@gmail.com) ---
-Created attachment 298867
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298867&action=3Dedit
-dmesg 5.14.5
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-I can reliably get both 1440p monitors working now with pure DP but only at=
- 60
-Hz
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-If I try switching either one to 75 Hz it kills that monitor.
-
-Attached new dmesg
+--- Comment #7 from Alex Deucher (alexdeucher@gmail.com) ---
+Does this patch help?
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
+id=3D90517c9838602846daa0feec7b37382fed61b001
 
 --=20
 You may reply to this email to add a comment.
