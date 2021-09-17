@@ -2,57 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDC741017C
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:49:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D219A410183
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:55:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9AFF96E0CD;
-	Fri, 17 Sep 2021 22:49:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 124F96EE92;
+	Fri, 17 Sep 2021 22:55:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x731.google.com (mail-qk1-x731.google.com
- [IPv6:2607:f8b0:4864:20::731])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2873F6E0CD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 22:49:16 +0000 (UTC)
-Received: by mail-qk1-x731.google.com with SMTP id m21so22214226qkm.13
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:49:16 -0700 (PDT)
+Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
+ [IPv6:2607:f8b0:4864:20::72d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB6656EE92
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 22:55:51 +0000 (UTC)
+Received: by mail-qk1-x72d.google.com with SMTP id m21so22251291qkm.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:55:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gD3D1HE4zYILu0+ZzkTQiVhB8QdO4UEirY2pAFsXAsg=;
- b=DNI0JghGS/WxXoZfwSOl/X9w3UNCgpUUCeVhuj6wL4UmBoTqF0gmnpp44a7/HPq10w
- HRI/x3+zg2doHDzTKrVweEnN1amNMoITseoC+BKj2ADxrlWrKcbVX+BVykGKpd3z+tVo
- HWZ70ILMD4fKmMZjSXvOX1FRUirS4gZ7baPsU=
+ :cc; bh=vkE5pLigKpcmkQr00gNfVhLXxFW0Xiz9nMMvuNv3Tm4=;
+ b=RHlyL7KnzEO7YLAK1AlmWZl+BSZRJXdkg5ABHzuCGu8ukSWk8A3kuE7Ot/CmryjFI2
+ iz7NAMaKX7knGiMtH463B/q0dmxEwVGtpCNe4Gmn0Vhe2EY55LdCggRETe/CYGpsX6x5
+ 51AyKEGnffMaBlBsXLVFkHRjep2k34Oo7O2zM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=gD3D1HE4zYILu0+ZzkTQiVhB8QdO4UEirY2pAFsXAsg=;
- b=5KQeRG4aYk0fG9J2giwS9xjtbnso6xYen0GHjaq8oWKJw6wjEBxpgHjSWD5ZF+/jt0
- rrcvsP5kdqPXtx4pG/3+cULrpQ8MPkjoEb7GTHb+My1svVlEoku/qHjEOoD6ppZibNIa
- StP69Tc1W9wanfySoySe/molf3tXhqi5apqUTTkJRhCLL7LpOLKNBd9iDCjj4/CYjtfk
- 5/JeoPee6zZ4+n2vK76NXpVMlQFIRydn3y9jP4jzIxjcuYPvJGOB8WJNtwBS+FHXJzQ3
- EcECNFVWzMom8iK14hcnmX73iW7/BSY+w5Rn9ALAjs/SsveBeEQQhiBD4xVlChD07X75
- OTEQ==
-X-Gm-Message-State: AOAM532BIxO80bKi2Rtx8ukd+Hf9Uq4EPIQVTm032nogaXYgSANi/Jed
- NjG7BDYL9pQ+7foP8X+Id9qC2UvNjKQW1yvPkcgFqQ==
-X-Google-Smtp-Source: ABdhPJwupEDp9zIQbb4xnXalet3Zjc0UBz5BI0iQ8rOV46nAslGCfwjYWs5+DQuj8YXFe9ziyqnHUW4xEWCQCk73Jgw=
-X-Received: by 2002:a25:6744:: with SMTP id b65mr1144453ybc.100.1631918955276; 
- Fri, 17 Sep 2021 15:49:15 -0700 (PDT)
+ bh=vkE5pLigKpcmkQr00gNfVhLXxFW0Xiz9nMMvuNv3Tm4=;
+ b=qht8ypbVjsquZsWC0Sxeb023sxJMEJde/KyrlxuJkjHVh6MmahNikbWpvLKnmL66DS
+ 4kDAxbttnqyfHmpey5fRHGpk/WMGV69PUGLySjuFqf+DmzCu5tLeFVcSVSwi5YMeB1bk
+ YSPdVz+88pme2dPjEx+BbjMO2/bXWJgNo0hnyvSyUinoIhzlftmcxz7xFMPFJnDjcEWk
+ mtbK/yHhMqRuyK6MkEBXoHLeDbfRP0TzFXS09PTLYB56lOqfkczFOJy1uWLNdn9qDlon
+ BKXlS7iDHJp7oQqWMzGPibTno4jFY/adZqJos+lzK4PKGzGUweQ/zqrP5zHXdgtu3rnr
+ Jp6g==
+X-Gm-Message-State: AOAM530Odo6+l9N08UtV/Ijjnx6llRIocCDGUAVAcgOaZXrPNm7Eu3MP
+ N0KAXZVnedxYZbWPGGc0j6SLIpGiXcMuQhLO5RucSA==
+X-Google-Smtp-Source: ABdhPJwfWJVdS8+qM3cuQSL16oRaVAmsep28BVhS2x1Nr9rpo5jyA7xo2oWroVqf/9I52aT4qRsilv4kfWLTStMtfG8=
+X-Received: by 2002:a25:6744:: with SMTP id b65mr1171939ybc.100.1631919350944; 
+ Fri, 17 Sep 2021 15:55:50 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210914162825.v3.1.I85e46da154e3fa570442b496a0363250fff0e44e@changeid>
- <20210914162825.v3.2.Ib06997ddd73e2ac29e185f039d85cfa8e760d641@changeid>
- <CAE-0n53BXh3_6jEW5oTbPA-V=MSaN=RvqaU8uoY9GNOm-0Pv_g@mail.gmail.com>
- <CAD=FV=WKQg-fU1jaSOh3RTa5HpSAiTzt2-Sycwt59uv1WemYxg@mail.gmail.com>
- <CAE-0n539tJLLWHdL65ZU_1qOzA-RsEqGqVi-19VLHz_W5dT6VA@mail.gmail.com>
- <CAD=FV=U_FX_Rg=h+w0yzpzi7fcUCg0Thn2_nXixsCRVsYFUGHQ@mail.gmail.com>
- <CAE-0n52F6j-qfA_h76BPyMRHi7hJzm6bX8eD5jS-C+ydz=vkBA@mail.gmail.com>
- <CAD=FV=XdN6SLZQ=kAe4S7Z7CjSrqnAQsj2uRiePXKFp07chVBg@mail.gmail.com>
- <CAE-0n52vqjGgdNMFBjW=7vo5B3wZcbnggpzQS05vb7Rr3dO8Vw@mail.gmail.com>
- <CAD=FV=WPOvL5xK+nFtgcyH=99=pMFs2eogO0XTg=32Q4QOU+4g@mail.gmail.com>
-In-Reply-To: <CAD=FV=WPOvL5xK+nFtgcyH=99=pMFs2eogO0XTg=32Q4QOU+4g@mail.gmail.com>
+ <20210914162825.v3.3.Ibf9b125434e3806b35f9079f6d8125578d76f138@changeid>
+ <CAE-0n51JFM_yYdOsCQyvdMw5xXJ7REcbOJC6qi=6nfiNcdvnWw@mail.gmail.com>
+ <CAD=FV=WtC3AQr44idgzVe9RCjb9i=+ekJ_wKKnKMcHRSQX7dfQ@mail.gmail.com>
+ <CAE-0n51AAXbDGH-V6527nT1Fp1BU8oWKEYmHnL6FkYs=P9OPOw@mail.gmail.com>
+ <CAD=FV=W2wTtZtTKw4n9cSo1SYjs3KS84inKCeeHa8bybOc+sfw@mail.gmail.com>
+In-Reply-To: <CAD=FV=W2wTtZtTKw4n9cSo1SYjs3KS84inKCeeHa8bybOc+sfw@mail.gmail.com>
 From: Philip Chen <philipchen@chromium.org>
-Date: Fri, 17 Sep 2021 15:49:04 -0700
-Message-ID: <CA+cxXhmOPUxe=GH7f-BMUVD=FF-0+18ThQc4EthwTY0+epr3Ug@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] drm/bridge: parade-ps8640: Use regmap APIs
+Date: Fri, 17 Sep 2021 15:55:40 -0700
+Message-ID: <CA+cxXhmEBn3nrbr006PpXYTkcRMWsVb7YxOcx7A_xhDL29+OqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] drm/bridge: parade-ps8640: Add support for AUX
+ channel
 To: Doug Anderson <dianders@chromium.org>
 Cc: Stephen Boyd <swboyd@chromium.org>, LKML <linux-kernel@vger.kernel.org>, 
  Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
@@ -77,109 +74,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug and Stephen,
+Hi
 
-Thanks for the review.
-Before we reach a consensus on the best logging option, I'll just
-remove the printouts from this patch and just return PTR_ERR.
-Once we reach a consensus, we can probably improve logging in a separate patch.
-
-On Fri, Sep 17, 2021 at 8:02 AM Doug Anderson <dianders@chromium.org> wrote:
+On Thu, Sep 16, 2021 at 1:31 PM Doug Anderson <dianders@chromium.org> wrote:
 >
 > Hi,
 >
-> On Thu, Sep 16, 2021 at 11:12 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> On Thu, Sep 16, 2021 at 1:15 PM Stephen Boyd <swboyd@chromium.org> wrote:
 > >
-> > > > > In the case of devm_regmap_init_i2c(), the driver could be fine but
-> > > > > you might be trying to instantiate it on a system whose i2c bus lacks
-> > > > > the needed functionality. That's not a bug in the bridge driver but an
-> > > > > error in system integration. Yeah, after bringup of the new system you
-> > > > > probably don't need the error, but it will be useful during people's
-> > > > > bringups year after year.
-> > > > >
+> > > > > +               return ret;
+> > > > > +       }
+> > > > > +
+> > > > > +       /* Assume it's good */
+> > > > > +       msg->reply = 0;
+> > > > > +
+> > > > > +       addr_len[0] = msg->address & 0xff;
+> > > > > +       addr_len[1] = (msg->address >> 8) & 0xff;
+> > > > > +       addr_len[2] = ((msg->request << 4) & SWAUX_CMD_MASK) |
+> > > > > +               ((msg->address >> 16) & SWAUX_ADDR_19_16_MASK);
 > > > >
-> > > > The point I'm trying to make is that these error messages in probe
-> > > > almost never get printed after the driver is brought up on the hardware
-> > > > that starts shipping out to non-kernel developers. Of course they happen
-> > > > when kernel devs are enabling new hardware year after year on the same
-> > > > tried and tested driver. They're worthwhile messages to have to make our
-> > > > lives easier at figuring out some misconfiguration, etc. The problem is
-> > > > they lead to bloat once the bringup/configuration phase is over.
+> > > > It really feels like this out to be possible with some sort of
+> > > > cpu_to_le32() API. We're shoving msg->address into 3 bytes and then
+> > > > adding in the request and some length. So we could do something like:
 > > > >
-> > > > At one point we directed driver authors at dev_dbg() for these prints so
-> > > > that the strings would be removed from the kernel image if debugging
-> > > > wasn't enabled. It looks like dev_err_probe() goes in the opposite
-> > > > direction by printing an error message and passing the string to an
-> > > > exported function, so dev_dbg() won't reduce the image size. Ugh!
+> > > >         u32 addr_len;
+> > > >
+> > > >         addr_len = FIELD_PREP(SWAUX_ADDR_MASK, msg->address);
+> > > >         addr_len |= FIELD_PREP(SWAUX_CMD_MASK, msg->request);
+> > > >         if (len)
+> > > >                 addr_len |= FIELD_PREP(LEN_MASK, len - 1);
+> > > >         else
+> > > >                 addr_len |= FIELD_PREP(LEN_MASK, SWAUX_NO_PAYLOAD );
+> > > >
+> > > >         cpu_to_le32s(&addr_len);
+> > > >
+> > > >         regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, &addr_len, sizeof(addr_len));
 > > >
-> > > So maybe the key here is that "CONFIG_PRINTK=n" is not the same as
-> > > "CONFIG_I_THINK_PROBE_ERRORS_ARE_BLOAT" and it's not just that one has
-> > > a more flippant name than the other. I think your argument about the
-> > > fact that these errors almost never come up in practice is actually
-> > > true for pretty much _all_ probe errors, isn't it? So if you wanted to
-> > > keep non-probe errors in your system (keep PRINTK=y) and just do away
-> > > with these bloat-y probe errors then dev_err_probe() could really be
-> > > the key and there'd be a big benefit for using for all these errors
-> > > during probe, not just ones that have a chance of deferring. ...and
-> > > yes, you could make this config do something fancy like do a stack
-> > > dump or print the return address if you actually hit one of these
-> > > errors once you've thrown away the string.
+> > > You're arguing that your version of the code is more efficient? Easier
+> > > to understand? Something else? To me, Philip's initial version is
+> > > crystal clear and easy to map to the bridge datasheet but I need to
+> > > think more to confirm that your version is right. Thinking is hard and
+> > > I like to avoid it when possible.
+> > >
+> > > In any case, it's definitely bikeshedding and I'll yield if everyone
+> > > likes the other version better. ;-)
 > >
-> > Yes, but it's also just as important to push similar messages, i.e. "I
-> > failed to get some resource", into the API that hands resources out so
-> > that bloat is minimized further and drivers are kept simple.
+> > Yeah it's bikeshedding. I don't really care about this either but I find
+> > it easier to read when the assignment isn't wrapped across multiple
+> > lines. If the buffer approach is preferable then maybe use the address
+> > macros to clarify which register is being set?
+> >
+> >         unsigned int base = PAGE0_SWAUX_ADDR_7_0;
+> >
+> >         addr_len[PAGE0_SWAUX_ADDR_7_0 - base] = msg->address;
+> >         addr_len[PAGE0_SWAUX_ADDR_15_8 - base] = msg->address >> 8;
+> >         addr_len[PAGE0_SWAUX_ADDR_23_16 - base] = msg->address >> 16;
+> >         addr_len[PAGE0_SWAUX_ADDR_23_16 - base] |= msg->request << 4;
 >
-> Sure, but this is a slippery slope. If there's any chance that a
-> caller might want to know about the error but _not_ want the error
-> message printed then you can't push the error message into the API.
-> It's really hard to find error cases (even with "get resource" type
-> functions) where the caller _always_ wants the error reported. Even
-> kmalloc() has a nod to this with __GFP_NOWARN, though I'm not
-> advocating adding a "no warn" flag to all APIs. It's always possible
-> that the caller is expecting some types of errors and handles the case
-> elegantly.
->
-> Let's pop all the way back up to the original point here, which was
-> about devm_regmap_init_i2c(). What should happen with errors? Let's
-> look specifically at the errors that could be returned by
-> regmap_get_i2c_bus() which is the first thing devm_regmap_init_i2c()
-> tries to do. Those errors have to do with the i2c bus not supporting
-> the features needed by our regmap.
+> Sure, this looks nice to me. :-)
+Thanks.
+Implemented the fix in v4.
+PTAL.
+
 >
 >
-> a) We could return the error without printing anything like the code does today.
+> > > > > +               return ret;
+> > > > > +       }
+> > > > > +
+> > > > > +       switch (data & SWAUX_STATUS_MASK) {
+> > > > > +       /* Ignore the DEFER cases as they are already handled in hardware */
+> > > > > +       case SWAUX_STATUS_NACK:
+> > > > > +       case SWAUX_STATUS_I2C_NACK:
+> > > > > +               /*
+> > > > > +                * The programming guide is not clear about whether a I2C NACK
+> > > > > +                * would trigger SWAUX_STATUS_NACK or SWAUX_STATUS_I2C_NACK. So
+> > > > > +                * we handle both cases together.
+> > > > > +                */
+> > > > > +               if (is_native_aux)
+> > > > > +                       msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
+> > > > > +               else
+> > > > > +                       msg->reply |= DP_AUX_I2C_REPLY_NACK;
+> > > > > +
+> > > > > +               len = data & SWAUX_M_MASK;
+> > > > > +               return len;
+> > > >
+> > > > Why no 'return data & SWAUX_M_MASK;' and skip the assignment?
+> > >
+> > > Actually, I think it's the "return" that's a bug, isn't it? If we're
+> > > doing a "read" and we're returning a positive number of bytes then we
+> > > need to actually _read_ them. Reading happens below, doesn't it?
+> > >
+> >
+> > Oh I missed that. We're still supposed to return data to upper
+> > layers on a NACKed read?
 >
-> No bloat, but during bringup of this bridge chip on a new i2c bus we'd
-> have to manually add printouts to the probe function to figure out
-> this error.
+> It seems highly likely not to matter in practice, but:
 >
+> * The docs from parade clearly state that when a NAK is returned that
+> the number of bytes transferred before the NAK will be provided to us.
 >
-> b) We could push error reporting into regmap_get_i2c_bus().
+> * The i2c interface specifies NAK not as a return code but as a bit in
+> the "reply". That presumably is to let us return the number of bytes
+> transferred before the NAK to the next level up.
 >
-> No per-driver bloat, but some drivers might have a legitimate reason
-> not to have an error print here. Perhaps they have a fallback `regmap`
-> config that they want to be able to use that works with different bus
-> capabilities. I don't think we can do this.
+> * If we're returning the number of bytes and it's a read then we'd
+> better return the data too!
 >
->
-> c) We could use dev_dbg() to print the error
->
-> Only bloat if dynamic debug or DEBUG is defined
->
->
-> d) We could use dev_err_probe() to print the error
->
-> Extra bloat, though it could be minimized (without sacrificing all
-> "printk") with a future patch to drop the string from dev_err_probe()
-> and perhaps replace it with a WARN_ON(). Also handles the fact that
-> perhaps someday someone might find a reason that regmap_get_i2c_bus()
-> and/or devm_regmap_init_i2c() should suddenly start returning
-> -EPROBE_DEFER.
->
->
-> I'm still advocating for "d)" above and I believe you originally
-> advocated for "a)" or "c)". It's really not such a huge deal, so if
-> you're adamant about "a)" then I'll shut up. I'm curious if I've
-> managed to convince you all about "d)" though.
+> It looks like we handled this OK in the TI bridge driver. From reading
+> the TI docs we'll get both AUX_IRQ_STATUS_AUX_SHORT and
+> AUX_IRQ_STATUS_NAT_I2C_FAIL in the case of a partial transfer and so
+> we'll do the right thing.
+
+Thanks for catching the bug.
+In v4, I made SWAUX_STATUS_I2C_NACK fall through to SWAUX_STATUS_ACKM and
+store the number of read/written bytes in len w/o returning immediately.
+PTAL.
+
 >
 > -Doug
