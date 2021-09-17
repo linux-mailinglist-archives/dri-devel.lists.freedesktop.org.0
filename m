@@ -1,54 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 488F540EE7B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 02:49:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A5240EE89
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 02:58:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2256EA14;
-	Fri, 17 Sep 2021 00:49:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F4F66EA42;
+	Fri, 17 Sep 2021 00:58:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
- [209.85.166.42])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C05F16EA38
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 00:49:09 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id a15so10124915iot.2
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 17:49:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=6zodSke86hnlsQe7klR3A5X+2RRUPHUNpKbftVQV0oE=;
- b=tEbCOZfvO6Mdd0WoEMNHr+JUTaRffvvAdsuyJyYmGwm2A085k7y1mXwIy1SCKPuNAE
- xxRBYvtIn6CmZlhYYorl0tYfhFTsd7CPDRbyXsNkddFO9XA6A+bAOBzjCTmc/GqWNRge
- y9xIP4zWXZO4Ls7g1sb/jmB6gjehjyCVEu+Kghd/1ZFRwms7FulpTp8iYq2tfS4xkWJC
- K4Zv2/xh1F4lrNtb60WldApqO6gieu4PZmLqC99oVbLun3x6BWz84zcppMB3Ghj/v3Ff
- vNpDmDaJIcrpHCUI4NW9qkD1xRfoUD4ur5SZWqkvFOYmgZAwESQKhwGBX+PieUHx0hI2
- IErA==
-X-Gm-Message-State: AOAM531V4sSfipUF+NzRwqbcVL8QLPyZYhHx/Bl1Xrk22CGkdteczM5Z
- UfYjnTlwv+VuG9hoBgSE7A==
-X-Google-Smtp-Source: ABdhPJxbqFS9VhfN7t4ZOhlO3skieDQOI5xZyT2eWGR/1mS9FuokN01beDwOIfVzeVBuy/bDqxtasA==
-X-Received: by 2002:a6b:7710:: with SMTP id n16mr6311114iom.101.1631839748848; 
- Thu, 16 Sep 2021 17:49:08 -0700 (PDT)
-Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net.
- [96.84.70.89])
- by smtp.gmail.com with ESMTPSA id z15sm2498669ioh.28.2021.09.16.17.49.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 17:49:08 -0700 (PDT)
-Received: (nullmailer pid 1484025 invoked by uid 1000);
- Fri, 17 Sep 2021 00:49:06 -0000
-From: Rob Herring <robh@kernel.org>
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: daniel@ffwll.ch, thierry.reding@gmail.com, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, airlied@linux.ie, devicetree@vger.kernel.org,
- robh+dt@kernel.org, jonathanh@nvidia.com
-In-Reply-To: <20210916145517.2047351-2-mperttunen@nvidia.com>
-References: <20210916145517.2047351-1-mperttunen@nvidia.com>
- <20210916145517.2047351-2-mperttunen@nvidia.com>
-Subject: Re: [PATCH v6 1/3] dt-bindings: Add YAML bindings for NVDEC
-Date: Thu, 16 Sep 2021 19:49:06 -0500
-Message-Id: <1631839746.871547.1484024.nullmailer@robh.at.kernel.org>
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C143C6EA3B;
+ Fri, 17 Sep 2021 00:58:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1631840279;
+ bh=RuX66OxFWoS0HDfqpgFCs8AC9nKRS0uV9pHUrXlk8wA=;
+ h=Date:From:To:Cc:Subject:From;
+ b=YHqoahSnvwgzkWOLXkV7xXS6LmRJbrTMUzZ/tTEYtFAYFngtrSGBzGB8VZfhjQb7z
+ 3mQfcgazN+WeNp9BpSd2vizG4+fzDadtIqFuGfmO5USEvBjmZy+9SoeeyWSD4/yMwo
+ 8RUdOSiNG2HFhN/r/pcWLIv42wSmUG/naeI51ABKa4Un5PL0ISUH+65SCgEA+7ONY9
+ 3evurreYf4s/i/pp0l0GyeC33wUcgCtDIKyBJC6BvXVm4pnofxPEjRdl14JkU8Iv1W
+ OpnYLy/Zs8vnAxpfm0IiAOrw7FzPP2DoSuwtghmVVGRYzJ7AMQ/x861pdq2I2uuewg
+ RiSjufrl6QxSw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4H9bCn3tTJz9sSn;
+ Fri, 17 Sep 2021 10:57:57 +1000 (AEST)
+Date: Fri, 17 Sep 2021 10:57:56 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Alex Deucher <alexdeucher@gmail.com>, Daniel Vetter
+ <daniel.vetter@ffwll.ch>
+Cc: Andrey Grodzovsky <andrey.grodzovsky@amd.com>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>, DRI <dri-devel@lists.freedesktop.org>, Intel
+ Graphics <intel-gfx@lists.freedesktop.org>
+Subject: linux-next: build failure after merge of the amdgpu tree
+Message-ID: <20210917105756.5dadb04f@canb.auug.org.au>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/HugLTVrN6UZUSxE31.c3uqD";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,54 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 16 Sep 2021 17:55:15 +0300, Mikko Perttunen wrote:
-> Add YAML device tree bindings for NVDEC, now in a more appropriate
-> place compared to the old textual Host1x bindings.
-> 
-> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
-> ---
-> v6:
-> * Elaborated description for nvidia,host1x-class.
-> * Added default value for nvidia,host1x-class.
-> v5:
-> * Changed from nvidia,instance to nvidia,host1x-class optional
->   property.
-> * Added dma-coherent
-> v4:
-> * Fix incorrect compatibility string in 'if' condition
-> v3:
-> * Drop host1x bindings
-> * Change read2 to read-1 in interconnect names
-> v2:
-> * Fix issues pointed out in v1
-> * Add T194 nvidia,instance property
-> ---
->  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 108 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 109 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
-> 
+--Sig_/HugLTVrN6UZUSxE31.c3uqD
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+Hi all,
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml:108:1: [warning] too many blank lines (2 > 1) (empty-lines)
+After merging the amdgpu tree, today's linux-next build (arm
+multi_v7_defconfig) failed like this:
 
-dtschema/dtc warnings/errors:
+In file included from include/drm/ttm/ttm_bo_driver.h:40,
+                 from include/drm/drm_gem_ttm_helper.h:11,
+                 from drivers/gpu/drm/drm_gem_ttm_helper.c:5:
+include/drm/ttm/ttm_device.h:274:19: error: duplicate member 'pinned'
+  274 |  struct list_head pinned;
+      |                   ^~~~~~
 
-doc reference errors (make refcheckdocs):
+Caused by commit
 
-See https://patchwork.ozlabs.org/patch/1528902
+  59084e464297 ("drm/ttm: Create pinned list")
 
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
+interacting with commit
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
+  32eadf52d449 ("drm/ttm: Create pinned list")
 
-pip3 install dtschema --upgrade
+from the drm-misc tree.
 
-Please check and re-submit.
+The automatic merge proved incorrect, so I have removed one of the
+insertions.
 
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/HugLTVrN6UZUSxE31.c3uqD
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFD6BQACgkQAVBC80lX
+0GwRPwf/Tt0n9y8x90B941oTzeKwtNQCKq6uafkNwpGKusptbV/GeUGCHq/nlob6
+FCxU0bPgYGc3ikvA2b5g9VrmABPgQPzS03b0WM0+LjGNkyXwc41IfdHrKV1Vwo4V
+3xe7XowJgUdLl5/PG2IdMsZx+2sTHjJ7uCXv3FY+Q77WPibp6wCevcJtED6d1nKf
+DoBznPm1oQ2UULxvkPLn5z1K/kuuT2pvf9jZP7K92EJxYDi/jErJTe+l5sQ++U6O
+e8Ra+R/MSXRNNaz94+blXQEqsyW7Gavobz5GEI73V55dprtUzx35qEfm151t5sbe
+qx7rRB2Yr12HY/JDfr/fwyqu2QP9mg==
+=rv2/
+-----END PGP SIGNATURE-----
+
+--Sig_/HugLTVrN6UZUSxE31.c3uqD--
