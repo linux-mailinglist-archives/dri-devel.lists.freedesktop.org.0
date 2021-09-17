@@ -2,78 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0632B410163
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:37:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8339410167
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:39:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BBBE56E0BC;
-	Fri, 17 Sep 2021 22:37:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DD996E0BF;
+	Fri, 17 Sep 2021 22:39:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A7056E0AC;
- Fri, 17 Sep 2021 22:37:20 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id C9D7F2B00BC0;
- Fri, 17 Sep 2021 18:37:19 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Fri, 17 Sep 2021 18:37:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=nhWXDSFKhC1b4KAXA4XjlcmTpL5
- dZ6T2058p8Og7JQU=; b=GpzZ1qRpFwidQCCXZq88JTv0+uc9A9uiDWB+coAc0Rt
- v4qYbRrGIivtwbSUIouGbUyss2shPTXGLS1iDTfGveq+BUo5NhujQ6XEkIqVBkL5
- oh6mT/86ZQzAjEhrSjwGnxPQ/4bZku3W3sf6C6iy2XU2zEL7je5njTH74hnWnj4r
- 2ILH9Ag0DNjlw3JG5vticdChUCRNhOgJraOGQoZ7LUcNsFvK8HL2pjou0zr8Nydx
- 2xvlFdCPU/1QT6dZST2PGbZNuUHCiNyIqMzYealPoX2RoCCoUW3j5PoWB3YneBk+
- AH6GA0+oP+Jc7sIPqheHgyhE3WX3ppe68bhnV3/ve+A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=nhWXDS
- FKhC1b4KAXA4XjlcmTpL5dZ6T2058p8Og7JQU=; b=Iqst6REPYZrVgxFoHUXdgf
- LpiPLwYcccINEr87/9MEGzuW1AYZwnegEHwhnHrIHZg28qcVWgbNTEMUsWdUUVXI
- rHcUan8miONe1DM4+/8zggxmJTBCJDYvy4Qx2hEvMcvLeBACz5pTk/LuabCg0sjf
- tnseWz9MpNmPtSGX3WIrQuHtt5Xp4g1K+di67P8TaXKDwqak6qP9XUSdNCoQHp5T
- ndeCs13S0ppwD6hNQhy/v7jVCp8nbpO3Rw9B+8jP75pB+uK3J+wmpG/+I1pLaSzq
- OIXzgTKI4qQK2wRPKVHZnzZt/yR/A5nibfCPAKYKHtxxCj9Db912HHCgu1QwmXBA
- ==
-X-ME-Sender: <xms:nhhFYYFF07RmDkJJGGFYvTE0IHZWTMtV-kZzTIEOdImVwxC2tPCksQ>
- <xme:nhhFYRWaSAfV1zP92NdwP4NLA3dfp5t2D8qmx640v3QcOcDtEexwxvb_RqwNklkYM
- -OscQ8wBjDL7GwnuA>
-X-ME-Received: <xmr:nhhFYSLRFI0r8M6YhfvLZY-d5hDZDJlRO9vKPgYPYLeYeKDkKZCVb_jxOcgkedIC3dbUbGNr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
- nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
- gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
- heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
- gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:nhhFYaED_VGyce_lQv2tWIhSKOQbFHEuFtMk9iPtGm2zWrSGzWMQdA>
- <xmx:nhhFYeX1rGy5XtLNApe-qZKkEwA4JoW2yZ2G4kb4mmF1TsQ05sQcbQ>
- <xmx:nhhFYdMMk3B6SqrLqJBCXrc1x48hmb940d8OhMiMIUw7K89264XOKw>
- <xmx:nxhFYaROTu3iTGp1HgObGRZWx0s6_YgwlNi1QhgwuyEEYzqah2_lNgLiJ7E>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 18:37:15 -0400 (EDT)
-Date: Sat, 18 Sep 2021 00:37:13 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 09/15] drm/omapdrm: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUUYmUPT9AhizHpc@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-10-greenfoo@u92.eu>
- <20210917154136.GJ2515@art_vandelay>
+Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com
+ [IPv6:2607:f8b0:4864:20::52a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 207146E0BF
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 22:39:08 +0000 (UTC)
+Received: by mail-pg1-x52a.google.com with SMTP id r2so10952168pgl.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:39:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2/rOcOavU9zDghgpvdrNudzstRLQ0FLsHzg1+2it0Wo=;
+ b=inFPbKtH0NMd2NABu2MN0k8Vu3eyFOIlzbmDDMX9+U6Hqf9pMnXAS99mzmqQvmlbL0
+ +vizYoGouznBfK7gfBgjkUg7fqbWQUdyEtlX1vrIFWYsJ8qXqdCNz3v6PlE9Y3hWzNSL
+ K3P8i0Z3xeQXcSr1HpacqIq26TnYKmmrYMVRw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=2/rOcOavU9zDghgpvdrNudzstRLQ0FLsHzg1+2it0Wo=;
+ b=O9gTrOKPv90lZMTmQD9w6uIwr0Bj25Q33uetxIw0zfdxDkK1V9+Lkk2CdG3zaslmxQ
+ e9QErFVu+WwM8KUE+r5hmEQZ81m/ZorcSiXt8GNIZug/GuOrdOVJ27/zVwkqmYFZRY2l
+ bBW2lG+Vwjp77xWPAQVOrMAUIImTwrVNnNQFnrK3NI5U2NAD6cTlttbA+1FsHSjckjoa
+ OBPur4qZzQTrT9GXiAugZdFXFhIrXIq3ecn7cF5LUa9Y1EtCv2VGwN7JEYr8q9KuqmXx
+ eKuq89ZwjmDTIuFusl2BdbTEbN+rukNjHGDTLk0Aov6QPcLDZyaKzyt2ihX7Qo+lmSIO
+ kn8Q==
+X-Gm-Message-State: AOAM531ZcQ916tOOPuo3DGuRpIBf2NCOOfRZYvyeBNy7sUg8mHL3ScX+
+ eSC3Bzbv6BNk+gNrTsUbu5Sy2A==
+X-Google-Smtp-Source: ABdhPJz4i6+u2um1URE3VfLx/tZT1bEg/qe99Ds3AVSCeWJXbtB2DqqkFaNUPveb48pXZNpFICN+gg==
+X-Received: by 2002:a62:1702:0:b0:444:d085:6a61 with SMTP id
+ 2-20020a621702000000b00444d0856a61mr5744369pfx.14.1631918347607; 
+ Fri, 17 Sep 2021 15:39:07 -0700 (PDT)
+Received: from philipchen.mtv.corp.google.com
+ ([2620:15c:202:201:487:ba41:bf2c:8c7e])
+ by smtp.gmail.com with ESMTPSA id y13sm6619486pjc.50.2021.09.17.15.39.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 17 Sep 2021 15:39:06 -0700 (PDT)
+From: Philip Chen <philipchen@chromium.org>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: dianders@chromium.org, swboyd@chromium.org,
+ Philip Chen <philipchen@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v4 1/2] drm/bridge: parade-ps8640: Use regmap APIs
+Date: Fri, 17 Sep 2021 15:39:01 -0700
+Message-Id: <20210917153835.v4.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
+X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210917154136.GJ2515@art_vandelay>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,11 +74,201 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> > -	drm_modeset_unlock_all(fb->dev);
-> > +	DRM_MODESET_LOCK_ALL_END(fb->dev, ctx, ret);
-> >  
-> >  	return 0;
-> 
-> Return ret here.
+Replace the direct i2c access (i2c_smbus_* functions) with regmap APIs,
+which will simplify the future update on ps8640 driver.
 
-Done!
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Signed-off-by: Philip Chen <philipchen@chromium.org>
+---
+
+Changes in v4:
+- Remove excessive error logging from the probe function
+
+Changes in v3:
+- Fix the nits from v2 review
+
+Changes in v2:
+- Add separate reg map config per page
+
+ drivers/gpu/drm/bridge/parade-ps8640.c | 94 ++++++++++++++++++--------
+ 1 file changed, 64 insertions(+), 30 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+index 685e9c38b2db..18328e75bf90 100644
+--- a/drivers/gpu/drm/bridge/parade-ps8640.c
++++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+@@ -9,6 +9,7 @@
+ #include <linux/i2c.h>
+ #include <linux/module.h>
+ #include <linux/of_graph.h>
++#include <linux/regmap.h>
+ #include <linux/regulator/consumer.h>
+ 
+ #include <drm/drm_bridge.h>
+@@ -31,6 +32,11 @@
+ 
+ #define NUM_MIPI_LANES		4
+ 
++#define COMMON_PS8640_REGMAP_CONFIG \
++	.reg_bits = 8, \
++	.val_bits = 8, \
++	.cache_type = REGCACHE_NONE
++
+ /*
+  * PS8640 uses multiple addresses:
+  * page[0]: for DP control
+@@ -64,12 +70,48 @@ struct ps8640 {
+ 	struct drm_bridge *panel_bridge;
+ 	struct mipi_dsi_device *dsi;
+ 	struct i2c_client *page[MAX_DEVS];
++	struct regmap	*regmap[MAX_DEVS];
+ 	struct regulator_bulk_data supplies[2];
+ 	struct gpio_desc *gpio_reset;
+ 	struct gpio_desc *gpio_powerdown;
+ 	bool powered;
+ };
+ 
++static const struct regmap_config ps8640_regmap_config[] = {
++	[PAGE0_DP_CNTL] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xbf,
++	},
++	[PAGE1_VDO_BDG] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++	[PAGE2_TOP_CNTL] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++	[PAGE3_DSI_CNTL1] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++	[PAGE4_MIPI_PHY] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++	[PAGE5_VPLL] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0x7f,
++	},
++	[PAGE6_DSI_CNTL2] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++	[PAGE7_SPI_CNTL] = {
++		COMMON_PS8640_REGMAP_CONFIG,
++		.max_register = 0xff,
++	},
++};
++
+ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+ {
+ 	return container_of(e, struct ps8640, bridge);
+@@ -78,13 +120,13 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
+ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+ 				     const enum ps8640_vdo_control ctrl)
+ {
+-	struct i2c_client *client = ps_bridge->page[PAGE3_DSI_CNTL1];
++	struct regmap *map = ps_bridge->regmap[PAGE3_DSI_CNTL1];
+ 	u8 vdo_ctrl_buf[] = { VDO_CTL_ADD, ctrl };
+ 	int ret;
+ 
+-	ret = i2c_smbus_write_i2c_block_data(client, PAGE3_SET_ADD,
+-					     sizeof(vdo_ctrl_buf),
+-					     vdo_ctrl_buf);
++	ret = regmap_bulk_write(map, PAGE3_SET_ADD,
++				vdo_ctrl_buf, sizeof(vdo_ctrl_buf));
++
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed to %sable VDO: %d\n",
+ 			  ctrl == ENABLE ? "en" : "dis", ret);
+@@ -96,8 +138,7 @@ static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
+ 
+ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+ {
+-	struct i2c_client *client = ps_bridge->page[PAGE2_TOP_CNTL];
+-	unsigned long timeout;
++	struct regmap *map = ps_bridge->regmap[PAGE2_TOP_CNTL];
+ 	int ret, status;
+ 
+ 	if (ps_bridge->powered)
+@@ -121,18 +162,12 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+ 	 */
+ 	msleep(200);
+ 
+-	timeout = jiffies + msecs_to_jiffies(200) + 1;
+-
+-	while (time_is_after_jiffies(timeout)) {
+-		status = i2c_smbus_read_byte_data(client, PAGE2_GPIO_H);
+-		if (status < 0) {
+-			DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", status);
+-			goto err_regulators_disable;
+-		}
+-		if ((status & PS_GPIO9) == PS_GPIO9)
+-			break;
++	ret = regmap_read_poll_timeout(map, PAGE2_GPIO_H, status,
++			status & PS_GPIO9, 20 * 1000, 200 * 1000);
+ 
+-		msleep(20);
++	if (ret < 0) {
++		DRM_ERROR("failed read PAGE2_GPIO_H: %d\n", ret);
++		goto err_regulators_disable;
+ 	}
+ 
+ 	msleep(50);
+@@ -144,22 +179,15 @@ static void ps8640_bridge_poweron(struct ps8640 *ps_bridge)
+ 	 * disabled by the manufacturer. Once disabled, all MCS commands are
+ 	 * ignored by the display interface.
+ 	 */
+-	status = i2c_smbus_read_byte_data(client, PAGE2_MCS_EN);
+-	if (status < 0) {
+-		DRM_ERROR("failed read PAGE2_MCS_EN: %d\n", status);
+-		goto err_regulators_disable;
+-	}
+ 
+-	ret = i2c_smbus_write_byte_data(client, PAGE2_MCS_EN,
+-					status & ~MCS_EN);
++	ret = regmap_update_bits(map, PAGE2_MCS_EN, MCS_EN, 0);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed write PAGE2_MCS_EN: %d\n", ret);
+ 		goto err_regulators_disable;
+ 	}
+ 
+ 	/* Switch access edp panel's edid through i2c */
+-	ret = i2c_smbus_write_byte_data(client, PAGE2_I2C_BYPASS,
+-					I2C_BYPASS_EN);
++	ret = regmap_write(map, PAGE2_I2C_BYPASS, I2C_BYPASS_EN);
+ 	if (ret < 0) {
+ 		DRM_ERROR("failed write PAGE2_I2C_BYPASS: %d\n", ret);
+ 		goto err_regulators_disable;
+@@ -362,15 +390,21 @@ static int ps8640_probe(struct i2c_client *client)
+ 
+ 	ps_bridge->page[PAGE0_DP_CNTL] = client;
+ 
++	ps_bridge->regmap[PAGE0_DP_CNTL] = devm_regmap_init_i2c(client, ps8640_regmap_config);
++	if (IS_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]))
++		return PTR_ERR(ps_bridge->regmap[PAGE0_DP_CNTL]);
++
+ 	for (i = 1; i < ARRAY_SIZE(ps_bridge->page); i++) {
+ 		ps_bridge->page[i] = devm_i2c_new_dummy_device(&client->dev,
+ 							     client->adapter,
+ 							     client->addr + i);
+-		if (IS_ERR(ps_bridge->page[i])) {
+-			dev_err(dev, "failed i2c dummy device, address %02x\n",
+-				client->addr + i);
++		if (IS_ERR(ps_bridge->page[i]))
+ 			return PTR_ERR(ps_bridge->page[i]);
+-		}
++
++		ps_bridge->regmap[i] = devm_regmap_init_i2c(ps_bridge->page[i],
++						ps8640_regmap_config + i);
++		if (IS_ERR(ps_bridge->regmap[i]))
++			return PTR_ERR(ps_bridge->regmap[i]);
+ 	}
+ 
+ 	i2c_set_clientdata(client, ps_bridge);
+-- 
+2.33.0.464.g1972c5931b-goog
+
