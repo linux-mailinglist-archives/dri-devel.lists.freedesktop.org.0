@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EC940F868
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:55:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDCF40F8E3
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 15:13:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3158A6EC7A;
-	Fri, 17 Sep 2021 12:54:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8466EC7B;
+	Fri, 17 Sep 2021 13:13:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1E0F6EC7A;
- Fri, 17 Sep 2021 12:54:56 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10109"; a="202950656"
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="202950656"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 05:54:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="453293706"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga002.jf.intel.com with SMTP; 17 Sep 2021 05:54:53 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 17 Sep 2021 15:54:52 +0300
-Date: Fri, 17 Sep 2021 15:54:52 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
+Received: from desiato.infradead.org (desiato.infradead.org
+ [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 907436EC7B;
+ Fri, 17 Sep 2021 13:13:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=0aFLR2lUxEmXPmZLuYIXqDnPTX0rVncJ2dyBQNcXQtU=; b=GH6mH5HJGp5iS3e1ZDYfKy1Bds
+ 11LWULQPO2rmUbqSYx3wJ1e0vzwGT0rY04Rs0oikIFmIJP5V6X5doOEUP3jyKY90jvrTh5gH7Lrrv
+ O8HmoJZlakpHvA9dfcVd1FH/6nTwQG+E+dCot3cqztnlCVv11344c7aGFKdg/FYUcqtLnmd5dl1yU
+ hUAJIBnJNpNDzReYNbfc4ZEv4aG/5lUQdyIcZ6clv8nSx551RqRM1GUP0ihqXejnXIcXQ6QXttEWn
+ 7aZN2zg+9Yi+uK4tAupMtYBlDQlJNMFTQB8XERCObxXc4V9BLs1iBhgJuTXj/U+dKByWVrR2Hqtml
+ 6ZvK7TAw==;
+Received: from j217100.upc-j.chello.nl ([24.132.217.100]
+ helo=noisy.programming.kicks-ass.net)
+ by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mRDg8-003sDR-Ty; Fri, 17 Sep 2021 13:13:21 +0000
+Received: from hirez.programming.kicks-ass.net
+ (hirez.programming.kicks-ass.net [192.168.1.225])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ (Client did not present a certificate)
+ by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 6958A30031A;
+ Fri, 17 Sep 2021 15:13:19 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
+ id 4AF5920BC8BFC; Fri, 17 Sep 2021 15:13:19 +0200 (CEST)
+Date: Fri, 17 Sep 2021 15:13:19 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- manasi.d.navare@intel.com
-Subject: Re: [PATCH v3 05/13] drm/i915/dg2: add DG2+ TRANS_DDI_FUNC_CTL DP
- 2.0 128b/132b mode
-Message-ID: <YUSQHIR1puK6OHHR@intel.com>
-References: <cover.1631191763.git.jani.nikula@intel.com>
- <260e4da302d47ae50122eb8d517be6ac3ccb15f2.1631191763.git.jani.nikula@intel.com>
+ Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+ Waiman Long <longman@redhat.com>, Boqun Feng <boqun.feng@gmail.com>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] kernel/locking: Add context to ww_mutex_trylock.
+Message-ID: <YUSUb+JP+e0f+00G@hirez.programming.kicks-ass.net>
+References: <96ab9cf1-250a-8f34-51ec-4a7f66a87b39@linux.intel.com>
+ <YTnETRSy9H0CRdpc@hirez.programming.kicks-ass.net>
+ <a7e5d99d-39c4-6d27-3029-4689a2a1a17a@linux.intel.com>
+ <YTtznr85mg5xXouP@hirez.programming.kicks-ass.net>
+ <e8a7754e-23e7-0250-5718-101a56d008f0@linux.intel.com>
+ <YUBGPdDDjKlxAuXJ@hirez.programming.kicks-ass.net>
+ <205e1591-343b-fb77-cfca-9c16af1484bd@linux.intel.com>
+ <YUCpfrbfPSZvD3Xl@phenom.ffwll.local>
+ <a374d768-213e-58e7-d281-1c46d1c0c105@linux.intel.com>
+ <YUNGaztoBrTzEuEG@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <260e4da302d47ae50122eb8d517be6ac3ccb15f2.1631191763.git.jani.nikula@intel.com>
-X-Patchwork-Hint: comment
+In-Reply-To: <YUNGaztoBrTzEuEG@hirez.programming.kicks-ass.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,69 +75,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09, 2021 at 03:51:57PM +0300, Jani Nikula wrote:
-> Unfortunately, the DP 2.0 128b/132b DDI mode selection in the register
-> conflicts with FDI. Since we have to deal with both meanings in the same
-> code, for different platforms, clarify the macro name so we don't
-> forget.
+On Thu, Sep 16, 2021 at 03:28:11PM +0200, Peter Zijlstra wrote:
+> On Thu, Sep 16, 2021 at 03:00:39PM +0200, Maarten Lankhorst wrote:
 > 
-> Bspec: 50493
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
-> ---
->  drivers/gpu/drm/i915/display/intel_ddi.c | 6 +++---
->  drivers/gpu/drm/i915/i915_reg.h          | 2 +-
->  2 files changed, 4 insertions(+), 4 deletions(-)
+> > > For merge logistics, can we pls have a stable branch? I expect that the
+> > > i915 patches will be ready for 5.16.
+> > >
+> > > Or send it in for -rc2 so that the interface change doesn't cause needless
+> > > conflicts, whatever you think is best.
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index 23ef291f7b30..2361f48537b5 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -489,7 +489,7 @@ intel_ddi_transcoder_func_reg_val_get(struct intel_encoder *encoder,
->  		if (crtc_state->hdmi_high_tmds_clock_ratio)
->  			temp |= TRANS_DDI_HIGH_TMDS_CHAR_RATE;
->  	} else if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_ANALOG)) {
-> -		temp |= TRANS_DDI_MODE_SELECT_FDI;
-> +		temp |= TRANS_DDI_MODE_SELECT_FDI_OR_128B132B;
->  		temp |= (crtc_state->fdi_lanes - 1) << 1;
->  	} else if (intel_crtc_has_type(crtc_state, INTEL_OUTPUT_DP_MST)) {
->  		temp |= TRANS_DDI_MODE_SELECT_DP_MST;
-> @@ -679,7 +679,7 @@ bool intel_ddi_connector_get_hw_state(struct intel_connector *intel_connector)
->  		ret = false;
->  		break;
->  
-> -	case TRANS_DDI_MODE_SELECT_FDI:
-> +	case TRANS_DDI_MODE_SELECT_FDI_OR_128B132B:
->  		ret = type == DRM_MODE_CONNECTOR_VGA;
->  		break;
->  
-> @@ -3558,7 +3558,7 @@ static void intel_ddi_read_func_ctl(struct intel_encoder *encoder,
->  		pipe_config->output_types |= BIT(INTEL_OUTPUT_HDMI);
->  		pipe_config->lane_count = 4;
->  		break;
-> -	case TRANS_DDI_MODE_SELECT_FDI:
-> +	case TRANS_DDI_MODE_SELECT_FDI_OR_128B132B:
->  		pipe_config->output_types |= BIT(INTEL_OUTPUT_ANALOG);
->  		break;
->  	case TRANS_DDI_MODE_SELECT_DP_SST:
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index c2853cc005ee..03a94389c514 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -10202,7 +10202,7 @@ enum skl_power_gate {
->  #define  TRANS_DDI_MODE_SELECT_DVI	(1 << 24)
->  #define  TRANS_DDI_MODE_SELECT_DP_SST	(2 << 24)
->  #define  TRANS_DDI_MODE_SELECT_DP_MST	(3 << 24)
-> -#define  TRANS_DDI_MODE_SELECT_FDI	(4 << 24)
-> +#define  TRANS_DDI_MODE_SELECT_FDI_OR_128B132B	(4 << 24)
->  #define  TRANS_DDI_BPC_MASK		(7 << 20)
->  #define  TRANS_DDI_BPC_8		(0 << 20)
->  #define  TRANS_DDI_BPC_10		(1 << 20)
-> -- 
-> 2.30.2
+> > Yeah, some central branch drm could pull from, would make upstreaming patches that depends on it easier. :)
+> 
+> I think I'll make tip/locking/wwmutex and include that in
+> tip/locking/core, let me have a poke.
 
--- 
-Ville Syrjälä
-Intel
+This is now so. Enjoy!
