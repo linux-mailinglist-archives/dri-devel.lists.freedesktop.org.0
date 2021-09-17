@@ -1,41 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8117E40FF08
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 20:08:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0891740FF09
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 20:09:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA72E6E042;
-	Fri, 17 Sep 2021 18:08:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2D4C06EDDB;
+	Fri, 17 Sep 2021 18:09:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 906 seconds by postgrey-1.36 at gabe;
- Fri, 17 Sep 2021 18:08:37 UTC
-Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
- [208.91.0.190])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0C5976E042
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 18:08:37 +0000 (UTC)
-Received: from sc9-mailhost1.vmware.com (10.113.161.71) by
- EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
- 15.0.1156.6; Fri, 17 Sep 2021 10:53:24 -0700
-Received: from vertex.localdomain (unknown [10.21.244.43])
- by sc9-mailhost1.vmware.com (Postfix) with ESMTP id 10EF220252;
- Fri, 17 Sep 2021 10:53:28 -0700 (PDT)
-From: Zack Rusin <zackr@vmware.com>
-To: <dri-devel@lists.freedesktop.org>
-CC: Christian Koenig <christian.koenig@amd.com>, Huang Rui
- <ray.huang@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>
-Subject: [PATCH] drm/ttm: Don't delete the system manager before the delayed
- delete
-Date: Fri, 17 Sep 2021 13:53:28 -0400
-Message-ID: <20210917175328.694429-1-zackr@vmware.com>
-X-Mailer: git-send-email 2.30.2
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+ [64.147.123.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D7F576EDDB
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 18:09:33 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.west.internal (Postfix) with ESMTP id B6FA9320093B;
+ Fri, 17 Sep 2021 14:09:30 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 17 Sep 2021 14:09:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=Tdh/kk6yu6JUp6CPLQW9HVhMQS
+ oNx/fvZlZfIj3uYlk=; b=1E6eqhq+0zvxbt+D8jeA1fvKgh5x+Ws0rXDXBzrBxN
+ 8gCQQre/o0MDoyDiN/6BFYSyspnE1p7gsJbWfJuMa4MfyL+SIQLlAnTdWt3w00II
+ BmC2vTPCzKbOcmAkIcp0TMG9TY0Cwq2vf8MQ1G0rInam8kH+T04gJKk3kr54+6Mv
+ ipnm6MOXBhIeeKidloYC5hlOZoWAhAd/0+Wuist1GgMKPS/e5/CR9ufG+Nu3xKyZ
+ qTyMcBTgeHASOIy+a9OrKOE9Nbg4XkgMoyqJuXL2hs6/xyX/LLx3at30PwxZVoWy
+ r1DzRjmaO2yIkcXFNfIt/TZvqzN+UcnC42OhIrNUa5Vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=Tdh/kk6yu6JUp6CPL
+ QW9HVhMQSoNx/fvZlZfIj3uYlk=; b=ecQzj+ZpM/bl47J+iYKoqJzeleehzWSfe
+ mfX2LIe+VlxZf6y2XCHZpUfOFOCLOpzB1+/4z/wpgwLfBfIR4sE4dFLdRZUpwWP+
+ An5yDWpeL4g9tzsrp1t6cRDiTMjgwwLEHWqUglI0TTGOZ3IxauCqT0UEdZ1ZrbyA
+ 2Iri4QooX/vLKDN2m1+2HMwPEwAHrS1Yq7Q6nxSIn3BVG4Hv3OlbHEu5GlVcm0fo
+ 78MUM6ZMaG5iE7D3hR/o8rfpTaX+eC/wIJP8AsL8X6nTuZ2nSsw0RBzbKpY+tHG7
+ UqNMXKfQAw0Qk0ubFK5jyVTlAluoaVs9gOjhe8HazDCfvoGr+LC4A==
+X-ME-Sender: <xms:19lEYZx8KoRQ_K772sxfUCeoYjNgwHGJ7D_AEH8omPfopeE9JZzm4g>
+ <xme:19lEYZRS0eH_OWj0oMuMHvlXHYEgNbJHA1j6Ml_9f_EfAvVZrV3qQOltGBqNg-kSg
+ Ywo8rGu7KMEQpXKTB8>
+X-ME-Received: <xmr:19lEYTV5IaalNK7o2OXUCt7R164MbEWIxs6AMlD-c1xUVqf8SQ68S8KcLB-LF3RVwwtmOMLFXqKnNxeKJsvLH2e9Xi_j4MkgkWNi>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedgudduiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepofgrgihimhgv
+ ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+ gvrhhnpeejffehuddvvddvlefhgeelleffgfeijedvhefgieejtdeiueetjeetfeeukeej
+ geenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
+ igihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:19lEYbil5cZBCWmf0uFIlEL0BaL2lgYifDZndsl1_5ZkYx5MoX8yOA>
+ <xmx:19lEYbCjjpQmOowC1uYy0YJ6S619ZGAPakhWDLjFb3ChuI_vsM8EsA>
+ <xmx:19lEYUJu8m6NmVSzNZpbAEVHY7xjkbZsqPFQOMS_v-jKiyc8rH_sDw>
+ <xmx:2tlEYW6pcSI7ydbXtdDJd3cWOe8xli16lKolFNKthfSxXGW1WkGAtg>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Sep 2021 14:09:27 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel@lists.freedesktop.org,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] drm/bridge: Move devm_drm_of_get_bridge to bridge/panel.c
+Date: Fri, 17 Sep 2021 20:09:25 +0200
+Message-Id: <20210917180925.2602266-1-maxime@cerno.tech>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
- designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,61 +82,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On some hardware, in particular in virtualized environments, the
-system memory can be shared with the "hardware". In those cases
-the BO's allocated through the ttm system manager might be
-busy during ttm_bo_put which results in them being scheduled
-for a delayed deletion.
+By depending on devm_drm_panel_bridge_add(), devm_drm_of_get_bridge()
+introduces a circular dependency between the modules drm (where
+devm_drm_of_get_bridge() ends up) and drm_kms_helper (where
+devm_drm_panel_bridge_add() is).
 
-The problem is that that the ttm system manager is disabled
-before the final delayed deletion is ran in ttm_device_fini.
-This results in crashes during freeing of the BO resources
-because they're trying to remove themselves from a no longer
-existent ttm_resource_manager (e.g. in IGT's core_hotunplug
-on vmwgfx)
+Fix this by moving devm_drm_of_get_bridge() to bridge/panel.c and thus
+drm_kms_helper.
 
-In general reloading any driver that could share system mem
-resources with "hardware" could hit it because nothing
-prevents the system mem resources from being scheduled
-for delayed deletion (apart from them not being busy probably
-anywhere apart from virtualized environments).
+Fixes: 87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
-Signed-off-by: Zack Rusin <zackr@vmware.com>
-Cc: Christian Koenig <christian.koenig@amd.com>
-Cc: Huang Rui <ray.huang@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
 ---
- drivers/gpu/drm/ttm/ttm_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/gpu/drm/ttm/ttm_device.c b/drivers/gpu/drm/ttm/ttm_device.c
-index 9eb8f54b66fc..4ef19cafc755 100644
---- a/drivers/gpu/drm/ttm/ttm_device.c
-+++ b/drivers/gpu/drm/ttm/ttm_device.c
-@@ -225,10 +225,6 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	struct ttm_resource_manager *man;
- 	unsigned i;
- 
--	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
--	ttm_resource_manager_set_used(man, false);
--	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
--
- 	mutex_lock(&ttm_global_mutex);
- 	list_del(&bdev->device_list);
- 	mutex_unlock(&ttm_global_mutex);
-@@ -238,6 +234,10 @@ void ttm_device_fini(struct ttm_device *bdev)
- 	if (ttm_bo_delayed_delete(bdev, true))
- 		pr_debug("Delayed destroy list was clean\n");
- 
-+	man = ttm_manager_type(bdev, TTM_PL_SYSTEM);
-+	ttm_resource_manager_set_used(man, false);
-+	ttm_set_driver_manager(bdev, TTM_PL_SYSTEM, NULL);
+Hi Stephen,
+
+I think it fixes the issue, but couldn't reproduce it here with my
+config for some reason.
+
+Let me know if it works for you.
+
+Maxime
+---
+ drivers/gpu/drm/bridge/panel.c | 36 ++++++++++++++++++++++++++++++++++
+ drivers/gpu/drm/drm_bridge.c   | 34 --------------------------------
+ 2 files changed, 36 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
+index c916f4b8907e..285a079cdef5 100644
+--- a/drivers/gpu/drm/bridge/panel.c
++++ b/drivers/gpu/drm/bridge/panel.c
+@@ -332,3 +332,39 @@ struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge)
+ 	return &panel_bridge->connector;
+ }
+ EXPORT_SYMBOL(drm_panel_bridge_connector);
 +
- 	spin_lock(&bdev->lru_lock);
- 	for (i = 0; i < TTM_MAX_BO_PRIORITY; ++i)
- 		if (list_empty(&man->lru[0]))
++#ifdef CONFIG_OF
++/**
++ * devm_drm_of_get_bridge - Return next bridge in the chain
++ * @dev: device to tie the bridge lifetime to
++ * @np: device tree node containing encoder output ports
++ * @port: port in the device tree node
++ * @endpoint: endpoint in the device tree node
++ *
++ * Given a DT node's port and endpoint number, finds the connected node
++ * and returns the associated bridge if any, or creates and returns a
++ * drm panel bridge instance if a panel is connected.
++ *
++ * Returns a pointer to the bridge if successful, or an error pointer
++ * otherwise.
++ */
++struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
++					  struct device_node *np,
++					  u32 port, u32 endpoint)
++{
++	struct drm_bridge *bridge;
++	struct drm_panel *panel;
++	int ret;
++
++	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
++					  &panel, &bridge);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (panel)
++		bridge = devm_drm_panel_bridge_add(dev, panel);
++
++	return bridge;
++}
++EXPORT_SYMBOL(devm_drm_of_get_bridge);
++#endif
+diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+index 4c68733fa660..7ee29f073857 100644
+--- a/drivers/gpu/drm/drm_bridge.c
++++ b/drivers/gpu/drm/drm_bridge.c
+@@ -1232,40 +1232,6 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+ 	return NULL;
+ }
+ EXPORT_SYMBOL(of_drm_find_bridge);
+-
+-/**
+- * devm_drm_of_get_bridge - Return next bridge in the chain
+- * @dev: device to tie the bridge lifetime to
+- * @np: device tree node containing encoder output ports
+- * @port: port in the device tree node
+- * @endpoint: endpoint in the device tree node
+- *
+- * Given a DT node's port and endpoint number, finds the connected node
+- * and returns the associated bridge if any, or creates and returns a
+- * drm panel bridge instance if a panel is connected.
+- *
+- * Returns a pointer to the bridge if successful, or an error pointer
+- * otherwise.
+- */
+-struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+-					  struct device_node *np,
+-					  u32 port, u32 endpoint)
+-{
+-	struct drm_bridge *bridge;
+-	struct drm_panel *panel;
+-	int ret;
+-
+-	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
+-					  &panel, &bridge);
+-	if (ret)
+-		return ERR_PTR(ret);
+-
+-	if (panel)
+-		bridge = devm_drm_panel_bridge_add(dev, panel);
+-
+-	return bridge;
+-}
+-EXPORT_SYMBOL(devm_drm_of_get_bridge);
+ #endif
+ 
+ MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
 -- 
-2.30.2
+2.31.1
 
