@@ -2,51 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DFB4104B8
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:25:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611E24104BB
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:25:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8DDA56E0DE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id CDC6F6E0E1;
 	Sat, 18 Sep 2021 07:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17CDB6EC6C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:57:56 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id u18so13300051wrg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:57:56 -0700 (PDT)
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com
+ [IPv6:2a00:1450:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 676466EC6C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:57:57 +0000 (UTC)
+Received: by mail-wm1-x335.google.com with SMTP id
+ d207-20020a1c1dd8000000b00307e2d1ec1aso6811045wmd.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:57:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TmSUd1g256AwM6GPkCVL8KzZlMuiVA8rcald4HgLdWY=;
- b=Vojsq/qATfqaLlBx4GBlzY1M3WQZBkET3/mYiL3HkeYBMyHzWtJbjHthyfck3N2imY
- cOchlbwuXK/iJL6FTVNRR4N6LsDzg5ueKC6Q/busloEZbIggqb55XCgGJc5u+W6/q1Sc
- C3F2brFPLgR81rImVQ/fzY1R8cBgz8gBVfsLVqJeh3G9HxBG0VqAwdbdGikzpDS42CE9
- ofZWBpM1Dyv1TFNfej7D0ZCxUYMFOKLR0gPEgxl3cicBjY9FSggM8IL0jVct8KiT/Ctm
- 6Dr2o3sqhUQ9wRKHM2Se+EoGr+ehAxcbcAFY6nNObaZgFuVZTxRftv90jKjlNW6Xwtc/
- fmig==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=iFUWw1a7QUKqKqitz2aLpXkNS/Ii3+Zh8E8PhFDc+ws=;
+ b=0aPjARok8/bfyOykh5nmswrCWnnajZ9Af1BN4K/pxHOLzmexwy5ZSttA5vuhF+CteC
+ jK/VKVic+QznbXHckMZV+vyrkKEAOQV7FSpYqgsPyImc+0nDdIL+qapHkvFD9hfn9HFw
+ c/8hYl7aD9GYrpTdiOGoleERAwIz4yRWaXhAqFXEQIjTEGeDm+TB2s2hoa4RiHeDXozX
+ pzaSQup9ftlw3Sx/54iPCDZsQgq2EZOGF+jmVIoVQGpaxuo//v/vIH52vpw7CcX59/Bj
+ LK5trF/UjX8E5Z4bjl9Je4k96vrzzjCw6+zQWuNfbaMWusngmJzUb40pYixCah6EoQ6p
+ uGQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TmSUd1g256AwM6GPkCVL8KzZlMuiVA8rcald4HgLdWY=;
- b=3hRMjQXTLDeyU/iPUlI8LF9zpEzDh8NPuo0oxzzfbe0woIwi1kYjQB92y5wIsx+6OV
- 1ahGLGsJetlvOcanUkPXkBVnvdVed3eq6oJjL5SDvqIFV9Z8eSJN90RtyBkLO02i0UKk
- 9xSh5n39rmat7lRK0PAOYlw58faj85JgwRtzQBpRkjgbbCBs47o7zNHLd4QHHOOVebhr
- KQ0Xx/Ru0fUEKz2Dn1doS8zm2adaBrdPmknDX1BZ6hmWBBAkmWFYC8sg/B/CDj4n3sgZ
- IBISvFDQRY01pw9qifTOONV12SDWca0V42UTTfuAtMfsUBBaBu7aNTqWjioiTqMsLmEE
- 71Vg==
-X-Gm-Message-State: AOAM530HGpp/V7zJ4WLmun8h7YQ6xKrwwcgMCSBQ4lWzcX2IAvxbYff5
- hC8UsNYWfODa9yrB13ICXmmqqg==
-X-Google-Smtp-Source: ABdhPJwUld7Y82YW6Rc8Pz69DPxiv4IUt7DfWDhYwTVj5a1Rbt107Ifh+5ZTcTCPWcgP4Ahl8EgU4Q==
-X-Received: by 2002:adf:b781:: with SMTP id s1mr11968492wre.165.1631883474593; 
- Fri, 17 Sep 2021 05:57:54 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=iFUWw1a7QUKqKqitz2aLpXkNS/Ii3+Zh8E8PhFDc+ws=;
+ b=wILMLetdPnYpU+rwN1FKlq+FyY5y7lhfxVr2mbKanjqVGOyjs0cmzvFB6LZrd7w/Mz
+ +rih1Eib+Wrzh5737+VVHfxwtWeOM46nn4+iiUa0hkcyxgZS62sXhmNH1VYp3Cx3bG5p
+ hlSAZUr1mBT7U5tGOiRHSeLkacnJq7auCZxgen8uj6mpjRFp1FxR4Cy+dzl4nt6TXTSp
+ +5a1ySmf0AKMxYW9dGWwMmyBfAV/8jxDM1IbSmVh9b2DoHlAsMlYNoSGPrX2meuUUTF3
+ 4LGmvghYdsnICEU70UAldoeELdYn1CG1FVNy39chOC9BMFFFNfDvzMZ1gmMvOmuO1jUa
+ 1ucg==
+X-Gm-Message-State: AOAM532R1RA4j55tIOxP95k+QoyddwfZfKiWcLGkRu5iLr4qPk8jyotz
+ IM1+K+4PDoz8PGYnJWRxPyqR0w==
+X-Google-Smtp-Source: ABdhPJxWy0XCmee8O9AAHX/X1X4XNYljnsvUJuOMbUQaDzoewnSPgl2VT0nmiywxBLNmsxTlY3hzgQ==
+X-Received: by 2002:a05:600c:3ba3:: with SMTP id
+ n35mr10075940wms.166.1631883475858; 
+ Fri, 17 Sep 2021 05:57:55 -0700 (PDT)
 Received: from localhost.baylibre.local
  (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id f3sm6358636wmj.28.2021.09.17.05.57.53
+ by smtp.gmail.com with ESMTPSA id f3sm6358636wmj.28.2021.09.17.05.57.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:57:53 -0700 (PDT)
+ Fri, 17 Sep 2021 05:57:55 -0700 (PDT)
 From: Alexandre Bailon <abailon@baylibre.com>
 To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
  matthias.bgg@gmail.com, maarten.lankhorst@linux.intel.com,
@@ -59,10 +61,12 @@ Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
  linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
  linaro-mm-sig@lists.linaro.org, khilman@baylibre.com, gpain@baylibre.com,
  Alexandre Bailon <abailon@baylibre.com>
-Subject: [RFC PATCH 0/4] Add a DRM driver to support AI Processing Unit (APU)
-Date: Fri, 17 Sep 2021 14:59:41 +0200
-Message-Id: <20210917125945.620097-1-abailon@baylibre.com>
+Subject: [RFC PATCH 1/4] dt-bindings: Add bidings for mtk,apu-drm
+Date: Fri, 17 Sep 2021 14:59:42 +0200
+Message-Id: <20210917125945.620097-2-abailon@baylibre.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210917125945.620097-1-abailon@baylibre.com>
+References: <20210917125945.620097-1-abailon@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 18 Sep 2021 07:25:35 +0000
@@ -81,54 +85,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds a DRM driver that implements communication between the CPU and an
-APU.
-This uses VirtIO buffer to exchange messages.
-For the data, we allocate a GEM object and map it using IOMMU to make it
-available to the APU.
-The driver is relatively generic, and should work with any SoC implementing
-hardware accelerator for AI if they use support remoteproc and VirtIO.
+This adds the device tree bindings for the APU DRM driver.
 
-For the people interested by the firmware or userspace library,
-the sources are available here:
-https://github.com/BayLibre/open-amp/tree/v2020.01-mtk/apps/examples/apu
-
-This RFC is a rewrite of a previous RFC that was not using DRM:
-https://patchwork.kernel.org/project/linux-remoteproc/cover/20200930115350.5272-1-abailon@baylibre.com/
-
-Alexandre Bailon (4):
-  dt-bindings: Add bidings for mtk,apu-drm
-  DRM: Add support of AI Processor Unit (APU)
-  rpmsg: Add support of AI Processor Unit (APU)
-  ARM64: mt8183-pumpkin: Add the APU DRM device
-
- .../devicetree/bindings/gpu/mtk,apu-drm.yaml  |  38 ++
- .../boot/dts/mediatek/mt8183-pumpkin.dts      |   6 +
- drivers/gpu/drm/Kconfig                       |   2 +
- drivers/gpu/drm/Makefile                      |   1 +
- drivers/gpu/drm/apu/Kconfig                   |  10 +
- drivers/gpu/drm/apu/Makefile                  |   7 +
- drivers/gpu/drm/apu/apu_drm_drv.c             | 238 +++++++
- drivers/gpu/drm/apu/apu_gem.c                 | 232 +++++++
- drivers/gpu/drm/apu/apu_internal.h            |  89 +++
- drivers/gpu/drm/apu/apu_sched.c               | 634 ++++++++++++++++++
- drivers/rpmsg/Kconfig                         |  10 +
- drivers/rpmsg/Makefile                        |   1 +
- drivers/rpmsg/apu_rpmsg.c                     | 184 +++++
- include/drm/apu_drm.h                         |  59 ++
- include/uapi/drm/apu_drm.h                    | 106 +++
- 15 files changed, 1617 insertions(+)
+Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+---
+ .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+ 1 file changed, 38 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
- create mode 100644 drivers/gpu/drm/apu/Kconfig
- create mode 100644 drivers/gpu/drm/apu/Makefile
- create mode 100644 drivers/gpu/drm/apu/apu_drm_drv.c
- create mode 100644 drivers/gpu/drm/apu/apu_gem.c
- create mode 100644 drivers/gpu/drm/apu/apu_internal.h
- create mode 100644 drivers/gpu/drm/apu/apu_sched.c
- create mode 100644 drivers/rpmsg/apu_rpmsg.c
- create mode 100644 include/drm/apu_drm.h
- create mode 100644 include/uapi/drm/apu_drm.h
 
+diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+new file mode 100644
+index 0000000000000..6f432d3ea478c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+@@ -0,0 +1,38 @@
++# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: AI Processor Unit DRM
++
++properties:
++  compatible:
++    const: mediatek,apu-drm
++
++  remoteproc:
++    maxItems: 2
++    description:
++      Handle to remoteproc devices controlling the APU
++
++  iova:
++    maxItems: 1
++    description:
++      Address and size of virtual memory that could used by the APU
++
++required:
++  - compatible
++  - remoteproc
++  - iova
++
++additionalProperties: false
++
++examples:
++  - |
++    apu@0 {
++      compatible = "mediatek,apu-drm";
++      remoteproc = <&vpu0>, <&vpu1>;
++      iova = <0 0x60000000 0 0x10000000>;
++    };
++
++...
 -- 
 2.31.1
 
