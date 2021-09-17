@@ -2,63 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4271440F91D
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 15:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6027F40F92A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 15:30:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3FFA6E938;
-	Fri, 17 Sep 2021 13:27:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 601856E831;
+	Fri, 17 Sep 2021 13:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E19126E831
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 13:27:58 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id u18so13453653wrg.5
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 06:27:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=ydYKoiCNR3tMjjohPoLG71dfg1oFq7e8AHlz1xRvboQ=;
- b=JjytxfUOVOPcH5ae10RPCHTOVconKwB6exJIpXgIIGqKVfMisOV/TwEz/tq8a157Mc
- 0PBTn70B7Zaa2RW/UyTpQIfN44GJDg1aXcp+mgk/Neu9ZQ5Hf3MbJQJHrLUndwD0MH5W
- j6sDgAaNi1l1wYn3lLSVSYV3z4YgmeFzob+0A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=ydYKoiCNR3tMjjohPoLG71dfg1oFq7e8AHlz1xRvboQ=;
- b=HjumpiikjZ8LkyMojCuBM3xEVqjwYz01J9ptMg4BEGNp6ZUN1CivVdDZ2BdWJRWeiX
- fiJ6rzHBevuJgX5CN9lXahOoiLkvGSuNme3BtuegwIIKYwNV/wSEgMAzcWorEDmfV0B3
- tIBt3h2Ev6gyf6JzcSdTGF4/dqT9KvoXc8k1BCxrRSvKg2ocLLueV94bcInJOhp+oMtv
- qJc5tUwGGNBav55bVJ9D3Nck2TjTM6aNxdkDeVxpMWE8JB1isRp/y7WuT5b8u6jHoKeU
- koQXSAPGivXq/aVyJhjKri1Ryx4lEZWY3wHLNhGpzuMJt1U2EmzHjqCn0IZVJZqBkfqY
- 8G3A==
-X-Gm-Message-State: AOAM5327iBmLIJeN1SyaWINPRjnzaIEs30yxUkXIgwTdfgOugjcya55u
- 9O0HkHo+OH6EIkQLvs3T6xOXIA==
-X-Google-Smtp-Source: ABdhPJws1UiT6nLT/MqN2CRCSbuZJqdCwhF/fbAiECfsfkqu3Fsh+RcLGFhuEHbB21SUZTO0LDf8aw==
-X-Received: by 2002:adf:a31a:: with SMTP id c26mr12348812wrb.307.1631885277433; 
- Fri, 17 Sep 2021 06:27:57 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id g22sm9836723wmp.39.2021.09.17.06.27.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 06:27:56 -0700 (PDT)
-Date: Fri, 17 Sep 2021 15:27:55 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
-Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- daniel@ffwll.ch
-Subject: Re: [PATCH 02/26] dma-buf: add dma_resv_for_each_fence
-Message-ID: <YUSX2+WP45XYmD2r@phenom.ffwll.local>
-References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-3-christian.koenig@amd.com>
+Received: from baidu.com (mx22.baidu.com [220.181.50.185])
+ by gabe.freedesktop.org (Postfix) with ESMTP id 511316E831
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 13:30:42 +0000 (UTC)
+Received: from BJHW-Mail-Ex05.internal.baidu.com (unknown [10.127.64.15])
+ by Forcepoint Email with ESMTPS id 2D2B3EC7E04959AB8786;
+ Fri, 17 Sep 2021 21:30:40 +0800 (CST)
+Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
+ BJHW-Mail-Ex05.internal.baidu.com (10.127.64.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.14; Fri, 17 Sep 2021 21:30:40 +0800
+Received: from localhost (172.31.63.8) by BJHW-MAIL-EX27.internal.baidu.com
+ (10.127.64.42) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Fri, 17
+ Sep 2021 21:30:39 +0800
+Date: Fri, 17 Sep 2021 21:30:39 +0800
+From: Cai Huoqing <caihuoqing@baidu.com>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+CC: Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] video: backlight: Make use of the helper function
+ dev_err_probe()
+Message-ID: <20210917133039.GA18102@LAPTOP-UKSR4ENP.internal.baidu.com>
+References: <20210917125324.18031-1-caihuoqing@baidu.com>
+ <20210917131529.3oc7xeb4xpvgq5og@maple.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210917123513.1106-3-christian.koenig@amd.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+In-Reply-To: <20210917131529.3oc7xeb4xpvgq5og@maple.lan>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Originating-IP: [172.31.63.8]
+X-ClientProxiedBy: BJHW-Mail-Ex15.internal.baidu.com (10.127.64.38) To
+ BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-Baidu-BdMsfe-DateCheck: 1_BJHW-Mail-Ex05_2021-09-17 21:30:40:199
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,115 +59,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 17, 2021 at 02:34:49PM +0200, Christian König wrote:
-> A simpler version of the iterator to be used when the dma_resv object is
-> locked.
+On 17 9æœˆ 21 14:15:29, Daniel Thompson wrote:
+> On Fri, Sep 17, 2021 at 08:53:23PM +0800, Cai Huoqing wrote:
+> > When possible use dev_err_probe help to properly deal with the
+> > PROBE_DEFER error, the benefit is that DEFER issue will be logged
+> > in the devices_deferred debugfs file.
+> > Using dev_err_probe() can reduce code size, and the error value
+> > gets printed.
+> > 
+> > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> > ---
+> > v1->v2: backlight patches are handled in one
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->  drivers/dma-buf/dma-resv.c | 33 +++++++++++++++++++++++++++++++++
->  include/linux/dma-resv.h   | 17 +++++++++++++++++
->  2 files changed, 50 insertions(+)
+> This appears to leave a lot of backlight drivers with the same code
+> pattern that are not updated. As my last e-mail, please can you explain
+> why you selected these drivers and no others?
+Thanks for you feedback.
+
+I Just
+grep devm_regulator_get/devm_gpiod_get -C 3|grep "dev_err(" -C 3
+
+That help to find them,
+and fix them one by one manually.
 > 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 3e77cad2c9d4..a3c79a99fb44 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -384,6 +384,39 @@ struct dma_fence *dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor,
->  }
->  EXPORT_SYMBOL_GPL(dma_resv_iter_walk_unlocked);
->  
-> +/**
-> + * dma_resv_iter_walk - walk over fences in a dma_resv obj
-> + * @cursor: cursor to record the current position
-> + * @first: if we should start over
-> + *
-> + * Return all the fences in the dma_resv object while holding the
-> + * dma_resv::lock.
-> + */
-> +struct dma_fence *dma_resv_iter_walk(struct dma_resv_iter *cursor, bool first)
-> +{
-> +	dma_resv_assert_held(cursor->obj);
-> +
-> +	cursor->is_first = first;
-> +	if (first) {
-> +		struct dma_fence *fence;
-> +
-> +		cursor->index = -1;
-> +		cursor->fences = dma_resv_shared_list(cursor->obj);
-> +
-> +		fence = dma_resv_excl_fence(cursor->obj);
-> +		if (fence)
-> +			return fence;
-> +	}
-
-I think you can still use the shared iter_begin/end functions even with my
-suggestions for patch 1, but would mean changes here too.
-
-> +
-> +	if (!cursor->all_fences || !cursor->fences ||
-> +	    ++cursor->index >= cursor->fences->shared_count)
-> +		return NULL;
-> +
-> +	return rcu_dereference_protected(cursor->fences->shared[cursor->index],
-> +					 dma_resv_held(cursor->obj));
-> +}
-> +EXPORT_SYMBOL_GPL(dma_resv_iter_walk);
-> +
->  /**
->   * dma_resv_copy_fences - Copy all fences from src to dst.
->   * @dst: the destination reservation object
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 693d16117153..8c968f8c9d33 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -179,6 +179,7 @@ struct dma_resv_iter {
->  
->  struct dma_fence *dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor,
->  					      bool first);
-> +struct dma_fence *dma_resv_iter_walk(struct dma_resv_iter *cursor, bool first);
->  
->  /**
->   * dma_resv_iter_begin - initialize a dma_resv_iter object
-> @@ -233,6 +234,22 @@ static inline bool dma_resv_iter_is_exclusive(struct dma_resv_iter *cursor)
->  	for (fence = dma_resv_iter_walk_unlocked(cursor, true);		\
->  	     fence; fence = dma_resv_iter_walk_unlocked(cursor, false))
->  
-> +/**
-> + * dma_resv_for_each_fence - fence iterator
-> + * @cursor: a struct dma_resv_iter pointer
-> + * @obj: a dma_resv object pointer
-> + * @all_fences: true if all fences should be returned
-> + * @fence: the current fence
-> + *
-> + * Iterate over the fences in a struct dma_resv object while holding the
-> + * dma_resv::lock. @all_fences controls if the shared fences are returned as
-
-&dma_resv.lock is how you reference struct members in kerneldoc. I think
-you had this also in patch 1.
-
-> + * well. The cursor initialisation is part of the iterator.
-
-Please also link to the iter_begin/end functions here.
-
-Aside from doc nits and obviously changes due to changes in patch 1 (if we
-do them), this looks good.
--Daniel
-
-> + */
-> +#define dma_resv_for_each_fence(cursor, obj, all_fences, fence)	\
-> +	for (dma_resv_iter_begin(cursor, obj, all_fences),	\
-> +	     fence = dma_resv_iter_walk(cursor, true); fence;	\
-> +	     fence = dma_resv_iter_walk(cursor, false))
-> +
->  #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->  #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
->  
-> -- 
-> 2.25.1
+> I would expect this type of change to be made with the assistance of a
+> script to automatically help you identify and change the code patterns
+> you are targetting. This would allow you to update all the backlight
+> drivers at once.
+Nice idea. I'll try.
+Cai
 > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> 
+> Daniel.
+> 
+> 
+> >  drivers/video/backlight/bd6107.c      | 16 +++++--------
+> >  drivers/video/backlight/l4f00242t03.c | 34 ++++++++++-----------------
+> >  2 files changed, 19 insertions(+), 31 deletions(-)
+> > 
+> > diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
+> > index 515184fbe33a..e21b793302a2 100644
+> > --- a/drivers/video/backlight/bd6107.c
+> > +++ b/drivers/video/backlight/bd6107.c
+> > @@ -120,7 +120,6 @@ static int bd6107_probe(struct i2c_client *client,
+> >  	struct backlight_device *backlight;
+> >  	struct backlight_properties props;
+> >  	struct bd6107 *bd;
+> > -	int ret;
+> >  
+> >  	if (pdata == NULL) {
+> >  		dev_err(&client->dev, "No platform data\n");
+> > @@ -148,11 +147,9 @@ static int bd6107_probe(struct i2c_client *client,
+> >  	 * the reset.
+> >  	 */
+> >  	bd->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
+> > -	if (IS_ERR(bd->reset)) {
+> > -		dev_err(&client->dev, "unable to request reset GPIO\n");
+> > -		ret = PTR_ERR(bd->reset);
+> > -		return ret;
+> > -	}
+> > +	if (IS_ERR(bd->reset))
+> > +		return dev_err_probe(&client->dev, PTR_ERR(bd->reset),
+> > +				     "unable to request reset GPIO\n");
+> >  
+> >  	memset(&props, 0, sizeof(props));
+> >  	props.type = BACKLIGHT_RAW;
+> > @@ -164,10 +161,9 @@ static int bd6107_probe(struct i2c_client *client,
+> >  					      dev_name(&client->dev),
+> >  					      &bd->client->dev, bd,
+> >  					      &bd6107_backlight_ops, &props);
+> > -	if (IS_ERR(backlight)) {
+> > -		dev_err(&client->dev, "failed to register backlight\n");
+> > -		return PTR_ERR(backlight);
+> > -	}
+> > +	if (IS_ERR(backlight))
+> > +		return dev_err_probe(&client->dev, PTR_ERR(backlight),
+> > +				     "failed to register backlight\n");
+> >  
+> >  	backlight_update_status(backlight);
+> >  	i2c_set_clientdata(client, backlight);
+> > diff --git a/drivers/video/backlight/l4f00242t03.c b/drivers/video/backlight/l4f00242t03.c
+> > index 46f97d1c3d21..8d81d4dec3c6 100644
+> > --- a/drivers/video/backlight/l4f00242t03.c
+> > +++ b/drivers/video/backlight/l4f00242t03.c
+> > @@ -179,37 +179,29 @@ static int l4f00242t03_probe(struct spi_device *spi)
+> >  	priv->spi = spi;
+> >  
+> >  	priv->reset = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
+> > -	if (IS_ERR(priv->reset)) {
+> > -		dev_err(&spi->dev,
+> > -			"Unable to get the lcd l4f00242t03 reset gpio.\n");
+> > -		return PTR_ERR(priv->reset);
+> > -	}
+> > +	if (IS_ERR(priv->reset))
+> > +		return dev_err_probe(&spi->dev, PTR_ERR(priv->reset),
+> > +				     "Unable to get the lcd l4f00242t03 reset gpio.\n");
+> >  	gpiod_set_consumer_name(priv->reset, "lcd l4f00242t03 reset");
+> >  
+> >  	priv->enable = devm_gpiod_get(&spi->dev, "enable", GPIOD_OUT_LOW);
+> > -	if (IS_ERR(priv->enable)) {
+> > -		dev_err(&spi->dev,
+> > -			"Unable to get the lcd l4f00242t03 data en gpio.\n");
+> > -		return PTR_ERR(priv->enable);
+> > -	}
+> > +	if (IS_ERR(priv->enable))
+> > +		return dev_err_probe(&spi->dev, PTR_ERR(priv->enable),
+> > +				     "Unable to get the lcd l4f00242t03 data en gpio.\n");
+> >  	gpiod_set_consumer_name(priv->enable, "lcd l4f00242t03 data enable");
+> >  
+> >  	priv->io_reg = devm_regulator_get(&spi->dev, "vdd");
+> > -	if (IS_ERR(priv->io_reg)) {
+> > -		dev_err(&spi->dev, "%s: Unable to get the IO regulator\n",
+> > -		       __func__);
+> > -		return PTR_ERR(priv->io_reg);
+> > -	}
+> > +	if (IS_ERR(priv->io_reg))
+> > +		return dev_err_probe(&spi->dev, PTR_ERR(priv->io_reg),
+> > +				     "%s: Unable to get the IO regulator\n", __func__);
+> >  
+> >  	priv->core_reg = devm_regulator_get(&spi->dev, "vcore");
+> > -	if (IS_ERR(priv->core_reg)) {
+> > -		dev_err(&spi->dev, "%s: Unable to get the core regulator\n",
+> > -		       __func__);
+> > -		return PTR_ERR(priv->core_reg);
+> > -	}
+> > +	if (IS_ERR(priv->core_reg))
+> > +		return dev_err_probe(&spi->dev, PTR_ERR(priv->core_reg),
+> > +				     "%s: Unable to get the core regulator\n", __func__);
+> >  
+> >  	priv->ld = devm_lcd_device_register(&spi->dev, "l4f00242t03", &spi->dev,
+> > -					priv, &l4f_ops);
+> > +					    priv, &l4f_ops);
+> >  	if (IS_ERR(priv->ld))
+> >  		return PTR_ERR(priv->ld);
+> >  
+> > -- 
+> > 2.25.1
+> > 
