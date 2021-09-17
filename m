@@ -2,56 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 415B440F084
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 05:51:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E7B40F091
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 05:53:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B75E86EB42;
-	Fri, 17 Sep 2021 03:51:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F51C6EB49;
+	Fri, 17 Sep 2021 03:53:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
- [IPv6:2607:f8b0:4864:20::335])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2439D6EB42
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 03:51:54 +0000 (UTC)
-Received: by mail-ot1-x335.google.com with SMTP id
- x10-20020a056830408a00b004f26cead745so11139901ott.10
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:51:54 -0700 (PDT)
+Received: from mail-ot1-x329.google.com (mail-ot1-x329.google.com
+ [IPv6:2607:f8b0:4864:20::329])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAAD56EB4E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 03:53:51 +0000 (UTC)
+Received: by mail-ot1-x329.google.com with SMTP id
+ c8-20020a9d6c88000000b00517cd06302dso11105906otr.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 20:53:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:in-reply-to:references:from:user-agent:date:message-id
  :subject:to:cc;
- bh=eC8WWm0GB9m9+OiTXjvJDwwJ4bOx9YsGIUwSquTEdkE=;
- b=leXlvUp4wCgJ+WDoSlsI5mfKEeObgFzMYEyDUeRToizAqmkwRLhzsTBxrdEHJ1LdYD
- F1jlqshs/rFCIBHW6i5CscigoTLiIEwaxQ1O/7w84B5WqXaa6JB05tIBgBGUouTzY+BZ
- 5ngRCTCyGAVKY1/dVw68vCIPuKawOTvBfu5lM=
+ bh=si11JPg2tUx3AsVeQ/TovCztnetl7T3psWWpp1fS5lA=;
+ b=DZOnQvfjYVw2eK0gwNwwxEXWEm5xLno5eGrvLjhgQGrgMCGhtM4kv/W42j9sLJbi3O
+ pcEBZnF0iu+0HiMKill8pmsE1UQpkECyjgiq3K0ICvlL6rldHZyw/e152XjZ/43P2ZnG
+ mzjiCCe9lkGDxEZvO+/SMpdWDYkRwaGvJ8SB0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:in-reply-to:references:from
  :user-agent:date:message-id:subject:to:cc;
- bh=eC8WWm0GB9m9+OiTXjvJDwwJ4bOx9YsGIUwSquTEdkE=;
- b=fvtiu1d+gIB6GVe5/ZS9Va8ttPJ3pf9f2Sf4NCG8aZ3BDc4ja6+mGmAVl7v+0CR7n3
- XBE8oQy7zyByEFgiHPpR0LXCp4WDNy/X17YaO2m+ENRfa3+n7Nr7GwZRyutuSXE0LTXd
- wKgEtCbKD8gZxqnrlD2MTJI8N8mTtRJhUyE897LZ1CLy9zr54Ur9YiUo4Ymy2R71LlzM
- 5P8WqF7Yqd5G+SLpHSIYgJbp3oGOL5agXY4ZC/CbtmA0HDzvuNHlsKyJ3ExzaDOnyDdC
- vNQaACHpG6IPWqwtkRYbRYuR/ZDQjikn1YITXrHNPwUF6S7mFVm7ciLR96sYdSQRGLnq
- V6mQ==
-X-Gm-Message-State: AOAM532UXv7NPtmRghNefgJpB4eyZL4b47rCO+F1IXOqHjXEDdXBmlvO
- rdgsqdv0joJ/ecJIjWnxtsO5g1dr5osQZIKtB9TQpA==
-X-Google-Smtp-Source: ABdhPJwb+CAeP1LbhPRSrTra9NOvhp96+APdALmb4BWvnUD6hxz1CMABXqTRzuUhf7PFT5ityKS48rAG+XuHAMo+ZcQ=
-X-Received: by 2002:a05:6830:719:: with SMTP id
- y25mr7534615ots.77.1631850713468; 
- Thu, 16 Sep 2021 20:51:53 -0700 (PDT)
+ bh=si11JPg2tUx3AsVeQ/TovCztnetl7T3psWWpp1fS5lA=;
+ b=u5xdCLsiIEFcahhnOOiubYJ7qMXd/uwx+cluCoOSTe0GsQMMolmz3t3C44SI8Fw81w
+ Mq6Xk/lxZv0M3VuTOoCjLQI/z6KRHblaSXyQcpzeIlVQ7++Bx7TVmUXZBwO76e19aL2d
+ xJ5PJP0rNK39D7/MvsoqK8RqG17yuCW+QMJV7DEX7Gv5otbCEpWJ/LIQmdnhRx8QFC8U
+ ECqD4dszFrMKiPnq348JC9dz8bpM6NAiGLBnqhxta62ElR2Y3U9XQwtg2lzS9T/E096X
+ gMHP3gWbsh6qmflFJE0mHIESt3VOWBvQ7XQaCsAXji2dS6sgduuyOROT63nqFfp/+rAc
+ LsdA==
+X-Gm-Message-State: AOAM533BPAcjwyQSKSmancKz12jeDqOz3drA/o41QVl5VgTXci/su8zf
+ UFPKrkU0Ybr72D7WlDBdbzq3Kgzs7X8SnZQLWkyvMQ==
+X-Google-Smtp-Source: ABdhPJy6tPkXKq2HM2Xabj28+m9bCyAX8hcbLJrNjiL+b85iLZXT99WZxbBBCWiIknpSoYbGwM1DrBLiHpKljB+xkBQ=
+X-Received: by 2002:a05:6830:18c7:: with SMTP id
+ v7mr7659104ote.126.1631850831069; 
+ Thu, 16 Sep 2021 20:53:51 -0700 (PDT)
 Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 16 Sep 2021 20:51:52 -0700
+ HTTPREST; Thu, 16 Sep 2021 20:53:50 -0700
 MIME-Version: 1.0
-In-Reply-To: <20210915203834.1439-12-sean@poorly.run>
+In-Reply-To: <20210915203834.1439-11-sean@poorly.run>
 References: <20210915203834.1439-1-sean@poorly.run>
- <20210915203834.1439-12-sean@poorly.run>
+ <20210915203834.1439-11-sean@poorly.run>
 From: Stephen Boyd <swboyd@chromium.org>
 User-Agent: alot/0.9.1
-Date: Thu, 16 Sep 2021 20:51:52 -0700
-Message-ID: <CAE-0n53jiiasodgaat9jJPifxGg=mNo8vewzORdBB+ZVd3VXTw@mail.gmail.com>
-Subject: Re: [PATCH v2 11/13] drm/msm/dp: Re-order dp_audio_put in
- deinit_sub_modules
+Date: Thu, 16 Sep 2021 20:53:50 -0700
+Message-ID: <CAE-0n53uAEcj8Rpx36cRUU34k9mqtg2_tiXW_4+CYmrcihguHg@mail.gmail.com>
+Subject: Re: [PATCH v2 10/13] drm/msm/dpu: Remove encoder->enable() hack
 To: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org, 
  freedreno@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
 Cc: Sean Paul <seanpaul@chromium.org>, Rob Clark <robdclark@gmail.com>, 
@@ -73,21 +72,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Sean Paul (2021-09-15 13:38:30)
+Quoting Sean Paul (2021-09-15 13:38:29)
 > From: Sean Paul <seanpaul@chromium.org>
 >
-> Audio is initialized last, it should be de-initialized first to match
-> the order in dp_init_sub_modules().
+> encoder->commit() was being misused because there were some global
+> resources which needed to be tweaked in encoder->enable() which were not
+> accessible in dpu_encoder.c. That is no longer true and the redirect
+> serves no purpose any longer. So remove the indirection.
 
-I don't really understand why the driver is written with all this "get"
-stuff but sure.
+When did it become false? Just curious when this became obsolete.
 
 >
 > Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-12-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-11-sean@poorly.run #v1
 >
 > Changes in v2:
 > -None
 > ---
 
 Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Tested-by: Stephen Boyd <swboyd@chromium.org>
