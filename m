@@ -1,65 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 326B840F8ED
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 15:15:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AAC40F909
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 15:23:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E3D716EC7C;
-	Fri, 17 Sep 2021 13:15:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8C9CD6ECB8;
+	Fri, 17 Sep 2021 13:23:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
- [IPv6:2a00:1450:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72646EC7C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 13:15:32 +0000 (UTC)
-Received: by mail-wm1-x32b.google.com with SMTP id 140so7351178wma.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 06:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1F2D26E938
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 13:23:31 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id d6so15104626wrc.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 06:23:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=863rDzgm6GPiRv2oz/rPhhprRER5SGAc3WVRBtM2tnE=;
- b=TQKTNnByl8lrFJJnM6mkJKrtO151zspcTYnmNdL1C2FPpyL/letcPBZ/EOxBHLJqQs
- H78AN8Ji0C/IOOOm81ChYRSPbc5qjkO7y2Z9A1vGYluXDrCgR5woB8l29xee4I6HnsaK
- CsHj1pt//Jy4hJrRSLfu+qkCTLfymvmOWvVGqtvQ/LL/6EuFg/D7x1rCSg57dA9S40yx
- Zua8fZzlTWpcS9AQmsfn7ltaEhgCpDrrYUmCIi2CmHA3PG6/FQOsxqRVtOH3Sfh0m4pL
- +F3ZqDhAg9Qe2KCDZXsqewjFzRom5hLU8zoymoW9kauu+jvTdxOyr8oaaTMBFmWk6lov
- fjKA==
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=xqEgOzw2hkzNjCzJ+z5EUUW52U7YW8L+C5Ug+fD01Nk=;
+ b=BoBAPZpsSXb3KArozQkJYZXRxzCT0yMKW6Jlc3M4rteNVgOJk8axZGXXw0lk7z3dMb
+ +cpn6zeRBykwUuJOH2vToX10D7itQytC/IfuQF/a2TXh2aTLv43DEmCqPIJAjLh4ll2M
+ l4i4vgUtz9Lpls4rQyguvSXWikP2O1ycgPJ5c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=863rDzgm6GPiRv2oz/rPhhprRER5SGAc3WVRBtM2tnE=;
- b=m+P/psTx35wsdZ9MHqN27wjB0bPDQKCGzB6KCIC/BrElA5OB+sNjfFqHpaLaWLk7Pm
- u40/kA/7/yWEjXfuQSHKn+BO095SoSjp0Ws1LnJ4jlYcFLbk1KKZ5hT2Os2+w6yqgXGD
- dZAgn5vatJuPs3sz0fgsIIaWqHn9ifyfWF4ZEXyZ8Q9DVqy/E8qcxO/Jtb9wPXa9lICM
- QFH/wqWfo2dW7qgF2lcNEyasGuVVHmQf0ufnuHjERtbQu0/KciE3cwyOe/D+0FmtuPnI
- cmQFM+MNG4KzuXQKRrFoC+O5Y/KAb0SgA18QFmRjGX7Dkx4d6quF8xumvaPJffp1lGL9
- QO7A==
-X-Gm-Message-State: AOAM530Gbw3jouNqlI6ddJA20PmT95r7upvhK5ONh7DcS0F/e0kAgCkp
- /SBZdNDcaDRV88hafl74h0GHyQ==
-X-Google-Smtp-Source: ABdhPJwTAX3Mp0CKA9u+J2sMTE2qBrnRf02sEzm9iBGJV7sTxVQgo6eAjiU1eSdpqSp8hutpl4NI9A==
-X-Received: by 2002:a1c:f60c:: with SMTP id w12mr15355800wmc.3.1631884531273; 
- Fri, 17 Sep 2021 06:15:31 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id v10sm7031284wri.29.2021.09.17.06.15.30
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xqEgOzw2hkzNjCzJ+z5EUUW52U7YW8L+C5Ug+fD01Nk=;
+ b=hVqJTZjuRjfsRS62ZKqwBptyGjzbc9pAhijmBtPsOjeHwziMqs4EAlsB5RBtAz+8ks
+ NWpGtsfJT+S00+zeXXSxW5tSvQg+gI27Q9BZi23rio269POtLXvdVS1lJjSx++9NM0GT
+ M7Tlh0TtYlme+aa+aVL2WywpEFmFzNoiw+wrts8nF5PQN8hIk0qUil/wO9V4ktypN3GS
+ uBdA+1P9kA1L3wVDK317JqNivYPpyU7TMraSiaxQaYi8CDT3Oeu5k82izYe5WHYMOOOJ
+ 6BXE6kEuOpqSjAthGUXD1obyOLyTMs8wzP5icPFJHWn4SJIBaDd6Cd8+kdb6acS7nZ1c
+ SOQQ==
+X-Gm-Message-State: AOAM530DyMRlXISxDEr6zR8CdHIkvs4eXddeIiw99++jxVLSPyhNRmKr
+ Rbh/90xjGTRge8OmwURplu0Kcw==
+X-Google-Smtp-Source: ABdhPJxTi18SUt1H+tebDFrr0xYs2nM3EYYT24Gj8svSn2PxVauf1Yefvi00Wd1U7stFzs07TwoOGQ==
+X-Received: by 2002:a5d:46cb:: with SMTP id g11mr12237940wrs.60.1631885009360; 
+ Fri, 17 Sep 2021 06:23:29 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id 5sm1727608wmb.37.2021.09.17.06.23.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 06:15:30 -0700 (PDT)
-Date: Fri, 17 Sep 2021 14:15:29 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] video: backlight: Make use of the helper function
- dev_err_probe()
-Message-ID: <20210917131529.3oc7xeb4xpvgq5og@maple.lan>
-References: <20210917125324.18031-1-caihuoqing@baidu.com>
+ Fri, 17 Sep 2021 06:23:28 -0700 (PDT)
+Date: Fri, 17 Sep 2021 15:23:26 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch
+Subject: Re: [PATCH 01/26] dma-buf: add dma_resv_for_each_fence_unlocked v2
+Message-ID: <YUSWzm+TjD7GHHO5@phenom.ffwll.local>
+References: <20210917123513.1106-1-christian.koenig@amd.com>
+ <20210917123513.1106-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210917125324.18031-1-caihuoqing@baidu.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210917123513.1106-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,130 +74,292 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 17, 2021 at 08:53:23PM +0800, Cai Huoqing wrote:
-> When possible use dev_err_probe help to properly deal with the
-> PROBE_DEFER error, the benefit is that DEFER issue will be logged
-> in the devices_deferred debugfs file.
-> Using dev_err_probe() can reduce code size, and the error value
-> gets printed.
+On Fri, Sep 17, 2021 at 02:34:48PM +0200, Christian König wrote:
+> Abstract the complexity of iterating over all the fences
+> in a dma_resv object.
 > 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> The new loop handles the whole RCU and retry dance and
+> returns only fences where we can be sure we grabbed the
+> right one.
+> 
+> v2: fix accessing the shared fences while they might be freed,
+>     improve kerneldoc, rename _cursor to _iter, add
+>     dma_resv_iter_is_exclusive, add dma_resv_iter_begin/end
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
-> v1->v2: backlight patches are handled in one
-
-This appears to leave a lot of backlight drivers with the same code
-pattern that are not updated. As my last e-mail, please can you explain
-why you selected these drivers and no others?
-
-I would expect this type of change to be made with the assistance of a
-script to automatically help you identify and change the code patterns
-you are targetting. This would allow you to update all the backlight
-drivers at once.
-
-
-Daniel.
-
-
->  drivers/video/backlight/bd6107.c      | 16 +++++--------
->  drivers/video/backlight/l4f00242t03.c | 34 ++++++++++-----------------
->  2 files changed, 19 insertions(+), 31 deletions(-)
+>  drivers/dma-buf/dma-resv.c | 61 +++++++++++++++++++++++++++
+>  include/linux/dma-resv.h   | 84 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 145 insertions(+)
 > 
-> diff --git a/drivers/video/backlight/bd6107.c b/drivers/video/backlight/bd6107.c
-> index 515184fbe33a..e21b793302a2 100644
-> --- a/drivers/video/backlight/bd6107.c
-> +++ b/drivers/video/backlight/bd6107.c
-> @@ -120,7 +120,6 @@ static int bd6107_probe(struct i2c_client *client,
->  	struct backlight_device *backlight;
->  	struct backlight_properties props;
->  	struct bd6107 *bd;
-> -	int ret;
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 84fbe60629e3..3e77cad2c9d4 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -323,6 +323,67 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
+>  }
+>  EXPORT_SYMBOL(dma_resv_add_excl_fence);
 >  
->  	if (pdata == NULL) {
->  		dev_err(&client->dev, "No platform data\n");
-> @@ -148,11 +147,9 @@ static int bd6107_probe(struct i2c_client *client,
->  	 * the reset.
->  	 */
->  	bd->reset = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(bd->reset)) {
-> -		dev_err(&client->dev, "unable to request reset GPIO\n");
-> -		ret = PTR_ERR(bd->reset);
-> -		return ret;
-> -	}
-> +	if (IS_ERR(bd->reset))
-> +		return dev_err_probe(&client->dev, PTR_ERR(bd->reset),
-> +				     "unable to request reset GPIO\n");
+> +/**
+> + * dma_resv_iter_walk_unlocked - walk over fences in a dma_resv obj
+> + * @cursor: cursor to record the current position
+> + * @first: if we should start over
+> + *
+> + * Return all the fences in the dma_resv object which are not yet signaled.
+> + * The returned fence has an extra local reference so will stay alive.
+> + * If a concurrent modify is detected the whole iterration is started over again.
+> + */
+> +struct dma_fence *dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor,
+
+Bit ocd, but I'd still just call that iter_next.
+
+> +					      bool first)
+
+Hm I'd put all the init code into iter_begin ...
+
+> +{
+> +	struct dma_resv *obj = cursor->obj;
+
+Aren't we missing rcu_read_lock() around the entire thing here?
+
+> +
+> +	first |= read_seqcount_retry(&obj->seq, cursor->seq);
+> +	do {
+> +		/* Drop the reference from the previous round */
+> +		dma_fence_put(cursor->fence);
+> +
+> +		cursor->is_first = first;
+> +		if (first) {
+> +			cursor->seq = read_seqcount_begin(&obj->seq);
+> +			cursor->index = -1;
+> +			cursor->fences = dma_resv_shared_list(obj);
+
+And then also call iter_begin from here. That way we guarantee that
+read_seqcount_begin is always called before _retry(). It's not a problem
+with the seqcount implementation (I think at least), but it definitely
+looks funny.
+
+Calling iter_begin here also makes it clear that we're essentially
+restarting.
+
+> +
+> +			cursor->fence = dma_resv_excl_fence(obj);
+> +			if (cursor->fence &&
+> +			    test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+
+Please use the right dma_fence wrapper here for this and don't look at the
+bits/flags outside of dma_fence.[hc] code. I just realized that we don't
+have the right amount of barriers in there for the fastpath, i.e. if we
+have:
+
+x = 0; /* static initializer */
+
+thread a
+	x = 1;
+	dma_fence_signal(fence);
+
+
+thread b;
+	if (dma_fence_is_signalled(fence))
+		printk("%i\n", x);
+
+Then you might actually be able to observe x == 0 in thread b. Which is
+not what we want at all.
+
+So no open-coding of dma_fence flag bits code outside of drm_fence.[hc]
+please. And yes i915-gem code is unfortunately a disaster.
+
+> +				     &cursor->fence->flags))
+> +				cursor->fence = NULL;
+> +		} else {
+> +			cursor->fence = NULL;
+> +		}
+> +
+> +		if (cursor->fence) {
+> +			cursor->fence = dma_fence_get_rcu(cursor->fence);
+> +		} else if (cursor->all_fences && cursor->fences) {
+> +			struct dma_resv_list *fences = cursor->fences;
+> +
+> +			while (++cursor->index < fences->shared_count) {
+> +				cursor->fence = rcu_dereference(
+> +					fences->shared[cursor->index]);
+> +				if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> +					      &cursor->fence->flags))
+> +					break;
+> +			}
+> +			if (cursor->index < fences->shared_count)
+> +				cursor->fence =
+> +					dma_fence_get_rcu(cursor->fence);
+> +			else
+> +				cursor->fence = NULL;
+> +		}
+
+The control flow here is very hairy, but I'm not sure how to best do this.
+With my suggestion to move the read_seqcount_begin into iter_begin maybe
+something like this:
+
+iter_next()
+{
+	do {
+		dma_fence_put(cursor->fence)
+		cursor->fence = NULL;
+
+		if (cursor->index == -1) { /* reset by iter_begin()
+			cursor->fence = get_exclusive();
+			cusor->index++;
+		} else {
+			cursor->fence = shared_fences[++cursor->index]
+		}
+
+		if (!dma_fence_is_signalled(cursor->fence))
+			continue; /* just grab the next fence. */
+
+		cursor->fence =  dma_fence_get_rcu(cursor->fence);
+
+		if (!cursor->fence || read_seqcount_retry()) {
+			/* we lost the race, restart completely */
+			iter_begin(); /* ->fence will be cleaned up at beginning of the loop */
+			continue;
+		}
+
+		return cursor->fence;
+	} while (true);
+}
+
+Maybe I missed something, but that avoids the duplication of all the
+tricky code, i.e. checking for signalling, rcu protected conditional
+fence_get, and the retry is also nicely at the end.
+> +
+> +		/* For the eventually next round */
+> +		first = true;
+> +	} while (read_seqcount_retry(&obj->seq, cursor->seq));
+> +
+> +	return cursor->fence;
+> +}
+> +EXPORT_SYMBOL_GPL(dma_resv_iter_walk_unlocked);
+> +
+>  /**
+>   * dma_resv_copy_fences - Copy all fences from src to dst.
+>   * @dst: the destination reservation object
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index 9100dd3dc21f..693d16117153 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -149,6 +149,90 @@ struct dma_resv {
+>  	struct dma_resv_list __rcu *fence;
+>  };
 >  
->  	memset(&props, 0, sizeof(props));
->  	props.type = BACKLIGHT_RAW;
-> @@ -164,10 +161,9 @@ static int bd6107_probe(struct i2c_client *client,
->  					      dev_name(&client->dev),
->  					      &bd->client->dev, bd,
->  					      &bd6107_backlight_ops, &props);
-> -	if (IS_ERR(backlight)) {
-> -		dev_err(&client->dev, "failed to register backlight\n");
-> -		return PTR_ERR(backlight);
-> -	}
-> +	if (IS_ERR(backlight))
-> +		return dev_err_probe(&client->dev, PTR_ERR(backlight),
-> +				     "failed to register backlight\n");
->  
->  	backlight_update_status(backlight);
->  	i2c_set_clientdata(client, backlight);
-> diff --git a/drivers/video/backlight/l4f00242t03.c b/drivers/video/backlight/l4f00242t03.c
-> index 46f97d1c3d21..8d81d4dec3c6 100644
-> --- a/drivers/video/backlight/l4f00242t03.c
-> +++ b/drivers/video/backlight/l4f00242t03.c
-> @@ -179,37 +179,29 @@ static int l4f00242t03_probe(struct spi_device *spi)
->  	priv->spi = spi;
->  
->  	priv->reset = devm_gpiod_get(&spi->dev, "reset", GPIOD_OUT_HIGH);
-> -	if (IS_ERR(priv->reset)) {
-> -		dev_err(&spi->dev,
-> -			"Unable to get the lcd l4f00242t03 reset gpio.\n");
-> -		return PTR_ERR(priv->reset);
-> -	}
-> +	if (IS_ERR(priv->reset))
-> +		return dev_err_probe(&spi->dev, PTR_ERR(priv->reset),
-> +				     "Unable to get the lcd l4f00242t03 reset gpio.\n");
->  	gpiod_set_consumer_name(priv->reset, "lcd l4f00242t03 reset");
->  
->  	priv->enable = devm_gpiod_get(&spi->dev, "enable", GPIOD_OUT_LOW);
-> -	if (IS_ERR(priv->enable)) {
-> -		dev_err(&spi->dev,
-> -			"Unable to get the lcd l4f00242t03 data en gpio.\n");
-> -		return PTR_ERR(priv->enable);
-> -	}
-> +	if (IS_ERR(priv->enable))
-> +		return dev_err_probe(&spi->dev, PTR_ERR(priv->enable),
-> +				     "Unable to get the lcd l4f00242t03 data en gpio.\n");
->  	gpiod_set_consumer_name(priv->enable, "lcd l4f00242t03 data enable");
->  
->  	priv->io_reg = devm_regulator_get(&spi->dev, "vdd");
-> -	if (IS_ERR(priv->io_reg)) {
-> -		dev_err(&spi->dev, "%s: Unable to get the IO regulator\n",
-> -		       __func__);
-> -		return PTR_ERR(priv->io_reg);
-> -	}
-> +	if (IS_ERR(priv->io_reg))
-> +		return dev_err_probe(&spi->dev, PTR_ERR(priv->io_reg),
-> +				     "%s: Unable to get the IO regulator\n", __func__);
->  
->  	priv->core_reg = devm_regulator_get(&spi->dev, "vcore");
-> -	if (IS_ERR(priv->core_reg)) {
-> -		dev_err(&spi->dev, "%s: Unable to get the core regulator\n",
-> -		       __func__);
-> -		return PTR_ERR(priv->core_reg);
-> -	}
-> +	if (IS_ERR(priv->core_reg))
-> +		return dev_err_probe(&spi->dev, PTR_ERR(priv->core_reg),
-> +				     "%s: Unable to get the core regulator\n", __func__);
->  
->  	priv->ld = devm_lcd_device_register(&spi->dev, "l4f00242t03", &spi->dev,
-> -					priv, &l4f_ops);
-> +					    priv, &l4f_ops);
->  	if (IS_ERR(priv->ld))
->  		return PTR_ERR(priv->ld);
+> +/**
+> + * struct dma_resv_iter - current position into the dma_resv fences
+> + *
+> + * Don't touch this directly in the driver, use the accessor function instead.
+> + */
+> +struct dma_resv_iter {
+> +	/** @obj: The dma_resv object we iterate over */
+> +	struct dma_resv *obj;
+> +
+> +	/** @all_fences: If all fences should be returned */
+> +	bool all_fences;
+> +
+> +	/** @fence: the currently handled fence */
+> +	struct dma_fence *fence;
+> +
+> +	/** @seq: sequence number to check for modifications */
+> +	unsigned int seq;
+> +
+> +	/** @index: index into the shared fences */
+
+If you go with my suggestion (assuming it works): Please add "-1 indicates
+to pick the exclusive fence instead."
+
+> +	unsigned int index;
+> +
+> +	/** @fences: the shared fences */
+> +	struct dma_resv_list *fences;
+> +
+> +	/** @is_first: true if this is the first returned fence */
+> +	bool is_first;
+
+I think if we just rely on -1 == exclusive fence/is_first we don't need
+this one here?
+
+> +};
+> +
+> +struct dma_fence *dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor,
+> +					      bool first);
+> +
+> +/**
+> + * dma_resv_iter_begin - initialize a dma_resv_iter object
+> + * @cursor: The dma_resv_iter object to initialize
+> + * @obj: The dma_resv object which we want to iterator over
+> + * @all_fences: If all fences should be returned or just the exclusive one
+
+Please add: "Callers must clean up the iterator with dma_resv_iter_end()."
+
+> + */
+> +static inline void dma_resv_iter_begin(struct dma_resv_iter *cursor,
+> +					struct dma_resv *obj,
+> +					bool all_fences)
+> +{
+> +	cursor->obj = obj;
+> +	cursor->all_fences = all_fences;
+> +	cursor->fence = NULL;
+> +}
+> +
+> +/**
+> + * dma_resv_iter_end - cleanup a dma_resv_iter object
+> + * @cursor: the dma_resv_iter object which should be cleaned up
+> + *
+> + * Make sure that the reference to the fence in the cursor is properly
+> + * dropped.
+
+Please add:
+
+"This function must be called every time dma_resv_iter_begin() was called
+to clean up any references."
+> + */
+> +static inline void dma_resv_iter_end(struct dma_resv_iter *cursor)
+> +{
+> +	dma_fence_put(cursor->fence);
+> +}
+> +
+> +/**
+> + * dma_resv_iter_is_exclusive - test if the current fence is the exclusive one
+> + * @cursor: the cursor of the current position
+> + *
+> + * Returns true if the currently returned fence is the exclusive one.
+> + */
+> +static inline bool dma_resv_iter_is_exclusive(struct dma_resv_iter *cursor)
+> +{
+> +	return cursor->index == -1;
+> +}
+> +
+> +/**
+> + * dma_resv_for_each_fence_unlocked - unlocked fence iterator
+> + * @cursor: a struct dma_resv_iter pointer
+> + * @fence: the current fence
+> + *
+> + * Iterate over the fences in a struct dma_resv object without holding the
+> + * dma_resv::lock. The RCU read side lock must be hold when using this, but can
+> + * be dropped and re-taken as necessary inside the loop. The cursor needs to be
+> + * initialized with dma_resv_iter_begin_unlocked() and cleaned up with
+
+We don't have an _unlocked version?
+
+> + * dma_resv_iter_end_unlocked().
+> + */
+> +#define dma_resv_for_each_fence_unlocked(cursor, fence)			\
+> +	for (fence = dma_resv_iter_walk_unlocked(cursor, true);		\
+> +	     fence; fence = dma_resv_iter_walk_unlocked(cursor, false))
+> +
+>  #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
+>  #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
 >  
 > -- 
 > 2.25.1
 > 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
