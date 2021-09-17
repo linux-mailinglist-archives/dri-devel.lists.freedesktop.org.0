@@ -2,65 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B7B410168
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:39:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02959410172
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 00:41:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA9666E0C1;
-	Fri, 17 Sep 2021 22:39:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 985426E0CA;
+	Fri, 17 Sep 2021 22:41:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com
- [IPv6:2607:f8b0:4864:20::636])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C60FD6E0C1
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 22:39:10 +0000 (UTC)
-Received: by mail-pl1-x636.google.com with SMTP id bb10so7140230plb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ApzGqwR4Te0uDPbXhh61+nUdveaOsjoQkAXhDsGf+Rg=;
- b=nNQAAlxukl4PKeydOfOlrtACWCYcMXydWVZSK5feTt88ZI+JsTzbPqWiRN0HMIcisQ
- MdNz9GVePaJ0I8ZZ8t0PapgcJNjU03h328R9ZbRltDvGwDsHpvMg9mXAFwKS+Ub9ccTv
- PFO32u943DhPn8yG5VQIm2zyWQRIHqy5wA/3c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ApzGqwR4Te0uDPbXhh61+nUdveaOsjoQkAXhDsGf+Rg=;
- b=encSLvSbYZ1LUMmkEMCZS4+aZ54dxt3vruQCo8LC+5zZZ23EJD/NfYLuOwf1K87FOy
- t04flVqCUzA7oS1MyCyFc6AwcUgLQvjofapCVSIzTxCB9C9M32lHRVwaGadSHhdb1+ph
- N5+h+IqR+HBwi9ZxLIxgUPiih8J1/yW4XB4+s6vyxeaTSw+gA7bjCMX9fD67FMqG90mg
- /YvFIsnQcl/1UMz3QScelXlJBC/6v0i2ULcU3X/0y1R3AZ6TPFCJgy5xAGB6IrlfdLOI
- 9MS+RRhQlr/nX7jKhOpxp1bcLFumkrjIVVUArToDTkADdYMFkhiJ8UdCJUj9OnaulLoL
- h8sw==
-X-Gm-Message-State: AOAM530PPnkS0lC+1cThEufYuGQyZYCRiaRYcpGnjA7V3c0s1OxX4YPY
- kI2YALdtdkgRhFK4bxDcVdYCsQ==
-X-Google-Smtp-Source: ABdhPJxT+enl8WyiyBZeNEHwKPJCYJ9UrHvVhA9KUVtb7TxfdDIL0yhssX8x3Z00BsjmRsbICFQHyQ==
-X-Received: by 2002:a17:902:e8d1:b0:138:b1e2:9818 with SMTP id
- v17-20020a170902e8d100b00138b1e29818mr11585526plg.35.1631918350346; 
- Fri, 17 Sep 2021 15:39:10 -0700 (PDT)
-Received: from philipchen.mtv.corp.google.com
- ([2620:15c:202:201:487:ba41:bf2c:8c7e])
- by smtp.gmail.com with ESMTPSA id y13sm6619486pjc.50.2021.09.17.15.39.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 15:39:09 -0700 (PDT)
-From: Philip Chen <philipchen@chromium.org>
-To: LKML <linux-kernel@vger.kernel.org>
-Cc: dianders@chromium.org, swboyd@chromium.org,
- Philip Chen <philipchen@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 2/2] drm/bridge: parade-ps8640: Add support for AUX channel
-Date: Fri, 17 Sep 2021 15:39:02 -0700
-Message-Id: <20210917153835.v4.2.Ifcb5df5de5b1cead7c99e0f37b044ef5cfc69eda@changeid>
-X-Mailer: git-send-email 2.33.0.464.g1972c5931b-goog
-In-Reply-To: <20210917153835.v4.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
-References: <20210917153835.v4.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
+Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
+ [64.147.123.17])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 423AF6E0C4;
+ Fri, 17 Sep 2021 22:41:45 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.west.internal (Postfix) with ESMTP id 5AF182B0092E;
+ Fri, 17 Sep 2021 18:41:42 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Fri, 17 Sep 2021 18:41:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+ :from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=pbWS3mhStDO/vyfrIneJKdNr84W
+ uoAjNdq5ZOc04Za4=; b=R8fDp2teNWIc+9ikwj5txBoV5lhAWSQU6/iSCmma86O
+ opfL0jI4+of4PDSWIjSyki8qMKiVE3OHQOz1LCNTIkgxzQfM1Y6aDZtAOIJtNljb
+ 1drMJ2FRRPRbzhA0NmDn2z9VkFqeokVQjsB7ewCJX0CAQjTeAaS4By7Nj362ryTx
+ Q0X4l3uHnJXTYdQOGzjKEcyGsgp7syMPBOQz4Z9Np3uf5PEuqpws29hmXSUkXOeB
+ rca2RsPnCVEI61CjgsqmQH9MLaH+F91MCixiNiz5taxERa9qLMhZiNpOjoTAfbwU
+ m8A0Q5JqNrdGRA4q3/bD8o/aCeqOfwsXlb59GcaJAhg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=pbWS3m
+ hStDO/vyfrIneJKdNr84WuoAjNdq5ZOc04Za4=; b=JXFFoS+mDQKTy8VX0SIVLE
+ 4fLTLmt5IRKDFNVntUlBenpRUmKW6gIBK4g6T+7nKj/XXmyYPHcGWrH0ylQ8HSi8
+ haVVIIn+wc2nGuKqkDTe2qkgDYfMh0/Yilo7llo4Vlt+nwZLYPorywKI/asRWNKB
+ TT5U77VXBf/+rFNMRyz0GMta3In3hvCh1OGAtOlqcB9PauMVDDB7UhP455/zxIJX
+ WxpRXWvGZOGfqPoMkMtuAMv6heOIi5AqRFZ1adiBatXdXS232F3/RvLWCl0mCsz6
+ 7djJoWpEPD3tFYE6a6eqljZtrsPV4gv1lHhl85RNd3tZvnwvMX0Al+hbLhbR8msQ
+ ==
+X-ME-Sender: <xms:pRlFYWkN3Y86lJehngIUJMv8N3DsXfxJsExnM98X1FZHk7Pr6xL0_g>
+ <xme:pRlFYd0n7Y3SRx1vdAhpY6TWJvfY43wNQKULJQmuT-61pHe5odEI5c18rbwPRZokM
+ r_ZStpINuTl0SoQ9A>
+X-ME-Received: <xmr:pRlFYUrf5tykLUPrLgbYl5ltRSUTjmyMjaWEKm_daBVJZAc-ereo6WBqvm0Db_9G_kevC3PM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
+ nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
+ gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
+ heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
+ gvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:pRlFYan6BMTB8bczto6iNLZJ9_CAJqj6r2lc-MsHHyDru8iR-bP4lQ>
+ <xmx:pRlFYU1UYs097VZt9TDFMtb0jFRrc6dB_8OszxctSeKclpdrQ0YvJw>
+ <xmx:pRlFYRuvfcg4z7gYodUX88Pk3CqzHSEtzld19zdEbu0NnwLwEfmajg>
+ <xmx:phlFYawX4uBRwiPKMsppvrKWIoqVgfccCswWszRW5lYAQe2bL9CmPK00F8M>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Sep 2021 18:41:38 -0400 (EDT)
+Date: Sat, 18 Sep 2021 00:41:35 +0200
+From: Fernando Ramos <greenfoo@u92.eu>
+To: Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH 11/15] drm/msm: cleanup: drm_modeset_lock_all() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Message-ID: <YUUZn4gcQB/aGZCk@zacax395.localdomain>
+References: <20210916211552.33490-1-greenfoo@u92.eu>
+ <20210916211552.33490-12-greenfoo@u92.eu>
+ <20210917154250.GL2515@art_vandelay>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210917154250.GL2515@art_vandelay>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,290 +89,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement the first version of AUX support, which will be useful as
-we expand the driver to support varied use cases.
+> >  	int i, out_width;
+> > +	int ret;
+> 
+> Please put ret with i & out_width
 
-Signed-off-by: Philip Chen <philipchen@chromium.org>
----
+Done!
 
-Changes in v4:
-- Fix aux_transfer function:
-  - Replace dev_err with DRM_DEV_ERROR
-  - Reorg the bit manipulation around address/len/request registers
-  - Make SWAUX_STATUS_I2C_NACK fall through to SWAUX_STATUS_ACKM and
 
-Changes in v3:
-- Verify with HW and thus remove WARNING from the patch description
-- Fix the reg names to better match the manual
-- Fix aux_transfer function:
-  - Fix the switch statement which handles aux request
-  - Write the original (unstripped) aux request code to the register
-  - Replace DRM_ERROR with dev_err
-  - Remove goto and just return ret
-  - Fix the switch statement which handles aux status
-  - When reading returned data, read from RDATA instead of WDATA
-- Fix attach function:
-  - Call mipi_dsi_detach() when aux_register fails
+> > -	drm_modeset_unlock_all(crtc->dev);
+> > +	DRM_MODESET_LOCK_ALL_END(crtc->dev, ctx, ret);
+> >  
+> >  	return 0;
+> 
+> Return ret here
 
-Changes in v2:
-- Handle the case where an AUX transaction has no payload
-- Add a reg polling for p0.0x83 to confirm AUX cmd is issued and
-  read data is returned
-- Replace regmap_noinc_read/write with looped regmap_read/write,
-  as regmap_noinc_read/write doesn't read one byte at a time unless
-  max_raw_read/write is set to 1.
-- Register/Unregister the AUX device explicitly when the bridge is
-  attached/detached
-- Remove the use of runtime PM
-- Program AUX addr/cmd/len in a single regmap_bulk_write()
-- Add newlines for DRM_ERROR messages
-
- drivers/gpu/drm/bridge/parade-ps8640.c | 181 ++++++++++++++++++++++++-
- 1 file changed, 180 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
-index 18328e75bf90..31ec4a64de91 100644
---- a/drivers/gpu/drm/bridge/parade-ps8640.c
-+++ b/drivers/gpu/drm/bridge/parade-ps8640.c
-@@ -13,11 +13,37 @@
- #include <linux/regulator/consumer.h>
- 
- #include <drm/drm_bridge.h>
-+#include <drm/drm_dp_helper.h>
- #include <drm/drm_mipi_dsi.h>
- #include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- 
-+#define PAGE0_AUXCH_CFG3	0x76
-+#define  AUXCH_CFG3_RESET	0xff
-+#define PAGE0_SWAUX_ADDR_7_0	0x7d
-+#define PAGE0_SWAUX_ADDR_15_8	0x7e
-+#define PAGE0_SWAUX_ADDR_23_16	0x7f
-+#define  SWAUX_ADDR_19_16_MASK	GENMASK(3, 0)
-+#define  SWAUX_CMD_MASK		GENMASK(7, 4)
-+#define PAGE0_SWAUX_LENGTH	0x80
-+#define  SWAUX_LENGTH_MASK	GENMASK(3, 0)
-+#define  SWAUX_NO_PAYLOAD	BIT(7)
-+#define PAGE0_SWAUX_WDATA	0x81
-+#define PAGE0_SWAUX_RDATA	0x82
-+#define PAGE0_SWAUX_CTRL	0x83
-+#define  SWAUX_SEND		BIT(0)
-+#define PAGE0_SWAUX_STATUS	0x84
-+#define  SWAUX_M_MASK		GENMASK(4, 0)
-+#define  SWAUX_STATUS_MASK	GENMASK(7, 5)
-+#define  SWAUX_STATUS_NACK	(0x1 << 5)
-+#define  SWAUX_STATUS_DEFER	(0x2 << 5)
-+#define  SWAUX_STATUS_ACKM	(0x3 << 5)
-+#define  SWAUX_STATUS_INVALID	(0x4 << 5)
-+#define  SWAUX_STATUS_I2C_NACK	(0x5 << 5)
-+#define  SWAUX_STATUS_I2C_DEFER	(0x6 << 5)
-+#define  SWAUX_STATUS_TIMEOUT	(0x7 << 5)
-+
- #define PAGE2_GPIO_H		0xa7
- #define  PS_GPIO9		BIT(1)
- #define PAGE2_I2C_BYPASS	0xea
-@@ -68,6 +94,7 @@ enum ps8640_vdo_control {
- struct ps8640 {
- 	struct drm_bridge bridge;
- 	struct drm_bridge *panel_bridge;
-+	struct drm_dp_aux aux;
- 	struct mipi_dsi_device *dsi;
- 	struct i2c_client *page[MAX_DEVS];
- 	struct regmap	*regmap[MAX_DEVS];
-@@ -117,6 +144,136 @@ static inline struct ps8640 *bridge_to_ps8640(struct drm_bridge *e)
- 	return container_of(e, struct ps8640, bridge);
- }
- 
-+static inline struct ps8640 *aux_to_ps8640(struct drm_dp_aux *aux)
-+{
-+	return container_of(aux, struct ps8640, aux);
-+}
-+
-+static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
-+				   struct drm_dp_aux_msg *msg)
-+{
-+	struct ps8640 *ps_bridge = aux_to_ps8640(aux);
-+	struct regmap *map = ps_bridge->regmap[PAGE0_DP_CNTL];
-+	struct device *dev = &ps_bridge->page[PAGE0_DP_CNTL]->dev;
-+
-+	unsigned int len = msg->size;
-+	unsigned int data;
-+	unsigned int addr_base;
-+	int ret;
-+	u8 request = msg->request &
-+		     ~(DP_AUX_I2C_MOT | DP_AUX_I2C_WRITE_STATUS_UPDATE);
-+	u8 *buf = msg->buffer;
-+	u8 addr_len[PAGE0_SWAUX_LENGTH + 1 - PAGE0_SWAUX_ADDR_7_0];
-+	u8 i;
-+	bool is_native_aux = false;
-+
-+	if (len > DP_AUX_MAX_PAYLOAD_BYTES)
-+		return -EINVAL;
-+
-+	switch (request) {
-+	case DP_AUX_NATIVE_WRITE:
-+	case DP_AUX_NATIVE_READ:
-+		is_native_aux = true;
-+		fallthrough;
-+	case DP_AUX_I2C_WRITE:
-+	case DP_AUX_I2C_READ:
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	ret = regmap_write(map, PAGE0_AUXCH_CFG3, AUXCH_CFG3_RESET);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "failed to write PAGE0_AUXCH_CFG3: %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	/* Assume it's good */
-+	msg->reply = 0;
-+
-+	addr_base = PAGE0_SWAUX_ADDR_7_0;
-+	addr_len[PAGE0_SWAUX_ADDR_7_0 - base] = msg->address;
-+	addr_len[PAGE0_SWAUX_ADDR_15_8 - base] = msg->address >> 8;
-+	addr_len[PAGE0_SWAUX_ADDR_23_16 - base] = (msg->address >> 16) &
-+						  SWAUX_ADDR_19_16_MASK
-+	addr_len[PAGE0_SWAUX_ADDR_23_16 - base] |= (msg->request << 4) &
-+						   SWAUX_CMD_MASK;
-+	addr_len[PAGE0_SWAUX_LENGTH - base] = (len == 0) ? SWAUX_NO_PAYLOAD :
-+					      ((len - 1) & SWAUX_LENGTH_MASK);
-+
-+	regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, addr_len,
-+			  ARRAY_SIZE(addr_len));
-+
-+	if (len && (request == DP_AUX_NATIVE_WRITE ||
-+		    request == DP_AUX_I2C_WRITE)) {
-+		/* Write to the internal FIFO buffer */
-+		for (i = 0; i < len; i++) {
-+			ret = regmap_write(map, PAGE0_SWAUX_WDATA, buf[i]);
-+			if (ret) {
-+				DRM_DEV_ERROR(dev,
-+					      "failed to write WDATA: %d\n",
-+					      ret);
-+				return ret;
-+			}
-+		}
-+	}
-+
-+	regmap_write(map, PAGE0_SWAUX_CTRL, SWAUX_SEND);
-+
-+	/* Zero delay loop because i2c transactions are slow already */
-+	regmap_read_poll_timeout(map, PAGE0_SWAUX_CTRL, data,
-+				 !(data & SWAUX_SEND), 0, 50 * 1000);
-+
-+	regmap_read(map, PAGE0_SWAUX_STATUS, &data);
-+	if (ret) {
-+		DRM_DEV_ERROR(dev, "failed to read PAGE0_SWAUX_STATUS: %d\n",
-+			      ret);
-+		return ret;
-+	}
-+
-+	switch (data & SWAUX_STATUS_MASK) {
-+	/* Ignore the DEFER cases as they are already handled in hardware */
-+	case SWAUX_STATUS_NACK:
-+	case SWAUX_STATUS_I2C_NACK:
-+		/*
-+		 * The programming guide is not clear about whether a I2C NACK
-+		 * would trigger SWAUX_STATUS_NACK or SWAUX_STATUS_I2C_NACK. So
-+		 * we handle both cases together.
-+		 */
-+		if (is_native_aux)
-+			msg->reply |= DP_AUX_NATIVE_REPLY_NACK;
-+		else
-+			msg->reply |= DP_AUX_I2C_REPLY_NACK;
-+
-+		fallthrough;
-+	case SWAUX_STATUS_ACKM:
-+		len = data & SWAUX_M_MASK;
-+		break;
-+	case SWAUX_STATUS_INVALID:
-+		return -EOPNOTSUPP;
-+	case SWAUX_STATUS_TIMEOUT:
-+		return -ETIMEDOUT;
-+	}
-+
-+	if (len && (request == DP_AUX_NATIVE_READ ||
-+		    request == DP_AUX_I2C_READ)) {
-+		/* Read from the internal FIFO buffer */
-+		for (i = 0; i < len; i++) {
-+			ret = regmap_read(map, PAGE0_SWAUX_RDATA,
-+					  (unsigned int *)(buf + i));
-+			if (ret) {
-+				DRM_DEV_ERROR(dev,
-+					      "failed to read RDATA: %d\n",
-+					      ret);
-+				return ret;
-+			}
-+		}
-+	}
-+
-+	return len;
-+}
-+
- static int ps8640_bridge_vdo_control(struct ps8640 *ps_bridge,
- 				     const enum ps8640_vdo_control ctrl)
- {
-@@ -286,18 +443,34 @@ static int ps8640_bridge_attach(struct drm_bridge *bridge,
- 	dsi->format = MIPI_DSI_FMT_RGB888;
- 	dsi->lanes = NUM_MIPI_LANES;
- 	ret = mipi_dsi_attach(dsi);
--	if (ret)
-+	if (ret) {
-+		dev_err(dev, "failed to attach dsi device: %d\n", ret);
- 		goto err_dsi_attach;
-+	}
-+
-+	ret = drm_dp_aux_register(&ps_bridge->aux);
-+	if (ret) {
-+		dev_err(dev, "failed to register DP AUX channel: %d\n", ret);
-+		goto err_aux_register;
-+	}
- 
- 	/* Attach the panel-bridge to the dsi bridge */
- 	return drm_bridge_attach(bridge->encoder, ps_bridge->panel_bridge,
- 				 &ps_bridge->bridge, flags);
- 
-+err_aux_register:
-+	mipi_dsi_detach(dsi);
- err_dsi_attach:
- 	mipi_dsi_device_unregister(dsi);
- 	return ret;
- }
- 
-+
-+static void ps8640_bridge_detach(struct drm_bridge *bridge)
-+{
-+	drm_dp_aux_unregister(&bridge_to_ps8640(bridge)->aux);
-+}
-+
- static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 					   struct drm_connector *connector)
- {
-@@ -334,6 +507,7 @@ static struct edid *ps8640_bridge_get_edid(struct drm_bridge *bridge,
- 
- static const struct drm_bridge_funcs ps8640_bridge_funcs = {
- 	.attach = ps8640_bridge_attach,
-+	.detach = ps8640_bridge_detach,
- 	.get_edid = ps8640_bridge_get_edid,
- 	.post_disable = ps8640_post_disable,
- 	.pre_enable = ps8640_pre_enable,
-@@ -409,6 +583,11 @@ static int ps8640_probe(struct i2c_client *client)
- 
- 	i2c_set_clientdata(client, ps_bridge);
- 
-+	ps_bridge->aux.name = "parade-ps8640-aux";
-+	ps_bridge->aux.dev = dev;
-+	ps_bridge->aux.transfer = ps8640_aux_transfer;
-+	drm_dp_aux_init(&ps_bridge->aux);
-+
- 	drm_bridge_add(&ps_bridge->bridge);
- 
- 	return 0;
--- 
-2.33.0.464.g1972c5931b-goog
-
+Done!
