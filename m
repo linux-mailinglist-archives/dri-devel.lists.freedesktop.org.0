@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC92E40F2EB
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 09:10:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE3540F35A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 09:37:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CAB946EC07;
-	Fri, 17 Sep 2021 07:10:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE07B6EC09;
+	Fri, 17 Sep 2021 07:37:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A38136EC07;
- Fri, 17 Sep 2021 07:10:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1631862598;
- bh=bp0ZUgxCQhZbRnxIHPQI96iWY/FZMiRUNVypU7TLoCE=;
- h=Date:From:To:Cc:Subject:From;
- b=iFXX8Rq0LD9Ebq6aGKM2Eqb/JrL4epmgtLmA8mPndCRIJNsC1o1HlLZEbU++LacWi
- PxsU5/2vdAkqjmzcTfHbeOoPc88kwJxbo0lFkgIf6JrARzJfKG8c5huL2+AHclw+0Z
- in7JBPNB9VXKAyDOWkZmXZ0QRk437VmpzjPOiqt2RYBcU3gOEKSJqul7CCLNrLvJyL
- WO98I/3Oacmp6aQi5YDmc37JnEZ7iwZ0KFt6aAHhe5clJvlrVENhDNX5j26tqofyJN
- 9iDk7maTLlrSfAl+OyUIUbj+/BII5UT2DR4Mcm0qL7U9prEF5eQ+IcyHCfc1OAiLB6
- kzBCIZPYgrLRA==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4H9lT116S1z9sW4;
- Fri, 17 Sep 2021 17:09:55 +1000 (AEST)
-Date: Fri, 17 Sep 2021 17:09:53 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Maxime Ripard <maxime@cerno.tech>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build failure after merge of the drm-misc tree
-Message-ID: <20210917170953.19d0177f@canb.auug.org.au>
+X-Greylist: delayed 860 seconds by postgrey-1.36 at gabe;
+ Fri, 17 Sep 2021 07:37:07 UTC
+Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
+ [211.20.114.71])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B95226EC09
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:37:07 +0000 (UTC)
+Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
+ by twspam01.aspeedtech.com with ESMTP id 18H72m6Q030533
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:02:48 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from mail.aspeedtech.com ([192.168.0.24])
+ by twspam01.aspeedtech.com with ESMTP id 18H72ZTG030518;
+ Fri, 17 Sep 2021 15:02:35 +0800 (GMT-8)
+ (envelope-from kuohsiang_chou@aspeedtech.com)
+Received: from localhost.localdomain.com (192.168.2.142) by TWMBX02.aspeed.com
+ (192.168.0.24) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Fri, 17 Sep 2021 15:22:34 +0800
+From: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+To: <tzimmermann@suse.de>, <dri-devel@lists.freedesktop.org>,
+ <linux-kernel@vger.kernel.org>
+CC: <airlied@redhat.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <jenmin_yuan@aspeedtech.com>, <kuohsiang_chou@aspeedtech.com>,
+ <arc_sung@aspeedtech.com>
+Subject: [PATCH] drm/ast: Atomic CR/SR reg R/W
+Date: Fri, 17 Sep 2021 15:22:26 +0800
+Message-ID: <20210917072226.17357-1-kuohsiang_chou@aspeedtech.com>
+X-Mailer: git-send-email 2.18.4
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/DbFq18WWwwrtySTT.BPm7f_";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain
+X-Originating-IP: [192.168.2.142]
+X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
+ (192.168.0.24)
+X-DNSRBL: 
+X-MAIL: twspam01.aspeedtech.com 18H72ZTG030518
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,47 +58,85 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/DbFq18WWwwrtySTT.BPm7f_
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+1. Avoid IO-index racing
+2. IO-index racing happened on resolustion switching
+   and mouse moving at the same time
+3. System hung while IO-index racing occurred.
 
-Hi all,
+Signed-off-by: KuoHsiang Chou <kuohsiang_chou@aspeedtech.com>
+---
+ drivers/gpu/drm/ast/ast_main.c | 48 +++++++++++++++++++++++++---------
+ 1 file changed, 36 insertions(+), 12 deletions(-)
 
-After merging the drm-misc tree, today's linux-next build (x86_64
-modules_install) failed like this:
+diff --git a/drivers/gpu/drm/ast/ast_main.c b/drivers/gpu/drm/ast/ast_main.c
+index 79a361867..1d8fa70c5 100644
+--- a/drivers/gpu/drm/ast/ast_main.c
++++ b/drivers/gpu/drm/ast/ast_main.c
+@@ -41,28 +41,52 @@ void ast_set_index_reg_mask(struct ast_private *ast,
+ 			    uint32_t base, uint8_t index,
+ 			    uint8_t mask, uint8_t val)
+ {
+-	u8 tmp;
+-	ast_io_write8(ast, base, index);
+-	tmp = (ast_io_read8(ast, base + 1) & mask) | val;
+-	ast_set_index_reg(ast, base, index, tmp);
++	uint16_t volatile usData;
++	uint8_t  volatile jData;
++
++	do {
++		ast_io_write8(ast, base, index);
++		usData = ast_io_read16(ast, base);
++	} while ((uint8_t)(usData) != index);
++
++	jData  = (uint8_t)(usData >> 8);
++	jData &= mask;
++	jData |= val;
++	usData = ((uint16_t) jData << 8) | (uint16_t) index;
++	ast_io_write16(ast, base, usData);
+ }
 
-depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper
-depmod: ERROR: Cycle detected: cec
-depmod: ERROR: Found 2 modules in dependency cycles!
+ uint8_t ast_get_index_reg(struct ast_private *ast,
+ 			  uint32_t base, uint8_t index)
+ {
+-	uint8_t ret;
+-	ast_io_write8(ast, base, index);
+-	ret = ast_io_read8(ast, base + 1);
+-	return ret;
++	uint16_t volatile usData;
++	uint8_t  volatile jData;
++
++	do {
++		ast_io_write8(ast, base, index);
++		usData = ast_io_read16(ast, base);
++	} while ((uint8_t)(usData) != index);
++
++	jData  = (uint8_t)(usData >> 8);
++
++	return jData;
+ }
 
-Caused by commit
+ uint8_t ast_get_index_reg_mask(struct ast_private *ast,
+ 			       uint32_t base, uint8_t index, uint8_t mask)
+ {
+-	uint8_t ret;
+-	ast_io_write8(ast, base, index);
+-	ret = ast_io_read8(ast, base + 1) & mask;
+-	return ret;
++	uint16_t volatile usData;
++	uint8_t  volatile jData;
++
++	do {
++		ast_io_write8(ast, base, index);
++		usData = ast_io_read16(ast, base);
++	} while ((uint8_t)(usData) != index);
++
++	jData  = (uint8_t)(usData >> 8);
++	jData &= mask;
++
++	return jData;
+ }
 
-  87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
+ static void ast_detect_config_mode(struct drm_device *dev, u32 *scu_rev)
+--
+2.18.4
 
-I have reverted these commits for today:
-
-  a43dd76bacd0 ("drm/vc4: dsi: Switch to devm_drm_of_get_bridge")
-  0caddbbfdfa2 ("drm/vc4: dpi: Switch to devm_drm_of_get_bridge")
-  87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/DbFq18WWwwrtySTT.BPm7f_
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFEP0EACgkQAVBC80lX
-0GzMtwf/cTt3xaEfQHZ7JsDX0+AwM/sYl4xNWtaU6fKrZi000GsPNbxx7xZSz7K7
-5kW0VIM76nkMzTpV6y4midx25Tzgp8vMUnkbuiGUkHApIBRCNgCvRyweg0PsQFhS
-jMVqc4UNxv4V+1OzC5PGXiEOhpLmYyPCGex5lyvibykvDUJ4F//brQKmKYTfkW3Y
-6SukkK+u4M+e21vBNryrPcM4OJykoLh3kZgKrsM9DSpoAq3AZoYYTQOV7jbWC/MN
-qn6+NoiQjraPIVRBrYa/mUHb6dGpeC9pwllOST9ijOMxrQ+zZpDj9aDJfFyJv7Yd
-QrY/kuu4R7rtsriQNyuKy8f+jUKSWA==
-=esFv
------END PGP SIGNATURE-----
-
---Sig_/DbFq18WWwwrtySTT.BPm7f_--
