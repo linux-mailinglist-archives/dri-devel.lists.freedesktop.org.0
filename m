@@ -1,92 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD71840F77F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:30:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9E3140F784
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:31:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 756B16EC40;
-	Fri, 17 Sep 2021 12:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 824DD6EC41;
+	Fri, 17 Sep 2021 12:31:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5A5746EC3C
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:30:04 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id t18so14975297wrb.0
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:30:04 -0700 (PDT)
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CE6C26EC42
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:31:06 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id d21so14879437wra.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:31:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:mail-followup-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=ohehD+AgX2cOYuT0Vdlc+XEexxlJP7h+rPjbbPGV0JI=;
- b=R10SS4VV0BCpiZybmOMrjaWEfv3d2ZD+2k6TYKYqIZCusUIZXiqYs5rTuV6bruYLls
- zYGmlZhSOPyZgErxGr8GftAAzypBiEQnXw94kdl46vb10zeP8O7zkrXWklJipXggLivr
- Ihoa4mj+eAbhnzb6QO020N9VvyKryVDicfnPg=
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=o7A57kYyLnLxBk2EpQRgH/I2WuumqcnhiTb054cfE3c=;
+ b=SZbQN8vwwsLhU3kygY95IQ0nezGZSNxMoK/x8YjC4MKKgST3177d41hO/yXqVZWf25
+ aBKnaQHpklTXzWUOfTO/rjlub9XjiVYBMxFupu1b0Q87A0rnUeOgOOgZbNU+qwdc/U+H
+ dZjclpEkSqRbCuXZZEnet9I5TUEQapPkdx16s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id
- :mail-followup-to:references:mime-version:content-disposition
- :in-reply-to;
- bh=ohehD+AgX2cOYuT0Vdlc+XEexxlJP7h+rPjbbPGV0JI=;
- b=cHfeLZJTy2e1K1MLJkPEnV2zgTiTtrlzQeOjp9Vy3ZrLB85DIU+KqJraJ7g7lXoK90
- +izngxD86t4EF5NZqmXPnVjuPB1YOT2z2brSUIfVy437TuuT8smF540FlGRwVlmsCFan
- Jm91gjHy2V1XYOCInsrqMb1+rOXErIbxTKSQUKXudNFynbA5Vsk8oXOZA3KS6QbtQew1
- 3Nq+122llGhQBnI9XwDI1wPPeMR1UH6Q6AEl2WkrEcfCSOdKy3mP8QqqvR+Uhsa9qf0t
- BVlzdCbQWDhDSPZVotshOSq+eGD44/485koBGePU6mil7hiSucvfNorz5yzivXefb4c3
- RRJw==
-X-Gm-Message-State: AOAM533n7GEfCrxd47eTV7vrhjNCn6q8b+ViuyQbCOsk9TkJglcTRoDM
- obsoqb5JMJdpZjHQcNstOAjq2g==
-X-Google-Smtp-Source: ABdhPJxbi7SvIHU6eF4mLO2NNjFKYkKbUTWnBTtOPShG0ZBGp4wQE5JGTFm/UZzjlZerlKL7ilx7Kg==
-X-Received: by 2002:a05:6000:124b:: with SMTP id
- j11mr11906176wrx.147.1631881802837; 
- Fri, 17 Sep 2021 05:30:02 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=o7A57kYyLnLxBk2EpQRgH/I2WuumqcnhiTb054cfE3c=;
+ b=zPjc72mCzOGP34n2Ii+y8d9SXL4M91WxT74frFJPEFtWxIKeWaNMSl0MqotKZGY7s8
+ CIiH8biHGbFLOMZ6OneGYSBvyI4GECjl6UApzQGtY19KIb8lValCbgz7URqo1yWVKGd7
+ Bfk/l5d74aLd7uKOB3IzBepbKROEBEIKY2WWN868aCPM1piEj+kHhyBXBnL7T9mjCv0w
+ mAG0eKGGtQH2ySpni+dKq5FhVK2R0gTrsxI9P63VtStGo5tenByzJwQiRrHkecNxnilV
+ Y+7JW4NbKE7vivzTPp3h0l5jKEC0lofmsugheIxHUvdj3TpgtkTN4lCx+LdBHxV1FiUn
+ a3/w==
+X-Gm-Message-State: AOAM533sO3qv4qdvdb9G/NrUq2Ab3G0zlhcFDAYrPgW3PnX4xgn85wg7
+ TBi48FAgCymwpKqDYt2N/Ydc8Q==
+X-Google-Smtp-Source: ABdhPJxpwEE7l8onXQlLNuW12oGzeMTFB4nKHgxTHgi0OhO/2feZan/noxssuPOPxbbqSqJX+mtukQ==
+X-Received: by 2002:adf:8170:: with SMTP id 103mr12045762wrm.167.1631881865219; 
+ Fri, 17 Sep 2021 05:31:05 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z6sm6483202wmp.1.2021.09.17.05.30.01
+ by smtp.gmail.com with ESMTPSA id n26sm10038744wmi.43.2021.09.17.05.31.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:30:02 -0700 (PDT)
-Date: Fri, 17 Sep 2021 14:30:00 +0200
+ Fri, 17 Sep 2021 05:31:04 -0700 (PDT)
+Date: Fri, 17 Sep 2021 14:31:02 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: Oded Gabbay <ogabbay@kernel.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, Dave Airlie <airlied@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-Message-ID: <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
- Oded Gabbay <ogabbay@kernel.org>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Gal Pressman <galpress@amazon.com>,
- Yossi Leybovich <sleybo@amazon.com>,
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-rdma <linux-rdma@vger.kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, Dave Airlie <airlied@gmail.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <YUCvNzpyC091KeaJ@phenom.ffwll.local>
- <20210914161218.GF3544071@ziepe.ca>
- <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
- <YUM5JoMMK7gceuKZ@phenom.ffwll.local>
- <20210916131014.GK3544071@ziepe.ca>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>,
+ Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, john.c.harrison@intel.com
+Subject: Re: [Intel-gfx] [PATCH 1/5] drm/i915: Do not define vma on stack
+Message-ID: <YUSKhiKtpQjVcN9O@phenom.ffwll.local>
+References: <20210914044933.22932-1-matthew.brost@intel.com>
+ <20210914044933.22932-2-matthew.brost@intel.com>
+ <CAPM=9tzHmYkf_y2W_1TO2MPeohFQ9MzkTD1s0gmpNgLcWbX1NA@mail.gmail.com>
+ <20210914153656.GA23874@jons-linux-dev-box>
+ <YUEAb30j+TPBMKGN@phenom.ffwll.local>
+ <20210914211022.GA15442@jons-linux-dev-box>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210916131014.GK3544071@ziepe.ca>
+In-Reply-To: <20210914211022.GA15442@jons-linux-dev-box>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -103,92 +76,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
-> On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
-> > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
-> > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > >
-> > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
-> > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
-> > > > > > Hi,
-> > > > > > Re-sending this patch-set following the release of our user-space TPC
-> > > > > > compiler and runtime library.
-> > > > > >
-> > > > > > I would appreciate a review on this.
+On Tue, Sep 14, 2021 at 02:10:22PM -0700, Matthew Brost wrote:
+> On Tue, Sep 14, 2021 at 10:05:03PM +0200, Daniel Vetter wrote:
+> > On Tue, Sep 14, 2021 at 08:36:56AM -0700, Matthew Brost wrote:
+> > > On Tue, Sep 14, 2021 at 03:04:59PM +1000, Dave Airlie wrote:
+> > > > On Tue, 14 Sept 2021 at 14:55, Matthew Brost <matthew.brost@intel.com> wrote:
 > > > > >
-> > > > > I think the big open we have is the entire revoke discussions. Having the
-> > > > > option to let dma-buf hang around which map to random local memory ranges,
-> > > > > without clear ownership link and a way to kill it sounds bad to me.
+> > > > > From: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
 > > > > >
-> > > > > I think there's a few options:
-> > > > > - We require revoke support. But I've heard rdma really doesn't like that,
-> > > > >   I guess because taking out an MR while holding the dma_resv_lock would
-> > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
-> > > > >   hold-up was again that makes this a no-go?
-> > > >
-> > > > RDMA HW can't do revoke.
+> > > > > Defining vma on stack can cause stack overflow, if
+> > > > > vma gets populated with new fields.
+> > > > 
+> > > > Is there some higher level locking stopping that from getting trashed?
+> > > > or a guarantee that uc_fw_bind_ggtt is only entered by one thread at a
+> > > > time?
+> > > > 
+> > > 
+> > > I believe this function is only called during driver load (inherently
+> > > one thread) or during a GT reset (protected by reset mutex) so at most 1
+> > > thread can be executing this code at once, thus it is safe to use a
+> > > global dummy vma in this function.
 > > 
-> > Like why? I'm assuming when the final open handle or whatever for that MR
-> > is closed, you do clean up everything? Or does that MR still stick around
-> > forever too?
-> 
-> It is a combination of uAPI and HW specification.
-> 
-> revoke here means you take a MR object and tell it to stop doing DMA
-> without causing the MR object to be destructed.
-> 
-> All the drivers can of course destruct the MR, but doing such a
-> destruction without explicit synchronization with user space opens
-> things up to a serious use-after potential that could be a security
-> issue.
-> 
-> When the open handle closes the userspace is synchronized with the
-> kernel and we can destruct the HW objects safely.
-> 
-> So, the special HW feature required is 'stop doing DMA but keep the
-> object in an error state' which isn't really implemented, and doesn't
-> extend very well to other object types beyond simple MRs.
-
-Yeah revoke without destroying the MR doesn't work, and it sounds like
-revoke by destroying the MR just moves the can of worms around to another
-place.
-
-> > 1. User A opens gaudi device, sets up dma-buf export
+> > This kind of stuff must be documented in kerneldoc comments. Please use
+> > the inline struct member format.
 > > 
-> > 2. User A registers that with RDMA, or anything else that doesn't support
-> > revoke.
-> > 
-> > 3. User A closes gaudi device
-> > 
-> > 4. User B opens gaudi device, assumes that it has full control over the
-> > device and uploads some secrets, which happen to end up in the dma-buf
-> > region user A set up
 > 
-> I would expect this is blocked so long as the DMABUF exists - eg the
-> DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
-> that #3 can't actually happen.
+> Forgot to include kerneldoc for this new field, will add.
 > 
-> > It's not mlocked memory, it's mlocked memory and I can exfiltrate
-> > it.
+> > Also please document the other fields in that struct, cant hurt :-)
 > 
-> That's just bug, don't make buggy drivers :)
+> I'll see what I can do but I didn't write this code and may not fully
+> understand all the fields off hand.
 
-Well yeah, but given that habanalabs hand rolled this I can't just check
-for the usual things we have to enforce this in drm. And generally you can
-just open chardevs arbitrarily, and multiple users fighting over each
-another. The troubles only start when you have private state or memory
-allocations of some kind attached to the struct file (instead of the
-underlying device), or something else that requires device exclusivity.
-There's no standard way to do that.
-
-Plus in many cases you really want revoke on top (can't get that here
-unfortunately it seems), and the attempts to get towards a generic
-revoke() just never went anywhere. So again it's all hand-rolled
-per-subsystem. *insert lament about us not having done this through a
-proper subsystem*
-
-Anyway it sounds like the code takes care of that.
+Yeah sprinkling FIXME and stuff like that in or leaving it blank if it's
+completely unknown is fine.
 -Daniel
+
+> 
+> Matt
+> 
+> > -Daniel
+> > 
+> > > 
+> > > Matt
+> > > 
+> > > > Dave.
+> > > > 
+> > > > >
+> > > > > Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+> > > > > Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+> > > > > Signed-off-by: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
+> > > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+> > > > > ---
+> > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c | 18 +++++++++---------
+> > > > >  drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h |  2 ++
+> > > > >  2 files changed, 11 insertions(+), 9 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > > index 3a16d08608a5..f632dbd32b42 100644
+> > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> > > > > @@ -413,20 +413,20 @@ static void uc_fw_bind_ggtt(struct intel_uc_fw *uc_fw)
+> > > > >  {
+> > > > >         struct drm_i915_gem_object *obj = uc_fw->obj;
+> > > > >         struct i915_ggtt *ggtt = __uc_fw_to_gt(uc_fw)->ggtt;
+> > > > > -       struct i915_vma dummy = {
+> > > > > -               .node.start = uc_fw_ggtt_offset(uc_fw),
+> > > > > -               .node.size = obj->base.size,
+> > > > > -               .pages = obj->mm.pages,
+> > > > > -               .vm = &ggtt->vm,
+> > > > > -       };
+> > > > > +       struct i915_vma *dummy = &uc_fw->dummy;
+> > > > > +
+> > > > > +       dummy->node.start = uc_fw_ggtt_offset(uc_fw);
+> > > > > +       dummy->node.size = obj->base.size;
+> > > > > +       dummy->pages = obj->mm.pages;
+> > > > > +       dummy->vm = &ggtt->vm;
+> > > > >
+> > > > >         GEM_BUG_ON(!i915_gem_object_has_pinned_pages(obj));
+> > > > > -       GEM_BUG_ON(dummy.node.size > ggtt->uc_fw.size);
+> > > > > +       GEM_BUG_ON(dummy->node.size > ggtt->uc_fw.size);
+> > > > >
+> > > > >         /* uc_fw->obj cache domains were not controlled across suspend */
+> > > > > -       drm_clflush_sg(dummy.pages);
+> > > > > +       drm_clflush_sg(dummy->pages);
+> > > > >
+> > > > > -       ggtt->vm.insert_entries(&ggtt->vm, &dummy, I915_CACHE_NONE, 0);
+> > > > > +       ggtt->vm.insert_entries(&ggtt->vm, dummy, I915_CACHE_NONE, 0);
+> > > > >  }
+> > > > >
+> > > > >  static void uc_fw_unbind_ggtt(struct intel_uc_fw *uc_fw)
+> > > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > > index 99bb1fe1af66..693cc0ebcd63 100644
+> > > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.h
+> > > > > @@ -10,6 +10,7 @@
+> > > > >  #include "intel_uc_fw_abi.h"
+> > > > >  #include "intel_device_info.h"
+> > > > >  #include "i915_gem.h"
+> > > > > +#include "i915_vma.h"
+> > > > >
+> > > > >  struct drm_printer;
+> > > > >  struct drm_i915_private;
+> > > > > @@ -75,6 +76,7 @@ struct intel_uc_fw {
+> > > > >         bool user_overridden;
+> > > > >         size_t size;
+> > > > >         struct drm_i915_gem_object *obj;
+> > > > > +       struct i915_vma dummy;
+> > > > >
+> > > > >         /*
+> > > > >          * The firmware build process will generate a version header file with major and
+> > > > > --
+> > > > > 2.32.0
+> > > > >
+> > 
+> > -- 
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
+
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
