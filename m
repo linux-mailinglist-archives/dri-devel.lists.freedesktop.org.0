@@ -2,54 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1826440EE97
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 03:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D53040EE9A
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 03:09:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C4F9F6EA8D;
-	Fri, 17 Sep 2021 01:08:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F19546EA9D;
+	Fri, 17 Sep 2021 01:09:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
- [IPv6:2607:f8b0:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D2386EA7E
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 01:08:49 +0000 (UTC)
-Received: by mail-pf1-x432.google.com with SMTP id g14so7645970pfm.1
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:08:49 -0700 (PDT)
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com
+ [IPv6:2607:f8b0:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A45C86EA8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 01:08:50 +0000 (UTC)
+Received: by mail-pf1-x434.google.com with SMTP id g14so7646014pfm.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:08:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=k7TDgLUtOHBlPYUwP/BRzfIzeeouh//eK65GeOs/m5Y=;
- b=AluX33+rQjBduXn/aJwWKcOQww/QkGfpC5riFf2LNJI48ARs6F3gTqoJo+N7B8ovlt
- /SfKlovgvA142iQ2532a9TYQNQq7+l3F3u7Q0Hwwzw2oqXar2eI43czHFBOz7dhYat/Y
- uqHKF7o9aC3ZkjJKd+4P7pV7wludxbEA0VTaA=
+ bh=ln+m4xMbLaEfjLCbTGtmsQnjnOaIiNkeJZsHqfNFaCI=;
+ b=APeMgZl/CBjAI994q4qjixFSiLXIc8pWcEQNUXvVsGW6AgR/9fNpaa8JJbiQ7QI0C0
+ 26fDxxzbFcBU4ZgCuwvou7fw1GZYDXWMsLXlbZ6VYk2WIq6kgScME5bit8sYx2rLxnro
+ dXCsqi+E3lN7rtFEhzRXkzelU89hu3LDdRrJY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=k7TDgLUtOHBlPYUwP/BRzfIzeeouh//eK65GeOs/m5Y=;
- b=65GabKjYYUxcfOTf+fFBeLpZ/CMr3nwBkDlrzM0KBHseiFv2fz/wq46yG3dH7Sb1mD
- z9X6H5HosvhLurF6GGzuRSankAfVD3d21O1fQqSX/pvCI+p4FHKtmetX/W/OOE/t/Ylz
- bZ82aryerI4FZwx/PG8ynfRvV7C5ZbsDqrbI5PD4eTn2meZA8iW9cI19r3oSeLao46SF
- UqG7n8fNym/eHo/a+TeS4WlaV3SCXAQHUZuI3K4BFrjyieLwIR3VQ5F26P74lHz28ja6
- wZw2xgJCGig3/X2YT/Gytgg0oueIP26icvZPgG6XJ19uKmuqqFicnjm5hOg8oa0OmU6w
- PhXw==
-X-Gm-Message-State: AOAM532nqiBP7mo0uNpW4j+4+FGAqV8+CYORKJhfzh4nXN5lwr9aC1nP
- MaVdLqE1ZQyoLQUqjkbNGuB/PfjnRgyH8ABE
-X-Google-Smtp-Source: ABdhPJxM6Jc4d6rYEvhqjdJJ6dOmLd/5RWoQVv97z40vF9UdtEsPeSSxyH3UFNBXaX7MsekPXDmykw==
-X-Received: by 2002:a65:4008:: with SMTP id f8mr7367809pgp.310.1631840928855; 
- Thu, 16 Sep 2021 18:08:48 -0700 (PDT)
+ bh=ln+m4xMbLaEfjLCbTGtmsQnjnOaIiNkeJZsHqfNFaCI=;
+ b=o3mgnTmlEv3CJ5h64Q94dbdQdUiDVaTpP/URqJCyYw9Ffh5EOr4YdHFB4UH12y0diL
+ TnINlVTC/Nvc5ezfEex5//3qk3VXRTlQzPNCgDqNCk9oOUVNcynRXukwqH2QSOLN/g9j
+ WzC44MX9n2W+yAImQSMs2dg3Dq4/5mLD+cz+S8q15kFAvQwsYqrSlaz+kI0tzxIoLuZk
+ SDkuJVcjXmnD9sHBu7D7skrewinUlOwohfZhbaRuTIYTcBwsnaBNQ8HcdEsf2zGVwTrn
+ jtq0nwOfzoJPS3GiJZ4CHMhMVyi4Rqlsx1b1y0z4x5pJ3dtRVkG90EBPaQ9xrjp9lIlX
+ x6FA==
+X-Gm-Message-State: AOAM531ycS2s5QWCe1rseuL9eIVpQeynyM1K/zWHAs3sF+3zILdp0oI+
+ g4iw07Vp5SM18kC6ZfK3DNm+7vB7D8sodm2c
+X-Google-Smtp-Source: ABdhPJzLq4BLNBGePGUzJ8cThs+zcDijNnBg/l1GD7ik8owqn6lm524im2jfXY5YPfNap3NE7ZH7MA==
+X-Received: by 2002:a63:be0e:: with SMTP id l14mr7369961pgf.363.1631840929880; 
+ Thu, 16 Sep 2021 18:08:49 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:dc20:9a88:c41:f0dd])
  by smtp.gmail.com with ESMTPSA id v4sm4215812pff.11.2021.09.16.18.08.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 18:08:48 -0700 (PDT)
+ Thu, 16 Sep 2021 18:08:49 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
 Cc: kraxel@redhat.com
-Subject: [PATCH v2 04/12] drm/virtio: implement context init: probe for feature
-Date: Thu, 16 Sep 2021 18:08:34 -0700
-Message-Id: <20210917010842.503-5-gurchetansingh@chromium.org>
+Subject: [PATCH v2 05/12] drm/virtio: implement context init: support init
+ ioctl
+Date: Thu, 16 Sep 2021 18:08:35 -0700
+Message-Id: <20210917010842.503-6-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210917010842.503-1-gurchetansingh@chromium.org>
 References: <20210917010842.503-1-gurchetansingh@chromium.org>
@@ -72,81 +73,204 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
 
-Let's probe for VIRTIO_GPU_F_CONTEXT_INIT.
+This implements the context initialization ioctl.  A list of params
+is passed in by userspace, and kernel driver validates them.  The
+only currently supported param is VIRTGPU_CONTEXT_PARAM_CAPSET_ID.
 
-Create a new DRM_INFO(..) line since the current one is getting
-too long.
+If the context has already been initialized, -EEXIST is returned.
+This happens after Linux userspace does dumb_create + followed by
+opening the Mesa virgl driver with the same virtgpu instance.
+
+However, for most applications, 3D contexts will be explicitly
+initialized when the feature is available.
 
 Signed-off-by: Anthoine Bourgeois <anthoine.bourgeois@gmail.com>
 Acked-by: Lingfeng Yang <lfy@google.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_debugfs.c | 1 +
- drivers/gpu/drm/virtio/virtgpu_drv.c     | 1 +
- drivers/gpu/drm/virtio/virtgpu_drv.h     | 1 +
- drivers/gpu/drm/virtio/virtgpu_kms.c     | 8 +++++++-
- 4 files changed, 10 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   |  6 +-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 96 ++++++++++++++++++++++++--
+ drivers/gpu/drm/virtio/virtgpu_vq.c    |  4 +-
+ 3 files changed, 98 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/gpu/drm/virtio/virtgpu_debugfs.c b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-index c2b20e0ee030..b6954e2f75e6 100644
---- a/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_debugfs.c
-@@ -52,6 +52,7 @@ static int virtio_gpu_features(struct seq_file *m, void *data)
- 			    vgdev->has_resource_assign_uuid);
- 
- 	virtio_gpu_add_bool(m, "blob resources", vgdev->has_resource_blob);
-+	virtio_gpu_add_bool(m, "context init", vgdev->has_context_init);
- 	virtio_gpu_add_int(m, "cap sets", vgdev->num_capsets);
- 	virtio_gpu_add_int(m, "scanouts", vgdev->num_scanouts);
- 	if (vgdev->host_visible_region.len) {
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index ed85a7863256..9d963f1fda8f 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -172,6 +172,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_EDID,
- 	VIRTIO_GPU_F_RESOURCE_UUID,
- 	VIRTIO_GPU_F_RESOURCE_BLOB,
-+	VIRTIO_GPU_F_CONTEXT_INIT,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 3023e16be0d6..5e1958a522ff 100644
+index 5e1958a522ff..9996abf60e3a 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -236,6 +236,7 @@ struct virtio_gpu_device {
- 	bool has_resource_assign_uuid;
- 	bool has_resource_blob;
- 	bool has_host_visible;
-+	bool has_context_init;
- 	struct virtio_shm_region host_visible_region;
- 	struct drm_mm host_visible_mm;
+@@ -259,12 +259,13 @@ struct virtio_gpu_device {
  
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 58a65121c200..21f410901694 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -191,13 +191,19 @@ int virtio_gpu_init(struct drm_device *dev)
- 			    (unsigned long)vgdev->host_visible_region.addr,
- 			    (unsigned long)vgdev->host_visible_region.len);
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_CONTEXT_INIT)) {
-+		vgdev->has_context_init = true;
-+	}
+ struct virtio_gpu_fpriv {
+ 	uint32_t ctx_id;
++	uint32_t context_init;
+ 	bool context_created;
+ 	struct mutex context_lock;
+ };
  
--	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible\n",
-+	DRM_INFO("features: %cvirgl %cedid %cresource_blob %chost_visible",
- 		 vgdev->has_virgl_3d    ? '+' : '-',
- 		 vgdev->has_edid        ? '+' : '-',
- 		 vgdev->has_resource_blob ? '+' : '-',
- 		 vgdev->has_host_visible ? '+' : '-');
+ /* virtgpu_ioctl.c */
+-#define DRM_VIRTIO_NUM_IOCTLS 11
++#define DRM_VIRTIO_NUM_IOCTLS 12
+ extern struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+ void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file);
  
-+	DRM_INFO("features: %ccontext_init\n",
-+		 vgdev->has_context_init ? '+' : '-');
+@@ -342,7 +343,8 @@ int virtio_gpu_cmd_get_capset(struct virtio_gpu_device *vgdev,
+ 			      struct virtio_gpu_drv_cap_cache **cache_p);
+ int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev);
+ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+-				   uint32_t nlen, const char *name);
++				   uint32_t context_init, uint32_t nlen,
++				   const char *name);
+ void virtio_gpu_cmd_context_destroy(struct virtio_gpu_device *vgdev,
+ 				    uint32_t id);
+ void virtio_gpu_cmd_context_attach_resource(struct virtio_gpu_device *vgdev,
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 5c1ad1596889..f5281d1e30e1 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -38,20 +38,30 @@
+ 				    VIRTGPU_BLOB_FLAG_USE_SHAREABLE | \
+ 				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE)
+ 
++/* Must be called with &virtio_gpu_fpriv.struct_mutex held. */
++static void virtio_gpu_create_context_locked(struct virtio_gpu_device *vgdev,
++					     struct virtio_gpu_fpriv *vfpriv)
++{
++	char dbgname[TASK_COMM_LEN];
 +
- 	ret = virtio_find_vqs(vgdev->vdev, 2, vqs, callbacks, names, NULL);
- 	if (ret) {
- 		DRM_ERROR("failed to find virt queues\n");
++	get_task_comm(dbgname, current);
++	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
++				      vfpriv->context_init, strlen(dbgname),
++				      dbgname);
++
++	vfpriv->context_created = true;
++}
++
+ void virtio_gpu_create_context(struct drm_device *dev, struct drm_file *file)
+ {
+ 	struct virtio_gpu_device *vgdev = dev->dev_private;
+ 	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
+-	char dbgname[TASK_COMM_LEN];
+ 
+ 	mutex_lock(&vfpriv->context_lock);
+ 	if (vfpriv->context_created)
+ 		goto out_unlock;
+ 
+-	get_task_comm(dbgname, current);
+-	virtio_gpu_cmd_context_create(vgdev, vfpriv->ctx_id,
+-				      strlen(dbgname), dbgname);
+-	vfpriv->context_created = true;
++	virtio_gpu_create_context_locked(vgdev, vfpriv);
+ 
+ out_unlock:
+ 	mutex_unlock(&vfpriv->context_lock);
+@@ -662,6 +672,79 @@ static int virtio_gpu_resource_create_blob_ioctl(struct drm_device *dev,
+ 	return 0;
+ }
+ 
++static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
++					 void *data, struct drm_file *file)
++{
++	int ret = 0;
++	uint32_t num_params, i, param, value;
++	size_t len;
++	struct drm_virtgpu_context_set_param *ctx_set_params = NULL;
++	struct virtio_gpu_device *vgdev = dev->dev_private;
++	struct virtio_gpu_fpriv *vfpriv = file->driver_priv;
++	struct drm_virtgpu_context_init *args = data;
++
++	num_params = args->num_params;
++	len = num_params * sizeof(struct drm_virtgpu_context_set_param);
++
++	if (!vgdev->has_context_init || !vgdev->has_virgl_3d)
++		return -EINVAL;
++
++	/* Number of unique parameters supported at this time. */
++	if (num_params > 1)
++		return -EINVAL;
++
++	ctx_set_params = memdup_user(u64_to_user_ptr(args->ctx_set_params),
++				     len);
++
++	if (IS_ERR(ctx_set_params))
++		return PTR_ERR(ctx_set_params);
++
++	mutex_lock(&vfpriv->context_lock);
++	if (vfpriv->context_created) {
++		ret = -EEXIST;
++		goto out_unlock;
++	}
++
++	for (i = 0; i < num_params; i++) {
++		param = ctx_set_params[i].param;
++		value = ctx_set_params[i].value;
++
++		switch (param) {
++		case VIRTGPU_CONTEXT_PARAM_CAPSET_ID:
++			if (value > MAX_CAPSET_ID) {
++				ret = -EINVAL;
++				goto out_unlock;
++			}
++
++			if ((vgdev->capset_id_mask & (1 << value)) == 0) {
++				ret = -EINVAL;
++				goto out_unlock;
++			}
++
++			/* Context capset ID already set */
++			if (vfpriv->context_init &
++			    VIRTIO_GPU_CONTEXT_INIT_CAPSET_ID_MASK) {
++				ret = -EINVAL;
++				goto out_unlock;
++			}
++
++			vfpriv->context_init |= value;
++			break;
++		default:
++			ret = -EINVAL;
++			goto out_unlock;
++		}
++	}
++
++	virtio_gpu_create_context_locked(vgdev, vfpriv);
++	virtio_gpu_notify(vgdev);
++
++out_unlock:
++	mutex_unlock(&vfpriv->context_lock);
++	kfree(ctx_set_params);
++	return ret;
++}
++
+ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
+ 	DRM_IOCTL_DEF_DRV(VIRTGPU_MAP, virtio_gpu_map_ioctl,
+ 			  DRM_RENDER_ALLOW),
+@@ -698,4 +781,7 @@ struct drm_ioctl_desc virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS] = {
+ 	DRM_IOCTL_DEF_DRV(VIRTGPU_RESOURCE_CREATE_BLOB,
+ 			  virtio_gpu_resource_create_blob_ioctl,
+ 			  DRM_RENDER_ALLOW),
++
++	DRM_IOCTL_DEF_DRV(VIRTGPU_CONTEXT_INIT, virtio_gpu_context_init_ioctl,
++			  DRM_RENDER_ALLOW),
+ };
+diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
+index 2e71e91278b4..496f8ce4cd41 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_vq.c
++++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
+@@ -917,7 +917,8 @@ int virtio_gpu_cmd_get_edids(struct virtio_gpu_device *vgdev)
+ }
+ 
+ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+-				   uint32_t nlen, const char *name)
++				   uint32_t context_init, uint32_t nlen,
++				   const char *name)
+ {
+ 	struct virtio_gpu_ctx_create *cmd_p;
+ 	struct virtio_gpu_vbuffer *vbuf;
+@@ -928,6 +929,7 @@ void virtio_gpu_cmd_context_create(struct virtio_gpu_device *vgdev, uint32_t id,
+ 	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_CTX_CREATE);
+ 	cmd_p->hdr.ctx_id = cpu_to_le32(id);
+ 	cmd_p->nlen = cpu_to_le32(nlen);
++	cmd_p->context_init = cpu_to_le32(context_init);
+ 	strncpy(cmd_p->debug_name, name, sizeof(cmd_p->debug_name) - 1);
+ 	cmd_p->debug_name[sizeof(cmd_p->debug_name) - 1] = 0;
+ 	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
 -- 
 2.33.0.464.g1972c5931b-goog
 
