@@ -2,43 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED2940EF1B
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 04:07:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A30740EF50
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 04:33:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 674566EA56;
-	Fri, 17 Sep 2021 02:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 168A06EB16;
+	Fri, 17 Sep 2021 02:33:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from baidu.com (mx24.baidu.com [111.206.215.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id EAE6E6EA56
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 02:07:50 +0000 (UTC)
-Received: from BC-Mail-Ex12.internal.baidu.com (unknown [172.31.51.52])
- by Forcepoint Email with ESMTPS id 0D4B134AA735FED9982D;
- Fri, 17 Sep 2021 10:07:48 +0800 (CST)
-Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-Ex12.internal.baidu.com (172.31.51.52) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 17 Sep 2021 10:07:47 +0800
-Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 17 Sep 2021 10:07:47 +0800
-From: Cai Huoqing <caihuoqing@baidu.com>
-To: <caihuoqing@baidu.com>
-CC: Thierry Reding <thierry.reding@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jonathan Hunter
- <jonathanh@nvidia.com>, <dri-devel@lists.freedesktop.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2] drm/tegra: sor: Make use of the helper function
- dev_err_probe()
-Date: Fri, 17 Sep 2021 10:07:41 +0800
-Message-ID: <20210917020741.17525-1-caihuoqing@baidu.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 939096EB14;
+ Fri, 17 Sep 2021 02:33:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id BCE1A61108;
+ Fri, 17 Sep 2021 02:33:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631846018;
+ bh=V0rOTL1VXOnzu4mGUHvnH0iSCcAwtqMHazvEpiR1u3w=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=k31loUQ23T4v0P7SyfxZuwjUz3D/aeEJUESduCRMwVLPVHJH5hg2liTCMEX9NWHWq
+ BXqze0LKzbirERLUFeS9xgDrulztyfSAD3NGLRLXg5EBKq3dh5fvGh5XmC2HHzHs8Z
+ AyEoQ7/VrVmSb2HaDxNpssEKvQJZhGR5t8sd/m/dsmCa3qTQPAr9fwNaR4EvIDVaYC
+ s2HVhIHSX9MLVfmSJvDoPzlopnNcvBOIJnFy5HAE8pp2OYql/ODdJmWs2IiKhzoeZi
+ wCUDS5N9CQnfPphbdEqPLGUxjufVWmolUdEOyHRM0urxoWaJQHiohe3POXaeSpI3ff
+ d6kqgLqapzA/g==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Luben Tuikov <luben.tuikov@amd.com>, John Clements <john.clements@amd.com>,
+ Hawking Zhang <Hawking.Zhang@amd.com>,
+ Alex Deucher <Alexander.Deucher@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, ray.huang@amd.com, Feifei.Xu@amd.com,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 04/21] drm/amdgpu: Fixes to returning VBIOS RAS
+ EEPROM address
+Date: Thu, 16 Sep 2021 22:32:58 -0400
+Message-Id: <20210917023315.816225-4-sashal@kernel.org>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210917023315.816225-1-sashal@kernel.org>
+References: <20210917023315.816225-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [172.31.63.8]
-X-ClientProxiedBy: BJHW-Mail-Ex16.internal.baidu.com (10.127.64.39) To
- BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42)
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,69 +60,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-When possible use dev_err_probe help to properly deal with the
-PROBE_DEFER error, the benefit is that DEFER issue will be logged
-in the devices_deferred debugfs file.
-And using dev_err_probe() can reduce code size, the error value
-gets printed.
+From: Luben Tuikov <luben.tuikov@amd.com>
 
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+[ Upstream commit a6a355a22f7a0efa6a11bc90b5161f394d51fe95 ]
+
+1) Generalize the function--if the user didn't set
+   i2c_address, still return true/false to
+   indicate whether VBIOS contains the RAS EEPROM
+   address.  This function shouldn't evaluate
+   whether the user set the i2c_address pointer or
+   not.
+
+2) Don't touch the caller's i2c_address, unless
+   you have to--this function shouldn't have side
+   effects.
+
+3) Correctly set the function comment as a
+   kernel-doc comment.
+
+Cc: John Clements <john.clements@amd.com>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Alex Deucher <Alexander.Deucher@amd.com>
+Signed-off-by: Luben Tuikov <luben.tuikov@amd.com>
+Reviewed-by: Alex Deucher <Alexander.Deucher@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-v1->v2: Fix compile error-add ';'
+ .../gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c  | 50 ++++++++++++-------
+ 1 file changed, 33 insertions(+), 17 deletions(-)
 
- drivers/gpu/drm/tegra/sor.c | 24 +++++++++---------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
-
-diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
-index 0ea320c1092b..d7964e498da9 100644
---- a/drivers/gpu/drm/tegra/sor.c
-+++ b/drivers/gpu/drm/tegra/sor.c
-@@ -2964,11 +2964,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
- 	int err;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
+index 8f53837d4d3e..97178b307ed6 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atomfirmware.c
+@@ -468,14 +468,18 @@ bool amdgpu_atomfirmware_dynamic_boot_config_supported(struct amdgpu_device *ade
+ 	return (fw_cap & ATOM_FIRMWARE_CAP_DYNAMIC_BOOT_CFG_ENABLE) ? true : false;
+ }
  
- 	sor->avdd_io_supply = devm_regulator_get(sor->dev, "avdd-io-hdmi-dp");
--	if (IS_ERR(sor->avdd_io_supply)) {
--		dev_err(sor->dev, "cannot get AVDD I/O supply: %ld\n",
--			PTR_ERR(sor->avdd_io_supply));
--		return PTR_ERR(sor->avdd_io_supply);
--	}
-+	if (IS_ERR(sor->avdd_io_supply))
-+		return dev_err_probe(sor->dev, PTR_ERR(sor->avdd_io_supply),
-+				     "cannot get AVDD I/O supply\n");
+-/*
+- * Helper function to query RAS EEPROM address
+- *
+- * @adev: amdgpu_device pointer
++/**
++ * amdgpu_atomfirmware_ras_rom_addr -- Get the RAS EEPROM addr from VBIOS
++ * adev: amdgpu_device pointer
++ * i2c_address: pointer to u8; if not NULL, will contain
++ *    the RAS EEPROM address if the function returns true
+  *
+- * Return true if vbios supports ras rom address reporting
++ * Return true if VBIOS supports RAS EEPROM address reporting,
++ * else return false. If true and @i2c_address is not NULL,
++ * will contain the RAS ROM address.
+  */
+-bool amdgpu_atomfirmware_ras_rom_addr(struct amdgpu_device *adev, uint8_t* i2c_address)
++bool amdgpu_atomfirmware_ras_rom_addr(struct amdgpu_device *adev,
++				      u8 *i2c_address)
+ {
+ 	struct amdgpu_mode_info *mode_info = &adev->mode_info;
+ 	int index;
+@@ -483,27 +487,39 @@ bool amdgpu_atomfirmware_ras_rom_addr(struct amdgpu_device *adev, uint8_t* i2c_a
+ 	union firmware_info *firmware_info;
+ 	u8 frev, crev;
  
- 	err = tegra_sor_enable_regulator(sor, sor->avdd_io_supply);
- 	if (err < 0) {
-@@ -2978,11 +2976,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
+-	if (i2c_address == NULL)
+-		return false;
+-
+-	*i2c_address = 0;
+-
+ 	index = get_index_into_master_table(atom_master_list_of_data_tables_v2_1,
+-			firmwareinfo);
++					    firmwareinfo);
+ 
+ 	if (amdgpu_atom_parse_data_header(adev->mode_info.atom_context,
+-				index, &size, &frev, &crev, &data_offset)) {
++					  index, &size, &frev, &crev,
++					  &data_offset)) {
+ 		/* support firmware_info 3.4 + */
+ 		if ((frev == 3 && crev >=4) || (frev > 3)) {
+ 			firmware_info = (union firmware_info *)
+ 				(mode_info->atom_context->bios + data_offset);
+-			*i2c_address = firmware_info->v34.ras_rom_i2c_slave_addr;
++			/* The ras_rom_i2c_slave_addr should ideally
++			 * be a 19-bit EEPROM address, which would be
++			 * used as is by the driver; see top of
++			 * amdgpu_eeprom.c.
++			 *
++			 * When this is the case, 0 is of course a
++			 * valid RAS EEPROM address, in which case,
++			 * we'll drop the first "if (firm...)" and only
++			 * leave the check for the pointer.
++			 *
++			 * The reason this works right now is because
++			 * ras_rom_i2c_slave_addr contains the EEPROM
++			 * device type qualifier 1010b in the top 4
++			 * bits.
++			 */
++			if (firmware_info->v34.ras_rom_i2c_slave_addr) {
++				if (i2c_address)
++					*i2c_address = firmware_info->v34.ras_rom_i2c_slave_addr;
++				return true;
++			}
+ 		}
  	}
  
- 	sor->vdd_pll_supply = devm_regulator_get(sor->dev, "vdd-hdmi-dp-pll");
--	if (IS_ERR(sor->vdd_pll_supply)) {
--		dev_err(sor->dev, "cannot get VDD PLL supply: %ld\n",
--			PTR_ERR(sor->vdd_pll_supply));
--		return PTR_ERR(sor->vdd_pll_supply);
--	}
-+	if (IS_ERR(sor->vdd_pll_supply))
-+		return dev_err_probe(sor->dev, PTR_ERR(sor->vdd_pll_supply),
-+				     "cannot get VDD PLL supply\n");
+-	if (*i2c_address != 0)
+-		return true;
+-
+ 	return false;
+ }
  
- 	err = tegra_sor_enable_regulator(sor, sor->vdd_pll_supply);
- 	if (err < 0) {
-@@ -2992,11 +2988,9 @@ static int tegra_sor_hdmi_probe(struct tegra_sor *sor)
- 	}
- 
- 	sor->hdmi_supply = devm_regulator_get(sor->dev, "hdmi");
--	if (IS_ERR(sor->hdmi_supply)) {
--		dev_err(sor->dev, "cannot get HDMI supply: %ld\n",
--			PTR_ERR(sor->hdmi_supply));
--		return PTR_ERR(sor->hdmi_supply);
--	}
-+	if (IS_ERR(sor->hdmi_supply))
-+		return dev_err_probe(sor->dev, PTR_ERR(sor->hdmi_supply),
-+				     "cannot get HDMI supply\n");
- 
- 	err = tegra_sor_enable_regulator(sor, sor->hdmi_supply);
- 	if (err < 0) {
 -- 
-2.25.1
+2.30.2
 
