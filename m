@@ -1,79 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 243144101AF
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 01:22:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311774101B3
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 01:29:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C35E46EE98;
-	Fri, 17 Sep 2021 23:21:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8942C6EEA1;
+	Fri, 17 Sep 2021 23:29:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB9366EE98;
- Fri, 17 Sep 2021 23:21:54 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 863CF2B00971;
- Fri, 17 Sep 2021 19:21:53 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 17 Sep 2021 19:21:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=9D1TvVjqqwgGetcBxSubPdthhs2
- qP2/L39fbHUN1dhg=; b=icvXUUhsZiTbYQL+UTHGxJkFbsfkRzRd9zXqXNqF0Pq
- Yyft55LMFcsAjXmAMRyF1A6r97yyo/ATgGnQ59ZOA56zNetCyoSLOWWsV1X+v6K9
- qnPiyKZ6sscWFQI7BDKzyd07QA3Gbj6ALlxL5osSZp3P1EdTw7N+zQkSfRAu2rn3
- GlZ0uhOh4KveCTJRPk+LpWSfgQ1Xy+tmDq4u4ZwRd/lTvV9RMDAs/pvnJQc0SQZE
- 42JeBDnQeeSYQnKLBBUbr3wasz+N6txMrAsilyaLR7hdYtgup5LC8n77giNJFKM/
- 7DkW0bManZUgEdGpTxv4iU4+ZXBnnIXgR3bdpbSrMAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=9D1TvV
- jqqwgGetcBxSubPdthhs2qP2/L39fbHUN1dhg=; b=LLSUGVTj888HafrCp5tZJ4
- OjpyCTAHfGymnGaJ95AGUkK9Vsn+Y44XkW1cDGf9h9YE+tCX5ePjPp++CVIXrlJv
- OtWIf2wbSVDdxr24UPC3fnxs0AKUtK9GAY+MTIrRglK+TlvByFXYYA8cFsXcLP0l
- Zs46gC19S75xYiRiondJMTMklM3GHx2FcvFcsggljO7cEdHzyaM57vbRys7CoYQt
- IYNsZyH9BgSgzyKA2NiIQHNeETN7+jNJAU994bUe6UzpTCxjAAKzSFlRJxUKpZjd
- XGfTNFRTkFBbro4lsZBRfMfOVlUemK86Hh1xgpEojdvTfAQMosFceT9UNGM3HwBw
- ==
-X-ME-Sender: <xms:ECNFYf2AeexzJ6ACMFSdIfbY5eEbF_Cc2EBmJioiwerfS3sbWHbBzQ>
- <xme:ECNFYeFV0XB_kyVZuIL3gDCkHlJKA9oliZNRs61PT1ws_tH5DWJZAun9WeeTqNuin
- AJeRfpLH24gVdio9w>
-X-ME-Received: <xmr:ECNFYf4OFl0ohAw5b9lAH_NTdUEi83EiO-abc1np6ih4MqktclUsqhSqo-HsvHvmK8tY7E-n>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgvdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
- nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
- gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
- heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
- gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:ECNFYU0C6M7ROTHINOrKLFicmRrOc54MXpjbCNB8W9v1C-Y_mHtUCg>
- <xmx:ECNFYSHtGazCRU7_Mh9D32hqGosKvR1D0_Kf7ZhDAscX5QIleiVMTg>
- <xmx:ECNFYV85aEvgfkcDgBu137LQFDm1UK7ytQb-FPgMLALM_VFKarLYJQ>
- <xmx:ESNFYVBQ5mCdH7PoNQ4187ntV2s52SA_JVha30z4b_KwS6hENpVY6pR7JZ8>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 19:21:49 -0400 (EDT)
-Date: Sat, 18 Sep 2021 01:21:47 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 15/15] doc: drm: remove TODO entry regarding
- DRM_MODSET_LOCK_ALL cleanup
-Message-ID: <YUUjC5MhADgMs3aw@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-16-greenfoo@u92.eu>
- <20210917155652.GP2515@art_vandelay>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AE0E6EEA0;
+ Fri, 17 Sep 2021 23:29:14 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="221013093"
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="221013093"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 16:29:13 -0700
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="652021709"
+Received: from yseah-mobl.gar.corp.intel.com (HELO ldmartin-desk2)
+ ([10.252.130.247])
+ by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 16:29:13 -0700
+Date: Fri, 17 Sep 2021 16:29:13 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matthew Auld <matthew.auld@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, Tomas Winkler <tomas.winkler@intel.com>
+Subject: Re: [Intel-gfx] [PATCH 13/19] drm/i915/dg1: Read OPROM via SPI
+ controller
+Message-ID: <20210917232913.hbvwec77u5hjp74a@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210412090526.30547-1-matthew.auld@intel.com>
+ <20210412090526.30547-14-matthew.auld@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20210917155652.GP2515@art_vandelay>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210412090526.30547-14-matthew.auld@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +53,168 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> Can we remove drm_modeset_lock_all[_ctx] now? If so, let's queue that up as part
-> of the set.
-> 
+On Mon, Apr 12, 2021 at 10:05:20AM +0100, Matthew Auld wrote:
+>From: Clint Taylor <clinton.a.taylor@intel.com>
+>
+>Read OPROM SPI through MMIO and find VBT entry since we can't use
+>OpRegion and PCI mapping may not work on some systems due to the BIOS
+>not leaving the Option ROM mapped.
 
-drm_modeset_lock_all() and drm_modeset_unlock_all() can be removed (I'll do that
-on v2 of this patch series).
+I was surprised to see we still don't have this patch applied. There is
+some coding style to fix, but if we don't have it we are basically
+relying on the fallback of using a fake/hardcoded vbt. I will do some
+fixups and re-submit.
 
-drm_modset_lock_all_ctx() is a different story and there are still two places
-(one in the i915 driver and another one in the amd driver) where they are
-needed.
+Lucas De Marchi
 
-I would need to understand the code better before trying to remove those :)
+>
+>v2 by Jani:
+>- switch to intel_uncore_read/intel_uncore_write
+>
+>Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+>Cc: Tomas Winkler <tomas.winkler@intel.com>
+>Cc: Jon Bloomfield <jon.bloomfield@intel.com>
+>Signed-off-by: Clint Taylor <clinton.a.taylor@intel.com>
+>Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+>---
+> drivers/gpu/drm/i915/display/intel_bios.c | 80 +++++++++++++++++++++--
+> drivers/gpu/drm/i915/i915_reg.h           |  8 +++
+> 2 files changed, 82 insertions(+), 6 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+>index ea4837d485a1..f9dc651f1652 100644
+>--- a/drivers/gpu/drm/i915/display/intel_bios.c
+>+++ b/drivers/gpu/drm/i915/display/intel_bios.c
+>@@ -2238,6 +2238,66 @@ bool intel_bios_is_valid_vbt(const void *buf, size_t size)
+> 	return vbt;
+> }
+>
+>+static struct vbt_header *spi_oprom_get_vbt(struct drm_i915_private *i915)
+>+{
+>+	u32 count, data, found, store = 0;
+>+	u32 static_region, oprom_offset;
+>+	u32 oprom_size = 0x200000;
+>+	u16 vbt_size;
+>+	u32 *vbt;
+>+
+>+	static_region = intel_uncore_read(&i915->uncore, SPI_STATIC_REGIONS);
+>+	static_region &= OPTIONROM_SPI_REGIONID_MASK;
+>+	intel_uncore_write(&i915->uncore, PRIMARY_SPI_REGIONID, static_region);
+>+
+>+	oprom_offset = intel_uncore_read(&i915->uncore, OROM_OFFSET);
+>+	oprom_offset &= OROM_OFFSET_MASK;
+>+
+>+	for (count = 0; count < oprom_size; count += 4) {
+>+		intel_uncore_write(&i915->uncore, PRIMARY_SPI_ADDRESS, oprom_offset + count);
+>+		data = intel_uncore_read(&i915->uncore, PRIMARY_SPI_TRIGGER);
+>+
+>+		if (data == *((const u32 *)"$VBT")) {
+>+			found = oprom_offset + count;
+>+			break;
+>+		}
+>+	}
+>+
+>+	if (count >= oprom_size)
+>+		goto err_not_found;
+>+
+>+	/* Get VBT size and allocate space for the VBT */
+>+	intel_uncore_write(&i915->uncore, PRIMARY_SPI_ADDRESS, found +
+>+		   offsetof(struct vbt_header, vbt_size));
+>+	vbt_size = intel_uncore_read(&i915->uncore, PRIMARY_SPI_TRIGGER);
+>+	vbt_size &= 0xffff;
+>+
+>+	vbt = kzalloc(vbt_size, GFP_KERNEL);
+>+	if (!vbt) {
+>+		DRM_ERROR("Unable to allocate %u bytes for VBT storage\n",
+>+			  vbt_size);
+>+		goto err_not_found;
+>+	}
+>+
+>+	for (count = 0; count < vbt_size; count += 4) {
+>+		intel_uncore_write(&i915->uncore, PRIMARY_SPI_ADDRESS, found + count);
+>+		data = intel_uncore_read(&i915->uncore, PRIMARY_SPI_TRIGGER);
+>+		*(vbt + store++) = data;
+>+	}
+>+
+>+	if (!intel_bios_is_valid_vbt(vbt, vbt_size))
+>+		goto err_free_vbt;
+>+
+>+	DRM_DEBUG_KMS("Found valid VBT in SPI flash\n");
+>+
+>+	return (struct vbt_header *)vbt;
+>+
+>+err_free_vbt:
+>+	kfree(vbt);
+>+err_not_found:
+>+	return NULL;
+>+}
+>+
+> static struct vbt_header *oprom_get_vbt(struct drm_i915_private *i915)
+> {
+> 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
+>@@ -2287,6 +2347,8 @@ static struct vbt_header *oprom_get_vbt(struct drm_i915_private *i915)
+>
+> 	pci_unmap_rom(pdev, oprom);
+>
+>+	DRM_DEBUG_KMS("Found valid VBT in PCI ROM\n");
+>+
+> 	return vbt;
+>
+> err_free_vbt:
+>@@ -2321,17 +2383,23 @@ void intel_bios_init(struct drm_i915_private *i915)
+>
+> 	init_vbt_defaults(i915);
+>
+>-	/* If the OpRegion does not have VBT, look in PCI ROM. */
+>+	/*
+>+	 * If the OpRegion does not have VBT, look in SPI flash through MMIO or
+>+	 * PCI mapping
+>+	 */
+>+	if (!vbt && IS_DGFX(i915)) {
+>+		oprom_vbt = spi_oprom_get_vbt(i915);
+>+		vbt = oprom_vbt;
+>+	}
+>+
+> 	if (!vbt) {
+> 		oprom_vbt = oprom_get_vbt(i915);
+>-		if (!oprom_vbt)
+>-			goto out;
+>-
+> 		vbt = oprom_vbt;
+>-
+>-		drm_dbg_kms(&i915->drm, "Found valid VBT in PCI ROM\n");
+> 	}
+>
+>+	if (!vbt)
+>+		goto out;
+>+
+> 	bdb = get_bdb_header(vbt);
+> 	i915->vbt.version = bdb->version;
+>
+>diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+>index da73dc939e58..54ff63b86df6 100644
+>--- a/drivers/gpu/drm/i915/i915_reg.h
+>+++ b/drivers/gpu/drm/i915/i915_reg.h
+>@@ -12540,6 +12540,14 @@ enum skl_power_gate {
+> #define   DP_PIN_ASSIGNMENT_MASK(idx)		(0xf << ((idx) * 4))
+> #define   DP_PIN_ASSIGNMENT(idx, x)		((x) << ((idx) * 4))
+>
+>+#define PRIMARY_SPI_TRIGGER			_MMIO(0x102040)
+>+#define PRIMARY_SPI_ADDRESS			_MMIO(0x102080)
+>+#define PRIMARY_SPI_REGIONID			_MMIO(0x102084)
+>+#define SPI_STATIC_REGIONS			_MMIO(0x102090)
+>+#define   OPTIONROM_SPI_REGIONID_MASK		REG_GENMASK(7, 0)
+>+#define OROM_OFFSET				_MMIO(0x1020c0)
+>+#define   OROM_OFFSET_MASK			REG_GENMASK(20, 16)
+>+
+> /* This register controls the Display State Buffer (DSB) engines. */
+> #define _DSBSL_INSTANCE_BASE		0x70B00
+> #define DSBSL_INSTANCE(pipe, id)	(_DSBSL_INSTANCE_BASE + \
+>-- 
+>2.26.3
+>
+>_______________________________________________
+>Intel-gfx mailing list
+>Intel-gfx@lists.freedesktop.org
+>https://lists.freedesktop.org/mailman/listinfo/intel-gfx
