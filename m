@@ -1,61 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E82A40EE9F
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 03:09:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FC5F40EF04
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 03:59:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7EDF6EABB;
-	Fri, 17 Sep 2021 01:09:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 467636EA4C;
+	Fri, 17 Sep 2021 01:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 912E36EAAD
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 01:08:58 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id q23so5489021pfs.9
- for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:08:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=KaOr+iVjfvuShj9ZpGnmwIF4s/YFeuhDRlcjYuMJV70=;
- b=Y6xtPr0agrokN6HTFwit7/B8+jnIftK90cas3MrY4ENPle9ZwzH9Sp+TDS9Y4DjoJK
- OXzK9+VMef4bzVWzCtsH8R+vGSH4kL0pDJIDt9hEu/JMZQ7//MKaSNTFVLpP5r84wYv8
- KNmr2qmH2EB0kerzqqv+U+Jjl18v4/Y2wyRyA=
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+ [209.85.166.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A6D746EA4C
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 01:59:05 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id h20so8616841ilj.13
+ for <dri-devel@lists.freedesktop.org>; Thu, 16 Sep 2021 18:59:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KaOr+iVjfvuShj9ZpGnmwIF4s/YFeuhDRlcjYuMJV70=;
- b=UKgxGCgicVhGNG61hkHCVvI3Fm//ckU+Z/j9T8/hGqTUMSorPQ382smcgceQAr7AWg
- kx7QJ4F7S8ViUIL0/J11jV9bL1dVSrXqCqfflEWeIezKtwhfkzen3QvyksPH5sYv6Wq1
- 5rH3C4BHSzhlDEEUUgozN1xvxqRm0aiLLwXb9TDJTBrQy/kNbFQVrNM3Go6Q2lj3UUet
- HTxzv12Ms6k22+M3EzbJXcp6szIodtgELFnD6db7NcIhLTEenkEW4kTABi4+DwcSVsTX
- 1kYB18LqbRmX/oAEeXTEV2OS7wyCSqdjN5FXN6ocH+XJykDDWMO7ieQEmHfZ/RKVxz56
- Npjg==
-X-Gm-Message-State: AOAM532Vx6TmY7SYM7y01z9RO3qLELXHgXlBIa7rK/ZAb3UMaFNE/cjI
- Vhfo33HY0KHf+/8AhABRlKU26Ve9osSD8JCT
-X-Google-Smtp-Source: ABdhPJxKxMyoFXwU6sviyoWGi+RReh1dN4kQUom0FvgGQnuMusRnYi3MOuUPlmpoMxBWwzz2e4E15w==
-X-Received: by 2002:a63:2d07:: with SMTP id t7mr7627442pgt.101.1631840936942; 
- Thu, 16 Sep 2021 18:08:56 -0700 (PDT)
-Received: from gurchetansingh0.mtv.corp.google.com
- ([2620:15c:202:201:dc20:9a88:c41:f0dd])
- by smtp.gmail.com with ESMTPSA id v4sm4215812pff.11.2021.09.16.18.08.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QncgAYsEAj4J6mbF3tLEr0rEZvz4D8ZpN12NlUMUfpg=;
+ b=OoE3mfR4qwgasfF9kENv+L65RRRHSeSM+eUs86GXXB14kM+2Yr8ID4fWAeBca9hAwQ
+ cE98ebWJ1vVWgy7xLv4aaSHKgMhEQPZR/dvLQ0aj3d9XEvr1HkuyK7Vpeet9j7J5TLLS
+ ASlpeVUIMfp1sFsoCr6lcwJg7S5SH17heCsmIu2lMPhGuYjRMs67/b2FavVSEU69jwZe
+ 16k+rWo2DQpWeNFBAhqltqBwAUaRU1CLItu/hcyeJztA1a7+/goxbxcDoqbKPeo2XtDn
+ Q2J6SjgeQiY/kEgl/m6D4Rn92Rg2hqSAjQhUhrC1uTVqSXYBBgSOrqE+VmX53lP+khWU
+ ZlHg==
+X-Gm-Message-State: AOAM5307qenDk58ggMgThrPB2fkgmwZYBwZKyIinxsIvr8Pr2pNnR+7v
+ KU5+aCltTDWGK4s0CKaV8ik4nGW0qg==
+X-Google-Smtp-Source: ABdhPJy4oTaM24SB6z0pQT/ToKAlRejgZB3SLM155KVMirfdI7mWZ3F3MD1XWjhJyelSQtEkJV3ltw==
+X-Received: by 2002:a05:6e02:20c3:: with SMTP id
+ 3mr1021317ilq.269.1631843944967; 
+ Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
+Received: from robh.at.kernel.org (96-84-70-89-static.hfc.comcastbusiness.net.
+ [96.84.70.89])
+ by smtp.gmail.com with ESMTPSA id 9sm2670305ily.9.2021.09.16.18.59.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 16 Sep 2021 18:08:56 -0700 (PDT)
-From: Gurchetan Singh <gurchetansingh@chromium.org>
-To: dri-devel@lists.freedesktop.org,
-	virtio-dev@lists.oasis-open.org
-Cc: kraxel@redhat.com
-Subject: [PATCH v2 12/12] drm/virtio: implement context init: advertise
- feature to userspace
-Date: Thu, 16 Sep 2021 18:08:42 -0700
-Message-Id: <20210917010842.503-13-gurchetansingh@chromium.org>
-X-Mailer: git-send-email 2.31.0
-In-Reply-To: <20210917010842.503-1-gurchetansingh@chromium.org>
-References: <20210917010842.503-1-gurchetansingh@chromium.org>
+ Thu, 16 Sep 2021 18:59:04 -0700 (PDT)
+Received: (nullmailer pid 1610039 invoked by uid 1000);
+ Fri, 17 Sep 2021 01:58:57 -0000
+Date: Thu, 16 Sep 2021 20:58:57 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: David Airlie <airlied@linux.ie>, Jonathan Corbet <corbet@lwn.net>,
+ devicetree@vger.kernel.org, Matthias Brugger <matthias.bgg@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ Fabien Parent <fparent@baylibre.com>, linux-kernel@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Rob Herring <robh+dt@kernel.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Subject: Re: [PATCH v2 03/23] dt-bindings: arm: mediatek: mmsys: update
+ mediatek,mmsys.yaml reference
+Message-ID: <YUP2YYKTVHdvTfD+@robh.at.kernel.org>
+References: <cover.1631785820.git.mchehab+huawei@kernel.org>
+ <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a87eb079a73e8ab41cdf6e40e80b1d1f868da6bd.1631785820.git.mchehab+huawei@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,32 +74,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This advertises the context init feature to userspace, along with
-a mask of supported capabilities.
+On Thu, 16 Sep 2021 11:55:02 +0200, Mauro Carvalho Chehab wrote:
+> Changeset cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
+> renamed: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt
+> to: Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml.
+> 
+> Update its cross-reference accordingly.
+> 
+> Fixes: cba3c40d1f97 ("dt-bindings: arm: mediatek: mmsys: convert to YAML format")
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  .../devicetree/bindings/display/mediatek/mediatek,disp.txt      | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
 
-Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
-Acked-by: Lingfeng Yang <lfy@google.com>
----
- drivers/gpu/drm/virtio/virtgpu_ioctl.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-index fdaa7f3d9eeb..5618a1d5879c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
-@@ -286,6 +286,12 @@ static int virtio_gpu_getparam_ioctl(struct drm_device *dev, void *data,
- 	case VIRTGPU_PARAM_CROSS_DEVICE:
- 		value = vgdev->has_resource_assign_uuid ? 1 : 0;
- 		break;
-+	case VIRTGPU_PARAM_CONTEXT_INIT:
-+		value = vgdev->has_context_init ? 1 : 0;
-+		break;
-+	case VIRTGPU_PARAM_SUPPORTED_CAPSET_IDs:
-+		value = vgdev->capset_id_mask;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
--- 
-2.33.0.464.g1972c5931b-goog
-
+Applied, thanks!
