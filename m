@@ -2,56 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B014E40FA49
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 16:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28C8640FA52
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 16:37:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 500758919F;
-	Fri, 17 Sep 2021 14:36:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E152D6ED1E;
+	Fri, 17 Sep 2021 14:37:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 81C438919F
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 14:36:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 455A761212
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 14:36:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631889400;
- bh=LjSxj1XBlKgAPPzPlXvlhN2p+T8VSQNkZbF40pCoLRI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=kdrZ9Pj+adXDgJmXm3Hg22wzUWz8fveNB9EogiJ0jdoL1POtjxq7meuGEXIBJj/8U
- UTFVJT0iJ39Yhc34lmBBjrDwirsnkIzrTDNYB4kfWq1lyvXZ5KxlGHzC/V8Ik/yVr9
- QTF9m+Usz4ToJgl0tjOuHwF3+8BwVtwvXoCJCA2V5liEXO1yMsDVON9qBi3SXX8QE3
- 7hrvqZipbevMzLLqRRdhcIpXZxavskUUFFylmY14kidgc+I6oUH232TvriNq1/BjmT
- pG9XD7ASSTI4TB+DVGAOrCYd19AtoOnLBiZv/FSUCG8qchNm7H6hjldqzjJxxhC3RF
- be67l+7iDcvpA==
-Received: by mail-ed1-f49.google.com with SMTP id c22so30821741edn.12
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:36:40 -0700 (PDT)
-X-Gm-Message-State: AOAM5312wmusWbb3cGURq25TBtr3JYT+42TzwRDVsI4Ns7fND4ZPFkqB
- iqfHv1iE87apYHQx29kADR2EvMf25tweLyhfTw==
-X-Google-Smtp-Source: ABdhPJyZvRqQ0d3E5FolvKa2G6pLvn6s/+N8iV8B5Cb9QerkwmFSK2ePOP7e8BvLitlJDfmOK+pguwuGUQWHdASNW48=
-X-Received: by 2002:aa7:c617:: with SMTP id h23mr12679068edq.357.1631889398119; 
- Fri, 17 Sep 2021 07:36:38 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C99F6ED1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 14:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1631889438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CJ3e8jOyCDOF8rQQhgiKBnbR6BCfFhW0qIeId7iiYOE=;
+ b=BQdIco8ay/HS4CP1PR6HxMNeY85c8rAjsRa37jdAGDZH9mHzi81DNaB7NdbeA4goO/RXES
+ 1rur6eYnZCOfylee/+vdUNUSzgRQWsXnjKaSYOS1SFAjri9dPBbiMt+nLsmqOi0b+qncF/
+ aVVhm3emkRzKxf+WXurBMJP/vZmuhhA=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-163-hBlpaExiNTu8qLd4U0Zwcg-1; Fri, 17 Sep 2021 10:37:17 -0400
+X-MC-Unique: hBlpaExiNTu8qLd4U0Zwcg-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ b7-20020a50e787000000b003d59cb1a923so8355241edn.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:37:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CJ3e8jOyCDOF8rQQhgiKBnbR6BCfFhW0qIeId7iiYOE=;
+ b=UNdRxack181qjYVgE3Xt5uDukKAX5GWMHc6PYpsryqE9XB/1GDYqNmKja3hTvmeeh+
+ 2DFsl8X2m+qbezOR0Td82C+dFoCJkPPlE5kKan+gQMbu4FCvqQgmXuyt2xtWNndtfHEp
+ kp8NDeXpyWUrxYAkgOEN50/YkCbp3jIbqdMyqXdNJwsOzAKAODvfKbfnKoWPwa3fkxIc
+ k0PXh34GXqIiUNkwPaZ0ychEsxcH0gVWfOwbK4jtP1vR0a1ek/XRSZXyD+mFZPjH1L0w
+ 7VvLBV9MZbtTZsPc2TzozR+aSSbGOfigvT1k8l/w75Yec6sB/9TxVPz9GyD/Rvyw6DJC
+ ft1Q==
+X-Gm-Message-State: AOAM533WyS64t7l9liEVfShY49mmBtdotwd+WUsXx6GE1eHF+4ZvFlNe
+ ERcqYG6QRbfIAZ1Ogzvb1yDZCdNwNZhSGlLKuxjlyu3P1EUBlA/MMNhTy7vyjQXLcAyh40QBs4e
+ r0tj4UNjicTRu3i2pk2AzFv/sHhqz
+X-Received: by 2002:a17:907:784b:: with SMTP id
+ lb11mr13019958ejc.307.1631889436264; 
+ Fri, 17 Sep 2021 07:37:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJw+xf29Whki6LaC30NqHEYtyfl5WIlImxBgK34C2iLohIcq+l0p5eIIE5zOdzVhFt2nO7KWlg==
+X-Received: by 2002:a17:907:784b:: with SMTP id
+ lb11mr13019940ejc.307.1631889436065; 
+ Fri, 17 Sep 2021 07:37:16 -0700 (PDT)
+Received: from x1.localdomain ([2a0e:5700:4:11:334c:7e36:8d57:40cb])
+ by smtp.gmail.com with ESMTPSA id z3sm2288717eju.34.2021.09.17.07.37.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 17 Sep 2021 07:37:15 -0700 (PDT)
+Subject: Re: [PATCH 9/9] drm/i915: Add privacy-screen support
+To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rajat Jain <rajatja@google.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Lyude <lyude@redhat.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <mgross@linux.intel.com>,
+ Andy Shevchenko <andy@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Mark Pearson <markpearson@lenovo.com>, Sebastien Bacher <seb128@ubuntu.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+References: <20210906073519.4615-1-hdegoede@redhat.com>
+ <20210906073519.4615-10-hdegoede@redhat.com> <YUNKh9xcIGoi1eol@intel.com>
+From: Hans de Goede <hdegoede@redhat.com>
+Message-ID: <1239f5f3-fd02-4eed-f464-e92c0afbb620@redhat.com>
+Date: Fri, 17 Sep 2021 16:37:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-References: <20210906193529.718845-1-msp@baylibre.com>
- <20210906193529.718845-7-msp@baylibre.com>
- <CAAOTY__cJMqcAieEraJ2sz4gi0Zs-aiNXz38_x7dPQea6HvYEg@mail.gmail.com>
- <20210910053614.7l2yh3e25izzlwob@blmsp>
- <CAAOTY_-gUXZnpfEC9e9HY+Sde9gw_WCe7CzEQ6d45_gW2voD6A@mail.gmail.com>
- <20210917133349.ijkf3nzisluynhhp@blmsp>
-In-Reply-To: <20210917133349.ijkf3nzisluynhhp@blmsp>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Fri, 17 Sep 2021 22:36:26 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9sbCMdzjeo=fR1GWLi6mnVgqczr64J9ZqyExW=knw1KQ@mail.gmail.com>
-Message-ID: <CAAOTY_9sbCMdzjeo=fR1GWLi6mnVgqczr64J9ZqyExW=knw1KQ@mail.gmail.com>
-Subject: Re: [PATCH v1 6/6] drm/mediatek: Add mt8195 DisplayPort driver
-To: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <YUNKh9xcIGoi1eol@intel.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,324 +103,111 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Markus:
+Hi,
 
-Markus Schneider-Pargmann <msp@baylibre.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
-=8817=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=889:33=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Hi Chun-Kuang,
->
-> On Tue, Sep 14, 2021 at 07:25:48AM +0800, Chun-Kuang Hu wrote:
-> > Hi, Markus:
-> >
-> > Markus Schneider-Pargmann <msp@baylibre.com> =E6=96=BC 2021=E5=B9=B49=
-=E6=9C=8810=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=881:36=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > >
-> > > Hi Chun-Kuang,
-> > >
-> > > On Fri, Sep 10, 2021 at 07:37:50AM +0800, Chun-Kuang Hu wrote:
-> > > > Hi, Markus:
-> > > >
-> > > > Markus Schneider-Pargmann <msp@baylibre.com> =E6=96=BC 2021=E5=B9=
-=B49=E6=9C=887=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8A=E5=8D=883:37=E5=AF=AB=
-=E9=81=93=EF=BC=9A
-> > > > >
-> > > > > This patch adds a DisplayPort driver for the Mediatek mt8195 SoC.
-> > > > >
-> > > > > It supports both functional units on the mt8195, the embedded
-> > > > > DisplayPort as well as the external DisplayPort units. It offers
-> > > > > hot-plug-detection, audio up to 8 channels, and DisplayPort 1.4 w=
-ith up
-> > > > > to 4 lanes.
-> > > > >
-> > > > > This driver is based on an initial version by
-> > > > > Jason-JH.Lin <jason-jh.lin@mediatek.com>.
-> > > > >
-> > > > > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > > > > ---
-> > > > >
-> > > > > Notes:
-> > > > >     Changes RFC -> v1:
-> > > > >     - Removed unused register definitions.
-> > > > >     - Replaced workqueue with threaded irq.
-> > > > >     - Removed connector code.
-> > > > >     - Move to atomic_* drm functions.
-> > > > >     - General cleanups of the code.
-> > > > >     - Remove unused select GENERIC_PHY.
-> > > > >
-> > > > >  drivers/gpu/drm/mediatek/Kconfig      |    6 +
-> > > > >  drivers/gpu/drm/mediatek/Makefile     |    2 +
-> > > > >  drivers/gpu/drm/mediatek/mtk_dp.c     | 2881 +++++++++++++++++++=
-++++++
-> > > > >  drivers/gpu/drm/mediatek/mtk_dp_reg.h |  580 +++++
-> > > > >  4 files changed, 3469 insertions(+)
-> > > > >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
-> > > > >  create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
-> > > > >
-> > >
-> > > ...
-> > >
-> > > > > +#define TOP_OFFSET             0x2000
-> > > > > +#define ENC0_OFFSET            0x3000
-> > > > > +#define ENC1_OFFSET            0x3200
-> > > > > +#define TRANS_OFFSET           0x3400
-> > > > > +#define AUX_OFFSET             0x3600
-> > > > > +#define SEC_OFFSET             0x4000
-> > >
-> > > ...
-> > >
-> > > > > +
-> > > > > +#define DP_PHY_DIG_PLL_CTL_1                                   0=
-x1014
-> > > > > +# define TPLL_SSC_EN                                           B=
-IT(3)
-> > > >
-> > > > It seems that register 0x1000 ~ 0x1fff is to control phy and 0x2000=
- ~
-> > > > 0x4fff is to control non-phy part. For mipi and hdmi, the phy part =
-is
-> > > > an independent device [1] and the phy driver is independent [2] , s=
-o I
-> > > > would like this phy to be an independent device.
-> > > >
-> > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=3Dv5.14
-> > > > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
-git/tree/drivers/phy/mediatek?h=3Dv5.14
-> > >
-> > > Thanks for your feedback. I looked into both mipi and hdmi phy driver=
-s
-> > > that you referenced. It looks like both are really separate units in
-> > > their SoCs having their own registerspaces located at a completely
-> > > different range than the units using the phy.
-> > >
-> > > For this displayport driver, the phy registers are listed as part of =
-the
-> > > (e)DP_TX unit in the datasheet. Next to the phy registers all the oth=
-er
-> > > parts are listed as well in the same overall register ranges (see
-> > > above), e.g. TOP_OFFSET, ENC_OFFSET or SEC_OFFSET. Also I would like =
-to
-> > > avoid splitting it up into a separate unit in the devicetree as the
-> > > datasheet handles it as a single unit (including the phy registers).
-> >
-> > OK, according to the datasheet, let it to be a single device.
-> >
-> > >
-> > > From a practical perspective there is also not much to these PHY
-> > > registers. The only things that would be done in the driver are:
-> > > - initializing the lane driving parameters with static values
-> > > - setup the bitrate
-> > > - enable/disable SSC
-> > > - do a reset
-> > > Exporting these four used functions over a driver boundary wouldn't h=
-elp
-> > > clarity I think and the code probably can't be reused by any other
-> > > component anyways.
-> >
-> > Use mmsys device [1] as an example. mmsys has both clock control
-> > function and other function including routing function. The main
-> > driver [2] is placed in soc folder, and the clock control part [3] is
-> > separated to clk folder but the clock control part just simply control
-> > clock gating.
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/arch/arm64/boot/dts/mediatek/mt8173.dtsi?h=3Dv5.15-rc1#n992
-> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/soc/mediatek/mtk-mmsys.c?h=3Dv5.15-rc1
-> > [3] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/drivers/clk/mediatek/clk-mt8173-mm.c?h=3Dv5.15-rc1
-> >
-> > I think many phy driver could be used only by single device driver, so
-> > we don't need to consider the reusability.
->
-> Thank you, I have split of a display port phy similar to the patches you
-> cited. I will send the next version soon.
->
-> Another short question. This series has a functional dependency on the
-> rest of the video pipeline, so mostly the patch series vdosys0 and
-> vdosys1. So I suppose the theoretical order for merging (once this
-> series is ready for merge) is first vdosys0/1 and dependencies and then
-> this displayport series, is that correct?
+On 9/16/21 3:45 PM, Ville Syrjälä wrote:
+> On Mon, Sep 06, 2021 at 09:35:19AM +0200, Hans de Goede wrote:
+>> Add support for eDP panels with a built-in privacy screen using the
+>> new drm_privacy_screen class.
+>>
+>> One thing which stands out here is the addition of these 2 lines to
+>> intel_atomic_commit_tail:
+>>
+>> 	for_each_new_connector_in_state(&state->base, connector, ...
+>> 		drm_connector_update_privacy_screen(connector, state);
+>>
+>> It may seem more logical to instead take care of updating the
+>> privacy-screen state by marking the crtc as needing a modeset and then
+>> do this in both the encoder update_pipe (for fast-sets) and enable
+>> (for full modesets) callbacks. But ATM these callbacks only get passed
+>> the new connector_state and these callbacks are all called after
+>> drm_atomic_helper_swap_state() at which point there is no way to get
+>> the old state from the new state.
+> 
+> Pretty sure the full atomic state is plumbed all the way
+> down these days.
 
-Sometimes I would apply partial reviewed patches in a series. Even
-though these partial patches would not functionally work without other
-patches, they are so independent and I would like to apply them to
-prevent conflicts in the future. But these patches should build pass
-and not break other workable function.
+Including the old state? AFAICT the old-state is being thrown away
+from drm_atomic_helper_swap_state(), so if we do this in a different
+place then we don't have access to the old-state.
+
+
+> 
+>>
+>> Without access to the old state, we do not know if the sw_state of
+>> the privacy-screen has changes so we would need to call
+>> drm_privacy_screen_set_sw_state() unconditionally. This is undesirable
+>> since all current known privacy-screen providers use ACPI calls which
+>> are somewhat expensive to make.
+> 
+> I doubt anyone is going to care about a bit of overhead for a modeset.
+
+But this is not a modeset, this is more like changing the backlight brightness,
+atm the code does not set the needs_modeset when only the privacy-screen
+sw-state has changed.
+
+Also in my experience the firmware (AML) code which we end up calling
+for this is not the highest quality code, often it has interesting
+issues / unhandled corner cases. So in my experience with ACPI we
+really should try to avoid these calls unless we absolutely must make them,
+but I guess not making unnecessary calls is something which could be handled
+inside the actual privacy-screen driver instead.
+
+> The usual rule is that a modeset doesn't skip anything. That way we
+> can be 100% sure we remeber to update everythinbg. For fastsets I guess
+> one could argue skipping it if not needed, but not sure even that is
+> warranted.
+
+Right, but again this is not a full modeset.
+
+> 
+> The current code you have in there is cettainly 110% dodgy. Since the
+> sw_state is stored in the connector state I presume it's at least
+> trying to be an atomic property, which means you shouldn't go poking
+> at it after the swap_state ever.
+
+It is not being poked, it is only being read, also this is happening
+before swap_state.
+
+Note I'm open for suggestions to handle this differently,
+including changing the drm_connector_update_privacy_screen()
+helper which currently relies on being passed the state before swap_state
+is called:
+
+void drm_connector_update_privacy_screen(struct drm_connector *connector,
+					 struct drm_atomic_state *state)
+{
+	struct drm_connector_state *new_connector_state, *old_connector_state;
+	int ret;
+
+	if (!connector->privacy_screen)
+		return;
+
+	new_connector_state = drm_atomic_get_new_connector_state(state, connector);
+	old_connector_state = drm_atomic_get_old_connector_state(state, connector);
+
+	if (new_connector_state->privacy_screen_sw_state ==
+	    old_connector_state->privacy_screen_sw_state)
+		return;
+
+	ret = drm_privacy_screen_set_sw_state(connector->privacy_screen,
+				new_connector_state->privacy_screen_sw_state);
+	if (ret) {
+		drm_err(connector->dev, "Error updating privacy-screen sw_state\n");
+		return;
+	}
+
+So if you have any suggestions how to do this differently, please let me know
+and I will take a shot at implementing those suggestions.
+
+Please keep in mind that the drm_privacy_screen_set_sw_state() call also
+needs to happens when just the connector_state->privacy_screen_sw_state changes,
+which is not a reason to do a full modeset (iow needs_modeset maybe 0 during
+the commit)
 
 Regards,
-Chun-Kuang.
 
->
-> Thanks,
-> Markus
->
-> >
-> > Regards,
-> > Chun-Kuang.
-> >
-> > >
-> > > So I personally would prefer keeping it as part of the whole driver
-> > > because of the above mentioned reasons. What do you think?
-> > >
-> > > Thanks,
-> > > Markus
-> > >
-> > > >
-> > > > Regards,
-> > > > Chun-Kuang.
-> > > >
-> > > > > +
-> > > > > +#define DP_PHY_DIG_BIT_RATE                                    0=
-x103C
-> > > > > +# define BIT_RATE_RBR                                          0
-> > > > > +# define BIT_RATE_HBR                                          1
-> > > > > +# define BIT_RATE_HBR2                                         2
-> > > > > +# define BIT_RATE_HBR3                                         3
-> > > > > +
-> > > > > +#define DP_PHY_DIG_SW_RST                                      0=
-x1038
-> > > > > +# define DP_GLB_SW_RST_PHYD                                    B=
-IT(0)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_3                           0=
-x1138
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_3                           0=
-x1238
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_3                           0=
-x1338
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_3                           0=
-x1438
-> > > > > +# define XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT                     0=
-x10
-> > > > > +# define XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT                     (=
-0x14 << 8)
-> > > > > +# define XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT                     (=
-0x18 << 16)
-> > > > > +# define XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT                     (=
-0x20 << 24)
-> > > > > +# define DRIVING_PARAM_3_DEFAULT                               (=
-XTP_LN_TX_LCTXC0_SW0_PRE0_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW0_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW0_PRE2_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW0_PRE3_DEFAULT)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_4                           0=
-x113C
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_4                           0=
-x123C
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_4                           0=
-x133C
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_4                           0=
-x143C
-> > > > > +# define XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT                     0=
-x18
-> > > > > +# define XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT                     (=
-0x1e << 8)
-> > > > > +# define XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT                     (=
-0x24 << 16)
-> > > > > +# define XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT                     (=
-0x20 << 24)
-> > > > > +# define DRIVING_PARAM_4_DEFAULT                               (=
-XTP_LN_TX_LCTXC0_SW1_PRE0_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW1_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW1_PRE2_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW2_PRE0_DEFAULT)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_5                           0=
-x1140
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_5                           0=
-x1240
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_5                           0=
-x1340
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_5                           0=
-x1440
-> > > > > +# define XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT                     0=
-x28
-> > > > > +# define XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT                     (=
-0x30 << 8)
-> > > > > +# define DRIVING_PARAM_5_DEFAULT                               (=
-XTP_LN_TX_LCTXC0_SW2_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXC0_SW3_PRE0_DEFAULT)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_6                           0=
-x1144
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_6                           0=
-x1244
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_6                           0=
-x1344
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_6                           0=
-x1444
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT                    0=
-x00
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT                    (=
-0x04 << 8)
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT                    (=
-0x08 << 16)
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT                    (=
-0x10 << 24)
-> > > > > +# define DRIVING_PARAM_6_DEFAULT                               (=
-XTP_LN_TX_LCTXCP1_SW0_PRE0_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW0_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW0_PRE2_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW0_PRE3_DEFAULT)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_7                           0=
-x1148
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_7                           0=
-x1248
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_7                           0=
-x1348
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_7                           0=
-x1448
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT                    0=
-x00
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT                    (=
-0x06 << 8)
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT                    (=
-0x0c << 16)
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT                    (=
-0x00 << 24)
-> > > > > +# define DRIVING_PARAM_7_DEFAULT                               (=
-XTP_LN_TX_LCTXCP1_SW1_PRE0_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW1_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW1_PRE2_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW2_PRE0_DEFAULT)
-> > > > > +
-> > > > > +#define MTK_DP_LANE0_DRIVING_PARAM_8                           0=
-x114C
-> > > > > +#define MTK_DP_LANE1_DRIVING_PARAM_8                           0=
-x124C
-> > > > > +#define MTK_DP_LANE2_DRIVING_PARAM_8                           0=
-x134C
-> > > > > +#define MTK_DP_LANE3_DRIVING_PARAM_8                           0=
-x144C
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT                    0=
-x08
-> > > > > +# define XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT                    (=
-0x00 << 8)
-> > > > > +# define DRIVING_PARAM_8_DEFAULT                               (=
-XTP_LN_TX_LCTXCP1_SW2_PRE1_DEFAULT | \
-> > > > > +                                                                =
-XTP_LN_TX_LCTXCP1_SW3_PRE0_DEFAULT)
-> > > > > +
-> > > > > +#endif /*_MTK_DP_REG_H_*/
-> > > > > --
-> > > > > 2.33.0
-> > > > >
+Hans
+
+
+
