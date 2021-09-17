@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 332DF40F7D0
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF03540F797
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:35:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 39FCB6EC4F;
-	Fri, 17 Sep 2021 12:35:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F1BB76EC44;
+	Fri, 17 Sep 2021 12:35:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EAFBD6EC42;
- Fri, 17 Sep 2021 12:35:20 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id t8so14939993wrq.4;
- Fri, 17 Sep 2021 05:35:20 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5AFD6EC44;
+ Fri, 17 Sep 2021 12:35:21 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id t8so14940038wrq.4;
+ Fri, 17 Sep 2021 05:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=a/rwiQ+ATFs+sDMWUu+w6Rs7NoUiJd4ETVjWIVuhdiI=;
- b=m5MN00i4b006eFm3fu30uWdf+tyKgl+dyeP/mt021jNoHcFFZBwd7lLGzdmZ3slJUE
- fvBhHXbSoBdhVXBre0nDAb1aYrEazpdHFbf5aN+d0nYJ9WAsf5NIVAsAYdXYJkrHcVQE
- q8GzAjxdoQzmViGD5bNdd/u6a5tfhPM/AxCHS+kJDVDckphIbIEOBw9OA3ZGfdNpyFpq
- Vg2uXeHuH7oveqGzYIhK59a2yDbIyrNWwNkfUDULRauR3ThZqyVdIE5QV1BFHLpy/wq9
- jKuFLEGtWE5pVosH6Yih0WBwFeTBzPhBGk6otWzgrAwrd4JN90TkbGqkRMRZod4GXwtG
- rraQ==
+ bh=8mVOVFn7bmhLuGrJEX+tbk0DRLKzhF9YYGPZtBVZ3ao=;
+ b=YTrxJf7awtIaUN3OnOFQEAl2GGNFeguMpbirVAdGdLJu6EUqVOoKBMgt12jNkIJQD9
+ S5Zwo1vUZwqgFMs+SX1NEHcSW3WzHNPhBufMmXMNGNV1B0LaNWafQXIkAO7zjMB9rTD8
+ bOMi8foA42njV5ZGTcx2NVGk3bPKVfjKwfkLBbzDDkIbKUoJMLZnWEC08sMzvYMgvYqr
+ 1q6aZgWYLwecii6sK6+GRlFHUdL77y+l3gDJ0D9H3De2T9xSOtgIhIDUSnqhRCGJ1nD1
+ F0CUK9aXnFaw6nGV6oeYyfJg+DCxR/gSX7ziuiZeibLKQDDHn18L4BZKz1f7FaACyOR/
+ AAYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a/rwiQ+ATFs+sDMWUu+w6Rs7NoUiJd4ETVjWIVuhdiI=;
- b=LTfKDAUPjo66qaxH88ymikmxPhBn6qW+MAPGcU5Hx8hize7yPhz+WkIEEKcTUregie
- HEgniXlE8pxRUXftxcGlCpE2JdFpPVnVCIF+CKS/hK0JUkXaeW2O7DBSfcyb+ytzAEVn
- WDRTpTGoYnN41RB2UKGLj4vzEHDyCXZkuRsXEBWF9Cgfuxj9cMRnrmb0KSaa1i9SCnuL
- p5VCXLzoM3H/RogPOc/jpQisPKw2l5dJ1eJPcQn1VlkdcMt+ccvar6uhCuhJFOhGLcOS
- UqF5kKE/Pvth6cUwgY3Cd/GuoAftw0r7Bup+T4sh8VWFXftt0xlXdEldhDiDvbpQ5HIq
- i7Fw==
-X-Gm-Message-State: AOAM5302FASoFKd6TQtVAuukNd1ixPzr246LI5YGzOumZrCtgI8BVWRA
- ZzfSJCb08am5fY534a62pek=
-X-Google-Smtp-Source: ABdhPJw2Xk+DGoJdfDUIjxpO8TN5jWGOTM3tr7l7PGRy9eESCcjoRc/3WnWS7CZs6hfj9f3STavDNw==
-X-Received: by 2002:a5d:5981:: with SMTP id n1mr11975526wri.82.1631882119510; 
- Fri, 17 Sep 2021 05:35:19 -0700 (PDT)
+ bh=8mVOVFn7bmhLuGrJEX+tbk0DRLKzhF9YYGPZtBVZ3ao=;
+ b=FUsVeZ4EHm9sa4T/o4X0ajK959Xyi492lNhBxUEi8m9ZVkQnroZGS9TsOLL4eEasFz
+ EsQk6XuR0kfc1uslckxPThfAmT4VRgM1YX6Dn+Lz07WwnKgOK3dpM8yWhNyKP7+h3zmf
+ GVQDmGxTWFtenBF4a6a64xKrkgGYjJSXdfUMtPYE4Q0e7/dRs4fUcRKacq2X2sRnOZFc
+ WfpdLHu2Mp0h4GXXBsTK+HJPrVnx0yS3pXEnCGIjmNadJwEz5g3zhkG83EXjf4h6+UDl
+ kPGeFbT46HDKJv0oUH/XyIsuz0X73YaFSuM8NcwhZ4OPULpmmzo/HsY0VuAYal+G3Q6G
+ 2drw==
+X-Gm-Message-State: AOAM533tbekf3gGn9mOP6JEsyQvckqFZy7VFCYCC3YtbIla1WLT1EJu3
+ jiG+R6oWQL5dx8ihFSJwZRk=
+X-Google-Smtp-Source: ABdhPJzp1OVanxiZTCCd7q1OJ3U2i8eSj4o2Z3hjO5r02JdQZtaKMhfkZHZMaQ58TWu9KG8LIATbYA==
+X-Received: by 2002:adf:e546:: with SMTP id z6mr11951871wrm.346.1631882120404; 
+ Fri, 17 Sep 2021 05:35:20 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- l21sm6122049wmh.31.2021.09.17.05.35.18
+ l21sm6122049wmh.31.2021.09.17.05.35.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:35:19 -0700 (PDT)
+ Fri, 17 Sep 2021 05:35:20 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
 To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch
-Subject: [PATCH 04/26] dma-buf: use new iterator in dma_resv_get_fences v2
-Date: Fri, 17 Sep 2021 14:34:51 +0200
-Message-Id: <20210917123513.1106-5-christian.koenig@amd.com>
+Subject: [PATCH 05/26] dma-buf: use new iterator in dma_resv_wait_timeout
+Date: Fri, 17 Sep 2021 14:34:52 +0200
+Message-Id: <20210917123513.1106-6-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210917123513.1106-1-christian.koenig@amd.com>
 References: <20210917123513.1106-1-christian.koenig@amd.com>
@@ -79,156 +79,99 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 This makes the function much simpler since the complex
 retry logic is now handled elsewhere.
 
-v2: use sizeof(void*) instead
-
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-resv.c | 112 +++++++++++++------------------------
- 1 file changed, 40 insertions(+), 72 deletions(-)
+ drivers/dma-buf/dma-resv.c | 68 ++++++--------------------------------
+ 1 file changed, 10 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-index 406150dea5e4..9b90bd9ac018 100644
+index 9b90bd9ac018..c7db553ab115 100644
 --- a/drivers/dma-buf/dma-resv.c
 +++ b/drivers/dma-buf/dma-resv.c
-@@ -487,99 +487,67 @@ EXPORT_SYMBOL(dma_resv_copy_fences);
-  * dma_resv_get_fences - Get an object's shared and exclusive
-  * fences without update side lock held
-  * @obj: the reservation object
-- * @pfence_excl: the returned exclusive fence (or NULL)
-- * @pshared_count: the number of shared fences returned
-- * @pshared: the array of shared fence ptrs returned (array is krealloc'd to
-+ * @fence_excl: the returned exclusive fence (or NULL)
-+ * @shared_count: the number of shared fences returned
-+ * @shared: the array of shared fence ptrs returned (array is krealloc'd to
-  * the required size, and must be freed by caller)
-  *
-  * Retrieve all fences from the reservation object. If the pointer for the
-  * exclusive fence is not specified the fence is put into the array of the
-  * shared fences as well. Returns either zero or -ENOMEM.
-  */
--int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **pfence_excl,
--			unsigned int *pshared_count,
--			struct dma_fence ***pshared)
-+int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
-+			unsigned int *shared_count, struct dma_fence ***shared)
+@@ -569,74 +569,26 @@ long dma_resv_wait_timeout(struct dma_resv *obj, bool wait_all, bool intr,
+ 			   unsigned long timeout)
  {
--	struct dma_fence **shared = NULL;
--	struct dma_fence *fence_excl;
--	unsigned int shared_count;
--	int ret = 1;
--
--	do {
--		struct dma_resv_list *fobj;
--		unsigned int i, seq;
--		size_t sz = 0;
--
--		shared_count = i = 0;
--
--		rcu_read_lock();
--		seq = read_seqcount_begin(&obj->seq);
+ 	long ret = timeout ? timeout : 1;
+-	unsigned int seq, shared_count;
 +	struct dma_resv_iter cursor;
-+	struct dma_fence *fence;
+ 	struct dma_fence *fence;
+-	int i;
  
--		fence_excl = dma_resv_excl_fence(obj);
--		if (fence_excl && !dma_fence_get_rcu(fence_excl))
--			goto unlock;
-+	*shared_count = 0;
-+	*shared = NULL;
- 
--		fobj = dma_resv_shared_list(obj);
--		if (fobj)
--			sz += sizeof(*shared) * fobj->shared_max;
-+	if (fence_excl)
-+		*fence_excl = NULL;
- 
--		if (!pfence_excl && fence_excl)
--			sz += sizeof(*shared);
-+	rcu_read_lock();
-+	dma_resv_iter_begin(&cursor, obj, true);
+-retry:
+-	shared_count = 0;
+-	seq = read_seqcount_begin(&obj->seq);
+ 	rcu_read_lock();
+-	i = -1;
+-
+-	fence = dma_resv_excl_fence(obj);
+-	if (fence && !test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags)) {
+-		if (!dma_fence_get_rcu(fence))
+-			goto unlock_retry;
++	dma_resv_iter_begin(&cursor, obj, wait_all);
 +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
++		rcu_read_unlock();
  
--		if (sz) {
--			struct dma_fence **nshared;
-+		if (cursor.is_first) {
-+			unsigned int count;
- 
--			nshared = krealloc(shared, sz,
--					   GFP_NOWAIT | __GFP_NOWARN);
--			if (!nshared) {
--				rcu_read_unlock();
-+			while (*shared_count)
-+				dma_fence_put((*shared)[--(*shared_count)]);
- 
--				dma_fence_put(fence_excl);
--				fence_excl = NULL;
-+			if (fence_excl)
-+				dma_fence_put(*fence_excl);
- 
--				nshared = krealloc(shared, sz, GFP_KERNEL);
--				if (nshared) {
--					shared = nshared;
--					continue;
--				}
-+			count = cursor.fences ? cursor.fences->shared_count : 0;
-+			count += fence_excl ? 0 : 1;
-+			rcu_read_unlock();
- 
--				ret = -ENOMEM;
--				break;
--			}
--			shared = nshared;
--			shared_count = fobj ? fobj->shared_count : 0;
--			for (i = 0; i < shared_count; ++i) {
--				shared[i] = rcu_dereference(fobj->shared[i]);
--				if (!dma_fence_get_rcu(shared[i]))
--					break;
-+			/* Eventually re-allocate the array */
-+			*shared = krealloc_array(*shared, count,
-+						 sizeof(void *),
-+						 GFP_KERNEL);
-+			if (count && !*shared) {
-+				dma_resv_iter_end(&cursor);
-+				return -ENOMEM;
- 			}
-+			rcu_read_lock();
+-		if (dma_fence_is_signaled(fence)) {
+-			dma_fence_put(fence);
+-			fence = NULL;
++		ret = dma_fence_wait_timeout(fence, intr, ret);
++		if (ret <= 0) {
++			dma_resv_iter_end(&cursor);
++			return ret;
  		}
  
--		if (i != shared_count || read_seqcount_retry(&obj->seq, seq)) {
--			while (i--)
--				dma_fence_put(shared[i]);
--			dma_fence_put(fence_excl);
--			goto unlock;
+-	} else {
+-		fence = NULL;
+-	}
+-
+-	if (wait_all) {
+-		struct dma_resv_list *fobj = dma_resv_shared_list(obj);
+-
+-		if (fobj)
+-			shared_count = fobj->shared_count;
+-
+-		for (i = 0; !fence && i < shared_count; ++i) {
+-			struct dma_fence *lfence;
+-
+-			lfence = rcu_dereference(fobj->shared[i]);
+-			if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+-				     &lfence->flags))
+-				continue;
+-
+-			if (!dma_fence_get_rcu(lfence))
+-				goto unlock_retry;
+-
+-			if (dma_fence_is_signaled(lfence)) {
+-				dma_fence_put(lfence);
+-				continue;
+-			}
+-
+-			fence = lfence;
+-			break;
 -		}
--
--		ret = 0;
--unlock:
--		rcu_read_unlock();
--	} while (ret);
--
--	if (pfence_excl)
--		*pfence_excl = fence_excl;
--	else if (fence_excl)
--		shared[shared_count++] = fence_excl;
-+		if (dma_resv_iter_is_exclusive(&cursor) && fence_excl)
-+			*fence_excl = fence;
-+		else
-+			(*shared)[(*shared_count)++] = fence;
- 
--	if (!shared_count) {
--		kfree(shared);
--		shared = NULL;
-+		/* Don't drop the reference */
-+		fence = NULL;
++		rcu_read_lock();
  	}
+-
 +	dma_resv_iter_end(&cursor);
-+	rcu_read_unlock();
+ 	rcu_read_unlock();
+-	if (fence) {
+-		if (read_seqcount_retry(&obj->seq, seq)) {
+-			dma_fence_put(fence);
+-			goto retry;
+-		}
  
--	*pshared_count = shared_count;
--	*pshared = shared;
--	return ret;
-+	return 0;
+-		ret = dma_fence_wait_timeout(fence, intr, ret);
+-		dma_fence_put(fence);
+-		if (ret > 0 && wait_all && (i + 1 < shared_count))
+-			goto retry;
+-	}
+ 	return ret;
+-
+-unlock_retry:
+-	rcu_read_unlock();
+-	goto retry;
  }
- EXPORT_SYMBOL_GPL(dma_resv_get_fences);
+ EXPORT_SYMBOL_GPL(dma_resv_wait_timeout);
  
 -- 
 2.25.1
