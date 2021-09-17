@@ -2,78 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3E364100D5
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 23:41:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73764100E6
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 23:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD83A6E075;
-	Fri, 17 Sep 2021 21:41:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CACD66E06E;
+	Fri, 17 Sep 2021 21:50:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30FB56E06E;
- Fri, 17 Sep 2021 21:41:14 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 6F5EA2B00902;
- Fri, 17 Sep 2021 17:41:10 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Fri, 17 Sep 2021 17:41:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=bo5do1/2uMxfSsRyPzIa31G3tU+
- VXBJq0VxVweJMjNw=; b=lx2x0Jisdd2o9GUHAoLcO7aZNpLHdrPfa7v+3CbHaiR
- 1M7WQ51iFfY9qQzEvo85CsAhISodR2g1V4hPuk1RgX7j2rMrUz9Q5yuRqavVHCIQ
- /LVPTyEFjI+qDIpG99C2mAXra9mj8z4LPs3Gqi1Vnpx6gUv1axTysv/OcXVzC9Yj
- 8q9xDY7mQQ7POP5KYcLazECYJtC3G/NqeQp+MHyci+UeT4SH+c3uomhGMxPxIc+5
- +RyIf5WC/T+NQgLisCIlXXcvvQ8QbuX3ErwRXpsACht9OBKx7LTHQ7NQyuJnNlQw
- i8ctXOoi6jk9qq6ptbYc1HB267/KQLPs/LjqoDgYOzw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=bo5do1
- /2uMxfSsRyPzIa31G3tU+VXBJq0VxVweJMjNw=; b=Z5DVGbfyPXqul6bnNVQN3+
- 51BL4yVViShm82Jlg2MDeHZOi8YlO8g4DTDddGKR6Yqz+yEPRYpiA9O1NAheI8Mj
- qfY+4MMrES5Qgcf70UVmEVpYA5Zf3MkId4upz8dtEiGVdD5ju/+Jj9MdZhy0C1lj
- xMobgxPk8Jb2lvSHc2TQ1UAfJABzS6V+jVefwKZbvwxAB2awio5FQtUZcEPHjHIn
- PZZBfTEuq1EH82J2tANVbF/4nMck7ofN6LBZ8z5xreZ5ULWyhFFDkYKeTgxgCpey
- dlvtf35ATwYtChTM84B8IJLD8P5LZw9x76nKD+/mfdALgr2zvUPkH8O7tRO/gixQ
- ==
-X-ME-Sender: <xms:dQtFYVOhclBMKX3Mcwz-1lbdVKEQy7TPLNBMmoZnTr4oYeyDzU5_fQ>
- <xme:dQtFYX9eOThRqFuwMFmdFDfSnKLW--Zu8reg_CGY4WaANvYzAOkgmH3kLt2YzGw6D
- dyuGyrUpzkgOR_Pnw>
-X-ME-Received: <xmr:dQtFYUSux7FMhpk9fvWiDAx3COeucoGTnWN0VO-E2Sq7y1iFg5UMXo6kmRqqCvFElNhzAFV->
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehjedgtdduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
- nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
- gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
- heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
- gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:dQtFYRu3KfwHa-WMGiBn4OINuhHAy-twtNlDdRJYh1MOToE3aIEYyg>
- <xmx:dQtFYdf8bEudJQdBEQL0MyRHYHA5u8SSkW5ADDEeCYdmf4moDrPosg>
- <xmx:dQtFYd1tqxED0N8SmbmgWlJvaXHbIXT47ztcUOBe2pnUc6WsJ_fRNw>
- <xmx:dgtFYeVyeMILMbNbOTk6dKqn5cN6B4ugjQ1e_YoJSKUYtobCKnkzpzKg12I>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 17:41:06 -0400 (EDT)
-Date: Fri, 17 Sep 2021 23:41:03 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- sean@poorly.run, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 00/15] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
- where possible
-Message-ID: <YUULb61dISOCiYHw@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <YUSzKxZwW8C29dLV@phenom.ffwll.local>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6286F6E06E
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 21:50:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="222538267"
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="222538267"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 14:50:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,302,1624345200"; d="scan'208";a="611446340"
+Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
+ by fmsmga001.fm.intel.com with ESMTP; 17 Sep 2021 14:50:06 -0700
+Received: from orsmsx612.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 17 Sep 2021 14:50:06 -0700
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX612.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Fri, 17 Sep 2021 14:50:05 -0700
+Received: from orsmsx611.amr.corp.intel.com ([10.22.229.24]) by
+ ORSMSX611.amr.corp.intel.com ([10.22.229.24]) with mapi id 15.01.2242.012;
+ Fri, 17 Sep 2021 14:50:05 -0700
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "virtio-dev@lists.oasis-open.org" <virtio-dev@lists.oasis-open.org>
+CC: "kraxel@redhat.com" <kraxel@redhat.com>
+Subject: RE: [PATCH v2 11/12] drm/virtio: implement context init: add
+ virtio_gpu_fence_event
+Thread-Topic: [PATCH v2 11/12] drm/virtio: implement context init: add
+ virtio_gpu_fence_event
+Thread-Index: AQHXq2CmEDO5KMBP30y3PbWDgrLt66uourkA
+Date: Fri, 17 Sep 2021 21:50:05 +0000
+Message-ID: <3ea050e89fbb40aeba368025b2213844@intel.com>
+References: <20210917010842.503-1-gurchetansingh@chromium.org>
+ <20210917010842.503-12-gurchetansingh@chromium.org>
+In-Reply-To: <20210917010842.503-12-gurchetansingh@chromium.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.6.200.16
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.100]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YUSzKxZwW8C29dLV@phenom.ffwll.local>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,20 +73,220 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/09/17 05:24PM, Daniel Vetter wrote:
->
-> Can we at least replace those with drm_modeset_lock_all_ctx and delete
-> drm_modeset_lock_all? That would be really nice goal to make sure these
-> don't spread further.
+Hi Gurchetan,
 
-I just checked and turns out no one else is using "drm_modeset_lock_all()"
-anymore.
+>=20
+> Similar to DRM_VMW_EVENT_FENCE_SIGNALED.  Sends a pollable event
+> to the DRM file descriptor when a fence on a specific ring is
+> signaled.
+>=20
+> One difference is the event is not exposed via the UAPI -- this is
+> because host responses are on a shared memory buffer of type
+> BLOB_MEM_GUEST [this is the common way to receive responses with
+> virtgpu].  As such, there is no context specific read(..)
+> implementation either -- just a poll(..) implementation.
+[Kasireddy, Vivek] Given my limited understanding of virtio_gpu 3D/Virgl, I=
+ am
+wondering why you'd need a new internal event associated with a fence; woul=
+d
+you not be able to accomplish the same by adding the out_fence_fd (from exe=
+cbuf)
+to your userspace's event loop (in addition to DRM fd) and get signalled?
 
-The only reference is the definition of the function itself, which I did not
-remove because it was being EXPORT_SYMBOL'ed and I was not sure whether it could
-be removed or not (to prevent breaking third party modules maybe?)
+Thanks,
+Vivek
 
-The same goes true for its sibling "dmr_modeset_unlock_all()".
-
-But if you give me the green light I'll remove both of them right away :)
+>=20
+> Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
+> Acked-by: Nicholas Verne <nverne@chromium.org>
+> ---
+>  drivers/gpu/drm/virtio/virtgpu_drv.c   | 43 +++++++++++++++++++++++++-
+>  drivers/gpu/drm/virtio/virtgpu_drv.h   |  7 +++++
+>  drivers/gpu/drm/virtio/virtgpu_fence.c | 10 ++++++
+>  drivers/gpu/drm/virtio/virtgpu_ioctl.c | 34 ++++++++++++++++++++
+>  4 files changed, 93 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virti=
+o/virtgpu_drv.c
+> index 9d963f1fda8f..749db18dcfa2 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
+> @@ -29,6 +29,8 @@
+>  #include <linux/module.h>
+>  #include <linux/console.h>
+>  #include <linux/pci.h>
+> +#include <linux/poll.h>
+> +#include <linux/wait.h>
+>=20
+>  #include <drm/drm.h>
+>  #include <drm/drm_aperture.h>
+> @@ -155,6 +157,35 @@ static void virtio_gpu_config_changed(struct virtio_=
+device
+> *vdev)
+>  	schedule_work(&vgdev->config_changed_work);
+>  }
+>=20
+> +static __poll_t virtio_gpu_poll(struct file *filp,
+> +				struct poll_table_struct *wait)
+> +{
+> +	struct drm_file *drm_file =3D filp->private_data;
+> +	struct virtio_gpu_fpriv *vfpriv =3D drm_file->driver_priv;
+> +	struct drm_device *dev =3D drm_file->minor->dev;
+> +	struct drm_pending_event *e =3D NULL;
+> +	__poll_t mask =3D 0;
+> +
+> +	if (!vfpriv->ring_idx_mask)
+> +		return drm_poll(filp, wait);
+> +
+> +	poll_wait(filp, &drm_file->event_wait, wait);
+> +
+> +	if (!list_empty(&drm_file->event_list)) {
+> +		spin_lock_irq(&dev->event_lock);
+> +		e =3D list_first_entry(&drm_file->event_list,
+> +				     struct drm_pending_event, link);
+> +		drm_file->event_space +=3D e->event->length;
+> +		list_del(&e->link);
+> +		spin_unlock_irq(&dev->event_lock);
+> +
+> +		kfree(e);
+> +		mask |=3D EPOLLIN | EPOLLRDNORM;
+> +	}
+> +
+> +	return mask;
+> +}
+> +
+>  static struct virtio_device_id id_table[] =3D {
+>  	{ VIRTIO_ID_GPU, VIRTIO_DEV_ANY_ID },
+>  	{ 0 },
+> @@ -194,7 +225,17 @@ MODULE_AUTHOR("Dave Airlie <airlied@redhat.com>");
+>  MODULE_AUTHOR("Gerd Hoffmann <kraxel@redhat.com>");
+>  MODULE_AUTHOR("Alon Levy");
+>=20
+> -DEFINE_DRM_GEM_FOPS(virtio_gpu_driver_fops);
+> +static const struct file_operations virtio_gpu_driver_fops =3D {
+> +	.owner          =3D THIS_MODULE,
+> +	.open           =3D drm_open,
+> +	.release        =3D drm_release,
+> +	.unlocked_ioctl =3D drm_ioctl,
+> +	.compat_ioctl   =3D drm_compat_ioctl,
+> +	.poll           =3D virtio_gpu_poll,
+> +	.read           =3D drm_read,
+> +	.llseek         =3D noop_llseek,
+> +	.mmap           =3D drm_gem_mmap
+> +};
+>=20
+>  static const struct drm_driver driver =3D {
+>  	.driver_features =3D DRIVER_MODESET | DRIVER_GEM | DRIVER_RENDER |
+> DRIVER_ATOMIC,
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virti=
+o/virtgpu_drv.h
+> index cb60d52c2bd1..e0265fe74aa5 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
+> +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
+> @@ -138,11 +138,18 @@ struct virtio_gpu_fence_driver {
+>  	spinlock_t       lock;
+>  };
+>=20
+> +#define VIRTGPU_EVENT_FENCE_SIGNALED_INTERNAL 0x10000000
+> +struct virtio_gpu_fence_event {
+> +	struct drm_pending_event base;
+> +	struct drm_event event;
+> +};
+> +
+>  struct virtio_gpu_fence {
+>  	struct dma_fence f;
+>  	uint32_t ring_idx;
+>  	uint64_t fence_id;
+>  	bool emit_fence_info;
+> +	struct virtio_gpu_fence_event *e;
+>  	struct virtio_gpu_fence_driver *drv;
+>  	struct list_head node;
+>  };
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c
+> b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> index 98a00c1e654d..f28357dbde35 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_fence.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+> @@ -152,11 +152,21 @@ void virtio_gpu_fence_event_process(struct virtio_g=
+pu_device
+> *vgdev,
+>  				continue;
+>=20
+>  			dma_fence_signal_locked(&curr->f);
+> +			if (curr->e) {
+> +				drm_send_event(vgdev->ddev, &curr->e->base);
+> +				curr->e =3D NULL;
+> +			}
+> +
+>  			list_del(&curr->node);
+>  			dma_fence_put(&curr->f);
+>  		}
+>=20
+>  		dma_fence_signal_locked(&signaled->f);
+> +		if (signaled->e) {
+> +			drm_send_event(vgdev->ddev, &signaled->e->base);
+> +			signaled->e =3D NULL;
+> +		}
+> +
+>  		list_del(&signaled->node);
+>  		dma_fence_put(&signaled->f);
+>  		break;
+> diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/vir=
+tio/virtgpu_ioctl.c
+> index be7b22a03884..fdaa7f3d9eeb 100644
+> --- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> +++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+> @@ -38,6 +38,36 @@
+>  				    VIRTGPU_BLOB_FLAG_USE_SHAREABLE | \
+>  				    VIRTGPU_BLOB_FLAG_USE_CROSS_DEVICE)
+>=20
+> +static int virtio_gpu_fence_event_create(struct drm_device *dev,
+> +					 struct drm_file *file,
+> +					 struct virtio_gpu_fence *fence,
+> +					 uint32_t ring_idx)
+> +{
+> +	struct virtio_gpu_fpriv *vfpriv =3D file->driver_priv;
+> +	struct virtio_gpu_fence_event *e =3D NULL;
+> +	int ret;
+> +
+> +	if (!(vfpriv->ring_idx_mask & (1 << ring_idx)))
+> +		return 0;
+> +
+> +	e =3D kzalloc(sizeof(*e), GFP_KERNEL);
+> +	if (!e)
+> +		return -ENOMEM;
+> +
+> +	e->event.type =3D VIRTGPU_EVENT_FENCE_SIGNALED_INTERNAL;
+> +	e->event.length =3D sizeof(e->event);
+> +
+> +	ret =3D drm_event_reserve_init(dev, file, &e->base, &e->event);
+> +	if (ret)
+> +		goto free;
+> +
+> +	fence->e =3D e;
+> +	return 0;
+> +free:
+> +	kfree(e);
+> +	return ret;
+> +}
+> +
+>  /* Must be called with &virtio_gpu_fpriv.struct_mutex held. */
+>  static void virtio_gpu_create_context_locked(struct virtio_gpu_device *v=
+gdev,
+>  					     struct virtio_gpu_fpriv *vfpriv)
+> @@ -195,6 +225,10 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_de=
+vice *dev,
+> void *data,
+>  		goto out_unresv;
+>  	}
+>=20
+> +	ret =3D virtio_gpu_fence_event_create(dev, file, out_fence, ring_idx);
+> +	if (ret)
+> +		goto out_unresv;
+> +
+>  	if (out_fence_fd >=3D 0) {
+>  		sync_file =3D sync_file_create(&out_fence->f);
+>  		if (!sync_file) {
+> --
+> 2.33.0.464.g1972c5931b-goog
 
