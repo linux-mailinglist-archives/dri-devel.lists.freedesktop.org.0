@@ -1,35 +1,35 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D5740FF4C
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 20:24:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4401640FF53
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 20:24:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E4126EE63;
-	Fri, 17 Sep 2021 18:24:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F35B6EE60;
+	Fri, 17 Sep 2021 18:24:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EDDA6EE66
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 18:23:57 +0000 (UTC)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 279F66EE60
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 18:24:53 +0000 (UTC)
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
  q=dns/txt; 
- s=smtp; t=1631903042; h=Message-ID: References: In-Reply-To: Subject:
+ s=smtp; t=1631903095; h=Message-ID: References: In-Reply-To: Subject:
  Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=lA9m8iW0h+GpB3q/tv02Ab4h8KK1vfBdEm/JgwArBvI=;
- b=pgb/HbKdoolPMD+ZalULwpMbdR7JzKSYOm2rv0VweaIG+y52eSViiaPDU5Uogz1lTWN/tWio
- v3wXSiW/XxaJ0tMYSY8YvnnNnYNLk6bvQD7Kkiw8HDUBrFMpO+0II8BjtxF9wTbSoGEzRsiZ
- JYnF4uP1+M+3ieX7PPpwcl5H9ug=
-X-Mailgun-Sending-Ip: 69.72.43.7
+ MIME-Version: Sender; bh=UEpXqCzItXHNUdnGv38tuk52NOlpsqNpF/9PDvpy/8M=;
+ b=D+cKIrYPjIVwt+nCFRhUE7Dz346VRp/eYetk68aMjXnrJv6hRTtpgGKs836785CX/wWyCHeJ
+ btndZ1r7cxbKcynt8R8iU4+6IWUQDq8kGEWeqa9xg6rtJNC/HCH+Ct5Hpa28wap2WREbYMkH
+ PBXm/U9SFY05cNIEDX8XbrJvoyg=
+X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 6144dd2eb585cc7d24b0a102 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Sep 2021 18:23:42
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 6144dd63507800c88059171e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 17 Sep 2021 18:24:35
  GMT
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id B34E5C4314C; Fri, 17 Sep 2021 18:23:41 +0000 (UTC)
+ id 2B5DBC43617; Fri, 17 Sep 2021 18:24:35 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
  aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -38,26 +38,24 @@ X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
 Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
  (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
  (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B3A1AC43639;
- Fri, 17 Sep 2021 18:23:38 +0000 (UTC)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id D7AA1C43460;
+ Fri, 17 Sep 2021 18:24:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII;
  format=flowed
 Content-Transfer-Encoding: 7bit
-Date: Fri, 17 Sep 2021 11:23:38 -0700
+Date: Fri, 17 Sep 2021 11:24:33 -0700
 From: abhinavk@codeaurora.org
 To: Sean Paul <sean@poorly.run>
 Cc: dri-devel@lists.freedesktop.org, ppaalanen@gmail.com,
  maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, airlied@linux.ie,
- daniel.vetter@ffwll.ch, freedreno@lists.freedesktop.org, Rob Clark
- <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>, Daniel Vetter
- <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org
-Subject: Re: [Freedreno] [RESEND PATCH v6 04/14] drm/msm/dpu: Replace
- definitions for dpu debug macros
-In-Reply-To: <20210721175526.22020-5-sean@poorly.run>
+ daniel.vetter@ffwll.ch, Sean Paul <seanpaul@chromium.org>
+Subject: Re: [RESEND PATCH v6 05/14] drm/print: rename drm_debug* to be more
+ syslog-centric
+In-Reply-To: <20210721175526.22020-6-sean@poorly.run>
 References: <20210721175526.22020-1-sean@poorly.run>
- <20210721175526.22020-5-sean@poorly.run>
-Message-ID: <745692f677884badc0829193842967dd@codeaurora.org>
+ <20210721175526.22020-6-sean@poorly.run>
+Message-ID: <683580039a25b686b39fa35450deb6c3@codeaurora.org>
 X-Sender: abhinavk@codeaurora.org
 User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -78,13 +76,17 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 On 2021-07-21 10:55, Sean Paul wrote:
 > From: Sean Paul <seanpaul@chromium.org>
 > 
-> The debug messages shouldn't be logged as errors when debug categories
-> are enabled. Use the drm logging helpers to do the right thing
+> In preparation for tracefs support, rename drm_debug related functions
+> to reflect that it targets the syslog. This will allow us to 
+> selectively
+> target syslog and/or tracefs.
+> 
+> No functional changes here.
 > 
 > Signed-off-by: Sean Paul <seanpaul@chromium.org>
 Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > Link:
-> https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-5-sean@poorly.run
+> https://patchwork.freedesktop.org/patch/msgid/20200608210505.48519-6-sean@poorly.run
 > #v5
 > 
 > Changes in v5:
@@ -92,46 +94,106 @@ Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
 > Changes in v6:
 > -None
 > ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h | 20 ++++----------------
->  1 file changed, 4 insertions(+), 16 deletions(-)
+>  drivers/gpu/drm/drm_print.c | 12 ++++++------
+>  include/drm/drm_print.h     | 13 +++++++++----
+>  2 files changed, 15 insertions(+), 10 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> index 323a6bce9e64..c33164d3944a 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h
-> @@ -31,27 +31,15 @@
->   * DPU_DEBUG - macro for kms/plane/crtc/encoder/connector logs
->   * @fmt: Pointer to format string
+> diff --git a/drivers/gpu/drm/drm_print.c b/drivers/gpu/drm/drm_print.c
+> index 111b932cf2a9..2ff7a6ecc632 100644
+> --- a/drivers/gpu/drm/drm_print.c
+> +++ b/drivers/gpu/drm/drm_print.c
+> @@ -37,11 +37,11 @@
+>  #include <drm/drm_print.h>
+> 
+>  /*
+> - * __drm_debug: Enable debug output.
+> + * __drm_debug_syslog: Enable debug output to system logs
+>   * Bitmask of DRM_UT_x. See include/drm/drm_print.h for details.
 >   */
-> -#define DPU_DEBUG(fmt, ...)                                            
->     \
-> -	do {                                                               \
-> -		if (drm_debug_enabled(DRM_UT_KMS))                         \
-> -			DRM_DEBUG(fmt, ##__VA_ARGS__); \
-> -		else                                                       \
-> -			pr_debug(fmt, ##__VA_ARGS__);                      \
-> -	} while (0)
-> +#define DPU_DEBUG(fmt, ...) DRM_DEBUG_KMS(fmt, ##__VA_ARGS__)
+> -unsigned int __drm_debug;
+> -EXPORT_SYMBOL(__drm_debug);
+> +unsigned int __drm_debug_syslog;
+> +EXPORT_SYMBOL(__drm_debug_syslog);
+> 
+>  MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables
+> a debug category.\n"
+>  "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
+> @@ -52,7 +52,7 @@ MODULE_PARM_DESC(debug, "Enable debug output, where
+> each bit enables a debug cat
+>  "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
+>  "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
+>  "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
+> -module_param_named(debug, __drm_debug, int, 0600);
+> +module_param_named(debug, __drm_debug_syslog, int, 0600);
+> 
+>  void __drm_puts_coredump(struct drm_printer *p, const char *str)
+>  {
+> @@ -160,11 +160,11 @@ void __drm_printfn_info(struct drm_printer *p,
+> struct va_format *vaf)
+>  }
+>  EXPORT_SYMBOL(__drm_printfn_info);
+> 
+> -void __drm_printfn_debug(struct drm_printer *p, struct va_format *vaf)
+> +void __drm_printfn_debug_syslog(struct drm_printer *p, struct 
+> va_format *vaf)
+>  {
+>  	pr_debug("%s %pV", p->prefix, vaf);
+>  }
+> -EXPORT_SYMBOL(__drm_printfn_debug);
+> +EXPORT_SYMBOL(__drm_printfn_debug_syslog);
+> 
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf)
+>  {
+> diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
+> index 9b66be54dd16..2ea0ffd9c1ce 100644
+> --- a/include/drm/drm_print.h
+> +++ b/include/drm/drm_print.h
+> @@ -35,7 +35,7 @@
+>  #include <drm/drm.h>
+> 
+>  /* Do *not* use outside of drm_print.[ch]! */
+> -extern unsigned int __drm_debug;
+> +extern unsigned int __drm_debug_syslog;
 > 
 >  /**
->   * DPU_DEBUG_DRIVER - macro for hardware driver logging
->   * @fmt: Pointer to format string
->   */
-> -#define DPU_DEBUG_DRIVER(fmt, ...)                                     
->     \
-> -	do {                                                               \
-> -		if (drm_debug_enabled(DRM_UT_DRIVER))                      \
-> -			DRM_ERROR(fmt, ##__VA_ARGS__); \
-> -		else                                                       \
-> -			pr_debug(fmt, ##__VA_ARGS__);                      \
-> -	} while (0)
-> -
-> -#define DPU_ERROR(fmt, ...) pr_err("[dpu error]" fmt, ##__VA_ARGS__)
-> +#define DPU_DEBUG_DRIVER(fmt, ...) DRM_DEBUG_DRIVER(fmt, 
-> ##__VA_ARGS__)
+>   * DOC: print
+> @@ -85,7 +85,7 @@ void __drm_puts_coredump(struct drm_printer *p,
+> const char *str);
+>  void __drm_printfn_seq_file(struct drm_printer *p, struct va_format 
+> *vaf);
+>  void __drm_puts_seq_file(struct drm_printer *p, const char *str);
+>  void __drm_printfn_info(struct drm_printer *p, struct va_format *vaf);
+> -void __drm_printfn_debug(struct drm_printer *p, struct va_format 
+> *vaf);
+> +void __drm_printfn_debug_syslog(struct drm_printer *p, struct 
+> va_format *vaf);
+>  void __drm_printfn_err(struct drm_printer *p, struct va_format *vaf);
+> 
+>  __printf(2, 3)
+> @@ -227,7 +227,7 @@ static inline struct drm_printer
+> drm_info_printer(struct device *dev)
+>  static inline struct drm_printer drm_debug_printer(const char *prefix)
+>  {
+>  	struct drm_printer p = {
+> -		.printfn = __drm_printfn_debug,
+> +		.printfn = __drm_printfn_debug_syslog,
+>  		.prefix = prefix
+>  	};
+>  	return p;
+> @@ -319,9 +319,14 @@ enum drm_debug_category {
+>  	DRM_UT_DRMRES		= 0x200,
+>  };
+> 
+> +static inline bool drm_debug_syslog_enabled(enum drm_debug_category 
+> category)
+> +{
+> +	return unlikely(__drm_debug_syslog & category);
+> +}
 > +
-> +#define DPU_ERROR(fmt, ...) DRM_ERROR(fmt, ##__VA_ARGS__)
+>  static inline bool drm_debug_enabled(enum drm_debug_category category)
+>  {
+> -	return unlikely(__drm_debug & category);
+> +	return drm_debug_syslog_enabled(category);
+>  }
 > 
->  /**
->   * ktime_compare_safe - compare two ktime structures
+>  /*
