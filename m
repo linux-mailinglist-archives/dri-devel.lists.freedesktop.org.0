@@ -1,68 +1,130 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A80D40F7D4
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:36:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49C3B40F828
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 14:43:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 823706EC65;
-	Fri, 17 Sep 2021 12:35:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66EBA6EC6E;
+	Fri, 17 Sep 2021 12:43:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com
- [IPv6:2a00:1450:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E63716EC50;
- Fri, 17 Sep 2021 12:35:32 +0000 (UTC)
-Received: by mail-wm1-x334.google.com with SMTP id
- f62-20020a1c1f41000000b0030b42643f72so1776919wmf.3; 
- Fri, 17 Sep 2021 05:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BPSU1DXFCGE7WDMspzajAb5+e08n2RYsOOJEReWtL6U=;
- b=G7GZR/a3uftoZUOQE1c5/xOo1bxgEpGvghaVs/z0MIKYtjDRjokQ7n9avxKHenfJmP
- QJpAsdMHxHBym8ybMepqG99FkHP3tRqLVtRAzRFUZBypbd+VXJUStpFWHbDo5iiVCgn3
- Pbvps5yJ8rmr9efaFRBWkvaz8BarNd/aexogI9NPT7fHt/P6Dyl16sGMXHbZKkPWhT1L
- qFMnnDBkaCb+iz+HInXNKlKtuO9s1Apg9hXVe07nLBnntrGUmKflElYKOw7/qyMdOOOa
- r16gh0Q625ASoLJMdrsIWYI8ud+9xFbYuUCCUqSU9RwfLAo9dQiRgQb5UNk7i6huNurb
- cjqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BPSU1DXFCGE7WDMspzajAb5+e08n2RYsOOJEReWtL6U=;
- b=xQKSksIxyYOHG83y5KqXsdG1m4bq72jurys9ZR2tdMG8QkiCExA5B+gzQbt8pLu2Xd
- ZpGeFwyf7YFudK9LHYcwkera3u/vppUVMhh24e3vsnOrt2iQQrxl8aCJu+EvnkwqcSBu
- dCU7wTWgZYF7m72Cc0LFVADj2KPOwowBL18hy8nmhca95UYKAGZB7DGhS5B4X4J8hvff
- DZfGjFlQPXQh+y63VqxuQLJvZ648Lb2C17TbBOlDRH0ZQSL9mfOJDuPlTENS7E3FbD4n
- QW5iv/Njo+tJzw2GHbhOKFVjTLCAA7otLxds7yb3aSPfI40CBV78EK3VhKgmKJ07t4Uq
- b4BA==
-X-Gm-Message-State: AOAM53135ztaosFo3Uw6/uWI0VurAoPU6RLBCzi11YtpILZF4nSD7OEY
- UNRTddOyPk+HvF3GrABI1e8=
-X-Google-Smtp-Source: ABdhPJyYZOZM3qHZmzmJADXhbU1qBTWv4kCQvYb25PVLMl4AWhnK4e6h1RUh9Oi/FX1k49dfTAyXWQ==
-X-Received: by 2002:a7b:cbc4:: with SMTP id n4mr15128737wmi.93.1631882131496; 
- Fri, 17 Sep 2021 05:35:31 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- l21sm6122049wmh.31.2021.09.17.05.35.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:35:31 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-Subject: [PATCH 18/26] drm/i915: use new iterator in
- i915_gem_object_last_write_engine v2
+X-Greylist: delayed 499 seconds by postgrey-1.36 at gabe;
+ Fri, 17 Sep 2021 12:43:30 UTC
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
+ [210.118.77.11])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C553589E5B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:43:30 +0000 (UTC)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+ by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
+ 20210917123509euoutp01d514830b4e41c9732b2b0c0985ccbe7e~lnCHdJTK31899818998euoutp01c
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:35:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
+ 20210917123509euoutp01d514830b4e41c9732b2b0c0985ccbe7e~lnCHdJTK31899818998euoutp01c
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1631882109;
+ bh=m1Y6LWA4PXoajOSun3pzOfX28Emf6U0QDQDDXYjTyUo=;
+ h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+ b=N525ixmYaI2hd+M1rwOKqQVzKJ4Ph/PvZVgw5t2si/8X/FBgRxoFO7pfAgozcgP4m
+ 7ceKEKFFI5QyBzGnx/Ptl1NE5F2AGuMVW33EPSSxHSJszv0+3fI8/0ofAYSfaZUJfS
+ oaaeMWeY1pTPoUuad1YLZqA3nCFg9yzbLN3K1Qyg=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+ eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20210917123508eucas1p1ca60528d596ee60f53e6b3499307e58d~lnCG4xCFU2999629996eucas1p13;
+ Fri, 17 Sep 2021 12:35:08 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+ eusmges1new.samsung.com (EUCPMTA) with SMTP id E3.73.45756.C7B84416; Fri, 17
+ Sep 2021 13:35:08 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+ eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+ 20210917123508eucas1p2a73b5bf1cab9fac80de826cacfd817b8~lnCGVm2Fj2071520715eucas1p2a;
+ Fri, 17 Sep 2021 12:35:08 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+ eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+ 20210917123508eusmtrp268e219a81f573fd96d703a8a52ea4af2~lnCGUPcK31459814598eusmtrp2E;
+ Fri, 17 Sep 2021 12:35:08 +0000 (GMT)
+X-AuditID: cbfec7f2-7d5ff7000002b2bc-0d-61448b7c201e
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+ eusmgms2.samsung.com (EUCPMTA) with SMTP id 37.FD.20981.B7B84416; Fri, 17
+ Sep 2021 13:35:07 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+ eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+ 20210917123505eusmtip1840ad4dd0237808a52a6821790b51fda~lnCEVoqUS1263012630eusmtip1b;
+ Fri, 17 Sep 2021 12:35:05 +0000 (GMT)
+Subject: Re: [PATCH v4 24/24] drm/exynos: dsi: Adjust probe order
+To: Andrzej Hajda <a.hajda@samsung.com>, Maxime Ripard <maxime@cerno.tech>,
+ Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Neil Armstrong <narmstrong@baylibre.com>, Robert Foss
+ <robert.foss@linaro.org>, Jernej Skrabec <jernej.skrabec@gmail.com>
+Cc: Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org, Kyungmin
+ Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org, Xinliang Liu
+ <xinliang.liu@linaro.org>, Seung-Woo Kim <sw0312.kim@samsung.com>, Tian Tao
+ <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, Rob Clark
+ <robdclark@gmail.com>, dri-devel@lists.freedesktop.org, John Stultz
+ <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>, Xinwei Kong
+ <kong.kongxinwei@hisilicon.com>, Joonyoung Shim <jy0922.shim@samsung.com>
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <fc1fbd42-6ed4-9d67-2903-8f9cc2aaad43@samsung.com>
 Date: Fri, 17 Sep 2021 14:35:05 +0200
-Message-Id: <20210917123513.1106-19-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210917123513.1106-1-christian.koenig@amd.com>
-References: <20210917123513.1106-1-christian.koenig@amd.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+ Gecko/20100101 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <29a2111d-024b-4d9e-27ef-e3399509ff32@samsung.com>
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SfUxTVxjGc+69vf0wbS5Vw4kfGEvmGBsUlmWcRYMDcd6RmTln4qJx2OkN
+ KFC0FV0dbEgFoThSJIHSgrQrG4xhmQhakUBW3WopbfkYhBEUURJoRU1hOJDBRrm68d/vfc/z
+ fjxvDg8Xd5DreMfkpxiFXJYmIQXE9d/mPBFZRQmyKG33ZjRkcXPQt24Hhmq7LDj6feYZiSrH
+ XQBdGtESaLzaAlDXfARyTPYTaOJ+D4FmF9o5yJU7yUWFJTVcVNLh4qK+1koS6TztGDL5Wwik
+ m10EyFZ8EI2U6Zd6mGZxNKUfxVHdXAtA90rvAKQr9ZJorvUygX563M5FzZMlHPRrRz3n/Y30
+ s8E8Lj3s9pD0Tf09Lv2o6iqXNhRUcGhzmxej72p7MXp4oI2kbzx/wKEvOz6hR4rsGG1vHeLS
+ NWX9JF3cXA/oa86v6OmmkD3UAcG2o0zasdOMQhp7WJCSWxl1Qs3/suZ2HicHNHA1gM+D1DvQ
+ 3VSyxAKemKoDsLZqEGeDPwGcmvVibDANoGbGSGgAb7nE35DJ5msBdD18gQVaiSk/gN9XxAd4
+ NRUHtVP3iYBoDWUkoPNcwXJbnOohYMtDDR5QkVQ01DzRkAEWUrHQa3VyAkxQr8E6TzcR4LXU
+ EVi2kIuzmiDoqBhbzvOp7fAHTw4IME5tguoWA85yMBwaq15eG1IOARwuHCJZpwmwfuApzvJq
+ 6LM3v7zABvjPzVcFagBH3Ve4bHARwL5cHWBVW+Gw+wUZOABOvQEbW6VsOg4WNI29vIsIDj4J
+ YpcQwUvXy3E2LYQF+WJWvQXq7Zb/xv7S3YtrgUS/wpp+hR39Cjv6/+caAVEPgplMZXoyo4yW
+ M2cilbJ0ZaY8OfJIRnoTWPrjzkX7lBVU+fyRNoDxgA1AHi5ZI+zOipOJhUdlqrOMIiNJkZnG
+ KG1gPY+QBAvrDQ1JYipZdopJZZgTjOLVK8bjr8vBslYpBvC9Bf7v3rq9vXr3mzv3t99S7TV/
+ bI1PC9tc26n+MSb1bKjq9ZSr+8L4137+sPOQL0F6oHGfZqavKFQv9sPH3sNRD1yfDqqsu6cf
+ LYS91xV6Pnwx8bNNGye/SY0n5nuOq2LIERDXGVEVkmhW3KgrX/X1RLYxxegM55dKHV+MihpF
+ Mfl5A1vzrYIMM189YfLtCXvb6go136E+Lx9XnfyoJSR7x8VCX7W2aZvwD2gQ37qr3bnwgfp5
+ rGsX/XRLZOnY/JW/gpst+42JjuNr10sPJpX1v9twWndoPt/9t0nSaZNvMJptsTsMJ3vCu9D5
+ 3rYz2aLGICd5jnOhON40dWGXhFCmyKLDcYVS9i/CyZHTUgQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0xTZxTA+e69fZGR3VWMH8ShaUKcCoWW0n11QpEo3MUssWQucW5Ah1dg
+ Qqu97RzDQSMhjhJZWRdSSuWRIUNWMLw2rAihoqXjUafSLB0PjW4MxJGCUwg+1oJL+O93Hr9z
+ cpLDxfm3WeHcXJWW1qiUeQJ2MDH80jkZXVi+Xxl72RKHvG1jLHR+zIWhH0facHT33wU2ss6M
+ AvTdtJFAM3VtAI2sRiPX/DiB/p76jUDLL/pYaPTsPAeVVTZyUGX/KAfdsVvZyOzuw1CDr5tA
+ 5uWXADkqjqLpKot/RsMyjhYt93HUvNIN0KRpECCzaZaNVuy1BPrpUR8Hdc1XstCN/hZW0tvU
+ wu+lHGpizM2mrlgmOdSDC+0cquabahb1Q+8sRg0Zb2PUhKeXTf3y9B6LqnUpqOlyJ0Y57V4O
+ 1Vg1zqYquloA1TlcSC11RBwiPxbu1ah1Wnp7jprRJgiOipBYKJIhoVgiE4ri3v10jzheEJO4
+ 9xidl/sFrYlJzBTmnLXGnizhfdl4vZSlBzaOAXC5kJRAn01nAMFcPnkRQM/QAGYAPH9+K3RV
+ 6VnrvAk+9xjY600LAM6ZX7ADhU3kPmhcnCIChVCykYDXKz0gEODkOAH1NyyvFR+Ar5x2PKCw
+ SRE0PDas6SFkIpztGV7bQZCRsNl9iwjwZjILPn70DFvveQu6qh+u5XmkHDa59SDAOCmFtZ33
+ 8XXeBku6a17zFuh9WIcZAd+yQbdsUCwbFMsGpR4QLSCU1jH52fmMWMgo8xmdKluYpc7vAP7n
+ +vnmSlcPuDTnEzoAxgUOALm4IDTk1pl9Sn7IMWXBV7RGnaHR5dGMA8T776nEwzdnqf3fqdJm
+ iKSx8SKJVBYbL5PGCbaESAZtGXwyW6mlT9D0SVrzv4dxeeF67GB/Hx120aA15/2Tzjl1qT5d
+ Qcl9xtgPmtMOh32bcqWhY7L+QtTVw0+O/yVXFFuDIkxvtva2f//1gMS9MzX7+JGEJ5kfJVcf
+ XLrWMVKzar/a2U75fi3fzdOBofKJoraZge1l3qAKU7qymSna0bR0zjEoP7F44LStPpp72WtL
+ +TOhRz2VZHzGnGlNTcWKyZ3x3HvC0t3FN1tlb7SW3FldcWhMakXyq0Ll+a3byqK0BdLuqORP
+ Hnz4nEqKoMGhXU0azFxbepc5cDo18jP5U/G5z4n9R3gxxQXWNKHqHXlmzbW0IDedop6IC0ss
+ eN+5Izfjj/66U8GR73kgUYHPKfbMFgkIJkcp2oVrGOV/GhjNROUDAAA=
+X-CMS-MailID: 20210917123508eucas1p2a73b5bf1cab9fac80de826cacfd817b8
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20210910101445eucas1p172f99ff7fe853052fc457861c3174f9e
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20210910101445eucas1p172f99ff7fe853052fc457861c3174f9e
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+ <CGME20210910101445eucas1p172f99ff7fe853052fc457861c3174f9e@eucas1p1.samsung.com>
+ <20210910101218.1632297-25-maxime@cerno.tech>
+ <29a2111d-024b-4d9e-27ef-e3399509ff32@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,44 +140,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is maybe even a fix since the RCU usage here looks incorrect.
+Hi,
 
-v2: add missing rcu_read_lock()/unlock()
+On 13.09.2021 12:30, Andrzej Hajda wrote:
+> W dniu 10.09.2021 o 12:12, Maxime Ripard pisze:
+>> Without proper care and an agreement between how DSI hosts and devices
+>> drivers register their MIPI-DSI entities and potential components, we can
+>> end up in a situation where the drivers can never probe.
+>>
+>> Most drivers were taking evasive maneuvers to try to workaround this,
+>> but not all of them were following the same conventions, resulting in
+>> various incompatibilities between DSI hosts and devices.
+>>
+>> Now that we have a sequence agreed upon and documented, let's convert
+>> exynos to it.
+>>
+>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> This patch should be dropped, as it will probably break the driver.
+>
+> Exynos is already compatible with the pattern
+> register-bus-then-get-sink, but it adds/removes panel/bridge
+> dynamically, so it creates drm_device without waiting for downstream sink.
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_object.h | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Right, this patch breaks Exynos DSI driver operation. Without it, the 
+whole series works fine on all Exynos based test boards.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 48112b9d76df..487329a96e92 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -507,16 +507,18 @@ static inline struct intel_engine_cs *
- i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
- {
- 	struct intel_engine_cs *engine = NULL;
-+	struct dma_resv_iter cursor;
- 	struct dma_fence *fence;
- 
- 	rcu_read_lock();
--	fence = dma_resv_get_excl_unlocked(obj->base.resv);
-+	dma_resv_iter_begin(&cursor, obj->base.resv, false);
-+	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+		if (fence && dma_fence_is_i915(fence) &&
-+		    !dma_fence_is_signaled(fence))
-+			engine = to_request(fence)->engine;
-+	}
-+	dma_resv_iter_end(&cursor);
- 	rcu_read_unlock();
--
--	if (fence && dma_fence_is_i915(fence) && !dma_fence_is_signaled(fence))
--		engine = to_request(fence)->engine;
--	dma_fence_put(fence);
--
- 	return engine;
- }
- 
+Best regards
 -- 
-2.25.1
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
