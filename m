@@ -1,71 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 340C84104BF
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:26:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4D84104BE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:26:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1EF36E0EF;
+	by gabe.freedesktop.org (Postfix) with ESMTP id AEC446E0ED;
 	Sat, 18 Sep 2021 07:25:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com
- [IPv6:2a00:1450:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 298436EC7D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 12:58:02 +0000 (UTC)
-Received: by mail-wm1-x330.google.com with SMTP id
- c8-20020a7bc008000000b002e6e462e95fso9920261wmb.2
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 05:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=plrOrvIZM2TLyxiMQcIWBN+4lREuMv3pRG/Sh7a1xC8=;
- b=A1XyPdxcOquLxN0aX50A1ZFpsIYqi3fOAj7lTpkAapmpB6s0I7t5BtLQBntoT5o/gC
- LTk3U5iGqZXV00d7UWu1zJeHwNQUIaZQXm49I9GxJIR/4y18GU6Nvyoikkh2w2l4zgcp
- B3UYoAnqDqm9GVkUY9hqfwcQPouBjXs+iZX47NO/QJ/t4wb1kggMVtkvmAtzd4qzJFRW
- 7nWbDttoNJXmYKodYdihre5foSUAr0yPacNcyWtLspR5zCXh9y8npouXY1dRxKM6UQcn
- WZ3a9DrYMmZAVwaW7QgPnDaW9jP4k2Ex3PG5EKtnNHZgrO8bzEd2qcrTOZ99BSIM62Lu
- 8eYQ==
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com
+ [IPv6:2a00:1450:4864:20::533])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A8116ED8D
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 14:57:21 +0000 (UTC)
+Received: by mail-ed1-x533.google.com with SMTP id z94so30883263ede.8
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:57:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BjqYg/kdIxuTkYi0sI4jFtVCecYard36mD+kDvRG+ak=;
+ b=QuoPWUTBeExD9Yyv+njE9H5YTxnkC9RgV62XWwYjuzdyXelG8ZZG/NUFK9NSgOX5lV
+ p/SpC5vdJccRvPjj/7u/jOClsUV/6IuKaGa/NqoBOc9SHD8UrKhPH/K2IZTpvyMb8SsU
+ Bqo/jmnWrq9z+Nu2dZLP1FOT8VCpMtFbH60L1oule0IF7ZmilZxlYW5JzIa7/xdbPlZ3
+ t35GdF5Aq4cymaXd2c5RZeUURgvRKWSh/x8fF9SqXUaoRiNCfRutu3z8kvznrmTEEtxJ
+ RpSo4NScvmHhkNWJ6/R6YPaNyVh/8bs7VeB2nDd7NSQk0qzkq9gd9cVUOkdIHtCCX9ND
+ /pZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=plrOrvIZM2TLyxiMQcIWBN+4lREuMv3pRG/Sh7a1xC8=;
- b=rUQq7QnDER3wOqyO+XdAVbJyUUOLUevJW8+Vuhc4Bw3hVvZbTaFaQy61qLpr2RrGxu
- e/x2WGXXz0RJcjejVgiof0gpYwBRBusqS+PUCrcYYcFmeAMFoIllhK0QMgKWYGkcgyG/
- J7njglbOs05GbMXhepo44CP6riAP4O19aOXKL19oDXLhRgpr1MFSUMDeetLJk1VCdUHx
- RgUruwuTpWGPYTIbeS4WGHvqsYCQfGgs0jHzuQbuM7tsJ3KoK7Ru+KDIgeD7YmUb9bmd
- FnjrPwepp5xPNhAeBwQ5pHn3H6yWm8x2JRfaQN05xT02QoHNcdazuAMk+Wfo/yYqHwFk
- 4Bjg==
-X-Gm-Message-State: AOAM530WG5mVqWtQQy8SQbK6dDehya+q66O7hyKgdF801atzVy1NVFUJ
- a7T/DeHxGoQMiS4wJvjy9aBMsw==
-X-Google-Smtp-Source: ABdhPJxTbG15Mr23ALcQTVgBRPbbO7jTynJgRBVrKM9JKm3YI/iNB4vjrE9aSV9fhOwwMUSmYbl5Hw==
-X-Received: by 2002:a7b:c086:: with SMTP id r6mr10257667wmh.46.1631883480653; 
- Fri, 17 Sep 2021 05:58:00 -0700 (PDT)
-Received: from localhost.baylibre.local
- (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
- by smtp.gmail.com with ESMTPSA id f3sm6358636wmj.28.2021.09.17.05.57.59
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BjqYg/kdIxuTkYi0sI4jFtVCecYard36mD+kDvRG+ak=;
+ b=37+dXasrINVEG87qio8NfzxdaCKvRV83Kmmu0EKLyu21VdObOnZFtKfOYQ6P8hHh8j
+ 49WkGtl+wAKv607EAsdg4E/0ezJRSwCUc2GZroqNbLG/2Jkv5fCrIW8gGOBRMQGjnEkR
+ /F5FRu1AMjUsBA2yQ8c55waqNOKQM8+DwTYVS3INPCXQF/M69Qo4G70tucd/z7G/lJ4a
+ R6E7rQq09+yTwSYs8EjgbUOnkfFL1Jk5tJBKJkIWuXoEfOnJonfPUz4Zv8OrJx6mlAFe
+ TG3B919gpL10d9yz+zkUoP97XYYNdoqd6EVBYkrKOPcL3SEL8qm6IvyVcXWKfkpXVrOb
+ V3Og==
+X-Gm-Message-State: AOAM530mCZ89rLQ9lVa4pdaZCpOiZgg3OxtnajoGyXD1tDpb2MIxYJhM
+ jnOAfGd/q799BmC3OjBH/ME=
+X-Google-Smtp-Source: ABdhPJwze+2NJY8kzwJukoJQS8+nR/sEZR0dphNK5/pdY8xAR3arPpb7pLJoDBajz/QYBhRsnqp3IQ==
+X-Received: by 2002:aa7:c7cb:: with SMTP id o11mr12647452eds.137.1631890639607; 
+ Fri, 17 Sep 2021 07:57:19 -0700 (PDT)
+Received: from cerbero.fritz.box (93-41-150-160.ip82.fastwebnet.it.
+ [93.41.150.160])
+ by smtp.gmail.com with ESMTPSA id s11sm2722223edy.64.2021.09.17.07.57.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 17 Sep 2021 05:58:00 -0700 (PDT)
-From: Alexandre Bailon <abailon@baylibre.com>
-To: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
- matthias.bgg@gmail.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, ohad@wizery.com,
- bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
- sumit.semwal@linaro.org
-Cc: christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, khilman@baylibre.com, gpain@baylibre.com,
- Alexandre Bailon <abailon@baylibre.com>
-Subject: [RFC PATCH 4/4] ARM64: mt8183-pumpkin: Add the APU DRM device
-Date: Fri, 17 Sep 2021 14:59:45 +0200
-Message-Id: <20210917125945.620097-5-abailon@baylibre.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210917125945.620097-1-abailon@baylibre.com>
-References: <20210917125945.620097-1-abailon@baylibre.com>
+ Fri, 17 Sep 2021 07:57:19 -0700 (PDT)
+From: Mario <awxkrnl@gmail.com>
+X-Google-Original-From: Mario <0_Awx_0@protonmail.com>
+To: maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: Mario <0_Awx_0@protonmail.com>
+Subject: [PATCH] drm: panel-orientation-quirks: Add quirk for GPD Win3
+Date: Fri, 17 Sep 2021 16:57:19 +0200
+Message-Id: <20210917145719.24466-1-0_Awx_0@protonmail.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 18 Sep 2021 07:25:35 +0000
@@ -84,30 +74,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This add the APU DRM device to pumkpin.
-
-Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts | 6 ++++++
+ drivers/gpu/drm/drm_panel_orientation_quirks.c | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-index 7fbed2b7bc6f8..c540dbfe30151 100644
---- a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-+++ b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
-@@ -98,6 +98,12 @@ ntc {
- 		pulldown-ohm = <0>;
- 		io-channels = <&auxadc 0>;
- 	};
-+
-+	apu_drm@0 {
-+		compatible = "mediatek,apu-drm";
-+		remoteproc = <&apu0>, <&apu1>;
-+		iova = <0 0x60000000 0 0x10000000>;
-+	};
- };
- 
- &auxadc {
+diff --git a/drivers/gpu/drm/drm_panel_orientation_quirks.c b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+index f6bdec7fa925..f6177c1d9872 100644
+--- a/drivers/gpu/drm/drm_panel_orientation_quirks.c
++++ b/drivers/gpu/drm/drm_panel_orientation_quirks.c
+@@ -185,6 +185,12 @@ static const struct dmi_system_id orientation_data[] = {
+ 		  DMI_EXACT_MATCH(DMI_BOARD_NAME, "Default string"),
+ 		},
+ 		.driver_data = (void *)&gpd_win2,
++	}, {	/* GPD Win 3 */
++		.matches = {
++		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "GPD"),
++		  DMI_EXACT_MATCH(DMI_PRODUCT_NAME, "G1618-03")
++		},
++		.driver_data = (void *)&lcd720x1280_rightside_up,
+ 	}, {	/* I.T.Works TW891 */
+ 		.matches = {
+ 		  DMI_EXACT_MATCH(DMI_SYS_VENDOR, "To be filled by O.E.M."),
 -- 
-2.31.1
+2.33.0
 
