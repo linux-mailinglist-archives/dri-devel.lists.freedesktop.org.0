@@ -1,37 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8CF40F100
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:22:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1BF40F102
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 06:22:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E8CE06EB3D;
-	Fri, 17 Sep 2021 04:22:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA8BD6EB47;
+	Fri, 17 Sep 2021 04:22:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from baidu.com (mx24.baidu.com [111.206.215.185])
- by gabe.freedesktop.org (Postfix) with ESMTP id 2AEC26EB3D
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:22:22 +0000 (UTC)
-Received: from BC-Mail-Ex07.internal.baidu.com (unknown [172.31.51.47])
- by Forcepoint Email with ESMTPS id 6889FF61B7E1156E264E;
- Fri, 17 Sep 2021 12:22:21 +0800 (CST)
+ by gabe.freedesktop.org (Postfix) with ESMTP id 6DBAA6EB47
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 04:22:25 +0000 (UTC)
+Received: from BC-Mail-Ex03.internal.baidu.com (unknown [172.31.51.43])
+ by Forcepoint Email with ESMTPS id EF4F84E4D0413A9999FC;
+ Fri, 17 Sep 2021 12:22:23 +0800 (CST)
 Received: from BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) by
- BC-Mail-EX07.internal.baidu.com (172.31.51.47) with Microsoft SMTP Server
+ BC-Mail-Ex03.internal.baidu.com (172.31.51.43) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2242.12; Fri, 17 Sep 2021 12:22:21 +0800
+ 15.1.2242.12; Fri, 17 Sep 2021 12:22:23 +0800
 Received: from LAPTOP-UKSR4ENP.internal.baidu.com (172.31.63.8) by
  BJHW-MAIL-EX27.internal.baidu.com (10.127.64.42) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Fri, 17 Sep 2021 12:22:20 +0800
+ 15.1.2308.14; Fri, 17 Sep 2021 12:22:23 +0800
 From: Cai Huoqing <caihuoqing@baidu.com>
 To: <caihuoqing@baidu.com>
 CC: Jingoo Han <jingoohan1@gmail.com>, <dri-devel@lists.freedesktop.org>,
  <linux-fbdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH 1/6] fbdev: da8xx-fb: Make use of the helper function
+Subject: [PATCH 2/6] fbdev: pxa168fb: Make use of the helper function
  dev_err_probe()
-Date: Fri, 17 Sep 2021 12:22:07 +0800
-Message-ID: <20210917042213.17689-1-caihuoqing@baidu.com>
+Date: Fri, 17 Sep 2021 12:22:08 +0800
+Message-ID: <20210917042213.17689-2-caihuoqing@baidu.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210917042213.17689-1-caihuoqing@baidu.com>
+References: <20210917042213.17689-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [172.31.63.8]
@@ -60,27 +62,27 @@ gets printed.
 
 Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 ---
- drivers/video/fbdev/da8xx-fb.c | 7 +++----
+ drivers/video/fbdev/pxa168fb.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/video/fbdev/da8xx-fb.c b/drivers/video/fbdev/da8xx-fb.c
-index 005ac3c17aa1..ae76a2111c77 100644
---- a/drivers/video/fbdev/da8xx-fb.c
-+++ b/drivers/video/fbdev/da8xx-fb.c
-@@ -1354,10 +1354,9 @@ static int fb_probe(struct platform_device *device)
- 		return PTR_ERR(da8xx_fb_reg_base);
+diff --git a/drivers/video/fbdev/pxa168fb.c b/drivers/video/fbdev/pxa168fb.c
+index 47e6a1d0d229..35cf806a9219 100644
+--- a/drivers/video/fbdev/pxa168fb.c
++++ b/drivers/video/fbdev/pxa168fb.c
+@@ -606,10 +606,9 @@ static int pxa168fb_probe(struct platform_device *pdev)
+ 	}
  
- 	tmp_lcdc_clk = devm_clk_get(&device->dev, "fck");
--	if (IS_ERR(tmp_lcdc_clk)) {
--		dev_err(&device->dev, "Can not get device clock\n");
--		return PTR_ERR(tmp_lcdc_clk);
+ 	clk = devm_clk_get(&pdev->dev, "LCDCLK");
+-	if (IS_ERR(clk)) {
+-		dev_err(&pdev->dev, "unable to get LCDCLK");
+-		return PTR_ERR(clk);
 -	}
-+	if (IS_ERR(tmp_lcdc_clk))
-+		return dev_err_probe(&device->dev, PTR_ERR(tmp_lcdc_clk),
-+				     "Can not get device clock\n");
++	if (IS_ERR(clk))
++		return dev_err_probe(&pdev->dev, PTR_ERR(clk),
++				     "unable to get LCDCLK");
  
- 	pm_runtime_enable(&device->dev);
- 	pm_runtime_get_sync(&device->dev);
+ 	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (res == NULL) {
 -- 
 2.25.1
 
