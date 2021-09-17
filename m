@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48AC140FC89
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 17:35:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6648A40FC9E
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 17:37:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBF36ED9A;
-	Fri, 17 Sep 2021 15:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 505DF6EDA4;
+	Fri, 17 Sep 2021 15:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AABF76ED98
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:35:06 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id 73so13587793qki.4
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 08:35:06 -0700 (PDT)
+Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com
+ [IPv6:2607:f8b0:4864:20::f2d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D73056ED9B
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 15:37:09 +0000 (UTC)
+Received: by mail-qv1-xf2d.google.com with SMTP id g11so6671086qvd.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 08:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=etpvimAGC3cFSoQItQRzFF1YIvwQ/FhTWX31CB58c7c=;
- b=Z6qLGjOnr0PSGw2+rTiwMy4FDwPeOnctu6jRcIo22IJml0l0/ciiA0jAKPcXyw/hCo
- Yg7f3oBGgezMvi4yyl+uyOEP0Q5MZtuH5UI2hhpO9yXGj1IjL6Qz5R6H9L00O1hhqV6v
- gm6WA16jRTFsDQXvyuxa0NVFw96QNUU6pX0EMHuNYejEL635ThiZZKALc8iOLssFJMoz
- 6bv3cBANpCGiYLaYPFSWE3bhY5CpuO3F20uc6VkF00sp2q3ZR0OvcH4k8cf6oir+RRfH
- WjhZ+j9BqMciV1CvenBcVfEkQo/V/sA3Nha/0HSJT8cTl0y0ku0Z9BPxGuHJABLs23eT
- rFyw==
+ bh=4666f6QLqu0abf0jU2FdUqJtGO6Mim9/7DYqj3cqe0Y=;
+ b=UNfUGtD9E+jyZoZ+7ymL/dy8zrvBU1sjI0inJg8wkVTtZDQaJmozzzAfhI/3etcDVN
+ jK3EAL+40OSPutMsH93shP4YrB4FxNQWZH8/PBPk9wF2FUhFNO2Hm/ltp2UxiB2j9WSp
+ GW13iXrrDxG2t3HMMjN0R4iZzEX9CtIaz8JxJsAH2rfedTtCSlAMUEteOZ6WuAGG7Dcl
+ LMJzO83Qby9lVbMhNjeOEVBWWaT0tih1R4Q+6e3WzxUHGvFy7A+xVAWA0EuIBYJCWh5y
+ 9fAU+KRH3lsjfNISmSvN1JkrYUbJAVvVg1Raas+xNnyGVsi4DMQVpvNirWF8WHbQgqlx
+ 6nWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=etpvimAGC3cFSoQItQRzFF1YIvwQ/FhTWX31CB58c7c=;
- b=fxUp4beIR69/mSIGwGav0hl5QZzYpXid4/Fx1d/vlh7BjXXzcI45Sg59Ttm/5jl5pm
- 9RbCC5OKaJfyn/HBmgjdz5GnWvEKHX8eAptSjFqR8f6DyVPy+pbKOdmEOKbNuhf6D/tB
- TRuvOFN2UGGnSKHZ6tgsHnKCcTkfqc8hRH3QXczMazRAQAYf1z1fpYeAEykL082K2beZ
- Ealm/kDyhAGaU4f6o+4XuP2agC8GsiisTkToHrwuTvSskRfCzqkTAexe0IATGud7RZPz
- +UpZdnsQ+Gmud9Vnzq6HhhCif8rFGOL/RhgBSM6aNMcGHHj8mU6g4Cm7pgUiIRWL34xO
- EC0A==
-X-Gm-Message-State: AOAM53239Q67C6Wm3UFE6w1d41gqjEHsuewVld+8LNeja16IA9c4rYE/
- POAChjDHPeGOQLn7NXHyDn3pDw==
-X-Google-Smtp-Source: ABdhPJyPmLg1UvFfWoKe5JE6z4C3KPySZ0VD7+SIRxGUPboFqLU8Fxoj04i8QLcZPNOSwEU8IJbj/A==
-X-Received: by 2002:a37:994:: with SMTP id 142mr11044413qkj.467.1631892905711; 
- Fri, 17 Sep 2021 08:35:05 -0700 (PDT)
+ bh=4666f6QLqu0abf0jU2FdUqJtGO6Mim9/7DYqj3cqe0Y=;
+ b=VB2CCRMhVFFQs3b4H8HnpQEMlat5gtiIvW//2jHZv3jLEXw/SO9IgyZlKUUr5RK0iP
+ 3KizuKQe6taeAMjQdqsK5Bu6EaOkRTLeklKxmiUoUw1T85TNOA8OfZgnEJ1d+wa3f++W
+ V6xoQdPwFU/Yc1MVk/R7qz/sk0EGuNuwRu76JneSyI/OBpaAfQorL35/Ehyy/BG97MNV
+ Z+OuTTGGnUYzgqXZV2lAjZLEMvExC3eTCPi6tiTBkTgJ50kxlK06ipQb+2OxAcWFQadV
+ qXyz9FRovwpyfEoEBGU2qeGp/3BQwTpQMZrIInGy7NliffjJj4XdIq7biFjxy4sgnu8V
+ 1fYw==
+X-Gm-Message-State: AOAM530wPfZLb8mGwu/LDqFPuv5Eh0JYANAXheWwqGYnM0R5Bh0sqW+E
+ 3Q964d/+VJuXS5RbsP0A8O6/eC/uZZyilA==
+X-Google-Smtp-Source: ABdhPJw+k6NgZ72KgYvcl0ua622jIRGM/haARKec3HSClLiaWd4JyaqXtWZnrgyQTO38g4T48nhviQ==
+X-Received: by 2002:a05:6214:1243:: with SMTP id
+ q3mr2052455qvv.0.1631893029055; 
+ Fri, 17 Sep 2021 08:37:09 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id o22sm3838371qkk.132.2021.09.17.08.35.05
+ by smtp.gmail.com with ESMTPSA id t3sm5035654qkg.2.2021.09.17.08.37.08
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Fri, 17 Sep 2021 08:35:05 -0700 (PDT)
-Date: Fri, 17 Sep 2021 11:35:04 -0400
+ Fri, 17 Sep 2021 08:37:08 -0700 (PDT)
+Date: Fri, 17 Sep 2021 11:37:07 -0400
 From: Sean Paul <sean@poorly.run>
 To: Fernando Ramos <greenfoo@u92.eu>
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
@@ -54,15 +55,15 @@ Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 04/15] drm: cleanup: drm_modeset_lock_all() -->
+Subject: Re: [PATCH 05/15] drm/vmwgfx: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <20210917153504.GD2515@art_vandelay>
+Message-ID: <20210917153707.GE2515@art_vandelay>
 References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-5-greenfoo@u92.eu>
+ <20210916211552.33490-6-greenfoo@u92.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210916211552.33490-5-greenfoo@u92.eu>
+In-Reply-To: <20210916211552.33490-6-greenfoo@u92.eu>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,187 +80,137 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 11:15:41PM +0200, Fernando Ramos wrote:
+On Thu, Sep 16, 2021 at 11:15:42PM +0200, Fernando Ramos wrote:
 > As requested in Documentation/gpu/todo.rst, replace driver calls to
 > drm_modeset_lock_all() with DRM_MODESET_LOCK_ALL_BEGIN() and
 > DRM_MODESET_LOCK_ALL_END()
 > 
-> Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 
 Reviewed-by: Sean Paul <sean@poorly.run>
 
+> Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 > ---
->  drivers/gpu/drm/drm_client_modeset.c |  5 +++--
->  drivers/gpu/drm/drm_crtc_helper.c    | 18 ++++++++++++------
->  drivers/gpu/drm/drm_fb_helper.c      | 10 ++++++----
->  drivers/gpu/drm/drm_framebuffer.c    |  6 ++++--
->  4 files changed, 25 insertions(+), 14 deletions(-)
+>  drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c | 11 +++++++----
+>  drivers/gpu/drm/vmwgfx/vmwgfx_kms.c   | 12 ++++++++----
+>  2 files changed, 15 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
-> index 5f5184f071ed..43f772543d2a 100644
-> --- a/drivers/gpu/drm/drm_client_modeset.c
-> +++ b/drivers/gpu/drm/drm_client_modeset.c
-> @@ -1062,9 +1062,10 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
->  	struct drm_device *dev = client->dev;
->  	struct drm_mode_set *mode_set;
->  	struct drm_plane *plane;
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+> index 28af34ab6ed6..7df35c6f1458 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c
+> @@ -28,6 +28,7 @@
+>  #include "vmwgfx_drv.h"
+>  #include "vmwgfx_devcaps.h"
+>  #include <drm/vmwgfx_drm.h>
+> +#include <drm/drm_drv.h>
+>  #include "vmwgfx_kms.h"
+>  
+>  int vmw_getparam_ioctl(struct drm_device *dev, void *data,
+> @@ -172,6 +173,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
+>  	struct drm_vmw_rect __user *clips_ptr;
+>  	struct drm_vmw_rect *clips = NULL;
+>  	struct drm_framebuffer *fb;
 > +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = 0;
+>  	struct vmw_framebuffer *vfb;
+>  	struct vmw_resource *res;
+>  	uint32_t num_clips;
+> @@ -203,7 +205,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
+>  		goto out_no_copy;
+>  	}
 >  
 > -	drm_modeset_lock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	drm_for_each_plane(plane, dev) {
->  		if (plane->type != DRM_PLANE_TYPE_PRIMARY)
->  			drm_plane_force_disable(plane);
-> @@ -1093,7 +1094,7 @@ static int drm_client_modeset_commit_legacy(struct drm_client_dev *client)
->  			goto out;
->  	}
->  out:
+>  
+>  	fb = drm_framebuffer_lookup(dev, file_priv, arg->fb_id);
+>  	if (!fb) {
+> @@ -231,7 +233,7 @@ int vmw_present_ioctl(struct drm_device *dev, void *data,
+>  out_no_surface:
+>  	drm_framebuffer_put(fb);
+>  out_no_fb:
 > -	drm_modeset_unlock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
->  
->  	return ret;
->  }
-> diff --git a/drivers/gpu/drm/drm_crtc_helper.c b/drivers/gpu/drm/drm_crtc_helper.c
-> index bff917531f33..f3ce073dff79 100644
-> --- a/drivers/gpu/drm/drm_crtc_helper.c
-> +++ b/drivers/gpu/drm/drm_crtc_helper.c
-> @@ -218,11 +218,14 @@ static void __drm_helper_disable_unused_functions(struct drm_device *dev)
->   */
->  void drm_helper_disable_unused_functions(struct drm_device *dev)
->  {
+>  out_no_copy:
+>  	kfree(clips);
+>  out_clips:
+> @@ -250,6 +252,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+>  	struct drm_vmw_rect __user *clips_ptr;
+>  	struct drm_vmw_rect *clips = NULL;
+>  	struct drm_framebuffer *fb;
 > +	struct drm_modeset_acquire_ctx ctx;
-> +	int ret;
-> +
->  	WARN_ON(drm_drv_uses_atomic_modeset(dev));
+>  	struct vmw_framebuffer *vfb;
+>  	uint32_t num_clips;
+>  	int ret;
+> @@ -280,7 +283,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+>  		goto out_no_copy;
+>  	}
 >  
 > -	drm_modeset_lock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	__drm_helper_disable_unused_functions(dev);
+>  
+>  	fb = drm_framebuffer_lookup(dev, file_priv, arg->fb_id);
+>  	if (!fb) {
+> @@ -303,7 +306,7 @@ int vmw_present_readback_ioctl(struct drm_device *dev, void *data,
+>  out_no_ttm_lock:
+>  	drm_framebuffer_put(fb);
+>  out_no_fb:
 > -	drm_modeset_unlock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
->  }
->  EXPORT_SYMBOL(drm_helper_disable_unused_functions);
+>  out_no_copy:
+>  	kfree(clips);
+>  out_clips:
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> index 74fa41909213..268095cb8c84 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_kms.c
+> @@ -33,6 +33,7 @@
+>  #include <drm/drm_rect.h>
+>  #include <drm/drm_sysfs.h>
+>  #include <drm/drm_vblank.h>
+> +#include <drm/drm_drv.h>
 >  
-> @@ -942,12 +945,14 @@ void drm_helper_resume_force_mode(struct drm_device *dev)
+>  #include "vmwgfx_kms.h"
+>  
+> @@ -243,15 +244,17 @@ void vmw_kms_legacy_hotspot_clear(struct vmw_private *dev_priv)
+>  	struct drm_device *dev = &dev_priv->drm;
+>  	struct vmw_display_unit *du;
 >  	struct drm_crtc *crtc;
->  	struct drm_encoder *encoder;
->  	const struct drm_crtc_helper_funcs *crtc_funcs;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int encoder_dpms;
->  	bool ret;
-> +	int err;
->  
->  	WARN_ON(drm_drv_uses_atomic_modeset(dev));
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
->  	drm_for_each_crtc(crtc, dev) {
->  
->  		if (!crtc->enabled)
-> @@ -982,7 +987,7 @@ void drm_helper_resume_force_mode(struct drm_device *dev)
->  
->  	/* disable the unused connectors while restoring the modesetting */
->  	__drm_helper_disable_unused_functions(dev);
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
->  }
->  EXPORT_SYMBOL(drm_helper_resume_force_mode);
->  
-> @@ -1002,9 +1007,10 @@ EXPORT_SYMBOL(drm_helper_resume_force_mode);
->  int drm_helper_force_disable_all(struct drm_device *dev)
->  {
->  	struct drm_crtc *crtc;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = 0;
->  
-> -	drm_modeset_lock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	drm_for_each_crtc(crtc, dev)
->  		if (crtc->enabled) {
->  			struct drm_mode_set set = {
-> @@ -1016,7 +1022,7 @@ int drm_helper_force_disable_all(struct drm_device *dev)
->  				goto out;
->  		}
->  out:
-> -	drm_modeset_unlock_all(dev);
-> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
->  	return ret;
->  }
->  EXPORT_SYMBOL(drm_helper_force_disable_all);
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 3ab078321045..6860223f0068 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -940,10 +940,11 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
->  	struct drm_fb_helper *fb_helper = info->par;
->  	struct drm_mode_set *modeset;
->  	struct drm_crtc *crtc;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	u16 *r, *g, *b;
->  	int ret = 0;
->  
-> -	drm_modeset_lock_all(fb_helper->dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(fb_helper->dev, ctx, 0, ret);
->  	drm_client_for_each_modeset(modeset, &fb_helper->client) {
->  		crtc = modeset->crtc;
->  		if (!crtc->funcs->gamma_set || !crtc->gamma_size) {
-> @@ -970,7 +971,7 @@ static int setcmap_legacy(struct fb_cmap *cmap, struct fb_info *info)
->  			goto out;
->  	}
->  out:
-> -	drm_modeset_unlock_all(fb_helper->dev);
-> +	DRM_MODESET_LOCK_ALL_END(fb_helper->dev, ctx, ret);
->  
->  	return ret;
->  }
-> @@ -1441,10 +1442,11 @@ static int pan_display_legacy(struct fb_var_screeninfo *var,
->  	struct drm_fb_helper *fb_helper = info->par;
->  	struct drm_client_dev *client = &fb_helper->client;
->  	struct drm_mode_set *modeset;
-> +	struct drm_modeset_acquire_ctx ctx;
->  	int ret = 0;
->  
->  	mutex_lock(&client->modeset_mutex);
-> -	drm_modeset_lock_all(fb_helper->dev);
-> +	DRM_MODESET_LOCK_ALL_BEGIN(fb_helper->dev, ctx, 0, ret);
->  	drm_client_for_each_modeset(modeset, client) {
->  		modeset->x = var->xoffset;
->  		modeset->y = var->yoffset;
-> @@ -1457,7 +1459,7 @@ static int pan_display_legacy(struct fb_var_screeninfo *var,
->  			}
->  		}
->  	}
-> -	drm_modeset_unlock_all(fb_helper->dev);
-> +	DRM_MODESET_LOCK_ALL_END(fb_helper->dev, ctx, ret);
->  	mutex_unlock(&client->modeset_mutex);
->  
->  	return ret;
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 07f5abc875e9..205e9aa9a409 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -1059,8 +1059,10 @@ static void legacy_remove_fb(struct drm_framebuffer *fb)
->  	struct drm_device *dev = fb->dev;
->  	struct drm_crtc *crtc;
->  	struct drm_plane *plane;
 > +	struct drm_modeset_acquire_ctx ctx;
 > +	int ret;
 >  
 > -	drm_modeset_lock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->  	/* remove from any CRTC */
 >  	drm_for_each_crtc(crtc, dev) {
->  		if (crtc->primary->fb == fb) {
-> @@ -1082,7 +1084,7 @@ static void legacy_remove_fb(struct drm_framebuffer *fb)
->  			drm_plane_force_disable(plane);
->  		}
+>  		du = vmw_crtc_to_du(crtc);
+>  
+>  		du->hotspot_x = 0;
+>  		du->hotspot_y = 0;
 >  	}
 > -	drm_modeset_unlock_all(dev);
 > +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
 >  }
 >  
->  /**
+>  void vmw_kms_cursor_post_execbuf(struct vmw_private *dev_priv)
+> @@ -1012,9 +1015,10 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
+>  	struct vmw_framebuffer_bo *vfbd =
+>  		vmw_framebuffer_to_vfbd(framebuffer);
+>  	struct drm_clip_rect norect;
+> +	struct drm_modeset_acquire_ctx ctx;
+>  	int ret, increment = 1;
+>  
+> -	drm_modeset_lock_all(&dev_priv->drm);
+> +	DRM_MODESET_LOCK_ALL_BEGIN((&dev_priv->drm), ctx, 0, ret);
+>  
+>  	if (!num_clips) {
+>  		num_clips = 1;
+> @@ -1040,7 +1044,7 @@ static int vmw_framebuffer_bo_dirty(struct drm_framebuffer *framebuffer,
+>  
+>  	vmw_cmd_flush(dev_priv, false);
+>  
+> -	drm_modeset_unlock_all(&dev_priv->drm);
+> +	DRM_MODESET_LOCK_ALL_END((&dev_priv->drm), ctx, ret);
+>  
+>  	return ret;
+>  }
 > -- 
 > 2.33.0
 > 
