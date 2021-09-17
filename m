@@ -2,78 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A0240FE37
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 18:56:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5190940FE56
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 19:04:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46FB86E02C;
-	Fri, 17 Sep 2021 16:56:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1EF536E030;
+	Fri, 17 Sep 2021 17:04:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
- [64.147.123.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 735186E02A;
- Fri, 17 Sep 2021 16:56:44 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 152E132001BB;
- Fri, 17 Sep 2021 12:56:41 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Fri, 17 Sep 2021 12:56:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=jRLqcO8DyOfLRMp2YJoKkxVQ/qr
- hMa51voQnXd8BUks=; b=tpelSp52Sh2CxisPGqKDGNRA452mrk6vgNjQ0GlWGJF
- ffsIqOos3nj9efE0XTWtqlvNi/QUopESQEuUaWnTa3VwJZcR33FtCwJ3+LPwJqSO
- teu1TU1fqgLCP1wHH9cDlFbt/zStFQibJPOFnKOUB2P+g4jMNgkDqSkPT1Ijjtgz
- Vu5R0Ufe2UvCDA9jNY+nRtkgw1dbx00TKWtrjoV6FinKDal7Y46YmUuCkpdLXDOF
- LpXIhICTcGjFoWpDZDfOu18avBdGgtxw+0LtvlOjcoSN60tkt08tvv52uOVyRd4a
- 8iqMp1w/QszY41Q5EDZUOR/7mUnrphpMWROfEEUfmyA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=jRLqcO
- 8DyOfLRMp2YJoKkxVQ/qrhMa51voQnXd8BUks=; b=OfqjzntzCj8kf2aNypo1hB
- pzX4Iu3j8f+LyIADIRb+YHXJPw94B23EHWLXwhw8xUhdBSbnG2fNWCiBhnLmGrWt
- /rByRtO02tamiwF9cOvx3wVhnwPDBa4LQ3vDKQv5ynqj3d3gzpr/6fp7fa6b9h5T
- Mdm+3Rf0a5RsLFnPbfaN3XcnBQmzCHC7CMXVeWoxBDLwF7+I3R9iUZ8Unh5D5foO
- OUuM3X6SRfZphq3LXtsr7chHkDtn226NdQssfJ2zJeBPA9QKtxU0NY0mVTu90oek
- PG3bciSufUEY36reMCoDcWTgOa3Ez+wO0K0Bc4cT9IE2KcxbxM/USFIwpPgg6Hvw
- ==
-X-ME-Sender: <xms:x8hEYfZbl8Oo2oBwOr6qiB_-RgYS7U8KpSxZrVxfqY23ou9_yDaQWA>
- <xme:x8hEYeZHz6Y7lo8aVzUzV5TVbq-3qhNoNZvAyc0I20hrTC_wXMX9utTvAXciDF29m
- yGuRrdi-JMCJ5y5z_g>
-X-ME-Received: <xmr:x8hEYR-ZQvSI8HPxkD20xxii8xQGFXZOMKXn0v6Im3Qg1aM9MfWi3M0qHljSS7PABXrCxv8Juu3ObAStgxJLpJ8hQkGXmk7W7uuD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehiedguddtudcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuddvhfekkefhtdegiefhledutdevtdfhkedtleefjefgleduhfetudev
- jeehhfenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvg
- hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhn
- ohdrthgvtghh
-X-ME-Proxy: <xmx:x8hEYVp4ZCVOd4GDecGXyeMgXc6DiC-YtXA6dkRDkpcyhxF_PFr1jQ>
- <xmx:x8hEYareI2vpzmSjyhpYJG9SxMA_BS8hKID75lf9mjWc3Upl9N9UlQ>
- <xmx:x8hEYbQm8QkWcmHZktDzQYgsQWXD2okhhCaXGOb96cOv6xDaMnGEgQ>
- <xmx:yMhEYXCaS8e0dzkM1cEBxqHVqIGW4tx-qKTjlzBrf9UtHsHRTkMz3Q>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Sep 2021 12:56:39 -0400 (EDT)
-Date: Fri, 17 Sep 2021 18:56:37 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: intel-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- dri-devel@lists.freedesktop.org, ville.syrjala@linux.intel.com,
- manasi.d.navare@intel.com
-Subject: Re: [PATCH v3 00/13] drm/i915/dp: dp 2.0 enabling prep work
-Message-ID: <20210917165637.t3vdblkgk5rzplyu@gilmour>
-References: <cover.1631191763.git.jani.nikula@intel.com>
- <87mtobuzuo.fsf@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 931086E02E;
+ Fri, 17 Sep 2021 17:04:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="219649201"
+X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="219649201"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 10:04:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,301,1624345200"; d="scan'208";a="517194610"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga001.jf.intel.com with SMTP; 17 Sep 2021 10:04:27 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 17 Sep 2021 20:04:26 +0300
+Date: Fri, 17 Sep 2021 20:04:26 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Rajat Jain <rajatja@google.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Lyude <lyude@redhat.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <mgross@linux.intel.com>,
+ Andy Shevchenko <andy@infradead.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>,
+ Mario Limonciello <mario.limonciello@outlook.com>,
+ Mark Pearson <markpearson@lenovo.com>,
+ Sebastien Bacher <seb128@ubuntu.com>,
+ Marco Trevisan <marco.trevisan@canonical.com>,
+ Emil Velikov <emil.l.velikov@gmail.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH 9/9] drm/i915: Add privacy-screen support
+Message-ID: <YUTKmkCZ4RE095Ys@intel.com>
+References: <20210906073519.4615-1-hdegoede@redhat.com>
+ <20210906073519.4615-10-hdegoede@redhat.com>
+ <YUNKh9xcIGoi1eol@intel.com>
+ <1239f5f3-fd02-4eed-f464-e92c0afbb620@redhat.com>
+ <YUTBb05YNayO3yOg@intel.com>
+ <686d5177-3bf9-ddb0-5e55-a2e9969f36f7@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="achh35ttjdfm2zx5"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <87mtobuzuo.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <686d5177-3bf9-ddb0-5e55-a2e9969f36f7@redhat.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,39 +71,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 17, 2021 at 06:42:04PM +0200, Hans de Goede wrote:
+> Hi,
+> 
+> On 9/17/21 6:25 PM, Ville Syrjälä wrote:
+> > On Fri, Sep 17, 2021 at 04:37:14PM +0200, Hans de Goede wrote:
+> >> Hi,
+> >>
+> >> On 9/16/21 3:45 PM, Ville Syrjälä wrote:
+> >>> On Mon, Sep 06, 2021 at 09:35:19AM +0200, Hans de Goede wrote:
+> >>>> Add support for eDP panels with a built-in privacy screen using the
+> >>>> new drm_privacy_screen class.
+> >>>>
+> >>>> One thing which stands out here is the addition of these 2 lines to
+> >>>> intel_atomic_commit_tail:
+> >>>>
+> >>>> 	for_each_new_connector_in_state(&state->base, connector, ...
+> >>>> 		drm_connector_update_privacy_screen(connector, state);
+> >>>>
+> >>>> It may seem more logical to instead take care of updating the
+> >>>> privacy-screen state by marking the crtc as needing a modeset and then
+> >>>> do this in both the encoder update_pipe (for fast-sets) and enable
+> >>>> (for full modesets) callbacks. But ATM these callbacks only get passed
+> >>>> the new connector_state and these callbacks are all called after
+> >>>> drm_atomic_helper_swap_state() at which point there is no way to get
+> >>>> the old state from the new state.
+> >>>
+> >>> Pretty sure the full atomic state is plumbed all the way
+> >>> down these days.
+> >>
+> >> Including the old state? AFAICT the old-state is being thrown away
+> >> from drm_atomic_helper_swap_state(),
+> > 
+> > No. That's just when those annoying foo_state->state pointers get
+> > clobbered. We've been moving away from using those and just
+> > plumbing the entire atomic state everywhere.
+> > 
+> > Nothing actually gets freed until the whole drm_atomic_state gets
+> > nuked after the commit is done.
+> > 
+> >> so if we do this in a different
+> >> place then we don't have access to the old-state.
+> >>
+> >>
+> >>>
+> >>>>
+> >>>> Without access to the old state, we do not know if the sw_state of
+> >>>> the privacy-screen has changes so we would need to call
+> >>>> drm_privacy_screen_set_sw_state() unconditionally. This is undesirable
+> >>>> since all current known privacy-screen providers use ACPI calls which
+> >>>> are somewhat expensive to make.
+> >>>
+> >>> I doubt anyone is going to care about a bit of overhead for a modeset.
+> >>
+> >> But this is not a modeset, this is more like changing the backlight brightness,
+> >> atm the code does not set the needs_modeset when only the privacy-screen
+> >> sw-state has changed.
+> >>
+> >> Also in my experience the firmware (AML) code which we end up calling
+> >> for this is not the highest quality code, often it has interesting
+> >> issues / unhandled corner cases. So in my experience with ACPI we
+> >> really should try to avoid these calls unless we absolutely must make them,
+> >> but I guess not making unnecessary calls is something which could be handled
+> >> inside the actual privacy-screen driver instead.
+> >>
+> >>> The usual rule is that a modeset doesn't skip anything. That way we
+> >>> can be 100% sure we remeber to update everythinbg. For fastsets I guess
+> >>> one could argue skipping it if not needed, but not sure even that is
+> >>> warranted.
+> >>
+> >> Right, but again this is not a full modeset.
+> > 
+> > In general fastset is is just an optimized modeset. Userspace asked
+> > for a modeset, but we noticed it doesn't need it. I don't think
+> > there is a particular expectation that it's super fast.
+> > 
+> > But if this is really annoyingly slow in some actual usecase
+> 
+> Yeah these acpi-calls might take like a 100 ms easily, so
+> we really want to avoid it if it is not necessary.
+> 
+> > then
+> > one way to avoid that need to compare against the old state is just
+> > introduce another foo_changed flag.
+> 
+> Ok, so I have the feeling that you have an idea of how you think this
+> should be done / how this code should look instead of what I have
+> currently.
+> 
+> Can you perhaps provide a rough sketch / description of how you
+> think this should be done (instead of the current implementation) ?
+> 
+> Should I do the update from the the encoder update_pipe (for fast-sets)
+> and enable (for full modesets) callbacks instead as I mention in
+> the commit message ?
+> 
+> And since I still only want to do the call if there is an actual
+> change, where could I best do the old / new sw_state change cmp to
+> set the new foo_changed flag?
+>
 
---achh35ttjdfm2zx5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I guess it could be just something like this:
 
-On Fri, Sep 17, 2021 at 03:54:23PM +0300, Jani Nikula wrote:
-> On Thu, 09 Sep 2021, Jani Nikula <jani.nikula@intel.com> wrote:
-> > v3 of https://patchwork.freedesktop.org/series/93800/ with minor tweaks
-> > and the already merged patches obviously dropped.
-> >
-> > Jani Nikula (13):
-> >   drm/dp: add DP 2.0 UHBR link rate and bw code conversions
-> >   drm/dp: use more of the extended receiver cap
-> >   drm/dp: add LTTPR DP 2.0 DPCD addresses
-> >   drm/dp: add helper for extracting adjust 128b/132b TX FFE preset
->=20
-> Maarten, Maxime, Thomas, can I get an ack to merge these four patches
-> via drm-intel please, or would you prefer a topic branch instead?
+intel_digital_connector_duplicate_state()
+{
+	foo_changed = false;
+}
 
-Yes, you can merge them through drm-intel
+intel_digital_connector_atomic_check()
+{
+	if (old_foo != new_foo) {
+		mode_changed = true;
+		foo_changed = true;
+	}
+}
 
-Maxime
+update_pipe()
+{
+	if (foo_changed)
+		update_foo();
+}
 
---achh35ttjdfm2zx5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUTIxQAKCRDj7w1vZxhR
-xUtDAQDKKR1NSMd9SgL0CLx5EN0AC0l0IrGq39QQImUN0QL/HwD/Ud//WNo1oIIU
-uy37i+Kp/k+XDOpqVW8QR0U7s3hWbgU=
-=5KZX
------END PGP SIGNATURE-----
-
---achh35ttjdfm2zx5--
+-- 
+Ville Syrjälä
+Intel
