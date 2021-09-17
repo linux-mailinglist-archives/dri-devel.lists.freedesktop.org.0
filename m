@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A036540F2DA
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 09:03:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC92E40F2EB
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 09:10:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C705D6EC03;
-	Fri, 17 Sep 2021 07:03:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CAB946EC07;
+	Fri, 17 Sep 2021 07:10:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C40A26EC03
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:03:34 +0000 (UTC)
-Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1MDhQt-1mZc6G3qpL-00AjJA; Fri, 17 Sep 2021 09:03:31 +0200
-Received: by mail-wr1-f51.google.com with SMTP id w17so5294690wrv.10;
- Fri, 17 Sep 2021 00:03:31 -0700 (PDT)
-X-Gm-Message-State: AOAM533ae9BrIMk35ZJtVSO9so35w9XhCXOa9cYigdBJp9Mq2XFfLhCD
- JV9SD2L9tFkSiK2RR0bk5T+/YvyW3i0Ju7s9hT8=
-X-Google-Smtp-Source: ABdhPJz6K37oowvtVnUkowG0nxZzOI+axmO9A4ikJeOfih5HaJAzy/5L2QcnJCd43z3dvvawjMZrQdmy5VxlRg74EhY=
-X-Received: by 2002:a05:6000:1561:: with SMTP id
- 1mr863849wrz.369.1631862211495; 
- Fri, 17 Sep 2021 00:03:31 -0700 (PDT)
+Received: from ozlabs.org (bilbo.ozlabs.org [IPv6:2401:3900:2:1::2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A38136EC07;
+ Fri, 17 Sep 2021 07:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1631862598;
+ bh=bp0ZUgxCQhZbRnxIHPQI96iWY/FZMiRUNVypU7TLoCE=;
+ h=Date:From:To:Cc:Subject:From;
+ b=iFXX8Rq0LD9Ebq6aGKM2Eqb/JrL4epmgtLmA8mPndCRIJNsC1o1HlLZEbU++LacWi
+ PxsU5/2vdAkqjmzcTfHbeOoPc88kwJxbo0lFkgIf6JrARzJfKG8c5huL2+AHclw+0Z
+ in7JBPNB9VXKAyDOWkZmXZ0QRk437VmpzjPOiqt2RYBcU3gOEKSJqul7CCLNrLvJyL
+ WO98I/3Oacmp6aQi5YDmc37JnEZ7iwZ0KFt6aAHhe5clJvlrVENhDNX5j26tqofyJN
+ 9iDk7maTLlrSfAl+OyUIUbj+/BII5UT2DR4Mcm0qL7U9prEF5eQ+IcyHCfc1OAiLB6
+ kzBCIZPYgrLRA==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4H9lT116S1z9sW4;
+ Fri, 17 Sep 2021 17:09:55 +1000 (AEST)
+Date: Fri, 17 Sep 2021 17:09:53 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
+ <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Maxime Ripard <maxime@cerno.tech>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: build failure after merge of the drm-misc tree
+Message-ID: <20210917170953.19d0177f@canb.auug.org.au>
 MIME-Version: 1.0
-References: <20210917005913.157379-1-marex@denx.de>
-In-Reply-To: <20210917005913.157379-1-marex@denx.de>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Fri, 17 Sep 2021 09:03:14 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a1wE2r11LE1XX26LAag9xpP1yAeOqArScrK6nP9wK_f8w@mail.gmail.com>
-Message-ID: <CAK8P3a1wE2r11LE1XX26LAag9xpP1yAeOqArScrK6nP9wK_f8w@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm: Avoid potential overflow in timeout_to_jiffies()
-To: Marek Vasut <marex@denx.de>
-Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>, 
- Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@chromium.org>, 
- "# 3.4.x" <stable@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:S4YrlN6BgutooWXOx59lR4XG9apJTx3XOggV97tELrfIh1fbJMR
- RDh7/MGD0yY2bTQFi6nrueEtWp3MKs3drk7IhO+mc9jq99pPR1BB8aDk0GVbSjBKQnGvxoc
- Sj+sAz6paJlxJFd+o3kdI4ivTTh6bE/PB6EDE+BUX10Sl3O8U2cPe9HPIqlYO6dRItIiAjU
- 8UUPZHRmvHdzchHweD+UQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7Ge1X6TPnVU=:HDqpJCECvajA9HY/NiEuON
- WVsQyr44DCMcnLlQJGbkskJyDQyGkQWwEuRrv88N2axbcThTLBrXQR6D3HbynwWldis0/jPVC
- LxUsTCU7EcQUuKUpij2gdo5FUuNY3zN1nysLEL3YFCEL3+W5SyRwPTV+J+qGBVpeTdkumdDoo
- /Xqw4tx8+cJeySca5dR/Oh0uoGmaRyofyCqMHH7jSndetsjtKKS3MaZp1t52D4MeCzxP173zf
- NWlL4lbIINm3aWLNJ3vJadoRm3uvg0h/Y7G7MPngUcGYpQgtGZtus7u0jokyDAEZuwUEZzNXB
- nN8NqtFRaJhPcgtws8gIE82dX2SYu96WYCX2NASAzT9qoaFootPjUFc9YYOtRfCVerNSYxWdT
- srh7bwfQ6q7n8BCQFnR+bGOPqVAx37VgnEmqNjFSr8UAGPuOptcGX98kSCuO6Fgj9lJOEzeK3
- LQF+/72fTD6/a+e3iTTxGqHKFqjZMFm1al6AolCA5ND5vLXkQXtMa3nlF9cXLVfnAhi07Kr0L
- XREkJ+K1lXiw4qa5qfyboiLlIpKYP8NOjh/EKg9L6Sv+PhtnCXOzc6V4sDAWGsXL8kj5H2QA6
- zeSDqylvL/MvWOVdqdy63PhRMHyYgOz9nk7Rbdu2K/wNI68QJ9wF4Nm4wBRcmhL1nJ7aHXq6/
- nT8IQLoK7f60+Ln5gHxRNBiEsuBjJD0hsMrLB0W17IonseSaEckqjlDOdMMQZ1YWDLh3XV07y
- 6wuqHCYNSuLxJmV+guLWogDlb/q3O01KNU8Wdmsw1Lms52eM3M4U5noZCVtonPxcXyFkWP+Nu
- 5A5yKcMXEjOOEbmZZ1mqUDj7Bn1r/h7ojHKnkR48MMzdONSGHFydxqaf2WnUvnCmZBnrz6aHo
- s0zg6N7itSKz+twwcA7g==
+Content-Type: multipart/signed; boundary="Sig_/DbFq18WWwwrtySTT.BPm7f_";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,34 +55,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 17, 2021 at 2:59 AM Marek Vasut <marex@denx.de> wrote:
->
-> The return type of ktime_divns() is s64. The timeout_to_jiffies() currently
-> assigns the result of this ktime_divns() to unsigned long, which on 32 bit
-> systems may overflow. Furthermore, the result of this function is sometimes
-> also passed to functions which expect signed long, dma_fence_wait_timeout()
-> is one such example.
->
-> Fix this by adjusting the type of remaining_jiffies to s64, so we do not
-> suffer overflow there, and return a value limited to range of 0..INT_MAX,
-> which is safe for all usecases of this timeout.
->
-> The above overflow can be triggered if userspace passes in too large timeout
-> value, larger than INT_MAX / HZ seconds. The kernel detects it and complains
-> about "schedule_timeout: wrong timeout value %lx" and generates a warning
-> backtrace.
->
-> Note that this fixes commit 6cedb8b377bb ("drm/msm: avoid using 'timespec'"),
-> because the previously used timespec_to_jiffies() function returned unsigned
-> long instead of s64:
-> static inline unsigned long timespec_to_jiffies(const struct timespec *value)
->
-> Fixes: 6cedb8b377bb ("drm/msm: avoid using 'timespec'")
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Jordan Crouse <jcrouse@codeaurora.org>
-> Cc: Rob Clark <robdclark@chromium.org>
-> Cc: stable@vger.kernel.org # 5.6+
-> ---
+--Sig_/DbFq18WWwwrtySTT.BPm7f_
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Acked-by: Arnd Bergmann <arnd@arndb.de>
+Hi all,
+
+After merging the drm-misc tree, today's linux-next build (x86_64
+modules_install) failed like this:
+
+depmod: ERROR: Cycle detected: drm_kms_helper -> drm -> drm_kms_helper
+depmod: ERROR: Cycle detected: cec
+depmod: ERROR: Found 2 modules in dependency cycles!
+
+Caused by commit
+
+  87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
+
+I have reverted these commits for today:
+
+  a43dd76bacd0 ("drm/vc4: dsi: Switch to devm_drm_of_get_bridge")
+  0caddbbfdfa2 ("drm/vc4: dpi: Switch to devm_drm_of_get_bridge")
+  87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/DbFq18WWwwrtySTT.BPm7f_
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFEP0EACgkQAVBC80lX
+0GzMtwf/cTt3xaEfQHZ7JsDX0+AwM/sYl4xNWtaU6fKrZi000GsPNbxx7xZSz7K7
+5kW0VIM76nkMzTpV6y4midx25Tzgp8vMUnkbuiGUkHApIBRCNgCvRyweg0PsQFhS
+jMVqc4UNxv4V+1OzC5PGXiEOhpLmYyPCGex5lyvibykvDUJ4F//brQKmKYTfkW3Y
+6SukkK+u4M+e21vBNryrPcM4OJykoLh3kZgKrsM9DSpoAq3AZoYYTQOV7jbWC/MN
+qn6+NoiQjraPIVRBrYa/mUHb6dGpeC9pwllOST9ijOMxrQ+zZpDj9aDJfFyJv7Yd
+QrY/kuu4R7rtsriQNyuKy8f+jUKSWA==
+=esFv
+-----END PGP SIGNATURE-----
+
+--Sig_/DbFq18WWwwrtySTT.BPm7f_--
