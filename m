@@ -2,39 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D3D40F294
-	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 08:44:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A036540F2DA
+	for <lists+dri-devel@lfdr.de>; Fri, 17 Sep 2021 09:03:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA5A6EB9B;
-	Fri, 17 Sep 2021 06:44:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C705D6EC03;
+	Fri, 17 Sep 2021 07:03:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 57F256EB9B
- for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 06:44:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=ioOfcV2cVAYpCFAYLbC11PyrwJpIs71yePas0NtDjHM=; 
- b=NXl7vOIIuPsxElLYAVgU00HE0jFyWrPNoKqfB/OlDds+/S33G/IwS4C2+2PkDPygOOxywosNYJp6lD9oEk8cd6vOkYOZ05Q73zI2oAwyaNmsGO4wDAb3TKKm7c13rRem6sPl9X8VnqpwDmI75Sp7L/A2kfIEq9zcUyhS54Xr9yMqHHDeEbpM3m0Fm/p1QWiMYnNhkSDU0CTds3j8zpExGuIT7fa8+8pIIV02Etv7vfXzY8M3ouiPXObdvkGG3CDVvP5BUOX4SRGCsLtWkwgYtUEPDOaORvLkrz1+xgjoGIbrRAoCGGFfkA5OSbmQT1WScG5Cq+rUbOWnlylOIa2npw==;
-Received: from 164.49.165.83.dynamic.reverse-mundo-r.com ([83.165.49.164]
- helo=zeus) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mR7bN-0001zL-Vz; Fri, 17 Sep 2021 08:44:02 +0200
-Message-ID: <e408d91387fa8d64cfbb42b9df34f9f9aefcf574.camel@igalia.com>
-Subject: Re: [PATCH] drm/v3d: fix sched job resources cleanup when a job is
- aborted
-From: Iago Toral <itoral@igalia.com>
-To: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, Daniel
- Vetter <daniel@ffwll.ch>
-Date: Fri, 17 Sep 2021 08:43:52 +0200
-In-Reply-To: <20210916212726.2u2psq2egwy2mdva@mail.igalia.com>
-References: <20210916212726.2u2psq2egwy2mdva@mail.igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C40A26EC03
+ for <dri-devel@lists.freedesktop.org>; Fri, 17 Sep 2021 07:03:34 +0000 (UTC)
+Received: from mail-wr1-f51.google.com ([209.85.221.51]) by
+ mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
+ 1MDhQt-1mZc6G3qpL-00AjJA; Fri, 17 Sep 2021 09:03:31 +0200
+Received: by mail-wr1-f51.google.com with SMTP id w17so5294690wrv.10;
+ Fri, 17 Sep 2021 00:03:31 -0700 (PDT)
+X-Gm-Message-State: AOAM533ae9BrIMk35ZJtVSO9so35w9XhCXOa9cYigdBJp9Mq2XFfLhCD
+ JV9SD2L9tFkSiK2RR0bk5T+/YvyW3i0Ju7s9hT8=
+X-Google-Smtp-Source: ABdhPJz6K37oowvtVnUkowG0nxZzOI+axmO9A4ikJeOfih5HaJAzy/5L2QcnJCd43z3dvvawjMZrQdmy5VxlRg74EhY=
+X-Received: by 2002:a05:6000:1561:: with SMTP id
+ 1mr863849wrz.369.1631862211495; 
+ Fri, 17 Sep 2021 00:03:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20210917005913.157379-1-marex@denx.de>
+In-Reply-To: <20210917005913.157379-1-marex@denx.de>
+From: Arnd Bergmann <arnd@arndb.de>
+Date: Fri, 17 Sep 2021 09:03:14 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a1wE2r11LE1XX26LAag9xpP1yAeOqArScrK6nP9wK_f8w@mail.gmail.com>
+Message-ID: <CAK8P3a1wE2r11LE1XX26LAag9xpP1yAeOqArScrK6nP9wK_f8w@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Avoid potential overflow in timeout_to_jiffies()
+To: Marek Vasut <marex@denx.de>
+Cc: linux-arm-msm <linux-arm-msm@vger.kernel.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Jordan Crouse <jcrouse@codeaurora.org>, Rob Clark <robdclark@chromium.org>, 
+ "# 3.4.x" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:S4YrlN6BgutooWXOx59lR4XG9apJTx3XOggV97tELrfIh1fbJMR
+ RDh7/MGD0yY2bTQFi6nrueEtWp3MKs3drk7IhO+mc9jq99pPR1BB8aDk0GVbSjBKQnGvxoc
+ Sj+sAz6paJlxJFd+o3kdI4ivTTh6bE/PB6EDE+BUX10Sl3O8U2cPe9HPIqlYO6dRItIiAjU
+ 8UUPZHRmvHdzchHweD+UQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7Ge1X6TPnVU=:HDqpJCECvajA9HY/NiEuON
+ WVsQyr44DCMcnLlQJGbkskJyDQyGkQWwEuRrv88N2axbcThTLBrXQR6D3HbynwWldis0/jPVC
+ LxUsTCU7EcQUuKUpij2gdo5FUuNY3zN1nysLEL3YFCEL3+W5SyRwPTV+J+qGBVpeTdkumdDoo
+ /Xqw4tx8+cJeySca5dR/Oh0uoGmaRyofyCqMHH7jSndetsjtKKS3MaZp1t52D4MeCzxP173zf
+ NWlL4lbIINm3aWLNJ3vJadoRm3uvg0h/Y7G7MPngUcGYpQgtGZtus7u0jokyDAEZuwUEZzNXB
+ nN8NqtFRaJhPcgtws8gIE82dX2SYu96WYCX2NASAzT9qoaFootPjUFc9YYOtRfCVerNSYxWdT
+ srh7bwfQ6q7n8BCQFnR+bGOPqVAx37VgnEmqNjFSr8UAGPuOptcGX98kSCuO6Fgj9lJOEzeK3
+ LQF+/72fTD6/a+e3iTTxGqHKFqjZMFm1al6AolCA5ND5vLXkQXtMa3nlF9cXLVfnAhi07Kr0L
+ XREkJ+K1lXiw4qa5qfyboiLlIpKYP8NOjh/EKg9L6Sv+PhtnCXOzc6V4sDAWGsXL8kj5H2QA6
+ zeSDqylvL/MvWOVdqdy63PhRMHyYgOz9nk7Rbdu2K/wNI68QJ9wF4Nm4wBRcmhL1nJ7aHXq6/
+ nT8IQLoK7f60+Ln5gHxRNBiEsuBjJD0hsMrLB0W17IonseSaEckqjlDOdMMQZ1YWDLh3XV07y
+ 6wuqHCYNSuLxJmV+guLWogDlb/q3O01KNU8Wdmsw1Lms52eM3M4U5noZCVtonPxcXyFkWP+Nu
+ 5A5yKcMXEjOOEbmZZ1mqUDj7Bn1r/h7ojHKnkR48MMzdONSGHFydxqaf2WnUvnCmZBnrz6aHo
+ s0zg6N7itSKz+twwcA7g==
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,108 +72,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Reviewed-by: Iago Toral Quiroga <itoral@igalia.com>
-
-With that said, I don't like how we are doing error handling here, I
-think we want to simplify this and try to make it so we centralize
-error handling in one place instead of having multiple error exits
-paths, each one trying to do the right thing at that point. This is
-error prone, as this patch is showing.
-
-Here is a proposal to make this better:
-
-Make job memory allocation part of v3d_job_init. v3d_job init already
-handles error conditions nicely. If we do this, we no longer need to
-handle allocation errors in ioctls one by one and for any job we only
-have two scenarios: v3d_job_init was successul or it failed (in which
-case we know it already cleaned up after itself and we should have a
-NULL job as a result). If v3d_job_init failed, then we *always* jump to
-the fail tag and there we call v3d_job_cleanup for all jobs that can be
-created in that ioctl. If a job is NULL then v3d_job_cleanup returns
-early, otherwise, we know it is a fully initialized job, so it does 	
-drm_sched_job_cleanup + v3d_job_put.
-
-I think that should make error handling in these functions a lot
-easier.
-
-Iago
-
-
-On Thu, 2021-09-16 at 22:27 +0100, Melissa Wen wrote:
-> In a cl submission, when bin job initialization fails, sched job
-> resources
-> were already allocated for the render job. At this point,
-> drm_sched_job_init(render) was done in v3d_job_init but the render
-> job is
-> aborted before drm_sched_job_arm (in v3d_job_push) happens;
-> therefore, not
-> only v3d_job_put but also drm_sched_job_cleanup should be called (by
-> v3d_job_cleanup). A similar issue is addressed for csd and tfu
-> submissions.
-> 
-> The issue was noticed from a review by Iago Toral in a patch that
-> touches
-> the same part of the code.
-> 
-> Fixes: 916044fac8623 ("drm/v3d: Move drm_sched_job_init to
-> v3d_job_init")
-> Signed-off-by: Melissa Wen <mwen@igalia.com>
+On Fri, Sep 17, 2021 at 2:59 AM Marek Vasut <marex@denx.de> wrote:
+>
+> The return type of ktime_divns() is s64. The timeout_to_jiffies() currently
+> assigns the result of this ktime_divns() to unsigned long, which on 32 bit
+> systems may overflow. Furthermore, the result of this function is sometimes
+> also passed to functions which expect signed long, dma_fence_wait_timeout()
+> is one such example.
+>
+> Fix this by adjusting the type of remaining_jiffies to s64, so we do not
+> suffer overflow there, and return a value limited to range of 0..INT_MAX,
+> which is safe for all usecases of this timeout.
+>
+> The above overflow can be triggered if userspace passes in too large timeout
+> value, larger than INT_MAX / HZ seconds. The kernel detects it and complains
+> about "schedule_timeout: wrong timeout value %lx" and generates a warning
+> backtrace.
+>
+> Note that this fixes commit 6cedb8b377bb ("drm/msm: avoid using 'timespec'"),
+> because the previously used timespec_to_jiffies() function returned unsigned
+> long instead of s64:
+> static inline unsigned long timespec_to_jiffies(const struct timespec *value)
+>
+> Fixes: 6cedb8b377bb ("drm/msm: avoid using 'timespec'")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Jordan Crouse <jcrouse@codeaurora.org>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: stable@vger.kernel.org # 5.6+
 > ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 11 +++++------
->  1 file changed, 5 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 1953706bdaeb..ead0be8d48a7 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -567,14 +567,14 @@ v3d_submit_cl_ioctl(struct drm_device *dev,
-> void *data,
->  	if (args->bcl_start != args->bcl_end) {
->  		bin = kcalloc(1, sizeof(*bin), GFP_KERNEL);
->  		if (!bin) {
-> -			v3d_job_put(&render->base);
-> +			v3d_job_cleanup(&render->base);
-> 
-> >  			return -ENOMEM;
->  		}
->  
->  		ret = v3d_job_init(v3d, file_priv, &bin->base,
->  				   v3d_job_free, args->in_sync_bcl,
-> V3D_BIN);
->  		if (ret) {
-> -			v3d_job_put(&render->base);
-> +			v3d_job_cleanup(&render->base);
->  			kfree(bin);
->  			return ret;
->  		}
-> @@ -716,7 +716,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> *data,
->  	job->base.bo = kcalloc(ARRAY_SIZE(args->bo_handles),
->  			       sizeof(*job->base.bo), GFP_KERNEL);
->  	if (!job->base.bo) {
-> -		v3d_job_put(&job->base);
-> +		v3d_job_cleanup(&job->base);
->  		return -ENOMEM;
->  	}
->  
-> @@ -810,14 +810,13 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> void *data,
->  
->  	clean_job = kcalloc(1, sizeof(*clean_job), GFP_KERNEL);
->  	if (!clean_job) {
-> -		v3d_job_put(&job->base);
-> -		kfree(job);
-> +		v3d_job_cleanup(&job->base);
->  		return -ENOMEM;
->  	}
->  
->  	ret = v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0,
-> V3D_CACHE_CLEAN);
->  	if (ret) {
-> -		v3d_job_put(&job->base);
-> +		v3d_job_cleanup(&job->base);
->  		kfree(clean_job);
->  		return ret;
->  	}
 
+Acked-by: Arnd Bergmann <arnd@arndb.de>
