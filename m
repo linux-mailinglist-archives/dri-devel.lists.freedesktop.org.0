@@ -1,47 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF1714105E3
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 12:09:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F49941061F
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 13:59:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 57E196E069;
-	Sat, 18 Sep 2021 10:09:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DA3FD6E073;
+	Sat, 18 Sep 2021 11:59:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3FD096E069
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 10:09:47 +0000 (UTC)
-Date: Sat, 18 Sep 2021 10:09:43 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1631959784;
- bh=ll76qEOcSNUelo48U9giKZcgjKv2TvO6dO9wfmqe3Tw=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=Exeu9UjVmYb6a92oBaXroqz9i0sHon9RfEQajsBcFD4HXM2VlKjtvc/gQ0/Kkxmh7
- 3HJ6LeI3T/fCfBiX0I3ZxJLSSARj9SfEMzRuxghRV43u5I3Ndbma+BEifBFxTlXNKV
- jyks0DWsoBhvh0unw0D68qj8muLKQZrxfzSJ7Dk+nHRDzPw6kO663NhkeQkmetREwc
- jl7m0vg+KGwvrr0W6Hx8B/nwmse7NphAd/QMul3VeR9Hart2K8FXdRuAOu5kcs44jy
- xzBTm/oepQSFx+Gi1w1WYz22k9msoFxgJaaVQI5t0hIzltP0ma66U1yTPBvgW1IKeS
- uF+6D+yjqjiKA==
-To: Michael Stapelberg <michael@stapelberg.ch>, Emma Anholt <emma@anholt.net>,
- Maxime Ripard <mripard@kernel.org>
-From: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, torvalds@linux-foundation.org,
- felix.kuehling@amd.com, Dave Airlie <airlied@gmail.com>
-Subject: Re: [git pull] drm for 5.14-rc1
-Message-ID: <Ec7qdLcYN_zNMfyzQd3VwYIsEfepGv3fZRaXbIOUgb6P5Ot2J36V9bXRmfAg70ThbtKNEulHf1eh7tQa71nBeGgUWQJSJ-5ePphoNsdwKkc=@emersion.fr>
-In-Reply-To: <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
-References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
- <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
- <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDC016E073
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 11:59:06 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 5510361284
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 11:59:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631966346;
+ bh=2G8ISDu6GaofcQUnneVXSM3w1A4xBoOc5u5hDmr6xj0=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=RgVe24o+PX8pnIEyM3Z0nBZL9UpnYNNYoK8oYhx1JleltiG9cCeZ7jZ36aatKbzUC
+ uHcuGxJPo1qwNbAKPwcO9Oof+/1L4DgVv5LLXd2sbcYh6hfa2I1/ENKXO/ehherToA
+ ET2x4C+UnEe/SkABLxeBMGb/uNzZLaTK3yONkNs5oSMTEnGjiQU7F6+Zl5k7x0xTzB
+ WHqd85p8cSVX26mIWdfN8GfTZNbUcZien4pamQPGMVGEiTYEtIWRz/HT0c3hKpKjZa
+ jg5xxiJFO1uXojiLouGyBBXnG/sj7SPKtd1rgLcsaxhgtzkru2xT3C8b0qdTiCcJaa
+ s7XTc6gpORf2Q==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 51C1C610CA; Sat, 18 Sep 2021 11:59:06 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
+ 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
+Date: Sat, 18 Sep 2021 11:59:05 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: low
+X-Bugzilla-Who: nils.tonnaett@posteo.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211807-2300-i1SOPMQPLQ@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
+References: <bug-211807-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,43 +66,24 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-CC Emma and Maxime
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
 
-On Saturday, September 18th, 2021 at 11:18, Michael Stapelberg <michael@sta=
-pelberg.ch> wrote:
+--- Comment #9 from Nils Tonn=C3=A4tt (nils.tonnaett@posteo.de) ---
+I've tested 5.15.0-0.rc1.20210917gitbdb575f87217 from Fedora's mainline ker=
+nel
+repo where this is already applied. But this triggers a segfault in gnome-s=
+hell
+(even with DP 1.2 turned off):
+[   23.621514] gnome-shell[2126]: segfault at 0 ip 0000000000000000 sp
+00007ffdc1fa6af8 error 14
 
-> Hi,
->
-> torvalds at linux-foundation.org (Linus Torvalds) writes:
-> > Did I fix it up correctly? Who knows. The code makes more sense to me
-> > now and seems valid. But I really *really* want to stress how locking
-> > is important.
->
-> As far as I can tell, this merge conflict resolution made my Raspberry
-> Pi 3 hang on boot. You can find the full serial console output at:
->
-> https://t.zekjur.net/linux-5.14-raspberry-pi-3-hang-vc4.txt
->
-> The last few messages are from vc4, then the boot hangs.
->
-> Using git-bisect, I tracked this down to
-> https://github.com/torvalds/linux/commit/e058a84bfddc42ba356a2316f2cf1141=
-974625c9,
-> which is the merge you=E2=80=99re talking about here, AFAICT.
->
-> I also tried the git://anongit.freedesktop.org/drm/drm, and that tree
-> boots as expected, suggesting that the problem really is with the
-> additional changes.
->
-> The code seems to work on my Raspberry Pi 4, just not on the Raspberry
-> Pi 3. Any ideas why that might be, and how to fix it?
->
-> Thanks!
->
-> --
-> Best regards,
-> Michael
+I'll try to patch 5.14 now.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
