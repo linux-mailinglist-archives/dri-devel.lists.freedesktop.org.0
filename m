@@ -2,117 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C94A14102DC
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 04:03:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 206BB41035C
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 06:19:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C40F16EEB7;
-	Sat, 18 Sep 2021 02:03:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23F136F3A4;
+	Sat, 18 Sep 2021 04:19:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam12on2057.outbound.protection.outlook.com [40.107.244.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0691B6EEB5;
- Sat, 18 Sep 2021 02:03:15 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AJ9ogV/g76IyhANF+np7sYRjdkjcn1shpEB025F7yuQiq+ynXSAQjDtpY3e+z9BIUAf3FGGl3CISQBkL9siWSQOUA9llNul+QP/e9k+Ic4MTTLvdilE5KyHmASLir4shsWHU0j5pWgbhc2YJrqwqI6SBJu42yPkJ5skg4moRsq5AWxS0chANSrfB8gSTPiERXEJfildOfwX8iZ3o6BiApWKS+aAwe2Od80X7y6w1Fn0c/ufhTbsLrnfeyXBIzk+QuOv8IMWKFjZ4guWQnELrs6x72HZ0MGSF+ILwKBMNL260nSTeJYcsza0+xazwoIX25TFBBhPLQLsHWMF92D/xJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=Dd9BlHk5XQlf6K4FNONx6VveiAvrdZ5DcQsbh1C39MM=;
- b=muOjJe+3PTNN3c9pDNhsm2pzmCeGwNNEoDUErdES/cjNgOn9DZZVEenoBcRgTIVKCL2kXZFNIZMM9PN3Zt0Y/TNYyaYQkGHcRvgBtPjBjsa6HwG04XQoY41Ac1I3E468Uzi7QFSY64msQdLJDToNxxJR9LNafpysah5dvh8PgLOIfqyf0mtVHCVgyzPFdUXXLY3umN7UjpalcsDBfuvH0vCngvb5i5auKJAB4K7bgddQIYY0WXQhAJLafp69azW+2Y97ZpukvddG/Sxx5xgFqfEZ2XLsWI2S+dfixxeAZio86Y3GwqzfId7eU5gZ1xq17XfeOIe6lsxzdkWuK1CVPw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Dd9BlHk5XQlf6K4FNONx6VveiAvrdZ5DcQsbh1C39MM=;
- b=ROWOM3zjMbIuU0KwYm626qrI5Fmk5iGwPmbSMa6GumO4BYAEnB9emDAq3PWc+v5jLS1AbUuvk26PQFuDhnf+O9/p5XJGbsO4rWOs4W8Juml1aGkmD45/uYoBrC1jNP4AvbmyLObRI/mhAC1jpGSPH7UxnWXdHhTZrhvitCQOQp0=
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com (2603:10b6:5:45::18) by
- DM6PR12MB3082.namprd12.prod.outlook.com (2603:10b6:5:11b::12) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.17; Sat, 18 Sep 2021 02:03:12 +0000
-Received: from DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::35c8:7b2f:1090:d3a5]) by DM6PR12MB2619.namprd12.prod.outlook.com
- ([fe80::35c8:7b2f:1090:d3a5%6]) with mapi id 15.20.4500.020; Sat, 18 Sep 2021
- 02:03:12 +0000
-From: "Quan, Evan" <Evan.Quan@amd.com>
-To: "Deucher, Alexander" <Alexander.Deucher@amd.com>,
- "amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>
-Subject: RE: [PATCH 1/2] MAINTAINERS: fix up entry for AMD Powerplay
-Thread-Topic: [PATCH 1/2] MAINTAINERS: fix up entry for AMD Powerplay
-Thread-Index: AQHXq99PEnd1TPBjn0mErcSMNMi3qqupCsgg
-Date: Sat, 18 Sep 2021 02:03:12 +0000
-Message-ID: <DM6PR12MB2619F66E5F1EEC39AAAD92D3E4DE9@DM6PR12MB2619.namprd12.prod.outlook.com>
-References: <20210917161540.822282-1-alexander.deucher@amd.com>
-In-Reply-To: <20210917161540.822282-1-alexander.deucher@amd.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-18T02:03:10Z; 
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
- Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=e16768e7-edf2-4b50-ab5d-2ab74ad3a315;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
-authentication-results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 45be5560-3176-4c0b-b21a-08d97a487876
-x-ms-traffictypediagnostic: DM6PR12MB3082:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB30826B5F0D8A287E5901C179E4DE9@DM6PR12MB3082.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1265;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 9ut6sE4/iP0ohogXBuTZcebXX0UtIKW6CT6mzb8SAqp2xDfv1vluSYmh+7lrR7bkOQLIpQ4Bdy5AK/T8QPvG7MFQXMm+S0bXJsYZpLova6PoDtn1RjVr/NpKxuE5jT3M0fgTYc0/woLhKiTnXaqK1toKmiw2V6ItG9YH3aa9x6GSG0SxOvBoaK+KR0qAzIlcQ0SmLPs9CtdsymhaMPtpmAYEs2H5L6xp1ocdRa5gdiJey70oZPUNaLQ7RXr/wQCxsJh4MzUVP/m5ZY/CifbuXq0Ldd/cBUW0F2du4Zb4reVK9hmSpjHsXLLOxOMwfEYUj0ZFTOTwXq0f2bD8/7VCB9Ih6U1zNEeUHTKgdDzCk3H5PZOAI1/TIA8rNW0DJOnhLT8UjCgUKEJVP+N91MKYsL+WKyH0VYbQUVI2MIFqur3+hQ/KDtx3MvuyUEZhSTrgcqWyXO+dKQAJbyOAM4GYNSaN6qquYKyUAkhPMAb+998uB688QNf1Yvksu1ecXya+SRmjNvB//KcUkrE5ywoYqXHuFdR6rCw5xZLa1HQqCYpltFZ+QqKtE43AzQL6URv39JZYXHeJefOi41jFagUGwDcwibSpx+hUp5slCAWKf+VljwMSGH+aNzV4oX5+JIlepU3j80dFURfW95EPY07oes90fm6QTrkkCOSwiFiX5E8vXBQQKQ/6Z2ZfJYiiWt+L0lfafZAD3hle79G0W9a4S6jhqxraXUPFt5QRYfObM9jrCGJW2zTNs1G35wikSHlIBzZxiGjAot/UmL4LMgNv+uvTjRKx9cL8/4nLC35lBSw=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB2619.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(376002)(39860400002)(346002)(396003)(366004)(86362001)(8676002)(66556008)(110136005)(71200400001)(64756008)(66476007)(76116006)(66446008)(53546011)(2906002)(83380400001)(66946007)(186003)(8936002)(7696005)(45080400002)(52536014)(5660300002)(38100700002)(478600001)(122000001)(33656002)(55016002)(4326008)(6506007)(450100002)(9686003)(316002)(966005)(26005)(38070700005);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?BCRjSJT7yx0+m02BO57e83jOQF/XFdXKf8nMA37G+aXcqsCY0sZ2/K3Ym+tr?=
- =?us-ascii?Q?X2wkQ+XvMxqgE7hAGcsIfOa6qaJ8yd4YlQVZ6Wtv/2rtRbZaHPclqAAJ42ZD?=
- =?us-ascii?Q?4hRkS1v5rgjEuCfY3v3IaqISPmezuR2EY9YwUpbZd4mjkNBPZ+36P8QJO1Qo?=
- =?us-ascii?Q?VcvDhoeQVb1GyWl609CVD7sZj5fTLSJST4zFuQ74Hzq0fQ275eD/E1101CAj?=
- =?us-ascii?Q?tSQg0gQ/ryEdLnyX9WvetiKpYKSOP7FSP8Xaf617CRdgcpPB3vTnzQmivHTd?=
- =?us-ascii?Q?OagiU2OFciKtjrIP0OIgLA3dq7tFlbrXWfrVQkCJfaATO+JtxiNaT13SuKGB?=
- =?us-ascii?Q?qlaeEe5FVUCTNfQA3Ao1w8QUtkFNS9PRyimgcccdWZFCamiPadCl+U+/4H0Q?=
- =?us-ascii?Q?xDKxaWvWUtf1H+wE4+3J47en8tw4E9BFl6aCr3m2gN+/ko0kO94w2nDqAi1b?=
- =?us-ascii?Q?Q7NvQX+yPDMUGSCk04FGZMzVtsLqdlocaRamI5TyfXOyynhIECs0/6WSIFT/?=
- =?us-ascii?Q?NUkIKCDbJmZ0tLp+fW/uN0+FZgLglvNWjj7ie8CLjrVcThZ95xD54P2/YfTo?=
- =?us-ascii?Q?t+JFkNJE74g2I+oksQbCKmfrWCw9a5fKETjf87svFiuI2+TIr/HKO9VD3q6X?=
- =?us-ascii?Q?qEv5Jrxfh6yR8MrgyBQWcokpEu684EUJ5oo0kb/l1GkEac0i+0/r0MuRirRg?=
- =?us-ascii?Q?An52OCLCAvFwEjwZelXZonro2oSlVqQi1NLELm3hnkkRzmEdv9L7WpwI7rLa?=
- =?us-ascii?Q?SaIu+5njr/4qUX9jb43xJb4McS65zX90lPTA64FofS1Xx477aS0n1HRjpGtQ?=
- =?us-ascii?Q?OUFboUsvDAZAYLaOy03AN+rmiR3la76HNiuiSb2vIaMnRxmtkZ2kXzjTxfQU?=
- =?us-ascii?Q?aSB5ITTH8Tbx6D3/KgG6fvioS6owfurEaF3o5uzZhPoCD/d3nobgsLr2cANs?=
- =?us-ascii?Q?ChfPd2M39WH13b2V7RHdxzdc7f4M4NP69spoY/BaiSmZ0xsqk4a22Fd+urcq?=
- =?us-ascii?Q?vLE8gRC+/lQfKj57LJqrVeAMs27PWBYOwPOofZZPozB+MaRq22avW9Pius9T?=
- =?us-ascii?Q?9FrjT9ZOzzz140Z0aH4SkirP8HT8ayNqTZdRGXSCksueRjCIEjFkQJLi/ufb?=
- =?us-ascii?Q?S+xkq7WeS+MB0ccASgR3SHuEA6m/Gcbtdhp7qmN3RrSkVonCsO1wI3AZgS2I?=
- =?us-ascii?Q?bdfdMVoSGQOJZyepjNftqNMQIxoksjiwTb+n4JeLerTegLi3/VHVgCKxaljM?=
- =?us-ascii?Q?criOLojddftk29G7bpYT1n2xcvkfHyHeo7zeQXMsZ5GT8uy+mUZQt7jZdtJ6?=
- =?us-ascii?Q?sLkkUKDZX5D+sO/9V7XdDxFc?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DC9E46E0D5;
+ Sat, 18 Sep 2021 04:19:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="222948814"
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="222948814"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 21:19:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="652066374"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga005.jf.intel.com with ESMTP; 17 Sep 2021 21:19:43 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Juston Li <juston.li@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH v10 00/17] drm/i915: Introduce Intel PXP
+Date: Fri, 17 Sep 2021 21:19:51 -0700
+Message-Id: <20210918042008.29468-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB2619.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45be5560-3176-4c0b-b21a-08d97a487876
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Sep 2021 02:03:12.6354 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Iwq7S6F3cyC3zQDtFwrTWh9x8v+rxHUHa7Wc2ENFoYoJcNklkfAD8mNltJrIt7SB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3082
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -128,51 +56,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+PXP (Protected Xe Path) is an i915 component, available on
+GEN12 and newer platforms, that helps to establish the hardware
+protected session and manage the status of the alive software session,
+as well as its life cycle.
 
-Reviewed-by: Evan Quan <evan.quan@amd.com>
+changes from v9:
+- Patch #3 - change comments from "Gen12+" to "Gen12 and newer"
+- Patch #4,#9 - Remove inclusion of intel_gt_types.h from intel_pxp.h
+- Patch #10 - Modify internal get/set-protected-context functions to
+  not return -ENODEV when setting PXP param to false or when running
+  on pxp-unsupported hw or when i915 was built with CONFIG_PXP off
+- Patch #11 - increase timeout when waiting in intel_pxp_start
+  as firmware session startup is slower right after boot.
 
-> -----Original Message-----
-> From: amd-gfx <amd-gfx-bounces@lists.freedesktop.org> On Behalf Of Alex
-> Deucher
-> Sent: Saturday, September 18, 2021 12:16 AM
-> To: amd-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org
-> Cc: Deucher, Alexander <Alexander.Deucher@amd.com>
-> Subject: [PATCH 1/2] MAINTAINERS: fix up entry for AMD Powerplay
->=20
-> Fix the path to cover both the older powerplay infrastructure
-> and the newer SwSMU infrastructure.
->=20
-> Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-> ---
->  MAINTAINERS | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 851255b71ccc..379092f34fff 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -972,12 +972,12 @@ L:	platform-driver-x86@vger.kernel.org
->  S:	Maintained
->  F:	drivers/platform/x86/amd-pmc.*
->=20
-> -AMD POWERPLAY
-> +AMD POWERPLAY AND SWSMU
->  M:	Evan Quan <evan.quan@amd.com>
->  L:	amd-gfx@lists.freedesktop.org
->  S:	Supported
->  T:	git
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgitla
-> b.freedesktop.org%2Fagd5f%2Flinux.git&amp;data=3D04%7C01%7Cevan.quan
-> %40amd.com%7Cb6158a1eb6774e147b0008d979f67086%7C3dd8961fe4884e6
-> 08e11a82d994e183d%7C0%7C0%7C637674921632876884%7CUnknown%7CT
-> WFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLC
-> JXVCI6Mn0%3D%7C1000&amp;sdata=3DqcP4K1JnXBAOluo7%2FwnoQUofGBN
-> KpbTQJeOKPnUbmc0%3D&amp;reserved=3D0
-> -F:	drivers/gpu/drm/amd/pm/powerplay/
-> +F:	drivers/gpu/drm/amd/pm/
->=20
->  AMD SEATTLE DEVICE TREE SUPPORT
->  M:	Brijesh Singh <brijeshkumar.singh@amd.com>
-> --
-> 2.31.1
+Tested with: https://patchwork.freedesktop.org/series/87570/
+
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+
+Anshuman Gupta (2):
+  drm/i915/pxp: Add plane decryption support
+  drm/i915/pxp: black pixels on pxp disabled
+
+Daniele Ceraolo Spurio (9):
+  drm/i915/pxp: Define PXP component interface
+  drm/i915/pxp: define PXP device flag and kconfig
+  drm/i915/pxp: allocate a vcs context for pxp usage
+  drm/i915/pxp: set KCR reg init
+  drm/i915/pxp: interfaces for using protected objects
+  drm/i915/pxp: start the arb session on demand
+  drm/i915/pxp: add pxp debugfs
+  drm/i915/pxp: add PXP documentation
+  drm/i915/pxp: enable PXP for integrated Gen12
+
+Huang, Sean Z (5):
+  drm/i915/pxp: Implement funcs to create the TEE channel
+  drm/i915/pxp: Create the arbitrary session after boot
+  drm/i915/pxp: Implement arb session teardown
+  drm/i915/pxp: Implement PXP irq handler
+  drm/i915/pxp: Enable PXP power management
+
+Vitaly Lubart (1):
+  mei: pxp: export pavp client to me client bus
+
+ Documentation/gpu/i915.rst                    |   8 +
+ drivers/gpu/drm/i915/Kconfig                  |  11 +
+ drivers/gpu/drm/i915/Makefile                 |  10 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  34 ++
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  49 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  97 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   6 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  28 ++
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +++--
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  18 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   8 +
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   4 +-
+ drivers/gpu/drm/i915/gt/debugfs_gt.c          |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  15 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  48 +++
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 297 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  64 ++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c      | 141 +++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h      |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |  78 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h  |  21 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 101 ++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |  32 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  46 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  23 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  | 175 +++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 172 ++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |  17 +
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  37 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  83 +++++
+ drivers/misc/mei/Kconfig                      |   2 +
+ drivers/misc/mei/Makefile                     |   1 +
+ drivers/misc/mei/pxp/Kconfig                  |  13 +
+ drivers/misc/mei/pxp/Makefile                 |   7 +
+ drivers/misc/mei/pxp/mei_pxp.c                | 229 ++++++++++++++
+ drivers/misc/mei/pxp/mei_pxp.h                |  18 ++
+ include/drm/i915_component.h                  |   1 +
+ include/drm/i915_pxp_tee_interface.h          |  42 +++
+ include/uapi/drm/i915_drm.h                   |  99 +++++-
+ 52 files changed, 2157 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ create mode 100644 drivers/misc/mei/pxp/Kconfig
+ create mode 100644 drivers/misc/mei/pxp/Makefile
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+ create mode 100644 include/drm/i915_pxp_tee_interface.h
+
+-- 
+2.25.1
+
