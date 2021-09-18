@@ -1,80 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 653A5410598
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 11:43:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BBB04105DE
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 12:06:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 348FE6E0B9;
-	Sat, 18 Sep 2021 09:42:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2CEF188EA1;
+	Sat, 18 Sep 2021 10:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew3-smtp.messagingengine.com (wnew3-smtp.messagingengine.com
- [64.147.123.17])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16B606E06B;
- Sat, 18 Sep 2021 09:42:50 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id 3B3CE2B011CB;
- Sat, 18 Sep 2021 05:42:47 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Sat, 18 Sep 2021 05:42:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=iQMJviYlb4ZEn676riwj+ykMcaY
- gM3Bpxtt9O2JGErE=; b=WDwHHQXezEJe3XzQX3Em61caD1JOywMykQAjQo9+FvS
- BAUw0ysziTYQHd2JcCD0Bk8z0AXCgaxpNkpKZQLKoYJ1OqQBcoFQ33Qgu5/ta31z
- DyByahRv0mE53Ony+dsf9vdzav7TkXvnoNMK9J+5jBpTqlb9TTjAdddlmlrRrTqr
- Yf6gJ7BLyxE0uyTPoJtiPyFjieupdONy4OEcmHP6qj5k/GfsUOqHapmuJhhnj03u
- aNQMVgCiAY4CTWJmetOTs/5AqGukMpQkXerlp7nEGlI0rsksg0Xiyj8h6lzqpt5F
- kGOaxLJK9jw+z2uqeAdy7jRYyyLk3cfoC3lOSyJK4ZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=iQMJvi
- Ylb4ZEn676riwj+ykMcaYgM3Bpxtt9O2JGErE=; b=NQPv4xozCXDNOuWW95l8r0
- wqgyyHyXfB+TEZFR29p5hrSTv1MyvPh8hK33MLJE8IkeC7FBi0cuYZiJYqFoOouk
- N1SMt7gdmUOFX7+6dS0zB2EDvB6PtfJ+RXPRE6Xm8Yv6zbnwvVa6/DoxXhlvqsiV
- DiPPdP8iqD22W7bL33bjydi/YElws4Ckpr/ugaxvRzvclMAOlkEEUlIc955FTNr+
- MRHnTWDFICCu6KCQ4D+EyAmzhwMruzmoz98VLdiUyE9IpnmcGdvH0hhH/n8X3vhI
- fEDavwtqAGgk1//zVUmRJDSgl5exPhNz4+P4Pt8zN7dvnYLXClZYKlaWnCVGwsuA
- ==
-X-ME-Sender: <xms:lrRFYfbjRE-L4f3Nfyw9rN67HO9pJVZbRLl_BAWGbVpLMk1TuqfX0g>
- <xme:lrRFYeYv4mcID7VMTZfIPCn8tDGxqPm2ySOv1G-A0NKEFUBuK3A-ve84o5-867vr0
- mX6PcSXDWBC1Grk_A>
-X-ME-Received: <xmr:lrRFYR9hvwXVM79X0a8T4DolehjhDAUODuSF4_ucBL_MRX00TWXEJTRAqvy--tKCLhHOxX8g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudehkedgudejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehttdertddttdejnecuhfhrohhmpefhvghrnhgr
- nhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrghtth
- gvrhhnpedvjeeifeelhfetiefhhfdthfefkefhhfeutdetvdfgvefgveefheffgfekjeef
- heenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrh
- gvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:lrRFYVqgNRMK_pamLceVRt2VyFRqwtZ2Qcb5LGQOAC_FeeRGMnNf5g>
- <xmx:lrRFYarmIXc0_KRWqyzkrnne4mGC_Rk6K5ND2K3AeQUIKytJ04dpkA>
- <xmx:lrRFYbSOSsDAnV7UWjB8L5nXiW3YpBe6JQMbwEeiJuzXn7eXbd_4lg>
- <xmx:lrRFYZ2Lu9EzyIqd7DyRxbU3UzqW3Goj4jk6MyoI0oEwokzv5BiUmX82bJc>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 18 Sep 2021 05:42:43 -0400 (EDT)
-Date: Sat, 18 Sep 2021 11:42:40 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 14/15] drm/amd: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUW0kJr1XoqCENhl@zacax395.localdomain>
-References: <20210916211552.33490-1-greenfoo@u92.eu>
- <20210916211552.33490-15-greenfoo@u92.eu>
- <20210917155548.GO2515@art_vandelay>
- <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com
+ [IPv6:2a00:1450:4864:20::532])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BD306E11A
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 09:18:36 +0000 (UTC)
+Received: by mail-ed1-x532.google.com with SMTP id q3so39397988edt.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 02:18:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=i3wm.org; s=google;
+ h=sender:from:to:subject:in-reply-to:references:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=qK4ju5AI6G3Zf6PO3Ul2TzugtvR5Xl/swxPPOE6LQIM=;
+ b=nUVS7Dvi3cQixcm9s8Sg4DNhO3PdBGFS7a+UnOWftyWGbK5+rGX4y/yGRNMYHdL+lx
+ dild9tArLr4WIR1pgF5zDjdLrvjqr55RTcDgxGOdR5ew+GfwlAG13CSdajKSsIBirRIb
+ 7gIBHNGTir02CIQzr4cR4uULjoHTIIHOAxAho9E/mL1iWnwaJ2Hh0K59UehKHaDngRYA
+ is6xY3Vaom451svbE9K0FYNRSbbVUfETRiDl8/pKis4zkKliFELGHmMizbmyHc3WOom0
+ G//G/dGZnjZftXlXnA2/awZ25ZiVUoYZdjFpaNZxaA/YGozwGP0nj+eysNUf9IwUzLS6
+ vrcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=stapelberg.ch; s=google;
+ h=sender:from:to:subject:in-reply-to:references:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=qK4ju5AI6G3Zf6PO3Ul2TzugtvR5Xl/swxPPOE6LQIM=;
+ b=KD3MAFDZEky/hEAyxVkCIxe3yssuKJKFmqyWkNdagdey+fTjP8xApv0vq1RkOh1eNa
+ /ZBYcwIvm52U53zSvANzW+h+J9olP2UyuN3dzrrnY/iD18WZzN3TBX6oxhH3rjA30Ewe
+ RT/FYHRfpcMKUUFAe9P9dKPqM4Mj0Lv7PzpTnnAPUzsstva6Pl6sCs142vt1YObVrNCz
+ eKDX3AuRBU4KYqhEeAV48U47/9x6amBW3709RTniLhKBlBBNwwLgXptTR5Cx4YWKMdVq
+ 2Q66ra9cb2gx19xkINyZkdPxKLRXa9kQL4yJB158gf1vjt+HR3irRFl91enHmBUPo6DN
+ X+cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:sender:from:to:subject:in-reply-to:references
+ :date:message-id:mime-version:content-transfer-encoding;
+ bh=qK4ju5AI6G3Zf6PO3Ul2TzugtvR5Xl/swxPPOE6LQIM=;
+ b=WC189HONccpGhjaC1Xt+EsQgGP7Kp1oqqXVw7lK+QDzW5nVKUZ8lmU8bMO5SL3Lp74
+ tMc7MLjTrWDmWQPQXDemnyfoQCHep4Wt8QDDyWMjcyK+VWvJ51omSB/Ll5W4HPWxzkFQ
+ if8JSK6unXM1DF7yCtOEkQn6CSQIjsEqeSEeRYcpR/ko9+5bljchnuuF6Oi4/Xk+O4L0
+ hRozLtA8soJbRvlFY1WMF7HLnfv99Tn62K+xSWw6wLfUi15dXVaulEd4Ht2Db3I+U4M7
+ UYpIeisRiH295O+xnQPOzioySxwtilwZrUuFpHldRaBDBg4HHKBMgzX0l+O/LbnaQanP
+ xr4w==
+X-Gm-Message-State: AOAM533fjn6pmbe+7UFF+pGRs8x3v11AgNTaa5CkqMO4tAVxx9AkMGmO
+ 93a3F/6lofdZqEEoBAhEo6oB2Gz+t0d4mw==
+X-Google-Smtp-Source: ABdhPJxAu8Pka0K/13/DVUHvhwPcv2PYiwbK7xbBi7XuM27CyZibwcOZ5ZF1BD8Ac3vTS2HofV7ixA==
+X-Received: by 2002:a17:906:7147:: with SMTP id
+ z7mr17010955ejj.94.1631956714299; 
+ Sat, 18 Sep 2021 02:18:34 -0700 (PDT)
+Received: from localhost ([2a02:168:4a00:0:e61d:2dff:fe09:a3e0])
+ by smtp.gmail.com with ESMTPSA id bm1sm3427533ejb.38.2021.09.18.02.18.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 18 Sep 2021 02:18:33 -0700 (PDT)
+From: Michael Stapelberg <michael@stapelberg.ch>
+X-Google-Original-From: Michael Stapelberg <michael+drm@stapelberg.ch>
+To: dri-devel@lists.freedesktop.org, torvalds@linux-foundation.org,
+ felix.kuehling@amd.com, Dave Airlie <airlied@gmail.com>
+Subject: Re: [git pull] drm for 5.14-rc1
+In-Reply-To: <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
+ <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+Date: Sat, 18 Sep 2021 11:18:33 +0200
+Message-ID: <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YUUh7X+Ft7vKHlcT@zacax395.localdomain>
+Content-Transfer-Encoding: quoted-printable
+X-Mailman-Approved-At: Sat, 18 Sep 2021 10:06:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,32 +86,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/09/18 01:17AM, Fernando Ramos wrote:
+Hi,
 
-> > > +#include <drm/drm_drv.h>
-> > 
-> > Top-level headers generally come above the driver headers. Also, now that I think
-> > about this a bit more, all of the new includes in this set should probably be
-> > for 'drm_modeset_lock.h' instead of 'drm_drv.h'.
-> 
-> Ok. Let me try that.
+torvalds at linux-foundation.org (Linus Torvalds) writes:
+> Did I fix it up correctly? Who knows. The code makes more sense to me
+> now and seems valid. But I really *really* want to stress how locking
+> is important.
 
-Turns out that the DRM_MODESET_LOCK_ALL_*() macros expansion includes a call
-to drm_drv_uses_atomic_modeset() which is defined in "drm_drv.h".
+As far as I can tell, this merge conflict resolution made my Raspberry
+Pi 3 hang on boot. You can find the full serial console output at:
 
-Thus, #include'ing <drm/drm_drv.h> cannot be avoided.
+https://t.zekjur.net/linux-5.14-raspberry-pi-3-hang-vc4.txt
 
-This makes me wonder...
+The last few messages are from vc4, then the boot hangs.
 
-  1. "drm_drv.h" includes "drm_device.h", which includes "drm_mode_config.h",
-     which includes "drm_modeset_lock.h"
+Using git-bisect, I tracked this down to
+https://github.com/torvalds/linux/commit/e058a84bfddc42ba356a2316f2cf114197=
+4625c9,
+which is the merge you=E2=80=99re talking about here, AFAICT.
 
-  2. "drm_modeset_lock.h" defines DRM_MODESET_LOCK_ALL_*() which expands into
-     drm_drv_uses_atomic_modeset()
+I also tried the git://anongit.freedesktop.org/drm/drm, and that tree
+boots as expected, suggesting that the problem really is with the
+additional changes.
 
-  3. drm_drv_uses_atomic_modeset() is declared in "drm_drv.h"
+The code seems to work on my Raspberry Pi 4, just not on the Raspberry
+Pi 3. Any ideas why that might be, and how to fix it?
 
-There seems to be a circular dependency here.
+Thanks!
 
-We can try to fix this, but I suggest to do it in a different patch series.
-
+--=20
+Best regards,
+Michael
