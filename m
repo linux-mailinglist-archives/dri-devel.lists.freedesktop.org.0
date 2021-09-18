@@ -2,73 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4306141052B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 10:34:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EDD410534
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 10:39:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 45BB76E0FC;
-	Sat, 18 Sep 2021 08:34:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F2BB06E105;
+	Sat, 18 Sep 2021 08:39:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
- [IPv6:2a00:1450:4864:20::32d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099586E0FC
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 08:34:11 +0000 (UTC)
-Received: by mail-wm1-x32d.google.com with SMTP id e26so9039493wmk.2
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 01:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=pFcc9WAGqyomWIoyD49E5eVk/YeBgM3zvrN9msiW5gc=;
- b=r8Og99nmoPT4i2wT5RquZ2u2nsKJmGjfJ6dKxM7eOVn6kWt0T/f/5NogDLz03bVmsx
- Fpf1x848Ze00op8o7nBIS5HdkAoBLUeeUkb3fGgzaqPUU5CTJrDvrkGWsU8X87VtpkQH
- n3vtgbvGAMLyCudeOSDyq5x3JohS+JaY7b+mXwSkPAJj/qhHLB7MReHrAX7nugBTnrU5
- dUJz186SHZtst1xBOXer18ATT+udLnKZPNfTVVOX3ojSLphzjwpeAWP/EXYE1JzXayr/
- T4unb1ywUoSgKrY8uukb3BokJIGPXuPHjAKB5slxL39aerF5X4J6ekXX2TxoWKjZ2hnj
- m9sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=pFcc9WAGqyomWIoyD49E5eVk/YeBgM3zvrN9msiW5gc=;
- b=uBb4FvnU6StbJUdYErv2noEC2h+LDg8WOcRk3RGe4Da0BXwqe3ZEaVhCfrtXBeZ5a1
- ZoORgw0FgwYo7rGKb2KSX7yUxbgzDYQEmXqPMpfYHLffrquWefbYF7yJY7FxUeypSUVx
- ftPN1hOnBd10VtSBc4dt0/hGbiw8p5oTwZSPEFWLHliGBcJ/NvoOcbGwiR6a0doIjRaG
- jS4yFjGN5232q8DGCqfIiEfdBsJ/cKemfjOcbXuM+187BBDch6+ZZw0Vy72XOqJ2Rjeb
- uM2K33EWi/iZ4ZmurhzMADV8rrndhXSdCOvVAsnaY/j4Fr45dPsqSUjT6xf7IWm0NOBl
- EEYA==
-X-Gm-Message-State: AOAM533QZFIFeGCK9jDcql9MdrIH3RHFT5nJsuFJ5tRuh7/m5xkKTikM
- LdqMgRqPbxDGR1Rudhbv/cGXcQ==
-X-Google-Smtp-Source: ABdhPJzwjBH6Ns6wyf7JVwbKOwYh8OPJZnugUk7OyyBJFpLuaaDHeQJcxXa/ERsKaqzR8nm8CNfnoA==
-X-Received: by 2002:a1c:3b09:: with SMTP id i9mr13972272wma.175.1631954050329; 
- Sat, 18 Sep 2021 01:34:10 -0700 (PDT)
-Received: from blmsp (p5097f82a.dip0.t-ipconnect.de. [80.151.248.42])
- by smtp.gmail.com with ESMTPSA id b16sm9199690wrp.82.2021.09.18.01.34.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 18 Sep 2021 01:34:09 -0700 (PDT)
-Date: Sat, 18 Sep 2021 10:34:08 +0200
-From: Markus Schneider-Pargmann <msp@baylibre.com>
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, singo.chang@mediatek.com,
- srv_heupstream@mediatek.com
-Subject: Re: [PATCH v5 00/16] Add MediaTek SoC DRM (vdosys1) support for mt8195
-Message-ID: <20210918083408.rdkovu2r5j5lvrog@blmsp>
-References: <20210906071539.12953-1-nancy.lin@mediatek.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C43426E105;
+ Sat, 18 Sep 2021 08:39:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 7B5E761251;
+ Sat, 18 Sep 2021 08:39:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1631954351;
+ bh=I3OXBH6Jsft3MeFXXif2KAYrH0PL5mHvHWDLsrpF3p0=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=a9hjTcoDC0ygV/THN5MB4kBvc1nnulxFRN2ENZlTd88T2ditC8k61LEK7nro1pcKy
+ 58YoRM/lwtdqh8GyJ8qXWBf/3Vx0F85rmORFagsAOyvTiRfGxdRnqMcvWAcFYC1YKF
+ 375MnAbUtdYufFWtwtFjnlbzHb6ShWIbS2AWBWorMK1G9X3G85uL7vshrzItTf70VH
+ KTqdnkocRfkn3jy+f8FEJabg3VvC7uH3Jng6O9C4dPMmbmv18gCNn/jpIMEJRH7Dyi
+ MKcdnMDQZoWAMPe1dUw+5D79OrlymmveofL+SMizg3O59N3058HbTxrnBCSp1x6q3B
+ G5psP8Km2jW+A==
+Received: by mail-oo1-f44.google.com with SMTP id
+ m14-20020a4ad50e000000b002912a944a47so3999705oos.12; 
+ Sat, 18 Sep 2021 01:39:11 -0700 (PDT)
+X-Gm-Message-State: AOAM532cA5f4rO01/aaI4hI5Im5k94R1SXFNgipX7r7FlwYtF46Zc/E1
+ K+Djimv3doFLAxEjiTrbjkEIlVsc8msX4sKlZ6E=
+X-Google-Smtp-Source: ABdhPJwhjcwUIBun9pdQA2AKk6/UkuNunTe3+nY6kMyQMkX2egUVkh/hJR0L43iF+/kZGTei1N8EB2+UDKBIhXdrDvg=
+X-Received: by 2002:a05:6820:1049:: with SMTP id
+ x9mr4953726oot.40.1631954350758; 
+ Sat, 18 Sep 2021 01:39:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210906071539.12953-1-nancy.lin@mediatek.com>
+References: <20210912165309.98695-1-ogabbay@kernel.org>
+ <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca>
+ <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+ <YUM5JoMMK7gceuKZ@phenom.ffwll.local> <20210916131014.GK3544071@ziepe.ca>
+ <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
+In-Reply-To: <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Sat, 18 Sep 2021 11:38:42 +0300
+X-Gmail-Original-Message-ID: <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
+Message-ID: <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Doug Ledford <dledford@redhat.com>, 
+ Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,116 +75,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nancy,
+On Fri, Sep 17, 2021 at 3:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
+> > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
+> > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > >
+> > > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > > > > > Hi,
+> > > > > > > Re-sending this patch-set following the release of our user-space TPC
+> > > > > > > compiler and runtime library.
+> > > > > > >
+> > > > > > > I would appreciate a review on this.
+> > > > > >
+> > > > > > I think the big open we have is the entire revoke discussions. Having the
+> > > > > > option to let dma-buf hang around which map to random local memory ranges,
+> > > > > > without clear ownership link and a way to kill it sounds bad to me.
+> > > > > >
+> > > > > > I think there's a few options:
+> > > > > > - We require revoke support. But I've heard rdma really doesn't like that,
+> > > > > >   I guess because taking out an MR while holding the dma_resv_lock would
+> > > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> > > > > >   hold-up was again that makes this a no-go?
+> > > > >
+> > > > > RDMA HW can't do revoke.
+> > >
+> > > Like why? I'm assuming when the final open handle or whatever for that MR
+> > > is closed, you do clean up everything? Or does that MR still stick around
+> > > forever too?
+> >
+> > It is a combination of uAPI and HW specification.
+> >
+> > revoke here means you take a MR object and tell it to stop doing DMA
+> > without causing the MR object to be destructed.
+> >
+> > All the drivers can of course destruct the MR, but doing such a
+> > destruction without explicit synchronization with user space opens
+> > things up to a serious use-after potential that could be a security
+> > issue.
+> >
+> > When the open handle closes the userspace is synchronized with the
+> > kernel and we can destruct the HW objects safely.
+> >
+> > So, the special HW feature required is 'stop doing DMA but keep the
+> > object in an error state' which isn't really implemented, and doesn't
+> > extend very well to other object types beyond simple MRs.
+>
+> Yeah revoke without destroying the MR doesn't work, and it sounds like
+> revoke by destroying the MR just moves the can of worms around to another
+> place.
+>
+> > > 1. User A opens gaudi device, sets up dma-buf export
+> > >
+> > > 2. User A registers that with RDMA, or anything else that doesn't support
+> > > revoke.
+> > >
+> > > 3. User A closes gaudi device
+> > >
+> > > 4. User B opens gaudi device, assumes that it has full control over the
+> > > device and uploads some secrets, which happen to end up in the dma-buf
+> > > region user A set up
+> >
+> > I would expect this is blocked so long as the DMABUF exists - eg the
+> > DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
+> > that #3 can't actually happen.
+> >
+> > > It's not mlocked memory, it's mlocked memory and I can exfiltrate
+> > > it.
+> >
+> > That's just bug, don't make buggy drivers :)
+>
+> Well yeah, but given that habanalabs hand rolled this I can't just check
+> for the usual things we have to enforce this in drm. And generally you can
+> just open chardevs arbitrarily, and multiple users fighting over each
+> another. The troubles only start when you have private state or memory
+> allocations of some kind attached to the struct file (instead of the
+> underlying device), or something else that requires device exclusivity.
+> There's no standard way to do that.
+>
+> Plus in many cases you really want revoke on top (can't get that here
+> unfortunately it seems), and the attempts to get towards a generic
+> revoke() just never went anywhere. So again it's all hand-rolled
+> per-subsystem. *insert lament about us not having done this through a
+> proper subsystem*
+>
+> Anyway it sounds like the code takes care of that.
+> -Daniel
 
-On Mon, Sep 06, 2021 at 03:15:23PM +0800, Nancy.Lin wrote:
-> The hardware path of vdosys1 with DPTx output need to go through by several modules, such as, OVL_ADAPTOR and MERGE.
-> 
-> Add DRM and these modules support by the patches below:
-> 
-> Changes in v5:
-> - add mmsys reset controller reference.
-> 
-> Changes in v4:
-> - use merge common driver for merge1~4.
-> - refine ovl_adaptor rdma driver.
-> - use ovl_adaptor ddp_comp function instead of ethdr.
-> - modify for reviewer's comment in v3.
-> 
-> Changes in v3:
-> - modify for reviewer's comment in v2.
-> - add vdosys1 2 pixels align limit.
-> - add mixer odd offset support.
-> 
-> Changes in v2:
-> - Merge PSEUDO_OVL and ETHDR into one DRM component.
-> - Add mmsys config API for vdosys1 hardware setting.
-> - Add mmsys reset control using linux reset framework.
-> 
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> 
-> This series are based on the following patch:
-> [1] arm64: dts: Add Mediatek SoC MT8195 and evaluation board dts and Makefile
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210601075350.31515-2-seiya.wang@mediatek.com/
-> [2] arm64: dts: mt8195: add IOMMU and smi nodes
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210615173233.26682-15-tinghan.shen@mediatek.com/
-> [3] [01/24] dt-bindings: mediatek: mt8195: Add binding for MM IOMMU
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210630023504.18177-2-yong.wu@mediatek.com/
-> [4] Add gce support for mt8195
->     https://patchwork.kernel.org/project/linux-mediatek/list/?series=537069
-> [5] Add MediaTek SoC DRM (vdosys0) support for mt8195
->     https://patchwork.kernel.org/project/linux-mediatek/list/?series=537225
-> [6] [v8,1/2] dt-bindings: reset: mt8195: add toprgu reset-controller header file
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210806023606.16867-2-Christine.Zhu@mediatek.com/
-> [7] [v3,2/7] dt-bindings: mediatek: Add #reset-cells to mmsys system controller
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210825122613.v3.2.I3f7f1c9a8e46be07d1757ddf4e0097535f3a7d41@changeid/
-> [8] [v3,6/7] soc: mediatek: mmsys: Add reset controller support
->     https://patchwork.kernel.org/project/linux-mediatek/patch/20210825122613.v3.6.I15e2419141a69b2e5c7e700c34d92a69df47e04d@changeid/
+Daniel, Jason,
+Thanks for reviewing this code.
 
-My work is currently based on this patch series. Unfortunately with 5.15
-I have a bit of trouble picking all the dependencies and run into many
-merge conflicts (probably I am missing pieces). I am trying to pick
-everything so that I have a good base for my patch. Do you by any chance
-have a public git branch with your patch series vdosys1 and all its
-dependencies on 5.15? That would make it a lot easier for me to work on
-top of it.
+Can I get an R-B / A-B from you for this patch-set ?
 
 Thanks,
-Markus
-
-> 
-> Nancy.Lin (16):
->   dt-bindings: mediatek: add vdosys1 RDMA definition for mt8195
->   dt-bindings: mediatek: add vdosys1 MERGE property for mt8195
->   dt-bindings: mediatek: add ethdr definition for mt8195
->   dt-bindings: reset: mt8195: add vdosys1 reset control bit
->   arm64: dts: mt8195: add display node for vdosys1
->   soc: mediatek: add mtk-mmsys support for mt8195 vdosys1
->   soc: mediatek: add mtk-mmsys config API for mt8195 vdosys1
->   soc: mediatek: add cmdq support of mtk-mmsys config API for mt8195
->     vdosys1
->   soc: mediatek: mmsys: modify reset controller for MT8195 vdosys1
->   soc: mediatek: add mtk-mutex support for mt8195 vdosys1
->   drm/mediatek: add display MDP RDMA support for MT8195
->   drm/mediatek: add display merge api support for MT8195
->   drm/mediatek: add ETHDR support for MT8195
->   drm/mediatek: add ovl_adaptor support for MT8195
->   drm/mediatek: modify mediatek-drm for mt8195 multi mmsys support
->   drm/mediatek: add mediatek-drm of vdosys1 support for MT8195
-> 
->  .../display/mediatek/mediatek,ethdr.yaml      | 144 ++++++
->  .../display/mediatek/mediatek,mdp-rdma.yaml   |  77 ++++
->  .../display/mediatek/mediatek,merge.yaml      |   3 +
->  arch/arm64/boot/dts/mediatek/mt8195.dtsi      | 221 +++++++++
->  drivers/gpu/drm/mediatek/Makefile             |   5 +-
->  drivers/gpu/drm/mediatek/mtk_disp_drv.h       |  29 ++
->  drivers/gpu/drm/mediatek/mtk_disp_merge.c     |  78 +++-
->  .../gpu/drm/mediatek/mtk_disp_ovl_adaptor.c   | 408 +++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  25 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.h       |   3 +-
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |  15 +
->  drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |   1 +
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c        | 377 +++++++++++++---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h        |   9 +-
->  drivers/gpu/drm/mediatek/mtk_ethdr.c          | 424 ++++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_ethdr.h          |  25 ++
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.c       | 301 +++++++++++++
->  drivers/gpu/drm/mediatek/mtk_mdp_rdma.h       |  37 ++
->  drivers/soc/mediatek/mt8195-mmsys.h           | 199 ++++++++
->  drivers/soc/mediatek/mtk-mmsys.c              |  76 +++-
->  drivers/soc/mediatek/mtk-mmsys.h              |  11 +
->  drivers/soc/mediatek/mtk-mutex.c              | 270 ++++++-----
->  include/dt-bindings/reset/mt8195-resets.h     |  12 +
->  include/linux/soc/mediatek/mtk-mmsys.h        |  22 +
->  24 files changed, 2574 insertions(+), 198 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,ethdr.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_disp_ovl_adaptor.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mdp_rdma.h
-> 
-> -- 
-> 2.18.0
-> 
+Oded
