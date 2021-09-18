@@ -2,43 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D894105DF
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 12:06:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43474105E0
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 12:06:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69D288979F;
+	by gabe.freedesktop.org (Postfix) with ESMTP id F373189C1B;
 	Sat, 18 Sep 2021 10:06:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Sat, 18 Sep 2021 09:33:53 UTC
-Received: from qq.com (smtpbg465.qq.com [59.36.132.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6546F6E06B;
- Sat, 18 Sep 2021 09:33:53 +0000 (UTC)
-X-QQ-mid: bizesmtp38t1631957163tm68odgo
-Received: from uos-PC (unknown [124.126.19.250]) by esmtp6.qq.com (ESMTP) with 
- id ; Sat, 18 Sep 2021 17:26:02 +0800 (CST)
+X-Greylist: delayed 946 seconds by postgrey-1.36 at gabe;
+ Sat, 18 Sep 2021 09:42:08 UTC
+Received: from smtpbg516.qq.com (smtpbg516.qq.com [203.205.250.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 40E3D6E06B
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 09:42:07 +0000 (UTC)
+X-QQ-mid: bizesmtp39t1631958120t47jr2rw
+Received: from localhost.localdomain (unknown [124.126.19.250])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Sat, 18 Sep 2021 17:41:59 +0800 (CST)
 X-QQ-SSF: 0140000000200070B000B00B0000000
-X-QQ-FEAT: Vu3iPXV3AZAa8kafthu9Q/cBgjocWEAYC24x1QF0ClkBzXmw3Qub6jfvMUIPw
- gSk8+NjCNLHKmVGBygWOczWqVdX2HHefCDuUFNOBUD0U4vP0/i5NknQiV9C3DkW2mDk0mc7
- 8wTNiQkQE8Lu0jhJZ2UxSWocFViEsVnYAJqXXdYGlnl6m2n0OfbYMMasNmmgpkK/XfqXaos
- u2qDwE0IBNqiJwaWhOAgt7tfby/8s9zPg2Z1OBMJ/COViGt4yLd/VYgezn3zlp34ichGF8e
- YkmxfxSirOK4vMLWBs/3OgSs8sUHNVPBtbLyq+AoU5i2mFB83eT3YJ9BiETSw/1Mwehcslg
- fdwPewS
+X-QQ-FEAT: /rrU+puPB7Tk5bnqdyL8tUxn9Y8rEAEEEI4wjYzKXbUhAmg5fth3vv7XnXEfL
+ wlFd7G4YZzmF7uGuI+yAhU/XKJ4GOAQFiTyYwASs3tQngyH62gP83ym/Mfy6yPISSJPhRjy
+ 9oTTArd5BAzubAY+xjfYFTDanuBSF2FmJK+32vDAmt9u25XG0Aq+mtUPTThiu1IpRxkQ4Qh
+ d97mmSNb7ZhH4XcGFYbQRI3DwWcIs2jM/r16ylriQ/3nB7vPbnLhUhjDFwf1bVCZjmbDEPQ
+ 3X4vgnmTCT5+vwU2Ec7tVjfkcrrpKBalaB5Hlj3fOYVcfc4FTzFHtqzvkmA9AcebZiZSUC3
+ nf2JmkHq9DTcMEEJXd5DMh8kYprmYDeHo64bevX
 X-QQ-GoodBg: 2
-Date: Sat, 18 Sep 2021 17:26:02 +0800
-From: yangzhiwei@uniontech.com
-To: airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com
-Cc: christian.koenig@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- yangzhiwei@uniontech.com
+From: Zhiwei Yang <yangzhiwei@uniontech.com>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Zhiwei Yang <yangzhiwei@uniontech.com>
 Subject: [PATCH] drm/radeon: fix uninitialized bool variable
-Message-Id: <20210918172602.2f188d04c996274b9ac318bb@uniontech.com>
-UOS-MsgId: <1631957162144-0>
-Mime-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="Multipart=_Sat__18_Sep_2021_17_26_02_+0800_MqdPVTW.=gkCsImu"
+Date: Sat, 18 Sep 2021 17:41:57 +0800
+Message-Id: <20210918094157.4770-1-yangzhiwei@uniontech.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign5
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign1
 X-QQ-Bgrelay: 1
 X-Mailman-Approved-At: Sat, 18 Sep 2021 10:06:27 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -55,27 +56,6 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
-
-This is a multi-part message in MIME format.
-
---Multipart=_Sat__18_Sep_2021_17_26_02_+0800_MqdPVTW.=gkCsImu
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html xmlns='http://www.w3.org/1999/xhtml'> <head><meta http-equiv='content-type' content='text/html;charset=utf-8'></head><body><div><div id="MailBelowDiv"></div><div style="word-wrap: break-word;"><br></div>
-
-
-</div></body></html>
-
---Multipart=_Sat__18_Sep_2021_17_26_02_+0800_MqdPVTW.=gkCsImu
-Content-Type: text/x-diff; name="0001-drm-radeon-fix-uninitialized-bool-variable.patch"
-Content-Disposition: attachment; filename="0001-drm-radeon-fix-uninitialized-bool-variable.patch"
-Content-Transfer-Encoding: 7bit
-
-From 23dc76b1a4c7eb516b2830e1d2bb588316e18e93 Mon Sep 17 00:00:00 2001
-From: Zhiwei Yang <yangzhiwei@uniontech.com>
-Date: Sat, 18 Sep 2021 16:17:06 +0800
-Subject: [PATCH] drm/radeon: fix uninitialized bool variable
 
 The bool variable detected_hpd_without_ddc in struct radeon_connector
 is uninitialized when first used, that may cause unnecessary ddc ops.
@@ -125,7 +105,5 @@ index fe12d9d91d7a..c1987a66373f 100644
 -- 
 2.20.1
 
-
---Multipart=_Sat__18_Sep_2021_17_26_02_+0800_MqdPVTW.=gkCsImu--
 
 
