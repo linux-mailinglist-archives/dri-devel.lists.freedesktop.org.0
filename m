@@ -2,41 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C13414103A1
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 06:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157B14103C1
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 06:54:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A41A06F3AE;
-	Sat, 18 Sep 2021 04:30:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 263386F3DA;
+	Sat, 18 Sep 2021 04:54:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DA316F3AE;
- Sat, 18 Sep 2021 04:30:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="222962845"
-X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="222962845"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 21:30:20 -0700
-X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="701554795"
-Received: from yseah-mobl.gar.corp.intel.com (HELO ldmartin-desk2)
- ([10.252.130.247])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Sep 2021 21:30:19 -0700
-Date: Fri, 17 Sep 2021 21:30:19 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH 14/19] drm/i915/oprom: Basic sanitization
-Message-ID: <20210918043019.hhol5fgwbi2ogod2@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20210412090526.30547-1-matthew.auld@intel.com>
- <20210412090526.30547-15-matthew.auld@intel.com>
- <87im3hh8sy.fsf@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F3FB6F3D0;
+ Sat, 18 Sep 2021 04:54:10 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10110"; a="202412350"
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="202412350"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 17 Sep 2021 21:54:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,303,1624345200"; d="scan'208";a="472523610"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga007.fm.intel.com with ESMTP; 17 Sep 2021 21:54:09 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: igt-dev@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH i-g-t v11 00/15] Introduce PXP Test
+Date: Fri, 17 Sep 2021 21:54:21 -0700
+Message-Id: <20210918045436.34782-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87im3hh8sy.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,24 +48,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, May 17, 2021 at 02:57:33PM +0300, Jani Nikula wrote:
->On Mon, 12 Apr 2021, Matthew Auld <matthew.auld@intel.com> wrote:
->> From: Anshuman Gupta <anshuman.gupta@intel.com>
->>
->> Sanitize OPROM header, CPD signature and OPROM PCI version.
->> OPROM_HEADER, EXPANSION_ROM_HEADER and OPROM_MEU_BLOB structures
->> and PCI struct offsets are provided by GSC counterparts.
->> These are yet to be Documented in B.Spec.
->> After successful sanitization, extract VBT from opregion
->> image.
->
->So I don't understand what the point is with two consecutive patches
->where the latter rewrites a lot of the former.
+This series adds gem_pxp tests for the new PXP subsystem currently
+being reviewed at https://patchwork.freedesktop.org/series/90504/.
+This series currently includes 4 groups of tests addressing the
+features and restrictions described by Daniele's series :
+   1. test i915 interfaces for allocation of protected bo's
+      and contexts and enforcement of UAPI rule disallowing the
+      modification of parameters after it's been created.
+   2. verify PXP subsystem protected sessions generate encrypted
+      content on protected output buffers and decrypt protected
+      inputs buffers.
+   3. verify i915 PXP auto-teardown succeeds on suspend-resume
+      cycles and gem-exec of stale protected assets fail. Ensure
+      protected-contexts adhere to stricter invalidation
+      enforcement upon teardown event.
+   4. Ensure that display plane decryption works as expected with
+      protected buffers.
 
-I actually wonder what's the point of this. Getting it from spi is
-already the fallback and looks much more complex. Yes, it's pretty
-detailed and document the format pretty well, but it still looks more
-complex than the initial code. Do you see additional benefit in this
-one?
+NOTE: This series is on the tenth revision. All R-v-b's have been
+received except UAPI patch which will be dropped at merge time (after
+kernel patches gets merged and igt's drm UAPI gets sync'd).
 
-Lucas De Marchi
+Changes from prior rev1 to now:
+   v11:
+      - When detecting hw support, retry pxp context creation
+        multiple times a timeout as per HW SLA.
+      - initialize bo or ctx handles to zero before calling
+        creation ioctl wrapper.
+   v10:
+      - In patch #2, reuse existing gem_create_ext wrapper.
+      - In patch #10, kernel side changed the debugfs file name
+        (but no difference in behavior / usage).
+      - Removed patch #14 from Rev9 as decision on kernel side
+        was to drop the usage of RESET_STATS IOCTL to track
+        invalidated pxp contexts.
+   v9:
+      - Remove patch #2 from rev7 as it was duplicating
+        an existing ioctl wrapper helper
+      - Fix the false-negative warnings when triggering
+        auto-suspend-resume (remove checking if we are
+        suspending after the system has already resumed).
+   v8:
+      - Nothing - mistaken detection from patchwork
+   v7:
+      - In prior rev, Patches #11->13 was testing expected results
+        from calling gem_execbuf with stale pxp-context, pxp-buffer
+        or combinations of them (including an opt-out usage). All
+        of them used a single suspend-resume power state cycles to
+        trigger the PXP teardown event. These patches have been
+        combined into patch #14 that continues to carry the prior rev
+        Rvb.
+      - In its place, the new patches of #11->#13 do the identical
+        set of tests as before (results from gem_execbuf with various
+        combinations of stale pxp context and buffer), but this time
+        using a debugfs file handle that triggers the same code path
+        taken when the HW triggers the pxp teardown. That said, the
+        code is nearly identical as v6 but I did not keep the Rvb's.
+      - In patch #15, RESET_STAT now reports invalidated / banned
+        pxp contexts via the existing batch_active's lost count.
+   v6:
+      - Addressed rev5 review comments for patch #1, #7, #14
+        and #17.
+      - For #17, I'm using Rodrigo's Rv-b because offline 
+        discussions concluded that we couldn't use those
+        test sequences with HDCP and so it was removed it.
+      - Added Rv-b into all patches that received it.
+      - Modified the test requirement from a list of device
+        ids to checking if runtime PXP interface succeeds
+        due to kernel's build config dependency.
+   v5:
+      - Addressed all rev4 review comments. No changes to
+        overall flow and logic compared to the last rev.
+   v4:
+      - Addressed all rev3 review comments. NOTE: that all
+        test cases and code logic are the same but a decent
+        amount of refactoring has occured due to address
+        v3 comments to break out subtests into separate
+        functions while combining certain checks into the same
+        function to reduce test time by minimizing number of
+        suspend-resume power cycles.
+   v3:
+      - Addressed all rev2 review comments.
+      - In line with one of the rev2 comments, a thorough fixup
+        of all line-breaks in function calls was made for a more
+        consistent styling.
+      - Rebased on igt upstream repo and updated to latest kernel
+        UAPI that added GEM_CREATE_EXT.
+   v2: 
+      - Addressed all rev1 review comments except these:
+           1.Chris Wilson : "...have the caller do 1-3 once for its protected
+             context. Call it something like intel_bb_enable_pxp(),
+             intel_bb_set_pxp if it should be reversible.".
+             -  This couldn't be implemented because [1] HW needs different
+             instruction sequences for enabling/disabling PXP depending
+             on the engine class and [2] the pair of "pxp-enable" and "pxp-
+             disable" instructions need to be contained within the same batch
+             that is dispatched to the hardware. That said, implementing
+             internal intel_batchbuffer funtionality for this would conflict
+             with how rendercopy_gen9 uses batch buffer memory by repositioing
+             the pointer and consuming unused portions of the batch buffer as
+             3d state offsets that batchbuffer has no visibility.
+         
+      - Added these additional subtests:
+           1. verify that buffer sharing works across testing pxp context.
+           2. verify teardown bans contexts via DRM_IOCTL_I915_GET_RESET_STAT.
+           3. verify display plane decryption of protected buffers.
+
+Alan Previn (14):
+  Add PXP UAPI support in i915_drm.h
+  Add basic PXP testing of buffer and context alloc
+  Perform a regular 3d copy as a control checkpoint
+  Add PXP attribute support in batchbuffer and buffer_ops libs
+  Add MI_SET_APPID instruction definition
+  Enable protected session cmd in gen12_render_copyfunc
+  Add subtest to copy raw source to protected dest
+  Add test where both src and dest are protected
+  Verify PXP teardown occurred through suspend-resume
+  Verify execbuf fails with stale PXP context after teardown
+  Verify execbuf fails with stale PXP buffer after teardown
+  Verify execbuf ok with stale PXP buf in opt-out use
+  Verify execution behavior with stale PXP assets through suspend-resume
+  Verify protected surfaces are dma buffer sharable
+
+Karthik B S (1):
+  tests/i915_pxp: CRC validation for display tests.
+
+ lib/i915/i915_drm_local.h |  102 +++
+ lib/intel_batchbuffer.c   |   23 +-
+ lib/intel_batchbuffer.h   |   31 +
+ lib/intel_bufops.h        |   15 +
+ lib/intel_reg.h           |    8 +
+ lib/rendercopy_gen9.c     |   57 ++
+ tests/i915/gem_pxp.c      | 1283 +++++++++++++++++++++++++++++++++++++
+ tests/meson.build         |    1 +
+ 8 files changed, 1519 insertions(+), 1 deletion(-)
+ create mode 100644 tests/i915/gem_pxp.c
+
+-- 
+2.25.1
+
