@@ -2,58 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA84F4108C5
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 00:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF294108CD
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 00:13:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB3C6E11E;
-	Sat, 18 Sep 2021 22:00:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AFB716E123;
+	Sat, 18 Sep 2021 22:13:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x729.google.com (mail-qk1-x729.google.com
- [IPv6:2607:f8b0:4864:20::729])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AB8A56E11E
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 22:00:56 +0000 (UTC)
-Received: by mail-qk1-x729.google.com with SMTP id 72so17569409qkk.7
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3C86E123
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 22:13:09 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id x27so49048622lfu.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:13:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=st5UJCa4WvVb/TsD4KIdOP8PiodC67vTxLl0JLmKI38=;
- b=E+MfgHtzbDynIbAqx4TbCI1RkzKnMKiC26x3c+X6lXXLy5eVBhn4EtFxrPW/aOwBd1
- RTguva1ac7xjIUTKoxNWgGEOyjw8UrrCxmbvBLogYOWdQCX81v1ht7utkbYwgLWWjkyJ
- f4BZHU5pAwtdPK65rGTo4gFXZs77N294L1+LQ+j4w9M+D4KPJkr6a464AIEUx9a4Fh2z
- TeAWoQOBfxqsr74VUxji0QXLKWuJcf7dqnl7+RVB5+eseOteZ7bJT/LNEMg1LWHkoGNh
- GbxJWd3KDj7L1PIP8Z/eobAUPFjL6BSOdf2H1izpfPiBRc38PjjspDXUANT+BdtRs8pv
- R4lg==
+ :cc; bh=GUhWRezl8u5tAYOifSzgxoGvmMKw0j2utihzqtFMU3Y=;
+ b=G7RlTiXb1hmxugnHn7dQYjSco62fLoPVZ26F2KYi08cTHeaP39JD3V2JXCMqGbsBk7
+ wBqxQDiga1ktYvJwZUwmOsb4ONdR4tYsxK1Yl20PMlcAzAzhRaqduR4QLaduyfFgSQsf
+ kfu/ovUePLOJPLHAJ114B4kEE7CcTgRLfK23k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=st5UJCa4WvVb/TsD4KIdOP8PiodC67vTxLl0JLmKI38=;
- b=U9SwPFBEAMwLcSug2rprgUfEqPG62gG3gBSnGQGXIWRLGAf8cX8hwsV5DFB6abzPEl
- FwtxR53rUyaWnvuuDv6LfyadGHuZmfkQz+CBkXARAmxYfZnDvE8e8fmrc2DwmVyKh2gA
- Lao/0u4gc2s0dzOvHP8mNSXrALnoCpqyG5/g9XhvCuyqCzLfnfYaqWNJ3zXe5wAkPF+p
- MNkdEImZ4uBcnToScd01xEg8su9WSq7XQdsRN8X0xW3UVPpqamGu7Fw8lNw//tBynpmC
- faSgyoTGhxrVUfoJLrtpS9Vm9HpSZbB8teH/l+i+FnlEf/Yh8DZ2K5wZNPm8sbMj90Ot
- D/Qg==
-X-Gm-Message-State: AOAM532MyzpwJqxrm5fJbw/1/1A+NG/rJWQm8VRPWnEYYpyo220azEjo
- knxb2gzXPt93FCAnBLjBQS31slOJUTBMUvwElIs=
-X-Google-Smtp-Source: ABdhPJw5BmjSXmbSbjXMmWKebBsnmITYFKXhIn0R+a2vkCT2mtDohZYYD4ndjeWppCe5Brn6WE0r5HXfBnyYvPVOfps=
-X-Received: by 2002:a25:2142:: with SMTP id h63mr22414639ybh.70.1632002455618; 
- Sat, 18 Sep 2021 15:00:55 -0700 (PDT)
+ bh=GUhWRezl8u5tAYOifSzgxoGvmMKw0j2utihzqtFMU3Y=;
+ b=c8Nw3HJYzBLP43bEPkqML1vmKv5ohpSZcr3R3kRHUHHJH8qwpjhOuU7NxiojtqtNZn
+ bdajNuTvu2tuzy5T4Gt47e92kVvKMFONuvAsfv45NpaT65mfhxlZEiwxeoHFUByrM8Cw
+ Ll7sygOscXV4G+PyWjQf8CSLGh2rEYcwBEXiCDa/r8rMESHb93AdOrEHFwbqKlYn8+4m
+ zscMvuirI5VnSSNyplo9bnwu4oxZ+PO5QS3nnG6rp+8oICqm+Wgm7QNqFpcCl4EVINV2
+ 5x9YYKmoldnz8WpPVJLQJRnxSBXdrpJ1ixJe2zWZfDsFY9kl1QUZjeqcqYiFtq0hN66L
+ GxOQ==
+X-Gm-Message-State: AOAM533k85VCBCS8ejt0B5YQQSVLTmtl9TY/TKD/xqXH9sTOQxqDjEYx
+ NFs8cqiyw/Iv3hglBB5K7eeF9DikKLZXfDdtev8=
+X-Google-Smtp-Source: ABdhPJwkpycTd5CoJNeSQFC2t3WQosPQdqesTxD1AVtZfk8t6AkZ2YDSUwSZ43GVg7R34YrWnafJ3g==
+X-Received: by 2002:ac2:5b41:: with SMTP id i1mr13221667lfp.25.1632003187121; 
+ Sat, 18 Sep 2021 15:13:07 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
+ [209.85.167.47])
+ by smtp.gmail.com with ESMTPSA id h4sm867794lft.184.2021.09.18.15.13.06
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id x27so49048445lfu.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
+X-Received: by 2002:a05:6512:b8f:: with SMTP id
+ b15mr1203616lfv.655.1632003186110; 
+ Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
  <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
  <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
  <CAHk-=wjuN8afLz-QnefNgt2qKAOY7cez_63oAkdDmTu4Wscv_g@mail.gmail.com>
-In-Reply-To: <CAHk-=wjuN8afLz-QnefNgt2qKAOY7cez_63oAkdDmTu4Wscv_g@mail.gmail.com>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Sat, 18 Sep 2021 23:00:19 +0100
-Message-ID: <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
+ <CANnVG6mOWLeLHtFrAA9zWzZRtZ6+E1EYYW5+ekwC-=rAEcB71w@mail.gmail.com>
+In-Reply-To: <CANnVG6mOWLeLHtFrAA9zWzZRtZ6+E1EYYW5+ekwC-=rAEcB71w@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sat, 18 Sep 2021 15:12:50 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whEUga9+qFKqQUD7+k3VdAwfmx5PwHh6ChsO0_oFCOiCA@mail.gmail.com>
+Message-ID: <CAHk-=whEUga9+qFKqQUD7+k3VdAwfmx5PwHh6ChsO0_oFCOiCA@mail.gmail.com>
 Subject: Re: [git pull] drm for 5.14-rc1
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Michael Stapelberg <michael@stapelberg.ch>,
- Maxime Ripard <maxime@cerno.tech>, 
- Emma Anholt <emma@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>, 
+To: Michael Stapelberg <michael@stapelberg.ch>
+Cc: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>, 
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
  Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,39 +82,21 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Linus,
-
-On Sat, Sep 18, 2021 at 8:24 PM Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
+On Sat, Sep 18, 2021 at 1:13 PM Michael Stapelberg
+<michael@stapelberg.ch> wrote:
 >
-> On Sat, Sep 18, 2021 at 2:18 AM Michael Stapelberg
-> <michael@stapelberg.ch> wrote:
-> >
-> > torvalds at linux-foundation.org (Linus Torvalds) writes:
-> > > Did I fix it up correctly? Who knows. The code makes more sense to me
-> > > now and seems valid. But I really *really* want to stress how locking
-> > > is important.
-> >
-> > As far as I can tell, this merge conflict resolution made my Raspberry
-> > Pi 3 hang on boot.
+> > Michael - do things work if you revert those two (sadly, they don't
+> > revert cleanly exactly _because_ of the other changes in the same
+> > area)?
 >
-> Ok, that's a different merge issue than the locking one (which is
-> about the amd ttm code).
->
-> But the VC4 driver did have changes close to each other in the hdmi
-> detection and clock setting code.
->
-> And it doesn't seem to be just RPi3, there was a report back a couple
-> of weeks ago about RPi4 also having regressed (with an Ubuntu
-> install). That one was an oops in vc4_hdmi_audio_prepare(). I don't
-> know if that got resolved, I heard nothing about it after the report.
+> Reverting only 9984d6664ce9 is not sufficient, but reverting both
+> 9984d6664ce9 and 411efa18e4b0 does indeed make my Raspberry Pi 3 boot
+> again!
 
-Its still there. I am seeing it every night. This was from last night
-- https://lava.qa.codethink.co.uk/scheduler/job/164#L1356
-Last night's test was on top of 4357f03d6611 ("Merge tag 'pm-5.15-rc2'
-of git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm")
+Since you did those reverts and fixed up the conflicts, would you mind
+sending out the resulting patch so that maybe Sudip can test it too?
 
+Maybe the RPi4 hdmi audio issues are related to the RPi4 hdmi problems
+despite the symptoms apparently being rather different..
 
--- 
-Regards
-Sudip
+          Linus
