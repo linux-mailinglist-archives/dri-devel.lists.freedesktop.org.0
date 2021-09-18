@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF294108CD
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 00:13:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 332E84108CF
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 00:15:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AFB716E123;
-	Sat, 18 Sep 2021 22:13:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 076A86E12A;
+	Sat, 18 Sep 2021 22:15:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A3C86E123
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 22:13:09 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id x27so49048622lfu.5
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:13:08 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E1476E12A
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 22:15:45 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id t10so42772586lfd.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:15:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linux-foundation.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GUhWRezl8u5tAYOifSzgxoGvmMKw0j2utihzqtFMU3Y=;
- b=G7RlTiXb1hmxugnHn7dQYjSco62fLoPVZ26F2KYi08cTHeaP39JD3V2JXCMqGbsBk7
- wBqxQDiga1ktYvJwZUwmOsb4ONdR4tYsxK1Yl20PMlcAzAzhRaqduR4QLaduyfFgSQsf
- kfu/ovUePLOJPLHAJ114B4kEE7CcTgRLfK23k=
+ :cc; bh=OI+BReMWEDWhhCbGGWKSjxgoXMu+PXVPVEM3SVfbuAc=;
+ b=MgWiM8MeZ8y6RT/u9FsH9+OFNDgEG4iGscz8y1ZJz7doZW2Vv05F0MoJ8VQ4F4f19a
+ /qOAnRx59b9MAGFQFDdw/X8VRGOmwoICPGhT94aTOiD41zU7MTaDD9atwbN1SzZDgx/g
+ JpJbT1/4HxmnHdjMelnX4dnI1cFC+LVGggwfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GUhWRezl8u5tAYOifSzgxoGvmMKw0j2utihzqtFMU3Y=;
- b=c8Nw3HJYzBLP43bEPkqML1vmKv5ohpSZcr3R3kRHUHHJH8qwpjhOuU7NxiojtqtNZn
- bdajNuTvu2tuzy5T4Gt47e92kVvKMFONuvAsfv45NpaT65mfhxlZEiwxeoHFUByrM8Cw
- Ll7sygOscXV4G+PyWjQf8CSLGh2rEYcwBEXiCDa/r8rMESHb93AdOrEHFwbqKlYn8+4m
- zscMvuirI5VnSSNyplo9bnwu4oxZ+PO5QS3nnG6rp+8oICqm+Wgm7QNqFpcCl4EVINV2
- 5x9YYKmoldnz8WpPVJLQJRnxSBXdrpJ1ixJe2zWZfDsFY9kl1QUZjeqcqYiFtq0hN66L
- GxOQ==
-X-Gm-Message-State: AOAM533k85VCBCS8ejt0B5YQQSVLTmtl9TY/TKD/xqXH9sTOQxqDjEYx
- NFs8cqiyw/Iv3hglBB5K7eeF9DikKLZXfDdtev8=
-X-Google-Smtp-Source: ABdhPJwkpycTd5CoJNeSQFC2t3WQosPQdqesTxD1AVtZfk8t6AkZ2YDSUwSZ43GVg7R34YrWnafJ3g==
-X-Received: by 2002:ac2:5b41:: with SMTP id i1mr13221667lfp.25.1632003187121; 
- Sat, 18 Sep 2021 15:13:07 -0700 (PDT)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
- [209.85.167.47])
- by smtp.gmail.com with ESMTPSA id h4sm867794lft.184.2021.09.18.15.13.06
+ bh=OI+BReMWEDWhhCbGGWKSjxgoXMu+PXVPVEM3SVfbuAc=;
+ b=gBPgZw1fzfjBRHJnt/OAr3fYnMWfX1KJdb5Bm7TJIRIYhJNM5Hr1wZ5o5FVP2JUeKy
+ wYkkaCKKkR5jJg7/HS8o6ZtE2Xp7HYONPnnZPy/Ke+AneVgeB/NS8GIxbkaNyxZDAbS8
+ /t13ReCKHkIypim8GttxzC9TPRQcsysunO2NxsVIfZ64nPWEi5idFehGFaebloIlC0gk
+ 1JVgaubzkL1Y4AiSyF2L8mOqlueJetzmVAsJf1q04CAuvDD53xiMg8rM8z9nOdx2hCqV
+ HTuM828NHCKCaL4PQXr2UtcMoTl7P6sRF8VtSJJ6c5wgm+L8u3SlPMz+kdRnqQC9KxnN
+ 7kJw==
+X-Gm-Message-State: AOAM533c8zK4en+0zWsIGifhBbTxaTrGIkff8jSH+/s+tfiROX7mT9sM
+ ovKEv/3Sp/sHVbaroGtVowFkzDJ5BADvHFR6X9w=
+X-Google-Smtp-Source: ABdhPJyEgJOTrfFOHF2Ednev2EqdFEeQ+XphBP6v87gjdYoGUIJ01v1FCU87WAKjYUAQT+9KJFlpFA==
+X-Received: by 2002:a05:6512:3189:: with SMTP id
+ i9mr13221984lfe.152.1632003343447; 
+ Sat, 18 Sep 2021 15:15:43 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
+ [209.85.167.53])
+ by smtp.gmail.com with ESMTPSA id v7sm869634lfq.192.2021.09.18.15.15.42
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id x27so49048445lfu.5
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
-X-Received: by 2002:a05:6512:b8f:: with SMTP id
- b15mr1203616lfv.655.1632003186110; 
- Sat, 18 Sep 2021 15:13:06 -0700 (PDT)
+ Sat, 18 Sep 2021 15:15:42 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id x27so49067792lfu.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 15:15:42 -0700 (PDT)
+X-Received: by 2002:a2e:bc1e:: with SMTP id b30mr15913950ljf.191.1632003342620; 
+ Sat, 18 Sep 2021 15:15:42 -0700 (PDT)
 MIME-Version: 1.0
 References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
  <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
  <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
  <CAHk-=wjuN8afLz-QnefNgt2qKAOY7cez_63oAkdDmTu4Wscv_g@mail.gmail.com>
- <CANnVG6mOWLeLHtFrAA9zWzZRtZ6+E1EYYW5+ekwC-=rAEcB71w@mail.gmail.com>
-In-Reply-To: <CANnVG6mOWLeLHtFrAA9zWzZRtZ6+E1EYYW5+ekwC-=rAEcB71w@mail.gmail.com>
+ <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
+In-Reply-To: <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
 From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Sat, 18 Sep 2021 15:12:50 -0700
-X-Gmail-Original-Message-ID: <CAHk-=whEUga9+qFKqQUD7+k3VdAwfmx5PwHh6ChsO0_oFCOiCA@mail.gmail.com>
-Message-ID: <CAHk-=whEUga9+qFKqQUD7+k3VdAwfmx5PwHh6ChsO0_oFCOiCA@mail.gmail.com>
+Date: Sat, 18 Sep 2021 15:15:26 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wiun6vK5k9NpRiaF=La2NOqq7Cph7Lhd8XiyT1vQWR27w@mail.gmail.com>
+Message-ID: <CAHk-=wiun6vK5k9NpRiaF=La2NOqq7Cph7Lhd8XiyT1vQWR27w@mail.gmail.com>
 Subject: Re: [git pull] drm for 5.14-rc1
-To: Michael Stapelberg <michael@stapelberg.ch>
-Cc: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>, 
- Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Michael Stapelberg <michael@stapelberg.ch>,
+ Maxime Ripard <maxime@cerno.tech>, 
+ Emma Anholt <emma@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>, 
  Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -82,21 +82,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 18, 2021 at 1:13 PM Michael Stapelberg
-<michael@stapelberg.ch> wrote:
+On Sat, Sep 18, 2021 at 3:00 PM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
 >
-> > Michael - do things work if you revert those two (sadly, they don't
-> > revert cleanly exactly _because_ of the other changes in the same
-> > area)?
->
-> Reverting only 9984d6664ce9 is not sufficient, but reverting both
-> 9984d6664ce9 and 411efa18e4b0 does indeed make my Raspberry Pi 3 boot
-> again!
+> Its still there. I am seeing it every night. This was from last night
+> - https://lava.qa.codethink.co.uk/scheduler/job/164#L1356
 
-Since you did those reverts and fixed up the conflicts, would you mind
-sending out the resulting patch so that maybe Sudip can test it too?
+Note that that web server is not available at least to me.  Looks like
+some internal name or limited dns, I just get
 
-Maybe the RPi4 hdmi audio issues are related to the RPi4 hdmi problems
-despite the symptoms apparently being rather different..
+    lava.qa.codethink.co.uk: Name or service not known
 
-          Linus
+so your reports aren't getting a lot of traction.
+
+             Linus
