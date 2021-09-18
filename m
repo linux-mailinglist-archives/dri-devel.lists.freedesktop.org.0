@@ -2,58 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06B5841068B
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 14:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA014106B8
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 15:20:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0C746E098;
-	Sat, 18 Sep 2021 12:56:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 48CB96E0AB;
+	Sat, 18 Sep 2021 13:20:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6ECA26E098
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 12:56:18 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id EEC3461355
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 12:56:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1631969778;
- bh=mir/1rqTvFOBLweYo3LEI8oNu8M1ngNzKyl46Qtyz44=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=IiOmtpk1+RSdAOdwIGEhtO1ckaEC8bcgg/CscIrWRtfvta1b214W2smv46HTQnQqm
- XrD1IvPu/+/KyHwIj7Q0rMBJ9o/mZ4JhWXZkLWIPFbtgD0PfXiEuPR7ycFvSbH0Vap
- RZUTLkMgVXPMLl0nAro59omtFUh/T7BZESc0u07H2NCLBsaxtxwCrtwmFLbvJkqqM1
- xg+41SNEsi0eu3HmkrM9JLUVMewHTjK2cjqd6nCG0WNVLwV4e4KIkHX3C7ON/Wlt7i
- OTYm50cTA9uGVqUcWKC4/HPZM9KfhAOa47vwg2dpNvnSp9fWUl7nLjyS4479ObE+rh
- OSXP0ruLXj32Q==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id EAA35610FD; Sat, 18 Sep 2021 12:56:17 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211807] [drm:drm_dp_mst_dpcd_read] *ERROR* mstb
- 000000004e6288dd port 3: DPCD read on addr 0x60 for 1 bytes NAKed
-Date: Sat, 18 Sep 2021 12:56:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: low
-X-Bugzilla-Who: nils.tonnaett@posteo.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211807-2300-vziYdrH9sx@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211807-2300@https.bugzilla.kernel.org/>
-References: <bug-211807-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B2F16E0AB
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 13:20:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1631971222;
+ bh=utd0q4hqIMtuJEsThLosqrfrDQjZp+7lfixpFX7XqnI=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=LWTfMYcASFTf67QItbBWAZMgfjABOCJnq4qSUTWVkOAtVhBwNq0hgqMVJFGO0reQV
+ 1OBScoMwlAruAkx1+LnLyWnUG6F6mthX3pbBDxBChCBtPm0B2giHjopoBJR5qik4og
+ rHuMrAeT599Y25tj4UQbiNY3NSjUBCCyqyswkthg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MNKhm-1mH5ci08wk-00OmPk; Sat, 18
+ Sep 2021 15:20:22 +0200
+Date: Sat, 18 Sep 2021 15:20:10 +0200
+From: Len Baker <len.baker@gmx.com>
+To: "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>,
+ Stephen Hemminger <sthemmin@microsoft.com>,
+ Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Kees Cook <keescook@chromium.org>
+Cc: Len Baker <len.baker@gmx.com>, Colin Ian King <colin.king@canonical.com>,
+ linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
+Message-ID: <20210918132010.GA15999@titan>
+References: <20210911102818.3804-1-len.baker@gmx.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210911102818.3804-1-len.baker@gmx.com>
+X-Provags-ID: V03:K1:BPsfjmvLWKWmUtY2rfEeoDvxY6Wuum+kDmKPnYfRtNYpw8qgDAD
+ RhTDWgmsIEN+bzwDQEpc3L/j6yAPdII+XK7ekbbFRT+WCGCF+/aq+yq2YmAPesXrZu3fRfx
+ wW7jNo6iQ7H5V5LYlTFcYwbOe4bNIRmOLUTAIiWaGRfv2n3S9hvz/U7QU1NsODbw6onb6aM
+ LL0BxR0LXzP/M0XqAQB0g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qStfD7wYGCw=:CcrsvfQSdNHEuPuePCcNlz
+ IO+6yJb1Wzy05aUq3UsQCasVn8xv1ZUVRo6mHXjGimDZR4Did1bGuQyqPt+XUG1jlB05UqUJ0
+ nWgRzgDrI1CHIz5yOaIEMUilrjTv/tXfj4iWBp/wcdvTqycEWi2GeWER1sCrx5m01Vc0gA8as
+ uve1NAj8KXEdS8aPmN4KTN5acD0gl75Z98tR9G8pEJfcYjb8YHzSO6JgkXKvJwVwdXHkbKs3i
+ RxcNn1X7TnutYQShodSla+6tgDLTiZQQMwpJ2yH6Njx7FkubrnJdiwL54PO9mcQbTy6snpaMY
+ 5xtq1LtIyYUghT5r3+nPkI9AOX7fTLY2DxioCYD0CTZfvbFlAKBY8NYq2TghQDzNHD2t18w7N
+ xmmOnWY9cQ31BmrpEQSwPsDlp3Wn9wUK1RZC9tPJ8Qac7X7qry31ZjiQTjHf3Dh6rfZxogl+H
+ lwi7zwkbJx6YysMfJaWcDR2JtUjIi3SXCoWF5+qI2tNCwJcjyQXcxJuKcXkDrm4tamdeLfNAH
+ OnOogVvQ3bz2Y2lxjadQn7BaA/OMwM3boxeoHeWgowB2OiJAfnWTeieKs+WreKsZfZ3SN02PK
+ muAQRPzfq004pN3SeI0zhzo0TPv3jzasctsi3/9NsGnnBnbcaN3yWu9brDUVxYQ7u4N6Ry7lY
+ aE/f4oqeplwQASCnvDVWBW+M6vSyREznTSVBFi7zYxPoJ6KEolM5NgS4zvjYiE1kL0Yosoami
+ mLe4VLryD/hSLshKzRqi6HGK7pWpGygCdX1XeGol4LhPoEyogqJoDeZFIuCWosuOvp7aB+RRv
+ CrdE0Y2dbmIC9zbUA/etHs6BsBKe876fVfiUWARtpd13vusxAgNMlbOC7+WMv3ObKb15g795X
+ tLuzE2X5o6emAtu47HgKo668A8WeIvtw9rM/NXc23EPhjK2jlLxPHKWgzqUNGXq394CArijMk
+ z/+md7oA7PQVxaXk7GCAIdke1ektjaz+8eadbTr1h898jGZUljVJzOIEFA22xNnMFXitgDuK6
+ ninxUQ4qfEUX0wYviLSceiJ0FVn98lk7BQ7qtWOplhQCIlzH8Fi0luyTAbzFUSSo7F5wv8zaK
+ THujcWZZ3EUjUQ=
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,47 +83,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211807
+Hi,
 
---- Comment #10 from Nils Tonn=C3=A4tt (nils.tonnaett@posteo.de) ---
-I patched 5.14.5. I see now difference in behavior. When the screen stays b=
-lack
-it often works to switch to a tty or turn off and on the display. Dmesg see=
-ms
-to became a little more verbose about this:
+On Sat, Sep 11, 2021 at 12:28:18PM +0200, Len Baker wrote:
+> As noted in the "Deprecated Interfaces, Language Features, Attributes,
+> and Conventions" documentation [1], size calculations (especially
+> multiplication) should not be performed in memory allocator (or similar)
+> function arguments due to the risk of them overflowing. This could lead
+> to values wrapping around and a smaller allocation being made than the
+> caller was expecting. Using those allocations could lead to linear
+> overflows of heap memory and other misbehaviors.
+>
+> So, use the struct_size() helper to do the arithmetic instead of the
+> argument "size + count * size" in the kzalloc() function.
+>
+> [1] https://www.kernel.org/doc/html/v5.14/process/deprecated.html#open-c=
+oded-arithmetic-in-allocator-arguments
+>
+> Signed-off-by: Len Baker <len.baker@gmx.com>
+> ---
+>  drivers/net/ethernet/microsoft/mana/hw_channel.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/microsoft/mana/hw_channel.c b/drivers/=
+net/ethernet/microsoft/mana/hw_channel.c
+> index 1a923fd99990..0efdc6c3c32a 100644
+> --- a/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> +++ b/drivers/net/ethernet/microsoft/mana/hw_channel.c
+> @@ -398,9 +398,7 @@ static int mana_hwc_alloc_dma_buf(struct hw_channel_=
+context *hwc, u16 q_depth,
+>  	int err;
+>  	u16 i;
+>
+> -	dma_buf =3D kzalloc(sizeof(*dma_buf) +
+> -			  q_depth * sizeof(struct hwc_work_request),
+> -			  GFP_KERNEL);
+> +	dma_buf =3D kzalloc(struct_size(dma_buf, reqs, q_depth), GFP_KERNEL);
+>  	if (!dma_buf)
+>  		return -ENOMEM;
+>
+> --
+> 2.25.1
+>
 
-[   64.800268] [drm] DM_MST: stopping TM on aconnector: 000000007957d743 [i=
-d:
-97]
-[   64.820206] amdgpu 0000:09:00.0: [drm] Cannot find any crtc or sizes
-[   66.970887] [drm] DM_MST: starting TM on aconnector: 000000007957d743 [i=
-d:
-97]
-[   67.173165] amdgpu 0000:09:00.0: [drm] *ERROR* mstb 00000000ca721b5e por=
-t 8:
-DPCD read on addr 0x60 for 1 bytes NAKed
-[   67.176906] [drm] fb mappable at 0x7C00502000
-[   67.176907] [drm] vram apper at 0x7C00000000
-[   67.176907] [drm] size 33177600
-[   67.176908] [drm] fb depth is 24
-[   67.176908] [drm]    pitch is 15360
-[   67.176965] fbcon: amdgpu (fb0) is primary device
-[   67.192813] amdgpu 0000:09:00.0: [drm] *ERROR* mstb 00000000ca721b5e por=
-t 8:
-DPCD read on addr 0x60 for 1 bytes NAKed
-[   67.670123] Console: switching to colour frame buffer device 480x135
-[   67.708683] amdgpu 0000:09:00.0: [drm] fb0: amdgpu frame buffer device
-[   72.960002] rfkill: input handler disabled
-[   73.139379] amdgpu 0000:09:00.0: [drm] *ERROR* mstb 00000000ca721b5e por=
-t 8:
-DPCD read on addr 0x60 for 1 bytes NAKed
-[   80.216335] rfkill: input handler enabled
-[   80.534571] amdgpu 0000:09:00.0: [drm] *ERROR* mstb 00000000ca721b5e por=
-t 8:
-DPCD read on addr 0x60 for 1 bytes NAKed
+I have received a email from the linux-media subsystem telling that this
+patch is not applicable. The email is the following:
 
---=20
-You may reply to this email to add a comment.
+Hello,
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+The following patch (submitted by you) has been updated in Patchwork:
+
+ * linux-media: net: mana: Prefer struct_size over open coded arithmetic
+     - http://patchwork.linuxtv.org/project/linux-media/patch/202109111028=
+18.3804-1-len.baker@gmx.com/
+     - for: Linux Media kernel patches
+    was: New
+    now: Not Applicable
+
+This email is a notification only - you do not need to respond.
+
+The question is: Why it is not applicable?. I have no received any bad com=
+ment
+and a "Reviewed-by:" tag from Haiyang Zhang. So, what is the reason for th=
+e
+"Not Applicable" state?.
+
+Regards,
+Len
