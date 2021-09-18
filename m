@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C565C4104B7
-	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2B84104BA
+	for <lists+dri-devel@lfdr.de>; Sat, 18 Sep 2021 09:25:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 565136E0DB;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 04FF56E0E4;
 	Sat, 18 Sep 2021 07:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 429 seconds by postgrey-1.36 at gabe;
- Sat, 18 Sep 2021 03:58:39 UTC
-Received: from qq.com (smtpbg465.qq.com [59.36.132.35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A59886E0D5
- for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 03:58:39 +0000 (UTC)
-X-QQ-mid: bizesmtp44t1631937068tuf7vu0i
+X-Greylist: delayed 430 seconds by postgrey-1.36 at gabe;
+ Sat, 18 Sep 2021 04:02:54 UTC
+Received: from qq.com (smtpbg429.qq.com [183.3.255.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C90C16E0D5
+ for <dri-devel@lists.freedesktop.org>; Sat, 18 Sep 2021 04:02:54 +0000 (UTC)
+X-QQ-mid: bizesmtp47t1631937327txlrmwdz
 Received: from localhost.localdomain (unknown [124.126.19.250])
  by esmtp6.qq.com (ESMTP) with 
- id ; Sat, 18 Sep 2021 11:51:06 +0800 (CST)
+ id ; Sat, 18 Sep 2021 11:55:25 +0800 (CST)
 X-QQ-SSF: 0140000000000050D000000B0000000
-X-QQ-FEAT: OKkEFpVJhAgeOo+4wBV1a8svT7hEZbnr9Q8DIBXJHVG4F7VfEjlVBvIJQ4rhj
- iOeinhXzceJDjLrohQuz6dsPqstmrPfiWgPEEqh8CvsUG7WX2kGTUc8RbcBruycYeJlrU6W
- cJ9xE1JAtkTDpQlcPLUVnGNEkYO0tOkdfHZdUgxel2PPeuwe+ogreu0IUW0OIaHyOe+NfM3
- rBs4pWIA73WDPrqlUVnkXRz+xu04nQsevwwp4SIa99f4oAMFR1Lg9KeMi4XrjIngnrcfgbb
- QjxLe5XY0w8/WO8R9ul/+/wsDafr6f9tmQ9Nw2NRpAF/QflMyvS3IAw9f4R/bdLO5sXOvnv
- dSS5fIa7eTqRPDxAYX72gqdP/MIYA==
+X-QQ-FEAT: 1eo3oJ4iu3CXzawabx1UThWMAM5nZaz0mhKymUHU66ZwBk56u4Q5GYrIrIqDj
+ TgbXcwb95umOfEWUQTkcGmAZra8MKPmAFqjmAj+Y6QGX0obMiTKxTtRY9caq8O6JIlMXIDz
+ VTHB78lW81+4XIYH3Qohl2+e2YvHu38/o5lylQNoIHPMsuQsy9MxWZFFIraxTF++lUo1jia
+ 3HMsObmwEnvrYsSiN6s3J6397G/m9hrBl+dJVxiuWST46tauUxOqS+4p5iNAwC7FpRzgjIl
+ L3q83tZyN8TWFEMYGURZXh0mFcwTaaRVs1xTMUd6h0Hk3OQf/bZ9euE6sDA/jddPMW9dzUi
+ P3zH3YqnqqR55JzFgFfP+Uc1Wnve0sumzm56MoS
 X-QQ-GoodBg: 1
 From: Yunlongli <liyunlonga@uniontech.com>
 To: ple@baylibre.com, narmstrong@baylibre.com, a.hajda@samsung.com,
@@ -34,13 +34,13 @@ Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
  linux-kernel@vger.kernel.org, liyunlonga@uniontech.com
 Subject: [PATCH] drm: bridge: it66121: Added it66121 chip external screen
  status judgment.
-Date: Sat, 18 Sep 2021 11:50:41 +0800
-Message-Id: <20210918035041.25512-1-liyunlonga@uniontech.com>
+Date: Sat, 18 Sep 2021 11:55:02 +0800
+Message-Id: <20210918035502.26486-1-liyunlonga@uniontech.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign1
+Feedback-ID: bizesmtp:uniontech.com:qybgforeign:qybgforeign7
 X-QQ-Bgrelay: 1
 X-Mailman-Approved-At: Sat, 18 Sep 2021 07:25:35 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
