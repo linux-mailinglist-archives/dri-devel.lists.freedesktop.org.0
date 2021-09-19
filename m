@@ -1,77 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 474DD410AC3
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 10:32:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C69C410B31
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 13:05:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 794856E19B;
-	Sun, 19 Sep 2021 08:32:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 839AE6E1B6;
+	Sun, 19 Sep 2021 11:05:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 317 seconds by postgrey-1.36 at gabe;
- Sun, 19 Sep 2021 08:32:46 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA8B46E19B
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 08:32:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1632040364;
- bh=bhpnsaGrv1Np5DCcjaML4H7Oxy9P1u6fnD5PIt2nVJE=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=WZEZqv1bhtL0sdLflrHFwIKXLwrv9vzvJYyyporOpj6XKZNZe72WAIfYLaIoMF2Vx
- 1rAH2qiZPKDRMWREzr/YoH4rHVpOAb5XG7TVsyJQu4ISZuI0Y5t2/2foNrrV2qMQSH
- nhDrcVuTdcmBJJWL5LVIzagCZCuWvSrh7LADIMGY=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from titan ([79.150.72.99]) by mail.gmx.net (mrgmx005
- [212.227.17.184]) with ESMTPSA (Nemesis) id 1MJE2D-1mC8pq469b-00KeCc; Sun, 19
- Sep 2021 10:27:18 +0200
-Date: Sun, 19 Sep 2021 10:27:05 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Dexuan Cui <decui@microsoft.com>
-Cc: Kees Cook <keescook@chromium.org>, Len Baker <len.baker@gmx.com>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>,
- Stephen Hemminger <sthemmin@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
- Colin Ian King <colin.king@canonical.com>,
- linux-hardening@vger.kernel.org, linux-hyperv@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] net: mana: Prefer struct_size over open coded arithmetic
-Message-ID: <20210918171519.GA2141@titan>
-References: <20210911102818.3804-1-len.baker@gmx.com>
- <20210918132010.GA15999@titan>
- <BYAPR21MB1270797B518555DF5DC87871BFDE9@BYAPR21MB1270.namprd21.prod.outlook.com>
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 799636E1B6
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 11:05:43 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id y144so32804121qkb.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 04:05:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PzL8+kiUIjQsb+femzqQPdbqJkdPqzOqlOdexgwKB/0=;
+ b=C05vDGjCaRhmeNmKKihvgJzzyq9pukpbsBg0XeDyta1snq2+svKjuMWwHGuY28dw4h
+ aR0jj+or3Sa5AQbM+oQoX2UuIWFHf7A5z79TPuV914i4qwTex8+KV3tjVbM6k3HLEcu0
+ 0+syPWiCPhmYIhz3iTE71pceTGBAFveGnIFF25IcpLU9epOknLXj9cjCMjrYo9H328S7
+ N9/cMmaaAZnXoHDH74XqVk8/hUri4xMnaDJT4TfM1FnFU/Vygo51Qe7j/xSpZgGmiqKR
+ 5FoB1p//J/GdJ/65iQ16x7tCAGatCVD3CCcgzQ3qpGK4pADhjXkQ41vGnA4esDPRBW8R
+ +WKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PzL8+kiUIjQsb+femzqQPdbqJkdPqzOqlOdexgwKB/0=;
+ b=N1Jh+Y+Sue7SXSYCIEeUqWyMsVfnJgm27iEr126zuYDX1exZfG+tqBGxOHfwdfjZXT
+ 5z+u0rx9HJPwdD9nLs1pff70QRxQf5Nru4fr+6f3b8CZmtlm6OsCIwlUvsah+7r4lC7z
+ RoXT1/nkMb7G+OXX61aoIt6Cyx+hMky3soRQ/MQWoTZdBPhCmy87q80uMtWbi3XKyKTX
+ 0uUTqlYxsb49b6z0kodSt8fTmtBUUOCBm9T5CQCmTIaICXOiCgI+BDDYmOGL4b9x4wRY
+ gcnagiPImR6+jB0qSEpUoRgVmvVjLAjikp7RiFQtY0UJmT2N9Fn9c3+R1rTr1wtcnxI4
+ xovw==
+X-Gm-Message-State: AOAM533AdrcfwM73aDRkxHTHTuifzFsp/FKkUc95l3vzGO2PZrfNkP7t
+ v29gVV/xOzEiihieOedQp4SLfZDl9HnuQmF2/EU=
+X-Google-Smtp-Source: ABdhPJwursPMmKC92QU1moT7U6x/JHXQ3sMSb3Qott7w7yM2BQQT4LRPgmk0OWN1CpEIuSQag1H4gCzZcIrkwL1EumU=
+X-Received: by 2002:a25:804:: with SMTP id 4mr24026698ybi.346.1632049542334;
+ Sun, 19 Sep 2021 04:05:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BYAPR21MB1270797B518555DF5DC87871BFDE9@BYAPR21MB1270.namprd21.prod.outlook.com>
-X-Provags-ID: V03:K1:0Usx9DIb/dE6r4AgA5bj+2H9ipZynWUT6G16cuQBnHsNr+kBZoR
- +l/jfqBdlR3QmD0jTX6WNa8vHjJkdzf2bXDDPykHodB/1mrO1nUJ6AZLVl0NgXVz0gtGISk
- jJ+kwAH1QYzowbUo0nJ0gygeIJkKK7eUPjsvlQ4Z6FH7rISeES9ue7+jK9zDavetLczc1FT
- V4vqf4e+YebRTYGD58maw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:zW5x2d4q2pc=:z5hvtltpQRW3w5F2D1ZOsG
- H/+BcdtSCjHyDkk4f8O5LEEoo0ahrG1fXksKxSfvmmNmSh3i6mEUrouRLnKa1/ChwL90uD2US
- Vvc/m6q4CDKmnYO+xh7mc39lmB/f2wsV8I87W2Cr0DlfDYIAGduk7uQAjoMkeBZ2g4clvAG54
- o2gh110wdS2lnQJgtnxMdn9H7KQ1ExtHJXr/E2vHo/kL2Bk7vn/mJqtVmlHK9KggbfshIodju
- aV2lzyoUn17SJY/2oPL37gzFMm8/Z9Mef4O8MtCNB2dHkTlGmi2LCgr82FE6KMDjiF/YfoMOh
- bTclHNMlYiSfn+q9UTS1jZPW1l+vs24I5pnlXg8TMq9Nc4XRdbr9WN/siiMU20HJQmn5WIpyb
- lc0CkeF1ri0hBnH859z7U7jEN+3bhr0gf1b7I4ahICzHVZeTyiRqUpZcK/8RoS4cgO2ZV9P6m
- ro+Cqry3hQAG9SQXUhZ2Y1U6qZRjoE8o4vIVg5Ai4MxEzVBtz7J991qnHpmbz9GpwndPB1mtU
- p/p0g5xRxQN3ODJfoGM3t5loq0JAc3Tu/MugReilK3lZcUKSsHGV3GVfbeL/2jh30/p2jC1VU
- Q4Ig4O4G8G+w8j7GCkDH6Pi0YEewGpqdqZRE3WORWFdKgPxap0Vre2bC1zsJrhVMX4OP7Bi3O
- RVoIFX3Dr0N6UTguk/KKy9fdhWIKUvxwB+NsIuVK8FPeCx2IoK3cy5mDp6No5UPXxhET5rQqt
- CGWdohnzTbtQ2y4f6T/nQozRykoMoa3eV+AbosaJq/QgQLmRLTi4hE/hUGLAIqMbWH/x3Elqh
- UpXrOD7tPg2kisME3t2VnnfbP62jlLNeZow5XJqlkWhtCgPyTD6T0wWdaPRsCs7wMoUUnO/L7
- XdmQtxdvoabT0mMoyrvzxlbGnWwBD4W/gfBwGsCu/N8Jo9RM0Mn0w0zdqrFyyRJUjR0ONvvcu
- Pdf73dP8gq1U2H/kt3zWGNUPWnIIlm1nuNWUsZ4MrGzXQr5InmjxYnefv1cmIRPyO9R2Bv0So
- kfi/tVK6X5QfiI3FfxDyFo2Y+i5/DNmsw6YF5+6A3NIjYt1ZlFA/3llDjlAGDcreNsb4zD/tm
- sJG1rlNCFEgfpc=
-Content-Transfer-Encoding: quoted-printable
+References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
+ <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+ <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
+ <CAHk-=wjuN8afLz-QnefNgt2qKAOY7cez_63oAkdDmTu4Wscv_g@mail.gmail.com>
+ <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
+ <CAHk-=wiun6vK5k9NpRiaF=La2NOqq7Cph7Lhd8XiyT1vQWR27w@mail.gmail.com>
+ <CADVatmNTKof8jMyx4xx9b2fQ=zVb2ZtXZh1uoYE2R-6DkaHj8w@mail.gmail.com>
+ <CAHk-=wjZ_EXdfongpgRV3BrrNm6CX6CmKYT5TixK-nOsaGG81Q@mail.gmail.com>
+In-Reply-To: <CAHk-=wjZ_EXdfongpgRV3BrrNm6CX6CmKYT5TixK-nOsaGG81Q@mail.gmail.com>
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Date: Sun, 19 Sep 2021 12:05:06 +0100
+Message-ID: <CADVatmN5EpRshGEPS_JozbFQRXg5w_8LFB3OMP1Ai-ghxd3w4g@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.14-rc1
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Michael Stapelberg <michael@stapelberg.ch>,
+ Maxime Ripard <maxime@cerno.tech>, 
+ Emma Anholt <emma@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,24 +75,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dexuan,
+Hi Linus,
 
-On Sat, Sep 18, 2021 at 05:06:16PM +0000, Dexuan Cui wrote:
-> > From: Len Baker <len.baker@gmx.com>
-> > Sent: Saturday, September 18, 2021 6:20 AM
-> >  ...
-> > I have received a email from the linux-media subsystem telling that th=
-is
-> > patch is not applicable. The email is the following:
-> >
-> > Regards,
-> > Len
+On Sun, Sep 19, 2021 at 12:06 AM Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> The patch is already in the net-next tree:
-> https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/comm=
-it/?id=3Df11ee2ad25b22c2ee587045dd6999434375532f7
+> On Sat, Sep 18, 2021 at 3:48 PM Sudip Mukherjee
+> <sudipm.mukherjee@gmail.com> wrote:
+> >
+> > Also, I have now tested by reverting those two commits and I still get
+> > the same trace on rpi4.
+>
+> Ok. I'm afraid we really need to have the VC4 people figure it out - I
+> count do the two reverts that are reported to fix the RPi3 issue, but
+> it looks like the RPi4 pulseaudio issue needs something else.
+>
+> Any chance you could bisect that?
 
-Thanks for the info.
+Done, here is the bisect log:
 
-Regards,
-Len
+# bad: [7c636d4d20f8c5acfbfbc60f326fddb0e1cf5daa] Merge tag 'dt-5.15'
+of git://git.kernel.org/pub/scm/linux/kernel/git/soc/soc
+# good: [9e9fb7655ed585da8f468e29221f0ba194a5f613] Merge tag
+'net-next-5.15' of
+git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next
+git bisect start '7c636d4d20f8' '9e9fb7655ed5' '--' 'drivers/gpu/drm/vc4/'
+# good: [776efe800feda95a29cefecce1ce36cc27d70b29] drm/vc4: hdmi: Drop
+devm interrupt handler for hotplug interrupts
+git bisect good 776efe800feda95a29cefecce1ce36cc27d70b29
+# bad: [588b3eee528873d73bf777f329d35b2e65e24777] Merge tag
+'drm-misc-next-2021-07-16' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-next
+git bisect bad 588b3eee528873d73bf777f329d35b2e65e24777
+# bad: [27da370e0fb343a0baf308f503bb3e5dcdfe3362] drm/vc4: hdmi:
+Remove drm_encoder->crtc usage
+git bisect bad 27da370e0fb343a0baf308f503bb3e5dcdfe3362
+# good: [44fe9f90eb9d2533d049b4ba09540eed6cad9f49] drm/vc4: hdmi: Only
+call into DRM framework if registered
+git bisect good 44fe9f90eb9d2533d049b4ba09540eed6cad9f49
+# first bad commit: [27da370e0fb343a0baf308f503bb3e5dcdfe3362]
+drm/vc4: hdmi: Remove drm_encoder->crtc usage
+
+And indeed, reverting 27da370e0fb3 ("drm/vc4: hdmi: Remove
+drm_encoder->crtc usage") on top of d4d016caa4b8 ("alpha: move
+__udiv_qrnnd library function to arch/alpha/lib/")
+has fixed the error.
+
+
+-- 
+Regards
+Sudip
