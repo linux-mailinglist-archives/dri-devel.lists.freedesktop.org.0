@@ -2,56 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9FF3410C66
-	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 18:41:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D6A410C9B
+	for <lists+dri-devel@lfdr.de>; Sun, 19 Sep 2021 19:20:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 359DF6E1F8;
-	Sun, 19 Sep 2021 16:41:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2EDF26E219;
+	Sun, 19 Sep 2021 17:19:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA1846E1F8
- for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 16:41:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=SkLH+UboopS3jydNhY/b3ibaID8wpHq9laVTqE2n57s=; b=E3ZV85cVknawbtUr32Gqm8RYhL
- Ab712U1reGxWRM7S4eKwC6U3oe3B9KULJHTMg7XyVm2d0Q1+CNzAh6qRZz9+WHwS/iemiw25p6ggr
- H2AUCcQC1kid2t5083+2fs8Fmh3pCJd15WFfFMUZe9x0UGi6YUn9SljaWcZdZkctQ4DCDFx0t6qkk
- xQQ1ps6/zrblGcdBsJ/QgHn8PsImtCIeL0kRYHq+TvCSMpXjAap/8jNxUSES9QMC2hf7dfXpEuy8H
- wMx+NDCGYitc3g+7cTX22FfyWxJEp9MfAS8g9XrG6l1uRXF8Mkr0NHDqrik/J8NL+58swO76H5Pj0
- +tdu5ljw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mRzrz-00HWNq-1w; Sun, 19 Sep 2021 16:40:47 +0000
-Subject: Re: [PATCH v3 1/6] drm/vc4: select PM (openrisc)
-To: Maxime Ripard <maxime@cerno.tech>, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-kernel@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, Boris Brezillon <bbrezillon@kernel.org>,
- linux-rpi-kernel@lists.infradead.org, Hans Verkuil
- <hverkuil-cisco@xs4all.nl>, bcm-kernel-feedback-list@broadcom.com,
- Emma Anholt <emma@anholt.net>, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Maxime Ripard <mripard@kernel.org>, Jonas Bonn <jonas@southpole.se>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- Stafford Horne <shorne@gmail.com>, Openrisc <openrisc@lists.librecores.org>
-References: <20210819135931.895976-1-maxime@cerno.tech>
- <20210819135931.895976-2-maxime@cerno.tech>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <8a5cdcf5-33ed-398f-243a-b8889fd754e3@infradead.org>
-Date: Sun, 19 Sep 2021 09:40:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 23ADA6E219
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 17:19:55 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id u8so5528515lff.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 10:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=linux-foundation.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Uu4R7ChKxFmRN117qtU5kppP9usYorKjw6vZuQDActo=;
+ b=CYsTyJJu4O19/TmKYyBVSmHYaNKYjwcgnz+K4BRynZ9dKagvYevt1JhftLDXvyMI4o
+ sqktSCFDB94lG0cb75ZURzBbYIB2KSqrhwLp+i87i00SYFE/L66Ll6oFw8JJlmLmBinG
+ HSN6mTmNP2FVDEbKH+21DgAUlyBrBMEI3BxtY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Uu4R7ChKxFmRN117qtU5kppP9usYorKjw6vZuQDActo=;
+ b=zvOiC4/EOGHsfl6c+C9xoC1EMYUDPIUtznMJvpnlvTNMiFA/rg4iscihMCUtowCXrD
+ /WKfya1Z62YdK/cgSbnBaTn+Q6KoY7wERDcqU88hSkfHFMnB48CK8rXGG06F/LR7vK5X
+ 07zLhrCBjGwolzXQx7x7lhwXtDYaW7OU9x4S/IIVvJDeyK3a7OKegjSuEF/W3MaYTMgw
+ y33uwV5825FCIaESrwORet9ZhLd0/TPMPiSyrbxbBntLlRuucnkO3OXvxlc6QVgNaQ7D
+ SPMlKKaQRm51f9Qg4MGAYXe7+PKGxXOVQ8nZr7CVL24yEEbKFT/e5bXYPsXDmjpOOmWv
+ svtw==
+X-Gm-Message-State: AOAM5301gFrm6Th3r4fZU+ksv0KT4w+C9mCC8j0QU3qzTdzuUyg5FsJh
+ lcRRCm63SCsPbAfawrrsOcARzunD1q1LiX3bntE=
+X-Google-Smtp-Source: ABdhPJzePoLTC6wQLq48ETdGZaKQ+1oFMtZKzK+ueyWM5YDuPlgB2vqdwphc+TVCtfYKT+TX1UVqCw==
+X-Received: by 2002:a05:6512:1096:: with SMTP id
+ j22mr1847675lfg.441.1632071992879; 
+ Sun, 19 Sep 2021 10:19:52 -0700 (PDT)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com.
+ [209.85.167.47])
+ by smtp.gmail.com with ESMTPSA id o12sm1059385lfo.197.2021.09.19.10.19.51
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 19 Sep 2021 10:19:52 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id i25so57322155lfg.6
+ for <dri-devel@lists.freedesktop.org>; Sun, 19 Sep 2021 10:19:51 -0700 (PDT)
+X-Received: by 2002:a2e:a7d0:: with SMTP id x16mr18858267ljp.494.1632071991679; 
+ Sun, 19 Sep 2021 10:19:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210819135931.895976-2-maxime@cerno.tech>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAPM=9tzR4BqTtamrTy4T_XV7E0fUNyduaVtH5zAi=sqwX_3udg@mail.gmail.com>
+ <CAHk-=whgcN6MEyZBgK3UZRw=vwd1CAAK9+rafmZ2vsOiGpsMSA@mail.gmail.com>
+ <871r5mp7h2.fsf@midna.i-did-not-set--mail-host-address--so-tickle-me>
+ <CAHk-=wjuN8afLz-QnefNgt2qKAOY7cez_63oAkdDmTu4Wscv_g@mail.gmail.com>
+ <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
+ <CAHk-=wiun6vK5k9NpRiaF=La2NOqq7Cph7Lhd8XiyT1vQWR27w@mail.gmail.com>
+ <CADVatmNTKof8jMyx4xx9b2fQ=zVb2ZtXZh1uoYE2R-6DkaHj8w@mail.gmail.com>
+ <CAHk-=wjZ_EXdfongpgRV3BrrNm6CX6CmKYT5TixK-nOsaGG81Q@mail.gmail.com>
+ <CADVatmN5EpRshGEPS_JozbFQRXg5w_8LFB3OMP1Ai-ghxd3w4g@mail.gmail.com>
+In-Reply-To: <CADVatmN5EpRshGEPS_JozbFQRXg5w_8LFB3OMP1Ai-ghxd3w4g@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Sun, 19 Sep 2021 10:19:35 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whno5+L4pANmwzeT0oT==C179pCJe7_3VwDw=EQ73nSmQ@mail.gmail.com>
+Message-ID: <CAHk-=whno5+L4pANmwzeT0oT==C179pCJe7_3VwDw=EQ73nSmQ@mail.gmail.com>
+Subject: Re: [git pull] drm for 5.14-rc1
+To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+Cc: Michael Stapelberg <michael@stapelberg.ch>,
+ Maxime Ripard <maxime@cerno.tech>, 
+ Emma Anholt <emma@anholt.net>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,81 +86,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 8/19/21 6:59 AM, Maxime Ripard wrote:
-> We already depend on runtime PM to get the power domains and clocks for
-> most of the devices supported by the vc4 driver, so let's just select it
-> to make sure it's there, and remove the ifdef.
-> 
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->   drivers/gpu/drm/vc4/Kconfig    | 1 +
->   drivers/gpu/drm/vc4/vc4_hdmi.c | 2 --
->   2 files changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> index 118e8a426b1a..f774ab340863 100644
-> --- a/drivers/gpu/drm/vc4/Kconfig
-> +++ b/drivers/gpu/drm/vc4/Kconfig
-> @@ -9,6 +9,7 @@ config DRM_VC4
->   	select DRM_KMS_CMA_HELPER
->   	select DRM_GEM_CMA_HELPER
->   	select DRM_PANEL_BRIDGE
-> +	select PM
->   	select SND_PCM
->   	select SND_PCM_ELD
->   	select SND_SOC_GENERIC_DMAENGINE_PCM
-> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> index c2876731ee2d..602203b2d8e1 100644
-> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> @@ -2107,7 +2107,6 @@ static int vc5_hdmi_init_resources(struct vc4_hdmi *vc4_hdmi)
->   	return 0;
->   }
->   
-> -#ifdef CONFIG_PM
->   static int vc4_hdmi_runtime_suspend(struct device *dev)
->   {
->   	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
-> @@ -2128,7 +2127,6 @@ static int vc4_hdmi_runtime_resume(struct device *dev)
->   
->   	return 0;
->   }
-> -#endif
->   
->   static int vc4_hdmi_bind(struct device *dev, struct device *master, void *data)
->   {
-> 
+On Sun, Sep 19, 2021 at 4:05 AM Sudip Mukherjee
+<sudipm.mukherjee@gmail.com> wrote:
+>
+> And indeed, reverting 27da370e0fb3 ("drm/vc4: hdmi: Remove
+> drm_encoder->crtc usage") on top of d4d016caa4b8 ("alpha: move
+> __udiv_qrnnd library function to arch/alpha/lib/")
+> has fixed the error.
 
-Hi,
+Ok, since your pulseaudio problem was reported already over two weeks
+ago with no apparent movement, I've done that revert in my tree.
 
-FYI.
+I reverted the two runtime PM changes that cause problems for Michael too.
 
-This still causes a build error on arch/openrisc/ since it does not support
-CONFIG_PM (it does not source "kernel/power/Kconfig" like some other arches do):
-
-./arch/riscv/Kconfig:source "kernel/power/Kconfig"
-./arch/x86/Kconfig:source "kernel/power/Kconfig"
-./arch/nds32/Kconfig:source "kernel/power/Kconfig"
-./arch/sh/Kconfig:source "kernel/power/Kconfig"
-./arch/arc/Kconfig:source "kernel/power/Kconfig"
-./arch/arm64/Kconfig:source "kernel/power/Kconfig"
-./arch/xtensa/Kconfig:source "kernel/power/Kconfig"
-./arch/sparc/Kconfig:source "kernel/power/Kconfig"
-./arch/arm/Kconfig:source "kernel/power/Kconfig"
-./arch/mips/Kconfig:source "kernel/power/Kconfig"
-./arch/powerpc/Kconfig:source "kernel/power/Kconfig"
-./arch/um/Kconfig:source "kernel/power/Kconfig"
-./arch/ia64/Kconfig:source "kernel/power/Kconfig"
-
-so with
-CONFIG_DRM_VC4=y
-# CONFIG_DRM_VC4_HDMI_CEC is not set
-
-I still see
-../drivers/gpu/drm/vc4/vc4_hdmi.c:2139:12: warning: 'vc4_hdmi_runtime_suspend' defined but not used [-Wunused-function]
-  2139 | static int vc4_hdmi_runtime_suspend(struct device *dev)
-       |            ^~~~~~~~~~~~~~~~~~~~~~~~
-
-
--- 
-~Randy
+          Linus
