@@ -2,77 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A5744127F6
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 23:25:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36685412822
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 23:38:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 422AD6E888;
-	Mon, 20 Sep 2021 21:25:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7408D6E88D;
+	Mon, 20 Sep 2021 21:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
- [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 39C256E87C;
- Mon, 20 Sep 2021 21:25:35 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailnew.west.internal (Postfix) with ESMTP id EECA82B012E5;
- Mon, 20 Sep 2021 17:25:31 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute5.internal (MEProxy); Mon, 20 Sep 2021 17:25:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=AWImI2KGSpvCbthaTGpOCk4QbRl
- 8dZEEYq4SHjBTZJE=; b=USXGjuU+4R2n9u+CDG6f9J49IGnM33Ay4XL+MlmTPNv
- zeb26cRTrDZymp/Wy0xOKrb0j7P0vB55p2h5DS5Co/L1vAGjJoI0JQcZh93opH11
- 4hsuQsFzDJ4FhOR4s7lTtgsnMNm+7OJWq8pl9qVcXWJF1hr9RNClUgeMfBLC8kcb
- WyhUfNH8fNniw9f56QJwijgyaUFVFtXVm0bLLG/NskWpOyT6fINV5jlub6v5TEPQ
- VsBBXzNvOEzK+lONgNf2QcFjqJvJG3T8ipYXGF4VfGvx8NtLjS2OlTOKVN/Oy1pT
- LUKfj8RyH4XVxQ7OUFm/X8+0xVYdgIpKJSzQ0okyh3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=AWImI2
- KGSpvCbthaTGpOCk4QbRl8dZEEYq4SHjBTZJE=; b=Aaj6hUmY/KPtF72LH13Yrv
- mhXLRAym+vY8SVlWlLweQ7NtjfFgQ8vEjItH8b++bypf/hy2iQn7jXeRszrOQgwP
- bXw8UJGlZzVijGiBljQD7wCXpJriQ+UJnLTQq0TINKW2ITc6xyX1sxYD3uohAlQu
- 6NXwJfYejUwBe4HT5zuWM3MzCB5nfIJSe2ywV7rnVQevRT4FOiZsdm/CiUuvY9Ur
- +w/vhof0UnA4w+UPfcdCYlDEWSOhnSlYH+YUv0M8vfe3CCycZx+YQprmNbDIjPC5
- Cm8RaSUQGSODp8Y/5sbZydYQDDu4pZLzEq8bUfLwBEXWTYEB65RxOuAwkjZCPNrw
- ==
-X-ME-Sender: <xms:SvxIYb_SD3L6GKZGVyKR7v3MeCFNcaciiz1aAknxnzN1mAygQkqBOw>
- <xme:SvxIYXtxHvokL16p3vxzx4LR9djf0dxSIuc0NrHJnrHy5ApNkIX81_FKyP9MujcT9
- HkykA1gYSfghYEL1Q>
-X-ME-Received: <xmr:SvxIYZArrxeoKSowR3xIM7iucgEBrsqP3y96noTubNXQwy3MMLQSSHnoIGnz94lvXMXyUj08>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgudehlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
- ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
- ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
- fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:SvxIYXdYXMRZ0FKBeMVhN17WTZvhEpWL2Yj5nRDic3kSBqDeyY_H4g>
- <xmx:SvxIYQNZxI6Eiljl_BP_kv2DzxGV3Hrcbf9AGmdTrdbaPqAM5R83Zw>
- <xmx:SvxIYZk0PVsalhpoyFR0uPrwJJnzF_M7F_mQGyC2mlSLjujPt_T2Ug>
- <xmx:S_xIYREyT86uoIjKzNQk2NcGSP8U-MKgIMOwk712MBk4AtGVUt2psHpZW2g>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Sep 2021 17:25:27 -0400 (EDT)
-Date: Mon, 20 Sep 2021 23:25:24 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: kernel test robot <lkp@intel.com>
-Cc: dri-devel@lists.freedesktop.org, kbuild-all@lists.01.org,
- linux-kernel@vger.kernel.org, sean@poorly.run,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 03/15] dmr/msm: cleanup: drm_modeset_lock_all_ctx() -->
- DRM_MODESET_LOCK_ALL_BEGIN()
-Message-ID: <YUj8RHdl7aIONPa0@zacax395.localdomain>
-References: <20210916211552.33490-4-greenfoo@u92.eu>
- <202109200942.M3etmn3s-lkp@intel.com>
+Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
+ [IPv6:2607:f8b0:4864:20::72a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 448FF6E88D
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 21:38:05 +0000 (UTC)
+Received: by mail-qk1-x72a.google.com with SMTP id a10so47702184qka.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 14:38:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Z0sMXVJD/qM1ZuMvbaI6gTOYJ9VpknbVlhhM0u7mejc=;
+ b=dqxJA24uvAfZPUBpFHKmJEIZgdzPyGPS0Sq6uvZjU0gc6erEbkuQ4zhpwP4QD8z72u
+ sw1LryOdbgCoGAlU671GWf8D56poCdkftvi5n9UVH0kydllWBUbg1UpLhPhtIlsWyTEf
+ 1ut3yazIIgePgREspkn/NXAfNWrUlqhMj1SEs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Z0sMXVJD/qM1ZuMvbaI6gTOYJ9VpknbVlhhM0u7mejc=;
+ b=sPFuvwCKW838himQKv4rxAKCPiRGzb0jCPs3fw7Y5AQ5qkbHAerupOQVPvD1U4v9hX
+ q7PZepbFeL0yZcf+ZsoVT1hR6120jtmmz1knhIG4mxxt/8i+tPjBC1YT5a1AzeT5KQJt
+ FSQKbul5j6yRUwIViF8Sub3W7UKRWI+XK/8LUlhp3aLU+O6MHPRm9N7gNvMfgaDwtPwj
+ UizdsuWKidIzumSJXqgc9fouGAzn1oqf7YbX6M5wssp/LVAKGgFjjIFHVzfPAoVwjbc+
+ VvzgxOotpBAvd6vC79YiX4xKcwkUM7x13ZO54srQrpYWR/dgCynAwlvIF8L3U5pK/tqA
+ CliQ==
+X-Gm-Message-State: AOAM530dIYWsD7GgTAfmtuaTO4Lyx7Wns3DLtPrgX0FMSIrttk5GkOiJ
+ ZI1fz2pV0FdSeoD1X0R+Irxs6XRKUhzFZw8VJB//dw==
+X-Google-Smtp-Source: ABdhPJyQjSb2H6udbpCD2GbTsqMT8sJOFWWkAqxky55HqdLzQrvRxx7S/aqKxyKWBV2AQNiIWArMAu4QAzyNU6Trgt8=
+X-Received: by 2002:a25:2f42:: with SMTP id v63mr34378682ybv.388.1632173884292; 
+ Mon, 20 Sep 2021 14:38:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <202109200942.M3etmn3s-lkp@intel.com>
+References: <20210918102058.v5.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
+ <20210918102058.v5.2.Ifcb5df5de5b1cead7c99e0f37b044ef5cfc69eda@changeid>
+ <YUZMNIYbT7KL3qJR@ravnborg.org>
+In-Reply-To: <YUZMNIYbT7KL3qJR@ravnborg.org>
+From: Philip Chen <philipchen@chromium.org>
+Date: Mon, 20 Sep 2021 14:37:53 -0700
+Message-ID: <CA+cxXh=OixYPzE_ui=22seumFpKigTcK3hvNtrfN4oa0SFdtOw@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] drm/bridge: parade-ps8640: Add support for AUX
+ channel
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Douglas Anderson <dianders@chromium.org>,
+ Andrzej Hajda <a.hajda@samsung.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,45 +72,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/09/20 09:54AM, kernel test robot wrote:
-> 
-> [auto build test ERROR on drm-exynos/exynos-drm-next]
-> [also build test ERROR on tegra-drm/drm/tegra/for-next linus/master v5.15-rc2 next-20210917]
+Hi Sam,
 
-I forgot to #include <drm/drm_drv.h> for those platforms and didn't notice
-because I only tried to build for X86. I'll fix it.
+On Sat, Sep 18, 2021 at 1:29 PM Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> Hi Philip,
+> On Sat, Sep 18, 2021 at 10:21:17AM -0700, Philip Chen wrote:
+> > Implement the first version of AUX support, which will be useful as
+> > we expand the driver to support varied use cases.
+> >
+> > Signed-off-by: Philip Chen <philipchen@chromium.org>
+>
+> Patch is:
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+>
+> please consider a few follow-up patches:
+> 1) Replace deprecated drm_bridge_funcs with the _atomic_ variants.
+> 2) Replace the deprecated drm_bridge_chain_pre_enable() with the atomic
+>    variant.
+> 3) Use pr_() and dev_() logging in favour of DRM_ logging.
+>    DRM_ logging is deprecated these days and do not belong in bridge
+>    drivers anyway.
+>
+> Maxime has a few patches pending for this driver - it would be great if
+> you could look them up and review them.
+> Maybe you can get some review in feedback.
 
+Yes, I'll do.
+Thanks for reviewing.
 
-> [cannot apply to drm-intel/for-linux-next tegra/for-next drm-tip/drm-tip airlied/drm-next]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base'.
-
-I built this patch against drm-next, which currently points to v5.15-rc1.
-
-Should I be targeting a different branch? In any case, as suggested, I'll
-remember to use "--base" in the future to make it easier to apply. Thanks for
-the hint.
-
-
-> All errors (new ones prefixed by >>):
-> 
->    In file included from include/drm/drm_crtc.h:36,
->                     from include/drm/drm_atomic_helper.h:31,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot.h:9,
->                     from drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:8:
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c: In function 'msm_disp_capture_atomic_state':
-> >> include/drm/drm_modeset_lock.h:167:14: error: implicit declaration of function 'drm_drv_uses_atomic_modeset' [-Werror=implicit-function-declaration]
->      167 |         if (!drm_drv_uses_atomic_modeset(dev))                          \
->          |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->    drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c:108:9: note: in expansion of macro 'DRM_MODESET_LOCK_ALL_BEGIN'
->      108 |         DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
->          |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-
-Out of curiosity: The top comment says there were two build errors (one on
-exynos and another one on tegra), but there is only one reported bug (on msm).
-
-Is this because the bot only reports the first error found? Is there a link to
-a report with each of the build errors on each of the platforms?
-
-Thanks.
+>
+>         Sam
+>
