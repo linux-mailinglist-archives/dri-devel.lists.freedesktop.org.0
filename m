@@ -1,36 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 038F5411255
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 11:55:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DE8E411259
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 11:56:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DF066E454;
-	Mon, 20 Sep 2021 09:55:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53B7A88249;
+	Mon, 20 Sep 2021 09:56:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7461E6E454
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:55:02 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 3F6ED60240
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:55:02 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA29C6E455
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:56:28 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 7602C60F6C
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:56:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632131702;
- bh=Gdy1z3juV7wnE2X8Y7cS4kBQjLyCDqXie+0hmoC/DVw=;
+ s=k20201202; t=1632131788;
+ bh=f3zo4HeNRdTdNOsy2cAs1c9UIIfNyg9cAEm/LeZF4R8=;
  h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JpEZp+mVrD9m/xpJS/EWRTOJgjKJFoGdhDQQOgF1kbfpdYEJgtkjbj/NUmCIQS/CX
- pQH2y8BFkM4A3gnz7BTgyjDVJHCT7HBOW6U4u5yCed3MQAHUVxv+S6ZAP0CMLzG9dw
- teR8BN1uMm1V4wQ8xS2qZkNibYfivVejZnvrZ0E+Ionp/iUoMG34ZiBApyBU2ijZ1t
- ayXyVr31j5AIizIZxsX1cJLAmFzhlnJF1JFdBkRnm07T3iDXYzzPsZ8U8pfFeTrFRr
- apLC4mmva1FAaDhFHWJSX9+HZ34t270iJBiXhd2HvonV5GcwoIAGV2sF/Mgmaj+ZaB
- IbLH3ixuCrCew==
+ b=ERM6dTE1N+tgvazuPsCTqLEw33LK7VNnri5Qe9FQAyBU0W3zCYOmadplY7SwVZ1El
+ Eaq/LeMIPSSzGjgKIza8N9rANpOTyTQ2jVKG+RMve0kAPqfQ1tlFTU408aK8r4Cn8E
+ q2roMWXDcD82oJM8G18KdMbu6/DWtfkn1pXC+ewQn/nOqrBHvjleVys2/5Ibmy7hKA
+ curgZt6nGi021vUI7CVHk6Cc0ZtTLyt3EjNieP6tjBQZtydfwGG+hULi+7DPlUeQ5a
+ TXakjOj1e7oDhBG83mADxSUw5FhM+Y2EaCVG1v4iDlTBPq/uiCpaxpAALQy/faBPSu
+ R15WFr3sCHXNg==
 Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 3604D60F41; Mon, 20 Sep 2021 09:55:02 +0000 (UTC)
+ id 7285060F41; Mon, 20 Sep 2021 09:56:28 +0000 (UTC)
 From: bugzilla-daemon@bugzilla.kernel.org
 To: dri-devel@lists.freedesktop.org
 Subject: [Bug 214413] Kernel oops on boot for amdgpu (in
  si_dpm_set_power_state)
-Date: Mon, 20 Sep 2021 09:55:01 +0000
+Date: Mon, 20 Sep 2021 09:56:28 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
@@ -45,8 +45,8 @@ X-Bugzilla-Resolution:
 X-Bugzilla-Priority: P1
 X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-214413-2300-LcVePG0ILr@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214413-2300-lc30bklf8f@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-214413-2300@https.bugzilla.kernel.org/>
 References: <bug-214413-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -71,10 +71,8 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D214413
 
---- Comment #3 from Marco Piazza (mpiazza@gmail.com) ---
-Created attachment 298885
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298885&action=3Dedit
-Patch to revert ATPX/ATCS global structures
+--- Comment #4 from Marco Piazza (mpiazza@gmail.com) ---
+I confirm that using the above patch make the oops disappear.
 
 --=20
 You may reply to this email to add a comment.
