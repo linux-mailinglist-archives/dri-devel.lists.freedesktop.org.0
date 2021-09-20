@@ -1,59 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B876E411313
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 12:47:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BEE411321
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 12:50:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BED6E49C;
-	Mon, 20 Sep 2021 10:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69CD26E4A2;
+	Mon, 20 Sep 2021 10:49:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CE35F6E49C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 10:47:14 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 945066115C
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 10:47:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632134834;
- bh=pnf2JYYW2vFh88KbihODdR5j8BXV/p+oFgafldhxYGg=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=R8UXZ28dp+dxpvt51QbyZKUGZpSawUhizHjJEKwlrPQYRXblx49Ews91TOX3FSFHx
- 4tnEopMQ8swKD0J/Mb8xvKwm6Z0RNnOlivavokY/WdI8+3D9JU+3saknbNdhtZIGEW
- HAI0gPazKW3l2et/IF10vyBkSJqP1a2d3USsLBi6FmoASjQbXAFYiuw0BsC8D2mQXS
- 0WUBqsCczjexSJvigww3WXNF5C3T/zxrcxI9+UZyw+/jUMCdreVoyUOhIFot1U4yyn
- 7rUMHuS6RIQJINdxRn+YzvX6if8wDo6Tk5MnGaXk6UUeK4Q2I+xVZ0tgxOPJHDa6cQ
- hXaRuOaqrdGlg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 8FF6360F50; Mon, 20 Sep 2021 10:47:14 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Mon, 20 Sep 2021 10:47:13 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: youling257@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211277-2300-u7YRUnvZ4R@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C0586E49F;
+ Mon, 20 Sep 2021 10:49:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="284116966"
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="284116966"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 03:49:51 -0700
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="473553734"
+Received: from yohlee-mobl1.gar.corp.intel.com (HELO [10.214.151.93])
+ ([10.214.151.93])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 03:49:48 -0700
+Subject: Re: [PATCH v3 3/6] drm/i915 Implement LMEM backup and restore for
+ suspend / resume
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com
+References: <20210914193112.497379-1-thomas.hellstrom@linux.intel.com>
+ <20210914193112.497379-4-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <01a1827d-ab6f-bd88-7291-dd68676c0eae@intel.com>
+Date: Mon, 20 Sep 2021 11:49:40 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
+In-Reply-To: <20210914193112.497379-4-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,20 +54,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On 14/09/2021 20:31, Thomas Hellström wrote:
+> Just evict unpinned objects to system. For pinned LMEM objects,
+> make a backup system object and blit the contents to that.
+> 
+> Backup is performed in three steps,
+> 1: Opportunistically evict evictable objects using the gpu blitter.
+> 2: After gt idle, evict evictable objects using the gpu blitter. This will
+> be modified in an upcoming patch to backup pinned objects that are not used
+> by the blitter itself.
+> 3: Backup remaining pinned objects using memcpy.
+> 
+> Also move uC suspend to after 2) to make sure we have a functional GuC
+> during 2) if using GuC submission.
+> 
+> v2:
+> - Major refactor to make sure gem_exec_suspend@hang-SX subtests work, and
+>    suspend / resume works with a slightly modified GuC submission enabling
+>    patch series.
+> 
+> v3:
+> - Fix a potential use-after-free (Matthew Auld)
+> - Use i915_gem_object_create_shmem() instead of
+>    i915_gem_object_create_region (Matthew Auld)
+> - Minor simplifications (Matthew Auld)
+> - Fix up kerneldoc for i195_ttm_restore_region().
+> - Final lmem_suspend() call moved to i915_gem_backup_suspend from
+>    i915_gem_suspend_late, since the latter gets called at driver unload
+>    and we don't unnecessarily want to run it at that time.
+> 
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-youling257@gmail.com changed:
+<snip>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |youling257@gmail.com
+> +
+> +static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
+> +			    struct drm_i915_gem_object *obj)
+> +{
+> +	struct i915_gem_ttm_pm_apply *pm_apply =
+> +		container_of(apply, typeof(*pm_apply), base);
+> +	struct drm_i915_gem_object *backup = obj->ttm.backup;
+> +	struct ttm_buffer_object *backup_bo = i915_gem_to_ttm(backup);
+> +	struct ttm_operation_ctx ctx = {};
+> +	int err;
+> +
+> +	if (!backup)
+> +		return 0;
+> +
+> +	if (!pm_apply->allow_gpu && (obj->flags & I915_BO_ALLOC_USER))
+> +		return 0;
 
---- Comment #58 from youling257@gmail.com ---
-drm/amdgpu: move iommu_resume before ip init/resume cause suspend to disk
-resume failed on my amdgpu 3400g.
+Hmm, do we ever hit this? I would presume anything that userspace 
+directly allocated in lmem can be kicked out with ttm_bo_validate(sys) 
+i.e backup == NULL?
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> +
+> +	err = i915_gem_object_lock(backup, apply->ww);
+> +	if (err)
+> +		return err;
+> +
+> +	/* Content may have been swapped. */
+> +	err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
+> +	if (!err) {
+> +		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
+> +					    false);
+> +		GEM_WARN_ON(err);
+> +
+> +		obj->ttm.backup = NULL;
+> +		err = 0;
+> +	}
+> +
+> +	i915_gem_ww_unlock_single(backup);
+> +
+> +	if (!err)
+> +		i915_gem_object_put(backup);
+> +
+> +	return err;
+> +}
+> +
