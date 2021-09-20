@@ -2,35 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B964118BF
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 17:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CCEF4118BE
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 17:59:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6E56E566;
-	Mon, 20 Sep 2021 15:59:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 89E1B6E558;
+	Mon, 20 Sep 2021 15:59:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1705C6E546;
- Mon, 20 Sep 2021 15:59:28 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="203318388"
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="203318388"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03CCE6E55C;
+ Mon, 20 Sep 2021 15:59:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="203318394"
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="203318394"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 08:59:27 -0700
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="701106635"
+ 20 Sep 2021 08:59:29 -0700
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="701106646"
 Received: from kjeldbeg-mobl2.ger.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.165])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 08:59:26 -0700
+ 20 Sep 2021 08:59:28 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v4 2/6] drm/i915/gem: Implement a function to process all gem
- objects of a region
-Date: Mon, 20 Sep 2021 17:59:10 +0200
-Message-Id: <20210920155914.707984-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v4 3/6] drm/i915 Implement LMEM backup and restore for suspend
+ / resume
+Date: Mon, 20 Sep 2021 17:59:11 +0200
+Message-Id: <20210920155914.707984-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210920155914.707984-1-thomas.hellstrom@linux.intel.com>
 References: <20210920155914.707984-1-thomas.hellstrom@linux.intel.com>
@@ -52,155 +52,573 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An upcoming common pattern is to traverse the region object list and
-perform certain actions on all objects in a region. It's a little tricky
-to get the list locking right, in particular since a gem object may
-change region unless it's pinned or the object lock is held.
+Just evict unpinned objects to system. For pinned LMEM objects,
+make a backup system object and blit the contents to that.
 
-Define a function that does this for us and that takes an argument that
-defines the action to be performed on each object.
+Backup is performed in three steps,
+1: Opportunistically evict evictable objects using the gpu blitter.
+2: After gt idle, evict evictable objects using the gpu blitter. This will
+be modified in an upcoming patch to backup pinned objects that are not used
+by the blitter itself.
+3: Backup remaining pinned objects using memcpy.
+
+Also move uC suspend to after 2) to make sure we have a functional GuC
+during 2) if using GuC submission.
+
+v2:
+- Major refactor to make sure gem_exec_suspend@hang-SX subtests work, and
+  suspend / resume works with a slightly modified GuC submission enabling
+  patch series.
 
 v3:
-- Improve structure documentation a bit (Matthew Auld)
+- Fix a potential use-after-free (Matthew Auld)
+- Use i915_gem_object_create_shmem() instead of
+  i915_gem_object_create_region (Matthew Auld)
+- Minor simplifications (Matthew Auld)
+- Fix up kerneldoc for i195_ttm_restore_region().
+- Final lmem_suspend() call moved to i915_gem_backup_suspend from
+  i915_gem_suspend_late, since the latter gets called at driver unload
+  and we don't unnecessarily want to run it at that time.
+
+v4:
+- Interface change of ttm- & lmem suspend / resume functions to use
+  flags rather than bools. (Matthew Auld)
+- Completely drop the i915_gem_backup_suspend change (Matthew Auld)
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_region.c | 70 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_region.h | 37 ++++++++++++
- 2 files changed, 107 insertions(+)
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        |  87 ++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_pm.h        |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  30 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  10 +
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    | 202 ++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h    |  26 +++
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   4 +-
+ drivers/gpu/drm/i915/i915_drv.c               |   4 +-
+ 10 files changed, 353 insertions(+), 13 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-index 1f557b2178ed..a016ccec36f3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-@@ -80,3 +80,73 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
- 	i915_gem_object_free(obj);
- 	return ERR_PTR(err);
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index 335a8c668848..5c8e022a7383 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -154,6 +154,7 @@ gem-y += \
+ 	gem/i915_gem_throttle.o \
+ 	gem/i915_gem_tiling.o \
+ 	gem/i915_gem_ttm.o \
++	gem/i915_gem_ttm_pm.o \
+ 	gem/i915_gem_userptr.o \
+ 	gem/i915_gem_wait.o \
+ 	gem/i915_gemfs.o
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+index 2471f36aaff3..734cc8e16481 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+@@ -534,6 +534,7 @@ struct drm_i915_gem_object {
+ 	struct {
+ 		struct sg_table *cached_io_st;
+ 		struct i915_gem_object_page_iter get_io_page;
++		struct drm_i915_gem_object *backup;
+ 		bool created:1;
+ 	} ttm;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+index 8b9d7d14c4bd..12b37b4c1192 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+@@ -5,6 +5,7 @@
+  */
+ 
+ #include "gem/i915_gem_pm.h"
++#include "gem/i915_gem_ttm_pm.h"
+ #include "gt/intel_gt.h"
+ #include "gt/intel_gt_pm.h"
+ #include "gt/intel_gt_requests.h"
+@@ -39,6 +40,84 @@ void i915_gem_suspend(struct drm_i915_private *i915)
+ 	i915_gem_drain_freed_objects(i915);
  }
-+
-+/**
-+ * i915_gem_process_region - Iterate over all objects of a region using ops
-+ * to process and optionally skip objects
-+ * @mr: The memory region
-+ * @apply: ops and private data
-+ *
-+ * This function can be used to iterate over the regions object list,
-+ * checking whether to skip objects, and, if not, lock the objects and
-+ * process them using the supplied ops. Note that this function temporarily
-+ * removes objects from the region list while iterating, so that if run
-+ * concurrently with itself may not iterate over all objects.
-+ *
-+ * Return: 0 if successful, negative error code on failure.
-+ */
-+int i915_gem_process_region(struct intel_memory_region *mr,
-+			    struct i915_gem_apply_to_region *apply)
+ 
++static int lmem_restore(struct drm_i915_private *i915, u32 flags)
 +{
-+	const struct i915_gem_apply_to_region_ops *ops = apply->ops;
-+	struct drm_i915_gem_object *obj;
-+	struct list_head still_in_list;
-+	int ret = 0;
++	struct intel_memory_region *mr;
++	int ret = 0, id;
 +
-+	/*
-+	 * In the future, a non-NULL apply->ww could mean the caller is
-+	 * already in a locking transaction and provides its own context.
-+	 */
-+	GEM_WARN_ON(apply->ww);
-+
-+	INIT_LIST_HEAD(&still_in_list);
-+	mutex_lock(&mr->objects.lock);
-+	for (;;) {
-+		struct i915_gem_ww_ctx ww;
-+
-+		obj = list_first_entry_or_null(&mr->objects.list, typeof(*obj),
-+					       mm.region_link);
-+		if (!obj)
-+			break;
-+
-+		list_move_tail(&obj->mm.region_link, &still_in_list);
-+		if (!kref_get_unless_zero(&obj->base.refcount))
-+			continue;
-+
-+		/*
-+		 * Note: Someone else might be migrating the object at this
-+		 * point. The object's region is not stable until we lock
-+		 * the object.
-+		 */
-+		mutex_unlock(&mr->objects.lock);
-+		apply->ww = &ww;
-+		for_i915_gem_ww(&ww, ret, apply->interruptible) {
-+			ret = i915_gem_object_lock(obj, apply->ww);
++	for_each_memory_region(mr, i915, id) {
++		if (mr->type == INTEL_MEMORY_LOCAL) {
++			ret = i915_ttm_restore_region(mr, flags);
 +			if (ret)
-+				continue;
-+
-+			if (obj->mm.region == mr)
-+				ret = ops->process_obj(apply, obj);
-+			/* Implicit object unlock */
++				break;
 +		}
-+
-+		i915_gem_object_put(obj);
-+		mutex_lock(&mr->objects.lock);
-+		if (ret)
-+			break;
 +	}
-+	list_splice_tail(&still_in_list, &mr->objects.list);
-+	mutex_unlock(&mr->objects.lock);
 +
 +	return ret;
 +}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-index 1008e580a89a..fcaa12d657d4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-@@ -12,6 +12,41 @@ struct intel_memory_region;
- struct drm_i915_gem_object;
- struct sg_table;
- 
-+struct i915_gem_apply_to_region;
 +
-+/**
-+ * struct i915_gem_apply_to_region_ops - ops to use when iterating over all
-+ * region objects.
-+ */
-+struct i915_gem_apply_to_region_ops {
-+	/**
-+	 * process_obj - Process the current object
-+	 * @apply: Embed this for private data.
-+	 * @obj: The current object.
-+	 *
-+	 * Note that if this function is part of a ww transaction, and
-+	 * if returns -EDEADLK for one of the objects, it may be
-+	 * rerun for that same object in the same pass.
++static int lmem_suspend(struct drm_i915_private *i915, u32 flags)
++{
++	struct intel_memory_region *mr;
++	int ret = 0, id;
++
++	for_each_memory_region(mr, i915, id) {
++		if (mr->type == INTEL_MEMORY_LOCAL) {
++			ret = i915_ttm_backup_region(mr, flags);
++			if (ret)
++				break;
++		}
++	}
++
++	return ret;
++}
++
++static void lmem_recover(struct drm_i915_private *i915)
++{
++	struct intel_memory_region *mr;
++	int id;
++
++	for_each_memory_region(mr, i915, id)
++		if (mr->type == INTEL_MEMORY_LOCAL)
++			i915_ttm_recover_region(mr);
++}
++
++int i915_gem_backup_suspend(struct drm_i915_private *i915)
++{
++	int ret;
++
++	/* Opportunistically try to evict unpinned objects */
++	ret = lmem_suspend(i915, I915_TTM_BACKUP_ALLOW_GPU);
++	if (ret)
++		goto out_recover;
++
++	i915_gem_suspend(i915);
++
++	/*
++	 * More objects may have become unpinned as requests were
++	 * retired. Now try to evict again. The gt may be wedged here
++	 * in which case we automatically fall back to memcpy.
 +	 */
-+	int (*process_obj)(struct i915_gem_apply_to_region *apply,
-+			   struct drm_i915_gem_object *obj);
-+};
++	ret = lmem_suspend(i915, I915_TTM_BACKUP_ALLOW_GPU);
++	if (ret)
++		goto out_recover;
++
++	/*
++	 * Remaining objects are backed up using memcpy once we've stopped
++	 * using the migrate context.
++	 */
++	ret = lmem_suspend(i915, I915_TTM_BACKUP_PINNED);
++	if (ret)
++		goto out_recover;
++
++	return 0;
++
++out_recover:
++	lmem_recover(i915);
++
++	return ret;
++}
++
+ void i915_gem_suspend_late(struct drm_i915_private *i915)
+ {
+ 	struct drm_i915_gem_object *obj;
+@@ -128,12 +207,20 @@ int i915_gem_freeze_late(struct drm_i915_private *i915)
+ 
+ void i915_gem_resume(struct drm_i915_private *i915)
+ {
++	int ret;
++
+ 	GEM_TRACE("%s\n", dev_name(i915->drm.dev));
+ 
++	ret = lmem_restore(i915, 0);
++	GEM_WARN_ON(ret);
++
+ 	/*
+ 	 * As we didn't flush the kernel context before suspend, we cannot
+ 	 * guarantee that the context image is complete. So let's just reset
+ 	 * it and start again.
+ 	 */
+ 	intel_gt_resume(&i915->gt);
++
++	ret = lmem_restore(i915, I915_TTM_BACKUP_ALLOW_GPU);
++	GEM_WARN_ON(ret);
+ }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.h b/drivers/gpu/drm/i915/gem/i915_gem_pm.h
+index c9a66630e92e..bedf1e95941a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_pm.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.h
+@@ -18,6 +18,7 @@ void i915_gem_idle_work_handler(struct work_struct *work);
+ 
+ void i915_gem_suspend(struct drm_i915_private *i915);
+ void i915_gem_suspend_late(struct drm_i915_private *i915);
++int i915_gem_backup_suspend(struct drm_i915_private *i915);
+ 
+ int i915_gem_freeze(struct drm_i915_private *i915);
+ int i915_gem_freeze_late(struct drm_i915_private *i915);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index 22d59510d0c3..b94497989995 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -10,18 +10,16 @@
+ #include "intel_memory_region.h"
+ #include "intel_region_ttm.h"
+ 
++#include "gem/i915_gem_mman.h"
+ #include "gem/i915_gem_object.h"
+ #include "gem/i915_gem_region.h"
+ #include "gem/i915_gem_ttm.h"
+-#include "gem/i915_gem_mman.h"
++#include "gem/i915_gem_ttm_pm.h"
+ 
+-#include "gt/intel_migrate.h"
+-#include "gt/intel_engine_pm.h"
+ 
+-#define I915_PL_LMEM0 TTM_PL_PRIV
+-#define I915_PL_SYSTEM TTM_PL_SYSTEM
+-#define I915_PL_STOLEN TTM_PL_VRAM
+-#define I915_PL_GGTT TTM_PL_TT
++#include "gt/intel_engine_pm.h"
++#include "gt/intel_gt.h"
++#include "gt/intel_migrate.h"
+ 
+ #define I915_TTM_PRIO_PURGE     0
+ #define I915_TTM_PRIO_NO_PAGES  1
+@@ -64,6 +62,20 @@ static struct ttm_placement i915_sys_placement = {
+ 	.busy_placement = &sys_placement_flags,
+ };
+ 
++/**
++ * i915_ttm_sys_placement - Return the struct ttm_placement to be
++ * used for an object in system memory.
++ *
++ * Rather than making the struct extern, use this
++ * function.
++ *
++ * Return: A pointer to a static variable for sys placement.
++ */
++struct ttm_placement *i915_ttm_sys_placement(void)
++{
++	return &i915_sys_placement;
++}
++
+ static int i915_ttm_err_to_gem(int err)
+ {
+ 	/* Fastpath */
+@@ -442,7 +454,7 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+ 	enum i915_cache_level src_level, dst_level;
+ 	int ret;
+ 
+-	if (!i915->gt.migrate.context)
++	if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
+ 		return -EINVAL;
+ 
+ 	dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
+@@ -886,6 +898,8 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+ {
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 
++	i915_ttm_backup_free(obj);
++
+ 	/* This releases all gem object bindings to the backend. */
+ 	__i915_gem_free_object(obj);
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+index 34ac78d47b0d..0b7291dd897c 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+@@ -50,4 +50,14 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
+ 			  struct drm_i915_gem_object *src,
+ 			  bool allow_accel, bool intr);
++
++/* Internal I915 TTM declarations and definitions below. */
++
++#define I915_PL_LMEM0 TTM_PL_PRIV
++#define I915_PL_SYSTEM TTM_PL_SYSTEM
++#define I915_PL_STOLEN TTM_PL_VRAM
++#define I915_PL_GGTT TTM_PL_TT
++
++struct ttm_placement *i915_ttm_sys_placement(void);
++
+ #endif
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+new file mode 100644
+index 000000000000..cb1c46724f70
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+@@ -0,0 +1,202 @@
++// SPDX-License-Identifier: MIT
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++#include <drm/ttm/ttm_placement.h>
++#include <drm/ttm/ttm_tt.h>
++
++#include "i915_drv.h"
++#include "intel_memory_region.h"
++#include "intel_region_ttm.h"
++
++#include "gem/i915_gem_region.h"
++#include "gem/i915_gem_ttm.h"
++#include "gem/i915_gem_ttm_pm.h"
 +
 +/**
-+ * struct i915_gem_apply_to_region - Argument to the struct
-+ * i915_gem_apply_to_region_ops functions.
-+ * @ops: The ops for the operation.
-+ * @ww: Locking context used for the transaction.
-+ * @interruptible: Whether to perform object locking interruptible.
-+ *
-+ * This structure is intended to be embedded in a private struct if needed
++ * i915_ttm_backup_free - Free any backup attached to this object
++ * @obj: The object whose backup is to be freed.
 + */
-+struct i915_gem_apply_to_region {
-+	const struct i915_gem_apply_to_region_ops *ops;
-+	struct i915_gem_ww_ctx *ww;
-+	u32 interruptible:1;
++void i915_ttm_backup_free(struct drm_i915_gem_object *obj)
++{
++	if (obj->ttm.backup) {
++		i915_gem_object_put(obj->ttm.backup);
++		obj->ttm.backup = NULL;
++	}
++}
++
++/**
++ * struct i915_gem_ttm_pm_apply - Apply-to-region subclass for restore
++ * @base: The i915_gem_apply_to_region we derive from.
++ * @allow_gpu: Whether using the gpu blitter is allowed.
++ * @backup_pinned: On backup, backup also pinned objects.
++ */
++struct i915_gem_ttm_pm_apply {
++	struct i915_gem_apply_to_region base;
++	bool allow_gpu : 1;
++	bool backup_pinned : 1;
 +};
 +
- void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
- 					struct intel_memory_region *mem);
- void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj);
-@@ -22,4 +57,6 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
- 			      resource_size_t page_size,
- 			      unsigned int flags);
++static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
++			   struct drm_i915_gem_object *obj)
++{
++	struct i915_gem_ttm_pm_apply *pm_apply =
++		container_of(apply, typeof(*pm_apply), base);
++	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
++	struct ttm_buffer_object *backup_bo;
++	struct drm_i915_private *i915 =
++		container_of(bo->bdev, typeof(*i915), bdev);
++	struct drm_i915_gem_object *backup;
++	struct ttm_operation_ctx ctx = {};
++	int err = 0;
++
++	if (bo->resource->mem_type == I915_PL_SYSTEM || obj->ttm.backup)
++		return 0;
++
++	if (pm_apply->allow_gpu && i915_gem_object_evictable(obj))
++		return ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
++
++	if (!pm_apply->backup_pinned)
++		return 0;
++
++	backup = i915_gem_object_create_shmem(i915, obj->base.size);
++	if (IS_ERR(backup))
++		return PTR_ERR(backup);
++
++	err = i915_gem_object_lock(backup, apply->ww);
++	if (err)
++		goto out_no_lock;
++
++	backup_bo = i915_gem_to_ttm(backup);
++	err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
++	if (err)
++		goto out_no_populate;
++
++	err = i915_gem_obj_copy_ttm(backup, obj, pm_apply->allow_gpu, false);
++	GEM_WARN_ON(err);
++
++	obj->ttm.backup = backup;
++	return 0;
++
++out_no_populate:
++	i915_gem_ww_unlock_single(backup);
++out_no_lock:
++	i915_gem_object_put(backup);
++
++	return err;
++}
++
++static int i915_ttm_recover(struct i915_gem_apply_to_region *apply,
++			    struct drm_i915_gem_object *obj)
++{
++	i915_ttm_backup_free(obj);
++	return 0;
++}
++
++/**
++ * i915_ttm_recover_region - Free the backup of all objects of a region
++ * @mr: The memory region
++ *
++ * Checks all objects of a region if there is backup attached and if so
++ * frees that backup. Typically this is called to recover after a partially
++ * performed backup.
++ */
++void i915_ttm_recover_region(struct intel_memory_region *mr)
++{
++	static const struct i915_gem_apply_to_region_ops recover_ops = {
++		.process_obj = i915_ttm_recover,
++	};
++	struct i915_gem_apply_to_region apply = {.ops = &recover_ops};
++	int ret;
++
++	ret = i915_gem_process_region(mr, &apply);
++	GEM_WARN_ON(ret);
++}
++
++/**
++ * i915_ttm_backup_region - Back up all objects of a region to smem.
++ * @mr: The memory region
++ * @allow_gpu: Whether to allow the gpu blitter for this backup.
++ * @backup_pinned: Backup also pinned objects.
++ *
++ * Loops over all objects of a region and either evicts them if they are
++ * evictable or backs them up using a backup object if they are pinned.
++ *
++ * Return: Zero on success. Negative error code on error.
++ */
++int i915_ttm_backup_region(struct intel_memory_region *mr, u32 flags)
++{
++	static const struct i915_gem_apply_to_region_ops backup_ops = {
++		.process_obj = i915_ttm_backup,
++	};
++	struct i915_gem_ttm_pm_apply pm_apply = {
++		.base = {.ops = &backup_ops},
++		.allow_gpu = flags & I915_TTM_BACKUP_ALLOW_GPU,
++		.backup_pinned = flags & I915_TTM_BACKUP_PINNED,
++	};
++
++	return i915_gem_process_region(mr, &pm_apply.base);
++}
++
++static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
++			    struct drm_i915_gem_object *obj)
++{
++	struct i915_gem_ttm_pm_apply *pm_apply =
++		container_of(apply, typeof(*pm_apply), base);
++	struct drm_i915_gem_object *backup = obj->ttm.backup;
++	struct ttm_buffer_object *backup_bo = i915_gem_to_ttm(backup);
++	struct ttm_operation_ctx ctx = {};
++	int err;
++
++	if (!backup)
++		return 0;
++
++	if (!pm_apply->allow_gpu && (obj->flags & I915_BO_ALLOC_USER))
++		return 0;
++
++	err = i915_gem_object_lock(backup, apply->ww);
++	if (err)
++		return err;
++
++	/* Content may have been swapped. */
++	err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
++	if (!err) {
++		err = i915_gem_obj_copy_ttm(obj, backup, pm_apply->allow_gpu,
++					    false);
++		GEM_WARN_ON(err);
++
++		obj->ttm.backup = NULL;
++		err = 0;
++	}
++
++	i915_gem_ww_unlock_single(backup);
++
++	if (!err)
++		i915_gem_object_put(backup);
++
++	return err;
++}
++
++/**
++ * i915_ttm_restore_region - Restore backed-up objects of a region from smem.
++ * @mr: The memory region
++ * @allow_gpu: Whether to allow the gpu blitter to recover.
++ *
++ * Loops over all objects of a region and if they are backed-up, restores
++ * them from smem.
++ *
++ * Return: Zero on success. Negative error code on error.
++ */
++int i915_ttm_restore_region(struct intel_memory_region *mr, u32 flags)
++{
++	static const struct i915_gem_apply_to_region_ops restore_ops = {
++		.process_obj = i915_ttm_restore,
++	};
++	struct i915_gem_ttm_pm_apply pm_apply = {
++		.base = {.ops = &restore_ops},
++		.allow_gpu = flags & I915_TTM_BACKUP_ALLOW_GPU,
++	};
++
++	return i915_gem_process_region(mr, &pm_apply.base);
++}
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h
+new file mode 100644
+index 000000000000..25ed67a31571
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h
+@@ -0,0 +1,26 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Copyright © 2021 Intel Corporation
++ */
++
++#ifndef _I915_GEM_TTM_PM_H_
++#define _I915_GEM_TTM_PM_H_
++
++#include <linux/types.h>
++
++struct intel_memory_region;
++struct drm_i915_gem_object;
++
++#define I915_TTM_BACKUP_ALLOW_GPU BIT(0)
++#define I915_TTM_BACKUP_PINNED    BIT(1)
++
++int i915_ttm_backup_region(struct intel_memory_region *mr, u32 flags);
++
++void i915_ttm_recover_region(struct intel_memory_region *mr);
++
++int i915_ttm_restore_region(struct intel_memory_region *mr, u32 flags);
++
++/* Internal I915 TTM functions below. */
++void i915_ttm_backup_free(struct drm_i915_gem_object *obj);
++
++#endif
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index dea8e2479897..c8e439d3b0e3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -295,8 +295,6 @@ void intel_gt_suspend_prepare(struct intel_gt *gt)
+ {
+ 	user_forcewake(gt, true);
+ 	wait_for_suspend(gt);
+-
+-	intel_uc_suspend(&gt->uc);
+ }
  
-+int i915_gem_process_region(struct intel_memory_region *mr,
-+			    struct i915_gem_apply_to_region *apply);
- #endif
+ static suspend_state_t pm_suspend_target(void)
+@@ -320,6 +318,8 @@ void intel_gt_suspend_late(struct intel_gt *gt)
+ 
+ 	GEM_BUG_ON(gt->awake);
+ 
++	intel_uc_suspend(&gt->uc);
++
+ 	/*
+ 	 * On disabling the device, we want to turn off HW access to memory
+ 	 * that we no longer own.
+diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
+index 59fb4c710c8c..d452989d7d5e 100644
+--- a/drivers/gpu/drm/i915/i915_drv.c
++++ b/drivers/gpu/drm/i915/i915_drv.c
+@@ -1096,9 +1096,7 @@ static int i915_drm_prepare(struct drm_device *dev)
+ 	 * split out that work and pull it forward so that after point,
+ 	 * the GPU is not woken again.
+ 	 */
+-	i915_gem_suspend(i915);
+-
+-	return 0;
++	return i915_gem_backup_suspend(i915);
+ }
+ 
+ static int i915_drm_suspend(struct drm_device *dev)
 -- 
 2.31.1
 
