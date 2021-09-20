@@ -1,37 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B8C412781
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 22:50:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DD2441278D
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 22:56:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9DD946E856;
-	Mon, 20 Sep 2021 20:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0A9C6E857;
+	Mon, 20 Sep 2021 20:56:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 418536E856
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 20:50:08 +0000 (UTC)
-Received: from ip5f5a6e92.dynamic.kabel-deutschland.de ([95.90.110.146]
- helo=diego.localnet)
- by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <heiko@sntech.de>)
- id 1mSQEe-00073i-MT; Mon, 20 Sep 2021 22:49:56 +0200
-From: Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Stephen Rothwell <sfr@canb.auug.org.au>,
- Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH] drm/bridge: Move devm_drm_of_get_bridge to bridge/panel.c
-Date: Mon, 20 Sep 2021 22:49:55 +0200
-Message-ID: <4266046.upgBnu7FSg@diego>
-In-Reply-To: <20210917180925.2602266-1-maxime@cerno.tech>
-References: <20210917180925.2602266-1-maxime@cerno.tech>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+ [209.85.210.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793496E857
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 20:56:01 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id
+ l7-20020a0568302b0700b0051c0181deebso25350657otv.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:56:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XPatjUnaHnEphbp45Tc3T1p6HiP/lC6r/ygiKd/wpQg=;
+ b=qoAG6GOK0R6HeL2kpuUpnr0REOT3m/4R/UreJtV25ddrxSJ/RVT8N7Gz/MUMDn12Pw
+ HQ4+/9lprhuTMD37aptP6AvVmsLpJEnT2mKlpYFnrQfzpUPl9o81oHlv0CFC34rQtxrI
+ RuxqJYev/wz8qwV/6VUdcHPNNLlli90AcRlbpg9GPsa0MVl8tg2khwZ6HqbyRf8OdyGk
+ GemGkYnUkcnaoQaPacMiu1u3LZSRvHUw1HQpozMDZVUM2ZAH1JCxYU/lPsaSCPte/3JQ
+ Y2VrILrR8ex2EXaI1Ex6rWL6Q1SWJDOmBlf57q1KRFyfBIjBskDs1mWLu2qcipvaAW54
+ YWug==
+X-Gm-Message-State: AOAM531qTq7Qt7kKaLBx3e8H53C1ccnY3U3uPQQ/sf5vb/MLhfxF9dx7
+ JX6lD+g8D3h3UK5xwq2xdw==
+X-Google-Smtp-Source: ABdhPJw0Ubx9PITUcYUz1zNNca0q8nJ7I3Nn2f8OSxbuj/hwXREco2J/I6rnExb8fxBIFDz9aO3PRg==
+X-Received: by 2002:a9d:4681:: with SMTP id z1mr23005506ote.42.1632171360541; 
+ Mon, 20 Sep 2021 13:56:00 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id x192sm2337226oix.9.2021.09.20.13.55.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 13:55:59 -0700 (PDT)
+Received: (nullmailer pid 744183 invoked by uid 1000);
+ Mon, 20 Sep 2021 20:55:58 -0000
+Date: Mon, 20 Sep 2021 15:55:58 -0500
+From: Rob Herring <robh@kernel.org>
+To: Alexandre Bailon <abailon@baylibre.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ ohad@wizery.com, bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
+ sumit.semwal@linaro.org, christian.koenig@amd.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ khilman@baylibre.com, gpain@baylibre.com
+Subject: Re: [RFC PATCH 1/4] dt-bindings: Add bidings for mtk,apu-drm
+Message-ID: <YUj1XnBbyNEqrV2g@robh.at.kernel.org>
+References: <20210917125945.620097-1-abailon@baylibre.com>
+ <20210917125945.620097-2-abailon@baylibre.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210917125945.620097-2-abailon@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -47,165 +74,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
-
-Am Freitag, 17. September 2021, 20:09:25 CEST schrieb Maxime Ripard:
-> By depending on devm_drm_panel_bridge_add(), devm_drm_of_get_bridge()
-> introduces a circular dependency between the modules drm (where
-> devm_drm_of_get_bridge() ends up) and drm_kms_helper (where
-> devm_drm_panel_bridge_add() is).
->=20
-> Fix this by moving devm_drm_of_get_bridge() to bridge/panel.c and thus
-> drm_kms_helper.
->=20
-> Fixes: 87ea95808d53 ("drm/bridge: Add a function to abstract away panels")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-
-I started with drm-misc-next at
-=2D e46ad85acd90 ("MAINTAINERS: add Andrey as the DRM GPU scheduler maintai=
-ner")
-
-with your patch on top, I end up with:
-
-make[1]: Verzeichnis =E2=80=9E/home/devel/hstuebner/02_drm/linux/_build-arm=
-64=E2=80=9C wird betreten
-  GEN     Makefile
-  CALL    ../scripts/atomic/check-atomics.sh
-  CALL    ../scripts/checksyscalls.sh
-  CC [M]  drivers/gpu/drm/bridge/panel.o
-  CC [M]  drivers/gpu/drm/drm_bridge.o
-  LD [M]  drivers/gpu/drm/drm.o
-=2E./drivers/gpu/drm/bridge/panel.c: In function =E2=80=98devm_drm_of_get_b=
-ridge=E2=80=99:
-=2E./drivers/gpu/drm/bridge/panel.c:359:8: error: implicit declaration of f=
-unction =E2=80=98drm_of_find_panel_or_bridge=E2=80=99 [-Werror=3Dimplicit-f=
-unction-declaration]
-  359 |  ret =3D drm_of_find_panel_or_bridge(np, port, endpoint,
-      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-adding the following makes it compile again:
-diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/panel.c
-index 285a079cdef5..b32295abd9e7 100644
-=2D-- a/drivers/gpu/drm/bridge/panel.c
-+++ b/drivers/gpu/drm/bridge/panel.c
-@@ -9,6 +9,7 @@
- #include <drm/drm_connector.h>
- #include <drm/drm_encoder.h>
- #include <drm/drm_modeset_helper_vtables.h>
-+#include <drm/drm_of.h>
- #include <drm/drm_panel.h>
- #include <drm/drm_print.h>
- #include <drm/drm_probe_helper.h>
-
-
-I obviously also ran into the circular dependency-issue right now,
-so with the above addition:
-
-Tested-by: Heiko Stuebner <heiko@sntech.de>
-
-
-Heiko
-
+On Fri, Sep 17, 2021 at 02:59:42PM +0200, Alexandre Bailon wrote:
+> This adds the device tree bindings for the APU DRM driver.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
 > ---
->  drivers/gpu/drm/bridge/panel.c | 36 ++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_bridge.c   | 34 --------------------------------
->  2 files changed, 36 insertions(+), 34 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/bridge/panel.c b/drivers/gpu/drm/bridge/pane=
-l.c
-> index c916f4b8907e..285a079cdef5 100644
-> --- a/drivers/gpu/drm/bridge/panel.c
-> +++ b/drivers/gpu/drm/bridge/panel.c
-> @@ -332,3 +332,39 @@ struct drm_connector *drm_panel_bridge_connector(str=
-uct drm_bridge *bridge)
->  	return &panel_bridge->connector;
->  }
->  EXPORT_SYMBOL(drm_panel_bridge_connector);
+>  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> new file mode 100644
+> index 0000000000000..6f432d3ea478c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> @@ -0,0 +1,38 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#ifdef CONFIG_OF
-> +/**
-> + * devm_drm_of_get_bridge - Return next bridge in the chain
-> + * @dev: device to tie the bridge lifetime to
-> + * @np: device tree node containing encoder output ports
-> + * @port: port in the device tree node
-> + * @endpoint: endpoint in the device tree node
-> + *
-> + * Given a DT node's port and endpoint number, finds the connected node
-> + * and returns the associated bridge if any, or creates and returns a
-> + * drm panel bridge instance if a panel is connected.
-> + *
-> + * Returns a pointer to the bridge if successful, or an error pointer
-> + * otherwise.
-> + */
-> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> +					  struct device_node *np,
-> +					  u32 port, u32 endpoint)
-> +{
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
+> +title: AI Processor Unit DRM
+
+DRM is a linux thing, not h/w.
+
 > +
-> +	ret =3D drm_of_find_panel_or_bridge(np, port, endpoint,
-> +					  &panel, &bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
+> +properties:
+> +  compatible:
+> +    const: mediatek,apu-drm
 > +
-> +	if (panel)
-> +		bridge =3D devm_drm_panel_bridge_add(dev, panel);
+> +  remoteproc:
+
+So is remoteproc.
+
+Why don't you have the remoteproc driver create the DRM device?
+
+> +    maxItems: 2
+> +    description:
+> +      Handle to remoteproc devices controlling the APU
 > +
-> +	return bridge;
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_get_bridge);
-> +#endif
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index 4c68733fa660..7ee29f073857 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -1232,40 +1232,6 @@ struct drm_bridge *of_drm_find_bridge(struct devic=
-e_node *np)
->  	return NULL;
->  }
->  EXPORT_SYMBOL(of_drm_find_bridge);
-> -
-> -/**
-> - * devm_drm_of_get_bridge - Return next bridge in the chain
-> - * @dev: device to tie the bridge lifetime to
-> - * @np: device tree node containing encoder output ports
-> - * @port: port in the device tree node
-> - * @endpoint: endpoint in the device tree node
-> - *
-> - * Given a DT node's port and endpoint number, finds the connected node
-> - * and returns the associated bridge if any, or creates and returns a
-> - * drm panel bridge instance if a panel is connected.
-> - *
-> - * Returns a pointer to the bridge if successful, or an error pointer
-> - * otherwise.
-> - */
-> -struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> -					  struct device_node *np,
-> -					  u32 port, u32 endpoint)
-> -{
-> -	struct drm_bridge *bridge;
-> -	struct drm_panel *panel;
-> -	int ret;
-> -
-> -	ret =3D drm_of_find_panel_or_bridge(np, port, endpoint,
-> -					  &panel, &bridge);
-> -	if (ret)
-> -		return ERR_PTR(ret);
-> -
-> -	if (panel)
-> -		bridge =3D devm_drm_panel_bridge_add(dev, panel);
-> -
-> -	return bridge;
-> -}
-> -EXPORT_SYMBOL(devm_drm_of_get_bridge);
->  #endif
-> =20
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
->=20
+> +  iova:
+> +    maxItems: 1
+> +    description:
+> +      Address and size of virtual memory that could used by the APU
 
+Why does this need to be in DT? If you need to reserve certain VAs, then 
+this discussion[1] might be of interest.
 
+Rob
 
-
+[1] https://lore.kernel.org/all/YUIPCxnyRutMS47%2F@orome.fritz.box/
