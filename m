@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459E24115E2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 15:34:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89E6F411615
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 15:52:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3786E4EA;
-	Mon, 20 Sep 2021 13:33:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 474C26E4F4;
+	Mon, 20 Sep 2021 13:52:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 5801A6E4F1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:33:54 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4306612FC;
- Mon, 20 Sep 2021 06:33:53 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECCC83F882;
- Mon, 20 Sep 2021 06:33:51 -0700 (PDT)
-Subject: Re: [PATCH 5/9] drm/panfrost: simplify getting .driver_data
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org
-References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
- <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <e2e46b06-b013-cbea-6e48-71633d056813@arm.com>
-Date: Mon, 20 Sep 2021 14:33:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95F256E503
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:52:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 6F7E260F26
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:52:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632145931;
+ bh=Ib5+1g5U0ldoaV2KV5APrEie4/8k3cbErslO2qO/ql4=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Un1YhcfxGQWteE55Xgg/Sr+5FEOedLrceWVcyMsQQcKsyvduB3Js9K6BvRuVGNSMb
+ MJlgjH1tBd9X3q9AmyxOB6QedwKaS762EJc0+5hJAbXwvU4ftRlFclBQdqgrjyzZH9
+ DCTK8CPTi49g7s/eO/fZHbLQCT2Gln3xnzbqHsQ6lX8tfC8eq397tc8FLQB9H9qKHS
+ k+H6GTybyyZlqjdu7tHm6JypnU8zfu6yUppOcwsre7FLb2jFDx4JVijp8ty38WR4h1
+ g1TVBZqczYHWEnoklsClAma5Z4ARy4z03HS3LowkWuWd1a99w1gtT1iBsWax/dWkNs
+ Y4SQoFyL0rG5w==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 6652C60F50; Mon, 20 Sep 2021 13:52:11 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214413] Kernel oops on boot for amdgpu (in
+ si_dpm_set_power_state)
+Date: Mon, 20 Sep 2021 13:52:10 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: alexdeucher@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-214413-2300-ydzGfp4oZ2@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214413-2300@https.bugzilla.kernel.org/>
+References: <bug-214413-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,50 +69,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 20/09/2021 10:05, Wolfram Sang wrote:
-> We should get 'driver_data' from 'struct device' directly. Going via
-> platform_device is an unneeded step back and forth.
-> 
-> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-> ---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214413
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Alex Deucher (alexdeucher@gmail.com) changed:
 
-I'll push this to drm-misc-next.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |alexdeucher@gmail.com
 
-Thanks,
+--- Comment #5 from Alex Deucher (alexdeucher@gmail.com) ---
+Can provide the info requested in:
+https://gitlab.freedesktop.org/drm/amd/-/issues/1698#note_1066944
 
-Steve
+--=20
+You may reply to this email to add a comment.
 
-> 
-> Build tested only. buildbot is happy.
-> 
->  drivers/gpu/drm/panfrost/panfrost_device.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
-> index bd9b7be63b0f..fd4309209088 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
-> @@ -400,8 +400,7 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
->  #ifdef CONFIG_PM
->  int panfrost_device_resume(struct device *dev)
->  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->  
->  	panfrost_device_reset(pfdev);
->  	panfrost_devfreq_resume(pfdev);
-> @@ -411,8 +410,7 @@ int panfrost_device_resume(struct device *dev)
->  
->  int panfrost_device_suspend(struct device *dev)
->  {
-> -	struct platform_device *pdev = to_platform_device(dev);
-> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
-> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
->  
->  	if (!panfrost_job_is_idle(pfdev))
->  		return -EBUSY;
-> 
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
