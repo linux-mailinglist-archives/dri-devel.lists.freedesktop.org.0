@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACD67411674
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 16:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD4411678
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 16:11:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D096E505;
-	Mon, 20 Sep 2021 14:10:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABAE66E511;
+	Mon, 20 Sep 2021 14:10:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE58F6E507
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E56D36E505
  for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 14:10:54 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 47AC0200DC;
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 6E0022208D;
  Mon, 20 Sep 2021 14:10:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1632147053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T/MscUZ8zYse27OkX0a1P8ZDlHrlQZMF/IcTTGKupVE=;
- b=cfpIpfknrHqPyfw8aDF46jcLiMoE6uv+EbIbhJTpOPG4aww661RatnL2flO/EGeS3X2i2B
- qUAihD4OFXl3xWV3tr0hOyxn/fF+f1bKXuu6cDTAGYeUwNdI3CVytob4pwn2mLJgUK8O2j
- yZA7dIV3ZoW1YhsP+i4EAg/qngNzjgw=
+ bh=N6rfg9m/3EB/Js+Qxh6TJiXIPIqsy8MLh9xP9pRKqD0=;
+ b=zgzfKAyiA0bvyRqbscgXe4decVFOB0TfdDvjQiizwmfdnCUyLUO6I8f7ToGmiMlWTdlr56
+ qPRp0Z33Y9yCpEFOsNj3gGkoVfAYjDLg9fSfq2QASH2PMPU3/zvMhGPq9YkblqWuALND/T
+ J3P+VxjomPZl7nWABa1QHktDxWNjf7I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1632147053;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T/MscUZ8zYse27OkX0a1P8ZDlHrlQZMF/IcTTGKupVE=;
- b=JYmjgjXLGy4K8lPp1gLmAaOtxZrzaqLth/Jv6wimgZfq01i6Em0USvZktyO3wk3cTnLi3E
- dIcVI03AahSYTeDA==
+ bh=N6rfg9m/3EB/Js+Qxh6TJiXIPIqsy8MLh9xP9pRKqD0=;
+ b=d41aPy2pnHul3d4W2UG+BJNM/qqArZ4yeGtNF/1LC1CTkopdQJ+8ZLL5Hg7nDqI1W/LG+h
+ nqMuYxQ6jiSCsjCg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 27564143AD;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4B3B713A71;
  Mon, 20 Sep 2021 14:10:53 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id oON9CG2WSGG0cgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id 2ORoEW2WSGG0cgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Mon, 20 Sep 2021 14:10:53 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
@@ -51,9 +51,10 @@ To: patrik.r.jakobsson@gmail.com,
 	daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH 2/5] drm/gma500: Disable PCI device during shutdown
-Date: Mon, 20 Sep 2021 16:10:48 +0200
-Message-Id: <20210920141051.30988-3-tzimmermann@suse.de>
+Subject: [PATCH 3/5] drm/gma500: Embed struct drm_device in struct
+ drm_psb_private
+Date: Mon, 20 Sep 2021 16:10:49 +0200
+Message-Id: <20210920141051.30988-4-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210920141051.30988-1-tzimmermann@suse.de>
 References: <20210920141051.30988-1-tzimmermann@suse.de>
@@ -74,47 +75,297 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use managed disablement of PCI devices via pcim_device_enable().
-Disables the PCI device and simplifies error rollback in probe
-function.
+Embed struct drm_device in struct drm_psb_private. Replace the use
+of dev_private by an upcast operation. Switch to managed release of
+struct drm_psb_private.
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 ---
- drivers/gpu/drm/gma500/psb_drv.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/gpu/drm/gma500/cdv_device.c  |  2 +-
+ drivers/gpu/drm/gma500/intel_bios.c  |  6 +++---
+ drivers/gpu/drm/gma500/intel_gmbus.c |  6 +++---
+ drivers/gpu/drm/gma500/mid_bios.c    |  7 +++----
+ drivers/gpu/drm/gma500/opregion.c    |  2 +-
+ drivers/gpu/drm/gma500/psb_drv.c     | 23 +++++++----------------
+ drivers/gpu/drm/gma500/psb_drv.h     |  5 +++--
+ drivers/gpu/drm/gma500/psb_irq.c     |  8 ++++----
+ drivers/gpu/drm/gma500/psb_lid.c     |  2 +-
+ 9 files changed, 26 insertions(+), 35 deletions(-)
 
+diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
+index ce8215e0b1c1..d7c6cca23e94 100644
+--- a/drivers/gpu/drm/gma500/cdv_device.c
++++ b/drivers/gpu/drm/gma500/cdv_device.c
+@@ -429,7 +429,7 @@ static void cdv_hotplug_work_func(struct work_struct *work)
+ {
+         struct drm_psb_private *dev_priv = container_of(work, struct drm_psb_private,
+ 							hotplug_work);
+-        struct drm_device *dev = dev_priv->dev;
++	struct drm_device *dev = &dev_priv->dev;
+ 
+         /* Just fire off a uevent and let userspace tell us what to do */
+         drm_helper_hpd_irq_event(dev);
+diff --git a/drivers/gpu/drm/gma500/intel_bios.c b/drivers/gpu/drm/gma500/intel_bios.c
+index ebc7dd828302..d5ca5f241974 100644
+--- a/drivers/gpu/drm/gma500/intel_bios.c
++++ b/drivers/gpu/drm/gma500/intel_bios.c
+@@ -207,7 +207,7 @@ static void parse_backlight_data(struct drm_psb_private *dev_priv,
+ 
+ 	lvds_bl = kmemdup(vbt_lvds_bl, sizeof(*vbt_lvds_bl), GFP_KERNEL);
+ 	if (!lvds_bl) {
+-		dev_err(dev_priv->dev->dev, "out of memory for backlight data\n");
++		dev_err(dev_priv->dev.dev, "out of memory for backlight data\n");
+ 		return;
+ 	}
+ 	dev_priv->lvds_bl = lvds_bl;
+@@ -248,7 +248,7 @@ static void parse_lfp_panel_data(struct drm_psb_private *dev_priv,
+ 	panel_fixed_mode = kzalloc(sizeof(*panel_fixed_mode),
+ 				      GFP_KERNEL);
+ 	if (panel_fixed_mode == NULL) {
+-		dev_err(dev_priv->dev->dev, "out of memory for fixed panel mode\n");
++		dev_err(dev_priv->dev.dev, "out of memory for fixed panel mode\n");
+ 		return;
+ 	}
+ 
+@@ -259,7 +259,7 @@ static void parse_lfp_panel_data(struct drm_psb_private *dev_priv,
+ 		dev_priv->lfp_lvds_vbt_mode = panel_fixed_mode;
+ 		drm_mode_debug_printmodeline(panel_fixed_mode);
+ 	} else {
+-		dev_dbg(dev_priv->dev->dev, "ignoring invalid LVDS VBT\n");
++		dev_dbg(dev_priv->dev.dev, "ignoring invalid LVDS VBT\n");
+ 		dev_priv->lvds_vbt = 0;
+ 		kfree(panel_fixed_mode);
+ 	}
+diff --git a/drivers/gpu/drm/gma500/intel_gmbus.c b/drivers/gpu/drm/gma500/intel_gmbus.c
+index 413a18cdd6d6..09cedabf4776 100644
+--- a/drivers/gpu/drm/gma500/intel_gmbus.c
++++ b/drivers/gpu/drm/gma500/intel_gmbus.c
+@@ -196,7 +196,7 @@ intel_gpio_create(struct drm_psb_private *dev_priv, u32 pin)
+ 		 "gma500 GPIO%c", "?BACDE?F"[pin]);
+ 	gpio->adapter.owner = THIS_MODULE;
+ 	gpio->adapter.algo_data	= &gpio->algo;
+-	gpio->adapter.dev.parent = dev_priv->dev->dev;
++	gpio->adapter.dev.parent = dev_priv->dev.dev;
+ 	gpio->algo.setsda = set_data;
+ 	gpio->algo.setscl = set_clock;
+ 	gpio->algo.getsda = get_data;
+@@ -226,7 +226,7 @@ intel_i2c_quirk_xfer(struct drm_psb_private *dev_priv,
+ 					       adapter);
+ 	int ret;
+ 
+-	gma_intel_i2c_reset(dev_priv->dev);
++	gma_intel_i2c_reset(&dev_priv->dev);
+ 
+ 	intel_i2c_quirk_set(dev_priv, true);
+ 	set_data(gpio, 1);
+@@ -432,7 +432,7 @@ int gma_intel_setup_gmbus(struct drm_device *dev)
+ 		bus->force_bit = intel_gpio_create(dev_priv, i);
+ 	}
+ 
+-	gma_intel_i2c_reset(dev_priv->dev);
++	gma_intel_i2c_reset(&dev_priv->dev);
+ 
+ 	return 0;
+ 
+diff --git a/drivers/gpu/drm/gma500/mid_bios.c b/drivers/gpu/drm/gma500/mid_bios.c
+index bdc57b9070ec..7e76790c6a81 100644
+--- a/drivers/gpu/drm/gma500/mid_bios.c
++++ b/drivers/gpu/drm/gma500/mid_bios.c
+@@ -94,7 +94,7 @@ static void mid_get_fuse_settings(struct drm_device *dev)
+ static void mid_get_pci_revID(struct drm_psb_private *dev_priv)
+ {
+ 	uint32_t platform_rev_id = 0;
+-	struct pci_dev *pdev = to_pci_dev(dev_priv->dev->dev);
++	struct pci_dev *pdev = to_pci_dev(dev_priv->dev.dev);
+ 	int domain = pci_domain_nr(pdev->bus);
+ 	struct pci_dev *pci_gfx_root =
+ 		pci_get_domain_bus_and_slot(domain, 0, PCI_DEVFN(2, 0));
+@@ -106,8 +106,7 @@ static void mid_get_pci_revID(struct drm_psb_private *dev_priv)
+ 	pci_read_config_dword(pci_gfx_root, 0x08, &platform_rev_id);
+ 	dev_priv->platform_rev_id = (uint8_t) platform_rev_id;
+ 	pci_dev_put(pci_gfx_root);
+-	dev_dbg(dev_priv->dev->dev, "platform_rev_id is %x\n",
+-					dev_priv->platform_rev_id);
++	dev_dbg(dev_priv->dev.dev, "platform_rev_id is %x\n", dev_priv->platform_rev_id);
+ }
+ 
+ struct mid_vbt_header {
+@@ -270,7 +269,7 @@ static int mid_get_vbt_data_r10(struct drm_psb_private *dev_priv, u32 addr)
+ 
+ static void mid_get_vbt_data(struct drm_psb_private *dev_priv)
+ {
+-	struct drm_device *dev = dev_priv->dev;
++	struct drm_device *dev = &dev_priv->dev;
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	u32 addr;
+ 	u8 __iomem *vbt_virtual;
+diff --git a/drivers/gpu/drm/gma500/opregion.c b/drivers/gpu/drm/gma500/opregion.c
+index c81927c6b2eb..fef04ff8c3a9 100644
+--- a/drivers/gpu/drm/gma500/opregion.c
++++ b/drivers/gpu/drm/gma500/opregion.c
+@@ -190,7 +190,7 @@ static void psb_intel_opregion_asle_work(struct work_struct *work)
+ 	}
+ 
+ 	if (asle_req & ASLE_SET_BACKLIGHT)
+-		asle_stat |= asle_set_backlight(dev_priv->dev, asle->bclp);
++		asle_stat |= asle_set_backlight(&dev_priv->dev, asle->bclp);
+ 
+ 	asle->aslc = asle_stat;
+ 
 diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index 05f42e66af86..80ef2f0562c3 100644
+index 80ef2f0562c3..48967bbc4501 100644
 --- a/drivers/gpu/drm/gma500/psb_drv.c
 +++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -448,15 +448,13 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+@@ -217,9 +217,6 @@ static void psb_driver_unload(struct drm_device *dev)
+ 
+ 		/* Destroy VBT data */
+ 		psb_intel_destroy_bios(dev);
+-
+-		kfree(dev_priv);
+-		dev->dev_private = NULL;
+ 	}
+ 	gma_power_uninit(dev);
+ }
+@@ -227,7 +224,7 @@ static void psb_driver_unload(struct drm_device *dev)
+ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-	struct drm_psb_private *dev_priv;
++	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	unsigned long resource_start, resource_len;
+ 	unsigned long irqflags;
+ 	int ret = -ENOMEM;
+@@ -235,14 +232,9 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
+ 	struct gma_encoder *gma_encoder;
+ 	struct psb_gtt *pg;
+ 
+-	/* allocating and initializing driver private data */
+-	dev_priv = kzalloc(sizeof(*dev_priv), GFP_KERNEL);
+-	if (dev_priv == NULL)
+-		return -ENOMEM;
++	/* initializing driver private data */
+ 
+ 	dev_priv->ops = (struct psb_ops *)flags;
+-	dev_priv->dev = dev;
+-	dev->dev_private = (void *) dev_priv;
+ 
+ 	pg = &dev_priv->gtt;
+ 
+@@ -445,6 +437,7 @@ static long psb_unlocked_ioctl(struct file *filp, unsigned int cmd,
+ 
+ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ {
++	struct drm_psb_private *dev_priv;
  	struct drm_device *dev;
  	int ret;
  
--	ret = pci_enable_device(pdev);
-+	ret = pcim_enable_device(pdev);
+@@ -452,15 +445,16 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
  	if (ret)
  		return ret;
  
- 	dev = drm_dev_alloc(&driver, &pdev->dev);
--	if (IS_ERR(dev)) {
--		ret = PTR_ERR(dev);
--		goto err_pci_disable_device;
--	}
-+	if (IS_ERR(dev))
-+		return PTR_ERR(dev);
+-	dev = drm_dev_alloc(&driver, &pdev->dev);
+-	if (IS_ERR(dev))
++	dev_priv = devm_drm_dev_alloc(&pdev->dev, &driver, struct drm_psb_private, dev);
++	if (IS_ERR(dev_priv))
+ 		return PTR_ERR(dev);
++	dev = &dev_priv->dev;
  
  	pci_set_drvdata(pdev, dev);
  
-@@ -474,8 +472,6 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	ret = psb_driver_load(dev, ent->driver_data);
+ 	if (ret)
+-		goto err_drm_dev_put;
++		return ret;
+ 
+ 	ret = drm_dev_register(dev, ent->driver_data);
+ 	if (ret)
+@@ -470,8 +464,6 @@ static int psb_pci_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ err_psb_driver_unload:
  	psb_driver_unload(dev);
- err_drm_dev_put:
- 	drm_dev_put(dev);
--err_pci_disable_device:
--	pci_disable_device(pdev);
+-err_drm_dev_put:
+-	drm_dev_put(dev);
  	return ret;
  }
  
+@@ -481,7 +473,6 @@ static void psb_pci_remove(struct pci_dev *pdev)
+ 
+ 	drm_dev_unregister(dev);
+ 	psb_driver_unload(dev);
+-	drm_dev_put(dev);
+ }
+ 
+ static const struct dev_pm_ops psb_pm_ops = {
+diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
+index 469f277de4d5..0439b10d3db5 100644
+--- a/drivers/gpu/drm/gma500/psb_drv.h
++++ b/drivers/gpu/drm/gma500/psb_drv.h
+@@ -389,7 +389,8 @@ struct psb_ops;
+ struct intel_scu_ipc_dev;
+ 
+ struct drm_psb_private {
+-	struct drm_device *dev;
++	struct drm_device dev;
++
+ 	struct pci_dev *aux_pdev; /* Currently only used by mrst */
+ 	struct pci_dev *lpc_pdev; /* Currently only used by mrst */
+ 	const struct psb_ops *ops;
+@@ -569,7 +570,7 @@ struct drm_psb_private {
+ 
+ static inline struct drm_psb_private *to_drm_psb_private(struct drm_device *dev)
+ {
+-	return dev->dev_private;
++	return container_of(dev, struct drm_psb_private, dev);
+ }
+ 
+ /* Operations for each board type */
+diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
+index 32ec0a42daa7..ccf402007beb 100644
+--- a/drivers/gpu/drm/gma500/psb_irq.c
++++ b/drivers/gpu/drm/gma500/psb_irq.c
+@@ -76,12 +76,12 @@ psb_enable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask)
+ 		u32 reg = psb_pipestat(pipe);
+ 		dev_priv->pipestat[pipe] |= mask;
+ 		/* Enable the interrupt, clear any pending status */
+-		if (gma_power_begin(dev_priv->dev, false)) {
++		if (gma_power_begin(&dev_priv->dev, false)) {
+ 			u32 writeVal = PSB_RVDC32(reg);
+ 			writeVal |= (mask | (mask >> 16));
+ 			PSB_WVDC32(writeVal, reg);
+ 			(void) PSB_RVDC32(reg);
+-			gma_power_end(dev_priv->dev);
++			gma_power_end(&dev_priv->dev);
+ 		}
+ 	}
+ }
+@@ -92,12 +92,12 @@ psb_disable_pipestat(struct drm_psb_private *dev_priv, int pipe, u32 mask)
+ 	if ((dev_priv->pipestat[pipe] & mask) != 0) {
+ 		u32 reg = psb_pipestat(pipe);
+ 		dev_priv->pipestat[pipe] &= ~mask;
+-		if (gma_power_begin(dev_priv->dev, false)) {
++		if (gma_power_begin(&dev_priv->dev, false)) {
+ 			u32 writeVal = PSB_RVDC32(reg);
+ 			writeVal &= ~mask;
+ 			PSB_WVDC32(writeVal, reg);
+ 			(void) PSB_RVDC32(reg);
+-			gma_power_end(dev_priv->dev);
++			gma_power_end(&dev_priv->dev);
+ 		}
+ 	}
+ }
+diff --git a/drivers/gpu/drm/gma500/psb_lid.c b/drivers/gpu/drm/gma500/psb_lid.c
+index 97b0c52bfd8a..58a7fe392636 100644
+--- a/drivers/gpu/drm/gma500/psb_lid.c
++++ b/drivers/gpu/drm/gma500/psb_lid.c
+@@ -14,7 +14,7 @@
+ static void psb_lid_timer_func(struct timer_list *t)
+ {
+ 	struct drm_psb_private *dev_priv = from_timer(dev_priv, t, lid_timer);
+-	struct drm_device *dev = (struct drm_device *)dev_priv->dev;
++	struct drm_device *dev = (struct drm_device *)&dev_priv->dev;
+ 	struct timer_list *lid_timer = &dev_priv->lid_timer;
+ 	unsigned long irq_flags;
+ 	u32 __iomem *lid_state = dev_priv->opregion.lid_state;
 -- 
 2.33.0
 
