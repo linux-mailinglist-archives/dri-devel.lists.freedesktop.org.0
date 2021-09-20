@@ -1,43 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DCD941100B
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 09:28:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE95411017
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 09:31:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 524236E3FC;
-	Mon, 20 Sep 2021 07:28:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 673FC6E3E5;
+	Mon, 20 Sep 2021 07:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3DF766E3E5;
- Mon, 20 Sep 2021 07:28:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="210161168"
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="210161168"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 00:28:17 -0700
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="473459185"
-Received: from gbradyx-mobl2.ger.corp.intel.com (HELO [10.213.235.119])
- ([10.213.235.119])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 00:28:16 -0700
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix blank screen booting crashes
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-References: <20210917233818.33659-1-matthew.brost@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Hugh Dickins <hughd@google.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <8c906ac4-c6a3-ee45-970f-07679456fd18@linux.intel.com>
-Date: Mon, 20 Sep 2021 08:28:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 447416E3E5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 07:31:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 1B11660F25
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 07:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632123060;
+ bh=djgHTIKBpuRevsFJFftqIfbXsVLmjQIbc4nkqbtJcJk=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=BRFhbTlqMWVlEVDXTgewYjnf5tHe+h7lBxV1Omnj5bg90RxpjJgH7Fzkv/ruSixwZ
+ 4MQAOalzj+rs8dD1G65AGa9yCCxKIGeWFQx4M3/qOrAwNbLi9gJTKN0cdKbhVViNlW
+ EAMLwZmHYjE5uMnmft/XWz0nbBVAN9+7ldiMWNLjyTCF3gJM5S8ZZikdGxp4Hwynei
+ 8q31Arv0o41CcOn0XpFaXTCVlskrvpn108rNA7Q0g+xK2qmFfDirB2p1wX5D3WSE7S
+ r9qnBTXrIfWe2SeCpZNf9P9+O57AYy/z3a2yRCbQDqYUhOQGCLYlqZU6wEG3YJjyjQ
+ U0UAZ7sdF3yug==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 08CEF60F41; Mon, 20 Sep 2021 07:31:00 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214413] Kernel oops on boot for amdgpu (in
+ si_dpm_set_power_state)
+Date: Mon, 20 Sep 2021 07:30:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: mpiazza@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-214413-2300-jXdgOzvCk6@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214413-2300@https.bugzilla.kernel.org/>
+References: <bug-214413-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-In-Reply-To: <20210917233818.33659-1-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,87 +69,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214413
 
-On 18/09/2021 00:38, Matthew Brost wrote:
-> From: Hugh Dickins <hughd@google.com>
-> 
-> 5.15-rc1 crashes with blank screen when booting up on two ThinkPads
-> using i915.  Bisections converge convincingly, but arrive at different
-> and surprising "culprits", none of them the actual culprit.
+--- Comment #2 from Marco Piazza (mpiazza@gmail.com) ---
+It is a regression, without apparent problems.
+In fact the laptop start and is working as usual.
 
-It is certainly surprising this patch crashed SNB and KBL.
+I've found a similar bug described here:
+https://gitlab.freedesktop.org/drm/amd/-/issues/1698
 
-How feasible would it be to make this code just not run when GuC is not 
-used? Given the field it adds is called ce->guc_blocked it sounds like a 
-natural and preferable thing to do... if possible.
+--=20
+You may reply to this email to add a comment.
 
-> netconsole (with init_netconsole() hacked to call i915_init() when
-> logging has started, instead of by module_init()) tells the story:
-> 
-> kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
-> with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
-> I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
-> function needs to be 4-byte aligned.
-> 
-> v2:
->   (Jani Nikula)
->    - Change BUG_ON to WARN_ON
-
-However in this case the code would then go on and call into a wrong 
-function offset which may be worse than a BUG_ON, no?
-
-> 
-> Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> Signed-off-by: Hugh Dickins <hughd@google.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_context.c | 1 +
->   drivers/gpu/drm/i915/i915_sw_fence.c    | 4 +++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index ff637147b1a9..f02c2202da9d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -362,6 +362,7 @@ static int __intel_context_active(struct i915_active *active)
->   	return 0;
->   }
->   
-> +__aligned(4)	/* Respect the I915_SW_FENCE_MASK */
-
-Hugh suggested __i915_sw_fence_call which I think would be the right 
-thing to do.
-
-Regards,
-
-Tvrtko
-
->   static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
->   				 enum i915_sw_fence_notify state)
->   {
-> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> index c589a681da77..1217b124c1d0 100644
-> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> @@ -14,8 +14,10 @@
->   
->   #if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
->   #define I915_SW_FENCE_BUG_ON(expr) BUG_ON(expr)
-> +#define I915_SW_FENCE_WARN_ON(expr) WARN_ON(expr)
->   #else
->   #define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> +#define I915_SW_FENCE_WARN_ON(expr) BUILD_BUG_ON_INVALID(expr)
->   #endif
->   
->   static DEFINE_SPINLOCK(i915_sw_fence_lock);
-> @@ -242,7 +244,7 @@ void __i915_sw_fence_init(struct i915_sw_fence *fence,
->   			  const char *name,
->   			  struct lock_class_key *key)
->   {
-> -	BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
-> +	I915_SW_FENCE_WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
->   
->   	__init_waitqueue_head(&fence->wait, name, key);
->   	fence->flags = (unsigned long)fn;
-> 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
