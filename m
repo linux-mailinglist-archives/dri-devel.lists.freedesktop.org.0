@@ -1,46 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C5E41127A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 12:01:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1750741133E
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 13:01:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 965D96E46B;
-	Mon, 20 Sep 2021 10:01:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06DBB6E4A6;
+	Mon, 20 Sep 2021 11:00:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8ED526E463;
- Mon, 20 Sep 2021 10:01:03 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="286774751"
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="286774751"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 03:01:03 -0700
-X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="473542972"
-Received: from gbradyx-mobl2.ger.corp.intel.com (HELO [10.213.235.119])
- ([10.213.235.119])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 03:01:01 -0700
-Subject: Re: [Intel-gfx] [PATCH 16/26] drm/i915: use new iterator in
- i915_gem_object_wait_reservation v2
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-17-christian.koenig@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <e0954bdd-2183-f662-8192-c44f931c602b@linux.intel.com>
-Date: Mon, 20 Sep 2021 11:00:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
+ Mon, 20 Sep 2021 09:12:06 UTC
+Received: from mail.zeus03.de (www.zeus03.de [194.117.254.33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5BC0D6E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:12:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=k1; bh=8Ic7rPl8wS6tSUDgDBOpnPfgXT8
+ diIPVuuJEV7+3x14=; b=y3zScd6qLqQkIP3VZO9fvHA8J6/TlWpstJuxEWG+2wh
+ RSUW1mVxF26O2U33Dq6EbBJ3XmayRck4KWgT5z4BxcgklO7B+9wEmZO5zVAmdCUU
+ eq691H+mkSBSVXJ5b+Z4iTQ6tBhA1RnGtNmi7NlL+YGjQ7U1KmJ/dc6bhwHIpZnk
+ =
+Received: (qmail 2412526 invoked from network); 20 Sep 2021 11:05:23 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted,
+ authenticated); 20 Sep 2021 11:05:23 +0200
+X-UD-Smtp-Session: l3s3148p1@Lz7AlGnMBosgAwDPXwlxANIWpbLKE1Uh
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>, dmaengine@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-amlogic@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-arm-msm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, netdev@vger.kernel.org
+Subject: [PATCH 0/9] treewide: simplify getting .driver_data
+Date: Mon, 20 Sep 2021 11:05:12 +0200
+Message-Id: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-In-Reply-To: <20210917123513.1106-17-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 20 Sep 2021 11:00:52 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,107 +56,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I got tired of fixing this in Renesas drivers manually, so I took the big
+hammer. Remove this cumbersome code pattern which got copy-pasted too much
+already:
 
-On 17/09/2021 13:35, Christian König wrote:
-> Simplifying the code a bit.
-> 
-> v2: add missing rcu read unlock.
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_wait.c | 57 ++++++------------------
->   1 file changed, 14 insertions(+), 43 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> index f909aaa09d9c..e416cf528635 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
-> @@ -37,55 +37,26 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
->   				 unsigned int flags,
->   				 long timeout)
->   {
-> -	struct dma_fence *excl;
-> -	bool prune_fences = false;
-> -
-> -	if (flags & I915_WAIT_ALL) {
-> -		struct dma_fence **shared;
-> -		unsigned int count, i;
-> -		int ret;
-> -
-> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
-> -		if (ret)
-> -			return ret;
-> -
-> -		for (i = 0; i < count; i++) {
-> -			timeout = i915_gem_object_wait_fence(shared[i],
-> -							     flags, timeout);
-> -			if (timeout < 0)
-> -				break;
-> -
-> -			dma_fence_put(shared[i]);
-> -		}
-> -
-> -		for (; i < count; i++)
-> -			dma_fence_put(shared[i]);
-> -		kfree(shared);
-> -
-> -		/*
-> -		 * If both shared fences and an exclusive fence exist,
-> -		 * then by construction the shared fences must be later
-> -		 * than the exclusive fence. If we successfully wait for
-> -		 * all the shared fences, we know that the exclusive fence
-> -		 * must all be signaled. If all the shared fences are
-> -		 * signaled, we can prune the array and recover the
-> -		 * floating references on the fences/requests.
-> -		 */
-> -		prune_fences = count && timeout >= 0;
-> -	} else {
-> -		excl = dma_resv_get_excl_unlocked(resv);
-> +	struct dma_resv_iter cursor;
-> +	struct dma_fence *fence;
-> +
-> +	rcu_read_lock();
-> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
-> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-> +		rcu_read_unlock();
-> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+-	struct platform_device *pdev = to_platform_device(dev);
+-	struct ep93xx_keypad *keypad = platform_get_drvdata(pdev);
++	struct ep93xx_keypad *keypad = dev_get_drvdata(dev);
 
-Converting this one could be problematic. It's the wait ioctl which used 
-to grab an atomic snapshot and wait for that rendering to complete. With 
-this change I think it has the potential to run forever keeps catching 
-new activity against the same object.
+A branch, tested by buildbot, can be found here:
 
-I am not sure whether or not the difference is relevant for how 
-userspace uses it but I think needs discussion.
+git://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git coccinelle/get_drvdata
 
-Hm actually there are internal callers as well, and at least some of 
-those have the object locked. Would a wider refactoring to separate 
-those into buckets (locked vs unlocked) make sense?
+I am open for other comments, suggestions, too, of course.
 
-Regards,
+Here is the cocci-script I created:
 
-Tvrtko
+@@
+struct device* d;
+identifier pdev;
+expression *ptr;
+@@
+(
+-	struct platform_device *pdev = to_platform_device(d);
+|
+-	struct platform_device *pdev;
+	...
+-	pdev = to_platform_device(d);
+)
+	<... when != pdev
+-	&pdev->dev
++	d
+	...>
+
+	ptr =
+-	platform_get_drvdata(pdev)
++	dev_get_drvdata(d)
+
+	<... when != pdev
+-	&pdev->dev
++	d
+	...>
+
+Kind regards,
+
+   Wolfram
 
 
-> +		rcu_read_lock();
-> +		if (timeout < 0)
-> +			break;
->   	}
-> -
-> -	if (excl && timeout >= 0)
-> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
-> -
-> -	dma_fence_put(excl);
-> +	dma_resv_iter_end(&cursor);
-> +	rcu_read_unlock();
->   
->   	/*
->   	 * Opportunistically prune the fences iff we know they have *all* been
->   	 * signaled.
->   	 */
-> -	if (prune_fences)
-> +	if (timeout > 0)
->   		dma_resv_prune(resv);
->   
->   	return timeout;
-> 
+Wolfram Sang (9):
+  dmaengine: stm32-dmamux: simplify getting .driver_data
+  firmware: meson: simplify getting .driver_data
+  gpio: xilinx: simplify getting .driver_data
+  drm/msm: simplify getting .driver_data
+  drm/panfrost: simplify getting .driver_data
+  iio: common: cros_ec_sensors: simplify getting .driver_data
+  net: mdio: mdio-bcm-iproc: simplify getting .driver_data
+  platform: chrome: cros_ec_sensorhub: simplify getting .driver_data
+  remoteproc: omap_remoteproc: simplify getting .driver_data
+
+ drivers/dma/stm32-dmamux.c                         | 14 +++++---------
+ drivers/firmware/meson/meson_sm.c                  |  3 +--
+ drivers/gpio/gpio-xilinx.c                         |  6 ++----
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c            | 13 +++++--------
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |  6 ++----
+ drivers/gpu/drm/msm/dp/dp_display.c                |  6 ++----
+ drivers/gpu/drm/msm/dsi/dsi_host.c                 |  6 ++----
+ drivers/gpu/drm/msm/msm_drv.c                      |  3 +--
+ drivers/gpu/drm/panfrost/panfrost_device.c         |  6 ++----
+ .../common/cros_ec_sensors/cros_ec_sensors_core.c  |  3 +--
+ drivers/net/mdio/mdio-bcm-iproc.c                  |  3 +--
+ drivers/platform/chrome/cros_ec_sensorhub.c        |  6 ++----
+ drivers/remoteproc/omap_remoteproc.c               |  6 ++----
+ 13 files changed, 28 insertions(+), 53 deletions(-)
+
+-- 
+2.30.2
+
