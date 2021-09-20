@@ -1,75 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9624122E3
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:17:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A7D4123F2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:27:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874646E7D7;
-	Mon, 20 Sep 2021 18:17:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 126F76E5BE;
+	Mon, 20 Sep 2021 18:27:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D30FB6E7D7
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:17:07 +0000 (UTC)
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
- [209.85.214.197])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 3388B3F32A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:17:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1632161826;
- bh=TjtorBP1QG+MBkByGdZNpa22mOVzwIsICVZSplyAbbE=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=aM+Xf4yDN35MlZk4MjNWS6NRK4aeW3VBzWN+JrX0G/iyTbSewqSn7Fw4YYr4kEqe6
- Yvn+pQMDEXg8ZJVg1PEWk+DFPTR2t8d2RchPdUoerdit8uNWKpn/9hQKRkZTyFPzbj
- YVdFN1HVkXLH4dHwxSuxYmUq71Iuu957dIf8KmlEKDQoA9sYsaiGJbDW83Aw+elffL
- N2eD6VocivuPbpVHhiK3YKBhiduzbNQPaQvWec8FHz1MKWXqzJGTdh+kaSpPjqVCCE
- U1+8V/fjuLTx1Z+7d7XkKbtwMU9ERXqSRjlciyVOP0pt4li7CQUIBJ1Q+MhlvsqPbK
- TSNKQjGHu37ew==
-Received: by mail-pl1-f197.google.com with SMTP id
- n15-20020a170902e54f00b0013b7a095210so7406327plf.15
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 11:17:06 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 567BF6E5BE;
+ Mon, 20 Sep 2021 18:27:32 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id d21so32294608wra.12;
+ Mon, 20 Sep 2021 11:27:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y9zwU5sYqKQSmloO/YdgRLqeETN2yQaV2Mq9YoCcAeI=;
+ b=SyirlfFaRyUdz9gloQTpR5LDjfVwEkVbGAKz3rA4+raBnbaIk7GgLE3cRNSVmNsJ2T
+ JkAkx5J15BZqvGTnXpSAtMhcW8GIpbkKYz2o/fjKqnI7nvBKVq2Jtz7IbC8Fxfend/aT
+ cCRjbtW6tlCL62XP7oma8j5FxslfQyutluSRo3uL68wvPMjUlYshaafTq0nWn7rc+/K0
+ X23Cy/6Zd2aJ/yV5Bd1gNBmWM7UE1ZhKunrY3CvgiHOnnJEeBbf3dekuSIuwb6Q/2klJ
+ ROAo5Rgkac0ZG3z2/sAy1GbRbPopzBsEH3+I1VBUbmtoYuVc/qLJlZm084MYYLGUrKoK
+ +CPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TjtorBP1QG+MBkByGdZNpa22mOVzwIsICVZSplyAbbE=;
- b=FanA3avUD3wA+6Axkdy/mquKVck/3ZcEH17pGQBaKKIUzuY4dGYOnALjEfxTg64JMn
- d2mCDHw8m8DAlijyAkw9C3vYvNSi8CQpGO8BziYKZJMBT+0SH/Mc0J8FTQuD4rs6My5p
- GKyu6ty6k05Qeeww9lqRRjFEKilfzEoyUrru/xRrEeRoYi7nGH56LY5n/El353raiHpV
- mkdJfb9PcRMy3nqzANKrgcV6xIgs1s2HX9xTEJVZqTjBmotRq3mJNIt5l/DpVXZVWOon
- qoQDUiwymwOeNY99n7IEA0xgexxRdBeiezshwzQ6C5snnM/d0QipV09iVvufArilZ1B/
- Ky3w==
-X-Gm-Message-State: AOAM532eRKSMAx5h0urlRfX/nzcwonFAhF+HnyqhHPasRvMetyh2151U
- Eer37L23F/M2dBbSTZIyL7L7dttOcarlDGVbXRxXprQ8jKoqwp0aaPQo/DxSF+/x4P1E2WrA1rC
- /oL4bLphR1cLpq0ePi99Z+YwegKPAhpv7SYzTLAdqxEiOMA==
-X-Received: by 2002:a17:90a:24c:: with SMTP id
- t12mr357827pje.103.1632161824737; 
- Mon, 20 Sep 2021 11:17:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDHbTX6MS7FWBtqKRkGWZ8SYTluchgpjHnl329yBqjyNyrGnU2x+2LHi5jaLReYrYUZHW5Fw==
-X-Received: by 2002:a17:90a:24c:: with SMTP id
- t12mr357801pje.103.1632161824463; 
- Mon, 20 Sep 2021 11:17:04 -0700 (PDT)
-Received: from localhost.localdomain ([69.163.84.166])
- by smtp.gmail.com with ESMTPSA id m64sm16126877pga.55.2021.09.20.11.17.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 11:17:03 -0700 (PDT)
-From: Tim Gardner <tim.gardner@canonical.com>
-To: nouveau@lists.freedesktop.org
-Cc: tim.gardner@canonical.com, Ben Skeggs <bskeggs@redhat.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Karol Herbst <kherbst@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/nouveau/ga102: Free resources on error in ga102_chan_new()
-Date: Mon, 20 Sep 2021 12:16:47 -0600
-Message-Id: <20210920181647.22156-1-tim.gardner@canonical.com>
-X-Mailer: git-send-email 2.33.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y9zwU5sYqKQSmloO/YdgRLqeETN2yQaV2Mq9YoCcAeI=;
+ b=QSHGjVKeQaf7Et0xh/372SwaU1yUkqdqGuEkuwK8InOLb+E4DiH+J3kKUbuD3y5Ii/
+ AQNuzs2Jr5z5pOUX650jfuU1gYWxurbKoEE/zUWfiAIo0JOFmYdzCPgkxt8IgnyFUqiH
+ 00VVPtcGdIZT5DIcjoRM16lk0uhtfXP0vi+ZGBAoMYif21aORIX0r9qmlAOL0H0DvOex
+ m1XLhjq2Qi8rlR9nESVqRwn3r5QPXBNdj07qOTu4H82UScJIUC9NzGwryi3nkp3lvdeF
+ uFElBaOaEJd7IG8jiCqFE4FBkclWlhHAU3v7t7OD5ddjGrj+Jue7gD0aOngEMPOTP5pN
+ Af6A==
+X-Gm-Message-State: AOAM530zVOGwFWoh3GATZCe1Io9G91TCWUpmch+EOXBTnpBUH5TYmXlG
+ 11OGjQN60BluODY32RI4W4SSUdZBkrmNB4qxbAU=
+X-Google-Smtp-Source: ABdhPJw/EQD0n+XxVEqlN0NQvPPWtr7hnSNfLxBFHmeACTGd4fEURr8HGGl7QADWcofo1LfgcxwBHTMNCADEDP4umVY=
+X-Received: by 2002:adf:e5c2:: with SMTP id a2mr29789784wrn.251.1632162450723; 
+ Mon, 20 Sep 2021 11:27:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20210811235253.924867-1-robdclark@gmail.com>
+ <20210811235253.924867-5-robdclark@gmail.com>
+ <YRV10ew/Lr8GPzEv@pendragon.ideasonboard.com>
+ <CAD=FV=Xd9fizYdxfXYOkpJ_1fZcHp3-ROJ7k4iPg0g0RQ_+A3Q@mail.gmail.com>
+In-Reply-To: <CAD=FV=Xd9fizYdxfXYOkpJ_1fZcHp3-ROJ7k4iPg0g0RQ_+A3Q@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 20 Sep 2021 11:32:02 -0700
+Message-ID: <CAF6AEGt8K=iy8=dn+GJxt7ybfPtGDPy9w3StqWDwyOv_CKLNVg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
+To: Doug Anderson <dianders@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Stephen Boyd <swboyd@chromium.org>, Rob Clark <robdclark@chromium.org>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,86 +76,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Coverity complains of a resource leak in ga102_chan_new():
+On Thu, Aug 12, 2021 at 1:08 PM Doug Anderson <dianders@chromium.org> wrote:
+>
+> Laurent,
+>
+> On Thu, Aug 12, 2021 at 12:26 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
+> > Hi Rob,
+> >
+> > Thank you for the patch.
+> >
+> > On Wed, Aug 11, 2021 at 04:52:50PM -0700, Rob Clark wrote:
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > Slightly awkward to fish out the display_info when we aren't creating
+> > > own connector.  But I don't see an obvious better way.
+> >
+> > We need a bit more than this, to support the NO_CONNECTOR case, the
+> > bridge has to implement a few extra operations, and set the bridge .ops
+> > field. I've submitted two patches to do so a while ago:
+> >
+> > - [RFC PATCH 08/11] drm/bridge: ti-sn65dsi86: Implement bridge connector operations ([1])
+>
+> Rob asked me about this over IRC, so if he left it out and it's needed
+> then it's my fault. However, I don't believe it's needed until your
+> series making this bridge chip support full DP. For the the eDP case
+> the bridge chip driver in ToT no longer queries the EDID itself. It
+> simply provides an AUX bus to the panel driver and the panel driver
+> queries the EDID. I think that means we don't need to add
+> DRM_BRIDGE_OP_EDID, right?
+>
+> I was also wondering if in the full DP case we should actually model
+> the physical DP jack as a drm_bridge and have it work the same way. It
+> would get probed via the DP AUX bus just like a panel. I seem to
+> remember Stephen Boyd was talking about modeling the DP connector as a
+> drm_bridge because it would allow us to handle the fact that some TCPC
+> chips could only support HBR2 whereas others could support HBR3. Maybe
+> it would end up being a fairly elegant solution?
+>
+> > - [RFC PATCH 09/11] drm/bridge: ti-sn65dsi86: Make connector creation optional ([2])
+> >
+> > The second patch is similar to the first half of this patch, but misses
+> > the cleanup code. I'll try to rebase this and resubmit, but it may take
+> > a bit of time.
+>
+> Whoops! You're right that Rob's patch won't work at all because we'll
+> just hit the "Fix bridge driver to make connector optional!" case. I
+> should have noticed that. :(
 
-CID 119637 (#7 of 7): Resource leak (RESOURCE_LEAK)
-13. leaked_storage: Variable chan going out of scope leaks the storage it points to.
-190                return ret;
+Yes, indeed.. once I fix that, I get no display..
 
-Fix this by freeing 'chan' in the error path.
+Not sure if Laurent is still working on his series, otherwise I can
+try to figure out what bridge ops are missing
 
-Cc: Ben Skeggs <bskeggs@redhat.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Karol Herbst <kherbst@redhat.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: nouveau@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
----
- .../gpu/drm/nouveau/nvkm/engine/fifo/ga102.c  | 20 ++++++++++++-------
- 1 file changed, 13 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
-index f897bef13acf..4dbdfb53e65f 100644
---- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
-+++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
-@@ -175,19 +175,21 @@ ga102_chan_new(struct nvkm_device *device,
- 		}
- 	}
- 
--	if (!chan->ctrl.runl)
--		return -ENODEV;
-+	if (!chan->ctrl.runl) {
-+		ret = -ENODEV;
-+		goto free_chan;
-+	}
- 
- 	chan->ctrl.chan = nvkm_rd32(device, chan->ctrl.runl + 0x004) & 0xfffffff0;
- 	args->token = nvkm_rd32(device, chan->ctrl.runl + 0x008) & 0xffff0000;
- 
- 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->mthd);
- 	if (ret)
--		return ret;
-+		goto free_chan;
- 
- 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->inst);
- 	if (ret)
--		return ret;
-+		goto free_chan;
- 
- 	nvkm_kmap(chan->inst);
- 	nvkm_wo32(chan->inst, 0x010, 0x0000face);
-@@ -209,11 +211,11 @@ ga102_chan_new(struct nvkm_device *device,
- 
- 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->user);
- 	if (ret)
--		return ret;
-+		goto free_chan;
- 
- 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->runl);
- 	if (ret)
--		return ret;
-+		goto free_chan;
- 
- 	nvkm_kmap(chan->runl);
- 	nvkm_wo32(chan->runl, 0x00, 0x80030001);
-@@ -228,10 +230,14 @@ ga102_chan_new(struct nvkm_device *device,
- 
- 	ret = nvkm_vmm_join(vmm, chan->inst);
- 	if (ret)
--		return ret;
-+		goto free_chan;
- 
- 	chan->vmm = nvkm_vmm_ref(vmm);
- 	return 0;
-+
-+free_chan:
-+	kfree(chan);
-+	return ret;
- }
- 
- static const struct nvkm_device_oclass
--- 
-2.33.0
-
+BR,
+-R
