@@ -2,39 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34ED4115E4
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 15:34:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 459E24115E2
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 15:34:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1A7726E4F1;
-	Mon, 20 Sep 2021 13:33:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B3786E4EA;
+	Mon, 20 Sep 2021 13:33:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 4CA606E4EA
+ by gabe.freedesktop.org (Postfix) with ESMTP id 5801A6E4F1
  for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:33:54 +0000 (UTC)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 3D0AF11B3;
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4306612FC;
  Mon, 20 Sep 2021 06:33:53 -0700 (PDT)
 Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 27C6B3F719;
- Mon, 20 Sep 2021 06:33:50 -0700 (PDT)
-Subject: Re: [PATCH] panfrost: make mediatek_mt8183_supplies and
- mediatek_mt8183_pm_domains static
-To: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>, robh@kernel.org
-Cc: tomeu.vizoso@collabora.com, alyssa.rosenzweig@collabora.com,
- airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <1631956414-85412-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id ECCC83F882;
+ Mon, 20 Sep 2021 06:33:51 -0700 (PDT)
+Subject: Re: [PATCH 5/9] drm/panfrost: simplify getting .driver_data
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org
+References: <20210920090522.23784-1-wsa+renesas@sang-engineering.com>
+ <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
 From: Steven Price <steven.price@arm.com>
-Message-ID: <616fa113-7718-918c-db07-4826ef61b57f@arm.com>
-Date: Mon, 20 Sep 2021 14:33:49 +0100
+Message-ID: <e2e46b06-b013-cbea-6e48-71633d056813@arm.com>
+Date: Mon, 20 Sep 2021 14:33:50 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <1631956414-85412-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20210920090522.23784-6-wsa+renesas@sang-engineering.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -53,46 +53,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 18/09/2021 10:13, Jiapeng Chong wrote:
-> This symbol is not used outside of panfrost_drv.c, so marks it static.
+On 20/09/2021 10:05, Wolfram Sang wrote:
+> We should get 'driver_data' from 'struct device' directly. Going via
+> platform_device is an unneeded step back and forth.
 > 
-> Fix the following sparse warning:
-> 
-> drivers/gpu/drm/panfrost/panfrost_drv.c:641:12: warning: symbol
-> 'mediatek_mt8183_supplies' was not declared. Should it be static?
-> 
-> drivers/gpu/drm/panfrost/panfrost_drv.c:642:12: warning: symbol
-> 'mediatek_mt8183_pm_domains' was not declared. Should it be static?
-> 
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+> ---
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
-I'll push to drm-misc-next.
+I'll push this to drm-misc-next.
 
 Thanks,
 
 Steve
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 077cbbf..82ad9a6 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -638,8 +638,8 @@ static int panfrost_remove(struct platform_device *pdev)
->  	.vendor_quirk = panfrost_gpu_amlogic_quirk,
->  };
+> Build tested only. buildbot is happy.
+> 
+>  drivers/gpu/drm/panfrost/panfrost_device.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/panfrost/panfrost_device.c b/drivers/gpu/drm/panfrost/panfrost_device.c
+> index bd9b7be63b0f..fd4309209088 100644
+> --- a/drivers/gpu/drm/panfrost/panfrost_device.c
+> +++ b/drivers/gpu/drm/panfrost/panfrost_device.c
+> @@ -400,8 +400,7 @@ void panfrost_device_reset(struct panfrost_device *pfdev)
+>  #ifdef CONFIG_PM
+>  int panfrost_device_resume(struct device *dev)
+>  {
+> -	struct platform_device *pdev = to_platform_device(dev);
+> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
 >  
-> -const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
-> -const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
-> +static const char * const mediatek_mt8183_supplies[] = { "mali", "sram" };
-> +static const char * const mediatek_mt8183_pm_domains[] = { "core0", "core1", "core2" };
->  static const struct panfrost_compatible mediatek_mt8183_data = {
->  	.num_supplies = ARRAY_SIZE(mediatek_mt8183_supplies),
->  	.supply_names = mediatek_mt8183_supplies,
+>  	panfrost_device_reset(pfdev);
+>  	panfrost_devfreq_resume(pfdev);
+> @@ -411,8 +410,7 @@ int panfrost_device_resume(struct device *dev)
+>  
+>  int panfrost_device_suspend(struct device *dev)
+>  {
+> -	struct platform_device *pdev = to_platform_device(dev);
+> -	struct panfrost_device *pfdev = platform_get_drvdata(pdev);
+> +	struct panfrost_device *pfdev = dev_get_drvdata(dev);
+>  
+>  	if (!panfrost_job_is_idle(pfdev))
+>  		return -EBUSY;
 > 
 
