@@ -1,64 +1,92 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD2441278D
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 22:56:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D934127BD
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 23:06:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C0A9C6E857;
-	Mon, 20 Sep 2021 20:56:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E846B6E85E;
+	Mon, 20 Sep 2021 21:06:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
- [209.85.210.52])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 793496E857
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 20:56:01 +0000 (UTC)
-Received: by mail-ot1-f52.google.com with SMTP id
- l7-20020a0568302b0700b0051c0181deebso25350657otv.12
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:56:01 -0700 (PDT)
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1DC06E85E
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 21:06:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632171971;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QYU+FG0NgEDN5QbX73oIIwX0hoDQqIX9Lmp+LI9M8t8=;
+ b=IVX8sqH0GkBdoygwqFlodSyNhOWnP5fNDyerDk+Af4qxE+nDFFDS2ntCIGXCY+kaRPmovT
+ Ad1yMCkvyRdXzLZYccZY8FxGlA7LyrYyRrEFwjBMSbtogLxBM9mfSGd9NDVFoc9r3My1kh
+ BvXdIAZlHf8KCnb2hbt/fWu46IylNKg=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-zl7paaCoOmK4Kl1NKQz3ag-1; Mon, 20 Sep 2021 17:06:10 -0400
+X-MC-Unique: zl7paaCoOmK4Kl1NKQz3ag-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ b8-20020a0562141148b02902f1474ce8b7so200115743qvt.20
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 14:06:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=XPatjUnaHnEphbp45Tc3T1p6HiP/lC6r/ygiKd/wpQg=;
- b=qoAG6GOK0R6HeL2kpuUpnr0REOT3m/4R/UreJtV25ddrxSJ/RVT8N7Gz/MUMDn12Pw
- HQ4+/9lprhuTMD37aptP6AvVmsLpJEnT2mKlpYFnrQfzpUPl9o81oHlv0CFC34rQtxrI
- RuxqJYev/wz8qwV/6VUdcHPNNLlli90AcRlbpg9GPsa0MVl8tg2khwZ6HqbyRf8OdyGk
- GemGkYnUkcnaoQaPacMiu1u3LZSRvHUw1HQpozMDZVUM2ZAH1JCxYU/lPsaSCPte/3JQ
- Y2VrILrR8ex2EXaI1Ex6rWL6Q1SWJDOmBlf57q1KRFyfBIjBskDs1mWLu2qcipvaAW54
- YWug==
-X-Gm-Message-State: AOAM531qTq7Qt7kKaLBx3e8H53C1ccnY3U3uPQQ/sf5vb/MLhfxF9dx7
- JX6lD+g8D3h3UK5xwq2xdw==
-X-Google-Smtp-Source: ABdhPJw0Ubx9PITUcYUz1zNNca0q8nJ7I3Nn2f8OSxbuj/hwXREco2J/I6rnExb8fxBIFDz9aO3PRg==
-X-Received: by 2002:a9d:4681:: with SMTP id z1mr23005506ote.42.1632171360541; 
- Mon, 20 Sep 2021 13:56:00 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id x192sm2337226oix.9.2021.09.20.13.55.58
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=QYU+FG0NgEDN5QbX73oIIwX0hoDQqIX9Lmp+LI9M8t8=;
+ b=jKTt2Gdz9Sh/MV+yXlwwIDe4HHwB0V3/bh5r8gBFhbOT69pD/E3NY4nxdAhD7WE3us
+ PmEFT5Wgh67cI0xXUWLCqmVG3WFrMwfLZFL1PRLGq2pf1exRBzefnxSh012bCUITqvQ1
+ 7djc1oWEw+yHbDGahFqFzaKqkFPl51Pl5I3vrg2jzi3UMI8DYiIdXvV5uI0+Hs+EO8QP
+ IqThOdJbqCBRGSPEsB+/v4XnnuTaW9m5SolprPJGymN1xUflLRhN5Uo9blhCzK4AavHH
+ G8MlWKFRLVINv4vrDwbJfE3LHyJbD3gHSR71p6wWPZOVVU/JWWvfOcPJVbnbOBVXocJr
+ 2ELQ==
+X-Gm-Message-State: AOAM530W/FDp8vu2Ibxn+xF9BLj8nasgVKW8p3/dOYGl9ALXEpUs4dV5
+ 7ioTJB8zl52KZBMV9o6uCYfmycmle5vm5CbTGBz7ZNvZtiOe+43sVwTgzVZwtE7+W0qzE6G48rQ
+ hVwdj57QlHs6m9OoH8yJheOxS2Ova
+X-Received: by 2002:ad4:44f3:: with SMTP id p19mr27905082qvt.33.1632171969999; 
+ Mon, 20 Sep 2021 14:06:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyS2jHSKoCWXuvuoiupSPbp5jSZ8WpAjMlaKmSvPqiXflQvfBQ1tFrLdqMk5bP0vfLGV3tG7A==
+X-Received: by 2002:ad4:44f3:: with SMTP id p19mr27905058qvt.33.1632171969792; 
+ Mon, 20 Sep 2021 14:06:09 -0700 (PDT)
+Received: from [192.168.8.206] (pool-108-49-102-102.bstnma.fios.verizon.net.
+ [108.49.102.102])
+ by smtp.gmail.com with ESMTPSA id x4sm7820134qkx.62.2021.09.20.14.06.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 13:55:59 -0700 (PDT)
-Received: (nullmailer pid 744183 invoked by uid 1000);
- Mon, 20 Sep 2021 20:55:58 -0000
-Date: Mon, 20 Sep 2021 15:55:58 -0500
-From: Rob Herring <robh@kernel.org>
-To: Alexandre Bailon <abailon@baylibre.com>
-Cc: airlied@linux.ie, daniel@ffwll.ch, matthias.bgg@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- ohad@wizery.com, bjorn.andersson@linaro.org, mathieu.poirier@linaro.org,
- sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- khilman@baylibre.com, gpain@baylibre.com
-Subject: Re: [RFC PATCH 1/4] dt-bindings: Add bidings for mtk,apu-drm
-Message-ID: <YUj1XnBbyNEqrV2g@robh.at.kernel.org>
-References: <20210917125945.620097-1-abailon@baylibre.com>
- <20210917125945.620097-2-abailon@baylibre.com>
+ Mon, 20 Sep 2021 14:06:09 -0700 (PDT)
+Message-ID: <38aa092530b936609ba2b425e5caf2d63dbcf617.camel@redhat.com>
+Subject: Re: [PATCH 9/9] drm/i915: Add privacy-screen support
+From: Lyude Paul <lyude@redhat.com>
+To: Hans de Goede <hdegoede@redhat.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Rajat Jain <rajatja@google.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>,  Mark Gross <mgross@linux.intel.com>, Andy
+ Shevchenko <andy@infradead.org>, Ville =?ISO-8859-1?Q?Syrj=E4l=E4?=
+ <ville.syrjala@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, Pekka
+ Paalanen <pekka.paalanen@collabora.com>, Mario Limonciello
+ <mario.limonciello@outlook.com>, Mark Pearson <markpearson@lenovo.com>,
+ Sebastien Bacher <seb128@ubuntu.com>, Marco Trevisan
+ <marco.trevisan@canonical.com>, Emil Velikov <emil.l.velikov@gmail.com>, 
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel@lists.freedesktop.org,  platform-driver-x86@vger.kernel.org
+Date: Mon, 20 Sep 2021 17:06:07 -0400
+In-Reply-To: <a4f10bbe-c87a-90f1-0691-01c0da485fa6@redhat.com>
+References: <20210906073519.4615-1-hdegoede@redhat.com>
+ <20210906073519.4615-10-hdegoede@redhat.com> <87sfy4x3ic.fsf@intel.com>
+ <a4f10bbe-c87a-90f1-0691-01c0da485fa6@redhat.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210917125945.620097-2-abailon@baylibre.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,54 +102,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 17, 2021 at 02:59:42PM +0200, Alexandre Bailon wrote:
-> This adds the device tree bindings for the APU DRM driver.
+On Thu, 2021-09-16 at 12:32 +0200, Hans de Goede wrote:
 > 
-> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
-> ---
->  .../devicetree/bindings/gpu/mtk,apu-drm.yaml  | 38 +++++++++++++++++++
->  1 file changed, 38 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
+> I'm fine with refactoring this a bit and adding
+> an intel_modeset_probe_defer() helper for this, I assume I should also
+> move the vga_switcheroo_client_probe_defer(pdev) check there?
 > 
-> diff --git a/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> new file mode 100644
-> index 0000000000000..6f432d3ea478c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpu/mtk,apu-drm.yaml
-> @@ -0,0 +1,38 @@
-> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/gpu/mediatek,apu-drm.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: AI Processor Unit DRM
+> As you suggested yourself in your reply to the coverletter I will
+> push out the rest of the series to drm-misc-next while we figure this
+> out. Assuming Lyude is happy with the answers which I gave to her
+> remarks about some of the other patches.
 
-DRM is a linux thing, not h/w.
+I am, btw!
 
-> +
-> +properties:
-> +  compatible:
-> +    const: mediatek,apu-drm
-> +
-> +  remoteproc:
+> 
+> Regards,
+> 
+> Hans
+> 
 
-So is remoteproc.
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
-Why don't you have the remoteproc driver create the DRM device?
-
-> +    maxItems: 2
-> +    description:
-> +      Handle to remoteproc devices controlling the APU
-> +
-> +  iova:
-> +    maxItems: 1
-> +    description:
-> +      Address and size of virtual memory that could used by the APU
-
-Why does this need to be in DT? If you need to reserve certain VAs, then 
-this discussion[1] might be of interest.
-
-Rob
-
-[1] https://lore.kernel.org/all/YUIPCxnyRutMS47%2F@orome.fritz.box/
