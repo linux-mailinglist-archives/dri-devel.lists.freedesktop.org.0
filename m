@@ -1,44 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FDC41112A
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 10:44:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82B2741112F
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 10:44:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7A4C96E435;
-	Mon, 20 Sep 2021 08:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED3516E442;
+	Mon, 20 Sep 2021 08:44:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 628706E434;
- Mon, 20 Sep 2021 08:44:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="221205293"
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="221205293"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 01:44:02 -0700
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="548622292"
-Received: from svandens-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.251.216.120])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 01:44:00 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: "Gupta\, Anshuman" <anshuman.gupta@intel.com>, "De Marchi\,
- Lucas" <lucas.demarchi@intel.com>
-Cc: "Auld\, Matthew" <matthew.auld@intel.com>,
- "intel-gfx\@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-Subject: RE: [Intel-gfx] [PATCH 14/19] drm/i915/oprom: Basic sanitization
-In-Reply-To: <97159e5b7e8f4ef49b773be085b886be@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210412090526.30547-1-matthew.auld@intel.com>
- <20210412090526.30547-15-matthew.auld@intel.com> <87im3hh8sy.fsf@intel.com>
- <20210918043019.hhol5fgwbi2ogod2@ldmartin-desk2> <87czp3vgl9.fsf@intel.com>
- <97159e5b7e8f4ef49b773be085b886be@intel.com>
-Date: Mon, 20 Sep 2021 11:43:57 +0300
-Message-ID: <87a6k7vdpu.fsf@intel.com>
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8EC716E43A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 08:44:34 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id w17so19294135wrv.10
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 01:44:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UP5QWfzsaU49KYqjn5I4kDilzjyCt1o6LBhMWE6h2zk=;
+ b=tvBzZUBhhKM/V5Mc+zPF0GHJsAG5N/a4OsO26F2ZWBq2hUWcFwZG2Ja9LCRN4W5cN/
+ 2JCxGyBp1kopW+zQXAkJYZvHUumN5ZrwuNmbjSXtwh0DCymLFu9Ud0zDcmHN87UbGHfg
+ 6PUBTjToIUeQk3YECQIfjaW/RhgmDu78BntPkfMvSG4qAYQxDk/5cSRZ0cPNuAcjdLUW
+ 9TVpEykGJAeQF2TiNwQya1rkoglgQUKzfeUB29rzoasji8k5JAF1NUUAyfL8e5MTz5Ob
+ csVDJGFTAnaKg4TPgXAdrVU4I3a3Pm/NOiWUb1oJ36PN8EivcmX9gpXXvD+wBHXWzLIz
+ Rumw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=UP5QWfzsaU49KYqjn5I4kDilzjyCt1o6LBhMWE6h2zk=;
+ b=V9w0gGViZ76MsTW3r2yff+QWM+H4xlkZv61dAUiCsP1XuaMrIqzOER71kaAj274TyS
+ RnPPee6givUFkl/gnfcKKpy/DDJz5Xy8Ouyu+Ns4ipU9DBdkSPX3uamWUSZpGrCw9szM
+ MRLuQlEVSYxBf9+ukBMuxKdQt+NhV2UuZf788wYOe4/NwrVerWAN8taXrsnHb3HTqKJm
+ sY6XMyDRXo3PmTDJhGHH9bSGPUI53hfxGtqn36eidC5LZFDQYygKrdwZGs+blToFSHrD
+ Tm0uqespN2Bs4pAoELtQ91ArMmieYTmYCi140HkcxWIsbnL1WybEmAkRz83Cs37YjLEM
+ QFNA==
+X-Gm-Message-State: AOAM532+66B99lCrl57XGsJnyyTHt1ZTTNR7B4rOGDSRrvJuoNqiklyv
+ f8tuXYGt4xETHpS8eRffM6vQDg==
+X-Google-Smtp-Source: ABdhPJxiKMhEJInOM2ibVykhU8PPCOv7Ymx0xv/l9nNsd52khYEKtv2XNA5e8Cmba26ySupkVMI3mw==
+X-Received: by 2002:a5d:43d2:: with SMTP id v18mr27021202wrr.98.1632127472956; 
+ Mon, 20 Sep 2021 01:44:32 -0700 (PDT)
+Received: from blmsp.lan ([2a02:2454:3e6:c900::97e])
+ by smtp.gmail.com with ESMTPSA id w1sm18433911wmc.19.2021.09.20.01.44.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 01:44:32 -0700 (PDT)
+From: Markus Schneider-Pargmann <msp@baylibre.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: [PATCH v2 0/6] drm/mediatek: Add mt8195 DisplayPort driver
+Date: Mon, 20 Sep 2021 10:44:18 +0200
+Message-Id: <20210920084424.231825-1-msp@baylibre.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,60 +73,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 20 Sep 2021, "Gupta, Anshuman" <anshuman.gupta@intel.com> wrote:
->> -----Original Message-----
->> From: Nikula, Jani <jani.nikula@intel.com>
->> Sent: Monday, September 20, 2021 1:12 PM
->> To: De Marchi, Lucas <lucas.demarchi@intel.com>
->> Cc: Auld, Matthew <matthew.auld@intel.com>; intel-gfx@lists.freedesktop.org;
->> dri-devel@lists.freedesktop.org; Gupta, Anshuman
->> <anshuman.gupta@intel.com>
->> Subject: Re: [Intel-gfx] [PATCH 14/19] drm/i915/oprom: Basic sanitization
->> 
->> On Fri, 17 Sep 2021, Lucas De Marchi <lucas.demarchi@intel.com> wrote:
->> > On Mon, May 17, 2021 at 02:57:33PM +0300, Jani Nikula wrote:
->> >>On Mon, 12 Apr 2021, Matthew Auld <matthew.auld@intel.com> wrote:
->> >>> From: Anshuman Gupta <anshuman.gupta@intel.com>
->> >>>
->> >>> Sanitize OPROM header, CPD signature and OPROM PCI version.
->> >>> OPROM_HEADER, EXPANSION_ROM_HEADER and OPROM_MEU_BLOB
->> structures and
->> >>> PCI struct offsets are provided by GSC counterparts.
->> >>> These are yet to be Documented in B.Spec.
->> >>> After successful sanitization, extract VBT from opregion image.
->> >>
->> >>So I don't understand what the point is with two consecutive patches
->> >>where the latter rewrites a lot of the former.
->> >
->> > I actually wonder what's the point of this. Getting it from spi is
->> > already the fallback and looks much more complex. Yes, it's pretty
->> > detailed and document the format pretty well, but it still looks more
->> > complex than the initial code. Do you see additional benefit in this
->> > one?
-> Getting opregion image from spi is needed to get the intel_opregion and its mailboxes on discrete card.
+Hi everyone,
 
-I mean what's the point of the "drm/i915/oprom: Basic sanitization"
-patch? And if that's needed, then why is it separate from "drm/i915/dg1:
-Read OPROM via SPI controller"?
+this series is built around the DisplayPort driver. The dpi/dpintf driver and
+the added helper functions are required for the DisplayPort driver to work.
 
->> The commit message doesn't really explain much. Anshuman?
-> I will get rework of the patches and float it again.
+For v2 I rebased the series on top of v5.15-rc1. There still is a functional
+dependency on many different patches pulled in through the main two
+dependencies, vdosys0 and vdosys1, but I wasn't able to get a clean base with
+these patches yet so to continue improving this series in the meantime, I
+decided to go with v5.15-rc1 as a base. The main potential merge-conflict
+points of this series with other series are mtk_drm_drv.c and
+mtk_drm_ddp_comp.* etc. which should be easy to resolve later on.
 
-Lucas already sent something, please sync with him.
+Note: This patch series is currently tested on v5.10 and I am still working on
+testing it on v5.15.
 
-BR,
-Jani.
+Dependencies:
+- Add Mediatek Soc DRM (vdosys0) support for mt8195
+  https://lore.kernel.org/linux-mediatek/20210825144833.7757-1-jason-jh.lin@mediatek.com/
+- Add MediaTek SoC DRM (vdosys1) support for mt8195
+  https://lore.kernel.org/linux-mediatek/20210825100531.5653-1-nancy.lin@mediatek.com/
+
+Older revisions:
+RFC - https://lore.kernel.org/linux-mediatek/20210816192523.1739365-1-msp@baylibre.com/
+v1  - https://lore.kernel.org/linux-mediatek/20210906193529.718845-1-msp@baylibre.com/
+
+Thanks in advance for any feedback and comments.
+
+Best,
+Markus
 
 
-> Thanks,
-> Anshuman Gupta.
->> 
->> BR,
->> Jani.
->> 
->> 
->> --
->> Jani Nikula, Intel Open Source Graphics Center
+Markus Schneider-Pargmann (6):
+  dt-bindings: mediatek,dpintf: Add DP_INTF binding
+  dt-bindings: mediatek,dp: Add Display Port binding
+  drm/edid: Add cea_sad helpers for freq/length
+  video/hdmi: Add audio_infoframe packing for DP
+  drm/mediatek: dpi: Add dpintf support
+  drm/mediatek: Add mt8195 DisplayPort driver
+
+ .../display/mediatek/mediatek,dp.yaml         |   89 +
+ .../display/mediatek/mediatek,dpintf.yaml     |   78 +
+ drivers/gpu/drm/drm_edid.c                    |   74 +
+ drivers/gpu/drm/mediatek/Kconfig              |    7 +
+ drivers/gpu/drm/mediatek/Makefile             |    2 +
+ drivers/gpu/drm/mediatek/mtk_dp.c             | 2855 +++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_dp_reg.h         |  498 +++
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  248 +-
+ drivers/gpu/drm/mediatek/mtk_dpi_regs.h       |   12 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   |    4 +
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |    1 +
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |    6 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.h        |    1 +
+ drivers/phy/mediatek/Kconfig                  |    8 +
+ drivers/phy/mediatek/Makefile                 |    1 +
+ drivers/phy/mediatek/phy-mtk-dp.c             |  218 ++
+ drivers/video/hdmi.c                          |   83 +-
+ include/drm/drm_dp_helper.h                   |    2 +
+ include/drm/drm_edid.h                        |   18 +-
+ include/linux/hdmi.h                          |    7 +-
+ include/linux/soc/mediatek/mtk-mmsys.h        |    2 +
+ 21 files changed, 4140 insertions(+), 74 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpintf.yaml
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp.c
+ create mode 100644 drivers/gpu/drm/mediatek/mtk_dp_reg.h
+ create mode 100644 drivers/phy/mediatek/phy-mtk-dp.c
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.33.0
+
