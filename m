@@ -1,64 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4314112BB
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 12:13:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B3254112BC
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 12:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1CB156E471;
-	Mon, 20 Sep 2021 10:13:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7DABA6E47B;
+	Mon, 20 Sep 2021 10:13:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
  [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DE0136E471
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 10:13:43 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id w17so19850821wrv.10
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 03:13:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9IID+4ZYdzA+GPVBMk9JaAemfSAyR0y4mgBJx0dcvPc=;
- b=c8v5DvE0T/wU5KZj2Q8+H+Plb8oX3Re3WnHDJHJEb0X4YKb+kAhKMsEdpXZyPNOyuL
- MockirkGIfbYgmz6icgYaYc2KwGTGGUNVkxLi69o0fcTxs1f1ZLPsoIdlAvZRM2gBHTR
- GQ7O/DYbyR3ZTWah7w62NL4Lyc3F8SIcf0SdC/qiJFCjkRPPnBu9Tr4iEzeA9Sch4xRa
- CehJg+MpjczpK42Yy0EBaBl9RTJggLed0ILf/GIPV8Bzgjj8IGf6Crl01fbQeY8bvxLj
- O23Jk334eg43u4QqWfWFW4pZQWtzFPVvpekjqu9AtpR4thk5T0RHl9MfTaIxrqu+6/zn
- 02kQ==
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 374256E47A;
+ Mon, 20 Sep 2021 10:13:45 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id u18so26277945wrg.5;
+ Mon, 20 Sep 2021 03:13:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=Ijf8BnGoBReJLtthF3oociyimY+iDY1OqlO2QvejboY=;
+ b=Sdr32UjiaBTNtRHHGYIY+toV7a1CRVt3k2GCdQ5p+wRqBziXgsCEf14miJvrVfmfa4
+ 8dN9n7FZV18YNiUqdGAOo1cFYVs0x5IZ52yFAoblW7M0S7CWNyHYACE+wz91ll50CP3L
+ P14akjFNafFfAllxmDjcO4sh14Piz0TzWs0nQOKdublydqwC53nPA9cy0MSDG5TKKWoG
+ TQaS1WkjFrMW27PgRFtN2pVQbIm701MgfyREbZvbliFlOA3R3zk9c1mhGl3HyU3zmo9X
+ QaH+9iZ4iW1n71dk8QNSxGL5qSCO7lYaSyIJ6L56pKNqpd9m0hvab7Gq3Uq5xGZMTqSy
+ 5sag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9IID+4ZYdzA+GPVBMk9JaAemfSAyR0y4mgBJx0dcvPc=;
- b=mKp7dCwqKmf4yLZwCr84y3a6huA28CM4BxRM6Tw7NatDhjuXMA+uR3YYOhyv3ymMZy
- +ckAM+wHlJpEz8jQ98FehgV+W444WFUw1HZcmyjTXSkWK7g8zT0RLNT8I0lyDrwlQrpl
- Kg78k2eIoq4GJrJBFttAaazvxW+TXy19bQhMwlsCEf1vablvJDZE/qDB5fVN8qZnrAI8
- tQrlfkf48bD7dptINWB5RhadPpoLWxMbhxr75AUemCyNzdPHeEh4C0aCKKAuaqlLtDeI
- 3B8GaTw8wGPx5erMgrqW450YiaY80DhjhnHTiKrARHNcO7VS0Bq3UWvz28uZTMk1cSXH
- zcGg==
-X-Gm-Message-State: AOAM530DS69iVb/i8Zcs3HOnIDy21QcpOdZtVRIAwkSJwrzE4Jq4Up0X
- QLiL7SyEXJa4LXMDbxp1CijAIw==
-X-Google-Smtp-Source: ABdhPJx52c1b/hmainXqgHq8wgwAhy7PHzhwn0hCaVaoGZfL4zn2dyqZf998lB22yZPnhryglgUL5Q==
-X-Received: by 2002:a05:600c:2057:: with SMTP id
- p23mr28666589wmg.25.1632132822489; 
- Mon, 20 Sep 2021 03:13:42 -0700 (PDT)
-Received: from blmsp.lan ([2a02:2454:3e6:c900::97e])
- by smtp.gmail.com with ESMTPSA id 20sm20225528wme.46.2021.09.20.03.13.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 03:13:42 -0700 (PDT)
-From: Markus Schneider-Pargmann <msp@baylibre.com>
-To: Daniel Vetter <daniel@ffwll.ch>,
-	David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Markus Schneider-Pargmann <msp@baylibre.com>,
- Jani Nikula <jani.nikula@intel.com>
-Subject: [PATCH] doc: gpu: drm-internals: Create reference to DRM mm
-Date: Mon, 20 Sep 2021 12:13:34 +0200
-Message-Id: <20210920101334.249832-1-msp@baylibre.com>
-X-Mailer: git-send-email 2.33.0
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=Ijf8BnGoBReJLtthF3oociyimY+iDY1OqlO2QvejboY=;
+ b=NXH0Gm0wurmWMP84F0QngY6tnO0stnihI60dIAzUx3ilJYJSoUg/T7w/17Cb3xfF+5
+ 7E7rnhWBw5HyoGwgiavBbaBRVSeAxGoINreV2EwzS9zbQwQGjUjlolTlX3/8Vqvd/48W
+ pIiC1oCc5773ZSjHXrGWMYYup2oiaKyy+C6DC0JVfjM9PUKqUw0sc4v2mGA51oE3bSOQ
+ Fc2ygZlNUSofX3R7FCbHPeu1/pGezG+JpfZCEuhSr8ia2gvqU5WbqCKrltJWnVq1XoXU
+ BgloFLaWiGUmZoX9ScDbNF2nTwT9Xh/90nMDOywz1bkumAAtFyZuT/B/q3bv61bfy4nm
+ 3q+Q==
+X-Gm-Message-State: AOAM5327W6ffk328MqEtz4caU1sFAx006UAr9mU9eEdbqlNdId79LrnT
+ D1sU5BRqb3BDPxp7RPEXVXk=
+X-Google-Smtp-Source: ABdhPJxDEIj93yjMQea+LHs4FRqtqwAVoag8hA/rDb0lD5JZEwAo34hl2lIOUjmZXosR7OvYy3iMWA==
+X-Received: by 2002:a1c:1b10:: with SMTP id b16mr23308889wmb.194.1632132823778; 
+ Mon, 20 Sep 2021 03:13:43 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id c8sm8208615wru.30.2021.09.20.03.13.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 20 Sep 2021 03:13:43 -0700 (PDT)
+Subject: Re: [Intel-gfx] [PATCH 13/26] drm/i915: use the new iterator in
+ i915_gem_busy_ioctl
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20210917123513.1106-1-christian.koenig@amd.com>
+ <20210917123513.1106-14-christian.koenig@amd.com>
+ <6fbaca09-ec51-c44e-708c-334ef8be8595@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <368e8495-f4de-cbb2-3584-e022a5937885@gmail.com>
+Date: Mon, 20 Sep 2021 12:13:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <6fbaca09-ec51-c44e-708c-334ef8be8595@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,30 +81,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This short sentence references nothing for details about memory manager.
-Replace it with the documentation file for DRM memory management.
+Am 20.09.21 um 10:45 schrieb Tvrtko Ursulin:
+>
+> On 17/09/2021 13:35, Christian König wrote:
+>> This makes the function much simpler since the complex
+>> retry logic is now handled else where.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 32 ++++++++----------------
+>>   1 file changed, 11 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> index 6234e17259c1..b1cb7ba688da 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
+>> *data,
+>>   {
+>>       struct drm_i915_gem_busy *args = data;
+>>       struct drm_i915_gem_object *obj;
+>> -    struct dma_resv_list *list;
+>> -    unsigned int seq;
+>> +    struct dma_resv_iter cursor;
+>> +    struct dma_fence *fence;
+>>       int err;
+>>         err = -ENOENT;
+>> @@ -109,27 +109,17 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
+>> void *data,
+>>        * to report the overall busyness. This is what the wait-ioctl 
+>> does.
+>>        *
+>>        */
+>> -retry:
+>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
+>> -
+>> -    /* Translate the exclusive fence to the READ *and* WRITE engine */
+>> -    args->busy = 
+>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));
+>> -
+>> -    /* Translate shared fences to READ set of engines */
+>> -    list = dma_resv_shared_list(obj->base.resv);
+>> -    if (list) {
+>> -        unsigned int shared_count = list->shared_count, i;
+>> -
+>> -        for (i = 0; i < shared_count; ++i) {
+>> -            struct dma_fence *fence =
+>> -                rcu_dereference(list->shared[i]);
+>> -
+>> +    args->busy = false;
+>> +    dma_resv_iter_begin(&cursor, obj->base.resv, true);
+>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>
+> You did not agree with my suggestion to reset args->busy on restart 
+> and so preserve current behaviour?
 
-Cc: Jani Nikula <jani.nikula@intel.com>
-Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
----
- Documentation/gpu/drm-internals.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+No, I want to keep the restart behavior internally to the dma_resv 
+object and as far as I can see it should not make a difference here.
 
-diff --git a/Documentation/gpu/drm-internals.rst b/Documentation/gpu/drm-internals.rst
-index 06af044c882f..bdcdfc4ede04 100644
---- a/Documentation/gpu/drm-internals.rst
-+++ b/Documentation/gpu/drm-internals.rst
-@@ -126,8 +126,8 @@ Memory Manager Initialization
- Every DRM driver requires a memory manager which must be initialized at
- load time. DRM currently contains two memory managers, the Translation
- Table Manager (TTM) and the Graphics Execution Manager (GEM). This
--document describes the use of the GEM memory manager only. See ? for
--details.
-+document describes the use of the GEM memory manager only. See
-+Documentation/gpu/drm-mm.rst for details.
- 
- Miscellaneous Device Configuration
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- 
-2.33.0
+Regards,
+Christian.
+
+>
+> Regards,
+>
+> Tvrtko
+>
+>> +        if (dma_resv_iter_is_exclusive(&cursor))
+>> +            /* Translate the exclusive fence to the READ *and* WRITE 
+>> engine */
+>> +            args->busy = busy_check_writer(fence);
+>> +        else
+>> +            /* Translate shared fences to READ set of engines */
+>>               args->busy |= busy_check_reader(fence);
+>> -        }
+>>       }
+>> -
+>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
+>> -        goto retry;
+>> +    dma_resv_iter_end(&cursor);
+>>         err = 0;
+>>   out:
+>>
 
