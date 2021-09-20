@@ -2,67 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD6E7412135
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:02:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 881FA41222A
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:12:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A28B6E5BB;
-	Mon, 20 Sep 2021 18:02:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0C8A26E5C1;
+	Mon, 20 Sep 2021 18:12:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76C5A6E5B6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632160960;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WwlG7m0Pkd8z9L6TGcVmgxQFpqMvFaegkPkOTNgv/sc=;
- b=VeeGQe96y7KXLsToaREdwGYLsFlDOqV/569ewjRs3U5dDJKlHHqT2sQsTP69KI28HJWogp
- mBDQdXDUTagciw3Os0Eb82jJ5R6gkeTonrL3LtcjZwRKuUq5yr37qqH6yGJkXJZYcLAQsR
- O5TMofG9LtSIsT4tqnLiC7nA8IJ3DMY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-60-7Hnru5NkPEWPmrJvytwe_g-1; Mon, 20 Sep 2021 14:02:39 -0400
-X-MC-Unique: 7Hnru5NkPEWPmrJvytwe_g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAAA51084684;
- Mon, 20 Sep 2021 18:02:35 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.92])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA7BD19D9D;
- Mon, 20 Sep 2021 18:02:30 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
- Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
- <alex.williamson@redhat.com>, Christian Borntraeger
- <borntraeger@de.ibm.com>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, Eric Farman <farman@linux.ibm.com>,
- Harald Freudenberger <freude@linux.ibm.com>, Vasily Gorbik
- <gor@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, Jani
- Nikula <jani.nikula@linux.intel.com>, Jason Herne <jjherne@linux.ibm.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org,
- Kirti Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org, Matthew
- Rosato <mjrosato@linux.ibm.com>, Peter Oberparleiter
- <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu
- Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
-Cc: Christoph Hellwig <hch@lst.de>
-Subject: Re: [PATCH v2 6/9] vfio/mdev: Add mdev available instance checking
- to the core
-In-Reply-To: <6-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
-Organization: Red Hat GmbH
-References: <6-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
-User-Agent: Notmuch/0.32.1 (https://notmuchmail.org)
-Date: Mon, 20 Sep 2021 20:02:29 +0200
-Message-ID: <87tuiff7m2.fsf@redhat.com>
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 82DAB891A1
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:11:59 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id g1so71793463lfj.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 11:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9hZA8DXDU796DBllGh2WWGpLeIOKX/wCYawIZamWEr4=;
+ b=XIcF64dSuhWpXU4P/tMwGmV8lQvhQX9tGRKgC50NUIq4jcjgk6jyzreRcUc4ijlsPc
+ 8ntT1l+mB11fRHg2u+6lR9sjvKVnZZC+YQzpmSYi+kOkFeLf0LgZc+BVTj6MW+qoVP9P
+ v9hPk+NeBy7d+vrDYg4Ok0HgHQN+1dzcA6MUJaqQLxFbKZIJU5EJAd91DOayNweFYUWo
+ 8PiI+jxAw0XyEkP9GE8ev6QsPig0p+bopUjkwn1nfNlAhZHU3FpT5qupriLpDVcc9Ipp
+ gc1mYJHjcwhMGsC/RR+v2I8fNLc+UTyr1K9RqPcihY6wmRXqPejmRVX95Dcdud86ue3a
+ MdcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9hZA8DXDU796DBllGh2WWGpLeIOKX/wCYawIZamWEr4=;
+ b=6MYXu+vZB1isZoBKBwzgjw4KF1mGkgBy+isvREk2bZrii16HC/wGc6Sr1BgrHdPhKz
+ aTyvN5MfjjAyaAyULjK66O99U6D71ZRDUTBmiTp8I0j1FjjpOOI+RrzdtG2HbQVeg9WW
+ WB9uIZ3jWNN5Uc8AEEmbiWlnogAfwaDrPR87iI5G1J2mKT03GzEnO6WQpUnPDKhF0ZzB
+ gUNXKOJC6shz1/WSOLO6Wrns3V7jWUUrWuKvGJG0oOVQiGSE1SwnkT/kwsDk9msl50JX
+ pcoTB+3L4jVV1go4dz991hup6AgH9epfBOwiKZjzfnQ9ty8xR5C3Hs70m2jgs5qOdU/e
+ BnIA==
+X-Gm-Message-State: AOAM533gNRKQTLe6w/sWV3mr5VGU51kgDXTUUE+jmSbBqbiWW+qoPDIh
+ cZYz9kmTuHm3In2qQyqG3Hc=
+X-Google-Smtp-Source: ABdhPJzgLb+ntOtsBdjSKpDu5pG0fDgi4PQFxcnVU7wR7TnUYidBadrJPisdv9ra5MQ1i8a0c7ZG6g==
+X-Received: by 2002:a05:651c:1b4:: with SMTP id
+ c20mr1178331ljn.484.1632161517564; 
+ Mon, 20 Sep 2021 11:11:57 -0700 (PDT)
+Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru.
+ [46.138.151.206])
+ by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.11.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 11:11:57 -0700 (PDT)
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Rob Herring <robh+dt@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>
+Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Subject: [PATCH v12 00/35] NVIDIA Tegra power management patches for 5.16
+Date: Mon, 20 Sep 2021 21:11:10 +0300
+Message-Id: <20210920181145.19543-1-digetx@gmail.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,35 +90,179 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 09 2021, Jason Gunthorpe <jgg@nvidia.com> wrote:
+This series adds runtime PM support to Tegra drivers and enables core
+voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
 
-> Many of the mdev drivers use a simple counter for keeping track of the
-> available instances. Move this code to the core code and store the counter
-> in the mdev_type. Implement it using correct locking, fixing mdpy.
->
-> Drivers provide a get_available() callback to set the number of available
-> instances for their mtypes which is fixed at registration time. The core
-> provides a standard sysfs attribute to return the available_instances.
+All patches in this series are interdependent and should go via Tegra tree.
 
-So, according to the documentation, available_instances is
-mandatory. This means that drivers either need to provide get_available
-or implement their own version of the attribute. I think we want to
-update vfio-mediated-device.rst as well?
+Changelog:
 
->
-> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> ---
->  drivers/s390/cio/vfio_ccw_drv.c       |  1 -
->  drivers/s390/cio/vfio_ccw_ops.c       | 26 ++++++-------------
->  drivers/s390/cio/vfio_ccw_private.h   |  2 --
->  drivers/s390/crypto/vfio_ap_ops.c     | 32 ++++++-----------------
->  drivers/s390/crypto/vfio_ap_private.h |  2 --
->  drivers/vfio/mdev/mdev_core.c         | 11 +++++++-
->  drivers/vfio/mdev/mdev_private.h      |  2 ++
->  drivers/vfio/mdev/mdev_sysfs.c        | 37 +++++++++++++++++++++++++++
->  include/linux/mdev.h                  |  2 ++
->  samples/vfio-mdev/mdpy.c              | 22 +++++-----------
->  10 files changed, 73 insertions(+), 64 deletions(-)
+v12: - Added r-b from Rob Herring to the host1x binding patch.
 
-Otherwise, looks good.
+     - Added acks from Hans Verkuil to the video decoder patches.
+
+     - In the v11 changelog I forgot to mention that the clk-binding
+       patch was also changed with a corrected regex pattern and removed
+       'clocks' sub-node. This patch needs r-b or ack too.
+
+     - Added new "Rename 3d power domains" patch to match the DT schema
+       naming requirement. Thanks to David Heidelberg for spotting this
+       problem.
+
+     - Replaced #ifdef CONFIG_PM_SLEEP with maybe_unused in the MMC patch
+       to make code cleaner.
+
+v11: - Added acks and r-b from Rob Herring, Mark Brown and Miquel Raynal
+       that were given to v8.
+
+     - Corrected order of the new memory controller reset entry in
+       device-trees and host1x DT binding patch, which was requested by
+       Rob Herring.
+
+     - Switched consumer drivers to use power domain state syncing done
+       by new Tegra's common OPP-initialization helper.
+
+     - Made use of new devm_pm_runtime_enable() helper that was added to
+       v5.15 kernel, where appropriate.
+
+     - Added "fuse: Use resource-managed helpers" patch.
+
+     - Converted Tegra20/30 clk drivers to a proper platform drivers,
+       which was requested by Thierry Reding.
+
+     - Removed clk-bulk API usage from the MMC patch, which was requested
+       by Thierry Reding.
+
+     - Changed CORE power domain name to "core" in a new patch
+       "Change name of core power domain".
+
+     - Misc small fixes for problems that I found since v8, like couple
+       typos in error code paths and restored working RPM for Tegra DRM
+       UAPI v1 that was removed in v8 by accident.
+
+v9-v10: Figured out remaining GENPD API changes with Ulf Hansson and
+        Viresh Kumar. The OPP-sync helper that was used in v8 isn't needed
+        anymore because GENPD API now allows consumer drivers to
+        init rpm_pstate of power domains.
+
+v8: - Added new generic dev_pm_opp_sync() helper that syncs OPP state with
+      hardware. All drivers changed to use it. This replaces GENPD attach_dev
+      callback hacks that were used in v7.
+
+    - Added new patch patch "soc/tegra: regulators: Prepare for suspend"
+      that fixes dying Tegra20 SoC after enabling VENC power domain during
+      resume from suspend. It matches to what downstream kernel does on
+      suspend/resume.
+
+    - After a second thought, I dropped patches which added RPM to memory
+      drivers since hardware is always-on and RPM not needed.
+
+    - Replaced the "dummy host1x driver" patch with new "Disable unused
+      host1x hardware" patch, since it's a cleaner solution.
+
+Dmitry Osipenko (35):
+  opp: Change type of dev_pm_opp_attach_genpd(names) argument
+  soc/tegra: Add devm_tegra_core_dev_init_opp_table_common()
+  soc/tegra: pmc: Disable PMC state syncing
+  soc/tegra: Don't print error message when OPPs not available
+  dt-bindings: clock: tegra-car: Document new clock sub-nodes
+  clk: tegra: Support runtime PM and power domain
+  dt-bindings: host1x: Document OPP and power domain properties
+  dt-bindings: host1x: Document Memory Client resets of Host1x, GR2D and
+    GR3D
+  gpu: host1x: Add runtime PM and OPP support
+  gpu: host1x: Add host1x_channel_stop()
+  drm/tegra: dc: Support OPP and SoC core voltage scaling
+  drm/tegra: hdmi: Add OPP support
+  drm/tegra: gr2d: Support generic power domain and runtime PM
+  drm/tegra: gr3d: Support generic power domain and runtime PM
+  drm/tegra: vic: Support system suspend
+  usb: chipidea: tegra: Add runtime PM and OPP support
+  bus: tegra-gmi: Add runtime PM and OPP support
+  pwm: tegra: Add runtime PM and OPP support
+  mmc: sdhci-tegra: Add runtime PM and OPP support
+  mtd: rawnand: tegra: Add runtime PM and OPP support
+  spi: tegra20-slink: Add OPP support
+  media: dt: bindings: tegra-vde: Convert to schema
+  media: dt: bindings: tegra-vde: Document OPP and power domain
+  media: staging: tegra-vde: Support generic power domain
+  soc/tegra: fuse: Reset hardware
+  soc/tegra: fuse: Use resource-managed helpers
+  soc/tegra: regulators: Prepare for suspend
+  soc/tegra: pmc: Rename 3d power domains
+  soc/tegra: pmc: Rename core power domain
+  soc/tegra: pmc: Enable core domain support for Tegra20 and Tegra30
+  ARM: tegra: Add OPP tables and power domains to Tegra20 device-trees
+  ARM: tegra: Add OPP tables and power domains to Tegra30 device-trees
+  ARM: tegra: Add Memory Client resets to Tegra20 GR2D, GR3D and Host1x
+  ARM: tegra: Add Memory Client resets to Tegra30 GR2D, GR3D and Host1x
+  ARM: tegra20/30: Disable unused host1x hardware
+
+ .../bindings/clock/nvidia,tegra20-car.yaml    |   37 +
+ .../display/tegra/nvidia,tegra20-host1x.txt   |   53 +
+ .../bindings/media/nvidia,tegra-vde.txt       |   64 -
+ .../bindings/media/nvidia,tegra-vde.yaml      |  119 ++
+ .../boot/dts/tegra20-acer-a500-picasso.dts    |    1 +
+ arch/arm/boot/dts/tegra20-colibri.dtsi        |    3 +-
+ arch/arm/boot/dts/tegra20-harmony.dts         |    3 +-
+ arch/arm/boot/dts/tegra20-paz00.dts           |    1 +
+ .../arm/boot/dts/tegra20-peripherals-opp.dtsi |  941 +++++++++++
+ arch/arm/boot/dts/tegra20-seaboard.dts        |    3 +-
+ arch/arm/boot/dts/tegra20-tamonten.dtsi       |    3 +-
+ arch/arm/boot/dts/tegra20-trimslice.dts       |    9 +
+ arch/arm/boot/dts/tegra20-ventana.dts         |    1 +
+ arch/arm/boot/dts/tegra20.dtsi                |  116 +-
+ .../tegra30-asus-nexus7-grouper-common.dtsi   |    1 +
+ arch/arm/boot/dts/tegra30-beaver.dts          |    1 +
+ arch/arm/boot/dts/tegra30-cardhu.dtsi         |    1 +
+ arch/arm/boot/dts/tegra30-colibri.dtsi        |   17 +-
+ arch/arm/boot/dts/tegra30-ouya.dts            |    1 +
+ .../arm/boot/dts/tegra30-peripherals-opp.dtsi | 1412 +++++++++++++++++
+ arch/arm/boot/dts/tegra30.dtsi                |  175 +-
+ drivers/bus/tegra-gmi.c                       |   52 +-
+ drivers/clk/tegra/Makefile                    |    1 +
+ drivers/clk/tegra/clk-device.c                |  222 +++
+ drivers/clk/tegra/clk-pll.c                   |    2 +-
+ drivers/clk/tegra/clk-super.c                 |    2 +-
+ drivers/clk/tegra/clk-tegra20.c               |   77 +-
+ drivers/clk/tegra/clk-tegra30.c               |  116 +-
+ drivers/clk/tegra/clk.c                       |   75 +-
+ drivers/clk/tegra/clk.h                       |    2 +
+ drivers/gpu/drm/tegra/dc.c                    |   74 +
+ drivers/gpu/drm/tegra/dc.h                    |    2 +
+ drivers/gpu/drm/tegra/gr2d.c                  |  155 +-
+ drivers/gpu/drm/tegra/gr3d.c                  |  388 ++++-
+ drivers/gpu/drm/tegra/hdmi.c                  |   16 +-
+ drivers/gpu/drm/tegra/vic.c                   |    4 +
+ drivers/gpu/host1x/channel.c                  |    8 +
+ drivers/gpu/host1x/debug.c                    |   15 +
+ drivers/gpu/host1x/dev.c                      |  151 +-
+ drivers/gpu/host1x/dev.h                      |    3 +-
+ drivers/gpu/host1x/hw/channel_hw.c            |   44 +-
+ drivers/gpu/host1x/intr.c                     |    3 -
+ drivers/gpu/host1x/syncpt.c                   |    5 +-
+ drivers/mmc/host/sdhci-tegra.c                |   80 +-
+ drivers/mtd/nand/raw/tegra_nand.c             |   55 +-
+ drivers/opp/core.c                            |    6 +-
+ drivers/pwm/pwm-tegra.c                       |   88 +-
+ drivers/soc/tegra/common.c                    |    4 +-
+ drivers/soc/tegra/fuse/fuse-tegra.c           |   51 +-
+ drivers/soc/tegra/fuse/fuse-tegra20.c         |   33 +-
+ drivers/soc/tegra/fuse/fuse.h                 |    1 +
+ drivers/soc/tegra/pmc.c                       |   27 +-
+ drivers/soc/tegra/regulators-tegra20.c        |   99 ++
+ drivers/soc/tegra/regulators-tegra30.c        |  122 ++
+ drivers/spi/spi-tegra20-slink.c               |   10 +-
+ drivers/staging/media/tegra-vde/vde.c         |   57 +-
+ drivers/usb/chipidea/ci_hdrc_tegra.c          |   53 +-
+ include/linux/host1x.h                        |    1 +
+ include/linux/pm_opp.h                        |    8 +-
+ include/soc/tegra/common.h                    |   24 +
+ 60 files changed, 4741 insertions(+), 357 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.txt
+ create mode 100644 Documentation/devicetree/bindings/media/nvidia,tegra-vde.yaml
+ create mode 100644 drivers/clk/tegra/clk-device.c
+
+-- 
+2.32.0
 
