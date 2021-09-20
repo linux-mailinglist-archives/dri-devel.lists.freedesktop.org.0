@@ -2,65 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD494119E2
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 18:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233234119DF
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 18:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E6626E584;
-	Mon, 20 Sep 2021 16:35:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 856746E575;
+	Mon, 20 Sep 2021 16:35:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com
- [IPv6:2607:f8b0:4864:20::72d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 712196E584
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 16:35:37 +0000 (UTC)
-Received: by mail-qk1-x72d.google.com with SMTP id m21so44448966qkm.13
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:35:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2bpycfdO69tvhTRtma9jQs4XhE8PVrSk+wX8dAk4GKg=;
- b=n7aURfq1Uj/O4fSWOlz7gaxw+6ZlX8bXPYvx83mISg5oiKiwLmFEZrfIQ/KUfkac/2
- 4ICidRpNCfqYGA5BbaopXMn6Pk//4osgxm133jkNMO549F3Et46Z3U/Cf2fwZI67a9c2
- YcrmS+5qFz9Y2+0sOEBOX3Q2E03E5wiY2Wx+rPDELldbJKTZ0SYE+rYgzNkaiuDrXRgq
- 901DLdE4Ta4p4gxPSJexw3o5rVQQRLr50zRx0G2wljh4LHHMxvsp58QqAxjz4mf1R1Dd
- I3QagX+JaD06mXuzUlgxnSrK3CigHxh5PW+fAbuMx0xWcu64ZD0K36h+Nwsy2qddBEMW
- ZHwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2bpycfdO69tvhTRtma9jQs4XhE8PVrSk+wX8dAk4GKg=;
- b=ivp0W7IuwSnb3ZudLAPnN37EsilxbrbeoLK+iWuQcCWt0VgOgfPfVXzIBZQKDb3zyN
- 1It8XWPS30jCAn3/W4gneMdMPFMRxVdbYbyy/sBrDUS3htfcOhr40dVvA6BL2KHvRvuy
- Ar6gkcFQsswPeEK6PTvKNOasYARmQeoAV7SSfDILVFmp/AS965lHSQaUyJK+avQyC56A
- /qo6G7qMIegzVa1jHBzz8+RhwpCfzPjp9hcdYdqpwmRqFjtAPXpNiJfRZGZb6QrhNcXl
- bpGK+MGRE2Aq2hMqkHPCdmR1ApJpCVh6rVfIVDN4Z0H0dmVMwqALmgzPYDLKGRMWapZe
- 1hPw==
-X-Gm-Message-State: AOAM532WW7J+U3VJozbBjBVvfCvn9Tu0RS5eUo56kY3J21N6TdwBNFyJ
- nxlQY5TbjcL8wOYhYBBMxyt8gcKyKPHBZV0CqYo=
-X-Google-Smtp-Source: ABdhPJz62UNKDL3EQx25/fJU7ZUL4shhcMWUq3o+UMRNp9L0dSoFfAXNDVxCOJS9SOuD3atqwlyX1v0at3Kg8XoRyTw=
-X-Received: by 2002:a25:b7c6:: with SMTP id u6mr31287242ybj.16.1632155736231; 
- Mon, 20 Sep 2021 09:35:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <CADVatmPB9-oKd=ypvj25UYysVo6EZhQ6bCM7EvztQBMyiZfAyw@mail.gmail.com>
- <20210903160302.yh42vpkuob45dbpb@gilmour>
- <CADVatmMqT1yq3YHBzt4-VsL8uVHUULmy2gpaH27rAqimao2i_A@mail.gmail.com>
- <20210904091050.g5axxctgelciihjn@gilmour>
- <CADVatmN+9euG5Fegor1+kaSPewbW8vRwBgnxmr5SsK3mOE6FEg@mail.gmail.com>
- <20210920144730.d7oabqfbx7pmyyfb@gilmour>
- <20210920154333.vunyxeshdb7jt5ka@gilmour>
- <20210920155350.h6624mt65vwg72p2@gilmour>
-In-Reply-To: <20210920155350.h6624mt65vwg72p2@gilmour>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Mon, 20 Sep 2021 17:35:00 +0100
-Message-ID: <CADVatmNi+jN+EwiWuoDoocZFyErDVNt1ND0BxtjuKiV63aNuJg@mail.gmail.com>
-Subject: Re: Regression with mainline kernel on rpi4
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2AE116E575
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 16:35:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E5F28611C2
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 16:35:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632155710;
+ bh=pWTlrPA+C9viYp744RRuu+I/p988HmcP4Thrhg083RE=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=oPXn9z78JbmIwGGWIozW1qGO7+siA9efWSv7yC5483h0W+gQYnYC44mNg8wcrECxJ
+ AM+ljaPQrnJwbUei4wMXBJ9kvDltf+IBF8xwCXo9sFl3h8OvIVTFgDw5cYHFSyL6Ql
+ dNcJGnktVMK8vfWVrRyHMYjnjtnZcOc9Jlz29FIdlU7J2cv/fEriBtbgU4EmkD/3wZ
+ pVZu20l9WrR5lAGcJ4yNCvElYblyvBDI3ToMkJhsKGDtSs1H+dhBYol3aW5A4aS02Z
+ XYt+O8X4xGw8cvp7E2jTOOKo95M/yGOAC+QlAVzon8+1ZveXThtU0cAhkOCQH09sEi
+ 9xHJmpWpSebgg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E2C3360F42; Mon, 20 Sep 2021 16:35:10 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214029] [NAVI] Several memory leaks in amdgpu and ttm
+Date: Mon, 20 Sep 2021 16:35:10 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-214029-2300-sidSrNwruP@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214029-2300@https.bugzilla.kernel.org/>
+References: <bug-214029-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,81 +68,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 20, 2021 at 4:53 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Mon, Sep 20, 2021 at 05:43:33PM +0200, Maxime Ripard wrote:
-> > On Mon, Sep 20, 2021 at 04:47:31PM +0200, Maxime Ripard wrote:
-> > > On Sat, Sep 04, 2021 at 10:40:29AM +0100, Sudip Mukherjee wrote:
-> > > > Hi Maxime,
-> > > >
-> > > > On Sat, Sep 4, 2021 at 10:10 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > >
-> > > > > On Fri, Sep 03, 2021 at 09:09:50PM +0100, Sudip Mukherjee wrote:
-> > > > > > Hi Maxime,
-> > > > > >
-> > > > > > On Fri, Sep 3, 2021 at 5:03 PM Maxime Ripard <maxime@cerno.tech> wrote:
-> > > > > > >
-> > > > > > > Hi Sudip,
-> > > > > > >
-> > > > > > > On Thu, Sep 02, 2021 at 10:08:19AM +0100, Sudip Mukherjee wrote:
-> > > > > > > > Hi All,
-> > > > > > > >
-> > > > > > >
-> > > > > >
-> > > > > > <snip>
-> > > > > >
-> > > > > > >
-> > > > > > > >
-> > > > > > > > You can see the complete dmesg at
-> > > > > > > > https://openqa.qa.codethink.co.uk/tests/76#step/dmesg/8
-> > > > > > >
-> > > > > > > What test were you running?
-> > > > > >
-> > > > > > Nothing particular, its just a boot test that we do every night after
-> > > > > > pulling from torvalds/linux.git
-> > > > >
-> > > > > What are you booting to then?
-> > > >
-> > > > I am not sure I understood the question.
-> > > > Its an Ubuntu image. The desktop environment is gnome. And as
-> > > > mentioned earlier, we use the HEAD of linus tree every night to boot
-> > > > the rpi4 and test that we can login via desktop environment and that
-> > > > there is no regression in dmesg.
-> > >
-> > > Looking at the CI, this isn't from a RPi but from qemu?
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214029
 
-No, this is from rpi4 board (4GB), not qemu. The CI is a little
-complicated here, lava boots the board with the new kernel and will
-then trigger the openQA job. openQA will then connect to the board
-using vnc to test the desktop. This is the last link that I sent to
-Linus when he asked for it.
-https://lava.qa.codethink.co.uk/scheduler/job/164#L1356
+--- Comment #13 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 298897
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D298897&action=3Dedit
+bisect.log
 
-And this is the lava job for today -
-https://lava.qa.codethink.co.uk/scheduler/job/173
+Verified that the issue still exists in latest v5.15-rc2 and v5.14.6 and di=
+d a
+bisect:
 
-> > >
-> > > What defconfig are you using? How did you generate the Ubuntu image?
-> > > Through debootstrap? Any additional package?
+# possible first bad commit: [355b60296143a090039211c5f0e1463f84aab65a] Mer=
+ge
+drm/drm-next into drm-misc-next
+# possible first bad commit: [91185d55b32e7e377f15fb46a62b216f8d3038d4] drm:
+Remove DRM_KMS_FB_HELPER Kconfig option
+# possible first bad commit: [a50e74bec1d17e95275909660c6b43ffe11ebcf0]
+drm/zte: Don't select DRM_KMS_FB_HELPER
+# possible first bad commit: [13b29cc3a722c2c0bc9ab9f72f9047d55d08a2f9]
+drm/mxsfb: Don't select DRM_KMS_FB_HELPER
+# possible first bad commit: [5dbf2fc587cb79cb366bd6e79ac6b52269d64fc5]
+drm/vmwgfx: Make console emulation depend on DRM_FBDEV_EMULATION
+# possible first bad commit: [c777dc9e793342ecdfc95045d2127a3ea32791a0]
+drm/ttm: move the page_alignment into the BO v2
+# possible first bad commit: [65747ded86b4608387d5618d14f0fe9dc88e17ea]
+drm/ttm: minor range manager coding style clean ups
+# possible first bad commit: [d02117f8efaa5fbc37437df1ae955a147a2a424a]
+drm/ttm: remove special handling for non GEM drivers
+# possible first bad commit: [13ea9aa1e7d891e950230e82f1dd2c84e5debcff]
+drm/ttm: fix error handling if no BO can be swapped out v4
+# possible first bad commit: [ae053fa234f42b4abc582372af7410ad0e3e1dad] drm:
+bridge: adv7511: Support I2S IEC958 encoded PCM format
 
-Its the default ubuntu config. I can send you the config if you want.
+I had to skip a few commits as kmemleak did not properly work for some comm=
+its
+due to:
+[...]
+[    0.706509] kmemleak: Cannot insert 0xffff953c1ba02f40 into the object
+search tree (overlaps existing)
+[    0.706514] CPU: 0 PID: 6 Comm: kthreadd Not tainted 5.12.0-rc3-bdver2+ =
+#24
+[    0.706518] Hardware name: Gigabyte Technology Co., Ltd. To be filled by
+O.E.M./970-GAMING, BIOS F2 04/06/2016
+[    0.706521] Call Trace:
+[    0.706524]  dump_stack+0x69/0x8e
+[    0.706531]  create_object.isra.0.cold+0x3b/0x5d
+[    0.706536]  ? kthread+0x35/0x130
+[    0.706537]  kmem_cache_alloc+0x15a/0x4a0
+[    0.706537]  ? rescuer_thread+0x380/0x380
+[    0.706537]  kthread+0x35/0x130
+[    0.706537]  ? __kthread_bind_mask+0x60/0x60
+[    0.706537]  ret_from_fork+0x22/0x30
+[    0.706537] kmemleak: Kernel memory leak detector disabled
+[    0.706537] kmemleak: Object 0xffff953c1ba00000 (size 2097152):
+[    0.706537] kmemleak:   comm "swapper", pid 0, jiffies 4294877296
+[    0.706537] kmemleak:   min_count =3D 0
+[    0.706537] kmemleak:   count =3D 0
+[    0.706537] kmemleak:   flags =3D 0x1
+[    0.706537] kmemleak:   checksum =3D 0
+[    0.706537] kmemleak:   backtrace:
+[    0.706537]      memblock_alloc_internal+0xb8/0x152
+[    0.706537]      memblock_alloc_try_nid+0xa0/0xf3
+[    0.706537]      kfence_alloc_pool+0x59/0xbf
+[    0.706537]      start_kernel+0x2b3/0x61a
+[    0.706537]      secondary_startup_64_no_verify+0xb0/0xbb
 
-> >
-> > So qemu (at least on Fedora 34) doesn't seem to have an RPI4 target, nor
-> > upstream:
-> > https://github.com/qemu/qemu/blob/079b1252e9de384385c9da910262312ec2e574c8/hw/arm/raspi.c#L367
-> >
+--=20
+You may reply to this email to add a comment.
 
-Like I said, its not on qemu.
-
-> > I've tested an Ubuntu 21.04 arm64 build (since it seems like it's what
-> > you've been using), built using debootstrap + ubuntu-desktop, both with
-> > and without a monitor attached, and up to the desktop once logged in.
-
-I am using the official ubuntu image downloaded from
-https://cdimage.ubuntu.com/releases/21.04/release/ubuntu-21.04-preinstalled-desktop-arm64+raspi.img.xz
-
-
--- 
-Regards
-Sudip
+You are receiving this mail because:
+You are watching the assignee of the bug.=
