@@ -1,83 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B95FA41188E
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 17:43:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46D024118A4
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 17:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 492E86E52F;
-	Mon, 20 Sep 2021 15:43:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D13DA6E52E;
+	Mon, 20 Sep 2021 15:53:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
- [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1057D6E52F
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 15:43:40 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id 8D49F5C0176;
- Mon, 20 Sep 2021 11:43:37 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Mon, 20 Sep 2021 11:43:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=G7a5q99kUrh53YYRGCRkPtyLB3h
- hTo8Cc+7Pm0FmqOA=; b=PvDnTqpVzaacLwFkerO19U9coZGQfvmRnMsPn6u/ZJh
- olZz1Sj1RcXVpaPPgZVawqOW5O7XDGIDI9vbEF8GVW8VXxoqc+hLomJUKw0A6D6O
- iOV1LEUEfFxo2t+XRNQC5QrvRmELmq4Fq7qPKGjPC0RUDJAFpHitY8UQOY1PbG4a
- hjG4iD7eNVGmi3hEKgZwafre9lKR0uMg8V91elquykhupbYzByOKDNuDMxtxhIv5
- 1ncClBMzYuktGRq7e6SzMvhaFgNFX6viz/y1L5nEIZg6N0cEFaDEPTlZ3tvJzeFM
- TVsjYzcq5bUlSuuiRStr6EvLpmcYaKsrvLTHaldb1/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G7a5q9
- 9kUrh53YYRGCRkPtyLB3hhTo8Cc+7Pm0FmqOA=; b=dJX5OgOEy0kNwBhGk7EN7M
- YZtu31ptpv8r5JSLiHTVfGz4+mVnREscqvJEnVR1M4IxjaWOzuK4tqWAF8B3FAUz
- EzRjqqStMzzPkaZKjqDRafW+tmy9JqCTuV4FVbujo2Wtn1Q5ei+6h7lTsHoS5N8n
- ZcAQD93o1cRxm+B0Xkdj6mOCiKWAoTFo+ejFsozjNNMafn1WmhxLN7KPeh8o/JAu
- okPF7GoycroB38VqJPMXygwl/5S4kgnf9rDthdtjtgAuRgz2cpYMbT3gCkYAyk3l
- dPRXSIHOMiRwFq9it9tmf64hojWfWV6mvMfk1+mVL+edFyl02n/XW9TPD17Hmvmw
- ==
-X-ME-Sender: <xms:KKxIYUMi_gO-mZst4SYdOrSjC1w0_YNzMyQNfI7INXkgkJrSxnKF0w>
- <xme:KKxIYa_ktv1UqvR8t-CAp7Sj3pfT7wKbE8c3Tg6BMqAMRcKir8EVaaz-3ZfKJ7arB
- 8AHSDnj5CGWRRbl4GQ>
-X-ME-Received: <xmr:KKxIYbTwCON-rEk3cbVdWHGoae9Z-67U1CsnrKk2tjHw_3UUxw4V1QmHEVJL9PfQhnzlcwt0KW1Kw5hr7ZZXTUZzrwuslrcrbI6p>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeivddgleduucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepvedvfeetffdvleeugeeukeegueekheegieevieejkefhieetgfevudekhfel
- fffgnecuffhomhgrihhnpegtohguvghthhhinhhkrdgtohdruhhkpdhgihhthhhusgdrtg
- homhenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehm
- rgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:KKxIYcug4_XBw23reYvclDJrCFxEUF-6BS-fE3eT1gNKtDf0cR3A0w>
- <xmx:KKxIYcecybUXDhL_nPqJcXEmBRR5gmYoeaaUEMCmLQdXLm6pBER_vQ>
- <xmx:KKxIYQ0nDSSLixRjs5z8bzzgELyP0mBNl6ShZgwxyeL10OI2F0grLA>
- <xmx:KaxIYUSelFEcmnajGsd38vf1QWjlMH6sJ_0QzPtUCzHIFLz3dDKOaQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 20 Sep 2021 11:43:35 -0400 (EDT)
-Date: Mon, 20 Sep 2021 17:43:33 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: Regression with mainline kernel on rpi4
-Message-ID: <20210920154333.vunyxeshdb7jt5ka@gilmour>
-References: <CADVatmPB9-oKd=ypvj25UYysVo6EZhQ6bCM7EvztQBMyiZfAyw@mail.gmail.com>
- <20210903160302.yh42vpkuob45dbpb@gilmour>
- <CADVatmMqT1yq3YHBzt4-VsL8uVHUULmy2gpaH27rAqimao2i_A@mail.gmail.com>
- <20210904091050.g5axxctgelciihjn@gilmour>
- <CADVatmN+9euG5Fegor1+kaSPewbW8vRwBgnxmr5SsK3mOE6FEg@mail.gmail.com>
- <20210920144730.d7oabqfbx7pmyyfb@gilmour>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CECC06E52E;
+ Mon, 20 Sep 2021 15:53:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="284174342"
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="284174342"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 08:52:10 -0700
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="548840727"
+Received: from vvtravki-mobl.amr.corp.intel.com (HELO intel.com)
+ ([10.255.37.87])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 08:52:08 -0700
+Date: Mon, 20 Sep 2021 11:52:06 -0400
+From: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: igt-dev@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Subject: Re: [igt-dev] [PATCH i-g-t v11 00/15] Introduce PXP Test
+Message-ID: <YUiuJjjsYNskYPPa@intel.com>
+References: <20210918045436.34782-1-alan.previn.teres.alexis@intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="75iynnnzwnech42u"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210920144730.d7oabqfbx7pmyyfb@gilmour>
+In-Reply-To: <20210918045436.34782-1-alan.previn.teres.alexis@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -93,79 +49,146 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 17, 2021 at 09:54:21PM -0700, Alan Previn wrote:
+> This series adds gem_pxp tests for the new PXP subsystem currently
+> being reviewed at https://patchwork.freedesktop.org/series/90504/.
+> This series currently includes 4 groups of tests addressing the
+> features and restrictions described by Daniele's series :
+>    1. test i915 interfaces for allocation of protected bo's
+>       and contexts and enforcement of UAPI rule disallowing the
+>       modification of parameters after it's been created.
+>    2. verify PXP subsystem protected sessions generate encrypted
+>       content on protected output buffers and decrypt protected
+>       inputs buffers.
+>    3. verify i915 PXP auto-teardown succeeds on suspend-resume
+>       cycles and gem-exec of stale protected assets fail. Ensure
+>       protected-contexts adhere to stricter invalidation
+>       enforcement upon teardown event.
+>    4. Ensure that display plane decryption works as expected with
+>       protected buffers.
+> 
+> NOTE: This series is on the tenth revision. All R-v-b's have been
+> received except UAPI patch which will be dropped at merge time (after
+> kernel patches gets merged and igt's drm UAPI gets sync'd).
+> 
+> Changes from prior rev1 to now:
+>    v11:
+>       - When detecting hw support, retry pxp context creation
+>         multiple times a timeout as per HW SLA.
+>       - initialize bo or ctx handles to zero before calling
+>         creation ioctl wrapper.
 
---75iynnnzwnech42u
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
-On Mon, Sep 20, 2021 at 04:47:31PM +0200, Maxime Ripard wrote:
-> On Sat, Sep 04, 2021 at 10:40:29AM +0100, Sudip Mukherjee wrote:
-> > Hi Maxime,
-> >=20
-> > On Sat, Sep 4, 2021 at 10:10 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
-> > > On Fri, Sep 03, 2021 at 09:09:50PM +0100, Sudip Mukherjee wrote:
-> > > > Hi Maxime,
-> > > >
-> > > > On Fri, Sep 3, 2021 at 5:03 PM Maxime Ripard <maxime@cerno.tech> wr=
-ote:
-> > > > >
-> > > > > Hi Sudip,
-> > > > >
-> > > > > On Thu, Sep 02, 2021 at 10:08:19AM +0100, Sudip Mukherjee wrote:
-> > > > > > Hi All,
-> > > > > >
-> > > > >
-> > > >
-> > > > <snip>
-> > > >
-> > > > >
-> > > > > >
-> > > > > > You can see the complete dmesg at
-> > > > > > https://openqa.qa.codethink.co.uk/tests/76#step/dmesg/8
-> > > > >
-> > > > > What test were you running?
-> > > >
-> > > > Nothing particular, its just a boot test that we do every night aft=
-er
-> > > > pulling from torvalds/linux.git
-> > >
-> > > What are you booting to then?
-> >=20
-> > I am not sure I understood the question.
-> > Its an Ubuntu image. The desktop environment is gnome. And as
-> > mentioned earlier, we use the HEAD of linus tree every night to boot
-> > the rpi4 and test that we can login via desktop environment and that
-> > there is no regression in dmesg.
->=20
-> Looking at the CI, this isn't from a RPi but from qemu?
->=20
-> What defconfig are you using? How did you generate the Ubuntu image?
-> Through debootstrap? Any additional package?
-
-So qemu (at least on Fedora 34) doesn't seem to have an RPI4 target, nor
-upstream:
-https://github.com/qemu/qemu/blob/079b1252e9de384385c9da910262312ec2e574c8/=
-hw/arm/raspi.c#L367
-
-I've tested an Ubuntu 21.04 arm64 build (since it seems like it's what
-you've been using), built using debootstrap + ubuntu-desktop, both with
-and without a monitor attached, and up to the desktop once logged in.
-
-I don't see any crash.
-
-Maxime
-
---75iynnnzwnech42u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUisJQAKCRDj7w1vZxhR
-xa9NAP4kuM+wEd+OV/GIA51PrGSxrfLWJ5n5PbciTcg+y9yFyAD/c8dNNyHFLH4Q
-2xLjeIuRoXDdJtYbf2uTJX9+/JrCXgg=
-=rqGP
------END PGP SIGNATURE-----
-
---75iynnnzwnech42u--
+>    v10:
+>       - In patch #2, reuse existing gem_create_ext wrapper.
+>       - In patch #10, kernel side changed the debugfs file name
+>         (but no difference in behavior / usage).
+>       - Removed patch #14 from Rev9 as decision on kernel side
+>         was to drop the usage of RESET_STATS IOCTL to track
+>         invalidated pxp contexts.
+>    v9:
+>       - Remove patch #2 from rev7 as it was duplicating
+>         an existing ioctl wrapper helper
+>       - Fix the false-negative warnings when triggering
+>         auto-suspend-resume (remove checking if we are
+>         suspending after the system has already resumed).
+>    v8:
+>       - Nothing - mistaken detection from patchwork
+>    v7:
+>       - In prior rev, Patches #11->13 was testing expected results
+>         from calling gem_execbuf with stale pxp-context, pxp-buffer
+>         or combinations of them (including an opt-out usage). All
+>         of them used a single suspend-resume power state cycles to
+>         trigger the PXP teardown event. These patches have been
+>         combined into patch #14 that continues to carry the prior rev
+>         Rvb.
+>       - In its place, the new patches of #11->#13 do the identical
+>         set of tests as before (results from gem_execbuf with various
+>         combinations of stale pxp context and buffer), but this time
+>         using a debugfs file handle that triggers the same code path
+>         taken when the HW triggers the pxp teardown. That said, the
+>         code is nearly identical as v6 but I did not keep the Rvb's.
+>       - In patch #15, RESET_STAT now reports invalidated / banned
+>         pxp contexts via the existing batch_active's lost count.
+>    v6:
+>       - Addressed rev5 review comments for patch #1, #7, #14
+>         and #17.
+>       - For #17, I'm using Rodrigo's Rv-b because offline 
+>         discussions concluded that we couldn't use those
+>         test sequences with HDCP and so it was removed it.
+>       - Added Rv-b into all patches that received it.
+>       - Modified the test requirement from a list of device
+>         ids to checking if runtime PXP interface succeeds
+>         due to kernel's build config dependency.
+>    v5:
+>       - Addressed all rev4 review comments. No changes to
+>         overall flow and logic compared to the last rev.
+>    v4:
+>       - Addressed all rev3 review comments. NOTE: that all
+>         test cases and code logic are the same but a decent
+>         amount of refactoring has occured due to address
+>         v3 comments to break out subtests into separate
+>         functions while combining certain checks into the same
+>         function to reduce test time by minimizing number of
+>         suspend-resume power cycles.
+>    v3:
+>       - Addressed all rev2 review comments.
+>       - In line with one of the rev2 comments, a thorough fixup
+>         of all line-breaks in function calls was made for a more
+>         consistent styling.
+>       - Rebased on igt upstream repo and updated to latest kernel
+>         UAPI that added GEM_CREATE_EXT.
+>    v2: 
+>       - Addressed all rev1 review comments except these:
+>            1.Chris Wilson : "...have the caller do 1-3 once for its protected
+>              context. Call it something like intel_bb_enable_pxp(),
+>              intel_bb_set_pxp if it should be reversible.".
+>              -  This couldn't be implemented because [1] HW needs different
+>              instruction sequences for enabling/disabling PXP depending
+>              on the engine class and [2] the pair of "pxp-enable" and "pxp-
+>              disable" instructions need to be contained within the same batch
+>              that is dispatched to the hardware. That said, implementing
+>              internal intel_batchbuffer funtionality for this would conflict
+>              with how rendercopy_gen9 uses batch buffer memory by repositioing
+>              the pointer and consuming unused portions of the batch buffer as
+>              3d state offsets that batchbuffer has no visibility.
+>          
+>       - Added these additional subtests:
+>            1. verify that buffer sharing works across testing pxp context.
+>            2. verify teardown bans contexts via DRM_IOCTL_I915_GET_RESET_STAT.
+>            3. verify display plane decryption of protected buffers.
+> 
+> Alan Previn (14):
+>   Add PXP UAPI support in i915_drm.h
+>   Add basic PXP testing of buffer and context alloc
+>   Perform a regular 3d copy as a control checkpoint
+>   Add PXP attribute support in batchbuffer and buffer_ops libs
+>   Add MI_SET_APPID instruction definition
+>   Enable protected session cmd in gen12_render_copyfunc
+>   Add subtest to copy raw source to protected dest
+>   Add test where both src and dest are protected
+>   Verify PXP teardown occurred through suspend-resume
+>   Verify execbuf fails with stale PXP context after teardown
+>   Verify execbuf fails with stale PXP buffer after teardown
+>   Verify execbuf ok with stale PXP buf in opt-out use
+>   Verify execution behavior with stale PXP assets through suspend-resume
+>   Verify protected surfaces are dma buffer sharable
+> 
+> Karthik B S (1):
+>   tests/i915_pxp: CRC validation for display tests.
+> 
+>  lib/i915/i915_drm_local.h |  102 +++
+>  lib/intel_batchbuffer.c   |   23 +-
+>  lib/intel_batchbuffer.h   |   31 +
+>  lib/intel_bufops.h        |   15 +
+>  lib/intel_reg.h           |    8 +
+>  lib/rendercopy_gen9.c     |   57 ++
+>  tests/i915/gem_pxp.c      | 1283 +++++++++++++++++++++++++++++++++++++
+>  tests/meson.build         |    1 +
+>  8 files changed, 1519 insertions(+), 1 deletion(-)
+>  create mode 100644 tests/i915/gem_pxp.c
+> 
+> -- 
+> 2.25.1
+> 
