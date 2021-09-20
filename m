@@ -1,44 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD3B412753
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 22:34:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 105E9412748
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 22:29:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BDD889BF6;
-	Mon, 20 Sep 2021 20:34:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6BC1D6E852;
+	Mon, 20 Sep 2021 20:29:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 576E589BF6;
- Mon, 20 Sep 2021 20:34:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="202728293"
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="202728293"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 13:34:12 -0700
-X-IronPort-AV: E=Sophos;i="5.85,309,1624345200"; d="scan'208";a="511527894"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 13:34:11 -0700
-Date: Mon, 20 Sep 2021 13:29:15 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Hugh Dickins <hughd@google.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix blank screen booting crashes
-Message-ID: <20210920202915.GB19283@jons-linux-dev-box>
-References: <20210917233818.33659-1-matthew.brost@intel.com>
- <8c906ac4-c6a3-ee45-970f-07679456fd18@linux.intel.com>
- <87fstzvgrr.fsf@intel.com>
- <5fbbf1dc-e5fa-263c-ab2a-f308fae035f6@linux.intel.com>
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
+ [209.85.167.176])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 647A06E852
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 20:29:45 +0000 (UTC)
+Received: by mail-oi1-f176.google.com with SMTP id u22so18254663oie.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 13:29:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AH19fZDa3RGD1bXp8KensKJGxcb/KKL33WSHbuvr/mU=;
+ b=MR/sfOl6Sz7vTuzJOWMbFMSc1q48G1E03SRzCz5e19M9CBbTCa19ln2IPhk7L2NWmd
+ Dr2yo50ecgtFJBS+KFNyVczGs5Ckb3TSKkdHmhhbvWBz4OFgTOfJST32jHRbp7N5VG9b
+ Y9eNrh+ajDJXZUUgiNJIYRA2AXG61hC1gVjm9E6L0odn1QjGdhUqHe2w/TgRmnCnbpRR
+ gD3ic6PNiuVIvkdppP+2+ISyJ5CmLVDa4e0iTqasoevpLPJ+Yrq8E5wSb5T9eEp058ND
+ 3KiaP8e+WVDjXiMG7V4JAwBJXyh6fo4ebYiw+uxEpE3Hglj1Bq1cy782H9nLuDfixSyu
+ /iww==
+X-Gm-Message-State: AOAM5304CA8r8bhUx+5mvI52Xvk5XO+/VK73cAHhXXvINcMeqUwXQQ17
+ gS4H3zMgauHgKn4MiFFvqg==
+X-Google-Smtp-Source: ABdhPJxbK/iL/HBM5wgfss+lB7OVXLSTbwGo6rZFtSZ7S8wUZy7rjh4eYLbR2TGSaErAnOS1tB3eIw==
+X-Received: by 2002:a05:6808:1a29:: with SMTP id
+ bk41mr733432oib.167.1632169784453; 
+ Mon, 20 Sep 2021 13:29:44 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id p21sm3431243oip.28.2021.09.20.13.29.43
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 20 Sep 2021 13:29:43 -0700 (PDT)
+Received: (nullmailer pid 697302 invoked by uid 1000);
+ Mon, 20 Sep 2021 20:29:42 -0000
+Date: Mon, 20 Sep 2021 15:29:42 -0500
+From: Rob Herring <robh@kernel.org>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: thierry.reding@gmail.com, linux-tegra@vger.kernel.org, airlied@linux.ie,
+ robh+dt@kernel.org, dri-devel@lists.freedesktop.org, daniel@ffwll.ch,
+ devicetree@vger.kernel.org, jonathanh@nvidia.com
+Subject: Re: [PATCH v6 1/3] dt-bindings: Add YAML bindings for NVDEC
+Message-ID: <YUjvNmsPEBZHVDw/@robh.at.kernel.org>
+References: <20210916145517.2047351-1-mperttunen@nvidia.com>
+ <20210916145517.2047351-2-mperttunen@nvidia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fbbf1dc-e5fa-263c-ab2a-f308fae035f6@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <20210916145517.2047351-2-mperttunen@nvidia.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,115 +68,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 20, 2021 at 08:42:42AM +0100, Tvrtko Ursulin wrote:
+On Thu, 16 Sep 2021 17:55:15 +0300, Mikko Perttunen wrote:
+> Add YAML device tree bindings for NVDEC, now in a more appropriate
+> place compared to the old textual Host1x bindings.
 > 
-> On 20/09/2021 08:38, Jani Nikula wrote:
-> > On Mon, 20 Sep 2021, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com> wrote:
-> > > On 18/09/2021 00:38, Matthew Brost wrote:
-> > > > From: Hugh Dickins <hughd@google.com>
-> > > > 
-> > > > 5.15-rc1 crashes with blank screen when booting up on two ThinkPads
-> > > > using i915.  Bisections converge convincingly, but arrive at different
-> > > > and surprising "culprits", none of them the actual culprit.
-> > > 
-> > > It is certainly surprising this patch crashed SNB and KBL.
-> > > 
-> > > How feasible would it be to make this code just not run when GuC is not
-> > > used? Given the field it adds is called ce->guc_blocked it sounds like a
-> > > natural and preferable thing to do... if possible.
-> > > 
-> > > > netconsole (with init_netconsole() hacked to call i915_init() when
-> > > > logging has started, instead of by module_init()) tells the story:
-> > > > 
-> > > > kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
-> > > > with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
-> > > > I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
-> > > > function needs to be 4-byte aligned.
-> > > > 
-> > > > v2:
-> > > >    (Jani Nikula)
-> > > >     - Change BUG_ON to WARN_ON
-> > > 
-> > > However in this case the code would then go on and call into a wrong
-> > > function offset which may be worse than a BUG_ON, no?
-> > 
-> > So how about just
-> > 
-> > if (WARN_ON(...))
-> > 	return;
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+> v6:
+> * Elaborated description for nvidia,host1x-class.
+> * Added default value for nvidia,host1x-class.
+> v5:
+> * Changed from nvidia,instance to nvidia,host1x-class optional
+>   property.
+> * Added dma-coherent
+> v4:
+> * Fix incorrect compatibility string in 'if' condition
+> v3:
+> * Drop host1x bindings
+> * Change read2 to read-1 in interconnect names
+> v2:
+> * Fix issues pointed out in v1
+> * Add T194 nvidia,instance property
+> ---
+>  .../gpu/host1x/nvidia,tegra210-nvdec.yaml     | 108 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 109 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/gpu/host1x/nvidia,tegra210-nvdec.yaml
+> 
 
-I don't think it is quite that simple as if we short circuit this
-function fence->flags will be NULL which would be bad too. I'll have
-make a few more changes to make this safe.
+With the yamllint warning fixed,
 
-Matt
-
-> > 
-> > or whatever is needed to give both the user and the CI a better
-> > opportunity to see the error.
-> 
-> Sounds good to me.
-> 
-> Regards,
-> 
-> Tvrtko
-> 
-> 
-> > 
-> > BR,
-> > Jani
-> > 
-> > 
-> > > 
-> > > > 
-> > > > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > > > Signed-off-by: Hugh Dickins <hughd@google.com>
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > > > ---
-> > > >    drivers/gpu/drm/i915/gt/intel_context.c | 1 +
-> > > >    drivers/gpu/drm/i915/i915_sw_fence.c    | 4 +++-
-> > > >    2 files changed, 4 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > index ff637147b1a9..f02c2202da9d 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > @@ -362,6 +362,7 @@ static int __intel_context_active(struct i915_active *active)
-> > > >    	return 0;
-> > > >    }
-> > > > +__aligned(4)	/* Respect the I915_SW_FENCE_MASK */
-> > > 
-> > > Hugh suggested __i915_sw_fence_call which I think would be the right
-> > > thing to do.
-> > > 
-> > > Regards,
-> > > 
-> > > Tvrtko
-> > > 
-> > > >    static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
-> > > >    				 enum i915_sw_fence_notify state)
-> > > >    {
-> > > > diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> > > > index c589a681da77..1217b124c1d0 100644
-> > > > --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> > > > +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> > > > @@ -14,8 +14,10 @@
-> > > >    #if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
-> > > >    #define I915_SW_FENCE_BUG_ON(expr) BUG_ON(expr)
-> > > > +#define I915_SW_FENCE_WARN_ON(expr) WARN_ON(expr)
-> > > >    #else
-> > > >    #define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> > > > +#define I915_SW_FENCE_WARN_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> > > >    #endif
-> > > >    static DEFINE_SPINLOCK(i915_sw_fence_lock);
-> > > > @@ -242,7 +244,7 @@ void __i915_sw_fence_init(struct i915_sw_fence *fence,
-> > > >    			  const char *name,
-> > > >    			  struct lock_class_key *key)
-> > > >    {
-> > > > -	BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
-> > > > +	I915_SW_FENCE_WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
-> > > >    	__init_waitqueue_head(&fence->wait, name, key);
-> > > >    	fence->flags = (unsigned long)fn;
-> > > > 
-> > 
+Reviewed-by: Rob Herring <robh@kernel.org>
