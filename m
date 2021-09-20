@@ -1,79 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB729412257
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:13:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C9624122E3
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 20:17:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 11FA16E851;
-	Mon, 20 Sep 2021 18:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 874646E7D7;
+	Mon, 20 Sep 2021 18:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 18D1B6E7D1
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:12:48 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id i25so71959716lfg.6
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 11:12:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
- b=p3McJnvyBc+CTcDTD8UtxLeB2ZXB1zXQiJojH/qHQI+5HqAHT37cHQz005HKHfdxVE
- O5NPRwSrWiPereIDxUCOlhMdGlhZ1mf5cKF6a2SFkX0vxia9sRMKTSQ5gLydM1CMcS8F
- yJw1gWENo6zp4qFCQUhO1jkWZP4JGVldQtT7fsQt24tKafP7JwYkg5/+Au7n/iwRqbfk
- EuiFM19Q+j0iN6hsP/f4GwFJ00a22XMJbRWlCcRFuLP2I1whhD+CsjkKEKF76UnaUrDe
- UsdKa49Zh7Pzc+Km5NQ8khTlBHR3FdVXomkQqXK8J3Ut/ULtGWLfqg/yT5JCMzG/FuTB
- YfCg==
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D30FB6E7D7
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:17:07 +0000 (UTC)
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 3388B3F32A
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 18:17:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1632161826;
+ bh=TjtorBP1QG+MBkByGdZNpa22mOVzwIsICVZSplyAbbE=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
+ b=aM+Xf4yDN35MlZk4MjNWS6NRK4aeW3VBzWN+JrX0G/iyTbSewqSn7Fw4YYr4kEqe6
+ Yvn+pQMDEXg8ZJVg1PEWk+DFPTR2t8d2RchPdUoerdit8uNWKpn/9hQKRkZTyFPzbj
+ YVdFN1HVkXLH4dHwxSuxYmUq71Iuu957dIf8KmlEKDQoA9sYsaiGJbDW83Aw+elffL
+ N2eD6VocivuPbpVHhiK3YKBhiduzbNQPaQvWec8FHz1MKWXqzJGTdh+kaSpPjqVCCE
+ U1+8V/fjuLTx1Z+7d7XkKbtwMU9ERXqSRjlciyVOP0pt4li7CQUIBJ1Q+MhlvsqPbK
+ TSNKQjGHu37ew==
+Received: by mail-pl1-f197.google.com with SMTP id
+ n15-20020a170902e54f00b0013b7a095210so7406327plf.15
+ for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 11:17:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
- b=gBBQ3MR2mcVgjHYTcteVqv2OKnoDIMRkDXEwn5TxCzYkWvRKZKH/i0pZVWw3MQuk4M
- synnitk0xxwizMOp/GaiUVhlkQk1QMUnu3IqjB3a41SbnCHQ+Cfig+uQtS8H2SA+MfVV
- oTAQAR+2OdbE/fyKQUGN5OdpJE7K22tTJ8JBm5E3+f/CXqghVrmAEBVVdd6Exoaq8zZz
- yBr9fGpG788dcbyqAJRqh3diJiOxNOBqHI3cIGdhygsX1DXOKCMqpBKwFzN00cvv2xBG
- YkQE0lvY7Q76lTramsjXDrmogFJle91pBVNTDoCQQl02vWo2olAQlQBn03SlvgaNSMzA
- YCrw==
-X-Gm-Message-State: AOAM5312zL8EHpDl/QQy+7mP/EPISnpOWRj6h2sPC10AbkFqndTFH2KX
- 44+S8QgHx6ZsZSutrKsuCzA=
-X-Google-Smtp-Source: ABdhPJwlgGKO3aMXePQ47tKK8EPh05YbuveS/dXOiz7N8s1w1kaCmMJkGRQCBT7OqTJwUfNNaaLf2w==
-X-Received: by 2002:a2e:9f4f:: with SMTP id v15mr5075723ljk.468.1632161566073; 
- Mon, 20 Sep 2021 11:12:46 -0700 (PDT)
-Received: from localhost.localdomain (46-138-151-206.dynamic.spd-mgts.ru.
- [46.138.151.206])
- by smtp.gmail.com with ESMTPSA id u3sm1775677lju.107.2021.09.20.11.12.43
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TjtorBP1QG+MBkByGdZNpa22mOVzwIsICVZSplyAbbE=;
+ b=FanA3avUD3wA+6Axkdy/mquKVck/3ZcEH17pGQBaKKIUzuY4dGYOnALjEfxTg64JMn
+ d2mCDHw8m8DAlijyAkw9C3vYvNSi8CQpGO8BziYKZJMBT+0SH/Mc0J8FTQuD4rs6My5p
+ GKyu6ty6k05Qeeww9lqRRjFEKilfzEoyUrru/xRrEeRoYi7nGH56LY5n/El353raiHpV
+ mkdJfb9PcRMy3nqzANKrgcV6xIgs1s2HX9xTEJVZqTjBmotRq3mJNIt5l/DpVXZVWOon
+ qoQDUiwymwOeNY99n7IEA0xgexxRdBeiezshwzQ6C5snnM/d0QipV09iVvufArilZ1B/
+ Ky3w==
+X-Gm-Message-State: AOAM532eRKSMAx5h0urlRfX/nzcwonFAhF+HnyqhHPasRvMetyh2151U
+ Eer37L23F/M2dBbSTZIyL7L7dttOcarlDGVbXRxXprQ8jKoqwp0aaPQo/DxSF+/x4P1E2WrA1rC
+ /oL4bLphR1cLpq0ePi99Z+YwegKPAhpv7SYzTLAdqxEiOMA==
+X-Received: by 2002:a17:90a:24c:: with SMTP id
+ t12mr357827pje.103.1632161824737; 
+ Mon, 20 Sep 2021 11:17:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDHbTX6MS7FWBtqKRkGWZ8SYTluchgpjHnl329yBqjyNyrGnU2x+2LHi5jaLReYrYUZHW5Fw==
+X-Received: by 2002:a17:90a:24c:: with SMTP id
+ t12mr357801pje.103.1632161824463; 
+ Mon, 20 Sep 2021 11:17:04 -0700 (PDT)
+Received: from localhost.localdomain ([69.163.84.166])
+ by smtp.gmail.com with ESMTPSA id m64sm16126877pga.55.2021.09.20.11.17.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 20 Sep 2021 11:12:45 -0700 (PDT)
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Ulf Hansson <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>,
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Rob Herring <robh+dt@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
- linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Subject: [PATCH v12 35/35] ARM: tegra20/30: Disable unused host1x hardware
-Date: Mon, 20 Sep 2021 21:11:45 +0300
-Message-Id: <20210920181145.19543-36-digetx@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20210920181145.19543-1-digetx@gmail.com>
-References: <20210920181145.19543-1-digetx@gmail.com>
+ Mon, 20 Sep 2021 11:17:03 -0700 (PDT)
+From: Tim Gardner <tim.gardner@canonical.com>
+To: nouveau@lists.freedesktop.org
+Cc: tim.gardner@canonical.com, Ben Skeggs <bskeggs@redhat.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Karol Herbst <kherbst@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/nouveau/ga102: Free resources on error in ga102_chan_new()
+Date: Mon, 20 Sep 2021 12:16:47 -0600
+Message-Id: <20210920181647.22156-1-tim.gardner@canonical.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -91,93 +85,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-MPE, VI, EPP and ISP were never used and we don't have drivers for them.
-Since these modules are enabled by default in a device-tree, a device is
-created for them, blocking voltage scaling because there is no driver to
-bind, and thus, state of PMC driver is never synced. Disable them.
+Coverity complains of a resource leak in ga102_chan_new():
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+CID 119637 (#7 of 7): Resource leak (RESOURCE_LEAK)
+13. leaked_storage: Variable chan going out of scope leaks the storage it points to.
+190                return ret;
+
+Fix this by freeing 'chan' in the error path.
+
+Cc: Ben Skeggs <bskeggs@redhat.com>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Karol Herbst <kherbst@redhat.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: nouveau@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
 ---
- arch/arm/boot/dts/tegra20.dtsi | 4 ++++
- arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
- 2 files changed, 12 insertions(+)
+ .../gpu/drm/nouveau/nvkm/engine/fifo/ga102.c  | 20 ++++++++++++-------
+ 1 file changed, 13 insertions(+), 7 deletions(-)
 
-diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
-index eb6e5518fb5f..05788c9cddc1 100644
---- a/arch/arm/boot/dts/tegra20.dtsi
-+++ b/arch/arm/boot/dts/tegra20.dtsi
-@@ -59,6 +59,7 @@ mpe@54040000 {
- 			reset-names = "mpe";
- 			operating-points-v2 = <&mpe_dvfs_opp_table>;
- 			power-domains = <&pd_mpe>;
-+			status = "disabled";
- 		};
+diff --git a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
+index f897bef13acf..4dbdfb53e65f 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
++++ b/drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
+@@ -175,19 +175,21 @@ ga102_chan_new(struct nvkm_device *device,
+ 		}
+ 	}
  
- 		vi@54080000 {
-@@ -70,6 +71,7 @@ vi@54080000 {
- 			reset-names = "vi";
- 			operating-points-v2 = <&vi_dvfs_opp_table>;
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
+-	if (!chan->ctrl.runl)
+-		return -ENODEV;
++	if (!chan->ctrl.runl) {
++		ret = -ENODEV;
++		goto free_chan;
++	}
  
- 		epp@540c0000 {
-@@ -81,6 +83,7 @@ epp@540c0000 {
- 			reset-names = "epp";
- 			operating-points-v2 = <&epp_dvfs_opp_table>;
- 			power-domains = <&pd_core>;
-+			status = "disabled";
- 		};
+ 	chan->ctrl.chan = nvkm_rd32(device, chan->ctrl.runl + 0x004) & 0xfffffff0;
+ 	args->token = nvkm_rd32(device, chan->ctrl.runl + 0x008) & 0xffff0000;
  
- 		isp@54100000 {
-@@ -91,6 +94,7 @@ isp@54100000 {
- 			resets = <&tegra_car 23>;
- 			reset-names = "isp";
- 			power-domains = <&pd_venc>;
-+			status = "disabled";
- 		};
+ 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->mthd);
+ 	if (ret)
+-		return ret;
++		goto free_chan;
  
- 		gr2d@54140000 {
-diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index 09cb1ab75312..f9613384a487 100644
---- a/arch/arm/boot/dts/tegra30.dtsi
-+++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -145,6 +145,8 @@ mpe@54040000 {
- 			power-domains = <&pd_mpe>;
+ 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->inst);
+ 	if (ret)
+-		return ret;
++		goto free_chan;
  
- 			iommus = <&mc TEGRA_SWGROUP_MPE>;
+ 	nvkm_kmap(chan->inst);
+ 	nvkm_wo32(chan->inst, 0x010, 0x0000face);
+@@ -209,11 +211,11 @@ ga102_chan_new(struct nvkm_device *device,
+ 
+ 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->user);
+ 	if (ret)
+-		return ret;
++		goto free_chan;
+ 
+ 	ret = nvkm_memory_new(device, NVKM_MEM_TARGET_INST, 0x1000, 0x1000, true, &chan->runl);
+ 	if (ret)
+-		return ret;
++		goto free_chan;
+ 
+ 	nvkm_kmap(chan->runl);
+ 	nvkm_wo32(chan->runl, 0x00, 0x80030001);
+@@ -228,10 +230,14 @@ ga102_chan_new(struct nvkm_device *device,
+ 
+ 	ret = nvkm_vmm_join(vmm, chan->inst);
+ 	if (ret)
+-		return ret;
++		goto free_chan;
+ 
+ 	chan->vmm = nvkm_vmm_ref(vmm);
+ 	return 0;
 +
-+			status = "disabled";
- 		};
++free_chan:
++	kfree(chan);
++	return ret;
+ }
  
- 		vi@54080000 {
-@@ -158,6 +160,8 @@ vi@54080000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_VI>;
-+
-+			status = "disabled";
- 		};
- 
- 		epp@540c0000 {
-@@ -171,6 +175,8 @@ epp@540c0000 {
- 			power-domains = <&pd_heg>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_EPP>;
-+
-+			status = "disabled";
- 		};
- 
- 		isp@54100000 {
-@@ -183,6 +189,8 @@ isp@54100000 {
- 			power-domains = <&pd_venc>;
- 
- 			iommus = <&mc TEGRA_SWGROUP_ISP>;
-+
-+			status = "disabled";
- 		};
- 
- 		gr2d@54140000 {
+ static const struct nvkm_device_oclass
 -- 
-2.32.0
+2.33.0
 
