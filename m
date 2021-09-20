@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5063C411139
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 10:45:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96BB3411148
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 10:46:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 74F4A6E446;
-	Mon, 20 Sep 2021 08:45:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C46BE6E44B;
+	Mon, 20 Sep 2021 08:46:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D2486E434;
- Mon, 20 Sep 2021 08:45:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="210170138"
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="210170138"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72A296E46B;
+ Mon, 20 Sep 2021 08:46:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10112"; a="223123286"
+X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="223123286"
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 01:45:14 -0700
-X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="473489071"
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 01:45:59 -0700
+X-IronPort-AV: E=Sophos;i="5.85,307,1624345200"; d="scan'208";a="473492639"
 Received: from gbradyx-mobl2.ger.corp.intel.com (HELO [10.213.235.119])
  ([10.213.235.119])
  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 20 Sep 2021 01:45:13 -0700
-Subject: Re: [Intel-gfx] [PATCH 13/26] drm/i915: use the new iterator in
- i915_gem_busy_ioctl
+ 20 Sep 2021 01:45:58 -0700
+Subject: Re: [Intel-gfx] [PATCH 14/26] drm/i915: use the new iterator in
+ i915_sw_fence_await_reservation v3
 To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
  linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch
 References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-14-christian.koenig@amd.com>
+ <20210917123513.1106-15-christian.koenig@amd.com>
 From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
 Organization: Intel Corporation UK Plc
-Message-ID: <6fbaca09-ec51-c44e-708c-334ef8be8595@linux.intel.com>
-Date: Mon, 20 Sep 2021 09:45:10 +0100
+Message-ID: <93b93f00-7ad3-9ea3-e947-77297b4552c9@linux.intel.com>
+Date: Mon, 20 Sep 2021 09:45:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.11.0
 MIME-Version: 1.0
-In-Reply-To: <20210917123513.1106-14-christian.koenig@amd.com>
+In-Reply-To: <20210917123513.1106-15-christian.koenig@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -58,72 +58,97 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
 On 17/09/2021 13:35, Christian König wrote:
-> This makes the function much simpler since the complex
-> retry logic is now handled else where.
+> Simplifying the code a bit.
 > 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 32 ++++++++----------------
->   1 file changed, 11 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> index 6234e17259c1..b1cb7ba688da 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
->   {
->   	struct drm_i915_gem_busy *args = data;
->   	struct drm_i915_gem_object *obj;
-> -	struct dma_resv_list *list;
-> -	unsigned int seq;
-> +	struct dma_resv_iter cursor;
-> +	struct dma_fence *fence;
->   	int err;
->   
->   	err = -ENOENT;
-> @@ -109,27 +109,17 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
->   	 * to report the overall busyness. This is what the wait-ioctl does.
->   	 *
->   	 */
-> -retry:
-> -	seq = raw_read_seqcount(&obj->base.resv->seq);
-> -
-> -	/* Translate the exclusive fence to the READ *and* WRITE engine */
-> -	args->busy = busy_check_writer(dma_resv_excl_fence(obj->base.resv));
-> -
-> -	/* Translate shared fences to READ set of engines */
-> -	list = dma_resv_shared_list(obj->base.resv);
-> -	if (list) {
-> -		unsigned int shared_count = list->shared_count, i;
-> -
-> -		for (i = 0; i < shared_count; ++i) {
-> -			struct dma_fence *fence =
-> -				rcu_dereference(list->shared[i]);
-> -
-> +	args->busy = false;
-> +	dma_resv_iter_begin(&cursor, obj->base.resv, true);
-> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+> v2: use dma_resv_for_each_fence instead, according to Tvrtko the lock is
+>      held here anyway.
+> v3: back to using dma_resv_for_each_fence_unlocked.
 
-You did not agree with my suggestion to reset args->busy on restart and 
-so preserve current behaviour?
+It did not work out - what happened?
 
 Regards,
 
 Tvrtko
 
-> +		if (dma_resv_iter_is_exclusive(&cursor))
-> +			/* Translate the exclusive fence to the READ *and* WRITE engine */
-> +			args->busy = busy_check_writer(fence);
-> +		else
-> +			/* Translate shared fences to READ set of engines */
->   			args->busy |= busy_check_reader(fence);
-> -		}
->   	}
-> -
-> -	if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
-> -		goto retry;
-> +	dma_resv_iter_end(&cursor);
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/i915/i915_sw_fence.c | 57 ++++++++--------------------
+>   1 file changed, 15 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+> index c589a681da77..7635b0478ea5 100644
+> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+> @@ -572,56 +572,29 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+>   				    unsigned long timeout,
+>   				    gfp_t gfp)
+>   {
+> -	struct dma_fence *excl;
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *f;
+>   	int ret = 0, pending;
 >   
->   	err = 0;
->   out:
+>   	debug_fence_assert(fence);
+>   	might_sleep_if(gfpflags_allow_blocking(gfp));
+>   
+> -	if (write) {
+> -		struct dma_fence **shared;
+> -		unsigned int count, i;
+> -
+> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+> -		if (ret)
+> -			return ret;
+> -
+> -		for (i = 0; i < count; i++) {
+> -			if (shared[i]->ops == exclude)
+> -				continue;
+> -
+> -			pending = i915_sw_fence_await_dma_fence(fence,
+> -								shared[i],
+> -								timeout,
+> -								gfp);
+> -			if (pending < 0) {
+> -				ret = pending;
+> -				break;
+> -			}
+> -
+> -			ret |= pending;
+> -		}
+> -
+> -		for (i = 0; i < count; i++)
+> -			dma_fence_put(shared[i]);
+> -		kfree(shared);
+> -	} else {
+> -		excl = dma_resv_get_excl_unlocked(resv);
+> -	}
+> -
+> -	if (ret >= 0 && excl && excl->ops != exclude) {
+> -		pending = i915_sw_fence_await_dma_fence(fence,
+> -							excl,
+> -							timeout,
+> +	rcu_read_lock();
+> +	dma_resv_iter_begin(&cursor, resv, write);
+> +	dma_resv_for_each_fence_unlocked(&cursor, f) {
+> +		rcu_read_unlock();
+> +		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
+>   							gfp);
+> -		if (pending < 0)
+> +		rcu_read_lock();
+> +		if (pending < 0) {
+>   			ret = pending;
+> -		else
+> -			ret |= pending;
+> -	}
+> -
+> -	dma_fence_put(excl);
+> +			break;
+> +		}
+>   
+> +		ret |= pending;
+> +	}
+> +	dma_resv_iter_end(&cursor);
+> +	rcu_read_unlock();
+>   	return ret;
+>   }
+>   
 > 
