@@ -1,67 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE99411A05
-	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 18:43:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E97C2411B52
+	for <lists+dri-devel@lfdr.de>; Mon, 20 Sep 2021 18:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A58B16E5A3;
-	Mon, 20 Sep 2021 16:43:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 947296E58A;
+	Mon, 20 Sep 2021 16:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C00B6E58A
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 16:43:21 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id x27so70250051lfu.5
- for <dri-devel@lists.freedesktop.org>; Mon, 20 Sep 2021 09:43:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ktbwkhy3rbgHFFQkdiJBYVtvpT8HovLT4b4l+npAGPY=;
- b=Nh50tnKdv84V3ZH13m/5EugbkPkw6ob9DNK0VYQ9JoZZRC4H3Z1k7esuLHEUCxo1f4
- MGm3VlUyGuDU2UFrH1iOSGN4VSFnKfsJYns6KzACGeXOs9KFYqzcx5Zwxppxzlyrnh5e
- gVEEj+5b8uwMlyzCZdWnS8iLn/AtygQgpffak1fnqiUEBXB3pR5ir7BeDlMCnvltaBqF
- PuMznbFCRdkoAjf+VgFWVRZXZxnMVc04IOwtiFmYUmcXRbjSKrepK6M6z5Iw9TQLgL7X
- Tprvje23cnnutuONA9fezjv8IRkFlEJ04sGZwbQ8wzENWeOySK97IkAeIgEw+AjtYlIp
- UNZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ktbwkhy3rbgHFFQkdiJBYVtvpT8HovLT4b4l+npAGPY=;
- b=tZDg7qb6KJ0THvgZM1AkmINFdIGCkNAEWkvg9+G2idIZY9XFr70MMAjIKb9SLP79yj
- j5WEk1qWKwQTIKs2gLOgLe+dH+tEVXMBY4llCCykCDOU1ZjN3zD+8wggaJGaGOjzd4Ok
- pWCzaNY5i0uZKxKOQ9QIf+EghOzsxNwqGf0AFHmJNhH7kYbtZxN25x7su/ne5ZwXkq/e
- Brf5Ql8HUhMVf0D3L8fG0ZM6/3p8NyylmfuFFNPeRNlqgpJufygtbMEGGpr+pWl0eSdr
- MdPpiWwJ4k52C58VW6xZ8HZ3zfJ975tCjQ6/7Ezl33myngfnjOyapDvThdnjohaBpe40
- nPDg==
-X-Gm-Message-State: AOAM532BxAf6eY9Vo3QlUgaz15OV3trbqy8jzxIUEnd7cVtBtDYJPxHQ
- snmlAxGLIvMHstozwn1mFnI=
-X-Google-Smtp-Source: ABdhPJxxi3zhkrKnK0e6UqV9MLL71sHdRrsqPl2nOa2d6w6pzbMEX4j1pwOONAP1ppUtqCAgKN0wmQ==
-X-Received: by 2002:a2e:2a06:: with SMTP id q6mr22809575ljq.424.1632156199788; 
- Mon, 20 Sep 2021 09:43:19 -0700 (PDT)
-Received: from [192.168.2.145] (46-138-151-206.dynamic.spd-mgts.ru.
- [46.138.151.206])
- by smtp.googlemail.com with ESMTPSA id e17sm1817583ljk.133.2021.09.20.09.43.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 20 Sep 2021 09:43:19 -0700 (PDT)
-Subject: Re: [PATCH libdrm 00/25] Update Tegra support
-To: Thierry Reding <thierry.reding@gmail.com>,
- Mikko Perttunen <cyndis@kapsi.fi>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-References: <20210827132305.3572077-1-thierry.reding@gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <c0d43222-2d45-fee7-f96b-2ab511b94d88@gmail.com>
-Date: Mon, 20 Sep 2021 19:43:18 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 050B86E58A;
+ Mon, 20 Sep 2021 16:56:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="223214447"
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="223214447"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 09:55:41 -0700
+X-IronPort-AV: E=Sophos;i="5.85,308,1624345200"; d="scan'208";a="548864149"
+Received: from svandens-mobl1.ger.corp.intel.com (HELO localhost)
+ ([10.251.216.120])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 20 Sep 2021 09:55:37 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Lukasz Majczak <lma@semihalf.com>,
+ Jose Roberto de Souza <jose.souza@intel.com>,
+ Shawn C Lee <shawn.c.lee@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ upstream@semihalf.com, Lukasz Majczak <lma@semihalf.com>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v1] drm/i915/bdb: Fix version check
+In-Reply-To: <20210920141101.194959-1-lma@semihalf.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210920141101.194959-1-lma@semihalf.com>
+Date: Mon, 20 Sep 2021 19:55:33 +0300
+Message-ID: <87y27rtce2.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210827132305.3572077-1-thierry.reding@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,56 +54,78 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-27.08.2021 16:22, Thierry Reding пишет:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Hi all,
-> 
-> this is the userspace part of the kernel patches that were recently
-> merged into drm-next:
-> 
->   https://patchwork.freedesktop.org/series/92378/
-> 
-> The goal is to provide a userspace implementation of the UAPI exposed by
-> the kernel and show its usage in some test programs that can also be
-> used for basic sanity testing. More complete userspace implementations
-> are available here:
-> 
->   * https://github.com/cyndis/vaapi-tegra-driver
->   * https://github.com/grate-driver/xf86-video-opentegra
->   * https://github.com/grate-driver/grate
-> 
-> Thierry
-> 
-> Thierry Reding (25):
->   tegra: Indent according to .editorconfig
->   tegra: Remove unused IOCTL implementations
->   tegra: Extract common buffer object allocation code
->   tegra: Fix mmap() of GEM buffer objects
->   tegra: Add flink helpers
->   tegra: Add PRIME support helpers
->   tegra: Make API more consistent
->   tegra: Install tegra-openclose test
->   tegra: Update for new UABI
->   tegra: Include private.h in list of source files
->   tegra: Add channel APIs
->   tegra: Add job and push buffer APIs
->   tegra: Add syncpoint APIs
->   tests: tegra: Add helper library for tests
->   tests: tegra: Add gr2d-fill test
->   tests: tegra: Add syncpt-wait test
->   tests: tegra: Add syncpoint timeout test
->   tests: tegra: Add VIC support
->   tests: tegra: Add VIC 3.0 support
->   tests: tegra: Add VIC 4.0 support
->   tests: tegra: Add VIC 4.1 support
->   tests: tegra: Add VIC 4.2 support
->   tests: tegra: Add VIC clear test
->   tests: tegra: Add VIC blit test
->   tests: tegra: Add VIC flip test
+On Mon, 20 Sep 2021, Lukasz Majczak <lma@semihalf.com> wrote:
+> With patch "drm/i915/vbt: Fix backlight parsing for VBT 234+"
+> the size of bdb_lfp_backlight_data structure has been increased,
+> causing if-statement in the parse_lfp_backlight function
+> that comapres this structure size to the one retrieved from BDB,
+> always to fail for older revisions.
+> This patch fixes it by comparing a total size of all fileds from
+> the structure (present before the change) with the value gathered from BD=
+B.
+> Tested on Chromebook Pixelbook (Nocturne) (reports bdb->version =3D 221)
+>
+> Cc: <stable@vger.kernel.org> # 5.4+
 
-Have you thought about moving tests into IGT? Wouldn't it be a more
-appropriate place for the tests?
+Not a review of the patch, I'll leave that to Jos=C3=A9, but 5.4 is not
+right.
 
-Perhaps we can add/move Mikko's UAPI tests there too, for complicity.
-Although, I'd prefer it all to be written in a plain C or C++.
+The commit is d381baad29b4 ("drm/i915/vbt: Fix backlight parsing for VBT
+234+") which was merged in v5.11 and AFAICT has not been backported to
+any stable kernel.
+
+So this would be:
+
+Fixes: d381baad29b4 ("drm/i915/vbt: Fix backlight parsing for VBT 234+")
+Cc: <stable@vger.kernel.org> # v5.11+
+
+BR,
+Jani.
+
+
+
+
+> Tested-by: Lukasz Majczak <lma@semihalf.com>
+> Signed-off-by: Lukasz Majczak <lma@semihalf.com>
+> ---
+>  drivers/gpu/drm/i915/display/intel_bios.c     | 4 +++-
+>  drivers/gpu/drm/i915/display/intel_vbt_defs.h | 5 +++++
+>  2 files changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/=
+i915/display/intel_bios.c
+> index 3c25926092de..052a19b455d1 100644
+> --- a/drivers/gpu/drm/i915/display/intel_bios.c
+> +++ b/drivers/gpu/drm/i915/display/intel_bios.c
+> @@ -452,7 +452,9 @@ parse_lfp_backlight(struct drm_i915_private *i915,
+>=20=20
+>  	i915->vbt.backlight.type =3D INTEL_BACKLIGHT_DISPLAY_DDI;
+>  	if (bdb->version >=3D 191 &&
+> -	    get_blocksize(backlight_data) >=3D sizeof(*backlight_data)) {
+> +	    get_blocksize(backlight_data) >=3D (sizeof(backlight_data->entry_si=
+ze) +
+> +					      sizeof(backlight_data->data) +
+> +					      sizeof(backlight_data->level))) {
+>  		const struct lfp_backlight_control_method *method;
+>=20=20
+>  		method =3D &backlight_data->backlight_control[panel_type];
+> diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/=
+drm/i915/display/intel_vbt_defs.h
+> index 330077c2e588..fff456bf8783 100644
+> --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> @@ -814,6 +814,11 @@ struct lfp_brightness_level {
+>  	u16 reserved;
+>  } __packed;
+>=20=20
+> +/*
+> + * Changing struct bdb_lfp_backlight_data might affect its
+> + * size comparation to the value hold in BDB.
+> + * (e.g. in parse_lfp_backlight())
+> + */
+>  struct bdb_lfp_backlight_data {
+>  	u8 entry_size;
+>  	struct lfp_backlight_data_entry data[16];
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
