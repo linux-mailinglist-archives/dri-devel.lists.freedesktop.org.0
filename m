@@ -2,57 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16C92413DF6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 01:21:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4A9D413DF8
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 01:21:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2916D6E8FE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id B36F26E925;
 	Tue, 21 Sep 2021 23:20:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com
- [IPv6:2607:f8b0:4864:20::1036])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4B1E6E8FC
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 23:20:33 +0000 (UTC)
-Received: by mail-pj1-x1036.google.com with SMTP id
- nn5-20020a17090b38c500b0019af1c4b31fso833416pjb.3
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 16:20:33 -0700 (PDT)
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com
+ [IPv6:2607:f8b0:4864:20::630])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B875B6E8FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 23:20:34 +0000 (UTC)
+Received: by mail-pl1-x630.google.com with SMTP id t11so476502plq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 16:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F6536BzXgr3md2XEBD1rshEt0Z3opmm8yH9szMh9vwU=;
- b=L/paKdeUj0CtgWDfElhA3ZeqJkNN+9U1Y4mRoHKek0N3uwYkYE+EbNbb1Y/xq/V+yF
- cFi39Ai9KpPMaPVc/rsGmn+os/3UqYNDZpUCeTS98A+FqJo5hYLgfF4C0AwQkk63iYTt
- 2as81n+niAZjggo0iFaVZMsqZX/Nq6zRqkDpM=
+ bh=Ey9lhaUgZA+8S1H5osVr7f8kYi5n5xZ93mrqVA17Ee0=;
+ b=k8twYXpv6ameMFzizIPP6OBL2uNRxQL+B0/aJol4RWwZwQWFp3ROaknSSPir5MvjeS
+ z7/lx3D36rnvht2G4HfM1zn2ezN0gsRuJa0E8UMyWGyukDdLjL7NIBtDRHs0+FDFCsKQ
+ DvlYJBtoWEojgk0C1QRYis2B2kHVGqtOBa6xY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F6536BzXgr3md2XEBD1rshEt0Z3opmm8yH9szMh9vwU=;
- b=HNhaG8/adfTJkrO430WmI4s4TlykkLgohdIsM2ADX/tRtkKfzBQGQH56iCwNRab36f
- nBLbkiKzZmI5wdgPiRNofSTX975AYQ1q8qsJaTUWQPH3CMc9Nsk1a+SfpOCQcg4FFn5+
- IPpCkDM0YKVkmMznJBPQ7jQpVP/R+iL+lMsDK3suOjTwSlO7koGcNLrwb7m5cEYxhNwD
- /S/yFwuc9HDO/sBAuPJhShjx44UYNBkkXzVagvmzQleuZYwX2oAAfz0cQV9vKVQKB8EC
- x7+8z2EghB4iZTF4imisje2UO2GMfXoTGOkX/JrfwTC8EI445IV/smzCX0nwuWO/vhPH
- hHww==
-X-Gm-Message-State: AOAM532uJZErqxcAVTfEDYszaFJCSgWnY7QwUhWLwRqm8wcqx9u54Cf7
- eaPj22jmG99AQeIGk1QE+YSjLwecwR87EQ==
-X-Google-Smtp-Source: ABdhPJygesKKL+1vFBn+AlFEEyskpjNbkwvUrpaHSvFVrdGD4BHhIbn8q7sCeqS1ez1B9eweIrZiog==
-X-Received: by 2002:a17:90a:ab94:: with SMTP id
- n20mr8166808pjq.146.1632266433147; 
- Tue, 21 Sep 2021 16:20:33 -0700 (PDT)
+ bh=Ey9lhaUgZA+8S1H5osVr7f8kYi5n5xZ93mrqVA17Ee0=;
+ b=ouKQ6QkpJNVdd4NxcvxT6+hMkggtDVscJ2hGejf3UG6TJ0BpsOd9ji4LfpClAysLsQ
+ NfCOGPjKawfcWzeZ+ctFDqZ5iConJi1n3jGw1mrADa1YGaDf6DqrbKBN0wT+8uQmxdcc
+ bZp9s4GvS99yoeBZRiBfVLuCIqAJB4EubLWTYWCvg1z+XTpxv3myPgZFvpBI5tfCNNFt
+ eQDQLF0KUXjbuMx1CaOORvx/DtHa4k7l6EEpsc9HXX8wMQEsP6ABZr0Rm0JoNx4QMWaV
+ 2zt+bqoPkEPlvODFz3/J/jmZPCHXZPtiK312G24ILCLuxfKgJR4wID1C1/MIfANBEMLi
+ wcDg==
+X-Gm-Message-State: AOAM533fpQXWcxlQlsB9vd+pQWI1Ehb9aBN1p6TFZWx2Q35LfMWHahN6
+ sKz1cGgUb09rR3boRPMzV5VtsxqJyosbJg==
+X-Google-Smtp-Source: ABdhPJx6SKVBSXEbZ+qguJW2bwKJhQTFmfeLf7t+8MMtniOkymGGIH2c3C1rO/7mjeCyPojbmZEfKA==
+X-Received: by 2002:a17:902:b789:b0:13b:90bc:f184 with SMTP id
+ e9-20020a170902b78900b0013b90bcf184mr29875499pls.31.1632266434065; 
+ Tue, 21 Sep 2021 16:20:34 -0700 (PDT)
 Received: from gurchetansingh0.mtv.corp.google.com
  ([2620:15c:202:201:a5ff:11c:6401:fce])
- by smtp.gmail.com with ESMTPSA id e2sm201906pfn.141.2021.09.21.16.20.32
+ by smtp.gmail.com with ESMTPSA id e2sm201906pfn.141.2021.09.21.16.20.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 16:20:32 -0700 (PDT)
+ Tue, 21 Sep 2021 16:20:33 -0700 (PDT)
 From: Gurchetan Singh <gurchetansingh@chromium.org>
 To: dri-devel@lists.freedesktop.org,
 	virtio-dev@lists.oasis-open.org
 Cc: kraxel@redhat.com
-Subject: [PATCH v3 06/12] drm/virtio: implement context init: track {ring_idx,
- emit_fence_info} in virtio_gpu_fence
-Date: Tue, 21 Sep 2021 16:20:18 -0700
-Message-Id: <20210921232024.817-7-gurchetansingh@chromium.org>
+Subject: [PATCH v3 07/12] drm/virtio: implement context init: plumb
+ {base_fence_ctx, ring_idx} to virtio_gpu_fence_alloc
+Date: Tue, 21 Sep 2021 16:20:19 -0700
+Message-Id: <20210921232024.817-8-gurchetansingh@chromium.org>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20210921232024.817-1-gurchetansingh@chromium.org>
 References: <20210921232024.817-1-gurchetansingh@chromium.org>
@@ -73,35 +72,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Each fence should be associated with a [fence ID, fence_context,
-seqno].  The seqno number is just the fence id.
+These were defined in the previous commit. We'll need these
+parameters when allocating a dma_fence.  The use case for this
+is multiple synchronizations timelines.
 
-To get the fence context, we add the ring_idx to the 3D context's
-base_fence_ctx.  The ring_idx is between 0 and 31, inclusive.
+The maximum number of timelines per 3D instance will be 32. Usually,
+only 2 are needed -- one for CPU commands, and another for GPU
+commands.
 
-Each 3D context will have it's own base_fence_ctx. The ring_idx will
-be emitted to host userspace, when emit_fence_info is true.
+As such, we'll need to specify these parameters when allocating a
+dma_fence.
+
+vgdev->fence_drv.context is the "default" fence context for 2D mode
+and old userspace.
 
 Signed-off-by: Gurchetan Singh <gurchetansingh@chromium.org>
 Acked-by: Lingfeng Yang <lfy@google.com>
 ---
- drivers/gpu/drm/virtio/virtgpu_drv.h | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/virtio/virtgpu_drv.h   | 5 +++--
+ drivers/gpu/drm/virtio/virtgpu_fence.c | 4 +++-
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 9 +++++----
+ drivers/gpu/drm/virtio/virtgpu_plane.c | 3 ++-
+ 4 files changed, 13 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 9996abf60e3a..401aec1a5efb 100644
+index 401aec1a5efb..a5142d60c2fa 100644
 --- a/drivers/gpu/drm/virtio/virtgpu_drv.h
 +++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -139,7 +139,9 @@ struct virtio_gpu_fence_driver {
+@@ -426,8 +426,9 @@ struct drm_plane *virtio_gpu_plane_init(struct virtio_gpu_device *vgdev,
+ 					int index);
  
- struct virtio_gpu_fence {
- 	struct dma_fence f;
-+	uint32_t ring_idx;
- 	uint64_t fence_id;
-+	bool emit_fence_info;
- 	struct virtio_gpu_fence_driver *drv;
- 	struct list_head node;
+ /* virtgpu_fence.c */
+-struct virtio_gpu_fence *virtio_gpu_fence_alloc(
+-	struct virtio_gpu_device *vgdev);
++struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
++						uint64_t base_fence_ctx,
++						uint32_t ring_idx);
+ void virtio_gpu_fence_emit(struct virtio_gpu_device *vgdev,
+ 			  struct virtio_gpu_ctrl_hdr *cmd_hdr,
+ 			  struct virtio_gpu_fence *fence);
+diff --git a/drivers/gpu/drm/virtio/virtgpu_fence.c b/drivers/gpu/drm/virtio/virtgpu_fence.c
+index d28e25e8409b..24c728b65d21 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_fence.c
++++ b/drivers/gpu/drm/virtio/virtgpu_fence.c
+@@ -71,7 +71,9 @@ static const struct dma_fence_ops virtio_gpu_fence_ops = {
+ 	.timeline_value_str  = virtio_gpu_timeline_value_str,
  };
+ 
+-struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev)
++struct virtio_gpu_fence *virtio_gpu_fence_alloc(struct virtio_gpu_device *vgdev,
++						uint64_t base_fence_ctx,
++						uint32_t ring_idx)
+ {
+ 	struct virtio_gpu_fence_driver *drv = &vgdev->fence_drv;
+ 	struct virtio_gpu_fence *fence = kzalloc(sizeof(struct virtio_gpu_fence),
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index f5281d1e30e1..f51f3393a194 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -173,7 +173,7 @@ static int virtio_gpu_execbuffer_ioctl(struct drm_device *dev, void *data,
+ 			goto out_memdup;
+ 	}
+ 
+-	out_fence = virtio_gpu_fence_alloc(vgdev);
++	out_fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+ 	if(!out_fence) {
+ 		ret = -ENOMEM;
+ 		goto out_unresv;
+@@ -288,7 +288,7 @@ static int virtio_gpu_resource_create_ioctl(struct drm_device *dev, void *data,
+ 	if (params.size == 0)
+ 		params.size = PAGE_SIZE;
+ 
+-	fence = virtio_gpu_fence_alloc(vgdev);
++	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+ 	if (!fence)
+ 		return -ENOMEM;
+ 	ret = virtio_gpu_object_create(vgdev, &params, &qobj, fence);
+@@ -367,7 +367,7 @@ static int virtio_gpu_transfer_from_host_ioctl(struct drm_device *dev,
+ 	if (ret != 0)
+ 		goto err_put_free;
+ 
+-	fence = virtio_gpu_fence_alloc(vgdev);
++	fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context, 0);
+ 	if (!fence) {
+ 		ret = -ENOMEM;
+ 		goto err_unlock;
+@@ -427,7 +427,8 @@ static int virtio_gpu_transfer_to_host_ioctl(struct drm_device *dev, void *data,
+ 			goto err_put_free;
+ 
+ 		ret = -ENOMEM;
+-		fence = virtio_gpu_fence_alloc(vgdev);
++		fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
++					       0);
+ 		if (!fence)
+ 			goto err_unlock;
+ 
+diff --git a/drivers/gpu/drm/virtio/virtgpu_plane.c b/drivers/gpu/drm/virtio/virtgpu_plane.c
+index a49fd9480381..6d3cc9e238a4 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_plane.c
++++ b/drivers/gpu/drm/virtio/virtgpu_plane.c
+@@ -256,7 +256,8 @@ static int virtio_gpu_plane_prepare_fb(struct drm_plane *plane,
+ 		return 0;
+ 
+ 	if (bo->dumb && (plane->state->fb != new_state->fb)) {
+-		vgfb->fence = virtio_gpu_fence_alloc(vgdev);
++		vgfb->fence = virtio_gpu_fence_alloc(vgdev, vgdev->fence_drv.context,
++						     0);
+ 		if (!vgfb->fence)
+ 			return -ENOMEM;
+ 	}
 -- 
 2.33.0.464.g1972c5931b-goog
 
