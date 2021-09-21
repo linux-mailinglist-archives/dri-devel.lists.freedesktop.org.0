@@ -2,62 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18C5D4138D1
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:41:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655C64138F3
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:43:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8596B6E9D6;
-	Tue, 21 Sep 2021 17:41:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A57706E9EA;
+	Tue, 21 Sep 2021 17:43:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
- [209.85.210.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F1DD36E9D6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:41:49 +0000 (UTC)
-Received: by mail-ot1-f49.google.com with SMTP id
- l16-20020a9d6a90000000b0053b71f7dc83so29417136otq.7
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 10:41:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=6b4IIW0sN4JgYgdnLZbHu/GA4zvnwxshVHJp0K1k4Ac=;
- b=gMcx+OvvvbxIrL4qZnWt0QKnTuDYg5Z+xsHdg7pN+QMshXvmF6Ie1uXc5ieHDpNXMi
- q9c+6iC1QBv5kpiLJvnew9B+bkFU4jO26ezZdf438yA7fduzjN3jnpYrLmMN1LaEIknd
- 1TDku2mP6SXDIOhOFXFvCslTg6wJMm6OPCcEDAV4SvgvR2jujcXoqjVhuQnGyrLSNJf5
- HFnNJDxFU1m8ceTDC3IwTV0nQ2ayfFTTBO9kPinY5uVmv+RmXEVfYSFhQty5If1xZgfZ
- fbl28vkxdYS7h0y2yN0IjSiro1r38IAnxX5wM30GM9DxeDV/vzqwU96tKIxYqjmsTnw3
- cxUA==
-X-Gm-Message-State: AOAM533nWcNdCRL6GlM5ouToP6NnYAA4OqMBFlf50oOwG+yjSmFujKVT
- G2TjX3q/xWEBUXLI82eleQ==
-X-Google-Smtp-Source: ABdhPJwq32Lfdjus9F4ALYlFMLXBPgzEb5VmjZWvPnw9Sl3pngoSqz9+jwvyN2g9rSRQEgRyRuvScg==
-X-Received: by 2002:a05:6830:40ca:: with SMTP id
- h10mr8440832otu.187.1632246109250; 
- Tue, 21 Sep 2021 10:41:49 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id s26sm2011789ooc.26.2021.09.21.10.41.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 10:41:48 -0700 (PDT)
-Received: (nullmailer pid 3020375 invoked by uid 1000);
- Tue, 21 Sep 2021 17:41:47 -0000
-Date: Tue, 21 Sep 2021 12:41:47 -0500
-From: Rob Herring <robh@kernel.org>
-To: Yassine Oudjana <y.oudjana@protonmail.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
- Rob Herring <robh+dt@kernel.org>, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht,
- Thierry Reding <thierry.reding@gmail.com>, devicetree@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v2 2/2] dt-bindings: display: Add binding for LG.Philips
- SW43101
-Message-ID: <YUoZW3zfW+9W9Ouh@robh.at.kernel.org>
-References: <20210909043904.12982-1-y.oudjana@protonmail.com>
- <20210909043904.12982-3-y.oudjana@protonmail.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6BFB06E9EA
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:43:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 2261B61242
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632246203;
+ bh=lOBzvuYXwy1GwBVC0NHGriI+jxtu0Uv+RSZVt47WqRw=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=NdooAfYCWzuApWdDHfxPYamtDD1ARo8vZBV56ANhKIEmawOFpa4VGtbIDy0igCIe0
+ ncFHIFxhpI+YMoaxx9Rqnsd1CE7e/rFyZL7/iLDpqpug2AJcM0Cfn7SFO7K/a4+1gd
+ EdSaJmdaE9+WsFCLaYk7bsBAXUG7fHLJHqWc9Yg3M43sA79PJXDo3bNOusPIp5fvrg
+ UP6lj4GZXCrN9jsFB6Hcvrno8dYZsPkG8oY9akE3+Tmzgj/FQB+OeLjfcWF97ayfc2
+ H57hAyWFZIXe34OTx+J5tT+V5URbVJULgbmh1qpVQCgeOlcukah6PhwywMNPeay0b6
+ S9v+FF3CceI0g==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 1C7B860F6B; Tue, 21 Sep 2021 17:43:23 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
+ drm, commit_tail, amdgpu_dm_atomic_commit_tail
+Date: Tue, 21 Sep 2021 17:43:22 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: youling257@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-211277-2300-dnbELpL4Ag@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
+References: <bug-211277-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210909043904.12982-3-y.oudjana@protonmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,20 +69,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 09 Sep 2021 04:40:27 +0000, Yassine Oudjana wrote:
-> Add a device tree binding for LG.Philips SW43101.
-> 
-> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
-> ---
-> Changes since v1:
->  - Add regulator support.
->  - Add MAINTAINERS entry.
->  - Dual-license DT binding.
-> 
->  .../display/panel/lgphilips,sw43101.yaml      | 75 +++++++++++++++++++
->  MAINTAINERS                                   |  1 +
->  2 files changed, 76 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/panel/lgphilips,sw43101.yaml
-> 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+--- Comment #68 from youling257@gmail.com ---
+(In reply to James Zhu from comment #67)
+> (In reply to youling257 from comment #66)
+> > resume failed record video,
+> > https://drive.google.com/drive/folders/1bWMC4ByGvudC9zBk-9Xgamz-
+> > shir0pqX?usp=3Dsharing
+>=20
+> Can you try apply this patch:=20
+> https://lore.kernel.org/all/20210920163922.313113287@linuxfoundation.org/?
+
+linux kernel 5.15rc1 is good, suspend to disk resume success.
+linux kernel 5.15rc2 is bad, suspend to disk failed.
+revert "drm/amdgpu: move iommu_resume before ip init/resume" can suspend to
+disk resume success.
+
+linux kernel 5.15rc2 has "drm/amdkfd: separate kfd_iommu_resume from
+kfd_resume", why you suggest me apply the patch
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
