@@ -1,40 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63450413DC7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 01:00:16 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A47DD413DC4
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 00:58:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B258C6E8E5;
-	Tue, 21 Sep 2021 23:00:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07D8C6E88B;
+	Tue, 21 Sep 2021 22:58:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3F8E66E8B3;
- Tue, 21 Sep 2021 23:00:11 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="245914794"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="245914794"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 16:00:10 -0700
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="613181479"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 16:00:10 -0700
-Date: Tue, 21 Sep 2021 15:55:15 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix blank screen booting crashes
-Message-ID: <20210921225514.GA8109@jons-linux-dev-box>
-References: <20210921174332.30784-1-matthew.brost@intel.com>
- <20210921184637.ullcwswqd6z5hi4j@ldmartin-desk2>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C55C56E5B2;
+ Tue, 21 Sep 2021 22:58:29 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0A9D061183;
+ Tue, 21 Sep 2021 22:58:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632265109;
+ bh=bohJExFW1yPNYHxfeNBgqeE4SD0v9efgL6NRIGVa8Vk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JdP5nbViHn1pi8Gh+UqzeMFvIgX8AN46LPD9EhqxYmi432PXTu0HORAxwcCwbvUb0
+ bRZe/gmXbE6tcVYIUHgesdWpl7PAIo1Rs/VzGozbeRgYwzf+rUBUITHRHSLbJuKO/z
+ Y0Im/8ygppODghkp7NmQHTX4P/Qd1628Zf4Dhxr7Vb4x2uHWA2FdDuu/6cviKa8fCg
+ 3ZA8maPCNjHPsaXAzATTdsYKOdGaw1ewfRDRxh8899H7rKvp6ObrGtvMTdkVwmMhfM
+ 7ER/E6Ebt6FUht5sjN/cg5fLIuWwjeQxd8oDhyX+u1Lkq+qa9OLST7TeVVHciJkDru
+ p1f+uXVf8IG9A==
+Date: Tue, 21 Sep 2021 15:58:23 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ ville.syrjala@linux.intel.com, manasi.d.navare@intel.com,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, amd-gfx@lists.freedesktop.org,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-next@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v3 03/13] drm/dp: add LTTPR DP 2.0 DPCD
+ addresses
+Message-ID: <YUpjj7IwBqMYSR7z@archlinux-ax161>
+References: <cover.1631191763.git.jani.nikula@intel.com>
+ <def17e2329722f22c35807be26b35590ccb93bfd.1631191763.git.jani.nikula@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210921184637.ullcwswqd6z5hi4j@ldmartin-desk2>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <def17e2329722f22c35807be26b35590ccb93bfd.1631191763.git.jani.nikula@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,148 +57,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 21, 2021 at 11:46:37AM -0700, Lucas De Marchi wrote:
-> On Tue, Sep 21, 2021 at 10:43:32AM -0700, Matthew Brost wrote:
-> > From: Hugh Dickins <hughd@google.com>
-> > 
-> > 5.15-rc1 crashes with blank screen when booting up on two ThinkPads
-> > using i915.  Bisections converge convincingly, but arrive at different
-> > and surprising "culprits", none of them the actual culprit.
-> > 
-> > netconsole (with init_netconsole() hacked to call i915_init() when
-> > logging has started, instead of by module_init()) tells the story:
-> > 
-> > kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
-> > with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
-> > I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
-> > function needs to be 4-byte aligned.
-> > 
-> > v2:
-> > (Jani Nikula)
-> >  - Change BUG_ON to WARN_ON
-> > v3:
-> > (Jani / Tvrtko)
-> >  - Short circuit __i915_sw_fence_init on WARN_ON
-> > 
-> > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
-> > Signed-off-by: Hugh Dickins <hughd@google.com>
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> > drivers/gpu/drm/i915/gt/intel_context.c |  4 ++--
-> > drivers/gpu/drm/i915/i915_sw_fence.c    | 17 ++++++++++-------
-> > 2 files changed, 12 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > index ff637147b1a9..e7f78bc7ebfc 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > @@ -362,8 +362,8 @@ static int __intel_context_active(struct i915_active *active)
-> > 	return 0;
-> > }
-> > 
+On Thu, Sep 09, 2021 at 03:51:55PM +0300, Jani Nikula wrote:
+> DP 2.0 brings some new DPCD addresses for PHY repeaters.
 > 
-> > -static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
-> > -				 enum i915_sw_fence_notify state)
-> > +static int __i915_sw_fence_call
-> > +sw_fence_dummy_notify(struct i915_sw_fence *sf, enum i915_sw_fence_notify state)
-> > {
-> > 	return NOTIFY_DONE;
-> > }
-> > diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
-> > index c589a681da77..08cea73264e7 100644
-> > --- a/drivers/gpu/drm/i915/i915_sw_fence.c
-> > +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
-> > @@ -13,9 +13,9 @@
-> > #include "i915_selftest.h"
-> > 
-> > #if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
-> > -#define I915_SW_FENCE_BUG_ON(expr) BUG_ON(expr)
-> > +#define I915_SW_FENCE_WARN_ON(expr) WARN_ON(expr)
-> > #else
-> > -#define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> > +#define I915_SW_FENCE_WARN_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> > #endif
-> > 
-> > static DEFINE_SPINLOCK(i915_sw_fence_lock);
-> > @@ -129,7 +129,10 @@ static int __i915_sw_fence_notify(struct i915_sw_fence *fence,
-> > 	i915_sw_fence_notify_t fn;
-> > 
-> > 	fn = (i915_sw_fence_notify_t)(fence->flags & I915_SW_FENCE_MASK);
-> > -	return fn(fence, state);
-> > +	if (likely(fn))
-> > +		return fn(fence, state);
-> > +	else
-> > +		return 0;
+> Cc: dri-devel@lists.freedesktop.org
+> Reviewed-by: Manasi Navare <manasi.d.navare@intel.com>
+> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+> ---
+>  include/drm/drm_dp_helper.h | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> since the knowledge for these being NULL (or with the wrong alignment)
-> are in the init/reinit functions,  wouldn't it be better to just add a
-> fence_nop() and assign it there instead this likely() here?
+> diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+> index 1d5b3dbb6e56..f3a61341011d 100644
+> --- a/include/drm/drm_dp_helper.h
+> +++ b/include/drm/drm_dp_helper.h
+> @@ -1319,6 +1319,10 @@ struct drm_panel;
+>  #define DP_MAX_LANE_COUNT_PHY_REPEATER			    0xf0004 /* 1.4a */
+>  #define DP_Repeater_FEC_CAPABILITY			    0xf0004 /* 1.4 */
+>  #define DP_PHY_REPEATER_EXTENDED_WAIT_TIMEOUT		    0xf0005 /* 1.4a */
+> +#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER	    0xf0006 /* 2.0 */
+> +# define DP_PHY_REPEATER_128B132B_SUPPORTED		    (1 << 0)
+> +/* See DP_128B132B_SUPPORTED_LINK_RATES for values */
+> +#define DP_PHY_REPEATER_128B132B_RATES			    0xf0007 /* 2.0 */
+>  
+>  enum drm_dp_phy {
+>  	DP_PHY_DPRX,
+> -- 
+> 2.30.2
+> 
 > 
 
-Maybe? I prefer the way it is.
+This patch causes a build failure in -next when combined with the AMD
+tree:
 
-> > }
-> > 
-> > #ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS
-> > @@ -242,9 +245,9 @@ void __i915_sw_fence_init(struct i915_sw_fence *fence,
-> > 			  const char *name,
-> > 			  struct lock_class_key *key)
-> > {
-> > -	BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
-> > -
-> > 	__init_waitqueue_head(&fence->wait, name, key);
-> > +	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
-> > +		return;
-> 
-> like:
-> 	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
-> 		fence->flags = (unsigned long)sw_fence_dummy_notify;
-> 	else
-> 		fence->flags = (unsigned long)fn;
-> 
-> 
-> f you return here instead of calling i915_sw_fence_reinit(), aren't you
-> just going to use uninitialized memory later? At least in the selftests,
-> which allocate it with kmalloc()... I didn't check others.
-> 
+In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c:33:
+In file included from ./drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:70:
+In file included from ./drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_mode.h:36:
+./include/drm/drm_dp_helper.h:1322:9: error: 'DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER' macro redefined [-Werror,-Wmacro-redefined]
+#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER            0xf0006 /* 2.0 */
+        ^
+./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dp_types.h:881:9: note: previous definition is here
+#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER        0xF0006
+        ^
+1 error generated.
 
-I don't think so, maybe the fence won't work but it won't blow up
-either.
+Perhaps something like this should be applied during the merge of the
+second tree or maybe this patch should be in a branch that could be
+shared between the Intel and AMD trees so that this diff could be
+applied to the AMD tree directly? Not sure what the standard procedure
+for this is.
 
-> 
-> For the bug fix we could just add the __aligned(4) and leave the rest to a
-> separate patch.
-> 
+Cheers,
+Nathan
 
-The bug was sw_fence_dummy_notify in gt/intel_context.c was not 4 byte
-align which triggered a BUG_ON during boot which blank screened a
-laptop. Jani / Tvrtko suggested that we make the BUG_ON to WARN_ONs so
-if someone makes this mistake in the future kernel should boot albiet
-with a WARNING.
-
-The long term fix is just pull out the I915_SW_FENCE_MASK (stealing bits
-from a poitner) and we don't have to worry any of this.
-
-Matt
-
-> 
-> Lucas De Marchi
-> 
-> > 	fence->flags = (unsigned long)fn;
-> > 
-> > 	i915_sw_fence_reinit(fence);
-> > @@ -257,8 +260,8 @@ void i915_sw_fence_reinit(struct i915_sw_fence *fence)
-> > 	atomic_set(&fence->pending, 1);
-> > 	fence->error = 0;
-> > 
-> > -	I915_SW_FENCE_BUG_ON(!fence->flags);
-> > -	I915_SW_FENCE_BUG_ON(!list_empty(&fence->wait.head));
-> > +	I915_SW_FENCE_WARN_ON(!fence->flags);
-> > +	I915_SW_FENCE_WARN_ON(!list_empty(&fence->wait.head));
-> > }
-> > 
-> > void i915_sw_fence_commit(struct i915_sw_fence *fence)
-> > -- 
-> > 2.32.0
-> > 
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+index 234dfbea926a..279863b5c650 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+@@ -4590,7 +4590,7 @@ bool dp_retrieve_lttpr_cap(struct dc_link *link)
+ 								DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
+ 
+ 		link->dpcd_caps.lttpr_caps.supported_128b_132b_rates.raw =
+-				lttpr_dpcd_data[DP_PHY_REPEATER_128b_132b_RATES -
++				lttpr_dpcd_data[DP_PHY_REPEATER_128B132B_RATES -
+ 								DP_LT_TUNABLE_PHY_REPEATER_FIELD_DATA_STRUCTURE_REV];
+ #endif
+ 
+diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+index a5e798b5da79..8caf9af5ffa2 100644
+--- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
++++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+@@ -878,8 +878,6 @@ struct psr_caps {
+ # define DP_DSC_DECODER_COUNT_MASK			(0b111 << 5)
+ # define DP_DSC_DECODER_COUNT_SHIFT			5
+ #define DP_MAIN_LINK_CHANNEL_CODING_SET			0x108
+-#define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER	0xF0006
+-#define DP_PHY_REPEATER_128b_132b_RATES			0xF0007
+ #define DP_128b_132b_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1	0xF0022
+ #define DP_INTRA_HOP_AUX_REPLY_INDICATION		(1 << 3)
+ /* TODO - Use DRM header to replace above once available */
