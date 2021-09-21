@@ -2,71 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE47413D74
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 00:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 721F7413D9D
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 00:35:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C34536E85A;
-	Tue, 21 Sep 2021 22:20:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 78C7189FA6;
+	Tue, 21 Sep 2021 22:35:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
- [IPv6:2607:f8b0:4864:20::d29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B69306E85A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 22:20:02 +0000 (UTC)
-Received: by mail-io1-xd29.google.com with SMTP id a15so773410iot.2
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HWLoAInOLCehVyUDdEFgyA0aq8c1810nqg999R8oxfU=;
- b=aj3QxekWfRi3uAdc5lpdDn6FoYAedJ8FsTjBDvBCDWRjEzt/JQ6p7imxAG/DApK+mF
- 2gagVt3X8luIoitRLXSKRYVwLgSznNVpaZyG8m/4FCGZweCBBZsIAUvT7PdIPZbU8wN1
- mfAQEwrxhepXNPQuDT3ppCtjQk9jPR2TpYAss=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HWLoAInOLCehVyUDdEFgyA0aq8c1810nqg999R8oxfU=;
- b=U5pt+lglWQS4dDi1XwoZ0Sb+RBZDgs8gGcL5hNoxds/rzgWqC7gLoSMbvfqtFnosvD
- x5/VFNoOn11iZxFLKRKmTSDn3P21idq1hoS4vfL/GNwM3YsowGL5RgRt3z0qviLX8vCY
- 6EraZxe/CanS1faBj1kxS9wLQWcrFZu1+bX1Il5w5HXyJxQoQXxUHhnwre0DfMVbcfrd
- Oj+C09rkNcAGlN8rBuM69Kysy+CZk0jiywkgVinbOqW8rpMBERuIrIfipBOhXmxNQnBH
- fV4NIF6OidxfHHOlsIOh6GTwGxFvqRoveDqOMtYWCANerRPVlGzSNhxG0qcYTPqJnceU
- 1Xpg==
-X-Gm-Message-State: AOAM530cDcpVya1w2yZxMW86FKzVgKoHj4Z46c8N95mQqAXLxrxnqmT1
- Z5hUyyC9QWwXq5pJa84wExXiqmklMj9Anw==
-X-Google-Smtp-Source: ABdhPJyWMl30CpodcybLR8STdXZLcmcQ+3IPwmfIcuf1tWn7JIN/IBI02sxAfH19aGjqx1N0DhLpuw==
-X-Received: by 2002:a02:22cf:: with SMTP id o198mr2043371jao.37.1632262801872; 
- Tue, 21 Sep 2021 15:20:01 -0700 (PDT)
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com.
- [209.85.166.180])
- by smtp.gmail.com with ESMTPSA id i14sm138440iog.47.2021.09.21.15.20.00
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 15:20:00 -0700 (PDT)
-Received: by mail-il1-f180.google.com with SMTP id x2so457595ila.11
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:20:00 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1b0c:: with SMTP id
- i12mr20195314ilv.27.1632262799686; 
- Tue, 21 Sep 2021 15:19:59 -0700 (PDT)
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D48C689FA6;
+ Tue, 21 Sep 2021 22:35:09 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="223520561"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="223520561"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 15:35:09 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="454536979"
+Received: from ewarnerx-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.115.97])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 15:35:09 -0700
+Date: Tue, 21 Sep 2021 15:35:08 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 6/6] drm/i915/dg2: Add DG2-specific shadow register
+ table
+Message-ID: <20210921223508.33y7relbettym6ty@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210910201030.3436066-1-matthew.d.roper@intel.com>
+ <20210910201030.3436066-7-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-References: <20210920225801.227211-1-robdclark@gmail.com>
- <20210920225801.227211-4-robdclark@gmail.com>
-In-Reply-To: <20210920225801.227211-4-robdclark@gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 21 Sep 2021 15:19:48 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=WGmk6UY2MA4=y4gaM4G66t-qxuLtAZvUahzwg8YsLv=g@mail.gmail.com>
-Message-ID: <CAD=FV=WGmk6UY2MA4=y4gaM4G66t-qxuLtAZvUahzwg8YsLv=g@mail.gmail.com>
-Subject: Re: [PATCH v2 3/3] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Rob Clark <robdclark@chromium.org>, 
- Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210910201030.3436066-7-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,27 +51,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On Mon, Sep 20, 2021 at 3:53 PM Rob Clark <robdclark@gmail.com> wrote:
+On Fri, Sep 10, 2021 at 01:10:30PM -0700, Matt Roper wrote:
+>We thought the DG2 table of shadowed registers would be the same as the
+>gen12/xehp table, but it turns out that there are a few minor
+>differences that require us to define a new DG2-specific table:
+> * One register is removed (0xC4D4)
+> * One register is added (0xC4E0)
 >
-> From: Rob Clark <robdclark@chromium.org>
->
-> Slightly awkward to fish out the display_info when we aren't creating
-> own connector.  But I don't see an obvious better way.
->
-> v2: Remove error return with NO_CONNECTOR flag
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 39 ++++++++++++++++++++-------
->  1 file changed, 29 insertions(+), 10 deletions(-)
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 
-This seems fine to me:
+I did the conversion from the table to this array and arrived at the
+same result.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-...if you would like me to apply patch #2 / #3 to drm-misc-next then
-please yell.
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
 
--Doug
+Lucas De Marchi
