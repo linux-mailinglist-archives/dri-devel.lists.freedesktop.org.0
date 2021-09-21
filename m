@@ -2,71 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93830413A70
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 20:59:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D853413A9D
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 21:18:20 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 865CA6E951;
-	Tue, 21 Sep 2021 18:59:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF0526E5C0;
+	Tue, 21 Sep 2021 19:18:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
- [IPv6:2607:f8b0:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4AF6E951
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 18:59:38 +0000 (UTC)
-Received: by mail-il1-x131.google.com with SMTP id h9so23922300ile.6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:59:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rPanjl/X9LOUVmXrjkeXI0Q7gVy8gp22iJNWmdA5zZg=;
- b=oJAh/Se0IUU493aQZeFEycxN0jgmMrqqfg8bRl2QN9NCCvx/b1R7KbCPnWQ8GcWvSk
- T+8zaXjaQaJ7arkXQqtnT1Xmk0wUH9bovJfATBBVQl1dYBpLPImXLnh1xneyZXVjiW+h
- UrBBJuk0zYG/2/Zx+nJGSq1+0RPqvuacEezNI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rPanjl/X9LOUVmXrjkeXI0Q7gVy8gp22iJNWmdA5zZg=;
- b=YzExlXHDXN31aslxZoXrbzPC/3qmAbbpvYgyb42xvfbuVomPv46nJyc8Yf5ya+w3Cv
- evguSiRv5zxUzrXVaN5wFLCW2p+QdKlrOYdDXibZOSwoTWkpDX7c7b6r99A2w1eKnxVy
- YkW5yGk0I7rgM4ZShlByppYiXmyUu9acUXHA44yWJnaQbeLvhrO6EfRtlQntjA0wHPQQ
- 9vJeLGfcUhdX1toMF9VkBuB1ocUhLgbwTxKfaNHEsB224Xi2C5ndHl95NLD2a/xQsqeN
- 96guK866TDuvweds3qa27deUGWJYxGdwxZcBL3/mOD0r2ndQTqje5zk/xWcZjqVCwWzJ
- SoVQ==
-X-Gm-Message-State: AOAM5331hcyoki1g+wyxfzwyOk4viMtYtLufHqxzKiy7MBdErjbLkafR
- MXK2QrxExozf5tYlRnKMq57ab6uxNkvfhA==
-X-Google-Smtp-Source: ABdhPJwOjTxRPTSsq4g5L4h2o/49zlCKH/iTRbj5fGwNgAXOxFrOAui7KTvYS0R+6UvBEeanD0QUfA==
-X-Received: by 2002:a92:6f06:: with SMTP id k6mr21588812ilc.116.1632250777530; 
- Tue, 21 Sep 2021 11:59:37 -0700 (PDT)
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com.
- [209.85.166.171])
- by smtp.gmail.com with ESMTPSA id z6sm4040978iox.28.2021.09.21.11.59.36
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 11:59:36 -0700 (PDT)
-Received: by mail-il1-f171.google.com with SMTP id b15so23920348ils.10
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:59:36 -0700 (PDT)
-X-Received: by 2002:a92:da0c:: with SMTP id z12mr21949905ilm.120.1632250775619; 
- Tue, 21 Sep 2021 11:59:35 -0700 (PDT)
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DB046E5B9;
+ Tue, 21 Sep 2021 19:18:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="223480429"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="223480429"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 12:18:05 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="512443042"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 12:18:04 -0700
+Date: Tue, 21 Sep 2021 12:13:09 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 18/27] drm/i915/guc: Update debugfs for GuC
+ multi-lrc
+Message-ID: <20210921191309.GA4920@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-19-matthew.brost@intel.com>
+ <c63585cd-0cf3-0b9e-80c0-060741d1484d@intel.com>
 MIME-Version: 1.0
-References: <20210921110556.v6.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
- <20210921110556.v6.2.I1d6ea362dc76efa77cca2b46253d31b7651eaf17@changeid>
-In-Reply-To: <20210921110556.v6.2.I1d6ea362dc76efa77cca2b46253d31b7651eaf17@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 21 Sep 2021 11:59:24 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XFK44E_gz8KvPRape-KHE7FGH1L=kYW9Qtx8V8P35Jcg@mail.gmail.com>
-Message-ID: <CAD=FV=XFK44E_gz8KvPRape-KHE7FGH1L=kYW9Qtx8V8P35Jcg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/2] drm/bridge: parade-ps8640: Add support for AUX
- channel
-To: Philip Chen <philipchen@chromium.org>
-Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c63585cd-0cf3-0b9e-80c0-060741d1484d@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,19 +53,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Sep 20, 2021 at 03:48:59PM -0700, John Harrison wrote:
+> 
+> 
+> On 8/20/2021 15:44, Matthew Brost wrote:
+> > Display the workqueue status in debugfs for GuC contexts that are in
+> > parent-child relationship.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 51 ++++++++++++++-----
+> >   1 file changed, 37 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index e34e0ea9136a..07eee9a399c8 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -3673,6 +3673,26 @@ static void guc_log_context_priority(struct drm_printer *p,
+> >   	drm_printf(p, "\n");
+> >   }
+> > +
+> > +static inline void guc_log_context(struct drm_printer *p,
+> > +				   struct intel_context *ce)
+> > +{
+> > +	drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
+> > +	drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> > +	drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> > +		   ce->ring->head,
+> > +		   ce->lrc_reg_state[CTX_RING_HEAD]);
+> > +	drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> > +		   ce->ring->tail,
+> > +		   ce->lrc_reg_state[CTX_RING_TAIL]);
+> > +	drm_printf(p, "\t\tContext Pin Count: %u\n",
+> > +		   atomic_read(&ce->pin_count));
+> > +	drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> > +		   atomic_read(&ce->guc_id.ref));
+> > +	drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+> > +		   ce->guc_state.sched_state);
+> > +}
+> > +
+> >   void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> >   					     struct drm_printer *p)
+> >   {
+> > @@ -3682,22 +3702,25 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> >   	xa_lock_irqsave(&guc->context_lookup, flags);
+> >   	xa_for_each(&guc->context_lookup, index, ce) {
+> > -		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
+> > -		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> > -		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> > -			   ce->ring->head,
+> > -			   ce->lrc_reg_state[CTX_RING_HEAD]);
+> > -		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> > -			   ce->ring->tail,
+> > -			   ce->lrc_reg_state[CTX_RING_TAIL]);
+> > -		drm_printf(p, "\t\tContext Pin Count: %u\n",
+> > -			   atomic_read(&ce->pin_count));
+> > -		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> > -			   atomic_read(&ce->guc_id.ref));
+> > -		drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+> > -			   ce->guc_state.sched_state);
+> > +		GEM_BUG_ON(intel_context_is_child(ce));
+> > +		guc_log_context(p, ce);
+> >   		guc_log_context_priority(p, ce);
+> > +
+> > +		if (intel_context_is_parent(ce)) {
+> > +			struct guc_process_desc *desc = __get_process_desc(ce);
+> > +			struct intel_context *child;
+> > +
+> > +			drm_printf(p, "\t\tWQI Head: %u\n",
+> > +				   READ_ONCE(desc->head));
+> > +			drm_printf(p, "\t\tWQI Tail: %u\n",
+> > +				   READ_ONCE(desc->tail));
+> > +			drm_printf(p, "\t\tWQI Status: %u\n\n",
+> > +				   READ_ONCE(desc->wq_status));
+> > +
+> > +			for_each_child(ce, child)
+> > +				guc_log_context(p, child);
+> There should be some indication that this is a child context and/or how many
+> children there are. Otherwise how does the reader differentiation between
+> the list of child contexts and the next parent/single context?
+> 
 
-On Tue, Sep 21, 2021 at 11:06 AM Philip Chen <philipchen@chromium.org> wrote:
->
-> Implement the first version of AUX support, which will be useful as
-> we expand the driver to support varied use cases.
->
-> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: Philip Chen <philipchen@chromium.org>
+We don't log the priority info or work queue info for child contexts so
+it is actually pretty easy to parse. That being said, I'll output the
+number of children if the context is a parent.
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Matt
 
-Snoozing for 2 days and will plan to apply to drm-misc-next unless
-there are objections.
-
--Doug
+> John.
+> 
+> > +		}
+> >   	}
+> >   	xa_unlock_irqrestore(&guc->context_lookup, flags);
+> >   }
+> 
