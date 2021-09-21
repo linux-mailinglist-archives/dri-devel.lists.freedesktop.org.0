@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033C5413932
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:51:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E14C413933
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:52:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95C036EA11;
-	Tue, 21 Sep 2021 17:51:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 43E036EA12;
+	Tue, 21 Sep 2021 17:51:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 42E5A6EA07;
- Tue, 21 Sep 2021 17:51:35 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="210509813"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="210509813"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4F0B6EA0B;
+ Tue, 21 Sep 2021 17:51:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="210509818"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="210509818"
 Received: from fmsmga008.fm.intel.com ([10.253.24.58])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 10:51:34 -0700
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="512413680"
+ 21 Sep 2021 10:51:36 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="512413695"
 Received: from rogerc2x-mobl.ger.corp.intel.com (HELO
  thellstr-mobl1.intel.com) ([10.249.254.52])
  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 10:51:33 -0700
+ 21 Sep 2021 10:51:34 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v5 2/7] drm/i915/gem: Implement a function to process all gem
- objects of a region
-Date: Tue, 21 Sep 2021 19:51:06 +0200
-Message-Id: <20210921175111.850331-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v5 3/7] drm/i915/gt: Increase suspend timeout
+Date: Tue, 21 Sep 2021 19:51:07 +0200
+Message-Id: <20210921175111.850331-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20210921175111.850331-1-thomas.hellstrom@linux.intel.com>
 References: <20210921175111.850331-1-thomas.hellstrom@linux.intel.com>
@@ -52,155 +51,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-An upcoming common pattern is to traverse the region object list and
-perform certain actions on all objects in a region. It's a little tricky
-to get the list locking right, in particular since a gem object may
-change region unless it's pinned or the object lock is held.
+With GuC submission on DG1, the execution of the requests times out
+for the gem_exec_suspend igt test case after executing around 800-900
+of 1000 submitted requests.
 
-Define a function that does this for us and that takes an argument that
-defines the action to be performed on each object.
-
-v3:
-- Improve structure documentation a bit (Matthew Auld)
+Given the time we allow elsewhere for fences to signal (in the order of
+seconds), increase the timeout before we mark the gt wedged and proceed.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_region.c | 70 ++++++++++++++++++++++
- drivers/gpu/drm/i915/gem/i915_gem_region.h | 37 ++++++++++++
- 2 files changed, 107 insertions(+)
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.c b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-index 1f557b2178ed..a016ccec36f3 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.c
-@@ -80,3 +80,73 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
- 	i915_gem_object_free(obj);
- 	return ERR_PTR(err);
- }
-+
-+/**
-+ * i915_gem_process_region - Iterate over all objects of a region using ops
-+ * to process and optionally skip objects
-+ * @mr: The memory region
-+ * @apply: ops and private data
-+ *
-+ * This function can be used to iterate over the regions object list,
-+ * checking whether to skip objects, and, if not, lock the objects and
-+ * process them using the supplied ops. Note that this function temporarily
-+ * removes objects from the region list while iterating, so that if run
-+ * concurrently with itself may not iterate over all objects.
-+ *
-+ * Return: 0 if successful, negative error code on failure.
-+ */
-+int i915_gem_process_region(struct intel_memory_region *mr,
-+			    struct i915_gem_apply_to_region *apply)
-+{
-+	const struct i915_gem_apply_to_region_ops *ops = apply->ops;
-+	struct drm_i915_gem_object *obj;
-+	struct list_head still_in_list;
-+	int ret = 0;
-+
-+	/*
-+	 * In the future, a non-NULL apply->ww could mean the caller is
-+	 * already in a locking transaction and provides its own context.
-+	 */
-+	GEM_WARN_ON(apply->ww);
-+
-+	INIT_LIST_HEAD(&still_in_list);
-+	mutex_lock(&mr->objects.lock);
-+	for (;;) {
-+		struct i915_gem_ww_ctx ww;
-+
-+		obj = list_first_entry_or_null(&mr->objects.list, typeof(*obj),
-+					       mm.region_link);
-+		if (!obj)
-+			break;
-+
-+		list_move_tail(&obj->mm.region_link, &still_in_list);
-+		if (!kref_get_unless_zero(&obj->base.refcount))
-+			continue;
-+
-+		/*
-+		 * Note: Someone else might be migrating the object at this
-+		 * point. The object's region is not stable until we lock
-+		 * the object.
-+		 */
-+		mutex_unlock(&mr->objects.lock);
-+		apply->ww = &ww;
-+		for_i915_gem_ww(&ww, ret, apply->interruptible) {
-+			ret = i915_gem_object_lock(obj, apply->ww);
-+			if (ret)
-+				continue;
-+
-+			if (obj->mm.region == mr)
-+				ret = ops->process_obj(apply, obj);
-+			/* Implicit object unlock */
-+		}
-+
-+		i915_gem_object_put(obj);
-+		mutex_lock(&mr->objects.lock);
-+		if (ret)
-+			break;
-+	}
-+	list_splice_tail(&still_in_list, &mr->objects.list);
-+	mutex_unlock(&mr->objects.lock);
-+
-+	return ret;
-+}
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_region.h b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-index 1008e580a89a..fcaa12d657d4 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_region.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_region.h
-@@ -12,6 +12,41 @@ struct intel_memory_region;
- struct drm_i915_gem_object;
- struct sg_table;
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+index dea8e2479897..f84f2bfe2de0 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+@@ -19,6 +19,8 @@
+ #include "intel_rps.h"
+ #include "intel_wakeref.h"
  
-+struct i915_gem_apply_to_region;
++#define I915_GT_SUSPEND_IDLE_TIMEOUT (HZ / 2)
 +
-+/**
-+ * struct i915_gem_apply_to_region_ops - ops to use when iterating over all
-+ * region objects.
-+ */
-+struct i915_gem_apply_to_region_ops {
-+	/**
-+	 * process_obj - Process the current object
-+	 * @apply: Embed this for private data.
-+	 * @obj: The current object.
-+	 *
-+	 * Note that if this function is part of a ww transaction, and
-+	 * if returns -EDEADLK for one of the objects, it may be
-+	 * rerun for that same object in the same pass.
-+	 */
-+	int (*process_obj)(struct i915_gem_apply_to_region *apply,
-+			   struct drm_i915_gem_object *obj);
-+};
-+
-+/**
-+ * struct i915_gem_apply_to_region - Argument to the struct
-+ * i915_gem_apply_to_region_ops functions.
-+ * @ops: The ops for the operation.
-+ * @ww: Locking context used for the transaction.
-+ * @interruptible: Whether to perform object locking interruptible.
-+ *
-+ * This structure is intended to be embedded in a private struct if needed
-+ */
-+struct i915_gem_apply_to_region {
-+	const struct i915_gem_apply_to_region_ops *ops;
-+	struct i915_gem_ww_ctx *ww;
-+	u32 interruptible:1;
-+};
-+
- void i915_gem_object_init_memory_region(struct drm_i915_gem_object *obj,
- 					struct intel_memory_region *mem);
- void i915_gem_object_release_memory_region(struct drm_i915_gem_object *obj);
-@@ -22,4 +57,6 @@ i915_gem_object_create_region(struct intel_memory_region *mem,
- 			      resource_size_t page_size,
- 			      unsigned int flags);
+ static void user_forcewake(struct intel_gt *gt, bool suspend)
+ {
+ 	int count = atomic_read(&gt->user_wakeref);
+@@ -279,7 +281,7 @@ static void wait_for_suspend(struct intel_gt *gt)
+ 	if (!intel_gt_pm_is_awake(gt))
+ 		return;
  
-+int i915_gem_process_region(struct intel_memory_region *mr,
-+			    struct i915_gem_apply_to_region *apply);
- #endif
+-	if (intel_gt_wait_for_idle(gt, I915_GEM_IDLE_TIMEOUT) == -ETIME) {
++	if (intel_gt_wait_for_idle(gt, I915_GT_SUSPEND_IDLE_TIMEOUT) == -ETIME) {
+ 		/*
+ 		 * Forcibly cancel outstanding work and leave
+ 		 * the gpu quiet.
 -- 
 2.31.1
 
