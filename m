@@ -1,70 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B7DD413442
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 15:33:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9082F413504
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 16:07:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 56C656E982;
-	Tue, 21 Sep 2021 13:33:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E4DEF89CDE;
+	Tue, 21 Sep 2021 14:07:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AD79C6E982
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 13:33:24 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t18so39269589wrb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 06:33:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=A31aJO/5YcdUocsEcyn0bhc0bNHd+7HvWCL+8pVGDDU=;
- b=XXnHlbsVJeiz43Y3LESLsOdS/m8OXgkzBDvNRuXaOhzIFk9XPGFB8+4fzF+fhcPttK
- FvPwPmNgxuEnz6VX/pugMXfkccU1NnwbfTphH095zmWsunddDBDkNpBwv0V6s+OvfSzw
- oHQOgUsamKJGEUduN/kILiR81SKXt0x7/e7DUk55aAFS+TH1KIz3NoJsw1cXsVNhgXL7
- RUkPzrz2CYT8e+24iQOzYwtNzVSKtcauNmzjGdxTocSiSIJ9HlrP9Ke2CSkTPRxCPCUK
- o9AyIB91PX/qD/ilB+5C7p1rcqcTBgGtp8O3JY68Tf3s61h1FgmkmmUG1rxJe5oz4d0U
- Xs3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=A31aJO/5YcdUocsEcyn0bhc0bNHd+7HvWCL+8pVGDDU=;
- b=s31Bj2piO4CXlBsbMKcXysTtEvuGcHao2mLEwzllvEsB4+LIcBTnuNezHn0+Q9qJu2
- MGC/tRSK1WgbYqblFSKMpFA6nHX6ROGUC3i7hKFApmClkO4joiSlYfteaL6WhvaOPwqu
- 88/o+OBZuRH+m+y3jkDk4babwOCG0TxTYpm/h4fBMfQWF+B/5OhSFmjnWgzTlA7dT47X
- 3L+esuy0VJifyP2WDnntYxwu0uHA0luXNRppjj4bsVgoxb23vg7jtnZULwxCP05zjjoR
- 1EY9P/EvwTnmCAIVizwW8m9ydNweB8VQ1rHEt6zie4wbbt2a7xRcW/dsdQHDqWETeutJ
- /eLA==
-X-Gm-Message-State: AOAM5306b/PIBhtlKp3dxiRQJv+zpAG6peoq9ns8ysES2FUZ1/GTsmGN
- y/H0GwdnwqdTY+FaIrYLPcvFlg==
-X-Google-Smtp-Source: ABdhPJxs/pQcAS2zvnJ16CTjs9g477Rs5JMYYC8B5kkiiA0dn7lD3oQ/W7AtqrHOuibodbiz+oZI3Q==
-X-Received: by 2002:a1c:2351:: with SMTP id j78mr4690686wmj.40.1632231203097; 
- Tue, 21 Sep 2021 06:33:23 -0700 (PDT)
-Received: from google.com ([95.148.6.233])
- by smtp.gmail.com with ESMTPSA id g1sm4434940wmk.2.2021.09.21.06.33.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 06:33:22 -0700 (PDT)
-Date: Tue, 21 Sep 2021 14:33:20 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- Noralf =?iso-8859-1?Q?Tr=F8nnes?= <noralf@tronnes.org>,
- Daniel Thompson <daniel.thompson@linaro.org>, stable@vger.kernel.org,
- Meghana Madhyastha <meghana.madhyastha@gmail.com>,
- Sean Paul <seanpaul@chromium.org>, Thierry Reding <treding@nvidia.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH V2] video: backlight: Drop maximum brightness override
- for brightness zero
-Message-ID: <YUnfIFllpOMnie4l@google.com>
-References: <20210713191633.121317-1-marex@denx.de>
- <072e01b7-8554-de4f-046a-da11af3958d6@denx.de>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3C4789CDE;
+ Tue, 21 Sep 2021 14:07:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="223411451"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="223411451"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 06:43:06 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="549490303"
+Received: from agallagh-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.17.108])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 06:43:05 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Michael Mason <michael.w.mason@intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Subject: [PATCH v2] drm/i915/request: fix early tracepoints
+Date: Tue, 21 Sep 2021 14:42:02 +0100
+Message-Id: <20210921134202.3803151-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <072e01b7-8554-de4f-046a-da11af3958d6@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,64 +47,112 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, 11 Sep 2021, Marek Vasut wrote:
+Currently we blow up in trace_dma_fence_init, when calling into
+get_driver_name or get_timeline_name, since both the engine and context
+might be NULL(or contain some garbage address) in the case of newly
+allocated slab objects via the request ctor. Note that we also use
+SLAB_TYPESAFE_BY_RCU here, which allows requests to be immediately
+freed, but delay freeing the underlying page by an RCU grace period.
+With this scheme requests can be re-allocated, at the same time as they
+are also being read by some lockless RCU lookup mechanism.
 
-> On 7/13/21 9:16 PM, Marek Vasut wrote:
-> > The note in c2adda27d202f ("video: backlight: Add of_find_backlight helper
-> > in backlight.c") says that gpio-backlight uses brightness as power state.
-> > This has been fixed since in ec665b756e6f7 ("backlight: gpio-backlight:
-> > Correct initial power state handling") and other backlight drivers do not
-> > require this workaround. Drop the workaround.
-> > 
-> > This fixes the case where e.g. pwm-backlight can perfectly well be set to
-> > brightness 0 on boot in DT, which without this patch leads to the display
-> > brightness to be max instead of off.
-> > 
-> > Fixes: c2adda27d202f ("video: backlight: Add of_find_backlight helper in backlight.c")
-> > Acked-by: Noralf Trønnes <noralf@tronnes.org>
-> > Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
-> > Cc: <stable@vger.kernel.org> # 5.4+
-> > Cc: <stable@vger.kernel.org> # 4.19.x: ec665b756e6f7: backlight: gpio-backlight: Correct initial power state handling
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > Cc: Meghana Madhyastha <meghana.madhyastha@gmail.com>
-> > Cc: Noralf Trønnes <noralf@tronnes.org>
-> > Cc: Sean Paul <seanpaul@chromium.org>
-> > Cc: Thierry Reding <treding@nvidia.com>
-> > ---
-> > V2: Add AB/RB, CC stable
-> > ---
-> >   drivers/video/backlight/backlight.c | 6 ------
-> >   1 file changed, 6 deletions(-)
-> > 
-> > diff --git a/drivers/video/backlight/backlight.c b/drivers/video/backlight/backlight.c
-> > index 537fe1b376ad7..fc990e576340b 100644
-> > --- a/drivers/video/backlight/backlight.c
-> > +++ b/drivers/video/backlight/backlight.c
-> > @@ -688,12 +688,6 @@ static struct backlight_device *of_find_backlight(struct device *dev)
-> >   			of_node_put(np);
-> >   			if (!bd)
-> >   				return ERR_PTR(-EPROBE_DEFER);
-> > -			/*
-> > -			 * Note: gpio_backlight uses brightness as
-> > -			 * power state during probe
-> > -			 */
-> > -			if (!bd->props.brightness)
-> > -				bd->props.brightness = bd->props.max_brightness;
-> >   		}
-> >   	}
-> > 
-> 
-> Any news on this ?
-> 
-> Expanding CC list.
+In the ctor case, which is only called for new slab objects(i.e allocate
+new page and call the ctor for each object) it's safe to reset the
+context/engine prior to calling into dma_fence_init, since we can be
+certain that no one is doing an RCU lookup which might depend on peeking
+at the engine/context, like in active_engine(), since the object can't
+yet be externally visible.
 
-Looks like I was left off of the original submission.
+In the recycled case(which might also be externally visible) the request
+refcount always transitions from 0->1 after we set the context/engine
+etc, which should ensure it's valid to dereference the engine for
+example, when doing an RCU list-walk, so long as we can also increment
+the refcount first. If the refcount is already zero, then the request is
+considered complete/released.  If it's non-zero, then the request might
+be in the process of being re-allocated, or potentially still in flight,
+however after successfully incrementing the refcount, it's possible to
+carefully inspect the request state, to determine if the request is
+still what we were looking for. Note that all externally visible
+requests returned to the cache must have zero refcount.
 
-I can't apply a quoted patch.  Please re-submit.
+One possible fix then is to move dma_fence_init out from the request
+ctor. Originally this was how it was done, but it was moved in:
 
+commit 855e39e65cfc33a73724f1cc644ffc5754864a20
+Author: Chris Wilson <chris@chris-wilson.co.uk>
+Date:   Mon Feb 3 09:41:48 2020 +0000
+
+    drm/i915: Initialise basic fence before acquiring seqno
+
+where it looks like intel_timeline_get_seqno() relied on some of the
+rq->fence state, but that is no longer the case since:
+
+commit 12ca695d2c1ed26b2dcbb528b42813bd0f216cfc
+Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Date:   Tue Mar 23 16:49:50 2021 +0100
+
+    drm/i915: Do not share hwsp across contexts any more, v8.
+
+intel_timeline_get_seqno() could also be cleaned up slightly by dropping
+the request argument.
+
+Moving dma_fence_init back out of the ctor, should ensure we have enough
+of the request initialised in case of trace_dma_fence_init.
+Functionally this should be the same, and is effectively what we were
+already open coding before, except now we also assign the fence->lock
+and fence->ops, but since these are invariant for recycled
+requests(which might be externally visible), and will therefore already
+hold the same value, it shouldn't matter.
+
+An alternative fix, since we don't yet have a fully initialised request
+when in the ctor, is just setting the context/engine as NULL, but this
+does require adding some extra handling in get_driver_name etc.
+
+v2(Daniel):
+  - Try to make the commit message less confusing
+
+Fixes: 855e39e65cfc ("drm/i915: Initialise basic fence before acquiring seqno")
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Michael Mason <michael.w.mason@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+---
+ drivers/gpu/drm/i915/i915_request.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index ce446716d092..79da5eca60af 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -829,8 +829,6 @@ static void __i915_request_ctor(void *arg)
+ 	i915_sw_fence_init(&rq->submit, submit_notify);
+ 	i915_sw_fence_init(&rq->semaphore, semaphore_notify);
+ 
+-	dma_fence_init(&rq->fence, &i915_fence_ops, &rq->lock, 0, 0);
+-
+ 	rq->capture_list = NULL;
+ 
+ 	init_llist_head(&rq->execute_cb);
+@@ -905,17 +903,12 @@ __i915_request_create(struct intel_context *ce, gfp_t gfp)
+ 	rq->ring = ce->ring;
+ 	rq->execution_mask = ce->engine->mask;
+ 
+-	kref_init(&rq->fence.refcount);
+-	rq->fence.flags = 0;
+-	rq->fence.error = 0;
+-	INIT_LIST_HEAD(&rq->fence.cb_list);
+-
+ 	ret = intel_timeline_get_seqno(tl, rq, &seqno);
+ 	if (ret)
+ 		goto err_free;
+ 
+-	rq->fence.context = tl->fence_context;
+-	rq->fence.seqno = seqno;
++	dma_fence_init(&rq->fence, &i915_fence_ops, &rq->lock,
++		       tl->fence_context, seqno);
+ 
+ 	RCU_INIT_POINTER(rq->timeline, tl);
+ 	rq->hwsp_seqno = tl->hwsp_seqno;
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.26.3
+
