@@ -2,72 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C56C4130D0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 11:42:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E43CA4130F4
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 11:49:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 723C36E3F7;
-	Tue, 21 Sep 2021 09:41:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90A106E91C;
+	Tue, 21 Sep 2021 09:49:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1176B6E3F7;
- Tue, 21 Sep 2021 09:41:56 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t8so37259557wrq.4;
- Tue, 21 Sep 2021 02:41:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=lhKy8aw3qz18WoJCn9BMq8t8vFOczTyYGa6bT8vvq40=;
- b=BmHd6yMMPHdEgnvHlRJtatT9HbSmrNtHG/X/GfMCHnmVWusFjkEtaNZpFD8t1aPtky
- iKuYgZHlA3+iGCUFN/VRPiafTrtsMFY1UFeFUoDHjxjSeoH98JXblO7cTfRr4LFhyki3
- KBc/78souy9wsXqzT4kE0T5HPHQtfywc+voR9i1oP50QPrvpyea53Vzn+2cJButAuitw
- snfglU4bZraTBIGW37zZayAFHbSmltE3zRbaUFai7O3UvVTTqoBqY7Psr61tCnmcaeg9
- 8UEVaAUcynqDW4TWU5ryOH9L3lGXAnGQHi3wgFMirbU78Fbh8xSnlSDdkQHztyO0b2Yj
- WhKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=lhKy8aw3qz18WoJCn9BMq8t8vFOczTyYGa6bT8vvq40=;
- b=AS73KMmRpWlqR99I10DTrUACDg+yCqoO+/C9LdsiwRCg/AZjNLlF5FBqaYwvBf52sF
- 1laCnx5rVGkB5CrHMCU86A+OQBu9C97AjT0akq4j0rJeOrFfz6mwZ5hpDbUd2Otw3Oq1
- qzghzEMtpT8i4E36kNys0HJQlls3+MOgYsnnpESiz1h6ulW0UGZCESZ6t5g6XcJomDog
- aCABzJepfmPTLunSNJL0qBjFqNX/b/zWsWI4TjbLp/BImDtZws7j6TWNMbolJwPvdmGU
- EXcN904FtJWSK2SiA5AIVYlTtk+bvBPJkdUjcFcJzXgjDU5dIVOJqCIlIeUjVLRlDbir
- tlew==
-X-Gm-Message-State: AOAM532BPeTuxnxem2QOL/Y/6QITCC5dPJoflXCW9FCazZmLrgXjcP4Z
- i/b2V5DZ2wLKzdsknqw7MpI=
-X-Google-Smtp-Source: ABdhPJx9nQdVuGGy9wMdElYgZLnuNTs32BWOoQ8xeJsHeWKaP1XN12OLjWgPt9yZUC6aBjhEO9VgxA==
-X-Received: by 2002:a7b:c112:: with SMTP id w18mr3563637wmi.86.1632217314584; 
- Tue, 21 Sep 2021 02:41:54 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:9e25:63a7:d115:3eab?
- ([2a02:908:1252:fb60:9e25:63a7:d115:3eab])
- by smtp.gmail.com with ESMTPSA id n186sm2168506wme.31.2021.09.21.02.41.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 02:41:53 -0700 (PDT)
-Subject: Re: [Intel-gfx] [PATCH 13/26] drm/i915: use the new iterator in
- i915_gem_busy_ioctl
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-References: <20210917123513.1106-1-christian.koenig@amd.com>
- <20210917123513.1106-14-christian.koenig@amd.com>
- <6fbaca09-ec51-c44e-708c-334ef8be8595@linux.intel.com>
- <368e8495-f4de-cbb2-3584-e022a5937885@gmail.com>
- <563bb7c3-f956-212d-6085-b1b88292887c@linux.intel.com>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <64b6a924-be38-0ed0-da92-86296702f71c@gmail.com>
-Date: Tue, 21 Sep 2021 11:41:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A59216E91C
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 09:49:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="284334833"
+X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; d="scan'208";a="284334833"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 02:49:38 -0700
+X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; d="scan'208";a="549418557"
+Received: from unknown (HELO localhost) ([10.251.218.108])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 02:49:34 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Markus Schneider-Pargmann <msp@baylibre.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Markus Schneider-Pargmann <msp@baylibre.com>
+Subject: Re: [PATCH v2 3/6] drm/edid: Add cea_sad helpers for freq/length
+In-Reply-To: <20210920084424.231825-4-msp@baylibre.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210920084424.231825-1-msp@baylibre.com>
+ <20210920084424.231825-4-msp@baylibre.com>
+Date: Tue, 21 Sep 2021 12:49:31 +0300
+Message-ID: <87mto6tg0k.fsf@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <563bb7c3-f956-212d-6085-b1b88292887c@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,128 +52,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 20.09.21 um 12:33 schrieb Tvrtko Ursulin:
-> On 20/09/2021 11:13, Christian König wrote:
->> Am 20.09.21 um 10:45 schrieb Tvrtko Ursulin:
->>>
->>> On 17/09/2021 13:35, Christian König wrote:
->>>> This makes the function much simpler since the complex
->>>> retry logic is now handled else where.
->>>>
->>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>> ---
->>>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 32 
->>>> ++++++++----------------
->>>>   1 file changed, 11 insertions(+), 21 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
->>>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>> index 6234e17259c1..b1cb7ba688da 100644
->>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
->>>> *data,
->>>>   {
->>>>       struct drm_i915_gem_busy *args = data;
->>>>       struct drm_i915_gem_object *obj;
->>>> -    struct dma_resv_list *list;
->>>> -    unsigned int seq;
->>>> +    struct dma_resv_iter cursor;
->>>> +    struct dma_fence *fence;
->>>>       int err;
->>>>         err = -ENOENT;
->>>> @@ -109,27 +109,17 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
->>>> void *data,
->>>>        * to report the overall busyness. This is what the 
->>>> wait-ioctl does.
->>>>        *
->>>>        */
->>>> -retry:
->>>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
->>>> -
->>>> -    /* Translate the exclusive fence to the READ *and* WRITE 
->>>> engine */
->>>> -    args->busy = 
->>>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));
->>>> -
->>>> -    /* Translate shared fences to READ set of engines */
->>>> -    list = dma_resv_shared_list(obj->base.resv);
->>>> -    if (list) {
->>>> -        unsigned int shared_count = list->shared_count, i;
->>>> -
->>>> -        for (i = 0; i < shared_count; ++i) {
->>>> -            struct dma_fence *fence =
->>>> -                rcu_dereference(list->shared[i]);
->>>> -
->>>> +    args->busy = false;
->>>> +    dma_resv_iter_begin(&cursor, obj->base.resv, true);
->>>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
->>>
->>> You did not agree with my suggestion to reset args->busy on restart 
->>> and so preserve current behaviour?
->>
->> No, I want to keep the restart behavior internally to the dma_resv 
->> object and as far as I can see it should not make a difference here.
+On Mon, 20 Sep 2021, Markus Schneider-Pargmann <msp@baylibre.com> wrote:
+> This patch adds two helper functions that extract the frequency and word
+> length from a struct cea_sad.
 >
-> To be clear, on paper difference between old and new implementation is 
-> if the restart happens while processing the shared fences.
+> For these helper functions new defines are added that help translate the
+> 'freq' and 'byte2' fields into real numbers.
 >
-> Old implementation unconditionally goes to "args->busy =
-> >>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));" and so 
-> overwrites the set of flags returned to userspace.
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> ---
 >
-> New implementation can merge new read flags to the old set of flags 
-> and so return a composition of past and current fences.
+> Notes:
+>     Changes v1 -> v2:
+>     - Use const struct pointers.
+>     - Add a check whether the format is actually uncompressed or not.
 >
-> Maybe it does not matter hugely in this case, depends if userspace 
-> typically just restarts until flags are clear. But I am not sure.
+>  drivers/gpu/drm/drm_edid.c | 74 ++++++++++++++++++++++++++++++++++++++
+>  include/drm/drm_edid.h     | 18 ++++++++--
+>  2 files changed, 90 insertions(+), 2 deletions(-)
 >
-> On the higher level - what do you mean with wanting to keep the 
-> restart behaviour internal? Not providing iterators users means of 
-> detecting it? I think it has to be provided.
+> diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+> index 6325877c5fd6..28df422fbc03 100644
+> --- a/drivers/gpu/drm/drm_edid.c
+> +++ b/drivers/gpu/drm/drm_edid.c
+> @@ -4666,6 +4666,80 @@ int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb)
+>  }
+>  EXPORT_SYMBOL(drm_edid_to_speaker_allocation);
+>  
+> +/**
+> + * drm_cea_sad_get_sample_rate - Extract the sample rate from cea_sad
+> + * @sad: Pointer to the cea_sad struct
+> + *
+> + * Extracts the cea_sad frequency field and returns the sample rate in Hz.
+> + *
+> + * Return: Sample rate in Hz or a negative errno if parsing failed.
+> + */
+> +int drm_cea_sad_get_sample_rate(const struct cea_sad *sad)
+> +{
+> +	switch (sad->freq) {
+> +	case CEA_SAD_FREQ_32KHZ:
+> +		return 32000;
+> +	case CEA_SAD_FREQ_44KHZ:
+> +		return 44100;
+> +	case CEA_SAD_FREQ_48KHZ:
+> +		return 48000;
+> +	case CEA_SAD_FREQ_88KHZ:
+> +		return 88200;
+> +	case CEA_SAD_FREQ_96KHZ:
+> +		return 96000;
+> +	case CEA_SAD_FREQ_176KHZ:
+> +		return 176400;
+> +	case CEA_SAD_FREQ_192KHZ:
+> +		return 192000;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_cea_sad_get_sample_rate);
+> +
+> +static bool drm_cea_sad_is_uncompressed(const struct cea_sad *sad)
+> +{
+> +	switch (sad->format) {
+> +	case HDMI_AUDIO_CODING_TYPE_STREAM:
+> +	case HDMI_AUDIO_CODING_TYPE_PCM:
+> +		return true;
+> +	default:
+> +		return false;
+> +	}
+> +}
+> +
+> +/**
+> + * drm_cea_sad_get_uncompressed_word_length - Extract word length
+> + * @sad: Pointer to the cea_sad struct
+> + *
+> + * Extracts the cea_sad byte2 field and returns the word length for an
+> + * uncompressed stream.
+> + *
+> + * Note: This function may only be called for uncompressed audio.
+> + *
+> + * Return: Word length in bits or a negative errno if parsing failed.
+> + */
+> +int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad)
+> +{
+> +	if (!drm_cea_sad_is_uncompressed(sad)) {
+> +		DRM_WARN("Unable to get the uncompressed word length for a compressed format: %u\n",
+> +			 sad->format);
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (sad->byte2) {
+> +	case CEA_SAD_UNCOMPRESSED_WORD_16BIT:
+> +		return 16;
+> +	case CEA_SAD_UNCOMPRESSED_WORD_20BIT:
+> +		return 20;
+> +	case CEA_SAD_UNCOMPRESSED_WORD_24BIT:
+> +		return 24;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +EXPORT_SYMBOL(drm_cea_sad_get_uncompressed_word_length);
+> +
+>  /**
+>   * drm_av_sync_delay - compute the HDMI/DP sink audio-video sync delay
+>   * @connector: connector associated with the HDMI/DP sink
+> diff --git a/include/drm/drm_edid.h b/include/drm/drm_edid.h
+> index deccfd39e6db..7b7d71a7154d 100644
+> --- a/include/drm/drm_edid.h
+> +++ b/include/drm/drm_edid.h
+> @@ -361,12 +361,24 @@ struct edid {
+>  
+>  /* Short Audio Descriptor */
+>  struct cea_sad {
+> -	u8 format;
+> +	u8 format; /* See HDMI_AUDIO_CODING_TYPE_* */
+>  	u8 channels; /* max number of channels - 1 */
+> -	u8 freq;
+> +	u8 freq; /* See CEA_SAD_FREQ_* */
+>  	u8 byte2; /* meaning depends on format */
+>  };
+>  
+> +#define CEA_SAD_FREQ_32KHZ  BIT(0)
+> +#define CEA_SAD_FREQ_44KHZ  BIT(1)
+> +#define CEA_SAD_FREQ_48KHZ  BIT(2)
+> +#define CEA_SAD_FREQ_88KHZ  BIT(3)
+> +#define CEA_SAD_FREQ_96KHZ  BIT(4)
+> +#define CEA_SAD_FREQ_176KHZ BIT(5)
+> +#define CEA_SAD_FREQ_192KHZ BIT(6)
+> +
+> +#define CEA_SAD_UNCOMPRESSED_WORD_16BIT BIT(0)
+> +#define CEA_SAD_UNCOMPRESSED_WORD_20BIT BIT(1)
+> +#define CEA_SAD_UNCOMPRESSED_WORD_24BIT BIT(2)
 
-Ok I will adjust that for now to get the patch set upstream. But in 
-general when somebody outside of the dma_resv code base depends on the 
-restart behavior then that's a bug inside the design of that code.
+I suggest adding DRM_ prefixes here.
 
-The callers should only care about what unsignaled fences are inside the 
-dma_resv container and it shouldn't matter if those fences are presented 
-once or multiple times because of a reset..
+BR,
+Jani.
 
-When this makes a difference we have a bug in the handling and should 
-probably consider taking the dma_resv.lock instead.
+> +
+>  struct drm_encoder;
+>  struct drm_connector;
+>  struct drm_connector_state;
+> @@ -374,6 +386,8 @@ struct drm_display_mode;
+>  
+>  int drm_edid_to_sad(struct edid *edid, struct cea_sad **sads);
+>  int drm_edid_to_speaker_allocation(struct edid *edid, u8 **sadb);
+> +int drm_cea_sad_get_sample_rate(const struct cea_sad *sad);
+> +int drm_cea_sad_get_uncompressed_word_length(const struct cea_sad *sad);
+>  int drm_av_sync_delay(struct drm_connector *connector,
+>  		      const struct drm_display_mode *mode);
 
-Regards,
-Christian.
-
->
-> Regards,
->
-> Tvrtko
->
->> Regards,
->> Christian.
->>
->>>
->>> Regards,
->>>
->>> Tvrtko
->>>
->>>> +        if (dma_resv_iter_is_exclusive(&cursor))
->>>> +            /* Translate the exclusive fence to the READ *and* 
->>>> WRITE engine */
->>>> +            args->busy = busy_check_writer(fence);
->>>> +        else
->>>> +            /* Translate shared fences to READ set of engines */
->>>>               args->busy |= busy_check_reader(fence);
->>>> -        }
->>>>       }
->>>> -
->>>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
->>>> -        goto retry;
->>>> +    dma_resv_iter_end(&cursor);
->>>>         err = 0;
->>>>   out:
->>>>
->>
-
+-- 
+Jani Nikula, Intel Open Source Graphics Center
