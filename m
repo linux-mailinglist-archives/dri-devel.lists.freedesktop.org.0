@@ -1,68 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F80A413880
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:37:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 962E54138CA
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:40:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DE586E9C2;
-	Tue, 21 Sep 2021 17:37:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7E976E9CC;
+	Tue, 21 Sep 2021 17:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A266B6E9C9;
- Tue, 21 Sep 2021 17:37:09 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id u18so39817326wrg.5;
- Tue, 21 Sep 2021 10:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=12q+kmLcqrOLQ+PRaX5+iil+oP7YjLgyfMuSdQvd75Y=;
- b=VePXpSNXCwTK5NQ0fCHN0VvxQK/RJqR8uuQ+7WinkOk4JnqT4ta3E4ePLIcwg5K1gG
- Un7iqimOrX8S/QtaB6twwiic17xykFh68tj8EcjBBrYjZBdgG3TQT89RtNBlaYZ9WprC
- hEX7NmJtWqpb6IUdhuKLhrmP5gOcsItiqcZodcdLctFKGDSNsxIWgPwhVa/jCMCtAHgc
- +pAIXpLxIUSq1izgp14q+0rIhzS2/CkJE65YKYBdQ5VeTMI4ZJG1Pw4zi9uT1pYxlk8x
- wcTp1ZjYNCAwPy8mK1WaNbPK3wmz/8+TT6OvZOugu63a2TBHOv6qMoutROi2Q965Ft4T
- IhYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=12q+kmLcqrOLQ+PRaX5+iil+oP7YjLgyfMuSdQvd75Y=;
- b=fesfFlDE2SvBQ1Pj7bwH0QfAW31xdc1ZGb4awR8ZDnftZpKC51tU9WGOrfTdW14IIa
- XSjtzvXwK/vI7FKzAZLGBInwWzlMMBZHcjNpbraLCOyGF+NmLKFVMXIFeyn5MyY5PtMb
- d29doZjfByCMIewFeGn6nyi7Y7rytQzHtO29NGcZ0pUxjcf++FVGPgGf4vmhYUKs34Xf
- uoTnXrFPvxzoLCphjSeKfacXZbJmm86y0Jt3tlOnEJnncKYwB1cxRtKn7Er0NI24VcWP
- R+GvGJtQDP3RZL4nSYoSL1FRqM7W4RZVI1XEmbD03vOGuXob+/uyRn3a1vhPi7y3FGJ7
- 2Osg==
-X-Gm-Message-State: AOAM5324FbUEOpd+T+BTV8kU9CrcuzMheYVbyvVeq6Fz3ipzC3hitGJ9
- 7xwwXSWthzKvZS9jDYRLKHk=
-X-Google-Smtp-Source: ABdhPJwZXkcoOGg52wUstyhEmW0SBl14bNG6ygc2+W4Cn9IQUk6lNLl53rNUcP3WtzLBLwOzwiXawQ==
-X-Received: by 2002:a1c:7fd0:: with SMTP id a199mr6202904wmd.20.1632245828252; 
- Tue, 21 Sep 2021 10:37:08 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- z13sm23310477wrs.90.2021.09.21.10.37.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 10:37:07 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 07/26] drm/ttm: use the new iterator in ttm_bo_flush_all_fences
-Date: Tue, 21 Sep 2021 19:36:40 +0200
-Message-Id: <20210921173659.246165-7-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210921173659.246165-1-christian.koenig@amd.com>
-References: <20210921173659.246165-1-christian.koenig@amd.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7AE9A89EBD;
+ Tue, 21 Sep 2021 17:40:35 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="220232975"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="220232975"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 10:36:42 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="518295650"
+Received: from twallyn-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.83.37])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 10:36:41 -0700
+Date: Tue, 21 Sep 2021 10:36:41 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Subject: Re: [PATCH v2 5/6] drm/i915/uncore: Drop gen11 mmio read handlers
+Message-ID: <20210921173641.zkkyt2wygd7g3xq2@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210910201030.3436066-1-matthew.d.roper@intel.com>
+ <20210910201030.3436066-6-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210910201030.3436066-6-matthew.d.roper@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,47 +52,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is probably a fix since we didn't even grabed a reference to the
-fences.
+On Fri, Sep 10, 2021 at 01:10:29PM -0700, Matt Roper wrote:
+>Consolidate down to just a single 'fwtable' implementation.  For reads
+>we don't need to worry about shadow tables.  Also, the
+>NEEDS_FORCE_WAKE() check we previously had in the fwtable implementation
+>can be dropped --- if a register is outside that range on one of the old
+>platforms, then it won't belong to any forcewake range and 0 will be
+>returned anyway.
+>
+>v2:
+> - Restore NEEDS_FORCE_WAKE() check.  (Chris, Tvrtko)
+>
+>Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+>Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+>---
+> drivers/gpu/drm/i915/intel_uncore.c | 40 ++++++++++++-----------------
+> 1 file changed, 17 insertions(+), 23 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+>index bfb2a6337f9d..10f124297e7c 100644
+>--- a/drivers/gpu/drm/i915/intel_uncore.c
+>+++ b/drivers/gpu/drm/i915/intel_uncore.c
+>@@ -935,9 +935,6 @@ static const struct intel_forcewake_range __vlv_fw_ranges[] = {
+> 	__fwd; \
+> })
+>
+>-#define __gen11_fwtable_reg_read_fw_domains(uncore, offset) \
+>-	find_fw_domain(uncore, offset)
+>-
+> /* *Must* be sorted by offset! See intel_shadow_table_check(). */
+> static const struct i915_range gen8_shadowed_regs[] = {
+> 	{ .start =  0x2030, .end =  0x2030 },
+>@@ -1570,33 +1567,30 @@ static inline void __force_wake_auto(struct intel_uncore *uncore,
+> 		___force_wake_auto(uncore, fw_domains);
+> }
+>
+>-#define __gen_read(func, x) \
+>+#define __gen_fwtable_read(x) \
+> static u##x \
+>-func##_read##x(struct intel_uncore *uncore, i915_reg_t reg, bool trace) { \
+>+fwtable_read##x(struct intel_uncore *uncore, i915_reg_t reg, bool trace) \
+>+{ \
+> 	enum forcewake_domains fw_engine; \
+> 	GEN6_READ_HEADER(x); \
+>-	fw_engine = __##func##_reg_read_fw_domains(uncore, offset); \
+>+	fw_engine = __fwtable_reg_read_fw_domains(uncore, offset); \
+> 	if (fw_engine) \
+> 		__force_wake_auto(uncore, fw_engine); \
+> 	val = __raw_uncore_read##x(uncore, reg); \
+> 	GEN6_READ_FOOTER; \
+> }
+>
+>-#define __gen_reg_read_funcs(func) \
+>-static enum forcewake_domains \
+>-func##_reg_read_fw_domains(struct intel_uncore *uncore, i915_reg_t reg) { \
+>-	return __##func##_reg_read_fw_domains(uncore, i915_mmio_reg_offset(reg)); \
+>-} \
+>-\
+>-__gen_read(func, 8) \
+>-__gen_read(func, 16) \
+>-__gen_read(func, 32) \
+>-__gen_read(func, 64)
+>+static enum forcewake_domains
+>+fwtable_reg_read_fw_domains(struct intel_uncore *uncore, i915_reg_t reg) {
+>+	return __fwtable_reg_read_fw_domains(uncore, i915_mmio_reg_offset(reg));
+>+}
+>
+>-__gen_reg_read_funcs(gen11_fwtable);
+>-__gen_reg_read_funcs(fwtable);
+>+__gen_fwtable_read(8)
+>+__gen_fwtable_read(16)
+>+__gen_fwtable_read(32)
+>+__gen_fwtable_read(64)
+>
+>-#undef __gen_reg_read_funcs
+>+#undef __gen_fwtable_read
+> #undef GEN6_READ_FOOTER
+> #undef GEN6_READ_HEADER
+>
+>@@ -2062,22 +2056,22 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+> 		ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
+> 		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+> 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+>-		ASSIGN_READ_MMIO_VFUNCS(uncore, gen11_fwtable);
+>+		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+> 	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+> 		ASSIGN_FW_DOMAINS_TABLE(uncore, __xehp_fw_ranges);
+> 		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+> 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+>-		ASSIGN_READ_MMIO_VFUNCS(uncore, gen11_fwtable);
+>+		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+> 	} else if (GRAPHICS_VER(i915) >= 12) {
+> 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen12_fw_ranges);
+> 		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+> 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+>-		ASSIGN_READ_MMIO_VFUNCS(uncore, gen11_fwtable);
+>+		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+> 	} else if (GRAPHICS_VER(i915) == 11) {
+> 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen11_fw_ranges);
+> 		ASSIGN_SHADOW_TABLE(uncore, gen11_shadowed_regs);
+> 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+>-		ASSIGN_READ_MMIO_VFUNCS(uncore, gen11_fwtable);
+>+		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
----
- drivers/gpu/drm/ttm/ttm_bo.c | 16 ++++------------
- 1 file changed, 4 insertions(+), 12 deletions(-)
+these together with patch 1 make the fwtable variant be the only one
+used for reads.... so, should we pull these assignments out of if/else
+chain? gen < 6 don't have forcewake so afaics we cover all the
+platforms.
 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 3b22c0013dbf..301b0b4b082e 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -269,23 +269,15 @@ static int ttm_bo_individualize_resv(struct ttm_buffer_object *bo)
- static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
- {
- 	struct dma_resv *resv = &bo->base._resv;
--	struct dma_resv_list *fobj;
-+	struct dma_resv_iter cursor;
- 	struct dma_fence *fence;
--	int i;
--
--	rcu_read_lock();
--	fobj = dma_resv_shared_list(resv);
--	fence = dma_resv_excl_fence(resv);
--	if (fence && !fence->ops->signaled)
--		dma_fence_enable_sw_signaling(fence);
--
--	for (i = 0; fobj && i < fobj->shared_count; ++i) {
--		fence = rcu_dereference(fobj->shared[i]);
- 
-+	dma_resv_iter_begin(&cursor, resv, true);
-+	dma_resv_for_each_fence_unlocked(&cursor, fence) {
- 		if (!fence->ops->signaled)
- 			dma_fence_enable_sw_signaling(fence);
- 	}
--	rcu_read_unlock();
-+	dma_resv_iter_end(&cursor);
- }
- 
- /**
--- 
-2.25.1
+this can be done as a separate patch though.
 
+
+Reviewed-by: Lucas De Marchi <lucas.demarchi@intel.com>
+
+Lucas De Marchi
+
+> 	} else if (IS_GRAPHICS_VER(i915, 9, 10)) {
+> 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen9_fw_ranges);
+> 		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
+>-- 
+>2.25.4
+>
