@@ -1,74 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80296413028
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 10:28:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9BB413033
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 10:33:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3E46E906;
-	Tue, 21 Sep 2021 08:28:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E5AE6E90F;
+	Tue, 21 Sep 2021 08:33:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C9C8E6E906
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 08:28:01 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id d6so36558971wrc.11
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 01:28:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T0XmoJFziofhO8Y+h0Rn94pKP5fmr2HqBsNSUgjyYvw=;
- b=5yroY8A5VZDD+FHjsZDG2Bp0VN/9NCmZ6ph34jSWwEsJDuCD1esKUGD45vE+WgS4Nx
- nLpmPK+HWxt4q0gKN2U73YMOnjSK+nmWRAOe5rrwvsVTm3YVJfv3Uk7Ft/ySqP8hex+L
- f1zgm40Kj0wD1HVJ/tqQEXWaO2g7jPTnpIsyC00BZBbdt1+5/r0+9IfMD8B0NR2OFV4N
- pz5rhxCmqkUUs9JHgj0UnqMfPvOUro47Byxx/qxy4BLAKotV6L/T/FwekBK8Wdm1LwTf
- IBIWoRX0nibMYi74t7oqbGH47mAj6G8IqCq4nOm+sVQjejoCmL+E3DfESpMyX7jXmi3L
- PQww==
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8E9D6E90D
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 08:33:52 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ x33-20020a9d37a4000000b0054733a85462so237441otb.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 01:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tUP5o16fQUNiQB1l95tz+2IQ6syhVg0GwjiWyDFIu3w=;
+ b=CsFgP+0Qi4bKPcrzGdWJ9UyNMGuHav8K0QaYienUfPUinb0szeYDCvddtyREIjk71w
+ We5qG43IFvZ9RlVX+R/gp3RAM+BbEpixwr5iELdwsHW1baM3vBK7b1PeMAl7+Wm1bTDI
+ 5duSuzc7ElDwrw7C3xkYqXHTKV3By8BdjhlQr+4loePXRWSGW6W/biCOdWGBVzo7AnGk
+ GxdI/V3N6NAv4hyK8ME+ooo34dWPy1kYNW9DCs7VAENFZZalfyGKuRsID5YIbR4Ux0w9
+ A6DlONfM+vIRGq3hz03pl44g25JKpDQelbXUTCj3vdQEtEBbqyfVMouUTQM7195I0ejW
+ eB6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=T0XmoJFziofhO8Y+h0Rn94pKP5fmr2HqBsNSUgjyYvw=;
- b=yJEKz6Os0IPTX7835oSrgUZXJiQOztS9g9NWVNy8l65/rqJV1Sqp1mN47v952y9sc0
- KscKQGk22de+Urn/UEjSNg1tdcOHyaPCCpOYVZXrZH5DGFs00ivsApXnJMowicHCNwVJ
- LqdfQmLd/zwUmC4CBWClrPUIHSSZeTymZ5yRv2IOdmyyb+Wny/AjLWwsNxSygIlBsCD6
- s3QkXbBaVPt/KGOUaWJ2s0kTreTQfbJZNg8d5vKfNtZ+snrAi1QE3k2I561UdO/ynz73
- l0sdrV1o6i8GQWKRAKqDKztt+QBcmEdTG197dkEfrGCLE49Y3c5ol6OswB3e4rH0gnyi
- gx1Q==
-X-Gm-Message-State: AOAM532Ocw4WxCBC/GstwoSyQZEd5win8STXlAUmqd2B1ao9OkvbM8RM
- 0eednBz7EyxMAFlS3aH6skW0hQ==
-X-Google-Smtp-Source: ABdhPJzdYtgEvUpitsO9NiVEWZkguYTXll2eKVobKG1pSehamwA8kyXtDfgNoQVbS8fawSppRasMdQ==
-X-Received: by 2002:a1c:1b10:: with SMTP id b16mr3190466wmb.194.1632212879919; 
- Tue, 21 Sep 2021 01:27:59 -0700 (PDT)
-Received: from [192.168.1.10]
- (i16-les01-ntr-213-44-230-108.sfr.lns.abo.bbox.fr. [213.44.230.108])
- by smtp.gmail.com with ESMTPSA id m4sm22493531wrx.81.2021.09.21.01.27.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 21 Sep 2021 01:27:59 -0700 (PDT)
-Subject: Re: [PATCH] drm: bridge: it66121: Added it66121 chip external screen
- status judgment
-To: Yunlongli <liyunlonga@uniontech.com>, ple@baylibre.com,
- a.hajda@samsung.com, robert.foss@linaro.org, airlied@linux.ie,
- daniel@ffwll.ch
-Cc: Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20210921075401.24926-1-liyunlonga@uniontech.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <13a71cec-06ef-d4d1-948e-c62d4c91d80f@baylibre.com>
-Date: Tue, 21 Sep 2021 10:27:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tUP5o16fQUNiQB1l95tz+2IQ6syhVg0GwjiWyDFIu3w=;
+ b=T1Ta34VH5uTgzRCVDMM4xK5a7mVspEJELNUHzyVM5KVgOqH7s0E/mc+nyNZcWE1tzB
+ a87Krd1i5L48eSGmTyPXuBGHfgZyj9YWRp+5sX24wlDDKIdRd+nuGV3lpHAobHlgeht7
+ v4qdEMVPWVjoGbBvrd7Pbtk6E3Pp2z0yQON/DqzXWu4ugnQhjAZ6ekDbOFqAkc8yS2go
+ yOLFDahAxJZzvTUEEJjzcIPbuNKFfDNO+b4Z7f7jFDIDeMyTS7J6uwFp7hlLc5C+fsBu
+ 5EbiPXSIHgTqSol2lOiZ8teZVpKunyVt2FQSiodgy0nSJN2KcMZX1DI4ivRSzcnymLCM
+ qvaw==
+X-Gm-Message-State: AOAM533iGYDOq0rA5GuN45vH8HuLe2esRv+P9s+dBiW9uVMRmX5FQo6y
+ FAP7AZ7PDAkTZJrblwHiMEIIiN36L847BgeO/Ms=
+X-Google-Smtp-Source: ABdhPJwirdiIiHRDKyIspe7ojt8fnpquChJUBwqtp9+6cYES+wCmNQrAd/3lqCf9d5RD2L4DHY6E+Qdv8cjRCaj3co4=
+X-Received: by 2002:a9d:7dca:: with SMTP id k10mr11801108otn.54.1632213231963; 
+ Tue, 21 Sep 2021 01:33:51 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210921075401.24926-1-liyunlonga@uniontech.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210808234733.14782-1-chunkuang.hu@kernel.org>
+ <CAAOTY_9LstZegE_Gyibov5tLo5eEqiPfoAcnyj_uoS=8xLLhnA@mail.gmail.com>
+In-Reply-To: <CAAOTY_9LstZegE_Gyibov5tLo5eEqiPfoAcnyj_uoS=8xLLhnA@mail.gmail.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Tue, 21 Sep 2021 10:33:40 +0200
+Message-ID: <CAFqH_52Pr9AdduBWeBwv31giRdBRmqZ_b31LvCzYNkBweGfRrA@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] CMDQ refinement of Mediatek DRM driver
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
+Content-Type: multipart/alternative; boundary="000000000000e3903c05cc7d41d8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,56 +71,155 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+--000000000000e3903c05cc7d41d8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21/09/2021 09:54, Yunlongli wrote:
-> In the actual tests,  the IT66121 chip sometimes misjudged whether
-> it had an external screen, so, reference the it66121_user_guid.pdf
-> about Audio/Video data is stable or not A typical initialization
-> of HDMI link should be based on interrupt signal and appropriate
-> register probing. Recommended flow is detailed in IT66121
-> Programming Guide. Simply put, the microcontroller should monitor
-> the HPD status first. Upon valid HPD event, move on to check
-> RxSENDetect register to see if the receiver chip is ready for
-> further handshaking. When RxSENDetect is asserted, start reading EDID
-> data through DDC channels and carry on the rest of the handshaking
-> subsequently.If the micro-controller makes no use of the interrupt
-> signal as well as the above-mentioned status  registers, the link
-> establishment might fail. Please do follow the suggested
-> initialization flow recommended in IT66121 Programming Guide.
-> So, I add the IT66121_SYS_STATUS_SENDECTECT register status detection.
+Hi Chun-Kuang,
 
-Ok, the RxSENDetect is the "rx-sense" detection bit as described in the same doc:
+Missatge de Chun-Kuang Hu <chunkuang.hu@kernel.org> del dia dj., 12 d=E2=80=
+=99ag.
+2021 a les 2:13:
 
-Receiver detection circuit reports the presence or absence of an active termination at the TMDS Clock Channel (RxSENDetect)
+> Chun-Kuang Hu <chunkuang.hu@kernel.org> =E6=96=BC 2021=E5=B9=B48=E6=9C=88=
+9=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=887:47=E5=AF=AB=E9=81=93=EF=
+=BC=9A
+> >
+> > These refinements include using standard mailbox callback interface,
+> > timeout detection, and a fixed cmdq_handle.
+>
+> For this series, applied to mediatek-drm-next [1].
+>
+> [1]
+> https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/lo=
+g/?h=3Dmediatek-drm-next
+>
+>
+These patches seem to break the display on the Acer Chromebook R 13
+(MT8173) in the current mainline. After running a bisection it pointed me
+to the following commit
 
-The usage of the rx-sense signal in hpd_detect() is not clear because this would break detection of "Fake" EDID dongles or idle monitors.
+commit f4be17cd5b14dd73545b0e014a63ebe9ab5ef837
+Author: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Sun Jul 4 15:36:48 2021 +0800
 
-The dw-hdmi handles the rx-sense, but only to power-on/off the HDMI TX, but only returns the HPD status to DRM without the RX SENSE state,
-so it only saves power and doesn't change anything on DRM HPD detection.
+    drm/mediatek: Remove struct cmdq_client
 
-So not sure if we should merge this as-is.
+Reverting this patch alone is not trivial, so I ended up reverting the full
+series, and I can confirm that reverting the full series makes the display
+work again.
 
-Neil
+Unfortunately, after the merge window, different things broke for this
+device, and I didn't finish isolating them, and it is not clear to me yet
+whether the logs I'm getting are useful for this specific issue or not.
+Basically with this series merged the kernel seems to be stuck, and the
+display is not working. Latest message is
 
-> 
-> Signed-off-by: Yunlongli <liyunlonga@uniontech.com>
-> ---
->  drivers/gpu/drm/bridge/ite-it66121.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/ite-it66121.c b/drivers/gpu/drm/bridge/ite-it66121.c
-> index 2f2a09adb4bc..9ed4fa298d11 100644
-> --- a/drivers/gpu/drm/bridge/ite-it66121.c
-> +++ b/drivers/gpu/drm/bridge/ite-it66121.c
-> @@ -523,7 +523,7 @@ static bool it66121_is_hpd_detect(struct it66121_ctx *ctx)
->  	if (regmap_read(ctx->regmap, IT66121_SYS_STATUS_REG, &val))
->  		return false;
->  
-> -	return val & IT66121_SYS_STATUS_HPDETECT;
-> +	return ((val & IT66121_SYS_STATUS_HPDETECT) && (val & IT66121_SYS_STATUS_SENDECTECT));
->  }
->  
->  static int it66121_bridge_attach(struct drm_bridge *bridge,
-> 
+[   12.329173] mtk-iommu 10205000.iommu: Partial TLB flush timed out,
+falling back to full flush
 
+Without the series, the kernel goes far and display works, however there
+are other issues affecting the cros-ec, but I think that's another issue.
+
+I'll try to dig a bit more, but, meanwhile, if you have any idea please let
+me know.
+
+Thanks,
+ Enric
+
+
+
+> Regards,
+> Chun-Kuang.
+>
+> >
+> > Changes in v2:
+> > 1. Define mtk_drm_cmdq_pkt_create() and mtk_drm_cmdq_pkt_destroy()
+> >    when CONFIG_MTK_CMDQ is reachable.
+> >
+> > Chun-Kuang Hu (4):
+> >   drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb
+> >   drm/mediatek: Remove struct cmdq_client
+> >   drm/mediatek: Detect CMDQ execution timeout
+> >   drm/mediatek: Add cmdq_handle in mtk_crtc
+> >
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 110 ++++++++++++++++++++----
+> >  1 file changed, 91 insertions(+), 19 deletions(-)
+> >
+> > --
+> > 2.25.1
+> >
+>
+
+--000000000000e3903c05cc7d41d8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi Chun-Kuang,</div><br><div class=3D"gma=
+il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Missatge de Chun-Kuang Hu &=
+lt;<a href=3D"mailto:chunkuang.hu@kernel.org">chunkuang.hu@kernel.org</a>&g=
+t; del dia dj., 12 d=E2=80=99ag. 2021 a les 2:13:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex">Chun-Kuang Hu &lt;<a href=3D"mailto:chunk=
+uang.hu@kernel.org" target=3D"_blank">chunkuang.hu@kernel.org</a>&gt; =E6=
+=96=BC 2021=E5=B9=B48=E6=9C=889=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=
+=887:47=E5=AF=AB=E9=81=93=EF=BC=9A<br>
+&gt;<br>
+&gt; These refinements include using standard mailbox callback interface,<b=
+r>
+&gt; timeout detection, and a fixed cmdq_handle.<br>
+<br>
+For this series, applied to mediatek-drm-next [1].<br>
+<br>
+[1] <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu=
+/linux.git/log/?h=3Dmediatek-drm-next" rel=3D"noreferrer" target=3D"_blank"=
+>https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/log=
+/?h=3Dmediatek-drm-next</a><br>
+<br></blockquote><div><br></div><div>These patches seem to break the displa=
+y on the Acer Chromebook R 13 (MT8173) in the current mainline. After runni=
+ng a bisection it pointed me to the following commit</div><div><br></div><d=
+iv>commit f4be17cd5b14dd73545b0e014a63ebe9ab5ef837<br>Author: Chun-Kuang Hu=
+ &lt;<a href=3D"mailto:chunkuang.hu@kernel.org">chunkuang.hu@kernel.org</a>=
+&gt;<br>Date: =C2=A0 Sun Jul 4 15:36:48 2021 +0800<br><br>=C2=A0 =C2=A0 drm=
+/mediatek: Remove struct cmdq_client<br></div><div><br></div><div>Reverting=
+ this patch alone is not trivial, so I ended up reverting the full series, =
+and I can confirm that reverting the full series makes the display work aga=
+in.</div><div><br></div><div>Unfortunately, after the merge window, differe=
+nt things broke for this device, and I didn&#39;t finish isolating them, an=
+d it is not clear to me yet whether=C2=A0the logs I&#39;m getting are usefu=
+l for this specific issue or not. Basically with this series merged the ker=
+nel seems to be stuck, and the display is not working. Latest message is</d=
+iv><div><br></div><div>[ =C2=A0 12.329173] mtk-iommu 10205000.iommu: Partia=
+l TLB flush timed out, falling back to full flush<br></div><div><br></div><=
+div>Without the series, the kernel goes far and display works, however ther=
+e are other issues affecting the cros-ec, but I think that&#39;s another is=
+sue.</div><div><br></div><div>I&#39;ll try to dig a bit more, but, meanwhil=
+e, if you have any idea please let me know.</div><div><br></div><div>Thanks=
+,</div><div>=C2=A0Enric</div><div><br></div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+Regards,<br>
+Chun-Kuang.<br>
+<br>
+&gt;<br>
+&gt; Changes in v2:<br>
+&gt; 1. Define mtk_drm_cmdq_pkt_create() and mtk_drm_cmdq_pkt_destroy()<br>
+&gt;=C2=A0 =C2=A0 when CONFIG_MTK_CMDQ is reachable.<br>
+&gt;<br>
+&gt; Chun-Kuang Hu (4):<br>
+&gt;=C2=A0 =C2=A0drm/mediatek: Use mailbox rx_callback instead of cmdq_task=
+_cb<br>
+&gt;=C2=A0 =C2=A0drm/mediatek: Remove struct cmdq_client<br>
+&gt;=C2=A0 =C2=A0drm/mediatek: Detect CMDQ execution timeout<br>
+&gt;=C2=A0 =C2=A0drm/mediatek: Add cmdq_handle in mtk_crtc<br>
+&gt;<br>
+&gt;=C2=A0 drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 110 ++++++++++++++++++=
+++----<br>
+&gt;=C2=A0 1 file changed, 91 insertions(+), 19 deletions(-)<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+</blockquote></div></div>
+
+--000000000000e3903c05cc7d41d8--
