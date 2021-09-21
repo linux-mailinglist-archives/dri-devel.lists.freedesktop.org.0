@@ -2,38 +2,121 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F16D413276
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 13:26:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4548F413288
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 13:28:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B04A46E93B;
-	Tue, 21 Sep 2021 11:26:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0C036E94D;
+	Tue, 21 Sep 2021 11:28:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C8676E93B;
- Tue, 21 Sep 2021 11:26:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="245749457"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="245749457"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 04:26:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="484148610"
-Received: from eliteleevi.tm.intel.com ([10.237.54.20])
- by orsmga008.jf.intel.com with ESMTP; 21 Sep 2021 04:26:14 -0700
-From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-To: alsa-devel@alsa-project.org, tiwai@suse.de, jani.nikula@intel.com,
- Imre Deak <imre.deak@intel.com>, dri-devel@lists.freedesktop.org,
- Russell King <rmk+kernel@arm.linux.org.uk>, gregkh@linuxfoundation.org
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, kai.vehmanen@linux.intel.com,
- intel-gfx@lists.freedesktop.org
-Subject: [RFC PATCH] component: do not leave master devres group open after
- bind
-Date: Tue, 21 Sep 2021 14:18:10 +0300
-Message-Id: <20210921111810.2766726-1-kai.vehmanen@linux.intel.com>
-X-Mailer: git-send-email 2.32.0
-MIME-Version: 1.0
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2079.outbound.protection.outlook.com [40.107.212.79])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BF7AC6E950;
+ Tue, 21 Sep 2021 11:28:45 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=bMlwmwttYLe5alDjLjPPY9GINTjVC3Iuh8ELhMe/WedS0awlFdzAq+G5yCMR0u6i7WOg/T/O06TvNqXhVKtvD94YQ8d5elynieAilQ00D2OK6ZQSFVoD13SduJZYHaNOUSw6WNuzyIhkqHnCF0eLJ6b2NsqANoUdtZwWJfGXmye5Zqafb9uuUyrCKZFOo5OP/mgoz6XC1cRQWUVlxyX4lDRe4giE1VNzAJc+o9f0aZheq4vFMD2BmfAto5VrYF9R1du9rfrjltJwSrPA6cCOJxZ6YhT9eyyS72CmhbgvKBaZgdla++6T7TKVCfQ0oXp4o01cxMTpekdOGwsixwEB1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=PTU8E18v19GCkECVg00liVPDndp/q2UI7GXBAW6lVEs=;
+ b=M5Wi79bpBagDckvR7vgs/7YvBLWiYdLmcns+gZhasT3JE+9kqzLUQk00QorufOicjHPd8RntP/PLVUM8fCQW0+PWx73i/vZBUmDfVYdtWB00YiAaDkCK31vuvQIFHXxj6+7ceQWc7oVRUW/2ehgy0NxJ88YsMlvqfyRhSkcQLWYDl5rGdZlw481F1N73aV0xN8Er9Uy7Cpi37x0MiFHGGNP1P4ydoonDv32tzCRmop1cl0L1x89XiwiKxLbz3JS/BQk+aUMQzap/7AX7GAiSpqkYFpFXdnlW9PEf3Z5MJtd3e5GJZyPZDwlOsjUuQTv+wHvuqRrfcSZgZA25N5RZfw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PTU8E18v19GCkECVg00liVPDndp/q2UI7GXBAW6lVEs=;
+ b=wkodp+PZ8Wo9C9Ry69lZ8BI9v4WvUoCAmX5JalqMKeJg6FHOqTBkoGt/wzTyq4R9JiiB+/BMS5wpf/ErpG5MB3kmZNygn4PCsgjiFSvXzd5ciNCof65cMbDqn4SoDa1QS/jj1Q8d8rW/098xXtqnn8oRUbvbcxQdpFflZErOV1Q=
+Authentication-Results: linux.intel.com; dkim=none (message not signed)
+ header.d=none;linux.intel.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4157.namprd12.prod.outlook.com (2603:10b6:208:1db::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Tue, 21 Sep
+ 2021 11:28:39 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4523.018; Tue, 21 Sep 2021
+ 11:28:38 +0000
+Subject: Re: [PATCH v4 01/14] drm/ttm: stop calling tt_swapin in vm_access
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+References: <20210921110121.3783395-1-matthew.auld@intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <e358c620-fd78-f3c6-2558-7376a86701b9@amd.com>
+Date: Tue, 21 Sep 2021 13:28:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20210921110121.3783395-1-matthew.auld@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: PR0P264CA0114.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:100:19::30) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+Received: from [IPv6:2a02:908:1252:fb60:8582:d9f8:1318:9d2b]
+ (2a02:908:1252:fb60:8582:d9f8:1318:9d2b) by
+ PR0P264CA0114.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:19::30) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4523.14 via Frontend Transport; Tue, 21 Sep 2021 11:28:37 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d6003688-a8a5-4454-2a28-08d97cf2f4e8
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4157:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB415708A12EE76C1E95D29A8783A19@MN2PR12MB4157.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BKABW0BSQi2tAqj3hVHAX1IkgHDUPYwJoV63U1mUh1jrcVlZduoekrBnANH9ty6NzUmy43GNoZwzPqfIRgTkG+plWpS6QBXDKrXIiMTpGBubofc6Ul9yo1rMer7aaTuSJiiXWju0gFjvDPctB6aZTZr1KmeZaWgqFi44DYB8g9H9sh6Xkh4FrKTswe6x0Y2X7Mu+4Z5I8LchZJdI1MPjmeCVmuQEbbrpztoQynGwE1IFE3PA8cva91ItXspWiMG9B+f4o3jfpC7l3OiS9qQPYk8uKdK9OmuEP1lqMYiozGTUO7FnhU7l3mwunYmsGENG0OY99vS2Bl9aGXYulhCe1eNxm7Vk+SwrW/XpFEVu8oTDjOXYX06BDhAjDWwDrHXVmxVR48Mfa55ZCxs8JJA3gU46wDtD94T3DX9O5ZLJU6d3F6u5BL42vpl1+hzKtNqLSnhPPlULi8TGj4vJ85jrH6vXF55MlgkbtgzqAdBkIoRU2ogzgXnuP9kEtb79RlfqPH1mLDEDeC7fnzmbF+sLzWOT/N86pbAWnoGZ0t4gXW2p7h9oYD3UJBVODyYWXiB5sRAa/Qh45PTZy4YCY4SGbw/3C3whjxeiq6rg9VifDVpyVi7x5VphnyzrXo+9U8Pl5AvTSald3n+Nf7GGPO55e+5ckiuBa943xxurlDCOap+OrHS/xl3kVNkMHBiN4KWNmLD2/J6t3CBjnHp5NTbzTcn85ojKvdwwjM5XhVcKKWQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(186003)(66574015)(508600001)(83380400001)(8936002)(66946007)(66556008)(5660300002)(66476007)(316002)(4326008)(2906002)(2616005)(8676002)(38100700002)(6486002)(31686004)(36756003)(6666004)(31696002)(86362001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ky9DYUdkZjhKUGJycnBmRm9KbHBESUlZNWwwamZoK0xpS1hheUdpdzFJa1hE?=
+ =?utf-8?B?NUVGV3FickZyVWNBRC9pMmsxYmhjYkxvWWZHUU9vNXBXTlRIbU95Qkt6b1hy?=
+ =?utf-8?B?TkRyTDcwTzFpN0NLWllQWXFGQVFHaFd1SWYwZ0t6Zzl0TWUxWjVmRnc0YWZy?=
+ =?utf-8?B?ZkJwSVBZY0ZuUUF1YUJqaEgrcFZpTzZtSUtXREwrUlMyS0oyTmZmQ0prYTZT?=
+ =?utf-8?B?dkoyZjBKNVFsNy9scm1nQk90VnoxalZib25vU0NMNFFuL3JIbjdwVndRT3k0?=
+ =?utf-8?B?a3JFekl5d0lXOEl6TmxyaUw3S1duaUV5aExwWHhMY0h4em52MzNCVkQxbXpy?=
+ =?utf-8?B?Ty82Q0xiV1BxbkNSOURSSnN1MVl1WUVxOTZlck5UV0IyV0ZYRC9zSEh6clZP?=
+ =?utf-8?B?S3JOeklnNllBWHlyV1pBWlNPMC9HZHZDbFJGQXRYL2tTTWVyNENzZ3piVjJn?=
+ =?utf-8?B?elJoaDZiWUFoWTMyTFl0a1NkZ0w0dVJFNGFJV0svc1hWaVdhWlNIamlRRmVJ?=
+ =?utf-8?B?aENzWGxuRmt6VzhVcm9hU0ZpUmZlRStUZmRFTWR1NExGVnNMRVRrUVFmYmJy?=
+ =?utf-8?B?N29scVhSKzhOemhBT0tNWWJ3SDlNR3JzeHdsNGh2dEFsOS9kSkRWeU5hejky?=
+ =?utf-8?B?ZFc0OEVxNjFmNjJYRC9vNEIvYnlkem9BV0Y1S29OL1lRNGdCNEk2N2JBRTM0?=
+ =?utf-8?B?WUVnNnhLNEdjempZTWkxcTZza0V3SjdnbTIxQ3JhdkhkU3VFcmlvQVZHN2dO?=
+ =?utf-8?B?cDlKeUp4L2xZTSsvaTFXSy83SkF1OVkvTDdQMmdERVpaZ2FpQ2tsQUIrVjhR?=
+ =?utf-8?B?OFpvZ2tvanB6dDZ6RVBjK3A1d1N1TXpQRVp0VWJWWkNPTFBaR3hGYVpvOTNC?=
+ =?utf-8?B?aHk1OVVLRm1Ja2tmR0xveE5lUHdCVUt4WTQxd0VSVDZTOHRRNUVGRFJTbGNh?=
+ =?utf-8?B?YVkzWS9Db0lWQzNaL2JxL2pBdTYwNXZ1OFJqWVNyUnRuUUtVWnJ2MmRiYTho?=
+ =?utf-8?B?OFZlT1dLanhnNXRIRHBuZTF0ZVRqazZaczNwaWkxdTJLejlSK0VyL3JuRXI3?=
+ =?utf-8?B?WEVWN0xRRHRvdXMyNnMvWmMwRFRsYThlZ3NtRDI5QTUzb2VMcmZqa3UvSkJx?=
+ =?utf-8?B?Qm9JSC9kSG5vbk12bmZVbXlSbVZWSndNWE5reXJUN0UyK3ZFcXd1bnRGbzhK?=
+ =?utf-8?B?NURjMkI0QU1ZY3JaTEhNRXJEYkNVWE41RHgrSSthbGpLZm91bnRwQkZzOGll?=
+ =?utf-8?B?a1YyMjNKZW80dnJWUWlESDFpVGg0Q1FvWkVMZEMzQlF6SkQwNzFiQVhNN1ky?=
+ =?utf-8?B?WHpKUzlNeVY0eG0zbWxwejVvN3hFZmdnajNmcUtBQzdXQ0NHT2JFTEJnZEc0?=
+ =?utf-8?B?bFh5aDF6UHQwQUlZRnc0YTE1eThLZFJYbG1qVkN1NExmTXR3MDAyaW5SWlpB?=
+ =?utf-8?B?eFJnV0ZSRlNnSkF0KzZHL1JaWnJYVnZJaDJHZDVMNm9Ia00xTE1jZUM2TEdq?=
+ =?utf-8?B?WGp2ME41QUZjL1VGKzZtK3VPVi9WT3hhQmtPN0dXZXhma2JpcDRxaVhTamRX?=
+ =?utf-8?B?bkpIVk9qd0JaeW9Eb1E2NEZkWkNKRm4zbkgweUV4MTkyRWF1N0xyeXdueWZu?=
+ =?utf-8?B?MVlQUmtJa21aVjQvQy9uQ3RHQkVmTEhTcndvbU0zNkQ5WDR0dm11dm5Kb3cw?=
+ =?utf-8?B?czlhVnMxUlhweEVjL0RUWjkwTytPUUUwc2dFakNOajd6UlFSSklIVGJBUmpK?=
+ =?utf-8?B?RjlyRjg0RXpPczRNMlUvM2liVFA5cDMxY0N3WGNkTVRhbzFybzhGOGtBWWF3?=
+ =?utf-8?B?dkRLMk5TMlR4eW9QYnpMVDArNnZsUU02ZHI3djIxTzgrVlBVNW1jdSs1T3R4?=
+ =?utf-8?Q?I+uNpDm/vzJ5j?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6003688-a8a5-4454-2a28-08d97cf2f4e8
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2021 11:28:38.5929 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aXXuSkQtKSEi16V81Uz+Uf1+JMRJfwcxFbAayHDhjPlhTGxE6QW3pLopbyQ0f4+f
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4157
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,111 +132,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In current code, the devres group for aggregate master is left open
-after call to component_master_add_*(). This leads to problems when the
-master does further managed allocations on its own. When any
-participating driver calls component_del(), this leads to immediate
-release of resources.
+Am 21.09.21 um 13:01 schrieb Matthew Auld:
+> In commit:
+>
+> commit 09ac4fcb3f255e9225967c75f5893325c116cdbe
+> Author: Felix Kuehling <Felix.Kuehling@amd.com>
+> Date:   Thu Jul 13 17:01:16 2017 -0400
+>
+>      drm/ttm: Implement vm_operations_struct.access v2
+>
+> we added the vm_access hook, where we also directly call tt_swapin for
+> some reason. If something is swapped-out then the ttm_tt must also be
+> unpopulated, and since access_kmap should also call tt_populate, if
+> needed, then swapping-in will already be handled there.
 
-This came up when investigating a page fault occurring with i915 DRM
-driver unbind with 5.15-rc1 kernel. The following sequence occurs:
+Sounds like you completely misunderstand what that is good for.
 
- i915_pci_remove()
-   -> intel_display_driver_unregister()
-     -> i915_audio_component_cleanup()
-       -> component_del()
-         -> component.c:take_down_master()
-           -> hdac_component_master_unbind() [via master->ops->unbind()]
-           -> devres_release_group(master->parent, NULL)
+This is for debugger attaching to a process and peek/poke into the VMA 
+and completely unrelated to kmap.
 
-With older kernels this has not caused issues, but with audio driver
-moving to use managed interfaces for more of its allocations, this no
-longer works. Devres log shows following to occur:
+>
+> If anything, calling tt_swapin directly here would likely always fail
+> since the tt->pages won't yet be populated, or worse since the tt->pages
+> array is never actually cleared in unpopulate this might lead to a nasty
+> uaf.
 
-component_master_add_with_match()
-[  126.886032] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000323ccdc5 devm_component_match_release (24 bytes)
-[  126.886045] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000865cdb29 grp< (0 bytes)
-[  126.886049] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 grp< (0 bytes)
+That's indeed true, but we just need to unconditionally call 
+ttm_tt_populate() here instead.
 
-audio driver completes its PCI probe()
-[  126.892238] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 pcim_iomap_release (48 bytes)
+Regards,
+Christian.
 
-component_del() called() at DRM/i915 unbind()
-[  137.579422] i915 0000:00:02.0: DEVRES REL 00000000ef44c293 grp< (0 bytes)
-[  137.579445] snd_hda_intel 0000:00:1f.3: DEVRES REL 00000000865cdb29 grp< (0 bytes)
-[  137.579458] snd_hda_intel 0000:00:1f.3: DEVRES REL 000000001b480725 pcim_iomap_release (48 bytes)
-
-So the "devres_release_group(master->parent, NULL)" ends up freeing the
-pcim_iomap allocation. Upon next runtime resume, the audio driver will
-cause a page fault as the iomap alloc was released without the driver
-knowing about it.
-
-Fix this issue by using the "struct master" pointer as identifier for
-the devres group, and by closing the devres group after the master->ops->bind()
-call is done. This allows devres allocations done by the driver acting as
-master to be isolated from the binding state of the aggregate driver. This
-modifies the logic originally introduced in commit 9e1ccb4a7700
-("drivers/base: fix devres handling for master device").
-
-BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/4136
-Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
----
- drivers/base/component.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-Hi,
-I'm sending this as RFC as I'm not sure of the implications of
-not leaving the devres group open might have to other users
-of the component framework.
-
-For audio, the current behaviour seems very problematic. The display
-codec is usually just one of many audio codecs attached to the controller,
-and unbind of the display codec (and the aggregate driver created with
-DRM), should not bring down the whole audio card.
-
-However, now all allocations audio driver does after call to
-component_master_add_with_match(), will be freed when display
-driver calls component_del().
-
-Closing the devres group at end of component_master_add_*() would
-seem the cleanest option. Looking for feedback whether this approach
-is feasible. One alternative would be for the audio driver to
-close the "last opened" group after its call to component_master_add(),
-but this seems messy (audio would make assumptions on component.c
-internals).
-
-diff --git a/drivers/base/component.c b/drivers/base/component.c
-index 5e79299f6c3f..870485cbbb87 100644
---- a/drivers/base/component.c
-+++ b/drivers/base/component.c
-@@ -246,7 +246,7 @@ static int try_to_bring_up_master(struct master *master,
- 		return 0;
- 	}
- 
--	if (!devres_open_group(master->parent, NULL, GFP_KERNEL))
-+	if (!devres_open_group(master->parent, master, GFP_KERNEL))
- 		return -ENOMEM;
- 
- 	/* Found all components */
-@@ -258,6 +258,7 @@ static int try_to_bring_up_master(struct master *master,
- 		return ret;
- 	}
- 
-+	devres_close_group(master->parent, NULL);
- 	master->bound = true;
- 	return 1;
- }
-@@ -282,7 +283,7 @@ static void take_down_master(struct master *master)
- {
- 	if (master->bound) {
- 		master->ops->unbind(master->parent);
--		devres_release_group(master->parent, NULL);
-+		devres_release_group(master->parent, master);
- 		master->bound = false;
- 	}
- }
-
-base-commit: 930e99a51fcc8b1254e0a45fbe0cd5a5b8a704a5
--- 
-2.32.0
+>
+> Fixes: 09ac4fcb3f25 ("drm/ttm: Implement vm_operations_struct.access v2")
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo_vm.c | 5 -----
+>   1 file changed, 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> index f56be5bc0861..5b9b7fd01a69 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+> @@ -519,11 +519,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+>   
+>   	switch (bo->resource->mem_type) {
+>   	case TTM_PL_SYSTEM:
+> -		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+> -			ret = ttm_tt_swapin(bo->ttm);
+> -			if (unlikely(ret != 0))
+> -				return ret;
+> -		}
+>   		fallthrough;
+>   	case TTM_PL_TT:
+>   		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
 
