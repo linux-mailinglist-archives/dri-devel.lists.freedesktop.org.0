@@ -1,39 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C568413A45
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 20:46:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93830413A70
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 20:59:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92C8E89D00;
-	Tue, 21 Sep 2021 18:46:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 865CA6E951;
+	Tue, 21 Sep 2021 18:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 104D189D00;
- Tue, 21 Sep 2021 18:46:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="245872222"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="245872222"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 11:46:38 -0700
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="557057412"
-Received: from twallyn-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.83.37])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 11:46:37 -0700
-Date: Tue, 21 Sep 2021 11:46:37 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix blank screen booting crashes
-Message-ID: <20210921184637.ullcwswqd6z5hi4j@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20210921174332.30784-1-matthew.brost@intel.com>
+Received: from mail-il1-x131.google.com (mail-il1-x131.google.com
+ [IPv6:2607:f8b0:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4A4AF6E951
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 18:59:38 +0000 (UTC)
+Received: by mail-il1-x131.google.com with SMTP id h9so23922300ile.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:59:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rPanjl/X9LOUVmXrjkeXI0Q7gVy8gp22iJNWmdA5zZg=;
+ b=oJAh/Se0IUU493aQZeFEycxN0jgmMrqqfg8bRl2QN9NCCvx/b1R7KbCPnWQ8GcWvSk
+ T+8zaXjaQaJ7arkXQqtnT1Xmk0wUH9bovJfATBBVQl1dYBpLPImXLnh1xneyZXVjiW+h
+ UrBBJuk0zYG/2/Zx+nJGSq1+0RPqvuacEezNI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rPanjl/X9LOUVmXrjkeXI0Q7gVy8gp22iJNWmdA5zZg=;
+ b=YzExlXHDXN31aslxZoXrbzPC/3qmAbbpvYgyb42xvfbuVomPv46nJyc8Yf5ya+w3Cv
+ evguSiRv5zxUzrXVaN5wFLCW2p+QdKlrOYdDXibZOSwoTWkpDX7c7b6r99A2w1eKnxVy
+ YkW5yGk0I7rgM4ZShlByppYiXmyUu9acUXHA44yWJnaQbeLvhrO6EfRtlQntjA0wHPQQ
+ 9vJeLGfcUhdX1toMF9VkBuB1ocUhLgbwTxKfaNHEsB224Xi2C5ndHl95NLD2a/xQsqeN
+ 96guK866TDuvweds3qa27deUGWJYxGdwxZcBL3/mOD0r2ndQTqje5zk/xWcZjqVCwWzJ
+ SoVQ==
+X-Gm-Message-State: AOAM5331hcyoki1g+wyxfzwyOk4viMtYtLufHqxzKiy7MBdErjbLkafR
+ MXK2QrxExozf5tYlRnKMq57ab6uxNkvfhA==
+X-Google-Smtp-Source: ABdhPJwOjTxRPTSsq4g5L4h2o/49zlCKH/iTRbj5fGwNgAXOxFrOAui7KTvYS0R+6UvBEeanD0QUfA==
+X-Received: by 2002:a92:6f06:: with SMTP id k6mr21588812ilc.116.1632250777530; 
+ Tue, 21 Sep 2021 11:59:37 -0700 (PDT)
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com.
+ [209.85.166.171])
+ by smtp.gmail.com with ESMTPSA id z6sm4040978iox.28.2021.09.21.11.59.36
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 11:59:36 -0700 (PDT)
+Received: by mail-il1-f171.google.com with SMTP id b15so23920348ils.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:59:36 -0700 (PDT)
+X-Received: by 2002:a92:da0c:: with SMTP id z12mr21949905ilm.120.1632250775619; 
+ Tue, 21 Sep 2021 11:59:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20210921174332.30784-1-matthew.brost@intel.com>
+References: <20210921110556.v6.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
+ <20210921110556.v6.2.I1d6ea362dc76efa77cca2b46253d31b7651eaf17@changeid>
+In-Reply-To: <20210921110556.v6.2.I1d6ea362dc76efa77cca2b46253d31b7651eaf17@changeid>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 21 Sep 2021 11:59:24 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=XFK44E_gz8KvPRape-KHE7FGH1L=kYW9Qtx8V8P35Jcg@mail.gmail.com>
+Message-ID: <CAD=FV=XFK44E_gz8KvPRape-KHE7FGH1L=kYW9Qtx8V8P35Jcg@mail.gmail.com>
+Subject: Re: [PATCH v6 2/2] drm/bridge: parade-ps8640: Add support for AUX
+ channel
+To: Philip Chen <philipchen@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,128 +82,19 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 21, 2021 at 10:43:32AM -0700, Matthew Brost wrote:
->From: Hugh Dickins <hughd@google.com>
->
->5.15-rc1 crashes with blank screen when booting up on two ThinkPads
->using i915.  Bisections converge convincingly, but arrive at different
->and surprising "culprits", none of them the actual culprit.
->
->netconsole (with init_netconsole() hacked to call i915_init() when
->logging has started, instead of by module_init()) tells the story:
->
->kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
->with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
->I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
->function needs to be 4-byte aligned.
->
->v2:
-> (Jani Nikula)
->  - Change BUG_ON to WARN_ON
->v3:
-> (Jani / Tvrtko)
->  - Short circuit __i915_sw_fence_init on WARN_ON
->
->Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
->Signed-off-by: Hugh Dickins <hughd@google.com>
->Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->Reviewed-by: Matthew Brost <matthew.brost@intel.com>
->---
-> drivers/gpu/drm/i915/gt/intel_context.c |  4 ++--
-> drivers/gpu/drm/i915/i915_sw_fence.c    | 17 ++++++++++-------
-> 2 files changed, 12 insertions(+), 9 deletions(-)
->
->diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
->index ff637147b1a9..e7f78bc7ebfc 100644
->--- a/drivers/gpu/drm/i915/gt/intel_context.c
->+++ b/drivers/gpu/drm/i915/gt/intel_context.c
->@@ -362,8 +362,8 @@ static int __intel_context_active(struct i915_active *active)
-> 	return 0;
-> }
->
+Hi,
 
->-static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
->-				 enum i915_sw_fence_notify state)
->+static int __i915_sw_fence_call
->+sw_fence_dummy_notify(struct i915_sw_fence *sf, enum i915_sw_fence_notify state)
-> {
-> 	return NOTIFY_DONE;
-> }
->diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
->index c589a681da77..08cea73264e7 100644
->--- a/drivers/gpu/drm/i915/i915_sw_fence.c
->+++ b/drivers/gpu/drm/i915/i915_sw_fence.c
->@@ -13,9 +13,9 @@
-> #include "i915_selftest.h"
+On Tue, Sep 21, 2021 at 11:06 AM Philip Chen <philipchen@chromium.org> wrote:
 >
-> #if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
->-#define I915_SW_FENCE_BUG_ON(expr) BUG_ON(expr)
->+#define I915_SW_FENCE_WARN_ON(expr) WARN_ON(expr)
-> #else
->-#define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
->+#define I915_SW_FENCE_WARN_ON(expr) BUILD_BUG_ON_INVALID(expr)
-> #endif
+> Implement the first version of AUX support, which will be useful as
+> we expand the driver to support varied use cases.
 >
-> static DEFINE_SPINLOCK(i915_sw_fence_lock);
->@@ -129,7 +129,10 @@ static int __i915_sw_fence_notify(struct i915_sw_fence *fence,
-> 	i915_sw_fence_notify_t fn;
->
-> 	fn = (i915_sw_fence_notify_t)(fence->flags & I915_SW_FENCE_MASK);
->-	return fn(fence, state);
->+	if (likely(fn))
->+		return fn(fence, state);
->+	else
->+		return 0;
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Philip Chen <philipchen@chromium.org>
 
-since the knowledge for these being NULL (or with the wrong alignment)
-are in the init/reinit functions,  wouldn't it be better to just add a
-fence_nop() and assign it there instead this likely() here?
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
-> }
->
-> #ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS
->@@ -242,9 +245,9 @@ void __i915_sw_fence_init(struct i915_sw_fence *fence,
-> 			  const char *name,
-> 			  struct lock_class_key *key)
-> {
->-	BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
->-
-> 	__init_waitqueue_head(&fence->wait, name, key);
->+	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
->+		return;
+Snoozing for 2 days and will plan to apply to drm-misc-next unless
+there are objections.
 
-like:
-	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
-		fence->flags = (unsigned long)sw_fence_dummy_notify;
-	else
-		fence->flags = (unsigned long)fn;
-
-
-f you return here instead of calling i915_sw_fence_reinit(), aren't you
-just going to use uninitialized memory later? At least in the selftests,
-which allocate it with kmalloc()... I didn't check others.
-
-
-For the bug fix we could just add the __aligned(4) and leave the rest to a
-separate patch.
-
-
-Lucas De Marchi
-
-> 	fence->flags = (unsigned long)fn;
->
-> 	i915_sw_fence_reinit(fence);
->@@ -257,8 +260,8 @@ void i915_sw_fence_reinit(struct i915_sw_fence *fence)
-> 	atomic_set(&fence->pending, 1);
-> 	fence->error = 0;
->
->-	I915_SW_FENCE_BUG_ON(!fence->flags);
->-	I915_SW_FENCE_BUG_ON(!list_empty(&fence->wait.head));
->+	I915_SW_FENCE_WARN_ON(!fence->flags);
->+	I915_SW_FENCE_WARN_ON(!list_empty(&fence->wait.head));
-> }
->
-> void i915_sw_fence_commit(struct i915_sw_fence *fence)
->-- 
->2.32.0
->
+-Doug
