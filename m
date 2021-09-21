@@ -2,87 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DED4413D21
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 23:58:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AE47413D74
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 00:20:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8ADB46E83F;
-	Tue, 21 Sep 2021 21:58:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C34536E85A;
+	Tue, 21 Sep 2021 22:20:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9F26E85A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 21:58:31 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id i25so3346047lfg.6
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 14:58:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3LA4/O2mCyOef4VI1WFdoR8n1dGVVw7qzM7cBS6DVhU=;
- b=uz74/2S9fGGuaG1ODTSPcqBPXWYPIeYWZ5doyMS2bRw5AX5Q0Ua+uMdim4ZuJxyrxA
- jJZQO4P96OqxH5cKvegadiVeIhPzNJbdYGDNOj6HudiXM/SjkCNrO1WvHS6o1vufFzsX
- 2aSN3AaXAf4xQbbvR+FPssTEArjutFFJ66GH7RUNHyFCNozOqySWjjTExvVocPFb39xr
- 6cGXTnJkbxFWnWohqMtGSjOnjJQnu/xNRG5R8l2FsElk/Lpvl66TfQOcwUYfJ1TTZ5xS
- XHIL9Tea6doFMlP16r8MNgBnWMAMa0JaH2OsWma5jit+qxznz4qqyPPj9R612HR9czFp
- 8TyQ==
+Received: from mail-io1-xd29.google.com (mail-io1-xd29.google.com
+ [IPv6:2607:f8b0:4864:20::d29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B69306E85A
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 22:20:02 +0000 (UTC)
+Received: by mail-io1-xd29.google.com with SMTP id a15so773410iot.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:20:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=HWLoAInOLCehVyUDdEFgyA0aq8c1810nqg999R8oxfU=;
+ b=aj3QxekWfRi3uAdc5lpdDn6FoYAedJ8FsTjBDvBCDWRjEzt/JQ6p7imxAG/DApK+mF
+ 2gagVt3X8luIoitRLXSKRYVwLgSznNVpaZyG8m/4FCGZweCBBZsIAUvT7PdIPZbU8wN1
+ mfAQEwrxhepXNPQuDT3ppCtjQk9jPR2TpYAss=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3LA4/O2mCyOef4VI1WFdoR8n1dGVVw7qzM7cBS6DVhU=;
- b=4nGecgoObtpJ7eE69wdoWOzkTbvG/lQwoLePkE3UHUh6IwIGypdB+mX3a4OWyVfysl
- 9zwaGrXdMuT3gZYbO5iffKoakUSyaU3+Gd/L62v6s/xkmzbQs5Xz/RJuY6E5gKVWcCnT
- 2LFieHghcylGzPECqKD5CWUVed0sK0hraLxb7R5wzxOtq2tU9JbklgqXGVb1iWEElfJ0
- zYPet87rY6dS18r4Dxg5/FII+77BJrpcIw1HCzXNXNC2KBFiaTej/hfEKtk/7jjHU7+Q
- YJnzoinmBxZ44ToqW0mYRZ+LzXwztEsscdaQ0f6FgUIQq+zDTgufLPWKIdW7v72U//DH
- UQhQ==
-X-Gm-Message-State: AOAM530v7jXwhwF6DZYwDVqpMwVZi0+n1uF35SRgtJuw5Qs3zamaVvGF
- ob54hGaK6cr28VFdYWUU6fVaHw==
-X-Google-Smtp-Source: ABdhPJwDR/A8UmkVQG/A20LQ6G5BoWJFTrnWNencwdMb7p0WPRY497q9Nuc+l8sjchxpIRdzv87pHg==
-X-Received: by 2002:a2e:86ce:: with SMTP id n14mr11214294ljj.211.1632261509754; 
- Tue, 21 Sep 2021 14:58:29 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id q7sm16555ljg.137.2021.09.21.14.58.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 14:58:29 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 5DF1710305C; Wed, 22 Sep 2021 00:58:30 +0300 (+03)
-Date: Wed, 22 Sep 2021 00:58:30 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Cc: Borislav Petkov <bp@alien8.de>, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
- x86@kernel.org, iommu@lists.linux-foundation.org,
- kvm@vger.kernel.org, linux-efi@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Christoph Hellwig <hch@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
- cc_platform_has()
-Message-ID: <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
-References: <cover.1631141919.git.thomas.lendacky@amd.com>
- <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
- <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
- <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
- <YUoao0LlqQ6+uBrq@zn.tnic>
- <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
- <YUpONYwM4dQXAOJr@zn.tnic>
- <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
- <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=HWLoAInOLCehVyUDdEFgyA0aq8c1810nqg999R8oxfU=;
+ b=U5pt+lglWQS4dDi1XwoZ0Sb+RBZDgs8gGcL5hNoxds/rzgWqC7gLoSMbvfqtFnosvD
+ x5/VFNoOn11iZxFLKRKmTSDn3P21idq1hoS4vfL/GNwM3YsowGL5RgRt3z0qviLX8vCY
+ 6EraZxe/CanS1faBj1kxS9wLQWcrFZu1+bX1Il5w5HXyJxQoQXxUHhnwre0DfMVbcfrd
+ Oj+C09rkNcAGlN8rBuM69Kysy+CZk0jiywkgVinbOqW8rpMBERuIrIfipBOhXmxNQnBH
+ fV4NIF6OidxfHHOlsIOh6GTwGxFvqRoveDqOMtYWCANerRPVlGzSNhxG0qcYTPqJnceU
+ 1Xpg==
+X-Gm-Message-State: AOAM530cDcpVya1w2yZxMW86FKzVgKoHj4Z46c8N95mQqAXLxrxnqmT1
+ Z5hUyyC9QWwXq5pJa84wExXiqmklMj9Anw==
+X-Google-Smtp-Source: ABdhPJyWMl30CpodcybLR8STdXZLcmcQ+3IPwmfIcuf1tWn7JIN/IBI02sxAfH19aGjqx1N0DhLpuw==
+X-Received: by 2002:a02:22cf:: with SMTP id o198mr2043371jao.37.1632262801872; 
+ Tue, 21 Sep 2021 15:20:01 -0700 (PDT)
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com.
+ [209.85.166.180])
+ by smtp.gmail.com with ESMTPSA id i14sm138440iog.47.2021.09.21.15.20.00
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 21 Sep 2021 15:20:00 -0700 (PDT)
+Received: by mail-il1-f180.google.com with SMTP id x2so457595ila.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:20:00 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1b0c:: with SMTP id
+ i12mr20195314ilv.27.1632262799686; 
+ Tue, 21 Sep 2021 15:19:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+References: <20210920225801.227211-1-robdclark@gmail.com>
+ <20210920225801.227211-4-robdclark@gmail.com>
+In-Reply-To: <20210920225801.227211-4-robdclark@gmail.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 21 Sep 2021 15:19:48 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=WGmk6UY2MA4=y4gaM4G66t-qxuLtAZvUahzwg8YsLv=g@mail.gmail.com>
+Message-ID: <CAD=FV=WGmk6UY2MA4=y4gaM4G66t-qxuLtAZvUahzwg8YsLv=g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Rob Clark <robdclark@chromium.org>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,29 +82,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 21, 2021 at 04:43:59PM -0500, Tom Lendacky wrote:
-> On 9/21/21 4:34 PM, Kirill A. Shutemov wrote:
-> > On Tue, Sep 21, 2021 at 11:27:17PM +0200, Borislav Petkov wrote:
-> > > On Wed, Sep 22, 2021 at 12:20:59AM +0300, Kirill A. Shutemov wrote:
-> > > > I still believe calling cc_platform_has() from __startup_64() is totally
-> > > > broken as it lacks proper wrapping while accessing global variables.
-> > > 
-> > > Well, one of the issues on the AMD side was using boot_cpu_data too
-> > > early and the Intel side uses it too. Can you replace those checks with
-> > > is_tdx_guest() or whatever was the helper's name which would check
-> > > whether the the kernel is running as a TDX guest, and see if that helps?
-> > 
-> > There's no need in Intel check this early. Only AMD need it. Maybe just
-> > opencode them?
-> 
-> Any way you can put a gzipped/bzipped copy of your vmlinux file somewhere I
-> can grab it from and take a look at it?
+Hi,
 
-You can find broken vmlinux and bzImage here:
+On Mon, Sep 20, 2021 at 3:53 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Slightly awkward to fish out the display_info when we aren't creating
+> own connector.  But I don't see an obvious better way.
+>
+> v2: Remove error return with NO_CONNECTOR flag
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 39 ++++++++++++++++++++-------
+>  1 file changed, 29 insertions(+), 10 deletions(-)
 
-https://drive.google.com/drive/folders/1n74vUQHOGebnF70Im32qLFY8iS3wvjIs?usp=sharing
+This seems fine to me:
 
-Let me know when I can remove it.
+Reviewed-by: Douglas Anderson <dianders@chromium.org>
 
--- 
- Kirill A. Shutemov
+...if you would like me to apply patch #2 / #3 to drm-misc-next then
+please yell.
+
+-Doug
