@@ -2,45 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15A0E413175
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 12:27:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3BD041321F
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 13:01:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9CD116E935;
-	Tue, 21 Sep 2021 10:27:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5733B6E94B;
+	Tue, 21 Sep 2021 11:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EA0F36E935;
- Tue, 21 Sep 2021 10:27:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="286998067"
-X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; d="scan'208";a="286998067"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 03:27:39 -0700
-X-IronPort-AV: E=Sophos;i="5.85,310,1624345200"; d="scan'208";a="549430025"
-Received: from unknown (HELO localhost) ([10.251.218.108])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 03:27:35 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Rados=C5=82aw?= Biernacki <rad@semihalf.com>, "Souza\, Jose"
- <jose.souza@intel.com>
-Cc: "Lee\, Shawn C" <shawn.c.lee@intel.com>,
- "lma\@semihalf.com" <lma@semihalf.com>,
- "dri-devel\@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "joonas.lahtinen\@linux.intel.com" <joonas.lahtinen@linux.intel.com>,
- "intel-gfx\@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
- "upstream\@semihalf.com" <upstream@semihalf.com>
-Subject: Re: [PATCH v1] drm/i915/bdb: Fix version check
-In-Reply-To: <CAOs-w0J8pd-CE1iu1Bpy-3R20sxa=AJuSQwiRkyrFz0TFLBL4Q@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210920141101.194959-1-lma@semihalf.com>
- <051f4a37e178d11c6dbcd05b5d6be28731cd7302.camel@intel.com>
- <CAOs-w0J8pd-CE1iu1Bpy-3R20sxa=AJuSQwiRkyrFz0TFLBL4Q@mail.gmail.com>
-Date: Tue, 21 Sep 2021 13:27:32 +0300
-Message-ID: <87bl4mte97.fsf@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE5006E949;
+ Tue, 21 Sep 2021 11:01:35 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="284344111"
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="284344111"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 04:01:35 -0700
+X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="484141739"
+Received: from agallagh-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.17.108])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 04:01:33 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v4 01/14] drm/ttm: stop calling tt_swapin in vm_access
+Date: Tue, 21 Sep 2021 12:01:08 +0100
+Message-Id: <20210921110121.3783395-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,49 +49,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Sep 2021, Rados=C5=82aw Biernacki <rad@semihalf.com> wrote:
-> - dropping stable
->
-> ...
->
->> > diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/g=
-pu/drm/i915/display/intel_vbt_defs.h
->> > index 330077c2e588..fff456bf8783 100644
->> > --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
->> > +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
->> > @@ -814,6 +814,11 @@ struct lfp_brightness_level {
->> >       u16 reserved;
->> >  } __packed;
->> >
->> > +/*
->> > + * Changing struct bdb_lfp_backlight_data might affect its
->> > + * size comparation to the value hold in BDB.
->> > + * (e.g. in parse_lfp_backlight())
->> > + */
->>
->> This is true for all the blocks so I don't think we need this comment.
->
-> Lack of such comment was probable cause of this overlook.
-> As this is an example of the consequence (bricking platforms dependent
-> on mentioned conditions) IMO we need some comment here, or this will
-> probably happen again.
+In commit:
 
-The whole file is full of __packed structs with the sole purpose of
-parsing VBT data in memory. People are generally well aware of the
-consequences of changing the size, and this is the only such mistake I
-can recall.
+commit 09ac4fcb3f255e9225967c75f5893325c116cdbe
+Author: Felix Kuehling <Felix.Kuehling@amd.com>
+Date:   Thu Jul 13 17:01:16 2017 -0400
 
-BR,
-Jani.
+    drm/ttm: Implement vm_operations_struct.access v2
 
+we added the vm_access hook, where we also directly call tt_swapin for
+some reason. If something is swapped-out then the ttm_tt must also be
+unpopulated, and since access_kmap should also call tt_populate, if
+needed, then swapping-in will already be handled there.
 
->
->
->>
->> >  struct bdb_lfp_backlight_data {
->> >       u8 entry_size;
->> >       struct lfp_backlight_data_entry data[16];
->>
+If anything, calling tt_swapin directly here would likely always fail
+since the tt->pages won't yet be populated, or worse since the tt->pages
+array is never actually cleared in unpopulate this might lead to a nasty
+uaf.
 
---=20
-Jani Nikula, Intel Open Source Graphics Center
+Fixes: 09ac4fcb3f25 ("drm/ttm: Implement vm_operations_struct.access v2")
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo_vm.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index f56be5bc0861..5b9b7fd01a69 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -519,11 +519,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
+ 
+ 	switch (bo->resource->mem_type) {
+ 	case TTM_PL_SYSTEM:
+-		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+-			ret = ttm_tt_swapin(bo->ttm);
+-			if (unlikely(ret != 0))
+-				return ret;
+-		}
+ 		fallthrough;
+ 	case TTM_PL_TT:
+ 		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
+-- 
+2.26.3
+
