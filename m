@@ -1,73 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB615414009
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 05:28:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A309C4141FA
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 08:35:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BB2106EA21;
-	Wed, 22 Sep 2021 03:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D67156EA3D;
+	Wed, 22 Sep 2021 06:35:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
- [IPv6:2a00:1450:4864:20::42e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DDB2B6EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 03:28:11 +0000 (UTC)
-Received: by mail-wr1-x42e.google.com with SMTP id d21so2420612wra.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 20:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D865E6E935
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 10:16:15 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id q11so37513437wrr.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 03:16:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=semihalf-com.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bNzxzcGkzoMof7C2440I1dX8wC7/bp4LkDYjA0YjJhE=;
- b=MPdSqETRs1lV1JsUQ/VMZeO8Pdo4BP5IXiD2QMo4yK6HIdqgqh8qEzzNrAv+4yUeLU
- hz/pALicHy0SBrhkH8a/nfirnWfi29sArw7Z8/60fp5ZRWOHtZbcR6LtVwRnTm2nul6e
- l3zt/aNp95FQmf3uw9yD7WDb0IBe52T9rBFqrs9bEsP6nvl1jidyYEl+tMuTHL+7r8Na
- WcdZnsLfMA95yhqOIoNGCVpkJ7x3QsyAtDfZMHvnAUA8hL2vm9ITuHcbx0u29WOBVtBg
- pz74FUd7t5gFMfdoLDjckM3edaDe5E+joDM0CCiAKGQZwYpLFF2iFAnK6vlPwldd8CfU
- 2Aaw==
+ :cc; bh=+mToToiV76GTT0uZPsO2DA+us9TfNNQEfYdM3aCN8gc=;
+ b=EP8WbERVO011X7zIM0M0S7UPa0CFNjD882eq4g17FpmP8ldS7/uqFb+FCz2+QMb7nq
+ 4BKsblXqsTXyEJT1gAj8ByYK9mw6z0F2Ku4MsaD1tR0gcvBAxyZ5BPDe0NEJARvoS0c/
+ dGwvsyO/yoOJ1Gc8ySez+U+PH6J0MA5HBq6q8NiVuOsfMFRmMLZQGFpjBMMq/xy2lyrn
+ odaLmp68B2FUh5Pw/gsUz6LbsbfhhzlbKqZk4j02uvr4bMmY+DymaWcA+SnM9ORiqw/j
+ teakcMHdc6L69K99Cwi+86Cx54vIQpx41xpMoF3vVQu6M5JclsWQihj7+at9MGzC3gd7
+ VHqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=bNzxzcGkzoMof7C2440I1dX8wC7/bp4LkDYjA0YjJhE=;
- b=qA8n9TZjDdEjlIV5dkYZyoh1zmS/u42iVSKdtisZTHVJXZacdUiQScT6wp1covbdpV
- 5a3EU488q4wsekS2RmmPrzXtmauSEskaeImRg9iK2S/FrYBq4BOzPHnapY58gtf9SdrQ
- mgQJDmuOVJS2cWw05lrT0rXMLy+R7tCbODAj55We05pWAwbcBXATnVtTFwNT2XChVFDL
- YtyRsd0nC+MR7iShfimzlIbpMyWBMGMkC7KO0Ys69WHpXPwWoimZm750wWB+GSbA4XFx
- jTMKvX69TiaZPiyFvPoPyIHIY3HFi09ko5jNoyYXslWqb35AZXfkRjsTZ84XeJ6oKE0W
- VsEQ==
-X-Gm-Message-State: AOAM530Ijj7akDIXsEr2a3W1F4MMWrCpSru9Mi3bZbCLig9S3ZHp2h7n
- WjS3HREtqHQ4/oES45TXeYUCXSCIKsDqcSTr9Qs=
-X-Google-Smtp-Source: ABdhPJyR/i+6gXoXMoh5C9/CRaIMS84O3Q6Yqr7pNoShdKJywyxY7EGVnx3hsDr6Dm7WkY69wmbnWggL4nzncaJgGwA=
-X-Received: by 2002:a05:600c:1d16:: with SMTP id
- l22mr6332278wms.101.1632281290205; 
- Tue, 21 Sep 2021 20:28:10 -0700 (PDT)
+ bh=+mToToiV76GTT0uZPsO2DA+us9TfNNQEfYdM3aCN8gc=;
+ b=WeuRlGm7eAacQ2HovIQOENIkl/frNzL9WoZ3try1uQNY1zgDqUwmVjht9sdCFl7T2e
+ xN79bs70Zi8r5OfPqmmDEkU531KRjjt3FZJe5dsYbmS7VbXyB4WxHQqbGTRsRygNVqer
+ Yo59+NSwg0ohoW0VGjKRNVHXdQB/akDb/YtnqkqfIFSyNIlqOJXRTIrY/VpolqfQK74l
+ SaREuR7Xb8xQa42nqdvZDrP0o0HeXV54cTbGxper0DzhXcA09ltQtk61oHjQLaF9Enlv
+ 4dTwIzMT7lQK/ervYWY63V+0Da7N7qmVgBSzY85Bd/FOorfepyl6DVze2cDXsjMHlM6/
+ J8kQ==
+X-Gm-Message-State: AOAM533HW5PDadZx6rVBY7T33XwBcifoHM57UkVyzpMXNeLVgm6bj216
+ fr1vtBpTueeygYuYvqrl5FC/NvLibnRHAK+ALkjMcA==
+X-Google-Smtp-Source: ABdhPJyn+SQUQfmGF9ACtvtnsvTC5NtZ0BHBi6/gkGEcWs0VQwc6IO6UE3DbOB46uPtC7LXOw2z0E54yE854MyFBs98=
+X-Received: by 2002:a7b:cc8d:: with SMTP id p13mr3689472wma.10.1632219374290; 
+ Tue, 21 Sep 2021 03:16:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <20210903184806.1680887-5-robdclark@gmail.com>
- <101628ea-23c9-4bc0-5abc-a5b71b0fccc1@amd.com>
- <CAF6AEGt+jiJLaTDVnnVrZm-766OhPfj9wESJxP-FrX3S_c67gQ@mail.gmail.com>
- <d8f43401-c673-b9ce-d5ca-090fec2cb4c3@amd.com>
-In-Reply-To: <d8f43401-c673-b9ce-d5ca-090fec2cb4c3@amd.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 21 Sep 2021 20:32:41 -0700
-Message-ID: <CAF6AEGsnN8sEeXuefB--pDApXeWYR2RVss=jUnz0ORh68SBP1A@mail.gmail.com>
-Subject: Re: [PATCH v3 4/9] drm/scheduler: Add fence deadline support
-To: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- Daniel Vetter <daniel@ffwll.ch>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
- Pekka Paalanen <ppaalanen@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- David Airlie <airlied@linux.ie>, Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Tian Tao <tiantao6@hisilicon.com>, Steven Price <steven.price@arm.com>, 
- Melissa Wen <mwen@igalia.com>, Luben Tuikov <luben.tuikov@amd.com>, 
- Boris Brezillon <boris.brezillon@collabora.com>,
- Jack Zhang <Jack.Zhang1@amd.com>, 
- open list <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
+References: <20210920141101.194959-1-lma@semihalf.com>
+ <051f4a37e178d11c6dbcd05b5d6be28731cd7302.camel@intel.com>
+In-Reply-To: <051f4a37e178d11c6dbcd05b5d6be28731cd7302.camel@intel.com>
+From: =?UTF-8?Q?Rados=C5=82aw_Biernacki?= <rad@semihalf.com>
+Date: Tue, 21 Sep 2021 12:15:58 +0200
+Message-ID: <CAOs-w0J8pd-CE1iu1Bpy-3R20sxa=AJuSQwiRkyrFz0TFLBL4Q@mail.gmail.com>
+Subject: Re: [PATCH v1] drm/i915/bdb: Fix version check
+To: "Souza, Jose" <jose.souza@intel.com>
+Cc: "Lee, Shawn C" <shawn.c.lee@intel.com>,
+ "lma@semihalf.com" <lma@semihalf.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "joonas.lahtinen@linux.intel.com" <joonas.lahtinen@linux.intel.com>, 
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>, 
+ "jani.nikula@linux.intel.com" <jani.nikula@linux.intel.com>, 
+ "upstream@semihalf.com" <upstream@semihalf.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Wed, 22 Sep 2021 06:35:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,176 +74,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 21, 2021 at 7:18 PM Andrey Grodzovsky
-<andrey.grodzovsky@amd.com> wrote:
->
->
-> On 2021-09-21 4:47 p.m., Rob Clark wrote:
-> > On Tue, Sep 21, 2021 at 1:09 PM Andrey Grodzovsky
-> > <andrey.grodzovsky@amd.com> wrote:
-> >> On 2021-09-03 2:47 p.m., Rob Clark wrote:
-> >>
-> >>> From: Rob Clark <robdclark@chromium.org>
-> >>>
-> >>> As the finished fence is the one that is exposed to userspace, and
-> >>> therefore the one that other operations, like atomic update, would
-> >>> block on, we need to propagate the deadline from from the finished
-> >>> fence to the actual hw fence.
-> >>>
-> >>> v2: Split into drm_sched_fence_set_parent() (ckoenig)
-> >>>
-> >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> >>> ---
-> >>>    drivers/gpu/drm/scheduler/sched_fence.c | 34 +++++++++++++++++++++++++
-> >>>    drivers/gpu/drm/scheduler/sched_main.c  |  2 +-
-> >>>    include/drm/gpu_scheduler.h             |  8 ++++++
-> >>>    3 files changed, 43 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_fence.c b/drivers/gpu/drm/scheduler/sched_fence.c
-> >>> index bcea035cf4c6..4fc41a71d1c7 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_fence.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_fence.c
-> >>> @@ -128,6 +128,30 @@ static void drm_sched_fence_release_finished(struct dma_fence *f)
-> >>>        dma_fence_put(&fence->scheduled);
-> >>>    }
-> >>>
-> >>> +static void drm_sched_fence_set_deadline_finished(struct dma_fence *f,
-> >>> +                                               ktime_t deadline)
-> >>> +{
-> >>> +     struct drm_sched_fence *fence = to_drm_sched_fence(f);
-> >>> +     unsigned long flags;
-> >>> +
-> >>> +     spin_lock_irqsave(&fence->lock, flags);
-> >>> +
-> >>> +     /* If we already have an earlier deadline, keep it: */
-> >>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags) &&
-> >>> +         ktime_before(fence->deadline, deadline)) {
-> >>> +             spin_unlock_irqrestore(&fence->lock, flags);
-> >>> +             return;
-> >>> +     }
-> >>> +
-> >>> +     fence->deadline = deadline;
-> >>> +     set_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT, &f->flags);
-> >>> +
-> >>> +     spin_unlock_irqrestore(&fence->lock, flags);
-> >>> +
-> >>> +     if (fence->parent)
-> >>> +             dma_fence_set_deadline(fence->parent, deadline);
-> >>> +}
-> >>> +
-> >>>    static const struct dma_fence_ops drm_sched_fence_ops_scheduled = {
-> >>>        .get_driver_name = drm_sched_fence_get_driver_name,
-> >>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
-> >>> @@ -138,6 +162,7 @@ static const struct dma_fence_ops drm_sched_fence_ops_finished = {
-> >>>        .get_driver_name = drm_sched_fence_get_driver_name,
-> >>>        .get_timeline_name = drm_sched_fence_get_timeline_name,
-> >>>        .release = drm_sched_fence_release_finished,
-> >>> +     .set_deadline = drm_sched_fence_set_deadline_finished,
-> >>>    };
-> >>>
-> >>>    struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-> >>> @@ -152,6 +177,15 @@ struct drm_sched_fence *to_drm_sched_fence(struct dma_fence *f)
-> >>>    }
-> >>>    EXPORT_SYMBOL(to_drm_sched_fence);
-> >>>
-> >>> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> >>> +                             struct dma_fence *fence)
-> >>> +{
-> >>> +     s_fence->parent = dma_fence_get(fence);
-> >>> +     if (test_bit(DMA_FENCE_FLAG_HAS_DEADLINE_BIT,
-> >>> +                  &s_fence->finished.flags))
-> >>> +             dma_fence_set_deadline(fence, s_fence->deadline);
-> >>
-> >> I believe above you should pass be s_fence->finished to
-> >> dma_fence_set_deadline
-> >> instead it fence which is the HW fence itself.
-> > Hmm, unless this has changed recently with some patches I don't have,
-> > s_fence->parent is the one signalled by hw, so it is the one we want
-> > to set the deadline on
+- dropping stable
+
+...
+
+> > diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> > index 330077c2e588..fff456bf8783 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> > +++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+> > @@ -814,6 +814,11 @@ struct lfp_brightness_level {
+> >       u16 reserved;
+> >  } __packed;
 > >
-> > BR,
-> > -R
+> > +/*
+> > + * Changing struct bdb_lfp_backlight_data might affect its
+> > + * size comparation to the value hold in BDB.
+> > + * (e.g. in parse_lfp_backlight())
+> > + */
 >
->
-> No it didn't change. But then when exactly will
-> drm_sched_fence_set_deadline_finished
-> execute such that fence->parent != NULL ? In other words, I am not clear
-> how propagation
-> happens otherwise - if dma_fence_set_deadline is called with the HW
-> fence then the assumption
-> here is that driver provided driver specific
-> dma_fence_ops.dma_fence_set_deadline callback executes
-> but I was under impression that drm_sched_fence_set_deadline_finished is
-> the one that propagates
-> the deadline to the HW fence's callback and for it to execute
-> dma_fence_set_deadline needs to be called
-> with s_fence->finished.
+> This is true for all the blocks so I don't think we need this comment.
 
-Assuming I didn't screw up drm/msm conversion to scheduler,
-&s_fence->finished is the one that will be returned to userspace.. and
-later passed back to kernel for atomic commit (or to the compositor).
-So it is the one that fence->set_deadline() will be called on.  But
-s_fence->parent is the actual hw fence that needs to know about the
-deadline.  Depending on whether or not the job has been written into
-hw ringbuffer or not, there are two cases:
+Lack of such comment was probable cause of this overlook.
+As this is an example of the consequence (bricking platforms dependent
+on mentioned conditions) IMO we need some comment here, or this will
+probably happen again.
 
-1) not scheduled yet, s_fence will store the deadline and propagate it
-later once s_fence->parent is known
-2) already scheduled, in which case s_fence->finished.set_deadline
-will propagate it directly to the real fence
 
-BR,
--R
-
-> Andrey
 >
+> >  struct bdb_lfp_backlight_data {
+> >       u8 entry_size;
+> >       struct lfp_backlight_data_entry data[16];
 >
->
-> >
-> >> Andrey
-> >>
-> >>
-> >>> +}
-> >>> +
-> >>>    struct drm_sched_fence *drm_sched_fence_alloc(struct drm_sched_entity *entity,
-> >>>                                              void *owner)
-> >>>    {
-> >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-> >>> index 595e47ff7d06..27bf0ac0625f 100644
-> >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
-> >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
-> >>> @@ -978,7 +978,7 @@ static int drm_sched_main(void *param)
-> >>>                drm_sched_fence_scheduled(s_fence);
-> >>>
-> >>>                if (!IS_ERR_OR_NULL(fence)) {
-> >>> -                     s_fence->parent = dma_fence_get(fence);
-> >>> +                     drm_sched_fence_set_parent(s_fence, fence);
-> >>>                        r = dma_fence_add_callback(fence, &sched_job->cb,
-> >>>                                                   drm_sched_job_done_cb);
-> >>>                        if (r == -ENOENT)
-> >>> diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-> >>> index 7f77a455722c..158ddd662469 100644
-> >>> --- a/include/drm/gpu_scheduler.h
-> >>> +++ b/include/drm/gpu_scheduler.h
-> >>> @@ -238,6 +238,12 @@ struct drm_sched_fence {
-> >>>             */
-> >>>        struct dma_fence                finished;
-> >>>
-> >>> +     /**
-> >>> +      * @deadline: deadline set on &drm_sched_fence.finished which
-> >>> +      * potentially needs to be propagated to &drm_sched_fence.parent
-> >>> +      */
-> >>> +     ktime_t                         deadline;
-> >>> +
-> >>>            /**
-> >>>             * @parent: the fence returned by &drm_sched_backend_ops.run_job
-> >>>             * when scheduling the job on hardware. We signal the
-> >>> @@ -505,6 +511,8 @@ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
-> >>>                                   enum drm_sched_priority priority);
-> >>>    bool drm_sched_entity_is_ready(struct drm_sched_entity *entity);
-> >>>
-> >>> +void drm_sched_fence_set_parent(struct drm_sched_fence *s_fence,
-> >>> +                             struct dma_fence *fence);
-> >>>    struct drm_sched_fence *drm_sched_fence_alloc(
-> >>>        struct drm_sched_entity *s_entity, void *owner);
-> >>>    void drm_sched_fence_init(struct drm_sched_fence *fence,
