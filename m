@@ -2,67 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200F44138A9
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18C5D4138D1
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:41:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9786B6E9DD;
-	Tue, 21 Sep 2021 17:37:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8596B6E9D6;
+	Tue, 21 Sep 2021 17:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 744EB6E9CE;
- Tue, 21 Sep 2021 17:37:28 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id g16so41544975wrb.3;
- Tue, 21 Sep 2021 10:37:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yn0dGzK8VwWATbg/MRLaeJ+EViGvUvAidNc2i9iKcqg=;
- b=BXp4vBPHgyMt4mphaz8OlmhLC0Sy42FigPpS5Xtaglzg8jnncZVb0WYrLRp7PkG67y
- EHAOzQG6va2BUIy7jCQSOuZEWwJpuKQuZRbs9aiRHWiKMfyJLCORDDkTJCPgIWFSrAv1
- JOnT7ZOgGjBpz2DR2WIg/inxZkW0h7LqShC5fkRQ02Bw8sv5HKrgCbsYomF+jFmAfdEx
- YMpr+i/ZdI2ZB/cXzb0XpsmqLoe38hF2I8tVtgvzfCzVMacaKtA2nHV6EJB63hYBAxxD
- xaJ7r5LREA2u9InAvND2j+55speamLkaFXslzhZ1T750nN/2aswO71LMSDEk/KX3HTC+
- Ri4A==
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com
+ [209.85.210.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F1DD36E9D6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:41:49 +0000 (UTC)
+Received: by mail-ot1-f49.google.com with SMTP id
+ l16-20020a9d6a90000000b0053b71f7dc83so29417136otq.7
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 10:41:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=yn0dGzK8VwWATbg/MRLaeJ+EViGvUvAidNc2i9iKcqg=;
- b=5PbNVbv9CoWjVEeyB1rry27x/M7HW3C1Yo9aOW+G4w95tvkFLCU2MHI1XiDcYbOtmx
- y0OWCQSYgSj+62WRmAeV7AsE0/CNwWmFk5U4gWJ/UVZj5rellzeaIks5caQ+b54pa0Al
- TzLkbt4QtDKqHWKm1B6ac+CC3h5Su2t4CBqp8XWmbMWprGO0YO7Lxs8RTim29iD52Tv3
- Lh/IdBm2KKsm5gMMCbMjQ1s2afrdfL1z3uE5pkvlrhL/g7qcB5ythGpixDM6TIw+JuLE
- e1a0XYriY+4iIYEkMluMGWy3EAGin0Ii1FSqxOf+BCvRcMqUJ94Rbb+esozOmFfnZSG1
- 3VyQ==
-X-Gm-Message-State: AOAM531NWiHWzM9uVYLkpRrjyz3DMZ23VbBiFMCgKfq2FG1j0gRggO+n
- zhuDgA/Rx4oidy5WL92G6s4=
-X-Google-Smtp-Source: ABdhPJzffrVmg63SpfjQoBj+8p0lFtYH9jgDg4ojsj/wafQkZwiDlftx4b0n0/O0NMeTyr9ebaN9Xg==
-X-Received: by 2002:adf:f187:: with SMTP id h7mr18547361wro.115.1632245847038; 
- Tue, 21 Sep 2021 10:37:27 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- z13sm23310477wrs.90.2021.09.21.10.37.25
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=6b4IIW0sN4JgYgdnLZbHu/GA4zvnwxshVHJp0K1k4Ac=;
+ b=gMcx+OvvvbxIrL4qZnWt0QKnTuDYg5Z+xsHdg7pN+QMshXvmF6Ie1uXc5ieHDpNXMi
+ q9c+6iC1QBv5kpiLJvnew9B+bkFU4jO26ezZdf438yA7fduzjN3jnpYrLmMN1LaEIknd
+ 1TDku2mP6SXDIOhOFXFvCslTg6wJMm6OPCcEDAV4SvgvR2jujcXoqjVhuQnGyrLSNJf5
+ HFnNJDxFU1m8ceTDC3IwTV0nQ2ayfFTTBO9kPinY5uVmv+RmXEVfYSFhQty5If1xZgfZ
+ fbl28vkxdYS7h0y2yN0IjSiro1r38IAnxX5wM30GM9DxeDV/vzqwU96tKIxYqjmsTnw3
+ cxUA==
+X-Gm-Message-State: AOAM533nWcNdCRL6GlM5ouToP6NnYAA4OqMBFlf50oOwG+yjSmFujKVT
+ G2TjX3q/xWEBUXLI82eleQ==
+X-Google-Smtp-Source: ABdhPJwq32Lfdjus9F4ALYlFMLXBPgzEb5VmjZWvPnw9Sl3pngoSqz9+jwvyN2g9rSRQEgRyRuvScg==
+X-Received: by 2002:a05:6830:40ca:: with SMTP id
+ h10mr8440832otu.187.1632246109250; 
+ Tue, 21 Sep 2021 10:41:49 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id s26sm2011789ooc.26.2021.09.21.10.41.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 10:37:26 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
-Date: Tue, 21 Sep 2021 19:36:59 +0200
-Message-Id: <20210921173659.246165-26-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210921173659.246165-1-christian.koenig@amd.com>
-References: <20210921173659.246165-1-christian.koenig@amd.com>
+ Tue, 21 Sep 2021 10:41:48 -0700 (PDT)
+Received: (nullmailer pid 3020375 invoked by uid 1000);
+ Tue, 21 Sep 2021 17:41:47 -0000
+Date: Tue, 21 Sep 2021 12:41:47 -0500
+From: Rob Herring <robh@kernel.org>
+To: Yassine Oudjana <y.oudjana@protonmail.com>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, phone-devel@vger.kernel.org,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ Thierry Reding <thierry.reding@gmail.com>, devicetree@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 2/2] dt-bindings: display: Add binding for LG.Philips
+ SW43101
+Message-ID: <YUoZW3zfW+9W9Ouh@robh.at.kernel.org>
+References: <20210909043904.12982-1-y.oudjana@protonmail.com>
+ <20210909043904.12982-3-y.oudjana@protonmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210909043904.12982-3-y.oudjana@protonmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,50 +73,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Heureka, that's finally not used any more.
+On Thu, 09 Sep 2021 04:40:27 +0000, Yassine Oudjana wrote:
+> Add a device tree binding for LG.Philips SW43101.
+> 
+> Signed-off-by: Yassine Oudjana <y.oudjana@protonmail.com>
+> ---
+> Changes since v1:
+>  - Add regulator support.
+>  - Add MAINTAINERS entry.
+>  - Dual-license DT binding.
+> 
+>  .../display/panel/lgphilips,sw43101.yaml      | 75 +++++++++++++++++++
+>  MAINTAINERS                                   |  1 +
+>  2 files changed, 76 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/panel/lgphilips,sw43101.yaml
+> 
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- include/linux/dma-resv.h | 26 --------------------------
- 1 file changed, 26 deletions(-)
-
-diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-index 72e7ebaa675f..42ea6f667120 100644
---- a/include/linux/dma-resv.h
-+++ b/include/linux/dma-resv.h
-@@ -436,32 +436,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
- 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
- }
- 
--/**
-- * dma_resv_get_excl_unlocked - get the reservation object's
-- * exclusive fence, without lock held.
-- * @obj: the reservation object
-- *
-- * If there is an exclusive fence, this atomically increments it's
-- * reference count and returns it.
-- *
-- * RETURNS
-- * The exclusive fence or NULL if none
-- */
--static inline struct dma_fence *
--dma_resv_get_excl_unlocked(struct dma_resv *obj)
--{
--	struct dma_fence *fence;
--
--	if (!rcu_access_pointer(obj->fence_excl))
--		return NULL;
--
--	rcu_read_lock();
--	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
--	rcu_read_unlock();
--
--	return fence;
--}
--
- /**
-  * dma_resv_shared_list - get the reservation object's shared fence list
-  * @obj: the reservation object
--- 
-2.25.1
-
+Reviewed-by: Rob Herring <robh@kernel.org>
