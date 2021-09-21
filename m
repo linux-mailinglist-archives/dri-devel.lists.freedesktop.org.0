@@ -2,58 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F4E4138F4
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B476E413915
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 19:47:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 977DC6E9ED;
-	Tue, 21 Sep 2021 17:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AAE4C6E9F2;
+	Tue, 21 Sep 2021 17:47:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B6DC76E9ED
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:43:43 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 8EE01610A0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:43:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632246223;
- bh=OKmBYk2jGF6g/z7v2Ai5+L7L/xx03iwbX6YWnFwiPJ4=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Ga0iuHbcEBVr/hHyzLoG0D5c8joyJgNAIhaxtGFveCNnZMLB57A8SnhPtdRp0dLhW
- ohNCR9DwKmydd2mDH+fpHgpJm67ZZiJkedPIzSRmgcGQ/x1EKG5jK2RIJmcwtcimho
- S1H78krymogOktK2fshMZ6tm9ND3dyRfJ7RAF24IU+vP53rw5SfjoFPevISUVW37QR
- F6l5uyQSAfVpgS6xOZOWlWhUcm/tby+NHdlUK1SpF4fu7Ne9w8PYIETlJ2Ek/h1JUP
- shRryxp3hmSJ4IuNkx1FOlj+OJpPK3g48LaY1MJxw/9Ov9VdbkAPPM9DumpI7DbPm3
- dxvKtMI9KfcVg==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 86BCA60F6B; Tue, 21 Sep 2021 17:43:43 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211277] sometimes crash at s2ram-wake (Ryzen 3500U): amdgpu,
- drm, commit_tail, amdgpu_dm_atomic_commit_tail
-Date: Tue, 21 Sep 2021 17:43:42 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: youling257@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-211277-2300-dMVB64DWQb@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211277-2300@https.bugzilla.kernel.org/>
-References: <bug-211277-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E4FB6E9F2;
+ Tue, 21 Sep 2021 17:47:27 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0d0600329c23fffea6a903.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0d:600:329c:23ff:fea6:a903])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 746911EC0345;
+ Tue, 21 Sep 2021 19:47:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1632246441;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=Pv/DqLbn5krQkfgrrH2g5wknVz1I55labSKboEsUGSc=;
+ b=ICGDEBkQOXOtvX4oj9gLk4HRR4i+JmA+w21a5R5Xi1PZp209y1bcslBK22jtpCHUOsc4bU
+ LSOP3yCawLAOD9sDuEbS363bK+pYy6ALcZgCukrJ/yEpf5U57oeFLjS9+b2ZXJHSmQP3/J
+ ZoRIqL1GWc7QneVzHnFpO5G9Rs488yE=
+Date: Tue, 21 Sep 2021 19:47:15 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org
+Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
+ cc_platform_has()
+Message-ID: <YUoao0LlqQ6+uBrq@zn.tnic>
+References: <cover.1631141919.git.thomas.lendacky@amd.com>
+ <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
+ <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
+ <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,28 +72,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211277
+On Tue, Sep 21, 2021 at 12:04:58PM -0500, Tom Lendacky wrote:
+> Looks like instrumentation during early boot. I worked with Boris offline to
+> exclude arch/x86/kernel/cc_platform.c from some of the instrumentation and
+> that allowed an allyesconfig to boot.
 
---- Comment #69 from youling257@gmail.com ---
-(In reply to James Zhu from comment #67)
-> (In reply to youling257 from comment #66)
-> > resume failed record video,
-> > https://drive.google.com/drive/folders/1bWMC4ByGvudC9zBk-9Xgamz-
-> > shir0pqX?usp=3Dsharing
->=20
-> Can you try apply this patch:=20
-> https://lore.kernel.org/all/20210920163922.313113287@linuxfoundation.org/?
+And here's the lineup I have so far, I'd appreciate it if ppc and s390 folks
+could run it too:
 
-linux kernel 5.15rc1 is good, suspend to disk resume success.
-linux kernel 5.15rc2 is bad, suspend to disk failed.
-revert "drm/amdgpu: move iommu_resume before ip init/resume" can suspend to
-disk resume success.
+https://git.kernel.org/pub/scm/linux/kernel/git/bp/bp.git/log/?h=rc2-cc
 
-linux kernel 5.15rc2 has "drm/amdkfd: separate kfd_iommu_resume from
-kfd_resume", why you suggest me apply the patch
+Thx.
 
---=20
-You may reply to this email to add a comment.
+-- 
+Regards/Gruss,
+    Boris.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+https://people.kernel.org/tglx/notes-about-netiquette
