@@ -2,65 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897AE4135B0
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 16:56:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96EF4135CB
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 17:04:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 540596E9D4;
-	Tue, 21 Sep 2021 14:56:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4FD756E9F1;
+	Tue, 21 Sep 2021 15:04:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 79C6A6E9D4
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 14:56:19 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t18so40066136wrb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 07:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Uy/6vpAUKhCQrg81XG5Al3uBoXiNf0Mz5dJc/PJ/1Oo=;
- b=inwX55DyAUgJ5+/69FFQ5BYIFwpAEpPaNG5iUXLgI9Xx2QUcCzH3GiU03HfEj2LI0e
- qULLRtnz8pRXEtVEGBeiKj9+uiTYiTUFXpLcis2a9BBM01JdTgCa/ERr9ANh+2AY5m5/
- e8ZCbXtASjaNOpOkLp94OMpaFrrvdWD+B1REo6iIAjHq5DvhQn9fx/Oi2Ny0gGl1IqhZ
- oA8omaGlRrNw7uY44M1ZGwm6nSWSXZvx45U8dYvauqZ8gu3qSmpYzWZFTWY6clpmDTWo
- 4RhKh65OdHy6+OkNXArCmGdvTOQZmLpi5VZd9JEuOhL82m7pMpORjtL+91x+bhe6oQnM
- +pew==
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC4A06E9F1
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:04:11 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id t11so3031510plq.11
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 08:04:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20210112.gappssmtp.com; s=20210112;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=U5sHi8cjj306oaDb/RAXcVkT6LaUnwyG2i0jV8EMZXU=;
+ b=14iJ+UOQEeWmwBidYb3ZlxxSmCpFBa3g6iXvn7L0ljJoEGakHlSEYQSufQV3/pWn7k
+ RmXmNZoOrX2e/qhdKKODpeJg288zZawoWQ5Z3ZQLfbCTHhyrt8FDA8PhA3O0HcK1bD6J
+ yUcmupu7CrDazE/5BqnZFO3TkN4L9ho2BmIU8+xEuXblGAYF32fghkbl5PekXw/k2+mE
+ MnQjDB8mKe0PmNLzNJitE8kc/zhzXDkVF7X9NoDW1h08qWh4w1x54GXhSGQ7z33PR6qk
+ oRqjS6nE+5Z/Q+uaDF4TQ/vV1b8aitFLwAxS36E3Mh2vsNOxOfc8zwIxrYUvg01yEaK4
+ 2u/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Uy/6vpAUKhCQrg81XG5Al3uBoXiNf0Mz5dJc/PJ/1Oo=;
- b=VZGdZI4iHwNOXRzzeHKPQpWJ89sUPCUnfnFH1AAfVTUdJWCCLnwz6KLqXsXY7h19T4
- p6HswtwopBkiex/LQPJbtl4mC4suz2bTmlvZ/Ur2hAt31DLA/bvtgB1fzZp6oFmZ1LFF
- 8nQZVN9AQtWTKGDwZ1udLw8tAIY9Xr7qJGFQtufogpdfNMvXmLWCFD35H9RyAsLT0AAf
- kzLIgF6sqzbX93QhJwrnyaNfy7hw1zmygLO5lIcI23+y1sTFi8nnQyFV2xD2EG3RG+7X
- YdBKpBs5KLiFjm3S1R3aFXLQ24OZ/cpOKQurWxiH6NvCnMpVXGWLjG8PZ/WRDOuCESBT
- BMAg==
-X-Gm-Message-State: AOAM532WwTrOIAgfbjikSCGz/SF4WfGcJm8mAyAxwT7O6Tlkm23CVkJe
- 8amATyRhtUi/UZHOSlxkoglqRg==
-X-Google-Smtp-Source: ABdhPJxwyJfqbv3VS2qWqfkrpeWNt0/HGXMc8xJMgFLQyg5ZWJYmS0L9SbXC8wwBEt/xh1Dd4Dt+5w==
-X-Received: by 2002:adf:e390:: with SMTP id e16mr35385598wrm.217.1632236175859; 
- Tue, 21 Sep 2021 07:56:15 -0700 (PDT)
-Received: from google.com ([95.148.6.233])
- by smtp.gmail.com with ESMTPSA id 135sm3191822wma.32.2021.09.21.07.56.14
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=U5sHi8cjj306oaDb/RAXcVkT6LaUnwyG2i0jV8EMZXU=;
+ b=LqRpqAB+tdQs9xpxbidNYMiFO0LMmsFy1GkoJcy6Hcc8gWG0XvQ1HNEGOZEcJ934/T
+ DaeyzIyUJFiWnMoBMaQ7FBLdd2YstMbNHhQUEgRikcpFlAx73LJ7LSFlnn2L0/ThhRJb
+ AWo0z1mZdptOTAqbNZqHUz0KwTxJEZf5Trif15jugrxECbDgd5htobqpJoq8yVOgvLlL
+ ulZxOe4Ap3u5Sq5xImfzX9oyMvdg0vQg4NA93B3n4bbbo+i5CzMFLp2G4LzPJyFLhEeZ
+ r+0+0VBZmQtKG2TyyZPw86N7gMx9C7QEOfbQ6DecbcdCJ7ZWp/Q6EGNIibmWxvUEMeCe
+ fx3w==
+X-Gm-Message-State: AOAM530ssKyK4qLMoU2Epzq+darlPt7NGL1zSlIriet96hXhWNRyYo64
+ FSdlmdJuI/QP9YvkcakXiq4EPw==
+X-Google-Smtp-Source: ABdhPJyW5gW8ge2xfEG0UWnF9Yt+QwvDwtXjhnnktAGJe72JUfUp0V0dPz6+uQuDx7TpYQsDz6PgBQ==
+X-Received: by 2002:a17:902:edc7:b0:13b:86dc:c9d7 with SMTP id
+ q7-20020a170902edc700b0013b86dcc9d7mr27789483plk.88.1632236651341; 
+ Tue, 21 Sep 2021 08:04:11 -0700 (PDT)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id n205sm17776069pfd.38.2021.09.21.08.04.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 21 Sep 2021 07:56:15 -0700 (PDT)
-Date: Tue, 21 Sep 2021 15:56:13 +0100
-From: Lee Jones <lee.jones@linaro.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] backlight: propagate errors from get_brightness()
-Message-ID: <YUnyjSdhJt5nK5Kd@google.com>
-References: <20210907124751.6404-1-linux@weissschuh.net>
- <b25975d3-f417-4cba-92d1-35c93d37e1e6@t-8ch.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ Tue, 21 Sep 2021 08:04:10 -0700 (PDT)
+Date: Tue, 21 Sep 2021 08:04:10 -0700 (PDT)
+X-Google-Original-Date: Tue, 21 Sep 2021 08:04:01 PDT (-0700)
+Subject: Re: [PATCH v2] drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused
+ warning
+In-Reply-To: <163221552907.1876143.10392170678364292267.b4-ty@sntech.de>
+CC: Arnd Bergmann <arnd@arndb.de>, hjc@rock-chips.com, heiko@sntech.de,
+ kernel-team@android.com, dri-devel@lists.freedesktop.org,
+ geert+renesas@glider.be, airlied@linux.ie, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, daniel@ffwll.ch
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: heiko@sntech.de
+Message-ID: <mhng-4c5264da-5502-4947-b32d-e9008a79ee90@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <b25975d3-f417-4cba-92d1-35c93d37e1e6@t-8ch.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,25 +79,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 21 Sep 2021, Thomas Weißschuh wrote:
+On Tue, 21 Sep 2021 02:12:17 PDT (-0700), heiko@sntech.de wrote:
+> On Fri, 10 Sep 2021 20:43:18 -0700, Palmer Dabbelt wrote:
+>> cdn_dp_resume is only used under PM_SLEEP, and now that it's static an
+>> unused function warning is triggered undner !PM_SLEEP.  This marks the
+>> function as possibly unused, to avoid triggering compiler warnings.
+>
+> Applied, thanks!
+>
+> [1/1] drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused warning
+>       commit: f7c57a4566115657c16fd6603b6ef8a21bae5194
 
-> On 2021-09-07T14:47+0200, Thomas Weißschuh wrote:
-> > backlight.h documents "struct backlight_ops->get_brightness()" to return
-> > a negative errno on failure.
-> > So far these errors have not been handled in the backlight core.
-> > This leads to negative values being exposed through sysfs although only
-> > positive values are documented to be reported.
-> 
-> > [..]
-> 
-> Friendly ping.
-
-Don't do that.  If you think the submission has been forgotten about
-(it hasn't), then please submit a [RESEND].  As it happens, this is on
-my TOREVEW list.  I just need to get around to it post-vacation.
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+I'm not quite sure where that lives, but is it applied on top of 
+something or is it merged from the tag?  Like I said a bit below this in 
+the original patch, this has started to break the build for me and I'd 
+like to pull it in as soon as possible.
