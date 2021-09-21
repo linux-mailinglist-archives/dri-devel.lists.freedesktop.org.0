@@ -1,68 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2CF41396E
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 20:04:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1714139CF
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 20:11:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DF5DF6E923;
-	Tue, 21 Sep 2021 18:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A872E89EA6;
+	Tue, 21 Sep 2021 18:11:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6CA86E923
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 18:04:15 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id d21so41757716wra.12
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:04:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com
+ [IPv6:2607:f8b0:4864:20::72f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E81189EA6
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 18:11:36 +0000 (UTC)
+Received: by mail-qk1-x72f.google.com with SMTP id t4so41986qkb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 11:11:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/G3Qa808WP8sJJrKGbpGjsu3WNB70LujCVmf+r+9a7I=;
- b=E+3TpsCMuvie8IHVehuRQa7boCiwqbpAEdXmaqZS72X0rK5S1O8khUjtqD3zdlbquj
- FOSihL6Cfj4V0BYI1juyczfKZqwGvdQsTz7dRPzUdsuMaXX4fw18KcnzPFDJin0TyJ21
- i69wdaYdwzzoCTI+S6zTEeLi+/m0Z2E5bzKICgyB8/F4lHcaq83GTax1AZ8f8tGLLUiG
- 0uvncEWf4OtvUcjztJAfyzIebiIxp9YbsXVBVuW5nFGEtVAa+75gw8FIJBrnQ0UHyOsq
- J7LJRA+kKW5UaHMWR1zyxf8837bsD7COU+iHI5RtJW8bthKYrUfi8TZY007kTnWXnXCf
- JGhg==
+ :cc; bh=p6xJlOV/AA3gdL3eokxN6CeMQ97Om1X9bVexxSR5pYM=;
+ b=Fx4246vsEZTjsua7p7npQGuOk52DKDzDn3gUCRyxgSrTQqrX+RlfVeFb7MHPK/dmJB
+ X3I+PN8WdN0WAJjUnGQRyFAMZnHj43dRGyg5QWKdt7dqhOd8GrHSpalndKOeffxOlgqA
+ NXZWb/Iq/WNjNlG234qEWphLFhaerma8FkKzg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/G3Qa808WP8sJJrKGbpGjsu3WNB70LujCVmf+r+9a7I=;
- b=zGVQlKVvctXcB5I6pS6bu8oKtFUmVqcnfz+YmX9xQqEX894zgRICxhsajU34xlcZwX
- sGfR0Sr9uAB4sye+p+/Y8/0Qag+YQG3CdkCiFU554CRuqO99n7DFkZ+kope4XIYYU2yK
- bWX/nBU8YYEocWXrCMiciWvTEr8GOvv3LJmd3mKRyEdeUR+aTmAHzbPtWR3XXXygNCvK
- lwAaaFwCle3hhgz5h70Bi1NRwmWAx6/mmJuHlixvxctl8DGc36Kl0+MitZjZgN8e9quR
- 0OgVljka5Y4I1aK7Rx5rYHaBdTVkZO74mHk2woW+SItQjdYRNFqoRfkoUI2WTuVh3wV9
- UoGw==
-X-Gm-Message-State: AOAM53321aoXWSfsmwbJX69t+aHl8cEyp8ClM14rVb4OFMs5Vwuqcy9A
- nxhSClicHEu7DNGPolf/+/y3h5MqfNGxaY6OtY0=
-X-Google-Smtp-Source: ABdhPJxOI5g6DcRSW++Sm5b3yN4IfqPGJkK47Ku+OdxNbcLRKFvJ6Lrk8uh4oPL2Y7NWZWZ3SfZ29LQnzMQGhIVuxLE=
-X-Received: by 2002:a5d:64e6:: with SMTP id g6mr20870849wri.151.1632247454077; 
- Tue, 21 Sep 2021 11:04:14 -0700 (PDT)
+ bh=p6xJlOV/AA3gdL3eokxN6CeMQ97Om1X9bVexxSR5pYM=;
+ b=vUB70Lc7MDr2T3GbpZyHrbK+DhRI8bxwTg3UTq/onDWdmsFc/u0Uio+m3Y2NeNPkyO
+ eJQw+PzXsSGn8qlAT6QxvMsHl/+bik7MF8Dl6ndQ/u6YCGRPb7vjCRLyEIlRasNsXkPx
+ XLl9zC188X9Gd6y9HXQE41Nt5JsIqFiqMi6hSA9BuqaLZaDKIPP+OKO7ZemsO5CE0G5M
+ Bvjfj3FJJvjMnAJ2VILhACMMOxL0aqz2ko41jtF8xpwcABoQZNqo9basnhRyPs4+XzUf
+ 9WoOW1mzmuUn5awY/s5syLRzpBcHP17X+dsGRA8bSC9DplYtnJUvLCKabquSYExl4bFe
+ +HbQ==
+X-Gm-Message-State: AOAM530Kyalau46dezuSGeOFAXsgBvpSISKHW4h2zOO/tFNKEAfx6loN
+ NQFZVYknUETYbKNNv1o2C5H66C839cc1mkb/9+/Oxw==
+X-Google-Smtp-Source: ABdhPJwXR/817dyUOCGNMSSFeEY9wfNynvdXBIQFl53DvGlCHQZlPqmkPYDJy7xHQ7mDvlFG8NCwkcZ8HL15RwK++10=
+X-Received: by 2002:a25:6744:: with SMTP id b65mr23138811ybc.100.1632247895000; 
+ Tue, 21 Sep 2021 11:11:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210903184806.1680887-1-robdclark@gmail.com>
- <20210903184806.1680887-9-robdclark@gmail.com>
- <YTj36NbUNxnn6uBU@phenom.ffwll.local>
- <CAF6AEGuVkHOvOkVHo69fOy71qiBh=12Nd=yMXm36p_bjzfFe9A@mail.gmail.com>
- <YTkFzjs3cEvPcCzn@phenom.ffwll.local>
- <CAF6AEGv4cRCb+5qZdEH_b-m1jVu7t=CYb-18cADviwxvnJXELA@mail.gmail.com>
- <CAKMK7uH3w3wfPgK0-WSFEbE=y2ADh9ppOABt7V9ZuXs2vdgDig@mail.gmail.com>
-In-Reply-To: <CAKMK7uH3w3wfPgK0-WSFEbE=y2ADh9ppOABt7V9ZuXs2vdgDig@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 21 Sep 2021 11:08:43 -0700
-Message-ID: <CAF6AEGuN+REwFhMS7k_-LfXqJgue7+dphzTrthcVa8pxFpTwCw@mail.gmail.com>
-Subject: Re: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, 
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel@daenzer.net>, 
- Pekka Paalanen <ppaalanen@gmail.com>, Rob Clark <robdclark@chromium.org>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "open list:SYNC FILE FRAMEWORK" <linux-media@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>
+References: <20210918102058.v5.1.I2351df94f18d5d8debc22d4d100f36fac560409a@changeid>
+ <20210918102058.v5.2.Ifcb5df5de5b1cead7c99e0f37b044ef5cfc69eda@changeid>
+ <CAD=FV=VgQWLmPEFBv=Ufnm8Gc4srRUd15GNbSrL-pYBGysCYqw@mail.gmail.com>
+In-Reply-To: <CAD=FV=VgQWLmPEFBv=Ufnm8Gc4srRUd15GNbSrL-pYBGysCYqw@mail.gmail.com>
+From: Philip Chen <philipchen@chromium.org>
+Date: Tue, 21 Sep 2021 11:11:24 -0700
+Message-ID: <CA+cxXhky5prd6jpNyE+6OKC2QF+A+9dmi+ijt6-911H9xEkAXQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] drm/bridge: parade-ps8640: Add support for AUX
+ channel
+To: Doug Anderson <dianders@chromium.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Andrzej Hajda <a.hajda@samsung.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -79,209 +71,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 8, 2021 at 2:10 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi
+
+On Tue, Sep 21, 2021 at 9:02 AM Doug Anderson <dianders@chromium.org> wrote:
 >
-> On Wed, Sep 8, 2021 at 9:36 PM Rob Clark <robdclark@gmail.com> wrote:
-> > On Wed, Sep 8, 2021 at 11:49 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Wed, Sep 08, 2021 at 11:23:42AM -0700, Rob Clark wrote:
-> > > > On Wed, Sep 8, 2021 at 10:50 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > > >
-> > > > > On Fri, Sep 03, 2021 at 11:47:59AM -0700, Rob Clark wrote:
-> > > > > > From: Rob Clark <robdclark@chromium.org>
-> > > > > >
-> > > > > > The initial purpose is for igt tests, but this would also be useful for
-> > > > > > compositors that wait until close to vblank deadline to make decisions
-> > > > > > about which frame to show.
-> > > > > >
-> > > > > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > > >
-> > > > > Needs userspace and I think ideally also some igts to make sure it works
-> > > > > and doesn't go boom.
-> > > >
-> > > > See cover-letter.. there are igt tests, although currently that is the
-> > > > only user.
-> > >
-> > > Ah sorry missed that. It would be good to record that in the commit too
-> > > that adds the uapi. git blame doesn't find cover letters at all, unlike on
-> > > gitlab where you get the MR request with everything.
-> > >
-> > > Ok there is the Link: thing, but since that only points at the last
-> > > version all the interesting discussion is still usually lost, so I tend to
-> > > not bother looking there.
-> > >
-> > > > I'd be ok to otherwise initially restrict this and the sw_sync UABI
-> > > > (CAP_SYS_ADMIN?  Or??) until there is a non-igt user, but they are
-> > > > both needed by the igt tests
-> > >
-> > > Hm really awkward, uapi for igts in cross vendor stuff like this isn't
-> > > great. I think hiding it in vgem is semi-ok (we have fences there
-> > > already). But it's all a bit silly ...
-> > >
-> > > For the tests, should we instead have a selftest/Kunit thing to exercise
-> > > this stuff? igt probably not quite the right thing. Or combine with a page
-> > > flip if you want to test msm.
+> Hi,
+>
+> On Sat, Sep 18, 2021 at 10:21 AM Philip Chen <philipchen@chromium.org> wrote:
 > >
-> > Hmm, IIRC we have used CONFIG_BROKEN or something along those lines
-> > for UABI in other places where we weren't willing to commit to yet?
-> >
-> > I suppose if we had to I could make this a sw_sync ioctl instead.  But
-> > OTOH there are kind of a limited # of ways this ioctl could look.  And
-> > we already know that at least some wayland compositors are going to
-> > want this.
+> > +static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
+> > +                                  struct drm_dp_aux_msg *msg)
+> > +{
+> > +       struct ps8640 *ps_bridge = aux_to_ps8640(aux);
+> > +       struct regmap *map = ps_bridge->regmap[PAGE0_DP_CNTL];
+> > +       struct device *dev = &ps_bridge->page[PAGE0_DP_CNTL]->dev;
+> > +
+> > +       unsigned int len = msg->size;
 >
-> Hm I was trying to think up a few ways this could work, but didn't
-> come up with anything reasonable. Forcing the compositor to boost the
-> entire chain (for gl composited primary plane fallback) is something
-> the kernel can easily do too. Also only makes sense for priority
-> boost, not so much for clock boosting, since clock boosting only
-> really needs the final element to be boosted.
+> nit: usually no blank lines in the variable definition section.
+Fixed in v6.
+PTAL.
 
-So, I think the compositor, much like
-drm_atomic_helper_wait_for_fences(), really just sees one fence per
-surface, it doesn't really know (or care) that under-the-hood it is a
-fence-chain or fence-array.  There isn't really much for the
-compositor to do but inform "if possible, I'd like this fence to be
-signaled by time T".
-
-Say you have multiple updated frames, which have a fence-array
-composed of fences from multiple different rings.  It is up to the
-fence provider to keep track of the latest fence and the earliest
-deadline.
-
-The drm/msm implementation doesn't try to be too clever and track
-multiple deadlines, Ie. fenceA wanted by time1 and fenceB wanted by
-time2.  It just keeps track of the nearest deadline and the last
-fence.  That is probably sufficient, eventually the utilization based
-gpu freq governor will settle into the appropriate steady-state
-framerate.
-
-(Although, I did realize that the WAIT_FENCE ioctl should also be
-setting a deadline.. I forgot to add that)
-
-> > I guess I can look at non-igt options.  But the igt test is already a
-> > pretty convenient way to contrive situations (like loops, which is a
-> > thing I need to add)
->
-> Yeah it's definitely very useful for testing ... One option could be a
-> hacky debugfs interface, where you write a fd number and deadline and
-> the debugfs read function does the deadline setting. Horribly, but
-> since it's debugfs no one ever cares. That's at least where we're
-> hiding all the i915 hacks that igts need.
-
-ugg :-)
-
-BR,
--R
-
-> -Daniel
->
-> > BR,
-> > -R
-> >
-> >
-> > > -Daniel
-> > >
-> > > >
-> > > > BR,
-> > > > -R
-> > > >
-> > > > > -Daniel
-> > > > >
-> > > > > > ---
-> > > > > >  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
-> > > > > >  include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
-> > > > > >  2 files changed, 39 insertions(+)
-> > > > > >
-> > > > > > diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-> > > > > > index 394e6e1e9686..f295772d5169 100644
-> > > > > > --- a/drivers/dma-buf/sync_file.c
-> > > > > > +++ b/drivers/dma-buf/sync_file.c
-> > > > > > @@ -459,6 +459,22 @@ static long sync_file_ioctl_fence_info(struct sync_file *sync_file,
-> > > > > >       return ret;
-> > > > > >  }
-> > > > > >
-> > > > > > +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
-> > > > > > +                                     unsigned long arg)
-> > > > > > +{
-> > > > > > +     struct sync_set_deadline ts;
-> > > > > > +
-> > > > > > +     if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
-> > > > > > +             return -EFAULT;
-> > > > > > +
-> > > > > > +     if (ts.pad)
-> > > > > > +             return -EINVAL;
-> > > > > > +
-> > > > > > +     dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nsec));
-> > > > > > +
-> > > > > > +     return 0;
-> > > > > > +}
-> > > > > > +
-> > > > > >  static long sync_file_ioctl(struct file *file, unsigned int cmd,
-> > > > > >                           unsigned long arg)
-> > > > > >  {
-> > > > > > @@ -471,6 +487,9 @@ static long sync_file_ioctl(struct file *file, unsigned int cmd,
-> > > > > >       case SYNC_IOC_FILE_INFO:
-> > > > > >               return sync_file_ioctl_fence_info(sync_file, arg);
-> > > > > >
-> > > > > > +     case SYNC_IOC_SET_DEADLINE:
-> > > > > > +             return sync_file_ioctl_set_deadline(sync_file, arg);
-> > > > > > +
-> > > > > >       default:
-> > > > > >               return -ENOTTY;
-> > > > > >       }
-> > > > > > diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_file.h
-> > > > > > index ee2dcfb3d660..f67d4ffe7566 100644
-> > > > > > --- a/include/uapi/linux/sync_file.h
-> > > > > > +++ b/include/uapi/linux/sync_file.h
-> > > > > > @@ -67,6 +67,18 @@ struct sync_file_info {
-> > > > > >       __u64   sync_fence_info;
-> > > > > >  };
-> > > > > >
-> > > > > > +/**
-> > > > > > + * struct sync_set_deadline - set a deadline on a fence
-> > > > > > + * @tv_sec:  seconds elapsed since epoch
-> > > > > > + * @tv_nsec: nanoseconds elapsed since the time given by the tv_sec
-> > > > > > + * @pad:     must be zero
-> > > > > > + */
-> > > > > > +struct sync_set_deadline {
-> > > > > > +     __s64   tv_sec;
-> > > > > > +     __s32   tv_nsec;
-> > > > > > +     __u32   pad;
-> > > > > > +};
-> > > > > > +
-> > > > > >  #define SYNC_IOC_MAGIC               '>'
-> > > > > >
-> > > > > >  /**
-> > > > > > @@ -95,4 +107,12 @@ struct sync_file_info {
-> > > > > >   */
-> > > > > >  #define SYNC_IOC_FILE_INFO   _IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_info)
-> > > > > >
-> > > > > > +
-> > > > > > +/**
-> > > > > > + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
-> > > > > > + *
-> > > > > > + * Allows userspace to set a deadline on a fence, see dma_fence_set_deadline()
-> > > > > > + */
-> > > > > > +#define SYNC_IOC_SET_DEADLINE        _IOW(SYNC_IOC_MAGIC, 5, struct sync_set_deadline)
-> > > > > > +
-> > > > > >  #endif /* _UAPI_LINUX_SYNC_H */
-> > > > > > --
-> > > > > > 2.31.1
-> > > > > >
-> > > > >
-> > > > > --
-> > > > > Daniel Vetter
-> > > > > Software Engineer, Intel Corporation
-> > > > > http://blog.ffwll.ch
-> > >
-> > > --
-> > > Daniel Vetter
-> > > Software Engineer, Intel Corporation
-> > > http://blog.ffwll.ch
 >
 >
+> > +       base = PAGE0_SWAUX_ADDR_7_0;
+> > +       addr_len[PAGE0_SWAUX_ADDR_7_0 - base] = msg->address;
+> > +       addr_len[PAGE0_SWAUX_ADDR_15_8 - base] = msg->address >> 8;
+> > +       addr_len[PAGE0_SWAUX_ADDR_23_16 - base] = (msg->address >> 16) &
+> > +                                                 SWAUX_ADDR_19_16_MASK;
+> > +       addr_len[PAGE0_SWAUX_ADDR_23_16 - base] |= (msg->request << 4) &
+> > +                                                  SWAUX_CMD_MASK;
 >
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> optional nit: Probably you could get rid of the mask for the request.
+> After all, you're storing it to a thing that's a byte (so bits above
+> bit 7 will implicitly be masked) and you're left shifting by 4 (so
+> bits 0-3 will implicitly be masked) so this just makes it uglier. ;-)
+>
+Fixed in v6.
+PTAL.
+> optional nit: In theory you could also get rid of the
+> SWAUX_ADDR_19_16_MASK and if you really wanted to you could error
+> check that the address wasn't bigger than 20-bits since giving an
+> error for an invalid address would actually be better than silently
+> masking it anyway...
+>
+Fixed in v6.
+PTAL.
+>
+> > +       if (len && (request == DP_AUX_NATIVE_READ ||
+> > +                   request == DP_AUX_I2C_READ)) {
+> > +               /* Read from the internal FIFO buffer */
+> > +               for (i = 0; i < len; i++) {
+> > +                       ret = regmap_read(map, PAGE0_SWAUX_RDATA,
+> > +                                         (unsigned int *)(buf + i));
+>
+> The cast to "unsigned int *" looks wrong to me. You can't just cast
+> like this for a number of reasons. Go back to reading into a local
+> variable and copy the byte into your buffer.
+>
+Previously I was not 100% sure about this change either.
+Now I'm sure it is bad after some experiments.
+In v6, I reverted to how this was handled in v3.
+PTAL.
+
+>
+> Other than the regmap_read() this looks fine to me. If you send a v6
+> with that fixed I'll plan to wait a day or two and then apply it with
+> Sam's tags.
+>
+> -Doug
