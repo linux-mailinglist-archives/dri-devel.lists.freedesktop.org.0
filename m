@@ -1,56 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422424136AB
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 17:53:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BA54136AD
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 17:54:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96E0B6EA60;
-	Tue, 21 Sep 2021 15:53:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81A676EA61;
+	Tue, 21 Sep 2021 15:54:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C14A6EA51
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:52:35 +0000 (UTC)
-X-UUID: 752d0465783b4a3e811f0f836e7e248f-20210921
-X-UUID: 752d0465783b4a3e811f0f836e7e248f-20210921
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw01.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 1198009454; Tue, 21 Sep 2021 23:52:32 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 21 Sep 2021 23:52:31 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkcas07.mediatek.inc
- (172.21.101.84) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
- Tue, 21 Sep 2021 23:52:30 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Tue, 21 Sep 2021 23:52:30 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, "Philipp
- Zabel" <p.zabel@pengutronix.de>
-CC: Enric Balletbo i Serra <enric.balletbo@collabora.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Alexandre Torgue <alexandre.torgue@foss.st.com>,
- <hsinyi@chromium.org>, <fshao@chromium.org>, <moudy.ho@mediatek.com>,
- <roy-cw.yeh@mediatek.com>, <jason-jh.lin@mediatek.com>, Fabien Parent
- <fparent@baylibre.com>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- <nancy.lin@mediatek.com>, <singo.chang@mediatek.com>,
- <devicetree@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>
-Subject: [PATCH v11 16/16] drm/mediatek: add mediatek-drm of vdosys0 support
- for mt8195
-Date: Tue, 21 Sep 2021 23:52:18 +0800
-Message-ID: <20210921155218.10387-17-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210921155218.10387-1-jason-jh.lin@mediatek.com>
-References: <20210921155218.10387-1-jason-jh.lin@mediatek.com>
+Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
+ [209.85.222.47])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D6E36EA61
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 15:54:04 +0000 (UTC)
+Received: by mail-ua1-f47.google.com with SMTP id u11so13779573uaw.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 08:54:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xeKByOTS+lpH6VM+sT0RbBcDyOchg2h9uI8kPYfUR3g=;
+ b=VZp3Q5VfrG+bCKVCkgcmzLKEzS//JnEbZsOg0TgJ8HzTVSHv4nV+leCgAeC6ayVz/f
+ U4+o5sm8HqHRSEDYZ9k8ianscl9ZYl8pWyrVuPbxdFVxMkh1kZ6ItuXy4xma3nI+vRzj
+ t0p+XrZ775KC1j3z2av4xhqlnezlIu4EcYHfHCUyqagOGe92emRCsBR+BbVy7p2+YXUr
+ 4HhBTCpSq1RtMP0IMzuren1kxGRxRM4exUP3tMIgzphAcpGMvQCpatWm/Q+OT3mSZ/hb
+ GWrbATxJUi6ZlggX2GetwU+zcUUXjHRUt9KXwDzVPtZBkkqZkZPoW2+3AJtOGclx3Pp9
+ /edQ==
+X-Gm-Message-State: AOAM532AIPML6KbgLQ5g4mhwDK0A7dlKs8BD/Q827lt9Xp+5GUSm3im4
+ AP+U1tTF4grrP2lCA3x1SMWcf/RUpdaNsDjgr5I=
+X-Google-Smtp-Source: ABdhPJzjty7MGs32K3rhY6sUGT5fb8yVFIHG9t8ODt4dP8iZWbOtrhi5vyGYC5HXNaufTLBguH0mUeHSZNy5UK8vZbE=
+X-Received: by 2002:ab0:6ec9:: with SMTP id c9mr18455990uav.114.1632239643731; 
+ Tue, 21 Sep 2021 08:54:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+References: <20210623135639.17125-1-laurent.pinchart+renesas@ideasonboard.com>
+ <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
+In-Reply-To: <YQGFP/cFoSksPyn+@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 21 Sep 2021 17:53:52 +0200
+Message-ID: <CAMuHMdVmTcERvHhLLDrZyC_TDLPU89ksitn0WduJkKqpePCKdg@mail.gmail.com>
+Subject: Re: [RESEND] [PATCH v2 1/2] dt-bindings: display: bridge: Add binding
+ for R-Car MIPI DSI/CSI-2 TX
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+ Rob Herring <robh+dt@kernel.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,123 +62,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys0 to mediatek-drm and the sub driver.
+Hi Laurent,
 
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
-rebase on series [1]
+On Wed, Jul 28, 2021 at 6:26 PM Laurent Pinchart
+<laurent.pinchart+renesas@ideasonboard.com> wrote:
+> The R-Car MIPI DSI/CSI-2 TX is embedded in the Renesas R-Car V3U SoC. It
+> can operate in either DSI or CSI-2 mode, with up to four data lanes.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-[1] drm/mediatek: add support for mediatek SOC MT8192
-- https://patchwork.kernel.org/project/linux-mediatek/list/?series=529489
----
- drivers/gpu/drm/mediatek/mtk_disp_rdma.c |  6 +++++
- drivers/gpu/drm/mediatek/mtk_drm_drv.c   | 28 ++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+Thanks for your patch!
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-index d41a3970b944..77c952bdc88c 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_rdma.c
-@@ -357,6 +357,10 @@ static const struct mtk_disp_rdma_data mt8192_rdma_driver_data = {
- 	.fifo_size = 5 * SZ_1K,
- };
- 
-+static const struct mtk_disp_rdma_data mt8195_rdma_driver_data = {
-+	.fifo_size = 1920,
-+};
-+
- static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	{ .compatible = "mediatek,mt2701-disp-rdma",
- 	  .data = &mt2701_rdma_driver_data},
-@@ -366,6 +370,8 @@ static const struct of_device_id mtk_disp_rdma_driver_dt_match[] = {
- 	  .data = &mt8183_rdma_driver_data},
- 	{ .compatible = "mediatek,mt8192-disp-rdma",
- 	  .data = &mt8192_rdma_driver_data},
-+	{ .compatible = "mediatek,mt8195-disp-rdma",
-+	  .data = &mt8195_rdma_driver_data},
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtk_disp_rdma_driver_dt_match);
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index 2f33fe8ad46b..274a5bb10851 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -177,6 +177,19 @@ static const enum mtk_ddp_comp_id mt8192_mtk_ddp_ext[] = {
- 	DDP_COMPONENT_DPI0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
-+	DDP_COMPONENT_OVL0,
-+	DDP_COMPONENT_RDMA0,
-+	DDP_COMPONENT_COLOR0,
-+	DDP_COMPONENT_CCORR,
-+	DDP_COMPONENT_AAL0,
-+	DDP_COMPONENT_GAMMA,
-+	DDP_COMPONENT_DITHER,
-+	DDP_COMPONENT_DSC0,
-+	DDP_COMPONENT_MERGE0,
-+	DDP_COMPONENT_DP_INTF0,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -228,6 +241,11 @@ static const struct mtk_mmsys_driver_data mt8192_mmsys_driver_data = {
- 	.ext_len = ARRAY_SIZE(mt8192_mtk_ddp_ext),
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
-+	.main_path = mt8195_mtk_ddp_main,
-+	.main_len = ARRAY_SIZE(mt8195_mtk_ddp_main),
-+};
-+
- static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
-@@ -447,12 +465,16 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_DITHER },
- 	{ .compatible = "mediatek,mt8183-disp-dither",
- 	  .data = (void *)MTK_DISP_DITHER },
-+	{ .compatible = "mediatek,mt8195-disp-dsc",
-+	  .data = (void *)MTK_DISP_DSC },
- 	{ .compatible = "mediatek,mt8167-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8173-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
- 	{ .compatible = "mediatek,mt8183-disp-gamma",
- 	  .data = (void *)MTK_DISP_GAMMA, },
-+	{ .compatible = "mediatek,mt8195-disp-merge",
-+	  .data = (void *)MTK_DISP_MERGE },
- 	{ .compatible = "mediatek,mt2701-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt2712-disp-mutex",
-@@ -465,6 +487,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8192-disp-mutex",
- 	  .data = (void *)MTK_DISP_MUTEX },
-+	{ .compatible = "mediatek,mt8195-disp-mutex",
-+	  .data = (void *)MTK_DISP_MUTEX },
- 	{ .compatible = "mediatek,mt8173-disp-od",
- 	  .data = (void *)MTK_DISP_OD },
- 	{ .compatible = "mediatek,mt2701-disp-ovl",
-@@ -499,6 +523,8 @@ static const struct of_device_id mtk_ddp_comp_dt_ids[] = {
- 	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8192-disp-rdma",
- 	  .data = (void *)MTK_DISP_RDMA },
-+	{ .compatible = "mediatek,mt8195-disp-rdma",
-+	  .data = (void *)MTK_DISP_RDMA },
- 	{ .compatible = "mediatek,mt8173-disp-ufoe",
- 	  .data = (void *)MTK_DISP_UFOE },
- 	{ .compatible = "mediatek,mt8173-disp-wdma",
-@@ -535,6 +561,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8183_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8192-mmsys",
- 	  .data = &mt8192_mmsys_driver_data},
-+	{.compatible = "mediatek,mt8195-vdosys0",
-+	  .data = &mt8195_vdosys0_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi-csi2-tx.yaml
+> @@ -0,0 +1,118 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/bridge/renesas,dsi-csi2-tx.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Renesas R-Car MIPI DSI/CSI-2 Encoder
+> +
+> +maintainers:
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +
+> +description: |
+> +  This binding describes the MIPI DSI/CSI-2 encoder embedded in the Renesas
+> +  R-Car V3U SoC. The encoder can operate in either DSI or CSI-2 mode, with up
+> +  to four data lanes.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - renesas,r8a779a0-dsi-csi2-tx    # for V3U
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Functional clock
+> +      - description: DSI (and CSI-2) functional clock
+> +      - description: PLL reference clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: fck
+> +      - const: dsi
+> +      - const: pll
+
+No interrupts?
+The hardware manual says there are 9 interrupts.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.18.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
