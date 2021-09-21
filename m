@@ -1,47 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD60E413598
-	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 16:50:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 197D541359B
+	for <lists+dri-devel@lfdr.de>; Tue, 21 Sep 2021 16:50:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE9489F2A;
-	Tue, 21 Sep 2021 14:49:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 38E596E9D0;
+	Tue, 21 Sep 2021 14:50:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C6E89EEB;
- Tue, 21 Sep 2021 14:49:57 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10113"; a="284396061"
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="284396061"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 07:49:57 -0700
-X-IronPort-AV: E=Sophos;i="5.85,311,1624345200"; d="scan'208";a="556968600"
-Received: from ekyne-mobl.ger.corp.intel.com (HELO [10.213.200.64])
- ([10.213.200.64])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 21 Sep 2021 07:49:55 -0700
-Subject: Re: [Intel-gfx] [PATCH 19/27] drm/i915: Fix bug in user proto-context
- creation that leaked contexts
-To: John Harrison <john.c.harrison@intel.com>,
- Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
-References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-20-matthew.brost@intel.com>
- <008b1b3f-9aa8-fe64-a967-091f7170ded1@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <cf77f6d3-a941-a58a-9662-e3d132bcedde@linux.intel.com>
-Date: Tue, 21 Sep 2021 15:49:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from todd.t-8ch.de (todd.t-8ch.de [IPv6:2a01:4f8:c010:41de::1])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 39EFF6E9D0
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 14:50:08 +0000 (UTC)
+Date: Tue, 21 Sep 2021 16:50:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+ s=mail; t=1632235807;
+ bh=HVjDwY3TCzwDBv32KPIGLsUQZWFrfWErmGlbPLXnjeo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lI661zFUSBSuibdyMJanQmYB+xU6QJzPb2CWZUzlHjMwPUdQxw7FRTWp32l/sK9sD
+ sLAyANhiH1BNw7iKrs15lH3mn+f5AmHL3FGc07a3i461k9/lhD0jHTTMzebK2Hje36
+ AdCR+HCtoeeEMRFKYSLKotEbHGtp+Zq7aTAaZeC0=
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] backlight: propagate errors from get_brightness()
+Message-ID: <b25975d3-f417-4cba-92d1-35c93d37e1e6@t-8ch.de>
+References: <20210907124751.6404-1-linux@weissschuh.net>
 MIME-Version: 1.0
-In-Reply-To: <008b1b3f-9aa8-fe64-a967-091f7170ded1@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210907124751.6404-1-linux@weissschuh.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,53 +49,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 2021-09-07T14:47+0200, Thomas Weißschuh wrote:
+> backlight.h documents "struct backlight_ops->get_brightness()" to return
+> a negative errno on failure.
+> So far these errors have not been handled in the backlight core.
+> This leads to negative values being exposed through sysfs although only
+> positive values are documented to be reported.
 
-On 20/09/2021 23:57, John Harrison wrote:
-> On 8/20/2021 15:44, Matthew Brost wrote:
->> Set number of engines before attempting to create contexts so the
->> function free_engines can clean up properly.
->>
->> Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle 
->> create parameters (v5)")
->> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->> Cc: <stable@vger.kernel.org>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> index dbaeb924a437..bcaaf514876b 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->> @@ -944,6 +944,7 @@ static struct i915_gem_engines 
->> *user_engines(struct i915_gem_context *ctx,
->>       unsigned int n;
->>       e = alloc_engines(num_engines);
-> This can return null when out of memory. There needs to be an early exit 
-> check before dereferencing a null pointer. Not sure if that is a worse 
-> bug or not than leaking memory! Either way, it would be good to fix that 
-> too.
+> [..]
 
-Pull out from the series and send a fix standalone ASAP? Also suggest 
-adding author and reviewer to cc for typically quicker turnaround time.
-
-Regards,
-
-Tvrtko
-
-
-> John.
-> 
->> +    e->num_engines = num_engines;
->>       for (n = 0; n < num_engines; n++) {
->>           struct intel_context *ce;
->>           int ret;
->> @@ -977,7 +978,6 @@ static struct i915_gem_engines 
->> *user_engines(struct i915_gem_context *ctx,
->>               goto free_engines;
->>           }
->>       }
->> -    e->num_engines = num_engines;
->>       return e;
-> 
+Friendly ping.
