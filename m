@@ -1,52 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3714144B6
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 11:11:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A5D44144CB
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 11:11:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5AC356EB30;
-	Wed, 22 Sep 2021 09:11:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8FDDA6EB48;
+	Wed, 22 Sep 2021 09:11:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 795AE6EB27;
- Wed, 22 Sep 2021 09:11:12 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id d21so4551739wra.12;
- Wed, 22 Sep 2021 02:11:12 -0700 (PDT)
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 99B276EB27;
+ Wed, 22 Sep 2021 09:11:13 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id d21so4551863wra.12;
+ Wed, 22 Sep 2021 02:11:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
- b=Gmi552MnL/rW+Mx1kL2nA/z5dmqeHqcUeGLsCY1r9ovqo+Cj70S1bDU5jIaLP4Hi72
- 2RWq9Ldpxz1PQ8QVk0yAxYT5pRSPx//c788ezkmYsT920N0eJBRkUAV4Pn6JNZso8tlS
- sC7jdUlPiZmxL6hEwRe59Hfq+WxGHtSqN/pYF1njdio2/Ce+WIqjFhEf3IenPu4J6dbu
- 6y7/SNwvbwMYoofdfflA6up+1DlnLxAEyaV0XKc7GvWPRP9PVpMF+eZSwsGRHng9zqTe
- wVfXF+FWccEkG+BzBHRIzBjSLz8CsiUHVMP0U/BhC8Dl3WW+Q2aZRYESHUSUOF9TMqgO
- cd4Q==
+ bh=yn0dGzK8VwWATbg/MRLaeJ+EViGvUvAidNc2i9iKcqg=;
+ b=bAI4QNHT6vZca+VmFCOr8IcuGXzG39ykF9NW3OCQnREbvSP4HdtVYbDCDCvnpb0uwp
+ kiQDOiUHYuerHcdO0clz0n8em/ntx/m9ZEoC+SPuawsAbuNU+G8VjJkshFDctQafV8b7
+ kWI+27wdOqFJW/b3CKnzoMtaCfk+MJOsq9QIfLaZ3phScwnLtxV3TX0aGtVcqoGCY1Ro
+ yz0ThFDp5Cfc2O28+YF/58t8Licv5AKPUWZMGap6ksAZS+Xns9oL/4DoFbvpqTKGygEo
+ KoyYl25NDtQWDpwd2GG+gXQh5hE56wBf5l6O3dtZ2AMl3LiFdWRlr+mQX+cUVIzDz87Y
+ tMqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
- b=aJp4p9bkhChvYVhsePnEBkdKyTqfDfuCEgdbaC4KgnBasqet5Bpu+0eirLO5hefTtq
- 5SF7rHqucdNl6P47oys7tk5vLRJStPvJjse4EWT8ISv6bdx+oK+2/2rK+VKaMlbQzuEK
- PUs5++jvxeY7obgHAhXe4KzbTC+Wdv+P0wqJ27Va2w61reDgCMUAdKFGwNyXJWtTyezX
- wghtnjqCgpl+uLtmTUa9ZztPN712AHlr+4Cd/32KiWIeNHzBqwpkTiHUZqs3C7rgj1nL
- u9ggcUSs4woR8GRH+IMe5u6oCxj4ludONnVN6tt8O/2vimtLLC1yo1H6BO5OlFIL9fIY
- KQHQ==
-X-Gm-Message-State: AOAM533tYp+bucep0dyxrCtf8g0jiZfRpIVrYVzsJZqkxEgEWEsslfER
- 7JMM98eciyjDf6WB79eGp9s=
-X-Google-Smtp-Source: ABdhPJz2W3gVg8Vc8l1hiYyOeCkZWJPcDFjNex2fXTdD3lXlKStjs/7cgs4pYVTghyezxOJ4PIGTtw==
-X-Received: by 2002:a05:6000:105:: with SMTP id
- o5mr40077220wrx.413.1632301871073; 
+ bh=yn0dGzK8VwWATbg/MRLaeJ+EViGvUvAidNc2i9iKcqg=;
+ b=Xb85+LvZM6cvufc85Psv8MQCdMoaxLM5XV8/+u/1XGJ9qFb6mSLd0qSatGjSxLnMLW
+ HSjyJsxwgDiJ2OAngnK3u6bffodh285dArX+gXVAPozss/ZqxbuKnBRjOARVq6rP/F53
+ g+if/RRVl8mUw8Lp0he7wklmYmEmmyzgHBnc8137vTtPGp84eePPgOV/+L4lqDuzwcU8
+ sZpG/nu66ljAJuaY+/QifgwRhgvAne+Bzo5sVZGnnW4v0z+KRlQdEyzNyZ6hHdKmosMn
+ I4AZPVpMnzNTuF6xOE/CXNOMRZakxErFwuDlvfDE1HJSg3vLmGbezoTpVY+OCAUaye7F
+ xwWw==
+X-Gm-Message-State: AOAM533OJkZk9x43uHa+FUQbjfxcwLwjAOaf8cnBDKFkw7Ia6v8ZnXcD
+ KNR2gdIgs0Ey5Iabzi99HVU=
+X-Google-Smtp-Source: ABdhPJx1e4IYSS2hUCc44tdiMviIyop+wkXx3UxTQUXZN8BLtELRRtnSwV5mF7dKgP+yM4dDjp6h0Q==
+X-Received: by 2002:adf:f1c4:: with SMTP id z4mr40573442wro.418.1632301871941; 
  Wed, 22 Sep 2021 02:11:11 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- r25sm1535515wra.76.2021.09.22.02.11.10
+ r25sm1535515wra.76.2021.09.22.02.11.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 02:11:10 -0700 (PDT)
+ Wed, 22 Sep 2021 02:11:11 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -54,9 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 25/26] drm/etnaviv: replace dma_resv_get_excl_unlocked
-Date: Wed, 22 Sep 2021 11:10:43 +0200
-Message-Id: <20210922091044.2612-26-christian.koenig@amd.com>
+Subject: [PATCH 26/26] dma-buf: nuke dma_resv_get_excl_unlocked
+Date: Wed, 22 Sep 2021 11:10:44 +0200
+Message-Id: <20210922091044.2612-27-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210922091044.2612-1-christian.koenig@amd.com>
 References: <20210922091044.2612-1-christian.koenig@amd.com>
@@ -78,26 +77,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We certainly hold the reservation lock here, no need for the RCU dance.
+Heureka, that's finally not used any more.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/dma-resv.h | 26 --------------------------
+ 1 file changed, 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 4dd7d9d541c0..7e17bc2b5df1 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 			if (ret)
- 				return ret;
- 		} else {
--			bo->excl = dma_resv_get_excl_unlocked(robj);
-+			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
- 		}
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 72e7ebaa675f..42ea6f667120 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -436,32 +436,6 @@ dma_resv_excl_fence(struct dma_resv *obj)
+ 	return rcu_dereference_check(obj->fence_excl, dma_resv_held(obj));
+ }
  
- 	}
+-/**
+- * dma_resv_get_excl_unlocked - get the reservation object's
+- * exclusive fence, without lock held.
+- * @obj: the reservation object
+- *
+- * If there is an exclusive fence, this atomically increments it's
+- * reference count and returns it.
+- *
+- * RETURNS
+- * The exclusive fence or NULL if none
+- */
+-static inline struct dma_fence *
+-dma_resv_get_excl_unlocked(struct dma_resv *obj)
+-{
+-	struct dma_fence *fence;
+-
+-	if (!rcu_access_pointer(obj->fence_excl))
+-		return NULL;
+-
+-	rcu_read_lock();
+-	fence = dma_fence_get_rcu_safe(&obj->fence_excl);
+-	rcu_read_unlock();
+-
+-	return fence;
+-}
+-
+ /**
+  * dma_resv_shared_list - get the reservation object's shared fence list
+  * @obj: the reservation object
 -- 
 2.25.1
 
