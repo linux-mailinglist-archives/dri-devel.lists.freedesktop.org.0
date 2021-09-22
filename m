@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA04B4153CC
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:16:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5FD4153D3
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:19:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A8F856E075;
-	Wed, 22 Sep 2021 23:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F07296E07B;
+	Wed, 22 Sep 2021 23:19:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9374D6E075
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:16:21 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BE3176E07B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:19:33 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1636CE52;
- Thu, 23 Sep 2021 01:16:20 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32273E52;
+ Thu, 23 Sep 2021 01:19:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632352580;
- bh=njl27l0XJYpzFgkSv7Y03dBDS1qGBBIxxBHe8LR/EcQ=;
+ s=mail; t=1632352772;
+ bh=lirq6R1zilU8AH/ITqGiM3d1OMtteL95cTbYnXKaqJ0=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Zbtr3WL61e66pfmzT/X5IerZaatyQzXp1WwFltBdhjCwmGyzvKoP2iYQfvh/Ug+3H
- gKnD1VWDoenOxAwtR1WH9qVQ7YYQ9mYxJa1cQEjoFlH02RKugcv+ApcQq8cqKnbui0
- zKN7LGIErdfP8L0ItEl67e6mjXHi7OEy6OaQtOl0=
-Date: Thu, 23 Sep 2021 02:16:18 +0300
+ b=jEJ2khWXsYpOfWVDgNgPUyMJ05r0aPjPLP8ScOFN0EjH9xBVdAzabLz1IOgPt+eub
+ Bs521dGOj1sLg+Uas50hOHExvx3xL3zu4UFs3s+WqDQEyJeu8NZEF9yVSZRYlTrkua
+ x77yV54rQmWCTzmHfw1zXrsq16B9y1O/YdACPSKI=
+Date: Thu, 23 Sep 2021 02:19:30 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: kieran.bingham+renesas@ideasonboard.com, airlied@linux.ie,
- daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
- linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] drm: rcar-du: Make use of the helper function
- devm_platform_ioremap_resource()
-Message-ID: <YUu5Qv0isQU+Dv2+@pendragon.ideasonboard.com>
-References: <20210831075442.698-1-caihuoqing@baidu.com>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/bridge: dw-hdmi-cec: Make use of the helper function
+ devm_add_action_or_reset()
+Message-ID: <YUu6AukldZ482TDf@pendragon.ideasonboard.com>
+References: <20210922125909.215-1-caihuoqing@baidu.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210831075442.698-1-caihuoqing@baidu.com>
+In-Reply-To: <20210922125909.215-1-caihuoqing@baidu.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,64 +60,39 @@ Hi Cai,
 
 Thank you for the patch.
 
-On Tue, Aug 31, 2021 at 03:54:42PM +0800, Cai Huoqing wrote:
-> Use the devm_platform_ioremap_resource() helper instead of
-> calling platform_get_resource() and devm_ioremap_resource()
-> separately
+On Wed, Sep 22, 2021 at 08:59:08PM +0800, Cai Huoqing wrote:
+> The helper function devm_add_action_or_reset() will internally
+> call devm_add_action(), and if devm_add_action() fails then it will
+> execute the action mentioned and return the error code. So
+> use devm_add_action_or_reset() instead of devm_add_action()
+> to simplify the error handling, reduce the code.
 > 
 > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c | 4 +---
->  drivers/gpu/drm/rcar-du/rcar_lvds.c   | 4 +---
->  2 files changed, 2 insertions(+), 6 deletions(-)
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 4ac26d08ebb4..ebec4b7269d1 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -570,7 +570,6 @@ static void rcar_du_shutdown(struct platform_device *pdev)
->  static int rcar_du_probe(struct platform_device *pdev)
->  {
->  	struct rcar_du_device *rcdu;
-> -	struct resource *mem;
->  	int ret;
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> index 70ab4fbdc23e..c8f44bcb298a 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
+> @@ -265,11 +265,9 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
+>  	/* override the module pointer */
+>  	cec->adap->owner = THIS_MODULE;
 >  
->  	/* Allocate and initialize the R-Car device structure. */
-> @@ -585,8 +584,7 @@ static int rcar_du_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, rcdu);
+> -	ret = devm_add_action(&pdev->dev, dw_hdmi_cec_del, cec);
+> -	if (ret) {
+> -		cec_delete_adapter(cec->adap);
+> +	ret = devm_add_action_or_reset(&pdev->dev, dw_hdmi_cec_del, cec);
+> +	if (ret)
+>  		return ret;
+> -	}
 >  
->  	/* I/O resources */
-> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	rcdu->mmio = devm_ioremap_resource(&pdev->dev, mem);
-> +	rcdu->mmio = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(rcdu->mmio))
->  		return PTR_ERR(rcdu->mmio);
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_lvds.c b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> index d061b8de748f..a64d910b0500 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_lvds.c
-> @@ -802,7 +802,6 @@ static int rcar_lvds_probe(struct platform_device *pdev)
->  {
->  	const struct soc_device_attribute *attr;
->  	struct rcar_lvds *lvds;
-> -	struct resource *mem;
->  	int ret;
->  
->  	lvds = devm_kzalloc(&pdev->dev, sizeof(*lvds), GFP_KERNEL);
-> @@ -825,8 +824,7 @@ static int rcar_lvds_probe(struct platform_device *pdev)
->  	lvds->bridge.funcs = &rcar_lvds_bridge_ops;
->  	lvds->bridge.of_node = pdev->dev.of_node;
->  
-> -	mem = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> -	lvds->mmio = devm_ioremap_resource(&pdev->dev, mem);
-> +	lvds->mmio = devm_platform_ioremap_resource(pdev, 0);
->  	if (IS_ERR(lvds->mmio))
->  		return PTR_ERR(lvds->mmio);
->  
+>  	ret = devm_request_threaded_irq(&pdev->dev, cec->irq,
+>  					dw_hdmi_cec_hardirq,
 
 -- 
 Regards,
