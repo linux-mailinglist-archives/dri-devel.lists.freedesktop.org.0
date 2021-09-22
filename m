@@ -2,84 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0F641483C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:54:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4171B414890
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 14:14:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 64BF96EB88;
-	Wed, 22 Sep 2021 11:54:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 69DAD6EB86;
+	Wed, 22 Sep 2021 12:14:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
- [66.111.4.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 844A56EB88
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 11:54:16 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
- by mailout.nyi.internal (Postfix) with ESMTP id DED225C014E;
- Wed, 22 Sep 2021 07:54:15 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute5.internal (MEProxy); Wed, 22 Sep 2021 07:54:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=lBcp7OcKy5PMWRjVhtX7DTY7jV4
- ay8qKRqwus8X+yDs=; b=u/nzD6nyYEEYWb1u2Urv1q9OzhzKI5niny4lr7GLqNc
- bSyDCgAWwR2zeRQ7h7lJmL0BJhDL8+1+9ht7Tp/pN58bsTcyLmriN0F4g+Kd3QOZ
- 64yim3I4Wu/EQUNfYA2C+adlfwa/iiyPf43DFrU/d2/PVn793JPBEtaT7orpkV5Z
- gh/vUI6ay8rXDvgB0SUh5zT62bXFCABd6E5uV0qh97m3T45bGGMREGNy78C6zPhB
- AlBuy3sD6hRBePC6fanRNnlRlu9tVpncDNwkBnNIhDwKgveDQDi84dV2M3ZUqkH4
- SptikHLdc9W9Ng/m10/ewywaW2F8jX/8ysaFuDF2B1A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lBcp7O
- cKy5PMWRjVhtX7DTY7jV4ay8qKRqwus8X+yDs=; b=mW2u+TkR1f9gmf5+YnvqoR
- hRuU1s0Wx4UMCZBBkX2FuS1DrTr2KMpQZgSexBnJrKbigLacOZDVlQ1l0zFE5rFz
- pBwQyl43XActjKP8LFB1wezf/MITvgSSB2qkkkMqu82ncYsPgEV+wJz9si+UUzb8
- oXkDXhE5L4MxU+v80c68yYlyXTF5a4y3G78gEb+Vw4FoI4P9ezoPGM2/eAY5EsD+
- 2HFatlFFU9CNfGfkC8tzk77+30Ej0tjH0jhScBgLwYhSHIBs+JfmBJcaON4+Ri3k
- CT0Hx/gv/wZJlwPy5b8CMPLIbNOcLTHIAdJStxM/vA1Evax1j34gqlqlZDu2y4+w
- ==
-X-ME-Sender: <xms:ZxlLYdNKs40OBgeobMWNIQtp4PIsteo-0j5CguNymvXBS4y1HDaTXw>
- <xme:ZxlLYf-JCqddq_Cy4MJRcE8pQFUqOsEVzwJEroZVfbHd1KMfFxycbvZh0gL50gTJU
- abAcd_6Iki_dHbBmVE>
-X-ME-Received: <xmr:ZxlLYcQz7OcXnpSiP2-kVvWIrZF9xHmfye_Cd6Cl5J4ZvrwdNTHOJ00usBBEb0yuw8OH2DWbx8o5rK3km784-Z6Dv95xkqmnFmlF>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedggeegucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:ZxlLYZuOp-uRUL0RLVE5Y-djebG8oouHGmaM4LW77wkyziULjzUUZw>
- <xmx:ZxlLYVe-nv0JrC50nazCvoCfBCG_nlqBoIqDMGutIMGv6BmQgW0_OQ>
- <xmx:ZxlLYV3Rswa-KknokhzGw1Qd2S-vrqO6_n9NUe5-mrsRxMOjfzZX6Q>
- <xmx:ZxlLYeGsb1Lg7CXRxwbqOv1bfJb6epg6IuSaO9wCkTCpgzNY9nvxkA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Sep 2021 07:54:15 -0400 (EDT)
-Date: Wed, 22 Sep 2021 13:54:12 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
- Michael Stapelberg <michael@stapelberg.ch>, Emma Anholt <emma@anholt.net>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- Felix Kuehling <felix.kuehling@amd.com>, Dave Airlie <airlied@gmail.com>
-Subject: Re: [git pull] drm for 5.14-rc1
-Message-ID: <20210922115412.ectgjtyhgmeaxqxn@gilmour>
-References: <CADVatmP2MxpV8722WrEcPqHn=0CTsU6X64OsbZifmUrhiiTk4Q@mail.gmail.com>
- <CAHk-=wiun6vK5k9NpRiaF=La2NOqq7Cph7Lhd8XiyT1vQWR27w@mail.gmail.com>
- <CADVatmNTKof8jMyx4xx9b2fQ=zVb2ZtXZh1uoYE2R-6DkaHj8w@mail.gmail.com>
- <CAHk-=wjZ_EXdfongpgRV3BrrNm6CX6CmKYT5TixK-nOsaGG81Q@mail.gmail.com>
- <CADVatmN5EpRshGEPS_JozbFQRXg5w_8LFB3OMP1Ai-ghxd3w4g@mail.gmail.com>
- <CAHk-=whno5+L4pANmwzeT0oT==C179pCJe7_3VwDw=EQ73nSmQ@mail.gmail.com>
- <20210920121725.37es5k3t2p2bg4ml@gilmour>
- <CAHk-=wjG7ZYgZLiRb4boJKOMo16UHO+zNoaxi3B6a9qBtxvzHg@mail.gmail.com>
- <20210920173255.pp5dyaxqy4x2eo65@gilmour>
- <CAHk-=wgOvmtRw1TNbMC1rn5YqyTKyn0hz+sc4k0DGNn++u9aYw@mail.gmail.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 841716EB85;
+ Wed, 22 Sep 2021 12:14:24 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="246017866"
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="246017866"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 05:14:24 -0700
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="474534516"
+Received: from mmazarel-mobl1.ger.corp.intel.com (HELO [10.249.254.175])
+ ([10.249.254.175])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 05:14:22 -0700
+Subject: Re: [PATCH v4 09/14] drm/i915/ttm: add tt shmem backend
+To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20210921110121.3783395-1-matthew.auld@intel.com>
+ <20210921110121.3783395-9-matthew.auld@intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Message-ID: <2fa346e3-63ce-16c9-739f-4a90c0d77d4d@linux.intel.com>
+Date: Wed, 22 Sep 2021 14:14:20 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zxs4kwl67mxjpz7e"
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wgOvmtRw1TNbMC1rn5YqyTKyn0hz+sc4k0DGNn++u9aYw@mail.gmail.com>
+In-Reply-To: <20210921110121.3783395-9-matthew.auld@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,69 +53,388 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi, Matthew,
 
---zxs4kwl67mxjpz7e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 9/21/21 1:01 PM, Matthew Auld wrote:
+> For cached objects we can allocate our pages directly in shmem. This
+> should make it possible(in a later patch) to utilise the existing
+> i915-gem shrinker code for such objects. For now this is still disabled.
+>
+> v2(Thomas):
+>    - Add optional try_to_writeback hook for objects. Importantly we need
+>      to check if the object is even still shrinkable; in between us
+>      dropping the shrinker LRU lock and acquiring the object lock it could for
+>      example have been moved. Also we need to differentiate between
+>      "lazy" shrinking and the immediate writeback mode. Also later we need to
+>      handle objects which don't even have mm.pages, so bundling this into
+>      put_pages() would require somehow handling that edge case, hence
+>      just letting the ttm backend handle everything in try_to_writeback
+>      doesn't seem too bad.
+>
+> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_object.h    |   8 +
+>   .../gpu/drm/i915/gem/i915_gem_object_types.h  |   2 +
+>   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  14 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  17 +-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 252 ++++++++++++++++--
+>   5 files changed, 258 insertions(+), 35 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> index 48112b9d76df..561d6bd0a5c9 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+> @@ -618,6 +618,14 @@ int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,
+>   bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
+>   					enum intel_memory_type type);
+>   
+> +struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
+> +				size_t size, struct intel_memory_region *mr,
+> +				struct address_space *mapping,
+> +				unsigned int max_segment);
+> +void shmem_free_st(struct sg_table *st, struct address_space *mapping,
+> +		   bool dirty, bool backup);
+> +void __shmem_writeback(size_t size, struct address_space *mapping);
+> +
+>   #ifdef CONFIG_MMU_NOTIFIER
+>   static inline bool
+>   i915_gem_object_is_userptr(struct drm_i915_gem_object *obj)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> index 2471f36aaff3..1b7ba859cf5e 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> @@ -56,6 +56,8 @@ struct drm_i915_gem_object_ops {
+>   			  struct sg_table *pages);
+>   	void (*truncate)(struct drm_i915_gem_object *obj);
+>   	void (*writeback)(struct drm_i915_gem_object *obj);
+> +	int (*try_to_writeback)(struct drm_i915_gem_object *obj,
+> +				bool do_writeback);
+>   
 
-On Mon, Sep 20, 2021 at 10:47:43AM -0700, Linus Torvalds wrote:
-> On Mon, Sep 20, 2021 at 10:33 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> >
-> > What I was interested in was more about the context itself, and I'd
-> > still like an answer on whether it's ok to wait for a review for 5
-> > months though, or if it's an expectation from now on that we are
-> > supposed to fix bugs over the week-end.
->=20
-> Oh, it's definitely not "over a weekend". These reverts happened on a
-> Sunday just because that's when I do rc releases, and this was one of
-> those pending issues that had been around long enough that I went "ok,
-> I'm reverting now since it's been bisected and verified".
->=20
-> So it happened on a weekend, but that's pretty incidental.
+Sounds like a reasonable approach. Perhaps a different name of the 
+callback since this is a two-step process - releasing the pages to shmem 
+and then optionally writeback to swapcache.
 
-Ok.
+>   	int (*pread)(struct drm_i915_gem_object *obj,
+>   		     const struct drm_i915_gem_pread *arg);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> index 36b711ae9e28..19e55cc29a15 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+> @@ -25,8 +25,8 @@ static void check_release_pagevec(struct pagevec *pvec)
+>   	cond_resched();
+>   }
+>   
+> -static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
+> -			  bool dirty, bool backup)
+> +void shmem_free_st(struct sg_table *st, struct address_space *mapping,
+> +		   bool dirty, bool backup)
+>   {
+>   	struct sgt_iter sgt_iter;
+>   	struct pagevec pvec;
+> @@ -52,10 +52,10 @@ static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
+>   	kfree(st);
+>   }
+>   
+> -static struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
+> -				       size_t size, struct intel_memory_region *mr,
+> -				       struct address_space *mapping,
+> -				       unsigned int max_segment)
+> +struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
+> +				size_t size, struct intel_memory_region *mr,
+> +				struct address_space *mapping,
+> +				unsigned int max_segment)
+>   {
+>   	const unsigned long page_count = size / PAGE_SIZE;
+>   	unsigned long i;
+> @@ -300,7 +300,7 @@ shmem_truncate(struct drm_i915_gem_object *obj)
+>   	obj->mm.pages = ERR_PTR(-EFAULT);
+>   }
+>   
+> -static void __shmem_writeback(size_t size, struct address_space *mapping)
+> +void __shmem_writeback(size_t size, struct address_space *mapping)
+>   {
+>   	struct writeback_control wbc = {
+>   		.sync_mode = WB_SYNC_NONE,
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index e382b7f2353b..478663dc42b4 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -56,19 +56,24 @@ static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
+>   	return false;
+>   }
+>   
+> -static void try_to_writeback(struct drm_i915_gem_object *obj,
+> -			     unsigned int flags)
+> +static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned int flags)
+>   {
+> +	if (obj->ops->try_to_writeback)
+> +		return obj->ops->try_to_writeback(obj,
+> +						 flags & I915_SHRINK_WRITEBACK);
+> +
+>   	switch (obj->mm.madv) {
+>   	case I915_MADV_DONTNEED:
+>   		i915_gem_object_truncate(obj);
+> -		return;
+> +		return 0;
+>   	case __I915_MADV_PURGED:
+> -		return;
+> +		return 0;
+>   	}
+>   
+>   	if (flags & I915_SHRINK_WRITEBACK)
+>   		i915_gem_object_writeback(obj);
+> +
+> +	return 0;
+>   }
+>   
+>   /**
+> @@ -222,8 +227,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
+>   				}
+>   
+>   				if (!__i915_gem_object_put_pages(obj)) {
+> -					try_to_writeback(obj, shrink);
+> -					count += obj->base.size >> PAGE_SHIFT;
+> +					if (!try_to_writeback(obj, shrink))
+> +						count += obj->base.size >> PAGE_SHIFT;
+>   				}
+>   				if (!ww)
+>   					i915_gem_object_unlock(obj);
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> index fd5b925b27c5..174aebe11264 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+> @@ -37,6 +37,10 @@
+>    * @ttm: The base TTM page vector.
+>    * @dev: The struct device used for dma mapping and unmapping.
+>    * @cached_st: The cached scatter-gather table.
+> + * @obj: The GEM object. Should be valid while we have a valid bo->ttm.
+> + * @filp: The shmem file, if using shmem backend.
+> + * @is_shmem: Set if using shmem.
+> + * @do_backup: If using shmem, do the swap step when unpopulating.
+>    *
+>    * Note that DMA may be going on right up to the point where the page-
+>    * vector is unpopulated in delayed destroy. Hence keep the
+> @@ -48,6 +52,10 @@ struct i915_ttm_tt {
+>   	struct ttm_tt ttm;
+>   	struct device *dev;
+>   	struct sg_table *cached_st;
+> +	struct drm_i915_gem_object *obj;
+> +	struct file *filp;
+> +	bool is_shmem;
+> +	bool do_backup;
 
-> You should not wait for 5 months to send bug-fixes. That's not the
-> point of review, and review shouldn't hold up reported regressions of
-> existing code. That's just basic _testing_ - either the fix should be
-> applied, or - if the fix is too invasive or too ugly - the problematic
-> source of the regression should be reverted.
->=20
-> Review should be about new code, it shouldn't be holding up "there's a
-> bug report, here's the obvious fix".
->=20
-> And for something like a NULL pointer dereference, there really should
-> generally be an "obvious fix".
->=20
-> Of course, a corollary to that "fixes are different from new
-> development", though, is that bug fixes need to be kept separate from
-> new code - just so that they _can_ be handled separately and so that
-> you could have sent Sudip (and Michael, although that was apparently a
-> very different bug, and the report came in later) a "can you test this
-> fix" kind of thing.
+IMHO we need to clean this up a bit since tts might (although perhaps 
+not while swapping) might have a different lifetime than the object, for 
+example if it's moved to a ghost object during async migration, 
+alternatively group members together that are only parameters to the 
+unpopulate()
+function; obj and do_backup, and document that they are only valid while 
+the object lock is held. filp and is_shmem should be OK as they are. 
+Perhaps obj could be replaced with bool dirty, and instead of do_backup 
+perhaps we could look at whether the TTM_TT_FLAG_SWAPPED was set before 
+unpopulate?
 
-I still don't have a way to reproduce Sudip's bug, so I can't even
-provide that.
+>   };
+>   
+>   static const struct ttm_place sys_placement_flags = {
+> @@ -167,12 +175,104 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
+>   	placement->busy_placement = busy;
+>   }
+>   
+> +static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
+> +				      struct ttm_tt *ttm,
+> +				      struct ttm_operation_ctx *ctx)
+> +{
+> +	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
+> +	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
+> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> +	const unsigned int max_segment = i915_sg_segment_size();
+> +	const size_t size = ttm->num_pages << PAGE_SHIFT;
+> +	struct drm_i915_gem_object *obj = i915_tt->obj;
+> +	struct file *filp = i915_tt->filp;
+> +	struct sgt_iter sgt_iter;
+> +	struct sg_table *st;
+> +	struct page *page;
+> +	unsigned long i;
+> +	int err;
+> +
+> +	GEM_BUG_ON(obj->mm.madv != I915_MADV_WILLNEED);
+> +
+> +	if (!filp) {
+> +		struct address_space *mapping;
+> +		gfp_t mask;
+> +
+> +		filp = shmem_file_setup("i915-shmem-tt", size, VM_NORESERVE);
+> +		if (IS_ERR(filp))
+> +			return PTR_ERR(filp);
+> +
+> +		mask = GFP_HIGHUSER | __GFP_RECLAIMABLE;
+> +
+> +		mapping = filp->f_mapping;
+> +		mapping_set_gfp_mask(mapping, mask);
+> +		GEM_BUG_ON(!(mapping_gfp_mask(mapping) & __GFP_RECLAIM));
+> +
+> +		i915_tt->filp = filp;
+> +	}
+> +
+> +	st = shmem_alloc_st(i915, size, mr, filp->f_mapping, max_segment);
+> +	if (IS_ERR(st))
+> +		return PTR_ERR(st);
+> +
+> +	err = dma_map_sg_attrs(i915_tt->dev,
+> +			       st->sgl, st->nents,
+> +			       PCI_DMA_BIDIRECTIONAL,
+> +			       DMA_ATTR_SKIP_CPU_SYNC |
+> +			       DMA_ATTR_NO_KERNEL_MAPPING |
+> +			       DMA_ATTR_NO_WARN);
+> +	if (err <= 0) {
+> +		err = -EINVAL;
+> +		goto err_free_st;
+> +	}
+> +
+> +	i = 0;
+> +	for_each_sgt_page(page, sgt_iter, st)
+> +		ttm->pages[i++] = page;
+> +
+> +	if (ttm->page_flags & TTM_TT_FLAG_SWAPPED)
+> +		ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
+> +
+> +	i915_tt->cached_st = st;
+> +	return 0;
+> +
+> +err_free_st:
+> +	shmem_free_st(st, filp->f_mapping, false, false);
+> +	return err;
+> +}
+> +
+> +static void i915_ttm_tt_shmem_unpopulate(struct ttm_tt *ttm)
+> +{
+> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> +	struct drm_i915_gem_object *obj = i915_tt->obj;
+> +	bool backup = i915_tt->do_backup;
+> +
+> +	if (obj->mm.madv == I915_MADV_DONTNEED) {
+> +		obj->mm.dirty = false;
+> +		GEM_BUG_ON(backup);
+> +	}
+> +
+> +	dma_unmap_sg(i915_tt->dev, i915_tt->cached_st->sgl,
+> +		     i915_tt->cached_st->nents,
+> +		     PCI_DMA_BIDIRECTIONAL);
+> +
+> +	shmem_free_st(fetch_and_zero(&i915_tt->cached_st),
+> +		      file_inode(i915_tt->filp)->i_mapping,
+> +		      obj->mm.dirty, backup);
+> +
+> +	obj->mm.dirty = false;
+> +
+> +	if (backup)
+> +		ttm->page_flags |= TTM_TT_FLAG_SWAPPED;
+> +}
+> +
+>   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>   					 uint32_t page_flags)
+>   {
+>   	struct ttm_resource_manager *man =
+>   		ttm_manager_type(bo->bdev, bo->resource->mem_type);
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+> +	enum ttm_caching caching = i915_ttm_select_tt_caching(obj);
+>   	struct i915_ttm_tt *i915_tt;
+>   	int ret;
+>   
+> @@ -184,36 +284,63 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
+>   	    man->use_tt)
+>   		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
+>   
+> -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
+> -			  i915_ttm_select_tt_caching(obj));
+> -	if (ret) {
+> -		kfree(i915_tt);
+> -		return NULL;
+> +	if (i915_gem_object_is_shrinkable(obj) && caching == ttm_cached) {
+> +		page_flags |= TTM_TT_FLAG_EXTERNAL |
+> +			      TTM_TT_FLAG_EXTERNAL_MAPPABLE;
+> +		i915_tt->is_shmem = true;
+>   	}
+>   
+> +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
+> +	if (ret)
+> +		goto err_free;
+> +
+>   	i915_tt->dev = obj->base.dev->dev;
+> +	i915_tt->obj = obj;
+>   
+>   	return &i915_tt->ttm;
+> +
+> +err_free:
+> +	kfree(i915_tt);
+> +	return NULL;
+> +}
+> +
+> +static int i915_ttm_tt_populate(struct ttm_device *bdev,
+> +				struct ttm_tt *ttm,
+> +				struct ttm_operation_ctx *ctx)
+> +{
+> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+> +
+> +	if (i915_tt->is_shmem)
+> +		return i915_ttm_tt_shmem_populate(bdev, ttm, ctx);
+> +
+> +	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
+>   }
+>   
+>   static void i915_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
+>   {
+>   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+>   
+> -	if (i915_tt->cached_st) {
+> -		dma_unmap_sgtable(i915_tt->dev, i915_tt->cached_st,
+> -				  DMA_BIDIRECTIONAL, 0);
+> -		sg_free_table(i915_tt->cached_st);
+> -		kfree(i915_tt->cached_st);
+> -		i915_tt->cached_st = NULL;
+> +	if (i915_tt->is_shmem) {
+> +		i915_ttm_tt_shmem_unpopulate(ttm);
+> +	} else {
+> +		if (i915_tt->cached_st) {
+> +			dma_unmap_sgtable(i915_tt->dev, i915_tt->cached_st,
+> +					  DMA_BIDIRECTIONAL, 0);
+> +			sg_free_table(i915_tt->cached_st);
+> +			kfree(i915_tt->cached_st);
+> +			i915_tt->cached_st = NULL;
+> +		}
+> +		ttm_pool_free(&bdev->pool, ttm);
+>   	}
+> -	ttm_pool_free(&bdev->pool, ttm);
+>   }
+>   
+>   static void i915_ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
+>   {
+>   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
+>   
+> +	if (i915_tt->filp)
+> +		fput(i915_tt->filp);
+> +
+>   	ttm_tt_fini(ttm);
+>   	kfree(i915_tt);
+>   }
+> @@ -223,6 +350,13 @@ static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,
+>   {
+>   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+>   
+> +	/*
+> +	 * EXTERNAL objects should never be swapped out by TTM, instead we need
+> +	 * to handle that ourselves.
+> +	 */
+> +	GEM_BUG_ON(place->mem_type == TTM_PL_SYSTEM &&
+> +		   bo->ttm && bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
 
-> I don't know what the review issue on the vc4 drm side is, but I
-> suspect that the vc4 people are just perhaps not as integrated with a
-> lot of the other core drm people. Or maybe review of new features are
-> held off because there are bug reports on the old code.
+I guess this needs fixing following Christian's email unless we put all 
+EXTERNAL objects on a bdev->external list.
 
-It's not really about drm here, it's a dependency on the clock framework.
+/Thomas
 
-Maxime
 
---zxs4kwl67mxjpz7e
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUsZZAAKCRDj7w1vZxhR
-xVpNAQCzSrfBHtX8AE+d12mCpvwA6Dmp7WixdV7uoRRsfQDF5AD/caAiJLf/nEXy
-yzxs+w3ZGYuRbCPCLxlHiK0+Fz1UzwE=
-=IEKk
------END PGP SIGNATURE-----
-
---zxs4kwl67mxjpz7e--
