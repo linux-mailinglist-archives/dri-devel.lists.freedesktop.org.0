@@ -1,81 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 646DC414FC4
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 20:23:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83B741506B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 21:20:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E1B7B6E02A;
-	Wed, 22 Sep 2021 18:23:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9EC6E039;
+	Wed, 22 Sep 2021 19:20:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DFDC46E02A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 18:23:41 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id i4so15463756lfv.4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 11:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=YLXLTgVBlIsYGUnptVEmh5wmzNsWwAg5srFOANEsOjk=;
- b=BACF8CJscB+sTIFEZP8umRgC50ndWOAyAGfzm8SVDb+M7yhh1iuf4PiTO9E8ga42yF
- s6UGwMPJSebCCFGL4KFJ0G+2LtXZMqdn3pvHU1ZY+udIJV3CLTpXm43byp2fSF7pFOjM
- 17KgNVwZdr3cZLasbHyYPyzpqF9WlW/wi5I4U=
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E18D6E039
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 19:20:13 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id u15so10044344wru.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 12:20:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=K+zmkw3T+xfgg89H6sRPETPAMl2svBQd3Km0SQBXfMg=;
+ b=fnP5JqC0TbL40/JKO/2OcQ4PRqgmzh60NA/IdHSEkpMqLsnLe6915SOxmvixeUfRh6
+ iSWArdeb/d7QxIuRe6jAEyhPtjrj+yEsDjhgepWrjKWeM22gPlZ6thUAoXsKYOFXEAqg
+ PGPBbjTgzpy3KWDfSF0k9dSqAKQsq+Jq78+GPGvKp0i8SNXuyw4/Urb4rHvGlYgPAAUY
+ OOVFllwK1bHuFu7u+hRD7iYZ1YzNhMh16RR9Kw+LS78i8hVQOk1A3JEz7ON8KU5Q75TC
+ t2xTkG+z7GZnevZb1PzZszRZ9SAP8vYSoJAG+K2ynMXIW2Q5+1ub2XPJqUt8k+lO9+Nu
+ MepA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=YLXLTgVBlIsYGUnptVEmh5wmzNsWwAg5srFOANEsOjk=;
- b=4X5WOdxqlJNYBhQCkX7eoaCvwKpsOuLUTaM3X7Y75aa4mXd87T4q47B4yLOB76riEd
- ROMVxv9xmMnuqm1xiV4OZ/+CLl1qYnWtUvoLG7bYanHTqnWwMwl2de0YWgvxZ3Y0X9Ia
- lVmRQIPWTYA2gj46fB1qMl6LfShu677Buj2emQ4+P463wu45YplPrHgs/qvuysx9EsR4
- wQ68rtK9HCw9mHpm+SKVhsASg9TjiICLkDcxsRRpvmI7jqYWswZpp/nXZml+a6thFvSF
- 8Wa1vX8iCtjHzWvw8amkQWCFomTIYD1ODAj+sqas6YjX8ffrt1hyYjaHUGnmBxNwjF7E
- Najg==
-X-Gm-Message-State: AOAM530GWSoTfeAKdrQ+FNrZuHakNO5vJuenCK8tMMWBpFbUvvtSm7Co
- 9mTGONuY7o2d8BWhNym+unsxq0TwoKFtyHHZSho=
-X-Google-Smtp-Source: ABdhPJwUTUVjs7DeoVOh/hc+aMwauG5Gltm8GMcGAR0dbbQ1Z04aCIQwzBrJxGXSdY81e/nDLx6Llw==
-X-Received: by 2002:a2e:8ec7:: with SMTP id e7mr693544ljl.486.1632335019326;
- Wed, 22 Sep 2021 11:23:39 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44])
- by smtp.gmail.com with ESMTPSA id s14sm329099ljh.38.2021.09.22.11.23.38
- for <dri-devel@lists.freedesktop.org>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=K+zmkw3T+xfgg89H6sRPETPAMl2svBQd3Km0SQBXfMg=;
+ b=yTtwhLwoFWwzjLp6oq1ILVlZ16vAPc3jKyFH3ziHJ/eq/BAXjbIR6e/A7PTlN3RrmV
+ vJWNAbGM9Cj7LXZ43sknQM00oknCOFbskURCU5M8FLGgpthSvRwgtytK3RyUxwVxvoXZ
+ G9SKDj2ds5B+4aCdlR1SVRY63oOkIfZ6szUWtyiM484fjLTyaOYlxLa2mvVuM5fKzOoc
+ ZK1uXVuIvGcIt1HzykW07VbTOmC56zsm8Df4otsmYTFtOvU9mioF0vxRV6e3/IcAD1q9
+ BEYOJy+oi3Syfn0kuRKTJZNBmQju4Z17Z81iGMaZE5+Q4YEUo31xlZLgiPeFuwKbpJIx
+ szJg==
+X-Gm-Message-State: AOAM533mGFYn8Rixouy5VysJGLw9c93/90OxaA5OJsenBn296JWjrdkr
+ 6CgvYthd3oeNEcauBtHKMA==
+X-Google-Smtp-Source: ABdhPJz2XsEEcdlQKn+ptUbgAF5BMrqk/aYGbT822ZavTUFjd2LlmLGyEV3W9AfvEZtWFDyqf5cFeQ==
+X-Received: by 2002:a1c:4406:: with SMTP id r6mr12268598wma.150.1632338412027; 
+ Wed, 22 Sep 2021 12:20:12 -0700 (PDT)
+Received: from [192.168.200.20] (ip5b434083.dynamic.kabel-deutschland.de.
+ [91.67.64.131])
+ by smtp.gmail.com with ESMTPSA id x14sm2925957wmc.10.2021.09.22.12.20.11
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 11:23:38 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id p29so15137741lfa.11
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 11:23:38 -0700 (PDT)
-X-Received: by 2002:a2e:bc1e:: with SMTP id b30mr705404ljf.191.1632335018277; 
- Wed, 22 Sep 2021 11:23:38 -0700 (PDT)
+ Wed, 22 Sep 2021 12:20:11 -0700 (PDT)
+Subject: Re: [PATCH][next] drm/rockchip: Remove redundant assignment of
+ pointer connector
+From: Alex Bee <knaerzche@gmail.com>
+To: =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+ Colin King <colin.king@canonical.com>, Sandy Huang <hjc@rock-chips.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210922112416.182134-1-colin.king@canonical.com>
+ <27c79f7a-8e4c-fad8-c6cf-a89793f2e3c6@gmail.com> <22365175.EbdSka62eY@diego>
+ <6d18a1a6-37e3-41f9-ddd1-1dae33864d23@gmail.com>
+Message-ID: <4a166499-1e83-99c8-8859-9d01a301412d@gmail.com>
+Date: Wed, 22 Sep 2021 21:20:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210903160302.yh42vpkuob45dbpb@gilmour>
- <CADVatmMqT1yq3YHBzt4-VsL8uVHUULmy2gpaH27rAqimao2i_A@mail.gmail.com>
- <20210904091050.g5axxctgelciihjn@gilmour>
- <CADVatmN+9euG5Fegor1+kaSPewbW8vRwBgnxmr5SsK3mOE6FEg@mail.gmail.com>
- <20210920144730.d7oabqfbx7pmyyfb@gilmour>
- <20210920154333.vunyxeshdb7jt5ka@gilmour>
- <20210920155350.h6624mt65vwg72p2@gilmour>
- <CADVatmNi+jN+EwiWuoDoocZFyErDVNt1ND0BxtjuKiV63aNuJg@mail.gmail.com>
- <20210920171042.oq3ndp3ox4xv5odh@gilmour>
- <CADVatmOs7Cc1EdCZXMyXcWM-3-J4bU_3zF1thkOohVUL-G6ZrQ@mail.gmail.com>
- <20210922095725.dk4vk42zb3kh7y6s@gilmour>
- <CADVatmOMV5gMhCuoP65O9mbW639x5=0+bGh92WVL8FFX2Mvu3w@mail.gmail.com>
- <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
- <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
-In-Reply-To: <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 22 Sep 2021 11:23:21 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
-Message-ID: <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
-Subject: Re: Regression with mainline kernel on rpi4
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <6d18a1a6-37e3-41f9-ddd1-1dae33864d23@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,42 +83,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 22, 2021 at 10:02 AM Sudip Mukherjee
-<sudipm.mukherjee@gmail.com> wrote:
+Hi all,
+
+Am 22.09.21 um 19:31 schrieb Alex Bee:
+> Hi Heiko,
+>
+> Am 22.09.21 um 18:45 schrieb Heiko Stübner:
+>> Hi Alex,
+>>
+>> Am Mittwoch, 22. September 2021, 18:35:38 CEST schrieb Alex Bee:
+>>> Hi Colin,
+>>> Am 22.09.21 um 13:24 schrieb Colin King:
+>>>> From: Colin Ian King <colin.king@canonical.com>
+>>>>
+>>>> The pointer connector is being assigned a value that is never
+>>>> read, it is being updated immediately afterwards. The assignment
+>>>> is redundant and can be removed.
+>>> The pointer to the connector is used in rockchip_rgb_fini for
+>>> drm_connector_cleanup.
+>>> It's pretty much the same for the encoder, btw.
+>> I think the issue is more the two lines
+>>
+>>     connector = &rgb->connector;
+>>       connector = drm_bridge_connector_init(rgb->drm_dev, encoder);
+>>
+>> hence the connector = &rgb->connector being overwritten immediately 
+>> after
+>>
+>> Now that I look at it again, the whole approach looks strange.
+>> drm_bridge_connector_init() creates the connector structure and
+>> returns a pointer to it.
+>
+> Totally agreed.
+>
+> The main reason I was doing it that way, was the way it was done 
+> already in rockchip_lvds.c, where the connector was already existent 
+> in the struct rockchip_lvds (and was already used in the panel-case - 
+> all places where it is used accept pointers also, btw) and is *no* 
+> pointer - and is done already this very strange way.
+>
+> I wanted to re-use it for the bridge-case and didn't want to differ in 
+> coding in rockchip-rgb to much.
+>
+> The only reason I can think of, why it was done that way is, that we 
+> might need a pointer to a fully initialized struct drm_connector for 
+> some reason (drm_connector_cleanup ?), what we wouldn't have if have 
+> just a pointer and something goes wrong before drm_connector_init 
+> respectivly drm_bridge_connector_init.
+>
+> Alex
 >
 >
-> Attached is a complete dmesg and also the decoded trace.
-> This is done on 4357f03d6611 ("Merge tag 'pm-5.15-rc2' of
-> git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm")
+>> So the first line below sets the connector pointer to point to the
+>> &rgb->connector element and the second line then set a completely
+>> different address into it.
+>>
+>> So the connector element in rockchip_lvds and rockchip_rgb should 
+>> actually
+>> become a pointer itself to hold the connector element returned from
+>> drm_bridge_connector_init() .
+It turns out, nothing bad happens (i.e. rockchip_rgb_fini, the only 
+place where the connector is also used, isn't called if 
+rockchip_rgb_init fails) - so it will be OK if we make the connector a 
+pointer in struct rockchip_rgb. But we'll need to keep it a "full" 
+struct drm_connector in struct rockchip_lvds, since in case it's a 
+panel  it gets properties assigend before drm_connector_init is called 
+and should for that reason initialized before.
 
-drivers/gpu/drm/vc4/vc4_hdmi.c:1214 is
+I'll send a patch soon.
 
-        tmp = (u64)(mode->clock * 1000) * n;
+Alex
 
-in vc4_hdmi_set_n_cts(), which has apparently been inlined from
-vc4_hdmi_audio_prepare() in vc4_hdmi.c:1398.
+>>
+>>
+>> Heiko
+>>
+>>> Regards,
+>>>
+>>> Alex
+>>>> Addresses-Coverity: ("Unused value")
+>>>> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+>>>> ---
+>>>>    drivers/gpu/drm/rockchip/rockchip_rgb.c | 1 -
+>>>>    1 file changed, 1 deletion(-)
+>>>>
+>>>> diff --git a/drivers/gpu/drm/rockchip/rockchip_rgb.c 
+>>>> b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+>>>> index 09be9678f2bd..18fb84068a64 100644
+>>>> --- a/drivers/gpu/drm/rockchip/rockchip_rgb.c
+>>>> +++ b/drivers/gpu/drm/rockchip/rockchip_rgb.c
+>>>> @@ -150,7 +150,6 @@ struct rockchip_rgb *rockchip_rgb_init(struct 
+>>>> device *dev,
+>>>>        if (ret)
+>>>>            goto err_free_encoder;
+>>>>    -    connector = &rgb->connector;
+>>>>        connector = drm_bridge_connector_init(rgb->drm_dev, encoder);
+>>>>        if (IS_ERR(connector)) {
+>>>>            DRM_DEV_ERROR(drm_dev->dev,
+>>>>
+>>>
+>>
+>>
+>>
 
-So it looks like 'mode' is some offset off a NULL pointer.
-
-Which looks not impossible:
-
-  1207          struct drm_connector *connector = &vc4_hdmi->connector;
-  1208          struct drm_crtc *crtc = connector->state->crtc;
-  1209          const struct drm_display_mode *mode =
-&crtc->state->adjusted_mode;
-
-looks like crtc->state perhaps might be NULL.
-
-Although it's entirely possible that it's 'crtc' itself that is NULL
-or one of the earlier indirection accesses.
-
-The exact line information from the debug info is very useful and
-mostly correct, but at the same time should always be taken with a
-small pinch of salt.
-
-Compiler optimizations means that code gets munged and moved around,
-and since this is the first access to 'mode', I would not be surprised
-if some of the calculations and accesses to get 'mode' might be moved
-around to it.
-
-               Linus
