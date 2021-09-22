@@ -2,44 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF934152F3
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 23:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C77415305
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 23:46:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07FE6E04A;
-	Wed, 22 Sep 2021 21:39:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C92C76E04B;
+	Wed, 22 Sep 2021 21:45:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFED56E04A
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 21:39:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F346E04B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 21:45:53 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50B80F1;
- Wed, 22 Sep 2021 23:39:08 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0FE23F1;
+ Wed, 22 Sep 2021 23:45:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632346748;
- bh=DYpZ0OCw7FAJ4SrDNVOo9epk3NBl7KQwpzUgBBSG0+o=;
+ s=mail; t=1632347152;
+ bh=75gjKcF/l55W9tKhyejhtHXgZe7VCUjb2G8jIAsM/nM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Wc8pIUa9/RM+NRjw7384XZo2Z5joQDgLbIPbcFqpzgbSDxUg3pxpuilNehK7z7uoH
- XCrJQp7eczM83fFKuiBuW6ZChyfpatmRVNa1xcCwMpcqXfYmmPsZK97bCgiRIYdX92
- ADF1zt4olSXB2jLRtfoM3GK8y/jfZRI324bD1/d0=
-Date: Thu, 23 Sep 2021 00:39:06 +0300
+ b=BgJuCGGKkkWz0BWu6Mk8ATzDLDPjqU/xb/s+gr0aYy4Iu/fCtlxi9jcgfXyWoxacB
+ vWdXACqaOFe1XvymiqFgtXUEvkrtfLpZVTrJnf8cDSpcHZl8QVQZpLtjq1mg+Mry2a
+ vv/VN7FW9Ld45MWbAXga4aiBaWXGtFZgaB65P4X4=
+Date: Thu, 23 Sep 2021 00:45:50 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org,
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Rob Herring <robh@kernel.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
  Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 5/5] drm: rcar-du: Add r8a779a0 device support
-Message-ID: <YUuievQoU7yDPfzF@pendragon.ideasonboard.com>
-References: <20210901234907.1608896-1-kieran.bingham@ideasonboard.com>
- <20210901234907.1608896-6-kieran.bingham@ideasonboard.com>
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2] dt-bindings: display: renesas,du: Provide bindings
+ for r8a779a0
+Message-ID: <YUukDlMKo4+RjzUS@pendragon.ideasonboard.com>
+References: <20210901233655.1602308-1-kieran.bingham@ideasonboard.com>
+ <CAMuHMdXHAfg3_VoeXUBT2-QceLR9KQ3pWjz+5=-wK1QRxK14bw@mail.gmail.com>
+ <YTezLHrRt/YpOlJZ@robh.at.kernel.org>
+ <CAMuHMdXGK=+W=C3c9GV8br9ZvQpAhj4ePiq7m1N8YBo1vzZjvQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210901234907.1608896-6-kieran.bingham@ideasonboard.com>
+In-Reply-To: <CAMuHMdXGK=+W=C3c9GV8br9ZvQpAhj4ePiq7m1N8YBo1vzZjvQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,134 +61,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+Hello everybody,
 
-Thank you for the patch.
+On Tue, Sep 07, 2021 at 09:17:31PM +0200, Geert Uytterhoeven wrote:
+> On Tue, Sep 7, 2021 at 8:45 PM Rob Herring wrote:
+> > On Mon, Sep 06, 2021 at 10:13:07AM +0200, Geert Uytterhoeven wrote:
+> > > On Thu, Sep 2, 2021 at 1:39 AM Kieran Bingham wrote:
+> > > > From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > >
+> > > > Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+> > > >
+> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > > ---
+> > > > v2:
+> > > >  - Collected Laurent's tag
+> > > >  - Remove clock-names requirement
+> > > >  - Specify only a single clock
+> > >
+> > > Thanks for the update!
+> > >
+> > > > --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > > +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> > > > @@ -39,6 +39,7 @@ properties:
+> > > >        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+> > > >        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+> > > >        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> > > > +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+> > > >
+> > > >    reg:
+> > > >      maxItems: 1
+> > > > @@ -773,6 +774,55 @@ allOf:
+> > > >          - reset-names
+> > > >          - renesas,vsps
+> > > >
+> > > > +  - if:
+> > > > +      properties:
+> > > > +        compatible:
+> > > > +          contains:
+> > > > +            enum:
+> > > > +              - renesas,du-r8a779a0
+> > > > +    then:
+> > > > +      properties:
+> > > > +        clocks:
+> > > > +          items:
+> > > > +            - description: Functional clock
+> > > > +
+> > > > +        clock-names:
+> > > > +          maxItems: 1
+> > > > +          items:
+> > > > +            - const: du
+> > > > +
+> > > > +        interrupts:
+> > > > +          maxItems: 2
+> > > > +
+> > > > +        resets:
+> > > > +          maxItems: 1
+> > > > +
+> > > > +        reset-names:
+> > > > +          items:
+> > > > +            - const: du.0
+> > >
+> > > This is now inconsistent with clock-names, which doesn't use a suffix.
+> >
+> > But it is consistent with all the other cases of 'reset-names'. The
+> > problem is 'clock-names' is not consistent and should be 'du.0'.
+> 
+> True.
 
-On Thu, Sep 02, 2021 at 12:49:07AM +0100, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Extend the rcar_du_device_info structure and rcar_du_output enum to
-> support DSI outputs and utilise these additions to provide support for
-> the R8A779A0 V3U platform.
-> 
-> While the DIDSR register field is now named "DSI/CSI-2-TX-IF0 Dot Clock
-> Select" the existing define LVDS0 is used, and is directly compatible
-> from other DU variants.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> ---
-> 
-> I can add a macro named DIDSR_LDCS_DSI0 duplicating DIDSR_LDCS_LVDS0 if
-> it's deemed better.
+Looks fine to me. The only other SoC that has a similar shared clock
+architecture is H1 (R8A7779), and we use du.0 there.
 
-I think I'd like that a bit better if you don't mind. I'd name the macro
-DIDSR_LDCS_DSI though, as there's a single option (you can't pick one
-DSI encoder or the other as the clock source, it's DSI0 for DU0 and DSI1
-for DU1).
-
+> > Ideally, the if/them schemas should not be defining the names. That
+> > should be at the top level and the if/them schema just limits the number
+> > of entries. That's not always possible, but I think is for clocks and
+> > resets in this case.
 > 
-> v2:
->  - No longer requires a direct interface with the DSI encoder
->  - Use correct field naming (LDCS)
->  - Remove per-crtc clock feature.
-> 
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |  2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 20 ++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_group.c |  2 ++
->  4 files changed, 26 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 440e6b4fbb58..26e79b74898c 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -96,6 +96,8 @@ struct rcar_du_crtc_state {
->  enum rcar_du_output {
->  	RCAR_DU_OUTPUT_DPAD0,
->  	RCAR_DU_OUTPUT_DPAD1,
-> +	RCAR_DU_OUTPUT_DSI0,
-> +	RCAR_DU_OUTPUT_DSI1,
->  	RCAR_DU_OUTPUT_HDMI0,
->  	RCAR_DU_OUTPUT_HDMI1,
->  	RCAR_DU_OUTPUT_LVDS0,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 8a094d5b9c77..8b4c8851b6bc 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -489,6 +489,25 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
->  	.lvds_clk_mask =  BIT(1) | BIT(0),
->  };
->  
-> +static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
-> +	.gen = 3,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-> +	.channels_mask = BIT(1) | BIT(0),
-> +	.routes = {
-> +		/* R8A779A0 has two MIPI DSI outputs. */
-> +		[RCAR_DU_OUTPUT_DSI0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 0,
-> +		},
-> +		[RCAR_DU_OUTPUT_DSI1] = {
-> +			.possible_crtcs = BIT(1),
-> +			.port = 1,
-> +		},
-> +	},
-> +	.dsi_clk_mask =  BIT(1) | BIT(0),
-> +};
-> +
->  static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> @@ -513,6 +532,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
->  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-> +	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
+> It's a bit tricky.
+> For clocks, there's usually one clock per channel, but not always.
+> Plus clocks for external inputs, if present.
 
-While this looks good, the DT bindings need a v3, so I can't include
-this series in a pull request just yet :-( Could you please group the DT
-bindings and driver patches in a single series for v3 ?
+Yes, it's mostly the external clocks that mess things up here. Each DU
+channel typically has one internal clock and one optional external
+clock, but not always.
 
->  	{ }
->  };
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> index 5fe9152454ff..cf98d43d72d0 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -57,6 +57,7 @@ struct rcar_du_output_routing {
->   * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
->   * @num_lvds: number of internal LVDS encoders
->   * @dpll_mask: bit mask of DU channels equipped with a DPLL
-> + * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
->   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
->   */
->  struct rcar_du_device_info {
-> @@ -67,6 +68,7 @@ struct rcar_du_device_info {
->  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
->  	unsigned int num_lvds;
->  	unsigned int dpll_mask;
-> +	unsigned int dsi_clk_mask;
->  	unsigned int lvds_clk_mask;
->  };
->  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index a984eef265d2..27c912bab76e 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -124,6 +124,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
->  		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
->  			didsr |= DIDSR_LDCS_LVDS0(i)
->  			      |  DIDSR_PDCS_CLK(i, 0);
-> +		else if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index))
-> +			didsr |= DIDSR_LDCS_LVDS0(i);
->  		else
->  			didsr |= DIDSR_LDCS_DCLKIN(i)
->  			      |  DIDSR_PDCS_CLK(i, 0);
+> For resets, there's one reset for a group of channels, with the number
+> of channels in a group depending on the SoC family.
+> And then there's the special casing for SoCs where there's a gap in
+> the channel numbering...
+
+For resets, H1 and M3-N are indeed special cases. H1 has no reset-names,
+while M3-N has du.0 and du.3 due to a gap in hardware channel numbering.
+All other SoCs have du.0 and optionally du.2.
+
+> Still wondering if it would be better to have one device node per
+> channel, and companion links...
+
+The hardware design would make that too messy. There are too many
+cross-channel dependencies.
 
 -- 
 Regards,
