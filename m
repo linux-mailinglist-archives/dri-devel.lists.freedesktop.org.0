@@ -2,46 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BF7B4147DA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:35:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0567741480C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:41:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B449B6EB82;
-	Wed, 22 Sep 2021 11:35:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 430D06EB83;
+	Wed, 22 Sep 2021 11:41:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AA4416EB80;
- Wed, 22 Sep 2021 11:35:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="220376078"
-X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="220376078"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 04:35:03 -0700
-X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="474525554"
-Received: from mmazarel-mobl1.ger.corp.intel.com (HELO [10.249.254.175])
- ([10.249.254.175])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 04:35:01 -0700
-Subject: Re: [PATCH 2/3] drm/i915/ttm: Fix lockdep warning in
- __i915_gem_free_object()
-To: Matthew Auld <matthew.william.auld@gmail.com>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
-References: <20210922083807.888206-1-thomas.hellstrom@linux.intel.com>
- <20210922083807.888206-3-thomas.hellstrom@linux.intel.com>
- <CAM0jSHPWMTq0TpLbpUwczGMDjcvh-kjw35d-xUQ_9RNrj9hY+w@mail.gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <d1462f5b-f657-c2c2-17b3-cac28cad78e4@linux.intel.com>
-Date: Wed, 22 Sep 2021 13:34:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD86EB80;
+ Wed, 22 Sep 2021 11:41:51 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id w29so5799546wra.8;
+ Wed, 22 Sep 2021 04:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jla6r+nohO+kdZZK9D0vwGLTAVUrJek6Wz6v71QcvPs=;
+ b=CD2aueE/QVJCGUUozlD1JLIbGnyhtNzT1fpfI+uANe+c1f2sYilSJrgCg+bqVAA6eh
+ jVyQuqEL0Sjzf+CK15xY6VIaXUmoNzr1z/rYCr9fBsI4C//f7NwqJS88o8k3eBeV+g4M
+ IVtIDAvI5hIWMmNEaAIxmnKd+NywUGw4X79ryWYIqdCY4x8nXAJyv0Oo2dgIRFTghLxD
+ ZP3rUKdKiTGgmgNwJNi2Xjzb+V+yCGmQvPtL3UB9fZpiIFv5YWeCKn87xCCOYurR1UBX
+ tvvTYrtITdw1711yODW0d9w/QuE3fMY/E0iQ7QwxO2vBLJ8prACaXiwi3amh+0QN+Xsf
+ IGFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Jla6r+nohO+kdZZK9D0vwGLTAVUrJek6Wz6v71QcvPs=;
+ b=FPHnGYD0YCAbckGyC0NEpaCzAFEeIcJYDteHkps50+CFIeNV46wDjn4dyGDuS9O3up
+ J+5OW0rLrhe8BYjTRK860/ffAVYC+Mgy8HabTCu+GCfZVT0L2ROR0GIrAlSLmEKVCxVk
+ eCRufYoMiRA5WejCTQ0VBVQqayh2nX2z57FLU/hvb/A95jKiqN/Q6XWJHERFeYYXVBYz
+ RgTt3DihHd6ZcF3ixm6aFFh7ZovNiKFkJzom9rf95j2x8fmWdQ5qDE6wrnDjRmy558M6
+ 9XsZqvXRlLoiFYSMA4zCSvnz4DA2KQe2DjAkeVTejWv1IpTzruL0pDRZimQmjXptN+hS
+ 9ZgQ==
+X-Gm-Message-State: AOAM533Ly0S7jlo2RNf7Eka2xsQOtSjpIWK9KaR/+0URISOErTZODfxp
+ S3XOMcALd2L/kExGabBOWxo=
+X-Google-Smtp-Source: ABdhPJx+W4P8hrjnXZ1EzOLnbI1L33Vrp0YTjyQB5NWQEBE7C3J9/063uO7M0/ituXLYhxbU6UzefQ==
+X-Received: by 2002:a5d:6750:: with SMTP id l16mr40594248wrw.174.1632310909602; 
+ Wed, 22 Sep 2021 04:41:49 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id
+ o12sm1541745wms.15.2021.09.22.04.41.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 04:41:49 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: l.stach@pengutronix.de, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/etnaviv: fix another potential dma_resv DAG violation
+Date: Wed, 22 Sep 2021 13:41:48 +0200
+Message-Id: <20210922114148.107356-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAM0jSHPWMTq0TpLbpUwczGMDjcvh-kjw35d-xUQ_9RNrj9hY+w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,58 +73,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Setting the exclusive fence without waiting for the shared
+fences violates the DAG and is illegal.
 
-On 9/22/21 12:55 PM, Matthew Auld wrote:
-> On Wed, 22 Sept 2021 at 09:38, Thomas Hellström
-> <thomas.hellstrom@linux.intel.com> wrote:
->> In the mman selftest, some tests make the ttm_bo_init_reserved() fail,
->> which may trigger a call to the i915_ttm_bo_destroy() function.
->> However, at this point the gem object refcount is set to 1, which
->> triggers a lockdep warning in __i915_gem_free_object() and a
->> corresponding failure in DG1 BAT, i915_selftest@live@mman.
->>
->> Fix this by clearing the gem object refcount if called from that
->> failure path.
->>
->> Fixes: f9b23c157a78 ("drm/i915: Move __i915_gem_free_object to ttm_bo_destroy")
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 4 ++++
->>   1 file changed, 4 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index b94497989995..b1f561543ff3 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -900,6 +900,10 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
->>
->>          i915_ttm_backup_free(obj);
->>
->> +       /* Failure during ttm_bo_init_reserved leaves the refcount set to 1. */
->> +       if (IS_ENABLED(CONFIG_LOCKDEP) && !obj->ttm.created)
->> +               refcount_set(&obj->base.refcount.refcount, 0);
->> +
->>          /* This releases all gem object bindings to the backend. */
->>          __i915_gem_free_object(obj);
-> The __i915_gem_free_object is also nuking stuff like mm.placements,
-> which is still owned by the caller AFAIK, or at least it is until we
-> have successfully initialised the object, so smells like potential
-> double free? Can we easily move that under the ttm.created check?
-> Otherwise maybe we are meant to move the mm.placements handling into
-> the RCU callback?
+We really need to get away from this ASAP and make the
+driver interface more bullet prove.
 
-Yes, it indeed sounds like a closer look is needed for the error 
-handling here. Perhaps it makes sense to initialize the TTM part and 
-then the GEM part while still having the lock. Meanwhile I'll put it 
-under the ttm.created check.
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Cc: <stable@vger.kernel.org>
+---
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Thanks,
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+index 7e17bc2b5df1..4db40e88f67f 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
+@@ -185,19 +185,15 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
+ 				return ret;
+ 		}
+ 
+-		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
+-			continue;
+-
+ 		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
+ 			ret = dma_resv_get_fences(robj, &bo->excl,
+ 						  &bo->nr_shared,
+ 						  &bo->shared);
+ 			if (ret)
+ 				return ret;
+-		} else {
++		} else if (!(submit->flags & ETNA_SUBMIT_NO_IMPLICIT)) {
+ 			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
+ 		}
+-
+ 	}
+ 
+ 	return ret;
+-- 
+2.25.1
 
-Thomas
-
-
->
->> --
->> 2.31.1
->>
