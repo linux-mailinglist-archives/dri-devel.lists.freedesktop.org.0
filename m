@@ -2,47 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D853414C3F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 16:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C243414C4E
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 16:45:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BBBC6EC04;
-	Wed, 22 Sep 2021 14:39:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 35C466EC06;
+	Wed, 22 Sep 2021 14:45:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A4A7B6EBFD;
- Wed, 22 Sep 2021 14:39:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="203763077"
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="203763077"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 07:39:21 -0700
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="704043760"
-Received: from bbrowne-mobl.ger.corp.intel.com (HELO [10.213.200.151])
- ([10.213.200.151])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 07:39:19 -0700
-Subject: Re: [PATCH 13/26] drm/i915: use the new iterator in
- i915_gem_busy_ioctl
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-References: <20210922091044.2612-1-christian.koenig@amd.com>
- <20210922091044.2612-14-christian.koenig@amd.com>
- <6b22cb75-6c41-db55-83f2-3eae87b585aa@linux.intel.com>
- <2afbdc22-28a7-9a47-186c-f47b4f5aceab@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <26981df8-93c7-2718-1ca0-ceb908930101@linux.intel.com>
-Date: Wed, 22 Sep 2021 15:39:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D501B6EC06
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 14:45:40 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id q11so7525817wrr.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 07:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=vBtJFE+lofow65KkthlKBCy0zY8p2r2WeZxJ4tazkWI=;
+ b=XlWRxcZKczZ6MNWmAJ6uzfftNpBFTtj2u6tlchvACgOocDNUd5vnx3674guNB1p3iB
+ 1rtvroB0yiiHcAULxT4Clmacv6TJT56G91i0b9DF70mZKUnst5czv6K8qr5plEEO8GaB
+ FNToCMwSpS0ds+dH0/pWnZNJc6BDYVYLH+yuJ+DmMIOevRKRm1wiz/xenEvA1YzK50F4
+ N7Y0WiQrGWq9Zsd7AqbzvEos0jU8+2hCkhQyDt1K6qxJnOOYEzCpd3IN7yCR5AQLOZRa
+ 9gqoFktAiAVy+y/7Rd0neQkZR8xiWbSxg9fw/wOni8K+mTec8UHVvyFSkzIgmNp+Q+yX
+ Ckhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=vBtJFE+lofow65KkthlKBCy0zY8p2r2WeZxJ4tazkWI=;
+ b=Q0XiMRfc2i32+BlnINsoW4IkbemMJFF5HM2Xoe5EyAVpjF4H5Sx/whMyNebic4qd32
+ G3Z7eraHbFrfdQF8jByON/fqlpZz6IgF3jcnuBXoPHzLIUAVv/oZu9Bf41G93annTUWo
+ fgbMRR01mdU8zO0e5bmteLtFGnmfOT4avtMy0DqjRNf5ejbQbaE7b3aKDEWcxtAXv9Hk
+ ZxAVWoF7H9RAG6/wI4mbXxMld8cSf1FRPmjPRPEodpgnColLFYX2JBEzf9qKlY49J3Hc
+ lfHExP9WsaMOYSAZhkDYq7r43bBwSQK5paa1XqIiDibM8YmLk7QRI3ve5BvmOezMVC9Z
+ 5zCQ==
+X-Gm-Message-State: AOAM532yZb15h/asFLWpQBgMsu/Y01lbaTiQmEUb59WjGP4DdZvFIH+F
+ 8H4+/RTfmOciou3xPI7yp4SOMQ==
+X-Google-Smtp-Source: ABdhPJw8riDRCc+8hErOFvP4SgnMWnSaRjwppkdDu9v3Rwgwoehg8PNJNDJ3cM4zJ6telHppmPbZrA==
+X-Received: by 2002:a7b:c4c2:: with SMTP id g2mr11052165wmk.134.1632321939185; 
+ Wed, 22 Sep 2021 07:45:39 -0700 (PDT)
+Received: from google.com ([95.148.6.233])
+ by smtp.gmail.com with ESMTPSA id d2sm2441774wrc.32.2021.09.22.07.45.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 07:45:38 -0700 (PDT)
+Date: Wed, 22 Sep 2021 15:45:36 +0100
+From: Lee Jones <lee.jones@linaro.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v9 2/4] dt-bindings: mfd: logicvc: Add patternProperties
+ for the display
+Message-ID: <YUtBkOFeQWnteG5L@google.com>
+References: <20210914200539.732093-1-paul.kocialkowski@bootlin.com>
+ <20210914200539.732093-3-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <2afbdc22-28a7-9a47-186c-f47b4f5aceab@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210914200539.732093-3-paul.kocialkowski@bootlin.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,103 +81,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, 14 Sep 2021, Paul Kocialkowski wrote:
 
-On 22/09/2021 15:31, Christian König wrote:
-> Am 22.09.21 um 12:21 schrieb Tvrtko Ursulin:
->>
->> On 22/09/2021 10:10, Christian König wrote:
->>> This makes the function much simpler since the complex
->>> retry logic is now handled else where.
->>>
->>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>> ---
->>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 35 ++++++++++--------------
->>>   1 file changed, 14 insertions(+), 21 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
->>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> index 6234e17259c1..313afb4a11c7 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
->>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
->>> *data,
->>>   {
->>>       struct drm_i915_gem_busy *args = data;
->>>       struct drm_i915_gem_object *obj;
->>> -    struct dma_resv_list *list;
->>> -    unsigned int seq;
->>> +    struct dma_resv_iter cursor;
->>> +    struct dma_fence *fence;
->>>       int err;
->>>         err = -ENOENT;
->>> @@ -109,27 +109,20 @@ i915_gem_busy_ioctl(struct drm_device *dev, 
->>> void *data,
->>>        * to report the overall busyness. This is what the wait-ioctl 
->>> does.
->>>        *
->>>        */
->>> -retry:
->>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
->>> -
->>> -    /* Translate the exclusive fence to the READ *and* WRITE engine */
->>> -    args->busy = 
->>> busy_check_writer(dma_resv_excl_fence(obj->base.resv));
->>> -
->>> -    /* Translate shared fences to READ set of engines */
->>> -    list = dma_resv_shared_list(obj->base.resv);
->>> -    if (list) {
->>> -        unsigned int shared_count = list->shared_count, i;
->>> -
->>> -        for (i = 0; i < shared_count; ++i) {
->>> -            struct dma_fence *fence =
->>> -                rcu_dereference(list->shared[i]);
->>> -
->>> +    args->busy = false;
->>
->> You can drop this line, especially since it is not a boolean. With that:
+> The LogiCVC multi-function device has a display part which is now
+> described in its binding. Add a patternProperties match for it.
 > 
-> I just realized that this won't work. We still need to initialize the 
-> return value when there is no fence at all in the resv object.
-> 
->>
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Does that still counts if I set args->busy to zero?
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  Documentation/devicetree/bindings/mfd/xylon,logicvc.yaml | 3 +++
+>  1 file changed, 3 insertions(+)
 
-Ah yes, my bad, apologies. You can keep the r-b.
+Applied, thanks.
 
-Regards,
-
-Tvrtko
-
-> 
-> Thanks,
-> Christian.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>> +    dma_resv_iter_begin(&cursor, obj->base.resv, true);
->>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
->>> +        if (dma_resv_iter_is_restarted(&cursor))
->>> +            args->busy = 0;
->>> +
->>> +        if (dma_resv_iter_is_exclusive(&cursor))
->>> +            /* Translate the exclusive fence to the READ *and* WRITE 
->>> engine */
->>> +            args->busy |= busy_check_writer(fence);
->>> +        else
->>> +            /* Translate shared fences to READ set of engines */
->>>               args->busy |= busy_check_reader(fence);
->>> -        }
->>>       }
->>> -
->>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
->>> -        goto retry;
->>> +    dma_resv_iter_end(&cursor);
->>>         err = 0;
->>>   out:
->>>
-> 
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
