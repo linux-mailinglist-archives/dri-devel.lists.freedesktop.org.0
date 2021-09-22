@@ -2,25 +2,25 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8450415220
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 22:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B57ED415221
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 22:56:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CCAF96EC75;
-	Wed, 22 Sep 2021 20:56:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B29E6EC77;
+	Wed, 22 Sep 2021 20:56:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CF456EC75
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 20:56:09 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E33686EC78
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 20:56:15 +0000 (UTC)
 From: Paul Cercueil <paul@crapouillou.net>
 To: David Airlie <airlied@linux.ie>,
 	Daniel Vetter <daniel@ffwll.ch>
 Cc: linux-mips@vger.kernel.org, list@opendingux.net,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  Paul Cercueil <paul@crapouillou.net>
-Subject: [PATCH v3 1/6] drm/ingenic: Simplify code by using hwdescs array
-Date: Wed, 22 Sep 2021 21:55:50 +0100
-Message-Id: <20210922205555.496871-2-paul@crapouillou.net>
+Subject: [PATCH v3 2/6] drm/ingenic: Add support for private objects
+Date: Wed, 22 Sep 2021 21:55:51 +0100
+Message-Id: <20210922205555.496871-3-paul@crapouillou.net>
 In-Reply-To: <20210922205555.496871-1-paul@crapouillou.net>
 References: <20210922205555.496871-1-paul@crapouillou.net>
 MIME-Version: 1.0
@@ -40,169 +40,245 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Instead of having one 'hwdesc' variable for the plane #0, one for the
-plane #1 and one for the palette, use a 'hwdesc[3]' array, where the
-DMA hardware descriptors are indexed by the plane's number.
+Until now, the ingenic-drm as well as the ingenic-ipu drivers used to
+put state-specific information in their respective private structure.
 
-v2: dma_hwdesc_addr() extended to support palette hwdesc. The palette
-    hwdesc is now hwdesc[3] to simplify things. Add
-    ingenic_drm_configure_hwdesc*() functions to factorize code.
+Add boilerplate code to support private objects in the two drivers, so
+that state-specific information can be put in the state-specific private
+structure.
 
 Signed-off-by: Paul Cercueil <paul@crapouillou.net>
 ---
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 78 ++++++++++++++---------
- 1 file changed, 48 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 61 +++++++++++++++++++++++
+ drivers/gpu/drm/ingenic/ingenic-ipu.c     | 54 ++++++++++++++++++++
+ 2 files changed, 115 insertions(+)
 
 diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index a5df1c8d34cd..95c12c2aba14 100644
+index 95c12c2aba14..5dbeca0f8f37 100644
 --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
 +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -41,6 +41,8 @@
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_vblank.h>
- 
-+#define HWDESC_PALETTE 2
-+
- struct ingenic_dma_hwdesc {
- 	u32 next;
- 	u32 addr;
-@@ -49,9 +51,7 @@ struct ingenic_dma_hwdesc {
- } __aligned(16);
- 
- struct ingenic_dma_hwdescs {
--	struct ingenic_dma_hwdesc hwdesc_f0;
--	struct ingenic_dma_hwdesc hwdesc_f1;
--	struct ingenic_dma_hwdesc hwdesc_pal;
-+	struct ingenic_dma_hwdesc hwdesc[3];
- 	u16 palette[256] __aligned(16);
+@@ -64,6 +64,10 @@ struct jz_soc_info {
+ 	unsigned int num_formats_f0, num_formats_f1;
  };
  
-@@ -141,6 +141,14 @@ static inline struct ingenic_drm *drm_nb_get_priv(struct notifier_block *nb)
- 	return container_of(nb, struct ingenic_drm, clock_nb);
++struct ingenic_drm_private_state {
++	struct drm_private_state base;
++};
++
+ struct ingenic_drm {
+ 	struct drm_device drm;
+ 	/*
+@@ -99,8 +103,16 @@ struct ingenic_drm {
+ 	struct mutex clk_mutex;
+ 	bool update_clk_rate;
+ 	struct notifier_block clock_nb;
++
++	struct drm_private_obj private_obj;
+ };
+ 
++static inline struct ingenic_drm_private_state *
++to_ingenic_drm_priv_state(struct drm_private_state *state)
++{
++	return container_of(state, struct ingenic_drm_private_state, base);
++}
++
+ static bool ingenic_drm_writeable_reg(struct device *dev, unsigned int reg)
+ {
+ 	switch (reg) {
+@@ -766,6 +778,28 @@ ingenic_drm_gem_create_object(struct drm_device *drm, size_t size)
+ 	return &obj->base;
  }
  
-+static inline dma_addr_t dma_hwdesc_addr(const struct ingenic_drm *priv,
-+					 unsigned int idx)
++static struct drm_private_state *
++ingenic_drm_duplicate_state(struct drm_private_obj *obj)
 +{
-+	u32 offset = offsetof(struct ingenic_dma_hwdescs, hwdesc[idx]);
++	struct ingenic_drm_private_state *state = to_ingenic_drm_priv_state(obj->state);
 +
-+	return priv->dma_hwdescs_phys + offset;
++	state = kmemdup(state, sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return NULL;
++
++	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
++
++	return &state->base;
 +}
 +
- static int ingenic_drm_update_pixclk(struct notifier_block *nb,
- 				     unsigned long action,
- 				     void *data)
-@@ -558,9 +566,9 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 	struct ingenic_drm *priv = drm_device_get_priv(plane->dev);
- 	struct drm_plane_state *newstate = drm_atomic_get_new_plane_state(state, plane);
- 	struct drm_plane_state *oldstate = drm_atomic_get_old_plane_state(state, plane);
-+	unsigned int width, height, cpp, next_id, plane_id;
- 	struct drm_crtc_state *crtc_state;
- 	struct ingenic_dma_hwdesc *hwdesc;
--	unsigned int width, height, cpp, offset;
- 	dma_addr_t addr;
- 	u32 fourcc;
++static void ingenic_drm_destroy_state(struct drm_private_obj *obj,
++				      struct drm_private_state *state)
++{
++	struct ingenic_drm_private_state *priv_state = to_ingenic_drm_priv_state(state);
++
++	kfree(priv_state);
++}
++
+ DEFINE_DRM_GEM_CMA_FOPS(ingenic_drm_fops);
  
-@@ -569,16 +577,14 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 			drm_fb_cma_sync_non_coherent(&priv->drm, oldstate, newstate);
+ static const struct drm_driver ingenic_drm_driver_data = {
+@@ -836,6 +870,11 @@ static struct drm_mode_config_helper_funcs ingenic_drm_mode_config_helpers = {
+ 	.atomic_commit_tail = drm_atomic_helper_commit_tail,
+ };
  
- 		crtc_state = newstate->crtc->state;
-+		plane_id = !!(priv->soc_info->has_osd && plane != &priv->f0);
- 
- 		addr = drm_fb_cma_get_gem_addr(newstate->fb, newstate, 0);
- 		width = newstate->src_w >> 16;
- 		height = newstate->src_h >> 16;
- 		cpp = newstate->fb->format->cpp[0];
- 
--		if (!priv->soc_info->has_osd || plane == &priv->f0)
--			hwdesc = &priv->dma_hwdescs->hwdesc_f0;
--		else
--			hwdesc = &priv->dma_hwdescs->hwdesc_f1;
-+		hwdesc = &priv->dma_hwdescs->hwdesc[plane_id];
- 
- 		hwdesc->addr = addr;
- 		hwdesc->cmd = JZ_LCD_CMD_EOF_IRQ | (width * height * cpp / 4);
-@@ -588,12 +594,8 @@ static void ingenic_drm_plane_atomic_update(struct drm_plane *plane,
- 
- 			ingenic_drm_plane_config(priv->dev, plane, fourcc);
- 
--			if (fourcc == DRM_FORMAT_C8)
--				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_pal);
--			else
--				offset = offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
--
--			priv->dma_hwdescs->hwdesc_f0.next = priv->dma_hwdescs_phys + offset;
-+			next_id = fourcc == DRM_FORMAT_C8 ? HWDESC_PALETTE : 0;
-+			priv->dma_hwdescs->hwdesc[0].next = dma_hwdesc_addr(priv, next_id);
- 
- 			crtc_state->color_mgmt_changed = fourcc == DRM_FORMAT_C8;
- 		}
-@@ -846,6 +848,35 @@ static void __maybe_unused ingenic_drm_release_rmem(void *d)
- 	of_reserved_mem_device_release(d);
++static const struct drm_private_state_funcs ingenic_drm_private_state_funcs = {
++	.atomic_duplicate_state = ingenic_drm_duplicate_state,
++	.atomic_destroy_state = ingenic_drm_destroy_state,
++};
++
+ static void ingenic_drm_unbind_all(void *d)
+ {
+ 	struct ingenic_drm *priv = d;
+@@ -877,9 +916,15 @@ static void ingenic_drm_configure_hwdesc_plane(struct ingenic_drm *priv,
+ 	ingenic_drm_configure_hwdesc(priv, plane, plane, 0xf0 | plane);
  }
  
-+static void ingenic_drm_configure_hwdesc(struct ingenic_drm *priv,
-+					 unsigned int hwdesc,
-+					 unsigned int next_hwdesc, u32 id)
++static void ingenic_drm_atomic_private_obj_fini(struct drm_device *drm, void *private_obj)
 +{
-+	struct ingenic_dma_hwdesc *desc = &priv->dma_hwdescs->hwdesc[hwdesc];
-+
-+	desc->next = dma_hwdesc_addr(priv, next_hwdesc);
-+	desc->id = id;
-+}
-+
-+static void ingenic_drm_configure_hwdesc_palette(struct ingenic_drm *priv)
-+{
-+	struct ingenic_dma_hwdesc *desc;
-+
-+	ingenic_drm_configure_hwdesc(priv, HWDESC_PALETTE, 0, 0xc0);
-+
-+	desc = &priv->dma_hwdescs->hwdesc[HWDESC_PALETTE];
-+	desc->addr = priv->dma_hwdescs_phys
-+		+ offsetof(struct ingenic_dma_hwdescs, palette);
-+	desc->cmd = JZ_LCD_CMD_ENABLE_PAL
-+		| (sizeof(priv->dma_hwdescs->palette) / 4);
-+}
-+
-+static void ingenic_drm_configure_hwdesc_plane(struct ingenic_drm *priv,
-+					       unsigned int plane)
-+{
-+	ingenic_drm_configure_hwdesc(priv, plane, plane, 0xf0 | plane);
++	drm_atomic_private_obj_fini(private_obj);
 +}
 +
  static int ingenic_drm_bind(struct device *dev, bool has_components)
  {
  	struct platform_device *pdev = to_platform_device(dev);
-@@ -942,27 +973,14 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (!priv->dma_hwdescs)
- 		return -ENOMEM;
++	struct ingenic_drm_private_state *private_state;
+ 	const struct jz_soc_info *soc_info;
+ 	struct ingenic_drm *priv;
+ 	struct clk *parent_clk;
+@@ -1148,6 +1193,20 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+ 		goto err_devclk_disable;
+ 	}
  
--
- 	/* Configure DMA hwdesc for foreground0 plane */
--	dma_hwdesc_phys_f0 = priv->dma_hwdescs_phys
--		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
--	priv->dma_hwdescs->hwdesc_f0.next = dma_hwdesc_phys_f0;
--	priv->dma_hwdescs->hwdesc_f0.id = 0xf0;
-+	ingenic_drm_configure_hwdesc_plane(priv, 0);
++	private_state = kzalloc(sizeof(*private_state), GFP_KERNEL);
++	if (!private_state) {
++		ret = -ENOMEM;
++		goto err_clk_notifier_unregister;
++	}
++
++	drm_atomic_private_obj_init(drm, &priv->private_obj, &private_state->base,
++				    &ingenic_drm_private_state_funcs);
++
++	ret = drmm_add_action_or_reset(drm, ingenic_drm_atomic_private_obj_fini,
++				       &priv->private_obj);
++	if (ret)
++		goto err_private_state_free;
++
+ 	ret = drm_dev_register(drm, 0);
+ 	if (ret) {
+ 		dev_err(dev, "Failed to register DRM driver\n");
+@@ -1158,6 +1217,8 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
  
- 	/* Configure DMA hwdesc for foreground1 plane */
--	dma_hwdesc_phys_f1 = priv->dma_hwdescs_phys
--		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f1);
--	priv->dma_hwdescs->hwdesc_f1.next = dma_hwdesc_phys_f1;
--	priv->dma_hwdescs->hwdesc_f1.id = 0xf1;
-+	ingenic_drm_configure_hwdesc_plane(priv, 1);
+ 	return 0;
  
- 	/* Configure DMA hwdesc for palette */
--	priv->dma_hwdescs->hwdesc_pal.next = priv->dma_hwdescs_phys
--		+ offsetof(struct ingenic_dma_hwdescs, hwdesc_f0);
--	priv->dma_hwdescs->hwdesc_pal.id = 0xc0;
--	priv->dma_hwdescs->hwdesc_pal.addr = priv->dma_hwdescs_phys
--		+ offsetof(struct ingenic_dma_hwdescs, palette);
--	priv->dma_hwdescs->hwdesc_pal.cmd = JZ_LCD_CMD_ENABLE_PAL
--		| (sizeof(priv->dma_hwdescs->palette) / 4);
-+	ingenic_drm_configure_hwdesc_palette(priv);
++err_private_state_free:
++	kfree(private_state);
+ err_clk_notifier_unregister:
+ 	clk_notifier_unregister(parent_clk, &priv->clock_nb);
+ err_devclk_disable:
+diff --git a/drivers/gpu/drm/ingenic/ingenic-ipu.c b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+index aeb8a757d213..c819293b8317 100644
+--- a/drivers/gpu/drm/ingenic/ingenic-ipu.c
++++ b/drivers/gpu/drm/ingenic/ingenic-ipu.c
+@@ -45,6 +45,10 @@ struct soc_info {
+ 			  unsigned int weight, unsigned int offset);
+ };
  
- 	primary = priv->soc_info->has_osd ? &priv->f1 : &priv->f0;
++struct ingenic_ipu_private_state {
++	struct drm_private_state base;
++};
++
+ struct ingenic_ipu {
+ 	struct drm_plane plane;
+ 	struct drm_device *drm;
+@@ -60,6 +64,8 @@ struct ingenic_ipu {
+ 
+ 	struct drm_property *sharpness_prop;
+ 	unsigned int sharpness;
++
++	struct drm_private_obj private_obj;
+ };
+ 
+ /* Signed 15.16 fixed-point math (for bicubic scaling coefficients) */
+@@ -73,6 +79,12 @@ static inline struct ingenic_ipu *plane_to_ingenic_ipu(struct drm_plane *plane)
+ 	return container_of(plane, struct ingenic_ipu, plane);
+ }
+ 
++static inline struct ingenic_ipu_private_state *
++to_ingenic_ipu_priv_state(struct drm_private_state *state)
++{
++	return container_of(state, struct ingenic_ipu_private_state, base);
++}
++
+ /*
+  * Apply conventional cubic convolution kernel. Both parameters
+  *  and return value are 15.16 signed fixed-point.
+@@ -679,6 +691,33 @@ static const struct drm_plane_funcs ingenic_ipu_plane_funcs = {
+ 	.atomic_set_property	= ingenic_ipu_plane_atomic_set_property,
+ };
+ 
++static struct drm_private_state *
++ingenic_ipu_duplicate_state(struct drm_private_obj *obj)
++{
++	struct ingenic_ipu_private_state *state = to_ingenic_ipu_priv_state(obj->state);
++
++	state = kmemdup(state, sizeof(*state), GFP_KERNEL);
++	if (!state)
++		return NULL;
++
++	__drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
++
++	return &state->base;
++}
++
++static void ingenic_ipu_destroy_state(struct drm_private_obj *obj,
++				      struct drm_private_state *state)
++{
++	struct ingenic_ipu_private_state *priv_state = to_ingenic_ipu_priv_state(state);
++
++	kfree(priv_state);
++}
++
++static const struct drm_private_state_funcs ingenic_ipu_private_state_funcs = {
++	.atomic_duplicate_state = ingenic_ipu_duplicate_state,
++	.atomic_destroy_state = ingenic_ipu_destroy_state,
++};
++
+ static irqreturn_t ingenic_ipu_irq_handler(int irq, void *arg)
+ {
+ 	struct ingenic_ipu *ipu = arg;
+@@ -717,6 +756,7 @@ static const struct regmap_config ingenic_ipu_regmap_config = {
+ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
+ {
+ 	struct platform_device *pdev = to_platform_device(dev);
++	struct ingenic_ipu_private_state *private_state;
+ 	const struct soc_info *soc_info;
+ 	struct drm_device *drm = d;
+ 	struct drm_plane *plane;
+@@ -810,7 +850,20 @@ static int ingenic_ipu_bind(struct device *dev, struct device *master, void *d)
+ 		return err;
+ 	}
+ 
++	private_state = kzalloc(sizeof(*private_state), GFP_KERNEL);
++	if (!private_state) {
++		err = -ENOMEM;
++		goto err_clk_unprepare;
++	}
++
++	drm_atomic_private_obj_init(drm, &ipu->private_obj, &private_state->base,
++				    &ingenic_ipu_private_state_funcs);
++
+ 	return 0;
++
++err_clk_unprepare:
++	clk_unprepare(ipu->clk);
++	return err;
+ }
+ 
+ static void ingenic_ipu_unbind(struct device *dev,
+@@ -818,6 +871,7 @@ static void ingenic_ipu_unbind(struct device *dev,
+ {
+ 	struct ingenic_ipu *ipu = dev_get_drvdata(dev);
+ 
++	drm_atomic_private_obj_fini(&ipu->private_obj);
+ 	clk_unprepare(ipu->clk);
+ }
  
 -- 
 2.33.0
