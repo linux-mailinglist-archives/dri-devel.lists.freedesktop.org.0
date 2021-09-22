@@ -2,89 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 263F441525D
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 23:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37F604152EA
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 23:37:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3F9186EC46;
-	Wed, 22 Sep 2021 21:06:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 844236E048;
+	Wed, 22 Sep 2021 21:37:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B47C6EC46
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 21:05:59 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id p29so16966907lfa.11
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 14:05:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=shutemov-name.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=/PcqjgcRCkyIpO5H00bhPWTTbPCMNXWR4nKgirdi3Io=;
- b=xEkq7SUZRewChVZqWhm4cS96l8pPzSSEz+ScgQL56dgjn10FcSw+jLPv0OY9bYezIP
- CYphaUGJXn/snvtDU3KSfg579Nb5Qlk3NtUo6CuASAlclCh3ui7cA33wRO6foyyQk9sK
- Mw3x0Ft59CKVBwMroO3W4lugA/tv5mEWbElbrHB+wIwMc5ZNjOZSS8KT6h+Zon+cf4qv
- JmEltnmffmbEBqUsebTV11v0B5U1mVwBUj3sW1gLZspQ54hm7TrP9j1QPJEblcLAhwI2
- nEggNK9m8gYxewjcBCYSYCHLIhl9iSTZmO6vl1lqR1Tl54TSO4jEGxDT96zBALyLtnLS
- Hi0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=/PcqjgcRCkyIpO5H00bhPWTTbPCMNXWR4nKgirdi3Io=;
- b=ZiUrMXI4mhU0ZayMnH48S3heHM5QTdoBSJuq7P3hww3FDpX5iqaU3gJ3tRs4OuWQEy
- 8OYLpv/y7HpSjE12vxtL8Jks+6HqvvEJnKzwBLLdXVdMy++ZuVU6YsISFivaEWWanUsN
- DxPVYce82GI0xRdTtwS6tbnRnABXuTYhgHLmWNsX6f51mlIV0DXpzQBYNGAOlHTL66/L
- MBnBAH19G4Z0JT62tlwil2ouXMo2j0Nwnb7R/WycBySaNEDzyNc3u1lsI2N86aer3Dnl
- elK3RzsVcnCiVvhaGqpT14bIrATCTov7ZlJg72GbWZYeHPZYh+LfjUxxOQZeWxmPBjoU
- 7R0A==
-X-Gm-Message-State: AOAM531qCZ7liLbcYSpxsEhqhbbMyRVF41Lb4PQYjvDbWGEZI2ZKI9Zy
- TvhAOK8gz4uWXSh1CmLBKag7nw==
-X-Google-Smtp-Source: ABdhPJxFaBhI/uy8npc3Dtax2q52q/CAXrrCmDjvazERLjrealUJSj+rQLNB+0RcTEMnHlaiKFjmmA==
-X-Received: by 2002:a05:6512:5c2:: with SMTP id
- o2mr917110lfo.207.1632344757440; 
- Wed, 22 Sep 2021 14:05:57 -0700 (PDT)
-Received: from box.localdomain ([86.57.175.117])
- by smtp.gmail.com with ESMTPSA id bi33sm370467ljb.89.2021.09.22.14.05.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 14:05:56 -0700 (PDT)
-Received: by box.localdomain (Postfix, from userid 1000)
- id 60F2A10304D; Thu, 23 Sep 2021 00:05:58 +0300 (+03)
-Date: Thu, 23 Sep 2021 00:05:58 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, linuxppc-dev@lists.ozlabs.org,
- linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
- x86@kernel.org, iommu@lists.linux-foundation.org,
- kvm@vger.kernel.org, linux-efi@vger.kernel.org,
- platform-driver-x86@vger.kernel.org,
- linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
- linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
- Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
- Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
- Tianyu Lan <Tianyu.Lan@microsoft.com>,
- Christoph Hellwig <hch@infradead.org>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
- cc_platform_has()
-Message-ID: <20210922210558.itofvu3725dap5xx@box.shutemov.name>
-References: <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
- <YUoao0LlqQ6+uBrq@zn.tnic>
- <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
- <YUpONYwM4dQXAOJr@zn.tnic>
- <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
- <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
- <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
- <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
- <20210922143015.vvxvh6ec73lffvkf@box.shutemov.name>
- <YUuJZ2qOgbdpfk6N@zn.tnic>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3B1706E048;
+ Wed, 22 Sep 2021 21:37:27 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="284719255"
+X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="284719255"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 14:37:26 -0700
+X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="518742573"
+Received: from shanshug-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.252.133.169])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 14:37:26 -0700
+Date: Wed, 22 Sep 2021 14:37:23 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Matthew Brost <matthew.brost@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: fix blank screen booting crashes
+Message-ID: <20210922213723.amlkgi6qpvvxid3t@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210921174332.30784-1-matthew.brost@intel.com>
+ <20210921184637.ullcwswqd6z5hi4j@ldmartin-desk2>
+ <20210921225514.GA8109@jons-linux-dev-box>
+ <20210921232931.5j4h4l7tmfp7mjzj@ldmartin-desk2>
+ <20210922014041.GA13907@jons-linux-dev-box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <YUuJZ2qOgbdpfk6N@zn.tnic>
+In-Reply-To: <20210922014041.GA13907@jons-linux-dev-box>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,23 +53,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 22, 2021 at 09:52:07PM +0200, Borislav Petkov wrote:
-> On Wed, Sep 22, 2021 at 05:30:15PM +0300, Kirill A. Shutemov wrote:
-> > Not fine, but waiting to blowup with random build environment change.
-> 
-> Why is it not fine?
-> 
-> Are you suspecting that the compiler might generate something else and
-> not a rip-relative access?
+On Tue, Sep 21, 2021 at 06:40:41PM -0700, Matthew Brost wrote:
+>On Tue, Sep 21, 2021 at 04:29:31PM -0700, Lucas De Marchi wrote:
+>> On Tue, Sep 21, 2021 at 03:55:15PM -0700, Matthew Brost wrote:
+>> > On Tue, Sep 21, 2021 at 11:46:37AM -0700, Lucas De Marchi wrote:
+>> > > On Tue, Sep 21, 2021 at 10:43:32AM -0700, Matthew Brost wrote:
+>> > > > From: Hugh Dickins <hughd@google.com>
+>> > > >
+>> > > > 5.15-rc1 crashes with blank screen when booting up on two ThinkPads
+>> > > > using i915.  Bisections converge convincingly, but arrive at different
+>> > > > and surprising "culprits", none of them the actual culprit.
+>> > > >
+>> > > > netconsole (with init_netconsole() hacked to call i915_init() when
+>> > > > logging has started, instead of by module_init()) tells the story:
+>> > > >
+>> > > > kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
+>> > > > with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
+>> > > > I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
+>> > > > function needs to be 4-byte aligned.
+>> > > >
+>> > > > v2:
+>> > > > (Jani Nikula)
+>> > > >  - Change BUG_ON to WARN_ON
+>> > > > v3:
+>> > > > (Jani / Tvrtko)
+>> > > >  - Short circuit __i915_sw_fence_init on WARN_ON
+>> > > >
+>> > > > Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+>> > > > Signed-off-by: Hugh Dickins <hughd@google.com>
+>> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> > > > Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+>> > > > ---
+>> > > > drivers/gpu/drm/i915/gt/intel_context.c |  4 ++--
+>> > > > drivers/gpu/drm/i915/i915_sw_fence.c    | 17 ++++++++++-------
+>> > > > 2 files changed, 12 insertions(+), 9 deletions(-)
+>> > > >
+>> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>> > > > index ff637147b1a9..e7f78bc7ebfc 100644
+>> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>> > > > @@ -362,8 +362,8 @@ static int __intel_context_active(struct i915_active *active)
+>> > > > 	return 0;
+>> > > > }
+>> > > >
+>> > >
+>> > > > -static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
+>> > > > -				 enum i915_sw_fence_notify state)
+>> > > > +static int __i915_sw_fence_call
+>> > > > +sw_fence_dummy_notify(struct i915_sw_fence *sf, enum i915_sw_fence_notify state)
+>> > > > {
+>> > > > 	return NOTIFY_DONE;
+>> > > > }
+>> > > > diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+>> > > > index c589a681da77..08cea73264e7 100644
+>> > > > --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+>> > > > +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+>> > > > @@ -13,9 +13,9 @@
+>> > > > #include "i915_selftest.h"
+>> > > >
+>> > > > #if IS_ENABLED(CONFIG_DRM_I915_DEBUG)
+>> > > > -#define I915_SW_FENCE_BUG_ON(expr) BUG_ON(expr)
+>> > > > +#define I915_SW_FENCE_WARN_ON(expr) WARN_ON(expr)
+>> > > > #else
+>> > > > -#define I915_SW_FENCE_BUG_ON(expr) BUILD_BUG_ON_INVALID(expr)
+>> > > > +#define I915_SW_FENCE_WARN_ON(expr) BUILD_BUG_ON_INVALID(expr)
+>> > > > #endif
+>> > > >
+>> > > > static DEFINE_SPINLOCK(i915_sw_fence_lock);
+>> > > > @@ -129,7 +129,10 @@ static int __i915_sw_fence_notify(struct i915_sw_fence *fence,
+>> > > > 	i915_sw_fence_notify_t fn;
+>> > > >
+>> > > > 	fn = (i915_sw_fence_notify_t)(fence->flags & I915_SW_FENCE_MASK);
+>> > > > -	return fn(fence, state);
+>> > > > +	if (likely(fn))
+>> > > > +		return fn(fence, state);
+>> > > > +	else
+>> > > > +		return 0;
+>> > >
+>> > > since the knowledge for these being NULL (or with the wrong alignment)
+>> > > are in the init/reinit functions,  wouldn't it be better to just add a
+>> > > fence_nop() and assign it there instead this likely() here?
+>> > >
+>> >
+>> > Maybe? I prefer the way it is.
+>> >
+>> > > > }
+>> > > >
+>> > > > #ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS
+>> > > > @@ -242,9 +245,9 @@ void __i915_sw_fence_init(struct i915_sw_fence *fence,
+>> > > > 			  const char *name,
+>> > > > 			  struct lock_class_key *key)
+>> > > > {
+>> > > > -	BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
+>> > > > -
+>> > > > 	__init_waitqueue_head(&fence->wait, name, key);
+>> > > > +	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
+>> > > > +		return;
+>> > >
+>> > > like:
+>> > > 	if (WARN_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK))
+>> > > 		fence->flags = (unsigned long)sw_fence_dummy_notify;
+>> > > 	else
+>> > > 		fence->flags = (unsigned long)fn;
+>> > >
+>> > >
+>> > > f you return here instead of calling i915_sw_fence_reinit(), aren't you
+>> > > just going to use uninitialized memory later? At least in the selftests,
+>> > > which allocate it with kmalloc()... I didn't check others.
+>> > >
+>> >
+>> > I don't think so, maybe the fence won't work but it won't blow up
+>> > either.
+>> >
+>> > >
+>> > > For the bug fix we could just add the __aligned(4) and leave the rest to a
+>> > > separate patch.
+>> > >
+>> >
+>> > The bug was sw_fence_dummy_notify in gt/intel_context.c was not 4 byte
+>> > align which triggered a BUG_ON during boot which blank screened a
+>> > laptop. Jani / Tvrtko suggested that we make the BUG_ON to WARN_ONs so
+>> > if someone makes this mistake in the future kernel should boot albiet
+>> > with a WARNING.
+>>
+>> yes, I understood. But afaics with WARN_ON you are allowing it to
+>> continue and may be using uninitialized memory later, just causing other
+>> problems down the line, which may be equally difficult to debug.
+>>
+>> what I suggested is that there is the easy fix to apply to the current
+>> rcX kernel, adding __aligned(4) to sw_fence_dummy_notify() (patch 1).
+>> And there is the additional protection being added here (patch 2) which
+>> is subject to the debate.
+>>
+>
+>Got it. Will post as 2 different patches.
+>
+>> >
+>> > The long term fix is just pull out the I915_SW_FENCE_MASK (stealing bits
+>> > from a poitner) and we don't have to worry any of this.
+>>
+>> Patch 2 may not even be needed if you're going that route. But we are
+>> not only protecting against unaligned, but also from code calling
+>> i915_sw_fence_init() with a NULL fn.
+>>
+>
+>Maybe, I'll just do the proper fix in patch #2 right away.
 
-Yes. We had it before for __supported_pte_mask and other users of
-fixup_pointer().
+makes sense. Thanks
 
-See for instance 4a09f0210c8b ("x86/boot/64/clang: Use fixup_pointer() to
-access '__supported_pte_mask'")
-
-Unless we find other way to guarantee RIP-relative access, we must use
-fixup_pointer() to access any global variables.
-
--- 
- Kirill A. Shutemov
+Lucas De Marchi
