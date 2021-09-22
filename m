@@ -2,38 +2,40 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A56F415425
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:47:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B1041542C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:47:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5FE5C6E086;
-	Wed, 22 Sep 2021 23:47:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 238066E08A;
+	Wed, 22 Sep 2021 23:47:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6BA216E086
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C05866E086
  for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:47:33 +0000 (UTC)
 Received: from Monstersaurus.local
  (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 814F2146F;
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F38EB1544;
  Thu, 23 Sep 2021 01:47:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632354451;
- bh=7X4qZVyk2k7iUjP1MSpsD7QXZUHFl6neQV8CbcJNCeg=;
+ s=mail; t=1632354452;
+ bh=CJER95kuqVQg+IWr5D3fMe8U43dXHsjjYXDswSJYd88=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=m4EslIfynaL4lp7i3COOCa8EFijcAZXMqqLCcLSmopNVgel9F5bM96K07QmLAwFA+
- UddjGIZApx8sRBJN4jN5pr87wCrU6yzsW+a5Q2AY4NFYyF+V7A4VQNGOySbngP5ud2
- LNuPolWefkblJ2deNp94JRJyUDHBU7+sSYkH7Dzg=
+ b=vWQUBbHCX+o8KFwzIGhNz1YT7X73SHO6cBbtlSbH5dXZrV9XPDuWskcbpk0MuGzni
+ Omklkc4SIlReS/oj7e0XYUQrc7yTjvr1fyqgYC66WJ89xX6/6NrYTdJ6OHVqgTkNbP
+ ZqkDVMKg98taoCYa38mJY+H30jCHQ4I4enuMilyk=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 To: linux-renesas-soc@vger.kernel.org,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
  linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 2/6] drm: rcar-du: Sort the DU outputs
-Date: Thu, 23 Sep 2021 00:47:22 +0100
-Message-Id: <20210922234726.3337265-3-kieran.bingham@ideasonboard.com>
+Subject: [PATCH v3 3/6] drm: rcar-du: Only initialise TVM_TVSYNC mode when
+ supported
+Date: Thu, 23 Sep 2021 00:47:23 +0100
+Message-Id: <20210922234726.3337265-4-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
 References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
@@ -54,38 +56,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+The R-Car DU as found on the D3, E3, and V3U do not have support
+for an external synchronisation method.
 
-Sort the DU outputs alphabetically, with the exception of the final
-entry which is there as a sentinal.
+In these cases, the dsysr cached register should not be initialised
+in DSYSR_TVM_TVSYNC, but instead should be left clear to configure as
+DSYSR_TVM_MASTER by default.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 ---
 v2:
- - Collect tag
+ - Remove parenthesis
 
- drivers/gpu/drm/rcar-du/rcar_du_crtc.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/rcar-du/rcar_du_crtc.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-index 5f2940c42225..440e6b4fbb58 100644
---- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-+++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-@@ -96,10 +96,10 @@ struct rcar_du_crtc_state {
- enum rcar_du_output {
- 	RCAR_DU_OUTPUT_DPAD0,
- 	RCAR_DU_OUTPUT_DPAD1,
--	RCAR_DU_OUTPUT_LVDS0,
--	RCAR_DU_OUTPUT_LVDS1,
- 	RCAR_DU_OUTPUT_HDMI0,
- 	RCAR_DU_OUTPUT_HDMI1,
-+	RCAR_DU_OUTPUT_LVDS0,
-+	RCAR_DU_OUTPUT_LVDS1,
- 	RCAR_DU_OUTPUT_TCON,
- 	RCAR_DU_OUTPUT_MAX,
- };
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+index ea7e39d03545..a0f837e8243a 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.c
+@@ -1243,7 +1243,10 @@ int rcar_du_crtc_create(struct rcar_du_group *rgrp, unsigned int swindex,
+ 	rcrtc->group = rgrp;
+ 	rcrtc->mmio_offset = mmio_offsets[hwindex];
+ 	rcrtc->index = hwindex;
+-	rcrtc->dsysr = (rcrtc->index % 2 ? 0 : DSYSR_DRES) | DSYSR_TVM_TVSYNC;
++	rcrtc->dsysr = rcrtc->index % 2 ? 0 : DSYSR_DRES;
++
++	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_TVM_SYNC))
++		rcrtc->dsysr |= DSYSR_TVM_TVSYNC;
+ 
+ 	if (rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
+ 		primary = &rcrtc->vsp->planes[rcrtc->vsp_pipe].plane;
 -- 
 2.30.2
 
