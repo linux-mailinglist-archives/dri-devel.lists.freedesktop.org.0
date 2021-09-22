@@ -1,88 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3F44143EB
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:42:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EE1B41442F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:48:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22E356EB11;
-	Wed, 22 Sep 2021 08:42:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 81FE36EB18;
+	Wed, 22 Sep 2021 08:48:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 66EC26EB11
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:42:01 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7EE655802A0;
- Wed, 22 Sep 2021 04:42:00 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 22 Sep 2021 04:42:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=yoA2Ii3axXPN7X/c5B/JJ2aU3f5
- xmDOavqnZKLWOwGI=; b=bD20vs5Eiv2VzwwdLP5aJY0qaNmLmsNoCiA4YNs3st8
- 5QN/ENVa1SUEPMTMXtETZC9a1TRmp4gQIiDscATsGeR/a0Mky7AnZXc0joYVNlO9
- Q+8nFFZkzf/HUPw/LQv4SbmuFmNRoBzGHkhd6EGE7cq553pni5Zxsfe1qjDsx//m
- M6fZD0SCaW600TggsuxlLbKxlVVuNUb7n7ASm32aWhY6CQlJyh883clvlU7gf32O
- Ztj9Dz/pJXWcVzMWUeOid1vfyVa/lbCDKHvG8RHkvydFhkcknpl1G7z8o5z5+AdN
- xquqL2BIYUlSk9jq18l+XsyaRZMuGiUbt00d4RFcPVg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=yoA2Ii
- 3axXPN7X/c5B/JJ2aU3f5xmDOavqnZKLWOwGI=; b=HxvbmiS7peC+aSJzBbjFTo
- DwXG/2eAbUkdtT5pxS+gkiPHyUa95N9+uusXaK0JpIsftsHGuBoFGMCbmnKtmcfu
- q5opv+zBUs9d3CD9Yw9AQ5hWznVogHWzptHTVH4GvVGWnc4pDLwCZL395BCIF3+6
- cbk8iL66EML7W+oswJeZd39V0WRzLmCZJdhKozYUTdxnCP7NB7tTtAw1JkZcHiCB
- OOOgYVAddUZaPgxANeb9fQyraSXFG1k+veKgVcZsi3X3WbtEIc/fwukHydBbwBD/
- idWXmctPT90yjPX3S7T53AiCBmbjnTYsBYvu+WAJE90C73L20pIGysEzi5QcfoaA
- ==
-X-ME-Sender: <xms:VuxKYcgL6aoCgh02rEx50Ih2s0vhbdIDcU1oIPLLpp0m60uNVmSQ2w>
- <xme:VuxKYVDQJbqEXHvkC6blHIZG60uKUgOn1mJ6NcN2zMTWdugqQRS-jXt55-dVeYqef
- g0i5_RHc1SXdxrD2H0>
-X-ME-Received: <xmr:VuxKYUHqYZyI0uZmF0gLQickQOpIJHAZ1gb5nARrqvro1wqognq9MelwR0SdLmS0EPCl9vD1Q4BW_RDgatyAPDTXM-EPz97O1-uD>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgtdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
- gedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:VuxKYdSP9iQZD-Fhv8Bu0i4OjGjk9Xt2QTArkcXrhTFPiyk1d6RV6w>
- <xmx:VuxKYZx55-18gnF6uKnFtjvJ-UjWKxp_tRYknFRywR8eEHp8l-3G8Q>
- <xmx:VuxKYb6LhydO-LNHGFxElJDCgsVL6qLDQmz4pOVtOTDLB0OFIAkoew>
- <xmx:WOxKYSHddCiT4db0vBw-2gZu8R7cxNLPayrJMbzbvmYDF7fHOfJZHQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Sep 2021 04:41:57 -0400 (EDT)
-Date: Wed, 22 Sep 2021 10:41:56 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Phil Elwell <phil@raspberrypi.com>, Tim Gover <tim.gover@raspberrypi.com>,
- Dom Cobley <dom@raspberrypi.com>, Boris Brezillon <bbrezillon@kernel.org>,
- linux-rpi-kernel@lists.infradead.org,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- bcm-kernel-feedback-list@broadcom.com, Emma Anholt <emma@anholt.net>,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Jonas Bonn <jonas@southpole.se>,
- Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
- Stafford Horne <shorne@gmail.com>, Openrisc <openrisc@lists.librecores.org>
-Subject: Re: [PATCH v3 1/6] drm/vc4: select PM (openrisc)
-Message-ID: <20210922084156.xqru5fdjkarbkyew@gilmour>
-References: <20210819135931.895976-1-maxime@cerno.tech>
- <20210819135931.895976-2-maxime@cerno.tech>
- <8a5cdcf5-33ed-398f-243a-b8889fd754e3@infradead.org>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE636EB18
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:48:49 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id u8so8830713lff.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 01:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=xDTpESJ2z1mKMqQoLO7M5y7KnxXyxwzqWtz/XajKrc4=;
+ b=EP8tz3zwtzg0Ls6XAAa3k28kJQBDq2Wu70knAGBL8G6+9SLixuoufH/IXVFYHKdn+o
+ F24FR4Wiz+fSL88YJjODKYB4oM6GSoM0aT+TiNJd4oA5OleHR1fOhha2Tw75f3KxBTIY
+ yuqRV6KQBvb5cJIm9HVyiAc6nb0GRI1cP0zrFzw0omZVMvCobmobWwcEZESTYgahnEeF
+ cEQE/+7XJB1/wKWhpQKhm2bNRs30C9RQK9OHkWcLXF2/CLO35pDNtuRKGaJopQ5+rVfa
+ kurPOtMi6KMe3s1HP8Xy3fRHao1WuvyvSr5sLZq+WVf6i3l/z5JVN9dWz0XhoRutK9CX
+ +dbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=xDTpESJ2z1mKMqQoLO7M5y7KnxXyxwzqWtz/XajKrc4=;
+ b=boY66/O5wATtfloc4OJ6FR2rQOdrbO7kBxcZJVxgBymc9hsPnf8xlVo2ycEUvfEQIi
+ TxxDySYVBi8ShIotxwGF5OiEfLQm21NPuZqAAhac2wkz/IAA0lRh9Uw+fHx5HCja/UHX
+ S7upYUVuNowOTRFDec8LL7QsAbbCYA0Mf2L+CWDtC6quYhVypCfYs1P2N24q20iq61v5
+ RuUSuq+1H6DWDshD9iHVvM1Z45OtgRmHT7BjcaiVc2YLChusBfZiWREQf+f0qoCxSlsP
+ AQBAaVuKeqkjd7ydv0Mg9nqf4aeN7ql0oFECh5wFf/mgIyta/vxGJmmjfFvYJpOc15Ay
+ MO6Q==
+X-Gm-Message-State: AOAM530vQf6UkPuLh8MksO6h803LiRU59TQnZ6+sa0txJ6Wz+E6g2pmJ
+ H0LTUj1JEoJWEa3WKo6TNjk=
+X-Google-Smtp-Source: ABdhPJwbG8FRr3MLPLrsgLcIGO00WzurqrAChJoVpVA3mCBOwXF+BjhWPOZZHrlvSZjVOzDfsUiNOA==
+X-Received: by 2002:a2e:9d01:: with SMTP id t1mr21266612lji.34.1632300527589; 
+ Wed, 22 Sep 2021 01:48:47 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id h10sm172996ljb.140.2021.09.22.01.48.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 01:48:47 -0700 (PDT)
+Date: Wed, 22 Sep 2021 11:48:44 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Daniel Stone <daniels@collabora.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
+ <michel@daenzer.net>, Emil Velikov <emil.l.velikov@gmail.com>, Keith
+ Packard <keithp@keithp.com>, Boris Brezillon
+ <boris.brezillon@collabora.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH v2 2/2] drm/lease: allow empty leases
+Message-ID: <20210922114844.67ed5697@eldfell>
+In-Reply-To: <20210903130000.1590-2-contact@emersion.fr>
+References: <20210903130000.1590-1-contact@emersion.fr>
+ <20210903130000.1590-2-contact@emersion.fr>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5x75oq3heiuvzqmo"
-Content-Disposition: inline
-In-Reply-To: <8a5cdcf5-33ed-398f-243a-b8889fd754e3@infradead.org>
+Content-Type: multipart/signed; boundary="Sig_/M8T5o6H52OaV1+8t17unO8O";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -98,108 +76,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---5x75oq3heiuvzqmo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/M8T5o6H52OaV1+8t17unO8O
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi Randy,
+On Fri, 03 Sep 2021 13:00:32 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-On Sun, Sep 19, 2021 at 09:40:44AM -0700, Randy Dunlap wrote:
-> On 8/19/21 6:59 AM, Maxime Ripard wrote:
-> > We already depend on runtime PM to get the power domains and clocks for
-> > most of the devices supported by the vc4 driver, so let's just select it
-> > to make sure it's there, and remove the ifdef.
-> >=20
-> > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > ---
-> >   drivers/gpu/drm/vc4/Kconfig    | 1 +
-> >   drivers/gpu/drm/vc4/vc4_hdmi.c | 2 --
-> >   2 files changed, 1 insertion(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/vc4/Kconfig b/drivers/gpu/drm/vc4/Kconfig
-> > index 118e8a426b1a..f774ab340863 100644
-> > --- a/drivers/gpu/drm/vc4/Kconfig
-> > +++ b/drivers/gpu/drm/vc4/Kconfig
-> > @@ -9,6 +9,7 @@ config DRM_VC4
-> >   	select DRM_KMS_CMA_HELPER
-> >   	select DRM_GEM_CMA_HELPER
-> >   	select DRM_PANEL_BRIDGE
-> > +	select PM
-> >   	select SND_PCM
-> >   	select SND_PCM_ELD
-> >   	select SND_SOC_GENERIC_DMAENGINE_PCM
-> > diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_h=
-dmi.c
-> > index c2876731ee2d..602203b2d8e1 100644
-> > --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-> > @@ -2107,7 +2107,6 @@ static int vc5_hdmi_init_resources(struct vc4_hdm=
-i *vc4_hdmi)
-> >   	return 0;
-> >   }
-> > -#ifdef CONFIG_PM
-> >   static int vc4_hdmi_runtime_suspend(struct device *dev)
-> >   {
-> >   	struct vc4_hdmi *vc4_hdmi =3D dev_get_drvdata(dev);
-> > @@ -2128,7 +2127,6 @@ static int vc4_hdmi_runtime_resume(struct device =
-*dev)
-> >   	return 0;
-> >   }
-> > -#endif
-> >   static int vc4_hdmi_bind(struct device *dev, struct device *master, v=
-oid *data)
-> >   {
-> >=20
+> This can be used to create a separate DRM file description, thus
+> creating a new GEM handle namespace.
 >=20
-> Hi,
+> My use-case is wlroots. The library splits responsibilities between
+> separate components: the GBM allocator creates buffers, the GLES2
+> renderer uses EGL to import them and render to them, the DRM
+> backend imports the buffers and displays them. wlroots has a
+> modular architecture, and any of these components can be swapped
+> and replaced with something else. For instance, the pipeline can
+> be set up so that the DRM dumb buffer allocator is used instead of
+> GBM and the Pixman renderer is used instead of GLES2. Library users
+> can also replace any of these components with their own custom one.
 >=20
-> FYI.
+> DMA-BUFs are used to pass buffer references across components. We
+> could use GEM handles instead, but this would result in pain if
+> multiple GPUs are in use: wlroots copies buffers across GPUs as
+> needed. Importing a GEM handle created on one GPU into a completely
+> different GPU will blow up (fail at best, mix unrelated buffers
+> otherwise).
 >=20
-> This still causes a build error on arch/openrisc/ since it does not suppo=
-rt
-> CONFIG_PM (it does not source "kernel/power/Kconfig" like some other arch=
-es do):
+> Everything is fine if all components use Mesa. However, this isn't
+> always desirable. For instance when running with DRM dumb buffers
+> and the Pixman software renderer it's unfortunate to depend on GBM
+> in the DRM backend just to turn DMA-BUFs into FB IDs. GBM loads
+> Mesa drivers to perform an action which has nothing driver-specific.
+> Additionally, drivers will fail the import if the 3D engine can't
+> use the imported buffer, for instance amdgpu will refuse to import
+> DRM dumb buffers [1]. We might also want to be running with a Vulkan
+> renderer and a Vulkan allocator in the future, and GBM wouldn't be
+> welcome in this setup.
 >=20
-> ./arch/riscv/Kconfig:source "kernel/power/Kconfig"
-> ./arch/x86/Kconfig:source "kernel/power/Kconfig"
-> ./arch/nds32/Kconfig:source "kernel/power/Kconfig"
-> ./arch/sh/Kconfig:source "kernel/power/Kconfig"
-> ./arch/arc/Kconfig:source "kernel/power/Kconfig"
-> ./arch/arm64/Kconfig:source "kernel/power/Kconfig"
-> ./arch/xtensa/Kconfig:source "kernel/power/Kconfig"
-> ./arch/sparc/Kconfig:source "kernel/power/Kconfig"
-> ./arch/arm/Kconfig:source "kernel/power/Kconfig"
-> ./arch/mips/Kconfig:source "kernel/power/Kconfig"
-> ./arch/powerpc/Kconfig:source "kernel/power/Kconfig"
-> ./arch/um/Kconfig:source "kernel/power/Kconfig"
-> ./arch/ia64/Kconfig:source "kernel/power/Kconfig"
+> To address this, GBM can be side-stepped in the DRM backend, and
+> can be replaced with drmPrimeFDToHandle calls. However because of
+> GEM handle reference counting issues, care must be taken to avoid
+> double-closing the same GEM handle. In particular, it's not
+> possible to share a DRM FD with GBM or EGL and perform some
+> drmPrimeFDToHandle calls manually.
 >=20
-> so with
-> CONFIG_DRM_VC4=3Dy
-> # CONFIG_DRM_VC4_HDMI_CEC is not set
+> So wlroots needs to re-open the DRM FD to create a new GEM handle
+> namespace. However there's no guarantee that the file-system
+> permissions will be set up so that the primary FD can be opened
+> by the compsoitor. On modern systems seatd or logind is a privileged
+> process responsible for doing this, and other processes aren't
+> expected to do it. For historical reasons systemd still allows
+> physically logged in users to open primary DRM nodes, but this
+> doesn't work on non-systemd setups and it's desirable to lock
+> them down at some point.
 >=20
-> I still see
-> ../drivers/gpu/drm/vc4/vc4_hdmi.c:2139:12: warning: 'vc4_hdmi_runtime_sus=
-pend' defined but not used [-Wunused-function]
->  2139 | static int vc4_hdmi_runtime_suspend(struct device *dev)
->       |            ^~~~~~~~~~~~~~~~~~~~~~~~
+> Some might suggest to open the render node instead of re-opening
+> the primary node. However some systems don't have a render node
+> at all (e.g. no GPU, or a split render/display SoC).
+>=20
+> Solutions to this issue have been discussed in [2]. One solution
+> would be to open the magic /proc/self/fd/<fd> file, but it's a
+> Linux-specific hack (wlroots supports BSDs too). Another solution
+> is to add support for re-opening a DRM primary node to seatd/logind,
+> but they don't support it now and really haven't been designed for
+> this (logind would need to grow a completely new API, because it
+> assumes unique dev_t IDs). Also this seems like pushing down a
+> kernel limitation to user-space a bit too hard.
+>=20
+> Another solution is to allow creating empty DRM leases. The lessee
+> FD would have its own GEM handle namespace, so wouldn't conflict
+> wth GBM/EGL. It would have the master bit set, but would be able
+> to manage zero resources. wlroots doesn't intend to share this FD
+> with any other process.
+>=20
+> All in all IMHO that seems like a pretty reasonable solution to the
+> issue at hand.
+>=20
+> Note, I've discussed with Jonas =C3=85dahl and Mutter plans to adopt a
+> similar design in the future.
+>=20
+> Example usage in wlroots is available at [3]. IGT test available
+> at [4].
+>=20
+> [1]: https://github.com/swaywm/wlroots/issues/2916
+> [2]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
+> [3]: https://github.com/swaywm/wlroots/pull/3158
+> [4]: https://patchwork.freedesktop.org/series/94323/
+>=20
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Daniel Stone <daniels@collabora.com>
+> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
+> Cc: Emil Velikov <emil.l.velikov@gmail.com>
+> Cc: Keith Packard <keithp@keithp.com>
+> Cc: Boris Brezillon <boris.brezillon@collabora.com>
+> Cc: Dave Airlie <airlied@redhat.com>
+> ---
+>  drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
+>  include/uapi/drm/drm_mode.h |  3 ++-
+>  2 files changed, 20 insertions(+), 22 deletions(-)
 
-With what version did you get that build error? -rc2 shouldn't have it
-anymore since the runtime_pm hooks introduction got reverted.
+Hi Simon,
 
-Maxime
+that is one awesome commit message!
 
---5x75oq3heiuvzqmo
-Content-Type: application/pgp-signature; name="signature.asc"
+It explains everything I might have wanted to ask. I also agree with
+your analysis, so this is an easy:
+
+Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+Of course, I can't say anything about the actual code.
+
+
+Thanks,
+pq
+
+--Sig_/M8T5o6H52OaV1+8t17unO8O
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUrsVAAKCRDj7w1vZxhR
-xcJDAP9CgeyoZOknS4cqvZ9EHhMJxZmRdv9kzQ1KIRH2UxvZqwD/e7AQfR48+Phw
-iC0PWsKBXpNQ9/dhgtzAPUq3pEeNOQE=
-=dGOO
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFK7ewACgkQI1/ltBGq
+qqcNABAAjZSs9+/erB9foS1XPHq6RJFG8d2wUxblTVeQxtCB/dhStGCcc4yXV2+r
+o6Iq18b+dA6Hed8g/nsfmp++q7qm6SwF0NHEzJCSxt4snoha/CY6/RgIrdoi93vD
+45omCrFxsTKvpEeAa2PJfHeV3ixEIxbaZVJJq4mY8AWPRYHZ4GJNcf/DaucU7nPb
+fxz30mHJSLXCgJNx+y5PaWXrTjqO+XMVlzJz2/okrj2JifqVDQOHt9mfF5HMPLUj
+pv5CKsabfwCeHXkVkdX5rVtyJoc0i6LuOhwU6T/n3EFYyxD7j9oU/De0JUNBA64T
+ljzaDjtJR30C8HoZxN4gqP9b94136YyNV6UVQoyoaGF/h2ZolkrS3JL01MR897/I
+ubORpPaOX6CDNSPR5T+xvyDBhnvXUfK7wCENCzUww3t2UKDle8qCk3WKdr0uBQNy
+AaZw+PMq+KUAFQ/ARF1Nt2GAoBlb1aAbKyIV+U8ezbDoFTUY0yhO1hqJjqVNvzol
+t4Tq4gbKxUCi6HvuGZgDNys/IlvOoxUpF1kgAWvVsTxadND1QqULNAM0whGZkmVl
+PPD5kM+GwyfDLbhC1z0ooRCkt+kCwYCfHZGBWoAPHdWqvqioz8JpgW4kORuBj6m7
+7Nr4nYXZHsq5yS5pUzqMlISh7ZHTYzRZy2CTNQ8kQvABbDOEMKA=
+=0qHy
 -----END PGP SIGNATURE-----
 
---5x75oq3heiuvzqmo--
+--Sig_/M8T5o6H52OaV1+8t17unO8O--
