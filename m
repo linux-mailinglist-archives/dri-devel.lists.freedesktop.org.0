@@ -2,61 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0567741480C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B74141481B
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:46:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 430D06EB83;
-	Wed, 22 Sep 2021 11:41:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0D56EB80;
+	Wed, 22 Sep 2021 11:46:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
- [IPv6:2a00:1450:4864:20::434])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07BD86EB80;
- Wed, 22 Sep 2021 11:41:51 +0000 (UTC)
-Received: by mail-wr1-x434.google.com with SMTP id w29so5799546wra.8;
- Wed, 22 Sep 2021 04:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jla6r+nohO+kdZZK9D0vwGLTAVUrJek6Wz6v71QcvPs=;
- b=CD2aueE/QVJCGUUozlD1JLIbGnyhtNzT1fpfI+uANe+c1f2sYilSJrgCg+bqVAA6eh
- jVyQuqEL0Sjzf+CK15xY6VIaXUmoNzr1z/rYCr9fBsI4C//f7NwqJS88o8k3eBeV+g4M
- IVtIDAvI5hIWMmNEaAIxmnKd+NywUGw4X79ryWYIqdCY4x8nXAJyv0Oo2dgIRFTghLxD
- ZP3rUKdKiTGgmgNwJNi2Xjzb+V+yCGmQvPtL3UB9fZpiIFv5YWeCKn87xCCOYurR1UBX
- tvvTYrtITdw1711yODW0d9w/QuE3fMY/E0iQ7QwxO2vBLJ8prACaXiwi3amh+0QN+Xsf
- IGFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Jla6r+nohO+kdZZK9D0vwGLTAVUrJek6Wz6v71QcvPs=;
- b=FPHnGYD0YCAbckGyC0NEpaCzAFEeIcJYDteHkps50+CFIeNV46wDjn4dyGDuS9O3up
- J+5OW0rLrhe8BYjTRK860/ffAVYC+Mgy8HabTCu+GCfZVT0L2ROR0GIrAlSLmEKVCxVk
- eCRufYoMiRA5WejCTQ0VBVQqayh2nX2z57FLU/hvb/A95jKiqN/Q6XWJHERFeYYXVBYz
- RgTt3DihHd6ZcF3ixm6aFFh7ZovNiKFkJzom9rf95j2x8fmWdQ5qDE6wrnDjRmy558M6
- 9XsZqvXRlLoiFYSMA4zCSvnz4DA2KQe2DjAkeVTejWv1IpTzruL0pDRZimQmjXptN+hS
- 9ZgQ==
-X-Gm-Message-State: AOAM533Ly0S7jlo2RNf7Eka2xsQOtSjpIWK9KaR/+0URISOErTZODfxp
- S3XOMcALd2L/kExGabBOWxo=
-X-Google-Smtp-Source: ABdhPJx+W4P8hrjnXZ1EzOLnbI1L33Vrp0YTjyQB5NWQEBE7C3J9/063uO7M0/ituXLYhxbU6UzefQ==
-X-Received: by 2002:a5d:6750:: with SMTP id l16mr40594248wrw.174.1632310909602; 
- Wed, 22 Sep 2021 04:41:49 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- o12sm1541745wms.15.2021.09.22.04.41.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 04:41:49 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: l.stach@pengutronix.de, daniel@ffwll.ch, etnaviv@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH] drm/etnaviv: fix another potential dma_resv DAG violation
-Date: Wed, 22 Sep 2021 13:41:48 +0200
-Message-Id: <20210922114148.107356-1-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8416EB80;
+ Wed, 22 Sep 2021 11:46:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="246013760"
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="246013760"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 04:46:49 -0700
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="703689779"
+Received: from bbrowne-mobl.ger.corp.intel.com (HELO [10.213.200.151])
+ ([10.213.200.151])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 04:46:47 -0700
+Subject: Re: [PATCH 13/26] drm/i915: use the new iterator in
+ i915_gem_busy_ioctl
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20210922091044.2612-1-christian.koenig@amd.com>
+ <20210922091044.2612-14-christian.koenig@amd.com>
+ <6b22cb75-6c41-db55-83f2-3eae87b585aa@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <4c357136-3279-ff57-1c4f-62276534c887@linux.intel.com>
+Date: Wed, 22 Sep 2021 12:46:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <6b22cb75-6c41-db55-83f2-3eae87b585aa@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,43 +57,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Setting the exclusive fence without waiting for the shared
-fences violates the DAG and is illegal.
 
-We really need to get away from this ASAP and make the
-driver interface more bullet prove.
+On 22/09/2021 11:21, Tvrtko Ursulin wrote:
+> 
+> On 22/09/2021 10:10, Christian König wrote:
+>> This makes the function much simpler since the complex
+>> retry logic is now handled else where.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_busy.c | 35 ++++++++++--------------
+>>   1 file changed, 14 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> index 6234e17259c1..313afb4a11c7 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+>> @@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+>>   {
+>>       struct drm_i915_gem_busy *args = data;
+>>       struct drm_i915_gem_object *obj;
+>> -    struct dma_resv_list *list;
+>> -    unsigned int seq;
+>> +    struct dma_resv_iter cursor;
+>> +    struct dma_fence *fence;
+>>       int err;
+>>       err = -ENOENT;
+>> @@ -109,27 +109,20 @@ i915_gem_busy_ioctl(struct drm_device *dev, void 
+>> *data,
+>>        * to report the overall busyness. This is what the wait-ioctl 
+>> does.
+>>        *
+>>        */
+>> -retry:
+>> -    seq = raw_read_seqcount(&obj->base.resv->seq);
+>> -
+>> -    /* Translate the exclusive fence to the READ *and* WRITE engine */
+>> -    args->busy = busy_check_writer(dma_resv_excl_fence(obj->base.resv));
+>> -
+>> -    /* Translate shared fences to READ set of engines */
+>> -    list = dma_resv_shared_list(obj->base.resv);
+>> -    if (list) {
+>> -        unsigned int shared_count = list->shared_count, i;
+>> -
+>> -        for (i = 0; i < shared_count; ++i) {
+>> -            struct dma_fence *fence =
+>> -                rcu_dereference(list->shared[i]);
+>> -
+>> +    args->busy = false;
+> 
+> You can drop this line, especially since it is not a boolean. With that:
+> 
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Cc: <stable@vger.kernel.org>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+Having said this, one thing to add in the commit message is some 
+commentary that although simpler in code, the new implementation has a 
+lot more atomic instructions due all the extra fence get/put.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 7e17bc2b5df1..4db40e88f67f 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -185,19 +185,15 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 				return ret;
- 		}
- 
--		if (submit->flags & ETNA_SUBMIT_NO_IMPLICIT)
--			continue;
--
- 		if (bo->flags & ETNA_SUBMIT_BO_WRITE) {
- 			ret = dma_resv_get_fences(robj, &bo->excl,
- 						  &bo->nr_shared,
- 						  &bo->shared);
- 			if (ret)
- 				return ret;
--		} else {
-+		} else if (!(submit->flags & ETNA_SUBMIT_NO_IMPLICIT)) {
- 			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
- 		}
--
- 	}
- 
- 	return ret;
--- 
-2.25.1
+Saying this because I remembered busy ioctl is quite an over-popular 
+one. Thinking about traces from some real userspaces I looked at in the 
+past.
 
+So I think ack from maintainers will be required here. Because I just 
+don't know if any performance impact will be visible or not. So view my 
+r-b as "code looks fine" but I am on the fence if it should actually be 
+merged. Probably leaning towards no actually - given how the code is 
+localised here and I dislike burdening old platforms with more CPU time 
+it could be cheaply left as is.
+
+Regards,
+
+Tvrtko
+
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>> +    dma_resv_iter_begin(&cursor, obj->base.resv, true);
+>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>> +        if (dma_resv_iter_is_restarted(&cursor))
+>> +            args->busy = 0;
+>> +
+>> +        if (dma_resv_iter_is_exclusive(&cursor))
+>> +            /* Translate the exclusive fence to the READ *and* WRITE 
+>> engine */
+>> +            args->busy |= busy_check_writer(fence);
+>> +        else
+>> +            /* Translate shared fences to READ set of engines */
+>>               args->busy |= busy_check_reader(fence);
+>> -        }
+>>       }
+>> -
+>> -    if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
+>> -        goto retry;
+>> +    dma_resv_iter_end(&cursor);
+>>       err = 0;
+>>   out:
+>>
