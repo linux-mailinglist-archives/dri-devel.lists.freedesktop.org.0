@@ -2,45 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5FD4153D3
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:19:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A899415421
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:47:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F07296E07B;
-	Wed, 22 Sep 2021 23:19:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66DB96E087;
+	Wed, 22 Sep 2021 23:47:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE3176E07B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:19:33 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32273E52;
- Thu, 23 Sep 2021 01:19:32 +0200 (CEST)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B25A6E086
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:47:32 +0000 (UTC)
+Received: from Monstersaurus.local
+ (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2BCC145A;
+ Thu, 23 Sep 2021 01:47:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632352772;
- bh=lirq6R1zilU8AH/ITqGiM3d1OMtteL95cTbYnXKaqJ0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jEJ2khWXsYpOfWVDgNgPUyMJ05r0aPjPLP8ScOFN0EjH9xBVdAzabLz1IOgPt+eub
- Bs521dGOj1sLg+Uas50hOHExvx3xL3zu4UFs3s+WqDQEyJeu8NZEF9yVSZRYlTrkua
- x77yV54rQmWCTzmHfw1zXrsq16B9y1O/YdACPSKI=
-Date: Thu, 23 Sep 2021 02:19:30 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Cai Huoqing <caihuoqing@baidu.com>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
+ s=mail; t=1632354451;
+ bh=M4HzucTGDNc0rbM8YBR0NsFDpYNesyaYd4ql1va3lT4=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=e5be3O8Hf6YsJFUT8zO4nFCLxMGH17jAwhmgjWsxi9qGMMbyeywaQrjUVluLVoFpR
+ Be3XGnuO2BwKXkxrzT/8KBYzi24HFmvlBkH2AHknbACTELJOTHUr7iEoo/chFER9ln
+ 42SwvvpRKVqZU2cvQRaspt0jxbWzbgq+QVM2yjfI=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+To: linux-renesas-soc@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: dw-hdmi-cec: Make use of the helper function
- devm_add_action_or_reset()
-Message-ID: <YUu6AukldZ482TDf@pendragon.ideasonboard.com>
-References: <20210922125909.215-1-caihuoqing@baidu.com>
+ Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR RENESAS),
+ devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE
+ BINDINGS), linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v3 1/6] dt-bindings: display: renesas,
+ du: Provide bindings for r8a779a0
+Date: Thu, 23 Sep 2021 00:47:21 +0100
+Message-Id: <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
+X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
+References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210922125909.215-1-caihuoqing@baidu.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,45 +57,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Cai,
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Thank you for the patch.
-
-On Wed, Sep 22, 2021 at 08:59:08PM +0800, Cai Huoqing wrote:
-> The helper function devm_add_action_or_reset() will internally
-> call devm_add_action(), and if devm_add_action() fails then it will
-> execute the action mentioned and return the error code. So
-> use devm_add_action_or_reset() instead of devm_add_action()
-> to simplify the error handling, reduce the code.
-> 
-> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+Extend the Renesas DU display bindings to support the r8a779a0 V3U.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-> index 70ab4fbdc23e..c8f44bcb298a 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi-cec.c
-> @@ -265,11 +265,9 @@ static int dw_hdmi_cec_probe(struct platform_device *pdev)
->  	/* override the module pointer */
->  	cec->adap->owner = THIS_MODULE;
->  
-> -	ret = devm_add_action(&pdev->dev, dw_hdmi_cec_del, cec);
-> -	if (ret) {
-> -		cec_delete_adapter(cec->adap);
-> +	ret = devm_add_action_or_reset(&pdev->dev, dw_hdmi_cec_del, cec);
-> +	if (ret)
->  		return ret;
-> -	}
->  
->  	ret = devm_request_threaded_irq(&pdev->dev, cec->irq,
->  					dw_hdmi_cec_hardirq,
+---
+v2:
+ - Collected Laurent's tag
+ - Remove clock-names requirement
+ - Specify only a single clock
 
+v3:
+ - Use clocknames: 'du.0' instead of 'du' to remain consistent
+
+ .../bindings/display/renesas,du.yaml          | 50 +++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/display/renesas,du.yaml b/Documentation/devicetree/bindings/display/renesas,du.yaml
+index e3ca5389c17d..6db6a3f15395 100644
+--- a/Documentation/devicetree/bindings/display/renesas,du.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+@@ -39,6 +39,7 @@ properties:
+       - renesas,du-r8a77980 # for R-Car V3H compatible DU
+       - renesas,du-r8a77990 # for R-Car E3 compatible DU
+       - renesas,du-r8a77995 # for R-Car D3 compatible DU
++      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+ 
+   reg:
+     maxItems: 1
+@@ -773,6 +774,55 @@ allOf:
+         - reset-names
+         - renesas,vsps
+ 
++  - if:
++      properties:
++        compatible:
++          contains:
++            enum:
++              - renesas,du-r8a779a0
++    then:
++      properties:
++        clocks:
++          items:
++            - description: Functional clock
++
++        clock-names:
++          maxItems: 1
++          items:
++            - const: du.0
++
++        interrupts:
++          maxItems: 2
++
++        resets:
++          maxItems: 1
++
++        reset-names:
++          items:
++            - const: du.0
++
++        ports:
++          properties:
++            port@0:
++              description: DSI 0
++            port@1:
++              description: DSI 1
++            port@2: false
++            port@3: false
++
++          required:
++            - port@0
++            - port@1
++
++        renesas,vsps:
++          minItems: 2
++
++      required:
++        - interrupts
++        - resets
++        - reset-names
++        - renesas,vsps
++
+ additionalProperties: false
+ 
+ examples:
 -- 
-Regards,
+2.30.2
 
-Laurent Pinchart
