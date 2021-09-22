@@ -1,65 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1359413F69
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 04:26:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8A47413F73
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 04:29:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD5CE6EA1F;
-	Wed, 22 Sep 2021 02:26:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BCF836EA0A;
+	Wed, 22 Sep 2021 02:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC41E6EA21
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 02:26:31 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1632277594; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=HBIj9y/dOEV38bF8oglc0yFL8IUbDQo6kKXrXgkmOzk=;
- b=kwoiZntXjQ3Bu4QTZx52YoLjWfrdlk4jiIiICld9TMIArHMCD/bD6k6hJDWui4wcGoe10XDg
- zg0Cf8S+qNnucUQabiXM23w3RsKTzqOjwPGwvjUqncOvkzlEJl2heb8OsmNwE1cLXsNeywr6
- Aoa8j7qFux5Poi3yhjhqPsJj3ag=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
- 614a944aec62f57c9ae8e795 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 22 Sep 2021 02:26:18
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 9C9B8C4361A; Wed, 22 Sep 2021 02:26:17 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id CA0D0C4338F;
- Wed, 22 Sep 2021 02:26:16 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 21 Sep 2021 19:26:16 -0700
-From: abhinavk@codeaurora.org
-To: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, swboyd@chromium.org, Sean Paul
- <seanpaul@chromium.org>, Rob Clark <robdclark@gmail.com>, David Airlie
- <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com
+ [IPv6:2607:f8b0:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4CFBF6EA0A
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 02:29:26 +0000 (UTC)
+Received: by mail-pf1-x42e.google.com with SMTP id q23so1364223pfs.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 19:29:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=n0F09JQNk9O6OQoYulA/8nbT18jFP5jIlNLcQ6DehAI=;
+ b=eCh8NNy5EXBaan9XkFEXLpaWkmK0YIAGpI+uXzjKNHTN9Zr9C9lmdXT00uW6vTMAqg
+ JnU+3Tz0bV7SqHc87YbREAHgLQjC3+7NyIJnsM7JCNS/NCzgxVEfGe+EEPHCDKhyo8m9
+ 0xNMVDf9sYwVVS8A5FANBjLuk8ohxGVY+fuClHSWUPdxxqpZtyk4ZeXKOjMyUEnGJFCD
+ g6jBYQsUjn+JGlOcHuzM7GmRY3+Pajic8MW5sGlXj5vrmDQZXW2bWKiNJ/kmPQum/XZv
+ srdV52X68E0cXNpndaSgU0fUgK0hgAZBBjkd9UhEBDS/ActHmLwS8pV5QBpV1V+P7QpK
+ mF6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=n0F09JQNk9O6OQoYulA/8nbT18jFP5jIlNLcQ6DehAI=;
+ b=dcp+5bwAiIy7H3OGzsKoA9wlt5qLxjyyKCdmJ0jMY7GRQMI4wByIUFt0berhJJ9p2V
+ noUOahgRRCOQnzokJHkYph1B2hHnpWKhRZVjIr9+ibMysDJDdAc17Ut7wx6G5D1mQKU+
+ U9PIch8Zlj8K3OL33Tb2AK124dEZ+aYVXHN97vS+jN8MVNtjOMVPUpMQVWe/IfzANl2x
+ xHJLKon9I4DCjDX04qhGj1rjCE4HT6zQk9257BdvoGCqrPYaWW5VzBufMjWQH2eHhlHv
+ lHNl15dQIOhOss3T+bOKVf9pDnJ6oBhkAUvfl5IntShFaCB2PNq0Okn+5eP+5+upmBLr
+ MO8w==
+X-Gm-Message-State: AOAM5311f+zrO89mgclkFl14KO02r6+LTpDmf9gcEuSKER/oe8J0MczW
+ 3/m0zFmxbSXNEbPeTYplZ+pn7A==
+X-Google-Smtp-Source: ABdhPJyAsWJA4ToeLnlZz1RELPyAL8TYLeUKdGGe7s0kTB54NWyRVAgpIRl9yE+f/U00hkGDAEubAA==
+X-Received: by 2002:a63:4b4c:: with SMTP id k12mr30573227pgl.172.1632277765877; 
+ Tue, 21 Sep 2021 19:29:25 -0700 (PDT)
+Received: from dragon (80.251.214.228.16clouds.com. [80.251.214.228])
+ by smtp.gmail.com with ESMTPSA id 127sm422884pfw.10.2021.09.21.19.29.23
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 21 Sep 2021 19:29:25 -0700 (PDT)
+Date: Wed, 22 Sep 2021 10:29:19 +0800
+From: Shawn Guo <shawn.guo@linaro.org>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Stephan Gerhold <stephan@gerhold.net>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-arm-msm@vger.kernel.org
-Subject: Re: [Freedreno] [PATCH v2 08/13] drm/msm/dpu_kms: Re-order dpu
- includes
-In-Reply-To: <20210915203834.1439-9-sean@poorly.run>
-References: <20210915203834.1439-1-sean@poorly.run>
- <20210915203834.1439-9-sean@poorly.run>
-Message-ID: <f032fea59dcbae853333a6b25e5146b7@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Subject: Re: [PATCH v2 2/2] drm/panel: Add Sony Tulip Truly NT35521 driver
+Message-ID: <20210922022918.GA10718@dragon>
+References: <20210809051008.6172-1-shawn.guo@linaro.org>
+ <20210809051008.6172-3-shawn.guo@linaro.org>
+ <20210824025831.GB22595@dragon> <YSVPiBLrZMQDURPJ@ravnborg.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YSVPiBLrZMQDURPJ@ravnborg.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,44 +78,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-15 13:38, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
+On Tue, Aug 24, 2021 at 09:59:04PM +0200, Sam Ravnborg wrote:
+> On Tue, Aug 24, 2021 at 10:58:31AM +0800, Shawn Guo wrote:
+> > On Mon, Aug 09, 2021 at 01:10:08PM +0800, Shawn Guo wrote:
+> > > It adds a DRM panel driver for Sony Tulip Truly NT35521 5.24" 1280x720
+> > > DSI panel, which can be found on Sony Xperia M4 Aqua phone.  The panel
+> > > backlight is managed through DSI link.
+> > > 
+> > > The driver is built using linux-mdss-dsi-panel-driver-generator[1], and
+> > > additionally modeling the 5V control GPIOs with regulators and adding
+> > > Backlight GPIO support.
+> > > 
+> > > [1] https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator
+> > > 
+> > > Signed-off-by: Shawn Guo <shawn.guo@linaro.org>
+> > 
+> > Sam, Stephan,
+> > 
+> > Thank you for the review comments on v1!  How does v2 look to you?
 > 
-> Make includes alphabetical in dpu_kms.c
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
-> Link:
-> https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-9-sean@poorly.run
-> #v1
-> 
-> Changes in v2:
-> -None
-> ---
->  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> index ae48f41821cf..fb0d9f781c66 100644
-> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c
-> @@ -21,14 +21,14 @@
->  #include "msm_gem.h"
->  #include "disp/msm_disp_snapshot.h"
-> 
-> -#include "dpu_kms.h"
->  #include "dpu_core_irq.h"
-> +#include "dpu_crtc.h"
-> +#include "dpu_encoder.h"
->  #include "dpu_formats.h"
->  #include "dpu_hw_vbif.h"
-> -#include "dpu_vbif.h"
-> -#include "dpu_encoder.h"
-> +#include "dpu_kms.h"
->  #include "dpu_plane.h"
-> -#include "dpu_crtc.h"
-> +#include "dpu_vbif.h"
-> 
->  #define CREATE_TRACE_POINTS
->  #include "dpu_trace.h"
+> I will not have time until next week - sorry.
+> Please ping me if you have no feedback i one week from now.
+
+Sam,
+
+Could you help handle this patch now?  Thanks!
+
+Shawn
