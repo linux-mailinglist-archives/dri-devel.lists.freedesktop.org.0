@@ -2,60 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D3F34141F9
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 08:35:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C0F14141AF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 08:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58B796EA38;
-	Wed, 22 Sep 2021 06:35:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0422C6EA35;
+	Wed, 22 Sep 2021 06:25:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 8058 seconds by postgrey-1.36 at gabe;
- Tue, 21 Sep 2021 19:55:23 UTC
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5ED566E81A
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 19:55:23 +0000 (UTC)
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
- by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 18LHf0GX073594;
- Tue, 21 Sep 2021 12:41:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
- s=ti-com-17Q1; t=1632246060;
- bh=ZEvcd4bKdnvDOnbLEfPXK8/ZuovFhRySDpkPisyUCDY=;
- h=From:To:CC:Subject:Date;
- b=BuBhC5kWcoTZJR+0UGDdJdUSfh2gKQd3zjJbdJUOhJ1nzTcdCzEc0AsdJxYqrDNxc
- 8V1JUA15gOX46kZvRkNbRX4dtuIro1Grdx7TThGGlW9HpHuB/Wg5+f/0aqIAcZ2hhJ
- uryZeNOqZrBi+x1pOFX//19o5bsbYnz1PnrzV7jg=
-Received: from DFLE114.ent.ti.com (dfle114.ent.ti.com [10.64.6.35])
- by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 18LHf0MK029037
- (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
- Tue, 21 Sep 2021 12:41:00 -0500
-Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14; Tue, 21
- Sep 2021 12:41:00 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2308.14 via
- Frontend Transport; Tue, 21 Sep 2021 12:41:00 -0500
-Received: from localhost (ileax41-snat.itg.ti.com [10.172.224.153])
- by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 18LHf0Mw060468;
- Tue, 21 Sep 2021 12:41:00 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Boris Brezillon <bbrezillon@kernel.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Neil Armstrong
- <narmstrong@baylibre.com>
-CC: <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-arm-kernel@lists.infradead.org>, <nikhil.nd@ti.com>,
- <r-ravikumar@ti.com>, Nishanth Menon <nm@ti.com>
-Subject: [PATCH] drm/bridge: cdns-dsi: Make sure to to create proper aliases
- for dt
-Date: Tue, 21 Sep 2021 12:40:59 -0500
-Message-ID: <20210921174059.17946-1-nm@ti.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4ABD6EA34;
+ Wed, 22 Sep 2021 06:25:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="309079289"
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="309079289"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 23:25:35 -0700
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="474402531"
+Received: from vkubarev-mobl1.ccr.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.165])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 21 Sep 2021 23:25:34 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com,
+	matthew.auld@intel.com
+Subject: [PATCH v6 0/9] drm/i915: Suspend / resume backup- and restore of LMEM.
+Date: Wed, 22 Sep 2021 08:25:18 +0200
+Message-Id: <20210922062527.865433-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Mailman-Approved-At: Wed, 22 Sep 2021 06:35:07 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,27 +49,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add MODULE_DEVICE_TABLE to the device tree table to create required
-aliases needed for module to be loaded with device tree based platform.
+Implement backup and restore of LMEM during suspend / resume.
+What complicates things a bit is handling of pinned LMEM memory during
+suspend and the fact that we might be dealing with unmappable LMEM in
+the future, which makes us want to restrict the number of pinned objects that
+need memcpy resume.
 
-Fixes: e19233955d9e ("drm/bridge: Add Cadence DSI driver")
-Signed-off-by: Nishanth Menon <nm@ti.com>
----
- drivers/gpu/drm/bridge/cdns-dsi.c | 1 +
- 1 file changed, 1 insertion(+)
+The first two patches are prereq patches implementing object content copy
+and a generic means of iterating through all objects in a region.
+The third patch adds the backup / recover / restore functions and the
+two last patches deal with restricting the number of objects we need to
+use memcpy for.
 
-diff --git a/drivers/gpu/drm/bridge/cdns-dsi.c b/drivers/gpu/drm/bridge/cdns-dsi.c
-index d8a15c459b42..829e1a144656 100644
---- a/drivers/gpu/drm/bridge/cdns-dsi.c
-+++ b/drivers/gpu/drm/bridge/cdns-dsi.c
-@@ -1284,6 +1284,7 @@ static const struct of_device_id cdns_dsi_of_match[] = {
- 	{ .compatible = "cdns,dsi" },
- 	{ },
- };
-+MODULE_DEVICE_TABLE(of, cdns_dsi_of_match);
- 
- static struct platform_driver cdns_dsi_platform_driver = {
- 	.probe  = cdns_dsi_drm_probe,
+v2:
+- Some polishing of patch 4/6, see patch commit message for details (Chris
+  Wilson)
+- Rework of patch 3/6.
+
+v3:
+- Comment changes in patch 2/6 (Matthew Auld)
+- A number of changes to patch 3/6, see commit message.
+- Slightly reword comment in patch 5/6. (Matthew Auld).
+
+v4:
+- Various cleanups, among other things reworking the ttm / lmem backup-
+  and resume interfaces somewhat.
+
+v5:
+- GuC adaptations. Mark GuC LMEM objects for early resume and increase
+  the suspend idle timeout.
+
+v6:
+- Add two HAX patches to make broken CI happy.
+
+Kai Vehmanen (1):
+  HAX: component: do not leave master devres group open after bind
+
+Thomas Hellström (8):
+  drm/i915/ttm: Implement a function to copy the contents of two
+    TTM-based objects
+  drm/i915/gem: Implement a function to process all gem objects of a
+    region
+  drm/i915/gt: Increase suspend timeout
+  drm/i915 Implement LMEM backup and restore for suspend / resume
+  drm/i915/gt: Register the migrate contexts with their engines
+  drm/i915: Don't back up pinned LMEM context images and rings during
+    suspend
+  drm/i915: Reduce the number of objects subject to memcpy recover
+  HAX: drm/i915/gem: Fix the __i915_gem_is_lmem() function
+
+ drivers/base/component.c                      |   5 +-
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |   4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_lmem.c      |   2 +-
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |  21 +-
+ drivers/gpu/drm/i915/gem/i915_gem_pm.c        |  91 ++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_pm.h        |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_region.c    |  70 ++++++
+ drivers/gpu/drm/i915/gem/i915_gem_region.h    |  37 ++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       |  99 +++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |  14 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c    | 206 ++++++++++++++++++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h    |  26 +++
+ .../gpu/drm/i915/gem/selftests/huge_pages.c   |   2 +-
+ drivers/gpu/drm/i915/gt/gen6_ppgtt.c          |   2 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.c          |   5 +-
+ drivers/gpu/drm/i915/gt/gen8_ppgtt.h          |   4 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   8 +
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   4 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c     |  23 ++
+ drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   2 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |   7 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   2 +
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   2 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   8 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.c           |   3 +-
+ drivers/gpu/drm/i915/gt/intel_gtt.h           |   9 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |   3 +-
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |   2 +-
+ drivers/gpu/drm/i915/gt/intel_ppgtt.c         |  13 +-
+ drivers/gpu/drm/i915/gt/intel_ring.c          |   3 +-
+ .../gpu/drm/i915/gt/intel_ring_submission.c   |   3 +
+ drivers/gpu/drm/i915/gt/mock_engine.c         |   2 +
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c  |   2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   3 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  12 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |   7 +-
+ drivers/gpu/drm/i915/gvt/scheduler.c          |   2 +-
+ drivers/gpu/drm/i915/i915_drv.c               |   4 +-
+ drivers/gpu/drm/i915/selftests/i915_gem_gtt.c |   4 +-
+ 41 files changed, 658 insertions(+), 63 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+ create mode 100644 drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.h
+
 -- 
-2.32.0
+2.31.1
 
