@@ -2,68 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECABB414EE7
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 19:18:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F645414F21
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 19:31:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9E3BA6E02C;
-	Wed, 22 Sep 2021 17:18:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 138586EC54;
+	Wed, 22 Sep 2021 17:30:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x72a.google.com (mail-qk1-x72a.google.com
- [IPv6:2607:f8b0:4864:20::72a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD6D86E02C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 17:18:41 +0000 (UTC)
-Received: by mail-qk1-x72a.google.com with SMTP id a10so11910033qka.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 10:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EWo8F4iMKGCzt0JCBmge44bMfpMpPwLBF9OMRtIl8y8=;
- b=p/+wDw11RlZWpfho0e5YV0S1/tQmJuip2B7eqzld0dYbzGxZaZG8Ewgxvvv8b3AgbE
- x+g6buLS/9roEkrbid4JrpAb0ZJ7ZeiVPikr5A7kzOowIHr/oEUI2ZBn2+Il8Fm+XWYI
- tDdOpFf0TP+HKzCyBhW7WQ83fAPSuGVrlAOp66g3GJaL5KGZDnt6i5trDDf0En/nCIx4
- X4/5JnjaYSepsFjH8Dm0BHZd92QtlxiSFMISEuS9MB8VZqXll5xurQfl8d4aBP+wP3EV
- dNt70gVksLo4Nd8fhNwOKUZwZi7Ssj8rpntGGilX5c9GLeW0lFhhqzMiXdocnVkpAlxV
- ewKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EWo8F4iMKGCzt0JCBmge44bMfpMpPwLBF9OMRtIl8y8=;
- b=QyBbeiBAlM2p5PK+25fLOcMTZK1AKIkvuULjA8pk+qzTwxzqVLJonOj20FpDYIl+Zr
- Jy5bLcQhV9vO35Nq1q5Mm553NbTMWCAnX7TpEdosMKRuBCBoeWEJcOnpo87VjLbhyucp
- 9Pv6dPHJuB9Mus0upG9wKbBc8682Ea/WS7yW4UkhQzGtko8kZqVyfoW4v/nyoZK7Uo3O
- 0egXRcIn/lmnl60KLB8yBurFvy7vCfw8N76aY02ByWjGUy9juPv+G3jSSro+18mQTtNZ
- C3Q4ar1NyWgGF2D93V7l/ZlLp/3UWo7dzDzLSvKrR543bwY3QJfLyQ3/bu37wZcrHWft
- 8Kmg==
-X-Gm-Message-State: AOAM531S19Y4+tI4cwsbALfqvUzfrmYIZndNaYSfQuBvImsXmsQQMjNc
- 6t5SfL6tUGz6pkyx7lTgKGhHIE3uO68rBlEx5I3d9UP6rV8=
-X-Google-Smtp-Source: ABdhPJzlfq8I2QBrdt48ZPqvX3rxr+GBeAL9/hTHw44apmlx4D9fJoUmXPEH+rkai1mY2lcBZT5SA0RBRfBPyHPupHs=
-X-Received: by 2002:a25:520a:: with SMTP id g10mr292692ybb.117.1632331120807; 
- Wed, 22 Sep 2021 10:18:40 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C35146EC54
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 17:30:55 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 808B3F1;
+ Wed, 22 Sep 2021 19:30:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1632331853;
+ bh=2FNb00TpU21YxWc+F6Cr2WPYvozGyOiwqstQ7td4r68=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Sx0jKva1ksc4oLJa5BlJHZyhXSORVdBcUgXuyYnwz+NbFy7Omu8/YPyZDQJSLCF/0
+ VVnbr58peOJkjI86T+D4t825sGXwvaKr75VTclnbyw1jKc1svT7WmYDnxAHZE4HGKA
+ 2TOYdY2AaApbOMP6Nj3WQtYu6JC9cJZeAKfs186I=
+Date: Wed, 22 Sep 2021 20:30:51 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-renesas-soc@vger.kernel.org,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
+ open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 3/5] drm: rcar-du: Fix DIDSR field name
+Message-ID: <YUtoS8Pa+bAYND/b@pendragon.ideasonboard.com>
+References: <20210901234907.1608896-1-kieran.bingham@ideasonboard.com>
+ <20210901234907.1608896-4-kieran.bingham@ideasonboard.com>
 MIME-Version: 1.0
-References: <20210904091050.g5axxctgelciihjn@gilmour>
- <CADVatmN+9euG5Fegor1+kaSPewbW8vRwBgnxmr5SsK3mOE6FEg@mail.gmail.com>
- <20210920144730.d7oabqfbx7pmyyfb@gilmour>
- <20210920154333.vunyxeshdb7jt5ka@gilmour>
- <20210920155350.h6624mt65vwg72p2@gilmour>
- <CADVatmNi+jN+EwiWuoDoocZFyErDVNt1ND0BxtjuKiV63aNuJg@mail.gmail.com>
- <20210920171042.oq3ndp3ox4xv5odh@gilmour>
- <CADVatmOs7Cc1EdCZXMyXcWM-3-J4bU_3zF1thkOohVUL-G6ZrQ@mail.gmail.com>
- <20210922095725.dk4vk42zb3kh7y6s@gilmour>
- <CADVatmOMV5gMhCuoP65O9mbW639x5=0+bGh92WVL8FFX2Mvu3w@mail.gmail.com>
- <20210922112837.asxuf5vyen2rwu7u@gilmour>
-In-Reply-To: <20210922112837.asxuf5vyen2rwu7u@gilmour>
-From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Date: Wed, 22 Sep 2021 18:18:05 +0100
-Message-ID: <CADVatmOM-EAXbfp11ZwEHtv2fyuGVoWMXW_f2ZfwTv2wX91eFQ@mail.gmail.com>
-Subject: Re: Regression with mainline kernel on rpi4
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210901234907.1608896-4-kieran.bingham@ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,69 +55,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 22, 2021 at 12:28 PM Maxime Ripard <maxime@cerno.tech> wrote:
->
-> On Wed, Sep 22, 2021 at 11:10:34AM +0100, Sudip Mukherjee wrote:
-> > On Wed, Sep 22, 2021 at 10:57 AM Maxime Ripard <maxime@cerno.tech> wrote:
-> > >
+Hi Kieran,
 
-<snip>
+Thank you for the patch.
 
->
-> Still works fine (and it required some mangling of the kernel command line).
->
-> If we summarize:
->
->   - You initially just dumped a panic and a link to your QA, without any
->     more context:
+On Thu, Sep 02, 2021 at 12:49:05AM +0100, Kieran Bingham wrote:
+> The DIDSR fields named LDCS were incorrectly defined as LCDS.
+> Both the Gen2 and Gen3 documentation refer to the fields as the "LVDS
+> Dot Clock Select".
+> 
+> Correct the definitions.
+> 
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-The SHA was also given, and I didn't know what else you would need.
-The openQA link was given to show the dmesg.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
->
->   - Then stating that you're not doing any test, really;
-
-Yes, and I still say that, its just a boot test.
-
->
->   - Well, except for booting Ubuntu, but no other modification
->
->   - But you're not booting the standard image
->
->   - And with a custom initrd
-
-yes, something which has always worked in boot-testing LTS kernel or
-mainline kernel.
-
->
->   - And that QA link states that you're booting from QEMU, but you're
->     not.
-
-I only found that the "WORKER_CLASS" has the name "qemu_rpi4", that is
-a name which I choose to give as that worker laptop is connected to
-rpi4 and also running qemu tests. If you want I can change the name of
-the WORKER_CLASS. :)
-iiuc, dmesg shows if its booting in a qemu or on a real hardware.
-
->
-> Please provide a full documentation on what you're doing to generate
-> that image, from scratch, in order to get that panic you reported
-> previously.
-
-I have now ordered another rpi4 board and will create the image from
-scratch and give you the steps.
-
->
-> I've spent an entire day trying to make sense of what you're doing
-> exactly to get into that situation. I have other things to work on and I
-> don't plan on figuring out any random CI system.
-
-I am not really sure why you are trying to figure out a random CI
-system. I can reproduce the problem in our setup everytime I test with
-that reverted commit and I have already said I am happy to test with a
-debug patch or anything else.
-
+> ---
+> v2:
+>  - New patch
+> 
+>  drivers/gpu/drm/rcar-du/rcar_du_group.c | 4 ++--
+>  drivers/gpu/drm/rcar-du/rcar_du_regs.h  | 8 ++++----
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> index 88a783ceb3e9..a984eef265d2 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
+> @@ -122,10 +122,10 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
+>  	didsr = DIDSR_CODE;
+>  	for (i = 0; i < num_crtcs; ++i, ++rcrtc) {
+>  		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
+> -			didsr |= DIDSR_LCDS_LVDS0(i)
+> +			didsr |= DIDSR_LDCS_LVDS0(i)
+>  			      |  DIDSR_PDCS_CLK(i, 0);
+>  		else
+> -			didsr |= DIDSR_LCDS_DCLKIN(i)
+> +			didsr |= DIDSR_LDCS_DCLKIN(i)
+>  			      |  DIDSR_PDCS_CLK(i, 0);
+>  	}
+>  
+> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> index fb9964949368..fb7c467aa484 100644
+> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
+> @@ -257,10 +257,10 @@
+>  
+>  #define DIDSR			0x20028
+>  #define DIDSR_CODE		(0x7790 << 16)
+> -#define DIDSR_LCDS_DCLKIN(n)	(0 << (8 + (n) * 2))
+> -#define DIDSR_LCDS_LVDS0(n)	(2 << (8 + (n) * 2))
+> -#define DIDSR_LCDS_LVDS1(n)	(3 << (8 + (n) * 2))
+> -#define DIDSR_LCDS_MASK(n)	(3 << (8 + (n) * 2))
+> +#define DIDSR_LDCS_DCLKIN(n)	(0 << (8 + (n) * 2))
+> +#define DIDSR_LDCS_LVDS0(n)	(2 << (8 + (n) * 2))
+> +#define DIDSR_LDCS_LVDS1(n)	(3 << (8 + (n) * 2))
+> +#define DIDSR_LDCS_MASK(n)	(3 << (8 + (n) * 2))
+>  #define DIDSR_PDCS_CLK(n, clk)	(clk << ((n) * 2))
+>  #define DIDSR_PDCS_MASK(n)	(3 << ((n) * 2))
+>  
 
 -- 
-Regards
-Sudip
+Regards,
+
+Laurent Pinchart
