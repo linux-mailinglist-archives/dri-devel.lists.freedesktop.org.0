@@ -2,62 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68443414DD8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 18:13:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D50AD414E09
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 18:23:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CEF156EC2D;
-	Wed, 22 Sep 2021 16:13:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CDE06EC39;
+	Wed, 22 Sep 2021 16:23:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8FC6EC2D
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 16:13:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 90F7F611C9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 16:13:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632327205;
- bh=k2Pj+TuZexZ6ukjV1H0j47mTKTEdHbsKE38t9ELGnwg=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=ss/t7YRtW4/pQQEQUBPntkIYXMZJu1oNsMVRHoU7WVsfEvF/Bin3so4Jur818nglt
- spUunv61xYEGWmqSfbZWff9/3nAjsjTGzjnjHtwyqpoztZPDdwTygO2P0a/76J8sMw
- eQyvGTIcefsJE1QATzbNab7J7wJc2GOi6FP9ClcuKbM05KTAoof7OJ3onnCnUKjTGW
- Zuc5BnTzCNN7ftVuY8R7khqroCJuET4/xQAdylFoeWEPHdqJwPKG218b2HoUPkSPZy
- bkZBDyX00TXR8EqIjjwsi+TUo9AmHHyP2UK/zmP994TvDvXpuIhaVv3fdfj/vzcVHt
- 2ZoLgB7FPewWQ==
-Received: by mail-ed1-f46.google.com with SMTP id v10so7252047edj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 09:13:25 -0700 (PDT)
-X-Gm-Message-State: AOAM530+qYfNySRRW4D9CQi9uN57p8/mIPgtdV7d6WWS4p2XkYYZSYro
- qAPiQqX8p26kMlBs7GhrjnTXU9ycCHxzJdiF9w==
-X-Google-Smtp-Source: ABdhPJz0EFOiG8RAy7xNyqTHM9kZtLsTE6kn0uXnl1IvG1FgKwEubeYEUB8kZr/WOB+y08WZzwtJ8r8/AvNNj4hXTTI=
-X-Received: by 2002:a17:907:995a:: with SMTP id
- kl26mr454695ejc.6.1632327204098; 
- Wed, 22 Sep 2021 09:13:24 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4628989E98;
+ Wed, 22 Sep 2021 16:23:51 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="246077688"
+X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="246077688"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 09:21:36 -0700
+X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="436285110"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 09:21:35 -0700
+Date: Wed, 22 Sep 2021 09:16:39 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 17/27] drm/i915/guc: Implement multi-lrc reset
+Message-ID: <20210922161629.GA4220@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-18-matthew.brost@intel.com>
+ <174cb140-6d0c-5862-1cdb-79aa17c3a8e3@intel.com>
 MIME-Version: 1.0
-References: <20210907083723.7725-1-granquet@baylibre.com>
- <20210907083723.7725-4-granquet@baylibre.com>
-In-Reply-To: <20210907083723.7725-4-granquet@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 23 Sep 2021 00:13:13 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8FC-sP0PP0Fv6G-2cwUDp6mDLx_3JmmSc144NSCyULXw@mail.gmail.com>
-Message-ID: <CAAOTY_8FC-sP0PP0Fv6G-2cwUDp6mDLx_3JmmSc144NSCyULXw@mail.gmail.com>
-Subject: Re: [PATCH 3/4] dt-bindings: phy: Add binding for Mediatek MT8195
- HDMI PHY
-To: Guillaume Ranquet <granquet@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Kishon Vijay Abraham I <kishon@ti.com>, Vinod Koul <vkoul@kernel.org>,
- CK Hu <ck.hu@mediatek.com>, Jitao shi <jitao.shi@mediatek.com>,
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DTML <devicetree@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <174cb140-6d0c-5862-1cdb-79aa17c3a8e3@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,115 +52,295 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Guillaume:
+On Mon, Sep 20, 2021 at 03:44:18PM -0700, John Harrison wrote:
+> On 8/20/2021 15:44, Matthew Brost wrote:
+> 
+>     Update context and full GPU reset to work with multi-lrc. The idea is
+>     parent context tracks all the active requests inflight for itself and
+>     its' children. The parent context owns the reset replaying / canceling
+> 
+> its' -> its
+> 
+> 
+>     requests as needed.
+> 
+>     Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>     ---
+>      drivers/gpu/drm/i915/gt/intel_context.c       | 11 ++--
+>      .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 63 +++++++++++++------
+>      2 files changed, 51 insertions(+), 23 deletions(-)
+> 
+>     diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+>     index 00d1aee6d199..5615be32879c 100644
+>     --- a/drivers/gpu/drm/i915/gt/intel_context.c
+>     +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+>     @@ -528,20 +528,21 @@ struct i915_request *intel_context_create_request(struct intel_context *ce)
+> 
+>      struct i915_request *intel_context_find_active_request(struct intel_context *ce)
+>      {
+>     +       struct intel_context *parent = intel_context_to_parent(ce);
+>             struct i915_request *rq, *active = NULL;
+>             unsigned long flags;
+> 
+>             GEM_BUG_ON(!intel_engine_uses_guc(ce->engine));
+> 
+> Should this not check the parent as well/instead?
+> 
 
-Guillaume Ranquet <granquet@baylibre.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=88=
-7=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=884:39=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+I don't think so. The 'ce' could be a not parallel context, a parent
+context, or a child context. 
+
+> And to be clear, this can be called on regular contexts (where ce == parent)
+> and on both the parent or child contexts of multi-LRC contexts (where ce may or
+> may not match parent)?
 >
-> Add bindings to describe Mediatek MT8195 HDMI PHY
 
-Move this patch before the driver patch which reference this patch.
-
+Right. The parent owns the parent->guc_state.lock/requests and search
+that list for the first non-completed request that matches submitted
+'ce'.
+ 
+> 
+> 
+> 
+>     -       spin_lock_irqsave(&ce->guc_state.lock, flags);
+>     -       list_for_each_entry_reverse(rq, &ce->guc_state.requests,
+>     +       spin_lock_irqsave(&parent->guc_state.lock, flags);
+>     +       list_for_each_entry_reverse(rq, &parent->guc_state.requests,
+>                                         sched.link) {
+>     -               if (i915_request_completed(rq))
+>     +               if (i915_request_completed(rq) && rq->context == ce)
+> 
+> 'rq->context == ce' means:
+> 
+>  1. single-LRC context, rq is owned by ce
+>  2. multi-LRC context, ce is child, rq really belongs to ce but is being
+>     tracked by parent
+>  3. multi-LRC context, ce is parent, rq really is owned by ce
+> 
+> So when 'rq->ce != ce', it means that the request is owned by a different child
+> to 'ce' but within the same multi-LRC group. So we want to ignore that request
+> and keep searching until we find one that is really owned by the target ce?
 >
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->  .../phy/mediatek,mtk8195-hdmi-phy.yaml        | 71 +++++++++++++++++++
->  1 file changed, 71 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/phy/mediatek,mtk819=
-5-hdmi-phy.yaml
 
-I think this file should be merged into mediatek,hdmi-phy.yaml [1].
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
-/Documentation/devicetree/bindings/phy/mediatek,hdmi-phy.yaml?h=3Dv5.15-rc2
-
-Regards,
-Chun-Kuang.
-
+All correct.
+ 
+> 
+>                             break;
+> 
+>     -               active = rq;
+>     +               active = (rq->context == ce) ? rq : active;
+> 
+> Would be clearer to say 'if(rq->ce != ce) continue;' and leave 'active = rq;'
+> alone?
 >
-> diff --git a/Documentation/devicetree/bindings/phy/mediatek,mtk8195-hdmi-=
-phy.yaml b/Documentation/devicetree/bindings/phy/mediatek,mtk8195-hdmi-phy.=
-yaml
-> new file mode 100644
-> index 000000000000..f03bd3af7fd8
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/phy/mediatek,mtk8195-hdmi-phy.yam=
-l
-> @@ -0,0 +1,71 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/phy/mediatek,hdmi-phy.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: MediaTek High Definition Multimedia Interface (HDMI) PHY binding =
-for mt8195
-> +
-> +maintainers:
-> +  - Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> +  - Philipp Zabel <p.zabel@pengutronix.de>
-> +  - Chunfeng Yun <chunfeng.yun@mediatek.com>
-> +
-> +description: |
-> +  The HDMI PHY serializes the HDMI encoder's three channel 10-bit parall=
-el
-> +  output and drives the HDMI pads.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: "^hdmi-phy@[0-9a-f]+$"
-> +
-> +  compatible:
-> +    - const: mediatek,mt8195-hdmi-phy
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: PLL reference clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: hdmi_xtal_sel
-> +
-> +  clock-output-names:
-> +    items:
-> +      - const: hdmi_txpll
-> +
-> +  "#phy-cells":
-> +    const: 0
-> +
-> +  "#clock-cells":
-> +    const: 0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - clock-output-names
-> +  - "#phy-cells"
-> +  - "#clock-cells"
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8195-clk.h>
-> +    hdmi_phy: hdmi-phy@11d5f000 {
-> +        compatible =3D "mediatek,mt8195-hdmi-phy";
-> +        reg =3D <0 0x11d5f000 0 0x100>;
-> +        clocks =3D <&topckgen CLK_TOP_HDMI_XTAL>;
-> +        clock-names =3D "hdmi_xtal_sel";
-> +        clock-output-names =3D "hdmi_txpll";
-> +        #clock-cells =3D <0>;
-> +        #phy-cells =3D <0>;
-> +    };
-> +
-> +...
-> --
-> 2.31.1
+
+Yes, that is probably cleaner.
+ 
+> And again, the intention is to ignore requests that are owned by other members
+> of the same multi-LRC group?
+> 
+> Would be good to add some documentation to this function to explain the above
+> (assuming my description is correct?).
 >
+
+Will add a comment explaining this.
+ 
+> 
+>             }
+>     -       spin_unlock_irqrestore(&ce->guc_state.lock, flags);
+>     +       spin_unlock_irqrestore(&parent->guc_state.lock, flags);
+> 
+>             return active;
+>      }
+>     diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>     index f0b60fecf253..e34e0ea9136a 100644
+>     --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>     +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>     @@ -670,6 +670,11 @@ static int rq_prio(const struct i915_request *rq)
+>             return rq->sched.attr.priority;
+>      }
+> 
+>     +static inline bool is_multi_lrc(struct intel_context *ce)
+>     +{
+>     +       return intel_context_is_parallel(ce);
+>     +}
+>     +
+>      static bool is_multi_lrc_rq(struct i915_request *rq)
+>      {
+>             return intel_context_is_parallel(rq->context);
+>     @@ -1179,10 +1184,13 @@ __unwind_incomplete_requests(struct intel_context *ce)
+> 
+>      static void __guc_reset_context(struct intel_context *ce, bool stalled)
+>      {
+>     +       bool local_stalled;
+>             struct i915_request *rq;
+>             unsigned long flags;
+>             u32 head;
+>     +       int i, number_children = ce->guc_number_children;
+> 
+> If this is a child context, does it not need to pull the child count from the
+> parent? Likewise the list/link pointers below? Or does each child context have
+> a full list of its siblings + parent?
+> 
+
+This function shouldn't be called by a child. Will add
+GEM_BUG_ON(intel_context_is_child(ce)) to this function.
+
+> 
+>             bool skip = false;
+>     +       struct intel_context *parent = ce;
+> 
+>             intel_context_get(ce);
+> 
+>     @@ -1209,25 +1217,34 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
+>             if (unlikely(skip))
+>                     goto out_put;
+> 
+>     -       rq = intel_context_find_active_request(ce);
+>     -       if (!rq) {
+>     -               head = ce->ring->tail;
+>     -               stalled = false;
+>     -               goto out_replay;
+>     -       }
+>     +       for (i = 0; i < number_children + 1; ++i) {
+>     +               if (!intel_context_is_pinned(ce))
+>     +                       goto next_context;
+>     +
+>     +               local_stalled = false;
+>     +               rq = intel_context_find_active_request(ce);
+>     +               if (!rq) {
+>     +                       head = ce->ring->tail;
+>     +                       goto out_replay;
+>     +               }
+> 
+>     -       if (!i915_request_started(rq))
+>     -               stalled = false;
+>     +               GEM_BUG_ON(i915_active_is_idle(&ce->active));
+>     +               head = intel_ring_wrap(ce->ring, rq->head);
+> 
+>     -       GEM_BUG_ON(i915_active_is_idle(&ce->active));
+>     -       head = intel_ring_wrap(ce->ring, rq->head);
+>     -       __i915_request_reset(rq, stalled);
+>     +               if (i915_request_started(rq))
+> 
+> Why change the ordering of the started test versus the wrap/reset call? Is it
+> significant? Why is it now important to be reversed?
+>
+
+Off the top of my head I'm not sure what the ordering is changed. I'll
+have to double check on this.
+ 
+> 
+>     +                       local_stalled = true;
+> 
+>     +               __i915_request_reset(rq, local_stalled && stalled);
+>      out_replay:
+>     -       guc_reset_state(ce, head, stalled);
+>     -       __unwind_incomplete_requests(ce);
+>     +               guc_reset_state(ce, head, local_stalled && stalled);
+>     +next_context:
+>     +               if (i != number_children)
+>     +                       ce = list_next_entry(ce, guc_child_link);
+> 
+> Can this not be put in to the step clause of the for statement?
+> 
+
+Maybe? Does list_next_entry blow up on that last entry? Idk? If not,
+then yes this can be added to the loop. Will double check on this.
+
+> 
+>     +       }
+>     +
+>     +       __unwind_incomplete_requests(parent);
+>      out_put:
+>     -       intel_context_put(ce);
+>     +       intel_context_put(parent);
+> 
+> As above, I think this function would benefit from some comments to explain
+> exactly what is being done and why.
+>
+
+Sure. Will add some comments.
+
+Matt
+ 
+> John.
+> 
+> 
+>      }
+> 
+>      void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
+>     @@ -1248,7 +1265,8 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
+> 
+>                     xa_unlock(&guc->context_lookup);
+> 
+>     -               if (intel_context_is_pinned(ce))
+>     +               if (intel_context_is_pinned(ce) &&
+>     +                   !intel_context_is_child(ce))
+>                             __guc_reset_context(ce, stalled);
+> 
+>                     intel_context_put(ce);
+>     @@ -1340,7 +1358,8 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
+> 
+>                     xa_unlock(&guc->context_lookup);
+> 
+>     -               if (intel_context_is_pinned(ce))
+>     +               if (intel_context_is_pinned(ce) &&
+>     +                   !intel_context_is_child(ce))
+>                             guc_cancel_context_requests(ce);
+> 
+>                     intel_context_put(ce);
+>     @@ -2031,6 +2050,8 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
+>             u16 guc_id;
+>             bool enabled;
+> 
+>     +       GEM_BUG_ON(intel_context_is_child(ce));
+>     +
+>             spin_lock_irqsave(&ce->guc_state.lock, flags);
+> 
+>             incr_context_blocked(ce);
+>     @@ -2068,6 +2089,7 @@ static void guc_context_unblock(struct intel_context *ce)
+>             bool enable;
+> 
+>             GEM_BUG_ON(context_enabled(ce));
+>     +       GEM_BUG_ON(intel_context_is_child(ce));
+> 
+>             spin_lock_irqsave(&ce->guc_state.lock, flags);
+> 
+>     @@ -2099,11 +2121,14 @@ static void guc_context_unblock(struct intel_context *ce)
+>      static void guc_context_cancel_request(struct intel_context *ce,
+>                                            struct i915_request *rq)
+>      {
+>     +       struct intel_context *block_context =
+>     +               request_to_scheduling_context(rq);
+>     +
+>             if (i915_sw_fence_signaled(&rq->submit)) {
+>                     struct i915_sw_fence *fence;
+> 
+>                     intel_context_get(ce);
+>     -               fence = guc_context_block(ce);
+>     +               fence = guc_context_block(block_context);
+>                     i915_sw_fence_wait(fence);
+>                     if (!i915_request_completed(rq)) {
+>                             __i915_request_skip(rq);
+>     @@ -2117,7 +2142,7 @@ static void guc_context_cancel_request(struct intel_context *ce,
+>                      */
+>                     flush_work(&ce_to_guc(ce)->ct.requests.worker);
+> 
+>     -               guc_context_unblock(ce);
+>     +               guc_context_unblock(block_context);
+>                     intel_context_put(ce);
+>             }
+>      }
+>     @@ -2143,6 +2168,8 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
+>             intel_wakeref_t wakeref;
+>             unsigned long flags;
+> 
+>     +       GEM_BUG_ON(intel_context_is_child(ce));
+>     +
+>             guc_flush_submissions(guc);
+> 
+>             spin_lock_irqsave(&ce->guc_state.lock, flags);
+> 
+> 
+> SECURITY NOTE: file ~/.netrc must not be accessible by others
