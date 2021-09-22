@@ -1,66 +1,96 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EE1B41442F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:48:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F043C41443C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:53:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 81FE36EB18;
-	Wed, 22 Sep 2021 08:48:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2876EB1B;
+	Wed, 22 Sep 2021 08:53:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7DE636EB18
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:48:49 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id u8so8830713lff.9
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 01:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=xDTpESJ2z1mKMqQoLO7M5y7KnxXyxwzqWtz/XajKrc4=;
- b=EP8tz3zwtzg0Ls6XAAa3k28kJQBDq2Wu70knAGBL8G6+9SLixuoufH/IXVFYHKdn+o
- F24FR4Wiz+fSL88YJjODKYB4oM6GSoM0aT+TiNJd4oA5OleHR1fOhha2Tw75f3KxBTIY
- yuqRV6KQBvb5cJIm9HVyiAc6nb0GRI1cP0zrFzw0omZVMvCobmobWwcEZESTYgahnEeF
- cEQE/+7XJB1/wKWhpQKhm2bNRs30C9RQK9OHkWcLXF2/CLO35pDNtuRKGaJopQ5+rVfa
- kurPOtMi6KMe3s1HP8Xy3fRHao1WuvyvSr5sLZq+WVf6i3l/z5JVN9dWz0XhoRutK9CX
- +dbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=xDTpESJ2z1mKMqQoLO7M5y7KnxXyxwzqWtz/XajKrc4=;
- b=boY66/O5wATtfloc4OJ6FR2rQOdrbO7kBxcZJVxgBymc9hsPnf8xlVo2ycEUvfEQIi
- TxxDySYVBi8ShIotxwGF5OiEfLQm21NPuZqAAhac2wkz/IAA0lRh9Uw+fHx5HCja/UHX
- S7upYUVuNowOTRFDec8LL7QsAbbCYA0Mf2L+CWDtC6quYhVypCfYs1P2N24q20iq61v5
- RuUSuq+1H6DWDshD9iHVvM1Z45OtgRmHT7BjcaiVc2YLChusBfZiWREQf+f0qoCxSlsP
- AQBAaVuKeqkjd7ydv0Mg9nqf4aeN7ql0oFECh5wFf/mgIyta/vxGJmmjfFvYJpOc15Ay
- MO6Q==
-X-Gm-Message-State: AOAM530vQf6UkPuLh8MksO6h803LiRU59TQnZ6+sa0txJ6Wz+E6g2pmJ
- H0LTUj1JEoJWEa3WKo6TNjk=
-X-Google-Smtp-Source: ABdhPJwbG8FRr3MLPLrsgLcIGO00WzurqrAChJoVpVA3mCBOwXF+BjhWPOZZHrlvSZjVOzDfsUiNOA==
-X-Received: by 2002:a2e:9d01:: with SMTP id t1mr21266612lji.34.1632300527589; 
- Wed, 22 Sep 2021 01:48:47 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id h10sm172996ljb.140.2021.09.22.01.48.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 01:48:47 -0700 (PDT)
-Date: Wed, 22 Sep 2021 11:48:44 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Daniel Stone <daniels@collabora.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
- <michel@daenzer.net>, Emil Velikov <emil.l.velikov@gmail.com>, Keith
- Packard <keithp@keithp.com>, Boris Brezillon
- <boris.brezillon@collabora.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH v2 2/2] drm/lease: allow empty leases
-Message-ID: <20210922114844.67ed5697@eldfell>
-In-Reply-To: <20210903130000.1590-2-contact@emersion.fr>
-References: <20210903130000.1590-1-contact@emersion.fr>
- <20210903130000.1590-2-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6074B6EB1B
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:53:14 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 7BE84580255;
+ Wed, 22 Sep 2021 04:53:13 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 22 Sep 2021 04:53:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=vB4ezIS3B/kZC3s/eTN0cuFplTA
+ XmSMYfGeoI88X2qo=; b=YsylE5OY/aekw+oI2+1FimeeZRY/2Yo3w7Q4AnyFH/C
+ 0ih8xf12GaTRWGSGTSa1lN6UtpMTcTfPWnzJzLZyulnDzMLCiqsIOMHgWvvvtM+t
+ aRxYTV4nS+BDY+Jp+0Tgjp32cDAX2K9LovlT8axaAZrkNb3g8FlQE0hlxdSHcc6v
+ uUazUJciXlMA2np4kTf2XA4jP58ygmsHJhALjr8iW8ds3YWvvsyMuFrxW3dW+xvg
+ oVhVSI66rua+eX1nSrT2AGrFsrVYDfuNjuem8BNuK2YVmXG/FVK+ZyojoexASuNw
+ Hc2CPhaDFbymXUYb9wF9OYPe8VdgS5NsCJBUHWMZeKw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vB4ezI
+ S3B/kZC3s/eTN0cuFplTAXmSMYfGeoI88X2qo=; b=fC2KOYeledOkkC0aXAt3K+
+ dKvD36fgpb6vnAv1HouSdfS8PJmsHJ8jhtXbGGb9iC/Xj+ZSlG2oWEx6AkoYkon5
+ suffel7OAkN/YnqLea9oClqBi5NJqimc8Y6NiZoghzmE4R3RHtJJabaRXFdnj8fN
+ zf2mEiVJ9qw5XbV+038Vsl1IA2WGOIvUoIjisaLgYdqMpKblOttTJH/a8FG1R64F
+ DR1noMRcccN9iK2qlxgLD0a6PweKrFhR8wrD7ht8NtAMG6s1YMSPoj4hxC5HMI3H
+ eRshjJ/OpQNYI1qL+EZVbeZx3oTUTLwA9fVnhcPIUekEPJg5h59MmMslpiM8ud6Q
+ ==
+X-ME-Sender: <xms:9u5KYekdnmXJHNpxfNoWaC4yZDbFKMDIMpBBkzOiDOyqU4KbopKu2Q>
+ <xme:9u5KYV0u9Dvd18g4ZX-oDyXf5gzHYsf__TZf6J-xqn1HKqh3JlnhL-FgeImrf-LIJ
+ c8nsmIzVXCsWz2VH3s>
+X-ME-Received: <xmr:9u5KYcqju0OvuwONUjkYz6Bu9GX5MgRgU_JTyWtOsiO_PLMOvDJyCEtjRuemy-o7d7uRRzYwZA7xTyCyqdi1PmYYmJITakP5W5-W>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgtdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:9u5KYSmlJ9urbGNWvh4mVJzB7EAtmY5_AdSC33thxwd9Is6TzxDMCQ>
+ <xmx:9u5KYc3sU_rz5oyUREwe9hVvDy4C4ZX2INr1dn8wF-y2blmj0sNX4g>
+ <xmx:9u5KYZudXpDV8jw8CDYTCg1WodNfJFH5dobYYFeTpQDpH9nUBu7jkQ>
+ <xmx:-e5KYeGzPi3o7aXd1E6BUwNERCc7GvHXrLBDt2qHkLcX8pLIPyjrAw>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Sep 2021 04:53:09 -0400 (EDT)
+Date: Wed, 22 Sep 2021 10:53:08 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,	David Airlie <airlied@linux.ie>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,	Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,	linux-kernel@vger.kernel.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v4 24/24] drm/exynos: dsi: Adjust probe order
+Message-ID: <20210922085308.udvhfbzpn3vpbksr@gilmour>
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+ <CGME20210910101445eucas1p172f99ff7fe853052fc457861c3174f9e@eucas1p1.samsung.com>
+ <20210910101218.1632297-25-maxime@cerno.tech>
+ <29a2111d-024b-4d9e-27ef-e3399509ff32@samsung.com>
+ <fc1fbd42-6ed4-9d67-2903-8f9cc2aaad43@samsung.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/M8T5o6H52OaV1+8t17unO8O";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="26b3pc6nmf5dnhp2"
+Content-Disposition: inline
+In-Reply-To: <fc1fbd42-6ed4-9d67-2903-8f9cc2aaad43@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,142 +106,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/M8T5o6H52OaV1+8t17unO8O
-Content-Type: text/plain; charset=UTF-8
+
+--26b3pc6nmf5dnhp2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, 03 Sep 2021 13:00:32 +0000
-Simon Ser <contact@emersion.fr> wrote:
+Hi Marek,
 
-> This can be used to create a separate DRM file description, thus
-> creating a new GEM handle namespace.
+On Fri, Sep 17, 2021 at 02:35:05PM +0200, Marek Szyprowski wrote:
+> Hi,
 >=20
-> My use-case is wlroots. The library splits responsibilities between
-> separate components: the GBM allocator creates buffers, the GLES2
-> renderer uses EGL to import them and render to them, the DRM
-> backend imports the buffers and displays them. wlroots has a
-> modular architecture, and any of these components can be swapped
-> and replaced with something else. For instance, the pipeline can
-> be set up so that the DRM dumb buffer allocator is used instead of
-> GBM and the Pixman renderer is used instead of GLES2. Library users
-> can also replace any of these components with their own custom one.
+> On 13.09.2021 12:30, Andrzej Hajda wrote:
+> > W dniu 10.09.2021 o=A012:12, Maxime Ripard pisze:
+> >> Without proper care and an agreement between how DSI hosts and devices
+> >> drivers register their MIPI-DSI entities and potential components, we =
+can
+> >> end up in a situation where the drivers can never probe.
+> >>
+> >> Most drivers were taking evasive maneuvers to try to workaround this,
+> >> but not all of them were following the same conventions, resulting in
+> >> various incompatibilities between DSI hosts and devices.
+> >>
+> >> Now that we have a sequence agreed upon and documented, let's convert
+> >> exynos to it.
+> >>
+> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> > This patch should be dropped, as it will probably break the driver.
+> >
+> > Exynos is already compatible with the pattern
+> > register-bus-then-get-sink, but it adds/removes panel/bridge
+> > dynamically, so it creates drm_device without waiting for downstream si=
+nk.
 >=20
-> DMA-BUFs are used to pass buffer references across components. We
-> could use GEM handles instead, but this would result in pain if
-> multiple GPUs are in use: wlroots copies buffers across GPUs as
-> needed. Importing a GEM handle created on one GPU into a completely
-> different GPU will blow up (fail at best, mix unrelated buffers
-> otherwise).
->=20
-> Everything is fine if all components use Mesa. However, this isn't
-> always desirable. For instance when running with DRM dumb buffers
-> and the Pixman software renderer it's unfortunate to depend on GBM
-> in the DRM backend just to turn DMA-BUFs into FB IDs. GBM loads
-> Mesa drivers to perform an action which has nothing driver-specific.
-> Additionally, drivers will fail the import if the 3D engine can't
-> use the imported buffer, for instance amdgpu will refuse to import
-> DRM dumb buffers [1]. We might also want to be running with a Vulkan
-> renderer and a Vulkan allocator in the future, and GBM wouldn't be
-> welcome in this setup.
->=20
-> To address this, GBM can be side-stepped in the DRM backend, and
-> can be replaced with drmPrimeFDToHandle calls. However because of
-> GEM handle reference counting issues, care must be taken to avoid
-> double-closing the same GEM handle. In particular, it's not
-> possible to share a DRM FD with GBM or EGL and perform some
-> drmPrimeFDToHandle calls manually.
->=20
-> So wlroots needs to re-open the DRM FD to create a new GEM handle
-> namespace. However there's no guarantee that the file-system
-> permissions will be set up so that the primary FD can be opened
-> by the compsoitor. On modern systems seatd or logind is a privileged
-> process responsible for doing this, and other processes aren't
-> expected to do it. For historical reasons systemd still allows
-> physically logged in users to open primary DRM nodes, but this
-> doesn't work on non-systemd setups and it's desirable to lock
-> them down at some point.
->=20
-> Some might suggest to open the render node instead of re-opening
-> the primary node. However some systems don't have a render node
-> at all (e.g. no GPU, or a split render/display SoC).
->=20
-> Solutions to this issue have been discussed in [2]. One solution
-> would be to open the magic /proc/self/fd/<fd> file, but it's a
-> Linux-specific hack (wlroots supports BSDs too). Another solution
-> is to add support for re-opening a DRM primary node to seatd/logind,
-> but they don't support it now and really haven't been designed for
-> this (logind would need to grow a completely new API, because it
-> assumes unique dev_t IDs). Also this seems like pushing down a
-> kernel limitation to user-space a bit too hard.
->=20
-> Another solution is to allow creating empty DRM leases. The lessee
-> FD would have its own GEM handle namespace, so wouldn't conflict
-> wth GBM/EGL. It would have the master bit set, but would be able
-> to manage zero resources. wlroots doesn't intend to share this FD
-> with any other process.
->=20
-> All in all IMHO that seems like a pretty reasonable solution to the
-> issue at hand.
->=20
-> Note, I've discussed with Jonas =C3=85dahl and Mutter plans to adopt a
-> similar design in the future.
->=20
-> Example usage in wlroots is available at [3]. IGT test available
-> at [4].
->=20
-> [1]: https://github.com/swaywm/wlroots/issues/2916
-> [2]: https://gitlab.freedesktop.org/mesa/drm/-/merge_requests/110
-> [3]: https://github.com/swaywm/wlroots/pull/3158
-> [4]: https://patchwork.freedesktop.org/series/94323/
->=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Daniel Stone <daniels@collabora.com>
-> Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
-> Cc: Michel D=C3=A4nzer <michel@daenzer.net>
-> Cc: Emil Velikov <emil.l.velikov@gmail.com>
-> Cc: Keith Packard <keithp@keithp.com>
-> Cc: Boris Brezillon <boris.brezillon@collabora.com>
-> Cc: Dave Airlie <airlied@redhat.com>
-> ---
->  drivers/gpu/drm/drm_lease.c | 39 +++++++++++++++++--------------------
->  include/uapi/drm/drm_mode.h |  3 ++-
->  2 files changed, 20 insertions(+), 22 deletions(-)
+> Right, this patch breaks Exynos DSI driver operation. Without it, the=20
+> whole series works fine on all Exynos based test boards.
 
-Hi Simon,
+Thanks for testing. Did you have any board using one of those bridges in
+your test sample?
 
-that is one awesome commit message!
+Thanks!
+Maxime
 
-It explains everything I might have wanted to ask. I also agree with
-your analysis, so this is an easy:
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-Of course, I can't say anything about the actual code.
-
-
-Thanks,
-pq
-
---Sig_/M8T5o6H52OaV1+8t17unO8O
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--26b3pc6nmf5dnhp2
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFK7ewACgkQI1/ltBGq
-qqcNABAAjZSs9+/erB9foS1XPHq6RJFG8d2wUxblTVeQxtCB/dhStGCcc4yXV2+r
-o6Iq18b+dA6Hed8g/nsfmp++q7qm6SwF0NHEzJCSxt4snoha/CY6/RgIrdoi93vD
-45omCrFxsTKvpEeAa2PJfHeV3ixEIxbaZVJJq4mY8AWPRYHZ4GJNcf/DaucU7nPb
-fxz30mHJSLXCgJNx+y5PaWXrTjqO+XMVlzJz2/okrj2JifqVDQOHt9mfF5HMPLUj
-pv5CKsabfwCeHXkVkdX5rVtyJoc0i6LuOhwU6T/n3EFYyxD7j9oU/De0JUNBA64T
-ljzaDjtJR30C8HoZxN4gqP9b94136YyNV6UVQoyoaGF/h2ZolkrS3JL01MR897/I
-ubORpPaOX6CDNSPR5T+xvyDBhnvXUfK7wCENCzUww3t2UKDle8qCk3WKdr0uBQNy
-AaZw+PMq+KUAFQ/ARF1Nt2GAoBlb1aAbKyIV+U8ezbDoFTUY0yhO1hqJjqVNvzol
-t4Tq4gbKxUCi6HvuGZgDNys/IlvOoxUpF1kgAWvVsTxadND1QqULNAM0whGZkmVl
-PPD5kM+GwyfDLbhC1z0ooRCkt+kCwYCfHZGBWoAPHdWqvqioz8JpgW4kORuBj6m7
-7Nr4nYXZHsq5yS5pUzqMlISh7ZHTYzRZy2CTNQ8kQvABbDOEMKA=
-=0qHy
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUru9AAKCRDj7w1vZxhR
+xTqqAP9CqUjRoyxAvQGCjWFdaNoEsrQKtq/nCmfrA8Q8IiEyfQEAvvCeSnRl1MRL
+dPx0RgcMkyY55JZZXZJ3c688AzfVKg0=
+=c7ne
 -----END PGP SIGNATURE-----
 
---Sig_/M8T5o6H52OaV1+8t17unO8O--
+--26b3pc6nmf5dnhp2--
