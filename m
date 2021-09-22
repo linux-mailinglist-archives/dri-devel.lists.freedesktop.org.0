@@ -2,42 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF39413F76
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 04:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 564BE413F78
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 04:30:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F826EA10;
-	Wed, 22 Sep 2021 02:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2DC916EA22;
+	Wed, 22 Sep 2021 02:30:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out1.migadu.com (out1.migadu.com [91.121.223.63])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2136EA10
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 02:30:01 +0000 (UTC)
-Subject: Re: [PATCH v3] mdacon: fix redefinition of 'scr_memsetw'
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
- t=1632277798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qSuSnPieUDaOVO6CRq2eMJxdMYKzQp0LFeT47UvdBaA=;
- b=bHOv9kgYfeLnP/9rouj9kS6ktFMQL8roXXTHoqAVWT8PlGlga2p4uA2PV796StdYlsPOR7
- D39DF/4vYaox2QojALbrTzzmrnAC2aO5c4rSZamixdfSpx6eRfLcLhhtNbhDVg1ap1eoV/
- WkQNE0CxswZ8qv34f5nkyPsXNTTDoNk=
-To: dri-devel@lists.freedesktop.org
-Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-References: <20210915011354.2669416-1-liu.yun@linux.dev>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and
- include these headers.
-From: Jackie Liu <liu.yun@linux.dev>
-Message-ID: <73758b4e-50ba-05d1-aa30-1384ee6d1421@linux.dev>
-Date: Wed, 22 Sep 2021 10:29:52 +0800
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 64E986EA14
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 02:30:34 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1632277835; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=RMMxY4qTsYrgZaflwjiIz9pItV+AxsKS9n8zVMhF49Y=;
+ b=ivtNXw3zocuBVHuP6zBI+aci7bTv9lgGqXh72KX5TnnOJPNOtvNythM7J+2yrFrj6IUTaXD7
+ a7Lv/pwFbb7oyXQAfvm7SDDQVBwrVN79F5x+IZavrMtJx6zXfrUbVpElExPSuonLrBqbB8HH
+ 9jffSeLi3fwHJCTytZXNVBY8+oA=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 614a9546bd6681d8edbf6ea0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 22 Sep 2021 02:30:30
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 10F47C43460; Wed, 22 Sep 2021 02:30:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=ham autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 996DDC4338F;
+ Wed, 22 Sep 2021 02:30:29 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210915011354.2669416-1-liu.yun@linux.dev>
-Content-Type: text/plain; charset=gbk; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
-X-Migadu-Auth-User: liu.yun@linux.dev
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 21 Sep 2021 19:30:29 -0700
+From: abhinavk@codeaurora.org
+To: Sean Paul <sean@poorly.run>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, swboyd@chromium.org, Sean Paul
+ <seanpaul@chromium.org>
+Subject: Re: [Freedreno] [PATCH v2 00/13] drm/hdcp: Pull HDCP
+ auth/exchange/check into helpers
+In-Reply-To: <20210915203834.1439-1-sean@poorly.run>
+References: <20210915203834.1439-1-sean@poorly.run>
+Message-ID: <6ccc0ce547ccb015a114a9a1292d59f6@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,59 +72,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping, would anyone take this patch?
+Hi Sean
 
-ÔÚ 2021/9/15 ÉÏÎç9:13, Jackie Liu Ð´µÀ:
-> From: Jackie Liu <liuyun01@kylinos.cn>
+On 2021-09-15 13:38, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> CONFIG_VGA_CONSOLE=n and CONFIG_MDA_CONSOLE=n will cause vt_buffer.h not
-> include <asm/vga.h>.
+> Hello again,
+> This is the second version of the HDCP helper patchset. See version 1
+> here: https://patchwork.freedesktop.org/series/94623/
 > 
-> But if we set CONFIG_MDA_CONSOLE=m, mdacon.c include <linux/vt_buffer.h>
-> is in front of include <asm/vga.h>. VT_BUF_HAVE_MEMSETW is not defined,
-> so vt_buffer.h will define a scr_memsetw, after that, vga.h also define
-> a scr_memsetw, so the repeated definition of scr_memsetw appears, builds
-> error.
+> In this second version, I've fixed up the oopsies exposed by 0-day and
+> yamllint and incorporated early review feedback from the dt/dts 
+> reviews.
 > 
-> We only need to make vt_buffer.h also contain vga.h when
-> CONFIG_MDA_CONSOLE=m. This problem can be fixed.
+> Please take a look,
 > 
-> BTW, mdacon.c no need to include vga.h forcibly, let vt_buffer.h do it.
+> Sean
+
+One question overall on the series:
+
+1) Regarding validation, did you run any secure video to check the 
+transitions?
+2) Is running HDCP 1x compliance also part of the validation efforts?
+
+Thanks
+
+Abhinav
+
 > 
-> Cc: linux-fbdev@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Fixes: ac036f9570a2 ("vga: optimise console scrolling")
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Jackie Liu <liuyun01@kylinos.cn>
-> ---
->   drivers/video/console/mdacon.c | 1 -
->   include/linux/vt_buffer.h      | 2 +-
->   2 files changed, 1 insertion(+), 2 deletions(-)
+> Sean Paul (13):
+>   drm/hdcp: Add drm_hdcp_atomic_check()
+>   drm/hdcp: Avoid changing crtc state in hdcp atomic check
+>   drm/hdcp: Update property value on content type and user changes
+>   drm/hdcp: Expand HDCP helper library for enable/disable/check
+>   drm/i915/hdcp: Consolidate HDCP setup/state cache
+>   drm/i915/hdcp: Retain hdcp_capable return codes
+>   drm/i915/hdcp: Use HDCP helpers for i915
+>   drm/msm/dpu_kms: Re-order dpu includes
+>   drm/msm/dpu: Remove useless checks in dpu_encoder
+>   drm/msm/dpu: Remove encoder->enable() hack
+>   drm/msm/dp: Re-order dp_audio_put in deinit_sub_modules
+>   dt-bindings: msm/dp: Add bindings for HDCP registers
+>   drm/msm: Implement HDCP 1.x using the new drm HDCP helpers
 > 
-> diff --git a/drivers/video/console/mdacon.c b/drivers/video/console/mdacon.c
-> index ef29b321967f..5898d01bc492 100644
-> --- a/drivers/video/console/mdacon.c
-> +++ b/drivers/video/console/mdacon.c
-> @@ -42,7 +42,6 @@
->   #include <linux/init.h>
->   
->   #include <asm/io.h>
-> -#include <asm/vga.h>
->   
->   static DEFINE_SPINLOCK(mda_lock);
->   
-> diff --git a/include/linux/vt_buffer.h b/include/linux/vt_buffer.h
-> index 848db1b1569f..3a79cc27a33b 100644
-> --- a/include/linux/vt_buffer.h
-> +++ b/include/linux/vt_buffer.h
-> @@ -16,7 +16,7 @@
->   
->   #include <linux/string.h>
->   
-> -#if defined(CONFIG_VGA_CONSOLE) || defined(CONFIG_MDA_CONSOLE)
-> +#if defined(CONFIG_VGA_CONSOLE) || IS_ENABLED(CONFIG_MDA_CONSOLE)
->   #include <asm/vga.h>
->   #endif
->   
-> 
+>  .../bindings/display/msm/dp-controller.yaml   |    7 +-
+>  arch/arm64/boot/dts/qcom/sc7180.dtsi          |    4 +-
+>  drivers/gpu/drm/drm_hdcp.c                    | 1197 ++++++++++++++++-
+>  drivers/gpu/drm/i915/display/intel_atomic.c   |    7 +-
+>  drivers/gpu/drm/i915/display/intel_ddi.c      |   29 +-
+>  .../drm/i915/display/intel_display_debugfs.c  |   11 +-
+>  .../drm/i915/display/intel_display_types.h    |   58 +-
+>  drivers/gpu/drm/i915/display/intel_dp_hdcp.c  |  345 ++---
+>  drivers/gpu/drm/i915/display/intel_dp_mst.c   |   17 +-
+>  drivers/gpu/drm/i915/display/intel_hdcp.c     | 1011 +++-----------
+>  drivers/gpu/drm/i915/display/intel_hdcp.h     |   35 +-
+>  drivers/gpu/drm/i915/display/intel_hdmi.c     |  256 ++--
+>  drivers/gpu/drm/msm/Makefile                  |    1 +
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   |   17 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   30 +-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_kms.h       |    2 -
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_trace.h     |    4 -
+>  drivers/gpu/drm/msm/dp/dp_debug.c             |   49 +-
+>  drivers/gpu/drm/msm/dp/dp_debug.h             |    6 +-
+>  drivers/gpu/drm/msm/dp/dp_display.c           |   47 +-
+>  drivers/gpu/drm/msm/dp/dp_display.h           |    5 +
+>  drivers/gpu/drm/msm/dp/dp_drm.c               |   68 +-
+>  drivers/gpu/drm/msm/dp/dp_drm.h               |    5 +
+>  drivers/gpu/drm/msm/dp/dp_hdcp.c              |  433 ++++++
+>  drivers/gpu/drm/msm/dp/dp_hdcp.h              |   27 +
+>  drivers/gpu/drm/msm/dp/dp_parser.c            |   22 +-
+>  drivers/gpu/drm/msm/dp/dp_parser.h            |    4 +
+>  drivers/gpu/drm/msm/dp/dp_reg.h               |   44 +-
+>  drivers/gpu/drm/msm/msm_atomic.c              |   15 +
+>  include/drm/drm_hdcp.h                        |  194 +++
+>  30 files changed, 2561 insertions(+), 1389 deletions(-)
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.c
+>  create mode 100644 drivers/gpu/drm/msm/dp/dp_hdcp.h
