@@ -2,38 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04BC7415352
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 00:24:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E27415362
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 00:26:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DB8F6E051;
-	Wed, 22 Sep 2021 22:24:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 07FAC6E061;
+	Wed, 22 Sep 2021 22:26:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6003A6E051;
- Wed, 22 Sep 2021 22:24:31 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="246159692"
-X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="246159692"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 15:24:30 -0700
-X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="704207023"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 15:24:30 -0700
-Date: Wed, 22 Sep 2021 15:24:29 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Chris Wilson <chris@chris-wilson.co.uk>
-Subject: Re: [PATCH RESEND] drm/i915: Flush buffer pools on driver remove
-Message-ID: <20210922222429.GY3389343@mdroper-desk1.amr.corp.intel.com>
-References: <20210903142320.216705-1-janusz.krzysztofik@linux.intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 66C236E061
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 22:26:12 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3EEAE52;
+ Thu, 23 Sep 2021 00:26:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1632349571;
+ bh=ILRVxKnhbx8IpIJzjdCVrzVbwTO0G5yzk0t0cUjw3ks=;
+ h=From:To:Cc:Subject:Date:From;
+ b=XXbAfFSKPPduZjK9SdWSJa7IBjN4Kid5/Y9NsJP9r/BlzjqLomVZOcU+d3RPKmmbP
+ vcN+BvWWSzzrE6pt3VzY5QQ4b6DqfCjL59LBYlnjnGfO0FX0yQN1+eM8p+Aa3n+rLp
+ CJmv2EFUNoQt0YRSRqeKAtBK+Y1zIkNvlOTnoKt8=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v3] drm: rcar-du: Allow importing non-contiguous dma-buf with
+ VSP
+Date: Thu, 23 Sep 2021 01:26:05 +0300
+Message-Id: <20210922222605.22281-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210903142320.216705-1-janusz.krzysztofik@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,98 +48,230 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 03, 2021 at 04:23:20PM +0200, Janusz Krzysztofik wrote:
-> In preparation for clean driver release, attempts to drain work queues
-> and release freed objects are taken at driver remove time.  However, GT
-> buffer pools are now not flushed before the driver release phase.
-> Since unused objects may stay there for up to one second, some may
-> survive until driver release is attempted.  That can potentially
-> explain sporadic then hardly reproducible issues observed at driver
-> release time, like non-zero shrink counter or outstanding address space
+On R-Car Gen3, the DU uses a separate IP core named VSP to perform DMA
+from memory and composition of planes. The DU hardware then only handles
+the video timings and the interface with the encoders. This differs from
+Gen2, where the DU included a composer with DMA engines.
 
-So just to make sure I'm understanding the description here:
- - We currently do an explicit flush of the buffer pools within the call
-   path of drm_driver.release(); this removes all buffers, regardless of
-   their age.
- - However there may be other code that runs *earlier* within the
-   drm_driver.release() call chain that expects buffer pools have
-   already been flushed and are already empty.
- - Since buffer pools auto-flush old buffers once per second in a worker
-   thread, there's a small window where if we remove the driver while
-   there are still buffers with an age of less than one second, the
-   assumptions of the other release code may be violated.
+When sourcing from the VSP, the DU hardware performs no memory access,
+and thus has no requirements on imported dma-buf memory types. The GEM
+CMA helpers however still create a DMA mapping to the DU device, which
+isn't used. The mapping to the VSP is done when processing the atomic
+commits, in the plane .prepare_fb() handler.
 
-So by moving the flush to driver remove (which executes earlier via the
-pci_driver.remove() flow) you're ensuring that all buffers are flushed
-before _any_ code in drm_driver.release() executes.
+When the system uses an IOMMU, the VSP device is attached to it, which
+enables the VSP to use non physically contiguous memory. The DU, as it
+performs no memory access, isn't connected to the IOMMU. The GEM CMA
+drm_gem_cma_prime_import_sg_table() helper will in that case fail to map
+non-contiguous imported dma-bufs, as the DMA mapping to the DU device
+will have multiple entries in its sgtable. The prevents using non
+physically contiguous memory for display.
 
-I found the wording of the commit message here somewhat confusing since
-it's talking about flushes we do in driver release, but mentions
-problems that arise during driver release due to lack of flushing.  You
-might want to reword the commit message somewhat to help clarify.
-Otherwise, the code change itself looks reasonable to me.
+The DRM PRIME and GEM CMA helpers are designed to create the sgtable
+when the dma-buf is imported. By default, the device referenced by the
+drm_device is used to create the dma-buf attachment. Drivers can use a
+different device by using the drm_gem_prime_import_dev() function. While
+the DU has access to the VSP device, this won't help here, as different
+CRTCs use different VSP instances, connected to different IOMMU
+channels. The driver doesn't know at import time which CRTC a GEM object
+will be used, and thus can't select the right VSP device to pass to
+drm_gem_prime_import_dev().
 
-BTW, I do notice that drm_driver.release() in general is technically
-deprecated at this point (with a suggestion in the drm_drv.h comments to
-switch to using drmm_add_action(), drmm_kmalloc(), etc. to manage the
-cleanup of resources).  At some point in the future me may want to
-rework the i915 cleanup in general according to that guidance.
+To support non-contiguous memory, implement a custom
+.gem_prime_import_sg_table() operation that accepts all imported dma-buf
+regardless of the number of scatterlist entries. The sgtable will be
+mapped to the VSP at .prepare_fb() time, which will reject the
+framebuffer if the VSP isn't connected to an IOMMU.
 
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+---
+Changes since v2:
 
-Matt
+- Inline error handling in rcar_du_gem_prime_import_sg_table()
 
-> areas.
-> 
-> Flush buffer pools on GT remove as a fix.  On driver release, don't
-> flush the pools again, just assert that the flush was called and
-> nothing added more in between.
-> 
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> ---
-> Resending with Cc: dri-devel@lists.freedesktop.org as requested, and a
-> typo in commit description fixed.
-> 
-> Thanks,
-> Janusz
-> 
->  drivers/gpu/drm/i915/gt/intel_gt.c             | 2 ++
->  drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c | 2 --
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 62d40c986642..8f322a4ecd87 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -737,6 +737,8 @@ void intel_gt_driver_remove(struct intel_gt *gt)
->  	intel_uc_driver_remove(&gt->uc);
->  
->  	intel_engines_release(gt);
-> +
-> +	intel_gt_flush_buffer_pool(gt);
->  }
->  
->  void intel_gt_driver_unregister(struct intel_gt *gt)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
-> index aa0a59c5b614..acc49c56a9f3 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_buffer_pool.c
-> @@ -245,8 +245,6 @@ void intel_gt_fini_buffer_pool(struct intel_gt *gt)
->  	struct intel_gt_buffer_pool *pool = &gt->buffer_pool;
->  	int n;
->  
-> -	intel_gt_flush_buffer_pool(gt);
-> -
->  	for (n = 0; n < ARRAY_SIZE(pool->cache_list); n++)
->  		GEM_BUG_ON(!list_empty(&pool->cache_list[n]));
->  }
-> -- 
-> 2.25.1
-> 
+Changes since v1:
 
+- Rewrote commit message to explain issue in more details
+- Duplicate the imported scatter gather table in
+  rcar_du_vsp_plane_prepare_fb()
+- Use separate loop counter j to avoid overwritting i
+- Update to latest drm_gem_cma API
+---
+ drivers/gpu/drm/rcar-du/rcar_du_drv.c |  6 +++-
+ drivers/gpu/drm/rcar-du/rcar_du_kms.c | 46 +++++++++++++++++++++++++++
+ drivers/gpu/drm/rcar-du/rcar_du_kms.h |  7 ++++
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c | 36 ++++++++++++++++++---
+ 4 files changed, 89 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+index 62dfd1b66db0..806c68823a28 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
+@@ -529,7 +529,11 @@ DEFINE_DRM_GEM_CMA_FOPS(rcar_du_fops);
+ 
+ static const struct drm_driver rcar_du_driver = {
+ 	.driver_features	= DRIVER_GEM | DRIVER_MODESET | DRIVER_ATOMIC,
+-	DRM_GEM_CMA_DRIVER_OPS_WITH_DUMB_CREATE(rcar_du_dumb_create),
++	.dumb_create		= rcar_du_dumb_create,
++	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
++	.prime_fd_to_handle	= drm_gem_prime_fd_to_handle,
++	.gem_prime_import_sg_table = rcar_du_gem_prime_import_sg_table,
++	.gem_prime_mmap		= drm_gem_prime_mmap,
+ 	.fops			= &rcar_du_fops,
+ 	.name			= "rcar-du",
+ 	.desc			= "Renesas R-Car Display Unit",
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.c b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+index ca29e4a62816..eacb1f17f747 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.c
+@@ -19,6 +19,7 @@
+ #include <drm/drm_vblank.h>
+ 
+ #include <linux/device.h>
++#include <linux/dma-buf.h>
+ #include <linux/of_graph.h>
+ #include <linux/of_platform.h>
+ #include <linux/wait.h>
+@@ -325,6 +326,51 @@ const struct rcar_du_format_info *rcar_du_format_info(u32 fourcc)
+  * Frame buffer
+  */
+ 
++static const struct drm_gem_object_funcs rcar_du_gem_funcs = {
++	.free = drm_gem_cma_free_object,
++	.print_info = drm_gem_cma_print_info,
++	.get_sg_table = drm_gem_cma_get_sg_table,
++	.vmap = drm_gem_cma_vmap,
++	.mmap = drm_gem_cma_mmap,
++	.vm_ops = &drm_gem_cma_vm_ops,
++};
++
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt)
++{
++	struct rcar_du_device *rcdu = to_rcar_du_device(dev);
++	struct drm_gem_cma_object *cma_obj;
++	struct drm_gem_object *gem_obj;
++	int ret;
++
++	if (!rcar_du_has(rcdu, RCAR_DU_FEATURE_VSP1_SOURCE))
++		return drm_gem_cma_prime_import_sg_table(dev, attach, sgt);
++
++	/* Create a CMA GEM buffer. */
++	cma_obj = kzalloc(sizeof(*cma_obj), GFP_KERNEL);
++	if (!cma_obj)
++		return ERR_PTR(-ENOMEM);
++
++	gem_obj = &cma_obj->base;
++	gem_obj->funcs = &rcar_du_gem_funcs;
++
++	drm_gem_private_object_init(dev, gem_obj, attach->dmabuf->size);
++	cma_obj->map_noncoherent = false;
++
++	ret = drm_gem_create_mmap_offset(gem_obj);
++	if (ret) {
++		drm_gem_object_release(gem_obj);
++		kfree(cma_obj);
++		return ERR_PTR(ret);
++	}
++
++	cma_obj->paddr = 0;
++	cma_obj->sgt = sgt;
++
++	return gem_obj;
++}
++
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args)
+ {
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_kms.h b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+index 8f5fff176754..789154e19535 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_kms.h
++++ b/drivers/gpu/drm/rcar-du/rcar_du_kms.h
+@@ -12,10 +12,13 @@
+ 
+ #include <linux/types.h>
+ 
++struct dma_buf_attachment;
+ struct drm_file;
+ struct drm_device;
++struct drm_gem_object;
+ struct drm_mode_create_dumb;
+ struct rcar_du_device;
++struct sg_table;
+ 
+ struct rcar_du_format_info {
+ 	u32 fourcc;
+@@ -34,4 +37,8 @@ int rcar_du_modeset_init(struct rcar_du_device *rcdu);
+ int rcar_du_dumb_create(struct drm_file *file, struct drm_device *dev,
+ 			struct drm_mode_create_dumb *args);
+ 
++struct drm_gem_object *rcar_du_gem_prime_import_sg_table(struct drm_device *dev,
++				struct dma_buf_attachment *attach,
++				struct sg_table *sgt);
++
+ #endif /* __RCAR_DU_KMS_H__ */
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index 23e41c83c875..b7fc5b069cbc 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -187,17 +187,43 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 		       struct sg_table sg_tables[3])
+ {
+ 	struct rcar_du_device *rcdu = vsp->dev;
+-	unsigned int i;
++	unsigned int i, j;
+ 	int ret;
+ 
+ 	for (i = 0; i < fb->format->num_planes; ++i) {
+ 		struct drm_gem_cma_object *gem = drm_fb_cma_get_gem_obj(fb, i);
+ 		struct sg_table *sgt = &sg_tables[i];
+ 
+-		ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr, gem->paddr,
+-				      gem->base.size);
+-		if (ret)
+-			goto fail;
++		if (gem->sgt) {
++			struct scatterlist *src;
++			struct scatterlist *dst;
++
++			/*
++			 * If the GEM buffer has a scatter gather table, it has
++			 * been imported from a dma-buf and has no physical
++			 * address as it might not be physically contiguous.
++			 * Copy the original scatter gather table to map it to
++			 * the VSP.
++			 */
++			ret = sg_alloc_table(sgt, gem->sgt->orig_nents,
++					     GFP_KERNEL);
++			if (ret)
++				goto fail;
++
++			src = gem->sgt->sgl;
++			dst = sgt->sgl;
++			for (j = 0; j < gem->sgt->orig_nents; ++j) {
++				sg_set_page(dst, sg_page(src), src->length,
++					    src->offset);
++				src = sg_next(src);
++				dst = sg_next(dst);
++			}
++		} else {
++			ret = dma_get_sgtable(rcdu->dev, sgt, gem->vaddr,
++					      gem->paddr, gem->base.size);
++			if (ret)
++				goto fail;
++		}
+ 
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+ 		if (ret) {
+
+base-commit: 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f
+prerequisite-patch-id: 1955381608912646533b4471b87a245ef305d4b5
+prerequisite-patch-id: cfd8a0a525b2ffdb1c3b35a188fb8108c19a5173
+prerequisite-patch-id: cbb5d9c7f4e18feea889224d9981fe14ec44097f
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Regards,
+
+Laurent Pinchart
+
