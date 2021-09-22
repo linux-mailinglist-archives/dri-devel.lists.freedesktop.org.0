@@ -1,68 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B38841444C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:57:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14C9041444F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3B66EB1C;
-	Wed, 22 Sep 2021 08:57:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B495B6EB1E;
+	Wed, 22 Sep 2021 08:57:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A7B7F6EB1C
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:57:02 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id u18so8883154lfd.12
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 01:57:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=vUIAufvwf8vnKMUzVhZlMQtaB4ti2FNoAcroWNJx8OI=;
- b=WbIA91fzA7t5T8qOKT5ihIm0EsKqb55fbxurO/R+JibqBeoxzjSIPgUPt6hzHkjZVW
- mtDr2YP+gGRLQIR3k5ENSp3iEGB+qW/MCd/wGJ92TaLeyBp5kkJJdhJ6LsKDjBmtzINO
- gAreVa+er0Gx/C66LFsWDKBnn0JGJEtFbGmK94Jl5Lzk2F5uqlRfsK+uDb2pekGJpoMx
- 6WjHGJhLYvhc12J/rNUsfGCDhX1Xguvn4TMVhjAt0Z1e1olN5bzv9bDXRHQVWr0r76RW
- 4KIdF9hbkft/KnHfdmDZd6p1yFS0HiI+2/ekiQlL07X391gBUaCnZDOYIJpIyWDnje6x
- fSEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=vUIAufvwf8vnKMUzVhZlMQtaB4ti2FNoAcroWNJx8OI=;
- b=Fh8+gbdp3ydx9x047nMWWQR/PZ8N4EgzcpWrSbuFi3vgIwfc5VLkk43CKS+YBBCrsW
- YGQmBm+1fpoXtJH+m9ewKQDbGdVuUP1OWEUyMDumfINrz0W1sNP1pNlAO6X8kFyPiJoy
- UxCCDXuoNmvy7p4sBPuvNPHR2dhZgx5VBw50n46BHSJZxtnzWhh6P3NNKjYyDy2A/S/8
- RpnjLxW2hMMPLac6gLDSeKI8EKPb4qX8b10BzqbM1hdLjWyQENN10+FFMqSwIWoOF5K0
- 4puPtpjSBoJeunPsx/24xbqMaM4kZjpN5N09FcGOcAAqJAeO3j0bEaeTBKqb6vOAiYI0
- 7yrA==
-X-Gm-Message-State: AOAM533ZHa66WfrBB1QH7gTg4C1zHHdOZfMZECJdESjVUhy8CM1wGZi9
- bjCb5qKRGhxxJjnEimTR41o=
-X-Google-Smtp-Source: ABdhPJwe3lBTvxDto3q0i+mNS0BTdBI5AnNLf6qoBpqKuXaEqcHZB7maSikEJgR6ERJbNbneqcIauQ==
-X-Received: by 2002:a05:651c:178e:: with SMTP id
- bn14mr34507290ljb.521.1632301020829; 
- Wed, 22 Sep 2021 01:57:00 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id t135sm124575lff.203.2021.09.22.01.57.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 22 Sep 2021 01:57:00 -0700 (PDT)
-Date: Wed, 22 Sep 2021 11:56:57 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Hans de Goede <hdegoede@redhat.com>, Dennis Filder <d.filder@web.de>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: Handling DRM master transitions cooperatively
-Message-ID: <20210922115657.17006ed1@eldfell>
-In-Reply-To: <YUCncex3woPlAhI6@phenom.ffwll.local>
-References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
- <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
- <20210908103603.44a533bb@eldfell>
- <CAKMK7uGeuaZDYkr=mFiA4Okhod6KqKRnv_RfF-NJG=2KzG-=WQ@mail.gmail.com>
- <20210909103703.09a573e4@eldfell>
- <YUCncex3woPlAhI6@phenom.ffwll.local>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+ [66.111.4.224])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 559806EB1E
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:57:13 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B6DFA5802BF;
+ Wed, 22 Sep 2021 04:57:12 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Wed, 22 Sep 2021 04:57:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=7nh2OaBNhdhEMW4Zegg2B+NrTP1
+ XdzNcvYRzKw/Wl3A=; b=iDcMKwn+bqpWf7dTIYyvIdo5u50WHQ77/X5wGm8aFjj
+ yIFnv0UI7UtjodhdrtTfJ5/zJwytzywdyoiXiDkl5RH3su/erphOJKSOkQLgmcjU
+ 2BjSf5QFwfSq4BmkK0SI/3Dz0XFf7e2/NEsLrACFmUqaX7FqFA2B0NQ9mESU+wJ5
+ RXIeymf3yEMh/1ZJP298CIjUncAc9SR5fdjtQNf0gAnZcyeNNwHXxNSUF7UgYtXA
+ /L/jLwttiF+2ndwKedSLBR/E8W1zFMotYmTRKkdnCoQsVGC9aBOUWTGDlCDpGFcB
+ cd7WKxASYb1BQRXXN34+7ERBXxC8+Np7k22QtgwXDWQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7nh2Oa
+ BNhdhEMW4Zegg2B+NrTP1XdzNcvYRzKw/Wl3A=; b=kmUrzeGSSyw5nyDhY/0Ztg
+ 2JfLH4xedbJ9le3sOOwZFApcu0D+nGDP/LskhUAtvY3nTbNTdZiR5lxaACr3Ny+z
+ LOK67SdXIc3VUjKESo2WEtE1N/5gwSdXQpjlKCn0mnjCo5RHct3Y0kmumxi3lLqt
+ 2trrk2DxeqFjFK3x4kwrA/JiDTayW523QK8et/Ee4GvRyYlq5cicMEvcgdF5q6i4
+ MhpOh37Z2MDs/WTO4FQS2DrrPw4URj7e6E7vqKnSdZwSRMY3be4lue2tjY+UBV39
+ hRsF1DdgclU8woYnQwAX2u6UgLA4l9lhPDqD6yFcK2Y5cW0CKqCXKq4REIBLjY/A
+ ==
+X-ME-Sender: <xms:5u9KYUHHpgHPYCJLvfOaAMv5cwjflEqcL2JmBw7C9Vzx56UUcgOfTg>
+ <xme:5u9KYdVY6eCMVMC5sedDGBqA8pCoNBquJNTnNwXafWD2MAItROEt2_V_ieD7I2i-M
+ riQO5v4bcf2hToFtBY>
+X-ME-Received: <xmr:5u9KYeKI5vqbyrT9hf96H1CSJrDnc8ZmHVzAMtZGO7ZsQ12EP9Db5nVQe7j1kRzYLrvY0VinAH_9T8n0XlVnYJawzAj7dZdUJOkD>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgtdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+ gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:5u9KYWHAXmTPeGMK2WUkDxfD23AHx5m7l7BRETz0_L-jOzDGuV4dHA>
+ <xmx:5u9KYaXT3pB5F9rGBBYpbF79jvZbT38tkQqmtB3wKw_Fp8n_pqdIJg>
+ <xmx:5u9KYZP3CJTkdRA5K5T9QqOMI_V4BDOuQUme-F-2U0dr3LmfMCUOdw>
+ <xmx:6O9KYdrtARzZVcrde821ZotQ8wHBzELXuK7ca6IVc2HciGwi176qEQ>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Sep 2021 04:57:10 -0400 (EDT)
+Date: Wed, 22 Sep 2021 10:57:07 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, Daniel Vetter <daniel.vetter@intel.com>, 
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,	Sean Paul <sean@poorly.run>,
+ freedreno@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>,	linux-kernel@vger.kernel.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Subject: Re: [PATCH v4 02/24] drm/bridge: Document the probe issue with
+ MIPI-DSI bridges
+Message-ID: <20210922085707.dr3fautmyowof7cr@gilmour>
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+ <CGME20210910101246eucas1p17191a80c37b0e1784d6d9b8bf6fbcd60@eucas1p1.samsung.com>
+ <20210910101218.1632297-3-maxime@cerno.tech>
+ <7ad18d53-3ad6-a614-a8e1-cce6505f90a8@samsung.com>
+ <20210914143541.433ucx2kvz36tw42@gilmour>
+ <e5ec9763-37fe-6cd8-6eca-52792afbdb94@samsung.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/k/JCw6EaEv3Dn7TTiZkajlB";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ogv2yceu2bvyarnp"
+Content-Disposition: inline
+In-Reply-To: <e5ec9763-37fe-6cd8-6eca-52792afbdb94@samsung.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,198 +107,195 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/k/JCw6EaEv3Dn7TTiZkajlB
-Content-Type: text/plain; charset=US-ASCII
+
+--ogv2yceu2bvyarnp
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Sep 2021 15:45:21 +0200
-Daniel Vetter <daniel@ffwll.ch> wrote:
+Hi,
 
-> On Thu, Sep 09, 2021 at 10:37:03AM +0300, Pekka Paalanen wrote:
-> > On Wed, 8 Sep 2021 18:27:09 +0200
-> > Daniel Vetter <daniel@ffwll.ch> wrote:
-> >  =20
-> > > On Wed, Sep 8, 2021 at 9:36 AM Pekka Paalanen <ppaalanen@gmail.com> w=
-rote: =20
-> > > >
-> > > > On Tue, 7 Sep 2021 14:42:56 +0200
-> > > > Hans de Goede <hdegoede@redhat.com> wrote:
-> > > >   =20
-> > > > > Hi,
-> > > > >
-> > > > > On 9/7/21 12:07 PM, Pekka Paalanen wrote:   =20
-> > > > > > On Fri, 3 Sep 2021 21:08:21 +0200
-> > > > > > Dennis Filder <d.filder@web.de> wrote:
-> > > > > >   =20
-> > > > > >> Hans de Goede asked me to take a topic from a private discussi=
-on here.
-> > > > > >> I must also preface that I'm not a graphics person and my know=
-ledge of
-> > > > > >> DRI/DRM is cursory at best.
-> > > > > >>
-> > > > > >> I initiated the conversation with de Goede after learning that=
- the X
-> > > > > >> server now supports being started with an open DRM file descri=
-ptor
-> > > > > >> (this was added for Keith Packard's xlease project).  I wonder=
-ed if
-> > > > > >> that could be used to smoothen the Plymouth->X transition some=
-how and
-> > > > > >> asked de Goede if there were any such plans.  He denied, but m=
-entioned
-> > > > > >> that a new ioctl is in the works to prevent the kernel from wi=
-ping the
-> > > > > >> contents of a frame buffer after a device is closed, and that =
-this
-> > > > > >> would help to keep transitions smooth.   =20
-> > > > > >
-> > > > > > Hi,
-> > > > > >
-> > > > > > I believe the kernel is not wiping anything on device close. If
-> > > > > > something in the KMS state is wiped, it originates in userspace:
-> > > > > >
-> > > > > > - Plymouth doing something (e.g. RmFB on an in-use FB will turn=
- the
-> > > > > >   output off, you need to be careful to "leak" your FB if you w=
-ant a
-> > > > > >   smooth hand-over)   =20
-> > > > >
-> > > > > The "kernel is not wiping anything on device close" is not true,
-> > > > > when closing /dev/dri/card# any remaining FBs from the app closing
-> > > > > it will be dealt with as if they were RmFB-ed, causing the screen
-> > > > > to show what I call "the fallback fb", at least with the i915 dri=
-ver.   =20
-> > > >
-> > > > No, that's not what should happen AFAIK.
-> > > >
-> > > > True, all FBs that are not referenced by active CRTCs or planes will
-> > > > get freed, since their refcount drops to zero, but those CRTCs and
-> > > > planes that are active will remain active and therefore keep their
-> > > > reference to the respective FBs and so the FBs remain until replace=
-d or
-> > > > turned off explicitly (by e.g. fbcon if you switch to that rather t=
-han
-> > > > another userspace KMS client). I believe that is the whole reason w=
-hy
-> > > > e.g. DRM_IOCTL_MODE_GETFB2 can be useful, otherwise the next KMS cl=
-ient
-> > > > would not have anything to scrape.
-> > > >
-> > > > danvet, what is the DRM core intention?   =20
-> > >=20
-> > > Historical accidents mostly. There's two things that foil easy
-> > > handover to the next compositor:
-> > > - RMFB instead of CLOSEFB semantics, especially when closing the
-> > > drmfd. This is uapi, so anything we change needs to be opt-in =20
-> >=20
-> > What does this mean and refer to?
-> >=20
-> > Are you trying to say, that closing the DRM device fd (freeing the file
-> > description) causes an implicit RmFB on all the FBs tied to that DRM
-> > device file description?
-> >=20
-> > I never realised that before. =20
+On Tue, Sep 14, 2021 at 09:00:28PM +0200, Andrzej Hajda wrote:
 >=20
-> Yes, final close does iterate over fb and do an RMFB. Which is why we've
-> had this discussion whether closefb semantics should be an ADDFB2 flag at
-> creation time instead.
-
-Hi Daniel,
-
-such flag would make sense to me.
-
-> > > - Forced fbdev restore on final close of all drm fd. This is only
-> > > prevented if there's a drm master left around (systemd-logind can keep
-> > > that instead of forcing the compositor to survive until the other has
-> > > taken over, which it needs to do anyway to prevent the drm master
-> > > handover from going sideways). This can be fixed by simply disabling
-> > > fbdev completely, which you really want to do anyway. Again it's uabi,
-> > > people will complain if we break this I think. =20
-> >=20
-> > Do you mean that it is not enough to leave the tty in KD_GRAPHICS mode
-> > to stop fbcon/fbdev from taking over? =20
->=20
-> Nope. You need an open drm master.
->=20
-> This is because we do actually support /dev/fb clients rendering in
-> KD_GRAPHICS mode for backwards compat with the fbdev subsystem.
->=20
-> > Is it really fbdev on its own rather than fbcon (poking at fbdev) that
-> > will change the KMS state?
-> >=20
-> > That is, it's not enough to disable fbcon? =20
->=20
-> fbcon doesn't disable fbdev, and the only way to block fbdev is to have a
-> drm master around.
-
-Thanks for pointing this out.
-
-> I guess we could try and make this smarter by creating some kind of weak
-> master status for fbdev, but only when either fbcon or fbdev is opened.
-> Maybe this would help?
-
-It would make sense to me if we wanted a bandaid, but do we? I don't
-know.
-
-> fbdev already keep track of this open count, so wouldn't be too onerous to
-> wire that up into drm_client.
->=20
-> The problem there is then that not yet all drivers use the drm_client
-> stuff for fbdev emulation, so you'd need to either convert more, or hack
-> up a few more things to make this consistent.
->=20
-> > > > Or am I confused because display servers do not tend to close the D=
-RM
-> > > > device fd on switch-out but Plymouth does (too early)?   =20
-> > >=20
-> > > Yeah, that stops both forced restore/disable from kicking in. =20
-> >=20
-> > Which "that"? =20
->=20
-> that =3D open drm master. Open drm master alwasy wins agains fbdev/fbcon,
-> and with latest patches it's guaranteed to be race free.
->=20
-> > > > If so, why can't Plymouth keep the device open longer and quit only
-> > > > when the hand-off is complete? Not quitting too early would be a
-> > > > prerequisite for any explicit hand-off protocol as well.   =20
-> > >=20
-> > > With closefb semantics and fbdev disabled plymouth could quit early,
-> > > and things still work. =20
-> >=20
-> > What is "closefb semantics"? =20
->=20
-> closefb semantics =3D no forced plane/crtc disable, active plane keeps a
-> drm_fb reference
->=20
-> rmfb semantics =3D forced plane/crtc disable, the drm_fb is guaranteed to=
+> W dniu 14.09.2021 o=A016:35, Maxime Ripard pisze:
+> > Hi,
+> >
+> > On Mon, Sep 13, 2021 at 08:29:37AM +0200, Andrzej Hajda wrote:
+> >> W dniu 10.09.2021 o=A012:11, Maxime Ripard pisze:
+> >>> Interactions between bridges, panels, MIPI-DSI host and the component
+> >>> framework are not trivial and can lead to probing issues when
+> >>> implementing a display driver. Let's document the various cases we ne=
+ed
+> >>> too consider, and the solution to support all the cases.
+> >>>
+> >>> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+> >>> ---
+> >>>    Documentation/gpu/drm-kms-helpers.rst |  6 +++
+> >>>    drivers/gpu/drm/drm_bridge.c          | 57 +++++++++++++++++++++++=
+++++
+> >>>    2 files changed, 63 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gp=
+u/drm-kms-helpers.rst
+> >>> index 10f8df7aecc0..ec2f65b31930 100644
+> >>> --- a/Documentation/gpu/drm-kms-helpers.rst
+> >>> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> >>> @@ -157,6 +157,12 @@ Display Driver Integration
+> >>>    .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> >>>       :doc: display driver integration
+> >>>   =20
+> >>> +Special Care with MIPI-DSI bridges
+> >>> +----------------------------------
+> >>> +
+> >>> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> >>> +   :doc: special care dsi
+> >>> +
+> >>>    Bridge Operations
+> >>>    -----------------
+> >>>   =20
+> >>> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridg=
+e.c
+> >>> index baff74ea4a33..7cc2d2f94ae3 100644
+> >>> --- a/drivers/gpu/drm/drm_bridge.c
+> >>> +++ b/drivers/gpu/drm/drm_bridge.c
+> >>> @@ -96,6 +96,63 @@
+> >>>     * documentation of bridge operations for more details).
+> >>>     */
+> >>>   =20
+> >>> +/**
+> >>> + * DOC: special care dsi
+> >>> + *
+> >>> + * The interaction between the bridges and other frameworks involved=
+ in
+> >>> + * the probing of the upstream driver and the bridge driver can be
+> >>> + * challenging. Indeed, there's multiple cases that needs to be
+> >>> + * considered:
+> >>> + *
+> >>> + * - The upstream driver doesn't use the component framework and isn=
+'t a
+> >>> + *   MIPI-DSI host. In this case, the bridge driver will probe at so=
+me
+> >>> + *   point and the upstream driver should try to probe again by retu=
+rning
+> >>> + *   EPROBE_DEFER as long as the bridge driver hasn't probed.
+> >>> + *
+> >>> + * - The upstream driver doesn't use the component framework, but is=
+ a
+> >>> + *   MIPI-DSI host. The bridge device uses the MIPI-DCS commands to =
+be
+> >>> + *   controlled. In this case, the bridge device is a child of the
+> >>> + *   display device and when it will probe it's assured that the dis=
+play
+> >>> + *   device (and MIPI-DSI host) is present. The upstream driver will=
  be
-> forcefully removed from the system
+> >>> + *   assured that the bridge driver is connected between the
+> >>> + *   &mipi_dsi_host_ops.attach and &mipi_dsi_host_ops.detach operati=
+ons.
+> >>> + *   Therefore, it must run mipi_dsi_host_register() in its probe
+> >>> + *   function, and then run drm_bridge_attach() in its
+> >>> + *   &mipi_dsi_host_ops.attach hook.
+> >>> + *
+> >>> + * - The upstream driver uses the component framework and is a MIPI-=
+DSI
+> >>> + *   host. The bridge device uses the MIPI-DCS commands to be
+> >>> + *   controlled. This is the same situation than above, and can run
+> >>> + *   mipi_dsi_host_register() in either its probe or bind hooks.
+> >>> + *
+> >>> + * - The upstream driver uses the component framework and is a MIPI-=
+DSI
+> >>> + *   host. The bridge device uses a separate bus (such as I2C) to be
+> >>> + *   controlled. In this case, there's no correlation between the pr=
+obe
+> >>> + *   of the bridge and upstream drivers, so care must be taken to av=
+oid
+> >>> + *   an endless EPROBE_DEFER loop, with each driver waiting for the
+> >>> + *   other to probe.
+> >>> + *
+> >>> + * The ideal pattern to cover the last item (and all the others in t=
+he
+> >>> + * MIPI-DSI host driver case) is to split the operations like this:
+> >>> + *
+> >>> + * - The MIPI-DSI host driver must run mipi_dsi_host_register() in i=
+ts
+> >>> + *   probe hook. It will make sure that the MIPI-DSI host sticks aro=
+und,
+> >>> + *   and that the driver's bind can be called.
+> >>> + *
+> >>> + * - In its probe hook, the bridge driver must try to find its MIPI-=
+DSI
+> >>> + *   host, register as a MIPI-DSI device and attach the MIPI-DSI dev=
+ice
+> >>> + *   to its host. The bridge driver is now functional.
+> >>> + *
+> >>> + * - In its &struct mipi_dsi_host_ops.attach hook, the MIPI-DSI host=
+ can
+> >>> + *   now add its component. Its bind hook will now be called and sin=
+ce
+> >>> + *   the bridge driver is attached and registered, we can now look f=
+or
+> >>> + *   and attach it.
+> >>> + *
+> >>> + * At this point, we're now certain that both the upstream driver and
+> >>> + * the bridge driver are functional and we can't have a deadlock-like
+> >>> + * situation when probing.
+> >>> + */
+> >>> +
+> >>>    static DEFINE_MUTEX(bridge_lock);
+> >>>    static LIST_HEAD(bridge_list);
+> >>
+> >> Nice work with documenting this initialization dance. It clearly shows
+> >> that bridge API lacks better mechanism - usage of mipi dsi callbacks to
+> >> get notifications about bridge appearance is ugly.
+> > Yeah, there's so many moving parts it's definitely not great.
+> >
+> >> It remains me my resource tracking patches which I have posted long
+> >> time ago [1] - they would solve the issue in much more elegant way,
+> >> described here [2]. Apparently I was not stubborn enough in promoting
+> >> this solution.
+> > Wow, that sounds like a massive change indeed :/
+> >
+> >> Anyway:
+> >>
+> >> Reviewed-by: Andrzej Hajda <a.hajda@samsung.com>
+> > I assume you'll want me to hold off that patch before someone reviews
+> > the rest?
+>=20
+> The last exynos patch should be dropped,
 
-Very good.
+Done
 
+> kirin patch should be tested/reviewed/acked by kirin maintaner. I am
+> not sure about bridge patches, which ones have been tested by you, and
+> which one have other users.
 
-Thanks,
-pq
+Rob was nice enough to give it a try last week for msm and do the needed
+changes. He tested it with the sn65dsi86 bridge. John was also saying it
+was on their todo list (for kirin I assume?). So hopefully it can be
+fairly smooth for everyone.
 
---Sig_/k/JCw6EaEv3Dn7TTiZkajlB
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+I tested sn65dsi83 and ps8640 with the vc4 driver. I don't have the
+hardware so it was just making sure that everything was probing
+properly, but it's what we're interested in anyway.
+
+> If yes it would be good to test them as well - changes in initialization=
+=20
+> flow can beat sometimes :)
+>=20
+> I think patches 1-4 can be merged earlier, if you like, as they are on=20
+> the list for long time.
+
+Ack, I'll merge them, thanks!
+Maxime
+
+--ogv2yceu2bvyarnp
+Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFK79kACgkQI1/ltBGq
-qqcg8w/9ETYCHfYlGPd56Z7vIT1/r40uUR/fZEi9jKeFh039+LYxhds3S5gqJjCk
-f+sDrcId/ipkAYWhaTt91bKOBmtFPaN6D/zJpORwY27b5n32QaXhJ2zRE8SVyoqu
-ozvGqc/YSTdWQ1CnwQRD73WFrNzp7otCXBR1ShIO+428r2xj0s6Au+MtNJRyYj5U
-Lzm4u55xSBET1K15lmCQeoLutxjn2WlnhmdSymESf05OcLPGya4CoTnusPvSGKRL
-85qE136LZ1gQb9g7oZ5EDosj+mUoPPkLK00S7lqQ87akVz1BNvimsQVewYk0Rdrj
-w8jzaWZxGwQ8+78+eEnHr2LdAF9HAgIDzLlKLmVY8zS6A1zxb0+LMCUY95RqsjP7
-RsnwagLkfJM34yiQ3EQUBDJn0JDTencRrcTGByAJnWXaN+Yepr7M3PwWr42e4VB4
-ZVhfpH8lPvX9rY4dICzriUWlanJgZnoskMh1jCO3SDeUCMVN+ZBJq7DUDNHs+ZqK
-oVa70skV4XczXUAeKRE5+2Ice56vbGFzZBCtVWG5gvJMTLVaLyvv8IaGeTSerZN8
-FprPuRkPE0qVKXKenWm9kFyMaepddFJzVPqOlbGAajfrc2aY0GFZ8WJx5GZ+zCL+
-Ehy0j0TLW8ZpoDV3Nlr9n21P/H5AwU30bGJxuVNmzfy0yIISVJY=
-=5MKM
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUrv4wAKCRDj7w1vZxhR
+xQoBAP920qamAHvLMhCg5u1wp+EEFBEufqValUOHaOJZojlTCwEA/7pqFJGHB8T3
+DdmJKwivFSWQ4kYOXp5/PsK5KM2l7wM=
+=MG4a
 -----END PGP SIGNATURE-----
 
---Sig_/k/JCw6EaEv3Dn7TTiZkajlB--
+--ogv2yceu2bvyarnp--
