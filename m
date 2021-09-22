@@ -1,63 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBA0414706
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 12:55:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7820B41472C
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 13:00:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A2AC66EB72;
-	Wed, 22 Sep 2021 10:55:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 960AA6EB74;
+	Wed, 22 Sep 2021 11:00:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2c.google.com (mail-qv1-xf2c.google.com
- [IPv6:2607:f8b0:4864:20::f2c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9E5026EB72;
- Wed, 22 Sep 2021 10:55:31 +0000 (UTC)
-Received: by mail-qv1-xf2c.google.com with SMTP id cf2so1601120qvb.10;
- Wed, 22 Sep 2021 03:55:31 -0700 (PDT)
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
+ [IPv6:2a00:1450:4864:20::433])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 932CD6EB74;
+ Wed, 22 Sep 2021 11:00:06 +0000 (UTC)
+Received: by mail-wr1-x433.google.com with SMTP id i23so5592143wrb.2;
+ Wed, 22 Sep 2021 04:00:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/ickBN4sxuNoZS5aIyM24sHBfu2G2WppVsO8x/cnD8U=;
- b=joGJCqAcevqp1tkoGsMmtdP32hjLSthS5w3MAZimwyTk0AjwmCIMAuAzAVHLRuV0EY
- U0VuIQyQgqUz3Js97/vT+1/8cOT1rc9zeYh+96IXOnKIWmrtQa/bLsAKrIQeObOLeWpH
- jr92lpXGw/RZlJqDXYsx/hcnO/Ye4f+AKaHkvKB67jxpyZjm0RDrkR6PNSrxCjpjLPKu
- GESXbJBxXd3U6eIKIdFHfAcp2okeWZvRwhxoMv3Mk+I98Y7NWBDUqAoGMqJ4orVshdgK
- 6N9O7EoS8lGMgRN3JXKSmtnuKLHwJGgI53zn3+V1RafnQVnu1TBODnRrIcSvd+QpLCoK
- CvxQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=4g6a23eFtTo29hJc/EesJyqk+i6yL2oemrveRwRZhhw=;
+ b=CUCFaz2n+xatYDb02XfF6UjyiZqwQGqRfeziLVtAMA8dJMWM3+gCmFAY8dtk4MXEYl
+ L9fXdYfnzcPsWCoM4480VYxMCBTkbb2TL6InOA9couilEWK8U00Fa0CaAGgIvHtWhvYw
+ AzTvBVAbx+zxZkC0Dx5cHihobTP/9mT7MKkIJGBrir8rGDhMlbxGTWFGtt2lZ2HdfFHr
+ Nr6DgbGTI/lR3FQiBHm3oGsI//aL7txWfgqUntNHQF5QJVj2GHW3woJmHRkVXyK3dLRr
+ ILG746H6v0fZso7Oy2LOsTL3BjXIImxarRD7A96nN95gNOj3BtwUNPV4jjgwVRrccokY
+ yl6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/ickBN4sxuNoZS5aIyM24sHBfu2G2WppVsO8x/cnD8U=;
- b=iW+X44E/KF5twliY2CWG/8D7LZQW+xmJXNoP38BgpFkLgh2Odm/RyXPDkupCAcObpr
- 2Q9+C5yPoI8f9YInhw+vZZDuAO3at497pFsvjlKm9RXfLComOGqG2RR2df0f7h366A9l
- hFS6A8dkmRZeICnyrT4JIDrTKZS1PyqWS6dJwZcosV0Z4YX97mXY1QRFyYIoe0j1s4/X
- ItAUI0/ThGvOOzi5cDFCx+6npVCRgsZ+wQ35uiUj35c2xyn/in12E/O25j7Cn0bG4Ofn
- HWAD/PcNGMhRKpYbwkwKeIq6j52jMJ60v0KI7h5WcbNU9gpdqUI7OjejUtav1yDE9yfI
- ILSQ==
-X-Gm-Message-State: AOAM5320qc65zNjY4EsItMq6euxmaTW7cuEnR7gm9C8h1P97A7l5atIb
- VK471J8C1bZhY1Ak0KAholEnENUl48XYgRnhMfs=
-X-Google-Smtp-Source: ABdhPJzkLCaOatuugLxOHBT1YsmTT+BjhxRzqUVV9ujZa7aKYoAfIjeyWIr2mRlEPx8I0YjNJ4PK1CIfGDykr7QjRro=
-X-Received: by 2002:a05:6214:153:: with SMTP id
- x19mr35483439qvs.18.1632308130779; 
- Wed, 22 Sep 2021 03:55:30 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=4g6a23eFtTo29hJc/EesJyqk+i6yL2oemrveRwRZhhw=;
+ b=T2bLY8yMqRPKSDwzAzBduKEgAQj+T1yZzQJBQkXZysZG9BE4NUKxLpNyEuU4wE8ZCs
+ h5glDEkvXUYNmdFvtqMj/1+TRUGBq85LlRyf/WAJIoAgi/V56hbpf0te5HoBiNozOdBB
+ hsTd9WXjOfTJWFElzx4hO6JyafQgrNEP7TIa1dd4nEqmvh8OUWWwwxtBbjvf6E1S8+RC
+ 2/9RlabXbd1DjIeacnreOWMOPEhsDrgEhggpQR4o6q5aAp4sh0oXXM/PKa/PFw8ybv96
+ a88/fMmnlF97KDP4FQsXwvsLbQg8AlYF7PJQgbb1bl1jBOXcgT7lnK+6IqDsWhh43mHz
+ XE1w==
+X-Gm-Message-State: AOAM533a7yPblbcaEiY1KcDm4x66R0IweXRizRDZcwMU7X/K1G8kJ40J
+ alPn0vzV1cORo/CaBD9lI64=
+X-Google-Smtp-Source: ABdhPJyjYgC29P1McsGvDeZkXiBtlQKw3QpMUh6IhB2Lj81ZLzBgMgqPqot6ZYAhRv6PheyNjeW5NA==
+X-Received: by 2002:a5d:65ce:: with SMTP id e14mr41647853wrw.328.1632308405163; 
+ Wed, 22 Sep 2021 04:00:05 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id w5sm1801014wra.87.2021.09.22.04.00.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 22 Sep 2021 04:00:04 -0700 (PDT)
+Subject: Re: [PATCH 18/26] drm/i915: use new iterator in
+ i915_gem_object_last_write_engine
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20210922091044.2612-1-christian.koenig@amd.com>
+ <20210922091044.2612-19-christian.koenig@amd.com>
+ <92e428d5-76d5-e63f-5322-aa5cf1a1952a@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <db679020-b35b-8664-a6b8-3d88ed2ca8c6@gmail.com>
+Date: Wed, 22 Sep 2021 13:00:03 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210922083807.888206-1-thomas.hellstrom@linux.intel.com>
- <20210922083807.888206-3-thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20210922083807.888206-3-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Wed, 22 Sep 2021 11:55:02 +0100
-Message-ID: <CAM0jSHPWMTq0TpLbpUwczGMDjcvh-kjw35d-xUQ_9RNrj9hY+w@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/i915/ttm: Fix lockdep warning in
- __i915_gem_free_object()
-To: =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <92e428d5-76d5-e63f-5322-aa5cf1a1952a@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,52 +81,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 22 Sept 2021 at 09:38, Thomas Hellstr=C3=B6m
-<thomas.hellstrom@linux.intel.com> wrote:
+Am 22.09.21 um 12:27 schrieb Tvrtko Ursulin:
 >
-> In the mman selftest, some tests make the ttm_bo_init_reserved() fail,
-> which may trigger a call to the i915_ttm_bo_destroy() function.
-> However, at this point the gem object refcount is set to 1, which
-> triggers a lockdep warning in __i915_gem_free_object() and a
-> corresponding failure in DG1 BAT, i915_selftest@live@mman.
+> On 22/09/2021 10:10, Christian König wrote:
+>> This is maybe even a fix since the RCU usage here looks incorrect.
 >
-> Fix this by clearing the gem object refcount if called from that
-> failure path.
->
-> Fixes: f9b23c157a78 ("drm/i915: Move __i915_gem_free_object to ttm_bo_des=
-troy")
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Signed-off-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i9=
-15/gem/i915_gem_ttm.c
-> index b94497989995..b1f561543ff3 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -900,6 +900,10 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *b=
-o)
->
->         i915_ttm_backup_free(obj);
->
-> +       /* Failure during ttm_bo_init_reserved leaves the refcount set to=
- 1. */
-> +       if (IS_ENABLED(CONFIG_LOCKDEP) && !obj->ttm.created)
-> +               refcount_set(&obj->base.refcount.refcount, 0);
-> +
->         /* This releases all gem object bindings to the backend. */
->         __i915_gem_free_object(obj);
+> I'm afraid I gazumped you here by removing this function shortly 
+> before you posted the respin.
 
-The __i915_gem_free_object is also nuking stuff like mm.placements,
-which is still owned by the caller AFAIK, or at least it is until we
-have successfully initialised the object, so smells like potential
-double free? Can we easily move that under the ttm.created check?
-Otherwise maybe we are meant to move the mm.placements handling into
-the RCU callback?
+Is that already landed in drm-misc-next? If not just give me an Acked-by 
+and it will be fixed when merging trees together again by just dropping 
+the change.
+
+Alternatively if it is not in drm-next I will ping the drm-misc-next 
+maintainer for a merge.
+
+Regards,
+Christian.
 
 >
-> --
-> 2.31.1
+> Regards,
 >
+> Tvrtko
+>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/gpu/drm/i915/gem/i915_gem_object.h | 16 ++++++++--------
+>>   1 file changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> index 48112b9d76df..e20efffce3a9 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+>> @@ -507,16 +507,16 @@ static inline struct intel_engine_cs *
+>>   i915_gem_object_last_write_engine(struct drm_i915_gem_object *obj)
+>>   {
+>>       struct intel_engine_cs *engine = NULL;
+>> +    struct dma_resv_iter cursor;
+>>       struct dma_fence *fence;
+>>   -    rcu_read_lock();
+>> -    fence = dma_resv_get_excl_unlocked(obj->base.resv);
+>> -    rcu_read_unlock();
+>> -
+>> -    if (fence && dma_fence_is_i915(fence) && 
+>> !dma_fence_is_signaled(fence))
+>> -        engine = to_request(fence)->engine;
+>> -    dma_fence_put(fence);
+>> -
+>> +    dma_resv_iter_begin(&cursor, obj->base.resv, false);
+>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>> +        if (fence && dma_fence_is_i915(fence) &&
+>> +            !dma_fence_is_signaled(fence))
+>> +            engine = to_request(fence)->engine;
+>> +    }
+>> +    dma_resv_iter_end(&cursor);
+>>       return engine;
+>>   }
+>>
+
