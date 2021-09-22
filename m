@@ -1,56 +1,90 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C82414BAE
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 16:19:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A429414C0F
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 16:32:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B18136EBAC;
-	Wed, 22 Sep 2021 14:19:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 08E7D6EBFE;
+	Wed, 22 Sep 2021 14:32:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C5FF26EBAC
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 14:19:11 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id g41so12614808lfv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 07:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B8C7/gWlbkDT8Stsf8c/PbsXwT7Hdg5jN5OhgrNEJwA=;
- b=Mee6GSnEA3kTLoDtsVHPrillgwIfCrOQOIxaERagzTLphH/6HmImskGqRm7ZLjp/zb
- 1HP2qeBs2Zi8j9SMTJXJAgeqIFsHiyL2VsCeZEVY8p0N6FdCYtKDYELWeyLiD4sqzNS6
- UMZIZ0sRv1USOUwHztEhbHNuASky37njfn9fo3Yp6VEtJGrT0Tq8byzW0eZtuepsdJpM
- xx6VzdzZgVUUOMDQm1wOrmaGYjWHG9EWBvXGQAMEUzVp8iFjF7IXINNATJPpGAxEjYjR
- djuHUWHsfHrsRJle65gYXa9fK4+gpTddNKOHvc5A7Ms3kvgaYpBFA11c6A1tfl0ylzhF
- S7HQ==
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3F91B6EBFE
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 14:32:09 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id e15so12620779lfr.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 07:32:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=shutemov-name.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=ayCGrHt4GWDBHksaWpDlFPsTDgmCQyv1ZQQyBUlWV+I=;
+ b=vKVQE5RUe8kMs0wun4XuDGO3eTujOGs2RwESdLhyIqK2JwxlqZrlSJy3MrsXJkRafX
+ gBAYy/nccugQKoUll1gn8VoFbzjQhjrLzptB1R76SapyouDJT5ZGJIWbG+FX4hwJyS6V
+ RHRd5aepSbIC42CmHtd5u+dR4xuEL++muo/z0NTk8BMGL92wAA2PmP9KOi2aYe71/Bfr
+ QklC4Nhk0K/0QbQiJZijepS1OZ+jtAxihfchh+jQ4jf5+4U17tQ1xXPBbmD5a5nhc0Gd
+ SVGSB9p7xAW0QvKqL518rFLXTD4w7KZA2wBif/Kp2RKz31Lh+5HyNQaqaSmkfOyisrNC
+ k+Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=B8C7/gWlbkDT8Stsf8c/PbsXwT7Hdg5jN5OhgrNEJwA=;
- b=lYTCb+vyROlkT9LqceQ+Lbnx6LPEXH3jw/+zY5ELcU3ul5zrlQonYJzqAv+Uwoo2LP
- nT9VLrpxK32SQdcODNJr2tjSYOGE0oUJypzGSgMnqiejazObzGzhTzyTQtUAgjmRMFpg
- fiIvNoTSZXvuJ4j+p2kyutzTxxPEVQd4tV2q4lFHpTTwonEjQGuTZvaVBft/J6LMOEgg
- iilke5vvx3rSc0ha6YemKzfrV8DFXQPjT7KTf7GCMoO/mbcZE7KDT7unZzp7UkS3nxdZ
- HDr0Dr+Tfn6WGXZwWJv4bW+kwkfVjhoAlT7T/ZP0qz31+UXdWTMjWCuAX+KJuYmsEjyd
- B18w==
-X-Gm-Message-State: AOAM530SoFjR99z7cJU1gxUsepjNUTqE35tO9lM+GZBUd7achx+Ctn3n
- Dtx8ghFjbx8QU8SC//byEP8lTEE8foMj/Gc6JdI=
-X-Google-Smtp-Source: ABdhPJyo5YNCq2sULcZiR9F3fiDX5BwxhQp/xIj2mL9VRa0/INzHHet6PRjqjMLWnDUFAVwytzJeyne0PrFmbNHspHo=
-X-Received: by 2002:a2e:a5c8:: with SMTP id n8mr14052548ljp.307.1632320249363; 
- Wed, 22 Sep 2021 07:17:29 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=ayCGrHt4GWDBHksaWpDlFPsTDgmCQyv1ZQQyBUlWV+I=;
+ b=2NNy/X1TyrSK4kKrDodnh7poaHRTA3gxAUAMZ/xTnSp3cXtppC5xEsTkcbykNR2wyf
+ u4lVV8B4TYA4lEN2+ZwNcqlvv0Jzi89/pRqutc8vrYUYySUk+cW+d7eUvK/jpJ23jj/p
+ rX+XcY9TVYrro8l2dPXS08qvBBFJ+wwK2M9GT+oxT0tt98+RWuT22WenNQZjo9SQhmIh
+ V6zm+gydHJ0fEEChYU2H/mtPsBgEt7bRw4osXryUANtmhRqe7fxR9ADpTQ3L0JoVzfTf
+ BbOwvoANTWX1KJwlLrq3+xRh8svD9aOPA/EhPQWh98lp7gmQTMaXKpdrFENaDmVQUegu
+ Zd2g==
+X-Gm-Message-State: AOAM532k09papSTskp2f0PbpcZoKC1BWuy7Es9PYNrCDnuPSp0RExX6N
+ CZTgErg+CjR2PzZHpnmRCibyMg==
+X-Google-Smtp-Source: ABdhPJz3SPlP/oK9QpFHL+xKtQ0nQUgNyOd556PIkN1KxMSQUqIwOiDbPwtupEbWOJByEgde/ChetQ==
+X-Received: by 2002:a05:651c:512:: with SMTP id
+ o18mr35155713ljp.199.1632321016184; 
+ Wed, 22 Sep 2021 07:30:16 -0700 (PDT)
+Received: from box.localdomain ([86.57.175.117])
+ by smtp.gmail.com with ESMTPSA id y9sm205960lfl.240.2021.09.22.07.30.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 07:30:15 -0700 (PDT)
+Received: by box.localdomain (Postfix, from userid 1000)
+ id E147C10304D; Wed, 22 Sep 2021 17:30:15 +0300 (+03)
+Date: Wed, 22 Sep 2021 17:30:15 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: Borislav Petkov <bp@alien8.de>, linuxppc-dev@lists.ozlabs.org,
+ linux-s390@vger.kernel.org, linux-kernel@vger.kernel.org,
+ x86@kernel.org, iommu@lists.linux-foundation.org,
+ kvm@vger.kernel.org, linux-efi@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
+ cc_platform_has()
+Message-ID: <20210922143015.vvxvh6ec73lffvkf@box.shutemov.name>
+References: <367624d43d35d61d5c97a8b289d9ddae223636e9.1631141919.git.thomas.lendacky@amd.com>
+ <20210920192341.maue7db4lcbdn46x@box.shutemov.name>
+ <77df37e1-0496-aed5-fd1d-302180f1edeb@amd.com>
+ <YUoao0LlqQ6+uBrq@zn.tnic>
+ <20210921212059.wwlytlmxoft4cdth@box.shutemov.name>
+ <YUpONYwM4dQXAOJr@zn.tnic>
+ <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
+ <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+ <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
+ <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
 MIME-Version: 1.0
-References: <20210920141051.30988-1-tzimmermann@suse.de>
-In-Reply-To: <20210920141051.30988-1-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Wed, 22 Sep 2021 16:17:18 +0200
-Message-ID: <CAMeQTsY0R2TuUNr_rCRx4Wbu3RxCYEbTy7WUqFGxT-axps69cg@mail.gmail.com>
-Subject: Re: [PATCH 0/5] drm/gma500: Managed cleanup
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,80 +100,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 20, 2021 at 4:10 PM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> Switch gma500 to managed cleanup and remove the manual cleanup
-> code from the driver's PCI callbacks.
->
-> Managed cleanup involves embedding the DRM device structure in the
-> driver's structure. In preparation, patch 1 replaces references all
-> references to dev_private with a helper function.
->
-> Patch 2 adds managed cleanup for pci_enable_device().
->
-> Patches 3 and 4 embed struct drm_device in struct_drm_psb_private. The
-> structure's memory is being automatically released.
->
-> Patch 5 adds managed cleanup for the device resources. Instead of
-> calling the large, monolithic function psb_driver_unload(), the release
-> code could be split up split into smaller helpers and reuse exising
-> functionality from devres.
->
-> Future work: for a number of drivers, the PCI remove callback contains
-> only a single call to drm_device_unregister(). In a later patchset,
-> this could be implemented as another shared helper within DRM.
->
-> Tested on Atom N2800 hardware.
+On Wed, Sep 22, 2021 at 08:40:43AM -0500, Tom Lendacky wrote:
+> On 9/21/21 4:58 PM, Kirill A. Shutemov wrote:
+> > On Tue, Sep 21, 2021 at 04:43:59PM -0500, Tom Lendacky wrote:
+> > > On 9/21/21 4:34 PM, Kirill A. Shutemov wrote:
+> > > > On Tue, Sep 21, 2021 at 11:27:17PM +0200, Borislav Petkov wrote:
+> > > > > On Wed, Sep 22, 2021 at 12:20:59AM +0300, Kirill A. Shutemov wrote:
+> > > > > > I still believe calling cc_platform_has() from __startup_64() is totally
+> > > > > > broken as it lacks proper wrapping while accessing global variables.
+> > > > > 
+> > > > > Well, one of the issues on the AMD side was using boot_cpu_data too
+> > > > > early and the Intel side uses it too. Can you replace those checks with
+> > > > > is_tdx_guest() or whatever was the helper's name which would check
+> > > > > whether the the kernel is running as a TDX guest, and see if that helps?
+> > > > 
+> > > > There's no need in Intel check this early. Only AMD need it. Maybe just
+> > > > opencode them?
+> > > 
+> > > Any way you can put a gzipped/bzipped copy of your vmlinux file somewhere I
+> > > can grab it from and take a look at it?
+> > 
+> > You can find broken vmlinux and bzImage here:
+> > 
+> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1n74vUQHOGebnF70Im32qLFY8iS3wvjIs%3Fusp%3Dsharing&amp;data=04%7C01%7Cthomas.lendacky%40amd.com%7C1c7adf380cbe4c1a6bb708d97d4af6ff%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637678583935705530%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=gA30x%2Bfu97tUx0p2UqI8HgjiL8bxDbK1GqgJBbUrUE4%3D&amp;reserved=0
+> > 
+> > Let me know when I can remove it.
+> 
+> Looking at everything, it is all RIP relative addressing, so those
+> accesses should be fine.
 
-Thanks for the patches!
+Not fine, but waiting to blowup with random build environment change.
 
-For the entire series:
-Reviewed-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+> Your image has the intel_cc_platform_has()
+> function, does it work if you remove that call? Because I think it may be
+> the early call into that function which looks like it has instrumentation
+> that uses %gs in __sanitizer_cov_trace_pc and %gs is not setup properly
+> yet. And since boot_cpu_data.x86_vendor will likely be zero this early it
+> will match X86_VENDOR_INTEL and call into that function.
 
-I'll let you apply this to drm-misc-next yourself
+Right removing call to intel_cc_platform_has() or moving it to
+cc_platform.c fixes the issue.
 
-Cheers
-Patrik
-
->
-> Thomas Zimmermann (5):
->   drm/gma500: Replace references to dev_private with helper function
->   drm/gma500: Disable PCI device during shutdown
->   drm/gma500: Embed struct drm_device in struct drm_psb_private
->   drm/gma500: Remove dev_priv branch from unload function
->   drm/gma500: Managed device release
->
->  drivers/gpu/drm/gma500/backlight.c         |  12 +-
->  drivers/gpu/drm/gma500/cdv_device.c        |  24 ++--
->  drivers/gpu/drm/gma500/cdv_intel_display.c |  10 +-
->  drivers/gpu/drm/gma500/cdv_intel_dp.c      |  12 +-
->  drivers/gpu/drm/gma500/cdv_intel_lvds.c    |  22 +--
->  drivers/gpu/drm/gma500/framebuffer.c       |  16 +--
->  drivers/gpu/drm/gma500/gem.c               |   2 +-
->  drivers/gpu/drm/gma500/gma_device.c        |   2 +-
->  drivers/gpu/drm/gma500/gma_display.c       |  14 +-
->  drivers/gpu/drm/gma500/gtt.c               |  18 +--
->  drivers/gpu/drm/gma500/intel_bios.c        |  10 +-
->  drivers/gpu/drm/gma500/intel_gmbus.c       |  12 +-
->  drivers/gpu/drm/gma500/mid_bios.c          |  11 +-
->  drivers/gpu/drm/gma500/mmu.c               |  12 +-
->  drivers/gpu/drm/gma500/oaktrail_crtc.c     |   8 +-
->  drivers/gpu/drm/gma500/oaktrail_device.c   |  20 +--
->  drivers/gpu/drm/gma500/oaktrail_hdmi.c     |  18 +--
->  drivers/gpu/drm/gma500/oaktrail_lvds.c     |  14 +-
->  drivers/gpu/drm/gma500/oaktrail_lvds_i2c.c |   2 +-
->  drivers/gpu/drm/gma500/opregion.c          |  14 +-
->  drivers/gpu/drm/gma500/power.c             |  20 +--
->  drivers/gpu/drm/gma500/psb_device.c        |  16 +--
->  drivers/gpu/drm/gma500/psb_drv.c           | 147 ++++++++++-----------
->  drivers/gpu/drm/gma500/psb_drv.h           |  24 ++--
->  drivers/gpu/drm/gma500/psb_intel_display.c |  10 +-
->  drivers/gpu/drm/gma500/psb_intel_lvds.c    |  31 ++---
->  drivers/gpu/drm/gma500/psb_intel_sdvo.c    |  10 +-
->  drivers/gpu/drm/gma500/psb_irq.c           |  26 ++--
->  drivers/gpu/drm/gma500/psb_lid.c           |   2 +-
->  29 files changed, 261 insertions(+), 278 deletions(-)
->
-> --
-> 2.33.0
->
+-- 
+ Kirill A. Shutemov
