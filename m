@@ -1,66 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FEE413E0F
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 01:35:36 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1120C413E76
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 02:09:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C65286E946;
-	Tue, 21 Sep 2021 23:35:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4459A6E822;
+	Wed, 22 Sep 2021 00:09:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 970496E942
- for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 23:35:24 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1632267328; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=lRLgWuMqSG06WczeIPqmuLHujYczwz5qjKaHZkYvOkc=;
- b=pJrY88pjNxSf2lUHAsSgLd4dfJ+Uof96T1bYIJY88gUEXGj0wjl+ob1IXOkF9JdYuavoLUfR
- SrQzddPyh3LxZ+aDStYqG50SFyDLpRj9V7hQ2J0WMV0cxFZYQov/iFU9BFOXlijs8RodivoA
- 4PTLXwR4+eiyRi2bPfJlu4BDShc=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 614a6c288b04ef85894806bc (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 21 Sep 2021 23:35:04
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 596E7C43616; Tue, 21 Sep 2021 23:35:04 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 4BBD9C4338F;
- Tue, 21 Sep 2021 23:34:59 +0000 (UTC)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 33AA66E822
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 00:09:47 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 01143611ED
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 00:09:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632269387;
+ bh=1a66pSxy/5DYewUE9DxUujAGENUyliHK+uWYJu4Waio=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=SLSwrZAdEa1xMAE44CxZ+I9rs9SgUCnoeNLleuCng7mnuJuNpLNRhOUR9MjcKCtAC
+ 7kZYLV6RponsJrl4LEZmw1PeVOgioVeRePCateMP/2TGZ2PEf6uOdTT3JqWn2XGPHd
+ EgU2BWrfBik4dPboO0cek8MZNKX1U3avM/jJaKSlHqeI1b8CFHzA8LB+DFud9amxkD
+ /IR+CAEqHB5aHO/GMb7CiL/2JpeUxfic+JqP2pFJs8ZBGOwRgghvvj2t3rAhP/BX9D
+ FMOqhE2CEQZPNu7j7g2909cL+udh8zcAKXWxu4MEcuJTOqTled6SAgk16zRWdJ67Uv
+ qSYc4eWy5sa3Q==
+Received: by mail-ed1-f54.google.com with SMTP id r5so2847720edi.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 21 Sep 2021 17:09:46 -0700 (PDT)
+X-Gm-Message-State: AOAM532p0WjeFYYpP0Id56zk34CSsXjz5BlcOWR1lm9ZUgvSXNeZuLQo
+ TXSxxg86rotcUGnw4tKDc4FnIwyg6qu8yL371A==
+X-Google-Smtp-Source: ABdhPJyLIzQqC3k+/4UTtyrlez4QeiKl9I3uzh6CkUwoTRl4JIT4shmUFbNo1XwZQMWVvU1W+ZwFluzjZdISN+rrgn8=
+X-Received: by 2002:aa7:c617:: with SMTP id h23mr38512887edq.357.1632269385407; 
+ Tue, 21 Sep 2021 17:09:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 21 Sep 2021 16:34:59 -0700
-From: abhinavk@codeaurora.org
-To: Sean Paul <sean@poorly.run>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, swboyd@chromium.org, Sean Paul
- <seanpaul@chromium.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [Freedreno] [PATCH v2 04/13] drm/hdcp: Expand HDCP helper library
- for enable/disable/check
-In-Reply-To: <20210915203834.1439-5-sean@poorly.run>
-References: <20210915203834.1439-1-sean@poorly.run>
- <20210915203834.1439-5-sean@poorly.run>
-Message-ID: <e96c4be49ef53fec4a81785a43ecb18f@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20210906071539.12953-1-nancy.lin@mediatek.com>
+ <20210906071539.12953-14-nancy.lin@mediatek.com>
+In-Reply-To: <20210906071539.12953-14-nancy.lin@mediatek.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Wed, 22 Sep 2021 08:09:34 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-MUv8Ey0MSFgdK6vuwrg2UaY52PQua=a9cSrZgRz+ZLQ@mail.gmail.com>
+Message-ID: <CAAOTY_-MUv8Ey0MSFgdK6vuwrg2UaY52PQua=a9cSrZgRz+ZLQ@mail.gmail.com>
+Subject: Re: [PATCH v5 13/16] drm/mediatek: add ETHDR support for MT8195
+To: "Nancy.Lin" <nancy.lin@mediatek.com>
+Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ DTML <devicetree@vger.kernel.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, 
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, singo.chang@mediatek.com, 
+ srv_heupstream <srv_heupstream@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,1481 +70,312 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-15 13:38, Sean Paul wrote:
-> From: Sean Paul <seanpaul@chromium.org>
-> 
-> This patch expands upon the HDCP helper library to manage HDCP
-> enable, disable, and check.
-> 
-> Previous to this patch, the majority of the state management and sink
-> interaction is tucked inside the Intel driver with the understanding
-> that once a new platform supported HDCP we could make good decisions
-> about what should be centralized. With the addition of HDCP support
-> for Qualcomm, it's time to migrate the protocol-specific bits of HDCP
-> authentication, key exchange, and link checks to the HDCP helper.
-> 
-> In terms of functionality, this migration is 1:1 with the Intel driver,
-> however things are laid out a bit differently than with intel_hdcp.c,
-> which is why this is a separate patch from the i915 transition to the
-> helper. On i915, the "shim" vtable is used to account for HDMI vs. DP
-> vs. DP-MST differences whereas the helper library uses a LUT to
-> account for the register offsets and a remote read function to route
-> the messages. On i915, storing the sink information in the source is
-> done inline whereas now we use the new drm_hdcp_helper_funcs vtable
-> to store and fetch information to/from source hw. Finally, instead of
-> calling enable/disable directly from the driver, we'll leave that
-> decision to the helper and by calling drm_hdcp_helper_atomic_commit()
-> from the driver. All told, this will centralize the protocol and state
-> handling in the helper, ensuring we collect all of our bugs^Wlogic
-> in one place.
-> 
-> Signed-off-by: Sean Paul <seanpaul@chromium.org>
-> Link:
-> https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-5-sean@poorly.run
-> #v1
-> 
-> Changes in v2:
-> -Fixed set-but-unused variable identified by 0-day
+Hi, Nancy:
+
+Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=886=E6=97=
+=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:15=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> ETHDR is a part of ovl_adaptor.
+> ETHDR is designed for HDR video and graphics conversion in the external
+> display path. It handles multiple HDR input types and performs tone
+> mapping, color space/color format conversion, and then combine
+> different layers, output the required HDR or SDR signal to the
+> subsequent display path.
+>
+> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
 > ---
->  drivers/gpu/drm/drm_hdcp.c | 1103 ++++++++++++++++++++++++++++++++++++
->  include/drm/drm_hdcp.h     |  191 +++++++
->  2 files changed, 1294 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_hdcp.c b/drivers/gpu/drm/drm_hdcp.c
-> index 742313ce8f6f..47c6e6923a76 100644
-> --- a/drivers/gpu/drm/drm_hdcp.c
-> +++ b/drivers/gpu/drm/drm_hdcp.c
-> @@ -6,15 +6,20 @@
->   * Ramalingam C <ramalingam.c@intel.com>
->   */
-> 
-> +#include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/err.h>
->  #include <linux/gfp.h>
-> +#include <linux/i2c.h>
-> +#include <linux/iopoll.h>
->  #include <linux/export.h>
->  #include <linux/slab.h>
->  #include <linux/firmware.h>
-> +#include <linux/workqueue.h>
-> 
->  #include <drm/drm_atomic.h>
->  #include <drm/drm_connector.h>
-> +#include <drm/drm_dp_helper.h>
->  #include <drm/drm_hdcp.h>
->  #include <drm/drm_sysfs.h>
->  #include <drm/drm_print.h>
-> @@ -513,3 +518,1101 @@ bool drm_hdcp_atomic_check(struct drm_connector
-> *connector,
->  	return old_hdcp != new_hdcp;
->  }
->  EXPORT_SYMBOL(drm_hdcp_atomic_check);
-> +
-> +struct drm_hdcp_helper_data {
-> +	struct mutex mutex;
-> +	struct mutex *driver_mutex;
-> +
-> +	struct drm_connector *connector;
-> +	const struct drm_hdcp_helper_funcs *funcs;
-> +
-> +	u64 value;
-> +	unsigned int enabled_type;
-> +
-> +	struct delayed_work check_work;
-> +	struct work_struct prop_work;
-> +
-> +	struct drm_dp_aux *aux;
-> +	const struct drm_hdcp_hdcp1_receiver_reg_lut *hdcp1_lut;
-> +};
-> +
-> +struct drm_hdcp_hdcp1_receiver_reg_lut {
-> +	unsigned int bksv;
-> +	unsigned int ri;
-> +	unsigned int aksv;
-> +	unsigned int an;
-> +	unsigned int ainfo;
-> +	unsigned int v[5];
-> +	unsigned int bcaps;
-> +	unsigned int bcaps_mask_repeater_present;
-> +	unsigned int bstatus;
-> +};
-> +
-> +static const struct drm_hdcp_hdcp1_receiver_reg_lut 
-> drm_hdcp_hdcp1_ddc_lut = {
-> +	.bksv = DRM_HDCP_DDC_BKSV,
-> +	.ri = DRM_HDCP_DDC_RI_PRIME,
-> +	.aksv = DRM_HDCP_DDC_AKSV,
-> +	.an = DRM_HDCP_DDC_AN,
-> +	.ainfo = DRM_HDCP_DDC_AINFO,
-> +	.v = { DRM_HDCP_DDC_V_PRIME(0), DRM_HDCP_DDC_V_PRIME(1),
-> +	       DRM_HDCP_DDC_V_PRIME(2), DRM_HDCP_DDC_V_PRIME(3),
-> +	       DRM_HDCP_DDC_V_PRIME(4) },
-> +	.bcaps = DRM_HDCP_DDC_BCAPS,
-> +	.bcaps_mask_repeater_present = DRM_HDCP_DDC_BCAPS_REPEATER_PRESENT,
-> +	.bstatus = DRM_HDCP_DDC_BSTATUS,
-> +};
-> +
-> +static const struct drm_hdcp_hdcp1_receiver_reg_lut 
-> drm_hdcp_hdcp1_dpcd_lut = {
-> +	.bksv = DP_AUX_HDCP_BKSV,
-> +	.ri = DP_AUX_HDCP_RI_PRIME,
-> +	.aksv = DP_AUX_HDCP_AKSV,
-> +	.an = DP_AUX_HDCP_AN,
-> +	.ainfo = DP_AUX_HDCP_AINFO,
-> +	.v = { DP_AUX_HDCP_V_PRIME(0), DP_AUX_HDCP_V_PRIME(1),
-> +	       DP_AUX_HDCP_V_PRIME(2), DP_AUX_HDCP_V_PRIME(3),
-> +	       DP_AUX_HDCP_V_PRIME(4) },
-> +	.bcaps = DP_AUX_HDCP_BCAPS,
-> +	.bcaps_mask_repeater_present = DP_BCAPS_REPEATER_PRESENT,
-> +
-> +	/*
-> +	 * For some reason the HDMI and DP HDCP specs call this register
-> +	 * definition by different names. In the HDMI spec, it's called 
-> BSTATUS,
-> +	 * but in DP it's called BINFO.
-> +	 */
-> +	.bstatus = DP_AUX_HDCP_BINFO,
-> +};
-> +
-> +static int drm_hdcp_remote_ddc_read(struct i2c_adapter *i2c,
-> +				    unsigned int offset, u8 *value, size_t len)
-> +{
-> +	int ret;
-> +	u8 start = offset & 0xff;
-> +	struct i2c_msg msgs[] = {
-> +		{
-> +			.addr = DRM_HDCP_DDC_ADDR,
-> +			.flags = 0,
-> +			.len = 1,
-> +			.buf = &start,
-> +		},
-> +		{
-> +			.addr = DRM_HDCP_DDC_ADDR,
-> +			.flags = I2C_M_RD,
-> +			.len = len,
-> +			.buf = value
-> +		}
-> +	};
-> +	ret = i2c_transfer(i2c, msgs, ARRAY_SIZE(msgs));
-> +	if (ret == ARRAY_SIZE(msgs))
-> +		return 0;
-> +	return ret >= 0 ? -EIO : ret;
-> +}
-> +
-> +static int drm_hdcp_remote_dpcd_read(struct drm_dp_aux *aux,
-> +				     unsigned int offset, u8 *value,
-> +				     size_t len)
-> +{
-> +	ssize_t ret;
-> +
-> +	ret = drm_dp_dpcd_read(aux, offset, value, len);
-> +	if (ret != len) {
-> +		if (ret >= 0)
-> +			return -EIO;
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_hdcp_remote_read(struct drm_hdcp_helper_data *data,
-> +				unsigned int offset, u8 *value, u8 len)
-> +{
-> +	if (data->aux)
-> +		return drm_hdcp_remote_dpcd_read(data->aux, offset, value, len);
-> +	else
-> +		return drm_hdcp_remote_ddc_read(data->connector->ddc, offset, value, 
-> len);
-> +}
-> +
-> +static int drm_hdcp_remote_ddc_write(struct i2c_adapter *i2c,
-> +				     unsigned int offset, u8 *buffer,
-> +				     size_t size)
-> +{
-> +	int ret;
-> +	u8 *write_buf;
-> +	struct i2c_msg msg;
-> +
-> +	write_buf = kzalloc(size + 1, GFP_KERNEL);
-> +	if (!write_buf)
-> +		return -ENOMEM;
-> +
-> +	write_buf[0] = offset & 0xff;
-> +	memcpy(&write_buf[1], buffer, size);
-> +
-> +	msg.addr = DRM_HDCP_DDC_ADDR;
-> +	msg.flags = 0,
-> +	msg.len = size + 1,
-> +	msg.buf = write_buf;
-> +
-> +	ret = i2c_transfer(i2c, &msg, 1);
-> +	if (ret == 1)
-> +		ret = 0;
-> +	else if (ret >= 0)
-> +		ret = -EIO;
-> +
-> +	kfree(write_buf);
-> +	return ret;
-> +}
-> +
-> +static int drm_hdcp_remote_dpcd_write(struct drm_dp_aux *aux,
-> +				     unsigned int offset, u8 *value,
-> +				     size_t len)
-> +{
-> +	ssize_t ret;
-> +
-> +	ret = drm_dp_dpcd_write(aux, offset, value, len);
-> +	if (ret != len) {
-> +		if (ret >= 0)
-> +			return -EIO;
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_hdcp_remote_write(struct drm_hdcp_helper_data *data,
-> +				 unsigned int offset, u8 *value, u8 len)
-> +{
-> +	if (data->aux)
-> +		return drm_hdcp_remote_dpcd_write(data->aux, offset, value, len);
-> +	else
-> +		return drm_hdcp_remote_ddc_write(data->connector->ddc, offset,
-> +						 value, len);
-> +}
-> +
-> +static bool drm_hdcp_is_ksv_valid(struct drm_hdcp_ksv *ksv)
-> +{
-> +	/* Valid Ksv has 20 0's and 20 1's */
-> +	return hweight32(ksv->words[0]) + hweight32(ksv->words[1]) == 20;
-> +}
-> +
-> +static int drm_hdcp_read_valid_bksv(struct drm_hdcp_helper_data *data,
-> +				    struct drm_hdcp_ksv *bksv)
-> +{
-> +	int ret, i, tries = 2;
-> +
-> +	/* HDCP spec states that we must retry the bksv if it is invalid */
-> +	for (i = 0; i < tries; i++) {
-> +		ret = drm_hdcp_remote_read(data, data->hdcp1_lut->bksv,
-> +					   bksv->bytes, DRM_HDCP_KSV_LEN);
-> +		if (ret)
-> +			return ret;
-> +
-> +		if (drm_hdcp_is_ksv_valid(bksv))
-> +			break;
-> +	}
-> +	if (i == tries) {
-> +		drm_dbg_kms(data->connector->dev, "Bksv is invalid %*ph\n",
-> +			    DRM_HDCP_KSV_LEN, bksv->bytes);
-> +		return -ENODEV;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * drm_hdcp_helper_hdcp1_capable - Checks if the sink is capable of 
-> HDCP 1.x.
-> + *
-> + * @data: pointer to the HDCP helper data.
-> + * @capable: pointer to a bool which will contain true if the sink is 
-> capable.
-> + *
-> + * Returns:
-> + * -errno if the transacation between source and sink fails.
-> + */
-> +int drm_hdcp_helper_hdcp1_capable(struct drm_hdcp_helper_data *data,
-> +				  bool *capable)
-> +{
-> +	/*
-> +	 * DisplayPort has a dedicated bit for this in DPCD whereas HDMI spec
-> +	 * states that transmitters should use bksv to determine capability.
-> +	 */
-> +	if (data->aux) {
-> +		int ret;
-> +		u8 bcaps;
-> +
-> +		ret = drm_hdcp_remote_read(data, data->hdcp1_lut->bcaps,
-> +					   &bcaps, 1);
-> +		*capable = !ret && (bcaps & DP_BCAPS_HDCP_CAPABLE);
-> +	} else {
-> +		struct drm_hdcp_ksv bksv;
-> +
-> +		*capable = drm_hdcp_read_valid_bksv(data, &bksv) == 0;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_hdcp1_capable);
-> +
-> +static void drm_hdcp_update_value(struct drm_hdcp_helper_data *data,
-> +				  u64 value, bool update_property)
-> +{
-> +	WARN_ON(!mutex_is_locked(&data->mutex));
-> +
-> +	data->value = value;
-> +	if (update_property) {
-> +		drm_connector_get(data->connector);
-> +		schedule_work(&data->prop_work);
-> +	}
-> +}
-> +
-> +static int
-> +drm_hdcp_helper_hdcp1_ksv_fifo_ready(struct drm_hdcp_helper_data 
-> *data)
-> +{
-> +	int ret;
-> +	u8 val, mask;
-> +
-> +	/* KSV FIFO ready bit is stored in different locations on DP v. HDMI 
-> */
-> +	if (data->aux) {
-> +		ret = drm_hdcp_remote_dpcd_read(data->aux, DP_AUX_HDCP_BSTATUS,
-> +						&val, 1);
-> +		mask = DP_BSTATUS_READY;
-> +	} else {
-> +		ret = drm_hdcp_remote_ddc_read(data->connector->ddc,
-> +					       DRM_HDCP_DDC_BCAPS, &val, 1);
-> +		mask = DRM_HDCP_DDC_BCAPS_KSV_FIFO_READY;
-> +	}
-> +	if (ret)
-> +		return ret;
-> +	if (val & mask)
-> +		return 0;
-> +
-> +	return -EAGAIN;
-> +}
-> +
-> +static int
-> +drm_hdcp_helper_hdcp1_read_ksv_fifo(struct drm_hdcp_helper_data
-> *data, u8 *fifo,
-> +				    u8 num_downstream)
-> +{
-> +	struct drm_device *dev = data->connector->dev;
-> +	int ret, i;
-> +
-> +	/* Over HDMI, read the whole thing at once */
-> +	if (data->connector->ddc) {
-> +		ret = drm_hdcp_remote_ddc_read(data->connector->ddc,
-> +					       DRM_HDCP_DDC_KSV_FIFO, fifo,
-> +					       num_downstream * DRM_HDCP_KSV_LEN);
-> +		if (ret)
-> +			drm_err(dev, "DDC ksv fifo read failed (%d)\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/* Over DP, read via 15 byte window (3 entries @ 5 bytes each) */
-> +	for (i = 0; i < num_downstream; i += 3) {
-> +		size_t len = min(num_downstream - i, 3) * DRM_HDCP_KSV_LEN;
-> +		ret = drm_hdcp_remote_dpcd_read(data->aux, DP_AUX_HDCP_KSV_FIFO,
-> +						fifo + i * DRM_HDCP_KSV_LEN,
-> +						len);
-> +		if (ret) {
-> +			drm_err(dev, "Read ksv[%d] from DP/AUX failed (%d)\n",
-> +				i, ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_hdcp_helper_hdcp1_read_v_prime(struct
-> drm_hdcp_helper_data *data,
-> +					      u32 *v_prime)
-> +{
-> +	struct drm_device *dev = data->connector->dev;
-> +	int ret, i;
-> +
-> +	for (i = 0; i < DRM_HDCP_V_PRIME_NUM_PARTS; i++) {
-> +		ret = drm_hdcp_remote_read(data, data->hdcp1_lut->v[i],
-> +					   (u8 *)&v_prime[i],
-> +					   DRM_HDCP_V_PRIME_PART_LEN);
-> +		if (ret) {
-> +			drm_dbg_kms(dev, "Read v'[%d] from failed (%d)\n", i, ret);
-> +			return ret >= 0 ? -EIO : ret;
-> +		}
-> +	}
-> +	return 0;
-> +}
-> +
-> +static int
-> +drm_hdcp_helper_hdcp1_authenticate_downstream(struct
-> drm_hdcp_helper_data *data)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	u32 v_prime[DRM_HDCP_V_PRIME_NUM_PARTS];
-> +	u8 bstatus[DRM_HDCP_BSTATUS_LEN];
-> +	u8 num_downstream, *ksv_fifo;
-> +	int ret, i, tries = 3;
-> +
-> +	ret = read_poll_timeout(drm_hdcp_helper_hdcp1_ksv_fifo_ready, ret, 
-> !ret,
-> +				10 * 1000, 5 * 1000 * 1000, false, data);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to poll ksv ready, %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = drm_hdcp_remote_read(data, data->hdcp1_lut->bstatus,
-> +				   bstatus, DRM_HDCP_BSTATUS_LEN);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/*
-> +	 * When repeater reports 0 device count, HDCP1.4 spec allows 
-> disabling
-> +	 * the HDCP encryption. That implies that repeater can't have its own
-> +	 * display. As there is no consumption of encrypted content in the
-> +	 * repeater with 0 downstream devices, we are failing the
-> +	 * authentication.
-> +	 */
-> +	num_downstream = DRM_HDCP_NUM_DOWNSTREAM(bstatus[0]);
-> +	if (num_downstream == 0) {
-> +		drm_err(dev, "Repeater with zero downstream devices, %*ph\n",
-> +			DRM_HDCP_BSTATUS_LEN, bstatus);
-> +		return -EINVAL;
-> +	}
-> +
-> +	ksv_fifo = kcalloc(DRM_HDCP_KSV_LEN, num_downstream, GFP_KERNEL);
-> +	if (!ksv_fifo)
-> +		return -ENOMEM;
-> +
-> +	ret = drm_hdcp_helper_hdcp1_read_ksv_fifo(data, ksv_fifo,
-> +						  num_downstream);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to read ksv fifo, %d/%d\n", num_downstream,
-> +			ret);
-> +		goto out;
-> +	}
-> +
-> +	if (drm_hdcp_check_ksvs_revoked(dev, ksv_fifo, num_downstream)) {
-> +		drm_err(dev, "Revoked Ksv(s) in ksv_fifo\n");
-> +		ret = -EPERM;
-> +		goto out;
-> +	}
-> +
-> +	/*
-> +	 * When V prime mismatches, DP Spec mandates re-read of
-> +	 * V prime atleast twice.
-> +	 */
-> +	for (i = 0; i < tries; i++) {
-> +		ret = drm_hdcp_helper_hdcp1_read_v_prime(data, v_prime);
-> +		if (ret)
-> +			continue;
-> +
-> +		ret = data->funcs->hdcp1_store_ksv_fifo(connector, ksv_fifo,
-> +							num_downstream,
-> +							bstatus, v_prime);
-> +		if (!ret)
-> +			break;
-> +	}
-> +	if (ret)
-> +		drm_err(dev, "Could not validate KSV FIFO with V' %d\n", ret);
-> +
-> +out:
-> +	if (!ret)
-> +		drm_dbg_kms(dev, "HDCP is enabled (%d downstream devices)\n",
-> +			    num_downstream);
-> +
-> +	kfree(ksv_fifo);
-> +	return ret;
-> +}
-> +
-> +static int drm_hdcp_helper_hdcp1_validate_ri(struct 
-> drm_hdcp_helper_data *data)
-> +{
-> +	union {
-> +		u32 word;
-> +		u8 bytes[DRM_HDCP_RI_LEN];
-> +	} ri_prime = { .word = 0 };
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	int ret;
-> +
-> +	ret = drm_hdcp_remote_read(data, data->hdcp1_lut->ri, ri_prime.bytes,
-> +				   DRM_HDCP_RI_LEN);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to read R0' %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return data->funcs->hdcp1_match_ri(connector, ri_prime.word);
-> +}
-> +
-> +static int drm_hdcp_helper_hdcp1_authenticate(struct
-> drm_hdcp_helper_data *data)
-> +{
-> +	union {
-> +		u32 word;
-> +		u8 bytes[DRM_HDCP_BSTATUS_LEN];
-> +	} bstatus;
-> +	const struct drm_hdcp_helper_funcs *funcs = data->funcs;
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	unsigned long r0_prime_timeout, r0_prime_remaining_us = 0, 
-> tmp_jiffies;
-> +	struct drm_hdcp_ksv aksv;
-> +	struct drm_hdcp_ksv bksv;
-> +	struct drm_hdcp_an an;
-> +	bool repeater_present;
-> +	int ret, i, tries = 3;
-> +	u8 bcaps;
-> +
-> +	if (funcs->hdcp1_read_an_aksv) {
-> +		ret = funcs->hdcp1_read_an_aksv(connector, an.words, aksv.words);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to read An/Aksv values, %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = drm_hdcp_remote_write(data, data->hdcp1_lut->an, an.bytes,
-> +					DRM_HDCP_AN_LEN);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to write An to receiver, %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = drm_hdcp_remote_write(data, data->hdcp1_lut->aksv, aksv.bytes,
-> +					DRM_HDCP_KSV_LEN);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to write Aksv to receiver, %d\n", ret);
-> +			return ret;
-> +		}
-> +	} else {
-> +		ret = funcs->hdcp1_send_an_aksv(connector);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to read An/Aksv values, %d\n", ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * Timeout for R0' to become available. The spec says 100ms from 
-> Aksv,
-> +	 * but some monitors can take longer than this. We'll set the timeout 
-> at
-> +	 * 300ms just to be sure.
-> +	 */
-> +	r0_prime_timeout = jiffies + msecs_to_jiffies(300);
-> +
-> +	memset(&bksv, 0, sizeof(bksv));
-> +
-> +	ret = drm_hdcp_read_valid_bksv(data, &bksv);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (drm_hdcp_check_ksvs_revoked(dev, bksv.bytes, 1)) {
-> +		drm_err(dev, "BKSV is revoked\n");
-> +		return -EPERM;
-> +	}
-> +
-> +	ret = drm_hdcp_remote_read(data, data->hdcp1_lut->bcaps, &bcaps, 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(&bstatus, 0, sizeof(bstatus));
-> +
-> +	ret = drm_hdcp_remote_read(data, data->hdcp1_lut->bstatus,
-> +				   bstatus.bytes, DRM_HDCP_BSTATUS_LEN);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (DRM_HDCP_MAX_DEVICE_EXCEEDED(bstatus.bytes[0]) ||
-> +	    DRM_HDCP_MAX_CASCADE_EXCEEDED(bstatus.bytes[1])) {
-> +		drm_err(dev, "Max Topology Limit Exceeded, bstatus=%*ph\n",
-> +			DRM_HDCP_BSTATUS_LEN, bstatus.bytes);
-> +		return -EPERM;
-> +	}
-> +
-> +	repeater_present = bcaps & 
-> data->hdcp1_lut->bcaps_mask_repeater_present;
-> +
-> +	ret = funcs->hdcp1_store_receiver_info(connector, bksv.words,
-> +					       bstatus.word, bcaps,
-> +					       repeater_present);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to store bksv, %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = funcs->hdcp1_enable_encryption(connector);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = funcs->hdcp1_wait_for_r0(connector);
-> +	if (ret)
-> +		return ret;
-> +
-> +	tmp_jiffies = jiffies;
-> +	if (time_before(tmp_jiffies, r0_prime_timeout))
-> +		r0_prime_remaining_us = jiffies_to_usecs(r0_prime_timeout - 
-> tmp_jiffies);
-> +
-> +	/*
-> +	 * Wait for R0' to become available.
-> +	 *
-> +	 * On DP, there's an R0_READY bit available but no such bit
-> +	 * exists on HDMI. So poll the ready bit for DP and just wait the
-> +	 * remainder of the 300 ms timeout for HDMI.
-> +	 */
-> +	if (data->aux) {
-> +		u8 val;
-> +		ret = read_poll_timeout(drm_hdcp_remote_dpcd_read, ret,
-> +					!ret && (val & DP_BSTATUS_R0_PRIME_READY),
-> +					1000, r0_prime_remaining_us, false,
-> +					data->aux, DP_AUX_HDCP_BSTATUS, &val, 1);
-> +		if (ret) {
-> +			drm_err(dev, "R0' did not become ready %d\n", ret);
-> +			return ret;
-> +		}
-> +	} else {
-> +		usleep_range(r0_prime_remaining_us,
-> +			     r0_prime_remaining_us + 1000);
-> +	}
-> +
-> +	/*
-> +	 * DP HDCP Spec mandates the two more reattempt to read R0, incase
-> +	 * of R0 mismatch.
-> +	 */
-> +	for (i = 0; i < tries; i++) {
-> +		ret = drm_hdcp_helper_hdcp1_validate_ri(data);
-> +		if (!ret)
-> +			break;
-> +	}
-> +	if (ret) {
-> +		drm_err(dev, "Failed to match R0/R0', aborting HDCP %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	if (repeater_present)
-> +		return drm_hdcp_helper_hdcp1_authenticate_downstream(data);
-> +
-> +	drm_dbg_kms(dev, "HDCP is enabled (no repeater present)\n");
-> +	return 0;
-> +}
-> +
-> +static int drm_hdcp_helper_hdcp1_enable(struct drm_hdcp_helper_data 
-> *data)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	int i, ret, tries = 3;
-> +
-> +	drm_dbg_kms(dev, "[%s:%d] HDCP is being enabled...\n", 
-> connector->name,
-> +		    connector->base.id);
-> +
-> +	/* Incase of authentication failures, HDCP spec expects reauth. */
-> +	for (i = 0; i < tries; i++) {
-> +		ret = drm_hdcp_helper_hdcp1_authenticate(data);
-> +		if (!ret)
-> +			return 0;
-> +
-> +		drm_dbg_kms(dev, "HDCP Auth failure (%d)\n", ret);
-> +
-> +		/* Ensuring HDCP encryption and signalling are stopped. */
-> +		data->funcs->hdcp1_disable(data->connector);
-> +	}
-> +
-> +	drm_err(dev, "HDCP authentication failed (%d tries/%d)\n", tries, 
-> ret);
-> +	return ret;
-> +}
-> +
-> +static inline
-> +void drm_hdcp_helper_driver_lock(struct drm_hdcp_helper_data *data)
-> +{
-> +	if (data->driver_mutex)
-> +		mutex_lock(data->driver_mutex);
-> +}
-> +
-> +static inline
-> +void drm_hdcp_helper_driver_unlock(struct drm_hdcp_helper_data *data)
-> +{
-> +	if (data->driver_mutex)
-> +		mutex_unlock(data->driver_mutex);
-> +}
-> +
-> +static int drm_hdcp_helper_enable_hdcp(struct drm_hdcp_helper_data 
-> *data,
-> +				       struct drm_atomic_state *state,
-> +				       struct mutex *driver_mutex)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_connector_state *conn_state;
-> +	struct drm_device *dev = connector->dev;
-> +	unsigned long check_link_interval;
-> +	bool capable;
-> +	int ret = 0;
-> +
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +
-> +	mutex_lock(&data->mutex);
-> +
-> +	if (data->value == DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_ENABLED,
-> +				      true);
-> +		goto out_data_mutex;
-> +	}
-> +
-> +	drm_WARN_ON(dev, data->driver_mutex != NULL);
-> +	data->driver_mutex = driver_mutex;
-> +
-> +	drm_hdcp_helper_driver_lock(data);
-> +
-> +	if (data->funcs->setup) {
-> +		ret = data->funcs->setup(connector, state);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to setup HDCP %d\n", ret);
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	if (!data->funcs->are_keys_valid ||
-> +	    !data->funcs->are_keys_valid(connector)) {
-> +		if (data->funcs->load_keys) {
-> +			ret = data->funcs->load_keys(connector);
-> +			if (ret) {
-> +				drm_err(dev, "Failed to load HDCP keys %d\n", ret);
-> +				goto out;
-> +			}
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * Considering that HDCP2.2 is more secure than HDCP1.4, If the setup
-> +	 * is capable of HDCP2.2, it is preferred to use HDCP2.2.
-> +	 */
-> +	ret = data->funcs->hdcp2_capable(connector, &capable);
-> +	if (ret) {
-> +		drm_err(dev, "HDCP 2.x capability check failed %d\n", ret);
-> +		goto out;
-> +	}
-> +	if (capable) {
-> +		data->enabled_type = DRM_MODE_HDCP_CONTENT_TYPE1;
-> +		ret = data->funcs->hdcp2_enable(connector);
-> +		if (!ret) {
-> +			check_link_interval = DRM_HDCP2_CHECK_PERIOD_MS;
-> +			goto out;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * When HDCP2.2 fails and Content Type is not Type1, HDCP1.4 will
-> +	 * be attempted.
-> +	 */
-> +	ret = drm_hdcp_helper_hdcp1_capable(data, &capable);
-> +	if (ret) {
-> +		drm_err(dev, "HDCP 1.x capability check failed %d\n", ret);
-> +		goto out;
-> +	}
-> +	if (capable && conn_state->content_type != 
-> DRM_MODE_HDCP_CONTENT_TYPE1) {
-> +		data->enabled_type = DRM_MODE_HDCP_CONTENT_TYPE0;
-> +		ret = drm_hdcp_helper_hdcp1_enable(data);
-> +		if (!ret)
-> +			check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
-> +	}
-> +
-> +out:
-> +	if (!ret) {
-> +		schedule_delayed_work(&data->check_work, check_link_interval);
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_ENABLED,
-> +				      true);
-> +	}
-> +
-> +	drm_hdcp_helper_driver_unlock(data);
-> +	if (ret)
-> +		data->driver_mutex = NULL;
-> +
-> +out_data_mutex:
-> +	mutex_unlock(&data->mutex);
-> +	return ret;
-> +}
-> +
-> +static int drm_hdcp_helper_disable_hdcp(struct drm_hdcp_helper_data 
-> *data)
-> +{
-> +	int ret = 0;
-> +
-> +	mutex_lock(&data->mutex);
-> +	drm_hdcp_helper_driver_lock(data);
-> +
-> +	if (data->value == DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
-> +		goto out;
-> +
-> +	drm_dbg_kms(data->connector->dev, "[%s:%d] HDCP is being 
-> disabled...\n",
-> +		    data->connector->name, data->connector->base.id);
-> +
-> +	drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_UNDESIRED, 
-> true);
-> +
-> +	if (data->enabled_type == DRM_MODE_HDCP_CONTENT_TYPE1)
-> +		ret = data->funcs->hdcp2_disable(data->connector);
-> +	else
-> +		ret = data->funcs->hdcp1_disable(data->connector);
-> +
-> +	drm_dbg_kms(data->connector->dev, "HDCP is disabled\n");
-> +
-> +out:
-> +	drm_hdcp_helper_driver_unlock(data);
-> +	data->driver_mutex = NULL;
-> +	mutex_unlock(&data->mutex);
-> +	cancel_delayed_work_sync(&data->check_work);
-> +	return ret;
-> +}
-> +
-> +/**
-> + * drm_hdcp_helper_atomic_commit - Helper for drivers to call during 
-> commit to
-> + * enable/disable HDCP
-> + *
-> + * @data: pointer to the @drm_hdcp_helper_data for the connector
-> + * @state: pointer to the atomic state being committed
-> + * @driver_mutex: driver-provided lock to be used while interacting
-> with the driver
-> + *
-> + * This function can be used by display drivers to determine when
-> HDCP should be
-> + * enabled or disabled based on the connector state. It should be 
-> called during
-> + * steady-state commits as well as connector enable/disable. The 
-> function will
-> + * handle the HDCP authentication/encryption logic, calling back into
-> the driver
-> + * when source operations are necessary.
-> + *
-> + * @driver_mutex will be retained and used for the duration of the 
-> HDCP session
-> + * since it will be needed for link checks and retries. This mutex is 
-> useful if
-> + * the driver has shared resources across connectors which must be 
-> serialized.
-> + * For example, driver_mutex can be used for MST connectors sharing a 
-> common
-> + * encoder which should not be accessed/changed concurrently. When the
-> + * connector's session is torn down, the mutex will be forgotten by 
-> the helper
-> + * for this connector until the next session.
-> + */
-> +void drm_hdcp_helper_atomic_commit(struct drm_hdcp_helper_data *data,
-> +				   struct drm_atomic_state *state,
-> +				   struct mutex *driver_mutex)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_connector_state *conn_state;
-> +	bool type_changed;
-> +
-> +	conn_state = drm_atomic_get_new_connector_state(state, connector);
-> +
-> +	type_changed = conn_state->hdcp_content_type != data->enabled_type;
-> +
-> +	if (conn_state->content_protection == 
-> DRM_MODE_CONTENT_PROTECTION_UNDESIRED) {
-> +		drm_hdcp_helper_disable_hdcp(data);
-> +		return;
-> +	}
-> +
-> +	if (!conn_state->crtc) {
-> +		drm_hdcp_helper_disable_hdcp(data);
-> +
-> +		/* Restore property to DESIRED so it's retried later */
-> +		if (conn_state->content_protection == 
-> DRM_MODE_CONTENT_PROTECTION_ENABLED) {
-> +			mutex_lock(&data->mutex);
-> +			drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_DESIRED,
-> +					true);
-> +			mutex_unlock(&data->mutex);
-> +		}
-> +		return;
-> +	}
-> +
-> +	/* Already enabled */
-> +	if (conn_state->content_protection == 
-> DRM_MODE_CONTENT_PROTECTION_ENABLED)
-> +		return;
-> +
-> +	/* Disable and re-enable HDCP on content type change */
-> +	if (type_changed)
-> +		drm_hdcp_helper_disable_hdcp(data);
-> +
-> +	drm_hdcp_helper_enable_hdcp(data, state, driver_mutex);
-> +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_atomic_commit);
-> +
-> +static void drm_hdcp_helper_prop_work(struct work_struct *work)
-> +{
-> +	struct drm_hdcp_helper_data *data = container_of(work,
-> +							 struct drm_hdcp_helper_data,
-> +							 prop_work);
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +
-> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> +	mutex_lock(&data->mutex);
-> +
-> +	/*
-> +	 * This worker is only used to flip between ENABLED/DESIRED. Either 
-> of
-> +	 * those to UNDESIRED is handled by core. If value == UNDESIRED,
-> +	 * we're running just after hdcp has been disabled, so just exit
-> +	 */
-> +	if (data->value != DRM_MODE_CONTENT_PROTECTION_UNDESIRED)
-> +		drm_hdcp_update_content_protection(connector, data->value);
-> +
-> +	mutex_unlock(&data->mutex);
-> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-> +}
-> +
-> +static int drm_hdcp_hdcp1_check_link(struct drm_hdcp_helper_data 
-> *data)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	int ret;
-> +
-> +	if (data->funcs->hdcp1_check_link) {
-> +		ret = data->funcs->hdcp1_check_link(connector);
-> +		if (ret)
-> +			goto retry;
-> +	}
-> +
-> +	/* The link is checked differently for DP and HDMI */
-> +	if (data->aux) {
-> +		u8 bstatus;
-> +		ret = drm_hdcp_remote_dpcd_read(data->aux, DP_AUX_HDCP_BSTATUS,
-> +						&bstatus, 1);
-> +		if (ret) {
-> +			drm_err(dev, "Failed to read dpcd bstatus, %d\n", ret);
-> +			return ret;
-> +		}
-> +		if (bstatus & (DP_BSTATUS_LINK_FAILURE | DP_BSTATUS_REAUTH_REQ))
-> +			ret = -EINVAL;
-> +	} else {
-> +		ret = drm_hdcp_helper_hdcp1_validate_ri(data);
-> +		if (ret)
-> +			drm_err(dev,"Ri' mismatch, check failed (%d)\n", ret);
-> +	}
-> +	if (!ret)
-> +		return 0;
-> +
-> +retry:
-> +	drm_err(dev, "[%s:%d] HDCP link failed, retrying authentication\n",
-> +		connector->name, connector->base.id);
-> +
-> +	ret = data->funcs->hdcp1_disable(connector);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to disable hdcp (%d)\n", ret);
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_DESIRED,
-> +				      true);
-> +		return ret;
-> +	}
-> +
-> +	ret = drm_hdcp_helper_hdcp1_enable(data);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to enable hdcp (%d)\n", ret);
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_DESIRED,
-> +				      true);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int drm_hdcp_hdcp2_check_link(struct drm_hdcp_helper_data 
-> *data)
-> +{
-> +	struct drm_connector *connector = data->connector;
-> +	struct drm_device *dev = connector->dev;
-> +	int ret;
-> +
-> +	ret = data->funcs->hdcp2_check_link(connector);
-> +	if (!ret)
-> +		return 0;
-> +
-> +	drm_err(dev, "[%s:%d] HDCP2 link failed, retrying authentication\n",
-> +		connector->name, connector->base.id);
-> +
-> +	ret = data->funcs->hdcp2_disable(connector);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to disable hdcp2 (%d)\n", ret);
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_DESIRED,
-> +				      true);
-> +		return ret;
-> +	}
-> +
-> +	ret = data->funcs->hdcp2_enable(connector);
-> +	if (ret) {
-> +		drm_err(dev, "Failed to enable hdcp2 (%d)\n", ret);
-> +		drm_hdcp_update_value(data, DRM_MODE_CONTENT_PROTECTION_DESIRED,
-> +				      true);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void drm_hdcp_helper_check_work(struct work_struct *work)
-> +{
-> +	struct drm_hdcp_helper_data *data = 
-> container_of(to_delayed_work(work),
-> +							 struct drm_hdcp_helper_data,
-> +							 check_work);
-> +	unsigned long check_link_interval;
-> +
+>  drivers/gpu/drm/mediatek/Makefile    |   1 +
+>  drivers/gpu/drm/mediatek/mtk_ethdr.c | 424 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/mediatek/mtk_ethdr.h |  25 ++
+>  3 files changed, 450 insertions(+)
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.c
+>  create mode 100644 drivers/gpu/drm/mediatek/mtk_ethdr.h
 
-Does this SW polling for Ri' mismatch need to be done even if the HW is 
-capable of doing it
-on its own?
-MSM HDCP 1x HW can periodically check Ri' mismatches and issue an 
-interrupt if there is a mismatch.
-In that case this SW polling is not needed. So maybe check if the HW 
-supports polling and if so
-skip this SW polling?
+[snip]
 
-> +	mutex_lock(&data->mutex);
-> +	if (data->value != DRM_MODE_CONTENT_PROTECTION_ENABLED)
-> +		goto out_data_mutex;
 > +
-> +	drm_hdcp_helper_driver_lock(data);
-> +
-> +	if (data->enabled_type == DRM_MODE_HDCP_CONTENT_TYPE1) {
-> +		if (drm_hdcp_hdcp2_check_link(data))
-> +			goto out;
-> +		check_link_interval = DRM_HDCP2_CHECK_PERIOD_MS;
-> +	} else {
-> +		if (drm_hdcp_hdcp1_check_link(data))
-> +			goto out;
-> +		check_link_interval = DRM_HDCP_CHECK_PERIOD_MS;
-> +	}
-> +	schedule_delayed_work(&data->check_work, check_link_interval);
-> +
-> +out:
-> +	drm_hdcp_helper_driver_unlock(data);
-> +out_data_mutex:
-> +	mutex_unlock(&data->mutex);
-> +}
-> +
-> +/**
-> + * drm_hdcp_helper_schedule_hdcp_check - Schedule a check link cycle.
-> + *
-> + * @data: Pointer to the HDCP helper data.
-> + *
-> + * This function will kick off a check link cycle on behalf of the 
-> caller. This
-> + * can be used by DP short hpd interrupt handlers, where the driver 
-> must poke
-> + * the helper to check the link is still valid.
-> + */
-> +void drm_hdcp_helper_schedule_hdcp_check(struct drm_hdcp_helper_data 
-> *data)
+> +void mtk_ethdr_disable_vblank(struct device *dev)
 > +{
-> +	schedule_delayed_work(&data->check_work, 0);
-> +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_schedule_hdcp_check);
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       unsigned long flags;
 > +
-> +static struct drm_hdcp_helper_data *
-> +drm_hdcp_helper_initialize(struct drm_connector *connector,
-> +			   const struct drm_hdcp_helper_funcs *funcs,
-> +			   bool attach_content_type_property)
+> +       spin_lock_irqsave(&priv->lock, flags);
+> +       priv->vblank_cb =3D NULL;
+> +       priv->vblank_cb_data =3D NULL;
+> +       spin_unlock_irqrestore(&priv->lock, flags);
+> +
+> +       writel(0x0, priv->ethdr_comp[ETHDR_MIXER].regs + MIX_INTEN);
+> +}
+> +
+> +static irqreturn_t mtk_ethdr_irq_handler(int irq, void *dev_id)
 > +{
-> +	struct drm_hdcp_helper_data *out;
-> +	int ret;
+> +       struct mtk_ethdr *priv =3D dev_id;
+> +       unsigned long flags;
 > +
-> +	out = kzalloc(sizeof(*out), GFP_KERNEL);
-> +	if (!out)
-> +		return ERR_PTR(-ENOMEM);
+> +       writel(0x0, priv->ethdr_comp[ETHDR_MIXER].regs + MIX_INTSTA);
 > +
-> +	out->connector = connector;
-> +	out->funcs = funcs;
+> +       spin_lock_irqsave(&priv->lock, flags);
+> +       if (!priv->vblank_cb) {
+> +               spin_unlock_irqrestore(&priv->lock, flags);
+> +               return IRQ_NONE;
+> +       }
 > +
-> +	mutex_init(&out->mutex);
-> +	out->value = DRM_MODE_CONTENT_PROTECTION_UNDESIRED;
+> +       priv->vblank_cb(priv->vblank_cb_data);
+> +       spin_unlock_irqrestore(&priv->lock, flags);
 > +
-> +	INIT_DELAYED_WORK(&out->check_work, drm_hdcp_helper_check_work);
-> +	INIT_WORK(&out->prop_work, drm_hdcp_helper_prop_work);
-> +
-> +	ret = drm_connector_attach_content_protection_property(connector,
-> +			attach_content_type_property);
-> +	if (ret) {
-> +		drm_hdcp_helper_destroy(out);
-> +		return ERR_PTR(ret);
-> +	}
-> +
-> +	return out;
+> +       return IRQ_HANDLED;
 > +}
 > +
-> +/**
-> + * drm_hdcp_helper_initialize_dp - Initializes the HDCP helpers for a
-> + * DisplayPort connector
-> + *
-> + * @connector: pointer to the DisplayPort connector.
-> + * @funcs: pointer to the vtable of HDCP helper funcs for this 
-> connector.
-> + * @attach_content_type_property: True if the content_type property 
-> should be
-> + * attached.
-> + *
-> + * This function intializes the HDCP helper for the given DisplayPort
-> connector.
-> + * This involves creating the Content Protection property as well as
-> the Content
-> + * Type property (if desired). Upon success, it will return a pointer 
-> to the
-> + * HDCP helper data. Ownership of the underlaying memory is transfered 
-> to the
-> + * caller and should be freed using drm_hdcp_helper_destroy().
-> + *
-> + * Returns:
-> + * Pointer to newly created HDCP helper data. PTR_ERR on failure.
-> + */
-> +struct drm_hdcp_helper_data *
-> +drm_hdcp_helper_initialize_dp(struct drm_connector *connector,
-> +			      struct drm_dp_aux *aux,
-> +			      const struct drm_hdcp_helper_funcs *funcs,
-> +			      bool attach_content_type_property)
+> +void mtk_ethdr_layer_config(struct device *dev, unsigned int idx,
+> +                           struct mtk_plane_state *state,
+> +                           struct cmdq_pkt *cmdq_pkt)
 > +{
-> +	struct drm_hdcp_helper_data *out;
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       struct mtk_ethdr_comp *mixer =3D &priv->ethdr_comp[ETHDR_MIXER];
+> +       struct mtk_plane_pending_state *pending =3D &state->pending;
+> +       unsigned int offset =3D (pending->y << 16) | pending->x;
+
+unsigned int offset =3D (pending->x & 1) << 31 |  pending->y << 16 | pendin=
+g->x;
+
+So you don't need x_offset_odd.
+
+> +       unsigned int mixer_pad_mode =3D MIXER_INx_MODE_BYPASS;
+> +       unsigned int alpha_con =3D 0;
+> +       unsigned int fmt =3D 0;
+> +       bool x_offset_odd =3D false;
 > +
-> +	out = drm_hdcp_helper_initialize(connector, funcs,
-> +					 attach_content_type_property);
-> +	if (IS_ERR(out))
-> +		return out;
+> +       dev_dbg(dev, "%s+ idx:%d", __func__, idx);
 > +
-> +	out->aux = aux;
-> +	out->hdcp1_lut = &drm_hdcp_hdcp1_dpcd_lut;
+> +       if (idx >=3D 4)
+> +               return;
 > +
-> +	return out;
+> +       if (!pending->enable) {
+> +               mtk_ddp_write(cmdq_pkt, 0, &mixer->cmdq_base, mixer->regs=
+, MIX_L_SRC_SIZE(idx));
+> +               mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_=
+IN_MODE,
+> +                                    idx + 1, MIXER_INx_MODE_BYPASS, cmdq=
+_pkt);
+> +               mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_=
+IN_BIWIDTH,
+> +                                    idx + 1, 0, cmdq_pkt);
+> +               return;
+> +       }
+> +
+> +       if (pending->x % 2) {
+> +               x_offset_odd =3D true;
+> +               mixer_pad_mode =3D MIXER_INx_MODE_EVEN_EXTEND;
+> +       }
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_IN_MODE,
+> +                            idx + 1, mixer_pad_mode, cmdq_pkt);
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_IN_BIWID=
+TH,
+> +                            idx + 1, pending->width / 2 - 1, cmdq_pkt);
+> +
+> +       if (state->base.fb && state->base.fb->format->has_alpha) {
+> +               alpha_con =3D MIXER_ALPHA_AEN | MIXER_ALPHA;
+> +               mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_HDR_AL=
+PHA_SEL,
+> +                                    idx + 1, 0, cmdq_pkt);
+> +       } else {
+> +               mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_HDR_AL=
+PHA_SEL,
+> +                                    idx + 1, 1, cmdq_pkt);
+> +       }
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_IN_ALPHA=
+_ODD, idx + 1,
+> +                            DEFAULT_9BIT_ALPHA, cmdq_pkt);
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_IN_ALPHA=
+_EVEN, idx + 1,
+> +                            DEFAULT_9BIT_ALPHA, cmdq_pkt);
+> +
+> +       mtk_ddp_write(cmdq_pkt, (pending->height << 16) | pending->width,=
+ &mixer->cmdq_base,
+
+mtk_ddp_write(cmdq_pkt, pending->height << 16 | pending->width,
+&mixer->cmdq_base,
+
+> +                     mixer->regs, MIX_L_SRC_SIZE(idx));
+> +       mtk_ddp_write(cmdq_pkt, (x_offset_odd << 31) | offset, &mixer->cm=
+dq_base,
+> +                     mixer->regs, MIX_L_SRC_OFFSET(idx));
+> +       mtk_ddp_write_mask(cmdq_pkt, alpha_con, &mixer->cmdq_base, mixer-=
+>regs, MIX_L_SRC_CON(idx),
+> +                          0x1ff);
+> +       mtk_ddp_write_mask(cmdq_pkt, BIT(idx), &mixer->cmdq_base, mixer->=
+regs, MIX_SRC_CON,
+> +                          BIT(idx));
 > +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_initialize_dp);
 > +
-> +/**
-> + * drm_hdcp_helper_initialize_hdmi - Initializes the HDCP helpers for 
-> an HDMI
-> + * connector
-> + *
-> + * @connector: pointer to the HDMI connector.
-> + * @funcs: pointer to the vtable of HDCP helper funcs for this 
-> connector.
-> + * @attach_content_type_property: True if the content_type property 
-> should be
-> + * attached.
-> + *
-> + * This function intializes the HDCP helper for the given HDMI 
-> connector. This
-> + * involves creating the Content Protection property as well as the
-> Content Type
-> + * property (if desired). Upon success, it will return a pointer to 
-> the HDCP
-> + * helper data. Ownership of the underlaying memory is transfered to 
-> the caller
-> + * and should be freed using drm_hdcp_helper_destroy().
-> + *
-> + * Returns:
-> + * Pointer to newly created HDCP helper data. PTR_ERR on failure.
-> + */
-> +struct drm_hdcp_helper_data *
-> +drm_hdcp_helper_initialize_hdmi(struct drm_connector *connector,
-> +				const struct drm_hdcp_helper_funcs *funcs,
-> +				bool attach_content_type_property)
+> +void mtk_ethdr_config(struct device *dev, unsigned int w,
+> +                     unsigned int h, unsigned int vrefresh,
+> +                     unsigned int bpc, struct cmdq_pkt *cmdq_pkt)
 > +{
-> +	struct drm_hdcp_helper_data *out;
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       struct mtk_ethdr_comp *vdo_fe0 =3D &priv->ethdr_comp[ETHDR_VDO_FE=
+0];
+> +       struct mtk_ethdr_comp *vdo_fe1 =3D &priv->ethdr_comp[ETHDR_VDO_FE=
+1];
+> +       struct mtk_ethdr_comp *gfx_fe0 =3D &priv->ethdr_comp[ETHDR_GFX_FE=
+0];
+> +       struct mtk_ethdr_comp *gfx_fe1 =3D &priv->ethdr_comp[ETHDR_GFX_FE=
+1];
+> +       struct mtk_ethdr_comp *vdo_be =3D &priv->ethdr_comp[ETHDR_VDO_BE]=
+;
+> +       struct mtk_ethdr_comp *mixer =3D &priv->ethdr_comp[ETHDR_MIXER];
 > +
-> +	out = drm_hdcp_helper_initialize(connector, funcs,
-> +					 attach_content_type_property);
-> +	if (IS_ERR(out))
-> +		return out;
+> +       dev_dbg(dev, "%s-w:%d, h:%d\n", __func__, w, h);
 > +
-> +	out->hdcp1_lut = &drm_hdcp_hdcp1_ddc_lut;
+> +       mtk_ddp_write(cmdq_pkt, HDR_VDO_FE_0804_BYPASS_ALL, &vdo_fe0->cmd=
+q_base,
+> +                     vdo_fe0->regs, HDR_VDO_FE_0804_HDR_DM_FE);
 > +
-> +	return out;
+> +       mtk_ddp_write(cmdq_pkt, HDR_VDO_FE_0804_BYPASS_ALL, &vdo_fe1->cmd=
+q_base,
+> +                     vdo_fe1->regs, HDR_VDO_FE_0804_HDR_DM_FE);
+> +
+> +       mtk_ddp_write(cmdq_pkt, HDR_GFX_FE_0204_BYPASS_ALL, &gfx_fe0->cmd=
+q_base,
+> +                     gfx_fe0->regs, HDR_GFX_FE_0204_GFX_HDR_FE);
+> +
+> +       mtk_ddp_write(cmdq_pkt, HDR_GFX_FE_0204_BYPASS_ALL, &gfx_fe1->cmd=
+q_base,
+> +                     gfx_fe1->regs, HDR_GFX_FE_0204_GFX_HDR_FE);
+> +
+> +       mtk_ddp_write(cmdq_pkt, HDR_VDO_BE_0204_BYPASS_ALL, &vdo_be->cmdq=
+_base,
+> +                     vdo_be->regs, HDR_VDO_BE_0204_VDO_DM_BE);
+> +
+> +       mtk_ddp_write(cmdq_pkt, MIX_FUNC_DCM_ENABLE, &mixer->cmdq_base, m=
+ixer->regs, MIX_FUNC_DCM0);
+> +       mtk_ddp_write(cmdq_pkt, MIX_FUNC_DCM_ENABLE, &mixer->cmdq_base, m=
+ixer->regs, MIX_FUNC_DCM1);
+> +       mtk_ddp_write(cmdq_pkt, (h << 16 | w), &mixer->cmdq_base, mixer->=
+regs, MIX_ROI_SIZE);
+
+mtk_ddp_write(cmdq_pkt, h << 16 | w, &mixer->cmdq_base, mixer->regs,
+MIX_ROI_SIZE);
+
+> +       mtk_ddp_write(cmdq_pkt, BGCLR_BLACK, &mixer->cmdq_base, mixer->re=
+gs, MIX_ROI_BGCLR);
+> +       mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE, &mixer->cmdq_base, m=
+ixer->regs,
+> +                     MIX_L_SRC_CON(0));
+> +       mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE, &mixer->cmdq_base, m=
+ixer->regs,
+> +                     MIX_L_SRC_CON(1));
+> +       mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE, &mixer->cmdq_base, m=
+ixer->regs,
+> +                     MIX_L_SRC_CON(2));
+> +       mtk_ddp_write(cmdq_pkt, NON_PREMULTI_SOURCE, &mixer->cmdq_base, m=
+ixer->regs,
+> +                     MIX_L_SRC_CON(3));
+> +       mtk_ddp_write(cmdq_pkt, 0x0, &mixer->cmdq_base, mixer->regs, MIX_=
+L_SRC_SIZE(0));
+> +       mtk_ddp_write(cmdq_pkt, OUTPUT_NO_RND | SOURCE_RGB_SEL | BACKGROU=
+ND_RELAY,
+> +                     &mixer->cmdq_base, mixer->regs, MIX_DATAPATH_CON);
+> +       mtk_ddp_write_mask(cmdq_pkt, MIX_SRC_L0_EN, &mixer->cmdq_base, mi=
+xer->regs,
+> +                          MIX_SRC_CON, MIX_SRC_L0_EN);
+
+       mtk_ddp_write_mask(cmdq_pkt, BIT(0), &mixer->cmdq_base,
+mixer->regs, MIX_SRC_CON,
+                          BIT(0));
+
+Why do you enable layer 0?
+
+> +
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_HDR_BE_ASYNC_W=
+IDTH, 0,
+> +                            w / 2, cmdq_pkt);
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_HDR_BE_ASYNC_H=
+EIGHT, 0,
+> +                            h, cmdq_pkt);
+> +       mtk_mmsys_ddp_config(priv->mmsys_dev, MMSYS_CONFIG_MIXER_IN_CH_SW=
+AP, 4, 0, cmdq_pkt);
 > +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_initialize_hdmi);
 > +
-> +/**
-> + * drm_hdcp_helper_destroy - Destroys the given HDCP helper data.
-> + *
-> + * @data: Pointer to the HDCP helper data.
-> + *
-> + * This function cleans up and destroys the HDCP helper data created 
-> by
-> + * drm_hdcp_helper_initialize_dp() or 
-> drm_hdcp_helper_initialize_hdmi().
-> + */
-> +void drm_hdcp_helper_destroy(struct drm_hdcp_helper_data *data)
+> +void mtk_ethdr_start(struct device *dev)
 > +{
-> +	struct drm_connector *connector;
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       struct mtk_ethdr_comp *mixer =3D &priv->ethdr_comp[ETHDR_MIXER];
 > +
-> +	if (!data)
-> +		return;
-> +
-> +	connector = data->connector;
-> +
-> +	/*
-> +	 * If the connector is registered, it's possible userspace could kick
-> +	 * off another HDCP enable, which would re-spawn the workers.
-> +	 */
-> +	drm_WARN_ON(connector->dev,
-> +		    connector->registration_state == DRM_CONNECTOR_REGISTERED);
-> +
-> +	/*
-> +	 * Now that the connector is not registered, check_work won't be run,
-> +	 * but cancel any outstanding instances of it
-> +	 */
-> +	cancel_delayed_work_sync(&data->check_work);
-> +
-> +	/*
-> +	 * We don't cancel prop_work in the same way as check_work since it
-> +	 * requires connection_mutex which could be held while calling this
-> +	 * function. Instead, we rely on the connector references grabbed 
-> before
-> +	 * scheduling prop_work to ensure the connector is alive when 
-> prop_work
-> +	 * is run. So if we're in the destroy path (which is where this
-> +	 * function should be called), we're "guaranteed" that prop_work is 
-> not
-> +	 * active (tl;dr This Should Never Happen).
-> +	 */
-> +	drm_WARN_ON(connector->dev, work_pending(&data->prop_work));
-> +
-> +	kfree(data);
+> +       writel(1, mixer->regs + MIX_EN);
 > +}
-> +EXPORT_SYMBOL(drm_hdcp_helper_destroy);
-> diff --git a/include/drm/drm_hdcp.h b/include/drm/drm_hdcp.h
-> index e6e3d16bc7d3..69c6405db5d1 100644
-> --- a/include/drm/drm_hdcp.h
-> +++ b/include/drm/drm_hdcp.h
-> @@ -36,6 +36,7 @@
->  #define DRM_HDCP_DDC_BKSV			0x00
->  #define DRM_HDCP_DDC_RI_PRIME			0x08
->  #define DRM_HDCP_DDC_AKSV			0x10
-> +#define DRM_HDCP_DDC_AINFO			0x15
->  #define DRM_HDCP_DDC_AN				0x18
->  #define DRM_HDCP_DDC_V_PRIME(h)			(0x20 + h * 4)
->  #define DRM_HDCP_DDC_BCAPS			0x40
-> @@ -295,6 +296,19 @@ struct drm_atomic_state;
->  struct drm_device;
->  struct drm_connector;
-> 
-> +struct drm_hdcp_ksv {
-> +	union {
-> +		u32 words[2];
-> +		u8 bytes[DRM_HDCP_KSV_LEN];
-> +	};
-> +};
-> +struct drm_hdcp_an {
-> +	union {
-> +		u32 words[2];
-> +		u8 bytes[DRM_HDCP_AN_LEN];
-> +	};
-> +};
 > +
->  int drm_hdcp_check_ksvs_revoked(struct drm_device *dev,
->  				u8 *ksvs, u32 ksv_count);
->  int drm_connector_attach_content_protection_property(
-> @@ -303,9 +317,186 @@ void drm_hdcp_update_content_protection(struct
-> drm_connector *connector,
->  					u64 val);
->  bool drm_hdcp_atomic_check(struct drm_connector *connector,
->  			   struct drm_atomic_state *state);
-> +void drm_hdcp_atomic_commit(struct drm_atomic_state *state,
-> +			    struct drm_connector *connector);
-> 
->  /* Content Type classification for HDCP2.2 vs others */
->  #define DRM_MODE_HDCP_CONTENT_TYPE0		0
->  #define DRM_MODE_HDCP_CONTENT_TYPE1		1
-> 
-> +/**
-> + * struct drm_hdcp_helper_funcs - A vtable of function hooks for the
-> hdcp helper
-> + *
-> + * These hooks are used by the hdcp helper to call into the 
-> driver/connector
-> + * code to read/write to hw.
-> + */
-> +struct drm_hdcp_helper_funcs {
-> +	/**
-> +	 * @setup - Performs driver-specific setup before hdcp is enabled
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*setup)(struct drm_connector *connector,
-> +		     struct drm_atomic_state *state);
+> +void mtk_ethdr_stop(struct device *dev)
+> +{
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       struct mtk_ethdr_comp *mixer =3D &priv->ethdr_comp[ETHDR_MIXER];
 > +
-> +	/**
-> +	 * @are_keys_valid - Checks if the HDCP transmitter keys are valid
-> +	 *
-> +	 * Returns: true if the display controller has valid keys loaded
-> +	 */
-> +	bool (*are_keys_valid)(struct drm_connector *connector);
+> +       writel(0, mixer->regs + MIX_EN);
+> +       writel(1, mixer->regs + MIX_RST);
+> +       reset_control_reset(devm_reset_control_array_get(dev, true, true)=
+);
+> +       writel(0, mixer->regs + MIX_RST);
+> +}
 > +
-> +	/**
-> +	 * @load_keys - Instructs the driver to load its HDCP transmitter 
-> keys
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*load_keys)(struct drm_connector *connector);
+> +int mtk_ethdr_clk_enable(struct device *dev)
+> +{
+> +       int ret;
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
 > +
-> +	/**
-> +	 * @hdcp2_capable - Checks if both source and sink support HDCP 2.x
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp2_capable)(struct drm_connector *connector, bool *capable);
+> +       ret =3D clk_bulk_prepare_enable(ETHDR_CLK_NUM, priv->ethdr_clk);
+> +       if (ret)
+> +               dev_err(dev,
+> +                       "ethdr_clk prepare enable failed\n");
+> +       return ret;
+> +}
 > +
-> +	/**
-> +	 * @hdcp2_enable - Enables HDCP 2.x on the specified connector
-> +	 *
-> +	 * Since we don't have multiple examples of HDCP 2.x enablement, we
-> +	 * provide the bare minimum support for HDCP 2.x help. Once we have
-> +	 * more examples, perhaps we can be more helpful.
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp2_enable)(struct drm_connector *connector);
+> +void mtk_ethdr_clk_disable(struct device *dev)
+> +{
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
 > +
-> +	/**
-> +	 * @hdcp2_check_link - Checks the HDCP 2.x link on a specified 
-> connector
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp2_check_link)(struct drm_connector *connector);
+> +       clk_bulk_disable_unprepare(ETHDR_CLK_NUM, priv->ethdr_clk);
+> +}
 > +
-> +	/**
-> +	 * @hdcp2_disable - Disables HDCP 2.x on the specified connector
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp2_disable)(struct drm_connector *connector);
+> +static int mtk_ethdr_bind(struct device *dev, struct device *master,
+> +                         void *data)
+> +{
+> +       struct mtk_ethdr *priv =3D dev_get_drvdata(dev);
+> +       struct platform_device *ovl_adaptor;
+> +       struct drm_device *drm_dev =3D data;
+> +       struct mtk_drm_private *drm_private =3D drm_dev->dev_private;
 > +
-> +	/**
-> +	 * @hdcp1_read_an_aksv - Reads transmitter's An & Aksv from hardware
-> +	 *
-> +	 * Use this function if hardware allows reading the transmitter's An 
-> and
-> +	 * Aksv values from the kernel. If your hardware will not allow this,
-> +	 * use hdcp1_send_an_aksv() and implement the transmission in the
-> +	 * driver.
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_read_an_aksv)(struct drm_connector *connector, u32 *an,
-> +				  u32 *aksv);
+> +       priv->mmsys_dev =3D drm_private->mmsys_dev;
 > +
-> +	/**
-> +	 * @hdcp1_send_an_aksv - Sends transmitter's An & Aksv to the 
-> receiver
-> +	 *
-> +	 * Only implement this on hardware where An or Aksv are not 
-> accessible
-> +	 * from the kernel. If these values can be read, use
-> +	 * hdcp1_read_an_aksv() instead.
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_send_an_aksv)(struct drm_connector *connector);
+> +       /* Bring up ovl adaptor rdma and merge */
+> +       ovl_adaptor =3D platform_device_register_data(dev, "mediatek-disp=
+-ovl-adaptor",
+> +                                                   PLATFORM_DEVID_NONE, =
+(void *)priv->mmsys_dev,
+> +                                                   sizeof(*priv->mmsys_d=
+ev));
+
+I would like that mtk drm driver bring up ovl adaptor and ovl adaptor
+bring up ethdr, rdma and merge. In another SoC, edhdr may be not
+related to ovl.
+
+Regards,
+Chun-Kuang.
+
+> +       if (IS_ERR(ovl_adaptor))
+> +               return PTR_ERR(ovl_adaptor);
 > +
-> +	/**
-> +	 * @hdcp1_store_receiver_info - Stores the receiver's info in the 
-> transmitter
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_store_receiver_info)(struct drm_connector *connector,
-> +					 u32 *ksv, u32 status, u8 caps,
-> +					 bool repeater_present);
+> +       priv->ovl_adaptor_dev =3D &ovl_adaptor->dev;
 > +
-> +	/**
-> +	 * @hdcp1_enable_encryption - Enables encryption of the outgoing 
-> signal
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_enable_encryption)(struct drm_connector *connector);
+> +       return 0;
+> +}
 > +
-> +	/**
-> +	 * @hdcp1_wait_for_r0 - Wait for transmitter to calculate R0
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_wait_for_r0)(struct drm_connector *connector);
+> +static void mtk_ethdr_unbind(struct device *dev, struct device *master, =
+void *data)
+> +{
+> +}
 > +
-> +	/**
-> +	 * @hdcp1_match_ri - Matches the given Ri from the receiver with Ri 
-> in
-> +	 * the transmitter
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_match_ri)(struct drm_connector *connector, u32 ri_prime);
-> +
-> +	/**
-> +	 * @hdcp1_post_encryption - Allows the driver to confirm encryption 
-> and
-> +	 * perform any post-processing
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_post_encryption)(struct drm_connector *connector);
-> +
-> +	/**
-> +	 * @hdcp1_store_ksv_fifo - Write the receiver's KSV list to 
-> transmitter
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_store_ksv_fifo)(struct drm_connector *connector,
-> +				    u8 *ksv_fifo, u8 num_downstream,
-> +				    u8 *bstatus, u32 *vprime);
-> +
-> +	/**
-> +	 * @hdcp1_check_link - Allows the driver to check the HDCP 1.x status
-> +	 * on a specified connector
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_check_link)(struct drm_connector *connector);
-> +
-> +	/**
-> +	 * @hdcp1_disable - Disables HDCP 1.x on the specified connector
-> +	 *
-> +	 * Returns: 0 on success, -errno on failure
-> +	 */
-> +	int (*hdcp1_disable)(struct drm_connector *connector);
+> +static const struct component_ops mtk_ethdr_component_ops =3D {
+> +       .bind   =3D mtk_ethdr_bind,
+> +       .unbind =3D mtk_ethdr_unbind,
 > +};
 > +
-> +struct drm_hdcp_helper_data;
-> +struct drm_dp_aux;
-> +struct i2c_adapter;
-> +struct mutex;
-> +
-> +struct drm_hdcp_helper_data *
-> +drm_hdcp_helper_initialize_dp(struct drm_connector *connector,
-> +			      struct drm_dp_aux *aux,
-> +			      const struct drm_hdcp_helper_funcs *funcs,
-> +			      bool attach_content_type_property);
-> +
-> +struct drm_hdcp_helper_data *
-> +drm_hdcp_helper_initialize_hdmi(struct drm_connector *connector,
-> +				const struct drm_hdcp_helper_funcs *funcs,
-> +				bool attach_content_type_property);
-> +
-> +void drm_hdcp_helper_destroy(struct drm_hdcp_helper_data *data);
-> +
-> +int drm_hdcp_helper_hdcp1_capable(struct drm_hdcp_helper_data *data,
-> +				  bool *capable);
-> +void drm_hdcp_helper_atomic_commit(struct drm_hdcp_helper_data *data,
-> +				   struct drm_atomic_state *state,
-> +				   struct mutex *driver_mutex);
-> +
-> +void drm_hdcp_helper_schedule_hdcp_check(struct drm_hdcp_helper_data 
-> *data);
-> +
->  #endif
