@@ -2,78 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47649414CF8
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 17:26:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637A3414CF3
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 17:25:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E08316EC1B;
-	Wed, 22 Sep 2021 15:26:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 941936EC20;
+	Wed, 22 Sep 2021 15:25:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D79C46EC1B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 15:26:32 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id i4so13375823lfv.4
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linux-foundation.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sVblMwcY20Jt1iJwJZzOQQzmXaPjWYdpKIFg44drlAI=;
- b=Iv8Fu1IRNg70EMHGzFeMTd8j/ThtaiAem9UrK07EGRyvDmdYcny/SyCehISsXmkqpx
- l92lTNBSyBbDXYg1Yhc6RFGTAV9NS5ml7ZmwcQJaPFjWpMPUte3T+pogP3++9F+/Z1A/
- kzeL2ruJbqjYn3yHBIgPlbAR8WOp/hvzXBCGw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sVblMwcY20Jt1iJwJZzOQQzmXaPjWYdpKIFg44drlAI=;
- b=SF34WPH7sSOJCqFY2FEMthPJN2mFZK6WOPkMNToTfthEHJdkLsZ+JvFc92Yc9ZVucr
- j/5UDdjEa3AAXRia6KHnKPafMzB/FXa+PVlskLxNr4UGg2PnO0hZyLxtIBN+xZkO5VpG
- WVRzFPP3dck0XH26l5WBaX7aQXoUztWsQSQmTWa5UbG3Bmn9XuYoG0aidAEumEwqO67d
- kMexkzd1sD/hEWU81Bdt9GjkmK3azi/mwSKYM4rm0eNU17HBUx2UmQxJHesI1p67jVc8
- qRtpX9YfgmwJ4Ddxt/+07VVoujhzO9tZV8GLOfUOrXOgUu1h1Ht/W/l+mC9Q/22CphrM
- FV3Q==
-X-Gm-Message-State: AOAM530kh49Jr73gB6A3ONd5oqvQtAnPES+C599pbSt6M7jqwUJ/3mZS
- GJ02B+3t/6X/ptEXKmA3E70txv62ZqLypF5UP0A=
-X-Google-Smtp-Source: ABdhPJwlUzvBRY4x82HlIDfuuh9lefwdvrj1cz33vB3KduleXtGkQMHV+KpRp6rjgLE9WQw5+MzWLQ==
-X-Received: by 2002:ac2:4c47:: with SMTP id o7mr214495lfk.202.1632324279030;
- Wed, 22 Sep 2021 08:24:39 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com.
- [209.85.167.44])
- by smtp.gmail.com with ESMTPSA id a11sm199823lfj.166.2021.09.22.08.24.38
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 22 Sep 2021 08:24:38 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id i25so13458637lfg.6
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:24:38 -0700 (PDT)
-X-Received: by 2002:a2e:5815:: with SMTP id m21mr126446ljb.95.1632324177022;
- Wed, 22 Sep 2021 08:22:57 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F12416EC20;
+ Wed, 22 Sep 2021 15:25:08 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="203113802"
+X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="203113802"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 08:25:07 -0700
+X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="704060276"
+Received: from bbrowne-mobl.ger.corp.intel.com (HELO [10.213.200.151])
+ ([10.213.200.151])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 08:25:05 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Drop stealing of bits from
+ i915_sw_fence function pointer
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org
+Cc: jani.nikula@linux.intel.com, tvrtko.ursulin@intel.com,
+ lucas.demarchi@intel.com
+References: <20210922145739.17133-1-matthew.brost@intel.com>
+ <f4a6320c-46ea-7a6d-6df8-3995b3497ef7@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <94ef2f48-5f84-bc4c-0e9f-b1481afd8132@linux.intel.com>
+Date: Wed, 22 Sep 2021 16:25:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210903160302.yh42vpkuob45dbpb@gilmour>
- <CADVatmMqT1yq3YHBzt4-VsL8uVHUULmy2gpaH27rAqimao2i_A@mail.gmail.com>
- <20210904091050.g5axxctgelciihjn@gilmour>
- <CADVatmN+9euG5Fegor1+kaSPewbW8vRwBgnxmr5SsK3mOE6FEg@mail.gmail.com>
- <20210920144730.d7oabqfbx7pmyyfb@gilmour>
- <20210920154333.vunyxeshdb7jt5ka@gilmour>
- <20210920155350.h6624mt65vwg72p2@gilmour>
- <CADVatmNi+jN+EwiWuoDoocZFyErDVNt1ND0BxtjuKiV63aNuJg@mail.gmail.com>
- <20210920171042.oq3ndp3ox4xv5odh@gilmour>
- <CADVatmOs7Cc1EdCZXMyXcWM-3-J4bU_3zF1thkOohVUL-G6ZrQ@mail.gmail.com>
- <20210922095725.dk4vk42zb3kh7y6s@gilmour>
- <CADVatmOMV5gMhCuoP65O9mbW639x5=0+bGh92WVL8FFX2Mvu3w@mail.gmail.com>
-In-Reply-To: <CADVatmOMV5gMhCuoP65O9mbW639x5=0+bGh92WVL8FFX2Mvu3w@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Wed, 22 Sep 2021 08:22:40 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
-Message-ID: <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
-Subject: Re: Regression with mainline kernel on rpi4
-To: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Cc: Maxime Ripard <maxime@cerno.tech>, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Philipp Zabel <p.zabel@pengutronix.de>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <f4a6320c-46ea-7a6d-6df8-3995b3497ef7@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,27 +56,238 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 22, 2021 at 3:11 AM Sudip Mukherjee
-<sudipm.mukherjee@gmail.com> wrote:
->
-> That test script is triggering the openqa job, but its running only
-> after lava is able to login. The trace is appearing before the login
-> prompt even, so test_mainline.sh should not matter here.
 
-Side note: the traces might be more legible if you have debug info in
-the kernel, and run the dmesg through the script in
+On 22/09/2021 16:21, Tvrtko Ursulin wrote:
+> 
+> On 22/09/2021 15:57, Matthew Brost wrote:
+>> Rather than stealing bits from i915_sw_fence function pointer use
+>> seperate fields for function pointer and flags. If using two different
+>> fields, the 4 byte alignment for the i915_sw_fence function pointer can
+>> also be dropped.
+>>
+>> v2:
+>>   (CI)
+>>    - Set new function field rather than flags in __i915_sw_fence_init
+>>
+>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+>> ---
+>>   drivers/gpu/drm/i915/display/intel_display.c  |  2 +-
+>>   drivers/gpu/drm/i915/gem/i915_gem_context.c   |  2 +-
+>>   drivers/gpu/drm/i915/i915_request.c           |  4 ++--
+>>   drivers/gpu/drm/i915/i915_sw_fence.c          | 12 +++++------
+>>   drivers/gpu/drm/i915/i915_sw_fence.h          | 21 +++++++++----------
+>>   drivers/gpu/drm/i915/i915_sw_fence_work.c     |  2 +-
+>>   .../gpu/drm/i915/selftests/i915_sw_fence.c    |  2 +-
+>>   drivers/gpu/drm/i915/selftests/lib_sw_fence.c |  4 ++--
+>>   8 files changed, 23 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/display/intel_display.c 
+>> b/drivers/gpu/drm/i915/display/intel_display.c
+>> index a7ca38613f89..6d5bb55ffc82 100644
+>> --- a/drivers/gpu/drm/i915/display/intel_display.c
+>> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+>> @@ -10323,7 +10323,7 @@ static void intel_atomic_commit_work(struct 
+>> work_struct *work)
+>>       intel_atomic_commit_tail(state);
+>>   }
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   intel_atomic_commit_ready(struct i915_sw_fence *fence,
+>>                 enum i915_sw_fence_notify notify)
+>>   {
+>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c 
+>> b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> index c2ab0e22db0a..df5fec5c3da8 100644
+>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+>> @@ -800,7 +800,7 @@ static void free_engines_rcu(struct rcu_head *rcu)
+>>       free_engines(engines);
+>>   }
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   engines_notify(struct i915_sw_fence *fence, enum 
+>> i915_sw_fence_notify state)
+>>   {
+>>       struct i915_gem_engines *engines =
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c 
+>> b/drivers/gpu/drm/i915/i915_request.c
+>> index ce446716d092..945d3025a0b6 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -719,7 +719,7 @@ void i915_request_cancel(struct i915_request *rq, 
+>> int error)
+>>       intel_context_cancel_request(rq->context, rq);
+>>   }
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   submit_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify 
+>> state)
+>>   {
+>>       struct i915_request *request =
+>> @@ -755,7 +755,7 @@ submit_notify(struct i915_sw_fence *fence, enum 
+>> i915_sw_fence_notify state)
+>>       return NOTIFY_DONE;
+>>   }
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   semaphore_notify(struct i915_sw_fence *fence, enum 
+>> i915_sw_fence_notify state)
+>>   {
+>>       struct i915_request *rq = container_of(fence, typeof(*rq), 
+>> semaphore);
+>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c 
+>> b/drivers/gpu/drm/i915/i915_sw_fence.c
+>> index c589a681da77..1c080dd1f718 100644
+>> --- a/drivers/gpu/drm/i915/i915_sw_fence.c
+>> +++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+>> @@ -34,7 +34,7 @@ enum {
+>>   static void *i915_sw_fence_debug_hint(void *addr)
+>>   {
+>> -    return (void *)(((struct i915_sw_fence *)addr)->flags & 
+>> I915_SW_FENCE_MASK);
+>> +    return (void *)(((struct i915_sw_fence *)addr)->fn);
+>>   }
+>>   #ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS
+>> @@ -126,10 +126,7 @@ static inline void debug_fence_assert(struct 
+>> i915_sw_fence *fence)
+>>   static int __i915_sw_fence_notify(struct i915_sw_fence *fence,
+>>                     enum i915_sw_fence_notify state)
+>>   {
+>> -    i915_sw_fence_notify_t fn;
+>> -
+>> -    fn = (i915_sw_fence_notify_t)(fence->flags & I915_SW_FENCE_MASK);
+>> -    return fn(fence, state);
+>> +    return fence->fn(fence, state);
+>>   }
+>>   #ifdef CONFIG_DRM_I915_SW_FENCE_DEBUG_OBJECTS
+>> @@ -242,10 +239,11 @@ void __i915_sw_fence_init(struct i915_sw_fence 
+>> *fence,
+>>                 const char *name,
+>>                 struct lock_class_key *key)
+>>   {
+>> -    BUG_ON(!fn || (unsigned long)fn & ~I915_SW_FENCE_MASK);
+>> +    BUG_ON(!fn);
+>>       __init_waitqueue_head(&fence->wait, name, key);
+>> -    fence->flags = (unsigned long)fn;
+>> +    fence->fn = fn;
+>> +    fence->flags = 0;
+>>       i915_sw_fence_reinit(fence);
+>>   }
+>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence.h 
+>> b/drivers/gpu/drm/i915/i915_sw_fence.h
+>> index 30a863353ee6..70ba1789aa89 100644
+>> --- a/drivers/gpu/drm/i915/i915_sw_fence.h
+>> +++ b/drivers/gpu/drm/i915/i915_sw_fence.h
+>> @@ -17,26 +17,25 @@
+>>   struct completion;
+>>   struct dma_resv;
+>> +struct i915_sw_fence;
+>> +
+>> +enum i915_sw_fence_notify {
+>> +    FENCE_COMPLETE,
+>> +    FENCE_FREE
+>> +};
+>> +
+>> +typedef int (*i915_sw_fence_notify_t)(struct i915_sw_fence *,
+>> +                      enum i915_sw_fence_notify state);
+>>   struct i915_sw_fence {
+>>       wait_queue_head_t wait;
+>> +    i915_sw_fence_notify_t fn;
+>>       unsigned long flags;
+> 
+> Looks good to me. I'd just make the flags narrower now that they can be, 
+> and put them down..
+> 
+>>       atomic_t pending;
+> 
+> .. here as unsigned int and so we save 4 bytes, maybe.
 
-  scripts/decode_stacktrace.sh
+No this won't work due test_and_set_bit needs a long, oh well.
 
-which should give line numbers and inlining information.
+> 
+> In fact, unless CONFIG_DRM_I915_SW_FENCE_CHECK_DAG is on, which it won't 
+> be on release builds, I don't think anything uses flags any more. So you 
+> could even omit the flags in that case. Might be cumbersome so can leave 
+> for later, but would sure be nice not to waste space if we can avoid it.
+> 
+> Also please double check if i915_sw_fence_reinit() will be fine and 
+> won't bug on since fence->flags is always zero now I think.
 
-That often makes it much easier to see which access it is that hits a
-NULL pointer dereference.
+But these two are worth checking out.
 
-On x86-64, generally just decode the instruction stream, and look at
-the instruction patterns and try to figure out where an oops is coming
-from, but that's much less useful on arm64 (partly because I'm not as
-used to it, but because the arm64 oopses don't print out much of the
-instructions so there's often little to go by).
+Regards,
 
-         Linus
+Tvrtko
+
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+>>       int error;
+>>   };
+>>   #define I915_SW_FENCE_CHECKED_BIT    0 /* used internally for DAG 
+>> checking */
+>> -#define I915_SW_FENCE_PRIVATE_BIT    1 /* available for use by owner */
+>> -#define I915_SW_FENCE_MASK        (~3)
+>> -
+>> -enum i915_sw_fence_notify {
+>> -    FENCE_COMPLETE,
+>> -    FENCE_FREE
+>> -};
+>> -
+>> -typedef int (*i915_sw_fence_notify_t)(struct i915_sw_fence *,
+>> -                      enum i915_sw_fence_notify state);
+>> -#define __i915_sw_fence_call __aligned(4)
+>>   void __i915_sw_fence_init(struct i915_sw_fence *fence,
+>>                 i915_sw_fence_notify_t fn,
+>> diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c 
+>> b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>> index 5b33ef23d54c..d2e56b387993 100644
+>> --- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>> +++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+>> @@ -23,7 +23,7 @@ static void fence_work(struct work_struct *work)
+>>       dma_fence_put(&f->dma);
+>>   }
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   fence_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify 
+>> state)
+>>   {
+>>       struct dma_fence_work *f = container_of(fence, typeof(*f), chain);
+>> diff --git a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c 
+>> b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>> index cbf45d85cbff..daa985e5a19b 100644
+>> --- a/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>> +++ b/drivers/gpu/drm/i915/selftests/i915_sw_fence.c
+>> @@ -28,7 +28,7 @@
+>>   #include "../i915_selftest.h"
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   fence_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify 
+>> state)
+>>   {
+>>       switch (state) {
+>> diff --git a/drivers/gpu/drm/i915/selftests/lib_sw_fence.c 
+>> b/drivers/gpu/drm/i915/selftests/lib_sw_fence.c
+>> index 080b90b63d16..eb59a41bdb79 100644
+>> --- a/drivers/gpu/drm/i915/selftests/lib_sw_fence.c
+>> +++ b/drivers/gpu/drm/i915/selftests/lib_sw_fence.c
+>> @@ -26,7 +26,7 @@
+>>   /* Small library of different fence types useful for writing tests */
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   nop_fence_notify(struct i915_sw_fence *fence, enum 
+>> i915_sw_fence_notify state)
+>>   {
+>>       return NOTIFY_DONE;
+>> @@ -89,7 +89,7 @@ struct heap_fence {
+>>       };
+>>   };
+>> -static int __i915_sw_fence_call
+>> +static int
+>>   heap_fence_notify(struct i915_sw_fence *fence, enum 
+>> i915_sw_fence_notify state)
+>>   {
+>>       struct heap_fence *h = container_of(fence, typeof(*h), fence);
+>>
