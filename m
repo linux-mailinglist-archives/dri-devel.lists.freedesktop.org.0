@@ -2,45 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9443414CBA
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 17:09:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8C87414CBF
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 17:11:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 735C96EC17;
-	Wed, 22 Sep 2021 15:09:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9F6D66EB24;
+	Wed, 22 Sep 2021 15:11:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EF3246EB24;
- Wed, 22 Sep 2021 15:09:25 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="210694301"
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="210694301"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 08:09:25 -0700
-X-IronPort-AV: E=Sophos;i="5.85,314,1624345200"; d="scan'208";a="704054443"
-Received: from bbrowne-mobl.ger.corp.intel.com (HELO [10.213.200.151])
- ([10.213.200.151])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 22 Sep 2021 08:09:23 -0700
-Subject: Re: [PATCH 01/26] dma-buf: add dma_resv_for_each_fence_unlocked v4
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch
-References: <20210922091044.2612-1-christian.koenig@amd.com>
- <20210922091044.2612-2-christian.koenig@amd.com>
- <093432d2-de8e-9684-03aa-7cb4842ea755@linux.intel.com>
- <347e66cf-fd85-da15-6a00-cecab25c2d49@gmail.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <3ea25ac4-19f9-530e-8961-cb5b1822a11b@linux.intel.com>
-Date: Wed, 22 Sep 2021 16:09:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65F6C6EB24
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 15:11:00 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id A6B3D60F9D;
+ Wed, 22 Sep 2021 15:10:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632323460;
+ bh=gWgb8f+cYpnddZ+ewJORCnsBgA7i+6sYa5SLW89x2WA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=AB1qDrm7catdntDfH6HCd/U3sy9iX2gON2k23xQPsQ1BnZQ+XDz1LwePz7SxS/hWX
+ 8o1MtrMwSMLTeYiURfEr4cd+LO9tGUVOn5473AmctfMFDyP4fUT8E8siIUsTEZ/vSF
+ ArQuURZ9vudh6pqoGH9q6P3O75/PT7g435j0xR4hUpA2HVMq+rW44s2BqsRO0GWBiW
+ OXNgn5/1q8R+V3afKCk4LnRpZuvEpfnW3EO/0NEGPNApUUtxn79dwGuCXomIMwrsyn
+ vGVHi5dDD9IlI4Y4nejRpeG3xm8TQNvMAaatk0t/ftJkCDkW3N4iwPfP8s7gD3eHmE
+ 2l515bRC13rSw==
+From: Mark Brown <broonie@kernel.org>
+To: Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>
+Subject: [PATCH] backlight: hx8357: Add SPI device ID table
+Date: Wed, 22 Sep 2021 16:10:14 +0100
+Message-Id: <20210922151014.49719-1-broonie@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <347e66cf-fd85-da15-6a00-cecab25c2d49@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1398; h=from:subject;
+ bh=gWgb8f+cYpnddZ+ewJORCnsBgA7i+6sYa5SLW89x2WA=;
+ b=owEBbQGS/pANAwAKASTWi3JdVIfQAcsmYgBhS0cqqPqGGWr36vpjFHQK66EpHeoiCcvFeAS+vIig
+ jRqmlaeJATMEAAEKAB0WIQSt5miqZ1cYtZ/in+ok1otyXVSH0AUCYUtHKgAKCRAk1otyXVSH0OGIB/
+ 93JLhwCTB/3UbWP9iHf8x4q+TMjIyp1q2YApxBFJhNTUEGVZyW2B7YEj1TiClJ5AStmBy+4q07XK/W
+ ts9ieKcwDkM0R8eF9emw+TFsHVEUAuRJ8ZePrefIk4B4nqAla7AsArkJkjSvqazcuWrKpzhAwtCtuG
+ QW99WUix67qpTgv7/+t5avRVIv7vlDyTYRQ0OqHC7AXvdJCyKA3Xn4VAfrn1wg6PpQtadeWcgXhPxK
+ BNUErVmtZJYxTpwsavsI7RB6gELcK3eYCWIlaWLe5wlSIec9hhVF4BWMRtaa1hC6awbdH1QgeFSAOB
+ fgWDU+MH/YkZLbFk1R5ApkM04LepAE
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -57,92 +62,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Currently autoloading for SPI devices does not use the DT ID table, it uses
+SPI modalises. Supporting OF modalises is going to be difficult if not
+impractical, an attempt was made but has been reverted, so ensure that
+module autoloading works for this driver by adding a SPI device ID table.
 
-On 22/09/2021 15:50, Christian König wrote:
-> Am 22.09.21 um 16:36 schrieb Tvrtko Ursulin:
->>> +
->>> +/**
->>> + * dma_resv_iter_first_unlocked - first fence in an unlocked 
->>> dma_resv obj.
->>> + * @cursor: the cursor with the current position
->>> + *
->>> + * Returns the first fence from an unlocked dma_resv obj.
->>> + */
->>> +struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter 
->>> *cursor)
->>> +{
->>> +    rcu_read_lock();
->>> +    do {
->>> +        dma_resv_iter_restart_unlocked(cursor);
->>> +        dma_resv_iter_walk_unlocked(cursor);
->>> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->>> +    rcu_read_unlock();
->>> +
->>> +    return cursor->fence;
->>> +}
->>> +EXPORT_SYMBOL(dma_resv_iter_first_unlocked);
->>
->> Why is this one split from dma_resv_iter_begin and even exported?
-> 
-> I've split it to be able to use dma_resv_iter_begin in both the unlocked 
-> and locked iterator.
+Fixes: 96c8395e2166 ("spi: Revert modalias changes")
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+ drivers/video/backlight/hx8357.c | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Ok.
+diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+index 9b50bc96e00f..c64b1fbe027f 100644
+--- a/drivers/video/backlight/hx8357.c
++++ b/drivers/video/backlight/hx8357.c
+@@ -565,6 +565,19 @@ static struct lcd_ops hx8357_ops = {
+ 	.get_power	= hx8357_get_power,
+ };
+ 
++static const struct spi_device_id hx8357_spi_ids[] = {
++	{
++		.name = "hx8357",
++		.driver_data = (kernel_ulong_t)hx8357_lcd_init,
++	},
++	{
++		.name = "hx8369",
++		.driver_data = (kernel_ulong_t)hx8369_lcd_init,
++	},
++	{},
++};
++MODULE_DEVICE_TABLE(spi, hx8357_spi_ids);
++
+ static const struct of_device_id hx8357_dt_ids[] = {
+ 	{
+ 		.compatible = "himax,hx8357",
+@@ -672,6 +685,7 @@ static struct spi_driver hx8357_driver = {
+ 		.name = "hx8357",
+ 		.of_match_table = hx8357_dt_ids,
+ 	},
++	.id_table = hx8357_spi_ids,
+ };
+ 
+ module_spi_driver(hx8357_driver);
+-- 
+2.20.1
 
-> 
->> I couldn't find any users in the series.
-> 
-> This is used in the dma_resv_for_each_fence_unlocked() macro to return 
-> the first fence.
-
-Doh!
-
->>> +
->>> +/**
->>> + * dma_resv_iter_next_unlocked - next fence in an unlocked dma_resv 
->>> obj.
->>> + * @cursor: the cursor with the current position
->>> + *
->>> + * Returns the next fence from an unlocked dma_resv obj.
->>> + */
->>> +struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter 
->>> *cursor)
->>> +{
->>> +    bool restart;
->>> +
->>> +    rcu_read_lock();
->>> +    cursor->is_restarted = false;
->>> +    restart = read_seqcount_retry(&cursor->obj->seq, cursor->seq);
->>> +    do {
->>> +        if (restart)
->>> +            dma_resv_iter_restart_unlocked(cursor);
->>> +        dma_resv_iter_walk_unlocked(cursor);
->>> +        restart = true;
->>> +    } while (read_seqcount_retry(&cursor->obj->seq, cursor->seq));
->>> +    rcu_read_unlock();
->>> +
->>> +    return cursor->fence;
->>> +}
->>> +EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
->>
->> Couldn't dma_resv_iter_first_unlocked and dma_resv_iter_next_unlocked 
->> share the same implementation? Especially if you are able to replace 
->> cursor->is_restarted with cursor->index == -1.
-> 
-> That's what I had initially, but Daniel disliked it for some reason. You 
-> then need a centralized walk function instead of first/next.
-
-I had some ideas to only consolidate "first" and "next" helpers but never mind, yours is fine as well.
-
-Regards,
-
-Tvrtko
-
-> 
-> Thanks,
-> Christian.
-> 
->> Regards,
->>
->> Tvrtko
-> 
