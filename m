@@ -2,95 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F043C41443C
-	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 10:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C9D2414463
+	for <lists+dri-devel@lfdr.de>; Wed, 22 Sep 2021 11:01:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7C2876EB1B;
-	Wed, 22 Sep 2021 08:53:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 875C86EB19;
+	Wed, 22 Sep 2021 09:01:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
- [66.111.4.224])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6074B6EB1B
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 08:53:14 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 7BE84580255;
- Wed, 22 Sep 2021 04:53:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 22 Sep 2021 04:53:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=vB4ezIS3B/kZC3s/eTN0cuFplTA
- XmSMYfGeoI88X2qo=; b=YsylE5OY/aekw+oI2+1FimeeZRY/2Yo3w7Q4AnyFH/C
- 0ih8xf12GaTRWGSGTSa1lN6UtpMTcTfPWnzJzLZyulnDzMLCiqsIOMHgWvvvtM+t
- aRxYTV4nS+BDY+Jp+0Tgjp32cDAX2K9LovlT8axaAZrkNb3g8FlQE0hlxdSHcc6v
- uUazUJciXlMA2np4kTf2XA4jP58ygmsHJhALjr8iW8ds3YWvvsyMuFrxW3dW+xvg
- oVhVSI66rua+eX1nSrT2AGrFsrVYDfuNjuem8BNuK2YVmXG/FVK+ZyojoexASuNw
- Hc2CPhaDFbymXUYb9wF9OYPe8VdgS5NsCJBUHWMZeKw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=vB4ezI
- S3B/kZC3s/eTN0cuFplTAXmSMYfGeoI88X2qo=; b=fC2KOYeledOkkC0aXAt3K+
- dKvD36fgpb6vnAv1HouSdfS8PJmsHJ8jhtXbGGb9iC/Xj+ZSlG2oWEx6AkoYkon5
- suffel7OAkN/YnqLea9oClqBi5NJqimc8Y6NiZoghzmE4R3RHtJJabaRXFdnj8fN
- zf2mEiVJ9qw5XbV+038Vsl1IA2WGOIvUoIjisaLgYdqMpKblOttTJH/a8FG1R64F
- DR1noMRcccN9iK2qlxgLD0a6PweKrFhR8wrD7ht8NtAMG6s1YMSPoj4hxC5HMI3H
- eRshjJ/OpQNYI1qL+EZVbeZx3oTUTLwA9fVnhcPIUekEPJg5h59MmMslpiM8ud6Q
- ==
-X-ME-Sender: <xms:9u5KYekdnmXJHNpxfNoWaC4yZDbFKMDIMpBBkzOiDOyqU4KbopKu2Q>
- <xme:9u5KYV0u9Dvd18g4ZX-oDyXf5gzHYsf__TZf6J-xqn1HKqh3JlnhL-FgeImrf-LIJ
- c8nsmIzVXCsWz2VH3s>
-X-ME-Received: <xmr:9u5KYcqju0OvuwONUjkYz6Bu9GX5MgRgU_JTyWtOsiO_PLMOvDJyCEtjRuemy-o7d7uRRzYwZA7xTyCyqdi1PmYYmJITakP5W5-W>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeijedgtdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
- vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
- htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
- gfevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
- grgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:9u5KYSmlJ9urbGNWvh4mVJzB7EAtmY5_AdSC33thxwd9Is6TzxDMCQ>
- <xmx:9u5KYc3sU_rz5oyUREwe9hVvDy4C4ZX2INr1dn8wF-y2blmj0sNX4g>
- <xmx:9u5KYZudXpDV8jw8CDYTCg1WodNfJFH5dobYYFeTpQDpH9nUBu7jkQ>
- <xmx:-e5KYeGzPi3o7aXd1E6BUwNERCc7GvHXrLBDt2qHkLcX8pLIPyjrAw>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 22 Sep 2021 04:53:09 -0400 (EDT)
-Date: Wed, 22 Sep 2021 10:53:08 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
- Daniel Vetter <daniel.vetter@intel.com>,	David Airlie <airlied@linux.ie>,
- Jonas Karlman <jonas@kwiboo.se>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,	Sean Paul <sean@poorly.run>,
- freedreno@lists.freedesktop.org,
- Kyungmin Park <kyungmin.park@samsung.com>,	linux-kernel@vger.kernel.org,
- Xinliang Liu <xinliang.liu@linaro.org>,
- Seung-Woo Kim <sw0312.kim@samsung.com>,
- Tian Tao <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
- John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>,
- Joonyoung Shim <jy0922.shim@samsung.com>
-Subject: Re: [PATCH v4 24/24] drm/exynos: dsi: Adjust probe order
-Message-ID: <20210922085308.udvhfbzpn3vpbksr@gilmour>
-References: <20210910101218.1632297-1-maxime@cerno.tech>
- <CGME20210910101445eucas1p172f99ff7fe853052fc457861c3174f9e@eucas1p1.samsung.com>
- <20210910101218.1632297-25-maxime@cerno.tech>
- <29a2111d-024b-4d9e-27ef-e3399509ff32@samsung.com>
- <fc1fbd42-6ed4-9d67-2903-8f9cc2aaad43@samsung.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72C1E6EB19;
+ Wed, 22 Sep 2021 09:01:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10114"; a="210630395"
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="210630395"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 02:01:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,313,1624345200"; d="scan'208";a="436166242"
+Received: from eliteleevi.tm.intel.com ([10.237.54.20])
+ by orsmga003.jf.intel.com with ESMTP; 22 Sep 2021 02:01:17 -0700
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+To: dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org, tiwai@suse.de
+Cc: alsa-devel@alsa-project.org, jani.nikula@intel.com,
+ Imre Deak <imre.deak@intel.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, kai.vehmanen@linux.intel.com,
+ intel-gfx@lists.freedesktop.org, Russell King <rmk+kernel@armlinux.org.uk>
+Subject: [PATCH v2] component: do not leave master devres group open after bind
+Date: Wed, 22 Sep 2021 11:54:32 +0300
+Message-Id: <20210922085432.2776886-1-kai.vehmanen@linux.intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="26b3pc6nmf5dnhp2"
-Content-Disposition: inline
-In-Reply-To: <fc1fbd42-6ed4-9d67-2903-8f9cc2aaad43@samsung.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,57 +49,99 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+In current code, the devres group for aggregate master is left open
+after call to component_master_add_*(). This leads to problems when the
+master does further managed allocations on its own. When any
+participating driver calls component_del(), this leads to immediate
+release of resources.
 
---26b3pc6nmf5dnhp2
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This came up when investigating a page fault occurring with i915 DRM
+driver unbind with 5.15-rc1 kernel. The following sequence occurs:
 
-Hi Marek,
+ i915_pci_remove()
+   -> intel_display_driver_unregister()
+     -> i915_audio_component_cleanup()
+       -> component_del()
+         -> component.c:take_down_master()
+           -> hdac_component_master_unbind() [via master->ops->unbind()]
+           -> devres_release_group(master->parent, NULL)
 
-On Fri, Sep 17, 2021 at 02:35:05PM +0200, Marek Szyprowski wrote:
-> Hi,
->=20
-> On 13.09.2021 12:30, Andrzej Hajda wrote:
-> > W dniu 10.09.2021 o=A012:12, Maxime Ripard pisze:
-> >> Without proper care and an agreement between how DSI hosts and devices
-> >> drivers register their MIPI-DSI entities and potential components, we =
-can
-> >> end up in a situation where the drivers can never probe.
-> >>
-> >> Most drivers were taking evasive maneuvers to try to workaround this,
-> >> but not all of them were following the same conventions, resulting in
-> >> various incompatibilities between DSI hosts and devices.
-> >>
-> >> Now that we have a sequence agreed upon and documented, let's convert
-> >> exynos to it.
-> >>
-> >> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > This patch should be dropped, as it will probably break the driver.
-> >
-> > Exynos is already compatible with the pattern
-> > register-bus-then-get-sink, but it adds/removes panel/bridge
-> > dynamically, so it creates drm_device without waiting for downstream si=
-nk.
->=20
-> Right, this patch breaks Exynos DSI driver operation. Without it, the=20
-> whole series works fine on all Exynos based test boards.
+With older kernels this has not caused issues, but with audio driver
+moving to use managed interfaces for more of its allocations, this no
+longer works. Devres log shows following to occur:
 
-Thanks for testing. Did you have any board using one of those bridges in
-your test sample?
+component_master_add_with_match()
+[  126.886032] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000323ccdc5 devm_component_match_release (24 bytes)
+[  126.886045] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000865cdb29 grp< (0 bytes)
+[  126.886049] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 grp< (0 bytes)
 
-Thanks!
-Maxime
+audio driver completes its PCI probe()
+[  126.892238] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 pcim_iomap_release (48 bytes)
 
---26b3pc6nmf5dnhp2
-Content-Type: application/pgp-signature; name="signature.asc"
+component_del() called() at DRM/i915 unbind()
+[  137.579422] i915 0000:00:02.0: DEVRES REL 00000000ef44c293 grp< (0 bytes)
+[  137.579445] snd_hda_intel 0000:00:1f.3: DEVRES REL 00000000865cdb29 grp< (0 bytes)
+[  137.579458] snd_hda_intel 0000:00:1f.3: DEVRES REL 000000001b480725 pcim_iomap_release (48 bytes)
 
------BEGIN PGP SIGNATURE-----
+So the "devres_release_group(master->parent, NULL)" ends up freeing the
+pcim_iomap allocation. Upon next runtime resume, the audio driver will
+cause a page fault as the iomap alloc was released without the driver
+knowing about it.
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUru9AAKCRDj7w1vZxhR
-xTqqAP9CqUjRoyxAvQGCjWFdaNoEsrQKtq/nCmfrA8Q8IiEyfQEAvvCeSnRl1MRL
-dPx0RgcMkyY55JZZXZJ3c688AzfVKg0=
-=c7ne
------END PGP SIGNATURE-----
+Fix this issue by using the "struct master" pointer as identifier for
+the devres group, and by closing the devres group after
+the master->ops->bind() call is done. This allows devres allocations
+done by the driver acting as master to be isolated from the binding state
+of the aggregate driver. This modifies the logic originally introduced in
+commit 9e1ccb4a7700 ("drivers/base: fix devres handling for master device")
 
---26b3pc6nmf5dnhp2--
+BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/4136
+Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Acked-by: Imre Deak <imre.deak@intel.com>
+Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+---
+ drivers/base/component.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+V2 changes:
+ - after review form Imre and Russell, removing RFC tag
+ - rebased on top of 5.15-rc2 (V1 was on drm-tip)
+ - CI test results for V1 show that this patch fixes multiple
+   failures in i915 unbind and module reload tests:
+   https://patchwork.freedesktop.org/series/94889/
+
+diff --git a/drivers/base/component.c b/drivers/base/component.c
+index 5e79299f6c3f..870485cbbb87 100644
+--- a/drivers/base/component.c
++++ b/drivers/base/component.c
+@@ -246,7 +246,7 @@ static int try_to_bring_up_master(struct master *master,
+ 		return 0;
+ 	}
+ 
+-	if (!devres_open_group(master->parent, NULL, GFP_KERNEL))
++	if (!devres_open_group(master->parent, master, GFP_KERNEL))
+ 		return -ENOMEM;
+ 
+ 	/* Found all components */
+@@ -258,6 +258,7 @@ static int try_to_bring_up_master(struct master *master,
+ 		return ret;
+ 	}
+ 
++	devres_close_group(master->parent, NULL);
+ 	master->bound = true;
+ 	return 1;
+ }
+@@ -282,7 +283,7 @@ static void take_down_master(struct master *master)
+ {
+ 	if (master->bound) {
+ 		master->ops->unbind(master->parent);
+-		devres_release_group(master->parent, NULL);
++		devres_release_group(master->parent, master);
+ 		master->bound = false;
+ 	}
+ }
+
+base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+-- 
+2.32.0
+
