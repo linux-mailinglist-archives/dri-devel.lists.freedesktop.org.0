@@ -1,48 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29BD441549C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 02:29:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F7841549F
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 02:30:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA006E0C4;
-	Thu, 23 Sep 2021 00:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 550A56E0C5;
+	Thu, 23 Sep 2021 00:30:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43AAB6E0C4
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 00:29:41 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17B75E52;
- Thu, 23 Sep 2021 02:29:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632356979;
- bh=WLMO3HK/6H6AzTiiGjQceu/0grPkioJzgP4ETytTCcs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=wM8NdjahO34C4aa4oLfos58UpukL+OAipQwK1VStaWnvaPNjTOqYXgeiF0NvYtGDS
- 9RoU63Bb6Q2eSrwuRJHMYqlDq7YIWpDunUg0YLiHK53u5ipvGuj8uDeOO+Glw9Qjxw
- TkVp21MxQfxB06dIDIqAu/rCCfQ2/Ul6EldbcSUc=
-Date: Thu, 23 Sep 2021 03:29:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/bridge: Add a function to abstract away panels
-Message-ID: <YUvKcTv2hSrUqIvF@pendragon.ideasonboard.com>
-References: <20210910130941.1740182-1-maxime@cerno.tech>
- <20210910130941.1740182-2-maxime@cerno.tech>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E41826E0C5;
+ Thu, 23 Sep 2021 00:30:41 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="203887651"
+X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="203887651"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 17:30:41 -0700
+X-IronPort-AV: E=Sophos;i="5.85,315,1624345200"; d="scan'208";a="533976762"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 22 Sep 2021 17:30:41 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: matthew.d.roper@intel.com, Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>
+Subject: [PATCH] drm/i915/uncore: fwtable read handlers are now used on all
+ forcewake platforms
+Date: Wed, 22 Sep 2021 17:30:29 -0700
+Message-Id: <20210923003029.2194375-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210910130941.1740182-2-maxime@cerno.tech>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,135 +48,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Maxime,
+With the recent refactor of the uncore mmio handling, all
+forcewake-based platforms (i.e., graphics version 6 and beyond) now use
+the 'fwtable' read handlers.  Let's pull the assignment out of the
+per-platform if/else ladder to make this more obvious.
 
-Thank you for the patch.
+Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+---
+ drivers/gpu/drm/i915/intel_uncore.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
 
-I know this has already been merged, but I have a question.
-
-On Fri, Sep 10, 2021 at 03:09:39PM +0200, Maxime Ripard wrote:
-> Display drivers so far need to have a lot of boilerplate to first
-> retrieve either the panel or bridge that they are connected to using
-> drm_of_find_panel_or_bridge(), and then either deal with each with ad-hoc
-> functions or create a drm panel bridge through drm_panel_bridge_add.
-> 
-> In order to reduce the boilerplate and hopefully create a path of least
-> resistance towards using the DRM panel bridge layer, let's create the
-> function devm_drm_of_get_next to reduce that boilerplate.
->
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
->  drivers/gpu/drm/drm_bridge.c | 42 ++++++++++++++++++++++++++++++++----
->  drivers/gpu/drm/drm_of.c     |  3 +++
->  include/drm/drm_bridge.h     |  2 ++
->  3 files changed, 43 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index a8ed66751c2d..10ddca4638b0 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -28,6 +28,7 @@
->  #include <drm/drm_atomic_state_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_encoder.h>
-> +#include <drm/drm_of.h>
->  #include <drm/drm_print.h>
->  
->  #include "drm_crtc_internal.h"
-> @@ -51,10 +52,8 @@
->   *
->   * Display drivers are responsible for linking encoders with the first bridge
->   * in the chains. This is done by acquiring the appropriate bridge with
-> - * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
-> - * panel with drm_panel_bridge_add_typed() (or the managed version
-> - * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
-> - * attached to the encoder with a call to drm_bridge_attach().
-> + * devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to the
-> + * encoder with a call to drm_bridge_attach().
->   *
->   * Bridges are responsible for linking themselves with the next bridge in the
->   * chain, if any. This is done the same way as for encoders, with the call to
-> @@ -1233,6 +1232,41 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
->  	return NULL;
->  }
->  EXPORT_SYMBOL(of_drm_find_bridge);
-> +
-> +/**
-> + * devm_drm_of_get_bridge - Return next bridge in the chain
-> + * @dev: device to tie the bridge lifetime to
-> + * @np: device tree node containing encoder output ports
-> + * @port: port in the device tree node
-> + * @endpoint: endpoint in the device tree node
-> + *
-> + * Given a DT node's port and endpoint number, finds the connected node
-> + * and returns the associated bridge if any, or creates and returns a
-> + * drm panel bridge instance if a panel is connected.
-> + *
-> + * Returns a pointer to the bridge if successful, or an error pointer
-> + * otherwise.
-> + */
-> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> +					  struct device_node *np,
-> +					  unsigned int port,
-> +					  unsigned int endpoint)
-> +{
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
-> +
-> +	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
-> +					  &panel, &bridge);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	if (panel)
-> +		bridge = devm_drm_panel_bridge_add(dev, panel);
-> +
-> +	return bridge;
-
-I really like the idea, I've wanted to do something like this for a long
-time. I however wonder if this is the best approach, or if we could get
-the panel core to register the bridge itself. The part that bothers me
-here is the assymetry in the lifetime of the bridges, the returned
-pointer is either looked up or allocated.
-
-Bridge lifetime is such a mess that it may not make a big difference,
-but eventually we'll have to address that problem globally.
-
-> +}
-> +EXPORT_SYMBOL(devm_drm_of_get_bridge);
->  #endif
->  
->  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
-> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
-> index 997b8827fed2..37c34146eea8 100644
-> --- a/drivers/gpu/drm/drm_of.c
-> +++ b/drivers/gpu/drm/drm_of.c
-> @@ -231,6 +231,9 @@ EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
->   * return either the associated struct drm_panel or drm_bridge device. Either
->   * @panel or @bridge must not be NULL.
->   *
-> + * This function is deprecated and should not be used in new drivers. Use
-> + * devm_drm_of_get_bridge() instead.
-> + *
->   * Returns zero if successful, or one of the standard error codes if it fails.
->   */
->  int drm_of_find_panel_or_bridge(const struct device_node *np,
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 46bdfa48c413..f70c88ca96ef 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -911,6 +911,8 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
->  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
->  						   struct drm_panel *panel,
->  						   u32 connector_type);
-> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
-> +					unsigned int port, unsigned int endpoint);
->  struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
->  #endif
->  
-
+diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+index c8e7c71f0896..678a99de07fe 100644
+--- a/drivers/gpu/drm/i915/intel_uncore.c
++++ b/drivers/gpu/drm/i915/intel_uncore.c
+@@ -2088,49 +2088,42 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
+ 		return ret;
+ 	forcewake_early_sanitize(uncore, 0);
+ 
++	ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
++
+ 	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, dg2_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __xehp_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (GRAPHICS_VER(i915) >= 12) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen12_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (GRAPHICS_VER(i915) == 11) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen11_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen11_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (IS_GRAPHICS_VER(i915, 9, 10)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen9_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (IS_CHERRYVIEW(i915)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __chv_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (GRAPHICS_VER(i915) == 8) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen6_fw_ranges);
+ 		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (IS_VALLEYVIEW(i915)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __vlv_fw_ranges);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, gen6);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	} else if (IS_GRAPHICS_VER(i915, 6, 7)) {
+ 		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen6_fw_ranges);
+ 		ASSIGN_WRITE_MMIO_VFUNCS(uncore, gen6);
+-		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
+ 	}
+ 
+ 	uncore->pmic_bus_access_nb.notifier_call = i915_pmic_bus_access_notifier;
 -- 
-Regards,
+2.33.0
 
-Laurent Pinchart
