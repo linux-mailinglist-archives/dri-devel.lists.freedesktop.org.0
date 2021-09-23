@@ -1,49 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B49B415AF0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:27:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06A5D415B3C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:44:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9932B6E10F;
-	Thu, 23 Sep 2021 09:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E7E1F6E122;
+	Thu, 23 Sep 2021 09:44:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 43A2C6E10F
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 09:27:49 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id A050E45E;
- Thu, 23 Sep 2021 11:27:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632389267;
- bh=/QcPrPdb+9mOrS50q5XHhHdCQQeR/FnPHGocwLYF+HA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=diE3vzWicfqs3JDxJiVNMg/vFlQzdEV6hphiYqnbs0IIUt+Lnx3V+/LrhscnTfMP0
- M5WFD8NCQYgtu0CessFs2PQfzg1JiAuxB6akOtPgh8EXhTS6Yv8G1huNj6PIvJeuMF
- EPvmS/bguBjF93SwhS0Y9oRQMoUSDqT9PlAKM/GQ=
-Date: Thu, 23 Sep 2021 12:27:45 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- linux-mips <linux-mips@vger.kernel.org>, list@opendingux.net,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-Message-ID: <YUxIkdGcGnBhcT0y@pendragon.ideasonboard.com>
-References: <20210922205555.496871-1-paul@crapouillou.net>
- <20210922205555.496871-7-paul@crapouillou.net>
- <32234186-1802-4FDF-801A-B14E48FB86D8@goldelico.com>
- <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
- <896D04E4-4058-474B-8BD2-7F21B1C754E4@goldelico.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D0F76E118;
+ Thu, 23 Sep 2021 09:44:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="287474517"
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="287474517"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2021 02:44:44 -0700
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="558263970"
+Received: from ideacone-mobl1.ger.corp.intel.com (HELO [10.252.8.21])
+ ([10.252.8.21])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Sep 2021 02:44:42 -0700
+Subject: Re: [PATCH v6 7/9] drm/i915: Reduce the number of objects subject to
+ memcpy recover
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, Matthew Brost <matthew.brost@intel.com>
+References: <20210922062527.865433-1-thomas.hellstrom@linux.intel.com>
+ <20210922062527.865433-8-thomas.hellstrom@linux.intel.com>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <4b3b0a3b-56a3-efac-10ca-34d9dbeef005@intel.com>
+Date: Thu, 23 Sep 2021 10:44:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210922062527.865433-8-thomas.hellstrom@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <896D04E4-4058-474B-8BD2-7F21B1C754E4@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,99 +54,444 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+On 22/09/2021 07:25, Thomas Hellström wrote:
+> We really only need memcpy restore for objects that affect the
+> operability of the migrate context. That is, primarily the page-table
+> objects of the migrate VM.
+> 
+> Add an object flag, I915_BO_ALLOC_PM_EARLY for objects that need early
+> restores using memcpy and a way to assign LMEM page-table object flags
+> to be used by the vms.
+> 
+> Restore objects without this flag with the gpu blitter and only objects
+> carrying the flag using TTM memcpy.
+> 
+> Initially mark the migrate, gt, gtt and vgpu vms to use this flag, and
+> defer for a later audit which vms actually need it. Most importantly, user-
+> allocated vms with pinned page-table objects can be restored using the
+> blitter.
+> 
+> Performance-wise memcpy restore is probably as fast as gpu restore if not
+> faster, but using gpu restore will help tackling future restrictions in
+> mappable LMEM size.
+> 
+> v4:
+> - Don't mark the aliasing ppgtt page table flags for early resume, but
+>    rather the ggtt page table flags as intended. (Matthew Auld)
+> - The check for user buffer objects during early resume is pointless, since
+>    they are never marked I915_BO_ALLOC_PM_EARLY. (Matthew Auld)
+> v5:
+> - Mark GuC LMEM objects with I915_BO_ALLOC_PM_EARLY to have them restored
+>    before we fire up the migrate context.
+> 
+> Cc: Matthew Brost <matthew.brost@intel.com>
+> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c      |  4 ++--
+>   drivers/gpu/drm/i915/gem/i915_gem_object_types.h |  9 ++++++---
+>   drivers/gpu/drm/i915/gem/i915_gem_pm.c           |  6 +++++-
+>   drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c       |  5 +++--
+>   drivers/gpu/drm/i915/gem/selftests/huge_pages.c  |  2 +-
+>   drivers/gpu/drm/i915/gt/gen6_ppgtt.c             |  2 +-
+>   drivers/gpu/drm/i915/gt/gen8_ppgtt.c             |  5 +++--
+>   drivers/gpu/drm/i915/gt/gen8_ppgtt.h             |  4 +++-
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c             |  3 ++-
+>   drivers/gpu/drm/i915/gt/intel_gt.c               |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_gtt.c              |  3 ++-
+>   drivers/gpu/drm/i915/gt/intel_gtt.h              |  9 +++++++--
+>   drivers/gpu/drm/i915/gt/intel_migrate.c          |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_ppgtt.c            | 13 ++++++++-----
+>   drivers/gpu/drm/i915/gt/selftest_hangcheck.c     |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_guc.c           |  3 ++-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c         |  7 +++++--
+>   drivers/gpu/drm/i915/gvt/scheduler.c             |  2 +-
+>   drivers/gpu/drm/i915/selftests/i915_gem_gtt.c    |  4 ++--
+>   19 files changed, 56 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index c2ab0e22db0a..8208fd5b72c3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -1287,7 +1287,7 @@ i915_gem_create_context(struct drm_i915_private *i915,
+>   	} else if (HAS_FULL_PPGTT(i915)) {
+>   		struct i915_ppgtt *ppgtt;
+>   
+> -		ppgtt = i915_ppgtt_create(&i915->gt);
+> +		ppgtt = i915_ppgtt_create(&i915->gt, 0);
+>   		if (IS_ERR(ppgtt)) {
+>   			drm_dbg(&i915->drm, "PPGTT setup failed (%ld)\n",
+>   				PTR_ERR(ppgtt));
+> @@ -1465,7 +1465,7 @@ int i915_gem_vm_create_ioctl(struct drm_device *dev, void *data,
+>   	if (args->flags)
+>   		return -EINVAL;
+>   
+> -	ppgtt = i915_ppgtt_create(&i915->gt);
+> +	ppgtt = i915_ppgtt_create(&i915->gt, 0);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> index 118691ce81d7..fa2ba9e2a4d0 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
+> @@ -294,13 +294,16 @@ struct drm_i915_gem_object {
+>   #define I915_BO_ALLOC_USER        BIT(3)
+>   /* Object is allowed to lose its contents on suspend / resume, even if pinned */
+>   #define I915_BO_ALLOC_PM_VOLATILE BIT(4)
+> +/* Object needs to be restored early using memcpy during resume */
+> +#define I915_BO_ALLOC_PM_EARLY    BIT(5)
+>   #define I915_BO_ALLOC_FLAGS (I915_BO_ALLOC_CONTIGUOUS | \
+>   			     I915_BO_ALLOC_VOLATILE | \
+>   			     I915_BO_ALLOC_CPU_CLEAR | \
+>   			     I915_BO_ALLOC_USER | \
+> -			     I915_BO_ALLOC_PM_VOLATILE)
+> -#define I915_BO_READONLY          BIT(5)
+> -#define I915_TILING_QUIRK_BIT     6 /* unknown swizzling; do not release! */
+> +			     I915_BO_ALLOC_PM_VOLATILE | \
+> +			     I915_BO_ALLOC_PM_EARLY)
+> +#define I915_BO_READONLY          BIT(6)
+> +#define I915_TILING_QUIRK_BIT     7 /* unknown swizzling; do not release! */
+>   
+>   	/**
+>   	 * @mem_flags - Mutable placement-related flags
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> index 12b37b4c1192..726b40e1fbb0 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pm.c
+> @@ -97,8 +97,12 @@ int i915_gem_backup_suspend(struct drm_i915_private *i915)
+>   	 * More objects may have become unpinned as requests were
+>   	 * retired. Now try to evict again. The gt may be wedged here
+>   	 * in which case we automatically fall back to memcpy.
+> +	 * We allow also backing up pinned objects that have not been
+> +	 * marked for early recover, and that may contain, for example,
+> +	 * page-tables for the migrate context.
+>   	 */
+> -	ret = lmem_suspend(i915, I915_TTM_BACKUP_ALLOW_GPU);
+> +	ret = lmem_suspend(i915, I915_TTM_BACKUP_ALLOW_GPU |
+> +			   I915_TTM_BACKUP_PINNED);
+>   	if (ret)
+>   		goto out_recover;
+>   
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> index 03a00d193f40..3b6d14b5c604 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+> @@ -57,7 +57,8 @@ static int i915_ttm_backup(struct i915_gem_apply_to_region *apply,
+>   	if (pm_apply->allow_gpu && i915_gem_object_evictable(obj))
+>   		return ttm_bo_validate(bo, i915_ttm_sys_placement(), &ctx);
+>   
+> -	if (!pm_apply->backup_pinned)
+> +	if (!pm_apply->backup_pinned ||
+> +	    (pm_apply->allow_gpu && (obj->flags & I915_BO_ALLOC_PM_EARLY)))
+>   		return 0;
+>   
+>   	if (obj->flags & I915_BO_ALLOC_PM_VOLATILE)
+> @@ -155,7 +156,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
+>   	if (!backup)
+>   		return 0;
+>   
+> -	if (!pm_apply->allow_gpu && (obj->flags & I915_BO_ALLOC_USER))
+> +	if (!pm_apply->allow_gpu && !(obj->flags & I915_BO_ALLOC_PM_EARLY))
+>   		return 0;
+>   
+>   	err = i915_gem_object_lock(backup, apply->ww);
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> index 0827634c842c..77d84a9e8789 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+> @@ -1645,7 +1645,7 @@ int i915_gem_huge_page_mock_selftests(void)
+>   	mkwrite_device_info(dev_priv)->ppgtt_type = INTEL_PPGTT_FULL;
+>   	mkwrite_device_info(dev_priv)->ppgtt_size = 48;
+>   
+> -	ppgtt = i915_ppgtt_create(&dev_priv->gt);
+> +	ppgtt = i915_ppgtt_create(&dev_priv->gt, 0);
+>   	if (IS_ERR(ppgtt)) {
+>   		err = PTR_ERR(ppgtt);
+>   		goto out_unlock;
+> diff --git a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> index 1aee5e6b1b23..890191f286e3 100644
+> --- a/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen6_ppgtt.c
+> @@ -429,7 +429,7 @@ struct i915_ppgtt *gen6_ppgtt_create(struct intel_gt *gt)
+>   	mutex_init(&ppgtt->flush);
+>   	mutex_init(&ppgtt->pin_mutex);
+>   
+> -	ppgtt_init(&ppgtt->base, gt);
+> +	ppgtt_init(&ppgtt->base, gt, 0);
+>   	ppgtt->base.vm.pd_shift = ilog2(SZ_4K * SZ_4K / sizeof(gen6_pte_t));
+>   	ppgtt->base.vm.top = 1;
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> index 6a5af995f5b1..037a9a6e4889 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.c
+> @@ -753,7 +753,8 @@ gen8_alloc_top_pd(struct i915_address_space *vm)
+>    * space.
+>    *
+>    */
+> -struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+> +struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+> +				     unsigned long lmem_pt_obj_flags)
+>   {
+>   	struct i915_ppgtt *ppgtt;
+>   	int err;
+> @@ -762,7 +763,7 @@ struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt)
+>   	if (!ppgtt)
+>   		return ERR_PTR(-ENOMEM);
+>   
+> -	ppgtt_init(ppgtt, gt);
+> +	ppgtt_init(ppgtt, gt, lmem_pt_obj_flags);
+>   	ppgtt->vm.top = i915_vm_is_4lvl(&ppgtt->vm) ? 3 : 2;
+>   	ppgtt->vm.pd_shift = ilog2(SZ_4K * SZ_4K / sizeof(gen8_pte_t));
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+> index b9028c2ad3c7..f541d19264b4 100644
+> --- a/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+> +++ b/drivers/gpu/drm/i915/gt/gen8_ppgtt.h
+> @@ -12,7 +12,9 @@ struct i915_address_space;
+>   struct intel_gt;
+>   enum i915_cache_level;
+>   
+> -struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt);
+> +struct i915_ppgtt *gen8_ppgtt_create(struct intel_gt *gt,
+> +				     unsigned long lmem_pt_obj_flags);
+> +
+>   u64 gen8_ggtt_pte_encode(dma_addr_t addr,
+>   			 enum i915_cache_level level,
+>   			 u32 flags);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index 8d71f67926f1..06576fc1310e 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -644,7 +644,7 @@ static int init_aliasing_ppgtt(struct i915_ggtt *ggtt)
+>   	struct i915_ppgtt *ppgtt;
+>   	int err;
+>   
+> -	ppgtt = i915_ppgtt_create(ggtt->vm.gt);
+> +	ppgtt = i915_ppgtt_create(ggtt->vm.gt, 0);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+>   
+> @@ -909,6 +909,7 @@ static int gen8_gmch_probe(struct i915_ggtt *ggtt)
+>   		size = gen8_get_total_gtt_size(snb_gmch_ctl);
+>   
+>   	ggtt->vm.alloc_pt_dma = alloc_pt_dma;
+> +	ggtt->vm.lmem_pt_obj_flags = I915_BO_ALLOC_PM_EARLY;
 
-On Thu, Sep 23, 2021 at 11:19:23AM +0200, H. Nikolaus Schaller wrote:
-> > Am 23.09.2021 um 10:49 schrieb Paul Cercueil:
-> > Le jeu., sept. 23 2021 at 07:52:08 +0200, H. Nikolaus Schaller a écrit :
-> >> Hi Paul,
-> >> thanks for another update.
-> >> We have been delayed to rework the CI20 HDMI code on top of your series
-> >> but it basically works in some situations. There is for example a problem
-> >> if the EDID reports DRM_COLOR_FORMAT_YCRCB422 but it appears to be outside
-> >> of your series.
-> > 
-> > I think the SoC can output YCbCr as well, but I never tried to use it.
-> 
-> Maybe there is code missing or something else. We have not yet deeply researched.
-> Except that when ignoring DRM_COLOR_FORMAT_YCRCB422 capability it uses RGB
-> and works.
-> 
-> >>> +		ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
-> >>> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> >>
-> >> DRM_BRIDGE_ATTACH_NO_CONNECTOR makes it fundamentally incompatible
-> >> with synopsys/dw_hdmi.c
-> >> That driver checks for DRM_BRIDGE_ATTACH_NO_CONNECTOR being NOT present,
-> >> since it wants to register its own connector through dw_hdmi_connector_create().
-> >> It does it for a reason: the dw-hdmi is a multi-function driver which does
-> >> HDMI and DDC/EDID stuff in a single driver (because I/O registers and power
-> >> management seem to be shared).
-> > 
-> > The IT66121 driver does all of that too, and does not need
-> > DRM_BRIDGE_ATTACH_NO_CONNECTOR. The drm_bridge_funcs struct has
-> > callbacks to handle cable detection and DDC stuff.
-> > 
-> >> Since I do not see who could split this into a separate bridge and a connector driver
-> >> and test it on multiple SoC platforms (there are at least 3 or 4), I think modifying
-> >> the fundamentals of the dw-hdmi architecture just to get CI20 HDMI working is not
-> >> our turf.
-> > 
-> > You could have a field in the dw-hdmi pdata structure, that would
-> > instruct the driver whether or not it should use the new API. Ugly,
-> > I know, and would probably duplicate a lot of code, but that would
-> > allow other drivers to be updated at a later date.
-> 
-> Yes, would be very ugly.
-> 
-> But generally who has the knowledge (and time) to do this work?
-> And has a working platform to test (jz4780 isn't a good development environment)?
-> 
-> The driver seems to have a turbulent history starting 2013 in staging/imx and
-> apparently it was generalized since then... Is Laurent currently dw-hdmi maintainer?
+The scratch page is still in system memory for the ggtt, so I guess this 
+is not needed? Although maybe that will change, so probably good to keep?
 
-"Maintainer" would be an overstatement. I've worked on that driver in
-the past, and I still use it, but don't have time to really maintain it.
-I've also been told that Synopsys required all patches for that driver
-developed using documentation under NDA to be submitted internally to
-them first before being published, so I decided to stop contributing
-instead of agreeing with this insane process. There's public
-documentation about the IP in some NXP reference manuals though, so it
-should be possible to still move forward without abiding by this rule.
+>   
+>   	ggtt->vm.total = (size / sizeof(gen8_pte_t)) * I915_GTT_PAGE_SIZE;
+>   	ggtt->vm.cleanup = gen6_gmch_remove;
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
+> index 5753c5943ed9..4037c3778225 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
+> @@ -481,7 +481,7 @@ static void intel_gt_fini_scratch(struct intel_gt *gt)
+>   static struct i915_address_space *kernel_vm(struct intel_gt *gt)
+>   {
+>   	if (INTEL_PPGTT(gt->i915) > INTEL_PPGTT_ALIASING)
+> -		return &i915_ppgtt_create(gt)->vm;
+> +		return &i915_ppgtt_create(gt, I915_BO_ALLOC_PM_EARLY)->vm;
+>   	else
+>   		return i915_vm_get(&gt->ggtt->vm);
+>   }
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.c b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> index a0c2b952aa57..67d14afa6623 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.c
+> @@ -28,7 +28,8 @@ struct drm_i915_gem_object *alloc_pt_lmem(struct i915_address_space *vm, int sz)
+>   	 * used the passed in size for the page size, which should ensure it
+>   	 * also has the same alignment.
+>   	 */
+> -	obj = __i915_gem_object_create_lmem_with_ps(vm->i915, sz, sz, 0);
+> +	obj = __i915_gem_object_create_lmem_with_ps(vm->i915, sz, sz,
+> +						    vm->lmem_pt_obj_flags);
+>   	/*
+>   	 * Ensure all paging structures for this vm share the same dma-resv
+>   	 * object underneath, with the idea that one object_lock() will lock
+> diff --git a/drivers/gpu/drm/i915/gt/intel_gtt.h b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> index 5b539bd7645d..bc6750263359 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_gtt.h
+> +++ b/drivers/gpu/drm/i915/gt/intel_gtt.h
+> @@ -260,6 +260,9 @@ struct i915_address_space {
+>   	u8 pd_shift;
+>   	u8 scratch_order;
+>   
+> +	/* Flags used when creating page-table objects for this vm */
+> +	unsigned long lmem_pt_obj_flags;
+> +
+>   	struct drm_i915_gem_object *
+>   		(*alloc_pt_dma)(struct i915_address_space *vm, int sz);
+>   
+> @@ -519,7 +522,8 @@ i915_page_dir_dma_addr(const struct i915_ppgtt *ppgtt, const unsigned int n)
+>   	return __px_dma(pt ? px_base(pt) : ppgtt->vm.scratch[ppgtt->vm.top]);
+>   }
+>   
+> -void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt);
+> +void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt,
+> +		unsigned long lmem_pt_obj_flags);
+>   
+>   int i915_ggtt_probe_hw(struct drm_i915_private *i915);
+>   int i915_ggtt_init_hw(struct drm_i915_private *i915);
+> @@ -537,7 +541,8 @@ static inline bool i915_ggtt_has_aperture(const struct i915_ggtt *ggtt)
+>   
+>   int i915_ppgtt_init_hw(struct intel_gt *gt);
+>   
+> -struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt);
+> +struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt,
+> +				     unsigned long lmem_pt_obj_flags);
+>   
+>   void i915_ggtt_suspend(struct i915_ggtt *gtt);
+>   void i915_ggtt_resume(struct i915_ggtt *ggtt);
+> diff --git a/drivers/gpu/drm/i915/gt/intel_migrate.c b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> index 1dac21aa7e5c..afb1cce9a352 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_migrate.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_migrate.c
+> @@ -78,7 +78,7 @@ static struct i915_address_space *migrate_vm(struct intel_gt *gt)
+>   	 * TODO: Add support for huge LMEM PTEs
+>   	 */
+>   
+> -	vm = i915_ppgtt_create(gt);
+> +	vm = i915_ppgtt_create(gt, I915_BO_ALLOC_PM_EARLY);
+>   	if (IS_ERR(vm))
+>   		return ERR_CAST(vm);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ppgtt.c b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> index 886060f7e6fc..4396bfd630d8 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ppgtt.c
+> @@ -155,19 +155,20 @@ int i915_ppgtt_init_hw(struct intel_gt *gt)
+>   }
+>   
+>   static struct i915_ppgtt *
+> -__ppgtt_create(struct intel_gt *gt)
+> +__ppgtt_create(struct intel_gt *gt, unsigned long lmem_pt_obj_flags)
+>   {
+>   	if (GRAPHICS_VER(gt->i915) < 8)
+>   		return gen6_ppgtt_create(gt);
+>   	else
+> -		return gen8_ppgtt_create(gt);
+> +		return gen8_ppgtt_create(gt, lmem_pt_obj_flags);
+>   }
+>   
+> -struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt)
+> +struct i915_ppgtt *i915_ppgtt_create(struct intel_gt *gt,
+> +				     unsigned long lmem_pt_obj_flags)
+>   {
+>   	struct i915_ppgtt *ppgtt;
+>   
+> -	ppgtt = __ppgtt_create(gt);
+> +	ppgtt = __ppgtt_create(gt, lmem_pt_obj_flags);
+>   	if (IS_ERR(ppgtt))
+>   		return ppgtt;
+>   
+> @@ -298,7 +299,8 @@ int ppgtt_set_pages(struct i915_vma *vma)
+>   	return 0;
+>   }
+>   
+> -void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt)
+> +void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt,
+> +		unsigned long lmem_pt_obj_flags)
+>   {
+>   	struct drm_i915_private *i915 = gt->i915;
+>   
+> @@ -306,6 +308,7 @@ void ppgtt_init(struct i915_ppgtt *ppgtt, struct intel_gt *gt)
+>   	ppgtt->vm.i915 = i915;
+>   	ppgtt->vm.dma = i915->drm.dev;
+>   	ppgtt->vm.total = BIT_ULL(INTEL_INFO(i915)->ppgtt_size);
+> +	ppgtt->vm.lmem_pt_obj_flags = lmem_pt_obj_flags;
+>   
+>   	dma_resv_init(&ppgtt->vm._resv);
+>   	i915_address_space_init(&ppgtt->vm, VM_CLASS_PPGTT);
+> diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> index 7e6fdabac599..7e2d99dd012d 100644
+> --- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> +++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+> @@ -1596,7 +1596,7 @@ static int igt_reset_evict_ppgtt(void *arg)
+>   	if (INTEL_PPGTT(gt->i915) < INTEL_PPGTT_FULL)
+>   		return 0;
+>   
+> -	ppgtt = i915_ppgtt_create(gt);
+> +	ppgtt = i915_ppgtt_create(gt, 0);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.c b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> index 8ffb689066f6..8f8182bf7c11 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.c
+> @@ -651,7 +651,8 @@ struct i915_vma *intel_guc_allocate_vma(struct intel_guc *guc, u32 size)
+>   	if (HAS_LMEM(gt->i915))
+>   		obj = i915_gem_object_create_lmem(gt->i915, size,
+>   						  I915_BO_ALLOC_CPU_CLEAR |
+> -						  I915_BO_ALLOC_CONTIGUOUS);
+> +						  I915_BO_ALLOC_CONTIGUOUS |
+> +						  I915_BO_ALLOC_PM_EARLY);
+>   	else
+>   		obj = i915_gem_object_create_shmem(gt->i915, size);
+>   
+> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> index a685d563df72..3aa87be4f2e4 100644
+> --- a/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> +++ b/drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c
+> @@ -372,10 +372,13 @@ int intel_uc_fw_fetch(struct intel_uc_fw *uc_fw)
+>   	if (uc_fw->type == INTEL_UC_FW_TYPE_GUC)
+>   		uc_fw->private_data_size = css->private_data_size;
+>   
+> -	if (HAS_LMEM(i915))
+> +	if (HAS_LMEM(i915)) {
+>   		obj = i915_gem_object_create_lmem_from_data(i915, fw->data, fw->size);
+> -	else
+> +		if (!IS_ERR(obj))
+> +			obj->flags |= I915_BO_ALLOC_PM_EARLY;
 
-> >> Therefore the code here should be able to detect if drm_bridge_attach() already
-> >> creates and attaches a connector and then skip the code below.
-> > 
-> > Not that easy, unfortunately. On one side we have dw-hdmi which
-> > checks that DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set, and on the
-> > other side we have other drivers like the IT66121 which will fail if
-> > this flag is not set.
-> 
-> Ok, I see. You have to handle contradicting cases here.
-> 
-> Would it be possible to run it with DRM_BRIDGE_ATTACH_NO_CONNECTOR first
-> and retry if it fails without?
-> 
-> But IMHO the return value (in error case) is not well defined. So there
-> must be a test if a connector has been created (I do not know how this
-> would work).
-> 
-> Another suggestion: can you check if there is a downstream connector defined in
-> device tree (dw-hdmi does not need such a definition)?
-> If not we call it with 0 and if there is one we call it with
-> DRM_BRIDGE_ATTACH_NO_CONNECTOR and create one?
 
-I haven't followed the ful conversation, what the reason why
-DRM_BRIDGE_ATTACH_NO_CONNECTOR can't always be use here ? We're moving
-towards requiring DRM_BRIDGE_ATTACH_NO_CONNECTOR for all new code, so it
-will have to be done eventually.
+Another reason why lmem_from_data should maybe just have a flags param, 
+since it also forcing ALLOC_CONTIG, which should really be up to the 
+caller? Can be improved as a follow up though. R-b still stands.
 
-> Just some ideas how to solve without touching hdmi drivers.
+> +	} else {
+>   		obj = i915_gem_object_create_shmem_from_data(i915, fw->data, fw->size);
+> +	}
+>   
+>   	if (IS_ERR(obj)) {
+>   		err = PTR_ERR(obj);
+> diff --git a/drivers/gpu/drm/i915/gvt/scheduler.c b/drivers/gpu/drm/i915/gvt/scheduler.c
+> index b56a8e37a3cd..0d18e13e3468 100644
+> --- a/drivers/gpu/drm/i915/gvt/scheduler.c
+> +++ b/drivers/gpu/drm/i915/gvt/scheduler.c
+> @@ -1386,7 +1386,7 @@ int intel_vgpu_setup_submission(struct intel_vgpu *vgpu)
+>   	enum intel_engine_id i;
+>   	int ret;
+>   
+> -	ppgtt = i915_ppgtt_create(&i915->gt);
+> +	ppgtt = i915_ppgtt_create(&i915->gt, I915_BO_ALLOC_PM_EARLY);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+>   
+> diff --git a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> index 2d60a5a5b065..46f4236039a9 100644
+> --- a/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> +++ b/drivers/gpu/drm/i915/selftests/i915_gem_gtt.c
+> @@ -155,7 +155,7 @@ static int igt_ppgtt_alloc(void *arg)
+>   	if (!HAS_PPGTT(dev_priv))
+>   		return 0;
+>   
+> -	ppgtt = i915_ppgtt_create(&dev_priv->gt);
+> +	ppgtt = i915_ppgtt_create(&dev_priv->gt, 0);
+>   	if (IS_ERR(ppgtt))
+>   		return PTR_ERR(ppgtt);
+>   
+> @@ -1053,7 +1053,7 @@ static int exercise_ppgtt(struct drm_i915_private *dev_priv,
+>   	if (IS_ERR(file))
+>   		return PTR_ERR(file);
+>   
+> -	ppgtt = i915_ppgtt_create(&dev_priv->gt);
+> +	ppgtt = i915_ppgtt_create(&dev_priv->gt, 0);
+>   	if (IS_ERR(ppgtt)) {
+>   		err = PTR_ERR(ppgtt);
+>   		goto out_free;
 > 
-> BR and thanks,
-> Nikolaus
-
--- 
-Regards,
-
-Laurent Pinchart
