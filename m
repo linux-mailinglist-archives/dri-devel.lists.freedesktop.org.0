@@ -1,150 +1,137 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78AFA4158DB
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 09:09:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B6841582B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 08:17:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B63F26ECEE;
-	Thu, 23 Sep 2021 07:08:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 28BB26ECDF;
+	Thu, 23 Sep 2021 06:17:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0b-000eb902.pphosted.com (mx0b-000eb902.pphosted.com
- [205.220.177.212])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 071186EC37;
- Wed, 22 Sep 2021 16:17:02 +0000 (UTC)
-Received: from pps.filterd (m0220298.ppops.net [127.0.0.1])
- by mx0a-000eb902.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18M1oBgl001431; 
- Wed, 22 Sep 2021 11:16:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garmin.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version; s=pps1;
- bh=wYmMCITmhzTwNvD7jgpPG68OACvRA/V8H4otj0VdCVg=;
- b=DRepVtQhofZzXo5PxrT8SRLAUALzs0aIPGkwtOGNER1N5OHq6kPE6AvYMnS+zGVNVrni
- 8JiXZRtCepsvtLlhgWixFLnHYGS+o1/rR1QSG94hKqQZt8+qH0WPPqNgRXhjsUozckcv
- JRqyEoy76CrrwHwBYujey2OY1gDAcxjsz2wHtMpd7b+tuz7yBTFxtgWD1MWNPmMsiNrr
- hbm7SQnaGViWNr+YC/1L1zczpOwxgNuhhCGd/9IBN/YTGgkm8lYf0UV1SDaPv+xSovJk
- ILBeUVesVBQZdKiAyKxAbg29cJBXOjTkLHsX34oHmcDGPVlHzAfe6IsKIdkO158FI9Eo lw== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2176.outbound.protection.outlook.com [104.47.57.176])
- by mx0a-000eb902.pphosted.com with ESMTP id 3b7q3y1vwr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 22 Sep 2021 11:16:53 -0500
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2059.outbound.protection.outlook.com [40.107.223.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E75E6ECDF
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 06:17:45 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SLWtcEdBK+K6jgJtgY7LvRHcpIEvhCYIW2TIVrNRmeo6pDpucX5XIAuEJtJLnAezNPaiiQCFCtjhyKKrSxV1jiwZbyI26ThQlP4ucWEsAEcnzNVEjpm3bujItpUdfSlIpCCv9/gF1dhfk73P7cYSoHSBH2SiJV/zRXCz7dXcKOkNFRqit3TpywNanl+gBOp8qEO/V/zhph4E7ERR7hAMwElMYvIKvYrs7wtBmg4nwxOtPyXvu471iRKbQ0taRtuvha+cL5qa+Bo0RFvZdSyxUUk1O9tm3KBVbdvwfHlRCKHfhd0zShOxfBCY6VrelIDiya25EMEp0Uqpus9ItoUYxA==
+ b=KJ/JIidVzb1b5lOvjMIVw2lSjSSys4eyr67U2jTKB33QXwKnKlgStUBGAoHqVSGs2ufYcUBrSXgiux2tBKreitzaIxlmSfCkQfqgev5FMMEZ51dNviH+FYayEvs3/n/2p2UdbbiprAQNdguNah8v8XfP0oZOz0rUc3nZwfIJxQ+kcz03MkHh4kNpLhhYpwlsg+Y2GC/SQ/BAmKOVig9iCIsHuACXwDbcokgveifdJT/ckqnDqrgASKVb5+37UMzdadJw4EOAZ3PlZ+4pe/J8XhaVHCo2rS2PoMArg09lsxvUZ1nfn/OrRogG+xAUmak0Ch5IA08NmJ41HQprBUsMTQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=wYmMCITmhzTwNvD7jgpPG68OACvRA/V8H4otj0VdCVg=;
- b=cx3aDCcFmEHs8zhOtjd7weCo8Jg1o5lXNeBR58RDY3Aeb5Lll+GDlSeKPv0x/Qk6GMjtYjdHnESDKK41w86fdnlhAASVeZYVE9+nAP8YJhCCXDq4i2rU0qzyPuuNRRBDgiE/E0n66kBtkg6THtF/V6PCfVet6+iUciHc35XCKVsHABoPg0bvBz7COyFExoP/VuaXP00yKV4GYyAKiMbM8PdR0uYpawlT/Gj7Zj6gT0AyuvwUlveIGbfeVpOF6ITvxjh0qELQjuiFkYQAcTE+5O1fEJ2TyXuHJkDf1Ch7MtnFTM0o9Y3amGuiZfjYJ1KydwhIIbNITO21BLdI3IKXzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 204.77.163.244) smtp.rcpttodomain=emersion.fr smtp.mailfrom=garmin.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=garmin.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=garmin.onmicrosoft.com; s=selector1-garmin-onmicrosoft-com;
+ bh=iW+QWVNpioo1J/BHf1wZW0eYErhKVN3YhAdh/HVQAFI=;
+ b=J+qpVUx9UbT7SUD3CGiVSqKuYLLzLY/TU2Y38ZYw8YN2GX8h9y8j08Z/FYnyXeSLFUJk3y76823aMhuUCEGMo6skMVG2/7S6yMvxe3gDC+MDLySVnKMNq1xVnwIyl/03iKXBD+oM/AplZpqvHdOqhP9H7SuVNPNcKEGABQtPsbqJdYFbE43FDRkEKtGcWFPc10DYNhU2o0SjABMbIgpZ60/ur7NvGJJ9Th9IMLJBy5psMwhrt65OdOQzTpLBwOeVK7B7vLTJ9R6aAq1CnWkVg14/FT/YsVR39FRhRdH0qPtw7XctaMQZ0guX20RnYnI5Y1c6ij/ekYhEJ2yDR2IvfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wYmMCITmhzTwNvD7jgpPG68OACvRA/V8H4otj0VdCVg=;
- b=1GW1otkZERuhJCz1bzPtNuhOmFtw+v0r4DJ40xthi81RQQ3x02lkFi4+HayOhkJU7WVeIEVn6A2uBeq9b2vB0kF6NIZrP6XsLXyCA32xqpAWwQ255WgCfEmZjQevZXxBgh4rIZjiPGpVmPJQAqge/0SB/Jzx9Llg23PNNqO70alpxFBoktlgodXZWZ9J49zT8V91dPxKM3Bm1hK3/LHpID0hrLqHeAv9Xl50LFLLMily1JGyqzqYd3iC5R/QwAc8ICcyQQVF2b0dfwnz8Je35LCs4LEQ/TZmVdTnc5dhh+IqbWrsCiRbhPJPVfr+zDQ1xsFureQX3Y5W/eYv3/R+QQ==
-Received: from DM3PR12CA0083.namprd12.prod.outlook.com (2603:10b6:0:57::27) by
- BYAPR04MB4407.namprd04.prod.outlook.com (2603:10b6:a02:fa::24) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4523.16; Wed, 22 Sep 2021 16:16:50 +0000
-Received: from DM6NAM10FT065.eop-nam10.prod.protection.outlook.com
- (2603:10b6:0:57:cafe::ff) by DM3PR12CA0083.outlook.office365.com
- (2603:10b6:0:57::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
- Transport; Wed, 22 Sep 2021 16:16:50 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 204.77.163.244)
- smtp.mailfrom=garmin.com; emersion.fr; dkim=none (message not signed)
- header.d=none;emersion.fr; dmarc=pass action=none header.from=garmin.com;
-Received-SPF: Pass (protection.outlook.com: domain of garmin.com designates
- 204.77.163.244 as permitted sender) receiver=protection.outlook.com;
- client-ip=204.77.163.244; helo=olawpa-edge1.garmin.com;
-Received: from olawpa-edge1.garmin.com (204.77.163.244) by
- DM6NAM10FT065.mail.protection.outlook.com (10.13.152.181) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4544.13 via Frontend Transport; Wed, 22 Sep 2021 16:16:49 +0000
-Received: from OLAWPA-EXMB5.ad.garmin.com (10.5.144.13) by
- olawpa-edge1.garmin.com (10.60.4.227) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.2106.2; Wed, 22 Sep 2021 11:15:07 -0500
-Received: from OLAWPA-EXMB8.ad.garmin.com (10.5.144.18) by
- OLAWPA-EXMB5.ad.garmin.com (10.5.144.13) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2308.14; Wed, 22 Sep 2021 11:16:48 -0500
-Received: from OLAWPA-EXMB8.ad.garmin.com ([fe80::acc8:480a:b46f:6ce3]) by
- OLAWPA-EXMB8.ad.garmin.com ([fe80::acc8:480a:b46f:6ce3%23]) with mapi id
- 15.01.2308.014; Wed, 22 Sep 2021 11:16:48 -0500
-From: "Hoosier, Matt" <Matt.Hoosier@garmin.com>
-To: Simon Ser <contact@emersion.fr>
-CC: "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Subject: Re: Multiple DRI card detection in compositor systemd units
-Thread-Topic: Multiple DRI card detection in compositor systemd units
-Thread-Index: AQHXr8WIDvY7bwnIlUuREATw+jQZP6uwgZUA//+5W4A=
-Date: Wed, 22 Sep 2021 16:16:48 +0000
-Message-ID: <8983CFBC-2D55-4AA8-ACFD-10EE410FFAEA@garmin.com>
-References: <19277F1C-6CF5-4C19-9492-4A03F951764B@garmin.com>
- <xiT2GOL-X7GZiZUihjkIOFEbbS3vuVQrvogRKQjVdONfi07OwXydRhIUWU_elgmh0Ug9mAUONLEDC-bQe69fsOcd7Iq31R8T_Ai5KGhOnzE=@emersion.fr>
-In-Reply-To: <xiT2GOL-X7GZiZUihjkIOFEbbS3vuVQrvogRKQjVdONfi07OwXydRhIUWU_elgmh0Ug9mAUONLEDC-bQe69fsOcd7Iq31R8T_Ai5KGhOnzE=@emersion.fr>
-Accept-Language: en-US
+ bh=iW+QWVNpioo1J/BHf1wZW0eYErhKVN3YhAdh/HVQAFI=;
+ b=Dj9/0z0Rch6MNu/dD/Y0J4VDO9hPgSemzCXaQQHL8g5g+kLtjJlpy4T70sutt+xz1wpwyxtA+cl0bU+Xh/IIh595rkHvR5Ep+7A3F113Thj1Nl5XwDIIjVpZHN7poxvyyLJD+D+zSl64N0raIYCgs8tgj2fzpZ8f1gcnJn64Yps=
+Authentication-Results: baylibre.com; dkim=none (message not signed)
+ header.d=none;baylibre.com; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by MN2PR12MB4375.namprd12.prod.outlook.com (2603:10b6:208:24f::16)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Thu, 23 Sep
+ 2021 06:17:41 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::dce2:96e5:aba2:66fe%6]) with mapi id 15.20.4544.015; Thu, 23 Sep 2021
+ 06:17:41 +0000
+Subject: Re: [RFC PATCH 2/4] DRM: Add support of AI Processor Unit (APU)
+To: Dave Airlie <airlied@gmail.com>, Alexandre Bailon <abailon@baylibre.com>
+Cc: Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ ohad@wizery.com, bjorn.andersson@linaro.org,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ "moderated list:ARM/Mediatek SoC support"
+ <linux-mediatek@lists.infradead.org>, LKML <linux-kernel@vger.kernel.org>,
+ linux-remoteproc@vger.kernel.org,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>, khilman@baylibre.com, gpain@baylibre.com
+References: <20210917125945.620097-1-abailon@baylibre.com>
+ <20210917125945.620097-3-abailon@baylibre.com>
+ <CAPM=9tzOADabEgEP1L+yNO4gj2JhNuVDL-Bhpbsz4=UX5feLcg@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <ffc29919-809f-05c3-6079-62f1e6453f24@amd.com>
+Date: Thu, 23 Sep 2021 08:17:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <CAPM=9tzOADabEgEP1L+yNO4gj2JhNuVDL-Bhpbsz4=UX5feLcg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/16.52.21080801
-msip_labels: MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Enabled=true;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SiteId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_SetDate=2021-09-22T16:10:35Z;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_ContentBits=0;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_ActionId=8569d543-2cec-4261-b04d-4a543404e90e;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Enabled=true;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Name=Confidential;
- MSIP_Label_f3ff6d80-3782-4df6-bf6c-659f84558040_Method=Standard; 
-x-originating-ip: [10.5.209.13]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4EDE11CA779352459FCB7A687311F57D@garmin.com>
-Content-Transfer-Encoding: base64
+X-ClientProxiedBy: AM0PR05CA0090.eurprd05.prod.outlook.com
+ (2603:10a6:208:136::30) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
 MIME-Version: 1.0
-X-EOPAttributedMessage: 0
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM0PR05CA0090.eurprd05.prod.outlook.com (2603:10a6:208:136::30) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
+ Transport; Thu, 23 Sep 2021 06:17:38 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cdcfcd14-9c03-4566-83aa-08d97de4620f
-X-MS-TrafficTypeDiagnostic: BYAPR04MB4407:
-X-Microsoft-Antispam-PRVS: <BYAPR04MB44075520268EC251BE69A25DECA29@BYAPR04MB4407.namprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 5a93b627-b420-487d-f228-08d97e59d945
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4375:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB4375B3F56493E32C96DF95FE83A39@MN2PR12MB4375.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lwCSgk5hgviQcZj2NWunhJjTHASj8m2QYjjr6NwRZkCXei3sligMO5y5CDraFrlUflEbWJbB3p9pFsd4/yUk/gltek/phBWQMgrqOQN+Z8ecVqScx60a+Sx6e29bKbl7cxW6GtaljXTw8peUOoNDEiz0RYqsBJ8SKHBAEckxD9wJZQCqcQN47r+jhgb3S12LbZaUlsBBfgtTZ3KxTrjz8Zsje9uUxTo47Jkgb/MlwKbaQMrFMTsvMD52cZ+ZReq1xR/XeJgizbEMjOJ4jmWupmUVh6z+VX4dnq/cXjSDI4auNoh09GaqSUMUKz7EfLUd4gdB5l5XTEeNGUHRJIp685LcpbMkYFDFyLC6oc0VcQqrqb8d6QcqE5VI4lrEuyIZoZdPhKn6n4aE7wUMEhPJYDBk4J/PMDOfK9aX+sq3Ut7vVUivV9OYdLvJfTkytVMjXPDkaT6huFhZQaGQmBbh+yrPSEYa0NJcGiNBjDPy5Z6C+WlHcqLavJ+hHDM94rv4r87c5uqVgVdFMCMr5jl/MZC0LK27ISVtMxDV57lOccLYx/MI5PuDruaTQJVs7cAmhLwIG7j9PVvWwLeg5TGkKe5m40sp9P4WZgBypZVukxZe/S0ZYU8kLCEIcrae4vZdhUKlsvlHoXW5zt9gj1oWsTDexOQ9a5DOPWSy5netV8akYEsTvSQYglUI1zt/eXL6N8zLkFaZXGxQ2siDG2Fx1w==
-X-Forefront-Antispam-Report: CIP:204.77.163.244; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:olawpa-edge1.garmin.com; PTR:extedge.garmin.com; CAT:NONE;
- SFS:(46966006)(36840700001)(8676002)(356005)(82310400003)(36860700001)(54906003)(5660300002)(186003)(86362001)(2906002)(47076005)(6916009)(33656002)(8936002)(316002)(7696005)(336012)(7636003)(26005)(4326008)(70586007)(2616005)(508600001)(36756003)(83380400001)(426003)(70206006);
- DIR:OUT; SFP:1102; 
-X-OriginatorOrg: garmin.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2021 16:16:49.9775 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: cdcfcd14-9c03-4566-83aa-08d97de4620f
-X-MS-Exchange-CrossTenant-Id: 38d0d425-ba52-4c0a-a03e-2a65c8e82e2d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=38d0d425-ba52-4c0a-a03e-2a65c8e82e2d; Ip=[204.77.163.244];
- Helo=[olawpa-edge1.garmin.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM10FT065.eop-nam10.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB4407
-X-Proofpoint-ORIG-GUID: ttxcZxeM0r1KAY7IMBzTQmV8sYAcdaCF
-X-Proofpoint-GUID: ttxcZxeM0r1KAY7IMBzTQmV8sYAcdaCF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
- definitions=2021-09-22_06,2021-09-22_01,2020-04-07_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0
- bulkscore=0 phishscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
- suspectscore=0 mlxscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2109200000 definitions=main-2109220111
-X-Mailman-Approved-At: Thu, 23 Sep 2021 07:08:58 +0000
+X-Microsoft-Antispam-Message-Info: KrkzJA2dNiZw3Yvdu/POyWStd4YAhzN3QexReseCYHnRsUIbkTFpm10Kd8WSL3/xGl5BlLFRGj4DkXplYDfMm9qQwu6nKSHCtlmO6+HTuKf4exTdteSX0FcJwya9HGbyX3zUKCyT+vSxIYfEaA4nUFEnWYxLXvLzEYo4/Ltb7h45EtTEw9B+6CKmkPehyItpjweBe+kcjrlu7hp6n8lbqIx5MEj/Qq+d9AYq6V4dXxzPa8JZ+aF+gTTZUEkBHwKymNwLZwPGkYhA5wO30ss1lPXUY8GyPli1NKTqobWDKo9q4jdJoH99BablpDXDNsBLZCBKslOS6YqbJfKFd/WQmsheMDQSUGJocKYfMAJCFhGQUQXCfj3JkNarfLB7BRFJvU0KhaYvMICf0HFugGFECmik01w0tG9Vz/LkWKSETjjBez4/95/nZBUMSEyrAm6Src3LZVgyt/22WIimsCPyW9+PkyrOUrWUENbdKa7gqjJtlYT/CDVdlwwPtNp3kJeStviYT/A9PXbDG6F3N02Wo0kqFpKXlAE6Vlppzr5Y2chLR5Tl5vkRJim/WvVCD53/bH/c7DQPfTuC9UOsSwhlrUVXJtzANa766j83nzj4aajN04thP6B1qDtAEUlr6MxTIkskPLFNrGBV/aWTGY/b5v8ohlBEBWaF/m8OU8B6MPFpoXyjMhjuwEJBnpyguTsb06tELJn8I8Y+KolV2v9zQidFJj0OhDc8oh33WKeCkhamy4uUPG/5CVThp5e8QWT6s7Yp2XvSRyeUcxi7wG/SxZ58UfXWhB90fiWyoV36jokZhQGe5X+xUu8eYgnWlBlQ
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MN2PR12MB3775.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(6666004)(966005)(38100700002)(508600001)(6486002)(16576012)(31686004)(4326008)(5660300002)(36756003)(45080400002)(26005)(956004)(2906002)(110136005)(2616005)(54906003)(8936002)(7416002)(66476007)(66556008)(31696002)(186003)(8676002)(86362001)(316002)(66946007)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bFJEQVNzM2ZMazNJQlFkSTU5QUFDTjNVakNRM2JJR3krMWxzVEFIUWRQM0J2?=
+ =?utf-8?B?eVlPNTM1Q004TklzUXp4T2h5TldydXdGZWxhZDFXeC80L2NSTWFFSFhINTNz?=
+ =?utf-8?B?RFBQa2JaRnFUbVZGYTJmbVNpVnlhWUs0bUVBbUZNN3VnQXFuRTFoUWwxUlBi?=
+ =?utf-8?B?YitGdjVZVUFnMzE3VGVwRUpqN1FSZ1Y5QmFFaEZobi9CZjBpc0VkSlJNajZ4?=
+ =?utf-8?B?SkNSVVVnTlRtbXJpaHFOQ1FSWjdlbE9EVjVGMWl5K0xyTTRWZ3pQdktmZjc1?=
+ =?utf-8?B?Qm9wZ2xLcGl2RmdWOE9OaVMra09samlRVnRyRGlaK2RkMHB4aGJkdnRtek1E?=
+ =?utf-8?B?M2g0TFF6UlBLQU0xZGtIaFRKNnNnaTBOY0wwam9LZFI1RU9hZFdLMFVlZHlo?=
+ =?utf-8?B?OEdlc2pTdDJjVFRRMHJqUlBJV3MrMHhIQlpFOElMVWNUemRveFlJWEtZNmsv?=
+ =?utf-8?B?TkRSdjJjVElYdEJSK0F5OW5DaDd0MWJ4cWZkQnhLM29HU1JJeFRRVFVkdFJW?=
+ =?utf-8?B?akpuZWluSWRxK0NuSzN5VmgzeTIvTXpLZ2E5cTRTb1FOUDdkSWFudkNkSExM?=
+ =?utf-8?B?Y2ZnMlRSUGRTcVIxR3JxR2Z0NzdHZWg1ZFlpR3NhU0psOFFSVUZwdVAveEdV?=
+ =?utf-8?B?REJKeVlrNFBqOUdZSFZXRDRSQWFob3ZCampaakVpbUZ6OW9xY21UK0xQckFa?=
+ =?utf-8?B?N05tb2UrUCtJbjZwYVFScHRZVHcyTC9sVjlydFdMaUlmRzZjamhFalZST09q?=
+ =?utf-8?B?TkZFSXRaeUp3dHlLYlZjOUx3ajZFQWI5a21HVVlhZGQ5dE9QaDhhV1hCNUFD?=
+ =?utf-8?B?VkhOV3hMRFdISlJJR2czSmVZeE5KaHg4Z0JqZ0JxZGlxMzdWSlVmS1MvbThy?=
+ =?utf-8?B?bk9kb3oxTk1oMi8zL1hKZVpQNUlCY1F1WVptdmlZVUhmWXVFVFg5dnZiMUFG?=
+ =?utf-8?B?TWZQRysrbVhOblF3bStrM0ZPNjBnS1pBOVAvRmsvSitad2t6QWFPTW9lc3Ba?=
+ =?utf-8?B?L0pKTDkxZ2FjWjZTd1g4TUw2dnY1elVEU0pVdTJDckYyZmxBZEo2QW1aNDdV?=
+ =?utf-8?B?ZG1XQ3F6SnoxNlg5Y09QUWluUEw4bHpWZXYyV2kvU1NnYUdkYnd6MDdmd0Q0?=
+ =?utf-8?B?eUxpclJ4QXVXdHpRUXo1cXU2Sno4NDRDL2tRS1pGTCtxdWhtd3lTbEFreVJ1?=
+ =?utf-8?B?UzZRbjY5RTB0RWIyaEZSSkpCL1NpR0pEdzJCME1EVHFZK2U1NDgxaW41MDBr?=
+ =?utf-8?B?VHBqdzFHQjhQb2ZMaFdWQmwvU2dSTkdBYTZna3NWaTZrckFjZ1diRHpZYXJW?=
+ =?utf-8?B?M3h4NTI0T1JGSGE2eG11WGtKSlpYMm1pamZjUGs3Tzg1aDZjNUNNWW55RCsr?=
+ =?utf-8?B?d210bHZZOE92b2tJbThLSzU3THVzS09WTUlYQW91dkNjcjFEaFN4bUdPQVBV?=
+ =?utf-8?B?UytlRi9YNld1VlBXcnpHZm16eHc0Qjk3RzNibHR5ajI4bStwWElOSjB5Q0Fh?=
+ =?utf-8?B?YXFRTUxjTGUvNm9kalFwajRLL1phbmZzMVVPNHFsY0ZrYjZxcEhsRFdwQmkx?=
+ =?utf-8?B?OFJKSFc5MEZxVVhucEd1WlVBbkp1OU1CYy9uejhDY003Ymp5WTdyaE9zemtv?=
+ =?utf-8?B?N056UlNRZlZHRnNJcnh1a1d0WElGYjlSeEQ3djBOZE1vV1dETjQ3OG5aYnA0?=
+ =?utf-8?B?azhHSkdhSENJZ2ppTnRNSFdCeDRGckh2SUg3VkY2K1VESkZkbGIrOGdHS2Qv?=
+ =?utf-8?Q?yQauzGVL4ggD98lZmViwOwXn9R9TDtFxNgTsI/F?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a93b627-b420-487d-f228-08d97e59d945
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 06:17:41.3773 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i8ka79Yy4qjAzt5uimpZkB9KaQQt1SH7Mxl/Xj6gWKZyAoXfTP89tFfbNfWG3lyg
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4375
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -160,46 +147,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-SSBnZXQgdGhlIGludHVpdGlvbiBiZWhpbmQgdGhlIHN1Z2dlc3Rpb24gdG8gYWdncmVnYXRlIHVz
-aW5nIGxvZ2luZCBzZWF0cywgYXMgZmFyIGFzIGl0IGdvZXMuIEJ1dCBpdCBzdGlsbCBzZWVtcyB0
-byBtZSB0aGF0IHRoaXMganVzdCBwdXNoZXMgdGhlIHF1ZXN0aW9uIGJhY2s6IGhvdyBkbyB5b3Ug
-aWRlbnRpZnkgd2hpY2ggY2FyZCBpcyB3aGljaCBpbiBvcmRlciB0byBhc3NpZ24gaXQgdG8gYSBz
-ZWF0PyBOb3JtYWxseSB0aGlzIGlzIGRvbmUgdXNpbmcgdWRldiBydWxlcywgcmlnaHQ/IEFkZGl0
-aW9uYWxseSwgSSdtIHdvcmtpbmcgd2l0aCBzb21lIGNvbnN0cmFpbnRzIHRoYXQgbm90IGFsbCBv
-ZiB0aGUgY29tcG9zaXRvcnMgYXJlIGxvZ2luZC1hd2FyZS4gSSByZWFsaXplIHRoYXQncyBub3Qg
-cmVhbGx5IHlvdXIgcHJvYmxlbSwgYW5kIGl0IGRvZXNuJ3QgcmVhbGx5IGluZmx1ZW5jZSB0aGUg
-bWVyaXRzIG9mIHlvdXIgc3VnZ2VzdGlvbi4NCg0KVGhlIC9kZXYvZHJpL2J5LXBhdGggaWRlYSB3
-b3JrcywgSSBzdXBwb3NlLCBpZiB5b3UgaGF2ZSBkaWZmZXJlbnQgcGh5c2ljYWwgZ3JhcGhpY3Mg
-Y2FyZHMuIEluIG15IGNhc2UsIHRoYXQncyBub3QgdHJ1ZS4gVGhlc2UgYXJlIHZpcnR1YWxpemVk
-IGNhcmRzIHRoYXQgdGhlIHNpbGljb24gdmVuZG9yJ3MgRFJNIGRyaXZlcnMgdXNlIHRvIGV4cG9z
-ZSBkaWZmZXJlbnQgc3Vic2V0cyBvZiBEUk0gcmVzb3VyY2VzIGFzIGRpZmZlcmVudCBjYXJkcy4g
-U28gdGhlcmUncyBvbmx5IG9uZSAvZGV2L2RyaS9ieS1wYXRoIGNhcmQgaGVyZS4gVGhpbms6IERS
-TSBsZWFzZXMsIGJ1dCB3aXRoIHRoZSBsZXNzZWVzIHBvcHBpbmcgb3V0IGFzIGNhcmQgbm9kZXMg
-cmF0aGVyIHRoYW4gYXJyYW5nZWQgZHluYW1pY2FsbHkgdXNpbmcgdGhlIGRybSBpb2N0bCgpJ3Mg
-dG8gbWFudWZhdHVyZSBsZWFzZXMuDQoNClRoZSB1c2UtY2FzZSBoZXJlIGlzIHRvIGFsbG93IHNl
-cGFyYXRlIERSTSBkb21haW5zIGZvciBlYWNoIG9mIHNldmVyYWwgY29udGFpbmVycy4gSXQncyBu
-b3QgcmVhbGx5IGRlc2lyYWJsZSB0byB0cnkgdG8gZnVubmVsIGV2ZXJ5Ym9keSdzIGdyYXBoaWNz
-IHRocm91Z2ggYSBjb21tb24gY29tcG9zaXRvciB0aGF0IHJ1bnMgYWxsIHRoZSBjb25uZWN0b3Jz
-Lg0KDQpUaGFua3MgZm9yIHRoZSB0aG91Z2h0cy4NCg0KLU1hdHQNCg0K77u/T24gOS8yMi8yMSwg
-MTA6MjkgQU0sICJTaW1vbiBTZXIiIDxjb250YWN0QGVtZXJzaW9uLmZyPiB3cm90ZToNCg0KICAg
-IENBVVRJT04gLSBFWFRFUk5BTCBFTUFJTDogRG8gbm90IGNsaWNrIGFueSBsaW5rcyBvciBvcGVu
-IGFueSBhdHRhY2htZW50cyB1bmxlc3MgeW91IHRydXN0IHRoZSBzZW5kZXIgYW5kIGtub3cgdGhl
-IGNvbnRlbnQgaXMgc2FmZS4NCg0KDQogICAgTWF5YmUgdHJ5IGNyZWF0aW5nIG11bHRpcGxlIHBo
-eXNpY2FsIHNlYXRzIHdpdGggbG9naW5kLCBhbmQgc3RhcnQgZWFjaA0KICAgIGNvbXBvc2l0b3Ig
-b24gaXRzIG93biBzZWF0PyBBIHBoeXNpY2FsIHNlYXQgaXMgYSBjb2xsZWN0aW9uIG9mIGRldmlj
-ZXMgbGlrZQ0KICAgIERSTSBub2RlcyBhbmQgZXZkZXYgZGV2aWNlIGZpbGVzLg0KDQogICAgQWxz
-byB1ZGV2IGNyZWF0ZXMgZmlsZXMgaW4gL2Rldi9kcmkvYnktcGF0aC8sIHRoZXNlIHNob3VsZCBi
-ZSBzdGFibGUgYWNyb3NzDQogICAgcmVib290cy4gYHVkZXZhZG0gc2V0dGxlYCBiZWZvcmUgYSBj
-b21wb3NpdG9yIHN0YXJ0LXVwIGNhbiB3YWl0IGZvciB1ZGV2IHRvDQogICAgZmluaXNoIGl0cyBq
-b2IuDQoNCiAgICBPdXQgb2YgY3VyaW9zaXR5LCBjYW4geW91IGV4cGxhaW4geW91ciB1c2UtY2Fz
-ZT8gV2h5IGRvIHlvdSBuZWVkIHRvIHN0YXJ0DQogICAgbXVsdGlwbGUgY29tcG9zaXRvcnMsIGVh
-Y2ggb24gaXRzIG93biBHUFU/DQoNCg0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18N
-Cg0KQ09ORklERU5USUFMSVRZIE5PVElDRTogVGhpcyBlbWFpbCBhbmQgYW55IGF0dGFjaG1lbnRz
-IGFyZSBmb3IgdGhlIHNvbGUgdXNlIG9mIHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykgYW5kIGNv
-bnRhaW4gaW5mb3JtYXRpb24gdGhhdCBtYXkgYmUgR2FybWluIGNvbmZpZGVudGlhbCBhbmQvb3Ig
-R2FybWluIGxlZ2FsbHkgcHJpdmlsZWdlZC4gSWYgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlbWFp
-bCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGJ5IHJlcGx5IGVtYWlsIGFuZCBk
-ZWxldGUgdGhlIG1lc3NhZ2UuIEFueSBkaXNjbG9zdXJlLCBjb3B5aW5nLCBkaXN0cmlidXRpb24g
-b3IgdXNlIG9mIHRoaXMgY29tbXVuaWNhdGlvbiAoaW5jbHVkaW5nIGF0dGFjaG1lbnRzKSBieSBz
-b21lb25lIG90aGVyIHRoYW4gdGhlIGludGVuZGVkIHJlY2lwaWVudCBpcyBwcm9oaWJpdGVkLiBU
-aGFuayB5b3UuDQo=
+Am 23.09.21 um 02:58 schrieb Dave Airlie:
+> On Sat, 18 Sept 2021 at 07:57, Alexandre Bailon <abailon@baylibre.com> wrote:
+>> Some Mediatek SoC provides hardware accelerator for AI / ML.
+>> This driver provides the infrastructure to manage memory
+>> shared between host CPU and the accelerator, and to submit
+>> jobs to the accelerator.
+>> The APU itself is managed by remoteproc so this drivers
+>> relies on remoteproc to found the APU and get some important data
+>> from it. But, the driver is quite generic and it should possible
+>> to manage accelerator using another ways.
+>> This driver doesn't manage itself the data transmitions.
+>> It must be registered by another driver implementing the transmitions.
+>>
+>> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+>> [SNIP]
+
+>> Please refer to
+>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.kernel.org%2Fdoc%2FDocumentation%2Fioctl%2Fbotching-up-ioctls.rst&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C53a0ef2630404ddc4d9408d97e2d409c%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637679555123878415%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=6oVXAAOjQX%2FnDzJxZIAALqjDourHdrdGF6QVQKR58KI%3D&amp;reserved=0
+>>
+>> here and below in many places.
+>>
+>> There's a lot of missing padding/alignment here.
+
+There is also the pahole utility which show you nicely where you need 
+padding for your IOCTL structures.
+
+For example "pahole drivers/gpu/drm/amd/amdgpu/amdgpu.ko -C 
+drm_amdgpu_gem_va" gives you:
+
+struct drm_amdgpu_gem_va {
+     __u32                      handle;               /*     0     4 */
+     __u32                      _pad;                 /*     4     4 */
+     __u32                      operation;            /*     8     4 */
+     __u32                      flags;                /*    12     4 */
+     __u64                      va_address;           /*    16     8 */
+     __u64                      offset_in_bo;         /*    24     8 */
+     __u64                      map_size;             /*    32     8 */
+
+     /* size: 40, cachelines: 1, members: 7 */
+     /* last cacheline: 40 bytes */
+};
+
+And as you can see we have added the _pad field to our IOCTL parameter 
+structure to properly align the 64bit members.
+
+Regards,
+Christian.
+
+>>
+>> I'm trying to find the time to review this stack in full, any writeups
+>> on how this is used from userspace would be useful (not just the code
+>> repo, but some sort of how do I get at it) it reads as kinda generic
+>> (calling it apu), but then has some specifics around device binding.
+>>
+>> Dave.
+
