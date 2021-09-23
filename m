@@ -1,45 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B9FB415458
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 01:59:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BD441549C
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 02:29:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D09A06E082;
-	Wed, 22 Sep 2021 23:59:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CA006E0C4;
+	Thu, 23 Sep 2021 00:29:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D84116E082
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 23:59:51 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 43AAB6E0C4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 00:29:41 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2DB54E52;
- Thu, 23 Sep 2021 01:59:50 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17B75E52;
+ Thu, 23 Sep 2021 02:29:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632355190;
- bh=m7QhAZfUwFO2Iw3Pz+mv+NlLK6aw+m1UjGYHr+Rjfrs=;
+ s=mail; t=1632356979;
+ bh=WLMO3HK/6H6AzTiiGjQceu/0grPkioJzgP4ETytTCcs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=XqH6quTSgKUyY0bbaTVEceGaerQaDqI2nTAnrLETtixi/jKJLvqdY/t+onLtfoQbX
- g77o7TwcSENNg1vDDIXp1CmtqFhRSX8Im54WJ77kLomAOD0abGjGFdlRba1PNVSubc
- jAXAJ61hsDGlyWJiYrqT/8CcHrMnPc1krJKfNlVU=
-Date: Thu, 23 Sep 2021 02:59:48 +0300
+ b=wM8NdjahO34C4aa4oLfos58UpukL+OAipQwK1VStaWnvaPNjTOqYXgeiF0NvYtGDS
+ 9RoU63Bb6Q2eSrwuRJHMYqlDq7YIWpDunUg0YLiHK53u5ipvGuj8uDeOO+Glw9Qjxw
+ TkVp21MxQfxB06dIDIqAu/rCCfQ2/Ul6EldbcSUc=
+Date: Thu, 23 Sep 2021 03:29:37 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-renesas-soc@vger.kernel.org,
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 6/6] drm: rcar-du: Add r8a779a0 device support
-Message-ID: <YUvDdFeD64+PuHSC@pendragon.ideasonboard.com>
-References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
- <20210922234726.3337265-7-kieran.bingham@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Robert Foss <robert.foss@linaro.org>,
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 1/3] drm/bridge: Add a function to abstract away panels
+Message-ID: <YUvKcTv2hSrUqIvF@pendragon.ideasonboard.com>
+References: <20210910130941.1740182-1-maxime@cerno.tech>
+ <20210910130941.1740182-2-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210922234726.3337265-7-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210910130941.1740182-2-maxime@cerno.tech>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,143 +58,133 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Kieran,
+Hi Maxime,
 
 Thank you for the patch.
 
-On Thu, Sep 23, 2021 at 12:47:26AM +0100, Kieran Bingham wrote:
-> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> Extend the rcar_du_device_info structure and rcar_du_output enum to
-> support DSI outputs and utilise these additions to provide support for
-> the R8A779A0 V3U platform.
-> 
-> While the DIDSR register field is now named "DSI/CSI-2-TX-IF0 Dot Clock
-> Select" the existing define LVDS0 is used, and is directly compatible
-> from other DU variants.
+I know this has already been merged, but I have a question.
 
-That's not true anymore :-) The paragraph can simply be dropped.
-
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On Fri, Sep 10, 2021 at 03:09:39PM +0200, Maxime Ripard wrote:
+> Display drivers so far need to have a lot of boilerplate to first
+> retrieve either the panel or bridge that they are connected to using
+> drm_of_find_panel_or_bridge(), and then either deal with each with ad-hoc
+> functions or create a drm panel bridge through drm_panel_bridge_add.
 > 
+> In order to reduce the boilerplate and hopefully create a path of least
+> resistance towards using the DRM panel bridge layer, let's create the
+> function devm_drm_of_get_next to reduce that boilerplate.
+>
+> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 > ---
+>  drivers/gpu/drm/drm_bridge.c | 42 ++++++++++++++++++++++++++++++++----
+>  drivers/gpu/drm/drm_of.c     |  3 +++
+>  include/drm/drm_bridge.h     |  2 ++
+>  3 files changed, 43 insertions(+), 4 deletions(-)
 > 
-> v3:
->  - Introduce DIDSR_LDCS_DSI macro
-> 
-> v2:
->  - No longer requires a direct interface with the DSI encoder
->  - Use correct field naming (LDCS)
->  - Remove per-crtc clock feature.
-> 
->  drivers/gpu/drm/rcar-du/rcar_du_crtc.h  |  2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.c   | 20 ++++++++++++++++++++
->  drivers/gpu/drm/rcar-du/rcar_du_drv.h   |  2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_group.c |  2 ++
->  drivers/gpu/drm/rcar-du/rcar_du_regs.h  |  1 +
->  5 files changed, 27 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> index 440e6b4fbb58..26e79b74898c 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_crtc.h
-> @@ -96,6 +96,8 @@ struct rcar_du_crtc_state {
->  enum rcar_du_output {
->  	RCAR_DU_OUTPUT_DPAD0,
->  	RCAR_DU_OUTPUT_DPAD1,
-> +	RCAR_DU_OUTPUT_DSI0,
-> +	RCAR_DU_OUTPUT_DSI1,
->  	RCAR_DU_OUTPUT_HDMI0,
->  	RCAR_DU_OUTPUT_HDMI1,
->  	RCAR_DU_OUTPUT_LVDS0,
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.c b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> index 8a094d5b9c77..8b4c8851b6bc 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.c
-> @@ -489,6 +489,25 @@ static const struct rcar_du_device_info rcar_du_r8a7799x_info = {
->  	.lvds_clk_mask =  BIT(1) | BIT(0),
->  };
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index a8ed66751c2d..10ddca4638b0 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -28,6 +28,7 @@
+>  #include <drm/drm_atomic_state_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_encoder.h>
+> +#include <drm/drm_of.h>
+>  #include <drm/drm_print.h>
 >  
-> +static const struct rcar_du_device_info rcar_du_r8a779a0_info = {
-> +	.gen = 3,
-> +	.features = RCAR_DU_FEATURE_CRTC_IRQ
-> +		  | RCAR_DU_FEATURE_VSP1_SOURCE,
-> +	.channels_mask = BIT(1) | BIT(0),
-> +	.routes = {
-> +		/* R8A779A0 has two MIPI DSI outputs. */
-> +		[RCAR_DU_OUTPUT_DSI0] = {
-> +			.possible_crtcs = BIT(0),
-> +			.port = 0,
-> +		},
-> +		[RCAR_DU_OUTPUT_DSI1] = {
-> +			.possible_crtcs = BIT(1),
-> +			.port = 1,
-> +		},
-> +	},
-> +	.dsi_clk_mask =  BIT(1) | BIT(0),
-> +};
+>  #include "drm_crtc_internal.h"
+> @@ -51,10 +52,8 @@
+>   *
+>   * Display drivers are responsible for linking encoders with the first bridge
+>   * in the chains. This is done by acquiring the appropriate bridge with
+> - * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
+> - * panel with drm_panel_bridge_add_typed() (or the managed version
+> - * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
+> - * attached to the encoder with a call to drm_bridge_attach().
+> + * devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to the
+> + * encoder with a call to drm_bridge_attach().
+>   *
+>   * Bridges are responsible for linking themselves with the next bridge in the
+>   * chain, if any. This is done the same way as for encoders, with the call to
+> @@ -1233,6 +1232,41 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+>  	return NULL;
+>  }
+>  EXPORT_SYMBOL(of_drm_find_bridge);
 > +
->  static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a7742", .data = &rcar_du_r8a7790_info },
->  	{ .compatible = "renesas,du-r8a7743", .data = &rzg1_du_r8a7743_info },
-> @@ -513,6 +532,7 @@ static const struct of_device_id rcar_du_of_table[] = {
->  	{ .compatible = "renesas,du-r8a77980", .data = &rcar_du_r8a77970_info },
->  	{ .compatible = "renesas,du-r8a77990", .data = &rcar_du_r8a7799x_info },
->  	{ .compatible = "renesas,du-r8a77995", .data = &rcar_du_r8a7799x_info },
-> +	{ .compatible = "renesas,du-r8a779a0", .data = &rcar_du_r8a779a0_info },
->  	{ }
->  };
+> +/**
+> + * devm_drm_of_get_bridge - Return next bridge in the chain
+> + * @dev: device to tie the bridge lifetime to
+> + * @np: device tree node containing encoder output ports
+> + * @port: port in the device tree node
+> + * @endpoint: endpoint in the device tree node
+> + *
+> + * Given a DT node's port and endpoint number, finds the connected node
+> + * and returns the associated bridge if any, or creates and returns a
+> + * drm panel bridge instance if a panel is connected.
+> + *
+> + * Returns a pointer to the bridge if successful, or an error pointer
+> + * otherwise.
+> + */
+> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
+> +					  struct device_node *np,
+> +					  unsigned int port,
+> +					  unsigned int endpoint)
+> +{
+> +	struct drm_bridge *bridge;
+> +	struct drm_panel *panel;
+> +	int ret;
+> +
+> +	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
+> +					  &panel, &bridge);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	if (panel)
+> +		bridge = devm_drm_panel_bridge_add(dev, panel);
+> +
+> +	return bridge;
+
+I really like the idea, I've wanted to do something like this for a long
+time. I however wonder if this is the best approach, or if we could get
+the panel core to register the bridge itself. The part that bothers me
+here is the assymetry in the lifetime of the bridges, the returned
+pointer is either looked up or allocated.
+
+Bridge lifetime is such a mess that it may not make a big difference,
+but eventually we'll have to address that problem globally.
+
+> +}
+> +EXPORT_SYMBOL(devm_drm_of_get_bridge);
+>  #endif
 >  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_drv.h b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> index 5fe9152454ff..cf98d43d72d0 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_drv.h
-> @@ -57,6 +57,7 @@ struct rcar_du_output_routing {
->   * @routes: array of CRTC to output routes, indexed by output (RCAR_DU_OUTPUT_*)
->   * @num_lvds: number of internal LVDS encoders
->   * @dpll_mask: bit mask of DU channels equipped with a DPLL
-> + * @dsi_clk_mask: bitmask of channels that can use the DSI clock as dot clock
->   * @lvds_clk_mask: bitmask of channels that can use the LVDS clock as dot clock
+>  MODULE_AUTHOR("Ajay Kumar <ajaykumar.rs@samsung.com>");
+> diff --git a/drivers/gpu/drm/drm_of.c b/drivers/gpu/drm/drm_of.c
+> index 997b8827fed2..37c34146eea8 100644
+> --- a/drivers/gpu/drm/drm_of.c
+> +++ b/drivers/gpu/drm/drm_of.c
+> @@ -231,6 +231,9 @@ EXPORT_SYMBOL_GPL(drm_of_encoder_active_endpoint);
+>   * return either the associated struct drm_panel or drm_bridge device. Either
+>   * @panel or @bridge must not be NULL.
+>   *
+> + * This function is deprecated and should not be used in new drivers. Use
+> + * devm_drm_of_get_bridge() instead.
+> + *
+>   * Returns zero if successful, or one of the standard error codes if it fails.
 >   */
->  struct rcar_du_device_info {
-> @@ -67,6 +68,7 @@ struct rcar_du_device_info {
->  	struct rcar_du_output_routing routes[RCAR_DU_OUTPUT_MAX];
->  	unsigned int num_lvds;
->  	unsigned int dpll_mask;
-> +	unsigned int dsi_clk_mask;
->  	unsigned int lvds_clk_mask;
->  };
+>  int drm_of_find_panel_or_bridge(const struct device_node *np,
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 46bdfa48c413..f70c88ca96ef 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -911,6 +911,8 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
+>  struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
+>  						   struct drm_panel *panel,
+>  						   u32 connector_type);
+> +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
+> +					unsigned int port, unsigned int endpoint);
+>  struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
+>  #endif
 >  
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_group.c b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> index a984eef265d2..8665a1dd2186 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_group.c
-> @@ -124,6 +124,8 @@ static void rcar_du_group_setup_didsr(struct rcar_du_group *rgrp)
->  		if (rcdu->info->lvds_clk_mask & BIT(rcrtc->index))
->  			didsr |= DIDSR_LDCS_LVDS0(i)
->  			      |  DIDSR_PDCS_CLK(i, 0);
-> +		else if (rcdu->info->dsi_clk_mask & BIT(rcrtc->index))
-> +			didsr |= DIDSR_LDCS_DSI(i);
->  		else
->  			didsr |= DIDSR_LDCS_DCLKIN(i)
->  			      |  DIDSR_PDCS_CLK(i, 0);
-> diff --git a/drivers/gpu/drm/rcar-du/rcar_du_regs.h b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> index fb7c467aa484..9484215b51e2 100644
-> --- a/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> +++ b/drivers/gpu/drm/rcar-du/rcar_du_regs.h
-> @@ -258,6 +258,7 @@
->  #define DIDSR			0x20028
->  #define DIDSR_CODE		(0x7790 << 16)
->  #define DIDSR_LDCS_DCLKIN(n)	(0 << (8 + (n) * 2))
-> +#define DIDSR_LDCS_DSI(n)	(2 << (8 + (n) * 2))
-
-I'd add a /* V3U only */ comment at the end.
-
-I can address those two small issues when applying.
-
->  #define DIDSR_LDCS_LVDS0(n)	(2 << (8 + (n) * 2))
->  #define DIDSR_LDCS_LVDS1(n)	(3 << (8 + (n) * 2))
->  #define DIDSR_LDCS_MASK(n)	(3 << (8 + (n) * 2))
 
 -- 
 Regards,
