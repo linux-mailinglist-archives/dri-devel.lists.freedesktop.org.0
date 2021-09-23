@@ -1,96 +1,131 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EE2416740
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 23:13:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6576A41679B
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 23:41:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2254D6EDAD;
-	Thu, 23 Sep 2021 21:13:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B9066E112;
+	Thu, 23 Sep 2021 21:41:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
- (mail-co1nam11on2079.outbound.protection.outlook.com [40.107.220.79])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5E4C26EDB2;
- Thu, 23 Sep 2021 21:13:50 +0000 (UTC)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com
+ (mail-dm6nam11on2067.outbound.protection.outlook.com [40.107.223.67])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AA13E6E112
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 21:40:59 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YWrZy2NrVgY+zhHmb8NZ8/vKFvP28XVUA+B9JpioitdqQbY/kvOaZ6oyUBHAmsD5Lx3TJe89DlycXXXRTi3cJ1BgBkALb3QwUXUqLnBppaT882FTDUU4x60NOUQsQXlOO1Xu67LXMppkNDO9ByscZ+Y4KCdqMBZYtukWDcE50+jOhyP5XO5ltOuGJ3Iuzn/BwvwsHPfjEJDjhT4eOOV77yaCsJ+zgBxkEWmajdN2AIKVU5sSM+l/7QGZueHlfbKfuNBoh+D2ra8c7goEjKRFejuOC6hYNk1vPvYBGag4f9Zz2pOsfrnLjL3VXnMclPNX/xEVoc/OqWxZvPPAKBzhKQ==
+ b=cPmlwhOFytlnTfmznXZMAKSuYJ4HVpBQHndjJpl5TU5bMjWvOMQxwk8gjnL5uKbRpnIlDPaPEsgghGtJU4VT6jdSP8eqU/HVkSJDvsKE4W7JdRpolvWmCPMChL8372SP7+Jg7xpQd4K0K3BsRjbeqgwvvBbewqrXcnSsHPY2jyueSFbvU7cV+3HOdghpiZ8VaYLuvoPvkllgrAYwdG+GdNH24Q3wo84UKiJoLUkLyJSNRKbSGIYU+8cSp/7UmJt51SkvpqIGcMEEfJXx/VM1U/EmE+wRFUZ09QuBt3r4ark5CDCFg6SHGs0vrCDO7hgMR4vN30lecWomhjWHIbpS7g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=yAIvs4y31/l9CUfZ60B3RmhUjceuzYdNZJc6+73YBtw=;
- b=KqmlwOPJh1kgLeONf4Dk5N+ANGQmLv4V5J1/cjoMaNiM1zzu3oedA8DVYoi6UM3Y9jOUmMBQx9/zQJVkENyySCYl8PWFhjuG/b/5bNcaUAaVKcSQX2w/EtUtRxvMcxBWSLp69z7pz3V2eQobWk3r+hgRYOFhM6w6HjZ7RIvrx6UngqU5ErgqG+aHgGb4oDr6UokReab6s4ui6jL91M08lPDJPtjC3YaRJQDtZU9w2tTKItfLoOG+MjwVmL6+ztare2ad+VafsZfeeBcjkpo7UJP8dqWp1CKsGLMMjnZaiCC1YlrOe8/Q3SLZbL9Zk4kuIBp9JgkhAaLBFXT9vtIQIg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none
+ bh=gNHYj/rFA7W7MM5DxiyE82h+KsIBqi88hsh0ieeIuRc=;
+ b=i++2YxUASTPdl1HwTgEleLZavN63sdUX2FGyeE+mJn7tURHNwxef0YdCZ13JOO2oIVCS0KvR+GqSkYLXvxDTt/mzG5chbev4fttgCaVETZXdUhxOGdQHCmgV0TIrOxOqIbkhngziFoJjy5Kt8v9jYyGpY6qXIfOSZt4o7uMIhY644UU1e7yothqRJ4OsQTTzVG5iWwdqEiF5G8M9lsAUyPp3CGbzDXMvvJaux8AI+dz062I/jGPDHi0LJXDGE4pba34veyUOv5/k+cDWGY9gpcjdyfG4KTKhtlKIYx2VXDNWQ01M/N/OWZ2fvs/EQ31qJZ9bN5SOkhv37tnQa7kx6w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yAIvs4y31/l9CUfZ60B3RmhUjceuzYdNZJc6+73YBtw=;
- b=ePxs33GcPbnIBWSjPZSLe6Q+9TIBlUV367FIZ2I6P37eTV6F0cji6NJZjhbiuzhI2iHjc3qsZH0M+3QgfoPLSqpV9rhnELhU928jPN0AImHrYnFkdeua9GYd+6jTYX9Y3NQH6O600acE+dJvuQos9UdhzYB17as46/AbhqIVRMY=
-Received: from MWHPR15CA0061.namprd15.prod.outlook.com (2603:10b6:301:4c::23)
- by MW2PR12MB4668.namprd12.prod.outlook.com (2603:10b6:302:e::21) with
+ bh=gNHYj/rFA7W7MM5DxiyE82h+KsIBqi88hsh0ieeIuRc=;
+ b=BsczkaA3kx00OgVb7Pa7mXg04LY8UKV4AuD62SfCOxzfeKZA0jqN+u7DhkIhL1Cnzup4s5JPLB4YqnZ2slp9DBQ4T1KElDVzTCnT0F82MBB+yrVkX+MUr5e8DGM57PAtDsHrvO+fXqtn34fKRY58VywlGa12/TQE+XhC/Wus8cI=
+Received: from MW2PR12MB2505.namprd12.prod.outlook.com (2603:10b6:907:4::16)
+ by MWHPR1201MB0160.namprd12.prod.outlook.com (2603:10b6:301:50::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4523.16; Thu, 23 Sep
- 2021 21:13:48 +0000
-Received: from CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
- (2603:10b6:301:4c:cafe::c4) by MWHPR15CA0061.outlook.office365.com
- (2603:10b6:301:4c::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
- Transport; Thu, 23 Sep 2021 21:13:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
- header.d=none;lists.freedesktop.org; dmarc=pass action=none
- header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CO1NAM11FT046.mail.protection.outlook.com (10.13.174.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4544.13 via Frontend Transport; Thu, 23 Sep 2021 21:13:48 +0000
-Received: from tr4.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Thu, 23 Sep
- 2021 16:13:46 -0500
-From: Alex Deucher <alexander.deucher@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <airlied@gmail.com>, <daniel.vetter@ffwll.ch>
-CC: Alex Deucher <alexander.deucher@amd.com>
-Subject: [pull] amdgpu, amdkfd drm-fixes-5.15
-Date: Thu, 23 Sep 2021 17:13:30 -0400
-Message-ID: <20210923211330.20725-1-alexander.deucher@amd.com>
-X-Mailer: git-send-email 2.31.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.180.168.240]
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 361e991c-96e1-43fc-f4cf-08d97ed708e7
-X-MS-TrafficTypeDiagnostic: MW2PR12MB4668:
-X-Microsoft-Antispam-PRVS: <MW2PR12MB4668296EC42F6CFDF31F338FF7A39@MW2PR12MB4668.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:22;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VyaSCYwi2VNxEL9aSOHMilxZiWmSuJKO1M0BUynB0cSpQYS3sbuHlFHwDrF/KK0RcxsCDmaMEmyhOObXh4jN8RyiDP85c7/Jax6uye11WdhS5PIHKArsKSUD5BmfFYNo7SZiMQk1WkDHMdkM/bL3q8+Tnr4g67zMrNKTf38U4CZJmrvoOnUxgFlfCVJu74wwQ31gTv1OA26nP7PVp9ayUHJfGchDq1fEereiOqV4b2RR/+bboWmJ8cEPwPGDCKVxMFIKUuuFAUhgIg6NENMW9BX/aMWMkrpe4Udk1gg8fYUQcd8dbEIAVoC2BubrDJFjI22J5+ew2w5MWFhs3GhX2n706qVt/H0Iv8oY8CODKLtOXp0UtNY8JMTi4KQMWDzW0ndQyBjqpqgc0w+0pnTvsmQ4cKODeO4kZiU8uJN65/zyPz99U9nOhN3u5NrUkp13GT/b33Vd/0hkLcS0BbNmUkHsL9bHOdyG2aIq9FPsdLnbixA2BwnyDY7uIX3QFfCrFNTdjAbQCpPCMzatcXgLaJT956ViWKltHKN1vep72f6yBrCwRlcPcXXgSRgUqp4UTSaQ+wUN65qn0Gbm3ySfFfEn06C5ZPKT6QZzEx1Rh5vSyJBxeOtZ20tqKDB+8IYpswwJiQl8E2bTzm6uyAHis0EhjeS7e37L5uoSpwe2WcMs8guyAo7gjDJ+k8IENlSQpi1tGMUOKHMW4v7QVFdOIr+WTvus460q0TPY0vLDdvE=
-X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(1076003)(2906002)(8936002)(426003)(110136005)(2616005)(336012)(70206006)(82310400003)(36860700001)(316002)(70586007)(81166007)(8676002)(83380400001)(86362001)(186003)(16526019)(4326008)(6666004)(508600001)(966005)(7696005)(26005)(47076005)(36756003)(5660300002)(356005)(36900700001);
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Thu, 23 Sep
+ 2021 21:40:56 +0000
+Received: from MW2PR12MB2505.namprd12.prod.outlook.com
+ ([fe80::b0ca:a449:3c3:a119]) by MW2PR12MB2505.namprd12.prod.outlook.com
+ ([fe80::b0ca:a449:3c3:a119%5]) with mapi id 15.20.4544.014; Thu, 23 Sep 2021
+ 21:40:55 +0000
+From: "Phillips, Daniel" <Daniel.Phillips@amd.com>
+To: Matthew Wilcox <willy@infradead.org>, "Kuehling, Felix"
+ <Felix.Kuehling@amd.com>
+CC: Linux MM <linux-mm@kvack.org>, "linux-ext4@vger.kernel.org"
+ <linux-ext4@vger.kernel.org>, "linux-xfs@vger.kernel.org"
+ <linux-xfs@vger.kernel.org>, Maling list - DRI developers
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, Christoph Hellwig <hch@lst.de>, Jason
+ Gunthorpe <jgg@mellanox.com>, Jerome Glisse <jglisse@redhat.com>, Ralph
+ Campbell <rcampbell@nvidia.com>, Theodore Ts'o <tytso@mit.edu>, Andrew Morton
+ <akpm@linux-foundation.org>, Mel Gorman <mgorman@techsingularity.net>, Peter
+ Zijlstra <peterz@infradead.org>, "Sierra Guiza, Alejandro (Alex)"
+ <Alex.Sierra@amd.com>, Daniel Stone <daniel@fooishbar.org>
+Subject: RE: BoF at LPC: Documenting the Heterogeneous Memory Model
+ Architecture
+Thread-Topic: BoF at LPC: Documenting the Heterogeneous Memory Model
+ Architecture
+Thread-Index: AQHXrx2LN10Y7437XUSgh9raYvqchKuyE/gAgAAD7ACAAAZRgA==
+Date: Thu, 23 Sep 2021 21:40:55 +0000
+Message-ID: <MW2PR12MB2505680AC156F2A4F04E9271E3A39@MW2PR12MB2505.namprd12.prod.outlook.com>
+References: <23aeacb6-0cd9-d10f-76bc-3c9d33905daa@amd.com>
+ <ca132183-e778-4a86-c81e-4d292e9d41a7@amd.com>
+ <YUzl7qywbtVHipUT@casper.infradead.org>
+In-Reply-To: <YUzl7qywbtVHipUT@casper.infradead.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-23T21:40:54Z; 
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD Official Use
+ Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=549a49ed-d01a-4c07-af9b-4488ecdb81c3;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=1
+authentication-results: infradead.org; dkim=none (message not signed)
+ header.d=none;infradead.org; dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 54303191-8924-4396-ab6f-08d97edad2ca
+x-ms-traffictypediagnostic: MWHPR1201MB0160:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <MWHPR1201MB016016045A6A81A36AA722CAE3A39@MWHPR1201MB0160.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Lp6WRYXw7DoNVuZTrnX8nb2+8GxKOK+oysQsmdILD96pXzbWtjcYZdOuuQv/UWKXt9yWq/i+WZCtocpdXZWXvgV2NaProRhIG76DpxU9+9v0uQzBruBSGLTdwp9/BHIzEcRflY7F95Kpna5INo5POIMGnO5oLdbIrLU8yCx2jOzIWqs8/BCBUwGkyz9ulJLZ5fg/VjuFG5fXLeGLF+QAkr3ifgvMkvDBFqdlvys0tLj7wAQ9cMGSpVtOUVGlSSwg8pKyT2Cr5vFo4q2AlpNxjAyhrCKg8cde0YevfF+ZM7PtmQN+fL1bq/SCI7ImDpJhRbR10p3P3Z8T5BdVjvAG5d6gab/Hljv3icdophbKoLucyujPKlecgEYM1qMtu7NtO/HyrSHBs5KkZqN3O+/Hl0P+KjUxz9kxTA5UcZ4aNRHH+c1UIRs+ICr+cTpGrASvGe7wCOSm42hHf2cOaw5iBbR/wqrUUim+F1Vh4ttvMuDUKDU5XlwPR+i8GrdTJI5cA/g2bP9SurY2GheFUILFekGo72VKU6tkQ4xltMISPWnMLtAQnTSBnvFpnGregLxT4iftBmBPwbiU55XNKH6iWuSw1TMQvc1n7c7LNdP+IAM2hRN50tIOaMHrSuW0fAZxhWvHxJTUO5NDwGSxPxuOzDbXQn6g8j9qXFnSRoDTs+f4Rq6zhWeX4m9U4oGiOWm/+uWPjW6HfvX+Nf6zw5gco7wooV8tm3tBLWOwFc7jRauyyARGOPoVaLLFviv1vUZwNLfChEuOE2o1zJhhQhvW1L7h5tjqKFU45RmG1ZuSUJk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW2PR12MB2505.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(86362001)(45080400002)(71200400001)(508600001)(66446008)(316002)(6506007)(53546011)(38070700005)(83380400001)(33656002)(7696005)(9686003)(55016002)(966005)(7416002)(66476007)(66946007)(8936002)(52536014)(4326008)(122000001)(186003)(6636002)(66556008)(76116006)(64756008)(8676002)(54906003)(38100700002)(2906002)(110136005);
  DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Wsd/N7GKMOC3W/0KmxM+qtBEk1rCKY2iWf4PQGPqGfg45AFJc8TGo/j/MHPq?=
+ =?us-ascii?Q?anWYZxvUEFpYOotz8FzJsbiy9urx2ePOaQQXa7Lz1m0YoMmysBbmYmNwVy7Q?=
+ =?us-ascii?Q?qzRgNvySZtlQPd/pTaH2MILfUh2LE+eLt1i3unQf9K8Lvh+Ukvb1xSShif3e?=
+ =?us-ascii?Q?irvMjWFhjNbjzn/Fq2wQ/8wjrjdUr62N791htmGWWQZlZhvFatnm5PN0M8b7?=
+ =?us-ascii?Q?b/dc5tbNI0EEnzFsJgF9lFCDgVmxY3FdJzCsCu7xkUCGhI953boCxympJSj9?=
+ =?us-ascii?Q?0T2oVPsoAdVIzhhH+gsJIPH0cH6AFvg1KmevphCCCaHbsy1GTG4ObGbOViZ7?=
+ =?us-ascii?Q?8mSBro5sRC3McfMIySkSz4ApCOsR034bGhwmjaenI6er5c4gcjtnVbt59LL9?=
+ =?us-ascii?Q?o+MkPU9yYP5sAB77o/2JjBScAlQ6n03/qEX0vd5YP7XNKH1h9rYu8mZpUVaC?=
+ =?us-ascii?Q?lNdiZP6g8D4pfFRkH1trUaiOvKUk55kGwZmJnjBp5fkNAJWhkIlb4uA0fWVN?=
+ =?us-ascii?Q?QVWZF5PxffDJoAMr1m2b4mR+025PxmS+J4/GNCKMneghByvMLOUc/aXEFLNY?=
+ =?us-ascii?Q?m6hbVDvhsBfSzZVslO46q7OdE9B4jF68TpAMIMOwbp6yyKl+UORP/iDs824C?=
+ =?us-ascii?Q?IeeFanx43nvmftYgJCM1BnGDTE30o9I2SV5tWWXYXUCUr0Ix2m6mJAwkMKmh?=
+ =?us-ascii?Q?cTzOmHrtFb/00qgMau+YkDWr5M2Ic3VF73PFf4uDgG42zXxweJKssvTQnu4Q?=
+ =?us-ascii?Q?833vjuMqou2i3xR5Sws+t+fPU5zmG9X4qv52epPdutjZHuozV+oVXRQP3CIL?=
+ =?us-ascii?Q?5Aznq3nrw5HAfQnda4Sda0BAFO8v12y6r054N9Z8817D8KrceQ9STWXUTWY5?=
+ =?us-ascii?Q?M6g5P2N2H+Vj/piwyRMLNdIfGjfHgMQT6u5mrlKRhXw3N2BqB+UsEtDuUirB?=
+ =?us-ascii?Q?uQ1VWRlvNBuokfQlE3rSIcVoYiloEdRGNDGAY1t7OlDxVwfgWWdkldTRRX55?=
+ =?us-ascii?Q?rcyk/dKG6bxneZEHOwuMQfrQgndDEoaoABqLP1KZoSRKiz3S+GFpOsQKVzaU?=
+ =?us-ascii?Q?TanJbxRAqF/oVMe6/X+QkTpvSeGjgLq5euM/kDshWXPBy64le3ecCxR26t7e?=
+ =?us-ascii?Q?wz2OTRBb9UB55ynySfoARisVHA8fJ+ZDPSm24QuvP8iTiYBsGz/iEVDuYr3h?=
+ =?us-ascii?Q?UXQl/fjTVqutS/2cJkZqpQdIHtMu/Ty958Ov+Oi2JgY4fkr/MP3fdY1WcThP?=
+ =?us-ascii?Q?jWtOMYjzPHpyjV4bmwHZEZ1AVSHqPw98EYxzetHUwV1gtumMxHtDJSEY0AUX?=
+ =?us-ascii?Q?xpR9lub+drb6MHOIK28zy3d8XM8xxhomKlFcokXPDgzC0q6v46hYGNRUk8jk?=
+ =?us-ascii?Q?fhsnyKSttnrY/y4EJ2QtmJlgmXnc?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2021 21:13:48.0684 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 361e991c-96e1-43fc-f4cf-08d97ed708e7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
- Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT046.eop-nam11.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR12MB4668
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MW2PR12MB2505.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54303191-8924-4396-ab6f-08d97edad2ca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2021 21:40:55.2984 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xOdmWPAcJ14nFZInGRxLrD5mp2Tovh+Xb+nw+stOJwcF5fsLgsl4smIHdiZtrbhBOIGG8mN/whjGlDZn7yxtxg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0160
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,55 +141,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Dave, Daniel,
+[AMD Official Use Only]
 
-Fixes for 5.15.
+Hi Matt,
 
-The following changes since commit e4e737bb5c170df6135a127739a9e6148ee3da82:
+I originally picked the 10 am pdt time slot to avoid those conflicts. But I=
+ see the overlap is only partial. I also see Peterz is giving a talk that a=
+lso overlaps partially. But I think this is survivable. I suggest we just t=
+ry to make this work as best we can. It's not a presentation, it's primaril=
+y intended as a meet and greet and discussion. Whatever starts there will c=
+ontinue on lkml and etc.
 
-  Linux 5.15-rc2 (2021-09-19 17:28:22 -0700)
+Regards,
+Daniel
 
-are available in the Git repository at:
+-----Original Message-----
+From: Matthew Wilcox <willy@infradead.org>=20
+Sent: Thursday, September 23, 2021 1:39 PM
+To: Kuehling, Felix <Felix.Kuehling@amd.com>
+Cc: Linux MM <linux-mm@kvack.org>; linux-ext4@vger.kernel.org; linux-xfs@vg=
+er.kernel.org; Maling list - DRI developers <dri-devel@lists.freedesktop.or=
+g>; linux-kernel@vger.kernel.org; Christoph Hellwig <hch@lst.de>; Jason Gun=
+thorpe <jgg@mellanox.com>; Jerome Glisse <jglisse@redhat.com>; Ralph Campbe=
+ll <rcampbell@nvidia.com>; Theodore Ts'o <tytso@mit.edu>; Andrew Morton <ak=
+pm@linux-foundation.org>; Mel Gorman <mgorman@techsingularity.net>; Peter Z=
+ijlstra <peterz@infradead.org>; Phillips, Daniel <Daniel.Phillips@amd.com>;=
+ Sierra Guiza, Alejandro (Alex) <Alex.Sierra@amd.com>; Daniel Stone <daniel=
+@fooishbar.org>
+Subject: Re: BoF at LPC: Documenting the Heterogeneous Memory Model Archite=
+cture
 
-  https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.15-2021-09-23
+[CAUTION: External Email]
 
-for you to fetch changes up to 197ae17722e989942b36e33e044787877f158574:
+On Thu, Sep 23, 2021 at 04:25:08PM -0400, Felix Kuehling wrote:
+> Change of plan: Instead of a BoF, this is now a session in the=20
+> "GPU/media/AI buffer management and interop MC" micro conference.=20
+> Thank you Daniel Stone for making that happen.
+> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flinu
+> xplumbersconf.org%2Fevent%2F11%2Fcontributions%2F1112%2F&amp;data=3D04%7
+> C01%7CDaniel.Phillips%40amd.com%7Cb5064a1c5649431a90be08d97ed2517b%7C3
+> dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637680264672385094%7CUnknown
+> %7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJ
+> XVCI6Mn0%3D%7C2000&amp;sdata=3De%2Bpn4vXZI9yhLAbB8rtqik6OiZsEwOCBMdqk4JZ
+> n%2FC8%3D&amp;reserved=3D0
+>
+> It is scheduled for tomorrow (Friday) 08:40-10:00 Pacific, 11:40-13:00=20
+> Eastern, 15:40-17:00 UTC.
 
-  drm/amdkfd: fix svm_migrate_fini warning (2021-09-23 17:06:11 -0400)
+That's up against:
 
-----------------------------------------------------------------
-amd-drm-fixes-5.15-2021-09-23:
+ Direct map management
+Vlastimil Babka, Mike Rapoport, Rick Edgecombe  11:30-12:15.
 
-amdgpu:
-- Update MAINTAINERS entry for powerplay
-- Fix empty macros
-- SI DPM fix
-
-amdkfd:
-- SVM fixes
-- DMA mapping fix
-
-----------------------------------------------------------------
-Alex Deucher (1):
-      MAINTAINERS: fix up entry for AMD Powerplay
-
-Arnd Bergmann (1):
-      drm/amd/display: fix empty debug macros
-
-Lijo Lazar (1):
-      drm/amd/pm: Update intermediate power state for SI
-
-Philip Yang (4):
-      drm/amdkfd: SVM map to gpus check vma boundary
-      drm/amdkfd: fix dma mapping leaking warning
-      drm/amdkfd: handle svm migrate init error
-      drm/amdkfd: fix svm_migrate_fini warning
-
- MAINTAINERS                                  |  4 ++--
- drivers/gpu/drm/amd/amdkfd/kfd_device.c      |  1 -
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c     | 16 +++++++---------
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.h     |  5 -----
- drivers/gpu/drm/amd/amdkfd/kfd_svm.c         | 24 +++++++++++++++++++-----
- drivers/gpu/drm/amd/display/dc/dce/dce_aux.c |  4 ++--
- drivers/gpu/drm/amd/pm/powerplay/si_dpm.c    |  2 ++
- 7 files changed, 32 insertions(+), 24 deletions(-)
+Seems like a lot of the same people would want to be in both sessions.
+Maybe one could be moved?=
