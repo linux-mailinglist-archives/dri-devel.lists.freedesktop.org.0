@@ -2,43 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554C6415923
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 09:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FBF9415914
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 09:35:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4C5416ECFE;
-	Thu, 23 Sep 2021 07:35:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A20D6ECF0;
+	Thu, 23 Sep 2021 07:34:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 620CE6ECF7;
- Thu, 23 Sep 2021 07:35:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="203282522"
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="203282522"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF9FF6ECF0;
+ Thu, 23 Sep 2021 07:34:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="203282502"
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="203282502"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 00:35:00 -0700
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="702614115"
-Received: from gerardqu-mobl.ger.corp.intel.com (HELO [10.213.243.237])
- ([10.213.243.237])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 00:34:59 -0700
-Subject: Re: [PATCH] drm/i915/uncore: fwtable read handlers are now used on
- all forcewake platforms
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: Lucas De Marchi <lucas.demarchi@intel.com>
-References: <20210923003029.2194375-1-matthew.d.roper@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <3fc57b4c-fa5f-47be-6250-c12471ef826d@linux.intel.com>
-Date: Thu, 23 Sep 2021 08:34:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ 23 Sep 2021 00:34:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="558167382"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by fmsmga002.fm.intel.com with ESMTP; 23 Sep 2021 00:34:57 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Juston Li <juston.li@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH v12 00/17] drm/i915: Introduce Intel PXP
+Date: Thu, 23 Sep 2021 00:35:12 -0700
+Message-Id: <20210923073529.1058204-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210923003029.2194375-1-matthew.d.roper@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,80 +56,127 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+PXP (Protected Xe Path) is an i915 component, available on
+GEN12 and newer platforms, that helps to establish the hardware
+protected session and manage the status of the alive software session,
+as well as its life cycle.
 
-On 23/09/2021 01:30, Matt Roper wrote:
-> With the recent refactor of the uncore mmio handling, all
-> forcewake-based platforms (i.e., graphics version 6 and beyond) now use
-> the 'fwtable' read handlers.  Let's pull the assignment out of the
-> per-platform if/else ladder to make this more obvious.
-> 
-> Suggested-by: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-> Suggested-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->   drivers/gpu/drm/i915/intel_uncore.c | 11 ++---------
->   1 file changed, 2 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index c8e7c71f0896..678a99de07fe 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2088,49 +2088,42 @@ static int uncore_forcewake_init(struct intel_uncore *uncore)
->   		return ret;
->   	forcewake_early_sanitize(uncore, 0);
->   
-> +	ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
-> +
->   	if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 55)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __dg2_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, dg2_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (GRAPHICS_VER_FULL(i915) >= IP_VER(12, 50)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __xehp_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (GRAPHICS_VER(i915) >= 12) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen12_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen12_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (GRAPHICS_VER(i915) == 11) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen11_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen11_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (IS_GRAPHICS_VER(i915, 9, 10)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen9_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (IS_CHERRYVIEW(i915)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __chv_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (GRAPHICS_VER(i915) == 8) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen6_fw_ranges);
->   		ASSIGN_SHADOW_TABLE(uncore, gen8_shadowed_regs);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, fwtable);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (IS_VALLEYVIEW(i915)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __vlv_fw_ranges);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, gen6);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	} else if (IS_GRAPHICS_VER(i915, 6, 7)) {
->   		ASSIGN_FW_DOMAINS_TABLE(uncore, __gen6_fw_ranges);
->   		ASSIGN_WRITE_MMIO_VFUNCS(uncore, gen6);
-> -		ASSIGN_READ_MMIO_VFUNCS(uncore, fwtable);
->   	}
->   
->   	uncore->pmic_bus_access_nb.notifier_call = i915_pmic_bus_access_notifier;
-> 
+changes from v11:
+- Patch #8: Fix uninitialized variable.
+- Patch #15: Needed a rebase to latest drm-tip for merging.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Tested with: https://patchwork.freedesktop.org/series/87570/
 
-Regards,
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
 
-Tvrtko
+Anshuman Gupta (2):
+  drm/i915/pxp: Add plane decryption support
+  drm/i915/pxp: black pixels on pxp disabled
+
+Daniele Ceraolo Spurio (9):
+  drm/i915/pxp: Define PXP component interface
+  drm/i915/pxp: define PXP device flag and kconfig
+  drm/i915/pxp: allocate a vcs context for pxp usage
+  drm/i915/pxp: set KCR reg init
+  drm/i915/pxp: interfaces for using protected objects
+  drm/i915/pxp: start the arb session on demand
+  drm/i915/pxp: add pxp debugfs
+  drm/i915/pxp: add PXP documentation
+  drm/i915/pxp: enable PXP for integrated Gen12
+
+Huang, Sean Z (5):
+  drm/i915/pxp: Implement funcs to create the TEE channel
+  drm/i915/pxp: Create the arbitrary session after boot
+  drm/i915/pxp: Implement arb session teardown
+  drm/i915/pxp: Implement PXP irq handler
+  drm/i915/pxp: Enable PXP power management
+
+Vitaly Lubart (1):
+  mei: pxp: export pavp client to me client bus
+
+ Documentation/gpu/i915.rst                    |   8 +
+ drivers/gpu/drm/i915/Kconfig                  |  11 +
+ drivers/gpu/drm/i915/Makefile                 |  10 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  34 ++
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  49 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  96 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   6 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  28 ++
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +++--
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  18 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   8 +
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   4 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  15 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  48 +++
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 298 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  64 ++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c      | 141 +++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h      |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |  78 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h  |  21 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 101 ++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |  32 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  46 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  24 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  | 175 ++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 172 ++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |  17 +
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  36 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  83 +++++
+ drivers/misc/mei/Kconfig                      |   2 +
+ drivers/misc/mei/Makefile                     |   1 +
+ drivers/misc/mei/pxp/Kconfig                  |  13 +
+ drivers/misc/mei/pxp/Makefile                 |   7 +
+ drivers/misc/mei/pxp/mei_pxp.c                | 229 ++++++++++++++
+ drivers/misc/mei/pxp/mei_pxp.h                |  18 ++
+ include/drm/i915_component.h                  |   1 +
+ include/drm/i915_pxp_tee_interface.h          |  42 +++
+ include/uapi/drm/i915_drm.h                   |  99 +++++-
+ 52 files changed, 2157 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ create mode 100644 drivers/misc/mei/pxp/Kconfig
+ create mode 100644 drivers/misc/mei/pxp/Makefile
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+ create mode 100644 include/drm/i915_pxp_tee_interface.h
+
+-- 
+2.25.1
+
