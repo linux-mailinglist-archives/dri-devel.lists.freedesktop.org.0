@@ -1,60 +1,64 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42C3A415AC2
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:19:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E61415AD7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:23:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EF0CD6E0FE;
-	Thu, 23 Sep 2021 09:19:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A85A56E10D;
+	Thu, 23 Sep 2021 09:23:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 76ED76E0FE
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 09:19:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632388764;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Hmi9mDxMfGmpjf9AOoTu/Kv4h8mKdoxBjvMO/ClKwfg=;
- b=T4nKTAs2TMJptDF6hDMgt5dfZkhW7h4sBoXgnXkLCypfm3pHCqyjTanS/6OGlr2WN0
- q9bPStXLyVb5q8z78jLkp8baZOU6aQRbKEIt09KDBgVQdyZxz3uRYfRMd3WPOzTiSRF6
- PJa73gJZ9cUquSC7tegweW1PNxNVSZyPTxssQOMzxbtNsegEQVMp0tChULU34LXKmnA3
- CQTsn/HkBt6FRoxXTJ1Q9ZTmlhpPA+KOLM20q4TpHF8fA5yt6kobcMwgcEXEe5BDwR9Q
- lyfPnCHaFapyp34wPg382YYFdY/5yqyd8PBJNfNQ+DqQMJRt1qktd9KreMWsixwkszNu
- zd/Q==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3iMUQeg=="
-X-RZG-CLASS-ID: mo00
-Received: from mbp-13-nikolaus.fritz.box
- by smtp.strato.de (RZmta 47.33.8 SBL|AUTH)
- with ESMTPSA id I01f74x8N9JNJBX
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 23 Sep 2021 11:19:23 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
-Date: Thu, 23 Sep 2021 11:19:23 +0200
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-mips <linux-mips@vger.kernel.org>, list@opendingux.net,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <896D04E4-4058-474B-8BD2-7F21B1C754E4@goldelico.com>
-References: <20210922205555.496871-1-paul@crapouillou.net>
- <20210922205555.496871-7-paul@crapouillou.net>
- <32234186-1802-4FDF-801A-B14E48FB86D8@goldelico.com>
- <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D472D6E10C;
+ Thu, 23 Sep 2021 09:23:25 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id AFA0160F48;
+ Thu, 23 Sep 2021 09:23:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632389005;
+ bh=569bnNYpES6eJYp9Sh/W/cLEjYEtuiHWkMl00AUFATo=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=fQJtSnrfM/uDFOLC4+sEDSw5EB7H7cxc8dK5vTSSeTl710WpHddWJx0Hr66Ca9HQM
+ 8qC0g9I7MlLwDPXitIG8z2/ArzDVSn1E1QwlbZ67XIdhF+Ja4z1a6VQP87+2Ew13hY
+ NMDaSLdjxwRTfdaUrmXM+q1Z0KXVVlHsMfIIjeIptrczoGFBVc6gIrL3pSlu/nV6/X
+ zmkouwRPfo7eUKGjRTAktnMg3Si1PEqJmp10feLI1nNENxLKxtpJi5nB0okentxAF1
+ Ed6Cca1Uj7LqyVrGwE5L9TMO1BiJEWLbFTcYdIGeq5kTK+xWBJ8vsJNwzR3Owxklu0
+ P//3pQMqoV6tw==
+Received: by mail-oi1-f180.google.com with SMTP id w19so8764908oik.10;
+ Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
+X-Gm-Message-State: AOAM532d0xz7u2L4WUUIsiGEoAKTnj+KzYDt41aiSUT++JwVGbRCV/kq
+ gsdLPAyaLmSCvsAzNxprem48v6Spk9rpUgHsAts=
+X-Google-Smtp-Source: ABdhPJwKBW01i95TFVqcwwbcPPgUwOWxzKr7jYu4H/HoqIheB/NC+qNNGiwFvXSSXyXpLyrB2yaAMvBWhJmz0vqOyW4=
+X-Received: by 2002:aca:230f:: with SMTP id e15mr11840674oie.154.1632389005065; 
+ Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210912165309.98695-1-ogabbay@kernel.org>
+ <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca>
+ <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+ <YUM5JoMMK7gceuKZ@phenom.ffwll.local> <20210916131014.GK3544071@ziepe.ca>
+ <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
+ <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
+In-Reply-To: <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Thu, 23 Sep 2021 12:22:57 +0300
+X-Gmail-Original-Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
+Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Doug Ledford <dledford@redhat.com>, 
+ Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
+ Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>, 
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,101 +74,106 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Sat, Sep 18, 2021 at 11:38 AM Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> On Fri, Sep 17, 2021 at 3:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
+> > > On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
+> > > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
+> > > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > > >
+> > > > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > > > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > > > > > > Hi,
+> > > > > > > > Re-sending this patch-set following the release of our user-space TPC
+> > > > > > > > compiler and runtime library.
+> > > > > > > >
+> > > > > > > > I would appreciate a review on this.
+> > > > > > >
+> > > > > > > I think the big open we have is the entire revoke discussions. Having the
+> > > > > > > option to let dma-buf hang around which map to random local memory ranges,
+> > > > > > > without clear ownership link and a way to kill it sounds bad to me.
+> > > > > > >
+> > > > > > > I think there's a few options:
+> > > > > > > - We require revoke support. But I've heard rdma really doesn't like that,
+> > > > > > >   I guess because taking out an MR while holding the dma_resv_lock would
+> > > > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> > > > > > >   hold-up was again that makes this a no-go?
+> > > > > >
+> > > > > > RDMA HW can't do revoke.
+> > > >
+> > > > Like why? I'm assuming when the final open handle or whatever for that MR
+> > > > is closed, you do clean up everything? Or does that MR still stick around
+> > > > forever too?
+> > >
+> > > It is a combination of uAPI and HW specification.
+> > >
+> > > revoke here means you take a MR object and tell it to stop doing DMA
+> > > without causing the MR object to be destructed.
+> > >
+> > > All the drivers can of course destruct the MR, but doing such a
+> > > destruction without explicit synchronization with user space opens
+> > > things up to a serious use-after potential that could be a security
+> > > issue.
+> > >
+> > > When the open handle closes the userspace is synchronized with the
+> > > kernel and we can destruct the HW objects safely.
+> > >
+> > > So, the special HW feature required is 'stop doing DMA but keep the
+> > > object in an error state' which isn't really implemented, and doesn't
+> > > extend very well to other object types beyond simple MRs.
+> >
+> > Yeah revoke without destroying the MR doesn't work, and it sounds like
+> > revoke by destroying the MR just moves the can of worms around to another
+> > place.
+> >
+> > > > 1. User A opens gaudi device, sets up dma-buf export
+> > > >
+> > > > 2. User A registers that with RDMA, or anything else that doesn't support
+> > > > revoke.
+> > > >
+> > > > 3. User A closes gaudi device
+> > > >
+> > > > 4. User B opens gaudi device, assumes that it has full control over the
+> > > > device and uploads some secrets, which happen to end up in the dma-buf
+> > > > region user A set up
+> > >
+> > > I would expect this is blocked so long as the DMABUF exists - eg the
+> > > DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
+> > > that #3 can't actually happen.
+> > >
+> > > > It's not mlocked memory, it's mlocked memory and I can exfiltrate
+> > > > it.
+> > >
+> > > That's just bug, don't make buggy drivers :)
+> >
+> > Well yeah, but given that habanalabs hand rolled this I can't just check
+> > for the usual things we have to enforce this in drm. And generally you can
+> > just open chardevs arbitrarily, and multiple users fighting over each
+> > another. The troubles only start when you have private state or memory
+> > allocations of some kind attached to the struct file (instead of the
+> > underlying device), or something else that requires device exclusivity.
+> > There's no standard way to do that.
+> >
+> > Plus in many cases you really want revoke on top (can't get that here
+> > unfortunately it seems), and the attempts to get towards a generic
+> > revoke() just never went anywhere. So again it's all hand-rolled
+> > per-subsystem. *insert lament about us not having done this through a
+> > proper subsystem*
+> >
+> > Anyway it sounds like the code takes care of that.
+> > -Daniel
+>
+> Daniel, Jason,
+> Thanks for reviewing this code.
+>
+> Can I get an R-B / A-B from you for this patch-set ?
+>
+> Thanks,
+> Oded
 
-> Am 23.09.2021 um 10:49 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
-> Hi Nikolaus,
->=20
-> Le jeu., sept. 23 2021 at 07:52:08 +0200, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> Hi Paul,
->> thanks for another update.
->> We have been delayed to rework the CI20 HDMI code on top of your =
-series
->> but it basically works in some situations. There is for example a =
-problem
->> if the EDID reports DRM_COLOR_FORMAT_YCRCB422 but it appears to be =
-outside
->> of your series.
->=20
-> I think the SoC can output YCbCr as well, but I never tried to use it.
+A kind reminder.
 
-Maybe there is code missing or something else. We have not yet deeply =
-researched.
-Except that when ignoring DRM_COLOR_FORMAT_YCRCB422 capability it uses =
-RGB
-and works.
-
->=20
->>> +		ret =3D drm_bridge_attach(encoder, &ib->bridge, NULL,
->>> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
->> DRM_BRIDGE_ATTACH_NO_CONNECTOR makes it fundamentally incompatible
->> with synopsys/dw_hdmi.c
->> That driver checks for DRM_BRIDGE_ATTACH_NO_CONNECTOR being NOT =
-present,
->> since it wants to register its own connector through =
-dw_hdmi_connector_create().
->> It does it for a reason: the dw-hdmi is a multi-function driver which =
-does
->> HDMI and DDC/EDID stuff in a single driver (because I/O registers and =
-power
->> management seem to be shared).
->=20
-> The IT66121 driver does all of that too, and does not need =
-DRM_BRIDGE_ATTACH_NO_CONNECTOR. The drm_bridge_funcs struct has =
-callbacks to handle cable detection and DDC stuff.
->=20
->> Since I do not see who could split this into a separate bridge and a =
-connector driver
->> and test it on multiple SoC platforms (there are at least 3 or 4), I =
-think modifying
->> the fundamentals of the dw-hdmi architecture just to get CI20 HDMI =
-working is not
->> our turf.
->=20
-> You could have a field in the dw-hdmi pdata structure, that would =
-instruct the driver whether or not it should use the new API. Ugly, I =
-know, and would probably duplicate a lot of code, but that would allow =
-other drivers to be updated at a later date.
-
-Yes, would be very ugly.
-
-But generally who has the knowledge (and time) to do this work?
-And has a working platform to test (jz4780 isn't a good development =
-environment)?
-
-The driver seems to have a turbulent history starting 2013 in =
-staging/imx and
-apparently it was generalized since then... Is Laurent currently dw-hdmi =
-maintainer?
-
->=20
->> Therefore the code here should be able to detect if =
-drm_bridge_attach() already
->> creates and attaches a connector and then skip the code below.
->=20
-> Not that easy, unfortunately. On one side we have dw-hdmi which checks =
-that DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set, and on the other side we =
-have other drivers like the IT66121 which will fail if this flag is not =
-set.
-
-Ok, I see. You have to handle contradicting cases here.
-
-Would it be possible to run it with DRM_BRIDGE_ATTACH_NO_CONNECTOR first
-and retry if it fails without?
-
-But IMHO the return value (in error case) is not well defined. So there
-must be a test if a connector has been created (I do not know how this
-would work).
-
-Another suggestion: can you check if there is a downstream connector =
-defined in
-device tree (dw-hdmi does not need such a definition)?
-If not we call it with 0 and if there is one we call it with
-DRM_BRIDGE_ATTACH_NO_CONNECTOR and create one?
-
-Just some ideas how to solve without touching hdmi drivers.
-
-BR and thanks,
-Nikolaus=
+Thanks,
+Oded
