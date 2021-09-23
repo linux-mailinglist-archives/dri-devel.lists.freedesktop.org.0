@@ -2,64 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFFE3415D52
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 13:59:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E428415EF7
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 14:56:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A16A6ED10;
-	Thu, 23 Sep 2021 11:59:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DFBF76ED08;
+	Thu, 23 Sep 2021 12:56:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
- [85.215.255.54])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FB506ED10
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 11:59:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632398197;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=2vKLrD5/RVYcIrw7lc7p15FS32niKDCwgYtSX9xJmrI=;
- b=rEyce8TZ5vvZOERd5TC8RhsnBi/ckqcpKvyyPMLYTvujjXcn+zd60xCIBZRhGTZy8A
- OeT2pp5TcjeheiKJejxIer+A8rKdEUYLZl3NLizPqVIwXt7ybrvjpBY4rV4WL+ZDR2iY
- OYxG3ev1k+KkYbDHOeWKm1c1/fHchvtG7ETG0HW+DYlOwSeIXa1D2JrHd8vIZuubxD+N
- KaEtslTbMMWAIhtxSwytLrZlc2dTn3tx77FlJfeCF+RU1azAnk4h914DkfiiYJvMtms5
- bo4s8f8E9prceKQ7i78tEAyjJWaheGumm7+SK/YKymx4EUM0iPMuDrJjTNmt5Ng3WBlO
- W8Gg==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3iMUQeg=="
-X-RZG-CLASS-ID: mo00
-Received: from mbp-13-nikolaus.fritz.box
- by smtp.strato.de (RZmta 47.33.8 SBL|AUTH)
- with ESMTPSA id I01f74x8NBubKDq
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Thu, 23 Sep 2021 13:56:37 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <B7C9EEE8-F999-4105-B805-1B32619A3847@goldelico.com>
-Date: Thu, 23 Sep 2021 13:56:36 +0200
-Cc: Paul Cercueil <paul@crapouillou.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-mips <linux-mips@vger.kernel.org>,
- list@opendingux.net, dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>,
- Paul Boddie <paul@boddie.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6CEB196E-231F-4548-B527-CFF83B587501@goldelico.com>
-References: <20210922205555.496871-1-paul@crapouillou.net>
- <20210922205555.496871-7-paul@crapouillou.net>
- <32234186-1802-4FDF-801A-B14E48FB86D8@goldelico.com>
- <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
- <896D04E4-4058-474B-8BD2-7F21B1C754E4@goldelico.com>
- <YUxIkdGcGnBhcT0y@pendragon.ideasonboard.com>
- <3764505C-7CA9-40C4-8CFA-8B0F2361E6D5@goldelico.com>
- <YUxQ9k/CDYz20rYo@pendragon.ideasonboard.com>
- <B7C9EEE8-F999-4105-B805-1B32619A3847@goldelico.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-X-Mailer: Apple Mail (2.3445.104.21)
+Received: from mail-oo1-xc2a.google.com (mail-oo1-xc2a.google.com
+ [IPv6:2607:f8b0:4864:20::c2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8294A6E120;
+ Thu, 23 Sep 2021 12:56:39 +0000 (UTC)
+Received: by mail-oo1-xc2a.google.com with SMTP id
+ h11-20020a4aa74b000000b002a933d156cbso2111131oom.4; 
+ Thu, 23 Sep 2021 05:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GVXu7kjSXu+P/8oGmOO5Kp7VFy7hdCAFq/98GJCuVfU=;
+ b=gNu2dzSvL+TfeLTj9hs9GpoKvriXkgOe2vM7Mq4Y/HBCJ5pWQxL5fr7L72Ldx2188w
+ 7J5iYp7gQGXBOZ7wkPQ2OZs9ItXBkJLc1aEWmsmxt0w9NzRjq1qNdgt6p+u1zEkQ8UPe
+ nMjuluGGLMbjtUtl8a3Y2yC50cwpeZQSVQEf6eG96KAWm5TmGxgT4xJocX40XSBPVadp
+ hoehV+YiPiKZ62wihEw7M4U6+m57nFpOwkJDK4xgHOQX6T4tBn4FJSCLfxHJtrUtAk7W
+ Utj0Ao8MRe0YkU1+bdUZ9A+3wZLWDigymvsvav6IcU+cOaNJBWQpte+NyF3Fg6EvsZ9S
+ F/SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GVXu7kjSXu+P/8oGmOO5Kp7VFy7hdCAFq/98GJCuVfU=;
+ b=zKttTldw+k4HhNltGGl6yoi7EvuJ+1NVjtc00UJX6E+NfNj7NeCm1kTXLt8/EHKq5J
+ A+foc/e/S45YuRuyjiTTLcrinS+BJmGikwoGSjZglnaeO1/xW3Fvt2d+WhI/bfgKFDcd
+ CHaHxbsmKFQBhw5c7Kp0rsHknr+7uX6o+ir7I6BU3D0SteexEn9wnBDqkLqhrqX41/kF
+ NjRGoNERWqX6W8hEvhRWAo3ZUr+Q2s2CqqWH40I1Hjov1A6A8STL1AdZzx9a3J8OIPkj
+ lCD57qsh/wjVloMI+eRpK9rO+FE2MD32u+4Pc27ZBPd0B0MhidS+UjEqO0jpJN3c/fU7
+ C60Q==
+X-Gm-Message-State: AOAM530kdKeSsHJiOlE8sfOtwyX1deRBh8fHqJsFvYlGsoAt2+aZDCO+
+ G6W0dxtwdaKKk3EtWm2rFATJqgCFdy0ULkhz9u+LpVDVk08=
+X-Google-Smtp-Source: ABdhPJw+itN2funATMJjYzrnvfLukCJ8KMynQKVWLKTfPY1S5tVJl6kJS4XE4j70X9EfHKNEdRDb3ebGSnBXHlVTSxc=
+X-Received: by 2002:a4a:d794:: with SMTP id c20mr3562114oou.23.1632401798852; 
+ Thu, 23 Sep 2021 05:56:38 -0700 (PDT)
+MIME-Version: 1.0
+References: <20210923090232.61559-1-yipeng.chen@amd.com>
+In-Reply-To: <20210923090232.61559-1-yipeng.chen@amd.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 23 Sep 2021 08:56:27 -0400
+Message-ID: <CADnq5_Put1U-X8MBS4Gpxo2zkkyNCS6yum+X3q+H-30xNn31_A@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd/display: Fix randomly flicking on overlay with
+ enabled ABM
+To: yipeng.chen@amd.com
+Cc: "Wentland, Harry" <harry.wentland@amd.com>,
+ "Leo (Sunpeng) Li" <sunpeng.li@amd.com>, 
+ "Deucher, Alexander" <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>, 
+ Dave Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Qingqing Zhuo <qingqing.zhuo@amd.com>, "Cyr, Aric" <Aric.Cyr@amd.com>, 
+ Anson Jacob <Anson.Jacob@amd.com>, Bindu Ramamurthy <bindu.r@amd.com>,
+ Martin Tsai <martin.tsai@amd.com>, 
+ bing.guo@amd.com, roy.chan@amd.com, George Shen <george.shen@amd.com>, 
+ Joshua Aberback <joshua.aberback@amd.com>,
+ Ashley Thomas <Ashley.Thomas2@amd.com>, Jing.Zhou@amd.com, 
+ dale.zhao@amd.com, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, Roman Li <Roman.Li@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,62 +80,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Sep 23, 2021 at 5:03 AM <yipeng.chen@amd.com> wrote:
+>
+> From: "Yipeng Chen (Jasber)" <yipeng.chen@amd.com>
+>
+> [Why]
+> Enabled ABM (level != 0) would raise short pluse irq DC_IRQ_SOURCE_HPD1RX
+> randomly with PSR error LINK_CRC_ERROR. Actually there is no hot plugging
+> on EDP panel. After correcting CRC error, there is no need to send drm
+> hotplug event.
+>
+> [How]
+> Returning false would skip doing hot-plug when handle_hpd_irq_psr_sink()
+> handled irq. Hot-plug process causes visible flicking on overlay.
+>
+> Signed-off-by: Yipeng Chen (Jasber) <yipeng.chen@amd.com>
+> Reviewed-by: Roman Li <Roman.Li@amd.com>
+>              Anthony Koo <Anthony.Koo@amd.com>
+
+Each reviewer should be called out on a separate line E.g.,
+Reviewed-by: Roman Li <Roman.Li@amd.com>
+Reviewed-by: Anthony Koo <Anthony.Koo@amd.com>
 
 
-Hi Laurent,
 
-> IMHO it is leaving (mature) dw-hdmi untouched and make attachment of a =
-connector
-> in ingenic_drm_bind() depend on some condition.
-
-Since I don't know details of the DRM bridge/encoder/connector APIs),=20
-let me reformulate the quersion for a condition specifically.
-
-How can one find out in this code fragment from Paul's patch
-if drm_brige_attach() did create a connector or not?
-
-I.e. did call drm_connector_attach_encoder(connector, =
-hdmi->bridge.encoder);
-on its own?
-
-@@ -1154,20 +1186,36 @@ static int ingenic_drm_bind(struct device *dev, =
-bool has_components)
-			bridge =3D devm_drm_panel_bridge_add_typed(dev, =
-panel,
-								 =
-DRM_MODE_CONNECTOR_DPI);
-
-		drm_encoder_helper_add(encoder, =
-&ingenic_drm_encoder_helper_funcs);
-
--		ret =3D drm_bridge_attach(encoder, bridge, NULL, 0);
--		if (ret)
-+		ib->bridge.funcs =3D &ingenic_drm_bridge_funcs;
-+		ib->next_bridge =3D bridge;
-+
-+		ret =3D drm_bridge_attach(encoder, &ib->bridge, NULL,
-+					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-+		if (ret) {
-+			dev_err(dev, "Unable to attach bridge\n");
-			return ret;
-+		}
-+
-+		connector =3D drm_bridge_connector_init(drm, encoder);
-+		if (IS_ERR(connector)) {
-+			dev_err(dev, "Unable to init connector\n");
-+			return PTR_ERR(connector);
-+		}
-+
-+		drm_connector_attach_encoder(connector, encoder);
-	}
-
-A problem may be that "connector" is unknown before =
-drm_bridge_connector_init()
-is called.
-
-Then I think I can propose a fallback solution to drm_bridge_attach(, 0) =
-if
-drm_bridge_attach(, DRM_BRIDGE_ATTACH_NO_CONNECTOR) fails.=20
-
-BR and thanks,
-Nikolaus=
+> ---
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> index 1e4794e2825c..9b9fbe5e9bd4 100644
+> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c
+> @@ -3007,7 +3007,7 @@ bool dc_link_handle_hpd_rx_irq(struct dc_link *link, union hpd_irq_data *out_hpd
+>
+>         if (handle_hpd_irq_psr_sink(link))
+>                 /* PSR-related error was detected and handled */
+> -               return true;
+> +               return false;
+>
+>         /* If PSR-related error handled, Main link may be off,
+>          * so do not handle as a normal sink status change interrupt.
+> --
+> 2.25.1
+>
