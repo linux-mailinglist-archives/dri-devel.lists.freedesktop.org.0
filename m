@@ -2,44 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6214E4159B0
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 10:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D404415938
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 09:43:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C9C0A6ECFC;
-	Thu, 23 Sep 2021 08:01:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3CD066E0DF;
+	Thu, 23 Sep 2021 07:43:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D51DB6ECF6;
- Thu, 23 Sep 2021 08:01:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="246237859"
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
- d="asc'?scan'208";a="246237859"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 01:01:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; 
- d="asc'?scan'208";a="550748427"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.160.143])
- by FMSMGA003.fm.intel.com with ESMTP; 23 Sep 2021 01:01:03 -0700
-Date: Thu, 23 Sep 2021 15:36:59 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>
-Cc: jbaron@akamai.com, gregkh@linuxfoundation.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, daniel@ffwll.ch
-Subject: Re: [PATCH v8 10/16] i915/gvt: remove spaces in pr_debug "gvt:
- core:" etc prefixes
-Message-ID: <20210923073659.GZ14689@zhen-hp.sh.intel.com>
-References: <20210915163957.2949166-1-jim.cromie@gmail.com>
- <20210915163957.2949166-11-jim.cromie@gmail.com>
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 03D846E0DF
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 07:43:19 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id q66so5646545vsa.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 00:43:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/Ha/wlFhpE3wzhxqsYVFhc8UhMgQgIXbZ52hSCO/LZU=;
+ b=f6cT6A6TzjXQjLgLSWYHpkIvkt39sk0eaJj+AngKTgBxCfeC7crAlDm4Lc9M6yHVdV
+ PYxdEyt+/rcYbFf+Jf/xc8BxAJtkkNNshC+YOkAdbgqxX22hVTookS+97t+x8hxopo4e
+ 0DwdoeEaqiFr2RGxOGMIwVXY6KX5MILBzKZ56mGP6x9qOiqxbj1coB1Nwp0cUucwJ2RB
+ KvrZaAkcuNFwQkvgTX6YRZ9NgOjPZxQguxXoT7M0KOpgajSHbaz4jDLYXEG+F3AXkwjc
+ vnYOGiRzI3W2R5AoQJV0HM3w5K0KU4SVi2tpKhzXF5XW7Ms0Nuctrg2lWFtdVRR7arC5
+ G24w==
+X-Gm-Message-State: AOAM530GDo9uKtK/lUsyc8/WE4/1BBYc/zzbXBclfpx1QvLPvl71HV+9
+ q96UeXp7WeW3uDZJbS1j7YlJgx2GySKRUV8i95Q=
+X-Google-Smtp-Source: ABdhPJzKQLsa6lAVIiUAQaqshZfD+cCmfuMpwO2GNU/H/yzPZqKWK1YyaY9bVHDLIhvsPRJM5ycaxYEJFPxbKcq0wx4=
+X-Received: by 2002:a67:cb0a:: with SMTP id b10mr3048824vsl.9.1632382998923;
+ Thu, 23 Sep 2021 00:43:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
- protocol="application/pgp-signature"; boundary="Bu8it7iiRSEf40bY"
-Content-Disposition: inline
-In-Reply-To: <20210915163957.2949166-11-jim.cromie@gmail.com>
+References: <20210922234726.3337265-1-kieran.bingham@ideasonboard.com>
+ <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20210922234726.3337265-2-kieran.bingham@ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 23 Sep 2021 09:43:07 +0200
+Message-ID: <CAMuHMdWfcxb+5uOnPMiB2Z9rUfnRAg2Pzz--H16fOoVoASP=Kw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: display: renesas, du: Provide bindings
+ for r8a779a0
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
+ "open list:DRM DRIVERS FOR RENESAS" <dri-devel@lists.freedesktop.org>, 
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,114 +62,111 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Kieran,
 
---Bu8it7iiRSEf40bY
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On 2021.09.15 10:39:51 -0600, Jim Cromie wrote:
-> Taking embedded spaces out of existing prefixes makes them better
-> class-prefixes; simplifying the extra quoting needed otherwise:
->=20
->   $> echo format "^gvt: core:" +p >control
->=20
-> Dropping the internal spaces means any trailing space in a query will
-> more clearly terminate the prefix being searched for.
->=20
-> Consider a generic drm-debug example:
->=20
->   # turn off ATOMIC reports
->   echo format "^drm:atomic: " -p > control
->=20
->   # turn off all ATOMIC:* reports, including any sub-categories
->   echo format "^drm:atomic:" -p > control
->=20
->   # turn on ATOMIC:FAIL: reports
->   echo format "^drm:atomic:fail: " +p > control
->=20
-> Removing embedded spaces in the class-prefixes simplifies the
-> corresponding match-prefix.  This means that "quoted" match-prefixes
-> are only needed when the trailing space is desired, in order to
-> exclude explicitly sub-categorized pr-debugs; in this example,
-> "drm:atomic:fail:".
->=20
-> RFC: maybe the prefix catenation should paste in the " " class-prefix
-> terminator explicitly.  A pr_debug_() flavor could exclude the " ",
-> allowing ad-hoc sub-categorization by appending for example, "fail:"
-> to "drm:atomic:" without the default " " insertion.
->=20
-> Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+On Thu, Sep 23, 2021 at 1:47 AM Kieran Bingham
+<kieran.bingham@ideasonboard.com> wrote:
+> From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
+> Extend the Renesas DU display bindings to support the r8a779a0 V3U.
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>
 > ---
-> v8:
-> . fix patchwork CI warning
-> ---
->  drivers/gpu/drm/i915/gvt/debug.h | 18 +++++++++---------
->  1 file changed, 9 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/i915/gvt/debug.h b/drivers/gpu/drm/i915/gvt/=
-debug.h
-> index c6027125c1ec..bbecc279e077 100644
-> --- a/drivers/gpu/drm/i915/gvt/debug.h
-> +++ b/drivers/gpu/drm/i915/gvt/debug.h
-> @@ -36,30 +36,30 @@ do {									\
->  } while (0)
-> =20
->  #define gvt_dbg_core(fmt, args...) \
-> -	pr_debug("gvt: core: "fmt, ##args)
-> +	pr_debug("gvt:core: " fmt, ##args)
-> =20
->  #define gvt_dbg_irq(fmt, args...) \
-> -	pr_debug("gvt: irq: "fmt, ##args)
-> +	pr_debug("gvt:irq: " fmt, ##args)
-> =20
->  #define gvt_dbg_mm(fmt, args...) \
-> -	pr_debug("gvt: mm: "fmt, ##args)
-> +	pr_debug("gvt:mm: " fmt, ##args)
-> =20
->  #define gvt_dbg_mmio(fmt, args...) \
-> -	pr_debug("gvt: mmio: "fmt, ##args)
-> +	pr_debug("gvt:mmio: " fmt, ##args)
-> =20
->  #define gvt_dbg_dpy(fmt, args...) \
-> -	pr_debug("gvt: dpy: "fmt, ##args)
-> +	pr_debug("gvt:dpy: " fmt, ##args)
-> =20
->  #define gvt_dbg_el(fmt, args...) \
-> -	pr_debug("gvt: el: "fmt, ##args)
-> +	pr_debug("gvt:el: " fmt, ##args)
-> =20
->  #define gvt_dbg_sched(fmt, args...) \
-> -	pr_debug("gvt: sched: "fmt, ##args)
-> +	pr_debug("gvt:sched: " fmt, ##args)
-> =20
->  #define gvt_dbg_render(fmt, args...) \
-> -	pr_debug("gvt: render: "fmt, ##args)
-> +	pr_debug("gvt:render: " fmt, ##args)
-> =20
->  #define gvt_dbg_cmd(fmt, args...) \
-> -	pr_debug("gvt: cmd: "fmt, ##args)
-> +	pr_debug("gvt:cmd: " fmt, ##args)
-> =20
->  #endif
-> --=20
+> v2:
+>  - Collected Laurent's tag
+>  - Remove clock-names requirement
+>  - Specify only a single clock
+>
+> v3:
+>  - Use clocknames: 'du.0' instead of 'du' to remain consistent
 
-Looks good to me. Thanks!
+Thanks for the update!
 
-Reviewed-by: Zhenyu Wang <zhenyuw@linux.intel.com>
+> --- a/Documentation/devicetree/bindings/display/renesas,du.yaml
+> +++ b/Documentation/devicetree/bindings/display/renesas,du.yaml
+> @@ -39,6 +39,7 @@ properties:
+>        - renesas,du-r8a77980 # for R-Car V3H compatible DU
+>        - renesas,du-r8a77990 # for R-Car E3 compatible DU
+>        - renesas,du-r8a77995 # for R-Car D3 compatible DU
+> +      - renesas,du-r8a779a0 # for R-Car V3U compatible DU
+>
+>    reg:
+>      maxItems: 1
+> @@ -773,6 +774,55 @@ allOf:
+>          - reset-names
+>          - renesas,vsps
+>
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - renesas,du-r8a779a0
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: Functional clock
+> +
+> +        clock-names:
+> +          maxItems: 1
+> +          items:
+> +            - const: du.0
+> +
+> +        interrupts:
+> +          maxItems: 2
+> +
+> +        resets:
+> +          maxItems: 1
+> +
+> +        reset-names:
+> +          items:
+> +            - const: du.0
+> +
+> +        ports:
+> +          properties:
+> +            port@0:
+> +              description: DSI 0
+> +            port@1:
+> +              description: DSI 1
+> +            port@2: false
+> +            port@3: false
+> +
+> +          required:
+> +            - port@0
+> +            - port@1
+> +
+> +        renesas,vsps:
+> +          minItems: 2
+> +
+> +      required:
+> +        - interrupts
+> +        - resets
+> +        - reset-names
+> +        - renesas,vsps
 
---Bu8it7iiRSEf40bY
-Content-Type: application/pgp-signature; name="signature.asc"
+clock-names, for consistency?
 
------BEGIN PGP SIGNATURE-----
+> +
+>  additionalProperties: false
+>
+>  examples:
 
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCYUwulgAKCRCxBBozTXgY
-J8qzAJ9cfZulZLyzqg5hhI9G1fLDqKMDlQCgi+YapDkpvZuzya6guQeaCyf+Nps=
-=+ZKA
------END PGP SIGNATURE-----
+With the above fixed:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
---Bu8it7iiRSEf40bY--
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
