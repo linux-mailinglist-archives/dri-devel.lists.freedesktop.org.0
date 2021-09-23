@@ -1,75 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC4FB4155E4
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 05:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E445B415610
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 05:31:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 95BD76ECAA;
-	Thu, 23 Sep 2021 03:20:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A6ED6ECAD;
+	Thu, 23 Sep 2021 03:31:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5AB556ECAA
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 03:20:35 +0000 (UTC)
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 7E7EB3F22C
- for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 03:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1632367233;
- bh=+y78UmABh7HK9tr/4S4sGTCsj4Mr5ovgzCxdWvhQlG4=;
- h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
- To:Cc:Content-Type;
- b=uNh29KRnZbR8/SoCvkGLKHhi21F46gzpXddgQxLgNCgULNmoyDkZf+eDMDWgsn0bD
- Qle+q3LTLuci42Bf+CLTCIsExq9sYVuMIO4nlq42XJvTXKkbDfniIZ05BpyiGtwLE/
- mlQo6sRqbJXnCWhfxR3I7HMSwO/YaBp6Eefpsg7r+5TRtRnZba1dRns34iCvVg4e0r
- fI7MmQJ7pcdTyItQJdpOKCDI+h9nZSqTEx7HjfAYr/Oih/hdXw8wgwZRUZvHdiY2T6
- EKZg7cCaLgQE0OPFM16ApS4s6WgynHyyD4dbuy2K4ZVmCHTx5/b9NO2/P6B3nJiaQ7
- pdolEWpvn5SSg==
-Received: by mail-oo1-f69.google.com with SMTP id
- 68-20020a4a0d47000000b0028fe7302d04so3033733oob.8
- for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 20:20:33 -0700 (PDT)
+Received: from mail-oi1-x235.google.com (mail-oi1-x235.google.com
+ [IPv6:2607:f8b0:4864:20::235])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 85AEB6ECAD
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 03:31:09 +0000 (UTC)
+Received: by mail-oi1-x235.google.com with SMTP id x124so7708361oix.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 22 Sep 2021 20:31:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=WZnkbDqe35agx+YRdoGtlkEIS1vsNJiYQTbIpjWyLqg=;
+ b=P3kClDnLsxyd8P5md1GK2izJhbgXFpqpxbnKHA/qDWSDqZ1P9e4S93LBbgYC62Yq8T
+ R9UaBvr71Hsdw9Qj0ogvmHgPrs9nA1wIHDSmQSuCmI5BXq1lFS+SXlcuuJMu87sN//ts
+ uoAPab1EJfLPjXzcHCtyOod6MCr36/JsjZGHXkrS08VftM1XbrMnc3oaxktFgmfo0vMJ
+ t3zsbSBGmyNFg8GpXBD4sDxGxAGUUstl+bhic/DrGsf1M8oshxwuxGJQR4jQBkF6tgbQ
+ 9K8Mc5CYg7yqg3huKD7lL3thxynHYPVd6unTn3tlAVKYNZOFsjTVusdqhsqsmGe5Tnii
+ M9Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=+y78UmABh7HK9tr/4S4sGTCsj4Mr5ovgzCxdWvhQlG4=;
- b=p1Xa3dVGfWE7QSnU5SKW+Jj3sDndPXyrIJ9rcYnpTKbdXdOqtS8y/SRWAiwUwiiQoi
- 9kLmSDxIOKucG+DavnQiNF5p8fIOWlLJb8s7WmsSYEE80HmsFGwpbId2HCDYna+DzDfb
- dy1u9mIRDsLz3zBINlAf9LPtKppjN+wpVVnWUSzsVSlZx6t5s7LgB+oJWBfboi9vGJ7Y
- Lr/MoNAGMMFjy9Hd+zFVpOHLGIc5bgWzvqnkDMoSRHIbU/to39WpDHRvDsmScsDxVXqJ
- IBP8SiDxqpoN5MmqPUMKUFp9CNEDUJEkHnjoiv+bHsIkg5rasuaz5JpMd9o9r8MpSL3H
- /BSg==
-X-Gm-Message-State: AOAM531sB1FUUXYWDGV3tw14w3EDpMYoGTXsZvKOaHoeby6v5HWsO48C
- /YcOvp3uVGXMaJzeAmWjLzLDo+LCgyE384pN/j7n/blYQMcZsQVF8aqVXBMRiIF0MkK4iW7+xTW
- MwUuVtger3gPziKkC7tryh/FA9B+DX8P6JfnjDjQYTovm2FkrnHHGX7Uf4jvCpw==
-X-Received: by 2002:aca:2102:: with SMTP id 2mr10887120oiz.98.1632367232283;
- Wed, 22 Sep 2021 20:20:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyo/AOHrlw7eOB4SMFrUrqCF4z6yGeBZyQ9DCJWkuum5LRKyrbRQIRZgx6p+VovUjqHalCZTcYbTL6gqQfhfKI=
-X-Received: by 2002:aca:2102:: with SMTP id 2mr10887103oiz.98.1632367231968;
- Wed, 22 Sep 2021 20:20:31 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=WZnkbDqe35agx+YRdoGtlkEIS1vsNJiYQTbIpjWyLqg=;
+ b=pfvcsLMnMX6tLHBBCbkIHCREfeBKzDdSBjQp3hw3UvwxWdf4qasgZiNbxKujaecOUe
+ Zqwa6bYBZ77nIREZgPKmiWy2xKBGFoqCaBmUXCVhD/5ELdQO2GcVJdK35WQ92qbovgoJ
+ 7mOQPtlRgYF/k+V4AQ7NYjmpWaNTnjEXhX+6NFYTc1PTTMh/jnBDz3d7jEEYBW8qrhTf
+ bxoEXi3Lt0ZMibcAAAIyRjwRvSWI3cgwixeanxjlotN7YXmuCUqspcRWp/vxRJ+KfGxl
+ Z2Nd1JMN/caE0BDKXK0K379Gw76DEX0AyqBMOIhuzhXHDM/D7WgyTewm80CYybVWKviq
+ m4oA==
+X-Gm-Message-State: AOAM532yocJtE/qCT6I8qvJKpIIkD+slVaEwNvwiPCgD3bQEBSZp0A0I
+ PFd/vzwuPrhQx41RQd2yVB0/UA==
+X-Google-Smtp-Source: ABdhPJyEqCFgpzYG5stN1XffFzyyUS7C0XaZxoEnwmEkDrixdgCQQ6CDVf7BYB8h73LGP9V2OIFLXA==
+X-Received: by 2002:a05:6808:618:: with SMTP id
+ y24mr1978169oih.179.1632367868718; 
+ Wed, 22 Sep 2021 20:31:08 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id bf6sm1051367oib.0.2021.09.22.20.31.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 22 Sep 2021 20:31:08 -0700 (PDT)
+Date: Wed, 22 Sep 2021 22:31:06 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Alexandre Bailon <abailon@baylibre.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, robh+dt@kernel.org,
+ matthias.bgg@gmail.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, ohad@wizery.com,
+ mathieu.poirier@linaro.org, sumit.semwal@linaro.org,
+ christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, khilman@baylibre.com, gpain@baylibre.com
+Subject: Re: [RFC PATCH 3/4] rpmsg: Add support of AI Processor Unit (APU)
+Message-ID: <YUv0+jQ/91QdydkR@yoga>
+References: <20210917125945.620097-1-abailon@baylibre.com>
+ <20210917125945.620097-4-abailon@baylibre.com>
 MIME-Version: 1.0
-References: <CAAd53p6XdeYcLNctghOi5VPy1YHEOaGoeo9Wc_T9P-RmYTJKzA@mail.gmail.com>
- <20210917165500.GA1723244@bjorn-Precision-5520>
-In-Reply-To: <20210917165500.GA1723244@bjorn-Precision-5520>
-From: Kai-Heng Feng <kai.heng.feng@canonical.com>
-Date: Thu, 23 Sep 2021 11:20:20 +0800
-Message-ID: <CAAd53p4raiRuWQ3O9VFpxhtro4YJ-E2sUiDrnFnNEMDyxXDK=w@mail.gmail.com>
-Subject: Re: [PATCH] vgaarb: Use ACPI HID name to find integrated GPU
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, mripard@kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, "Deucher,
- Alexander" <alexander.deucher@amd.com>, 
- "open list:DRM DRIVERS" <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- Linux PCI <linux-pci@vger.kernel.org>, Huacai Chen <chenhuacai@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210917125945.620097-4-abailon@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,142 +82,279 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 18, 2021 at 12:55 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
->
-> On Fri, Sep 17, 2021 at 11:49:45AM +0800, Kai-Heng Feng wrote:
-> > On Fri, Sep 17, 2021 at 12:38 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > >
-> > > [+cc Huacai, linux-pci]
-> > >
-> > > On Wed, May 19, 2021 at 09:57:23PM +0800, Kai-Heng Feng wrote:
-> > > > Commit 3d42f1ddc47a ("vgaarb: Keep adding VGA device in queue") assumes
-> > > > the first device is an integrated GPU. However, on AMD platforms an
-> > > > integrated GPU can have higher PCI device number than a discrete GPU.
-> > > >
-> > > > Integrated GPU on ACPI platform generally has _DOD and _DOS method, so
-> > > > use that as predicate to find integrated GPU. If the new strategy
-> > > > doesn't work, fallback to use the first device as boot VGA.
-> > > >
-> > > > Signed-off-by: Kai-Heng Feng <kai.heng.feng@canonical.com>
-> > > > ---
-> > > >  drivers/gpu/vga/vgaarb.c | 31 ++++++++++++++++++++++++++-----
-> > > >  1 file changed, 26 insertions(+), 5 deletions(-)
-> > > >
-> > > > diff --git a/drivers/gpu/vga/vgaarb.c b/drivers/gpu/vga/vgaarb.c
-> > > > index 5180c5687ee5..949fde433ea2 100644
-> > > > --- a/drivers/gpu/vga/vgaarb.c
-> > > > +++ b/drivers/gpu/vga/vgaarb.c
-> > > > @@ -50,6 +50,7 @@
-> > > >  #include <linux/screen_info.h>
-> > > >  #include <linux/vt.h>
-> > > >  #include <linux/console.h>
-> > > > +#include <linux/acpi.h>
-> > > >
-> > > >  #include <linux/uaccess.h>
-> > > >
-> > > > @@ -1450,9 +1451,23 @@ static struct miscdevice vga_arb_device = {
-> > > >       MISC_DYNAMIC_MINOR, "vga_arbiter", &vga_arb_device_fops
-> > > >  };
-> > > >
-> > > > +#if defined(CONFIG_ACPI)
-> > > > +static bool vga_arb_integrated_gpu(struct device *dev)
-> > > > +{
-> > > > +     struct acpi_device *adev = ACPI_COMPANION(dev);
-> > > > +
-> > > > +     return adev && !strcmp(acpi_device_hid(adev), ACPI_VIDEO_HID);
-> > > > +}
-> > > > +#else
-> > > > +static bool vga_arb_integrated_gpu(struct device *dev)
-> > > > +{
-> > > > +     return false;
-> > > > +}
-> > > > +#endif
-> > > > +
-> > > >  static void __init vga_arb_select_default_device(void)
-> > > >  {
-> > > > -     struct pci_dev *pdev;
-> > > > +     struct pci_dev *pdev, *found = NULL;
-> > > >       struct vga_device *vgadev;
-> > > >
-> > > >  #if defined(CONFIG_X86) || defined(CONFIG_IA64)
-> > > > @@ -1505,20 +1520,26 @@ static void __init vga_arb_select_default_device(void)
-> > > >  #endif
-> > > >
-> > > >       if (!vga_default_device()) {
-> > > > -             list_for_each_entry(vgadev, &vga_list, list) {
-> > > > +             list_for_each_entry_reverse(vgadev, &vga_list, list) {
-> > >
-> > > Hi Kai-Heng, do you remember why you changed the order of this list
-> > > traversal?
-> >
-> > The descending order is to keep the original behavior.
-> >
-> > Before this patch, it breaks out of the loop as early as possible, so
-> > the lower numbered device is picked.
-> > This patch makes it only break out of the loop when ACPI_VIDEO_HID
-> > device is found.
-> > So if there are more than one device that meet "cmd & (PCI_COMMAND_IO
-> > | PCI_COMMAND_MEMORY)", higher numbered device will be selected.
-> > So the traverse order reversal is to keep the original behavior.
->
-> Can you give an example of what you mean?  I don't quite follow how it
-> keeps the original behavior.
->
-> If we have this:
->
->   0  PCI_COMMAND_MEMORY set   ACPI_VIDEO_HID
->   1  PCI_COMMAND_MEMORY set   ACPI_VIDEO_HID
->
-> Previously we didn't look for ACPI_VIDEO_HID, so we chose 0, now we
-> choose 1, which seems wrong.  In the absence of other information, I
-> would prefer the lower-numbered device.
->
-> Or this:
->
->   0  PCI_COMMAND_MEMORY set
->   1  PCI_COMMAND_MEMORY set   ACPI_VIDEO_HID
->
-> Previously we chose 0; now we choose 1, which does seem right, but
-> we'd choose 1 regardless of the order.
->
-> Or this:
->
->   0  PCI_COMMAND_MEMORY set   ACPI_VIDEO_HID
->   1  PCI_COMMAND_MEMORY set
->
-> Previously we chose 0, now we still choose 0, which seems right but
-> again doesn't depend on the order.
->
-> The first case, where both devices are ACPI_VIDEO_HID, is the only one
-> where the order matters, and I suggest that we should be using the
-> original order, not the reversed order.
+On Fri 17 Sep 07:59 CDT 2021, Alexandre Bailon wrote:
 
-Consider this:
-0  PCI_COMMAND_MEMORY set
-1  PCI_COMMAND_MEMORY set
+> Some Mediatek SoC provides hardware accelerator for AI / ML.
+> This driver use the DRM driver to manage the shared memory,
+> and use rpmsg to execute jobs on the APU.
+> 
+> Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
+> ---
+>  drivers/rpmsg/Kconfig     |  10 +++
+>  drivers/rpmsg/Makefile    |   1 +
+>  drivers/rpmsg/apu_rpmsg.c | 184 ++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 195 insertions(+)
+>  create mode 100644 drivers/rpmsg/apu_rpmsg.c
+> 
+> diff --git a/drivers/rpmsg/Kconfig b/drivers/rpmsg/Kconfig
+> index 0b4407abdf138..fc1668f795004 100644
+> --- a/drivers/rpmsg/Kconfig
+> +++ b/drivers/rpmsg/Kconfig
+> @@ -73,4 +73,14 @@ config RPMSG_VIRTIO
+>  	select RPMSG_NS
+>  	select VIRTIO
+>  
+> +config RPMSG_APU
+> +	tristate "APU RPMSG driver"
+> +	select REMOTEPROC
+> +	select RPMSG_VIRTIO
+> +	select DRM_APU
+> +	help
+> +	  This provides a RPMSG driver that provides some facilities to
+> +	  communicate with an accelerated processing unit (APU).
+> +	  This Uses the APU DRM driver to manage memory and job scheduling.
 
-Originally device 0 will be picked. If the traverse order is kept,
-device 1 will be selected instead, because none of them pass
-vga_arb_integrated_gpu().
+Similar to how a driver for e.g. an I2C device doesn't live in
+drivers/i2c, this doesn't belong in drivers/rpmsg. Probably rather
+directly in the DRM driver.
 
-Kai-Heng
+> +
+>  endmenu
+> diff --git a/drivers/rpmsg/Makefile b/drivers/rpmsg/Makefile
+> index 8d452656f0ee3..8b336b9a817c1 100644
+> --- a/drivers/rpmsg/Makefile
+> +++ b/drivers/rpmsg/Makefile
+> @@ -9,3 +9,4 @@ obj-$(CONFIG_RPMSG_QCOM_GLINK_RPM) += qcom_glink_rpm.o
+>  obj-$(CONFIG_RPMSG_QCOM_GLINK_SMEM) += qcom_glink_smem.o
+>  obj-$(CONFIG_RPMSG_QCOM_SMD)	+= qcom_smd.o
+>  obj-$(CONFIG_RPMSG_VIRTIO)	+= virtio_rpmsg_bus.o
+> +obj-$(CONFIG_RPMSG_APU)		+= apu_rpmsg.o
+> diff --git a/drivers/rpmsg/apu_rpmsg.c b/drivers/rpmsg/apu_rpmsg.c
+> new file mode 100644
+> index 0000000000000..7e504bd176a4d
+> --- /dev/null
+> +++ b/drivers/rpmsg/apu_rpmsg.c
+> @@ -0,0 +1,184 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +//
+> +// Copyright 2020 BayLibre SAS
+> +
+> +#include <asm/cacheflush.h>
+> +
+> +#include <linux/cdev.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/dma-map-ops.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/iommu.h>
+> +#include <linux/iova.h>
+> +#include <linux/mm.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/remoteproc.h>
+> +#include <linux/rpmsg.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +
+> +#include <drm/apu_drm.h>
+> +
+> +#include "rpmsg_internal.h"
+> +
+> +#define APU_RPMSG_SERVICE_MT8183 "rpmsg-mt8183-apu0"
+> +
+> +struct rpmsg_apu {
+> +	struct apu_core *core;
+> +	struct rpmsg_device *rpdev;
+> +};
+> +
+> +static int apu_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int count,
+> +			      void *priv, u32 addr)
+> +{
+> +	struct rpmsg_apu *apu = dev_get_drvdata(&rpdev->dev);
+> +	struct apu_core *apu_core = apu->core;
+> +
+> +	return apu_drm_callback(apu_core, data, count);
+> +}
+> +
+> +static int apu_rpmsg_send(struct apu_core *apu_core, void *data, int len)
+> +{
+> +	struct rpmsg_apu *apu = apu_drm_priv(apu_core);
+> +	struct rpmsg_device *rpdev = apu->rpdev;
+> +
+> +	return rpmsg_send(rpdev->ept, data, len);
 
->
-> > > I guess the list_add_tail() in vga_arbiter_add_pci_device() means
-> > > vga_list is generally ordered with small device numbers first and
-> > > large ones last.
-> > >
-> > > So you pick the integrated GPU with the largest device number.  Are
-> > > there systems with more than one integrated GPU?  If so, I would
-> > > naively expect that in the absence of an indication otherwise, we'd
-> > > want the one with the *smallest* device number.
-> >
-> > There's only one integrated GPU on the affected system.
-> >
-> > The approach is to keep the list traversal in one pass.
-> > Is there any regression introduce by this patch?
-> > If that's the case, we can separate the logic and find the
-> > ACPI_VIDEO_HID in second pass.
->
-> No regression, I'm just looking at Huacai's VGA patches, which affect
-> this area.
+The rpmsg API is exposed outside drivers/rpmsg, so as I said above, just
+implement this directly in your driver, no need to lug around a dummy
+wrapper for things like this.
+
+> +}
+> +
+> +static struct apu_drm_ops apu_rpmsg_ops = {
+> +	.send = apu_rpmsg_send,
+> +};
+> +
+> +static int apu_init_iovad(struct rproc *rproc, struct rpmsg_apu *apu)
+> +{
+> +	struct resource_table *table;
+> +	struct fw_rsc_carveout *rsc;
+> +	int i;
+> +
+> +	if (!rproc->table_ptr) {
+> +		dev_err(&apu->rpdev->dev,
+> +			"No resource_table: has the firmware been loaded ?\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	table = rproc->table_ptr;
+> +	for (i = 0; i < table->num; i++) {
+> +		int offset = table->offset[i];
+> +		struct fw_rsc_hdr *hdr = (void *)table + offset;
+> +
+> +		if (hdr->type != RSC_CARVEOUT)
+> +			continue;
+> +
+> +		rsc = (void *)hdr + sizeof(*hdr);
+> +		if (apu_drm_reserve_iova(apu->core, rsc->da, rsc->len)) {
+> +			dev_err(&apu->rpdev->dev,
+> +				"failed to reserve iova\n");
+> +			return -ENOMEM;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static struct rproc *apu_get_rproc(struct rpmsg_device *rpdev)
+> +{
+> +	/*
+> +	 * To work, the APU RPMsg driver need to get the rproc device.
+> +	 * Currently, we only use virtio so we could use that to find the
+> +	 * remoteproc parent.
+> +	 */
+> +	if (!rpdev->dev.parent && rpdev->dev.parent->bus) {
+> +		dev_err(&rpdev->dev, "invalid rpmsg device\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	if (strcmp(rpdev->dev.parent->bus->name, "virtio")) {
+> +		dev_err(&rpdev->dev, "unsupported bus\n");
+> +		return ERR_PTR(-EINVAL);
+> +	}
+> +
+> +	return vdev_to_rproc(dev_to_virtio(rpdev->dev.parent));
+> +}
+> +
+> +static int apu_rpmsg_probe(struct rpmsg_device *rpdev)
+> +{
+> +	struct rpmsg_apu *apu;
+> +	struct rproc *rproc;
+> +	int ret;
+> +
+> +	apu = devm_kzalloc(&rpdev->dev, sizeof(*apu), GFP_KERNEL);
+> +	if (!apu)
+> +		return -ENOMEM;
+> +	apu->rpdev = rpdev;
+> +
+> +	rproc = apu_get_rproc(rpdev);
+
+I believe that you can replace apu_get_rproc() with:
+
+	rproc = rproc_get_by_child(&rpdev->dev);
+
+> +	if (IS_ERR_OR_NULL(rproc))
+> +		return PTR_ERR(rproc);
+> +
+> +	/* Make device dma capable by inheriting from parent's capabilities */
+> +	set_dma_ops(&rpdev->dev, get_dma_ops(rproc->dev.parent));
+> +
+> +	ret = dma_coerce_mask_and_coherent(&rpdev->dev,
+> +					   dma_get_mask(rproc->dev.parent));
+> +	if (ret)
+> +		goto err_put_device;
+> +
+> +	rpdev->dev.iommu_group = rproc->dev.parent->iommu_group;
+
+Would it be better or you if we have a device_node, so that you could
+specify the iommus property for this compute device?
+
+I'm asking because I've seen cases where multi-purpose remoteproc
+firmware operate using multiple different iommu streams...
+
+> +
+> +	apu->core = apu_drm_register_core(rproc, &apu_rpmsg_ops, apu);
+> +	if (!apu->core) {
+> +		ret = -ENODEV;
+> +		goto err_put_device;
+> +	}
+> +
+> +	ret = apu_init_iovad(rproc, apu);
+> +
+> +	dev_set_drvdata(&rpdev->dev, apu);
+> +
+> +	return ret;
+> +
+> +err_put_device:
+
+This label looks misplaced, and sure enough, if apu_init_iovad() fails
+you're not apu_drm_unregister_core().
+
+But on that note, don't you want to apu_init_iovad() before you
+apu_drm_register_core()?
+
+> +	devm_kfree(&rpdev->dev, apu);
+
+The reason for using devm_kzalloc() is that once you return
+unsuccessfully from probe, or from remove the memory is freed.
+
+So devm_kfree() should go in both cases.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static void apu_rpmsg_remove(struct rpmsg_device *rpdev)
+> +{
+> +	struct rpmsg_apu *apu = dev_get_drvdata(&rpdev->dev);
+> +
+> +	apu_drm_unregister_core(apu);
+> +	devm_kfree(&rpdev->dev, apu);
+
+No need to explicitly free devm resources.
+
+Regards,
+Bjorn
+
+> +}
+> +
+> +static const struct rpmsg_device_id apu_rpmsg_match[] = {
+> +	{ APU_RPMSG_SERVICE_MT8183 },
+> +	{}
+> +};
+> +
+> +static struct rpmsg_driver apu_rpmsg_driver = {
+> +	.probe = apu_rpmsg_probe,
+> +	.remove = apu_rpmsg_remove,
+> +	.callback = apu_rpmsg_callback,
+> +	.id_table = apu_rpmsg_match,
+> +	.drv  = {
+> +		.name  = "apu_rpmsg",
+> +	},
+> +};
+> +
+> +static int __init apu_rpmsg_init(void)
+> +{
+> +	return register_rpmsg_driver(&apu_rpmsg_driver);
+> +}
+> +arch_initcall(apu_rpmsg_init);
+> +
+> +static void __exit apu_rpmsg_exit(void)
+> +{
+> +	unregister_rpmsg_driver(&apu_rpmsg_driver);
+> +}
+> +module_exit(apu_rpmsg_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("APU RPMSG driver");
+> -- 
+> 2.31.1
+> 
