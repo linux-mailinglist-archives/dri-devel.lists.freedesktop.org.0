@@ -1,46 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F45415BCF
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 12:13:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A66D6415C45
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 12:49:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3035C6ED06;
-	Thu, 23 Sep 2021 10:13:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 91C556E0C2;
+	Thu, 23 Sep 2021 10:49:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B97ED6ED03;
- Thu, 23 Sep 2021 10:13:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="284821952"
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="284821952"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 03:13:15 -0700
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="702664976"
-Received: from gerardqu-mobl.ger.corp.intel.com (HELO [10.213.243.237])
- ([10.213.243.237])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 03:13:14 -0700
-Subject: Re: [Intel-gfx] [PATCH v6 3/9] drm/i915/gt: Increase suspend timeout
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- Matthew Brost <matthew.brost@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
-References: <20210922062527.865433-1-thomas.hellstrom@linux.intel.com>
- <20210922062527.865433-4-thomas.hellstrom@linux.intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <f276fe3d-5ed8-7ac9-440d-3703f6f0e5e5@linux.intel.com>
-Date: Thu, 23 Sep 2021 11:13:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 183CD6E0C2
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 10:49:50 +0000 (UTC)
+Date: Thu, 23 Sep 2021 12:49:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=weissschuh.net;
+ s=mail; t=1632394189;
+ bh=qjdeXlozuivPeR0eioe8PmC1RMurpCpfF51tRU3+QM8=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Q8pmoguZ5rt6w13+fKgEO/8PREU8+OdNS6URzNpfyT+Kup/dnjTmmsm7JbT+FiTFQ
+ AO/poVTmHKqo7+aRLtgCJ+A4M20fnLVuN7Ze+iMvj6rRMVIwnJdjfkyyv6x03UJBHG
+ c8A+TqBeqqzfFEoWKAnIU4gXkGv83K7gjvJ49HSc=
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Lee Jones <lee.jones@linaro.org>
+Cc: Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] backlight: propagate errors from get_brightness()
+Message-ID: <4bb3051e-2550-43c3-afed-d4b00850126e@t-8ch.de>
+References: <20210907124751.6404-1-linux@weissschuh.net>
+ <YUxNczBccLQeQGA5@google.com>
 MIME-Version: 1.0
-In-Reply-To: <20210922062527.865433-4-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YUxNczBccLQeQGA5@google.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,59 +49,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 22/09/2021 07:25, Thomas Hellström wrote:
-> With GuC submission on DG1, the execution of the requests times out
-> for the gem_exec_suspend igt test case after executing around 800-900
-> of 1000 submitted requests.
+On 2021-09-23T10:48+0100, Lee Jones wrote:
+> On Tue, 07 Sep 2021, Thomas Weißschuh wrote:
 > 
-> Given the time we allow elsewhere for fences to signal (in the order of
-> seconds), increase the timeout before we mark the gt wedged and proceed.
-
-I suspect it is not about requests not retiring in time but about the 
-intel_guc_wait_for_idle part of intel_gt_wait_for_idle. Although I don't 
-know which G2H message is the code waiting for at suspend time so 
-perhaps something to run past the GuC experts.
-
-Anyway, if that turns out to be correct then perhaps it would be better 
-to split the two timeouts (like if required GuC timeout is perhaps 
-fundamentally independent) so it's clear who needs how much time. Adding 
-Matt and John to comment.
-
-To be clear, as timeout is AFAIK an arbitrary value, I don't have 
-fundamental objections here. Just think it would be good to have 
-accurate story in the commit message.
-
-Regards,
-
-Tvrtko
-
+> > backlight.h documents "struct backlight_ops->get_brightness()" to return
+> > a negative errno on failure.
+> > So far these errors have not been handled in the backlight core.
+> > This leads to negative values being exposed through sysfs although only
+> > positive values are documented to be reported.
+> > 
+> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > ---
+> > 
+> > v1: https://lore.kernel.org/dri-devel/20210906215525.15418-1-linux@weissschuh.net/
+> > 
+> > v1 -> v2:
+> > * use dev_err() instead of dev_warn() (Daniel Thompson)
+> > * Finish logging format string with newline (Daniel Thompson)
+> > * Log errno via dedicated error pointer format (Daniel Thompson)
+> > 
+> >  drivers/video/backlight/backlight.c | 22 +++++++++++++++++-----
+> >  1 file changed, 17 insertions(+), 5 deletions(-)
 > 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_gt_pm.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index dea8e2479897..f84f2bfe2de0 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -19,6 +19,8 @@
->   #include "intel_rps.h"
->   #include "intel_wakeref.h"
->   
-> +#define I915_GT_SUSPEND_IDLE_TIMEOUT (HZ / 2)
-> +
->   static void user_forcewake(struct intel_gt *gt, bool suspend)
->   {
->   	int count = atomic_read(&gt->user_wakeref);
-> @@ -279,7 +281,7 @@ static void wait_for_suspend(struct intel_gt *gt)
->   	if (!intel_gt_pm_is_awake(gt))
->   		return;
->   
-> -	if (intel_gt_wait_for_idle(gt, I915_GEM_IDLE_TIMEOUT) == -ETIME) {
-> +	if (intel_gt_wait_for_idle(gt, I915_GT_SUSPEND_IDLE_TIMEOUT) == -ETIME) {
->   		/*
->   		 * Forcibly cancel outstanding work and leave
->   		 * the gpu quiet.
-> 
+> Applied, thanks.
+
+Hi Lee,
+
+thanks!
+
+Also I'm sorry about my nagging before.
+I was not aware you were on vacation and saw you respond to other mails.
+
+Thomas
