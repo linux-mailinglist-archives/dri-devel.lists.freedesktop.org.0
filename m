@@ -2,47 +2,39 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51875415F5D
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 15:19:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF33415FD0
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 15:30:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7BC606E0E9;
-	Thu, 23 Sep 2021 13:19:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0CA3B6ED18;
+	Thu, 23 Sep 2021 13:30:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAC916E0E9;
- Thu, 23 Sep 2021 13:19:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10115"; a="223879773"
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="223879773"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 06:19:42 -0700
-X-IronPort-AV: E=Sophos;i="5.85,316,1624345200"; d="scan'208";a="475510934"
-Received: from gboschi-mobl.ger.corp.intel.com (HELO [10.249.254.197])
- ([10.249.254.197])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Sep 2021 06:19:40 -0700
-Subject: Re: [Intel-gfx] [PATCH v6 3/9] drm/i915/gt: Increase suspend timeout
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- Matthew Brost <matthew.brost@intel.com>,
- John Harrison <John.C.Harrison@Intel.com>
-References: <20210922062527.865433-1-thomas.hellstrom@linux.intel.com>
- <20210922062527.865433-4-thomas.hellstrom@linux.intel.com>
- <f276fe3d-5ed8-7ac9-440d-3703f6f0e5e5@linux.intel.com>
- <0f1050c9-b9fe-b587-2aac-cceae4032638@linux.intel.com>
- <061617be-9bf4-7853-a34d-7501f6b3179f@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-Message-ID: <199e2c25-8133-360e-4b85-18485522c2be@linux.intel.com>
-Date: Thu, 23 Sep 2021 15:19:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7420B6ED18
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 13:30:18 +0000 (UTC)
+Date: Thu, 23 Sep 2021 14:30:07 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, linux-mips
+ <linux-mips@vger.kernel.org>, list@opendingux.net, dri-devel
+ <dri-devel@lists.freedesktop.org>, linux-kernel
+ <linux-kernel@vger.kernel.org>, Paul Boddie <paul@boddie.org.uk>
+Message-Id: <7U2WZQ.D8DTPCJ0ZPKO3@crapouillou.net>
+In-Reply-To: <B7C9EEE8-F999-4105-B805-1B32619A3847@goldelico.com>
+References: <20210922205555.496871-1-paul@crapouillou.net>
+ <20210922205555.496871-7-paul@crapouillou.net>
+ <32234186-1802-4FDF-801A-B14E48FB86D8@goldelico.com>
+ <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
+ <896D04E4-4058-474B-8BD2-7F21B1C754E4@goldelico.com>
+ <YUxIkdGcGnBhcT0y@pendragon.ideasonboard.com>
+ <3764505C-7CA9-40C4-8CFA-8B0F2361E6D5@goldelico.com>
+ <YUxQ9k/CDYz20rYo@pendragon.ideasonboard.com>
+ <B7C9EEE8-F999-4105-B805-1B32619A3847@goldelico.com>
 MIME-Version: 1.0
-In-Reply-To: <061617be-9bf4-7853-a34d-7501f6b3179f@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,71 +50,198 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Nikolaus,
 
-On 9/23/21 2:59 PM, Tvrtko Ursulin wrote:
->
-> On 23/09/2021 12:47, Thomas Hellström wrote:
->> Hi, Tvrtko,
->>
->> On 9/23/21 12:13 PM, Tvrtko Ursulin wrote:
->>>
->>> On 22/09/2021 07:25, Thomas Hellström wrote:
->>>> With GuC submission on DG1, the execution of the requests times out
->>>> for the gem_exec_suspend igt test case after executing around 800-900
->>>> of 1000 submitted requests.
->>>>
->>>> Given the time we allow elsewhere for fences to signal (in the 
->>>> order of
->>>> seconds), increase the timeout before we mark the gt wedged and 
->>>> proceed.
->>>
->>> I suspect it is not about requests not retiring in time but about 
->>> the intel_guc_wait_for_idle part of intel_gt_wait_for_idle. Although 
->>> I don't know which G2H message is the code waiting for at suspend 
->>> time so perhaps something to run past the GuC experts.
->>
->> So what's happening here is that the tests submits 1000 requests, 
->> each writing a value to an object, and then that object content is 
->> checked after resume. With GuC it turns out that only 800-900 or so 
->> values are actually written before we time out, and the test 
->> (basic-S3) fails, but not on every run.
->
-> Yes and that did not make sense to me. It is a single context even so 
-> I did not come up with an explanation why would GuC be slower.
->
-> Unless it somehow manages to not even update the ring tail in time and 
-> requests are still only stuck in the software queue? Perhaps you can 
-> see that from context tail and head when it happens.
->
->> This is a bit interesting in itself, because I never saw the hang-S3 
->> test fail, which from what I can tell basically is an identical test 
->> but with a spinner submitted after the 1000th request. Could be that 
->> the suspend backup code ends up waiting for something before we end 
->> up in intel_gt_wait_for_idle, giving more requests time to execute.
->
-> No idea, I don't know the suspend paths that well. For instance before 
-> looking at the code I thought we would preempt what's executing and 
-> not wait for everything that has been submitted to finish. :)
->
->>> Anyway, if that turns out to be correct then perhaps it would be 
->>> better to split the two timeouts (like if required GuC timeout is 
->>> perhaps fundamentally independent) so it's clear who needs how much 
->>> time. Adding Matt and John to comment.
->>
->> You mean we have separate timeouts depending on whether we're using 
->> GuC or execlists submission?
->
-> No, I don't know yet. First I think we need to figure out what exactly 
-> is happening.
+Le jeu., sept. 23 2021 at 13:41:28 +0200, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Hi Laurent,
+>=20
+>>  Am 23.09.2021 um 12:03 schrieb Laurent Pinchart=20
+>> <laurent.pinchart@ideasonboard.com>:
+>>=20
+>>  Hi Nikolaus,
+>>=20
+>>  On Thu, Sep 23, 2021 at 11:55:56AM +0200, H. Nikolaus Schaller=20
+>> wrote:
+>>>>  Am 23.09.2021 um 11:27 schrieb Laurent Pinchart:
+>>>>  On Thu, Sep 23, 2021 at 11:19:23AM +0200, H. Nikolaus Schaller=20
+>>>> wrote:
+>>>>>=20
+>>>>>>>>  +		ret =3D drm_bridge_attach(encoder, &ib->bridge, NULL,
+>>>>>>>>  +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+>>>>>>>=20
+>>>>>>>  DRM_BRIDGE_ATTACH_NO_CONNECTOR makes it fundamentally=20
+>>>>>>> incompatible
+>>>>>>>  with synopsys/dw_hdmi.c
+>>>>>>>  That driver checks for DRM_BRIDGE_ATTACH_NO_CONNECTOR being=20
+>>>>>>> NOT present,
+>>>>>>>  since it wants to register its own connector through=20
+>>>>>>> dw_hdmi_connector_create().
+>>>>>>>  It does it for a reason: the dw-hdmi is a multi-function=20
+>>>>>>> driver which does
+>>>>>>>  HDMI and DDC/EDID stuff in a single driver (because I/O=20
+>>>>>>> registers and power
+>>>>>>>  management seem to be shared).
+>>>>>>=20
+>>>>>>  The IT66121 driver does all of that too, and does not need
+>>>>>>  DRM_BRIDGE_ATTACH_NO_CONNECTOR. The drm_bridge_funcs struct has
+>>>>>>  callbacks to handle cable detection and DDC stuff.
+>>>>>>=20
+>>>>>>>  Since I do not see who could split this into a separate bridge=20
+>>>>>>> and a connector driver
+>>>>>>>  and test it on multiple SoC platforms (there are at least 3 or=20
+>>>>>>> 4), I think modifying
+>>>>>>>  the fundamentals of the dw-hdmi architecture just to get CI20=20
+>>>>>>> HDMI working is not
+>>>>>>>  our turf.
+>>>>>>=20
+>>>>>>  You could have a field in the dw-hdmi pdata structure, that=20
+>>>>>> would
+>>>>>>  instruct the driver whether or not it should use the new API.=20
+>>>>>> Ugly,
+>>>>>>  I know, and would probably duplicate a lot of code, but that=20
+>>>>>> would
+>>>>>>  allow other drivers to be updated at a later date.
+>>>>>=20
+>>>>>  Yes, would be very ugly.
+>>>>>=20
+>>>>>  But generally who has the knowledge (and time) to do this work?
+>>>>>  And has a working platform to test (jz4780 isn't a good=20
+>>>>> development environment)?
+>>>>>=20
+>>>>>  The driver seems to have a turbulent history starting 2013 in=20
+>>>>> staging/imx and
+>>>>>  apparently it was generalized since then... Is Laurent currently=20
+>>>>> dw-hdmi maintainer?
+>>>>=20
+>>>>  "Maintainer" would be an overstatement. I've worked on that=20
+>>>> driver in
+>>>>  the past, and I still use it, but don't have time to really=20
+>>>> maintain it.
+>>>>  I've also been told that Synopsys required all patches for that=20
+>>>> driver
+>>>>  developed using documentation under NDA to be submitted=20
+>>>> internally to
+>>>>  them first before being published, so I decided to stop=20
+>>>> contributing
+>>>>  instead of agreeing with this insane process. There's public
+>>>>  documentation about the IP in some NXP reference manuals though,=20
+>>>> so it
+>>>>  should be possible to still move forward without abiding by this=20
+>>>> rule.
+>>>>=20
+>>>>>>>  Therefore the code here should be able to detect if=20
+>>>>>>> drm_bridge_attach() already
+>>>>>>>  creates and attaches a connector and then skip the code below.
+>>>>>>=20
+>>>>>>  Not that easy, unfortunately. On one side we have dw-hdmi which
+>>>>>>  checks that DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set, and on=20
+>>>>>> the
+>>>>>>  other side we have other drivers like the IT66121 which will=20
+>>>>>> fail if
+>>>>>>  this flag is not set.
+>>>>>=20
+>>>>>  Ok, I see. You have to handle contradicting cases here.
+>>>>>=20
+>>>>>  Would it be possible to run it with=20
+>>>>> DRM_BRIDGE_ATTACH_NO_CONNECTOR first
+>>>>>  and retry if it fails without?
+>>>>>=20
+>>>>>  But IMHO the return value (in error case) is not well defined.=20
+>>>>> So there
+>>>>>  must be a test if a connector has been created (I do not know=20
+>>>>> how this
+>>>>>  would work).
+>>>>>=20
+>>>>>  Another suggestion: can you check if there is a downstream=20
+>>>>> connector defined in
+>>>>>  device tree (dw-hdmi does not need such a definition)?
+>>>>>  If not we call it with 0 and if there is one we call it with
+>>>>>  DRM_BRIDGE_ATTACH_NO_CONNECTOR and create one?
+>>>>=20
+>>>>  I haven't followed the ful conversation, what the reason why
+>>>>  DRM_BRIDGE_ATTACH_NO_CONNECTOR can't always be use here ?
+>>>=20
+>>>  The synopsys driver creates its own connector through=20
+>>> dw_hdmi_connector_create()
+>>>  because the IP handles DDC/EDID directly.
+>>=20
+>>  That doesn't require creating a connector though. The driver=20
+>> implements
+>>  drm_bridge_funcs.get_edid(), which is used to get the EDID without=20
+>> the
+>>  need to create a connector in the dw-hdmi driver.
+>=20
+> Ah, ok.
+>=20
+> But then we still have issues.
+>=20
+> Firstly I would assume that get_edid only works properly if it is=20
+> initialized
+> through dw_hdmi_connector_create().
+>=20
+> Next, in the current code, passing DRM_BRIDGE_ATTACH_NO_CONNECTOR to
+> dw_hdmi_bridge_attach() indeed does not call=20
+> dw_hdmi_connector_create()
+> but returns 0.
+>=20
+> This patch 6/6 makes drm/ingenic unconditionally require a connector
+> to be attached which is defined somewhere else (device tree e.g.=20
+> "connector-hdmi")
+> unrelated to dw-hdmi. Current upstream code for drm/ingenic does not=20
+> init/attach
+> such a connector on its own so it did work before.
+>=20
+> I.e. I think we can't just use parts of dw-hdmi.
 
-Well then TBH I will need to file a separate Jira about that. There 
-might be various things going on here like swiching between the migrate 
-context for eviction of unrelated LMEM buffers and the context used by 
-gem_exec_suspend. The gem_exec_suspend failures are blocking DG1 BAT so 
-it's pretty urgent to get this series merged. If you insist I can leave 
-this patch out for now, but rather I'd commit it as is and File a Jira 
-instead.
+The fact that Laurent is using dw-hdmi with=20
+DRM_BRIDGE_ATTACH_NO_CONNECTOR on Renesas makes me think that it's=20
+possible here as well. There's no reason why it shouldn't work with=20
+ingenic-drm.
 
-/Thomas
+The ingenic-drm driver does not need to create any connector. The=20
+"connector-hdmi" is connected to dw-hdmi as the "next bridge" in the=20
+list.
+
+> If drm_bridge_attach() would return some errno if=20
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR
+> is set, initialization in ingenic_drm_bind() would fail likewise with=20
+> "Unable to attach bridge".
+>=20
+> So in any case dw-hdmi is broken by this drm/ingenic patch unless=20
+> someone
+> reworks it to make it compatible.
+
+Where would the errno be returned? Why would drm_bridge_attach() return=20
+an error code?
+
+> Another issue is that dw_hdmi_connector_create() does not only do=20
+> dcd/edid
+> but appears to detects hot plug and does some special initialization.
+> So we probably loose hotplug detect if we just use=20
+> drm_bridge_funcs.get_edid().
+
+There's drm_bridge_funcs.detect().
+
+Cheers,
+-Paul
+
+> I come to the conclusion that not creating a specific connector in=20
+> dw-hdmi
+> and relying on a generic connector does not seem to be an option with=20
+> current
+> code proposals.
+>=20
+> In such a situation the question is what the least invasive surgery=20
+> is to
+> avoid complications and lenghty regression tests on unknown platforms.
+> IMHO it is leaving (mature) dw-hdmi untouched and make attachment of=20
+> a connector
+> in ingenic_drm_bind() depend on some condition.
+>=20
+> BR and thanks,
+> Nikolaus
+>=20
+>=20
 
 
