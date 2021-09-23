@@ -2,75 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF7E541597C
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 09:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54FBF4159B2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 10:01:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id ACD3D6ECFB;
-	Thu, 23 Sep 2021 07:45:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FCBE6ECF9;
+	Thu, 23 Sep 2021 08:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93E4C6ECF8;
- Thu, 23 Sep 2021 07:45:28 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id E988F580B9D;
- Thu, 23 Sep 2021 03:45:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 23 Sep 2021 03:45:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:mime-version:content-type; s=
- fm3; bh=IiNcv8i9k7YhONvgNqsHUuyNXx7OvuqZE8RPgUYxxjw=; b=rUxV5fdG
- KLz/xpdfJ3ZS2luzQXhS8yDbQWVl3FpSBzFAXF/Vi13qA2DXIIUAAWI945xfIV4Y
- yaWQ7uTaExcCTXNdPjmii+8IPiumzcXcg1+wNw2157/Ko1k9Ob8QT3v4u7ODul7d
- tVNkyYoCpnhLYIceAULwnpKRjFSnSyMQXj6UOX08W2grCprF6a6jNaGvpha2upca
- JU99OzitZsZmjVnx3kyuyP5gmBM9nDAn+16+TQkotOax3p5HjHdStn6nDlwhUXcQ
- m7ejzScxuWPTGLRMLOHbFyl/IWYxSfNSVKS/ohQhiVPCSs2D7trfB2/pDqEfndPP
- nzxkDJ74zsDIAg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:message-id
- :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
- :x-me-sender:x-sasl-enc; s=fm3; bh=IiNcv8i9k7YhONvgNqsHUuyNXx7Ov
- uqZE8RPgUYxxjw=; b=AMJw8UBpdwRRFMYeZHu1zlAXOr4K32M1gXy8nih+oIDRO
- 6wSc4ftxR5d7GkSbFSqOCfQiG3Yawb5MCkKNVKdFF6/1yfSFWhny2eVuoPa0YoVi
- Bc9xoi37eW08FiCg1I/jgRi7pll1Ae/05R3BTrWSOJC5XTayBQBlgqlNlWK2hohS
- VoCXBic1KoMX8ANONa1GBMUjXYWZb4CZHUTHqgLQrLsQV+xVEFnlmYWRCAh5UZ4S
- 0FALjol8/PTnRqkA2qFjjWb1j66TKZsabDIJSw0jQG6KO0hqCGPGUnVcYsJSy6nK
- /U8ZNw5lgLLcJYXelvP8RCxxGP85zQHQ3h6c7YGVA==
-X-ME-Sender: <xms:lTBMYWofFQnGIE2uX7pAQifrYIpik9rl-De-M8gb4r-IwRFQlqTT-w>
- <xme:lTBMYUq45QH5Xv7E5JSmdIlRZWjZLqs2uUFekQRBH7pGRbo8cBER0fQTYFmUtPjau
- 2RQ7tgdPfjrtItaji0>
-X-ME-Received: <xmr:lTBMYbNL-jmHd2R9jxEWNHZhc33wu2k4OqFihQFugUlfpjSZrUKLUaakRP4a5KlEE9mXJ777MC1GzcsJl8PmJX63i6FTIat55y5S>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudeikedguddvvdcutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkgggtugesghdtreertddtudenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpefhheetgfegkeetffeuieelkeefgeetteffgffgkeelheekffevvdegtdeitedv
- udenucffohhmrghinhepfhhrvggvuggvshhkthhophdrohhrghenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdr
- thgvtghh
-X-ME-Proxy: <xmx:lTBMYV55fNee_E1yAJKKBsjb75sLaAk6gJSmoH7kDhEU3-QPsmzi2g>
- <xmx:lTBMYV7l9Tfhsytdedo_8vSIoOG7jfNdu_zarPXU1ShZozpvV02E1A>
- <xmx:lTBMYVi5Uze_Gmfkqylx_Cw60zSPLwoSR-rKw57JBI-q70kPpzfJGg>
- <xmx:lTBMYaGtOgtETsWxq4iSeOZ-s-DDtqyZDyWAZJylDAfR9kmDplNWIA>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Sep 2021 03:45:25 -0400 (EDT)
-Date: Thu, 23 Sep 2021 09:45:22 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: [PULL] drm-misc-next
-Message-ID: <20210923074522.zaja7mzxeimxf6g3@gilmour>
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 985706ECF7;
+ Thu, 23 Sep 2021 08:01:35 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id b15so22676857lfe.7;
+ Thu, 23 Sep 2021 01:01:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=W58bQYCiGhRBD3/68MNvqc8I7i8N/bbc7IpEgttWBqY=;
+ b=BiAfuJD6VZetd9keBXxVdAw8zP5x3EZEQq4MbMYFqxvW1vetPRC4AfqRdno5vYQujz
+ RzFjIKWgLhRawAoCU5dBVISjUxdw7eBPz6qWEhzEa1lHwep/hstMrpIxBecCfwbnDlLE
+ OSm4i00zPJlZb9H+oqzX94zKh2YN6AbOSTdmQDEDlw4jB4sFlLULgzShKs33o87QCRu/
+ MF3vBykO7UDP8RNQgq18A52uXbxt0HDmDMom+gkC4/J2jUlODNBvrZH3WBp/crNAKSdR
+ g20GKdvAxVGw+lezg7g4rUHXCLui17aatOomgk516fbglRfkzW9EBC6pHAEidPprhbHj
+ 2Jgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=W58bQYCiGhRBD3/68MNvqc8I7i8N/bbc7IpEgttWBqY=;
+ b=zJ35R3FzsbqUG8iD788Gfm7Or6Jt8C5QIJnc00ysdLoQNis3pGtzsqlfg48WxEJYke
+ xgiGzqHn8pC7x6mLi55/I+LfpxCWvDl3/A2J0BUFQvKtO+rqLtnKc0DisBiH/qLVLwWK
+ YchQgYxPXVydxoiUmJAN+xqT9Rc+R5vYNwUs3r1PtlBCaK6QWbf8YnvOkf9g5/CoE8Tq
+ EFgZ9Ywjgw8hzXZt2vas9+BT6KIDjXz93fdIzsR7wPUXKwsFXgHjOLFaz8Iufn57tX27
+ 3BFAyHvvC8FkOero1DAVHzVtgqgTJVyPoxBHOmRmS2VnQ3CSxaLHjoHWGd7Ztw6PkPOf
+ Xkdw==
+X-Gm-Message-State: AOAM5331u7h+/SX1nc+qezv/sDZW/+41D/LyRI+H6m+LacwJ4k/2Y+sn
+ 2R7rldMvEKMK2tLhwNefgpA=
+X-Google-Smtp-Source: ABdhPJwqS4uXgRmEpfbv73qmVurm8Ys5MqdJU31TaF7GARzVfXU25EBmCpm41aJgMh0hHO4mbCPjcg==
+X-Received: by 2002:a2e:a78d:: with SMTP id c13mr3701929ljf.314.1632384093819; 
+ Thu, 23 Sep 2021 01:01:33 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v28sm387443lfi.22.2021.09.23.01.01.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 23 Sep 2021 01:01:33 -0700 (PDT)
+Date: Thu, 23 Sep 2021 11:01:30 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Harry Wentland <harry.wentland@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ sebastian@sebastianwick.net, mcasas@google.com, jshargo@google.com,
+ Shashank.Sharma@amd.com, Deepak.Sharma@amd.com, Shirish.S@amd.com,
+ Vitaly.Prosyak@amd.com, aric.cyr@amd.com, Bhawanpreet.Lakha@amd.com,
+ Krunoslav.Kovac@amd.com, hersenxs.wu@amd.com, Nicholas.Kazlauskas@amd.com,
+ laurentiu.palcu@oss.nxp.com, ville.syrjala@linux.intel.com,
+ jeremy@jcline.org, Brian Starkey <brian.starkey@arm.com>
+Subject: Re: [RFC PATCH v3 1/6] drm/doc: Color Management and HDR10 RFC
+Message-ID: <20210923110130.1928d8bf@eldfell>
+In-Reply-To: <a13d64b1-7b24-5fd5-41d3-b55d2bd388e0@amd.com>
+References: <20210730204134.21769-1-harry.wentland@amd.com>
+ <20210730204134.21769-2-harry.wentland@amd.com>
+ <20210915170127.31377385@eldfell>
+ <4ed51ca0-ca98-cf84-33ed-ab172e3548d3@amd.com>
+ <a13d64b1-7b24-5fd5-41d3-b55d2bd388e0@amd.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="e7eii4wumqybct7j"
-Content-Disposition: inline
+Content-Type: multipart/signed; boundary="Sig_/f8kn+CdAE5nyzAWtsZGPeV5";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,194 +81,131 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
---e7eii4wumqybct7j
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+--Sig_/f8kn+CdAE5nyzAWtsZGPeV5
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi Dave, Daniel,
+On Wed, 22 Sep 2021 11:06:53 -0400
+Harry Wentland <harry.wentland@amd.com> wrote:
 
-Here's this week PR for drm-misc-next
+> On 2021-09-20 20:14, Harry Wentland wrote:
+> > On 2021-09-15 10:01, Pekka Paalanen wrote:> On Fri, 30 Jul 2021 16:41:2=
+9 -0400 =20
+> >> Harry Wentland <harry.wentland@amd.com> wrote:
+> >> =20
+>=20
+> <snip>
+>=20
+> >>> +If a display's maximum HDR white level is correctly reported it is t=
+rivial
+> >>> +to convert between all of the above representations of SDR white lev=
+el. If
+> >>> +it is not, defining SDR luminance as a nits value, or a ratio vs a f=
+ixed
+> >>> +nits value is preferred, assuming we are blending in linear space.
+> >>> +
+> >>> +It is our experience that many HDR displays do not report maximum wh=
+ite
+> >>> +level correctly =20
+> >>
+> >> Which value do you refer to as "maximum white", and how did you measure
+> >> it?
+> >> =20
+> > Good question. I haven't played with those displays myself but I'll try=
+ to
+> > find out a bit more background behind this statement.
+> >  =20
+>=20
+>=20
+> Some TVs report the EOTF but not the luminance values.
+> For an example edid-code capture of my eDP HDR panel:
+>=20
+>   HDR Static Metadata Data Block:
+>     Electro optical transfer functions:
+>       Traditional gamma - SDR luminance range
+>       SMPTE ST2084
+>     Supported static metadata descriptors:
+>       Static metadata type 1
+>     Desired content max luminance: 115 (603.666 cd/m^2)
+>     Desired content max frame-average luminance: 109 (530.095 cd/m^2)
+>     Desired content min luminance: 7 (0.005 cd/m^2)
+>=20
 
-Maxime
+I forget where I heard (you, Vitaly, someone?) that integrated panels
+may not have the magic gamut and tone mapping hardware, which means
+that software (or display engine) must do the full correct thing.
 
-drm-misc-next-2021-09-23:
-drm-misc-next for 5.15:
+That's another reason to not rely on magic display functionality, which
+suits my plans perfectly.
 
-UAPI Changes:
+> I suspect on those TVs it looks like this:
+>=20
+>   HDR Static Metadata Data Block:
+>     Electro optical transfer functions:
+>       Traditional gamma - SDR luminance range
+>       SMPTE ST2084
+>     Supported static metadata descriptors:
+>       Static metadata type 1
+>=20
+> Windows has some defaults in this case and our Windows driver also has
+> some defaults.
 
-Cross-subsystem Changes:
+Oh, missing information. Yay.
 
-Core Changes:
+> Using defaults in the 1000-2000 nits range would yield much better
+> tone-mapping results than assuming the monitor can support a full
+> 10k nits.
 
-Driver Changes:
-  - Conversions to dev_err_probe() helper
-  - rockchip: Various build improvements, Use
-    DRM_BRIDGE_ATTACH_NO_CONNECTOR for LVDS and RGB
-  - panel: New panel-edp driver
-The following changes since commit e4f868191138975f2fdf2f37c11318b47db4acc9:
+Obviously.
 
-  drm/v3d: fix wait for TMU write combiner flush (2021-09-15 18:43:37 +0100)
+> As an aside, recently we've come across displays where the max
+> average luminance is higher than the max peak luminance. This is
+> not a mistake but due to how the display's dimming zones work.
 
-are available in the Git repository at:
+IOW, the actual max peak luminance in absolute units depends on the
+current image average luminance. Wonderful, but what am I (the content
+producer, the display server) supposed to do with that information...
 
-  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-next-2021-09-23
+> Not sure what impact this might have on tone-mapping, other than
+> to keep in mind that we can assume that max_avg < max_peak.
 
-for you to fetch changes up to 9c2fce137852e6434ca0c6fe3d75e00feb168c07:
+*cannot
 
-  drm: Fix scaling_mode docs (2021-09-22 22:11:53 +0300)
+Seems like it would lead to a very different tone mapping algorithm
+which needs to compute the image average luminance before it can
+account for max peak luminance (which I wouldn't know how to infer). So
+either a two-pass algorithm, or taking the average from the previous
+frame.
 
-----------------------------------------------------------------
-drm-misc-next for 5.15:
+I imagine that is going to be fun considering one needs to composite
+different types of input images together, and the final tone mapping
+might need to differ for each. Strictly thinking that might lead to an
+iterative optimisation algorithm which would be quite intractable in
+practise to complete for a single frame at a time.
 
-UAPI Changes:
 
-Cross-subsystem Changes:
+Thanks,
+pq
 
-Core Changes:
-
-Driver Changes:
-  - Conversions to dev_err_probe() helper
-  - rockchip: Various build improvements, Use
-    DRM_BRIDGE_ATTACH_NO_CONNECTOR for LVDS and RGB
-  - panel: New panel-edp driver
-
-----------------------------------------------------------------
-Alex Bee (3):
-      drm: bridge: it66121: Fix return value it66121_probe
-      drm/rockchip: handle non-platform devices in rockchip_drm_endpoint_is=
-_subdriver
-      drm/rockchip: add DRM_BRIDGE_ATTACH_NO_CONNECTOR flag to drm_bridge_a=
-ttach
-
-Alex Deucher (1):
-      MAINTAINERS: add Andrey as the DRM GPU scheduler maintainer
-
-Andy Yan (1):
-      drm/rockchip: Check iommu itself instead of it's parent for device_is=
-_available
-
-Brian Norris (1):
-      drm/rockchip: remove unused psr_list{,_lock}
-
-Cai Huoqing (4):
-      drm/sun4i: dsi: Make use of the helper function dev_err_probe()
-      drm/sun4i: dw-hdmi: Make use of the helper function dev_err_probe()
-      drm/v3d: Make use of the helper function devm_platform_ioremap_resour=
-ce_byname()
-      drm/rockchip: Make use of the helper function devm_platform_ioremap_r=
-esource()
-
-Douglas Anderson (15):
-      dt-bindings: drm/panel-simple-edp: Introduce generic eDP panels
-      drm/edid: Break out reading block 0 of the EDID
-      drm/edid: Allow querying/working with the panel ID from the EDID
-      drm/edid: Use new encoded panel id style for quirks matching
-      ARM: configs: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
-      arm64: defconfig: Everyone who had PANEL_SIMPLE now gets PANEL_EDP
-      drm/panel-edp: Split eDP panels out of panel-simple
-      drm/panel-edp: Move some wayward panels to the eDP driver
-      drm/panel-simple: Non-eDP panels don't need "HPD" handling
-      drm/panel-edp: Split the delay structure out
-      drm/panel-edp: Better describe eDP panel delays
-      drm/panel-edp: hpd_reliable shouldn't be subtraced from hpd_absent
-      drm/panel-edp: Fix "prepare_to_enable" if panel doesn't handle HPD
-      drm/panel-edp: Don't re-read the EDID every time we power off the pan=
-el
-      drm/panel-edp: Implement generic "edp-panel"s probed by EDID
-
-Jiapeng Chong (3):
-      panfrost: make mediatek_mt8183_supplies and mediatek_mt8183_pm_domain=
-s static
-      drm/rockchip: dsi: Fix duplicate included linux/phy/phy.h
-      drm/rockchip: dsi: make hstt_table static
-
-Lukas Bulwahn (1):
-      MAINTAINERS: fix typo in DRM DRIVER FOR SAMSUNG S6D27A1 PANELS
-
-Maxime Ripard (1):
-      drm/bridge: Move devm_drm_of_get_bridge to bridge/panel.c
-
-Melissa Wen (1):
-      drm/v3d: fix sched job resources cleanup when a job is aborted
-
-Souptick Joarder (2):
-      drm/rockchip: remove of_match_ptr() from vop_driver_dt_match
-      drm/rockchip: remove of_match_ptr() from analogix dp driver
-
-Steven Price (1):
-      drm/panfrost: Calculate lock region size correctly
-
-Ville Syrj=E4l=E4 (1):
-      drm: Fix scaling_mode docs
-
-Wolfram Sang (1):
-      drm/panfrost: simplify getting .driver_data
-
-liuyuntao (1):
-      virtio-gpu: fix possible memory allocation failure
-
- .../bindings/display/panel/panel-edp.yaml          |  188 ++
- MAINTAINERS                                        |   10 +-
- arch/arm/configs/at91_dt_defconfig                 |    1 +
- arch/arm/configs/exynos_defconfig                  |    1 +
- arch/arm/configs/imx_v6_v7_defconfig               |    1 +
- arch/arm/configs/lpc32xx_defconfig                 |    1 +
- arch/arm/configs/multi_v5_defconfig                |    1 +
- arch/arm/configs/multi_v7_defconfig                |    1 +
- arch/arm/configs/omap2plus_defconfig               |    1 +
- arch/arm/configs/qcom_defconfig                    |    1 +
- arch/arm/configs/realview_defconfig                |    1 +
- arch/arm/configs/sama5_defconfig                   |    1 +
- arch/arm/configs/shmobile_defconfig                |    1 +
- arch/arm/configs/sunxi_defconfig                   |    1 +
- arch/arm/configs/tegra_defconfig                   |    1 +
- arch/arm/configs/versatile_defconfig               |    1 +
- arch/arm/configs/vexpress_defconfig                |    1 +
- arch/arm64/configs/defconfig                       |    1 +
- drivers/gpu/drm/bridge/ite-it66121.c               |   16 +-
- drivers/gpu/drm/bridge/panel.c                     |   37 +
- drivers/gpu/drm/drm_bridge.c                       |   34 -
- drivers/gpu/drm/drm_connector.c                    |    4 +-
- drivers/gpu/drm/drm_edid.c                         |  280 +--
- drivers/gpu/drm/panel/Kconfig                      |   16 +-
- drivers/gpu/drm/panel/Makefile                     |    1 +
- drivers/gpu/drm/panel/panel-edp.c                  | 1895 ++++++++++++++++=
-++++
- drivers/gpu/drm/panel/panel-simple.c               | 1072 +----------
- drivers/gpu/drm/panfrost/panfrost_device.c         |    6 +-
- drivers/gpu/drm/panfrost/panfrost_drv.c            |    4 +-
- drivers/gpu/drm/panfrost/panfrost_mmu.c            |   30 +-
- drivers/gpu/drm/rockchip/analogix_dp-rockchip.c    |    2 +-
- drivers/gpu/drm/rockchip/cdn-dp-core.c             |    4 +-
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c    |    3 +-
- drivers/gpu/drm/rockchip/inno_hdmi.c               |    4 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c        |   14 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h        |    2 -
- drivers/gpu/drm/rockchip/rockchip_lvds.c           |   33 +-
- drivers/gpu/drm/rockchip/rockchip_rgb.c            |   26 +-
- drivers/gpu/drm/rockchip/rockchip_vop_reg.c        |    2 +-
- drivers/gpu/drm/sun4i/sun6i_mipi_dsi.c             |   14 +-
- drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |   21 +-
- drivers/gpu/drm/v3d/v3d_drv.c                      |    5 +-
- drivers/gpu/drm/v3d/v3d_gem.c                      |   11 +-
- drivers/gpu/drm/virtio/virtgpu_vq.c                |    8 +-
- include/drm/drm_edid.h                             |   45 +
- 45 files changed, 2522 insertions(+), 1281 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/display/panel/panel-e=
-dp.yaml
- create mode 100644 drivers/gpu/drm/panel/panel-edp.c
-
---e7eii4wumqybct7j
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/f8kn+CdAE5nyzAWtsZGPeV5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYUwwkgAKCRDj7w1vZxhR
-xSIBAQDyXhX/azTZ0yc3BxXWIjF0Loa2Grkr6ZZ4OjP/R6Lp4gD/ay92dnAkKbdQ
-Phr/aCUBr+6buqMtTROTrtTq4ZiqpQg=
-=2pkA
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFMNFoACgkQI1/ltBGq
+qqdJ/w/7B6O0HE64NZidI6jqgduz7e1oCBkU6i0gDC7nQEBMswNf0IHHc/OlHEzE
+2tMmOI6aQl6f9HSyXNSyV+wqUg5WLZwrpQwqDTUr2Ztb9dcuv2OTWCWjE9zxfcJR
+RgpDPqP1zLo5WrRdjXNhTvujp5CSvIxpRmRHxNFX+VQtJIzn/hd1kLcDAKi8KRoG
+Ee6cw/C1Vs+3gzeywU5amDgT2cg7ZOjXb2X0l60lxWT+tlaNr2kwNiEGukCJ0NVK
+sGozUabuCeEcMJdL7QPZRrCWWsOTYVGosuuo9mUp1M/Y7YnrWkKd7LblHu35A6Pt
+Bsg9kKCH14lFY6q+tFylKoEz4iECTt2kOQqSSVkfcj1tNhPwe/MrdwXbCx1mne6P
+/zkMyORFguRhgRB1JKzw72ZwJ3RTv7xhbfXHFRPK5RtLOdm4KjkF0jueLP6f+boV
+WPnhPwRQVkpLxnw2HuJirDBc+wc8XlrBy8HI0azBWoAltYHJyOyw8BvYnR7iV6pG
+b5m/D/9g1AQKMnhu5gvBAJPnO1wnjfDA4e4M6yFDwoNbbxPZ8Iowo0Q7Iy2k781W
+TiWdOp2AS62/+e5W81wlcLL+dDuJixj73R14Ygsz9rkREe/mxjpaGWJtms+6jYYF
+PD5pyOT0PuSqJUemmhE2HJUm6/sfEZac/QjtJLQySLsTuut7PTg=
+=mX7L
 -----END PGP SIGNATURE-----
 
---e7eii4wumqybct7j--
+--Sig_/f8kn+CdAE5nyzAWtsZGPeV5--
