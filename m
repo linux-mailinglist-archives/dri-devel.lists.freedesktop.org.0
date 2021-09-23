@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5E61415AD7
-	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:23:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DE29415AD2
+	for <lists+dri-devel@lfdr.de>; Thu, 23 Sep 2021 11:23:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85A56E10D;
-	Thu, 23 Sep 2021 09:23:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5D92D6E0FC;
+	Thu, 23 Sep 2021 09:23:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D472D6E10C;
- Thu, 23 Sep 2021 09:23:25 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id AFA0160F48;
- Thu, 23 Sep 2021 09:23:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632389005;
- bh=569bnNYpES6eJYp9Sh/W/cLEjYEtuiHWkMl00AUFATo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=fQJtSnrfM/uDFOLC4+sEDSw5EB7H7cxc8dK5vTSSeTl710WpHddWJx0Hr66Ca9HQM
- 8qC0g9I7MlLwDPXitIG8z2/ArzDVSn1E1QwlbZ67XIdhF+Ja4z1a6VQP87+2Ew13hY
- NMDaSLdjxwRTfdaUrmXM+q1Z0KXVVlHsMfIIjeIptrczoGFBVc6gIrL3pSlu/nV6/X
- zmkouwRPfo7eUKGjRTAktnMg3Si1PEqJmp10feLI1nNENxLKxtpJi5nB0okentxAF1
- Ed6Cca1Uj7LqyVrGwE5L9TMO1BiJEWLbFTcYdIGeq5kTK+xWBJ8vsJNwzR3Owxklu0
- P//3pQMqoV6tw==
-Received: by mail-oi1-f180.google.com with SMTP id w19so8764908oik.10;
- Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
-X-Gm-Message-State: AOAM532d0xz7u2L4WUUIsiGEoAKTnj+KzYDt41aiSUT++JwVGbRCV/kq
- gsdLPAyaLmSCvsAzNxprem48v6Spk9rpUgHsAts=
-X-Google-Smtp-Source: ABdhPJwKBW01i95TFVqcwwbcPPgUwOWxzKr7jYu4H/HoqIheB/NC+qNNGiwFvXSSXyXpLyrB2yaAMvBWhJmz0vqOyW4=
-X-Received: by 2002:aca:230f:: with SMTP id e15mr11840674oie.154.1632389005065; 
- Thu, 23 Sep 2021 02:23:25 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5037C6E0FC
+ for <dri-devel@lists.freedesktop.org>; Thu, 23 Sep 2021 09:23:09 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42AB645E;
+ Thu, 23 Sep 2021 11:23:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1632388987;
+ bh=VjJpqIAYH2MRk9pUvcqP/sn9mrtZsubUoivRdIenC1M=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=CyyrQQVefFjU+Ssk9+5S9UHyjpRxRTZwuQpr0EeqgkO9WyX99mgYyj8t518/6w0vO
+ WKNJfhHlRCTxmBOrkhqaSXXxNWf5yF0302qwN7zHan5/nBfBCj7B+Gc4v7XWKuh6GT
+ /uAX5MhmELaVMNnwWOV17g3fCoL9jMlqxWAZDgSU=
+Date: Thu, 23 Sep 2021 12:23:05 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Paul Cercueil <paul@crapouillou.net>
+Cc: "H. Nikolaus Schaller" <hns@goldelico.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-mips <linux-mips@vger.kernel.org>, list@opendingux.net,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
+Message-ID: <YUxHeTRr2JOIFSLh@pendragon.ideasonboard.com>
+References: <20210922205555.496871-1-paul@crapouillou.net>
+ <20210922205555.496871-7-paul@crapouillou.net>
+ <32234186-1802-4FDF-801A-B14E48FB86D8@goldelico.com>
+ <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
 MIME-Version: 1.0
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <YUCvNzpyC091KeaJ@phenom.ffwll.local>
- <20210914161218.GF3544071@ziepe.ca>
- <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
- <YUM5JoMMK7gceuKZ@phenom.ffwll.local> <20210916131014.GK3544071@ziepe.ca>
- <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
- <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
-In-Reply-To: <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Thu, 23 Sep 2021 12:22:57 +0300
-X-Gmail-Original-Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
-Message-ID: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
-Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
-To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, 
- Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <RTPVZQ.WN90B9MHPMZ13@crapouillou.net>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,106 +58,272 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 18, 2021 at 11:38 AM Oded Gabbay <ogabbay@kernel.org> wrote:
->
-> On Fri, Sep 17, 2021 at 3:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> >
-> > On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
-> > > On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
-> > > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
-> > > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > > > >
-> > > > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
-> > > > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
-> > > > > > > > Hi,
-> > > > > > > > Re-sending this patch-set following the release of our user-space TPC
-> > > > > > > > compiler and runtime library.
-> > > > > > > >
-> > > > > > > > I would appreciate a review on this.
-> > > > > > >
-> > > > > > > I think the big open we have is the entire revoke discussions. Having the
-> > > > > > > option to let dma-buf hang around which map to random local memory ranges,
-> > > > > > > without clear ownership link and a way to kill it sounds bad to me.
-> > > > > > >
-> > > > > > > I think there's a few options:
-> > > > > > > - We require revoke support. But I've heard rdma really doesn't like that,
-> > > > > > >   I guess because taking out an MR while holding the dma_resv_lock would
-> > > > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
-> > > > > > >   hold-up was again that makes this a no-go?
-> > > > > >
-> > > > > > RDMA HW can't do revoke.
-> > > >
-> > > > Like why? I'm assuming when the final open handle or whatever for that MR
-> > > > is closed, you do clean up everything? Or does that MR still stick around
-> > > > forever too?
-> > >
-> > > It is a combination of uAPI and HW specification.
-> > >
-> > > revoke here means you take a MR object and tell it to stop doing DMA
-> > > without causing the MR object to be destructed.
-> > >
-> > > All the drivers can of course destruct the MR, but doing such a
-> > > destruction without explicit synchronization with user space opens
-> > > things up to a serious use-after potential that could be a security
-> > > issue.
-> > >
-> > > When the open handle closes the userspace is synchronized with the
-> > > kernel and we can destruct the HW objects safely.
-> > >
-> > > So, the special HW feature required is 'stop doing DMA but keep the
-> > > object in an error state' which isn't really implemented, and doesn't
-> > > extend very well to other object types beyond simple MRs.
-> >
-> > Yeah revoke without destroying the MR doesn't work, and it sounds like
-> > revoke by destroying the MR just moves the can of worms around to another
-> > place.
-> >
-> > > > 1. User A opens gaudi device, sets up dma-buf export
-> > > >
-> > > > 2. User A registers that with RDMA, or anything else that doesn't support
-> > > > revoke.
-> > > >
-> > > > 3. User A closes gaudi device
-> > > >
-> > > > 4. User B opens gaudi device, assumes that it has full control over the
-> > > > device and uploads some secrets, which happen to end up in the dma-buf
-> > > > region user A set up
-> > >
-> > > I would expect this is blocked so long as the DMABUF exists - eg the
-> > > DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
-> > > that #3 can't actually happen.
-> > >
-> > > > It's not mlocked memory, it's mlocked memory and I can exfiltrate
-> > > > it.
-> > >
-> > > That's just bug, don't make buggy drivers :)
-> >
-> > Well yeah, but given that habanalabs hand rolled this I can't just check
-> > for the usual things we have to enforce this in drm. And generally you can
-> > just open chardevs arbitrarily, and multiple users fighting over each
-> > another. The troubles only start when you have private state or memory
-> > allocations of some kind attached to the struct file (instead of the
-> > underlying device), or something else that requires device exclusivity.
-> > There's no standard way to do that.
-> >
-> > Plus in many cases you really want revoke on top (can't get that here
-> > unfortunately it seems), and the attempts to get towards a generic
-> > revoke() just never went anywhere. So again it's all hand-rolled
-> > per-subsystem. *insert lament about us not having done this through a
-> > proper subsystem*
-> >
-> > Anyway it sounds like the code takes care of that.
-> > -Daniel
->
-> Daniel, Jason,
-> Thanks for reviewing this code.
->
-> Can I get an R-B / A-B from you for this patch-set ?
->
-> Thanks,
-> Oded
+Hello,
 
-A kind reminder.
+On Thu, Sep 23, 2021 at 09:49:03AM +0100, Paul Cercueil wrote:
+> Le jeu., sept. 23 2021 at 07:52:08 +0200, H. Nikolaus Schaller a écrit :
+> > Hi Paul,
+> > thanks for another update.
+> > 
+> > We have been delayed to rework the CI20 HDMI code on top of your series
+> > but it basically works in some situations. There is for example a problem
+> > if the EDID reports DRM_COLOR_FORMAT_YCRCB422 but it appears to be outside
+> > of your series.
+> 
+> I think the SoC can output YCbCr as well, but I never tried to use it.
+> 
+> > The only issue we have is described below.
+> > 
+> >>  Am 22.09.2021 um 22:55 schrieb Paul Cercueil <paul@crapouillou.net>:
+> >> 
+> >>  Attach a top-level bridge to each encoder, which will be used for
+> >>  negociating the bus format and flags.
+> >> 
+> >>  All the bridges are now attached with DRM_BRIDGE_ATTACH_NO_CONNECTOR.
+> >> 
+> >>  Signed-off-by: Paul Cercueil <paul@crapouillou.net>
+> >>  ---
+> >>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 92 +++++++++++++++++------
+> >>  1 file changed, 70 insertions(+), 22 deletions(-)
+> >> 
+> >>  diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> >>  index a5e2880e07a1..a05a9fa6e115 100644
+> >>  --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> >>  +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+> >>  @@ -21,6 +21,7 @@
+> >>  #include <drm/drm_atomic.h>
+> >>  #include <drm/drm_atomic_helper.h>
+> >>  #include <drm/drm_bridge.h>
+> >>  +#include <drm/drm_bridge_connector.h>
+> >>  #include <drm/drm_color_mgmt.h>
+> >>  #include <drm/drm_crtc.h>
+> >>  #include <drm/drm_crtc_helper.h>
+> >>  @@ -108,6 +109,19 @@ struct ingenic_drm {
+> >>  	struct drm_private_obj private_obj;
+> >>  };
+> >> 
+> >>  +struct ingenic_drm_bridge {
+> >>  +	struct drm_encoder encoder;
+> >>  +	struct drm_bridge bridge, *next_bridge;
+> >>  +
+> >>  +	struct drm_bus_cfg bus_cfg;
+> >>  +};
+> >>  +
+> >>  +static inline struct ingenic_drm_bridge *
+> >>  +to_ingenic_drm_bridge(struct drm_encoder *encoder)
+> >>  +{
+> >>  +	return container_of(encoder, struct ingenic_drm_bridge, encoder);
+> >>  +}
+> >>  +
+> >>  static inline struct ingenic_drm_private_state *
+> >>  to_ingenic_drm_priv_state(struct drm_private_state *state)
+> >>  {
+> >>  @@ -668,11 +682,10 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+> >>  {
+> >>  	struct ingenic_drm *priv = drm_device_get_priv(encoder->dev);
+> >>  	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> >>  -	struct drm_connector *conn = conn_state->connector;
+> >>  -	struct drm_display_info *info = &conn->display_info;
+> >>  +	struct ingenic_drm_bridge *bridge = to_ingenic_drm_bridge(encoder);
+> >>  	unsigned int cfg, rgbcfg = 0;
+> >> 
+> >>  -	priv->panel_is_sharp = info->bus_flags & DRM_BUS_FLAG_SHARP_SIGNALS;
+> >>  +	priv->panel_is_sharp = bridge->bus_cfg.flags & DRM_BUS_FLAG_SHARP_SIGNALS;
+> >> 
+> >>  	if (priv->panel_is_sharp) {
+> >>  		cfg = JZ_LCD_CFG_MODE_SPECIAL_TFT_1 | JZ_LCD_CFG_REV_POLARITY;
+> >>  @@ -685,19 +698,19 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+> >>  		cfg |= JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+> >>  	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+> >>  		cfg |= JZ_LCD_CFG_VSYNC_ACTIVE_LOW;
+> >>  -	if (info->bus_flags & DRM_BUS_FLAG_DE_LOW)
+> >>  +	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_DE_LOW)
+> >>  		cfg |= JZ_LCD_CFG_DE_ACTIVE_LOW;
+> >>  -	if (info->bus_flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+> >>  +	if (bridge->bus_cfg.flags & DRM_BUS_FLAG_PIXDATA_DRIVE_NEGEDGE)
+> >>  		cfg |= JZ_LCD_CFG_PCLK_FALLING_EDGE;
+> >> 
+> >>  	if (!priv->panel_is_sharp) {
+> >>  -		if (conn->connector_type == DRM_MODE_CONNECTOR_TV) {
+> >>  +		if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV) {
+> >>  			if (mode->flags & DRM_MODE_FLAG_INTERLACE)
+> >>  				cfg |= JZ_LCD_CFG_MODE_TV_OUT_I;
+> >>  			else
+> >>  				cfg |= JZ_LCD_CFG_MODE_TV_OUT_P;
+> >>  		} else {
+> >>  -			switch (*info->bus_formats) {
+> >>  +			switch (bridge->bus_cfg.format) {
+> >>  			case MEDIA_BUS_FMT_RGB565_1X16:
+> >>  				cfg |= JZ_LCD_CFG_MODE_GENERIC_16BIT;
+> >>  				break;
+> >>  @@ -723,20 +736,29 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+> >>  	regmap_write(priv->map, JZ_REG_LCD_RGBC, rgbcfg);
+> >>  }
+> >> 
+> >>  -static int ingenic_drm_encoder_atomic_check(struct drm_encoder *encoder,
+> >>  -					    struct drm_crtc_state *crtc_state,
+> >>  -					    struct drm_connector_state *conn_state)
+> >>  +static int ingenic_drm_bridge_attach(struct drm_bridge *bridge,
+> >>  +				     enum drm_bridge_attach_flags flags)
+> >>  +{
+> >>  +	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
+> >>  +
+> >>  +	return drm_bridge_attach(bridge->encoder, ib->next_bridge,
+> >>  +				 &ib->bridge, flags);
+> >>  +}
+> >>  +
+> >>  +static int ingenic_drm_bridge_atomic_check(struct drm_bridge *bridge,
+> >>  +					   struct drm_bridge_state *bridge_state,
+> >>  +					   struct drm_crtc_state *crtc_state,
+> >>  +					   struct drm_connector_state *conn_state)
+> >>  {
+> >>  -	struct drm_display_info *info = &conn_state->connector->display_info;
+> >>  	struct drm_display_mode *mode = &crtc_state->adjusted_mode;
+> >>  +	struct ingenic_drm_bridge *ib = to_ingenic_drm_bridge(bridge->encoder);
+> >> 
+> >>  -	if (info->num_bus_formats != 1)
+> >>  -		return -EINVAL;
+> >>  +	ib->bus_cfg = bridge_state->output_bus_cfg;
+> >> 
+> >>  	if (conn_state->connector->connector_type == DRM_MODE_CONNECTOR_TV)
+> >>  		return 0;
+> >> 
+> >>  -	switch (*info->bus_formats) {
+> >>  +	switch (bridge_state->output_bus_cfg.format) {
+> >>  	case MEDIA_BUS_FMT_RGB888_3X8:
+> >>  	case MEDIA_BUS_FMT_RGB888_3X8_DELTA:
+> >>  		/*
+> >>  @@ -900,8 +922,16 @@ static const struct drm_crtc_helper_funcs ingenic_drm_crtc_helper_funcs = {
+> >>  };
+> >> 
+> >>  static const struct drm_encoder_helper_funcs ingenic_drm_encoder_helper_funcs = {
+> >>  -	.atomic_mode_set	= ingenic_drm_encoder_atomic_mode_set,
+> >>  -	.atomic_check		= ingenic_drm_encoder_atomic_check,
+> >>  +	.atomic_mode_set        = ingenic_drm_encoder_atomic_mode_set,
+> >>  +};
+> >>  +
+> >>  +static const struct drm_bridge_funcs ingenic_drm_bridge_funcs = {
+> >>  +	.attach			= ingenic_drm_bridge_attach,
+> >>  +	.atomic_check		= ingenic_drm_bridge_atomic_check,
+> >>  +	.atomic_reset		= drm_atomic_helper_bridge_reset,
+> >>  +	.atomic_duplicate_state	= drm_atomic_helper_bridge_duplicate_state,
+> >>  +	.atomic_destroy_state	= drm_atomic_helper_bridge_destroy_state,
+> >>  +	.atomic_get_input_bus_fmts = drm_atomic_helper_bridge_propagate_bus_fmt,
+> >>  };
+> >> 
+> >>  static const struct drm_mode_config_funcs ingenic_drm_mode_config_funcs = {
+> >>  @@ -976,7 +1006,9 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+> >>  	struct drm_plane *primary;
+> >>  	struct drm_bridge *bridge;
+> >>  	struct drm_panel *panel;
+> >>  +	struct drm_connector *connector;
+> >>  	struct drm_encoder *encoder;
+> >>  +	struct ingenic_drm_bridge *ib;
+> >>  	struct drm_device *drm;
+> >>  	void __iomem *base;
+> >>  	long parent_rate;
+> >>  @@ -1154,20 +1186,36 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
+> >>  			bridge = devm_drm_panel_bridge_add_typed(dev, panel,
+> >>  								 DRM_MODE_CONNECTOR_DPI);
+> >> 
+> >>  -		encoder = drmm_plain_encoder_alloc(drm, NULL, DRM_MODE_ENCODER_DPI, NULL);
+> >>  -		if (IS_ERR(encoder)) {
+> >>  -			ret = PTR_ERR(encoder);
+> >>  +		ib = drmm_encoder_alloc(drm, struct ingenic_drm_bridge, encoder,
+> >>  +					NULL, DRM_MODE_ENCODER_DPI, NULL);
+> >>  +		if (IS_ERR(ib)) {
+> >>  +			ret = PTR_ERR(ib);
+> >>  			dev_err(dev, "Failed to init encoder: %d\n", ret);
+> >>  			return ret;
+> >>  		}
+> >> 
+> >>  -		encoder->possible_crtcs = 1;
+> >>  +		encoder = &ib->encoder;
+> >>  +		encoder->possible_crtcs = drm_crtc_mask(&priv->crtc);
+> >> 
+> >>  		drm_encoder_helper_add(encoder, &ingenic_drm_encoder_helper_funcs);
+> >> 
+> >>  -		ret = drm_bridge_attach(encoder, bridge, NULL, 0);
+> >>  -		if (ret)
+> >>  +		ib->bridge.funcs = &ingenic_drm_bridge_funcs;
+> >>  +		ib->next_bridge = bridge;
+> >>  +
+> >>  +		ret = drm_bridge_attach(encoder, &ib->bridge, NULL,
+> >>  +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
+> > 
+> > DRM_BRIDGE_ATTACH_NO_CONNECTOR makes it fundamentally incompatible
+> > with synopsys/dw_hdmi.c
+> > 
+> > That driver checks for DRM_BRIDGE_ATTACH_NO_CONNECTOR being NOT present,
+> > since it wants to register its own connector through 
+> > dw_hdmi_connector_create().
 
-Thanks,
-Oded
+Does it ? The driver has
+
+static int dw_hdmi_bridge_attach(struct drm_bridge *bridge,
+                                 enum drm_bridge_attach_flags flags)
+{
+	struct dw_hdmi *hdmi = bridge->driver_private;
+
+	if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)
+		return drm_bridge_attach(bridge->encoder, hdmi->next_bridge,
+					 bridge, flags);
+
+	return dw_hdmi_connector_create(hdmi);
+}
+
+If DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set, it will create a
+connector, otherwise it will just attach to the next bridge. I'm using
+it on a Renesas platform with the DRM_BRIDGE_ATTACH_NO_CONNECTOR flag
+set, without any issue as far as I can tell.
+
+> > It does it for a reason: the dw-hdmi is a multi-function driver which does
+> > HDMI and DDC/EDID stuff in a single driver (because I/O registers and power
+> > management seem to be shared).
+> 
+> The IT66121 driver does all of that too, and does not need 
+> DRM_BRIDGE_ATTACH_NO_CONNECTOR. The drm_bridge_funcs struct has 
+> callbacks to handle cable detection and DDC stuff.
+> 
+> > Since I do not see who could split this into a separate bridge and a connector driver
+> > and test it on multiple SoC platforms (there are at least 3 or 4), I think modifying
+> > the fundamentals of the dw-hdmi architecture just to get CI20 HDMI working is not
+> > our turf.
+> 
+> You could have a field in the dw-hdmi pdata structure, that would 
+> instruct the driver whether or not it should use the new API. Ugly, I 
+> know, and would probably duplicate a lot of code, but that would allow 
+> other drivers to be updated at a later date.
+> 
+> > Therefore the code here should be able to detect if drm_bridge_attach() already
+> > creates and attaches a connector and then skip the code below.
+> 
+> Not that easy, unfortunately. On one side we have dw-hdmi which checks 
+> that DRM_BRIDGE_ATTACH_NO_CONNECTOR is not set, and on the other side 
+> we have other drivers like the IT66121 which will fail if this flag is 
+> not set.
+
+> >>  +		if (ret) {
+> >>  +			dev_err(dev, "Unable to attach bridge\n");
+> >>  			return ret;
+> >>  +		}
+> >>  +
+> >>  +		connector = drm_bridge_connector_init(drm, encoder);
+> >>  +		if (IS_ERR(connector)) {
+> >>  +			dev_err(dev, "Unable to init connector\n");
+> >>  +			return PTR_ERR(connector);
+> >>  +		}
+> >>  +
+> >>  +		drm_connector_attach_encoder(connector, encoder);
+> >>  	}
+> >> 
+> >>  	drm_for_each_encoder(encoder, drm) {
+> >>  --
+> >>  2.33.0
+> > 
+> > I haven't replaced v2 with v3 in our test tree yet, but will do asap.
+
+-- 
+Regards,
+
+Laurent Pinchart
