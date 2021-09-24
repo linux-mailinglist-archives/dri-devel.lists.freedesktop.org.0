@@ -1,86 +1,74 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626B8417AC8
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 20:16:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4768F417AD8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 20:19:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 136DA6E200;
-	Fri, 24 Sep 2021 18:16:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B43F36E202;
+	Fri, 24 Sep 2021 18:19:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BB7CF6E200
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 18:16:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632507408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E23486E202
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 18:19:30 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 289D922452;
+ Fri, 24 Sep 2021 18:19:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1632507569; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=/XZTO3hQwEUw1n5k6UDpdYw7oKmrhKHOCU0IGHqWWG0=;
- b=FKqhCH3gue0VhFIXW9QGqa+byS6/U0opKxh4onvShWBozt2KaKww7d6PurnoOJ+YvfMnMx
- g8ViiwrcO3kOnNvdCYoVu7EHmfdSzHpT0RT8JclrWNtxTlNktT/PgeLJJ3lT1d6+pRowGi
- cX5IyP6kcKX7kdxukKtY9OOG65edIl4=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-258-DLOem9pQOL2JRuOZy0rbIA-1; Fri, 24 Sep 2021 14:16:45 -0400
-X-MC-Unique: DLOem9pQOL2JRuOZy0rbIA-1
-Received: by mail-qt1-f197.google.com with SMTP id
- m26-20020ac87b5a000000b002a6b3744ae6so29379638qtu.22
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 11:16:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=/XZTO3hQwEUw1n5k6UDpdYw7oKmrhKHOCU0IGHqWWG0=;
- b=Np1Q/z05d6f6zrayegu1SbpTPpddicjo3ePjAXAjQNkPYh6JsCSMHe80f1ZE39ukBV
- Kq0rFaAt1nt+D0wWaEsx8XWiWmhWs9mBcyuFExgdQhMLexRxKITnCJhaIe/L3axc5qDt
- g/KwuygiUFCBCcPYzsS1SRW/5X7IH+6UN2+bA8D19hmpXF4N+lEGIkYzo/Q/r0b4ObB5
- HBzSqcd4SPRD7mPPqy7X8Ejbo6kfUEblE93bzo9s6O4QPc2n1jZiYTMrWMYoDibHdWOZ
- mlhBVXv5Ez8O3ln1bD09xJmEJ2hARNF3wyvmgX96OYinGbj20EgDYouQLhPjysn/sRXu
- A8iw==
-X-Gm-Message-State: AOAM532oPSGGrpEwyjUpzMmayqBUrvzeoTaKkf/gjA1u9ySIy0FKCy3j
- v5fSN3mTFi4dQkA/VjbsBosWhkJnhDn5rY3F0fX57zhPSdMEI1JWphIMPzGasxWNBQD5dxk6Pdm
- ZdxvRojE/OydCny/gc7QdYfAtsxX7
-X-Received: by 2002:a05:622a:1a9f:: with SMTP id
- s31mr5659456qtc.381.1632507404656; 
- Fri, 24 Sep 2021 11:16:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzlyHyj1JScPlhqV3UkuuS2rTtoAfyZvwyso8AYDYCQEtFhSw4UVAZGBacOTk5lMLbtnXHfhA==
-X-Received: by 2002:a05:622a:1a9f:: with SMTP id
- s31mr5659421qtc.381.1632507404374; 
- Fri, 24 Sep 2021 11:16:44 -0700 (PDT)
-Received: from [192.168.8.206] (pool-108-49-102-102.bstnma.fios.verizon.net.
- [108.49.102.102])
- by smtp.gmail.com with ESMTPSA id l7sm6250919qtr.87.2021.09.24.11.16.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 11:16:43 -0700 (PDT)
-Message-ID: <7d19a626299fcc23e10678faea95b76d71c26b23.camel@redhat.com>
-Subject: Re: [RFC PATCH] drm/print: Add deprecation notes to DRM_...()
- functions
-From: Lyude Paul <lyude@redhat.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>, Douglas Anderson
- <dianders@chromium.org>, dri-devel@lists.freedesktop.org
-Cc: sam@ravnborg.org, daniel.vetter@ffwll.ch, jani.nikula@intel.com, 
- swboyd@chromium.org, airlied@redhat.com, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- linux-kernel@vger.kernel.org
-Date: Fri, 24 Sep 2021 14:16:42 -0400
-In-Reply-To: <2b957783-aa5c-33a5-7fe3-475d5a80bacc@suse.de>
-References: <20210921082757.RFC.1.Ibd82d98145615fa55f604947dc6a696cc82e8e43@changeid>
- <2b957783-aa5c-33a5-7fe3-475d5a80bacc@suse.de>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+ bh=4OUNd2A87jzhl2MVuQw1GA68HwMuRJ/nKCmF8qTFQsw=;
+ b=JfYd73ClXHfSXd/PmHV+Q0he7vuexGrOEwn5iEf3aIxtN66JAKfYMGXlNileGuGemk5PjZ
+ ew7cz+MAMPHSnPdneU9XPvK3BzOUSiy+1SWbirOA7xHjmHJbQVUQG3m2YUb6sjRXfvr+NZ
+ 2XA/trqVmLMYUgR1G48E09ryA7vqgbA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1632507569;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=4OUNd2A87jzhl2MVuQw1GA68HwMuRJ/nKCmF8qTFQsw=;
+ b=zX/cPxOiTGylfWIEtXOf3kT8ysCrvqwkbuMxY2GkqOuZHfilnFsTb8iStbCdKpScX8TdDS
+ hBKH2OWCpFMtnrDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E304713BA9;
+ Fri, 24 Sep 2021 18:19:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id b1a6M7AWTmFjLQAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Fri, 24 Sep 2021 18:19:28 +0000
+Message-ID: <ad933c42-a02e-b818-7f42-98620036b0d3@suse.de>
+Date: Fri, 24 Sep 2021 20:19:28 +0200
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: drm: simpledrm: fbdev emulation error with CONFIG_DRM_SIMPLEDRM
+ enabled
+Content-Language: en-US
+To: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>,
+ Amanoel Dawod <kernel@amanoeldawod.com>
+Cc: dri-devel@lists.freedesktop.org
+References: <5186020a-192f-4e04-adc2-25a34305fea6@www.fastmail.com>
+ <e80ae664-7184-69dd-5e6e-e228c720bb85@suse.de>
+ <2ec3ae15-e8d7-4db3-baef-04b8ab9dc467@www.fastmail.com>
+ <e3343649-a96d-7306-67d0-5f8fc9427429@suse.de>
+ <ab196ef1-44d5-4aef-a1ab-e43bed2a87e4@www.fastmail.com>
+ <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
+ <4c161178-4d15-4ca6-9069-9c9a781c7019@www.fastmail.com>
+ <f80168a3-02e3-1c79-98e3-11b9f7573a6e@suse.de>
+ <a9839860-6e13-4809-9a85-96821ae5372e@www.fastmail.com>
+ <dee32db0-fb9c-4b09-0c8f-e602c60b23d8@gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <dee32db0-fb9c-4b09-0c8f-e602c60b23d8@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------EXDvMU0vZ9qM8q88UH3YFvAf"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,209 +84,116 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Acked-by: Lyude Paul <lyude@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------EXDvMU0vZ9qM8q88UH3YFvAf
+Content-Type: multipart/mixed; boundary="------------rvycenQq8W5BV1JcNyRD0pPF";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?B?Wm9sdMOhbiBLxZF2w6Fnw7M=?= <dirty.ice.hu@gmail.com>,
+ Amanoel Dawod <kernel@amanoeldawod.com>
+Cc: dri-devel@lists.freedesktop.org
+Message-ID: <ad933c42-a02e-b818-7f42-98620036b0d3@suse.de>
+Subject: Re: drm: simpledrm: fbdev emulation error with CONFIG_DRM_SIMPLEDRM
+ enabled
+References: <5186020a-192f-4e04-adc2-25a34305fea6@www.fastmail.com>
+ <e80ae664-7184-69dd-5e6e-e228c720bb85@suse.de>
+ <2ec3ae15-e8d7-4db3-baef-04b8ab9dc467@www.fastmail.com>
+ <e3343649-a96d-7306-67d0-5f8fc9427429@suse.de>
+ <ab196ef1-44d5-4aef-a1ab-e43bed2a87e4@www.fastmail.com>
+ <7486abc7-ce39-915f-b697-b9adb356f98f@suse.de>
+ <4c161178-4d15-4ca6-9069-9c9a781c7019@www.fastmail.com>
+ <f80168a3-02e3-1c79-98e3-11b9f7573a6e@suse.de>
+ <a9839860-6e13-4809-9a85-96821ae5372e@www.fastmail.com>
+ <dee32db0-fb9c-4b09-0c8f-e602c60b23d8@gmail.com>
+In-Reply-To: <dee32db0-fb9c-4b09-0c8f-e602c60b23d8@gmail.com>
 
-On Wed, 2021-09-22 at 09:12 +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 21.09.21 um 17:28 schrieb Douglas Anderson:
-> > It's hard for someone (like me) who's not following closely to know
-> > what the suggested best practices are for error printing in DRM
-> > drivers. Add some hints to the header file.
-> > 
-> > In general, my understanding is that:
-> > * When possible we should be using a `struct drm_device` for logging
-> >    and recent patches have tried to make it more possible to access a
-> >    relevant `struct drm_device` in more places.
-> > * For most cases when we don't have a `struct drm_device`, we no
-> >    longer bother with DRM-specific wrappers on the dev_...() functions
-> >    or pr_...() functions and just encourage drivers to use the normal
-> >    functions.
-> > * For debug-level functions where we might want filtering based on a
-> >    category we'll still have DRM-specific wrappers, but we'll only
-> >    support passing a `struct drm_device`, not a `struct
-> >    device`. Presumably most of the cases where we want the filtering
-> >    are messages that happen while the system is in a normal running
-> >    state (AKA not during probe time) and we should have a `struct
-> >    drm_device` then. If we absolutely can't get a `struct drm_device`
-> >    then these functions begrudgingly accept NULL for the `struct
-> >    drm_device` and hopefully the awkwardness of having to manually pass
-> >    NULL will keep people from doing this unless absolutely necessary.
-> > 
-> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> Thanks a lot.
-> 
-> > ---
-> > 
-> >   include/drm/drm_print.h | 30 ++++++++++++++++++++++++++++++
-> >   1 file changed, 30 insertions(+)
-> > 
-> > diff --git a/include/drm/drm_print.h b/include/drm/drm_print.h
-> > index 15a089a87c22..22fabdeed297 100644
-> > --- a/include/drm/drm_print.h
-> > +++ b/include/drm/drm_print.h
-> > @@ -340,6 +340,8 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >   /**
-> >    * DRM_DEV_ERROR() - Error output.
-> >    *
-> > + * NOTE: this is deprecated in favor of drm_err() or dev_err().
-> > + *
-> >    * @dev: device pointer
-> >    * @fmt: printf() like format string.
-> >    */
-> > @@ -349,6 +351,9 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >   /**
-> >    * DRM_DEV_ERROR_RATELIMITED() - Rate limited error output.
-> >    *
-> > + * NOTE: this is deprecated in favor of drm_err_ratelimited() or
-> > + * dev_err_ratelimited().
-> > + *
-> >    * @dev: device pointer
-> >    * @fmt: printf() like format string.
-> >    *
-> > @@ -364,9 +369,11 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >                 DRM_DEV_ERROR(dev, fmt, ##__VA_ARGS__);                 \
-> >   })
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_info() or dev_info(). */
-> >   #define DRM_DEV_INFO(dev, fmt, ...)                           \
-> >         drm_dev_printk(dev, KERN_INFO, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_info_once() or
-> > dev_info_once(). */
-> >   #define DRM_DEV_INFO_ONCE(dev, fmt, ...)                              \
-> >   ({                                                                    \
-> >         static bool __print_once __read_mostly;                         \
-> > @@ -379,6 +386,8 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >   /**
-> >    * DRM_DEV_DEBUG() - Debug output for generic drm code
-> >    *
-> > + * NOTE: this is deprecated in favor of drm_dbg_core().
-> > + *
-> >    * @dev: device pointer
-> >    * @fmt: printf() like format string.
-> >    */
-> > @@ -387,6 +396,8 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >   /**
-> >    * DRM_DEV_DEBUG_DRIVER() - Debug output for vendor specific part of the
-> > driver
-> >    *
-> > + * NOTE: this is deprecated in favor of drm_dbg() or dev_dbg().
-> > + *
-> >    * @dev: device pointer
-> >    * @fmt: printf() like format string.
-> >    */
-> > @@ -395,6 +406,8 @@ void drm_dev_dbg(const struct device *dev, enum
-> > drm_debug_category category,
-> >   /**
-> >    * DRM_DEV_DEBUG_KMS() - Debug output for modesetting code
-> >    *
-> > + * NOTE: this is deprecated in favor of drm_dbg_kms().
-> > + *
-> >    * @dev: device pointer
-> >    * @fmt: printf() like format string.
-> >    */
-> > @@ -480,47 +493,63 @@ void __drm_err(const char *format, ...);
-> >   #define _DRM_PRINTK(once, level, fmt, ...)                            \
-> >         printk##once(KERN_##level "[" DRM_NAME "] " fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of pr_info(). */
-> >   #define DRM_INFO(fmt, ...)                                            \
-> >         _DRM_PRINTK(, INFO, fmt, ##__VA_ARGS__)
-> > +/* NOTE: this is deprecated in favor of pr_notice(). */
-> >   #define DRM_NOTE(fmt, ...)                                            \
-> >         _DRM_PRINTK(, NOTICE, fmt, ##__VA_ARGS__)
-> > +/* NOTE: this is deprecated in favor of pr_warn(). */
-> >   #define DRM_WARN(fmt, ...)                                            \
-> >         _DRM_PRINTK(, WARNING, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of pr_info_once(). */
-> >   #define DRM_INFO_ONCE(fmt,
-> > ...)                                               \
-> >         _DRM_PRINTK(_once, INFO, fmt, ##__VA_ARGS__)
-> > +/* NOTE: this is deprecated in favor of pr_notice_once(). */
-> >   #define DRM_NOTE_ONCE(fmt,
-> > ...)                                               \
-> >         _DRM_PRINTK(_once, NOTICE, fmt, ##__VA_ARGS__)
-> > +/* NOTE: this is deprecated in favor of pr_warn_once(). */
-> >   #define DRM_WARN_ONCE(fmt,
-> > ...)                                               \
-> >         _DRM_PRINTK(_once, WARNING, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of pr_err(). */
-> >   #define DRM_ERROR(fmt, ...)                                           \
-> >         __drm_err(fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of pr_err_ratelimited(). */
-> >   #define DRM_ERROR_RATELIMITED(fmt,
-> > ...)                                       \
-> >         DRM_DEV_ERROR_RATELIMITED(NULL, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_core(NULL, ...). */
-> >   #define DRM_DEBUG(fmt, ...)                                           \
-> >         __drm_dbg(DRM_UT_CORE, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg(NULL, ...). */
-> >   #define DRM_DEBUG_DRIVER(fmt, ...)                                    \
-> >         __drm_dbg(DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_kms(NULL, ...). */
-> >   #define DRM_DEBUG_KMS(fmt,
-> > ...)                                               \
-> >         __drm_dbg(DRM_UT_KMS, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_prime(NULL, ...). */
-> >   #define DRM_DEBUG_PRIME(fmt, ...)                                     \
-> >         __drm_dbg(DRM_UT_PRIME, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_atomic(NULL, ...). */
-> >   #define DRM_DEBUG_ATOMIC(fmt, ...)                                    \
-> >         __drm_dbg(DRM_UT_ATOMIC, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_vbl(NULL, ...). */
-> >   #define DRM_DEBUG_VBL(fmt,
-> > ...)                                               \
-> >         __drm_dbg(DRM_UT_VBL, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_lease(NULL, ...). */
-> >   #define DRM_DEBUG_LEASE(fmt, ...)                                     \
-> >         __drm_dbg(DRM_UT_LEASE, fmt, ##__VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_dp(NULL, ...). */
-> >   #define DRM_DEBUG_DP(fmt,
-> > ...)                                                \
-> >         __drm_dbg(DRM_UT_DP, fmt, ## __VA_ARGS__)
-> >   
-> > @@ -536,6 +565,7 @@ void __drm_err(const char *format, ...);
-> >   #define drm_dbg_kms_ratelimited(drm, fmt, ...) \
-> >         __DRM_DEFINE_DBG_RATELIMITED(KMS, drm, fmt, ## __VA_ARGS__)
-> >   
-> > +/* NOTE: this is deprecated in favor of drm_dbg_kms_ratelimited(NULL,
-> > ...). */
-> >   #define DRM_DEBUG_KMS_RATELIMITED(fmt, ...)
-> > drm_dbg_kms_ratelimited(NULL, fmt, ## __VA_ARGS__)
-> >   
-> >   /*
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
+--------------rvycenQq8W5BV1JcNyRD0pPF
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
+SGksDQoNCnRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrLg0KDQpBbSAyNC4wOS4yMSB1bSAyMDow
+MyBzY2hyaWViIFpvbHTDoW4gS8WRdsOhZ8OzOg0KPiBIaSwNCj4gDQo+IERpZCBhbnl0aGlu
+ZyBoYXBwZW4gd2l0aCB0aGlzIGlzc3VlPyBJJ3ZlIHVwZGF0ZWQgbGludXgga2VybmVsIHRv
+IDUuMTQuNyANCj4gZnJvbSA1LjEzIHRvZGF5LCBhbmQgSSd2ZSBiZWVuIGhpdCB3aXRoIGEg
+dmVyeSBzaW1pbGFyIHByb2JsZW0gKGV2ZW4gDQo+IGluc2lkZSBxZW11KSwgZXhjZXB0IGlu
+IG15IGNhc2UgdGhlIGhlaWdodCByZXBvcnRlZCBpbiAiYmFkIGZyYW1lYnVmZmVyIA0KPiBo
+ZWlnaHQiIHdhcyB0d2ljZSB0aGUgYWN0dWFsIGhlaWdodCwgbm90IHRocmVlIHRpbWVzLiBB
+ZnRlciBzb21lIGRpZ2dpbmcgDQo+IGFyb3VuZCBJJ3ZlIGZpZ3VyZWQgb3V0IHRoYXQgYXQg
+dGhlIGVuZCBvZiANCj4gZHJtX2ZiX2hlbHBlcl9zaW5nbGVfZmJfcHJvYmUsIHN1cmZhY2Vf
+aGVpZ2h0IGlzIG11bHRpcGxpZWQgYnkgDQo+IENPTkZJR19EUk1fRkJERVZfT1ZFUkFMTE9D
+LzEwMCwgd2hpY2ggd2FzIHNvbWV3aHkgc2V0IHRvIDIwMCBpbiBteSANCj4ga2VybmVsIGNv
+bmZpZy4gU2V0dGluZyBpdCB0byAxMDAgZml4ZWQgdGhhdCBwcm9ibGVtLiAoSXQgbG9va3Mg
+bGlrZSB0aGUgDQo+IGRlZmF1bHQgbm93LCBJIGRvbid0IGtub3cgd2h5IHdhcyBpdCBzZXQg
+dG8gMjAwIGluIG15IGNvbmZpZywgbWF5YmUgdGhlIA0KPiBvbGQgZGVmYXVsdCB3YXMgZGlm
+ZmVyZW50KS4NCg0KSSB3YXMgYXdheSBmb3IgYSB3aGlsZSBhbmQgSSBoYXZlbid0IHRyaWVk
+IHRoaXMuIEJ1dCBpdCB3YXMgbXkgbmV4dCANCmlkZWEuIFRoYW5rcyBmb3IgY29uZmlybWlu
+Zy4NCg0KPiANCj4gSG93ZXZlciBpdCdzIHN0aWxsIHZlcnkgYnVnZ3ksIGV2ZW4gYWZ0ZXIg
+c2V0dGluZyANCj4gQ09ORklHX0RSTV9GQkRFVl9PVkVSQUxMT0MgdG8gMTAwLiBPbiBteSBu
+b3RlYm9vayAoQVNVUyBHNTUxSlcsIHdpdGggYSANCj4gNHRoIGdlbiBpNyBjcHUpLCB0aGlz
+IGlzIHdoYXQgSSBvYnNlcnZlOg0KPiAqIGFmdGVyIHRoZSBrZXJuZWwgYm9vdHMsIHRoZSB0
+dXggbG9nb3MgcmFwaWRseSBmbGlja2VyIGF0IHRoZSB0b3Agb2YgDQo+IHRoZSBzY3JlZW4g
+YW5kIEkgb25seSBzZWUgdGV4dCBhdCB0aGUgYm90dG9tIG9mIHRoZSBzY3JlZW4uIEFmdGVy
+IGEgZmV3IA0KPiBzZWNvbmRzIGl0IHJldHVybnMgdG8gbm9ybWFsLg0KPiAqIHdoZW4gc3Rh
+cnRpbmcgWCwgd2hldCBpdCBzd2l0Y2hlcyB0byBhIG5ldyBWVCB0aGUgdHV4IGxvZ29zIHJl
+YXBwZWFyIA0KPiBhbG9uZyB3aXRoIHNvbWUgdGV4dCwgYnV0IG9ubHkgaW4gdGhlIHVwcGVy
+IGxlZnQgY29ybmVyLiBUaGlzIGlzIGFsc28gDQo+IG9ubHkgaGFwcGVucyBmb3IgYSBzZWNv
+bmQgb3Igc28sIHVudGlsIFggb3ZlcnRha2VzIHRoZSBkaXNwbGF5Lg0KPiAqIHdoZW4gdGVy
+bWluYXRpbmcgWCwgdGhlIHR1eCBsb2dvcyB3aXRoIHRoZSBnYXJiYWdlIHRleHQgcmVtYWlu
+IGluIHRoZSANCj4gdXBwZXIgbGVmdCBjb3JuZXIsIGJ1dCB0aGUgcmVzdCBvZiB0aGUgc2Ny
+ZWVuIGlzIHJlcGxhY2VkIHdpdGggdGhlIA0KPiBjb3JyZWN0IGNvbnRlbnRzLiBUaGUgZ2Fy
+YmFnZSBpbiB0aGUgdG9wIGxlZnQgY29ybmVyIHJlbWFpbnMgdW50aWwgDQo+IHNvbWV0aGlu
+ZyBvdmVyd3JpdGVzIGl0IChsaWtlIHNjcm9sbGluZyB0aGUgdGVybWluYWwpLg0KPiBTbyBp
+dCB3b3JrcywgYnV0IGJ1Z2d5IGFzIGhlbGwgYW5kIGF0IHRoaXMgcG9pbnQgSSdtIGJldHRl
+ciBkaXNhYmxpbmcgDQo+IHNpbXBsZWRybSBhbmQganVzdCByZWx5aW5nIG9uIHRoZSBpOTE1
+IGRyaXZlciwgbG9zaW5nIGVhcmx5IGNvbnNvbGUuIEkgDQo+IHRyaWVkIGJvb3Rpbmcgd2l0
+aCBkcm0uZGVidWc9MHgxZmYsIGJ1dCBieSB0aGUgdGltZSBJIGNvdWxkIHJ1biBkbWVzZyBp
+dCANCj4gZ2VuZXJhdGVkIHNvIG1hbnkgbWVzc2FnZXMgdGhhdCB0aGUgZWFybHkgYm9vdCBt
+ZXNzYWdlcyB3ZXJlIGFscmVhZHkgbG9zdC4NCg0KSXQncyBhbGwgYnVpbGQgYXJvdW5kIGNv
+cmUgRFJNIGhlbHBlcnMuIEkgZG9uJ3Qga25vdyB3aHkgc2ltcGxlZHJtIHNlZW1zIA0KZXJy
+b3IgcHJvbmUsIHdoaWxlIHRoZSBvdGhlciBkcml2ZXJzIHdvcmsgd2l0aCB0aGVzZSBzYW1l
+IGhlbHBlcnMuIA0KU29tZXRoaW5nIHRvIGV4cGxvcmUuLi4NCg0KPiANCj4gTm93LCBteSBk
+ZXNrdG9wIGlzIGV2ZW4gd29yc2UuIE1vdGhlcmJvYXJkIGlzIGFuIEFTUm9jayBaODdNIEV4
+dHJlbWU0LCANCj4gd2l0aCBhIEdlRm9yY2UgR1QgNjQwIGFuZCBHVFggOTgwIGNhcmRzICh0
+aGUgaW50ZWdyYXRlZCBHUFUgaW4gdGhlIGludGVsIA0KPiBDUFUgaXMgZGlzYWJsZWQgaW4g
+VUVGSSBzZXR0aW5ncykuIFVuZm9ydHVuYXRlbHkgdGhpcyByZXF1aXJlcyB0aGUgDQo+IHBy
+b3ByaWV0YXJ5IG52aWRpYSBkcml2ZXJzLCBzbyBpdCdzIHByb2JhYmx5IG15IG93biBwcm9i
+bGVtLCBidXQgYW55d2F5IA0KPiBpdCB3b3JrcyB1bnRpbCBJIGl0IGxvYWRzIHRoZSBudmlk
+aWEgZHJpdmVycywgdGhlbiBhZnRlcndhcmRzICh3aGlsZSANCj4gc3RpbGwgaW4gZmJjb24p
+IEkgaW5zdGVhZCBnZXQgNCBvciA1IHNtYWxsIGNvcGllcyBvZiBteSB0ZXJtaW5hbCBpbiB0
+aGUgDQo+IHVwcGVyIHBhcnQgb2YgdGhlIHNjcmVlbiB3aXRoIHdyb25nIHN0cmlkZSwgc28g
+aXQncyBjb21wbGV0ZWx5IA0KPiB1bnJlYWRhYmxlLiBBbmQgaWYgSSBldmVyIHN0YXJ0IFgs
+IEkgd29uJ3QgaGF2ZSBhbnkgZmJjb24gdW50aWwgcmVib290LiANCj4gU28gNS4xNCBpcyBi
+YXNpY2FsbHkgdW51c2FibGUgb24gdGhpcyBtYWNoaW5lLg0KQXNrIE52aWRpYS4NCg0KPiBB
+bnkgaWRlYXMgd2hhdCBzaG91bGQgSSB0cnk/IEV2ZXJ5dGhpbmcgd29ya2VkIHdlbGwgd2l0
+aCA1LjEzIGFuZCBpdHMgDQo+IHNpbXBsZWZiLg0KDQpJJ2Qgc3VnZ2VzdCB0byBnbyBiYWNr
+IHRvIHNpbXBsZWZiIGZvciBhIHdoaWxlIGFuZCBtYXliZSB0cnkgc2ltcGxlZHJtIA0Kb2Nj
+YXNpb25hbGx5Lg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+IA0KPiBUaGFua3MsDQo+
+IFpvbHRhbg0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVy
+IERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhm
+ZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7D
+vHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
 
+--------------rvycenQq8W5BV1JcNyRD0pPF--
+
+--------------EXDvMU0vZ9qM8q88UH3YFvAf
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFOFrAFAwAAAAAACgkQlh/E3EQov+CT
+OBAAjEwKJKJjH03/H91i5B9bieUqXZrL6tKBSSVGlqQFnGbtUglx9gXZp5I5oVU/cmqff0BzNtde
+cFp6rVzf4pHtx7K1Ng6Ka+tdjEjhOWSQILeYsWF2C/ZR9HwOSwAEs3+Q7WQlyuL5VSy3ksh5nF+X
+obsa+dFmb5xNlKzB13jsrrirhEJMLmDgiAU4ueBhPOZZHKYhhvznvuMjpUz+gbSswixMdL2cbyh+
+vc5CbzywzuIAvQ9PgLyK8fv0ltvF0EZPSAqwtHP4/P1/uKDYmGZ/Z+mlPIXQ3D+Ir9PPD8zdVL9A
+9agT0oqjNJawldleNYN5yUPay4YXXRtXZSdik9f1s3TRbnJrTFfw7fcurR2WvUxGC/i4aCpz29Ea
++USMlEfMnswTcbBS9Zi3KYPaNd0uTVXitN4tnnAa7jDzTkkN6vjU9FfgXpCOvXdZJ/aqWNicw/m8
+dch4zxB1WiMW8I+XoLD1A0ZodXoM3whG4j+L710/XvygyQbzf07eKNW8OvfNYeGUBxsUbOIImCMJ
+mY6JpKUmyrbW6u7mlGky9a8u9c+DXOOs2bK/wBARZDgvhbhMRAbRvC4wv7gJMyoUhH2TnITtSHLQ
+vKi521VAkau/Qq2tKj9FGE4YLnoCYjyQZx5dnpJAfasB7rkhna6GSiW7OQf8kkQ8rRrwFBnx1UnW
+IxE=
+=tY4F
+-----END PGP SIGNATURE-----
+
+--------------EXDvMU0vZ9qM8q88UH3YFvAf--
