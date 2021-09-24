@@ -1,67 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47558417C68
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 22:38:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDC7417C72
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 22:45:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05C696E23B;
-	Fri, 24 Sep 2021 20:37:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5815F6E250;
+	Fri, 24 Sep 2021 20:45:19 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
  [148.163.158.5])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E1006E23B;
- Fri, 24 Sep 2021 20:37:57 +0000 (UTC)
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18OIe81S020426; 
- Fri, 24 Sep 2021 16:37:52 -0400
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FFE86E250;
+ Fri, 24 Sep 2021 20:45:17 +0000 (UTC)
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18OHugnb012036; 
+ Fri, 24 Sep 2021 16:45:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=message-id : subject :
  from : to : cc : date : in-reply-to : references : content-type :
  mime-version : content-transfer-encoding; s=pp1;
- bh=6/nUw5At1aN1CT7b27JpFvMKOk4+CitUZqiAFwOaYWY=;
- b=ETiVHkINm08KvWlpWSzR7vkWNKlGBOuTf44DqGOdzP7RNL7TgwTQ8zvWEypOcAWYQoRf
- XU5dsSAFhYctzBfEJ5n3gCqUW7x0201NzHpenN+0TmC/H/nnb/Sh5tpMYKq3kZh650W3
- uNuF3y1XG43Kh6StejOk1/+NGsCXh/R0CfEKZk/+u3LIiLKNp5MVORCgFZW2qxhHH50X
- mYEG8K0kthfHYSz2RM4mIWOVb4ezgSLfM2dMDAeXo54mthJqLg6pwD+Sx4e18Z+0G+Ku
- 75Q3Qgeqf1OtNZXPz/bIa6uoqZ0p/03wWbMb3QX8//wZYafb7UmAG/FjUSyluq2hBhSu 5Q== 
+ bh=Qbl1jgNBLU/RW3f0mOWsJN8VIAmFbigzPQMZsq4WgSU=;
+ b=qvx2HmJQc+aX1Sbsb69NPsWd/qXBwlSftEdazgLK+AGDFPVCl3ROr0iFAGOaTC69W8aM
+ 40ll+caY4/aqk+XFkIJm0XAr8Dv2pGwJhYwsW6sGNgr/TV50MBW9LDQkIfGZepPi+i90
+ PCY8DWTSbHhSuWMRiZSwBYCXzhDoUiqiPn29p2dEikZaCgg7BxjstpUzEDekNa37Hl2T
+ lSrXMk7FbthWIyQ5PutjBkfDtJmPOkyH/zkWJUFBx4H1gbDk+oKSDjExh117qsYNbnA6
+ OhDnxYrJv+MQRVlFX0JW/sGocG5+KSFX6l5iqkCsV/qq1TikH/OAK0ZYL7jj8mvTy1CQ aw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b991et954-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b93sths8e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Sep 2021 16:37:52 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18OKbqxu023722;
- Fri, 24 Sep 2021 16:37:52 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 3b991et94s-1
+ Fri, 24 Sep 2021 16:45:14 -0400
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18OJlME8020899;
+ Fri, 24 Sep 2021 16:45:13 -0400
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3b93sths7u-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Sep 2021 16:37:51 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18OKSM8A030037;
- Fri, 24 Sep 2021 20:37:51 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma05wdc.us.ibm.com with ESMTP id 3b93g7mm1a-1
+ Fri, 24 Sep 2021 16:45:13 -0400
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18OKS806002744;
+ Fri, 24 Sep 2021 20:45:12 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04wdc.us.ibm.com with ESMTP id 3b93g9mnhv-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 24 Sep 2021 20:37:51 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
- [9.57.199.107])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 18OKbocD27918732
+ Fri, 24 Sep 2021 20:45:12 +0000
+Received: from b03ledav001.gho.boulder.ibm.com
+ (b03ledav001.gho.boulder.ibm.com [9.17.130.232])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18OKjAEV51118436
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 24 Sep 2021 20:37:50 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 292AC12405A;
- Fri, 24 Sep 2021 20:37:50 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 46A25124054;
- Fri, 24 Sep 2021 20:37:44 +0000 (GMT)
+ Fri, 24 Sep 2021 20:45:10 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A2A1F6E058;
+ Fri, 24 Sep 2021 20:45:10 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7376A6E05B;
+ Fri, 24 Sep 2021 20:45:03 +0000 (GMT)
 Received: from farman-thinkpad-t470p (unknown [9.211.34.14])
- by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 24 Sep 2021 20:37:44 +0000 (GMT)
-Message-ID: <9c1f3f9321f595e6d42dab1413637ad927b6bf2d.camel@linux.ibm.com>
-Subject: Re: [PATCH v2 3/9] vfio/ccw: Convert to use vfio_register_group_dev()
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 24 Sep 2021 20:45:03 +0000 (GMT)
+Message-ID: <f887a563e688057d6759e6de65d480326f502331.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 7/9] vfio/ccw: Remove private->mdev
 From: Eric Farman <farman@linux.ibm.com>
 To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
  Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
@@ -80,24 +81,24 @@ To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
  <rodrigo.vivi@intel.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu
  Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
 Cc: Christoph Hellwig <hch@lst.de>
-Date: Fri, 24 Sep 2021 16:37:43 -0400
-In-Reply-To: <3-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
-References: <3-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+Date: Fri, 24 Sep 2021 16:45:02 -0400
+In-Reply-To: <7-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+References: <7-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
 Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Pe-5TWfx0OkA7Xf0fxmKLuWfEvxU88oH
-X-Proofpoint-GUID: XJdgXexPzpEuKd86av5RkT9tD0GdhQ34
+X-Proofpoint-ORIG-GUID: b2_yHavk4FB7ohGDjl3D7NrdyfGtthIz
+X-Proofpoint-GUID: XXc8zInA60qVYvXS8o2fAP6z_DnB2Knj
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
  definitions=2021-09-24_05,2021-09-24_02,2020-04-07_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0
- phishscore=0 mlxscore=0 mlxlogscore=999 bulkscore=0 spamscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ priorityscore=1501
+ phishscore=0 mlxlogscore=830 spamscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 bulkscore=0
+ mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2109230001 definitions=main-2109240124
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -115,128 +116,39 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Thu, 2021-09-09 at 16:38 -0300, Jason Gunthorpe wrote:
-> This is a more complicated conversion because vfio_ccw is sharing the
-> vfio_device between both the mdev_device, its vfio_device and the
-> css_driver.
+> Having a mdev pointer floating about in addition to a struct
+> vfio_device
+> is confusing. It is only used for three things:
 > 
-> The mdev is a singleton, and the reason for this sharing is so the
-> extra
-> css_driver function callbacks to be delivered to the vfio_device
-> implementation.
+> - Getting the mdev 'struct device *' - this is the same as
+>      private->vdev.dev
 > 
-> This keeps things as they are, with the css_driver allocating the
-> singleton, not the mdev_driver. Following patches work to clean this
-> further.
+> - Printing the uuid of the mdev in logging. The uuid is also the
+> dev_name
+>   of the mdev so this is the same string as
+>      dev_name(private->vdev.dev)
 > 
-> Embed the vfio_device in the vfio_ccw_private and instantiate it as a
-> vfio_device when the mdev probes. The drvdata of both the css_device
-> and
-> the mdev_device point at the private, and container_of is used to get
-> it
-> back from the vfio_device.
+> - A weird attempt to fence the vfio_ccw_sch_io_todo() work. This work
+> is
+>   only queued during states IDLE/PROCESSING/PENDING and flushed when
+>   entering CLOSED. Thus the work already cannot run when the mdev is
+> NULL.
+>   Remove it.
 > 
 > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 > ---
->  drivers/s390/cio/vfio_ccw_drv.c     |  21 ++++--
->  drivers/s390/cio/vfio_ccw_ops.c     | 107 +++++++++++++++++---------
-> --
->  drivers/s390/cio/vfio_ccw_private.h |   5 ++
->  3 files changed, 85 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/s390/cio/vfio_ccw_drv.c
-> b/drivers/s390/cio/vfio_ccw_drv.c
-> index 1e8d3151e5480e..396e815f81f8a4 100644
-> --- a/drivers/s390/cio/vfio_ccw_drv.c
-> +++ b/drivers/s390/cio/vfio_ccw_drv.c
-> @@ -469,7 +469,7 @@ static int __init vfio_ccw_sch_init(void)
->  	vfio_ccw_work_q = create_singlethread_workqueue("vfio-ccw");
->  	if (!vfio_ccw_work_q) {
->  		ret = -ENOMEM;
-> -		goto out_err;
-> +		goto out_regions;
->  	}
->  
->  	vfio_ccw_io_region =
-> kmem_cache_create_usercopy("vfio_ccw_io_region",
-> @@ -478,7 +478,7 @@ static int __init vfio_ccw_sch_init(void)
->  					sizeof(struct ccw_io_region),
-> NULL);
->  	if (!vfio_ccw_io_region) {
->  		ret = -ENOMEM;
-> -		goto out_err;
-> +		goto out_regions;
->  	}
->  
->  	vfio_ccw_cmd_region =
-> kmem_cache_create_usercopy("vfio_ccw_cmd_region",
-> @@ -487,7 +487,7 @@ static int __init vfio_ccw_sch_init(void)
->  					sizeof(struct ccw_cmd_region),
-> NULL);
->  	if (!vfio_ccw_cmd_region) {
->  		ret = -ENOMEM;
-> -		goto out_err;
-> +		goto out_regions;
->  	}
->  
->  	vfio_ccw_schib_region =
-> kmem_cache_create_usercopy("vfio_ccw_schib_region",
-> @@ -497,7 +497,7 @@ static int __init vfio_ccw_sch_init(void)
->  
->  	if (!vfio_ccw_schib_region) {
->  		ret = -ENOMEM;
-> -		goto out_err;
-> +		goto out_regions;
->  	}
->  
->  	vfio_ccw_crw_region =
-> kmem_cache_create_usercopy("vfio_ccw_crw_region",
-> @@ -507,19 +507,25 @@ static int __init vfio_ccw_sch_init(void)
->  
->  	if (!vfio_ccw_crw_region) {
->  		ret = -ENOMEM;
-> -		goto out_err;
-> +		goto out_regions;
->  	}
->  
-> +	ret = mdev_register_driver(&vfio_ccw_mdev_driver);
-> +	if (ret)
-> +		goto out_regions;
-> +
->  	isc_register(VFIO_CCW_ISC);
->  	ret = css_driver_register(&vfio_ccw_sch_driver);
->  	if (ret) {
->  		isc_unregister(VFIO_CCW_ISC);
-> -		goto out_err;
-> +		goto out_driver;
->  	}
->  
->  	return ret;
->  
-> -out_err:
-> +out_driver:
-> +	mdev_unregister_driver(&vfio_ccw_mdev_driver);
-> +out_regions:
->  	vfio_ccw_destroy_regions();
->  	destroy_workqueue(vfio_ccw_work_q);
->  	vfio_ccw_debug_exit();
-> @@ -528,6 +534,7 @@ static int __init vfio_ccw_sch_init(void)
->  
->  static void __exit vfio_ccw_sch_exit(void)
->  {
-> +	mdev_unregister_driver(&vfio_ccw_mdev_driver);
+>  drivers/s390/cio/vfio_ccw_drv.c     |  6 ++--
+>  drivers/s390/cio/vfio_ccw_fsm.c     | 48 +++++++++++++------------
+> ----
+>  drivers/s390/cio/vfio_ccw_ops.c     | 16 ++++------
+>  drivers/s390/cio/vfio_ccw_private.h |  2 --
+>  include/linux/mdev.h                |  4 ---
+>  5 files changed, 30 insertions(+), 46 deletions(-)
 
-Wouldn't it be better to mirror the unwind-init case, such that the
-above goes...
+I like this patch. Unfortunately it depends on the removal of a hunk in
+patch 4, which sets the FSM state to different values based on whether
+private->mdev is NULL or not, so can't go on its own. Need to spend
+more time thinking about that patch.
 
->  	css_driver_unregister(&vfio_ccw_sch_driver);
->  	isc_unregister(VFIO_CCW_ISC);
-
-...here?
-
->  	vfio_ccw_destroy_regions();
-> diff --git a/drivers/s390/cio/vfio_ccw_ops.c 
-
-...snip...
-
-Besides that, looks fine to me.
+Eric
 
