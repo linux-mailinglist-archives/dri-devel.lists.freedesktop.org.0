@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46EF416C27
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 08:51:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893DA416C29
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 08:51:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CDBF66EE0E;
-	Fri, 24 Sep 2021 06:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DD1B66EE07;
+	Fri, 24 Sep 2021 06:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 11ABB6EDF5;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0369F6EDF4;
  Fri, 24 Sep 2021 06:50:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id B396058107F;
- Fri, 24 Sep 2021 02:44:19 -0400 (EDT)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailnew.nyi.internal (Postfix) with ESMTP id BA6BC581082;
+ Fri, 24 Sep 2021 02:44:22 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 24 Sep 2021 02:44:19 -0400
+ by compute2.internal (MEProxy); Fri, 24 Sep 2021 02:44:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=xpHw3dVyitCss
- wUBuUby/MBpmwaRe7OGtFviC33KSf0=; b=Obavd4dRrAcTjE8izX7By+AWxmPWR
- sd95TNPTS45RoGX2YsI6pu4O4eW+14r+bNIq8ZgKpBqUqTDAV0DNIGCyKbPvEdxN
- J6K9f9vY4rVSQxDd3wds8VBLr3f4qAL9wxCnNByKNcMwVG0LvZD46WP/yexfLSPg
- ++HlaWjxBFjjwfkmKQ7sA0Lx014/SIZ0pauKFc1avmVyx46sMPBgwnv3SeYGfZ6d
- 3rY8SirosES4grZEVNbqh72rh3StVe580etPIsMqQWkQLB96NpWCcVz65r+S0TIb
- k2birgSYUEA/bBuPeaIaZJ+3DQuk0DM6BKPdEGMf4lQhyYBCKW8NkTpqg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=XfJogIGLAj5OT
+ 81g+tui9DWnR48Irs4IqE3/HCsJYoM=; b=ij/gSoCX7lvPk5tr1A9OXnqZqCMRr
+ U0haB6gEeGrh9Y9jN/nJwy6w+i5kDtagb7aEnzhFzgD2HOEM6DlS3UH+Kk6bFhjC
+ ebrgK7f/MHy5rHDg8y3AE9z7KmK13hnWr+wfF1auvNmv0lz4748rBukBbB1i/T4f
+ J5FIk8r0j1xguek2Pz4c4qQJ4L62LuJ4BI2f7QSx62q1kZhor5d0PyHH2WtFpJQJ
+ Hs9Cy34+aJ0tYQc/HuIBosphvrtUMOxDNr/QITNp5P1idIGKJEkbYGw36AcY2FiI
+ PT93zcxsfWgOKFE0BohvydKzh5BsM3DIeQU5ERYPYZLPYCzXxdnrH7Qfw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=xpHw3dVyitCsswUBuUby/MBpmwaRe7OGtFviC33KSf0=; b=KKbu+FcI
- qy/KmSy9fpXR+JUQxncRr4s1/ih7MSXWTbtu500gdkxQiDPlwjTrlHdz11R6N2wn
- Nhj9yoDh1V0R98KNMbTp1A87y7DmgBihS9wo1h6vpy2kTfoEItzIrVJkeniPP+zH
- i3XeJ4NPH/IZPHrdjuANggPDMppckBJMSZncjHm/h+S3USAeuJz9sorE1ITiAzNq
- 3aOOiJdY3c6N9kWWbIcdKhhm918XQ0MOT32MW1lX6K1d4lN+Xkoz0ocy1MB4W2kE
- PVQloOsYAFF+A4ygMGzaBTK3vOP+rc8rEAwU934oNsuSpFY0eexZhIDkhReQ0IfH
- R2JQsOheFX8iWQ==
-X-ME-Sender: <xms:w3NNYZbKJPz8mzYSYBvo7-ZTV7oWimulnFe3_tK5DJ9ieqwT_JG3_A>
- <xme:w3NNYQYi64eIHF3wC_E-jGWVmViv_V5baeELplOZ2e73MjqzouM2lCwOHdorxcPiR
- x0vsNq2BkUkggQR_g>
-X-ME-Received: <xmr:w3NNYb84l6iRJJ1CLp7rGSgpsZINnndDrJ-wdK1j7hxSHFtIvIDQmOU7lkkKYDZtHU1w>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetggdotefrod
+ fm3; bh=XfJogIGLAj5OT81g+tui9DWnR48Irs4IqE3/HCsJYoM=; b=amtM/Scu
+ 45i/msMp1j/6QmVXCuKWbczO3R6PXM4V2IqrrtRNMczn528AikHK1P4YKlI557MZ
+ YRQGReMlh7/kCFniNkGe+g7ERM3UoDjWukuRpfccgIkKvRt6IMbKWzlbIvW6vB7L
+ wqHLHpmjDJFeKAxf6X7K+5LnJ4GuF7ivlti/9CcXik+fVplAymdFYum7eByYKCZo
+ 9zF3/wDeRu8YQr/eEM7cI3yCJBNDgf0TJ2hrrfxcacu+n2JNWKORSwc32TB3Nvav
+ 7bt43SpqlSb6ET66yp3mcBZHJgyGv4kKwc6LcgYF2gPV3qWdQ45sJbDC5DqRrvLU
+ KUhQ23ysoOM1SQ==
+X-ME-Sender: <xms:xnNNYSvEzsNEIDIAsKMKyBq1Y1KpBd5sGi0Y_-LjnXGX_C-TGGLziA>
+ <xme:xnNNYXdE4oyjZcvRl-GxJtVInMAYdqKNVTDhehR4JpkmZvtIOpjb3_FCwdDbhZqgb
+ GRlDo-MQaUr9kzU3g>
+X-ME-Received: <xmr:xnNNYdxo7owbIRCtkYUXDdcMOrCvDqD3RWirTKdRY5rqoh-LMZcps_N6Lt9xhA3TPtB_>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedunecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeegnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:w3NNYXovVtyZ4y8LR8CM83Egi624L2YfqgXJcGIh9NRrw6lr7CjPtA>
- <xmx:w3NNYUqXFQw70sypI0sfdCMfqG6_H8e3cUv00thuYY166VyinySyVA>
- <xmx:w3NNYdSCPLBQuCh2cmc9VY-_vdwfp7XQ_WPVKb-RjXW5o7xdkGcw8w>
- <xmx:w3NNYb0inv4xpxoiFdX9SibNlPZstkWhkvwsUYFGd9DHyK5xBAg2iA>
+X-ME-Proxy: <xmx:xnNNYdO5a-sMk-t_g8OUbcznBnK42aehjeXKomDIZX14mNFK5FcOPQ>
+ <xmx:xnNNYS91mYrXXL9edztOfmblpQ9uVG88-cFkO2gSC01eT4_wwgg99w>
+ <xmx:xnNNYVW72SwU9pak8JcwrTPW1yJkAVUZF5v8sdlKx-vtGJKA0GT-lA>
+ <xmx:xnNNYVb1fg46HdQu4etxelBVYEKR4qB7pQhZQgYnzuXz9_IZ55PtXg>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 02:44:16 -0400 (EDT)
+ 24 Sep 2021 02:44:19 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,9 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v2 16/17] drm: cleanup: remove drm_modeset_(un)lock_all()
-Date: Fri, 24 Sep 2021 08:43:23 +0200
-Message-Id: <20210924064324.229457-17-greenfoo@u92.eu>
+Subject: [PATCH v2 17/17] doc: drm: remove TODO entry regarding
+ DRM_MODSET_LOCK_ALL cleanup
+Date: Fri, 24 Sep 2021 08:43:24 +0200
+Message-Id: <20210924064324.229457-18-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924064324.229457-1-greenfoo@u92.eu>
 References: <20210924064324.229457-1-greenfoo@u92.eu>
@@ -85,140 +86,57 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Functions drm_modeset_lock_all() and drm_modeset_unlock_all() are no
-longer used anywhere and can be removed.
+The previous commits do exactly what this entry in the TODO file asks
+for, thus we can remove it now as it is no longer applicable.
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+Reviewed-by: Sean Paul <sean@poorly.run>
 ---
- drivers/gpu/drm/drm_modeset_lock.c | 94 +-----------------------------
- include/drm/drm_modeset_lock.h     |  2 -
- 2 files changed, 3 insertions(+), 93 deletions(-)
+ Documentation/gpu/todo.rst                | 17 -----------------
+ Documentation/locking/ww-mutex-design.rst |  2 +-
+ 2 files changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-index fcfe1a03c4a1..afd1351749a5 100644
---- a/drivers/gpu/drm/drm_modeset_lock.c
-+++ b/drivers/gpu/drm/drm_modeset_lock.c
-@@ -77,93 +77,6 @@
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 12e61869939e..6613543955e9 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -353,23 +353,6 @@ converted, except for struct drm_driver.gem_prime_mmap.
  
- static DEFINE_WW_CLASS(crtc_ww_class);
+ Level: Intermediate
  
--/**
-- * drm_modeset_lock_all - take all modeset locks
-- * @dev: DRM device
-- *
-- * This function takes all modeset locks, suitable where a more fine-grained
-- * scheme isn't (yet) implemented. Locks must be dropped by calling the
-- * drm_modeset_unlock_all() function.
-- *
-- * This function is deprecated. It allocates a lock acquisition context and
-- * stores it in &drm_device.mode_config. This facilitate conversion of
-- * existing code because it removes the need to manually deal with the
-- * acquisition context, but it is also brittle because the context is global
-- * and care must be taken not to nest calls. New code should use the
-- * drm_modeset_lock_all_ctx() function and pass in the context explicitly.
-- */
--void drm_modeset_lock_all(struct drm_device *dev)
--{
--	struct drm_mode_config *config = &dev->mode_config;
--	struct drm_modeset_acquire_ctx *ctx;
--	int ret;
+-Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
+----------------------------------------------------------
 -
--	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL | __GFP_NOFAIL);
--	if (WARN_ON(!ctx))
--		return;
+-For cases where drivers are attempting to grab the modeset locks with a local
+-acquire context. Replace the boilerplate code surrounding
+-drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
+-DRM_MODESET_LOCK_ALL_END() instead.
 -
--	mutex_lock(&config->mutex);
+-This should also be done for all places where drm_modeset_lock_all() is still
+-used.
 -
--	drm_modeset_acquire_init(ctx, 0);
+-As a reference, take a look at the conversions already completed in drm core.
 -
--retry:
--	ret = drm_modeset_lock_all_ctx(dev, ctx);
--	if (ret < 0) {
--		if (ret == -EDEADLK) {
--			drm_modeset_backoff(ctx);
--			goto retry;
--		}
+-Contact: Sean Paul, respective driver maintainers
 -
--		drm_modeset_acquire_fini(ctx);
--		kfree(ctx);
--		return;
--	}
--	ww_acquire_done(&ctx->ww_ctx);
+-Level: Starter
 -
--	WARN_ON(config->acquire_ctx);
--
--	/*
--	 * We hold the locks now, so it is safe to stash the acquisition
--	 * context for drm_modeset_unlock_all().
--	 */
--	config->acquire_ctx = ctx;
--
--	drm_warn_on_modeset_not_all_locked(dev);
--}
--EXPORT_SYMBOL(drm_modeset_lock_all);
--
--/**
-- * drm_modeset_unlock_all - drop all modeset locks
-- * @dev: DRM device
-- *
-- * This function drops all modeset locks taken by a previous call to the
-- * drm_modeset_lock_all() function.
-- *
-- * This function is deprecated. It uses the lock acquisition context stored
-- * in &drm_device.mode_config. This facilitates conversion of existing
-- * code because it removes the need to manually deal with the acquisition
-- * context, but it is also brittle because the context is global and care must
-- * be taken not to nest calls. New code should pass the acquisition context
-- * directly to the drm_modeset_drop_locks() function.
-- */
--void drm_modeset_unlock_all(struct drm_device *dev)
--{
--	struct drm_mode_config *config = &dev->mode_config;
--	struct drm_modeset_acquire_ctx *ctx = config->acquire_ctx;
--
--	if (WARN_ON(!ctx))
--		return;
--
--	config->acquire_ctx = NULL;
--	drm_modeset_drop_locks(ctx);
--	drm_modeset_acquire_fini(ctx);
--
--	kfree(ctx);
--
--	mutex_unlock(&dev->mode_config.mutex);
--}
--EXPORT_SYMBOL(drm_modeset_unlock_all);
--
- /**
-  * drm_warn_on_modeset_not_all_locked - check that all modeset locks are locked
-  * @dev: device
-@@ -380,10 +293,9 @@ EXPORT_SYMBOL(drm_modeset_unlock);
-  * This function takes all modeset locks, suitable where a more fine-grained
-  * scheme isn't (yet) implemented.
-  *
-- * Unlike drm_modeset_lock_all(), it doesn't take the &drm_mode_config.mutex
-- * since that lock isn't required for modeset state changes. Callers which
-- * need to grab that lock too need to do so outside of the acquire context
-- * @ctx.
-+ * It doesn't take the &drm_mode_config.mutex since that lock isn't required for
-+ * modeset state changes. Callers which need to grab that lock too need to do so
-+ * outside of the acquire context @ctx.
-  *
-  * Locks acquired with this function should be released by calling the
-  * drm_modeset_drop_locks() function on @ctx.
-diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
-index aafd07388eb7..865e64bcc4cb 100644
---- a/include/drm/drm_modeset_lock.h
-+++ b/include/drm/drm_modeset_lock.h
-@@ -132,8 +132,6 @@ struct drm_device;
- struct drm_crtc;
- struct drm_plane;
+ Rename CMA helpers to DMA helpers
+ ---------------------------------
  
--void drm_modeset_lock_all(struct drm_device *dev);
--void drm_modeset_unlock_all(struct drm_device *dev);
- void drm_warn_on_modeset_not_all_locked(struct drm_device *dev);
+diff --git a/Documentation/locking/ww-mutex-design.rst b/Documentation/locking/ww-mutex-design.rst
+index 6a4d7319f8f0..6a8f8beb9ec4 100644
+--- a/Documentation/locking/ww-mutex-design.rst
++++ b/Documentation/locking/ww-mutex-design.rst
+@@ -60,7 +60,7 @@ Concepts
+ Compared to normal mutexes two additional concepts/objects show up in the lock
+ interface for w/w mutexes:
  
- int drm_modeset_lock_all_ctx(struct drm_device *dev,
+-Acquire context: To ensure eventual forward progress it is important the a task
++Acquire context: To ensure eventual forward progress it is important that a task
+ trying to acquire locks doesn't grab a new reservation id, but keeps the one it
+ acquired when starting the lock acquisition. This ticket is stored in the
+ acquire context. Furthermore the acquire context keeps track of debugging state
 -- 
 2.33.0
 
