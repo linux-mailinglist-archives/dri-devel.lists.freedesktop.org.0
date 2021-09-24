@@ -1,76 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 893DA416C29
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 08:51:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 347BA416CA3
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 09:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD1B66EE07;
-	Fri, 24 Sep 2021 06:50:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C59386EDF6;
+	Fri, 24 Sep 2021 07:17:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0369F6EDF4;
- Fri, 24 Sep 2021 06:50:53 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id BA6BC581082;
- Fri, 24 Sep 2021 02:44:22 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Fri, 24 Sep 2021 02:44:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=XfJogIGLAj5OT
- 81g+tui9DWnR48Irs4IqE3/HCsJYoM=; b=ij/gSoCX7lvPk5tr1A9OXnqZqCMRr
- U0haB6gEeGrh9Y9jN/nJwy6w+i5kDtagb7aEnzhFzgD2HOEM6DlS3UH+Kk6bFhjC
- ebrgK7f/MHy5rHDg8y3AE9z7KmK13hnWr+wfF1auvNmv0lz4748rBukBbB1i/T4f
- J5FIk8r0j1xguek2Pz4c4qQJ4L62LuJ4BI2f7QSx62q1kZhor5d0PyHH2WtFpJQJ
- Hs9Cy34+aJ0tYQc/HuIBosphvrtUMOxDNr/QITNp5P1idIGKJEkbYGw36AcY2FiI
- PT93zcxsfWgOKFE0BohvydKzh5BsM3DIeQU5ERYPYZLPYCzXxdnrH7Qfw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=XfJogIGLAj5OT81g+tui9DWnR48Irs4IqE3/HCsJYoM=; b=amtM/Scu
- 45i/msMp1j/6QmVXCuKWbczO3R6PXM4V2IqrrtRNMczn528AikHK1P4YKlI557MZ
- YRQGReMlh7/kCFniNkGe+g7ERM3UoDjWukuRpfccgIkKvRt6IMbKWzlbIvW6vB7L
- wqHLHpmjDJFeKAxf6X7K+5LnJ4GuF7ivlti/9CcXik+fVplAymdFYum7eByYKCZo
- 9zF3/wDeRu8YQr/eEM7cI3yCJBNDgf0TJ2hrrfxcacu+n2JNWKORSwc32TB3Nvav
- 7bt43SpqlSb6ET66yp3mcBZHJgyGv4kKwc6LcgYF2gPV3qWdQ45sJbDC5DqRrvLU
- KUhQ23ysoOM1SQ==
-X-ME-Sender: <xms:xnNNYSvEzsNEIDIAsKMKyBq1Y1KpBd5sGi0Y_-LjnXGX_C-TGGLziA>
- <xme:xnNNYXdE4oyjZcvRl-GxJtVInMAYdqKNVTDhehR4JpkmZvtIOpjb3_FCwdDbhZqgb
- GRlDo-MQaUr9kzU3g>
-X-ME-Received: <xmr:xnNNYdxo7owbIRCtkYUXDdcMOrCvDqD3RWirTKdRY5rqoh-LMZcps_N6Lt9xhA3TPtB_>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtkecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
- ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeegnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:xnNNYdO5a-sMk-t_g8OUbcznBnK42aehjeXKomDIZX14mNFK5FcOPQ>
- <xmx:xnNNYS91mYrXXL9edztOfmblpQ9uVG88-cFkO2gSC01eT4_wwgg99w>
- <xmx:xnNNYVW72SwU9pak8JcwrTPW1yJkAVUZF5v8sdlKx-vtGJKA0GT-lA>
- <xmx:xnNNYVb1fg46HdQu4etxelBVYEKR4qB7pQhZQgYnzuXz9_IZ55PtXg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 02:44:19 -0400 (EDT)
-From: Fernando Ramos <greenfoo@u92.eu>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: [PATCH v2 17/17] doc: drm: remove TODO entry regarding
- DRM_MODSET_LOCK_ALL cleanup
-Date: Fri, 24 Sep 2021 08:43:24 +0200
-Message-Id: <20210924064324.229457-18-greenfoo@u92.eu>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210924064324.229457-1-greenfoo@u92.eu>
-References: <20210924064324.229457-1-greenfoo@u92.eu>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AE8746EDF6
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 07:17:31 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mTfSX-0001C5-1y; Fri, 24 Sep 2021 09:17:25 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mTfSJ-0000Br-JT; Fri, 24 Sep 2021 09:17:11 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mTfSJ-0007OO-I4; Fri, 24 Sep 2021 09:17:11 +0200
+Date: Fri, 24 Sep 2021 09:16:52 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, Doug Anderson <dianders@google.com>
+Subject: Re: [PATCH v5 1/2] pwm: Introduce single-PWM of_xlate function
+Message-ID: <20210924071652.skkx2jgeivg4uiht@pengutronix.de>
+References: <20210924021225.846197-1-bjorn.andersson@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="czfclota4l3jcmxr"
+Content-Disposition: inline
+In-Reply-To: <20210924021225.846197-1-bjorn.andersson@linaro.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,57 +65,100 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous commits do exactly what this entry in the TODO file asks
-for, thus we can remove it now as it is no longer applicable.
 
-Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
-Reviewed-by: Sean Paul <sean@poorly.run>
----
- Documentation/gpu/todo.rst                | 17 -----------------
- Documentation/locking/ww-mutex-design.rst |  2 +-
- 2 files changed, 1 insertion(+), 18 deletions(-)
+--czfclota4l3jcmxr
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 12e61869939e..6613543955e9 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -353,23 +353,6 @@ converted, except for struct drm_driver.gem_prime_mmap.
- 
- Level: Intermediate
- 
--Use DRM_MODESET_LOCK_ALL_* helpers instead of boilerplate
-----------------------------------------------------------
--
--For cases where drivers are attempting to grab the modeset locks with a local
--acquire context. Replace the boilerplate code surrounding
--drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN() and
--DRM_MODESET_LOCK_ALL_END() instead.
--
--This should also be done for all places where drm_modeset_lock_all() is still
--used.
--
--As a reference, take a look at the conversions already completed in drm core.
--
--Contact: Sean Paul, respective driver maintainers
--
--Level: Starter
--
- Rename CMA helpers to DMA helpers
- ---------------------------------
- 
-diff --git a/Documentation/locking/ww-mutex-design.rst b/Documentation/locking/ww-mutex-design.rst
-index 6a4d7319f8f0..6a8f8beb9ec4 100644
---- a/Documentation/locking/ww-mutex-design.rst
-+++ b/Documentation/locking/ww-mutex-design.rst
-@@ -60,7 +60,7 @@ Concepts
- Compared to normal mutexes two additional concepts/objects show up in the lock
- interface for w/w mutexes:
- 
--Acquire context: To ensure eventual forward progress it is important the a task
-+Acquire context: To ensure eventual forward progress it is important that a task
- trying to acquire locks doesn't grab a new reservation id, but keeps the one it
- acquired when starting the lock acquisition. This ticket is stored in the
- acquire context. Furthermore the acquire context keeps track of debugging state
--- 
-2.33.0
+On Thu, Sep 23, 2021 at 09:12:24PM -0500, Bjorn Andersson wrote:
+> The existing pxa driver and the upcoming addition of PWM support in the
+> TI sn565dsi86 DSI/eDP bridge driver both has a single PWM channel and
+> thereby a need for a of_xlate function with the period as its single
+> argument.
+>=20
+> Introduce a common helper function in the core that can be used as
+> of_xlate by such drivers and migrate the pxa driver to use this.
+>=20
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> ---
+>=20
+> Changes since v4:
+> - None
+>=20
+>  drivers/pwm/core.c    | 26 ++++++++++++++++++++++++++
+>  drivers/pwm/pwm-pxa.c | 16 +---------------
+>  include/linux/pwm.h   |  2 ++
+>  3 files changed, 29 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 4527f09a5c50..2c6b155002a2 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -152,6 +152,32 @@ of_pwm_xlate_with_flags(struct pwm_chip *pc, const s=
+truct of_phandle_args *args)
+>  }
+>  EXPORT_SYMBOL_GPL(of_pwm_xlate_with_flags);
+> =20
+> +struct pwm_device *
+> +of_pwm_single_xlate(struct pwm_chip *pc, const struct of_phandle_args *a=
+rgs)
+> +{
+> +	struct pwm_device *pwm;
+> +
+> +	if (pc->of_pwm_n_cells < 1)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/* validate that one cell is specified, optionally with flags */
+> +	if (args->args_count !=3D 1 && args->args_count !=3D 2)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	pwm =3D pwm_request_from_chip(pc, 0, NULL);
+> +	if (IS_ERR(pwm))
+> +		return pwm;
+> +
+> +	pwm->args.period =3D args->args[0];
+> +	pwm->args.polarity =3D PWM_POLARITY_NORMAL;
+> +
+> +	if (args->args_count =3D=3D 2 && args->args[2] & PWM_POLARITY_INVERTED)
+> +		pwm->args.polarity =3D PWM_POLARITY_INVERSED;
 
+of_pwm_xlate_with_flags is a bit more complicated. Translating
+accordingly this would yield:
+
+	if (pc->of_pwm_n_cells >=3D 2) {
+		if (args->args_count > 1 && args->args[1] & PWM_POLARITY_INVERTED)
+			pwm->args.polarity =3D PWM_POLARITY_INVERSED;
+	}
+
+Given that pc->of_pwm_n_cells isn't used when a phandle is parsed (in
+of_pwm_get()) I think your variant is fine.
+
+So I think technically the patch is good, for me the question is if we
+want to make new drivers of_pwm_xlate_with_flags for consistency even
+though this would mean that the first argument has to be 0 for all
+phandles. Thierry? Lee?
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--czfclota4l3jcmxr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFNe2AACgkQwfwUeK3K
+7AkJigf/dCcK+ArZLHg6H2J5WGPyvuN0gQ4thd04H9zv04pknzDifSMUFGzifhEw
+hScmzm52aAKcyqGxGrNXpbGd277DQxZMJV36LUTuoqfUQQ2iaZipZdt4vkSWXa50
+0jSmKPKc7wvmzekUlTv83QTlARSY0oVjRVSgm4bQZR4xLwh9N0hpgEyirHXlxdQm
+GQUoeeMn5mcs0hlFsD3Zqyc3YJNuoKryMbg4DGryIAkHtrwGyFFqrzQteFrZPR6D
+suQ9hhKNPDoWCmu9NLCU9dEoZQpbWwUIjdDTaOkqTagYGPT+SwwN8ylZv257OOj/
+g714raZN4M1l6watMBW3FlXL4VBkPw==
+=Df4T
+-----END PGP SIGNATURE-----
+
+--czfclota4l3jcmxr--
