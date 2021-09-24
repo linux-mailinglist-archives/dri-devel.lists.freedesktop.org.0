@@ -1,61 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE41417652
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 15:55:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A82417655
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 15:55:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96B276EE19;
-	Fri, 24 Sep 2021 13:55:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0D056EE1E;
+	Fri, 24 Sep 2021 13:55:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
  [66.111.4.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E6C536EE19
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 13:55:33 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 5E0D35C0236;
- Fri, 24 Sep 2021 09:55:33 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 776F66EE1E
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 13:55:35 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id E416A5C0240;
+ Fri, 24 Sep 2021 09:55:34 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Fri, 24 Sep 2021 09:55:33 -0400
+ by compute4.internal (MEProxy); Fri, 24 Sep 2021 09:55:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm3; bh=qutxWftZ6OBZeX1kVy9tGxbqKI
- Y4+VANbGmn3Ivw2jU=; b=Sn3pBIVt7xtXGpz0T14jRRbcdsVivPCOIMSs9Tu8co
- jWNNEIViEgVQ8x8W6SKDSRiG8r3lLhm0l3IfX80ZLlWxgqD/E9xfxECqbE1KWPu4
- bHRnsVSnV1bB8Pv9JLpVEMOzDL7PvN0YBQse6e0AFo2wXiW1bobxiWZO78y0i8lX
- yvtLDD4Mg2pnncsd2ZzuwKgcCCAQTZFCQzwKu7mleRI26L84h4H3rC29ivdwXb/o
- poan1GFzTHDda9xAVXyGrXD3iPFDwO/VO6DfkHUhRAf0U1dzqK/VxsxQIqE0zRPZ
- Dil/Jb0fA93J1sL6LOqvsFOyg7Ao6PnsrdqiquhvQOxw==
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=Sv0qPnJN/S3pk
+ T/0nnOvVtdE+WlCbnHcL+fpK10WEsA=; b=2xXR6o3OTol+MGcjrhuRRuQdPNCRQ
+ PB0ONp80Fkbnc7soxWsydNKVbinrIsfveiqUitjD3vhoSmHC27I1BVgT75EpxBLU
+ d3yEgyBmuXLesox9cge89hi5qJVYnza2ViLFloawXwqvq5gAJ2uapzoxWGnduvE/
+ PtBl4UKnms7eyuezyJ9HvcJXk8n0WRq+1Lz5LSTq8SDfNhGdmVyQUkFDE5jXo8iE
+ ZZZY8dE6TE22ZnoWViAXqnDMKcjYpZDE6CL1mJFRWWlO8wb1oRrCPEQm3UDmIHPz
+ k3V64DVJHQv7T+4NiIrgnGrLnimnb7uTyLOlkfXxunCdVl9a9xKIgh2cw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=qutxWf
- tZ6OBZeX1kVy9tGxbqKIY4+VANbGmn3Ivw2jU=; b=aJT4dzBEkISheySzP3cQ5x
- CD+UlKojBcMG2idIlaIdwWmfQH89bnpAZCrRePFz0jIng4sVQ5DxsYUBRAwcna3O
- HjJmFFlzZFe3+i6zuI9O4QggJG8bbiLleCEcpo8z8lxB1fg6VW/HAl4afWP4h2Ck
- EWrQwN79SmM4sYM197+D7FSV1i+3J+L+kv8/0kvNJB0TO2KENVxtvnft3J9USQFk
- G6LvotodPeUOOl6BXEJR2Fg8gvKOCyIht4XMLoBT688+tH457Wg9uertbnTlcAxY
- T2k6Sw2O3paFtKAg2Y6R3C9k49nLoQ19poCT7/jfNQYN46l0XEKDORslORGGh0iQ
- ==
-X-ME-Sender: <xms:09hNYTA0JARDWnnhvnf1VM1SQxFP9j7H0Q1e8yIbWvvI6QhkOBC2Rg>
- <xme:09hNYZh0g06n9SOavUF0IlaVTMTKt5fp91kqyXwqG6pnNqUm_uvcfjAj7L-qfGHUJ
- FcINOMx5e_r_oBhX6M>
-X-ME-Received: <xmr:09hNYemMOczLNr1AOTIMAT0ib2-vQlCT3VWqz5FfttGEu37hnMEwHL-LVym9SqhMUSOxQRlLf-r9RRZbz_iI6lsxPW8IrqsXl5Tr>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejuddgieelucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; bh=Sv0qPnJN/S3pkT/0nnOvVtdE+WlCbnHcL+fpK10WEsA=; b=YyG+taqp
+ b2mr2+sYnh+MV+RdcmrwHC09SGXk9M5bV0NgRULJILxnST1LqckSsWD69BCcyvpI
+ HrWPMaql3NjmYRjnoy32AxVIySSGSwT/U1jka4XCmwPc3mUq4KL+omMv38e/LL8M
+ u9EVyIIa6mriuaMJd/wEorFoYtiiZYiR9sRbMqgNCDRS1tl9/62tpnG9QPmfoJiI
+ HV0Js9LCxgH4ZR/hRlnJUqsfbDsBxByrAl5SD0B/QnnJk0SWYlcSgllw0sW8G4d6
+ 7fX7cClZQBbe0ij8+PggFwTx8ZNfEawlm6+JLfodmZP48zYglvZLdbtw8FshfowI
+ 89EKoSww+gnkGQ==
+X-ME-Sender: <xms:1thNYZD7e3e3etycTvGxp7q8QW518IvrJ83rjWkqk9Sj74kS8CIPSQ>
+ <xme:1thNYXiYg1R8xgqnv8z16IJrUrhdABUo2JbfpQGobWQ_RfLyPQxg0w2TuJ7_VuFTo
+ dLW-eDWHY3E7KmRLZg>
+X-ME-Received: <xmr:1thNYUkTBM0BXpbAP1ryDYkaeLew9dFLrRZbL2iFAwNWxdIhI-UzJKxkAAbz_jl8_jxriID-JRDgwTuf-uuMaa0QwgwZFSqAPtte>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejuddgjedtucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
- ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
- gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
- feenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrg
- igihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:1NhNYVzByeKUQC6YzfIKHkYFRFIZAXsJjbP7ken5eVN7uoZor-TxPw>
- <xmx:1NhNYYTAsxjfj1tJjR3nvBO4WlghH4Vip0HmO17g3GxS9YkcQPpFZQ>
- <xmx:1NhNYYYsFnZ-MJaEc-DhCaN-coKo3fWaAARLZLxuZwQOmxwO1I_DRA>
- <xmx:1dhNYdRUk73QcwpTPh7xxEiuqfukJKGUH6cvOSfZs5ozfpEnuS1jWg>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+ vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+ htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+ hedvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepmh
+ grgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:1thNYTw4P06AyBmAbwpMCWYvFByxIJDm28ao0DFDLS8-Xy9_N90nag>
+ <xmx:1thNYeSdBDlE2hOIqLG8zucyPnSFGzpGHQn1hSqYjHbAzD4bv1-ZZw>
+ <xmx:1thNYWau6DN4on-NwKDRUpLTdbkMXy1UoSKizwYp9UQ7w0ohmcjvaQ>
+ <xmx:1thNYbQwZIX-oJziGcH4GiFeGGHA6MGFxApGGVRFlvv1UAit4qFzmA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 09:55:31 -0400 (EDT)
+ 24 Sep 2021 09:55:34 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <maxime@cerno.tech>
@@ -63,13 +63,14 @@ Cc: Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
  dri-devel@lists.freedesktop.org,
  Linus Torvalds <torvalds@linux-foundation.org>,
  linux-kernel@vger.kernel.org, Sudip Mukherjee <sudipm.mukherjee@gmail.com>
-Subject: [PATCH 0/2] drm/vc4: hdmi: Get rid of encoder->crtc, take 2
-Date: Fri, 24 Sep 2021 15:55:28 +0200
-Message-Id: <20210924135530.1036564-1-maxime@cerno.tech>
+Subject: [PATCH 1/2] drm/vc4: hdmi: Check the device state in prepare()
+Date: Fri, 24 Sep 2021 15:55:29 +0200
+Message-Id: <20210924135530.1036564-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210924135530.1036564-1-maxime@cerno.tech>
+References: <20210924135530.1036564-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,52 +86,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,=0D
-=0D
-Following the report from Sudip Mukherjee, the previous version of that pat=
-ch=0D
-got reverted until a fix was found.=0D
-=0D
-While it's not clear yet why we end up in that situation, the culprit is th=
-at=0D
-the original patch in its ASoC prepare hook was calling the vc4_hdmi_set_n_=
-cts=0D
-function that in turned relied on the connector->state->crtc pointer being=
-=0D
-non-NULL.=0D
-=0D
-However, no particular caution was being done to make sure that was the cas=
-e,=0D
-eventually leading to a NULL pointer dereference under the "right"=0D
-circumstances.=0D
-=0D
-We did however had some checks for the pointers sanity in the original patc=
-h,=0D
-but they were only enforced when the device was opened, and we were only=0D
-checking for the connector->state pointer.=0D
-=0D
-The fix is then two-fold: First, we check that we can actually perform audi=
-o=0D
-operations in both startup and prepare, since the situation could have chan=
-ged=0D
-between the time the device was opened and the time when we actually start=
-=0D
-streaming. Then, the encoder->crtc conversion patch has been changed to che=
-ck=0D
-on connector->state->crtc as well in that sanity check to avoid dereferenci=
-ng=0D
-it if it's NULL.=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Maxime Ripard (2):=0D
-  drm/vc4: hdmi: Check the device state in prepare()=0D
-  drm/vc4: hdmi: Remove drm_encoder->crtc usage=0D
-=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c | 75 ++++++++++++++++++++++++++--------=0D
- 1 file changed, 57 insertions(+), 18 deletions(-)=0D
-=0D
--- =0D
-2.31.1=0D
-=0D
+Even though we already check that the encoder->crtc pointer is there
+during in startup(), which is part of the open() path in ASoC, nothing
+guarantees that our encoder state won't change between the time when we
+open the device and the time we prepare it.
+
+Move the sanity checks we do in startup() to a helper and call it from
+prepare().
+
+Fixes: 91e99e113929 ("drm/vc4: hdmi: Register HDMI codec")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index b4b4653fe301..74f9df38815e 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1227,17 +1227,31 @@ static inline struct vc4_hdmi *dai_to_hdmi(struct snd_soc_dai *dai)
+ 	return snd_soc_card_get_drvdata(card);
+ }
+ 
++static bool vc4_hdmi_audio_can_stream(struct vc4_hdmi *vc4_hdmi)
++{
++	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
++
++	/*
++	 * The encoder doesn't have a CRTC until the first modeset.
++	 */
++	if (!encoder->crtc)
++		return false;
++
++	/*
++	 * If the encoder is currently in DVI mode, treat the codec DAI
++	 * as missing.
++	 */
++	if (!(HDMI_READ(HDMI_RAM_PACKET_CONFIG) & VC4_HDMI_RAM_PACKET_ENABLE))
++		return false;
++
++	return true;
++}
++
+ static int vc4_hdmi_audio_startup(struct device *dev, void *data)
+ {
+ 	struct vc4_hdmi *vc4_hdmi = dev_get_drvdata(dev);
+-	struct drm_encoder *encoder = &vc4_hdmi->encoder.base.base;
+ 
+-	/*
+-	 * If the HDMI encoder hasn't probed, or the encoder is
+-	 * currently in DVI mode, treat the codec dai as missing.
+-	 */
+-	if (!encoder->crtc || !(HDMI_READ(HDMI_RAM_PACKET_CONFIG) &
+-				VC4_HDMI_RAM_PACKET_ENABLE))
++	if (!vc4_hdmi_audio_can_stream(vc4_hdmi))
+ 		return -ENODEV;
+ 
+ 	vc4_hdmi->audio.streaming = true;
+@@ -1339,6 +1353,9 @@ static int vc4_hdmi_audio_prepare(struct device *dev, void *data,
+ 	u32 mai_audio_format;
+ 	u32 mai_sample_rate;
+ 
++	if (!vc4_hdmi_audio_can_stream(vc4_hdmi))
++		return -EINVAL;
++
+ 	dev_dbg(dev, "%s: %u Hz, %d bit, %d channels\n", __func__,
+ 		sample_rate, params->sample_width, channels);
+ 
+-- 
+2.31.1
+
