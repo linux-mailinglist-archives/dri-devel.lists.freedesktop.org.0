@@ -2,63 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB42D416F86
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 11:51:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD75F416F92
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 11:51:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 450B16E1A3;
-	Fri, 24 Sep 2021 09:50:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DF36F6E1A7;
+	Fri, 24 Sep 2021 09:51:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 431666E1A3
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 09:50:55 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F2616E1A7;
+ Fri, 24 Sep 2021 09:51:52 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f0dd600d43e805889b23e24.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f0d:d600:d43e:8058:89b2:3e24])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6E9F71FFDF;
- Fri, 24 Sep 2021 09:50:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632477053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HXSzZXDeq6sDETrwr8IYwHXWL5FPSSLWFDjZztxONpY=;
- b=zm2A0vFDp8f7D50gwfSfI3mGnD2AXntPkuajuz2cURQydVH1zu4+cQvBYABAMTGrJ75eHH
- WXLTNQMAono9UO8LqnKMnNJg1XoLmWAYhHJG/CSW0Q29b+Kne1aRUjnz0IgiPUsHhmXnzZ
- LtU6b0gkEbIGolAflxHbKmkYJ6/0o0M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632477053;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HXSzZXDeq6sDETrwr8IYwHXWL5FPSSLWFDjZztxONpY=;
- b=9YHjSReWjJ9CQ54aNqYaVG4TVEvh+0d9d4mUObwBvX8WTM4j362MqPX55MVTuSy9lKSw0S
- XiNK2KsEEJgq/aCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4C03F139F0;
- Fri, 24 Sep 2021 09:50:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 7f2cEX2fTWEtPAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 24 Sep 2021 09:50:53 +0000
-Message-ID: <dc360ac4-a731-bb87-b9ae-bf3addb54448@suse.de>
-Date: Fri, 24 Sep 2021 11:50:52 +0200
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id DC4151EC0301;
+ Fri, 24 Sep 2021 11:51:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1632477106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=chSLn6PIxzKxo322BTSR3wKHxsK14lHDAqUJBVwt9Eo=;
+ b=CfbAAofZ6R9ns5NFPki+7QaitPLpejuXdZJnxlWVBsvBowrNUxHEqrUKe2Y/BdplMet7fD
+ Nq3F50WTgrfr42U+7z5YTTrv+pRjCylIw87rlK6B7Va1B8V8LlSqHAb6L8QXwsedXXkhcz
+ 4vGmH2JazfBltplsu+R4klbu0kJ61KI=
+Date: Fri, 24 Sep 2021 11:51:44 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Cc: "Kirill A. Shutemov" <kirill@shutemov.name>,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ linux-kernel@vger.kernel.org, x86@kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-graphics-maintainer@vmware.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, kexec@lists.infradead.org,
+ linux-fsdevel@vger.kernel.org, Brijesh Singh <brijesh.singh@amd.com>,
+ Joerg Roedel <joro@8bytes.org>, Andi Kleen <ak@linux.intel.com>,
+ Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>,
+ Tianyu Lan <Tianyu.Lan@microsoft.com>,
+ Christoph Hellwig <hch@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v3 5/8] x86/sme: Replace occurrences of sme_active() with
+ cc_platform_has()
+Message-ID: <YU2fsCblZVQpgMvC@zn.tnic>
+References: <YUpONYwM4dQXAOJr@zn.tnic>
+ <20210921213401.i2pzaotgjvn4efgg@box.shutemov.name>
+ <00f52bf8-cbc6-3721-f40e-2f51744751b0@amd.com>
+ <20210921215830.vqxd75r4eyau6cxy@box.shutemov.name>
+ <01891f59-7ec3-cf62-a8fc-79f79ca76587@amd.com>
+ <20210922143015.vvxvh6ec73lffvkf@box.shutemov.name>
+ <YUuJZ2qOgbdpfk6N@zn.tnic>
+ <20210922210558.itofvu3725dap5xx@box.shutemov.name>
+ <YUzFj+yH79XRc3F3@zn.tnic>
+ <20210924094132.gxyqp4z3qdk5w4j6@box.shutemov.name>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH -next] drm/gma500: Fix wrong pointer passed to PTR_ERR()
-Content-Language: en-US
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: daniel@ffwll.ch, airlied@linux.ie, patrik.r.jakobsson@gmail.com
-References: <20210924094040.3631675-1-yangyingliang@huawei.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20210924094040.3631675-1-yangyingliang@huawei.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------xNNSF60el86I171luMAd6kcc"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210924094132.gxyqp4z3qdk5w4j6@box.shutemov.name>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,70 +78,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------xNNSF60el86I171luMAd6kcc
-Content-Type: multipart/mixed; boundary="------------v6xhW1svHnWNsYbKMGjvB0Od";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Yang Yingliang <yangyingliang@huawei.com>, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: daniel@ffwll.ch, airlied@linux.ie, patrik.r.jakobsson@gmail.com
-Message-ID: <dc360ac4-a731-bb87-b9ae-bf3addb54448@suse.de>
-Subject: Re: [PATCH -next] drm/gma500: Fix wrong pointer passed to PTR_ERR()
-References: <20210924094040.3631675-1-yangyingliang@huawei.com>
-In-Reply-To: <20210924094040.3631675-1-yangyingliang@huawei.com>
+On Fri, Sep 24, 2021 at 12:41:32PM +0300, Kirill A. Shutemov wrote:
+> On Thu, Sep 23, 2021 at 08:21:03PM +0200, Borislav Petkov wrote:
+> > On Thu, Sep 23, 2021 at 12:05:58AM +0300, Kirill A. Shutemov wrote:
+> > > Unless we find other way to guarantee RIP-relative access, we must use
+> > > fixup_pointer() to access any global variables.
+> > 
+> > Yah, I've asked compiler folks about any guarantees we have wrt
+> > rip-relative addresses but it doesn't look good. Worst case, we'd have
+> > to do the fixup_pointer() thing.
+> > 
+> > In the meantime, Tom and I did some more poking at this and here's a
+> > diff ontop.
+> > 
+> > The direction being that we'll stick both the AMD and Intel
+> > *cc_platform_has() call into cc_platform.c for which instrumentation
+> > will be disabled so no issues with that.
+> > 
+> > And that will keep all that querying all together in a single file.
+> 
+> And still do cc_platform_has() calls in __startup_64() codepath?
+> 
+> It's broken.
+> 
+> Intel detection in cc_platform_has() relies on boot_cpu_data.x86_vendor
+> which is not initialized until early_cpu_init() in setup_arch(). Given
+> that X86_VENDOR_INTEL is 0 it leads to false-positive.
 
---------------v6xhW1svHnWNsYbKMGjvB0Od
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Yeah, Tom, I had the same question yesterday.
 
-SGkNCg0KQW0gMjQuMDkuMjEgdW0gMTE6NDAgc2NocmllYiBZYW5nIFlpbmdsaWFuZzoNCj4g
-UFRSX0VSUigpIHNob3VsZCBhY2Nlc3MgdGhlIHZhbHVlIGp1c3QgdGVzdGVkIGJ5IElTX0VS
-UigpLA0KPiBvdGhlcndpc2UgdGhlIHdyb25nIGVycm9yIGNvZGUgd2lsbCBiZSByZXR1cm5l
-ZC4NCj4gDQo+IFJlcG9ydGVkLWJ5OiBIdWxrIFJvYm90IDxodWxrY2lAaHVhd2VpLmNvbT4N
-Cj4gU2lnbmVkLW9mZi1ieTogWWFuZyBZaW5nbGlhbmcgPHlhbmd5aW5nbGlhbmdAaHVhd2Vp
-LmNvbT4NCg0KUmV2aWV3ZWQtYnk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBz
-dXNlLmRlPg0KDQpJbmRlZWQsIHRoYW5rcyBmb3IgdGhlIHBhdGNoLg0KDQpJJ2xsIGFkZCB0
-aGUgZml4IHdpdGggdGhlIGNvcnJlY3QgRml4ZXMgdGFnIHNvb24uDQoNCkJlc3QgcmVnYXJk
-cw0KVGhvbWFzDQoNCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2
-LmMgfCAyICstDQo+ICAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0
-aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2Jf
-ZHJ2LmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL3BzYl9kcnYuYw0KPiBpbmRleCAzZDAz
-NmQyYTNiMjkuLjdhMTBiYjM5ZWYwYiAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9ncHUvZHJt
-L2dtYTUwMC9wc2JfZHJ2LmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2Jf
-ZHJ2LmMNCj4gQEAgLTQ1NCw3ICs0NTQsNyBAQCBzdGF0aWMgaW50IHBzYl9wY2lfcHJvYmUo
-c3RydWN0IHBjaV9kZXYgKnBkZXYsIGNvbnN0IHN0cnVjdCBwY2lfZGV2aWNlX2lkICplbnQp
-DQo+ICAgDQo+ICAgCWRldl9wcml2ID0gZGV2bV9kcm1fZGV2X2FsbG9jKCZwZGV2LT5kZXYs
-ICZkcml2ZXIsIHN0cnVjdCBkcm1fcHNiX3ByaXZhdGUsIGRldik7DQo+ICAgCWlmIChJU19F
-UlIoZGV2X3ByaXYpKQ0KPiAtCQlyZXR1cm4gUFRSX0VSUihkZXYpOw0KPiArCQlyZXR1cm4g
-UFRSX0VSUihkZXZfcHJpdik7DQo+ICAgCWRldiA9ICZkZXZfcHJpdi0+ZGV2Ow0KPiAgIA0K
-PiAgIAlwY2lfc2V0X2RydmRhdGEocGRldiwgZGV2KTsNCj4gDQoNCi0tIA0KVGhvbWFzIFpp
-bW1lcm1hbm4NCkdyYXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29s
-dXRpb25zIEdlcm1hbnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBH
-ZXJtYW55DQooSFJCIDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjog
-RmVsaXggSW1lbmTDtnJmZmVyDQo=
+/me looks in his direction.
 
---------------v6xhW1svHnWNsYbKMGjvB0Od--
+:-)
 
---------------xNNSF60el86I171luMAd6kcc
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+-- 
+Regards/Gruss,
+    Boris.
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFNn3wFAwAAAAAACgkQlh/E3EQov+CH
-eQ//agu9+u7cFEW+c2t0J7i86f1KjClsUV66JZlTW5PVlySYHOEMYS8iP9pASRAhX2dRjxRtFR0/
-s4skcpAf0zzWd2JKeYzItLmgfIjeodA5M/8OrQaYjPpo8cAChjItpvF1i5TOjOFixzuoHAu20+R2
-Z/OJhEcT/FasRVdGNl2yy4Ch11MRXHCILIAFXazstFFT4op5VH7tBS/m2KYpxcepIbxPSGInufzS
-A96zq8UwJ3SSxwrp7D71vn2sjkKyqdcYeNARrEKdBdgt2w9XJu3HLw0cgHdrkPsDSPzaYkqy3DMU
-dvnpuBkfwBPrmPn4BdQLvBzl4bIPJtvW6IsEcsNXJ/VifbSVNu8XUveo2YQh54wxVKFexJze4hsD
-iWaWTyiT/kavzgNRuXVX0m6pWFTorHaLxNhwPF2JxWvP6EPJ8KW1lCukmlMBntUfgLF9SCmaZAJX
-bREUVDmikhknbiGzFiYNUhVETa9P3pfu2Dozv5FoOLBvSjs37gWmN3D+hnP+p60mLbE8rBSW873b
-n72s1kZTQGweJt6D8umdOMk+D/HDR9pRer9CNCg6p+6AqJjAN5Fx4qhLNlnQFmdf3c94MElb3JHY
-NGbOd0xXgezEtUScFeAwrYxyg0X74UNbzzpVTI9xNQsWkb7i3tkNHbg6Pt9IticsADFqXshkJS06
-xNw=
-=IGKo
------END PGP SIGNATURE-----
-
---------------xNNSF60el86I171luMAd6kcc--
+https://people.kernel.org/tglx/notes-about-netiquette
