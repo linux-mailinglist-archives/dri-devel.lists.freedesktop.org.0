@@ -1,41 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98AA64177FB
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 17:41:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5AF041780A
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 17:53:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A9166E1E9;
-	Fri, 24 Sep 2021 15:41:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BE4686E1DE;
+	Fri, 24 Sep 2021 15:53:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA70D6E1EC;
- Fri, 24 Sep 2021 15:41:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10116"; a="211174993"
-X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; d="scan'208";a="211174993"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2021 08:41:40 -0700
-X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; d="scan'208";a="559666844"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Sep 2021 08:41:39 -0700
-Date: Fri, 24 Sep 2021 08:36:45 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Matthew Auld <matthew.auld@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Subject: Re: [PATCH] drm/i915: remember to call i915_sw_fence_fini
-Message-ID: <20210924153645.GA21697@jons-linux-dev-box>
-References: <20210924144646.4096402-1-matthew.auld@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30BCA6E1DE
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 15:53:36 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id E536A6124F
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 15:53:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632498815;
+ bh=TbPdrWlKDCWp8NwydLHQ/TETvUJI0W4HQrKvg4DXRBA=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Hgjqlvnie7q6t40TC9ymZeWkWHS+mR+53UNcfuGjPVT07bqrz5BNHtfS/VWxdrhnb
+ n9Bgdphb2gb0ej/ew6jVMQZbMkrw0AkDODSidQw+KjBCaYEoIMscgh7OltZAK/dYL2
+ FCUIlJ0GM8ljtSetQyPNim0lzMOSFH8n8E8V05DSc+6rJelL/P9ErksN6NiTbSEk92
+ Snc0njk2A+ivR0aMoEl1SAaeqKELzQVkqdMumdzUUm3il+3Ez4GFHClw6zVgD3rvh+
+ IV169lDYdcDOTwy+ZoBXY2ltkAfH0tToOANjfKLSKfsmR6UEvl+21NXTFefN4O0CVL
+ KZoshRttdpyiA==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id E289E60FF3; Fri, 24 Sep 2021 15:53:35 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
+ more than 20secs aborting
+Date: Fri, 24 Sep 2021 15:53:35 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: danielroschka+kernel@phoenitydawn.de
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-211425-2300-R1O2EJFwYy@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
+References: <bug-211425-2300@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210924144646.4096402-1-matthew.auld@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,34 +69,104 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Sep 24, 2021 at 03:46:46PM +0100, Matthew Auld wrote:
-> Seems to fix some object-debug splat which appeared while debugging
-> something unrelated.
-> 
-> v2: s/guc_blocked/guc_state.blocked/
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Matthew Brost <matthew.brost@intel.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
 
-Reviewed-by: Matthew Brost <matthew.brost@intel.com>
+Daniel Roschka (danielroschka+kernel@phoenitydawn.de) changed:
 
-> ---
->  drivers/gpu/drm/i915/gt/intel_context.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index ff637147b1a9..e9a0cad5c34d 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -419,6 +419,7 @@ void intel_context_fini(struct intel_context *ce)
->  
->  	mutex_destroy(&ce->pin_mutex);
->  	i915_active_fini(&ce->active);
-> +	i915_sw_fence_fini(&ce->guc_state.blocked);
->  }
->  
->  void i915_context_module_exit(void)
-> -- 
-> 2.26.3
-> 
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |danielroschka+kernel@phoeni
+                   |                            |tydawn.de
+
+--- Comment #21 from Daniel Roschka (danielroschka+kernel@phoenitydawn.de) =
+---
+I got the same problem, although the symptoms differ slightly, probably bec=
+ause
+of the monitor in use.
+
+I use an AMD Ryzen 5 PRO 4650G with a DELL UltraSharp U2713H as display.
+
+As I started to use this APU with Linux 5.10 I had the problems from the
+beginning. Here is how it looks in my logs:
+
+> Sep 24 10:13:02 localhost kernel: [ 1200.673943] [drm]
+> perform_link_training_with_retries: Link training attempt 1 of 4 failed
+> Sep 24 10:13:22 localhost kernel: [ 1221.274959] [drm:atom_op_jump [amdgp=
+u]]
+> *ERROR* atombios stuck in loop for more than 20secs aborting
+> Sep 24 10:13:22 localhost kernel: [ 1221.275078]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B228 (len 3608, WS 8, PS 0) @ 0xB376
+> Sep 24 10:13:22 localhost kernel: [ 1221.275171]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
+> Sep 24 10:13:22 localhost kernel: [ 1221.275264]
+> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
+> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
+e!
+> Sep 24 10:13:22 localhost kernel: [ 1221.311894] [drm]
+> perform_link_training_with_retries: Link training attempt 2 of 4 failed
+> Sep 24 10:13:24 localhost kernel: [ 1222.528157] [drm]
+> perform_link_training_with_retries: Link training attempt 3 of 4 failed
+> Sep 24 10:13:44 localhost kernel: [ 1243.230246] [drm:atom_op_jump [amdgp=
+u]]
+> *ERROR* atombios stuck in loop for more than 20secs aborting
+> Sep 24 10:13:44 localhost kernel: [ 1243.230360]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
+> Sep 24 10:13:44 localhost kernel: [ 1243.230453]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
+> Sep 24 10:13:44 localhost kernel: [ 1243.230553]
+> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
+> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
+e!
+> Sep 24 10:13:44 localhost kernel: [ 1243.265681] [drm] enabling link 1
+> failed: 15
+> Sep 24 10:14:06 localhost kernel: [ 1265.165859] [drm:atom_op_jump [amdgp=
+u]]
+> *ERROR* atombios stuck in loop for more than 20secs aborting
+> Sep 24 10:14:06 localhost kernel: [ 1265.165971]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
+> Sep 24 10:14:06 localhost kernel: [ 1265.166064]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
+> Sep 24 10:14:06 localhost kernel: [ 1265.166157]
+> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
+> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
+e!
+> Sep 24 10:14:30 localhost kernel: [ 1288.496778] [drm:atom_op_jump [amdgp=
+u]]
+> *ERROR* atombios stuck in loop for more than 20secs aborting
+> Sep 24 10:14:30 localhost kernel: [ 1288.496903]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
+> Sep 24 10:14:30 localhost kernel: [ 1288.496996]
+> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
+> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
+> Sep 24 10:14:30 localhost kernel: [ 1288.497101]
+> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
+> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
+e!
+
+The behavior I see is the same black screen after the display gets switched=
+ of
+using DPMS, however it doesn't recover on its own. I have to manually push a
+button on the monitor to re-trigger input detection or even completely power
+cycle the monitor. That also doesn't work in all cases. Having the monitor
+configured to use DisplayPort 1.1a it works most of the time with the menti=
+oned
+manual intervention (however the success ratio got worse when I switched fr=
+om
+Linux 5.10 to 5.14), with DisplayPort 1.2 it's completely unusable, as it's
+like a one in a hundred chance to get the monitor to display something agai=
+n.
+
+I'd be happy to provide more information to further debug this issue.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
