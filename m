@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D604177B2
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 17:31:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A6854177B8
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 17:32:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 968836E1D7;
+	by gabe.freedesktop.org (Postfix) with ESMTP id C163A6E1D8;
 	Fri, 24 Sep 2021 15:31:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
- [IPv6:2a00:1450:4864:20::432])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5111A88525;
- Fri, 24 Sep 2021 15:31:30 +0000 (UTC)
-Received: by mail-wr1-x432.google.com with SMTP id g16so28698587wrb.3;
- Fri, 24 Sep 2021 08:31:30 -0700 (PDT)
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1A10688FF9;
+ Fri, 24 Sep 2021 15:31:31 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id d6so28548973wrc.11;
+ Fri, 24 Sep 2021 08:31:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SQ++zZ5/yZpkHj9Fw3rhcDISIEh5bldO1ALOtoZPTbI=;
- b=GU9YhU5Pryn0hB8x07xuYZF8M7s+qXgLshbnexafRjeTizxn7h9FRONZ6n23xvPfTf
- UJ2eGR7lgmUiPjoir92KNbFbT5uEYvWIO+IJOxVkyn6iiRLbK5B/INWdcFZAChlFP3TQ
- qa0Mhu4+bkT/yb9oZIjUQJP3L6Qck7I/EtefMbt7uQ/2RCDjAS2GGZV/EaIQz7RNSFms
- vKXHR8Ui3fo8EU7WYsgti/u780Y0A1J2aoWareMMd6+ydH0C8PHT3l9HlqDhVyXjtew9
- nz8JC4ADUXW8vq/Ywl37I3PYeKNtPQRfX80jQ5F+bVAMs/z6aL5eZ+QKBJ1aekzFCe07
- 6uNQ==
+ bh=Xs3urb+CfK37NrDBLos1427ZQKhaGuo6xOveDYDdwk4=;
+ b=RzWuZAIMOpiub0i7yP5lKCR61AHclgo7MbaIOB/YpUBnGhJeWQb8Q5AqotPExpFYQQ
+ dy6t/eBKl6/M2Gz6wG86VOYRcceKsTWJLtjW2eGl01Pml8yspK/aeE/nrYwwXWngv1Yk
+ 3nz0SdDKu8c3EI+2GsAl9PQBLtP85YPiOXp4jmBPoi1UM14B9eXN6wnLRJF/DOY1N8du
+ efRUA4Ijkq9U2mF8o02NZZ7XQBSHJ3QWSnauZ4R3il+/l3bkxuxLYh6+WacVk2XVwwT+
+ /5PXoEMf7oiQXnDwz0ne1WQlDb2jKN2JsMfy5PyhjwamiIQOnq1B4UeeFBF6J6NJeECz
+ vf6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SQ++zZ5/yZpkHj9Fw3rhcDISIEh5bldO1ALOtoZPTbI=;
- b=VLrHUe9uCQr/haBa0MDrs7xQ1uGAb33dnSzw0CeOPJNlelISH5RKZzXcnOlWEsHmlx
- VAoNP/zG48kU+LsCStvHJbADo1qTA6z157pVu07HdQG6YDliv+Pb2fJN/WI67e9yGTGk
- DxY0uuPTZXj+txbw8TcwsIIPjHmwDbhXj4tYO5BpKu5hWpjsRf3kMvBHyYstivUhcaK2
- alUkfrNpgth35NfgUF/rSmh7pZqXsP4c1n8wN2xeHhVbY00vY33hZix9nTIMDxYiIZda
- BbkkqY73ohYaUhA8CaiKKa56p9HIwYSci00fUeeglDDOd+gKfg20gwLhOb9/o7xOGp46
- xgqQ==
-X-Gm-Message-State: AOAM533jHNi0L1g32FDyLAjcthNHi/YhRRTihDJKsYQTw/d7zyLImOc8
- yiNiUHilU4WIPwB8Tf6dSWE=
-X-Google-Smtp-Source: ABdhPJwpe/xR1soLgzkh2xZshodGJdGysorueiWodthKrz5USEQ/vTDRlUoA0X5iRPY+P7LFZUt8ow==
-X-Received: by 2002:a5d:67cc:: with SMTP id n12mr12092772wrw.381.1632497488865; 
- Fri, 24 Sep 2021 08:31:28 -0700 (PDT)
+ bh=Xs3urb+CfK37NrDBLos1427ZQKhaGuo6xOveDYDdwk4=;
+ b=Z+SJKMYmZmLI3uHjNpdJcvRWS2P7J3jgLAZqPjdH60UoThEY4t6anvTtbRa7F/+3rA
+ 450NYzU1LUFgnTp312ZP0fnd15VlqjPpR+tFUVYemfMxGOVVhPFrcN/9k9B0NtKgQgyi
+ iJLrPP5IGkfpsOJ3q4x8w0rRfiwMJRjFb1THhH/ziouUjh/O2FaSNGroZgLNzsH1p1lv
+ G1G9i/Wieo+P6OftMEcXeDCoyYyxQgnXkjJgMY+J4ydZtBp+x1WTnmzojmZ+m00ZfglF
+ XH4SXghlZZspfCpqhK0omA39gynmqR4uJaUrUo2e1Gc/TSfXDSagpRdR0kSzEeG09Z4y
+ lHBA==
+X-Gm-Message-State: AOAM533J034NSYe39kQYZKRwC012zb0Y1IP7W3P9svdHodRNF3QSnssw
+ nvgST6g9xm5k+MjgtOUCe5A=
+X-Google-Smtp-Source: ABdhPJw9rc8OiQvJzlLG/fsJFsT7Qo05foEBmvzgcuYqLtl+aLiMxcLcARExzXnhKjvfu2LBv5YmCA==
+X-Received: by 2002:adf:ce84:: with SMTP id r4mr12371922wrn.107.1632497489685; 
+ Fri, 24 Sep 2021 08:31:29 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- u25sm9902248wmm.5.2021.09.24.08.31.27
+ u25sm9902248wmm.5.2021.09.24.08.31.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 24 Sep 2021 08:31:28 -0700 (PDT)
+ Fri, 24 Sep 2021 08:31:29 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 12/27] drm/amdgpu: use new iterator in amdgpu_vm_prt_fini
-Date: Fri, 24 Sep 2021 17:30:58 +0200
-Message-Id: <20210924153113.2159-12-christian.koenig@amd.com>
+Subject: [PATCH 13/27] drm/msm: use new iterator in msm_gem_describe
+Date: Fri, 24 Sep 2021 17:30:59 +0200
+Message-Id: <20210924153113.2159-13-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210924153113.2159-1-christian.koenig@amd.com>
 References: <20210924153113.2159-1-christian.koenig@amd.com>
@@ -77,53 +77,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-No need to actually allocate an array of fences here.
+Simplifying the code a bit. Also drop the RCU read side lock since the
+object is locked anyway.
+
+Untested since I can't get the driver to compile on !ARM.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 26 +++++---------------------
- 1 file changed, 5 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/msm/msm_gem.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-index 6b15cad78de9..e42dd79ed6f4 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-@@ -2090,30 +2090,14 @@ static void amdgpu_vm_free_mapping(struct amdgpu_device *adev,
- static void amdgpu_vm_prt_fini(struct amdgpu_device *adev, struct amdgpu_vm *vm)
+diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+index 22308a1b66fc..14907622769f 100644
+--- a/drivers/gpu/drm/msm/msm_gem.c
++++ b/drivers/gpu/drm/msm/msm_gem.c
+@@ -880,7 +880,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
  {
- 	struct dma_resv *resv = vm->root.bo->tbo.base.resv;
--	struct dma_fence *excl, **shared;
--	unsigned i, shared_count;
--	int r;
+ 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+ 	struct dma_resv *robj = obj->resv;
+-	struct dma_resv_list *fobj;
 +	struct dma_resv_iter cursor;
-+	struct dma_fence *fence;
- 
--	r = dma_resv_get_fences(resv, &excl, &shared_count, &shared);
--	if (r) {
--		/* Not enough memory to grab the fence list, as last resort
--		 * block for all the fences to complete.
--		 */
--		dma_resv_wait_timeout(resv, true, false,
--						    MAX_SCHEDULE_TIMEOUT);
--		return;
--	}
--
--	/* Add a callback for each fence in the reservation object */
--	amdgpu_vm_prt_get(adev);
--	amdgpu_vm_add_prt_cb(adev, excl);
--
--	for (i = 0; i < shared_count; ++i) {
-+	dma_resv_for_each_fence(&cursor, resv, true, fence) {
-+		/* Add a callback for each fence in the reservation object */
- 		amdgpu_vm_prt_get(adev);
--		amdgpu_vm_add_prt_cb(adev, shared[i]);
-+		amdgpu_vm_add_prt_cb(adev, fence);
+ 	struct dma_fence *fence;
+ 	struct msm_gem_vma *vma;
+ 	uint64_t off = drm_vma_node_start(&obj->vma_node);
+@@ -955,22 +955,13 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+ 		seq_puts(m, "\n");
  	}
+ 
+-	rcu_read_lock();
+-	fobj = dma_resv_shared_list(robj);
+-	if (fobj) {
+-		unsigned int i, shared_count = fobj->shared_count;
 -
--	kfree(shared);
+-		for (i = 0; i < shared_count; i++) {
+-			fence = rcu_dereference(fobj->shared[i]);
++	dma_resv_for_each_fence(&cursor, robj, true, fence) {
++		if (dma_resv_iter_is_exclusive(&cursor))
++			describe_fence(fence, "Exclusive", m);
++		else
+ 			describe_fence(fence, "Shared", m);
+-		}
+ 	}
+ 
+-	fence = dma_resv_excl_fence(robj);
+-	if (fence)
+-		describe_fence(fence, "Exclusive", m);
+-	rcu_read_unlock();
+-
+ 	msm_gem_unlock(obj);
  }
  
- /**
 -- 
 2.25.1
 
