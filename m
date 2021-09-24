@@ -1,59 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5AF041780A
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 17:53:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02D06417825
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 18:03:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BE4686E1DE;
-	Fri, 24 Sep 2021 15:53:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 90C6F6E1EC;
+	Fri, 24 Sep 2021 16:03:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30BCA6E1DE
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 15:53:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id E536A6124F
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 15:53:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632498815;
- bh=TbPdrWlKDCWp8NwydLHQ/TETvUJI0W4HQrKvg4DXRBA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=Hgjqlvnie7q6t40TC9ymZeWkWHS+mR+53UNcfuGjPVT07bqrz5BNHtfS/VWxdrhnb
- n9Bgdphb2gb0ej/ew6jVMQZbMkrw0AkDODSidQw+KjBCaYEoIMscgh7OltZAK/dYL2
- FCUIlJ0GM8ljtSetQyPNim0lzMOSFH8n8E8V05DSc+6rJelL/P9ErksN6NiTbSEk92
- Snc0njk2A+ivR0aMoEl1SAaeqKELzQVkqdMumdzUUm3il+3Ez4GFHClw6zVgD3rvh+
- IV169lDYdcDOTwy+ZoBXY2ltkAfH0tToOANjfKLSKfsmR6UEvl+21NXTFefN4O0CVL
- KZoshRttdpyiA==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id E289E60FF3; Fri, 24 Sep 2021 15:53:35 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
+Received: from smtp-relay-internal-0.canonical.com
+ (smtp-relay-internal-0.canonical.com [185.125.188.122])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 631866E1EC
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 16:03:32 +0000 (UTC)
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
+ [209.85.214.200])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 14A7F3F22C
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 16:03:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1632499411;
+ bh=XSnJxfEBt5YWoJGVTt7uPSu776tBxvxqT4EkYhJhjIo=;
+ h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+ In-Reply-To:Content-Type;
+ b=IYNSuk1j1yr+CtfY5Xham51abCzKx7pjG+badrdDeTJd/hpLGsnfGWGT9b3/7AUkO
+ z7xi+r3Kn6oJM9K5msyvau+LjdNJ4LeaJo7k8GAJo93roWwDkEa69sEGN/y4/qTWg+
+ 3X34zwLk9xgbFudV77uUKNzrjeFL4wLW/Wvb8Yi+RY6UMHUw29+cOBILFD3acs/Aqg
+ cA1LRCyx3z/PH4pK7kLBKfjc/Casrcjvgbeyb8R/EC8b4EmyNX/NEA/oZhDxedrac8
+ vCLL+jR7maoCweBi8nqu8L+pLuWKETUTRJb42ROVH3KBiu077WyeQa8du1FpHVscho
+ LqCh1mTuRlVQA==
+Received: by mail-pl1-f200.google.com with SMTP id
+ n15-20020a170902e54f00b0013b7a095210so3344441plf.15
+ for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 09:03:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XSnJxfEBt5YWoJGVTt7uPSu776tBxvxqT4EkYhJhjIo=;
+ b=d7aYjB6NQAx+fIVW0siwXdu70R5/Xp+MW8ROCGoFAQbSqqC0fOYyxyU9p6k9PHZ4lH
+ i8DKAePK/HQcIACxDhbs2U4x55YomQpEq7WIZHAJ+vjRpmFuBGoK5yGIMCv0iFrGYgoY
+ 1Sekxb4vosr7ZNXbDE+0OQeOttLDkPESNK20rppgQi3x5ouIFpqBizBI1Y3An+CeOYf0
+ leicpZl9PqeqSKMBYdkGdIzBAFRL65f+CtDWkza3kGr9JGlYyK2q9HSLmGuSUhCdIJgL
+ rIY4Jl0DLdbHw2EGThBa88EupIplgoQgigwOP7JfLnrflpfv9WClazvXSRRw1LT4eohs
+ 6ggQ==
+X-Gm-Message-State: AOAM530Kut8ZumebvacVFBWGrLpgDc9DF8hlIFfurUe1gtX6DUoC0VOw
+ AGfd1N44Gpa2fw2BH9S+ZQKYvTiqlMICQPUEhDuFIciKiUztOAQIaQVbiiPIvqHN9RjsADlsq4a
+ CzvsM87m/6KR3StCZW/PsCYaX9OsH4LEG6es5tOnTUrbHKw==
+X-Received: by 2002:a17:903:234c:b0:13c:7a6e:4b43 with SMTP id
+ c12-20020a170903234c00b0013c7a6e4b43mr9721659plh.29.1632499409582; 
+ Fri, 24 Sep 2021 09:03:29 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxbq17OedBYOqqvHCiyPf1GcC81qSNLHfVaTfFKuYJaYW2V/CpDG52XQo9+c/uPpJZRP3liTQ==
+X-Received: by 2002:a17:903:234c:b0:13c:7a6e:4b43 with SMTP id
+ c12-20020a170903234c00b0013c7a6e4b43mr9721620plh.29.1632499409308; 
+ Fri, 24 Sep 2021 09:03:29 -0700 (PDT)
+Received: from [192.168.1.124] ([69.163.84.166])
+ by smtp.gmail.com with ESMTPSA id c199sm9747942pfb.152.2021.09.24.09.03.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 24 Sep 2021 09:03:28 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge: parade-ps8640: check return values in
+ ps8640_aux_transfer()
 To: dri-devel@lists.freedesktop.org
-Subject: [Bug 211425] [drm:atom_op_jump] *ERROR* atombios stuck in loop for
- more than 20secs aborting
-Date: Fri, 24 Sep 2021 15:53:35 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: danielroschka+kernel@phoenitydawn.de
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-211425-2300-R1O2EJFwYy@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-211425-2300@https.bugzilla.kernel.org/>
-References: <bug-211425-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Cc: William Breathitt Gray <vilhelm.gray@gmail.com>,
+ Syed Nayyar Waris <syednwaris@gmail.com>, Andrzej Hajda
+ <a.hajda@samsung.com>, Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210924152607.28580-1-tim.gardner@canonical.com>
+From: Tim Gardner <tim.gardner@canonical.com>
+Message-ID: <8cdae251-f75e-bde8-a53d-27c77ac624c3@canonical.com>
+Date: Fri, 24 Sep 2021 10:03:27 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <20210924152607.28580-1-tim.gardner@canonical.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,104 +97,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D211425
 
-Daniel Roschka (danielroschka+kernel@phoenitydawn.de) changed:
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |danielroschka+kernel@phoeni
-                   |                            |tydawn.de
+On 9/24/21 9:26 AM, Tim Gardner wrote:
+> Coverity complains of an unused return code:
+> 
+> CID 120459 (#1 of 1): Unchecked return value (CHECKED_RETURN)
+> 7. check_return: Calling regmap_bulk_write without checking return value (as is
+> done elsewhere 199 out of 291 times).
+> 204        regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, addr_len,
+> 205                          ARRAY_SIZE(addr_len));
+> 
+> While I was at it I noticed 2 other places where return codes were not being
+> used, or used incorrectly (which is a real bug).
+> 
+> Fix these errors by correctly using the returned error codes.
+> 
+> Cc: William Breathitt Gray <vilhelm.gray@gmail.com>
+> Cc: Syed Nayyar Waris <syednwaris@gmail.com>
+> Cc: Andrzej Hajda <a.hajda@samsung.com>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Robert Foss <robert.foss@linaro.org>
+> Cc: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+> Cc: Jonas Karlman <jonas@kwiboo.se>
+> Cc: Jernej Skrabec <jernej.skrabec@gmail.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: linux-iio@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
+> ---
+>   drivers/gpu/drm/bridge/parade-ps8640.c | 14 +++++++++++---
+>   1 file changed, 11 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/parade-ps8640.c b/drivers/gpu/drm/bridge/parade-ps8640.c
+> index 3aaa90913bf8..591da962970a 100644
+> --- a/drivers/gpu/drm/bridge/parade-ps8640.c
+> +++ b/drivers/gpu/drm/bridge/parade-ps8640.c
+> @@ -201,8 +201,12 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
+>   	addr_len[PAGE0_SWAUX_LENGTH - base] = (len == 0) ? SWAUX_NO_PAYLOAD :
+>   					      ((len - 1) & SWAUX_LENGTH_MASK);
+>   
+> -	regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, addr_len,
+> +	ret = regmap_bulk_write(map, PAGE0_SWAUX_ADDR_7_0, addr_len,
+>   			  ARRAY_SIZE(addr_len));
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "failed to bulk write ADDR_7_0: %d\n", ret);
+> +		return ret;
+> +	}
+>   
+>   	if (len && (request == DP_AUX_NATIVE_WRITE ||
+>   		    request == DP_AUX_I2C_WRITE)) {
+> @@ -218,13 +222,17 @@ static ssize_t ps8640_aux_transfer(struct drm_dp_aux *aux,
+>   		}
+>   	}
+>   
+> -	regmap_write(map, PAGE0_SWAUX_CTRL, SWAUX_SEND);
+> +	ret = regmap_write(map, PAGE0_SWAUX_CTRL, SWAUX_SEND);
+> +	if (ret) {
+> +		DRM_DEV_ERROR(dev, "failed to write SEND: %d\n", ret);
+> +		return ret;
+> +	}
+>   
+>   	/* Zero delay loop because i2c transactions are slow already */
+>   	regmap_read_poll_timeout(map, PAGE0_SWAUX_CTRL, data,
+>   				 !(data & SWAUX_SEND), 0, 50 * 1000);
+>   
+> -	regmap_read(map, PAGE0_SWAUX_STATUS, &data);
+> +	ret = regmap_read(map, PAGE0_SWAUX_STATUS, &data);
+>   	if (ret) {
+>   		DRM_DEV_ERROR(dev, "failed to read PAGE0_SWAUX_STATUS: %d\n",
+>   			      ret);
+> 
 
---- Comment #21 from Daniel Roschka (danielroschka+kernel@phoenitydawn.de) =
----
-I got the same problem, although the symptoms differ slightly, probably bec=
-ause
-of the monitor in use.
+I forgot to mention this patch is for linux-next next-20210924.
 
-I use an AMD Ryzen 5 PRO 4650G with a DELL UltraSharp U2713H as display.
-
-As I started to use this APU with Linux 5.10 I had the problems from the
-beginning. Here is how it looks in my logs:
-
-> Sep 24 10:13:02 localhost kernel: [ 1200.673943] [drm]
-> perform_link_training_with_retries: Link training attempt 1 of 4 failed
-> Sep 24 10:13:22 localhost kernel: [ 1221.274959] [drm:atom_op_jump [amdgp=
-u]]
-> *ERROR* atombios stuck in loop for more than 20secs aborting
-> Sep 24 10:13:22 localhost kernel: [ 1221.275078]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B228 (len 3608, WS 8, PS 0) @ 0xB376
-> Sep 24 10:13:22 localhost kernel: [ 1221.275171]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
-> Sep 24 10:13:22 localhost kernel: [ 1221.275264]
-> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
-> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
-e!
-> Sep 24 10:13:22 localhost kernel: [ 1221.311894] [drm]
-> perform_link_training_with_retries: Link training attempt 2 of 4 failed
-> Sep 24 10:13:24 localhost kernel: [ 1222.528157] [drm]
-> perform_link_training_with_retries: Link training attempt 3 of 4 failed
-> Sep 24 10:13:44 localhost kernel: [ 1243.230246] [drm:atom_op_jump [amdgp=
-u]]
-> *ERROR* atombios stuck in loop for more than 20secs aborting
-> Sep 24 10:13:44 localhost kernel: [ 1243.230360]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
-> Sep 24 10:13:44 localhost kernel: [ 1243.230453]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
-> Sep 24 10:13:44 localhost kernel: [ 1243.230553]
-> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
-> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
-e!
-> Sep 24 10:13:44 localhost kernel: [ 1243.265681] [drm] enabling link 1
-> failed: 15
-> Sep 24 10:14:06 localhost kernel: [ 1265.165859] [drm:atom_op_jump [amdgp=
-u]]
-> *ERROR* atombios stuck in loop for more than 20secs aborting
-> Sep 24 10:14:06 localhost kernel: [ 1265.165971]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
-> Sep 24 10:14:06 localhost kernel: [ 1265.166064]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
-> Sep 24 10:14:06 localhost kernel: [ 1265.166157]
-> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
-> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
-e!
-> Sep 24 10:14:30 localhost kernel: [ 1288.496778] [drm:atom_op_jump [amdgp=
-u]]
-> *ERROR* atombios stuck in loop for more than 20secs aborting
-> Sep 24 10:14:30 localhost kernel: [ 1288.496903]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B228 (len 3608, WS 8, PS 0) @ 0xB712
-> Sep 24 10:14:30 localhost kernel: [ 1288.496996]
-> [drm:amdgpu_atom_execute_table_locked [amdgpu]] *ERROR* atombios stuck
-> executing B11C (len 268, WS 4, PS 0) @ 0xB16F
-> Sep 24 10:14:30 localhost kernel: [ 1288.497101]
-> [drm:dcn10_link_encoder_enable_dp_output [amdgpu]] *ERROR*
-> dcn10_link_encoder_enable_dp_output: Failed to execute VBIOS command tabl=
-e!
-
-The behavior I see is the same black screen after the display gets switched=
- of
-using DPMS, however it doesn't recover on its own. I have to manually push a
-button on the monitor to re-trigger input detection or even completely power
-cycle the monitor. That also doesn't work in all cases. Having the monitor
-configured to use DisplayPort 1.1a it works most of the time with the menti=
-oned
-manual intervention (however the success ratio got worse when I switched fr=
-om
-Linux 5.10 to 5.14), with DisplayPort 1.2 it's completely unusable, as it's
-like a one in a hundred chance to get the monitor to display something agai=
-n.
-
-I'd be happy to provide more information to further debug this issue.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-----------
+Tim Gardner
+Canonical, Inc
