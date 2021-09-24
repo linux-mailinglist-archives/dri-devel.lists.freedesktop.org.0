@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB0A9416C22
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 08:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462A8416C30
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 08:51:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 781946EE0A;
-	Fri, 24 Sep 2021 06:50:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 11D4E6EE08;
+	Fri, 24 Sep 2021 06:50:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DD66F6EDF2;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ED8B06EDF3;
  Fri, 24 Sep 2021 06:50:52 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.nyi.internal (Postfix) with ESMTP id 4413858107C;
- Fri, 24 Sep 2021 02:44:14 -0400 (EDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id B925158107D;
+ Fri, 24 Sep 2021 02:44:16 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 24 Sep 2021 02:44:14 -0400
+ by compute5.internal (MEProxy); Fri, 24 Sep 2021 02:44:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=tQ7fPMA+k/ful
- DlgZN6bcVcmaKq9X2y5rvMhwSoX/o0=; b=Zjst53zsynbvx1z5/4T4LviMKVeKW
- vSC+kRVtIHeybzjgB+cm9w/lvtMJGgdtROr2NWXXaYUEIs5m8VZMR9kDBLWCb2gz
- MFhR6iVtu+rcoyNVbmz4uu3Ayknb7wVMUz9vkv9TH9nav7ZYmmfCR4lUH1zgErso
- QHdmTZSaACSwYGlLlZLuNUcUsQBqTy/+TVrv7jkYPUVX1Of7LONV+MS5P1dMxQ6P
- MZbmwLOaWgFbUBJotmads7AjYL6rgrxlZArQLFHIanrJUv7D5XqZA7jhOkSLi7zC
- R5upFM9rZq7BMbrvegw08bqzfv6gF5Dj81g33DEqB4o0vB7IhkC8YCkdA==
+ :mime-version:content-transfer-encoding; s=fm3; bh=8EnQ/P1b3+dZF
+ mbiHt8p7nTqiaEPC6ed82Aoi+jyRZw=; b=julTLJmiv5SHAN/Dn1DegrWQ7rOT4
+ IQpeR92VSZzZG46o9PzshP6l9Oh421DZK5fXnYJj5JEPUND5iFNFWBIuFZX8Noc7
+ GTnk/C06MMfuQJURB+k80ZkxzFat8UsfYGaSOJpzoMqA+2KLpEDP2RtJ7JkdzCMQ
+ 8QuUEUaXGH79sJEgYYWA5F3xMcSyEuAq/Ok6HeSl2A1tQnCG9l95f4Sh+WccXcuc
+ pZ8Ko/Y/RMiNFFazhvkfrwOcngVFE7ruROPLcLOWg/WdiCoY2ThHsz8GPb3OGXbY
+ gT5eiP8AsvcKxXRoYMhlVn/fzjOmcRPUbw/6ZejCZBfo6RQGIWPyqKhhg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; bh=tQ7fPMA+k/fulDlgZN6bcVcmaKq9X2y5rvMhwSoX/o0=; b=W2Ye1ny1
- QKoj5Jt/dQhTo7C4XzB6salMQJKiE5nauB7UXTWM64IoHf23jukyusjXfHpU0UM4
- llYAmIGZwbEBm8skIP9icUjOebCsovkiCFX8dA52riG0AqXZjJlP0xkb4SVziPSn
- UFpoKae70R3SYDv3UxgHGMXun6YORySUTpV+vLccihm9hvyhZhPHQCxRlmVC87+t
- fbglziisIhXleHOUrC0rzcV7K+HPr9pizny1T1krt3ItE5q4ji8csSCtYWjcy+ol
- cRMV7tgPM/hMvSNp6ctH/gyP72K/CABo4P1WnJJS1gpmVueF8wdXlPnc/6aJ1noc
- DBy/8E8KfbnVDw==
-X-ME-Sender: <xms:vnNNYbm1jTKs7Aq4lrklHXINIeSeRLMVmHYY5hFEiSAiHciMcGt0dw>
- <xme:vnNNYe2xHBR2nJtoo5BnzWtF5H9rcumwVV4sE4SLezR4v4LjOfiyneWUI7QSUVp2a
- zs3bL-fhj5E3ioRWg>
-X-ME-Received: <xmr:vnNNYRoI79uipGk4KcbIZOmj9fZmstWB5tThEvmnN5W86obaXW2SqLdUaWfcVoA0J-Fl>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtlecutefuodetggdotefrod
+ fm3; bh=8EnQ/P1b3+dZFmbiHt8p7nTqiaEPC6ed82Aoi+jyRZw=; b=Ov9VyMEt
+ 4yRdl9C4o77iYTRobtg7iB4r8LqMrEdLP0BMvObWS0GNtKSRACjXOiIDPUWSxcls
+ Z/e2+SQFxBhb7UpISnheSW0slanUZKvbWeTTAocAYNthygiyL4sBZ4GI8FzfEDpO
+ n8ExDkfVmKMuXhJTkWbvpfAW8BTjpvBEhDUmjiBY8moZSnkM7MrMGKT1psMLruVY
+ nlhWbZs91Y8o2S0FMgx3xezNhXeX15o+ZnIFZ6otsyvmBB4eU2hg1E9bOyxCMy45
+ wcHcGO4UydKc5WehQyDQJ/tAysLj+UvhoyPtdygBI3GN2uE6Yi2nW1cLom4CzEB1
+ Z9GxrMTeAYYJlg==
+X-ME-Sender: <xms:wHNNYepTh6VOzz8bQmBmr4yeUdwj7orwHSWENQndbW9jRTjVosy9Ow>
+ <xme:wHNNYcoSsZ_6KtHPWkGglt8BAyR1rOsDfu20G03UKAlu60wZBu24mP7u64otZ1sUM
+ 6Ku2NxcXbuUflyaIQ>
+X-ME-Received: <xmr:wHNNYTPU3opJ_7dYgcC7MpHB20voCkzbzNmdV1yrB3Folh6BYoEcjUqQc2UhnFcQluVY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejtddguddtkecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedvnecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:vnNNYTk76a6ZLVjhh6gKZzP5H-5Q18_LjJjoUVoA6mLzjacZeuGiYg>
- <xmx:vnNNYZ0xU0ceU1JsVlJFYEegl8M5k7kQlGclYluwM8v821xLhEcSuQ>
- <xmx:vnNNYSvKoYAP4UuwwGMZAjiokCsah3Axt5kw-MbFzDvmnfhS4ZgYhQ>
- <xmx:vnNNYTycl45hqojThniP9QUh6zcO1m2T4GpgbYF0Si5YDM7dgt9rqQ>
+X-ME-Proxy: <xmx:wHNNYd6XbXFlJ80jwrYAcvwkl1WbOr-aqupX68H4nD2rGglRAJc9-A>
+ <xmx:wHNNYd7hBoNN1PMwk5uAXwZc3LzcUSbXrc4Hi4kwJ56vy11kTseXCw>
+ <xmx:wHNNYdg7ajZ_597CuxyPJzDybg55sEfCe4hd_8IpzoyAVtwMU38cNg>
+ <xmx:wHNNYSFssNXcVcVNvXLfCv1Q87LG1cYZCjYIZ3MWkvdzdZHk3accKA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Sep 2021 02:44:11 -0400 (EDT)
+ 24 Sep 2021 02:44:14 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v2 14/17] drm/gma500: cleanup: drm_modeset_lock_all() -->
+Subject: [PATCH v2 15/17] drm/amd: cleanup: drm_modeset_lock_all() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Date: Fri, 24 Sep 2021 08:43:21 +0200
-Message-Id: <20210924064324.229457-15-greenfoo@u92.eu>
+Date: Fri, 24 Sep 2021 08:43:22 +0200
+Message-Id: <20210924064324.229457-16-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20210924064324.229457-1-greenfoo@u92.eu>
 References: <20210924064324.229457-1-greenfoo@u92.eu>
@@ -92,84 +92,256 @@ DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 ---
- drivers/gpu/drm/gma500/psb_device.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++++---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 50 +++++++++----------
+ .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++++++----
+ 3 files changed, 53 insertions(+), 43 deletions(-)
 
-diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/gma500/psb_device.c
-index 951725a0f7a3..98d06736dbaa 100644
---- a/drivers/gpu/drm/gma500/psb_device.c
-+++ b/drivers/gpu/drm/gma500/psb_device.c
-@@ -8,6 +8,7 @@
- #include <linux/backlight.h>
- 
- #include <drm/drm.h>
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+index 7a7316731911..b07e845a2600 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
+@@ -40,6 +40,7 @@
+ #include <drm/drm_fb_helper.h>
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_vblank.h>
 +#include <drm/drm_drv.h>
  
- #include "gma_device.h"
- #include "intel_bios.h"
-@@ -169,8 +170,10 @@ static int psb_save_display_registers(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
+ static void amdgpu_display_flip_callback(struct dma_fence *f,
+ 					 struct dma_fence_cb *cb)
+@@ -1543,16 +1544,21 @@ int amdgpu_display_suspend_helper(struct amdgpu_device *adev)
  	struct drm_crtc *crtc;
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter iter;
+-	int r;
 +	struct drm_modeset_acquire_ctx ctx;
- 	struct gma_connector *connector;
- 	struct psb_state *regs = &dev_priv->regs.psb;
-+	int ret;
++	int r, ret;
  
- 	/* Display arbitration control + watermarks */
- 	regs->saveDSPARB = PSB_RVDC32(DSPARB);
-@@ -183,7 +186,7 @@ static int psb_save_display_registers(struct drm_device *dev)
- 	regs->saveCHICKENBIT = PSB_RVDC32(DSPCHICKENBIT);
- 
- 	/* Save crtc and output state */
+ 	/* turn off display hw */
 -	drm_modeset_lock_all(dev);
 +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
- 		if (drm_helper_crtc_in_use(crtc))
- 			dev_priv->ops->save_crtc(crtc);
-@@ -193,8 +196,9 @@ static int psb_save_display_registers(struct drm_device *dev)
- 		if (connector->save)
- 			connector->save(&connector->base);
- 
+ 	drm_connector_list_iter_begin(dev, &iter);
+ 	drm_for_each_connector_iter(connector, &iter)
+ 		drm_helper_connector_dpms(connector,
+ 					  DRM_MODE_DPMS_OFF);
+ 	drm_connector_list_iter_end(&iter);
 -	drm_modeset_unlock_all(dev);
--	return 0;
 +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
 +
-+	return ret;
- }
- 
- /**
-@@ -207,8 +211,10 @@ static int psb_restore_display_registers(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = dev->dev_private;
++	if (ret)
++		return ret;
++
+ 	/* unpin the front buffers and cursors */
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+ 		struct amdgpu_crtc *amdgpu_crtc = to_amdgpu_crtc(crtc);
+@@ -1590,7 +1596,8 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
+ 	struct drm_connector *connector;
+ 	struct drm_connector_list_iter iter;
  	struct drm_crtc *crtc;
+-	int r;
 +	struct drm_modeset_acquire_ctx ctx;
- 	struct gma_connector *connector;
- 	struct psb_state *regs = &dev_priv->regs.psb;
-+	int ret;
++	int r, ret;
  
- 	/* Display arbitration + watermarks */
- 	PSB_WVDC32(regs->saveDSPARB, DSPARB);
-@@ -223,7 +229,7 @@ static int psb_restore_display_registers(struct drm_device *dev)
- 	/*make sure VGA plane is off. it initializes to on after reset!*/
- 	PSB_WVDC32(0x80000000, VGACNTRL);
+ 	/* pin cursors */
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+@@ -1612,7 +1619,7 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
+ 	drm_helper_resume_force_mode(dev);
  
+ 	/* turn on display hw */
 -	drm_modeset_lock_all(dev);
 +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head)
- 		if (drm_helper_crtc_in_use(crtc))
- 			dev_priv->ops->restore_crtc(crtc);
-@@ -232,8 +238,8 @@ static int psb_restore_display_registers(struct drm_device *dev)
- 		if (connector->restore)
- 			connector->restore(&connector->base);
+ 
+ 	drm_connector_list_iter_begin(dev, &iter);
+ 	drm_for_each_connector_iter(connector, &iter)
+@@ -1620,8 +1627,8 @@ int amdgpu_display_resume_helper(struct amdgpu_device *adev)
+ 					  DRM_MODE_DPMS_ON);
+ 	drm_connector_list_iter_end(&iter);
  
 -	drm_modeset_unlock_all(dev);
--	return 0;
 +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
+-	return 0;
 +	return ret;
  }
  
- static int psb_power_down(struct drm_device *dev)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 9b1fc54555ee..5196c1d26f87 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -80,6 +80,7 @@
+ #include <drm/drm_edid.h>
+ #include <drm/drm_vblank.h>
+ #include <drm/drm_audio_component.h>
++#include <drm/drm_drv.h>
+ 
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+ #include "ivsrcid/dcn/irqsrcs_dcn_1_0.h"
+@@ -2621,6 +2622,9 @@ static void handle_hpd_irq(void *param)
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 	struct dm_connector_state *dm_con_state = to_dm_connector_state(connector->state);
+ #endif
++	struct drm_modeset_acquire_ctx ctx;
++	int ret;
++
+ 
+ 	if (adev->dm.disable_hpd_irq)
+ 		return;
+@@ -2646,14 +2650,6 @@ static void handle_hpd_irq(void *param)
+ 	if (aconnector->base.force && new_connection_type == dc_connection_none) {
+ 		emulated_link_detect(aconnector->dc_link);
+ 
+-
+-		drm_modeset_lock_all(dev);
+-		dm_restore_drm_connector_state(dev, connector);
+-		drm_modeset_unlock_all(dev);
+-
+-		if (aconnector->base.force == DRM_FORCE_UNSPECIFIED)
+-			drm_kms_helper_hotplug_event(dev);
+-
+ 	} else if (dc_link_detect(aconnector->dc_link, DETECT_REASON_HPD)) {
+ 		if (new_connection_type == dc_connection_none &&
+ 		    aconnector->dc_link->type == dc_connection_none)
+@@ -2661,13 +2657,18 @@ static void handle_hpd_irq(void *param)
+ 
+ 		amdgpu_dm_update_connector_after_detect(aconnector);
+ 
+-		drm_modeset_lock_all(dev);
+-		dm_restore_drm_connector_state(dev, connector);
+-		drm_modeset_unlock_all(dev);
+-
+-		if (aconnector->base.force == DRM_FORCE_UNSPECIFIED)
+-			drm_kms_helper_hotplug_event(dev);
++	} else {
++		goto out;
+ 	}
++
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
++	dm_restore_drm_connector_state(dev, connector);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
++
++	if (aconnector->base.force == DRM_FORCE_UNSPECIFIED)
++		drm_kms_helper_hotplug_event(dev);
++
++out:
+ 	mutex_unlock(&aconnector->hpd_lock);
+ 
+ }
+@@ -2756,12 +2757,14 @@ static void handle_hpd_rx_irq(void *param)
+ 	struct drm_connector *connector = &aconnector->base;
+ 	struct drm_device *dev = connector->dev;
+ 	struct dc_link *dc_link = aconnector->dc_link;
++	struct drm_modeset_acquire_ctx ctx;
+ 	bool is_mst_root_connector = aconnector->mst_mgr.mst_state;
+ 	bool result = false;
+ 	enum dc_connection_type new_connection_type = dc_connection_none;
+ 	struct amdgpu_device *adev = drm_to_adev(dev);
+ 	union hpd_irq_data hpd_irq_data;
+ 	bool lock_flag = 0;
++	int ret;
+ 
+ 	memset(&hpd_irq_data, 0, sizeof(hpd_irq_data));
+ 
+@@ -2828,12 +2831,6 @@ static void handle_hpd_rx_irq(void *param)
+ 
+ 			amdgpu_dm_update_connector_after_detect(aconnector);
+ 
+-
+-			drm_modeset_lock_all(dev);
+-			dm_restore_drm_connector_state(dev, connector);
+-			drm_modeset_unlock_all(dev);
+-
+-			drm_kms_helper_hotplug_event(dev);
+ 		} else if (dc_link_detect(dc_link, DETECT_REASON_HPDRX)) {
+ 
+ 			if (aconnector->fake_enable)
+@@ -2841,14 +2838,17 @@ static void handle_hpd_rx_irq(void *param)
+ 
+ 			amdgpu_dm_update_connector_after_detect(aconnector);
+ 
++		} else {
++			goto finish;
++		}
+ 
+-			drm_modeset_lock_all(dev);
+-			dm_restore_drm_connector_state(dev, connector);
+-			drm_modeset_unlock_all(dev);
++		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
++		dm_restore_drm_connector_state(dev, connector);
++		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+ 
+-			drm_kms_helper_hotplug_event(dev);
+-		}
++		drm_kms_helper_hotplug_event(dev);
+ 	}
++finish:
+ #ifdef CONFIG_DRM_AMD_DC_HDCP
+ 	if (hpd_irq_data.bytes.device_service_irq.bits.CP_IRQ) {
+ 		if (adev->dm.hdcp_workqueue)
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+index 87daa78a32b8..fb7b56fa2673 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+@@ -24,6 +24,7 @@
+  */
+ 
+ #include <linux/uaccess.h>
++#include <drm/drm_drv.h>
+ 
+ #include "dc.h"
+ #include "amdgpu.h"
+@@ -1191,12 +1192,14 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
+ 	struct drm_connector *connector = &aconnector->base;
+ 	struct dc_link *link = NULL;
+ 	struct drm_device *dev = connector->dev;
++	struct drm_modeset_acquire_ctx ctx;
+ 	enum dc_connection_type new_connection_type = dc_connection_none;
+ 	char *wr_buf = NULL;
+ 	uint32_t wr_buf_size = 42;
+ 	int max_param_num = 1;
+ 	long param[1] = {0};
+ 	uint8_t param_nums = 0;
++	int ret;
+ 
+ 	if (!aconnector || !aconnector->dc_link)
+ 		return -EINVAL;
+@@ -1236,12 +1239,6 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
+ 			goto unlock;
+ 
+ 		amdgpu_dm_update_connector_after_detect(aconnector);
+-
+-		drm_modeset_lock_all(dev);
+-		dm_restore_drm_connector_state(dev, connector);
+-		drm_modeset_unlock_all(dev);
+-
+-		drm_kms_helper_hotplug_event(dev);
+ 	} else if (param[0] == 0) {
+ 		if (!aconnector->dc_link)
+ 			goto unlock;
+@@ -1259,13 +1256,19 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
+ 
+ 		amdgpu_dm_update_connector_after_detect(aconnector);
+ 
+-		drm_modeset_lock_all(dev);
+-		dm_restore_drm_connector_state(dev, connector);
+-		drm_modeset_unlock_all(dev);
+-
+-		drm_kms_helper_hotplug_event(dev);
++	} else {
++		goto unlock;
+ 	}
+ 
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
++	dm_restore_drm_connector_state(dev, connector);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
++
++	if (ret)
++		return ret;
++
++	drm_kms_helper_hotplug_event(dev);
++
+ unlock:
+ 	mutex_unlock(&aconnector->hpd_lock);
+ 
 -- 
 2.33.0
 
