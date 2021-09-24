@@ -2,58 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D991D417B11
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 20:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 465A2417BA5
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 21:14:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 331BF6E209;
-	Fri, 24 Sep 2021 18:28:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13E566E235;
+	Fri, 24 Sep 2021 19:14:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2EB646E209
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 18:28:19 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id F13F861265
- for <dri-devel@lists.freedesktop.org>; Fri, 24 Sep 2021 18:28:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632508099;
- bh=FFLpbF0TIkXIOnGOc36XOPUmWNnop2lQlCEU0U3LQcY=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=JDlprkq6ZUMxmrf1o2aXMYhBRbcBjHwU2c6MG359P48ZKr+x2yED4sS+H8DnnsVaC
- 0zFwHKWS+SpdGwr6RIPUcQ5whTTdIl/++ff7TOksD+Z2mWyfb4ZhW02jGibBYI0SCn
- USTFoIbsfKhYdDamD+au36G2SpbZ3V/aYXpCDTjjx7uinFAZ8Dcz4UYuF09XllqyoO
- 7noy7zo8UXvetHUJpOjmhUDFqFqP0/kxkiEqEA8OZQLERU6aXbmWNb0Mc6taQpxjEX
- LRudoYDjAJMMc18EWUcR89ZACHOBoMQ5QVcrqRCzvq1Y2j4mDoIK0FmBncEa1mNew8
- IOfqwN0e2iFQw==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id ED8FD60FF3; Fri, 24 Sep 2021 18:28:18 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 85421] radeon stalled, GPU lockup, reset and failed on resume;
- crashed by firefox.
-Date: Fri, 24 Sep 2021 18:28:17 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: dufresnep@zoho.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-85421-2300-1KfaLHfcvx@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-85421-2300@https.bugzilla.kernel.org/>
-References: <bug-85421-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C2196E235;
+ Fri, 24 Sep 2021 19:14:20 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10117"; a="223789600"
+X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; d="scan'208";a="223789600"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 24 Sep 2021 12:14:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,320,1624345200"; d="scan'208";a="437094327"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga003.jf.intel.com with ESMTP; 24 Sep 2021 12:14:18 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Gaurav Kumar <kumar.gaurav@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Juston Li <juston.li@intel.com>,
+ Lionel Landwerlin <lionel.g.landwerlin@intel.com>,
+ Jason Ekstrand <jason@jlekstrand.net>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH v13 00/17] drm/i915: Introduce Intel PXP
+Date: Fri, 24 Sep 2021 12:14:35 -0700
+Message-Id: <20210924191452.1539378-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,24 +56,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D85421
+PXP (Protected Xe Path) is an i915 component, available on
+GEN12 and newer platforms, that helps to establish the hardware
+protected session and manage the status of the alive software session,
+as well as its life cycle.
 
-Paul Dufresne (dufresnep@zoho.com) changed:
+changes from v12:
+- Patch #4: Fixed for loop pointer dereference (Vinay).
+- Patch #10: Rebasing required for latest drm-tim today.
+- Patch #11: Increase timeout again in intel_pxp_start to
+  cover accumulated underlying dependant operations.
+- Patch #12: Rebasing required for latest drm-tip today.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |dufresnep@zoho.com
+Tested with: https://patchwork.freedesktop.org/series/87570/
 
---- Comment #41 from Paul Dufresne (dufresnep@zoho.com) ---
-I discovered on Ubuntu, that from 17.04 (since using glamor rather than EXA=
-), I
-do get similar bug on resume on a RS780C (Radeon 3100 card [2008]).
-Problem gone away when using EXA acceleration... on Mint 20.2 at least.
+Cc: Gaurav Kumar <kumar.gaurav@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Cc: Juston Li <juston.li@intel.com>
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>
+Cc: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
 
-Details in: https://bugs.launchpad.net/bugs/1944991
+Anshuman Gupta (2):
+  drm/i915/pxp: Add plane decryption support
+  drm/i915/pxp: black pixels on pxp disabled
 
---=20
-You may reply to this email to add a comment.
+Daniele Ceraolo Spurio (9):
+  drm/i915/pxp: Define PXP component interface
+  drm/i915/pxp: define PXP device flag and kconfig
+  drm/i915/pxp: allocate a vcs context for pxp usage
+  drm/i915/pxp: set KCR reg init
+  drm/i915/pxp: interfaces for using protected objects
+  drm/i915/pxp: start the arb session on demand
+  drm/i915/pxp: add pxp debugfs
+  drm/i915/pxp: add PXP documentation
+  drm/i915/pxp: enable PXP for integrated Gen12
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Huang, Sean Z (5):
+  drm/i915/pxp: Implement funcs to create the TEE channel
+  drm/i915/pxp: Create the arbitrary session after boot
+  drm/i915/pxp: Implement arb session teardown
+  drm/i915/pxp: Implement PXP irq handler
+  drm/i915/pxp: Enable PXP power management
+
+Vitaly Lubart (1):
+  mei: pxp: export pavp client to me client bus
+
+ Documentation/gpu/i915.rst                    |   8 +
+ drivers/gpu/drm/i915/Kconfig                  |  11 +
+ drivers/gpu/drm/i915/Makefile                 |  10 +
+ drivers/gpu/drm/i915/display/intel_display.c  |  34 ++
+ .../drm/i915/display/intel_display_types.h    |   6 +
+ .../drm/i915/display/skl_universal_plane.c    |  49 ++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  97 +++++-
+ drivers/gpu/drm/i915/gem/i915_gem_context.h   |   6 +
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |  28 ++
+ drivers/gpu/drm/i915/gem/i915_gem_create.c    |  72 +++--
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  18 ++
+ drivers/gpu/drm/i915/gem/i915_gem_object.c    |   1 +
+ drivers/gpu/drm/i915/gem/i915_gem_object.h    |   6 +
+ .../gpu/drm/i915/gem/i915_gem_object_types.h  |   9 +-
+ .../gpu/drm/i915/gem/selftests/mock_context.c |   4 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   2 +
+ drivers/gpu/drm/i915/gt/intel_gpu_commands.h  |  22 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |   5 +
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |   2 +
+ drivers/gpu/drm/i915/gt/intel_gt_irq.c        |   7 +
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  16 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   3 +
+ drivers/gpu/drm/i915/i915_drv.c               |   2 +
+ drivers/gpu/drm/i915/i915_drv.h               |   3 +
+ drivers/gpu/drm/i915/i915_pci.c               |   2 +
+ drivers/gpu/drm/i915/i915_reg.h               |  48 +++
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/pxp/intel_pxp.c          | 299 ++++++++++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp.h          |  64 ++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c      | 141 +++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h      |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c  |  78 +++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h  |  21 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.c      | 101 ++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_irq.h      |  32 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.c       |  46 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_pm.h       |  24 ++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.c  | 175 ++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_session.h  |  15 +
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.c      | 172 ++++++++++
+ drivers/gpu/drm/i915/pxp/intel_pxp_tee.h      |  17 +
+ .../drm/i915/pxp/intel_pxp_tee_interface.h    |  36 +++
+ drivers/gpu/drm/i915/pxp/intel_pxp_types.h    |  83 +++++
+ drivers/misc/mei/Kconfig                      |   2 +
+ drivers/misc/mei/Makefile                     |   1 +
+ drivers/misc/mei/pxp/Kconfig                  |  13 +
+ drivers/misc/mei/pxp/Makefile                 |   7 +
+ drivers/misc/mei/pxp/mei_pxp.c                | 229 ++++++++++++++
+ drivers/misc/mei/pxp/mei_pxp.h                |  18 ++
+ include/drm/i915_component.h                  |   1 +
+ include/drm/i915_pxp_tee_interface.h          |  42 +++
+ include/uapi/drm/i915_drm.h                   |  97 ++++++
+ 52 files changed, 2159 insertions(+), 42 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_cmd.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_debugfs.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_irq.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_pm.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_session.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.c
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_tee_interface.h
+ create mode 100644 drivers/gpu/drm/i915/pxp/intel_pxp_types.h
+ create mode 100644 drivers/misc/mei/pxp/Kconfig
+ create mode 100644 drivers/misc/mei/pxp/Makefile
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.c
+ create mode 100644 drivers/misc/mei/pxp/mei_pxp.h
+ create mode 100644 include/drm/i915_pxp_tee_interface.h
+
+-- 
+2.25.1
+
