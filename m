@@ -1,51 +1,108 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 570F4416A01
-	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 04:26:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D7E416A5B
+	for <lists+dri-devel@lfdr.de>; Fri, 24 Sep 2021 05:17:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372B46EDD8;
-	Fri, 24 Sep 2021 02:26:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B23736E17F;
+	Fri, 24 Sep 2021 03:17:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0E8BF6EDD8;
- Fri, 24 Sep 2021 02:26:00 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C17E458B;
- Fri, 24 Sep 2021 04:25:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632450358;
- bh=45e1RdVipct+ZYgoBCG59Y1r2CqJIiDZM00tNcmo9cw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lSWHnGvkX11Tky0znlaLjMETSaEQ7jIikpeUFmvnDesmOwI8Jp14TnLq9qdo1Aja9
- Hvgw/Y8YwpLOU+SK4X2IHk1RTVHw6kUnKVbG2r+h/j4xg1rdUF/Zaar9xTnEUIC3Nc
- nczMoz4hMNDQu045FhKIcOhUdXZKSjfnJVw3/PWw=
-Date: Fri, 24 Sep 2021 05:25:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rob Clark <robdclark@gmail.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Douglas Anderson <dianders@chromium.org>,
- Rob Clark <robdclark@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
-Message-ID: <YU03M+CXJ+ALi8De@pendragon.ideasonboard.com>
-References: <20210920225801.227211-1-robdclark@gmail.com>
- <20210920225801.227211-4-robdclark@gmail.com>
- <YUvN3j0v+8NMjNte@pendragon.ideasonboard.com>
- <CAF6AEGviyfX6+c-CB5gMXqRQfHhvb5L8t++-VkZpvS3r9qDNoA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAF6AEGviyfX6+c-CB5gMXqRQfHhvb5L8t++-VkZpvS3r9qDNoA@mail.gmail.com>
+X-Greylist: delayed 1421 seconds by postgrey-1.36 at gabe;
+ Fri, 24 Sep 2021 03:17:29 UTC
+Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
+ [148.163.158.5])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F410F6E17F;
+ Fri, 24 Sep 2021 03:17:29 +0000 (UTC)
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 18O1dWP7018194; 
+ Thu, 23 Sep 2021 22:53:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ mime-version : content-transfer-encoding; s=pp1;
+ bh=wuouC2eqvPDvQ1Md7kHHpeWYjluxjEmJURkvCvdNlcs=;
+ b=rNEIbh80Df3xj+oBlUfUz/ifiBmf2od1re3ZROT1t6M+X+3HgCobqOdlFHHTTS4GgR18
+ NeaT56ACus5MT7Owl7H+Zed2qaTebaWE5S+sIJWEJ+FnDdZFrKtWmSRN+WX3tVOgSWZz
+ wp2nWrWKM8/9bduQCQVSZFpCrey1DOQ+WPA0/TPFscmBouH+c1piVOlL/5GU4UU4LwCU
+ Ys6t3wuMX1TaucjJc/VHU8xgR9uhnikRLGAlS/ADFbYQk0Ql1WwCcQUSdBegBPdODqoI
+ k0zKNd5GKwvWGvQ0gSrmn7JyDmTarcaw2aniWqwTe7BiuncLSQiX9fP0ghupY6Nzi6sX Mw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b93suatwk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 22:53:44 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 18O2mTFU017258;
+ Thu, 23 Sep 2021 22:53:43 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3b93suatwc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 23 Sep 2021 22:53:43 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.1.2/8.16.1.2) with SMTP id 18O2lXBH002397;
+ Fri, 24 Sep 2021 02:53:42 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma03dal.us.ibm.com with ESMTP id 3b93g1u8j0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 24 Sep 2021 02:53:42 +0000
+Received: from b03ledav002.gho.boulder.ibm.com
+ (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 18O2reqp39649698
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 24 Sep 2021 02:53:41 GMT
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BE3CC136060;
+ Fri, 24 Sep 2021 02:53:40 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D54D513605D;
+ Fri, 24 Sep 2021 02:53:38 +0000 (GMT)
+Received: from farman-thinkpad-t470p (unknown [9.211.34.14])
+ by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 24 Sep 2021 02:53:38 +0000 (GMT)
+Message-ID: <144b3f129af82c0e928250342b71f2372cc67ea3.camel@linux.ibm.com>
+Subject: Re: [PATCH v2 1/9] vfio/ccw: Use functions for alloc/free of the
+ vfio_ccw_private
+From: Eric Farman <farman@linux.ibm.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, David Airlie <airlied@linux.ie>, Tony
+ Krowiak <akrowiak@linux.ibm.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Christian Borntraeger
+ <borntraeger@de.ibm.com>, Cornelia Huck <cohuck@redhat.com>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org, Harald Freudenberger
+ <freude@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>,
+ intel-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Jason Herne <jjherne@linux.ibm.com>, Joonas
+ Lahtinen <joonas.lahtinen@linux.intel.com>, kvm@vger.kernel.org, Kirti
+ Wankhede <kwankhede@nvidia.com>, linux-s390@vger.kernel.org, Matthew
+ Rosato <mjrosato@linux.ibm.com>, Peter Oberparleiter
+ <oberpar@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>, Rodrigo Vivi
+ <rodrigo.vivi@intel.com>, Vineeth Vijayan <vneethv@linux.ibm.com>, Zhenyu
+ Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Date: Thu, 23 Sep 2021 22:53:37 -0400
+In-Reply-To: <1-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+References: <1-v2-7d3a384024cf+2060-ccw_mdev_jgg@nvidia.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.28.5 (3.28.5-16.el8) 
+Mime-Version: 1.0
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: _r2Z3ezORzHmn3cXQji0mW9FA5OFlGWs
+X-Proofpoint-GUID: dAyJm55gTKyHAGMoz8sVyegi9l8Z5giQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.182.1,Aquarius:18.0.790,Hydra:6.0.391,FMLib:17.0.607.475
+ definitions=2021-09-23_07,2021-09-23_01,2020-04-07_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 spamscore=0
+ lowpriorityscore=0 suspectscore=0 mlxlogscore=947 mlxscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2109230001 definitions=main-2109240011
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,116 +118,16 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Rob,
-
-On Thu, Sep 23, 2021 at 10:31:52AM -0700, Rob Clark wrote:
-> On Wed, Sep 22, 2021 at 5:44 PM Laurent Pinchart wrote:
-> > On Mon, Sep 20, 2021 at 03:58:00PM -0700, Rob Clark wrote:
-> > > From: Rob Clark <robdclark@chromium.org>
-> > >
-> > > Slightly awkward to fish out the display_info when we aren't creating
-> > > own connector.  But I don't see an obvious better way.
-> > >
-> > > v2: Remove error return with NO_CONNECTOR flag
-> > >
-> > > Signed-off-by: Rob Clark <robdclark@chromium.org>
-> > > ---
-> > >  drivers/gpu/drm/bridge/ti-sn65dsi86.c | 39 ++++++++++++++++++++-------
-> > >  1 file changed, 29 insertions(+), 10 deletions(-)
-> > >
-> > > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi86.c b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > index 6154bed0af5b..94c94cc8a4d8 100644
-> > > --- a/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi86.c
-> > > @@ -667,11 +667,6 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-> > >                                                  .node = NULL,
-> > >                                                };
-> > >
-> > > -     if (flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR) {
-> > > -             DRM_ERROR("Fix bridge driver to make connector optional!");
-> > > -             return -EINVAL;
-> > > -     }
-> > > -
-> > >       pdata->aux.drm_dev = bridge->dev;
-> > >       ret = drm_dp_aux_register(&pdata->aux);
-> > >       if (ret < 0) {
-> > > @@ -679,9 +674,11 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-> > >               return ret;
-> > >       }
-> > >
-> > > -     ret = ti_sn_bridge_connector_init(pdata);
-> > > -     if (ret < 0)
-> > > -             goto err_conn_init;
-> > > +     if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR)) {
-> > > +             ret = ti_sn_bridge_connector_init(pdata);
-> > > +             if (ret < 0)
-> > > +                     goto err_conn_init;
-> > > +     }
-> > >
-> > >       /*
-> > >        * TODO: ideally finding host resource and dsi dev registration needs
-> > > @@ -743,7 +740,8 @@ static int ti_sn_bridge_attach(struct drm_bridge *bridge,
-> > >  err_dsi_attach:
-> > >       mipi_dsi_device_unregister(dsi);
-> > >  err_dsi_host:
-> > > -     drm_connector_cleanup(&pdata->connector);
-> > > +     if (!(flags & DRM_BRIDGE_ATTACH_NO_CONNECTOR))
-> > > +             drm_connector_cleanup(&pdata->connector);
-> >
-> > I wonder if we actually need this. The connector gets attached to the
-> > encoder, won't it be destroyed by the DRM core in the error path ?
+On Thu, 2021-09-09 at 16:38 -0300, Jason Gunthorpe wrote:
+> Makes the code easier to understand what is memory lifecycle and what
+> is
+> other stuff.
 > 
-> This does not appear to be the case, we leak the connector if I remove
-> this (and add a hack to trigger the error path)
+> Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> ---
+>  drivers/s390/cio/vfio_ccw_drv.c | 137 ++++++++++++++++++----------
+> ----
+>  1 file changed, 78 insertions(+), 59 deletions(-)
 
-OK.
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 
-> > >  err_conn_init:
-> > >       drm_dp_aux_unregister(&pdata->aux);
-> > >       return ret;
-> > > @@ -792,9 +790,30 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-> > >       regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
-> > >  }
-> > >
-> > > +/*
-> > > + * Find the connector and fish out the bpc from display_info.  It would
-> > > + * be nice if we could get this instead from drm_bridge_state, but that
-> > > + * doesn't yet appear to be the case.
-> >
-> > You already have a bus format in the bridge state, from which you can
-> > derive the bpp. Could you give it a try ?
-> 
-> Possibly the bridge should be converted to ->atomic_enable(), etc..
-> I'll leave that for another time
-
-It should be fairly straightforward, and would avoid the hack below.
-
-> > > + */
-> > >  static unsigned int ti_sn_bridge_get_bpp(struct ti_sn65dsi86 *pdata)
-> > >  {
-> > > -     if (pdata->connector.display_info.bpc <= 6)
-> > > +     struct drm_bridge *bridge = &pdata->bridge;
-> > > +     struct drm_connector_list_iter conn_iter;
-> > > +     struct drm_connector *connector;
-> > > +     unsigned bpc = 0;
-> > > +
-> > > +     drm_connector_list_iter_begin(bridge->dev, &conn_iter);
-> > > +     drm_for_each_connector_iter(connector, &conn_iter) {
-> > > +             if (drm_connector_has_possible_encoder(connector, bridge->encoder)) {
-> > > +                     bpc = connector->display_info.bpc;
-> > > +                     break;
-> > > +             }
-> > > +     }
-> > > +     drm_connector_list_iter_end(&conn_iter);
-> > > +
-> > > +     WARN_ON(bpc == 0);
-> > > +
-> > > +     if (bpc <= 6)
-> > >               return 18;
-> > >       else
-> > >               return 24;
-
--- 
-Regards,
-
-Laurent Pinchart
