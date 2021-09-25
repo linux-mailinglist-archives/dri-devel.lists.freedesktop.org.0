@@ -2,64 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1CB04181A4
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 13:25:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DEC2418197
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 13:25:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C96796E3EE;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BF326E3EC;
 	Sat, 25 Sep 2021 11:25:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52e.google.com (mail-ed1-x52e.google.com
- [IPv6:2a00:1450:4864:20::52e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 964E16E3E3
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 10:30:03 +0000 (UTC)
-Received: by mail-ed1-x52e.google.com with SMTP id x7so31652571edd.6
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 03:30:03 -0700 (PDT)
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com
+ [IPv6:2a00:1450:4864:20::535])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC7B16E3E3
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 10:31:59 +0000 (UTC)
+Received: by mail-ed1-x535.google.com with SMTP id bx4so46518157edb.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 03:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Qg5/oSikstGrcKHAEZ2kNOu35Ui0LwxOPISufBILSFo=;
- b=TVZzUd6oklyoYnnW1KZPSnyII0vXYp8/yG2UPmWqYZ+dlt4dM7dOv75vJoJCH0Nei/
- Lm2Dm+mdX2g6Ip2YBxZWYTKEea93PqE4oBLfGMqVOCTN3pEKBqkIwsleK5vuNagA1Pxw
- 7irRQkP3zlsO7+XNpsjVi5zkekfDHgUQfy8oFshAmNWO6q+Y/CLe85TupRB19Z45KJe6
- xf70Wvj2D6NXP2h6IiHcr3KPJImR2mpC9fwqWKgWL/DeECWEuHClNOPuy/fdzJKsNKU5
- Z3MfQeupEzk7ViagMr8mXnaWYfEjH0tjWKCi87WtcXYCkxQUd05xlLsRglI41Alhqrm4
- JwEw==
+ bh=YeH5vkzIpa6TeE8Tz3mSyGZU/tR0+zS/g4jLCGFfdvY=;
+ b=USmlh/DZPVWtlxSSuUkmPMHHOwRs9Xv9zziDWV2tjKDDSy1mtSHsSwcMeY6RODpGw/
+ bEe6jw9DJEKZKnaYrQ4vLeEoJii6k7oStRkTA/BzA+d/5g5uQXxSZTL6/lAKffMTqwEA
+ QOdQVyQlrFmot5aAw3JrYFfnf3d7N9S4IG8n4qrybJKnBDJwbMaooHTa9+FdTGmtUgVh
+ ENySnXeG7vOlgTOaLlevLTYvomd5ouIWeE4uXwMU22pr2w7kIds6XU7Zcvdeor1fAbJV
+ GA0Et9j6BwOdRfWdrW0pVEpnfjWMVuSWka5gvCly19gLgxdWwZU5JL/+wtrKWaoIL8Ic
+ uxXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=Qg5/oSikstGrcKHAEZ2kNOu35Ui0LwxOPISufBILSFo=;
- b=rWJcTR5zwpVLEph2E1e1gvHNva+g/P/2WyQMEAFEbeZGcemadboxbdhOYHGiy3wRhN
- uBRiZVUo4s2EYoa4UrM4uOtQOWkfhBNxhTtbhY1NMrd/VixGBc7N1y6c4/CWWO+b3+8o
- Qm5IPpXKrch+ZGC6gMdTdzmrIgtR87yGdhJDuSVVESYgl4lM6KROsdaJ8t+6jtoaXDgs
- Nce3nP/OTWc15bC3n0Au4fsz3JPLfxwiB58BAF1oNGWx7dnNfhPB+33PlcA9UvuMEtnk
- oENd2B9cuOWe6vIXAf3Jd3vnLjAnMEPjDqQ90S3zUYoH+wJmEtKXJ9B5lRKkMSW0VDLO
- VcSw==
-X-Gm-Message-State: AOAM530lMdkh2DqjZPQeBTWEuq8Jslfa6147IPwLGYj/6F/sAF7l3CA5
- t3Kg1kYjFEpPz063chX4H2c=
-X-Google-Smtp-Source: ABdhPJwDfTK+JrioJmsmpXDNbIw0sW61sN39bJWllOSxAP9Ej/Qlja114kygCamI/vW74dHZ5mlC6Q==
-X-Received: by 2002:a05:6402:3587:: with SMTP id
- y7mr10502993edc.362.1632565801885; 
- Sat, 25 Sep 2021 03:30:01 -0700 (PDT)
+ bh=YeH5vkzIpa6TeE8Tz3mSyGZU/tR0+zS/g4jLCGFfdvY=;
+ b=DJ0voi8GmgBlKHMFQmQ5XAMcn9uemfauQcs6FfAs2G8h/b+EBNk+IgPU9hOnYB0rJu
+ FCOwcZgpQKJ0PUUW2appBvuS3K2QKKSWJ47xOH3auRvqhJIvOpQOKCiuFxpyOn/Y3iX8
+ mVIdyRaUEc4KKGMzYFOqqylGtmrba6MeCS0qXjDXHkqW+i4692XURCnkjsQtNZt8307B
+ 0nuyCGqdRe7QL23DeSU/T47wKiHF/RexaIVX6vhgVFMHH09AiHGGFgDuW+47LH8zLp+V
+ 5lbPwJsRYe2inRNeL7paI05uBk7T9/jzUpC/NDSGqu7dqO1J7MqmA48Eqsb7dLilFkQP
+ xUKw==
+X-Gm-Message-State: AOAM5314SRP3Tio+kasswrZj7HtdGX4QLhH1qylQdQsr8z7HvS7jP05y
+ eqdfW4ddCwXqBUVs8pAnDRY=
+X-Google-Smtp-Source: ABdhPJzlNASQZT2iU0BZikQkFfvD82LU7XQPQMGqTq6pq/QLz3B4QtN9njOy5nJ9iqrZmXuGfG4w3w==
+X-Received: by 2002:aa7:c905:: with SMTP id b5mr10801924edt.380.1632565918123; 
+ Sat, 25 Sep 2021 03:31:58 -0700 (PDT)
 Received: from localhost.localdomain (net-93-144-178-230.cust.vodafonedsl.it.
  [93.144.178.230])
- by smtp.googlemail.com with ESMTPSA id y4sm6059249ejr.101.2021.09.25.03.30.00
+ by smtp.googlemail.com with ESMTPSA id m15sm6203750ejx.73.2021.09.25.03.31.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 25 Sep 2021 03:30:01 -0700 (PDT)
+ Sat, 25 Sep 2021 03:31:57 -0700 (PDT)
 From: Raffaele Tranquillini <raffaele.tranquillini@gmail.com>
 To: thierry.reding@gmail.com, sam@ravnborg.org, airlied@linux.ie,
  daniel@ffwll.ch
 Cc: y.oudjana@protonmail.com, ~postmarketos/upstreaming@lists.sr.ht,
  phone-devel@vger.kernel.org,
  Raffaele Tranquillini <raffaele.tranquillini@gmail.com>,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [PATCH 1/2] drm/panel: Add JDI R63452 MIPI DSI panel driver
-Date: Sat, 25 Sep 2021 12:29:09 +0200
-Message-Id: <20210925102911.518038-1-raffaele.tranquillini@gmail.com>
+ Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/2] dt-bindings: panel-simple-dsi: add JDI R63452 panel
+ bindings
+Date: Sat, 25 Sep 2021 12:31:33 +0200
+Message-Id: <20210925103135.518443-1-raffaele.tranquillini@gmail.com>
 X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Mailman-Approved-At: Sat, 25 Sep 2021 11:25:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -77,378 +77,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This adds support for the JDI R63452 Full HD LCD panel used on the
-Xiaomi Mi 5 smartphone, in MIPI DSI command mode.
+This add the bindings for the JDI FHD_R63452 1080x1920 5.2" LCD DSI
+ panel used on the Xiaomi Mi 5 smartphone.
 
 Signed-off-by: Raffaele Tranquillini <raffaele.tranquillini@gmail.com>
 ---
- drivers/gpu/drm/panel/Kconfig                |   9 +
- drivers/gpu/drm/panel/Makefile               |   1 +
- drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c | 323 +++++++++++++++++++
- 3 files changed, 333 insertions(+)
- create mode 100644 drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
+ .../devicetree/bindings/display/panel/panel-simple-dsi.yaml     | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
-index beb581b96ecd..ea548628da86 100644
---- a/drivers/gpu/drm/panel/Kconfig
-+++ b/drivers/gpu/drm/panel/Kconfig
-@@ -177,6 +177,15 @@ config DRM_PANEL_JDI_LT070ME05000
- 	  The panel has a 1200(RGB)×1920 (WUXGA) resolution and uses
- 	  24 bit per pixel.
- 
-+config DRM_PANEL_JDI_R63452
-+	tristate "JDI R63452 Full HD DSI panel"
-+	depends on OF
-+	depends on DRM_MIPI_DSI
-+	depends on BACKLIGHT_CLASS_DEVICE
-+	help
-+	  Say Y here if you want to enable support for the JDI R63452
-+	  DSI command mode panel as found in Xiaomi Mi 5 Devices.
-+
- config DRM_PANEL_KHADAS_TS050
- 	tristate "Khadas TS050 panel"
- 	depends on OF
-diff --git a/drivers/gpu/drm/panel/Makefile b/drivers/gpu/drm/panel/Makefile
-index c8132050bcec..6ab4072dae2d 100644
---- a/drivers/gpu/drm/panel/Makefile
-+++ b/drivers/gpu/drm/panel/Makefile
-@@ -16,6 +16,7 @@ obj-$(CONFIG_DRM_PANEL_ILITEK_ILI9881C) += panel-ilitek-ili9881c.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_EJ030NA) += panel-innolux-ej030na.o
- obj-$(CONFIG_DRM_PANEL_INNOLUX_P079ZCA) += panel-innolux-p079zca.o
- obj-$(CONFIG_DRM_PANEL_JDI_LT070ME05000) += panel-jdi-lt070me05000.o
-+obj-$(CONFIG_DRM_PANEL_JDI_R63452) += panel-jdi-fhd-r63452.o
- obj-$(CONFIG_DRM_PANEL_KHADAS_TS050) += panel-khadas-ts050.o
- obj-$(CONFIG_DRM_PANEL_KINGDISPLAY_KD097D04) += panel-kingdisplay-kd097d04.o
- obj-$(CONFIG_DRM_PANEL_LEADTEK_LTK050H3146W) += panel-leadtek-ltk050h3146w.o
-diff --git a/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-new file mode 100644
-index 000000000000..31eafbc38ec0
---- /dev/null
-+++ b/drivers/gpu/drm/panel/panel-jdi-fhd-r63452.c
-@@ -0,0 +1,323 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (c) 2021 Raffaele Tranquillini <raffaele.tranquillini@gmail.com>
-+ *
-+ * Generated using linux-mdss-dsi-panel-driver-generator from Lineage OS device tree:
-+ * https://github.com/LineageOS/android_kernel_xiaomi_msm8996/blob/lineage-18.1/arch/arm/boot/dts/qcom/a1-msm8996-mtp.dtsi
-+ */
-+
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+
-+#include <video/mipi_display.h>
-+
-+#include <drm/drm_mipi_dsi.h>
-+#include <drm/drm_modes.h>
-+#include <drm/drm_panel.h>
-+
-+struct jdi_fhd_r63452 {
-+	struct drm_panel panel;
-+	struct mipi_dsi_device *dsi;
-+	struct gpio_desc *reset_gpio;
-+	bool prepared;
-+};
-+
-+static inline struct jdi_fhd_r63452 *to_jdi_fhd_r63452(struct drm_panel *panel)
-+{
-+	return container_of(panel, struct jdi_fhd_r63452, panel);
-+}
-+
-+#define dsi_generic_write_seq(dsi, seq...) do {				\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_generic_write(dsi, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+#define dsi_dcs_write_seq(dsi, seq...) do {				\
-+		static const u8 d[] = { seq };				\
-+		int ret;						\
-+		ret = mipi_dsi_dcs_write_buffer(dsi, d, ARRAY_SIZE(d));	\
-+		if (ret < 0)						\
-+			return ret;					\
-+	} while (0)
-+
-+static void jdi_fhd_r63452_reset(struct jdi_fhd_r63452 *ctx)
-+{
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+	usleep_range(1000, 2000);
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 0);
-+	usleep_range(10000, 11000);
-+}
-+
-+static int jdi_fhd_r63452_on(struct jdi_fhd_r63452 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags |= MIPI_DSI_MODE_LPM;
-+
-+	dsi_generic_write_seq(dsi, 0xb0, 0x00);
-+	dsi_generic_write_seq(dsi, 0xd6, 0x01);
-+	dsi_generic_write_seq(dsi, 0xec,
-+			      0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+			      0x13, 0x15, 0x68, 0x0b, 0xb5);
-+	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+
-+	ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear on: %d\n", ret);
-+		return ret;
-+	}
-+
-+	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_ADDRESS_MODE, 0x00);
-+
-+	ret = mipi_dsi_dcs_set_pixel_format(dsi, 0x77);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set pixel format: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_column_address(dsi, 0x0000, 0x0437);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set column address: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_page_address(dsi, 0x0000, 0x077f);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set page address: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_tear_scanline(dsi, 0x0000);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set tear scanline: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = mipi_dsi_dcs_set_display_brightness(dsi, 0x00ff);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display brightness: %d\n", ret);
-+		return ret;
-+	}
-+
-+	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_CONTROL_DISPLAY, 0x24);
-+	dsi_dcs_write_seq(dsi, MIPI_DCS_WRITE_POWER_SAVE, 0x00);
-+	dsi_dcs_write_seq(dsi, MIPI_DCS_SET_CABC_MIN_BRIGHTNESS, 0x00);
-+	dsi_dcs_write_seq(dsi, 0x84, 0x00);
-+
-+	ret = mipi_dsi_dcs_set_display_on(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display on: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(20);
-+
-+	ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to exit sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(80);
-+
-+	dsi_generic_write_seq(dsi, 0xb0, 0x04);
-+	dsi_dcs_write_seq(dsi, 0x84, 0x00);
-+	dsi_generic_write_seq(dsi, 0xc8, 0x11);
-+	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+
-+	return 0;
-+}
-+
-+static int jdi_fhd_r63452_off(struct jdi_fhd_r63452 *ctx)
-+{
-+	struct mipi_dsi_device *dsi = ctx->dsi;
-+	struct device *dev = &dsi->dev;
-+	int ret;
-+
-+	dsi->mode_flags &= ~MIPI_DSI_MODE_LPM;
-+
-+	dsi_generic_write_seq(dsi, 0xb0, 0x00);
-+	dsi_generic_write_seq(dsi, 0xd6, 0x01);
-+	dsi_generic_write_seq(dsi, 0xec,
-+			      0x64, 0xdc, 0xec, 0x3b, 0x52, 0x00, 0x0b, 0x0b,
-+			      0x13, 0x15, 0x68, 0x0b, 0x95);
-+	dsi_generic_write_seq(dsi, 0xb0, 0x03);
-+
-+	ret = mipi_dsi_dcs_set_display_off(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to set display off: %d\n", ret);
-+		return ret;
-+	}
-+	usleep_range(2000, 3000);
-+
-+	ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to enter sleep mode: %d\n", ret);
-+		return ret;
-+	}
-+	msleep(120);
-+
-+	return 0;
-+}
-+
-+static int jdi_fhd_r63452_prepare(struct drm_panel *panel)
-+{
-+	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (ctx->prepared)
-+		return 0;
-+
-+	jdi_fhd_r63452_reset(ctx);
-+
-+	ret = jdi_fhd_r63452_on(ctx);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to initialize panel: %d\n", ret);
-+		gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+		return ret;
-+	}
-+
-+	ctx->prepared = true;
-+	return 0;
-+}
-+
-+static int jdi_fhd_r63452_unprepare(struct drm_panel *panel)
-+{
-+	struct jdi_fhd_r63452 *ctx = to_jdi_fhd_r63452(panel);
-+	struct device *dev = &ctx->dsi->dev;
-+	int ret;
-+
-+	if (!ctx->prepared)
-+		return 0;
-+
-+	ret = jdi_fhd_r63452_off(ctx);
-+	if (ret < 0)
-+		dev_err(dev, "Failed to un-initialize panel: %d\n", ret);
-+
-+	gpiod_set_value_cansleep(ctx->reset_gpio, 1);
-+
-+	ctx->prepared = false;
-+	return 0;
-+}
-+
-+static const struct drm_display_mode jdi_fhd_r63452_mode = {
-+	.clock = (1080 + 120 + 16 + 40) * (1920 + 4 + 2 + 4) * 60 / 1000,
-+	.hdisplay = 1080,
-+	.hsync_start = 1080 + 120,
-+	.hsync_end = 1080 + 120 + 16,
-+	.htotal = 1080 + 120 + 16 + 40,
-+	.vdisplay = 1920,
-+	.vsync_start = 1920 + 4,
-+	.vsync_end = 1920 + 4 + 2,
-+	.vtotal = 1920 + 4 + 2 + 4,
-+	.width_mm = 64,
-+	.height_mm = 114,
-+};
-+
-+static int jdi_fhd_r63452_get_modes(struct drm_panel *panel,
-+				    struct drm_connector *connector)
-+{
-+	struct drm_display_mode *mode;
-+
-+	mode = drm_mode_duplicate(connector->dev, &jdi_fhd_r63452_mode);
-+	if (!mode)
-+		return -ENOMEM;
-+
-+	drm_mode_set_name(mode);
-+
-+	mode->type = DRM_MODE_TYPE_DRIVER | DRM_MODE_TYPE_PREFERRED;
-+	connector->display_info.width_mm = mode->width_mm;
-+	connector->display_info.height_mm = mode->height_mm;
-+	drm_mode_probed_add(connector, mode);
-+
-+	return 1;
-+}
-+
-+static const struct drm_panel_funcs jdi_fhd_r63452_panel_funcs = {
-+	.prepare = jdi_fhd_r63452_prepare,
-+	.unprepare = jdi_fhd_r63452_unprepare,
-+	.get_modes = jdi_fhd_r63452_get_modes,
-+};
-+
-+static int jdi_fhd_r63452_probe(struct mipi_dsi_device *dsi)
-+{
-+	struct device *dev = &dsi->dev;
-+	struct jdi_fhd_r63452 *ctx;
-+	int ret;
-+
-+	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
-+	if (!ctx)
-+		return -ENOMEM;
-+
-+	ctx->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(ctx->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(ctx->reset_gpio),
-+				     "Failed to get reset-gpios\n");
-+
-+	ctx->dsi = dsi;
-+	mipi_dsi_set_drvdata(dsi, ctx);
-+
-+	dsi->lanes = 4;
-+	dsi->format = MIPI_DSI_FMT_RGB888;
-+	dsi->mode_flags = MIPI_DSI_MODE_VIDEO_BURST |
-+			  MIPI_DSI_CLOCK_NON_CONTINUOUS;
-+
-+	drm_panel_init(&ctx->panel, dev, &jdi_fhd_r63452_panel_funcs,
-+		       DRM_MODE_CONNECTOR_DSI);
-+
-+	ret = drm_panel_of_backlight(&ctx->panel);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get backlight\n");
-+
-+	drm_panel_add(&ctx->panel);
-+
-+	ret = mipi_dsi_attach(dsi);
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to attach to DSI host: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int jdi_fhd_r63452_remove(struct mipi_dsi_device *dsi)
-+{
-+	struct jdi_fhd_r63452 *ctx = mipi_dsi_get_drvdata(dsi);
-+	int ret;
-+
-+	ret = mipi_dsi_detach(dsi);
-+	if (ret < 0)
-+		dev_err(&dsi->dev, "Failed to detach from DSI host: %d\n", ret);
-+
-+	drm_panel_remove(&ctx->panel);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id jdi_fhd_r63452_of_match[] = {
-+	{ .compatible = "jdi,fhd-r63452" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, jdi_fhd_r63452_of_match);
-+
-+static struct mipi_dsi_driver jdi_fhd_r63452_driver = {
-+	.probe = jdi_fhd_r63452_probe,
-+	.remove = jdi_fhd_r63452_remove,
-+	.driver = {
-+		.name = "panel-jdi-fhd-r63452",
-+		.of_match_table = jdi_fhd_r63452_of_match,
-+	},
-+};
-+module_mipi_dsi_driver(jdi_fhd_r63452_driver);
-+
-+MODULE_AUTHOR("Raffaele Tranquillini <raffaele.tranquillini@gmail.com>");
-+MODULE_DESCRIPTION("DRM driver for JDI FHD R63452 DSI panel, command mode");
-+MODULE_LICENSE("GPL v2");
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+index fbd71669248f..2c00813f5d20 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple-dsi.yaml
+@@ -35,6 +35,8 @@ properties:
+       - boe,tv080wum-nl0
+         # Innolux P079ZCA 7.85" 768x1024 TFT LCD panel
+       - innolux,p079zca
++        # JDI FHD_R63452 1080x1920 5.2" IPS LCD Panel
++      - jdi,fhd-r63452
+         # Khadas TS050 5" 1080x1920 LCD panel
+       - khadas,ts050
+         # Kingdisplay KD097D04 9.7" 1536x2048 TFT LCD panel
 -- 
 2.32.0
 
