@@ -2,34 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ECB3418433
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 21:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2D441843D
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 21:44:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5EF316E459;
-	Sat, 25 Sep 2021 19:39:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D6F8E6E45E;
+	Sat, 25 Sep 2021 19:43:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 515666E459
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 19:39:32 +0000 (UTC)
-Date: Sat, 25 Sep 2021 20:39:21 +0100
-From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Paul Boddie <paul@boddie.org.uk>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-mips <linux-mips@vger.kernel.org>,
- list@opendingux.net, dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Message-Id: <L9900R.05DOH2MOR3V93@crapouillou.net>
-In-Reply-To: <96585ED9-B707-4AF1-8417-E03DE6414965@goldelico.com>
-References: <20210922205555.496871-1-paul@crapouillou.net>
- <4366739.KZ8Jxz7LyS@jason> <EKJXZQ.6VJ0UDHV3T3W@crapouillou.net>
- <2094991.ScV2v2meXk@jason> <HU700R.NAHL5IU3NRE81@crapouillou.net>
- <96585ED9-B707-4AF1-8417-E03DE6414965@goldelico.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CFDD6E45E
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 19:43:56 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id t10so56063680lfd.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 12:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=o7r6LEd84eVcpzdZevVA6CNaY4Y+fECuY4q5lSdo/i8=;
+ b=qeT57O9lND44qSN3DGwfbXbhprfMBWzv2Pbsr/GdFMqo4tFkzZxERpXzSs1cJcUwup
+ 0o0SlgDD0hkuQSw9p71n4PH10RwheH1XAi6YMCa67Vw4BIZy8HtpSO7NnsIRn2lK0qhJ
+ /ziQL7X8MpHcU/rP3kdX+MLdPxcY/1GUwccebAaNwc1saJTEmOmp1iMAyqxqYuIsKWJe
+ lYOA+StLJDDbJcWmIeIq+sFjyyn4RTVPfZGzu0zFazcphiWCvmLRGbsl0vO6jCpRUTaf
+ 8ETccGHywqFxcgC/IHGHGVJulTsIvTJOVA+L9Cz5TvUOJJMSPjFCazaqaSTJdgC9S5/o
+ iLlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=o7r6LEd84eVcpzdZevVA6CNaY4Y+fECuY4q5lSdo/i8=;
+ b=kZX0qhOVmYV/VRZB1gm7tsroeKWIKHWLF0Vsq9b+JHOIqxXNXC2ewYgtDLy1saze/M
+ 7KgqAl52AOcoG8ZmkpQI/kvZsOpX6WAFHGMpGoHDoX/UL3v8ph0H9W4IaALlZgG22jvc
+ wnyTqPQ+CSBFQ026aDueHjNQTl+mSDXMk6LHn3b8AZINPG3hC5GFbhnxgPpMtQZdjCWe
+ LchjB97NTqsu1XGAgiNUd6yx8kb60v3c0w3iVFhHjsqKA8pbyFjLVphdPUKP3Km58hNQ
+ kKEDwDwiASMtY3qWecWY56bOpelR0srG/rG6K9fBfN9TlhAY3Wrdy/bmCLdblgTTDjbP
+ FrPQ==
+X-Gm-Message-State: AOAM532QZSHPKV7MToe/wkUdbXdiBEiK6ItVdW987TWEzNn/udeRFLq1
+ JQj/J2TZ+PdgsMuXw5KGcOwjfw==
+X-Google-Smtp-Source: ABdhPJyYDbYaE2GJOBvOxIrHttHqaheFY0ZVf9vTc6jZcXz0SWTn+4LBTvTL2QKwhZHG5uu6Nbgp8Q==
+X-Received: by 2002:a2e:5450:: with SMTP id y16mr19450595ljd.21.1632599034319; 
+ Sat, 25 Sep 2021 12:43:54 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id v11sm1106002lfi.56.2021.09.25.12.43.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 25 Sep 2021 12:43:53 -0700 (PDT)
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: do not install irq handler
+ before power up the host
+To: abhinavk@codeaurora.org
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>, David Heidelberg <david@ixit.cz>
+References: <20210921162258.1858223-1-dmitry.baryshkov@linaro.org>
+ <0c275df228a1925e43a4dc59ceeab6b7@codeaurora.org>
+ <CAA8EJppLDpmT81OhdpWjHh4joPL=mNaG8eZN2cZOZk8mSpbd+w@mail.gmail.com>
+ <8c1e44cf44f917d38fa7133b869047b0@codeaurora.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <7512b299-106f-2ffa-6d4f-46dc195abb84@linaro.org>
+Date: Sat, 25 Sep 2021 22:43:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <8c1e44cf44f917d38fa7133b869047b0@codeaurora.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,376 +85,114 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 21/09/2021 23:52, abhinavk@codeaurora.org wrote:
+> On 2021-09-21 10:47, Dmitry Baryshkov wrote:
+>> Hi,
+>>
+>> On Tue, 21 Sept 2021 at 20:01, <abhinavk@codeaurora.org> wrote:
+>>>
+>>> On 2021-09-21 09:22, Dmitry Baryshkov wrote:
+>>> > The DSI host might be left in some state by the bootloader. If this
+>>> > state generates an IRQ, it might hang the system by holding the
+>>> > interrupt line before the driver sets up the DSI host to the known
+>>> > state.
+>>> >
+>>> > Move the request/free_irq calls into msm_dsi_host_power_on/_off calls,
+>>> > so that we can be sure that the interrupt is delivered when the 
+>>> host is
+>>> > in the known state.
+>>> >
+>>> > Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+>>> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>
+>>> This is a valid change and we have seen interrupt storms in downstream
+>>> happening
+>>> when like you said the bootloader leaves the DSI host in unknown state.
+>>> Just one question below.
+>>>
+>>> > ---
+>>> >  drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++---------
+>>> >  1 file changed, 12 insertions(+), 9 deletions(-)
+>>> >
+>>> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> > b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> > index e269df285136..cd842347a6b1 100644
+>>> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>> > @@ -1951,15 +1951,6 @@ int msm_dsi_host_modeset_init(struct
+>>> > mipi_dsi_host *host,
+>>> >               return ret;
+>>> >       }
+>>> >
+>>> > -     ret = devm_request_irq(&pdev->dev, msm_host->irq,
+>>> > -                     dsi_host_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+>>> > -                     "dsi_isr", msm_host);
+>>> > -     if (ret < 0) {
+>>> > -             DRM_DEV_ERROR(&pdev->dev, "failed to request IRQ%u: 
+>>> %d\n",
+>>> > -                             msm_host->irq, ret);
+>>> > -             return ret;
+>>> > -     }
+>>> > -
+>>> >       msm_host->dev = dev;
+>>> >       ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+>>> >       if (ret) {
+>>> > @@ -2413,6 +2404,16 @@ int msm_dsi_host_power_on(struct mipi_dsi_host
+>>> > *host,
+>>> >       if (msm_host->disp_en_gpio)
+>>> >               gpiod_set_value(msm_host->disp_en_gpio, 1);
+>>> >
+>>> > +     ret = devm_request_irq(&msm_host->pdev->dev, msm_host->irq,
+>>> > +                     dsi_host_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+>>> > +                     "dsi_isr", msm_host);
+>>> > +     if (ret < 0) {
+>>> > +             DRM_DEV_ERROR(&msm_host->pdev->dev, "failed to 
+>>> request IRQ%u: %d\n",
+>>> > +                             msm_host->irq, ret);
+>>> > +             return ret;
+>>> > +     }
+>>> > +
+>>> > +
+>>>
+>>> Do you want to move this to msm_dsi_host_enable()?
+>>> So without the controller being enabled it is still in unknown state?
+>>
+>> msm_dsi_host_power_on() reconfigures the host registers, so the state
+>> is known at the end of the power_on().
+>>
+>>> Also do you want to do this after dsi0 and dsi1 are initialized to
+>>> account for
+>>> dual dsi cases?
+>>
+>> I don't think this should matter. The host won't generate 'extra'
+>> interrupts in such case, will it?
+>>
+> We have seen cases where misconfiguration has caused interrupts to storm 
+> only
+> on one DSI in some cases. So yes, I would prefer this is done after both 
+> are
+> configured.
+
+I've checked. The power_on is called from dsi_mgr_bridge_pre_enable() 
+when both DSI hosts should be bound.
+
+> 
+>>>
+>>> >       msm_host->power_on = true;
+>>> >       mutex_unlock(&msm_host->dev_mutex);
+>>> >
+>>> > @@ -2439,6 +2440,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host
+>>> > *host)
+>>> >               goto unlock_ret;
+>>> >       }
+>>> >
+>>> > +     devm_free_irq(&msm_host->pdev->dev, msm_host->irq, msm_host);
+>>> > +
+>>> >       dsi_ctrl_config(msm_host, false, NULL, NULL);
+>>> >
+>>> >       if (msm_host->disp_en_gpio)
 
 
-Le sam., sept. 25 2021 at 21:26:42 +0200, H. Nikolaus Schaller=20
-<hns@goldelico.com> a =E9crit :
-> Hi Paul,
->=20
->>  Am 25.09.2021 um 21:08 schrieb Paul Cercueil <paul@crapouillou.net>:
->>=20
->>  Hi Paul & Nikolaus,
->>=20
->>  If you spent some time debugging the issue
->=20
-> we did ...
-
-By saying that you didn't debug, I mean that you did not try to see why=20
-you had these errors - where the error codes were coming from, etc., to=20
-have a clear understanding of why it fails.
-
->>  instead of complaining that my patchset breaks things...
->=20
-> ... we did have a working version (without hdmi-connector)
-> and bisect pointed at your patch... So we debugged that.
->=20
-> So the lesson is: don't trust bisect.
->=20
-> And failed to make it work with hdmi-connector because the
-> ingenic-drm-drv reported errors.
->=20
->>=20
->>  The fix is a one-liner in your downstream ingenic-dw-hdmi.c:
->>  .output_port =3D 1
->>  in the ingenic_dw_hdmi_plat_data struct.
->=20
-> Cool. How did you find that?
-
-You had this:
-[    4.474346] [drm:drm_bridge_attach [drm]] *ERROR* failed to attach=20
-bridge (null) to encoder DPI-34: -22
-
-(null) means you're printing a NULL pointer. So I could see that=20
-hdmi->next_bridge was NULL. The place that sets it is dw_hdmi_parse_dt,=20
-which will return early with code 0, before next_bridge is set, if=20
-plat_data->output_port =3D=3D 0, which was your case.
-
-Since your hdmi-connector is wired at port #1, then .output_port should=20
-be 1 as well.
-
-Cheers,
--Paul
-
->>=20
->>  Absolutely nothing else needs to be changed for HDMI to work here.
->=20
-> Great and thanks.
->=20
-> Will test asap and if it works as well, we can clean up a v4 patch set
-> for next week review.
->=20
-> BR and thanks,
-> Nikolaus
->=20
->>=20
->>  Cheers,
->>  -Paul
->>=20
->>=20
->>  Le sam., sept. 25 2021 at 17:55:03 +0200, Paul Boddie=20
->> <paul@boddie.org.uk> a =E9crit :
->>>  On Friday, 24 September 2021 10:29:02 CEST Paul Cercueil wrote:
->>>>  Le ven., sept. 24 2021 at 00:51:39 +0200, Paul Boddie
->>>>  >
->>>>  > 2. My approach, which just involves changing the Synopsys=20
->>>> driver to
->>>>  > set the bridge type in dw_hdmi_probe like this:
->>>>  >
->>>>  >   hdmi->bridge.type =3D DRM_MODE_CONNECTOR_HDMIA;
->>>>  >
->>>>  > Otherwise, I don't see how the bridge's (struct drm_bridge)=20
->>>> type will
->>>>  > be set.
->>>>  The bridge's type is set in hdmi-connector, from DTS. The 'type =3D=20
->>>> "a"'
->>>>  will result in the bridge's .type to be set to=20
->>>> DRM_MODE_CONNECTOR_HDMIA.
->>>  Actually, I found that hdmi-connector might not have been=20
->>> available because
->>>  CONFIG_DRM_DISPLAY_CONNECTOR was not enabled. Rectifying this, the=20
->>> connector
->>>  does get detected and enabled. However, the Synopsys driver=20
->>> remains unaware of
->>>  it, and so the bridge type in the Synopsys driver remains unset.
->>>  I do see that the connector sets the type on a bridge in its own=20
->>> private
->>>  structure, so there would be a need to propagate this type to the=20
->>> actual
->>>  bridge. In other words, what the connector does is distinct from=20
->>> the Synopsys
->>>  driver which acts as the bridge with regard to the Ingenic driver.
->>>  Perhaps the Synopsys driver should set the connector's bridge as=20
->>> the next
->>>  bridge, or maybe something is supposed to discover that the=20
->>> connector may act
->>>  as (or provide) a bridge after the Synopsys driver in the chain=20
->>> and then back-
->>>  propagate the bridge type along the chain.
->>>  [...]
->>>>  > And I removed any of the above hacks. What I observe, apart=20
->>>> from an
->>>>  > inactive LCD controller (and ingenic-drm driver), is the=20
->>>> following in
->>>>  > /sys/devices/platform/10180000.hdmi/:
->>>>  >
->>>>  > consumer:platform:13050000.lcdc0
->>>>  > consumer:platform:hdmi_connector
->>>  Interestingly, with the connector driver present, these sysfs=20
->>> entries no
->>>  longer appear.
->>>  [...]
->>>>  > For me, running modetest yields plenty of information about=20
->>>> encoders,
->>>>  > connectors (and the supported modes via the EDID, thanks to my=20
->>>> HDMI-A
->>>>  > hack), CRTCs, and planes. But no framebuffers are reported.
->>>>  Could you paste the result of "modetest -a -c -p" somewhere maybe?
->>>  I had to specify -M ingenic-drm as well, but here you go...
->>>  ----
->>>  Connectors:
->>>  id	encoder	status		name		size (mm)	modes	encoders
->>>  35	34	connected	HDMI-A-1       	340x270		17	34
->>>   modes:
->>>  	index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
->>>   #0 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000=20
->>> flags:
->>>  phsync, pvsync; type: preferred, driver
->>>   #1 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000=20
->>> flags:
->>>  phsync, pvsync; type: driver
->>>   #2 1280x960 60.00 1280 1376 1488 1800 960 961 964 1000 108000=20
->>> flags: phsync,
->>>  pvsync; type: driver
->>>   #3 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000=20
->>> flags: phsync,
->>>  pvsync; type: driver
->>>   #4 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750=20
->>> flags: phsync,
->>>  pvsync; type: driver
->>>   #5 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000=20
->>> flags: nhsync,
->>>  nvsync; type: driver
->>>   #6 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000=20
->>> flags: nhsync,
->>>  nvsync; type: driver
->>>   #7 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags:=20
->>> nhsync,
->>>  nvsync; type: driver
->>>   #8 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags:=20
->>> phsync,
->>>  pvsync; type: driver
->>>   #9 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags:=20
->>> phsync,
->>>  pvsync; type: driver
->>>   #10 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags:=20
->>> phsync,
->>>  pvsync; type: driver
->>>   #11 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags:=20
->>> phsync,
->>>  pvsync; type: driver
->>>   #12 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags:=20
->>> nhsync,
->>>  nvsync; type: driver
->>>   #13 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags:=20
->>> nhsync,
->>>  nvsync; type: driver
->>>   #14 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags:=20
->>> nhsync,
->>>  nvsync; type: driver
->>>   #15 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags:=20
->>> nhsync,
->>>  nvsync; type: driver
->>>   #16 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags:=20
->>> nhsync,
->>>  pvsync; type: driver
->>>   props:
->>>  	1 EDID:
->>>  		flags: immutable blob
->>>  		blobs:
->>>  		value:
->>>  			00ffffffffffff00047232ad01010101
->>>  			2d0e010380221b782aaea5a6544c9926
->>>  			145054bfef0081808140714f01010101
->>>  			010101010101302a009851002a403070
->>>  			1300520e1100001e000000ff00343435
->>>  			3030353444454330300a000000fc0041
->>>  			4c313731350a202020202020000000fd
->>>  			00384c1e520e000a2020202020200051
->>>  	2 DPMS:
->>>  		flags: enum
->>>  		enums: On=3D0 Standby=3D1 Suspend=3D2 Off=3D3
->>>  		value: 0
->>>  	5 link-status:
->>>  		flags: enum
->>>  		enums: Good=3D0 Bad=3D1
->>>  		value: 0
->>>  	6 non-desktop:
->>>  		flags: immutable range
->>>  		values: 0 1
->>>  		value: 0
->>>  	4 TILE:
->>>  		flags: immutable blob
->>>  		blobs:
->>>  		value:
->>>  	20 CRTC_ID:
->>>  		flags: object
->>>  		value: 32
->>>  CRTCs:
->>>  id	fb	pos	size
->>>  32	39	(0,0)	(1280x1024)
->>>   #0  60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags:=20
->>> phsync,
->>>  pvsync; type:
->>>   props:
->>>  	22 ACTIVE:
->>>  		flags: range
->>>  		values: 0 1
->>>  		value: 1
->>>  	23 MODE_ID:
->>>  		flags: blob
->>>  		blobs:
->>>  		value:
->>>  			e0a5010000053005a005980600000004
->>>  			010404042a0400003c00000005000000
->>>  			00000000000000000000000000000000
->>>  			00000000000000000000000000000000
->>>  			00000000
->>>  	19 OUT_FENCE_PTR:
->>>  		flags: range
->>>  		values: 0 18446744073709551615
->>>  		value: 0
->>>  	24 VRR_ENABLED:
->>>  		flags: range
->>>  		values: 0 1
->>>  		value: 0
->>>  	28 GAMMA_LUT:
->>>  		flags: blob
->>>  		blobs:
->>>  		value:
->>>  	29 GAMMA_LUT_SIZE:
->>>  		flags: immutable range
->>>  		values: 0 4294967295
->>>  		value: 256
->>>  Planes:
->>>  id	crtc	fb	CRTC x,y	x,y	gamma size	possible crtcs
->>>  31	32	39	0,0		0,0	0       	0x00000001
->>>   formats: XR15 RG16 RG24 XR24 XR30
->>>   props:
->>>  	8 type:
->>>  		flags: immutable enum
->>>  		enums: Overlay=3D0 Primary=3D1 Cursor=3D2
->>>  		value: 1
->>>  	17 FB_ID:
->>>  		flags: object
->>>  		value: 39
->>>  	18 IN_FENCE_FD:
->>>  		flags: signed range
->>>  		values: -1 2147483647
->>>  		value: -1
->>>  	20 CRTC_ID:
->>>  		flags: object
->>>  		value: 32
->>>  	13 CRTC_X:
->>>  		flags: signed range
->>>  		values: -2147483648 2147483647
->>>  		value: 0
->>>  	14 CRTC_Y:
->>>  		flags: signed range
->>>  		values: -2147483648 2147483647
->>>  		value: 0
->>>  	15 CRTC_W:
->>>  		flags: range
->>>  		values: 0 2147483647
->>>  		value: 1280
->>>  	16 CRTC_H:
->>>  		flags: range
->>>  		values: 0 2147483647
->>>  		value: 1024
->>>  	9 SRC_X:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  	10 SRC_Y:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  	11 SRC_W:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 83886080
->>>  	12 SRC_H:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 67108864
->>>  33	0	0	0,0		0,0	0       	0x00000001
->>>   formats: C8   XR15 RG16 RG24 XR24 XR30
->>>   props:
->>>  	8 type:
->>>  		flags: immutable enum
->>>  		enums: Overlay=3D0 Primary=3D1 Cursor=3D2
->>>  		value: 0
->>>  	17 FB_ID:
->>>  		flags: object
->>>  		value: 0
->>>  	18 IN_FENCE_FD:
->>>  		flags: signed range
->>>  		values: -1 2147483647
->>>  		value: -1
->>>  	20 CRTC_ID:
->>>  		flags: object
->>>  		value: 0
->>>  	13 CRTC_X:
->>>  		flags: signed range
->>>  		values: -2147483648 2147483647
->>>  		value: 0
->>>  	14 CRTC_Y:
->>>  		flags: signed range
->>>  		values: -2147483648 2147483647
->>>  		value: 0
->>>  	15 CRTC_W:
->>>  		flags: range
->>>  		values: 0 2147483647
->>>  		value: 0
->>>  	16 CRTC_H:
->>>  		flags: range
->>>  		values: 0 2147483647
->>>  		value: 0
->>>  	9 SRC_X:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  	10 SRC_Y:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  	11 SRC_W:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  	12 SRC_H:
->>>  		flags: range
->>>  		values: 0 4294967295
->>>  		value: 0
->>>  ----
->>>>  If you have info about the CRTCs, encoders, connectors and EDID=20
->>>> info,
->>>>  then I would assume it is very close to working fine.
->>>>  For your "no framebuffer" issue, keep in mind that CONFIG_FB and
->>>>  CONFIG_FRAMEBUFFER_CONSOLE are now disabled by default.
->>>  Yes, I discovered that CONFIG_FB was not enabled, so I did so.
->>>>  If that doesn't fix anything, that probably means that one
->>>>  .atomic_check() fails, so it would be a good place to start=20
->>>> debugging.
->>>  There will be other things to verify in the Ingenic driver. As=20
->>> noted many
->>>  months ago, colour depth information has to be set in the DMA=20
->>> descriptors and
->>>  not the control register, but we are managing to do this=20
->>> successfully, as far
->>>  as I can tell, although there is always the potential for error.
->>>  Paul
->>=20
->>=20
->=20
-
-
+-- 
+With best wishes
+Dmitry
