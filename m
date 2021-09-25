@@ -1,49 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2379418353
-	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 17:55:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E73541836B
+	for <lists+dri-devel@lfdr.de>; Sat, 25 Sep 2021 18:45:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58F5A6E0FF;
-	Sat, 25 Sep 2021 15:55:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B12BA6E448;
+	Sat, 25 Sep 2021 16:45:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp2.de.opalstack.com (smtp2.de.opalstack.com
- [139.162.136.213])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C0C46E0FF
- for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 15:55:14 +0000 (UTC)
-Received: from jason.localnet (host-37-191-188-128.lynet.no [37.191.188.128])
- by smtp2.de.opalstack.com (Postfix) with ESMTPSA id B574D12A96C;
- Sat, 25 Sep 2021 15:55:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=boddie.org.uk;
- s=dkim; t=1632585313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bObrE5LGwxfaxuETPQBu2h5+WeEFOlGsokoYQSfsp7Q=;
- b=GZbA0Fcvem8ErKZ/PmxUgYzkLm/QQ/IAomc6fKgfsMrvkHKRgSCgCviGllz/uN8NGqASN9
- BRIbIh3QYz9L9MNwOZuIgAjTSu+nOiltS5GONqJfSqgVik/Kixn+okSebZ66d/0eg1dEZX
- OA8CbBFJ0zoHPhUpipXl6+5DKIoOFNg=
-From: Paul Boddie <paul@boddie.org.uk>
-To: Paul Cercueil <paul@crapouillou.net>
-Cc: "H. Nikolaus Schaller" <hns@goldelico.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-mips <linux-mips@vger.kernel.org>, list@opendingux.net,
- dri-devel <dri-devel@lists.freedesktop.org>,
- linux-kernel <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
-Date: Sat, 25 Sep 2021 17:55:03 +0200
-Message-ID: <2094991.ScV2v2meXk@jason>
-In-Reply-To: <EKJXZQ.6VJ0UDHV3T3W@crapouillou.net>
-References: <20210922205555.496871-1-paul@crapouillou.net>
- <4366739.KZ8Jxz7LyS@jason> <EKJXZQ.6VJ0UDHV3T3W@crapouillou.net>
+Received: from vps0.lunn.ch (vps0.lunn.ch [185.16.172.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E797E6E448
+ for <dri-devel@lists.freedesktop.org>; Sat, 25 Sep 2021 16:45:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+ s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+ Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+ Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+ bh=o7RrNyTLvII2PuPWJBMcGQfHdo/eKyCWMGZoLfln+IQ=; b=UcE/c1k3HmXMJW09AtYqL3Olj/
+ I5zpsxMLkvpQbZfM0/x8p/UCwgp9EszA+2dwgswvykxmzvzDBffkSjgd31wYKGAw1QOQCLP/e0Owi
+ fX26aRowKwANqo5Dbh1hFFcG3Z5rzxVMpmqVmzEIDy8v7gvLNswpI8MiGI7vWCJsulEM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+ (envelope-from <andrew@lunn.ch>)
+ id 1mUAne-008Dvw-7Y; Sat, 25 Sep 2021 18:45:18 +0200
+Date: Sat, 25 Sep 2021 18:45:18 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Justin Chen <justinpopo6@gmail.com>
+Cc: netdev@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+ Florian Fainelli <f.fainelli@gmail.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Doug Berger <opendmb@gmail.com>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ =?utf-8?B?UmFmYcWCIE1pxYJlY2tp?= <rafal@milecki.pl>,
+ Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <dri-devel@lists.freedesktop.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH net-next 3/5] net: bcmasp: Add support for ASP2.0
+ Ethernet controller
+Message-ID: <YU9SHpn4ZJrjqNuF@lunn.ch>
+References: <1632519891-26510-1-git-send-email-justinpopo6@gmail.com>
+ <1632519891-26510-4-git-send-email-justinpopo6@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam-Status: No, score=-1.72
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1632519891-26510-4-git-send-email-justinpopo6@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,291 +67,405 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Friday, 24 September 2021 10:29:02 CEST Paul Cercueil wrote:
-> 
-> Le ven., sept. 24 2021 at 00:51:39 +0200, Paul Boddie
-> >
-> > 2. My approach, which just involves changing the Synopsys driver to
-> > set the bridge type in dw_hdmi_probe like this:
-> >
-> >   hdmi->bridge.type = DRM_MODE_CONNECTOR_HDMIA;
-> > 
-> > Otherwise, I don't see how the bridge's (struct drm_bridge) type will
-> > be set.
-> 
-> The bridge's type is set in hdmi-connector, from DTS. The 'type = "a"'
-> will result in the bridge's .type to be set to DRM_MODE_CONNECTOR_HDMIA.
+> +static int bcmasp_probe(struct platform_device *pdev)
+> +{
+> +	struct bcmasp_priv *priv;
+> +	struct device_node *ports_node, *intf_node;
+> +	struct device *dev = &pdev->dev;
+> +	int ret, i, wol_irq, count = 0;
+> +	struct bcmasp_intf *intf;
+> +	struct resource *r;
+> +	u32 u32_reserved_filters_bitmask;
+> +	DECLARE_BITMAP(reserved_filters_bitmask, ASP_RX_NET_FILTER_MAX);
+> +
+> +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->irq = platform_get_irq(pdev, 0);
+> +	if (priv->irq <= 0) {
+> +		dev_err(dev, "invalid interrupt\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	priv->clk = devm_clk_get(dev, "sw_asp");
+> +	if (IS_ERR(priv->clk)) {
+> +		if (PTR_ERR(priv->clk) == -EPROBE_DEFER)
+> +			return -EPROBE_DEFER;
+> +		dev_warn(dev, "failed to request clock\n");
+> +		priv->clk = NULL;
+> +	}
 
-Actually, I found that hdmi-connector might not have been available because 
-CONFIG_DRM_DISPLAY_CONNECTOR was not enabled. Rectifying this, the connector 
-does get detected and enabled. However, the Synopsys driver remains unaware of 
-it, and so the bridge type in the Synopsys driver remains unset.
+devm_clk_get_optional() makes this simpler/
 
-I do see that the connector sets the type on a bridge in its own private 
-structure, so there would be a need to propagate this type to the actual 
-bridge. In other words, what the connector does is distinct from the Synopsys 
-driver which acts as the bridge with regard to the Ingenic driver.
+> +
+> +	/* Base from parent node */
+> +	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	priv->base = devm_ioremap_resource(&pdev->dev, r);
+> +	if (IS_ERR(priv->base)) {
+> +		dev_err(dev, "failed to iomap\n");
+> +		return PTR_ERR(priv->base);
+> +	}
+> +
+> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(40));
+> +	if (ret)
+> +		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "unable to set DMA mask: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	dev_set_drvdata(&pdev->dev, priv);
+> +	priv->pdev = pdev;
+> +	spin_lock_init(&priv->mda_lock);
+> +	spin_lock_init(&priv->clk_lock);
+> +	mutex_init(&priv->net_lock);
+> +
+> +	ret = clk_prepare_enable(priv->clk);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Enable all clocks to ensure successful probing */
+> +	bcmasp_core_clock_set(priv, ASP_CTRL_CLOCK_CTRL_ASP_ALL_DISABLE, 0);
+> +
+> +	/* Switch to the main clock */
+> +	bcmasp_core_clock_select(priv, false);
+> +
+> +	_intr2_mask_set(priv, 0xffffffff);
+> +	intr2_core_wl(priv, 0xffffffff, ASP_INTR2_CLEAR);
+> +
+> +	ret = devm_request_irq(&pdev->dev, priv->irq, bcmasp_isr, 0,
+> +			       pdev->name, priv);
+> +	if (ret) {
+> +		dev_err(dev, "failed to request ASP interrupt: %d\n", ret);
+> +		return ret;
+> +	}
 
-Perhaps the Synopsys driver should set the connector's bridge as the next 
-bridge, or maybe something is supposed to discover that the connector may act 
-as (or provide) a bridge after the Synopsys driver in the chain and then back-
-propagate the bridge type along the chain.
+Do you need to undo clk_prepare_enable()? 
 
-[...]
+> +
+> +	/* Register mdio child nodes */
+> +	of_platform_populate(dev->of_node, bcmasp_mdio_of_match, NULL,
+> +			     dev);
+> +
+> +	ret = of_property_read_u32(dev->of_node,
+> +				   "brcm,reserved-net-filters-mask",
+> +				   &u32_reserved_filters_bitmask);
+> +	if (ret)
+> +		u32_reserved_filters_bitmask = 0;
+> +
+> +	priv->net_filters_count_max = ASP_RX_NET_FILTER_MAX;
+> +	bitmap_zero(reserved_filters_bitmask, priv->net_filters_count_max);
+> +	bitmap_from_arr32(reserved_filters_bitmask,
+> +			  &u32_reserved_filters_bitmask,
+> +			  priv->net_filters_count_max);
+> +
+> +	/* Discover bitmask of reserved filters */
+> +	for_each_set_bit(i, reserved_filters_bitmask, ASP_RX_NET_FILTER_MAX) {
+> +		priv->net_filters[i].reserved = true;
+> +		priv->net_filters_count_max--;
+> +	}
+> +
+> +	/*
+> +	 * ASP specific initialization, Needs to be done irregardless of
+> +	 * of how many interfaces come up.
+> +	 */
+> +	bcmasp_core_init(priv);
+> +	bcmasp_core_init_filters(priv);
+> +
+> +	ports_node = of_find_node_by_name(dev->of_node, "ethernet-ports");
+> +	if (!ports_node) {
+> +		dev_warn(dev, "No ports found\n");
+> +		return 0;
+> +	}
+> +
+> +	priv->intf_count = of_get_available_child_count(ports_node);
+> +
+> +	priv->intfs = devm_kcalloc(dev, priv->intf_count,
+> +				   sizeof(struct bcmasp_intf *),
+> +				   GFP_KERNEL);
+> +	if (!priv->intfs)
+> +		return -ENOMEM;
+> +
+> +	/* Probe each interface (Initalization should continue even if
+> +	 * interfaces are unable to come up)
+> +	 */
+> +	i = 0;
+> +	for_each_available_child_of_node(ports_node, intf_node) {
+> +		wol_irq = platform_get_irq_optional(pdev, i + 1);
+> +		priv->intfs[i++] = bcmasp_interface_create(priv, intf_node,
+> +							   wol_irq);
+> +	}
+> +
+> +	/* Drop the clock reference count now and let ndo_open()/ndo_close()
+> +	 * manage it for us from now on.
+> +	 */
+> +	bcmasp_core_clock_set(priv, 0, ASP_CTRL_CLOCK_CTRL_ASP_ALL_DISABLE);
+> +
+> +	clk_disable_unprepare(priv->clk);
+> +
+> +	/* Now do the registration of the network ports which will take care of
+> +	 * managing the clock properly.
+> +	 */
+> +	for (i = 0; i < priv->intf_count; i++) {
+> +		intf = priv->intfs[i];
+> +		if (!intf)
+> +			continue;
+> +
+> +		ret = register_netdev(intf->ndev);
+> +		if (ret) {
+> +			netdev_err(intf->ndev,
+> +				   "failed to register net_device: %d\n", ret);
+> +			bcmasp_interface_destroy(intf, false);
+> +			continue;
+> +		}
+> +		count++;
+> +	}
+> +
+> +	dev_info(dev, "Initialized %d port(s)\n", count);
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcmasp_remove(struct platform_device *pdev)
+> +{
+> +	struct bcmasp_priv *priv = dev_get_drvdata(&pdev->dev);
+> +	struct bcmasp_intf *intf;
+> +	int i;
+> +
+> +	for (i = 0; i < priv->intf_count; i++) {
+> +		intf = priv->intfs[i];
+> +		if (!intf)
+> +			continue;
+> +
+> +		bcmasp_interface_destroy(intf, true);
+> +	}
+> +
+> +	return 0;
+> +}
 
-> > And I removed any of the above hacks. What I observe, apart from an
-> > inactive LCD controller (and ingenic-drm driver), is the following in
-> > /sys/devices/platform/10180000.hdmi/:
-> > 
-> > consumer:platform:13050000.lcdc0
-> > consumer:platform:hdmi_connector
+Do you need to depopulate the mdio children?
 
-Interestingly, with the connector driver present, these sysfs entries no 
-longer appear.
+> +static void bcmasp_get_drvinfo(struct net_device *dev,
+> +			       struct ethtool_drvinfo *info)
+> +{
+> +	strlcpy(info->driver, "bcmasp", sizeof(info->driver));
+> +	strlcpy(info->version, "v2.0", sizeof(info->version));
 
-[...]
+Please drop version. The core will fill it in with the kernel version,
+which is more useful.
 
-> > For me, running modetest yields plenty of information about encoders,
-> > connectors (and the supported modes via the EDID, thanks to my HDMI-A
-> > hack), CRTCs, and planes. But no framebuffers are reported.
-> 
-> Could you paste the result of "modetest -a -c -p" somewhere maybe?
+> +static int bcmasp_nway_reset(struct net_device *dev)
+> +{
+> +	if (!dev->phydev)
+> +		return -ENODEV;
+> +
+> +	return genphy_restart_aneg(dev->phydev);
+> +}
 
-I had to specify -M ingenic-drm as well, but here you go...
-
-----
-
-Connectors:
-id	encoder	status		name		size (mm)	modes	encoders
-35	34	connected	HDMI-A-1       	340x270		17	34
-  modes:
-	index name refresh (Hz) hdisp hss hse htot vdisp vss vse vtot)
-  #0 1280x1024 60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: 
-phsync, pvsync; type: preferred, driver
-  #1 1280x1024 75.02 1280 1296 1440 1688 1024 1025 1028 1066 135000 flags: 
-phsync, pvsync; type: driver
-  #2 1280x960 60.00 1280 1376 1488 1800 960 961 964 1000 108000 flags: phsync, 
-pvsync; type: driver
-  #3 1152x864 75.00 1152 1216 1344 1600 864 865 868 900 108000 flags: phsync, 
-pvsync; type: driver
-  #4 1024x768 75.03 1024 1040 1136 1312 768 769 772 800 78750 flags: phsync, 
-pvsync; type: driver
-  #5 1024x768 70.07 1024 1048 1184 1328 768 771 777 806 75000 flags: nhsync, 
-nvsync; type: driver
-  #6 1024x768 60.00 1024 1048 1184 1344 768 771 777 806 65000 flags: nhsync, 
-nvsync; type: driver
-  #7 832x624 74.55 832 864 928 1152 624 625 628 667 57284 flags: nhsync, 
-nvsync; type: driver
-  #8 800x600 75.00 800 816 896 1056 600 601 604 625 49500 flags: phsync, 
-pvsync; type: driver
-  #9 800x600 72.19 800 856 976 1040 600 637 643 666 50000 flags: phsync, 
-pvsync; type: driver
-  #10 800x600 60.32 800 840 968 1056 600 601 605 628 40000 flags: phsync, 
-pvsync; type: driver
-  #11 800x600 56.25 800 824 896 1024 600 601 603 625 36000 flags: phsync, 
-pvsync; type: driver
-  #12 640x480 75.00 640 656 720 840 480 481 484 500 31500 flags: nhsync, 
-nvsync; type: driver
-  #13 640x480 72.81 640 664 704 832 480 489 492 520 31500 flags: nhsync, 
-nvsync; type: driver
-  #14 640x480 66.67 640 704 768 864 480 483 486 525 30240 flags: nhsync, 
-nvsync; type: driver
-  #15 640x480 59.94 640 656 752 800 480 490 492 525 25175 flags: nhsync, 
-nvsync; type: driver
-  #16 720x400 70.08 720 738 846 900 400 412 414 449 28320 flags: nhsync, 
-pvsync; type: driver
-  props:
-	1 EDID:
-		flags: immutable blob
-		blobs:
-
-		value:
-			00ffffffffffff00047232ad01010101
-			2d0e010380221b782aaea5a6544c9926
-			145054bfef0081808140714f01010101
-			010101010101302a009851002a403070
-			1300520e1100001e000000ff00343435
-			3030353444454330300a000000fc0041
-			4c313731350a202020202020000000fd
-			00384c1e520e000a2020202020200051
-	2 DPMS:
-		flags: enum
-		enums: On=0 Standby=1 Suspend=2 Off=3
-		value: 0
-	5 link-status:
-		flags: enum
-		enums: Good=0 Bad=1
-		value: 0
-	6 non-desktop:
-		flags: immutable range
-		values: 0 1
-		value: 0
-	4 TILE:
-		flags: immutable blob
-		blobs:
-
-		value:
-	20 CRTC_ID:
-		flags: object
-		value: 32
-
-CRTCs:
-id	fb	pos	size
-32	39	(0,0)	(1280x1024)
-  #0  60.02 1280 1328 1440 1688 1024 1025 1028 1066 108000 flags: phsync, 
-pvsync; type: 
-  props:
-	22 ACTIVE:
-		flags: range
-		values: 0 1
-		value: 1
-	23 MODE_ID:
-		flags: blob
-		blobs:
-
-		value:
-			e0a5010000053005a005980600000004
-			010404042a0400003c00000005000000
-			00000000000000000000000000000000
-			00000000000000000000000000000000
-			00000000
-	19 OUT_FENCE_PTR:
-		flags: range
-		values: 0 18446744073709551615
-		value: 0
-	24 VRR_ENABLED:
-		flags: range
-		values: 0 1
-		value: 0
-	28 GAMMA_LUT:
-		flags: blob
-		blobs:
-
-		value:
-	29 GAMMA_LUT_SIZE:
-		flags: immutable range
-		values: 0 4294967295
-		value: 256
-
-Planes:
-id	crtc	fb	CRTC x,y	x,y	gamma size	possible crtcs
-31	32	39	0,0		0,0	0       	0x00000001
-  formats: XR15 RG16 RG24 XR24 XR30
-  props:
-	8 type:
-		flags: immutable enum
-		enums: Overlay=0 Primary=1 Cursor=2
-		value: 1
-	17 FB_ID:
-		flags: object
-		value: 39
-	18 IN_FENCE_FD:
-		flags: signed range
-		values: -1 2147483647
-		value: -1
-	20 CRTC_ID:
-		flags: object
-		value: 32
-	13 CRTC_X:
-		flags: signed range
-		values: -2147483648 2147483647
-		value: 0
-	14 CRTC_Y:
-		flags: signed range
-		values: -2147483648 2147483647
-		value: 0
-	15 CRTC_W:
-		flags: range
-		values: 0 2147483647
-		value: 1280
-	16 CRTC_H:
-		flags: range
-		values: 0 2147483647
-		value: 1024
-	9 SRC_X:
-		flags: range
-		values: 0 4294967295
-		value: 0
-	10 SRC_Y:
-		flags: range
-		values: 0 4294967295
-		value: 0
-	11 SRC_W:
-		flags: range
-		values: 0 4294967295
-		value: 83886080
-	12 SRC_H:
-		flags: range
-		values: 0 4294967295
-		value: 67108864
-33	0	0	0,0		0,0	0       	0x00000001
-  formats: C8   XR15 RG16 RG24 XR24 XR30
-  props:
-	8 type:
-		flags: immutable enum
-		enums: Overlay=0 Primary=1 Cursor=2
-		value: 0
-	17 FB_ID:
-		flags: object
-		value: 0
-	18 IN_FENCE_FD:
-		flags: signed range
-		values: -1 2147483647
-		value: -1
-	20 CRTC_ID:
-		flags: object
-		value: 0
-	13 CRTC_X:
-		flags: signed range
-		values: -2147483648 2147483647
-		value: 0
-	14 CRTC_Y:
-		flags: signed range
-		values: -2147483648 2147483647
-		value: 0
-	15 CRTC_W:
-		flags: range
-		values: 0 2147483647
-		value: 0
-	16 CRTC_H:
-		flags: range
-		values: 0 2147483647
-		value: 0
-	9 SRC_X:
-		flags: range
-		values: 0 4294967295
-		value: 0
-	10 SRC_Y:
-		flags: range
-		values: 0 4294967295
-		value: 0
-	11 SRC_W:
-		flags: range
-		values: 0 4294967295
-		value: 0
-	12 SRC_H:
-		flags: range
-		values: 0 4294967295
-		value: 0
-
-----
-
-> If you have info about the CRTCs, encoders, connectors and EDID info,
-> then I would assume it is very close to working fine.
-> 
-> For your "no framebuffer" issue, keep in mind that CONFIG_FB and
-> CONFIG_FRAMEBUFFER_CONSOLE are now disabled by default.
-
-Yes, I discovered that CONFIG_FB was not enabled, so I did so.
-
-> If that doesn't fix anything, that probably means that one
-> .atomic_check() fails, so it would be a good place to start debugging.
-
-There will be other things to verify in the Ingenic driver. As noted many 
-months ago, colour depth information has to be set in the DMA descriptors and 
-not the control register, but we are managing to do this successfully, as far 
-as I can tell, although there is always the potential for error.
-
-Paul
+phy_ethtool_nway_reset().
 
 
+> +static void bcmasp_get_wol(struct net_device *dev, struct ethtool_wolinfo *wol)
+> +{
+> +	struct bcmasp_intf *intf = netdev_priv(dev);
+> +
+> +	wol->supported = WAKE_MAGIC | WAKE_MAGICSECURE | WAKE_FILTER;
+> +	wol->wolopts = intf->wolopts;
+> +	memset(wol->sopass, 0, sizeof(wol->sopass));
+> +
+> +	if (wol->wolopts & WAKE_MAGICSECURE)
+> +		memcpy(wol->sopass, intf->sopass, sizeof(intf->sopass));
+> +}
+
+Maybe consider calling into the PHY to see what it can do? If the PHY
+can do the WoL you want, it will do it with less power.
+
+> +static int bcmasp_set_priv_flags(struct net_device *dev, u32 flags)
+> +{
+> +	struct bcmasp_intf *intf = netdev_priv(dev);
+> +
+> +	intf->wol_keep_rx_en = flags & BCMASP_WOL_KEEP_RX_EN ? 1 : 0;
+> +
+> +	return 0;
+
+Please could you explain this some more. How can you disable RX and
+still have WoL working?
+
+> +static void bcmasp_adj_link(struct net_device *dev)
+> +{
+> +	struct bcmasp_intf *intf = netdev_priv(dev);
+> +	struct phy_device *phydev = dev->phydev;
+> +	int changed = 0;
+> +	u32 cmd_bits = 0, reg;
+> +
+> +	if (intf->old_link != phydev->link) {
+> +		changed = 1;
+> +		intf->old_link = phydev->link;
+> +	}
+> +
+> +	if (intf->old_duplex != phydev->duplex) {
+> +		changed = 1;
+> +		intf->old_duplex = phydev->duplex;
+> +	}
+> +
+> +	switch (phydev->speed) {
+> +	case SPEED_2500:
+> +		cmd_bits = UMC_CMD_SPEED_2500;
+
+All i've seen is references to RGMII. Is 2500 possible?
+
+> +		break;
+> +	case SPEED_1000:
+> +		cmd_bits = UMC_CMD_SPEED_1000;
+> +		break;
+> +	case SPEED_100:
+> +		cmd_bits = UMC_CMD_SPEED_100;
+> +		break;
+> +	case SPEED_10:
+> +		cmd_bits = UMC_CMD_SPEED_10;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +	cmd_bits <<= UMC_CMD_SPEED_SHIFT;
+> +
+> +	if (phydev->duplex == DUPLEX_HALF)
+> +		cmd_bits |= UMC_CMD_HD_EN;
+> +
+> +	if (intf->old_pause != phydev->pause) {
+> +		changed = 1;
+> +		intf->old_pause = phydev->pause;
+> +	}
+> +
+> +	if (!phydev->pause)
+> +		cmd_bits |= UMC_CMD_RX_PAUSE_IGNORE | UMC_CMD_TX_PAUSE_IGNORE;
+> +
+> +	if (!changed)
+> +		return;
+
+Shouldn't there be a comparison intd->old_speed != phydev->speed?  You
+are risking the PHY can change speed without doing a link down/up?
+
+> +
+> +	if (phydev->link) {
+> +		reg = umac_rl(intf, UMC_CMD);
+> +		reg &= ~((UMC_CMD_SPEED_MASK << UMC_CMD_SPEED_SHIFT) |
+> +			UMC_CMD_HD_EN | UMC_CMD_RX_PAUSE_IGNORE |
+> +			UMC_CMD_TX_PAUSE_IGNORE);
+> +		reg |= cmd_bits;
+> +		umac_wl(intf, reg, UMC_CMD);
+> +
+> +		/* Enable RGMII pad */
+> +		reg = rgmii_rl(intf, RGMII_OOB_CNTRL);
+> +		reg |= RGMII_MODE_EN;
+> +		rgmii_wl(intf, reg, RGMII_OOB_CNTRL);
+> +
+> +		intf->eee.eee_active = phy_init_eee(phydev, 0) >= 0;
+> +		bcmasp_eee_enable_set(intf, intf->eee.eee_active);
+> +	} else {
+> +		/* Disable RGMII pad */
+> +		reg = rgmii_rl(intf, RGMII_OOB_CNTRL);
+> +		reg &= ~RGMII_MODE_EN;
+> +		rgmii_wl(intf, reg, RGMII_OOB_CNTRL);
+> +	}
+> +
+> +	if (changed)
+> +		phy_print_status(phydev);
+
+There has already been a return if !changed.
+
+> +static void bcmasp_configure_port(struct bcmasp_intf *intf)
+> +{
+> +	u32 reg, id_mode_dis = 0;
+> +
+> +	reg = rgmii_rl(intf, RGMII_PORT_CNTRL);
+> +	reg &= ~RGMII_PORT_MODE_MASK;
+> +
+> +	switch (intf->phy_interface) {
+> +	case PHY_INTERFACE_MODE_RGMII:
+> +		/* RGMII_NO_ID: TXC transitions at the same time as TXD
+> +		 *		(requires PCB or receiver-side delay)
+> +		 * RGMII:	Add 2ns delay on TXC (90 degree shift)
+> +		 *
+> +		 * ID is implicitly disabled for 100Mbps (RG)MII operation.
+> +		 */
+> +		id_mode_dis = RGMII_ID_MODE_DIS;
+> +		fallthrough;
+> +	case PHY_INTERFACE_MODE_RGMII_TXID:
+> +		reg |= RGMII_PORT_MODE_EXT_GPHY;
+> +		break;
+> +	case PHY_INTERFACE_MODE_MII:
+> +		reg |= RGMII_PORT_MODE_EXT_EPHY;
+> +		break;
+> +	default:
+> +		break;
+> +	}
+
+Can we skip this and let the PHY do the delays? Ah, "This is an ugly
+quirk..." Maybe add a comment here pointing towards
+bcmasp_netif_init(), which is explains this.
+
+> +static int bcmasp_netif_init(struct net_device *dev, bool phy_connect,
+> +			     bool init_rx)
+> +{
+> +	struct bcmasp_intf *intf = netdev_priv(dev);
+> +	phy_interface_t phy_iface = intf->phy_interface;
+> +	u32 phy_flags = PHY_BRCM_AUTO_PWRDWN_ENABLE |
+> +			PHY_BRCM_DIS_TXCRXC_NOENRGY |
+> +			PHY_BRCM_IDDQ_SUSPEND;
+> +	struct phy_device *phydev = NULL;
+> +	int ret;
+> +
+> +	/* Always enable interface clocks */
+> +	bcmasp_core_clock_set_intf(intf, true);
+> +
+> +	/* Enable internal PHY before any MAC activity */
+> +	if (intf->internal_phy)
+> +		bcmasp_ephy_enable_set(intf, true);
+> +
+> +	bcmasp_configure_port(intf);
+> +
+> +	/* This is an ugly quirk but we have not been correctly interpreting
+> +	 * the phy_interface values and we have done that across different
+> +	 * drivers, so at least we are consistent in our mistakes.
+> +	 *
+> +	 * When the Generic PHY driver is in use either the PHY has been
+> +	 * strapped or programmed correctly by the boot loader so we should
+> +	 * stick to our incorrect interpretation since we have validated it.
+> +	 *
+> +	 * Now when a dedicated PHY driver is in use, we need to reverse the
+> +	 * meaning of the phy_interface_mode values to something that the PHY
+> +	 * driver will interpret and act on such that we have two mistakes
+> +	 * canceling themselves so to speak. We only do this for the two
+> +	 * modes that GENET driver officially supports on Broadcom STB chips:
+> +	 * PHY_INTERFACE_MODE_RGMII and PHY_INTERFACE_MODE_RGMII_TXID. Other
+> +	 * modes are not *officially* supported with the boot loader and the
+> +	 * scripted environment generating Device Tree blobs for those
+> +	 * platforms.
+> +	 *
+> +	 * Note that internal PHY and fixed-link configurations are not
+> +	 * affected because they use different phy_interface_t values or the
+> +	 * Generic PHY driver.
+> +	 */
+
+
+> +static inline void bcmasp_map_res(struct bcmasp_priv *priv,
+> +				  struct bcmasp_intf *intf)
+> +{
+> +	/* Per port */
+> +	intf->res.umac = priv->base + UMC_OFFSET(intf);
+> +	intf->res.umac2fb = priv->base + UMAC2FB_OFFSET(intf);
+> +	intf->res.rgmii = priv->base + RGMII_OFFSET(intf);
+> +
+> +	/* Per ch */
+> +	intf->tx_spb_dma = priv->base + TX_SPB_DMA_OFFSET(intf);
+> +	intf->res.tx_spb_ctrl = priv->base + TX_SPB_CTRL_OFFSET(intf);
+> +	/*
+> +	 * Stop gap solution. This should be removed when 72165a0 is
+> +	 * deprecated
+> +	 */
+
+Is that an internal commit?
+
+   Andrew
