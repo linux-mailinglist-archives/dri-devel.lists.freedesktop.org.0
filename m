@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F03C418C5F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 00:44:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE1DB418C27
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 00:43:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7E3556E7E2;
-	Sun, 26 Sep 2021 22:44:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C7D56E7D0;
+	Sun, 26 Sep 2021 22:43:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
- [IPv6:2a00:1450:4864:20::131])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 38DE76E5C6
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 22:43:08 +0000 (UTC)
-Received: by mail-lf1-x131.google.com with SMTP id y28so68076972lfb.0
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 15:43:08 -0700 (PDT)
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 491156E5C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 22:43:09 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id z24so69315391lfu.13
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 15:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=4IPwObfWulEsKCCQvVJQw75R0yqfJKS73cbuEDacqBA=;
- b=Qo/kaiAYLMAIUjkOYkgCZvKf+2pXbbtGsaY36IIynMFsr4QZ32GqPUgXiWipPLWZ1k
- 5qo9qb2rsGJRqYTKaXaWW9l81sGayHwsYLcV3CSKlfyASs7pxHjGXrLVVBdmgmDTNept
- sH9wNPBS63tohJ5IV+cMxcHeYwGI/Q8Y6xocpejvdWaTR3FYfF44uBn6Xw7q8VbBTknL
- X5FF66mN6rcMJltq5qzVo0zwlh05cXrUx1WhMlReVdfkWCstg5U9drSNEXeIZHha5vlx
- waKQfU/ZSnamoeKh5lIWyMa+JI1g6ehB6yCyEDCnhHJ0TV3RY3XY4yWdDdDCUvLBL9s0
- KkJQ==
+ bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
+ b=jVXoHlkHdIjsVQbhBj5b7uMh0ngrZd3PCHAddv4luagdEL6TKWeTpMQ+IO9TpBGwmy
+ OqQvnHuhgLV8SPGruk2d2EWD2vLnFE6Msgsn8BnapdN1stWZsEp4K6n+wsNoGJuD0IER
+ eY1LWvYENJqu2w8Z1eaDg5FloKTQR23sqI/yIxiBXAEfWx6ht/gAsrwPGcMdDDIih4IR
+ 53Ke9Er+8K9h9BnEbwMKEj5fUz2VmOPrLqNBce5GdSlqhm/mW++3r8QPVHLtgOE4u7BK
+ mJd/qvmMNcdv6sNu8qxdNxkVxRx3ckDmC/TAeTmeShn6ADPvWSzoAPgxv8bX54iOtcSJ
+ NYfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4IPwObfWulEsKCCQvVJQw75R0yqfJKS73cbuEDacqBA=;
- b=WFs12zi9fwHDZOABb3MFcKRd1qssDeEiuwjlEnkwO3Z1dzS4XpColaAEP/y7ZfjLLJ
- zActsR4m3Z+0xqAWpNdy1ZH0QF9Ijk5kXuurIP5ACDsmLLk1Wvhhoxc/NfqWZZmalU5G
- nQQ/CPn12Qg1WJU6SLRlFK81vbEOMTn6Z6krXf9ZY9OxQJRRnZFuqqABQzR2ctXJWc0w
- pn5bz5T17tpROwWd0sVYH6YpDJKRayJpPIoTMR0enxDx8mUN0ABxRjOLftl3y41VUjUX
- B74azPqihH0gsE92OY+vMhtTl4IrzzP06qCiQ2HJP9l0qxGUUpTH9fbjkZ2mqGB3soy0
- XHMw==
-X-Gm-Message-State: AOAM531oPG7JW31zGJEhYu/eh+1Pq9va4lVlvtx6iVbnEFH/iSbzfLSB
- yY23/WmFS2FngDF3ARFwO3M=
-X-Google-Smtp-Source: ABdhPJwe5xUKZVsnVCXMxWYGWWffwzKGoU9EVrFwGggnVkslkzOKFfdCW9pEHEGbQLNjA0N5ogn19A==
-X-Received: by 2002:ac2:4157:: with SMTP id c23mr20725163lfi.184.1632696186533; 
- Sun, 26 Sep 2021 15:43:06 -0700 (PDT)
+ bh=GkvxncHOY8DvHcvIZZ5ALhHomt+6uxaaFq6TQ6h+fMg=;
+ b=Qzfml2uDXDTyA6EvgAp2VMrHfRV9MlScdqcYcl9K8t3b/jbP+i5T0tA7MrsMwAk/J0
+ AT9BiVZKGRI7BrMg0wfQ6WDpiWtM9pNIEC2RJ0patDduD29iWBeJ+PoIwBwwFrF1QvPm
+ xOxn1vMdaYW/HK2e0DwPiENKTccWBXfL3DBVDWtkrAadsW/9nxP0vYlqoDxUEBA9ufx1
+ 5EpnN9+dRnF0Oeldeqn8PiceTJEvFwECqGTipNZp0p1StBq8GChu2B55cnKLov3cz6AQ
+ lyzdp+JSDMurwtDUTdKT7VlETVbSO33TQWTJqxL4y45g1Ctm+6CFMEfW1MldvBjIxj6w
+ n4OQ==
+X-Gm-Message-State: AOAM5319jN24zctuo4XHCwBu6EjnRjb6S5Y4e1olk19hZgwvyqKnTGk7
+ wX0PIOIHKpKXsT/E9KsU2y8=
+X-Google-Smtp-Source: ABdhPJzzD+Lqvq/0PXVYaK4xhRvgqBKhRcQUDKM/Bv8HOzifMLktWJTzFJ714BHPdsdFrCQQ0Hod7g==
+X-Received: by 2002:a05:651c:1549:: with SMTP id
+ y9mr10261640ljp.105.1632696187659; 
+ Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru.
  [46.138.80.108])
- by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.43.05
+ by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.43.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 15:43:06 -0700 (PDT)
+ Sun, 26 Sep 2021 15:43:07 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -67,10 +68,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
  Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 34/35] ARM: tegra: Add Memory Client resets to Tegra30
- GR2D, GR3D and Host1x
-Date: Mon, 27 Sep 2021 01:40:57 +0300
-Message-Id: <20210926224058.1252-35-digetx@gmail.com>
+Subject: [PATCH v13 35/35] ARM: tegra20/30: Disable unused host1x hardware
+Date: Mon, 27 Sep 2021 01:40:58 +0300
+Message-Id: <20210926224058.1252-36-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -91,56 +91,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Memory access must be blocked before hardware reset is asserted and before
-power is gated, otherwise a serious hardware fault is inevitable. Add
-reset for memory clients to the GR2D, GR3D and Host1x nodes.
+MPE, VI, EPP and ISP were never used and we don't have drivers for them.
+Since these modules are enabled by default in a device-tree, a device is
+created for them, blocking voltage scaling because there is no driver to
+bind, and thus, state of PMC driver is never synced. Disable them.
 
-Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- arch/arm/boot/dts/tegra30.dtsi | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ arch/arm/boot/dts/tegra20.dtsi | 4 ++++
+ arch/arm/boot/dts/tegra30.dtsi | 8 ++++++++
+ 2 files changed, 12 insertions(+)
 
+diff --git a/arch/arm/boot/dts/tegra20.dtsi b/arch/arm/boot/dts/tegra20.dtsi
+index eb6e5518fb5f..05788c9cddc1 100644
+--- a/arch/arm/boot/dts/tegra20.dtsi
++++ b/arch/arm/boot/dts/tegra20.dtsi
+@@ -59,6 +59,7 @@ mpe@54040000 {
+ 			reset-names = "mpe";
+ 			operating-points-v2 = <&mpe_dvfs_opp_table>;
+ 			power-domains = <&pd_mpe>;
++			status = "disabled";
+ 		};
+ 
+ 		vi@54080000 {
+@@ -70,6 +71,7 @@ vi@54080000 {
+ 			reset-names = "vi";
+ 			operating-points-v2 = <&vi_dvfs_opp_table>;
+ 			power-domains = <&pd_venc>;
++			status = "disabled";
+ 		};
+ 
+ 		epp@540c0000 {
+@@ -81,6 +83,7 @@ epp@540c0000 {
+ 			reset-names = "epp";
+ 			operating-points-v2 = <&epp_dvfs_opp_table>;
+ 			power-domains = <&pd_core>;
++			status = "disabled";
+ 		};
+ 
+ 		isp@54100000 {
+@@ -91,6 +94,7 @@ isp@54100000 {
+ 			resets = <&tegra_car 23>;
+ 			reset-names = "isp";
+ 			power-domains = <&pd_venc>;
++			status = "disabled";
+ 		};
+ 
+ 		gr2d@54140000 {
 diff --git a/arch/arm/boot/dts/tegra30.dtsi b/arch/arm/boot/dts/tegra30.dtsi
-index c8130f8f680e..09cb1ab75312 100644
+index 09cb1ab75312..f9613384a487 100644
 --- a/arch/arm/boot/dts/tegra30.dtsi
 +++ b/arch/arm/boot/dts/tegra30.dtsi
-@@ -123,8 +123,8 @@ host1x@50000000 {
- 		interrupt-names = "syncpt", "host1x";
- 		clocks = <&tegra_car TEGRA30_CLK_HOST1X>;
- 		clock-names = "host1x";
--		resets = <&tegra_car 28>;
--		reset-names = "host1x";
-+		resets = <&tegra_car 28>, <&mc TEGRA30_MC_RESET_HC>;
-+		reset-names = "host1x", "mc";
- 		iommus = <&mc TEGRA_SWGROUP_HC>;
- 		operating-points-v2 = <&host1x_dvfs_opp_table>;
- 		power-domains = <&pd_heg>;
-@@ -190,8 +190,8 @@ gr2d@54140000 {
- 			reg = <0x54140000 0x00040000>;
- 			interrupts = <GIC_SPI 72 IRQ_TYPE_LEVEL_HIGH>;
- 			clocks = <&tegra_car TEGRA30_CLK_GR2D>;
--			resets = <&tegra_car 21>;
--			reset-names = "2d";
-+			resets = <&tegra_car 21>, <&mc TEGRA30_MC_RESET_2D>;
-+			reset-names = "2d", "mc";
- 			operating-points-v2 = <&gr2d_dvfs_opp_table>;
+@@ -145,6 +145,8 @@ mpe@54040000 {
+ 			power-domains = <&pd_mpe>;
+ 
+ 			iommus = <&mc TEGRA_SWGROUP_MPE>;
++
++			status = "disabled";
+ 		};
+ 
+ 		vi@54080000 {
+@@ -158,6 +160,8 @@ vi@54080000 {
+ 			power-domains = <&pd_venc>;
+ 
+ 			iommus = <&mc TEGRA_SWGROUP_VI>;
++
++			status = "disabled";
+ 		};
+ 
+ 		epp@540c0000 {
+@@ -171,6 +175,8 @@ epp@540c0000 {
  			power-domains = <&pd_heg>;
  
-@@ -205,8 +205,10 @@ gr3d@54180000 {
- 				 <&tegra_car TEGRA30_CLK_GR3D2>;
- 			clock-names = "3d", "3d2";
- 			resets = <&tegra_car 24>,
--				 <&tegra_car 98>;
--			reset-names = "3d", "3d2";
-+				 <&tegra_car 98>,
-+				 <&mc TEGRA30_MC_RESET_3D>,
-+				 <&mc TEGRA30_MC_RESET_3D2>;
-+			reset-names = "3d", "3d2", "mc", "mc2";
- 			operating-points-v2 = <&gr3d_dvfs_opp_table>;
- 			power-domains = <&pd_3d0>, <&pd_3d1>;
- 			power-domain-names = "3d0", "3d1";
+ 			iommus = <&mc TEGRA_SWGROUP_EPP>;
++
++			status = "disabled";
+ 		};
+ 
+ 		isp@54100000 {
+@@ -183,6 +189,8 @@ isp@54100000 {
+ 			power-domains = <&pd_venc>;
+ 
+ 			iommus = <&mc TEGRA_SWGROUP_ISP>;
++
++			status = "disabled";
+ 		};
+ 
+ 		gr2d@54140000 {
 -- 
 2.32.0
 
