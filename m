@@ -2,51 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EA10418C3A
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 00:43:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA24418C09
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 00:43:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D90A6E802;
-	Sun, 26 Sep 2021 22:43:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9912E6E7D7;
+	Sun, 26 Sep 2021 22:43:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F09686E5BF
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 22:42:49 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id b15so67584548lfe.7
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 15:42:49 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B9EF6E5C6
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 22:42:51 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id t10so68466697lfd.8
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 15:42:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=d07O0PTI8yOarAA3b3qtuOC+53W1id0Cs3+xSBQH71U=;
- b=d0/rmSkI50Ulam7pZursX1HcKI0ezKG4XvgVt/Mp+o/jIFbheIiM0WGCLcIV4rJd4N
- 0RODhP9+EdXTILs0tFG6AUrEOf4Hdw5hNr3cQxJ0RQ7ibnKJnHC/YlV5SI/hbLITLz2g
- f/HYHf2yDjaioXC1yEU+AXxLgKiDLc763EQiwkgEAj2PXIlgy2wEnxev1RhhEubmb3HL
- wbHtIR9Oj3XFdsz1Ssxk4ugYMTQ8dqfWEuxO+FJ23K3UatZmgcOf4YewvKnDJ+xB9bOh
- LPDMzaycg44pVumsAAM3SBMy01UP+9OwV1j0hD6CGZN29I7zUGl0lqQfbF0kwg0do9c8
- /FRg==
+ bh=sOB+CC4oKPUtnAgAVkVlulPbe4zQ1YRgefv90mYIpNk=;
+ b=iGoHMkqDer+IUBfR/bgRrz+jeKIMNsmuhWevyrWar8vyZ4ifaG+5gq5Wps+fwEJ3yV
+ DlLdtKAupURsnA1tOm6n1V60owrMvYFXEePQ9T5+tjSh8Pd5jrCVIfKjmq8q+HtjcB8K
+ 7lz6fnZFGMtalSY62wT7bgFeqUSyfbJv0jqxRfa3/0jKRAXrweLfa4PUcGGW567GqPVR
+ upDg4noq5AHZjEW6xka3N+/+mJvYzCfinhRgO+X2BSM1fc/aS40eUiU/DEglgRI/Zij2
+ y+0CETDbYVbj2PdJ5oyQ6DSucoaeyqGg/VoKO8+GMz920vrjtNy2cySRtoYW/9IubR8m
+ Rt7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=d07O0PTI8yOarAA3b3qtuOC+53W1id0Cs3+xSBQH71U=;
- b=c6K0Ryh3CwhpVmjAIcQeUU4bCiAhmdEgbWI//XhoscsMxcse5HYczh4IvdvykMQoi+
- DY0um6ACu/hhDCWAMsaa89wdhKIwgrGd8vwMo1j+tOglCiAGKTCfposNK5qxoxej6J0r
- n+AupTQNiMxnHYearfemHkPQqdRYYpVLB9Wx4+gq39W5gbHfCjIx5Fzw53aNwomRgYTw
- LOvXAdKocMmaqVi0ONXZCp2Nrozti0eW0c9oqGkOExM5QraZhZDXou2dtmvcQGa/59ss
- PhtziudtNJf5KpSjOwucPVEP8Mz6ZA2RCk12qFNteyZMK9Fcue/AWZbW270JV/h8syYr
- h9/Q==
-X-Gm-Message-State: AOAM532ENvnPlCygNAX64q/iGikBqNk2g+OeGb9YVDp82eOpzLZJL1ZB
- 7upUtZygTuYW41ReRzewHag=
-X-Google-Smtp-Source: ABdhPJzyWI0aEoBtHB/9xutc4y7nuHYW8cA1Jt3gMWcbOF72hPVjsvtw+K0Q+GDBaxeV4df1WAHcsQ==
-X-Received: by 2002:a05:651c:11cf:: with SMTP id
- z15mr25356439ljo.69.1632696168291; 
- Sun, 26 Sep 2021 15:42:48 -0700 (PDT)
+ bh=sOB+CC4oKPUtnAgAVkVlulPbe4zQ1YRgefv90mYIpNk=;
+ b=OP02ndAItuGwGw7SpFWAm03b2TTQEg2lnf0QOZ3i0H6B8ytpjdwBB/CB6zwMfsmm5s
+ 9HK29kLEWE7r8UIIioo+VxTPfz2D6MqX5lamo87AdpjcJxQNJWmwCKaPSRIEiP8teW8n
+ AYkzaTZuejHfMzFKu7D8mgUPXvIZeDwC+iNLVdB2bq4YAka9ZVzOAnDsyT+y19TRujjI
+ iueiYlv2G9uHb9KNwK0gvvMJTzw8IJkBgEpN26chhCbBE/PuTJjPTVZO3u/lfp1kHOoM
+ +a5Iwbh08Bgfz6uafXQOH7xO8NzFY48lM8wtdSzYc+swWwh+rcHzp7Wdr9WyqCOycwoa
+ hrIw==
+X-Gm-Message-State: AOAM533YJ3XAokvu7CaI6AMfr6WlMFnDjOaps6BfZPJ3O1Q29Q0z+V85
+ oNsKTboHf8QOXclbvGiz8fg=
+X-Google-Smtp-Source: ABdhPJx0w1PFtjA7Yi1dSVztqbfiLXdbMHVLCX1H56meCtnqHSRCTRUENK0WQeyY2xoU/ADROpJy4Q==
+X-Received: by 2002:a2e:9b98:: with SMTP id z24mr8364213lji.339.1632696169455; 
+ Sun, 26 Sep 2021 15:42:49 -0700 (PDT)
 Received: from localhost.localdomain (46-138-80-108.dynamic.spd-mgts.ru.
  [46.138.80.108])
- by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.47
+ by smtp.gmail.com with ESMTPSA id m10sm1408899lfr.272.2021.09.26.15.42.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 26 Sep 2021 15:42:48 -0700 (PDT)
+ Sun, 26 Sep 2021 15:42:49 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>,
@@ -68,9 +67,9 @@ Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
  Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
  Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
  David Heidelberg <david@ixit.cz>
-Subject: [PATCH v13 19/35] mmc: sdhci-tegra: Add runtime PM and OPP support
-Date: Mon, 27 Sep 2021 01:40:42 +0300
-Message-Id: <20210926224058.1252-20-digetx@gmail.com>
+Subject: [PATCH v13 20/35] mtd: rawnand: tegra: Add runtime PM and OPP support
+Date: Mon, 27 Sep 2021 01:40:43 +0300
+Message-Id: <20210926224058.1252-21-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
 References: <20210926224058.1252-1-digetx@gmail.com>
@@ -91,203 +90,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The SDHCI on Tegra belongs to the core power domain and we're going to
-enable GENPD support for the core domain. Now SDHCI must be resumed using
-runtime PM API in order to initialize the SDHCI power state. The SDHCI
-clock rate must be changed using OPP API that will reconfigure the power
-domain performance state in accordance to the rate. Add runtime PM and OPP
-support to the SDHCI driver.
+The NAND on Tegra belongs to the core power domain and we're going to
+enable GENPD support for the core domain. Now NAND must be resumed using
+runtime PM API in order to initialize the NAND power state. Add runtime PM
+and OPP support to the NAND driver.
 
+Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
 Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 ---
- drivers/mmc/host/sdhci-tegra.c | 82 +++++++++++++++++++++++++++-------
- 1 file changed, 66 insertions(+), 16 deletions(-)
+ drivers/mtd/nand/raw/tegra_nand.c | 55 ++++++++++++++++++++++++++-----
+ 1 file changed, 47 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
-index a5001875876b..6cf3712bf0a6 100644
---- a/drivers/mmc/host/sdhci-tegra.c
-+++ b/drivers/mmc/host/sdhci-tegra.c
-@@ -15,6 +15,8 @@
+diff --git a/drivers/mtd/nand/raw/tegra_nand.c b/drivers/mtd/nand/raw/tegra_nand.c
+index 32431bbe69b8..098fcc9cb9df 100644
+--- a/drivers/mtd/nand/raw/tegra_nand.c
++++ b/drivers/mtd/nand/raw/tegra_nand.c
+@@ -17,8 +17,11 @@
+ #include <linux/mtd/rawnand.h>
  #include <linux/of.h>
- #include <linux/of_device.h>
- #include <linux/pinctrl/consumer.h>
-+#include <linux/pm_opp.h>
+ #include <linux/platform_device.h>
 +#include <linux/pm_runtime.h>
- #include <linux/regulator/consumer.h>
  #include <linux/reset.h>
- #include <linux/mmc/card.h>
-@@ -24,6 +26,8 @@
- #include <linux/gpio/consumer.h>
- #include <linux/ktime.h>
  
 +#include <soc/tegra/common.h>
 +
- #include "sdhci-pltfm.h"
- #include "cqhci.h"
+ #define COMMAND					0x00
+ #define   COMMAND_GO				BIT(31)
+ #define   COMMAND_CLE				BIT(30)
+@@ -1151,6 +1154,7 @@ static int tegra_nand_probe(struct platform_device *pdev)
+ 		return -ENOMEM;
  
-@@ -760,7 +764,9 @@ static void tegra_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
- {
- 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
- 	struct sdhci_tegra *tegra_host = sdhci_pltfm_priv(pltfm_host);
-+	struct device *dev = mmc_dev(host->mmc);
- 	unsigned long host_clk;
-+	int err;
+ 	ctrl->dev = &pdev->dev;
++	platform_set_drvdata(pdev, ctrl);
+ 	nand_controller_init(&ctrl->controller);
+ 	ctrl->controller.ops = &tegra_nand_controller_ops;
  
- 	if (!clock)
- 		return sdhci_set_clock(host, clock);
-@@ -778,7 +784,12 @@ static void tegra_sdhci_set_clock(struct sdhci_host *host, unsigned int clock)
- 	 * from clk_get_rate() is used.
- 	 */
- 	host_clk = tegra_host->ddr_signaling ? clock * 2 : clock;
--	clk_set_rate(pltfm_host->clk, host_clk);
-+
-+	err = dev_pm_opp_set_rate(dev, host_clk);
+@@ -1166,14 +1170,22 @@ static int tegra_nand_probe(struct platform_device *pdev)
+ 	if (IS_ERR(ctrl->clk))
+ 		return PTR_ERR(ctrl->clk);
+ 
+-	err = clk_prepare_enable(ctrl->clk);
++	err = devm_pm_runtime_enable(&pdev->dev);
 +	if (err)
-+		dev_err(dev, "failed to set clk rate to %luHz: %d\n",
-+			host_clk, err);
++		return err;
 +
- 	tegra_host->curr_clk_rate = host_clk;
- 	if (tegra_host->ddr_signaling)
- 		host->max_clk = host_clk;
-@@ -1705,7 +1716,6 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- 				   "failed to get clock\n");
- 		goto err_clk_get;
++	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
++	if (err)
++		return err;
++
++	err = pm_runtime_resume_and_get(&pdev->dev);
+ 	if (err)
+ 		return err;
+ 
+ 	err = reset_control_reset(rst);
+ 	if (err) {
+ 		dev_err(ctrl->dev, "Failed to reset HW: %d\n", err);
+-		goto err_disable_clk;
++		goto err_put_pm;
  	}
--	clk_prepare_enable(clk);
- 	pltfm_host->clk = clk;
  
- 	tegra_host->rst = devm_reset_control_get_exclusive(&pdev->dev,
-@@ -1716,15 +1726,25 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- 		goto err_rst_get;
+ 	writel_relaxed(HWSTATUS_CMD_DEFAULT, ctrl->regs + HWSTATUS_CMD);
+@@ -1188,21 +1200,19 @@ static int tegra_nand_probe(struct platform_device *pdev)
+ 			       dev_name(&pdev->dev), ctrl);
+ 	if (err) {
+ 		dev_err(ctrl->dev, "Failed to get IRQ: %d\n", err);
+-		goto err_disable_clk;
++		goto err_put_pm;
  	}
  
-+	pm_runtime_enable(&pdev->dev);
-+
-+	rc = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-+	if (rc)
-+		goto err_pm_get;
-+
-+	rc = pm_runtime_resume_and_get(&pdev->dev);
-+	if (rc)
-+		goto err_pm_get;
-+
- 	rc = reset_control_assert(tegra_host->rst);
- 	if (rc)
--		goto err_rst_get;
-+		goto err_rst_assert;
+ 	writel_relaxed(DMA_MST_CTRL_IS_DONE, ctrl->regs + DMA_MST_CTRL);
  
- 	usleep_range(2000, 4000);
- 
- 	rc = reset_control_deassert(tegra_host->rst);
- 	if (rc)
--		goto err_rst_get;
-+		goto err_rst_assert;
- 
- 	usleep_range(2000, 4000);
- 
-@@ -1736,8 +1756,11 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
- 
- err_add_host:
- 	reset_control_assert(tegra_host->rst);
-+err_rst_assert:
-+	pm_runtime_put(&pdev->dev);
-+err_pm_get:
-+	pm_runtime_disable(&pdev->dev);
- err_rst_get:
--	clk_disable_unprepare(pltfm_host->clk);
- err_clk_get:
- 	clk_disable_unprepare(tegra_host->tmclk);
- err_power_req:
-@@ -1756,19 +1779,38 @@ static int sdhci_tegra_remove(struct platform_device *pdev)
- 
- 	reset_control_assert(tegra_host->rst);
- 	usleep_range(2000, 4000);
--	clk_disable_unprepare(pltfm_host->clk);
--	clk_disable_unprepare(tegra_host->tmclk);
- 
-+	pm_runtime_put(&pdev->dev);
-+	pm_runtime_disable(&pdev->dev);
-+
-+	clk_disable_unprepare(tegra_host->tmclk);
- 	sdhci_pltfm_free(pdev);
+ 	err = tegra_nand_chips_init(ctrl->dev, ctrl);
+ 	if (err)
+-		goto err_disable_clk;
+-
+-	platform_set_drvdata(pdev, ctrl);
++		goto err_put_pm;
  
  	return 0;
+ 
+-err_disable_clk:
+-	clk_disable_unprepare(ctrl->clk);
++err_put_pm:
++	pm_runtime_put(ctrl->dev);
+ 	return err;
  }
  
--#ifdef CONFIG_PM_SLEEP
--static int __maybe_unused sdhci_tegra_suspend(struct device *dev)
-+static int __maybe_unused sdhci_tegra_runtime_suspend(struct device *dev)
- {
- 	struct sdhci_host *host = dev_get_drvdata(dev);
- 	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-+
-+	clk_disable_unprepare(pltfm_host->clk);
+@@ -1219,11 +1229,39 @@ static int tegra_nand_remove(struct platform_device *pdev)
+ 
+ 	nand_cleanup(chip);
+ 
++	pm_runtime_put(ctrl->dev);
 +
 +	return 0;
 +}
 +
-+static int __maybe_unused sdhci_tegra_runtime_resume(struct device *dev)
++static int __maybe_unused tegra_nand_runtime_resume(struct device *dev)
 +{
-+	struct sdhci_host *host = dev_get_drvdata(dev);
-+	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
++	struct tegra_nand_controller *ctrl = dev_get_drvdata(dev);
++	int err;
 +
-+	return clk_prepare_enable(pltfm_host->clk);
-+}
-+
-+#ifdef CONFIG_PM_SLEEP
-+static int sdhci_tegra_suspend(struct device *dev)
-+{
-+	struct sdhci_host *host = dev_get_drvdata(dev);
- 	int ret;
- 
- 	if (host->mmc->caps2 & MMC_CAP2_CQE) {
-@@ -1783,17 +1825,22 @@ static int __maybe_unused sdhci_tegra_suspend(struct device *dev)
- 		return ret;
- 	}
- 
--	clk_disable_unprepare(pltfm_host->clk);
-+	ret = pm_runtime_force_suspend(dev);
-+	if (ret) {
-+		sdhci_resume_host(host);
-+		cqhci_resume(host->mmc);
-+		return ret;
++	err = clk_prepare_enable(ctrl->clk);
++	if (err) {
++		dev_err(dev, "Failed to enable clock: %d\n", err);
++		return err;
 +	}
 +
++	return 0;
++}
++
++static int __maybe_unused tegra_nand_runtime_suspend(struct device *dev)
++{
++	struct tegra_nand_controller *ctrl = dev_get_drvdata(dev);
++
+ 	clk_disable_unprepare(ctrl->clk);
+ 
  	return 0;
  }
  
--static int __maybe_unused sdhci_tegra_resume(struct device *dev)
-+static int sdhci_tegra_resume(struct device *dev)
- {
- 	struct sdhci_host *host = dev_get_drvdata(dev);
--	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
- 	int ret;
- 
--	ret = clk_prepare_enable(pltfm_host->clk);
-+	ret = pm_runtime_force_resume(dev);
- 	if (ret)
- 		return ret;
- 
-@@ -1812,13 +1859,16 @@ static int __maybe_unused sdhci_tegra_resume(struct device *dev)
- suspend_host:
- 	sdhci_suspend_host(host);
- disable_clk:
--	clk_disable_unprepare(pltfm_host->clk);
-+	pm_runtime_force_suspend(dev);
- 	return ret;
- }
- #endif
- 
--static SIMPLE_DEV_PM_OPS(sdhci_tegra_dev_pm_ops, sdhci_tegra_suspend,
--			 sdhci_tegra_resume);
-+static const struct dev_pm_ops sdhci_tegra_dev_pm_ops = {
-+	SET_RUNTIME_PM_OPS(sdhci_tegra_runtime_suspend, sdhci_tegra_runtime_resume,
++static const struct dev_pm_ops tegra_nand_pm = {
++	SET_RUNTIME_PM_OPS(tegra_nand_runtime_suspend, tegra_nand_runtime_resume,
 +			   NULL)
-+	SET_SYSTEM_SLEEP_PM_OPS(sdhci_tegra_suspend, sdhci_tegra_resume)
 +};
- 
- static struct platform_driver sdhci_tegra_driver = {
- 	.driver		= {
++
+ static const struct of_device_id tegra_nand_of_match[] = {
+ 	{ .compatible = "nvidia,tegra20-nand" },
+ 	{ /* sentinel */ }
+@@ -1234,6 +1272,7 @@ static struct platform_driver tegra_nand_driver = {
+ 	.driver = {
+ 		.name = "tegra-nand",
+ 		.of_match_table = tegra_nand_of_match,
++		.pm = &tegra_nand_pm,
+ 	},
+ 	.probe = tegra_nand_probe,
+ 	.remove = tegra_nand_remove,
 -- 
 2.32.0
 
