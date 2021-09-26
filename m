@@ -2,70 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97F49418ACE
-	for <lists+dri-devel@lfdr.de>; Sun, 26 Sep 2021 21:34:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2379D418AD2
+	for <lists+dri-devel@lfdr.de>; Sun, 26 Sep 2021 21:36:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 874BB6E54C;
-	Sun, 26 Sep 2021 19:34:18 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FE0F6E546;
+	Sun, 26 Sep 2021 19:36:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x231.google.com (mail-oi1-x231.google.com
- [IPv6:2607:f8b0:4864:20::231])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 460B389FCC
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 19:34:16 +0000 (UTC)
-Received: by mail-oi1-x231.google.com with SMTP id 24so22753969oix.0
- for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 12:34:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kali.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=uIERk105rjOXZD5aEzEh93KdjBwmVeqw64MCasbg/XU=;
- b=cuh8lOR/LuOoewWle2BBV/pZBy5es4jYwmsVxwqCZhu5lv1H6K0d1DeCLSDzTzeALP
- UpBAqC2yD4ASfFCp70rf+x7k8Cpmr/NPtcElK9j/ANKwmN1CQdW5RdmAJDnEdzQSecAD
- rAfcUpJbasNJ9+JA6LHuSUG6sP0Xw6Vk7SmA/9n4hV5CY+nLCxAnx4fZ0XVwd+2hL7S5
- mZeB/dQ3xWcQYZoCSS6/L6Ou8/DKCiYDS1d2i55BGwQNm0lm+oNVoG+3hs2AbPs62LD4
- kpESrzzKXeoOKtQjw/+K7ln2nzIVorqAM9lD3iY3QIyjbDO7JVmIX0QdegY4inToI1ku
- 6YsQ==
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 121A86E546
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 19:36:05 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id z7so1160493qto.7
+ for <dri-devel@lists.freedesktop.org>; Sun, 26 Sep 2021 12:36:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QNLo+BDeRzswu8OVj0ImwhuxytbjRMbnLrd3OSd+ezM=;
+ b=mxWrjX5he+m1gtrMynC7sxL4bJR4TEb7Z5+iKgZ4UA7fEs/FUwqkXf7ngwMGFT5/Db
+ Sots6y/e+AyMpHYfxPDxM15ivMQ64EpVso917AW6iutqoaIgnIiLC2RLz/tbjphMwui+
+ C1CXEh4rnk6MQrQPluTDU4Rca24IDOzB3v16c3kKmckfaJIh27/vZA/i5Sz7lVZvwCqb
+ LlUhCs9WKOWYVi7HnehJ3DVAYTgpYVNqn0trmnNzNMXpCv4YUbHsTqStwvLxgoYKJewK
+ dVKr8Qb8Zd7oMYKxEVmA1jHxSPWrG3vgP9Hl7auD98qbty89k6QYFMeb1AY/eUfS+3IG
+ /DYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=uIERk105rjOXZD5aEzEh93KdjBwmVeqw64MCasbg/XU=;
- b=VWA+AMmsEPJ/72Kzc7637s/SE/DuxcD4k+rULKPOOR5Fci1lg2OWluElDUb1HBn8Ht
- 6+uqsMnvBgdTObgILMvChhfXgaGvtRfbkAJCbklNM9usLOMX/ByvgOKvCmEMrs1XEHzs
- xZWBfkfkN2AxyNrV2mmpbmJjGsfUSBOm0NPx0PHj7svJL2PN2Bt4aJG8GHUO3Ngb3tjJ
- qJmHSj3QJhwfwAnwbjsCpQwGEcBnWLggiDM4B4Po4eCqqLVs2R6UcFtKJNaXNWSEfJOb
- ROihODf9PnY/dzS8MuPGSO0Sw2TfCZ4MKC/D7+uYkIK0FJRwCf4hvdo77snCupAfQKdG
- aiPA==
-X-Gm-Message-State: AOAM533+AadPG7XI3IaiU6GMYKbQtEWLJim8oqRMvMA+Al2Q1RyoHACA
- 8h8ea6pBampaM2Lj95KovvdTnQ==
-X-Google-Smtp-Source: ABdhPJzr5zY9+jZyJyjKGzeb8XHW1/YHEy6UbOVkL5duxiE/6fISBcVLP8Fm5UmzrI/z/osWVpCv+Q==
-X-Received: by 2002:a05:6808:198b:: with SMTP id
- bj11mr6343362oib.105.1632684855854; 
- Sun, 26 Sep 2021 12:34:15 -0700 (PDT)
-Received: from MacBook-Pro.hackershack.net
- (cpe-173-173-107-246.satx.res.rr.com. [173.173.107.246])
- by smtp.gmail.com with ESMTPSA id bh25sm3456033oib.40.2021.09.26.12.34.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 26 Sep 2021 12:34:15 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm: Fix crash on dev file close
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210926190554.761482-1-robdclark@gmail.com>
-From: Steev Klimaszewski <steev@kali.org>
-Message-ID: <cbbf1be7-89d4-5194-3aec-fc0970e86888@kali.org>
-Date: Sun, 26 Sep 2021 14:34:14 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.14.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QNLo+BDeRzswu8OVj0ImwhuxytbjRMbnLrd3OSd+ezM=;
+ b=DDLszLBVaMkeE6XnSDuNaZ49m8WY82QZSeyZTaHcQ4x0oDuddLEHoptYYVik+5SEb3
+ LxaafDAlbfJ0y0ucLSl/Gp3d5gFW2QK6hNVRkXiy7WECzUXmbGCsUjr4e77vqh9nWZJV
+ OIpt5K83WsLSEAGhp1AKBW7xs7wgk7r4NUd3kWxLIIHV/gxxmy+pEvyjgpW37bXnwwio
+ 6PSGPVBOtRvcs8hjxmbkZZHpHeqKJcWcq2guAhwmBoyoLRdMHELYxNcZVnmBhEBbca4O
+ 4HAgXkMfXVJ6MQ/NxsFieXJGtoVbtOBoL2W4HZEdBha1sSw5ooeBR4a/w27bJZ2wPrDp
+ 9K8A==
+X-Gm-Message-State: AOAM5332CZC7qv/3Df36T+JaeG723OSPJJH4d4cWd+KFVrDJDI7qcko1
+ 89/O+UPAjx7f67+mu9dmqtT6qc4mE0jwrKVVa0q35w==
+X-Google-Smtp-Source: ABdhPJwPrdFOmtZSNs2/CV2JSD0Gdn8+7TSgw7cBpjnVt5rPCDBdy/Kp5IW7mXOuEB6cBPz3cI2vO9xpI/n4gVj8suo=
+X-Received: by 2002:ac8:5685:: with SMTP id h5mr15207682qta.153.1632684964087; 
+ Sun, 26 Sep 2021 12:36:04 -0700 (PDT)
 MIME-Version: 1.0
+References: <20210926190554.761482-1-robdclark@gmail.com>
 In-Reply-To: <20210926190554.761482-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Sun, 26 Sep 2021 22:35:53 +0300
+Message-ID: <CAA8EJpozNAfQpy4w-Edx_8wyQ_X+sDzAgqk6Z6EHj0ZJ5r0HBg@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm: Fix crash on dev file close
+To: Rob Clark <robdclark@gmail.com>
+Cc: "open list:DRM DRIVER FOR MSM ADRENO GPU"
+ <dri-devel@lists.freedesktop.org>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>,
+ freedreno <freedreno@lists.freedesktop.org>, 
+ Rob Clark <robdclark@chromium.org>, Steev Klimaszewski <steev@kali.org>,
+ Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,14 +73,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 9/26/21 2:05 PM, Rob Clark wrote:
+On Sun, 26 Sept 2021 at 22:01, Rob Clark <robdclark@gmail.com> wrote:
+>
 > From: Rob Clark <robdclark@chromium.org>
 >
 > If the device file was opened prior to fw being available (such as from
 > initrd before rootfs is mounted, when the initrd does not contain GPU
 > fw), that would cause a later crash when the dev file is closed due to
 > unitialized submitqueues list:
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+I've sent a close version of this patch a day or so ago, but yours is
+better, as I did not touch rwlock init.
+
 >
 >    CPU: 4 PID: 263 Comm: plymouthd Tainted: G        W         5.15.0-rc2-next-20210924 #2
 >    Hardware name: LENOVO 81JL/LNVNB161216, BIOS 9UCN33WW(V2.06) 06/ 4/2019
@@ -141,32 +139,35 @@ On 9/26/21 2:05 PM, Rob Clark wrote:
 > --- a/drivers/gpu/drm/msm/msm_drv.c
 > +++ b/drivers/gpu/drm/msm/msm_drv.c
 > @@ -689,6 +689,9 @@ static int context_init(struct drm_device *dev, struct drm_file *file)
->  	if (!ctx)
->  		return -ENOMEM;
->  
-> +	INIT_LIST_HEAD(&ctx->submitqueues);
-> +	rwlock_init(&ctx->queuelock);
+>         if (!ctx)
+>                 return -ENOMEM;
+>
+> +       INIT_LIST_HEAD(&ctx->submitqueues);
+> +       rwlock_init(&ctx->queuelock);
 > +
->  	kref_init(&ctx->ref);
->  	msm_submitqueue_init(dev, ctx);
->  
+>         kref_init(&ctx->ref);
+>         msm_submitqueue_init(dev, ctx);
+>
 > diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
 > index 32a55d81b58b..7ce0771b5582 100644
 > --- a/drivers/gpu/drm/msm/msm_submitqueue.c
 > +++ b/drivers/gpu/drm/msm/msm_submitqueue.c
 > @@ -140,10 +140,6 @@ int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx)
->  	 */
->  	default_prio = DIV_ROUND_UP(max_priority, 2);
->  
-> -	INIT_LIST_HEAD(&ctx->submitqueues);
+>          */
+>         default_prio = DIV_ROUND_UP(max_priority, 2);
+>
+> -       INIT_LIST_HEAD(&ctx->submitqueues);
 > -
-> -	rwlock_init(&ctx->queuelock);
+> -       rwlock_init(&ctx->queuelock);
 > -
->  	return msm_submitqueue_create(drm, ctx, default_prio, 0, NULL);
+>         return msm_submitqueue_create(drm, ctx, default_prio, 0, NULL);
 >  }
->  
+>
+> --
+> 2.31.1
+>
 
-Have not seen the crash since applying the patch.
 
-Tested-By: Steev Klimaszewski <steev@kali.org>
-
+-- 
+With best wishes
+Dmitry
