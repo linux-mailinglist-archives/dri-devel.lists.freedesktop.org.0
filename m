@@ -1,47 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADD541951D
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 15:31:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1D934196D1
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 16:57:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3391A89C52;
-	Mon, 27 Sep 2021 13:31:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4884E89D66;
+	Mon, 27 Sep 2021 14:57:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AE2EA89C52
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 13:31:44 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0216D60230;
- Mon, 27 Sep 2021 13:31:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632749504;
- bh=Y7TpDj/QBqC2VlX8snx4uk+a31fqoGg/z2dM9RwtnIs=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mnndhq1ZLNDnrS4JI1a41cuT7L9dq/UQu27xBALiEGCG0R4aDPdqNjEeFfR04Mxv5
- /9+9kIrlI00L/y3hxMHlf3puV3jvA9B7HOTW7hWm/X2HI4+J+dNgdmukkkiBvZURmg
- rlp/iS1+CF296B5zqZ/zYJEklMwIumrjhAtdGafBAQTurlYD0Q9XOyT4DHIIzSlS6i
- PAcIJurcAQAxLnmNT3U+CYZ96wPihh88tBnpndW0llNNZj/y+WTh4+XG4Nri9bYXxm
- P9XNomrkGquyugt9frmrORpxtygM9rIlSL1Alr58GGcmrH2vFw/OtdOnVf3Z2J6PgE
- RyLxmNBSMf0CA==
-Date: Mon, 27 Sep 2021 14:30:56 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH] backlight: hx8357: Add SPI device ID table
-Message-ID: <20210927133055.GD4199@sirena.org.uk>
-References: <20210922151014.49719-1-broonie@kernel.org>
- <20210927094200.a7d73sl2k4x5xjch@maple.lan>
- <20210927114727.GB4199@sirena.org.uk>
- <20210927132417.lixg3ojhnwlleht3@maple.lan>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7BDE489AD2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 13:40:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: nfraprado) with ESMTPSA id AE8C11F42BCD
+Date: Mon, 27 Sep 2021 10:40:26 -0300
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Brian Norris <briannorris@chromium.org>
+Cc: Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-rockchip@lists.infradead.org,
+ Thomas Hebb <tommyhebb@gmail.com>, aleksandr.o.makarov@gmail.com,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] drm/rockchip: dsi: hold pm-runtime across bind/unbind
+Message-ID: <20210927134026.kijmgp3fuopt6ajh@notapiano>
+References: <20210924162321.1.Ic2904d37f30013a7f3d8476203ad3733c186827e@changeid>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210927132417.lixg3ojhnwlleht3@maple.lan>
-X-Cookie: 98% lean.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210924162321.1.Ic2904d37f30013a7f3d8476203ad3733c186827e@changeid>
+X-Mailman-Approved-At: Mon, 27 Sep 2021 14:57:01 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,34 +47,46 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Fri, Sep 24, 2021 at 04:23:45PM -0700, Brian Norris wrote:
+> In commit 59eb7193bef2, we moved most HW configuration to bind(), but we
+> didn't move the runtime PM management. Therefore, depending on initial
+> boot state, runtime-PM workqueue delays, and other timing factors, we
+> may disable our power domain in between the hardware configuration
+> (bind()) and when we enable the display. This can cause us to lose
+> hardware state and fail to configure our display. For example:
+> 
+>   dw-mipi-dsi-rockchip ff968000.mipi: failed to write command FIFO
+>   panel-innolux-p079zca ff960000.mipi.0: failed to write command 0
+> 
+> or:
+> 
+>   dw-mipi-dsi-rockchip ff968000.mipi: failed to write command FIFO
+>   panel-kingdisplay-kd097d04 ff960000.mipi.0: failed write init cmds: -110
+> 
+> We should match the runtime PM to the lifetime of the bind()/unbind()
+> cycle.
+> 
+> Tested on Acer Chrometab 10 (RK3399 Gru-Scarlet), with panel drivers
+> built either as modules or built-in.
+> 
+> Side notes: it seems one is more likely to see this problem when the
+> panel driver is built into the kernel. I've also seen this problem
+> bisect down to commits that simply changed Kconfig dependencies, because
+> it changed the order in which driver init functions were compiled into
+> the kernel, and therefore the ordering and timing of built-in device
+> probe.
+> 
+> Fixes: 59eb7193bef2 ("drm/rockchip: dsi: move all lane config except LCDC mux to bind()")
+> Link: https://lore.kernel.org/linux-rockchip/9aedfb528600ecf871885f7293ca4207c84d16c1.camel@gmail.com/
+> Reported-by: <aleksandr.o.makarov@gmail.com>
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+> ---
 
---9dgjiU4MmWPVapMU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This fixes the display enablement issue in Acer Chrometab 10 (RK3399
+Gru-Scarlet) indeed.
 
-On Mon, Sep 27, 2021 at 02:24:17PM +0100, Daniel Thompson wrote:
+Tested-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
-> In that case what is the point of including unconsumed driver data? Most
-> DT centric drivers that included this for modalias reasons leave it
-> NULL.
-
-It's mainly there because it's generated fairly mechanically from the OF
-ID table - there's no great reason for it to be there while all
-instantiation is done via DT.
-
---9dgjiU4MmWPVapMU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmFRx44ACgkQJNaLcl1U
-h9Bhygf/ZrAsGNGMlXufnXC4Lxqiwpr+9XQbCSi/nvdknGiuHzHfVpkmV7JvCmvk
-gGPzR92SoXIbsacWvKKKXeAKI7gfhc32FpPBduy9Sh7uhvtU5FHwViHildoRql0w
-AqHnzhmnRxTfHN0/kvi8A0rFo2fMObJc6g6WcJmNTcYnbN10+sZts9mPHb718bW7
-BmmLbZOGRMrWE5R3CkKuEKk9zK5aAIdIub2AzdAtu/4fz3Qj+w1N07QTdS9POn0k
-C0tCbeCo0oaF7mKlBgWN9bGMr34JD/OuZu6g8PIDN5E82M+6Lwdyq98/S9Qj00G8
-sMe31uVf0/QUf9cVpyiEy8niSGt8lQ==
-=2j3H
------END PGP SIGNATURE-----
-
---9dgjiU4MmWPVapMU--
+Thanks,
+Nícolas
