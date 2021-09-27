@@ -1,47 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A73E418ED1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 07:53:58 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6F2418FA3
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 09:01:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0BBF16E826;
-	Mon, 27 Sep 2021 05:53:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B918C6E834;
+	Mon, 27 Sep 2021 07:01:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 558 seconds by postgrey-1.36 at gabe;
- Mon, 27 Sep 2021 05:53:49 UTC
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6998E6E826;
- Mon, 27 Sep 2021 05:53:49 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HHs5j4NL1z4xbR;
- Mon, 27 Sep 2021 15:44:24 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
- s=201702; t=1632721466;
- bh=DCtEvsg3hsgFmNRnoDHLNa8pY9MmGR9OS0ESIOqr/ZE=;
- h=Date:From:To:Cc:Subject:From;
- b=mPerCW3BRc0bILK/tVFzZ32X/Oqt2Qa9RQDgPY8JjQc2Gh/OBy3Vr2AEpomfgv8Ch
- lrIwnsWB+Zq64oHzfft8fBDEDoOHq8OPk0PLkn5hCdPAXXz9/ZqnxFhvLRG3U/NL69
- 01I9mjlzGXskhU7SWeMYur2vr5LFBkxvcBRYy8IZLSCA7oZ/xCQTQLvw62bMDdQSid
- h5DTmn1gOyVr4P6vTQQ7eQvvc5aeRXNPaJ4NXoupZ1q9/NdwsuUJeMMHyaNIkCq8ro
- ZVuhD61FobAFwZrATBRZTUyAvvo6B4WPNNCDzlMK7oJoJcCiLGpm1ruY5F7+5lYy6A
- Yi3VJYUjyqnnA==
-Date: Mon, 27 Sep 2021 15:44:22 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Daniel Vetter <daniel.vetter@ffwll.ch>, Intel Graphics
- <intel-gfx@lists.freedesktop.org>, DRI <dri-devel@lists.freedesktop.org>
-Cc: Douglas Anderson <dianders@chromium.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Next Mailing List
- <linux-next@vger.kernel.org>
-Subject: linux-next: build warning after merge of the drm-misc tree
-Message-ID: <20210927154422.605920fd@canb.auug.org.au>
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com
+ [IPv6:2a00:1450:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 699146E834;
+ Mon, 27 Sep 2021 07:01:22 +0000 (UTC)
+Received: by mail-wr1-x432.google.com with SMTP id t8so49404874wrq.4;
+ Mon, 27 Sep 2021 00:01:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=zQB26B5eWUnzl+964mpUpFb8aQd6/nGrTcRgYihaeWc=;
+ b=hhkZKKfmY6xHACewDTWjOFBz4xjAdw6xepF6ktK90NO/v63YVfo3bclcJjktmyxKd9
+ Z/c4igoFBRypdKeRup7kuFoUmC/X1Ve6oHCvfGuhIPEsLfcEPQw33+GPKhEzsaTZc8AB
+ FRO4bjD10C8Oh8tk8cVFMIHRCrcV/nFhAVuQJwEXZYxXtzHVZWPwpH6WwM4X58xMxD3G
+ ANTPz2NS8tzJLST011L1Ub4nsekD7rgLMNy021dE0rsoWx/yWUahwOlLMkjDzbTjLZyQ
+ gg06B5E6Oq2eJ6mqcnpBhkZzaI05ZMPzkrFUOtTv6WPupPyIVVbHmiOWBJUuvTNXTRaP
+ 2vyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=zQB26B5eWUnzl+964mpUpFb8aQd6/nGrTcRgYihaeWc=;
+ b=HjGfuglVhGBd8xEVGHYVO7xC7wJm8G0tgaLiXxxuiVvosuWgMBoJgQ3YO+Cbvo5NNI
+ ryzS0PGdsN3IeSyT+YLOdEkvMn4wYFH0/lM82IsfRHJUwmPrWlycl0/H7yIzbL4dl1pB
+ O022xFfyje4oL83zxS6pa3wWpOktpHKRIYuwRFO97gjZSXIDDNwR4U3ozrVmMM5wcoJo
+ ImUiQpyl91lUyXvEKu8s/PV6A5xLdL86UYhB6fYIBtbfgEacsWkN5J40YwpkqbxcjiEF
+ H+1Aj3u/J8WMBHnymq5U5/fGMuHI3cdC3GDCvDfp6w5YqtVyK2OyfeR/7RkbBPQfZgoo
+ xAmw==
+X-Gm-Message-State: AOAM531oQ+Vh7XKn5Nj/KPCCK3AF3x1QR1Yn2xjLctKmelhKl3tQH+Ku
+ Q8s542RFbRawA0AXZ/9HICU=
+X-Google-Smtp-Source: ABdhPJyKxcFSxLyjYTbrEPilQCvwXzB/i+kykltwhE6uBKLPaKa7c1AQMv9DtFoICMHeA7Ce1DlXbg==
+X-Received: by 2002:a5d:6a08:: with SMTP id m8mr25303052wru.336.1632726080941; 
+ Mon, 27 Sep 2021 00:01:20 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id w21sm2167288wmk.15.2021.09.27.00.01.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 00:01:20 -0700 (PDT)
+Subject: Re: [PATCH 2/4] drm/msm: allow compile_test on !ARM
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, etnaviv@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
+Cc: l.stach@pengutronix.de, christian.gmeiner@gmail.com,
+ linux+etnaviv@armlinux.org.uk, robdclark@gmail.com, sean@poorly.run
+References: <20210924071759.22659-1-christian.koenig@amd.com>
+ <20210924071759.22659-2-christian.koenig@amd.com>
+Message-ID: <dbf6b324-511e-45d4-3316-f41f076c4f82@gmail.com>
+Date: Mon, 27 Sep 2021 09:01:18 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wMHWzMzTFiiQiKRnfentyY/";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+In-Reply-To: <20210924071759.22659-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,43 +80,84 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/wMHWzMzTFiiQiKRnfentyY/
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+As long as nobody objects I'm going to push this one here to 
+drm-misc-next with Rob's rb.
 
-Hi all,
+The other patches still need a bit more work, but being able to at least 
+compile test MSM on x86 is really helpful.
 
-After merging the drm-misc tree, today's linux-next build (htmldocs)
-produced these warnings:
+Christian.
 
-include/drm/drm_edid.h:530: warning: Function parameter or member 'vend_chr=
-_1' not described in 'drm_edid_encode_panel_id'
-include/drm/drm_edid.h:530: warning: Excess function parameter 'vend_chr_3'=
- description in 'drm_edid_encode_panel_id'
+Am 24.09.21 um 09:17 schrieb Christian König:
+> MSM is one of the few drivers which won't even compile
+> test on !ARM platforms.
+>
+> Looking into this a bit more it turned out that there is
+> actually not that much missing to at least let the driver
+> compile on x86 as well.
+>
+> So this patch replaces the use of phys_to_page() with the
+> open coded version and provides a dummy for of_drm_find_bridge().
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>   drivers/gpu/drm/msm/Kconfig   |  4 ++--
+>   drivers/gpu/drm/msm/msm_gem.c |  2 +-
+>   include/drm/drm_bridge.h      | 10 +++++++++-
+>   3 files changed, 12 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
+> index e9c6af78b1d7..5879f67bc88c 100644
+> --- a/drivers/gpu/drm/msm/Kconfig
+> +++ b/drivers/gpu/drm/msm/Kconfig
+> @@ -3,9 +3,9 @@
+>   config DRM_MSM
+>   	tristate "MSM DRM"
+>   	depends on DRM
+> -	depends on ARCH_QCOM || SOC_IMX5 || (ARM && COMPILE_TEST)
+> +	depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
+>   	depends on IOMMU_SUPPORT
+> -	depends on OF && COMMON_CLK
+> +	depends on (OF && COMMON_CLK) || COMPILE_TEST
+>   	depends on QCOM_OCMEM || QCOM_OCMEM=n
+>   	depends on QCOM_LLCC || QCOM_LLCC=n
+>   	depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 14907622769f..5bd511f07c07 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -85,7 +85,7 @@ static struct page **get_pages_vram(struct drm_gem_object *obj, int npages)
+>   
+>   	paddr = physaddr(obj);
+>   	for (i = 0; i < npages; i++) {
+> -		p[i] = phys_to_page(paddr);
+> +		p[i] = pfn_to_page(__phys_to_pfn(paddr));
+>   		paddr += PAGE_SIZE;
+>   	}
+>   
+> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
+> index 9cdbd209388e..a445298e1c25 100644
+> --- a/include/drm/drm_bridge.h
+> +++ b/include/drm/drm_bridge.h
+> @@ -790,11 +790,19 @@ drm_priv_to_bridge(struct drm_private_obj *priv)
+>   
+>   void drm_bridge_add(struct drm_bridge *bridge);
+>   void drm_bridge_remove(struct drm_bridge *bridge);
+> -struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+>   int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
+>   		      struct drm_bridge *previous,
+>   		      enum drm_bridge_attach_flags flags);
+>   
+> +#ifdef CONFIG_OF
+> +struct drm_bridge *of_drm_find_bridge(struct device_node *np);
+> +#else
+> +static inline struct drm_bridge *of_drm_find_bridge(struct device_node *np)
+> +{
+> +	return NULL;
+> +}
+> +#endif
+> +
+>   /**
+>    * drm_bridge_get_next_bridge() - Get the next bridge in the chain
+>    * @bridge: bridge object
 
-
-Introduced by commit
-
-  7d1be0a09fa6 ("drm/edid: Fix EDID quirk compile error on older compilers")
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/wMHWzMzTFiiQiKRnfentyY/
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFRWjYACgkQAVBC80lX
-0Gy39gf/e568oOLEQAhDFPJCzNYA5T06zR9qmRx/veY0EC8OSxtvdtKukj/AzmV6
-vR1xWOtCLuS0nObNdtfODdkLWAxFMUDtESqJdrC7x5C7fRnViZkz07kEwHahZTxG
-MfX9a+Eph2t+YscLNPQlvDXlwCxOqFiT64nyp/AVz//BefJ9s3cDrBVNfiKRGoCu
-q9q5majl1FGlmn9BlmWUC9hdxdf0xKZyHldZ0+k3G5cTjvxgoN7VHYV1REKgwz9H
-O3H61Pcb6sA2k0gfogt+aFNRAmWPV63LtW7YwYY70uC+Dpwmys1Pl87hg17EYsMU
-q686aDT4PBbZWh2oLEytRxXlFLyhDg==
-=CoS0
------END PGP SIGNATURE-----
-
---Sig_/wMHWzMzTFiiQiKRnfentyY/--
