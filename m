@@ -1,54 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0D44197CF
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:24:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 469434197D5
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:24:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 088CE6E831;
-	Mon, 27 Sep 2021 15:24:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF71789EB4;
+	Mon, 27 Sep 2021 15:24:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9004F89EB4;
- Mon, 27 Sep 2021 15:24:23 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 8856460FF2;
- Mon, 27 Sep 2021 15:24:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632756263;
- bh=Otnpkq3NEq12xc0VFCDH7tX4EZqJVFgDrmALVhZZY4k=;
- h=From:To:Cc:Subject:Date:From;
- b=tHcCdBKb2ZYYAtwc8J6MUjc17O5JFCvAEJIdyBQNtIERgFB250ipFD5HymM13Vej6
- eG5RT1pA0cvIUdtnajP353EFi1Dcl2MtThzIcAeLXK1aIuzVgDcfodIuK/ayn2hg5m
- FfoI8Tb2FlgSXuX+avNR/2tElBaCHjkAP+B4dLoLoQlO1HE9VOCFOQeIPhL38N+RAC
- nph+xTX/OCm1xig6NKnNChzW8GNiI6vUb3y83pue1DYYxDfH3dv0xFdqZO6ghQkpOG
- AwYGfdIicC4Y6DvdbbaN+WugrG/32wp1PPhBt5KcFI6uCDaDt/4bIx+WENKn4nkg0d
- TORmqwgzVNpQw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Rob Clark <robdclark@gmail.com>,
+Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
+ [IPv6:2607:f8b0:4864:20::536])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0DD89EB4;
+ Mon, 27 Sep 2021 15:24:49 +0000 (UTC)
+Received: by mail-pg1-x536.google.com with SMTP id s75so1612629pgs.5;
+ Mon, 27 Sep 2021 08:24:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=91WTltl5VxlPGr4W7IMTkikDp5yzAAOLWX4XlxfvA04=;
+ b=MnWb/E/nNEUD/13bbKjg2jh+pdSUe6ymLUCmsk9n7bjrJzz4yPdZS5ZBqVDiIR4NHf
+ 4bCX4yCInmF/nkKSis6LdhS7EUN8Ld+mfU2BS9fcm6h5XsAREVO/rgXxgLO9/iw0iPSl
+ HBaOy3evwjYMZFh9SGHB66A2O7sfv8DsHgS3yUrcRGQPvhPUl8hfsvB8rjoFfpD6PG1u
+ VpWgx539pAFlqr+rWCwas4p2meFPC861+z/d4aXnHoirm4Kf9cpcJ3nYjVZoxwhy5oCX
+ kTaApzyd4CQ9TVMf9z6XXqkaFFDLg58V+2uIiPlJEEhd1xu/DM9JwtMbHcFZaTZTiI+P
+ gtgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=91WTltl5VxlPGr4W7IMTkikDp5yzAAOLWX4XlxfvA04=;
+ b=lVlguZDqFD0vPpYrEV5Fe70dkSUiZkFo2t+Le7R5sD9CBoXhXV0fHghYKs5K4o26j5
+ eP22vNFslxGtiJD4D45yrgGpJZ7Aqk/ZjTYouPqP6Likp3MYE3R6eopLBjwK/Gr4LB2O
+ vDwnMJd9yPLtuP9453x4nCOB7yxR9b0gi2m5VHBK/oRj2Flbk6U6QlqCP4AokGxsAv7P
+ SO9r6+b8Mew6qLC7zyqmcjxtgGF4sSvkGmubGIM9FnvfwJeTIWv76zcoZWuEoowUoma4
+ 0pPiXPtr7TlpAa1s5/ZRveGvRWtzwnKvk/F135h6nZxH/sHVuR7tz9CK3j5lZuy4r4Jv
+ LqHg==
+X-Gm-Message-State: AOAM533aVE7fiGxxArdQKe/1HfCAawty/E9REZThC6ZPej7P8biwqldE
+ OpZNolA11ahoy7wr0fRXWlM/FAEhqkQ=
+X-Google-Smtp-Source: ABdhPJwHP/CZaznyNAeJ0MtR9h7UOdNIz9t9+0/dozEHS2DAPGKfXC0LUiuj/yslWdqz10nvh3Zfrg==
+X-Received: by 2002:a05:6a00:4:b0:43d:32f3:e861 with SMTP id
+ h4-20020a056a00000400b0043d32f3e861mr493964pfk.60.1632756288413; 
+ Mon, 27 Sep 2021 08:24:48 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id s3sm233915pjr.1.2021.09.27.08.24.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 08:24:47 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder <elder@kernel.org>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Kalle Valo <kvalo@codeaurora.org>, Andy Gross <agross@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, iommu@lists.linux-foundation.org,
- linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org, ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-Date: Mon, 27 Sep 2021 17:22:13 +0200
-Message-Id: <20210927152412.2900928-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+ Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] drm/msm: Switch ordering of runpm put vs devfreq_idle
+Date: Mon, 27 Sep 2021 08:29:28 -0700
+Message-Id: <20210927152928.831245-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -66,321 +73,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+From: Rob Clark <robdclark@chromium.org>
 
-Now that SCM can be a loadable module, we have to add another
-dependency to avoid link failures when ipa or adreno-gpu are
-built-in:
+I've seen a few crashes like:
 
-aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
-ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+    Internal error: synchronous external abort: 96000010 [#1] PREEMPT SMP
+    Modules linked in: snd_seq_dummy snd_seq snd_seq_device bridge stp llc tun nf_nat_tftp nf_conntrack_tftp nf_nat_ftp nf_conntrack_ftp esp6 ah6 ip6t_REJECT ip6t_ipv6header vhost_vsock vhost vmw_vsock_virtio_transport_common vsock rfcomm algif_hash algif_skcipher af_alg uinput veth xt_cgroup xt_MASQUERADE venus_enc venus_dec videobuf2_dma_contig qcom_spmi_adc5 qcom_spmi_adc_tm5 hci_uart qcom_vadc_common cros_ec_typec qcom_spmi_temp_alarm typec btqca snd_soc_rt5682_i2c snd_soc_rt5682 snd_soc_sc7180 bluetooth snd_soc_qcom_common snd_soc_rl6231 ecdh_generic ecc venus_core v4l2_mem2mem snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357a ip6table_nat fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_core industrialio_triggered_buffer kfifo_buf cros_ec_sensorhub lzo_rle ath10k_snoc lzo_compress ath10k_core ath zram mac80211 cfg80211 ax88179_178a usbnet mii uvcvideo videobuf2_vmalloc joydev
+    CPU: 3 PID: 212 Comm: A618-worker Tainted: G W 5.4.139-16300-g88d8e1285982 #1
+    Hardware name: Google Pompom (rev1) with LTE (DT)
+    pstate: 60c00009 (nZCv daif +PAN +UAO)
+    pc : a6xx_gmu_set_oob+0x114/0x200
+    lr : a6xx_gmu_set_oob+0x10c/0x200
+    sp : ffffffc011b7bc20
+    x29: ffffffc011b7bc20 x28: ffffffdad27c5000
+    x27: 0000000000000001 x26: ffffffdad1521044
+    x25: ffffffbef7498338 x24: 0000000000000018
+    x23: 0000000000000002 x22: 0000000000014648
+    x21: 0000033732fe638b x20: 0000000080000000
+    x19: ffffffbef7433bc8 x18: 0000000040000000
+    x17: 000000243508d982 x16: 000000000000b67e
+    x15: 00000000000090d4 x14: 0000000000000024
+    x13: 0000000000000024 x12: 0000000000017521
+    x11: 0000000000000b48 x10: 0000000000326a48
+    x9 : 1a130d33f6371600 x8 : ffffffc011e54648
+    x7 : 614948e00005003c x6 : ffffffbe3cd17e60
+    x5 : 0000000000000040 x4 : 0000000000000004
+    x3 : 0000000000000000 x2 : ffffffbef7488000
+    x1 : ffffffbef7488000 x0 : 0000000000000000
+    Call trace:
+    a6xx_gmu_set_oob+0x114/0x200
+    a6xx_gmu_set_freq+0xe0/0x1fc
+    msm_devfreq_target+0x80/0x13c
+    msm_devfreq_idle+0x54/0x94
+    retire_submit+0x170/0x254
+    retire_submits+0xa4/0xdc
+    retire_worker+0x1c/0x28
+    kthread_worker_fn+0xf4/0x1bc
+    kthread+0x140/0x158
+    ret_from_fork+0x10/0x18
+    Code: 52800c81 9415bbe5 f9400a68 8b160108 (b9400108)
+    ---[ end trace 16b871df2482cd61 ]---
+    Kernel panic - not syncing: Fatal exception
+    SMP: stopping secondary CPUs
+    Kernel Offset: 0x1ac1400000 from 0xffffffc010000000
+    PHYS_OFFSET: 0xffffffc280000000
+    CPU features: 0x88102e,2a80aa38
+    Memory Limit: none
 
-ld.lld: error: undefined symbol: qcom_scm_is_available
->>> referenced by adreno_gpu.c
->>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load) in archive drivers/built-in.a
+Which smells a lot like touching hw after power collapse.  I'm not
+*entirely* sure how it could have taken 66ms (the autosuspend delay)
+before we get to a6xx_gmu_set_oob(), but to be safe we should move
+the pm_runtime_put_autosuspend() after msm_devfreq_idle().
 
-This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
-QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
-use a similar dependency here to what we have for QCOM_RPROC_COMMON,
-but that causes dependency loops from other things selecting QCOM_SCM.
-
-This appears to be an endless problem, so try something different this
-time:
-
- - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
-   but that is simply selected by all of its users
-
- - All the stubs in include/linux/qcom_scm.h can go away
-
- - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
-   allow compile-testing QCOM_SCM on all architectures.
-
- - To avoid a circular dependency chain involving RESET_CONTROLLER
-   and PINCTRL_SUNXI, change the 'depends on RESET_CONTROLLER' in
-   the latter one to 'select'.
-
-The last bit is rather annoying, as drivers should generally never
-'select' another subsystem, and about half the users of the reset
-controller interface do this anyway.
-
-Nevertheless, this version seems to pass all my randconfig tests
-and is more robust than any of the prior versions.
-
-Comments?
-
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
+Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/firmware/Kconfig                |  4 +-
- drivers/gpu/drm/msm/Kconfig             |  4 +-
- drivers/iommu/Kconfig                   |  2 +-
- drivers/media/platform/Kconfig          |  2 +-
- drivers/mmc/host/Kconfig                |  2 +-
- drivers/net/ipa/Kconfig                 |  1 +
- drivers/net/wireless/ath/ath10k/Kconfig |  2 +-
- drivers/pinctrl/qcom/Kconfig            |  3 +-
- drivers/pinctrl/sunxi/Kconfig           |  6 +--
- include/linux/arm-smccc.h               | 10 ++++
- include/linux/qcom_scm.h                | 71 -------------------------
- 11 files changed, 23 insertions(+), 84 deletions(-)
+ drivers/gpu/drm/msm/msm_gpu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 220a58cf0a44..f7dd82ef0b9c 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -203,9 +203,7 @@ config INTEL_STRATIX10_RSU
- 	  Say Y here if you want Intel RSU support.
+diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
+index d1a16642ecd5..2b2bbe7499e6 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.c
++++ b/drivers/gpu/drm/msm/msm_gpu.c
+@@ -667,9 +667,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
  
- config QCOM_SCM
--	tristate "Qcom SCM driver"
--	depends on ARM || ARM64
--	depends on HAVE_ARM_SMCCC
-+	tristate
- 	select RESET_CONTROLLER
+ 	msm_submit_retire(submit);
  
- config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index e9c6af78b1d7..3ddf739a6f9b 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -17,7 +17,7 @@ config DRM_MSM
- 	select DRM_SCHED
- 	select SHMEM
- 	select TMPFS
--	select QCOM_SCM if ARCH_QCOM
-+	select QCOM_SCM
- 	select WANT_DEV_COREDUMP
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	select SYNC_FILE
-@@ -55,7 +55,7 @@ config DRM_MSM_GPU_SUDO
+-	pm_runtime_mark_last_busy(&gpu->pdev->dev);
+-	pm_runtime_put_autosuspend(&gpu->pdev->dev);
+-
+ 	spin_lock_irqsave(&ring->submit_lock, flags);
+ 	list_del(&submit->node);
+ 	spin_unlock_irqrestore(&ring->submit_lock, flags);
+@@ -683,6 +680,9 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+ 	mutex_unlock(&gpu->active_lock);
  
- config DRM_MSM_HDMI_HDCP
- 	bool "Enable HDMI HDCP support in MSM DRM driver"
--	depends on DRM_MSM && QCOM_SCM
-+	depends on DRM_MSM
- 	default y
- 	help
- 	  Choose this option to enable HDCP state machine
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 124c41adeca1..989c83acbfee 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -308,7 +308,7 @@ config APPLE_DART
- config ARM_SMMU
- 	tristate "ARM Ltd. System MMU (SMMU) Support"
- 	depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
--	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-+	select QCOM_SCM
- 	select IOMMU_API
- 	select IOMMU_IO_PGTABLE_LPAE
- 	select ARM_DMA_USE_IOMMU if ARM
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 157c924686e4..80321e03809a 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -565,7 +565,7 @@ config VIDEO_QCOM_VENUS
- 	depends on VIDEO_DEV && VIDEO_V4L2 && QCOM_SMEM
- 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
- 	select QCOM_MDT_LOADER if ARCH_QCOM
--	select QCOM_SCM if ARCH_QCOM
-+	select QCOM_SCM
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_MEM2MEM_DEV
- 	help
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index 71313961cc54..95b3511b0560 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -547,7 +547,7 @@ config MMC_SDHCI_MSM
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select MMC_CQHCI
--	select QCOM_SCM if MMC_CRYPTO && ARCH_QCOM
-+	select QCOM_SCM if MMC_CRYPTO
- 	help
- 	  This selects the Secure Digital Host Controller Interface (SDHCI)
- 	  support present in Qualcomm SOCs. The controller supports
-diff --git a/drivers/net/ipa/Kconfig b/drivers/net/ipa/Kconfig
-index 8f99cfa14680..d037682fb7ad 100644
---- a/drivers/net/ipa/Kconfig
-+++ b/drivers/net/ipa/Kconfig
-@@ -4,6 +4,7 @@ config QCOM_IPA
- 	depends on ARCH_QCOM || COMPILE_TEST
- 	depends on QCOM_RPROC_COMMON || (QCOM_RPROC_COMMON=n && COMPILE_TEST)
- 	select QCOM_MDT_LOADER if ARCH_QCOM
-+	select QCOM_SCM
- 	select QCOM_QMI_HELPERS
- 	help
- 	  Choose Y or M here to include support for the Qualcomm
-diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
-index 741289e385d5..ca007b800f75 100644
---- a/drivers/net/wireless/ath/ath10k/Kconfig
-+++ b/drivers/net/wireless/ath/ath10k/Kconfig
-@@ -44,7 +44,7 @@ config ATH10K_SNOC
- 	tristate "Qualcomm ath10k SNOC support"
- 	depends on ATH10K
- 	depends on ARCH_QCOM || COMPILE_TEST
--	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-+	select QCOM_SCM
- 	select QCOM_QMI_HELPERS
- 	help
- 	  This module adds support for integrated WCN3990 chip connected
-diff --git a/drivers/pinctrl/qcom/Kconfig b/drivers/pinctrl/qcom/Kconfig
-index 32ea2a8ec02b..5ff4207df66e 100644
---- a/drivers/pinctrl/qcom/Kconfig
-+++ b/drivers/pinctrl/qcom/Kconfig
-@@ -3,7 +3,8 @@ if (ARCH_QCOM || COMPILE_TEST)
+ 	msm_gem_submit_put(submit);
++
++	pm_runtime_mark_last_busy(&gpu->pdev->dev);
++	pm_runtime_put_autosuspend(&gpu->pdev->dev);
+ }
  
- config PINCTRL_MSM
- 	tristate "Qualcomm core pin controller driver"
--	depends on GPIOLIB && (QCOM_SCM || !QCOM_SCM) #if QCOM_SCM=m this can't be =y
-+	depends on GPIOLIB
-+	select QCOM_SCM
- 	select PINMUX
- 	select PINCONF
- 	select GENERIC_PINCONF
-diff --git a/drivers/pinctrl/sunxi/Kconfig b/drivers/pinctrl/sunxi/Kconfig
-index 33751a6a0757..3447d2744ca3 100644
---- a/drivers/pinctrl/sunxi/Kconfig
-+++ b/drivers/pinctrl/sunxi/Kconfig
-@@ -29,7 +29,7 @@ config PINCTRL_SUN6I_A31
- config PINCTRL_SUN6I_A31_R
- 	bool "Support for the Allwinner A31 R-PIO"
- 	default MACH_SUN6I
--	depends on RESET_CONTROLLER
-+	select RESET_CONTROLLER
- 	select PINCTRL_SUNXI
- 
- config PINCTRL_SUN8I_A23
-@@ -55,7 +55,7 @@ config PINCTRL_SUN8I_A83T_R
- config PINCTRL_SUN8I_A23_R
- 	bool "Support for the Allwinner A23 and A33 R-PIO"
- 	default MACH_SUN8I
--	depends on RESET_CONTROLLER
-+	select RESET_CONTROLLER
- 	select PINCTRL_SUNXI
- 
- config PINCTRL_SUN8I_H3
-@@ -81,7 +81,7 @@ config PINCTRL_SUN9I_A80
- config PINCTRL_SUN9I_A80_R
- 	bool "Support for the Allwinner A80 R-PIO"
- 	default MACH_SUN9I
--	depends on RESET_CONTROLLER
-+	select RESET_CONTROLLER
- 	select PINCTRL_SUNXI
- 
- config PINCTRL_SUN50I_A64
-diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-index 7d1cabe15262..63ccb5252190 100644
---- a/include/linux/arm-smccc.h
-+++ b/include/linux/arm-smccc.h
-@@ -321,10 +321,20 @@ asmlinkage unsigned long __arm_smccc_sve_check(unsigned long x0);
-  * from register 0 to 3 on return from the SMC instruction.  An optional
-  * quirk structure provides vendor specific behavior.
-  */
-+#ifdef CONFIG_HAVE_ARM_SMCCC
- asmlinkage void __arm_smccc_smc(unsigned long a0, unsigned long a1,
- 			unsigned long a2, unsigned long a3, unsigned long a4,
- 			unsigned long a5, unsigned long a6, unsigned long a7,
- 			struct arm_smccc_res *res, struct arm_smccc_quirk *quirk);
-+#else
-+static inline void __arm_smccc_smc(unsigned long a0, unsigned long a1,
-+			unsigned long a2, unsigned long a3, unsigned long a4,
-+			unsigned long a5, unsigned long a6, unsigned long a7,
-+			struct arm_smccc_res *res, struct arm_smccc_quirk *quirk)
-+{
-+	*res = (struct arm_smccc_res){};
-+}
-+#endif
- 
- /**
-  * __arm_smccc_hvc() - make HVC calls
-diff --git a/include/linux/qcom_scm.h b/include/linux/qcom_scm.h
-index c0475d1c9885..81cad9e1e412 100644
---- a/include/linux/qcom_scm.h
-+++ b/include/linux/qcom_scm.h
-@@ -61,7 +61,6 @@ enum qcom_scm_ice_cipher {
- #define QCOM_SCM_PERM_RW (QCOM_SCM_PERM_READ | QCOM_SCM_PERM_WRITE)
- #define QCOM_SCM_PERM_RWX (QCOM_SCM_PERM_RW | QCOM_SCM_PERM_EXEC)
- 
--#if IS_ENABLED(CONFIG_QCOM_SCM)
- extern bool qcom_scm_is_available(void);
- 
- extern int qcom_scm_set_cold_boot_addr(void *entry, const cpumask_t *cpus);
-@@ -115,74 +114,4 @@ extern int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
- extern int qcom_scm_lmh_profile_change(u32 profile_id);
- extern bool qcom_scm_lmh_dcvsh_available(void);
- 
--#else
--
--#include <linux/errno.h>
--
--static inline bool qcom_scm_is_available(void) { return false; }
--
--static inline int qcom_scm_set_cold_boot_addr(void *entry,
--		const cpumask_t *cpus) { return -ENODEV; }
--static inline int qcom_scm_set_warm_boot_addr(void *entry,
--		const cpumask_t *cpus) { return -ENODEV; }
--static inline void qcom_scm_cpu_power_down(u32 flags) {}
--static inline u32 qcom_scm_set_remote_state(u32 state,u32 id)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_pas_init_image(u32 peripheral, const void *metadata,
--		size_t size) { return -ENODEV; }
--static inline int qcom_scm_pas_mem_setup(u32 peripheral, phys_addr_t addr,
--		phys_addr_t size) { return -ENODEV; }
--static inline int qcom_scm_pas_auth_and_reset(u32 peripheral)
--		{ return -ENODEV; }
--static inline int qcom_scm_pas_shutdown(u32 peripheral) { return -ENODEV; }
--static inline bool qcom_scm_pas_supported(u32 peripheral) { return false; }
--
--static inline int qcom_scm_io_readl(phys_addr_t addr, unsigned int *val)
--		{ return -ENODEV; }
--static inline int qcom_scm_io_writel(phys_addr_t addr, unsigned int val)
--		{ return -ENODEV; }
--
--static inline bool qcom_scm_restore_sec_cfg_available(void) { return false; }
--static inline int qcom_scm_restore_sec_cfg(u32 device_id, u32 spare)
--		{ return -ENODEV; }
--static inline int qcom_scm_iommu_secure_ptbl_size(u32 spare, size_t *size)
--		{ return -ENODEV; }
--static inline int qcom_scm_iommu_secure_ptbl_init(u64 addr, u32 size, u32 spare)
--		{ return -ENODEV; }
--extern inline int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
--						 u32 cp_nonpixel_start,
--						 u32 cp_nonpixel_size)
--		{ return -ENODEV; }
--static inline int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
--		unsigned int *src, const struct qcom_scm_vmperm *newvm,
--		unsigned int dest_cnt) { return -ENODEV; }
--
--static inline bool qcom_scm_ocmem_lock_available(void) { return false; }
--static inline int qcom_scm_ocmem_lock(enum qcom_scm_ocmem_client id, u32 offset,
--		u32 size, u32 mode) { return -ENODEV; }
--static inline int qcom_scm_ocmem_unlock(enum qcom_scm_ocmem_client id,
--		u32 offset, u32 size) { return -ENODEV; }
--
--static inline bool qcom_scm_ice_available(void) { return false; }
--static inline int qcom_scm_ice_invalidate_key(u32 index) { return -ENODEV; }
--static inline int qcom_scm_ice_set_key(u32 index, const u8 *key, u32 key_size,
--				       enum qcom_scm_ice_cipher cipher,
--				       u32 data_unit_size) { return -ENODEV; }
--
--static inline bool qcom_scm_hdcp_available(void) { return false; }
--static inline int qcom_scm_hdcp_req(struct qcom_scm_hdcp_req *req, u32 req_cnt,
--		u32 *resp) { return -ENODEV; }
--
--static inline int qcom_scm_qsmmu500_wait_safe_toggle(bool en)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
--				     u64 limit_node, u32 node_id, u64 version)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_lmh_profile_change(u32 profile_id) { return -ENODEV; }
--
--static inline bool qcom_scm_lmh_dcvsh_available(void) { return -ENODEV; }
--#endif
- #endif
+ static void retire_submits(struct msm_gpu *gpu)
 -- 
-2.29.2
+2.31.1
 
