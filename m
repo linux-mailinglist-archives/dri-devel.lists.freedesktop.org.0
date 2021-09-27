@@ -2,70 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC234419DB5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 19:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD8BC419E52
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 20:31:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7AF89E9B;
-	Mon, 27 Sep 2021 17:59:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85FA689CE2;
+	Mon, 27 Sep 2021 18:31:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com
- [IPv6:2607:f8b0:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAB4289EF7;
- Mon, 27 Sep 2021 17:59:11 +0000 (UTC)
-Received: by mail-pf1-x42a.google.com with SMTP id k17so16578201pff.8;
- Mon, 27 Sep 2021 10:59:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=x9PMRkScYQE770/qQauf0OHWoe2ppRvX6b1V34h55go=;
- b=f67WuWGQdjQS1Rw05S8XTSDl3zZnbdr3JW8bKXlR0nyfJZfHQnPIPtfa1URWA86t7z
- /RA2/B5Ffm1DSfoAJJYrDPpcj6uAOjlWfa3mFLEKUAJJI941cr2O6Z2bYejcnDXbFkfA
- aBmSvFPIQPETZ2UJ0l9PqPfeYIxyX5D2eyI7ujcLbqzrzXO1+GS6gSQt3TDZEVOwr3Fc
- dt/Ayf4VdULHQvEYnnORHitt2qWkfz+8MdfLgVvBJw9+0ExDMhAwYu2HRMPjGGsmutOW
- EhFuJjrSMxxwXy8oIgXXV3M10JxecZHmgtLyY8uraDYSGOhHfaVKpMY6HVV5OmyZ9gpb
- cfCA==
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B4D6089CE2
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 18:31:18 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id y28so81013482lfb.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 11:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sWmqXMuBrucuIeakdjz9BORDR3vl7TbPCCWtbIs4HsQ=;
+ b=qjbC3u4RvCRjqFP+IDqxbgDTZaId2dnGKxvHO5eeQyWsVWmbTQgLobqt/yAW+X0Ghn
+ TajScg8JESA1H9S0+15RKB5n7gRpugUil1yVkZq4UgQ+xy0Qj9AZMUq6zZxddGPVytJq
+ IZy+3rPID0+L31UtMNINPPx2F23HLf/jyda0MJC0n7LuSYyNEMpiorCUS0TEQ23RWqI3
+ w8429B3XLM9pWb04fMen5yT1exU9mylBuRTgu3lcJ77hw/xQrnfEd3ROZlJ07IWaB6Xl
+ 0SqwaE3zB/KMh1AtJ4SNjbQAHhtG/rZVLoQ3EiTvD89/sgpZhe6hOWY6KTUQ62r4auFM
+ xCHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=x9PMRkScYQE770/qQauf0OHWoe2ppRvX6b1V34h55go=;
- b=UU12nnw0RNDfXOhLPGqVjInZCpH4rin3io+MIBxNu8rBjEZ0EADdgwv+flI8Woahym
- OrxOBTCpBWWfH0QvE1qOPhVx52wdmg+xB4aQGiZAMWMjXtEpy8DAKOYwbrJnZJfnn9kA
- 80TDVbFRROstI0iVM5JeXoX+WSydAzIrLsuEJ4y0NbkCBBEUE51tJSefpOgB8UnE1WB/
- OCjEF5I47NYfWFAH6D+wtSaV+21MyVaLyff0Ut471tVbkMLIEdTgX4S5HDrxyr6lOPFl
- v9jAuXFrnmcgW4Tnj4TkrFTDjbPMaAwnVCndYHDNw//Rn7x6w3/uDtahLQw61KcEqfnh
- P0NQ==
-X-Gm-Message-State: AOAM5309XpLRulLTOXdzNThqBeOaeFg0dUtakZPzfdXoVKPaiBDDydJv
- 1meGF9rVctYHZOB6Z2osMbEiILsYMso=
-X-Google-Smtp-Source: ABdhPJzPOmpQm77WyPV4rWtuv1w5GGK5dAwbu3Z8W7q7U8XKwZWq9/wQKiALSx3IkLjsOkkE9Us7zg==
-X-Received: by 2002:a62:1dc5:0:b0:43e:f8a4:49a7 with SMTP id
- d188-20020a621dc5000000b0043ef8a449a7mr1328178pfd.26.1632765550594; 
- Mon, 27 Sep 2021 10:59:10 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id
- p10sm18780974pge.38.2021.09.27.10.59.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 10:59:09 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Jordan Crouse <jordan@cosmicpenguin.net>,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Jonathan Marek <jonathan@marek.ca>,
- Eric Anholt <eric@anholt.net>, Akhil P Oommen <akhilpo@codeaurora.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Sharat Masetty <smasetty@codeaurora.org>,
- Douglas Anderson <dianders@chromium.org>,
- linux-kernel@vger.kernel.org (open list)
-Subject: [RFC] drm/msm/a6xx: Serialize GMU communication
-Date: Mon, 27 Sep 2021 11:03:40 -0700
-Message-Id: <20210927180345.878859-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
+ bh=sWmqXMuBrucuIeakdjz9BORDR3vl7TbPCCWtbIs4HsQ=;
+ b=SOZ4JW/ec6AWHQqYJJEWCzS0WjAAFhvi0eKDrWryKwE1Jr2s9/Q4kQAj+ziPlORI+I
+ m9BzGvyKnUTH2FceUXdGogRi0ADJidQJE0OOWaOTV2YHdn4PhYAbuQNJ2G2ommW2JJ7z
+ G5ZrGz5caQAx22Gd8eB8qJYMOMTb2Bly2nIKa/KwFxCENMQmv/cF2exc8ha1RYdsYPvI
+ 8JkJ2i8Is7b2R0alNz53VkpTkBa/8/xBVaCSAiM9QwhNOAQ6fvDtU1Twd0YECmzCSZFZ
+ /Px+RqjRiK7xOEg8OXkkS4cw19NF6m+D9utk67LQpczbBL4YadLITZClJZi5vG+hBvIk
+ NATA==
+X-Gm-Message-State: AOAM533IHyILRyGC12isLBsVy+oA1HJiqjIS8RU+vgZW+DzDTWFBeijq
+ UARuMOni3wu/F1KjUTQK62REXg==
+X-Google-Smtp-Source: ABdhPJxwP05zdXBtU+0jDLh//7TLDHEPrVzDS70hOgJcCU4U2k6vSzc2JXdGoSf1+lT+28xAXHp4VQ==
+X-Received: by 2002:a2e:bf1a:: with SMTP id c26mr1442559ljr.88.1632767476760; 
+ Mon, 27 Sep 2021 11:31:16 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id r22sm2080554lji.5.2021.09.27.11.31.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 27 Sep 2021 11:31:16 -0700 (PDT)
+Subject: Re: [PATCH] drm/bridge/lontium-lt9611uxc: fix provided connector
+ suport
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@siol.net>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org
+References: <20210708230329.395976-1-dmitry.baryshkov@linaro.org>
+Message-ID: <e793810b-5e45-693f-8d72-b20e85b78f61@linaro.org>
+Date: Mon, 27 Sep 2021 21:31:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210708230329.395976-1-dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,198 +81,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+On 09/07/2021 02:03, Dmitry Baryshkov wrote:
+> - set DRM_CONNECTOR_POLL_HPD as the connector will generate hotplug
+>    events on its own
+> 
+> - do not call drm_kms_helper_hotplug_event() unless mode_config.funcs
+>    pointer is not NULL to remove possible kernel oops.
+> 
+> Fixes: bc6fa8676ebb ("drm/bridge/lontium-lt9611uxc: move HPD notification out of IRQ handler")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> ---
 
-I've seen some crashes in our crash reporting that *look* like multiple
-threads stomping on each other while communicating with GMU.  So wrap
-all those paths in a lock.
+Gracious ping for review. It would be really nice to get this patch into 
+5.16
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
-Are we allowed to use c99/gnu99 yet?
 
- drivers/gpu/drm/msm/Makefile          |  2 +-
- drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  6 ++++
- drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  9 +++++
- drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 50 ++++++++++++++++++++-------
- 4 files changed, 54 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/bridge/lontium-lt9611uxc.c | 9 ++++++---
+>   1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> index 3cac16db970f..010657ea7af7 100644
+> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
+> @@ -167,9 +167,10 @@ static void lt9611uxc_hpd_work(struct work_struct *work)
+>   	struct lt9611uxc *lt9611uxc = container_of(work, struct lt9611uxc, work);
+>   	bool connected;
+>   
+> -	if (lt9611uxc->connector.dev)
+> -		drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
+> -	else {
+> +	if (lt9611uxc->connector.dev) {
+> +		if (lt9611uxc->connector.dev->mode_config.funcs)
+> +			drm_kms_helper_hotplug_event(lt9611uxc->connector.dev);
+> +	} else {
+>   
+>   		mutex_lock(&lt9611uxc->ocm_lock);
+>   		connected = lt9611uxc->hdmi_connected;
+> @@ -339,6 +340,8 @@ static int lt9611uxc_connector_init(struct drm_bridge *bridge, struct lt9611uxc
+>   		return -ENODEV;
+>   	}
+>   
+> +	lt9611uxc->connector.polled = DRM_CONNECTOR_POLL_HPD;
+> +
+>   	drm_connector_helper_add(&lt9611uxc->connector,
+>   				 &lt9611uxc_bridge_connector_helper_funcs);
+>   	ret = drm_connector_init(bridge->dev, &lt9611uxc->connector,
+> 
 
-diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-index 904535eda0c4..57283bbad3f0 100644
---- a/drivers/gpu/drm/msm/Makefile
-+++ b/drivers/gpu/drm/msm/Makefile
-@@ -1,5 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
--ccflags-y := -I $(srctree)/$(src)
-+ccflags-y := -I $(srctree)/$(src) -std=gnu99
- ccflags-y += -I $(srctree)/$(src)/disp/dpu1
- ccflags-$(CONFIG_DRM_MSM_DSI) += -I $(srctree)/$(src)/dsi
- ccflags-$(CONFIG_DRM_MSM_DP) += -I $(srctree)/$(src)/dp
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-index a7c58018959f..8b73f70766a4 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
-@@ -296,6 +296,8 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- 	u32 val;
- 	int request, ack;
- 
-+	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
-+
- 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
- 		return -EINVAL;
- 
-@@ -337,6 +339,8 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
- {
- 	int bit;
- 
-+	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
-+
- 	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
- 		return;
- 
-@@ -1482,6 +1486,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
- 	if (!pdev)
- 		return -ENODEV;
- 
-+	mutex_init(&gmu->lock);
-+
- 	gmu->dev = &pdev->dev;
- 
- 	of_dma_configure(gmu->dev, node, true);
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-index 3c74f64e3126..f05a00c0afd0 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
-@@ -44,6 +44,9 @@ struct a6xx_gmu_bo {
- struct a6xx_gmu {
- 	struct device *dev;
- 
-+	/* For serializing communication with the GMU: */
-+	struct mutex lock;
-+
- 	struct msm_gem_address_space *aspace;
- 
- 	void * __iomem mmio;
-@@ -88,6 +91,12 @@ struct a6xx_gmu {
- 	bool legacy; /* a618 or a630 */
- };
- 
-+/* Helper macro for serializing GMU access: */
-+#define with_gmu_lock(gmu) \
-+	for (bool done = ({ mutex_lock(&(gmu)->lock); false; }); \
-+		!done; \
-+		done = ({ mutex_unlock(&(gmu)->lock); true; }))
-+
- static inline u32 gmu_read(struct a6xx_gmu *gmu, u32 offset)
- {
- 	return msm_readl(gmu->mmio + (offset << 2));
-diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-index f6a4dbef796b..5e1ae3df42ba 100644
---- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-+++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
-@@ -881,7 +881,7 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu)
- 	  A6XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS | \
- 	  A6XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR)
- 
--static int a6xx_hw_init(struct msm_gpu *gpu)
-+static int hw_init(struct msm_gpu *gpu)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-@@ -1135,6 +1135,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
- 	return ret;
- }
- 
-+static int a6xx_hw_init(struct msm_gpu *gpu)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+	int ret;
-+
-+	with_gmu_lock(&a6xx_gpu->gmu) {
-+		ret = hw_init(gpu);
-+	}
-+
-+	return ret;
-+}
-+
- static void a6xx_dump(struct msm_gpu *gpu)
- {
- 	DRM_DEV_INFO(&gpu->pdev->dev, "status:   %08x\n",
-@@ -1509,7 +1522,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
- 
- 	trace_msm_gpu_resume(0);
- 
--	ret = a6xx_gmu_resume(a6xx_gpu);
-+	with_gmu_lock(&a6xx_gpu->gmu) {
-+		ret = a6xx_gmu_resume(a6xx_gpu);
-+	}
- 	if (ret)
- 		return ret;
- 
-@@ -1532,7 +1547,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
- 
- 	msm_devfreq_suspend(gpu);
- 
--	ret = a6xx_gmu_stop(a6xx_gpu);
-+	with_gmu_lock(&a6xx_gpu->gmu) {
-+		ret = a6xx_gmu_stop(a6xx_gpu);
-+	}
- 	if (ret)
- 		return ret;
- 
-@@ -1547,18 +1564,17 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
- {
- 	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
- 	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
--	static DEFINE_MUTEX(perfcounter_oob);
- 
--	mutex_lock(&perfcounter_oob);
-+	with_gmu_lock(&a6xx_gpu->gmu) {
-+		/* Force the GPU power on so we can read this register */
-+		a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
- 
--	/* Force the GPU power on so we can read this register */
--	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
-+		*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
-+				    REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
- 
--	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
--		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
-+		a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
-+	}
- 
--	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
--	mutex_unlock(&perfcounter_oob);
- 	return 0;
- }
- 
-@@ -1622,6 +1638,16 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
- 	return (unsigned long)busy_time;
- }
- 
-+void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
-+{
-+	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
-+	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
-+
-+	with_gmu_lock(&a6xx_gpu->gmu) {
-+		a6xx_gmu_set_freq(gpu, opp);
-+	}
-+}
-+
- static struct msm_gem_address_space *
- a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
- {
-@@ -1766,7 +1792,7 @@ static const struct adreno_gpu_funcs funcs = {
- #endif
- 		.gpu_busy = a6xx_gpu_busy,
- 		.gpu_get_freq = a6xx_gmu_get_freq,
--		.gpu_set_freq = a6xx_gmu_set_freq,
-+		.gpu_set_freq = a6xx_gpu_set_freq,
- #if defined(CONFIG_DRM_MSM_GPU_STATE)
- 		.gpu_state_get = a6xx_gpu_state_get,
- 		.gpu_state_put = a6xx_gpu_state_put,
+
 -- 
-2.31.1
-
+With best wishes
+Dmitry
