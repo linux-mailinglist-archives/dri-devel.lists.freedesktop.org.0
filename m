@@ -1,70 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF684191B1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 11:39:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB9F4191B8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 11:42:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 58FB66E83B;
-	Mon, 27 Sep 2021 09:39:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A64E56E838;
+	Mon, 27 Sep 2021 09:42:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.187])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 448B96E83B
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 09:39:41 +0000 (UTC)
-Received: from mail-wr1-f48.google.com ([209.85.221.48]) by
- mrelayeu.kundenserver.de (mreue011 [213.165.67.97]) with ESMTPSA (Nemesis) id
- 1N2Dks-1mz1JU2zGg-013hk2 for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep
- 2021 11:39:38 +0200
-Received: by mail-wr1-f48.google.com with SMTP id g16so50635746wrb.3
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 02:39:38 -0700 (PDT)
-X-Gm-Message-State: AOAM530FKlVga8GxZbLYE9chkv7ae/3BTpSJxN0U2gC5gdWwC++fH1rQ
- ew/ojg7bBYvfa1a9ak8A/ANcgqYrGYqVukgF+kI=
-X-Google-Smtp-Source: ABdhPJzw8wp0ZsXSNDvP3gv334QGiK0yVNSZyzNIHpmCfkoIjZ41K7Vl7uVq2HYR9WzUuAX6tNcVwXjlGq+HfuyrMz0=
-X-Received: by 2002:a1c:2357:: with SMTP id j84mr5135591wmj.1.1632735578051;
- Mon, 27 Sep 2021 02:39:38 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A846A6E838
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 09:42:04 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id c21so20961347wrb.13
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 02:42:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=AOd3DSSJEh7FjHG/mu9DSVCacQHAVqSPOn9FFZX+TDo=;
+ b=bJ/6URt8mZ58hZVR1HRraD8UFutUqCyIH+v76AnMaiuYUB2S78EKqrFdru+Y0ocBuK
+ LZWNMwcSxP0OV5mTMvO7iKSIJNxtUw9m9HX9XFp4v/pBjazDAMHgnTKfkxaPE0/XVY6k
+ s2S8cIKDq+q1vF1tN90Yb+wVZS5qt/4+vqceeqP55zewqx2SP/JxHD0DMQxmeEJGbR4v
+ 8I6BY2zWSrFxWFalk8GiZddb0PM5futGtBOBMxVND+EQZnYvG9IXYfI4dlOjtJZa7d6q
+ TPnt8KHEDorwbB2g3MvMxUfLhm/KFi5SmBrpthYt9lwo9FTS1a1yyesI99YeDT//PzJj
+ oCAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=AOd3DSSJEh7FjHG/mu9DSVCacQHAVqSPOn9FFZX+TDo=;
+ b=b0KkZ9UzxXXDHL6CBB2NZhTs3+sA4J7FAXRrjnOtPLc8vFhXYaLSIT9OE+Oy7kENho
+ bi0Y0yaD4WfM5bRiJBCHO379p/W0AlQXB2RNwtdgJCBLlhp81IA3aWcAdhIytryNUabH
+ l2DQ07W/SoZFoW04jSRdEZZZNWsRYmtPI/Pz50UoMwpXDBJDBEJWIjm8mGRU8LVqOqC/
+ pu0v56PXyyIURDtJYHfJGC/P6AoSsGVRV1y6wKW3bvKpRRN9NrkOscwWWzzJh7FiY9QY
+ Uw/jkRux/2DdJ74SccFJrM4VhDpfjfCyy4MCOcn73i8YlTERYKHCediEUjlqT9oWYnDl
+ ZcGA==
+X-Gm-Message-State: AOAM532gv7UTgv4yyHw/x9aao51kxpyhDlJSGKiyjof5pCTjiwwG6ETZ
+ AOorskxU69Unbfva+OSMHFvFBg==
+X-Google-Smtp-Source: ABdhPJwuBfuf1mGVJGpqb6JLQPeqaPjF7TGxssF9xcq1RpummfDkKDco8qTM4I+v2BUXVl9U/SqDJw==
+X-Received: by 2002:adf:f94b:: with SMTP id q11mr16116559wrr.408.1632735723038; 
+ Mon, 27 Sep 2021 02:42:03 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id z79sm16927330wmc.17.2021.09.27.02.42.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 02:42:02 -0700 (PDT)
+Date: Mon, 27 Sep 2021 10:42:00 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH] backlight: hx8357: Add SPI device ID table
+Message-ID: <20210927094200.a7d73sl2k4x5xjch@maple.lan>
+References: <20210922151014.49719-1-broonie@kernel.org>
 MIME-Version: 1.0
-References: <YU8oVDFoeD5YYeDT@kroah.com>
- <CAK8P3a3pdVhjv4J4HSB1cvHU7U_P7TV7HCOYmrK==V_MAnT2BQ@mail.gmail.com>
-In-Reply-To: <CAK8P3a3pdVhjv4J4HSB1cvHU7U_P7TV7HCOYmrK==V_MAnT2BQ@mail.gmail.com>
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Mon, 27 Sep 2021 11:39:21 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a0gSJrR=rLtyLOH+D-grsoy_9_kOOS-AT3aX8R48p+zww@mail.gmail.com>
-Message-ID: <CAK8P3a0gSJrR=rLtyLOH+D-grsoy_9_kOOS-AT3aX8R48p+zww@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: move dma-buf symbols into the DMA_BUF module
- namespace
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:i6E4bntCYxZkVwvz13B7JEgOLTIb9OMB9CCiwPrfADmPNN7xdMY
- o5rgbTyQukcIiL/zlzmeG3dPkGOr5V8LfZdnLZbLUFw8UKpIsNkjPunkiNyAogQLjy/Owlh
- 9iSB0lwmpcVtr0chnXIstfqiRzSJ4j3LVs7qGvbc1Bt8zUcsbK8fK+5fm9ljSmm6UTX6Bth
- 2ejsyJdSYv3mDuIpdOc0Q==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1sIN3JTl8aE=:ufkF06D2hdBtyv6HKPvNP/
- 4dbmByp7rbjd8HTRXBoagncxMhf0YmqFBgeyJ3j/a8M5jM6No2Hnmsy1ucmBJsyXpsnnQ8Yph
- d7iVCQlzqeYisYlW0eHZiQ5itnCprTfohEP6YMSZ6htU1rF/6yb4vNkO8ngP6eMkBim30dRhU
- QX4p4o2ARb7qMZsX92a7jr/MlGpXYAbXHy9LeCg6+o+eRlbYvrHJVLxTKtxI1USZsHTCscKQ2
- INrf14RErYJPQdyUVlSIH8CaHM0CMLELV1uETc+Eo/vfPV4oic3R6QBID0o6i2pMIwqKKitXk
- YSomfc2vPPEpD2bvUg1/yEYGrVykU5BKHzO6L6wBPn/PbEbKiKleERcu2RIIF5GvUtFijpuAt
- tQ9YENMlnztUakkAUfMgX6R35MH4FsEs3T8gYHaxEL9uz4QmBf0GCCQ50rqYODKQO/ByHZmfh
- fRyWptxjesgC6EL3UtSA3xZzfzQxOxOokGHy67QT5oo5QR66qmQN5CyCBHbWcR4SC2xY6ukFc
- WFCSfEX1sI6EG9Ih46kIB6r/3Wo+D7ddkMtJ5swNl1QMgq9g2iAoZ9Ilcpq0hP4N3x2B5X7VH
- GSwD4vlHOtXhQSm4+HvYJd1E27uUOH04dGTQdDPOns+SWvqGM9v+93B1fFB/wbpgbinAU6dIk
- /5tt61tbD/eWzKNFV38PorFBOe46RmFT9g2HSm8uAu3HGe0xJKamwg2AkgfhnjhLnZyaK+MLc
- Gggu2+BA5pAYO+iyvsg8mMVrHrDFxB+MCHhUJLQz/hwVfu0a8Bq7QdR/oHYN8ma05zBxWfmjy
- H0tKwjovKzqbimNsCRUbsCzQV8gtoB+LDJURjBrK3LOD0ENGb3+L1dOJj9CTRppnbk3d5c5OH
- GjfZZUNqMgsAo+sH2efw==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210922151014.49719-1-broonie@kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,42 +73,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Sep 25, 2021 at 7:41 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> On Sat, Sep 25, 2021 at 3:47 PM Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+On Wed, Sep 22, 2021 at 04:10:14PM +0100, Mark Brown wrote:
+> Currently autoloading for SPI devices does not use the DT ID table, it uses
+> SPI modalises. Supporting OF modalises is going to be difficult if not
+> impractical, an attempt was made but has been reverted, so ensure that
+> module autoloading works for this driver by adding a SPI device ID table.
+> 
+> Fixes: 96c8395e2166 ("spi: Revert modalias changes")
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  drivers/video/backlight/hx8357.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/drivers/video/backlight/hx8357.c b/drivers/video/backlight/hx8357.c
+> index 9b50bc96e00f..c64b1fbe027f 100644
+> --- a/drivers/video/backlight/hx8357.c
+> +++ b/drivers/video/backlight/hx8357.c
+> @@ -565,6 +565,19 @@ static struct lcd_ops hx8357_ops = {
+>  	.get_power	= hx8357_get_power,
+>  };
+>  
+> +static const struct spi_device_id hx8357_spi_ids[] = {
+> +	{
+> +		.name = "hx8357",
+> +		.driver_data = (kernel_ulong_t)hx8357_lcd_init,
 
-> > Only test-built on x86 allmodconfig, don't know what other arches will
-> > pick up, will let 0-day run on it for a bit...
->
-> I've added it to my build box doing arm32/arm64/x86 randconfig tests,
-> if it doesn't report anything by Monday, it's probably good in that regard.
+Based on this I had expected to find spi_get_device_id() and a ->driver_data
+somewhere in this patch.
 
-It found these two, please fold into your patch:
+Where will this .driver_data be consumed? 
 
-diff --git a/drivers/gpu/drm/armada/armada_gem.c
-b/drivers/gpu/drm/armada/armada_gem.c
-index 21909642ee4c..711f0cca6f9c 100644
---- a/drivers/gpu/drm/armada/armada_gem.c
-+++ b/drivers/gpu/drm/armada/armada_gem.c
-@@ -15,6 +15,8 @@
- #include "armada_gem.h"
- #include "armada_ioctlP.h"
 
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- static vm_fault_t armada_gem_vm_fault(struct vm_fault *vmf)
- {
-        struct drm_gem_object *gobj = vmf->vma->vm_private_data;
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-index f4cde3a169d8..809f86cfc540 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-@@ -11,6 +11,8 @@
+Daniel.
 
- #include "omap_drv.h"
 
-+MODULE_IMPORT_NS(DMA_BUF);
-+
- /* -----------------------------------------------------------------------------
-  * DMABUF Export
-  */
+> +	},
+> +	{
+> +		.name = "hx8369",
+> +		.driver_data = (kernel_ulong_t)hx8369_lcd_init,
+> +	},
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(spi, hx8357_spi_ids);
+> +
+>  static const struct of_device_id hx8357_dt_ids[] = {
+>  	{
+>  		.compatible = "himax,hx8357",
+> @@ -672,6 +685,7 @@ static struct spi_driver hx8357_driver = {
+>  		.name = "hx8357",
+>  		.of_match_table = hx8357_dt_ids,
+>  	},
+> +	.id_table = hx8357_spi_ids,
+>  };
+>  
+>  module_spi_driver(hx8357_driver);
+> -- 
+> 2.20.1
+> 
