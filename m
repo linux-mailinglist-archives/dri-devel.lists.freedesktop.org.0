@@ -1,70 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 915504196F7
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:00:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31F16419760
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:10:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 52276895F5;
-	Mon, 27 Sep 2021 15:00:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23EED89FC8;
+	Mon, 27 Sep 2021 15:10:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32b.google.com (mail-ot1-x32b.google.com
- [IPv6:2607:f8b0:4864:20::32b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C74F4895F5
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 15:00:25 +0000 (UTC)
-Received: by mail-ot1-x32b.google.com with SMTP id
- g62-20020a9d2dc4000000b0054752cfbc59so19081184otb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 08:00:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=4WvB4Vg5806iIvqD8v9pToN52N27brRc9ZKPcKojdZM=;
- b=gKhHSP6khAUs1dj4CGAeTQo15UmUm5M4Q1KMNyHanakPFqLipTK0ZySy0Q/UupGqPJ
- MJVMZ2e1Nu834NhaoLuHz7hw9seWtLt8caaWWG1d02F821JVaRd/nZjgZuys2PYF62Hf
- QtkcRgxY9Zx4RpE2b3IYw+7Fuc7IsxkZhms8epWPQPhtDAtau4u5Z3zAgPfEG8wwu19w
- U5t2w+RIAF25ERirYg871CBj8TsCKSWfsF/DoIieck6Y5oP2v1thkLCiRBU9aSZE8xzg
- 7wrNmuRGXvLC7Myd5QbLfxmk5voCZVo2FINhyAR26qF7UBSW6Ibq0IwZzL3hsK62D64y
- cr7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=4WvB4Vg5806iIvqD8v9pToN52N27brRc9ZKPcKojdZM=;
- b=qmvXW69SofqLEBII/VuYkXZDZDXeRUxhrPjXSomj/eNs/iVard326OZOb+CRkFW0YB
- 4vJpuP3HaEaiMP8WyXLkm4WWxDAOMzBQbYBT9LcJ9IpRk6jucXeiDre1lzCcymBnpJw8
- xTH7adkDGn9yJ07x6ypUNq4xEr7gWHLN/fG3R5pxaQKX7XOI1ERRAE/t1WzKehX8IBP1
- 66RSsaCHzYJICqqyMVRAqCUaD6y0sjMM36W9xEP47RjkADjIFQbWS7kmS+27g9NpEXaE
- ju45EYu1vJye+Jrw1djosPmStk8Wn8Qed52e+VkpBkq7epdiIeKEudHWwX49ptPXQYGX
- /oLw==
-X-Gm-Message-State: AOAM532rEt4TahscX/sOVeGEGiz0E0e174/t8RD/pMoHFAvLRM5ZzGId
- 4TH/y5Y646FOocwhU/MYUsKRGTSsFNtXWM01IEc=
-X-Google-Smtp-Source: ABdhPJzl2XWJGCddTixgzLXmCQzTzyoCp9y9eD1ChC3xnPB6yINdddhdbEeX4/eTwagUEtg5ES3v+c770GjWdluwmGQ=
-X-Received: by 2002:a05:6830:1d66:: with SMTP id
- l6mr401922oti.299.1632754824860; 
- Mon, 27 Sep 2021 08:00:24 -0700 (PDT)
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49F6C89FC8;
+ Mon, 27 Sep 2021 15:10:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10120"; a="222602170"
+X-IronPort-AV: E=Sophos;i="5.85,326,1624345200"; d="scan'208";a="222602170"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2021 08:10:28 -0700
+X-IronPort-AV: E=Sophos;i="5.85,326,1624345200"; d="scan'208";a="520068943"
+Received: from ekolpasx-mobl.ccr.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.80])
+ by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2021 08:10:26 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH] drm/i915/ttm: Rework object initialization slightly
+Date: Mon, 27 Sep 2021 17:10:17 +0200
+Message-Id: <20210927151017.287414-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <YU8oVDFoeD5YYeDT@kroah.com>
- <CAO_48GG-ygn6ox0JUM89qEO9BG662pBU5KKjx2R+T2ftCs75_Q@mail.gmail.com>
-In-Reply-To: <CAO_48GG-ygn6ox0JUM89qEO9BG662pBU5KKjx2R+T2ftCs75_Q@mail.gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 27 Sep 2021 11:00:14 -0400
-Message-ID: <CADnq5_O1GNteyrrYfVHMN9CpRx5gt+Bvtr1uahR7DsSbw04TTQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: move dma-buf symbols into the DMA_BUF module
- namespace
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,574 +49,163 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 27, 2021 at 7:15 AM Sumit Semwal <sumit.semwal@linaro.org> wrot=
-e:
->
-> Hello Greg,
->
-> Thanks for the patch!
->
-> On Sat, 25 Sept 2021 at 19:17, Greg Kroah-Hartman <gregkh@linuxfoundation=
-.org> wrote:
->>
->> In order to better track where in the kernel the dma-buf code is used,
->> put the symbols in the namespace DMA_BUF and modify all users of the
->> symbols to properly import the namespace to not break the build at the
->> same time.
->>
->> Now the output of modinfo shows the use of these symbols, making it
->> easier to watch for users over time:
->>
->> $ modinfo drivers/misc/fastrpc.ko | grep import
->> import_ns:      DMA_BUF
->>
->> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
->> Cc: Alex Deucher <alexander.deucher@amd.com>
->> Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
->> Cc: David Airlie <airlied@linux.ie>
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->> Cc: Maxime Ripard <mripard@kernel.org>
->> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: Arnd Bergmann <arnd@arndb.de>
->> Cc: dri-devel@lists.freedesktop.org
->> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
->
->
-> With the addition of the 2 misses found by Arnd, please feel free to add =
-my
-> Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
+We may end up in i915_ttm_bo_destroy() in an error path before the
+object is fully initialized. In that case it's not correct to call
+__i915_gem_free_object(), because that function
+a) Assumes the gem object refcount is 0, which it isn't.
+b) frees the placements which are owned by the caller until the
+init_object() region ops returns successfully. Fix this by providing
+a lightweight cleanup function i915_gem_object_fini() which is also
+called by __i915_gem_free_object().
 
-Same here.
+While doing this, also make sure we call dma_resv_fini() as part of
+ordinary object destruction and not from the RCU callback that frees
+the object. This will help track down bugs where the object is incorrectly
+locked from an RCU lookup.
 
-Acked-by: Alex Deucher <alexander.deucher@amd.com>
+Finally, make sure the object isn't put on the region list until it's
+either locked or fully initialized in order to block list processing of
+partially initialized objects.
 
->>
->> ---
->>
->> The topic of dma-buf came up in the Maintainer's summit yesterday, and
->> one comment was to put the symbols in their own module namespace, to
->> make it easier to notice and track who was using them.  This patch does
->> so, and finds some "interesting" users of the api already in the tree.
->>
->> Only test-built on x86 allmodconfig, don't know what other arches will
->> pick up, will let 0-day run on it for a bit...
->>
->> Comments?
->>
->>
->>
->>
->>  drivers/dma-buf/dma-buf.c                     | 34 +++++++++----------
->>  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c       |  3 ++
->>  drivers/gpu/drm/drm_gem_framebuffer_helper.c  |  3 ++
->>  drivers/gpu/drm/drm_prime.c                   |  3 ++
->>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  3 ++
->>  drivers/gpu/drm/exynos/exynos_drm_gem.c       |  3 ++
->>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  3 ++
->>  drivers/gpu/drm/tegra/gem.c                   |  3 ++
->>  drivers/gpu/drm/vmwgfx/ttm_object.c           |  3 ++
->>  drivers/infiniband/core/umem_dmabuf.c         |  3 ++
->>  .../media/common/videobuf2/videobuf2-core.c   |  1 +
->>  .../common/videobuf2/videobuf2-dma-contig.c   |  1 +
->>  .../media/common/videobuf2/videobuf2-dma-sg.c |  1 +
->>  .../common/videobuf2/videobuf2-vmalloc.c      |  1 +
->>  drivers/misc/fastrpc.c                        |  1 +
->>  .../staging/media/tegra-vde/dmabuf-cache.c    |  3 ++
->>  drivers/tee/tee_shm.c                         |  3 ++
->>  drivers/virtio/virtio_dma_buf.c               |  1 +
->>  drivers/xen/gntdev-dmabuf.c                   |  3 ++
->>  samples/vfio-mdev/mbochs.c                    |  1 +
->>  20 files changed, 60 insertions(+), 17 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 63d32261b63f..6c2b5ea828a6 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -610,7 +610,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_=
-export_info *exp_info)
->>         module_put(exp_info->owner);
->>         return ERR_PTR(ret);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_export);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_export, DMA_BUF);
->>
->>  /**
->>   * dma_buf_fd - returns a file descriptor for the given struct dma_buf
->> @@ -634,7 +634,7 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
->>
->>         return fd;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_fd);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_fd, DMA_BUF);
->>
->>  /**
->>   * dma_buf_get - returns the struct dma_buf related to an fd
->> @@ -660,7 +660,7 @@ struct dma_buf *dma_buf_get(int fd)
->>
->>         return file->private_data;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_get);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_get, DMA_BUF);
->>
->>  /**
->>   * dma_buf_put - decreases refcount of the buffer
->> @@ -679,7 +679,7 @@ void dma_buf_put(struct dma_buf *dmabuf)
->>
->>         fput(dmabuf->file);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_put);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_put, DMA_BUF);
->>
->>  static void mangle_sg_table(struct sg_table *sg_table)
->>  {
->> @@ -810,7 +810,7 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struc=
-t device *dev,
->>         dma_buf_detach(dmabuf, attach);
->>         return ERR_PTR(ret);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_dynamic_attach);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, DMA_BUF);
->>
->>  /**
->>   * dma_buf_attach - Wrapper for dma_buf_dynamic_attach
->> @@ -825,7 +825,7 @@ struct dma_buf_attachment *dma_buf_attach(struct dma=
-_buf *dmabuf,
->>  {
->>         return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_attach);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_attach, DMA_BUF);
->>
->>  static void __unmap_dma_buf(struct dma_buf_attachment *attach,
->>                             struct sg_table *sg_table,
->> @@ -871,7 +871,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct d=
-ma_buf_attachment *attach)
->>
->>         kfree(attach);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_detach);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_detach, DMA_BUF);
->>
->>  /**
->>   * dma_buf_pin - Lock down the DMA-buf
->> @@ -901,7 +901,7 @@ int dma_buf_pin(struct dma_buf_attachment *attach)
->>
->>         return ret;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_pin);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_pin, DMA_BUF);
->>
->>  /**
->>   * dma_buf_unpin - Unpin a DMA-buf
->> @@ -922,7 +922,7 @@ void dma_buf_unpin(struct dma_buf_attachment *attach=
-)
->>         if (dmabuf->ops->unpin)
->>                 dmabuf->ops->unpin(attach);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_unpin);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_unpin, DMA_BUF);
->>
->>  /**
->>   * dma_buf_map_attachment - Returns the scatterlist table of the attach=
-ment;
->> @@ -1012,7 +1012,7 @@ struct sg_table *dma_buf_map_attachment(struct dma=
-_buf_attachment *attach,
->>  #endif /* CONFIG_DMA_API_DEBUG */
->>         return sg_table;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_map_attachment);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_map_attachment, DMA_BUF);
->>
->>  /**
->>   * dma_buf_unmap_attachment - unmaps and decreases usecount of the buff=
-er;might
->> @@ -1048,7 +1048,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attac=
-hment *attach,
->>             !IS_ENABLED(CONFIG_DMABUF_MOVE_NOTIFY))
->>                 dma_buf_unpin(attach);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_unmap_attachment);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_attachment, DMA_BUF);
->>
->>  /**
->>   * dma_buf_move_notify - notify attachments that DMA-buf is moving
->> @@ -1068,7 +1068,7 @@ void dma_buf_move_notify(struct dma_buf *dmabuf)
->>                 if (attach->importer_ops)
->>                         attach->importer_ops->move_notify(attach);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_move_notify);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_move_notify, DMA_BUF);
->>
->>  /**
->>   * DOC: cpu access
->> @@ -1212,7 +1212,7 @@ int dma_buf_begin_cpu_access(struct dma_buf *dmabu=
-f,
->>
->>         return ret;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_begin_cpu_access);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_begin_cpu_access, DMA_BUF);
->>
->>  /**
->>   * dma_buf_end_cpu_access - Must be called after accessing a dma_buf fr=
-om the
->> @@ -1240,7 +1240,7 @@ int dma_buf_end_cpu_access(struct dma_buf *dmabuf,
->>
->>         return ret;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_end_cpu_access);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_end_cpu_access, DMA_BUF);
->>
->>
->>  /**
->> @@ -1282,7 +1282,7 @@ int dma_buf_mmap(struct dma_buf *dmabuf, struct vm=
-_area_struct *vma,
->>
->>         return dmabuf->ops->mmap(dmabuf, vma);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_mmap);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_mmap, DMA_BUF);
->>
->>  /**
->>   * dma_buf_vmap - Create virtual mapping for the buffer object into ker=
-nel
->> @@ -1336,7 +1336,7 @@ int dma_buf_vmap(struct dma_buf *dmabuf, struct dm=
-a_buf_map *map)
->>         mutex_unlock(&dmabuf->lock);
->>         return ret;
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_vmap);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_vmap, DMA_BUF);
->>
->>  /**
->>   * dma_buf_vunmap - Unmap a vmap obtained by dma_buf_vmap.
->> @@ -1360,7 +1360,7 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, struct=
- dma_buf_map *map)
->>         }
->>         mutex_unlock(&dmabuf->lock);
->>  }
->> -EXPORT_SYMBOL_GPL(dma_buf_vunmap);
->> +EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap, DMA_BUF);
->>
->>  #ifdef CONFIG_DEBUG_FS
->>  static int dma_buf_debug_show(struct seq_file *s, void *unused)
->> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_ttm.c
->> index 38dade421d46..38e144504649 100644
->> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->> @@ -41,6 +41,7 @@
->>  #include <linux/swiotlb.h>
->>  #include <linux/dma-buf.h>
->>  #include <linux/sizes.h>
->> +#include <linux/module.h>
->>
->>  #include <drm/ttm/ttm_bo_api.h>
->>  #include <drm/ttm/ttm_bo_driver.h>
->> @@ -59,6 +60,8 @@
->>  #include "amdgpu_res_cursor.h"
->>  #include "bif/bif_4_1_d.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  #define AMDGPU_TTM_VRAM_MAX_DW_READ    (size_t)128
->>
->>  static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
->> diff --git a/drivers/gpu/drm/drm_gem_framebuffer_helper.c b/drivers/gpu/=
-drm/drm_gem_framebuffer_helper.c
->> index 3c75d79dbb65..746fd8c73845 100644
->> --- a/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->> +++ b/drivers/gpu/drm/drm_gem_framebuffer_helper.c
->> @@ -6,6 +6,7 @@
->>   */
->>
->>  #include <linux/slab.h>
->> +#include <linux/module.h>
->>
->>  #include <drm/drm_damage_helper.h>
->>  #include <drm/drm_fb_helper.h>
->> @@ -17,6 +18,8 @@
->>
->>  #include "drm_internal.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  #define AFBC_HEADER_SIZE               16
->>  #define AFBC_TH_LAYOUT_ALIGNMENT       8
->>  #define AFBC_HDR_ALIGN                 64
->> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
->> index deb23dbec8b5..d8ba95744410 100644
->> --- a/drivers/gpu/drm/drm_prime.c
->> +++ b/drivers/gpu/drm/drm_prime.c
->> @@ -29,6 +29,7 @@
->>  #include <linux/export.h>
->>  #include <linux/dma-buf.h>
->>  #include <linux/rbtree.h>
->> +#include <linux/module.h>
->>
->>  #include <drm/drm.h>
->>  #include <drm/drm_drv.h>
->> @@ -39,6 +40,8 @@
->>
->>  #include "drm_internal.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  /**
->>   * DOC: overview and lifetime rules
->>   *
->> diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/d=
-rm/etnaviv/etnaviv_gem_prime.c
->> index 6d8bed9c739d..6788ea8490d1 100644
->> --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
->> @@ -5,10 +5,13 @@
->>
->>  #include <drm/drm_prime.h>
->>  #include <linux/dma-buf.h>
->> +#include <linux/module.h>
->>
->>  #include "etnaviv_drv.h"
->>  #include "etnaviv_gem.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  static struct lock_class_key etnaviv_prime_lock_class;
->>
->>  struct sg_table *etnaviv_gem_prime_get_sg_table(struct drm_gem_object *=
-obj)
->> diff --git a/drivers/gpu/drm/exynos/exynos_drm_gem.c b/drivers/gpu/drm/e=
-xynos/exynos_drm_gem.c
->> index 4396224227d1..0a0c042a3155 100644
->> --- a/drivers/gpu/drm/exynos/exynos_drm_gem.c
->> +++ b/drivers/gpu/drm/exynos/exynos_drm_gem.c
->> @@ -9,6 +9,7 @@
->>  #include <linux/dma-buf.h>
->>  #include <linux/pfn_t.h>
->>  #include <linux/shmem_fs.h>
->> +#include <linux/module.h>
->>
->>  #include <drm/drm_prime.h>
->>  #include <drm/drm_vma_manager.h>
->> @@ -17,6 +18,8 @@
->>  #include "exynos_drm_drv.h"
->>  #include "exynos_drm_gem.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  static int exynos_drm_alloc_buf(struct exynos_drm_gem *exynos_gem, bool=
- kvmap)
->>  {
->>         struct drm_device *dev =3D exynos_gem->base.dev;
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/dr=
-m/i915/gem/i915_gem_dmabuf.c
->> index afa34111de02..abb854281347 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
->> @@ -7,11 +7,14 @@
->>  #include <linux/dma-buf.h>
->>  #include <linux/highmem.h>
->>  #include <linux/dma-resv.h>
->> +#include <linux/module.h>
->>
->>  #include "i915_drv.h"
->>  #include "i915_gem_object.h"
->>  #include "i915_scatterlist.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  I915_SELFTEST_DECLARE(static bool force_different_devices;)
->>
->>  static struct drm_i915_gem_object *dma_buf_to_obj(struct dma_buf *buf)
->> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
->> index 6ec598f5d5b3..d38fd7e12b57 100644
->> --- a/drivers/gpu/drm/tegra/gem.c
->> +++ b/drivers/gpu/drm/tegra/gem.c
->> @@ -12,6 +12,7 @@
->>
->>  #include <linux/dma-buf.h>
->>  #include <linux/iommu.h>
->> +#include <linux/module.h>
->>
->>  #include <drm/drm_drv.h>
->>  #include <drm/drm_prime.h>
->> @@ -20,6 +21,8 @@
->>  #include "drm.h"
->>  #include "gem.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  static void tegra_bo_put(struct host1x_bo *bo)
->>  {
->>         struct tegra_bo *obj =3D host1x_to_tegra_bo(bo);
->> diff --git a/drivers/gpu/drm/vmwgfx/ttm_object.c b/drivers/gpu/drm/vmwgf=
-x/ttm_object.c
->> index 04789b2bb2a2..899945f54dc7 100644
->> --- a/drivers/gpu/drm/vmwgfx/ttm_object.c
->> +++ b/drivers/gpu/drm/vmwgfx/ttm_object.c
->> @@ -48,8 +48,11 @@
->>  #include <linux/spinlock.h>
->>  #include <linux/slab.h>
->>  #include <linux/atomic.h>
->> +#include <linux/module.h>
->>  #include "ttm_object.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  /**
->>   * struct ttm_object_file
->>   *
->> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/=
-core/umem_dmabuf.c
->> index e824baf4640d..2d14929543af 100644
->> --- a/drivers/infiniband/core/umem_dmabuf.c
->> +++ b/drivers/infiniband/core/umem_dmabuf.c
->> @@ -6,9 +6,12 @@
->>  #include <linux/dma-buf.h>
->>  #include <linux/dma-resv.h>
->>  #include <linux/dma-mapping.h>
->> +#include <linux/module.h>
->>
->>  #include "uverbs.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  int ib_umem_dmabuf_map_pages(struct ib_umem_dmabuf *umem_dmabuf)
->>  {
->>         struct sg_table *sgt;
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/m=
-edia/common/videobuf2/videobuf2-core.c
->> index 508ac295eb06..773c68dcd158 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -2978,3 +2978,4 @@ EXPORT_SYMBOL_GPL(vb2_thread_stop);
->>  MODULE_DESCRIPTION("Media buffer core framework");
->>  MODULE_AUTHOR("Pawel Osciak <pawel@osciak.com>, Marek Szyprowski");
->>  MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/dri=
-vers/media/common/videobuf2/videobuf2-dma-contig.c
->> index a7f61ba85440..9a1a9baca2e4 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> @@ -755,3 +755,4 @@ EXPORT_SYMBOL_GPL(vb2_dma_contig_set_max_seg_size);
->>  MODULE_DESCRIPTION("DMA-contig memory handling routines for videobuf2")=
-;
->>  MODULE_AUTHOR("Pawel Osciak <pawel@osciak.com>");
->>  MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers=
-/media/common/videobuf2/videobuf2-dma-sg.c
->> index c5b06a509566..db90ebb8950f 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
->> @@ -666,3 +666,4 @@ EXPORT_SYMBOL_GPL(vb2_dma_sg_memops);
->>  MODULE_DESCRIPTION("dma scatter/gather memory handling routines for vid=
-eobuf2");
->>  MODULE_AUTHOR("Andrzej Pietrasiewicz");
->>  MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/driver=
-s/media/common/videobuf2/videobuf2-vmalloc.c
->> index 83f95258ec8c..fa983897d0e9 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
->> @@ -444,3 +444,4 @@ EXPORT_SYMBOL_GPL(vb2_vmalloc_memops);
->>  MODULE_DESCRIPTION("vmalloc memory handling routines for videobuf2");
->>  MODULE_AUTHOR("Pawel Osciak <pawel@osciak.com>");
->>  MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
->> index beda610e6b30..fa5c067f1c1e 100644
->> --- a/drivers/misc/fastrpc.c
->> +++ b/drivers/misc/fastrpc.c
->> @@ -1763,3 +1763,4 @@ static void fastrpc_exit(void)
->>  module_exit(fastrpc_exit);
->>
->>  MODULE_LICENSE("GPL v2");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/staging/media/tegra-vde/dmabuf-cache.c b/drivers/st=
-aging/media/tegra-vde/dmabuf-cache.c
->> index a93b317885bf..a98d03419b8f 100644
->> --- a/drivers/staging/media/tegra-vde/dmabuf-cache.c
->> +++ b/drivers/staging/media/tegra-vde/dmabuf-cache.c
->> @@ -12,9 +12,12 @@
->>  #include <linux/sched.h>
->>  #include <linux/slab.h>
->>  #include <linux/workqueue.h>
->> +#include <linux/module.h>
->>
->>  #include "vde.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  struct tegra_vde_cache_entry {
->>         enum dma_data_direction dma_dir;
->>         struct dma_buf_attachment *a;
->> diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
->> index 8a9384a64f3e..8a8deb95e918 100644
->> --- a/drivers/tee/tee_shm.c
->> +++ b/drivers/tee/tee_shm.c
->> @@ -10,8 +10,11 @@
->>  #include <linux/slab.h>
->>  #include <linux/tee_drv.h>
->>  #include <linux/uio.h>
->> +#include <linux/module.h>
->>  #include "tee_private.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  static void release_registered_pages(struct tee_shm *shm)
->>  {
->>         if (shm->pages) {
->> diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma=
-_buf.c
->> index 5127a2f0c986..2521a75009c3 100644
->> --- a/drivers/virtio/virtio_dma_buf.c
->> +++ b/drivers/virtio/virtio_dma_buf.c
->> @@ -86,3 +86,4 @@ int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf,
->>  EXPORT_SYMBOL(virtio_dma_buf_get_uuid);
->>
->>  MODULE_LICENSE("GPL");
->> +MODULE_IMPORT_NS(DMA_BUF);
->> diff --git a/drivers/xen/gntdev-dmabuf.c b/drivers/xen/gntdev-dmabuf.c
->> index 4c13cbc99896..12e380db7f55 100644
->> --- a/drivers/xen/gntdev-dmabuf.c
->> +++ b/drivers/xen/gntdev-dmabuf.c
->> @@ -14,6 +14,7 @@
->>  #include <linux/slab.h>
->>  #include <linux/types.h>
->>  #include <linux/uaccess.h>
->> +#include <linux/module.h>
->>
->>  #include <xen/xen.h>
->>  #include <xen/grant_table.h>
->> @@ -21,6 +22,8 @@
->>  #include "gntdev-common.h"
->>  #include "gntdev-dmabuf.h"
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->> +
->>  #ifndef GRANT_INVALID_REF
->>  /*
->>   * Note on usage of grant reference 0 as invalid grant reference:
->> diff --git a/samples/vfio-mdev/mbochs.c b/samples/vfio-mdev/mbochs.c
->> index c313ab4d1f4e..a83be6cd162f 100644
->> --- a/samples/vfio-mdev/mbochs.c
->> +++ b/samples/vfio-mdev/mbochs.c
->> @@ -1493,5 +1493,6 @@ static void __exit mbochs_dev_exit(void)
->>         mbochs_class =3D NULL;
->>  }
->>
->> +MODULE_IMPORT_NS(DMA_BUF);
->>  module_init(mbochs_dev_init)
->>  module_exit(mbochs_dev_exit)
->> --
->> 2.33.0
->>
->
-> Best,
-> Sumit.
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 18 ++++++++++--
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 ++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 32 +++++++++++++---------
+ 3 files changed, 38 insertions(+), 15 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 6fb9afb65034..244e555f9bba 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -89,6 +89,20 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+ 	mutex_init(&obj->mm.get_dma_page.lock);
+ }
+ 
++/**
++ * i915_gem_object_fini - Clean up a GEM object initialization
++ * @obj: The gem object cleanup
++ *
++ * This function cleans up gem object fields that are set up by
++ * drm_gem_private_object_init() and i915_gem_object_init().
++ */
++void i915_gem_object_fini(struct drm_i915_gem_object *obj)
++{
++	mutex_destroy(&obj->mm.get_page.lock);
++	mutex_destroy(&obj->mm.get_dma_page.lock);
++	dma_resv_fini(&obj->base._resv);
++}
++
+ /**
+  * Mark up the object's coherency levels for a given cache_level
+  * @obj: #drm_i915_gem_object
+@@ -174,7 +188,6 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
+ 		container_of(head, typeof(*obj), rcu);
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 
+-	dma_resv_fini(&obj->base._resv);
+ 	i915_gem_object_free(obj);
+ 
+ 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
+@@ -223,7 +236,6 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+ 						       obj_link))) {
+ 			GEM_BUG_ON(vma->obj != obj);
+ 			spin_unlock(&obj->vma.lock);
+-
+ 			__i915_vma_put(vma);
+ 
+ 			spin_lock(&obj->vma.lock);
+@@ -253,6 +265,8 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+ 
+ 	if (obj->shares_resv_from)
+ 		i915_vm_resv_put(obj->shares_resv_from);
++
++	i915_gem_object_fini(obj);
+ }
+ 
+ static void __i915_gem_free_objects(struct drm_i915_private *i915,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 3043fcbd31bd..4f1af3b487d9 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -58,6 +58,9 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+ 			  const struct drm_i915_gem_object_ops *ops,
+ 			  struct lock_class_key *key,
+ 			  unsigned alloc_flags);
++
++void i915_gem_object_fini(struct drm_i915_gem_object *obj);
++
+ struct drm_i915_gem_object *
+ i915_gem_object_create_shmem(struct drm_i915_private *i915,
+ 			     resource_size_t size);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index b94497989995..fbe143f34e85 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -813,12 +813,9 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
+  */
+ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+ {
+-	if (obj->ttm.created) {
+-		ttm_bo_put(i915_gem_to_ttm(obj));
+-	} else {
+-		__i915_gem_free_object(obj);
+-		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
+-	}
++	GEM_BUG_ON(!obj->ttm.created);
++
++	ttm_bo_put(i915_gem_to_ttm(obj));
+ }
+ 
+ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+@@ -898,16 +895,19 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+ {
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 
+-	i915_ttm_backup_free(obj);
+-
+-	/* This releases all gem object bindings to the backend. */
+-	__i915_gem_free_object(obj);
+-
+ 	i915_gem_object_release_memory_region(obj);
+ 	mutex_destroy(&obj->ttm.get_io_page.lock);
+ 
+-	if (obj->ttm.created)
++	if (obj->ttm.created) {
++		i915_ttm_backup_free(obj);
++
++		/* This releases all gem object bindings to the backend. */
++		__i915_gem_free_object(obj);
++
+ 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
++	} else {
++		i915_gem_object_fini(obj);
++	}
+ }
+ 
+ /**
+@@ -936,7 +936,11 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 
+ 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
+ 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
+-	i915_gem_object_init_memory_region(obj, mem);
++
++	/* Don't put on a region list until we're either locked or fully initialized. */
++	obj->mm.region = intel_memory_region_get(mem);
++	INIT_LIST_HEAD(&obj->mm.region_link);
++
+ 	i915_gem_object_make_unshrinkable(obj);
+ 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+ 	mutex_init(&obj->ttm.get_io_page.lock);
+@@ -963,6 +967,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 		return i915_ttm_err_to_gem(ret);
+ 
+ 	obj->ttm.created = true;
++	i915_gem_object_release_memory_region(obj);
++	i915_gem_object_init_memory_region(obj, mem);
+ 	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	i915_gem_object_unlock(obj);
+-- 
+2.31.1
+
