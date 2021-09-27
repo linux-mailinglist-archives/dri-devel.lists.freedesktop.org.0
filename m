@@ -1,47 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80D741A76C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 07:55:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9579C41A965
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 09:09:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0C4B89F1B;
-	Tue, 28 Sep 2021 05:55:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D56FD6E0C4;
+	Tue, 28 Sep 2021 07:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9FB6189DB5;
- Tue, 28 Sep 2021 05:55:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 284FB611BD;
- Tue, 28 Sep 2021 05:55:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632808534;
- bh=Bs6gr4YUdAh+y8PTvt9L460J2iLXolfu9zohbMbR750=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=BXV4YVYsPFpbDoTSjCXDVV4JRAzEvE3VC7fLcX1xxDUPsEoGEXpni76emM91JlLkY
- MYaH/mhhfvoPWEAQyqPg5tMxrkqxMtM7mcVhJJjGraJRRGJe7GmQPhsKuDOe9jXrOQ
- iwCAy2ICxiIjL0AQvGLYblxBuSbaLCWK4Ri9S8ynaYm7/Zf3/xqUMlpAYmMiqU/HW1
- eQSdR4KkFD5DM9KXCpkFXZAU2nBGUtpX+bhpn/RQZFD1DEAMYnP4wScBafb+ZfLYUZ
- QTQeXnLLb1NcGA3DSPwoWO2WbEKcqpj7EdFYMs45JOkaOaT1sXIK1vNXBLMMeArMhV
- YtE8DyPDVjwJw==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Philip Yang <Philip.Yang@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 15/40] drm/amdkfd: fix svm_migrate_fini warning
-Date: Tue, 28 Sep 2021 01:54:59 -0400
-Message-Id: <20210928055524.172051-15-sashal@kernel.org>
+X-Greylist: delayed 487 seconds by postgrey-1.36 at gabe;
+ Mon, 27 Sep 2021 21:54:39 UTC
+Received: from ixit.cz (ixit.cz [94.230.151.217])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 116F16E047
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 21:54:39 +0000 (UTC)
+Received: from localhost.localdomain (78-80-24-171.customers.tmcz.cz
+ [78.80.24.171])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by ixit.cz (Postfix) with ESMTPSA id B972E23B26;
+ Mon, 27 Sep 2021 23:46:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+ t=1632779186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iS6TSh/x26e3Xty4xcu1zsYhQ7HEjDLQaU5989GXvhg=;
+ b=ws808cCAZxxCbuirgJxzA6SVsOTuqTk1ej8A0MaPNaH6TVeY9ZqB05dyhLJ4rlVmJFc2pi
+ 7Ql4Rpy5hq5TYj6A7IK2Y6do1Qt5fKGesgtFd3Hkjnjn6Fqh+X3xhfnipsZ76bxrj4KsOC
+ vyjOPDilN1PFiTCqFqquuhdfeU+F100=
+From: David Heidelberg <david@ixit.cz>
+To: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, David Heidelberg <david@ixit.cz>
+Subject: [PATCH] dt-bindings: display: simple: hardware can use ddc-i2c-bus
+Date: Mon, 27 Sep 2021 23:45:03 +0200
+Message-Id: <20210927214503.36012-1-david@ixit.cz>
 X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20210928055524.172051-1-sashal@kernel.org>
-References: <20210928055524.172051-1-sashal@kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Tue, 28 Sep 2021 07:09:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,110 +58,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Philip Yang <Philip.Yang@amd.com>
+Both hardware and driver can communicate DDC over i2c bus.
 
-[ Upstream commit 197ae17722e989942b36e33e044787877f158574 ]
+Fixes warnings as:
+arch/arm/boot/dts/tegra20-paz00.dt.yaml: panel: 'ddc-i2c-bus' does not match any of the regexes: 'pinctrl-[0-9]+'
+	From schema: /home/runner/work/linux/linux/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
 
-Device manager releases device-specific resources when a driver
-disconnects from a device, devm_memunmap_pages and
-devm_release_mem_region calls in svm_migrate_fini are redundant.
-
-It causes below warning trace after patch "drm/amdgpu: Split
-amdgpu_device_fini into early and late", so remove function
-svm_migrate_fini.
-
-BUG: https://gitlab.freedesktop.org/drm/amd/-/issues/1718
-
-WARNING: CPU: 1 PID: 3646 at drivers/base/devres.c:795
-devm_release_action+0x51/0x60
-Call Trace:
-    ? memunmap_pages+0x360/0x360
-    svm_migrate_fini+0x2d/0x60 [amdgpu]
-    kgd2kfd_device_exit+0x23/0xa0 [amdgpu]
-    amdgpu_amdkfd_device_fini_sw+0x1d/0x30 [amdgpu]
-    amdgpu_device_fini_sw+0x45/0x290 [amdgpu]
-    amdgpu_driver_release_kms+0x12/0x30 [amdgpu]
-    drm_dev_release+0x20/0x40 [drm]
-    release_nodes+0x196/0x1e0
-    device_release_driver_internal+0x104/0x1d0
-    driver_detach+0x47/0x90
-    bus_remove_driver+0x7a/0xd0
-    pci_unregister_driver+0x3d/0x90
-    amdgpu_exit+0x11/0x20 [amdgpu]
-
-Signed-off-by: Philip Yang <Philip.Yang@amd.com>
-Reviewed-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/gpu/drm/amd/amdkfd/kfd_device.c  |  1 -
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.c | 13 ++++---------
- drivers/gpu/drm/amd/amdkfd/kfd_migrate.h |  5 -----
- 3 files changed, 4 insertions(+), 15 deletions(-)
+ .../devicetree/bindings/display/panel/panel-simple.yaml          | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_device.c b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-index 9e52948d4992..0e5ebb384164 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_device.c
-@@ -910,7 +910,6 @@ bool kgd2kfd_device_init(struct kfd_dev *kfd,
- void kgd2kfd_device_exit(struct kfd_dev *kfd)
- {
- 	if (kfd->init_complete) {
--		svm_migrate_fini((struct amdgpu_device *)kfd->kgd);
- 		device_queue_manager_uninit(kfd->dqm);
- 		kfd_interrupt_exit(kfd);
- 		kfd_topology_remove_device(kfd);
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-index 165e0ebb619d..4a16e3c257b9 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.c
-@@ -891,6 +891,10 @@ int svm_migrate_init(struct amdgpu_device *adev)
- 	pgmap->ops = &svm_migrate_pgmap_ops;
- 	pgmap->owner = SVM_ADEV_PGMAP_OWNER(adev);
- 	pgmap->flags = MIGRATE_VMA_SELECT_DEVICE_PRIVATE;
-+
-+	/* Device manager releases device-specific resources, memory region and
-+	 * pgmap when driver disconnects from device.
-+	 */
- 	r = devm_memremap_pages(adev->dev, pgmap);
- 	if (IS_ERR(r)) {
- 		pr_err("failed to register HMM device memory\n");
-@@ -911,12 +915,3 @@ int svm_migrate_init(struct amdgpu_device *adev)
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 31f678636717..e4d93e0ddfc3 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -319,6 +319,7 @@ properties:
+       - yes-optoelectronics,ytc700tlag-05-201c
  
- 	return 0;
- }
--
--void svm_migrate_fini(struct amdgpu_device *adev)
--{
--	struct dev_pagemap *pgmap = &adev->kfd.dev->pgmap;
--
--	devm_memunmap_pages(adev->dev, pgmap);
--	devm_release_mem_region(adev->dev, pgmap->range.start,
--				pgmap->range.end - pgmap->range.start + 1);
--}
-diff --git a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-index 0de76b5d4973..2f5b3394c9ed 100644
---- a/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-+++ b/drivers/gpu/drm/amd/amdkfd/kfd_migrate.h
-@@ -47,7 +47,6 @@ unsigned long
- svm_migrate_addr_to_pfn(struct amdgpu_device *adev, unsigned long addr);
- 
- int svm_migrate_init(struct amdgpu_device *adev);
--void svm_migrate_fini(struct amdgpu_device *adev);
- 
- #else
- 
-@@ -55,10 +54,6 @@ static inline int svm_migrate_init(struct amdgpu_device *adev)
- {
- 	return 0;
- }
--static inline void svm_migrate_fini(struct amdgpu_device *adev)
--{
--	/* empty */
--}
- 
- #endif /* IS_ENABLED(CONFIG_HSA_AMD_SVM) */
- 
+   backlight: true
++  ddc-i2c-bus: true
+   enable-gpios: true
+   port: true
+   power-supply: true
 -- 
 2.33.0
 
