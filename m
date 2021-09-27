@@ -1,68 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3620241A121
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 23:05:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A0841A120
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 23:05:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CA5F26E85F;
-	Mon, 27 Sep 2021 21:05:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BEBBC6E049;
+	Mon, 27 Sep 2021 21:05:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com
- [IPv6:2607:f8b0:4864:20::734])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A939389346
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:02:47 +0000 (UTC)
-Received: by mail-qk1-x734.google.com with SMTP id 138so37195073qko.10
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 10:02:47 -0700 (PDT)
+Received: from mail-qt1-x82a.google.com (mail-qt1-x82a.google.com
+ [IPv6:2607:f8b0:4864:20::82a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4313389C9D
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:31:55 +0000 (UTC)
+Received: by mail-qt1-x82a.google.com with SMTP id t2so10835035qtx.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 10:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tNPetvOupXqRGUiN551DEoj5v4Vq3J9M2I/AbCZn9/s=;
- b=DaJH5fJcZaPTWSS82pjbCuzrmgUbbbI8rDumgBGUwFhl/oYhvIG/pZqFDRqj3etyng
- gynjZU/qESEM03OCs4i9F0KxLfb9njtq1177Zhh6o5nIU4Ak6ZFaHDvNbgLrAZMWuX+7
- /vo8yFf6ik5YAvsKvs/gkABlt5Fb5DP5jWTCc=
+ :cc; bh=Q25abHd9wgNegk3LUcOidVwBOafJNu1U9ST62KJXKh8=;
+ b=Ny6AIsS9MNvI6ERmgppnjGwYp+CeoJRk0IArqfNnE6eticiIdzNtufGZQts0fxRfaa
+ 2La6isn8ClLdLGvpKcRN7Ws+5DbB2alushQpd5Mgdc9x0R4XjR8obr6bX67RKTuetBaA
+ VnxeAY+0ch/n5c2/oqU2Ri+Wkk5YXe/CnUMzo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=tNPetvOupXqRGUiN551DEoj5v4Vq3J9M2I/AbCZn9/s=;
- b=ArNiWFky+DpVrpjBNSs8b8dtZqfA64Y05plwEe7tuLMngnIKIB0G9PqYZAV91AVraV
- EPXMjJfgVWraapq5qTj85VdF+Qp77MCoft3m+lNS8BJwjhRivHWtz+ED7/XmjK+23Hdx
- k/CJxkomXLQJZ/QGiNlo/iVPWysZxRk211ET+fMU6twscp6Q7zUAaXrCisFws/ww7ieN
- HYX/4/LpcJvgH3ZPKEggYjpOnvXyLz/6oCGw2xoaoKxrqFhrEjR1tXQC6JIRZ1HnVZnz
- QvhVkHK3MnuaA79g9uQZpjOXur42qJXvk5OgS6LIdlKBuuDv+qmidoeFOQ5T8ukhvOVO
- OGWQ==
-X-Gm-Message-State: AOAM5337Byvfhv3BWH2TIvC5hOxAHUMu8YppylJNor9lFDGTe1km5CxM
- EWDsFKMJZj+GoUC/DZj+u5TA+2HsSvYPFZw+a8P1bA==
-X-Google-Smtp-Source: ABdhPJwBRvTBeyV1410Jpc8AMLHK25Pf6f0uExAdgdt+d7oQNAG2MpwCW4ToDnxi98Sln0HasYsHB8qhK0klEJITwTM=
-X-Received: by 2002:a37:a087:: with SMTP id j129mr979840qke.253.1632762166561; 
- Mon, 27 Sep 2021 10:02:46 -0700 (PDT)
+ bh=Q25abHd9wgNegk3LUcOidVwBOafJNu1U9ST62KJXKh8=;
+ b=pSwaupYwRGTiObjChRoBLOOSnAMLBN7lQZylROtsQuNzP/4FIphWteX1O3SG7m2NYv
+ faHZ4c8PvDmSfsBwJtSVF4fF+m/T9oFaq4hr6NWSZNBdjMtSGtBy2R70FVXjzFkY4fSN
+ UZj5toG0KQwD7FqBvAZZkO4MF1LGtBoFagZNweexBzem4Vyzo2696NETCE5CVZuDHXx9
+ g16Ke91l9e0hjqtwhJqG/4DL6sS0puEGpOKb4iY4RQZUIfy/HMQw43yTKNj5Hi76QVV7
+ hqo49CrBI6myPl3UE1/gGPrlZcyDJp8yL1TpFdz//xOz1yXX0ZaEP3ZyMGKMWwlT9phV
+ UcLA==
+X-Gm-Message-State: AOAM533DRPx2ieO/+73J4s6q0G7KqoHGC2TkHsBdYwPCn/xwFZj2XuFi
+ g2txLSD4iQxIlScoFr3qG1giP23YBD//JW12SvTIxQ==
+X-Google-Smtp-Source: ABdhPJx1KC2Sf4WzHgUQwWyPdWRuSlZoOLnjiZdGnYaexNZXkvQiCqTpJJd5W5gO70e5CRvJBsLepizgX3kZwngK+r4=
+X-Received: by 2002:ac8:4089:: with SMTP id p9mr1016844qtl.363.1632763914260; 
+ Mon, 27 Sep 2021 10:31:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
- <CAAEAJfDOt_GyDPojcj5P6Wou9HC2GC8YzRt2wYyqdrCOjfeOog@mail.gmail.com>
- <3b9463e88d88ce85205da08f8263252da7726ade.camel@mediatek.com>
- <aba7fb4ffe6e45ac90869b5017468386bce64d28.camel@mediatek.com>
- <b7ed8b71578a98704e9b8ca29cac63c67cc14b3f.camel@mediatek.com>
- <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com>
-In-Reply-To: <CAAEAJfCHEBFc8B7C0bu7UxtJdffvDarqgA-rset1wPjLOiV01A@mail.gmail.com>
+ <CAC-pXoNT8AFA2j1DiD9M_uGb92fVcukTGDKVURaGjwpPstcwqQ@mail.gmail.com>
+In-Reply-To: <CAC-pXoNT8AFA2j1DiD9M_uGb92fVcukTGDKVURaGjwpPstcwqQ@mail.gmail.com>
 From: Steve Cho <stevecho@chromium.org>
-Date: Mon, 27 Sep 2021 10:02:36 -0700
-Message-ID: <CAC-pXoMR=mOwnKqP5SFAfF3Ka5UrG0F8Mj=sJuEziU=uOKftoA@mail.gmail.com>
+Date: Mon, 27 Sep 2021 10:31:43 -0700
+Message-ID: <CAC-pXoPrOO8W2Le_-WdgX3_=D-Qde8ut_TAzC++EyGCkdoOoPQ@mail.gmail.com>
 Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
  hardware decode
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: "yunfei.dong@mediatek.com" <yunfei.dong@mediatek.com>,
- Alexandre Courbot <acourbot@chromium.org>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih <tzungbi@chromium.org>, 
- Tiffany Lin <tiffany.lin@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Fritz Koenig <frkoenig@chromium.org>, Irui Wang <irui.wang@mediatek.com>, 
- linux-media <linux-media@vger.kernel.org>,
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Tzung-Bi Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Tomasz Figa <tfiga@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
+ Irui Wang <irui.wang@mediatek.com>, linux-media <linux-media@vger.kernel.org>, 
  devicetree <devicetree@vger.kernel.org>, 
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
  linux-arm-kernel <linux-arm-kernel@lists.infradead.org>, 
@@ -87,17 +82,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ezequiel,
+> > [1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+> This link seems to be no longer available.
 
-Thank you for reviewing these series from Yunfei!
-This series is one of the main obstacles for us at the moment for MTK
-so please continue to help & support reviewing this series.
+It is probably because the default state is "Action Required", and
+this series was accepted recently afterwards.
 
-> > According to google's suggestion, it's better not to use v4l2 async
-> > also.
->
-> Hum? I haven't seen such objection on the mailing list.
-Maybe coming from Tzung-Bi?
-Yunfei, please let us know.
+I can see the series with the below link.
+https://patchwork.linuxtv.org/project/linux-media/list/?series=5826&state=*
+
+Sorry for the confusion.
 
 Steve
