@@ -2,67 +2,93 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD8F419986
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 18:45:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6074199D8
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 19:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 69A1289F3B;
-	Mon, 27 Sep 2021 16:44:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 108B56E027;
+	Mon, 27 Sep 2021 17:00:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p04-ob.smtp.rzone.de (mo4-p04-ob.smtp.rzone.de
- [85.215.255.123])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E3B5089E98
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 16:44:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632761078;
- s=strato-dkim-0002; d=goldelico.com;
- h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Cc:Date:
- From:Subject:Sender;
- bh=31te4Ix4JgF7KyKKpWx6y9JtIuymVNNPhaaDczjfBSk=;
- b=SprRf/Pmr01vE6JOMLOcAm0oYb1+8u2d5R/TYCftfEocWPmTrPmoq7gIoIRq2xmBF4
- +ngL7zXgv0EF8x7ErFxNGDngYQJCAaXYXNZC5+HFu0QYCigtm+IEGWzloPyK7T1K7uZ8
- sQpW3daZYUcQa6lm/Mhu2yND6Y/dCmFST6r/QdJeQQEsS1H6sSr+EnKnaUJ1LAY/gmz6
- HldAXmkSwBuIqZXvbAqUxjFU3UfXe63L53UHxiMGewqgkhLusYiZu0jimMcizz/n/wbI
- vbqhlNo7YAbSbOadH7LHo2u5Rq4zuNgOL7oWHRsGrdioN9B87KHgdR/i4RCRDct92aa+
- NKIw==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o1KHeBQyh+ITDDFrDb4="
-X-RZG-CLASS-ID: mo00
-Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
- with ESMTPSA id I01f74x8RGibavJ
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
- (Client did not present a certificate);
- Mon, 27 Sep 2021 18:44:37 +0200 (CEST)
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
+Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
+ [66.111.4.229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1ED966E027
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:00:40 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4CF5D5805AF;
+ Mon, 27 Sep 2021 13:00:39 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Mon, 27 Sep 2021 13:00:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=lhvhZkzEG2JTs8VXnXTsprv1HE/
+ 2QmgnPUJAYjAh5Qo=; b=SxNSGu8Bb6ncOXI85FEF+4ZP09S3cTJQWPymQOFAKq/
+ bEhfBKMy809nda4QfY7Hzj8u57QNaHaNgS/RVJGVfvKHGDOfMbUJRnzX3MOrE9dP
+ mcJCmw68vUtZksPzPJa2SbwDAa+N5rJF73RHPM+uLLf5fpeuOPYy10DM+iicQrua
+ oGD7N4q8GowRE2xyZa8QOqhOxCfTznZW9WDCrI6GiTYcpFgzACU6j+Fqm+XhnFE1
+ Xb1+r2NPg6SmWMep52h6pNI/LMktPM7nUuRwSiLBerg3QJgiDtFZG1qQhwMG1kTB
+ /JH7qzxz0YSLcu8p+oh5Msw2ftHZtpt9nF/aO5sIuQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=lhvhZk
+ zEG2JTs8VXnXTsprv1HE/2QmgnPUJAYjAh5Qo=; b=QzYKCp3StKXF6V37i8dO/h
+ GpcdLvyPDXhXhs2lOTyYM9vVbp4JnUGERXIlcNw3V/0wkBclQ5dd7IiHVCBnnLmG
+ gftZQ5+reTBA/zno9nLFw1IfRXwgwObWExDxhaTL64YZqLeJolzSZFNZJvMxgceY
+ r9gyVaz5nrnbvSdcUaHPhplgmkFm4g1iF2m3oqZ6iyy8BrssS+2o0HecGxc8iAhq
+ nlcYASFsjj0frfTlrV+crksK5oBWmMd6qO+yWR9pgAI66O9lHPfFONbdYUnQ88bN
+ hdgNq9zTFX1ed/cpkphNs63tX0nJ2YtZheVl+mqhCgntqMqJkh/5UjfJv7ZjItTA
+ ==
+X-ME-Sender: <xms:tPhRYdnt8mqxPQB5gXJwiFA2Uh_cC4SRe3bs4mZ-EKBNZPRe3cgtEQ>
+ <xme:tPhRYY1XIoWpoELixTJUAj-IfQ-NsY-3_UlNpQa_ORTb0GKi3rFtJaLtNNFcpwt0q
+ J_0HVDW0lbyaF1n9F0>
+X-ME-Received: <xmr:tPhRYTpNpH1jXWTyoW1jT-CEUmIWKTeAoLZ7SAh6I7yeeCOiC7Zi5pjy81bBrKGGynf1_f_na--u_-PQWR3TTRETlZLOg70loewfysDS>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudejkedguddtiecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
+ heegudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:tPhRYdlpst71omb_PatUJw6rzOX0i48Z_JIxsKFltJK_SbGh-6_u3A>
+ <xmx:tPhRYb3LXxsoPsGKCR06BHNoECVRHfii8Bk7BI6rsp58HsvlAESzPg>
+ <xmx:tPhRYcsp-PHunl-savWy2Mfi3irZNgICHfotAF6ZfNVWk9mON-o5ow>
+ <xmx:t_hRYREYAgMww3McnfipLfvNxCXPUmt8SoGMiFVdRWelw-AnI0FA_A>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Sep 2021 13:00:35 -0400 (EDT)
+Date: Mon, 27 Sep 2021 19:00:34 +0200
+From: Maxime Ripard <maxime@cerno.tech>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- "H. Nikolaus Schaller" <hns@goldelico.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Kees Cook <keescook@chromium.org>,
  "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
  Robert Foss <robert.foss@linaro.org>,
  Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
  Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>
-Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: [PATCH v4 10/10] drm/ingenic: add some jz4780 specific features
-Date: Mon, 27 Sep 2021 18:44:28 +0200
-Message-Id: <8cbfba68ce45e10106eb322d622cb7ac64c0e4d4.1632761068.git.hns@goldelico.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <cover.1632761067.git.hns@goldelico.com>
+ Harry Wentland <harry.wentland@amd.com>,	Sam Ravnborg <sam@ravnborg.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>,	Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>,	devicetree@vger.kernel.org,
+ linux-mips@vger.kernel.org,	linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org,	Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v4 05/10] drm/bridge: synopsis: Fix to properly handle HPD
+Message-ID: <20210927170034.mhv5r2r5gcojc7yn@gilmour>
 References: <cover.1632761067.git.hns@goldelico.com>
+ <dd2356790b774c7885afecc9d29783cb51a26e6d.1632761068.git.hns@goldelico.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="se5ukx3kudn4e4kq"
+Content-Disposition: inline
+In-Reply-To: <dd2356790b774c7885afecc9d29783cb51a26e6d.1632761068.git.hns@goldelico.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,109 +104,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Paul Boddie <paul@boddie.org.uk>
 
-The jz4780 has some features which need initialization
-according to the vendor kernel.
+--se5ukx3kudn4e4kq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Paul Boddie <paul@boddie.org.uk>
-Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
----
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 39 +++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Hi,
 
-diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-index e2df4b085905..605549b316b5 100644
---- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-+++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
-@@ -66,6 +66,10 @@ struct jz_soc_info {
- 	bool needs_dev_clk;
- 	bool has_osd;
- 	bool map_noncoherent;
-+	bool has_alpha;
-+	bool has_pcfg;
-+	bool has_recover;
-+	bool has_rgbc;
- 	bool use_extended_hwdesc;
- 	unsigned int max_width, max_height;
- 	const u32 *formats_f0, *formats_f1;
-@@ -732,6 +736,9 @@ static void ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
- 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
- 	}
- 
-+	if (priv->soc_info->has_recover)
-+		cfg |= JZ_LCD_CFG_RECOVER_FIFO_UNDERRUN;
-+
- 	/* set use of the 8-word descriptor and OSD foreground usage. */
- 	if (priv->soc_info->use_extended_hwdesc)
- 		cfg |= JZ_LCD_CFG_DESCRIPTOR_8;
-@@ -1321,6 +1328,25 @@ static int ingenic_drm_bind(struct device *dev, bool has_components)
- 	if (soc_info->has_osd)
- 		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_OSDEN);
- 
-+	if (soc_info->has_alpha)
-+		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, JZ_LCD_OSDC_ALPHAEN);
-+
-+	/* Magic values from the vendor kernel for the priority thresholds. */
-+	if (soc_info->has_pcfg)
-+		regmap_write(priv->map, JZ_REG_LCD_PCFG,
-+			     JZ_LCD_PCFG_PRI_MODE |
-+			     JZ_LCD_PCFG_HP_BST_16 |
-+			     (511 << JZ_LCD_PCFG_THRESHOLD2_OFFSET) |
-+			     (400 << JZ_LCD_PCFG_THRESHOLD1_OFFSET) |
-+			     (256 << JZ_LCD_PCFG_THRESHOLD0_OFFSET));
-+
-+	/* RGB output control may be superfluous. */
-+	if (soc_info->has_rgbc)
-+		regmap_write(priv->map, JZ_REG_LCD_RGBC,
-+			     JZ_LCD_RGBC_RGB_FORMAT_ENABLE |
-+			     JZ_LCD_RGBC_ODD_RGB |
-+			     JZ_LCD_RGBC_EVEN_RGB);
-+
- 	mutex_init(&priv->clk_mutex);
- 	priv->clock_nb.notifier_call = ingenic_drm_update_pixclk;
- 
-@@ -1484,6 +1510,9 @@ static const struct jz_soc_info jz4740_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = false,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4740_formats,
-@@ -1496,6 +1525,9 @@ static const struct jz_soc_info jz4725b_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = false,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.max_width = 800,
- 	.max_height = 600,
- 	.formats_f1 = jz4725b_formats_f1,
-@@ -1509,6 +1541,9 @@ static const struct jz_soc_info jz4770_soc_info = {
- 	.needs_dev_clk = false,
- 	.has_osd = true,
- 	.map_noncoherent = true,
-+	.has_pcfg = false,
-+	.has_recover = false,
-+	.has_rgbc = false,
- 	.max_width = 1280,
- 	.max_height = 720,
- 	.formats_f1 = jz4770_formats_f1,
-@@ -1521,6 +1556,10 @@ static const struct jz_soc_info jz4770_soc_info = {
- static const struct jz_soc_info jz4780_soc_info = {
- 	.needs_dev_clk = true,
- 	.has_osd = true,
-+	.has_alpha = true,
-+	.has_pcfg = true,
-+	.has_recover = true,
-+	.has_rgbc = true,
- 	.use_extended_hwdesc = true,
- 	.max_width = 4096,
- 	.max_height = 2048,
--- 
-2.31.1
+On Mon, Sep 27, 2021 at 06:44:23PM +0200, H. Nikolaus Schaller wrote:
+> It appears that dw-hdmi plugin detection is not properly
+> propagated unless we call drm_kms_helper_hotplug_event().
+>=20
+> Maybe drm_bridge_hpd_notify should have been setup to
+> call this.
+>=20
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> ---
+>  drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c b/drivers/gpu/drm/=
+bridge/synopsys/dw-hdmi.c
+> index f082e14320e1..edea04f80576 100644
+> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
+> @@ -3018,6 +3018,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void *dev_i=
+d)
+>  		if (hdmi->bridge.dev) {
+>  			drm_helper_hpd_irq_event(hdmi->bridge.dev);
+>  			drm_bridge_hpd_notify(&hdmi->bridge, status);
+> +
+> +			drm_kms_helper_hotplug_event(hdmi->bridge.dev);
 
+drm_kms_helper_hotplug_event is already called from drm_helper_hpd_irq_event
+
+Maxime
+
+--se5ukx3kudn4e4kq
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCYVH4sgAKCRDj7w1vZxhR
+xY1eAQCsr8ScTO4ZYd2hxMrGCf3WRCg49NwG234OHf/r7wmRSgD/RejL0pc3tJtY
+pEFsvdgbaEi9RAjgGHjqhF/oTfz1sw8=
+=Hrc4
+-----END PGP SIGNATURE-----
+
+--se5ukx3kudn4e4kq--
