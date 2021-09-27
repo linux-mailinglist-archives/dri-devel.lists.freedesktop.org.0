@@ -2,45 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B17D8419D99
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 19:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2151E419DA2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 19:54:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8BA8189826;
-	Mon, 27 Sep 2021 17:54:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AA3F389E36;
+	Mon, 27 Sep 2021 17:54:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 503BA897C8
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:53:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632765228;
+ [81.169.146.168])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 32C9E89EA3
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:54:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632765272;
  s=strato-dkim-0002; d=goldelico.com;
  h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
  From:Subject:Sender;
- bh=w//vFYEZnxTum3oiC96KTe2k9/YaQVGD+Not1CPpUgQ=;
- b=L0SdEDxbo5agL6Fy09vB6MOldp4Mjs98+LPBizamqg8+6JNKqLxygF+0RB7Q5LO2Ei
- 3wapHPd0mvxB50ntV+iRGEXkX1o1Z3dDqORxyc/mQBKRivl79uPR9OJl+Q3rivL9Q361
- YY+QgnINPL2a6yd/wfDgAbriDcNUgi/PXEmYhAWyLVpSDvoJ1WjMYZxy/wVHRUNcaRbw
- gZtOTDzIYnRlZue/Z5USLxxUArSuAjZ0snqmAf22qvNDuDWVeDKqcAjDzoWswUAQwjtk
- VJMwr4PO7BZTx4dk54cslg9L8Fd7QSvjdnDTw+ds5JWBmrWNqEw37K1Zt7jVYbBSToAr
- 1I1Q==
+ bh=CWSJn3eYMqcgFfJquy93uoB2YaNgTvLjpKlOuWenFyg=;
+ b=latlCJ/fbP0toHtO8C5YBgSx25zVBlnhc7FmKkoYyDTeAQKVe3jqH5jRXI4vdZJmto
+ uBHQF5F+L4Qz+Owh2vdzPvpKmcGm83zZb5miNQyU0v2uqE4IkNAKES2iFDAGO9fR0Ip2
+ //CRsx6eUnv0EwdmTsGvxipxKijjwacGJjCdxHT5xTgCaY/b7BQ2oOkGvySB9OkPC1pl
+ R4LcEkPNvoXasLoAUwjVxNA0DUJf3sNOVPJKdeXPZ2hCDEa9fmbR8PZQhYWfL3aRBKQ9
+ DnhgHhYFqiRCJbY2EhT/jMZqPDjS7LlyvBwYtNWWDIFj5vvcV0di4PR53G2EjmKAMhy4
+ TUJg==
 Authentication-Results: strato.com;
     dkim=none
 X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8QW3w=="
 X-RZG-CLASS-ID: mo00
 Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
- with ESMTPSA id I01f74x8RHrjb3c
+ with ESMTPSA id I01f74x8RHsWb3k
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
  with 256 ECDH bits, eq. 3072 bits RSA))
  (Client did not present a certificate);
- Mon, 27 Sep 2021 19:53:45 +0200 (CEST)
-Content-Type: text/plain;
-	charset=us-ascii
+ Mon, 27 Sep 2021 19:54:32 +0200 (CEST)
+Content-Type: multipart/alternative;
+ boundary="Apple-Mail=_0EB372CA-63EF-44CF-8B8F-2821A13674B1"
 Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v4 05/10] drm/bridge: synopsis: Fix to properly handle HPD
+Subject: Re: [PATCH v4 06/10] drm/ingenic: Add dw-hdmi driver for jz4780
 From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <20210927170034.mhv5r2r5gcojc7yn@gilmour>
-Date: Mon, 27 Sep 2021 19:53:45 +0200
+In-Reply-To: <20210927170846.srsfzbq7lsli4vwj@gilmour>
+Date: Mon, 27 Sep 2021 19:54:31 +0200
 Cc: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  Mark Rutland <mark.rutland@arm.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
@@ -61,11 +61,10 @@ Cc: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
  linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
  letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
  dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <FBF48545-3509-42AA-AED5-A89BB5B1D9CD@goldelico.com>
+Message-Id: <84EFAEAC-A109-4DAE-85F5-659BD5EA6587@goldelico.com>
 References: <cover.1632761067.git.hns@goldelico.com>
- <dd2356790b774c7885afecc9d29783cb51a26e6d.1632761068.git.hns@goldelico.com>
- <20210927170034.mhv5r2r5gcojc7yn@gilmour>
+ <cecd7ae2e21f6547f23c125b2f7767b0090277bc.1632761068.git.hns@goldelico.com>
+ <20210927170846.srsfzbq7lsli4vwj@gilmour>
 To: Maxime Ripard <maxime@cerno.tech>
 X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -84,47 +83,118 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
+--Apple-Mail=_0EB372CA-63EF-44CF-8B8F-2821A13674B1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-> Am 27.09.2021 um 19:00 schrieb Maxime Ripard <maxime@cerno.tech>:
+
+
+> Am 27.09.2021 um 19:08 schrieb Maxime Ripard <maxime@cerno.tech>:
 >=20
-> Hi,
->=20
-> On Mon, Sep 27, 2021 at 06:44:23PM +0200, H. Nikolaus Schaller wrote:
->> It appears that dw-hdmi plugin detection is not properly
->> propagated unless we call drm_kms_helper_hotplug_event().
+> On Mon, Sep 27, 2021 at 06:44:24PM +0200, H. Nikolaus Schaller wrote:
+>> From: Paul Boddie <paul@boddie.org.uk>
 >>=20
->> Maybe drm_bridge_hpd_notify should have been setup to
->> call this.
+>> A specialisation of the generic Synopsys HDMI driver is employed for =
+JZ4780
+>> HDMI support. This requires a new driver, plus device tree and =
+configuration
+>> modifications.
 >>=20
->> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
->> ---
->> drivers/gpu/drm/bridge/synopsys/dw-hdmi.c | 2 ++
->> 1 file changed, 2 insertions(+)
->>=20
->> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c =
-b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> index f082e14320e1..edea04f80576 100644
->> --- a/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> +++ b/drivers/gpu/drm/bridge/synopsys/dw-hdmi.c
->> @@ -3018,6 +3018,8 @@ static irqreturn_t dw_hdmi_irq(int irq, void =
-*dev_id)
->> 		if (hdmi->bridge.dev) {
->> 			drm_helper_hpd_irq_event(hdmi->bridge.dev);
->> 			drm_bridge_hpd_notify(&hdmi->bridge, status);
+>> +	regulator =3D devm_regulator_get_optional(&pdev->dev, =
+"hdmi-5v");
 >> +
->> +			drm_kms_helper_hotplug_event(hdmi->bridge.dev);
+>> +	if (IS_ERR(regulator)) {
+>> +		ret =3D PTR_ERR(regulator);
+>> +
+>> +		DRM_DEV_ERROR(&pdev->dev, "failed to get hpd regulator: =
+%s (%d)\n",
+>> +			      "hdmi-5v", ret);
+>> +		return ret;
+>> +	}
 >=20
-> drm_kms_helper_hotplug_event is already called from =
-drm_helper_hpd_irq_event
+> This doesn't match your binding
 
-Ah, now I see. It should be called but is not for some unkown
-condition (poll disabled? changed =3D false?).
-
-It may also be a leftover from the attempt to make it work with
-the builtin dw-hdmi connector.
-
-Will check for v5.
+or the binding not what we wanted to have...
 
 BR and thanks,
-Nikolaus
+Nikolaus=
 
+--Apple-Mail=_0EB372CA-63EF-44CF-8B8F-2821A13674B1
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" class=3D""><br =
+class=3D""><div><br class=3D""><blockquote type=3D"cite" class=3D""><div =
+class=3D"">Am 27.09.2021 um 19:08 schrieb Maxime Ripard &lt;<a =
+href=3D"mailto:maxime@cerno.tech" =
+class=3D"">maxime@cerno.tech</a>&gt;:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><span =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Menlo-Regular; =
+font-size: 11px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none; float: none; display: inline !important;" class=3D"">On Mon, Sep =
+27, 2021 at 06:44:24PM +0200, H. Nikolaus Schaller wrote:</span><br =
+style=3D"caret-color: rgb(0, 0, 0); font-family: Menlo-Regular; =
+font-size: 11px; font-style: normal; font-variant-caps: normal; =
+font-weight: normal; letter-spacing: normal; text-align: start; =
+text-indent: 0px; text-transform: none; white-space: normal; =
+word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: =
+none;" class=3D""><blockquote type=3D"cite" style=3D"font-family: =
+Menlo-Regular; font-size: 11px; font-style: normal; font-variant-caps: =
+normal; font-weight: normal; letter-spacing: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; =
+-webkit-text-stroke-width: 0px; text-decoration: none;" class=3D"">From: =
+Paul Boddie &lt;<a href=3D"mailto:paul@boddie.org.uk" =
+class=3D"">paul@boddie.org.uk</a>&gt;<br class=3D""><br class=3D"">A =
+specialisation of the generic Synopsys HDMI driver is employed for =
+JZ4780<br class=3D"">HDMI support. This requires a new driver, plus =
+device tree and configuration<br class=3D"">modifications.<br =
+class=3D""><br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>regulator =3D =
+devm_regulator_get_optional(&amp;pdev-&gt;dev, "hdmi-5v");<br =
+class=3D"">+<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>if (IS_ERR(regulator)) {<br =
+class=3D"">+<span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span><span class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>ret =3D PTR_ERR(regulator);<br class=3D"">+<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	=
+</span>DRM_DEV_ERROR(&amp;pdev-&gt;dev, "failed to get hpd regulator: %s =
+(%d)\n",<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-converted-space">&nbsp;</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;"hdmi-5v", ret);<br class=3D"">+<span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span><span class=3D"Apple-tab-span" =
+style=3D"white-space: pre;">	</span>return ret;<br class=3D"">+<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>}<br =
+class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); =
+font-family: Menlo-Regular; font-size: 11px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""><span style=3D"caret-color: rgb(0, 0, =
+0); font-family: Menlo-Regular; font-size: 11px; font-style: normal; =
+font-variant-caps: normal; font-weight: normal; letter-spacing: normal; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none; float: none; display: inline !important;" =
+class=3D"">This doesn't match your binding</span><br style=3D"caret-color:=
+ rgb(0, 0, 0); font-family: Menlo-Regular; font-size: 11px; font-style: =
+normal; font-variant-caps: normal; font-weight: normal; letter-spacing: =
+normal; text-align: start; text-indent: 0px; text-transform: none; =
+white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+text-decoration: none;" class=3D""></div></blockquote><div><br =
+class=3D""></div>or the binding not what we wanted to =
+have...</div><div><br class=3D""></div><div>BR and =
+thanks,</div><div>Nikolaus</div></body></html>=
+
+--Apple-Mail=_0EB372CA-63EF-44CF-8B8F-2821A13674B1--
