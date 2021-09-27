@@ -1,63 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CEF34198B1
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 18:14:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5094198C2
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 18:18:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0CADC89F2E;
-	Mon, 27 Sep 2021 16:14:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DB5EB89DC7;
+	Mon, 27 Sep 2021 16:18:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf35.google.com (mail-qv1-xf35.google.com
- [IPv6:2607:f8b0:4864:20::f35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CAD3E89F2A;
- Mon, 27 Sep 2021 16:14:36 +0000 (UTC)
-Received: by mail-qv1-xf35.google.com with SMTP id a13so11475617qvo.9;
- Mon, 27 Sep 2021 09:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=h64gNFlWIc42VGrS9XKwzi00cpHGNGVgYmjsS0AwF2A=;
- b=ctkHMkrLSW7fwZSozOJuNfYI82G/MP5YZbxFoMR7J1u2tekrDy1/1NufP7KizFKJj7
- unCwwDChR9lzh0XLA1O6yhs6BY+wXfaxbtRWNzMHfy2ae7p8X+p0/VXzVj/1rtmD7FVm
- pjVCpf42Dn1/BslTFyG5+HK+8C6or5Mwaf1eDzCMZIfzXgxYGcDFKwTzULri796SNtf5
- lh+YKWvLZ1awo2ghSwGPCQV/Aig7M9JYqp79pNwLJx+LqeE+swPfXT3Y0u7iUwfL3OiN
- Jl8VwcTDAvBWj8A7a6iAB36A4ETowgQauuLdvSQY2hClcaYA5xBCjTQt2YRGOWvFu9I5
- WXyA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=h64gNFlWIc42VGrS9XKwzi00cpHGNGVgYmjsS0AwF2A=;
- b=IjIOMByMtZmSoCNIX7KCLxCoSstDIC/YZbKsxXUxdCQYPRpHe6bhPKEGNaQ4gP3ipj
- EOA7YYpzKGsjArOVvVYbOVQdGlZqNEfIfllava5ekrBBu7MhScLIAdacnAKSOip7dtDo
- 9fXwJjvYNHy1vMbvjWOa14LxlUoxJOQiBY5rMxLNUaMqmTPc754/yk+ZWfnm8MhYdZ6I
- on6XwNOdxS9wu7roajVNP1cRjtkFkcZaxMbY7hK5k9loz2CldOgrEaKkhO8BTg1wMU7L
- PMJZzv1ZE+rbr8ucvdNYgYWIC16NuL1mHzrUIvnkLjdZNnH4LkZPyVW/Ssjh8TFo2J6/
- CfNw==
-X-Gm-Message-State: AOAM533YwHHVpDrhfVLwfGj+LHljsEFf99Tw9sIQalwKymHARcEGs+Pu
- QXamyZcWWCdClI/lgMrCDCXGCspXnjE3TlJ6CSg=
-X-Google-Smtp-Source: ABdhPJy/jb2s2DJZb7tgjR4PBEAYlr2a94Az5LuINlHFGNkWBWH3eDjktK+H13rHrsdyItZYFt3W5GUuS3pF9FdFEKw=
-X-Received: by 2002:a05:6214:153:: with SMTP id
- x19mr670918qvs.18.1632759274761; 
- Mon, 27 Sep 2021 09:14:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210927114114.152310-1-matthew.auld@intel.com>
- <a0ff7b4a-2433-7ff4-a998-c2c286d3c497@amd.com>
-In-Reply-To: <a0ff7b4a-2433-7ff4-a998-c2c286d3c497@amd.com>
-From: Matthew Auld <matthew.william.auld@gmail.com>
-Date: Mon, 27 Sep 2021 17:14:06 +0100
-Message-ID: <CAM0jSHMrYPM9Wb2WCw5ktLjhN=+0H-qD_1cQbrnPhQRg0_U2=Q@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH v5 01/13] drm/ttm: stop calling tt_swapin in
- vm_access
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Matthew Auld <matthew.auld@intel.com>, 
- Intel Graphics Development <intel-gfx@lists.freedesktop.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>, 
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
+ [85.215.255.52])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id ACA1C89E38
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 16:18:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632759506;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=g2indfiR/jZDlYxjjZkEZkE7oAQ92vUodc4qSJ3YJjc=;
+ b=Yln5ZK7ecw/dpFPlXymVcHMiFw1FlovIo14amHEIdHeoDq9fy+5YJhD6PCdN3uyZxo
+ M08iDkxNZE/Sg7kBE/yygTD5XEB6p6IPzOhylmIn+IcWD9APBtpIGjD8YOXFdOyZa06/
+ +pPuA1v0pidTm+Ic4qAOd7IuE2woqAPQha5aibSmeFktDzebjH4hiCVT7nvKBO0e5N3o
+ m9IwxXLMPjeBrnBPRrkXHlmSxAAq40LRrOuvEbwm8j0KJ3lVb8HdYV2TNEwqA50G+xS/
+ xs1DxL1BZFIwL9YcGsP5dDXt0sb4EC40X56rb7F38i70APDmwZcRCauQeMzuMKnIepl1
+ TOLQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj7gpw91N5y2S3i8QW3w=="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+ with ESMTPSA id I01f74x8RGIQarb
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Mon, 27 Sep 2021 18:18:26 +0200 (CEST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v3 6/6] drm/ingenic: Attach bridge chain to encoders
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <L9900R.05DOH2MOR3V93@crapouillou.net>
+Date: Mon, 27 Sep 2021 18:18:25 +0200
+Cc: Paul Boddie <paul@boddie.org.uk>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-mips <linux-mips@vger.kernel.org>, list@opendingux.net,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <044C92DA-EF88-4738-BF60-885906588408@goldelico.com>
+References: <20210922205555.496871-1-paul@crapouillou.net>
+ <4366739.KZ8Jxz7LyS@jason> <EKJXZQ.6VJ0UDHV3T3W@crapouillou.net>
+ <2094991.ScV2v2meXk@jason> <HU700R.NAHL5IU3NRE81@crapouillou.net>
+ <96585ED9-B707-4AF1-8417-E03DE6414965@goldelico.com>
+ <L9900R.05DOH2MOR3V93@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,66 +71,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Sept 2021 at 12:47, Christian K=C3=B6nig <christian.koenig@amd.c=
-om> wrote:
->
-> Any objections that I just push patches 1-7 to drm-misc-next?
+Hi Paul,
 
-Please go ahead Christian. Thanks.
+> Am 25.09.2021 um 21:39 schrieb Paul Cercueil <paul@crapouillou.net>:
+>=20
+>=20
+>=20
+> Le sam., sept. 25 2021 at 21:26:42 +0200, H. Nikolaus Schaller =
+<hns@goldelico.com> a =C3=A9crit :
+>> Hi Paul,
+>>> Am 25.09.2021 um 21:08 schrieb Paul Cercueil <paul@crapouillou.net>:
+>>> Hi Paul & Nikolaus,
+>>> If you spent some time debugging the issue
+>> we did ...
+>=20
+> By saying that you didn't debug,
 
->
-> Christian.
->
-> Am 27.09.21 um 13:41 schrieb Matthew Auld:
-> > In commit:
-> >
-> > commit 09ac4fcb3f255e9225967c75f5893325c116cdbe
-> > Author: Felix Kuehling <Felix.Kuehling@amd.com>
-> > Date:   Thu Jul 13 17:01:16 2017 -0400
-> >
-> >      drm/ttm: Implement vm_operations_struct.access v2
-> >
-> > we added the vm_access hook, where we also directly call tt_swapin for
-> > some reason. If something is swapped-out then the ttm_tt must also be
-> > unpopulated, and since access_kmap should also call tt_populate, if
-> > needed, then swapping-in will already be handled there.
-> >
-> > If anything, calling tt_swapin directly here would likely always fail
-> > since the tt->pages won't yet be populated, or worse since the tt->page=
-s
-> > array is never actually cleared in unpopulate this might lead to a nast=
-y
-> > uaf.
-> >
-> > Fixes: 09ac4fcb3f25 ("drm/ttm: Implement vm_operations_struct.access v2=
-")
-> > Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> > Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Reviewed-by: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > ---
-> >   drivers/gpu/drm/ttm/ttm_bo_vm.c | 5 -----
-> >   1 file changed, 5 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_=
-bo_vm.c
-> > index f56be5bc0861..5b9b7fd01a69 100644
-> > --- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > +++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-> > @@ -519,11 +519,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, u=
-nsigned long addr,
-> >
-> >       switch (bo->resource->mem_type) {
-> >       case TTM_PL_SYSTEM:
-> > -             if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)=
-) {
-> > -                     ret =3D ttm_tt_swapin(bo->ttm);
-> > -                     if (unlikely(ret !=3D 0))
-> > -                             return ret;
-> > -             }
-> >               fallthrough;
-> >       case TTM_PL_TT:
-> >               ret =3D ttm_bo_vm_access_kmap(bo, offset, buf, len, write=
-);
->
+We did - but sometimes you don't see the wood for the trees.
+
+> (null) means you're printing a NULL pointer. So I could see that =
+hdmi->next_bridge was NULL.
+
+I remember we did find this, but did not understand that it should be =
+initialized by dw-hdmi.
+And because we though that dw-hdmi has it its own connector, it is ok =
+that way.
+
+> The place that sets it is dw_hdmi_parse_dt, which will return early =
+with code 0, before next_bridge is set, if plat_data->output_port =3D=3D =
+0, which was your case.
+
+Well, we were still at 5.14 when we did these initial attempts to use =
+hdmi-connector with synopsys.
+Back then, there was no dw_hdmi_parse_dt and no output_port.
+
+IAW: we did not even have a chance to make it work on top of 5.14 the =
+hdmi-connector way. And were sucessful.
+
+I just noticed this when trying to backport the last puzzle piece...
+
+Well, it is always difficult to hit a moving target.
+
+> Since your hdmi-connector is wired at port #1, then .output_port =
+should be 1 as well.
+
+Anyways it works now for 5.14.8 (our internal test) and 5.15-rc3.
+
+And v4 of the jz4780 hdmi stuff will follow.
+
+BR and thanks,
+Nikolaus
+
