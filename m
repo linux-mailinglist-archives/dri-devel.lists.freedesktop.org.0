@@ -1,45 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B875419337
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 13:36:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5282F419356
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 13:42:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D345889D57;
-	Mon, 27 Sep 2021 11:36:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B0F389EAE;
+	Mon, 27 Sep 2021 11:42:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C68E8891D7;
- Mon, 27 Sep 2021 11:36:37 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ED57060F58;
- Mon, 27 Sep 2021 11:36:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632742597;
- bh=Rl3OTC7V1DvxO5S+CLcKb/G4xypiFLCG7rhJzIouM9o=;
- h=From:To:Cc:Subject:Date:From;
- b=GIRQdOlWtQeOMLb+VYfzHERHrDKA38VhnFhqfoB27L2ZztW1kG/YwfGnx8+bG5m2w
- tIDcTjzg8OBfBy9I1T9duPEeXgoEHSjzRE69zF4UJ7AN7s9NWuE0m658Wci7xL0xai
- ea0aXKeWWRmrVH1JbjRfizMoUuLHo3hr8X0TrZixmNsPDHbeeIng78GbIcOuvMrqu8
- SE4vg9tVwLTVvaJB9O6sjiGoXNzhsd0WjChOtXE+Iu3PjfXtqu4Gt2Iej5V8WYyQ4x
- +/9bhZDBAYhH7wIdixdaYvEL5yVXxdw563oV7wHam7QvEezxKicYyfyS58W33vgEEx
- LNh6HRkSCn50A==
-From: Arnd Bergmann <arnd@kernel.org>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>,
- "Kristian H. Kristensen" <hoegsberg@google.com>
-Cc: Arnd Bergmann <arnd@arndb.de>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- Jordan Crouse <jordan@cosmicpenguin.net>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, llvm@lists.linux.dev
-Subject: [PATCH] drm/msm/submit: fix overflow check on 64-bit architectures
-Date: Mon, 27 Sep 2021 13:36:23 +0200
-Message-Id: <20210927113632.3849987-1-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 31B1089EAC;
+ Mon, 27 Sep 2021 11:42:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10119"; a="204610588"
+X-IronPort-AV: E=Sophos;i="5.85,326,1624345200"; d="scan'208";a="204610588"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2021 04:42:04 -0700
+X-IronPort-AV: E=Sophos;i="5.85,326,1624345200"; d="scan'208";a="553158952"
+Received: from ajhome-mobl.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.19.222])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 27 Sep 2021 04:42:01 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH v5 01/13] drm/ttm: stop calling tt_swapin in vm_access
+Date: Mon, 27 Sep 2021 12:41:02 +0100
+Message-Id: <20210927114114.152310-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -56,36 +49,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+In commit:
 
-The overflow check does causes a warning from clang-14 when 'sz' is a type
-that is smaller than size_t:
+commit 09ac4fcb3f255e9225967c75f5893325c116cdbe
+Author: Felix Kuehling <Felix.Kuehling@amd.com>
+Date:   Thu Jul 13 17:01:16 2017 -0400
 
-drivers/gpu/drm/msm/msm_gem_submit.c:217:10: error: result of comparison of constant 18446744073709551615 with expression of type 'unsigned int' is always false [-Werror,-Wtautological-constant-out-of-range-compare]
-                if (sz == SIZE_MAX) {
+    drm/ttm: Implement vm_operations_struct.access v2
 
-Change the type accordingly.
+we added the vm_access hook, where we also directly call tt_swapin for
+some reason. If something is swapped-out then the ttm_tt must also be
+unpopulated, and since access_kmap should also call tt_populate, if
+needed, then swapping-in will already be handled there.
 
-Fixes: 20224d715a88 ("drm/msm/submit: Move copy_from_user ahead of locking bos")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+If anything, calling tt_swapin directly here would likely always fail
+since the tt->pages won't yet be populated, or worse since the tt->pages
+array is never actually cleared in unpopulate this might lead to a nasty
+uaf.
+
+Fixes: 09ac4fcb3f25 ("drm/ttm: Implement vm_operations_struct.access v2")
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/msm/msm_gem_submit.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/ttm/ttm_bo_vm.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index fdc5367aecaa..ac23bbdb0bab 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -171,7 +171,8 @@ static int submit_lookup_objects(struct msm_gem_submit *submit,
- static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 		struct drm_msm_gem_submit *args, struct drm_file *file)
- {
--	unsigned i, sz;
-+	unsigned i;
-+	size_t sz;
- 	int ret = 0;
+diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+index f56be5bc0861..5b9b7fd01a69 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
++++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
+@@ -519,11 +519,6 @@ int ttm_bo_vm_access(struct vm_area_struct *vma, unsigned long addr,
  
- 	for (i = 0; i < args->nr_cmds; i++) {
+ 	switch (bo->resource->mem_type) {
+ 	case TTM_PL_SYSTEM:
+-		if (unlikely(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
+-			ret = ttm_tt_swapin(bo->ttm);
+-			if (unlikely(ret != 0))
+-				return ret;
+-		}
+ 		fallthrough;
+ 	case TTM_PL_TT:
+ 		ret = ttm_bo_vm_access_kmap(bo, offset, buf, len, write);
 -- 
-2.29.2
+2.26.3
 
