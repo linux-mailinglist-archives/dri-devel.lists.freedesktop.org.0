@@ -2,64 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449874190DE
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 10:32:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2E041910A
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 10:42:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90935894E0;
-	Mon, 27 Sep 2021 08:31:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4357989F6B;
+	Mon, 27 Sep 2021 08:42:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A2779896ED
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 08:31:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CC952200A6;
- Mon, 27 Sep 2021 08:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632731515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nT0lR7QqvaSFSqj96KUOYmzwku/omQrxbWcZe/Sp17g=;
- b=a6ng4581eAtB46YH4dxiH+ilF61Zx5HmZi5X9zcrLQ4usNW0z5YndcSMG1UJYFMwrxyz/T
- OY8OhTQWLoyNhK2xyTcz1MzgqDf1BUhjMv2o5NzXYSYjG2MvemnpYTHOMy7TiC2ATLTsZG
- YSz21egD51cvFqViYIFjvxnbEEaWz7Q=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632731515;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nT0lR7QqvaSFSqj96KUOYmzwku/omQrxbWcZe/Sp17g=;
- b=DFANtufkEVCTQBdflBi4DzxO1bmcxW00kjukz4VBH69OjBA+545anIz2yPBEog5oGPU55j
- +kOkOQumsmQaPKBA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A930113A42;
- Mon, 27 Sep 2021 08:31:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id uW0/KHuBUWGdTwAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Mon, 27 Sep 2021 08:31:55 +0000
-Message-ID: <fa0d3435-c7d4-eff8-525d-1e02a4392d17@suse.de>
-Date: Mon, 27 Sep 2021 10:31:55 +0200
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
+ [IPv6:2a00:1450:4864:20::132])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 06D7689F6B
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 08:42:13 +0000 (UTC)
+Received: by mail-lf1-x132.google.com with SMTP id t10so73941527lfd.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 01:42:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:in-reply-to:references
+ :mime-version; bh=1BG0A7psUXeGAUQUvHgRgao8dcZIRyXeRNw4ym7V7hQ=;
+ b=YUkw8+PzjqCIs3sdkd0kJKxzjL53C40Ukx8I5yuZZPCkVvKLn/Nq8tvO+VpJy4+noU
+ Y7aNcUkEHDjA+8NCOHX5tS9F59FkKqaUmnO6M9c0V5LLVCDJ420UfA0kw9g8+x6ZBcvP
+ O2DLhwYba4pe5bZLLuhzKcRu4rfojLvcGdHWSX0ybYwlLFJnjKG9qj0GBAwhPvWFBK8J
+ HZcPHBJU5LnxF6Sp4dM47l0PxoTKzzHU0VIcj145UDhpKXBCGjRd2FyHsGhoDoRqQLAW
+ F+Cb3oqtlf7Rxn0VjMiObE/sBZAOLzmnU/7ajAEuwLOCtuUpWvffiLF8lsml2VKY19Wj
+ di1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=1BG0A7psUXeGAUQUvHgRgao8dcZIRyXeRNw4ym7V7hQ=;
+ b=Yxr2ygCBJKp34XhS9V4fMUq51Lw63mwV+yoGP+7oiYAyWiJyc8/jkHinpaOIPCWpt9
+ jiN/Ceh/WWQUqYRghcESImqxV4QgCCtpk66XYStw8RneCVDXLzgmYqnK6SA96LGlit0S
+ 1UyI0nutQ6QWLiVfDAB6ukcMJuQN4v1XSfwwSJ1g+KvVjC3F8xK4wg1BAv32fVkkGELd
+ czdvAP5hFixj79qYp3jx1f47HBJFuJYuxtGdST3i9+2GwyK/MHG8loyWj25wb7U2EnLL
+ OoS454L/OTS81MLnBcjwIn74x6FAz3hT6eryxwJzSg+nf8RVOAsNcClEIp5Ouf/EMK7y
+ OK8g==
+X-Gm-Message-State: AOAM533xPY6lakdLuG5TZFNfbxgk+evHpl8dcrMU6EP9319kWSo8o7bh
+ upbpcUf3bJH5THxgorBbVRs=
+X-Google-Smtp-Source: ABdhPJz9IEdgS3tt3ObWODiNcVsXRujmPf+tYf3g2mh+Z4t7iY4w5zOjn9nOjTj61PF93sYD/eTBmg==
+X-Received: by 2002:ac2:4c52:: with SMTP id o18mr22119107lfk.108.1632732131214; 
+ Mon, 27 Sep 2021 01:42:11 -0700 (PDT)
+Received: from eldfell ([194.136.85.206])
+ by smtp.gmail.com with ESMTPSA id v1sm1529371lfp.215.2021.09.27.01.42.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 01:42:10 -0700 (PDT)
+Date: Mon, 27 Sep 2021 11:42:01 +0300
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Daniel
+ Vetter <daniel@ffwll.ch>, Christian =?UTF-8?B?S8O2bmln?=
+ <ckoenig.leichtzumerken@gmail.com>, Michel =?UTF-8?B?RMOkbnplcg==?=
+ <michel@daenzer.net>, Rob Clark <robdclark@chromium.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org (open list:SYNC FILE FRAMEWORK),
+ linux-kernel@vger.kernel.org (open list)
+Subject: Re: [PATCH v3 8/9] dma-buf/sync_file: Add SET_DEADLINE ioctl
+Message-ID: <20210927114201.1f8fdc17@eldfell>
+In-Reply-To: <20210903184806.1680887-9-robdclark@gmail.com>
+References: <20210903184806.1680887-1-robdclark@gmail.com>
+ <20210903184806.1680887-9-robdclark@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] drm/gma500: Fix error code in probe()
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-References: <20210927081628.GA10186@kili>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20210927081628.GA10186@kili>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------vXiheHO58cm9apZBSkNbwV1D"
+Content-Type: multipart/signed; boundary="Sig_/Ae3zq/xxfd0mOmS+IV/YXES";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,72 +79,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------vXiheHO58cm9apZBSkNbwV1D
-Content-Type: multipart/mixed; boundary="------------pe82A0VHqXeYWivGoLI5UxG4";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Dan Carpenter <dan.carpenter@oracle.com>,
- Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Message-ID: <fa0d3435-c7d4-eff8-525d-1e02a4392d17@suse.de>
-Subject: Re: [PATCH] drm/gma500: Fix error code in probe()
-References: <20210927081628.GA10186@kili>
-In-Reply-To: <20210927081628.GA10186@kili>
+--Sig_/Ae3zq/xxfd0mOmS+IV/YXES
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
---------------pe82A0VHqXeYWivGoLI5UxG4
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+On Fri,  3 Sep 2021 11:47:59 -0700
+Rob Clark <robdclark@gmail.com> wrote:
 
-SGkNCg0KQW0gMjcuMDkuMjEgdW0gMTA6MTYgc2NocmllYiBEYW4gQ2FycGVudGVyOg0KPiBU
-aGUgZXJyb3IgY29kZSBpcyBzdG9yZWQgaW4gImRldl9wcml2Iiwgbm90ICJkZXYiLiAgVGhl
-ICJkZXYiIHBvaW50ZXINCj4gaXNuJ3QgaW5pdGlhbGl6ZWQgeWV0Lg0KPiANCj4gRml4ZXM6
-IGMyZjE3ZTYwY2JlMSAoImRybS9nbWE1MDA6IEVtYmVkIHN0cnVjdCBkcm1fZGV2aWNlIGlu
-IHN0cnVjdCBkcm1fcHNiX3ByaXZhdGUiKQ0KPiBTaWduZWQtb2ZmLWJ5OiBEYW4gQ2FycGVu
-dGVyIDxkYW4uY2FycGVudGVyQG9yYWNsZS5jb20+DQoNClRoYW5rcyBmb3IgdGhlIHBhdGNo
-LiBUaGVyZSdzIGFscmVhZHkgYSBmaXggZm9yIHRoaXMgYnVnIGluIA0KZHJtLW1pc2MtbmV4
-dC4gWzFdDQoNCkJlc3QgcmVnYXJkcw0KVGhvbWFzDQoNClsxXSANCmh0dHBzOi8vY2dpdC5m
-cmVlZGVza3RvcC5vcmcvZHJtL2RybS1taXNjL2NvbW1pdC8/aWQ9ZWJlMTgwZDM3NmE1Zjdi
-MmU1MzRiNjlkMjM3YWE2ZmFiNDMwMDhlZQ0KDQo+IC0tLQ0KPiAgIGRyaXZlcnMvZ3B1L2Ry
-bS9nbWE1MDAvcHNiX2Rydi5jIHwgMiArLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1
-L2RybS9nbWE1MDAvcHNiX2Rydi5jIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9wc2JfZHJ2
-LmMNCj4gaW5kZXggM2QwMzZkMmEzYjI5Li43YTEwYmIzOWVmMGIgMTAwNjQ0DQo+IC0tLSBh
-L2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvcHNiX2Rydi5jDQo+ICsrKyBiL2RyaXZlcnMvZ3B1
-L2RybS9nbWE1MDAvcHNiX2Rydi5jDQo+IEBAIC00NTQsNyArNDU0LDcgQEAgc3RhdGljIGlu
-dCBwc2JfcGNpX3Byb2JlKHN0cnVjdCBwY2lfZGV2ICpwZGV2LCBjb25zdCBzdHJ1Y3QgcGNp
-X2RldmljZV9pZCAqZW50KQ0KPiAgIA0KPiAgIAlkZXZfcHJpdiA9IGRldm1fZHJtX2Rldl9h
-bGxvYygmcGRldi0+ZGV2LCAmZHJpdmVyLCBzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlLCBkZXYp
-Ow0KPiAgIAlpZiAoSVNfRVJSKGRldl9wcml2KSkNCj4gLQkJcmV0dXJuIFBUUl9FUlIoZGV2
-KTsNCj4gKwkJcmV0dXJuIFBUUl9FUlIoZGV2X3ByaXYpOw0KPiAgIAlkZXYgPSAmZGV2X3By
-aXYtPmRldjsNCj4gICANCj4gICAJcGNpX3NldF9kcnZkYXRhKHBkZXYsIGRldik7DQo+IA0K
-DQotLSANClRob21hcyBaaW1tZXJtYW5uDQpHcmFwaGljcyBEcml2ZXIgRGV2ZWxvcGVyDQpT
-VVNFIFNvZnR3YXJlIFNvbHV0aW9ucyBHZXJtYW55IEdtYkgNCk1heGZlbGRzdHIuIDUsIDkw
-NDA5IE7DvHJuYmVyZywgR2VybWFueQ0KKEhSQiAzNjgwOSwgQUcgTsO8cm5iZXJnKQ0KR2Vz
-Y2jDpGZ0c2bDvGhyZXI6IEZlbGl4IEltZW5kw7ZyZmZlcg0K
+> From: Rob Clark <robdclark@chromium.org>
+>=20
+> The initial purpose is for igt tests, but this would also be useful for
+> compositors that wait until close to vblank deadline to make decisions
+> about which frame to show.
+>=20
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>  drivers/dma-buf/sync_file.c    | 19 +++++++++++++++++++
+>  include/uapi/linux/sync_file.h | 20 ++++++++++++++++++++
+>  2 files changed, 39 insertions(+)
+>=20
+> diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
+> index 394e6e1e9686..f295772d5169 100644
+> --- a/drivers/dma-buf/sync_file.c
+> +++ b/drivers/dma-buf/sync_file.c
+> @@ -459,6 +459,22 @@ static long sync_file_ioctl_fence_info(struct sync_f=
+ile *sync_file,
+>  	return ret;
+>  }
+> =20
+> +static int sync_file_ioctl_set_deadline(struct sync_file *sync_file,
+> +					unsigned long arg)
+> +{
+> +	struct sync_set_deadline ts;
+> +
+> +	if (copy_from_user(&ts, (void __user *)arg, sizeof(ts)))
+> +		return -EFAULT;
+> +
+> +	if (ts.pad)
+> +		return -EINVAL;
+> +
+> +	dma_fence_set_deadline(sync_file->fence, ktime_set(ts.tv_sec, ts.tv_nse=
+c));
+> +
+> +	return 0;
+> +}
+> +
+>  static long sync_file_ioctl(struct file *file, unsigned int cmd,
+>  			    unsigned long arg)
+>  {
+> @@ -471,6 +487,9 @@ static long sync_file_ioctl(struct file *file, unsign=
+ed int cmd,
+>  	case SYNC_IOC_FILE_INFO:
+>  		return sync_file_ioctl_fence_info(sync_file, arg);
+> =20
+> +	case SYNC_IOC_SET_DEADLINE:
+> +		return sync_file_ioctl_set_deadline(sync_file, arg);
+> +
+>  	default:
+>  		return -ENOTTY;
+>  	}
+> diff --git a/include/uapi/linux/sync_file.h b/include/uapi/linux/sync_fil=
+e.h
+> index ee2dcfb3d660..f67d4ffe7566 100644
+> --- a/include/uapi/linux/sync_file.h
+> +++ b/include/uapi/linux/sync_file.h
+> @@ -67,6 +67,18 @@ struct sync_file_info {
+>  	__u64	sync_fence_info;
+>  };
+> =20
+> +/**
+> + * struct sync_set_deadline - set a deadline on a fence
+> + * @tv_sec:	seconds elapsed since epoch
+> + * @tv_nsec:	nanoseconds elapsed since the time given by the tv_sec
+> + * @pad:	must be zero
 
---------------pe82A0VHqXeYWivGoLI5UxG4--
+Hi Rob,
 
---------------vXiheHO58cm9apZBSkNbwV1D
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+I think you need to specify which clock this timestamp must be in.
+
+Which epoch? Sounds a bit like CLOCK_REALTIME to me which would not
+make sense.
+
+Also I cannot guess how a compositor should be using this, so
+explaining the expected usage would be really good, with reasons for
+why should userspace bother.
+
+
+Thanks,
+pq
+
+> + */
+> +struct sync_set_deadline {
+> +	__s64	tv_sec;
+> +	__s32	tv_nsec;
+> +	__u32	pad;
+> +};
+> +
+>  #define SYNC_IOC_MAGIC		'>'
+> =20
+>  /**
+> @@ -95,4 +107,12 @@ struct sync_file_info {
+>   */
+>  #define SYNC_IOC_FILE_INFO	_IOWR(SYNC_IOC_MAGIC, 4, struct sync_file_inf=
+o)
+> =20
+> +
+> +/**
+> + * DOC: SYNC_IOC_SET_DEADLINE - set a deadline on a fence
+> + *
+> + * Allows userspace to set a deadline on a fence, see dma_fence_set_dead=
+line()
+> + */
+> +#define SYNC_IOC_SET_DEADLINE	_IOW(SYNC_IOC_MAGIC, 5, struct sync_set_de=
+adline)
+> +
+>  #endif /* _UAPI_LINUX_SYNC_H */
+
+
+--Sig_/Ae3zq/xxfd0mOmS+IV/YXES
+Content-Type: application/pgp-signature
 Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
 
 -----BEGIN PGP SIGNATURE-----
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFRgXsFAwAAAAAACgkQlh/E3EQov+BL
-QRAAtAUg19orZTv5SFycwjg6KOsGwK6pn4AAqE70mYzftZwQRVDzcn9Tv/ES/wH3h6wbO808Ln5L
-3EDKAWgXf8bajE7uAekt2WCsUdeYa4FT96yCGVkVX8PgBcKdAtC+zEsdh7zKpumP23AfSdweeNj7
-PN3LZ+h/XIis8QFBGWEHTfc5AsOzoLvt0WKiWSZXbbw85O+KYARuuZJjsYgmt2qaIn0CcIp9+qVo
-Eychs+CzMlCRYJHSv+Hvq6x8QvzNyIhKlXAwMQeW84Yp8934h6fYDjStllf3n3BJR2HeoWbGX6mt
-71kYkxK3dyzCWJ3Y0XxfWKA+G/dXxhsK/PE1bw0ZOS9pUbGg9AM59/Q7vn5QYq3tQItaE3VcWU+A
-rqI9j+rUvtQCJh/x0bBipBHX0VM/HOnipaKo/HBtnptASLscJDx+pIS8fnu5S2kpAJeWwZ9OMUcg
-F8hKeM3FPZQDs21KUeW0p3W6WgFhv9WCSF7ezOIig0Q7y51J0tvA62cbw5HQM7fj2gh4g5uAVVBw
-2mwTJNtpg9J5ds8RdBE/yfQ2ozNvXQlv7dN7vQ+FAE/CofWdW4q1QTx8kksZhA9bnK0BVRZHEMrX
-hOxUUibAyC7UjskBTP+CsaGEvKoq+jTXmW8Om3gJWbTc7y4mpVD0OdaAkUG3thQxCo8a8ZoPrlKd
-Slk=
-=Xu0S
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFRg9kACgkQI1/ltBGq
+qqerWg//URIwzyumTcB8NXNy0zbIi4YZDXfe6dn9jZvFT+6n4Gdze1shYvrcxMli
+32IX5GxFXHhKZcjH4ugvlN3PJ+yn1IwuxJ7W2eCkj/IRPHWe8xvgvzzv/VWKhriW
+g9tYOOkEtD4z31Gl2pBV9c3I9wSot2mpToMHQcx2Df0QZmyXqol5QbX6SkcZsIL8
+tCsuYY9tpe2v91NpMEFZtJEmIuDezKh6JEy3djZ+Jd3LB0aFCRuH3ewKYaxpRH+9
+f9qrpzIe/1r1bu2t/y/YQSg/HhaX38TKcNme7hyc60k2b31RJU/LkyCrjBYt7wua
+qXCr/7ZYJF4kELTuDKAkhdeX4dtI8ijD9VVjlqsm22pPiNlzIulMtkrTXwGGHaA1
+QqiunoZOzdXO3PDA6ogOkEnjjWQJPLIiQC7DJ1F9fffy0AnbHvyOAREt1ETlZ+lE
+GDufS931n4Cwv4TXpoMNeDeKrVjd/VMfP+cvG/gyitBDqKH5L75boTdJKXGFUZmW
+I2SrhTkQ36n4eoeujHr6ed5E2WAye3rhCZbwkMIE39RE2x8FIHm954DXI4Jj9if1
+MHmbrWR5/btLEJt1yldy07+zfFSr3xQiCEAA8q1ZXULRPzbXwa2JuWrjsOHuUjQv
+bDi20VmhLKrjDNUBtg8Su1s+u+fpv9iDhsIoCBLIEMAFbe2b+70=
+=jyP1
 -----END PGP SIGNATURE-----
 
---------------vXiheHO58cm9apZBSkNbwV1D--
+--Sig_/Ae3zq/xxfd0mOmS+IV/YXES--
