@@ -1,63 +1,97 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 469434197D5
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:24:52 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F194F419812
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 17:41:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF71789EB4;
-	Mon, 27 Sep 2021 15:24:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 775B96E84D;
+	Mon, 27 Sep 2021 15:41:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pg1-x536.google.com (mail-pg1-x536.google.com
- [IPv6:2607:f8b0:4864:20::536])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D0DD89EB4;
- Mon, 27 Sep 2021 15:24:49 +0000 (UTC)
-Received: by mail-pg1-x536.google.com with SMTP id s75so1612629pgs.5;
- Mon, 27 Sep 2021 08:24:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=91WTltl5VxlPGr4W7IMTkikDp5yzAAOLWX4XlxfvA04=;
- b=MnWb/E/nNEUD/13bbKjg2jh+pdSUe6ymLUCmsk9n7bjrJzz4yPdZS5ZBqVDiIR4NHf
- 4bCX4yCInmF/nkKSis6LdhS7EUN8Ld+mfU2BS9fcm6h5XsAREVO/rgXxgLO9/iw0iPSl
- HBaOy3evwjYMZFh9SGHB66A2O7sfv8DsHgS3yUrcRGQPvhPUl8hfsvB8rjoFfpD6PG1u
- VpWgx539pAFlqr+rWCwas4p2meFPC861+z/d4aXnHoirm4Kf9cpcJ3nYjVZoxwhy5oCX
- kTaApzyd4CQ9TVMf9z6XXqkaFFDLg58V+2uIiPlJEEhd1xu/DM9JwtMbHcFZaTZTiI+P
- gtgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=91WTltl5VxlPGr4W7IMTkikDp5yzAAOLWX4XlxfvA04=;
- b=lVlguZDqFD0vPpYrEV5Fe70dkSUiZkFo2t+Le7R5sD9CBoXhXV0fHghYKs5K4o26j5
- eP22vNFslxGtiJD4D45yrgGpJZ7Aqk/ZjTYouPqP6Likp3MYE3R6eopLBjwK/Gr4LB2O
- vDwnMJd9yPLtuP9453x4nCOB7yxR9b0gi2m5VHBK/oRj2Flbk6U6QlqCP4AokGxsAv7P
- SO9r6+b8Mew6qLC7zyqmcjxtgGF4sSvkGmubGIM9FnvfwJeTIWv76zcoZWuEoowUoma4
- 0pPiXPtr7TlpAa1s5/ZRveGvRWtzwnKvk/F135h6nZxH/sHVuR7tz9CK3j5lZuy4r4Jv
- LqHg==
-X-Gm-Message-State: AOAM533aVE7fiGxxArdQKe/1HfCAawty/E9REZThC6ZPej7P8biwqldE
- OpZNolA11ahoy7wr0fRXWlM/FAEhqkQ=
-X-Google-Smtp-Source: ABdhPJwHP/CZaznyNAeJ0MtR9h7UOdNIz9t9+0/dozEHS2DAPGKfXC0LUiuj/yslWdqz10nvh3Zfrg==
-X-Received: by 2002:a05:6a00:4:b0:43d:32f3:e861 with SMTP id
- h4-20020a056a00000400b0043d32f3e861mr493964pfk.60.1632756288413; 
- Mon, 27 Sep 2021 08:24:48 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
- by smtp.gmail.com with ESMTPSA id s3sm233915pjr.1.2021.09.27.08.24.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 08:24:47 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH] drm/msm: Switch ordering of runpm put vs devfreq_idle
-Date: Mon, 27 Sep 2021 08:29:28 -0700
-Message-Id: <20210927152928.831245-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2078.outbound.protection.outlook.com [40.107.236.78])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8D77C89F92;
+ Mon, 27 Sep 2021 15:41:28 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=m48lwqsiNIJFWwgHBusPP2CShRoUK2B6XgKGqQVTaLutFRGtU1QHYfICcnHr1ItZDaD5DDel2XzcY6irTojMnSnpQuT7gq0JVMkzTRLH9bFv//yyQUeo5PW+GmsGVmu7QXETU296hvtA81JNn6lS7i+gDfMnQYGP708mx55D9FDiCG7EqqvgVPEhA3TG+LCyWVEWGN6Yd/vfOV/vT57wMQyXSsfnpQFcpXofS6jgmfHii61tORn9TdcfKC8oYvPVKdZbNtrjlJ+PW5Mna9v/gIQvIysdYww7/RBQ9ZZPb2Pd+2pZs7BfZSB+SqYNTensSns23Psd7LAo74dhpfXr9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=lNaiS9AOgR670eXV/WrShhySRdwAxL8cyGWv4zfP3qI=;
+ b=gTf2nyq10SWii0vRfEutxDVI1YHPuO8TEDxiv+AAVICLgacjzzwR6rtrC0D51UcDYx68YH2Zr8W6O+flesulZp1QsumJn50LBfKAG0pRIN+Moj7R3/23EWMgQLSeAK6rxQESC52aQ8BWCjM4i+giXtzgD8AL76DE2/zEGg0OEW9ZuxtOJfLdGbyTYQqPZzcS8JqQ5+ADw6uSFvaxAbvXPLkjbuo5qaKL340HhhsS2z0EZLBiREsXD8YO/Sp6gp8hpemwn55N9FBzQm+qKsQmPCSLFCSFQUu1njQAFRTj0NrkjUa8G6nbe7Fa23VDa+NEg4kM3qVO0YLgOz1kJ98cLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lNaiS9AOgR670eXV/WrShhySRdwAxL8cyGWv4zfP3qI=;
+ b=hgoDnL/GY2erRRiUzWSIf3dx2vjE4fYGUatZmgMZRJMeFQOt4EjQ6Zj6sBrtG659PHNgNsuvWEX1ASyWxR+5yO1d/YJfzmpfVs7lkH/hJOgRE51PtA01RjNV/oqTqG4UyHGCCl4sdLk7PIoLNcMrUn5qzQVyf0Th8QQ3Mj67X0g=
+Received: from BN6PR11CA0061.namprd11.prod.outlook.com (2603:10b6:404:f7::23)
+ by MWHPR12MB1886.namprd12.prod.outlook.com (2603:10b6:300:10f::23)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Mon, 27 Sep
+ 2021 15:41:24 +0000
+Received: from BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:404:f7:cafe::3) by BN6PR11CA0061.outlook.office365.com
+ (2603:10b6:404:f7::23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.14 via Frontend
+ Transport; Mon, 27 Sep 2021 15:41:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN8NAM11FT031.mail.protection.outlook.com (10.13.177.25) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4544.13 via Frontend Transport; Mon, 27 Sep 2021 15:41:23 +0000
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Mon, 27 Sep
+ 2021 10:41:20 -0500
+Received: from jzuo-linux.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2308.8 via Frontend
+ Transport; Mon, 27 Sep 2021 10:41:19 -0500
+From: Fangzhi Zuo <Jerry.Zuo@amd.com>
+To: <dri-devel@lists.freedesktop.org>, <amd-gfx@lists.freedesktop.org>,
+ <intel-gfx@lists.freedesktop.org>, <jani.nikula@intel.com>
+CC: <harry.wentland@amd.com>, <Nicholas.Kazlauskas@amd.com>,
+ <wayne.lin@amd.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>
+Subject: [PATCH v2] drm/dp: Add Additional DP2 Headers
+Date: Mon, 27 Sep 2021 11:39:41 -0400
+Message-ID: <20210927153941.2231704-1-Jerry.Zuo@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 8b8a0a3c-c58a-4232-97fb-08d981cd42d2
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1886:
+X-Microsoft-Antispam-PRVS: <MWHPR12MB1886AD9B35DD30A546E0DE37E5A79@MWHPR12MB1886.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2887;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: REtI7GR5AtOz4Hlwl/1Fmkw7yyE4u4o5CjUDux8aYLAtkrklL/ayoW4H30//6iJKKItOE0mRiNY2R9HpQs1vMDFs/i8KaZXCVNvFShKWv00LhSMhESd6yNSnkqU9p/30hNUluapzjxFXKZweLXot77bdSZXg+Ze0tzCgXaIgjRzsKMkmFJn808sO530uML53fIXRjh3Ge2nnx22AsKUYLl8UedQ+kWhUNvdiyL/xcq7lzL7gV2igxZx30X0zHLg8eANOOTSb+pybsAlKYzTFDpyCrASGPWkk1MuUGeuZm0798e6rAKS3M+PS1ydjl26eeLPaav9w0ZiCFI+oifMQhJbu1biZ3POtbxZyhbbz79WdlEuvCPrAPHfenq9eYVpx3ujhgfBIdJxIdqJfVA07cuZZcgdCjXcA5rbOdKAfWjWjnlkiF2AWQynvO25Jo/uxCdpTUbaJQLaNtolEuciXfdsJtCdwQNPGVI8WIBmJxv0Emwye+DdZ1sasBE9TLsbL5YqgpK5aqG/ORbAWdl/LuPpJHMNKwC7OCl/pzMNqvnZf+t+hiJvjqtmQ6Em9EX4EZfOp98o/lpk+EhpUBSPy8i3n4BRpJ0TQY4IjMA/Lu555FVBZwsNeBb3iUDXSf/nRd1u5Nu82Q2TkObZWxq5TVbOrJd6LdLfPLQOENwNyc22aH/hTDpJ2hMzmA/6ZAyX7kxy1xG5S5oq5RKh/2VAFCjOpuP+Arfz6AikNdYPIUOykKX6uR60lzPEMxGwQRoUS
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(36840700001)(46966006)(8676002)(110136005)(8936002)(47076005)(2616005)(70206006)(508600001)(426003)(36756003)(6666004)(356005)(70586007)(336012)(83380400001)(7696005)(5660300002)(2906002)(316002)(36860700001)(4326008)(54906003)(81166007)(1076003)(26005)(82310400003)(86362001)(186003)(21314003)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2021 15:41:23.8572 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8b8a0a3c-c58a-4232-97fb-08d981cd42d2
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: BN8NAM11FT031.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1886
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,88 +107,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Rob Clark <robdclark@chromium.org>
+Include FEC, DSC, Link Training related headers.
 
-I've seen a few crashes like:
-
-    Internal error: synchronous external abort: 96000010 [#1] PREEMPT SMP
-    Modules linked in: snd_seq_dummy snd_seq snd_seq_device bridge stp llc tun nf_nat_tftp nf_conntrack_tftp nf_nat_ftp nf_conntrack_ftp esp6 ah6 ip6t_REJECT ip6t_ipv6header vhost_vsock vhost vmw_vsock_virtio_transport_common vsock rfcomm algif_hash algif_skcipher af_alg uinput veth xt_cgroup xt_MASQUERADE venus_enc venus_dec videobuf2_dma_contig qcom_spmi_adc5 qcom_spmi_adc_tm5 hci_uart qcom_vadc_common cros_ec_typec qcom_spmi_temp_alarm typec btqca snd_soc_rt5682_i2c snd_soc_rt5682 snd_soc_sc7180 bluetooth snd_soc_qcom_common snd_soc_rl6231 ecdh_generic ecc venus_core v4l2_mem2mem snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357a ip6table_nat fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_core industrialio_triggered_buffer kfifo_buf cros_ec_sensorhub lzo_rle ath10k_snoc lzo_compress ath10k_core ath zram mac80211 cfg80211 ax88179_178a usbnet mii uvcvideo videobuf2_vmalloc joydev
-    CPU: 3 PID: 212 Comm: A618-worker Tainted: G W 5.4.139-16300-g88d8e1285982 #1
-    Hardware name: Google Pompom (rev1) with LTE (DT)
-    pstate: 60c00009 (nZCv daif +PAN +UAO)
-    pc : a6xx_gmu_set_oob+0x114/0x200
-    lr : a6xx_gmu_set_oob+0x10c/0x200
-    sp : ffffffc011b7bc20
-    x29: ffffffc011b7bc20 x28: ffffffdad27c5000
-    x27: 0000000000000001 x26: ffffffdad1521044
-    x25: ffffffbef7498338 x24: 0000000000000018
-    x23: 0000000000000002 x22: 0000000000014648
-    x21: 0000033732fe638b x20: 0000000080000000
-    x19: ffffffbef7433bc8 x18: 0000000040000000
-    x17: 000000243508d982 x16: 000000000000b67e
-    x15: 00000000000090d4 x14: 0000000000000024
-    x13: 0000000000000024 x12: 0000000000017521
-    x11: 0000000000000b48 x10: 0000000000326a48
-    x9 : 1a130d33f6371600 x8 : ffffffc011e54648
-    x7 : 614948e00005003c x6 : ffffffbe3cd17e60
-    x5 : 0000000000000040 x4 : 0000000000000004
-    x3 : 0000000000000000 x2 : ffffffbef7488000
-    x1 : ffffffbef7488000 x0 : 0000000000000000
-    Call trace:
-    a6xx_gmu_set_oob+0x114/0x200
-    a6xx_gmu_set_freq+0xe0/0x1fc
-    msm_devfreq_target+0x80/0x13c
-    msm_devfreq_idle+0x54/0x94
-    retire_submit+0x170/0x254
-    retire_submits+0xa4/0xdc
-    retire_worker+0x1c/0x28
-    kthread_worker_fn+0xf4/0x1bc
-    kthread+0x140/0x158
-    ret_from_fork+0x10/0x18
-    Code: 52800c81 9415bbe5 f9400a68 8b160108 (b9400108)
-    ---[ end trace 16b871df2482cd61 ]---
-    Kernel panic - not syncing: Fatal exception
-    SMP: stopping secondary CPUs
-    Kernel Offset: 0x1ac1400000 from 0xffffffc010000000
-    PHYS_OFFSET: 0xffffffc280000000
-    CPU features: 0x88102e,2a80aa38
-    Memory Limit: none
-
-Which smells a lot like touching hw after power collapse.  I'm not
-*entirely* sure how it could have taken 66ms (the autosuspend delay)
-before we get to a6xx_gmu_set_oob(), but to be safe we should move
-the pm_runtime_put_autosuspend() after msm_devfreq_idle().
-
-Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-Signed-off-by: Rob Clark <robdclark@chromium.org>
+Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
 ---
- drivers/gpu/drm/msm/msm_gpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+This patch is based on top of the other DP2.0 work in
+"drm/dp: add LTTPR DP 2.0 DPCD addresses"
+---
+ include/drm/drm_dp_helper.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index d1a16642ecd5..2b2bbe7499e6 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -667,9 +667,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
+diff --git a/include/drm/drm_dp_helper.h b/include/drm/drm_dp_helper.h
+index 1d5b3dbb6e56..f1fd9889f190 100644
+--- a/include/drm/drm_dp_helper.h
++++ b/include/drm/drm_dp_helper.h
+@@ -453,6 +453,7 @@ struct drm_panel;
+ # define DP_FEC_UNCORR_BLK_ERROR_COUNT_CAP  (1 << 1)
+ # define DP_FEC_CORR_BLK_ERROR_COUNT_CAP    (1 << 2)
+ # define DP_FEC_BIT_ERROR_COUNT_CAP	    (1 << 3)
++#define DP_FEC_CAPABILITY_1			0x091   /* 2.0 */
  
- 	msm_submit_retire(submit);
+ /* DP-HDMI2.1 PCON DSC ENCODER SUPPORT */
+ #define DP_PCON_DSC_ENCODER_CAP_SIZE        0xC	/* 0x9E - 0x92 */
+@@ -537,6 +538,9 @@ struct drm_panel;
+ #define DP_DSC_BRANCH_OVERALL_THROUGHPUT_1  0x0a1
+ #define DP_DSC_BRANCH_MAX_LINE_WIDTH        0x0a2
  
--	pm_runtime_mark_last_busy(&gpu->pdev->dev);
--	pm_runtime_put_autosuspend(&gpu->pdev->dev);
--
- 	spin_lock_irqsave(&ring->submit_lock, flags);
- 	list_del(&submit->node);
- 	spin_unlock_irqrestore(&ring->submit_lock, flags);
-@@ -683,6 +680,9 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
- 	mutex_unlock(&gpu->active_lock);
- 
- 	msm_gem_submit_put(submit);
++/* DFP Capability Extension */
++#define DP_DFP_CAPABILITY_EXTENSION_SUPPORT	0x0a3	/* 2.0 */
 +
-+	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-+	pm_runtime_put_autosuspend(&gpu->pdev->dev);
- }
+ /* Link Configuration */
+ #define	DP_LINK_BW_SET		            0x100
+ # define DP_LINK_RATE_TABLE		    0x00    /* eDP 1.4 */
+@@ -688,6 +692,7 @@ struct drm_panel;
  
- static void retire_submits(struct msm_gpu *gpu)
+ #define DP_DSC_ENABLE                       0x160   /* DP 1.4 */
+ # define DP_DECOMPRESSION_EN                (1 << 0)
++#define DP_DSC_CONFIGURATION				0x161	/* DP 2.0 */
+ 
+ #define DP_PSR_EN_CFG				0x170   /* XXX 1.2? */
+ # define DP_PSR_ENABLE				BIT(0)
+@@ -743,6 +748,7 @@ struct drm_panel;
+ # define DP_RECEIVE_PORT_0_STATUS	    (1 << 0)
+ # define DP_RECEIVE_PORT_1_STATUS	    (1 << 1)
+ # define DP_STREAM_REGENERATION_STATUS      (1 << 2) /* 2.0 */
++# define DP_INTRA_HOP_AUX_REPLY_INDICATION	(1 << 3) /* 2.0 */
+ 
+ #define DP_ADJUST_REQUEST_LANE0_1	    0x206
+ #define DP_ADJUST_REQUEST_LANE2_3	    0x207
+@@ -865,6 +871,8 @@ struct drm_panel;
+ # define DP_PHY_TEST_PATTERN_80BIT_CUSTOM   0x4
+ # define DP_PHY_TEST_PATTERN_CP2520         0x5
+ 
++#define DP_PHY_SQUARE_PATTERN				0x249
++
+ #define DP_TEST_HBR2_SCRAMBLER_RESET        0x24A
+ #define DP_TEST_80BIT_CUSTOM_PATTERN_7_0    0x250
+ #define	DP_TEST_80BIT_CUSTOM_PATTERN_15_8   0x251
+@@ -1109,6 +1117,18 @@ struct drm_panel;
+ #define DP_128B132B_TRAINING_AUX_RD_INTERVAL   0x2216 /* 2.0 */
+ # define DP_128B132B_TRAINING_AUX_RD_INTERVAL_MASK 0x7f
+ 
++#define DP_TEST_264BIT_CUSTOM_PATTERN_7_0		0x2230
++#define DP_TEST_264BIT_CUSTOM_PATTERN_263_256	0x2250
++
++/* DSC Extended Capability Branch Total DSC Resources */
++#define DP_DSC_SUPPORT_AND_DECODER_COUNT			0x2260	/* 2.0 */
++# define DP_DSC_DECODER_COUNT_MASK			(0b111 << 5)
++# define DP_DSC_DECODER_COUNT_SHIFT			5
++#define DP_DSC_MAX_SLICE_COUNT_AND_AGGREGATION_0	0x2270	/* 2.0 */
++# define DP_DSC_DECODER_0_MAXIMUM_SLICE_COUNT_MASK	(1 << 0)
++# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_MASK	(0b111 << 1)
++# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_SHIFT	1
++
+ /* Protocol Converter Extension */
+ /* HDMI CEC tunneling over AUX DP 1.3 section 5.3.3.3.1 DPCD 1.4+ */
+ #define DP_CEC_TUNNELING_CAPABILITY            0x3000
 -- 
-2.31.1
+2.25.1
 
