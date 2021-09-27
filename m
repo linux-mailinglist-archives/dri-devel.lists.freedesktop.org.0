@@ -2,49 +2,65 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 772B241A18B
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 23:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5828341A35C
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 00:53:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1B23A89F43;
-	Mon, 27 Sep 2021 21:53:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7A39B6E047;
+	Mon, 27 Sep 2021 22:53:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D859889F43
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 21:53:15 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91B7110CA;
- Mon, 27 Sep 2021 23:53:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1632779593;
- bh=nHkvtcWiic42MnvXcuNo0n/ErjvgC5aPUQB8DJscSAM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=IudbtgDefnH4PiktQH/lcHIrIgbu8XSbf8yktC37c2gxZu3UurfJztwVrG2M3uflV
- irW6Z3aPDu53lVifTJ+5j0JSmQ0JQ8ZPKhazBE2OznhP6exHYC6jlJSOk2vm56ezAL
- GPejbDYxO+MGBD2WPIYLUR/5FkE0nJ95n+GGH2MA=
-Date: Tue, 28 Sep 2021 00:53:06 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Robert Foss <robert.foss@linaro.org>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 1/3] drm/bridge: Add a function to abstract away panels
-Message-ID: <YVI9QtkzcnZrpofG@pendragon.ideasonboard.com>
-References: <20210910130941.1740182-1-maxime@cerno.tech>
- <20210910130941.1740182-2-maxime@cerno.tech>
- <YUvKcTv2hSrUqIvF@pendragon.ideasonboard.com>
- <20210927194344.avbex3qyw2swa7kz@gilmour>
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C885F6E047
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 22:53:04 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id
+ d4-20020a17090ad98400b0019ece228690so305597pjv.5
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 15:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JA7b+17NeQa8MxRoYAOMDqy2vhM9dB7W8X4n526ZCa0=;
+ b=Z5O9ySOI18c257QEjUpy/S8DkTMRZbS+Opwm+B06YkbXyoON66i8zm0NmG1G1POeYS
+ EBc7b9mKjFHhjnVmjWrHyrtObPg/oquR2Jn3r5VzpoNSSmbzAFUXVpMR0KdMkvSO3ils
+ f2HFYDCiCdJkcZJt36DLQZwmQu3Xu5F9SFcdk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JA7b+17NeQa8MxRoYAOMDqy2vhM9dB7W8X4n526ZCa0=;
+ b=hjCzL1pBI7qbShwzkKUxZ3kf20siZzUMqRkSC1U5s1TjsMC1O0MKGGNyUn5ZifNq3r
+ M7BmzW5Suuq05ACy9UgThhvuhGpdUTNYdj9YwlEqfsnKw26mn7kU3Tt6yyTW0skEOL4w
+ muXG8hqfcM9zeoQjAPSc7UPRW2J2dOyJpioQoI7fxzzr/vPmawiKH3lBGWWfo0ZW5k4h
+ GpSExWCVQXdZDG99mvr+6UUKkrWA5jAozZTzXgV6RhMDQkZwcAWbNG+fV3zbn6UD171K
+ qnvYumc7c8l1oNMZrx1HFeBtlJ4hgxdKHIHxy8aid9iGI0ruJpQ+YEAjHm0nmRIQMdFk
+ 1MJQ==
+X-Gm-Message-State: AOAM531iRxkkCJDyAXI8TFMHIubqhQHEhkq6KX39pthAXCldr5K1fXWl
+ pUhlY8SPXrpI0bDhV3eRJRXBiA==
+X-Google-Smtp-Source: ABdhPJxkB1+hIdcbUYUE1kpFcUSeQp8QyXRmiFqUkg3nIfTORYYZ8be8QnFQ8D4kae1TnKknxs4a/A==
+X-Received: by 2002:a17:902:db11:b0:13c:7a6e:4b57 with SMTP id
+ m17-20020a170902db1100b0013c7a6e4b57mr2025768plx.43.1632783184202; 
+ Mon, 27 Sep 2021 15:53:04 -0700 (PDT)
+Received: from google.com ([2620:15c:202:201:82d7:f099:76bc:7017])
+ by smtp.gmail.com with ESMTPSA id gk14sm172195pjb.35.2021.09.27.15.53.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 27 Sep 2021 15:53:03 -0700 (PDT)
+Date: Mon, 27 Sep 2021 15:53:00 -0700
+From: Brian Norris <briannorris@chromium.org>
+To: Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+Cc: Thomas Hebb <tommyhebb@gmail.com>, dri-devel@lists.freedesktop.org,
+ Chen-Yu Tsai <wenst@chromium.org>, linux-rockchip@lists.infradead.org,
+ Sandy Huang <hjc@rock-chips.com>, linux-kernel@vger.kernel.org,
+ aleksandr.o.makarov@gmail.com, stable@vger.kernel.org,
+ =?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>
+Subject: Re: [PATCH v2 1/3] drm/rockchip: dsi: Hold pm-runtime across
+ bind/unbind
+Message-ID: <YVJLTLuNHNAzVq5V@google.com>
+References: <20210927175944.3381314-1-briannorris@chromium.org>
+ <20210927105928.v2.1.Ic2904d37f30013a7f3d8476203ad3733c186827e@changeid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210927194344.avbex3qyw2swa7kz@gilmour>
+In-Reply-To: <20210927105928.v2.1.Ic2904d37f30013a7f3d8476203ad3733c186827e@changeid>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,117 +76,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 27, 2021 at 09:43:44PM +0200, Maxime Ripard wrote:
-> On Thu, Sep 23, 2021 at 03:29:37AM +0300, Laurent Pinchart wrote:
-> > Hi Maxime,
-> > 
-> > Thank you for the patch.
-> > 
-> > I know this has already been merged, but I have a question.
-> > 
-> > On Fri, Sep 10, 2021 at 03:09:39PM +0200, Maxime Ripard wrote:
-> > > Display drivers so far need to have a lot of boilerplate to first
-> > > retrieve either the panel or bridge that they are connected to using
-> > > drm_of_find_panel_or_bridge(), and then either deal with each with ad-hoc
-> > > functions or create a drm panel bridge through drm_panel_bridge_add.
-> > > 
-> > > In order to reduce the boilerplate and hopefully create a path of least
-> > > resistance towards using the DRM panel bridge layer, let's create the
-> > > function devm_drm_of_get_next to reduce that boilerplate.
-> > >
-> > > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> > > ---
-> > >  drivers/gpu/drm/drm_bridge.c | 42 ++++++++++++++++++++++++++++++++----
-> > >  drivers/gpu/drm/drm_of.c     |  3 +++
-> > >  include/drm/drm_bridge.h     |  2 ++
-> > >  3 files changed, 43 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > > index a8ed66751c2d..10ddca4638b0 100644
-> > > --- a/drivers/gpu/drm/drm_bridge.c
-> > > +++ b/drivers/gpu/drm/drm_bridge.c
-> > > @@ -28,6 +28,7 @@
-> > >  #include <drm/drm_atomic_state_helper.h>
-> > >  #include <drm/drm_bridge.h>
-> > >  #include <drm/drm_encoder.h>
-> > > +#include <drm/drm_of.h>
-> > >  #include <drm/drm_print.h>
-> > >  
-> > >  #include "drm_crtc_internal.h"
-> > > @@ -51,10 +52,8 @@
-> > >   *
-> > >   * Display drivers are responsible for linking encoders with the first bridge
-> > >   * in the chains. This is done by acquiring the appropriate bridge with
-> > > - * of_drm_find_bridge() or drm_of_find_panel_or_bridge(), or creating it for a
-> > > - * panel with drm_panel_bridge_add_typed() (or the managed version
-> > > - * devm_drm_panel_bridge_add_typed()). Once acquired, the bridge shall be
-> > > - * attached to the encoder with a call to drm_bridge_attach().
-> > > + * devm_drm_of_get_bridge(). Once acquired, the bridge shall be attached to the
-> > > + * encoder with a call to drm_bridge_attach().
-> > >   *
-> > >   * Bridges are responsible for linking themselves with the next bridge in the
-> > >   * chain, if any. This is done the same way as for encoders, with the call to
-> > > @@ -1233,6 +1232,41 @@ struct drm_bridge *of_drm_find_bridge(struct device_node *np)
-> > >  	return NULL;
-> > >  }
-> > >  EXPORT_SYMBOL(of_drm_find_bridge);
-> > > +
-> > > +/**
-> > > + * devm_drm_of_get_bridge - Return next bridge in the chain
-> > > + * @dev: device to tie the bridge lifetime to
-> > > + * @np: device tree node containing encoder output ports
-> > > + * @port: port in the device tree node
-> > > + * @endpoint: endpoint in the device tree node
-> > > + *
-> > > + * Given a DT node's port and endpoint number, finds the connected node
-> > > + * and returns the associated bridge if any, or creates and returns a
-> > > + * drm panel bridge instance if a panel is connected.
-> > > + *
-> > > + * Returns a pointer to the bridge if successful, or an error pointer
-> > > + * otherwise.
-> > > + */
-> > > +struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> > > +					  struct device_node *np,
-> > > +					  unsigned int port,
-> > > +					  unsigned int endpoint)
-> > > +{
-> > > +	struct drm_bridge *bridge;
-> > > +	struct drm_panel *panel;
-> > > +	int ret;
-> > > +
-> > > +	ret = drm_of_find_panel_or_bridge(np, port, endpoint,
-> > > +					  &panel, &bridge);
-> > > +	if (ret)
-> > > +		return ERR_PTR(ret);
-> > > +
-> > > +	if (panel)
-> > > +		bridge = devm_drm_panel_bridge_add(dev, panel);
-> > > +
-> > > +	return bridge;
-> > 
-> > I really like the idea, I've wanted to do something like this for a long
-> > time. I however wonder if this is the best approach, or if we could get
-> > the panel core to register the bridge itself. The part that bothers me
-> > here is the assymetry in the lifetime of the bridges, the returned
-> > pointer is either looked up or allocated.
-> > 
-> > Bridge lifetime is such a mess that it may not make a big difference,
-> > but eventually we'll have to address that problem globally.
+On Mon, Sep 27, 2021 at 10:59:42AM -0700, Brian Norris wrote:
+> In commit 43c2de1002d2, we moved most HW configuration to bind(), but we
+> didn't move the runtime PM management. Therefore, depending on initial
+> boot state, runtime-PM workqueue delays, and other timing factors, we
+> may disable our power domain in between the hardware configuration
+> (bind()) and when we enable the display. This can cause us to lose
+> hardware state and fail to configure our display. For example:
 > 
-> We can't have Rust soon enough :)
+>   dw-mipi-dsi-rockchip ff968000.mipi: failed to write command FIFO
+>   panel-innolux-p079zca ff960000.mipi.0: failed to write command 0
+> 
+> or:
+> 
+>   dw-mipi-dsi-rockchip ff968000.mipi: failed to write command FIFO
+>   panel-kingdisplay-kd097d04 ff960000.mipi.0: failed write init cmds: -110
+> 
+> We should match the runtime PM to the lifetime of the bind()/unbind()
+> cycle.
 
-:-) Jokes aside, Rust or C, this would need a design overhaul as a first
-step.
+Hmm, sorry to reply to my own patch so quickly, but after a bit more
+testing I'm finding we still have yet another problem here -- that
+suspend/resume does not work. For suspend/resume,
+drm_mode_config_helper_{suspend,resume}() are expecting to only do
+teardown/setup via disable()/enable() -- there is no re-bind() (which
+makes sense). But the DSI hardware state may be lost, so the resume-time
+enable() may find the panel initialization timing out yet again.
 
-> Does it really matter though? I thought the bridges couldn't be unloaded
-> from a DRM device anyway, so for all practical purposes this will be
-> removed at around the same time: when the whole DRM device is going to
-> be teared down?
+Possible solutions:
 
-Try to unbind a bridge device from its driver in sysfs, and it won't be
-pretty.
+(1) I can add PM suspend()/resume() operations just to call
+    dw_mipi_dsi_rockchip_config().
 
--- 
-Regards,
+(2) Switch back to using mode_set() for HW configuration, like the
+    downstream/BSP driver does (and the initial versions Rockchip and
+    later Heiko were working on did the same), since that's always
+    called at the right time before both panel and encoder enable().
+    That also happens to be where some other DSI drivers [1] do similar
+    init.
 
-Laurent Pinchart
+Have we been avoiding (2) just because that doesn't really match the
+intended purpose of the callback? I can't find any cleaner callback for
+this at the moment, and I'd rather not try to introduce entirely new drm
+helper callbacks just for this particularly-unfriendly sequence.
+
+I have a patch written for option (1), and may send a v3 soon to include
+that as well (because that's also a regression from the same commit).
+
+Brian
+
+[1] e.g., drivers/gpu/drm/bridge/nwl-dsi.c
