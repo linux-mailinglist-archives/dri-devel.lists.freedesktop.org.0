@@ -2,73 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD10E419F9F
-	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 21:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F318D41A122
+	for <lists+dri-devel@lfdr.de>; Mon, 27 Sep 2021 23:05:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8C5D589E0C;
-	Mon, 27 Sep 2021 19:57:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6D3706E513;
+	Mon, 27 Sep 2021 21:05:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x334.google.com (mail-ot1-x334.google.com
- [IPv6:2607:f8b0:4864:20::334])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CF4BB89E0C
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 19:57:46 +0000 (UTC)
-Received: by mail-ot1-x334.google.com with SMTP id
- 77-20020a9d0ed3000000b00546e10e6699so26035576otj.2
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 12:57:46 -0700 (PDT)
+Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
+ [IPv6:2607:f8b0:4864:20::82f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 354256E027
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 16:56:23 +0000 (UTC)
+Received: by mail-qt1-x82f.google.com with SMTP id t2so10725682qtx.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 09:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1ONQHO/Bzi5LFkOtwJS2vhWiuGqb/wIXJtxU1fHbPl8=;
- b=Wb7xiO1cI0MfWuS+695CXwjxtBdtVtrQvJDK9SFDz1vxh7CK3HOiUog8QJXp6qtWBL
- EL1KbLzoz+pYkbwOA24q0ibT8HzvO7QIIcPl35X9CIzWQzBHd2SS/aJR089sVLOfem9+
- i2BXO4Fe4jZMytYXFF4Gv74oA+ImkhvoOKDMU=
+ :cc; bh=LxG4HPV4FXiyd9Nx3Il3K8msxXap3JQb5VLOGuZR7VY=;
+ b=lg1n7FUxcNqWTq5zo6ikpYbbg1qh5zQzLTJ8zwUneGdbsMi0M8mPV5zE8+Xcnd4HAQ
+ gP4NyCqJ20CSOR+CPqKX/7qhd/sNzEYzCKw4BD4XJoCDHPDw+ma36rX2v5+8bAAdsQXE
+ 1U8inMUrBNXMZLxmcTjggGzHf9MKW1SPst+Sw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1ONQHO/Bzi5LFkOtwJS2vhWiuGqb/wIXJtxU1fHbPl8=;
- b=6La5BO0JTyg7fkx+Q9hJdaHm3/IzGL6kanFBsJ/5D2Rq5b3C/lXjrBVWKjgjl3gJGI
- Y2xpuUwAvPhzsDPAZK2W8mcMfSOgqhXgNjJVpT2SHF/XlhRaO3fpf4UcgSV+AygN+q+4
- fyryYtvsSFmyd3ycDf0v44/0tZT9NsdqkbEVo7+PFvQy2xDx4jKwr00fvKmLcLpkBfN5
- UOWNU8Av2lPRgCl1uNQUKANJi3Gb7Mqu+lBMKKvp26qnHIX7JynRyth0NLfI5MnyOzaL
- 6RwedGMdxvBspU088M+2hos+vFXC+XBoG1g9CuvTINf9ksDaZsx0QsleTZGFrkqwoC69
- L8WA==
-X-Gm-Message-State: AOAM532LcWGrbvnYfMypmmEdM1s51mMiiXWeirNcIzmh0lZaDT/PTiGu
- pBgo9osjn5mAWMJ6CR7Wzk32wop1auEozw==
-X-Google-Smtp-Source: ABdhPJz/0gzdMkGsdUGbt6DgrXrQKRxDhbhrZPD6j7rCXYtG+cF++RD8nioCa0t5umSZqIPo2paxlA==
-X-Received: by 2002:a05:6830:2690:: with SMTP id
- l16mr1582034otu.99.1632772665674; 
- Mon, 27 Sep 2021 12:57:45 -0700 (PDT)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com.
- [209.85.167.174])
- by smtp.gmail.com with ESMTPSA id n73sm4258271oig.20.2021.09.27.12.57.44
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 12:57:45 -0700 (PDT)
-Received: by mail-oi1-f174.google.com with SMTP id e24so17194415oig.11
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 12:57:44 -0700 (PDT)
-X-Received: by 2002:a54:4393:: with SMTP id u19mr659705oiv.77.1632772664480;
- Mon, 27 Sep 2021 12:57:44 -0700 (PDT)
+ bh=LxG4HPV4FXiyd9Nx3Il3K8msxXap3JQb5VLOGuZR7VY=;
+ b=77gf6U/8lrum/R/zvKIHAsNaWFewCjN2iUEfO5aC5dso4/HFFY3eSjEgx8f9BdD00f
+ d5x6Jj7jTAz+dHNGK5HcptGT1zaGW3edjcCG1bfNvYuwTqvObEI1fA3nD76lDMANBSp1
+ PS73fEaSL9DKnOSSl+uNkRuUnq/TkxX6m/vRazmZI8au9qC5vfHm0BeBBpfNGIjhPMJY
+ 28ouRr+2lPO7Q3S9qf/YgBUivYDfsn4cd9cfOgmXTPAcBdaB9710MEXV0g/IWBPv/nX7
+ RHg6NWZHqFok0bLZFKtQuYdQ21GtvwexvvdI5F7zyE/nG7ApGM0PizLYF+liMl3aTyfG
+ iOhQ==
+X-Gm-Message-State: AOAM5331fpQ+8Ra+hLj+/YfGtMbYSBybIVHgX9BBDueBaiwKgPQJmuB6
+ mSZnq9FWTMZvJkPUgr29fN32pT7y6/PuaEvJx9S4Rw==
+X-Google-Smtp-Source: ABdhPJxks+ildD0Q8dRhHE4wWhlya4id4tdrl9iWX9N3kBCiqQIO9AuMcdOLdKpmnSNIRpILzZVNT9+rwNTdRNHeUGM=
+X-Received: by 2002:ac8:1c6:: with SMTP id b6mr855002qtg.221.1632761781171;
+ Mon, 27 Sep 2021 09:56:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210927175944.3381314-1-briannorris@chromium.org>
- <20210927105928.v2.1.Ic2904d37f30013a7f3d8476203ad3733c186827e@changeid>
- <CAMcCCgS_r17Lj_qPX9TdH3=7D_tiXu9OzL=dDNS+9MZyOUv-+Q@mail.gmail.com>
-In-Reply-To: <CAMcCCgS_r17Lj_qPX9TdH3=7D_tiXu9OzL=dDNS+9MZyOUv-+Q@mail.gmail.com>
-From: Brian Norris <briannorris@chromium.org>
-Date: Mon, 27 Sep 2021 12:57:33 -0700
-X-Gmail-Original-Message-ID: <CA+ASDXMyaWfg07UEcbN_N4WBK=PzVO+SnwZ=VnjL2hJDWvOxDw@mail.gmail.com>
-Message-ID: <CA+ASDXMyaWfg07UEcbN_N4WBK=PzVO+SnwZ=VnjL2hJDWvOxDw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] drm/rockchip: dsi: Hold pm-runtime across
- bind/unbind
-To: Tom Hebb <tommyhebb@gmail.com>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- dri-devel <dri-devel@lists.freedesktop.org>, Chen-Yu Tsai <wenst@chromium.org>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sandy Huang <hjc@rock-chips.com>, 
- Linux Kernel <linux-kernel@vger.kernel.org>, aleksandr.o.makarov@gmail.com, 
- stable <stable@vger.kernel.org>, 
- =?UTF-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4gUHJhZG8=?= <nfraprado@collabora.com>
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+From: Steve Cho <stevecho@chromium.org>
+Date: Mon, 27 Sep 2021 09:56:10 -0700
+Message-ID: <CAC-pXoNT8AFA2j1DiD9M_uGb92fVcukTGDKVURaGjwpPstcwqQ@mail.gmail.com>
+Subject: Re: [PATCH v6, 00/15] Using component framework to support multi
+ hardware decode
+To: Yunfei Dong <yunfei.dong@mediatek.com>
+Cc: Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Tzung-Bi Shih <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Tomasz Figa <tfiga@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
+ Irui Wang <irui.wang@mediatek.com>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com, 
+ linux-mediatek@lists.infradead.org, 
+ Project_Global_Chrome_Upstream_Group@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Mon, 27 Sep 2021 21:05:15 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,29 +78,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 27, 2021 at 12:18 PM Tom Hebb <tommyhebb@gmail.com> wrote:
-> Reviewed-by: Thomas Hebb <tommyhebb@gmail.com>
+Hi Yunfei,
 
-Thanks!
+> This patch dependents on : "media: mtk-vcodec: support for MT8183 decoder"[1] and
+> "Mediatek MT8192 clock support"[2].
+>
+> 1: Multi hardware decode is based on stateless decoder, MT8183 is the first time
+> to add stateless decoder. Otherwise it will cause conflict. This patch will be
+> accepted in 5.15[1].
+Just a few basic questions. What kind of "conflict" are you expecting here?
+Are you referring to kernel "5.15" here?
+Probably not. If yes, then that sounds strange to me considering our
+current kernel uprev plans and current kernel used for MT8183.
 
-> Thank you for catching this, and sorry that my original fix broke things.
-> There had actually been a report of this breakage from my patch, but I
-> missed that email until it had already been merged and then didn't have
-> time to follow up on it. Totally my bad.
+> 2: The definition of decoder clocks are in mt8192-clk.h, this patch already in clk tree[2].
+>
+> [1]https://patchwork.linuxtv.org/project/linux-media/list/?series=5826
+This link seems to be no longer available.
 
-No worries. It was a 1 step forward, 1 step backward kind of a thing
-anyway -- things were broken in many cases before your patch too (with
-very similar-looking symptoms) -- so the net result is still good,
-having both issues fixed.
-
-I'm not sure how that ideally should have been handled [1], but it's
-totally fair to not have time to follow up on everything. At the
-worst, we could have reverted things; but again, I'm pretty sure
-things were broken just as well without your fix, just with a
-different root cause.
-
-Regards,
-Brian
-
-[1] Don't accept (or, revert?) your bugfix until what may or may not
-have been a regression is fixed? I'm not sure.
+> [2]https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git/commit/?h=clk-next&id=f35f1a23e0e12e3173e9e9dedbc150d139027189
