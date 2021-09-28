@@ -1,74 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7308441A510
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 04:02:03 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9AE941A65E
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 06:16:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 48A348930C;
-	Tue, 28 Sep 2021 02:01:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A92D78992E;
+	Tue, 28 Sep 2021 04:16:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
- [209.85.210.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2270F8930C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 02:01:57 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id
- g62-20020a9d2dc4000000b0054752cfbc59so21349855otb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 19:01:57 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 96F678992E
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 04:16:44 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id u18so85469240lfd.12
+ for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 21:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=eL8IYhkBbLYcNm7LWC+avj2icvoXrApd/DMgvG7Twyg=;
+ b=Eg8E7WnVcCUfLf8Ic979XRm2k2bRRRS5cfcByGjlYk3mZw++clN8E9Mu0gCn2g6jlc
+ DvNLz5lv3HRmcDkWz/2pi56Sq9GD884uDlV0wwmN8zU1fcmA/urMrQR6/KXxqYfP7/v0
+ mQoGiTMoWWRKzKyYckYDAauVPWpN/zkm1al4k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=J3oyr8Rc1kp36TSH+0CGDcud7uqcMHUrHD4DOkGCZTc=;
- b=tjxvvVMnd/GtClFdWGyIKeEI7jZqb+3K3usU6WePf9LrCYULYsEffYLPZJ/8ZKk5JN
- 8fGxu2IQZuqQC70nWQAP15c/oMNqcD0CB4dIk/tOtBNcMa9/Fzp8uIAZFt/R9gCSLvNW
- tObNFYdtupelHRe1gfNzU8JHoWniKmwqfnQk7h2pKuxTUAGf65jjXZGE8vDVM1frESax
- eMoJUnywJxm8eOz6nE5w28dhhiyXKdJW6S2e+1o87tW7JDfB4vv+sAaIs8bbYS4FQli3
- WK/n/xYXd/YT70X4ynmUzBoZcrUda9Xl0ym0mcBA/BHKBKdH5ThqMpB/I6mGevsWlHsk
- nCcQ==
-X-Gm-Message-State: AOAM533AdVMJeGh/AWUyc/+sWvbbcSwQ8KqENBSR+6Zg6Fzu3SwZNr8G
- rMyslOdRLAXLBWZJ/iGp0Q==
-X-Google-Smtp-Source: ABdhPJxmofC2Pg+ifvC8EinsHpDoNqFoCiNiA1LchXO444Z1BqdHhhC6xPxR6t6jiRY0TbLveoQuhw==
-X-Received: by 2002:a05:6830:3190:: with SMTP id
- p16mr2821543ots.85.1632794516215; 
- Mon, 27 Sep 2021 19:01:56 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id f3sm4232725oij.6.2021.09.27.19.01.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 27 Sep 2021 19:01:55 -0700 (PDT)
-Received: (nullmailer pid 84275 invoked by uid 1000);
- Tue, 28 Sep 2021 02:01:54 -0000
-Date: Mon, 27 Sep 2021 21:01:54 -0500
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: dri-devel@lists.freedesktop.org, Kees Cook <keescook@chromium.org>, 
- devicetree@vger.kernel.org, Mark Rutland <mark.rutland@arm.com>, 
- letux-kernel@openphoenux.org, Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Rob Herring <robh+dt@kernel.org>, linux-kernel@vger.kernel.org, 
- Maxime Ripard <maxime@cerno.tech>, Paul Boddie <paul@boddie.org.uk>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Liam Girdwood <lgirdwood@gmail.com>,
- linux-mips@vger.kernel.org, Mark Brown <broonie@kernel.org>, 
- Paul Cercueil <paul@crapouillou.net>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Neil Armstrong <narmstrong@baylibre.com>, Andrzej Hajda <a.hajda@samsung.com>, 
- Sam Ravnborg <sam@ravnborg.org>, Harry Wentland <harry.wentland@amd.com>, 
- Robert Foss <robert.foss@linaro.org>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Geert Uytterhoeven <geert+renesas@glider.be>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Ezequiel Garcia <ezequiel@collabora.com>, 
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jonas Karlman <jonas@kwiboo.se>
-Subject: Re: [PATCH v4 03/10] dt-bindings: display: Add
- ingenic,jz4780-dw-hdmi DT Schema
-Message-ID: <YVJ3khibGMFSdpN5@robh.at.kernel.org>
-References: <cover.1632761067.git.hns@goldelico.com>
- <6c8b72a03703de54fa02b29c1a53c84ca0889e50.1632761067.git.hns@goldelico.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=eL8IYhkBbLYcNm7LWC+avj2icvoXrApd/DMgvG7Twyg=;
+ b=DFJ5xfN+VEYlrQK7YMNYbg5wRwSzcaqVJkVCbnguYuRVlpLZdHK2TZWtvHqSXzQD2K
+ HqZWU05Tw61ejVVLIXadXKMQPUAg//nbpG+6q21D2TBJv5JdEE3LMPvRK3bmbBKqelp4
+ PBlJpVAF6f6WYsKArAkVr/tIiXkDPKdyc23658bc1TReJjso5z1KIUVAYiMlyJFYi/e+
+ 2zlCUMvLMQ+BCvCyoPbb1LK5JYDXhapGecHqf1sZK/zTCZ28rM7f/LH7xcQvMZTxCX0S
+ 5+GsyBpg6MAcgumQWDm0PXjQSZ5eW1Pc34ncCBJpmET6MHFQ/uYfbcPOqi5RjlGiQDf7
+ ot/Q==
+X-Gm-Message-State: AOAM530nqjDzaQfax3Iqsa7xx2NVLMeUWxU9WcOHRuejbKeNWi5u8r2O
+ OB5T6H9B/14dyGYfZuO+FMeG/WnSYkWvsv8r+ihBFA==
+X-Google-Smtp-Source: ABdhPJx8KGnrGRNzuf6NG48x9cD+ZD+NRNaWIdRd4p9u7i9UtAdmAM8/xxrYlRzBWfIl36gUQk5oYDUYQcbS4fqjI5U=
+X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr3397436lfq.597.1632802602866; 
+ Mon, 27 Sep 2021 21:16:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6c8b72a03703de54fa02b29c1a53c84ca0889e50.1632761067.git.hns@goldelico.com>
+References: <20210927175944.3381314-1-briannorris@chromium.org>
+ <20210927105928.v2.3.I8bb7a91ecc411d56bc155763faa15f289d7fc074@changeid>
+In-Reply-To: <20210927105928.v2.3.I8bb7a91ecc411d56bc155763faa15f289d7fc074@changeid>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Tue, 28 Sep 2021 12:16:31 +0800
+Message-ID: <CAGXv+5GxCHJM_CewS8dPTLc7NPC6jcKZvrUFat0nemzZpu8PUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/rockchip: dsi: Disable PLL clock on bind error
+To: Brian Norris <briannorris@chromium.org>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Thomas Hebb <tommyhebb@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Sandy Huang <hjc@rock-chips.com>, LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,65 +66,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Sep 2021 18:44:21 +0200, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
+On Tue, Sep 28, 2021 at 2:00 AM Brian Norris <briannorris@chromium.org> wrote:
+>
+> Fix some error handling here noticed in review of other changes.
+>
+> Reported-by: Chen-Yu Tsai <wenst@chromium.org>
+> Signed-off-by: Brian Norris <briannorris@chromium.org>
+
+Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi
+bridge driver")
+
+Otherwise,
+
+Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+
+Additionally, I would move patch 2 and this patch before the first patch,
+as these two fix a commit introduced in v5.0, while the first patch fixes
+something introduced in v5.14. This would make automatic backporting cleaner.
+
 > ---
->  .../bindings/display/ingenic-jz4780-hdmi.yaml | 85 +++++++++++++++++++
->  1 file changed, 85 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-> 
-
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:45:16: [error] syntax error: mapping values are not allowed here (syntax)
-
-dtschema/dtc warnings/errors:
-make[1]: *** Deleting file 'Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dts'
-Traceback (most recent call last):
-  File "/usr/local/bin/dt-extract-example", line 45, in <module>
-    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 434, in load
-    return constructor.get_single_data()
-  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 120, in get_single_data
-    node = self.composer.get_single_node()
-  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
-  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
-  File "_ruamel_yaml.pyx", line 891, in _ruamel_yaml.CParser._compose_mapping_node
-  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
-ruamel.yaml.scanner.ScannerError: mapping values are not allowed in this context
-  in "<unicode string>", line 45, column 16
-make[1]: *** [Documentation/devicetree/bindings/Makefile:20: Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dts] Error 1
-make[1]: *** Waiting for unfinished jobs....
-./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:  mapping values are not allowed in this context
-  in "<unicode string>", line 45, column 16
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml: ignoring, error parsing file
-warning: no schema found in file: ./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-make: *** [Makefile:1441: dt_binding_check] Error 2
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1533471
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
+>
+> Changes in v2:
+> - New
+>
+>  drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> index fa4080176719..0ed13d81fe60 100644
+> --- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> +++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
+> @@ -943,7 +943,7 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
+>         ret = clk_prepare_enable(dsi->grf_clk);
+>         if (ret) {
+>                 DRM_DEV_ERROR(dsi->dev, "Failed to enable grf_clk: %d\n", ret);
+> -               goto out_pm_runtime;
+> +               goto out_pll_clk;
+>         }
+>
+>         dw_mipi_dsi_rockchip_config(dsi);
+> @@ -955,17 +955,19 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
+>         ret = rockchip_dsi_drm_create_encoder(dsi, drm_dev);
+>         if (ret) {
+>                 DRM_DEV_ERROR(dev, "Failed to create drm encoder\n");
+> -               goto out_pm_runtime;
+> +               goto out_pll_clk;
+>         }
+>
+>         ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder);
+>         if (ret) {
+>                 DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
+> -               goto out_pm_runtime;
+> +               goto out_pll_clk;
+>         }
+>
+>         return 0;
+>
+> +out_pll_clk:
+> +       clk_disable_unprepare(dsi->pllref_clk);
+>  out_pm_runtime:
+>         pm_runtime_put(dsi->dev);
+>         if (dsi->slave)
+> --
+> 2.33.0.685.g46640cef36-goog
+>
