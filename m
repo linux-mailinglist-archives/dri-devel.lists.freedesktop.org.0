@@ -1,41 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEDA941ACF9
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:31:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E8E41AD19
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:36:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A1306E889;
-	Tue, 28 Sep 2021 10:30:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AB8046E0FE;
+	Tue, 28 Sep 2021 10:36:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20E0B6E0FE;
- Tue, 28 Sep 2021 10:30:50 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10120"; a="285682285"
-X-IronPort-AV: E=Sophos;i="5.85,329,1624345200"; d="scan'208";a="285682285"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 03:30:49 -0700
-X-IronPort-AV: E=Sophos;i="5.85,329,1624345200"; d="scan'208";a="553936688"
-Received: from ainunnax-mobl4.gar.corp.intel.com (HELO [10.214.171.82])
- ([10.214.171.82])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 03:30:47 -0700
-Subject: Re: [PATCH] drm/i915/ttm: Rework object initialization slightly
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com
-References: <20210927151017.287414-1-thomas.hellstrom@linux.intel.com>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <a3cdd992-6208-b0c9-72b1-191fd47c40a8@intel.com>
-Date: Tue, 28 Sep 2021 11:30:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+ [64.147.123.18])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 928EC6E0FE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:10 +0000 (UTC)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 5C0832B01640;
+ Tue, 28 Sep 2021 06:36:07 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 28 Sep 2021 06:36:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ 9CAzBpCk+Fgho6BP/hd1j78abxONOZuq+e3u0oP/sKM=; b=CpQmwhQZnprzB6b/
+ o8ZN+M7BWCrkZcThaC13gyDe4ZO3cKHNmVBoK5YZI4G9QMYhzA4LTAOhCdZP47Ql
+ NFtVgHtJtQr5wPSJG6BHarEkyhd5vbxbTqrYUrlG+Kzpg94SjTJiczgbLvVYJbAU
+ iCxFw9l+G9DFcTYZomhKK6Nib6ibpAQIcuVQf8Onhu0f2hgXxn2fHvvR7NxjXU4G
+ 42wmn8o6AchnQnZd/t/uTV0+33WsT2giZIodsBDWBaOgDFBkVTB76AENwrpM5DpM
+ WAKZJyR1OPPLTIL/TVtA99Fn2GB5jDf8N0C6Lmd9SiOtbinSa3yRkhjuqQmKMzVy
+ HqNX3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; bh=9CAzBpCk+Fgho6BP/hd1j78abxONOZuq+e3u0oP/s
+ KM=; b=kFb9crZmxH4yCHNF5KtbM772OXJsUhIAI28di4l12c8LjIAibzmClXvGh
+ SH9bJkKbvIyJzvP4hIY5MNYm7I1eHS/2rBkWPhC3hWRWnXtmOS9j43Y8a0J1tTK6
+ 73ZlJIcteVT3IL54+aoVUc1TwdpolJDfm7e98RagMb5Fi8OwMhm+WlBzlvLM0kbE
+ mIsjVYxGHL8/Fw/OQcQ+cD09L+TroSzRzs1s8RLaCXKaMEmdba+0YQF0Dy7x1Y5Z
+ UKSNB3z7HfTs+Z47VTvnEVsprbg0DFCxTtIQC4WTrN+YS+KZj23alA4BMyQqZHM1
+ g0flyxOtp8Ti7GodTb4zqUGjCmQAQ==
+X-ME-Sender: <xms:FvBSYbCcfYRlK6g2nRd7QcI32QE0JXltMMvzKCw_j3vh888EoM0rjQ>
+ <xme:FvBSYRjzd54YlnIWi1zSOnx_jBQWBVKpeEGYHT28QIVFPVK1uOJUMKqRPIbrxTvw3
+ s8fqZoiVkO3YtkA08k>
+X-ME-Received: <xmr:FvBSYWlp-h4LEgCO-HCk5chVKF2sONYEIEzai3LyZGVCYovOBjBwZyHigxT6BupKN1d60pyko4mvyCdXoqhsaLYwERKFfX6rF_mKoX3L>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgvdeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
+ mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+ htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
+ ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:FvBSYdyjAqugcTwZ_Ufr_QbKCZBQ7OCA1t_r0HT2yG2GSPhZygaSlA>
+ <xmx:FvBSYQQxa0Ll490CjOFrdQVMPNf4gS-BodA10Fvyhoa5F6xmq1IS7Q>
+ <xmx:FvBSYQYTRL4moJ8ppCCm3ua-6KF4gpKMV2kAAAtCiIu03h5GDo2DxQ>
+ <xmx:FvBSYcrireFDtLy9PrY0VPCizzatYDBOQbmFl5LSs3JvLql1ylaRQRdHA8g>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Sep 2021 06:36:05 -0400 (EDT)
+From: Maxime Ripard <maxime@cerno.tech>
+To: dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>
+Cc: Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ bcm-kernel-feedback-list@broadcom.com, Dom Cobley <dom@raspberrypi.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Emma Anholt <emma@anholt.net>,
+ linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
+ Tim Gover <tim.gover@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org
+Subject: Re: (subset) [PATCH v2 1/3] drm/probe-helper: Document
+ drm_helper_hpd_irq_event() return value
+Date: Tue, 28 Sep 2021 12:36:00 +0200
+Message-Id: <163282429896.583318.14263562633625523087.b4-ty@cerno.tech>
+X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20210914101724.266570-1-maxime@cerno.tech>
+References: <20210914101724.266570-1-maxime@cerno.tech>
 MIME-Version: 1.0
-In-Reply-To: <20210927151017.287414-1-thomas.hellstrom@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,76 +93,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 27/09/2021 16:10, Thomas Hellström wrote:
-> We may end up in i915_ttm_bo_destroy() in an error path before the
-> object is fully initialized. In that case it's not correct to call
-> __i915_gem_free_object(), because that function
-> a) Assumes the gem object refcount is 0, which it isn't.
-> b) frees the placements which are owned by the caller until the
-> init_object() region ops returns successfully. Fix this by providing
-> a lightweight cleanup function i915_gem_object_fini() which is also
-> called by __i915_gem_free_object().
+On Tue, 14 Sep 2021 12:17:22 +0200, Maxime Ripard wrote:
+> The documentation of the drm_helper_hpd_irq_event() function didn't
+> document the value that function was returning. Add that part as well.
 > 
-> While doing this, also make sure we call dma_resv_fini() as part of
-> ordinary object destruction and not from the RCU callback that frees
-> the object. This will help track down bugs where the object is incorrectly
-> locked from an RCU lookup.
 > 
-> Finally, make sure the object isn't put on the region list until it's
-> either locked or fully initialized in order to block list processing of
-> partially initialized objects.
-> 
-> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.c | 18 ++++++++++--
->   drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 ++
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 32 +++++++++++++---------
->   3 files changed, 38 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> index 6fb9afb65034..244e555f9bba 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-> @@ -89,6 +89,20 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
->   	mutex_init(&obj->mm.get_dma_page.lock);
->   }
->   
-> +/**
-> + * i915_gem_object_fini - Clean up a GEM object initialization
-> + * @obj: The gem object cleanup
-> + *
-> + * This function cleans up gem object fields that are set up by
-> + * drm_gem_private_object_init() and i915_gem_object_init().
-> + */
-> +void i915_gem_object_fini(struct drm_i915_gem_object *obj)
-> +{
-> +	mutex_destroy(&obj->mm.get_page.lock);
-> +	mutex_destroy(&obj->mm.get_dma_page.lock);
-> +	dma_resv_fini(&obj->base._resv);
-> +}
-> +
->   /**
->    * Mark up the object's coherency levels for a given cache_level
->    * @obj: #drm_i915_gem_object
-> @@ -174,7 +188,6 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
->   		container_of(head, typeof(*obj), rcu);
->   	struct drm_i915_private *i915 = to_i915(obj->base.dev);
->   
-> -	dma_resv_fini(&obj->base._resv);
->   	i915_gem_object_free(obj);
->   
->   	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
-> @@ -223,7 +236,6 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
->   						       obj_link))) {
->   			GEM_BUG_ON(vma->obj != obj);
->   			spin_unlock(&obj->vma.lock);
-> -
->   			__i915_vma_put(vma);
 
-Unrelated change?
+Applied to drm/drm-misc (drm-misc-next).
 
-Not seeing any DG1 machines in CI currently, so assuming this was tested 
-locally,
-Reviewed-by: Matthew Auld <matthew.auld@intel.com>
-
-
+Thanks!
+Maxime
