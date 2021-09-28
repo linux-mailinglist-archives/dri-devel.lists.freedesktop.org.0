@@ -2,62 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FDC941B96B
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 23:36:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C290F41B982
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 23:40:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 38C7C6E9C9;
-	Tue, 28 Sep 2021 21:36:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 83D7F6E9C7;
+	Tue, 28 Sep 2021 21:40:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com
- [IPv6:2607:f8b0:4864:20::102c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1493D6E9C4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 21:36:13 +0000 (UTC)
-Received: by mail-pj1-x102c.google.com with SMTP id
- u1-20020a17090ae00100b0019ec31d3ba2so2674620pjy.1
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 14:36:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=1LNSqUpNDlXbVZHt+Lb7O7KY/KMDbp0tDoKUCa6MfgQ=;
- b=BSP9s5A6HNs96Xx3gqzT+DHPRVUCnZ4QKZEF4NOnGWm0ur51PvnoX9wbs02LwzNzwQ
- ul1lq7z8w8PFSB7SbjCJH01zZU7Hv604HAD2e1CjM1A/DQG+YJQVbteLvOHVwYSQw9UH
- TCehEAZQTlJrOdXrob7IQA9eZy1fITvLTASSE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=1LNSqUpNDlXbVZHt+Lb7O7KY/KMDbp0tDoKUCa6MfgQ=;
- b=MSw0qMSmlrDCBBbRpNt5WPeqyVIR46PAr0jd3XZZJGxt9xK1LqKPAfmkXyS4GIwqA5
- 88cWfsUiOKN5tlBvIldOpi+Le7Bk++T1FlJSY7NL1B6NwVv/r10gd8F4teo0aGea7DZX
- 827X1W59W7T8uVkUHstKBJ0cbzlMUBAis5lIZmNPKPfy4R526UtL5DMlZK3xWCNQ8Uqm
- 0c9P9uy9KWAx5LYmB4NJ+EksvK3r0yxqiw6Dc59YTv7Eu8dRPsIzKnb0H7gt4XA3WnqI
- qEvmROMWgoiaheUQcbCPRYhX7QeYyidJg5Fhig2jGW659mWuNULtUY+pJP3fHRozuS7n
- wPHA==
-X-Gm-Message-State: AOAM530CE1YAAhaEU5HOopWRtpP30GUBwRE3Cb8OkkntXpa4H/fehM7D
- 0Vt0hQKPPIvwXOVMFpKfJI1Ehw==
-X-Google-Smtp-Source: ABdhPJxjbWSkdJdJzilKLHeRp1lHIcZWzW4YtepNGEvc8VW+u0wUL7tQbw8C+0nidF1DgUI3HUWpyw==
-X-Received: by 2002:a17:90b:1d12:: with SMTP id
- on18mr2316906pjb.180.1632864972431; 
- Tue, 28 Sep 2021 14:36:12 -0700 (PDT)
-Received: from localhost ([2620:15c:202:201:d7ca:580:94ab:8af8])
- by smtp.gmail.com with UTF8SMTPSA id i24sm76520pjl.8.2021.09.28.14.36.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 28 Sep 2021 14:36:11 -0700 (PDT)
-From: Brian Norris <briannorris@chromium.org>
-To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
- Chen-Yu Tsai <wenst@chromium.org>, Thomas Hebb <tommyhebb@gmail.com>,
- Brian Norris <briannorris@chromium.org>
-Subject: [PATCH v3 4/4] drm/rockchip: dsi: Disable PLL clock on bind error
-Date: Tue, 28 Sep 2021 14:35:52 -0700
-Message-Id: <20210928143413.v3.4.I8bb7a91ecc411d56bc155763faa15f289d7fc074@changeid>
-X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
-In-Reply-To: <20210928213552.1001939-1-briannorris@chromium.org>
-References: <20210928213552.1001939-1-briannorris@chromium.org>
+Received: from mail.skyhub.de (mail.skyhub.de [IPv6:2a01:4f8:190:11c2::b:1457])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD4556E9C7;
+ Tue, 28 Sep 2021 21:40:35 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f13b200371079131a9f19c8.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f13:b200:3710:7913:1a9f:19c8])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 185C51EC06C1;
+ Tue, 28 Sep 2021 23:40:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1632865234;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:in-reply-to:in-reply-to:  references:references;
+ bh=3zAlBZi1O1Z7iGiOtlzR59oObKF3oTwf3vRM6tWoLcY=;
+ b=K5Ca7t9hqqMM2deF0li2lbysEHXsHTs91GSL2ZqKLhzfX9w19AiIGCNaZ3Y63sCu3hsepG
+ fIbQEa5D8HQEE2RRoDDCLkqS/Fxfaghkv3CiOoHYu4QVTSTfUfcSzUHkFkeeRHlHYg9afU
+ kuT2sPlWmWHkAbKxJ37GJ775LHgIgQc=
+Date: Tue, 28 Sep 2021 23:40:28 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: "Kuppuswamy, Sathyanarayanan" <sathyanarayanan.kuppuswamy@linux.intel.com>
+Cc: LKML <linux-kernel@vger.kernel.org>, Andi Kleen <ak@linux.intel.com>,
+ Andy Lutomirski <luto@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Baoquan He <bhe@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Young <dyoung@redhat.com>,
+ David Airlie <airlied@linux.ie>, Heiko Carstens <hca@linux.ibm.com>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Paul Mackerras <paulus@samba.org>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Will Deacon <will@kernel.org>,
+ Christoph Hellwig <hch@infradead.org>, x86@kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kexec@lists.infradead.org
+Subject: Re: [PATCH v4 0/8] Implement generic cc_platform_has() helper function
+Message-ID: <YVOLzMwyXP3ZSR0F@zn.tnic>
+References: <20210928191009.32551-1-bp@alien8.de>
+ <80593893-c63b-d481-45f1-42a3a6fd762a@linux.intel.com>
+ <YVN7vPE/7jecXcJ/@zn.tnic>
+ <7319b756-55dc-c4d1-baf6-4686f0156ac4@linux.intel.com>
+ <YVOB3mFV1Kj3MXAs@zn.tnic>
+ <695a3bf6-5382-68df-3ab5-8841b777fca2@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <695a3bf6-5382-68df-3ab5-8841b777fca2@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,60 +78,22 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix some error handling here noticed in review of other changes.
+On Tue, Sep 28, 2021 at 02:01:57PM -0700, Kuppuswamy, Sathyanarayanan wrote:
+> Yes. But, since the check is related to TDX, I just want to confirm whether
+> you are fine with naming the function as intel_*().
 
-Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi bridge driver")
-Signed-off-by: Brian Norris <briannorris@chromium.org>
-Reported-by: Chen-Yu Tsai <wenst@chromium.org>
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
----
+Why is this such a big of a deal?!
 
-Changes in v3:
-- Add Fixes, Reviewed-by
+There's amd_cc_platform_has() and intel_cc_platform_has() will be the
+corresponding Intel version.
 
-Changes in v2:
-- New
+> Since this patch is going to have dependency on TDX code, I will include
+> this patch in TDX patch set.
 
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Ok.
 
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index 8ea852880d1c..59c3d8ef6bf9 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -945,7 +945,7 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
- 	ret = clk_prepare_enable(dsi->grf_clk);
- 	if (ret) {
- 		DRM_DEV_ERROR(dsi->dev, "Failed to enable grf_clk: %d\n", ret);
--		goto out_pm_runtime;
-+		goto out_pll_clk;
- 	}
- 
- 	dw_mipi_dsi_rockchip_config(dsi);
-@@ -957,19 +957,21 @@ static int dw_mipi_dsi_rockchip_bind(struct device *dev,
- 	ret = rockchip_dsi_drm_create_encoder(dsi, drm_dev);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "Failed to create drm encoder\n");
--		goto out_pm_runtime;
-+		goto out_pll_clk;
- 	}
- 
- 	ret = dw_mipi_dsi_bind(dsi->dmd, &dsi->encoder);
- 	if (ret) {
- 		DRM_DEV_ERROR(dev, "Failed to bind: %d\n", ret);
--		goto out_pm_runtime;
-+		goto out_pll_clk;
- 	}
- 
- 	dsi->dsi_bound = true;
- 
- 	return 0;
- 
-+out_pll_clk:
-+	clk_disable_unprepare(dsi->pllref_clk);
- out_pm_runtime:
- 	pm_runtime_put(dsi->dev);
- 	if (dsi->slave)
 -- 
-2.33.0.685.g46640cef36-goog
+Regards/Gruss,
+    Boris.
 
+https://people.kernel.org/tglx/notes-about-netiquette
