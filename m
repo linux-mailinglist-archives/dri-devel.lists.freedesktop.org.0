@@ -1,93 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B0FE41B8EE
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 23:04:27 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC3641B90F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 23:11:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43DF06E99C;
-	Tue, 28 Sep 2021 21:04:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E61C56E2C8;
+	Tue, 28 Sep 2021 21:11:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A79346E99C
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 21:04:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632863061;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wr4pGocdlgbpHNQZjncQtWMxPCsDg6ua30ksGUh8IrE=;
- b=YoIcbNUFKt7hqD86li3yoFkS/h3Jer6a2VneQfUN0kYM8wqrpBLQFwGaMz5BGBus15Px1u
- Xx6l4nSkRm5fudABJh+nNgmsEA6MXNRMosWGhrf1QTAKgWYHt1gHQcgvtoCpoVZQXf2dGc
- P9adw9BoxtBq3CTeCglM+edeukkbpTw=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-DPCXODn3O6yIcYE20b4vtw-1; Tue, 28 Sep 2021 17:04:19 -0400
-X-MC-Unique: DPCXODn3O6yIcYE20b4vtw-1
-Received: by mail-qv1-f70.google.com with SMTP id
- dl13-20020ad44e0d000000b0038263927ea7so383415qvb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 14:04:19 -0700 (PDT)
+Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com
+ [IPv6:2607:f8b0:4864:20::233])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81DF76E2C8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 21:11:24 +0000 (UTC)
+Received: by mail-oi1-x233.google.com with SMTP id s24so160480oij.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 14:11:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GbWbdXoE6xizT93Ir1J+j8iVAb59AF1M9auCdjMcU/k=;
+ b=Gvk4k0KCH+SlNhOJ0Stmp1mxeWcf6ruIlB+ap3tB4f01wMLb27p05OE3EuTY7jaeq7
+ W6Dn5uSacPdSwrpM7NFs9L/MtpzPkRCdho4h8fGY1t3Hgayqan7w4QBHqWemtNbjSx4U
+ uK/0Yr2FIYVjmkyTGuDL8sUJ0HacDzIfozl2o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=wr4pGocdlgbpHNQZjncQtWMxPCsDg6ua30ksGUh8IrE=;
- b=Pl0jMwwtQplkxGv1vzb8SkKQXqvu+qNkX05IXXKhDsGLYedz3lPmzaPw+DVM1s8TS8
- SJDhUZKxGaHr0UGbuWOiTzH8FHbAPjL2OzQkD/KxNYDuB9S8YJFyPfRYnSSowhtHv0w6
- cZZPBNnjKB3kK/S0JOohOtIjJjGv84H91f1KVjWLEe5sQcbQJNqEzFmyVKGEtgLD0yfL
- sUMeFd9gT+jaEeCWY5XQz99tsw8h03R2cuhQK5Cfu4sfcakiMaX9czXFlGCDRSjKUPxf
- S3icBxsDmPpKHXvgXCk6Yj4MvjdXC3VeTNoY3sjSsvDb2bTq80uNTECp2CTXj2Tw1BhA
- 7tcg==
-X-Gm-Message-State: AOAM532NmFBXpG7hDn2VTHH+sHCDCTHo23Iuva+RtD1ib5VmG+SNJ8Hs
- V5MFNCpsEEhQ/mh53i+2oDdrWs5hynCJs0Nx/hmuMXxqP3+Brj8J6R5mjI7Bn8iJjiYXhS1OiSl
- 4a0RPe9oi9pPr6sE9K5N4CpS/yCLm
-X-Received: by 2002:a05:622a:164b:: with SMTP id
- y11mr8017229qtj.310.1632863058915; 
- Tue, 28 Sep 2021 14:04:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxMqugv0AWsDrgkfAZii9ACpGK/1bgFIpz4wc6OcxKr+tsd/H/yJ7Xr/NdDBAdDi11PjOcp9w==
-X-Received: by 2002:a05:622a:164b:: with SMTP id
- y11mr8017205qtj.310.1632863058670; 
- Tue, 28 Sep 2021 14:04:18 -0700 (PDT)
-Received: from [192.168.8.206] (pool-96-230-249-157.bstnma.fios.verizon.net.
- [96.230.249.157])
- by smtp.gmail.com with ESMTPSA id d24sm223902qka.7.2021.09.28.14.04.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 14:04:18 -0700 (PDT)
-Message-ID: <dd2578c87323918e316cd7429b36b329542fd13f.camel@redhat.com>
-Subject: Re: [PATCH 2/3] drm/dp, drm/i915: Add support for VESA backlights
- using PWM for brightness control
-From: Lyude Paul <lyude@redhat.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Intel Graphics <intel-gfx@lists.freedesktop.org>, dri-devel
- <dri-devel@lists.freedesktop.org>, Rajeev Nandan <rajeevny@codeaurora.org>,
- Satadru Pramanik <satadru@gmail.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
- <rodrigo.vivi@intel.com>,  Ben Skeggs <bskeggs@redhat.com>, Ville
- =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,  Sean Paul
- <seanpaul@chromium.org>, open list <linux-kernel@vger.kernel.org>, "open
- list:DRM DRIVER FOR NVIDIA GEFORCE/QUADRO GPUS"
- <nouveau@lists.freedesktop.org>
-Date: Tue, 28 Sep 2021 17:04:16 -0400
-In-Reply-To: <CAD=FV=V00-z=zvh6oZVYt7Hw00o07zEYxCa4zMrCmgNKEzcBCw@mail.gmail.com>
-References: <20210927201206.682788-1-lyude@redhat.com>
- <20210927201206.682788-3-lyude@redhat.com>
- <CAD=FV=V00-z=zvh6oZVYt7Hw00o07zEYxCa4zMrCmgNKEzcBCw@mail.gmail.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GbWbdXoE6xizT93Ir1J+j8iVAb59AF1M9auCdjMcU/k=;
+ b=pm8uta1BN1wmQMcJ1ymFBEZY7SzZRd8gIknLAINRNYGbnOyXJAUw2qfLCmPJ1RstdK
+ RXH7YtRHXvLf16+43HHNAmBQuNDYYi+lpn+bRnL6CztdpDZhuwhdEses3NJ1opvgYETM
+ r7xzNKpHy3T0UqDVAZftqSLbnFRmc0vfRj+OVsVMeMqPjptadZd3ji3LDCva/Rl+GWqZ
+ LEdbuFvx1JU1DXpAqzxbVSmnFQJs4rpKhUmAZirC42lmR23B6YFzCg+9PpBROtUzbV4Q
+ HtYmiezFuOk67+9Ya709YmOpYdIjsvaG1j+eI0V5JDiduuKcH6HIwiV+BLRs2zyBidHF
+ KoIg==
+X-Gm-Message-State: AOAM531HEBUTt51XFqYkAmOOJLYHDU2+aiJMp3OkBqGLu+TD6hyaVful
+ 5jDTMkTuvQZbjdUwyUDY3uUzrD4WZISGkw==
+X-Google-Smtp-Source: ABdhPJyX6OHg3fBib5pu1FP2gdFzMoLr88rCdIrTp6AHK9/qOIeO0aQzFJ8RKtMUgnQWqFZuo5F27g==
+X-Received: by 2002:aca:5887:: with SMTP id m129mr5094895oib.123.1632863483266; 
+ Tue, 28 Sep 2021 14:11:23 -0700 (PDT)
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com.
+ [209.85.161.48])
+ by smtp.gmail.com with ESMTPSA id r188sm67539oie.7.2021.09.28.14.11.21
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Sep 2021 14:11:22 -0700 (PDT)
+Received: by mail-oo1-f48.google.com with SMTP id
+ v17-20020a4ae051000000b002b5a56e3da3so80006oos.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 14:11:21 -0700 (PDT)
+X-Received: by 2002:a4a:c292:: with SMTP id b18mr6742668ooq.64.1632863481392; 
+ Tue, 28 Sep 2021 14:11:21 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210927175944.3381314-1-briannorris@chromium.org>
+ <20210927105928.v2.3.I8bb7a91ecc411d56bc155763faa15f289d7fc074@changeid>
+ <CAGXv+5GxCHJM_CewS8dPTLc7NPC6jcKZvrUFat0nemzZpu8PUQ@mail.gmail.com>
+In-Reply-To: <CAGXv+5GxCHJM_CewS8dPTLc7NPC6jcKZvrUFat0nemzZpu8PUQ@mail.gmail.com>
+From: Brian Norris <briannorris@chromium.org>
+Date: Tue, 28 Sep 2021 14:11:10 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXO_hHa2fmkNuitxp=r2nBk4-gdZHk9PrHPbmMhLye9w_g@mail.gmail.com>
+Message-ID: <CA+ASDXO_hHa2fmkNuitxp=r2nBk4-gdZHk9PrHPbmMhLye9w_g@mail.gmail.com>
+Subject: Re: [PATCH v2 3/3] drm/rockchip: dsi: Disable PLL clock on bind error
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+ Thomas Hebb <tommyhebb@gmail.com>, dri-devel <dri-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ Sandy Huang <hjc@rock-chips.com>, LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -103,119 +79,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-09-28 at 13:00 -0700, Doug Anderson wrote:
-> Hi,
-> 
-> 
-> I'm not sure I understand the comment above. You say "enabled/disabled
-> via PWM" and that doesn't make sense w/ my mental model. Normally I
-> think of a PWM allowing you to adjust the brightness and there being a
-> separate GPIO that's in charge of enable/disable. To some extent you
+On Mon, Sep 27, 2021 at 9:16 PM Chen-Yu Tsai <wenst@chromium.org> wrote:
+>
+> On Tue, Sep 28, 2021 at 2:00 AM Brian Norris <briannorris@chromium.org> wrote:
+> >
+> > Fix some error handling here noticed in review of other changes.
+> >
+> > Reported-by: Chen-Yu Tsai <wenst@chromium.org>
+> > Signed-off-by: Brian Norris <briannorris@chromium.org>
+>
+> Fixes: 2d4f7bdafd70 ("drm/rockchip: dsi: migrate to use dw-mipi-dsi
+> bridge driver")
+>
+> Otherwise,
+>
+> Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
 
-Oops - you're completely right, it is a GPIO pin and I got myself
-confused since in i915 I'm the chipset-specific callbacks for turning
-the panel on are intertwined with the PWM callbacks.
+I'll add these tags, thanks.
 
-> could think of a PWM as being "disabled" when its duty cycle is 0%,
-> but usually there's separate "enable" logic that really has nothing to
-> do with the PWM itself.
-> 
-> In general, it seems like the options are:
-> 
-> 1. DPCD controls PWM and the "enable" logic.
-> 
-> 2. DPCD controls PWM but requires an external "enable" GPIO.
-> 
-> 3. We require an external PWM but DPCD controls the "enable" logic.
-> 
-> Maybe you need a second "capability" to describe whether the client of
-> your code knows how to control an enable GPIO? ...or perhaps better
-> you don't need a capability and you can just assume that if the client
-> needs to set an "enable" GPIO that it will do so. That would match how
-> things work today. AKA:
-> 
-> a) Client calls the AUX backlight code to "enable"
-> 
-> b) AUX backlight code will set the "enable" bit if supported.
-> 
-> c) Client will set the "enable" GPIO if it knows about one.
-> 
-> Presumably only one of b) or c) will actually do something. If neither
-> does something then this panel simply isn't compatible with this
-> board.
+> Additionally, I would move patch 2 and this patch before the first patch,
+> as these two fix a commit introduced in v5.0, while the first patch fixes
+> something introduced in v5.14. This would make automatic backporting cleaner.
 
-I will definitely take note from this explanation and rewrite some of
-the helper docs I'm updating to reflect this, thank you!
+Personally, I prioritize putting user-visible fixes first, and more
+cosmetic things (like error handling that we ~never hit) later. Also,
+the buggy commit was already backported to all still-supported stable
+releases where it was relevant (i.e., 5.4+), so if these get
+backported, they all should.
 
-Being that I think panel drivers are basically the only other user of
-this driver, if you think this is the way to go I'm OK with this. My
-original reasoning for having a cap for this was worrying about the ARM
-drivers handling this, along with potentially changing backlight
-behavior in nouveau. I'm realizing now though that those are probably
-problems for nouveau and not the helper, and I could probably avoid
-hitting any issues by just adding some additional DPCD checks for GPIO
-enabling/PWM passthrough in nouveau itself.
+Regards,
+Brian
 
-So I'll drop the cap in the next respin of this
-> 
-> 
-> > +/**
-> > + * drm_edp_backlight_supported() - Check an eDP DPCD for VESA backlight
-> > support
-> > + * @aux: The AUX channel, only used for debug logging
-> > + * @edp_dpcd: The DPCD to check
-> > + * @caps: The backlight capabilities this driver supports
-> > + *
-> > + * Returns: %True if @edp_dpcd indicates that VESA backlight controls are
-> > supported, %false
-> > + * otherwise
-> > + */
-> > +bool drm_edp_backlight_supported(struct drm_dp_aux *aux,
-> > +                                const u8
-> > edp_dpcd[EDP_DISPLAY_CTL_CAP_SIZE],
-> > +                                enum drm_edp_backlight_driver_caps caps)
-> > +{
-> > +       if (!(edp_dpcd[1] & DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP))
-> > +               return false;
-> > +
-> > +       if (!(caps & DRM_EDP_BACKLIGHT_DRIVER_CAP_PWM) &&
-> > +           (!(edp_dpcd[2] & DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP) ||
-> > +            !(edp_dpcd[2] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP))) {
-> 
-> Elsewhere you match DP_EDP_BACKLIGHT_AUX_ENABLE_CAP against
-> edp_dpcd[1]. Here you match against [2]. Are you sure that's correct?
-
-absolutely not! thank you for catching this
-
-> 
-> 
-> >  /*
-> >   * DisplayPort AUX channel
-> >   */
-> > @@ -2200,7 +2182,11 @@ drm_dp_has_quirk(const struct drm_dp_desc *desc,
-> > enum drm_dp_quirk quirk)
-> >   * @pwm_freq_pre_divider: The PWM frequency pre-divider value being used
-> > for this backlight, if any
-> >   * @max: The maximum backlight level that may be set
-> >   * @lsb_reg_used: Do we also write values to the
-> > DP_EDP_BACKLIGHT_BRIGHTNESS_LSB register?
-> > - * @aux_enable: Does the panel support the AUX enable cap?
-> > + * @aux_enable: Does the panel support the AUX enable cap? Always %false
-> > when the driver doesn't
-> > + * support %DRM_EDP_BACKLIGHT_DRIVER_CAP_PWM
-> 
-> Why is aux_enable always false if it doesn't support
-> DRM_EDP_BACKLIGHT_DRIVER_CAP_PWM? It doesn't seem like the code
-> enforces this and I'm not sure why it would. Am I confused?
-
-This was mainly just to keep the behavior identical for drivers that
-didn't support controlling backlights like this, but re: the response I
-wrote up above I think we can just totally drop the caps.
-
-> 
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+[1] 43c2de1002d2 drm/rockchip: dsi: move all lane config except LCDC
+mux to bind()
