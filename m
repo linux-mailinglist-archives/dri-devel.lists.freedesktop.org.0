@@ -1,48 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E8E41AD19
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:36:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD6341AD1B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:36:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB8046E0FE;
-	Tue, 28 Sep 2021 10:36:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 195DD6E104;
+	Tue, 28 Sep 2021 10:36:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
  [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 928EC6E0FE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:10 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 5C0832B01640;
- Tue, 28 Sep 2021 06:36:07 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 058E06E104
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:12 +0000 (UTC)
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailnew.west.internal (Postfix) with ESMTP id BC1BF2B01641;
+ Tue, 28 Sep 2021 06:36:10 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 28 Sep 2021 06:36:08 -0400
+ by compute3.internal (MEProxy); Tue, 28 Sep 2021 06:36:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- 9CAzBpCk+Fgho6BP/hd1j78abxONOZuq+e3u0oP/sKM=; b=CpQmwhQZnprzB6b/
- o8ZN+M7BWCrkZcThaC13gyDe4ZO3cKHNmVBoK5YZI4G9QMYhzA4LTAOhCdZP47Ql
- NFtVgHtJtQr5wPSJG6BHarEkyhd5vbxbTqrYUrlG+Kzpg94SjTJiczgbLvVYJbAU
- iCxFw9l+G9DFcTYZomhKK6Nib6ibpAQIcuVQf8Onhu0f2hgXxn2fHvvR7NxjXU4G
- 42wmn8o6AchnQnZd/t/uTV0+33WsT2giZIodsBDWBaOgDFBkVTB76AENwrpM5DpM
- WAKZJyR1OPPLTIL/TVtA99Fn2GB5jDf8N0C6Lmd9SiOtbinSa3yRkhjuqQmKMzVy
- HqNX3g==
+ RwK92zCAcula3MPBBDktxTII0lM1AId0zn4FPopqJBE=; b=l+tRcVsSKoY/BzSD
+ XUgC5S7Z7jGsbgXjFmiD9kZOjvt5xCcyF2HdjpZqrnCrnuHS5JsL5zon5aoND9ka
+ FPylnp2todRNRYdpeRbml9UKBZZN7zzCvxz7LuvFnf5kVeEexJDVxBEgb2sOSiW9
+ RkJR8lcytnvVpYuwfQbd+EVDL3CNaMQj/MAgVmc0Gs5z7sMLoNZ2e6ZrVmqC9r2k
+ gXR0JwWytoUT85RjA79GXBoYNWUawBc+9suBq/pqc8k337xOMf7tsj0WU3RWty8K
+ 0M2R53fp42kKlSEe1mQPvcrn0MBt/jo7d7RWbn5M57y8/FQYIpyTOUBTsVbFIb9l
+ 9E8ttg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=9CAzBpCk+Fgho6BP/hd1j78abxONOZuq+e3u0oP/s
- KM=; b=kFb9crZmxH4yCHNF5KtbM772OXJsUhIAI28di4l12c8LjIAibzmClXvGh
- SH9bJkKbvIyJzvP4hIY5MNYm7I1eHS/2rBkWPhC3hWRWnXtmOS9j43Y8a0J1tTK6
- 73ZlJIcteVT3IL54+aoVUc1TwdpolJDfm7e98RagMb5Fi8OwMhm+WlBzlvLM0kbE
- mIsjVYxGHL8/Fw/OQcQ+cD09L+TroSzRzs1s8RLaCXKaMEmdba+0YQF0Dy7x1Y5Z
- UKSNB3z7HfTs+Z47VTvnEVsprbg0DFCxTtIQC4WTrN+YS+KZj23alA4BMyQqZHM1
- g0flyxOtp8Ti7GodTb4zqUGjCmQAQ==
-X-ME-Sender: <xms:FvBSYbCcfYRlK6g2nRd7QcI32QE0JXltMMvzKCw_j3vh888EoM0rjQ>
- <xme:FvBSYRjzd54YlnIWi1zSOnx_jBQWBVKpeEGYHT28QIVFPVK1uOJUMKqRPIbrxTvw3
- s8fqZoiVkO3YtkA08k>
-X-ME-Received: <xmr:FvBSYWlp-h4LEgCO-HCk5chVKF2sONYEIEzai3LyZGVCYovOBjBwZyHigxT6BupKN1d60pyko4mvyCdXoqhsaLYwERKFfX6rF_mKoX3L>
+ :x-sasl-enc; s=fm3; bh=RwK92zCAcula3MPBBDktxTII0lM1AId0zn4FPopqJ
+ BE=; b=cEBRJtLtWMGAFQwgl8j7poxmvF04fDxr/haBxO6JSLVGe+X62sHZMCQkk
+ AdoHs/0OZo4VN11bVUaZqS/kFzw4CurLZRl4WWUvdoEW9+hhDYPAkKn+aT+fFfrO
+ AfSFoMFvhsrRG7aDS8Ipm44ZKt2/pSOg+pbtlAY8eXyzyz2wRcYLlnYCOqwUfEyd
+ hI/7MZRDkFhUimyPBPO73PtWrJ3ng58kTyovIda60qNI/fs3O+DIXtWNfIm/lSq0
+ LQpzZMNeOcWqj4KlsaCRnB3ymO9DKSkNfkIJdCGC+zKh6hAWgP9zsXSyun7msjep
+ wEaVM3o10x7tps9/YqCxBo0k4fjJA==
+X-ME-Sender: <xms:GvBSYURnuIEWCMrG491rZRZ9XozZrApEdXSNAan6DcwRQyG3C6I2CA>
+ <xme:GvBSYRws8VpiIm9zxC00z8qrby8T4ucrGrGCg_HVHjoyV99O_IY2JFWh3LeilWgT_
+ t0KpeqvRENxmF1Q-sk>
+X-ME-Received: <xmr:GvBSYR1IgU8J0IjUtabLVY5kdcRtIwN0n4IeMJcXfEDh0QLgKuJa7m04Nr96g1BoCILWes511Js9joTQkTBGDH06pShJwwk1T25TW4xx>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgvdeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -51,12 +51,12 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgvdeiucetufdoteggod
  htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
  ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
  hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:FvBSYdyjAqugcTwZ_Ufr_QbKCZBQ7OCA1t_r0HT2yG2GSPhZygaSlA>
- <xmx:FvBSYQQxa0Ll490CjOFrdQVMPNf4gS-BodA10Fvyhoa5F6xmq1IS7Q>
- <xmx:FvBSYQYTRL4moJ8ppCCm3ua-6KF4gpKMV2kAAAtCiIu03h5GDo2DxQ>
- <xmx:FvBSYcrireFDtLy9PrY0VPCizzatYDBOQbmFl5LSs3JvLql1ylaRQRdHA8g>
+X-ME-Proxy: <xmx:GvBSYYAudea1AqVRXUOp4kqA6zUcxcu5mtt5EwTNAluMC_ajaTfAtA>
+ <xmx:GvBSYdiQ74EcUhEqNKBR2ThQuQLwO-ayCGRKhq2AjlmnyfXGEKtpNA>
+ <xmx:GvBSYUpYKecyK0v8FAyWYvCcFig_-n1S2VDJLmH5r7nq4d0S-i0LYQ>
+ <xmx:GvBSYd5YHGGLRqLSbbUCBvpdMGu--zES1hchig7d1dEEBzGPrT1l8nq1eBE>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 06:36:05 -0400 (EDT)
+ 28 Sep 2021 06:36:09 -0400 (EDT)
 From: Maxime Ripard <maxime@cerno.tech>
 To: dri-devel@lists.freedesktop.org,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -68,13 +68,14 @@ Cc: Phil Elwell <phil@raspberrypi.com>,
  Sam Ravnborg <sam@ravnborg.org>, Emma Anholt <emma@anholt.net>,
  linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
  Tim Gover <tim.gover@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH v2 1/3] drm/probe-helper: Document
- drm_helper_hpd_irq_event() return value
-Date: Tue, 28 Sep 2021 12:36:00 +0200
-Message-Id: <163282429896.583318.14263562633625523087.b4-ty@cerno.tech>
+Subject: Re: (subset) [PATCH v2 2/3] drm/probe-helper: Create a HPD IRQ event
+ helper for a single connector
+Date: Tue, 28 Sep 2021 12:36:01 +0200
+Message-Id: <163282429897.583318.4373405476730486119.b4-ty@cerno.tech>
 X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210914101724.266570-1-maxime@cerno.tech>
+In-Reply-To: <20210914101724.266570-2-maxime@cerno.tech>
 References: <20210914101724.266570-1-maxime@cerno.tech>
+ <20210914101724.266570-2-maxime@cerno.tech>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -93,11 +94,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Sep 2021 12:17:22 +0200, Maxime Ripard wrote:
-> The documentation of the drm_helper_hpd_irq_event() function didn't
-> document the value that function was returning. Add that part as well.
+On Tue, 14 Sep 2021 12:17:23 +0200, Maxime Ripard wrote:
+> The drm_helper_hpd_irq_event() function is iterating over all the
+> connectors when an hotplug event is detected.
 > 
+> During that iteration, it will call each connector detect function and
+> figure out if its status changed.
 > 
+> Finally, if any connector changed, it will notify the user-space and the
+> clients that something changed on the DRM device.
+> 
+> [...]
 
 Applied to drm/drm-misc (drm-misc-next).
 
