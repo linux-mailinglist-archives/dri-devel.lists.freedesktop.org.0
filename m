@@ -1,67 +1,133 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1909D41B263
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 16:52:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7382C41B298
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 17:05:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2303A89DFC;
-	Tue, 28 Sep 2021 14:52:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 317C86E8A4;
+	Tue, 28 Sep 2021 15:05:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F2D289DFB
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 14:52:45 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1632840769; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
- Message-ID: Sender; bh=f4WFcVRXiFJASWpKKkg7ZPFGull7j3liSd4EXDLOK4g=;
- b=bEU3F7jEKKoct+u2SEA/T21M6NWOev+eWa9fUGJ3QL4VJmkV6LZ962IjttF6hSPJGIfKZ3y0
- pEuTKWPP5O16bDC1bNzLsDeyVYTLxVOdErjMF4Yo96dqA91TTTtcraLg+EhOfbJhRP+SImDa
- V6EfLpeb4p5mwKS/o0ORcbnebEo=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
- 61532c22a5a9bab6e828b037 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 14:52:18
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id A1B3FC43619; Tue, 28 Sep 2021 14:52:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-5.5 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- NICE_REPLY_A,SPF_FAIL autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.10] (unknown [59.89.231.221])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: akhilpo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 69BF7C43617;
- Tue, 28 Sep 2021 14:52:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 69BF7C43617
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-Message-ID: <f1c6fff0-a220-86d9-8572-2de3d47ab96a@codeaurora.org>
-Date: Tue, 28 Sep 2021 20:22:11 +0530
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam10on2064.outbound.protection.outlook.com [40.107.94.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DFDF6E092;
+ Tue, 28 Sep 2021 15:05:09 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cSeFTTvvINxp02xhyXKyl2Pr9xZXPjKEmWmyvXa6ejwuMqbQFFZTm1QayJHynH9TGg5cLgcsXtmNtmVzFvvsAkY6YemjDhtwtpVXqU9lormCqNyb2UzmYqtPWulkiwqGH7PoGXaVlrK3lI5LrFp2onb7s63vq+qbDnJR7UCuf9IhpFQp0E0VDP50Dp0aRosVxRn1A+fAMnITG4Dy7ev+yb+P7O0VclM3LrPqLYkyyfdl0WexqH6vKCDIZDAJDO0lKFkuUbNmAZQB1kN/JsN0ZU7qQqaB20fyWcsb053YVqqNTuhSgDDw3OWFUpEO30ZeBq37oNi1jcEIjOzIQNiomQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=GjN19T+4kePjMQhWKkLkNUYNJ1s9bpmhIWXfMTmy37c=;
+ b=dP9XGHdu/wz2elSTCAT3R0VcyhuZ/eiP3PQ6FCwcAVD5IoIC/Ma/PeBCWRyyS51rYaJogoKHmzGrOhVRRqL1F9c5MOOScGLVrQqXxYQwtAeEjZRQoW18Of/DiCA7a4jZBchFtfjku5gDbrzBh9ezIJWVIKgbe/471MG/6P/ofPp52AMK681N3qgAaDs6rxNfk85MJEAb1NfUYhrfLPtuaVeFYV90iW6vaRsiUWy0e228PFu5NqZg5A5T7zJZyM+7qUbvkbvQ4dcMQOu+0ocfEDl+wxxGBIh5vbVSzT7cTE1H9JueZmEG2qVDD0HTvWmjurYsvPrmDUfcoUjG4vPKlQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GjN19T+4kePjMQhWKkLkNUYNJ1s9bpmhIWXfMTmy37c=;
+ b=HKCRhQBbgpscuxPMTZOdq28ZQ4zN9JHs1EArhGHqaIbsTpUqhTJnmG3T5pbHDZxkFt8+epmAARMMGimbbnQVOp3zceA1pg052cE2u0up7vR+Wq7ySqWlg5pAm7U3q81F7oAgYIwct7LFsskXeEGhMwr8DG1TWxPnmAeIaHnOzpj2RTl+uC2a/qJmh3bP5Ttovfj/leOK9atk12zgixySep1NNy3hhwFL7Ak6jmYqw9wRD42A5WmbQXxlY7ufvtdmD9ugwp5GFoUX2zwMaFn2kGpB3fn9TPlq29oUM6dTo9fZHwWwcKDULLvADsMG4QDa+OKC7Ly+Z35whG19ZLTrLw==
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=nvidia.com;
+Received: from DM6PR12MB5520.namprd12.prod.outlook.com (2603:10b6:5:208::9) by
+ DM8PR12MB5415.namprd12.prod.outlook.com (2603:10b6:8:25::5) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4566.14; Tue, 28 Sep 2021 15:05:08 +0000
+Received: from DM6PR12MB5520.namprd12.prod.outlook.com
+ ([fe80::3817:44ce:52ad:3c0b]) by DM6PR12MB5520.namprd12.prod.outlook.com
+ ([fe80::3817:44ce:52ad:3c0b%5]) with mapi id 15.20.4544.022; Tue, 28 Sep 2021
+ 15:05:08 +0000
+Date: Tue, 28 Sep 2021 12:05:07 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Wang, Zhi A" <zhi.a.wang@intel.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Jessica Yu <jeyu@kernel.org>,
+ "De Marchi, Lucas" <lucas.demarchi@intel.com>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Christoph Hellwig <hch@lst.de>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ Greg KH <gregkh@linuxfoundation.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ "intel-gvt-dev@lists.freedesktop.org" <intel-gvt-dev@lists.freedesktop.org>,
+ "Nikula, Jani" <jani.nikula@intel.com>
+Subject: Re: refactor the i915 GVT support
+Message-ID: <20210928150507.GM964074@nvidia.com>
+References: <20210816173458.GA9183@lst.de>
+ <20210817010851.GW13928@zhen-hp.sh.intel.com>
+ <20210817052203.GX13928@zhen-hp.sh.intel.com>
+ <20210819082929.GB13928@zhen-hp.sh.intel.com>
+ <20210820141724.GA29034@lst.de>
+ <YSAI8pKAvvW/8S2O@bombadil.infradead.org>
+ <20210826061219.GD9942@zhen-hp.sh.intel.com>
+ <55c11f22-99e5-6109-3be3-a04b06b3336e@intel.com>
+ <YVMgGKk1K4gO8ls6@bombadil.infradead.org>
+ <af40291a-de36-b39f-9ded-aaf4ddba641f@intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <af40291a-de36-b39f-9ded-aaf4ddba641f@intel.com>
+X-ClientProxiedBy: MN2PR15CA0048.namprd15.prod.outlook.com
+ (2603:10b6:208:237::17) To DM6PR12MB5520.namprd12.prod.outlook.com
+ (2603:10b6:5:208::9)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH] drm/msm: Switch ordering of runpm put vs devfreq_idle
-Content-Language: en-US
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-References: <20210927152928.831245-1-robdclark@gmail.com>
-From: Akhil P Oommen <akhilpo@codeaurora.org>
-In-Reply-To: <20210927152928.831245-1-robdclark@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Received: from mlx.ziepe.ca (142.162.113.129) by
+ MN2PR15CA0048.namprd15.prod.outlook.com (2603:10b6:208:237::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13 via Frontend
+ Transport; Tue, 28 Sep 2021 15:05:08 +0000
+Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
+ <jgg@nvidia.com>)	id 1mVEfL-0071oy-0t; Tue, 28 Sep 2021 12:05:07 -0300
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d49200fc-e252-4986-b7d0-08d982915c60
+X-MS-TrafficTypeDiagnostic: DM8PR12MB5415:
+X-Microsoft-Antispam-PRVS: <DM8PR12MB5415A7393A6679C7BFCA6585C2A89@DM8PR12MB5415.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2k0M8HQ2q+vM07BshbyJuZUUvpfo5+mr60MN6LyLYzFU+F9CVRsmSXBeMPJ0nm5OO0+J5BeMJuIKlU1IMSugQtL0L09U8N2ZEHzi4LcgUTRVPKwYnxTRZpHMVZfja+DNOepH84dLSwywajd9ssFU7uEv8r/EefyEL2MINtreYfx5NJxcTx6HPI8sJWONo7Iw2Ke7EpSYwbfz1rYrSwc9MRWQmzUcw9anjsjReAsl4zPAK4cE/Lvr/wywoM6AXw0JsdG1t9vRyd3QTaFsIOcIU7Yz9t6u+go4UBTWXIRLJSK7GKaIf6PN2vWtHr3+zxMlPYwG9qhCeb+DBK0X+6HiF7DC6ZY72dFYIHK5ohKe21NJW1+LaagtgT/920XONdghJqV1Cqq1+y+nG9hlQRL8xWwKJzVPVBzzaHr7QFLcJnd1eQLubHLDl0TSbaZkU1R7kLZEBgzJWiztVhv9sYpQpSfz0YUsJEFGHI687kpsuGIJ6PjhqejEh/trtGL1PSqLnfezEG9Pf7JuWXPunaBwfnzOFGOPrGAPRi5XPgmOmrkKQuwxaYPBx5LX11wxeAPbzeAMjd+fSwUV1sE7k1/adIi06xVUIUx/KdDo+d/i31rIGN3EmgqUrNRXkWny0RHxc1kxgpdkFL/zko1dod7quhk3ms8YfC+XrTvJw55ZB1yEhZ8oLiRF66B6A9czOnG1
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB5520.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(38100700002)(2616005)(86362001)(26005)(426003)(186003)(1076003)(9786002)(4744005)(9746002)(7416002)(4326008)(66946007)(66476007)(66556008)(5660300002)(36756003)(316002)(33656002)(54906003)(8936002)(2906002)(6916009)(8676002)(508600001)(27376004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yuzw+awn1q5+Eb/oFeSRX33+Hmgt6GBGzBEctLEH7L48VO6LddEnDfnnPgP7?=
+ =?us-ascii?Q?1LmGza6nA7YCea6NGAtjuIe8daCv+oggTxt+mgYR6bCpzfq0dL9M/YhwRjIG?=
+ =?us-ascii?Q?P78Qd3WL9Uq+v6n/ULeY61btyCfianwZgaFZfj1xymUzwgr1Houf95xjZzG6?=
+ =?us-ascii?Q?N0CzxJTI1Nn6Sqa7qNUdcC0zt0xPB02bfFFmkWEqp8VRvakktjAEFwjzBPVA?=
+ =?us-ascii?Q?fuA2ZnKc74vAanUKdFFUr63KOb99erTop8oZRAgXg9pZ3zImRwN+rHIj4P7u?=
+ =?us-ascii?Q?AHeNT54g6KoNpqffCOiYWkHFIlTAsoqlfSB9YELyYLhSn0nsIRGrQK/xRILC?=
+ =?us-ascii?Q?0ZzH433jclUN4QBQInqZ9LZ87gtnVux4SpNYF5SZAMmhU7r2C39RapHekfzi?=
+ =?us-ascii?Q?8HAip9b+3/2M1Wbrd8Ig7T3FVxB52OP3QGVB+qB+lEpMuAdWoMg9ccihIuZr?=
+ =?us-ascii?Q?ICwUM9VuhouRXlczGhleEkvnV3kL6nVQnnPosagOVF/0Vi/ZfLB74IETNBsk?=
+ =?us-ascii?Q?DAppQGziauLypvo2g3QD9qr0RhWFuatVFefvwTHQrLezOptt478fhrw0hv2A?=
+ =?us-ascii?Q?h8VX+L04gNmNla/Eh186bODKzFgmDePu1SCIS+o2mY5nNbPR3G/qBiSkJhTA?=
+ =?us-ascii?Q?7yZb/0FNeMhcWS3uBpBHkvgIGIjdylnrddo7PBm4Z+z+kozCdD1RCaP+Jtrz?=
+ =?us-ascii?Q?xfOr+M7eP323JMTsh2NxggQkXMnWU32fYXm77hp0oshily586UqxR9aSE+AK?=
+ =?us-ascii?Q?Sa6Ly7xH4wxx5K4bLwsUiyr7XfcvoPBj5Xh++0emLoPT2ve1SvY/YdP6MdnF?=
+ =?us-ascii?Q?/gW+CYGahN/NFNn6Clzd8eOn04qoxUP0BSAkfpNrWMb2kAPMKKePq60TnDM+?=
+ =?us-ascii?Q?0ZA+iC2iftaYe6GTcNO/uumbwKe7/23qYHid4xGiXC3Vsz7U65WcctX1Pi74?=
+ =?us-ascii?Q?eEhf5rbOY228xj73Ev+nFj1XPRGoNGwEvefa8o+USmPj8qzoOkWp2/sf/eYd?=
+ =?us-ascii?Q?xg/RLEmNd6TWpySGJSW7UdsjmqTKaYNDZwOsFG1qAkT8UpVTYdSLL1VDhuVu?=
+ =?us-ascii?Q?ApQEuWjfpNTPMH1pGt1tmdo9MfzkIwBN1FBRJSis+pL1rXYs4ddwFaI+aVWo?=
+ =?us-ascii?Q?Q30a5heiyC/4EbPRd6095IARDGByyVRDFA5HaTEq6aGcq8yt9bmgBkVS57pf?=
+ =?us-ascii?Q?rdncRqDtfdR+eG067D9ZJzI2vUtgm8bm1k7OuGhFETD/JUp77cYidk9yuLXc?=
+ =?us-ascii?Q?SpnyRHIYS4Y/bB+oO6sucp499X9C4qhBHiszPNSowWCPpLJiKCQ8Gs63YuZD?=
+ =?us-ascii?Q?Qnoe6KPhQS4a9/RU3cu0jD16?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d49200fc-e252-4986-b7d0-08d982915c60
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB5520.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2021 15:05:08.3437 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z205BWTWngIAgLT+yFsAaat/MHLtMcS6kP2Rw/PRiOwMN0J5ulMp7hyJPEMIXLS0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR12MB5415
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,96 +143,18 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/27/2021 8:59 PM, Rob Clark wrote:
-> From: Rob Clark <robdclark@chromium.org>
-> 
-> I've seen a few crashes like:
-> 
->      Internal error: synchronous external abort: 96000010 [#1] PREEMPT SMP
->      Modules linked in: snd_seq_dummy snd_seq snd_seq_device bridge stp llc tun nf_nat_tftp nf_conntrack_tftp nf_nat_ftp nf_conntrack_ftp esp6 ah6 ip6t_REJECT ip6t_ipv6header vhost_vsock vhost vmw_vsock_virtio_transport_common vsock rfcomm algif_hash algif_skcipher af_alg uinput veth xt_cgroup xt_MASQUERADE venus_enc venus_dec videobuf2_dma_contig qcom_spmi_adc5 qcom_spmi_adc_tm5 hci_uart qcom_vadc_common cros_ec_typec qcom_spmi_temp_alarm typec btqca snd_soc_rt5682_i2c snd_soc_rt5682 snd_soc_sc7180 bluetooth snd_soc_qcom_common snd_soc_rl6231 ecdh_generic ecc venus_core v4l2_mem2mem snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu snd_soc_lpass_platform snd_soc_max98357a ip6table_nat fuse iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_core industrialio_triggered_buffer kfifo_buf cros_ec_sensorhub lzo_rle ath10k_snoc lzo_compress ath10k_core ath zram mac80211 cfg80211 ax88179_178a usbnet mii uvcvideo videobuf2_vmalloc joydev
->      CPU: 3 PID: 212 Comm: A618-worker Tainted: G W 5.4.139-16300-g88d8e1285982 #1
->      Hardware name: Google Pompom (rev1) with LTE (DT)
->      pstate: 60c00009 (nZCv daif +PAN +UAO)
->      pc : a6xx_gmu_set_oob+0x114/0x200
->      lr : a6xx_gmu_set_oob+0x10c/0x200
->      sp : ffffffc011b7bc20
->      x29: ffffffc011b7bc20 x28: ffffffdad27c5000
->      x27: 0000000000000001 x26: ffffffdad1521044
->      x25: ffffffbef7498338 x24: 0000000000000018
->      x23: 0000000000000002 x22: 0000000000014648
->      x21: 0000033732fe638b x20: 0000000080000000
->      x19: ffffffbef7433bc8 x18: 0000000040000000
->      x17: 000000243508d982 x16: 000000000000b67e
->      x15: 00000000000090d4 x14: 0000000000000024
->      x13: 0000000000000024 x12: 0000000000017521
->      x11: 0000000000000b48 x10: 0000000000326a48
->      x9 : 1a130d33f6371600 x8 : ffffffc011e54648
->      x7 : 614948e00005003c x6 : ffffffbe3cd17e60
->      x5 : 0000000000000040 x4 : 0000000000000004
->      x3 : 0000000000000000 x2 : ffffffbef7488000
->      x1 : ffffffbef7488000 x0 : 0000000000000000
->      Call trace:
->      a6xx_gmu_set_oob+0x114/0x200
->      a6xx_gmu_set_freq+0xe0/0x1fc
->      msm_devfreq_target+0x80/0x13c
->      msm_devfreq_idle+0x54/0x94
->      retire_submit+0x170/0x254
->      retire_submits+0xa4/0xdc
->      retire_worker+0x1c/0x28
->      kthread_worker_fn+0xf4/0x1bc
->      kthread+0x140/0x158
->      ret_from_fork+0x10/0x18
->      Code: 52800c81 9415bbe5 f9400a68 8b160108 (b9400108)
->      ---[ end trace 16b871df2482cd61 ]---
->      Kernel panic - not syncing: Fatal exception
->      SMP: stopping secondary CPUs
->      Kernel Offset: 0x1ac1400000 from 0xffffffc010000000
->      PHYS_OFFSET: 0xffffffc280000000
->      CPU features: 0x88102e,2a80aa38
->      Memory Limit: none
-> 
-> Which smells a lot like touching hw after power collapse.  I'm not
-> *entirely* sure how it could have taken 66ms (the autosuspend delay)
-> before we get to a6xx_gmu_set_oob(), but to be safe we should move
-> the pm_runtime_put_autosuspend() after msm_devfreq_idle().
-https://elixir.bootlin.com/linux/v5.15-rc1/source/drivers/gpu/drm/msm/adreno/a6xx_gmu.c#L132
-We have this check in the gmu freq set path which should avoid this 
-scenario. I might be a bit pedantic here, but I feel that the original 
-code is more accurate. We should immediately mark last busy and put 
-runtime_pm refcount.
+On Tue, Sep 28, 2021 at 02:35:06PM +0000, Wang, Zhi A wrote:
 
--Akhil.
+> Yes. I was thinking of the possibility of putting off some work later so 
+> that we don't need to make a lot of changes. GVT-g needs to take a 
+> snapshot of GPU registers as the initial virtual states for other vGPUs, 
+> which requires the initialization happens at a certain early time of 
+> initialization of i915. I was thinking maybe we can take other patches 
+> from Christoph like "de-virtualize*" except this one because currently 
+> we have to maintain a TEST-ONLY patch on our tree to prevent i915 built 
+> as kernel module.
 
-> 
-> Fixes: 9bc95570175a ("drm/msm: Devfreq tuning")
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->   drivers/gpu/drm/msm/msm_gpu.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index d1a16642ecd5..2b2bbe7499e6 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -667,9 +667,6 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   
->   	msm_submit_retire(submit);
->   
-> -	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> -	pm_runtime_put_autosuspend(&gpu->pdev->dev);
-> -
->   	spin_lock_irqsave(&ring->submit_lock, flags);
->   	list_del(&submit->node);
->   	spin_unlock_irqrestore(&ring->submit_lock, flags);
-> @@ -683,6 +680,9 @@ static void retire_submit(struct msm_gpu *gpu, struct msm_ringbuffer *ring,
->   	mutex_unlock(&gpu->active_lock);
->   
->   	msm_gem_submit_put(submit);
-> +
-> +	pm_runtime_mark_last_busy(&gpu->pdev->dev);
-> +	pm_runtime_put_autosuspend(&gpu->pdev->dev);
->   }
->   
->   static void retire_submits(struct msm_gpu *gpu)
-> 
+How about just capture these registers in the main module/device and
+not try so hard to isolate it to the gvt stuff?
 
+Jason
