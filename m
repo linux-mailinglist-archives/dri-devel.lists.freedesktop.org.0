@@ -2,41 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C26F841AB5A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 11:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A2B441AB45
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 10:56:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2E1C8940E;
-	Tue, 28 Sep 2021 09:02:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5CEF789CA8;
+	Tue, 28 Sep 2021 08:56:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
- Tue, 28 Sep 2021 09:02:25 UTC
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA0268940E
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:02:25 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id D2A32FB03;
- Tue, 28 Sep 2021 10:55:38 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id b4uIgp2xdlGl; Tue, 28 Sep 2021 10:55:37 +0200 (CEST)
-Date: Tue, 28 Sep 2021 10:55:35 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>, Sam Ravnborg <sam@ravnborg.org>,
- Lucas Stach <l.stach@pengutronix.de>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm: mxsfb: Set proper default bus format when using a bridge
-Message-ID: <YVLYh/SgBritG/RJ@qwark.sigxcpu.org>
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+ [209.85.221.178])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 434DC89CA8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 08:56:10 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id t186so8150924vkd.3
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 01:56:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=m1SPxBXviVX+IXuXEsuQBsXdtNvtJMC8mWkf4HXlhYI=;
+ b=h5dTYj2z15MBpz4SgqJdEcnoN+eiugLaAFAGe+GoiQ8KgBugumrkQ7blj0/MYRVjiM
+ lqqPevyndTFyIFhZhtNjB84ejMKLpliUp4U4iTpqfBwdP0Nb8+K/xvKcz9RHNlzpBDcG
+ TBd/mXhnbN1pnGs2OB86f5oLa1gKhYA+3PCx49AF0XWmwxqRKMxbvH0R53GbB2jGsDmV
+ yzbAuAWGi934tisZeda4GTRDJutDHK+mZ01pniIvcct3i/hWejpehhG2b/U9Et3eFzEN
+ cUpg+A3J5t29hQUXVaHQ7ur3ZLeBxazmBTNqUUrIIpc7wwYzSdhnYmeOuYYRswOQ/4ld
+ kx9Q==
+X-Gm-Message-State: AOAM530ZK7GF/fsEN7ndOEhptz/JQk9smRFMMKeQk7glAVeF8AYQni+d
+ ldp6WAR76K59rYkQhJloB8kiNSXKa/prdjDlS3o=
+X-Google-Smtp-Source: ABdhPJy+pindMxBWVfaLcKOdBKp/zvSFAEW3vww4iRWQPHAR7B+Og0y4TRu4t/Zeus+2ltvVleJSy9AemEXcjC6o324=
+X-Received: by 2002:a1f:230c:: with SMTP id j12mr3610861vkj.11.1632819369174; 
+ Tue, 28 Sep 2021 01:56:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20210822003604.6235-1-laurent.pinchart+renesas@ideasonboard.com>
+ <CAMuHMdWSqSb37srBG0XB-vX5ERmjDBia07k_-s2Zg=bUsQCSyA@mail.gmail.com>
+ <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
+In-Reply-To: <YSO2h40mJN17FGvd@pendragon.ideasonboard.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 28 Sep 2021 10:55:57 +0200
+Message-ID: <CAMuHMdW6Y4rhcH4EfjnzkPvWhm2ok=7E_3Cswe=5bnozGzpmGA@mail.gmail.com>
+Subject: Re: [PATCH] drm: rcar-du: Don't create encoder for unconnected LVDS
+ outputs
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,35 +61,58 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If a bridge doesn't do any bus format handling MEDIA_BUS_FMT_FIXED is
-returned. Fallback to a reasonable default (MEDIA_BUS_FMT_RGB888_1X24) in
-that case.
+Hi Laurent,
 
-This unbreaks e.g. using mxsfb with the nwl bridge and mipi panels.
+On Mon, Aug 23, 2021 at 4:54 PM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Aug 23, 2021 at 02:25:32PM +0200, Geert Uytterhoeven wrote:
+> > On Sun, Aug 22, 2021 at 2:36 AM Laurent Pinchart wrote:
+> > > On R-Car D3 and E3, the LVDS encoders provide the pixel clock to the DU,
+> > > even when LVDS outputs are not used. For this reason, the rcar-lvds
+> > > driver probes successfully on those platforms even if no further bridge
+> > > or panel is connected to the LVDS output, in order to provide the
+> > > rcar_lvds_clk_enable() and rcar_lvds_clk_disable() functions to the DU
+> > > driver.
+> > >
+> > > If an LVDS output isn't connected, trying to create a DRM connector for
+> > > the output will fail. Fix this by skipping connector creation in that
+> > > case, and also skip creation of the DRM encoder as there's no point in
+> > > an encoder without a connector.
+> > >
+> > > Fixes: e9e056949c92 ("drm: rcar-du: lvds: Convert to DRM panel bridge helper")
+> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> >
+> > Can you please change that to
+> > Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > ?
+>
+> Sure thing.
 
-Fixes: b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest bridge if present")
+Thanks!
 
-Signed-off-by: Guido Günther <agx@sigxcpu.org>
----
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >
+> > Thanks, the scary warning on Ebisu-4D is gone, so
+> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> >
+> > Disclaimer: there are no displays connected to my Ebisu-4D.
+>
+> That's the best way to ensure the absence of display issues. It works
+> great for camera testing too, if you also remove networking and storage
+> :-)
 
-I'll look at what needs to be done in nwl separately but this also
-unbreaks other bridge seupts that don't to format negotiation yet.
+Any chance this fix can make it upstream?
+The fix was created before the issue entered upstream in v5.15-rc1.
 
- drivers/gpu/drm/mxsfb/mxsfb_kms.c | 2 ++
- 1 file changed, 2 insertions(+)
+Thanks!
 
-diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-index af6c620adf6e..4ef94cf686b0 100644
---- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-+++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-@@ -369,6 +369,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
- 			drm_atomic_get_new_bridge_state(state,
- 							mxsfb->bridge);
- 		bus_format = bridge_state->input_bus_cfg.format;
-+		if (bus_format == MEDIA_BUS_FMT_FIXED)
-+			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
- 	}
- 
- 	/* If there is no bridge, use bus format from connector */
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.33.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
