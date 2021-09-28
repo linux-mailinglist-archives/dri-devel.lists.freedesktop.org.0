@@ -1,84 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB24B41AD1C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:36:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 854BF41AD4F
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:52:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7D9046E105;
-	Tue, 28 Sep 2021 10:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD1D989B97;
+	Tue, 28 Sep 2021 10:52:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
- [64.147.123.18])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4100F6E104
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:15 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.west.internal (Postfix) with ESMTP id E975D2B01640;
- Tue, 28 Sep 2021 06:36:13 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 28 Sep 2021 06:36:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- oWGyVHLDdLFF5riIKLBpEtDz7YA1ItB/e5YTpp16hnA=; b=UWO5BUmKLcY+3jjE
- vs4rj/f26wtU0U+0cy2j6tv6fYzAf7gkLWb8Y/Vm9hV0DSpiOS49OF3IVa5FlGW2
- nDRc5iYgCm8B1dop6bOzrzwlF6IRk/YKtNFyhE+ieRyg32m8JAzyEjoDoWg2JgOP
- 3nhbb7X8/A5FdiDZL2Fvs1HnPAGorWwZzwnsEuINhH1ZJDMOxMAQ4Qqwo94Q338M
- w9wANNdW75AA+sWwhebmdNngAMMAi4iWL3FNq1Y7ZDEdu3/N4VjOtWdYmHAtMOVb
- /oUIqitsrUi2meSlEU0Kvsuva2jIEnjI6n/v5K8RsLylcPT2xqAwk6GTAXd5ma8E
- UGfQPQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=oWGyVHLDdLFF5riIKLBpEtDz7YA1ItB/e5YTpp16h
- nA=; b=GvadQKjeaeexE8rDEZORz89VynRyr9QWdoAz1jxbnmvBOX1MK6hbx8IG/
- lWfrxA9LD8Xomso3o0mutyfWboB7OEh2GV1ueOc3G0WdNWFLRWWLM0K93R7X39t0
- SXQfWqeeEP2/lmViqSVYVuEz39GBzqDYvT/XCcGYMlN56W42U3kLT5BUQG0+/889
- LKjHkSw7A8Gtks5hHaO/+ckJE/0to/lsas7toxiM/8IZLAz3r/H1fsu9NsizILro
- qe03Ps4Owi7mBFuIqlquLgYxiPbrnj7R+aDki5Asj4j7TJcTK8zxfOBv+jL8zvwY
- M47yZzU+evGbLkuar27QgDZhHN6Rw==
-X-ME-Sender: <xms:HfBSYZiLMYpMEU1D2ukLraxTF-bJo7tMm9iM6iK7U4LSS_Ji1HiOdw>
- <xme:HfBSYeAbmSK0C2lAlQmMT8_4-sBEqI65E-g9N5_Dq6Z-wf8ZRsS5U6dP6U48eQMps
- l5OXj4EahfY-aCNEm0>
-X-ME-Received: <xmr:HfBSYZF2HDS5iaRsCuft6gLbmT4Sy8sZd5SfFzjR-kHwgsSTJcTMuhcRv_qsmTcFYozRMkQtf0Le_RN7QvXm0Bqm_c5KXSD2sRiZ1yhN>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddgvdeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:HfBSYeQtNBMhHV8HbFabd8ddlF3JyucLYXpCmA5XTGIBPmeME_hNPA>
- <xmx:HfBSYWwm5lCzDCXbnOg7Se_ValBW0it3pk3lHxJT9PbCjFC776rjQw>
- <xmx:HfBSYU4A-szO41GJ-5Q3gx_w6Pq46mmiPw9Zj8866129wBvLeyd6nA>
- <xmx:HfBSYbKQqsJHan-pVPUGOUaOFhx7NJvlOV-vOvHAC1m-52sP-d8cy-pqvPQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 06:36:13 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Maxime Ripard <maxime@cerno.tech>, Daniel Vetter <daniel.vetter@intel.com>
-Cc: Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- bcm-kernel-feedback-list@broadcom.com, Dom Cobley <dom@raspberrypi.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emma Anholt <emma@anholt.net>,
- linux-kernel@vger.kernel.org, Nicolas Saenz Julienne <nsaenz@kernel.org>,
- Tim Gover <tim.gover@raspberrypi.com>, linux-rpi-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH v2 3/3] drm/vc4: hdmi: Actually check for the
- connector status in hotplug
-Date: Tue, 28 Sep 2021 12:36:02 +0200
-Message-Id: <163282429897.583318.5265128549780162156.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210914101724.266570-3-maxime@cerno.tech>
-References: <20210914101724.266570-1-maxime@cerno.tech>
- <20210914101724.266570-3-maxime@cerno.tech>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C4E489B84;
+ Tue, 28 Sep 2021 10:52:01 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10120"; a="222778606"
+X-IronPort-AV: E=Sophos;i="5.85,329,1624345200"; d="scan'208";a="222778606"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 03:51:46 -0700
+X-IronPort-AV: E=Sophos;i="5.85,329,1624345200"; d="scan'208";a="553942040"
+Received: from eliteleevi.tm.intel.com ([10.237.54.20])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 03:51:44 -0700
+Date: Tue, 28 Sep 2021 13:45:01 +0300 (EEST)
+From: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+X-X-Sender: kvehmane@eliteleevi.tm.intel.com
+To: Takashi Iwai <tiwai@suse.de>
+cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>, 
+ dri-devel@lists.freedesktop.org, gregkh@linuxfoundation.org, 
+ alsa-devel@alsa-project.org, "Rafael J . Wysocki" <rafael@kernel.org>, 
+ jani.nikula@intel.com, Imre Deak <imre.deak@intel.com>, 
+ Russell King <rmk+kernel@armlinux.org.uk>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>, 
+ intel-gfx@lists.freedesktop.org
+Subject: Re: [PATCH v2] component: do not leave master devres group open
+ after bind
+In-Reply-To: <s5hh7e5ngnq.wl-tiwai@suse.de>
+Message-ID: <alpine.DEB.2.22.394.2109281335522.3554566@eliteleevi.tm.intel.com>
+References: <20210922085432.2776886-1-kai.vehmanen@linux.intel.com>
+ <s5hh7e5ngnq.wl-tiwai@suse.de>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7 02160 Espoo
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed;
+ BOUNDARY="-318106570-1915050432-1632825702=:3554566"
+Content-ID: <alpine.DEB.2.22.394.2109281342020.3554566@eliteleevi.tm.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,17 +59,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 14 Sep 2021 12:17:24 +0200, Maxime Ripard wrote:
-> The drm_helper_hpd_irq_event() documentation states that this function
-> is "useful for drivers which can't or don't track hotplug interrupts for
-> each connector." and that "Drivers which support hotplug interrupts for
-> each connector individually and which have a more fine-grained detect
-> logic should bypass this code and directly call
-> drm_kms_helper_hotplug_event()". This is thus what we ended-up doing.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+---318106570-1915050432-1632825702=:3554566
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: 8BIT
+Content-ID: <alpine.DEB.2.22.394.2109281342021.3554566@eliteleevi.tm.intel.com>
+
+Hey,
+
+On Tue, 28 Sep 2021, Takashi Iwai wrote:
+
+> On Wed, 22 Sep 2021 10:54:32 +0200, Kai Vehmanen wrote:
+> > --- a/drivers/base/component.c
+> > +++ b/drivers/base/component.c
+> > @@ -246,7 +246,7 @@ static int try_to_bring_up_master(struct master *master,
+> >  		return 0;
+> >  	}
+> >  
+> > -	if (!devres_open_group(master->parent, NULL, GFP_KERNEL))
+> > +	if (!devres_open_group(master->parent, master, GFP_KERNEL))
+> >  		return -ENOMEM;
+> >  
+> >  	/* Found all components */
+> > @@ -258,6 +258,7 @@ static int try_to_bring_up_master(struct master *master,
+> >  		return ret;
+> >  	}
+> >  
+> > +	devres_close_group(master->parent, NULL);
 > 
-> [...]
+> Just wondering whether we should pass master here instead of NULL,
+> too?
 
-Applied to drm/drm-misc (drm-misc-next).
+I wondered about this as well. Functionally it should be equivalent as 
+passing NULL will apply the operation to the latest added group. I noted 
+the practise of passing NULL has been followed in the existing code when 
+referring to groups created within the same function. E.g.
 
-Thanks!
-Maxime
+»       if (!devres_open_group(component->dev, component, GFP_KERNEL)) {
+[...]
+»       ret = component->ops->bind(component->dev, master->parent, data);
+»       if (!ret) {
+»       »       component->bound = true;
+
+»       »       /*                                                                                                                                                          
+»       »        * Close the component device's group so that resources                                                                                                     
+»       »        * allocated in the binding are encapsulated for removal                                                                                                    
+»       »        * at unbind.  Remove the group on the DRM device as we                                                                                                     
+»       »        * can clean those resources up independently.                                                                                                              
+»       »        */
+»       »       devres_close_group(component->dev, NULL);
+
+... so I followed this existing practise. I can change and send a V3 if 
+the explicit parameter is preferred.
+
+Br, Kai
+---318106570-1915050432-1632825702=:3554566--
