@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F203641ADE2
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 13:33:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3E241ADE8
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 13:34:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 61CAC6E117;
-	Tue, 28 Sep 2021 11:33:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 377AB6E116;
+	Tue, 28 Sep 2021 11:34:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from us-smtp-delivery-124.mimecast.com
  (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2C5F6E116
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 11:33:44 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B94726E116
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 11:34:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1632828823;
+ s=mimecast20190719; t=1632828889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=u328q7WNSMymaUrmKQOk37LWvJYmT3DIFH6zimZGPjY=;
- b=YY2tBTrv/DcOVYtaQRg2YIgVqkS7ly8l6JMnaivskUswWmLCpW8uMaEJ73fBIjnakR34XE
- 7ThIxq/U39eOXXgPc91c9S8g5rQ79dLAaiKW1e/c8HoQqUzdJhx9dkZM+kqAEbETMz0kfV
- mm9F2zkk40+QrfKkmGeSPUBwHNyV0/0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-EuYt8EBzNUCHDP2H_2VCOg-1; Tue, 28 Sep 2021 07:33:42 -0400
-X-MC-Unique: EuYt8EBzNUCHDP2H_2VCOg-1
-Received: by mail-wr1-f69.google.com with SMTP id
- j16-20020adfa550000000b0016012acc443so15022062wrb.14
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 04:33:42 -0700 (PDT)
+ bh=M/E3G8A3gYE+U2dreASmQnyRqiphlZRJm1ekOxiW/BA=;
+ b=Db/jIBEtXpIF0syeXJbAx/fFMLc5JI7+RsqWEmh46it7oWi0AOI1QcAus/tgJiScHEGby/
+ OILD7U7ibUKB5okAl/haMvaLNPh2eF+lVSeTAEDOQIv/3mTCkTJTDfzRzPROCY0xMVnrni
+ 9tjdiooy0kbzEExK2lNIQetfO+zoD5Y=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-592-0vVp2lWpMZO4l3l0na-sng-1; Tue, 28 Sep 2021 07:34:48 -0400
+X-MC-Unique: 0vVp2lWpMZO4l3l0na-sng-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ f7-20020a5d50c7000000b0015e288741a4so15012588wrt.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 04:34:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u328q7WNSMymaUrmKQOk37LWvJYmT3DIFH6zimZGPjY=;
- b=7Fygap8AkuhsuXHK9Jj6EN3Nfn12Hs7hp6QQx1HaZw4KFJjlEVlKsnDswjkAX/g3I0
- N6o2NQWkCNup3FgsihvnMLFpOUScWZveTf5K3/SwWL+/AljEoO1nZ23MCOVX24rD5otP
- nmlTTDB/DyiMaIwZ2O2nW6KSjrk35aGgTfFtrmT8rgHkrblJywttpcg6U6ztRpyUgvWN
- Sa2smuIucoxOUwpRKVti8q728W5kYxK19cEV7SYC2LHM7BsOXl/3FnFdfKQEqmOjx0hl
- 1zU9hD+MsIeRGpH9A0n2a8Uv4cJl9VzdcWiz5sUBQVq/cW4hoF2Cwp1SScSehs09VNfo
- 92BA==
-X-Gm-Message-State: AOAM530GZfhGZzYzIuPQ1lqnu2rU3QE/PrspssFFfEm5qNFm7Q+YR4RL
- /yrkHRhMPtHcMAyl5f+CB1AobQe5Aqgxmi5g9ne02zQ55V6VqkXP06jyWnT/+l7zz9DgkvcmxjH
- MkcmhrwWJmJ0aGEc19AwHonqzYWt7H9gY64E82NxG13gR
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr5899186wrm.49.1632828821479; 
- Tue, 28 Sep 2021 04:33:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzz58XfMdNwS1JsheQmMOCdmsi2kubnksqbD9z+tXbyLb/8yux+PD/EOIxuFTfpkUkADbbnb+9ZEA793Gf+IR4=
-X-Received: by 2002:adf:e44c:: with SMTP id t12mr5899164wrm.49.1632828821289; 
- Tue, 28 Sep 2021 04:33:41 -0700 (PDT)
+ bh=M/E3G8A3gYE+U2dreASmQnyRqiphlZRJm1ekOxiW/BA=;
+ b=Wi0DA+EywOXL3ek3twdmFEUKheFfejCRk3Vw0lYL/ONKUQR1OYRmZobCqi+mS5phdZ
+ gQClHXaQeRBG5VbdoxepZtqs0xItfKUtWAwpcdAcpChUkohGFE4hAgs59il4A8pLpXJK
+ 9xwT67yqtOW9DitwQvlsMDmBqdCwRme22Ta9U4EUKBMPN0aCflbIHrJKGB8+U59m6dmi
+ U8i3mkGZ4LZiuYjKaeS67pthhyMJN40In4OZ8iQlxQ9rmsB3uUqpvXltdnse77/A/SG5
+ HgIBbMskaprnlF9LYf3FQolAFYBd2nGBegaXBb6iV7cQSwPr5uZWc3izzf8N6CzJEfi7
+ ZjMw==
+X-Gm-Message-State: AOAM5327Fpl7M//JL4AAqme4PGOh7Jc9Zz6xAA7chKjOwZMFqgw8reKi
+ /gPhnPC5U20Fe4YKHUBuY92RrFGSCNqOLS7l74Qu6MuKrKiEIyOEiP/oR+XGJljzvKIYLmhJvuI
+ ywYNbrwYYwQ56WhcSoG/dizWEZzPOLA0YQxBgkTEs8qa+
+X-Received: by 2002:adf:e684:: with SMTP id r4mr5880463wrm.229.1632828887296; 
+ Tue, 28 Sep 2021 04:34:47 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJys6dX122BOsP5c995TAAKHZg1HhiNlNbb3SH87eApAz3oYL6keGkax7mwj4JY6pjNM9VZ/avus/dM3dwa+cIU=
+X-Received: by 2002:adf:e684:: with SMTP id r4mr5880447wrm.229.1632828887161; 
+ Tue, 28 Sep 2021 04:34:47 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210911075023.3969054-1-yangyingliang@huawei.com>
-In-Reply-To: <20210911075023.3969054-1-yangyingliang@huawei.com>
+ <20210911075023.3969054-2-yangyingliang@huawei.com>
+In-Reply-To: <20210911075023.3969054-2-yangyingliang@huawei.com>
 From: Karol Herbst <kherbst@redhat.com>
-Date: Tue, 28 Sep 2021 13:33:30 +0200
-Message-ID: <CACO55ttfBAYcLUi7QGFupLFyUQZ2kDet+aABXWA0NVVx+cNEVg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] drm/nouveau/kms/nv50-: fix file release memory leak
+Date: Tue, 28 Sep 2021 13:34:36 +0200
+Message-ID: <CACO55tsKcZjB_9E-QfbDY99LT+w_fgssONjEd-qymoSCe0Z7qw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] drm/nouveau/debugfs: fix file release memory leak
 To: Yang Yingliang <yangyingliang@huawei.com>
 Cc: LKML <linux-kernel@vger.kernel.org>,
  nouveau <nouveau@lists.freedesktop.org>, 
@@ -86,25 +87,25 @@ On Sat, Sep 11, 2021 at 9:45 AM Yang Yingliang <yangyingliang@huawei.com> wrote:
 > When using single_open() for opening, single_release() should be
 > called, otherwise the 'op' allocated in single_open() will be leaked.
 >
-> Fixes: 12885ecbfe62 ("drm/nouveau/kms/nvd9-: Add CRC support")
+> Fixes: 6e9fc177399f ("drm/nouveau/debugfs: add copy of sysfs pstate interface ported to debugfs")
 > Reported-by: Hulk Robot <hulkci@huawei.com>
 > Signed-off-by: Yang Yingliang <yangyingliang@huawei.com>
 > ---
->  drivers/gpu/drm/nouveau/dispnv50/crc.c | 1 +
+>  drivers/gpu/drm/nouveau/nouveau_debugfs.c | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/drivers/gpu/drm/nouveau/dispnv50/crc.c b/drivers/gpu/drm/nouveau/dispnv50/crc.c
-> index b8c31b697797..66f32d965c72 100644
-> --- a/drivers/gpu/drm/nouveau/dispnv50/crc.c
-> +++ b/drivers/gpu/drm/nouveau/dispnv50/crc.c
-> @@ -704,6 +704,7 @@ static const struct file_operations nv50_crc_flip_threshold_fops = {
->         .open = nv50_crc_debugfs_flip_threshold_open,
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_debugfs.c b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> index c2bc05eb2e54..1cbe01048b93 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_debugfs.c
+> @@ -207,6 +207,7 @@ static const struct file_operations nouveau_pstate_fops = {
+>         .open = nouveau_debugfs_pstate_open,
 >         .read = seq_read,
->         .write = nv50_crc_debugfs_flip_threshold_set,
+>         .write = nouveau_debugfs_pstate_set,
 > +       .release = single_release,
 >  };
 >
->  int nv50_head_crc_late_register(struct nv50_head *head)
+>  static struct drm_info_list nouveau_debugfs_list[] = {
 > --
 > 2.25.1
 >
