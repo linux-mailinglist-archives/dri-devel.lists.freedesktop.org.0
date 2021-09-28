@@ -2,60 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6BCF41B3FA
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 18:36:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09E941B40A
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 18:39:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1147A89E47;
-	Tue, 28 Sep 2021 16:36:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 61A9389CB8;
+	Tue, 28 Sep 2021 16:39:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
- [IPv6:2607:f8b0:4864:20::d2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE94989998
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 16:36:17 +0000 (UTC)
-Received: by mail-io1-xd2a.google.com with SMTP id y197so28100699iof.11
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gbSliVYKfi6OEiKVNgoz9cY2l0rN0xMK5ahw6/GvjVU=;
- b=o/zB0ox1togRCdBOlkp7t1bpT5dFS6NC2FP0tyw0GBEGp35UzAs4nbCNCRRZYScvll
- 44qimYjx/pglVnAoV4SCEA20ZqFYppRGfecLLu/LB3c5D2iNbAsc0h0O3vz9P3aTiNQV
- 1Hf6EYRs1obAxdoe7pdpXROSReVvI9FAp/BoAi7BolKD6+Ai9r3/ZavA6UVApOI8o3Sd
- gmFgb9iNMOIawuaOR6XZMwai1UO2ZxXYX0k3tDSEEIPzGN+QMbAIgR2LDF6MfgiN12w5
- CUAWamk5aonhDhrSZlw1p3KSuK2qztXUChm/X4QNRuYoQ5P7qGTmPX1rl4isMV0SZg4G
- +XuA==
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ADA489CB8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 16:39:17 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id i4so95273729lfv.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:39:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=G7Nu624BHA+ciBaAN51wOEprdQ45Szw6B8+mMioIzMU=;
+ b=cetdKQLhcnBhXSFEllvSJ8rYG6P547knd8cgm9LIqgEBIpZbimxBdLyGX5CLabrDi2
+ uiLSxpnHuOhVwpOg/pWAfEVtMdG1dS4PBMGIF/oy7GAyQ2xf9y+1EtWxxId3s9NIlvao
+ v/lb3+AibTbQAIj+2DJu5cdBrkKvqBEJFLvTBlh7QM7HcrmdXH635oioXiHj26pFw8dM
+ MyoltSzyCbx8X6MgoyFB6SyYgw0itqm+KK7oSR1GwxcRZaXXKr8syeTCWFN1RSwjaMLB
+ FCicBfESaEPfPJszwJV0M43V04uc7L4ayKKK1LQ+VahfpNjLioeyiqxoyysoOv+kXDVE
+ TeDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gbSliVYKfi6OEiKVNgoz9cY2l0rN0xMK5ahw6/GvjVU=;
- b=IrSdJGbJS55X9mA8pBeF2aSAUfSZhdw+7xdVBOeubGQZr7Z0kiKS8Ry4rn2pGEx3b4
- NedmRKotU9yA3qXhR2dx0ihSQ2154eEsTXiKbA2xnhjoNZeoBR5zRHn6VIhKdeqAEcTr
- 96lrswgMaP7nXEatFG3RWbebOYMusX8SV+ttRl+bPZ0KihvKLxgNCwAvxoYPJnQG44I7
- 5kQDG8vxLprzU93zdwykQd4ZP7lkgKyef5+weQkYXt63YCJ3u/x1ke/8rABFj/LON/R8
- TgqZvTEOOvjl+u3B8bJMHapisZzk52g+cvA/M+emxSwIz9EAQWvChKqoBvx2IhFaew2K
- 7sRA==
-X-Gm-Message-State: AOAM531ricUz8LIv6/0Jzjpz+Keq8HG8bOF+oE512BAYc7DMSlY5SNAz
- onGj/EtdMl0D2mK3cGRs6bI9LC97zh8+EfZDTp5AOA==
-X-Google-Smtp-Source: ABdhPJylFVNbSrJO5vtCtn0DiYbXwitWaqZB8kgndAaEIX7UG+4+79YvDaeJ7FzSYt3GFq0cdqfIY34kVx7Ii2h5z+U=
-X-Received: by 2002:a05:6602:1346:: with SMTP id
- i6mr4593936iov.128.1632846976740; 
- Tue, 28 Sep 2021 09:36:16 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=G7Nu624BHA+ciBaAN51wOEprdQ45Szw6B8+mMioIzMU=;
+ b=0OP4DzknkK7wyItfmaYcvxELXCIVeB1JY4MNl01ghcvwICIODFIFqQ6oQjotw1aNcO
+ bp8Vs54W+7D6osZpLLHTPU3jshuMXYrt3IHW0s4gA8Dc4E4/GLyzXLtHg4BTbUTtG/A9
+ PO6vLO6RWNk4NA2nyEu3WiYb7SvnnkABmtjOBld8Clri0nVLExBevxmZWoJkVE9Dkr6r
+ DxGXlYjsY8oQfxNEZ+8K+w02Z0leeOie+CBXTKpOgw/0FZ+Gs4fUVsOMa/idS+tBFbYy
+ O0ulm5QOcs++TnWY1GGJp12t5R8e8Cd8kel37cmhuiYV+7n7C29j/mN3UyRau42aXZC5
+ z36g==
+X-Gm-Message-State: AOAM5305r1Jkk9rbf4Wb0Hwcqa2DUKnKUq32TjB0WtdqpLD00zdcGgue
+ aWmAxw2PEmdpxB+w4/O6oyGVNw==
+X-Google-Smtp-Source: ABdhPJyCj8nkgVuxflTeFioAAJwZAukYxUdj8p/t666Q+NKGnuf9aDbO0HpPK9CHZhyIDATH2r/4Lg==
+X-Received: by 2002:ac2:4bc1:: with SMTP id o1mr6633392lfq.596.1632847155514; 
+ Tue, 28 Sep 2021 09:39:15 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id u10sm1970336lfl.87.2021.09.28.09.39.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 28 Sep 2021 09:39:14 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm/dpu: Remove some nonsense
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Krishna Manikandan <mkrishn@codeaurora.org>, Lee Jones
+ <lee.jones@linaro.org>, open list <linux-kernel@vger.kernel.org>
+References: <20210928162903.1104847-1-robdclark@gmail.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <dbefd596-4382-3822-fdec-486cf3df1560@linaro.org>
+Date: Tue, 28 Sep 2021 19:39:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <20210914032252.3770756-1-yangcong5@huaqin.corp-partner.google.com>
- <CAD=FV=W7uTQ0OZ_YV7UU-4pGinuX=huF1SkBxfNb2R8T1Dx5Tw@mail.gmail.com>
-In-Reply-To: <CAD=FV=W7uTQ0OZ_YV7UU-4pGinuX=huF1SkBxfNb2R8T1Dx5Tw@mail.gmail.com>
-From: Doug Anderson <dianders@google.com>
-Date: Tue, 28 Sep 2021 09:36:05 -0700
-Message-ID: <CAD=FV=Wc=fbGm-H4-Hn-xb-qp4B7yDde-d-WAbTCSaEMnY3frw@mail.gmail.com>
-Subject: Re: [v6 0/4] drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-To: yangcong <yangcong5@huaqin.corp-partner.google.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210928162903.1104847-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,60 +81,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 28/09/2021 19:28, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
+> 
+> These aren't used.  And if we add use for them later, we should probably
+> do something a bit more structured than string parsing.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
-On Tue, Sep 14, 2021 at 9:26 AM Doug Anderson <dianders@google.com> wrote:
->
-> Hi,
->
-> On Mon, Sep 13, 2021 at 8:23 PM yangcong
-> <yangcong5@huaqin.corp-partner.google.com> wrote:
-> >
-> > Compared to v5, squash this with patch #3 in the series in
-> > drm/panel: boe-tv101wum-nl6
-> >
-> > yangcong (4):
-> >   drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-> >   dt-bindings: drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-> >   drm/panel: support for BOE and INX video mode panel
-> >   dt-bindings: boe, tv101wum-n16: Add compatible for boe tv110c9m-ll3
-> >     and inx hj110iz-01a
-> >
-> >  .../display/panel/boe,tv101wum-nl6.yaml       |   7 +
-> >  .../gpu/drm/panel/panel-boe-tv101wum-nl6.c    | 745 +++++++++++++++++-
-> >  2 files changed, 750 insertions(+), 2 deletions(-)
->
-> Still seems OK to me and you carried my Reviewed-by over which is fine with me.
->
-> Just to give others time to chime in, I'll reset my snooze and wait
-> another couple weeks. If I don't hear anything then I'll work on
-> landing.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-OK, my snooze came back and nobody said anything. As promised I've
-pushed to drm-misc-next:
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c | 6 ------
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h | 8 --------
+>   2 files changed, 14 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> index b131fd376192..e32dbb06aad1 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> @@ -958,12 +958,6 @@ static const struct dpu_perf_cfg sdm845_perf_data = {
+>   	.min_core_ib = 2400000,
+>   	.min_llcc_ib = 800000,
+>   	.min_dram_ib = 800000,
+> -	.core_ib_ff = "6.0",
+> -	.core_clk_ff = "1.0",
+> -	.comp_ratio_rt =
+> -	"NV12/5/1/1.23 AB24/5/1/1.23 XB24/5/1/1.23",
+> -	.comp_ratio_nrt =
+> -	"NV12/5/1/1.25 AB24/5/1/1.25 XB24/5/1/1.25",
+>   	.undersized_prefill_lines = 2,
+>   	.xtra_prefill_lines = 2,
+>   	.dest_scale_prefill_lines = 3,
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> index d2a945a27cfa..4ade44bbd37e 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.h
+> @@ -676,10 +676,6 @@ struct dpu_perf_cdp_cfg {
+>    * @min_core_ib        minimum mnoc ib vote in kbps
+>    * @min_llcc_ib        minimum llcc ib vote in kbps
+>    * @min_dram_ib        minimum dram ib vote in kbps
+> - * @core_ib_ff         core instantaneous bandwidth fudge factor
+> - * @core_clk_ff        core clock fudge factor
+> - * @comp_ratio_rt      string of 0 or more of <fourcc>/<ven>/<mod>/<comp ratio>
+> - * @comp_ratio_nrt     string of 0 or more of <fourcc>/<ven>/<mod>/<comp ratio>
+>    * @undersized_prefill_lines   undersized prefill in lines
+>    * @xtra_prefill_lines         extra prefill latency in lines
+>    * @dest_scale_prefill_lines   destination scaler latency in lines
+> @@ -702,10 +698,6 @@ struct dpu_perf_cfg {
+>   	u32 min_core_ib;
+>   	u32 min_llcc_ib;
+>   	u32 min_dram_ib;
+> -	const char *core_ib_ff;
+> -	const char *core_clk_ff;
+> -	const char *comp_ratio_rt;
+> -	const char *comp_ratio_nrt;
+>   	u32 undersized_prefill_lines;
+>   	u32 xtra_prefill_lines;
+>   	u32 dest_scale_prefill_lines;
+> 
 
-93ee1a2c0f08 drm/panel: support for BOE and INX video mode panel
-76d364d81b55 dt-bindings: boe, tv101wum-n16: Add compatible for boe
-tv110c9m-ll3 and inx hj110iz-01a
-18c58153b8c6 drm/panel: boe-tv101wum-nl6: Support enabling a 3.3V rail
-c43da06c24a4 dt-bindings: drm/panel: boe-tv101wum-nl6: Support
-enabling a 3.3V rail
 
-I made some small changes when applying and I've noted them in the
-commit messages. Summary here:
-
-1. In the compatible string "inx," should have been "innolux,". The
-later is what's documented for Innolux in:
-
-Documentation/devicetree/bindings/vendor-prefixes.yaml
-
-...neither Rob nor I noticed at review time but dim apply-branch
-yelled and it was obvious what the fix was. I kept Rob's Ack in place.
-
-2. I swapped the order of bindings and code. Bindings are supposed to
-land first.
-
-3. I fixed two whitespace issues (removed blank lines) as reported by
-dim apply-branch.
-
--Doug
+-- 
+With best wishes
+Dmitry
