@@ -2,61 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECDF041ACAD
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C69C941ACD9
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 12:22:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70A6F89DEA;
-	Tue, 28 Sep 2021 10:11:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3A36E0B6;
+	Tue, 28 Sep 2021 10:22:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 22E5D89DEA
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:11:50 +0000 (UTC)
-Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0045D82EE0;
- Tue, 28 Sep 2021 12:11:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1632823908;
- bh=1gm+yBwSErE6FWepgFfoEKRGOP1Aqja96WsJs8n3Kfk=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=jvWr/TPom7aGUWl+KtLdSBBJ7nY1DfLQaEzCVaoaTOSE56JtEgOhRwfiW7o2gjOKT
- UaYcbQWPp0K3YJFJtJ4IUNR9EAN6A3rLcCuv9PWbCw9W4jk1sshOW8qZeFPJV5m+H9
- vUMCzd/tYnCsuSpGkw34E+K6S1+g/8vOmJ578K4iUbWhV33/oNB0d+6idXc9TIHEx9
- HWw6FFWr8auLkX0zJoMjcDYeLxCwFApjWzbngSlZxUINLLRKt8FNhDrtjQlAIuG0P8
- CDIMS99VQjkvEvJBGVpo0PDleOVHv7BKm2I0pCwiupWXbPn5RdiIoXnXfRdgMmFCMX
- 5g00qzOtbgfYQ==
-Subject: Re: [PATCH] drm: mxsfb: Set proper default bus format when using a
- bridge
-To: Lucas Stach <l.stach@pengutronix.de>, =?UTF-8?Q?Guido_G=c3=bcnther?=
- <agx@sigxcpu.org>
-Cc: Stefan Agner <stefan@agner.ch>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <YVLYh/SgBritG/RJ@qwark.sigxcpu.org>
- <1fda3b80-7df2-2ce3-b049-6773e849e9dc@denx.de>
- <YVLeMlQWd/lBNjsX@qwark.sigxcpu.org>
- <3ebcbc4dba56011ddf4761dc47513dbb66fe656d.camel@pengutronix.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <d9760c02-1b73-5703-7964-a2918e16af94@denx.de>
-Date: Tue, 28 Sep 2021 12:11:47 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
-MIME-Version: 1.0
-In-Reply-To: <3ebcbc4dba56011ddf4761dc47513dbb66fe656d.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+Received: from mo4-p03-ob.smtp.rzone.de (mo4-p03-ob.smtp.rzone.de
+ [85.215.255.104])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0A96889CBE
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:22:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632824516;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=lIE+6NI+6gHXoIKYxSeCXrUSNgd4aDwsNn3eAUHjKFg=;
+ b=S/ykKYLIkGyxwpbfGJ7Ht7ipHSPviElE+Y8ShkcizVi5gh1dCE8kYwffOxAdM4/S6v
+ hErVS1O2hYoUsR6mGIXGh+S5XdRoyZ9QGbxT5Dg4ZExnT64SBxL8Lct5cisH3tTD5fGz
+ INpGUEJcZB9g0pWg4hVSv9kZJvt6fAa5DAghiYpD3663Ejlde45VUq4UUFdQ+6uuRgx5
+ 10F+zrUk4Q0Gl9GGUWEQ5oZQPXaIzqT9pzStgwqJV5NS5Ac7OQydZjo/u3KHtnIdkB9d
+ CLjsIDP2uwrZ7CbEK91nOlDXMrnDJqNGXzaA301RZSnJ/wejynpqTL251gq9bhWrYcTT
+ JziQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43sT7Q="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+ with ESMTPSA id I01f74x8SALtddb
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 28 Sep 2021 12:21:55 +0200 (CEST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v4 02/10] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <OA150R.JLKJBJP8V7FJ2@crapouillou.net>
+Date: Tue, 28 Sep 2021 12:21:54 +0200
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <1E10A04A-4A78-4B47-B0FB-1E8C99456DA1@goldelico.com>
+References: <cover.1632761067.git.hns@goldelico.com>
+ <68cca888be1894ce45f1a93cfabeb5aa1f88c20a.1632761067.git.hns@goldelico.com>
+ <OA150R.JLKJBJP8V7FJ2@crapouillou.net>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,58 +83,253 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/28/21 11:27 AM, Lucas Stach wrote:
-> Am Dienstag, dem 28.09.2021 um 11:19 +0200 schrieb Guido Günther:
->> Hi,
->> On Tue, Sep 28, 2021 at 11:08:58AM +0200, Marek Vasut wrote:
->>> On 9/28/21 10:55 AM, Guido Günther wrote:
->>>> If a bridge doesn't do any bus format handling MEDIA_BUS_FMT_FIXED is
->>>> returned. Fallback to a reasonable default (MEDIA_BUS_FMT_RGB888_1X24) in
->>>> that case.
->>>>
->>>> This unbreaks e.g. using mxsfb with the nwl bridge and mipi panels.
->>>>
->>>> Fixes: b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest bridge if present")
->>>>
->>>> Signed-off-by: Guido Günther <agx@sigxcpu.org>
->>>> ---
->>>>
->>>> I'll look at what needs to be done in nwl separately but this also
->>>> unbreaks other bridge seupts that don't to format negotiation yet.
->>>>
->>>>    drivers/gpu/drm/mxsfb/mxsfb_kms.c | 2 ++
->>>>    1 file changed, 2 insertions(+)
->>>>
->>>> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>>> index af6c620adf6e..4ef94cf686b0 100644
->>>> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>>> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
->>>> @@ -369,6 +369,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
->>>>    			drm_atomic_get_new_bridge_state(state,
->>>>    							mxsfb->bridge);
->>>>    		bus_format = bridge_state->input_bus_cfg.format;
->>>> +		if (bus_format == MEDIA_BUS_FMT_FIXED)
->>>> +			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
->>>
->>> Shouldn't the NWL bridge return the correct format ?
->>
->> Yes it should and I'll send a separate patch for that but we currently
->> don't do anything meaningful at all if the bridge doesn't do format
->> negotiation and then fail setup in mxsfb_set_formats().
->>
->> I think we should at least preserve the status quo (as we do with the
->> non bridge case in b776b0f00f24 too).
->>
->> We could have a warning to spot drivers that don't do that yet and hence
->> the generic code returns MEDIA_BUS_FMT_FIXED.
->>
-> That sounds sensible. Using a default format if we don't know what to
-> do is going to be a unpleasant surprise for those with a display
-> pipeline that doesn't work with the default format. So please add a
-> dev_warn when we are doing this fallback.
-> 
-> Also I would argue that the NWL fix is the patch that should go in the
-> stable tree. This one should only be a additional safety net, so I
-> would drop the Fixes tag.
+Hi,
 
-Indeed
+> Am 28.09.2021 um 11:35 schrieb Paul Cercueil <paul@crapouillou.net>:
+>=20
+> Hi Nikolaus / Paul,
+>=20
+> Le lun., sept. 27 2021 at 18:44:20 +0200, H. Nikolaus Schaller =
+<hns@goldelico.com> a =C3=A9crit :
+>> From: Paul Boddie <paul@boddie.org.uk>
+>> Add support for the LCD controller present on JZ4780 SoCs.
+>> This SoC uses 8-byte descriptors which extend the current
+>> 4-byte descriptors used for other Ingenic SoCs.
+>> Tested on MIPS Creator CI20 board.
+>> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
+>> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+>> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+>> ---
+>> drivers/gpu/drm/ingenic/ingenic-drm-drv.c | 85 =
++++++++++++++++++++++--
+>> drivers/gpu/drm/ingenic/ingenic-drm.h     | 42 +++++++++++
+>> 2 files changed, 122 insertions(+), 5 deletions(-)
+>> diff --git a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c =
+b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> index f73522bdacaa..e2df4b085905 100644
+>> --- a/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> +++ b/drivers/gpu/drm/ingenic/ingenic-drm-drv.c
+>> @@ -6,6 +6,7 @@
+>> #include "ingenic-drm.h"
+>> +#include <linux/bitfield.h>
+>> #include <linux/component.h>
+>> #include <linux/clk.h>
+>> #include <linux/dma-mapping.h>
+>> @@ -49,6 +50,11 @@ struct ingenic_dma_hwdesc {
+>> 	u32 addr;
+>> 	u32 id;
+>> 	u32 cmd;
+>> +	/* extended hw descriptor for jz4780 */
+>> +	u32 offsize;
+>> +	u32 pagewidth;
+>> +	u32 cpos;
+>> +	u32 dessize;
+>> } __aligned(16);
+>> struct ingenic_dma_hwdescs {
+>> @@ -60,9 +66,11 @@ struct jz_soc_info {
+>> 	bool needs_dev_clk;
+>> 	bool has_osd;
+>> 	bool map_noncoherent;
+>> +	bool use_extended_hwdesc;
+>> 	unsigned int max_width, max_height;
+>> 	const u32 *formats_f0, *formats_f1;
+>> 	unsigned int num_formats_f0, num_formats_f1;
+>> +	unsigned int max_reg;
+>> };
+>> struct ingenic_drm_private_state {
+>> @@ -168,12 +176,11 @@ static bool ingenic_drm_writeable_reg(struct =
+device *dev, unsigned int reg)
+>> 	}
+>> }
+>> -static const struct regmap_config ingenic_drm_regmap_config =3D {
+>> +static struct regmap_config ingenic_drm_regmap_config =3D {
+>> 	.reg_bits =3D 32,
+>> 	.val_bits =3D 32,
+>> 	.reg_stride =3D 4,
+>> -	.max_register =3D JZ_REG_LCD_SIZE1,
+>> 	.writeable_reg =3D ingenic_drm_writeable_reg,
+>> };
+>> @@ -663,6 +670,37 @@ static void =
+ingenic_drm_plane_atomic_update(struct drm_plane *plane,
+>> 		hwdesc->cmd =3D JZ_LCD_CMD_EOF_IRQ | (width * height * =
+cpp / 4);
+>> 		hwdesc->next =3D dma_hwdesc_addr(priv, next_id);
+>> +		if (priv->soc_info->use_extended_hwdesc) {
+>> +			hwdesc->cmd |=3D JZ_LCD_CMD_FRM_ENABLE;
+>> +
+>> +			/* Extended 8-byte descriptor */
+>> +			hwdesc->cpos =3D 0;
+>> +			hwdesc->offsize =3D 0;
+>> +			hwdesc->pagewidth =3D 0;
+>> +
+>> +			switch (newstate->fb->format->format) {
+>> +			case DRM_FORMAT_XRGB1555:
+>> +				hwdesc->cpos |=3D JZ_LCD_CPOS_RGB555;
+>> +				fallthrough;
+>> +			case DRM_FORMAT_RGB565:
+>> +				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_15_16;
+>> +				break;
+>> +			case DRM_FORMAT_XRGB8888:
+>> +				hwdesc->cpos |=3D JZ_LCD_CPOS_BPP_18_24;
+>> +				break;
+>> +			}
+>> +			hwdesc->cpos |=3D JZ_LCD_CPOS_PREMULTIPLY_LCD |
+>> +					    =
+(JZ_LCD_CPOS_COEFFICIENT_1_ALPHA1 <<
+>> +					     =
+JZ_LCD_CPOS_COEFFICIENT_OFFSET);
+>> +
+>> +			hwdesc->dessize =3D
+>> +				(0xff << JZ_LCD_DESSIZE_ALPHA_OFFSET) |
+>> +				FIELD_PREP(JZ_LCD_DESSIZE_HEIGHT_MASK <<
+>> +					   JZ_LCD_DESSIZE_HEIGHT_OFFSET, =
+height - 1) |
+>> +				FIELD_PREP(JZ_LCD_DESSIZE_WIDTH_MASK <<
+>> +					   JZ_LCD_DESSIZE_WIDTH_OFFSET, =
+width - 1);
+>> +		}
+>> +
+>> 		if (drm_atomic_crtc_needs_modeset(crtc_state)) {
+>> 			fourcc =3D newstate->fb->format->format;
+>> @@ -694,6 +732,10 @@ static void =
+ingenic_drm_encoder_atomic_mode_set(struct drm_encoder *encoder,
+>> 		    | JZ_LCD_CFG_SPL_DISABLE | JZ_LCD_CFG_REV_DISABLE;
+>> 	}
+>> +	/* set use of the 8-word descriptor and OSD foreground usage. */
+>> +	if (priv->soc_info->use_extended_hwdesc)
+>> +		cfg |=3D JZ_LCD_CFG_DESCRIPTOR_8;
+>> +
+>> 	if (mode->flags & DRM_MODE_FLAG_NHSYNC)
+>> 		cfg |=3D JZ_LCD_CFG_HSYNC_ACTIVE_LOW;
+>> 	if (mode->flags & DRM_MODE_FLAG_NVSYNC)
+>> @@ -1010,6 +1052,7 @@ static int ingenic_drm_bind(struct device *dev, =
+bool has_components)
+>> 	struct drm_encoder *encoder;
+>> 	struct ingenic_drm_bridge *ib;
+>> 	struct drm_device *drm;
+>> +	struct regmap_config regmap_config;
+>> 	void __iomem *base;
+>> 	long parent_rate;
+>> 	unsigned int i, clone_mask =3D 0;
+>> @@ -1063,8 +1106,10 @@ static int ingenic_drm_bind(struct device =
+*dev, bool has_components)
+>> 		return PTR_ERR(base);
+>> 	}
+>> +	regmap_config =3D ingenic_drm_regmap_config;
+>> +	regmap_config.max_register =3D soc_info->max_reg;
+>> 	priv->map =3D devm_regmap_init_mmio(dev, base,
+>> -					  &ingenic_drm_regmap_config);
+>> +					  &regmap_config);
+>=20
+> Could you split the code that makes .max_reg configurable per-SoC into =
+its own patch?
+
+Yes.
+
+>=20
+>> 	if (IS_ERR(priv->map)) {
+>> 		dev_err(dev, "Failed to create regmap\n");
+>> 		return PTR_ERR(priv->map);
+>> @@ -1274,7 +1319,7 @@ static int ingenic_drm_bind(struct device *dev, =
+bool has_components)
+>> 	/* Enable OSD if available */
+>> 	if (soc_info->has_osd)
+>> -		regmap_write(priv->map, JZ_REG_LCD_OSDC, =
+JZ_LCD_OSDC_OSDEN);
+>> +		regmap_set_bits(priv->map, JZ_REG_LCD_OSDC, =
+JZ_LCD_OSDC_OSDEN);
+>=20
+> Why?
+
+If I remember we should not assume that all others bits in =
+JZ_REG_LCD_OSDC
+can be safely overwritten by 0, although their reset state is 0 as well.
+
+These are several alpha-blending bits and interrupt masks in the same =
+register.
+Apparently only in jz4780.
+
+>=20
+>> 	mutex_init(&priv->clk_mutex);
+>> 	priv->clock_nb.notifier_call =3D ingenic_drm_update_pixclk;
+>> @@ -1444,6 +1489,7 @@ static const struct jz_soc_info jz4740_soc_info =
+=3D {
+>> 	.formats_f1 =3D jz4740_formats,
+>> 	.num_formats_f1 =3D ARRAY_SIZE(jz4740_formats),
+>> 	/* JZ4740 has only one plane */
+>> +	.max_reg =3D JZ_REG_LCD_SIZE1,
+>> };
+>> static const struct jz_soc_info jz4725b_soc_info =3D {
+>> @@ -1456,6 +1502,7 @@ static const struct jz_soc_info =
+jz4725b_soc_info =3D {
+>> 	.num_formats_f1 =3D ARRAY_SIZE(jz4725b_formats_f1),
+>> 	.formats_f0 =3D jz4725b_formats_f0,
+>> 	.num_formats_f0 =3D ARRAY_SIZE(jz4725b_formats_f0),
+>> +	.max_reg =3D JZ_REG_LCD_SIZE1,
+>> };
+>> static const struct jz_soc_info jz4770_soc_info =3D {
+>> @@ -1468,12 +1515,28 @@ static const struct jz_soc_info =
+jz4770_soc_info =3D {
+>> 	.num_formats_f1 =3D ARRAY_SIZE(jz4770_formats_f1),
+>> 	.formats_f0 =3D jz4770_formats_f0,
+>> 	.num_formats_f0 =3D ARRAY_SIZE(jz4770_formats_f0),
+>> +	.max_reg =3D JZ_REG_LCD_SIZE1,
+>> +};
+>> +
+>> +static const struct jz_soc_info jz4780_soc_info =3D {
+>> +	.needs_dev_clk =3D true,
+>> +	.has_osd =3D true,
+>> +	.use_extended_hwdesc =3D true,
+>> +	.max_width =3D 4096,
+>> +	.max_height =3D 2048,
+>> +	/* REVISIT: do we support formats different from jz4770? */
+>> +	.formats_f1 =3D jz4770_formats_f1,
+>> +	.num_formats_f1 =3D ARRAY_SIZE(jz4770_formats_f1),
+>> +	.formats_f0 =3D jz4770_formats_f0,
+>> +	.num_formats_f0 =3D ARRAY_SIZE(jz4770_formats_f0),
+>> +	.max_reg =3D JZ_REG_LCD_PCFG,
+>> };
+>> static const struct of_device_id ingenic_drm_of_match[] =3D {
+>> 	{ .compatible =3D "ingenic,jz4740-lcd", .data =3D =
+&jz4740_soc_info },
+>> 	{ .compatible =3D "ingenic,jz4725b-lcd", .data =3D =
+&jz4725b_soc_info },
+>> 	{ .compatible =3D "ingenic,jz4770-lcd", .data =3D =
+&jz4770_soc_info },
+>> +	{ .compatible =3D "ingenic,jz4780-lcd", .data =3D =
+&jz4780_soc_info },
+>> 	{ /* sentinel */ },
+>> };
+>> MODULE_DEVICE_TABLE(of, ingenic_drm_of_match);
+>> @@ -1492,10 +1555,16 @@ static int ingenic_drm_init(void)
+>> {
+>> 	int err;
+>> +	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI)) {
+>> +		err =3D =
+platform_driver_register(ingenic_dw_hdmi_driver_ptr);
+>> +		if (err)
+>> +			return err;
+>> +	}
+>=20
+> I don't see why you need to register the ingenic-dw-hdmi driver here. =
+Just register it in the ingenic-dw-hdmi driver.
+
+Ok, I never though about this (as the code was not from me). We =
+apparently just followed the IPU code pattern (learning by example).
+
+It indeed looks not necessary and would also avoid the =
+ingenic_dw_hdmi_driver_ptr dependency.
+
+But: what is ingenic_ipu_driver_ptr then good for?
+
+If we can get rid of this as well, we can drop patch 1/10 ("drm/ingenic: =
+Fix drm_init error path if IPU was registered") completely.
+
+>=20
+> Cheers,
+> -Paul
+>=20
+
+BR,
+Nikolaus
+
