@@ -1,73 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10F341B4C5
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 19:13:37 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6944641B511
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 19:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 767846E064;
-	Tue, 28 Sep 2021 17:13:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AD9DE6E8F9;
+	Tue, 28 Sep 2021 17:23:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 14CA56E064
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 17:13:31 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id e16so20451116qte.13
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:13:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=3Xx8rNIZkvMliD68DmgFcYOoQ1tpCBrX2+RD4NaKqi4=;
- b=LanYIHwLUugO1SYhA4R1tjx/4/Za+1W69P8OiSvyrQXmlYAdpbyB85E23JmtXfGDHt
- wDUzXSyVeUosO2AwtC5ep6h56UygytauvIz8Qdi86oR2WYIgror7+r5XdKdNZJMXADW2
- teFMQtLGF7zsP8hzV4AhfTM5awwdCuByO0G9yhkwWenLgruL7//YkdwrSbP1PqEhcnI1
- xUu62EKpnImnUhUZbYkhDetuXiAugos4PsWbBV0yxXz9ylLSun90NzDflFzhWGUHiSz7
- yZUUnYjocHsdZep+d5DWuEVLKnZME54O4Wvij6NNlm4cWTy92Y5NiAt/MEFNlvAFiMmx
- Tqgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=3Xx8rNIZkvMliD68DmgFcYOoQ1tpCBrX2+RD4NaKqi4=;
- b=6fGFVwAiI+CjtMDoG7N7HhjLqti1Xq1qJLwWmy/SpJh3zh2OrEsQF/w9aiP3stSmIF
- uzFtwOf6LLw2egEayYgmXR9yMeD7k1+L5n6CCdmaVQ62Ij8ABa3RroDmla/X3D83KaBE
- uJ093CICyrL2J9CLv0afhysnIcA37hq3W1Mq1KoJo3riJ2ZZple/4YAqFvCHMEeWQqff
- z64fNkTnlk2c4G0gzoTjzl7dHpNpQhbX4GDGf6z6QbreWXkXUl3AR5483I0s+llcJHuG
- nrh3LQ2IUZvJcaRo7zrN2eZnkFbaLBGm1716qCUkl078M2Eq8H533Mp4C12zGlLb556o
- RxUw==
-X-Gm-Message-State: AOAM530r1Q/8Uo9wNCZk2SsoHVnf/IGImv1v7c64HCijWoLrGlAahUSZ
- MikU28hhJeQb6LSgkyBpNt/Gyw==
-X-Google-Smtp-Source: ABdhPJwySofKZpBkD7jy6Vdb6WsNA3yiKbulrnJQTRUb8BGGkmyWflBOTfaYOzfqm6nDJlcs8e0wag==
-X-Received: by 2002:a05:622a:178b:: with SMTP id
- s11mr7167370qtk.13.1632849210891; 
- Tue, 28 Sep 2021 10:13:30 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id p12sm14912297qkj.54.2021.09.28.10.13.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 10:13:30 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVGfZ-007Dzq-MQ; Tue, 28 Sep 2021 14:13:29 -0300
-Date: Tue, 28 Sep 2021 14:13:29 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Oded Gabbay <ogabbay@kernel.org>
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
- christian.koenig@amd.com, daniel.vetter@ffwll.ch,
- galpress@amazon.com, sleybo@amazon.com,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, dledford@redhat.com, airlied@gmail.com,
- alexander.deucher@amd.com, leonro@nvidia.com, hch@lst.de,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v6 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-Message-ID: <20210928171329.GF3544071@ziepe.ca>
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <20210912165309.98695-2-ogabbay@kernel.org>
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7BDF6E8F9
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 17:22:58 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1632849784; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=mb/o+TU/jtzYpiRKctEI+EzDEsfd4AjUR8iTNCtSlZo=;
+ b=NXU8BmSLWeoi9UuC6UF6HMRRiWKlu/GQMSX894mZ4qeb2AbEffS4XZZWosDt1thCXlIACG4I
+ zkBWLW4iq7S8ajcmZwuW8jmNNgqG4pbBkMyo7diG3MPqe1FaxAAe4QrKByvAKbihj9tj/66c
+ ceHdRvKy4rdZ3Q6xyyYVeTourMg=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 61534f64a5a9bab6e8c9faa8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 17:22:44
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 6073CC44BC2; Tue, 28 Sep 2021 17:22:43 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id B7904C008EF;
+ Tue, 28 Sep 2021 17:22:41 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210912165309.98695-2-ogabbay@kernel.org>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Tue, 28 Sep 2021 10:22:41 -0700
+From: khsieh@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar
+ <abhinavk@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
+ <airlied@linux.ie>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Kalyan
+ Thota <kalyan_t@codeaurora.org>, Rob Clark <robdclark@gmail.com>, Sean Paul
+ <sean@poorly.run>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/5] drm/msm/dp: Support up to 3 DP controllers
+In-Reply-To: <YSkdaljt7DPbyTDe@builder.lan>
+References: <20210825234233.1721068-1-bjorn.andersson@linaro.org>
+ <20210825234233.1721068-4-bjorn.andersson@linaro.org>
+ <CAE-0n52YaQXQ4-=bR5ffMHOMp7CyFnCS-u9a2pddvaRUQhLrog@mail.gmail.com>
+ <YSkdaljt7DPbyTDe@builder.lan>
+Message-ID: <66f0f29e449b02e30678ed2e3487c7f2@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,33 +78,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 12, 2021 at 07:53:08PM +0300, Oded Gabbay wrote:
->  	/* HL_MEM_OP_* */
->  	__u32 op;
-> -	/* HL_MEM_* flags */
-> +	/* HL_MEM_* flags.
-> +	 * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
-> +	 * DMA-BUF file/FD flags.
-> +	 */
->  	__u32 flags;
->  	/* Context ID - Currently not in use */
->  	__u32 ctx_id;
-> @@ -1072,6 +1091,13 @@ struct hl_mem_out {
->  
->  			__u32 pad;
->  		};
-> +
-> +		/* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
-> +		 * DMA-BUF object that was created to describe a memory
-> +		 * allocation on the device's memory space. The FD should be
-> +		 * passed to the importer driver
-> +		 */
-> +		__u64 fd;
+On 2021-08-27 10:14, Bjorn Andersson wrote:
+> On Fri 27 Aug 00:20 CDT 2021, Stephen Boyd wrote:
+> 
+>> Quoting Bjorn Andersson (2021-08-25 16:42:31)
+>> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> > index 2c7de43f655a..4a6132c18e57 100644
+>> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> > @@ -78,6 +78,8 @@ struct dp_display_private {
+>> >         char *name;
+>> >         int irq;
+>> >
+>> > +       int id;
+>> > +
+>> >         /* state variables */
+>> >         bool core_initialized;
+>> >         bool hpd_irq_on;
+>> > @@ -115,8 +117,19 @@ struct dp_display_private {
+>> >         struct dp_audio *audio;
+>> >  };
+>> >
+>> > +
+>> > +struct msm_dp_config {
+>> > +       phys_addr_t io_start[3];
+>> 
+>> Can this be made into another struct, like msm_dp_desc, that also
+>> indicates what type of DP connector it is, i.e. eDP vs DP? That would
+>> help me understand in modetest and /sys/class/drm what sort of 
+>> connector
+>> is probing. dp_drm_connector_init() would need to pass the type of
+>> connector appropriately. Right now, eDP connectors still show up as DP
+>> instead of eDP in sysfs.
+>> 
+> 
+> I like it, will spin a v3 with this.
+> 
+> Regards,
+> Bjorn
 
-fd's should be a s32 type in a fixed width uapi.
+Hi Bjorn,
 
-I usually expect to see the uapi changes inside the commit that
-consumes them, splitting the patch like this seems strange but
-harmless.
+Have you spin off V3 yet?
+When you expect your patches related to DP be up streamed?
 
-Jason
+Thanks,
+kuogee
+> 
+>> > +       size_t num_dp;
+>> > +};
+>> > +
+>> > +static const struct msm_dp_config sc7180_dp_cfg = {
+>> > +       .io_start = { 0x0ae90000 },
+>> > +       .num_dp = 1,
+>> > +};
+>> > +
+>> >  static const struct of_device_id dp_dt_match[] = {
+>> > -       {.compatible = "qcom,sc7180-dp"},
+>> > +       { .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
+>> >         {}
+>> >  };
+>> >
