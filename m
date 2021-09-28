@@ -1,61 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94B3241B746
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 21:13:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDF2C41B769
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 21:19:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BDD726E95B;
-	Tue, 28 Sep 2021 19:13:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 100766E94E;
+	Tue, 28 Sep 2021 19:19:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 58E036E950;
- Tue, 28 Sep 2021 19:13:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3384A6135E;
- Tue, 28 Sep 2021 19:13:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632856393;
- bh=7B069zu3fIEzc7J70Px6o5DhIK24ITV1Z/pXFm5SPE0=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=l6f3rhKcvzS0cbgcm8Mrrz4ooPJZlG/4m1v9BWnHnLbjLhFxTHio3iJqUb30rWppT
- bkrU3N/7CrsynPS44VKf0F2VQiuAKkNUFlNPTayOIUECmpi5i8qpKmMSC/lBmgtS7j
- X4kQkoxKPRo4YEiG5j2cprdm3SqnXAJO0aQYTGHuo1F1PYDZMuTo0r+HG+4p53LGkx
- 6g2hElAnx6lHAbgmMZ4OmahFoV7S1PCe5RpOroGQpbz3A8K5WRGTW29H9j5IXkbBGD
- 3mQlgTa3+GnIvq5ZXBvfbIyXjy3El0UVXSA16dxV71BieYlJXPFw3G4y+ns8x5uyUQ
- yBbjLwWqCZu2w==
-Received: by mail-yb1-f176.google.com with SMTP id m70so34039334ybm.5;
- Tue, 28 Sep 2021 12:13:13 -0700 (PDT)
-X-Gm-Message-State: AOAM5301TARsb6oM2OFlQtCqA4kRDNClQyPmoK6hF5yqdAmnCPX6P9La
- 0utYopZC2tS4s6s3EEoKQv5sblejluQCt//p3Z0=
-X-Google-Smtp-Source: ABdhPJzG+BFlkram6wvHYJeDdwoU4EG8PEfLiuo+UnYK/GvSnKWgTPJ0sB5vh6yCxEX5jumwKy2fpW82HRuvpNo3wUE=
-X-Received: by 2002:a25:3614:: with SMTP id d20mr8888513yba.537.1632856392408; 
- Tue, 28 Sep 2021 12:13:12 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C75EC6E964;
+ Tue, 28 Sep 2021 19:19:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="247303090"
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="247303090"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 12:19:53 -0700
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="554270019"
+Received: from oogunmoy-mobl1.amr.corp.intel.com (HELO
+ skuppusw-mobl5.amr.corp.intel.com) ([10.212.221.219])
+ by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 12:19:51 -0700
+Subject: Re: [PATCH v4 0/8] Implement generic cc_platform_has() helper function
+To: Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>
+Cc: Andi Kleen <ak@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Young <dyoung@redhat.com>,
+ David Airlie <airlied@linux.ie>, Heiko Carstens <hca@linux.ibm.com>,
+ Joerg Roedel <joro@8bytes.org>, "Kirill A. Shutemov" <kirill@shutemov.name>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Paul Mackerras <paulus@samba.org>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kexec@lists.infradead.org
+References: <20210928191009.32551-1-bp@alien8.de>
+From: "Kuppuswamy, Sathyanarayanan"
+ <sathyanarayanan.kuppuswamy@linux.intel.com>
+Message-ID: <80593893-c63b-d481-45f1-42a3a6fd762a@linux.intel.com>
+Date: Tue, 28 Sep 2021 12:19:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.13.0
 MIME-Version: 1.0
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <20210912165309.98695-2-ogabbay@kernel.org>
- <20210928171329.GF3544071@ziepe.ca>
-In-Reply-To: <20210928171329.GF3544071@ziepe.ca>
-From: Oded Gabbay <ogabbay@kernel.org>
-Date: Tue, 28 Sep 2021 22:12:45 +0300
-X-Gmail-Original-Message-ID: <CAFCwf11_2TTVnqr8HqrsCW6cxUHu9txKuX-3U6mgMVPq8WqKdg@mail.gmail.com>
-Message-ID: <CAFCwf11_2TTVnqr8HqrsCW6cxUHu9txKuX-3U6mgMVPq8WqKdg@mail.gmail.com>
-Subject: Re: [PATCH v6 1/2] habanalabs: define uAPI to export FD for DMA-BUF
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Daniel Vetter <daniel.vetter@ffwll.ch>, Gal Pressman <galpress@amazon.com>, 
- Yossi Leybovich <sleybo@amazon.com>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, 
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Doug Ledford <dledford@redhat.com>, 
- Dave Airlie <airlied@gmail.com>, Alex Deucher <alexander.deucher@amd.com>, 
- Leon Romanovsky <leonro@nvidia.com>, Christoph Hellwig <hch@lst.de>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20210928191009.32551-1-bp@alien8.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,41 +69,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 28, 2021 at 8:13 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Sun, Sep 12, 2021 at 07:53:08PM +0300, Oded Gabbay wrote:
-> >       /* HL_MEM_OP_* */
-> >       __u32 op;
-> > -     /* HL_MEM_* flags */
-> > +     /* HL_MEM_* flags.
-> > +      * For the HL_MEM_OP_EXPORT_DMABUF_FD opcode, this field holds the
-> > +      * DMA-BUF file/FD flags.
-> > +      */
-> >       __u32 flags;
-> >       /* Context ID - Currently not in use */
-> >       __u32 ctx_id;
-> > @@ -1072,6 +1091,13 @@ struct hl_mem_out {
-> >
-> >                       __u32 pad;
-> >               };
-> > +
-> > +             /* Returned in HL_MEM_OP_EXPORT_DMABUF_FD. Represents the
-> > +              * DMA-BUF object that was created to describe a memory
-> > +              * allocation on the device's memory space. The FD should be
-> > +              * passed to the importer driver
-> > +              */
-> > +             __u64 fd;
->
-> fd's should be a s32 type in a fixed width uapi.
-Yep, will correct this.
 
->
-> I usually expect to see the uapi changes inside the commit that
-> consumes them, splitting the patch like this seems strange but
-> harmless.
-I'll remember that when I send the RDMA patches down the road :)
 
-Thanks,
-Oded
->
-> Jason
+On 9/28/21 12:10 PM, Borislav Petkov wrote:
+> From: Borislav Petkov <bp@suse.de>
+> 
+> Hi all,
+> 
+> here's v4 of the cc_platform_has() patchset with feedback incorporated.
+> 
+> I'm going to route this through tip if there are no objections.
+
+Intel CC support patch is not included in this series. You want me
+to address the issue raised by Joerg before merging it?
+
+> 
+> Thx.
+> 
+> Tom Lendacky (8):
+>    x86/ioremap: Selectively build arch override encryption functions
+>    arch/cc: Introduce a function to check for confidential computing
+>      features
+>    x86/sev: Add an x86 version of cc_platform_has()
+>    powerpc/pseries/svm: Add a powerpc version of cc_platform_has()
+>    x86/sme: Replace occurrences of sme_active() with cc_platform_has()
+>    x86/sev: Replace occurrences of sev_active() with cc_platform_has()
+>    x86/sev: Replace occurrences of sev_es_active() with cc_platform_has()
+>    treewide: Replace the use of mem_encrypt_active() with
+>      cc_platform_has()
+> 
+>   arch/Kconfig                                 |  3 +
+>   arch/powerpc/include/asm/mem_encrypt.h       |  5 --
+>   arch/powerpc/platforms/pseries/Kconfig       |  1 +
+>   arch/powerpc/platforms/pseries/Makefile      |  2 +
+>   arch/powerpc/platforms/pseries/cc_platform.c | 26 ++++++
+>   arch/powerpc/platforms/pseries/svm.c         |  5 +-
+>   arch/s390/include/asm/mem_encrypt.h          |  2 -
+>   arch/x86/Kconfig                             |  1 +
+>   arch/x86/include/asm/io.h                    |  8 ++
+>   arch/x86/include/asm/kexec.h                 |  2 +-
+>   arch/x86/include/asm/mem_encrypt.h           | 12 +--
+>   arch/x86/kernel/Makefile                     |  6 ++
+>   arch/x86/kernel/cc_platform.c                | 69 +++++++++++++++
+>   arch/x86/kernel/crash_dump_64.c              |  4 +-
+>   arch/x86/kernel/head64.c                     |  9 +-
+>   arch/x86/kernel/kvm.c                        |  3 +-
+>   arch/x86/kernel/kvmclock.c                   |  4 +-
+>   arch/x86/kernel/machine_kexec_64.c           | 19 +++--
+>   arch/x86/kernel/pci-swiotlb.c                |  9 +-
+>   arch/x86/kernel/relocate_kernel_64.S         |  2 +-
+>   arch/x86/kernel/sev.c                        |  6 +-
+>   arch/x86/kvm/svm/svm.c                       |  3 +-
+>   arch/x86/mm/ioremap.c                        | 18 ++--
+>   arch/x86/mm/mem_encrypt.c                    | 55 ++++--------
+>   arch/x86/mm/mem_encrypt_identity.c           |  9 +-
+>   arch/x86/mm/pat/set_memory.c                 |  3 +-
+>   arch/x86/platform/efi/efi_64.c               |  9 +-
+>   arch/x86/realmode/init.c                     |  8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |  4 +-
+>   drivers/gpu/drm/drm_cache.c                  |  4 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          |  4 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c          |  6 +-
+>   drivers/iommu/amd/init.c                     |  7 +-
+>   drivers/iommu/amd/iommu.c                    |  3 +-
+>   drivers/iommu/amd/iommu_v2.c                 |  3 +-
+>   drivers/iommu/iommu.c                        |  3 +-
+>   fs/proc/vmcore.c                             |  6 +-
+>   include/linux/cc_platform.h                  | 88 ++++++++++++++++++++
+>   include/linux/mem_encrypt.h                  |  4 -
+>   kernel/dma/swiotlb.c                         |  4 +-
+>   40 files changed, 310 insertions(+), 129 deletions(-)
+>   create mode 100644 arch/powerpc/platforms/pseries/cc_platform.c
+>   create mode 100644 arch/x86/kernel/cc_platform.c
+>   create mode 100644 include/linux/cc_platform.h
+> 
+
+-- 
+Sathyanarayanan Kuppuswamy
+Linux Kernel Developer
