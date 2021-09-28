@@ -2,81 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 144B041AB68
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 11:04:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12D6141AB85
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 11:09:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DCDD46E0F2;
-	Tue, 28 Sep 2021 09:04:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 901B86E895;
+	Tue, 28 Sep 2021 09:09:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1B79E6E0F2
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:04:25 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1632819867; h=Date: Message-Id: Cc: To: References:
- In-Reply-To: From: Subject: Content-Transfer-Encoding: MIME-Version:
- Content-Type: Sender; bh=09C7+Iq0CKL2hGEdanYSFMJLK30HPDjpfQExa8Wp094=;
- b=H8FJWUfe6IjMvSQmUJVNARTUoc3rrUKCXm6zWML00TG65aw4E3smPjwdUISsViNQ87W9eBuE
- Gp7cC2noKl0ApA9hG4Ml57fKC4G+yGsHfnFPkydWVGzSyrCDKNmfnUCgPd/gKhjXDcrDkntI
- mk7uenUedObAlij597JItHuIsWY=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 6152da839ffb413149952e59 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 09:04:03
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 3ADDBC43617; Tue, 28 Sep 2021 09:04:02 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- MISSING_DATE,MISSING_MID,SPF_FAIL autolearn=no autolearn_force=no
- version=3.4.0
-Received: from tykki.adurom.net (tynnyri.adurom.net [51.15.11.48])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: kvalo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 6E798C4338F;
- Tue, 28 Sep 2021 09:03:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 6E798C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-Content-Type: text/plain; charset="utf-8"
+Received: from phobos.denx.de (phobos.denx.de
+ [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9ED3989B12
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:09:03 +0000 (UTC)
+Received: from [127.0.0.1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: marex@denx.de)
+ by phobos.denx.de (Postfix) with ESMTPSA id 2EC8D82E88;
+ Tue, 28 Sep 2021 11:08:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
+ s=phobos-20191101; t=1632820140;
+ bh=I1ENllMnE/kun7HNTxG3cN2RKJcBJbIGHuLqvk8y4vM=;
+ h=Subject:To:References:Cc:From:Date:In-Reply-To:From;
+ b=EoP2uEmArfCpIqIL5Y6NKNiBDFYD6nEezc4n4atw2Vcqapa7DSzlO1B3aFuu45N4f
+ 2lr+B0yTuVtLWFyvY5Fyc/BvnFzBesOO/yC4cNYSTTBWJiKNrgvixZl3Xkd9FBd2LX
+ XQqkwfwCNAmjV7JiGN5wAzGoTtlcGdoyd2bM4v5WB7F0B7gYTqYOXNvfZO4SQBrr8T
+ qZB3xRWFx46orY35lP9/uAkOx3310rGpdjM7HbDOD0zMHuTfsGyZzm8dI3+mPg/bCF
+ 92jMuoPfYb2pV/xw32vprhUfKnrXb3411TYX37dTR/e9sYGCc7b9M0YKx9Anpyt18G
+ xRk054C5OB/fw==
+Subject: Re: [PATCH] drm: mxsfb: Set proper default bus format when using a
+ bridge
+To: =?UTF-8?Q?Guido_G=c3=bcnther?= <agx@sigxcpu.org>
+References: <YVLYh/SgBritG/RJ@qwark.sigxcpu.org>
+Cc: Stefan Agner <stefan@agner.ch>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Sam Ravnborg <sam@ravnborg.org>, Lucas Stach <l.stach@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From: Marek Vasut <marex@denx.de>
+Message-ID: <1fda3b80-7df2-2ce3-b049-6773e849e9dc@denx.de>
+Date: Tue, 28 Sep 2021 11:08:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 04/11] ath11: Wstringop-overread warning
-From: Kalle Valo <kvalo@codeaurora.org>
-In-Reply-To: <20210322160253.4032422-5-arnd@kernel.org>
-References: <20210322160253.4032422-5-arnd@kernel.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Martin Sebor <msebor@gcc.gnu.org>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, x86@kernel.org, Ning Sun <ning.sun@intel.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>,
- Simon Kelley <simon@thekelleys.org.uk>,
- James Smart <james.smart@broadcom.com>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, Anders Larsen <al@alarsen.net>,
- Tejun Heo <tj@kernel.org>, Serge Hallyn <serge@hallyn.com>,
- Imre Deak <imre.deak@intel.com>, linux-arm-kernel@lists.infradead.org,
- tboot-devel@lists.sourceforge.net, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, ath11k@lists.infradead.org,
- linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
- linux-scsi@vger.kernel.org, cgroups@vger.kernel.org,
- linux-security-module@vger.kernel.org, Carl Huang <cjhuang@codeaurora.org>,
- Maharaja Kennadyrajan <mkenna@codeaurora.org>,
- Pradeep Kumar Chitrapu <pradeepc@codeaurora.org>,
- Johannes Berg <johannes.berg@intel.com>,
- Ritesh Singh <ritesi@codeaurora.org>,
- Rajkumar Manoharan <rmanohar@codeaurora.org>,
- Aloka Dixit <alokad@codeaurora.org>, Felix Fietkau <nbd@nbd.name>
-User-Agent: pwcli/0.1.0-git (https://github.com/kvalo/pwcli/) Python/3.7.3
-Message-Id: <20210928090402.3ADDBC43617@smtp.codeaurora.org>
-Date: Tue, 28 Sep 2021 09:04:02 +0000 (UTC)
+In-Reply-To: <YVLYh/SgBritG/RJ@qwark.sigxcpu.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
+X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,38 +69,33 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@kernel.org> wrote:
-
-> gcc-11 with the kernel address sanitizer prints a warning for this
-> driver:
+On 9/28/21 10:55 AM, Guido Günther wrote:
+> If a bridge doesn't do any bus format handling MEDIA_BUS_FMT_FIXED is
+> returned. Fallback to a reasonable default (MEDIA_BUS_FMT_RGB888_1X24) in
+> that case.
 > 
-> In function 'ath11k_peer_assoc_h_vht',
->     inlined from 'ath11k_peer_assoc_prepare' at drivers/net/wireless/ath/ath11k/mac.c:1632:2:
-> drivers/net/wireless/ath/ath11k/mac.c:1164:13: error: 'ath11k_peer_assoc_h_vht_masked' reading 16 bytes from a region of size 4 [-Werror=stringop-overread]
->  1164 |         if (ath11k_peer_assoc_h_vht_masked(vht_mcs_mask))
->       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> drivers/net/wireless/ath/ath11k/mac.c: In function 'ath11k_peer_assoc_prepare':
-> drivers/net/wireless/ath/ath11k/mac.c:1164:13: note: referencing argument 1 of type 'const u16 *' {aka 'const short unsigned int *'}
-> drivers/net/wireless/ath/ath11k/mac.c:969:1: note: in a call to function 'ath11k_peer_assoc_h_vht_masked'
->   969 | ath11k_peer_assoc_h_vht_masked(const u16 vht_mcs_mask[NL80211_VHT_NSS_MAX])
->       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> This unbreaks e.g. using mxsfb with the nwl bridge and mipi panels.
 > 
-> According to analysis from gcc developers, this is a glitch in the
-> way gcc tracks the size of struct members. This should really get
-> fixed in gcc, but it's also easy to work around this instance
-> by changing the function prototype to no include the length of
-> the array.
+> Fixes: b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest bridge if present")
 > 
-> Link: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=99673
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> Signed-off-by: Kalle Valo <kvalo@codeaurora.org>
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
+> ---
+> 
+> I'll look at what needs to be done in nwl separately but this also
+> unbreaks other bridge seupts that don't to format negotiation yet.
+> 
+>   drivers/gpu/drm/mxsfb/mxsfb_kms.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index af6c620adf6e..4ef94cf686b0 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -369,6 +369,8 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
+>   			drm_atomic_get_new_bridge_state(state,
+>   							mxsfb->bridge);
+>   		bus_format = bridge_state->input_bus_cfg.format;
+> +		if (bus_format == MEDIA_BUS_FMT_FIXED)
+> +			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
 
-Patch applied to ath-next branch of ath.git, thanks.
-
-eb19efed836a ath11k: Wstringop-overread warning
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/patch/20210322160253.4032422-5-arnd@kernel.org/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
-
+Shouldn't the NWL bridge return the correct format ?
