@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2445C41A96A
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 09:09:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C37741A963
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 09:09:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 438286E0C8;
-	Tue, 28 Sep 2021 07:09:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 47FAC6E0BF;
+	Tue, 28 Sep 2021 07:09:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from twspam01.aspeedtech.com (twspam01.aspeedtech.com
  [211.20.114.71])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34D4F6E0AF
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 03:08:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B90E26E0A8
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 03:08:06 +0000 (UTC)
 Received: from twspam01.aspeedtech.com (localhost [127.0.0.2] (may be forged))
- by twspam01.aspeedtech.com with ESMTP id 18S2b0Kd072787
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:37:00 +0800 (GMT-8)
+ by twspam01.aspeedtech.com with ESMTP id 18S2apFO072755
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:51 +0800 (GMT-8)
  (envelope-from tommy_huang@aspeedtech.com)
 Received: from mail.aspeedtech.com ([192.168.0.24])
- by twspam01.aspeedtech.com with ESMTP id 18S2aUQd072686;
+ by twspam01.aspeedtech.com with ESMTP id 18S2aURW072687;
  Tue, 28 Sep 2021 10:36:30 +0800 (GMT-8)
  (envelope-from tommy_huang@aspeedtech.com)
 Received: from tommy0527-VirtualBox.aspeedtech.com (192.168.2.141) by
@@ -31,9 +31,9 @@ To: <joel@jms.id.au>, <airlied@linux.ie>, <daniel@ffwll.ch>,
  <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
  <linux-kernel@vger.kernel.org>
 CC: <BMC-SW@aspeedtech.com>
-Subject: [PATCH 2/6] ARM: dts: aspeed: ast2600-evb: Enable GFX device
-Date: Tue, 28 Sep 2021 10:56:59 +0800
-Message-ID: <20210928025703.10909-3-tommy_huang@aspeedtech.com>
+Subject: [PATCH 3/6] drm/aspeed: Add AST2600 support
+Date: Tue, 28 Sep 2021 10:57:00 +0800
+Message-ID: <20210928025703.10909-4-tommy_huang@aspeedtech.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210928025703.10909-1-tommy_huang@aspeedtech.com>
 References: <20210928025703.10909-1-tommy_huang@aspeedtech.com>
@@ -43,7 +43,7 @@ X-Originating-IP: [192.168.2.141]
 X-ClientProxiedBy: TWMBX02.aspeed.com (192.168.0.24) To TWMBX02.aspeed.com
  (192.168.0.24)
 X-DNSRBL: 
-X-MAIL: twspam01.aspeedtech.com 18S2aUQd072686
+X-MAIL: twspam01.aspeedtech.com 18S2aURW072687
 X-Mailman-Approved-At: Tue, 28 Sep 2021 07:09:22 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -62,38 +62,39 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Joel Stanley <joel@jms.id.au>
 
-Enable the GFX device with a framebuffer memory region.
+The values for the threshold and scan line size come from the ASPEED
+SDK.
+
+The DAC register is SCUC0 in the AST2600 datasheet. It has the same
+layout as the previous generations.
 
 Signed-off-by: Joel Stanley <joel@jms.id.au>
 Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
 ---
- arch/arm/boot/dts/aspeed-ast2600-evb.dts | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/gpu/drm/aspeed/aspeed_gfx_drv.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/arch/arm/boot/dts/aspeed-ast2600-evb.dts b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-index b7eb552640cb..195ccd1952da 100644
---- a/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-+++ b/arch/arm/boot/dts/aspeed-ast2600-evb.dts
-@@ -23,6 +23,19 @@
- 		reg = <0x80000000 0x80000000>;
- 	};
+diff --git a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+index b53fee6f1c17..ea9cb0a4f16c 100644
+--- a/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
++++ b/drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+@@ -79,9 +79,16 @@ static const struct aspeed_gfx_config ast2500_config = {
+ 	.scan_line_max = 128,
+ };
  
-+	reserved-memory {
-+		#address-cells = <1>;
-+		#size-cells = <1>;
-+		ranges;
++static const struct aspeed_gfx_config ast2600_config = {
++	.dac_reg = 0xc0,
++	.throd_val = CRT_THROD_LOW(0x50) | CRT_THROD_HIGH(0x70),
++	.scan_line_max = 128,
++};
 +
-+		gfx_memory: framebuffer {
-+			size = <0x01000000>;
-+			alignment = <0x01000000>;
-+			compatible = "shared-dma-pool";
-+			reusable;
-+		};
-+	};
-+
- 	vcc_sdhci0: regulator-vcc-sdhci0 {
- 		compatible = "regulator-fixed";
- 		regulator-name = "SDHCI0 Vcc";
+ static const struct of_device_id aspeed_gfx_match[] = {
+ 	{ .compatible = "aspeed,ast2400-gfx", .data = &ast2400_config },
+ 	{ .compatible = "aspeed,ast2500-gfx", .data = &ast2500_config },
++	{ .compatible = "aspeed,ast2600-gfx", .data = &ast2600_config },
+ 	{ },
+ };
+ MODULE_DEVICE_TABLE(of, aspeed_gfx_match);
 -- 
 2.17.1
 
