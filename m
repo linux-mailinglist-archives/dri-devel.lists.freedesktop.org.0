@@ -2,72 +2,130 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A21A41B53F
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 19:36:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FFBF41B551
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 19:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E9D66E904;
-	Tue, 28 Sep 2021 17:36:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 402976E90C;
+	Tue, 28 Sep 2021 17:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82f.google.com (mail-qt1-x82f.google.com
- [IPv6:2607:f8b0:4864:20::82f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 309CD6E905
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 17:36:24 +0000 (UTC)
-Received: by mail-qt1-x82f.google.com with SMTP id e16so20524832qte.13
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 10:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=2j0hSIPEbEVg08O91IQHe4e/t66ZjkFeXF4uWgBdazo=;
- b=ax7LPES/qoKnFOEWKvaH8l1/x+ycloiA/hqHbPeL5rP8Z1vn907OmU4BErMfCuVCQc
- uykk/OGXe7PV+xjzDRfkypKmDznCXQsvvz3zqFUmlkelU8ZkngLjEO/wINJszUCiO6fM
- rkC4xrj8aKDffdSBLCe6RujXg1aOQUTzSlUr/UMvo61pUtTO+oYCwyOV634CFGZsY3yi
- IiQEQ7G33mCNMT2e5fuJtLPw8Dvjst412sYB6xqWHjwxFiWGrGwoYAs9wm8hFbqIOcUm
- D0BS8zqjwkZUWjefjReFzvuS5I14QPxK6cI/EN+UNxqhUhnycRjJZujgSzt7Xzy0jauC
- VN/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2j0hSIPEbEVg08O91IQHe4e/t66ZjkFeXF4uWgBdazo=;
- b=NbeEL0Qeg52jQmPq614Vlzw1bHvKingD6Z4n5fyBVmmOu5R1cbtE5n/Xot8JFSjDIv
- r9zYe7Ai3u4lEW593ccwy4SWxiqsma6ash+xN17ywSdbQckgAjRvhfGSK3woH/bhViwX
- qlspFmPtKbJULgIKDKSBbOSULuV/5M9QEIbI6Q2/4qWK55n0nv8D+Mje69wq3SDRQTkY
- OIhnIEfPeIXuBJZxFQeXLBthwoXImVoWl+zz6XW76CxoGU96+YESqsnKQT1CeosYJh4T
- 6hWPzY67isI1+CnbnOvw+me3cNJ/9tTvgQWVWr0qStPmGNkrgaw9kua25bKnuD2Fei01
- kPCA==
-X-Gm-Message-State: AOAM532bQn2DzGISfAT/th+4Oj7BQTsmshRh0aHgb5wIyiegm2e03BqM
- LXZPE6PPoNpM1SKsVv6kjZzGmA==
-X-Google-Smtp-Source: ABdhPJyCMnEBQPKgYsxOkhRLCW8qILx1aEYS07Bsz6/uRtyaQBO+Rln0oQrRf1mMYyjQAzRzdprBSg==
-X-Received: by 2002:ac8:4819:: with SMTP id g25mr6958932qtq.364.1632850583261; 
- Tue, 28 Sep 2021 10:36:23 -0700 (PDT)
-Received: from ziepe.ca
- (hlfxns017vw-142-162-113-129.dhcp-dynamic.fibreop.ns.bellaliant.net.
- [142.162.113.129])
- by smtp.gmail.com with ESMTPSA id h4sm2175787qtb.67.2021.09.28.10.36.22
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 28 Sep 2021 10:36:22 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94) (envelope-from <jgg@ziepe.ca>)
- id 1mVH1h-007EMG-K7; Tue, 28 Sep 2021 14:36:21 -0300
-Date: Tue, 28 Sep 2021 14:36:21 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Oded Gabbay <ogabbay@kernel.org>
-Cc: linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
- christian.koenig@amd.com, daniel.vetter@ffwll.ch,
- galpress@amazon.com, sleybo@amazon.com,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, dledford@redhat.com, airlied@gmail.com,
- alexander.deucher@amd.com, leonro@nvidia.com, hch@lst.de,
- amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Tomer Tayar <ttayar@habana.ai>
-Subject: Re: [PATCH v6 2/2] habanalabs: add support for dma-buf exporter
-Message-ID: <20210928173621.GG3544071@ziepe.ca>
-References: <20210912165309.98695-1-ogabbay@kernel.org>
- <20210912165309.98695-3-ogabbay@kernel.org>
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12on2049.outbound.protection.outlook.com [40.107.237.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 437BF6E90C;
+ Tue, 28 Sep 2021 17:41:05 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WSCedoqgYzJDG+NPZ9hXoYoh6wL4TJQI5q+NHJqCv3cccYYpBS0vJEbz0IQ61TEWrfUZ6A9GFBeWQ0aXByzZT978FtI0nB+Tny43gGr7aqaG7oG+1ghO+H9zxFpkcMozgD8B6P9nW5eBb5PU7Qo8xPtlp+QOJNzFh5JfO0FkhFScLKFtC5fSx6kLQuZB3ByMbtaPRN5R3zFsd2Ni8myR546xqxFr4ZBqk1lhbL/pgX+Qbl/SiiohVlNo+vnyEhkkF5YlS9mybtZuE6YUimiKSHdf3bMmQ51GDZnsyaO3ZqlBsaW3ZppSjNzu9OlJJ2qHARaDPmwKwf1rFv0aCxzWxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=FtUff0xslX2pTbwOzexwhpch8OQdmHMQB8v8z7yiRIw=;
+ b=CV00jdDm0JAWaf1v7FwSobryEmL14Huw9yzuBxOEiFLVvqXtUnkkZd2l16rhSWLeMFUn7y1rljGsNIhrClDAF+zil9+NwGqS/1yw6ojvYOKjZTfJuc8VcDaZOuMZBdMlBeCyM4KLJESlEjl7P54GrBjtbMaglOjQZ/YMkVNK8dMd1gV3T4wYwd/rX3HLPTcPSYYpXpoDmx0Uj1q7TA0fjRqhfYsyWzhkmY64zbXHLQ7MHBLukksC/8qkPpWa6RXhaCA1OR0gm51ten3ytT/Yr62YItqtYDw6qU0pbbpuTL7cfBivN4goWTyLwmif/Pw85EtonLM9Sa/kASVqLL17lg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FtUff0xslX2pTbwOzexwhpch8OQdmHMQB8v8z7yiRIw=;
+ b=BLLFGharhDWb47AhlolnyeUhP+h9xnsQ6HBL1/GdQZQoLLoYRUZgpeKF10PrNd/R4LhB5LvUAW1X4i9m74YTybNtI/z3mdGjMBC8o2pC/QUt8jmkL+U+gCzrW1JYJoupo5TCVWZyGWbzJUNBphNVHVyZHleaWXl7xQ4LlknMX3c=
+Received: from DM6PR12MB4912.namprd12.prod.outlook.com (2603:10b6:5:20b::24)
+ by DM6PR12MB4236.namprd12.prod.outlook.com (2603:10b6:5:212::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Tue, 28 Sep
+ 2021 17:41:02 +0000
+Received: from DM6PR12MB4912.namprd12.prod.outlook.com
+ ([fe80::81f5:b123:f485:e51a]) by DM6PR12MB4912.namprd12.prod.outlook.com
+ ([fe80::81f5:b123:f485:e51a%8]) with mapi id 15.20.4523.018; Tue, 28 Sep 2021
+ 17:41:02 +0000
+From: "Zuo, Jerry" <Jerry.Zuo@amd.com>
+To: "Wentland, Harry" <Harry.Wentland@amd.com>, "Deucher, Alexander"
+ <Alexander.Deucher@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>
+CC: "jani.nikula@intel.com" <jani.nikula@intel.com>, "Li, Sun peng (Leo)"
+ <Sunpeng.Li@amd.com>, "nathan@kernel.org" <nathan@kernel.org>,
+ "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "ville.syrjala@linux.intel.com" <ville.syrjala@linux.intel.com>,
+ "manasi.d.navare@intel.com" <manasi.d.navare@intel.com>, "Koenig, Christian"
+ <Christian.Koenig@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>,
+ "sfr@canb.auug.org.au" <sfr@canb.auug.org.au>, "linux-next@vger.kernel.org"
+ <linux-next@vger.kernel.org>, "airlied@gmail.com" <airlied@gmail.com>,
+ "daniel.vetter@ffwll.ch" <daniel.vetter@ffwll.ch>, "Wentland, Harry"
+ <Harry.Wentland@amd.com>
+Subject: RE: [PATCH v2] drm/amd/display: Only define DP 2.0 symbols if not
+ already defined
+Thread-Topic: [PATCH v2] drm/amd/display: Only define DP 2.0 symbols if not
+ already defined
+Thread-Index: AQHXtIuBFlvpmhltK0en+i8+7zHPUKu5tXmQ
+Date: Tue, 28 Sep 2021 17:41:02 +0000
+Message-ID: <DM6PR12MB49125AD4817D693AA3987B08E5A89@DM6PR12MB4912.namprd12.prod.outlook.com>
+References: <20210928170828.26452-1-harry.wentland@amd.com>
+In-Reply-To: <20210928170828.26452-1-harry.wentland@amd.com>
+Accept-Language: en-CA, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=6d37b753-7317-49e9-b10f-7dd42dee753a;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
+ Official Use Only-AIP 2.0;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-09-28T17:35:51Z;
+ MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 37353859-e2c2-403e-b139-08d982a72446
+x-ms-traffictypediagnostic: DM6PR12MB4236:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR12MB42364799B1B6473F09492E0CE5A89@DM6PR12MB4236.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: kWuOjczrWe1IwMbdEOM7ue2EzEn/+CPiCBmpTmOBys+EB9/GoihJw5ysx/NEmx6fYffrNHkvFc5RDod7p80F76nvbuEvL/otfafkSwpReGID31mrI/5FVOC1i1HHoIX68sXZU4Gjcd5z7DHkoBZjTN+Cjqjei2kUaO/k9jSHaOWfvgllpVctTq8V7Y36u5Bbv2SwQuE6to9lQ3A4hM3abMC8XZvqX+xaIf2Bhu6MXz1JLukjC+szCsiLx2ULiNcL8V0z2Hs0JSPUi6jVQXgeKJc1sGHe/wBoHAbKl8S9zw1e26cA7+uK+0Jt2vouH07NPSfXxtoS/WWsMZ9qU7dQ6Zi0VjPE8Z0/xG1lWcKWhFL8BDu3DhCCuHjyJh30Db9wNdRLlqdBvpfcsTvcOzIABBy4MRn8UYDWMCwfvAz1LfEBmF+2Qq0bgK9uC858L6x3RDKLjs9W4COxyxQEgtHTf0Rfx8rI4GmP0PNqqKV2zbRHX6OwQexyIdQOOADN9KAzsl277/NpTZWGAFoRd13K1ZeBQqgqlUwVnfRVXJ+TwiUtlNe+EzKAB9keLPPMJlhfJw06Nf54xLfQsp/692us69DnzaznN5rNjnFGuAGwxjpSOUR4oZ3rgxjeKsgM2OfWHI4a8Xg4wGncaNqSfBoxiU7n0vMMJgAKQs9QwXR3TVqUyg4LonEh5VEaaXQkk7S1bV1XlUKMczjrPGlY+nOfVw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM6PR12MB4912.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(54906003)(110136005)(83380400001)(8676002)(6506007)(7416002)(5660300002)(38070700005)(53546011)(186003)(55016002)(7696005)(71200400001)(9686003)(66556008)(64756008)(316002)(76116006)(86362001)(52536014)(4326008)(8936002)(122000001)(33656002)(2906002)(66476007)(66446008)(508600001)(66946007)(38100700002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?nv5zupAgF088nyoZTLl8V6MEn1evk3BAWW1hb/c+pnQhm1GXX5XbSJgtOu7U?=
+ =?us-ascii?Q?Qjz59rEAzlOhucsLTYk7hA83gV1U9/R7mtv8m9R4wAUp2enLoUa7diidJYSO?=
+ =?us-ascii?Q?MY73yEgMVQMm4UlI8cFzSTpAgr0WA/Ke/fzkX+mcuz4nn+W9UtK8vBF+mUWm?=
+ =?us-ascii?Q?ok0JmJjWp45iHbROb4W9zqDmAC9UKcKp8WOC8S/cFullKCUZLaHecNArBYBA?=
+ =?us-ascii?Q?CxQtLz/KSsszVEBQ9nAtlSeAnjVf3UQGhC52nSvXlIoDGPdcCiNBAV5scRAF?=
+ =?us-ascii?Q?pclQKTNvegM1D1jQjBkH2kejcpTEcYYqUQQmaAEZd2Egp9HKtpc838v2b/uu?=
+ =?us-ascii?Q?/BZa5Ku1bB/H1nJ+N+ge/C2SZXy3g8vo/7M3gM1Z/7Dx9eQNw6LndvYrnHVi?=
+ =?us-ascii?Q?zWZhZBH6uKMXNANOezlwlRml4ONUTF3JSXgoGJCYGEFLjMQpaNpCDAtafV43?=
+ =?us-ascii?Q?NjvIqmdo0Dsz//oJV88UPC+hEju9/4VRUirKckIAnfJm62TXaUQQwRGlnaGU?=
+ =?us-ascii?Q?YhEZ04+Aglqzg6GkY4PGPnqv/OfTw1WHn6xrGWOh2hYNWnlIZ7Tdzc2jTTpc?=
+ =?us-ascii?Q?pZoOSpjx73uvyBqFbbLMA15DxSoO4s7DuOrSJGThpW25xSrYtdEs1PdnPn44?=
+ =?us-ascii?Q?7Bm4pqIlr7hxTEuTYSyW9J8sOuMFhpRYP4RGiL8CJ4PE3Tm7FiZsb7vWqh9e?=
+ =?us-ascii?Q?3n8zhIB4zr2V+G9SuC9Llkw3pWX9rPbS/x037aTsn2qHSDF1oCxvwZkI3mRx?=
+ =?us-ascii?Q?9YV1npN2vzItehOK3FjRl5D3DTF+sRLqnA4yQf/XsHYEF/sYQ5HybXUQLW4R?=
+ =?us-ascii?Q?TzXx2ousle5KjldF+JLVv5ln+aYgoTcJ9MU7ghNfXUGB0lx9GZ9ZQm1/DAXg?=
+ =?us-ascii?Q?OYhpprzOOVXqjJU2y+ZFZEwXVYYdiY7nm1ZDhZzoxlKiAMt6CuB5J2ZV3ABO?=
+ =?us-ascii?Q?WJ0en+eNQuiMPMuX7Rthztw30NyegOnMeo7ScSAm8IvW6onDPjiH8Kaj0w7G?=
+ =?us-ascii?Q?pI7Taf+njbR0wMsjxjjOQXxHCl8irMzHBYQPfOvUmP9lIRD63cFRSeyeX73P?=
+ =?us-ascii?Q?k8T2yKoCdB06XB4EhhV49li9Wj+ZvlbWFjZ/tT3998ZEidI4s9n/WuhcDCMz?=
+ =?us-ascii?Q?ZfR5yU+y6O5eiGi2mc0rqrLtvQi2nXVUc0g/A/AzS+wCo9c8ir7LmBG1B1X5?=
+ =?us-ascii?Q?LFI29tf81EM3vWsq2Jml0MkeK1MPJGtQcwwGSiPlnrU56wrKLKpMGxrAqWkj?=
+ =?us-ascii?Q?FQ97Q27pLUq36CLj5HVSIxVfv0yQ51PmcyBqWiDJaVVPAYPejwYOpEkGWNb+?=
+ =?us-ascii?Q?PzhWElVRiwc8n+sRW+z679eijWYy7482PQNL4+LpXBeI+JqdGsOq2svtxbi6?=
+ =?us-ascii?Q?N/J7lX2FTcKkFtKssK+AiSv5g17t?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210912165309.98695-3-ogabbay@kernel.org>
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4912.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37353859-e2c2-403e-b139-08d982a72446
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2021 17:41:02.7446 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: wTdEllzF4e9laCTZaPHNlvCPQMiZvz+MBsH2CK+OupITG04Dta2T4zvVBbkxt+Gz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4236
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,351 +141,156 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 12, 2021 at 07:53:09PM +0300, Oded Gabbay wrote:
-> From: Tomer Tayar <ttayar@habana.ai>
-> 
-> Implement the calls to the dma-buf kernel api to create a dma-buf
-> object backed by FD.
-> 
-> We block the option to mmap the DMA-BUF object because we don't support
-> DIRECT_IO and implicit P2P. 
+[AMD Official Use Only]
 
-This statement doesn't make sense, you can mmap your dmabuf if you
-like. All dmabuf mmaps are supposed to set the special bit/etc to
-exclude them from get_user_pages() anyhow - and since this is BAR
-memory not struct page memory this driver would be doing it anyhow.
+> -----Original Message-----
+> From: Harry Wentland <harry.wentland@amd.com>
+> Sent: September 28, 2021 1:08 PM
+> To: Deucher, Alexander <Alexander.Deucher@amd.com>; amd-
+> gfx@lists.freedesktop.org; Zuo, Jerry <Jerry.Zuo@amd.com>
+> Cc: jani.nikula@intel.com; Li, Sun peng (Leo) <Sunpeng.Li@amd.com>;
+> nathan@kernel.org; intel-gfx@lists.freedesktop.org; dri-
+> devel@lists.freedesktop.org; ville.syrjala@linux.intel.com;
+> manasi.d.navare@intel.com; Koenig, Christian <Christian.Koenig@amd.com>;
+> Pan, Xinhui <Xinhui.Pan@amd.com>; sfr@canb.auug.org.au; linux-
+> next@vger.kernel.org; airlied@gmail.com; daniel.vetter@ffwll.ch; Wentland=
+,
+> Harry <Harry.Wentland@amd.com>
+> Subject: [PATCH v2] drm/amd/display: Only define DP 2.0 symbols if not
+> already defined
+>
+> [Why]
+> For some reason we're defining DP 2.0 definitions inside our driver. Now =
+that
+> patches to introduce relevant definitions are slated to be merged into dr=
+m-
+> next this is causing conflicts.
+>
+> In file included from drivers/gpu/drm/amd/amdgpu/amdgpu_bo_list.c:33:
+> In file included
+> from ./drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu.h:70:
+> In file included
+> from ./drivers/gpu/drm/amd/amdgpu/../amdgpu/amdgpu_mode.h:36:
+> ./include/drm/drm_dp_helper.h:1322:9: error:
+> 'DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER' macro redefined [-
+> Werror,-Wmacro-redefined]
+>         ^
+> ./drivers/gpu/drm/amd/amdgpu/../display/dc/dc_dp_types.h:881:9: note:
+> previous definition is here
+>         ^
+> 1 error generated.
+>
+> v2: Add one missing endif
+>
+> [How]
+> Guard all display driver defines with #ifndef for now. Once we pull in th=
+e new
+> definitions into amd-staging-drm-next we will follow up and drop definiti=
+ons
+> from our driver and provide follow-up header updates for any addition DP
+> 2.0 definitions required by our driver.
+>
+> Signed-off-by: Harry Wentland <harry.wentland@amd.com>
 
-> We check the p2p distance using pci_p2pdma_distance_many() and refusing
-> to map dmabuf in case the distance doesn't allow p2p.
+Reviewed-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
 
-Does this actually allow the p2p transfer for your intended use cases?
+> ---
+>  drivers/gpu/drm/amd/display/dc/dc_dp_types.h | 54
+> ++++++++++++++++++--
+>  1 file changed, 49 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+> b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+> index a5e798b5da79..9de86ff5ef1b 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+> +++ b/drivers/gpu/drm/amd/display/dc/dc_dp_types.h
+> @@ -860,28 +860,72 @@ struct psr_caps {
+>  };
+>
+>  #if defined(CONFIG_DRM_AMD_DC_DCN)
+> +#ifndef DP_MAIN_LINK_CHANNEL_CODING_CAP
+>  #define DP_MAIN_LINK_CHANNEL_CODING_CAP                      0x006
+> +#endif
+> +#ifndef DP_SINK_VIDEO_FALLBACK_FORMATS
+>  #define DP_SINK_VIDEO_FALLBACK_FORMATS                       0x020
+> +#endif
+> +#ifndef DP_FEC_CAPABILITY_1
+>  #define DP_FEC_CAPABILITY_1                          0x091
+> +#endif
+> +#ifndef DP_DFP_CAPABILITY_EXTENSION_SUPPORT
+>  #define DP_DFP_CAPABILITY_EXTENSION_SUPPORT          0x0A3
+> +#endif
+> +#ifndef DP_DSC_CONFIGURATION
+>  #define DP_DSC_CONFIGURATION                         0x161
+> +#endif
+> +#ifndef DP_PHY_SQUARE_PATTERN
+>  #define DP_PHY_SQUARE_PATTERN                                0x249
+> +#endif
+> +#ifndef DP_128b_132b_SUPPORTED_LINK_RATES
+>  #define DP_128b_132b_SUPPORTED_LINK_RATES            0x2215
+> +#endif
+> +#ifndef DP_128b_132b_TRAINING_AUX_RD_INTERVAL
+>  #define DP_128b_132b_TRAINING_AUX_RD_INTERVAL
+>       0x2216
+> +#endif
+> +#ifndef DP_TEST_264BIT_CUSTOM_PATTERN_7_0
+>  #define DP_TEST_264BIT_CUSTOM_PATTERN_7_0            0X2230
+> +#endif
+> +#ifndef DP_TEST_264BIT_CUSTOM_PATTERN_263_256
+>  #define DP_TEST_264BIT_CUSTOM_PATTERN_263_256
+>       0X2250
+> +#endif
+> +#ifndef DP_DSC_SUPPORT_AND_DECODER_COUNT
+>  #define DP_DSC_SUPPORT_AND_DECODER_COUNT             0x2260
+> +#endif
+> +#ifndef DP_DSC_MAX_SLICE_COUNT_AND_AGGREGATION_0
+>  #define DP_DSC_MAX_SLICE_COUNT_AND_AGGREGATION_0
+>       0x2270
+> -# define DP_DSC_DECODER_0_MAXIMUM_SLICE_COUNT_MASK   (1 <<
+> 0)
+> -# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_MASK
+>       (0b111 << 1)
+> -# define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_SHIFT  1
+> -# define DP_DSC_DECODER_COUNT_MASK                   (0b111 << 5)
+> -# define DP_DSC_DECODER_COUNT_SHIFT                  5
+> +#endif
+> +#ifndef DP_DSC_DECODER_0_MAXIMUM_SLICE_COUNT_MASK
+> +#define DP_DSC_DECODER_0_MAXIMUM_SLICE_COUNT_MASK    (1 <<
+> 0)
+> +#endif
+> +#ifndef DP_DSC_DECODER_0_AGGREGATION_SUPPORT_MASK
+> +#define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_MASK
+>       (0b111 << 1)
+> +#endif
+> +#ifndef DP_DSC_DECODER_0_AGGREGATION_SUPPORT_SHIFT
+> +#define DP_DSC_DECODER_0_AGGREGATION_SUPPORT_SHIFT   1
+> +#endif
+> +#ifndef DP_DSC_DECODER_COUNT_MASK
+> +#define DP_DSC_DECODER_COUNT_MASK                    (0b111 << 5)
+> +#endif
+> +#ifndef DP_DSC_DECODER_COUNT_SHIFT
+> +#define DP_DSC_DECODER_COUNT_SHIFT                   5
+> +#endif
+> +#ifndef DP_MAIN_LINK_CHANNEL_CODING_SET
+>  #define DP_MAIN_LINK_CHANNEL_CODING_SET                      0x108
+> +#endif
+> +#ifndef DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER
+>  #define DP_MAIN_LINK_CHANNEL_CODING_PHY_REPEATER     0xF0006
+> +#endif
+> +#ifndef DP_PHY_REPEATER_128b_132b_RATES
+>  #define DP_PHY_REPEATER_128b_132b_RATES
+>       0xF0007
+> +#endif
+> +#ifndef DP_128b_132b_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1
+>  #define DP_128b_132b_TRAINING_AUX_RD_INTERVAL_PHY_REPEATER1
+>       0xF0022
+> +#endif
+> +#ifndef DP_INTRA_HOP_AUX_REPLY_INDICATION
+>  #define DP_INTRA_HOP_AUX_REPLY_INDICATION            (1 << 3)
+> +#endif
+>  /* TODO - Use DRM header to replace above once available */
+>
+>  union dp_main_line_channel_coding_cap {
+> --
+> 2.33.0
 
-> diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
-> index 33986933aa9e..8cf5437c0390 100644
-> +++ b/drivers/misc/habanalabs/common/memory.c
-> @@ -1,7 +1,7 @@
->  // SPDX-License-Identifier: GPL-2.0
->  
->  /*
-> - * Copyright 2016-2019 HabanaLabs, Ltd.
-> + * Copyright 2016-2021 HabanaLabs, Ltd.
->   * All Rights Reserved.
->   */
->  
-> @@ -11,11 +11,13 @@
->  
->  #include <linux/uaccess.h>
->  #include <linux/slab.h>
-> +#include <linux/pci-p2pdma.h>
->  
->  #define HL_MMU_DEBUG	0
->  
->  /* use small pages for supporting non-pow2 (32M/40M/48M) DRAM phys page sizes */
-> -#define DRAM_POOL_PAGE_SIZE SZ_8M
-> +#define DRAM_POOL_PAGE_SIZE		SZ_8M
-> +
-
-??
-
->  /*
->   * The va ranges in context object contain a list with the available chunks of
-> @@ -347,6 +349,13 @@ static int free_device_memory(struct hl_ctx *ctx, struct hl_mem_in *args)
->  			return -EINVAL;
->  		}
->  
-> +		if (phys_pg_pack->exporting_cnt) {
-> +			dev_err(hdev->dev,
-> +				"handle %u is exported, cannot free\n",	handle);
-> +			spin_unlock(&vm->idr_lock);
-
-Don't write to the kernel log from user space triggered actions
-
-> +static int alloc_sgt_from_device_pages(struct hl_device *hdev,
-> +					struct sg_table **sgt, u64 *pages,
-> +					u64 npages, u64 page_size,
-> +					struct device *dev,
-> +					enum dma_data_direction dir)
-
-Why doesn't this return a sg_table * and an ERR_PTR?
-
-> +{
-> +	u64 chunk_size, bar_address, dma_max_seg_size;
-> +	struct asic_fixed_properties *prop;
-> +	int rc, i, j, nents, cur_page;
-> +	struct scatterlist *sg;
-> +
-> +	prop = &hdev->asic_prop;
-> +
-> +	dma_max_seg_size = dma_get_max_seg_size(dev);
-
-> +
-> +	/* We would like to align the max segment size to PAGE_SIZE, so the
-> +	 * SGL will contain aligned addresses that can be easily mapped to
-> +	 * an MMU
-> +	 */
-> +	dma_max_seg_size = ALIGN_DOWN(dma_max_seg_size, PAGE_SIZE);
-> +	if (dma_max_seg_size < PAGE_SIZE) {
-> +		dev_err_ratelimited(hdev->dev,
-> +				"dma_max_seg_size %llu can't be smaller than PAGE_SIZE\n",
-> +				dma_max_seg_size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*sgt = kzalloc(sizeof(**sgt), GFP_KERNEL);
-> +	if (!*sgt)
-> +		return -ENOMEM;
-> +
-> +	/* If the size of each page is larger than the dma max segment size,
-> +	 * then we can't combine pages and the number of entries in the SGL
-> +	 * will just be the
-> +	 * <number of pages> * <chunks of max segment size in each page>
-> +	 */
-> +	if (page_size > dma_max_seg_size)
-> +		nents = npages * DIV_ROUND_UP_ULL(page_size, dma_max_seg_size);
-> +	else
-> +		/* Get number of non-contiguous chunks */
-> +		for (i = 1, nents = 1, chunk_size = page_size ; i < npages ; i++) {
-> +			if (pages[i - 1] + page_size != pages[i] ||
-> +					chunk_size + page_size > dma_max_seg_size) {
-> +				nents++;
-> +				chunk_size = page_size;
-> +				continue;
-> +			}
-> +
-> +			chunk_size += page_size;
-> +		}
-> +
-> +	rc = sg_alloc_table(*sgt, nents, GFP_KERNEL | __GFP_ZERO);
-> +	if (rc)
-> +		goto error_free;
-> +
-> +	/* Because we are not going to include a CPU list we want to have some
-> +	 * chance that other users will detect this by setting the orig_nents
-> +	 * to 0 and using only nents (length of DMA list) when going over the
-> +	 * sgl
-> +	 */
-> +	(*sgt)->orig_nents = 0;
-
-Maybe do this at the end so you'd have to undo it on the error path?
-
-> +	cur_page = 0;
-> +
-> +	if (page_size > dma_max_seg_size) {
-> +		u64 size_left, cur_device_address = 0;
-> +
-> +		size_left = page_size;
-> +
-> +		/* Need to split each page into the number of chunks of
-> +		 * dma_max_seg_size
-> +		 */
-> +		for_each_sgtable_dma_sg((*sgt), sg, i) {
-> +			if (size_left == page_size)
-> +				cur_device_address =
-> +					pages[cur_page] - prop->dram_base_address;
-> +			else
-> +				cur_device_address += dma_max_seg_size;
-> +
-> +			chunk_size = min(size_left, dma_max_seg_size);
-> +
-> +			bar_address = hdev->dram_pci_bar_start + cur_device_address;
-> +
-> +			rc = set_dma_sg(sg, bar_address, chunk_size, dev, dir);
-> +			if (rc)
-> +				goto error_unmap;
-> +
-> +			if (size_left > dma_max_seg_size) {
-> +				size_left -= dma_max_seg_size;
-> +			} else {
-> +				cur_page++;
-> +				size_left = page_size;
-> +			}
-> +		}
-> +	} else {
-> +		/* Merge pages and put them into the scatterlist */
-> +		for_each_sgtable_dma_sg((*sgt), sg, i) {
-> +			chunk_size = page_size;
-> +			for (j = cur_page + 1 ; j < npages ; j++) {
-> +				if (pages[j - 1] + page_size != pages[j] ||
-> +						chunk_size + page_size > dma_max_seg_size)
-> +					break;
-> +
-> +				chunk_size += page_size;
-> +			}
-> +
-> +			bar_address = hdev->dram_pci_bar_start +
-> +					(pages[cur_page] - prop->dram_base_address);
-> +
-> +			rc = set_dma_sg(sg, bar_address, chunk_size, dev, dir);
-> +			if (rc)
-> +				goto error_unmap;
-> +
-> +			cur_page = j;
-> +		}
-> +	}
-
-We have this sg_append stuff now that is intended to help building
-these things. It can only build CPU page lists, not these DMA lists,
-but I do wonder if open coding in drivers is slipping back a
-bit. Especially since AMD seems to be doing something different.
-
-Could the DMABUF layer gain some helpers styled after the sg_append to
-simplify building these things? and convert the AMD driver of course.
-
-> +static int hl_dmabuf_attach(struct dma_buf *dmabuf,
-> +				struct dma_buf_attachment *attachment)
-> +{
-> +	struct hl_dmabuf_wrapper *hl_dmabuf;
-> +	struct hl_device *hdev;
-> +	int rc;
-> +
-> +	hl_dmabuf = dmabuf->priv;
-> +	hdev = hl_dmabuf->ctx->hdev;
-> +
-> +	rc = pci_p2pdma_distance_many(hdev->pdev, &attachment->dev, 1, true);
-> +
-> +	if (rc < 0)
-> +		attachment->peer2peer = false;
-
-Extra blank line
-
-> +
-> +	return 0;
-> +}
-> +
-> +static struct sg_table *hl_map_dmabuf(struct dma_buf_attachment *attachment,
-> +					enum dma_data_direction dir)
-> +{
-> +	struct dma_buf *dma_buf = attachment->dmabuf;
-> +	struct hl_vm_phys_pg_pack *phys_pg_pack;
-> +	struct hl_dmabuf_wrapper *hl_dmabuf;
-> +	struct hl_device *hdev;
-> +	struct sg_table *sgt;
-> +	int rc;
-> +
-> +	hl_dmabuf = dma_buf->priv;
-> +	hdev = hl_dmabuf->ctx->hdev;
-> +	phys_pg_pack = hl_dmabuf->phys_pg_pack;
-> +
-> +	if (!attachment->peer2peer) {
-> +		dev_err(hdev->dev,
-> +			"Failed to map dmabuf because p2p is disabled\n");
-> +		return ERR_PTR(-EPERM);
-
-User triggered printable again?
-
-> +static void hl_unmap_dmabuf(struct dma_buf_attachment *attachment,
-> +				  struct sg_table *sgt,
-> +				  enum dma_data_direction dir)
-> +{
-> +	struct scatterlist *sg;
-> +	int i;
-> +
-> +	for_each_sgtable_dma_sg(sgt, sg, i)
-> +		dma_unmap_resource(attachment->dev, sg_dma_address(sg),
-> +					sg_dma_len(sg), dir,
-> +					DMA_ATTR_SKIP_CPU_SYNC);
-
-Why can we skip the CPU_SYNC? Seems like a comment is needed
-
-Something has to do a CPU_SYNC before recylcing this memory for
-another purpose, where is it?
-
-> +static void hl_release_dmabuf(struct dma_buf *dmabuf)
-> +{
-> +	struct hl_dmabuf_wrapper *hl_dmabuf = dmabuf->priv;
-
-Maybe hl_dmabuf_wrapper should be hl_dmabuf_priv
-
-> + * export_dmabuf_from_addr() - export a dma-buf object for the given memory
-> + *                             address and size.
-> + * @ctx: pointer to the context structure.
-> + * @device_addr:  device memory physical address.
-> + * @size: size of device memory.
-> + * @flags: DMA-BUF file/FD flags.
-> + * @dmabuf_fd: pointer to result FD that represents the dma-buf object.
-> + *
-> + * Create and export a dma-buf object for an existing memory allocation inside
-> + * the device memory, and return a FD which is associated with the dma-buf
-> + * object.
-> + *
-> + * Return: 0 on success, non-zero for failure.
-> + */
-> +static int export_dmabuf_from_addr(struct hl_ctx *ctx, u64 device_addr,
-> +					u64 size, int flags, int *dmabuf_fd)
-> +{
-> +	struct hl_dmabuf_wrapper *hl_dmabuf;
-> +	struct hl_device *hdev = ctx->hdev;
-> +	struct asic_fixed_properties *prop;
-> +	u64 bar_address;
-> +	int rc;
-> +
-> +	prop = &hdev->asic_prop;
-> +
-> +	if (!IS_ALIGNED(device_addr, PAGE_SIZE)) {
-> +		dev_err_ratelimited(hdev->dev,
-> +			"address of exported device memory should be aligned to 0x%lx, address 0x%llx\n",
-> +			PAGE_SIZE, device_addr);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (size < PAGE_SIZE) {
-> +		dev_err_ratelimited(hdev->dev,
-> +			"size %llu of exported device memory should be equal to or greater than %lu\n",
-> +			size, PAGE_SIZE);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (device_addr < prop->dram_user_base_address ||
-> +				device_addr + size > prop->dram_end_address ||
-> +				device_addr + size < device_addr) {
-> +		dev_err_ratelimited(hdev->dev,
-> +			"DRAM memory range is outside of DRAM boundaries, address 0x%llx, size 0x%llx\n",
-> +			device_addr, size);
-> +		return -EINVAL;
-> +	}
-> +
-> +	bar_address = hdev->dram_pci_bar_start +
-> +			(device_addr - prop->dram_base_address);
-> +
-> +	if (bar_address + size >
-> +			hdev->dram_pci_bar_start + prop->dram_pci_bar_size ||
-> +			bar_address + size < bar_address) {
-> +		dev_err_ratelimited(hdev->dev,
-> +			"DRAM memory range is outside of PCI BAR boundaries, address 0x%llx, size 0x%llx\n",
-> +			device_addr, size);
-> +		return -EINVAL;
-> +	}
-
-More prints from userspace
-
-> +static int export_dmabuf_from_handle(struct hl_ctx *ctx, u64 handle, int flags,
-> +					int *dmabuf_fd)
-> +{
-> +	struct hl_vm_phys_pg_pack *phys_pg_pack;
-> +	struct hl_dmabuf_wrapper *hl_dmabuf;
-> +	struct hl_device *hdev = ctx->hdev;
-> +	struct asic_fixed_properties *prop;
-> +	struct hl_vm *vm = &hdev->vm;
-> +	u64 bar_address;
-> +	u32 idr_handle;
-> +	int rc, i;
-> +
-> +	prop = &hdev->asic_prop;
-> +
-> +	idr_handle = lower_32_bits(handle);
-
-Why silent truncation? Shouldn't setting the upper 32 bits be an
-error?
-
-> +	case HL_MEM_OP_EXPORT_DMABUF_FD:
-> +		rc = export_dmabuf_from_addr(ctx,
-> +				args->in.export_dmabuf_fd.handle,
-> +				args->in.export_dmabuf_fd.mem_size,
-> +				args->in.flags,
-> +				&dmabuf_fd);
-> +		memset(args, 0, sizeof(*args));
-> +		args->out.fd = dmabuf_fd;
-
-Would expect the installed fd to be the positive return, not a pointer
-
-Jason
