@@ -2,47 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E64BD41B5D1
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 20:20:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D93AD41B713
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 21:10:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1DC8C6E925;
-	Tue, 28 Sep 2021 18:20:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF7B6E948;
+	Tue, 28 Sep 2021 19:10:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 52C436E925
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 18:20:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=FQDKVFnJLuI7GhddRCy/fYTIWhrt9ayCVBaHFloKfpM=; b=fOoTq08H6Pf92oMngM1WHIJt98
- 6O+9Fhr9W3Go8JGMecC6RHusbhhoL1MmpyFGD2/KjlL4eR5f7naqcsxfWS8j/Oi0Y1AgOqWOd4u9M
- EtR4TlTHKoKufXlFsu/eDyE8dVCQtyQIt3QM+41SGE2DzV3ot6phOHezz3+csVH5JUIiDE7q57TfU
- 21IFy7dG0b+afPBpDi5I4KUiXhhOH7mhLnlcX2w2D+xaqyxJBRPF2m8prx0NS06A+RqtRcUAgiMz9
- zbRyswPGtg7L8TzntMSE81IZA/a0Z2m46YuHo1GrqacjTVJq5/KWwk1th1s7mlh6BV2s/E5WUFGnW
- pjNHRJyw==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mVHib-008O0y-9m; Tue, 28 Sep 2021 18:20:41 +0000
-Subject: Re: [PATCH] drm/bridge: Add stubs for devm_drm_of_get_bridge when OF
- is disabled
-To: Maxime Ripard <maxime@cerno.tech>,
+Received: from mail.skyhub.de (mail.skyhub.de [5.9.137.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A7DB16E946;
+ Tue, 28 Sep 2021 19:10:21 +0000 (UTC)
+Received: from zn.tnic (p200300ec2f13b20078349fd04295260b.dip0.t-ipconnect.de
+ [IPv6:2003:ec:2f13:b200:7834:9fd0:4295:260b])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.skyhub.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 394BC1EC067E;
+ Tue, 28 Sep 2021 21:10:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=dkim;
+ t=1632856218;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:
+ content-transfer-encoding:content-transfer-encoding:in-reply-to:
+ references; bh=GCnPTyFFnPSLiurFbR8iLYuDvIM/ZylVNPX31loBg1U=;
+ b=PgysYne7oRqig38Wg3EljqkqTDirqwkPAzRh5HiMtoiV+jJbJHTdrk3tVWUMlO9AliXjoI
+ QYxOn8YzMjaQP86uf/uYhrT2bAzVSbUmsndVFpCY5/rue9vmSI/Ae0ek/NbRQmmnCheeB1
+ XkhBbUOn81FbH/ZWzpMG01inkCayyvg=
+From: Borislav Petkov <bp@alien8.de>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: Andi Kleen <ak@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
+ Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Young <dyoung@redhat.com>,
+ David Airlie <airlied@linux.ie>, Heiko Carstens <hca@linux.ibm.com>,
+ Joerg Roedel <joro@8bytes.org>,
+ "Kirill A. Shutemov" <kirill@shutemov.name>,
+ "Kuppuswamy, Sathyanarayanan" <sathyanarayanan.kuppuswamy@linux.intel.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org
-References: <20210928181333.1176840-1-maxime@cerno.tech>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <70a74a6b-9c10-477d-bfc2-c358d6ecdc52@infradead.org>
-Date: Tue, 28 Sep 2021 11:20:40 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
+ Paul Mackerras <paulus@samba.org>, Tom Lendacky <thomas.lendacky@amd.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
+ VMware Graphics <linux-graphics-maintainer@vmware.com>,
+ Will Deacon <will@kernel.org>, Christoph Hellwig <hch@infradead.org>,
+ x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+ iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
+ linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ kexec@lists.infradead.org
+Subject: [PATCH v4 0/8] Implement generic cc_platform_has() helper function
+Date: Tue, 28 Sep 2021 21:10:01 +0200
+Message-Id: <20210928191009.32551-1-bp@alien8.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210928181333.1176840-1-maxime@cerno.tech>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,52 +70,73 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 9/28/21 11:13 AM, Maxime Ripard wrote:
-> If CONFIG_OF is disabled, devm_drm_of_get_bridge won't be compiled in
-> and drivers using that function will fail to build.
-> 
-> Add an inline stub so that we can still build-test those cases.
-> 
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+From: Borislav Petkov <bp@suse.de>
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+Hi all,
 
-Thanks.
+here's v4 of the cc_platform_has() patchset with feedback incorporated.
 
+I'm going to route this through tip if there are no objections.
 
-> ---
->   include/drm/drm_bridge.h | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 9cdbd209388e..1648ce265cba 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -911,9 +911,20 @@ struct drm_bridge *devm_drm_panel_bridge_add(struct device *dev,
->   struct drm_bridge *devm_drm_panel_bridge_add_typed(struct device *dev,
->   						   struct drm_panel *panel,
->   						   u32 connector_type);
-> +struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
-> +#endif
-> +
-> +#if defined(CONFIG_OF) && defined(CONFIG_DRM_PANEL_BRIDGE)
->   struct drm_bridge *devm_drm_of_get_bridge(struct device *dev, struct device_node *node,
->   					  u32 port, u32 endpoint);
-> -struct drm_connector *drm_panel_bridge_connector(struct drm_bridge *bridge);
-> +#else
-> +static inline struct drm_bridge *devm_drm_of_get_bridge(struct device *dev,
-> +							struct device_node *node,
-> +							u32 port,
-> +							u32 endpoint)
-> +{
-> +	return ERR_PTR(-ENODEV);
-> +}
->   #endif
->   
->   #endif
-> 
+Thx.
 
+Tom Lendacky (8):
+  x86/ioremap: Selectively build arch override encryption functions
+  arch/cc: Introduce a function to check for confidential computing
+    features
+  x86/sev: Add an x86 version of cc_platform_has()
+  powerpc/pseries/svm: Add a powerpc version of cc_platform_has()
+  x86/sme: Replace occurrences of sme_active() with cc_platform_has()
+  x86/sev: Replace occurrences of sev_active() with cc_platform_has()
+  x86/sev: Replace occurrences of sev_es_active() with cc_platform_has()
+  treewide: Replace the use of mem_encrypt_active() with
+    cc_platform_has()
+
+ arch/Kconfig                                 |  3 +
+ arch/powerpc/include/asm/mem_encrypt.h       |  5 --
+ arch/powerpc/platforms/pseries/Kconfig       |  1 +
+ arch/powerpc/platforms/pseries/Makefile      |  2 +
+ arch/powerpc/platforms/pseries/cc_platform.c | 26 ++++++
+ arch/powerpc/platforms/pseries/svm.c         |  5 +-
+ arch/s390/include/asm/mem_encrypt.h          |  2 -
+ arch/x86/Kconfig                             |  1 +
+ arch/x86/include/asm/io.h                    |  8 ++
+ arch/x86/include/asm/kexec.h                 |  2 +-
+ arch/x86/include/asm/mem_encrypt.h           | 12 +--
+ arch/x86/kernel/Makefile                     |  6 ++
+ arch/x86/kernel/cc_platform.c                | 69 +++++++++++++++
+ arch/x86/kernel/crash_dump_64.c              |  4 +-
+ arch/x86/kernel/head64.c                     |  9 +-
+ arch/x86/kernel/kvm.c                        |  3 +-
+ arch/x86/kernel/kvmclock.c                   |  4 +-
+ arch/x86/kernel/machine_kexec_64.c           | 19 +++--
+ arch/x86/kernel/pci-swiotlb.c                |  9 +-
+ arch/x86/kernel/relocate_kernel_64.S         |  2 +-
+ arch/x86/kernel/sev.c                        |  6 +-
+ arch/x86/kvm/svm/svm.c                       |  3 +-
+ arch/x86/mm/ioremap.c                        | 18 ++--
+ arch/x86/mm/mem_encrypt.c                    | 55 ++++--------
+ arch/x86/mm/mem_encrypt_identity.c           |  9 +-
+ arch/x86/mm/pat/set_memory.c                 |  3 +-
+ arch/x86/platform/efi/efi_64.c               |  9 +-
+ arch/x86/realmode/init.c                     |  8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |  4 +-
+ drivers/gpu/drm/drm_cache.c                  |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          |  4 +-
+ drivers/gpu/drm/vmwgfx/vmwgfx_msg.c          |  6 +-
+ drivers/iommu/amd/init.c                     |  7 +-
+ drivers/iommu/amd/iommu.c                    |  3 +-
+ drivers/iommu/amd/iommu_v2.c                 |  3 +-
+ drivers/iommu/iommu.c                        |  3 +-
+ fs/proc/vmcore.c                             |  6 +-
+ include/linux/cc_platform.h                  | 88 ++++++++++++++++++++
+ include/linux/mem_encrypt.h                  |  4 -
+ kernel/dma/swiotlb.c                         |  4 +-
+ 40 files changed, 310 insertions(+), 129 deletions(-)
+ create mode 100644 arch/powerpc/platforms/pseries/cc_platform.c
+ create mode 100644 arch/x86/kernel/cc_platform.c
+ create mode 100644 include/linux/cc_platform.h
 
 -- 
-~Randy
+2.29.2
+
