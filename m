@@ -2,69 +2,69 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAAC741A418
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 02:16:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B4B41A42D
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 02:22:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 602A789CD7;
-	Tue, 28 Sep 2021 00:16:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E9DB789613;
+	Tue, 28 Sep 2021 00:22:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2b.google.com (mail-io1-xd2b.google.com
- [IPv6:2607:f8b0:4864:20::d2b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 255FB89CCE
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 00:16:47 +0000 (UTC)
-Received: by mail-io1-xd2b.google.com with SMTP id h129so25184428iof.1
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:16:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/5dEdhTiuiXUcKyE8+qu27KWg9nkXOmkfc3S6tONh9w=;
- b=eV1eZYpgLdAFLMSBnQumKi/NMNPzCruD5J7NcP4BHYyTIn+LWVnWO0xiT3PxB+26Ss
- zbF+nMv39DFBxk93ke10knTVmSoUanCgN2HbO8LN8QuKskolr2kP+uBdo6Nt+wiQa17m
- 7HSqYbZAlgk1TyuIsMvPDN9pbxmto1TS6bB3s=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/5dEdhTiuiXUcKyE8+qu27KWg9nkXOmkfc3S6tONh9w=;
- b=ypJwNDI7wP/k5Tjebqgmg8Bk27fxS3ksprc+Hjkj2/ePvklAtUhMVD+SkT7upi9bGE
- s27EfvbewmyntcuG7099q7+tD3pt2/K0QisZ/m4DRHPFzCSy6Kbm2ZsxeBFvVXLMnlAG
- OdKXbK54PapTrhlpy8gZl8gCaJouSCMgCFjCP6wn4vVzCM0aBH1RKHObTHbM4CPzpfXN
- dS0i6U8XOYNGYz1v8MD5L5h1P28gaYsdugovsT7vnY9bn9czehAsjWdXflwbHtZmD0RA
- rbwwLljWyuPZSmXf+FiUxf4D9poz8l8FbE/35yxOWzbeHw4TtHWwb3n7OSAdSurnioYb
- dz9Q==
-X-Gm-Message-State: AOAM532CyLhuh0vAnTM3wkMuElxVGaIFHBmPOw40wE6H7Pb/b7r/+wlL
- iHtQ9NtY9t/ETO3K32YEhaKS/D82xl8r/g==
-X-Google-Smtp-Source: ABdhPJy/qebBgilj1074Q3d/O+fVP7guCwv+kQODLCMUdT9pZh60st8vBATrEl35BOFk9X0KG5B9Lw==
-X-Received: by 2002:a05:6602:2188:: with SMTP id
- b8mr1753215iob.217.1632788206402; 
- Mon, 27 Sep 2021 17:16:46 -0700 (PDT)
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com.
- [209.85.166.169])
- by smtp.gmail.com with ESMTPSA id i132sm9325927ioa.14.2021.09.27.17.16.45
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 27 Sep 2021 17:16:45 -0700 (PDT)
-Received: by mail-il1-f169.google.com with SMTP id k13so6026528ilo.7
- for <dri-devel@lists.freedesktop.org>; Mon, 27 Sep 2021 17:16:45 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1847:: with SMTP id
- b7mr2160620ilv.180.1632788204948; 
- Mon, 27 Sep 2021 17:16:44 -0700 (PDT)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5BAF895B5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 00:22:53 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1632788573; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=cvG6f6/AwEQrbt3Nv5yZaMyVOIQyNeNi/VJHXNZmoqI=;
+ b=vXpcs0ySiJqDnAEuns2wna9bi2ifQN0RFpYeBuxsbzoARrGOaAVUzg2AmTXnCwCZKImPsDd+
+ HIDeSO4G/ao718xh/c/dSBzvSFOsCfAUpST2bdf6vx7ufF5aG3u7nGccAEHmg35BYwoxcTZf
+ QdEoI2I0u45NAvj59qEl+NHIWAg=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
+ 6152605d519bd8dcf0e5906b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 00:22:53
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id D529FC43616; Tue, 28 Sep 2021 00:22:52 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 8339DC4338F;
+ Tue, 28 Sep 2021 00:22:51 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210927074104.1.Ibf22f2a0b75287a5d636c0570c11498648bf61c6@changeid>
-In-Reply-To: <20210927074104.1.Ibf22f2a0b75287a5d636c0570c11498648bf61c6@changeid>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 27 Sep 2021 17:16:34 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XrAk087-ft3c5kYAkWSUGyrXGqT2YnyrDa9XmSDupiLQ@mail.gmail.com>
-Message-ID: <CAD=FV=XrAk087-ft3c5kYAkWSUGyrXGqT2YnyrDa9XmSDupiLQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/edid: Fix drm_edid_encode_panel_id() kerneldoc warning
-To: dri-devel <dri-devel@lists.freedesktop.org>
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>, Daniel Vetter <daniel@ffwll.ch>, 
- David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date: Mon, 27 Sep 2021 17:22:51 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
+ <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, "open list:DRM DRIVER
+ FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>, "open list:DRM DRIVER
+ FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>, freedreno
+ <freedreno@lists.freedesktop.org>, David Heidelberg <david@ixit.cz>
+Subject: Re: [Freedreno] [PATCH] drm/msm/dsi: do not install irq handler
+ before power up the host
+In-Reply-To: <7512b299-106f-2ffa-6d4f-46dc195abb84@linaro.org>
+References: <20210921162258.1858223-1-dmitry.baryshkov@linaro.org>
+ <0c275df228a1925e43a4dc59ceeab6b7@codeaurora.org>
+ <CAA8EJppLDpmT81OhdpWjHh4joPL=mNaG8eZN2cZOZk8mSpbd+w@mail.gmail.com>
+ <8c1e44cf44f917d38fa7133b869047b0@codeaurora.org>
+ <7512b299-106f-2ffa-6d4f-46dc195abb84@linaro.org>
+Message-ID: <8060e6fd83d521ed14785ea66386337b@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,29 +80,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2021-09-25 12:43, Dmitry Baryshkov wrote:
+> On 21/09/2021 23:52, abhinavk@codeaurora.org wrote:
+>> On 2021-09-21 10:47, Dmitry Baryshkov wrote:
+>>> Hi,
+>>> 
+>>> On Tue, 21 Sept 2021 at 20:01, <abhinavk@codeaurora.org> wrote:
+>>>> 
+>>>> On 2021-09-21 09:22, Dmitry Baryshkov wrote:
+>>>> > The DSI host might be left in some state by the bootloader. If this
+>>>> > state generates an IRQ, it might hang the system by holding the
+>>>> > interrupt line before the driver sets up the DSI host to the known
+>>>> > state.
+>>>> >
+>>>> > Move the request/free_irq calls into msm_dsi_host_power_on/_off calls,
+>>>> > so that we can be sure that the interrupt is delivered when the host is
+>>>> > in the known state.
+>>>> >
+>>>> > Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+>>>> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+>>>> 
+>>>> This is a valid change and we have seen interrupt storms in 
+>>>> downstream
+>>>> happening
+>>>> when like you said the bootloader leaves the DSI host in unknown 
+>>>> state.
+>>>> Just one question below.
+>>>> 
+>>>> > ---
+>>>> >  drivers/gpu/drm/msm/dsi/dsi_host.c | 21 ++++++++++++---------
+>>>> >  1 file changed, 12 insertions(+), 9 deletions(-)
+>>>> >
+>>>> > diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> > b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> > index e269df285136..cd842347a6b1 100644
+>>>> > --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> > +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+>>>> > @@ -1951,15 +1951,6 @@ int msm_dsi_host_modeset_init(struct
+>>>> > mipi_dsi_host *host,
+>>>> >               return ret;
+>>>> >       }
+>>>> >
+>>>> > -     ret = devm_request_irq(&pdev->dev, msm_host->irq,
+>>>> > -                     dsi_host_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+>>>> > -                     "dsi_isr", msm_host);
+>>>> > -     if (ret < 0) {
+>>>> > -             DRM_DEV_ERROR(&pdev->dev, "failed to request IRQ%u: %d\n",
+>>>> > -                             msm_host->irq, ret);
+>>>> > -             return ret;
+>>>> > -     }
+>>>> > -
+>>>> >       msm_host->dev = dev;
+>>>> >       ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+>>>> >       if (ret) {
+>>>> > @@ -2413,6 +2404,16 @@ int msm_dsi_host_power_on(struct mipi_dsi_host
+>>>> > *host,
+>>>> >       if (msm_host->disp_en_gpio)
+>>>> >               gpiod_set_value(msm_host->disp_en_gpio, 1);
+>>>> >
+>>>> > +     ret = devm_request_irq(&msm_host->pdev->dev, msm_host->irq,
+>>>> > +                     dsi_host_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+>>>> > +                     "dsi_isr", msm_host);
+>>>> > +     if (ret < 0) {
+>>>> > +             DRM_DEV_ERROR(&msm_host->pdev->dev, "failed to request IRQ%u: %d\n",
+>>>> > +                             msm_host->irq, ret);
+>>>> > +             return ret;
+>>>> > +     }
+>>>> > +
+>>>> > +
+>>>> 
+>>>> Do you want to move this to msm_dsi_host_enable()?
+>>>> So without the controller being enabled it is still in unknown 
+>>>> state?
+>>> 
+>>> msm_dsi_host_power_on() reconfigures the host registers, so the state
+>>> is known at the end of the power_on().
+>>> 
+>>>> Also do you want to do this after dsi0 and dsi1 are initialized to
+>>>> account for
+>>>> dual dsi cases?
+>>> 
+>>> I don't think this should matter. The host won't generate 'extra'
+>>> interrupts in such case, will it?
+>>> 
+>> We have seen cases where misconfiguration has caused interrupts to 
+>> storm only
+>> on one DSI in some cases. So yes, I would prefer this is done after 
+>> both are
+>> configured.
+> 
+> I've checked. The power_on is called from dsi_mgr_bridge_pre_enable()
+> when both DSI hosts should be bound.
 
-On Mon, Sep 27, 2021 at 7:41 AM Douglas Anderson <dianders@chromium.org> wrote:
->
-> Due to a simple typo (apparently I can't count. It goes 0, 1, 2 and
-> not 0, 2, 3) we were getting a kernel doc warning that looked like
-> this:
->
-> include/drm/drm_edid.h:530: warning:
->   Function parameter or member 'vend_chr_1' not described in 'drm_edid_encode_panel_id'
-> include/drm/drm_edid.h:530: warning:
->   Excess function parameter 'vend_chr_3' description in 'drm_edid_encode_panel_id'
->
-> Fix it.
->
-> Fixes: 7d1be0a09fa6 ("drm/edid: Fix EDID quirk compile error on older compilers")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> ---
->
->  include/drm/drm_edid.h | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+DSI being bound is enough? I thought the issue we are trying to address 
+is that
+we need to have called msm_dsi_host_power_on() for both the hosts so 
+that both are
+put in the known state before requesting the irq.
 
-Pushed with Randy's Ack to drm-misc-next:
+OR in other words move the irq_enable() to below location.
 
-116e5947d7bf drm/edid: Fix drm_edid_encode_panel_id() kerneldoc warning
+341 static void dsi_mgr_bridge_pre_enable(struct drm_bridge *bridge)
+342 {
+********************************
+364 	ret = msm_dsi_host_power_on(host, &phy_shared_timings[id], 
+is_bonded_dsi, msm_dsi->phy);
+365 	if (ret) {
+366 		pr_err("%s: power on host %d failed, %d\n", __func__, id, ret);
+367 		goto host_on_fail;
+368 	}
+369
+370 	if (is_bonded_dsi && msm_dsi1) {
+371 		ret = msm_dsi_host_power_on(msm_dsi1->host,
+372 				&phy_shared_timings[DSI_1], is_bonded_dsi, msm_dsi1->phy);
+373 		if (ret) {
+374 			pr_err("%s: power on host1 failed, %d\n",
+375 							__func__, ret);
+376 			goto host1_on_fail;
+377 		}
+378 	}
+
+< move the irq enable here >
+**********************************
+
+> 
+>> 
+>>>> 
+>>>> >       msm_host->power_on = true;
+>>>> >       mutex_unlock(&msm_host->dev_mutex);
+>>>> >
+>>>> > @@ -2439,6 +2440,8 @@ int msm_dsi_host_power_off(struct mipi_dsi_host
+>>>> > *host)
+>>>> >               goto unlock_ret;
+>>>> >       }
+>>>> >
+>>>> > +     devm_free_irq(&msm_host->pdev->dev, msm_host->irq, msm_host);
+>>>> > +
+>>>> >       dsi_ctrl_config(msm_host, false, NULL, NULL);
+>>>> >
+>>>> >       if (msm_host->disp_en_gpio)
