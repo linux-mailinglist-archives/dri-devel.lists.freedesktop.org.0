@@ -2,83 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CC841ABCB
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 11:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF47F41ABFB
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 11:34:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E3826E0F4;
-	Tue, 28 Sep 2021 09:28:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 224866E0E5;
+	Tue, 28 Sep 2021 09:34:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
- [66.111.4.221])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB7FD6E0F4
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:28:08 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 575E8580743;
- Tue, 28 Sep 2021 05:28:08 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 28 Sep 2021 05:28:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- date:from:to:cc:subject:message-id:references:mime-version
- :content-type:content-transfer-encoding:in-reply-to; s=fm1; bh=v
- FTIQRLZr/dArPvWWyWXOtO3bm56Qd7mD1aEXj7fSF4=; b=A+e0TYhHh0znYGJ3e
- 2mpCX1lsbgqMC/T9SMPn/wYORa7svwJEHQ756WW3uTpLBuAYAUdBgQv4cN/EGwGO
- LQL42aQVJiukHgIgBybulyVVxrHMEz5tLxOhblrtN/HAMcu1W6B+WAPnuESRCLSd
- eWEUxs1JDaN1b5QzCIqKGz8gXs6VR3n+yRZ/gdJPCcBR5pOjDFVXfdAdB4tvZi4x
- 5ixGiZK3eDS3Gc0YnEl7t4FJ1jcVDHaMok/+rkHvn/THpOwV1cbeGZPJSw6vhuZD
- OprRqRWgiqoPZzJWyoaRCq5OPm5fVLDEjV+4jmxj16GGkTUf6biZS0+qKyGCMJv4
- ciLAQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=vFTIQRLZr/dArPvWWyWXOtO3bm56Qd7mD1aEXj7fS
- F4=; b=DdUqr9mZUoVwDCQaWDk7IqdJVHvBwLIjLg7Ptj/vwWvORiACaisq8YlXA
- dIlGynkivXO6BO44HIF4nKmPT5V/C0H0AwSgcFEXNoai2Ts0Tj5DiXzHin6T5OlG
- jPW6hvJSJT5hV+i4rGbRrcjfWUfLxkTGYA5ZjYB8IVojFdRDNgj0QgQJM0i9Kr5O
- vaXielntuNHjKGM0cwG+XaWd9Rzfebyyq5lfZj4fXW6sIyZAY7TUq+2iAEfuCD9W
- 5PwGRO4EdAA6m1YNpQ0EzJtBf+1vJYrBv7fQGr0Cp9IXc/TEGUptDHhycenY0PYU
- BEQp9GJn7AARa8M49fu0gz6lx/4sg==
-X-ME-Sender: <xms:J-BSYc0l21CZZdIkl1k9kNYenlsBD2H-mqI0bvNs-DKUEuniSFP2WQ>
- <xme:J-BSYXFiNzjxArsmEru4Pr41Wo7LlT7L21JKZjXNQLsNuJvYtfEnkAH54l4_cdJmo
- G1gfwDbJT8k2IFdipg>
-X-ME-Received: <xmr:J-BSYU7Ikmf1rRf9AztUp1VlwlBvIMMtPJfmF3fRDf3oiVBtJbWMVXuS2Zi3w752ikQSbUncWr528VqL6eNSvcRs577uTsErEZJ6uUCo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudektddguddvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtugfgjgesthhqredttddtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpefhueeggfdvieegjeeigeffudeuhfeuveeuieelgfffleelgedtiefgvdev
- ieevvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivg
- eptdenucfrrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggt
- hh
-X-ME-Proxy: <xmx:J-BSYV3JQIo1Q3lHBgATMNyzKCX7Gt_YFQdv_si7r5c-2uBh7smiLA>
- <xmx:J-BSYfEOf5Zzv6wboTHvGpzveIt2rIe4o15oCh1_Jcvt13FmVKBpnA>
- <xmx:J-BSYe9-mICFg3VQBK3niUmLjudkBWoCGjOd_T0GuxFNRW-aWxWD6g>
- <xmx:KOBSYW8rmDroH5_U1E0bg3fL20ywNBBrauSDHYn6XHMrjJQ-0gYrCg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 28 Sep 2021 05:28:07 -0400 (EDT)
-Date: Tue, 28 Sep 2021 11:28:05 +0200
-From: Maxime Ripard <maxime@cerno.tech>
-To: Kevin Tang <kevin3.tang@gmail.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, pony1.wu@gmail.com,
- Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>,
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
- ML dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v6 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-Message-ID: <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
-References: <20210813145302.3933-1-kevin3.tang@gmail.com>
- <20210813145302.3933-7-kevin3.tang@gmail.com>
- <20210917154047.leojvqjqjj2sg34l@gilmour>
- <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40B36E0E5
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 09:34:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632821663;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=p7neOckUGIWhTkuByC2fKtTN9WxFIHR4euOV8huQSmo=;
+ b=bYNMzj18HJaqxWA/saFk7BWwrm0PqFh4Vp4GmrSZIGSGWkrdZCwztrEWnrLuboepbg
+ lvgQOkJUj/UO7P5zVsxss5DyiRW+QGu+AyNkp4H/euY3+miTwh4T/TTJeQiILsbFMnOr
+ ofC5An/1vNVYgPEPxgsG0RW++JSCSLEYgUfi7LlBfq2dWvnk7wqs+h1l+O1+oBK8HuvY
+ Iyk8gYi/YF7xDckmxCA96gysdiUA4SMXgbG6oiBD/sUYLsxU3WlexQqG8cA7fbCf5uhi
+ kTpFmXuVYj/i2nOuvZNWghhai5jFAdOwa45z40ihlk3M2p7XIcrZkBqgQsj78n3f0iJ6
+ w/pw==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43sT7Q="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+ with ESMTPSA id I01f74x8S9YMdLm
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Tue, 28 Sep 2021 11:34:22 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v4 03/10] dt-bindings: display: Add ingenic, jz4780-dw-hdmi
+ DT Schema
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <20210928091807.xgqxemjizlobpcxy@gilmour>
+Date: Tue, 28 Sep 2021 11:34:22 +0200
+Cc: Sam Ravnborg <sam@ravnborg.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, linux-mips <linux-mips@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ Discussions about the Letux Kernel <letux-kernel@openphoenux.org>,
+ Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel <dri-devel@lists.freedesktop.org>, Rob Herring <robh@kernel.org>
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
+Message-Id: <A17F7F48-5A3E-4F23-8C40-156275F5AEEE@goldelico.com>
+References: <cover.1632761067.git.hns@goldelico.com>
+ <6c8b72a03703de54fa02b29c1a53c84ca0889e50.1632761067.git.hns@goldelico.com>
+ <20210927170702.on243lp24fcfdhbj@gilmour>
+ <C529DB99-709A-4C24-B647-3A2004CBFE18@goldelico.com>
+ <20210928091807.xgqxemjizlobpcxy@gilmour>
+To: Maxime Ripard <maxime@cerno.tech>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,225 +90,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Sep 26, 2021 at 10:31:53PM +0800, Kevin Tang wrote:
-> Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8817=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:40=E5=86=99=E9=81=93=EF=BC=9A
-> > > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
-> > > +                              struct drm_display_mode *mode,
-> > > +                              struct drm_display_mode *adj_mode)
-> > > +{
-> > > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > > +
-> > > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode->n=
-ame);
-> > > +}
-> >
-> > You don't need that function?
-> No need for now. need to delete it?
 
-Yes
 
-> > > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encoder,
-> > > +                                 struct drm_crtc_state *crtc_state,
-> > > +                                 struct drm_connector_state *conn_st=
-ate)
-> > > +{
-> > > +     return 0;
-> > > +}
-> >
-> > Ditto
->
-> No need for now. need to delete it?
-
-Yep
-
-> > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
-> > > +{
-> > > +     struct device *dev =3D dsi->host.dev;
-> > > +     struct device_node *child, *lcds_node;
-> > > +     struct drm_panel *panel;
-> > > +
-> > > +     /* search /lcds child node first */
-> > > +     lcds_node =3D of_find_node_by_path("/lcds");
-> > > +     for_each_child_of_node(lcds_node, child) {
-> > > +             panel =3D of_drm_find_panel(child);
-> > > +             if (!IS_ERR(panel)) {
-> > > +                     dsi->panel =3D panel;
-> > > +                     return 0;
-> > > +             }
-> > > +     }
-> > > +
-> > > +     /*
-> > > +      * If /lcds child node search failed, we search
-> > > +      * the child of dsi host node.
-> > > +      */
-> > > +     for_each_child_of_node(dev->of_node, child) {
-> > > +             panel =3D of_drm_find_panel(child);
-> > > +             if (!IS_ERR(panel)) {
-> > > +                     dsi->panel =3D panel;
-> > > +                     return 0;
-> > > +             }
-> > > +     }
-> > > +
-> > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
-> > > +     return -ENODEV;
-> > > +}
-> >
-> > Just use devm_drm_of_get_bridge there
->
-> We use drm_panel_init and drm_panel_add API to add panel, so here is a
-> panel device, not a bridge.
-
-Like Sam said, the panel API is on its way out and is being superseded
-by bridge_panels.
-
-> > > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device *d=
-ev)
-> > > +{
-> > > +     int ret;
-> > > +
-> > > +     dsi->host.dev =3D dev;
-> > > +     dsi->host.ops =3D &sprd_dsi_host_ops;
-> > > +
-> > > +     ret =3D mipi_dsi_host_register(&dsi->host);
-> > > +     if (ret)
-> > > +             drm_err(dsi->drm, "failed to register dsi host\n");
-> > > +
-> > > +     return ret;
-> > > +}
-> > >
-> > > [...]
-> > >
-> > > +static int sprd_dsi_connector_init(struct drm_device *drm, struct sp=
-rd_dsi *dsi)
-> > > +{
-> > > +     struct drm_encoder *encoder =3D &dsi->encoder;
-> > > +     struct drm_connector *connector =3D &dsi->connector;
-> > > +     int ret;
-> > > +
-> > > +     connector->polled =3D DRM_CONNECTOR_POLL_HPD;
-> > > +
-> > > +     ret =3D drm_connector_init(drm, connector,
-> > > +                              &sprd_dsi_atomic_connector_funcs,
-> > > +                              DRM_MODE_CONNECTOR_DSI);
-> > > +     if (ret) {
-> > > +             drm_err(drm, "drm_connector_init() failed\n");
-> > > +             return ret;
-> > > +     }
-> > > +
-> > > +     drm_connector_helper_add(connector,
-> > > +                              &sprd_dsi_connector_helper_funcs);
-> > > +
-> > > +     drm_connector_attach_encoder(connector, encoder);
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int sprd_dsi_context_init(struct sprd_dsi *dsi,
-> > > +                     struct device *dev)
-> > > +{
-> > > +     struct platform_device *pdev =3D to_platform_device(dev);
-> > > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > > +     struct resource *res;
-> > > +
-> > > +     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > +     ctx->base =3D devm_ioremap(dev, res->start, resource_size(res));
-> > > +     if (!ctx->base) {
-> > > +             drm_err(dsi->drm, "failed to map dsi host registers\n");
-> > > +             return -ENXIO;
-> > > +     }
-> > > +
-> > > +     ctx->pll =3D devm_kzalloc(dev, sizeof(*ctx->pll), GFP_KERNEL);
-> > > +     if (!ctx->pll)
-> > > +             return -ENOMEM;
-> > > +
-> > > +     ctx->regmap =3D devm_regmap_init(dev, &regmap_tst_io, dsi, &byt=
-e_config);
-> > > +     if (IS_ERR(ctx->regmap)) {
-> > > +             drm_err(dsi->drm, "dphy regmap init failed\n");
-> > > +             return PTR_ERR(ctx->regmap);
-> > > +     }
-> > > +
-> > > +     ctx->data_hs2lp =3D 120;
-> > > +     ctx->data_lp2hs =3D 500;
-> > > +     ctx->clk_hs2lp =3D 4;
-> > > +     ctx->clk_lp2hs =3D 15;
-> > > +     ctx->max_rd_time =3D 6000;
-> > > +     ctx->int0_mask =3D 0xffffffff;
-> > > +     ctx->int1_mask =3D 0xffffffff;
-> > > +     ctx->enabled =3D true;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static int sprd_dsi_bind(struct device *dev, struct device *master, =
-void *data)
-> > > +{
-> > > +     struct drm_device *drm =3D data;
-> > > +     struct sprd_dsi *dsi;
-> > > +     int ret;
-> > > +
-> > > +     dsi =3D sprd_dsi_encoder_init(drm, dev);
-> > > +     if (IS_ERR(dsi))
-> > > +             return PTR_ERR(dsi);
-> > > +
-> > > +     dsi->drm =3D drm;
-> > > +     dev_set_drvdata(dev, dsi);
-> > > +
-> > > +     ret =3D sprd_dsi_connector_init(drm, dsi);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     ret =3D sprd_dsi_context_init(dsi, dev);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     ret =3D sprd_dsi_host_init(dsi, dev);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static void sprd_dsi_unbind(struct device *dev,
-> > > +                     struct device *master, void *data)
-> > > +{
-> > > +     struct sprd_dsi *dsi =3D dev_get_drvdata(dev);
-> > > +
-> > > +     mipi_dsi_host_unregister(&dsi->host);
-> > > +}
-> > > +
-> > > +static const struct component_ops dsi_component_ops =3D {
-> > > +     .bind   =3D sprd_dsi_bind,
-> > > +     .unbind =3D sprd_dsi_unbind,
-> > > +};
-> > > +
-> > > +static const struct of_device_id dsi_match_table[] =3D {
-> > > +     { .compatible =3D "sprd,sharkl3-dsi-host" },
-> > > +     { /* sentinel */ },
-> > > +};
-> > > +
-> > > +static int sprd_dsi_probe(struct platform_device *pdev)
-> > > +{
-> > > +     return component_add(&pdev->dev, &dsi_component_ops);
-> >
-> > In order to prevent probe issues, you need to register you mipi_dsi_host
-> > here, see:
-> > https://lore.kernel.org/dri-devel/20210910101218.1632297-3-maxime@cerno=
-=2Etech/
->
-> We register mipi_dsi_hot on our panel driver, like this:
+> Am 28.09.2021 um 11:18 schrieb Maxime Ripard <maxime@cerno.tech>:
 >=20
-> 1092   ret =3D mipi_dsi_attach(slave);
-> 1093   if (ret) {
-> 1094   DRM_ERROR("failed to attach dsi panel to host\n");
-> 1095   drm_panel_remove(&panel->base);
-> 1096   return ret;
-> 1097   }
+> On Tue, Sep 28, 2021 at 10:59:45AM +0200, H. Nikolaus Schaller wrote:
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    items:
+>>>> +      - const: ingenic,jz4780-dw-hdmi
+>>>=20
+>>> This can just be a const, there's no need for the items
+>>=20
+>> Maybe starting with an enum is better if more compatible strings are =
+to be added.
+>=20
+> it's still fairly easy to change if needed, there's no need to confuse
+> anyone.
+>=20
+>>>=20
+>>>> +  reg-io-width:
+>>>> +    const: 4
+>>>=20
+>>> If it's fixed, why do you need it in the first place?
+>>=20
+>> There is a fixed default of 1 if not specified.
+>=20
+> My point was more about why do you need to have that property at all?
+> Can't you just drop it and assume that the register width is 32 bits =
+if
+> it's all you will ever run on?
 
-It's not about when you attach, but when you call
-mipi_dsi_host_register. You're doing it in sprd_dsi_host_init that you
-call in bind(), which is against the best practices and will create
-probing issues in the future.
+No, please see bridge/synopsys,dw-hdmi.yaml where it is derived from:
 
-Maxime
+  reg-io-width:
+    description:
+      Width (in bytes) of the registers specified by the reg property.
+    allOf:
+      - $ref: /schemas/types.yaml#/definitions/uint32
+      - enum: [1, 4]
+    default: 1
+
+Other bindings define it explicitly to be 4, e.g.
+
+Documentation//devicetree/bindings/display/intel,keembay-msscam.yaml:  =
+reg-io-width:
+=
+Documentation//devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yaml:=
+  reg-io-width:
+
+Therefore I'd assume that a regmap is not properly set up
+if we don't require the DTS to include it with const: 4.
+
+>=20
+>>>> +  clocks:
+>>>> +    maxItems: 2
+>>>> +    description: Clock specifiers for isrf and iahb clocks
+>>>=20
+>>> This can be defined as
+>>>=20
+>>> clocks:
+>>> items:
+>>>   - description: isrf
+>>>   - description: iahb
+>>>=20
+>>> A better description about what these clocks are would be nice as =
+well
+>>=20
+>> Generally I see that this all is nowadays not independent of
+>>=20
+>> =
+Documentation/devicetree/bindings/display/bridge/synopsys,dw-hdmi.yaml
+>>=20
+>> where there is already a description.
+>=20
+> Ok, good then
+>=20
+>> On the other hand every SoC specialization runs its own copy. e.g.
+>>=20
+>> Documentation/devicetree/bindings/display/imx/fsl,imx6-hdmi.yaml
+>> =
+Documentation/devicetree/bindings/display/rockchip/rockchip,dw-hdmi.yam
+>>=20
+>>>=20
+>>>> +  clock-names:
+>>>> +    items:
+>>>> +      - const: isfr
+>>>=20
+>>> Is it isfr or isrf?
+>>=20
+>> isfr. Seems to be a typo in the description. See
+>> bridge/synopsys,dw-hdmi.yaml#
+>>=20
+>> One question to the yaml specialists:
+>>=20
+>> since ../bridge/synopsys,dw-hdmi.yaml# already defines this, do we
+>> have to repeat? Or can we reduce to just the changes?
+>=20
+> If you add the ref you mentionned above, you don't have to repeat
+
+Nice. It defines:
+
+  clocks:
+    minItems: 2
+    maxItems: 5
+    items:
+      - description: The bus clock for either AHB and APB
+      - description: The internal register configuration clock
+    additionalItems: true
+
+> yourself indeed. You can just put clock-names: true
+
+Or should we do
+
+  clocks:
+    maxItems: 2
+    additionalItems: false
+
+>=20
+>> [I am still not familiar enough with the yaml stuff to understand if
+>> it has sort of inheritance like device tree include files, so that =
+you
+>> just have to change relevant properties]
+>=20
+> Kind of, but not entirely. schemas are all applied separately, unlike =
+DT
+> includes that will just expand to one big DT. In practice, it means =
+that
+> your device must validate against all the schemas, not just the sum of
+> them.
+>=20
+> For example, if you have a generic schema that has:
+>=20
+> properties:
+>  compatible:
+>    const: vendor,my-generic-compatible
+>=20
+>=20
+> and your schema that extends the generic binding, with a ref to the
+> generic one that has:
+>=20
+> properties:
+>  compatible:
+>    items:
+>      - const: other-vendor,my-device-compatible
+>      - const: vendor,my-generic-compatible
+>=20
+>=20
+> It will still fail since the generic schema expects only a single
+> compatible, whereas your device would have two.
+
+Ok, I see. it is not a simple "overwrite" rule.
+
+>=20
+>>>=20
+>>>> +      - const: iahb
+>>=20
+>> would it make sense to add additionalItems: false here?
+>>=20
+>> In the jz4780 case there are just two clocks while other =
+specializations
+>> use more and synopsys,dw-hdmi.yaml# defines additionalItems: true.
+>=20
+> If you want to refine the generic one, and it's all the clocks you =
+ever
+> expect then there's no need for additionalItems
+
+Ok.
+
+>=20
+>>>=20
+>>>> +    description: An I2C interface if the internal DDC I2C driver =
+is not to be used
+>>>> +  ports: true
+>>>=20
+>>> If there's a single port, you don't need ports
+>>=20
+>> There can be two ports - one for input from LCDC and one
+>> for output (HDMI connector). But explicitly defining an output
+>> port is optional to some extent (depending on driver structure).
+>=20
+> This needs to be defined then (and port@0 made mandatory)
+
+Ok. I'll try to make the best out of it for v5 series. Maybe
+it is still not perfect by then, but close...
+
+>=20
+> Maxime
+
+BR and thanks,
+Nikolaus
+
