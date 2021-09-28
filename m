@@ -2,58 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF2C41B769
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 21:19:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71DCE41B784
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 21:24:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 100766E94E;
-	Tue, 28 Sep 2021 19:19:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1ABC86E8B4;
+	Tue, 28 Sep 2021 19:24:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C75EC6E964;
- Tue, 28 Sep 2021 19:19:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="247303090"
-X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="247303090"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 12:19:53 -0700
-X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="554270019"
-Received: from oogunmoy-mobl1.amr.corp.intel.com (HELO
- skuppusw-mobl5.amr.corp.intel.com) ([10.212.221.219])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 12:19:51 -0700
-Subject: Re: [PATCH v4 0/8] Implement generic cc_platform_has() helper function
-To: Borislav Petkov <bp@alien8.de>, LKML <linux-kernel@vger.kernel.org>
-Cc: Andi Kleen <ak@linux.intel.com>, Andy Lutomirski <luto@kernel.org>,
- Ard Biesheuvel <ardb@kernel.org>, Baoquan He <bhe@redhat.com>,
- Benjamin Herrenschmidt <benh@kernel.crashing.org>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Daniel Vetter <daniel@ffwll.ch>, Dave Young <dyoung@redhat.com>,
- David Airlie <airlied@linux.ie>, Heiko Carstens <hca@linux.ibm.com>,
- Joerg Roedel <joro@8bytes.org>, "Kirill A. Shutemov" <kirill@shutemov.name>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Michael Ellerman <mpe@ellerman.id.au>,
- Paul Mackerras <paulus@samba.org>, Tom Lendacky <thomas.lendacky@amd.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Vasily Gorbik <gor@linux.ibm.com>,
- VMware Graphics <linux-graphics-maintainer@vmware.com>,
- Will Deacon <will@kernel.org>, Christoph Hellwig <hch@infradead.org>,
- x86@kernel.org, linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
- iommu@lists.linux-foundation.org, kvm@vger.kernel.org,
- linux-efi@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- kexec@lists.infradead.org
-References: <20210928191009.32551-1-bp@alien8.de>
-From: "Kuppuswamy, Sathyanarayanan"
- <sathyanarayanan.kuppuswamy@linux.intel.com>
-Message-ID: <80593893-c63b-d481-45f1-42a3a6fd762a@linux.intel.com>
-Date: Tue, 28 Sep 2021 12:19:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.13.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D81F56E8B4
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 19:24:01 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id D56936135E;
+ Tue, 28 Sep 2021 19:23:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632857041;
+ bh=+uYxSqaD7aVPBaKXaT32Yr5tLRoGFr0pFL+5Ay/e56Y=;
+ h=From:To:Cc:Subject:Date:From;
+ b=HNBMYr2YKcPOeolmmRJogIQ4BKEElzd/WHD5HZ7bOpPYdHd+Aa4Sj5Af3x2216PHB
+ DVPW7QrTR+G9RuWhEhTQsc5ygIXAJ6ItscmbGx2wfaq9kuw4JcNRUIZ3dqLviT4rWw
+ fLYtbIxNe4Ke+lNQ2otBEPkFjuq57NN2atgrEKMXs+oqnmxir305Uid08jOBw1VB7y
+ hlfNIja/5Dp5ifw/BKCJQT7FohkesAfeEwSbV/hCwqvcfR2YknFnSApoRXw+n74oq9
+ plzAafbM/RMg7knADtibv50AiSZxOLuuj/IMuqe79IR304veQAB5moXvAw37SwXqm/
+ wQsiLELWiQvLA==
+From: Nathan Chancellor <nathan@kernel.org>
+To: Anitha Chrisanthus <anitha.chrisanthus@intel.com>,
+ Edmund Dea <edmund.j.dea@intel.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
+ Nick Desaulniers <ndesaulniers@google.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>,
+ kernel test robot <lkp@intel.com>
+Subject: [PATCH] drm/kmb: Remove set_test_mode_src_osc_freq_target_{hi,
+ low}_bits()
+Date: Tue, 28 Sep 2021 12:23:38 -0700
+Message-Id: <20210928192338.1987872-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.33.0.591.gddb1055343
 MIME-Version: 1.0
-In-Reply-To: <20210928191009.32551-1-bp@alien8.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,81 +55,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+clang with W=1 warns:
 
+drivers/gpu/drm/kmb/kmb_dsi.c:812:2: error: unused function
+'set_test_mode_src_osc_freq_target_low_bits' [-Werror,-Wunused-function]
+        set_test_mode_src_osc_freq_target_low_bits(struct kmb_dsi *kmb_dsi,
+        ^
+drivers/gpu/drm/kmb/kmb_dsi.c:824:2: error: unused function
+'set_test_mode_src_osc_freq_target_hi_bits' [-Werror,-Wunused-function]
+        set_test_mode_src_osc_freq_target_hi_bits(struct kmb_dsi *kmb_dsi,
+        ^
+2 errors generated.
 
-On 9/28/21 12:10 PM, Borislav Petkov wrote:
-> From: Borislav Petkov <bp@suse.de>
-> 
-> Hi all,
-> 
-> here's v4 of the cc_platform_has() patchset with feedback incorporated.
-> 
-> I'm going to route this through tip if there are no objections.
+Remove them, as they have been unused since the driver's introduction in
+commit 98521f4d4b4c ("drm/kmb: Mipi DSI part of the display driver").
 
-Intel CC support patch is not included in this series. You want me
-to address the issue raised by Joerg before merging it?
+Reported-by: kernel test robot <lkp@intel.com>
+Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+---
+ drivers/gpu/drm/kmb/kmb_dsi.c | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
 
-> 
-> Thx.
-> 
-> Tom Lendacky (8):
->    x86/ioremap: Selectively build arch override encryption functions
->    arch/cc: Introduce a function to check for confidential computing
->      features
->    x86/sev: Add an x86 version of cc_platform_has()
->    powerpc/pseries/svm: Add a powerpc version of cc_platform_has()
->    x86/sme: Replace occurrences of sme_active() with cc_platform_has()
->    x86/sev: Replace occurrences of sev_active() with cc_platform_has()
->    x86/sev: Replace occurrences of sev_es_active() with cc_platform_has()
->    treewide: Replace the use of mem_encrypt_active() with
->      cc_platform_has()
-> 
->   arch/Kconfig                                 |  3 +
->   arch/powerpc/include/asm/mem_encrypt.h       |  5 --
->   arch/powerpc/platforms/pseries/Kconfig       |  1 +
->   arch/powerpc/platforms/pseries/Makefile      |  2 +
->   arch/powerpc/platforms/pseries/cc_platform.c | 26 ++++++
->   arch/powerpc/platforms/pseries/svm.c         |  5 +-
->   arch/s390/include/asm/mem_encrypt.h          |  2 -
->   arch/x86/Kconfig                             |  1 +
->   arch/x86/include/asm/io.h                    |  8 ++
->   arch/x86/include/asm/kexec.h                 |  2 +-
->   arch/x86/include/asm/mem_encrypt.h           | 12 +--
->   arch/x86/kernel/Makefile                     |  6 ++
->   arch/x86/kernel/cc_platform.c                | 69 +++++++++++++++
->   arch/x86/kernel/crash_dump_64.c              |  4 +-
->   arch/x86/kernel/head64.c                     |  9 +-
->   arch/x86/kernel/kvm.c                        |  3 +-
->   arch/x86/kernel/kvmclock.c                   |  4 +-
->   arch/x86/kernel/machine_kexec_64.c           | 19 +++--
->   arch/x86/kernel/pci-swiotlb.c                |  9 +-
->   arch/x86/kernel/relocate_kernel_64.S         |  2 +-
->   arch/x86/kernel/sev.c                        |  6 +-
->   arch/x86/kvm/svm/svm.c                       |  3 +-
->   arch/x86/mm/ioremap.c                        | 18 ++--
->   arch/x86/mm/mem_encrypt.c                    | 55 ++++--------
->   arch/x86/mm/mem_encrypt_identity.c           |  9 +-
->   arch/x86/mm/pat/set_memory.c                 |  3 +-
->   arch/x86/platform/efi/efi_64.c               |  9 +-
->   arch/x86/realmode/init.c                     |  8 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c      |  4 +-
->   drivers/gpu/drm/drm_cache.c                  |  4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c          |  4 +-
->   drivers/gpu/drm/vmwgfx/vmwgfx_msg.c          |  6 +-
->   drivers/iommu/amd/init.c                     |  7 +-
->   drivers/iommu/amd/iommu.c                    |  3 +-
->   drivers/iommu/amd/iommu_v2.c                 |  3 +-
->   drivers/iommu/iommu.c                        |  3 +-
->   fs/proc/vmcore.c                             |  6 +-
->   include/linux/cc_platform.h                  | 88 ++++++++++++++++++++
->   include/linux/mem_encrypt.h                  |  4 -
->   kernel/dma/swiotlb.c                         |  4 +-
->   40 files changed, 310 insertions(+), 129 deletions(-)
->   create mode 100644 arch/powerpc/platforms/pseries/cc_platform.c
->   create mode 100644 arch/x86/kernel/cc_platform.c
->   create mode 100644 include/linux/cc_platform.h
-> 
+diff --git a/drivers/gpu/drm/kmb/kmb_dsi.c b/drivers/gpu/drm/kmb/kmb_dsi.c
+index 1793cd31b117..ae24c5fc35a5 100644
+--- a/drivers/gpu/drm/kmb/kmb_dsi.c
++++ b/drivers/gpu/drm/kmb/kmb_dsi.c
+@@ -808,34 +808,6 @@ static void test_mode_send(struct kmb_dsi *kmb_dsi, u32 dphy_no,
+ 	}
+ }
+ 
+-static inline void
+-	set_test_mode_src_osc_freq_target_low_bits(struct kmb_dsi *kmb_dsi,
+-						   u32 dphy_no,
+-						   u32 freq)
+-{
+-	/* Typical rise/fall time=166, refer Table 1207 databook,
+-	 * sr_osc_freq_target[7:0]
+-	 */
+-	test_mode_send(kmb_dsi, dphy_no, TEST_CODE_SLEW_RATE_DDL_CYCLES,
+-		       (freq & 0x7f));
+-}
+-
+-static inline void
+-	set_test_mode_src_osc_freq_target_hi_bits(struct kmb_dsi *kmb_dsi,
+-						  u32 dphy_no,
+-						  u32 freq)
+-{
+-	u32 data;
+-
+-	/* Flag this as high nibble */
+-	data = ((freq >> 6) & 0x1f) | (1 << 7);
+-
+-	/* Typical rise/fall time=166, refer Table 1207 databook,
+-	 * sr_osc_freq_target[11:7]
+-	 */
+-	test_mode_send(kmb_dsi, dphy_no, TEST_CODE_SLEW_RATE_DDL_CYCLES, data);
+-}
+-
+ static void mipi_tx_get_vco_params(struct vco_params *vco)
+ {
+ 	int i;
 
+base-commit: 93ee1a2c0f08345ab17c51198f725d4c95984f4c
 -- 
-Sathyanarayanan Kuppuswamy
-Linux Kernel Developer
+2.33.0.591.gddb1055343
+
