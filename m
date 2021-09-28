@@ -1,79 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4FD241A94C
-	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 09:05:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D86E41A94B
+	for <lists+dri-devel@lfdr.de>; Tue, 28 Sep 2021 09:05:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D4F5B6E0AC;
-	Tue, 28 Sep 2021 07:05:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 79A4989F73;
+	Tue, 28 Sep 2021 07:04:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5B41A6E0BC
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 07:05:06 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1632812708; h=Content-Type: MIME-Version: Message-ID:
- In-Reply-To: Date: References: Subject: Cc: To: From: Sender;
- bh=mcC+NI9lbMYVHDFKxEvKMLG3JdbT8e+is/T3jV6QeT8=;
- b=EvtsaOlBvyXjbG9taasWQcFGpf5kzHhpH4kCJad3KxVxTrfyclTMxwje1HxJTiIFBROTJO/q
- XF8yjnjONjjy/4ThKW8yf0DvZDAJanX2TETStbngXebnkmtzc7jOGO3K0tZJX9v3BSTcLBQc
- FZpxcP11GQaFKBgfoj9lay6Wl2o=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 6152be4b47d64efb6d8782e5 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 28 Sep 2021 07:03:39
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 2747BC43637; Tue, 28 Sep 2021 07:03:38 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED, BAYES_00,
- SPF_FAIL autolearn=no autolearn_force=no version=3.4.0
-Received: from tykki (tynnyri.adurom.net [51.15.11.48])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: kvalo)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 9DA53C4338F;
- Tue, 28 Sep 2021 07:03:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org 9DA53C4338F
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
- spf=fail smtp.mailfrom=codeaurora.org
-From: Kalle Valo <kvalo@codeaurora.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,  Arnd Bergmann
- <arnd@arndb.de>,  Rob Clark <robdclark@gmail.com>,  Sean Paul
- <sean@poorly.run>,  David Airlie <airlied@linux.ie>,  Daniel Vetter
- <daniel@ffwll.ch>,  Joerg Roedel <joro@8bytes.org>,  Will Deacon
- <will@kernel.org>,  Mauro Carvalho Chehab <mchehab@kernel.org>,  Ulf
- Hansson <ulf.hansson@linaro.org>,  Alex Elder <elder@kernel.org>,  "David
- S. Miller" <davem@davemloft.net>,  Jakub Kicinski <kuba@kernel.org>,  Andy
- Gross <agross@kernel.org>,  Linus Walleij <linus.walleij@linaro.org>,
- Maxime Ripard <mripard@kernel.org>,  Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,  Mark Rutland
- <mark.rutland@arm.com>,  Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>,  linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org,  dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org,  iommu@lists.linux-foundation.org,
- linux-media@vger.kernel.org,  linux-mmc@vger.kernel.org,
- netdev@vger.kernel.org,  ath10k@lists.infradead.org,
- linux-wireless@vger.kernel.org,  linux-gpio@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,  linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-References: <20210927152412.2900928-1-arnd@kernel.org>
-Date: Tue, 28 Sep 2021 10:03:25 +0300
-In-Reply-To: <20210927152412.2900928-1-arnd@kernel.org> (Arnd Bergmann's
- message of "Mon, 27 Sep 2021 17:22:13 +0200")
-Message-ID: <87k0j1qj0i.fsf@codeaurora.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 80EA189F69;
+ Tue, 28 Sep 2021 07:04:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21E5D611CA;
+ Tue, 28 Sep 2021 07:04:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1632812695;
+ bh=uk0cBqp8mJmxC4hvpD+WS8Fqi0WFUUo+M5zqdDQbazY=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=ZYDfy30/tBP5/iCcMrH4okxJH98hSVzSe0pHLCxrxNCdYHE0/mDev9XllrrCJRE9B
+ 7Mk4dWURNWeAaz33Mj6Cu5pQtxE2qHGKhgD2F8Wn0MoEsttBsBIgdUN9Ft3MC3m+bZ
+ yNlUoWIAzhKfLvhvHziiUERFnyWi4HO+uXMuvB4Q3/8xhSLN7vMhdAeKHAsDC/GQTy
+ xb1YIltPnbmNP53U4svjLs+CZZZfIGgQLl/5pV9boVk2p62lG3/RsawwZgD3/isy1f
+ ESY0Bsi3N9m1humhlZjWtb9oy2khd+hy4HO2qiQX5/ciGOrK040W+3VpS1eAbyPFCp
+ oN0WjKPKJrI1A==
+Received: by mail-yb1-f181.google.com with SMTP id v10so29609552ybq.7;
+ Tue, 28 Sep 2021 00:04:55 -0700 (PDT)
+X-Gm-Message-State: AOAM533sBNsjft5BFXFlGki5OAzAApm1JWloO3m9Am4xPuNAvG7jmKwN
+ Y88MB2JZipyxd9HVHDUB39gHw+UR1Mf0lhMo3Ug=
+X-Google-Smtp-Source: ABdhPJzCFYplamGxooBWwJyp1KX8cm27ANY5LYxIJdr3J9BPyZ9mLw/SlxUYU2bbcrwj4fdC1tykp7PZzcufB4sjcI0=
+X-Received: by 2002:a25:5b85:: with SMTP id p127mr744801ybb.444.1632812694370; 
+ Tue, 28 Sep 2021 00:04:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20210912165309.98695-1-ogabbay@kernel.org>
+ <YUCvNzpyC091KeaJ@phenom.ffwll.local>
+ <20210914161218.GF3544071@ziepe.ca>
+ <CAFCwf13322953Txr3Afa_MomuD148vnfpEog0xzW7FPWH9=6fg@mail.gmail.com>
+ <YUM5JoMMK7gceuKZ@phenom.ffwll.local> <20210916131014.GK3544071@ziepe.ca>
+ <YUSKSHBC9uI49wZZ@phenom.ffwll.local>
+ <CAFCwf12o-+wtbk8J8k8hP4_k0a8Lco4m9f4s1vBobkQwNtn39w@mail.gmail.com>
+ <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
+In-Reply-To: <CAFCwf11UFVh-88Z=d=EH07_nx=3tf9kQkHhJ4pF6hfgO=80u0g@mail.gmail.com>
+From: Oded Gabbay <ogabbay@kernel.org>
+Date: Tue, 28 Sep 2021 10:04:29 +0300
+X-Gmail-Original-Message-ID: <CAFCwf121CuNOesSRECUY9y7KWSGOZ2dHPCVvBqu8C4PCYj5PTw@mail.gmail.com>
+Message-ID: <CAFCwf121CuNOesSRECUY9y7KWSGOZ2dHPCVvBqu8C4PCYj5PTw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/2] Add p2p via dmabuf to habanalabs
+To: Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Dave Airlie <airlied@gmail.com>
+Cc: "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Gal Pressman <galpress@amazon.com>, Yossi Leybovich <sleybo@amazon.com>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ Doug Ledford <dledford@redhat.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Leon Romanovsky <leonro@nvidia.com>, 
+ Christoph Hellwig <hch@lst.de>, amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,75 +75,115 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Arnd Bergmann <arnd@kernel.org> writes:
+On Thu, Sep 23, 2021 at 12:22 PM Oded Gabbay <ogabbay@kernel.org> wrote:
+>
+> On Sat, Sep 18, 2021 at 11:38 AM Oded Gabbay <ogabbay@kernel.org> wrote:
+> >
+> > On Fri, Sep 17, 2021 at 3:30 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >
+> > > On Thu, Sep 16, 2021 at 10:10:14AM -0300, Jason Gunthorpe wrote:
+> > > > On Thu, Sep 16, 2021 at 02:31:34PM +0200, Daniel Vetter wrote:
+> > > > > On Wed, Sep 15, 2021 at 10:45:36AM +0300, Oded Gabbay wrote:
+> > > > > > On Tue, Sep 14, 2021 at 7:12 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > > > >
+> > > > > > > On Tue, Sep 14, 2021 at 04:18:31PM +0200, Daniel Vetter wrote:
+> > > > > > > > On Sun, Sep 12, 2021 at 07:53:07PM +0300, Oded Gabbay wrote:
+> > > > > > > > > Hi,
+> > > > > > > > > Re-sending this patch-set following the release of our user-space TPC
+> > > > > > > > > compiler and runtime library.
+> > > > > > > > >
+> > > > > > > > > I would appreciate a review on this.
+> > > > > > > >
+> > > > > > > > I think the big open we have is the entire revoke discussions. Having the
+> > > > > > > > option to let dma-buf hang around which map to random local memory ranges,
+> > > > > > > > without clear ownership link and a way to kill it sounds bad to me.
+> > > > > > > >
+> > > > > > > > I think there's a few options:
+> > > > > > > > - We require revoke support. But I've heard rdma really doesn't like that,
+> > > > > > > >   I guess because taking out an MR while holding the dma_resv_lock would
+> > > > > > > >   be an inversion, so can't be done. Jason, can you recap what exactly the
+> > > > > > > >   hold-up was again that makes this a no-go?
+> > > > > > >
+> > > > > > > RDMA HW can't do revoke.
+> > > > >
+> > > > > Like why? I'm assuming when the final open handle or whatever for that MR
+> > > > > is closed, you do clean up everything? Or does that MR still stick around
+> > > > > forever too?
+> > > >
+> > > > It is a combination of uAPI and HW specification.
+> > > >
+> > > > revoke here means you take a MR object and tell it to stop doing DMA
+> > > > without causing the MR object to be destructed.
+> > > >
+> > > > All the drivers can of course destruct the MR, but doing such a
+> > > > destruction without explicit synchronization with user space opens
+> > > > things up to a serious use-after potential that could be a security
+> > > > issue.
+> > > >
+> > > > When the open handle closes the userspace is synchronized with the
+> > > > kernel and we can destruct the HW objects safely.
+> > > >
+> > > > So, the special HW feature required is 'stop doing DMA but keep the
+> > > > object in an error state' which isn't really implemented, and doesn't
+> > > > extend very well to other object types beyond simple MRs.
+> > >
+> > > Yeah revoke without destroying the MR doesn't work, and it sounds like
+> > > revoke by destroying the MR just moves the can of worms around to another
+> > > place.
+> > >
+> > > > > 1. User A opens gaudi device, sets up dma-buf export
+> > > > >
+> > > > > 2. User A registers that with RDMA, or anything else that doesn't support
+> > > > > revoke.
+> > > > >
+> > > > > 3. User A closes gaudi device
+> > > > >
+> > > > > 4. User B opens gaudi device, assumes that it has full control over the
+> > > > > device and uploads some secrets, which happen to end up in the dma-buf
+> > > > > region user A set up
+> > > >
+> > > > I would expect this is blocked so long as the DMABUF exists - eg the
+> > > > DMABUF will hold a fget on the FD of #1 until the DMABUF is closed, so
+> > > > that #3 can't actually happen.
+> > > >
+> > > > > It's not mlocked memory, it's mlocked memory and I can exfiltrate
+> > > > > it.
+> > > >
+> > > > That's just bug, don't make buggy drivers :)
+> > >
+> > > Well yeah, but given that habanalabs hand rolled this I can't just check
+> > > for the usual things we have to enforce this in drm. And generally you can
+> > > just open chardevs arbitrarily, and multiple users fighting over each
+> > > another. The troubles only start when you have private state or memory
+> > > allocations of some kind attached to the struct file (instead of the
+> > > underlying device), or something else that requires device exclusivity.
+> > > There's no standard way to do that.
+> > >
+> > > Plus in many cases you really want revoke on top (can't get that here
+> > > unfortunately it seems), and the attempts to get towards a generic
+> > > revoke() just never went anywhere. So again it's all hand-rolled
+> > > per-subsystem. *insert lament about us not having done this through a
+> > > proper subsystem*
+> > >
+> > > Anyway it sounds like the code takes care of that.
+> > > -Daniel
+> >
+> > Daniel, Jason,
+> > Thanks for reviewing this code.
+> >
+> > Can I get an R-B / A-B from you for this patch-set ?
+> >
+> > Thanks,
+> > Oded
+>
+> A kind reminder.
+>
+> Thanks,
+> Oded
 
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> Now that SCM can be a loadable module, we have to add another
-> dependency to avoid link failures when ipa or adreno-gpu are
-> built-in:
->
-> aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
-> ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
->
-> ld.lld: error: undefined symbol: qcom_scm_is_available
->>>> referenced by adreno_gpu.c
->>>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load)
->>>> in archive drivers/built-in.a
->
-> This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
-> QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
-> use a similar dependency here to what we have for QCOM_RPROC_COMMON,
-> but that causes dependency loops from other things selecting QCOM_SCM.
->
-> This appears to be an endless problem, so try something different this
-> time:
->
->  - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
->    but that is simply selected by all of its users
->
->  - All the stubs in include/linux/qcom_scm.h can go away
->
->  - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
->    allow compile-testing QCOM_SCM on all architectures.
->
->  - To avoid a circular dependency chain involving RESET_CONTROLLER
->    and PINCTRL_SUNXI, change the 'depends on RESET_CONTROLLER' in
->    the latter one to 'select'.
->
-> The last bit is rather annoying, as drivers should generally never
-> 'select' another subsystem, and about half the users of the reset
-> controller interface do this anyway.
->
-> Nevertheless, this version seems to pass all my randconfig tests
-> and is more robust than any of the prior versions.
->
-> Comments?
->
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Hi,
+I know last week was LPC and maybe this got lost in the inbox, so I'm
+sending it again to make sure you got my request for R-B / A-B.
 
-[...]
-
-> diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
-> index 741289e385d5..ca007b800f75 100644
-> --- a/drivers/net/wireless/ath/ath10k/Kconfig
-> +++ b/drivers/net/wireless/ath/ath10k/Kconfig
-> @@ -44,7 +44,7 @@ config ATH10K_SNOC
->  	tristate "Qualcomm ath10k SNOC support"
->  	depends on ATH10K
->  	depends on ARCH_QCOM || COMPILE_TEST
-> -	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-> +	select QCOM_SCM
->  	select QCOM_QMI_HELPERS
->  	help
->  	  This module adds support for integrated WCN3990 chip connected
-
-I assume I can continue to build test ATH10K_SNOC with x86 as before?
-That's important for me. If yes, then:
-
-Acked-by: Kalle Valo <kvalo@codeaurora.org>
-
--- 
-https://patchwork.kernel.org/project/linux-wireless/list/
-
-https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
+Thanks,
+Oded
