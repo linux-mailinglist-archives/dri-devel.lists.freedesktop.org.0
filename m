@@ -1,62 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11B7241BB8A
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 02:04:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A32D41BBB4
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 02:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 75DE96E12D;
-	Wed, 29 Sep 2021 00:04:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC7D6E140;
+	Wed, 29 Sep 2021 00:27:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4F2066E12D
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 00:03:59 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D420A613D2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 00:03:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632873839;
- bh=qWhkqBZVgSHtDEpze9jE34E6bXc8uxiFOFpsTvVxrNI=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=k0K0CPn5TQqmXoHrlOZht9f7YSdCAzbqJon9pYC0hkScqjpcnB5Sr+sQt+FaXLVwp
- +BRMxGwY07Pg+UzU8rV+PCLixZaaKpeTGwtGg3oWqsWNqKspRSw94sRF1Yu98AzxPO
- 7Eaa/D7duW2AHiu0nMjlNjjJ2joHM07idlgsnpb1Mm/HoBeB4ldmN1RJjzjsgnTUWR
- m/579hp+LWqn6pL8iUdMbyy0l2m3fm1p8LGjf9mbiUyyjLlut3frCd8sbiLIkHP/qP
- 6Ty8JBCVZp6uA7Heayx5Sb26wz82TKaU8P5kyD2ZYutUXfiGakxn1ghxQt6cibRqEa
- 15+0d2nosgoHg==
-Received: by mail-ed1-f54.google.com with SMTP id x7so1649125edd.6
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 17:03:58 -0700 (PDT)
-X-Gm-Message-State: AOAM530L0bH3L9Hmr/fPhhOYM2vQHbGr63zmAucvCskUJYslKrtglRXX
- dcxV0Hp+5yBegsH2suHAKVlshTci4wFswXj0qQ==
-X-Google-Smtp-Source: ABdhPJySt9j9jFtSgXZi19FMjZshtB+6gVSjl1NRmTeFYFa9inwBTCEcsUiSfWPjtpHSEgKpAUR4G4cyAkhyrEf/6q0=
-X-Received: by 2002:a05:6402:143b:: with SMTP id
- c27mr11395549edx.224.1632873837106; 
- Tue, 28 Sep 2021 17:03:57 -0700 (PDT)
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D80D66E140;
+ Wed, 29 Sep 2021 00:27:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285846324"
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="285846324"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 17:27:49 -0700
+X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="519424044"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Sep 2021 17:27:48 -0700
+Date: Tue, 28 Sep 2021 17:22:57 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
+Subject: Re: [Intel-gfx] [PATCH 23/27] drm/i915/guc: Implement no mid batch
+ preemption for multi-lrc
+Message-ID: <20210929002257.GA10045@jons-linux-dev-box>
+References: <20210820224446.30620-1-matthew.brost@intel.com>
+ <20210820224446.30620-24-matthew.brost@intel.com>
+ <d5b15551-3849-1547-29c7-be593005a7e1@intel.com>
+ <20210928223353.GA32806@jons-linux-dev-box>
+ <2281cc6d-2e6e-f78c-a823-32f0a3d455ba@intel.com>
 MIME-Version: 1.0
-References: <20210906071539.12953-1-nancy.lin@mediatek.com>
- <20210906071539.12953-16-nancy.lin@mediatek.com>
-In-Reply-To: <20210906071539.12953-16-nancy.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 29 Sep 2021 08:03:45 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9hKtkOBxw4-Gn87Zyiy8Ten6d2N+q5jx_r6hykSgOzmg@mail.gmail.com>
-Message-ID: <CAAOTY_9hKtkOBxw4-Gn87Zyiy8Ten6d2N+q5jx_r6hykSgOzmg@mail.gmail.com>
-Subject: Re: [PATCH v5 15/16] drm/mediatek: modify mediatek-drm for mt8195
- multi mmsys support
-To: "Nancy.Lin" <nancy.lin@mediatek.com>
-Cc: CK Hu <ck.hu@mediatek.com>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- "jason-jh . lin" <jason-jh.lin@mediatek.com>, 
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- DTML <devicetree@vger.kernel.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, singo.chang@mediatek.com, 
- srv_heupstream <srv_heupstream@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2281cc6d-2e6e-f78c-a823-32f0a3d455ba@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,748 +55,541 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Nancy:
+On Tue, Sep 28, 2021 at 04:33:24PM -0700, John Harrison wrote:
+> On 9/28/2021 15:33, Matthew Brost wrote:
+> > On Tue, Sep 28, 2021 at 03:20:42PM -0700, John Harrison wrote:
+> > > On 8/20/2021 15:44, Matthew Brost wrote:
+> > > > For some users of multi-lrc, e.g. split frame, it isn't safe to preempt
+> > > > mid BB. To safely enable preemption at the BB boundary, a handshake
+> > > > between to parent and child is needed. This is implemented via custom
+> > > > emit_bb_start & emit_fini_breadcrumb functions and enabled via by
+> > > via by -> by
+> > > 
+> > > > default if a context is configured by set parallel extension.
+> > > I tend to agree with Tvrtko that this should probably be an opt in change.
+> > > Is there a flags word passed in when creating the context?
+> > > 
+> > I don't disagree but the uAPI in this series is where we landed. It has
+> > been acked all by the relevant parties in the RFC, ported to our
+> > internal tree, and the media UMD has been updated / posted. Concerns
+> > with the uAPI should've been raised in the RFC phase, not now. I really
+> > don't feel like changing this uAPI another time.
+> The counter argument is that once a UAPI has been merged, it cannot be
+> changed. Ever. So it is worth taking the trouble to get it right first time.
+> 
+> The proposal isn't a major re-write of the interface. It is simply a request
+> to set an extra flag when creating the context.
+> 
 
-Nancy.Lin <nancy.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=886=E6=97=
-=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=883:15=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> MT8195 have two mmsys. Modify drm for MT8195 multi-mmsys support.
-> The two mmsys (vdosys0 and vdosys1) will bring up two drm drivers,
-> only one drm driver register as the drm device.
-> Each drm driver binds its own component. The first bind drm driver
-> will allocate the drm device, and the last bind drm driver registers
-> the drm device to drm core. Each crtc path is created with the
-> corresponding drm driver data.
->
-> Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c |  25 +-
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.h |   3 +-
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c  | 360 +++++++++++++++++++-----
->  drivers/gpu/drm/mediatek/mtk_drm_drv.h  |   8 +-
->  4 files changed, 320 insertions(+), 76 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 474efb844249..68cb15c38c3f 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -737,21 +737,28 @@ static int mtk_drm_crtc_init_comp_planes(struct drm=
-_device *drm_dev,
->  }
->
->  int mtk_drm_crtc_create(struct drm_device *drm_dev,
-> -                       const enum mtk_ddp_comp_id *path, unsigned int pa=
-th_len)
-> +                       const enum mtk_ddp_comp_id *path, unsigned int pa=
-th_len,
-> +                       int priv_data_index)
->  {
->         struct mtk_drm_private *priv =3D drm_dev->dev_private;
->         struct device *dev =3D drm_dev->dev;
->         struct mtk_drm_crtc *mtk_crtc;
->         unsigned int num_comp_planes =3D 0;
-> -       int pipe =3D priv->num_pipes;
->         int ret;
->         int i;
->         bool has_ctm =3D false;
->         uint gamma_lut_size =3D 0;
-> +       struct drm_crtc *tmp;
-> +       int crtc_i =3D 0;
->
->         if (!path)
->                 return 0;
->
-> +       priv =3D priv->all_drm_private[priv_data_index];
-> +
-> +       drm_for_each_crtc(tmp, drm_dev)
-> +               crtc_i++;
-> +
->         for (i =3D 0; i < path_len; i++) {
->                 enum mtk_ddp_comp_id comp_id =3D path[i];
->                 struct device_node *node;
-> @@ -760,7 +767,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->                 if (!node) {
->                         dev_info(dev,
->                                  "Not creating crtc %d because component =
-%d is disabled or missing\n",
-> -                                pipe, comp_id);
-> +                                crtc_i, comp_id);
->                         return 0;
->                 }
->         }
-> @@ -816,25 +823,25 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->
->         for (i =3D 0; i < mtk_crtc->ddp_comp_nr; i++) {
->                 ret =3D mtk_drm_crtc_init_comp_planes(drm_dev, mtk_crtc, =
-i,
-> -                                                   pipe);
-> +                                                   crtc_i);
->                 if (ret)
->                         return ret;
->         }
->
-> -       ret =3D mtk_drm_crtc_init(drm_dev, mtk_crtc, pipe);
-> +       ret =3D mtk_drm_crtc_init(drm_dev, mtk_crtc, crtc_i);
->         if (ret < 0)
->                 return ret;
->
->         if (gamma_lut_size)
->                 drm_mode_crtc_set_gamma_size(&mtk_crtc->base, gamma_lut_s=
-ize);
->         drm_crtc_enable_color_mgmt(&mtk_crtc->base, 0, has_ctm, gamma_lut=
-_size);
-> -       priv->num_pipes++;
->         mutex_init(&mtk_crtc->hw_lock);
->
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> +       i =3D (priv->data->mmsys_dev_num > 1) ? 0 : drm_crtc_index(&mtk_c=
-rtc->base);
-> +
->         mtk_crtc->cmdq_client =3D
-> -                       cmdq_mbox_create(mtk_crtc->mmsys_dev,
-> -                                        drm_crtc_index(&mtk_crtc->base))=
-;
-> +                       cmdq_mbox_create(mtk_crtc->mmsys_dev, i);
->         if (IS_ERR(mtk_crtc->cmdq_client)) {
->                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox client=
-, writing register by CPU now\n",
->                         drm_crtc_index(&mtk_crtc->base));
-> @@ -844,7 +851,7 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->         if (mtk_crtc->cmdq_client) {
->                 ret =3D of_property_read_u32_index(priv->mutex_node,
->                                                  "mediatek,gce-events",
-> -                                                drm_crtc_index(&mtk_crtc=
-->base),
-> +                                                i,
->                                                  &mtk_crtc->cmdq_event);
->                 if (ret) {
->                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,=
-gce-events property\n",
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.h
-> index cb9a36c48d4f..a57eb12d7c05 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.h
-> @@ -17,7 +17,8 @@
->  void mtk_drm_crtc_commit(struct drm_crtc *crtc);
->  int mtk_drm_crtc_create(struct drm_device *drm_dev,
->                         const enum mtk_ddp_comp_id *path,
-> -                       unsigned int path_len);
-> +                       unsigned int path_len,
-> +                       int priv_data_index);
->  int mtk_drm_crtc_plane_check(struct drm_crtc *crtc, struct drm_plane *pl=
-ane,
->                              struct mtk_plane_state *state);
->  void mtk_drm_crtc_async_update(struct drm_crtc *crtc, struct drm_plane *=
-plane,
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index ae8df7ecc872..782c791b368e 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -166,6 +166,8 @@ static const struct mtk_mmsys_driver_data mt2701_mmsy=
-s_driver_data =3D {
->         .ext_path =3D mt2701_mtk_ddp_ext,
->         .ext_len =3D ARRAY_SIZE(mt2701_mtk_ddp_ext),
->         .shadow_register =3D true,
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 1,
->  };
->
->  static const struct mtk_mmsys_driver_data mt7623_mmsys_driver_data =3D {
-> @@ -174,6 +176,8 @@ static const struct mtk_mmsys_driver_data mt7623_mmsy=
-s_driver_data =3D {
->         .ext_path =3D mt7623_mtk_ddp_ext,
->         .ext_len =3D ARRAY_SIZE(mt7623_mtk_ddp_ext),
->         .shadow_register =3D true,
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 1,
->  };
->
->  static const struct mtk_mmsys_driver_data mt2712_mmsys_driver_data =3D {
-> @@ -183,6 +187,8 @@ static const struct mtk_mmsys_driver_data mt2712_mmsy=
-s_driver_data =3D {
->         .ext_len =3D ARRAY_SIZE(mt2712_mtk_ddp_ext),
->         .third_path =3D mt2712_mtk_ddp_third,
->         .third_len =3D ARRAY_SIZE(mt2712_mtk_ddp_third),
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 1,
->  };
->
->  static const struct mtk_mmsys_driver_data mt8173_mmsys_driver_data =3D {
-> @@ -190,6 +196,8 @@ static const struct mtk_mmsys_driver_data mt8173_mmsy=
-s_driver_data =3D {
->         .main_len =3D ARRAY_SIZE(mt8173_mtk_ddp_main),
->         .ext_path =3D mt8173_mtk_ddp_ext,
->         .ext_len =3D ARRAY_SIZE(mt8173_mtk_ddp_ext),
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 1,
->  };
->
->  static const struct mtk_mmsys_driver_data mt8183_mmsys_driver_data =3D {
-> @@ -197,32 +205,219 @@ static const struct mtk_mmsys_driver_data mt8183_m=
-msys_driver_data =3D {
->         .main_len =3D ARRAY_SIZE(mt8183_mtk_ddp_main),
->         .ext_path =3D mt8183_mtk_ddp_ext,
->         .ext_len =3D ARRAY_SIZE(mt8183_mtk_ddp_ext),
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 1,
->  };
->
->  static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data =3D=
- {
->         .main_path =3D mt8195_mtk_ddp_main,
->         .main_len =3D ARRAY_SIZE(mt8195_mtk_ddp_main),
-> +       .mmsys_id =3D 0,
-> +       .mmsys_dev_num =3D 2,
->  };
->
-> +static const struct of_device_id mtk_drm_of_ids[] =3D {
-> +       { .compatible =3D "mediatek,mt2701-mmsys",
-> +         .data =3D &mt2701_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt7623-mmsys",
-> +         .data =3D &mt7623_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt2712-mmsys",
-> +         .data =3D &mt2712_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt8173-mmsys",
-> +         .data =3D &mt8173_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt8183-mmsys",
-> +         .data =3D &mt8183_mmsys_driver_data},
-> +       { .compatible =3D "mediatek,mt8195-vdosys0",
-> +         .data =3D &mt8195_vdosys0_driver_data},
-> +       { .compatible =3D "mediatek,mt8195-vdosys1",
-> +         .data =3D &mt8195_vdosys1_driver_data},
-> +       { }
-> +};
-> +MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-> +
-> +static int mtk_drm_match(struct device *dev, void *data)
-> +{
-> +       if (!strncmp(dev_name(dev), "mediatek-drm", sizeof("mediatek-drm"=
-) - 1))
+We are basically just talking about the polarity of a flag at this
+point. Either by default you can't be preempted mid batch (current GPU /
+UMD requirement) or by default you can be preempted mid-batch (no
+current GPU / UMD can do this yet but add flags that everyone opts
+into). I think Daniel's opinion was just default to what the current GPU
+/ UMD wants and if future requirements arise we add flags to the
+interface. I understand both points of view for flag / not flag but in
+the end it doesn't really matter. Either way the interface works now and
+will in the future too.
 
-Why not
+> 
+> > 
+> > > Also, it's not just a change in pre-emption behaviour but a change in
+> > > synchronisation too, right? Previously, if you had a whole bunch of back to
+> > > back submissions then one child could run ahead of another and/or the
+> > > parent. After this change, there is a forced regroup at the end of each
+> > > batch. So while one could end sooner/later than the others, they can't ever
+> > > get an entire batch (or more) ahead or behind. Or was that synchronisation
+> > > already in there through other means anyway?
+> > > 
+> > Yes, each parent / child sync at the of each batch - this is the only
+> > way safely insert preemption points. Without this the GuC could attempt
+> > a preemption and hang the batches.
+> To be clear, I'm not saying that this is wrong. I'm just saying that this
+> appears to be new behaviour with this patch but it is not explicitly called
+> out in the description of the patch.
+> 
 
-if (!strcmp(dev_name(dev), "mediatek-drm")
+Will add some comments explaining this behavior (unless I already have
+them).
 
-> +               return true;
-> +       return false;
-> +}
-> +
-> +static int mtk_drm_get_drm_priv(struct device *dev,
-> +                               struct mtk_drm_private **all_drm_priv,
-> +                               int num)
-> +{
-> +       struct mtk_drm_private *drm_priv =3D dev_get_drvdata(dev);
-> +       struct device_node *phandle =3D dev->parent->of_node;
-> +       const struct of_device_id *of_id;
-> +       struct device_node *node;
-> +       int cnt =3D 0;
-> +       struct device *drm_dev;
-> +
-> +       for_each_child_of_node(phandle->parent, node) {
-> +               struct platform_device *pdev;
-> +
-> +               of_id =3D of_match_node(mtk_drm_of_ids, node);
-> +               if (!of_id)
-> +                       continue;
-> +
-> +               pdev =3D of_find_device_by_node(node);
-> +               if (!pdev)
-> +                       continue;
-> +
-> +               drm_dev =3D device_find_child(&pdev->dev, NULL, mtk_drm_m=
-atch);
-> +               if (!drm_dev || !dev_get_drvdata(drm_dev))
-> +                       continue;
-> +
-> +               all_drm_priv[cnt++] =3D dev_get_drvdata(drm_dev);
-> +               if (cnt =3D=3D num)
-> +                       break;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static bool mtk_drm_check_last_drm_bind(struct device *dev)
-> +{
-> +       struct mtk_drm_private *drm_priv =3D dev_get_drvdata(dev);
-> +       struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-> +       int cnt =3D 0;
-> +       int i;
-> +
-> +       mtk_drm_get_drm_priv(dev, all_drm_priv, drm_priv->data->mmsys_dev=
-_num);
+> 
+> > 
+> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > > > ---
+> > > >    drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
+> > > >    drivers/gpu/drm/i915/gt/intel_context_types.h |   3 +
+> > > >    drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
+> > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 283 +++++++++++++++++-
+> > > >    4 files changed, 287 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > index 5615be32879c..2de62649e275 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > > > @@ -561,7 +561,7 @@ void intel_context_bind_parent_child(struct intel_context *parent,
+> > > >    	GEM_BUG_ON(intel_context_is_child(child));
+> > > >    	GEM_BUG_ON(intel_context_is_parent(child));
+> > > > -	parent->guc_number_children++;
+> > > > +	child->guc_child_index = parent->guc_number_children++;
+> > > >    	list_add_tail(&child->guc_child_link,
+> > > >    		      &parent->guc_child_list);
+> > > >    	child->parent = parent;
+> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > index 713d85b0b364..727f91e7f7c2 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
+> > > > @@ -246,6 +246,9 @@ struct intel_context {
+> > > >    		/** @guc_number_children: number of children if parent */
+> > > >    		u8 guc_number_children;
+> > > > +		/** @guc_child_index: index into guc_child_list if child */
+> > > > +		u8 guc_child_index;
+> > > > +
+> > > >    		/**
+> > > >    		 * @parent_page: page in context used by parent for work queue,
+> > > >    		 * work queue descriptor
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > > > index 6cd26dc060d1..9f61cfa5566a 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+> > > > @@ -188,7 +188,7 @@ struct guc_process_desc {
+> > > >    	u32 wq_status;
+> > > >    	u32 engine_presence;
+> > > >    	u32 priority;
+> > > > -	u32 reserved[30];
+> > > > +	u32 reserved[36];
+> > > What is this extra space for? All the extra storage is grabbed from after
+> > > the end of this structure, isn't it?
+> > > 
+> > This is the size of process descriptor in the GuC spec. Even though this
+> > is unused space we really don't want the child go / join memory using
+> > anything within the process descriptor.
+> Okay. So it's more that the code was previously broken and we just hadn't
+> hit a problem because of it? Again, worth adding a comment in the
+> description to call it out as a bug fix.
+>
 
-You call this in three place, why not call this once?
+Sure.
+ 
+> > 
+> > > >    } __packed;
+> > > >    #define CONTEXT_REGISTRATION_FLAG_KMD	BIT(0)
+> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > index 91330525330d..1a18f99bf12a 100644
+> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > > > @@ -11,6 +11,7 @@
+> > > >    #include "gt/intel_context.h"
+> > > >    #include "gt/intel_engine_pm.h"
+> > > >    #include "gt/intel_engine_heartbeat.h"
+> > > > +#include "gt/intel_gpu_commands.h"
+> > > >    #include "gt/intel_gt.h"
+> > > >    #include "gt/intel_gt_irq.h"
+> > > >    #include "gt/intel_gt_pm.h"
+> > > > @@ -366,10 +367,14 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
+> > > >    /*
+> > > >     * When using multi-lrc submission an extra page in the context state is
+> > > > - * reserved for the process descriptor and work queue.
+> > > > + * reserved for the process descriptor, work queue, and preempt BB boundary
+> > > > + * handshake between the parent + childlren contexts.
+> > > >     *
+> > > >     * The layout of this page is below:
+> > > >     * 0						guc_process_desc
+> > > > + * + sizeof(struct guc_process_desc)		child go
+> > > > + * + CACHELINE_BYTES				child join ...
+> > > > + * + CACHELINE_BYTES ...
+> > > Would be better written as '[num_children]' instead of '...' to make it
+> > > clear it is a per child array.
+> > > 
+> > I think this description is pretty clear.
+> Evidently not because it confused me for a moment.
+> 
 
-> +
-> +       for (i =3D 0; i < MAX_CRTC; i++)
-> +               if (all_drm_priv[i] && all_drm_priv[i]->mtk_drm_bound)
-> +                       cnt++;
-> +
-> +       return (drm_priv->data->mmsys_dev_num =3D=3D cnt);
-> +}
-> +
-> +static bool mtk_drm_find_drm_dev(struct device *dev, struct drm_device *=
-*drm)
-> +{
-> +       struct device_node *phandle =3D dev->parent->of_node;
-> +       struct mtk_drm_private *drm_priv =3D dev_get_drvdata(dev);
-> +       struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-> +       int i;
-> +
-> +       if (!drm_priv->data->mmsys_dev_num)
-> +               return false;
-> +
-> +       mtk_drm_get_drm_priv(dev, all_drm_priv, drm_priv->data->mmsys_dev=
-_num);
-> +
-> +       for (i =3D 0; i < MAX_CRTC; i++) {
-> +               if (all_drm_priv[i] && all_drm_priv[i]->mtk_drm_bound) {
-> +                       *drm =3D all_drm_priv[i]->drm;
-> +                       return true;
-> +               }
-> +       }
-> +
-> +       return false;
-> +}
-> +
-> +static int mtk_drm_setup_all_drm_private(struct device *dev)
-> +{
-> +       struct mtk_drm_private *drm_priv =3D dev_get_drvdata(dev);
-> +       struct mtk_drm_private *all_drm_priv[MAX_CRTC];
-> +       int mmsys_dev_num =3D drm_priv->data->mmsys_dev_num;
-> +       int i;
-> +       int j;
+Ok, let me see if I can make this a bit more clear.
 
-int i, j;
+> > 
+> > > Also, maybe create a struct for this to get rid of the magic '+1's and
+> > > 'BYTES / sizeof' constructs in the functions below.
+> > > 
+> > Let me see if I can create a struct that describes the layout.
+> That would definitely make the code a lot clearer.
+> 
+> > 
+> > > >     * ...						unused
+> > > >     * PAGE_SIZE / 2				work queue start
+> > > >     * ...						work queue
+> > > > @@ -1785,6 +1790,30 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
+> > > >    	return __guc_action_deregister_context(guc, guc_id, loop);
+> > > >    }
+> > > > +static inline void clear_children_join_go_memory(struct intel_context *ce)
+> > > > +{
+> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
+> > > > +	u8 i;
+> > > > +
+> > > > +	for (i = 0; i < ce->guc_number_children + 1; ++i)
+> > > > +		mem[i * (CACHELINE_BYTES / sizeof(u32))] = 0;
+> > > > +}
+> > > > +
+> > > > +static inline u32 get_children_go_value(struct intel_context *ce)
+> > > > +{
+> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
+> > > > +
+> > > > +	return mem[0];
+> > > > +}
+> > > > +
+> > > > +static inline u32 get_children_join_value(struct intel_context *ce,
+> > > > +					  u8 child_index)
+> > > > +{
+> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
+> > > > +
+> > > > +	return mem[(child_index + 1) * (CACHELINE_BYTES / sizeof(u32))];
+> > > > +}
+> > > > +
+> > > >    static void guc_context_policy_init(struct intel_engine_cs *engine,
+> > > >    				    struct guc_lrc_desc *desc)
+> > > >    {
+> > > > @@ -1867,6 +1896,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
+> > > >    			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
+> > > >    			guc_context_policy_init(engine, desc);
+> > > >    		}
+> > > > +
+> > > > +		clear_children_join_go_memory(ce);
+> > > >    	}
+> > > >    	/*
+> > > > @@ -2943,6 +2974,31 @@ static const struct intel_context_ops virtual_child_context_ops = {
+> > > >    	.get_sibling = guc_virtual_get_sibling,
+> > > >    };
+> > > > +/*
+> > > > + * The below override of the breadcrumbs is enabled when the user configures a
+> > > > + * context for parallel submission (multi-lrc, parent-child).
+> > > > + *
+> > > > + * The overridden breadcrumbs implements an algorithm which allows the GuC to
+> > > > + * safely preempt all the hw contexts configured for parallel submission
+> > > > + * between each BB. The contract between the i915 and GuC is if the parent
+> > > > + * context can be preempted, all the children can be preempted, and the GuC will
+> > > > + * always try to preempt the parent before the children. A handshake between the
+> > > > + * parent / children breadcrumbs ensures the i915 holds up its end of the deal
+> > > > + * creating a window to preempt between each set of BBs.
+> > > > + */
+> > > > +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						     u64 offset, u32 len,
+> > > > +						     const unsigned int flags);
+> > > > +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						    u64 offset, u32 len,
+> > > > +						    const unsigned int flags);
+> > > > +static u32 *
+> > > > +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						 u32 *cs);
+> > > > +static u32 *
+> > > > +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						u32 *cs);
+> > > > +
+> > > >    static struct intel_context *
+> > > >    guc_create_parallel(struct intel_engine_cs **engines,
+> > > >    		    unsigned int num_siblings,
+> > > > @@ -2978,6 +3034,20 @@ guc_create_parallel(struct intel_engine_cs **engines,
+> > > >    		}
+> > > >    	}
+> > > > +	parent->engine->emit_bb_start =
+> > > > +		emit_bb_start_parent_no_preempt_mid_batch;
+> > > > +	parent->engine->emit_fini_breadcrumb =
+> > > > +		emit_fini_breadcrumb_parent_no_preempt_mid_batch;
+> > > > +	parent->engine->emit_fini_breadcrumb_dw =
+> > > > +		12 + 4 * parent->guc_number_children;
+> > > > +	for_each_child(parent, ce) {
+> > > > +		ce->engine->emit_bb_start =
+> > > > +			emit_bb_start_child_no_preempt_mid_batch;
+> > > > +		ce->engine->emit_fini_breadcrumb =
+> > > > +			emit_fini_breadcrumb_child_no_preempt_mid_batch;
+> > > > +		ce->engine->emit_fini_breadcrumb_dw = 16;
+> > > > +	}
+> > > > +
+> > > >    	kfree(siblings);
+> > > >    	return parent;
+> > > > @@ -3362,6 +3432,204 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
+> > > >    	guc->submission_selected = __guc_submission_selected(guc);
+> > > >    }
+> > > > +static inline u32 get_children_go_addr(struct intel_context *ce)
+> > > > +{
+> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > > > +
+> > > > +	return i915_ggtt_offset(ce->state) +
+> > > > +		__get_process_desc_offset(ce) +
+> > > > +		sizeof(struct guc_process_desc);
+> > > > +}
+> > > > +
+> > > > +static inline u32 get_children_join_addr(struct intel_context *ce,
+> > > > +					 u8 child_index)
+> > > > +{
+> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > > > +
+> > > > +	return get_children_go_addr(ce) + (child_index + 1) * CACHELINE_BYTES;
+> > > > +}
+> > > > +
+> > > > +#define PARENT_GO_BB			1
+> > > > +#define PARENT_GO_FINI_BREADCRUMB	0
+> > > > +#define CHILD_GO_BB			1
+> > > > +#define CHILD_GO_FINI_BREADCRUMB	0
+> > > > +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						     u64 offset, u32 len,
+> > > > +						     const unsigned int flags)
+> > > > +{
+> > > > +	struct intel_context *ce = rq->context;
+> > > > +	u32 *cs;
+> > > > +	u8 i;
+> > > > +
+> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > > > +
+> > > > +	cs = intel_ring_begin(rq, 10 + 4 * ce->guc_number_children);
+> > > > +	if (IS_ERR(cs))
+> > > > +		return PTR_ERR(cs);
+> > > > +
+> > > > +	/* Wait on chidlren */
+> > > chidlren -> children
+> > > 
+> > Yep.
+> > > > +	for (i = 0; i < ce->guc_number_children; ++i) {
+> > > > +		*cs++ = (MI_SEMAPHORE_WAIT |
+> > > > +			 MI_SEMAPHORE_GLOBAL_GTT |
+> > > > +			 MI_SEMAPHORE_POLL |
+> > > > +			 MI_SEMAPHORE_SAD_EQ_SDD);
+> > > > +		*cs++ = PARENT_GO_BB;
+> > > > +		*cs++ = get_children_join_addr(ce, i);
+> > > > +		*cs++ = 0;
+> > > > +	}
+> > > > +
+> > > > +	/* Turn off preemption */
+> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	/* Tell children go */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  CHILD_GO_BB,
+> > > > +				  get_children_go_addr(ce),
+> > > > +				  0);
+> > > > +
+> > > > +	/* Jump to batch */
+> > > > +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
+> > > > +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
+> > > > +	*cs++ = lower_32_bits(offset);
+> > > > +	*cs++ = upper_32_bits(offset);
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	intel_ring_advance(rq, cs);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						    u64 offset, u32 len,
+> > > > +						    const unsigned int flags)
+> > > > +{
+> > > > +	struct intel_context *ce = rq->context;
+> > > > +	u32 *cs;
+> > > > +
+> > > > +	GEM_BUG_ON(!intel_context_is_child(ce));
+> > > > +
+> > > > +	cs = intel_ring_begin(rq, 12);
+> > > > +	if (IS_ERR(cs))
+> > > > +		return PTR_ERR(cs);
+> > > > +
+> > > > +	/* Signal parent */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  PARENT_GO_BB,
+> > > > +				  get_children_join_addr(ce->parent,
+> > > > +							 ce->guc_child_index),
+> > > > +				  0);
+> > > > +
+> > > > +	/* Wait parent on for go */
+> > > parent on -> on parent
+> > > 
+> > Yep.
+> > > > +	*cs++ = (MI_SEMAPHORE_WAIT |
+> > > > +		 MI_SEMAPHORE_GLOBAL_GTT |
+> > > > +		 MI_SEMAPHORE_POLL |
+> > > > +		 MI_SEMAPHORE_SAD_EQ_SDD);
+> > > > +	*cs++ = CHILD_GO_BB;
+> > > > +	*cs++ = get_children_go_addr(ce->parent);
+> > > > +	*cs++ = 0;
+> > > > +
+> > > > +	/* Turn off preemption */
+> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
+> > > > +
+> > > > +	/* Jump to batch */
+> > > > +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
+> > > > +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
+> > > > +	*cs++ = lower_32_bits(offset);
+> > > > +	*cs++ = upper_32_bits(offset);
+> > > > +
+> > > > +	intel_ring_advance(rq, cs);
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static u32 *
+> > > > +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > > > +						 u32 *cs)
+> > > > +{
+> > > > +	struct intel_context *ce = rq->context;
+> > > > +	u8 i;
+> > > > +
+> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > > > +
+> > > > +	/* Wait on children */
+> > > > +	for (i = 0; i < ce->guc_number_children; ++i) {
+> > > > +		*cs++ = (MI_SEMAPHORE_WAIT |
+> > > > +			 MI_SEMAPHORE_GLOBAL_GTT |
+> > > > +			 MI_SEMAPHORE_POLL |
+> > > > +			 MI_SEMAPHORE_SAD_EQ_SDD);
+> > > > +		*cs++ = PARENT_GO_FINI_BREADCRUMB;
+> > > > +		*cs++ = get_children_join_addr(ce, i);
+> > > > +		*cs++ = 0;
+> > > > +	}
+> > > > +
+> > > > +	/* Turn on preemption */
+> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	/* Tell children go */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  CHILD_GO_FINI_BREADCRUMB,
+> > > > +				  get_children_go_addr(ce),
+> > > > +				  0);
+> > > > +
+> > > > +	/* Emit fini breadcrumb */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  rq->fence.seqno,
+> > > > +				  i915_request_active_timeline(rq)->hwsp_offset,
+> > > > +				  0);
+> > > > +
+> > > > +	/* User interrupt */
+> > > > +	*cs++ = MI_USER_INTERRUPT;
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	rq->tail = intel_ring_offset(rq, cs);
+> > > > +
+> > > > +	return cs;
+> > > > +}
+> > > > +
+> > > > +static u32 *
+> > > > +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
+> > > > +{
+> > > > +	struct intel_context *ce = rq->context;
+> > > > +
+> > > > +	GEM_BUG_ON(!intel_context_is_child(ce));
+> > > > +
+> > > > +	/* Turn on preemption */
+> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	/* Signal parent */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  PARENT_GO_FINI_BREADCRUMB,
+> > > > +				  get_children_join_addr(ce->parent,
+> > > > +							 ce->guc_child_index),
+> > > > +				  0);
+> > > > +
+> > > This is backwards compared to the parent?
+> > > 
+> > > Parent: wait on children then enable pre-emption
+> > > Child: enable pre-emption then signal parent
+> > > 
+> > > Makes for a window where the parent is waiting in atomic context for a
+> > > signal from a child that has been pre-empted and might not get to run for
+> > > some time?
+> > > 
+> > No, this is correct. The rule is if the parent can be preempted all the
+> > children can be preempted, thus we can't enable preemption on the parent
+> > until all the children have preemption enabled, thus the parent waits
+> > for all the children to join before enabling its preemption.
+> > 
+> > Matt
+> But,
+> 
+> The write to PARENT_GO_FINI can't fail or stall, right? So if it happens
+> before the ARB_ON then the child is guaranteed to execute the ARB_ON once it
+> has signalled the parent. Indeed, by the time the parent context gets to see
+> the update memory value, the child is practically certain to have passed the
+> ARB_ON. So, by the time the parent becomes pre-emptible, the children will
+> all be pre-emptible. Even if the parent is superfast, the children are
+> guaranteed to become pre-emptible immediately - certainly before any
+> fail-to-preempt timeout could occur.
+>
+> Whereas, with the current ordering, it is possible for the child to be
+> preempted before it has issued the signal to the parent. So now you have a
+> non-preemptible parent hogging the hardware, waiting for a signal that isn't
 
-> +
-> +       mtk_drm_get_drm_priv(dev, all_drm_priv, mmsys_dev_num);
-> +
-> +       for (i =3D 0; i < mmsys_dev_num; i++)
-> +               for (j =3D 0; j < mmsys_dev_num; j++)
-> +                       all_drm_priv[j]->all_drm_private[i] =3D all_drm_p=
-riv[i];
-> +
-> +       return 0;
-> +}
-> +
-> +static bool mtk_drm_find_mmsys_comp(struct mtk_drm_private *private, int=
- comp_id)
-> +{
-> +       const struct mtk_mmsys_driver_data *drv_data =3D private->data;
-> +       int ret =3D false;
-> +       int i;
-> +
-> +       if (drv_data->mmsys_dev_num =3D=3D 1)
-> +               return true;
-> +
-> +       if (drv_data->main_path) {
-> +               for (i =3D 0; i < drv_data->main_len; i++)
-> +                       if (drv_data->main_path[i] =3D=3D comp_id)
-> +                               ret |=3D true;
+To be clear the parent is always preempted first by the GuC. The parent
+can't be running if the child preempt is attempted.
 
-return true;
+> going to come for an entire execution quantum. Indeed, it is actually quite
+> likely the child would be preempted before it can signal the parent because
+> any pre-emption request that was issued at any time during the child's
+> execution will take effect immediately on the ARB_ON instruction.
+> 
 
-> +
-> +               if (i =3D=3D drv_data->main_len)
-> +                       ret |=3D false;
+Looking at the code, I do think I have a bug though.
 
-This is not necessary.
+I think I'm missing a MI_ARB_CHECK in the parent after turning on
+preemption before releasing the children, right?
 
-> +       }
-> +
-> +       if (drv_data->ext_path) {
-> +               for (i =3D 0; i < drv_data->ext_len; i++)
-> +                       if (drv_data->ext_path[i] =3D=3D comp_id)
-> +                               ret |=3D true;
+This covers the case where the GuC issues a preemption to the parent
+while it is waiting on the children, all the children join, the parent
+turns on preemption and is preempted with the added MI_ARB_CHECK
+instruction, and the children all can be preempted waiting on the parent
+go semaphore. Does that sound correct?
 
-return true;
+Matt
 
-> +
-> +               if (i =3D=3D drv_data->ext_len)
-> +                       ret |=3D false;
-
-This is not necessary.
-
-> +       }
-> +
-> +       if (drv_data->third_path) {
-> +               for (i =3D 0; i < drv_data->third_len; i++)
-> +                       if (drv_data->third_path[i] =3D=3D comp_id)
-> +                               ret |=3D true;
-
-return true;
-
-> +
-> +               if (i =3D=3D drv_data->third_len)
-> +                       ret |=3D false;
-
-This is not necessary.
-
-> +       }
-> +
-> +       return ret;
-> +}
-> +
-> +static int mtk_drm_check_mutex_dev(struct mtk_drm_private *private)
-> +{
-> +       struct platform_device *pdev;
-> +       struct mtk_drm_private *priv_i;
-> +       int ret;
-> +       int i;
-> +
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
-> +               priv_i =3D private->all_drm_private[i];
-> +
-> +               pdev =3D of_find_device_by_node(priv_i->mutex_node);
-> +               if (!pdev) {
-> +                       dev_err(priv_i->dev, "Waiting for disp-mutex devi=
-ce %pOF\n",
-> +                               priv_i->mutex_node);
-> +                       ret =3D -EPROBE_DEFER;
-
-For SoC which has only one mmsys, I think waiting mutex is necessary.
-So move this to another patch and do this for a single mmsys.
-
-Regards,
-Chun-Kuang.
-
-> +                       goto err_put_mutex;
-> +               }
-> +               priv_i->mutex_dev =3D &pdev->dev;
-> +       }
-> +
-> +       return 0;
-> +
-> +err_put_mutex:
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
-> +               priv_i =3D private->all_drm_private[i];
-> +               of_node_put(priv_i->mutex_node);
-> +       }
-> +
-> +       return ret;
-> +}
-> +
->  static int mtk_drm_kms_init(struct drm_device *drm)
->  {
->         struct mtk_drm_private *private =3D drm->dev_private;
-> +       struct mtk_drm_private *priv_n;
->         struct platform_device *pdev;
-> -       struct device_node *np;
-> +       struct device_node *np =3D NULL;
->         struct device *dma_dev;
->         int ret;
-> +       int i;
-> +       int j;
->
->         if (!iommu_present(&platform_bus_type))
->                 return -EPROBE_DEFER;
->
-> -       pdev =3D of_find_device_by_node(private->mutex_node);
-> -       if (!pdev) {
-> -               dev_err(drm->dev, "Waiting for disp-mutex device %pOF\n",
-> -                       private->mutex_node);
-> -               of_node_put(private->mutex_node);
-> -               return -EPROBE_DEFER;
-> -       }
-> -       private->mutex_dev =3D &pdev->dev;
-> +       ret =3D mtk_drm_check_mutex_dev(private);
-> +       if (ret)
-> +               return ret;
->
->         ret =3D drmm_mode_config_init(drm);
->         if (ret)
-> @@ -241,33 +436,57 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->         drm->mode_config.funcs =3D &mtk_drm_mode_config_funcs;
->         drm->mode_config.helper_private =3D &mtk_drm_mode_config_helpers;
->
-> -       ret =3D component_bind_all(drm->dev, drm);
-> -       if (ret)
-> -               goto put_mutex_dev;
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++) {
-> +               drm->dev_private =3D private->all_drm_private[i];
-> +               ret =3D component_bind_all(private->all_drm_private[i]->d=
-ev, drm);
-> +               if (ret)
-> +                       goto put_mutex_dev;
-> +       }
->
->         /*
->          * We currently support two fixed data streams, each optional,
->          * and each statically assigned to a crtc:
->          * OVL0 -> COLOR0 -> AAL -> OD -> RDMA0 -> UFOE -> DSI0 ...
->          */
-> -       ret =3D mtk_drm_crtc_create(drm, private->data->main_path,
-> -                                 private->data->main_len);
-> -       if (ret < 0)
-> -               goto err_component_unbind;
-> -       /* ... and OVL1 -> COLOR1 -> GAMMA -> RDMA1 -> DPI0. */
-> -       ret =3D mtk_drm_crtc_create(drm, private->data->ext_path,
-> -                                 private->data->ext_len);
-> -       if (ret < 0)
-> -               goto err_component_unbind;
-> -
-> -       ret =3D mtk_drm_crtc_create(drm, private->data->third_path,
-> -                                 private->data->third_len);
-> -       if (ret < 0)
-> -               goto err_component_unbind;
-> +       for (i =3D 0; i < MAX_CRTC; i++) {
-> +               for (j =3D 0; j < private->data->mmsys_dev_num; j++) {
-> +                       priv_n =3D private->all_drm_private[j];
-> +
-> +                       if (i =3D=3D 0 && priv_n->data->main_len) {
-> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
-data->main_path,
-> +                                                         priv_n->data->m=
-ain_len, j);
-> +                               if (ret)
-> +                                       goto err_component_unbind;
-> +
-> +                               if (!np)
-> +                                       np =3D priv_n->comp_node[priv_n->=
-data->main_path[0]];
-> +
-> +                               continue;
-> +                       } else if (i =3D=3D 1 && priv_n->data->ext_len) {
-> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
-data->ext_path,
-> +                                                         priv_n->data->e=
-xt_len, j);
-> +                               if (ret)
-> +                                       goto err_component_unbind;
-> +
-> +                               if (!np)
-> +                                       np =3D priv_n->comp_node[priv_n->=
-data->ext_path[0]];
-> +
-> +                               continue;
-> +                       } else if (i =3D=3D 2 && priv_n->data->third_len)=
- {
-> +                               ret =3D mtk_drm_crtc_create(drm, priv_n->=
-data->third_path,
-> +                                                         priv_n->data->t=
-hird_len, j);
-> +                               if (ret)
-> +                                       goto err_component_unbind;
-> +
-> +                               if (!np)
-> +                                       np =3D priv_n->comp_node[priv_n->=
-data->third_path[0]];
-> +
-> +                               continue;
-> +                       }
-> +               }
-> +       }
->
->         /* Use OVL device for all DMA memory allocations */
-> -       np =3D private->comp_node[private->data->main_path[0]] ?:
-> -            private->comp_node[private->data->ext_path[0]];
->         pdev =3D of_find_device_by_node(np);
->         if (!pdev) {
->                 ret =3D -ENODEV;
-> @@ -276,7 +495,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->         }
->
->         dma_dev =3D &pdev->dev;
-> -       private->dma_dev =3D dma_dev;
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
-> +               private->all_drm_private[i]->dma_dev =3D dma_dev;
->
->         /*
->          * Configure the DMA segment size to make sure we get contiguous =
-IOVA
-> @@ -304,9 +524,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
->         return 0;
->
->  err_component_unbind:
-> -       component_unbind_all(drm->dev, drm);
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
-> +               component_unbind_all(private->all_drm_private[i]->dev, dr=
-m);
->  put_mutex_dev:
-> -       put_device(private->mutex_dev);
-> +       for (i =3D 0; i < private->data->mmsys_dev_num; i++)
-> +               put_device(private->all_drm_private[i]->mutex_dev);
-> +
->         return ret;
->  }
->
-> @@ -371,12 +594,21 @@ static int mtk_drm_bind(struct device *dev)
->         struct drm_device *drm;
->         int ret;
->
-> -       drm =3D drm_dev_alloc(&mtk_drm_driver, dev);
-> -       if (IS_ERR(drm))
-> -               return PTR_ERR(drm);
-> +       if (!mtk_drm_find_drm_dev(dev, &drm)) {
-> +               drm =3D drm_dev_alloc(&mtk_drm_driver, dev);
-> +               if (IS_ERR(drm))
-> +                       return PTR_ERR(drm);
-> +               drm->dev_private =3D private;
-> +       }
->
-> -       drm->dev_private =3D private;
-> +       private->dev =3D dev;
->         private->drm =3D drm;
-> +       private->mtk_drm_bound =3D true;
-> +
-> +       if (!mtk_drm_check_last_drm_bind(dev))
-> +               return 0;
-> +
-> +       mtk_drm_setup_all_drm_private(dev);
->
->         ret =3D mtk_drm_kms_init(drm);
->         if (ret < 0)
-> @@ -401,10 +633,13 @@ static void mtk_drm_unbind(struct device *dev)
->  {
->         struct mtk_drm_private *private =3D dev_get_drvdata(dev);
->
-> -       drm_dev_unregister(private->drm);
-> -       mtk_drm_kms_deinit(private->drm);
-> -       drm_dev_put(private->drm);
-> -       private->num_pipes =3D 0;
-> +       /* for multi mmsys dev, unregister drm dev in mmsys master */
-> +       if (private->data->mmsys_id =3D=3D 0) {
-> +               drm_dev_unregister(private->drm);
-> +               mtk_drm_kms_deinit(private->drm);
-> +               drm_dev_put(private->drm);
-> +       }
-> +       private->mtk_drm_bound =3D false;
->         private->drm =3D NULL;
->  }
->
-> @@ -487,50 +722,40 @@ static const struct of_device_id mtk_ddp_comp_dt_id=
-s[] =3D {
->         { }
->  };
->
-> -static const struct of_device_id mtk_drm_of_ids[] =3D {
-> -       { .compatible =3D "mediatek,mt2701-mmsys",
-> -         .data =3D &mt2701_mmsys_driver_data},
-> -       { .compatible =3D "mediatek,mt7623-mmsys",
-> -         .data =3D &mt7623_mmsys_driver_data},
-> -       { .compatible =3D "mediatek,mt2712-mmsys",
-> -         .data =3D &mt2712_mmsys_driver_data},
-> -       { .compatible =3D "mediatek,mt8173-mmsys",
-> -         .data =3D &mt8173_mmsys_driver_data},
-> -       { .compatible =3D "mediatek,mt8183-mmsys",
-> -         .data =3D &mt8183_mmsys_driver_data},
-> -       {.compatible =3D "mediatek,mt8195-vdosys0",
-> -         .data =3D &mt8195_vdosys0_driver_data},
-> -       { }
-> -};
-> -MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-> -
->  static int mtk_drm_probe(struct platform_device *pdev)
->  {
->         struct device *dev =3D &pdev->dev;
->         struct device_node *phandle =3D dev->parent->of_node;
->         const struct of_device_id *of_id;
-> +       const struct mtk_mmsys_driver_data *drv_data;
->         struct mtk_drm_private *private;
->         struct device_node *node;
->         struct component_match *match =3D NULL;
->         int ret;
->         int i;
->
-> +       of_id =3D of_match_node(mtk_drm_of_ids, phandle);
-> +       if (!of_id)
-> +               return -ENODEV;
-> +
-> +       drv_data =3D of_id->data;
->         private =3D devm_kzalloc(dev, sizeof(*private), GFP_KERNEL);
->         if (!private)
->                 return -ENOMEM;
->
-> +       private->all_drm_private =3D devm_kmalloc_array(dev, drv_data->mm=
-sys_dev_num,
-> +                                                     sizeof(*private->al=
-l_drm_private),
-> +                                                     GFP_KERNEL);
-> +       if (!private->all_drm_private)
-> +               return -ENOMEM;
-> +
-> +       private->data =3D drv_data;
->         private->mmsys_dev =3D dev->parent;
->         if (!private->mmsys_dev) {
->                 dev_err(dev, "Failed to get MMSYS device\n");
->                 return -ENODEV;
->         }
->
-> -       of_id =3D of_match_node(mtk_drm_of_ids, phandle);
-> -       if (!of_id)
-> -               return -ENODEV;
-> -
-> -       private->data =3D of_id->data;
-> -
->         /* Iterate over sibling DISP function blocks */
->         for_each_child_of_node(phandle->parent, node) {
->                 const struct of_device_id *of_id;
-> @@ -550,7 +775,13 @@ static int mtk_drm_probe(struct platform_device *pde=
-v)
->                 comp_type =3D (enum mtk_ddp_comp_type)of_id->data;
->
->                 if (comp_type =3D=3D MTK_DISP_MUTEX) {
-> -                       private->mutex_node =3D of_node_get(node);
-> +                       int id;
-> +
-> +                       id =3D of_alias_get_id(node, "mutex");
-> +                       if (id < 0 || id =3D=3D drv_data->mmsys_id) {
-> +                               private->mutex_node =3D of_node_get(node)=
-;
-> +                               dev_dbg(dev, "get mutex for mmsys %d", dr=
-v_data->mmsys_id);
-> +                       }
->                         continue;
->                 }
->
-> @@ -561,6 +792,9 @@ static int mtk_drm_probe(struct platform_device *pdev=
-)
->                         continue;
->                 }
->
-> +               if (!mtk_drm_find_mmsys_comp(private, comp_id))
-> +                       continue;
-> +
->                 private->comp_node[comp_id] =3D of_node_get(node);
->
->                 /*
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.h b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.h
-> index 1ad9f7edfcc7..b87ba900c8e2 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.h
-> @@ -29,14 +29,15 @@ struct mtk_mmsys_driver_data {
->         unsigned int third_len;
->
->         bool shadow_register;
-> +       unsigned int mmsys_id;
-> +       unsigned int mmsys_dev_num;
->  };
->
->  struct mtk_drm_private {
->         struct drm_device *drm;
->         struct device *dma_dev;
-> -
-> -       unsigned int num_pipes;
-> -
-> +       bool mtk_drm_bound;
-> +       struct device *dev;
->         struct device_node *mutex_node;
->         struct device *mutex_dev;
->         struct device *mmsys_dev;
-> @@ -44,6 +45,7 @@ struct mtk_drm_private {
->         struct mtk_ddp_comp ddp_comp[DDP_COMPONENT_ID_MAX];
->         const struct mtk_mmsys_driver_data *data;
->         struct drm_atomic_state *suspend_state;
-> +       struct mtk_drm_private **all_drm_private;
->  };
->
->  extern struct platform_driver mtk_disp_aal_driver;
-> --
-> 2.18.0
->
+> John.
+> 
+> 
+> > > John.
+> > > 
+> > > 
+> > > > +	/* Wait parent on for go */
+> > > > +	*cs++ = (MI_SEMAPHORE_WAIT |
+> > > > +		 MI_SEMAPHORE_GLOBAL_GTT |
+> > > > +		 MI_SEMAPHORE_POLL |
+> > > > +		 MI_SEMAPHORE_SAD_EQ_SDD);
+> > > > +	*cs++ = CHILD_GO_FINI_BREADCRUMB;
+> > > > +	*cs++ = get_children_go_addr(ce->parent);
+> > > > +	*cs++ = 0;
+> > > > +
+> > > > +	/* Emit fini breadcrumb */
+> > > > +	cs = gen8_emit_ggtt_write(cs,
+> > > > +				  rq->fence.seqno,
+> > > > +				  i915_request_active_timeline(rq)->hwsp_offset,
+> > > > +				  0);
+> > > > +
+> > > > +	/* User interrupt */
+> > > > +	*cs++ = MI_USER_INTERRUPT;
+> > > > +	*cs++ = MI_NOOP;
+> > > > +
+> > > > +	rq->tail = intel_ring_offset(rq, cs);
+> > > > +
+> > > > +	return cs;
+> > > > +}
+> > > > +
+> > > >    static struct intel_context *
+> > > >    g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
+> > > >    {
+> > > > @@ -3807,6 +4075,19 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+> > > >    			drm_printf(p, "\t\tWQI Status: %u\n\n",
+> > > >    				   READ_ONCE(desc->wq_status));
+> > > > +			drm_printf(p, "\t\tNumber Children: %u\n\n",
+> > > > +				   ce->guc_number_children);
+> > > > +			if (ce->engine->emit_bb_start ==
+> > > > +			    emit_bb_start_parent_no_preempt_mid_batch) {
+> > > > +				u8 i;
+> > > > +
+> > > > +				drm_printf(p, "\t\tChildren Go: %u\n\n",
+> > > > +					   get_children_go_value(ce));
+> > > > +				for (i = 0; i < ce->guc_number_children; ++i)
+> > > > +					drm_printf(p, "\t\tChildren Join: %u\n",
+> > > > +						   get_children_join_value(ce, i));
+> > > > +			}
+> > > > +
+> > > >    			for_each_child(ce, child)
+> > > >    				guc_log_context(p, child);
+> > > >    		}
+> 
