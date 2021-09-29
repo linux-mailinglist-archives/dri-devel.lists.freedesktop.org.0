@@ -2,60 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0EB341C74F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:52:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BDCA41C73E
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:51:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6D0486EA84;
-	Wed, 29 Sep 2021 14:52:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7F16EA97;
+	Wed, 29 Sep 2021 14:51:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 343ED6EA84
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:52:04 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0923261452
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:52:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632927124;
- bh=GfYq1vXltFRd+qnISduHB1I/tMZaDw2HQ2tpkKtGs6U=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PiKslU+MvuDh58Sfw7WNhxNgf/prYAJ2OCS+i4xEJZSzXsCHXHfdZn7KsfAUh0Z2c
- RCrcoKNalCS2uCFcgBrZg/Pc6RPjhm+D2ZHkbDAziEKzsksTw7zwqYK9kHjwpa/mrR
- PAgQM0Th7J6W9E0BGlcuQBLmyVEH725XJe1VLCKnSclyLDKakv1DbAWFq/2rJi9+sS
- a4dXyPfLNYtDqUbldHnm0l9L7JDWcDo6Xv/ZF6B3GZ6Q4bE+DjjmwgGbvBggPX86t2
- Gv2Wsi0ipjMm1B3rwfUxSmPFgY8eDuYKBJ4j0LRWsoAF7BzfuY8wIGfxpu5/QAm/ho
- H5ykx28fMCiag==
-Received: by mail-ed1-f42.google.com with SMTP id g7so9687179edv.1
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:52:03 -0700 (PDT)
-X-Gm-Message-State: AOAM530x5ISgs5bKSpXRD93NN/nNw9MP/Vgxc1sKBZ4T8kqlJoBOr8TX
- m/aVjRUAVVPLG8ZkZHIvZGDjVV8eATDh0gitlA==
-X-Google-Smtp-Source: ABdhPJyX/LV/fPaaoZ14xVXB3Pz2tSXauLNutH39v7zFHCmxP/zdbZOD+G/djSIAaJIp0C3v6TYQ9Lh6EYxED5gzT/I=
-X-Received: by 2002:a17:906:7ac4:: with SMTP id
- k4mr146993ejo.430.1632927052199; 
- Wed, 29 Sep 2021 07:50:52 -0700 (PDT)
+Received: from pio-pvt-msa3.bahnhof.se (pio-pvt-msa3.bahnhof.se [79.136.2.42])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 45DD86EAAE;
+ Wed, 29 Sep 2021 14:51:03 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id C0C9A3F36D;
+ Wed, 29 Sep 2021 16:51:00 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.1
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.1 tagged_above=-999 required=6.31
+ tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ URIBL_BLOCKED=0.001] autolearn=ham autolearn_force=no
+Authentication-Results: pio-pvt-msa3.bahnhof.se (amavisd-new);
+ dkim=pass (1024-bit key) header.d=shipmail.org
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+ by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id D70mD4csObw8; Wed, 29 Sep 2021 16:50:59 +0200 (CEST)
+Received: by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 40BA83F32D;
+ Wed, 29 Sep 2021 16:50:57 +0200 (CEST)
+Received: from [192.168.0.209] (unknown [192.198.151.53])
+ by mail1.shipmail.org (Postfix) with ESMTPSA id 0474F36011B;
+ Wed, 29 Sep 2021 16:50:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+ t=1632927057; bh=hVc1+hKMg11SzO2edsE5UMTFcbwpZX2YiDZoYUUWjho=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=cq0mrBg3jxesvGvYLPDCG34O0FcbDCrReWZYIIK6TvwFFXFT4OToXmc7G1eltR1Ca
+ Z6bw9PoImZ02ggSh16O7vOTeYq2tc5R0nf8V99exMLI2wGNG/nRgo8QBcQjq0Zcr1S
+ wewgy6zruzUjOXZhY/9PjZX/VPls8dylcEB309UA=
+Message-ID: <07332ad2-5a4d-90bc-47b0-069d292ccdad@shipmail.org>
+Date: Wed, 29 Sep 2021 16:50:55 +0200
 MIME-Version: 1.0
-References: <20210929070235.4290-1-jason-jh.lin@mediatek.com>
- <20210929070235.4290-2-jason-jh.lin@mediatek.com>
-In-Reply-To: <20210929070235.4290-2-jason-jh.lin@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 29 Sep 2021 22:50:40 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__ncB-sn+HspqkY-LrCX_J51KBrvW+QW2_zhmGVwrOe-A@mail.gmail.com>
-Message-ID: <CAAOTY__ncB-sn+HspqkY-LrCX_J51KBrvW+QW2_zhmGVwrOe-A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] drm/mediatek: Fix crash at using pkt->cl->chan in
- cmdq_pkt_finalize
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- fshao@chromium.org, 
- Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add ww context to intel_dpt_pin, v2.
+Content-Language: en-US
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Julia Lawall <julia.lawall@lip6.fr>
+References: <20210929085950.3063191-1-maarten.lankhorst@linux.intel.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <20210929085950.3063191-1-maarten.lankhorst@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,244 +69,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
 
-jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=882=
-9=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:02=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+On 9/29/21 10:59, Maarten Lankhorst wrote:
+> Ensure i915_vma_pin_iomap and vma_unpin are done with dpt->obj lock held.
 >
-> Because mtk_drm_crtc_create_pkt didn't assign pkt->cl, it will
-> crash at using pkt->cl->chan in cmdq_pkt_finalize.
+> I don't think there's much of a point in merging intel_dpt_pin() with
+> intel_pin_fb_obj_dpt(), they touch different objects.
 >
-> So add struct cmdq_client and let mtk_drm_crtc instance define
-> cmdq_client as:
+> Changes since v1:
+> - Fix using the wrong pointer to retrieve error code (Julia)
 >
-> struct mtk_drm_crtc {
->         /* client instance data */
->         struct cmdq_client cmdq_client;
-> };
->
-> and in rx_callback function can use pkt->cl to get
-> struct cmdq_client.
->
-> Fixes: f4be17cd5b14 ("drm/mediatek: Remove struct cmdq_client")
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+
+LGTM.
+
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 73 +++++++++++++------------
->  1 file changed, 38 insertions(+), 35 deletions(-)
+>   drivers/gpu/drm/i915/display/intel_dpt.c | 40 +++++++++++++++---------
+>   1 file changed, 25 insertions(+), 15 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 5f81489fc60c..e98871a8c961 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -52,8 +52,7 @@ struct mtk_drm_crtc {
->         bool                            pending_async_planes;
->
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -       struct mbox_client              cmdq_cl;
-> -       struct mbox_chan                *cmdq_chan;
-> +       struct cmdq_client              cmdq_client;
->         struct cmdq_pkt                 cmdq_handle;
->         u32                             cmdq_event;
->         u32                             cmdq_vblank_cnt;
-> @@ -227,8 +226,8 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struc=
-t drm_crtc *crtc,
->  }
->
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_p=
-kt *pkt,
-> -                                   size_t size)
-> +static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cm=
-dq_pkt *pkt,
-> +                                  size_t size)
->  {
->         struct device *dev;
->         dma_addr_t dma_addr;
-> @@ -239,8 +238,9 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan *=
-chan, struct cmdq_pkt *pkt,
->                 return -ENOMEM;
->         }
->         pkt->buf_size =3D size;
-> +       pkt->cl =3D (void *)client;
->
-> -       dev =3D chan->mbox->dev;
-> +       dev =3D client->chan->mbox->dev;
->         dma_addr =3D dma_map_single(dev, pkt->va_base, pkt->buf_size,
->                                   DMA_TO_DEVICE);
->         if (dma_mapping_error(dev, dma_addr)) {
-> @@ -255,9 +255,11 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan =
-*chan, struct cmdq_pkt *pkt,
->         return 0;
->  }
->
-> -static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan *chan, struct cmdq=
-_pkt *pkt)
-> +static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
->  {
-> -       dma_unmap_single(chan->mbox->dev, pkt->pa_base, pkt->buf_size,
-> +       struct cmdq_client *client =3D (struct cmdq_client *)pkt->cl;
+> diff --git a/drivers/gpu/drm/i915/display/intel_dpt.c b/drivers/gpu/drm/i915/display/intel_dpt.c
+> index de62bd77b15e..8f7b1f7534a4 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dpt.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dpt.c
+> @@ -121,32 +121,42 @@ struct i915_vma *intel_dpt_pin(struct i915_address_space *vm)
+>   	intel_wakeref_t wakeref;
+>   	struct i915_vma *vma;
+>   	void __iomem *iomem;
+> +	struct i915_gem_ww_ctx ww;
+> +	int err;
+>   
+>   	wakeref = intel_runtime_pm_get(&i915->runtime_pm);
+>   	atomic_inc(&i915->gpu_error.pending_fb_pin);
+>   
+> -	vma = i915_gem_object_ggtt_pin(dpt->obj, NULL, 0, 4096,
+> -				       HAS_LMEM(i915) ? 0 : PIN_MAPPABLE);
+> -	if (IS_ERR(vma))
+> -		goto err;
+> +	for_i915_gem_ww(&ww, err, true) {
+> +		err = i915_gem_object_lock(dpt->obj, &ww);
+> +		if (err)
+> +			continue;
+>   
+> -	iomem = i915_vma_pin_iomap(vma);
+> -	i915_vma_unpin(vma);
+> -	if (IS_ERR(iomem)) {
+> -		vma = ERR_CAST(iomem);
+> -		goto err;
+> -	}
+> +		vma = i915_gem_object_ggtt_pin_ww(dpt->obj, &ww, NULL, 0, 4096,
+> +						  HAS_LMEM(i915) ? 0 : PIN_MAPPABLE);
+> +		if (IS_ERR(vma)) {
+> +			err = PTR_ERR(vma);
+> +			continue;
+> +		}
 > +
-> +       dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_=
-size,
->                          DMA_TO_DEVICE);
->         kfree(pkt->va_base);
->         kfree(pkt);
-> @@ -265,8 +267,9 @@ static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan=
- *chan, struct cmdq_pkt *pk
->
->  static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
->  {
-> -       struct mtk_drm_crtc *mtk_crtc =3D container_of(cl, struct mtk_drm=
-_crtc, cmdq_cl);
->         struct cmdq_cb_data *data =3D mssg;
-> +       struct cmdq_pkt *pkt =3D data->pkt;
-> +       struct mtk_drm_crtc *mtk_crtc =3D container_of(pkt->cl, struct mt=
-k_drm_crtc, cmdq_client);
-
-I think you should use cl to find struct cmdq_client, and then use
-struct cmdq_clint to find struct mtk_drm_crtc.
-In the next patch, you could remove the local variable pkt.
-
->         struct mtk_crtc_state *state;
->         unsigned int i;
->
-> @@ -299,7 +302,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void =
-*mssg)
->         }
->
->         mtk_crtc->cmdq_vblank_cnt =3D 0;
-> -       mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
-> +       mtk_drm_cmdq_pkt_destroy(pkt);
-
-Maybe mtk_drm_cmdq_pkt_destroy(data->pkt); , so you need not the local
-variable pkt.
-
-Regards,
-Chun-Kuang.
-
-
-
->  }
->  #endif
->
-> @@ -550,24 +553,24 @@ static void mtk_drm_crtc_update_config(struct mtk_d=
-rm_crtc *mtk_crtc,
->                 mtk_mutex_release(mtk_crtc->mutex);
->         }
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -       if (mtk_crtc->cmdq_chan) {
-> -               mbox_flush(mtk_crtc->cmdq_chan, 2000);
-> +       if (mtk_crtc->cmdq_client.chan) {
-> +               mbox_flush(mtk_crtc->cmdq_client.chan, 2000);
->                 cmdq_handle->cmd_buf_size =3D 0;
->                 cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
->                 cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
->                 mtk_crtc_ddp_config(crtc, cmdq_handle);
->                 cmdq_pkt_finalize(cmdq_handle);
-> -               dma_sync_single_for_device(mtk_crtc->cmdq_chan->mbox->dev=
-,
-> -                                           cmdq_handle->pa_base,
-> -                                           cmdq_handle->cmd_buf_size,
-> -                                           DMA_TO_DEVICE);
-> +               dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->mb=
-ox->dev,
-> +                                          cmdq_handle->pa_base,
-> +                                          cmdq_handle->cmd_buf_size,
-> +                                          DMA_TO_DEVICE);
->                 /*
->                  * CMDQ command should execute in next vblank,
->                  * If it fail to execute in next 2 vblank, timeout happen=
-.
->                  */
->                 mtk_crtc->cmdq_vblank_cnt =3D 2;
-> -               mbox_send_message(mtk_crtc->cmdq_chan, cmdq_handle);
-> -               mbox_client_txdone(mtk_crtc->cmdq_chan, 0);
-> +               mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle=
-);
-> +               mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
->         }
->  #endif
->         mtk_crtc->config_updating =3D false;
-> @@ -581,7 +584,7 @@ static void mtk_crtc_ddp_irq(void *data)
->         struct mtk_drm_private *priv =3D crtc->dev->dev_private;
->
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -       if (!priv->data->shadow_register && !mtk_crtc->cmdq_chan)
-> +       if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
->                 mtk_crtc_ddp_config(crtc, NULL);
->         else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank=
-_cnt =3D=3D 0)
->                 DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
-> @@ -924,20 +927,20 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->         mutex_init(&mtk_crtc->hw_lock);
->
->  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
-> -       mtk_crtc->cmdq_cl.dev =3D mtk_crtc->mmsys_dev;
-> -       mtk_crtc->cmdq_cl.tx_block =3D false;
-> -       mtk_crtc->cmdq_cl.knows_txdone =3D true;
-> -       mtk_crtc->cmdq_cl.rx_callback =3D ddp_cmdq_cb;
-> -       mtk_crtc->cmdq_chan =3D
-> -                       mbox_request_channel(&mtk_crtc->cmdq_cl,
-> -                                             drm_crtc_index(&mtk_crtc->b=
-ase));
-> -       if (IS_ERR(mtk_crtc->cmdq_chan)) {
-> +       mtk_crtc->cmdq_client.client.dev =3D mtk_crtc->mmsys_dev;
-> +       mtk_crtc->cmdq_client.client.tx_block =3D false;
-> +       mtk_crtc->cmdq_client.client.knows_txdone =3D true;
-> +       mtk_crtc->cmdq_client.client.rx_callback =3D ddp_cmdq_cb;
-> +       mtk_crtc->cmdq_client.chan =3D
-> +                       mbox_request_channel(&mtk_crtc->cmdq_client.clien=
-t,
-> +                                            drm_crtc_index(&mtk_crtc->ba=
-se));
-> +       if (IS_ERR(mtk_crtc->cmdq_client.chan)) {
->                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox client=
-, writing register by CPU now\n",
->                         drm_crtc_index(&mtk_crtc->base));
-> -               mtk_crtc->cmdq_chan =3D NULL;
-> +               mtk_crtc->cmdq_client.chan =3D NULL;
->         }
->
-> -       if (mtk_crtc->cmdq_chan) {
-> +       if (mtk_crtc->cmdq_client.chan) {
->                 ret =3D of_property_read_u32_index(priv->mutex_node,
->                                                  "mediatek,gce-events",
->                                                  drm_crtc_index(&mtk_crtc=
-->base),
-> @@ -945,17 +948,17 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
->                 if (ret) {
->                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,=
-gce-events property\n",
->                                 drm_crtc_index(&mtk_crtc->base));
-> -                       mbox_free_channel(mtk_crtc->cmdq_chan);
-> -                       mtk_crtc->cmdq_chan =3D NULL;
-> +                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
-> +                       mtk_crtc->cmdq_client.chan =3D NULL;
->                 } else {
-> -                       ret =3D mtk_drm_cmdq_pkt_create(mtk_crtc->cmdq_ch=
-an,
-> -                                                      &mtk_crtc->cmdq_ha=
-ndle,
-> -                                                      PAGE_SIZE);
-> +                       ret =3D mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_c=
-lient,
-> +                                                     &mtk_crtc->cmdq_han=
-dle,
-> +                                                     PAGE_SIZE);
->                         if (ret) {
->                                 dev_dbg(dev, "mtk_crtc %d failed to creat=
-e cmdq packet\n",
->                                         drm_crtc_index(&mtk_crtc->base));
-> -                               mbox_free_channel(mtk_crtc->cmdq_chan);
-> -                               mtk_crtc->cmdq_chan =3D NULL;
-> +                               mbox_free_channel(mtk_crtc->cmdq_client.c=
-han);
-> +                               mtk_crtc->cmdq_client.chan =3D NULL;
->                         }
->                 }
->         }
-> --
-> 2.18.0
->
+> +		iomem = i915_vma_pin_iomap(vma);
+> +		i915_vma_unpin(vma);
+>   
+> -	dpt->vma = vma;
+> -	dpt->iomem = iomem;
+> +		if (IS_ERR(iomem)) {
+> +			err = PTR_ERR(iomem);
+> +			continue;
+> +		}
+>   
+> -	i915_vma_get(vma);
+> +		dpt->vma = vma;
+> +		dpt->iomem = iomem;
+> +
+> +		i915_vma_get(vma);
+> +	}
+>   
+> -err:
+>   	atomic_dec(&i915->gpu_error.pending_fb_pin);
+>   	intel_runtime_pm_put(&i915->runtime_pm, wakeref);
+>   
+> -	return vma;
+> +	return err ? ERR_PTR(err) : vma;
+>   }
+>   
+>   void intel_dpt_unpin(struct i915_address_space *vm)
