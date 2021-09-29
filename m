@@ -1,49 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EF5141C499
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 14:19:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F49341C4FB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 14:55:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AC9C6EA54;
-	Wed, 29 Sep 2021 12:19:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F7896EA63;
+	Wed, 29 Sep 2021 12:55:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-1.canonical.com
- (smtp-relay-canonical-1.canonical.com [185.125.188.121])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAEFE6EA54;
- Wed, 29 Sep 2021 12:18:59 +0000 (UTC)
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 6160C40184; 
- Wed, 29 Sep 2021 12:18:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1632917938;
- bh=Bhi6AHpfy+Ej7XA03LLA3tQ3s3CRWpWh6aY3VL7zg6I=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
- b=VFhT8s8l9BI3n5pbmMC9WNLBYSQ8vlH2EBQOf5Z4inyh3DmyXaTEgfqieq0KKCjxp
- HQqVKwJgvhGhewcIyYqANQko+pBIsXUlj4yf5061PKjdIJZ02hESR8oWvMmg7qg7dM
- iCHVmhKZRmcgaFENb+JaHrki7H5Iuc+VcmgqnUCadtF3wlK4nyCEBY1lbeGUGTxKcs
- n60IQb+8b6H0urKz99HuzUwS4xBbZXxVwcuHc21hhBAz7BrM1bvBjg10HcitJhZFo8
- dVab1JfknUC6IrTUjjk4DWkIDM4B80Sdsg07TK3ri5f0ND+2fF5KTfGgDC1EyWnqur
- 6jaBmlXOwW5Mw==
-From: Colin King <colin.king@canonical.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Lyude Paul <lyude@redhat.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: Fix null pointer dereference on pointer edp
-Date: Wed, 29 Sep 2021 13:18:57 +0100
-Message-Id: <20210929121857.213922-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0E4DF6E1B4
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 12:55:43 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="225003562"
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="225003562"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2021 05:55:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="563243061"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga002.fm.intel.com with SMTP; 29 Sep 2021 05:55:28 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 Sep 2021 15:55:27 +0300
+Date: Wed, 29 Sep 2021 15:55:27 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
+ Pekka Paalanen <ppaalanen@gmail.com>
+Subject: Re: [PATCH] drm: document pre-multiplied assumptions
+Message-ID: <YVRiP0Oue7ex8OlC@intel.com>
+References: <20210929095357.49984-1-contact@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210929095357.49984-1-contact@emersion.fr>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,41 +52,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Wed, Sep 29, 2021 at 09:54:14AM +0000, Simon Ser wrote:
+> When a plane is missing the "alpha blend mode" property, KMS drivers
+> will use the pre-multiplied mode.
+> 
+> Signed-off-by: Simon Ser <contact@emersion.fr>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Pekka Paalanen <ppaalanen@gmail.com>
 
-The initialization of pointer dev dereferences pointer edp before
-edp is null checked, so there is a potential null pointer deference
-issue. Fix this by only dereferencing edp after edp has been null
-checked.
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-Addresses-Coverity: ("Dereference before null check")
-Fixes: ab5b0107ccf3 ("drm/msm: Initial add eDP support in msm drm driver (v5)")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/msm/edp/edp_ctrl.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Another option would be to sprinkle immutable props to all drivers
+that claim to do alpha blending and don't currently expose the
+property.
 
-diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-index 4fb397ee7c84..fe1366b4c49f 100644
---- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
-+++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-@@ -1116,7 +1116,7 @@ void msm_edp_ctrl_power(struct edp_ctrl *ctrl, bool on)
- int msm_edp_ctrl_init(struct msm_edp *edp)
- {
- 	struct edp_ctrl *ctrl = NULL;
--	struct device *dev = &edp->pdev->dev;
-+	struct device *dev;
- 	int ret;
- 
- 	if (!edp) {
-@@ -1124,6 +1124,7 @@ int msm_edp_ctrl_init(struct msm_edp *edp)
- 		return -EINVAL;
- 	}
- 
-+	dev = &edp->pdev->dev;
- 	ctrl = devm_kzalloc(dev, sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl)
- 		return -ENOMEM;
+> ---
+>  drivers/gpu/drm/drm_blend.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> index ec37cbfabb50..eebb32ba84d7 100644
+> --- a/drivers/gpu/drm/drm_blend.c
+> +++ b/drivers/gpu/drm/drm_blend.c
+> @@ -185,6 +185,9 @@
+>   *		 plane does not expose the "alpha" property, then this is
+>   *		 assumed to be 1.0
+>   *
+> + *	When a plane is missing this property, the plane uses the
+> + *	"Pre-multiplied" equation.
+> + *
+>   * Note that all the property extensions described here apply either to the
+>   * plane or the CRTC (e.g. for the background color, which currently is not
+>   * exposed and assumed to be black).
+> -- 
+> 2.33.0
+> 
+
 -- 
-2.32.0
-
+Ville Syrjälä
+Intel
