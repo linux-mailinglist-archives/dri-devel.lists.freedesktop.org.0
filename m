@@ -2,47 +2,53 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95B641C32D
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 13:08:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F8F41C336
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 13:15:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A648C6EA26;
-	Wed, 29 Sep 2021 11:08:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BBC36E1A8;
+	Wed, 29 Sep 2021 11:14:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-canonical-0.canonical.com
- (smtp-relay-canonical-0.canonical.com [185.125.188.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2B2E06EA28;
- Wed, 29 Sep 2021 11:08:06 +0000 (UTC)
-Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id DAF6B405B1; 
- Wed, 29 Sep 2021 11:08:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1632913684;
- bh=aX6lNt/v2bM3fOhUKFXaVJ5cGbOoFHK0cgvLwy/sgvM=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
- b=Y9GNT/Ozu5xpPI5SkDNEBzAjAJoeFYKkCEuXCar5Rm0+o8CHNwp3InBRgQrvq7jEj
- QU5zTVsspxz0xh7Fshfla6ZqugwzKLuW0knZwSL8mFavVwLT73xfAY7GOGEF7PovBX
- U+MfDH2fbswzilbJcSZJGlW2OI6gg/ikHu6Z7Sh4Gluilq5kMviKhp/DQXck+GKxjV
- zer2SVAJSSjrKgi0VKimiuQE22/z1+3yCHpSGldVRn3CcQKwV4Hhw1U4t/n0wc3FFb
- ZniyaHIoDsEG5HX3AgFEdZs2o6JKlgJPKZaEJ4JFg/xlOrgnA6eIEwMuB1iR1yDhI8
- rehr0oWkqJu6A==
-From: Colin King <colin.king@canonical.com>
-To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm/mdp4: Fix potential integer overflow on 32 bit
- multiply
-Date: Wed, 29 Sep 2021 12:08:04 +0100
-Message-Id: <20210929110804.210725-1-colin.king@canonical.com>
-X-Mailer: git-send-email 2.32.0
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 204628913D;
+ Wed, 29 Sep 2021 11:14:56 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285932338"
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="285932338"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Sep 2021 04:14:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="617423409"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga001.fm.intel.com with SMTP; 29 Sep 2021 04:14:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Wed, 29 Sep 2021 14:14:51 +0300
+Date: Wed, 29 Sep 2021 14:14:51 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: "Navare, Manasi" <manasi.d.navare@intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Daniel Vetter <daniel.vetter@intel.com>,
+ intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Daniel Stone <daniels@collabora.com>
+Subject: Re: [PATCH] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Message-ID: <YVRKq79qPNlFcC8I@intel.com>
+References: <CAKMK7uEak_2YNDZpyho5bBhhYCvoXh6MoPNL6FmV9sU8oELGPA@mail.gmail.com>
+ <20210318230126.GA1900@labuser-Z97X-UD5H>
+ <YFS7mINBWsHiYIKm@intel.com>
+ <20210319205413.GA6359@labuser-Z97X-UD5H>
+ <YFUTyb6ofKRI12hO@intel.com>
+ <20210319212624.GA6560@labuser-Z97X-UD5H>
+ <YFUXX/pDcBheiNWL@intel.com>
+ <20210325220127.GA28898@labuser-Z97X-UD5H>
+ <YF4ImoReniVIz+TT@intel.com>
+ <20210401214908.GA24310@labuser-Z97X-UD5H>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210401214908.GA24310@labuser-Z97X-UD5H>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,34 +64,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+On Thu, Apr 01, 2021 at 02:49:13PM -0700, Navare, Manasi wrote:
+> On Fri, Mar 26, 2021 at 06:15:22PM +0200, Ville Syrjälä wrote:
+> > On Thu, Mar 25, 2021 at 03:01:29PM -0700, Navare, Manasi wrote:
+> > > On Fri, Mar 19, 2021 at 11:27:59PM +0200, Ville Syrjälä wrote:
+> > > > On Fri, Mar 19, 2021 at 02:26:24PM -0700, Navare, Manasi wrote:
+> > > > > On Fri, Mar 19, 2021 at 11:12:41PM +0200, Ville Syrjälä wrote:
+> > > > > > On Fri, Mar 19, 2021 at 01:54:13PM -0700, Navare, Manasi wrote:
+> > > > > > > On Fri, Mar 19, 2021 at 04:56:24PM +0200, Ville Syrjälä wrote:
+> > > > > > > > On Thu, Mar 18, 2021 at 04:01:26PM -0700, Navare, Manasi wrote:
+> > > > > > > > > So basically we see this warning only in case of bigjoiner when
+> > > > > > > > > drm_atomic_check gets called without setting the state->allow_modeset flag.
+> > > > > > > > 
+> > > > > > > > Considering the code is 'WARN(!state->allow_modeset, ...' that
+> > > > > > > > fact should be rather obvious.
+> > > > > > > > 
+> > > > > > > > > 
+> > > > > > > > > So do you think that in i915, in intel_atomic_check_bigjoiner() we should only
+> > > > > > > > > steal the crtc when allow_modeset flag is set in state?
+> > > > > > > > 
+> > > > > > > > No. If you fully read drm_atomic_check_only() you will observe
+> > > > > > > > that it will reject any commit w/ allow_modeset==false which 
+> > > > > > > > needs a modeset. And it does that before the WARN.
+> > > > > > > > 
+> > > > > > > > So you're barking up the wrong tree here. The problem I think
+> > > > > > > > is that you're just computing requested_crtcs wrong.
+> > > > > > > 
+> > > > > > > So here in this case, requested CRTC = 0x1 since it requests modeset on CRTC 0
+> > > > > > > Now in teh atomic check, it steals the slave CRTC 1 and hence affected CRTC comes out
+> > > > > > > as 0x3 and hence the mismatch.
+> > > > > > 
+> > > > > > Hmm. How can it be 0x3 if we filtered out the uapi.enable==false case?
+> > > > > > 
+> > > > > 
+> > > > > Yes if I add that condition like in this patch then it correctly calculates
+> > > > > the affected crtc bitmask as only 0x1 since it doesnt include the slave crtc.
+> > > > > So with this patch, requested crtc = 0x 1, affected crtc = 0x1
+> > > > > 
+> > > > > If this looks good then this fixes our bigjoiner warnings.
+> > > > > Does this patch look good to you as is then?
+> > > > 
+> > > > I think you still need to fix the requested_crtcs calculation.
+> > > 
+> > > We calculate requested crtc at the beginning :
+> > > for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+> > >                 requested_crtc |= drm_crtc_mask(crtc);
+> > > 
+> > > Are you suggesting adding this to after:
+> > >  if (config->funcs->atomic_check) {
+> > >                 ret = config->funcs->atomic_check(state->dev, state);
+> > > 
+> > >                 if (ret) {
+> > >                         DRM_DEBUG_ATOMIC("atomic driver check for %p failed: %d\n",
+> > >                                          state, ret);
+> > >                         return ret;
+> > >                 }
+> > > 		requested_crtc |= drm_crtc_mask(crtc);    // Here it will have requested crtc = 0x11
+> > >         }
+> > > 
+> > > in this case here the state should already have master crtc 0 and slave crtc 1
+> > > and that requested crtc should already be 0x11
+> > > 
+> > > Then in that case we dont need any special check for calculating affected crtc, that also will be 0x11
+> > 
+> > All I'm saying is that you're currently calculating requested_crtcs and
+> > affected_crtcs differently. So I'm not at all surprised that they might
+> > not match.
+> >
+> 
+> I dont get your point yet.
+> requested crtc is calculated before the atomic check call and we dont check for crtc uapi.enable to be true.
+> And hence requested crtc  = CRTC 0 = 0x2
+> After I added the check in this patch where affected crtc will include only the crtcs that have uapi.enable = true
+> then  it perfectly matches the requested crtc and return 0x2 but without this check when the calculation of
+> requested and affected crtc is the same is where we see the affected crtc = CRTC 0 and 1 = 0x3
+> 
+> So when the calculation is different infcat we dont see the mismatch
+> 
+> What is your point here?
 
-In the case where clock is 2147485 or greater the 32 bit multiplication
-by 1000 will cause an integer overflow. Fix this by making the constant
-1000 a long to ensure a long multiply occurs to avoid the overflow
-before assigning the result to the long result in variable requested.
-Most probably a theoretical overflow issue, but worth fixing.
+Try doing an atomic commit wiht both crtcs already added in by 
+userspace. I think that will still WARN.
 
-Addresses-Coverity: ("Unintentional integer overflow")
-Fixes: 3e87599b68e7 ("drm/msm/mdp4: add LVDS panel support")
-Signed-off-by: Colin Ian King <colin.king@canonical.com>
----
- drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-index 7288041dd86a..deada745d5b9 100644
---- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-+++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
-@@ -64,7 +64,7 @@ static int mdp4_lvds_connector_mode_valid(struct drm_connector *connector,
- 	struct drm_encoder *encoder = mdp4_lvds_connector->encoder;
- 	long actual, requested;
- 
--	requested = 1000 * mode->clock;
-+	requested = 1000L * mode->clock;
- 	actual = mdp4_lcdc_round_pixclk(encoder, requested);
- 
- 	DBG("requested=%ld, actual=%ld", requested, actual);
 -- 
-2.32.0
-
+Ville Syrjälä
+Intel
