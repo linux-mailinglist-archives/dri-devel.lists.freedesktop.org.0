@@ -2,75 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB67041C705
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:42:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B03141C726
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:46:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D2DE06E1BE;
-	Wed, 29 Sep 2021 14:42:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B1D336EA98;
+	Wed, 29 Sep 2021 14:46:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
- [81.169.146.170])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D48E76E1BE
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:42:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632926532;
- s=strato-dkim-0002; d=goldelico.com;
- h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
- From:Subject:Sender;
- bh=Rj5wPC+azbPBOEQyEt5RY3pzQQCBfq403oUX1dL3sm4=;
- b=gPH4BJs8MqjMX2JVCsFF1BpAZiX4EfShZ1czC02Kv/8L5GkslP0h4qbXMb583yFClW
- EDzGhKfmT5N96txqBDVDWv0n/J+pSY3UB+uWQiVa8wUNimefPakFLbiavsFCpaIH1Uyf
- lRcqEQ9IoCxt7kRdfBu4ozNvlXIEjNLVpX+/0KfJ/SJFkgflYXrWyotwoLtw/Cafct9O
- XCDaqKvlZ+HUHAFkJnHvAcCpsS62bxM9Vs8776psp/yy6fSe50vd+Hl2MpKu+deVszpn
- WjrhGvDK6BFLTaavEcJTivgQvo6TMg5TOtzKzWgH0oGUdaKs5ZrBdYIaaOue/qwrSnLO
- tOeA==
-Authentication-Results: strato.com;
-    dkim=none
-X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43qmio="
-X-RZG-CLASS-ID: mo00
-Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
- with ESMTPSA id I01f74x8TEgAkV0
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
- with 256 ECDH bits, eq. 3072 bits RSA))
- (Client did not present a certificate);
- Wed, 29 Sep 2021 16:42:10 +0200 (CEST)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
-Subject: Re: [PATCH v4 02/10] drm/ingenic: Add support for JZ4780 and HDMI
- output
-From: "H. Nikolaus Schaller" <hns@goldelico.com>
-In-Reply-To: <VM970R.TLCBMNA67DOI2@crapouillou.net>
-Date: Wed, 29 Sep 2021 16:42:10 +0200
-Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Kees Cook <keescook@chromium.org>,
- "Eric W. Biederman" <ebiederm@xmission.com>,
- Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
+ [IPv6:2607:f8b0:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 37A826EA94
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:46:31 +0000 (UTC)
+Received: by mail-ot1-x32e.google.com with SMTP id
+ x33-20020a9d37a4000000b0054733a85462so3131614otb.10
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:46:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=JgcoX77LyqJgFfCrFyyxOmmlaV13zT4pyPZ6+xdzSpA=;
+ b=spTZQ2DbWP0psTWqELtDKdf3ctbS0vkigNQvxkRIwhOKUH8KugD69eFtioiLkoK3Gy
+ wtqV+fvcjNiD9+cDbUIXJF+qCw7Y3d8YdkSsHI7IVobxU9CSf3vqhqyWu/Oq2SRFBdHo
+ neDrQGuVYezgzLNIKMm1q/0+ChFeu07DQsXdVBLPC5Qj84WxDssil2uJW+0l+TPuEHxn
+ Ll6FKrKdGbGmGBGxLGRQmQdKBljtf5QtFgK2eTl3cDvLsBHoaJmId4Ifl7rnnbvBhn0D
+ LTj441MSq8B+PPi3TmUJ+3vz8OX7s4Ovl41Aj0dWJafRLB3UbpVpcLmdU8ARwxFqFRiP
+ nSKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=JgcoX77LyqJgFfCrFyyxOmmlaV13zT4pyPZ6+xdzSpA=;
+ b=6mM0gdWxjvKwA8FcWsSB56uatbbM9igSzwkerrkh8J4HKQOXcCvjqaEczH0kQKZSdj
+ UcSmaOJjje1vCSx8TH+AzgzIVeXNsjUXx9ls/u4WfwSxE0hPl2lvIncmYO8yrwKjlFGC
+ 3pxcFF9C9hzIYcuQ6gFbRpT5tBmYpi5o4CqB4gsi1N3MFxfQL7reSfM/Rn6Up9DROjRn
+ 57BZR4vQ9e1D65p0nxjIziBHMhqZ8gutpHzCL4sSJvUojpIA7jUAu43MONCPjKKhZEQu
+ Q0VDselqcq9MzLIvWjpUWxldAClQsnPsQa+NIfgVykf5X9rBccD4wUmBISFw9s0tW07G
+ vDdQ==
+X-Gm-Message-State: AOAM531aJrLvQGui3/lraog015s4Dom6rVSxPhta08QcCpng2GHYaUab
+ PLSM9Q/cylrATxXLFuRNnmOlAQ==
+X-Google-Smtp-Source: ABdhPJy1xutLgHZ1k75FBuuFr8v0/9rSKe4U8iMaiX+gLlBxKTV+rJxW6+Z2BJ3/QZooCn7GiUFhFA==
+X-Received: by 2002:a9d:6254:: with SMTP id i20mr324075otk.349.1632926790406; 
+ Wed, 29 Sep 2021 07:46:30 -0700 (PDT)
+Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
+ [104.57.184.186])
+ by smtp.gmail.com with ESMTPSA id v14sm5473ook.2.2021.09.29.07.46.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Sep 2021 07:46:29 -0700 (PDT)
+Date: Wed, 29 Sep 2021 09:46:27 -0500
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Joerg Roedel <joro@8bytes.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder <elder@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
+ Andy Gross <agross@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
  Jernej Skrabec <jernej.skrabec@gmail.com>,
- Ezequiel Garcia <ezequiel@collabora.com>,
- Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
- Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
- letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1E592756-C57C-4C9B-BCF2-EC10DB6E3234@goldelico.com>
-References: <cover.1632761067.git.hns@goldelico.com>
- <68cca888be1894ce45f1a93cfabeb5aa1f88c20a.1632761067.git.hns@goldelico.com>
- <OA150R.JLKJBJP8V7FJ2@crapouillou.net>
- <1E10A04A-4A78-4B47-B0FB-1E8C99456DA1@goldelico.com>
- <17BF1D7A-2057-448B-9FD2-907DE0EFD281@goldelico.com>
- <VM970R.TLCBMNA67DOI2@crapouillou.net>
-To: Paul Cercueil <paul@crapouillou.net>
-X-Mailer: Apple Mail (2.3445.104.21)
+ Mark Rutland <mark.rutland@arm.com>,
+ Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ freedreno <freedreno@lists.freedesktop.org>,
+ "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org,
+ linux-wireless <linux-wireless@vger.kernel.org>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
+Message-ID: <YVR8Q7LO0weiFin+@yoga>
+References: <20210927152412.2900928-1-arnd@kernel.org>
+ <20210929095107.GA21057@willie-the-truck>
+ <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,61 +99,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Paul,
+On Wed 29 Sep 05:04 CDT 2021, Arnd Bergmann wrote:
 
-> Am 29.09.2021 um 16:30 schrieb Paul Cercueil <paul@crapouillou.net>:
->=20
-> Hi,
->=20
-> Le mar., sept. 28 2021 at 14:06:03 +0200, H. Nikolaus Schaller =
-<hns@goldelico.com> a =C3=A9crit :
->> Hi Paul,
->>> Am 28.09.2021 um 12:21 schrieb H. Nikolaus Schaller =
-<hns@goldelico.com>:
->>>>> @@ -1492,10 +1555,16 @@ static int ingenic_drm_init(void)
->>>>> {
->>>>> 	int err;
->>>>> +	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI)) {
->>>>> +		err =3D =
-platform_driver_register(ingenic_dw_hdmi_driver_ptr);
->>>>> +		if (err)
->>>>> +			return err;
->>>>> +	}
->>>> I don't see why you need to register the ingenic-dw-hdmi driver =
-here. Just register it in the ingenic-dw-hdmi driver.
->>> Ok, I never though about this (as the code was not from me). We =
-apparently just followed the IPU code pattern (learning by example).
->>> It indeed looks not necessary and would also avoid the =
-ingenic_dw_hdmi_driver_ptr dependency.
->>> But: what is ingenic_ipu_driver_ptr then good for?
->=20
-> It's done this way because ingenic-drm-drv.c and ingenic-ipu.c are =
-both compiled within the same module ingenic-drm.
+> On Wed, Sep 29, 2021 at 11:51 AM Will Deacon <will@kernel.org> wrote:
+> > On Mon, Sep 27, 2021 at 05:22:13PM +0200, Arnd Bergmann wrote:
+> > >
+> > > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
+> > > index 124c41adeca1..989c83acbfee 100644
+> > > --- a/drivers/iommu/Kconfig
+> > > +++ b/drivers/iommu/Kconfig
+> > > @@ -308,7 +308,7 @@ config APPLE_DART
+> > >  config ARM_SMMU
+> > >       tristate "ARM Ltd. System MMU (SMMU) Support"
+> > >       depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> > > -     depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
+> > > +     select QCOM_SCM
+> > >       select IOMMU_API
+> > >       select IOMMU_IO_PGTABLE_LPAE
+> > >       select ARM_DMA_USE_IOMMU if ARM
+> >
+> > I don't want to get in the way of this patch because I'm also tired of the
+> > randconfig failures caused by QCOM_SCM. However, ARM_SMMU is applicable to
+> > a wide variety of (non-qcom) SoCs and so it seems a shame to require the
+> > QCOM_SCM code to be included for all of those when it's not strictly needed
+> > at all.
+> 
+> Good point, I agree that needs to be fixed. I think this additional
+> change should do the trick:
+> 
 
-Ah, I see. Hadn't checked this.
+ARM_SMMU and QCOM_IOMMU are two separate implementations and both uses
+QCOM_SCM. So both of them should select QCOM_SCM.
 
-> I'm not sure this is still required, maybe ingenic-ipu.c can be its =
-own module now.
+"Unfortunately" the Qualcomm portion of ARM_SMMU is builtin
+unconditionally, so going with something like select QCOM_SCM if
+ARCH_QCOM would still require the stubs in qcom_scm.h.
 
-What I have seen is that it has its own compatible record. So there =
-could be load-on-demand by DTS.
+Regards,
+Bjorn
 
->=20
->>> If we can get rid of this as well, we can drop patch 1/10 =
-("drm/ingenic: Fix drm_init error path if IPU was registered") =
-completely.
->> A quick test shows that it *is* required. At least if I configure =
-everything as modules.
->> But like you I can't explain why.
->=20
-> Well, a quick test here shows that it is not required, at least when =
-configuring with everything built-in.
-
-IMHO the hdmi driver (module) should be loaded on demand. Not everyone =
-wants to have it.
-
-Well, that is the problem that needs to be solved...
-
-BR and thanks,
-Nikolaus
-
+> --- a/drivers/iommu/Kconfig
+> +++ b/drivers/iommu/Kconfig
+> @@ -308,7 +308,6 @@ config APPLE_DART
+>  config ARM_SMMU
+>         tristate "ARM Ltd. System MMU (SMMU) Support"
+>         depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> -       select QCOM_SCM
+>         select IOMMU_API
+>         select IOMMU_IO_PGTABLE_LPAE
+>         select ARM_DMA_USE_IOMMU if ARM
+> @@ -438,7 +437,7 @@ config QCOM_IOMMU
+>         # Note: iommu drivers cannot (yet?) be built as modules
+>         bool "Qualcomm IOMMU Support"
+>         depends on ARCH_QCOM || (COMPILE_TEST && !GENERIC_ATOMIC64)
+> -       depends on QCOM_SCM=y
+> +       select QCOM_SCM
+>         select IOMMU_API
+>         select IOMMU_IO_PGTABLE_LPAE
+>         select ARM_DMA_USE_IOMMU
+> 
+> I'll see if that causes any problems for the randconfig builds.
+> 
+>        Arnd
