@@ -2,56 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF25141BCBB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 04:28:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9043141BD6C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 05:29:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97A3C6E15A;
-	Wed, 29 Sep 2021 02:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B19A6E15E;
+	Wed, 29 Sep 2021 03:29:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F20816E15A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 02:28:27 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id b20so4401922lfv.3
- for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 19:28:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vzNXCj84D1g4PbD9Z2/a7WAfkTzxrDKROcDc/hzpBWc=;
- b=UFBbRLUsdxkCVsyDBTZelri1sE1uBJFhlXVFzOQ00BYD/vd027QrYNGqzaxNahSk5t
- p6RkaJek68Zp/n/NESHX4OhAOqTF0Ns7OTCXh7/7WouElvWnEJzoUqEO5tfPylzKLTcJ
- 4mmlTm0nReyACi0Ttcsrq2osd9UWg42lgdAnQ=
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B6B696E15E
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 03:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632886141;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ypu7lSHLqUrP/H0+g4r3QAtlIt7DSpEMHZQnw4kUfiM=;
+ b=J/TaCPWlw6a+Yy6aQoP2Z70dpkeBcdprbkFXeU3+1P2w78vYbGex1HnbbTDjmLbD4FR/LN
+ lO0tedduUwng0kEdYAdZH/dFIdwlyTWzRjwYmzP1YoNPLgIntpG8Z7QCfZhdkV5QfRj064
+ a4FD7hWr3xkaKgzfK6mlm04BYi/rmSw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-GCr3f3niO2iYSh_tjGMHFg-1; Tue, 28 Sep 2021 23:28:59 -0400
+X-MC-Unique: GCr3f3niO2iYSh_tjGMHFg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m9-20020a05600c4f4900b003057c761567so2095449wmq.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 28 Sep 2021 20:28:59 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=vzNXCj84D1g4PbD9Z2/a7WAfkTzxrDKROcDc/hzpBWc=;
- b=pWVUO+poq4Eck88Zy/dn9YB8igw3nlXtRRTwyW5D89a/Ja08gK+1VqqbPjbgdK80cu
- quvziv2aHz6cv/oYGu6ohs06q1dECy5LKK9BMTBS524ZP6pqGEAe6HaxzwwYgZbTnmRh
- blIOm4kY65Ud/76F/BkaKid/1K0fDxMlZ3zaUvZAJUyQVIeqKNX0ttFnom4LM/uh0z8D
- BQQziymdgoZiPKDk28TGaAoHcF57rOugR1kPrDendjH5CAHzL5S6PjW145edXsWfZ5SC
- TQJq4i35FGHusDepW+iLsVnDTzeIgbUAmdJNp7lfui0O2zp6eUEZuD4dyAQCIZHsIH/o
- 5KVg==
-X-Gm-Message-State: AOAM532ofTQnlFH/KTQdiKK8IQLUZ8n7qe84OFpFHTzG7eS2ixEY0Rt1
- /MscKNX826/doHEZeh3jHIfkHkWBJmm+XNmtuI2Zfg==
-X-Google-Smtp-Source: ABdhPJyNUZV2MQMbi62ec77cW4ABFydIvPmDIM3cOMvSI1YRYR4lewd8Ni0ge/QhfE1OeZiNo6sOeIu/PGqaRs29+uo=
-X-Received: by 2002:a2e:b80f:: with SMTP id u15mr3549500ljo.414.1632882506299; 
- Tue, 28 Sep 2021 19:28:26 -0700 (PDT)
+ bh=Ypu7lSHLqUrP/H0+g4r3QAtlIt7DSpEMHZQnw4kUfiM=;
+ b=yYLt+RIxKKSp7q41bN0ItgnpESL9MNqT7uS9zt1Si6Yi0mcTl/e5rncu+o7CxcMJHj
+ /iqvf8SCP0YoH1RZKKk0wTQKa7+/WuKDMUde20FOp1SAOgejqcsv9J2tC6VKf+MusIGj
+ 0QTWPv7YNCvi0fPwg1BO4op0OsfVroHkGNV0hrocdEc8JAwFfSjuJAaHTdHoBa+xVTAX
+ EgcKzLuQ6ydoDSXvWurkgun92LAcqzVBTAvgpL9E6POmnAjT9D0DXFwoF/wOVCZYw2ir
+ L+IpAn1MwtJSQyBX8Bp+aBMridJ/6jHYSavSWwb/5QsAJzoICR3De+4j3srSEDQOq17b
+ 6C4w==
+X-Gm-Message-State: AOAM530az8J9njf/92xvOBFiElAAQ8ifryHmYeOEVSG0GxD6im9UMjM+
+ EvSZm9gV5Hn++JGPg2QYOVEH7FRW9+BN84Bw27fQBmCrY0+Ff/TIiw4SigaMcAOqvXi/0H7aDqn
+ ds+LLBooWF59AIflJrWODgqMZqLsKVKgRyDfJuai0u2Ky
+X-Received: by 2002:a05:600c:4991:: with SMTP id
+ h17mr8150564wmp.74.1632886138113; 
+ Tue, 28 Sep 2021 20:28:58 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6FKlEbCVhn+zhHA/mzkU4owvOyJWUbP+zvqJr/PTgo0iMkgM659VzGx/wX8Umvr4GJinRuUX0AjYIjW/UQVU=
+X-Received: by 2002:a05:600c:4991:: with SMTP id
+ h17mr8150552wmp.74.1632886137916; 
+ Tue, 28 Sep 2021 20:28:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210928213552.1001939-1-briannorris@chromium.org>
- <20210928143413.v3.2.I4e9d93aadb00b1ffc7d506e3186a25492bf0b732@changeid>
-In-Reply-To: <20210928143413.v3.2.I4e9d93aadb00b1ffc7d506e3186a25492bf0b732@changeid>
-From: Chen-Yu Tsai <wenst@chromium.org>
-Date: Wed, 29 Sep 2021 10:28:15 +0800
-Message-ID: <CAGXv+5GiQrxrcwCt0A6Dxxodd8JTqUvEJtZdzB=SUKJuWD_RVw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/4] drm/rockchip: dsi: Reconfigure hardware on resume()
-To: Brian Norris <briannorris@chromium.org>
-Cc: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- LKML <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Sandy Huang <hjc@rock-chips.com>, 
- Thomas Hebb <tommyhebb@gmail.com>, stable@vger.kernel.org
+References: <20210928222513.GA294575@embeddedor>
+In-Reply-To: <20210928222513.GA294575@embeddedor>
+From: Karol Herbst <kherbst@redhat.com>
+Date: Wed, 29 Sep 2021 05:28:47 +0200
+Message-ID: <CACO55tsD98dNzw8fP=CiKLsdbnn2Vg78+wTRM90kutHtv1RZ5A@mail.gmail.com>
+Subject: Re: [PATCH][next] nouveau/svm: Use kvcalloc() instead of kvzalloc()
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ nouveau <nouveau@lists.freedesktop.org>, LKML <linux-kernel@vger.kernel.org>, 
+ linux-hardening@vger.kernel.org
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,26 +82,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 29, 2021 at 5:36 AM Brian Norris <briannorris@chromium.org> wrote:
->
-> Since commit 43c2de1002d2, we perform most HW configuration in the
-> bind() function. This configuration may be lost on suspend/resume, so we
-> need to call it again. That may lead to errors like this after system
-> suspend/resume:
->
->   dw-mipi-dsi-rockchip ff968000.mipi: failed to write command FIFO
->   panel-kingdisplay-kd097d04 ff960000.mipi.0: failed write init cmds: -110
->
-> Tested on Acer Chromebook Tab 10 (RK3399 Gru-Scarlet).
->
-> Note that early mailing list versions of this driver borrowed Rockchip's
-> downstream/BSP solution, to do HW configuration in mode_set() (which
-> *is* called at the appropriate pre-enable() times), but that was
-> discarded along the way. I've avoided that still, because mode_set()
-> documentation doesn't suggest this kind of purpose as far as I can tell.
->
-> Fixes: 43c2de1002d2 ("drm/rockchip: dsi: move all lane config except LCDC mux to bind()")
-> Cc: <stable@vger.kernel.org>
-> Signed-off-by: Brian Norris <briannorris@chromium.org>
+Lack of documentation inside Linux here is a bit annoying, but do I
+understand it correctly, that the main (and probably only) difference
+is that kvcalloc checks whether the multiplication overflows and
+returns NULL in this case?
 
-Reviewed-by: Chen-Yu Tsai <wenst@chromium.org>
+On Wed, Sep 29, 2021 at 12:21 AM Gustavo A. R. Silva
+<gustavoars@kernel.org> wrote:
+>
+> Use 2-factor argument form kvcalloc() instead of kvzalloc().
+>
+> Link: https://github.com/KSPP/linux/issues/162
+> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+> ---
+>  drivers/gpu/drm/nouveau/nouveau_svm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> index b0c3422cb01f..1a896a24288a 100644
+> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
+> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
+> @@ -992,7 +992,7 @@ nouveau_svm_fault_buffer_ctor(struct nouveau_svm *svm, s32 oclass, int id)
+>         if (ret)
+>                 return ret;
+>
+> -       buffer->fault = kvzalloc(sizeof(*buffer->fault) * buffer->entries, GFP_KERNEL);
+> +       buffer->fault = kvcalloc(sizeof(*buffer->fault), buffer->entries, GFP_KERNEL);
+>         if (!buffer->fault)
+>                 return -ENOMEM;
+>
+> --
+> 2.27.0
+>
+
