@@ -2,58 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 766BB41C697
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:25:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B73F241C6B0
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:30:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B51B66EA6F;
-	Wed, 29 Sep 2021 14:25:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 64BF96EA93;
+	Wed, 29 Sep 2021 14:30:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE3086EA6F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:25:47 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C2188613A5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632925547;
- bh=ZGb4yqh1nPtEYCv4RvHM7PlTAFacEYbqMVPw6nqFgOo=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Xk/dLFLE/0EbWxqtEcxJlpaqJCHmoJrVjyM2t1A/thFY06jfOjwSiGW3VCO7UdbjW
- cYwzLdpfqMi75qizdzt3t6PK28UDF5tqcY4FOYulzMqHktBSBbfl9jr6Mg1vwqBET0
- 1wanmoQtr5ohpM35lYwI5Ek1oR5S7RM5uD1jD8ZQTSEMQv3ZEZFMYARbmOTpWOClGq
- 4/CxwXaEm4E4vKdXujc42iNvnmVhlX0CGmuc3NovOsEiriVGnO5s5B3hxUqYEkv0uz
- 8l7cb/j0quTRckmHYSCfgsEypJXz619nuJxqIDLGLpQdAwpMSXy5vrYhYCULDcHLkr
- eDh2NNJwLhdbg==
-Received: by mail-ed1-f45.google.com with SMTP id v10so9407987edj.10
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:25:47 -0700 (PDT)
-X-Gm-Message-State: AOAM530JZ6dPQL92HhmFxz3eB0QCyfEUXyCNPzVrtU5GWSdgICKnwNAj
- Ft/oAeTnphlHiE1x2lav9/31Sgtsc8JpuBsa9Q==
-X-Google-Smtp-Source: ABdhPJztUQV6mUUhuDTI4I/p92kupxXO6TA7RUcPtotbiON+mjFs+3ZU+SbG4g7KNd8En3rvWJYLcNEx7NGZsnJNf/A=
-X-Received: by 2002:a17:906:26c4:: with SMTP id
- u4mr13607283ejc.511.1632925517893; 
- Wed, 29 Sep 2021 07:25:17 -0700 (PDT)
+Received: from aposti.net (aposti.net [89.234.176.197])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5C1F6E1BE
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:30:52 +0000 (UTC)
+Date: Wed, 29 Sep 2021 15:30:31 +0100
+From: Paul Cercueil <paul@crapouillou.net>
+Subject: Re: [PATCH v4 02/10] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Geert Uytterhoeven
+ <geert+renesas@glider.be>, Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>, Miquel Raynal
+ <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jernej Skrabec
+ <jernej.skrabec@gmail.com>, Ezequiel Garcia <ezequiel@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org
+Message-Id: <VM970R.TLCBMNA67DOI2@crapouillou.net>
+In-Reply-To: <17BF1D7A-2057-448B-9FD2-907DE0EFD281@goldelico.com>
+References: <cover.1632761067.git.hns@goldelico.com>
+ <68cca888be1894ce45f1a93cfabeb5aa1f88c20a.1632761067.git.hns@goldelico.com>
+ <OA150R.JLKJBJP8V7FJ2@crapouillou.net>
+ <1E10A04A-4A78-4B47-B0FB-1E8C99456DA1@goldelico.com>
+ <17BF1D7A-2057-448B-9FD2-907DE0EFD281@goldelico.com>
 MIME-Version: 1.0
-References: <20210808234733.14782-1-chunkuang.hu@kernel.org>
- <CAAOTY_9LstZegE_Gyibov5tLo5eEqiPfoAcnyj_uoS=8xLLhnA@mail.gmail.com>
- <CAFqH_53M2OO8DpkPa3L7cwppVRYiUgEDjrLjK7JJNgKgxnQpVA@mail.gmail.com>
- <CAAOTY__4ZKf8YwJWMHkiZRjbcnDuf4tcVPO=AG1V3pv9_-4bVw@mail.gmail.com>
- <CAFqH_51Vtq=AkZaV2A69-FAVohr2DyD=1cjKkQ-hStQ4GXRnPA@mail.gmail.com>
- <CAAOTY__dgkSnYnEhYaFsF2G9f+iiBYeA4VhV7gBcrGY6NU_bgg@mail.gmail.com>
-In-Reply-To: <CAAOTY__dgkSnYnEhYaFsF2G9f+iiBYeA4VhV7gBcrGY6NU_bgg@mail.gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 29 Sep 2021 22:25:06 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_82aRxan4WPG5MjZRDcOLzQ1p-xyyuXST0QwYB7KRKMMA@mail.gmail.com>
-Message-ID: <CAAOTY_82aRxan4WPG5MjZRDcOLzQ1p-xyyuXST0QwYB7KRKMMA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/4] CMDQ refinement of Mediatek DRM driver
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Enric Balletbo Serra <eballetbo@gmail.com>, 
- Jason-JH Lin <jason-jh.lin@mediatek.com>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Yongqiang Niu <yongqiang.niu@mediatek.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -70,188 +58,65 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-+Jason:
+Hi,
 
-Hi, Enric:
+Le mar., sept. 28 2021 at 14:06:03 +0200, H. Nikolaus Schaller=20
+<hns@goldelico.com> a =E9crit :
+> Hi Paul,
+>=20
+>>  Am 28.09.2021 um 12:21 schrieb H. Nikolaus Schaller=20
+>> <hns@goldelico.com>:
+>>=20
+>>>>  @@ -1492,10 +1555,16 @@ static int ingenic_drm_init(void)
+>>>>  {
+>>>>  	int err;
+>>>>  +	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI)) {
+>>>>  +		err =3D platform_driver_register(ingenic_dw_hdmi_driver_ptr);
+>>>>  +		if (err)
+>>>>  +			return err;
+>>>>  +	}
+>>>=20
+>>>  I don't see why you need to register the ingenic-dw-hdmi driver=20
+>>> here. Just register it in the ingenic-dw-hdmi driver.
+>>=20
+>>  Ok, I never though about this (as the code was not from me). We=20
+>> apparently just followed the IPU code pattern (learning by example).
+>>=20
+>>  It indeed looks not necessary and would also avoid the=20
+>> ingenic_dw_hdmi_driver_ptr dependency.
+>>=20
+>>  But: what is ingenic_ipu_driver_ptr then good for?
+>>=20
 
-Please test Jason's series [1], [2]. Does these series fixes your problem?
+It's done this way because ingenic-drm-drv.c and ingenic-ipu.c are both=20
+compiled within the same module ingenic-drm.
 
-[1] https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D5547=
-59
-[2] https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D5547=
-67
+I'm not sure this is still required, maybe ingenic-ipu.c can be its own=20
+module now.
 
-Regards,
-Chun-Kuang.
+>>=20
+>>  If we can get rid of this as well, we can drop patch 1/10=20
+>> ("drm/ingenic: Fix drm_init error path if IPU was registered")=20
+>> completely.
+>=20
+> A quick test shows that it *is* required. At least if I configure=20
+> everything as modules.
+> But like you I can't explain why.
 
-Chun-Kuang Hu <chunkuang.hu@kernel.org> =E6=96=BC 2021=E5=B9=B49=E6=9C=8824=
-=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=887:43=E5=AF=AB=E9=81=93=EF=BC=
-=9A
->
-> Hi, Enric:
->
-> Enric Balletbo Serra <eballetbo@gmail.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
-=8824=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=8812:36=E5=AF=AB=E9=81=93=
-=EF=BC=9A
-> >
-> > Hi Chun-Kuang,
-> >
-> > Missatge de Chun-Kuang Hu <chunkuang.hu@kernel.org> del dia dt., 21 de
-> > set. 2021 a les 15:15:
-> > >
-> > > Hi, Enric:
-> > >
-> > > Enric Balletbo Serra <eballetbo@gmail.com> =E6=96=BC 2021=E5=B9=B49=
-=E6=9C=8821=E6=97=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=884:36=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > >
-> > > > Hi Chun-Kuang,
-> > > >
-> > > > (again without html format, sorry for the noise)
-> > > >
-> > > > Missatge de Chun-Kuang Hu <chunkuang.hu@kernel.org> del dia dj., 12
-> > > > d=E2=80=99ag. 2021 a les 2:13:
-> > > > >
-> > > > > Chun-Kuang Hu <chunkuang.hu@kernel.org> =E6=96=BC 2021=E5=B9=B48=
-=E6=9C=889=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8A=E5=8D=887:47=E5=AF=AB=E9=
-=81=93=EF=BC=9A
-> > > > > >
-> > > > > > These refinements include using standard mailbox callback inter=
-face,
-> > > > > > timeout detection, and a fixed cmdq_handle.
-> > > > >
-> > > > > For this series, applied to mediatek-drm-next [1].
-> > > > >
-> > > > > [1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/=
-linux.git/log/?h=3Dmediatek-drm-next
-> > > > >
-> > > >
-> > > > These patches seem to break the display on the Acer Chromebook R 13
-> > > > (MT8173) in the current mainline. After running a bisection it poin=
-ted
-> > > > me to the following commit
-> > > >
-> > > > commit f4be17cd5b14dd73545b0e014a63ebe9ab5ef837
-> > > > Author: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> > > > Date:   Sun Jul 4 15:36:48 2021 +0800
-> > > >
-> > > >     drm/mediatek: Remove struct cmdq_client
-> > > >
-> > > > Reverting this patch alone is not trivial, so I ended up reverting =
-the
-> > > > full series, and I can confirm that reverting the full series makes
-> > > > the display work again.
-> > >
-> > > I think you could not just revert "drm/mediatek: Remove struct
-> > > cmdq_client", you should also revert the patches after it, such as
-> > >
-> > > "drm/mediatek: Clear pending flag when cmdq packet is done"
-> > > "drm/mediatek: Add cmdq_handle in mtk_crtc"
-> > > "drm/mediatek: Detect CMDQ execution timeout"
-> > >
-> >
-> > Yes, in fact I reverted:
-> >
-> > 9efb16c2fdd6 drm/mediatek: Clear pending flag when cmdq packet is done
-> > bc9241be73d9 drm/mediatek: Add cmdq_handle in mtk_crtc
-> > 8cdcb3653424 drm/mediatek: Detect CMDQ execution timeout
-> > f4be17cd5b14 drm/mediatek: Remove struct cmdq_client
-> > c1ec54b7b5af drm/mediatek: Use mailbox rx_callback instead of cmdq_task=
-_cb
-> >
-> > Without these patches 5.15-rc2 works again on my platform.
-> >
-> > The commit 'c1ec54b7b5af drm/mediatek: Use mailbox rx_callback instead
-> > of cmdq_task_cb' alone introduces lots of warnings in the kernel
-> >
-> > WARNING: CPU: 0 PID: 0 at drivers/mailbox/mtk-cmdq-mailbox.c:198
-> > cmdq_task_exec_done+0xb8/0xe0
->
-> I think the WARN_ON in cmdq driver should be remove because that
-> warning show that cmdq_task_cb is not used but I that is what I want.
->
-> >
-> > I think is just a leftover or the mentioned warning, but that confused
-> > me a bit doing the bisection. Then, after commit 'f4be17cd5b14
-> > drm/mediatek: Remove struct cmdq_client' my system simply gets stuck.
-> > For now I don't see any obvious mistake but will dig further.
-> >
-> > Can I ask you in which platform did you test? And if you can double
-> > check if your platform is broken too in current mainline?
->
-> I've no environment to test code now. I apply this series because I
-> assume Yongqiang has test his patch "Clear pending flag when cmdq
-> packet is done".  Before I setup the environment (this may take a long
-> time), I would find others to fix this problem.
-> According to your information, "c1ec54b7b5af drm/mediatek: Use mailbox
-> rx_callback instead of cmdq_task_cb" would cause many warning but
-> display still work, right? If so, I think we should focus on
-> "f4be17cd5b14 drm/mediatek: Remove struct cmdq_client".
->
-> Regards,
-> Chun-Kuang.
->
-> >
-> > Thanks,
-> >   Enric
-> >
-> > > If "drm/mediatek: Remove struct cmdq_client" is the patch cause
-> > > display abnormal, I think you could compare code w/ and w/o this
-> > > patch. Focus on the value accuracy, such as cmdq_cl and cmdq_chan. An=
-d
-> > > focus on the flow accuracy, such as mtk_drm_crtc_update_config() and
-> > > ddp_cmdq_cb(). If this could not find the problem, I think the latest
-> > > way is to break this patch into small patches, changes little in each
-> > > small patches and we could finally find out the problem.
-> > >
-> > > Regards,
-> > > Chun-Kuang.
-> > >
-> > > >
-> > > > Unfortunately, after the merge window, different things broke for t=
-his
-> > > > device, and I didn't finish isolating them, and it is not clear to =
-me
-> > > > yet whether the logs I'm getting are useful for this specific issue=
- or
-> > > > not. Basically with this series merged the kernel seems to be stuck=
-,
-> > > > and the display is not working. Latest message is
-> > > >
-> > > > [   12.329173] mtk-iommu 10205000.iommu: Partial TLB flush timed ou=
-t,
-> > > > falling back to full flush
-> > > >
-> > > > Without the series, the kernel goes far and display works, however
-> > > > there are other issues affecting the cros-ec, but I think that's
-> > > > another issue.
-> > > >
-> > > > I'll try to dig a bit more, but, meanwhile, if you have any idea
-> > > > please let me know.
-> > > >
-> > > > Thanks,
-> > > >  Enric
-> > > >
-> > > >
-> > > > > Regards,
-> > > > > Chun-Kuang.
-> > > > >
-> > > > > >
-> > > > > > Changes in v2:
-> > > > > > 1. Define mtk_drm_cmdq_pkt_create() and mtk_drm_cmdq_pkt_destro=
-y()
-> > > > > >    when CONFIG_MTK_CMDQ is reachable.
-> > > > > >
-> > > > > > Chun-Kuang Hu (4):
-> > > > > >   drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb
-> > > > > >   drm/mediatek: Remove struct cmdq_client
-> > > > > >   drm/mediatek: Detect CMDQ execution timeout
-> > > > > >   drm/mediatek: Add cmdq_handle in mtk_crtc
-> > > > > >
-> > > > > >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 110 ++++++++++++++++=
-++++----
-> > > > > >  1 file changed, 91 insertions(+), 19 deletions(-)
-> > > > > >
-> > > > > > --
-> > > > > > 2.25.1
-> > > > > >
+Well, a quick test here shows that it is not required, at least when=20
+configuring with everything built-in.
+
+-Paul
+
+> Well, just a very rough idea (may be wrong): the bridge chain is not=20
+> like an i2c bus and
+> clients are not automatically loaded/probed if linked in the device=20
+> tree. Therefore the
+> consumer (ingenic_drm_drv) must register the "clients" like IPU and=20
+> HDMI.
+>=20
+> BR,
+> Nikolaus
+>=20
+
+
