@@ -2,75 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A07F41CA12
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 18:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBB741CA30
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 18:33:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C1B2C89BD2;
-	Wed, 29 Sep 2021 16:26:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 01C2F6E1E9;
+	Wed, 29 Sep 2021 16:33:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-relay-internal-0.canonical.com
- (smtp-relay-internal-0.canonical.com [185.125.188.122])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D9C8289BD2
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 16:26:07 +0000 (UTC)
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by smtp-relay-internal-0.canonical.com (Postfix) with ESMTPS id 8E2D0402D9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 16:26:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
- s=20210705; t=1632932765;
- bh=Rm+gsKMf3KO4CSrmWZZZ6Qt7mfefNMHgflz9fS2JkAo=;
- h=From:To:Cc:Subject:Date:Message-Id:MIME-Version;
- b=wP/hR1x32R8oYqCqcOyN2YA3L2+cUlhbUR0AY37FUfA7bZ+JO3rlZkllmJW9qDPaz
- Tw77qBd90v9GvthlrvF/WFOqIfPYZH0wYfLUriEMP7iDEJ2df6sPWiqsyFdac+jW6f
- DEh0qrciafG3sqS+krrlSFSbrMcZZfz7J7d7yt/w3n4Gl4wcUVQvKWvkhN2Gd3MAJO
- 4PLM63dYExq765hdOvdl3nJ0+SmeRFHhwB9Ld4Og0S1zX2BIEqdDcMhEVahsgUefPv
- a6eW28x+ttmq1GnISB9y9N2QktzKH3kMDnyW6Nw5/rJf7wWfAZqMHy1dnC7vTh/05Y
- Ujc5a0jdeMr3g==
-Received: by mail-pj1-f70.google.com with SMTP id
- rm6-20020a17090b3ec600b0019ce1db4eaeso5390037pjb.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 09:26:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Rm+gsKMf3KO4CSrmWZZZ6Qt7mfefNMHgflz9fS2JkAo=;
- b=64LqIyk+H9HDrH2QVfMBYXALKXNJSPdD/mwpvIKAlAn0FKETZ33am1cxgYGql/IKYE
- iEq0Ov5patzXCec1zL1fDD5DUlXuR8+PYgYuX2HD7K450QQv6U6HRDJJwQXlDcmPMM+K
- XsT3UE6+aRSIEEbdq2fBGL/kvblGj5ERJDqgr353H+ZKVr0hvzb4/YZEHK+A+zRg4nto
- Vu8deRM63h6CUJZhdNXGTb/kIuh5ahTMbba3tSTe8OQtzuTfkpive8O9d5KUG2nxTyY3
- bhWcoefjzGX4l8leoDENRmt99teIK/RBNj1bI9h4q6gj+HiWLuUyff+sNZQ0pFL2Gp1h
- 2B6w==
-X-Gm-Message-State: AOAM533JuMKCEaAsuUkqAarU/fkFbKzSODHFLN44zFAHCpIL8ZbJiE8V
- 1XO1nkGtm7HqMH8oRNE5t/sxPJfrm0oM0fRFhYmfw0+bWv+3E5pyveBPpuDnUPdyQu1Hj4MRD4O
- mDnaskxFQihcmlqDOWIkr3H+r/iw9t+nrTyhzhNm2AyMGAA==
-X-Received: by 2002:a17:90a:4290:: with SMTP id
- p16mr7357981pjg.112.1632932763763; 
- Wed, 29 Sep 2021 09:26:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzC22Ts07QZM3TqmbHY6TDE7TF4sYwB/o3/NJgExi9doWhLlJTT95Q4jxI32IZQB87N6iLNQw==
-X-Received: by 2002:a17:90a:4290:: with SMTP id
- p16mr7357953pjg.112.1632932763495; 
- Wed, 29 Sep 2021 09:26:03 -0700 (PDT)
-Received: from localhost.localdomain ([69.163.84.166])
- by smtp.gmail.com with ESMTPSA id p16sm293615pfq.95.2021.09.29.09.26.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 09:26:03 -0700 (PDT)
-From: Tim Gardner <tim.gardner@canonical.com>
-To: dri-devel@lists.freedesktop.org
-Cc: tim.gardner@canonical.com, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/msm: prevent NULL dereference in
- msm_gpu_crashstate_capture()
-Date: Wed, 29 Sep 2021 10:25:54 -0600
-Message-Id: <20210929162554.14295-1-tim.gardner@canonical.com>
-X-Mailer: git-send-email 2.33.0
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E80BE6E1D5
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 16:33:10 +0000 (UTC)
+Received: from [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1] (unknown
+ [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: dafna)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3A3C31F4473B;
+ Wed, 29 Sep 2021 17:33:08 +0100 (BST)
+Subject: Re: [PATCH v8 03/12] iommu/mediatek: Add probe_defer for smi-larb
+To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
+ David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Evan Green <evgreen@chromium.org>, Robin Murphy <robin.murphy@arm.com>,
+ Tomasz Figa <tfiga@chromium.org>, Will Deacon <will.deacon@arm.com>,
+ linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
+ youlin.pei@mediatek.com, Matthias Kaehlcke <mka@chromium.org>,
+ anan.sun@mediatek.com, yi.kuo@mediatek.com, acourbot@chromium.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Daniel Vetter <daniel@ffwll.ch>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Tiffany Lin <tiffany.lin@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ Eizan Miyamoto <eizan@chromium.org>, anthony.huang@mediatek.com,
+ Frank Wunderlich <frank-w@public-files.de>
+References: <20210929013719.25120-1-yong.wu@mediatek.com>
+ <20210929013719.25120-4-yong.wu@mediatek.com>
+From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <33a8b313-ad1b-d307-7e8c-2fdebdc6f1a7@collabora.com>
+Date: Wed, 29 Sep 2021 18:33:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210929013719.25120-4-yong.wu@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,43 +65,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Coverity complains of a possible NULL dereference:
 
-CID 120718 (#1 of 1): Dereference null return value (NULL_RETURNS)
-23. dereference: Dereferencing a pointer that might be NULL state->bos when
-    calling msm_gpu_crashstate_get_bo. [show details]
-301                        msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
-302                                submit->bos[i].iova, submit->bos[i].flags);
 
-Fix this by employing the same state->bos NULL check as is used in the next
-for loop.
+On 29.09.21 03:37, Yong Wu wrote:
+> Prepare for adding device_link.
+> 
+> The iommu consumer should use device_link to connect with the
+> smi-larb(supplier). then the smi-larb should run before the iommu
+> consumer. Here we delay the iommu driver until the smi driver is ready,
+> then all the iommu consumers always are after the smi driver.
+> 
+> When there is no this patch, if some consumer drivers run before
+> smi-larb, the supplier link_status is DL_DEV_NO_DRIVER(0) in the
+> device_link_add, then device_links_driver_bound will use WARN_ON
+> to complain that the link_status of supplier is not right.
+> 
+> device_is_bound may be more elegant here. but it is not allowed to
+> EXPORT from https://lore.kernel.org/patchwork/patch/1334670/.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> Tested-by: Frank Wunderlich <frank-w@public-files.de> # BPI-R2/MT7623
+> ---
+>   drivers/iommu/mtk_iommu.c    | 2 +-
+>   drivers/iommu/mtk_iommu_v1.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/iommu/mtk_iommu.c b/drivers/iommu/mtk_iommu.c
+> index d837adfd1da5..d5848f78a677 100644
+> --- a/drivers/iommu/mtk_iommu.c
+> +++ b/drivers/iommu/mtk_iommu.c
+> @@ -844,7 +844,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>   			id = i;
+>   
+>   		plarbdev = of_find_device_by_node(larbnode);
+> -		if (!plarbdev) {
+> +		if (!plarbdev || !plarbdev->dev.driver) {
+>   			of_node_put(larbnode);
+>   			return -EPROBE_DEFER;
 
-Cc: Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-arm-msm@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
----
- drivers/gpu/drm/msm/msm_gpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+if plarbdev is null doesn't that mean that the device does not exist?
+so we should return -ENODEV in that case?
 
-diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-index 8a3a592da3a4..2c46cd968ac4 100644
---- a/drivers/gpu/drm/msm/msm_gpu.c
-+++ b/drivers/gpu/drm/msm/msm_gpu.c
-@@ -296,7 +296,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
- 		state->bos = kcalloc(nr,
- 			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
- 
--		for (i = 0; i < submit->nr_bos; i++) {
-+		for (i = 0; state->bos && i < submit->nr_bos; i++) {
- 			if (should_dump(submit, i)) {
- 				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
- 					submit->bos[i].iova, submit->bos[i].flags);
--- 
-2.33.0
+thanks,
+Dafna
 
+>   		}
+> diff --git a/drivers/iommu/mtk_iommu_v1.c b/drivers/iommu/mtk_iommu_v1.c
+> index 1467ba1e4417..4d7809432239 100644
+> --- a/drivers/iommu/mtk_iommu_v1.c
+> +++ b/drivers/iommu/mtk_iommu_v1.c
+> @@ -602,7 +602,7 @@ static int mtk_iommu_probe(struct platform_device *pdev)
+>   		}
+>   
+>   		plarbdev = of_find_device_by_node(larbnode);
+> -		if (!plarbdev) {
+> +		if (!plarbdev || !plarbdev->dev.driver) {
+>   			of_node_put(larbnode);
+>   			return -EPROBE_DEFER;
+>   		}
+> 
