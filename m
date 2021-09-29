@@ -2,88 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B03141C726
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:46:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8034D41C735
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:50:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B1D336EA98;
-	Wed, 29 Sep 2021 14:46:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 275FB6EAA2;
+	Wed, 29 Sep 2021 14:50:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x32e.google.com (mail-ot1-x32e.google.com
- [IPv6:2607:f8b0:4864:20::32e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 37A826EA94
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:46:31 +0000 (UTC)
-Received: by mail-ot1-x32e.google.com with SMTP id
- x33-20020a9d37a4000000b0054733a85462so3131614otb.10
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:46:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=JgcoX77LyqJgFfCrFyyxOmmlaV13zT4pyPZ6+xdzSpA=;
- b=spTZQ2DbWP0psTWqELtDKdf3ctbS0vkigNQvxkRIwhOKUH8KugD69eFtioiLkoK3Gy
- wtqV+fvcjNiD9+cDbUIXJF+qCw7Y3d8YdkSsHI7IVobxU9CSf3vqhqyWu/Oq2SRFBdHo
- neDrQGuVYezgzLNIKMm1q/0+ChFeu07DQsXdVBLPC5Qj84WxDssil2uJW+0l+TPuEHxn
- Ll6FKrKdGbGmGBGxLGRQmQdKBljtf5QtFgK2eTl3cDvLsBHoaJmId4Ifl7rnnbvBhn0D
- LTj441MSq8B+PPi3TmUJ+3vz8OX7s4Ovl41Aj0dWJafRLB3UbpVpcLmdU8ARwxFqFRiP
- nSKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=JgcoX77LyqJgFfCrFyyxOmmlaV13zT4pyPZ6+xdzSpA=;
- b=6mM0gdWxjvKwA8FcWsSB56uatbbM9igSzwkerrkh8J4HKQOXcCvjqaEczH0kQKZSdj
- UcSmaOJjje1vCSx8TH+AzgzIVeXNsjUXx9ls/u4WfwSxE0hPl2lvIncmYO8yrwKjlFGC
- 3pxcFF9C9hzIYcuQ6gFbRpT5tBmYpi5o4CqB4gsi1N3MFxfQL7reSfM/Rn6Up9DROjRn
- 57BZR4vQ9e1D65p0nxjIziBHMhqZ8gutpHzCL4sSJvUojpIA7jUAu43MONCPjKKhZEQu
- Q0VDselqcq9MzLIvWjpUWxldAClQsnPsQa+NIfgVykf5X9rBccD4wUmBISFw9s0tW07G
- vDdQ==
-X-Gm-Message-State: AOAM531aJrLvQGui3/lraog015s4Dom6rVSxPhta08QcCpng2GHYaUab
- PLSM9Q/cylrATxXLFuRNnmOlAQ==
-X-Google-Smtp-Source: ABdhPJy1xutLgHZ1k75FBuuFr8v0/9rSKe4U8iMaiX+gLlBxKTV+rJxW6+Z2BJ3/QZooCn7GiUFhFA==
-X-Received: by 2002:a9d:6254:: with SMTP id i20mr324075otk.349.1632926790406; 
- Wed, 29 Sep 2021 07:46:30 -0700 (PDT)
-Received: from yoga (104-57-184-186.lightspeed.austtx.sbcglobal.net.
- [104.57.184.186])
- by smtp.gmail.com with ESMTPSA id v14sm5473ook.2.2021.09.29.07.46.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 07:46:29 -0700 (PDT)
-Date: Wed, 29 Sep 2021 09:46:27 -0500
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Joerg Roedel <joro@8bytes.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ulf Hansson <ulf.hansson@linaro.org>, Alex Elder <elder@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Kalle Valo <kvalo@codeaurora.org>,
- Andy Gross <agross@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- Mark Rutland <mark.rutland@arm.com>,
- Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- "open list:IOMMU DRIVERS" <iommu@lists.linux-foundation.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- linux-mmc <linux-mmc@vger.kernel.org>,
- Networking <netdev@vger.kernel.org>, ath10k@lists.infradead.org,
- linux-wireless <linux-wireless@vger.kernel.org>,
- "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH] [RFC] qcom_scm: hide Kconfig symbol
-Message-ID: <YVR8Q7LO0weiFin+@yoga>
-References: <20210927152412.2900928-1-arnd@kernel.org>
- <20210929095107.GA21057@willie-the-truck>
- <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
+Received: from rivendell.lovergine.com (rivendell.lovergine.com [51.15.207.90])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3C76EAA2
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:50:44 +0000 (UTC)
+Received: from [93.147.43.242] (helo=legolas.home.lovergine.com)
+ by rivendell.lovergine.com with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <frankie@debian.org>)
+ id 1mVasl-0005k7-Ck; Wed, 29 Sep 2021 14:48:29 +0000
+Received: from [::1] (helo=localhost)
+ by legolas.home.lovergine.com with esmtp (Exim 4.94.2)
+ (envelope-from <frankie@debian.org>)
+ id 1mVask-000UGu-PJ; Wed, 29 Sep 2021 16:48:26 +0200
+Date: Wed, 29 Sep 2021 16:48:26 +0200
+From: "Francesco P. Lovergine" <frankie@debian.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Message-ID: <YVR8ulIcSXEwUY5n@legolas.home.lovergine.com>
+References: <YUhseVXMsTJKAqF6@legolas.home.lovergine.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a2QnJkYCoEWhziYYXQusb-25_wUhA5ZTGtBsyfFx3NWzQ@mail.gmail.com>
+In-Reply-To: <YUhseVXMsTJKAqF6@legolas.home.lovergine.com>
+X-GPG-Fingerprint: 92E4 2D44 336F DF91 5508  23D5 A453 5199 E9F2 C747
+X-GPG-Info: finger frankie@db.debian.org
+X-Advocacy: Those who use non-free software poison you too. Say them to stop.
+X-SA-Exim-Connect-IP: 93.147.43.242
+X-SA-Exim-Mail-From: frankie@debian.org
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on scw-thirsty-napier
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED,URIBL_BLOCKED
+ autolearn=ham autolearn_force=no version=3.4.2
+Subject: [PATCH 1/1 REPOST] drm: fix colour banding on Lenovo Thinkpad L540
+ panel
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on rivendell.lovergine.com)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -99,65 +62,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 29 Sep 05:04 CDT 2021, Arnd Bergmann wrote:
+Hi,
 
-> On Wed, Sep 29, 2021 at 11:51 AM Will Deacon <will@kernel.org> wrote:
-> > On Mon, Sep 27, 2021 at 05:22:13PM +0200, Arnd Bergmann wrote:
-> > >
-> > > diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-> > > index 124c41adeca1..989c83acbfee 100644
-> > > --- a/drivers/iommu/Kconfig
-> > > +++ b/drivers/iommu/Kconfig
-> > > @@ -308,7 +308,7 @@ config APPLE_DART
-> > >  config ARM_SMMU
-> > >       tristate "ARM Ltd. System MMU (SMMU) Support"
-> > >       depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> > > -     depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-> > > +     select QCOM_SCM
-> > >       select IOMMU_API
-> > >       select IOMMU_IO_PGTABLE_LPAE
-> > >       select ARM_DMA_USE_IOMMU if ARM
-> >
-> > I don't want to get in the way of this patch because I'm also tired of the
-> > randconfig failures caused by QCOM_SCM. However, ARM_SMMU is applicable to
-> > a wide variety of (non-qcom) SoCs and so it seems a shame to require the
-> > QCOM_SCM code to be included for all of those when it's not strictly needed
-> > at all.
-> 
-> Good point, I agree that needs to be fixed. I think this additional
-> change should do the trick:
-> 
+there is an issue with Lenovo Thinkpad L540 panel i.e. a bad looking 
+color banding with dark colors mainly, very similar to that present
+in other models as pointed in referenced bugs.
+That happens with any kernel starting from 4.8 up to the current.
 
-ARM_SMMU and QCOM_IOMMU are two separate implementations and both uses
-QCOM_SCM. So both of them should select QCOM_SCM.
+Bug: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1749420
+Bug: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1788308
+Reviewed-by: Alex Deucher <alexdeucher@gmail.com> 
+Signed-off-by: Francesco Paolo Lovergine <frankie@debian.org>
+---
+  drivers/gpu/drm/drm_edid.c | 3 +++
+  1 file changed, 3 insertions(+)
 
-"Unfortunately" the Qualcomm portion of ARM_SMMU is builtin
-unconditionally, so going with something like select QCOM_SCM if
-ARCH_QCOM would still require the stubs in qcom_scm.h.
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 6325877c5fd6..48e06cc33e4d 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -141,6 +141,9 @@ static const struct edid_quirk {
+  	/* LGD panel of HP zBook 17 G2, eDP 10 bpc, but reports unknown bpc */
+  	{ "LGD", 764, EDID_QUIRK_FORCE_10BPC },
 
-Regards,
-Bjorn
++	/* LGD panel of Lenovo L540 reports 8 bpc, but is a 6 bpc panel */
++	{ "LGD", 0x038e, EDID_QUIRK_FORCE_6BPC },
++
+  	/* LG Philips LCD LP154W01-A5 */
+  	{ "LPL", 0, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE },
+  	{ "LPL", 0x2a00, EDID_QUIRK_DETAILED_USE_MAXIMUM_SIZE },
+-- 
+2.30.2
 
-> --- a/drivers/iommu/Kconfig
-> +++ b/drivers/iommu/Kconfig
-> @@ -308,7 +308,6 @@ config APPLE_DART
->  config ARM_SMMU
->         tristate "ARM Ltd. System MMU (SMMU) Support"
->         depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> -       select QCOM_SCM
->         select IOMMU_API
->         select IOMMU_IO_PGTABLE_LPAE
->         select ARM_DMA_USE_IOMMU if ARM
-> @@ -438,7 +437,7 @@ config QCOM_IOMMU
->         # Note: iommu drivers cannot (yet?) be built as modules
->         bool "Qualcomm IOMMU Support"
->         depends on ARCH_QCOM || (COMPILE_TEST && !GENERIC_ATOMIC64)
-> -       depends on QCOM_SCM=y
-> +       select QCOM_SCM
->         select IOMMU_API
->         select IOMMU_IO_PGTABLE_LPAE
->         select ARM_DMA_USE_IOMMU
-> 
-> I'll see if that causes any problems for the randconfig builds.
-> 
->        Arnd
+-- 
+Francesco P. Lovergine
