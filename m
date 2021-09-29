@@ -1,41 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52FFF41C1DA
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 11:44:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3F8941C1EC
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 11:46:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C300F6E196;
-	Wed, 29 Sep 2021 09:44:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A3CB6EA1B;
+	Wed, 29 Sep 2021 09:46:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE9DF6E196
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 09:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=HUYVChEukauTNtPXxlt2PVhRTy6vQdrzOiZiwiYtCnQ=; 
- b=OLZ3jMR9ikZKoJqim79zwuGLfe2q/4kPtg1QITHehrnt5o+2pwvUgKtmusgMZY5ZffQahyXqSgnnHWFcm2Cqnx/dG1nCN12yna+5WqZqldtAQChUU5xWGsRUoVfquKqffjffG3iOePDAp51cYhnhPQhpcQp811qezOOv9On09dl06eQcYvKXkJeAG99usouH6Cl2aBESY5geQSi23scUlTQ1gPGHPK546k5WnUMVSkEK4n487cHcnzubZtVXoGTQbqVadLeo6mRSCJLhLvkmxjcdcC2o01LDdpq2uRngmI8l8vBf0KXIH+ymibM3jkA4yyegb07fKyEAogAmk3P8EQ==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mVW8K-0005mp-1d; Wed, 29 Sep 2021 11:44:12 +0200
-Date: Wed, 29 Sep 2021 10:43:59 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: dri-devel@lists.freedesktop.org
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Iago Toral <itoral@igalia.com>
-Subject: [PATCH v2 2/4] drm/v3d: alloc and init job in one shot
-Message-ID: <9048a84150989bb8719810ea5c987feeb269eccd.1632905676.git.mwen@igalia.com>
-References: <cover.1632905676.git.mwen@igalia.com>
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5E15B6EA1B
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 09:46:56 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id d26so3181341wrb.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 02:46:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Mwf1tKg1O0N4TdrAHDKMubF2cwo9nO/+84LsL8mnCUg=;
+ b=EK96bY45esZeXSedAHzaXDD/97/7pEB2Ec1TlsHkD4e2go+rNg577bZ5PJAlUIs8B8
+ Z4y3LZ20BMQVmfHNXRs6g0vcBiWN4UKZmhwOdo6RtykBus9rnfXCaSE9T24hiQkl1EEr
+ yJgqKcJt7e7de39HZ2lYtpadF7nlHmpY3L80X6rrkKPN24WXcn/nhd2WIrTgnqr56fcM
+ QK5AnjWaxg2zsBY2b9VWuqGOia+Dw5QJyMekFjYA2pkai8W+s8SaLSSaY3x/JMnTAU09
+ BK/PyPJW5gXZGNkWjB2eG+1TJNOlZxYvW1YmkSPj4ceLchjcwfrdxGe5svJcVLdteN3w
+ zTHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Mwf1tKg1O0N4TdrAHDKMubF2cwo9nO/+84LsL8mnCUg=;
+ b=oUcCRCvvLNy/py5aTbLCIXyefcuhJl5IYGeFRzaCRy8TCPqDzD3XwpmdBQnQ2jlWlD
+ kYXjjLOlhe02O3W3xedYkSbwqdrS9Xf1+D+KnmM5PVBtxFkJ0xjP1VuUMhwxDocKNhtN
+ 4BhQ3px4HsCv9/BV6ADdFMUxUuDkbjJ107qcL+ZOzJ+bnOOpWIzP69IpR+UUwAxnqRbF
+ NLA/3pe2YjvsBwDqVkFcrosX1PPS7dHSx1Zzbfl3bov59Q3U44oOpQW8jfu0eXwH3bzS
+ HNw+jh0iP87/4KUokB9BADRKKwLCXehdsf8vvzhUw+TB/4r3xbZIr62stL3L8ssibSgC
+ H/7g==
+X-Gm-Message-State: AOAM531V3IdOb9K01s3ph/kp6HPwXDf5hivEVIDFQjsxbsgNaQmj8dyI
+ Ap0OqDuLWDGRClkUatzDi7is0w==
+X-Google-Smtp-Source: ABdhPJxCZB5y9/24ZxId/CvDAmaWQ9JH8Sym9cvk3b1JSHbLkJIcqxj5WU+LObOEzlSfu8A5xUrM5g==
+X-Received: by 2002:adf:d1eb:: with SMTP id g11mr5521254wrd.31.1632908814812; 
+ Wed, 29 Sep 2021 02:46:54 -0700 (PDT)
+Received: from localhost.localdomain
+ (2a02-8440-6240-2cf3-3074-96af-9642-0002.rev.sfr.net.
+ [2a02:8440:6240:2cf3:3074:96af:9642:2])
+ by smtp.gmail.com with ESMTPSA id h7sm1751938wrx.14.2021.09.29.02.46.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 29 Sep 2021 02:46:54 -0700 (PDT)
+From: Guillaume Ranquet <granquet@baylibre.com>
+To: chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, CK Hu <ck.hu@mediatek.com>,
+ Jitao shi <jitao.shi@mediatek.com>
+Cc: dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v1 2/4] dt-bindings: display: mediatek: add MT8195 hdmi
+ bindings
+Date: Wed, 29 Sep 2021 11:44:23 +0200
+Message-Id: <20210929094425.745-3-granquet@baylibre.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20210929094425.745-1-granquet@baylibre.com>
+References: <20210929094425.745-1-granquet@baylibre.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="y2r4hbdizemzgj2s"
-Content-Disposition: inline
-In-Reply-To: <cover.1632905676.git.mwen@igalia.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,268 +81,171 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Add Mediatek HDMI and HDMI-DDC bindings for MT8195 SoC.
 
---y2r4hbdizemzgj2s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Move job memory allocation to v3d_job_init function. This aim to facilitate
-error handling in job initialization, since cleanup steps are similar for a=
-ll
-(struct v3d_job)-based types of job involved in a command submission. To
-generalize v3d_job_init(), this change takes into account that all job stru=
-cts
-have the first element a struct v3d_job (bin, render, tfu, csd) or it is a
-v3d_job itself (clean_job) for pointer casting.
-
-Suggested-by: Iago Toral <itoral@igalia.com>
-Signed-off-by: Melissa Wen <mwen@igalia.com>
+Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
 ---
- drivers/gpu/drm/v3d/v3d_gem.c | 115 +++++++++++++---------------------
- 1 file changed, 42 insertions(+), 73 deletions(-)
+ .../mediatek/mediatek,mt8195-hdmi-ddc.yaml    | 45 +++++++++
+ .../mediatek/mediatek,mt8195-hdmi.yaml        | 98 +++++++++++++++++++
+ 2 files changed, 143 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+ create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
 
-diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-index e60fbc28ef29..9cfa6f8d4357 100644
---- a/drivers/gpu/drm/v3d/v3d_gem.c
-+++ b/drivers/gpu/drm/v3d/v3d_gem.c
-@@ -392,6 +392,9 @@ v3d_render_job_free(struct kref *ref)
-=20
- void v3d_job_cleanup(struct v3d_job *job)
- {
-+	if (!job)
-+		return;
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+new file mode 100644
+index 0000000000000..3c80bcebe6d30
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml
+@@ -0,0 +1,45 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi-ddc.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- 	drm_sched_job_cleanup(&job->base);
- 	v3d_job_put(job);
- }
-@@ -450,12 +453,20 @@ v3d_job_add_deps(struct drm_file *file_priv, struct v=
-3d_job *job,
-=20
- static int
- v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
--	     struct v3d_job *job, void (*free)(struct kref *ref),
-+	     void **container, size_t size, void (*free)(struct kref *ref),
- 	     u32 in_sync, enum v3d_queue queue)
- {
- 	struct v3d_file_priv *v3d_priv =3D file_priv->driver_priv;
-+	struct v3d_job *job;
- 	int ret;
-=20
-+	*container =3D kcalloc(1, size, GFP_KERNEL);
-+	if (!*container) {
-+		DRM_ERROR("Cannot allocate memory for v3d job.");
-+		return -ENOMEM;
-+	}
++title: Mediatek HDMI DDC Device Tree Bindings for mt8195
 +
-+	job =3D *container;
- 	job->v3d =3D v3d;
- 	job->free =3D free;
-=20
-@@ -479,6 +490,9 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *file=
-_priv,
- 	drm_sched_job_cleanup(&job->base);
- fail:
- 	pm_runtime_put_autosuspend(v3d->drm.dev);
-+	kfree(*container);
-+	*container =3D NULL;
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
 +
- 	return ret;
- }
-=20
-@@ -558,35 +572,20 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
-a,
- 		return -EINVAL;
- 	}
-=20
--	render =3D kcalloc(1, sizeof(*render), GFP_KERNEL);
--	if (!render)
--		return -ENOMEM;
-+	ret =3D v3d_job_init(v3d, file_priv, (void *)&render, sizeof(*render),
-+			   v3d_render_job_free, args->in_sync_bcl, V3D_RENDER);
-+	if (ret)
-+		goto fail;
-=20
- 	render->start =3D args->rcl_start;
- 	render->end =3D args->rcl_end;
- 	INIT_LIST_HEAD(&render->unref_list);
-=20
--	ret =3D v3d_job_init(v3d, file_priv, &render->base,
--			   v3d_render_job_free, args->in_sync_rcl, V3D_RENDER);
--	if (ret) {
--		kfree(render);
--		return ret;
--	}
--
- 	if (args->bcl_start !=3D args->bcl_end) {
--		bin =3D kcalloc(1, sizeof(*bin), GFP_KERNEL);
--		if (!bin) {
--			v3d_job_cleanup(&render->base);
--			return -ENOMEM;
--		}
--
--		ret =3D v3d_job_init(v3d, file_priv, &bin->base,
-+		ret =3D v3d_job_init(v3d, file_priv, (void *)&bin, sizeof(*bin),
- 				   v3d_job_free, args->in_sync_bcl, V3D_BIN);
--		if (ret) {
--			v3d_job_cleanup(&render->base);
--			kfree(bin);
--			return ret;
--		}
-+		if (ret)
-+			goto fail;
-=20
- 		bin->start =3D args->bcl_start;
- 		bin->end =3D args->bcl_end;
-@@ -597,18 +596,10 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *dat=
-a,
- 	}
-=20
- 	if (args->flags & DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
--		clean_job =3D kcalloc(1, sizeof(*clean_job), GFP_KERNEL);
--		if (!clean_job) {
--			ret =3D -ENOMEM;
--			goto fail;
--		}
--
--		ret =3D v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CAC=
-HE_CLEAN);
--		if (ret) {
--			kfree(clean_job);
--			clean_job =3D NULL;
-+		ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_j=
-ob),
-+				   v3d_job_free, 0, V3D_CACHE_CLEAN);
-+		if (ret)
- 			goto fail;
--		}
-=20
- 		last_job =3D clean_job;
- 	} else {
-@@ -681,11 +672,9 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void *data,
- 	drm_gem_unlock_reservations(last_job->bo,
- 				    last_job->bo_count, &acquire_ctx);
- fail:
--	if (bin)
--		v3d_job_cleanup(&bin->base);
--	v3d_job_cleanup(&render->base);
--	if (clean_job)
--		v3d_job_cleanup(clean_job);
-+	v3d_job_cleanup((void *)bin);
-+	v3d_job_cleanup((void *)render);
-+	v3d_job_cleanup(clean_job);
-=20
- 	return ret;
- }
-@@ -711,22 +700,16 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *da=
-ta,
-=20
- 	trace_v3d_submit_tfu_ioctl(&v3d->drm, args->iia);
-=20
--	job =3D kcalloc(1, sizeof(*job), GFP_KERNEL);
--	if (!job)
--		return -ENOMEM;
--
--	ret =3D v3d_job_init(v3d, file_priv, &job->base,
-+	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
- 			   v3d_job_free, args->in_sync, V3D_TFU);
--	if (ret) {
--		kfree(job);
--		return ret;
--	}
-+	if (ret)
-+		goto fail;
-=20
- 	job->base.bo =3D kcalloc(ARRAY_SIZE(args->bo_handles),
- 			       sizeof(*job->base.bo), GFP_KERNEL);
- 	if (!job->base.bo) {
--		v3d_job_cleanup(&job->base);
--		return -ENOMEM;
-+		ret =3D -ENOMEM;
-+		goto fail;
- 	}
-=20
- 	job->args =3D *args;
-@@ -773,7 +756,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void *data,
- 	return 0;
-=20
- fail:
--	v3d_job_cleanup(&job->base);
-+	v3d_job_cleanup((void *)job);
-=20
- 	return ret;
- }
-@@ -806,29 +789,15 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *da=
-ta,
- 		return -EINVAL;
- 	}
-=20
--	job =3D kcalloc(1, sizeof(*job), GFP_KERNEL);
--	if (!job)
--		return -ENOMEM;
--
--	ret =3D v3d_job_init(v3d, file_priv, &job->base,
-+	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
- 			   v3d_job_free, args->in_sync, V3D_CSD);
--	if (ret) {
--		kfree(job);
--		return ret;
--	}
--
--	clean_job =3D kcalloc(1, sizeof(*clean_job), GFP_KERNEL);
--	if (!clean_job) {
--		v3d_job_cleanup(&job->base);
--		return -ENOMEM;
--	}
-+	if (ret)
-+		goto fail;
-=20
--	ret =3D v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0, V3D_CACH=
-E_CLEAN);
--	if (ret) {
--		v3d_job_cleanup(&job->base);
--		kfree(clean_job);
--		return ret;
--	}
-+	ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job, sizeof(*clean_jo=
-b),
-+			   v3d_job_free, 0, V3D_CACHE_CLEAN);
-+	if (ret)
-+		goto fail;
-=20
- 	job->args =3D *args;
-=20
-@@ -877,7 +846,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void *data,
- 	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
- 				    &acquire_ctx);
- fail:
--	v3d_job_cleanup(&job->base);
-+	v3d_job_cleanup((void *)job);
- 	v3d_job_cleanup(clean_job);
-=20
- 	return ret;
---=20
-2.30.2
++description: |
++  The HDMI DDC i2c controller is used to interface with the HDMI DDC pins.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8195-hdmi-ddc
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    items:
++      - const: ddc-i2c
++
++required:
++  - compatible
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    hdmiddc0: ddc_i2c {
++      compatible = "mediatek,mt8195-hdmi-ddc";
++      clocks = <&clk26m>;
++      clock-names = "ddc-i2c";
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+new file mode 100644
+index 0000000000000..17e542809a4e7
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,mt8195-hdmi.yaml
+@@ -0,0 +1,98 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/mediatek/mediatek,mt8195-hdmi.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Mediatek HDMI Encoder Device Tree Bindings for mt8195
++
++maintainers:
++  - CK Hu <ck.hu@mediatek.com>
++  - Jitao shi <jitao.shi@mediatek.com>
++
++description: |
++  The Mediatek HDMI encoder can generate HDMI 1.4a or MHL 2.0 signals from
++  its parallel input.
++
++properties:
++  compatible:
++    enum:
++      - mediatek,mt8195-hdmi
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: PLL divider
++      - description: PLL divider
++      - description: HDCP engine clock
++      - description: PLL divider
++      - description: HDCP engine clock
++      - description: Bus clock
++      - description: Clock for splitting HDMI/DGI into two pipes
++
++  clock-names:
++    items:
++      - const: univpll_d6_d4
++      - const: msdcpll_d2
++      - const: hdmi_apb_sel
++      - const: univpll_d4_d8
++      - const: hdcp_sel
++      - const: hdcp24_sel
++      - const: split_hdmi
++
++  phys:
++    maxItems: 1
++
++  phy-names:
++    items:
++      - const: hdmi
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - clocks
++  - clock-names
++  - phys
++  - phy-names
++  - ddc-i2c-bus
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++    hdmi0: hdmi@1c300000 {
++      compatible = "mediatek,mt8195-hdmi";
++      reg = <0 0x1c300000 0 0x1000>;
++      power-domains = <&spm 25>;
++      clocks = <&topckgen 153>,
++             <&topckgen 86>,
++             <&topckgen 78>,
++             <&topckgen 146>,
++             <&topckgen 73>,
++             <&topckgen 74>,
++             <&vppsys1 44>;
++      clock-names = "univpll_d6_d4",
++        "msdcpll_d2",
++        "hdmi_apb_sel",
++        "univpll_d4_d8",
++        "hdcp_sel",
++        "hdcp24_sel",
++        "split_hdmi";
++      interrupts = <GIC_SPI 677 IRQ_TYPE_LEVEL_HIGH 0>;
++      pinctrl-names = "default";
++      pinctrl-0 = <&hdmi_pin>;
++      phys = <&hdmi_phy>;
++      phy-names = "hdmi";
++      ddc-i2c-bus = <&hdmiddc0>;
++      status = "disabled";
++    };
++
++...
+-- 
+2.32.0
 
-
---y2r4hbdizemzgj2s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFUNV8ACgkQwqF3j0dL
-ehzN0g/8DQ9ztpfs+ucaeOOp2wdWhXndwjuwGC7sTF45/2pDsOX+c6YP0TaAKVJ9
-YsqBF6qWXXkrFmkskTzfr/A1xYLKrF+TtG5DYTj2vkkkSbW5Sl4XfaU+2JPn+4ar
-zC71LQNg/tQ/qAQ79Oxqt/mMHiQxKkhPT+d799vBOqMUaFOOV7Oj9phVhDZ2kD+x
-QUWaZICWFxfjPP4zaJ8PArbWGYu1rkbWXMYAtgWp/h+ZMt2KcCApfNZJx/wuecLe
-PR9Juhkqmj1syKGgZStZGjGC9lgGXdHXDavbvWOnLDb9pDRY/vr/pl87NvdS0qQB
-GDnDcovJ3hIUT8AUGSp0mkpgEzuYn73ifvu9Pq++uGNgsxUlJW0V0vIPww6u1D0b
-N8pJnoGcY/R9IizSXGH4ZNbJEvPq174k2RxOuP7CN1yIBZuSSEhBsMwTbT+JBHdD
-kE2/OuJ/nNBwkyaAscAhZedJJ54SCQvzNb74Ufs38PcnRKqW+9/MUiEsRF5fWU3P
-0REIZ443Tqwu5CprjPv/en61B4+xzKUCBaaQGL243Tij2Sm48X/qwYnXV5GV2FL9
-mAQR/Qxpv1METUtupY5ZpnAYT03WkSXwVSSWIh503HcmGnwXQYprBNhDLVrc99bX
-h8rA8jzLCPFfukZ7KFrkY85dvB/OG5RWRPIYlczYb5XuklB6Tq0=
-=IndM
------END PGP SIGNATURE-----
-
---y2r4hbdizemzgj2s--
