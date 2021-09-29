@@ -1,36 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD9A41C588
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 15:26:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC18641C58C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 15:27:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 46B356EA70;
-	Wed, 29 Sep 2021 13:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8BE756EA73;
+	Wed, 29 Sep 2021 13:27:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6232889DFA;
- Wed, 29 Sep 2021 13:26:54 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310487470"
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="310487470"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 91B3D6EA71;
+ Wed, 29 Sep 2021 13:26:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310487480"
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="310487480"
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 06:26:53 -0700
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="554812572"
+ 29 Sep 2021 06:26:55 -0700
+X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="554812583"
 Received: from jleonard-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
  ([10.252.21.71])
  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 06:26:51 -0700
+ 29 Sep 2021 06:26:53 -0700
 From: Matthew Auld <matthew.auld@intel.com>
 To: intel-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 1/3] drm/ttm: s/FLAG_SG/FLAG_EXTERNAL/
-Date: Wed, 29 Sep 2021 14:26:27 +0100
-Message-Id: <20210929132629.353541-1-matthew.auld@intel.com>
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [PATCH 2/3] drm/ttm: add some kernel-doc for TTM_TT_FLAG_*
+Date: Wed, 29 Sep 2021 14:26:28 +0100
+Message-Id: <20210929132629.353541-2-matthew.auld@intel.com>
 X-Mailer: git-send-email 2.26.3
+In-Reply-To: <20210929132629.353541-1-matthew.auld@intel.com>
+References: <20210929132629.353541-1-matthew.auld@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -49,405 +51,103 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-It covers more than just ttm_bo_type_sg usage, like with say dma-buf,
-since one other user is userptr in amdgpu, and in the future we might
-have some more. Hence EXTERNAL is likely a more suitable name.
+Move it to inline kernel-doc, otherwise we can't add empty lines it
+seems. Also drop the kernel-doc for pages_list, which doesn't seem to
+exist.
 
 v2(Christian):
-  - Rename these to TTM_TT_FLAGS_*
-  - Fix up all the holes in the flag values
+  - Add a note that FLAG_SWAPPED shouldn't need to be touched by drivers.
+  - Mention what FLAG_POPULATED does.
 
-Suggested-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Matthew Auld <matthew.auld@intel.com>
 Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Christian König <christian.koenig@amd.com>
-Acked-by: Christian König <christian.koenig@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 10 +++++-----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c |  6 +++---
- drivers/gpu/drm/nouveau/nouveau_bo.c    |  4 ++--
- drivers/gpu/drm/radeon/radeon_ttm.c     |  8 ++++----
- drivers/gpu/drm/ttm/ttm_bo.c            |  4 ++--
- drivers/gpu/drm/ttm/ttm_bo_util.c       |  4 ++--
- drivers/gpu/drm/ttm/ttm_bo_vm.c         |  2 +-
- drivers/gpu/drm/ttm/ttm_pool.c          |  2 +-
- drivers/gpu/drm/ttm/ttm_tt.c            | 24 ++++++++++++------------
- include/drm/ttm/ttm_device.h            |  2 +-
- include/drm/ttm/ttm_tt.h                | 18 +++++++++---------
- 11 files changed, 42 insertions(+), 42 deletions(-)
+ include/drm/ttm/ttm_tt.h | 60 +++++++++++++++++++++++++++-------------
+ 1 file changed, 41 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 60b12bb55244..e8d70b6e6737 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -894,7 +894,7 @@ static int amdgpu_ttm_backend_bind(struct ttm_device *bdev,
- 			DRM_ERROR("failed to pin userptr\n");
- 			return r;
- 		}
--	} else if (ttm->page_flags & TTM_PAGE_FLAG_SG) {
-+	} else if (ttm->page_flags & TTM_TT_FLAG_EXTERNAL) {
- 		if (!ttm->sg) {
- 			struct dma_buf_attachment *attach;
- 			struct sg_table *sgt;
-@@ -1130,7 +1130,7 @@ static int amdgpu_ttm_tt_populate(struct ttm_device *bdev,
- 		return 0;
- 	}
- 
--	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
-+	if (ttm->page_flags & TTM_TT_FLAG_EXTERNAL)
- 		return 0;
- 
- 	ret = ttm_pool_alloc(&adev->mman.bdev.pool, ttm, ctx);
-@@ -1165,7 +1165,7 @@ static void amdgpu_ttm_tt_unpopulate(struct ttm_device *bdev,
- 		return;
- 	}
- 
--	if (ttm->page_flags & TTM_PAGE_FLAG_SG)
-+	if (ttm->page_flags & TTM_TT_FLAG_EXTERNAL)
- 		return;
- 
- 	for (i = 0; i < ttm->num_pages; ++i)
-@@ -1198,8 +1198,8 @@ int amdgpu_ttm_tt_set_userptr(struct ttm_buffer_object *bo,
- 			return -ENOMEM;
- 	}
- 
--	/* Set TTM_PAGE_FLAG_SG before populate but after create. */
--	bo->ttm->page_flags |= TTM_PAGE_FLAG_SG;
-+	/* Set TTM_TT_FLAG_EXTERNAL before populate but after create. */
-+	bo->ttm->page_flags |= TTM_TT_FLAG_EXTERNAL;
- 
- 	gtt = (void *)bo->ttm;
- 	gtt->userptr = addr;
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index f0a61a9474fc..8beef57ba52b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -182,7 +182,7 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 
- 	if (obj->flags & I915_BO_ALLOC_CPU_CLEAR &&
- 	    man->use_tt)
--		page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
-+		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
- 
- 	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
- 			  i915_ttm_select_tt_caching(obj));
-@@ -451,7 +451,7 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 		if (bo->type == ttm_bo_type_kernel)
- 			return -EINVAL;
- 
--		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-+		if (ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC))
- 			return 0;
- 
- 		intel_engine_pm_get(i915->gt.migrate.context->engine);
-@@ -525,7 +525,7 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	/* Populate ttm with pages if needed. Typically system memory. */
- 	if (bo->ttm && (dst_man->use_tt ||
--			(bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED))) {
-+			(bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED))) {
- 		ret = ttm_tt_populate(bo->bdev, bo->ttm, ctx);
- 		if (ret)
- 			return ret;
-diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nouveau/nouveau_bo.c
-index 33dca2565cca..b2c7e0802ac3 100644
---- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-@@ -1249,7 +1249,7 @@ nouveau_ttm_tt_populate(struct ttm_device *bdev,
- 	struct ttm_tt *ttm_dma = (void *)ttm;
- 	struct nouveau_drm *drm;
- 	struct device *dev;
--	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
-+	bool slave = !!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
- 
- 	if (ttm_tt_is_populated(ttm))
- 		return 0;
-@@ -1272,7 +1272,7 @@ nouveau_ttm_tt_unpopulate(struct ttm_device *bdev,
- {
- 	struct nouveau_drm *drm;
- 	struct device *dev;
--	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
-+	bool slave = !!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
- 
- 	if (slave)
- 		return;
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 7793249bc549..11b21d605584 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -545,14 +545,14 @@ static int radeon_ttm_tt_populate(struct ttm_device *bdev,
- {
- 	struct radeon_device *rdev = radeon_get_rdev(bdev);
- 	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
--	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
-+	bool slave = !!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
- 
- 	if (gtt && gtt->userptr) {
- 		ttm->sg = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
- 		if (!ttm->sg)
- 			return -ENOMEM;
- 
--		ttm->page_flags |= TTM_PAGE_FLAG_SG;
-+		ttm->page_flags |= TTM_TT_FLAG_EXTERNAL;
- 		return 0;
- 	}
- 
-@@ -569,13 +569,13 @@ static void radeon_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm
- {
- 	struct radeon_device *rdev = radeon_get_rdev(bdev);
- 	struct radeon_ttm_tt *gtt = radeon_ttm_tt_to_gtt(rdev, ttm);
--	bool slave = !!(ttm->page_flags & TTM_PAGE_FLAG_SG);
-+	bool slave = !!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL);
- 
- 	radeon_ttm_tt_unbind(bdev, ttm);
- 
- 	if (gtt && gtt->userptr) {
- 		kfree(ttm->sg);
--		ttm->page_flags &= ~TTM_PAGE_FLAG_SG;
-+		ttm->page_flags &= ~TTM_TT_FLAG_EXTERNAL;
- 		return;
- 	}
- 
-diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
-index 3b22c0013dbf..d62b2013c367 100644
---- a/drivers/gpu/drm/ttm/ttm_bo.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo.c
-@@ -1115,8 +1115,8 @@ int ttm_bo_swapout(struct ttm_buffer_object *bo, struct ttm_operation_ctx *ctx,
- 		return -EBUSY;
- 
- 	if (!bo->ttm || !ttm_tt_is_populated(bo->ttm) ||
--	    bo->ttm->page_flags & TTM_PAGE_FLAG_SG ||
--	    bo->ttm->page_flags & TTM_PAGE_FLAG_SWAPPED ||
-+	    bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL ||
-+	    bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED ||
- 	    !ttm_bo_get_unless_zero(bo)) {
- 		if (locked)
- 			dma_resv_unlock(bo->base.resv);
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_util.c b/drivers/gpu/drm/ttm/ttm_bo_util.c
-index 1c5ffe2935af..82af095f6b81 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_util.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_util.c
-@@ -103,7 +103,7 @@ void ttm_move_memcpy(struct ttm_buffer_object *bo,
- 
- 	/* Don't move nonexistent data. Clear destination instead. */
- 	if (src_ops->maps_tt && (!ttm || !ttm_tt_is_populated(ttm))) {
--		if (ttm && !(ttm->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC))
-+		if (ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC))
- 			return;
- 
- 		for (i = 0; i < num_pages; ++i) {
-@@ -150,7 +150,7 @@ int ttm_bo_move_memcpy(struct ttm_buffer_object *bo,
- 	struct ttm_kmap_iter *dst_iter, *src_iter;
- 	int ret = 0;
- 
--	if (ttm && ((ttm->page_flags & TTM_PAGE_FLAG_SWAPPED) ||
-+	if (ttm && ((ttm->page_flags & TTM_TT_FLAG_SWAPPED) ||
- 		    dst_man->use_tt)) {
- 		ret = ttm_tt_populate(bdev, ttm, ctx);
- 		if (ret)
-diff --git a/drivers/gpu/drm/ttm/ttm_bo_vm.c b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-index 9a2119fe4bdd..950f4f132802 100644
---- a/drivers/gpu/drm/ttm/ttm_bo_vm.c
-+++ b/drivers/gpu/drm/ttm/ttm_bo_vm.c
-@@ -162,7 +162,7 @@ vm_fault_t ttm_bo_vm_reserve(struct ttm_buffer_object *bo,
- 	 * Refuse to fault imported pages. This should be handled
- 	 * (if at all) by redirecting mmap to the exporter.
- 	 */
--	if (bo->ttm && (bo->ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-+	if (bo->ttm && (bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
- 		dma_resv_unlock(bo->base.resv);
- 		return VM_FAULT_SIGBUS;
- 	}
-diff --git a/drivers/gpu/drm/ttm/ttm_pool.c b/drivers/gpu/drm/ttm/ttm_pool.c
-index c961a788b519..1bba0a0ed3f9 100644
---- a/drivers/gpu/drm/ttm/ttm_pool.c
-+++ b/drivers/gpu/drm/ttm/ttm_pool.c
-@@ -371,7 +371,7 @@ int ttm_pool_alloc(struct ttm_pool *pool, struct ttm_tt *tt,
- 	WARN_ON(!num_pages || ttm_tt_is_populated(tt));
- 	WARN_ON(dma_addr && !pool->dev);
- 
--	if (tt->page_flags & TTM_PAGE_FLAG_ZERO_ALLOC)
-+	if (tt->page_flags & TTM_TT_FLAG_ZERO_ALLOC)
- 		gfp_flags |= __GFP_ZERO;
- 
- 	if (ctx->gfp_retry_mayfail)
-diff --git a/drivers/gpu/drm/ttm/ttm_tt.c b/drivers/gpu/drm/ttm/ttm_tt.c
-index 980ecb079b2c..86f31fde6e35 100644
---- a/drivers/gpu/drm/ttm/ttm_tt.c
-+++ b/drivers/gpu/drm/ttm/ttm_tt.c
-@@ -68,12 +68,12 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc)
- 	switch (bo->type) {
- 	case ttm_bo_type_device:
- 		if (zero_alloc)
--			page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
-+			page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
- 		break;
- 	case ttm_bo_type_kernel:
- 		break;
- 	case ttm_bo_type_sg:
--		page_flags |= TTM_PAGE_FLAG_SG;
-+		page_flags |= TTM_TT_FLAG_EXTERNAL;
- 		break;
- 	default:
- 		pr_err("Illegal buffer object type\n");
-@@ -156,7 +156,7 @@ EXPORT_SYMBOL(ttm_tt_init);
- 
- void ttm_tt_fini(struct ttm_tt *ttm)
- {
--	WARN_ON(ttm->page_flags & TTM_PAGE_FLAG_PRIV_POPULATED);
-+	WARN_ON(ttm->page_flags & TTM_TT_FLAG_PRIV_POPULATED);
- 
- 	if (ttm->swap_storage)
- 		fput(ttm->swap_storage);
-@@ -178,7 +178,7 @@ int ttm_sg_tt_init(struct ttm_tt *ttm, struct ttm_buffer_object *bo,
- 
- 	ttm_tt_init_fields(ttm, bo, page_flags, caching);
- 
--	if (page_flags & TTM_PAGE_FLAG_SG)
-+	if (page_flags & TTM_TT_FLAG_EXTERNAL)
- 		ret = ttm_sg_tt_alloc_page_directory(ttm);
- 	else
- 		ret = ttm_dma_tt_alloc_page_directory(ttm);
-@@ -224,7 +224,7 @@ int ttm_tt_swapin(struct ttm_tt *ttm)
- 
- 	fput(swap_storage);
- 	ttm->swap_storage = NULL;
--	ttm->page_flags &= ~TTM_PAGE_FLAG_SWAPPED;
-+	ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
- 
- 	return 0;
- 
-@@ -279,7 +279,7 @@ int ttm_tt_swapout(struct ttm_device *bdev, struct ttm_tt *ttm,
- 
- 	ttm_tt_unpopulate(bdev, ttm);
- 	ttm->swap_storage = swap_storage;
--	ttm->page_flags |= TTM_PAGE_FLAG_SWAPPED;
-+	ttm->page_flags |= TTM_TT_FLAG_SWAPPED;
- 
- 	return ttm->num_pages;
- 
-@@ -300,7 +300,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
- 	if (ttm_tt_is_populated(ttm))
- 		return 0;
- 
--	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-+	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
- 		atomic_long_add(ttm->num_pages, &ttm_pages_allocated);
- 		if (bdev->pool.use_dma32)
- 			atomic_long_add(ttm->num_pages,
-@@ -325,8 +325,8 @@ int ttm_tt_populate(struct ttm_device *bdev,
- 	if (ret)
- 		goto error;
- 
--	ttm->page_flags |= TTM_PAGE_FLAG_PRIV_POPULATED;
--	if (unlikely(ttm->page_flags & TTM_PAGE_FLAG_SWAPPED)) {
-+	ttm->page_flags |= TTM_TT_FLAG_PRIV_POPULATED;
-+	if (unlikely(ttm->page_flags & TTM_TT_FLAG_SWAPPED)) {
- 		ret = ttm_tt_swapin(ttm);
- 		if (unlikely(ret != 0)) {
- 			ttm_tt_unpopulate(bdev, ttm);
-@@ -337,7 +337,7 @@ int ttm_tt_populate(struct ttm_device *bdev,
- 	return 0;
- 
- error:
--	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-+	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
- 		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
- 		if (bdev->pool.use_dma32)
- 			atomic_long_sub(ttm->num_pages,
-@@ -357,14 +357,14 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
- 	else
- 		ttm_pool_free(&bdev->pool, ttm);
- 
--	if (!(ttm->page_flags & TTM_PAGE_FLAG_SG)) {
-+	if (!(ttm->page_flags & TTM_TT_FLAG_EXTERNAL)) {
- 		atomic_long_sub(ttm->num_pages, &ttm_pages_allocated);
- 		if (bdev->pool.use_dma32)
- 			atomic_long_sub(ttm->num_pages,
- 					&ttm_dma32_pages_allocated);
- 	}
- 
--	ttm->page_flags &= ~TTM_PAGE_FLAG_PRIV_POPULATED;
-+	ttm->page_flags &= ~TTM_TT_FLAG_PRIV_POPULATED;
- }
- 
- #ifdef CONFIG_DEBUG_FS
-diff --git a/include/drm/ttm/ttm_device.h b/include/drm/ttm/ttm_device.h
-index cbe03d45e883..0a4ddec78d8f 100644
---- a/include/drm/ttm/ttm_device.h
-+++ b/include/drm/ttm/ttm_device.h
-@@ -65,7 +65,7 @@ struct ttm_device_funcs {
- 	 * ttm_tt_create
- 	 *
- 	 * @bo: The buffer object to create the ttm for.
--	 * @page_flags: Page flags as identified by TTM_PAGE_FLAG_XX flags.
-+	 * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
- 	 *
- 	 * Create a struct ttm_tt to back data with system memory pages.
- 	 * No pages are actually allocated.
 diff --git a/include/drm/ttm/ttm_tt.h b/include/drm/ttm/ttm_tt.h
-index 842ce756213c..b023cd58ff38 100644
+index b023cd58ff38..86d74069be3e 100644
 --- a/include/drm/ttm/ttm_tt.h
 +++ b/include/drm/ttm/ttm_tt.h
-@@ -38,17 +38,17 @@ struct ttm_resource;
+@@ -38,35 +38,57 @@ struct ttm_resource;
  struct ttm_buffer_object;
  struct ttm_operation_ctx;
  
--#define TTM_PAGE_FLAG_SWAPPED         (1 << 4)
--#define TTM_PAGE_FLAG_ZERO_ALLOC      (1 << 6)
--#define TTM_PAGE_FLAG_SG              (1 << 8)
+-#define TTM_TT_FLAG_SWAPPED	(1 << 0)
+-#define TTM_TT_FLAG_ZERO_ALLOC	(1 << 1)
+-#define TTM_TT_FLAG_EXTERNAL	(1 << 2)
+-
+-#define TTM_TT_FLAG_PRIV_POPULATED  (1 << 31)
+-
+ /**
+- * struct ttm_tt
+- *
+- * @pages: Array of pages backing the data.
+- * @page_flags: see TTM_TT_FLAG_*
+- * @num_pages: Number of pages in the page array.
+- * @sg: for SG objects via dma-buf
+- * @dma_address: The DMA (bus) addresses of the pages
+- * @swap_storage: Pointer to shmem struct file for swap storage.
+- * @pages_list: used by some page allocation backend
+- * @caching: The current caching state of the pages, see enum ttm_caching.
+- *
+- * This is a structure holding the pages, caching- and aperture binding
+- * status for a buffer object that isn't backed by fixed (VRAM / AGP)
++ * struct ttm_tt - This is a structure holding the pages, caching- and aperture
++ * binding status for a buffer object that isn't backed by fixed (VRAM / AGP)
+  * memory.
+  */
+ struct ttm_tt {
++	/** @pages: Array of pages backing the data. */
+ 	struct page **pages;
++	/**
++	 * @page_flags: The page flags.
++	 *
++	 * Supported values:
++	 *
++	 * TTM_TT_FLAG_SWAPPED: Set by TTM when the pages have been unpopulated
++	 * and swapped out by TTM.  Calling ttm_tt_populate() will then swap the
++	 * pages back in, and unset the flag. Drivers should in general never
++	 * need to touch this.
++	 *
++	 * TTM_TT_FLAG_ZERO_ALLOC: Set if the pages will be zeroed on
++	 * allocation.
++	 *
++	 * TTM_TT_FLAG_EXTERNAL: Set if the underlying pages were allocated
++	 * externally, like with dma-buf or userptr. This effectively disables
++	 * TTM swapping out such pages.  Also important is to prevent TTM from
++	 * ever directly mapping these pages.
++	 *
++	 * Note that enum ttm_bo_type.ttm_bo_type_sg objects will always enable
++	 * this flag.
++	 *
++	 * TTM_TT_FLAG_PRIV_POPULATED: TTM internal only. DO NOT USE. This is
++	 * set by TTM after ttm_tt_populate() has successfully returned, and is
++	 * then unset when TTM calls ttm_tt_unpopulate().
++	 */
 +#define TTM_TT_FLAG_SWAPPED	(1 << 0)
 +#define TTM_TT_FLAG_ZERO_ALLOC	(1 << 1)
 +#define TTM_TT_FLAG_EXTERNAL	(1 << 2)
- 
--#define TTM_PAGE_FLAG_PRIV_POPULATED  (1 << 31)
++
 +#define TTM_TT_FLAG_PRIV_POPULATED  (1 << 31)
+ 	uint32_t page_flags;
++	/** @num_pages: Number of pages in the page array. */
+ 	uint32_t num_pages;
++	/** @sg: for SG objects via dma-buf. */
+ 	struct sg_table *sg;
++	/** @dma_address: The DMA (bus) addresses of the pages. */
+ 	dma_addr_t *dma_address;
++	/** @swap_storage: Pointer to shmem struct file for swap storage. */
+ 	struct file *swap_storage;
++	/**
++	 * @caching: The current caching state of the pages, see enum
++	 * ttm_caching.
++	 */
+ 	enum ttm_caching caching;
+ };
  
- /**
-  * struct ttm_tt
-  *
-  * @pages: Array of pages backing the data.
-- * @page_flags: see TTM_PAGE_FLAG_*
-+ * @page_flags: see TTM_TT_FLAG_*
-  * @num_pages: Number of pages in the page array.
-  * @sg: for SG objects via dma-buf
-  * @dma_address: The DMA (bus) addresses of the pages
-@@ -84,7 +84,7 @@ struct ttm_kmap_iter_tt {
- 
- static inline bool ttm_tt_is_populated(struct ttm_tt *tt)
- {
--	return tt->page_flags & TTM_PAGE_FLAG_PRIV_POPULATED;
-+	return tt->page_flags & TTM_TT_FLAG_PRIV_POPULATED;
- }
- 
- /**
-@@ -103,7 +103,7 @@ int ttm_tt_create(struct ttm_buffer_object *bo, bool zero_alloc);
-  *
-  * @ttm: The struct ttm_tt.
-  * @bo: The buffer object we create the ttm for.
-- * @page_flags: Page flags as identified by TTM_PAGE_FLAG_XX flags.
-+ * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
-  * @caching: the desired caching state of the pages
-  *
-  * Create a struct ttm_tt to back data with system memory pages.
-@@ -178,7 +178,7 @@ void ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm);
-  */
- static inline void ttm_tt_mark_for_clear(struct ttm_tt *ttm)
- {
--	ttm->page_flags |= TTM_PAGE_FLAG_ZERO_ALLOC;
-+	ttm->page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
- }
- 
- void ttm_tt_mgr_init(unsigned long num_pages, unsigned long num_dma32_pages);
-@@ -194,7 +194,7 @@ struct ttm_kmap_iter *ttm_kmap_iter_tt_init(struct ttm_kmap_iter_tt *iter_tt,
-  *
-  * @bo: Buffer object we allocate the ttm for.
-  * @bridge: The agp bridge this device is sitting on.
-- * @page_flags: Page flags as identified by TTM_PAGE_FLAG_XX flags.
-+ * @page_flags: Page flags as identified by TTM_TT_FLAG_XX flags.
-  *
-  *
-  * Create a TTM backend that uses the indicated AGP bridge as an aperture
 -- 
 2.26.3
 
