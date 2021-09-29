@@ -1,110 +1,76 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E66141CDCB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 23:08:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1841C41CE02
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 23:27:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9F16F6E24E;
-	Wed, 29 Sep 2021 21:08:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1AA626E25B;
+	Wed, 29 Sep 2021 21:27:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com
- [210.118.77.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A3E6E24E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 21:08:22 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210929210820euoutp017751a99fda7d6882724a5464714b9b86~pZxnk_Bv00544805448euoutp01a
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 21:08:20 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com
- 20210929210820euoutp017751a99fda7d6882724a5464714b9b86~pZxnk_Bv00544805448euoutp01a
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1632949700;
- bh=JeDKYp3j+cLtP10guMMLbCTqVUCBWHRZIj/Vin2I7wA=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=jOnF3U+bkEiKRKMGmpHeYhU93tmXUoxaQ4m7P1OdbQpvejinJRpuuc0tWcXq4qjLd
- RDCayWKPU8qnmT62xHVszJ17Z35k1NHk7k3ItKg/mOnpA050zVT6NBbZtVnc3PjYn0
- kqEhXDdZMZYYI+yhkWmMLhyZ1b+bQF3Pdwh4Lx4Y=
-Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210929210820eucas1p1554a043127322d24d6f4dbb5a21b590e~pZxnJij3W2484424844eucas1p1E;
- Wed, 29 Sep 2021 21:08:20 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges3new.samsung.com (EUCPMTA) with SMTP id 47.7A.56448.4C5D4516; Wed, 29
- Sep 2021 22:08:20 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
- 20210929210819eucas1p2edb6fc892fbb9f87f025db20941ace98~pZxmQvOfS1126611266eucas1p2O;
- Wed, 29 Sep 2021 21:08:19 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210929210819eusmtrp1a0be77aec665cf8a5061fad9e0a9b4d8~pZxmQDUd_1010310103eusmtrp1X;
- Wed, 29 Sep 2021 21:08:19 +0000 (GMT)
-X-AuditID: cbfec7f5-d3bff7000002dc80-3e-6154d5c40abe
-Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
- eusmgms1.samsung.com (EUCPMTA) with SMTP id 45.09.31287.3C5D4516; Wed, 29
- Sep 2021 22:08:19 +0100 (BST)
-Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
- 20210929210818eusmtip15d4b1b25d400e882d89e270b2fe0cf3b~pZxl2qkpQ2505825058eusmtip1W;
- Wed, 29 Sep 2021 21:08:18 +0000 (GMT)
-Message-ID: <e1c58c0e-b0d5-48a4-f423-3c7e0ff9b765@samsung.com>
-Date: Wed, 29 Sep 2021 23:08:18 +0200
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7ABB26E24D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 21:27:33 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id x27so16297232lfa.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vjQP0/+z55MvzkQLmpO17f1ojfgarxRQxkpypeDCRYQ=;
+ b=P6d7v/ARFy2oAzNGlzkCFMmhuF0dw1E4Ty8/aKGGomT30aic5OSINMht/5eTnTjw+E
+ HVwG/Vb0f044xHEAedWSzxWElToMUBbgbJq2HpAC0E3cTqgTRqpyyvO/TxZlRGm7Knzd
+ g197vNwd2IHxhZjeaz4yRtAoxCOvziEh/yVbtU+3O8VuswsBr07x1VFM5xAtgWihuCkO
+ uaX1aUCJfdL12bZY+cJm7vPnn7R7kAZO2pzg6uXgoaCGHwkzYiXL2tUrJgQgg6Kyykb/
+ RcZANF9j+IZ5JhNrzRCHZVii00VULrEZwGuwD9dkVZiGUnoOdzpJdvJXgmdVANl52dPG
+ GeTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vjQP0/+z55MvzkQLmpO17f1ojfgarxRQxkpypeDCRYQ=;
+ b=7mpekeP0Evs55iGJvB9OKlxMrdF7tgGJ6RMbSWbfl4OMlQtaol+2a+OwZyIgi9n+xB
+ wqMOr52iP14WkQLHfb5dgzr6RK22UfZD5TXNtHru3T4Z5FKs5KpU+QG8EE2EBjnIspeH
+ O95kAQ5ETMKre4yIDB4gc6//a8cWVFD7iVig4oDDl8DkCDb7/OShHqyarw5n0Zo70Thh
+ 0Y/J4Z816c+nMMv8wQuvRhQwguC6OWbN1+nZaTqOxciuX+eJyDAYU6H8A0cwdRoq7JIa
+ jYvw6/GNZFpkWP215arCaq20Hr+6nEpuZmNALJQ0NskyCLtZnrGYNno2Go91vMRGNaY6
+ XnAg==
+X-Gm-Message-State: AOAM533wGaGzAoDGmSuAHlKSncPrz8HqlIHbdEEbr9ixisvl3Pxhn6W3
+ /VeojKRmKPQjA1dK11lEXBRAxfQiGtO6EXN+sDO6Qw==
+X-Google-Smtp-Source: ABdhPJxlRl2WWh8eZDcWokrINznDZYEeyO4HbV5UfIxRhCovDEAxjUhr3yg0Uy13hYjMGKtihX9SR8gKl3bzVxFYltc=
+X-Received: by 2002:a05:6512:ea5:: with SMTP id
+ bi37mr1986548lfb.36.1632950851440; 
+ Wed, 29 Sep 2021 14:27:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0)
- Gecko/20100101 Thunderbird/93.0
-Subject: Re: [PATCH v2 2/3] drm/i915/utils: do not depend on config being
- defined
-Content-Language: en-GB
-To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: Daniel Vetter <daniel.vetter@intel.com>,
- dri-devel@lists.freedesktop.org, Masahiro Yamada <masahiroy@kernel.org>,
- linux-kernel@vger.kernel.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <20210929183357.1490204-3-lucas.demarchi@intel.com>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprKKsWRmVeSWpSXmKPExsWy7djPc7pHroYkGuzu5rBYfmYds8WVr+/Z
- LGZP2MxkcXnXHDaLp4+XsVk8fHCD1YHNY/Gel0wem1Z1snnc7z7O5PF5k1wASxSXTUpqTmZZ
- apG+XQJXxvWulSwFl0Qqjv09yNbAuEygi5GTQ0LARKK3u5mti5GLQ0hgBaPE/Qs/WCGcL4wS
- x18dZYRwPjNKTL05gwWmZcWZiUwQieWMEld2fGeGcN4zSix/1cQEUsUrYCdx4dkCRhCbRUBV
- ouf7ehaIuKDEyZlPwGxRgQSJ1/c2sYHYwgLBEp+P3QWLMwuISzR9WckKYosIBEr0bloGto1Z
- YBqjRGv3A7ChbAKaEn833wRr5hRwkDiw6BwTRLO8RPPW2WAXSQhc4JDY1NrJDnG3i0Tv41fM
- ELawxKvjW6DiMhKnJ/dA/VYvcX9FC1RzB6PE1g07oRqsJe6c+wW0jQNog6bE+l36EGFHiZYp
- JxlBwhICfBI33gpC3MAnMWnbdGaIMK9ER5sQRLWixP2zW6EGikssvfCVbQKj0iykYJmF5P1Z
- SL6ZhbB3ASPLKkbx1NLi3PTUYuO81HK94sTc4tK8dL3k/NxNjMCUc/rf8a87GFe8+qh3iJGJ
- g/EQowQHs5II7w/x4EQh3pTEyqrUovz4otKc1OJDjNIcLErivLu2rokXEkhPLEnNTk0tSC2C
- yTJxcEo1MPU0a7yfe5xD61FLr6eG9sk2H0HXK2Hbb7d8SxCXeyUr8yKx5ZfD7BNHv1hOTX9+
- Z3Fa5/W0VLF1HcnLVk3+ZFXYtOyR/VbFq71L5qa7y+m8r159xcdhYaZqU3Y/K3vTq9BsPba8
- l7L5AhIFTDOSjsh2lZ0+lRFvcL6Xt3Hiy1LhEMmQqcGFyXs++r10Z1siurLR0eZo+baz7tVV
- FTd2Pj4UtWkJj+KdAy8iNU5E3mK8UR7x7lTuZ/+jKVekLJi7M3V+iszaNjO80Pb2VaGDex4n
- HOE+/dp3K/ODZ9fi5izcFzAhh9vxo9UOLhFlV4sYF71UpTubF9buXhnRv+POAw9l5mM/jZv0
- 2B7t/WrnqMRSnJFoqMVcVJwIAGeEummoAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrBIsWRmVeSWpSXmKPExsVy+t/xu7qHr4YkGqyfJWyx/Mw6ZosrX9+z
- WcyesJnJ4vKuOWwWTx8vY7N4+OAGqwObx+I9L5k8Nq3qZPO4332cyePzJrkAlig9m6L80pJU
- hYz84hJbpWhDCyM9Q0sLPSMTSz1DY/NYKyNTJX07m5TUnMyy1CJ9uwS9jOtdK1kKLolUHPt7
- kK2BcZlAFyMnh4SAicSKMxOZuhi5OIQEljJKrNpzmxUiIS6xe/5bZghbWOLPtS42iKK3jBIr
- 339gAknwCthJXHi2gBHEZhFQlej5vp4FIi4ocXLmEzBbVCBBYvLNeWBDhQWCJT4fuwsWZwZa
- 0PRlJVhcRCBQ4snqZawgC5gFpjBKdM15zAKx7SSjxJnHy8E2sAloSvzdfJMNxOYUcJA4sOgc
- E8QkM4murV2MELa8RPPW2cwTGIVmITlkFpKFs5C0zELSsoCRZRWjSGppcW56brGhXnFibnFp
- Xrpecn7uJkZglG079nPzDsZ5rz7qHWJk4mA8xCjBwawkwvtDPDhRiDclsbIqtSg/vqg0J7X4
- EKMpMDQmMkuJJucD4zyvJN7QzMDU0MTM0sDU0sxYSZx369w18UIC6YklqdmpqQWpRTB9TByc
- Ug1MsQ6vTu3SNbsYeMa7/8uvl1efVZsJtn6saFZrrPxtwbdubcdcm43SVx4d5JHfGlSg27/j
- LvfDkON/mPyYrCt8IwW079rzzvJY/E/qSk9a0rNe6x2mspqLv7lb1VgcmewWvKiq/jHfgqnN
- fF43/j0xZNn9x3Bh9kytfudnX/luTBDXD01YZr5n8qEldrm9xttyntgeXOF1WeG3y3X1TZ+Y
- 56uL/Hn4tfvVjDuSeQtNVjH8kfZfomv9ycqWZ/qUjRtE6zXbV88P3mVa0Fcs257zXqi8PM01
- 5p7Ayo05JnpO2ioPj65cI7LLh+tYtV/uJA/tzQ4Va85M3rJhkyp/YHVKPM/zDN5C/p3zmszN
- 9VYrsRRnJBpqMRcVJwIAunBPmzsDAAA=
-X-CMS-MailID: 20210929210819eucas1p2edb6fc892fbb9f87f025db20941ace98
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed
-References: <20210929183357.1490204-1-lucas.demarchi@intel.com>
- <CGME20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed@eucas1p1.samsung.com>
- <20210929183357.1490204-3-lucas.demarchi@intel.com>
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+In-Reply-To: <20210910101218.1632297-1-maxime@cerno.tech>
+From: John Stultz <john.stultz@linaro.org>
+Date: Wed, 29 Sep 2021 14:27:19 -0700
+Message-ID: <CALAqxLUqdkxXogmPhPgHv4Bgx-4b3mxe12LzzvWb07pLSnb2kA@mail.gmail.com>
+Subject: Re: [PATCH v4 00/24] drm/bridge: Make panel and bridge probe order
+ consistent
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>, 
+ Daniel Vetter <daniel.vetter@intel.com>, David Airlie <airlied@linux.ie>, 
+ Jonas Karlman <jonas@kwiboo.se>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, 
+ Neil Armstrong <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Sean Paul <sean@poorly.run>, 
+ "open list:DRM DRIVER FOR MSM ADRENO GPU" <freedreno@lists.freedesktop.org>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ lkml <linux-kernel@vger.kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Tian Tao <tiantao6@hisilicon.com>, 
+ Inki Dae <inki.dae@samsung.com>, 
+ Linux Samsung SOC <linux-samsung-soc@vger.kernel.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>, Rob Clark <robdclark@gmail.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Chen Feng <puck.chen@hisilicon.com>, 
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -120,77 +86,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-W dniu 29.09.2021 o 20:33, Lucas De Marchi pisze:
-> Like the IS_ENABLED() counterpart, we can make IS_CONFIG_NONZERO() to
-> return the right thing when the config is not defined rather than a
-> build error, with the limitation that it can't be used on preprocessor
-> context.
+On Fri, Sep 10, 2021 at 3:12 AM Maxime Ripard <maxime@cerno.tech> wrote:
 >
-> The trick here is that macro names can't start with a number or dash, so
-> we stringify the argument and check that the first char is a number != 0
-> (or starting with a dash to cover negative numbers). Except for -O0
-> builds the strings are all eliminated.
+> We've encountered an issue with the RaspberryPi DSI panel that prevented the
+> whole display driver from probing.
 >
-> Taking CONFIG_DRM_I915_REQUEST_TIMEOUT in
-> drivers/gpu/drm/i915/gem/i915_gem_context.c as example, we have the
-> following output of the preprocessor:
+> The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:
+> Only register our component once a DSI device is attached"), but the basic idea
+> is that since the panel is probed through i2c, there's no synchronization
+> between its probe and the registration of the MIPI-DSI host it's attached to.
 >
-> old:
->   if (((20000) != 0) &&
-> new:
->   if (( ("20000"[0] > '0' && "20000"[0] < '9') || "20000"[0] == '-' ) &&
+> We initially moved the component framework registration to the MIPI-DSI Host
+> attach hook to make sure we register our component only when we have a DSI
+> device attached to our MIPI-DSI host, and then use lookup our DSI device in our
+> bind hook.
 >
-> New one looks worse, but is also eliminated from the object:
+> However, all the DSI bridges controlled through i2c are only registering their
+> associated DSI device in their bridge attach hook, meaning with our change
+> above, we never got that far, and therefore ended up in the same situation than
+> the one we were trying to fix for panels.
 >
-> $ size drivers/gpu/drm/i915/gem/i915_gem_context.o.*
->     text    data     bss     dec     hex filename
->    52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.new
->    52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.old
+> The best practice to avoid those issues is to register its functions only after
+> all its dependencies are live. We also shouldn't wait any longer than we should
+> to play nice with the other components that are waiting for us, so in our case
+> that would mean moving the DSI device registration to the bridge probe.
 >
-> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
-> ---
->   drivers/gpu/drm/i915/i915_utils.h | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
-> index 02bbfa4d68d3..436ce612c46a 100644
-> --- a/drivers/gpu/drm/i915/i915_utils.h
-> +++ b/drivers/gpu/drm/i915/i915_utils.h
-> @@ -28,6 +28,7 @@
->   #include <linux/list.h>
->   #include <linux/overflow.h>
->   #include <linux/sched.h>
-> +#include <linux/stringify.h>
->   #include <linux/types.h>
->   #include <linux/workqueue.h>
->   
-> @@ -469,6 +470,9 @@ static inline bool timer_expired(const struct timer_list *t)
->    *
->    * Returns 0 if @config is 0, 1 if set to any value.
->    */
-> -#define IS_CONFIG_NONZERO(config) ((config) != 0)
-> +#define IS_CONFIG_NONZERO(config) (						\
-> +	(__stringify_1(config)[0] > '0' && __stringify_1(config)[0] < '9') ||	\
-> +	__stringify_1(config)[0] == '-'						\
-> +)
+> I also had a look at all the DSI hosts, and it seems that exynos, kirin and msm
+> would be affected by this and wouldn't probe anymore after those changes.
+> Exynos and kirin seems to be simple enough for a mechanical change (that still
+> requires to be tested), but the changes in msm seemed to be far more important
+> and I wasn't confortable doing them.
 
 
-Quite clever trick, but I see two issues:
+Hey Maxime,
+  Sorry for taking so long to get to this, but now that plumbers is
+over I've had a chance to check it out on kirin
 
-- gcc < 8.1 treats expressions with string indices (ex. "abc"[0]) as 
-non-constant expressions, so they cannot be used everywhere, for example 
-in global variable initializations,
+Rob Clark pointed me to his branch with some fixups here:
+   https://gitlab.freedesktop.org/robclark/msm/-/commits/for-mripard/bridge-rework
 
-- it does not work with hex (0x1) or octal values (01)
+But trying to boot hikey with that, I see the following loop indefinitely:
+[    4.632132] adv7511 2-0039: supply avdd not found, using dummy regulator
+[    4.638961] adv7511 2-0039: supply dvdd not found, using dummy regulator
+[    4.645741] adv7511 2-0039: supply pvdd not found, using dummy regulator
+[    4.652483] adv7511 2-0039: supply a2vdd not found, using dummy regulator
+[    4.659342] adv7511 2-0039: supply v3p3 not found, using dummy regulator
+[    4.666086] adv7511 2-0039: supply v1p2 not found, using dummy regulator
+[    4.681898] adv7511 2-0039: failed to find dsi host
+[    4.688836] adv7511 2-0039: supply avdd not found, using dummy regulator
+[    4.695724] adv7511 2-0039: supply dvdd not found, using dummy regulator
+[    4.702583] adv7511 2-0039: supply pvdd not found, using dummy regulator
+[    4.709369] adv7511 2-0039: supply a2vdd not found, using dummy regulator
+[    4.716232] adv7511 2-0039: supply v3p3 not found, using dummy regulator
+[    4.722972] adv7511 2-0039: supply v1p2 not found, using dummy regulator
+[    4.738720] adv7511 2-0039: failed to find dsi host
 
-It is probably OK for private macro, but it can hurt in kconfig.h, 
-especially the 2nd issue
+I'll have to dig a bit to figure out what's going wrong, but wanted to
+give you the heads up that there seems to be a problem
 
-
-Regards
-
-Andrzej
-
->   
->   #endif /* !__I915_UTILS_H */
+thanks
+-john
