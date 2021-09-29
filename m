@@ -1,68 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD54A41CCBE
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 21:41:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E06C41CDBA
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 23:04:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 868AA6E216;
-	Wed, 29 Sep 2021 19:40:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C18276E237;
+	Wed, 29 Sep 2021 21:04:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf2f.google.com (mail-qv1-xf2f.google.com
- [IPv6:2607:f8b0:4864:20::f2f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5FC6E20A
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 19:40:58 +0000 (UTC)
-Received: by mail-qv1-xf2f.google.com with SMTP id o15so2180395qvq.4
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 12:40:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=uygLVQeQ0o4/XQscKBshgBLNwrWUdtQfvhLaK3mF1Xw=;
- b=RPMXil1/MY1q0e14CFpeUcnWodx2GVTWgPci6RPiPeq1HFAfRwOnbnmmGwEHYs+oo+
- BMa+bbOIUOlNWZgsVklNBrgtYQlE00vflN9GgbSKqykN5MRcu2BWvdvJV5BDz4F16PZl
- ewc4wE7VByQOuxLX/+XNrxTDgu/ZlQuU34HLk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=uygLVQeQ0o4/XQscKBshgBLNwrWUdtQfvhLaK3mF1Xw=;
- b=ujywZ5Pyzum5X1rCO/A01Xz++NNA0ePFwapO8Io1jBtmPfQ3RLHKqnXCGCHmJdrsaI
- qFfWFXWmUdN0H7I5Wup5TLrAESRUHloRYJCCbb3EXvf0LI4qVP5OHa4g5TwWvkPlkpt5
- EwKdY+WMJG9LZYiG7IudnmD5t6Hzkbuwd/BvnBLO3cqOJD7UJY4cNTk+vaLPqQJiEFcz
- +S5RcBXb0e4pejNC8ld10hgRJBO13jlkUscciQ826hjSDjLwCMXZbvRjGiK04QoIN2R0
- XcXLRYJ29d8oZ+IcJ34K1DlYelWljZbT9xnA4oAHdo+1zuV3SBxoO4x0M/6pBy73Cul0
- t1rQ==
-X-Gm-Message-State: AOAM532Ww45IWidDBiZFOUoqbNvTkYSkKoKeBNxz2Ogrb4EzD6EK2oIy
- ncaV9OeC/Nl3M3f4QG/UMl5DAvqY+uuAqQ==
-X-Google-Smtp-Source: ABdhPJx9FxFUi8+5WLUsq9ELR8HA5URHUmYQjIw5BV8E/BxURQ/k4/q2kA7VoUODagoC+37YBIaTtA==
-X-Received: by 2002:a05:6214:13e9:: with SMTP id
- ch9mr176270qvb.45.1632944457993; 
- Wed, 29 Sep 2021 12:40:57 -0700 (PDT)
-Received: from markyacoub.nyc.corp.google.com
- ([2620:15c:6c:200:db75:cbbd:56c0:9891])
- by smtp.gmail.com with ESMTPSA id c4sm395064qkf.122.2021.09.29.12.40.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 12:40:57 -0700 (PDT)
-From: Mark Yacoub <markyacoub@chromium.org>
-To: dri-devel@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org
-Cc: seanpaul@chromium.org, Rodrigo.Siqueira@amd.com, anson.jacob@amd.com,
- Mark Yacoub <markyacoub@google.com>, Mark Yacoub <markyacoub@chromium.org>,
- Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 2/2] amd/amdgpu_dm: Verify Gamma and Degamma LUT sizes using
- DRM Core check
-Date: Wed, 29 Sep 2021 15:39:26 -0400
-Message-Id: <20210929194012.3433306-2-markyacoub@chromium.org>
-X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
-In-Reply-To: <20210929194012.3433306-1-markyacoub@chromium.org>
-References: <20210929194012.3433306-1-markyacoub@chromium.org>
+X-Greylist: delayed 555 seconds by postgrey-1.36 at gabe;
+ Wed, 29 Sep 2021 19:45:29 UTC
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5A436E217;
+ Wed, 29 Sep 2021 19:45:29 +0000 (UTC)
+From: John Ogness <john.ogness@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1632944170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=sSLuRBFlzDo1MDk8K9oDSXuyG2gJ98toV3YqmhcDhug=;
+ b=Stg8WZylVaEbGM1n3UX2/Wx5LUrePV+Zkf6u1keyJeA8BLPB8pWH6Y0uvUcaSgsQ4hPglS
+ DzI/RVE5EDD7ZvCcVLgX8T7jvc9faHaWZERzTaeT2dgYh24vycCZgk2AnyCfI2PPGrTZIv
+ BgdqXU0b+8xbJQiqR1gpXQffabvj1qrlECqduS/CXvp5LW8qYa36VqdX5e1J7DTOPrc11c
+ sBsn74qDPUsM4WLNeqW4d/k9o/Gq6AxN3gEuCLMxRcxub5z27qY3s4h4YXWCc8KBd8W++Z
+ 2aCQ2+7Lj3b0x1lCV9s3lfwHGIko4eW1DWCf3I6i9edd3e94aH5P+HbZnktqgA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1632944170;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=sSLuRBFlzDo1MDk8K9oDSXuyG2gJ98toV3YqmhcDhug=;
+ b=4ZX0DFGEEYRuiDSu9y47IbTvaUUghuyhq8jdw7mO9zzQessRdosX1P/T3O490NMd7IBaTI
+ HYV5aSo70LK97bBg==
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: kmemleak report: 5.15.0-rc3: nouveau_fence_new
+Date: Wed, 29 Sep 2021 21:42:09 +0206
+Message-ID: <87v92j18eu.fsf@jogness.linutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Mailman-Approved-At: Wed, 29 Sep 2021 21:04:25 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,49 +55,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Mark Yacoub <markyacoub@google.com>
+Hello,
 
-[Why]
-drm_atomic_helper_check_crtc now verifies both legacy and non-legacy LUT
-sizes. There is no need to check it within amdgpu_dm_atomic_check.
+With 5.15.0-rc3 on my ppc64 (PowerMac G5) I am seeing kmemleak
+reports. They are always 96 bytes and with the same stacktrace.
 
-[How]
-Remove the local call to verify LUT sizes and use DRM Core function
-instead.
+unreferenced object 0xc000000011d2a7e0 (size 96):
+  comm "X", pid 1743, jiffies 4295010075 (age 5457.040s)
+  hex dump (first 32 bytes):
+    c0 00 00 00 0b 9f f0 00 c0 00 3d 00 00 b0 85 90  ..........=.....
+    00 00 00 a9 77 41 30 23 c0 00 00 00 08 db b7 c8  ....wA0#........
+  backtrace:
+    [<000000006f102108>] .nouveau_fence_new+0x4c/0x120 [nouveau]
+    [<00000000395e0a83>] .nouveau_bo_move+0x4f0/0x870 [nouveau]
+    [<00000000f17bc6da>] .ttm_bo_handle_move_mem+0xb4/0x1e0 [ttm]
+    [<00000000fb36762f>] .ttm_bo_validate+0x144/0x230 [ttm]
+    [<00000000a84dc7b3>] .nouveau_bo_validate+0x70/0xc0 [nouveau]
+    [<00000000b4e870a2>] .nouveau_gem_ioctl_pushbuf+0x6e0/0x1a90 [nouveau]
+    [<000000007b7c5c38>] .drm_ioctl_kernel+0x104/0x180 [drm]
+    [<000000000af76e30>] .drm_ioctl+0x244/0x490 [drm]
+    [<00000000ebb759e8>] .nouveau_drm_ioctl+0x78/0x140 [nouveau]
+    [<00000000263274a7>] .__se_sys_ioctl+0xfc/0x160
+    [<0000000088c39f3d>] .system_call_exception+0x178/0x2a0
+    [<000000000cfdf34f>] system_call_common+0xec/0x250
 
-Tested on ChromeOS Zork.
+If I decode this stacktrace using decode_stacktrace.sh so that the line
+numbers can be seen, I get the following:
 
-Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+.nouveau_fence_new+0x4c/0x120 [nouveau]
+linux-5.15-rc3/include/linux/slab.h:591
+linux-5.15-rc3/include/linux/slab.h:721
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_fence.c:424
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 07adac1a8c42b..96a1d006b777e 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -10683,6 +10683,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		}
- 	}
- #endif
-+	ret = drm_atomic_helper_check_crtc(state);
-+	if (ret)
-+		return ret;
-+
- 	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
- 		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
- 
-@@ -10692,10 +10696,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
- 			dm_old_crtc_state->dsc_force_changed == false)
- 			continue;
- 
--		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
--		if (ret)
--			goto fail;
--
- 		if (!new_crtc_state->enable)
- 			continue;
- 
--- 
-2.33.0.685.g46640cef36-goog
+.nouveau_bo_move+0x4f0/0x870 [nouveau]
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_bo.c:821
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_bo.c:1032
 
+.ttm_bo_handle_move_mem+0xb4/0x1e0 [ttm]
+linux-5.15-rc3/drivers/gpu/drm/ttm/ttm_bo.c:197
+
+.ttm_bo_validate+0x144/0x230 [ttm]
+linux-5.15-rc3/drivers/gpu/drm/ttm/ttm_bo.c:904
+linux-5.15-rc3/drivers/gpu/drm/ttm/ttm_bo.c:981
+
+.nouveau_bo_validate+0x70/0xc0 [nouveau]
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_bo.c:647
+
+.nouveau_gem_ioctl_pushbuf+0x6e0/0x1a90 [nouveau]
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_gem.c:548
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_gem.c:605
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_gem.c:799
+
+.drm_ioctl_kernel+0x104/0x180 [drm]
+linux-5.15-rc3/drivers/gpu/drm/drm_ioctl.c:795
+
+.drm_ioctl+0x244/0x490 [drm]
+linux-5.15-rc3/include/linux/thread_info.h:185
+linux-5.15-rc3/include/linux/thread_info.h:218
+linux-5.15-rc3/include/linux/uaccess.h:199
+linux-5.15-rc3/drivers/gpu/drm/drm_ioctl.c:899
+
+.nouveau_drm_ioctl+0x78/0x140 [nouveau]
+linux-5.15-rc3/drivers/gpu/drm/nouveau/nouveau_drm.c:1163
+
+.__se_sys_ioctl+0xfc/0x160
+linux-5.15-rc3/fs/ioctl.c:51
+linux-5.15-rc3/fs/ioctl.c:874
+linux-5.15-rc3/fs/ioctl.c:860
+
+.system_call_exception+0x178/0x2a0
+.system_call_exception
+linux-5.15-rc3/arch/powerpc/kernel/interrupt.c:233
+
+system_call_common+0xec/0x250
+linux-5.15-rc3/arch/powerpc/kernel/interrupt_64.S:314
+
+Here are all enabled DRM and NOUVEAU configs in my kernel:
+
+CONFIG_DRM=m
+CONFIG_DRM_KMS_HELPER=m
+CONFIG_DRM_FBDEV_EMULATION=y
+CONFIG_DRM_FBDEV_OVERALLOC=100
+CONFIG_DRM_TTM=m
+CONFIG_DRM_TTM_HELPER=m
+CONFIG_DRM_NOUVEAU=m
+CONFIG_NOUVEAU_DEBUG=5
+CONFIG_NOUVEAU_DEBUG_DEFAULT=3
+CONFIG_DRM_NOUVEAU_BACKLIGHT=y
+CONFIG_DRM_PANEL=y
+CONFIG_DRM_BRIDGE=y
+CONFIG_DRM_PANEL_BRIDGE=y
+CONFIG_DRM_PANEL_ORIENTATION_QUIRKS=m
+
+And lspci output:
+
+0000:f0:10.0 VGA compatible controller: NVIDIA Corporation NV34 [GeForce FX 5200 Ultra] (rev a1)
+
+I have been running 5.12 on my machine without these reports. So it
+might be something that showed up in 5.13 or 5.14 as well.
+
+I do not know if this is a good channel for reporting this, so please
+let me know if I should report it somewhere else. Also let me know if
+you need any additional information from me.
+
+John Ogness
