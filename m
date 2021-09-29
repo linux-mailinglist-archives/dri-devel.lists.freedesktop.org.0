@@ -2,49 +2,57 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77F041BF7E
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 09:02:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D0741BFFB
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 09:35:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92B2F6E194;
-	Wed, 29 Sep 2021 07:02:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A96636E183;
+	Wed, 29 Sep 2021 07:35:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 070FB6E18F
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:02:42 +0000 (UTC)
-X-UUID: 3d92c1e65cee4e10a9e245d5b4750398-20210929
-X-UUID: 3d92c1e65cee4e10a9e245d5b4750398-20210929
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <jason-jh.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 965992882; Wed, 29 Sep 2021 15:02:38 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Wed, 29 Sep 2021 15:02:37 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Wed, 29 Sep 2021 15:02:36 +0800
-From: jason-jh.lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>
-CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- "Matthias Brugger" <matthias.bgg@gmail.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <hsinyi@chromium.org>, <fshao@chromium.org>,
- <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
- <singo.chang@mediatek.com>
-Subject: [PATCH 3/3] drm/mediatek: Fix cursor plane is not config when primary
- is updating
-Date: Wed, 29 Sep 2021 15:02:35 +0800
-Message-ID: <20210929070235.4290-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20210929070235.4290-1-jason-jh.lin@mediatek.com>
-References: <20210929070235.4290-1-jason-jh.lin@mediatek.com>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E58696E183
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:35:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1632900911;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IMDI2E73qXRB3yeMEZv9xyoCJCBX2zBIBIIbMZQiNL0=;
+ b=BMK2F6xCDUgtzhpAalRlL7GqA2gCc3gU9sBnrbi5DBIzalPUqzbJUe+j8V79iEKNbbH5QG
+ y1qD8r4jkuoQ3dn5C2P72QifevCfhEwpvOFTVOvD4QsLJp93B/rxivn11AEAAAqOaYY2jx
+ O1cHP/Ukf0BTGMtKZqGeUZT87B0Zh+s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-49-GObF8-hpPoS9TA_hLoocxA-1; Wed, 29 Sep 2021 03:33:25 -0400
+X-MC-Unique: GObF8-hpPoS9TA_hLoocxA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DB8F1966321;
+ Wed, 29 Sep 2021 07:33:24 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.134])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E4A45D6BA;
+ Wed, 29 Sep 2021 07:33:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 450821800386; Wed, 29 Sep 2021 09:33:22 +0200 (CEST)
+Date: Wed, 29 Sep 2021 09:33:22 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Gurchetan Singh <gurchetansingh@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, virtio-dev@lists.oasis-open.org
+Subject: Re: [PATCH v3 00/12] Context types, v3
+Message-ID: <20210929073322.rtakdo6isjucsj25@sirius.home.kraxel.org>
+References: <20210921232024.817-1-gurchetansingh@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <20210921232024.817-1-gurchetansingh@chromium.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,35 +68,25 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-If cursor plane has updated but primary plane config task is not
-finished, mtk_drm_crtc_update_config will call mbox_flush() to clear
-all task in current GCE thread and let cursor plane re-send a new
-GCE task with cursor + primary plane config to replace the unfinished
-GCE task.
+> Gurchetan Singh (10):
+>   virtio-gpu api: multiple context types with explicit initialization
+>   drm/virtgpu api: create context init feature
+>   drm/virtio: implement context init: track valid capabilities in a mask
+>   drm/virtio: implement context init: track {ring_idx, emit_fence_info}
+>     in virtio_gpu_fence
+>   drm/virtio: implement context init: plumb {base_fence_ctx, ring_idx}
+>     to virtio_gpu_fence_alloc
+>   drm/virtio: implement context init: stop using drv->context when
+>     creating fence
+>   drm/virtio: implement context init: allocate an array of fence
+>     contexts
+>   drm/virtio: implement context init: handle
+>     VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK
+>   drm/virtio: implement context init: add virtio_gpu_fence_event
+>   drm/virtio: implement context init: advertise feature to userspace
 
-So the plane config flag should not be cleared when mailbox callback
-with a error status.
+Pushed to drm-misc-next.
 
-Fixes: 9efb16c2fdd6 ("drm/mediatek: Clear pending flag when cmdq packet is done")
-Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 06342df2a0be..fb0d9424acec 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -281,6 +281,9 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 	struct mtk_crtc_state *state;
- 	unsigned int i;
- 
-+	if (data->sta != 0)
-+		return;
-+
- 	state = to_mtk_crtc_state(mtk_crtc->base.state);
- 
- 	state->pending_config = false;
--- 
-2.18.0
+thanks,
+  Gerd
 
