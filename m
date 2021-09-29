@@ -2,61 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F1D941C530
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 15:07:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9491341C582
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 15:25:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 97F376E1B7;
-	Wed, 29 Sep 2021 13:07:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D63106EA5D;
+	Wed, 29 Sep 2021 13:25:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com
- [IPv6:2a00:1450:4864:20::141])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFD66E1B7
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 13:07:14 +0000 (UTC)
-Received: by mail-lf1-x141.google.com with SMTP id x27so10558647lfu.5
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 06:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=bGeQ7y2svFE0Lj3Jnuht4oAdkemf+UUM5TRE8QHDIKc=;
- b=n2s4e587abBogP87qa4R4eujv0kGi17KZ2c/hCHtnxr7CJc6lfYCf40aEJNCrrLUkj
- i9XUiCIL49/jcvU6kveH//YC/hm41qS/kXz76iUcoiF1Sm+1yw4VrlTlwvpTXLqJ6XW8
- uGIxMbgvPwN60oaKq6nhK3PmrIO+DcIuJ1W4x7i0D6yW67f0miZqag5DSmKT7Rwaj05j
- 85cUTW8OzZV9fLEgHUtuqKv2CcWWq413BWkZGZWmb3mnqXPSRHHplX9Q3hJb28qBXY+U
- XiDYBABKSRBhVwvFCp+3DO3CYbMSQtcHAmgDK1cZzFhWU6IJOyrjcr+mv8fXwX5Bfni7
- 61aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=bGeQ7y2svFE0Lj3Jnuht4oAdkemf+UUM5TRE8QHDIKc=;
- b=yvjV8lty8AuNDvDuPcUBqYBSti3tXzlGypD65WnMPpASfdoEH0yyxRRjap6hWr8N1T
- n25Cnd0UqkyMViR7MmwFLYJhxfRfZdEuz/se/mKWQXTqQeyZDzO06u99aiC6ARmCbXQC
- He7s6RK+GJnjmEWSoLa8My0SnFA/YlVCj7K8eV7mYwgQrleGO/iK0r6aroEawsCqw4Vs
- UthnG337jxTdftkO4vgqpURhmSzpjhzK8IGPzyNgvHySxe35yFdGzueb++/kTJ9Uxplz
- kPk6wtnd0pJrIFVcGErtjORfngK8sd2yt4uIrpgFLJaEAegScPJoiSWLxvF+locduM22
- 8hPA==
-X-Gm-Message-State: AOAM532UBmLJZoUqtS1MGUaBHdfE15/L6MmRDsUwB6V/9+DZEWUqMCfP
- 0Q8owlDswl18EAbagpfM+VY=
-X-Google-Smtp-Source: ABdhPJwkyCzC6bAOv8B7+A2Gh17nVH9PNHxjUaYxzJtVuk8Be8Tz2GrejSiwORI9PiaRqF3k4HrF0w==
-X-Received: by 2002:a05:6512:1154:: with SMTP id
- m20mr11229959lfg.382.1632920832305; 
- Wed, 29 Sep 2021 06:07:12 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id t11sm239410lfr.281.2021.09.29.06.07.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 06:07:12 -0700 (PDT)
-Date: Wed, 29 Sep 2021 16:07:01 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>
-Subject: Re: [PATCH] drm: document pre-multiplied assumptions
-Message-ID: <20210929160701.2bf6d8c9@eldfell>
-In-Reply-To: <20210929095357.49984-1-contact@emersion.fr>
-References: <20210929095357.49984-1-contact@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/wW5JC6pQYAWdxAjDwRYg+_y";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.84])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 28DB96EA5D
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 13:25:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1632921905;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=To:References:Message-Id:Cc:Date:In-Reply-To:From:Subject:Cc:Date:
+ From:Subject:Sender;
+ bh=iXnkGBjUJ/lD8Seg+3/qoiXxZlA8cp27UXC2S8pwhhE=;
+ b=LKr/APoVDaPodsHvLUwFwZdabISWBDYx7ojmMJKUlP3z+sgzhD748oTXc2WmfcIoiZ
+ 1szZPCEho16UYScbl2z+dDlVLQwqXiro/m9UeJtTKzO6e5vuakfdM2oPGCf1rh36vCwk
+ AoaYxSczLNmY5pj7K/B+m3lu2zaPLzL2ffYVRMAgE+LyvIDthiTtzCLvSD4hpIQJS7cp
+ npEX43lPiBRxLMr2D5WE80Tz2lsDwbaIplqLcFXRMG7wprx0EJmg5X4zaC72omlf/sRX
+ HQQSBtm844e+cumiuLExMB7MAD07ZvNcdTKDg6CXAjjMGAsXDPXwyX9iJ+TQfNV9AdXG
+ BheQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMgPgp8VKxflSZ1P34KBj4Qpw9iZeHWElw43qmio="
+X-RZG-CLASS-ID: mo00
+Received: from imac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+ with ESMTPSA id I01f74x8TDP3k6X
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1
+ with 256 ECDH bits, eq. 3072 bits RSA))
+ (Client did not present a certificate);
+ Wed, 29 Sep 2021 15:25:03 +0200 (CEST)
+Content-Type: text/plain;
+	charset=us-ascii
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.21\))
+Subject: Re: [PATCH v4 02/10] drm/ingenic: Add support for JZ4780 and HDMI
+ output
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+In-Reply-To: <17BF1D7A-2057-448B-9FD2-907DE0EFD281@goldelico.com>
+Date: Wed, 29 Sep 2021 15:25:02 +0200
+Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
+ letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
+ dri-devel@lists.freedesktop.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <3D436929-570A-43FA-A388-27A183ECF703@goldelico.com>
+References: <cover.1632761067.git.hns@goldelico.com>
+ <68cca888be1894ce45f1a93cfabeb5aa1f88c20a.1632761067.git.hns@goldelico.com>
+ <OA150R.JLKJBJP8V7FJ2@crapouillou.net>
+ <1E10A04A-4A78-4B47-B0FB-1E8C99456DA1@goldelico.com>
+ <17BF1D7A-2057-448B-9FD2-907DE0EFD281@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>
+X-Mailer: Apple Mail (2.3445.104.21)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,77 +85,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/wW5JC6pQYAWdxAjDwRYg+_y
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Paul,
 
-On Wed, 29 Sep 2021 09:54:14 +0000
-Simon Ser <contact@emersion.fr> wrote:
 
-> When a plane is missing the "alpha blend mode" property, KMS drivers
-> will use the pre-multiplied mode.
+> Am 28.09.2021 um 14:06 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
 >=20
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->  drivers/gpu/drm/drm_blend.c | 3 +++
->  1 file changed, 3 insertions(+)
+> Hi Paul,
 >=20
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index ec37cbfabb50..eebb32ba84d7 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -185,6 +185,9 @@
->   *		 plane does not expose the "alpha" property, then this is
->   *		 assumed to be 1.0
->   *
-> + *	When a plane is missing this property, the plane uses the
-> + *	"Pre-multiplied" equation.
-> + *
->   * Note that all the property extensions described here apply either to =
-the
->   * plane or the CRTC (e.g. for the background color, which currently is =
-not
->   * exposed and assumed to be black).
+>> Am 28.09.2021 um 12:21 schrieb H. Nikolaus Schaller =
+<hns@goldelico.com>:
+>>=20
+>>>> @@ -1492,10 +1555,16 @@ static int ingenic_drm_init(void)
+>>>> {
+>>>> 	int err;
+>>>> +	if (IS_ENABLED(CONFIG_DRM_INGENIC_DW_HDMI)) {
+>>>> +		err =3D =
+platform_driver_register(ingenic_dw_hdmi_driver_ptr);
+>>>> +		if (err)
+>>>> +			return err;
+>>>> +	}
+>>>=20
+>>> I don't see why you need to register the ingenic-dw-hdmi driver =
+here. Just register it in the ingenic-dw-hdmi driver.
+>>=20
+>> Ok, I never though about this (as the code was not from me). We =
+apparently just followed the IPU code pattern (learning by example).
+>>=20
+>> It indeed looks not necessary and would also avoid the =
+ingenic_dw_hdmi_driver_ptr dependency.
+>>=20
+>> But: what is ingenic_ipu_driver_ptr then good for?
+>>=20
+>> If we can get rid of this as well, we can drop patch 1/10 =
+("drm/ingenic: Fix drm_init error path if IPU was registered") =
+completely.
+>=20
+> A quick test shows that it *is* required. At least if I configure =
+everything as modules.
+> But like you I can't explain why.
+>=20
+> Well, just a very rough idea (may be wrong): the bridge chain is not =
+like an i2c bus and
+> clients are not automatically loaded/probed if linked in the device =
+tree. Therefore the
+> consumer (ingenic_drm_drv) must register the "clients" like IPU and =
+HDMI.
 
-Hi Simon,
+Any suggestion how to proceed here for v5?
 
-thank you! :-D
+BR,
+Nikolaus
 
-I have no idea if that's correct though, but also nothing against it,
-and it does help with what I ranted about in
-https://lists.freedesktop.org/archives/wayland-devel/2021-September/041993.=
-html
-so is it appropriate to offer my
-
-Acked-by: Pekka Paalanen <pekka.paalanen@collabora.com>
-
-?
-
-
-Thanks,
-pq
-
---Sig_/wW5JC6pQYAWdxAjDwRYg+_y
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFUZPUACgkQI1/ltBGq
-qqdZ5g//bgFGuWgM8jMjxNh4ePyLT14vXT3o2mkLLJsrCow8TxNnKrRpZX/NusJP
-K/qzqxk/eZEVPUvBUVu6B7CJm7SReBSDkB7gt4U2YBa+LoqEfXWxC8xqUYt8B4IA
-Aqb1YRdqtUp9fslDJEzOTgZQzfjMybQnDp0DLAo1HmB0UKd/aElIBUQ2gAGN3/Dl
-GBIWaTZvYRVjSFX+4j584DKTwQjLZrtLIsA/0rbvxznXXAqnXg7jVcZ6Ql6Gu/dK
-jbPWinMJbnm3vVHtuISzhPqMcopZ2oar5qqtSHc+2b8VOYU2doK8ajk1rGY/fszZ
-PiZPieaymq3WoqVeoSv2KfkTuiD+aKzVzzbyuxHNrVE+bRdE4Az/Nvg43CbgD4yX
-XaWAj/LulcJJ4JrGkKxeYZNlXG9Y6RVsRAh00XPHGYeou6+VjScEx+S2qskDOpgZ
-kaOsFA7Th27bolpjakO8C8Hl4ot5S7WXSUrJ/4yXivUKmoahUzvcAEvN5uPf+7k3
-1R/VqvMr60WweNvL9yzgDBGFB7Lwox+AiSEHKXAujpMKShNQTqJa5V0HwdbKkJU2
-cf3SHoH4YDl2EkyL1w4mliHGWlhKvVNAwiTFIOG0D+Hm2kjMkqA+DOYuCclHtVUy
-Z5/ZWGmeS/7JPPs7OSboW1Yic5+opu7bF9ZQYv4HzbYNK1EuIkQ=
-=FoLB
------END PGP SIGNATURE-----
-
---Sig_/wW5JC6pQYAWdxAjDwRYg+_y--
