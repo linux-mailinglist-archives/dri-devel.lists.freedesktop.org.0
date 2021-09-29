@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE91241BF5F
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 08:56:21 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B877C41BF7D
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 09:02:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BF5866E18E;
-	Wed, 29 Sep 2021 06:56:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7BA9F6E190;
+	Wed, 29 Sep 2021 07:02:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A74E6E17F;
- Wed, 29 Sep 2021 06:56:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285889832"
-X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="285889832"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 23:56:14 -0700
-X-IronPort-AV: E=Sophos;i="5.85,331,1624345200"; d="scan'208";a="554513315"
-Received: from jmaugusx-mobl1.gar.corp.intel.com (HELO [10.249.254.159])
- ([10.249.254.159])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 23:56:12 -0700
-Message-ID: <49c80bdd-f5e5-8ec8-567b-9bbf45d5105d@linux.intel.com>
-Date: Wed, 29 Sep 2021 08:56:10 +0200
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F37186E18F
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:02:41 +0000 (UTC)
+X-UUID: 1bcca597b77f429ca8a5ff6ca32e0e8c-20210929
+X-UUID: 1bcca597b77f429ca8a5ff6ca32e0e8c-20210929
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+ (envelope-from <jason-jh.lin@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1114671815; Wed, 29 Sep 2021 15:02:38 +0800
+Received: from mtkexhb02.mediatek.inc (172.21.101.103) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 29 Sep 2021 15:02:36 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by mtkexhb02.mediatek.inc
+ (172.21.101.103) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Wed, 29 Sep 2021 15:02:36 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas11.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
+ Frontend Transport; Wed, 29 Sep 2021 15:02:36 +0800
+From: jason-jh.lin <jason-jh.lin@mediatek.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>
+CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ "Matthias Brugger" <matthias.bgg@gmail.com>, Yongqiang Niu
+ <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
+ <linux-mediatek@lists.infradead.org>, <linux-arm-kernel@lists.infradead.org>, 
+ <linux-kernel@vger.kernel.org>, <hsinyi@chromium.org>, <fshao@chromium.org>,
+ <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
+ <singo.chang@mediatek.com>
+Subject: [PATCH 0/3] Fix the issues caused by CMDQ refinement of mtk-drm
+Date: Wed, 29 Sep 2021 15:02:32 +0800
+Message-ID: <20210929070235.4290-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] drm/i915/ttm: Rework object initialization slightly
-Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com
-References: <20210927151017.287414-1-thomas.hellstrom@linux.intel.com>
- <a3cdd992-6208-b0c9-72b1-191fd47c40a8@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <a3cdd992-6208-b0c9-72b1-191fd47c40a8@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,89 +60,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+jason-jh.lin (3):
+  drm/mediatek: Fix crash at using pkt->cl->chan in cmdq_pkt_finalize
+  drm/mediatek: Fix pkt buf alloc once but free many times
+  drm/mediatek: Fix cursor plane is not config when primary is updating
 
-On 9/28/21 12:30, Matthew Auld wrote:
-> On 27/09/2021 16:10, Thomas Hellström wrote:
->> We may end up in i915_ttm_bo_destroy() in an error path before the
->> object is fully initialized. In that case it's not correct to call
->> __i915_gem_free_object(), because that function
->> a) Assumes the gem object refcount is 0, which it isn't.
->> b) frees the placements which are owned by the caller until the
->> init_object() region ops returns successfully. Fix this by providing
->> a lightweight cleanup function i915_gem_object_fini() which is also
->> called by __i915_gem_free_object().
->>
->> While doing this, also make sure we call dma_resv_fini() as part of
->> ordinary object destruction and not from the RCU callback that frees
->> the object. This will help track down bugs where the object is 
->> incorrectly
->> locked from an RCU lookup.
->>
->> Finally, make sure the object isn't put on the region list until it's
->> either locked or fully initialized in order to block list processing of
->> partially initialized objects.
->>
->> Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>   drivers/gpu/drm/i915/gem/i915_gem_object.c | 18 ++++++++++--
->>   drivers/gpu/drm/i915/gem/i915_gem_object.h |  3 ++
->>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 32 +++++++++++++---------
->>   3 files changed, 38 insertions(+), 15 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c 
->> b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> index 6fb9afb65034..244e555f9bba 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
->> @@ -89,6 +89,20 @@ void i915_gem_object_init(struct 
->> drm_i915_gem_object *obj,
->>       mutex_init(&obj->mm.get_dma_page.lock);
->>   }
->>   +/**
->> + * i915_gem_object_fini - Clean up a GEM object initialization
->> + * @obj: The gem object cleanup
->> + *
->> + * This function cleans up gem object fields that are set up by
->> + * drm_gem_private_object_init() and i915_gem_object_init().
->> + */
->> +void i915_gem_object_fini(struct drm_i915_gem_object *obj)
->> +{
->> +    mutex_destroy(&obj->mm.get_page.lock);
->> +    mutex_destroy(&obj->mm.get_dma_page.lock);
->> +    dma_resv_fini(&obj->base._resv);
->> +}
->> +
->>   /**
->>    * Mark up the object's coherency levels for a given cache_level
->>    * @obj: #drm_i915_gem_object
->> @@ -174,7 +188,6 @@ void __i915_gem_free_object_rcu(struct rcu_head 
->> *head)
->>           container_of(head, typeof(*obj), rcu);
->>       struct drm_i915_private *i915 = to_i915(obj->base.dev);
->>   -    dma_resv_fini(&obj->base._resv);
->>       i915_gem_object_free(obj);
->>         GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
->> @@ -223,7 +236,6 @@ void __i915_gem_free_object(struct 
->> drm_i915_gem_object *obj)
->>                                  obj_link))) {
->>               GEM_BUG_ON(vma->obj != obj);
->>               spin_unlock(&obj->vma.lock);
->> -
->>               __i915_vma_put(vma);
->
-> Unrelated change?
->
-> Not seeing any DG1 machines in CI currently, so assuming this was 
-> tested locally,
-> Reviewed-by: Matthew Auld <matthew.auld@intel.com>
->
-Thanks for reviewing. Yes it was tested locally, but an additional 
-change reviewed another flaw from the moving of the callsite 
-__i915_gem_free_object() (we free the backing memory before unbinding, 
-unmapping and calling put_pages() on object destruction, so it needs an 
-additional fix).
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 95 ++++++++++++++-----------
+ 1 file changed, 54 insertions(+), 41 deletions(-)
 
-/Thomas
-
-
+-- 
+2.18.0
 
