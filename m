@@ -2,58 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4819841C784
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BAB41C79C
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 16:59:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 763346EA9E;
-	Wed, 29 Sep 2021 14:57:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BF3CD6EAA6;
+	Wed, 29 Sep 2021 14:59:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BA03D6EA9E
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:57:12 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9005A61407
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:57:12 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6D7B46EAA6
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:59:38 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 42D4F61406
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 14:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1632927432;
- bh=m2Q3ldX4i8hJz/lYMTrW/Tc7jkjEgA48T0avsrMIFb0=;
+ s=k20201202; t=1632927578;
+ bh=fk2MhdHw89PM9OnTQ22OUkjvEi2mid5QuP4EjsFGyks=;
  h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=I6t9M2nwemRwrQSICjKBtwpC+J4aoewq4SNgP0rGrTtaHnU3JsDefsOY5eJPtdY5U
- fDNckqOmXgH2mhRy7nLTKyY10trM3urnU9BvLOke/N1y/7mr2+v0TuL+r20vX1JCIO
- f2w/kyFDh/0RiV+srRjRxKPXa4+H3ACd/5osE4TvRPz05tSRjvHuuXI9cjklYJNuu8
- KpMte6W842e6WFwGtaExsSLjfkhNNudfaNW4foVCKLwlQuvL63hwwRanEbsTfsjaZw
- LPeERERdu2uOYSF2wk2lmTT6QlAfsvrxdXJF5EunlrHqHnAYd6To/vCLIvvm7cJue4
- /mzZvQJwu4dlQ==
-Received: by mail-ed1-f43.google.com with SMTP id bd28so9660974edb.9
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:57:12 -0700 (PDT)
-X-Gm-Message-State: AOAM531hq7/QykaNRnbv2CgsAfMES5SUV7BxfxNb4Zbc4DjyxV1joRML
- XBB9vgkFY/FsdC4fcDilYsAfXvJqR5C0vvG+Mg==
-X-Google-Smtp-Source: ABdhPJy2oIyAhlML1lKHkEI+GYb7Xf5WZ4jL2sSq+xZsFvjhx2y5gie/l/Dq825/3UzuJiV9rAUHrF0xKV//SQBZD0k=
-X-Received: by 2002:a17:906:7ac4:: with SMTP id
- k4mr178848ejo.430.1632927358007; 
- Wed, 29 Sep 2021 07:55:58 -0700 (PDT)
+ b=oLfuPLtVgOnE+Qu6ccxBE2npn1D3qXbWW2jg+090nhkBU8jKAZpqqHtKkNdwZEVf9
+ 80Lzv8ufKEWsi/gWphQIbShDpO8tMP0yagYTdmEuRN4fmuTjWTSG1A3txkfZAL5Gz2
+ G1RcUbMcJ+jk/MMeykNgTVEsFrlwJshtNd0po29mu6nSpcl+Kk44TP2qfd2K72eZdT
+ yFxykTOw0rtZmNQcq0nzp6DvhlHNzM87bd6yy5auh0a5dSVNun/eOGbUnppWkFc5Dq
+ j9pX/xZwJPcf1miQf7sUrIws3Y/myKPNqxCFjeQ2Kg/UBTV85io/tmClfq7VYD4pcq
+ /0igVNxVkm03w==
+Received: by mail-ed1-f51.google.com with SMTP id dn26so9713729edb.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 07:59:38 -0700 (PDT)
+X-Gm-Message-State: AOAM532RI/BeDxyj7V+wLzSNgWnxbC0+hK+lSqbU2I7ovT2BQzlhZIV1
+ XWl4dXryO0mAUZBAlBE4qqiJOfnkl0EAwkfNzg==
+X-Google-Smtp-Source: ABdhPJwCGdIq+oqx27NfXCSPDAUfJueMf8gUKcQgTqgUAMZrpdXWe4oipBNxHCQTw6eESlV9N3bkv12WqrTgIBYJt8c=
+X-Received: by 2002:a17:906:26c4:: with SMTP id
+ u4mr118869ejc.511.1632927500166; 
+ Wed, 29 Sep 2021 07:58:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929070235.4290-1-jason-jh.lin@mediatek.com>
- <20210929070235.4290-4-jason-jh.lin@mediatek.com>
-In-Reply-To: <20210929070235.4290-4-jason-jh.lin@mediatek.com>
+References: <20210915223117.7857-1-jitao.shi@mediatek.com>
+ <20210915223117.7857-3-jitao.shi@mediatek.com>
+In-Reply-To: <20210915223117.7857-3-jitao.shi@mediatek.com>
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Wed, 29 Sep 2021 22:55:46 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__XmEYNbQJh0o-V-DS7F-_s1a9m54+FuOMwHGBCwx55Wg@mail.gmail.com>
-Message-ID: <CAAOTY__XmEYNbQJh0o-V-DS7F-_s1a9m54+FuOMwHGBCwx55Wg@mail.gmail.com>
-Subject: Re: [PATCH 3/3] drm/mediatek: Fix cursor plane is not config when
- primary is updating
-To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Date: Wed, 29 Sep 2021 22:58:09 +0800
+X-Gmail-Original-Message-ID: <CAAOTY__ayWfcqsVsyMun-_jX_Po_AiHfpiuTJAkEaeRYq902MQ@mail.gmail.com>
+Message-ID: <CAAOTY__ayWfcqsVsyMun-_jX_Po_AiHfpiuTJAkEaeRYq902MQ@mail.gmail.com>
+Subject: Re: [PATCH v7 2/3] drm/mediatek: implment the dsi hs packets aligned
+To: Jitao Shi <jitao.shi@mediatek.com>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
  Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>,
  DRI Development <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, 
  "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
- fshao@chromium.org, 
- Nancy Lin <nancy.lin@mediatek.com>, singo.chang@mediatek.com
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, CK Hu <ck.hu@mediatek.com>, 
+ stonea168@163.com, huijuan.xie@mediatek.com, 
+ Rex-BC Chen <rex-bc.chen@mediatek.com>, shuijing.li@mediatek.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -71,50 +69,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Jason:
+Hi, Jitao:
 
-jason-jh.lin <jason-jh.lin@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=882=
-9=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=883:02=E5=AF=AB=E9=81=93=EF=
-=BC=9A
+Jitao Shi <jitao.shi@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=8816=E6=
+=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=886:31=E5=AF=AB=E9=81=93=EF=BC=9A
 >
-> If cursor plane has updated but primary plane config task is not
-> finished, mtk_drm_crtc_update_config will call mbox_flush() to clear
-> all task in current GCE thread and let cursor plane re-send a new
-> GCE task with cursor + primary plane config to replace the unfinished
-> GCE task.
+> Some dsi devices require the packets on lanes aligned at the end,
+> or the screen will shift or scroll.
+
+Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+
 >
-> So the plane config flag should not be cleared when mailbox callback
-> with a error status.
->
-> Fixes: 9efb16c2fdd6 ("drm/mediatek: Clear pending flag when cmdq packet i=
-s done")
-> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> Signed-off-by: Jitao Shi <jitao.shi@mediatek.com>
 > ---
->  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/gpu/drm/mediatek/mtk_dsi.c | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/me=
-diatek/mtk_drm_crtc.c
-> index 06342df2a0be..fb0d9424acec 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-> @@ -281,6 +281,9 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void =
-*mssg)
->         struct mtk_crtc_state *state;
->         unsigned int i;
+> diff --git a/drivers/gpu/drm/mediatek/mtk_dsi.c b/drivers/gpu/drm/mediate=
+k/mtk_dsi.c
+> index 93b40c245f00..9d72e6dce0bf 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_dsi.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_dsi.c
+> @@ -194,6 +194,8 @@ struct mtk_dsi {
+>         struct clk *hs_clk;
 >
-> +       if (data->sta !=3D 0)
-
-data->sta is now the standard error code, so data->sta < 0 is an error.
-
-Regards,
-Chun-Kuang.
-
-> +               return;
+>         u32 data_rate;
+> +       /* force dsi line end without dsi_null data */
+> +       bool hs_packet_end_aligned;
+>
+>         unsigned long mode_flags;
+>         enum mipi_dsi_pixel_format format;
+> @@ -499,6 +501,13 @@ static void mtk_dsi_config_vdo_timing(struct mtk_dsi=
+ *dsi)
+>                 DRM_WARN("HFP + HBP less than d-phy, FPS will under 60Hz\=
+n");
+>         }
+>
+> +       if (dsi->hs_packet_end_aligned) {
+> +               horizontal_sync_active_byte =3D roundup(horizontal_sync_a=
+ctive_byte, dsi->lanes) - 2;
+> +               horizontal_frontporch_byte =3D roundup(horizontal_frontpo=
+rch_byte, dsi->lanes) - 2;
+> +               horizontal_backporch_byte =3D roundup(horizontal_backporc=
+h_byte, dsi->lanes) - 2;
+> +               horizontal_backporch_byte -=3D (vm->hactive * dsi_tmp_buf=
+_bpp + 2) % dsi->lanes;
+> +       }
 > +
->         state =3D to_mtk_crtc_state(mtk_crtc->base.state);
+>         writel(horizontal_sync_active_byte, dsi->regs + DSI_HSA_WC);
+>         writel(horizontal_backporch_byte, dsi->regs + DSI_HBP_WC);
+>         writel(horizontal_frontporch_byte, dsi->regs + DSI_HFP_WC);
+> @@ -793,6 +802,7 @@ static int mtk_dsi_host_attach(struct mipi_dsi_host *=
+host,
+>         dsi->lanes =3D device->lanes;
+>         dsi->format =3D device->format;
+>         dsi->mode_flags =3D device->mode_flags;
+> +       dsi->hs_packet_end_aligned =3D device->hs_packet_end_aligned;
 >
->         state->pending_config =3D false;
+>         return 0;
+>  }
 > --
-> 2.18.0
->
+> 2.25.1
