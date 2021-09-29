@@ -2,44 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A32D41BBB4
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 02:27:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CDB141BC38
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 03:37:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6AC7D6E140;
-	Wed, 29 Sep 2021 00:27:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEEA36E12A;
+	Wed, 29 Sep 2021 01:37:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D80D66E140;
- Wed, 29 Sep 2021 00:27:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285846324"
-X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="285846324"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 17:27:49 -0700
-X-IronPort-AV: E=Sophos;i="5.85,330,1624345200"; d="scan'208";a="519424044"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Sep 2021 17:27:48 -0700
-Date: Tue, 28 Sep 2021 17:22:57 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniel.vetter@ffwll.ch, tony.ye@intel.com, zhengguo.xu@intel.com
-Subject: Re: [Intel-gfx] [PATCH 23/27] drm/i915/guc: Implement no mid batch
- preemption for multi-lrc
-Message-ID: <20210929002257.GA10045@jons-linux-dev-box>
-References: <20210820224446.30620-1-matthew.brost@intel.com>
- <20210820224446.30620-24-matthew.brost@intel.com>
- <d5b15551-3849-1547-29c7-be593005a7e1@intel.com>
- <20210928223353.GA32806@jons-linux-dev-box>
- <2281cc6d-2e6e-f78c-a823-32f0a3d455ba@intel.com>
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7D9386E12A
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 01:37:30 +0000 (UTC)
+X-UUID: 387354b2a8f24c17838d5d53d5f74665-20210929
+X-UUID: 387354b2a8f24c17838d5d53d5f74665-20210929
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ (envelope-from <yong.wu@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 1576674533; Wed, 29 Sep 2021 09:37:24 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Wed, 29 Sep 2021 09:37:22 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 29 Sep 2021 09:37:21 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Matthias Brugger <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski@canonical.com>, David Airlie <airlied@linux.ie>, "Mauro
+ Carvalho Chehab" <mchehab@kernel.org>
+CC: Evan Green <evgreen@chromium.org>, Robin Murphy <robin.murphy@arm.com>,
+ Tomasz Figa <tfiga@chromium.org>, Will Deacon <will.deacon@arm.com>,
+ <linux-mediatek@lists.infradead.org>, <srv_heupstream@mediatek.com>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <iommu@lists.linux-foundation.org>,
+ <yong.wu@mediatek.com>, <youlin.pei@mediatek.com>, Matthias Kaehlcke
+ <mka@chromium.org>, <anan.sun@mediatek.com>, <yi.kuo@mediatek.com>,
+ <acourbot@chromium.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Tiffany Lin <tiffany.lin@mediatek.com>, "Dafna
+ Hirschfeld" <dafna.hirschfeld@collabora.com>, Hsin-Yi Wang
+ <hsinyi@chromium.org>, Eizan Miyamoto <eizan@chromium.org>,
+ <anthony.huang@mediatek.com>, Frank Wunderlich <frank-w@public-files.de>
+Subject: [PATCH v8 00/12] Clean up "mediatek,larb"
+Date: Wed, 29 Sep 2021 09:37:07 +0800
+Message-ID: <20210929013719.25120-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2281cc6d-2e6e-f78c-a823-32f0a3d455ba@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,541 +66,132 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Sep 28, 2021 at 04:33:24PM -0700, John Harrison wrote:
-> On 9/28/2021 15:33, Matthew Brost wrote:
-> > On Tue, Sep 28, 2021 at 03:20:42PM -0700, John Harrison wrote:
-> > > On 8/20/2021 15:44, Matthew Brost wrote:
-> > > > For some users of multi-lrc, e.g. split frame, it isn't safe to preempt
-> > > > mid BB. To safely enable preemption at the BB boundary, a handshake
-> > > > between to parent and child is needed. This is implemented via custom
-> > > > emit_bb_start & emit_fini_breadcrumb functions and enabled via by
-> > > via by -> by
-> > > 
-> > > > default if a context is configured by set parallel extension.
-> > > I tend to agree with Tvrtko that this should probably be an opt in change.
-> > > Is there a flags word passed in when creating the context?
-> > > 
-> > I don't disagree but the uAPI in this series is where we landed. It has
-> > been acked all by the relevant parties in the RFC, ported to our
-> > internal tree, and the media UMD has been updated / posted. Concerns
-> > with the uAPI should've been raised in the RFC phase, not now. I really
-> > don't feel like changing this uAPI another time.
-> The counter argument is that once a UAPI has been merged, it cannot be
-> changed. Ever. So it is worth taking the trouble to get it right first time.
-> 
-> The proposal isn't a major re-write of the interface. It is simply a request
-> to set an extra flag when creating the context.
-> 
+MediaTek IOMMU block diagram always like below:
 
-We are basically just talking about the polarity of a flag at this
-point. Either by default you can't be preempted mid batch (current GPU /
-UMD requirement) or by default you can be preempted mid-batch (no
-current GPU / UMD can do this yet but add flags that everyone opts
-into). I think Daniel's opinion was just default to what the current GPU
-/ UMD wants and if future requirements arise we add flags to the
-interface. I understand both points of view for flag / not flag but in
-the end it doesn't really matter. Either way the interface works now and
-will in the future too.
+        M4U
+         |
+    smi-common
+         |
+  -------------
+  |         |  ...
+  |         |
+larb1     larb2
+  |         |
+vdec       venc
 
-> 
-> > 
-> > > Also, it's not just a change in pre-emption behaviour but a change in
-> > > synchronisation too, right? Previously, if you had a whole bunch of back to
-> > > back submissions then one child could run ahead of another and/or the
-> > > parent. After this change, there is a forced regroup at the end of each
-> > > batch. So while one could end sooner/later than the others, they can't ever
-> > > get an entire batch (or more) ahead or behind. Or was that synchronisation
-> > > already in there through other means anyway?
-> > > 
-> > Yes, each parent / child sync at the of each batch - this is the only
-> > way safely insert preemption points. Without this the GuC could attempt
-> > a preemption and hang the batches.
-> To be clear, I'm not saying that this is wrong. I'm just saying that this
-> appears to be new behaviour with this patch but it is not explicitly called
-> out in the description of the patch.
-> 
+All the consumer connect with smi-larb, then connect with smi-common.
 
-Will add some comments explaining this behavior (unless I already have
-them).
+When the consumer works, it should enable the smi-larb's power which also
+need enable the smi-common's power firstly.
 
-> 
-> > 
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > ---
-> > > >    drivers/gpu/drm/i915/gt/intel_context.c       |   2 +-
-> > > >    drivers/gpu/drm/i915/gt/intel_context_types.h |   3 +
-> > > >    drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   2 +-
-> > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 283 +++++++++++++++++-
-> > > >    4 files changed, 287 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > index 5615be32879c..2de62649e275 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > @@ -561,7 +561,7 @@ void intel_context_bind_parent_child(struct intel_context *parent,
-> > > >    	GEM_BUG_ON(intel_context_is_child(child));
-> > > >    	GEM_BUG_ON(intel_context_is_parent(child));
-> > > > -	parent->guc_number_children++;
-> > > > +	child->guc_child_index = parent->guc_number_children++;
-> > > >    	list_add_tail(&child->guc_child_link,
-> > > >    		      &parent->guc_child_list);
-> > > >    	child->parent = parent;
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > > index 713d85b0b364..727f91e7f7c2 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > > > @@ -246,6 +246,9 @@ struct intel_context {
-> > > >    		/** @guc_number_children: number of children if parent */
-> > > >    		u8 guc_number_children;
-> > > > +		/** @guc_child_index: index into guc_child_list if child */
-> > > > +		u8 guc_child_index;
-> > > > +
-> > > >    		/**
-> > > >    		 * @parent_page: page in context used by parent for work queue,
-> > > >    		 * work queue descriptor
-> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> > > > index 6cd26dc060d1..9f61cfa5566a 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> > > > @@ -188,7 +188,7 @@ struct guc_process_desc {
-> > > >    	u32 wq_status;
-> > > >    	u32 engine_presence;
-> > > >    	u32 priority;
-> > > > -	u32 reserved[30];
-> > > > +	u32 reserved[36];
-> > > What is this extra space for? All the extra storage is grabbed from after
-> > > the end of this structure, isn't it?
-> > > 
-> > This is the size of process descriptor in the GuC spec. Even though this
-> > is unused space we really don't want the child go / join memory using
-> > anything within the process descriptor.
-> Okay. So it's more that the code was previously broken and we just hadn't
-> hit a problem because of it? Again, worth adding a comment in the
-> description to call it out as a bug fix.
->
+Thus, Firstly, use the device link connect the consumer and the
+smi-larbs. then add device link between the smi-larb and smi-common.
 
-Sure.
- 
-> > 
-> > > >    } __packed;
-> > > >    #define CONTEXT_REGISTRATION_FLAG_KMD	BIT(0)
-> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > index 91330525330d..1a18f99bf12a 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > @@ -11,6 +11,7 @@
-> > > >    #include "gt/intel_context.h"
-> > > >    #include "gt/intel_engine_pm.h"
-> > > >    #include "gt/intel_engine_heartbeat.h"
-> > > > +#include "gt/intel_gpu_commands.h"
-> > > >    #include "gt/intel_gt.h"
-> > > >    #include "gt/intel_gt_irq.h"
-> > > >    #include "gt/intel_gt_pm.h"
-> > > > @@ -366,10 +367,14 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
-> > > >    /*
-> > > >     * When using multi-lrc submission an extra page in the context state is
-> > > > - * reserved for the process descriptor and work queue.
-> > > > + * reserved for the process descriptor, work queue, and preempt BB boundary
-> > > > + * handshake between the parent + childlren contexts.
-> > > >     *
-> > > >     * The layout of this page is below:
-> > > >     * 0						guc_process_desc
-> > > > + * + sizeof(struct guc_process_desc)		child go
-> > > > + * + CACHELINE_BYTES				child join ...
-> > > > + * + CACHELINE_BYTES ...
-> > > Would be better written as '[num_children]' instead of '...' to make it
-> > > clear it is a per child array.
-> > > 
-> > I think this description is pretty clear.
-> Evidently not because it confused me for a moment.
-> 
+After adding the device_link, then "mediatek,larb" property can be removed.
+the iommu consumer don't need call the mtk_smi_larb_get/put to enable
+the power and clock of smi-larb and smi-common.
 
-Ok, let me see if I can make this a bit more clear.
+About the MM dt-binding/dtsi patches, I guess they should go together, thus
+I don't split them for each a MM module and each a SoC.
 
-> > 
-> > > Also, maybe create a struct for this to get rid of the magic '+1's and
-> > > 'BYTES / sizeof' constructs in the functions below.
-> > > 
-> > Let me see if I can create a struct that describes the layout.
-> That would definitely make the code a lot clearer.
-> 
-> > 
-> > > >     * ...						unused
-> > > >     * PAGE_SIZE / 2				work queue start
-> > > >     * ...						work queue
-> > > > @@ -1785,6 +1790,30 @@ static int deregister_context(struct intel_context *ce, u32 guc_id, bool loop)
-> > > >    	return __guc_action_deregister_context(guc, guc_id, loop);
-> > > >    }
-> > > > +static inline void clear_children_join_go_memory(struct intel_context *ce)
-> > > > +{
-> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> > > > +	u8 i;
-> > > > +
-> > > > +	for (i = 0; i < ce->guc_number_children + 1; ++i)
-> > > > +		mem[i * (CACHELINE_BYTES / sizeof(u32))] = 0;
-> > > > +}
-> > > > +
-> > > > +static inline u32 get_children_go_value(struct intel_context *ce)
-> > > > +{
-> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> > > > +
-> > > > +	return mem[0];
-> > > > +}
-> > > > +
-> > > > +static inline u32 get_children_join_value(struct intel_context *ce,
-> > > > +					  u8 child_index)
-> > > > +{
-> > > > +	u32 *mem = (u32 *)(__get_process_desc(ce) + 1);
-> > > > +
-> > > > +	return mem[(child_index + 1) * (CACHELINE_BYTES / sizeof(u32))];
-> > > > +}
-> > > > +
-> > > >    static void guc_context_policy_init(struct intel_engine_cs *engine,
-> > > >    				    struct guc_lrc_desc *desc)
-> > > >    {
-> > > > @@ -1867,6 +1896,8 @@ static int guc_lrc_desc_pin(struct intel_context *ce, bool loop)
-> > > >    			desc->context_flags = CONTEXT_REGISTRATION_FLAG_KMD;
-> > > >    			guc_context_policy_init(engine, desc);
-> > > >    		}
-> > > > +
-> > > > +		clear_children_join_go_memory(ce);
-> > > >    	}
-> > > >    	/*
-> > > > @@ -2943,6 +2974,31 @@ static const struct intel_context_ops virtual_child_context_ops = {
-> > > >    	.get_sibling = guc_virtual_get_sibling,
-> > > >    };
-> > > > +/*
-> > > > + * The below override of the breadcrumbs is enabled when the user configures a
-> > > > + * context for parallel submission (multi-lrc, parent-child).
-> > > > + *
-> > > > + * The overridden breadcrumbs implements an algorithm which allows the GuC to
-> > > > + * safely preempt all the hw contexts configured for parallel submission
-> > > > + * between each BB. The contract between the i915 and GuC is if the parent
-> > > > + * context can be preempted, all the children can be preempted, and the GuC will
-> > > > + * always try to preempt the parent before the children. A handshake between the
-> > > > + * parent / children breadcrumbs ensures the i915 holds up its end of the deal
-> > > > + * creating a window to preempt between each set of BBs.
-> > > > + */
-> > > > +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						     u64 offset, u32 len,
-> > > > +						     const unsigned int flags);
-> > > > +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						    u64 offset, u32 len,
-> > > > +						    const unsigned int flags);
-> > > > +static u32 *
-> > > > +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						 u32 *cs);
-> > > > +static u32 *
-> > > > +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						u32 *cs);
-> > > > +
-> > > >    static struct intel_context *
-> > > >    guc_create_parallel(struct intel_engine_cs **engines,
-> > > >    		    unsigned int num_siblings,
-> > > > @@ -2978,6 +3034,20 @@ guc_create_parallel(struct intel_engine_cs **engines,
-> > > >    		}
-> > > >    	}
-> > > > +	parent->engine->emit_bb_start =
-> > > > +		emit_bb_start_parent_no_preempt_mid_batch;
-> > > > +	parent->engine->emit_fini_breadcrumb =
-> > > > +		emit_fini_breadcrumb_parent_no_preempt_mid_batch;
-> > > > +	parent->engine->emit_fini_breadcrumb_dw =
-> > > > +		12 + 4 * parent->guc_number_children;
-> > > > +	for_each_child(parent, ce) {
-> > > > +		ce->engine->emit_bb_start =
-> > > > +			emit_bb_start_child_no_preempt_mid_batch;
-> > > > +		ce->engine->emit_fini_breadcrumb =
-> > > > +			emit_fini_breadcrumb_child_no_preempt_mid_batch;
-> > > > +		ce->engine->emit_fini_breadcrumb_dw = 16;
-> > > > +	}
-> > > > +
-> > > >    	kfree(siblings);
-> > > >    	return parent;
-> > > > @@ -3362,6 +3432,204 @@ void intel_guc_submission_init_early(struct intel_guc *guc)
-> > > >    	guc->submission_selected = __guc_submission_selected(guc);
-> > > >    }
-> > > > +static inline u32 get_children_go_addr(struct intel_context *ce)
-> > > > +{
-> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > > > +
-> > > > +	return i915_ggtt_offset(ce->state) +
-> > > > +		__get_process_desc_offset(ce) +
-> > > > +		sizeof(struct guc_process_desc);
-> > > > +}
-> > > > +
-> > > > +static inline u32 get_children_join_addr(struct intel_context *ce,
-> > > > +					 u8 child_index)
-> > > > +{
-> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > > > +
-> > > > +	return get_children_go_addr(ce) + (child_index + 1) * CACHELINE_BYTES;
-> > > > +}
-> > > > +
-> > > > +#define PARENT_GO_BB			1
-> > > > +#define PARENT_GO_FINI_BREADCRUMB	0
-> > > > +#define CHILD_GO_BB			1
-> > > > +#define CHILD_GO_FINI_BREADCRUMB	0
-> > > > +static int emit_bb_start_parent_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						     u64 offset, u32 len,
-> > > > +						     const unsigned int flags)
-> > > > +{
-> > > > +	struct intel_context *ce = rq->context;
-> > > > +	u32 *cs;
-> > > > +	u8 i;
-> > > > +
-> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > > > +
-> > > > +	cs = intel_ring_begin(rq, 10 + 4 * ce->guc_number_children);
-> > > > +	if (IS_ERR(cs))
-> > > > +		return PTR_ERR(cs);
-> > > > +
-> > > > +	/* Wait on chidlren */
-> > > chidlren -> children
-> > > 
-> > Yep.
-> > > > +	for (i = 0; i < ce->guc_number_children; ++i) {
-> > > > +		*cs++ = (MI_SEMAPHORE_WAIT |
-> > > > +			 MI_SEMAPHORE_GLOBAL_GTT |
-> > > > +			 MI_SEMAPHORE_POLL |
-> > > > +			 MI_SEMAPHORE_SAD_EQ_SDD);
-> > > > +		*cs++ = PARENT_GO_BB;
-> > > > +		*cs++ = get_children_join_addr(ce, i);
-> > > > +		*cs++ = 0;
-> > > > +	}
-> > > > +
-> > > > +	/* Turn off preemption */
-> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	/* Tell children go */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  CHILD_GO_BB,
-> > > > +				  get_children_go_addr(ce),
-> > > > +				  0);
-> > > > +
-> > > > +	/* Jump to batch */
-> > > > +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
-> > > > +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
-> > > > +	*cs++ = lower_32_bits(offset);
-> > > > +	*cs++ = upper_32_bits(offset);
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	intel_ring_advance(rq, cs);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						    u64 offset, u32 len,
-> > > > +						    const unsigned int flags)
-> > > > +{
-> > > > +	struct intel_context *ce = rq->context;
-> > > > +	u32 *cs;
-> > > > +
-> > > > +	GEM_BUG_ON(!intel_context_is_child(ce));
-> > > > +
-> > > > +	cs = intel_ring_begin(rq, 12);
-> > > > +	if (IS_ERR(cs))
-> > > > +		return PTR_ERR(cs);
-> > > > +
-> > > > +	/* Signal parent */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  PARENT_GO_BB,
-> > > > +				  get_children_join_addr(ce->parent,
-> > > > +							 ce->guc_child_index),
-> > > > +				  0);
-> > > > +
-> > > > +	/* Wait parent on for go */
-> > > parent on -> on parent
-> > > 
-> > Yep.
-> > > > +	*cs++ = (MI_SEMAPHORE_WAIT |
-> > > > +		 MI_SEMAPHORE_GLOBAL_GTT |
-> > > > +		 MI_SEMAPHORE_POLL |
-> > > > +		 MI_SEMAPHORE_SAD_EQ_SDD);
-> > > > +	*cs++ = CHILD_GO_BB;
-> > > > +	*cs++ = get_children_go_addr(ce->parent);
-> > > > +	*cs++ = 0;
-> > > > +
-> > > > +	/* Turn off preemption */
-> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_DISABLE;
-> > > > +
-> > > > +	/* Jump to batch */
-> > > > +	*cs++ = MI_BATCH_BUFFER_START_GEN8 |
-> > > > +		(flags & I915_DISPATCH_SECURE ? 0 : BIT(8));
-> > > > +	*cs++ = lower_32_bits(offset);
-> > > > +	*cs++ = upper_32_bits(offset);
-> > > > +
-> > > > +	intel_ring_advance(rq, cs);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static u32 *
-> > > > +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> > > > +						 u32 *cs)
-> > > > +{
-> > > > +	struct intel_context *ce = rq->context;
-> > > > +	u8 i;
-> > > > +
-> > > > +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> > > > +
-> > > > +	/* Wait on children */
-> > > > +	for (i = 0; i < ce->guc_number_children; ++i) {
-> > > > +		*cs++ = (MI_SEMAPHORE_WAIT |
-> > > > +			 MI_SEMAPHORE_GLOBAL_GTT |
-> > > > +			 MI_SEMAPHORE_POLL |
-> > > > +			 MI_SEMAPHORE_SAD_EQ_SDD);
-> > > > +		*cs++ = PARENT_GO_FINI_BREADCRUMB;
-> > > > +		*cs++ = get_children_join_addr(ce, i);
-> > > > +		*cs++ = 0;
-> > > > +	}
-> > > > +
-> > > > +	/* Turn on preemption */
-> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	/* Tell children go */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  CHILD_GO_FINI_BREADCRUMB,
-> > > > +				  get_children_go_addr(ce),
-> > > > +				  0);
-> > > > +
-> > > > +	/* Emit fini breadcrumb */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  rq->fence.seqno,
-> > > > +				  i915_request_active_timeline(rq)->hwsp_offset,
-> > > > +				  0);
-> > > > +
-> > > > +	/* User interrupt */
-> > > > +	*cs++ = MI_USER_INTERRUPT;
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	rq->tail = intel_ring_offset(rq, cs);
-> > > > +
-> > > > +	return cs;
-> > > > +}
-> > > > +
-> > > > +static u32 *
-> > > > +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
-> > > > +{
-> > > > +	struct intel_context *ce = rq->context;
-> > > > +
-> > > > +	GEM_BUG_ON(!intel_context_is_child(ce));
-> > > > +
-> > > > +	/* Turn on preemption */
-> > > > +	*cs++ = MI_ARB_ON_OFF | MI_ARB_ENABLE;
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	/* Signal parent */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  PARENT_GO_FINI_BREADCRUMB,
-> > > > +				  get_children_join_addr(ce->parent,
-> > > > +							 ce->guc_child_index),
-> > > > +				  0);
-> > > > +
-> > > This is backwards compared to the parent?
-> > > 
-> > > Parent: wait on children then enable pre-emption
-> > > Child: enable pre-emption then signal parent
-> > > 
-> > > Makes for a window where the parent is waiting in atomic context for a
-> > > signal from a child that has been pre-empted and might not get to run for
-> > > some time?
-> > > 
-> > No, this is correct. The rule is if the parent can be preempted all the
-> > children can be preempted, thus we can't enable preemption on the parent
-> > until all the children have preemption enabled, thus the parent waits
-> > for all the children to join before enabling its preemption.
-> > 
-> > Matt
-> But,
-> 
-> The write to PARENT_GO_FINI can't fail or stall, right? So if it happens
-> before the ARB_ON then the child is guaranteed to execute the ARB_ON once it
-> has signalled the parent. Indeed, by the time the parent context gets to see
-> the update memory value, the child is practically certain to have passed the
-> ARB_ON. So, by the time the parent becomes pre-emptible, the children will
-> all be pre-emptible. Even if the parent is superfast, the children are
-> guaranteed to become pre-emptible immediately - certainly before any
-> fail-to-preempt timeout could occur.
->
-> Whereas, with the current ordering, it is possible for the child to be
-> preempted before it has issued the signal to the parent. So now you have a
-> non-preemptible parent hogging the hardware, waiting for a signal that isn't
+Base on a jpeg dtbing patchset[1] that already got the necessary R-b.
 
-To be clear the parent is always preempted first by the GuC. The parent
-can't be running if the child preempt is attempted.
+[1] https://lore.kernel.org/linux-mediatek/20210702102304.3346429-1-hsinyi@chromium.org/
 
-> going to come for an entire execution quantum. Indeed, it is actually quite
-> likely the child would be preempted before it can signal the parent because
-> any pre-emption request that was issued at any time during the child's
-> execution will take effect immediately on the ARB_ON instruction.
-> 
+Change notes:
+v8: 1) Rebase on v5.15-rc1.
+    2) Don't rebase the below mdp patchset that may still need more discuss.
+    https://lore.kernel.org/linux-mediatek/20210709022324.1607884-1-eizan@chromium.org/
+    3) Add Frank's Tested-by. Remove Dafna's Tested-by as he requested.
 
-Looking at the code, I do think I have a bug though.
+v7: https://lore.kernel.org/linux-mediatek/20210730025238.22456-1-yong.wu@mediatek.com/
+    1) Fix a arm32 boot fail issue. reported from Frank.
+    2) Add a return fail in the mtk drm. suggested by Dafna.
 
-I think I'm missing a MI_ARB_CHECK in the parent after turning on
-preemption before releasing the children, right?
+v6: https://lore.kernel.org/linux-mediatek/20210714025626.5528-1-yong.wu@mediatek.com/
+    1) rebase on v5.14-rc1.
+    2) Fix the issue commented in v5 from Dafna and Hsin-Yi.
+    3) Remove the patches about using pm_runtime_resume_and_get since they have
+       already been merged by other patches.
 
-This covers the case where the GuC issues a preemption to the parent
-while it is waiting on the children, all the children join, the parent
-turns on preemption and is preempted with the added MI_ARB_CHECK
-instruction, and the children all can be preempted waiting on the parent
-go semaphore. Does that sound correct?
+v5: https://lore.kernel.org/linux-mediatek/20210410091128.31823-1-yong.wu@mediatek.com/
+    1) Base v5.12-rc2.
+    2) Remove changing the mtk-iommu to module_platform_driver patch, It have already been a
+    independent patch.
 
-Matt
+v4: https://lore.kernel.org/linux-mediatek/1590826218-23653-1-git-send-email-yong.wu@mediatek.com/ 
+    base on v5.7-rc1.
+  1) Move drm PM patch before smi patchs.
+  2) Change builtin_platform_driver to module_platform_driver since we may need
+     build as module.
+  3) Rebase many patchset as above.
 
-> John.
-> 
-> 
-> > > John.
-> > > 
-> > > 
-> > > > +	/* Wait parent on for go */
-> > > > +	*cs++ = (MI_SEMAPHORE_WAIT |
-> > > > +		 MI_SEMAPHORE_GLOBAL_GTT |
-> > > > +		 MI_SEMAPHORE_POLL |
-> > > > +		 MI_SEMAPHORE_SAD_EQ_SDD);
-> > > > +	*cs++ = CHILD_GO_FINI_BREADCRUMB;
-> > > > +	*cs++ = get_children_go_addr(ce->parent);
-> > > > +	*cs++ = 0;
-> > > > +
-> > > > +	/* Emit fini breadcrumb */
-> > > > +	cs = gen8_emit_ggtt_write(cs,
-> > > > +				  rq->fence.seqno,
-> > > > +				  i915_request_active_timeline(rq)->hwsp_offset,
-> > > > +				  0);
-> > > > +
-> > > > +	/* User interrupt */
-> > > > +	*cs++ = MI_USER_INTERRUPT;
-> > > > +	*cs++ = MI_NOOP;
-> > > > +
-> > > > +	rq->tail = intel_ring_offset(rq, cs);
-> > > > +
-> > > > +	return cs;
-> > > > +}
-> > > > +
-> > > >    static struct intel_context *
-> > > >    g2h_context_lookup(struct intel_guc *guc, u32 desc_idx)
-> > > >    {
-> > > > @@ -3807,6 +4075,19 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
-> > > >    			drm_printf(p, "\t\tWQI Status: %u\n\n",
-> > > >    				   READ_ONCE(desc->wq_status));
-> > > > +			drm_printf(p, "\t\tNumber Children: %u\n\n",
-> > > > +				   ce->guc_number_children);
-> > > > +			if (ce->engine->emit_bb_start ==
-> > > > +			    emit_bb_start_parent_no_preempt_mid_batch) {
-> > > > +				u8 i;
-> > > > +
-> > > > +				drm_printf(p, "\t\tChildren Go: %u\n\n",
-> > > > +					   get_children_go_value(ce));
-> > > > +				for (i = 0; i < ce->guc_number_children; ++i)
-> > > > +					drm_printf(p, "\t\tChildren Join: %u\n",
-> > > > +						   get_children_join_value(ce, i));
-> > > > +			}
-> > > > +
-> > > >    			for_each_child(ce, child)
-> > > >    				guc_log_context(p, child);
-> > > >    		}
-> 
+v3: https://lore.kernel.org/linux-iommu/1567503456-24725-1-git-send-email-yong.wu@mediatek.com/
+    1) rebase on v5.3-rc1 and the latest mt8183 patchset.
+    2) Use device_is_bound to check whether the driver is ready from Matthias.    
+    3) Add DL_FLAG_STATELESS flag when calling device_link_add and explain the
+   reason in the commit message[3/14].
+    4) Add a display patch[12/14] into this series. otherwise it may affect
+   display HW fastlogo even though it don't happen in mt8183.
+   
+v2: https://lore.kernel.org/linux-iommu/1560171313-28299-1-git-send-email-yong.wu@mediatek.com/
+   1) rebase on v5.2-rc1.
+   2) Move adding device_link between the consumer and smi-larb into
+iommu_add_device from Robin.
+   3) add DL_FLAG_AUTOREMOVE_CONSUMER even though the smi is built-in from Evan.
+   4) Remove the shutdown callback in iommu.   
+
+v1: https://lore.kernel.org/linux-iommu/1546318276-18993-1-git-send-email-yong.wu@mediatek.com/
+
+Yong Wu (11):
+  dt-binding: mediatek: Get rid of mediatek, larb for multimedia HW
+  iommu/mediatek-v1: Free the existed fwspec if the master dev already
+    has
+  iommu/mediatek: Add probe_defer for smi-larb
+  iommu/mediatek: Add device_link between the consumer and the larb
+    devices
+  media: mtk-jpeg: Get rid of mtk_smi_larb_get/put
+  media: mtk-mdp: Get rid of mtk_smi_larb_get/put
+  drm/mediatek: Get rid of mtk_smi_larb_get/put
+  media: mtk-vcodec: Get rid of mtk_smi_larb_get/put
+  memory: mtk-smi: Get rid of mtk_smi_larb_get/put
+  arm: dts: mediatek: Get rid of mediatek,larb for MM nodes
+  arm64: dts: mediatek: Get rid of mediatek,larb for MM nodes
+
+Yongqiang Niu (1):
+  drm/mediatek: Add pm runtime support for ovl and rdma
+
+ .../display/mediatek/mediatek,disp.txt        |  9 ----
+ .../bindings/media/mediatek-jpeg-decoder.yaml |  9 ----
+ .../bindings/media/mediatek-jpeg-encoder.yaml |  9 ----
+ .../bindings/media/mediatek-mdp.txt           |  8 ----
+ .../bindings/media/mediatek-vcodec.txt        |  4 --
+ arch/arm/boot/dts/mt2701.dtsi                 |  2 -
+ arch/arm/boot/dts/mt7623n.dtsi                |  5 ---
+ arch/arm64/boot/dts/mediatek/mt8173.dtsi      | 16 -------
+ arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  6 ---
+ drivers/gpu/drm/mediatek/mtk_disp_ovl.c       |  8 +++-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  9 +++-
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       | 15 ++++---
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c   | 36 +--------------
+ drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h   |  1 -
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  5 +--
+ drivers/iommu/mtk_iommu.c                     | 24 +++++++++-
+ drivers/iommu/mtk_iommu_v1.c                  | 31 ++++++++++++-
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 45 +------------------
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 40 -----------------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  2 -
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 +++------------
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 +++---------------
+ drivers/memory/mtk-smi.c                      | 14 ------
+ include/soc/mediatek/smi.h                    | 20 ---------
+ 28 files changed, 90 insertions(+), 316 deletions(-)
+
+-- 
+2.18.0
+
+
