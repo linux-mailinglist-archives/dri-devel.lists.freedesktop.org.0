@@ -1,40 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7EF41C3BB
-	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 13:47:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 204CD41C3D8
+	for <lists+dri-devel@lfdr.de>; Wed, 29 Sep 2021 13:54:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DB0CF6E1B6;
-	Wed, 29 Sep 2021 11:47:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AF3BD6EA2A;
+	Wed, 29 Sep 2021 11:53:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 531966E1B2;
- Wed, 29 Sep 2021 11:47:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10121"; a="285936281"
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="285936281"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 04:47:40 -0700
-X-IronPort-AV: E=Sophos;i="5.85,332,1624345200"; d="scan'208";a="520804153"
-Received: from jmaugusx-mobl1.gar.corp.intel.com (HELO [10.249.254.159])
- ([10.249.254.159])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 04:47:39 -0700
-Message-ID: <0bfe9b5fa35802ac02cdacb0583c31ac205517de.camel@linux.intel.com>
-Subject: Re: [PATCH v5 11/13] drm/i915/ttm: make evicted shmem pages visible
- to the shrinker
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Date: Wed, 29 Sep 2021 13:47:36 +0200
-In-Reply-To: <20210927114114.152310-11-matthew.auld@intel.com>
-References: <20210927114114.152310-1-matthew.auld@intel.com>
- <20210927114114.152310-11-matthew.auld@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 617646EA29;
+ Wed, 29 Sep 2021 11:53:54 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id CEB314060E; 
+ Wed, 29 Sep 2021 11:53:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1632916432;
+ bh=SA3MOhUQB8LiGeG2R1qfgrcRYehbqo7vhZPQxaRL3OU=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=jtY1PiModmvCpOJ9on9ATR8EYWn4f0xjXLFdHz/GnD5zjepReEYx9+6JuzHeXnTNN
+ aXgW3N/Da0O0NbUV1k/P3scgIjJytZfrTddN9sj5di67DIkmrRSfVTgHOFLN1FHcbE
+ BFYBe5S8o5QVsI72uG3akFb5Y4m+J3iNfyub/RXPu4fXsR5ECTmUGYpOOTvKzVSH6m
+ LQEhzoYzeQL/MOdI5Pmn75MUuNfG7rd+Sg0S/W9OjD2mRC9nPv3I9aiJB9kjBzqdKJ
+ wadzjsHAiAVLeT7/u7n1JE+FBdN4C8NMlRmumkooFn+1IDPv89R3Vs6sB++vGRFIh0
+ KsS0uqJDv1plw==
+From: Colin King <colin.king@canonical.com>
+To: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][V2] drm/msm: Fix potential integer overflow on 32 bit multiply
+Date: Wed, 29 Sep 2021 12:53:52 +0100
+Message-Id: <20210929115352.212849-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -51,262 +58,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-09-27 at 12:41 +0100, Matthew Auld wrote:
-> We currently just evict lmem objects to system memory when under
-> memory
-> pressure, and in the next patch we want to use the shmem backend even
-> for this case. For this case we lack the usual object mm.pages, which
-> effectively hides the pages from the i915-gem shrinker, until we
-> actually "attach" the TT to the object, or in the case of lmem-only
-> objects it just gets migrated back to lmem when touched again.
-> 
-> For all cases we can just adjust the i915 shrinker LRU each time we
-> also
-> adjust the TTM LRU. The two cases we care about are:
-> 
->   1) When something is moved by TTM, including when initially
-> populating
->      an object. Importantly this covers the case where TTM moves
-> something from
->      lmem <-> smem, outside of the normal get_pages() interface,
-> which
->      should still ensure the shmem pages underneath are reclaimable.
-> 
->   2) When calling into i915_gem_object_unlock(). The unlock should
->      ensure the object is removed from the shinker LRU, if it was
-> indeed
->      swapped out, or just purged, when the shrinker drops the object
-> lock.
-> 
-> We can optimise this(if needed) by tracking if the object is already
-> visible to the shrinker(protected by the object lock), so we don't
-> touch
-> the shrinker LRU more than needed.
-> 
-> v2(Thomas)
->   - Handle managing the shrinker LRU in adjust_lru, where it is
-> always
->     safe to touch the object.
-> 
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_object.h   |  1 +
->  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c | 29 +++++++++++++++---
-> --
->  drivers/gpu/drm/i915/gem/i915_gem_ttm.c      | 28 +++++++++++++++---
-> -
->  3 files changed, 46 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index 1c9a1d8d3434..640dfbf1f01e 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -523,6 +523,7 @@ i915_gem_object_pin_to_display_plane(struct
-> drm_i915_gem_object *obj,
->  
->  void i915_gem_object_make_unshrinkable(struct drm_i915_gem_object
-> *obj);
->  void i915_gem_object_make_shrinkable(struct drm_i915_gem_object
-> *obj);
-> +void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object
-> *obj);
->  void i915_gem_object_make_purgeable(struct drm_i915_gem_object
-> *obj);
->  
->  static inline bool cpu_write_needs_clflush(struct
-> drm_i915_gem_object *obj)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index 0440696f786a..4b6b2bb6f180 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -487,13 +487,12 @@ void i915_gem_object_make_unshrinkable(struct
-> drm_i915_gem_object *obj)
->         spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
->  }
->  
-> -static void __i915_gem_object_make_shrinkable(struct
-> drm_i915_gem_object *obj,
-> -                                             struct list_head *head)
-> +static void ___i915_gem_object_make_shrinkable(struct
-> drm_i915_gem_object *obj,
-> +                                              struct list_head
-> *head)
->  {
->         struct drm_i915_private *i915 = obj_to_i915(obj);
->         unsigned long flags;
->  
-> -       GEM_BUG_ON(!i915_gem_object_has_pages(obj));
->         if (!i915_gem_object_is_shrinkable(obj))
->                 return;
->  
-> @@ -512,6 +511,21 @@ static void
-> __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
->         spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
->  }
->  
-> +/**
-> + * __i915_gem_object_make_shrinkable - Move the object to the tail
-> of the
-> + * shrinkable list. Objects on this list might be swapped out. Used
-> with
-> + * WILLNEED objects.
-> + * @obj: The GEM object.
-> + *
-> + * DO NOT USE. This is intended to be called on very special objects
-> that don't
-> + * yet have mm.pages, but are guaranteed to have potentially
-> reclaimable pages
-> + * underneath.
-> + */
-> +void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object
-> *obj)
-> +{
-> +       ___i915_gem_object_make_shrinkable(obj,
-> +                                          &obj_to_i915(obj)-
-> >mm.shrink_list);
-> +}
->  
->  /**
->   * i915_gem_object_make_shrinkable - Move the object to the tail of
-> the
-> @@ -523,8 +537,8 @@ static void
-> __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
->   */
->  void i915_gem_object_make_shrinkable(struct drm_i915_gem_object
-> *obj)
->  {
-> -       __i915_gem_object_make_shrinkable(obj,
-> -                                         &obj_to_i915(obj)-
-> >mm.shrink_list);
-> +       GEM_BUG_ON(!i915_gem_object_has_pages(obj));
-> +       __i915_gem_object_make_shrinkable(obj);
->  }
->  
->  /**
-> @@ -538,6 +552,7 @@ void i915_gem_object_make_shrinkable(struct
-> drm_i915_gem_object *obj)
->   */
->  void i915_gem_object_make_purgeable(struct drm_i915_gem_object *obj)
->  {
-> -       __i915_gem_object_make_shrinkable(obj,
-> -                                         &obj_to_i915(obj)-
-> >mm.purge_list);
-> +       GEM_BUG_ON(!i915_gem_object_has_pages(obj));
-> +       ___i915_gem_object_make_shrinkable(obj,
-> +                                          &obj_to_i915(obj)-
-> >mm.purge_list);
->  }
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index c7402995a8f9..194e5f1deda8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -749,6 +749,8 @@ static int i915_ttm_move(struct ttm_buffer_object
-> *bo, bool evict,
->                         return ret;
->         }
->  
-> +       i915_ttm_adjust_lru(obj);
-> +
+From: Colin Ian King <colin.king@canonical.com>
 
-This will put the object on the shrinker list a little earlier than if
-we rely on the adjust_lru() from object_unlock() only, but is that
-strictly necessary? I figure even if the shrinker picks the object up,
-it will fail in the object trylock and ignore the object, until we call
-object_unlock() anyway?
+In the case where clock is 2147485 or greater the 32 bit multiplication
+by 1000 will cause an integer overflow. Fix this by making the constant
+1000 an unsigned long to ensure a long multiply occurs to avoid the
+overflow before assigning the result to the long result in variable
+requested.  Most probably a theoretical overflow issue, but worth fixing
+to clear up static analysis warnings.
 
+Addresses-Coverity: ("Unintentional integer overflow")
+Fixes: c8afe684c95c ("drm/msm: basic KMS driver for snapdragon")
+Fixes: 3e87599b68e7 ("drm/msm/mdp4: add LVDS panel support")
+Fixes: 937f941ca06f ("drm/msm/dp: Use qmp phy for DP PLL and PHY")
+Fixes: ab5b0107ccf3 ("drm/msm: Initial add eDP support in msm drm driver (v5)")
+Fixes: a3376e3ec81c ("drm/msm: convert to drm_bridge")
 
->         dst_st = i915_ttm_resource_get_st(obj, dst_mem);
->         if (IS_ERR(dst_st))
->                 return PTR_ERR(dst_st);
-> @@ -856,7 +858,6 @@ static int __i915_ttm_get_pages(struct
-> drm_i915_gem_object *obj,
->                         return i915_ttm_err_to_gem(ret);
->         }
->  
-> -       i915_ttm_adjust_lru(obj);
->         if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
->                 ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
->                 if (ret)
-> @@ -876,10 +877,10 @@ static int __i915_ttm_get_pages(struct
-> drm_i915_gem_object *obj,
->                         return PTR_ERR(st);
->  
->                 __i915_gem_object_set_pages(obj, st,
-> i915_sg_dma_sizes(st->sgl));
-> -               if (!bo->ttm || !i915_tt->is_shmem)
-> -                       i915_gem_object_make_unshrinkable(obj);
->         }
->  
-> +       i915_ttm_adjust_lru(obj);
-> +
->         return ret;
->  }
->  
-> @@ -950,8 +951,6 @@ static void i915_ttm_put_pages(struct
-> drm_i915_gem_object *obj,
->          * If the object is not destroyed next, The TTM eviction
-> logic
->          * and shrinkers will move it out if needed.
->          */
-> -
-> -       i915_ttm_adjust_lru(obj);
->  }
->  
->  static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
-> @@ -967,6 +966,17 @@ static void i915_ttm_adjust_lru(struct
-> drm_i915_gem_object *obj)
->         if (!kref_read(&bo->kref))
->                 return;
->  
-> +       /*
-> +        * Even if we lack mm.pages for this object(which will be the
-> case when
-> +        * something is evicted to system memory by TTM), we still
-> want to make
-> +        * this object visible to the shrinker, since the underlying
-> ttm_tt
-> +        * still has the real shmem pages.
-> +        */
-> +       if (bo->ttm && i915_tt->filp && ttm_tt_is_populated(bo->ttm))
-> +               __i915_gem_object_make_shrinkable(obj);
-> +       else
-> +               i915_gem_object_make_unshrinkable(obj);
-> +
->         /*
->          * Put on the correct LRU list depending on the MADV status
->          */
-> @@ -1006,6 +1016,14 @@ static void i915_ttm_adjust_lru(struct
-> drm_i915_gem_object *obj)
->  static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
->  {
->         if (obj->ttm.created) {
-> +               /*
-> +                * We freely manage the shrinker LRU outide of the
-> mm.pages life
-> +                * cycle. As a result when destroying the object it's
-> up to us
-> +                * to ensure we remove it from the LRU, before we
-> free the
-> +                * object.
-> +                */
-> +               i915_gem_object_make_unshrinkable(obj);
-> +
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+V2: Find and fix all unintentional integer overflows that match this
+    overflow pattern.
+---
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c    | 2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c   | 2 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c | 2 +-
+ drivers/gpu/drm/msm/dp/dp_ctrl.c                    | 4 ++--
+ drivers/gpu/drm/msm/edp/edp_connector.c             | 2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_bridge.c              | 2 +-
+ drivers/gpu/drm/msm/hdmi/hdmi_connector.c           | 2 +-
+ 7 files changed, 8 insertions(+), 8 deletions(-)
 
-I guess this is not *strictly* necessary at this point, since the
-shrinker has a kref_get_unless_zero() guard, but I guess we need to
-remove the object from the shrinker LRU at some point during
-destruction anyway.
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
->                 ttm_bo_put(i915_gem_to_ttm(obj));
->         } else {
->                 __i915_gem_free_object(obj);
-
-
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c
+index 88645dbc3785..83140066441e 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_dtv_encoder.c
+@@ -50,7 +50,7 @@ static void mdp4_dtv_encoder_mode_set(struct drm_encoder *encoder,
+ 
+ 	DBG("set mode: " DRM_MODE_FMT, DRM_MODE_ARG(mode));
+ 
+-	mdp4_dtv_encoder->pixclock = mode->clock * 1000;
++	mdp4_dtv_encoder->pixclock = mode->clock * 1000U;
+ 
+ 	DBG("pixclock=%lu", mdp4_dtv_encoder->pixclock);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c
+index 10eb3e5b218e..d90dc0a39855 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lcdc_encoder.c
+@@ -225,7 +225,7 @@ static void mdp4_lcdc_encoder_mode_set(struct drm_encoder *encoder,
+ 
+ 	DBG("set mode: " DRM_MODE_FMT, DRM_MODE_ARG(mode));
+ 
+-	mdp4_lcdc_encoder->pixclock = mode->clock * 1000;
++	mdp4_lcdc_encoder->pixclock = mode->clock * 1000U;
+ 
+ 	DBG("pixclock=%lu", mdp4_lcdc_encoder->pixclock);
+ 
+diff --git a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+index 7288041dd86a..a965e7962a7f 100644
+--- a/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
++++ b/drivers/gpu/drm/msm/disp/mdp4/mdp4_lvds_connector.c
+@@ -64,7 +64,7 @@ static int mdp4_lvds_connector_mode_valid(struct drm_connector *connector,
+ 	struct drm_encoder *encoder = mdp4_lvds_connector->encoder;
+ 	long actual, requested;
+ 
+-	requested = 1000 * mode->clock;
++	requested = 1000U * mode->clock;
+ 	actual = mdp4_lcdc_round_pixclk(encoder, requested);
+ 
+ 	DBG("requested=%ld, actual=%ld", requested, actual);
+diff --git a/drivers/gpu/drm/msm/dp/dp_ctrl.c b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+index 62e75dc8afc6..6babeb79aeb0 100644
+--- a/drivers/gpu/drm/msm/dp/dp_ctrl.c
++++ b/drivers/gpu/drm/msm/dp/dp_ctrl.c
+@@ -1316,7 +1316,7 @@ static int dp_ctrl_enable_mainlink_clocks(struct dp_ctrl_private *ctrl)
+ 	opts_dp->lanes = ctrl->link->link_params.num_lanes;
+ 	opts_dp->link_rate = ctrl->link->link_params.rate / 100;
+ 	dp_ctrl_set_clock_rate(ctrl, DP_CTRL_PM, "ctrl_link",
+-					ctrl->link->link_params.rate * 1000);
++					ctrl->link->link_params.rate * 1000U);
+ 
+ 	phy_configure(phy, &dp_io->phy_opts);
+ 	phy_power_on(phy);
+@@ -1336,7 +1336,7 @@ static int dp_ctrl_enable_stream_clocks(struct dp_ctrl_private *ctrl)
+ 	int ret = 0;
+ 
+ 	dp_ctrl_set_clock_rate(ctrl, DP_STREAM_PM, "stream_pixel",
+-					ctrl->dp_ctrl.pixel_rate * 1000);
++					ctrl->dp_ctrl.pixel_rate * 1000U);
+ 
+ 	ret = dp_power_clk_enable(ctrl->power, DP_STREAM_PM, true);
+ 	if (ret)
+diff --git a/drivers/gpu/drm/msm/edp/edp_connector.c b/drivers/gpu/drm/msm/edp/edp_connector.c
+index 73cb5fd97a5a..837e7873141f 100644
+--- a/drivers/gpu/drm/msm/edp/edp_connector.c
++++ b/drivers/gpu/drm/msm/edp/edp_connector.c
+@@ -64,7 +64,7 @@ static int edp_connector_mode_valid(struct drm_connector *connector,
+ 	struct msm_kms *kms = priv->kms;
+ 	long actual, requested;
+ 
+-	requested = 1000 * mode->clock;
++	requested = 1000L * mode->clock;
+ 	actual = kms->funcs->round_pixclk(kms,
+ 			requested, edp_connector->edp->encoder);
+ 
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+index 6e380db9287b..e4c68a59772a 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_bridge.c
+@@ -209,7 +209,7 @@ static void msm_hdmi_bridge_mode_set(struct drm_bridge *bridge,
+ 
+ 	mode = adjusted_mode;
+ 
+-	hdmi->pixclock = mode->clock * 1000;
++	hdmi->pixclock = mode->clock * 1000U;
+ 
+ 	hstart = mode->htotal - mode->hsync_start;
+ 	hend   = mode->htotal - mode->hsync_start + mode->hdisplay;
+diff --git a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+index 58707a1f3878..ce116a7b1bba 100644
+--- a/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
++++ b/drivers/gpu/drm/msm/hdmi/hdmi_connector.c
+@@ -385,7 +385,7 @@ static int msm_hdmi_connector_mode_valid(struct drm_connector *connector,
+ 	struct msm_kms *kms = priv->kms;
+ 	long actual, requested;
+ 
+-	requested = 1000 * mode->clock;
++	requested = 1000U * mode->clock;
+ 	actual = kms->funcs->round_pixclk(kms,
+ 			requested, hdmi_connector->hdmi->encoder);
+ 
+-- 
+2.32.0
 
