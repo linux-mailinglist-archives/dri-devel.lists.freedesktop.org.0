@@ -1,49 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B3E441D77F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:17:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F46241D789
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:19:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A2066EB5E;
-	Thu, 30 Sep 2021 10:17:34 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B4CBD6EB60;
+	Thu, 30 Sep 2021 10:19:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 30A496EB5D;
- Thu, 30 Sep 2021 10:17:33 +0000 (UTC)
-Date: Thu, 30 Sep 2021 10:17:29 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1632997050;
- bh=omu6kUN/ZbjN/MA32O0UnYTGse061XaoIw5SVvXsMJg=;
- h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
- b=kFLPl7HPxuXTisHVHRjo3tmjECLclF4sbz9BepfxOoj+K+F3V6xyK+RCwvy4v8zLY
- CUadODmeZxu+MWJsdu6xVmzimRpEfHQQbP+4IAtabwp9Y106PoqMvngC0QmY4kVW4I
- DKE9KzxLLNtMZcjOka56mhNvJQSkEwM7ddIhrNxJCWyZtEhcMixRZ30ufpj0PkAdtT
- LgTLVOKJ/wv5O1TW1ip1u4D0qQZgizRv6MBbKf/Q07JShMJzgufNX8HkCRCTFvyilB
- v8Gq+JBb0AY9bPx4nxZgo5G0baPoy88aluPiK6d7YuDxqRmZHcg9y8SDR+WHCkPts2
- GzjrPYCFQs0rg==
-To: Guo Zhengkui <guozhengkui@vivo.com>
-From: Simon Ser <contact@emersion.fr>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, "Pan,
- Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Guchun Chen <guchun.chen@amd.com>,
- Peng Ju Zhou <PengJu.Zhou@amd.com>, Bokun Zhang <Bokun.Zhang@amd.com>,
- Likun GAO <Likun.Gao@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, kernel@vivo.com
-Subject: Re: [PATCH] drm/amdgpu: fix some repeated includings
-Message-ID: <AGiYadRf5XyGUqLxwu3ykKzfwM2BgZo4yCAaEXdQiYfH2dbyKmipDNrclnI2lZH3HzNh71VBy5QKz3O4fFvQETjTI9hoKzKHjZNBz9ERKI8=@emersion.fr>
-In-Reply-To: <20210930094239.7435-1-guozhengkui@vivo.com>
-References: <20210930094239.7435-1-guozhengkui@vivo.com>
+Received: from smtp-relay-canonical-0.canonical.com
+ (smtp-relay-canonical-0.canonical.com [185.125.188.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5A2AB6EB60
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 10:19:43 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-0.canonical.com (Postfix) with ESMTPSA id 6D53040DD7; 
+ Thu, 30 Sep 2021 10:19:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1632997181;
+ bh=3HqHjju1V6qHP4N5Fhu3jHizcZDAmcAuKPY+5zu5uUA=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=DFRDD/IITmkIue9vNoR3GTyvYtqoCl6x8xNqCh44bOrIaKBe5ViQ72pzhF6bTUzRX
+ QOQbRPbmQsAdXhHoAKdXcN9IX5FajlToixLg62JCJLkHn6MoQcuthfwpEd7yknMeZW
+ S7ouknTJ6ZkUf25UoKwzDButS2mUuLkbi02jvpT3lYNqiZXfzCOfhWOT02bFkPcE/b
+ sq48NTIIKEHq/0/96U8MR55YEeDWu69UiAAPI4PwdedbZnfF0LR1qLSfzIEiabLTle
+ VH3y2WHtIop8PjVnRD0Qu10XNDd0K7iEuofStKZzOxethnuJ91bdBGD/QknAKCERqX
+ l2TP0jwsOo0Jg==
+From: Colin King <colin.king@canonical.com>
+To: David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Nicholas Verne <nverne@chromium.org>,
+ Gurchetan Singh <gurchetansingh@chromium.org>,
+ dri-devel@lists.freedesktop.org, virtualization@lists.linux-foundation.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/virtio: fix potential integer overflow on shift of
+ a int
+Date: Thu, 30 Sep 2021 11:19:41 +0100
+Message-Id: <20210930101941.16546-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,8 +56,36 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-One include is v2, the other is v3, or am I missing something?
+From: Colin Ian King <colin.king@canonical.com>
+
+The left shift of unsigned int 32 bit integer constant 1 is evaluated
+using 32 bit arithmetic and then assigned to a signed 64 bit integer.
+In the case where i is 32 or more this can lead to an overflow. Fix
+this by shifting the value 1ULL instead.
+
+Addresses-Coverity: ("Uninitentional integer overflow")
+Fixes: 8d6b006e1f51 ("drm/virtio: implement context init: handle VIRTGPU_CONTEXT_PARAM_POLL_RINGS_MASK")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/virtio/virtgpu_ioctl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/virtio/virtgpu_ioctl.c b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+index 5618a1d5879c..b3b0557d72cf 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_ioctl.c
++++ b/drivers/gpu/drm/virtio/virtgpu_ioctl.c
+@@ -819,7 +819,7 @@ static int virtio_gpu_context_init_ioctl(struct drm_device *dev,
+ 	if (vfpriv->ring_idx_mask) {
+ 		valid_ring_mask = 0;
+ 		for (i = 0; i < vfpriv->num_rings; i++)
+-			valid_ring_mask |= 1 << i;
++			valid_ring_mask |= 1ULL << i;
+ 
+ 		if (~valid_ring_mask & vfpriv->ring_idx_mask) {
+ 			ret = -EINVAL;
+-- 
+2.32.0
+
