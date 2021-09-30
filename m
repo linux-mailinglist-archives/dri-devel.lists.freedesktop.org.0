@@ -2,35 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884E141E15F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 20:47:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D73841E1FC
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 21:06:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 274076E44F;
-	Thu, 30 Sep 2021 18:47:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9599F6EC48;
+	Thu, 30 Sep 2021 19:06:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 756996E44F
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 18:47:30 +0000 (UTC)
-Received: from localhost.localdomain (unknown
- [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D915C1F451B3;
- Thu, 30 Sep 2021 19:47:28 +0100 (BST)
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Rob Herring <robh+dt@kernel.org>,
- Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Steven Price <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>
-Cc: dri-devel@lists.freedesktop.org,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: [PATCH] drm/panfrost: Add PANFROST_BO_NO{READ,WRITE} flags
-Date: Thu, 30 Sep 2021 20:47:23 +0200
-Message-Id: <20210930184723.1482426-1-boris.brezillon@collabora.com>
-X-Mailer: git-send-email 2.31.1
+Received: from smtp.smtpout.orange.fr (smtp08.smtpout.orange.fr
+ [80.12.242.130])
+ by gabe.freedesktop.org (Postfix) with ESMTP id CF5F46EC4A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 19:06:14 +0000 (UTC)
+Received: from [192.168.1.18] ([90.126.248.220]) by mwinf5d10 with ME
+ id 0JyF260054m3Hzu03JyFua; Thu, 30 Sep 2021 20:58:42 +0200
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Thu, 30 Sep 2021 20:58:42 +0200
+X-ME-IP: 90.126.248.220
+Subject: Re: [PATCH] drm/i915: Use direction definition DMA_BIDIRECTIONAL
+ instead of PCI_DMA_BIDIRECTIONAL
+To: Cai Huoqing <caihuoqing@baidu.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gvt-dev@lists.freedesktop.org
+References: <20210925124613.144-1-caihuoqing@baidu.com>
+ <YVXH87Uw3urD6q5x@phenom.ffwll.local>
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Message-ID: <3a2ada00-fe4f-284c-46a5-c0f6676bcfe1@wanadoo.fr>
+Date: Thu, 30 Sep 2021 20:58:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <YVXH87Uw3urD6q5x@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -47,136 +55,185 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-So we can create GPU mappings without R/W permissions. Particularly
-useful to debug corruptions caused by out-of-bound writes.
+Le 30/09/2021 à 16:21, Daniel Vetter a écrit :
+> On Sat, Sep 25, 2021 at 08:46:12PM +0800, Cai Huoqing wrote:
+>> Replace direction definition PCI_DMA_BIDIRECTIONAL
+>> with DMA_BIDIRECTIONAL, because it helps to enhance readability
+>> and avoid possible inconsistency.
+>>
+>> Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
+> 
+> Applied to drm-intel-gt-next, thanks for the patch.
+> -Daniel
 
-Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
----
- drivers/gpu/drm/panfrost/panfrost_drv.c | 14 ++++++++++++--
- drivers/gpu/drm/panfrost/panfrost_gem.c |  2 ++
- drivers/gpu/drm/panfrost/panfrost_gem.h |  2 ++
- drivers/gpu/drm/panfrost/panfrost_mmu.c |  8 +++++++-
- include/uapi/drm/panfrost_drm.h         |  2 ++
- 5 files changed, 25 insertions(+), 3 deletions(-)
+Hi,
+just in case, a similar patch received some (unrelated) comments a few 
+weeks ago. See [1].
 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-index 82ad9a67f251..40e4a4db3ab1 100644
---- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-@@ -75,6 +75,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
- 	return 0;
- }
- 
-+#define PANFROST_BO_FLAGS \
-+	(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP | \
-+	 PANFROST_BO_NOREAD | PANFROST_BO_NOWRITE)
-+
- static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
- 		struct drm_file *file)
- {
-@@ -84,7 +88,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
- 	struct panfrost_gem_mapping *mapping;
- 
- 	if (!args->size || args->pad ||
--	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-+	    (args->flags & ~PANFROST_BO_FLAGS))
- 		return -EINVAL;
- 
- 	/* Heaps should never be executable */
-@@ -92,6 +96,11 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
- 	    !(args->flags & PANFROST_BO_NOEXEC))
- 		return -EINVAL;
- 
-+	/* Executable implies readable */
-+	if ((args->flags & PANFROST_BO_NOREAD) &&
-+	    !(args->flags & PANFROST_BO_NOEXEC))
-+		return -EINVAL;
-+
- 	bo = panfrost_gem_create_with_handle(file, dev, args->size, args->flags,
- 					     &args->handle);
- 	if (IS_ERR(bo))
-@@ -520,6 +529,7 @@ DEFINE_DRM_GEM_FOPS(panfrost_drm_driver_fops);
-  * - 1.0 - initial interface
-  * - 1.1 - adds HEAP and NOEXEC flags for CREATE_BO
-  * - 1.2 - adds AFBC_FEATURES query
-+ * - 1.3 - adds PANFROST_BO_NO{READ,WRITE} flags
-  */
- static const struct drm_driver panfrost_drm_driver = {
- 	.driver_features	= DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ,
-@@ -532,7 +542,7 @@ static const struct drm_driver panfrost_drm_driver = {
- 	.desc			= "panfrost DRM",
- 	.date			= "20180908",
- 	.major			= 1,
--	.minor			= 2,
-+	.minor			= 3,
- 
- 	.gem_create_object	= panfrost_gem_create_object,
- 	.prime_handle_to_fd	= drm_gem_prime_handle_to_fd,
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-index 23377481f4e3..d6c1bb1445f2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-@@ -251,6 +251,8 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
- 
- 	bo = to_panfrost_bo(&shmem->base);
- 	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
-+	bo->noread = !!(flags & PANFROST_BO_NOREAD);
-+	bo->nowrite = !!(flags & PANFROST_BO_NOWRITE);
- 	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
- 
- 	/*
-diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-index 8088d5fd8480..6246b5fef446 100644
---- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-+++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-@@ -37,6 +37,8 @@ struct panfrost_gem_object {
- 	atomic_t gpu_usecount;
- 
- 	bool noexec		:1;
-+	bool noread		:1;
-+	bool nowrite		:1;
- 	bool is_heap		:1;
- };
- 
-diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-index f51d3f791a17..6a5c9d94d6f2 100644
---- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-+++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-@@ -307,7 +307,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	struct drm_gem_object *obj = &bo->base.base;
- 	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
- 	struct sg_table *sgt;
--	int prot = IOMMU_READ | IOMMU_WRITE;
-+	int prot = 0;
- 
- 	if (WARN_ON(mapping->active))
- 		return 0;
-@@ -315,6 +315,12 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
- 	if (bo->noexec)
- 		prot |= IOMMU_NOEXEC;
- 
-+	if (!bo->nowrite)
-+		prot |= IOMMU_WRITE;
-+
-+	if (!bo->noread)
-+		prot |= IOMMU_READ;
-+
- 	sgt = drm_gem_shmem_get_pages_sgt(obj);
- 	if (WARN_ON(IS_ERR(sgt)))
- 		return PTR_ERR(sgt);
-diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-index 061e700dd06c..a2de81225125 100644
---- a/include/uapi/drm/panfrost_drm.h
-+++ b/include/uapi/drm/panfrost_drm.h
-@@ -86,6 +86,8 @@ struct drm_panfrost_wait_bo {
- 
- #define PANFROST_BO_NOEXEC	1
- #define PANFROST_BO_HEAP	2
-+#define PANFROST_BO_NOREAD	4
-+#define PANFROST_BO_NOWRITE	8
- 
- /**
-  * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
--- 
-2.31.1
+Should it rings some bells to someone who know who knows what should be 
+done.
+
+Just my 2c.
+
+[1]: 
+https://lore.kernel.org/kernel-janitors/0cd61d5b-ac88-31e8-99ad-143af480416f@arm.com/
+
+CJ
+
+
+> 
+>> ---
+>>   drivers/gpu/drm/i915/gt/intel_region_lmem.c |  4 ++--
+>>   drivers/gpu/drm/i915/gvt/gtt.c              | 17 ++++++++---------
+>>   drivers/gpu/drm/i915/gvt/kvmgt.c            |  4 ++--
+>>   drivers/gpu/drm/i915/i915_gem_gtt.c         |  4 ++--
+>>   4 files changed, 14 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> index a74b72f50cc9..afb35d2e5c73 100644
+>> --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+>> @@ -32,7 +32,7 @@ static int init_fake_lmem_bar(struct intel_memory_region *mem)
+>>   	mem->remap_addr = dma_map_resource(i915->drm.dev,
+>>   					   mem->region.start,
+>>   					   mem->fake_mappable.size,
+>> -					   PCI_DMA_BIDIRECTIONAL,
+>> +					   DMA_BIDIRECTIONAL,
+>>   					   DMA_ATTR_FORCE_CONTIGUOUS);
+>>   	if (dma_mapping_error(i915->drm.dev, mem->remap_addr)) {
+>>   		drm_mm_remove_node(&mem->fake_mappable);
+>> @@ -62,7 +62,7 @@ static void release_fake_lmem_bar(struct intel_memory_region *mem)
+>>   	dma_unmap_resource(mem->i915->drm.dev,
+>>   			   mem->remap_addr,
+>>   			   mem->fake_mappable.size,
+>> -			   PCI_DMA_BIDIRECTIONAL,
+>> +			   DMA_BIDIRECTIONAL,
+>>   			   DMA_ATTR_FORCE_CONTIGUOUS);
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+>> index e5c2fdfc20e3..53d0cb327539 100644
+>> --- a/drivers/gpu/drm/i915/gvt/gtt.c
+>> +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+>> @@ -745,7 +745,7 @@ static void ppgtt_free_spt(struct intel_vgpu_ppgtt_spt *spt)
+>>   	trace_spt_free(spt->vgpu->id, spt, spt->guest_page.type);
+>>   
+>>   	dma_unmap_page(kdev, spt->shadow_page.mfn << I915_GTT_PAGE_SHIFT, 4096,
+>> -		       PCI_DMA_BIDIRECTIONAL);
+>> +		       DMA_BIDIRECTIONAL);
+>>   
+>>   	radix_tree_delete(&spt->vgpu->gtt.spt_tree, spt->shadow_page.mfn);
+>>   
+>> @@ -849,7 +849,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+>>   	 */
+>>   	spt->shadow_page.type = type;
+>>   	daddr = dma_map_page(kdev, spt->shadow_page.page,
+>> -			     0, 4096, PCI_DMA_BIDIRECTIONAL);
+>> +			     0, 4096, DMA_BIDIRECTIONAL);
+>>   	if (dma_mapping_error(kdev, daddr)) {
+>>   		gvt_vgpu_err("fail to map dma addr\n");
+>>   		ret = -EINVAL;
+>> @@ -865,7 +865,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+>>   	return spt;
+>>   
+>>   err_unmap_dma:
+>> -	dma_unmap_page(kdev, daddr, PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+>> +	dma_unmap_page(kdev, daddr, PAGE_SIZE, DMA_BIDIRECTIONAL);
+>>   err_free_spt:
+>>   	free_spt(spt);
+>>   	return ERR_PTR(ret);
+>> @@ -2409,8 +2409,7 @@ static int alloc_scratch_pages(struct intel_vgpu *vgpu,
+>>   		return -ENOMEM;
+>>   	}
+>>   
+>> -	daddr = dma_map_page(dev, virt_to_page(scratch_pt), 0,
+>> -			4096, PCI_DMA_BIDIRECTIONAL);
+>> +	daddr = dma_map_page(dev, virt_to_page(scratch_pt), 0, 4096, DMA_BIDIRECTIONAL);
+>>   	if (dma_mapping_error(dev, daddr)) {
+>>   		gvt_vgpu_err("fail to dmamap scratch_pt\n");
+>>   		__free_page(virt_to_page(scratch_pt));
+>> @@ -2461,7 +2460,7 @@ static int release_scratch_page_tree(struct intel_vgpu *vgpu)
+>>   		if (vgpu->gtt.scratch_pt[i].page != NULL) {
+>>   			daddr = (dma_addr_t)(vgpu->gtt.scratch_pt[i].page_mfn <<
+>>   					I915_GTT_PAGE_SHIFT);
+>> -			dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+>> +			dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+>>   			__free_page(vgpu->gtt.scratch_pt[i].page);
+>>   			vgpu->gtt.scratch_pt[i].page = NULL;
+>>   			vgpu->gtt.scratch_pt[i].page_mfn = 0;
+>> @@ -2741,7 +2740,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+>>   	}
+>>   
+>>   	daddr = dma_map_page(dev, virt_to_page(page), 0,
+>> -			4096, PCI_DMA_BIDIRECTIONAL);
+>> +			4096, DMA_BIDIRECTIONAL);
+>>   	if (dma_mapping_error(dev, daddr)) {
+>>   		gvt_err("fail to dmamap scratch ggtt page\n");
+>>   		__free_page(virt_to_page(page));
+>> @@ -2755,7 +2754,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+>>   		ret = setup_spt_oos(gvt);
+>>   		if (ret) {
+>>   			gvt_err("fail to initialize SPT oos\n");
+>> -			dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+>> +			dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+>>   			__free_page(gvt->gtt.scratch_page);
+>>   			return ret;
+>>   		}
+>> @@ -2779,7 +2778,7 @@ void intel_gvt_clean_gtt(struct intel_gvt *gvt)
+>>   	dma_addr_t daddr = (dma_addr_t)(gvt->gtt.scratch_mfn <<
+>>   					I915_GTT_PAGE_SHIFT);
+>>   
+>> -	dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+>> +	dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+>>   
+>>   	__free_page(gvt->gtt.scratch_page);
+>>   
+>> diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+>> index 7efa386449d1..20b82fb036f8 100644
+>> --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+>> +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+>> @@ -328,7 +328,7 @@ static int gvt_dma_map_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>>   		return ret;
+>>   
+>>   	/* Setup DMA mapping. */
+>> -	*dma_addr = dma_map_page(dev, page, 0, size, PCI_DMA_BIDIRECTIONAL);
+>> +	*dma_addr = dma_map_page(dev, page, 0, size, DMA_BIDIRECTIONAL);
+>>   	if (dma_mapping_error(dev, *dma_addr)) {
+>>   		gvt_vgpu_err("DMA mapping failed for pfn 0x%lx, ret %d\n",
+>>   			     page_to_pfn(page), ret);
+>> @@ -344,7 +344,7 @@ static void gvt_dma_unmap_page(struct intel_vgpu *vgpu, unsigned long gfn,
+>>   {
+>>   	struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+>>   
+>> -	dma_unmap_page(dev, dma_addr, size, PCI_DMA_BIDIRECTIONAL);
+>> +	dma_unmap_page(dev, dma_addr, size, DMA_BIDIRECTIONAL);
+>>   	gvt_unpin_guest_page(vgpu, gfn, size);
+>>   }
+>>   
+>> diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> index 36489be4896b..cd5f2348a187 100644
+>> --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+>> @@ -30,7 +30,7 @@ int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+>>   	do {
+>>   		if (dma_map_sg_attrs(obj->base.dev->dev,
+>>   				     pages->sgl, pages->nents,
+>> -				     PCI_DMA_BIDIRECTIONAL,
+>> +				     DMA_BIDIRECTIONAL,
+>>   				     DMA_ATTR_SKIP_CPU_SYNC |
+>>   				     DMA_ATTR_NO_KERNEL_MAPPING |
+>>   				     DMA_ATTR_NO_WARN))
+>> @@ -64,7 +64,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+>>   		usleep_range(100, 250);
+>>   
+>>   	dma_unmap_sg(i915->drm.dev, pages->sgl, pages->nents,
+>> -		     PCI_DMA_BIDIRECTIONAL);
+>> +		     DMA_BIDIRECTIONAL);
+>>   }
+>>   
+>>   /**
+>> -- 
+>> 2.25.1
+>>
+> 
 
