@@ -2,55 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F3741D48F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 09:32:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF80A41D3BD
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 08:58:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 426AC6E32F;
-	Thu, 30 Sep 2021 07:32:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 53E796E30C;
+	Thu, 30 Sep 2021 06:58:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
- [IPv6:2607:f8b0:4864:20::332])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 777B16E30C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:37:26 +0000 (UTC)
-Received: by mail-ot1-x332.google.com with SMTP id
- 5-20020a9d0685000000b0054706d7b8e5so6038149otx.3
- for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 23:37:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5249E6E30C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:58:13 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id g41so21090171lfv.1
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 23:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=UpCMKte4+xNLfPIEFcorY2txGsUkKL05E8UxngAqFMw=;
- b=N5ykDUOZTUBs2Y5qWszbpDqp88cTbjalX0dj3NmeVUvMuPOrOHLAaN3NqZfr7keKOp
- njkX/0bdG6+fJIYpSQB+GXnLOZTAOWDwgZ2njIcR0CSDszZCD1NHQKOw0pyiDLCKqXQv
- 24aJuN/lB9NiuQSfnRcCV3THkBQqxs6wwtZpmIQHk8LihgnPU3ZtLVOTXu9WOwhmmEf1
- BCgWe+xyHzPCiNmAtB5nlWFWL4TMO+UCT8H0MAUrvK83dq9VdN6xD6IaqHyG+lMq6B4v
- kjKHvlOQ/RJwzHgBwe5r/IjMK/ErISKfAuTrZzmvtfckdpqvlZn5eUPQCe/RmRlI78k8
- qPQw==
+ :cc:content-transfer-encoding;
+ bh=AM58cnJzWheq7pN6e6L+Di8EyxwT/TZuwdLAOFe5lTM=;
+ b=zUA02mDiD7ySh4VXdtJEkfF+YdiTY26SnB/zKlU6AV6H7K06hWuMhIkqyICSRgwmLh
+ mMJqj75qYMRjZUryj8QznGOt1/uDr4q20FUyRlmfjvyWGDa9fNh1/KqmeTmllPC6LWsE
+ x4UA5ycScWSfPjOhkCW04pIaQRZYoSk1kxBDhV5iIfdgOPXgQIurppjGXWQBQKV44tdK
+ e3xYCw8TWtFK4EQHVWDRiAj+PrQUHjPo23h+iyjT1HwajPzvid5J/T6xDSKDma7HJFnH
+ Cj5iu6tWUHc/wClUvPhMJJqFlksmjgvu0yQ5HqUPJilAeIxDFCaEgOlTE9y+38eHL9g4
+ 81Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=UpCMKte4+xNLfPIEFcorY2txGsUkKL05E8UxngAqFMw=;
- b=69MxPuMS2kdXMc2YT2fGEwwaCQQZQ0JAXULSJ3cjd0sdGNgMrn7cpM4k52aIt7HmV4
- nWlRzptaaRXaX5WyZKK2Qpw9Mv9OhoXhbL9bkISQozgKTj8Dw6KJtvGcslTrFKzV7HPd
- BumEyslBhQcxYNYTKxczydUpS+YbQlfxYcS4i+uy8nj7yFYdWMIK6OkG/S79CNq/RUri
- cGhINkhqEA8O1gwsxHkuQ6F4n6JsHrb5lVUxFdv1LxGxAgq2TaWZnXGv4q63Iex/lDHo
- RNcRGUf2qay/FQe6lPCrph8WqjWjlFds+WCB46OSM3EG/H9DH3/zgT8UfwC3HA1cTIZM
- JKtQ==
-X-Gm-Message-State: AOAM530faOoqqWFLlZEras4sy241XTlQhPKldlh6xU9MnldEC+czJVBH
- H8TggebjZxnAbIrr6G7g0aeuHeLqptltLRzWQi8=
-X-Google-Smtp-Source: ABdhPJxYSHNlbkBfgzm9RVq+rFNE58GGZ65ZfxotZSdw0rV8yudfRpYxR0498mEQjyXg/GMz0ISms1OLAQqNDtP3hus=
-X-Received: by 2002:a05:6830:1089:: with SMTP id
- y9mr3770951oto.335.1632983845807; 
- Wed, 29 Sep 2021 23:37:25 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=AM58cnJzWheq7pN6e6L+Di8EyxwT/TZuwdLAOFe5lTM=;
+ b=pxUnYe559MFPh9izDIjO6uTPM5rNPXo2C3KdIwHcYDcA7Ln/0RivXoY71y2Ig0iPv5
+ nfzT8db/0ULHSq71kKHKgjWidxNslzuQRpG6RMmo8ssaMZZbgWojwCG9276cZ3vHiJIY
+ nd8tTNE7qyciQUrr8Rjkj91vV8sb/HpStZHWq6628mz9rizBw6kkDVEBkq99rf73isaK
+ 0CTA8RRKULdBE6WSQ6WEiOTKQVBSlzdiOD2rNyERo3RGXSXf5T+hVg6OHpz1FAiL/PMt
+ s5VsT76+okdfucBk0XWOL0zvjJPfZH3+WcXvvZjyF62r6TBdRW7g4VoJBrdMYgrG2933
+ kQRQ==
+X-Gm-Message-State: AOAM532EeUqBcicdM3ylyoiDqb5sVQ5PDCj96O5UJqvsMq7bBpjPS5M5
+ KVjFks90g0qYmH7vIB2C8hFrfua7WYNHg1AJd6RQNg==
+X-Google-Smtp-Source: ABdhPJyBqEgHtMpNYqgONgpO8bSsYcGCUmFFaeLYGEyFgNwtKcwbfga4y3No6ih2UN25mIxw8sdz+lK6j2VMsBbQMOg=
+X-Received: by 2002:a19:f507:: with SMTP id j7mr4119788lfb.645.1632985091555; 
+ Wed, 29 Sep 2021 23:58:11 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210930062014.38200-1-mie@igel.co.jp>
  <20210930062014.38200-2-mie@igel.co.jp>
-In-Reply-To: <20210930062014.38200-2-mie@igel.co.jp>
-From: Zhu Yanjun <zyjzyj2000@gmail.com>
-Date: Thu, 30 Sep 2021 14:37:14 +0800
-Message-ID: <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com>
+ <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com>
+In-Reply-To: <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com>
+From: Shunsuke Mie <mie@igel.co.jp>
+Date: Thu, 30 Sep 2021 15:58:00 +0900
+Message-ID: <CANXvt5pcHbRVa9=Uqi-MN6RY1g6OY1MDecyhdedqL8Xmv0y6QQ@mail.gmail.com>
 Subject: Re: [RFC PATCH v2 1/1] Providers/rxe: Add dma-buf support
-To: Shunsuke Mie <mie@igel.co.jp>
+To: Zhu Yanjun <zyjzyj2000@gmail.com>
 Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
  Alex Deucher <alexander.deucher@amd.com>,
  Daniel Vetter <daniel.vetter@ffwll.ch>, 
@@ -60,10 +61,11 @@ Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
  LKML <linux-kernel@vger.kernel.org>, 
- RDMA mailing list <linux-rdma@vger.kernel.org>, dhobsong@igel.co.jp,
- taki@igel.co.jp, etom@igel.co.jp
+ RDMA mailing list <linux-rdma@vger.kernel.org>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>, 
+ Takanari Hayama <taki@igel.co.jp>, Tomohito Esaki <etom@igel.co.jp>
 Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Thu, 30 Sep 2021 07:32:23 +0000
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,61 +81,56 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 30, 2021 at 2:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 15:37 Zhu Yanjun <zyjzyj2000@=
+gmail.com>:
 >
-> Implement a new provider method for dma-buf base memory registration.
+> On Thu, Sep 30, 2021 at 2:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+> >
+> > Implement a new provider method for dma-buf base memory registration.
+> >
+> > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > ---
+> >  providers/rxe/rxe.c | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
+> >
+> > diff --git a/providers/rxe/rxe.c b/providers/rxe/rxe.c
+> > index 3c3ea8bb..84e00e60 100644
+> > --- a/providers/rxe/rxe.c
+> > +++ b/providers/rxe/rxe.c
+> > @@ -239,6 +239,26 @@ static struct ibv_mr *rxe_reg_mr(struct ibv_pd *pd=
+, void *addr, size_t length,
+> >         return &vmr->ibv_mr;
+> >  }
+> >
+> > +static struct ibv_mr *rxe_reg_dmabuf_mr(struct ibv_pd *pd, uint64_t of=
+fset,
+> > +                                       size_t length, uint64_t iova, i=
+nt fd,
+> > +                                       int access)
+> > +{
+> > +       struct verbs_mr *vmr;
+> > +       int ret;
+> > +
+> > +       vmr =3D malloc(sizeof(*vmr));
+> > +       if (!vmr)
+> > +               return NULL;
+> > +
 >
-> Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
-> ---
->  providers/rxe/rxe.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+> Do we need to set vmr to zero like the following?
 >
-> diff --git a/providers/rxe/rxe.c b/providers/rxe/rxe.c
-> index 3c3ea8bb..84e00e60 100644
-> --- a/providers/rxe/rxe.c
-> +++ b/providers/rxe/rxe.c
-> @@ -239,6 +239,26 @@ static struct ibv_mr *rxe_reg_mr(struct ibv_pd *pd, void *addr, size_t length,
->         return &vmr->ibv_mr;
->  }
+> memset(vmr, 0, sizeof(*vmr));
 >
-> +static struct ibv_mr *rxe_reg_dmabuf_mr(struct ibv_pd *pd, uint64_t offset,
-> +                                       size_t length, uint64_t iova, int fd,
-> +                                       int access)
-> +{
-> +       struct verbs_mr *vmr;
-> +       int ret;
-> +
-> +       vmr = malloc(sizeof(*vmr));
-> +       if (!vmr)
-> +               return NULL;
-> +
+> Zhu Yanjun
+Thank you for your quick response.
 
-Do we need to set vmr to zero like the following?
+I think it is better to clear the vmr. Actually the mlx5 driver allocates
+the vmr using calloc().
 
-memset(vmr, 0, sizeof(*vmr));
+In addition, rxe_reg_mr() (not rxe_reg_dmabuf_mr()) is used the malloc
+and not clear the vmr. I think It has to be fixed too. Should I make
+another patch to fix this problem?
 
-Zhu Yanjun
+Thanks a lot.
+Shunsuke
 
-> +       ret = ibv_cmd_reg_dmabuf_mr(pd, offset, length, iova, fd, access, vmr);
-> +       if (ret) {
-> +               free(vmr);
-> +               return NULL;
-> +       }
-> +
-> +       return &vmr->ibv_mr;
-> +}
-> +
->  static int rxe_dereg_mr(struct verbs_mr *vmr)
->  {
->         int ret;
-> @@ -1706,6 +1726,7 @@ static const struct verbs_context_ops rxe_ctx_ops = {
->         .alloc_pd = rxe_alloc_pd,
->         .dealloc_pd = rxe_dealloc_pd,
->         .reg_mr = rxe_reg_mr,
-> +       .reg_dmabuf_mr = rxe_reg_dmabuf_mr,
->         .dereg_mr = rxe_dereg_mr,
->         .alloc_mw = rxe_alloc_mw,
->         .dealloc_mw = rxe_dealloc_mw,
-> --
-> 2.17.1
->
+~
