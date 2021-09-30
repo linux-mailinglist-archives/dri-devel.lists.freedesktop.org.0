@@ -1,116 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317EF41D693
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:43:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 160D041D6C1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:48:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C19BB6E3C1;
-	Thu, 30 Sep 2021 09:43:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 069DB6EB74;
+	Thu, 30 Sep 2021 09:48:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
- (mail-eopbgr1320118.outbound.protection.outlook.com [40.107.132.118])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F00C86E3C1;
- Thu, 30 Sep 2021 09:43:44 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dpL5DUfu0Hi/Hr5P0RbyimMtwF6o0vJyqxFqMNXdXdpp0b4Dqn4J5YfJAl4Ht4JHiBUWAgdPcp8cD0XQ136N7P5ugy2m1dsoZpoa9N9+/cvXk3vQF3bRGZiIRkLDKc0JHTT0LvX3FCmZFyRvfoQH1xgzM+PD9d8xYR+e2Z+yxGlQNj/4eTDYIvp37+f/sMI7/UXGFEeNVkva11yUMOzxSEs1GI4UNu8y5VislMp3KtX1qh4YskWa9CCAop9ITvBLQTgElZN2QN1G7EHDWTNkXVL79ecNgRuWWzCiUbXCmXHNNQ5cI3v0DGqnJOYFc6Fn0KFkN4HbI9gQ7RWBbSpoig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
- bh=1YfAmbMmiU9GZUOQZxb17hIS+xktquCrY8RQjnlbvNE=;
- b=OHdsNaCijltRfUlEeySr3kGH7kLIvXpVix4cnpKDKjNRvIbw0pUAscOYUltS4uTmbgsl6lq88AT1QBXFPTTurMXRsgf2JayvG2FIxxjYt0A0ZhENqTvr+VKF/yroIdFPxH255SMG3rb6d1Qh9m+wR7XH0nbKqCDw95vQ5yqQ0S8aS/6HLomV0VJhLYLorfbDwfYbH+qrnsD14z+2dyjPsOXTdovgxqT/mWZmnOCYqahTNHRArJfGTT8qkAeOmsIBEcsHDBsCyf8X7f4u3NMdDFz8/khgXDe20C8TtdqIFpxPK++PbiLae662BD57YToNdwVUBfHZNIIj2t2B+zYIgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
- s=selector2-vivo0-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1YfAmbMmiU9GZUOQZxb17hIS+xktquCrY8RQjnlbvNE=;
- b=DrF9HtwZ7OljeIJWCzDTzx+pF19ck1XAEdUyc2UvimPc8UCWL+LowPaSUPqZ2tai8Y6Xkoh4hWT0GwgDE+UQSve8skticaZGjlYkljdJJM8398KpjeX0e8nKMc1kYTCFQpEXpm0hNdbN+1KQy370YxLqwr94HEcy+z+ExB+p8O8=
-Authentication-Results: amd.com; dkim=none (message not signed)
- header.d=none;amd.com; dmarc=none action=none header.from=vivo.com;
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
- by HK0PR06MB2721.apcprd06.prod.outlook.com (2603:1096:203:57::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Thu, 30 Sep
- 2021 09:43:36 +0000
-Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::80d9:d4e4:300f:3156]) by HK2PR06MB3492.apcprd06.prod.outlook.com
- ([fe80::80d9:d4e4:300f:3156%5]) with mapi id 15.20.4544.023; Thu, 30 Sep 2021
- 09:43:36 +0000
-From: Guo Zhengkui <guozhengkui@vivo.com>
-To: Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Guchun Chen <guchun.chen@amd.com>,
- Peng Ju Zhou <PengJu.Zhou@amd.com>, Bokun Zhang <Bokun.Zhang@amd.com>,
- Likun GAO <Likun.Gao@amd.com>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Cc: kernel@vivo.com,
-	Guo Zhengkui <guozhengkui@vivo.com>
-Subject: [PATCH] drm/amdgpu: fix some repeated includings
-Date: Thu, 30 Sep 2021 17:42:32 +0800
-Message-Id: <20210930094239.7435-1-guozhengkui@vivo.com>
-X-Mailer: git-send-email 2.20.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: HKAPR03CA0005.apcprd03.prod.outlook.com
- (2603:1096:203:c8::10) To HK2PR06MB3492.apcprd06.prod.outlook.com
- (2603:1096:202:2f::10)
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com
+ [IPv6:2a00:1450:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A1D8A6EB55
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:48:46 +0000 (UTC)
+Received: by mail-wm1-x333.google.com with SMTP id
+ t16-20020a1c7710000000b003049690d882so7841390wmi.5
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 02:48:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-transfer-encoding:content-language;
+ bh=jR5Y+82BsQXFsZnRKnBleC4GUmMTUbrpi/2oFJafuT0=;
+ b=Qw184JB0zfT5qA6BMFsmYwIVETzwRW8RcI40nObzIbHbKHznxlgH7uj4bIT5NgFDg3
+ a+gp1fkngf0+MqLm/Uss4WJojXBPedM2gWPmh7FHOkx5LdBcyfWmUaG7MZd8by8B5Znp
+ 3a3BcS66PltR8MU39fvpitgnNs4OXBZtAsQV7yWomvYVW1xaoZi4Jw2pekAbIJQsfzY3
+ ErdAtZqR0h31pnZB4CBvKSkVFRqVN8BMliLXjILHHrT+PE+OIjTYGjYMJM+UhapEVTzJ
+ QHJNae9zABjtPFLJrYNkjGjfoOS29ZUg6FwYGfYsuzIrOhhsY11oqgXDsXQX/ki0La18
+ Lm9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-transfer-encoding
+ :content-language;
+ bh=jR5Y+82BsQXFsZnRKnBleC4GUmMTUbrpi/2oFJafuT0=;
+ b=jFwj7euu7n/CTrLbRKfjt7TV8c+ITYN9M6WkC5SkxjbGJYRTQKfPOyeVTODjro+YVJ
+ hvHecwAWShRf0OB21XKKKUj57RYDWGAZsN1zOv1AuYytEKb5ads7NszmIpE5MmHnhZhp
+ BsJXFoTrRQkyiWwqvQGHcJvg1mngoKAI1WDpOc/Cp58exSumYwQ3M8Zxk/CjjpZ3Lije
+ i+VANBwTMelWN+15UO0l90Iva7ev3Ddzg4NhJlV0twoo2ICEwjDXOBm/2wYqQHjxsM9h
+ QiJt94JQdpyC7mcWQO6Msm5n3XaxFckNYqonrki1iz5QWv2PRj12KuFfwm3KGeRsQ1uF
+ cwMw==
+X-Gm-Message-State: AOAM530gMoYavPKU11vumw2sAWGz44YKdNP6kQpLAeTA/p5jn9lZK8jv
+ irTxZpUr3OPjjCJKeoEoo+h15WnzaEE=
+X-Google-Smtp-Source: ABdhPJwkEIi6S1dfoppoiAkgPizrALno5aNVLEVse/8OYswD3Z4Z64S5xFDmxxvJmmrvHpF7keu3pg==
+X-Received: by 2002:a05:600c:40c4:: with SMTP id
+ m4mr15027686wmh.64.1632995325159; 
+ Thu, 30 Sep 2021 02:48:45 -0700 (PDT)
+Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
+ [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id i7sm2557134wrp.5.2021.09.30.02.48.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 30 Sep 2021 02:48:44 -0700 (PDT)
+Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v7
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
+ =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
+References: <20210720131110.88512-1-christian.koenig@amd.com>
+ <97ea61fb-aa20-5220-8304-e71145cc7587@daenzer.net>
+ <9eca7ec8-4a33-4ddb-e4cb-295c1033aa60@gmail.com>
+ <YVV8sVphD5BGeNtA@phenom.ffwll.local>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <4065f898-d31d-a5dc-8d9a-aafa0a1bed54@gmail.com>
+Date: Thu, 30 Sep 2021 11:48:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from localhost.localdomain (218.213.202.190) by
- HKAPR03CA0005.apcprd03.prod.outlook.com (2603:1096:203:c8::10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.13 via Frontend Transport; Thu, 30 Sep 2021 09:43:35 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 09254884-03d9-49df-1e49-08d983f6c60b
-X-MS-TrafficTypeDiagnostic: HK0PR06MB2721:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <HK0PR06MB2721EAC8A75D29C2F5F1DFC4C7AA9@HK0PR06MB2721.apcprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:854;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: n42Rru+AHtRdwP2w0lvzktFfykmbLvYGBwPgfeEeNBSMZFZFyKpf2T1a7/BLxXpPVrg8Q5CLO4LQPJ0s1WXgUqhT8zD2fOxvJ3JBOG/HlEavC0UgVrMPcmkJwy3PK1v+90YN6vdeExbbD/WkoKpJhO7BBm9RWnGIPUDT+4XsJvzFGLrD674X7fNS/ZTUmXra0J23uv929Dnt8chMJE1TEoWLN550ePQH5CWbweTIqN/sTcYRm6VeTAV43k5l72JDPN/62DESqulNlfTKvgfZe61/7CPR6BsFtKQQAmUhnQI6P9oBjV+jbZH7ekt74D4CWJye9d7UTdjuxWIZYaNgqVeCn8bY53mlit+sd2TKBuVxTJACgE/kgEzwV6e61Hk/+QNH6XjWhH8qodfYLrtH873gG0SIpNmKvWFtKrIjRFWlrOvIEIvZAvbXuaP7PwdaaBZnX9J2+9xk8/sQI8doA6KPPNXsHOIj/XuaCRusHH0yb5/ZJAJSHm8Ym0EVPOz+tPUsTERoubOgzxdm1j8d4mGHuzyT7+L1efT9KLk/3KYgBuEOUwBWyyMt/DS1i71T+kslOXW3CcZeVjOr3QdD4rshjhPN4Sr3l/1wIAZ5cyEnTh2DeWTGc8gzUhfZ4tEk1zRQLW6tkC6YA4dNlKMlfxP8r8QvVoOy0KPBWl38LXzKoDycAWguWMG+FfEGEw7O0qSfsl2AjcEWdabIXYIq1gAZvlZM68/ZP99whaThf7Y=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8936002)(4744005)(5660300002)(508600001)(7416002)(86362001)(921005)(4326008)(36756003)(186003)(6486002)(6512007)(6666004)(316002)(38100700002)(38350700002)(110136005)(956004)(2616005)(6506007)(8676002)(107886003)(66946007)(2906002)(1076003)(83380400001)(66476007)(26005)(66556008)(52116002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QttDZiI1LvnyoPKir2JN3LFxpyryf7LAleY3uctpjVHM85qCRRjhnrxwos85?=
- =?us-ascii?Q?/tl0hR2C6kv9MX+Dlu/EFdLfbAwy1y3jm5eICmeO2mJV1AHMvzixCADLjypW?=
- =?us-ascii?Q?v0Xhp/Cm9FtZr2yfawM6Vt5uG0zHBo0K4pwSYOUHf+TaXZO11vARFlOew/Cr?=
- =?us-ascii?Q?TY0gcZApE4PyHQcXnX/nSWKXYqQ9tWBIQHpOoylcpi1GHuGLzXNdrPkuPsAf?=
- =?us-ascii?Q?BiYCCbaXBVyyzljzaANVE8e1aroDfE8tLj0MHLzbmBPcFgAhkROw9VKkORT9?=
- =?us-ascii?Q?80uB5FKb+BBgOzKkn0kFsIJbOJTn6/ivuYnQrcNLirGUCeAbTV7I+4dYxb2j?=
- =?us-ascii?Q?+zclVLrrbrha3iy7EMhie9vlO6pGrYzwhh89Az9Snfaz3Wl3PeLotT0QKnLp?=
- =?us-ascii?Q?tIHtRBfkWjuYBSDMgiN3nAPHK8yPt2+P1XlWFon3xFCJsBJcpNRrfO1L0GAD?=
- =?us-ascii?Q?KmHEs4bfQuwZKGWbZmQJmYtqIf+6q6AA68hn41G60zbj4DsI9IoblPJS2Nmc?=
- =?us-ascii?Q?rwlHKrJ8+CdXCl+ggQ612DQbv4Fu9OBo7+zzDWra3deVyR17bgJC6w0pwc1G?=
- =?us-ascii?Q?m0hMTxejh8o5Z+1LFbA8pnA5bM7xwS9qnYQp+pHo3uFwlt2TDToi84VoCTTu?=
- =?us-ascii?Q?p4kbcsNALIVBl5GE10grToMBG7aeJXFrPAeaJRqsM0A1amPMzYlRdqE26Y25?=
- =?us-ascii?Q?UldyHo1amY7IdNB121xfE986RI5AhvU8Li3HGT8q4125Kq6Y88M1yqZz/3MA?=
- =?us-ascii?Q?Dm5eQ0c6rCceoyAM1cp+cfjq0AdF/zE6LS+YVI0ZSwczMzzg7vRzIQoqOteW?=
- =?us-ascii?Q?q+yhad0iitm4fmAelh0M8qI7DblwJQ9BTYRYjN+hl+7X+8M1tqI6Hkt7NC9X?=
- =?us-ascii?Q?fUPLAYtZAT8NM4vkt7IGgXODzy2Zaa6ON+CFQE2kq3gQ6X3LSxgCdSvIQdOF?=
- =?us-ascii?Q?Q7KxAla1e+GlCKzBfJ5UhrbJ0Vnr3RJpGQQpPp4OXO9U/G6kuBcH8uiP/eDi?=
- =?us-ascii?Q?rQQ1sElsqauoa3r6TWF60QspwA0OzZhoAqHoMuTwAJHKxZq7LQby8nrRACO2?=
- =?us-ascii?Q?ORkcaWJ5ETa42JtELoCHbEVpnEy0k7hAdf15GUB1sbg+0pnTW+FqBRS9KLYA?=
- =?us-ascii?Q?k9HEekFuOxcytThoFz+uq1vYxXNhfddvUbuI34mzjkgkEFzOY0mbjOOzGfjO?=
- =?us-ascii?Q?+lCum22dyM8rI1YI8f/8D7sDuQS0rWgnZhOkEuEnahPmVAUS6unVUpowEpRJ?=
- =?us-ascii?Q?GYRcpnP7Xao0SwjlxGBkQyBpwHPmVFGzR6oO8//NmgBvv02/5Nfc6LXSVEgy?=
- =?us-ascii?Q?IRN+NZkfUZZZzb6yx0ONWWAg?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09254884-03d9-49df-1e49-08d983f6c60b
-X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2021 09:43:35.9295 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C1PgYXHtQ05/+/5v2qmLqArGRWrzYX7AD1n7fMeiotHRC3jvtMQLiCbGs0RVPVisaeNMVCVa0/WlkDGKjI3c2g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2721
+In-Reply-To: <YVV8sVphD5BGeNtA@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -126,26 +82,90 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove two repeated includings in line 62 and 63.
 
-Signed-off-by: Guo Zhengkui <guozhengkui@vivo.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-index 291a47f7992a..94fca56583a0 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_discovery.c
-@@ -59,8 +59,6 @@
- #include "gfx_v10_0.h"
- #include "sdma_v5_0.h"
- #include "sdma_v5_2.h"
--#include "vcn_v2_0.h"
--#include "jpeg_v2_0.h"
- #include "vcn_v3_0.h"
- #include "jpeg_v3_0.h"
- #include "amdgpu_vkms.h"
--- 
-2.20.1
+Am 30.09.21 um 11:00 schrieb Daniel Vetter:
+> On Wed, Sep 22, 2021 at 01:08:44PM +0200, Christian König wrote:
+>> Totally forgotten to ping once more about that.
+>>
+>> Michel has tested this now and I think we should push it ASAP. So can I get
+>> an rb?
+> 		spin_lock_irq(&dmabuf->poll.lock);
+> 		if (dcb->active)
+> 			events &= ~EPOLLIN;
+> 		else
+> 			dcb->active = EPOLLIN;
+> 		spin_unlock_irq(&dmabuf->poll.lock);
+>
+>
+> This pattern (and same for EPOLLOUT) makes no sense to me. I guess the
+> intent is that this filters out events for which we're already listening,
+> but:
+>
+> - it checks for any active event, not the specific one
+
+Which is correct. We now use one dcb for EPOLLIN and another one for 
+EPOLLOUT.
+
+We could make that a boolean instead if that makes it cleaner.
+
+> - if we're waiting already and new fences have been added, wont we miss
+>    them?
+
+No, when we are already waiting the callback will sooner or later fire 
+and result in a re-check.
+
+> Or does this all work because the poll machinery restarts everything
+> again?
+
+Yes, exactly that. Otherwise waiting for multiple fences wouldn't work 
+either.
+
+Regards,
+Christian.
+
+>
+> I'm totally confused here for sure. The other changes in the patch look
+> good though.
+> -Daniel
+>
+>> Thanks,
+>> Christian.
+>>
+>> Am 23.07.21 um 10:04 schrieb Michel Dänzer:
+>>> On 2021-07-20 3:11 p.m., Christian König wrote:
+>>>> Daniel pointed me towards this function and there are multiple obvious problems
+>>>> in the implementation.
+>>>>
+>>>> First of all the retry loop is not working as intended. In general the retry
+>>>> makes only sense if you grab the reference first and then check the sequence
+>>>> values.
+>>>>
+>>>> Then we should always also wait for the exclusive fence.
+>>>>
+>>>> It's also good practice to keep the reference around when installing callbacks
+>>>> to fences you don't own.
+>>>>
+>>>> And last the whole implementation was unnecessary complex and rather hard to
+>>>> understand which could lead to probably unexpected behavior of the IOCTL.
+>>>>
+>>>> Fix all this by reworking the implementation from scratch. Dropping the
+>>>> whole RCU approach and taking the lock instead.
+>>>>
+>>>> Only mildly tested and needs a thoughtful review of the code.
+>>>>
+>>>> v2: fix the reference counting as well
+>>>> v3: keep the excl fence handling as is for stable
+>>>> v4: back to testing all fences, drop RCU
+>>>> v5: handle in and out separately
+>>>> v6: add missing clear of events
+>>>> v7: change coding style as suggested by Michel, drop unused variables
+>>>>
+>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>>> CC: stable@vger.kernel.org
+>>> Working fine with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880
+>>>
+>>> Tested-by: Michel Dänzer <mdaenzer@redhat.com>
+>>>
+>>>
 
