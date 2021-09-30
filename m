@@ -1,60 +1,87 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3725941DC5E
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 16:34:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FCFC41DC88
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 16:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 050BE6E425;
-	Thu, 30 Sep 2021 14:34:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F08646E423;
+	Thu, 30 Sep 2021 14:41:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A4B26E42A
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 14:34:15 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id h15so8836393wrc.3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 07:34:15 -0700 (PDT)
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com
+ [IPv6:2a00:1450:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D91F6E423
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 14:41:26 +0000 (UTC)
+Received: by mail-wm1-x32d.google.com with SMTP id
+ r11-20020a1c440b000000b0030cf0f01fbaso1880769wma.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 07:41:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=yCtlQxEOMqN+hEh8Q3Tpx4ZpTzLgfObAcorSWaX1RRY=;
- b=ThMtQ0VeS+3GoyE9XNg6dOmK4xyy7lt3TJXSMZPEqvCTtdL1UyLEvdeazozhVyJbOy
- mcVmQBAjpeW2cYhVwtcvdGaR6Qh7VvnLmxEk2GifHEkJkWPzyTi4MJ6aBYw0QlUU/F/t
- C1QscVBWNJt7VtX0/5RRVk7O4j00fC453gdU0=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=jd6p1BG5bXsteTlsZdjG0TNxqrqUF9NS4LOIvY0vvPc=;
+ b=UoRLbYNomhTcwEqW2LjkeHxxrWw0jAKLStEDClUN2PIxu/5HgNAAy7QF5sr9ItBr6F
+ 2ppRLMfbmGMfGFEWq7CqwTvPVdwcwBMssEoDcCuoGKK1+u4Viw2jX4AHfsO7OdIezvEP
+ HIxbVTnkNSbO/tKacfsfb/aXNtevHP5jjfYPM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=yCtlQxEOMqN+hEh8Q3Tpx4ZpTzLgfObAcorSWaX1RRY=;
- b=gB5f5V/eFKPgtngk1ymhcZYjrlp9gwmTVWI+9Bw6SZNoxSJG7zPTuxYKhLYqcA1zMv
- ATr+7KV7OAuiNpxm+3mG1K3RMt2ptuo9WguMUBSAMnnMPzGyLwnZt2RuAEYjwtI/U5x6
- whiK3NmmySqTwVkgBDWKHA4wg1dZuKGCSoCyuvhN//np6BZBsakw6necWZs6O/NLhwNo
- xGJWN5Fr5oPUik2ZzzMIxLh4QptZwX6ggI6BbQ6lY498neDjIqiT+dM/yRoepMsgjl8X
- pANpvDaOFqyet7IRr/7vMNvdGW9U8VaoyRcQhALRFBtxKJ6HyRk2EJo9Ne4UsCaeLPsD
- 4ulQ==
-X-Gm-Message-State: AOAM531kMOg7AqnILTCwztHgNSeVNleCOtrTDeiB+geQCev6POgPecvl
- BRoAkaaveMDZrdk9eaOORJJgHg==
-X-Google-Smtp-Source: ABdhPJykZmpSIK32sytUGkYF5zil9KMYEhZsU3B11Pw57BQvfw6FGDN9tB3ZhQUWYGYq8Fp/zXNKfw==
-X-Received: by 2002:a5d:5221:: with SMTP id i1mr6810353wra.107.1633012453917; 
- Thu, 30 Sep 2021 07:34:13 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=jd6p1BG5bXsteTlsZdjG0TNxqrqUF9NS4LOIvY0vvPc=;
+ b=ofd6sM1s+Bpytb3iMZFV0+1bpgphFMgnxvbZUHVi8uoDdkHU3lLHAyKRP8aSJIiUiG
+ Pq3JfuSS2pMgDIzfpllhdw8pWyVSZuRPwEsUYws1Bsgbo3enoU9Evranzw6t9x8uv0Ev
+ F0ACSLETlyWtmz/xBO7VRE6T3eD1GxGVCEI87PbfqRkJA8NiSew4QIp9hFCMGICUKBvC
+ k+XqD6B/ARDqpHLdibu5pkqpot2SxYSepzBBEEYEn8M2e9oL+hdc6WS0PWdk6Sf0QcBK
+ KZMcT/3v7d4xrQJlCyRIiLa7vJsCRBLmTTVPoyV2Kqhzs26jOMHg+8WaOQ2WXq+Y05qq
+ 1Erg==
+X-Gm-Message-State: AOAM531ig83o5G5N6P/UvvVbFgNgHW0LzAkiSqfg36nu5mhD/ojEcWZg
+ ECJKgIc/ZfuyC1VfludM+jRE/Q==
+X-Google-Smtp-Source: ABdhPJx3V8QVnWdaBVCJHD8epACgnyYdoZ5WVgHYPgE55mat6dTH1nFFSZUV547WHwjy+c7iWUZ6bg==
+X-Received: by 2002:a05:600c:24f:: with SMTP id
+ 15mr5806244wmj.190.1633012884676; 
+ Thu, 30 Sep 2021 07:41:24 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id 61sm3089692wrl.94.2021.09.30.07.34.12
+ by smtp.gmail.com with ESMTPSA id l11sm3993979wms.45.2021.09.30.07.41.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 07:34:12 -0700 (PDT)
-Date: Thu, 30 Sep 2021 16:34:11 +0200
+ Thu, 30 Sep 2021 07:41:24 -0700 (PDT)
+Date: Thu, 30 Sep 2021 16:41:21 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH] drm/locking: add backtrace for locking contended locks
- without backoff
-Message-ID: <YVXK45xQbbI7xUIB@phenom.ffwll.local>
-References: <20210928223241.22149-1-jani.nikula@intel.com>
+To: Shunsuke Mie <mie@igel.co.jp>
+Cc: Zhu Yanjun <zyjzyj2000@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jianxin Xiong <jianxin.xiong@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+ etom@igel.co.jp
+Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
+Message-ID: <YVXMkSDXybju88TU@phenom.ffwll.local>
+Mail-Followup-To: Shunsuke Mie <mie@igel.co.jp>,
+ Zhu Yanjun <zyjzyj2000@gmail.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Jianxin Xiong <jianxin.xiong@intel.com>,
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, dhobsong@igel.co.jp, taki@igel.co.jp,
+ etom@igel.co.jp
+References: <20210929041905.126454-1-mie@igel.co.jp>
+ <20210929041905.126454-3-mie@igel.co.jp>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210928223241.22149-1-jani.nikula@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210929041905.126454-3-mie@igel.co.jp>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -71,200 +98,261 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 29, 2021 at 01:32:41AM +0300, Jani Nikula wrote:
-> If drm_modeset_lock() returns -EDEADLK, the caller is supposed to drop
-> all currently held locks using drm_modeset_backoff(). Failing to do so
-> will result in warnings and backtraces on the paths trying to lock a
-> contended lock. Add support for optionally printing the backtrace on the
-> path that hit the deadlock and didn't gracefully handle the situation.
+On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
+> Implement a ib device operation ‘reg_user_mr_dmabuf’. Generate a
+> rxe_map from the memory space linked the passed dma-buf.
 > 
-> For example, the patch [1] inadvertently dropped the return value check
-> and error return on replacing calc_watermark_data() with
-> intel_compute_global_watermarks(). The backtraces on the subsequent
-> locking paths hitting WARN_ON(ctx->contended) were unhelpful, but adding
-> the backtrace to the deadlock path produced this helpful printout:
-> 
-> <7> [98.002465] drm_modeset_lock attempting to lock a contended lock without backoff:
->    drm_modeset_lock+0x107/0x130
->    drm_atomic_get_plane_state+0x76/0x150
->    skl_compute_wm+0x251d/0x2b20 [i915]
->    intel_atomic_check+0x1942/0x29e0 [i915]
->    drm_atomic_check_only+0x554/0x910
->    drm_atomic_nonblocking_commit+0xe/0x50
->    drm_mode_atomic_ioctl+0x8c2/0xab0
->    drm_ioctl_kernel+0xac/0x140
-> 
-> Add new CONFIG_DRM_DEBUG_MODESET_LOCK to enable modeset lock debugging
-> with stack depot and trace.
-> 
-> [1] https://lore.kernel.org/r/20210924114741.15940-4-jani.nikula@intel.com
-> 
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Dave Airlie <airlied@gmail.com>
-> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
-
-I wonder whether we shouldn't just enable this when lock debugging is
-enabled? Otherwise we need to make sure CI have this set or it's not very
-useful. Or at least a default y if CONFIG_DEBUG_WW_MUTEX_SLOWPATH or
-something like that.
-
-Either way: 
-
-Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-
+> Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
 > ---
->  drivers/gpu/drm/Kconfig            | 13 ++++++++
->  drivers/gpu/drm/drm_modeset_lock.c | 49 ++++++++++++++++++++++++++++--
->  include/drm/drm_modeset_lock.h     |  8 +++++
->  3 files changed, 68 insertions(+), 2 deletions(-)
+>  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+>  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++++++
+>  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+>  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
+>  4 files changed, 156 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index b17e231ca6f7..7334975c788b 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -100,6 +100,19 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->            This has the potential to use a lot of memory and print some very
->            large kernel messages. If in doubt, say "N".
->  
-> +config DRM_DEBUG_MODESET_LOCK
-> +	bool "Enable backtrace history for lock contention"
-> +	depends on STACKTRACE_SUPPORT
-> +	select STACKDEPOT
-> +	depends on EXPERT
-> +	help
-> +	  Enable debug tracing of failures to gracefully handle drm modeset lock
-> +	  contention. A history of each drm modeset lock path hitting -EDEADLK
-> +	  will be saved until gracefully handled, and the backtrace will be
-> +	  printed when attempting to lock a contended lock.
-> +
-> +	  If in doubt, say "N".
-> +
->  config DRM_FBDEV_EMULATION
->  	bool "Enable legacy fbdev support for your modesetting driver"
->  	depends on DRM
-> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
-> index bf8a6e823a15..4d32b61fa1fd 100644
-> --- a/drivers/gpu/drm/drm_modeset_lock.c
-> +++ b/drivers/gpu/drm/drm_modeset_lock.c
-> @@ -25,6 +25,7 @@
->  #include <drm/drm_crtc.h>
->  #include <drm/drm_device.h>
->  #include <drm/drm_modeset_lock.h>
-> +#include <drm/drm_print.h>
->  
->  /**
->   * DOC: kms locking
-> @@ -77,6 +78,45 @@
->  
->  static DEFINE_WW_CLASS(crtc_ww_class);
->  
-> +#if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
-> +static noinline depot_stack_handle_t __stack_depot_save(void)
-> +{
-> +	unsigned long entries[8];
-> +	unsigned int n;
-> +
-> +	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
-> +
-> +	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
-> +}
-> +
-> +static void __stack_depot_print(depot_stack_handle_t stack_depot)
-> +{
-> +	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
-> +	unsigned long *entries;
-> +	unsigned int nr_entries;
-> +	char *buf;
-> +
-> +	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
-> +	if (!buf)
-> +		return;
-> +
-> +	nr_entries = stack_depot_fetch(stack_depot, &entries);
-> +	stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
-> +
-> +	drm_printf(&p, "attempting to lock a contended lock without backoff:\n%s", buf);
-> +
-> +	kfree(buf);
-> +}
-> +#else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
-> +static depot_stack_handle_t __stack_depot_save(void)
-> +{
-> +	return 0;
-> +}
-> +static void __stack_depot_print(depot_stack_handle_t stack_depot)
-> +{
-> +}
-> +#endif /* CONFIG_DRM_DEBUG_MODESET_LOCK */
-> +
->  /**
->   * drm_modeset_lock_all - take all modeset locks
->   * @dev: DRM device
-> @@ -225,7 +265,9 @@ EXPORT_SYMBOL(drm_modeset_acquire_fini);
+> diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniband/sw/rxe/rxe_loc.h
+> index 1ca43b859d80..8bc19ea1a376 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_loc.h
+> +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+> @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+>  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr *mr);
+>  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+>  		     int access, struct rxe_mr *mr);
+> +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
+> +			    u64 iova, int access, struct rxe_mr *mr);
+>  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr);
+>  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int length,
+>  		enum rxe_mr_copy_dir dir);
+> diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/sw/rxe/rxe_mr.c
+> index 53271df10e47..af6ef671c3a5 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_mr.c
+> +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+> @@ -4,6 +4,7 @@
+>   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserved.
 >   */
->  void drm_modeset_drop_locks(struct drm_modeset_acquire_ctx *ctx)
->  {
-> -	WARN_ON(ctx->contended);
-> +	if (WARN_ON(ctx->contended))
-> +		__stack_depot_print(ctx->stack_depot);
+>  
+> +#include <linux/dma-buf.h>
+>  #include "rxe.h"
+>  #include "rxe_loc.h"
+>  
+> @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 iova,
+>  	return err;
+>  }
+>  
+> +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
+> +			     struct ib_umem_dmabuf *umem_dmabuf)
+> +{
+> +	struct rxe_map_set *set;
+> +	struct rxe_phys_buf *buf = NULL;
+> +	struct rxe_map **map;
+> +	void *vaddr, *vaddr_end;
+> +	int num_buf = 0;
+> +	int err;
+> +	size_t remain;
 > +
->  	while (!list_empty(&ctx->locked)) {
->  		struct drm_modeset_lock *lock;
->  
-> @@ -243,7 +285,8 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
->  {
->  	int ret;
->  
-> -	WARN_ON(ctx->contended);
-> +	if (WARN_ON(ctx->contended))
-> +		__stack_depot_print(ctx->stack_depot);
->  
->  	if (ctx->trylock_only) {
->  		lockdep_assert_held(&ctx->ww_ctx);
-> @@ -274,6 +317,7 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
->  		ret = 0;
->  	} else if (ret == -EDEADLK) {
->  		ctx->contended = lock;
-> +		ctx->stack_depot = __stack_depot_save();
->  	}
->  
->  	return ret;
-> @@ -296,6 +340,7 @@ int drm_modeset_backoff(struct drm_modeset_acquire_ctx *ctx)
->  	struct drm_modeset_lock *contended = ctx->contended;
->  
->  	ctx->contended = NULL;
-> +	ctx->stack_depot = 0;
->  
->  	if (WARN_ON(!contended))
->  		return 0;
-> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
-> index aafd07388eb7..b84693fbd2b5 100644
-> --- a/include/drm/drm_modeset_lock.h
-> +++ b/include/drm/drm_modeset_lock.h
-> @@ -24,6 +24,8 @@
->  #ifndef DRM_MODESET_LOCK_H_
->  #define DRM_MODESET_LOCK_H_
->  
-> +#include <linux/types.h> /* stackdepot.h is not self-contained */
-> +#include <linux/stackdepot.h>
->  #include <linux/ww_mutex.h>
->  
->  struct drm_modeset_lock;
-> @@ -51,6 +53,12 @@ struct drm_modeset_acquire_ctx {
->  	 */
->  	struct drm_modeset_lock *contended;
->  
-> +	/*
-> +	 * Stack depot for debugging when a contended lock was not backed off
-> +	 * from.
-> +	 */
-> +	depot_stack_handle_t stack_depot;
+> +	mr->dmabuf_map = kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL);
+
+dmabuf_maps are just tagged pointers (and we could shrink them to actually
+just a tagged pointer if anyone cares about the overhead of the separate
+bool), allocating them seperately is overkill.
+
+
+> +	if (!mr->dmabuf_map) {
+> +		err = -ENOMEM;
+> +		goto err_out;
+> +	}
 > +
->  	/*
->  	 * list of held locks (drm_modeset_lock)
->  	 */
+> +	err = dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> +	if (err)
+> +		goto err_free_dmabuf_map;
+> +
+> +	set = mr->cur_map_set;
+> +	set->page_shift = PAGE_SHIFT;
+> +	set->page_mask = PAGE_SIZE - 1;
+> +
+> +	map = set->map;
+> +	buf = map[0]->buf;
+> +
+> +	vaddr = mr->dmabuf_map->vaddr;
+
+dma_buf_map can be an __iomem too, you shouldn't dig around in this, but
+use the dma-buf-map.h helpers instead. On x86 (and I think also on most
+arm) it doesn't matter, but it's kinda not very nice in a pure software
+driver.
+
+If anything is missing in dma-buf-map.h wrappers just add more.
+
+Or alternatively you need to fail the import if you can't handle __iomem.
+
+Aside from these I think the dma-buf side here for cpu access looks
+reasonable now.
+-Daniel
+
+> +	vaddr_end = vaddr + umem_dmabuf->dmabuf->size;
+> +	remain = umem_dmabuf->dmabuf->size;
+> +
+> +	for (; remain; vaddr += PAGE_SIZE) {
+> +		if (num_buf >= RXE_BUF_PER_MAP) {
+> +			map++;
+> +			buf = map[0]->buf;
+> +			num_buf = 0;
+> +		}
+> +
+> +		buf->addr = (uintptr_t)vaddr;
+> +		if (remain >= PAGE_SIZE)
+> +			buf->size = PAGE_SIZE;
+> +		else
+> +			buf->size = remain;
+> +		remain -= buf->size;
+> +
+> +		num_buf++;
+> +		buf++;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_free_dmabuf_map:
+> +	kfree(mr->dmabuf_map);
+> +err_out:
+> +	return err;
+> +}
+> +
+> +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
+> +{
+> +	struct ib_umem_dmabuf *umem_dmabuf = to_ib_umem_dmabuf(mr->umem);
+> +
+> +	dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> +	kfree(mr->dmabuf_map);
+> +}
+> +
+> +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u64 length,
+> +			    u64 iova, int access, struct rxe_mr *mr)
+> +{
+> +	struct ib_umem_dmabuf *umem_dmabuf;
+> +	struct rxe_map_set *set;
+> +	int err;
+> +
+> +	umem_dmabuf = ib_umem_dmabuf_get(pd->ibpd.device, start, length, fd,
+> +					 access, NULL);
+> +	if (IS_ERR(umem_dmabuf)) {
+> +		err = PTR_ERR(umem_dmabuf);
+> +		goto err_out;
+> +	}
+> +
+> +	rxe_mr_init(access, mr);
+> +
+> +	err = rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem), 0);
+> +	if (err) {
+> +		pr_warn("%s: Unable to allocate memory for map\n", __func__);
+> +		goto err_release_umem;
+> +	}
+> +
+> +	mr->ibmr.pd = &pd->ibpd;
+> +	mr->umem = &umem_dmabuf->umem;
+> +	mr->access = access;
+> +	mr->state = RXE_MR_STATE_VALID;
+> +	mr->type = IB_MR_TYPE_USER;
+> +
+> +	set = mr->cur_map_set;
+> +	set->length = length;
+> +	set->iova = iova;
+> +	set->va = start;
+> +	set->offset = ib_umem_offset(mr->umem);
+> +
+> +	err = rxe_map_dmabuf_mr(mr, umem_dmabuf);
+> +	if (err)
+> +		goto err_free_map_set;
+> +
+> +	return 0;
+> +
+> +err_free_map_set:
+> +	rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
+> +err_release_umem:
+> +	ib_umem_release(&umem_dmabuf->umem);
+> +err_out:
+> +	return err;
+> +}
+> +
+>  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr *mr)
+>  {
+>  	int err;
+> @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+>  {
+>  	struct rxe_mr *mr = container_of(arg, typeof(*mr), pelem);
+>  
+> +	if (mr->umem && mr->umem->is_dmabuf)
+> +		rxe_unmap_dmabuf_mr(mr);
+> +
+>  	ib_umem_release(mr->umem);
+>  
+>  	if (mr->cur_map_set)
+> diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> index 9d0bb9aa7514..6191bb4f434d 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
+> +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_pd *ibpd,
+>  	return ERR_PTR(err);
+>  }
+>  
+> +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
+> +					    u64 length, u64 iova, int fd,
+> +					    int access, struct ib_udata *udata)
+> +{
+> +	int err;
+> +	struct rxe_dev *rxe = to_rdev(ibpd->device);
+> +	struct rxe_pd *pd = to_rpd(ibpd);
+> +	struct rxe_mr *mr;
+> +
+> +	mr = rxe_alloc(&rxe->mr_pool);
+> +	if (!mr) {
+> +		err = -ENOMEM;
+> +		goto err2;
+> +	}
+> +
+> +	rxe_add_index(mr);
+> +
+> +	rxe_add_ref(pd);
+> +
+> +	err = rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, access, mr);
+> +	if (err)
+> +		goto err3;
+> +
+> +	return &mr->ibmr;
+> +
+> +err3:
+> +	rxe_drop_ref(pd);
+> +	rxe_drop_index(mr);
+> +	rxe_drop_ref(mr);
+> +err2:
+> +	return ERR_PTR(err);
+> +}
+> +
+>  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_type mr_type,
+>  				  u32 max_num_sg)
+>  {
+> @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops = {
+>  	.query_qp = rxe_query_qp,
+>  	.query_srq = rxe_query_srq,
+>  	.reg_user_mr = rxe_reg_user_mr,
+> +	.reg_user_mr_dmabuf = rxe_reg_user_mr_dmabuf,
+>  	.req_notify_cq = rxe_req_notify_cq,
+>  	.resize_cq = rxe_resize_cq,
+>  
+> diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> index c807639435eb..0aa95ab06b6e 100644
+> --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
+> +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> @@ -334,6 +334,8 @@ struct rxe_mr {
+>  
+>  	struct rxe_map_set	*cur_map_set;
+>  	struct rxe_map_set	*next_map_set;
+> +
+> +	struct dma_buf_map *dmabuf_map;
+>  };
+>  
+>  enum rxe_mw_state {
 > -- 
-> 2.30.2
+> 2.17.1
 > 
 
 -- 
