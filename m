@@ -1,112 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71D541D3D5
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 09:01:39 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A43041D435
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 09:12:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FDCE6E314;
-	Thu, 30 Sep 2021 07:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 57BB86E321;
+	Thu, 30 Sep 2021 07:12:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com
- [210.118.77.12])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 197358808E
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 07:01:32 +0000 (UTC)
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
- by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id
- 20210930070130euoutp02cbabfac5c2e257a2a931fe92cdd1c0f9~ph3hIzsPa0220002200euoutp02v
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 07:01:30 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com
- 20210930070130euoutp02cbabfac5c2e257a2a931fe92cdd1c0f9~ph3hIzsPa0220002200euoutp02v
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
- s=mail20170921; t=1632985290;
- bh=eW1eEXG11Bypoi+FV8uiotGNCEojVR4mkRgvwylIyMI=;
- h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
- b=n4ifgIDrP2fs0YjViVnhghZStSeMkUJKeYw07rW4617KPJRnA1Ijich0lBl3AYFr6
- +EGSAf9cGWMcMTrVN7TDqhX1kvgbe5OB/jUXcj4/FILDUumi0r5XLg/4W5rziZEXCG
- fhbgDsjGBHn3QqAC/4lJd3rvjTi0HxrAkvLhcqu0=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTP id
- 20210930070130eucas1p11d6ee47400095ab39a21a45745240a83~ph3g_prRW1326013260eucas1p1Y;
- Thu, 30 Sep 2021 07:01:30 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
- eusmges2new.samsung.com (EUCPMTA) with SMTP id 41.C6.42068.AC065516; Thu, 30
- Sep 2021 08:01:30 +0100 (BST)
-Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
- eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
- 20210930070129eucas1p1c6b125c2814aaa411fbb1e947ccfeda1~ph3gfVwP90109601096eucas1p18;
- Thu, 30 Sep 2021 07:01:29 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
- eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
- 20210930070129eusmtrp1cd969802e2fb15e366ec5d7073a2927c~ph3gel4ss1326113261eusmtrp1I;
- Thu, 30 Sep 2021 07:01:29 +0000 (GMT)
-X-AuditID: cbfec7f4-c71ff7000002a454-aa-615560caddc1
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
- eusmgms2.samsung.com (EUCPMTA) with SMTP id 20.6B.20981.9C065516; Thu, 30
- Sep 2021 08:01:29 +0100 (BST)
-Received: from [106.210.131.79] (unknown [106.210.131.79]) by
- eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
- 20210930070129eusmtip28d7df6ec940314fd751080be28efd822~ph3gCEHsy2177221772eusmtip2C;
- Thu, 30 Sep 2021 07:01:29 +0000 (GMT)
-Message-ID: <3bf2b596-ad7a-c62b-77db-89f1a252d3f8@samsung.com>
-Date: Thu, 30 Sep 2021 09:01:28 +0200
+Received: from mail-ot1-x32c.google.com (mail-ot1-x32c.google.com
+ [IPv6:2607:f8b0:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AFBF76E311
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 07:12:13 +0000 (UTC)
+Received: by mail-ot1-x32c.google.com with SMTP id
+ l16-20020a9d6a90000000b0053b71f7dc83so6097829otq.7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 00:12:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lOF0Y3JDOZxaPj0QJbgX2uoE9MrCbAvitKZF6bLpjNQ=;
+ b=YokCmknuZngbxHSpDu3yu75O7oK5XAWdoQe+4Z8MMpo9d1xn1brIq1oEA8cFAf6iMa
+ qwoZfqP95XSlbsCQryxFXlQto+QlSQBDIsHgi7VTqHhnOmGL+kdR/U+hmBnY9sQ0q/++
+ 1s3JW67W+P/Xj/LU1+MOiyHAJri80EANOedKGWpIU1vGJ2OVkV/I6z1XbQG11PsNP8ex
+ 1JZKWYSWMWNR6BtKuaoWOiCc1Er/LBCH2lUZbCtibU3NwbXlG/e9VzrGLFk37nt4UgtO
+ zV9NM7ahoEurx9gLWvoier/uQ/v8Cnv07R+3YL6ffM10i5cR6chOPQq3cUiZR4BO1SVm
+ a59g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lOF0Y3JDOZxaPj0QJbgX2uoE9MrCbAvitKZF6bLpjNQ=;
+ b=FiAF4/INNMLaKjcz7UXWoyzjcwc3x3Yan6NWCB9MW3mpYBakrkZVVB2gxw+Rt8rvZt
+ mLfiRTA2/7rti23g50jYGJUO8rTr1VJ79b9+q9m+LENnsUr6ePDdhW5t9JdYO91RZvT0
+ HehZxiTVtiPt5B5a/w7uFouHMwAlFdGkNlFeD8Dl53kj0KO8MdDuD7J+beRE6dwIh6qH
+ Sk+QlNdds/S/QrMcjSLdQ1frCCXZpBNK1v25iSRnE7ptVCzYBILs+HklJFT/uNjIr7Xz
+ lOixc9mo0ZSsLN7kN3quNxiEZW7Va5P5QU/066GV+zMqKJiMuW++g7gsSkpafl/qBW/R
+ XU3w==
+X-Gm-Message-State: AOAM530ILYkSIDFQjSbfP0w0MtVSxXbShMM6F319OnLC0TTKLoguFrJV
+ yVkocRhIks3h5qH0rKLLSDaM4q02o2C7JHZtBJQ=
+X-Google-Smtp-Source: ABdhPJwmaxs1k8CqJXEC195drKP2OOxFUscJlxxZkQjpoiTP30zgDTZBaODF6yU0VbjXwQ5JqZHRtEmmEpXkcObyhww=
+X-Received: by 2002:a9d:173:: with SMTP id 106mr4063274otu.150.1632985932786; 
+ Thu, 30 Sep 2021 00:12:12 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:93.0)
- Gecko/20100101 Thunderbird/93.0
-Subject: Re: [PATCH v2 2/3] drm/i915/utils: do not depend on config being
- defined
-Content-Language: en-GB
-To: Lucas De Marchi <lucas.demarchi@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, Daniel Vetter
- <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org, Masahiro Yamada
- <masahiroy@kernel.org>, linux-kernel@vger.kernel.org
-From: Andrzej Hajda <a.hajda@samsung.com>
-In-Reply-To: <20210929225433.7z76swcouyas7upd@ldmartin-desk2>
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIKsWRmVeSWpSXmKPExsWy7djPc7qnEkITDdYdE7BYfmYds8WVr+/Z
- LGZP2MxkcXnXHDaLp4+XsVk8fHCD1YHNY/Gel0wem1Z1snnc7z7O5PF5k1wASxSXTUpqTmZZ
- apG+XQJXxvqV7WwFl5Qr1rXUNjDOkO1i5OSQEDCRuN/4nrGLkYtDSGAFo8SNVfPYIJwvjBL3
- VjYwg1QJCXxmlDjVkgzT8XfefxaIouWMEjt/r2GGcN4zSjz6tBUow8HBK2AncbExFaSBRUBV
- 4vj1t2CDeAUEJU7OfMICYosKJEi8vreJDcQWFgiW+HzsLlicWUBcounLSlYQW0RAT2LXketM
- IPOZBbYzSux+0QPWwCagKfF3800wm1PAVmLCrnWMEM3yEs1bZzNDXHqBQ2LepWAI20XiwYGT
- LBC2sMSr41vYIWwZidOTe6Di9RL3V7SAPSMh0MEosXXDTqhB1hJ3zv1iA3mMGWjx+l36EGFH
- iZYpJxlBwhICfBI33gpCnMAnMWnbdGaIMK9ER5sQRLWixP2zW6EGikssvfCVbQKj0iykUJmF
- 5PtZSJ6ZhbB3ASPLKkbx1NLi3PTUYqO81HK94sTc4tK8dL3k/NxNjMBUc/rf8S87GJe/+qh3
- iJGJg/EQowQHs5II7w/x4EQh3pTEyqrUovz4otKc1OJDjNIcLErivElb1sQLCaQnlqRmp6YW
- pBbBZJk4OKUamKSm7Lkx7de/kquzcv6x5adHn9b9HHQ2/ihjJ1ubLCMfJ8ejnOk+azwvXnwS
- O8PEV5XLuT9078L+zb/eXvzea/bHuK+qbaPIow6v5csCP3/zZrvdXlKjwi9f78JrKTjhT6We
- 1xbmcs2jH6ezuB4/O+XWg7r53ffvRYUxhVTk8M+aP8vrSsnFWxduKayomypzo+n06ZoXoh4a
- q1r3VF82VZ65JvzYo4tn9uq84JT+lbfHwmqR8Cl/1fqV609rfwp323CFt2/V3qvXdecLNLY/
- uTpty/bddQXf173wt7L/+3M5T1LxHpnJh+9Z3bNYc+veUifnhtf6PlVl7SuX/TDWnaqnv+cj
- c8I/bdlMiV121wqUWIozEg21mIuKEwEXXLMXpAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGIsWRmVeSWpSXmKPExsVy+t/xe7onE0ITDXof6VgsP7OO2eLK1/ds
- FrMnbGayuLxrDpvF08fL2CwePrjB6sDmsXjPSyaPTas62Tzudx9n8vi8SS6AJUrPpii/tCRV
- ISO/uMRWKdrQwkjP0NJCz8jEUs/Q2DzWyshUSd/OJiU1J7MstUjfLkEvY/3KdraCS8oV61pq
- GxhnyHYxcnJICJhI/J33n6WLkYtDSGApo8SSnQ+ZIRLiErvnv4WyhSX+XOtigyh6yyjx981O
- pi5GDg5eATuJi42pIDUsAqoSx69D1PMKCEqcnPmEBcQWFUiQmHxzHiuILSwQLPH52F2wODPQ
- /KYvK8HiIgJ6EruOXGcCmc8ssJ1R4l3rCqhlG5kkZm+fCDaVTUBT4u/mm2wgNqeArcSEXesY
- ISaZSXRt7YKy5SWat85mnsAoNAvJIbOQLJyFpGUWkpYFjCyrGEVSS4tz03OLjfSKE3OLS/PS
- 9ZLzczcxAiNs27GfW3Ywrnz1Ue8QIxMH4yFGCQ5mJRHeH+LBiUK8KYmVValF+fFFpTmpxYcY
- TYGhMZFZSjQ5HxjjeSXxhmYGpoYmZpYGppZmxkrivCZH1sQLCaQnlqRmp6YWpBbB9DFxcEo1
- MC3LevFMP5R961vBYys1HD36Cn4fZ59l/MOl4YzsFJGfd3bVm23hMr6578vSINfPh3b7Sa7V
- cNjIcfKNncDs29objN9NY3+u0uH9UbbJtsXzypPDF+uqprLo9Kz9XGEo2HD4xKZHN2ycotm2
- qLTPCDmQvvSnjOzK1UydtuvnLny4c+OWhrry7GKbWwmxosbzwq7x3p8Soyq2/uHp3jP76zlN
- jp2K6rC0v3ur3LK5uD711o8wB71DtwszAs/+OF1yz0iWceP9b7JZwU17Zz1Yp/9OdO/jp8+E
- 7h3QYWaeNGO5We69O03hNlJqxm+1I3o35S3cb6jw4zvfi8LkdNaPX5fYbxF/c2blrcB1oat5
- PQ4osRRnJBpqMRcVJwIAGJwrfzkDAAA=
-X-CMS-MailID: 20210930070129eucas1p1c6b125c2814aaa411fbb1e947ccfeda1
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed
-References: <20210929183357.1490204-1-lucas.demarchi@intel.com>
- <CGME20210929183439eucas1p1de30c3fb5681a8c8d250f482954f92ed@eucas1p1.samsung.com>
- <20210929183357.1490204-3-lucas.demarchi@intel.com>
- <e1c58c0e-b0d5-48a4-f423-3c7e0ff9b765@samsung.com>
- <20210929225433.7z76swcouyas7upd@ldmartin-desk2>
+References: <20210930024704.6966-1-jason-jh.lin@mediatek.com>
+ <20210930024704.6966-2-jason-jh.lin@mediatek.com>
+In-Reply-To: <20210930024704.6966-2-jason-jh.lin@mediatek.com>
+From: Enric Balletbo Serra <eballetbo@gmail.com>
+Date: Thu, 30 Sep 2021 09:12:01 +0200
+Message-ID: <CAFqH_52w787DGbVE0WqMjA2y8Psw6XDMp8AFhj=7UMyCA-uv+g@mail.gmail.com>
+Subject: Re: [v2 PATCH 1/3] drm/mediatek: Fix crash at using pkt->cl->chan in
+ cmdq_pkt_finalize
+To: "jason-jh.lin" <jason-jh.lin@mediatek.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ fshao@chromium.org, 
+ "Nancy.Lin" <nancy.lin@mediatek.com>, singo.chang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -122,143 +78,212 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi Jason,
 
-W dniu 30.09.2021 o 00:54, Lucas De Marchi pisze:
-> On Wed, Sep 29, 2021 at 11:08:18PM +0200, Andrzej Hajda wrote:
->>
->> W dniu 29.09.2021 o 20:33, Lucas De Marchi pisze:
->>> Like the IS_ENABLED() counterpart, we can make IS_CONFIG_NONZERO() to
->>> return the right thing when the config is not defined rather than a
->>> build error, with the limitation that it can't be used on preprocessor
->>> context.
->>>
->>> The trick here is that macro names can't start with a number or 
->>> dash, so
->>> we stringify the argument and check that the first char is a number 
->>> != 0
->>> (or starting with a dash to cover negative numbers). Except for -O0
->>> builds the strings are all eliminated.
->>>
->>> Taking CONFIG_DRM_I915_REQUEST_TIMEOUT in
->>> drivers/gpu/drm/i915/gem/i915_gem_context.c as example, we have the
->>> following output of the preprocessor:
->>>
->>> old:
->>>   if (((20000) != 0) &&
->>> new:
->>>   if (( ("20000"[0] > '0' && "20000"[0] < '9') || "20000"[0] == '-' 
->>> ) &&
->>>
->>> New one looks worse, but is also eliminated from the object:
->>>
->>> $ size drivers/gpu/drm/i915/gem/i915_gem_context.o.*
->>>     text    data     bss     dec     hex filename
->>>    52021    1070     232   53323    d04b 
->>> drivers/gpu/drm/i915/gem/i915_gem_context.o.new
->>>    52021    1070     232   53323    d04b 
->>> drivers/gpu/drm/i915/gem/i915_gem_context.o.old
->>>
->>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
->>> ---
->>>   drivers/gpu/drm/i915/i915_utils.h | 6 +++++-
->>>   1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/i915_utils.h 
->>> b/drivers/gpu/drm/i915/i915_utils.h
->>> index 02bbfa4d68d3..436ce612c46a 100644
->>> --- a/drivers/gpu/drm/i915/i915_utils.h
->>> +++ b/drivers/gpu/drm/i915/i915_utils.h
->>> @@ -28,6 +28,7 @@
->>>   #include <linux/list.h>
->>>   #include <linux/overflow.h>
->>>   #include <linux/sched.h>
->>> +#include <linux/stringify.h>
->>>   #include <linux/types.h>
->>>   #include <linux/workqueue.h>
->>>
->>> @@ -469,6 +470,9 @@ static inline bool timer_expired(const struct 
->>> timer_list *t)
->>>    *
->>>    * Returns 0 if @config is 0, 1 if set to any value.
->>>    */
->>> -#define IS_CONFIG_NONZERO(config) ((config) != 0)
->>> +#define IS_CONFIG_NONZERO(config) (                        \
->>> +    (__stringify_1(config)[0] > '0' && __stringify_1(config)[0] < 
->>> '9') ||    \
->>> +    __stringify_1(config)[0] == '-'                        \
->>> +)
->>
->>
->> Quite clever trick, but I see two issues:
->>
->> - gcc < 8.1 treats expressions with string indices (ex. "abc"[0]) as
->> non-constant expressions, so they cannot be used everywhere, for example
->> in global variable initializations,
+
+Missatge de jason-jh.lin <jason-jh.lin@mediatek.com> del dia dj., 30
+de set. 2021 a les 4:47:
 >
-> ugh, that would kill the idea - having the strings and additional
-> runtime checks would not be good. Maybe if we check with
-> __builtin_constant_p() and do the simpler expansion if it's not
-> constant?
-
-
-I think it is just matter of disallowing such construct in places where 
-compiler expects constant expression.
-
-If accepted, the expression is apparently evaluated in compile time. See 
-[1].
-
-[1]: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=69960#c18
-
-
+> Because mtk_drm_crtc_create_pkt didn't assign pkt->cl, it will
+> crash at using pkt->cl->chan in cmdq_pkt_finalize.
 >
->>
->> - it does not work with hex (0x1) or octal values (01)
+> So add struct cmdq_client and let mtk_drm_crtc instance define
+> cmdq_client as:
 >
-> indeed, but I guess that would be fixable by checking (s[0] == '0' && 
-> s[1] == '\0')?
-> However, it seems kconfig doesn't support setting int options to hex or
-> octal.
-
-
-I've spotted in include/generated/autoconf.h following line:
-
-#define CONFIG_ILLEGAL_POINTER_VALUE 0xdead000000000000
-
-It corresponds to following kconfig entry:
-
-config ILLEGAL_POINTER_VALUE
-        hex
-        default 0 if X86_32
-        default 0xdead000000000000 if X86_64
-
-Grepping shows more: grep -r --include=Kconfig -3 -P '^\s*hex' .
-
-Anyway do you really need to handle undefined case? If not, the macro 
-can stay simple, w/o hacky constructs.
-
-
-Regards
-
-Andrzej
-
-
+> struct mtk_drm_crtc {
+>         /* client instance data */
+>         struct cmdq_client cmdq_client;
+> };
 >
-> If I try an hex value in menuconfig it says "You have made an invalid 
-> entry."
-> If I try editing .config or setting via scripts/config --set-val, it
-> just gets reset when trying to generate include/generated/autoconf.h
+> and in rx_callback function can use pkt->cl to get
+> struct cmdq_client.
 >
-> Lucas De Marchi
+> Fixes: f4be17cd5b14 ("drm/mediatek: Remove struct cmdq_client")
+
+Looking at this patchset looks like you're fixing the above commit by
+reintroducing the 'struct cmdq_client' again, which makes the above
+commit as a non-sense commit. That's confusing and not clear. I'm
+wondering if it wouldn't be more clear if you can just revert that
+patch. Then if there are more changes that need to be done do it with
+a follow up patch and really explain why these changes are needed.
+
+Thanks,
+  Enric
+
+
+> Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> ---
+>  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 73 +++++++++++++------------
+>  1 file changed, 38 insertions(+), 35 deletions(-)
 >
->>
->> It is probably OK for private macro, but it can hurt in kconfig.h,
->> especially the 2nd issue
->>
->>
->> Regards
->>
->> Andrzej
->>
->>>
->>>   #endif /* !__I915_UTILS_H */
+> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> index 5f81489fc60c..411d99fcbb8f 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> @@ -52,8 +52,7 @@ struct mtk_drm_crtc {
+>         bool                            pending_async_planes;
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       struct mbox_client              cmdq_cl;
+> -       struct mbox_chan                *cmdq_chan;
+> +       struct cmdq_client              cmdq_client;
+>         struct cmdq_pkt                 cmdq_handle;
+>         u32                             cmdq_event;
+>         u32                             cmdq_vblank_cnt;
+> @@ -227,8 +226,8 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+>  }
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_pkt *pkt,
+> -                                   size_t size)
+> +static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt,
+> +                                  size_t size)
+>  {
+>         struct device *dev;
+>         dma_addr_t dma_addr;
+> @@ -239,8 +238,9 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_pkt *pkt,
+>                 return -ENOMEM;
+>         }
+>         pkt->buf_size = size;
+> +       pkt->cl = (void *)client;
+>
+> -       dev = chan->mbox->dev;
+> +       dev = client->chan->mbox->dev;
+>         dma_addr = dma_map_single(dev, pkt->va_base, pkt->buf_size,
+>                                   DMA_TO_DEVICE);
+>         if (dma_mapping_error(dev, dma_addr)) {
+> @@ -255,9 +255,11 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_pkt *pkt,
+>         return 0;
+>  }
+>
+> -static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan *chan, struct cmdq_pkt *pkt)
+> +static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+>  {
+> -       dma_unmap_single(chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+> +       struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
+> +
+> +       dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+>                          DMA_TO_DEVICE);
+>         kfree(pkt->va_base);
+>         kfree(pkt);
+> @@ -265,8 +267,9 @@ static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan *chan, struct cmdq_pkt *pk
+>
+>  static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+>  {
+> -       struct mtk_drm_crtc *mtk_crtc = container_of(cl, struct mtk_drm_crtc, cmdq_cl);
+>         struct cmdq_cb_data *data = mssg;
+> +       struct cmdq_client *cmdq_cl = container_of(cl, struct cmdq_client, client);
+> +       struct mtk_drm_crtc *mtk_crtc = container_of(cmdq_cl, struct mtk_drm_crtc, cmdq_client);
+>         struct mtk_crtc_state *state;
+>         unsigned int i;
+>
+> @@ -299,7 +302,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+>         }
+>
+>         mtk_crtc->cmdq_vblank_cnt = 0;
+> -       mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
+> +       mtk_drm_cmdq_pkt_destroy(data->pkt);
+>  }
+>  #endif
+>
+> @@ -550,24 +553,24 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
+>                 mtk_mutex_release(mtk_crtc->mutex);
+>         }
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       if (mtk_crtc->cmdq_chan) {
+> -               mbox_flush(mtk_crtc->cmdq_chan, 2000);
+> +       if (mtk_crtc->cmdq_client.chan) {
+> +               mbox_flush(mtk_crtc->cmdq_client.chan, 2000);
+>                 cmdq_handle->cmd_buf_size = 0;
+>                 cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
+>                 cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+>                 mtk_crtc_ddp_config(crtc, cmdq_handle);
+>                 cmdq_pkt_finalize(cmdq_handle);
+> -               dma_sync_single_for_device(mtk_crtc->cmdq_chan->mbox->dev,
+> -                                           cmdq_handle->pa_base,
+> -                                           cmdq_handle->cmd_buf_size,
+> -                                           DMA_TO_DEVICE);
+> +               dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->mbox->dev,
+> +                                          cmdq_handle->pa_base,
+> +                                          cmdq_handle->cmd_buf_size,
+> +                                          DMA_TO_DEVICE);
+>                 /*
+>                  * CMDQ command should execute in next vblank,
+>                  * If it fail to execute in next 2 vblank, timeout happen.
+>                  */
+>                 mtk_crtc->cmdq_vblank_cnt = 2;
+> -               mbox_send_message(mtk_crtc->cmdq_chan, cmdq_handle);
+> -               mbox_client_txdone(mtk_crtc->cmdq_chan, 0);
+> +               mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_handle);
+> +               mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
+>         }
+>  #endif
+>         mtk_crtc->config_updating = false;
+> @@ -581,7 +584,7 @@ static void mtk_crtc_ddp_irq(void *data)
+>         struct mtk_drm_private *priv = crtc->dev->dev_private;
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       if (!priv->data->shadow_register && !mtk_crtc->cmdq_chan)
+> +       if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan)
+>                 mtk_crtc_ddp_config(crtc, NULL);
+>         else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
+>                 DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
+> @@ -924,20 +927,20 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>         mutex_init(&mtk_crtc->hw_lock);
+>
+>  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> -       mtk_crtc->cmdq_cl.dev = mtk_crtc->mmsys_dev;
+> -       mtk_crtc->cmdq_cl.tx_block = false;
+> -       mtk_crtc->cmdq_cl.knows_txdone = true;
+> -       mtk_crtc->cmdq_cl.rx_callback = ddp_cmdq_cb;
+> -       mtk_crtc->cmdq_chan =
+> -                       mbox_request_channel(&mtk_crtc->cmdq_cl,
+> -                                             drm_crtc_index(&mtk_crtc->base));
+> -       if (IS_ERR(mtk_crtc->cmdq_chan)) {
+> +       mtk_crtc->cmdq_client.client.dev = mtk_crtc->mmsys_dev;
+> +       mtk_crtc->cmdq_client.client.tx_block = false;
+> +       mtk_crtc->cmdq_client.client.knows_txdone = true;
+> +       mtk_crtc->cmdq_client.client.rx_callback = ddp_cmdq_cb;
+> +       mtk_crtc->cmdq_client.chan =
+> +                       mbox_request_channel(&mtk_crtc->cmdq_client.client,
+> +                                            drm_crtc_index(&mtk_crtc->base));
+> +       if (IS_ERR(mtk_crtc->cmdq_client.chan)) {
+>                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox client, writing register by CPU now\n",
+>                         drm_crtc_index(&mtk_crtc->base));
+> -               mtk_crtc->cmdq_chan = NULL;
+> +               mtk_crtc->cmdq_client.chan = NULL;
+>         }
+>
+> -       if (mtk_crtc->cmdq_chan) {
+> +       if (mtk_crtc->cmdq_client.chan) {
+>                 ret = of_property_read_u32_index(priv->mutex_node,
+>                                                  "mediatek,gce-events",
+>                                                  drm_crtc_index(&mtk_crtc->base),
+> @@ -945,17 +948,17 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
+>                 if (ret) {
+>                         dev_dbg(dev, "mtk_crtc %d failed to get mediatek,gce-events property\n",
+>                                 drm_crtc_index(&mtk_crtc->base));
+> -                       mbox_free_channel(mtk_crtc->cmdq_chan);
+> -                       mtk_crtc->cmdq_chan = NULL;
+> +                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> +                       mtk_crtc->cmdq_client.chan = NULL;
+>                 } else {
+> -                       ret = mtk_drm_cmdq_pkt_create(mtk_crtc->cmdq_chan,
+> -                                                      &mtk_crtc->cmdq_handle,
+> -                                                      PAGE_SIZE);
+> +                       ret = mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq_client,
+> +                                                     &mtk_crtc->cmdq_handle,
+> +                                                     PAGE_SIZE);
+>                         if (ret) {
+>                                 dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
+>                                         drm_crtc_index(&mtk_crtc->base));
+> -                               mbox_free_channel(mtk_crtc->cmdq_chan);
+> -                               mtk_crtc->cmdq_chan = NULL;
+> +                               mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> +                               mtk_crtc->cmdq_client.chan = NULL;
+>                         }
+>                 }
+>         }
+> --
+> 2.18.0
 >
