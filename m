@@ -1,78 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CD8C41DA78
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 15:04:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F22541DABF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 15:11:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860296E40B;
-	Thu, 30 Sep 2021 13:04:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 249046EB86;
+	Thu, 30 Sep 2021 13:11:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com
- [IPv6:2a00:1450:4864:20::143])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08EB16E3F5;
- Thu, 30 Sep 2021 13:04:48 +0000 (UTC)
-Received: by mail-lf1-x143.google.com with SMTP id e15so25003737lfr.10;
- Thu, 30 Sep 2021 06:04:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=o+4eSVAKrZEsPcw4dpXxfrqsUjsymJtzaRHSa/JgmUg=;
- b=IhS/r2TLvS0vuo8maPzTPXsad/2BT51uaMQp1LkLPJrx210A/2mDwMo0JeMYNpGMtF
- ZsySL9QVXt39jQhTXvlkSvSxQCPgo9fK3Rh5vnF6PLxB3tvWC3wDmYSbIEbFB2c5NpT7
- zvQkhdwSzWD/T6X7gd1v4S9baXYj0W/IBgzVoVwOL/gYapDD3C7MjWhEHLRELlUwRmcD
- tDcJHIuqJ3ciUxUMBZ+IzfCOXNAxSSMsPzlfEPuBy2RLd6TYC3h1IEAUe5+j0Q5Soxmv
- M+3+HSkn2RtI9fyCw9qIokThU6cBQg0wVOnbJcumrK8eddb3nc01oQxZbtXNAyGjbZvm
- nQ6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=o+4eSVAKrZEsPcw4dpXxfrqsUjsymJtzaRHSa/JgmUg=;
- b=S/DDpG+LtQQOmKQmPSd1hX2O/ISGaHJSumafY3cCLws5B9ILQZdsiWAKZczSxAe9Fm
- CJbjpmVVlG0tT2iTi3+4KHc0+sWHB619UVsnplLkVpVTBxWNn/iLyv1ldShdAKpoBUB+
- V+ni542JKqey/TnAC1p6TraHDk3r3UpvxbjFOzn+Ld95ekQuK8ry8JX+M6xtQjEHOimT
- Rzb5dMpWJabap+dlvGv7QfIS0qyojqaOxoYDLAJWCZTHsgVYhsNC4hIeXn/Gixrg5VuB
- YbIc/EPvgyVry6t2Wbs7vKNzOZuXN7ZPM153d5WfGg8nTtsMp2xHmGDWiBaQAmvgVUuP
- bqvA==
-X-Gm-Message-State: AOAM5304OAKgEDllEd/l54zccsbGbQ4CzIIzevz4mU0tJhJnNVYGgPWx
- H3LhIGugkYdPPJdFl8MJXYM=
-X-Google-Smtp-Source: ABdhPJwJ+KH5jRthwhiRCi9YGtM5XK8x2hV2h9HgimF4k7J93IBM56FSn+eQ8QdZE0zz7GSBeFfyqQ==
-X-Received: by 2002:a2e:83c5:: with SMTP id s5mr5661372ljh.515.1633007085825; 
- Thu, 30 Sep 2021 06:04:45 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id n8sm401925lfl.260.2021.09.30.06.04.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 30 Sep 2021 06:04:44 -0700 (PDT)
-Date: Thu, 30 Sep 2021 16:04:30 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Harry Wentland <harry.wentland@amd.com>
-Cc: sebastian@sebastianwick.net, "wayland-devel@lists.freedesktop.org"
- <wayland-devel@lists.freedesktop.org>, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, mcasas@google.com, jshargo@google.com,
- Shashank.Sharma@amd.com, Deepak.Sharma@amd.com, Shirish.S@amd.com,
- Vitaly.Prosyak@amd.com, aric.cyr@amd.com, Bhawanpreet.Lakha@amd.com,
- Krunoslav.Kovac@amd.com, hersenxs.wu@amd.com, Nicholas.Kazlauskas@amd.com,
- laurentiu.palcu@oss.nxp.com, ville.syrjala@linux.intel.com,
- jeremy@jcline.org, Brian Starkey <brian.starkey@arm.com>, Jeremy Cline
- <jeremy@jcline.org>
-Subject: Repository for additional color and HDR related documentation (Re:
- [RFC PATCH v3 1/6] drm/doc: Color Management and HDR10 RFC)
-Message-ID: <20210930160430.1e4fbc23@eldfell>
-In-Reply-To: <20210923104354.585ed9b1@eldfell>
-References: <20210730204134.21769-1-harry.wentland@amd.com>
- <20210730204134.21769-2-harry.wentland@amd.com>
- <20210915170127.31377385@eldfell>
- <4ed51ca0-ca98-cf84-33ed-ab172e3548d3@amd.com>
- <20210921163158.688c26bc@eldfell>
- <0c673cf8-2b90-c1ca-a0b0-c809e7e10c2c@amd.com>
- <20210922113105.2e42754c@eldfell>
- <823898e8-a8fe-cc74-e5b4-c4907826efbc@amd.com>
- <20210923104354.585ed9b1@eldfell>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2C5096EB86
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 13:11:15 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id F31076187A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 13:11:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633007475;
+ bh=IPmaOclIoeWRYsf5R3sAnuGbfHT7SkzOGvJojBMY7Mg=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=IA3LmBzjoJioOLIhjb24zJA8UHxuN7BBoQoBblKfOq5pnGPVGfwKupJjYGFxoPWU5
+ NBReojWLhUXsjqIdym7CeCUc5PBSOZYz99kMBOUs2TQDn1NHcVC1wxvyJpYRXy+ecx
+ IVdToCIDxOvgRTehz1wpW3UZ5aQVQlB3FRNcCB02bgsp89oiBz82uBPdfsfSsSJHhT
+ KHO+wm20VPp02OpYfVTqw6jy8yefOCLNtVQ+693K17bua5AlI1wtIqrqJgt93e0qP0
+ Xb//UV5w3l+MPbOfJb2JVwK4FHJy4Qe/92qbtRytvv2frisYEt0aK1gwPRawQOiuOJ
+ HeA6EZU81jciA==
+Received: by mail-ed1-f53.google.com with SMTP id r18so21778859edv.12
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:11:14 -0700 (PDT)
+X-Gm-Message-State: AOAM532aLuHjWkI/lv7aeXBtoMJIidChvrbenQZK0HgdSlEgDM0SEVKN
+ xHjWFPxCtuvhECbwn/qcytwimlbIkhWBiA1I3w==
+X-Google-Smtp-Source: ABdhPJyBLu5cCwIDZ89ApNeKQU8a74FbPUJTL2QbRzeJ3b6AakIQWNpnxzwBoCNj0EC1GofBryeZzOUZ67VTWdVNNmc=
+X-Received: by 2002:a05:6402:40c5:: with SMTP id
+ z5mr3938186edb.272.1633007473094; 
+ Thu, 30 Sep 2021 06:11:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ddt++=ysGel8BF_eUzWWEl2";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+References: <20210930024704.6966-1-jason-jh.lin@mediatek.com>
+ <20210930024704.6966-2-jason-jh.lin@mediatek.com>
+ <CAFqH_52w787DGbVE0WqMjA2y8Psw6XDMp8AFhj=7UMyCA-uv+g@mail.gmail.com>
+In-Reply-To: <CAFqH_52w787DGbVE0WqMjA2y8Psw6XDMp8AFhj=7UMyCA-uv+g@mail.gmail.com>
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date: Thu, 30 Sep 2021 21:11:01 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_-bU-zuNE6-omHV=54R5UDOH2KQ0iD_ZcLc-VDeA65vTA@mail.gmail.com>
+Message-ID: <CAAOTY_-bU-zuNE6-omHV=54R5UDOH2KQ0iD_ZcLc-VDeA65vTA@mail.gmail.com>
+Subject: Re: [v2 PATCH 1/3] drm/mediatek: Fix crash at using pkt->cl->chan in
+ cmdq_pkt_finalize
+To: Enric Balletbo Serra <eballetbo@gmail.com>
+Cc: "jason-jh.lin" <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, Hsin-Yi Wang <hsinyi@chromium.org>,
+ fshao@chromium.org, 
+ "Nancy.Lin" <nancy.lin@mediatek.com>, singo.chang@mediatek.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,119 +72,270 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/ddt++=ysGel8BF_eUzWWEl2
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi, Enric:
 
-On Thu, 23 Sep 2021 10:43:54 +0300
-Pekka Paalanen <ppaalanen@gmail.com> wrote:
+Enric Balletbo Serra <eballetbo@gmail.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
+=8830=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=883:12=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> Hi Jason,
+>
+>
+> Missatge de jason-jh.lin <jason-jh.lin@mediatek.com> del dia dj., 30
+> de set. 2021 a les 4:47:
+> >
+> > Because mtk_drm_crtc_create_pkt didn't assign pkt->cl, it will
+> > crash at using pkt->cl->chan in cmdq_pkt_finalize.
+> >
+> > So add struct cmdq_client and let mtk_drm_crtc instance define
+> > cmdq_client as:
+> >
+> > struct mtk_drm_crtc {
+> >         /* client instance data */
+> >         struct cmdq_client cmdq_client;
+> > };
+> >
+> > and in rx_callback function can use pkt->cl to get
+> > struct cmdq_client.
+> >
+> > Fixes: f4be17cd5b14 ("drm/mediatek: Remove struct cmdq_client")
+>
+> Looking at this patchset looks like you're fixing the above commit by
+> reintroducing the 'struct cmdq_client' again, which makes the above
+> commit as a non-sense commit. That's confusing and not clear. I'm
+> wondering if it wouldn't be more clear if you can just revert that
+> patch. Then if there are more changes that need to be done do it with
+> a follow up patch and really explain why these changes are needed.
 
-> On Wed, 22 Sep 2021 11:28:37 -0400
-> Harry Wentland <harry.wentland@amd.com> wrote:
->=20
-> > On 2021-09-22 04:31, Pekka Paalanen wrote: =20
-> > > On Tue, 21 Sep 2021 14:05:05 -0400
-> > > Harry Wentland <harry.wentland@amd.com> wrote:
-> > >    =20
-> > >> On 2021-09-21 09:31, Pekka Paalanen wrote:   =20
-> > >>> On Mon, 20 Sep 2021 20:14:50 -0400
-> > >>> Harry Wentland <harry.wentland@amd.com> wrote:
-> > >>>      =20
-> >=20
-> > ...
-> >  =20
-> > >    =20
-> > >> Did anybody start any CM doc patches in Weston or Wayland yet?   =20
-> > >=20
-> > > There is the
-> > > https://gitlab.freedesktop.org/swick/wayland-protocols/-/blob/color/u=
-nstable/color-management/color.rst
-> > > we started a long time ago, and have not really touched it for a whil=
-e.
-> > > Since we last touched it, at least my understanding has developed
-> > > somewhat.
-> > >=20
-> > > It is linked from the overview in
-> > > https://gitlab.freedesktop.org/wayland/wayland-protocols/-/merge_requ=
-ests/14
-> > > and if you want to propose changes, the way to do it is file a MR in
-> > > https://gitlab.freedesktop.org/swick/wayland-protocols/-/merge_reques=
-ts
-> > > against the 'color' branch. Patches very much welcome, that doc does
-> > > not need to limit itself to Wayland. :-)
-> > >    =20
-> >=20
-> > Right, I've read all that a while back.
-> >=20
-> > It might be a good place to consolidate most of the Linux CM/HDR discus=
-sion,
-> > since gitlab is good with allowing discussions, we can track changes, a=
-nd
-> > it's more formatting and diagram friendly than text-only email. =20
->=20
-> Fine by me, but the way things are right now, we'd be hijacking
-> Sebastian's personal repository for these things. That's not ideal.
->=20
-> We can't merge the protocol XML into wayland-protocols until it has the
-> accepted implementations required by the governance rules, but I wonder
-> if we could land color.rst ahead of time, then work on that in
-> wayland-protocols upstream repo.
->=20
-> It's hard to pick a good place for a cross-project document. Any other
-> ideas?
->=20
-> > > We also have issues tracked at
-> > > https://gitlab.freedesktop.org/swick/wayland-protocols/-/issues?scope=
-=3Dall&utf8=3D%E2%9C%93&state=3Dopened =20
+The patch f4be17cd5b14 ("drm/mediatek: Remove struct cmdq_client")
+does two things. One is to remove struct cmdq_client, another one is
+to embed cmdq_cl
+in mtk_drm_crtc (This means the pointer of cmdq_cl could be used to
+find the pointer of mtk_drm_crtc). The correct way to fix that patch
+is to remove the access to cmdq_client in cmdq_pkt_finalize(), but
+that would be a long term process. The simple way is to revert that
+patch, but the other patches depend on embedding cmdq_cl in
+mtk_drm_crtc. So this patch just revert the removing of struct
+cmdq_client but keep embedding cmdq_cl in mtk_drm_crtc.
 
-Hi all,
+Regards,
+Chun-Kuang.
 
-we discussed things in
-https://gitlab.freedesktop.org/swick/wayland-protocols/-/issues/6
-
-and we have a new home for the color related WIP documentation we can
-use across Wayland, Mesa, DRM, and even X11 if people want to:
-
-https://gitlab.freedesktop.org/pq/color-and-hdr
-
-Yes, it's still someone's personal repository, but we avoid entangling
-it with wayland-protocols which also means we can keep the full git
-history. If this gets enough traction, the repository can be moved from
-under my personal group to somewhere more communal, and if that is
-still inside gitlab.fd.o then all merge requests and issues will move
-with it.
-
-The README notes that we will deal out merge permissions as well.
-
-This is not meant to supersede the documentation of individual APIs,
-but to host additional documentation that would be too verbose, too
-big, or out of scope to host within respective API docs.
-
-Feel free to join the effort or just to discuss.
-
-
-Thanks,
-pq
-
---Sig_/ddt++=ysGel8BF_eUzWWEl2
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFVtd4ACgkQI1/ltBGq
-qqeuAg/+Myd7Qdq39RFm3xljW4XBoE5xgzsEr9UBFBUbW+E/P4yoV7oJY1qqe+gV
-2XHxSu6alfYY/y7qga5g05N9cyZ7FFxsmlUVVFHadhHBIehOk8MkMEJyoVRmfKVq
-U5D3oIOlJtFMrQ4rQXcn5OET1NTrWNU4st8DjoScWK88YnIjIky71BvK+oVJ83Hy
-TbKg4CYPQdtAE1SGp3SIg/dmiOoCpt1C1Pr2796A0KqRdT1FXHQNmdX8iJFqTmn0
-TvZh9adW46xzchSxBT23Yac2yV3DtNfagNA2kQRkSexYIlWJURfLV1KsHL8jqDzF
-MP+Ul6y77loCgeGPO3b8tZDU6VAliDjQg0YiwlcOjRBvH+WSElPsiV7/iIEGnujs
-BGZ67hnH0e39e3WTKD9UKH48l+Q+3IlZjlr9V64kQnbzAKZHx+bW9PYFZ0puAmpP
-DmtgLaSz8ndu+q2VGOFHTKpEz1nDYSk++1xyxFBDp+PNrd7wNZ1JsRN+7/rFmaPv
-fwp+nbs3FF+y7fAjFo3RTifTq1hcP9oW+GPEGja2m41Ly9SXRc9g7ZYk1yQK/ZG/
-arKZUCdcgKtlDftRzpLjeOyn9H59t3pXTEKYvWU0HEVDv4TwsYKItbw+cAUkI0en
-wkOmAT8JfMw42xFRCUXeAu6/ubl7T78rSuXBzSXJNKTfZvX8pkE=
-=Ziuu
------END PGP SIGNATURE-----
-
---Sig_/ddt++=ysGel8BF_eUzWWEl2--
+>
+> Thanks,
+>   Enric
+>
+>
+> > Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
+> > ---
+> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 73 +++++++++++++------------
+> >  1 file changed, 38 insertions(+), 35 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/=
+mediatek/mtk_drm_crtc.c
+> > index 5f81489fc60c..411d99fcbb8f 100644
+> > --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
+> > @@ -52,8 +52,7 @@ struct mtk_drm_crtc {
+> >         bool                            pending_async_planes;
+> >
+> >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > -       struct mbox_client              cmdq_cl;
+> > -       struct mbox_chan                *cmdq_chan;
+> > +       struct cmdq_client              cmdq_client;
+> >         struct cmdq_pkt                 cmdq_handle;
+> >         u32                             cmdq_event;
+> >         u32                             cmdq_vblank_cnt;
+> > @@ -227,8 +226,8 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(str=
+uct drm_crtc *crtc,
+> >  }
+> >
+> >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > -static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq=
+_pkt *pkt,
+> > -                                   size_t size)
+> > +static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct =
+cmdq_pkt *pkt,
+> > +                                  size_t size)
+> >  {
+> >         struct device *dev;
+> >         dma_addr_t dma_addr;
+> > @@ -239,8 +238,9 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan=
+ *chan, struct cmdq_pkt *pkt,
+> >                 return -ENOMEM;
+> >         }
+> >         pkt->buf_size =3D size;
+> > +       pkt->cl =3D (void *)client;
+> >
+> > -       dev =3D chan->mbox->dev;
+> > +       dev =3D client->chan->mbox->dev;
+> >         dma_addr =3D dma_map_single(dev, pkt->va_base, pkt->buf_size,
+> >                                   DMA_TO_DEVICE);
+> >         if (dma_mapping_error(dev, dma_addr)) {
+> > @@ -255,9 +255,11 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_cha=
+n *chan, struct cmdq_pkt *pkt,
+> >         return 0;
+> >  }
+> >
+> > -static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan *chan, struct cm=
+dq_pkt *pkt)
+> > +static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
+> >  {
+> > -       dma_unmap_single(chan->mbox->dev, pkt->pa_base, pkt->buf_size,
+> > +       struct cmdq_client *client =3D (struct cmdq_client *)pkt->cl;
+> > +
+> > +       dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->bu=
+f_size,
+> >                          DMA_TO_DEVICE);
+> >         kfree(pkt->va_base);
+> >         kfree(pkt);
+> > @@ -265,8 +267,9 @@ static void mtk_drm_cmdq_pkt_destroy(struct mbox_ch=
+an *chan, struct cmdq_pkt *pk
+> >
+> >  static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+> >  {
+> > -       struct mtk_drm_crtc *mtk_crtc =3D container_of(cl, struct mtk_d=
+rm_crtc, cmdq_cl);
+> >         struct cmdq_cb_data *data =3D mssg;
+> > +       struct cmdq_client *cmdq_cl =3D container_of(cl, struct cmdq_cl=
+ient, client);
+> > +       struct mtk_drm_crtc *mtk_crtc =3D container_of(cmdq_cl, struct =
+mtk_drm_crtc, cmdq_client);
+> >         struct mtk_crtc_state *state;
+> >         unsigned int i;
+> >
+> > @@ -299,7 +302,7 @@ static void ddp_cmdq_cb(struct mbox_client *cl, voi=
+d *mssg)
+> >         }
+> >
+> >         mtk_crtc->cmdq_vblank_cnt =3D 0;
+> > -       mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
+> > +       mtk_drm_cmdq_pkt_destroy(data->pkt);
+> >  }
+> >  #endif
+> >
+> > @@ -550,24 +553,24 @@ static void mtk_drm_crtc_update_config(struct mtk=
+_drm_crtc *mtk_crtc,
+> >                 mtk_mutex_release(mtk_crtc->mutex);
+> >         }
+> >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > -       if (mtk_crtc->cmdq_chan) {
+> > -               mbox_flush(mtk_crtc->cmdq_chan, 2000);
+> > +       if (mtk_crtc->cmdq_client.chan) {
+> > +               mbox_flush(mtk_crtc->cmdq_client.chan, 2000);
+> >                 cmdq_handle->cmd_buf_size =3D 0;
+> >                 cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event)=
+;
+> >                 cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
+> >                 mtk_crtc_ddp_config(crtc, cmdq_handle);
+> >                 cmdq_pkt_finalize(cmdq_handle);
+> > -               dma_sync_single_for_device(mtk_crtc->cmdq_chan->mbox->d=
+ev,
+> > -                                           cmdq_handle->pa_base,
+> > -                                           cmdq_handle->cmd_buf_size,
+> > -                                           DMA_TO_DEVICE);
+> > +               dma_sync_single_for_device(mtk_crtc->cmdq_client.chan->=
+mbox->dev,
+> > +                                          cmdq_handle->pa_base,
+> > +                                          cmdq_handle->cmd_buf_size,
+> > +                                          DMA_TO_DEVICE);
+> >                 /*
+> >                  * CMDQ command should execute in next vblank,
+> >                  * If it fail to execute in next 2 vblank, timeout happ=
+en.
+> >                  */
+> >                 mtk_crtc->cmdq_vblank_cnt =3D 2;
+> > -               mbox_send_message(mtk_crtc->cmdq_chan, cmdq_handle);
+> > -               mbox_client_txdone(mtk_crtc->cmdq_chan, 0);
+> > +               mbox_send_message(mtk_crtc->cmdq_client.chan, cmdq_hand=
+le);
+> > +               mbox_client_txdone(mtk_crtc->cmdq_client.chan, 0);
+> >         }
+> >  #endif
+> >         mtk_crtc->config_updating =3D false;
+> > @@ -581,7 +584,7 @@ static void mtk_crtc_ddp_irq(void *data)
+> >         struct mtk_drm_private *priv =3D crtc->dev->dev_private;
+> >
+> >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > -       if (!priv->data->shadow_register && !mtk_crtc->cmdq_chan)
+> > +       if (!priv->data->shadow_register && !mtk_crtc->cmdq_client.chan=
+)
+> >                 mtk_crtc_ddp_config(crtc, NULL);
+> >         else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vbla=
+nk_cnt =3D=3D 0)
+> >                 DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n"=
+,
+> > @@ -924,20 +927,20 @@ int mtk_drm_crtc_create(struct drm_device *drm_de=
+v,
+> >         mutex_init(&mtk_crtc->hw_lock);
+> >
+> >  #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> > -       mtk_crtc->cmdq_cl.dev =3D mtk_crtc->mmsys_dev;
+> > -       mtk_crtc->cmdq_cl.tx_block =3D false;
+> > -       mtk_crtc->cmdq_cl.knows_txdone =3D true;
+> > -       mtk_crtc->cmdq_cl.rx_callback =3D ddp_cmdq_cb;
+> > -       mtk_crtc->cmdq_chan =3D
+> > -                       mbox_request_channel(&mtk_crtc->cmdq_cl,
+> > -                                             drm_crtc_index(&mtk_crtc-=
+>base));
+> > -       if (IS_ERR(mtk_crtc->cmdq_chan)) {
+> > +       mtk_crtc->cmdq_client.client.dev =3D mtk_crtc->mmsys_dev;
+> > +       mtk_crtc->cmdq_client.client.tx_block =3D false;
+> > +       mtk_crtc->cmdq_client.client.knows_txdone =3D true;
+> > +       mtk_crtc->cmdq_client.client.rx_callback =3D ddp_cmdq_cb;
+> > +       mtk_crtc->cmdq_client.chan =3D
+> > +                       mbox_request_channel(&mtk_crtc->cmdq_client.cli=
+ent,
+> > +                                            drm_crtc_index(&mtk_crtc->=
+base));
+> > +       if (IS_ERR(mtk_crtc->cmdq_client.chan)) {
+> >                 dev_dbg(dev, "mtk_crtc %d failed to create mailbox clie=
+nt, writing register by CPU now\n",
+> >                         drm_crtc_index(&mtk_crtc->base));
+> > -               mtk_crtc->cmdq_chan =3D NULL;
+> > +               mtk_crtc->cmdq_client.chan =3D NULL;
+> >         }
+> >
+> > -       if (mtk_crtc->cmdq_chan) {
+> > +       if (mtk_crtc->cmdq_client.chan) {
+> >                 ret =3D of_property_read_u32_index(priv->mutex_node,
+> >                                                  "mediatek,gce-events",
+> >                                                  drm_crtc_index(&mtk_cr=
+tc->base),
+> > @@ -945,17 +948,17 @@ int mtk_drm_crtc_create(struct drm_device *drm_de=
+v,
+> >                 if (ret) {
+> >                         dev_dbg(dev, "mtk_crtc %d failed to get mediate=
+k,gce-events property\n",
+> >                                 drm_crtc_index(&mtk_crtc->base));
+> > -                       mbox_free_channel(mtk_crtc->cmdq_chan);
+> > -                       mtk_crtc->cmdq_chan =3D NULL;
+> > +                       mbox_free_channel(mtk_crtc->cmdq_client.chan);
+> > +                       mtk_crtc->cmdq_client.chan =3D NULL;
+> >                 } else {
+> > -                       ret =3D mtk_drm_cmdq_pkt_create(mtk_crtc->cmdq_=
+chan,
+> > -                                                      &mtk_crtc->cmdq_=
+handle,
+> > -                                                      PAGE_SIZE);
+> > +                       ret =3D mtk_drm_cmdq_pkt_create(&mtk_crtc->cmdq=
+_client,
+> > +                                                     &mtk_crtc->cmdq_h=
+andle,
+> > +                                                     PAGE_SIZE);
+> >                         if (ret) {
+> >                                 dev_dbg(dev, "mtk_crtc %d failed to cre=
+ate cmdq packet\n",
+> >                                         drm_crtc_index(&mtk_crtc->base)=
+);
+> > -                               mbox_free_channel(mtk_crtc->cmdq_chan);
+> > -                               mtk_crtc->cmdq_chan =3D NULL;
+> > +                               mbox_free_channel(mtk_crtc->cmdq_client=
+.chan);
+> > +                               mtk_crtc->cmdq_client.chan =3D NULL;
+> >                         }
+> >                 }
+> >         }
+> > --
+> > 2.18.0
+> >
