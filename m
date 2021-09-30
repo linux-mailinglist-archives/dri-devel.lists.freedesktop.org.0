@@ -1,57 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE5C41DB3C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 15:37:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06AA641DB6A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 15:47:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 204D26EB90;
-	Thu, 30 Sep 2021 13:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 183F66EB8F;
+	Thu, 30 Sep 2021 13:47:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C2CD6EB90
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 13:37:13 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 53B4C611C7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 13:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633009033;
- bh=QYlLL3GDBPrVtkL8isJVyF2sdgxesbQ3gmGxtfmFI40=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=f6RXt16nHgtRnn5V9OGkZ/EXJnCTBs2ZoX85ae+fNGKqfNJZmIV9Ywha/cM/AXuv9
- Cgc1b6Ew1pPhkeQHfMnqq6IxTgtZIsCMpNhMOEf7x2Z5foiCoMLycqU31NZ89EGKrS
- Td/LtCYlfqF7zEaJlBn9vJIxl9WTrBiICaW+spAI9dt6e6/2qstnrTAi+yP9FH3lT1
- AqwYYGxqaKIcIcyMh5yp6kvkOGFO1/TSoZBoiww9Vu9fDsiPga8B3ERLRvBKUSqW6H
- oOXK49FTTt2N8WRhVYAhTthSb4hSK2Otemu4zNN1PAlnIFqWs6YF79VSZzHcZ76sCP
- DPpQXqOUzrqFw==
-Received: by mail-ed1-f47.google.com with SMTP id r18so22116296edv.12
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:37:13 -0700 (PDT)
-X-Gm-Message-State: AOAM530tULeQ35XnUvXpDWUx5/CIb0aKtKcWcbai01RddRDjB0h/PkEm
- uPOPxU21+k8GHDb5aD8VJhSP87r2yvwIfIbqGg==
-X-Google-Smtp-Source: ABdhPJypDb2VkWrdf3paMX9Tqzf51KNdYw6dumy+pE04VPMjkYX0wM15CC9zyo395rIQ9HHurwSkXhmuwWRQT+vaaEg=
-X-Received: by 2002:a17:906:3181:: with SMTP id
- 1mr7127794ejy.388.1633009013939; 
- Thu, 30 Sep 2021 06:36:53 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4505B6EB8F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 13:46:59 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id m3so25245955lfu.2
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=semihalf-com.20210112.gappssmtp.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Twipta4rIar/jc06+DX25RykGAERYG5t/W3YLHffjgM=;
+ b=0vFPHEXIsai7Bqlcap3e6yT6e0mRuumOZRm7wQTrizL0LCULnKlucdbkrXG+zRmk6R
+ 6b6Wejq+MdyGrvFcsVfZ7sPA5rX8jGXFiz7/5pHq9yrqHfMBEfAPOlW/v/VwXInW2rzh
+ ytRq4UDrmFA4vDEcMkixVGTFe8EYRjZAI726+vfnu1dWFuMOoHRqWVQXUnOVkwMk+jij
+ GENtQC/a0kitzFVHbSWun50nigfcFm3Hx5xaQIeNp4ayo55SkaGh4d5m9G2nUj+aP6GG
+ mhkuK0ghjwa/zn3cbDNINYA0XSUDz9gAFmJJHJX8XwGIUtgxajGdx0H/NJWYssLPf8X2
+ 8/lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Twipta4rIar/jc06+DX25RykGAERYG5t/W3YLHffjgM=;
+ b=6/5XbC/sR9qTw+XZgilEK0M98d5sORNBxSmh0DRMg1nx9f1d/NAJC+NpuH3Wnfk/1A
+ uINgbeYmQW4HjnQK5FO62HiT0Bo7pRweG0sdqDu5mghVnEetA6M/hwieDwziq783DqCX
+ HIiDvd+P5/mKaJUCSrna1nY21MGfzhoPqAg27pz0v8pNBItJsSKtvRCv7n5yu039z8Dg
+ KFXEO6eB/wFgCPzdj0Fmo1pENbHIQiPAXkts+qACA/FNkMUwsjOpW/sywY3o4MvCDgCU
+ erXQSFusKs3dxMyTuZyUGvT5U0fwA+x8hbSoEPQf1ZYp1jWb78hJ6MfJVup/HHCdOTUp
+ fs/A==
+X-Gm-Message-State: AOAM532wT5Ztd/ATFac7ZFp1P00l80fI0JhauDlP5y4cw0TsGHICnMSE
+ rCX75LGoJsXJEBBJNsx489OX7g==
+X-Google-Smtp-Source: ABdhPJx+TMd/QRt7kGS+5GTG8bVKNV4vu/ds3MnHRnE/jQciFkg5mnqd2pVvBxWJkecZrOQJ/3FI4Q==
+X-Received: by 2002:a05:651c:2103:: with SMTP id
+ a3mr6111702ljq.325.1633009610999; 
+ Thu, 30 Sep 2021 06:46:50 -0700 (PDT)
+Received: from lmajczak1-l.roam.corp.google.com ([83.142.187.84])
+ by smtp.gmail.com with ESMTPSA id b10sm26004lfp.240.2021.09.30.06.46.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 06:46:50 -0700 (PDT)
+From: Lukasz Majczak <lma@semihalf.com>
+To: Jose Roberto de Souza <jose.souza@intel.com>,
+ Shawn C Lee <shawn.c.lee@intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ upstream@semihalf.com, Lukasz Majczak <lma@semihalf.com>
+Subject: [PATCH v3] drm/i915/bdb: Fix version check
+Date: Thu, 30 Sep 2021 15:46:06 +0200
+Message-Id: <20210930134606.227234-1-lma@semihalf.com>
+X-Mailer: git-send-email 2.33.0.685.g46640cef36-goog
 MIME-Version: 1.0
-References: <20210929094425.745-1-granquet@baylibre.com>
- <20210929094425.745-5-granquet@baylibre.com>
-In-Reply-To: <20210929094425.745-5-granquet@baylibre.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Thu, 30 Sep 2021 21:36:42 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_9tWULx768c9pgnarVj6V1x6d5ZA9U2-hJ3+k2BW+vrAg@mail.gmail.com>
-Message-ID: <CAAOTY_9tWULx768c9pgnarVj6V1x6d5ZA9U2-hJ3+k2BW+vrAg@mail.gmail.com>
-Subject: Re: [PATCH v1 4/4] drm/mediatek: add mt8195 hdmi TX support
-To: Guillaume Ranquet <granquet@baylibre.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- Linux ARM <linux-arm-kernel@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,105 +75,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Guillaume:
+With patch "drm/i915/vbt: Fix backlight parsing for VBT 234+"
+the size of bdb_lfp_backlight_data structure has been increased,
+causing if-statement in the parse_lfp_backlight function
+that comapres this structure size to the one retrieved from BDB,
+always to fail for older revisions.
+This patch calculates expected size of the structure for a given
+BDB version and compares it with the value gathered from BDB.
+Tested on Chromebook Pixelbook (Nocturne) (reports bdb->version = 221)
 
-This is a big patch, and I'm not familiar with this driver, so the
-review process would be long. So I tell you about how I review this
-patch, and if you could process according to my way, the process would
-be more short.
+Tested-by: Lukasz Majczak <lma@semihalf.com>
+Signed-off-by: Lukasz Majczak <lma@semihalf.com>
+---
+ drivers/gpu/drm/i915/display/intel_bios.c     | 22 ++++++++++++++-----
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h |  5 +++++
+ 2 files changed, 21 insertions(+), 6 deletions(-)
 
-1. Find the common part of all hdmi driver.
-Even though mt8195 hdmi has many difference with other mediatek soc
-hdmi driver, I would like to find the common part and have just one
-copy of the common part. I expect there would three file finally:
+diff --git a/drivers/gpu/drm/i915/display/intel_bios.c b/drivers/gpu/drm/i915/display/intel_bios.c
+index 3c25926092de..f9776ca85de3 100644
+--- a/drivers/gpu/drm/i915/display/intel_bios.c
++++ b/drivers/gpu/drm/i915/display/intel_bios.c
+@@ -451,13 +451,23 @@ parse_lfp_backlight(struct drm_i915_private *i915,
+ 	}
+ 
+ 	i915->vbt.backlight.type = INTEL_BACKLIGHT_DISPLAY_DDI;
+-	if (bdb->version >= 191 &&
+-	    get_blocksize(backlight_data) >= sizeof(*backlight_data)) {
+-		const struct lfp_backlight_control_method *method;
++	if (bdb->version >= 191) {
++		size_t exp_size;
+ 
+-		method = &backlight_data->backlight_control[panel_type];
+-		i915->vbt.backlight.type = method->type;
+-		i915->vbt.backlight.controller = method->controller;
++		if (bdb->version >= 236)
++			exp_size = sizeof(struct bdb_lfp_backlight_data);
++		else if (bdb->version >= 234)
++			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_234;
++		else
++			exp_size = EXP_BDB_LFP_BL_DATA_SIZE_REV_191;
++
++		if (get_blocksize(backlight_data) >= exp_size) {
++			const struct lfp_backlight_control_method *method;
++
++			method = &backlight_data->backlight_control[panel_type];
++			i915->vbt.backlight.type = method->type;
++			i915->vbt.backlight.controller = method->controller;
++		}
+ 	}
+ 
+ 	i915->vbt.backlight.pwm_freq_hz = entry->pwm_freq_hz;
+diff --git a/drivers/gpu/drm/i915/display/intel_vbt_defs.h b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+index 330077c2e588..a2108a8f544d 100644
+--- a/drivers/gpu/drm/i915/display/intel_vbt_defs.h
++++ b/drivers/gpu/drm/i915/display/intel_vbt_defs.h
+@@ -814,6 +814,11 @@ struct lfp_brightness_level {
+ 	u16 reserved;
+ } __packed;
+ 
++#define EXP_BDB_LFP_BL_DATA_SIZE_REV_191 \
++	offsetof(struct bdb_lfp_backlight_data, brightness_level)
++#define EXP_BDB_LFP_BL_DATA_SIZE_REV_234 \
++	offsetof(struct bdb_lfp_backlight_data, brightness_precision_bits)
++
+ struct bdb_lfp_backlight_data {
+ 	u8 entry_size;
+ 	struct lfp_backlight_data_entry data[16];
+-- 
+2.33.0.685.g46640cef36-goog
 
-mtk_hdmi.c               (the common part)
-mtk_hdmi_mt8173.c (each soc special part)
-mtk_hdmi_mt8195.c (each soc special part)
-
-But this would be difficult in this stage, so you could temporarily
-have these three file:
-
-mtk_hdmi_common.c (the common part)
-mtk_hdmi.c                 (each soc special part)
-mtk_hdmi_mt8195.c   (each soc special part)
-
-When review is almost done, then change the file name as I wish.
-
-2. The first patch has only basic function, separate advance function
-to another patch.
-When comparing mt8195 hdmi driver with other hdmi driver, if mt8195
-hdmi driver has some function that other hdmi does not have, I would
-think that function is advance function and should be separate to
-another patch.
-
-If you follow this way, I think the review process would be short.
-Because this patch is big, I would just review partial part each time.
-
-Regards,
-Chun-Kuang.
-
-
-Guillaume Ranquet <granquet@baylibre.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=88=
-29=E6=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=885:47=E5=AF=AB=E9=81=93=EF=
-=BC=9A
->
-> Add basic hdmi TX support for the mediatek mt8195 SoCs
->
-> Signed-off-by: Guillaume Ranquet <granquet@baylibre.com>
-> ---
->  drivers/gpu/drm/mediatek/Kconfig              |   10 +
->  drivers/gpu/drm/mediatek/Makefile             |    4 +-
->  drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c    | 2293 +++++++++++++++++
->  drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.h    |  128 +
->  .../gpu/drm/mediatek/mtk_mt8195_hdmi_ddc.c    |  530 ++++
->  .../gpu/drm/mediatek/mtk_mt8195_hdmi_ddc.h    |   20 +
->  .../gpu/drm/mediatek/mtk_mt8195_hdmi_regs.h   |  329 +++
->  7 files changed, 3313 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.h
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mt8195_hdmi_ddc.c
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mt8195_hdmi_ddc.h
->  create mode 100644 drivers/gpu/drm/mediatek/mtk_mt8195_hdmi_regs.h
->
-> diff --git a/drivers/gpu/drm/mediatek/Kconfig b/drivers/gpu/drm/mediatek/=
-Kconfig
-> index 2976d21e9a34a..517d065f0511b 100644
-> --- a/drivers/gpu/drm/mediatek/Kconfig
-> +++ b/drivers/gpu/drm/mediatek/Kconfig
-> @@ -28,3 +28,13 @@ config DRM_MEDIATEK_HDMI
->         select PHY_MTK_HDMI
->         help
->           DRM/KMS HDMI driver for Mediatek SoCs
-> +
-> +config DRM_MEDIATEK_HDMI_MT8195_SUSPEND_LOW_POWER
-> +       tristate "DRM HDMI SUSPEND LOW POWER Support for Mediatek mt8195 =
-SoCs"
-> +       depends on DRM_MEDIATEK_HDMI
-> +       help
-> +         DRM/KMS HDMI SUSPEND_LOW_POWER for Mediatek SoCs.
-> +         Choose this option if you want to disable/enable
-> +         clock and power domain when platform enter suspend,
-> +         and this config depends on DRM_MEDIATEK_HDMI.
-> +
-> diff --git a/drivers/gpu/drm/mediatek/Makefile b/drivers/gpu/drm/mediatek=
-/Makefile
-> index 29098d7c8307c..736f0816083d0 100644
-> --- a/drivers/gpu/drm/mediatek/Makefile
-> +++ b/drivers/gpu/drm/mediatek/Makefile
-> @@ -18,6 +18,8 @@ obj-$(CONFIG_DRM_MEDIATEK) +=3D mediatek-drm.o
->
->  mediatek-drm-hdmi-objs :=3D mtk_cec.o \
->                           mtk_hdmi.o \
-> -                         mtk_hdmi_ddc.o
-> +                         mtk_hdmi_ddc.o \
-> +                         mtk_mt8195_hdmi.o \
-> +                         mtk_mt8195_hdmi_ddc.o \
->
->  obj-$(CONFIG_DRM_MEDIATEK_HDMI) +=3D mediatek-drm-hdmi.o
-> diff --git a/drivers/gpu/drm/mediatek/mtk_mt8195_hdmi.c b/drivers/gpu/drm=
-/mediatek/mtk_mt8195_hdmi.c
-> new file mode 100644
-> index 0000000000000..46c7c8af524ac
-> --- /dev/null
->
