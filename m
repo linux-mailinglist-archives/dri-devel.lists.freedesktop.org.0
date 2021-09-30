@@ -2,38 +2,125 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF5A341D8D1
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:32:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3A4941D921
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:54:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 637426EB79;
-	Thu, 30 Sep 2021 11:32:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1DFB46EB7F;
+	Thu, 30 Sep 2021 11:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6CCF6EB79;
- Thu, 30 Sep 2021 11:32:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="212242624"
-X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="212242624"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2021 04:32:46 -0700
-X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="564039551"
-Received: from nguyenv1-mobl.ccr.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.150])
- by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 30 Sep 2021 04:32:44 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v3] drm/i915/ttm: Rework object initialization slightly
-Date: Thu, 30 Sep 2021 13:32:36 +0200
-Message-Id: <20210930113236.583531-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from APC01-HK2-obe.outbound.protection.outlook.com
+ (mail-eopbgr1300127.outbound.protection.outlook.com [40.107.130.127])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E40C86EB7A;
+ Thu, 30 Sep 2021 11:54:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=dJ0h8knE4FNQJN5gkAFJTkI3P0a0Ei2xt3h72ET8+c7XnQdhL044cSK0Mh6ja4MCPF2eeScGohE2JtZ3v5QXCSD8gpZq7H7mmRS+X6uREu/kvOMoKv/VvBJYnOqzvcxJuON9Eo5eC6Yxj21UIH1s/FOEOgYcfXkgJXlLXW63I4YhV0Xf5YSRZwR3sUtxPi8cuNcskbFbiCAqd1hABEk3sZQLQ+Cpva3QoNiY4mYrVymh5LwPLX+AQNOy5uUCy3fd9yQIpYVOO1uMkC7lg/9Fra9Wq+u1z9IDJs5EL1F3Flf90zmivZ6HsmFcLfy5c+jTHAqjUQhMgJBxtqPwhTfyYw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+ bh=pBfIUU1h11D2MnafGbQFmqy1Rvh9m5PSKBdIkgl1BKY=;
+ b=kt3zTA0xvGDp1Wnb3ZvD4amhKrAPCXvV+FJo7nxQhn+GT4IqDp0owIvEJjW1yd75dRMr1CX+qUBGPaCuH+j+hTwhWjUVoP+0gGD6Nr7Q2NpJZAM/ide94LjHtgGpZAFna9pMGsj8wWbAHGVnYpPPhZb+3TqC9e7gWhIaUVwXdc7POxLDJj0Iqvhid4JyOaPHyWCxikTTbIsvJgbZKI4ZFrfGYoM2NnZpdmWvFDepdcWG5LRgljLlkn4x6Izr8uK77qlK/L+gj0xBMqiE/o1B+fqAh58/V1s9Y3vBIc4vrLGkmM5qcc3ncuq3r9az/xtVzGJ2+5vK1/+OKdH2lLI7Yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo0.onmicrosoft.com; 
+ s=selector2-vivo0-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pBfIUU1h11D2MnafGbQFmqy1Rvh9m5PSKBdIkgl1BKY=;
+ b=ehm9uICJx8CK8lbsK3Y7bfHV9Pv3KYWhTxxILGBNsrO56yKrO7NbebwzgIP9hbKBNraGfQDZ//AW+x6bNS+8yhG3cjMwYyFVYGR7kKKKtjPSZx+vIoQVqCkKESAJJ+UnzaJvcOU1HIKt5Rv9CRwxSwHxamkRwUUyvk7ghsD5VlE=
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com (2603:1096:202:2f::10)
+ by HK0PR06MB2196.apcprd06.prod.outlook.com (2603:1096:203:4b::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Thu, 30 Sep
+ 2021 11:54:17 +0000
+Received: from HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::80d9:d4e4:300f:3156]) by HK2PR06MB3492.apcprd06.prod.outlook.com
+ ([fe80::80d9:d4e4:300f:3156%5]) with mapi id 15.20.4544.023; Thu, 30 Sep 2021
+ 11:54:17 +0000
+From: =?gb2312?B?ufnV/b/8?= <guozhengkui@vivo.com>
+To: "Koenig, Christian" <Christian.Koenig@amd.com>, Simon Ser
+ <contact@emersion.fr>
+CC: "Deucher, Alexander" <Alexander.Deucher@amd.com>, "Pan, Xinhui"
+ <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, "Chen, Guchun" <Guchun.Chen@amd.com>, "Zhou, Peng Ju"
+ <PengJu.Zhou@amd.com>, "Zhang, Bokun" <Bokun.Zhang@amd.com>, "Gao, Likun"
+ <Likun.Gao@amd.com>, "amd-gfx@lists.freedesktop.org"
+ <amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>, kernel <kernel@vivo.com>
+Subject: RE: [PATCH] drm/amdgpu: fix some repeated includings
+Thread-Topic: [PATCH] drm/amdgpu: fix some repeated includings
+Thread-Index: AQHXtd+jnd+Qk/24r0K3G7/0oSByiau8XP+AgAAKC3eAAA/TUA==
+Date: Thu, 30 Sep 2021 11:54:16 +0000
+Message-ID: <HK2PR06MB34922067627E3951C991B678C7AA9@HK2PR06MB3492.apcprd06.prod.outlook.com>
+References: <20210930094239.7435-1-guozhengkui@vivo.com>
+ <AGiYadRf5XyGUqLxwu3ykKzfwM2BgZo4yCAaEXdQiYfH2dbyKmipDNrclnI2lZH3HzNh71VBy5QKz3O4fFvQETjTI9hoKzKHjZNBz9ERKI8=@emersion.fr>
+ <AIAAqwDqEh5BcgkyUT78Xaql.9.1632999287613.Hmail.guozhengkui@vivo.com>
+In-Reply-To: <AIAAqwDqEh5BcgkyUT78Xaql.9.1632999287613.Hmail.guozhengkui@vivo.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=vivo.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7614512b-534a-4b0e-2d8a-08d9840907de
+x-ms-traffictypediagnostic: HK0PR06MB2196:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <HK0PR06MB2196CF6A148A79ED6CB73AFAC7AA9@HK0PR06MB2196.apcprd06.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:3276;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: /gvBn3xRBo7Pwnx5b/Wlb7MBCNYnktVrhL2qK6XiDCCUFxOv6dm5bu9gYVaP05+S2rZ4pwUiWS013u5JlVfPEYjg3L1GA7k2nBH3nfAcaDWJ4TMgE+OzX0x3bXM79HYVoaj8p4x4yXiSfnXSnjFAVreduQu3Ol0rdLfs7NkiAg1HN49d/wumV6Mos6ObI9opARm1B/cHGN2ac/QtJ3Rxc0gkl+HKccWwOkLeJtC4jzWV+WnNzQ07vSkEm17vG22CkEjF7bw1rNDUaL3SPGjWfjdzCxJ9+H1afPPeikJT1tK2io80fBL4pSUfUhvxCFer8ymwJ8+kjKTzMDQZeKijELH9UP7Sh3l6gtZBi+KVYFAAIVzMT68v/pNjWYX6WOXvGZg8fONfA+xuX4TH4L6/+BoV/eUb4EKXfTKoddcCHlkH2YnnfL7CrxgBqki6ll51UlWqxD4yMAX8Rq6NgwU+cbM3GvevfkxL6ukEfmYtNDzgIhPK8oovbH40uqIc4qRnErdBkfT+UP4syJjlwNwsut+SNkPi7QuW0sDYYzdJDryXZgpATv3FGYmQupjZi7P1uIQqIiojL17Z+XYYwTtg45GzXPHXQPT4/v19jcqs6q9buiQyOO9UyNK/HBhRvYFoPpnLnxtj0LJWIkcAeu9Zk5nEVRMuIQ1cgR0Oeq0TK0ZdAcdBIvOl6ph/hH6Z9c7yycRlMscCOlT98te2ddGV2A==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HK2PR06MB3492.apcprd06.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(508600001)(33656002)(76116006)(7416002)(55016002)(2906002)(71200400001)(9686003)(26005)(86362001)(85182001)(186003)(4326008)(52536014)(316002)(66946007)(66556008)(38070700005)(7696005)(8936002)(6506007)(66476007)(8676002)(66446008)(122000001)(38100700002)(5660300002)(54906003)(110136005)(107886003)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?gb2312?B?Y0w4ZkJZSVZFdmxUQlEwRjY5SWRzMUhvYWxWeDAyOW5ENkw2bXhqdm1pS291?=
+ =?gb2312?B?VEIrMUgwWlZaNFBwdzJXanczQ1dDOUdWanJialplYWVIRW90VGNHRHdSVkxT?=
+ =?gb2312?B?WXBLOEpmL3FCYmhnQVdkLzBoT1Mvbjl6TjY1YTZLSXBwVHdaclcyeW1LeDVq?=
+ =?gb2312?B?WEo2ZTBlRFR6M0IyZllmek1ScEc5bkNMV2UwbUJoTGswNTJGaVdPYWlBcVlJ?=
+ =?gb2312?B?Rk5zVVdzMFdJb3JCVlZYUDRsbitmeVhvTFpSREFTd2dsUXpCd0dmak9FMzZM?=
+ =?gb2312?B?UFlFcDQ4bjFzY3AzcjNaMHFMVmV6RXZlaEZyZFlFQWVYTmxVcjFHQmxVbmRJ?=
+ =?gb2312?B?ZVFVY0hjdVFab3V0V1NsM3RXVFdUSUV3azdaZmx1WUdZVEFSRHZxUmFHLzFx?=
+ =?gb2312?B?T3FVbW1ybFFLRWhKUVByNFhKb2NSTlRGL3ZLQzQyQUVMWGFTV3JtUTZ4c0J6?=
+ =?gb2312?B?ZjVJc2F3S3dUTmZtck1NOCtYR2h5RVdLdkhFcVVITkxUMkhYaVd1d3VtRk8y?=
+ =?gb2312?B?Z3ZxVVVBQS9PNVgxQWJmMVFuN3J0RXhGMUQzcEJobm9OUkppM1NuVlhGdUJH?=
+ =?gb2312?B?VHVHQWpvdXRyUUxlR24yVW9iMmV0eWZsM3krRmhHWEk4aFpONDlJYXh1ZUcr?=
+ =?gb2312?B?TXZXL3E2WGIzU1NzNzhsYS9Rb2trMWVkemlUSVVvNW9rWTNNNm4vemFhUjFC?=
+ =?gb2312?B?ZUs3Q2hHRVd1b0xPaSswaXQvTXd6MDNRMmU0NjdFaG1GeitLNk8xNU10YTkr?=
+ =?gb2312?B?aWN3c3JlQ3dZN1dlSUZCaGJkY3g5dklwM3MzRndBeGg2WEdTdUlBVDlhQUtY?=
+ =?gb2312?B?d21RYlB1R0I3czZ1NmZ6TnhCdFNkeDlpbVd0U2svdTA5VHhzL3FYaEVGR1R5?=
+ =?gb2312?B?WWpubGxodHEwNVFlN1dQQ1g4R3pqRHNvY2tMaHN1WVYxTXhmMGFsZUhaRzZE?=
+ =?gb2312?B?VW5ndU9pMHhPVk56cU9WV2VCbjZRK1VaUTgyWTRyQVhVcktkT3V2S2owNHA5?=
+ =?gb2312?B?eVFQbGV5Z05hREIwRVNFK1RXM3FjUmYvMDRmbXJ1cVY4ak8zdFI2NXVMTW5N?=
+ =?gb2312?B?ZWE3R1cvZ0RYYTUzdE9zODMrSkNRdFJGR0RUZFVCSDNaMC8xNUpFVG5wdzhY?=
+ =?gb2312?B?SkNWUkd2TjRiTVFLeXBoeTBNNS94SGNMelBYL1pVQTNhdzdjbDM0QzczY1BO?=
+ =?gb2312?B?ZzFGcUZicHEyWmxMb1JJZm43OWEwRnFQa2J6Q3FYSnlQdzk3aWlLN1B1SUJD?=
+ =?gb2312?B?RmVCbkVFcmJ3dk43YUovY2diTzI2QVlYaFlQMWxGNmpoQ3QxWlRObnRrVlBm?=
+ =?gb2312?B?a2xZbnlGYjdvSno1czEzK1dwWmtMOVNadGZuUERMVmNUYWI4dFdWMklXUUpZ?=
+ =?gb2312?B?UE9YQjR2QkNwS01pUFFuR1dBcDZwbVd5Um9FNUdKOXQzM1ltYVR2bEN4MW5k?=
+ =?gb2312?B?T3RIQWlnc1ZXZXFZcUl3UjlJUjRzTmYremFWZHgxNG1sT0svUzNmc0NCeVRv?=
+ =?gb2312?B?S3BwWjZHai9WVTJjM0NXQStvV1NLOHJZcEhmSlZMK0J5eEtPT3E5N2ZydVly?=
+ =?gb2312?B?a3F0dTRpRXRSV2J5cmJKZjlhbXRFOEdmZ1ZkOE9DTHV2S2hqSk1TNTAzVU5m?=
+ =?gb2312?B?U0tDZVBWNDNQempzNUZCdUNtUzBpNnpSSlEzYTVYVDRoQ1lKR0NETkhxN2wy?=
+ =?gb2312?B?amhZUGE3SExhSDdvNTJIdlJyWEtHbk9pSjZJMFIrK3E3bkZ3MFlENVg2YjRn?=
+ =?gb2312?Q?n/4RM5YWQ/Y63T9bBk=3D?=
+Content-Type: multipart/alternative;
+ boundary="_000_HK2PR06MB34922067627E3951C991B678C7AA9HK2PR06MB3492apcp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: HK2PR06MB3492.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7614512b-534a-4b0e-2d8a-08d9840907de
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Sep 2021 11:54:16.9490 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: iWCTMQl/FdLYiQZJmg57tFdWy0jnevD5dYMc8qNgdwS16gu67Ri+OVASnQKZe+6Fd5M61HUWr5K0JJCpztG50A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK0PR06MB2196
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,236 +136,232 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We may end up in i915_ttm_bo_destroy() in an error path before the
-object is fully initialized. In that case it's not correct to call
-__i915_gem_free_object(), because that function
-a) Assumes the gem object refcount is 0, which it isn't.
-b) frees the placements which are owned by the caller until the
-init_object() region ops returns successfully. Fix this by providing
-a lightweight cleanup function __i915_gem_object_fini() which is also
-called by __i915_gem_free_object().
+--_000_HK2PR06MB34922067627E3951C991B678C7AA9HK2PR06MB3492apcp_
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-While doing this, also make sure we call dma_resv_fini() as part of
-ordinary object destruction and not from the RCU callback that frees
-the object. This will help track down bugs where the object is incorrectly
-locked from an RCU lookup.
+QWN0dWFsbHkgdGhlIGR1cGxpY2F0ZXMgdGFrZSBwbGFjZSBpbiBsaW5lIDQ2LCA0NyBhbmQgNjIs
+IDYzLg0KDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rp
+c2NvdmVyeS5jIGIvZHJpdmVycy9ncHUvZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc2NvdmVyeS5j
+DQppbmRleCAyOTFhNDdmNzk5MmEuLjk0ZmNhNTY1ODNhMCAxMDA2NDQNCi0tLSBhL2RyaXZlcnMv
+Z3B1L2RybS9hbWQvYW1kZ3B1L2FtZGdwdV9kaXNjb3ZlcnkuYw0KKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2FtZC9hbWRncHUvYW1kZ3B1X2Rpc2NvdmVyeS5jDQpAQCAtNDYsMzQgKzQ2LDMyIEBADQoj
+aW5jbHVkZSAidmNuX3YyXzAuaCINCiNpbmNsdWRlICJqcGVnX3YyXzAuaCINCiNpbmNsdWRlICJ2
+Y25fdjJfNS5oIg0KI2luY2x1ZGUgImpwZWdfdjJfNS5oIg0KI2luY2x1ZGUgInNtdWlvX3Y5XzAu
+aCINCiNpbmNsdWRlICJnbWNfdjEwXzAuaCINCiNpbmNsdWRlICJnZnhodWJfdjJfMC5oIg0KI2lu
+Y2x1ZGUgIm1taHViX3YyXzAuaCINCiNpbmNsdWRlICJuYmlvX3YyXzMuaCINCiNpbmNsdWRlICJu
+YmlvX3Y3XzIuaCINCiNpbmNsdWRlICJoZHBfdjVfMC5oIg0KI2luY2x1ZGUgIm52LmgiDQojaW5j
+bHVkZSAibmF2aTEwX2loLmgiDQojaW5jbHVkZSAiZ2Z4X3YxMF8wLmgiDQojaW5jbHVkZSAic2Rt
+YV92NV8wLmgiDQojaW5jbHVkZSAic2RtYV92NV8yLmgiDQotI2luY2x1ZGUgInZjbl92Ml8wLmgi
+DQotI2luY2x1ZGUgImpwZWdfdjJfMC5oIg0KI2luY2x1ZGUgInZjbl92M18wLmgiDQojaW5jbHVk
+ZSAianBlZ192M18wLmgiDQojaW5jbHVkZSAiYW1kZ3B1X3ZrbXMuaCINCiNpbmNsdWRlICJtZXNf
+djEwXzEuaCINCiNpbmNsdWRlICJzbXVpb192MTFfMC5oIg0KI2luY2x1ZGUgInNtdWlvX3YxMV8w
+XzYuaCINCiNpbmNsdWRlICJzbXVpb192MTNfMC5oIg0KDQpNT0RVTEVfRklSTVdBUkUoImFtZGdw
+dS9pcF9kaXNjb3ZlcnkuYmluIik7DQoNCiNkZWZpbmUgbW1SQ0NfQ09ORklHX01FTVNJWkUgICAw
+eGRlMw0KI2RlZmluZSBtbU1NX0lOREVYICAgICAgICAgICAgIDB4MA0KI2RlZmluZSBtbU1NX0lO
+REVYX0hJICAgICAgICAgIDB4Ng0KI2RlZmluZSBtbU1NX0RBVEEgICAgICAgICAgICAgIDB4MQ0K
+DQpzdGF0aWMgY29uc3QgY2hhciAqaHdfaWRfbmFtZXNbSFdfSURfTUFYXSA9IHsNCg==
 
-Finally, make sure the object isn't put on the region list until it's
-either locked or fully initialized in order to block list processing of
-partially initialized objects.
+--_000_HK2PR06MB34922067627E3951C991B678C7AA9HK2PR06MB3492apcp_
+Content-Type: text/html; charset="gb2312"
+Content-Transfer-Encoding: quoted-printable
 
-v2:
-- The TTM object backend memory was freed before the gem pages were
-  put. Separate this functionality into __i915_gem_object_pages_fini()
-  and call it from the TTM delete_mem_notify() callback.
-v3:
-- Include i915_gem_object_free_mmaps() in __i915_gem_object_pages_fini()
-  to make sure we don't inadvertedly introduce a race.
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:=B5=C8=CF=DF;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"MS PGothic";
+	panose-1:2 11 6 0 7 2 5 8 2 4;}
+@font-face
+	{font-family:"\@=B5=C8=CF=DF";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"\@MS PGothic";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"MS PGothic",sans-serif;
+	mso-fareast-language:JA;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	font-size:12.0pt;
+	font-family:"MS PGothic",sans-serif;
+	mso-fareast-language:JA;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:=B5=C8=CF=DF;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"ZH-CN" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">Actually the duplicates tak=
+e place in line 46, 47 and 62, 63.<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN"><o:p>&nbsp;</o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">diff --git a/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_discovery.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_discove=
+ry.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">index 291a47f7992a..94fca56=
+583a0 100644<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">--- a/drivers/gpu/drm/amd/a=
+mdgpu/amdgpu_discovery.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">+++ b/drivers/gpu/drm/amd/a=
+mdgpu/amdgpu_discovery.c<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">@@ -46,34 +46,32 @@<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;vcn_v2_0.h&q=
+uot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;jpeg_v2_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;vcn_v2_5.h&q=
+uot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;jpeg_v2_5.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;smuio_v9_0.h=
+&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;gmc_v10_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;gfxhub_v2_0.=
+h&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;mmhub_v2_0.h=
+&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;nbio_v2_3.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;nbio_v7_2.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;hdp_v5_0.h&q=
+uot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;nv.h&quot;<o=
+:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;navi10_ih.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;gfx_v10_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;sdma_v5_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;sdma_v5_2.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">-#include &quot;vcn_v2_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">-#include &quot;jpeg_v2_0.h=
+&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;vcn_v3_0.h&q=
+uot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;jpeg_v3_0.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;amdgpu_vkms.=
+h&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;mes_v10_1.h&=
+quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;smuio_v11_0.=
+h&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;smuio_v11_0_=
+6.h&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#include &quot;smuio_v13_0.=
+h&quot;<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN"><o:p>&nbsp;</o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">MODULE_FIRMWARE(&quot;amdgp=
+u/ip_discovery.bin&quot;);<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN"><o:p>&nbsp;</o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#define mmRCC_CONFIG_MEMSIZ=
+E&nbsp;&nbsp; 0xde3<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#define mmMM_INDEX&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x0<o:p></o=
+:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#define mmMM_INDEX_HI&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x6<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">#define mmMM_DATA&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0x1<o:=
+p></o:p></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN"><o:p>&nbsp;</o:p></span></p=
+>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:=B5=C8=CF=DF;mso-fareast-language:ZH-CN">static const char *hw_id_na=
+mes[HW_ID_MAX] =3D {<o:p></o:p></span></p>
+</div>
+</body>
+</html>
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com> #v1
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 43 +++++++++++++++++++---
- drivers/gpu/drm/i915/gem/i915_gem_object.h |  5 +++
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 36 +++++++++++-------
- 3 files changed, 64 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 6fb9afb65034..b88b121e244a 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -89,6 +89,22 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 	mutex_init(&obj->mm.get_dma_page.lock);
- }
- 
-+/**
-+ * i915_gem_object_fini - Clean up a GEM object initialization
-+ * @obj: The gem object to cleanup
-+ *
-+ * This function cleans up gem object fields that are set up by
-+ * drm_gem_private_object_init() and i915_gem_object_init().
-+ * It's primarily intended as a helper for backends that need to
-+ * clean up the gem object in separate steps.
-+ */
-+void __i915_gem_object_fini(struct drm_i915_gem_object *obj)
-+{
-+	mutex_destroy(&obj->mm.get_page.lock);
-+	mutex_destroy(&obj->mm.get_dma_page.lock);
-+	dma_resv_fini(&obj->base._resv);
-+}
-+
- /**
-  * Mark up the object's coherency levels for a given cache_level
-  * @obj: #drm_i915_gem_object
-@@ -174,7 +190,6 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
- 		container_of(head, typeof(*obj), rcu);
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
- 
--	dma_resv_fini(&obj->base._resv);
- 	i915_gem_object_free(obj);
- 
- 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
-@@ -204,10 +219,17 @@ static void __i915_gem_object_free_mmaps(struct drm_i915_gem_object *obj)
- 	}
- }
- 
--void __i915_gem_free_object(struct drm_i915_gem_object *obj)
-+/**
-+ * __i915_gem_object_pages_fini - Clean up pages use of a gem object
-+ * @obj: The gem object to clean up
-+ *
-+ * This function cleans up usage of the object mm.pages member. It
-+ * is intended for backends that need to clean up a gem object in
-+ * separate steps and needs to be called when the object is idle before
-+ * the object's backing memory is freed.
-+ */
-+void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
- {
--	trace_i915_gem_object_destroy(obj);
--
- 	if (!list_empty(&obj->vma.list)) {
- 		struct i915_vma *vma;
- 
-@@ -233,11 +255,17 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
- 
- 	__i915_gem_object_free_mmaps(obj);
- 
--	GEM_BUG_ON(!list_empty(&obj->lut_list));
--
- 	atomic_set(&obj->mm.pages_pin_count, 0);
- 	__i915_gem_object_put_pages(obj);
- 	GEM_BUG_ON(i915_gem_object_has_pages(obj));
-+}
-+
-+void __i915_gem_free_object(struct drm_i915_gem_object *obj)
-+{
-+	trace_i915_gem_object_destroy(obj);
-+
-+	GEM_BUG_ON(!list_empty(&obj->lut_list));
-+
- 	bitmap_free(obj->bit_17);
- 
- 	if (obj->base.import_attach)
-@@ -253,6 +281,8 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
- 
- 	if (obj->shares_resv_from)
- 		i915_vm_resv_put(obj->shares_resv_from);
-+
-+	__i915_gem_object_fini(obj);
- }
- 
- static void __i915_gem_free_objects(struct drm_i915_private *i915,
-@@ -266,6 +296,7 @@ static void __i915_gem_free_objects(struct drm_i915_private *i915,
- 			obj->ops->delayed_free(obj);
- 			continue;
- 		}
-+		__i915_gem_object_pages_fini(obj);
- 		__i915_gem_free_object(obj);
- 
- 		/* But keep the pointer alive for RCU-protected lookups */
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 3043fcbd31bd..7f9f2e5ba0ec 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -58,6 +58,9 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 			  const struct drm_i915_gem_object_ops *ops,
- 			  struct lock_class_key *key,
- 			  unsigned alloc_flags);
-+
-+void __i915_gem_object_fini(struct drm_i915_gem_object *obj);
-+
- struct drm_i915_gem_object *
- i915_gem_object_create_shmem(struct drm_i915_private *i915,
- 			     resource_size_t size);
-@@ -582,6 +585,8 @@ bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj);
- 
- void __i915_gem_free_object_rcu(struct rcu_head *head);
- 
-+void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj);
-+
- void __i915_gem_free_object(struct drm_i915_gem_object *obj);
- 
- bool i915_gem_object_evictable(struct drm_i915_gem_object *obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index b94497989995..a0ab5c44627b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -367,8 +367,10 @@ static void i915_ttm_delete_mem_notify(struct ttm_buffer_object *bo)
- {
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
--	if (likely(obj))
-+	if (likely(obj)) {
-+		__i915_gem_object_pages_fini(obj);
- 		i915_ttm_free_cached_io_st(obj);
-+	}
- }
- 
- static struct intel_memory_region *
-@@ -813,12 +815,9 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
-  */
- static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
- {
--	if (obj->ttm.created) {
--		ttm_bo_put(i915_gem_to_ttm(obj));
--	} else {
--		__i915_gem_free_object(obj);
--		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
--	}
-+	GEM_BUG_ON(!obj->ttm.created);
-+
-+	ttm_bo_put(i915_gem_to_ttm(obj));
- }
- 
- static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-@@ -898,16 +897,19 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
- {
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
--	i915_ttm_backup_free(obj);
--
--	/* This releases all gem object bindings to the backend. */
--	__i915_gem_free_object(obj);
--
- 	i915_gem_object_release_memory_region(obj);
- 	mutex_destroy(&obj->ttm.get_io_page.lock);
- 
--	if (obj->ttm.created)
-+	if (obj->ttm.created) {
-+		i915_ttm_backup_free(obj);
-+
-+		/* This releases all gem object bindings to the backend. */
-+		__i915_gem_free_object(obj);
-+
- 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
-+	} else {
-+		__i915_gem_object_fini(obj);
-+	}
- }
- 
- /**
-@@ -936,7 +938,11 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
--	i915_gem_object_init_memory_region(obj, mem);
-+
-+	/* Don't put on a region list until we're either locked or fully initialized. */
-+	obj->mm.region = intel_memory_region_get(mem);
-+	INIT_LIST_HEAD(&obj->mm.region_link);
-+
- 	i915_gem_object_make_unshrinkable(obj);
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
- 	mutex_init(&obj->ttm.get_io_page.lock);
-@@ -963,6 +969,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 		return i915_ttm_err_to_gem(ret);
- 
- 	obj->ttm.created = true;
-+	i915_gem_object_release_memory_region(obj);
-+	i915_gem_object_init_memory_region(obj, mem);
- 	i915_ttm_adjust_domains_after_move(obj);
- 	i915_ttm_adjust_gem_after_move(obj);
- 	i915_gem_object_unlock(obj);
--- 
-2.31.1
-
+--_000_HK2PR06MB34922067627E3951C991B678C7AA9HK2PR06MB3492apcp_--
