@@ -1,79 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5BDA41DBE8
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 16:05:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D23C41DBFD
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 16:06:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 113A76EC03;
-	Thu, 30 Sep 2021 14:05:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A6A006E40A;
+	Thu, 30 Sep 2021 14:06:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D83366EBFD
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 14:05:14 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 313925C009E;
- Thu, 30 Sep 2021 10:05:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Thu, 30 Sep 2021 10:05:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- O0njLhd/0R2BntcIlLH/p4YJbTn7vhtKqMqYVhOjmw4=; b=Bb3FFzkPW+osrEt6
- ejrVbXcIQpkgRttOEFZStamDfjisapUGlBQIgkMnz5HCPV5Qw2YNnDAxDR7SBOae
- /ZC0H3j0nUXtKqLkRblSpPPlJEkT+FefmIbNBqpV1yR2hj1CRYHmdvODtRIkB+pd
- jLwBldtQzLg1WoWCR2/dxd/sOjdCyk+NxuEXn3ULNjhZOYjY+EkeO0c0PKUcvFRi
- Qm0Js75nEcXoymrA04abE5UBIgejsyRR+3Q8frwoucYP7aNgsDPPY8qOAO6W2eoT
- SZMzUSoZkmcrg564LkUET+y3C0ZDdgla8CzTSWupQzpJZ6lKJ7EvqjswM7eEmsKc
- Dn67Ng==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm3; bh=O0njLhd/0R2BntcIlLH/p4YJbTn7vhtKqMqYVhOjm
- w4=; b=SkU1WbOkcwm2LaEfoktDEsimWWwn5M4gTqQ85K1665Te98ZP8L7KwmWjl
- cJ1rabF2LujmOxNPOKrmrCmWyHJr1HUBHotYDEU3XCyBEjZ/JxjzX/q23BJ4gpeX
- zW2e+cm6pmypuKCisHE6oiblnEmpUpjkS7Bu03HAq587MEbgcDxnkIdlmKlgPnnA
- Z70/VKtPYyKP5iiWApfxFZ4jsVjS93BabzeZ8kKVyguU9XEXOvG1jJ8uRwPhfDBS
- fMku4vxqqnNt/IUAgEqNCAnSW+glVBG5PwvcIvlOgpMFC5GqDIkQtNKkUfY5hY+B
- ac15FqDNN9L2Hx+lrodMEYEGT8wKw==
-X-ME-Sender: <xms:FsRVYazX1TtOTnPCMeF0-kDr2r0bfGyKtLAdlUOPABFeMn05i89OCw>
- <xme:FsRVYWR4V9yrRT_fPyYjZW9tREYl7AYCuKIgu9Af5I5DSRJlnvXyUstTSIqGfrJw9
- KSLNmTSCzs-86aJCAs>
-X-ME-Received: <xmr:FsRVYcVy-BJUjk6xUwQshl4Vx-7Tguvs9rg-fM0iKJai59ot_E_qxVjvHINzDTV7oTLq2KJwlhXEbjMIhE2JVVuAeFYrNp-bhIm6_jYJ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudekgedgjedtucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:FsRVYQhIZTPb4mM2SRPmu0muhoNd1Ifpu0tMvdKD_o76GrwL4hVTFw>
- <xmx:FsRVYcCfenRHcxjPYoHTYKQKTPlI5Q2ei-uUttLOV5e8w4fyRS-LlA>
- <xmx:FsRVYRIhowm3vaHmV4G53zQvoFTx9iDGerH5RXQn0ltRWNUGpXuZKg>
- <xmx:GMRVYb66QJwPjNLVdn1wvR_qHM0NEpKs152YKu2KIXV3wONb1i3PUg>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 30 Sep 2021 10:05:10 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: David Airlie <airlied@linux.ie>, Maxime Ripard <maxime@cerno.tech>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- Daniel Vetter <daniel.vetter@intel.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	dri-devel@lists.freedesktop.org
-Subject: Re: (subset) [PATCH] drm/bridge: Add stubs for devm_drm_of_get_bridge
- when OF is disabled
-Date: Thu, 30 Sep 2021 16:05:02 +0200
-Message-Id: <163301060013.1505901.16940873865960676513.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210928181333.1176840-1-maxime@cerno.tech>
-References: <20210928181333.1176840-1-maxime@cerno.tech>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFE566E40A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 14:06:41 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21B0B60EFD;
+ Thu, 30 Sep 2021 14:06:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633010801;
+ bh=pV7wpRwYeddObrK3x2BRYB+BUb70rVeOOPgHw93L05s=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=uwqrJQlhmfkysFaoognvTOMelKZtmYisb28Nclpv9JNZM5fKRoqU5N08wrdIB/8Ht
+ uCsrMPtZOerzkZJDJxX8HuyOzi8v2dS05SPBGCeFL8co8ze1Eff0K8sTcO4xoF5BY3
+ VkfLEMMzEdfpdHBcEpC36gkcfZNeS7UKbrcWf6vmNHI8Ik/zp7a1iZwnzMQbIpqqYJ
+ UjRY3MtB2BMNzsvqw9EuTmsqIosTWxA967zuqh7NkSo4Zx3zDgTNogCUcsB3kSaxDD
+ 1ApooBGjRExDQPUD9YGX108RZp4nkFd4kE9Cc3+nBxRsInYcbhNPuMRrs+mdt6w/hY
+ jeHacm3qNygIQ==
+Date: Thu, 30 Sep 2021 22:06:30 +0800
+From: Peter Chen <peter.chen@kernel.org>
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Ulf Hansson <ulf.hansson@linaro.org>,
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, Lee Jones <lee.jones@linaro.org>,
+ Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org,
+ linux-mmc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, Stefan Agner <stefan@agner.ch>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Subject: Re: [PATCH v13 16/35] usb: chipidea: tegra: Add runtime PM and OPP
+ support
+Message-ID: <20210930140630.GA6697@Peter>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-17-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210926224058.1252-17-digetx@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,15 +72,154 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Sep 2021 20:13:33 +0200, Maxime Ripard wrote:
-> If CONFIG_OF is disabled, devm_drm_of_get_bridge won't be compiled in
-> and drivers using that function will fail to build.
+On 21-09-27 01:40:39, Dmitry Osipenko wrote:
+> The Tegra USB controller belongs to the core power domain and we're going
+> to enable GENPD support for the core domain. Now USB controller must be
+> resumed using runtime PM API in order to initialize the USB power state.
+> We already support runtime PM for the CI device, but CI's PM is separated
+> from the RPM managed by tegra-usb driver. Add runtime PM and OPP support
+> to the driver.
 > 
-> Add an inline stub so that we can still build-test those cases.
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/usb/chipidea/ci_hdrc_tegra.c | 53 ++++++++++++++++++++++++----
+>  1 file changed, 46 insertions(+), 7 deletions(-)
 > 
+> diff --git a/drivers/usb/chipidea/ci_hdrc_tegra.c b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> index 60361141ac04..3142ef7ebe42 100644
+> --- a/drivers/usb/chipidea/ci_hdrc_tegra.c
+> +++ b/drivers/usb/chipidea/ci_hdrc_tegra.c
+> @@ -7,6 +7,7 @@
+>  #include <linux/io.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+> +#include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
+>  
+>  #include <linux/usb.h>
+> @@ -15,6 +16,8 @@
+>  #include <linux/usb/of.h>
+>  #include <linux/usb/phy.h>
+>  
+> +#include <soc/tegra/common.h>
+> +
+>  #include "../host/ehci.h"
+>  
+>  #include "ci.h"
+> @@ -278,6 +281,8 @@ static int tegra_usb_probe(struct platform_device *pdev)
+>  	if (!usb)
+>  		return -ENOMEM;
+>  
+> +	platform_set_drvdata(pdev, usb);
+> +
+>  	soc = of_device_get_match_data(&pdev->dev);
+>  	if (!soc) {
+>  		dev_err(&pdev->dev, "failed to match OF data\n");
+> @@ -296,11 +301,17 @@ static int tegra_usb_probe(struct platform_device *pdev)
+>  		return err;
+>  	}
+>  
+> -	err = clk_prepare_enable(usb->clk);
+> -	if (err < 0) {
+> -		dev_err(&pdev->dev, "failed to enable clock: %d\n", err);
+> +	err = devm_pm_runtime_enable(&pdev->dev);
+> +	if (err)
+> +		return err;
+> +
+> +	err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
+> +	if (err)
+> +		return err;
+> +
+> +	err = pm_runtime_resume_and_get(&pdev->dev);
+> +	if (err)
+>  		return err;
+> -	}
+>  
+>  	if (device_property_present(&pdev->dev, "nvidia,needs-double-reset"))
+>  		usb->needs_double_reset = true;
+> @@ -320,8 +331,6 @@ static int tegra_usb_probe(struct platform_device *pdev)
+>  	if (err)
+>  		goto fail_power_off;
+>  
+> -	platform_set_drvdata(pdev, usb);
+> -
+>  	/* setup and register ChipIdea HDRC device */
+>  	usb->soc = soc;
+>  	usb->data.name = "tegra-usb";
+> @@ -350,7 +359,8 @@ static int tegra_usb_probe(struct platform_device *pdev)
+>  phy_shutdown:
+>  	usb_phy_shutdown(usb->phy);
+>  fail_power_off:
+> -	clk_disable_unprepare(usb->clk);
+> +	pm_runtime_put(&pdev->dev);
+> +
+>  	return err;
+>  }
+>  
+> @@ -360,15 +370,44 @@ static int tegra_usb_remove(struct platform_device *pdev)
+>  
+>  	ci_hdrc_remove_device(usb->dev);
+>  	usb_phy_shutdown(usb->phy);
+> +	pm_runtime_put(&pdev->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused tegra_usb_runtime_resume(struct device *dev)
+> +{
+> +	struct tegra_usb *usb = dev_get_drvdata(dev);
+> +	int err;
+> +
+> +	err = clk_prepare_enable(usb->clk);
+> +	if (err < 0) {
+> +		dev_err(dev, "failed to enable clock: %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused tegra_usb_runtime_suspend(struct device *dev)
+> +{
+> +	struct tegra_usb *usb = dev_get_drvdata(dev);
+> +
+>  	clk_disable_unprepare(usb->clk);
+>  
+>  	return 0;
+>  }
+>  
+> +static const struct dev_pm_ops tegra_usb_pm = {
+> +	SET_RUNTIME_PM_OPS(tegra_usb_runtime_suspend, tegra_usb_runtime_resume,
+> +			   NULL)
+> +};
+> +
+>  static struct platform_driver tegra_usb_driver = {
+>  	.driver = {
+>  		.name = "tegra-usb",
+>  		.of_match_table = tegra_usb_of_match,
+> +		.pm = &tegra_usb_pm,
+>  	},
+>  	.probe = tegra_usb_probe,
+>  	.remove = tegra_usb_remove,
+> -- 
+> 2.32.0
 > 
 
-Applied to drm/drm-misc (drm-misc-next).
+I got below compile error if only compile this file, I think previous patches
+should include the definition, if that, feel free to add my ack to this
+patch.
 
-Thanks!
-Maxime
+Acked-by: Peter Chen <peter.chen@kernel.org>
+
+drivers/usb/chipidea/ci_hdrc_tegra.c:308:8: error: implicit declaration of function ‘devm_tegra_core_dev_init_opp_table_common’;
+did you mean ‘devm_tegra_core_dev_init_opp_table’? [-Werror=implicit-function-declaration]
+  308 |  err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |        devm_tegra_core_dev_init_opp_table
+
+
+-- 
+
+Thanks,
+Peter Chen
+
