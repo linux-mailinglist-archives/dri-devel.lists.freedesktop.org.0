@@ -1,43 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6398A41D618
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:16:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E5C41D624
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:20:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 104E56EB53;
-	Thu, 30 Sep 2021 09:16:30 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B02B66EB4F;
+	Thu, 30 Sep 2021 09:20:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B55FD6EB53
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:16:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=jFKFmveYVvsuhhmStQ8PEAU+llLIX6AB8sb31MDcl9A=; 
- b=ladj0EO3pDYR03LlH0UPbpd+kXRLpVhxzOuczHqV5+g/mC2o7ySYAXGXeOy5OhCKed7utTzLGPdqFZ4jw8+AtfPyHMqq+qgwJwJyh9A1XLUY4y6Np3fvLEZDHtWiosV+pBJwZsYDFdTD99PXsKHxDbSdeB8zdwDmcGSjjYtEtGhEZOMwVK/lNnkJGPNmUM2G3HSDZ/k5dF6E81khH4SM/CwMPsj/QNPLMR8eIR/W/nTg3x5rTnF49E++DLiO4slGQTwL/6SsbJ6zmwESauxsTzhoi3qNXBvMMUOVqbZA3sQnForY0K6iL4dN5w71T8Oc7Ll17xZvnJ2fNr+t/TGTvQ==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mVsB0-0001NZ-9t; Thu, 30 Sep 2021 11:16:26 +0200
-Date: Thu, 30 Sep 2021 10:16:08 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Iago Toral <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <maxime@cerno.tech>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v2 2/4] drm/v3d: alloc and init job in one shot
-Message-ID: <20210930091608.j56uqzumu3nt6zvx@mail.igalia.com>
-References: <cover.1632905676.git.mwen@igalia.com>
- <9048a84150989bb8719810ea5c987feeb269eccd.1632905676.git.mwen@igalia.com>
- <6307238d163737faf9e5c3591b1725497ce77945.camel@igalia.com>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26DDD6EB4F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:20:20 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id d6so8847419wrc.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 02:20:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=cWUu4gfUCIw1qfdMOzh1G0mXcnyINDcvR5YDhGm1cIk=;
+ b=DEap/nntYuHPYdehDI3oC9J8mlrnnQUeK0Z+Ax/XhzIk/ffB72lJENarIyab15k7km
+ GQGpvvXag209wCFNn8cBjn4SNy+ZjtjRX/ggx3X0GWmnedRAL5mnEJbm/iO98NHJCobA
+ Ws1ChpCA8cffA5vbdvab0JmhjSSq1sGSBbUQE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :in-reply-to;
+ bh=cWUu4gfUCIw1qfdMOzh1G0mXcnyINDcvR5YDhGm1cIk=;
+ b=TvlrO4JbvCDzpFiD2SXzZkfDzagj2yqmjirVtkdh43+6uX25JV/gnw7uqQrLF59Rug
+ iuy+SQfZfMRt9t+TqplWCC80M70DL7ikYT2yfo/JPIGaFnsfZFhHpR0v5CeRKR/1dcBd
+ jkJu8RWQjzGCv6/tGXCdqkQJVhTrCflD8HC9wGVl5Pn8u50UH81s2qTjyTIhCPVDcJhx
+ DdzwnoWV3jHTuEPPnQkKK86lu/PwVunXPYv/yduyuJy6hoWiVIfbQr3Pbtpw4GeiUY3H
+ xK3VJUbCZuFsevJ1eUCVAq6sCptlbuqZfjEhNoPdU5Sf0IW7MJARXMWDz/DfzdkoPHXZ
+ UdFA==
+X-Gm-Message-State: AOAM532zrE4ZwKe20xypRLjMfOeEoeEM/zruYY2e/4bw3JA4v3SWU2Xt
+ FyYWYuKhgdh+vZH3F+8uwQFGfg==
+X-Google-Smtp-Source: ABdhPJzq4mhFF0uQJUbJElFrf061CPJgYoqj5BalI56is+e0O68Ykt6BJmA0z74RxjPaX4FXXV+FTw==
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr4951532wrz.337.1632993618649; 
+ Thu, 30 Sep 2021 02:20:18 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o17sm2439103wrj.96.2021.09.30.02.20.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 02:20:08 -0700 (PDT)
+Date: Thu, 30 Sep 2021 11:19:59 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+Subject: Re: Regression with mainline kernel on rpi4
+Message-ID: <YVWBP5ZJInH/wt1P@phenom.ffwll.local>
+Mail-Followup-To: Maxime Ripard <maxime@cerno.tech>,
+ Linus Torvalds <torvalds@linux-foundation.org>,
+ Sudip Mukherjee <sudipm.mukherjee@gmail.com>,
+ Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>
+References: <20210922095725.dk4vk42zb3kh7y6s@gilmour>
+ <CADVatmOMV5gMhCuoP65O9mbW639x5=0+bGh92WVL8FFX2Mvu3w@mail.gmail.com>
+ <CAHk-=wi=8Wp31FSyOH5A8KY+7f3dSuP62zUpvTtyvENm1Hh7xA@mail.gmail.com>
+ <CADVatmNZB6yjS6zXqUcY4xsUTyX3pa6VysB6RmT1CGV5LXer6g@mail.gmail.com>
+ <CAHk-=wh+y=C5hVhE1X=AvZz+OM5Yp8eLHYGth31pfoJVF7UKKQ@mail.gmail.com>
+ <CADVatmPDeSxeY3GTZyC6+G0N76su0E6Y3LF_h6BOcBf5QAtjvg@mail.gmail.com>
+ <CAHk-=whASMriPYRdH8kxC_UwObBtwHbPvf7rb58sUEZZyaFxJg@mail.gmail.com>
+ <20210924133022.waqgtr5xjjxigong@gilmour>
+ <CAKMK7uFxO-ss86k483VJQJiHwcAYxNwD06xSEZStn+fWiRJ6iw@mail.gmail.com>
+ <20210928083446.cfji7hmndt6a5nop@gilmour>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="3dogmklhothau6sp"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6307238d163737faf9e5c3591b1725497ce77945.camel@igalia.com>
+In-Reply-To: <20210928083446.cfji7hmndt6a5nop@gilmour>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,176 +93,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Sep 28, 2021 at 10:34:46AM +0200, Maxime Ripard wrote:
+> Hi Daniel,
+> 
+> On Sat, Sep 25, 2021 at 12:50:17AM +0200, Daniel Vetter wrote:
+> > On Fri, Sep 24, 2021 at 3:30 PM Maxime Ripard <maxime@cerno.tech> wrote:
+> > >
+> > > On Wed, Sep 22, 2021 at 01:25:21PM -0700, Linus Torvalds wrote:
+> > > > On Wed, Sep 22, 2021 at 1:19 PM Sudip Mukherjee
+> > > > <sudipm.mukherjee@gmail.com> wrote:
+> > > > >
+> > > > > I added some debugs to print the addresses, and I am getting:
+> > > > > [   38.813809] sudip crtc 0000000000000000
+> > > > >
+> > > > > This is from struct drm_crtc *crtc = connector->state->crtc;
+> > > >
+> > > > Yeah, that was my personal suspicion, because while the line number
+> > > > implied "crtc->state" being NULL, the drm data structure documentation
+> > > > and other drivers both imply that "crtc" was the more likely one.
+> > > >
+> > > > I suspect a simple
+> > > >
+> > > >         if (!crtc)
+> > > >                 return;
+> > > >
+> > > > in vc4_hdmi_set_n_cts() is at least part of the fix for this all, but
+> > > > I didn't check if there is possibly something else that needs to be
+> > > > done too.
+> > >
+> > > Thanks for the decode_stacktrace.sh and the follow-up
+> > >
+> > > Yeah, it looks like we have several things wrong here:
+> > >
+> > >   * we only check that connector->state is set, and not
+> > >     connector->state->crtc indeed.
+> > >
+> > >   * We also check only in startup(), so at open() and not later on when
+> > >     the sound streaming actually start. This has been there for a while,
+> > >     so I guess it's never really been causing a practical issue before.
+> > 
+> > You also have no locking
+> 
+> Indeed. Do we just need locking to prevent a concurrent audio setup and
+> modeset, or do you have another corner case in mind?
+> 
+> Also, generally, what locks should we make sure we have locked when
+> accessing the connector and CRTC state? drm_mode_config.connection_mutex
+> and drm_mode_config.mutex, respectively?
+> 
+> > plus looking at ->state objects outside of atomic commit machinery
+> > makes no sense because you're not actually in sync with the hw state.
+> > Relevant bits need to be copied over at commit time, protected by some
+> > spinlock (and that spinlock also needs to be held over whatever other
+> > stuff you're setting to make sure we don't get a funny out-of-sync
+> > state anywhere).
+> 
+> If we already have a lock protecting against having both an ASoC and KMS
+> function running, it's not clear to me what the spinlock would prevent
+> here?
 
---3dogmklhothau6sp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Replicating the irc chat here. With
 
-On 09/30, Iago Toral wrote:
-> On Wed, 2021-09-29 at 10:43 +0100, Melissa Wen wrote:
-> > Move job memory allocation to v3d_job_init function. This aim to
-> > facilitate
-> > error handling in job initialization, since cleanup steps are similar
-> > for all
-> > (struct v3d_job)-based types of job involved in a command submission.
-> > To
-> > generalize v3d_job_init(), this change takes into account that all
-> > job structs
-> > have the first element a struct v3d_job (bin, render, tfu, csd) or it
-> > is a
-> > v3d_job itself (clean_job) for pointer casting.
-> >=20
-> > Suggested-by: Iago Toral <itoral@igalia.com>
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  drivers/gpu/drm/v3d/v3d_gem.c | 115 +++++++++++++-------------------
-> > --
-> >  1 file changed, 42 insertions(+), 73 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> > b/drivers/gpu/drm/v3d/v3d_gem.c
-> > index e60fbc28ef29..9cfa6f8d4357 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> > @@ -392,6 +392,9 @@ v3d_render_job_free(struct kref *ref)
-> > =20
-> >  void v3d_job_cleanup(struct v3d_job *job)
-> >  {
-> > +	if (!job)
-> > +		return;
-> > +
-> >  	drm_sched_job_cleanup(&job->base);
-> >  	v3d_job_put(job);
-> >  }
-> > @@ -450,12 +453,20 @@ v3d_job_add_deps(struct drm_file *file_priv,
-> > struct v3d_job *job,
-> > =20
-> >  static int
-> >  v3d_job_init(struct v3d_dev *v3d, struct drm_file *file_priv,
-> > -	     struct v3d_job *job, void (*free)(struct kref *ref),
-> > +	     void **container, size_t size, void (*free)(struct kref
-> > *ref),
-> >  	     u32 in_sync, enum v3d_queue queue)
-> >  {
-> >  	struct v3d_file_priv *v3d_priv =3D file_priv->driver_priv;
-> > +	struct v3d_job *job;
-> >  	int ret;
-> > =20
-> > +	*container =3D kcalloc(1, size, GFP_KERNEL);
-> > +	if (!*container) {
-> > +		DRM_ERROR("Cannot allocate memory for v3d job.");
-> > +		return -ENOMEM;
-> > +	}
-> > +
-> > +	job =3D *container;
-> >  	job->v3d =3D v3d;
-> >  	job->free =3D free;
-> > =20
->=20
-> Right below this hunk we have an early return that doesn't jump to
-> fail:
->=20
->         ret =3D pm_runtime_get_sync(v3d->drm.dev);
->         if (ret < 0)
->                 return ret;
->=20
->=20
-> so we should kfree(*container) and set it to NULL there, right?
-oh, yes. I missed it on porting downstream to upstream.
->=20
-> > @@ -479,6 +490,9 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file
-> > *file_priv,
-> >  	drm_sched_job_cleanup(&job->base);
-> >  fail:
-> >  	pm_runtime_put_autosuspend(v3d->drm.dev);
-> > +	kfree(*container);
-> > +	*container =3D NULL;
-> > +
-> >  	return ret;
-> >  }
-> >=20
->=20
-> (...)
->=20
-> > @@ -806,29 +789,15 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> > void *data,
-> >  		return -EINVAL;
-> >  	}
-> > =20
-> > -	job =3D kcalloc(1, sizeof(*job), GFP_KERNEL);
-> > -	if (!job)
-> > -		return -ENOMEM;
-> > -
-> > -	ret =3D v3d_job_init(v3d, file_priv, &job->base,
-> > +	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
-> >  			   v3d_job_free, args->in_sync, V3D_CSD);
-> > -	if (ret) {
-> > -		kfree(job);
-> > -		return ret;
-> > -	}
-> > -
-> > -	clean_job =3D kcalloc(1, sizeof(*clean_job), GFP_KERNEL);
-> > -	if (!clean_job) {
-> > -		v3d_job_cleanup(&job->base);
-> > -		return -ENOMEM;
-> > -	}
-> > +	if (ret)
-> > +		goto fail;
-> >=20
->=20
-> For this to work we need to explicitly initialize clean_job to NULL.=20
-> Notice that the same applies to the bin and clean jobs in the CL ioctl,
-> but in that case we're already initializing them to NULL.
-yes, thanks for pointing it out.
+commit 6c5ed5ae353cdf156f9ac4db17e15db56b4de880
+Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Date:   Thu Apr 6 20:55:20 2017 +0200
 
-Melissa
->=20
-> > -	ret =3D v3d_job_init(v3d, file_priv, clean_job, v3d_job_free, 0,
-> > V3D_CACHE_CLEAN);
-> > -	if (ret) {
-> > -		v3d_job_cleanup(&job->base);
-> > -		kfree(clean_job);
-> > -		return ret;
-> > -	}
-> > +	ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job,
-> > sizeof(*clean_job),
-> > +			   v3d_job_free, 0, V3D_CACHE_CLEAN);
-> > +	if (ret)
-> > +		goto fail;
-> > =20
-> >  	job->args =3D *args;
-> > =20
-> > @@ -877,7 +846,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	drm_gem_unlock_reservations(clean_job->bo, clean_job->bo_count,
-> >  				    &acquire_ctx);
-> >  fail:
-> > -	v3d_job_cleanup(&job->base);
-> > +	v3d_job_cleanup((void *)job);
-> >  	v3d_job_cleanup(clean_job);
-> > =20
-> >  	return ret;
->=20
+    drm/atomic: Acquire connection_mutex lock in drm_helper_probe_single_connector_modes, v4.
 
---3dogmklhothau6sp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFVgFQACgkQwqF3j0dL
-ehxPNQ//ZM5mok0j7lUG+VVsFe7Ph7oA5MN2cudRjdRaOjexNh8Cq9UIK8m5n2lk
-Ci/xttu4DjfNf5qFRklAhlFWwJMC6vzg+G/p5y6SJImaBCWXfr4XXwhYtqn0fTPo
-5202bCWPo2brEq3NJAMMaosODpqmrNQnB5/eHf7W9HZ7ylDsZkEUHB4hMLoHrS5X
-3Nie9XNVc+I+XXlgyS7tDTtTCe4zX9N13GQwiFMVqcoAqOIhBtVgX3a06M7ecNgk
-CuB+N6hMYmuSlJ2VDr5pFkANlVOg9O50GgoRf9WzLi2E7cR0U0k+Z9It225jZ01I
-/euIZBPUoFVriVM15fDQW+nEk7k9qhUdSX7RPjEGdn02GIztHVAgqRGMT86evaNp
-4iArPjEJbVBjTDO4z4qoO4Gi9kluRIf5bp7CYqXhafIGYe5J3UmMDsVqhKn6/eX7
-rd+ra0i7wRYK8oyx1r1Y/63CoGDjIya4lrVb+br+e+ou+8yLkP6IeOayuPNX8dFX
-ctAbpXbvbHjOAHsayfbveyRbJ+HPjmjrqzVKrRJ+AcMu7XpARFs+aGhgzTJW1aHH
-zpTiOMcJLCPugCtyvRBulPJm5u7hx+7JF/ghcn/bx8mlneVkzolfHr6UkbY1sIo/
-ETr3VP8kFDTnxA2fS/WSB3SQx7UWv7ijZ+8Kekvm9+jxA3MyXrA=
-=GMbw
------END PGP SIGNATURE-----
-
---3dogmklhothau6sp--
+this is already taken care of for drivers and should be all good from a
+locking pov.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
