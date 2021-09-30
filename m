@@ -1,43 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5740441D633
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:22:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65ED41D64E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:26:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AD7B06E39B;
-	Thu, 30 Sep 2021 09:22:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 670386E3B7;
+	Thu, 30 Sep 2021 09:26:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5DF686E39B
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=qNV0MuPFbK0qjKTNyCJRCsCkgsTxIuseWhLNPnlYODU=; 
- b=eIZg3f/16CASt8gNjwz2BczFNO9hc7yeFtdHjmElY2Ciit1wIwV7C0wrYx/dRO9Pcxd0gYuba5jJ+yWRfEVE4YQ+N299kYliP0mBGsYBATEfgMRPP4/Se1yH0UQf81yc+2eL0dYqzaGL1WI5EuROm6wdATHlxaevKHl7guwBoshsw1Rx0hdjUS4ZiUcwvkPxtJ/xzhFX63EUGbZr7RV5/hNnrSk7ShDnAKeTu7qr5AnX4J0aXlAT3zrlzG33wG0uNfmC2ccSOtee3gli2vsU/HBVLlxlj1RTakXYWDphj5p/XaYoC/h7IZWtva0YbjkuV98EIOOPPqV+cLstcUJWAw==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mVsHF-000210-2o; Thu, 30 Sep 2021 11:22:53 +0200
-Date: Thu, 30 Sep 2021 10:22:41 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Iago Toral <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <maxime@cerno.tech>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v2 3/4] drm/v3d: add generic ioctl extension
-Message-ID: <20210930092241.hikxj2iseu2kzt5u@mail.igalia.com>
-References: <cover.1632905676.git.mwen@igalia.com>
- <779e2cc57efd5fbc95f1267e7252de5f092045c5.1632905676.git.mwen@igalia.com>
- <d4d4762f1365f22b53677da2f77a5ac27e899a4c.camel@igalia.com>
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
+ [IPv6:2a00:1450:4864:20::42f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AB636E3B7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:26:17 +0000 (UTC)
+Received: by mail-wr1-x42f.google.com with SMTP id t8so8963970wri.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 02:26:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=nyWAQCM8OTwxG8AtGUah8J4JArPTmx87Iul4NOLUBFU=;
+ b=M4hpFo+m+hAGe35NDaiAYAc/uCb86Znr1ABugAdsBMiquZ/tGfA8aIMo6hSusAP5yf
+ KBoIISi+gQuqbUkh4jZ+65kfVi67JxmaiHaXNrSsViDYFbKf5mugNcchDNAa7+dzFOTP
+ wYSnn9XJQ7dZ1NWE3MX7Z8YlkRbytd3oQkf3c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=nyWAQCM8OTwxG8AtGUah8J4JArPTmx87Iul4NOLUBFU=;
+ b=NBx3vuVTtruc1ICTAkC05q6YhaMN60dfxYLrn4bjqQAwwt6cEw9DZrIcTn9Cnb5QbU
+ sW/0SxVIDQ/Z56Fae0/5yAP5erAm7NTUUoDEiXQCJ8ZQVPJ6JTvgAERMPw9gNPFdKzsY
+ sgWm3yBGjPsoqTIXaXZDxTIX7AJVHx2hCviGC4AVqNsi8ie0f1UUI5b3kOk+6htJdclI
+ da2svR+2kRJHgqivu641P/PRLzGt0Gx+0qUcXcmmSKGWe0jqeh7LqVKl4iSQmw80fW1N
+ 4vkx+cJg0J/1r1PVoPY4tKrHsZwLWgx/PqyMkHomNqVDdDWVdCYrbVrgDM1cqlq3Hsw8
+ afnA==
+X-Gm-Message-State: AOAM533Js/tJ3k8orQ3SJ1zRpnmgJjdOSQc9hYic08dbP5XA43KvrxWV
+ Va1OQPChMiUykCFL+WQgIi+RQhQlWPdcmg==
+X-Google-Smtp-Source: ABdhPJxe+MB5DFr8y/ZAxKCsJ8whCGAsRwNgPR2mbNR6jBLFUaMG9y/TtLM/KNfA32t/ouWm42Puvw==
+X-Received: by 2002:adf:f207:: with SMTP id p7mr5070402wro.166.1632993974587; 
+ Thu, 30 Sep 2021 02:26:14 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id x21sm4205642wmc.14.2021.09.30.02.26.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 30 Sep 2021 02:26:13 -0700 (PDT)
+Date: Thu, 30 Sep 2021 11:26:11 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Dennis Filder <d.filder@web.de>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Subject: Re: Handling DRM master transitions cooperatively
+Message-ID: <YVWCs3o8PNYFbFKJ@phenom.ffwll.local>
+References: <YTJypepF1Hpc2YYT@reader> <20210907130746.7b667dac@eldfell>
+ <ccdba09b-011d-093e-17d0-578ca8a3ec44@redhat.com>
+ <20210908103603.44a533bb@eldfell>
+ <CAKMK7uGeuaZDYkr=mFiA4Okhod6KqKRnv_RfF-NJG=2KzG-=WQ@mail.gmail.com>
+ <20210909103703.09a573e4@eldfell>
+ <YUCncex3woPlAhI6@phenom.ffwll.local>
+ <20210922115657.17006ed1@eldfell>
+ <3195aecb-833f-9f8f-efad-51d80da6f4dc@redhat.com>
+ <20210923112300.0a40480d@eldfell>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="vvb6tp4magjvdc4v"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d4d4762f1365f22b53677da2f77a5ac27e899a4c.camel@igalia.com>
+In-Reply-To: <20210923112300.0a40480d@eldfell>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,310 +79,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Thu, Sep 23, 2021 at 11:23:00AM +0300, Pekka Paalanen wrote:
+> On Wed, 22 Sep 2021 11:21:16 +0200
+> Hans de Goede <hdegoede@redhat.com> wrote:
+> 
+> > Hi,
+> > 
+> > On 9/22/21 10:56 AM, Pekka Paalanen wrote:
+> > > On Tue, 14 Sep 2021 15:45:21 +0200
+> > > Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >   
+> > >> On Thu, Sep 09, 2021 at 10:37:03AM +0300, Pekka Paalanen wrote:  
+> > >>> On Wed, 8 Sep 2021 18:27:09 +0200
+> > >>> Daniel Vetter <daniel@ffwll.ch> wrote:
+> > >>>     
+> > >>>> On Wed, Sep 8, 2021 at 9:36 AM Pekka Paalanen <ppaalanen@gmail.com> wrote:    
+> > >>>>>
+> > >>>>> On Tue, 7 Sep 2021 14:42:56 +0200
+> > >>>>> Hans de Goede <hdegoede@redhat.com> wrote:
+> > >>>>>      
+> > >>>>>> Hi,
+> > >>>>>>
+> > >>>>>> On 9/7/21 12:07 PM, Pekka Paalanen wrote:      
+> > >>>>>>> On Fri, 3 Sep 2021 21:08:21 +0200
+> > >>>>>>> Dennis Filder <d.filder@web.de> wrote:
+> > >>>>>>>      
+> > >>>>>>>> Hans de Goede asked me to take a topic from a private discussion here.
+> > >>>>>>>> I must also preface that I'm not a graphics person and my knowledge of
+> > >>>>>>>> DRI/DRM is cursory at best.
+> > >>>>>>>>
+> > >>>>>>>> I initiated the conversation with de Goede after learning that the X
+> > >>>>>>>> server now supports being started with an open DRM file descriptor
+> > >>>>>>>> (this was added for Keith Packard's xlease project).  I wondered if
+> > >>>>>>>> that could be used to smoothen the Plymouth->X transition somehow and
+> > >>>>>>>> asked de Goede if there were any such plans.  He denied, but mentioned
+> > >>>>>>>> that a new ioctl is in the works to prevent the kernel from wiping the
+> > >>>>>>>> contents of a frame buffer after a device is closed, and that this
+> > >>>>>>>> would help to keep transitions smooth.      
+> > >>>>>>>
+> > >>>>>>> Hi,
+> > >>>>>>>
+> > >>>>>>> I believe the kernel is not wiping anything on device close. If
+> > >>>>>>> something in the KMS state is wiped, it originates in userspace:
+> > >>>>>>>
+> > >>>>>>> - Plymouth doing something (e.g. RmFB on an in-use FB will turn the
+> > >>>>>>>   output off, you need to be careful to "leak" your FB if you want a
+> > >>>>>>>   smooth hand-over)      
+> > >>>>>>
+> > >>>>>> The "kernel is not wiping anything on device close" is not true,
+> > >>>>>> when closing /dev/dri/card# any remaining FBs from the app closing
+> > >>>>>> it will be dealt with as if they were RmFB-ed, causing the screen
+> > >>>>>> to show what I call "the fallback fb", at least with the i915 driver.      
+> > >>>>>
+> > >>>>> No, that's not what should happen AFAIK.
+> > >>>>>
+> > >>>>> True, all FBs that are not referenced by active CRTCs or planes will
+> > >>>>> get freed, since their refcount drops to zero, but those CRTCs and
+> > >>>>> planes that are active will remain active and therefore keep their
+> > >>>>> reference to the respective FBs and so the FBs remain until replaced or
+> > >>>>> turned off explicitly (by e.g. fbcon if you switch to that rather than
+> > >>>>> another userspace KMS client). I believe that is the whole reason why
+> > >>>>> e.g. DRM_IOCTL_MODE_GETFB2 can be useful, otherwise the next KMS client
+> > >>>>> would not have anything to scrape.
+> > >>>>>
+> > >>>>> danvet, what is the DRM core intention?      
+> > >>>>
+> > >>>> Historical accidents mostly. There's two things that foil easy
+> > >>>> handover to the next compositor:
+> > >>>> - RMFB instead of CLOSEFB semantics, especially when closing the
+> > >>>> drmfd. This is uapi, so anything we change needs to be opt-in    
+> > >>>
+> > >>> What does this mean and refer to?
+> > >>>
+> > >>> Are you trying to say, that closing the DRM device fd (freeing the file
+> > >>> description) causes an implicit RmFB on all the FBs tied to that DRM
+> > >>> device file description?
+> > >>>
+> > >>> I never realised that before.    
+> > >>
+> > >> Yes, final close does iterate over fb and do an RMFB. Which is why we've
+> > >> had this discussion whether closefb semantics should be an ADDFB2 flag at
+> > >> creation time instead.  
+> > > 
+> > > Hi Daniel,
+> > > 
+> > > such flag would make sense to me.  
+> > 
+> > Hmm, I was thinking having a separate call to mark a FB to switch to
+> > closefb semantics. But both plymouth (because of end of animation)
+> > and GNOME (because a mostly empty gnome-shell needs to be rendered
+> > to avoid leaking privacy sensitive info) will need to prepare a
+> > special FB on exit anyways, so then an ADDFB2 flag would work fine.
+> > 
+> > I would be happy to work on the plymouth side of this, so that we
+> > have at least one consumer of such a flag lined up for merging.
+> 
+> Right, but I'm thinking this from the other side: why would anyone
+> deliberately *want* RmFB semantics on device close?
+> 
+> I can't think of any, and hence I would be inclined to assume that
+> userspace would just switch to using closefb semantics for everything
+> all the time.
+> 
+> Legacy userspace is one thing, but userspace that is updated to set
+> closefb semantics will also be aware of what closefb means: it leaves
+> the FBs up and CRTCs and planes enabled, if you leave them like that.
+> So if they don't want that, they know they should not do that.
+> 
+> Asking in another way: why would the same program sometimes use RmFB
+> semantics and sometimes closefb semantics? Even more so, why would one
+> switch an FB from one to the other?
+> 
+> Hmm... to prevent leaking sensitive FBs on crash, perhaps? But you can
+> do that decision at AddFB2 time, right? Maybe not, as you can't really
+> force EGL to allocate a new buffer at will. Oh, but when EGL gives me a
+> buffer that I know is safe to leave up, I also know that it is not up
+> on any KMS plane (no front buffer rendering), so I can just RmFB and
+> AddFB2 again. That's a bit of a detour though.
+> 
+> At least a separate ioctl on an FB would be more flexible than a flag
+> at AddFB2.
+> 
+> Btw. what happens if I try to AddFB2 the same buffer twice?
 
---vvb6tp4magjvdc4v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+drm_fb are just refcounted metadata containers. So you could have the same
+underlying gem bo wrapped in 2 addfb, one with rmfb and one with closefb
+semantics. Depending which one you're using on which crtc, the crtc might
+be shut off or not when you close the drmfd.
 
-O 09/30, Iago Toral wrote:
-> On Wed, 2021-09-29 at 10:44 +0100, Melissa Wen wrote:
-> > Add support to attach generic extensions on job submission. This
-> > patch
-> > is third prep work to enable multiple syncobjs on job submission.
-> > With
-> > this work, when the job submission interface needs to be extended to
-> > accomodate a new feature, we will use a generic extension struct
-> > where
-> > an id determines the data type to be pointed. The first application
-> > is
-> > to enable multiples in/out syncobj (next patch), but the base is
-> > already done for future features. Therefore, to attach a new feature,
-> > a specific extension struct should subclass drm_v3d_extension and
-> > update the list of extensions in a job submission.
-> >=20
-> > v2:
-> > - remove redundant elements to subclass struct (Daniel)
-> >=20
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  drivers/gpu/drm/v3d/v3d_drv.c |  4 +-
-> >  drivers/gpu/drm/v3d/v3d_gem.c | 71
-> > +++++++++++++++++++++++++++++++++--
-> >  include/uapi/drm/v3d_drm.h    | 31 +++++++++++++++
-> >  3 files changed, 100 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
-> > b/drivers/gpu/drm/v3d/v3d_drv.c
-> > index c1deab2cf38d..3d6b9bcce2f7 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> > @@ -83,7 +83,6 @@ static int v3d_get_param_ioctl(struct drm_device
-> > *dev, void *data,
-> >  		return 0;
-> >  	}
-> > =20
-> > -
-> >  	switch (args->param) {
-> >  	case DRM_V3D_PARAM_SUPPORTS_TFU:
-> >  		args->value =3D 1;
-> > @@ -147,7 +146,7 @@ v3d_postclose(struct drm_device *dev, struct
-> > drm_file *file)
-> >  DEFINE_DRM_GEM_FOPS(v3d_drm_fops);
-> > =20
-> >  /* DRM_AUTH is required on SUBMIT_CL for now, while we don't have
-> > GMP
-> > - * protection between clients.  Note that render nodes would be be
-> > + * protection between clients.  Note that render nodes would be
-> >   * able to submit CLs that could access BOs from clients
-> > authenticated
-> >   * with the master node.  The TFU doesn't use the GMP, so it would
-> >   * need to stay DRM_AUTH until we do buffer size/offset validation.
-> > @@ -219,7 +218,6 @@ static int v3d_platform_drm_probe(struct
-> > platform_device *pdev)
-> >  	u32 mmu_debug;
-> >  	u32 ident1;
-> > =20
-> > -
-> >  	v3d =3D devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev,
-> > drm);
-> >  	if (IS_ERR(v3d))
-> >  		return PTR_ERR(v3d);
-> > diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
-> > b/drivers/gpu/drm/v3d/v3d_gem.c
-> > index 9cfa6f8d4357..b912419027f7 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> > @@ -535,6 +535,33 @@ v3d_attach_fences_and_unlock_reservation(struct
-> > drm_file *file_priv,
-> >  	}
-> >  }
-> > =20
-> > +static int
-> > +v3d_get_extensions(struct drm_file *file_priv, u64 ext_handles)
-> > +{
-> > +	struct drm_v3d_extension __user *user_ext;
-> > +
-> > +	user_ext =3D u64_to_user_ptr(ext_handles);
-> > +	while(user_ext) {
-> > +		struct drm_v3d_extension ext;
-> > +
-> > +		if (copy_from_user(&ext, user_ext, sizeof(ext))) {
-> > +			DRM_DEBUG("Failed to copy submit extension\n");
-> > +			return -EFAULT;
-> > +		}
-> > +
-> > +		switch (ext.id) {
-> > +		case 0:
-> > +		default:
-> > +			DRM_DEBUG_DRIVER("Unknown extension id: %d\n",
-> > ext.id);
-> > +			return -EINVAL;
-> > +		}
-> > +
-> > +		user_ext =3D u64_to_user_ptr(ext.next);
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  /**
-> >   * v3d_submit_cl_ioctl() - Submits a job (frame) to the V3D.
-> >   * @dev: DRM device
-> > @@ -563,15 +590,24 @@ v3d_submit_cl_ioctl(struct drm_device *dev,
-> > void *data,
-> > =20
-> >  	trace_v3d_submit_cl_ioctl(&v3d->drm, args->rcl_start, args-
-> > >rcl_end);
-> > =20
-> > -	if (args->pad !=3D 0)
-> > +	if (args->pad)
-> >  		return -EINVAL;
-> > =20
-> > -	if (args->flags !=3D 0 &&
-> > -	    args->flags !=3D DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
-> > +	if (args->flags &&
-> > +	    args->flags & ~(DRM_V3D_SUBMIT_CL_FLUSH_CACHE |
-> > +			    DRM_V3D_SUBMIT_EXTENSION)) {
-> >  		DRM_INFO("invalid flags: %d\n", args->flags);
-> >  		return -EINVAL;
-> >  	}
-> > =20
-> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		if (ret) {
-> > +			DRM_DEBUG("Failed to get extensions.\n");
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&render,
-> > sizeof(*render),
-> >  			   v3d_render_job_free, args->in_sync_bcl,
-> > V3D_RENDER);
-> >  	if (ret)
-> > @@ -700,6 +736,19 @@ v3d_submit_tfu_ioctl(struct drm_device *dev,
-> > void *data,
-> > =20
-> >  	trace_v3d_submit_tfu_ioctl(&v3d->drm, args->iia);
-> > =20
-> > +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
-> > +		DRM_DEBUG("invalid flags: %d\n", args->flags);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		if (ret) {
-> > +			DRM_DEBUG("Failed to get extensions.\n");
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
-> >  			   v3d_job_free, args->in_sync, V3D_TFU);
-> >  	if (ret)
-> > @@ -784,11 +833,27 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> > void *data,
-> > =20
-> >  	trace_v3d_submit_csd_ioctl(&v3d->drm, args->cfg[5], args-
-> > >cfg[6]);
-> > =20
-> > +	if (args->pad)
-> > +		return -EINVAL;
-> > +
-> >  	if (!v3d_has_csd(v3d)) {
-> >  		DRM_DEBUG("Attempting CSD submit on non-CSD
-> > hardware\n");
-> >  		return -EINVAL;
-> >  	}
-> > =20
-> > +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
-> > +		DRM_INFO("invalid flags: %d\n", args->flags);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		if (ret) {
-> > +			DRM_DEBUG("Failed to get extensions.\n");
-> > +			return ret;
-> > +		}
-> > +	}
-> > +
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
-> >  			   v3d_job_free, args->in_sync, V3D_CSD);
-> >  	if (ret)
-> > diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
-> > index 4104f22fb3d3..55b443ca6c0b 100644
-> > --- a/include/uapi/drm/v3d_drm.h
-> > +++ b/include/uapi/drm/v3d_drm.h
-> > @@ -58,6 +58,20 @@ extern "C" {
-> >  						   struct
-> > drm_v3d_perfmon_get_values)
-> > =20
-> >  #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
-> > +#define DRM_V3D_SUBMIT_EXTENSION		  0x02
-> > +
-> > +/* struct drm_v3d_extension - ioctl extensions
-> > + *
-> > + * Linked-list of generic extensions where the id identify which
-> > struct is
-> > + * pointed by ext_data. Therefore, DRM_V3D_EXT_ID_* is used on id to
-> > identify
-> > + * the extension type.
-> > + */
-> > +struct drm_v3d_extension {
-> > +	__u64 next;
-> > +	__u32 id;
-> > +#define DRM_V3D_EXT_ID_MULTI_SYNC		0x01
-> > +	__u32 flags; /* mbz */
-> > +};
-> > =20
-> >  /**
-> >   * struct drm_v3d_submit_cl - ioctl argument for submitting commands
-> > to the 3D
-> > @@ -135,12 +149,16 @@ struct drm_v3d_submit_cl {
-> >  	/* Number of BO handles passed in (size is that times 4). */
-> >  	__u32 bo_handle_count;
-> > =20
-> > +	/* DRM_V3D_SUBMIT_* properties */
-> >  	__u32 flags;
-> > =20
-> >  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
-> > */
-> >  	__u32 perfmon_id;
-> > =20
-> >  	__u32 pad;
-> > +
-> > +	/* Pointer to an array of ioctl extensions*/
-> > +	__u64 extensions;
-> >  };
-> > =20
-> >  /**
-> > @@ -248,6 +266,12 @@ struct drm_v3d_submit_tfu {
-> >  	__u32 in_sync;
-> >  	/* Sync object to signal when the TFU job is done. */
-> >  	__u32 out_sync;
-> > +
-> > +	__u32 flags;
-> > +
-> > +	/* Pointer to an array of ioctl extensions*/
-> > +	__u64 extensions;
->=20
-> We want __u64 fields aligned to 64-bit so we should swap the positions
-> of flags and extensions.
+It's a bit silly, but no problem for the kernel, so I think this is all
+fine.
 
-hmm.. not sure. before two arrays of 4 x _u32 elements, we have seven
-_u32 elements... this is why I counted a odd number of _u32 and put _u32
-flags before _u64 extensions... or is it working different for array
-types?
-
-For the same reason, I think there is an unalignment issue on
-submit_csd that would need to change the current interface to solve
-(afaiu)...=20
-
->=20
-> > +
-> >  };
-> > =20
-> >  /* Submits a compute shader for dispatch.  This job will block on
-> > any
-> > @@ -276,6 +300,13 @@ struct drm_v3d_submit_csd {
-> > =20
-> >  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
-> > */
-> >  	__u32 perfmon_id;
-> > +
-> > +	/* Pointer to an array of ioctl extensions*/
-> > +	__u64 extensions;
-> > +
-> > +	__u32 flags;
-> > +
-> > +	__u32 pad;
-> >  };
-> > =20
-> >  enum {
->=20
-
---vvb6tp4magjvdc4v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFVgeAACgkQwqF3j0dL
-ehy8ORAAx/3+t/zJdS+1KzP7jNOue7VwOtri56WXTH4tR5FseN9wn9P193Q7DcEJ
-2XgOHQOnTsovyC6+X8/PCsfkcRri8SLqNWlnq9bUyW/oHK4OcLnS+6HKXnOv0Rgv
-5DR4Uh5vlxYlGIeiSHF9bhqVHKpbub3M0CNVj47wtZWRYwHCwXR5LujZ/UcnKD0N
-e/KKtqKB3RyGOfhGlL8B0mJ0GWsPgHy8nIsQk2ZF/rRtOiMkZjd1XwpM2D/ZSsib
-uHOd83wOcO/qIAjZiFn9s+OUxQknGuAnEU14zEaqynGeq7ztOrnDQMTWx9hqhxuX
-LbRuzF8ITYQLDyejQp1MMhyyHGjIxZGL/GfbYcdbMsLlWy8jWab/AWh6jthBiDo4
-X1B+xq6eFmuaa4hbXHZ5tE60maduTTN4lrLsH/uaK/dfDUp9Ds3GENXMlAW0Qyfr
-B5CzkoSPtJqtHqPh94Ts9eg4A7GYg/aeOVYDR140fK+nxvFP3muN4vAx4HZCgpMo
-znRbpyohYmXj5Q3g6w5OUzX2/xj3+b4iLt9u5r3O2LcFrHOq1TIQ6lUotdnnqDv5
-BmLLLr5AB//QpOjaPgti2td1k/+KWiCv0aod15M28cuPKUoUFzgebqpv4yu/7mzG
-+BWYyk+oZV3rLZ6SILvpAnS3B6SWwP+t9RizqCTtJSku/lWNw/0=
-=8MNj
------END PGP SIGNATURE-----
-
---vvb6tp4magjvdc4v--
+Real use-case of multiple drm_fb for the same underlying object is stuff
+like XRGB vs ARGB or different modifiers (like with compression enabled or
+compression metadata not up to date).
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
