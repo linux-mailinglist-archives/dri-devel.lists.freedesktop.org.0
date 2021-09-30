@@ -1,42 +1,39 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC1C941D702
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:59:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D6E341D705
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:00:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2E99B6E3D0;
-	Thu, 30 Sep 2021 09:59:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADC5E6E3D2;
+	Thu, 30 Sep 2021 10:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 35F956E3D0
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:59:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
- bh=vRfZunOKTaL5x/MrqxLS8S7lYzU9lSbVDRCoWbuS4iw=; 
- b=VeKvhICZ5vN+Po+3scTkOgKRlqQeFO0F4qBoUKky9XGXeNKG8cGth4WEjUW+40H3039wMDWSyhr647zgb4ZEKcpoknmVN9v9mz/uRwKc2KACN0aYj4PgLRYC9NOachvkNiOQEXtqpDwSA9Tado6XzAGHoA3p28JsV9/kmCnEFZeFLlo9hXTZOdY9IiF9kbZ0TrfdiG0WvtKSE3wU8Ui/y0v0TvrRMXEd9F6RgZ/hZ6ngpPCRK+/JNIhiW/FFrbdGy2O9yH2OrV2ir0Kfk4qkxqhItq82un8YQxSByxMsiqGjTLOl9MCVlbkRXzkp6rCJD4kyoZBheMI7cfHAgozWfg==;
-Received: from 182.48.165.83.dynamic.reverse-mundo-r.com ([83.165.48.182]
- helo=zeus) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mVsr1-0005QH-1s; Thu, 30 Sep 2021 11:59:51 +0200
-Message-ID: <dd6ee6e4af29f6e1fb7b21e7743e8f26b069b2a1.camel@igalia.com>
-Subject: Re: [PATCH v2 3/4] drm/v3d: add generic ioctl extension
-From: Iago Toral <itoral@igalia.com>
-To: Melissa Wen <mwen@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard
- <maxime@cerno.tech>,  Boris Brezillon <boris.brezillon@collabora.com>
-Date: Thu, 30 Sep 2021 11:59:41 +0200
-In-Reply-To: <20210930092241.hikxj2iseu2kzt5u@mail.igalia.com>
-References: <cover.1632905676.git.mwen@igalia.com>
- <779e2cc57efd5fbc95f1267e7252de5f092045c5.1632905676.git.mwen@igalia.com>
- <d4d4762f1365f22b53677da2f77a5ac27e899a4c.camel@igalia.com>
- <20210930092241.hikxj2iseu2kzt5u@mail.igalia.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by gabe.freedesktop.org (Postfix) with ESMTP id C903D6E3D2;
+ Thu, 30 Sep 2021 10:00:10 +0000 (UTC)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 03E24106F;
+ Thu, 30 Sep 2021 03:00:10 -0700 (PDT)
+Received: from [10.1.36.24] (e122027.cambridge.arm.com [10.1.36.24])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A57EE3F793;
+ Thu, 30 Sep 2021 03:00:08 -0700 (PDT)
+Subject: Re: [PATCH v2 2/3] drm/i915/utils: do not depend on config being
+ defined
+To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: Daniel Vetter <daniel.vetter@intel.com>, dri-devel@lists.freedesktop.org, 
+ Masahiro Yamada <masahiroy@kernel.org>, linux-kernel@vger.kernel.org
+References: <20210929183357.1490204-1-lucas.demarchi@intel.com>
+ <20210929183357.1490204-3-lucas.demarchi@intel.com>
+From: Steven Price <steven.price@arm.com>
+Message-ID: <2dd723c8-6aed-857c-23f3-d0381fcb52c2@arm.com>
+Date: Thu, 30 Sep 2021 11:00:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <20210929183357.1490204-3-lucas.demarchi@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,86 +50,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2021-09-30 at 10:22 +0100, Melissa Wen wrote:
-> > > 
-> O 09/30, Iago Toral wrote:
-> > On Wed, 2021-09-29 at 10:44 +0100, Melissa Wen wrote:
-(...) 
-> > >  /**
-> > >   * struct drm_v3d_submit_cl - ioctl argument for submitting
-> > > commands
-> > > to the 3D
-> > > @@ -135,12 +149,16 @@ struct drm_v3d_submit_cl {
-> > >  	/* Number of BO handles passed in (size is that times 4). */
-> > >  	__u32 bo_handle_count;
-> > >  
-> > > +	/* DRM_V3D_SUBMIT_* properties */
-> > >  	__u32 flags;
-> > >  
-> > >  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
-> > > */
-> > >  	__u32 perfmon_id;
-> > >  
-> > >  	__u32 pad;
-> > > +
-> > > +	/* Pointer to an array of ioctl extensions*/
-> > > +	__u64 extensions;
-> > >  };
-> > >  
-> > >  /**
-> > > @@ -248,6 +266,12 @@ struct drm_v3d_submit_tfu {
-> > >  	__u32 in_sync;
-> > >  	/* Sync object to signal when the TFU job is done. */
-> > >  	__u32 out_sync;
-> > > +
-> > > +	__u32 flags;
-> > > +
-> > > +	/* Pointer to an array of ioctl extensions*/
-> > > +	__u64 extensions;
-> > 
-> > We want __u64 fields aligned to 64-bit so we should swap the
-> > positions
-> > of flags and extensions.
+On 29/09/2021 19:33, Lucas De Marchi wrote:
+> Like the IS_ENABLED() counterpart, we can make IS_CONFIG_NONZERO() to
+> return the right thing when the config is not defined rather than a
+> build error, with the limitation that it can't be used on preprocessor
+> context.
 > 
-> hmm.. not sure. before two arrays of 4 x _u32 elements, we have seven
-> _u32 elements... this is why I counted a odd number of _u32 and put
-> _u32
-> flags before _u64 extensions... or is it working different for array
-> types?
+> The trick here is that macro names can't start with a number or dash, so
+> we stringify the argument and check that the first char is a number != 0
+> (or starting with a dash to cover negative numbers). Except for -O0
+> builds the strings are all eliminated.
 > 
-
-Ah yes, I was confused by the patch format, but you're right.
-
-> For the same reason, I think there is an unalignment issue on
-> submit_csd that would need to change the current interface to solve
-> (afaiu)... 
+> Taking CONFIG_DRM_I915_REQUEST_TIMEOUT in
+> drivers/gpu/drm/i915/gem/i915_gem_context.c as example, we have the
+> following output of the preprocessor:
 > 
+> old:
+>  if (((20000) != 0) &&
+> new:
+>  if (( ("20000"[0] > '0' && "20000"[0] < '9') || "20000"[0] == '-' ) &&
+> 
+> New one looks worse, but is also eliminated from the object:
+> 
+> $ size drivers/gpu/drm/i915/gem/i915_gem_context.o.*
+>    text    data     bss     dec     hex filename
+>   52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.new
+>   52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.old
+> 
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> ---
+>  drivers/gpu/drm/i915/i915_utils.h | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+> index 02bbfa4d68d3..436ce612c46a 100644
+> --- a/drivers/gpu/drm/i915/i915_utils.h
+> +++ b/drivers/gpu/drm/i915/i915_utils.h
+> @@ -28,6 +28,7 @@
+>  #include <linux/list.h>
+>  #include <linux/overflow.h>
+>  #include <linux/sched.h>
+> +#include <linux/stringify.h>
+>  #include <linux/types.h>
+>  #include <linux/workqueue.h>
+>  
+> @@ -469,6 +470,9 @@ static inline bool timer_expired(const struct timer_list *t)
+>   *
+>   * Returns 0 if @config is 0, 1 if set to any value.
+>   */
+> -#define IS_CONFIG_NONZERO(config) ((config) != 0)
+> +#define IS_CONFIG_NONZERO(config) (						\
+> +	(__stringify_1(config)[0] > '0' && __stringify_1(config)[0] < '9') ||	\
 
-Yes, that one is not aligned, but it is too late to fix now without
-braking the interface. We have not seen any issues caused by that on
-32-bit Raspbian though.
+Shouldn't this be "<= '9'". Otherwise numbers starting with a 9 are not
+"non zero".
 
-Iago
+Steve
 
-> > > +
-> > >  };
-> > >  
-> > >  /* Submits a compute shader for dispatch.  This job will block
-> > > on
-> > > any
-> > > @@ -276,6 +300,13 @@ struct drm_v3d_submit_csd {
-> > >  
-> > >  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
-> > > */
-> > >  	__u32 perfmon_id;
-> > > +
-> > > +	/* Pointer to an array of ioctl extensions*/
-> > > +	__u64 extensions;
-> > > +
-> > > +	__u32 flags;
-> > > +
-> > > +	__u32 pad;
-> > >  };
-> > >  
-> > >  enum {
+> +	__stringify_1(config)[0] == '-'						\
+> +)
+>  
+>  #endif /* !__I915_UTILS_H */
+> 
 
