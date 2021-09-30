@@ -2,71 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D48741D8CF
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:32:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF5A341D8D1
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:32:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6933A6EB75;
-	Thu, 30 Sep 2021 11:32:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 637426EB79;
+	Thu, 30 Sep 2021 11:32:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36956EB75
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 11:32:31 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id i23so9534087wrb.2
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 04:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-transfer-encoding:content-language;
- bh=I9m+LpPgX6sw98l/+OTr/2ET4wdvLI1sP/9/vKh1dUQ=;
- b=UemUoFAMgmT392fKH3UnzKlJpEuIBMMGrGUI7g7r4p08OtX7j1BcoYKtvVGBLQ+NLb
- 4phBrP59g0VxRRxG1g0nPsqDZSFZVHYJmbISaHXRWc27hs+bg+cdzefwiYulrwcIdiYs
- Zzcc7sM70JdzuIVbRPsMoSURM/P19QPVS7GGpJ1xTocmQz4r8cetoCz2UnHkC0tqxpU0
- CXAtSrIZaaa3ARvlXarhprwhzVgUkvFIEhlQZ08GbGZ0TbN+HZd+nKUFbhrqy6keZA1W
- +npYQwoV6cyLhsg3px9sKYTiCsPYKD8D0XZyNVtUn1f+LjzwHftBL9V3sgzzbQ4tG/fA
- WFFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-transfer-encoding
- :content-language;
- bh=I9m+LpPgX6sw98l/+OTr/2ET4wdvLI1sP/9/vKh1dUQ=;
- b=b2A4c4jgFXwsioPjzfzAMdhNeJgOh7Slr2OB51XceEzFMukTCmR5hNUS6uk+IZX4El
- 9ZyHhMfSqjHWII9/zZy1Rigx4PIDjUhtG8CaI8fByqZT0NpyohGEmY2lbvcvQ115O58u
- l+CpteyyH4U8u+75H88R77logG+w66NU5Vk0hsTYb1mNg+gqUoF1MEZEJ0007YOROt//
- 00wUkHbJq82/5pCAUM38E7ZQjyiAj7YojpJzuLEcByOzwN7zPzWKhWxO/i4dwmpk6hZK
- qFNt5MuiUqSalaOGgEpAhRgrN6dRhAt21woIHlORpjlJ/3O6WVBILmjsb97C0fK3Ald7
- TGVA==
-X-Gm-Message-State: AOAM530PYFk0C7hxHM6mm/vkqWmzlcUETKu+V04NSMjdFsVwCMGEmEt2
- xsF7oMimQUIs7i7gHjIHR0v2211QWik=
-X-Google-Smtp-Source: ABdhPJxDR48XPMZD47gbHFX3MJUaoIdDBwC40zPmOpIdCqR3pDu+yjLHqQ45onHUQ+/JGMSPAladIQ==
-X-Received: by 2002:a5d:4a4a:: with SMTP id v10mr5623615wrs.306.1633001550165; 
- Thu, 30 Sep 2021 04:32:30 -0700 (PDT)
-Received: from [192.168.178.21] (p5b0ea1b5.dip0.t-ipconnect.de.
- [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id s3sm2765180wrm.40.2021.09.30.04.32.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 30 Sep 2021 04:32:29 -0700 (PDT)
-Subject: Re: [PATCH] dma-buf: fix and rework dma_buf_poll v7
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: daniel.vetter@ffwll.ch, dri-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-References: <20210720131110.88512-1-christian.koenig@amd.com>
- <97ea61fb-aa20-5220-8304-e71145cc7587@daenzer.net>
- <9eca7ec8-4a33-4ddb-e4cb-295c1033aa60@gmail.com>
- <YVV8sVphD5BGeNtA@phenom.ffwll.local>
- <4065f898-d31d-a5dc-8d9a-aafa0a1bed54@gmail.com>
- <YVWQ2HDhoqNBQ/2d@phenom.ffwll.local>
-From: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <7671dea5-f8f1-4988-e121-a1cd261a717f@gmail.com>
-Date: Thu, 30 Sep 2021 13:32:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6CCF6EB79;
+ Thu, 30 Sep 2021 11:32:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="212242624"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="212242624"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 04:32:46 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="564039551"
+Received: from nguyenv1-mobl.ccr.corp.intel.com (HELO
+ thellstr-mobl1.intel.com) ([10.249.254.150])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 04:32:44 -0700
+From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v3] drm/i915/ttm: Rework object initialization slightly
+Date: Thu, 30 Sep 2021 13:32:36 +0200
+Message-Id: <20210930113236.583531-1-thomas.hellstrom@linux.intel.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <YVWQ2HDhoqNBQ/2d@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,102 +49,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 30.09.21 um 12:26 schrieb Daniel Vetter:
-> On Thu, Sep 30, 2021 at 11:48:42AM +0200, Christian König wrote:
->>
->> Am 30.09.21 um 11:00 schrieb Daniel Vetter:
->>> On Wed, Sep 22, 2021 at 01:08:44PM +0200, Christian König wrote:
->>>> Totally forgotten to ping once more about that.
->>>>
->>>> Michel has tested this now and I think we should push it ASAP. So can I get
->>>> an rb?
->>> 		spin_lock_irq(&dmabuf->poll.lock);
->>> 		if (dcb->active)
->>> 			events &= ~EPOLLIN;
->>> 		else
->>> 			dcb->active = EPOLLIN;
->>> 		spin_unlock_irq(&dmabuf->poll.lock);
->>>
->>>
->>> This pattern (and same for EPOLLOUT) makes no sense to me. I guess the
->>> intent is that this filters out events for which we're already listening,
->>> but:
->>>
->>> - it checks for any active event, not the specific one
->> Which is correct. We now use one dcb for EPOLLIN and another one for
->> EPOLLOUT.
->>
->> We could make that a boolean instead if that makes it cleaner.
-> Ha yes I missed that. Boolean sounds much better.
->>> - if we're waiting already and new fences have been added, wont we miss
->>>     them?
->> No, when we are already waiting the callback will sooner or later fire and
->> result in a re-check.
->>
->>> Or does this all work because the poll machinery restarts everything
->>> again?
->> Yes, exactly that. Otherwise waiting for multiple fences wouldn't work
->> either.
-> Ok with that clarified can you cut a v8 with booleans and I whack an r-b
-> on that? Or just include it, I'm massively burried here and trying to dig
-> out :-/
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch> (with the booleans)
+We may end up in i915_ttm_bo_destroy() in an error path before the
+object is fully initialized. In that case it's not correct to call
+__i915_gem_free_object(), because that function
+a) Assumes the gem object refcount is 0, which it isn't.
+b) frees the placements which are owned by the caller until the
+init_object() region ops returns successfully. Fix this by providing
+a lightweight cleanup function __i915_gem_object_fini() which is also
+called by __i915_gem_free_object().
 
-My bad, boolean won't work because we also use the flags for the call to 
-"wake_up_locked_poll(dcb->poll, dcb->active);".
+While doing this, also make sure we call dma_resv_fini() as part of
+ordinary object destruction and not from the RCU callback that frees
+the object. This will help track down bugs where the object is incorrectly
+locked from an RCU lookup.
 
-Anyway that doesn't really change anything on the logic and I inherited 
-that handling from the existing code, just moved it around a bit.
+Finally, make sure the object isn't put on the region list until it's
+either locked or fully initialized in order to block list processing of
+partially initialized objects.
 
-Christian.
+v2:
+- The TTM object backend memory was freed before the gem pages were
+  put. Separate this functionality into __i915_gem_object_pages_fini()
+  and call it from the TTM delete_mem_notify() callback.
+v3:
+- Include i915_gem_object_free_mmaps() in __i915_gem_object_pages_fini()
+  to make sure we don't inadvertedly introduce a race.
 
->
-> -Daniel
->> Regards,
->> Christian.
->>
->>> I'm totally confused here for sure. The other changes in the patch look
->>> good though.
->>> -Daniel
->>>
->>>> Thanks,
->>>> Christian.
->>>>
->>>> Am 23.07.21 um 10:04 schrieb Michel Dänzer:
->>>>> On 2021-07-20 3:11 p.m., Christian König wrote:
->>>>>> Daniel pointed me towards this function and there are multiple obvious problems
->>>>>> in the implementation.
->>>>>>
->>>>>> First of all the retry loop is not working as intended. In general the retry
->>>>>> makes only sense if you grab the reference first and then check the sequence
->>>>>> values.
->>>>>>
->>>>>> Then we should always also wait for the exclusive fence.
->>>>>>
->>>>>> It's also good practice to keep the reference around when installing callbacks
->>>>>> to fences you don't own.
->>>>>>
->>>>>> And last the whole implementation was unnecessary complex and rather hard to
->>>>>> understand which could lead to probably unexpected behavior of the IOCTL.
->>>>>>
->>>>>> Fix all this by reworking the implementation from scratch. Dropping the
->>>>>> whole RCU approach and taking the lock instead.
->>>>>>
->>>>>> Only mildly tested and needs a thoughtful review of the code.
->>>>>>
->>>>>> v2: fix the reference counting as well
->>>>>> v3: keep the excl fence handling as is for stable
->>>>>> v4: back to testing all fences, drop RCU
->>>>>> v5: handle in and out separately
->>>>>> v6: add missing clear of events
->>>>>> v7: change coding style as suggested by Michel, drop unused variables
->>>>>>
->>>>>> Signed-off-by: Christian König <christian.koenig@amd.com>
->>>>>> CC: stable@vger.kernel.org
->>>>> Working fine with https://gitlab.gnome.org/GNOME/mutter/-/merge_requests/1880
->>>>>
->>>>> Tested-by: Michel Dänzer <mdaenzer@redhat.com>
->>>>>
->>>>>
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com> #v1
+---
+ drivers/gpu/drm/i915/gem/i915_gem_object.c | 43 +++++++++++++++++++---
+ drivers/gpu/drm/i915/gem/i915_gem_object.h |  5 +++
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 36 +++++++++++-------
+ 3 files changed, 64 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+index 6fb9afb65034..b88b121e244a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
+@@ -89,6 +89,22 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+ 	mutex_init(&obj->mm.get_dma_page.lock);
+ }
+ 
++/**
++ * i915_gem_object_fini - Clean up a GEM object initialization
++ * @obj: The gem object to cleanup
++ *
++ * This function cleans up gem object fields that are set up by
++ * drm_gem_private_object_init() and i915_gem_object_init().
++ * It's primarily intended as a helper for backends that need to
++ * clean up the gem object in separate steps.
++ */
++void __i915_gem_object_fini(struct drm_i915_gem_object *obj)
++{
++	mutex_destroy(&obj->mm.get_page.lock);
++	mutex_destroy(&obj->mm.get_dma_page.lock);
++	dma_resv_fini(&obj->base._resv);
++}
++
+ /**
+  * Mark up the object's coherency levels for a given cache_level
+  * @obj: #drm_i915_gem_object
+@@ -174,7 +190,6 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
+ 		container_of(head, typeof(*obj), rcu);
+ 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+ 
+-	dma_resv_fini(&obj->base._resv);
+ 	i915_gem_object_free(obj);
+ 
+ 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
+@@ -204,10 +219,17 @@ static void __i915_gem_object_free_mmaps(struct drm_i915_gem_object *obj)
+ 	}
+ }
+ 
+-void __i915_gem_free_object(struct drm_i915_gem_object *obj)
++/**
++ * __i915_gem_object_pages_fini - Clean up pages use of a gem object
++ * @obj: The gem object to clean up
++ *
++ * This function cleans up usage of the object mm.pages member. It
++ * is intended for backends that need to clean up a gem object in
++ * separate steps and needs to be called when the object is idle before
++ * the object's backing memory is freed.
++ */
++void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
+ {
+-	trace_i915_gem_object_destroy(obj);
+-
+ 	if (!list_empty(&obj->vma.list)) {
+ 		struct i915_vma *vma;
+ 
+@@ -233,11 +255,17 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+ 
+ 	__i915_gem_object_free_mmaps(obj);
+ 
+-	GEM_BUG_ON(!list_empty(&obj->lut_list));
+-
+ 	atomic_set(&obj->mm.pages_pin_count, 0);
+ 	__i915_gem_object_put_pages(obj);
+ 	GEM_BUG_ON(i915_gem_object_has_pages(obj));
++}
++
++void __i915_gem_free_object(struct drm_i915_gem_object *obj)
++{
++	trace_i915_gem_object_destroy(obj);
++
++	GEM_BUG_ON(!list_empty(&obj->lut_list));
++
+ 	bitmap_free(obj->bit_17);
+ 
+ 	if (obj->base.import_attach)
+@@ -253,6 +281,8 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
+ 
+ 	if (obj->shares_resv_from)
+ 		i915_vm_resv_put(obj->shares_resv_from);
++
++	__i915_gem_object_fini(obj);
+ }
+ 
+ static void __i915_gem_free_objects(struct drm_i915_private *i915,
+@@ -266,6 +296,7 @@ static void __i915_gem_free_objects(struct drm_i915_private *i915,
+ 			obj->ops->delayed_free(obj);
+ 			continue;
+ 		}
++		__i915_gem_object_pages_fini(obj);
+ 		__i915_gem_free_object(obj);
+ 
+ 		/* But keep the pointer alive for RCU-protected lookups */
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+index 3043fcbd31bd..7f9f2e5ba0ec 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
+@@ -58,6 +58,9 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
+ 			  const struct drm_i915_gem_object_ops *ops,
+ 			  struct lock_class_key *key,
+ 			  unsigned alloc_flags);
++
++void __i915_gem_object_fini(struct drm_i915_gem_object *obj);
++
+ struct drm_i915_gem_object *
+ i915_gem_object_create_shmem(struct drm_i915_private *i915,
+ 			     resource_size_t size);
+@@ -582,6 +585,8 @@ bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj);
+ 
+ void __i915_gem_free_object_rcu(struct rcu_head *head);
+ 
++void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj);
++
+ void __i915_gem_free_object(struct drm_i915_gem_object *obj);
+ 
+ bool i915_gem_object_evictable(struct drm_i915_gem_object *obj);
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+index b94497989995..a0ab5c44627b 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+@@ -367,8 +367,10 @@ static void i915_ttm_delete_mem_notify(struct ttm_buffer_object *bo)
+ {
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 
+-	if (likely(obj))
++	if (likely(obj)) {
++		__i915_gem_object_pages_fini(obj);
+ 		i915_ttm_free_cached_io_st(obj);
++	}
+ }
+ 
+ static struct intel_memory_region *
+@@ -813,12 +815,9 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
+  */
+ static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
+ {
+-	if (obj->ttm.created) {
+-		ttm_bo_put(i915_gem_to_ttm(obj));
+-	} else {
+-		__i915_gem_free_object(obj);
+-		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
+-	}
++	GEM_BUG_ON(!obj->ttm.created);
++
++	ttm_bo_put(i915_gem_to_ttm(obj));
+ }
+ 
+ static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
+@@ -898,16 +897,19 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
+ {
+ 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+ 
+-	i915_ttm_backup_free(obj);
+-
+-	/* This releases all gem object bindings to the backend. */
+-	__i915_gem_free_object(obj);
+-
+ 	i915_gem_object_release_memory_region(obj);
+ 	mutex_destroy(&obj->ttm.get_io_page.lock);
+ 
+-	if (obj->ttm.created)
++	if (obj->ttm.created) {
++		i915_ttm_backup_free(obj);
++
++		/* This releases all gem object bindings to the backend. */
++		__i915_gem_free_object(obj);
++
+ 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
++	} else {
++		__i915_gem_object_fini(obj);
++	}
+ }
+ 
+ /**
+@@ -936,7 +938,11 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 
+ 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
+ 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
+-	i915_gem_object_init_memory_region(obj, mem);
++
++	/* Don't put on a region list until we're either locked or fully initialized. */
++	obj->mm.region = intel_memory_region_get(mem);
++	INIT_LIST_HEAD(&obj->mm.region_link);
++
+ 	i915_gem_object_make_unshrinkable(obj);
+ 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
+ 	mutex_init(&obj->ttm.get_io_page.lock);
+@@ -963,6 +969,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
+ 		return i915_ttm_err_to_gem(ret);
+ 
+ 	obj->ttm.created = true;
++	i915_gem_object_release_memory_region(obj);
++	i915_gem_object_init_memory_region(obj, mem);
+ 	i915_ttm_adjust_domains_after_move(obj);
+ 	i915_ttm_adjust_gem_after_move(obj);
+ 	i915_gem_object_unlock(obj);
+-- 
+2.31.1
 
