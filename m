@@ -2,48 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F53941D722
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:05:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D5C141D72E
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:06:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 270046EB63;
-	Thu, 30 Sep 2021 10:05:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C8A196EB55;
+	Thu, 30 Sep 2021 10:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D249B6EB55
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 10:05:20 +0000 (UTC)
-Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mVsw8-00082R-U7; Thu, 30 Sep 2021 12:05:08 +0200
-Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mVsw3-00046S-BY; Thu, 30 Sep 2021 12:05:03 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
-Cc: =?UTF-8?q?S=C3=B8ren=20Andersen?= <san@skov.dk>,
- Sam Ravnborg <sam@ravnborg.org>, Oleksij Rempel <o.rempel@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: [PATCH v1 3/3] panel-simple: add LOGIC Technologies
- LTTD800480070-L2RT panel
-Date: Thu, 30 Sep 2021 12:05:01 +0200
-Message-Id: <20210930100501.15690-3-o.rempel@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210930100501.15690-1-o.rempel@pengutronix.de>
-References: <20210930100501.15690-1-o.rempel@pengutronix.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8DA6F6EB55;
+ Thu, 30 Sep 2021 10:06:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="310697215"
+X-IronPort-AV: E=Sophos;i="5.85,335,1624345200"; d="scan'208";a="310697215"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 03:06:24 -0700
+X-IronPort-AV: E=Sophos;i="5.85,335,1624345200"; d="scan'208";a="479811607"
+Received: from rmuntslx-mobl1.ger.corp.intel.com (HELO [10.252.37.149])
+ ([10.252.37.149])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 03:06:19 -0700
+From: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: [PULL] drm-misc-fixes
+Message-ID: <f079a5d2-3095-1065-85c2-9d510260215b@linux.intel.com>
+Date: Thu, 30 Sep 2021 12:06:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Firefox/78.0 Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,71 +54,110 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Søren Andersen <san@skov.dk>
+drm-misc-fixes-2021-09-30:
+drm-misc-fixes for v5.15:
+- Not sure if drm-misc-fixes-2021-09-08 tag was pulled, assuming it is.
+- Power management fixes for vc4.
+- Compiler fix for vc4.
+- Cursor fix for nouveau.
+- Fix ttm buffer moves for ampere gpu's by adding minimal acceleration support.
+- Small rockchip fixes.
+- Fix DT bindings indent for ili9341.
+- Fix y030xx067a init sequence to not get a yellow tint.
+- Kconfig fix for fb_simple vs simpledrm.
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
 
-Add support for the Logic Technologies LTTD800x480 L2RT 7" 800x480 TFT
-Resistive Touch Module.
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
 
-Signed-off-by: Søren Andersen <san@skov.dk>
-Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
----
- drivers/gpu/drm/panel/panel-simple.c | 35 ++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+are available in the Git repository at:
 
-diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-index a03b60f6fa99..fdcba94c02da 100644
---- a/drivers/gpu/drm/panel/panel-simple.c
-+++ b/drivers/gpu/drm/panel/panel-simple.c
-@@ -3139,6 +3139,38 @@ static const struct panel_desc logictechno_lt170410_2whc = {
- 	.connector_type = DRM_MODE_CONNECTOR_LVDS,
- };
- 
-+static const struct drm_display_mode logictechno_lttd800480070_l2rt_mode = {
-+	.clock = 33000,
-+	.hdisplay = 800,
-+	.hsync_start = 800 + 112,
-+	.hsync_end = 800 + 112 + 3,
-+	.htotal = 800 + 112 + 3 + 85,
-+	.vdisplay = 480,
-+	.vsync_start = 480 + 38,
-+	.vsync_end = 480 + 38 + 3,
-+	.vtotal = 480 + 38 + 3 + 29,
-+	.flags = DRM_MODE_FLAG_NVSYNC | DRM_MODE_FLAG_NHSYNC,
-+};
-+
-+static const struct panel_desc logictechno_lttd800480070_l2rt = {
-+	.modes = &logictechno_lttd800480070_l2rt_mode,
-+	.num_modes = 1,
-+	.bpc = 8,
-+	.size = {
-+		.width = 154,
-+		.height = 86,
-+	},
-+	.delay = {
-+		.prepare = 45,
-+		.enable = 100,
-+		.disable = 100,
-+		.unprepare = 45
-+	},
-+	.bus_format = MEDIA_BUS_FMT_RGB888_1X24,
-+	.bus_flags = DRM_BUS_FLAG_PIXDATA_SAMPLE_NEGEDGE,
-+	.connector_type = DRM_MODE_CONNECTOR_DPI,
-+};
-+
- static const struct drm_display_mode logictechno_lttd800480070_l6wh_rt_mode = {
- 	.clock = 33000,
- 	.hdisplay = 800,
-@@ -4754,6 +4786,9 @@ static const struct of_device_id platform_of_match[] = {
- 	}, {
- 		.compatible = "logictechno,lt170410-2whc",
- 		.data = &logictechno_lt170410_2whc,
-+	}, {
-+		.compatible = "logictechno,lttd800480070-l2rt",
-+		.data = &logictechno_lttd800480070_l2rt,
- 	}, {
- 		.compatible = "logictechno,lttd800480070-l6wh-rt",
- 		.data = &logictechno_lttd800480070_l6wh_rt,
--- 
-2.30.2
+  git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-09-30
 
+for you to fetch changes up to fd09961dbb9ca6558d8ad318a3967c1048bdb090:
+
+  fbdev: simplefb: fix Kconfig dependencies (2021-09-29 09:26:58 +0200)
+
+----------------------------------------------------------------
+drm-misc-fixes for v5.15:
+- Not sure if drm-misc-fixes-2021-09-08 tag was pulled, assuming it is.
+- Power management fixes for vc4.
+- Compiler fix for vc4.
+- Cursor fix for nouveau.
+- Fix ttm buffer moves for ampere gpu's by adding minimal acceleration support.
+- Small rockchip fixes.
+- Fix DT bindings indent for ili9341.
+- Fix y030xx067a init sequence to not get a yellow tint.
+- Kconfig fix for fb_simple vs simpledrm.
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      fbdev: simplefb: fix Kconfig dependencies
+
+Ben Skeggs (3):
+      drm/nouveau/kms/tu102-: delay enabling cursor until after assign_windows
+      drm/nouveau/ga102-: support ttm buffer moves via copy engine
+      drm/nouveau/fifo/ga102: initialise chid on return from channel creation
+
+Chris Morgan (1):
+      drm/rockchip: Update crtc fixup to account for fractional clk change
+
+Christophe Branchereau (1):
+      drm/panel: abt-y030xx067a: yellow tint fix
+
+Edmund Dea (1):
+      drm/kmb: Enable alpha blended second plane
+
+Jernej Skrabec (1):
+      drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
+
+Krzysztof Kozlowski (1):
+      dt-bindings: panel: ili9341: correct indentation
+
+Maarten Lankhorst (1):
+      Merge drm/drm-fixes into drm-misc-fixes
+
+Maxime Ripard (7):
+      drm/vc4: select PM
+      drm/vc4: hdmi: Make sure the controller is powered up during bind
+      drm/vc4: hdmi: Rework the pre_crtc_configure error handling
+      drm/vc4: hdmi: Split the CEC disable / enable functions in two
+      drm/vc4: hdmi: Make sure the device is powered with CEC
+      drm/vc4: hdmi: Warn if we access the controller while disabled
+      drm/vc4: hdmi: Remove unused struct
+
+Palmer Dabbelt (1):
+      drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused warning
+
+xinhui pan (1):
+      drm/ttm: Fix a deadlock if the target BO is not idle during swap
+
+ .../bindings/display/panel/ilitek,ili9341.yaml     |   2 +-
+ drivers/gpu/drm/kmb/kmb_drv.c                      |   8 +-
+ drivers/gpu/drm/kmb/kmb_drv.h                      |   5 +
+ drivers/gpu/drm/kmb/kmb_plane.c                    |  81 +++++-
+ drivers/gpu/drm/kmb/kmb_plane.h                    |   5 +-
+ drivers/gpu/drm/kmb/kmb_regs.h                     |   3 +
+ drivers/gpu/drm/nouveau/dispnv50/head.c            |   2 +-
+ drivers/gpu/drm/nouveau/include/nvif/class.h       |   2 +
+ drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |   1 +
+ drivers/gpu/drm/nouveau/nouveau_chan.c             |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |   4 +
+ drivers/gpu/drm/nouveau/nv84_fence.c               |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |   3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild    |   1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c   | 311 +++++++++++++++++++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/ga100.c    |   7 +-
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c       |   4 +-
+ drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |  26 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |   7 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h              |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c             |  97 ++++---
+ drivers/gpu/drm/vc4/Kconfig                        |   1 +
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     | 133 +++++----
+ drivers/gpu/drm/vc4/vc4_hdmi_regs.h                |   6 +
+ drivers/of/base.c                                  |   1 +
+ drivers/video/fbdev/Kconfig                        |   5 +-
+ 28 files changed, 591 insertions(+), 139 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
