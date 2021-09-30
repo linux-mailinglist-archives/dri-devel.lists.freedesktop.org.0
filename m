@@ -1,58 +1,73 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1A9941D833
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:58:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8DD841D86A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:06:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 137266E3DF;
-	Thu, 30 Sep 2021 10:58:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1980F6EB6C;
+	Thu, 30 Sep 2021 11:06:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 93D646E3DF
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 10:58:03 +0000 (UTC)
-Received: from [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1] (unknown
- [IPv6:2a02:810a:880:f54:fd5c:7cb1:aaa8:78b1])
- (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
- (No client certificate requested) (Authenticated sender: dafna)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id ED32C1F44A9D;
- Thu, 30 Sep 2021 11:58:00 +0100 (BST)
-Subject: Re: [PATCH v8 09/12] media: mtk-vcodec: Get rid of
- mtk_smi_larb_get/put
-To: Yong Wu <yong.wu@mediatek.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Joerg Roedel <joro@8bytes.org>,
- Rob Herring <robh+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@canonical.com>,
- David Airlie <airlied@linux.ie>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Evan Green <evgreen@chromium.org>, Robin Murphy <robin.murphy@arm.com>,
- Tomasz Figa <tfiga@chromium.org>, Will Deacon <will.deacon@arm.com>,
- linux-mediatek@lists.infradead.org, srv_heupstream@mediatek.com,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux-foundation.org,
- youlin.pei@mediatek.com, Matthias Kaehlcke <mka@chromium.org>,
- anan.sun@mediatek.com, yi.kuo@mediatek.com, acourbot@chromium.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Tiffany Lin <tiffany.lin@mediatek.com>, Hsin-Yi Wang <hsinyi@chromium.org>,
- Eizan Miyamoto <eizan@chromium.org>, anthony.huang@mediatek.com,
- Frank Wunderlich <frank-w@public-files.de>,
- Irui Wang <irui.wang@mediatek.com>
-References: <20210929013719.25120-1-yong.wu@mediatek.com>
- <20210929013719.25120-10-yong.wu@mediatek.com>
- <02f444d5-9633-3f9c-2d1f-97ce073d1180@collabora.com>
- <79cbf64491273797f218f417234b8c95936bd3b1.camel@mediatek.com>
-From: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <f9829a5a-984c-bced-0286-53f9edc8ae3d@collabora.com>
-Date: Thu, 30 Sep 2021 12:57:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-lf1-x131.google.com (mail-lf1-x131.google.com
+ [IPv6:2a00:1450:4864:20::131])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DFEB8813A
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 11:06:33 +0000 (UTC)
+Received: by mail-lf1-x131.google.com with SMTP id g41so23604563lfv.1
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 04:06:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Hx1z0Pj0GS4/tUfd4pnSP67CAPCyRWqRNmIUPcowuII=;
+ b=OJ4uZsJwV182DcalBRZYBoqbUwKgzPLb3AvWlbx0nO9e5rIolS8SlVDutUiTeD1C/X
+ fS9bjA78G2HNmjq0+vZdZESEkSMR9lug5mBNuCKRaKwGV0LqTAkGHRiuHnsThS43TvD8
+ YoGUTl8edDquVLUToIqvF/573jxlP0yNvPrSL0BfP3V66/fQsx2JEQxR25WNl7F7ldPd
+ 0cp/7NM8U+yV0emLsUOlUBtiIe0Nr9qNmHAKUEyaVrYGz5lbYwvv4uX+TDQbCFxxCsAv
+ /SPxyUEMSJwrPDXmuaWCxw5j2rqEIGkfU6w1wEnnbp1PlE0+J5TBJpa4Q4TkXJ1i8P4r
+ s83w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Hx1z0Pj0GS4/tUfd4pnSP67CAPCyRWqRNmIUPcowuII=;
+ b=Xjbl7qvvehF4rn8DmRxwdDHFh0e/szzV1Rfyfcu2G8U649jQzn89udykLyDcK54l8I
+ 4sJA+QBAJm6Q1Drf87zVtPbyBhjO/4galFvbI2ZHPZL80kzwoXyOl733nunkMoHbxOVm
+ TBas99UQWBjibSKAH3l15erxjDNBUSMgg6NQlG5ewIdKGPdCxtRKCtSfoFvKo6GBmzym
+ AteaOxXfGUgaMxhx8T2LJeEsvCrLFlYp7cz7ITsO5yPFeRPK/RZyMQQj0eVn+M+SBu0f
+ iwgbVSwzmqawTuuT4xn3z4nmRUjGPoKPLTzXO/BkBWb7zZ2flCbpjeukSxng0CCMe6i9
+ Y56A==
+X-Gm-Message-State: AOAM533pF5peak/YA9C6pb5fCf/9G8y5z5yBJgqxIDJXVZSN/8QJ6f3+
+ mBwNr/TMVvlbj1K6tpMsC8V/yb0DJhZLvXcdtqAekA==
+X-Google-Smtp-Source: ABdhPJxKPRxrbe5NsZ+oT2GuKcakf16+GbMKbAstyqKx6i7dnCgOjsjnMxJC7/+s61S9e60hDcCFzI+NqatuX6dwj8Y=
+X-Received: by 2002:ac2:4d99:: with SMTP id g25mr5255275lfe.175.1632999991335; 
+ Thu, 30 Sep 2021 04:06:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <79cbf64491273797f218f417234b8c95936bd3b1.camel@mediatek.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20210930062014.38200-1-mie@igel.co.jp>
+ <20210930062014.38200-2-mie@igel.co.jp>
+ <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com>
+ <CANXvt5pcHbRVa9=Uqi-MN6RY1g6OY1MDecyhdedqL8Xmv0y6QQ@mail.gmail.com>
+ <CAD=hENcANb07bZiAuDYmozsWmZ4uA23Rqca=400+v23QQua_bg@mail.gmail.com>
+In-Reply-To: <CAD=hENcANb07bZiAuDYmozsWmZ4uA23Rqca=400+v23QQua_bg@mail.gmail.com>
+From: Shunsuke Mie <mie@igel.co.jp>
+Date: Thu, 30 Sep 2021 20:06:17 +0900
+Message-ID: <CANXvt5oZp=Ap3fEm4nsiP2WfG_c_8o57mN4+PHrQAGHcp-EH2A@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] Providers/rxe: Add dma-buf support
+To: Zhu Yanjun <zyjzyj2000@gmail.com>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jianxin Xiong <jianxin.xiong@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Maor Gottlieb <maorg@nvidia.com>, Sean Hefty <sean.hefty@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ LKML <linux-kernel@vger.kernel.org>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>,
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>, 
+ Takanari Hayama <taki@igel.co.jp>, Tomohito Esaki <etom@igel.co.jp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,161 +83,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 16:23 Zhu Yanjun <zyjzyj2000@=
+gmail.com>:
+>
+> On Thu, Sep 30, 2021 at 2:58 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+> >
+> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 15:37 Zhu Yanjun <zyjzyj2=
+000@gmail.com>:
+> > >
+> > > On Thu, Sep 30, 2021 at 2:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+> > > >
+> > > > Implement a new provider method for dma-buf base memory registratio=
+n.
+> > > >
+> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > > > ---
+> > > >  providers/rxe/rxe.c | 21 +++++++++++++++++++++
+> > > >  1 file changed, 21 insertions(+)
+> > > >
+> > > > diff --git a/providers/rxe/rxe.c b/providers/rxe/rxe.c
+> > > > index 3c3ea8bb..84e00e60 100644
+> > > > --- a/providers/rxe/rxe.c
+> > > > +++ b/providers/rxe/rxe.c
+> > > > @@ -239,6 +239,26 @@ static struct ibv_mr *rxe_reg_mr(struct ibv_pd=
+ *pd, void *addr, size_t length,
+> > > >         return &vmr->ibv_mr;
+> > > >  }
+> > > >
+> > > > +static struct ibv_mr *rxe_reg_dmabuf_mr(struct ibv_pd *pd, uint64_=
+t offset,
+> > > > +                                       size_t length, uint64_t iov=
+a, int fd,
+> > > > +                                       int access)
+> > > > +{
+> > > > +       struct verbs_mr *vmr;
+> > > > +       int ret;
+> > > > +
+> > > > +       vmr =3D malloc(sizeof(*vmr));
+> > > > +       if (!vmr)
+> > > > +               return NULL;
+> > > > +
+> > >
+> > > Do we need to set vmr to zero like the following?
+> > >
+> > > memset(vmr, 0, sizeof(*vmr));
+> > >
+> > > Zhu Yanjun
+> > Thank you for your quick response.
+> >
+> > I think it is better to clear the vmr. Actually the mlx5 driver allocat=
+es
+> > the vmr using calloc().
+> >
+> > In addition, rxe_reg_mr() (not rxe_reg_dmabuf_mr()) is used the malloc
+> > and not clear the vmr. I think It has to be fixed too. Should I make
+> > another patch to fix this problem?
+>
+> Yes. Please.
+>
+> Zhu Yanjun
+>
+> >
+> > Thanks a lot.
+> > Shunsuke
+> >
+> > ~
 
+I looked into the vmr more, but there was no need to clear it. Moreover,
+some implementations also use malloc without memory clear.
 
-On 30.09.21 05:28, Yong Wu wrote:
-> Hi Dafna,
-> 
-> Thanks very much for the review.
-> 
-> On Wed, 2021-09-29 at 14:13 +0200, Dafna Hirschfeld wrote:
->>
->> On 29.09.21 03:37, Yong Wu wrote:
->>> MediaTek IOMMU has already added the device_link between the
->>> consumer
->>> and smi-larb device. If the vcodec device call the
->>> pm_runtime_get_sync,
->>> the smi-larb's pm_runtime_get_sync also be called automatically.
->>>
->>> CC: Tiffany Lin <tiffany.lin@mediatek.com>
->>> CC: Irui Wang <irui.wang@mediatek.com>
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> Reviewed-by: Evan Green <evgreen@chromium.org>
->>> Acked-by: Tiffany Lin <tiffany.lin@mediatek.com>
->>> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>> ---
->>>    .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 37 +++-----------
->>> --
->>>    .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  3 --
->>>    .../platform/mtk-vcodec/mtk_vcodec_enc.c      |  1 -
->>>    .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 44 +++-----------
->>> -----
->>>    4 files changed, 10 insertions(+), 75 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
->>> b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
->>> index 6038db96f71c..d0bf9aa3b29d 100644
->>> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
->>> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
->>> @@ -8,14 +8,12 @@
->>>    #include <linux/of_address.h>
->>>    #include <linux/of_platform.h>
->>>    #include <linux/pm_runtime.h>
->>> -#include <soc/mediatek/smi.h>
->>>    
->>>    #include "mtk_vcodec_dec_pm.h"
->>>    #include "mtk_vcodec_util.h"
->>>    
->>>    int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
->>>    {
->>> -	struct device_node *node;
->>>    	struct platform_device *pdev;
->>>    	struct mtk_vcodec_pm *pm;
->>>    	struct mtk_vcodec_clk *dec_clk;
->>> @@ -26,18 +24,7 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev
->>> *mtkdev)
->>>    	pm = &mtkdev->pm;
->>>    	pm->mtkdev = mtkdev;
->>>    	dec_clk = &pm->vdec_clk;
->>> -	node = of_parse_phandle(pdev->dev.of_node, "mediatek,larb", 0);
->>> -	if (!node) {
->>> -		mtk_v4l2_err("of_parse_phandle mediatek,larb fail!");
->>> -		return -1;
->>> -	}
->>>    
->>> -	pdev = of_find_device_by_node(node);
->>> -	of_node_put(node);
->>> -	if (WARN_ON(!pdev)) {
->>> -		return -1;
->>> -	}
->>> -	pm->larbvdec = &pdev->dev;
->>>    	pdev = mtkdev->plat_dev;
->>>    	pm->dev = &pdev->dev;
->>>    
->>> @@ -47,14 +34,11 @@ int mtk_vcodec_init_dec_pm(struct
->>> mtk_vcodec_dev *mtkdev)
->>>    		dec_clk->clk_info = devm_kcalloc(&pdev->dev,
->>>    			dec_clk->clk_num, sizeof(*clk_info),
->>>    			GFP_KERNEL);
->>> -		if (!dec_clk->clk_info) {
->>> -			ret = -ENOMEM;
->>> -			goto put_device;
->>> -		}
->>> +		if (!dec_clk->clk_info)
->>> +			return -ENOMEM;
->>>    	} else {
->>>    		mtk_v4l2_err("Failed to get vdec clock count");
->>> -		ret = -EINVAL;
->>> -		goto put_device;
->>> +		return -EINVAL;
->>>    	}
->>>    
->>>    	for (i = 0; i < dec_clk->clk_num; i++) {
->>> @@ -63,29 +47,24 @@ int mtk_vcodec_init_dec_pm(struct
->>> mtk_vcodec_dev *mtkdev)
->>>    			"clock-names", i, &clk_info->clk_name);
->>>    		if (ret) {
->>>    			mtk_v4l2_err("Failed to get clock name id =
->>> %d", i);
->>> -			goto put_device;
->>> +			return ret;
->>>    		}
->>>    		clk_info->vcodec_clk = devm_clk_get(&pdev->dev,
->>>    			clk_info->clk_name);
->>>    		if (IS_ERR(clk_info->vcodec_clk)) {
->>>    			mtk_v4l2_err("devm_clk_get (%d)%s fail", i,
->>>    				clk_info->clk_name);
->>> -			ret = PTR_ERR(clk_info->vcodec_clk);
->>> -			goto put_device;
->>> +			return PTR_ERR(clk_info->vcodec_clk);
->>>    		}
->>>    	}
->>>    
->>>    	pm_runtime_enable(&pdev->dev);
->>>    	return 0;
->>> -put_device:
->>> -	put_device(pm->larbvdec);
->>> -	return ret;
->>>    }
->>>    
->>>    void mtk_vcodec_release_dec_pm(struct mtk_vcodec_dev *dev)
->>>    {
->>>    	pm_runtime_disable(dev->pm.dev);
->>> -	put_device(dev->pm.larbvdec);
->>>    }
->>
->> Now that functions only do  'pm_runtime_disable(dev->pm.dev);' so it
->> will be more
->> readable to remove the function mtk_vcodec_release_dec_pm
->> and replace with pm_runtime_disable(dev->pm.dev);
->> Same for the 'enc' equivalent.
-> 
-> Make sense. But It may be not proper if using pm_runtime_disable
-> as the symmetry with mtk_vcodec_init_dec_pm in the mtk_vcodec_probe.
-> 
-> Maybe we should move pm_runtime_enable out from mtk_vcodec_init_dec_pm
-> into mtk_vcodec_probe. I could do a new patch for this. Is this ok for
-> you?
-
-yes, there is also asymettry when calling pm_runtime* in general,
-I see in the decoder it is called from mtk_vcodec_dec_pm.c
-but in the encoder it is called from mtk_vcodec_enc.c,
-
-I think all calls to pm_runtime* should be out of the *_pm.c files
-since for example 'mtk_vcodec_dec_pw_on' also do just one call to
-pm_runtime_resume_and_get so this function can also be removed.
-
-thanks,
-Dafna
-
-> 
->>
->> Thanks,
->> Dafna
-> 
-> [snip]
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
-> 
+Thanks,
+Shunsuke
