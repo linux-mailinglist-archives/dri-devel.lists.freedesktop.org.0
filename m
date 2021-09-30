@@ -2,38 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86CA541D37C
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 08:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58F3741D48F
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 09:32:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 437696E30F;
-	Thu, 30 Sep 2021 06:35:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 426AC6E32F;
+	Thu, 30 Sep 2021 07:32:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9629D6E303;
- Thu, 30 Sep 2021 06:35:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="204598112"
-X-IronPort-AV: E=Sophos;i="5.85,335,1624345200"; d="scan'208";a="204598112"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 23:35:34 -0700
-X-IronPort-AV: E=Sophos;i="5.85,335,1624345200"; d="scan'208";a="555466690"
-Received: from huynhhai-mobl1.ccr.corp.intel.com (HELO
- thellstr-mobl1.intel.com) ([10.249.254.243])
- by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Sep 2021 23:35:32 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org
-Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v2] drm/i915/ttm: Rework object initialization slightly
-Date: Thu, 30 Sep 2021 08:35:21 +0200
-Message-Id: <20210930063521.566982-1-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 777B16E30C
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 06:37:26 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ 5-20020a9d0685000000b0054706d7b8e5so6038149otx.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 29 Sep 2021 23:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UpCMKte4+xNLfPIEFcorY2txGsUkKL05E8UxngAqFMw=;
+ b=N5ykDUOZTUBs2Y5qWszbpDqp88cTbjalX0dj3NmeVUvMuPOrOHLAaN3NqZfr7keKOp
+ njkX/0bdG6+fJIYpSQB+GXnLOZTAOWDwgZ2njIcR0CSDszZCD1NHQKOw0pyiDLCKqXQv
+ 24aJuN/lB9NiuQSfnRcCV3THkBQqxs6wwtZpmIQHk8LihgnPU3ZtLVOTXu9WOwhmmEf1
+ BCgWe+xyHzPCiNmAtB5nlWFWL4TMO+UCT8H0MAUrvK83dq9VdN6xD6IaqHyG+lMq6B4v
+ kjKHvlOQ/RJwzHgBwe5r/IjMK/ErISKfAuTrZzmvtfckdpqvlZn5eUPQCe/RmRlI78k8
+ qPQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UpCMKte4+xNLfPIEFcorY2txGsUkKL05E8UxngAqFMw=;
+ b=69MxPuMS2kdXMc2YT2fGEwwaCQQZQ0JAXULSJ3cjd0sdGNgMrn7cpM4k52aIt7HmV4
+ nWlRzptaaRXaX5WyZKK2Qpw9Mv9OhoXhbL9bkISQozgKTj8Dw6KJtvGcslTrFKzV7HPd
+ BumEyslBhQcxYNYTKxczydUpS+YbQlfxYcS4i+uy8nj7yFYdWMIK6OkG/S79CNq/RUri
+ cGhINkhqEA8O1gwsxHkuQ6F4n6JsHrb5lVUxFdv1LxGxAgq2TaWZnXGv4q63Iex/lDHo
+ RNcRGUf2qay/FQe6lPCrph8WqjWjlFds+WCB46OSM3EG/H9DH3/zgT8UfwC3HA1cTIZM
+ JKtQ==
+X-Gm-Message-State: AOAM530faOoqqWFLlZEras4sy241XTlQhPKldlh6xU9MnldEC+czJVBH
+ H8TggebjZxnAbIrr6G7g0aeuHeLqptltLRzWQi8=
+X-Google-Smtp-Source: ABdhPJxYSHNlbkBfgzm9RVq+rFNE58GGZ65ZfxotZSdw0rV8yudfRpYxR0498mEQjyXg/GMz0ISms1OLAQqNDtP3hus=
+X-Received: by 2002:a05:6830:1089:: with SMTP id
+ y9mr3770951oto.335.1632983845807; 
+ Wed, 29 Sep 2021 23:37:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20210930062014.38200-1-mie@igel.co.jp>
+ <20210930062014.38200-2-mie@igel.co.jp>
+In-Reply-To: <20210930062014.38200-2-mie@igel.co.jp>
+From: Zhu Yanjun <zyjzyj2000@gmail.com>
+Date: Thu, 30 Sep 2021 14:37:14 +0800
+Message-ID: <CAD=hENdzYGNp14fm9y9+A71D2BJSjV5GewHMkSJKUzNOs0hqWg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 1/1] Providers/rxe: Add dma-buf support
+To: Shunsuke Mie <mie@igel.co.jp>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ Doug Ledford <dledford@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ Jianxin Xiong <jianxin.xiong@intel.com>, Leon Romanovsky <leon@kernel.org>, 
+ Maor Gottlieb <maorg@nvidia.com>, Sean Hefty <sean.hefty@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ LKML <linux-kernel@vger.kernel.org>, 
+ RDMA mailing list <linux-rdma@vger.kernel.org>, dhobsong@igel.co.jp,
+ taki@igel.co.jp, etom@igel.co.jp
+Content-Type: text/plain; charset="UTF-8"
+X-Mailman-Approved-At: Thu, 30 Sep 2021 07:32:23 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,236 +79,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We may end up in i915_ttm_bo_destroy() in an error path before the
-object is fully initialized. In that case it's not correct to call
-__i915_gem_free_object(), because that function
-a) Assumes the gem object refcount is 0, which it isn't.
-b) frees the placements which are owned by the caller until the
-init_object() region ops returns successfully. Fix this by providing
-a lightweight cleanup function __i915_gem_object_fini() which is also
-called by __i915_gem_free_object().
+On Thu, Sep 30, 2021 at 2:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+>
+> Implement a new provider method for dma-buf base memory registration.
+>
+> Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> ---
+>  providers/rxe/rxe.c | 21 +++++++++++++++++++++
+>  1 file changed, 21 insertions(+)
+>
+> diff --git a/providers/rxe/rxe.c b/providers/rxe/rxe.c
+> index 3c3ea8bb..84e00e60 100644
+> --- a/providers/rxe/rxe.c
+> +++ b/providers/rxe/rxe.c
+> @@ -239,6 +239,26 @@ static struct ibv_mr *rxe_reg_mr(struct ibv_pd *pd, void *addr, size_t length,
+>         return &vmr->ibv_mr;
+>  }
+>
+> +static struct ibv_mr *rxe_reg_dmabuf_mr(struct ibv_pd *pd, uint64_t offset,
+> +                                       size_t length, uint64_t iova, int fd,
+> +                                       int access)
+> +{
+> +       struct verbs_mr *vmr;
+> +       int ret;
+> +
+> +       vmr = malloc(sizeof(*vmr));
+> +       if (!vmr)
+> +               return NULL;
+> +
 
-While doing this, also make sure we call dma_resv_fini() as part of
-ordinary object destruction and not from the RCU callback that frees
-the object. This will help track down bugs where the object is incorrectly
-locked from an RCU lookup.
+Do we need to set vmr to zero like the following?
 
-Finally, make sure the object isn't put on the region list until it's
-either locked or fully initialized in order to block list processing of
-partially initialized objects.
+memset(vmr, 0, sizeof(*vmr));
 
-v2:
-- The TTM object backend memory was freed before the gem pages were
-  put. Separate this functionality into __i915_gem_object_pages_fini()
-  and call it from the TTM delete_mem_notify() callback.
+Zhu Yanjun
 
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Matthew Auld <matthew.auld@intel.com> #v1
----
- drivers/gpu/drm/i915/gem/i915_gem_object.c | 45 ++++++++++++++++++----
- drivers/gpu/drm/i915/gem/i915_gem_object.h |  5 +++
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 36 ++++++++++-------
- 3 files changed, 65 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.c b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-index 6fb9afb65034..3ea2702600ae 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.c
-@@ -89,6 +89,22 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 	mutex_init(&obj->mm.get_dma_page.lock);
- }
- 
-+/**
-+ * i915_gem_object_fini - Clean up a GEM object initialization
-+ * @obj: The gem object to cleanup
-+ *
-+ * This function cleans up gem object fields that are set up by
-+ * drm_gem_private_object_init() and i915_gem_object_init().
-+ * It's primarily intended as a helper for backends that need to
-+ * clean up the gem object in separate steps.
-+ */
-+void __i915_gem_object_fini(struct drm_i915_gem_object *obj)
-+{
-+	mutex_destroy(&obj->mm.get_page.lock);
-+	mutex_destroy(&obj->mm.get_dma_page.lock);
-+	dma_resv_fini(&obj->base._resv);
-+}
-+
- /**
-  * Mark up the object's coherency levels for a given cache_level
-  * @obj: #drm_i915_gem_object
-@@ -174,7 +190,6 @@ void __i915_gem_free_object_rcu(struct rcu_head *head)
- 		container_of(head, typeof(*obj), rcu);
- 	struct drm_i915_private *i915 = to_i915(obj->base.dev);
- 
--	dma_resv_fini(&obj->base._resv);
- 	i915_gem_object_free(obj);
- 
- 	GEM_BUG_ON(!atomic_read(&i915->mm.free_count));
-@@ -204,10 +219,17 @@ static void __i915_gem_object_free_mmaps(struct drm_i915_gem_object *obj)
- 	}
- }
- 
--void __i915_gem_free_object(struct drm_i915_gem_object *obj)
-+/**
-+ * __i915_gem_object_pages_fini - Clean up pages use of a gem object
-+ * @obj: The gem object to clean up
-+ *
-+ * This function cleans up usage of the object mm.pages member. It
-+ * is intended for backends that need to clean up a gem object in
-+ * separate steps and needs to be called when the object is idle before
-+ * the object's backing memory is freed.
-+ */
-+void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj)
- {
--	trace_i915_gem_object_destroy(obj);
--
- 	if (!list_empty(&obj->vma.list)) {
- 		struct i915_vma *vma;
- 
-@@ -231,13 +253,19 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
- 		spin_unlock(&obj->vma.lock);
- 	}
- 
-+	atomic_set(&obj->mm.pages_pin_count, 0);
-+	__i915_gem_object_put_pages(obj);
-+	GEM_BUG_ON(i915_gem_object_has_pages(obj));
-+}
-+
-+void __i915_gem_free_object(struct drm_i915_gem_object *obj)
-+{
-+	trace_i915_gem_object_destroy(obj);
-+
- 	__i915_gem_object_free_mmaps(obj);
- 
- 	GEM_BUG_ON(!list_empty(&obj->lut_list));
- 
--	atomic_set(&obj->mm.pages_pin_count, 0);
--	__i915_gem_object_put_pages(obj);
--	GEM_BUG_ON(i915_gem_object_has_pages(obj));
- 	bitmap_free(obj->bit_17);
- 
- 	if (obj->base.import_attach)
-@@ -253,6 +281,8 @@ void __i915_gem_free_object(struct drm_i915_gem_object *obj)
- 
- 	if (obj->shares_resv_from)
- 		i915_vm_resv_put(obj->shares_resv_from);
-+
-+	__i915_gem_object_fini(obj);
- }
- 
- static void __i915_gem_free_objects(struct drm_i915_private *i915,
-@@ -266,6 +296,7 @@ static void __i915_gem_free_objects(struct drm_i915_private *i915,
- 			obj->ops->delayed_free(obj);
- 			continue;
- 		}
-+		__i915_gem_object_pages_fini(obj);
- 		__i915_gem_free_object(obj);
- 
- 		/* But keep the pointer alive for RCU-protected lookups */
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-index 3043fcbd31bd..7f9f2e5ba0ec 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-@@ -58,6 +58,9 @@ void i915_gem_object_init(struct drm_i915_gem_object *obj,
- 			  const struct drm_i915_gem_object_ops *ops,
- 			  struct lock_class_key *key,
- 			  unsigned alloc_flags);
-+
-+void __i915_gem_object_fini(struct drm_i915_gem_object *obj);
-+
- struct drm_i915_gem_object *
- i915_gem_object_create_shmem(struct drm_i915_private *i915,
- 			     resource_size_t size);
-@@ -582,6 +585,8 @@ bool i915_gem_object_is_shmem(const struct drm_i915_gem_object *obj);
- 
- void __i915_gem_free_object_rcu(struct rcu_head *head);
- 
-+void __i915_gem_object_pages_fini(struct drm_i915_gem_object *obj);
-+
- void __i915_gem_free_object(struct drm_i915_gem_object *obj);
- 
- bool i915_gem_object_evictable(struct drm_i915_gem_object *obj);
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index b94497989995..a0ab5c44627b 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -367,8 +367,10 @@ static void i915_ttm_delete_mem_notify(struct ttm_buffer_object *bo)
- {
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
--	if (likely(obj))
-+	if (likely(obj)) {
-+		__i915_gem_object_pages_fini(obj);
- 		i915_ttm_free_cached_io_st(obj);
-+	}
- }
- 
- static struct intel_memory_region *
-@@ -813,12 +815,9 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
-  */
- static void i915_ttm_delayed_free(struct drm_i915_gem_object *obj)
- {
--	if (obj->ttm.created) {
--		ttm_bo_put(i915_gem_to_ttm(obj));
--	} else {
--		__i915_gem_free_object(obj);
--		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
--	}
-+	GEM_BUG_ON(!obj->ttm.created);
-+
-+	ttm_bo_put(i915_gem_to_ttm(obj));
- }
- 
- static vm_fault_t vm_fault_ttm(struct vm_fault *vmf)
-@@ -898,16 +897,19 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
- {
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 
--	i915_ttm_backup_free(obj);
--
--	/* This releases all gem object bindings to the backend. */
--	__i915_gem_free_object(obj);
--
- 	i915_gem_object_release_memory_region(obj);
- 	mutex_destroy(&obj->ttm.get_io_page.lock);
- 
--	if (obj->ttm.created)
-+	if (obj->ttm.created) {
-+		i915_ttm_backup_free(obj);
-+
-+		/* This releases all gem object bindings to the backend. */
-+		__i915_gem_free_object(obj);
-+
- 		call_rcu(&obj->rcu, __i915_gem_free_object_rcu);
-+	} else {
-+		__i915_gem_object_fini(obj);
-+	}
- }
- 
- /**
-@@ -936,7 +938,11 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 
- 	drm_gem_private_object_init(&i915->drm, &obj->base, size);
- 	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
--	i915_gem_object_init_memory_region(obj, mem);
-+
-+	/* Don't put on a region list until we're either locked or fully initialized. */
-+	obj->mm.region = intel_memory_region_get(mem);
-+	INIT_LIST_HEAD(&obj->mm.region_link);
-+
- 	i915_gem_object_make_unshrinkable(obj);
- 	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
- 	mutex_init(&obj->ttm.get_io_page.lock);
-@@ -963,6 +969,8 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
- 		return i915_ttm_err_to_gem(ret);
- 
- 	obj->ttm.created = true;
-+	i915_gem_object_release_memory_region(obj);
-+	i915_gem_object_init_memory_region(obj, mem);
- 	i915_ttm_adjust_domains_after_move(obj);
- 	i915_ttm_adjust_gem_after_move(obj);
- 	i915_gem_object_unlock(obj);
--- 
-2.31.1
-
+> +       ret = ibv_cmd_reg_dmabuf_mr(pd, offset, length, iova, fd, access, vmr);
+> +       if (ret) {
+> +               free(vmr);
+> +               return NULL;
+> +       }
+> +
+> +       return &vmr->ibv_mr;
+> +}
+> +
+>  static int rxe_dereg_mr(struct verbs_mr *vmr)
+>  {
+>         int ret;
+> @@ -1706,6 +1726,7 @@ static const struct verbs_context_ops rxe_ctx_ops = {
+>         .alloc_pd = rxe_alloc_pd,
+>         .dealloc_pd = rxe_dealloc_pd,
+>         .reg_mr = rxe_reg_mr,
+> +       .reg_dmabuf_mr = rxe_reg_dmabuf_mr,
+>         .dereg_mr = rxe_dereg_mr,
+>         .alloc_mw = rxe_alloc_mw,
+>         .dealloc_mw = rxe_dealloc_mw,
+> --
+> 2.17.1
+>
