@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C810D41D717
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:04:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4D741D721
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 12:05:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 98C576E3D3;
-	Thu, 30 Sep 2021 10:04:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E0486E3D8;
+	Thu, 30 Sep 2021 10:05:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from netline-mail3.netline.ch (mail.netline.ch [148.251.143.180])
- by gabe.freedesktop.org (Postfix) with ESMTP id EA1D86E3D3
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 10:04:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by netline-mail3.netline.ch (Postfix) with ESMTP id 2D63A20201B;
- Thu, 30 Sep 2021 12:04:03 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at netline-mail3.netline.ch
-Received: from netline-mail3.netline.ch ([127.0.0.1])
- by localhost (netline-mail3.netline.ch [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id JejvUw3w_5LC; Thu, 30 Sep 2021 12:04:02 +0200 (CEST)
-Received: from thor (24.99.2.85.dynamic.wline.res.cust.swisscom.ch
- [85.2.99.24])
- by netline-mail3.netline.ch (Postfix) with ESMTPA id B3A6120201A;
- Thu, 30 Sep 2021 12:04:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]) by thor with esmtp (Exim 4.95-RC2)
- (envelope-from <michel@daenzer.net>) id 1mVsv3-00040b-Gw;
- Thu, 30 Sep 2021 12:04:01 +0200
-Message-ID: <c73d99e5-267b-c396-2c19-9e5938d7ab6f@daenzer.net>
-Date: Thu, 30 Sep 2021 12:04:01 +0200
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6696E3D6
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 10:05:14 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mVsw8-00082P-U6; Thu, 30 Sep 2021 12:05:08 +0200
+Received: from ore by dude.hi.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ore@pengutronix.de>)
+ id 1mVsw3-00046A-9U; Thu, 30 Sep 2021 12:05:03 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Subject: [PATCH v1 1/3] dt-bindings: display: simple: add Innolux G070Y2-T02
+ panel
+Date: Thu, 30 Sep 2021 12:04:59 +0200
+Message-Id: <20210930100501.15690-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Content-Language: en-CA
-To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
- Matthew Auld <matthew.auld@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
-References: <20210927114114.152310-1-matthew.auld@intel.com>
- <20210927114114.152310-12-matthew.auld@intel.com>
- <6372b5a3ab5b8d5b640af59c9290cbe6da21a0f9.camel@linux.intel.com>
-From: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>
-Subject: Re: [PATCH v5 12/13] drm/i915/ttm: use cached system pages when
- evicting lmem
-In-Reply-To: <6372b5a3ab5b8d5b640af59c9290cbe6da21a0f9.camel@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,51 +55,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-09-29 13:54, Thomas Hellström wrote:
-> On Mon, 2021-09-27 at 12:41 +0100, Matthew Auld wrote:
->> This should let us do an accelerated copy directly to the shmem pages
->> when temporarily moving lmem-only objects, where the i915-gem
->> shrinker
->> can later kick in to swap out the pages, if needed.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
->> ---
->>  drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> index 194e5f1deda8..46d57541c0b2 100644
->> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
->> @@ -134,11 +134,11 @@ static enum ttm_caching
->>  i915_ttm_select_tt_caching(const struct drm_i915_gem_object *obj)
->>  {
->>         /*
->> -        * Objects only allowed in system get cached cpu-mappings.
->> -        * Other objects get WC mapping for now. Even if in system.
->> +        * Objects only allowed in system get cached cpu-mappings, or
->> when
->> +        * evicting lmem-only buffers to system for swapping. Other
->> objects get
->> +        * WC mapping for now. Even if in system.
->>          */
->> -       if (obj->mm.region->type == INTEL_MEMORY_SYSTEM &&
->> -           obj->mm.n_placements <= 1)
->> +       if (obj->mm.n_placements <= 1)
->>                 return ttm_cached;
->>  
->>         return ttm_write_combined;
-> 
-> We should be aware that with TTM, even evicted bos can be mapped by
-> user-space while evicted, and this will appear to user-space like the
-> WC-mapped object suddenly became WB-mapped. But it appears like mesa
-> doesn't care about this as long as the mappings are fully coherent.
+Add binding for the Innolux G070Y2-T02 panel. It is 7" WVGA (800x480)
+TFT LCD panel with TTL interface and a backlight unit.
 
-FWIW, the Mesa radeonsi driver avoids surprises due to this (e.g. some path which involves CPU access suddenly goes faster if the BO was evicted from VRAM) by asking for WC mapping of BOs intended to be in VRAM even while they're evicted (via the AMDGPU_GEM_CREATE_CPU_GTT_USWC flag).
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ .../devicetree/bindings/display/panel/panel-simple.yaml         | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
+diff --git a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+index 335776c45474..2f1c0928d260 100644
+--- a/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
++++ b/Documentation/devicetree/bindings/display/panel/panel-simple.yaml
+@@ -166,6 +166,8 @@ properties:
+       - innolux,at070tn92
+         # Innolux G070Y2-L01 7" WVGA (800x480) TFT LCD panel
+       - innolux,g070y2-l01
++        # Innolux G070Y2-T02 7" WVGA (800x480) TFT LCD TTL panel
++      - innolux,g070y2-t02
+         # Innolux Corporation 10.1" G101ICE-L01 WXGA (1280x800) LVDS panel
+       - innolux,g101ice-l01
+         # Innolux Corporation 12.1" WXGA (1280x800) TFT LCD panel
 -- 
-Earthling Michel Dänzer            |                  https://redhat.com
-Libre software enthusiast          |         Mesa and Xwayland developer
+2.30.2
+
