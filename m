@@ -1,66 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4032841D93F
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 13:57:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 555DA41D9C7
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 14:27:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82E896EB7C;
-	Thu, 30 Sep 2021 11:57:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6B46E6E409;
+	Thu, 30 Sep 2021 12:27:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D72BB6EB7C
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 11:57:16 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1633003038; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=MgsTdvHC32CVeXQvpvDOvg9iOpH6jzoyvVH+Vm7ZG44=;
- b=emQ2b+RnbsCKA6pFV7BzB8gIXGQ0f4rbnS5j8mjvPjCh5U22E7wkr1pBxtrYgqIrPiOL/QfV
- m8kGzIYHczztebsGHPO0fEDSAUUlw0BTe0HVKwpi1Tpj8p++oOYF5PB8+heaMsJYIyFWuQOk
- 39RKQpa5HMhw6ksvNo0POJO/z28=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
- 6155a60c63b1f186580d3e45 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 30 Sep 2021 11:57:00
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 1BDD1C43616; Thu, 30 Sep 2021 11:57:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: mkrishn)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 44068C4338F;
- Thu, 30 Sep 2021 11:56:59 +0000 (UTC)
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0C10B6E3F4;
+ Thu, 30 Sep 2021 12:27:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10122"; a="212430963"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="212430963"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 05:27:28 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="520359747"
+Received: from dclinto1-mobl1.ger.corp.intel.com (HELO [10.252.21.182])
+ ([10.252.21.182])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 05:27:27 -0700
+Subject: Re: [PATCH v5 12/13] drm/i915/ttm: use cached system pages when
+ evicting lmem
+To: =?UTF-8?Q?Michel_D=c3=a4nzer?= <michel@daenzer.net>,
+ =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org
+References: <20210927114114.152310-1-matthew.auld@intel.com>
+ <20210927114114.152310-12-matthew.auld@intel.com>
+ <6372b5a3ab5b8d5b640af59c9290cbe6da21a0f9.camel@linux.intel.com>
+ <c73d99e5-267b-c396-2c19-9e5938d7ab6f@daenzer.net>
+From: Matthew Auld <matthew.auld@intel.com>
+Message-ID: <40845c09-c219-800d-5fc8-0b2d68702142@intel.com>
+Date: Thu, 30 Sep 2021 13:27:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.10.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 30 Sep 2021 17:26:59 +0530
-From: mkrishn@codeaurora.org
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, kalyan_t@codeaurora.org,
- sbillaka@codeaurora.org, abhinavk@codeaurora.org, robdclark@gmail.com,
- bjorn.andersson@linaro.org, khsieh@codeaurora.org, rajeevny@codeaurora.org,
- freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- robh+dt@kernel.org
-Subject: Re: [PATCH v1 2/4] arm64: dts: qcom: sc7280: add display dt nodes
-In-Reply-To: <CAE-0n50b=pX=1MFwGPDvDR=O03tUAkAgyMonGm2+SXBft=16KQ@mail.gmail.com>
-References: <1629282424-4070-1-git-send-email-mkrishn@codeaurora.org>
- <1629282424-4070-2-git-send-email-mkrishn@codeaurora.org>
- <CAE-0n50b=pX=1MFwGPDvDR=O03tUAkAgyMonGm2+SXBft=16KQ@mail.gmail.com>
-Message-ID: <5adf2ab2c2a162272509d253bd797721@codeaurora.org>
-X-Sender: mkrishn@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <c73d99e5-267b-c396-2c19-9e5938d7ab6f@daenzer.net>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,152 +56,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-08-19 01:27, Stephen Boyd wrote:
-> Quoting Krishna Manikandan (2021-08-18 03:27:02)
->> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi 
->> b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->> index 53a21d0..fd7ff1c 100644
->> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->> @@ -5,6 +5,7 @@
->>   * Copyright (c) 2020-2021, The Linux Foundation. All rights 
->> reserved.
->>   */
->> 
->> +#include <dt-bindings/clock/qcom,dispcc-sc7280.h>
->>  #include <dt-bindings/clock/qcom,gcc-sc7280.h>
->>  #include <dt-bindings/clock/qcom,rpmh.h>
->>  #include <dt-bindings/interconnect/qcom,sc7280.h>
->> @@ -1424,6 +1425,90 @@
->>                         #power-domain-cells = <1>;
->>                 };
->> 
->> +               mdss: mdss@ae00000 {
+On 30/09/2021 11:04, Michel Dänzer wrote:
+> On 2021-09-29 13:54, Thomas Hellström wrote:
+>> On Mon, 2021-09-27 at 12:41 +0100, Matthew Auld wrote:
+>>> This should let us do an accelerated copy directly to the shmem pages
+>>> when temporarily moving lmem-only objects, where the i915-gem
+>>> shrinker
+>>> can later kick in to swap out the pages, if needed.
+>>>
+>>> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+>>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+>>> ---
+>>>   drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 8 ++++----
+>>>   1 file changed, 4 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>>> b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>>> index 194e5f1deda8..46d57541c0b2 100644
+>>> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
+>>> @@ -134,11 +134,11 @@ static enum ttm_caching
+>>>   i915_ttm_select_tt_caching(const struct drm_i915_gem_object *obj)
+>>>   {
+>>>          /*
+>>> -        * Objects only allowed in system get cached cpu-mappings.
+>>> -        * Other objects get WC mapping for now. Even if in system.
+>>> +        * Objects only allowed in system get cached cpu-mappings, or
+>>> when
+>>> +        * evicting lmem-only buffers to system for swapping. Other
+>>> objects get
+>>> +        * WC mapping for now. Even if in system.
+>>>           */
+>>> -       if (obj->mm.region->type == INTEL_MEMORY_SYSTEM &&
+>>> -           obj->mm.n_placements <= 1)
+>>> +       if (obj->mm.n_placements <= 1)
+>>>                  return ttm_cached;
+>>>   
+>>>          return ttm_write_combined;
+>>
+>> We should be aware that with TTM, even evicted bos can be mapped by
+>> user-space while evicted, and this will appear to user-space like the
+>> WC-mapped object suddenly became WB-mapped. But it appears like mesa
+>> doesn't care about this as long as the mappings are fully coherent.
 > 
-> subsystem@ae00000
+> FWIW, the Mesa radeonsi driver avoids surprises due to this (e.g. some path which involves CPU access suddenly goes faster if the BO was evicted from VRAM) by asking for WC mapping of BOs intended to be in VRAM even while they're evicted (via the AMDGPU_GEM_CREATE_CPU_GTT_USWC flag).
 > 
->> +                       compatible = "qcom,sc7280-mdss";
->> +                       reg = <0 0x0ae00000 0 0x1000>;
->> +                       reg-names = "mdss";
->> +
->> +                       power-domains = <&dispcc 
->> DISP_CC_MDSS_CORE_GDSC>;
->> +
->> +                       clocks = <&gcc GCC_DISP_AHB_CLK>,
->> +                                <&dispcc DISP_CC_MDSS_AHB_CLK>,
->> +                               <&dispcc DISP_CC_MDSS_MDP_CLK>;
->> +                       clock-names = "iface", "ahb", "core";
->> +
->> +                       assigned-clocks = <&dispcc 
->> DISP_CC_MDSS_MDP_CLK>;
->> +                       assigned-clock-rates = <300000000>;
->> +
->> +                       interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
->> +                       interrupt-controller;
->> +                       #interrupt-cells = <1>;
->> +
->> +                       interconnects = <&mmss_noc MASTER_MDP0 0 
->> &mc_virt SLAVE_EBI1 0>;
->> +                       interconnect-names = "mdp0-mem";
->> +
->> +                       iommus = <&apps_smmu 0x900 0x402>;
->> +
->> +                       #address-cells = <2>;
->> +                       #size-cells = <2>;
->> +                       ranges;
->> +
->> +                       status = "disabled";
->> +
->> +                       mdp: mdp@ae01000 {
-> 
-> display-controller@ae01000
 
-Stephen,
-    In the current driver code, there is a substring comparison for "mdp" 
-in device node name as part of probe sequence. If "mdp" is not present 
-in the node name, it will
-    return an error resulting in probe failure. Can we continue using mdp 
-as nodename instead of display controller?
-
-Thanks,
-Krishna
-
+Ok, so amdgpu just defaults to cached system memory, even for evicted 
+VRAM, unless userspace requests USWC, in which case it will use WC?
 
 > 
->> +                               compatible = "qcom,sc7280-dpu";
->> +                               reg = <0 0x0ae01000 0 0x8f030>,
->> +                                       <0 0x0aeb0000 0 0x2008>;
->> +                               reg-names = "mdp", "vbif";
->> +
->> +                               clocks = <&gcc GCC_DISP_HF_AXI_CLK>,
->> +                                       <&gcc GCC_DISP_SF_AXI_CLK>,
->> +                                       <&dispcc 
->> DISP_CC_MDSS_AHB_CLK>,
->> +                                       <&dispcc 
->> DISP_CC_MDSS_MDP_LUT_CLK>,
->> +                                       <&dispcc 
->> DISP_CC_MDSS_MDP_CLK>,
->> +                                       <&dispcc 
->> DISP_CC_MDSS_VSYNC_CLK>;
->> +                               clock-names = "bus", "nrt_bus", 
->> "iface", "lut", "core",
->> +                                             "vsync";
-> 
-> One line per string please.
-> 
->> +                               assigned-clocks = <&dispcc 
->> DISP_CC_MDSS_MDP_CLK>,
->> +                                               <&dispcc 
->> DISP_CC_MDSS_VSYNC_CLK>,
->> +                                               <&dispcc 
->> DISP_CC_MDSS_AHB_CLK>;
->> +                               assigned-clock-rates = <300000000>,
->> +                                                       <19200000>,
->> +                                                       <19200000>;
->> +                               operating-points-v2 = 
->> <&mdp_opp_table>;
->> +                               power-domains = <&rpmhpd SC7280_CX>;
->> +
->> +                               interrupt-parent = <&mdss>;
->> +                               interrupts = <0>;
->> +
->> +                               status = "disabled";
->> +
->> +                               mdp_opp_table: mdp-opp-table {
-> 
-> mdp_opp_table: opp-table {
-> 
->> +                                       compatible = 
->> "operating-points-v2";
->> +
->> +                                       opp-200000000 {
->> +                                               opp-hz = /bits/ 64 
->> <200000000>;
->> +                                               required-opps = 
->> <&rpmhpd_opp_low_svs>;
->> +                                       };
->> +
->> +                                       opp-300000000 {
->> +                                               opp-hz = /bits/ 64 
->> <300000000>;
->> +                                               required-opps = 
->> <&rpmhpd_opp_svs>;
->> +                                       };
->> +
->> +                                       opp-380000000 {
->> +                                               opp-hz = /bits/ 64 
->> <380000000>;
->> +                                               required-opps = 
->> <&rpmhpd_opp_svs_l1>;
->> +                                       };
->> +
->> +                                       opp-506666667 {
->> +                                               opp-hz = /bits/ 64 
->> <506666667>;
->> +                                               required-opps = 
->> <&rpmhpd_opp_nom>;
->> +                                       };
->> +                               };
->> +                       };
->> +               };
->> +
