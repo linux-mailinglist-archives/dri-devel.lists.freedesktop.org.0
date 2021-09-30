@@ -1,27 +1,30 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8C7141D19A
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 04:47:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6B4441D19B
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 04:47:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6EA5C6E2DC;
-	Thu, 30 Sep 2021 02:47:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 802C66EB37;
+	Thu, 30 Sep 2021 02:47:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D37836E2DC
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 02:47:12 +0000 (UTC)
-X-UUID: 3afee758ebfa4872ad07f1fa16a3e4f4-20210930
-X-UUID: 3afee758ebfa4872ad07f1fa16a3e4f4-20210930
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8846F6E2D7
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 02:47:11 +0000 (UTC)
+X-UUID: 35cd5127613d42c08c25bfdd9d48f863-20210930
+X-UUID: 35cd5127613d42c08c25bfdd9d48f863-20210930
 Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
  (envelope-from <jason-jh.lin@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 269583271; Thu, 30 Sep 2021 10:47:07 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ with ESMTP id 1515925022; Thu, 30 Sep 2021 10:47:07 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
  mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
  15.2.792.15; Thu, 30 Sep 2021 10:47:06 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Thu, 30 Sep 2021 10:47:06 +0800
 Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
  Frontend Transport; Thu, 30 Sep 2021 10:47:06 +0800
@@ -35,10 +38,10 @@ CC: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  <linux-kernel@vger.kernel.org>, <hsinyi@chromium.org>, <fshao@chromium.org>,
  <jason-jh.lin@mediatek.com>, <nancy.lin@mediatek.com>,
  <singo.chang@mediatek.com>
-Subject: [v2 PATCH 2/3] drm/mediatek: Fix pkt buf alloc once but free many
- times
-Date: Thu, 30 Sep 2021 10:47:03 +0800
-Message-ID: <20210930024704.6966-3-jason-jh.lin@mediatek.com>
+Subject: [v2 PATCH 3/3] drm/mediatek: Fix cursor plane is not config when
+ primary is updating
+Date: Thu, 30 Sep 2021 10:47:04 +0800
+Message-ID: <20210930024704.6966-4-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20210930024704.6966-1-jason-jh.lin@mediatek.com>
 References: <20210930024704.6966-1-jason-jh.lin@mediatek.com>
@@ -60,79 +63,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Because mtk_drm_crt_cmdq_pkt_create is called once
-in mtk_drm_crtc_create, the pkt should not be destroy
-at ddp_cmdq_cb.
+If cursor plane has updated but primary plane config task is not
+finished, mtk_drm_crtc_update_config will call mbox_flush() to clear
+all task in current GCE thread and let cursor plane re-send a new
+GCE task with cursor + primary plane config to replace the unfinished
+GCE task.
 
-So move mtk_drm_crtc_pkt_destroy to mtk_drm_crtc_destroy.
+So the plane config flag should not be cleared when mailbox callback
+with a error status.
 
-Fixes: bc9241be73d9 ("drm/mediatek: Add cmdq_handle in mtk_crtc")
+Fixes: 9efb16c2fdd6 ("drm/mediatek: Clear pending flag when cmdq packet is done")
 Signed-off-by: jason-jh.lin <jason-jh.lin@mediatek.com>
-Reviewed-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 29 +++++++++++++++----------
- 1 file changed, 18 insertions(+), 11 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 411d99fcbb8f..274e5c67507d 100644
+index 274e5c67507d..b96dbc867890 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -108,12 +108,30 @@ static void mtk_drm_finish_page_flip(struct mtk_drm_crtc *mtk_crtc)
- 	}
- }
+@@ -281,6 +281,9 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 	struct mtk_crtc_state *state;
+ 	unsigned int i;
  
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
-+{
-+	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
++	if (data->sta < 0)
++		return;
 +
-+	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
-+			 DMA_TO_DEVICE);
-+	kfree(pkt->va_base);
-+	kfree(pkt);
-+}
-+#endif
-+
- static void mtk_drm_crtc_destroy(struct drm_crtc *crtc)
- {
- 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
+ 	state = to_mtk_crtc_state(mtk_crtc->base.state);
  
- 	mtk_mutex_put(mtk_crtc->mutex);
-+#if IS_REACHABLE(CONFIG_MTK_CMDQ)
-+	mtk_drm_cmdq_pkt_destroy(&mtk_crtc->cmdq_handle);
- 
-+	if (mtk_crtc->cmdq_client.chan)
-+		mbox_free_channel(mtk_crtc->cmdq_client.chan);
-+				  mtk_crtc->cmdq_client.chan = NULL;
-+#endif
- 	drm_crtc_cleanup(crtc);
- }
- 
-@@ -255,16 +273,6 @@ static int mtk_drm_cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *
- 	return 0;
- }
- 
--static void mtk_drm_cmdq_pkt_destroy(struct cmdq_pkt *pkt)
--{
--	struct cmdq_client *client = (struct cmdq_client *)pkt->cl;
--
--	dma_unmap_single(client->chan->mbox->dev, pkt->pa_base, pkt->buf_size,
--			 DMA_TO_DEVICE);
--	kfree(pkt->va_base);
--	kfree(pkt);
--}
--
- static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- {
- 	struct cmdq_cb_data *data = mssg;
-@@ -302,7 +310,6 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
- 	}
- 
- 	mtk_crtc->cmdq_vblank_cnt = 0;
--	mtk_drm_cmdq_pkt_destroy(data->pkt);
- }
- #endif
- 
+ 	state->pending_config = false;
 -- 
 2.18.0
 
