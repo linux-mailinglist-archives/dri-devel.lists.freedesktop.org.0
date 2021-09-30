@@ -2,58 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2A4F41E372
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 23:38:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FDE41E396
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 00:01:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4D3B56EC92;
-	Thu, 30 Sep 2021 21:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACF786EC94;
+	Thu, 30 Sep 2021 22:01:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 917516EC92
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 21:38:10 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPS id 652FF619F7
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 21:38:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633037890;
- bh=bjuPaDMdfz71v+KAOEu+rzjr6dBVXbxDg/R8qLnzDjA=;
- h=From:To:Subject:Date:In-Reply-To:References:From;
- b=jhVTMbE9mGC71/1EK0sc1mJXCIUBITvvcb1mVwnSa9qiwMZ01o7vj2swZCQt5nH/9
- ce1JrxfFtQ1phHGvAr8SkIUCGJK5LvNMGxWboGbKX3Q57tY0eDbTn/BGN4fCWLfEn3
- Tund/5FoDx0X++bGPo4r4NmMMyn4+2f8ZOEVDUZifFj+Y2ak2iLXlR0G36cTEZzdWZ
- +S+YiGh1uRqcXTLwxNw+gcFaVwQrzRwS+EJJ0MM8cxIbCvMIHGDrUcUWn5zeg1WrDd
- 3TOW2TQIKt8MTEDiAaXWUFXAuC+25JzhPRHpNE2pT0iCOkinxhG56yqr/OGGaj2fHC
- cZ/dq9ste4x2A==
-Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
- id 6244660C4C; Thu, 30 Sep 2021 21:38:10 +0000 (UTC)
-From: bugzilla-daemon@bugzilla.kernel.org
-To: dri-devel@lists.freedesktop.org
-Subject: [Bug 214587] [drm:amdgpu_job_timedout [amdgpu]] *ERROR* ring gfx
- timeout, signaled seq=5900910, emitted seq=5900912
-Date: Thu, 30 Sep 2021 21:38:10 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: Video(DRI - non Intel)
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: samy@lahfa.xyz
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P1
-X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-214587-2300-vCl1wlYlh8@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-214587-2300@https.bugzilla.kernel.org/>
-References: <bug-214587-2300@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1B63A6E46B;
+ Thu, 30 Sep 2021 22:01:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="288952112"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="288952112"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 15:01:19 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="564479199"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 15:01:19 -0700
+Date: Thu, 30 Sep 2021 15:01:18 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ CQ Tang <cq.tang@intel.com>
+Subject: Re: [PATCH] drm/i915: Use fixed offset for PTEs location
+Message-ID: <20210930220118.GZ3389343@mdroper-desk1.amr.corp.intel.com>
+References: <20210926201005.1450-1-michal.wajdeczko@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210926201005.1450-1-michal.wajdeczko@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,17 +49,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D214587
+On Sun, Sep 26, 2021 at 10:10:05PM +0200, Michal Wajdeczko wrote:
+> We assumed that for all modern GENs the PTEs and register space are
+> split in the GTTMMADR BAR, but while it is true, we should rather use
+> fixed offset as it is defined in the specification.
+> 
+> Bspec: 4409, 4457, 4604, 11181, 9027, 13246, 13321, 44980
+> 
+> Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+> Cc: CQ Tang <cq.tang@intel.com>
+> Cc: Matt Roper <matthew.d.roper@intel.com>
 
---- Comment #1 from Lahfa Samy (samy@lahfa.xyz) ---
-The computer did unfreeze then after the reset of the GPU but it seems hash=
-cat
-cannot use the GPU anymore for some reason, I'm not too sure why, but I thi=
-nk I
-need to reboot my machine.
+Matches the descriptions on all the various bspec pages.
 
---=20
-You may reply to this email to add a comment.
+Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+> ---
+>  drivers/gpu/drm/i915/gt/intel_ggtt.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> index ba7c7ed89fa8..f17383e76eb7 100644
+> --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
+> @@ -813,6 +813,21 @@ static unsigned int chv_get_total_gtt_size(u16 gmch_ctrl)
+>  	return 0;
+>  }
+>  
+> +static unsigned int gen6_gttmmadr_size(struct drm_i915_private *i915)
+> +{
+> +	/*
+> +	 * GEN6: GTTMMADR size is 4MB and GTTADR starts at 2MB offset
+> +	 * GEN8: GTTMMADR size is 16MB and GTTADR starts at 8MB offset
+> +	 */
+> +	GEM_BUG_ON(GRAPHICS_VER(i915) < 6);
+> +	return (GRAPHICS_VER(i915) < 8) ? SZ_4M : SZ_16M;
+> +}
+> +
+> +static unsigned int gen6_gttadr_offset(struct drm_i915_private *i915)
+> +{
+> +	return gen6_gttmmadr_size(i915) / 2;
+> +}
+> +
+>  static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+>  {
+>  	struct drm_i915_private *i915 = ggtt->vm.i915;
+> @@ -821,8 +836,8 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
+>  	u32 pte_flags;
+>  	int ret;
+>  
+> -	/* For Modern GENs the PTEs and register space are split in the BAR */
+> -	phys_addr = pci_resource_start(pdev, 0) + pci_resource_len(pdev, 0) / 2;
+> +	GEM_WARN_ON(pci_resource_len(pdev, 0) != gen6_gttmmadr_size(i915));
+> +	phys_addr = pci_resource_start(pdev, 0) + gen6_gttadr_offset(i915);
+>  
+>  	/*
+>  	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
+> -- 
+> 2.25.1
+> 
+
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
