@@ -1,64 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C46041D608
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:10:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F298C41D60A
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 11:11:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 70B736EB47;
-	Thu, 30 Sep 2021 09:10:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 788038909C;
+	Thu, 30 Sep 2021 09:11:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B516F6EB47
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:10:31 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 3985F1FE4E;
- Thu, 30 Sep 2021 09:10:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1632993030; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ikGJSGxtLpZDPXBXwOrYQiD9LoYmlSo77RwuSPNYq6g=;
- b=0yRnJb/o7q00u11dChbI6VcAqH3YBag+QZi0UJ67/RbywwnI9BwzhTC6YYancpyOl52T22
- xBt7oZfZQYxBYNLtFAumxd6KKwASr21BsRjCT6CjAnbuyRnZTGkWsi6mpNvuYI5n9ZD07i
- ePnXXEJaJs3eZa50C+DZQA9mt93N4A0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1632993030;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ikGJSGxtLpZDPXBXwOrYQiD9LoYmlSo77RwuSPNYq6g=;
- b=g+RAB1yqih9r5cpf7Bk0I9W0MNWtUHC9bGGi6Ynu6nO4JrvFCqJ4oXFQFRO0WXlcg1B7gk
- kVsH3y4Q8H8VC3CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A55A13B05;
- Thu, 30 Sep 2021 09:10:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id S9vSBAZ/VWHkSAAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Thu, 30 Sep 2021 09:10:30 +0000
-Message-ID: <84f5f16b-91c3-2e82-b7f2-9e9c49983d3c@suse.de>
-Date: Thu, 30 Sep 2021 11:10:29 +0200
+Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8103889C3F
+ for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 09:11:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+ bh=PFWvrkSctZ6ypDPSfduYtJRRJk49WrcRXq5uvROqKpA=; 
+ b=AaA1xJP/hpWFFznBwrakpodc0I/ilCJw4YiU1e25q43TRO+p/YT+M8TsDwU8CUgewr2qTmYYJGPKLnatEsXz1NrmI4NUvwXmVZaXWmLiaQFAXT5Rk7m0VQOBwCiqLXuoOOaoyosXJPLLJmPvFjoKqaA95E9blzZvBzjvD4XGanR3SC28S8Z4xV+wQQnnFpasWWRU91UmxeTTMtSvePofN0cuolRiPsG97bgc7UtNsLkAdBoKUDAq6UIvuRT76FLHAXGRp8DS1iZKwB//Geoyv2Aq4aSSvkpY1hNYRbHGJBKx93SyzRVgB/XDS29hV5p29aZATm5DmZnG+Tja27m8cA==;
+Received: from 182.48.165.83.dynamic.reverse-mundo-r.com ([83.165.48.182]
+ helo=zeus) by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1mVs6F-0000ww-5d; Thu, 30 Sep 2021 11:11:31 +0200
+Message-ID: <d4d4762f1365f22b53677da2f77a5ac27e899a4c.camel@igalia.com>
+Subject: Re: [PATCH v2 3/4] drm/v3d: add generic ioctl extension
+From: Iago Toral <itoral@igalia.com>
+To: Melissa Wen <mwen@igalia.com>, dri-devel@lists.freedesktop.org
+Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>, Maxime Ripard <maxime@cerno.tech>, Boris
+ Brezillon <boris.brezillon@collabora.com>
+Date: Thu, 30 Sep 2021 11:11:21 +0200
+In-Reply-To: <779e2cc57efd5fbc95f1267e7252de5f092045c5.1632905676.git.mwen@igalia.com>
+References: <cover.1632905676.git.mwen@igalia.com>
+ <779e2cc57efd5fbc95f1267e7252de5f092045c5.1632905676.git.mwen@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v3 0/6] drm/gud: Add some more pixel formats
-Content-Language: en-US
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-Cc: peter@stuge.se
-References: <20210929191201.34456-1-noralf@tronnes.org>
-From: Thomas Zimmermann <tzimmermann@suse.de>
-In-Reply-To: <20210929191201.34456-1-noralf@tronnes.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------ZwWiEZlSh0PiNWOffdn6AWe8"
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,71 +51,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------ZwWiEZlSh0PiNWOffdn6AWe8
-Content-Type: multipart/mixed; boundary="------------kgky5O5PQ0l0D1TN7npUZQSL";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Noralf_Tr=c3=b8nnes?= <noralf@tronnes.org>,
- dri-devel@lists.freedesktop.org
-Cc: peter@stuge.se
-Message-ID: <84f5f16b-91c3-2e82-b7f2-9e9c49983d3c@suse.de>
-Subject: Re: [PATCH v3 0/6] drm/gud: Add some more pixel formats
-References: <20210929191201.34456-1-noralf@tronnes.org>
-In-Reply-To: <20210929191201.34456-1-noralf@tronnes.org>
+On Wed, 2021-09-29 at 10:44 +0100, Melissa Wen wrote:
+> Add support to attach generic extensions on job submission. This
+> patch
+> is third prep work to enable multiple syncobjs on job submission.
+> With
+> this work, when the job submission interface needs to be extended to
+> accomodate a new feature, we will use a generic extension struct
+> where
+> an id determines the data type to be pointed. The first application
+> is
+> to enable multiples in/out syncobj (next patch), but the base is
+> already done for future features. Therefore, to attach a new feature,
+> a specific extension struct should subclass drm_v3d_extension and
+> update the list of extensions in a job submission.
+> 
+> v2:
+> - remove redundant elements to subclass struct (Daniel)
+> 
+> Signed-off-by: Melissa Wen <mwen@igalia.com>
+> ---
+>  drivers/gpu/drm/v3d/v3d_drv.c |  4 +-
+>  drivers/gpu/drm/v3d/v3d_gem.c | 71
+> +++++++++++++++++++++++++++++++++--
+>  include/uapi/drm/v3d_drm.h    | 31 +++++++++++++++
+>  3 files changed, 100 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
+> b/drivers/gpu/drm/v3d/v3d_drv.c
+> index c1deab2cf38d..3d6b9bcce2f7 100644
+> --- a/drivers/gpu/drm/v3d/v3d_drv.c
+> +++ b/drivers/gpu/drm/v3d/v3d_drv.c
+> @@ -83,7 +83,6 @@ static int v3d_get_param_ioctl(struct drm_device
+> *dev, void *data,
+>  		return 0;
+>  	}
+>  
+> -
+>  	switch (args->param) {
+>  	case DRM_V3D_PARAM_SUPPORTS_TFU:
+>  		args->value = 1;
+> @@ -147,7 +146,7 @@ v3d_postclose(struct drm_device *dev, struct
+> drm_file *file)
+>  DEFINE_DRM_GEM_FOPS(v3d_drm_fops);
+>  
+>  /* DRM_AUTH is required on SUBMIT_CL for now, while we don't have
+> GMP
+> - * protection between clients.  Note that render nodes would be be
+> + * protection between clients.  Note that render nodes would be
+>   * able to submit CLs that could access BOs from clients
+> authenticated
+>   * with the master node.  The TFU doesn't use the GMP, so it would
+>   * need to stay DRM_AUTH until we do buffer size/offset validation.
+> @@ -219,7 +218,6 @@ static int v3d_platform_drm_probe(struct
+> platform_device *pdev)
+>  	u32 mmu_debug;
+>  	u32 ident1;
+>  
+> -
+>  	v3d = devm_drm_dev_alloc(dev, &v3d_drm_driver, struct v3d_dev,
+> drm);
+>  	if (IS_ERR(v3d))
+>  		return PTR_ERR(v3d);
+> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c
+> b/drivers/gpu/drm/v3d/v3d_gem.c
+> index 9cfa6f8d4357..b912419027f7 100644
+> --- a/drivers/gpu/drm/v3d/v3d_gem.c
+> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
+> @@ -535,6 +535,33 @@ v3d_attach_fences_and_unlock_reservation(struct
+> drm_file *file_priv,
+>  	}
+>  }
+>  
+> +static int
+> +v3d_get_extensions(struct drm_file *file_priv, u64 ext_handles)
+> +{
+> +	struct drm_v3d_extension __user *user_ext;
+> +
+> +	user_ext = u64_to_user_ptr(ext_handles);
+> +	while(user_ext) {
+> +		struct drm_v3d_extension ext;
+> +
+> +		if (copy_from_user(&ext, user_ext, sizeof(ext))) {
+> +			DRM_DEBUG("Failed to copy submit extension\n");
+> +			return -EFAULT;
+> +		}
+> +
+> +		switch (ext.id) {
+> +		case 0:
+> +		default:
+> +			DRM_DEBUG_DRIVER("Unknown extension id: %d\n",
+> ext.id);
+> +			return -EINVAL;
+> +		}
+> +
+> +		user_ext = u64_to_user_ptr(ext.next);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * v3d_submit_cl_ioctl() - Submits a job (frame) to the V3D.
+>   * @dev: DRM device
+> @@ -563,15 +590,24 @@ v3d_submit_cl_ioctl(struct drm_device *dev,
+> void *data,
+>  
+>  	trace_v3d_submit_cl_ioctl(&v3d->drm, args->rcl_start, args-
+> >rcl_end);
+>  
+> -	if (args->pad != 0)
+> +	if (args->pad)
+>  		return -EINVAL;
+>  
+> -	if (args->flags != 0 &&
+> -	    args->flags != DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
+> +	if (args->flags &&
+> +	    args->flags & ~(DRM_V3D_SUBMIT_CL_FLUSH_CACHE |
+> +			    DRM_V3D_SUBMIT_EXTENSION)) {
+>  		DRM_INFO("invalid flags: %d\n", args->flags);
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> +		ret = v3d_get_extensions(file_priv, args->extensions);
+> +		if (ret) {
+> +			DRM_DEBUG("Failed to get extensions.\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	ret = v3d_job_init(v3d, file_priv, (void *)&render,
+> sizeof(*render),
+>  			   v3d_render_job_free, args->in_sync_bcl,
+> V3D_RENDER);
+>  	if (ret)
+> @@ -700,6 +736,19 @@ v3d_submit_tfu_ioctl(struct drm_device *dev,
+> void *data,
+>  
+>  	trace_v3d_submit_tfu_ioctl(&v3d->drm, args->iia);
+>  
+> +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
+> +		DRM_DEBUG("invalid flags: %d\n", args->flags);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> +		ret = v3d_get_extensions(file_priv, args->extensions);
+> +		if (ret) {
+> +			DRM_DEBUG("Failed to get extensions.\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	ret = v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
+>  			   v3d_job_free, args->in_sync, V3D_TFU);
+>  	if (ret)
+> @@ -784,11 +833,27 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
+> void *data,
+>  
+>  	trace_v3d_submit_csd_ioctl(&v3d->drm, args->cfg[5], args-
+> >cfg[6]);
+>  
+> +	if (args->pad)
+> +		return -EINVAL;
+> +
+>  	if (!v3d_has_csd(v3d)) {
+>  		DRM_DEBUG("Attempting CSD submit on non-CSD
+> hardware\n");
+>  		return -EINVAL;
+>  	}
+>  
+> +	if (args->flags && !(args->flags & DRM_V3D_SUBMIT_EXTENSION)) {
+> +		DRM_INFO("invalid flags: %d\n", args->flags);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
+> +		ret = v3d_get_extensions(file_priv, args->extensions);
+> +		if (ret) {
+> +			DRM_DEBUG("Failed to get extensions.\n");
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	ret = v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
+>  			   v3d_job_free, args->in_sync, V3D_CSD);
+>  	if (ret)
+> diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
+> index 4104f22fb3d3..55b443ca6c0b 100644
+> --- a/include/uapi/drm/v3d_drm.h
+> +++ b/include/uapi/drm/v3d_drm.h
+> @@ -58,6 +58,20 @@ extern "C" {
+>  						   struct
+> drm_v3d_perfmon_get_values)
+>  
+>  #define DRM_V3D_SUBMIT_CL_FLUSH_CACHE             0x01
+> +#define DRM_V3D_SUBMIT_EXTENSION		  0x02
+> +
+> +/* struct drm_v3d_extension - ioctl extensions
+> + *
+> + * Linked-list of generic extensions where the id identify which
+> struct is
+> + * pointed by ext_data. Therefore, DRM_V3D_EXT_ID_* is used on id to
+> identify
+> + * the extension type.
+> + */
+> +struct drm_v3d_extension {
+> +	__u64 next;
+> +	__u32 id;
+> +#define DRM_V3D_EXT_ID_MULTI_SYNC		0x01
+> +	__u32 flags; /* mbz */
+> +};
+>  
+>  /**
+>   * struct drm_v3d_submit_cl - ioctl argument for submitting commands
+> to the 3D
+> @@ -135,12 +149,16 @@ struct drm_v3d_submit_cl {
+>  	/* Number of BO handles passed in (size is that times 4). */
+>  	__u32 bo_handle_count;
+>  
+> +	/* DRM_V3D_SUBMIT_* properties */
+>  	__u32 flags;
+>  
+>  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
+> */
+>  	__u32 perfmon_id;
+>  
+>  	__u32 pad;
+> +
+> +	/* Pointer to an array of ioctl extensions*/
+> +	__u64 extensions;
+>  };
+>  
+>  /**
+> @@ -248,6 +266,12 @@ struct drm_v3d_submit_tfu {
+>  	__u32 in_sync;
+>  	/* Sync object to signal when the TFU job is done. */
+>  	__u32 out_sync;
+> +
+> +	__u32 flags;
+> +
+> +	/* Pointer to an array of ioctl extensions*/
+> +	__u64 extensions;
 
---------------kgky5O5PQ0l0D1TN7npUZQSL
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We want __u64 fields aligned to 64-bit so we should swap the positions
+of flags and extensions.
 
-SGkNCg0KQW0gMjkuMDkuMjEgdW0gMjE6MTEgc2NocmllYiBOb3JhbGYgVHLDuG5uZXM6DQo+
-IEhpLA0KPiANCj4gSSdkIGFwcHJlY2lhdGUgaWYgc29tZW9uZSBjb3VsZCByZXZpZXcgdGhl
-IDMgc21hbGwgZHJpdmVyIHBhdGNoZXMuDQoNClNlcmllcyBpcw0KDQpBY2tlZC1ieTogVGhv
-bWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQoNCkJlc3QgcmVnYXJkcw0K
-VGhvbWFzDQoNCj4gDQo+IENoYW5nZXMgc2luY2UgdmVyc2lvbiAyOg0KPiAtIERyb3AgdGhl
-IHBhdGNoIGFkZGluZyBtb2R1bGUgcGFyYW1ldGVyICd4cmdiODg4OCcuIEJvdGggRGFuaWVs
-IGFuZA0KPiBUaG9tYXMgaGFkIHNvbWUgY29tbWVudHMgdGhhdCBldmVudHVhbGx5IGxlZCBt
-ZSB0byB0byBkcm9wIHRoaXMgZm9yIG5vdy4NCj4gDQo+IE5vcmFsZi4NCj4gDQo+IA0KPiBO
-b3JhbGYgVHLDuG5uZXMgKDYpOg0KPiAgICBkcm0vZm91cmNjOiBBZGQgUjggdG8gZHJtX2Zv
-cm1hdF9pbmZvDQo+ICAgIGRybS9mb3JtYXQtaGVscGVyOiBBZGQgZHJtX2ZiX3hyZ2I4ODg4
-X3RvX3JnYjMzMigpDQo+ICAgIGRybS9mb3JtYXQtaGVscGVyOiBBZGQgZHJtX2ZiX3hyZ2I4
-ODg4X3RvX3JnYjg4OCgpDQo+ICAgIGRybS9ndWQ6IEFkZCBHVURfUElYRUxfRk9STUFUX1I4
-DQo+ICAgIGRybS9ndWQ6IEFkZCBHVURfUElYRUxfRk9STUFUX1JHQjMzMg0KPiAgICBkcm0v
-Z3VkOiBBZGQgR1VEX1BJWEVMX0ZPUk1BVF9SR0I4ODgNCj4gDQo+ICAgZHJpdmVycy9ncHUv
-ZHJtL2RybV9mb3JtYXRfaGVscGVyLmMgfCA4OCArKysrKysrKysrKysrKysrKysrKysrKysr
-KysrKw0KPiAgIGRyaXZlcnMvZ3B1L2RybS9kcm1fZm91cmNjLmMgICAgICAgIHwgIDEgKw0K
-PiAgIGRyaXZlcnMvZ3B1L2RybS9ndWQvZ3VkX2Rydi5jICAgICAgIHwgIDYgKysNCj4gICBk
-cml2ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9pbnRlcm5hbC5oICB8IDEyICsrKysNCj4gICBkcml2
-ZXJzL2dwdS9kcm0vZ3VkL2d1ZF9waXBlLmMgICAgICB8ICA2ICsrDQo+ICAgaW5jbHVkZS9k
-cm0vZHJtX2Zvcm1hdF9oZWxwZXIuaCAgICAgfCAgNCArKw0KPiAgIGluY2x1ZGUvZHJtL2d1
-ZC5oICAgICAgICAgICAgICAgICAgIHwgIDYgKy0NCj4gICA3IGZpbGVzIGNoYW5nZWQsIDEy
-MSBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiANCg0KLS0gDQpUaG9tYXMgWmlt
-bWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1
-dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdl
-cm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBG
-ZWxpeCBJbWVuZMO2cmZmZXINCg==
+> +
+>  };
+>  
+>  /* Submits a compute shader for dispatch.  This job will block on
+> any
+> @@ -276,6 +300,13 @@ struct drm_v3d_submit_csd {
+>  
+>  	/* ID of the perfmon to attach to this job. 0 means no perfmon.
+> */
+>  	__u32 perfmon_id;
+> +
+> +	/* Pointer to an array of ioctl extensions*/
+> +	__u64 extensions;
+> +
+> +	__u32 flags;
+> +
+> +	__u32 pad;
+>  };
+>  
+>  enum {
 
---------------kgky5O5PQ0l0D1TN7npUZQSL--
-
---------------ZwWiEZlSh0PiNWOffdn6AWe8
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFVfwUFAwAAAAAACgkQlh/E3EQov+B7
-lRAAtyVJVXDiMTxNPqbiXEdgQeNgqanlEGt/sn2qv2LwOsmmI85EjYuTXYuySsklpdglZjeyA26G
-G9TgZDW6gwXpXusZ6bFqLAnI14eFNZCS1Abb+yZpQ1/BciHg9YEnoEI8s7JGIBwkfoUOPCKngWT3
-RTF+ZovBFhNtibqN4ORaXxtEPyeFdF6s80eR+xNOoCh9+DUz1I7+xZMGp+DuUYULBjR1R2g7A752
-2GaFD+VqOtvtT2J14XLKbmzZAX6zkm5r6NCy1TchdsCdjDHk4xajnqznRGhFNRikK2SWS6NOMAPO
-oGDbO1+F1BKSM7QVEjANa01XWIIDc4hB4RF5Jvm080YtfM2HvL3/6y6TshZ6r/0sdL+3Qw5MyTqp
-X9Sbp9Y8R+YmVfWZpFZeeymJ+w3pHGBzFOW007g8bGja/hzaqXm2bugVb/zC+PkOruNjsDWGtr6O
-IbInU2NVswP+udAME7P7bSlG1cFXblCRJoxSH82s1oC0o5DVrXAVXz0d/iaY+khxqtvkjqZVWe2e
-h7T6q2iv4BZ8yXiQo1PRV2yKQtwMSOFMONXGt7hgSWLOZrK2pjpsDB70T4uIvNmvB1nuoarwDk+I
-AzWbZhNm8p5keyDc/oUWO5HSKFVS7XiWmS6QXF3tbrqZUG3gEE37MxKOFMx4CcXR1M/EzSQeqHsr
-ay8=
-=3xl2
------END PGP SIGNATURE-----
-
---------------ZwWiEZlSh0PiNWOffdn6AWe8--
