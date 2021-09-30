@@ -2,64 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1C6B41D121
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 03:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C21E241D153
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 04:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AA6B76EB2C;
-	Thu, 30 Sep 2021 01:44:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BDBB66EB26;
+	Thu, 30 Sep 2021 02:16:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com
- [IPv6:2607:f8b0:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CC0BA6EB2C;
- Thu, 30 Sep 2021 01:44:44 +0000 (UTC)
-Received: by mail-il1-x12d.google.com with SMTP id j15so5048916ila.6;
- Wed, 29 Sep 2021 18:44:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BS9AKALGwmUgSOoK9p/66v+O3ZFmjWbjDLsxZcHUoJA=;
- b=fU0NeOS1NtLCMt52jV0EfRi2a0pN/3WfUwz7w8A0SqcTCwLwwh8Jwbpwjjf+NDNY4p
- kc90+gpm54vP8jiU4K7PsrdYQ4G0EUCNI+KGkIN/4kKYldWSJNzOdJITQ2HKng9eTp9S
- cM9nHjEt0en9ngHFjAZ2ehpg59Oa9p625q2myEfYm1B+MrlP0gw8sSXlntTXcJwcJmWH
- XbHYv9C+WBT6409mZfvVM9+NfluAzV3gYi6BH1mxTPK8ZiToHAmERCdJlATjHAgHKsfb
- QAArWWJB3myyFhIGX3ZIwnsnJbdlz8Wme81eaPNgnuBt/zfiCaXhqngEnjiBD8reDxaw
- y0ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BS9AKALGwmUgSOoK9p/66v+O3ZFmjWbjDLsxZcHUoJA=;
- b=L+VrX1V262dLnBvQiQFoMQ8rIS1Kn24GO0xpaxK/D/OUBCbN4vzaFMmFnfPeadPNPb
- J4GItg/T/3YNxDms52F660SSP/FzNhnuRcm4VwrRMoe6viYXZFucFLFJ21tGEUZN+HAs
- k65Es0j8x/on6WMtuSuXJXpZ4EGuu2SIQ+hSvif+qllPFwgU4z1KWP9FoigonjalyVNf
- eXPR1sp77pnhozPlpDPMncoLsSsZyx6DuzdT6YpgV03h4toxk2AqgAD6GLKmLyEqXcmE
- i45Zb0tev0khhHACY0SkUJHcM7Jbrm08/otSG2zBdp+5MYZFRCQvvhzl1HB4vXy3S2qW
- r/Yg==
-X-Gm-Message-State: AOAM531dsoSoE8PK06lmFRQ6RpKFGrJXOITp5vbgbPkHc5MYlN9hdFHP
- qXJYk8YgTh/fNb5NfY7mwbkIZCJ6iFo=
-X-Google-Smtp-Source: ABdhPJwIMOyZMp7li4n1RDRWM997P9y9iKcB3MDGaziXeFE33j31hN+snrmkiubYIYsOPT7z5Ndr3g==
-X-Received: by 2002:a05:6e02:1985:: with SMTP id
- g5mr2197498ilf.311.1632966283321; 
- Wed, 29 Sep 2021 18:44:43 -0700 (PDT)
-Received: from samwise.. (c-24-9-77-57.hsd1.co.comcast.net. [24.9.77.57])
- by smtp.googlemail.com with ESMTPSA id h23sm1155414ila.32.2021.09.29.18.44.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 29 Sep 2021 18:44:42 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
- intel-gvt-dev@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Jim Cromie <jim.cromie@gmail.com>
-Subject: [PATCH 4/4] i915/gvt: remove spaces in pr_debug "gvt: core:" etc
- prefixes
-Date: Wed, 29 Sep 2021 19:44:27 -0600
-Message-Id: <20210930014427.14239-5-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210930014427.14239-1-jim.cromie@gmail.com>
+X-Greylist: delayed 440 seconds by postgrey-1.36 at gabe;
+ Thu, 30 Sep 2021 02:16:15 UTC
+Received: from smtprelay.hostedemail.com (smtprelay0219.hostedemail.com
+ [216.40.44.219])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CBB246EB22;
+ Thu, 30 Sep 2021 02:16:15 +0000 (UTC)
+Received: from smtprelay.hostedemail.com (10.5.19.251.rfc1918.com
+ [10.5.19.251])
+ by smtpgrave04.hostedemail.com (Postfix) with ESMTP id DFB6618113636;
+ Thu, 30 Sep 2021 02:08:55 +0000 (UTC)
+Received: from omf10.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+ by smtprelay05.hostedemail.com (Postfix) with ESMTP id 7938418059B50;
+ Thu, 30 Sep 2021 02:08:54 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by
+ omf10.hostedemail.com (Postfix) with ESMTPA id 7F78F2351F3; 
+ Thu, 30 Sep 2021 02:08:53 +0000 (UTC)
+Message-ID: <a61f6bc2dc18397de92e4b7cdd9b37e2dff7e114.camel@perches.com>
+Subject: Re: [PATCH 2/4] amdgpu_ucode: reduce number of pr_debug calls
+From: Joe Perches <joe@perches.com>
+To: Jim Cromie <jim.cromie@gmail.com>, dri-devel@lists.freedesktop.org, 
+ amd-gfx@lists.freedesktop.org, intel-gvt-dev@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Wed, 29 Sep 2021 19:08:51 -0700
+In-Reply-To: <20210930014427.14239-3-jim.cromie@gmail.com>
 References: <20210930014427.14239-1-jim.cromie@gmail.com>
+ <20210930014427.14239-3-jim.cromie@gmail.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.40.0-1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 7F78F2351F3
+X-Spam-Status: No, score=0.10
+X-Stat-Signature: anmt6jx4t6f7u5gh4einmjsx1txe8h6k
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX18kGVBu/5EFA7vPk09h4PPRUG51zMWAUwg=
+X-HE-Tag: 1632967733-854858
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,84 +61,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Taking embedded spaces out of existing prefixes makes them better
-class-prefixes; simplifying the extra quoting needed otherwise:
+On Wed, 2021-09-29 at 19:44 -0600, Jim Cromie wrote:
+> There are blocks of DRM_DEBUG calls, consolidate their args into
+> single calls.  With dynamic-debug in use, each callsite consumes 56
+> bytes of callsite data, and this patch removes about 65 calls, so
+> it saves ~3.5kb.
+> 
+> no functional changes.
 
-  $> echo format "^gvt: core:" +p >control
-vs
-  $> echo format ^gvt:core: +p >control
+No functional change, but an output logging content change.
 
-Dropping the internal spaces means that quotes are only needed when
-the trailing space is required; they more distinctively signal that
-requirement.
+> RFC: this creates multi-line log messages, does that break any syslog
+> conventions ?
 
-Consider a generic drm-debug example:
+It does change the output as each individual DRM_DEBUG is a call to
+__drm_dbg which is effectively:
 
-  # turn off ATOMIC reports
-  echo format "^drm:atomic: " -p > control
+	printk(KERN_DEBUG "[" DRM_NAME ":%ps] %pV",
+	       __builtin_return_address(0), &vaf);
 
-  # turn off all ATOMIC:* reports, including any sub-categories
-  echo format "^drm:atomic:" -p > control
 
-  # turn on ATOMIC:FAIL: reports
-  echo format "^drm:atomic:fail: " +p > control
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ucode.c
+[]
+> @@ -30,17 +30,26 @@
+>  
+> 
+>  static void amdgpu_ucode_print_common_hdr(const struct common_firmware_header *hdr)
+>  {
+> -	DRM_DEBUG("size_bytes: %u\n", le32_to_cpu(hdr->size_bytes));
+> -	DRM_DEBUG("header_size_bytes: %u\n", le32_to_cpu(hdr->header_size_bytes));
+[]
+> +	DRM_DEBUG("size_bytes: %u\n"
+> +		  "header_size_bytes: %u\n"
 
-Removing embedded spaces in the class-prefixes simplifies the
-corresponding match-prefix.  This means that "quoted" match-prefixes
-are only needed when the trailing space is desired, in order to
-exclude explicitly sub-categorized pr-debugs; in this example,
-"drm:atomic:fail:".
+etc...
 
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
----
- drivers/gpu/drm/i915/gvt/debug.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gvt/debug.h b/drivers/gpu/drm/i915/gvt/debug.h
-index c6027125c1ec..bbecc279e077 100644
---- a/drivers/gpu/drm/i915/gvt/debug.h
-+++ b/drivers/gpu/drm/i915/gvt/debug.h
-@@ -36,30 +36,30 @@ do {									\
- } while (0)
- 
- #define gvt_dbg_core(fmt, args...) \
--	pr_debug("gvt: core: "fmt, ##args)
-+	pr_debug("gvt:core: " fmt, ##args)
- 
- #define gvt_dbg_irq(fmt, args...) \
--	pr_debug("gvt: irq: "fmt, ##args)
-+	pr_debug("gvt:irq: " fmt, ##args)
- 
- #define gvt_dbg_mm(fmt, args...) \
--	pr_debug("gvt: mm: "fmt, ##args)
-+	pr_debug("gvt:mm: " fmt, ##args)
- 
- #define gvt_dbg_mmio(fmt, args...) \
--	pr_debug("gvt: mmio: "fmt, ##args)
-+	pr_debug("gvt:mmio: " fmt, ##args)
- 
- #define gvt_dbg_dpy(fmt, args...) \
--	pr_debug("gvt: dpy: "fmt, ##args)
-+	pr_debug("gvt:dpy: " fmt, ##args)
- 
- #define gvt_dbg_el(fmt, args...) \
--	pr_debug("gvt: el: "fmt, ##args)
-+	pr_debug("gvt:el: " fmt, ##args)
- 
- #define gvt_dbg_sched(fmt, args...) \
--	pr_debug("gvt: sched: "fmt, ##args)
-+	pr_debug("gvt:sched: " fmt, ##args)
- 
- #define gvt_dbg_render(fmt, args...) \
--	pr_debug("gvt: render: "fmt, ##args)
-+	pr_debug("gvt:render: " fmt, ##args)
- 
- #define gvt_dbg_cmd(fmt, args...) \
--	pr_debug("gvt: cmd: "fmt, ##args)
-+	pr_debug("gvt:cmd: " fmt, ##args)
- 
- #endif
--- 
-2.31.1
 
