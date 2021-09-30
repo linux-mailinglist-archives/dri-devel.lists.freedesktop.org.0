@@ -2,51 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D77A641DF74
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 18:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90DAE41DFCF
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 19:10:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92BD76EC02;
-	Thu, 30 Sep 2021 16:43:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6749D6EC0F;
+	Thu, 30 Sep 2021 17:10:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BE98F6EC02
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 16:43:37 +0000 (UTC)
-Received: from [IPv6:::1] (p578adb1c.dip0.t-ipconnect.de [87.138.219.28])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 60A2880185;
- Thu, 30 Sep 2021 18:43:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1633020215;
- bh=bjK2zRRR/1lQfwXQtX4RieJ5azRLJLQB/Mlc+AbugfA=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=iIVvFQrxH1BCUYh/As1uPyN6tRg9IiMMzKfC5+G/Guxh+roBFXsLK+c8HJbgF/RGQ
- raeCbYQy3wG+XWHzsPsfqlyK0+OXlBkohIrZuuH/5cWP/a57LTFmLF8BKLwLtL83WR
- ZehcSSp7GA9xyzNeGJhrMBi+CuzoAmF5Bo4A5CyQdX4C39Mo8FIosUOSWNySW5RiU3
- A+9dkGdotnCR5ba4HoyPifRGuBrrJqDG9g2dL9lidHWKHNa7iCa+4lUsLX+RHh+2/B
- kQ4UYAeeHFjGd0KSkgdZmEUotOgOrjDzQLaZ4Pe7lmLj/xOWoeBIDHXMsp3oeck2+Q
- 58f15BPu40glw==
-Subject: Re: [PATCH V4 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-To: dri-devel@lists.freedesktop.org
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-References: <20210727161357.8842-1-marex@denx.de>
- <20210727161357.8842-2-marex@denx.de>
-From: Marek Vasut <marex@denx.de>
-Message-ID: <8823b402-29a8-e98f-b7a0-4f28aa3b3a67@denx.de>
-Date: Thu, 30 Sep 2021 18:43:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3759B6E444;
+ Thu, 30 Sep 2021 17:10:01 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id s24so8156325oij.8;
+ Thu, 30 Sep 2021 10:10:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yQogwYZrvFu5Jfwlkrcfq3WvY8WdwXPWkmnjzSEdhJA=;
+ b=BnTi5yVXAfDjmWTBRPXF8NGo1YE+5AZtAQsVeFujbgn52DpBNG/u8BQCEA6yTZObMG
+ wehpKbgoGdQ9/QTuH+G5l39mHnrCNXaZC3HRFNjQuNBadU1z9yvSWHC06Gx7uhyZHMFc
+ mib9yjTtb6lr7ZhK1la1hOWvhyIRII+nMOl9PVfm9aUTXNvmW0hANEbfugTvEBEmSatI
+ xaTq4+hIWVdNRE4a/lKOUOeV8VynnBZxyRIZFtxa6m7GTlSsM8qRTDLXcILWujx6ipOb
+ JRUqVVydfpl1D/YwKGad+pUGCOBKPdk/EgzL3PB30/ZwSzU2g7QUYKe9HVgDJt3wcLmo
+ BDHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yQogwYZrvFu5Jfwlkrcfq3WvY8WdwXPWkmnjzSEdhJA=;
+ b=4ppO9BFLSdY0NSRgMHizDVfWe69Pom5RQfWrO5Jys5dvFnQTV/P4VbMUGDPy5V4TTt
+ ukwkADDhOq4P1Aq0fvBHZcDlaN3zDcWPuMMpGx/IDNbE6ey5wLFADvgh6BeVUHH+YIaj
+ ub7rjc3fBO0u+ydSBB/ogvBVOMify6guxuGIY1Yump/AM34jcy4OzsSF6nBsQnmVfc8M
+ Cf3l4F39BYlCpWj11BABFQLXirwJoxDvjYw1YFAOPSdoBIwzkeDMh2LJ2yES7D5Jw06u
+ np6Bplw6GfqC+dlvLEyGBL5/OiawZYJu5yWClFBsU/FhVGaDhXYZFOlKoOfqWvs1rpKl
+ pPQQ==
+X-Gm-Message-State: AOAM530RfEEDnQq8kuCwj/Jv7cMaEAnEHIryTn8iZR3KuQ5GKYlbIrvL
+ uOuJX03ni9nRloOR2A5jBplWV/gTIqyCLdGtiaE=
+X-Google-Smtp-Source: ABdhPJyRKPsrHxUPVPxsmZJBSYdQhA0oY4DyYGw0Ib3s43wNku5L4chLBN6tFR9C67rUuP9Cv4X16bsCZ1CgRYrsJxc=
+X-Received: by 2002:aca:706:: with SMTP id 6mr283505oih.5.1633021800478; Thu,
+ 30 Sep 2021 10:10:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210727161357.8842-2-marex@denx.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20210930162302.2344542-1-nathan@kernel.org>
+In-Reply-To: <20210930162302.2344542-1-nathan@kernel.org>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Thu, 30 Sep 2021 13:09:49 -0400
+Message-ID: <CADnq5_PBMGdUG8VMUQ2UOSdd9qXbZ7QoyGH2RTgUPnTjdzKqFA@mail.gmail.com>
+Subject: Re: [PATCH] drm/amd: Return NULL instead of false in
+ dcn201_acquire_idle_pipe_for_layer()
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>, 
+ Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,145 +72,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 7/27/21 6:13 PM, Marek Vasut wrote:
-> Decoder input LVDS format is a property of the decoder chip or even
-> its strapping. Handle data-mapping the same way lvds-panel does. In
-> case data-mapping is not present, do nothing, since there are still
-> legacy bindings which do not specify this property.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Move the data-mapping to endpoint
-> V3: - Rebase on V2 submitted a while ago, reinstate changelog
->      - Use .atomic_get_input_bus_fmts for the decoder, separate funcs for encoder
-> V4: - No change
-> ---
->   drivers/gpu/drm/bridge/lvds-codec.c | 76 ++++++++++++++++++++++++++++-
->   1 file changed, 75 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index dcf579a4cf833..afa7ce7ea01e8 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -12,6 +12,7 @@
->   #include <linux/platform_device.h>
->   #include <linux/regulator/consumer.h>
->   
-> +#include <drm/drm_atomic_helper.h>
->   #include <drm/drm_bridge.h>
->   #include <drm/drm_panel.h>
->   
-> @@ -22,6 +23,7 @@ struct lvds_codec {
->   	struct regulator *vcc;
->   	struct gpio_desc *powerdown_gpio;
->   	u32 connector_type;
-> +	unsigned int bus_format;
->   };
->   
->   static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-> @@ -74,12 +76,50 @@ static const struct drm_bridge_funcs funcs = {
->   	.disable = lvds_codec_disable,
->   };
->   
-> +#define MAX_INPUT_SEL_FORMATS 1
-> +static u32 *
-> +lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *bridge_state,
-> +				     struct drm_crtc_state *crtc_state,
-> +				     struct drm_connector_state *conn_state,
-> +				     u32 output_fmt,
-> +				     unsigned int *num_input_fmts)
-> +{
-> +	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +			     GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	input_fmts[0] = lvds_codec->bus_format;
-> +	*num_input_fmts = MAX_INPUT_SEL_FORMATS;
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static const struct drm_bridge_funcs funcs_decoder = {
-> +	.attach = lvds_codec_attach,
-> +	.enable = lvds_codec_enable,
-> +	.disable = lvds_codec_disable,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
-> +};
-> +
->   static int lvds_codec_probe(struct platform_device *pdev)
->   {
->   	struct device *dev = &pdev->dev;
->   	struct device_node *panel_node;
-> +	struct device_node *bus_node;
->   	struct drm_panel *panel;
->   	struct lvds_codec *lvds_codec;
-> +	const char *mapping;
-> +	int ret;
->   
->   	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
->   	if (!lvds_codec)
-> @@ -119,13 +159,47 @@ static int lvds_codec_probe(struct platform_device *pdev)
->   	if (IS_ERR(lvds_codec->panel_bridge))
->   		return PTR_ERR(lvds_codec->panel_bridge);
->   
-> +	lvds_codec->bridge.funcs = &funcs;
-> +
-> +	/*
-> +	 * Decoder input LVDS format is a property of the decoder chip or even
-> +	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-> +	 * case data-mapping is not present, do nothing, since there are still
-> +	 * legacy bindings which do not specify this property.
-> +	 */
-> +	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-> +		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
-> +		if (!bus_node) {
-> +			dev_dbg(dev, "bus DT node not found\n");
-> +			return -ENXIO;
-> +		}
-> +
-> +		ret = of_property_read_string(bus_node, "data-mapping",
-> +					      &mapping);
-> +		of_node_put(bus_node);
-> +		if (ret < 0) {
-> +			dev_err(dev, "missing 'data-mapping' DT property\n");
-> +		} else {
-> +			if (!strcmp(mapping, "jeida-18")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-> +			} else if (!strcmp(mapping, "jeida-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-> +			} else if (!strcmp(mapping, "vesa-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-> +			} else {
-> +				dev_err(dev, "invalid 'data-mapping' DT property\n");
-> +				return -EINVAL;
-> +			}
-> +			lvds_codec->bridge.funcs = &funcs_decoder;
-> +		}
-> +	}
-> +
->   	/*
->   	 * The panel_bridge bridge is attached to the panel's of_node,
->   	 * but we need a bridge attached to our of_node for our user
->   	 * to look up.
->   	 */
->   	lvds_codec->bridge.of_node = dev->of_node;
-> -	lvds_codec->bridge.funcs = &funcs;
->   	drm_bridge_add(&lvds_codec->bridge);
->   
->   	platform_set_drvdata(pdev, lvds_codec);
+Applied.  Thanks!
 
-It has been two months since this patch was posted and I still received 
-zero feedback. Bump ?
+Alex
+
+On Thu, Sep 30, 2021 at 12:23 PM Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Clang warns:
+>
+> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn201/dcn201_resource.c:1017:10: error: expression which evaluates to zero treated as a null pointer constant of type 'struct pipe_ctx *' [-Werror,-Wnon-literal-null-conversion]
+>                 return false;
+>                        ^~~~~
+> 1 error generated.
+>
+> Use NULL instead of false since the function is returning a pointer
+> rather than a boolean.
+>
+> Fixes: ff7e396f822f ("drm/amd/display: add cyan_skillfish display support")
+> Link: https://github.com/ClangBuiltLinux/linux/issues/1470
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
+> index aec276e1db65..8523a048e6f6 100644
+> --- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
+> +++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
+> @@ -1014,7 +1014,7 @@ static struct pipe_ctx *dcn201_acquire_idle_pipe_for_layer(
+>                 ASSERT(0);
+>
+>         if (!idle_pipe)
+> -               return false;
+> +               return NULL;
+>
+>         idle_pipe->stream = head_pipe->stream;
+>         idle_pipe->stream_res.tg = head_pipe->stream_res.tg;
+>
+> base-commit: b47b99e30cca8906753c83205e8c6179045dd725
+> --
+> 2.33.0.591.gddb1055343
+>
