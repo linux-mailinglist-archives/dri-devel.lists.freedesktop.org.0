@@ -1,47 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A4D41DDC5
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 17:40:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D3BF41DDD9
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 17:43:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BFF3D6E430;
-	Thu, 30 Sep 2021 15:40:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E673E6E43D;
+	Thu, 30 Sep 2021 15:43:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 99F016E430
- for <dri-devel@lists.freedesktop.org>; Thu, 30 Sep 2021 15:40:40 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id EC22B617E6;
- Thu, 30 Sep 2021 15:40:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633016440;
- bh=tBrFpWHv+RFng1Nnh9PCJomQIzoau7SxgaKh8lwDiek=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=XaWPFpb+jLfQfp4BpqZJ5BjSjnCG9EpqXYIWNNgj0ezi/9xstwibJfhEUDv78I87/
- uN5yh+CQaDyHzQ/uJzCU+4YRUzSf3p8P6PxITybsSF3sCQT05tCOwazzdpbZ53e1LU
- i28ZMPriWuBQ5WpHMhB+x96iR4d5sKjxPuzGEfKrOWiCCTNX+lA5IV7Ue2JnoQY1c9
- wkj47ngrVWQ0dhPKmQPWlhKCjDTFJ1JsnB7A/l98X5kCnSk4ZM1CllQe0RscM6iPsK
- BJgcm9gFfx+oaXRUJJZdb1vEhhw5YeUD160k1h7odQV0kByuu0eB2CseqAyd0rcsGF
- EJdzxRMbbpgWg==
-Message-ID: <464685469b9e96a23a3cf180c82d0b7134ca36bd.camel@kernel.org>
-Subject: Re: [PATCH] drm/vc4: crtc: Make sure the HDMI controller is powered
- when disabling
-From: nicolas saenz julienne <nsaenz@kernel.org>
-To: Maxime Ripard <maxime@cerno.tech>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>,  Daniel Vetter <daniel.vetter@intel.com>, David
- Airlie <airlied@linux.ie>
-Cc: dri-devel@lists.freedesktop.org, linux-rpi-kernel@lists.infradead.org, 
- Florian Fainelli <f.fainelli@gmail.com>,
- linux-arm-kernel@lists.infradead.org
-Date: Thu, 30 Sep 2021 17:40:36 +0200
-In-Reply-To: <20210923185013.826679-1-maxime@cerno.tech>
-References: <20210923185013.826679-1-maxime@cerno.tech>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 778AF6E431;
+ Thu, 30 Sep 2021 15:43:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="205365780"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="205365780"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 08:43:16 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="709134016"
+Received: from kjepstei-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.212.192.243])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 08:43:15 -0700
+Date: Thu, 30 Sep 2021 08:43:15 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Steven Price <steven.price@arm.com>
+Cc: intel-gfx@lists.freedesktop.org, Daniel Vetter <daniel.vetter@intel.com>,
+ dri-devel@lists.freedesktop.org, Masahiro Yamada <masahiroy@kernel.org>,
+ linux-kernel@vger.kernel.org, Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [PATCH v2 2/3] drm/i915/utils: do not depend on config being
+ defined
+Message-ID: <20210930154315.xb43gowfhmxucsm4@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20210929183357.1490204-1-lucas.demarchi@intel.com>
+ <20210929183357.1490204-3-lucas.demarchi@intel.com>
+ <2dd723c8-6aed-857c-23f3-d0381fcb52c2@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <2dd723c8-6aed-857c-23f3-d0381fcb52c2@arm.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,27 +54,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 2021-09-23 at 20:50 +0200, Maxime Ripard wrote:
-> Since commit 875a4d536842 ("drm/vc4: drv: Disable the CRTC at boot
-> time"), during the initial setup of the driver we call into the VC4 HDMI
-> controller hooks to make sure the controller is properly disabled.
-> 
-> However, we were never making sure that the device was properly powered
-> while doing so. This never resulted in any (reported) issue in practice,
-> but since the introduction of commit 4209f03fcb8e ("drm/vc4: hdmi: Warn
-> if we access the controller while disabled") we get a loud complaint
-> when we do that kind of access.
-> 
-> Let's make sure we have the HDMI controller properly powered while
-> disabling it.
-> 
-> Fixes: 875a4d536842 ("drm/vc4: drv: Disable the CRTC at boot time")
-> Signed-off-by: Maxime Ripard <maxime@cerno.tech>
-> ---
+On Thu, Sep 30, 2021 at 11:00:06AM +0100, Steven Price wrote:
+>On 29/09/2021 19:33, Lucas De Marchi wrote:
+>> Like the IS_ENABLED() counterpart, we can make IS_CONFIG_NONZERO() to
+>> return the right thing when the config is not defined rather than a
+>> build error, with the limitation that it can't be used on preprocessor
+>> context.
+>>
+>> The trick here is that macro names can't start with a number or dash, so
+>> we stringify the argument and check that the first char is a number != 0
+>> (or starting with a dash to cover negative numbers). Except for -O0
+>> builds the strings are all eliminated.
+>>
+>> Taking CONFIG_DRM_I915_REQUEST_TIMEOUT in
+>> drivers/gpu/drm/i915/gem/i915_gem_context.c as example, we have the
+>> following output of the preprocessor:
+>>
+>> old:
+>>  if (((20000) != 0) &&
+>> new:
+>>  if (( ("20000"[0] > '0' && "20000"[0] < '9') || "20000"[0] == '-' ) &&
+>>
+>> New one looks worse, but is also eliminated from the object:
+>>
+>> $ size drivers/gpu/drm/i915/gem/i915_gem_context.o.*
+>>    text    data     bss     dec     hex filename
+>>   52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.new
+>>   52021    1070     232   53323    d04b drivers/gpu/drm/i915/gem/i915_gem_context.o.old
+>>
+>> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+>> ---
+>>  drivers/gpu/drm/i915/i915_utils.h | 6 +++++-
+>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+>> index 02bbfa4d68d3..436ce612c46a 100644
+>> --- a/drivers/gpu/drm/i915/i915_utils.h
+>> +++ b/drivers/gpu/drm/i915/i915_utils.h
+>> @@ -28,6 +28,7 @@
+>>  #include <linux/list.h>
+>>  #include <linux/overflow.h>
+>>  #include <linux/sched.h>
+>> +#include <linux/stringify.h>
+>>  #include <linux/types.h>
+>>  #include <linux/workqueue.h>
+>>
+>> @@ -469,6 +470,9 @@ static inline bool timer_expired(const struct timer_list *t)
+>>   *
+>>   * Returns 0 if @config is 0, 1 if set to any value.
+>>   */
+>> -#define IS_CONFIG_NONZERO(config) ((config) != 0)
+>> +#define IS_CONFIG_NONZERO(config) (						\
+>> +	(__stringify_1(config)[0] > '0' && __stringify_1(config)[0] < '9') ||	\
+>
+>Shouldn't this be "<= '9'". Otherwise numbers starting with a 9 are not
+>"non zero".
 
-Reviewed-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
-Tested-by: Nicolas Saenz Julienne <nsaenz@kernel.org>
+yes! thanks for catching it. However from the other discussion it seems
+we can either
 
-Regards,
-Nicolas
+a) just remove the macro, or
+b) use the simpler version that doesn't cover undefined values
 
+I will investigate those options.
+
+Lucas De Marchi
