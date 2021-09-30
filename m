@@ -2,61 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90DAE41DFCF
-	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 19:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5854541DFE4
+	for <lists+dri-devel@lfdr.de>; Thu, 30 Sep 2021 19:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6749D6EC0F;
-	Thu, 30 Sep 2021 17:10:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 252D76EC2C;
+	Thu, 30 Sep 2021 17:17:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
- [IPv6:2607:f8b0:4864:20::229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3759B6E444;
- Thu, 30 Sep 2021 17:10:01 +0000 (UTC)
-Received: by mail-oi1-x229.google.com with SMTP id s24so8156325oij.8;
- Thu, 30 Sep 2021 10:10:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=yQogwYZrvFu5Jfwlkrcfq3WvY8WdwXPWkmnjzSEdhJA=;
- b=BnTi5yVXAfDjmWTBRPXF8NGo1YE+5AZtAQsVeFujbgn52DpBNG/u8BQCEA6yTZObMG
- wehpKbgoGdQ9/QTuH+G5l39mHnrCNXaZC3HRFNjQuNBadU1z9yvSWHC06Gx7uhyZHMFc
- mib9yjTtb6lr7ZhK1la1hOWvhyIRII+nMOl9PVfm9aUTXNvmW0hANEbfugTvEBEmSatI
- xaTq4+hIWVdNRE4a/lKOUOeV8VynnBZxyRIZFtxa6m7GTlSsM8qRTDLXcILWujx6ipOb
- JRUqVVydfpl1D/YwKGad+pUGCOBKPdk/EgzL3PB30/ZwSzU2g7QUYKe9HVgDJt3wcLmo
- BDHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=yQogwYZrvFu5Jfwlkrcfq3WvY8WdwXPWkmnjzSEdhJA=;
- b=4ppO9BFLSdY0NSRgMHizDVfWe69Pom5RQfWrO5Jys5dvFnQTV/P4VbMUGDPy5V4TTt
- ukwkADDhOq4P1Aq0fvBHZcDlaN3zDcWPuMMpGx/IDNbE6ey5wLFADvgh6BeVUHH+YIaj
- ub7rjc3fBO0u+ydSBB/ogvBVOMify6guxuGIY1Yump/AM34jcy4OzsSF6nBsQnmVfc8M
- Cf3l4F39BYlCpWj11BABFQLXirwJoxDvjYw1YFAOPSdoBIwzkeDMh2LJ2yES7D5Jw06u
- np6Bplw6GfqC+dlvLEyGBL5/OiawZYJu5yWClFBsU/FhVGaDhXYZFOlKoOfqWvs1rpKl
- pPQQ==
-X-Gm-Message-State: AOAM530RfEEDnQq8kuCwj/Jv7cMaEAnEHIryTn8iZR3KuQ5GKYlbIrvL
- uOuJX03ni9nRloOR2A5jBplWV/gTIqyCLdGtiaE=
-X-Google-Smtp-Source: ABdhPJyRKPsrHxUPVPxsmZJBSYdQhA0oY4DyYGw0Ib3s43wNku5L4chLBN6tFR9C67rUuP9Cv4X16bsCZ1CgRYrsJxc=
-X-Received: by 2002:aca:706:: with SMTP id 6mr283505oih.5.1633021800478; Thu,
- 30 Sep 2021 10:10:00 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E6E2C89AB6;
+ Thu, 30 Sep 2021 17:17:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="247788928"
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="247788928"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 10:16:20 -0700
+X-IronPort-AV: E=Sophos;i="5.85,336,1624345200"; d="scan'208";a="520489378"
+Received: from dboland-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.223.141])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 30 Sep 2021 10:16:17 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>
+Subject: [RFC 0/6] CPU + GPU synchronised priority scheduling
+Date: Thu, 30 Sep 2021 18:15:46 +0100
+Message-Id: <20210930171552.501553-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-References: <20210930162302.2344542-1-nathan@kernel.org>
-In-Reply-To: <20210930162302.2344542-1-nathan@kernel.org>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 30 Sep 2021 13:09:49 -0400
-Message-ID: <CADnq5_PBMGdUG8VMUQ2UOSdd9qXbZ7QoyGH2RTgUPnTjdzKqFA@mail.gmail.com>
-Subject: Re: [PATCH] drm/amd: Return NULL instead of false in
- dcn201_acquire_idle_pipe_for_layer()
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- "Pan, Xinhui" <Xinhui.Pan@amd.com>, Nick Desaulniers <ndesaulniers@google.com>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,44 +49,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Alex
+This is a somewhat early sketch of one of my ideas intended for early feedback
+from the core scheduler experts. First and last two patches in the series are
+the most interesting ones for people outside of i915. (Note I did not copy
+everyone on all patches but just the cover letter for context and the rest
+should be available from the mailing list.)
 
-On Thu, Sep 30, 2021 at 12:23 PM Nathan Chancellor <nathan@kernel.org> wrote:
->
-> Clang warns:
->
-> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn201/dcn201_resource.c:1017:10: error: expression which evaluates to zero treated as a null pointer constant of type 'struct pipe_ctx *' [-Werror,-Wnon-literal-null-conversion]
->                 return false;
->                        ^~~~~
-> 1 error generated.
->
-> Use NULL instead of false since the function is returning a pointer
-> rather than a boolean.
->
-> Fixes: ff7e396f822f ("drm/amd/display: add cyan_skillfish display support")
-> Link: https://github.com/ClangBuiltLinux/linux/issues/1470
-> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> ---
->  drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
-> index aec276e1db65..8523a048e6f6 100644
-> --- a/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
-> +++ b/drivers/gpu/drm/amd/display/dc/dcn201/dcn201_resource.c
-> @@ -1014,7 +1014,7 @@ static struct pipe_ctx *dcn201_acquire_idle_pipe_for_layer(
->                 ASSERT(0);
->
->         if (!idle_pipe)
-> -               return false;
-> +               return NULL;
->
->         idle_pipe->stream = head_pipe->stream;
->         idle_pipe->stream_res.tg = head_pipe->stream_res.tg;
->
-> base-commit: b47b99e30cca8906753c83205e8c6179045dd725
-> --
-> 2.33.0.591.gddb1055343
->
+General idea is that current processing landscape seems to be more and more
+composed of pipelines where computations are done on multiple hardware devices.
+Furthermore some of the non-CPU devices, like in this case many GPUs supported
+by the i915 driver, actually support priority based scheduling which is
+currently rather inaccesible to the user (in terms of being able to control it
+from the outside).
+
+From these two statements a question arises on how to allow for a simple,
+effective and consolidated user experience. In other words why user would not be
+able to do something like:
+
+ $ nice ffmmpeg ...transcode my videos...
+ $ my-favourite-game
+
+And have the nice hint apply to GPU parts of the transcode pipeline as well?
+
+Another reason why I started thinking about this is that I noticed Chrome
+browser for instance uses nice to de-prioritise background tabs. So again,
+having that decision propagate to the GPU rendering pipeline sounds like a big
+plus to the overall user experience.
+
+This RFC implements this idea with the hairy part being the notifier chain I
+added to enable dynamic adjustments. It is a global notifier which raises a few
+questions so I am very curious what experts will think here. Please see the
+opens in the first patch for more on this. And also the last two patches are the
+ones which implement a hash table in i915 so it can associate the notifier call-
+back with the correct GPU rendering contexts.
+
+On a more positive note the thing seems to even work as is. For instance I
+roughly simulated the above scenario by running a GPU hog at three nice levels
+and a GfxBench TRex in parallel (as a game proxy). This is what I got:
+
+   GPU hog nice	|   TRex fps
+  ------------------------------
+        0	|	34.8
+       10	|	38.0
+      -10	|	30.8
+
+So it is visible the feature can improve the user experience. Question is just
+if people are happy with this method of implementing it.
+
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: Juri Lelli <juri.lelli@redhat.com>
+Cc: Vincent Guittot <vincent.guittot@linaro.org>
+
+Tvrtko Ursulin (6):
+  sched: Add nice value change notifier
+  drm/i915: Explicitly track DRM clients
+  drm/i915: Make GEM contexts track DRM clients
+  drm/i915: Track all user contexts per client
+  drm/i915: Keep track of registered clients indexed by task struct
+  drm/i915: Connect task and GPU scheduling priorities
+
+ drivers/gpu/drm/i915/Makefile                 |   5 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  20 +++
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |   6 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   2 +-
+ drivers/gpu/drm/i915/i915_drm_client.c        | 129 ++++++++++++++++++
+ drivers/gpu/drm/i915/i915_drm_client.h        |  71 ++++++++++
+ drivers/gpu/drm/i915/i915_drv.c               |   6 +
+ drivers/gpu/drm/i915/i915_drv.h               |   5 +
+ drivers/gpu/drm/i915/i915_gem.c               |  21 ++-
+ drivers/gpu/drm/i915/i915_request.c           |   2 +-
+ drivers/gpu/drm/i915/i915_request.h           |   5 +
+ drivers/gpu/drm/i915/i915_scheduler.c         |   3 +-
+ drivers/gpu/drm/i915/i915_scheduler.h         |  14 ++
+ drivers/gpu/drm/i915/i915_scheduler_types.h   |   8 ++
+ include/linux/sched.h                         |   5 +
+ kernel/sched/core.c                           |  37 ++++-
+ 16 files changed, 330 insertions(+), 9 deletions(-)
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.c
+ create mode 100644 drivers/gpu/drm/i915/i915_drm_client.h
+
+-- 
+2.30.2
+
