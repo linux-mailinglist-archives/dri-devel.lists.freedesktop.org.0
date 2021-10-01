@@ -1,77 +1,150 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7676541ED8E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 14:33:04 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4530641ED93
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 14:33:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 481186E519;
-	Fri,  1 Oct 2021 12:33:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 653A86E51D;
+	Fri,  1 Oct 2021 12:33:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6CE126E519
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 12:33:00 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id g41so37933574lfv.1
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 05:33:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MxegWTUqAg1wAtIssrheLi+x+LfQCMxJV5C3e9zY/So=;
- b=vcJ2g2ALAm0IVx2Fp7EMGVafelLUrjG16muU1pmyzR8hwXe/c7kdMENPYG2cKj/WKw
- BS+ZaaO+G4Uj5tvnRpwbititOE3WauKhPQkREVycG/Hvn9PHucIwhkZ/YUGB6qkv1U7f
- 1ae2JiP2HDu+Leu75eZhP4gJWxxvYNIu0f5oDf3KGrt2A4kayT/47nyueEjFDqAxQPI0
- iTzo6lbag1DiAzbQ9jnlxf6WV5LlF4BTHECcT3A4vBoHPDuEldBEhV/YpniL1bV6yy2m
- l7uOA4/tbztxL4Zph+77Sg+DntIuch0Ry+Gguy/mz8lrNGeYY+1Vyk1/7itYYlfM8hOX
- BDkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MxegWTUqAg1wAtIssrheLi+x+LfQCMxJV5C3e9zY/So=;
- b=3LVa/VLjyM5dKF5s6ss3fD2kNjutFHKvgEyS5bPAcLzfdiwNXsSPyEdw0AFPDWcRu4
- 10qWvLlSjDvLvFWS9Fz0DsZkJpKvgkr9YemX4Ed/QVwfsY1gZt6XwiCjFaJcW1ASbErX
- GwHfiEc9KZWSYuwHcLRJTwNVI7x9Sb9R3Sc2pmZ4rZY9fw9A5SyZeYG6zaQAdCU99BdA
- /FVxwr9ww4I8Ifv/5kxMzfPNb8q7Jr3TMukkYtTMP5an8ebDhfr8b3sGt6omPhuoIclv
- H+miDBxXVLw1LbqYJfcc5RJ5tao9t3pVMaKbDNQ5h+kV3yQbs/WOvZzLYDtMf4xxgnYo
- AoFg==
-X-Gm-Message-State: AOAM530MhL5Bo4cZl2t3mVC8dlkzgVpt2L1eQilkBrdziooY7fOfjHks
- RnZOMsUW4ZCAeKxJrTUCRKEpqqAjbNj7NHy28rsSvw==
-X-Google-Smtp-Source: ABdhPJyfBm1RgU4LIN5CLjaq/tOmRfulY+xvfoc1wBqdFGGV+40L5VEoXJW9NfDQ0sTovAsPIzZgtcS+Jd2OZrom1nQ=
-X-Received: by 2002:a05:6512:3fa5:: with SMTP id
- x37mr5557500lfa.233.1633091578379; 
- Fri, 01 Oct 2021 05:32:58 -0700 (PDT)
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0D4E76E51D;
+ Fri,  1 Oct 2021 12:33:30 +0000 (UTC)
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 191BRGGq023263; 
+ Fri, 1 Oct 2021 12:33:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
+ bh=1Lm7nz1NCnfPPk5jPlT5SmJqo08knjF4PCRtbN3wrv0=;
+ b=Z7yoJkInKmB/2jOgEFfJVZMUu1TDEsg/BEThMpPwZzIbrX/sNyyRpdl7HlOD3CcLbQsI
+ 6tTdnKSv4MLfT789wsykQCxnF6BKZ9Zcjm5x2jUb8AdJ7QNmI3aeTdgeZ7udnusIGxM/
+ /UphRS3adEf4vXllilyxN2QvrLju7L7Lqz37R8AXNatVgMFgcHgga2RdPybEv0/jbLIo
+ oFTSrqMoqgWCIQqnbnZq/Grxhm6WhKm3ySB6G6FiAdpXIBfgl3PP5qE6dvNNICAxTZtP
+ OqUAff6clh2ycHZckHnpt9GldKMJrW5Don6YgBuJI4epZklRNgV1Thn6zR1yfsDr2ma+ tw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bdcqufq36-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 01 Oct 2021 12:33:26 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 191CTsn2159278;
+ Fri, 1 Oct 2021 12:33:25 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+ by aserp3020.oracle.com with ESMTP id 3bceu8jq2c-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 01 Oct 2021 12:33:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Y+Vx5Mvgg8ncKDpXKdG0le2ldSye6+LdLxUBxiT2C+v7WC4kym/zYxl+5kTO5WcVarkBWykm2w36wsju7eLCnkciiRx3riAWYcW8s+4kw80cMtJOnTiuiylpsI5VdGWEnnXTCVEvKAowKlKB9w28QPZ91brKpUFK3eyyTowzgMjc2OTpi9sXsfhrJluga8Qsy1eBQkPZiAd1FspuCZ7pM3Lidx1p7tpeAUxZ0X8GTbd3M4JUKxG8CMjOFcFItAP13fKPaY3boIP+exZhGHcDtw4rfQXYe2b7wYwIcdwj8py17M8NCoJd3vCh9XOw1EKX52jf+Vvf1DkcWcAdJYK7nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1Lm7nz1NCnfPPk5jPlT5SmJqo08knjF4PCRtbN3wrv0=;
+ b=lzx+dKH8V2PrOcK/f9FEELB849vYJpbIfiSEbIGOy2FWQPBMLjqkGqf21b/eGXtAXyWFshrWUlVH0PVrEAB2ER+0Ld//RvgRqWt1t+eZhByoLN1Ov+STug8w/dFb1/L+N4diBEJhMFwm7HH9zm8WEII1B6n44SxQQ51KcM9Wj/sowapJxJEiKu4tvSO35RAUol0RpiJobKlwq3MjgRYRjUcZVDnEWT6Aef03PZDcDwQhQS5/k2VyPPlebHaz+0ZWGuuS+xwmuLseU0ZIVCNatPT3idS0gnjmA1B0bDDdKoxxCwdEIcBLfRTMDpBChUkiuccYs/iPXV4EKN02k7k8Yg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1Lm7nz1NCnfPPk5jPlT5SmJqo08knjF4PCRtbN3wrv0=;
+ b=TarZF3yFznLIdSxHc1jyvozuDhif59tfe61DKGbtFhjeXrwYT8naSoZp+3IFNtT3CimS8wUcqjnv0v0AFbT4kXyeKLJwskq4Hn/TMCd4YcW6OBxMsUh3ijpIT6R5w3DQ+AR7gcnUbKqUOEt7TohBHR6QQBAV/ObFv+csDKi5vHc=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28) by MWHPR1001MB2319.namprd10.prod.outlook.com
+ (2603:10b6:301:34::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.15; Fri, 1 Oct
+ 2021 12:33:22 +0000
+Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
+ ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4544.025; Fri, 1 Oct 2021
+ 12:33:22 +0000
+Date: Fri, 1 Oct 2021 15:33:08 +0300
+From: Dan Carpenter <dan.carpenter@oracle.com>
+To: Rob Clark <robdclark@gmail.com>, Chandan Uddaraju <chandanu@codeaurora.org>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Archit Taneja <architt@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ kernel-janitors@vger.kernel.org
+Subject: [PATCH 1/3] drm/msm/dsi: Fix an error code in msm_dsi_modeset_init()
+Message-ID: <20211001123308.GF2283@kili>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-ClientProxiedBy: ZR0P278CA0042.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::11) To MWHPR1001MB2365.namprd10.prod.outlook.com
+ (2603:10b6:301:2d::28)
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
-In-Reply-To: <20210926224058.1252-7-digetx@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 14:32:21 +0200
-Message-ID: <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, 
- Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
- linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, 
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
+Received: from kili (62.8.83.99) by ZR0P278CA0042.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:1d::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Fri, 1 Oct 2021 12:33:16 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d1ac8c0c-f045-4198-66cf-08d984d7a7f8
+X-MS-TrafficTypeDiagnostic: MWHPR1001MB2319:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR1001MB23192C0741CCA7D4E1F2431A8EAB9@MWHPR1001MB2319.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:773;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: uDOxgasmQouaDxy48f7bgfoL3tySNs2DzkB5CpWVOS3iK0T1ISKaAYDgjgAIJbTgtoNIqQafRE1NWCj2VdRDBYwlILxkIHRJyCm2bcbhfFjE0Q+1/gWLpi7bnHAp47wPs5D9h5HdhLorwdBG7tXZCTM2IQVYgxlui1PLIPEhZ/8vf9/E/J0a8wwlPexc12gbHAWHH37WvcoYk4O7+sI4ebwHRe6OwcD/zxzaqV4qcN769LrJQqJOMSKCI6pgl4FZsoUIco39Bdb34HYuugTuak0kHpEM53JKobcFD9YuMoFbfYjfYrJ0rFVZF01hZ0C0unjPikH9kfgN3GnaqpWnbPo4hQkjN7Moy860V1lQV+BCmmW/csHODaAGSP5fryDgOeTs5AGF5bR2JKF85vdYitC6+b3KYWSJEKyNu+pUioE5hr1/PDlCA4wkutuiO/RLg9hMEhX5LzBJHjxoMax14odGOs6rHcwSv10vagm82Ut1EaTNwqt3YUAh2mTDxI+JEv2HH0bSt3Zt5uLhlMSebPNenisWQrLYphFkx10/9W3D+tTv6ln8qAr7le+WXD2BooLsyMi2DBty28UiFNHyDp9RNJs/o7GWKA71ejPPJarhicwATnI83wTOZcJpWtAPI+MsgXHQLTcAH4kGJDXslvAdrtDp5oqvYWderOKBxAgRww6BYgE4BveSeGjwDVyfyBF00W+2Uq0FENo6/9Hzbg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(9686003)(5660300002)(316002)(6496006)(8936002)(52116002)(33716001)(33656002)(55016002)(66556008)(4326008)(66476007)(8676002)(38350700002)(38100700002)(66946007)(44832011)(7416002)(1076003)(508600001)(4744005)(6666004)(110136005)(9576002)(86362001)(26005)(2906002)(186003)(54906003)(956004)(83380400001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?pg2CfupDzV8ROMPiW9xweAKFn4aRst7/kf2YQePsrZFeGAq5Y95E6+tJbVCq?=
+ =?us-ascii?Q?VYR/63aVPuLVY0eSNopEIuIKzojVkfJoGERVhwR2G9DbOhWxYC7tIVkcDQcX?=
+ =?us-ascii?Q?zb2F700rvsEyw9vxtuHaj+9abml6u3GPGRMRiF96rpTdakaFhXNTWOT7PVz0?=
+ =?us-ascii?Q?NAs7TQxvWykRgTgv3JU6WZYsaTQ6m67ycBoPfb0wjwjgao/vebwPYQEWnc/a?=
+ =?us-ascii?Q?goFBaifOHbcgOUWy3GpJIs86qFct71ixN/xJuJDB6NqalPegqECii0cWV4Wr?=
+ =?us-ascii?Q?e5sp4XPlFa63k2T+OR4XBWEAaKK3ZuNeB4DNUX3aaDZ66D9K4mHPpUr1+/Ak?=
+ =?us-ascii?Q?DI2U0HHWrpdb6XugEl+z949a3QTK9x6dFBc/dJcd2QB5O/+VJFqh+EwGI/Ex?=
+ =?us-ascii?Q?aFqSIJK1Hjp9pg037i9Uy2LN3LikSHb74/fwFp/u32Ai0JMTbVLdhzZR/qhQ?=
+ =?us-ascii?Q?FXsabIdWDqNDDAgxj9+rIRcI0Rp99+9uV28UsFCgogYFcuvpgWwO59yHPemQ?=
+ =?us-ascii?Q?vgSMhmeceBHnWaqE2KfkrmgAQae558aD87pk5/2h4tuk0beD3tldkDkhLf6X?=
+ =?us-ascii?Q?jY5LIxb0YDiO9ZzAmuTX9nFoWKQxWvNRKWlODtrR9qUlO9MJoa4VB+n9Ncy+?=
+ =?us-ascii?Q?21JrM8MpU8qN7t0U6l9bYk21LP4/G1zp3qQTr8DF31F/gtawfrgxyWh5/ZLy?=
+ =?us-ascii?Q?4L+BJUOlocnIBhJbCA7TevwBlye/XHLpT9oTrQNTV9BIaC3ezKoANhYG4JNP?=
+ =?us-ascii?Q?7H9iTS+q0mNleZfVp2fUJVK5IUzT/F8Yk3O+hbd5t9BmHMNhU377jwH3PSQx?=
+ =?us-ascii?Q?k+wnqavEWHLtmP1GpNSXwo1U0YLRkmo2dECWASUyY4Euct1O3yC96eduupT2?=
+ =?us-ascii?Q?ymWXAvRcT78SyD5Qa3dIrwOnqt5Is0ivhlozlWOKSQO1GciMZw+uU0Z5Dzy1?=
+ =?us-ascii?Q?D3xQ3S+ERNwf8qpGDgP1Hj3FtsENkOsVwMrT4uRiCKWh/vIWy9i3DTid9yvO?=
+ =?us-ascii?Q?zy4PhDSXa9YHOieOeLA1mGn6BlJb2FVjZhpae5uVTikDJh7A9C8FKnTXz6WO?=
+ =?us-ascii?Q?lxp/LqBACCdF5tMb7IpWfRQQa0iLqxoUW3NNDyvEWfuulfOAG6o2gdoLiXnw?=
+ =?us-ascii?Q?9BjIoSk8nNh1nHt/89TRJZPGjnlASZzTeCiqoLgFjMOZZhEqunTnm5h8dUlh?=
+ =?us-ascii?Q?7qMwqF8QKvRRXesuR1k5Nt5tspDUGWeMcOEyrm+dQ7/U6DW0ZYccLiVjYPeh?=
+ =?us-ascii?Q?HRrARWU4SsTtoLwveSTXM8ADlAgaaihejMomh72uWwr8rgEnATNGz7uyluu5?=
+ =?us-ascii?Q?D4LA99BilAEACGbA4AbS9eRl?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1ac8c0c-f045-4198-66cf-08d984d7a7f8
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 12:33:22.1634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fyxwQoBX7tks26FXQqZLI9zzE7oitVvbYdwGPDi3YxorpaArrn87mC7PI3EgWOzMq9NmG4QG6aE/GR31fRxiI43a/Kh+Qsn6jFBYUU8IFLM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1001MB2319
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10123
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ suspectscore=0 spamscore=0
+ adultscore=0 bulkscore=0 mlxscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110010082
+X-Proofpoint-GUID: qH3HZ1SJw2J9WPHaGm2j6DfawEwmt_rO
+X-Proofpoint-ORIG-GUID: qH3HZ1SJw2J9WPHaGm2j6DfawEwmt_rO
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,324 +160,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> The Clock-and-Reset controller resides in a core power domain on NVIDIA
-> Tegra SoCs.  In order to support voltage scaling of the core power domain,
-> we hook up DVFS-capable clocks to the core GENPD for managing of the
-> GENPD's performance state based on the clock changes.
->
-> Some clocks don't have any specific physical hardware unit that backs
-> them, like root PLLs and system clock and they have theirs own voltage
-> requirements.  This patch adds new clk-device driver that backs the clocks
-> and provides runtime PM functionality for them.  A virtual clk-device is
-> created for each such DVFS-capable clock at the clock's registration time
-> by the new tegra_clk_register() helper.  Driver changes clock's device
-> GENPD performance state based on clk-rate notifications.
->
-> In result we have this sequence of events:
->
->   1. Clock driver creates virtual device for selective clocks, enables
->      runtime PM for the created device and registers the clock.
->   2. Clk-device driver starts to listen to clock rate changes.
->   3. Something changes clk rate or enables/disables clk.
->   4. CCF core propagates the change through the clk tree.
->   5. Clk-device driver gets clock rate-change notification or GENPD core
->      handles prepare/unprepare of the clock.
->   6. Clk-device driver changes GENPD performance state on clock rate
->      change.
->   7. GENPD driver changes voltage regulator state change.
->   8. The regulator state is committed to hardware via I2C.
->
-> We rely on fact that DVFS is not needed for Tegra I2C and that Tegra I2C
-> driver already keeps clock always-prepared.  Hence I2C subsystem stays
-> independent from the clk power management and there are no deadlock spots
-> in the sequence.
->
-> Currently all clocks are registered very early during kernel boot when the
-> device driver core isn't available yet.  The clk-device can't be created
-> at that time.  This patch splits the registration of the clocks in two
-> phases:
->
->   1. Register all essential clocks which don't use RPM and are needed
->      during early boot.
->
->   2. Register at a later boot time the rest of clocks.
->
-> This patch adds power management support for Tegra20 and Tegra30 clocks.
->
-> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
-> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
->  drivers/clk/tegra/Makefile      |   1 +
->  drivers/clk/tegra/clk-device.c  | 230 ++++++++++++++++++++++++++++++++
->  drivers/clk/tegra/clk-pll.c     |   2 +-
->  drivers/clk/tegra/clk-super.c   |   2 +-
->  drivers/clk/tegra/clk-tegra20.c |  77 ++++++++---
->  drivers/clk/tegra/clk-tegra30.c | 116 +++++++++++-----
->  drivers/clk/tegra/clk.c         |  75 ++++++++++-
->  drivers/clk/tegra/clk.h         |   2 +
->  8 files changed, 451 insertions(+), 54 deletions(-)
->  create mode 100644 drivers/clk/tegra/clk-device.c
->
-> diff --git a/drivers/clk/tegra/Makefile b/drivers/clk/tegra/Makefile
-> index 7b1816856eb5..a0715cdfc1a4 100644
-> --- a/drivers/clk/tegra/Makefile
-> +++ b/drivers/clk/tegra/Makefile
-> @@ -1,6 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
->  obj-y                                  += clk.o
->  obj-y                                  += clk-audio-sync.o
-> +obj-y                                  += clk-device.o
->  obj-y                                  += clk-dfll.o
->  obj-y                                  += clk-divider.o
->  obj-y                                  += clk-periph.o
-> diff --git a/drivers/clk/tegra/clk-device.c b/drivers/clk/tegra/clk-device.c
-> new file mode 100644
-> index 000000000000..830bc0ba25d3
-> --- /dev/null
-> +++ b/drivers/clk/tegra/clk-device.c
-> @@ -0,0 +1,230 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
-> +#include <linux/mutex.h>
-> +#include <linux/of_device.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/slab.h>
-> +
-> +#include <soc/tegra/common.h>
-> +
-> +#include "clk.h"
-> +
-> +/*
-> + * This driver manages performance state of the core power domain for the
-> + * independent PLLs and system clocks.  We created a virtual clock device
-> + * for such clocks, see tegra_clk_dev_register().
-> + */
-> +
-> +struct tegra_clk_device {
-> +       struct notifier_block clk_nb;
-> +       struct device *dev;
-> +       struct clk_hw *hw;
-> +       struct mutex lock;
-> +};
-> +
-> +static int tegra_clock_set_pd_state(struct tegra_clk_device *clk_dev,
-> +                                   unsigned long rate)
-> +{
-> +       struct device *dev = clk_dev->dev;
-> +       struct dev_pm_opp *opp;
-> +       unsigned int pstate;
-> +
-> +       opp = dev_pm_opp_find_freq_ceil(dev, &rate);
-> +       if (opp == ERR_PTR(-ERANGE)) {
-> +               dev_dbg(dev, "failed to find ceil OPP for %luHz\n", rate);
-> +               opp = dev_pm_opp_find_freq_floor(dev, &rate);
-> +       }
-> +
-> +       if (IS_ERR(opp)) {
-> +               dev_err(dev, "failed to find OPP for %luHz: %pe\n", rate, opp);
-> +               return PTR_ERR(opp);
-> +       }
-> +
-> +       pstate = dev_pm_opp_get_required_pstate(opp, 0);
-> +       dev_pm_opp_put(opp);
-> +
-> +       return dev_pm_genpd_set_performance_state(dev, pstate);
+Return an error code if msm_dsi_manager_validate_current_config().
+Don't return success.
 
-The above code certainly looks like it can be made generic through a
-common opp helper. I know we have discussed this before, so I am not
-saying you should change right now.
+Fixes: 8b03ad30e314 ("drm/msm/dsi: Use one connector for dual DSI mode")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/gpu/drm/msm/dsi/dsi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Let's instead see what I think (and Viresh), when I have reviewed the
-entire series.
+diff --git a/drivers/gpu/drm/msm/dsi/dsi.c b/drivers/gpu/drm/msm/dsi/dsi.c
+index 614dc7f26f2c..75ae3008b68f 100644
+--- a/drivers/gpu/drm/msm/dsi/dsi.c
++++ b/drivers/gpu/drm/msm/dsi/dsi.c
+@@ -215,8 +215,10 @@ int msm_dsi_modeset_init(struct msm_dsi *msm_dsi, struct drm_device *dev,
+ 		goto fail;
+ 	}
+ 
+-	if (!msm_dsi_manager_validate_current_config(msm_dsi->id))
++	if (!msm_dsi_manager_validate_current_config(msm_dsi->id)) {
++		ret = -EINVAL;
+ 		goto fail;
++	}
+ 
+ 	msm_dsi->encoder = encoder;
+ 
+-- 
+2.20.1
 
-> +}
-> +
-> +static int tegra_clock_change_notify(struct notifier_block *nb,
-> +                                    unsigned long msg, void *data)
-> +{
-> +       struct clk_notifier_data *cnd = data;
-> +       struct tegra_clk_device *clk_dev;
-> +       int err = 0;
-> +
-> +       clk_dev = container_of(nb, struct tegra_clk_device, clk_nb);
-> +
-> +       mutex_lock(&clk_dev->lock);
-> +       switch (msg) {
-> +       case PRE_RATE_CHANGE:
-> +               if (cnd->new_rate > cnd->old_rate)
-> +                       err = tegra_clock_set_pd_state(clk_dev, cnd->new_rate);
-> +               break;
-> +
-> +       case ABORT_RATE_CHANGE:
-> +               err = tegra_clock_set_pd_state(clk_dev, cnd->old_rate);
-> +               break;
-> +
-> +       case POST_RATE_CHANGE:
-> +               if (cnd->new_rate < cnd->old_rate)
-> +                       err = tegra_clock_set_pd_state(clk_dev, cnd->new_rate);
-> +               break;
-> +
-> +       default:
-> +               break;
-> +       }
-> +       mutex_unlock(&clk_dev->lock);
-> +
-> +       return notifier_from_errno(err);
-> +}
-> +
-> +static int tegra_clock_sync_pd_state(struct tegra_clk_device *clk_dev)
-> +{
-> +       unsigned long rate;
-> +       int ret = 0;
-> +
-> +       mutex_lock(&clk_dev->lock);
-> +
-> +       if (!pm_runtime_status_suspended(clk_dev->dev)) {
-> +               rate = clk_hw_get_rate(clk_dev->hw);
-> +               ret = tegra_clock_set_pd_state(clk_dev, rate);
-
-Don't we need to sync the performance state even when the device is
-runtime suspended?
-
-Perhaps the clock, via a child-clock for example, can get
-prepared/enabled (hence its device gets runtime resumed) before there
-is a clock rate update for it. Then there is no performance state set
-for it, right? Or maybe that isn't a problem?
-
-> +       }
-> +
-> +       mutex_unlock(&clk_dev->lock);
-> +
-> +       return ret;
-> +}
-> +
-> +static int tegra_clock_probe(struct platform_device *pdev)
-> +{
-> +       struct tegra_core_opp_params opp_params = {};
-> +       struct tegra_clk_device *clk_dev;
-> +       struct device *dev = &pdev->dev;
-> +       struct clk *clk;
-> +       int err;
-> +
-> +       if (!dev->pm_domain)
-> +               return -EINVAL;
-> +
-> +       clk_dev = devm_kzalloc(dev, sizeof(*clk_dev), GFP_KERNEL);
-> +       if (!clk_dev)
-> +               return -ENOMEM;
-> +
-> +       clk = devm_clk_get(dev, NULL);
-> +       if (IS_ERR(clk))
-> +               return PTR_ERR(clk);
-> +
-> +       clk_dev->dev = dev;
-> +       clk_dev->hw = __clk_get_hw(clk);
-> +       clk_dev->clk_nb.notifier_call = tegra_clock_change_notify;
-> +       mutex_init(&clk_dev->lock);
-> +
-> +       platform_set_drvdata(pdev, clk_dev);
-> +
-> +       /*
-> +        * Runtime PM was already enabled for this device by the parent clk
-> +        * driver and power domain state should be synced under clk_dev lock,
-> +        * hence we don't use the common OPP helper that initializes OPP
-> +        * state. For some clocks common OPP helper may fail to find ceil
-> +        * rate, it's handled by this driver.
-> +        */
-> +       err = devm_tegra_core_dev_init_opp_table(dev, &opp_params);
-> +       if (err)
-> +               return err;
-> +
-> +       err = clk_notifier_register(clk, &clk_dev->clk_nb);
-> +       if (err) {
-> +               dev_err(dev, "failed to register clk notifier: %d\n", err);
-> +               return err;
-> +       }
-> +
-> +       /*
-> +        * The driver is attaching to a potentially active/resumed clock, hence
-> +        * we need to sync the power domain performance state in a accordance to
-> +        * the clock rate if clock is resumed.
-> +        */
-> +       err = tegra_clock_sync_pd_state(clk_dev);
-> +       if (err)
-> +               goto unreg_clk;
-> +
-> +       return 0;
-> +
-> +unreg_clk:
-> +       clk_notifier_unregister(clk, &clk_dev->clk_nb);
-> +
-> +       return err;
-> +}
-> +
-> +static __maybe_unused int tegra_clock_pm_suspend(struct device *dev)
-> +{
-> +       struct tegra_clk_device *clk_dev = dev_get_drvdata(dev);
-> +
-> +       /*
-> +        * Power management of the clock is entangled with the Tegra PMC
-> +        * GENPD because PMC driver enables/disables clocks for toggling
-> +        * of the PD's on/off state.
-> +        *
-> +        * The PMC GENPD is resumed in NOIRQ phase, before RPM of the clocks
-> +        * becomes available, hence PMC can't use clocks at the early resume
-> +        * phase if RPM is involved. For example when 3d clock is enabled,
-> +        * it may enable the parent PLL clock that needs to be RPM-resumed.
-> +        *
-> +        * Secondly, the PLL clocks may be enabled by the low level suspend
-> +        * code, so we need to assume that PLL is in enabled state during
-> +        * suspend.
-> +        *
-> +        * We will keep PLLs and system clock resumed during suspend time.
-> +        * All PLLs on all SoCs are low power and system clock is always-on,
-> +        * so practically not much is changed here.
-> +        */
-> +
-> +       return clk_prepare(clk_dev->hw->clk);
-
-I am trying to understand, more exactly, what you intend to achieve
-with the clk_prepare() here. It looks a bit weird, to me. Can you try
-to elaborate a bit more on the use case?
-
-Is this rather about making sure that the clock's corresponding PM
-domain stays powered on during system suspend? In that case, I think
-there may be an alternative option....
-
-> +}
-> +
-> +static __maybe_unused int tegra_clock_pm_resume(struct device *dev)
-> +{
-> +       struct tegra_clk_device *clk_dev = dev_get_drvdata(dev);
-> +
-> +       clk_unprepare(clk_dev->hw->clk);
-> +
-> +       return 0;
-> +}
-> +
-> +static void tegra_clock_shutdown(struct platform_device *pdev)
-> +{
-> +       struct tegra_clk_device *clk_dev = platform_get_drvdata(pdev);
-> +
-> +       clk_prepare(clk_dev->hw->clk);
-> +}
-> +
-> +static const struct dev_pm_ops tegra_clock_pm = {
-> +       SET_SYSTEM_SLEEP_PM_OPS(tegra_clock_pm_suspend,
-> +                               tegra_clock_pm_resume)
-> +};
-
-[...]
-
-Kind regards
-Uffe
