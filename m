@@ -1,82 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFCFD41F018
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:55:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C342B41F023
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:59:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 355F56EE0D;
-	Fri,  1 Oct 2021 14:55:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 34E1F6EE12;
+	Fri,  1 Oct 2021 14:59:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C8FB6EE0D
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:55:49 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id i4so40307205lfv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:55:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=HF8DBMItzWWxaU367RAPSYKUXH5BnlS9jAZczRe4ePU=;
- b=aqXBI8UqLDWeTuVHGIBErjDsxio9yrdPfisehV9T9mJJk+ppF2b/RSy8QKzqoblHaJ
- hktrYJaeXtvLqskrzNnGhVJzexc6aEdc98fBbQvK69Gb12EAMd3ESJqlkrS5oD7OvNgG
- P97muReS34kLGu9NjHY+j5dwj2WyCWNHYTaed7xbvTrI2JzTGDs8qi8N0Qw7LkdjcWZX
- LXXkcViUSEK9vm+haTULi+cNSHJvU7ahpKWlcRMN7cX+R5RpA0/f3OUd7Bkg7+NCE+Fi
- 1p1K49QgqzjgYEL1VL7M/h/E3btzs6Z5y5Av95Pp0dtJLF67v2p4aNsixGXoHBfrryKU
- UTgw==
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
+ [IPv6:2a00:1450:4864:20::32c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3964C6EDE9
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:59:06 +0000 (UTC)
+Received: by mail-wm1-x32c.google.com with SMTP id
+ g193-20020a1c20ca000000b0030d55f1d984so219704wmg.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=jJY3uvVzN0+VKIpmed9vmKmw2VVI6RacX8HsYm/goNY=;
+ b=f5QVKtGJ5k9YZXEPvvvDUeHpDPpJckx+aesGc+HHJD4Mt/L2+BvFkCXq8ZB++QSFBD
+ wnFyRdRgp1Ynhb9SEmyFJ2WX3ipOeM4sJpUS6cBY3RpS5XAYEg3fJcIoXY27Gw2vwXeQ
+ G+TXvF3/LVWYhq7q28zee5nPlRkVvtSofUwz4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=HF8DBMItzWWxaU367RAPSYKUXH5BnlS9jAZczRe4ePU=;
- b=G2t80zuLUgDWyCIerdvWakcDQajcURfmprYskonn2sUAF60lX4ZSiwjMhFMDK/QrBN
- bTfqRuiR/xKsAsPXjgEk8DrpoBPoEZgjC0BjpHaxNkttQcvtnMv16WRDFxGApGVe5gnF
- NzQ/mnPWp3BTenb6kq4wZTm4MonIe2TIOFFmoLri6QImdDZIGgZIxDgTeoMuiE15DAHZ
- H4SGZxlo669LcQBZSLb2Gu9nNzWmKErnrj1ewpIBcmhMmrlvJC1XM/hoi8Nu8FXfKYOV
- Dg36bcQ9vA4Q/rBv8G/fa7MABsZB/8ITMnAFE/UcntZ4ih4IKqSY0ifpDDAnao1/Vd+3
- MITg==
-X-Gm-Message-State: AOAM532sRZHJQhByovEYyoekOzABxQbGle76wdUy2IRZ4MxmXSg1uxW3
- TkI5a480uXaJiXIVTHOKSt7OarwQetXIHJ8cOn3ztA==
-X-Google-Smtp-Source: ABdhPJy2ug8Cm3POxLOQxU+SWQ8ZDieYeZsYoVZxo62Idbb6vc9hck4xUmbalsRsefa0nQdQjDMqTs5I8HVxPDG4gAE=
-X-Received: by 2002:a05:6512:3095:: with SMTP id
- z21mr5935006lfd.167.1633100147608; 
- Fri, 01 Oct 2021 07:55:47 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=jJY3uvVzN0+VKIpmed9vmKmw2VVI6RacX8HsYm/goNY=;
+ b=NftOXgbPoD+p1y5o6EQ9v2qLITQtGGaH98K2vR7/ZtyTzS9IxmPeII1lNXTD1zsqXO
+ TD+RPLsgCb3ccXD4FJoNs8bC+3fNM+Uonuu43aNZXi2uQB4dtU3ILm/FUjvQm3cseh1W
+ MQyZ8RLihNXZbu8lc5AWEf0o9JGf2pf2N/vsyD9jsF1v/KcjQlE0y7BKNoT7bpieNwIR
+ oVjgg9mlfLvKQZ0nAcah6aXR8Bphx6DYgFSG46GWTrpQ66QTL00Ym46boIQ0ZivT46w2
+ 4gDncdWoF0y32XxE9gAVw7YWJcz4P4oxLrpR9Y545nGxsW/UywCKKouHZY8JnkqOIhJc
+ WdDA==
+X-Gm-Message-State: AOAM532ObCUwja3mrzVd229Dv7Q+CaKNcDekLagJuB/GSZhcbUFuz70X
+ 4tj398LsHYLCfyyeXv3elwEfIUFcYzvZPw==
+X-Google-Smtp-Source: ABdhPJzwJRUp2ynFM0uvvs3tHsF6rU4Eus0M8GsESjG+LJMbs4tweVrKyqVAFlHgjzPUYLH7gYFcow==
+X-Received: by 2002:a05:600c:4293:: with SMTP id
+ v19mr5093862wmc.113.1633100344627; 
+ Fri, 01 Oct 2021 07:59:04 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y23sm8226866wmi.16.2021.10.01.07.59.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 07:59:04 -0700 (PDT)
+Date: Fri, 1 Oct 2021 16:59:02 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Jani Nikula <jani.nikula@intel.com>
+Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
+Subject: Re: [PULL] drm-intel-fixes
+Message-ID: <YVciNsllheJM6bom@phenom.ffwll.local>
+References: <87lf3ev44z.fsf@intel.com>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-14-digetx@gmail.com>
- <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
- <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
-In-Reply-To: <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 16:55:11 +0200
-Message-ID: <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
-Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, 
- Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
- linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, 
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87lf3ev44z.fsf@intel.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,65 +77,71 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 01.10.2021 16:39, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote=
-:
-> >>
-> >> Add runtime power management and support generic power domains.
-> >>
-> >> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> >> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> >> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T12=
-4
-> >> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >> ---
-> >>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++-=
--
-> >
-> > [...]
-> >
-> >>  static int gr2d_remove(struct platform_device *pdev)
-> >> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *=
-pdev)
-> >>                 return err;
-> >>         }
-> >>
-> >> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
-> >> +       pm_runtime_disable(&pdev->dev);
-> >
-> > There is no guarantee that the ->runtime_suspend() has been invoked
-> > here, which means that clock may be left prepared/enabled beyond this
-> > point.
-> >
-> > I suggest you call pm_runtime_force_suspend(), instead of
-> > pm_runtime_disable(), to make sure that gets done.
->
-> The pm_runtime_disable() performs the final synchronization, please see [=
-1].
->
-> [1]
-> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runt=
-ime.c#L1412
+On Thu, Sep 30, 2021 at 11:50:20AM +0300, Jani Nikula wrote:
+> 
+> Hi Dave & Daniel -
+> 
+> drm-intel-fixes-2021-09-30:
+> drm/i915 fixes for v5.15-rc4:
+> - Fix GVT scheduler ww lock usage
+> - Fix pdfdocs documentation build
+> - Fix request early tracepoints
+> - Fix an invalid warning from rps worker
+> 
+> BR,
+> Jani.
+> 
+> The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
+> 
+>   Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-09-30
+> 
+> for you to fetch changes up to 4b8bcaf8a6d6ab5db51e30865def5cb694eb2966:
+> 
+>   drm/i915: Remove warning from the rps worker (2021-09-27 12:46:40 +0300)
 
-pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
-cancel_work_sync() if dev->power.request_pending has been set.
+Merged into drm-fixes, apologies for being a bit late, I was held up in a
+drm-misc-fixes chaos.
+-Daniel
 
-If the work that was punted to the pm_wq in rpm_idle() has not been
-started yet, we end up just canceling it. In other words, there are no
-guarantees it runs to completion.
+> 
+> ----------------------------------------------------------------
+> drm/i915 fixes for v5.15-rc4:
+> - Fix GVT scheduler ww lock usage
+> - Fix pdfdocs documentation build
+> - Fix request early tracepoints
+> - Fix an invalid warning from rps worker
+> 
+> ----------------------------------------------------------------
+> Akira Yokosawa (1):
+>       drm/i915/guc, docs: Fix pdfdocs build error by removing nested grid
+> 
+> Jani Nikula (1):
+>       Merge tag 'gvt-fixes-2021-09-18' of https://github.com/intel/gvt-linux into drm-intel-fixes
+> 
+> Matthew Auld (1):
+>       drm/i915/request: fix early tracepoints
+> 
+> Tejas Upadhyay (1):
+>       drm/i915: Remove warning from the rps worker
+> 
+> Zhi A Wang (1):
+>       drm/i915/gvt: fix the usage of ww lock in gvt scheduler.
+> 
+>  drivers/gpu/drm/i915/gt/intel_rps.c                         |  2 --
+>  drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h  | 10 +++++-----
+>  drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h | 10 +++++-----
+>  drivers/gpu/drm/i915/gvt/scheduler.c                        |  4 ++--
+>  drivers/gpu/drm/i915/i915_request.c                         | 11 ++---------
+>  5 files changed, 14 insertions(+), 23 deletions(-)
+> 
+> -- 
+> Jani Nikula, Intel Open Source Graphics Center
 
-Moreover, use space may have bumped the usage count via sysfs for the
-device (pm_runtime_forbid()) to keep the device runtime resumed.
-
->
-> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
-> must have the corresponding 'disable'. Hence there is no problem here.
-
-pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
-should be fine. No?
-
-Kind regards
-Uffe
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
