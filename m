@@ -1,52 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A39C41F3F6
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:54:28 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D53441F3F8
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:54:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A239E6EE97;
-	Fri,  1 Oct 2021 17:54:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F0E516EE98;
+	Fri,  1 Oct 2021 17:54:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com
- [IPv6:2607:f8b0:4864:20::429])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 80D2D6EE94;
- Fri,  1 Oct 2021 17:54:22 +0000 (UTC)
-Received: by mail-pf1-x429.google.com with SMTP id p1so2550839pfh.8;
- Fri, 01 Oct 2021 10:54:22 -0700 (PDT)
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com
+ [IPv6:2607:f8b0:4864:20::62e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0C526EE96;
+ Fri,  1 Oct 2021 17:54:24 +0000 (UTC)
+Received: by mail-pl1-x62e.google.com with SMTP id l6so6792061plh.9;
+ Fri, 01 Oct 2021 10:54:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/vkapvopYf4d5OFUhbMrXMMqppSzZJW52FlsHM4D2c4=;
- b=hmfioFfHp3myRG8xL2Vimz4bhlUsEmsQ5w/5loL8YUFNXitmPoqDKjoJy+eU3BJ0Sm
- UTouiGZf6HsnBUeVP8a5KfgEzUH6Ecvghy2OXopp/wfTuW7ClfI5ICpwh9XtrdkA5F4t
- XtEDXSN7fjA8Q8QzSL3cyh3jtUtx6u4tDyuROQg5QVEAQBUvkMwackCQp60NUy/RYZOX
- Sa3PmtLnYh8vEyRkEZE4CN9f7snYHJXeKCu6p4Pa740XljJmBIs8xn7lC8nSQ8xL4sH3
- XI+679qiA/z2JZ5iJmZunF/NBCmgF0VPtajerE8bF00U459+IAGrxaLv8cgEKUbN22le
- 9lCg==
+ bh=WijmcktACKFwEThmhwnPp+mV0haFkJxchOIO2eO1rSQ=;
+ b=WSsj1pxgWkF/FGiyRxBKDHPZDgH4E91EaVDkQMyMciD9zBGBNTlqpNeSKKR+qXu0KY
+ qVcUsp/4VaVMNmxswoIWN2UmJKr/LGmzda+OWDl7dBOuenzb2JpXRzNLlUsotflsrLIu
+ e/wuDgihcunryT8sdklYp0ippNPwJ26zkTqPg1c+FlbGtjsxalBPtI9mPZt5WWF0g8NS
+ yY3CyhFzyeyMSUG7YdAsTIGKjqMpkMs/K5bvOB8a/CXOAyVCL68ILUH8aQZ5DUR/CbUq
+ in46ZV+NSnQDzR8ndPjllW+vs5qmovoaF0fWRwgloAoXyFhy/PClN5lSxdPX/3IithCY
+ 3KKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/vkapvopYf4d5OFUhbMrXMMqppSzZJW52FlsHM4D2c4=;
- b=QQW6bPPSFZNnVqZr9ONWAHHmHmRvnERhWTsBqWKo0ewXXEVBPIoeZuN6wqMthvxJW+
- V+Nf+23d4d1iF4wTAbE42rme4H/UP6++4p88ar3nGtbBpKxzY1iwii8Su2JOhsjMXSF2
- Jaw+sOF0EUo8IfzyIp75sXiJyfSOAZ03SvuObJ+V8zKr+Pb18btP5bBPdx08HQUSbTC5
- N1gNpFAQnjril5cEzkurhJ0eZb6NkR/4dslSriuQ7dVPQTBpQeZeMWQGNDRnCKFdco0X
- dkmn7YKQbEpBqx7QGws37+XQAkGw1Iqlg1PHsmoeM2OzYeIcVDZlIhm5tSjvUidDDSjO
- d8Qg==
-X-Gm-Message-State: AOAM533EJlTQtKQJs2M8UNngURa/29krwkLm3a46k1nFq1Uk1if7X+wH
- DkTsi86O8y8WlpcBeZXzTLTeCekIhhM=
-X-Google-Smtp-Source: ABdhPJwFeagFYohF2YDXBtuImhEfzKCFXXvdMI6HiUv534qRyggQdwW9qG5pS90u5G9eQTdTjKY8RA==
-X-Received: by 2002:a05:6a00:9a:b0:44b:b8f9:1d72 with SMTP id
- c26-20020a056a00009a00b0044bb8f91d72mr11545734pfj.21.1633110861123; 
- Fri, 01 Oct 2021 10:54:21 -0700 (PDT)
+ bh=WijmcktACKFwEThmhwnPp+mV0haFkJxchOIO2eO1rSQ=;
+ b=isx6sO7YDE+3yd0o/cBvFjGfXkvH9dUuf+FtIrdUj+SjyM/QcdDc+eni2fM2OiPC5J
+ 00fhwOL7kHMBqGfG9/WhWxJ6BmDG1wzSize9sVqSl9YOqLWI59Z90AsMFQNQC0gCc0NT
+ Pwgf6reA8FiMGIvEkl1qafKnRYAHL27KktbWEOtAyQMKWH2wee4aGBBQlldlnADDTbi4
+ 9mWfCq/Bi75kN4+3L0aqtHpC/gcEW5XEyIkQP97sn47OHXeN/n3UJ4jtELXqF+KX6JY+
+ vWO3dvKSguMwTlEfvFmk5P+2ztm0bgnqVk+OV+w6HSIOhOwQgDm4T+xXNozqdMGcfeax
+ BgnA==
+X-Gm-Message-State: AOAM532gX4OYJk63gXpq8m3n442r9imP4ULe76zsppOeLjj2J6S1u4uT
+ 1QK1ul82kQa5TJdBrMZQ1pijgbgfOI4=
+X-Google-Smtp-Source: ABdhPJylLrNqMCSmC4UBIErBI5OOeZTxVS9YD4cdHfPykk8Yd9a4fvIclaYGI3ggMjjnZpZcJ+ZeuQ==
+X-Received: by 2002:a17:90a:b105:: with SMTP id
+ z5mr20742268pjq.64.1633110863551; 
+ Fri, 01 Oct 2021 10:54:23 -0700 (PDT)
 Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
  by smtp.gmail.com with ESMTPSA id
- t23sm2260261pgn.25.2021.10.01.10.54.19
+ fz20sm3399620pjb.31.2021.10.01.10.54.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 10:54:20 -0700 (PDT)
+ Fri, 01 Oct 2021 10:54:22 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
@@ -55,9 +55,9 @@ Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
  Rob Clark <robdclark@chromium.org>, Rob Clark <robdclark@gmail.com>,
  Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 1/2] drm/msm: A bit more docs + cleanup
-Date: Fri,  1 Oct 2021 10:58:55 -0700
-Message-Id: <20211001175857.1324712-2-robdclark@gmail.com>
+Subject: [PATCH 2/2] drm/msm: One sched entity per process per priority
+Date: Fri,  1 Oct 2021 10:58:56 -0700
+Message-Id: <20211001175857.1324712-3-robdclark@gmail.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211001175857.1324712-1-robdclark@gmail.com>
 References: <20211001175857.1324712-1-robdclark@gmail.com>
@@ -80,54 +80,83 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Rob Clark <robdclark@chromium.org>
 
-msm_file_private is more gpu related, and in the next commit it will
-need access to other GPU specific #defines.  While we're at it, add
-some comments.
+Some userspace apps make assumptions that rendering against multiple
+contexts within the same process (from the same thread, with appropriate
+MakeCurrent() calls) provides sufficient synchronization without any
+external synchronization (ie. glFenceSync()/glWaitSync()).  Since a
+submitqueue maps to a gl/vk context, having multiple sched entities of
+the same priority only works with implicit sync enabled.
+
+To fix this, limit things to a single sched entity per priority level
+per process.
+
+An alternative would be sharing submitqueues between contexts in
+userspace, but tracking of per-context faults (ie. GL_EXT_robustness)
+is already done at the submitqueue level, so this is not an option.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_drv.h | 44 --------------------------
- drivers/gpu/drm/msm/msm_gpu.h | 58 ++++++++++++++++++++++++++++++++++-
- 2 files changed, 57 insertions(+), 45 deletions(-)
+Unfortunately, due to a finch experiment (a sort of A/B experiment)
+all my testing of the drm/scheduler with chrome(ium) was using
+SkiaRenderer which does not trigger this bug.  It wasn't until folks
+started reporting misrendering on dev channel, and I tracked it down
+to legacy GLRenderer vs SkiaRenderer, that I realized the problem :-(
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index 8633d0059a3e..31b39c27156d 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -53,15 +53,6 @@ struct msm_disp_state;
+ drivers/gpu/drm/msm/msm_gem_submit.c  |  2 +-
+ drivers/gpu/drm/msm/msm_gpu.h         | 24 ++++++----
+ drivers/gpu/drm/msm/msm_submitqueue.c | 68 +++++++++++++++++++++++----
+ 3 files changed, 74 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 924b01b9c105..34ed56b24224 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -46,7 +46,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 	if (!submit)
+ 		return ERR_PTR(-ENOMEM);
  
- #define FRAC_16_16(mult, div)    (((mult) << 16) / (div))
+-	ret = drm_sched_job_init(&submit->base, &queue->entity, queue);
++	ret = drm_sched_job_init(&submit->base, queue->entity, queue);
+ 	if (ret) {
+ 		kfree(submit);
+ 		return ERR_PTR(ret);
+diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
+index 592334cb9a0b..d72b1de3cb1f 100644
+--- a/drivers/gpu/drm/msm/msm_gpu.h
++++ b/drivers/gpu/drm/msm/msm_gpu.h
+@@ -290,6 +290,19 @@ struct msm_file_private {
+ 	struct msm_gem_address_space *aspace;
+ 	struct kref ref;
+ 	int seqno;
++
++	/**
++	 * entities:
++	 *
++	 * Table of per-priority-level sched entities used by submitqueues
++	 * associated with this &drm_file.  Because some userspace apps
++	 * make assumptions about rendering from multiple gl contexts
++	 * (of the same priority) within the process happening in FIFO
++	 * order without requiring any fencing beyond MakeCurrent(), we
++	 * create at most one &drm_sched_entity per-process per-priority-
++	 * level.
++	 */
++	struct drm_sched_entity *entities[NR_SCHED_PRIORITIES * MSM_GPU_MAX_RINGS];
+ };
  
--struct msm_file_private {
--	rwlock_t queuelock;
--	struct list_head submitqueues;
--	int queueid;
--	struct msm_gem_address_space *aspace;
--	struct kref ref;
--	int seqno;
--};
--
- enum msm_mdp_plane_property {
- 	PLANE_PROP_ZPOS,
- 	PLANE_PROP_ALPHA,
-@@ -511,41 +502,6 @@ void msm_hrtimer_work_init(struct msm_hrtimer_work *work,
- 			   clockid_t clock_id,
- 			   enum hrtimer_mode mode);
+ /**
+@@ -370,7 +383,7 @@ struct msm_gpu_submitqueue {
+ 	struct idr fence_idr;
+ 	struct mutex lock;
+ 	struct kref ref;
+-	struct drm_sched_entity entity;
++	struct drm_sched_entity *entity;
+ };
  
--struct msm_gpu_submitqueue;
--int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
--struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
--		u32 id);
--int msm_submitqueue_create(struct drm_device *drm,
--		struct msm_file_private *ctx,
--		u32 prio, u32 flags, u32 *id);
--int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
--		struct drm_msm_submitqueue_query *args);
--int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id);
--void msm_submitqueue_close(struct msm_file_private *ctx);
--
--void msm_submitqueue_destroy(struct kref *kref);
--
+ struct msm_gpu_state_bo {
+@@ -471,14 +484,7 @@ void msm_submitqueue_close(struct msm_file_private *ctx);
+ 
+ void msm_submitqueue_destroy(struct kref *kref);
+ 
 -static inline void __msm_file_private_destroy(struct kref *kref)
 -{
 -	struct msm_file_private *ctx = container_of(kref,
@@ -136,112 +165,115 @@ index 8633d0059a3e..31b39c27156d 100644
 -	msm_gem_address_space_put(ctx->aspace);
 -	kfree(ctx);
 -}
--
--static inline void msm_file_private_put(struct msm_file_private *ctx)
--{
--	kref_put(&ctx->ref, __msm_file_private_destroy);
--}
--
--static inline struct msm_file_private *msm_file_private_get(
--	struct msm_file_private *ctx)
--{
--	kref_get(&ctx->ref);
--	return ctx;
--}
--
- #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
- #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
++void __msm_file_private_destroy(struct kref *kref);
  
-diff --git a/drivers/gpu/drm/msm/msm_gpu.h b/drivers/gpu/drm/msm/msm_gpu.h
-index 2fcb6c195865..592334cb9a0b 100644
---- a/drivers/gpu/drm/msm/msm_gpu.h
-+++ b/drivers/gpu/drm/msm/msm_gpu.h
-@@ -272,6 +272,26 @@ struct msm_gpu_perfcntr {
-  */
- #define NR_SCHED_PRIORITIES (1 + DRM_SCHED_PRIORITY_HIGH - DRM_SCHED_PRIORITY_MIN)
+ static inline void msm_file_private_put(struct msm_file_private *ctx)
+ {
+diff --git a/drivers/gpu/drm/msm/msm_submitqueue.c b/drivers/gpu/drm/msm/msm_submitqueue.c
+index 7ce0771b5582..b8621c6e0554 100644
+--- a/drivers/gpu/drm/msm/msm_submitqueue.c
++++ b/drivers/gpu/drm/msm/msm_submitqueue.c
+@@ -7,6 +7,24 @@
  
-+/**
-+ * struct msm_file_private - per-drm_file context
-+ *
-+ * @queuelock:    synchronizes access to submitqueues list
-+ * @submitqueues: list of &msm_gpu_submitqueue created by userspace
-+ * @queueid:      counter incremented each time a submitqueue is created,
-+ *                used to assign &msm_gpu_submitqueue.id
-+ * @aspace:       the per-process GPU address-space
-+ * @ref:          reference count
-+ * @seqno:        unique per process seqno
-+ */
-+struct msm_file_private {
-+	rwlock_t queuelock;
-+	struct list_head submitqueues;
-+	int queueid;
-+	struct msm_gem_address_space *aspace;
-+	struct kref ref;
-+	int seqno;
-+};
-+
- /**
-  * msm_gpu_convert_priority - Map userspace priority to ring # and sched priority
-  *
-@@ -319,6 +339,8 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
- }
+ #include "msm_gpu.h"
  
- /**
-+ * struct msm_gpu_submitqueues - Userspace created context.
-+ *
-  * A submitqueue is associated with a gl context or vk queue (or equiv)
-  * in userspace.
-  *
-@@ -336,7 +358,7 @@ static inline int msm_gpu_convert_priority(struct msm_gpu *gpu, int prio,
-  *             seqno, protected by submitqueue lock
-  * @lock:      submitqueue lock
-  * @ref:       reference count
-- * @entity: the submit job-queue
-+ * @entity:    the submit job-queue
-  */
- struct msm_gpu_submitqueue {
- 	int id;
-@@ -436,6 +458,40 @@ static inline void gpu_write64(struct msm_gpu *gpu, u32 lo, u32 hi, u64 val)
- int msm_gpu_pm_suspend(struct msm_gpu *gpu);
- int msm_gpu_pm_resume(struct msm_gpu *gpu);
- 
-+int msm_submitqueue_init(struct drm_device *drm, struct msm_file_private *ctx);
-+struct msm_gpu_submitqueue *msm_submitqueue_get(struct msm_file_private *ctx,
-+		u32 id);
-+int msm_submitqueue_create(struct drm_device *drm,
-+		struct msm_file_private *ctx,
-+		u32 prio, u32 flags, u32 *id);
-+int msm_submitqueue_query(struct drm_device *drm, struct msm_file_private *ctx,
-+		struct drm_msm_submitqueue_query *args);
-+int msm_submitqueue_remove(struct msm_file_private *ctx, u32 id);
-+void msm_submitqueue_close(struct msm_file_private *ctx);
-+
-+void msm_submitqueue_destroy(struct kref *kref);
-+
-+static inline void __msm_file_private_destroy(struct kref *kref)
++void __msm_file_private_destroy(struct kref *kref)
 +{
 +	struct msm_file_private *ctx = container_of(kref,
 +		struct msm_file_private, ref);
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(ctx->entities); i++) {
++		if (!ctx->entities[i])
++			continue;
++
++		drm_sched_entity_destroy(ctx->entities[i]);
++		kfree(ctx->entities[i]);
++	}
 +
 +	msm_gem_address_space_put(ctx->aspace);
 +	kfree(ctx);
 +}
 +
-+static inline void msm_file_private_put(struct msm_file_private *ctx)
+ void msm_submitqueue_destroy(struct kref *kref)
+ {
+ 	struct msm_gpu_submitqueue *queue = container_of(kref,
+@@ -14,8 +32,6 @@ void msm_submitqueue_destroy(struct kref *kref)
+ 
+ 	idr_destroy(&queue->fence_idr);
+ 
+-	drm_sched_entity_destroy(&queue->entity);
+-
+ 	msm_file_private_put(queue->ctx);
+ 
+ 	kfree(queue);
+@@ -61,13 +77,47 @@ void msm_submitqueue_close(struct msm_file_private *ctx)
+ 	}
+ }
+ 
++static struct drm_sched_entity *
++get_sched_entity(struct msm_file_private *ctx, struct msm_ringbuffer *ring,
++		 unsigned ring_nr, enum drm_sched_priority sched_prio)
 +{
-+	kref_put(&ctx->ref, __msm_file_private_destroy);
++	static DEFINE_MUTEX(entity_lock);
++	unsigned idx = (ring_nr * NR_SCHED_PRIORITIES) + sched_prio;
++
++	/* We should have already validated that the requested priority is
++	 * valid by the time we get here.
++	 */
++	if (WARN_ON(idx >= ARRAY_SIZE(ctx->entities)))
++		return ERR_PTR(-EINVAL);
++
++	mutex_lock(&entity_lock);
++
++	if (!ctx->entities[idx]) {
++		struct drm_sched_entity *entity;
++		struct drm_gpu_scheduler *sched = &ring->sched;
++		int ret;
++
++		entity = kzalloc(sizeof(*ctx->entities[idx]), GFP_KERNEL);
++
++		ret = drm_sched_entity_init(entity, sched_prio, &sched, 1, NULL);
++		if (ret) {
++			kfree(entity);
++			return ERR_PTR(ret);
++		}
++
++		ctx->entities[idx] = entity;
++	}
++
++	mutex_unlock(&entity_lock);
++
++	return ctx->entities[idx];
 +}
 +
-+static inline struct msm_file_private *msm_file_private_get(
-+	struct msm_file_private *ctx)
-+{
-+	kref_get(&ctx->ref);
-+	return ctx;
-+}
-+
- void msm_devfreq_init(struct msm_gpu *gpu);
- void msm_devfreq_cleanup(struct msm_gpu *gpu);
- void msm_devfreq_resume(struct msm_gpu *gpu);
+ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 		u32 prio, u32 flags, u32 *id)
+ {
+ 	struct msm_drm_private *priv = drm->dev_private;
+ 	struct msm_gpu_submitqueue *queue;
+-	struct msm_ringbuffer *ring;
+-	struct drm_gpu_scheduler *sched;
+ 	enum drm_sched_priority sched_prio;
+ 	unsigned ring_nr;
+ 	int ret;
+@@ -91,12 +141,10 @@ int msm_submitqueue_create(struct drm_device *drm, struct msm_file_private *ctx,
+ 	queue->flags = flags;
+ 	queue->ring_nr = ring_nr;
+ 
+-	ring = priv->gpu->rb[ring_nr];
+-	sched = &ring->sched;
+-
+-	ret = drm_sched_entity_init(&queue->entity,
+-			sched_prio, &sched, 1, NULL);
+-	if (ret) {
++	queue->entity = get_sched_entity(ctx, priv->gpu->rb[ring_nr],
++					 ring_nr, sched_prio);
++	if (IS_ERR(queue->entity)) {
++		ret = PTR_ERR(queue->entity);
+ 		kfree(queue);
+ 		return ret;
+ 	}
 -- 
 2.31.1
 
