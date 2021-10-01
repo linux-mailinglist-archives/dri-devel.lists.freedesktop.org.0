@@ -2,65 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0648241F27E
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 18:50:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A0341F281
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 18:51:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 580C56EE62;
-	Fri,  1 Oct 2021 16:50:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D9CFF6E52C;
+	Fri,  1 Oct 2021 16:51:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
- [IPv6:2a00:1450:4864:20::135])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BCA5C6EE64
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 16:50:18 +0000 (UTC)
-Received: by mail-lf1-x135.google.com with SMTP id x27so40712930lfa.9
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 09:50:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Z/4G9vgAEk+347Zn9eb+ZAGOAkOwqhySgRQtqU2xH8A=;
- b=LHQTDyqMA4HpiTqHGSqD7z+pmM1cbi9k0rEeOMYnHVY8ya5KNnSAwVogIZCTJWYkbl
- HPoBQmBixW04wPiOZq38dZcOL98kS3o7kJGk2AxawJRdDiX+7KHCcWjQRuv5yRi5NBY0
- agPmY68EmkoYpTJ8w5Sf02kpJO2wjhCZZjIWy2X3+HZ47w1pctbUHmAe+BwCJdUc0TQm
- vu2rTaZS1tP310WamJ0Q4a5/gCznv8KHu4yaME6sC1u4ceGmR1rp823xIVxfhGIqvDIf
- 32UynKpf/MCyV9ToGQU5BAN5QGVOyk5UjkiluFdo+dxdEMuAOxtKMSQcx6PNPQuIk/2K
- 5eIg==
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
+ [IPv6:2a00:1450:4864:20::430])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83876E52C
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 16:51:13 +0000 (UTC)
+Received: by mail-wr1-x430.google.com with SMTP id v17so16436233wrv.9
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 09:51:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=aWc04FVFbnD+y7yRpbWGtfVv1ySLSPX/fcKqMjm+70A=;
+ b=bPqlDe4wsW8lHXd/0s10l2Io6hrThjzp4TnGqp9iiUwYX6JjL/attmbSCl7A9FhxWO
+ NOYHGLS2T4cNLD71i6K2ag9GcSlVLRFeOxVASsyN4owZR4M1RwcTDUIBE30onAU0YMiS
+ vyaAMDZ9EVFl7Y2uvHoSxdVTGQoERu3cu/+z8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Z/4G9vgAEk+347Zn9eb+ZAGOAkOwqhySgRQtqU2xH8A=;
- b=KVNYU77grnWHa7r+KLXW9i3L6F63mhhEMoYtRwEAhTGK2euL7QI4xZeTy446kG0tJF
- mi5yNiVipp1syUHrX4/pidIf1RBA1EEEJmM58mfJhLAiRA53xgX/vnQeTCE4103T5opX
- lcloBuwYdKbSeFmlFiuW+ah5Q+yxhuS1WuuW4eqksMmUWVO0Wbwrun6exzDff5hZrg+e
- vEI1gVd/G8iqPoYepnoVGoqNPEW0g+rvFsa1eZEfsDpOdiRq5p7xoOdOditOpj5/q5rt
- mwsPZr2kPptqbNc5dU9p4N9AbByNEc15rbMzur7RXyIHaIHyvaGxXdwr7seZd8vJ3Hr4
- rOoA==
-X-Gm-Message-State: AOAM530Z0GChlGheO5117RRllhpuZb0JYfP3vHFu4/5lBeyiUTUWJnwe
- 1BBrD9MxmloI+Kf7iVFpV1unBQ==
-X-Google-Smtp-Source: ABdhPJzkHZSNcqsjg13S+lAYsg5LtJPkpuOdkh2vYaxSFaqjldIgW17EDxKXWS6QZeYGnubmGFFJ6A==
-X-Received: by 2002:a2e:5807:: with SMTP id m7mr13160180ljb.25.1633107016953; 
- Fri, 01 Oct 2021 09:50:16 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id n24sm787052lfq.294.2021.10.01.09.50.16
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=aWc04FVFbnD+y7yRpbWGtfVv1ySLSPX/fcKqMjm+70A=;
+ b=p8+hkfInZFOSSSlk5npSdQsg0hTRyEErRG3zkPQoBx7gxYs2zKFZHu0G1zuVlNwbMI
+ 4GdGF3B5ffZuUR+lw0IVLI970LBP34oIZzt6Zr50UXzc0rXyG4ib0Y6f4MtW+6qX4Y9S
+ fJGwEfDNL9+XxeVrX1dctO3bAPdNcJtT4u3JTZNNTUKMtw3j2YgbYhGfzuVjrouRCMZd
+ ggspm6MqCm8IgjrFbiiuwXzgQqP0Zu0pucp41WN9J8Dr6caq2dOJm8NhV62mFMkTW9ho
+ 9x0Z1eSG/4zfXA/t7RMtKae52oAn6gC4XthoIY5a/iKFO7DyFRBHI1m/l9UqjPC3rfS9
+ J05g==
+X-Gm-Message-State: AOAM533IoWc2nPdkawrFmMRU8x/ECJPdEmkgRsMuTrPr/U6cZUw2orxb
+ GCKX2mT0EfwwgF3vv/QiKhltsQ==
+X-Google-Smtp-Source: ABdhPJwI4mtzsvYvvWE8R9a1y2Vo044CIzcQjA4RApUgW8v+gnQdNMp1eCx9WzsusQHO7YqVi3/Xjw==
+X-Received: by 2002:a5d:4243:: with SMTP id s3mr14706090wrr.216.1633107072172; 
+ Fri, 01 Oct 2021 09:51:12 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id k17sm8401523wmj.0.2021.10.01.09.51.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 09:50:16 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH 3/3] dt-bindings: display/msm: remove edp.txt
-Date: Fri,  1 Oct 2021 19:50:11 +0300
-Message-Id: <20211001165011.441945-4-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211001165011.441945-1-dmitry.baryshkov@linaro.org>
-References: <20211001165011.441945-1-dmitry.baryshkov@linaro.org>
+ Fri, 01 Oct 2021 09:51:11 -0700 (PDT)
+Date: Fri, 1 Oct 2021 18:51:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Inki Dae <inki.dae@samsung.com>
+Cc: airlied@linux.ie, dri-devel@lists.freedesktop.org,
+ linux-samsung-soc@vger.kernel.org
+Subject: Re: [GIT PULL] exynos-drm-fixes
+Message-ID: <YVc8fXoVf0gMlT2V@phenom.ffwll.local>
+References: <20210928074158.2942-1-inki.dae@samsung.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210928074158.2942-1-inki.dae@samsung.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,76 +70,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-eDP driver is being removed, so drop bindings description.
+On Tue, Sep 28, 2021 at 04:41:58PM +0900, Inki Dae wrote:
+> Hi Dave,
+> 
+>    Just one clean up to use helper function.
+> 
+> Please kindly let me know if there is any problem.
+> 
+> Thanks,
+> Inki Dae
+> 
+> The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+> 
+>   Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos tags/exynos-drm-fixes-for-v5.15-rc4
+> 
+> for you to fetch changes up to 17ac76e050c51497e75871a43aa3328ba54cdafd:
+> 
+>   drm/exynos: Make use of the helper function devm_platform_ioremap_resource() (2021-09-16 14:05:07 +0900)
+> 
+> ----------------------------------------------------------------
+> One cleanup
+> - Use devm_platform_ioremap_resource() helper function instead of old
+>   one.
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- .../devicetree/bindings/display/msm/edp.txt   | 56 -------------------
- 1 file changed, 56 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/msm/edp.txt
+Pulled into drm-fixes, thanks.
+-Daniel
 
-diff --git a/Documentation/devicetree/bindings/display/msm/edp.txt b/Documentation/devicetree/bindings/display/msm/edp.txt
-deleted file mode 100644
-index eff9daff418c..000000000000
---- a/Documentation/devicetree/bindings/display/msm/edp.txt
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Qualcomm Technologies Inc. adreno/snapdragon eDP output
--
--Required properties:
--- compatible:
--  * "qcom,mdss-edp"
--- reg: Physical base address and length of the registers of controller and PLL
--- reg-names: The names of register regions. The following regions are required:
--  * "edp"
--  * "pll_base"
--- interrupts: The interrupt signal from the eDP block.
--- power-domains: Should be <&mmcc MDSS_GDSC>.
--- clocks: device clocks
--  See Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
--- clock-names: the following clocks are required:
--  * "core"
--  * "iface"
--  * "mdp_core"
--  * "pixel"
--  * "link"
--- #clock-cells: The value should be 1.
--- vdda-supply: phandle to vdda regulator device node
--- lvl-vdd-supply: phandle to regulator device node which is used to supply power
--  to HPD receiving chip
--- panel-en-gpios: GPIO pin to supply power to panel.
--- panel-hpd-gpios: GPIO pin used for eDP hpd.
--
--
--Example:
--	mdss_edp: qcom,mdss_edp@fd923400 {
--			compatible = "qcom,mdss-edp";
--			reg-names =
--				"edp",
--				"pll_base";
--			reg =	<0xfd923400 0x700>,
--				<0xfd923a00 0xd4>;
--			interrupt-parent = <&mdss_mdp>;
--			interrupts = <12 0>;
--			power-domains = <&mmcc MDSS_GDSC>;
--			clock-names =
--				"core",
--				"pixel",
--				"iface",
--				"link",
--				"mdp_core";
--			clocks =
--				<&mmcc MDSS_EDPAUX_CLK>,
--				<&mmcc MDSS_EDPPIXEL_CLK>,
--				<&mmcc MDSS_AHB_CLK>,
--				<&mmcc MDSS_EDPLINK_CLK>,
--				<&mmcc MDSS_MDP_CLK>;
--			#clock-cells = <1>;
--			vdda-supply = <&pma8084_l12>;
--			lvl-vdd-supply = <&lvl_vreg>;
--			panel-en-gpios = <&tlmm 137 0>;
--			panel-hpd-gpios = <&tlmm 103 0>;
--	};
+> 
+> ----------------------------------------------------------------
+> Cai Huoqing (1):
+>       drm/exynos: Make use of the helper function devm_platform_ioremap_resource()
+> 
+>  drivers/gpu/drm/exynos/exynos5433_drm_decon.c | 4 +---
+>  drivers/gpu/drm/exynos/exynos_drm_dsi.c       | 4 +---
+>  drivers/gpu/drm/exynos/exynos_drm_fimc.c      | 5 +----
+>  drivers/gpu/drm/exynos/exynos_drm_fimd.c      | 4 +---
+>  drivers/gpu/drm/exynos/exynos_drm_g2d.c       | 5 +----
+>  drivers/gpu/drm/exynos/exynos_drm_gsc.c       | 6 +-----
+>  drivers/gpu/drm/exynos/exynos_drm_rotator.c   | 4 +---
+>  drivers/gpu/drm/exynos/exynos_drm_scaler.c    | 4 +---
+>  drivers/gpu/drm/exynos/exynos_hdmi.c          | 4 +---
+>  9 files changed, 9 insertions(+), 31 deletions(-)
+
 -- 
-2.33.0
-
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
