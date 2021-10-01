@@ -2,63 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3227841EFEE
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:46:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6053541EFF6
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1AB636EDA3;
-	Fri,  1 Oct 2021 14:46:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 20AC66EDAE;
+	Fri,  1 Oct 2021 14:50:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D9106EDA3
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:46:19 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id a18so3809319wru.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:46:18 -0700 (PDT)
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com
+ [IPv6:2a00:1450:4864:20::32b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7229F6EDAA
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:50:22 +0000 (UTC)
+Received: by mail-wm1-x32b.google.com with SMTP id v127so7402806wme.5
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:50:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=DeKM/glQH1OST7hI85kU7s7231VCn/y2isG1tUK7Ir0=;
- b=M4ag6i3gm93WRjWENtKbZH051fks8wpKb0SfvhEA7HQGdGA1FSUPRdgu8F+hbEG5zB
- u6VTglWErZt4Xalf4kMdC/MvuGZP8QAQIeO5Oyfv9aidFRTNfNeovHL+fHpDeKKAAyEv
- zqA0fh0xPp3om/oLi36TZ3lYKr/nToqDOdbFI=
+ h=date:from:to:cc:subject:message-id:mail-followup-to:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to; bh=XObjtU4PyVbF/ZbbwoSfuVLsd6n+GoMhRgnIczIDqqE=;
+ b=g+tE4NGMt8NgHUTGaid9q2/e6/yn54CaeuKWN84VbR9vgKLRNepXvLoLL/MiAwIEJ4
+ dIxekSzimYn5iQCF1lDktkOpQrU1qCqtdxt9JQF74fWAeUzDyk2p5dt4QE5f22PgO2/o
+ Wwk1wQsas67fVB6OOL4mzsqkgqtLrHFZhEiAA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=DeKM/glQH1OST7hI85kU7s7231VCn/y2isG1tUK7Ir0=;
- b=kmqnCELjRqkmIP5MFdArZexAR0OE9MIKtX8gk5pGsHSUfGBcEoN902ZCokgoXMK7x5
- 1bCH+SggB8cEgDyyVmmIk5KSDWYGNeTQvGSJ6UoVFI/IitZmdnbZ0/Mkb42q/TCjzHQv
- FeoHoBOyGT3m4qCzpdln+E3PE9Zk6+shD9oexbMhxRASIh1z+VF12adSQt3EfsMBmXAp
- QNFrrc29vUAqh69zIpEvlR9rxoetMYrf4dKQ88ZEoriARncF9rUWEcHCMLAsO8sAfsxw
- 1UnHTypzgk1yf47d66pAMiluevpkTSG2xz3+J2sD1JUAEE0VTbKLU7qwMvOG//vkNpKs
- nSng==
-X-Gm-Message-State: AOAM533HowdVBwWwU45YUVvQHAbjh2ob5/apKqzN0JvnD3YugToAoqLa
- /u7ORFBBdirb9UztQAaajR5xwJYORDcyxg==
-X-Google-Smtp-Source: ABdhPJzykEQbyUPRkXyhqkDipVTH6/M/0MxCt1oDUgo/ZvB6C2gtIYyWX7znf6uM+569qUKP5nL3mg==
-X-Received: by 2002:adf:e94d:: with SMTP id m13mr13277806wrn.28.1633099577457; 
- Fri, 01 Oct 2021 07:46:17 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id
+ :mail-followup-to:references:mime-version:content-disposition
+ :content-transfer-encoding:in-reply-to;
+ bh=XObjtU4PyVbF/ZbbwoSfuVLsd6n+GoMhRgnIczIDqqE=;
+ b=G9l36+VMCLj7FRKd9IQ9GcUVq18GRHi7p1OrmygYJB1XMTmqZ9J8kG2//hzH36hI2+
+ lYlvVKd3R3O5efJCPooTBAkWc0hNEe69nxH0RtmSchCDfCS3mvSRdcmsQa6aXGJS85JC
+ EpYtg7kIcE6SnPaCTF6bvHCscCKCzrOEzd2kg0XewyCoUhV19ftklO92yxE7QN5jCX9v
+ pBAST+D5rLCXVje6Fe9Gq4YIJRuik8v7ACNQqbvkamrfQDMRKj888dhnW4i6PXlVD9T/
+ 4oGMFMFYRYL87MCAM+XteLa8gEpzMfQQiGoXXU7qInarhcDQRGDLBKL282pu5Q7RwK27
+ wfPg==
+X-Gm-Message-State: AOAM5305dgEPCof9lY+9pvH5gfJ4F3zUfO2MF1ZpqV0mKLRj0oZzpkAc
+ mxY2TgO2Gwo1uqS/y4b56Wo7Ow==
+X-Google-Smtp-Source: ABdhPJw8T8GUVt7v4Ij+Ecdrg5qyP218Ix34mdcAMZ78zHjwhCBNKnCwsTQ9nfDW+q8et8Ml/yuf4Q==
+X-Received: by 2002:a05:600c:4e86:: with SMTP id
+ f6mr5180927wmq.52.1633099820785; 
+ Fri, 01 Oct 2021 07:50:20 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y197sm9135278wmc.18.2021.10.01.07.46.16
+ by smtp.gmail.com with ESMTPSA id k10sm7821605wmr.32.2021.10.01.07.50.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 07:46:16 -0700 (PDT)
-Date: Fri, 1 Oct 2021 16:46:15 +0200
+ Fri, 01 Oct 2021 07:50:20 -0700 (PDT)
+Date: Fri, 1 Oct 2021 16:50:18 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc: Cai Huoqing <caihuoqing@baidu.com>,
  Jani Nikula <jani.nikula@linux.intel.com>,
  Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-misc-fixes
-Message-ID: <YVcfN701HE9tuIsx@phenom.ffwll.local>
-References: <f079a5d2-3095-1065-85c2-9d510260215b@linux.intel.com>
- <YVbZ/P3FA4KuL2/w@phenom.ffwll.local>
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gvt-dev@lists.freedesktop.org
+Subject: Re: [PATCH] drm/i915: Use direction definition DMA_BIDIRECTIONAL
+ instead of PCI_DMA_BIDIRECTIONAL
+Message-ID: <YVcgKj0UCB2WmBXF@phenom.ffwll.local>
+Mail-Followup-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Cai Huoqing <caihuoqing@baidu.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>,
+ Zhi Wang <zhi.a.wang@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ intel-gvt-dev@lists.freedesktop.org
+References: <20210925124613.144-1-caihuoqing@baidu.com>
+ <YVXH87Uw3urD6q5x@phenom.ffwll.local>
+ <3a2ada00-fe4f-284c-46a5-c0f6676bcfe1@wanadoo.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YVbZ/P3FA4KuL2/w@phenom.ffwll.local>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3a2ada00-fe4f-284c-46a5-c0f6676bcfe1@wanadoo.fr>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -75,145 +92,178 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 01, 2021 at 11:50:52AM +0200, Daniel Vetter wrote:
-> On Thu, Sep 30, 2021 at 12:06:21PM +0200, Maarten Lankhorst wrote:
-> > drm-misc-fixes-2021-09-30:
-> > drm-misc-fixes for v5.15:
-> > - Not sure if drm-misc-fixes-2021-09-08 tag was pulled, assuming it is.
-> > - Power management fixes for vc4.
-> > - Compiler fix for vc4.
-> > - Cursor fix for nouveau.
-> > - Fix ttm buffer moves for ampere gpu's by adding minimal acceleration support.
-> > - Small rockchip fixes.
-> > - Fix DT bindings indent for ili9341.
-> > - Fix y030xx067a init sequence to not get a yellow tint.
-> > - Kconfig fix for fb_simple vs simpledrm.
-> > The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+On Thu, Sep 30, 2021 at 08:58:15PM +0200, Christophe JAILLET wrote:
+> Le 30/09/2021 à 16:21, Daniel Vetter a écrit :
+> > On Sat, Sep 25, 2021 at 08:46:12PM +0800, Cai Huoqing wrote:
+> > > Replace direction definition PCI_DMA_BIDIRECTIONAL
+> > > with DMA_BIDIRECTIONAL, because it helps to enhance readability
+> > > and avoid possible inconsistency.
+> > > 
+> > > Signed-off-by: Cai Huoqing <caihuoqing@baidu.com>
 > > 
-> >   Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://anongit.freedesktop.org/drm/drm-misc tags/drm-misc-fixes-2021-09-30
-> > 
-> > for you to fetch changes up to fd09961dbb9ca6558d8ad318a3967c1048bdb090:
-> > 
-> >   fbdev: simplefb: fix Kconfig dependencies (2021-09-29 09:26:58 +0200)
-> > 
-> > ----------------------------------------------------------------
-> > drm-misc-fixes for v5.15:
-> > - Not sure if drm-misc-fixes-2021-09-08 tag was pulled, assuming it is.
-
-Dave said he won't pull it and just cherry-picked the ttm fix, and asked
-for a rebase of the remaining bits.
-
-> > - Power management fixes for vc4.
-> > - Compiler fix for vc4.
-> > - Cursor fix for nouveau.
-> > - Fix ttm buffer moves for ampere gpu's by adding minimal acceleration support.
-> > - Small rockchip fixes.
-> > - Fix DT bindings indent for ili9341.
-> > - Fix y030xx067a init sequence to not get a yellow tint.
-> > - Kconfig fix for fb_simple vs simpledrm.
+> > Applied to drm-intel-gt-next, thanks for the patch.
+> > -Daniel
 > 
-> I can't pull this, because it conflicts with vc4 reverts in -rc2. There's
-> a completely busted merge resolution in drm-tip, which doesn't even
-> compile.
+> Hi,
+> just in case, a similar patch received some (unrelated) comments a few weeks
+> ago. See [1].
 > 
-> Please
-> - drop all vc4 patches
-> - rebase onto -rc3 or -rc4 if it's too late
+> Should it rings some bells to someone who know who knows what should be
+> done.
 > 
-> I'll do the pull to Linus this afternoon, would be good to get the other
-> fixes in.
+> Just my 2c.
+> 
+> [1]: https://lore.kernel.org/kernel-janitors/0cd61d5b-ac88-31e8-99ad-143af480416f@arm.com/
 
-I didn't see anything, so I guess it's going to be rebase onto -rc4 next
-week. Please don't fumble this for another week, the kmb fix is almost a
-month old by now because it keeps falling through cracks. drm-misc is
-supposed to be worry-free, not "where is my drm-misc-fixes" pull request
-land ...
+Hm yeah there's some fishy stuff in here, but it's cc'ed to intel-gfx so
+should get picked up there.
 -Daniel
 
-> -Daniel
+> 
+> CJ
+> 
 > 
 > > 
-> > ----------------------------------------------------------------
-> > Arnd Bergmann (1):
-> >       fbdev: simplefb: fix Kconfig dependencies
+> > > ---
+> > >   drivers/gpu/drm/i915/gt/intel_region_lmem.c |  4 ++--
+> > >   drivers/gpu/drm/i915/gvt/gtt.c              | 17 ++++++++---------
+> > >   drivers/gpu/drm/i915/gvt/kvmgt.c            |  4 ++--
+> > >   drivers/gpu/drm/i915/i915_gem_gtt.c         |  4 ++--
+> > >   4 files changed, 14 insertions(+), 15 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gt/intel_region_lmem.c b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> > > index a74b72f50cc9..afb35d2e5c73 100644
+> > > --- a/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> > > +++ b/drivers/gpu/drm/i915/gt/intel_region_lmem.c
+> > > @@ -32,7 +32,7 @@ static int init_fake_lmem_bar(struct intel_memory_region *mem)
+> > >   	mem->remap_addr = dma_map_resource(i915->drm.dev,
+> > >   					   mem->region.start,
+> > >   					   mem->fake_mappable.size,
+> > > -					   PCI_DMA_BIDIRECTIONAL,
+> > > +					   DMA_BIDIRECTIONAL,
+> > >   					   DMA_ATTR_FORCE_CONTIGUOUS);
+> > >   	if (dma_mapping_error(i915->drm.dev, mem->remap_addr)) {
+> > >   		drm_mm_remove_node(&mem->fake_mappable);
+> > > @@ -62,7 +62,7 @@ static void release_fake_lmem_bar(struct intel_memory_region *mem)
+> > >   	dma_unmap_resource(mem->i915->drm.dev,
+> > >   			   mem->remap_addr,
+> > >   			   mem->fake_mappable.size,
+> > > -			   PCI_DMA_BIDIRECTIONAL,
+> > > +			   DMA_BIDIRECTIONAL,
+> > >   			   DMA_ATTR_FORCE_CONTIGUOUS);
+> > >   }
+> > > diff --git a/drivers/gpu/drm/i915/gvt/gtt.c b/drivers/gpu/drm/i915/gvt/gtt.c
+> > > index e5c2fdfc20e3..53d0cb327539 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/gtt.c
+> > > +++ b/drivers/gpu/drm/i915/gvt/gtt.c
+> > > @@ -745,7 +745,7 @@ static void ppgtt_free_spt(struct intel_vgpu_ppgtt_spt *spt)
+> > >   	trace_spt_free(spt->vgpu->id, spt, spt->guest_page.type);
+> > >   	dma_unmap_page(kdev, spt->shadow_page.mfn << I915_GTT_PAGE_SHIFT, 4096,
+> > > -		       PCI_DMA_BIDIRECTIONAL);
+> > > +		       DMA_BIDIRECTIONAL);
+> > >   	radix_tree_delete(&spt->vgpu->gtt.spt_tree, spt->shadow_page.mfn);
+> > > @@ -849,7 +849,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+> > >   	 */
+> > >   	spt->shadow_page.type = type;
+> > >   	daddr = dma_map_page(kdev, spt->shadow_page.page,
+> > > -			     0, 4096, PCI_DMA_BIDIRECTIONAL);
+> > > +			     0, 4096, DMA_BIDIRECTIONAL);
+> > >   	if (dma_mapping_error(kdev, daddr)) {
+> > >   		gvt_vgpu_err("fail to map dma addr\n");
+> > >   		ret = -EINVAL;
+> > > @@ -865,7 +865,7 @@ static struct intel_vgpu_ppgtt_spt *ppgtt_alloc_spt(
+> > >   	return spt;
+> > >   err_unmap_dma:
+> > > -	dma_unmap_page(kdev, daddr, PAGE_SIZE, PCI_DMA_BIDIRECTIONAL);
+> > > +	dma_unmap_page(kdev, daddr, PAGE_SIZE, DMA_BIDIRECTIONAL);
+> > >   err_free_spt:
+> > >   	free_spt(spt);
+> > >   	return ERR_PTR(ret);
+> > > @@ -2409,8 +2409,7 @@ static int alloc_scratch_pages(struct intel_vgpu *vgpu,
+> > >   		return -ENOMEM;
+> > >   	}
+> > > -	daddr = dma_map_page(dev, virt_to_page(scratch_pt), 0,
+> > > -			4096, PCI_DMA_BIDIRECTIONAL);
+> > > +	daddr = dma_map_page(dev, virt_to_page(scratch_pt), 0, 4096, DMA_BIDIRECTIONAL);
+> > >   	if (dma_mapping_error(dev, daddr)) {
+> > >   		gvt_vgpu_err("fail to dmamap scratch_pt\n");
+> > >   		__free_page(virt_to_page(scratch_pt));
+> > > @@ -2461,7 +2460,7 @@ static int release_scratch_page_tree(struct intel_vgpu *vgpu)
+> > >   		if (vgpu->gtt.scratch_pt[i].page != NULL) {
+> > >   			daddr = (dma_addr_t)(vgpu->gtt.scratch_pt[i].page_mfn <<
+> > >   					I915_GTT_PAGE_SHIFT);
+> > > -			dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+> > > +			dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+> > >   			__free_page(vgpu->gtt.scratch_pt[i].page);
+> > >   			vgpu->gtt.scratch_pt[i].page = NULL;
+> > >   			vgpu->gtt.scratch_pt[i].page_mfn = 0;
+> > > @@ -2741,7 +2740,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+> > >   	}
+> > >   	daddr = dma_map_page(dev, virt_to_page(page), 0,
+> > > -			4096, PCI_DMA_BIDIRECTIONAL);
+> > > +			4096, DMA_BIDIRECTIONAL);
+> > >   	if (dma_mapping_error(dev, daddr)) {
+> > >   		gvt_err("fail to dmamap scratch ggtt page\n");
+> > >   		__free_page(virt_to_page(page));
+> > > @@ -2755,7 +2754,7 @@ int intel_gvt_init_gtt(struct intel_gvt *gvt)
+> > >   		ret = setup_spt_oos(gvt);
+> > >   		if (ret) {
+> > >   			gvt_err("fail to initialize SPT oos\n");
+> > > -			dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+> > > +			dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+> > >   			__free_page(gvt->gtt.scratch_page);
+> > >   			return ret;
+> > >   		}
+> > > @@ -2779,7 +2778,7 @@ void intel_gvt_clean_gtt(struct intel_gvt *gvt)
+> > >   	dma_addr_t daddr = (dma_addr_t)(gvt->gtt.scratch_mfn <<
+> > >   					I915_GTT_PAGE_SHIFT);
+> > > -	dma_unmap_page(dev, daddr, 4096, PCI_DMA_BIDIRECTIONAL);
+> > > +	dma_unmap_page(dev, daddr, 4096, DMA_BIDIRECTIONAL);
+> > >   	__free_page(gvt->gtt.scratch_page);
+> > > diff --git a/drivers/gpu/drm/i915/gvt/kvmgt.c b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > > index 7efa386449d1..20b82fb036f8 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > > +++ b/drivers/gpu/drm/i915/gvt/kvmgt.c
+> > > @@ -328,7 +328,7 @@ static int gvt_dma_map_page(struct intel_vgpu *vgpu, unsigned long gfn,
+> > >   		return ret;
+> > >   	/* Setup DMA mapping. */
+> > > -	*dma_addr = dma_map_page(dev, page, 0, size, PCI_DMA_BIDIRECTIONAL);
+> > > +	*dma_addr = dma_map_page(dev, page, 0, size, DMA_BIDIRECTIONAL);
+> > >   	if (dma_mapping_error(dev, *dma_addr)) {
+> > >   		gvt_vgpu_err("DMA mapping failed for pfn 0x%lx, ret %d\n",
+> > >   			     page_to_pfn(page), ret);
+> > > @@ -344,7 +344,7 @@ static void gvt_dma_unmap_page(struct intel_vgpu *vgpu, unsigned long gfn,
+> > >   {
+> > >   	struct device *dev = vgpu->gvt->gt->i915->drm.dev;
+> > > -	dma_unmap_page(dev, dma_addr, size, PCI_DMA_BIDIRECTIONAL);
+> > > +	dma_unmap_page(dev, dma_addr, size, DMA_BIDIRECTIONAL);
+> > >   	gvt_unpin_guest_page(vgpu, gfn, size);
+> > >   }
+> > > diff --git a/drivers/gpu/drm/i915/i915_gem_gtt.c b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> > > index 36489be4896b..cd5f2348a187 100644
+> > > --- a/drivers/gpu/drm/i915/i915_gem_gtt.c
+> > > +++ b/drivers/gpu/drm/i915/i915_gem_gtt.c
+> > > @@ -30,7 +30,7 @@ int i915_gem_gtt_prepare_pages(struct drm_i915_gem_object *obj,
+> > >   	do {
+> > >   		if (dma_map_sg_attrs(obj->base.dev->dev,
+> > >   				     pages->sgl, pages->nents,
+> > > -				     PCI_DMA_BIDIRECTIONAL,
+> > > +				     DMA_BIDIRECTIONAL,
+> > >   				     DMA_ATTR_SKIP_CPU_SYNC |
+> > >   				     DMA_ATTR_NO_KERNEL_MAPPING |
+> > >   				     DMA_ATTR_NO_WARN))
+> > > @@ -64,7 +64,7 @@ void i915_gem_gtt_finish_pages(struct drm_i915_gem_object *obj,
+> > >   		usleep_range(100, 250);
+> > >   	dma_unmap_sg(i915->drm.dev, pages->sgl, pages->nents,
+> > > -		     PCI_DMA_BIDIRECTIONAL);
+> > > +		     DMA_BIDIRECTIONAL);
+> > >   }
+> > >   /**
+> > > -- 
+> > > 2.25.1
+> > > 
 > > 
-> > Ben Skeggs (3):
-> >       drm/nouveau/kms/tu102-: delay enabling cursor until after assign_windows
-> >       drm/nouveau/ga102-: support ttm buffer moves via copy engine
-> >       drm/nouveau/fifo/ga102: initialise chid on return from channel creation
-> > 
-> > Chris Morgan (1):
-> >       drm/rockchip: Update crtc fixup to account for fractional clk change
-> > 
-> > Christophe Branchereau (1):
-> >       drm/panel: abt-y030xx067a: yellow tint fix
-> > 
-> > Edmund Dea (1):
-> >       drm/kmb: Enable alpha blended second plane
-> > 
-> > Jernej Skrabec (1):
-> >       drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
-> > 
-> > Krzysztof Kozlowski (1):
-> >       dt-bindings: panel: ili9341: correct indentation
-> > 
-> > Maarten Lankhorst (1):
-> >       Merge drm/drm-fixes into drm-misc-fixes
-> > 
-> > Maxime Ripard (7):
-> >       drm/vc4: select PM
-> >       drm/vc4: hdmi: Make sure the controller is powered up during bind
-> >       drm/vc4: hdmi: Rework the pre_crtc_configure error handling
-> >       drm/vc4: hdmi: Split the CEC disable / enable functions in two
-> >       drm/vc4: hdmi: Make sure the device is powered with CEC
-> >       drm/vc4: hdmi: Warn if we access the controller while disabled
-> >       drm/vc4: hdmi: Remove unused struct
-> > 
-> > Palmer Dabbelt (1):
-> >       drm/rockchip: cdn-dp-core: Fix cdn_dp_resume unused warning
-> > 
-> > xinhui pan (1):
-> >       drm/ttm: Fix a deadlock if the target BO is not idle during swap
-> > 
-> >  .../bindings/display/panel/ilitek,ili9341.yaml     |   2 +-
-> >  drivers/gpu/drm/kmb/kmb_drv.c                      |   8 +-
-> >  drivers/gpu/drm/kmb/kmb_drv.h                      |   5 +
-> >  drivers/gpu/drm/kmb/kmb_plane.c                    |  81 +++++-
-> >  drivers/gpu/drm/kmb/kmb_plane.h                    |   5 +-
-> >  drivers/gpu/drm/kmb/kmb_regs.h                     |   3 +
-> >  drivers/gpu/drm/nouveau/dispnv50/head.c            |   2 +-
-> >  drivers/gpu/drm/nouveau/include/nvif/class.h       |   2 +
-> >  drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h |   1 +
-> >  drivers/gpu/drm/nouveau/nouveau_bo.c               |   1 +
-> >  drivers/gpu/drm/nouveau/nouveau_chan.c             |   6 +-
-> >  drivers/gpu/drm/nouveau/nouveau_drm.c              |   4 +
-> >  drivers/gpu/drm/nouveau/nv84_fence.c               |   2 +-
-> >  drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |   3 +
-> >  drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild    |   1 +
-> >  drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c   | 311 +++++++++++++++++++++
-> >  drivers/gpu/drm/nouveau/nvkm/subdev/top/ga100.c    |   7 +-
-> >  drivers/gpu/drm/panel/panel-abt-y030xx067a.c       |   4 +-
-> >  drivers/gpu/drm/rockchip/cdn-dp-core.c             |   2 +-
-> >  drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |  26 +-
-> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |   7 +-
-> >  drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h              |   4 +-
-> >  drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c             |  97 ++++---
-> >  drivers/gpu/drm/vc4/Kconfig                        |   1 +
-> >  drivers/gpu/drm/vc4/vc4_hdmi.c                     | 133 +++++----
-> >  drivers/gpu/drm/vc4/vc4_hdmi_regs.h                |   6 +
-> >  drivers/of/base.c                                  |   1 +
-> >  drivers/video/fbdev/Kconfig                        |   5 +-
-> >  28 files changed, 591 insertions(+), 139 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
 > 
-> -- 
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
 
 -- 
 Daniel Vetter
