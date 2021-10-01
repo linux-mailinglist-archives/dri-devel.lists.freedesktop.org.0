@@ -1,67 +1,82 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C342B41F023
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:59:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84AEC41F039
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 17:01:55 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 34E1F6EE12;
-	Fri,  1 Oct 2021 14:59:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 892376EDD5;
+	Fri,  1 Oct 2021 15:01:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com
- [IPv6:2a00:1450:4864:20::32c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3964C6EDE9
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:59:06 +0000 (UTC)
-Received: by mail-wm1-x32c.google.com with SMTP id
- g193-20020a1c20ca000000b0030d55f1d984so219704wmg.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=jJY3uvVzN0+VKIpmed9vmKmw2VVI6RacX8HsYm/goNY=;
- b=f5QVKtGJ5k9YZXEPvvvDUeHpDPpJckx+aesGc+HHJD4Mt/L2+BvFkCXq8ZB++QSFBD
- wnFyRdRgp1Ynhb9SEmyFJ2WX3ipOeM4sJpUS6cBY3RpS5XAYEg3fJcIoXY27Gw2vwXeQ
- G+TXvF3/LVWYhq7q28zee5nPlRkVvtSofUwz4=
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E966B6EDD5
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 15:01:50 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id i4so40379906lfv.4
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 08:01:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Wl3ZMyIoq68XUN9ZysEDdbNyOTOcWVKDq09iuCEsZmc=;
+ b=nc/wRiOyNThsvZAoZqrqxfcMp5xM4+z3v5LBnRr7cDxfQB3CuDz+w9I+DrmCVjWOKl
+ np27NqLQZ/GN1BOsQnTqAa2UnIwF19eGxu64prAseFDGzGs8fstw8HcPfShlYRQ0qE1c
+ WBjvqHBepPh7/S1osWRA5oJkTk2LMoL8V+Rr/1CAVQRt+OOzX2VJn6rhiBggeGf0jaLd
+ I5s3lo9wgue1e92EUCmCI977jDYPuMA5YYpLfqE1ZPhrxcH8sAmJV+ED8ef6hVn8S0D5
+ bD46sji6e0iHnnK6F4WHN2ijZ4ehxPr5Lmm8HNBreW4wKt5dklt3O1Dh0kW0EnVCwAx4
+ w7NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jJY3uvVzN0+VKIpmed9vmKmw2VVI6RacX8HsYm/goNY=;
- b=NftOXgbPoD+p1y5o6EQ9v2qLITQtGGaH98K2vR7/ZtyTzS9IxmPeII1lNXTD1zsqXO
- TD+RPLsgCb3ccXD4FJoNs8bC+3fNM+Uonuu43aNZXi2uQB4dtU3ILm/FUjvQm3cseh1W
- MQyZ8RLihNXZbu8lc5AWEf0o9JGf2pf2N/vsyD9jsF1v/KcjQlE0y7BKNoT7bpieNwIR
- oVjgg9mlfLvKQZ0nAcah6aXR8Bphx6DYgFSG46GWTrpQ66QTL00Ym46boIQ0ZivT46w2
- 4gDncdWoF0y32XxE9gAVw7YWJcz4P4oxLrpR9Y545nGxsW/UywCKKouHZY8JnkqOIhJc
- WdDA==
-X-Gm-Message-State: AOAM532ObCUwja3mrzVd229Dv7Q+CaKNcDekLagJuB/GSZhcbUFuz70X
- 4tj398LsHYLCfyyeXv3elwEfIUFcYzvZPw==
-X-Google-Smtp-Source: ABdhPJzwJRUp2ynFM0uvvs3tHsF6rU4Eus0M8GsESjG+LJMbs4tweVrKyqVAFlHgjzPUYLH7gYFcow==
-X-Received: by 2002:a05:600c:4293:: with SMTP id
- v19mr5093862wmc.113.1633100344627; 
- Fri, 01 Oct 2021 07:59:04 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id y23sm8226866wmi.16.2021.10.01.07.59.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 07:59:04 -0700 (PDT)
-Date: Fri, 1 Oct 2021 16:59:02 +0200
-From: Daniel Vetter <daniel@ffwll.ch>
-To: Jani Nikula <jani.nikula@intel.com>
-Cc: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Sean Paul <sean@poorly.run>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, dim-tools@lists.freedesktop.org
-Subject: Re: [PULL] drm-intel-fixes
-Message-ID: <YVciNsllheJM6bom@phenom.ffwll.local>
-References: <87lf3ev44z.fsf@intel.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Wl3ZMyIoq68XUN9ZysEDdbNyOTOcWVKDq09iuCEsZmc=;
+ b=5PlV2c3eWldKZ7FfhqcNa1LSjTDap2NgonUkKJcID2AD5NBxH1XxHsvc2ovJwdtQp1
+ /aa+H4aaQ5799VteTUVQNy3te3onpW9KJAARawL9fgLNjiw0nagAQmmpVP6qfFW0jE0R
+ wIDFi3tcGDh/x5H8b30VT1Q3mVLdkJ+9HTgN50m5OmGE8AyHXcn8SbbZzERilRsfX6rp
+ +a0mkOqav4MJgmuIHsschjasUiSPJWsyP4ylzW3Qd0arW1i/WBkD7/6zy3sUpMlyiZVz
+ aTaa6RDD7R+/NVmpAC+JCTQw7mEeLYqhKdANEQVjMLLe5SD1AqxJIvALrKfPLQ9AW3Q3
+ 0Hdg==
+X-Gm-Message-State: AOAM5315A99N6r+xIF4CwRsvVpsJwRrARhVEQuNZcAmHmTAtATpv7seN
+ hweW3r1t9wiswe+76ZlzCToM+EbrB6p5JIm+R8nfiA==
+X-Google-Smtp-Source: ABdhPJzMALxdSFVvKbncpXSAkoeLVU4WvZ1aDrH/nsBIXY0lecURQDTr7J6h8lUkTNpeSwp11syRcpWCl/bNnJtDs94=
+X-Received: by 2002:a05:6512:2397:: with SMTP id
+ c23mr5737854lfv.358.1633100509099; 
+ Fri, 01 Oct 2021 08:01:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87lf3ev44z.fsf@intel.com>
-X-Operating-System: Linux phenom 5.10.0-8-amd64 
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-21-digetx@gmail.com>
+ <CAPDyKFoF2QxZss_h9B1NFqOqgeF=TQ6LajCedGiJ9_P8X5M0NA@mail.gmail.com>
+ <0bcbcd3d-2154-03d2-f572-dc9032125c26@gmail.com>
+In-Reply-To: <0bcbcd3d-2154-03d2-f572-dc9032125c26@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 1 Oct 2021 17:01:12 +0200
+Message-ID: <CAPDyKFohA9iu2UQfwoc0pCrCGupdwnUTWjKOtP09_C2KaFSo8w@mail.gmail.com>
+Subject: Re: [PATCH v13 20/35] mtd: rawnand: tegra: Add runtime PM and OPP
+ support
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,71 +92,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 30, 2021 at 11:50:20AM +0300, Jani Nikula wrote:
-> 
-> Hi Dave & Daniel -
-> 
-> drm-intel-fixes-2021-09-30:
-> drm/i915 fixes for v5.15-rc4:
-> - Fix GVT scheduler ww lock usage
-> - Fix pdfdocs documentation build
-> - Fix request early tracepoints
-> - Fix an invalid warning from rps worker
-> 
-> BR,
-> Jani.
-> 
-> The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
-> 
->   Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
-> 
-> are available in the Git repository at:
-> 
->   git://anongit.freedesktop.org/drm/drm-intel tags/drm-intel-fixes-2021-09-30
-> 
-> for you to fetch changes up to 4b8bcaf8a6d6ab5db51e30865def5cb694eb2966:
-> 
->   drm/i915: Remove warning from the rps worker (2021-09-27 12:46:40 +0300)
+On Fri, 1 Oct 2021 at 16:35, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> 01.10.2021 17:24, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> > On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote=
+:
+> >>
+> >> The NAND on Tegra belongs to the core power domain and we're going to
+> >> enable GENPD support for the core domain. Now NAND must be resumed usi=
+ng
+> >> runtime PM API in order to initialize the NAND power state. Add runtim=
+e PM
+> >> and OPP support to the NAND driver.
+> >>
+> >> Acked-by: Miquel Raynal <miquel.raynal@bootlin.com>
+> >> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+> >> ---
+> >>  drivers/mtd/nand/raw/tegra_nand.c | 55 ++++++++++++++++++++++++++----=
+-
+> >>  1 file changed, 47 insertions(+), 8 deletions(-)
+> >>
+> >> diff --git a/drivers/mtd/nand/raw/tegra_nand.c b/drivers/mtd/nand/raw/=
+tegra_nand.c
+> >> index 32431bbe69b8..098fcc9cb9df 100644
+> >> --- a/drivers/mtd/nand/raw/tegra_nand.c
+> >> +++ b/drivers/mtd/nand/raw/tegra_nand.c
+> >> @@ -17,8 +17,11 @@
+> >>  #include <linux/mtd/rawnand.h>
+> >>  #include <linux/of.h>
+> >>  #include <linux/platform_device.h>
+> >> +#include <linux/pm_runtime.h>
+> >>  #include <linux/reset.h>
+> >>
+> >> +#include <soc/tegra/common.h>
+> >> +
+> >>  #define COMMAND                                        0x00
+> >>  #define   COMMAND_GO                           BIT(31)
+> >>  #define   COMMAND_CLE                          BIT(30)
+> >> @@ -1151,6 +1154,7 @@ static int tegra_nand_probe(struct platform_devi=
+ce *pdev)
+> >>                 return -ENOMEM;
+> >>
+> >>         ctrl->dev =3D &pdev->dev;
+> >> +       platform_set_drvdata(pdev, ctrl);
+> >>         nand_controller_init(&ctrl->controller);
+> >>         ctrl->controller.ops =3D &tegra_nand_controller_ops;
+> >>
+> >> @@ -1166,14 +1170,22 @@ static int tegra_nand_probe(struct platform_de=
+vice *pdev)
+> >>         if (IS_ERR(ctrl->clk))
+> >>                 return PTR_ERR(ctrl->clk);
+> >>
+> >> -       err =3D clk_prepare_enable(ctrl->clk);
+> >> +       err =3D devm_pm_runtime_enable(&pdev->dev);
+> >> +       if (err)
+> >> +               return err;
+> >> +
+> >> +       err =3D devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
+> >> +       if (err)
+> >> +               return err;
+> >> +
+> >> +       err =3D pm_runtime_resume_and_get(&pdev->dev);
+> >>         if (err)
+> >>                 return err;
+> >>
+> >>         err =3D reset_control_reset(rst);
+> >>         if (err) {
+> >>                 dev_err(ctrl->dev, "Failed to reset HW: %d\n", err);
+> >> -               goto err_disable_clk;
+> >> +               goto err_put_pm;
+> >>         }
+> >>
+> >>         writel_relaxed(HWSTATUS_CMD_DEFAULT, ctrl->regs + HWSTATUS_CMD=
+);
+> >> @@ -1188,21 +1200,19 @@ static int tegra_nand_probe(struct platform_de=
+vice *pdev)
+> >>                                dev_name(&pdev->dev), ctrl);
+> >>         if (err) {
+> >>                 dev_err(ctrl->dev, "Failed to get IRQ: %d\n", err);
+> >> -               goto err_disable_clk;
+> >> +               goto err_put_pm;
+> >>         }
+> >>
+> >>         writel_relaxed(DMA_MST_CTRL_IS_DONE, ctrl->regs + DMA_MST_CTRL=
+);
+> >>
+> >>         err =3D tegra_nand_chips_init(ctrl->dev, ctrl);
+> >>         if (err)
+> >> -               goto err_disable_clk;
+> >> -
+> >> -       platform_set_drvdata(pdev, ctrl);
+> >> +               goto err_put_pm;
+> >>
+> >
+> > There is no corresponding call pm_runtime_put() here. Is it
+> > intentional to always leave the device runtime resumed after ->probe()
+> > has succeeded?
+> >
+> > I noticed you included some comments about this for some other
+> > drivers, as those needed more tweaks. Is that also the case for this
+> > driver?
+>
+> Could you please clarify? There is pm_runtime_put() in both probe-error
+> and remove() code paths here.
 
-Merged into drm-fixes, apologies for being a bit late, I was held up in a
-drm-misc-fixes chaos.
--Daniel
+I was not considering the error path of ->probe() (or ->remove()), but
+was rather thinking about when ->probe() completes successfully. Then
+you keep the device runtime resumed, because you have called
+pm_runtime_resume_and_get() for it.
 
-> 
-> ----------------------------------------------------------------
-> drm/i915 fixes for v5.15-rc4:
-> - Fix GVT scheduler ww lock usage
-> - Fix pdfdocs documentation build
-> - Fix request early tracepoints
-> - Fix an invalid warning from rps worker
-> 
-> ----------------------------------------------------------------
-> Akira Yokosawa (1):
->       drm/i915/guc, docs: Fix pdfdocs build error by removing nested grid
-> 
-> Jani Nikula (1):
->       Merge tag 'gvt-fixes-2021-09-18' of https://github.com/intel/gvt-linux into drm-intel-fixes
-> 
-> Matthew Auld (1):
->       drm/i915/request: fix early tracepoints
-> 
-> Tejas Upadhyay (1):
->       drm/i915: Remove warning from the rps worker
-> 
-> Zhi A Wang (1):
->       drm/i915/gvt: fix the usage of ww lock in gvt scheduler.
-> 
->  drivers/gpu/drm/i915/gt/intel_rps.c                         |  2 --
->  drivers/gpu/drm/i915/gt/uc/abi/guc_communication_ctb_abi.h  | 10 +++++-----
->  drivers/gpu/drm/i915/gt/uc/abi/guc_communication_mmio_abi.h | 10 +++++-----
->  drivers/gpu/drm/i915/gvt/scheduler.c                        |  4 ++--
->  drivers/gpu/drm/i915/i915_request.c                         | 11 ++---------
->  5 files changed, 14 insertions(+), 23 deletions(-)
-> 
-> -- 
-> Jani Nikula, Intel Open Source Graphics Center
+Shouldn't you have a corresponding pm_runtime_put() in ->probe(),
+allowing it to be runtime suspended, until the device is really needed
+later on. No?
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> I assume you're meaning pm_runtime_disable(), but this patch uses
+> resource-managed devm_pm_runtime_enable(), and thus, explicit disable
+> isn't needed.
+>
+> >>         return 0;
+> >>
+> >> -err_disable_clk:
+> >> -       clk_disable_unprepare(ctrl->clk);
+> >> +err_put_pm:
+> >> +       pm_runtime_put(ctrl->dev);
+> >>         return err;
+> >>  }
+> >>
+
+[...]
+
+Kind regards
+Uffe
