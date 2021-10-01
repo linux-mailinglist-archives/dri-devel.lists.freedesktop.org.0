@@ -2,39 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E2F941F500
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 20:33:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F8441F505
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 20:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 15FCE6EEAD;
-	Fri,  1 Oct 2021 18:33:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1508A6EEA4;
+	Fri,  1 Oct 2021 18:34:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91D326EEA4;
- Fri,  1 Oct 2021 18:33:38 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="205686864"
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; d="scan'208";a="205686864"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 11:33:26 -0700
-X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; d="scan'208";a="619325258"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 11:33:26 -0700
-Date: Fri, 1 Oct 2021 11:33:25 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: Michal Wajdeczko <michal.wajdeczko@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- CQ Tang <cq.tang@intel.com>
-Subject: Re: [PATCH] drm/i915: Use fixed offset for PTEs location
-Message-ID: <20211001183325.GE3389343@mdroper-desk1.amr.corp.intel.com>
-References: <20210926201005.1450-1-michal.wajdeczko@intel.com>
- <20210930220118.GZ3389343@mdroper-desk1.amr.corp.intel.com>
+Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
+ [IPv6:2a00:1450:4864:20::12a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 340736EEB0
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 18:34:57 +0000 (UTC)
+Received: by mail-lf1-x12a.google.com with SMTP id i25so42116255lfg.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 11:34:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=h17+SHB1hF/idn3CZToPuuO5Jqa52mgDL9LaLqNP76k=;
+ b=XvZPJRVapHhXbnvxBH+dcTzSWQUb8QLF1Nvs1pcRhCxBeMs5Xcc3SYxz0PJk9MSVwB
+ RO++xnwZyTvuSnUUevpLJg3QzOphbUQYQMzIEN8ZdDC/pBg7emCqlUyytJKci3smdWEz
+ PGKQDIfcwTqn5uHKORxQ95mAv2mamNG7R4cbKDhOgNlMOni5vMR6VfkgZNz3f+w9r6LP
+ RM5PrO44K4PTReIsJatKfc6ou546JK1Y/09aVpYq2fo16JNjbJ30np/Do4fvwBpz7Nls
+ NnJBkqXWOyTByxBLP2U0JC6UhBtJUhfb9XBQKV7BuC/NtZW4K+K44hAwVBC/VzyF8UqV
+ abdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h17+SHB1hF/idn3CZToPuuO5Jqa52mgDL9LaLqNP76k=;
+ b=ADGfcybvbOmCh3rhEDKAsogspLF+X7jI+zLnXH3n/CdotqAY5kqaG1XhIU0GxMYZb5
+ J4iQGHWDhAUkp5MN3Dw6KXAOKfncpqRxHs0robirTvWHISc5lCuU88jZ+C7Kqkx1+PHb
+ wQDMho59T+bymT16bcrN7KAJ2Pac5Pi2SysNWluqwpIZOapAd452NYZKj+jZOpk0a9W5
+ IbGJQvfNquXda+TYdzyolt9eKvfoYrz2cPIkFjs46ERx9KH+SxwCJZnYNLGke1vMshIL
+ 8YXeH3G/hH7IQmL4lImia35hWPVDCSjCdMUfCWnKfYj5/ssxFDN6f1IxcrgD7zz8V7O4
+ 6G+A==
+X-Gm-Message-State: AOAM533oUwt6rZYJgbO4vo51LQJvUeISbIx9OkpRbydv8L4f9tAfsmP0
+ 6Q8lt35vM28X9G/G8llYBzjhXg==
+X-Google-Smtp-Source: ABdhPJxAGb0vHrSPSZ+MiRYmStYTxz0nB8m1aCFfXoEXCgOVViaEkeSdPPdoKSd77/QxRlbcQSx0UQ==
+X-Received: by 2002:a2e:a370:: with SMTP id i16mr12844230ljn.35.1633113295365; 
+ Fri, 01 Oct 2021 11:34:55 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id p14sm809515lfa.299.2021.10.01.11.34.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 11:34:54 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm: Fix null pointer dereference on pointer edp
+To: Colin King <colin.king@canonical.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@redhat.com>,
+ Lyude Paul <lyude@redhat.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20210929121857.213922-1-colin.king@canonical.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <c9a68b02-d9b6-e779-7659-2f92639e55b0@linaro.org>
+Date: Fri, 1 Oct 2021 21:34:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210930220118.GZ3389343@mdroper-desk1.amr.corp.intel.com>
+In-Reply-To: <20210929121857.213922-1-colin.king@canonical.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,83 +79,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 30, 2021 at 03:01:19PM -0700, Matt Roper wrote:
-> On Sun, Sep 26, 2021 at 10:10:05PM +0200, Michal Wajdeczko wrote:
-> > We assumed that for all modern GENs the PTEs and register space are
-> > split in the GTTMMADR BAR, but while it is true, we should rather use
-> > fixed offset as it is defined in the specification.
-> > 
-> > Bspec: 4409, 4457, 4604, 11181, 9027, 13246, 13321, 44980
-> > 
-> > Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
-> > Cc: CQ Tang <cq.tang@intel.com>
-> > Cc: Matt Roper <matthew.d.roper@intel.com>
+On 29/09/2021 15:18, Colin King wrote:
+> From: Colin Ian King <colin.king@canonical.com>
 > 
-> Matches the descriptions on all the various bspec pages.
+> The initialization of pointer dev dereferences pointer edp before
+> edp is null checked, so there is a potential null pointer deference
+> issue. Fix this by only dereferencing edp after edp has been null
+> checked.
 > 
-> Reviewed-by: Matt Roper <matthew.d.roper@intel.com>
+> Addresses-Coverity: ("Dereference before null check")
+> Fixes: ab5b0107ccf3 ("drm/msm: Initial add eDP support in msm drm driver (v5)")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
 
-And applied to drm-intel-gt-next.  Thanks for the patch.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
-
-Matt
-
+> ---
+>   drivers/gpu/drm/msm/edp/edp_ctrl.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> > ---
-> >  drivers/gpu/drm/i915/gt/intel_ggtt.c | 19 +++++++++++++++++--
-> >  1 file changed, 17 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_ggtt.c b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > index ba7c7ed89fa8..f17383e76eb7 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > +++ b/drivers/gpu/drm/i915/gt/intel_ggtt.c
-> > @@ -813,6 +813,21 @@ static unsigned int chv_get_total_gtt_size(u16 gmch_ctrl)
-> >  	return 0;
-> >  }
-> >  
-> > +static unsigned int gen6_gttmmadr_size(struct drm_i915_private *i915)
-> > +{
-> > +	/*
-> > +	 * GEN6: GTTMMADR size is 4MB and GTTADR starts at 2MB offset
-> > +	 * GEN8: GTTMMADR size is 16MB and GTTADR starts at 8MB offset
-> > +	 */
-> > +	GEM_BUG_ON(GRAPHICS_VER(i915) < 6);
-> > +	return (GRAPHICS_VER(i915) < 8) ? SZ_4M : SZ_16M;
-> > +}
-> > +
-> > +static unsigned int gen6_gttadr_offset(struct drm_i915_private *i915)
-> > +{
-> > +	return gen6_gttmmadr_size(i915) / 2;
-> > +}
-> > +
-> >  static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
-> >  {
-> >  	struct drm_i915_private *i915 = ggtt->vm.i915;
-> > @@ -821,8 +836,8 @@ static int ggtt_probe_common(struct i915_ggtt *ggtt, u64 size)
-> >  	u32 pte_flags;
-> >  	int ret;
-> >  
-> > -	/* For Modern GENs the PTEs and register space are split in the BAR */
-> > -	phys_addr = pci_resource_start(pdev, 0) + pci_resource_len(pdev, 0) / 2;
-> > +	GEM_WARN_ON(pci_resource_len(pdev, 0) != gen6_gttmmadr_size(i915));
-> > +	phys_addr = pci_resource_start(pdev, 0) + gen6_gttadr_offset(i915);
-> >  
-> >  	/*
-> >  	 * On BXT+/ICL+ writes larger than 64 bit to the GTT pagetable range
-> > -- 
-> > 2.25.1
-> > 
+> diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+> index 4fb397ee7c84..fe1366b4c49f 100644
+> --- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
+> +++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
+> @@ -1116,7 +1116,7 @@ void msm_edp_ctrl_power(struct edp_ctrl *ctrl, bool on)
+>   int msm_edp_ctrl_init(struct msm_edp *edp)
+>   {
+>   	struct edp_ctrl *ctrl = NULL;
+> -	struct device *dev = &edp->pdev->dev;
+> +	struct device *dev;
+>   	int ret;
+>   
+>   	if (!edp) {
+> @@ -1124,6 +1124,7 @@ int msm_edp_ctrl_init(struct msm_edp *edp)
+>   		return -EINVAL;
+>   	}
+>   
+> +	dev = &edp->pdev->dev;
+>   	ctrl = devm_kzalloc(dev, sizeof(*ctrl), GFP_KERNEL);
+>   	if (!ctrl)
+>   		return -ENOMEM;
 > 
-> -- 
-> Matt Roper
-> Graphics Software Engineer
-> VTT-OSGC Platform Enablement
-> Intel Corporation
-> (916) 356-2795
+
 
 -- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+With best wishes
+Dmitry
