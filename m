@@ -2,48 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BF2241F741
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 00:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52A9441F76C
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 00:33:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 37E546E57E;
-	Fri,  1 Oct 2021 22:05:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9AD686E59F;
+	Fri,  1 Oct 2021 22:33:33 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 969C56E57E;
- Fri,  1 Oct 2021 22:05:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10124"; a="248163612"
-X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; d="scan'208";a="248163612"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 15:05:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,340,1624345200"; d="scan'208";a="556591182"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 01 Oct 2021 15:05:47 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Sat, 02 Oct 2021 01:05:47 +0300
-Date: Sat, 2 Oct 2021 01:05:47 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sean Paul <sean@poorly.run>
-Cc: Fernando Ramos <greenfoo@u92.eu>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v2 00/17] drm: cleanup: Use DRM_MODESET_LOCK_ALL_*
- helpers where possible
-Message-ID: <YVeGOyLzuhN7zzV7@intel.com>
-References: <20210924064324.229457-1-greenfoo@u92.eu>
- <20211001183655.GW2515@art_vandelay> <YVda4jNSGuQf50JV@intel.com>
- <20211001204815.GA2515@art_vandelay>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 497A96E59F
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:33:32 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id i25so44070980lfg.6
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 15:33:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+GGpQB1eoOvtXRgcP9cErq9HPOsKMWs+3BfVhk5Dh2w=;
+ b=Qs5fOVMz612VsObKjPOggkEfD+Uia9/Hn4FLDX3M9oodQJMMfNivODTI9mTwo9fZ1h
+ IVWJ8D7ew8UWXbTrcuZwHyrufGjm8nT7/Q0lcn0RarqDIi7l8yCWBB34FyTrXMkoSwVe
+ wToMte27WQTnllnISTCD1WMowTtJS33E+Kk93rTRx/wsXMMax6YHNcsZrvX7W53oU3E/
+ fmE0laRhAs4borxCJgOwo2k5+pklzLHVOYl/EQL+Nyy39jeLzhpIEeQlH2fNPVqC2mDU
+ 7HO+Pt17hgJU9gcjT/IchZ7NAa9O0yl5pw9Q4H6ImxTUgGR/KtDNpvROpaN6CMpF2qQv
+ kIfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+GGpQB1eoOvtXRgcP9cErq9HPOsKMWs+3BfVhk5Dh2w=;
+ b=udBBanR66gMQIVQqWNQXxYABrWpYO31zi7eqg1M0WwC/wh33dhPnYIErOornqVIoCF
+ ulKD/74H29G77xLmnx1U9IebIUJ0KalnTEx7Dagt+zWksJyy5gUQVSa3/XfrswE62Sda
+ JyVVfdmiUIkUcsiRAQUzEpg+O4VCWe8WAJ2aiT/Au74x9Ts96Y+Md5l4WZw8anU1Zydn
+ zT048I8FGYEHVZwC7oA2z7nS6FAR+jOI5cn54zeoeQu95CuKGJVZaBJ5pdq1k57sKGJk
+ +IAsqy9UZHb5EHoljuJWZfBTPUdOk8jJATF28Mkg6t1CTIguDPMgivkWD/Y9YF0GoZ/S
+ s9HA==
+X-Gm-Message-State: AOAM530LYYpgg727fv1c9kGT5Nnai1lS7//Ffu+yzzwyLHKtFgOy/iy3
+ U1mOuQk3INl6mfnPxIOLFds6uQ==
+X-Google-Smtp-Source: ABdhPJyELC/Nwio1dFl3sO/VK8PLLU2EqustpT6Gxg2fQDCTHVW17MAX8bRKjL8jJcOzOOPUo8WR0A==
+X-Received: by 2002:a05:6512:1521:: with SMTP id
+ bq33mr608727lfb.118.1633127610451; 
+ Fri, 01 Oct 2021 15:33:30 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id j16sm312325lfk.257.2021.10.01.15.33.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 15:33:29 -0700 (PDT)
+Subject: Re: [PATCH v2 2/2] drm/msm/dpu: Fix timeout issues on command mode
+ panels
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ robdclark@gmail.com
+Cc: sean@poorly.run, airlied@linux.ie, daniel@ffwll.ch,
+ abhinavk@codeaurora.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, konrad.dybcio@somainline.org,
+ marijn.suijten@somainline.org, martin.botka@somainline.org,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ paul.bouchara@somainline.org
+References: <20210911163919.47173-1-angelogioacchino.delregno@somainline.org>
+ <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <b325fc8d-e06b-36de-b40a-b5ffbcebb1c5@linaro.org>
+Date: Sat, 2 Oct 2021 01:33:28 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211001204815.GA2515@art_vandelay>
-X-Patchwork-Hint: comment
+In-Reply-To: <20210911163919.47173-2-angelogioacchino.delregno@somainline.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,84 +85,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 01, 2021 at 04:48:15PM -0400, Sean Paul wrote:
-> On Fri, Oct 01, 2021 at 10:00:50PM +0300, Ville Syrjälä wrote:
-> > On Fri, Oct 01, 2021 at 02:36:55PM -0400, Sean Paul wrote:
-> > > On Fri, Sep 24, 2021 at 08:43:07AM +0200, Fernando Ramos wrote:
-> > > > Hi all,
-> > > > 
-> > > > One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
-> > > > "use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
-> > > > patch series is about.
-> > > > 
-> > > > You will find two types of changes here:
-> > > > 
-> > > >   - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
-> > > >     "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
-> > > >     already been done in previous commits such as b7ea04d2)
-> > > > 
-> > > >   - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
-> > > >     in the remaining places (as it has already been done in previous commits
-> > > >     such as 57037094)
-> > > >     
-> > > > Most of the changes are straight forward, except for a few cases in the "amd"
-> > > > and "i915" drivers where some extra dancing was needed to overcome the
-> > > > limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
-> > > > once inside the same function (the reason being that the macro expansion
-> > > > includes *labels*, and you can not have two labels named the same inside one
-> > > > function)
-> > > > 
-> > > > Notice that, even after this patch series, some places remain where
-> > > > "drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
-> > > > all inside drm core (which makes sense), except for two (in "amd" and "i915")
-> > > > which cannot be replaced due to the way they are being used.
-> > > > 
-> > > > Changes in v2:
-> > > > 
-> > > >   - Fix commit message typo
-> > > >   - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
-> > > >   - Split drm/i915 patch into two simpler ones
-> > > >   - Remove drm_modeset_(un)lock_all()
-> > > >   - Fix build problems in non-x86 platforms
-> > > > 
-> > > > Fernando Ramos (17):
-> > > >   drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() part 2
-> > > >   drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-> > > >   drm: cleanup: remove drm_modeset_(un)lock_all()
-> > > >   doc: drm: remove TODO entry regarding DRM_MODSET_LOCK_ALL cleanup
-> > > > 
-> > > 
-> > > Thank you for revising, Fernando! I've pushed the set to drm-misc-next (along
-> > > with the necessary drm-tip conflict resolutions).
-> > 
-> > Ugh. Did anyone actually review the locking changes this does?
-> > I shot the previous i915 stuff down because the commit messages
-> > did not address any of it.
+On 11/09/2021 19:39, AngeloGioacchino Del Regno wrote:
+> In function dpu_encoder_phys_cmd_wait_for_commit_done we are always
+> checking if the relative CTL is started by waiting for an interrupt
+> to fire: it is fine to do that, but then sometimes we call this
+> function while the CTL is up and has never been put down, but that
+> interrupt gets raised only when the CTL gets a state change from
+> 0 to 1 (disabled to enabled), so we're going to wait for something
+> that will never happen on its own.
 > 
-> I reviewed the set on 9/17, I didn't see your feedback on that thread.
+> Solving this while avoiding to restart the CTL is actually possible
+> and can be done by just checking if it is already up and running
+> when the wait_for_commit_done function is called: in this case, so,
+> if the CTL was already running, we can say that the commit is done
+> if the command transmission is complete (in other terms, if the
+> interface has been flushed).
 
-It was much earlir than that.
-https://lists.freedesktop.org/archives/dri-devel/2021-June/313193.html
+I've compared this with the MDP5 driver, where we always wait for 
+PP_DONE interrupt. Would it be enough to always wait for it (= always 
+call dpu_encoder_phys_cmd_wait_for_tx_complete())?
 
-And I think I might have also shot down a similar thing earlier.
+> 
+> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> ---
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index aa01698d6b25..aa5d3b3cef15 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -682,6 +682,9 @@ static int dpu_encoder_phys_cmd_wait_for_commit_done(
+>   	if (!dpu_encoder_phys_cmd_is_master(phys_enc))
+>   		return 0;
+>   
+> +	if (phys_enc->hw_ctl->ops.is_started(phys_enc->hw_ctl))
+> +		return dpu_encoder_phys_cmd_wait_for_tx_complete(phys_enc);
+> +
+>   	return _dpu_encoder_phys_cmd_wait_for_ctl_start(phys_enc);
+>   }
+>   
+> 
 
-I was actually half considering sending a patch to nuke that
-misleading TODO item. I don't think anything which changes
-which locks are taken should be considred a starter level task.
-And the commit messages here don't seem to address any of it.
 
 -- 
-Ville Syrjälä
-Intel
+With best wishes
+Dmitry
