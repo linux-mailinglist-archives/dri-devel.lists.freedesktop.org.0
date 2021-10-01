@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC83741F3D7
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C936B41F3EC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:53:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CA416EE9A;
-	Fri,  1 Oct 2021 17:52:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD5626EF33;
+	Fri,  1 Oct 2021 17:53:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
  (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BAB7D6EE94;
- Fri,  1 Oct 2021 17:52:56 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6DB86EE91;
+ Fri,  1 Oct 2021 17:52:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=K6Ipy6g2Ie+f6Ai/fFNvknLR6/JkJvTNGWNdcup+9kcHUWs3FSCbqztUkNEixgpOpaKcgoBCpbAOj7KTFMUJsfyTjQ8H3M1tqipIrz6QZCZtVrW5x7Uv05VsgyLZBcOJXMROQvFu7brysVTIiBI0wNqxd1JV8VKmTokqc4US4D4uUrrWkHO7di3SVC5tIpCGeTH8kuQbq0jqZgLuwALbAymgYm7s/84s8E19a5BFaBkgHyHq/O1n8vIYl2YhRTIBVki2cBe0OIO5SH44f+aEMOI28TLKBK0irRwOUhAieDdjBOr0U6pcQtYMNUNI1T7Iru2m/TDLrYfYBaD+KSC8Fg==
+ b=UAN3eEvmouxom6sBnP1fYmZCYrFj5CXX51Df9aV1CqiorxxAQ5poalBZ9az30DwgxQQrux6qX1vigvyExOVxHVRZNpCv8h93+iEOqkKIaodyugfJSSScFah+BfUGdD5DpZrnZWR/Sp5gdvJL/iUEMBv8e3Rcn2NzLevl6oBHEkMhhibpcIa/XnKd4ZQsF/ovrwXvmMBLBdWcNjQMr8DniaunQn9ElgeYJhrNUj2kPk9QWRRphwC2islla6I8usLRWqOgOZfVlHaWXKmKjp1yTkIp8FBZjhldSH60LGwJAa0BWz22s5g9s539L5mY7j+f8pQzLVunKpXOs91U314HkQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PnU/Ra9GYlpNTkD0q2RzRENCFZ4Unu7Hu4BQ42Gp1ls=;
- b=LQsB18vOGQXMuCQGRkAW2l9X2q3WjX1qp9c4Z4bNjIHrAsI2tt7cDZB6ljfXw5jCnS/nINDRgcuByHEkkyA+R98xSRTvp7FHb6Neh55omGh92v9ZFEiI7oQoSrKbNTFvp0h1c1UDoNsJhCVukdn/OLL15HNdlkbzUjpkukUSiala4BFStdOjOWymUUtoyRmENUHZTeV9Lq1m8OIALhOngPxKVXZvZk63OvSof3y11PxQM+/DHW5CxOwxTt5oJ8/gsA5roRHwsfFNqOgTSvVXYrsdPaV3t32ny/fAT7yYVVk2yo/LeJIrGF2zGGTPQe0GxhIPHl+OvDdwBzg7j01D1g==
+ bh=nq9RsKauE4liZ2b8voAMWsI1xnwsEPP5+8gl3p4Fi2k=;
+ b=ce/9io+9FrhonIY/PBYa88dFy4B/8dglETDsHF5dUNt7ClZ1pSoMv602YcZmJ/ls17tHycQA29L11zrQR6AnHdTol2w3BlFVYRyxP8qLTpNYBwC0TkYdupH8nyojp3Fr/GykY44qCCHv0C/ulqYoFk2uSKUEjjnglHqmHvYPpXhxgg3H6JMcSepuRgjykxd26u0OpD/RQPhVL2L2ec3i53/M2viQyLsIUh/gD+4bYGKhfI/nsmuZsPAKawAyB46KOVaoYvbzhYhM9UjHfPHgjz2BapIQLXHh407ppWvN+Xik6UPShiAakLap/j5xpjYBp7MaA/75YP2IkBgtoR+CFw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PnU/Ra9GYlpNTkD0q2RzRENCFZ4Unu7Hu4BQ42Gp1ls=;
- b=Q6UbFWLX+0StiTPzPXQ9JBj8jHjB3vKa9xfj382WVLOuSwZlgHfJ4y9Pd6g212C3cpQ3s2eHmHBKLXJFFysMFB4TlEME8f8kcbFghZaYdYUzcnVg+8GWS4EhjQpKBEh0V4JFid8quLAkHW2FrqvjeNemljxaLdZd7mrPza9i56RDmoXyWOfyqKPyPwWrmTroyigLJFWAZ3iCeSlyUSX0LOTb6WRcjleSDY1xweWs3C5SCNVG20X+ja74imWsHTZIEBX5wiHWRBppA+1+GHzMSd0fZOTu2rMKh3MVb+mDb8Z5TEUrNWS28UlMfP6niys13Yg3xykCIN6vM9JEhQlCXA==
+ bh=nq9RsKauE4liZ2b8voAMWsI1xnwsEPP5+8gl3p4Fi2k=;
+ b=Wx5v6D+BZN2BuVynu2WvBzIZm899Tfmm13TbLDh7MIJLjsbSKCazo0aMsCmXS59KbicnHe/LNpWanBe0LF7JRCiZdeH0Gx6UiX5J8d9w02nwp0ERwR8WHxKsIzIRZOtiCSm4vSZ6Tdy+1mD93EFgFxWQMH9OibEJhGTEe3e+CZeTO+j/MSOmbyI8/Y9ET3aoLWY7s5hETwgRvsup8ZQ7xksEMR7S4B89KEn/04CTtdfUOajTBPtL+Rr2odZE5Xy8H2hKtqg+G0FBlt78u99JGyL1x2mtIRLz+9imxkRWuNLFNsUcyYlCd9ukhnwKfv7nDOrIey6m/oM9BGgnQ3BY4g==
 Authentication-Results: linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
  by BL1PR12MB5207.namprd12.prod.outlook.com (2603:10b6:208:318::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Fri, 1 Oct
- 2021 17:52:54 +0000
+ 2021 17:52:56 +0000
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4566.019; Fri, 1 Oct 2021
- 17:52:54 +0000
+ 17:52:56 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
@@ -60,71 +60,71 @@ To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
 Cc: Christoph Hellwig <hch@infradead.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 08/10] vfio/ccw: Remove private->mdev
-Date: Fri,  1 Oct 2021 14:52:49 -0300
-Message-Id: <8-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Subject: [PATCH v3 09/10] vfio: Export vfio_device_try_get()
+Date: Fri,  1 Oct 2021 14:52:50 -0300
+Message-Id: <9-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 In-Reply-To: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: MN2PR19CA0037.namprd19.prod.outlook.com
- (2603:10b6:208:19b::14) To BL0PR12MB5506.namprd12.prod.outlook.com
+X-ClientProxiedBy: BL1PR13CA0407.namprd13.prod.outlook.com
+ (2603:10b6:208:2c2::22) To BL0PR12MB5506.namprd12.prod.outlook.com
  (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
 Received: from mlx.ziepe.ca (142.162.113.129) by
- MN2PR19CA0037.namprd19.prod.outlook.com (2603:10b6:208:19b::14) with
+ BL1PR13CA0407.namprd13.prod.outlook.com (2603:10b6:208:2c2::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Fri, 1 Oct 2021 17:52:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.7 via Frontend
+ Transport; Fri, 1 Oct 2021 17:52:54 +0000
 Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mWMiK-00989T-8q; Fri, 01 Oct 2021 14:52:52 -0300
+ <jgg@nvidia.com>)	id 1mWMiK-00989W-9w; Fri, 01 Oct 2021 14:52:52 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1285b966-72f5-41c3-9583-08d985044adc
+X-MS-Office365-Filtering-Correlation-Id: bcc5c726-814b-426d-5d15-08d985044b61
 X-MS-TrafficTypeDiagnostic: BL1PR12MB5207:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB5207EBBF7078F739EF8EC7CAC2AB9@BL1PR12MB5207.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1360;
+X-Microsoft-Antispam-PRVS: <BL1PR12MB52074518C0F4748F0CDF0FA2C2AB9@BL1PR12MB5207.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:590;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0RUFtOnw+nb7NwoEm/ZOGP2fbmeVa81IqTLoBjWl//6ujYodfMYklukz3zxNQTa279UudTCJqB6KydWVGXevJJCtLrvEBgsQj59zMfHEmLusm+ML8DppSuTEjxygFzk3oSfAMKChEtG8RAu+GQMi+OUfMTuoJbMd9PKowtJFw4RLWl15NQXou3/waJMrlwCf8wtx4H55ZcCkdolHlR47NAY4oDHLLCQGWLKaWNbRBsQUNHJN772asyEedD88rQCf2wuy7xKtohW8NNaTgzvP0yNS/b+I/TDvz2aAigUtfAOOr/h8SdHZu23FaKxnQDJN2XdfSmUPK8sZdL3c6sobDpy/dg6HuVGEoKIKzMF8GJM9rZ71macIBU9sl5U1K0AlQnx6V9vXQC8GWaxJXdQT/Kn58RT0g7RuVfdIj0/3584EQxnnPH/1LUlINxOoAoKdIFK8QaqWXab6R/MC7C016kPS4tlWojBhmLnD3Zv/J49CSjVqpNRZKqOG2+5iJkNJM6VXEE2S13WRkXy8lQmOK1OeofVAMyat5TCICAqX5NG+CdmQaf3j2A+NSb1wu5pJG7aIPx9YKuWR1CStVG7osOzVJD7hwy5xvzO7LgiMsFx3IF6/lqPAi9UvD1Sk+6P93RRN+LO8xrj5ctuCb8EIXiAVxMq2cFD7CYcBoIee6P6tZBraJhogYktPlhZfeIi8P0qPfsJb7B9hjBpmqGCUSw==
+X-Microsoft-Antispam-Message-Info: DipFmQ2OQz0F3RPeXrCn/+2MqLwdpTufsBpNLFcfNr3FCq6C/1XrzSQ/sGpAQp3Zu9fQt6qmPw5Xa3xPPN8/Uu40xGb63RUj0XKJxLh8lijgLKcFZxyOszLJ9cjUW91CBZ/MaBq8pWbW1k3ZtPgoOoYnFDISzfGCZMX5K54B761rjpnhPW5TYGarLGw+McQtp87oqM7eAZWIYCgGDVNLT1+1zeERT/2Wy41AxllDJUCY3Q1EMQ/bmdtnnSbAFjvrHLIdjir93Sr+GdM3Bcwg7jJKjkH+RAMpcpD4Jtu9648VXYMd7HoB1UDQyWzOyANdvpdAw9EQ3emeFav+y14U/yPPq025EgNtfwxVjSGSCCvWKYHRTlZkKfazckZqJ+JPXmJbeJqcsvakFS4AnT8Rr0R/VvYBVIqWUUdzQC5peviHlQpiwnOrtm1gOs/2G/Vs44U8ijww/95LVH8PnityBB+AnZhjHZWGQaJyvd6/yK9jHK7PmTjvF6otUqYO55VUFYS8xXIW1iR/HyOUFkcmhCK3nh4w0Bch3hBR5/XcdVCEfUb5yze6hNivahZ1wfPaSVF4V6ZM19gnHfZSOGGMHYc4lH8TcxggllTtpooLAAwk5XURJA1W52XqFtogDaEAJXv5fpqejsG8ijoezK7Q0grAhToaMovGeH0UVavtXZrCS9F4ECf6gw2Ur5Jbi8WhWSyEyZOjKiMgTxdT64YQwg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66946007)(2906002)(83380400001)(66556008)(8676002)(38100700002)(66476007)(5660300002)(2616005)(508600001)(426003)(9786002)(26005)(186003)(6666004)(9746002)(54906003)(36756003)(7416002)(4326008)(110136005)(86362001)(8936002)(921005)(316002)(4216001);
+ SFS:(4636009)(366004)(66946007)(2906002)(83380400001)(66556008)(8676002)(38100700002)(66476007)(5660300002)(2616005)(508600001)(426003)(9786002)(26005)(186003)(9746002)(54906003)(36756003)(7416002)(4326008)(110136005)(86362001)(8936002)(921005)(316002)(4216001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HTNy42KQ1GtmeJ3YXsJTZtb21vpiP8v+KozxBmjzIz2boHSBYiuyN2G253MT?=
- =?us-ascii?Q?GuaJZGD8gQ2hnZQ1XBmj631hRerwuN+OrLGMrfSrABcoaR5ZqwldllFzdNgc?=
- =?us-ascii?Q?zLfMaEQQTbYJ+f+2FThOrgGvVk3Exck8cK7pShOpoqYcm+1rEWjEnOjppswg?=
- =?us-ascii?Q?riA4tEvunaRlbG1gdK3nUN8FrMlpF91dPx4nyXSw6caj2UgXtqbCIbbYnTah?=
- =?us-ascii?Q?AJWKYNQ9wSDdbsbQ68gfM1KSJh5FULK46uWne+qPGUr/KKykn9iuZf0R0cXo?=
- =?us-ascii?Q?VMoD/Zy+oz7aJoxIdzO31QqqI4v8KndDmDtYPNw/pcyKOhgwgMgxk+aRBKTk?=
- =?us-ascii?Q?xHP9VFpZjIVSa4bDsgvydxX0XYqel9h0sUsDx1gUzntd9WNMvUylET6qOChZ?=
- =?us-ascii?Q?u1DBYLiYB4C8NcGKEbsO7kHTGvPOzvqk7/zcHdp3lCynzQU7Z/RtbptHz6MW?=
- =?us-ascii?Q?HSvJRF0qHlTOakJDO1hKUWoq45yIcWCpTxhiHrJPO1Zztf2tzXyUueYDX8VX?=
- =?us-ascii?Q?yTVoRQBI9GMZVV5ag/mURm8TguB7qO4isSL5qJC6f8LsZi914oI5hu9xeoLZ?=
- =?us-ascii?Q?YekGZlFe/3vyJGVNQPPuiouDzKgBO+EcPF/00jUgf6hjHnZIQPJxi8gzycyC?=
- =?us-ascii?Q?yVRZdR5hoql8SyFDA0w5Gvu8KsMSWu4skcEqHYnXZdsQ6EuuJvnPPDT2r7G9?=
- =?us-ascii?Q?Wpri6tIiUqWp7jvSI2iLF0RjIKq7uhq4CrfBekDWplkG1Yjvh8KrgmMpGmER?=
- =?us-ascii?Q?oTwV6ZOy+IgzPVu8VV3wJYABFL0CQVLyyoaEc1BzfHwMdVQZ6/VhHcBh3330?=
- =?us-ascii?Q?GEhLvPEuKyKh8qTx4Y0rPWJLFmc8j7XaRWmDzat8j/VuIvseYcbhK17HY5CD?=
- =?us-ascii?Q?lS6uO5XRH0hf9D8rYstiXcGZ/ZtTcQHlVl6lzZd762fPnQTfJY8chGOx82NT?=
- =?us-ascii?Q?c0n4xrwW8yRz8JpfKXoc4KZxLn8XpgZ7zXk3+Zm0U5SVwQp20JETUpo4Zyzr?=
- =?us-ascii?Q?QGytKtg7n4e8HfHbEh1bFCK1ZFqVMUadZ++KF8BdDI13/wnTiA1H/Ta7k3XX?=
- =?us-ascii?Q?+PKGoYN+k6O5C0OTFM+uBhULm2lNX3Kd7jwTCtzp8nlNw6yMVn7xIjno77Q2?=
- =?us-ascii?Q?4qHVyc29bYogWxUn8rC2JfxSWFARSXbJJSSz3Htx4oHUCLRWrBNTD7J7WkhB?=
- =?us-ascii?Q?MFXDTL6WuKnEsErLB4CJjb27x/Ii59S5t22Ahxnzn8a13HQDQJkIHmi46YKD?=
- =?us-ascii?Q?RRMQO2y+AXdO53T4TyLbaGrjwXAYAl4C6JZLIk9WC5YmFGDPbjycotlD5dqP?=
- =?us-ascii?Q?v+LH3jygvLjsj8uTRJe3DXJP?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BtWWtbzNTe8bN97utlLOrGgGbStEWhzmkKz0KHVOSdfyBh5RgUFJ4Pu+2/4u?=
+ =?us-ascii?Q?TRRBhXu2H3VeS4FYNq7RXkv/meTVdEgblUrNfxxfnDnOUFt99JYdfnHfqJEd?=
+ =?us-ascii?Q?1kTLTPC2W2UtqVKpPBsRRUw8F4V8N0BdICAjOafAJkAfupDShxnAXF7z7zy4?=
+ =?us-ascii?Q?4DJlfdqA5+Wd1htGg03JWSAjF8o3K6jkGfe69khWWsjNylf3CiMNy7Uge5xs?=
+ =?us-ascii?Q?G33XNU2va+LwhelkB6LKPDEYXLz9RuNbxRt880DdrClt66Vl86ZS55rxV/Uu?=
+ =?us-ascii?Q?ngNc9C3Lupuy5pYkPMTiNHKqiFqXRKPl0oXvJN/+J3NfT4hkOaMUGg4c22JK?=
+ =?us-ascii?Q?LnJV3MFEL31p4Vpfwf2n6Ip5a8zUR0jfXsrL0FYtews0nPGlbXABRTTIlwZ9?=
+ =?us-ascii?Q?2gR/IRQPaP7684ciabHB5b3gK1CXANQfwGqYlOnJkZ3SBNVKrHpsah1A02Aw?=
+ =?us-ascii?Q?8TmPsSBBXw05R4Qf0QPJbD2f/jc5xQD4lq9zN/KLQ/l508ecEH+MdZMsWoQc?=
+ =?us-ascii?Q?MPOjZqU7RoajRgBFnmbIfKQbBSWZL7WVDEK7r6aoMvtD+kl1kzZvbXLJKTG/?=
+ =?us-ascii?Q?qbA/QOyTGpyiPeI8typmsVbizOIWpauXqaX5JHB3RNln5MgyyND+W8RHBast?=
+ =?us-ascii?Q?4nG8c8PpAU5IQ1qHmjBXD0E+hx9zxMxI6w0Mol+6Xz8UKNn+syxAd6xu2soG?=
+ =?us-ascii?Q?1VX/qFQDpahw4hSmkQzgjOn5pcqpyXbv1NUe5ETZhB0ky/eCM4Gr6KMkVW1K?=
+ =?us-ascii?Q?+fCTmBpcq5dZQI6IZ1p2FN44U98dtcHVv2hvNA7QZsXsZNcXh8J5jPQAbk4y?=
+ =?us-ascii?Q?JKTtyQz39hUy9bRU+iU+dJX0a27ohIOFCsbyDjXvOysqMxbn1CqA10vvFrcp?=
+ =?us-ascii?Q?qarMe1hFzzCsJ6kMI20MUa16xWtjMRL0dpmD9SEWzxPgNlhEkA+SdMtqJKsb?=
+ =?us-ascii?Q?zZZKCMU9NOdAuGmWuVBrcIlQzhiKWBRNQC9vcc7qJFwuDPBZPpwxwQTF/b5h?=
+ =?us-ascii?Q?9f/iv6EkHBcArH70SAjWGJHMnVpUKdQ6ji1ZZMzTLzCKAkkWWdN0vA6nwAij?=
+ =?us-ascii?Q?zjSI2D0x5szTHqQiwPRYbbb4o2jJr3ddZy+hUdRapPk/M2aFGtCov4sV32n1?=
+ =?us-ascii?Q?HOxcqUyH7qQaWgwSPynOW0YooLZq1LmzHW1qMRiNE4p3RpkjtFXzT3LLC04+?=
+ =?us-ascii?Q?ZGNPnFm8LLUxv2ULiQ4e5t5OxtqPoThryJNsXlQgKM2kOp/F0J77L8juzg/b?=
+ =?us-ascii?Q?KOwu9//BqylDKCCu1teycr9r8KoLheMoysGpyjFsLpIBadle+KIVqw/8YB0I?=
+ =?us-ascii?Q?U0nAalADaNOU4aE0GT3hWfnu?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1285b966-72f5-41c3-9583-08d985044adc
+X-MS-Exchange-CrossTenant-Network-Message-Id: bcc5c726-814b-426d-5d15-08d985044b61
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.4050 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:54.1995 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PNf28XyIH9gX4nywHDFg7Ww3y8NODWZd3lxd4q/hf129IiTygCfD/K1JLV8eYRE3
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8X5I49welgH7KCraYTgdgtGeIChMwPBwm/cSsdiTJkC/C9R/ylHz6HDlI4yR8H7a
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -141,229 +141,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Having a mdev pointer floating about in addition to a struct vfio_device
-is confusing. It is only used for three things:
-
-- Getting the mdev 'struct device *' - this is the same as
-     private->vdev.dev
-
-- Printing the uuid of the mdev in logging. The uuid is also the dev_name
-  of the mdev so this is the same string as
-     dev_name(private->vdev.dev)
-
-- A weird attempt to fence the vfio_ccw_sch_io_todo() work. This work is
-  only queued during states IDLE/PROCESSING/PENDING and flushed when
-  entering CLOSED. Thus the work already cannot run when the mdev is NULL.
-  Remove it.
+vfio_ccw will need it.
 
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/s390/cio/vfio_ccw_drv.c     |  6 ++--
- drivers/s390/cio/vfio_ccw_fsm.c     | 48 +++++++++++++----------------
- drivers/s390/cio/vfio_ccw_ops.c     | 16 ++++------
- drivers/s390/cio/vfio_ccw_private.h |  2 --
- include/linux/mdev.h                |  4 ---
- 5 files changed, 30 insertions(+), 46 deletions(-)
+ drivers/vfio/vfio.c  | 3 ++-
+ include/linux/vfio.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
-index df9e1e265bca1a..18ad047811d111 100644
---- a/drivers/s390/cio/vfio_ccw_drv.c
-+++ b/drivers/s390/cio/vfio_ccw_drv.c
-@@ -64,7 +64,7 @@ static void vfio_ccw_sch_io_todo(struct work_struct *work)
- 	 * has finished. Do not overwrite a possible processing
- 	 * state if the final interrupt was for HSCH or CSCH.
- 	 */
--	if (private->mdev && cp_is_finished)
-+	if (cp_is_finished)
- 		private->state = VFIO_CCW_STATE_IDLE;
- 
- 	if (private->io_trigger)
-@@ -302,8 +302,8 @@ static int vfio_ccw_chp_event(struct subchannel *sch,
- 		return 0;
- 
- 	trace_vfio_ccw_chp_event(private->sch->schid, mask, event);
--	VFIO_CCW_MSG_EVENT(2, "%pUl (%x.%x.%04x): mask=0x%x event=%d\n",
--			   mdev_uuid(private->mdev), sch->schid.cssid,
-+	VFIO_CCW_MSG_EVENT(2, "%s (%x.%x.%04x): mask=0x%x event=%d\n",
-+			   dev_name(private->vdev.dev), sch->schid.cssid,
- 			   sch->schid.ssid, sch->schid.sch_no,
- 			   mask, event);
- 
-diff --git a/drivers/s390/cio/vfio_ccw_fsm.c b/drivers/s390/cio/vfio_ccw_fsm.c
-index 64ff1a5e3cb475..0d4d4f425befac 100644
---- a/drivers/s390/cio/vfio_ccw_fsm.c
-+++ b/drivers/s390/cio/vfio_ccw_fsm.c
-@@ -245,7 +245,6 @@ static void fsm_io_request(struct vfio_ccw_private *private,
- 	union orb *orb;
- 	union scsw *scsw = &private->scsw;
- 	struct ccw_io_region *io_region = private->io_region;
--	struct mdev_device *mdev = private->mdev;
- 	char *errstr = "request";
- 	struct subchannel_id schid = get_schid(private);
- 
-@@ -258,32 +257,30 @@ static void fsm_io_request(struct vfio_ccw_private *private,
- 		/* Don't try to build a cp if transport mode is specified. */
- 		if (orb->tm.b) {
- 			io_region->ret_code = -EOPNOTSUPP;
--			VFIO_CCW_MSG_EVENT(2,
--					   "%pUl (%x.%x.%04x): transport mode\n",
--					   mdev_uuid(mdev), schid.cssid,
--					   schid.ssid, schid.sch_no);
-+			VFIO_CCW_MSG_EVENT(
-+				2, "%s (%x.%x.%04x): transport mode\n",
-+				dev_name(private->vdev.dev), schid.cssid,
-+				schid.ssid, schid.sch_no);
- 			errstr = "transport mode";
- 			goto err_out;
- 		}
--		io_region->ret_code = cp_init(&private->cp, mdev_dev(mdev),
-+		io_region->ret_code = cp_init(&private->cp, private->vdev.dev,
- 					      orb);
- 		if (io_region->ret_code) {
--			VFIO_CCW_MSG_EVENT(2,
--					   "%pUl (%x.%x.%04x): cp_init=%d\n",
--					   mdev_uuid(mdev), schid.cssid,
--					   schid.ssid, schid.sch_no,
--					   io_region->ret_code);
-+			VFIO_CCW_MSG_EVENT(2, "%s (%x.%x.%04x): cp_init=%d\n",
-+					   dev_name(private->vdev.dev),
-+					   schid.cssid, schid.ssid,
-+					   schid.sch_no, io_region->ret_code);
- 			errstr = "cp init";
- 			goto err_out;
- 		}
- 
- 		io_region->ret_code = cp_prefetch(&private->cp);
- 		if (io_region->ret_code) {
--			VFIO_CCW_MSG_EVENT(2,
--					   "%pUl (%x.%x.%04x): cp_prefetch=%d\n",
--					   mdev_uuid(mdev), schid.cssid,
--					   schid.ssid, schid.sch_no,
--					   io_region->ret_code);
-+			VFIO_CCW_MSG_EVENT(
-+				2, "%s (%x.%x.%04x): cp_prefetch=%d\n",
-+				dev_name(private->vdev.dev), schid.cssid,
-+				schid.ssid, schid.sch_no, io_region->ret_code);
- 			errstr = "cp prefetch";
- 			cp_free(&private->cp);
- 			goto err_out;
-@@ -292,28 +289,25 @@ static void fsm_io_request(struct vfio_ccw_private *private,
- 		/* Start channel program and wait for I/O interrupt. */
- 		io_region->ret_code = fsm_io_helper(private);
- 		if (io_region->ret_code) {
--			VFIO_CCW_MSG_EVENT(2,
--					   "%pUl (%x.%x.%04x): fsm_io_helper=%d\n",
--					   mdev_uuid(mdev), schid.cssid,
--					   schid.ssid, schid.sch_no,
--					   io_region->ret_code);
-+			VFIO_CCW_MSG_EVENT(
-+				2, "%s (%x.%x.%04x): fsm_io_helper=%d\n",
-+				dev_name(private->vdev.dev), schid.cssid,
-+				schid.ssid, schid.sch_no, io_region->ret_code);
- 			errstr = "cp fsm_io_helper";
- 			cp_free(&private->cp);
- 			goto err_out;
- 		}
- 		return;
- 	} else if (scsw->cmd.fctl & SCSW_FCTL_HALT_FUNC) {
--		VFIO_CCW_MSG_EVENT(2,
--				   "%pUl (%x.%x.%04x): halt on io_region\n",
--				   mdev_uuid(mdev), schid.cssid,
-+		VFIO_CCW_MSG_EVENT(2, "%s (%x.%x.%04x): halt on io_region\n",
-+				   dev_name(private->vdev.dev), schid.cssid,
- 				   schid.ssid, schid.sch_no);
- 		/* halt is handled via the async cmd region */
- 		io_region->ret_code = -EOPNOTSUPP;
- 		goto err_out;
- 	} else if (scsw->cmd.fctl & SCSW_FCTL_CLEAR_FUNC) {
--		VFIO_CCW_MSG_EVENT(2,
--				   "%pUl (%x.%x.%04x): clear on io_region\n",
--				   mdev_uuid(mdev), schid.cssid,
-+		VFIO_CCW_MSG_EVENT(2, "%s (%x.%x.%04x): clear on io_region\n",
-+				   dev_name(private->vdev.dev), schid.cssid,
- 				   schid.ssid, schid.sch_no);
- 		/* clear is handled via the async cmd region */
- 		io_region->ret_code = -EOPNOTSUPP;
-diff --git a/drivers/s390/cio/vfio_ccw_ops.c b/drivers/s390/cio/vfio_ccw_ops.c
-index 97df5c711736c4..68aae25a0a4be0 100644
---- a/drivers/s390/cio/vfio_ccw_ops.c
-+++ b/drivers/s390/cio/vfio_ccw_ops.c
-@@ -95,11 +95,9 @@ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
- 	vfio_init_group_dev(&private->vdev, &mdev->dev,
- 			    &vfio_ccw_dev_ops);
- 
--	private->mdev = mdev;
--
--	VFIO_CCW_MSG_EVENT(2, "mdev %pUl, sch %x.%x.%04x: create\n",
--			   mdev_uuid(mdev), private->sch->schid.cssid,
--			   private->sch->schid.ssid,
-+	VFIO_CCW_MSG_EVENT(2, "mdev %s, sch %x.%x.%04x: create\n",
-+			   dev_name(private->vdev.dev),
-+			   private->sch->schid.cssid, private->sch->schid.ssid,
- 			   private->sch->schid.sch_no);
- 
- 	ret = vfio_register_emulated_iommu_dev(&private->vdev);
-@@ -110,7 +108,6 @@ static int vfio_ccw_mdev_probe(struct mdev_device *mdev)
- 
- err_init:
- 	vfio_uninit_group_dev(&private->vdev);
--	private->mdev = NULL;
- 	return ret;
+diff --git a/drivers/vfio/vfio.c b/drivers/vfio/vfio.c
+index 08b27b64f0f935..44adf112e3b5dd 100644
+--- a/drivers/vfio/vfio.c
++++ b/drivers/vfio/vfio.c
+@@ -554,10 +554,11 @@ void vfio_device_put(struct vfio_device *device)
  }
+ EXPORT_SYMBOL_GPL(vfio_device_put);
  
-@@ -118,14 +115,13 @@ static void vfio_ccw_mdev_remove(struct mdev_device *mdev)
+-static bool vfio_device_try_get(struct vfio_device *device)
++bool vfio_device_try_get(struct vfio_device *device)
  {
- 	struct vfio_ccw_private *private = dev_get_drvdata(mdev->dev.parent);
- 
--	VFIO_CCW_MSG_EVENT(2, "mdev %pUl, sch %x.%x.%04x: remove\n",
--			   mdev_uuid(mdev), private->sch->schid.cssid,
--			   private->sch->schid.ssid,
-+	VFIO_CCW_MSG_EVENT(2, "mdev %s, sch %x.%x.%04x: remove\n",
-+			   dev_name(private->vdev.dev),
-+			   private->sch->schid.cssid, private->sch->schid.ssid,
- 			   private->sch->schid.sch_no);
- 
- 	vfio_unregister_group_dev(&private->vdev);
- 	vfio_uninit_group_dev(&private->vdev);
--	private->mdev = NULL;
+ 	return refcount_inc_not_zero(&device->refcount);
  }
++EXPORT_SYMBOL_GPL(vfio_device_try_get);
  
- static int vfio_ccw_mdev_open_device(struct vfio_device *vdev)
-diff --git a/drivers/s390/cio/vfio_ccw_private.h b/drivers/s390/cio/vfio_ccw_private.h
-index bbc97eb9d9c6fc..67ee9c624393b0 100644
---- a/drivers/s390/cio/vfio_ccw_private.h
-+++ b/drivers/s390/cio/vfio_ccw_private.h
-@@ -72,7 +72,6 @@ struct vfio_ccw_crw {
-  * @sch: pointer to the subchannel
-  * @state: internal state of the device
-  * @completion: synchronization helper of the I/O completion
-- * @mdev: pointer to the mediated device
-  * @nb: notifier for vfio events
-  * @io_region: MMIO region to input/output I/O arguments/results
-  * @io_mutex: protect against concurrent update of I/O regions
-@@ -95,7 +94,6 @@ struct vfio_ccw_private {
- 	struct subchannel	*sch;
- 	int			state;
- 	struct completion	*completion;
--	struct mdev_device	*mdev;
- 	struct notifier_block	nb;
- 	struct ccw_io_region	*io_region;
- 	struct mutex		io_mutex;
-diff --git a/include/linux/mdev.h b/include/linux/mdev.h
-index 7cadbbac7de9d0..0ce1bb3dabd00c 100644
---- a/include/linux/mdev.h
-+++ b/include/linux/mdev.h
-@@ -138,10 +138,6 @@ static inline void mdev_set_drvdata(struct mdev_device *mdev, void *data)
- {
- 	mdev->driver_data = data;
- }
--static inline const guid_t *mdev_uuid(struct mdev_device *mdev)
--{
--	return &mdev->uuid;
--}
+ static struct vfio_device *vfio_group_get_device(struct vfio_group *group,
+ 						 struct device *dev)
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index 76191d7abed185..f99e4b2d9b45f0 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -78,6 +78,7 @@ int vfio_register_group_dev(struct vfio_device *device);
+ int vfio_register_emulated_iommu_dev(struct vfio_device *device);
+ void vfio_unregister_group_dev(struct vfio_device *device);
+ extern struct vfio_device *vfio_device_get_from_dev(struct device *dev);
++bool vfio_device_try_get(struct vfio_device *device);
+ extern void vfio_device_put(struct vfio_device *device);
  
- extern struct bus_type mdev_bus_type;
- 
+ int vfio_assign_device_set(struct vfio_device *device, void *set_id);
 -- 
 2.33.0
 
