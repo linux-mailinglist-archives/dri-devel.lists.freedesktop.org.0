@@ -2,42 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F335C41EDCB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 14:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6221A41EDCD
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 14:50:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9ABE06E508;
-	Fri,  1 Oct 2021 12:48:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC7E06ECBA;
+	Fri,  1 Oct 2021 12:49:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from msg-1.mailo.com (msg-1.mailo.com [213.182.54.11])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 32D076E508
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 12:48:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=net-c.es; s=mailo;
- t=1633092526; bh=JOgkG++NW9XUsy09J6hcCSaMdp0wa0NVQTat8w/QL0U=;
- h=X-EA-Auth:Date:From:To:Cc:Subject:Message-ID:References:
- MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
- b=sspCAtssAK1IWiEZ5eLGJVeIOe2jrJ8bAxZS005dh40EAuMFq3u2nNadkPdtOJyv6
- IF7u/usXkTSeRBZvgRjopNP4ofYo0CUt91wiImpjM8/GX1NYqExVnCvh1IKF4tdt/5
- r+P11mFxEPU0cVpzclGO3t44ZV1B/Xxls5Av4bSE=
-Received: by b-2.in.mailobj.net [192.168.90.12] with ESMTP
- via ip-206.mailobj.net [213.182.55.206]
- Fri,  1 Oct 2021 14:48:46 +0200 (CEST)
-X-EA-Auth: zyN9xH9zYLdGOaCCMlU8NtynzszcUI0C/Svy20ZpmW4V9X9RGgnGdLJme0c00xitvntHNmdCS8ahVhaH3PhbFczz1FcK/vsi
-Date: Fri, 1 Oct 2021 14:48:44 +0200
-From: Claudio Suarez <cssk@net-c.es>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] fbdev: Garbage collect fbdev scrolling acceleration,
- part 1 (from TODO list)
-Message-ID: <YVcDrJqo4KMIf6Ft@gineta.localdomain>
-References: <YVXTYqszZix9TxjJ@gineta.localdomain>
- <246e4210-e73a-af6d-b16d-589d9dec3be1@suse.de>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 779666ECA9;
+ Fri,  1 Oct 2021 12:49:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="310968269"
+X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; 
+ d="gz'50?scan'50,208,50";a="310968269"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2021 05:49:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,339,1624345200"; 
+ d="gz'50?scan'50,208,50";a="480434717"
+Received: from lkp-server01.sh.intel.com (HELO 72c3bd3cf19c) ([10.239.97.150])
+ by fmsmga007.fm.intel.com with ESMTP; 01 Oct 2021 05:49:49 -0700
+Received: from kbuild by 72c3bd3cf19c with local (Exim 4.92)
+ (envelope-from <lkp@intel.com>)
+ id 1mWHz3-0001AX-1y; Fri, 01 Oct 2021 12:49:49 +0000
+Date: Fri, 1 Oct 2021 20:48:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>, intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, kbuild-all@lists.01.org,
+ dri-devel@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Steven Price <steven.price@arm.com>, Andrzej Hajda <a.hajda@samsung.com>
+Subject: Re: [PATCH] drm/i915: remove IS_ACTIVE
+Message-ID: <202110012024.Ieip1fkF-lkp@intel.com>
+References: <20211001074041.2076538-1-lucas.demarchi@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/mixed; boundary="C7zPtVaVf+AK4Oqc"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <246e4210-e73a-af6d-b16d-589d9dec3be1@suse.de>
+In-Reply-To: <20211001074041.2076538-1-lucas.demarchi@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,1118 +56,822 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 01, 2021 at 10:21:44AM +0200, Thomas Zimmermann wrote:
-> Hi
-> 
-> Am 30.09.21 um 17:10 schrieb Claudio:
-> > Scroll acceleration is disabled in fbcon by hard-wiring
-> > p->scrollmode = SCROLL_REDRAW. Remove the obsolete code in fbcon.c
-> > and fbdev/core/
-> > 
-> > Signed-off-by: Claudio Suarez <cssk@net-c.es>
-> > ---
-> > 
-> > - This is a task in the TODO list Documentation/gpu/todo.rst
-> > - The contact in the task is Daniel Vetter. He is/you are in copy.
-> > - To ease the things and saving time, I did a patch. It is included in this
-> >    message. I can redo it if there is something wrong.
-> > - I tested it in some configurations.
-> > 
-> > My plan for new patches in this task:
-> > - A buch of patches to remove code from drivers: fb_copyarea and related.
-> > - Simplify the code around fbcon_ops as much as possible to remove the hooks
-> >    as the TODO suggests.
-> > - Remove fb_copyarea in headers and exported symbols: cfb_copyarea, etc. This
-> >    must be done when all the drivers are changed.
-> > 
-> > I think that the correct list to ask questions about this
-> > is linux-fbdev@vger.kernel.org . Is it correct ?
-> > My question: I can develop the new changes. I can test in two computers/two
-> > drivers. Is there a way to test the rest of the patches ? I have not hardware
-> > to test them. Is anyone helping with this? Only regression tests are needed.
-> > I can test other patches in return.
-> > 
-> > Thank you.
-> > Claudio Suarez.
-> > 
-> > Patch follows:
-> > 
-> >   Documentation/gpu/todo.rst              |  13 +-
-> >   drivers/video/fbdev/core/bitblit.c      |  16 -
-> >   drivers/video/fbdev/core/fbcon.c        | 509 ++------------------------------
-> >   drivers/video/fbdev/core/fbcon.h        |  59 ----
-> >   drivers/video/fbdev/core/fbcon_ccw.c    |  28 +-
-> >   drivers/video/fbdev/core/fbcon_cw.c     |  28 +-
-> >   drivers/video/fbdev/core/fbcon_rotate.h |   9 -
-> >   drivers/video/fbdev/core/fbcon_ud.c     |  37 +--
-> >   drivers/video/fbdev/core/tileblit.c     |  16 -
-> >   drivers/video/fbdev/skeletonfb.c        |  12 +-
-> >   include/linux/fb.h                      |   2 +-
-> >   11 files changed, 51 insertions(+), 678 deletions(-)
-> 
-> Nice stats :)
-> 
-> I looked through it and it looks good. Maybe double-check that everything
-> still builds.
-> 
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
 
-Yes, it still builds :)
-I had built with some different .config options, including
-allyesconfig, allno, some randoms and debian default config. I tested
-some .config options related to fbdev. I spent time running some kernels
-with different parameters and everything was ok.
-Today, I've just applied the patch to source from two gits: Linus
-rc and drm. Both have built ok.
-I think that I did enough tests to ensure it works fine. This code is going
-to run in many computers, mine included!
-Of course, if you or anyone is worried about something specific, please,
-tell me and I can check and re-check it. I don't want to miss something
-important.
+--C7zPtVaVf+AK4Oqc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thank you!
+Hi Lucas,
 
-Best regards
-Claudio Suarez
+Thank you for the patch! Perhaps something to improve:
 
-> Best regards
-> Thomas
-> 
-> > 
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 12e61869939e..bb1e04bbf4fb 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -314,16 +314,19 @@ Level: Advanced
-> >   Garbage collect fbdev scrolling acceleration
-> >   --------------------------------------------
-> > -Scroll acceleration is disabled in fbcon by hard-wiring p->scrollmode =
-> > -SCROLL_REDRAW. There's a ton of code this will allow us to remove:
-> > +Scroll acceleration has been disabled in fbcon. Now it works as the old
-> > +SCROLL_REDRAW mode. A ton of code was removed in fbcon.c and the hook bmove was
-> > +removed from fbcon_ops.
-> > +Remaining tasks:
-> > -- lots of code in fbcon.c
-> > -
-> > -- a bunch of the hooks in fbcon_ops, maybe the remaining hooks could be called
-> > +- a bunch of the hooks in fbcon_ops could be removed or simplified by calling
-> >     directly instead of the function table (with a switch on p->rotate)
-> >   - fb_copyarea is unused after this, and can be deleted from all drivers
-> > +- after that, fb_copyarea can be deleted from fb_ops in include/linux/fb.h as
-> > +  well as cfb_copyarea
-> > +
-> >   Note that not all acceleration code can be deleted, since clearing and cursor
-> >   support is still accelerated, which might be good candidates for further
-> >   deletion projects.
-> > diff --git a/drivers/video/fbdev/core/bitblit.c b/drivers/video/fbdev/core/bitblit.c
-> > index f98e8f298bc1..01fae2c96965 100644
-> > --- a/drivers/video/fbdev/core/bitblit.c
-> > +++ b/drivers/video/fbdev/core/bitblit.c
-> > @@ -43,21 +43,6 @@ static void update_attr(u8 *dst, u8 *src, int attribute,
-> >   	}
-> >   }
-> > -static void bit_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		      int sx, int dy, int dx, int height, int width)
-> > -{
-> > -	struct fb_copyarea area;
-> > -
-> > -	area.sx = sx * vc->vc_font.width;
-> > -	area.sy = sy * vc->vc_font.height;
-> > -	area.dx = dx * vc->vc_font.width;
-> > -	area.dy = dy * vc->vc_font.height;
-> > -	area.height = height * vc->vc_font.height;
-> > -	area.width = width * vc->vc_font.width;
-> > -
-> > -	info->fbops->fb_copyarea(info, &area);
-> > -}
-> > -
-> >   static void bit_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		      int sx, int height, int width)
-> >   {
-> > @@ -393,7 +378,6 @@ static int bit_update_start(struct fb_info *info)
-> >   void fbcon_set_bitops(struct fbcon_ops *ops)
-> >   {
-> > -	ops->bmove = bit_bmove;
-> >   	ops->clear = bit_clear;
-> >   	ops->putcs = bit_putcs;
-> >   	ops->clear_margins = bit_clear_margins;
-> > diff --git a/drivers/video/fbdev/core/fbcon.c b/drivers/video/fbdev/core/fbcon.c
-> > index 22bb3892f6bd..99ecd9a6d844 100644
-> > --- a/drivers/video/fbdev/core/fbcon.c
-> > +++ b/drivers/video/fbdev/core/fbcon.c
-> > @@ -173,8 +173,6 @@ static void fbcon_putcs(struct vc_data *vc, const unsigned short *s,
-> >   			int count, int ypos, int xpos);
-> >   static void fbcon_clear_margins(struct vc_data *vc, int bottom_only);
-> >   static void fbcon_cursor(struct vc_data *vc, int mode);
-> > -static void fbcon_bmove(struct vc_data *vc, int sy, int sx, int dy, int dx,
-> > -			int height, int width);
-> >   static int fbcon_switch(struct vc_data *vc);
-> >   static int fbcon_blank(struct vc_data *vc, int blank, int mode_switch);
-> >   static void fbcon_set_palette(struct vc_data *vc, const unsigned char *table);
-> > @@ -182,16 +180,8 @@ static void fbcon_set_palette(struct vc_data *vc, const unsigned char *table);
-> >   /*
-> >    *  Internal routines
-> >    */
-> > -static __inline__ void ywrap_up(struct vc_data *vc, int count);
-> > -static __inline__ void ywrap_down(struct vc_data *vc, int count);
-> > -static __inline__ void ypan_up(struct vc_data *vc, int count);
-> > -static __inline__ void ypan_down(struct vc_data *vc, int count);
-> > -static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy, int sx,
-> > -			    int dy, int dx, int height, int width, u_int y_break);
-> >   static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
-> >   			   int unit);
-> > -static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
-> > -			      int line, int count, int dy);
-> >   static void fbcon_modechanged(struct fb_info *info);
-> >   static void fbcon_set_all_vcs(struct fb_info *info);
-> >   static void fbcon_start(void);
-> > @@ -1135,14 +1125,6 @@ static void fbcon_init(struct vc_data *vc, int init)
-> >   	ops->graphics = 0;
-> > -	/*
-> > -	 * No more hw acceleration for fbcon.
-> > -	 *
-> > -	 * FIXME: Garbage collect all the now dead code after sufficient time
-> > -	 * has passed.
-> > -	 */
-> > -	p->scrollmode = SCROLL_REDRAW;
-> > -
-> >   	/*
-> >   	 *  ++guenther: console.c:vc_allocate() relies on initializing
-> >   	 *  vc_{cols,rows}, but we must not set those if we are only
-> > @@ -1229,14 +1211,13 @@ static void fbcon_deinit(struct vc_data *vc)
-> >    *  This system is now divided into two levels because of complications
-> >    *  caused by hardware scrolling. Top level functions:
-> >    *
-> > - *	fbcon_bmove(), fbcon_clear(), fbcon_putc(), fbcon_clear_margins()
-> > + *	fbcon_clear(), fbcon_putc(), fbcon_clear_margins()
-> >    *
-> >    *  handles y values in range [0, scr_height-1] that correspond to real
-> >    *  screen positions. y_wrap shift means that first line of bitmap may be
-> >    *  anywhere on this display. These functions convert lineoffsets to
-> >    *  bitmap offsets and deal with the wrap-around case by splitting blits.
-> >    *
-> > - *	fbcon_bmove_physical_8()    -- These functions fast implementations
-> >    *	fbcon_clear_physical_8()    -- of original fbcon_XXX fns.
-> >    *	fbcon_putc_physical_8()	    -- (font width != 8) may be added later
-> >    *
-> > @@ -1409,224 +1390,6 @@ static void fbcon_set_disp(struct fb_info *info, struct fb_var_screeninfo *var,
-> >   	}
-> >   }
-> > -static __inline__ void ywrap_up(struct vc_data *vc, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	
-> > -	p->yscroll += count;
-> > -	if (p->yscroll >= p->vrows)	/* Deal with wrap */
-> > -		p->yscroll -= p->vrows;
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode |= FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	scrollback_max += count;
-> > -	if (scrollback_max > scrollback_phys_max)
-> > -		scrollback_max = scrollback_phys_max;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static __inline__ void ywrap_down(struct vc_data *vc, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	
-> > -	p->yscroll -= count;
-> > -	if (p->yscroll < 0)	/* Deal with wrap */
-> > -		p->yscroll += p->vrows;
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode |= FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	scrollback_max -= count;
-> > -	if (scrollback_max < 0)
-> > -		scrollback_max = 0;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static __inline__ void ypan_up(struct vc_data *vc, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -
-> > -	p->yscroll += count;
-> > -	if (p->yscroll > p->vrows - vc->vc_rows) {
-> > -		ops->bmove(vc, info, p->vrows - vc->vc_rows,
-> > -			    0, 0, 0, vc->vc_rows, vc->vc_cols);
-> > -		p->yscroll -= p->vrows - vc->vc_rows;
-> > -	}
-> > -
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	fbcon_clear_margins(vc, 1);
-> > -	scrollback_max += count;
-> > -	if (scrollback_max > scrollback_phys_max)
-> > -		scrollback_max = scrollback_phys_max;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static __inline__ void ypan_up_redraw(struct vc_data *vc, int t, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -
-> > -	p->yscroll += count;
-> > -
-> > -	if (p->yscroll > p->vrows - vc->vc_rows) {
-> > -		p->yscroll -= p->vrows - vc->vc_rows;
-> > -		fbcon_redraw_move(vc, p, t + count, vc->vc_rows - count, t);
-> > -	}
-> > -
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	fbcon_clear_margins(vc, 1);
-> > -	scrollback_max += count;
-> > -	if (scrollback_max > scrollback_phys_max)
-> > -		scrollback_max = scrollback_phys_max;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static __inline__ void ypan_down(struct vc_data *vc, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	
-> > -	p->yscroll -= count;
-> > -	if (p->yscroll < 0) {
-> > -		ops->bmove(vc, info, 0, 0, p->vrows - vc->vc_rows,
-> > -			    0, vc->vc_rows, vc->vc_cols);
-> > -		p->yscroll += p->vrows - vc->vc_rows;
-> > -	}
-> > -
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	fbcon_clear_margins(vc, 1);
-> > -	scrollback_max -= count;
-> > -	if (scrollback_max < 0)
-> > -		scrollback_max = 0;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static __inline__ void ypan_down_redraw(struct vc_data *vc, int t, int count)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -
-> > -	p->yscroll -= count;
-> > -
-> > -	if (p->yscroll < 0) {
-> > -		p->yscroll += p->vrows - vc->vc_rows;
-> > -		fbcon_redraw_move(vc, p, t, vc->vc_rows - count, t + count);
-> > -	}
-> > -
-> > -	ops->var.xoffset = 0;
-> > -	ops->var.yoffset = p->yscroll * vc->vc_font.height;
-> > -	ops->var.vmode &= ~FB_VMODE_YWRAP;
-> > -	ops->update_start(info);
-> > -	fbcon_clear_margins(vc, 1);
-> > -	scrollback_max -= count;
-> > -	if (scrollback_max < 0)
-> > -		scrollback_max = 0;
-> > -	scrollback_current = 0;
-> > -}
-> > -
-> > -static void fbcon_redraw_move(struct vc_data *vc, struct fbcon_display *p,
-> > -			      int line, int count, int dy)
-> > -{
-> > -	unsigned short *s = (unsigned short *)
-> > -		(vc->vc_origin + vc->vc_size_row * line);
-> > -
-> > -	while (count--) {
-> > -		unsigned short *start = s;
-> > -		unsigned short *le = advance_row(s, 1);
-> > -		unsigned short c;
-> > -		int x = 0;
-> > -		unsigned short attr = 1;
-> > -
-> > -		do {
-> > -			c = scr_readw(s);
-> > -			if (attr != (c & 0xff00)) {
-> > -				attr = c & 0xff00;
-> > -				if (s > start) {
-> > -					fbcon_putcs(vc, start, s - start,
-> > -						    dy, x);
-> > -					x += s - start;
-> > -					start = s;
-> > -				}
-> > -			}
-> > -			console_conditional_schedule();
-> > -			s++;
-> > -		} while (s < le);
-> > -		if (s > start)
-> > -			fbcon_putcs(vc, start, s - start, dy, x);
-> > -		console_conditional_schedule();
-> > -		dy++;
-> > -	}
-> > -}
-> > -
-> > -static void fbcon_redraw_blit(struct vc_data *vc, struct fb_info *info,
-> > -			struct fbcon_display *p, int line, int count, int ycount)
-> > -{
-> > -	int offset = ycount * vc->vc_cols;
-> > -	unsigned short *d = (unsigned short *)
-> > -	    (vc->vc_origin + vc->vc_size_row * line);
-> > -	unsigned short *s = d + offset;
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -
-> > -	while (count--) {
-> > -		unsigned short *start = s;
-> > -		unsigned short *le = advance_row(s, 1);
-> > -		unsigned short c;
-> > -		int x = 0;
-> > -
-> > -		do {
-> > -			c = scr_readw(s);
-> > -
-> > -			if (c == scr_readw(d)) {
-> > -				if (s > start) {
-> > -					ops->bmove(vc, info, line + ycount, x,
-> > -						   line, x, 1, s-start);
-> > -					x += s - start + 1;
-> > -					start = s + 1;
-> > -				} else {
-> > -					x++;
-> > -					start++;
-> > -				}
-> > -			}
-> > -
-> > -			scr_writew(c, d);
-> > -			console_conditional_schedule();
-> > -			s++;
-> > -			d++;
-> > -		} while (s < le);
-> > -		if (s > start)
-> > -			ops->bmove(vc, info, line + ycount, x, line, x, 1,
-> > -				   s-start);
-> > -		console_conditional_schedule();
-> > -		if (ycount > 0)
-> > -			line++;
-> > -		else {
-> > -			line--;
-> > -			/* NOTE: We subtract two lines from these pointers */
-> > -			s -= vc->vc_size_row;
-> > -			d -= vc->vc_size_row;
-> > -		}
-> > -	}
-> > -}
-> > -
-> >   static void fbcon_redraw(struct vc_data *vc, struct fbcon_display *p,
-> >   			 int line, int count, int offset)
-> >   {
-> > @@ -1687,7 +1450,6 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
-> >   {
-> >   	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> >   	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	int scroll_partial = info->flags & FBINFO_PARTIAL_PAN_OK;
-> >   	if (fbcon_is_inactive(vc, info))
-> >   		return true;
-> > @@ -1704,249 +1466,32 @@ static bool fbcon_scroll(struct vc_data *vc, unsigned int t, unsigned int b,
-> >   	case SM_UP:
-> >   		if (count > vc->vc_rows)	/* Maximum realistic size */
-> >   			count = vc->vc_rows;
-> > -		if (logo_shown >= 0)
-> > -			goto redraw_up;
-> > -		switch (p->scrollmode) {
-> > -		case SCROLL_MOVE:
-> > -			fbcon_redraw_blit(vc, info, p, t, b - t - count,
-> > -				     count);
-> > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > -							vc->vc_size_row *
-> > -							(b - count)),
-> > -				    vc->vc_video_erase_char,
-> > -				    vc->vc_size_row * count);
-> > -			return true;
-> > -
-> > -		case SCROLL_WRAP_MOVE:
-> > -			if (b - t - count > 3 * vc->vc_rows >> 2) {
-> > -				if (t > 0)
-> > -					fbcon_bmove(vc, 0, 0, count, 0, t,
-> > -						    vc->vc_cols);
-> > -				ywrap_up(vc, count);
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_bmove(vc, b - count, 0, b, 0,
-> > -						    vc->vc_rows - b,
-> > -						    vc->vc_cols);
-> > -			} else if (info->flags & FBINFO_READS_FAST)
-> > -				fbcon_bmove(vc, t + count, 0, t, 0,
-> > -					    b - t - count, vc->vc_cols);
-> > -			else
-> > -				goto redraw_up;
-> > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_PAN_REDRAW:
-> > -			if ((p->yscroll + count <=
-> > -			     2 * (p->vrows - vc->vc_rows))
-> > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > -				|| (scroll_partial
-> > -				    && (b - t - count >
-> > -					3 * vc->vc_rows >> 2)))) {
-> > -				if (t > 0)
-> > -					fbcon_redraw_move(vc, p, 0, t, count);
-> > -				ypan_up_redraw(vc, t, count);
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_redraw_move(vc, p, b,
-> > -							  vc->vc_rows - b, b);
-> > -			} else
-> > -				fbcon_redraw_move(vc, p, t + count, b - t - count, t);
-> > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_PAN_MOVE:
-> > -			if ((p->yscroll + count <=
-> > -			     2 * (p->vrows - vc->vc_rows))
-> > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > -				|| (scroll_partial
-> > -				    && (b - t - count >
-> > -					3 * vc->vc_rows >> 2)))) {
-> > -				if (t > 0)
-> > -					fbcon_bmove(vc, 0, 0, count, 0, t,
-> > -						    vc->vc_cols);
-> > -				ypan_up(vc, count);
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_bmove(vc, b - count, 0, b, 0,
-> > -						    vc->vc_rows - b,
-> > -						    vc->vc_cols);
-> > -			} else if (info->flags & FBINFO_READS_FAST)
-> > -				fbcon_bmove(vc, t + count, 0, t, 0,
-> > -					    b - t - count, vc->vc_cols);
-> > -			else
-> > -				goto redraw_up;
-> > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_REDRAW:
-> > -		      redraw_up:
-> > -			fbcon_redraw(vc, p, t, b - t - count,
-> > -				     count * vc->vc_cols);
-> > -			fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > -							vc->vc_size_row *
-> > -							(b - count)),
-> > -				    vc->vc_video_erase_char,
-> > -				    vc->vc_size_row * count);
-> > -			return true;
-> > -		}
-> > -		break;
-> > +		fbcon_redraw(vc, p, t, b - t - count,
-> > +			     count * vc->vc_cols);
-> > +		fbcon_clear(vc, b - count, 0, count, vc->vc_cols);
-> > +		scr_memsetw((unsigned short *) (vc->vc_origin +
-> > +						vc->vc_size_row *
-> > +						(b - count)),
-> > +			    vc->vc_video_erase_char,
-> > +			    vc->vc_size_row * count);
-> > +		return true;
-> >   	case SM_DOWN:
-> >   		if (count > vc->vc_rows)	/* Maximum realistic size */
-> >   			count = vc->vc_rows;
-> > -		if (logo_shown >= 0)
-> > -			goto redraw_down;
-> > -		switch (p->scrollmode) {
-> > -		case SCROLL_MOVE:
-> > -			fbcon_redraw_blit(vc, info, p, b - 1, b - t - count,
-> > -				     -count);
-> > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > -							vc->vc_size_row *
-> > -							t),
-> > -				    vc->vc_video_erase_char,
-> > -				    vc->vc_size_row * count);
-> > -			return true;
-> > -
-> > -		case SCROLL_WRAP_MOVE:
-> > -			if (b - t - count > 3 * vc->vc_rows >> 2) {
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_bmove(vc, b, 0, b - count, 0,
-> > -						    vc->vc_rows - b,
-> > -						    vc->vc_cols);
-> > -				ywrap_down(vc, count);
-> > -				if (t > 0)
-> > -					fbcon_bmove(vc, count, 0, 0, 0, t,
-> > -						    vc->vc_cols);
-> > -			} else if (info->flags & FBINFO_READS_FAST)
-> > -				fbcon_bmove(vc, t, 0, t + count, 0,
-> > -					    b - t - count, vc->vc_cols);
-> > -			else
-> > -				goto redraw_down;
-> > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_PAN_MOVE:
-> > -			if ((count - p->yscroll <= p->vrows - vc->vc_rows)
-> > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > -				|| (scroll_partial
-> > -				    && (b - t - count >
-> > -					3 * vc->vc_rows >> 2)))) {
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_bmove(vc, b, 0, b - count, 0,
-> > -						    vc->vc_rows - b,
-> > -						    vc->vc_cols);
-> > -				ypan_down(vc, count);
-> > -				if (t > 0)
-> > -					fbcon_bmove(vc, count, 0, 0, 0, t,
-> > -						    vc->vc_cols);
-> > -			} else if (info->flags & FBINFO_READS_FAST)
-> > -				fbcon_bmove(vc, t, 0, t + count, 0,
-> > -					    b - t - count, vc->vc_cols);
-> > -			else
-> > -				goto redraw_down;
-> > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_PAN_REDRAW:
-> > -			if ((count - p->yscroll <= p->vrows - vc->vc_rows)
-> > -			    && ((!scroll_partial && (b - t == vc->vc_rows))
-> > -				|| (scroll_partial
-> > -				    && (b - t - count >
-> > -					3 * vc->vc_rows >> 2)))) {
-> > -				if (vc->vc_rows - b > 0)
-> > -					fbcon_redraw_move(vc, p, b, vc->vc_rows - b,
-> > -							  b - count);
-> > -				ypan_down_redraw(vc, t, count);
-> > -				if (t > 0)
-> > -					fbcon_redraw_move(vc, p, count, t, 0);
-> > -			} else
-> > -				fbcon_redraw_move(vc, p, t, b - t - count, t + count);
-> > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > -			break;
-> > -
-> > -		case SCROLL_REDRAW:
-> > -		      redraw_down:
-> > -			fbcon_redraw(vc, p, b - 1, b - t - count,
-> > -				     -count * vc->vc_cols);
-> > -			fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > -			scr_memsetw((unsigned short *) (vc->vc_origin +
-> > -							vc->vc_size_row *
-> > -							t),
-> > -				    vc->vc_video_erase_char,
-> > -				    vc->vc_size_row * count);
-> > -			return true;
-> > -		}
-> > +		fbcon_redraw(vc, p, b - 1, b - t - count,
-> > +			     -count * vc->vc_cols);
-> > +		fbcon_clear(vc, t, 0, count, vc->vc_cols);
-> > +		scr_memsetw((unsigned short *) (vc->vc_origin +
-> > +						vc->vc_size_row *
-> > +						t),
-> > +			    vc->vc_video_erase_char,
-> > +			    vc->vc_size_row * count);
-> > +		return true;
-> >   	}
-> >   	return false;
-> >   }
-> > -
-> > -static void fbcon_bmove(struct vc_data *vc, int sy, int sx, int dy, int dx,
-> > -			int height, int width)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_display *p = &fb_display[vc->vc_num];
-> > -	
-> > -	if (fbcon_is_inactive(vc, info))
-> > -		return;
-> > -
-> > -	if (!width || !height)
-> > -		return;
-> > -
-> > -	/*  Split blits that cross physical y_wrap case.
-> > -	 *  Pathological case involves 4 blits, better to use recursive
-> > -	 *  code rather than unrolled case
-> > -	 *
-> > -	 *  Recursive invocations don't need to erase the cursor over and
-> > -	 *  over again, so we use fbcon_bmove_rec()
-> > -	 */
-> > -	fbcon_bmove_rec(vc, p, sy, sx, dy, dx, height, width,
-> > -			p->vrows - p->yscroll);
-> > -}
-> > -
-> > -static void fbcon_bmove_rec(struct vc_data *vc, struct fbcon_display *p, int sy, int sx,
-> > -			    int dy, int dx, int height, int width, u_int y_break)
-> > -{
-> > -	struct fb_info *info = registered_fb[con2fb_map[vc->vc_num]];
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	u_int b;
-> > -
-> > -	if (sy < y_break && sy + height > y_break) {
-> > -		b = y_break - sy;
-> > -		if (dy < sy) {	/* Avoid trashing self */
-> > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > -					y_break);
-> > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > -					height - b, width, y_break);
-> > -		} else {
-> > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > -					height - b, width, y_break);
-> > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > -					y_break);
-> > -		}
-> > -		return;
-> > -	}
-> > -
-> > -	if (dy < y_break && dy + height > y_break) {
-> > -		b = y_break - dy;
-> > -		if (dy < sy) {	/* Avoid trashing self */
-> > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > -					y_break);
-> > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > -					height - b, width, y_break);
-> > -		} else {
-> > -			fbcon_bmove_rec(vc, p, sy + b, sx, dy + b, dx,
-> > -					height - b, width, y_break);
-> > -			fbcon_bmove_rec(vc, p, sy, sx, dy, dx, b, width,
-> > -					y_break);
-> > -		}
-> > -		return;
-> > -	}
-> > -	ops->bmove(vc, info, real_y(p, sy), sx, real_y(p, dy), dx,
-> > -		   height, width);
-> > -}
-> > -
-> >   static void updatescrollmode(struct fbcon_display *p,
-> >   					struct fb_info *info,
-> >   					struct vc_data *vc)
-> > @@ -2119,21 +1664,7 @@ static int fbcon_switch(struct vc_data *vc)
-> >   	updatescrollmode(p, info, vc);
-> > -	switch (p->scrollmode) {
-> > -	case SCROLL_WRAP_MOVE:
-> > -		scrollback_phys_max = p->vrows - vc->vc_rows;
-> > -		break;
-> > -	case SCROLL_PAN_MOVE:
-> > -	case SCROLL_PAN_REDRAW:
-> > -		scrollback_phys_max = p->vrows - 2 * vc->vc_rows;
-> > -		if (scrollback_phys_max < 0)
-> > -			scrollback_phys_max = 0;
-> > -		break;
-> > -	default:
-> > -		scrollback_phys_max = 0;
-> > -		break;
-> > -	}
-> > -
-> > +	scrollback_phys_max = 0;
-> >   	scrollback_max = 0;
-> >   	scrollback_current = 0;
-> > diff --git a/drivers/video/fbdev/core/fbcon.h b/drivers/video/fbdev/core/fbcon.h
-> > index 9315b360c898..a00603b4451a 100644
-> > --- a/drivers/video/fbdev/core/fbcon.h
-> > +++ b/drivers/video/fbdev/core/fbcon.h
-> > @@ -29,7 +29,6 @@ struct fbcon_display {
-> >       /* Filled in by the low-level console driver */
-> >       const u_char *fontdata;
-> >       int userfont;                   /* != 0 if fontdata kmalloc()ed */
-> > -    u_short scrollmode;             /* Scroll Method */
-> >       u_short inverse;                /* != 0 text black on white as default */
-> >       short yscroll;                  /* Hardware scrolling */
-> >       int vrows;                      /* number of virtual rows */
-> > @@ -52,8 +51,6 @@ struct fbcon_display {
-> >   };
-> >   struct fbcon_ops {
-> > -	void (*bmove)(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		      int sx, int dy, int dx, int height, int width);
-> >   	void (*clear)(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		      int sx, int height, int width);
-> >   	void (*putcs)(struct vc_data *vc, struct fb_info *info,
-> > @@ -152,62 +149,6 @@ static inline int attr_col_ec(int shift, struct vc_data *vc,
-> >   #define attr_bgcol_ec(bgshift, vc, info) attr_col_ec(bgshift, vc, info, 0)
-> >   #define attr_fgcol_ec(fgshift, vc, info) attr_col_ec(fgshift, vc, info, 1)
-> > -    /*
-> > -     *  Scroll Method
-> > -     */
-> > -
-> > -/* There are several methods fbcon can use to move text around the screen:
-> > - *
-> > - *                     Operation   Pan    Wrap
-> > - *---------------------------------------------
-> > - * SCROLL_MOVE         copyarea    No     No
-> > - * SCROLL_PAN_MOVE     copyarea    Yes    No
-> > - * SCROLL_WRAP_MOVE    copyarea    No     Yes
-> > - * SCROLL_REDRAW       imageblit   No     No
-> > - * SCROLL_PAN_REDRAW   imageblit   Yes    No
-> > - * SCROLL_WRAP_REDRAW  imageblit   No     Yes
-> > - *
-> > - * (SCROLL_WRAP_REDRAW is not implemented yet)
-> > - *
-> > - * In general, fbcon will choose the best scrolling
-> > - * method based on the rule below:
-> > - *
-> > - * Pan/Wrap > accel imageblit > accel copyarea >
-> > - * soft imageblit > (soft copyarea)
-> > - *
-> > - * Exception to the rule: Pan + accel copyarea is
-> > - * preferred over Pan + accel imageblit.
-> > - *
-> > - * The above is typical for PCI/AGP cards. Unless
-> > - * overridden, fbcon will never use soft copyarea.
-> > - *
-> > - * If you need to override the above rule, set the
-> > - * appropriate flags in fb_info->flags.  For example,
-> > - * to prefer copyarea over imageblit, set
-> > - * FBINFO_READS_FAST.
-> > - *
-> > - * Other notes:
-> > - * + use the hardware engine to move the text
-> > - *    (hw-accelerated copyarea() and fillrect())
-> > - * + use hardware-supported panning on a large virtual screen
-> > - * + amifb can not only pan, but also wrap the display by N lines
-> > - *    (i.e. visible line i = physical line (i+N) % yres).
-> > - * + read what's already rendered on the screen and
-> > - *     write it in a different place (this is cfb_copyarea())
-> > - * + re-render the text to the screen
-> > - *
-> > - * Whether to use wrapping or panning can only be figured out at
-> > - * runtime (when we know whether our font height is a multiple
-> > - * of the pan/wrap step)
-> > - *
-> > - */
-> > -
-> > -#define SCROLL_MOVE	   0x001
-> > -#define SCROLL_PAN_MOVE	   0x002
-> > -#define SCROLL_WRAP_MOVE   0x003
-> > -#define SCROLL_REDRAW	   0x004
-> > -#define SCROLL_PAN_REDRAW  0x005
-> > -
-> >   #ifdef CONFIG_FB_TILEBLITTING
-> >   extern void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info);
-> >   #endif
-> > diff --git a/drivers/video/fbdev/core/fbcon_ccw.c b/drivers/video/fbdev/core/fbcon_ccw.c
-> > index 9cd2c4b05c32..ffa78936eaab 100644
-> > --- a/drivers/video/fbdev/core/fbcon_ccw.c
-> > +++ b/drivers/video/fbdev/core/fbcon_ccw.c
-> > @@ -59,31 +59,12 @@ static void ccw_update_attr(u8 *dst, u8 *src, int attribute,
-> >   	}
-> >   }
-> > -
-> > -static void ccw_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		     int sx, int dy, int dx, int height, int width)
-> > -{
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fb_copyarea area;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -
-> > -	area.sx = sy * vc->vc_font.height;
-> > -	area.sy = vyres - ((sx + width) * vc->vc_font.width);
-> > -	area.dx = dy * vc->vc_font.height;
-> > -	area.dy = vyres - ((dx + width) * vc->vc_font.width);
-> > -	area.width = height * vc->vc_font.height;
-> > -	area.height  = width * vc->vc_font.width;
-> > -
-> > -	info->fbops->fb_copyarea(info, &area);
-> > -}
-> > -
-> >   static void ccw_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		     int sx, int height, int width)
-> >   {
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> >   	struct fb_fillrect region;
-> >   	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> >   	region.color = attr_bgcol_ec(bgshift,vc,info);
-> >   	region.dx = sy * vc->vc_font.height;
-> > @@ -140,7 +121,7 @@ static void ccw_putcs(struct vc_data *vc, struct fb_info *info,
-> >   	u32 cnt, pitch, size;
-> >   	u32 attribute = get_attribute(info, scr_readw(s));
-> >   	u8 *dst, *buf = NULL;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -229,7 +210,7 @@ static void ccw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> >   	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> >   	int err = 1, dx, dy;
-> >   	char *src;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -387,7 +368,7 @@ static int ccw_update_start(struct fb_info *info)
-> >   {
-> >   	struct fbcon_ops *ops = info->fbcon_par;
-> >   	u32 yoffset;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> >   	int err;
-> >   	yoffset = (vyres - info->var.yres) - ops->var.xoffset;
-> > @@ -402,7 +383,6 @@ static int ccw_update_start(struct fb_info *info)
-> >   void fbcon_rotate_ccw(struct fbcon_ops *ops)
-> >   {
-> > -	ops->bmove = ccw_bmove;
-> >   	ops->clear = ccw_clear;
-> >   	ops->putcs = ccw_putcs;
-> >   	ops->clear_margins = ccw_clear_margins;
-> > diff --git a/drivers/video/fbdev/core/fbcon_cw.c b/drivers/video/fbdev/core/fbcon_cw.c
-> > index 88d89fad3f05..92e5b7fb51ee 100644
-> > --- a/drivers/video/fbdev/core/fbcon_cw.c
-> > +++ b/drivers/video/fbdev/core/fbcon_cw.c
-> > @@ -44,31 +44,12 @@ static void cw_update_attr(u8 *dst, u8 *src, int attribute,
-> >   	}
-> >   }
-> > -
-> > -static void cw_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		     int sx, int dy, int dx, int height, int width)
-> > -{
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fb_copyarea area;
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > -
-> > -	area.sx = vxres - ((sy + height) * vc->vc_font.height);
-> > -	area.sy = sx * vc->vc_font.width;
-> > -	area.dx = vxres - ((dy + height) * vc->vc_font.height);
-> > -	area.dy = dx * vc->vc_font.width;
-> > -	area.width = height * vc->vc_font.height;
-> > -	area.height  = width * vc->vc_font.width;
-> > -
-> > -	info->fbops->fb_copyarea(info, &area);
-> > -}
-> > -
-> >   static void cw_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		     int sx, int height, int width)
-> >   {
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> >   	struct fb_fillrect region;
-> >   	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vxres = info->var.xres;
-> >   	region.color = attr_bgcol_ec(bgshift,vc,info);
-> >   	region.dx = vxres - ((sy + height) * vc->vc_font.height);
-> > @@ -125,7 +106,7 @@ static void cw_putcs(struct vc_data *vc, struct fb_info *info,
-> >   	u32 cnt, pitch, size;
-> >   	u32 attribute = get_attribute(info, scr_readw(s));
-> >   	u8 *dst, *buf = NULL;
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vxres = info->var.xres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -212,7 +193,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> >   	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> >   	int err = 1, dx, dy;
-> >   	char *src;
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vxres = info->var.xres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -369,7 +350,7 @@ static void cw_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> >   static int cw_update_start(struct fb_info *info)
-> >   {
-> >   	struct fbcon_ops *ops = info->fbcon_par;
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vxres = info->var.xres;
-> >   	u32 xoffset;
-> >   	int err;
-> > @@ -385,7 +366,6 @@ static int cw_update_start(struct fb_info *info)
-> >   void fbcon_rotate_cw(struct fbcon_ops *ops)
-> >   {
-> > -	ops->bmove = cw_bmove;
-> >   	ops->clear = cw_clear;
-> >   	ops->putcs = cw_putcs;
-> >   	ops->clear_margins = cw_clear_margins;
-> > diff --git a/drivers/video/fbdev/core/fbcon_rotate.h b/drivers/video/fbdev/core/fbcon_rotate.h
-> > index e233444cda66..b528b2e54283 100644
-> > --- a/drivers/video/fbdev/core/fbcon_rotate.h
-> > +++ b/drivers/video/fbdev/core/fbcon_rotate.h
-> > @@ -11,15 +11,6 @@
-> >   #ifndef _FBCON_ROTATE_H
-> >   #define _FBCON_ROTATE_H
-> > -#define GETVYRES(s,i) ({                           \
-> > -        (s == SCROLL_REDRAW || s == SCROLL_MOVE) ? \
-> > -        (i)->var.yres : (i)->var.yres_virtual; })
-> > -
-> > -#define GETVXRES(s,i) ({                           \
-> > -        (s == SCROLL_REDRAW || s == SCROLL_MOVE || !(i)->fix.xpanstep) ? \
-> > -        (i)->var.xres : (i)->var.xres_virtual; })
-> > -
-> > -
-> >   static inline int pattern_test_bit(u32 x, u32 y, u32 pitch, const char *pat)
-> >   {
-> >   	u32 tmp = (y * pitch) + x, index = tmp / 8,  bit = tmp % 8;
-> > diff --git a/drivers/video/fbdev/core/fbcon_ud.c b/drivers/video/fbdev/core/fbcon_ud.c
-> > index 8d5e66b1bdfb..09619bd8e021 100644
-> > --- a/drivers/video/fbdev/core/fbcon_ud.c
-> > +++ b/drivers/video/fbdev/core/fbcon_ud.c
-> > @@ -44,33 +44,13 @@ static void ud_update_attr(u8 *dst, u8 *src, int attribute,
-> >   	}
-> >   }
-> > -
-> > -static void ud_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		     int sx, int dy, int dx, int height, int width)
-> > -{
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> > -	struct fb_copyarea area;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > -
-> > -	area.sy = vyres - ((sy + height) * vc->vc_font.height);
-> > -	area.sx = vxres - ((sx + width) * vc->vc_font.width);
-> > -	area.dy = vyres - ((dy + height) * vc->vc_font.height);
-> > -	area.dx = vxres - ((dx + width) * vc->vc_font.width);
-> > -	area.height = height * vc->vc_font.height;
-> > -	area.width  = width * vc->vc_font.width;
-> > -
-> > -	info->fbops->fb_copyarea(info, &area);
-> > -}
-> > -
-> >   static void ud_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		     int sx, int height, int width)
-> >   {
-> > -	struct fbcon_ops *ops = info->fbcon_par;
-> >   	struct fb_fillrect region;
-> >   	int bgshift = (vc->vc_hi_font_mask) ? 13 : 12;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> > +	u32 vxres = info->var.xres;
-> >   	region.color = attr_bgcol_ec(bgshift,vc,info);
-> >   	region.dy = vyres - ((sy + height) * vc->vc_font.height);
-> > @@ -162,8 +142,8 @@ static void ud_putcs(struct vc_data *vc, struct fb_info *info,
-> >   	u32 mod = vc->vc_font.width % 8, cnt, pitch, size;
-> >   	u32 attribute = get_attribute(info, scr_readw(s));
-> >   	u8 *dst, *buf = NULL;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> > +	u32 vxres = info->var.xres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -259,8 +239,8 @@ static void ud_cursor(struct vc_data *vc, struct fb_info *info, int mode,
-> >   	int attribute, use_sw = vc->vc_cursor_type & CUR_SW;
-> >   	int err = 1, dx, dy;
-> >   	char *src;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> > +	u32 vxres = info->var.xres;
-> >   	if (!ops->fontbuffer)
-> >   		return;
-> > @@ -410,8 +390,8 @@ static int ud_update_start(struct fb_info *info)
-> >   {
-> >   	struct fbcon_ops *ops = info->fbcon_par;
-> >   	int xoffset, yoffset;
-> > -	u32 vyres = GETVYRES(ops->p->scrollmode, info);
-> > -	u32 vxres = GETVXRES(ops->p->scrollmode, info);
-> > +	u32 vyres = info->var.yres;
-> > +	u32 vxres = info->var.xres;
-> >   	int err;
-> >   	xoffset = vxres - info->var.xres - ops->var.xoffset;
-> > @@ -429,7 +409,6 @@ static int ud_update_start(struct fb_info *info)
-> >   void fbcon_rotate_ud(struct fbcon_ops *ops)
-> >   {
-> > -	ops->bmove = ud_bmove;
-> >   	ops->clear = ud_clear;
-> >   	ops->putcs = ud_putcs;
-> >   	ops->clear_margins = ud_clear_margins;
-> > diff --git a/drivers/video/fbdev/core/tileblit.c b/drivers/video/fbdev/core/tileblit.c
-> > index 2768eff247ba..72af95053bcb 100644
-> > --- a/drivers/video/fbdev/core/tileblit.c
-> > +++ b/drivers/video/fbdev/core/tileblit.c
-> > @@ -16,21 +16,6 @@
-> >   #include <asm/types.h>
-> >   #include "fbcon.h"
-> > -static void tile_bmove(struct vc_data *vc, struct fb_info *info, int sy,
-> > -		       int sx, int dy, int dx, int height, int width)
-> > -{
-> > -	struct fb_tilearea area;
-> > -
-> > -	area.sx = sx;
-> > -	area.sy = sy;
-> > -	area.dx = dx;
-> > -	area.dy = dy;
-> > -	area.height = height;
-> > -	area.width = width;
-> > -
-> > -	info->tileops->fb_tilecopy(info, &area);
-> > -}
-> > -
-> >   static void tile_clear(struct vc_data *vc, struct fb_info *info, int sy,
-> >   		       int sx, int height, int width)
-> >   {
-> > @@ -133,7 +118,6 @@ void fbcon_set_tileops(struct vc_data *vc, struct fb_info *info)
-> >   	struct fb_tilemap map;
-> >   	struct fbcon_ops *ops = info->fbcon_par;
-> > -	ops->bmove = tile_bmove;
-> >   	ops->clear = tile_clear;
-> >   	ops->putcs = tile_putcs;
-> >   	ops->clear_margins = tile_clear_margins;
-> > diff --git a/drivers/video/fbdev/skeletonfb.c b/drivers/video/fbdev/skeletonfb.c
-> > index bcacfb6934fa..0fe922f726e9 100644
-> > --- a/drivers/video/fbdev/skeletonfb.c
-> > +++ b/drivers/video/fbdev/skeletonfb.c
-> > @@ -505,15 +505,15 @@ void xxxfb_fillrect(struct fb_info *p, const struct fb_fillrect *region)
-> >   }
-> >   /**
-> > - *      xxxfb_copyarea - REQUIRED function. Can use generic routines if
-> > - *                       non acclerated hardware and packed pixel based.
-> > + *      xxxfb_copyarea - OBSOLETE function.
-> >    *                       Copies one area of the screen to another area.
-> > + *                       Will be deleted in a future version
-> >    *
-> >    *      @info: frame buffer structure that represents a single frame buffer
-> >    *      @area: Structure providing the data to copy the framebuffer contents
-> >    *	       from one region to another.
-> >    *
-> > - *      This drawing operation copies a rectangular area from one area of the
-> > + *      This drawing operation copied a rectangular area from one area of the
-> >    *	screen to another area.
-> >    */
-> >   void xxxfb_copyarea(struct fb_info *p, const struct fb_copyarea *area)
-> > @@ -645,9 +645,9 @@ static const struct fb_ops xxxfb_ops = {
-> >   	.fb_setcolreg	= xxxfb_setcolreg,
-> >   	.fb_blank	= xxxfb_blank,
-> >   	.fb_pan_display	= xxxfb_pan_display,
-> > -	.fb_fillrect	= xxxfb_fillrect, 	/* Needed !!! */
-> > -	.fb_copyarea	= xxxfb_copyarea,	/* Needed !!! */
-> > -	.fb_imageblit	= xxxfb_imageblit,	/* Needed !!! */
-> > +	.fb_fillrect	= xxxfb_fillrect,	/* Needed !!!   */
-> > +	.fb_copyarea	= xxxfb_copyarea,	/* Obsolete     */
-> > +	.fb_imageblit	= xxxfb_imageblit,	/* Needed !!!   */
-> >   	.fb_cursor	= xxxfb_cursor,		/* Optional !!! */
-> >   	.fb_sync	= xxxfb_sync,
-> >   	.fb_ioctl	= xxxfb_ioctl,
-> > diff --git a/include/linux/fb.h b/include/linux/fb.h
-> > index 5950f8f5dc74..6f3db99ab990 100644
-> > --- a/include/linux/fb.h
-> > +++ b/include/linux/fb.h
-> > @@ -262,7 +262,7 @@ struct fb_ops {
-> >   	/* Draws a rectangle */
-> >   	void (*fb_fillrect) (struct fb_info *info, const struct fb_fillrect *rect);
-> > -	/* Copy data from area to another */
-> > +	/* Copy data from area to another. Obsolete. */
-> >   	void (*fb_copyarea) (struct fb_info *info, const struct fb_copyarea *region);
-> >   	/* Draws a image to the display */
-> >   	void (*fb_imageblit) (struct fb_info *info, const struct fb_image *image);
-> > 
-> > 
-> > 
-> 
-> -- 
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 Nürnberg, Germany
-> (HRB 36809, AG Nürnberg)
-> Geschäftsführer: Felix Imendörffer
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip drm-exynos/exynos-drm-next tegra-drm/drm/tegra/for-next v5.15-rc3 next-20210922]
+[cannot apply to airlied/drm-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Lucas-De-Marchi/drm-i915-remove-IS_ACTIVE/20211001-154226
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+config: i386-randconfig-a015-20211001 (attached as .config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 962e503cc8bc411f7523cc393acae8aae425b1c4)
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://github.com/0day-ci/linux/commit/50006042f1d264599bd1be1942f9958112e15c01
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Lucas-De-Marchi/drm-i915-remove-IS_ACTIVE/20211001-154226
+        git checkout 50006042f1d264599bd1be1942f9958112e15c01
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 ARCH=i386 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/i915_config.c:11:14: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+           if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+                       ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_config.c:11:14: note: use '&' for a bitwise operation
+           if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+                       ^~
+                       &
+   drivers/gpu/drm/i915/i915_config.c:11:14: note: remove constant to silence this warning
+           if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+                      ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
+vim +11 drivers/gpu/drm/i915/i915_config.c
 
+     7	
+     8	unsigned long
+     9	i915_fence_context_timeout(const struct drm_i915_private *i915, u64 context)
+    10	{
+  > 11		if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
+--C7zPtVaVf+AK4Oqc
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
+
+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
+
+--C7zPtVaVf+AK4Oqc--
