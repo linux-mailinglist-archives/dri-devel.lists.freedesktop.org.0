@@ -1,43 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2512841E924
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 10:38:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D5141E928
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 10:40:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6074C6E52E;
-	Fri,  1 Oct 2021 08:38:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 951FB6ED20;
+	Fri,  1 Oct 2021 08:40:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1E03F6E52E
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 08:38:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=ZL00tAmgmPkUCzsZyxDsxf8uvIQqboVbGfSDRW4rA3Q=; 
- b=LW3ZDmVkmB5ZwhbxoXxEEzJi5O9ojbWdRxRz7Mxji65lTNj0Hfrd1+EVFRhsxx64LEh63bHc329566Zblxvi/ujp7l+uvO0Rki0Jq4EAQxuSZUF0VruiGQ8zIyNef0Ivu1hwDkbBd0nqnxKmhcMSkI9qi18PFvFetC2YaQfDvp136+nrbTcv0f1wZp+W2dwJPipMrCwNIQd4oQiVdfmZNaU4By03XL62+dGsO0a33uH8usXPfMym7HFJqz2TLV6c+PX/USE/oo2o1aaaFShsZrR4EumrFl2q12DC/3d5KP663SFmUSOhSQ5DhZlX3ZuXQ08Wm6jDYL354y1HYygJ+A==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mWE3L-0004BR-Hy; Fri, 01 Oct 2021 10:37:59 +0200
-Date: Fri, 1 Oct 2021 09:37:44 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Iago Toral <itoral@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, Emma Anholt <emma@anholt.net>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maxime Ripard <maxime@cerno.tech>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Subject: Re: [PATCH v3 4/4] drm/v3d: add multiple syncobjs support
-Message-ID: <20211001083744.l2hnoga6xj645jpk@mail.igalia.com>
-References: <cover.1633016479.git.mwen@igalia.com>
- <ffd8b2e3dd2e0c686db441a0c0a4a0181ff85328.1633016479.git.mwen@igalia.com>
- <fd6acbe570d02f53b34973516556a15a1909cbf8.camel@igalia.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AC1346ED20;
+ Fri,  1 Oct 2021 08:40:23 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="212633674"
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; d="scan'208";a="212633674"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2021 01:40:22 -0700
+X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; d="scan'208";a="520879667"
+Received: from howells-mobl.ger.corp.intel.com (HELO [10.213.208.92])
+ ([10.213.208.92])
+ by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 01 Oct 2021 01:40:21 -0700
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix bug in user proto-context
+ creation that leaked contexts
+To: Matthew Brost <matthew.brost@intel.com>, dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org
+Cc: jason@jlekstrand.net, Daniel Vetter <daniel@ffwll.ch>
+References: <20210922194333.8956-1-matthew.brost@intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <ecb916eb-7755-2c19-4f4f-389580f9acd6@linux.intel.com>
+Date: Fri, 1 Oct 2021 09:40:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eotrmbxtpvte67e5"
-Content-Disposition: inline
-In-Reply-To: <fd6acbe570d02f53b34973516556a15a1909cbf8.camel@igalia.com>
+In-Reply-To: <20210922194333.8956-1-matthew.brost@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,529 +55,68 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 
---eotrmbxtpvte67e5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
++ Daniel as reviewer and maybe merge, avoid falling through cracks at least.
 
-On 10/01, Iago Toral wrote:
-> On Thu, 2021-09-30 at 17:19 +0100, Melissa Wen wrote:
-> > Using the generic extension from the previous patch, a specific
-> > multisync
-> > extension enables more than one in/out binary syncobj per job
-> > submission.
-> > Arrays of syncobjs are set in struct drm_v3d_multisync, that also
-> > cares
-> > of determining the stage for sync (wait deps) according to the job
-> > queue.
-> >=20
-> > v2:
-> > - subclass the generic extension struct (Daniel)
-> > - simplify adding dependency conditions to make understandable (Iago)
-> >=20
-> > v3:
-> > - fix conditions to consider single or multiples in/out_syncs (Iago)
-> > - remove irrelevant comment (Iago)
-> >=20
-> > Signed-off-by: Melissa Wen <mwen@igalia.com>
-> > ---
-> >  drivers/gpu/drm/v3d/v3d_drv.c |   6 +-
-> >  drivers/gpu/drm/v3d/v3d_drv.h |  24 +++--
-> >  drivers/gpu/drm/v3d/v3d_gem.c | 185 ++++++++++++++++++++++++++++++
-> > ----
-> >  include/uapi/drm/v3d_drm.h    |  49 ++++++++-
-> >  4 files changed, 232 insertions(+), 32 deletions(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/v3d/v3d_drv.c
-> > b/drivers/gpu/drm/v3d/v3d_drv.c
-> > index 3d6b9bcce2f7..bd46396a1ae0 100644
-> > --- a/drivers/gpu/drm/v3d/v3d_drv.c
-> > +++ b/drivers/gpu/drm/v3d/v3d_drv.c
-> > @@ -96,6 +96,9 @@ static int v3d_get_param_ioctl(struct drm_device=20
->=20
-> (...)
->=20
-> >=20
-> > @@ -516,9 +536,11 @@ v3d_attach_fences_and_unlock_reservation(struct
-> > drm_file *file_priv,
-> >  					 struct v3d_job *job,
-> >  					 struct ww_acquire_ctx
-> > *acquire_ctx,
-> >  					 u32 out_sync,
-> > +					 struct v3d_submit_ext *se,
-> >  					 struct dma_fence *done_fence)
-> >  {
-> >  	struct drm_syncobj *sync_out;
-> > +	bool has_multisync =3D se && (se->flags &=20
->=20
-> We always pass the 'se' pointer from a local variable allocated in the
-> stack of the caller so it is never going to be NULL.
->=20
-> I am happy to keep the NULL check if you want to protect against future
-> changes just in case, but if we do that then...
->=20
-> > DRM_V3D_EXT_ID_MULTI_SYNC);
-> >  	int i;
-> > =20
-> >  	for (i =3D 0; i < job->bo_count; i++) {
->=20
-> (...)
->=20
-> > +static void
-> > +v3d_put_multisync_post_deps(struct v3d_submit_ext *se)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	if (!se->out_sync_count)
->=20
-> ...we should also check for NULL here for consistency.
-yes, consistency makes sense here.
->=20
-> Also, I think there is another problem in the code: we always call
-> v3d_job_cleanup for failed jobs, but only call v3d_job_put for
-> successful jobs. However, reading the docs for drm_sched_job_init:
->=20
-> "Drivers must make sure drm_sched_job_cleanup() if this function
-> returns successfully, even when @job is aborted before
-> drm_sched_job_arm() is called."
->=20
-> So my understanding is that we should call v3d_job_cleanup instead of
-> v3d_job_put for successful jobs or we would be leaking sched resources
-> on every successful job, no?
+On 22/09/2021 20:43, Matthew Brost wrote:
+> Set number of engines before attempting to create contexts so the
+> function free_engines can clean up properly. Also check return of
+> alloc_engines for NULL.
+> 
+> v2:
+>   (Tvrtko)
+>    - Send as stand alone patch
+>   (John Harrison)
+>    - Check for alloc_engines returning NULL
+> 
+> Cc: Jason Ekstrand <jason@jlekstrand.net>
+> Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
+> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Cc: <stable@vger.kernel.org>
+> ---
+>   drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> index c2ab0e22db0a..9627c7aac6a3 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+> @@ -898,6 +898,11 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+>   	unsigned int n;
+>   
+>   	e = alloc_engines(num_engines);
+> +	if (!e) {
+> +		return ERR_PTR(-ENOMEM);
+> +	}
 
-When job_init is successful, v3d_job_cleanup is called by scheduler when
-job is completed. drm_sched_job_cleanup describes how it works after
-drm_sched_job_arm:
+Ideally remove the braces and respin.
 
-" After that point of no return @job is committed to be executed by the
-scheduler, and this function should be called from the
-&drm_sched_backend_ops.free_job callback."
+> +	e->num_engines = num_engines;
 
-On v3d_sched.c, .free_job points to v3d_sched_job_free(), which in turn
-calls v3d_job_cleanup() (and then drm_sched_job_cleanup). So, it looks
-ok.
+Theoretically you could have put it next to "e->engines[n] = ce" 
+assignment so the pattern is the same as in default_engines(). Kind of 
+makes more sense that the number is not set before anything is created, 
+but as it doesn't really matter since free_engines handles sparse arrays 
+so there is argument to have a simpler single assignment as well.
 
-Also, we can say that the very last v3d_job_put() is in charge to
-decrement refcount initialized (set 1) in v3d_job_init(); while the
-v3d_job_cleanup() from v3d_sched_job_free() callback decrements refcount
-that was incremented when v3d_job_push() pushed the job to the
-scheduler.
+> +
+>   	for (n = 0; n < num_engines; n++) {
+>   		struct intel_context *ce;
+>   		int ret;
+> @@ -931,7 +936,6 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+>   			goto free_engines;
+>   		}
+>   	}
+> -	e->num_engines = num_engines;
+>   
+>   	return e;
+>   
+> 
 
-So, refcount pairs seem consistent, I mean, get and put. And about
-drm_sched_job_cleanup, it is explicitly called when job_init fails or
-after that by the scheduler.
+Fix looks good to me. I did not want to butt in but since more than a 
+week has passed without it getting noticed:
 
-Thanks,
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Melissa
+Regards,
 
->=20
-> Iago
->=20
-> > +		return;
-> > +
-> > +	for (i =3D 0; i < se->out_sync_count; i++)
-> > +		drm_syncobj_put(se->out_syncs[i].syncobj);
-> > +	kvfree(se->out_syncs);
-> > +}
-> > +
-> > +static int
-> > +v3d_get_multisync_post_deps(struct drm_file *file_priv,
-> > +			    struct v3d_submit_ext *se,
-> > +			    u32 count, u64 handles)
-> > +{
-> > +	struct drm_v3d_sem __user *post_deps;
-> > +	int i, ret;
-> > +
-> > +	if (!count)
-> > +		return 0;
-> > +
-> > +	se->out_syncs =3D (struct v3d_submit_outsync *)
-> > +			kvmalloc_array(count,
-> > +				       sizeof(struct
-> > v3d_submit_outsync),
-> > +				       GFP_KERNEL);
-> > +	if (!se->out_syncs)
-> > +		return -ENOMEM;
-> > +
-> > +	post_deps =3D u64_to_user_ptr(handles);
-> > +
-> > +	for (i =3D 0; i < count; i++) {
-> > +		struct drm_v3d_sem out;
-> > +
-> > +		ret =3D copy_from_user(&out, post_deps++, sizeof(out));
-> > +		if (ret) {
-> > +			DRM_DEBUG("Failed to copy post dep handles\n");
-> > +			goto fail;
-> > +		}
-> > +
-> > +		se->out_syncs[i].syncobj =3D drm_syncobj_find(file_priv,
-> > +							    out.handle)
-> > ;
-> > +		if (!se->out_syncs[i].syncobj) {
-> > +			ret =3D -EINVAL;
-> > +			goto fail;
-> > +		}
-> >  	}
-> > +	se->out_sync_count =3D count;
-> > +
-> > +	return 0;
-> > +
-> > +fail:
-> > +	for (i--; i >=3D 0; i--)
-> > +		drm_syncobj_put(se->out_syncs[i].syncobj);
-> > +	kvfree(se->out_syncs);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +/* Get data for multiple binary semaphores synchronization. Parse
-> > syncobj
-> > + * to be signaled when job completes (out_sync).
-> > + */
-> > +static int
-> > +v3d_get_multisync_submit_deps(struct drm_file *file_priv,
-> > +			      struct drm_v3d_extension __user *ext,
-> > +			      void *data)
-> > +{
-> > +	struct drm_v3d_multi_sync multisync;
-> > +	struct v3d_submit_ext *se =3D data;
-> > +	int ret;
-> > +
-> > +	ret =3D copy_from_user(&multisync, ext, sizeof(multisync));
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	if (multisync.pad)
-> > +		return -EINVAL;
-> > +
-> > +	ret =3D v3d_get_multisync_post_deps(file_priv, data,
-> > multisync.out_sync_count,
-> > +					  multisync.out_syncs);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	se->in_sync_count =3D multisync.in_sync_count;
-> > +	se->in_syncs =3D multisync.in_syncs;
-> > +	se->flags |=3D DRM_V3D_EXT_ID_MULTI_SYNC;
-> > +	se->wait_stage =3D multisync.wait_stage;
-> > +
-> > +	return 0;
-> >  }
-> > =20
-> >  /* Whenever userspace sets ioctl extensions, v3d_get_extensions
-> > parses data
-> >   * according to the extension id (name).
-> >   */
-> >  static int
-> > -v3d_get_extensions(struct drm_file *file_priv, u64 ext_handles)
-> > +v3d_get_extensions(struct drm_file *file_priv,
-> > +		   u64 ext_handles,
-> > +		   void *data)
-> >  {
-> >  	struct drm_v3d_extension __user *user_ext;
-> > +	int ret;
-> > =20
-> >  	user_ext =3D u64_to_user_ptr(ext_handles);
-> >  	while (user_ext) {
-> > @@ -555,7 +687,11 @@ v3d_get_extensions(struct drm_file *file_priv,
-> > u64 ext_handles)
-> >  		}
-> > =20
-> >  		switch (ext.id) {
-> > -		case 0:
-> > +		case DRM_V3D_EXT_ID_MULTI_SYNC:
-> > +			ret =3D v3d_get_multisync_submit_deps(file_priv,
-> > user_ext, data);
-> > +			if (ret)
-> > +				return ret;
-> > +			break;
-> >  		default:
-> >  			DRM_DEBUG_DRIVER("Unknown extension id: %d\n",
-> > ext.id);
-> >  			return -EINVAL;
-> > @@ -586,6 +722,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	struct v3d_dev *v3d =3D to_v3d_dev(dev);
-> >  	struct v3d_file_priv *v3d_priv =3D file_priv->driver_priv;
-> >  	struct drm_v3d_submit_cl *args =3D data;
-> > +	struct v3d_submit_ext se =3D {0};
-> >  	struct v3d_bin_job *bin =3D NULL;
-> >  	struct v3d_render_job *render =3D NULL;
-> >  	struct v3d_job *clean_job =3D NULL;
-> > @@ -606,7 +743,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	}
-> > =20
-> >  	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > -		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions,
-> > &se);
-> >  		if (ret) {
-> >  			DRM_DEBUG("Failed to get extensions.\n");
-> >  			return ret;
-> > @@ -614,7 +751,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	}
-> > =20
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&render,
-> > sizeof(*render),
-> > -			   v3d_render_job_free, args->in_sync_rcl,
-> > V3D_RENDER);
-> > +			   v3d_render_job_free, args->in_sync_rcl, &se,
-> > V3D_RENDER);
-> >  	if (ret)
-> >  		goto fail;
-> > =20
-> > @@ -624,7 +761,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> > =20
-> >  	if (args->bcl_start !=3D args->bcl_end) {
-> >  		ret =3D v3d_job_init(v3d, file_priv, (void *)&bin,
-> > sizeof(*bin),
-> > -				   v3d_job_free, args->in_sync_bcl,
-> > V3D_BIN);
-> > +				   v3d_job_free, args->in_sync_bcl,
-> > &se, V3D_BIN);
-> >  		if (ret)
-> >  			goto fail;
-> > =20
-> > @@ -638,7 +775,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> > =20
-> >  	if (args->flags & DRM_V3D_SUBMIT_CL_FLUSH_CACHE) {
-> >  		ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job,
-> > sizeof(*clean_job),
-> > -				   v3d_job_free, 0, V3D_CACHE_CLEAN);
-> > +				   v3d_job_free, 0, 0,
-> > V3D_CACHE_CLEAN);
-> >  		if (ret)
-> >  			goto fail;
-> > =20
-> > @@ -698,6 +835,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> >  						 last_job,
-> >  						 &acquire_ctx,
-> >  						 args->out_sync,
-> > +						 &se,
-> >  						 last_job->done_fence);
-> > =20
-> >  	if (bin)
-> > @@ -716,6 +854,7 @@ v3d_submit_cl_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	v3d_job_cleanup((void *)bin);
-> >  	v3d_job_cleanup((void *)render);
-> >  	v3d_job_cleanup(clean_job);
-> > +	v3d_put_multisync_post_deps(&se);
-> > =20
-> >  	return ret;
-> >  }
-> > @@ -735,6 +874,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> > *data,
-> >  {
-> >  	struct v3d_dev *v3d =3D to_v3d_dev(dev);
-> >  	struct drm_v3d_submit_tfu *args =3D data;
-> > +	struct v3d_submit_ext se =3D {0};
-> >  	struct v3d_tfu_job *job =3D NULL;
-> >  	struct ww_acquire_ctx acquire_ctx;
-> >  	int ret =3D 0;
-> > @@ -747,7 +887,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	}
-> > =20
-> >  	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > -		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions,
-> > &se);
-> >  		if (ret) {
-> >  			DRM_DEBUG("Failed to get extensions.\n");
-> >  			return ret;
-> > @@ -755,7 +895,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	}
-> > =20
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
-> > -			   v3d_job_free, args->in_sync, V3D_TFU);
-> > +			   v3d_job_free, args->in_sync, &se, V3D_TFU);
-> >  	if (ret)
-> >  		goto fail;
-> > =20
-> > @@ -803,6 +943,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	v3d_attach_fences_and_unlock_reservation(file_priv,
-> >  						 &job->base,
-> > &acquire_ctx,
-> >  						 args->out_sync,
-> > +						 &se,
-> >  						 job->base.done_fence);
-> > =20
-> >  	v3d_job_put(&job->base);
-> > @@ -811,6 +952,7 @@ v3d_submit_tfu_ioctl(struct drm_device *dev, void
-> > *data,
-> > =20
-> >  fail:
-> >  	v3d_job_cleanup((void *)job);
-> > +	v3d_put_multisync_post_deps(&se);
-> > =20
-> >  	return ret;
-> >  }
-> > @@ -831,6 +973,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	struct v3d_dev *v3d =3D to_v3d_dev(dev);
-> >  	struct v3d_file_priv *v3d_priv =3D file_priv->driver_priv;
-> >  	struct drm_v3d_submit_csd *args =3D data;
-> > +	struct v3d_submit_ext se =3D {0};
-> >  	struct v3d_csd_job *job =3D NULL;
-> >  	struct v3d_job *clean_job =3D NULL;
-> >  	struct ww_acquire_ctx acquire_ctx;
-> > @@ -852,7 +995,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev, void
-> > *data,
-> >  	}
-> > =20
-> >  	if (args->flags & DRM_V3D_SUBMIT_EXTENSION) {
-> > -		ret =3D v3d_get_extensions(file_priv, args->extensions);
-> > +		ret =3D v3d_get_extensions(file_priv, args->extensions,
-> > &se);
-> >  		if (ret) {
-> >  			DRM_DEBUG("Failed to get extensions.\n");
-> >  			return ret;
-> > @@ -860,12 +1003,12 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> > void *data,
-> >  	}
-> > =20
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&job, sizeof(*job),
-> > -			   v3d_job_free, args->in_sync, V3D_CSD);
-> > +			   v3d_job_free, args->in_sync, &se, V3D_CSD);
-> >  	if (ret)
-> >  		goto fail;
-> > =20
-> >  	ret =3D v3d_job_init(v3d, file_priv, (void *)&clean_job,
-> > sizeof(*clean_job),
-> > -			   v3d_job_free, 0, V3D_CACHE_CLEAN);
-> > +			   v3d_job_free, 0, 0, V3D_CACHE_CLEAN);
-> >  	if (ret)
-> >  		goto fail;
-> > =20
-> > @@ -904,6 +1047,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> > void *data,
-> >  						 clean_job,
-> >  						 &acquire_ctx,
-> >  						 args->out_sync,
-> > +						 &se,
-> >  						 clean_job-
-> > >done_fence);
-> > =20
-> >  	v3d_job_put(&job->base);
-> > @@ -918,6 +1062,7 @@ v3d_submit_csd_ioctl(struct drm_device *dev,
-> > void *data,
-> >  fail:
-> >  	v3d_job_cleanup((void *)job);
-> >  	v3d_job_cleanup(clean_job);
-> > +	v3d_put_multisync_post_deps(&se);
-> > =20
-> >  	return ret;
-> >  }
-> > diff --git a/include/uapi/drm/v3d_drm.h b/include/uapi/drm/v3d_drm.h
-> > index 55b443ca6c0b..3dfc0af8756a 100644
-> > --- a/include/uapi/drm/v3d_drm.h
-> > +++ b/include/uapi/drm/v3d_drm.h
-> > @@ -73,6 +73,53 @@ struct drm_v3d_extension {
-> >  	__u32 flags; /* mbz */
-> >  };
-> > =20
-> > +/* struct drm_v3d_sem - wait/signal semaphore
-> > + *
-> > + * If binary semaphore, it only takes syncobj handle and ignores
-> > flags and
-> > + * point fields. Point is defined for timeline syncobj feature.
-> > + */
-> > +struct drm_v3d_sem {
-> > +	__u32 handle; /* syncobj */
-> > +	/* rsv below, for future uses */
-> > +	__u32 flags;
-> > +	__u64 point;  /* for timeline sem support */
-> > +	__u64 mbz[2]; /* must be zero, rsv */
-> > +};
-> > +
-> > +/* Enum for each of the V3D queues. */
-> > +enum v3d_queue {
-> > +	V3D_BIN,
-> > +	V3D_RENDER,
-> > +	V3D_TFU,
-> > +	V3D_CSD,
-> > +	V3D_CACHE_CLEAN,
-> > +};
-> > +
-> > +/**
-> > + * struct drm_v3d_multi_sync - ioctl extension to add support
-> > multiples
-> > + * syncobjs for commands submission.
-> > + *
-> > + * When an extension of DRM_V3D_EXT_ID_MULTI_SYNC id is defined, it
-> > points to
-> > + * this extension to define wait and signal dependencies, instead of
-> > single
-> > + * in/out sync entries on submitting commands. The field flags is
-> > used to
-> > + * determine the stage to set wait dependencies.
-> > + */
-> > +struct drm_v3d_multi_sync {
-> > +	struct drm_v3d_extension base;
-> > +	/* Array of wait and signal semaphores */
-> > +	__u64 in_syncs;
-> > +	__u64 out_syncs;
-> > +
-> > +	/* Number of entries */
-> > +	__u32 in_sync_count;
-> > +	__u32 out_sync_count;
-> > +
-> > +	/* set the stage (v3d_queue) to sync */
-> > +	__u32 wait_stage;
-> > +
-> > +	__u32 pad; /* mbz */
-> > +};
-> > +
-> >  /**
-> >   * struct drm_v3d_submit_cl - ioctl argument for submitting commands
-> > to the 3D
-> >   * engine.
-> > @@ -228,6 +275,7 @@ enum drm_v3d_param {
-> >  	DRM_V3D_PARAM_SUPPORTS_CSD,
-> >  	DRM_V3D_PARAM_SUPPORTS_CACHE_FLUSH,
-> >  	DRM_V3D_PARAM_SUPPORTS_PERFMON,
-> > +	DRM_V3D_PARAM_SUPPORTS_MULTISYNC_EXT,
-> >  };
-> > =20
-> >  struct drm_v3d_get_param {
-> > @@ -271,7 +319,6 @@ struct drm_v3d_submit_tfu {
-> > =20
-> >  	/* Pointer to an array of ioctl extensions*/
-> >  	__u64 extensions;
-> > -
-> >  };
-> > =20
-> >  /* Submits a compute shader for dispatch.  This job will block on
-> > any
->=20
-
---eotrmbxtpvte67e5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFWyM4ACgkQwqF3j0dL
-ehzGJhAAx8q0WmCuly/EGMXDT9id0hI4ZX2OypRSOn/qPLuaxqCBJ0vQuzzJwxSS
-FJg94l4X+HZQwpbVN0MTNrBHHuG0cjLuSlBl9ctZcRiULc8YAZEFYpFraYFBqwk1
-5Vf69lEihoaoXO2cGK+aUt1ZBlfPNGcsVDcVSMqwShIkzjocqPLqO53Bc0tzyjZk
-bNKwx7BKstbH7hJOFYsYDkOVYTq/OEYTaiAcv2BrQH+dOP3Tvsxqja3lJKz/O5/Z
-WmcBu0QwxlbCKEOE5e9xSLoiiRoNOa1GIgFyWi8adl2qA8W+1RVFfqYTE9O11SV9
-MIOdoO7TbESHJhrpzG+Kih16FYRaWgcH9qR9PPcuwNUXMsfyORzKS7EmhiB2lPw+
-aePq1ovlVaHlJklL1kG+ns/qXiKHvmTSllnBEcvFDDdQlnNK8cWHSWwx/Y5iGYJn
-Jy1kFa+6SDnJw8QRLYQSEzcNklRuazKdn55TDA9SZxzUyAMduoLxPgZ+jzhqFsMt
-C566CExTWWI86hCRRpuYyzRpE2wJZ/YEZfHPnT3MXnW6S0iGqmGQQDfPqZziD8d1
-U5dQ2Sh8JR0lFufX3MjS4CcqRcv/2LCh5+JA3Zep1diMs6u7BstIfzh9pQ6tmi07
-StbC8/ri50IDGFpleSSMjm/l/zfb9WvCXOA77OdIiV7KcFilytU=
-=tTbp
------END PGP SIGNATURE-----
-
---eotrmbxtpvte67e5--
+Tvrtko
