@@ -2,43 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1164A41F3CD
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A60541F3DB
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:53:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A45096EE95;
-	Fri,  1 Oct 2021 17:52:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A11456EEA7;
+	Fri,  1 Oct 2021 17:53:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2083.outbound.protection.outlook.com [40.107.94.83])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 760656EE91;
- Fri,  1 Oct 2021 17:52:56 +0000 (UTC)
+ (mail-mw2nam10on2059.outbound.protection.outlook.com [40.107.94.59])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 796E06EE94;
+ Fri,  1 Oct 2021 17:52:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=C8NfjF6lZu93qHmmNgx4tRumUUwvJpDWPrlMGvyGiJ6YHppD3dzF09c9UUrqU0+XOw+VLzdD88DLJB68ua4r/P5Qp+SR5W1HckNpnMzwQJbqjP4GYfIX7kfgvlc797hjjEIVMtIUb7YloJPy/VVaZ5yB3kabHn0CojFCTAR3e1pRH4bCBLyOuhsa0QPteZi/z6KKdALHn4Fb1C57ZhEf+52EuoJQqnB6zfBuivH4k2hQh3p3xNLcpeSE32QyhM1twtRRuqPDA9fw2b51k9dq2GsiGUSFNIoXSvIHX1yUTqJQWP4MzEs3QPdNYFSGBq5AJWRHxilUp0QqboVUbvaMuw==
+ b=ja5oLVQG+d4lHvrz9d9b94sh4TUn7mhlwX0rtdZAMYdaEIeYEixuXniDxy1783vjZzU7kTSzDZxyXwbOQXaZTh4culfJ+51xNxTGN3on1QgKzTz9yK3u9xqn8lHPZfm7IyNMeetrwa2axrmehgGm/ZuBoTIx2rx/fdcGOlQa9G0q5gekKNscWkH3tF0e0DXdKWi1V1i5poHsTn+V5jAtBS78FwBsG8eV9bkdghLcE9ut12lToHdisx4JUzDpwrt5RrL4R4lnKFPPzZG2JsbQ4j3iGEaHwgiw7lT8AQSUSKC5omBEWa8bClxgPbyP/+LCpsNnOEdIJpvzv+X2lSJDxA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=T3h60LbB9T2bw+FmiqhpUTI2SUnXhU19LuBMGoKf83U=;
- b=KvnoNx1lLm3mquWP13tw0xqVdj96nvGNYcDaTJkpkEfgsY9bXzeXR1rglFGEHmIuWdz6Db/mFBoLXeUFpLfufMdqckDzdVXbJgPJp3Z5zloEgRIRidx1bt/XmJ2PTStQWh7vs0WaqEViF+WvaaYHw8TQhR6QcQiEm9RUIEiUFUwpdZ3WAq5RLKRh8h48sGEccofd0RTcpFoMAp7MIROi7FLiPOD6qQQHetD4z7wuuDedPO+CnttarrApttB8RiXP8fyWy8mDeP0nC5PhJ9aLQHvW9DhvaKMiRKs4bGUwwREwVbc8NjH3ksQZR8qtMGqN6nJKeZqc4DASjqGGG18Pxg==
+ bh=YTh6ZUm2PrgORCNyCbn+2r3MpGIT/x7JNE9sdNM2aA8=;
+ b=hv11hZzKoABxKudnyI74NBAwHIFDJ5YRUPJfjuY2d3aU380gFZTaELeyG5ssQ+XrFzAknvs5YumCXookENBRnXdMKdFEGCzkUkEBglyayIUG9MhgYLlNVtpFVPvpc1HJ4BIjlM9UuDw4guXTM92UauO5rI1iGzo9GDXEcWo1g/k1Idm45VvZXtKIPywPhSntLlFnFH0+ylB8ruKO+uknoymXuXTBGSc08b0VuSbbcxiZXu+0C7u+hTsMN9Mt5fkfSmqomVHHZla52DFrHhmV0eSdBemBTcibIgoiCgujNQU9wkKhPzsrPNpgAJMX25B5DsHnk6NVWcjX0I9dUeB18Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T3h60LbB9T2bw+FmiqhpUTI2SUnXhU19LuBMGoKf83U=;
- b=sohRkCQsthXoAP2kdZjxKl8Pm2tm4OOn+7fzd50dHD7TD72LOGYdGBJWOzv8p3icypjwY4Pb+vYgzgn66fwKtDIP70vyPAIi7fC5+XCKSwhoSvRUa3UN1Nj0vvWqqg95wTASQpxKDjYoGXU31QE9A+iRdYzSA254DY+y+aDNt9GpVEW+Vd64nn9j3R0LWf9NqTyCBAGculskhGFw5ah9s2DP618MmoWB3AUwywQLGDonZEga0shF/RJUAoc95pzxYpHmII8ttDhGxt3EODu9XZjuVTkt2o6qN7ePh7iALLKlhTgO0FzPSjzwV1gAbreepVNCTKvJ3S+1119jly+/9Q==
+ bh=YTh6ZUm2PrgORCNyCbn+2r3MpGIT/x7JNE9sdNM2aA8=;
+ b=K7HkYFW7jun+CwGwq0fl53dyXWIUuWhXUDMdjBgJg61RSRUFoXva92FsHn9wlCn0d7E/HutYzBQCsRh5prdJZPALmWLZrzWWA/K4VavcdttJc5BzxQ+ktEkNfVCTwY8IdihLLLt1NBb5cA374SU38cTDumWGsNJ4uNE/if8jI6vuo/X7kB/IStAgIUKf4GS0ZOQvV8QR5AwCZYIj966a4IOwW8g1wfChsp7XJx9ckygUTrArbX7Ea8U87QdNOJMR44hlcQLoeHhJ1ywtth8dtzqYw6ylBj0Rb7TTDx4GrZrvykek7RVD2vU9aReEgyNNC6dine/s5LAAYavVE5dSZg==
 Authentication-Results: linux.ie; dkim=none (message not signed)
  header.d=none;linux.ie; dmarc=none action=none header.from=nvidia.com;
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5126.namprd12.prod.outlook.com (2603:10b6:208:312::8)
+ by BL1PR12MB5207.namprd12.prod.outlook.com (2603:10b6:208:318::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Fri, 1 Oct
- 2021 17:52:53 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14; Fri, 1 Oct
+ 2021 17:52:56 +0000
 Received: from BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
  ([fe80::e8af:232:915e:2f95%8]) with mapi id 15.20.4566.019; Fri, 1 Oct 2021
- 17:52:53 +0000
+ 17:52:56 +0000
 From: Jason Gunthorpe <jgg@nvidia.com>
 To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
  Alex Williamson <alex.williamson@redhat.com>,
@@ -60,72 +60,73 @@ To: David Airlie <airlied@linux.ie>, Tony Krowiak <akrowiak@linux.ibm.com>,
  Zhenyu Wang <zhenyuw@linux.intel.com>, Zhi Wang <zhi.a.wang@intel.com>
 Cc: Christoph Hellwig <hch@infradead.org>,
 	Christoph Hellwig <hch@lst.de>
-Subject: [PATCH v3 01/10] vfio/ccw: Remove unneeded GFP_DMA
-Date: Fri,  1 Oct 2021 14:52:42 -0300
-Message-Id: <1-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
+Subject: [PATCH v3 02/10] vfio/ccw: Use functions for alloc/free of the
+ vfio_ccw_private
+Date: Fri,  1 Oct 2021 14:52:43 -0300
+Message-Id: <2-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 In-Reply-To: <0-v3-57c1502c62fd+2190-ccw_mdev_jgg@nvidia.com>
 References: 
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0411.namprd13.prod.outlook.com
- (2603:10b6:208:2c2::26) To BL0PR12MB5506.namprd12.prod.outlook.com
+X-ClientProxiedBy: BLAPR03CA0120.namprd03.prod.outlook.com
+ (2603:10b6:208:32a::35) To BL0PR12MB5506.namprd12.prod.outlook.com
  (2603:10b6:208:1cb::22)
 MIME-Version: 1.0
 Received: from mlx.ziepe.ca (142.162.113.129) by
- BL1PR13CA0411.namprd13.prod.outlook.com (2603:10b6:208:2c2::26) with
+ BLAPR03CA0120.namprd03.prod.outlook.com (2603:10b6:208:32a::35) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.7 via Frontend
- Transport; Fri, 1 Oct 2021 17:52:52 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Fri, 1 Oct 2021 17:52:53 +0000
 Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1mWMiK-009890-0L; Fri, 01 Oct 2021 14:52:52 -0300
+ <jgg@nvidia.com>)	id 1mWMiK-009894-1G; Fri, 01 Oct 2021 14:52:52 -0300
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c4df22c1-9842-4489-11c8-08d985044aa4
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5126:
+X-MS-Office365-Filtering-Correlation-Id: 4f54df12-0501-4ed7-f9c4-08d985044b2a
+X-MS-TrafficTypeDiagnostic: BL1PR12MB5207:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB51260E0DA447F39616397950C2AB9@BL1PR12MB5126.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+X-Microsoft-Antispam-PRVS: <BL1PR12MB5207FEC8BBF479BA779A7CB9C2AB9@BL1PR12MB5207.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:785;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1mcHjGiHJ8JmWzJgqh63htCHRwPWm4tasgW7nWj0YAFftK/iDpLDI7ei6ZM+9qO4oAHcXTSr/TNuVSo4Qbh8Vf7mnJkBvQD1gl+scBEUCpc1i3a2FKgv7oog72JEudHl+1KulPbRff/A6XYI+YRMhvGYWuXhHzOivSOa85Rs0VYxpf1terqnarMj6JjR34Qvth0ID07ISiEZ/VaWwnAcEFT+7ikseSBjQRY23+TbMP2eS2MW6HPVlRvEo0+w7oRNSGhgIH4sS30j0sQuTBr5Vz9JX5X2MiPito9U1bubJynkxNGHGtTr1e6fenBbyidOT+upRyqUSOGm7jvWl1zoFcX35bz4Ne8HWyGyx8uoQIYQn+OUs6n3/X1zZoxtZL7mfKpkDkSg/YMmffZFfwYQ0QxTlX5/1BltgrrCoYUvv+4xDo4yo+7i8N+vPTPHQU9pw56NMFaONGdUGe2CpKb9UgZPeMK3dvmX92X4/6jcJInmDQCXoBIeIyYOWjf1Kp86S2Np4rniDhuL7wGVNQv0Qg1hAYjDPFysm9eMBIu7MFRjPjEynQ22CsHYSo0aTVp8yEwjQ35IxN97PbiVow7MoVTrFTFfTy4s4rYhRNp3xH7HAGQjtbI/QsopzaauY0xZAxHTZ/aev67k1D4qNqqSYHH/eP8PqQOI6saNAZz21CdGrf9MBs1irRZ96b4FsMhIU+AMyl4w4Vq9ZohC4Qp52SDolu0q9UsWvocgaYdASTE=
+X-Microsoft-Antispam-Message-Info: EJiL5d5lrpuqAOIFj2wG6wJ0TQYuk6i/EO9wxI3f6dHR3cgsFXDke20wz/XqNcHsyYlltwxfzLEFtyYDkd958188Sz7iUhEJpIbngMGcxpefcVTnNoE6tNd1tK0YgyDZkg5d6fMNuZJunNkeNH1Dlrv8tM/YNHk8YAP+5ZDfKUA4lO4yDdo5TNbKfeswuRpwM3IpkGZ1UhoIiuSq6YTfurVFzGDOvgbkAZP6UsIh6UATRe5YuF2X5dAuvQTiHG1dZ/9gZpjyPxMDKk5n3bm4riJ29MSHKkpUQlHb6ZalBtiHnui82+br0qtxtp6Do18TNs/3QnAIkN7N0sX5Q5xt/Ln+chmkLB3ASGZhZCTlufupQQ0KgUMgnrADTpEHxER2MIQ84zPo9KtMV8s0eqWH4hGJUvnQaikBFTjw3Jr+xB3MITjHbpYvO/LZzzReVid2jqH681F2wrdNAeZHoq89bxhA1OqwtICdaZLZEBUIidgB61Lk9pcNvH9qXkuO8SoTX/Lyglz8ZHTB3Bt/pxXEc1QShum1PqSq8A9v8T/k3AgbVqoxOAGvfAdIJKZbFaOZxpD0Oifpt5K2Pz45AoNohnf74H/E28vC72G+NZVsUxsUJnw5Z2iW/FhT87L/b0BSTfUhC9A6GbwXZt//5hmgTnBEh9GKRmNv5XPGwHjGCHIjYiRjtvmNKgmjTSmfX+5+dDhM8BGYvsY2UQ2GQKJ/Aw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(508600001)(921005)(2616005)(26005)(83380400001)(6666004)(186003)(426003)(9746002)(2906002)(86362001)(9786002)(38100700002)(4326008)(36756003)(8676002)(66556008)(66946007)(110136005)(54906003)(316002)(7416002)(4744005)(5660300002)(8936002)(66476007)(4216001);
+ SFS:(4636009)(366004)(66946007)(2906002)(83380400001)(66556008)(8676002)(38100700002)(66476007)(5660300002)(2616005)(508600001)(426003)(9786002)(26005)(186003)(6666004)(9746002)(54906003)(36756003)(7416002)(4326008)(110136005)(86362001)(8936002)(921005)(316002)(4216001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?T1mqXLARw9nCuZeMG45C1g6tYW6zAxw0Edj52oYrAvWswcGR1dTWFPm0fJ5q?=
- =?us-ascii?Q?SlI/D3aEJEhg2Ai7qvCXhurULQsF/MUp+y2SFvV4HH1bwV9w+jFNeW3mIa63?=
- =?us-ascii?Q?COsFASpVZWiieiArf+wymAYLpjuUynFbPDh119b+xWSo4vdHtusIT0Trkxn5?=
- =?us-ascii?Q?4bfkPMpHyom5T2iZ7eS6gDGv4Clt8Xd3/fZVgUrDl+oRzvOwIllMuYkUyNzX?=
- =?us-ascii?Q?sIdKnEKXqBjy2pMprEy56NO0IroZ6GB6EMb8qL3ioKXEGEFHtV126i9lEFKi?=
- =?us-ascii?Q?jyfuyQ3EdKgDBpqRS9RQRMDR+v9sVkodGaRp+HgVgq/3XH7TZcZ8XCw8Vp48?=
- =?us-ascii?Q?gMK8GP9gqC+FkEnMqQcw0JNx9QLb87I5t2M+7bXyvppZEdPs0t2a6gYe4OOX?=
- =?us-ascii?Q?zy2ldE/niyB/T3g+S//n7JTlBxPzdoInNx9UN3LwpCkwn2LL5hGsUdM/7GVw?=
- =?us-ascii?Q?5I7sIGX9Kpy6A4PNfmDptaUIvzfXQy/Vp/cOhAW2AK6e3+c8ux20wLq66oWO?=
- =?us-ascii?Q?X9O9RZEWmG5ECggHQFXmacQN20w41JR5XnBVecEpV9AoltV9d6JjZWTcR127?=
- =?us-ascii?Q?rE0oe+DPL/wEbP3RUR7JK6UQ1W7R+no+O6c7sP5stc/kElOBLE8lMfMHjokN?=
- =?us-ascii?Q?hD3TaSHTQu5jzewmTPIb1sbwV7f2wwblk+bEEOuMPGVKbDmForOTVzJWPsHd?=
- =?us-ascii?Q?MpMCOX/BhjSameRtZI6qe8bavczzXEAhGAEDS50fS1EZDa7epDTi0N+9BYA6?=
- =?us-ascii?Q?GUB0NdZOV3QRZuYFrKDgtlXLQIXDMgJ4yYT64m5aDldHCoqQHpkZf5sr7ff+?=
- =?us-ascii?Q?7oMk5cAGdmU8yfJV8Nhr3RlpDo6ibrgjk2yPw/vkoQ9yisf7TrX0wVScjJim?=
- =?us-ascii?Q?ELYFJMCw4MsovaoA3NBxk330Q0JulE0CKXmeX2GgS14XNppL5NsU+YiT88CL?=
- =?us-ascii?Q?JwTymXh1WLwDXdxL2B+C56zl7IdLb5HsxN89KK6B/zzyyKtxk9/LGAO1Tx5/?=
- =?us-ascii?Q?H+Sz9BCgzHxvVu2uInBM/1lQ5ihYlJ6z/wjdh2RRjHkbSXzX0YF3mnKvjbLs?=
- =?us-ascii?Q?i8frogJUUex2ZNFUpuS4qF+ksVOjvs9wk/egqnEYiiX8lt9p10ic4EFvRIDJ?=
- =?us-ascii?Q?p+c+quNYbvKHBjjN1IfUAofHFOxGxohmaIzjdIzFisCBrPplfi9yP/Lh/HE0?=
- =?us-ascii?Q?EfMFke40Xm46f1Tt+HH0B44d32bpVPBw1c1mSGwbZX3iq/ws0lqAe4ITj05v?=
- =?us-ascii?Q?lqVz/kgPK124pD15C5RtMLokobz6zcwmoGixt1N4BZKA35oFPflEYtzpRQQV?=
- =?us-ascii?Q?mI+8hYTkQQ47EIhU8knF7lxwD16zOUfF5wjHk08IUltkcA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PJqfE9lx2vWXLo9xJiO7ojLm2MA89maNkUlO6vr/UTYBz5a3S6Fw52zAziw2?=
+ =?us-ascii?Q?bOGDKIzUoFCtk9ryFRAOPfc+wNnEGXMXDIN/8h1T/mgR1SuKaC6IHCg28Y43?=
+ =?us-ascii?Q?66Wu8wrrZGB0P/EBVQi9d/G3hd35Xu0KxHo5jh2v30QLo9TrkauoKeMjl2Hx?=
+ =?us-ascii?Q?uWObQaVS0CN4I2pa5ruEg44wxn//GThNE7+vIV/Cou3pywg4IHzNwtLiN0yj?=
+ =?us-ascii?Q?MQQqSLIs4NkK3AycH3AECYjeUyt3l95jFOI/to1UUTj/U/w78eS2b2zi1Zxr?=
+ =?us-ascii?Q?4dZ0PhYBu6fX/leAPtpsaq6yHP1khe+pP7F9sNZEAzYHXu2Ev8rY2aNfzZ4I?=
+ =?us-ascii?Q?GTWZ3wMYaUHVZnl1wkwyw2DDmRy33co05g8UwujNxn+9CDb3aqLupK9ICKbX?=
+ =?us-ascii?Q?qv0mvM/iWXi7TPuWJeAgywxzwWUQB6GyvqUKVf2n+wgCXlaefiZzfAv4f7zQ?=
+ =?us-ascii?Q?EF7Mr6e47jBhNuzxI1nyDrg5AusN3MgoYlexRIPeFfSv/JejCYfscENqYUYW?=
+ =?us-ascii?Q?jmeFuvdj7sF8qRUbHVe0hSR3e2VsVDe753A5PgpCN7A1nkUYggq+gb9RfrHC?=
+ =?us-ascii?Q?pH35v2sFGebuviHga2V3PTHrlwd0ut8JM0+wuwb3rYgkjLzMYYhyFG4ZLWr7?=
+ =?us-ascii?Q?MtcW6csCrSeIN/Uym4GTtkOq4K5B4uh0+DrbJkoNizfGKLz8XArcMLmhcbY0?=
+ =?us-ascii?Q?O79D95T9v8z5prGyXCpGe9kpc3dvvkwQ1O2CfGuyImGIgSVAmMhFnS5eWVO7?=
+ =?us-ascii?Q?UlPAd+5AuqiaYXmatL9dhTqRY6r7k9fPemX1RerdTjvZtkY48ZauzEa2SrYN?=
+ =?us-ascii?Q?jGxvMtx1cxNjrqB8Z2+M6DmSsyEnO0kitYTComJ6JWpPYIc8Wq3cAY3Y5k4P?=
+ =?us-ascii?Q?wSjQoMOKlcTBu5K51mZhjn8iERXeS+pH8YQUuxYSFTywnzMSBVJcimyVlNct?=
+ =?us-ascii?Q?gRpNcUY9EoJEVzDu6R6I4MzpC4m5zKDBjzkGzbH1G+SKcncTx2F8jSWKg/QY?=
+ =?us-ascii?Q?eBIF45TKqIwERu9qRNoV7pWUww9CCkv5cd7B1bfvjGXLgLqMx0hEwld9xJIV?=
+ =?us-ascii?Q?bBWgISt82uRZdGUa3XNK4NgaVvkwyymKUf7h3pXBapTegMIJtJ6403XM4JYf?=
+ =?us-ascii?Q?ZDamSL+loNvYam9LbCFds1uVSi61fzBYdSn/ScKXHGU5Nh8D0btAN6gh8yWG?=
+ =?us-ascii?Q?4QMNY6nz2C19sXTx4PGdPy6YVTYgiEWcVKkhOHkNZ3TWX88Y0SCo9ouzsmyP?=
+ =?us-ascii?Q?QuLAK5J/A4fF5b/oPtlWCt6TvNNEHPC+2l28NjxsT7Yxfd6LcvM6NwtLeIY7?=
+ =?us-ascii?Q?g2RNilW11R9tMJcUOMbEs3lZ?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4df22c1-9842-4489-11c8-08d985044aa4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4f54df12-0501-4ed7-f9c4-08d985044b2a
 X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.0296 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 17:52:53.9018 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: krAd+ZCZhpxQZgULtYYczwDhfiB0wDJH1Fb4X78bnQRNpAVRQ2fXCzq9hC1P04Cn
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5126
+X-MS-Exchange-CrossTenant-UserPrincipalName: aT83wcHhlLaiQc4MP99HGsApswU6MsocYsvyoThAZ4/N/UAV0SDd0zIpdcrqDGNj
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5207
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -141,29 +142,200 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Since the ccw_io_region was split out of the private the allocation no
-longer needs the GFP_DMA. Remove it.
+Makes the code easier to understand what is memory lifecycle and what is
+other stuff.
 
-Reported-by: Christoph Hellwig <hch@infradead.org>
-Fixes: c98e16b2fa12 ("s390/cio: Convert ccw_io_region to pointer")
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
 Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
 ---
- drivers/s390/cio/vfio_ccw_drv.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/s390/cio/vfio_ccw_drv.c | 137 ++++++++++++++++++--------------
+ 1 file changed, 78 insertions(+), 59 deletions(-)
 
 diff --git a/drivers/s390/cio/vfio_ccw_drv.c b/drivers/s390/cio/vfio_ccw_drv.c
-index 76099bcb765b45..371558ec92045d 100644
+index 371558ec92045d..e32678a71644fb 100644
 --- a/drivers/s390/cio/vfio_ccw_drv.c
 +++ b/drivers/s390/cio/vfio_ccw_drv.c
-@@ -161,7 +161,7 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+@@ -137,16 +137,80 @@ static void vfio_ccw_sch_irq(struct subchannel *sch)
+ 	vfio_ccw_fsm_event(private, VFIO_CCW_EVENT_INTERRUPT);
+ }
+ 
+-static void vfio_ccw_free_regions(struct vfio_ccw_private *private)
++static struct vfio_ccw_private *vfio_ccw_alloc_private(struct subchannel *sch)
+ {
+-	if (private->crw_region)
+-		kmem_cache_free(vfio_ccw_crw_region, private->crw_region);
+-	if (private->schib_region)
+-		kmem_cache_free(vfio_ccw_schib_region, private->schib_region);
+-	if (private->cmd_region)
+-		kmem_cache_free(vfio_ccw_cmd_region, private->cmd_region);
+-	if (private->io_region)
+-		kmem_cache_free(vfio_ccw_io_region, private->io_region);
++	struct vfio_ccw_private *private;
++
++	private = kzalloc(sizeof(*private), GFP_KERNEL);
++	if (!private)
++		return ERR_PTR(-ENOMEM);
++
++	private->sch = sch;
++	mutex_init(&private->io_mutex);
++	private->state = VFIO_CCW_STATE_NOT_OPER;
++	INIT_LIST_HEAD(&private->crw);
++	INIT_WORK(&private->io_work, vfio_ccw_sch_io_todo);
++	INIT_WORK(&private->crw_work, vfio_ccw_crw_todo);
++	atomic_set(&private->avail, 1);
++
++	private->cp.guest_cp = kcalloc(CCWCHAIN_LEN_MAX, sizeof(struct ccw1),
++				       GFP_KERNEL);
++	if (!private->cp.guest_cp)
++		goto out_free_private;
++
++	private->io_region = kmem_cache_zalloc(vfio_ccw_io_region,
++					       GFP_KERNEL | GFP_DMA);
++	if (!private->io_region)
++		goto out_free_cp;
++
++	private->cmd_region = kmem_cache_zalloc(vfio_ccw_cmd_region,
++						GFP_KERNEL | GFP_DMA);
++	if (!private->cmd_region)
++		goto out_free_io;
++
++	private->schib_region = kmem_cache_zalloc(vfio_ccw_schib_region,
++						  GFP_KERNEL | GFP_DMA);
++
++	if (!private->schib_region)
++		goto out_free_cmd;
++
++	private->crw_region = kmem_cache_zalloc(vfio_ccw_crw_region,
++						GFP_KERNEL | GFP_DMA);
++
++	if (!private->crw_region)
++		goto out_free_schib;
++	return private;
++
++out_free_schib:
++	kmem_cache_free(vfio_ccw_schib_region, private->schib_region);
++out_free_cmd:
++	kmem_cache_free(vfio_ccw_cmd_region, private->cmd_region);
++out_free_io:
++	kmem_cache_free(vfio_ccw_io_region, private->io_region);
++out_free_cp:
++	kfree(private->cp.guest_cp);
++out_free_private:
++	mutex_destroy(&private->io_mutex);
++	kfree(private);
++	return ERR_PTR(-ENOMEM);
++}
++
++static void vfio_ccw_free_private(struct vfio_ccw_private *private)
++{
++	struct vfio_ccw_crw *crw, *temp;
++
++	list_for_each_entry_safe(crw, temp, &private->crw, next) {
++		list_del(&crw->next);
++		kfree(crw);
++	}
++
++	kmem_cache_free(vfio_ccw_crw_region, private->crw_region);
++	kmem_cache_free(vfio_ccw_schib_region, private->schib_region);
++	kmem_cache_free(vfio_ccw_cmd_region, private->cmd_region);
++	kmem_cache_free(vfio_ccw_io_region, private->io_region);
++	kfree(private->cp.guest_cp);
++	mutex_destroy(&private->io_mutex);
++	kfree(private);
+ }
+ 
+ static int vfio_ccw_sch_probe(struct subchannel *sch)
+@@ -161,53 +225,19 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
  		return -ENODEV;
  	}
  
--	private = kzalloc(sizeof(*private), GFP_KERNEL | GFP_DMA);
-+	private = kzalloc(sizeof(*private), GFP_KERNEL);
- 	if (!private)
- 		return -ENOMEM;
+-	private = kzalloc(sizeof(*private), GFP_KERNEL);
+-	if (!private)
+-		return -ENOMEM;
++	private = vfio_ccw_alloc_private(sch);
++	if (IS_ERR(private))
++		return PTR_ERR(private);
  
+-	private->cp.guest_cp = kcalloc(CCWCHAIN_LEN_MAX, sizeof(struct ccw1),
+-				       GFP_KERNEL);
+-	if (!private->cp.guest_cp)
+-		goto out_free;
+-
+-	private->io_region = kmem_cache_zalloc(vfio_ccw_io_region,
+-					       GFP_KERNEL | GFP_DMA);
+-	if (!private->io_region)
+-		goto out_free;
+-
+-	private->cmd_region = kmem_cache_zalloc(vfio_ccw_cmd_region,
+-						GFP_KERNEL | GFP_DMA);
+-	if (!private->cmd_region)
+-		goto out_free;
+-
+-	private->schib_region = kmem_cache_zalloc(vfio_ccw_schib_region,
+-						  GFP_KERNEL | GFP_DMA);
+-
+-	if (!private->schib_region)
+-		goto out_free;
+-
+-	private->crw_region = kmem_cache_zalloc(vfio_ccw_crw_region,
+-						GFP_KERNEL | GFP_DMA);
+-
+-	if (!private->crw_region)
+-		goto out_free;
+-
+-	private->sch = sch;
+ 	dev_set_drvdata(&sch->dev, private);
+-	mutex_init(&private->io_mutex);
+ 
+ 	spin_lock_irq(sch->lock);
+-	private->state = VFIO_CCW_STATE_NOT_OPER;
+ 	sch->isc = VFIO_CCW_ISC;
+ 	ret = cio_enable_subchannel(sch, (u32)(unsigned long)sch);
+ 	spin_unlock_irq(sch->lock);
+ 	if (ret)
+ 		goto out_free;
+ 
+-	INIT_LIST_HEAD(&private->crw);
+-	INIT_WORK(&private->io_work, vfio_ccw_sch_io_todo);
+-	INIT_WORK(&private->crw_work, vfio_ccw_crw_todo);
+-	atomic_set(&private->avail, 1);
+ 	private->state = VFIO_CCW_STATE_STANDBY;
+ 
+ 	ret = vfio_ccw_mdev_reg(sch);
+@@ -228,31 +258,20 @@ static int vfio_ccw_sch_probe(struct subchannel *sch)
+ 	cio_disable_subchannel(sch);
+ out_free:
+ 	dev_set_drvdata(&sch->dev, NULL);
+-	vfio_ccw_free_regions(private);
+-	kfree(private->cp.guest_cp);
+-	kfree(private);
++	vfio_ccw_free_private(private);
+ 	return ret;
+ }
+ 
+ static void vfio_ccw_sch_remove(struct subchannel *sch)
+ {
+ 	struct vfio_ccw_private *private = dev_get_drvdata(&sch->dev);
+-	struct vfio_ccw_crw *crw, *temp;
+ 
+ 	vfio_ccw_sch_quiesce(sch);
+-
+-	list_for_each_entry_safe(crw, temp, &private->crw, next) {
+-		list_del(&crw->next);
+-		kfree(crw);
+-	}
+-
+ 	vfio_ccw_mdev_unreg(sch);
+ 
+ 	dev_set_drvdata(&sch->dev, NULL);
+ 
+-	vfio_ccw_free_regions(private);
+-	kfree(private->cp.guest_cp);
+-	kfree(private);
++	vfio_ccw_free_private(private);
+ 
+ 	VFIO_CCW_MSG_EVENT(4, "unbound from subchannel %x.%x.%04x\n",
+ 			   sch->schid.cssid, sch->schid.ssid,
 -- 
 2.33.0
 
