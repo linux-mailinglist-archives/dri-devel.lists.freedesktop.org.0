@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BCF41F56B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 21:04:18 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7257741F569
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 21:03:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2868A6F37F;
-	Fri,  1 Oct 2021 19:04:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0DEF86EF2E;
+	Fri,  1 Oct 2021 19:03:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0A6F16F37F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 19:04:00 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1633115054; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ztpbbep24qDfIgL0za8IxIXoVxFrEu0ZThZtqBlDFC4=;
- b=nG7rY7rn7bHrSD6X5hVA1tf4/Kb+Lf9VWtuk4aeFOTDtQBKxn0H9h13/ZIpE9JWrsjPbz3Pp
- RxwOQLI7hnYqg34YC+cngSvbGv3hDjhNA0pvsLkVG6LXJW84N2w5f8u7N0N+Tr00E/LpYeIy
- gJyop1gLIRAEtv9vVsKlHaMmQU0=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 61575b89fc6e34f8cdf5199c (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 01 Oct 2021 19:03:37
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 4464CC4360C; Fri,  1 Oct 2021 19:03:37 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: jesszhan)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id B62E9C4338F;
- Fri,  1 Oct 2021 19:03:36 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Fri, 01 Oct 2021 12:03:36 -0700
-From: jesszhan@codeaurora.org
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: jsanka@codeaurora.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Subject: Re: [bug report] drm/msm: Add SDM845 DPU support
-In-Reply-To: <20211001135033.GZ2083@kadam>
-References: <20211001134912.GA9248@kili> <20211001135033.GZ2083@kadam>
-Message-ID: <aee1c5723cf0be018c8f9b8bcbd834f0@codeaurora.org>
-X-Sender: jesszhan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
+ [209.85.210.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0EC966EF2E;
+ Fri,  1 Oct 2021 19:03:42 +0000 (UTC)
+Received: by mail-ot1-f43.google.com with SMTP id
+ 77-20020a9d0ed3000000b00546e10e6699so12742305otj.2; 
+ Fri, 01 Oct 2021 12:03:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=32WLAnTHFBoGOE/uJ6iRvB75W1i2TcrETEHjkCusN0w=;
+ b=H0LSBPG8ttEwRmKNwvNtfjkAZTOYyfqPZdOKw8V0hi+dlpX47e+3vHWjaVrTvNr44y
+ FvXJkJ0KZpptYrXfg1tG4tG37Q0w33cPxNI70ZKXWzgj6AjGtJUR0+m2MTanf9e/13HD
+ AwiWefuk083h1Mh5dS2c2gpw660tAoS1N0OE0QfeP1gLYwCEJhWkDEXcxMRe5y27Hlhg
+ 4SEd53ADnmR4Zygpb3BH5wx5DgyXteIV4D+PH9pQ9rFLToIyKtLH++7dCHE2InoBoMg3
+ 2ESfKMLsK0j7lPDvyVhBDdn45y4qM2qyrQsAv38j1Y3y+F46gB69vGFOztBgFV2VTbor
+ Ixkg==
+X-Gm-Message-State: AOAM531xMY9uituNfom07LnPeF12ZkmsmQuFTZcCQGQFp1rcUMbsiT2D
+ ePv3mj96Ln3lYcIZX2kbpA==
+X-Google-Smtp-Source: ABdhPJxvqWx8WLaWrgLnXX754a4A9djuxZTWjsNil7QKepEnxsdlv1ptk1BXwQPeNQu83EeoL/L/pQ==
+X-Received: by 2002:a05:6830:2685:: with SMTP id
+ l5mr11810994otu.9.1633115021277; 
+ Fri, 01 Oct 2021 12:03:41 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id j23sm1289849oih.30.2021.10.01.12.03.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 12:03:40 -0700 (PDT)
+Received: (nullmailer pid 4113074 invoked by uid 1000);
+ Fri, 01 Oct 2021 19:03:37 -0000
+From: Rob Herring <robh@kernel.org>
+To: Sean Paul <sean@poorly.run>
+Cc: Rob Clark <robdclark@gmail.com>, jani.nikula@linux.intel.com,
+ swboyd@chromium.org, intel-gfx@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Daniel Vetter <daniel@ffwll.ch>, Kuogee Hsieh <khsieh@codeaurora.org>,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <seanpaul@chromium.org>,
+ David Airlie <airlied@linux.ie>
+In-Reply-To: <20211001151145.55916-13-sean@poorly.run>
+References: <20211001151145.55916-1-sean@poorly.run>
+ <20211001151145.55916-13-sean@poorly.run>
+Subject: Re: [PATCH v3 12/14] dt-bindings: msm/dp: Add bindings for HDCP
+ registers
+Date: Fri, 01 Oct 2021 14:03:37 -0500
+Message-Id: <1633115017.933633.4113073.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,51 +71,66 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hey Dan,
-
-Thanks for the report, will take care of it.
-
-On 2021-10-01 06:50, Dan Carpenter wrote:
-> On Fri, Oct 01, 2021 at 04:49:12PM +0300, Dan Carpenter wrote:
->> Hello Jeykumar Sankaran,
->> 
->> This is a semi-automatic email about new static checker warnings.
->> 
->> The patch 25fdd5933e4c: "drm/msm: Add SDM845 DPU support" from Jun
->> 27, 2018, leads to the following Smatch complaint:
->> 
->>     drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:422 
->> _dpu_hw_sspp_setup_scaler3()
->>     warn: variable dereferenced before check 'ctx->cap->sblk' (see 
->> line 421)
->> 
->> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c
->>    420		(void)pe;
->>                 ^^^^^^^^^
->> You should file a bug report with your compiler devs instead of adding
->> these sorts of statements to your code.  This function is used as a
->> function pointer so unused parameters are normal.
->> 
->>    421		if (_sspp_subblk_offset(ctx, DPU_SSPP_SCALER_QSEED3, &idx) || 
->> !sspp
->>                     ^^^^^^^^^^^^^^^^^^^^
->> The _sspp_subblk_offset() dereferenced "ctx" before it is checked and
->> then it also derefereces "ctx->cap->sblk" without checking.
->> 
->>    422			|| !scaler3_cfg || !ctx || !ctx->cap || !ctx->cap->sblk)
->>                                            
->> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->> So these will have already crashed before we reach this point.
->> 
+On Fri, 01 Oct 2021 11:11:41 -0400, Sean Paul wrote:
+> From: Sean Paul <seanpaul@chromium.org>
 > 
-> Same thing later as well.
+> This patch adds the bindings for the MSM DisplayPort HDCP registers
+> which are required to write the HDCP key into the display controller as
+> well as the registers to enable HDCP authentication/key
+> exchange/encryption.
 > 
-> drivers/gpu/drm/msm/disp/dpu1/dpu_hw_sspp.c:591 
-> dpu_hw_sspp_setup_creq_lut()
-> warn: variable dereferenced before check 'ctx->cap' (see line 588)
+> We'll use a new compatible string for this since the fields are optional.
 > 
-> regards,
-> dan carpenter
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210913175747.47456-13-sean@poorly.run #v1
+> Link: https://patchwork.freedesktop.org/patch/msgid/20210915203834.1439-13-sean@poorly.run #v2
+> 
+> Changes in v2:
+> -Drop register range names (Stephen)
+> -Fix yaml errors (Rob)
+> Changes in v3:
+> -Add new compatible string for dp-hdcp
+> -Add descriptions to reg
+> -Add minItems/maxItems to reg
+> -Make reg depend on the new hdcp compatible string
+> ---
+> 
+> Disclaimer: I really don't know if this is the right way to approach
+> this. I tried using examples from other bindings, but feedback would be
+> very much welcome on how I could add the optional register ranges.
+> 
+> 
+>  .../bindings/display/msm/dp-controller.yaml   | 34 ++++++++++++++++---
+>  1 file changed, 30 insertions(+), 4 deletions(-)
+> 
 
-Best,
-Jessica Zhang
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/msm/dp-controller.example.dt.yaml: example-0: displayport-controller@ae90000:reg:0: [0, 183042048, 0, 5120] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/msm/dp-controller.example.dt.yaml: example-0: displayport-controller@ae90000:reg:1: [0, 183308288, 0, 372] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/msm/dp-controller.example.dt.yaml: example-0: displayport-controller@ae90000:reg:2: [0, 183373824, 0, 44] is too long
+	From schema: /usr/local/lib/python3.8/dist-packages/dtschema/schemas/reg.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1535361
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
