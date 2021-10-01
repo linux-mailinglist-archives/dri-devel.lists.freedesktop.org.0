@@ -1,87 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF4A041F5DF
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 21:50:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 884B841F5F3
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 21:56:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 889E56F3BE;
-	Fri,  1 Oct 2021 19:50:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 209806E54C;
+	Fri,  1 Oct 2021 19:56:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F172A6F3BE
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 19:50:07 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id i4so43328923lfv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 12:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+3tCCW1vf690/4T30qcUTSO03STgS9Zq/gOdQmsNyEY=;
- b=lY0wpPfvEJC3ODP4sRKgGKoG8Swu6fLZXyhOhUQdBtt8vAmwxCUggKysIiRbfpVECz
- Cd3ipKChxLyI1Zlljt9jBoTItp7HmkRZNf+eWjSo0rRzLJpIXZuZSpuczURL7aSNbaxj
- i27N4TFDl5jVrgoDNEymG3WJmbBn2a47R0QIsqRS8kEVT2EURQYnYf+OZQh4u5X906wS
- OP71a4OED8ggbpaM9F9WPD+jQS6co7bb2ujJRxsbNvD0guBE62JtB6hzhNKWUuRSoEPm
- eED+tROxrUYQsEDU12h+rkOJTDJ9NZqCO/m7egmIDgFRlkZFJ+0EKU6mPddmAv9siSJx
- aPHw==
+Received: from mail-qt1-x82c.google.com (mail-qt1-x82c.google.com
+ [IPv6:2607:f8b0:4864:20::82c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D6F26F3AD
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 19:56:52 +0000 (UTC)
+Received: by mail-qt1-x82c.google.com with SMTP id m26so10110283qtn.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 12:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=p/SxJUcNym+yBrhUDQeZfHj2BoORrf39gDk0QlHHVIY=;
+ b=S6OtJWXqysXiGnrZA+nmOy1sN3JZerOMISuTAQY+fuca9Fzt4GojpBT101Sc7tnwFu
+ 604HBOn1qwcUqkjG1mYhCeth8vBI7yweHThqSYHRXS3az4ip3jeC4W28hQtWYq5h24d3
+ 0Ki2l4zfDW7y1KoEus/tZaN16Z8QhWtqYGtVHYx78oavL9b+u4QplWkWNCz1BGAAWmw3
+ XLm0IdPserS8hU8Nv2ixslYS2qvyvumNXMdT+P9oEb2y4Sv1whi4+xj1TtJvVPZ/uNeq
+ GoWotKN5RtkJtiBQaKL9ddqAM1YEMmSGbd0+ThRnKSE/61Lf74FXVgwBYzVech52wFed
+ dvSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+3tCCW1vf690/4T30qcUTSO03STgS9Zq/gOdQmsNyEY=;
- b=KD9f4EfRXfwuSbpZw5CP+HoBXQrwCsyujnGJCX3klLFM5+5UQc0+xLfz69FPtcQtPj
- D/lX1YZCacIul91+Bw4V1w+gZ7OGRkboeFaISgdWWzqf870CSdIMqVDIEoS2PJk+sCbL
- pOgUjtA3FteR2hkyYpyErwrWCcN3Xq4JHtOcQoxVrdKU34fUBapXw91t8MHJ8w8M3y7s
- U3iQkSi47USsethCghxDC4F5iaYi399qv8QLHR+7KfvYXqhqP3I1yPig+Ri6OLFTppPC
- FreT6CNiyUZ6TY7cEIO/KGoPUG10iZ92cRoFnqn/aimOWsW+DoUU4yENiZpHefY8IsGm
- eZ5w==
-X-Gm-Message-State: AOAM533bhgG8Ce8Stslbo8euH1lz0EvbUpA51n0/aVZvw6HvdNcvbKOP
- PtDF+g03pFVlFalkxmPqRVA=
-X-Google-Smtp-Source: ABdhPJxYsYCCBKlCSGLAzxa6BXsGbqcTjHWvgb7beKpP4WisArOt1AAHN4vdv1Oz4AuVBT+h3gaDUA==
-X-Received: by 2002:a2e:924d:: with SMTP id v13mr13579672ljg.380.1633117806218; 
- Fri, 01 Oct 2021 12:50:06 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-198.dynamic.spd-mgts.ru.
- [79.139.163.198])
- by smtp.googlemail.com with ESMTPSA id d26sm835708ljj.45.2021.10.01.12.50.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 12:50:05 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7386079f-0dfe-9f55-6297-1f9ee67cd9d6@gmail.com>
-Date: Fri, 1 Oct 2021 22:50:04 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=p/SxJUcNym+yBrhUDQeZfHj2BoORrf39gDk0QlHHVIY=;
+ b=A1yrgBX4hB1Ohc/HH4nwZayLg89a47TQMk6fKN3pGoD9SaSi8gMjdbdYyJjMILiDMP
+ M9ps9sTLCLbk+jM6G3ZkPmrfSIVgvIcN4GjYIhjeou0VQKbdHQ7ZoKR2ZR5p+FQzLiBY
+ 4isa22drtlHuuqUOy15X2mqLhU8MaCanGzeMt3b1aRVBtDnFq1JphVU6fSSip0WOodY7
+ emgkI3v97QbWXbPVcu0jFmL/bvlC5z1rrV1zNZpSnsVKp8RRNe2DmsOEKrKkyYTD9Tmr
+ P3UEM8ae55V1hv2r5XlbJ7FTEmynqFmoEnZbEJqVwcLPIGNAegbiTBvrwZ5uBDCHSbUH
+ gJsg==
+X-Gm-Message-State: AOAM530GIeElHhSN3o6gUz4cFukhloiL28HSYqR7uospcQ3WyYL3thXP
+ KP2wX3Ebvm4ohfibrhZhoxMgDg==
+X-Google-Smtp-Source: ABdhPJxrVccyTYRwdk6z2yk7egQNKJbDPNZpw3JQMtglBuU4wtwZ0NSNIag9g5DzPsr6KhUfUZT0dw==
+X-Received: by 2002:a05:622a:1111:: with SMTP id
+ e17mr14878148qty.185.1633118211758; 
+ Fri, 01 Oct 2021 12:56:51 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+ by smtp.gmail.com with ESMTPSA id v8sm4581090qta.21.2021.10.01.12.56.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Fri, 01 Oct 2021 12:56:51 -0700 (PDT)
+Date: Fri, 1 Oct 2021 15:56:50 -0400
+From: Sean Paul <sean@poorly.run>
+To: Mark Yacoub <markyacoub@chromium.org>
+Cc: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ seanpaul@chromium.org, Rodrigo.Siqueira@amd.com,
+ anson.jacob@amd.com, Mark Yacoub <markyacoub@google.com>,
+ Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+ "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 2/2] amd/amdgpu_dm: Verify Gamma and Degamma LUT sizes
+ using DRM Core check
+Message-ID: <20211001195650.GX2515@art_vandelay>
+References: <20210929194012.3433306-1-markyacoub@chromium.org>
+ <20210929194012.3433306-2-markyacoub@chromium.org>
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210929194012.3433306-2-markyacoub@chromium.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,27 +82,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-01.10.2021 15:32, Ulf Hansson пишет:
->> +static int tegra_clock_sync_pd_state(struct tegra_clk_device *clk_dev)
->> +{
->> +       unsigned long rate;
->> +       int ret = 0;
->> +
->> +       mutex_lock(&clk_dev->lock);
->> +
->> +       if (!pm_runtime_status_suspended(clk_dev->dev)) {
->> +               rate = clk_hw_get_rate(clk_dev->hw);
->> +               ret = tegra_clock_set_pd_state(clk_dev, rate);
-> Don't we need to sync the performance state even when the device is
-> runtime suspended?
+On Wed, Sep 29, 2021 at 03:39:26PM -0400, Mark Yacoub wrote:
+> From: Mark Yacoub <markyacoub@google.com>
 > 
-> Perhaps the clock, via a child-clock for example, can get
-> prepared/enabled (hence its device gets runtime resumed) before there
-> is a clock rate update for it. Then there is no performance state set
-> for it, right? Or maybe that isn't a problem?
+> [Why]
+> drm_atomic_helper_check_crtc now verifies both legacy and non-legacy LUT
+> sizes. There is no need to check it within amdgpu_dm_atomic_check.
+> 
+> [How]
+> Remove the local call to verify LUT sizes and use DRM Core function
+> instead.
+> 
+> Tested on ChromeOS Zork.
+> 
+> Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index 07adac1a8c42b..96a1d006b777e 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -10683,6 +10683,10 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  		}
+>  	}
+>  #endif
+> +	ret = drm_atomic_helper_check_crtc(state);
+> +	if (ret)
+> +		return ret;
+> +
+>  	for_each_oldnew_crtc_in_state(state, crtc, old_crtc_state, new_crtc_state, i) {
+>  		dm_old_crtc_state = to_dm_crtc_state(old_crtc_state);
+>  
+> @@ -10692,10 +10696,6 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+>  			dm_old_crtc_state->dsc_force_changed == false)
+>  			continue;
+>  
+> -		ret = amdgpu_dm_verify_lut_sizes(new_crtc_state);
+
+From a quick glance, I think you can now delete this function. It's called from
+amdgpu_dm_update_crtc_color_mgmt() which is part of the commit, so the lut sizes
+should have already been checked.
+
+If the call from amdgpu_dm_update_crtc_color_mgmt() is not possible to remove,
+you could replace it with a call to the new helper function. And if _that_ is
+not possible, please make amdgpu_dm_verify_lut_sizes() static :-)
+
+Sean
+
+> -		if (ret)
+> -			goto fail;
+> -
+>  		if (!new_crtc_state->enable)
+>  			continue;
+>  
+> -- 
+> 2.33.0.685.g46640cef36-goog
 > 
 
-Good catch! Older versions of this patch had a special handling for clk
-enable/disable. I just forgot to update this function, it's now not a
-problem to change performance state of a suspended device and it
-actually needs to be done. I'll correct it, thanks!
+-- 
+Sean Paul, Software Engineer, Google / Chromium OS
