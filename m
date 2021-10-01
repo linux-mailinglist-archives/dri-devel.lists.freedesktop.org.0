@@ -1,60 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C05D41EE79
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 15:25:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F6B41EE90
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 15:28:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 845806E4A2;
-	Fri,  1 Oct 2021 13:25:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 332A96ECE4;
+	Fri,  1 Oct 2021 13:28:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2BCC36ECFF
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 13:25:00 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id i4so39218988lfv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 06:25:00 -0700 (PDT)
+Received: from mail-lf1-x135.google.com (mail-lf1-x135.google.com
+ [IPv6:2a00:1450:4864:20::135])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A88366E4FE
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 13:27:59 +0000 (UTC)
+Received: by mail-lf1-x135.google.com with SMTP id i19so35495968lfu.0
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 06:27:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Ce1L2tN5HKfi3fvHHadmQ3q2m1uy07zcuZbE6aqO/w8=;
- b=powMYwV2MjTTSNc/t+dTNLdv1N7EGIPyjZGEPVcI3gY1sc7M027cz1jk10A8Akvayt
- xjVreVrw3OhYWDozi4k1FD15Y/REv1+kRr+cjUF2h0j1veF2W18YSPZ0Q5Yr4sHeIvE2
- xbMkeHo9U1tEXk06Mw9Kuy4lgLyOxpZSHnK0HBd2vSzL2VjpwHt/hOcHFKIy7B6LJi7A
- uoB+oX4ib19bvdTB1CDwwSKijlssZrKUF/Rsk7l+ZYlLV+xqUcOhO1E9Y9gSeqjAwXK/
- ooBHqYOXpxuJ8myCcf7rUgQtf3FwOKbuwTsCqu62SbjlUC9B1vASEJMY0Aqy8D3WeZyF
- q1kg==
+ :cc; bh=xnpGYuY4J1MVx4KDnwBO9exyn8J4DWmp5PYIqZLE1ug=;
+ b=soKJl7cwWQ3W4UwDFjN+58V2v5RYuIU0YxRyxYMaINgwEK5Kb355awQUMWcroWHbJo
+ Me+RUP02Enm/bzqDvehZEy7fQWF2sFk9LJqMd5m/oBPklwKMhRK7hJMny9eAuGu48VPg
+ MSymtPMTr3GkgTLH1I0AnDMIx+ROIV7T3NCdZ0xbue3PhEXGHJsxVY0jL8xMzXcrMbrF
+ kX9nrs5tMRkTdxtvQynLy7JVj76hAaAk5aVHedbxGyXGBw0WCCM+yzL88UZ1fDKJWz6p
+ 2U52t9cbC9WvtuCg3In2JTTZikJOCaAF8ZLYIYIgSv9a8V8aXXGALPL3LrFK+MyO1ntj
+ GZzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=Ce1L2tN5HKfi3fvHHadmQ3q2m1uy07zcuZbE6aqO/w8=;
- b=QnLWgp2hiewk+D4iBYb59t5cyITwwGqXKzKcl+7lUtL0abO4skNX5oG/XqH914QwP6
- JkK6rHIBFrF8If7Q6MoY818kTRO+ABoR3cSNAQ0Y41OZrLxwIMDrP4r7+RStMj9vjveQ
- Ey3PsfFdMnH4uXJ2Kwj6iDII6yHgbc/RQFfNyLVOq8xjiUVE+5F6fy02Hb2hFC8iFRKH
- 7/CJb8gMg0/Ozf2+1LV8dMVmVtApVfYGRbgqsxjfrusRmIkgPvhLZ5gH3YpZVN6Hs4ss
- x1J2wwGq9OEThA4DLofKQb0o/YwMR/Rr06R1AljDzRGK1XnEGO1oxcph5sJedR+Ztc47
- LQQA==
-X-Gm-Message-State: AOAM530uIXkdPbTj05jBcO7HiXwCskzVGoLuAxzr6biy6KrT013IooVO
- M1+ZAb7qAUwBUyGmpateujcEj7X4QtnCKqADo8zj+g==
-X-Google-Smtp-Source: ABdhPJx3j8rYzIefonx7fnLDHN6Ws0loCtwYPf/Gwf8OXRLpCYIkD4HnMnNV/rnmavNwT0BrQF7QYu3k62ifmvyYjCU=
-X-Received: by 2002:a19:5f4b:: with SMTP id a11mr5339726lfj.373.1633094698289; 
- Fri, 01 Oct 2021 06:24:58 -0700 (PDT)
+ bh=xnpGYuY4J1MVx4KDnwBO9exyn8J4DWmp5PYIqZLE1ug=;
+ b=oaB1st/K9NNJOvQTNmakKjWV6Es5Thy1MQ5/4eq911yKYH2s5PrQxMfshgtRRYD3D3
+ aq4AOiEaNEc0WNNK4abFkMMl1iXnRDwKm+ZnbCAnsQUqK7XkpGceVIPPOzX70W900hng
+ L7cDJuDNsbseuQfL+X99qyahKjE7RjkvLzZKkuheCxDyBtIGO2SJnioI+Fn6A/V3CeHB
+ dJsSb15etAThrjPY+0JzKF6f38XAd/wdenRcKBi9nmixz5TuhKT5cH3a8o1j8cQv63F+
+ nXhrycyvxycvCXPGmkx0KedhjwiMd6wDBeh3lCVZ9Ueq75N53m9w5GB7TzXLcYleeg7+
+ x4ew==
+X-Gm-Message-State: AOAM5324exbdD0Eq3AVnIJPRYY2gDYjQu7LauyXTuE6gACi1x4SygIF1
+ m2SPXN/VYGB9jK8LHri4phVOJ97bB411NSCFsaCegQ==
+X-Google-Smtp-Source: ABdhPJxX1GobNBTGZAnR139s5Ubq3WBZYj+/TS7clunNypQi+CGy+oUt/x9SJI6rsK1E9roKL3hS5JPL62b+VvMRdQw=
+X-Received: by 2002:a05:651c:20b:: with SMTP id
+ y11mr12340667ljn.463.1633094876449; 
+ Fri, 01 Oct 2021 06:27:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-10-digetx@gmail.com>
-In-Reply-To: <20210926224058.1252-10-digetx@gmail.com>
+ <20210926224058.1252-12-digetx@gmail.com>
+In-Reply-To: <20210926224058.1252-12-digetx@gmail.com>
 From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 15:24:21 +0200
-Message-ID: <CAPDyKFqqQvKusZ2gzHh69LNrncvi9_o04_xFKDpAkDbS-8Zecg@mail.gmail.com>
-Subject: Re: [PATCH v13 09/35] gpu: host1x: Add runtime PM and OPP support
-To: Dmitry Osipenko <digetx@gmail.com>
+Date: Fri, 1 Oct 2021 15:27:20 +0200
+Message-ID: <CAPDyKFobSsFOnmFc4BG353uYgECGD1U1U020oQwB7pX0mfCfvw@mail.gmail.com>
+Subject: Re: [PATCH v13 11/35] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+To: Dmitry Osipenko <digetx@gmail.com>, Viresh Kumar <vireshk@kernel.org>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
  Jonathan Hunter <jonathanh@nvidia.com>, 
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
+ Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
+ Lee Jones <lee.jones@linaro.org>,
  =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
  Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
  Michael Turquette <mturquette@baylibre.com>, 
@@ -88,10 +89,9 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
-> Add runtime PM and OPP support to the Host1x driver. For the starter we
-> will keep host1x always-on because dynamic power management require a major
-> refactoring of the driver code since lot's of code paths are missing the
-> RPM handling and we're going to remove some of these paths in the future.
+> Add OPP and SoC core voltage scaling support to the display controller
+> driver. This is required for enabling system-wide DVFS on pre-Tegra186
+> SoCs.
 >
 > Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
 > Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
@@ -99,200 +99,77 @@ On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
 > Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
 > Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
-
-[...]
-
-> --- a/drivers/gpu/host1x/dev.c
-> +++ b/drivers/gpu/host1x/dev.c
-> @@ -6,14 +6,18 @@
->   */
+>  drivers/gpu/drm/tegra/dc.c | 74 ++++++++++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/tegra/dc.h |  2 ++
+>  2 files changed, 76 insertions(+)
 >
->  #include <linux/clk.h>
-> +#include <linux/delay.h>
->  #include <linux/dma-mapping.h>
->  #include <linux/io.h>
->  #include <linux/list.h>
+> diff --git a/drivers/gpu/drm/tegra/dc.c b/drivers/gpu/drm/tegra/dc.c
+> index a29d64f87563..d4047a14e2b6 100644
+> --- a/drivers/gpu/drm/tegra/dc.c
+> +++ b/drivers/gpu/drm/tegra/dc.c
+> @@ -11,9 +11,12 @@
+>  #include <linux/interconnect.h>
 >  #include <linux/module.h>
 >  #include <linux/of_device.h>
->  #include <linux/of.h>
-> +#include <linux/pm_runtime.h>
->  #include <linux/slab.h>
+> +#include <linux/pm_domain.h>
+> +#include <linux/pm_opp.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/reset.h>
 >
 > +#include <soc/tegra/common.h>
-> +
->  #define CREATE_TRACE_POINTS
->  #include <trace/events/host1x.h>
->  #undef CREATE_TRACE_POINTS
-> @@ -190,6 +194,9 @@ static void host1x_setup_sid_table(struct host1x *host)
->         const struct host1x_info *info = host->info;
->         unsigned int i;
+>  #include <soc/tegra/pmc.h>
 >
-> +       if (!info->has_hypervisor)
-> +               return;
-> +
->         for (i = 0; i < info->num_sid_entries; i++) {
->                 const struct host1x_sid_entry *entry = &info->sid_table[i];
->
-> @@ -347,6 +354,27 @@ static void host1x_iommu_exit(struct host1x *host)
->         }
->  }
->
-> +static int host1x_get_resets(struct host1x *host)
-> +{
-> +       int err;
-> +
-> +       host->resets[0].id = "mc";
-> +       host->resets[1].id = "host1x";
-> +       host->nresets = ARRAY_SIZE(host->resets);
-> +
-> +       err = devm_reset_control_bulk_get_optional_exclusive_released(
-> +                               host->dev, host->nresets, host->resets);
-> +       if (err) {
-> +               dev_err(host->dev, "failed to get reset: %d\n", err);
-> +               return err;
-> +       }
-> +
-> +       if (WARN_ON(!host->resets[1].rstc))
-> +               return -ENOENT;
-> +
-> +       return 0;
-> +}
-> +
->  static int host1x_probe(struct platform_device *pdev)
->  {
->         struct host1x *host;
-> @@ -423,12 +451,9 @@ static int host1x_probe(struct platform_device *pdev)
->                 return err;
->         }
->
-> -       host->rst = devm_reset_control_get(&pdev->dev, "host1x");
-> -       if (IS_ERR(host->rst)) {
-> -               err = PTR_ERR(host->rst);
-> -               dev_err(&pdev->dev, "failed to get reset: %d\n", err);
-> +       err = host1x_get_resets(host);
-> +       if (err)
->                 return err;
-> -       }
->
->         err = host1x_iommu_init(host);
->         if (err < 0) {
-> @@ -443,22 +468,10 @@ static int host1x_probe(struct platform_device *pdev)
->                 goto iommu_exit;
->         }
->
-> -       err = clk_prepare_enable(host->clk);
-> -       if (err < 0) {
-> -               dev_err(&pdev->dev, "failed to enable clock\n");
-> -               goto free_channels;
-> -       }
-> -
-> -       err = reset_control_deassert(host->rst);
-> -       if (err < 0) {
-> -               dev_err(&pdev->dev, "failed to deassert reset: %d\n", err);
-> -               goto unprepare_disable;
-> -       }
-> -
->         err = host1x_syncpt_init(host);
->         if (err) {
->                 dev_err(&pdev->dev, "failed to initialize syncpts\n");
-> -               goto reset_assert;
-> +               goto free_channels;
->         }
->
->         err = host1x_intr_init(host, syncpt_irq);
-> @@ -467,10 +480,18 @@ static int host1x_probe(struct platform_device *pdev)
->                 goto deinit_syncpt;
->         }
->
-> -       host1x_debug_init(host);
-> +       pm_runtime_enable(&pdev->dev);
-> +
-> +       err = devm_tegra_core_dev_init_opp_table_common(&pdev->dev);
-> +       if (err)
-> +               goto pm_disable;
->
-> -       if (host->info->has_hypervisor)
-> -               host1x_setup_sid_table(host);
-> +       /* the driver's code isn't ready yet for the dynamic RPM */
-> +       err = pm_runtime_resume_and_get(&pdev->dev);
-> +       if (err)
-> +               goto pm_disable;
-> +
-> +       host1x_debug_init(host);
->
->         err = host1x_register(host);
->         if (err < 0)
-> @@ -486,13 +507,14 @@ static int host1x_probe(struct platform_device *pdev)
->         host1x_unregister(host);
->  deinit_debugfs:
->         host1x_debug_deinit(host);
-> +
-> +       pm_runtime_put(&pdev->dev);
-
-pm_runtime_put() is asynchronous, so it may not actually succeed to
-trigger the ->runtime_suspend() callback to be invoked. Thus, this
-could end up that we leave clocks prepared/enabled when ->probe()
-fails, for example.
-
-I guess pm_runtime_put_sync_suspend() is slightly better.
-
-Another option is to call pm_runtime_force_suspend(), but then you
-must skip the call pm_runtime_disable() afterwards, as that has
-already been done inside that function.
-
-> +pm_disable:
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         host1x_intr_deinit(host);
->  deinit_syncpt:
->         host1x_syncpt_deinit(host);
-> -reset_assert:
-> -       reset_control_assert(host->rst);
-> -unprepare_disable:
-> -       clk_disable_unprepare(host->clk);
->  free_channels:
->         host1x_channel_list_free(&host->channel_list);
->  iommu_exit:
-> @@ -507,19 +529,94 @@ static int host1x_remove(struct platform_device *pdev)
->
->         host1x_unregister(host);
->         host1x_debug_deinit(host);
-> +
-> +       pm_runtime_put(&pdev->dev);
-
-Similar comment as in ->probe().
-
-> +       pm_runtime_disable(&pdev->dev);
-> +
->         host1x_intr_deinit(host);
->         host1x_syncpt_deinit(host);
-> -       reset_control_assert(host->rst);
-> -       clk_disable_unprepare(host->clk);
->         host1x_iommu_exit(host);
->
+>  #include <drm/drm_atomic.h>
+> @@ -1762,6 +1765,47 @@ int tegra_dc_state_setup_clock(struct tegra_dc *dc,
 >         return 0;
 >  }
 >
+> +static void tegra_dc_update_voltage_state(struct tegra_dc *dc,
+> +                                         struct tegra_dc_state *state)
+> +{
+> +       unsigned long rate, pstate;
+> +       struct dev_pm_opp *opp;
+> +       int err;
 > +
-> +       host1x_setup_sid_table(host);
-> +       host1x_syncpt_restore(host);
-> +       host1x_intr_start(host);
+> +       if (!dc->has_opp_table)
+> +               return;
 > +
-> +       return 0;
+> +       /* calculate actual pixel clock rate which depends on internal divider */
+> +       rate = DIV_ROUND_UP(clk_get_rate(dc->clk) * 2, state->div + 2);
 > +
-> +disable_clk:
-> +       clk_disable_unprepare(host->clk);
-> +release_reset:
-> +       reset_control_bulk_release(host->nresets, host->resets);
+> +       /* find suitable OPP for the rate */
+> +       opp = dev_pm_opp_find_freq_ceil(dc->dev, &rate);
 > +
-> +       return err;
-> +}
+> +       if (opp == ERR_PTR(-ERANGE))
+> +               opp = dev_pm_opp_find_freq_floor(dc->dev, &rate);
 > +
-> +static const struct dev_pm_ops host1x_pm = {
-> +       SET_RUNTIME_PM_OPS(host1x_runtime_suspend, host1x_runtime_resume,
-> +                          NULL)
-> +       /* TODO: add system suspend-resume once driver will be ready for that */
-> +};
+> +       if (IS_ERR(opp)) {
+> +               dev_err(dc->dev, "failed to find OPP for %luHz: %pe\n",
+> +                       rate, opp);
+> +               return;
+> +       }
+> +
+> +       pstate = dev_pm_opp_get_required_pstate(opp, 0);
+> +       dev_pm_opp_put(opp);
+> +
+> +       /*
+> +        * The minimum core voltage depends on the pixel clock rate (which
+> +        * depends on internal clock divider of the CRTC) and not on the
+> +        * rate of the display controller clock. This is why we're not using
+> +        * dev_pm_opp_set_rate() API and instead controlling the power domain
+> +        * directly.
+> +        */
+> +       err = dev_pm_genpd_set_performance_state(dc->dev, pstate);
+> +       if (err)
+> +               dev_err(dc->dev, "failed to set power domain state to %lu: %d\n",
+> +                       pstate, err);
+
+Yeah, the above code looks very similar to the code I pointed to in
+patch6. Perhaps we need to discuss with Viresh, whether it makes sense
+to fold in a patch adding an opp helper function after all, to avoid
+the open coding.
+
+Viresh?
 
 [...]
 
