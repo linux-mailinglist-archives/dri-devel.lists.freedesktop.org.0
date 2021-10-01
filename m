@@ -1,51 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C129D41EA8B
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 12:07:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB48A41EA8E
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 12:07:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F9D36EDEC;
-	Fri,  1 Oct 2021 10:06:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A5D786EE02;
+	Fri,  1 Oct 2021 10:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com
- [IPv6:2a00:1450:4864:20::42f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E7E16EDEE;
- Fri,  1 Oct 2021 10:06:37 +0000 (UTC)
-Received: by mail-wr1-x42f.google.com with SMTP id k7so14492950wrd.13;
- Fri, 01 Oct 2021 03:06:37 -0700 (PDT)
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com
+ [IPv6:2a00:1450:4864:20::32f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5665A6EDF7;
+ Fri,  1 Oct 2021 10:06:38 +0000 (UTC)
+Received: by mail-wm1-x32f.google.com with SMTP id z2so6810254wmc.3;
+ Fri, 01 Oct 2021 03:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KGewx1QiQQVkw015IvGnnogZeqnpnoxIhP9ykI50FyQ=;
- b=Cyh1S+VO3uhIzwT/x7r/+ke6Tw/sa5XVJuThgyu+evB5Z5y/CWutZVCiwpCfFHZegQ
- 26g2VRhhPd9KX0OahtFF1IqXac+YyHgvNSG+BpcuOZhLk6rSPqls/sVfH9Wsl6pjbXUB
- XsRKnopUjSmdmOFWLn/0SAswKVinKLLZIOOJ68Rji+ehsq9pT/XNSYhgJl3p4zqWjxdG
- qRMNY3UTJrNN4+H9YzyNpl5HDZW6MDXbSwuFyS6RhLSt5i+dUEBzxA8h8vacLvnZfnK4
- XkBWBukDRFSr/FdkYI1aumJo88N0+S3UmvOt/8HN1d6x0qt8I6r1t141kR5TM+/8VbRq
- N11g==
+ bh=jIUir/k9ok0mhA9lZLcDk0nsv9skwzmV2ts7X5dBo9o=;
+ b=WN6qInpAsn24+ftDpOyCYIkBgofW7UaWxMslwRXjLU3tyhh3Ca31+rUNhj+m9LztjU
+ sWlGZD0XwTpt2tvUoPdlCD0YI/kuc5NjlzJM3AL8v//Od+x+O5S9Bx1fg2QpUDF5QPk1
+ v2zv0mPo3/0J6rlyBUFGwQq3jLBGRNgXXFRDhJPUW+rSLH4e0pbxLaEWoRTavpYUXAu+
+ w5Y1FWlBaSQL+7OURv5Er1N3tlBspNHHn8g2E23BT+BrottgnGEiJ8e6Km0kCfPFI4Az
+ LjBlXpnYh0LjQHfhVPTCWNRFHPAoBtx2ZxOYXYlMEyBzq1Sf4TBz1KqRD1vafSvHIXhQ
+ 2KdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=KGewx1QiQQVkw015IvGnnogZeqnpnoxIhP9ykI50FyQ=;
- b=1SV5xAOIuCgLk1reartEK72ATx0bde5J+OMgqnAS26v4KpZglWBxAgt1K1rTxmZueh
- 0XNHVdvcXsyw+4NrBf3PikUTMC+jF5H0kzRTb06m3Gc18Y6efFeIoeXQYajp/dkQJXMl
- fpFwqd1vrk1KY0wkVC6xiC59lFjx1wDg6FAZ5WuufjJ48BGwagrlSzQgy8llGataiZfo
- frUFMLc4av0KeWZMvO3kbFZymd04Rv3TN1abHNpx2tdWaLY/Oz7VWB1tf9RjqVRIu7YD
- mvmIVphP9Ix62GX8Tm3EwGpVN4oJOuvqqCB4msTspg0nKoHw7SnBvYEN89Vn2r/UHF/v
- IfkQ==
-X-Gm-Message-State: AOAM530ywV8pgvFVU4ldZVGSfXJf3GH+dklKK/vnCuKho7BS4lCo6kBW
- UzYleBs0dwnwUB/XZRF0RIQ=
-X-Google-Smtp-Source: ABdhPJwhtgvOI7xyayup3oIPTfuGI4IkHPBzz6DTtAC78R48IvmCzllr7F2U4ngGqkW0ygDIrfd4qA==
-X-Received: by 2002:adf:dc0d:: with SMTP id t13mr11183115wri.158.1633082795955; 
- Fri, 01 Oct 2021 03:06:35 -0700 (PDT)
+ bh=jIUir/k9ok0mhA9lZLcDk0nsv9skwzmV2ts7X5dBo9o=;
+ b=ZzfGMOBR3mCkAmln/3aEvqYfrQc+HptS71BRO565dm6ng9d/SpCoptXvaFd+RBeWy8
+ /pExqTWICiWpkyuDyrYTkGotvnzAzfC1VnZUCQNcr015Ts02OTAcr+FiPV3MSHkPhruC
+ B7GQALk3nP/eFXLSnroBzC6FLJydYEjvkHc6l4KH7eH/uVIFojo6hohxG9c6IODKO/9j
+ ZhbJtqTTHi7hbZ0WDOU7fEYeWhuPAJg7pkk2eMZiRM95MIHuLqaedWmqpwD+HL3QyiD2
+ VJb/0xz96MxDnvbwODo+UF7dN9KX8VJS9Ze9sYdK+HIjvGg3cTBdeAs0AYMk3Kp1oyGy
+ ag3A==
+X-Gm-Message-State: AOAM531TJu4fp/VpKLOqEnwswbkO4qf7HPO8Z1KQSZZQFymKfBLJ9ABu
+ pgrae1TiThuadHa4zTiB0bM=
+X-Google-Smtp-Source: ABdhPJymDfL7NFE48Y02DYUiKpeGEfG6vmQwsVgnGjDCH8Rsk9Komv7T3/TkF1ZwvPureSAXTL/EgQ==
+X-Received: by 2002:a1c:44d7:: with SMTP id r206mr3584007wma.150.1633082796860; 
+ Fri, 01 Oct 2021 03:06:36 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- v17sm5746069wro.34.2021.10.01.03.06.35
+ v17sm5746069wro.34.2021.10.01.03.06.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 03:06:35 -0700 (PDT)
+ Fri, 01 Oct 2021 03:06:36 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,10 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 26/28] drm/nouveau: use the new interator in
- nv50_wndw_prepare_fb
-Date: Fri,  1 Oct 2021 12:06:08 +0200
-Message-Id: <20211001100610.2899-27-christian.koenig@amd.com>
+Subject: [PATCH 27/28] drm/etnaviv: use new iterator in etnaviv_gem_describe
+Date: Fri,  1 Oct 2021 12:06:09 +0200
+Message-Id: <20211001100610.2899-28-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001100610.2899-1-christian.koenig@amd.com>
 References: <20211001100610.2899-1-christian.koenig@amd.com>
@@ -78,42 +77,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Makes the handling a bit more complex, but avoids the use of
-dma_resv_get_excl_unlocked().
+Instead of hand rolling the logic.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/nouveau/dispnv50/wndw.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c | 31 ++++++++++-----------------
+ 1 file changed, 11 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/gpu/drm/nouveau/dispnv50/wndw.c b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-index 8d048bacd6f0..30712a681e2a 100644
---- a/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-+++ b/drivers/gpu/drm/nouveau/dispnv50/wndw.c
-@@ -539,6 +539,8 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- 	struct nouveau_bo *nvbo;
- 	struct nv50_head_atom *asyh;
- 	struct nv50_wndw_ctxdma *ctxdma;
+diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem.c b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+index 8f1b5af47dd6..0eeb33de2ff4 100644
+--- a/drivers/gpu/drm/etnaviv/etnaviv_gem.c
++++ b/drivers/gpu/drm/etnaviv/etnaviv_gem.c
+@@ -428,19 +428,17 @@ int etnaviv_gem_wait_bo(struct etnaviv_gpu *gpu, struct drm_gem_object *obj,
+ static void etnaviv_gem_describe_fence(struct dma_fence *fence,
+ 	const char *type, struct seq_file *m)
+ {
+-	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+-		seq_printf(m, "\t%9s: %s %s seq %llu\n",
+-			   type,
+-			   fence->ops->get_driver_name(fence),
+-			   fence->ops->get_timeline_name(fence),
+-			   fence->seqno);
++	seq_printf(m, "\t%9s: %s %s seq %llu\n", type,
++		   fence->ops->get_driver_name(fence),
++		   fence->ops->get_timeline_name(fence),
++		   fence->seqno);
+ }
+ 
+ static void etnaviv_gem_describe(struct drm_gem_object *obj, struct seq_file *m)
+ {
+ 	struct etnaviv_gem_object *etnaviv_obj = to_etnaviv_bo(obj);
+ 	struct dma_resv *robj = obj->resv;
+-	struct dma_resv_list *fobj;
 +	struct dma_resv_iter cursor;
-+	struct dma_fence *fence;
- 	int ret;
+ 	struct dma_fence *fence;
+ 	unsigned long off = drm_vma_node_start(&obj->vma_node);
  
- 	NV_ATOMIC(drm, "%s prepare: %p\n", plane->name, fb);
-@@ -561,7 +563,13 @@ nv50_wndw_prepare_fb(struct drm_plane *plane, struct drm_plane_state *state)
- 			asyw->image.handle[0] = ctxdma->object.handle;
- 	}
+@@ -449,21 +447,14 @@ static void etnaviv_gem_describe(struct drm_gem_object *obj, struct seq_file *m)
+ 			obj->name, kref_read(&obj->refcount),
+ 			off, etnaviv_obj->vaddr, obj->size);
  
--	asyw->state.fence = dma_resv_get_excl_unlocked(nvbo->bo.base.resv);
-+	dma_resv_iter_begin(&cursor, nvbo->bo.base.resv, false);
+-	rcu_read_lock();
+-	fobj = dma_resv_shared_list(robj);
+-	if (fobj) {
+-		unsigned int i, shared_count = fobj->shared_count;
+-
+-		for (i = 0; i < shared_count; i++) {
+-			fence = rcu_dereference(fobj->shared[i]);
++	dma_resv_iter_begin(&cursor, robj, true);
 +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+		/* TODO: We only use the first writer here */
-+		asyw->state.fence = dma_fence_get(fence);
-+		break;
-+	}
++		if (dma_resv_iter_is_exclusive(&cursor))
++			etnaviv_gem_describe_fence(fence, "Exclusive", m);
++		else
+ 			etnaviv_gem_describe_fence(fence, "Shared", m);
+-		}
+ 	}
+-
+-	fence = dma_resv_excl_fence(robj);
+-	if (fence)
+-		etnaviv_gem_describe_fence(fence, "Exclusive", m);
+-	rcu_read_unlock();
 +	dma_resv_iter_end(&cursor);
- 	asyw->image.offset[0] = nvbo->offset;
+ }
  
- 	if (wndw->func->prepare) {
+ void etnaviv_gem_describe_objects(struct etnaviv_drm_private *priv,
 -- 
 2.25.1
 
