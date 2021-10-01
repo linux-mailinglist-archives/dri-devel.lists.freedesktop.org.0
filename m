@@ -1,67 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF77B41F785
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 00:42:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D66241F794
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 00:44:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A38656E5A2;
-	Fri,  1 Oct 2021 22:42:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CFE0A6E5A9;
+	Fri,  1 Oct 2021 22:44:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 959336E5A2
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:42:09 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id b20so44470115lfv.3
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 15:42:09 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 18C906E59D
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:44:41 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id u18so44450558lfd.12
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 15:44:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Ye+Ig/O23GoJ8Iq7iv3h8SxIDcT6+17KTEH2/egvfXA=;
- b=kuxvhMFSDeYBLvpTecKb2W/0DEQVCCzuQ8WydZmEuAyKLsJ/t2j2sq+9gJcCBN4sHb
- 69RW+i+IQpE4EdrUeUA+5aoZr61mrZSzsYFPMcX+eKMeYm3i4F7V7L84Bxh9NguysWKP
- LsvMmbD2FlTKjLIIRCFyuX/HG7jEH4uhRuVqKVFdkviOXKlHvly1pESBR/NQ+WBHumNB
- BNzN1/ZftsFCcEt5anj6+Csv5jx84fQFS0bfJ+70XXqNEC+gOHHot0pGxjqLZfzuDwOE
- UEnXxs1QNW1rT5WJao9TDCqK/SdE9dXUklowGzFcTXHTko7Uqa4+g3kGaq+kBN2+0iXb
- 4uBA==
+ bh=Hyp8rNNNxhnx5usv5qotyjNm77T/YbCfuFJQXDZjm3c=;
+ b=LEPUccLyJKnO/BgxSMsvSUj35HCuvuikhLC2YvuLl0jbh4rkra5+FjPhTH0OldVFY0
+ p53mOk4WghDtxRZTz2ynhwx4yxm1w/IvCoyyuqM9nsbBvlDwH6y00FZPTbDgHZD1OaWK
+ XDl0uC5I4gsOoqgkvNBqn4LjvLbfKbnEbejY8JgwJhwm3itjWyIktd9A5YjrtSC0gy/X
+ XQlM8MO9tNQ+7SlKWPgDw260KjYbUeM5IZmNWQcCgU3JMZwrZIfwDBdLZH5RjuSDolhQ
+ jqKpGuNa7JQp4jyGTJvs6OnZ4LZaGgwCw2+wocIkEIhRiDB4eYQDt3gGYOaJNeRZ6i7r
+ 8V1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ye+Ig/O23GoJ8Iq7iv3h8SxIDcT6+17KTEH2/egvfXA=;
- b=YjlpvHMDdlRBoCp8JGaMipVYxXpdrv/b+JgbQY8++W47HusnD8wST9FjiIDp76eYWG
- Ssy3bgAkXQIMF+FxB/dnpdPP3wKLdT3d/LcW/bdXrdjnyi34PKXVniSL40P6CVWMbs88
- RXTYEpP2OqnumfaGJOCBtUxebKF4Ekekxge195wB5eBOJv4X3Dl/qHMpBCGc+WbHori8
- brw/rqJQiAvFB7kCepSANG0hHVvVD7jWvD43y3+LcO8o6qA8v2yL6SgJ5GC4cTDqruXN
- w/dFFiubtpmflSvedkbU0Xd+9DkjlKWrhel6Vo5h30FEt8WdhcyfUgxN1ndBAMjrRvc+
- fVGQ==
-X-Gm-Message-State: AOAM532GOR8zapz7DlC4M0w4Ou5P/zJ30L2qqZlY8k3LiU7mzcF8HVbJ
- nrPTqM9fqNs98HYQr/m+Kt+QBA==
-X-Google-Smtp-Source: ABdhPJzSjmTgZF2x7IHWeD8LUXrXxoktmZ4B7IHcP4t5nkYVl1sKDlVVSXKFABEJeRK7+vfZnUasxQ==
-X-Received: by 2002:a05:6512:228a:: with SMTP id
- f10mr556331lfu.619.1633128127810; 
- Fri, 01 Oct 2021 15:42:07 -0700 (PDT)
+ bh=Hyp8rNNNxhnx5usv5qotyjNm77T/YbCfuFJQXDZjm3c=;
+ b=3rLc/d1ovu2Qk3NcOY7zdXX1h6wsmatvocdGF2Qkr4y5SF8xJMoKb+bYAKrE65JyKO
+ t5FNWIpyrT5M6EcKag7WpunBpqqfXWEHaAeL80LzHR12x8n5TmNKEoA4tglyjg8qmVCz
+ s7figesTJ+OQVaOtfx4kxSSuRvVkIHiZ5tXxi3z6S1t+eT2cq6V485CxvO8hFr9FQCfl
+ iA4WJUQNrBBN59MZX3no1xzbhfPC7pVkc2NzcUg1KWOJemWa/bM8AZvJHRqctGc2Khny
+ aTtwRr63TJfVj7ZCfynxDSsxXKhKTHJVy3Ix48R4m3BFxtMDKDGoBBwPlpjhwWOyzYLl
+ ZcyQ==
+X-Gm-Message-State: AOAM531GpOvo+QZ91vvOpfFRsCYGAXysIRwXfp77/o7iVpnEcjL9iR7M
+ OkOSUMS1YSD018TzTGOBsKadrA==
+X-Google-Smtp-Source: ABdhPJyA1oFgS9X9yRcyXvH/zXNSgT0lDX4E6n03krWyg15pFA2D/72tYTF5y0tv2tQwK4EqFrtI4Q==
+X-Received: by 2002:a2e:5453:: with SMTP id y19mr501616ljd.247.1633128279396; 
+ Fri, 01 Oct 2021 15:44:39 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id o21sm24068lfo.52.2021.10.01.15.42.07
+ by smtp.gmail.com with ESMTPSA id o12sm865329lft.254.2021.10.01.15.44.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 15:42:07 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm: prevent NULL dereference in
- msm_gpu_crashstate_capture()
+ Fri, 01 Oct 2021 15:44:39 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm/dsi: prevent unintentional integer overflow in
+ dsi_pll_28nm_clk_recalc_rate()
 To: Tim Gardner <tim.gardner@canonical.com>, dri-devel@lists.freedesktop.org
 Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
  David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20210929162554.14295-1-tim.gardner@canonical.com>
+ Abhinav Kumar <abhinavk@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+References: <20210929175134.15808-1-tim.gardner@canonical.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <7d251b1c-1054-6fde-602f-35eed4ac1cfe@linaro.org>
-Date: Sat, 2 Oct 2021 01:42:06 +0300
+Message-ID: <2f625866-89d0-3bc7-2618-2e01884d003d@linaro.org>
+Date: Sat, 2 Oct 2021 01:44:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20210929162554.14295-1-tim.gardner@canonical.com>
+In-Reply-To: <20210929175134.15808-1-tim.gardner@canonical.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -80,47 +79,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 29/09/2021 19:25, Tim Gardner wrote:
-> Coverity complains of a possible NULL dereference:
+On 29/09/2021 20:51, Tim Gardner wrote:
+> Coverity warns of an unintentional integer overflow
 > 
-> CID 120718 (#1 of 1): Dereference null return value (NULL_RETURNS)
-> 23. dereference: Dereferencing a pointer that might be NULL state->bos when
->      calling msm_gpu_crashstate_get_bo. [show details]
-> 301                        msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
-> 302                                submit->bos[i].iova, submit->bos[i].flags);
+> CID 120715 (#1 of 1): Unintentional integer overflow (OVERFLOW_BEFORE_WIDEN)
+> overflow_before_widen: Potentially overflowing expression ref_clk * sdm_byp_div
+>    with type unsigned int (32 bits, unsigned) is evaluated using 32-bit arithmetic,
+>    and then used in a context that expects an expression of type unsigned long
+>    (64 bits, unsigned).
+> To avoid overflow, cast either ref_clk or sdm_byp_div to type unsigned long.
+> 263                vco_rate = ref_clk * sdm_byp_div;
 > 
-> Fix this by employing the same state->bos NULL check as is used in the next
-> for loop.
+> Fix this and another possible overflow by casting ref_clk to unsigned long.
+
+Changing ref_clk from u32 to unsigned long would be a more simple and 
+elegant way of fixing this issue. Could you please update your patch?
+
 > 
 > Cc: Rob Clark <robdclark@gmail.com>
 > Cc: Sean Paul <sean@poorly.run>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+> Cc: Abhinav Kumar <abhinavk@codeaurora.org>
 > Cc: linux-arm-msm@vger.kernel.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: freedreno@lists.freedesktop.org
 > Cc: linux-kernel@vger.kernel.org
 > Signed-off-by: Tim Gardner <tim.gardner@canonical.com>
-
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-
 > ---
->   drivers/gpu/drm/msm/msm_gpu.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/msm_gpu.c b/drivers/gpu/drm/msm/msm_gpu.c
-> index 8a3a592da3a4..2c46cd968ac4 100644
-> --- a/drivers/gpu/drm/msm/msm_gpu.c
-> +++ b/drivers/gpu/drm/msm/msm_gpu.c
-> @@ -296,7 +296,7 @@ static void msm_gpu_crashstate_capture(struct msm_gpu *gpu,
->   		state->bos = kcalloc(nr,
->   			sizeof(struct msm_gpu_state_bo), GFP_KERNEL);
+> diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> index 2da673a2add6..cfe4b30eb96d 100644
+> --- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> +++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm.c
+> @@ -260,7 +260,7 @@ static unsigned long dsi_pll_28nm_clk_recalc_rate(struct clk_hw *hw,
+>   		sdm_byp_div = FIELD(
+>   				dsi_phy_read(base + REG_DSI_28nm_PHY_PLL_SDM_CFG0),
+>   				DSI_28nm_PHY_PLL_SDM_CFG0_BYP_DIV) + 1;
+> -		vco_rate = ref_clk * sdm_byp_div;
+> +		vco_rate = (unsigned long)ref_clk * sdm_byp_div;
+>   	} else {
+>   		/* sdm mode */
+>   		sdm_dc_off = FIELD(
+> @@ -274,7 +274,7 @@ static unsigned long dsi_pll_28nm_clk_recalc_rate(struct clk_hw *hw,
+>   		sdm_freq_seed = (sdm3 << 8) | sdm2;
+>   		DBG("sdm_freq_seed = %d", sdm_freq_seed);
 >   
-> -		for (i = 0; i < submit->nr_bos; i++) {
-> +		for (i = 0; state->bos && i < submit->nr_bos; i++) {
->   			if (should_dump(submit, i)) {
->   				msm_gpu_crashstate_get_bo(state, submit->bos[i].obj,
->   					submit->bos[i].iova, submit->bos[i].flags);
+> -		vco_rate = (ref_clk * (sdm_dc_off + 1)) +
+> +		vco_rate = ((unsigned long)ref_clk * (sdm_dc_off + 1)) +
+>   			mult_frac(ref_clk, sdm_freq_seed, BIT(16));
+>   		DBG("vco rate = %lu", vco_rate);
+>   	}
 > 
 
 
