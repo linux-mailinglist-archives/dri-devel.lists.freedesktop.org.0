@@ -1,41 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA0041E97A
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 11:16:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6340641E99B
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 11:29:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 96BCF6ED7D;
-	Fri,  1 Oct 2021 09:16:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E96C06ED8F;
+	Fri,  1 Oct 2021 09:29:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 614566ED7D;
- Fri,  1 Oct 2021 09:16:19 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10123"; a="212638520"
-X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; d="scan'208";a="212638520"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 02:16:18 -0700
-X-IronPort-AV: E=Sophos;i="5.85,337,1624345200"; d="scan'208";a="539952971"
-Received: from kdoertel-mobl.ger.corp.intel.com (HELO localhost)
- ([10.251.222.34])
- by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 01 Oct 2021 02:16:16 -0700
-From: Jani Nikula <jani.nikula@intel.com>
-To: Daniel Vetter <daniel@ffwll.ch>
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F2BD86ED84;
+ Fri,  1 Oct 2021 09:29:29 +0000 (UTC)
+Date: Fri, 1 Oct 2021 11:29:26 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020; t=1633080567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YZM20RGjxxKC2x+DU2E3e0G3xvaWLHZEivj15oKyBtE=;
+ b=nBco8QyDpu1fl43DD4XBt3p5G2fiBc3nuv7pQ2nFhcDBA/9VDWdQ82aPFJsYEftSc0EWLO
+ jK7c/6M2nyF84gUAWihjIYKs42dhoz91fJ3JCIJBBrlJ/LcpN1Ciu4fpmrv+82F/YlaNI9
+ dkf46o4X0ifSlbEXrLWqgVayJSX4PnSjsQ5Gy927VWp5qv/LJ91J6PIGoVfYC1ZD7w9cNJ
+ ieLP7PDuHYQAiQL8Goz2ncoYX9nJn9KdAA7/KHw//Vl0CQYHC2SuFYh2chPjsV4R3Zp8Eb
+ 3bLCJJZFbGlTi2yBWELsEkMMz4E5T4rSIV0Wbg8czf84VjOnyliUBlJLbm/eHQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+ s=2020e; t=1633080567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YZM20RGjxxKC2x+DU2E3e0G3xvaWLHZEivj15oKyBtE=;
+ b=q8j+JvREv/X2deG26HyUNHQCdwnPUbREoXJKQMSKR4HWF+ZN96RuUcAkMcT4laNZZUPnq9
+ HPxCqNABqSwVEJDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- Daniel Vetter <daniel@ffwll.ch>, Dave Airlie <airlied@gmail.com>
-Subject: Re: [PATCH] drm/locking: add backtrace for locking contended locks
- without backoff
-In-Reply-To: <YVXK45xQbbI7xUIB@phenom.ffwll.local>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20210928223241.22149-1-jani.nikula@intel.com>
- <YVXK45xQbbI7xUIB@phenom.ffwll.local>
-Date: Fri, 01 Oct 2021 12:16:12 +0300
-Message-ID: <87k0ixt89v.fsf@intel.com>
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Peter Zijlstra <peterz@infradead.org>,
+ Thomas Gleixner <tglx@linutronix.de>, Clark Williams <williams@redhat.com>,
+ Anton Lundin <glance@acc.umu.se>
+Subject: Re: [Intel-gfx] [RFC PATCH 2/2] drm/i915/gt: Use spin_lock_irq()
+ instead of local_irq_disable() + spin_lock()
+Message-ID: <20211001092926.fpbbvlki7g5urcox@linutronix.de>
+References: <20210908185703.2989414-1-bigeasy@linutronix.de>
+ <20210908185703.2989414-3-bigeasy@linutronix.de>
+ <48ed82b8-a641-1090-a93f-23476f9c0eb0@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <48ed82b8-a641-1090-a93f-23476f9c0eb0@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,210 +68,37 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Sep 2021, Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Sep 29, 2021 at 01:32:41AM +0300, Jani Nikula wrote:
->> If drm_modeset_lock() returns -EDEADLK, the caller is supposed to drop
->> all currently held locks using drm_modeset_backoff(). Failing to do so
->> will result in warnings and backtraces on the paths trying to lock a
->> contended lock. Add support for optionally printing the backtrace on the
->> path that hit the deadlock and didn't gracefully handle the situation.
->> 
->> For example, the patch [1] inadvertently dropped the return value check
->> and error return on replacing calc_watermark_data() with
->> intel_compute_global_watermarks(). The backtraces on the subsequent
->> locking paths hitting WARN_ON(ctx->contended) were unhelpful, but adding
->> the backtrace to the deadlock path produced this helpful printout:
->> 
->> <7> [98.002465] drm_modeset_lock attempting to lock a contended lock without backoff:
->>    drm_modeset_lock+0x107/0x130
->>    drm_atomic_get_plane_state+0x76/0x150
->>    skl_compute_wm+0x251d/0x2b20 [i915]
->>    intel_atomic_check+0x1942/0x29e0 [i915]
->>    drm_atomic_check_only+0x554/0x910
->>    drm_atomic_nonblocking_commit+0xe/0x50
->>    drm_mode_atomic_ioctl+0x8c2/0xab0
->>    drm_ioctl_kernel+0xac/0x140
->> 
->> Add new CONFIG_DRM_DEBUG_MODESET_LOCK to enable modeset lock debugging
->> with stack depot and trace.
->> 
->> [1] https://lore.kernel.org/r/20210924114741.15940-4-jani.nikula@intel.com
->> 
->> Cc: Daniel Vetter <daniel@ffwll.ch>
->> Cc: Dave Airlie <airlied@gmail.com>
->> Signed-off-by: Jani Nikula <jani.nikula@intel.com>
+On 2021-09-16 11:38:55 [+0200], Maarten Lankhorst wrote:
+> Patches look good.
+Thank you for looking.
+
+> For both patches:
+> 
+> Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> 
+> I've been looking at running i915 with the -rt patch series, and
+> noticed i915_request_submit fails with GEM_BUG_ON(!irqs_disabled());
+> presumably same failure exists for i915_request_unsubmit().
+> 
+> Might be worth removing those checks as well? Seems double with
+> lockdep_assert_held on an irq lock anyway.
+
+yes, let me prepare something in a few.
+
+> I've also noticed the local_irq_disable/enable is removed from
+> intel_pipe_update_(start/end) in the rt series. It might make sense
+> from a -rt point of view, but that code needs to run without
+> interruptions, or i915 may show visual glitches or even locks up the
+> system.
 >
-> I wonder whether we shouldn't just enable this when lock debugging is
-> enabled? Otherwise we need to make sure CI have this set or it's not very
-> useful. Or at least a default y if CONFIG_DEBUG_WW_MUTEX_SLOWPATH or
-> something like that.
+> It should just be a set of registers hammered in, but the code might
+> needs to be fixed to take the mmio lock as outer lock, and become a
+> strict set of register read/writes only.
 
-Added the conditional default y, as well as depends on DEBUG_KERNEL.
+Let me see. So Anton Lundin (Cc:) reported glitches due to _this_ patch
+on -RT. I have just a Sandybridge around with a i915 and it does not get
+near that code here. 
 
->
-> Either way: 
->
-> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+> ~Maarten
 
-Thanks,
-Jani.
-
-
->
->> ---
->>  drivers/gpu/drm/Kconfig            | 13 ++++++++
->>  drivers/gpu/drm/drm_modeset_lock.c | 49 ++++++++++++++++++++++++++++--
->>  include/drm/drm_modeset_lock.h     |  8 +++++
->>  3 files changed, 68 insertions(+), 2 deletions(-)
->> 
->> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
->> index b17e231ca6f7..7334975c788b 100644
->> --- a/drivers/gpu/drm/Kconfig
->> +++ b/drivers/gpu/drm/Kconfig
->> @@ -100,6 +100,19 @@ config DRM_DEBUG_DP_MST_TOPOLOGY_REFS
->>            This has the potential to use a lot of memory and print some very
->>            large kernel messages. If in doubt, say "N".
->>  
->> +config DRM_DEBUG_MODESET_LOCK
->> +	bool "Enable backtrace history for lock contention"
->> +	depends on STACKTRACE_SUPPORT
->> +	select STACKDEPOT
->> +	depends on EXPERT
->> +	help
->> +	  Enable debug tracing of failures to gracefully handle drm modeset lock
->> +	  contention. A history of each drm modeset lock path hitting -EDEADLK
->> +	  will be saved until gracefully handled, and the backtrace will be
->> +	  printed when attempting to lock a contended lock.
->> +
->> +	  If in doubt, say "N".
->> +
->>  config DRM_FBDEV_EMULATION
->>  	bool "Enable legacy fbdev support for your modesetting driver"
->>  	depends on DRM
->> diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
->> index bf8a6e823a15..4d32b61fa1fd 100644
->> --- a/drivers/gpu/drm/drm_modeset_lock.c
->> +++ b/drivers/gpu/drm/drm_modeset_lock.c
->> @@ -25,6 +25,7 @@
->>  #include <drm/drm_crtc.h>
->>  #include <drm/drm_device.h>
->>  #include <drm/drm_modeset_lock.h>
->> +#include <drm/drm_print.h>
->>  
->>  /**
->>   * DOC: kms locking
->> @@ -77,6 +78,45 @@
->>  
->>  static DEFINE_WW_CLASS(crtc_ww_class);
->>  
->> +#if IS_ENABLED(CONFIG_DRM_DEBUG_MODESET_LOCK)
->> +static noinline depot_stack_handle_t __stack_depot_save(void)
->> +{
->> +	unsigned long entries[8];
->> +	unsigned int n;
->> +
->> +	n = stack_trace_save(entries, ARRAY_SIZE(entries), 1);
->> +
->> +	return stack_depot_save(entries, n, GFP_NOWAIT | __GFP_NOWARN);
->> +}
->> +
->> +static void __stack_depot_print(depot_stack_handle_t stack_depot)
->> +{
->> +	struct drm_printer p = drm_debug_printer("drm_modeset_lock");
->> +	unsigned long *entries;
->> +	unsigned int nr_entries;
->> +	char *buf;
->> +
->> +	buf = kmalloc(PAGE_SIZE, GFP_NOWAIT | __GFP_NOWARN);
->> +	if (!buf)
->> +		return;
->> +
->> +	nr_entries = stack_depot_fetch(stack_depot, &entries);
->> +	stack_trace_snprint(buf, PAGE_SIZE, entries, nr_entries, 2);
->> +
->> +	drm_printf(&p, "attempting to lock a contended lock without backoff:\n%s", buf);
->> +
->> +	kfree(buf);
->> +}
->> +#else /* CONFIG_DRM_DEBUG_MODESET_LOCK */
->> +static depot_stack_handle_t __stack_depot_save(void)
->> +{
->> +	return 0;
->> +}
->> +static void __stack_depot_print(depot_stack_handle_t stack_depot)
->> +{
->> +}
->> +#endif /* CONFIG_DRM_DEBUG_MODESET_LOCK */
->> +
->>  /**
->>   * drm_modeset_lock_all - take all modeset locks
->>   * @dev: DRM device
->> @@ -225,7 +265,9 @@ EXPORT_SYMBOL(drm_modeset_acquire_fini);
->>   */
->>  void drm_modeset_drop_locks(struct drm_modeset_acquire_ctx *ctx)
->>  {
->> -	WARN_ON(ctx->contended);
->> +	if (WARN_ON(ctx->contended))
->> +		__stack_depot_print(ctx->stack_depot);
->> +
->>  	while (!list_empty(&ctx->locked)) {
->>  		struct drm_modeset_lock *lock;
->>  
->> @@ -243,7 +285,8 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
->>  {
->>  	int ret;
->>  
->> -	WARN_ON(ctx->contended);
->> +	if (WARN_ON(ctx->contended))
->> +		__stack_depot_print(ctx->stack_depot);
->>  
->>  	if (ctx->trylock_only) {
->>  		lockdep_assert_held(&ctx->ww_ctx);
->> @@ -274,6 +317,7 @@ static inline int modeset_lock(struct drm_modeset_lock *lock,
->>  		ret = 0;
->>  	} else if (ret == -EDEADLK) {
->>  		ctx->contended = lock;
->> +		ctx->stack_depot = __stack_depot_save();
->>  	}
->>  
->>  	return ret;
->> @@ -296,6 +340,7 @@ int drm_modeset_backoff(struct drm_modeset_acquire_ctx *ctx)
->>  	struct drm_modeset_lock *contended = ctx->contended;
->>  
->>  	ctx->contended = NULL;
->> +	ctx->stack_depot = 0;
->>  
->>  	if (WARN_ON(!contended))
->>  		return 0;
->> diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
->> index aafd07388eb7..b84693fbd2b5 100644
->> --- a/include/drm/drm_modeset_lock.h
->> +++ b/include/drm/drm_modeset_lock.h
->> @@ -24,6 +24,8 @@
->>  #ifndef DRM_MODESET_LOCK_H_
->>  #define DRM_MODESET_LOCK_H_
->>  
->> +#include <linux/types.h> /* stackdepot.h is not self-contained */
->> +#include <linux/stackdepot.h>
->>  #include <linux/ww_mutex.h>
->>  
->>  struct drm_modeset_lock;
->> @@ -51,6 +53,12 @@ struct drm_modeset_acquire_ctx {
->>  	 */
->>  	struct drm_modeset_lock *contended;
->>  
->> +	/*
->> +	 * Stack depot for debugging when a contended lock was not backed off
->> +	 * from.
->> +	 */
->> +	depot_stack_handle_t stack_depot;
->> +
->>  	/*
->>  	 * list of held locks (drm_modeset_lock)
->>  	 */
->> -- 
->> 2.30.2
->> 
-
--- 
-Jani Nikula, Intel Open Source Graphics Center
+Sebastian
