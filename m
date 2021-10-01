@@ -1,59 +1,72 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8D541F7DC
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 00:54:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1375D41F7F2
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 01:00:05 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73926F421;
-	Fri,  1 Oct 2021 22:54:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DE4C26F446;
+	Fri,  1 Oct 2021 22:59:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFA536F41B
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:54:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633128868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VRuibAzD4usxTf8vGq2IshPiQf0ZGBrLjbZl7aosdOQ=;
- b=BsJPANeDgIl93WRVHxlK0bX6Rfs1wxpLbl3miVk2BhhX6CO8UcQJ3WJA6Eus1y1a8MV3ef
- qLWHjg/P+IGVVjhT1Tmv0HrtpXLBgnPQdll9Xwqi9Ut3HJu+Jz0BV/xuna37VSURAkOF7J
- Hf8WiTSbFePulEZ1PuB8zCqKV9kBN1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-aJNvwhkgOdiqKhSLA8JLJg-1; Fri, 01 Oct 2021 18:54:27 -0400
-X-MC-Unique: aJNvwhkgOdiqKhSLA8JLJg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8F351023F4E;
- Fri,  1 Oct 2021 22:54:25 +0000 (UTC)
-Received: from Ruby.redhat.com (unknown [10.22.17.71])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 95F3160BF1;
- Fri,  1 Oct 2021 22:54:24 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- nouveau@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
- Sean Paul <seanpaul@chromium.org>, linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2 4/4] drm/i915: Clarify probing order in
- intel_dp_aux_init_backlight_funcs()
-Date: Fri,  1 Oct 2021 18:53:44 -0400
-Message-Id: <20211001225344.1752203-5-lyude@redhat.com>
-In-Reply-To: <20211001225344.1752203-1-lyude@redhat.com>
-References: <20211001225344.1752203-1-lyude@redhat.com>
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
+ [IPv6:2a00:1450:4864:20::12d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6D726F446
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:59:58 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id z24so44378825lfu.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 15:59:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MrcSevZqtNOFUzq3pWbbRjEjIk8+7OFN/vmiST/wtNU=;
+ b=RgwL5KCvqBIeZB/gE1d8cY3bovbOy61asvkdirxaHIlo5MBe0JgNim+YGg9lSkZZi7
+ s3kW6XPLnV8BHaEbrUCX64Qjrjndp+tGvPGvq7kMN3tadiWf7h6qjcNYKbxC9kXAdf1Z
+ zyBlubbSFaP2lUsMcyymA3rJ3NQDPTZuD2qJ7BEZ2LyVBWSHM1jOJFRnqq8xU9ja4Ts0
+ ccq/l0AeBTr+K6OygMYiU5NTee0Z2zxlNf1+wzLSDW4S04qaMgXZV3Pb0DPMqagLI44h
+ vCEY4K+/i7Na4Hq5AGkgnwT3rL3/C2R8FI622J0qkIQCeBVFYycwUE/R3nMBJvnoty/L
+ OA3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=MrcSevZqtNOFUzq3pWbbRjEjIk8+7OFN/vmiST/wtNU=;
+ b=fXONQ/UsSsoXrREM6r2jSU2hlMYEqQKBcwP2/prAIVyvp/Lq1PVy8BkJa+z24+X47b
+ ZUg8IzAqILPT48DANWymW221DD+BqAtxAqDQ69DP1X7sNLD1DMHE+RhxaIbSvGg445Mp
+ WTiag7iayY/N0BRgZT4iu7h0RFRmdVa4SkrEdc9stOA8B+bQBC748ybEZa8uQ78ElJVo
+ NN3cpJtjjyG0l1ylZeIy6S+Eje7BhzBdHpt4m2okwVRPYxHOqM1xqNH1UNdpwvqogY/G
+ Esl3W0rwQd74J0LQfk2rN6fIZznNt4RxpvTd/a3hWTaSO0V/sNIu1MzkNds2XuryR+8s
+ 36Kw==
+X-Gm-Message-State: AOAM5326sGbpjkaUeuFdmUvPyh5bzcwbM09M/Be1VTB/JNPRq/0fzlb8
+ +YRRrrg1kHCDcTTrCiqJueq3eA==
+X-Google-Smtp-Source: ABdhPJyDZ2oSrPzTa/TydJ+YDRi4V0TZmc4niH4msrXenJu8SJD6xo7ep5yvzdkledpWM36qcjmr1Q==
+X-Received: by 2002:ac2:4f02:: with SMTP id k2mr645027lfr.265.1633129197104;
+ Fri, 01 Oct 2021 15:59:57 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id 131sm552169ljj.43.2021.10.01.15.59.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 15:59:56 -0700 (PDT)
+Subject: Re: [PATCH 3/3] drm/msm/dsi: fix signedness bug in
+ msm_dsi_host_cmd_rx()
+To: Dan Carpenter <dan.carpenter@oracle.com>, Rob Clark
+ <robdclark@gmail.com>, Hai Li <hali@codeaurora.org>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Abhinav Kumar <abhinavk@codeaurora.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Marek <jonathan@marek.ca>,
+ Yangtao Li <tiny.windzz@gmail.com>, Nicolas Boichat <drinkcat@chromium.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org
+References: <20211001123617.GH2283@kili>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <a61cad95-d81d-6f6d-33d4-f5259d9814cb@linaro.org>
+Date: Sat, 2 Oct 2021 01:59:56 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20211001123617.GH2283@kili>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,50 +82,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hooray! We've managed to hit enough bugs upstream that I've been able to
-come up with a pretty solid explanation for how backlight controls are
-actually supposed to be detected and used these days. As well, having the
-rest of the PWM bits in VESA's backlight interface implemented seems to
-have fixed all of the problematic brightness controls laptop panels that
-we've hit so far.
+On 01/10/2021 15:36, Dan Carpenter wrote:
+> The "msg->tx_len" variable is type size_t so if dsi_cmds2buf_tx()
+> returns a negative error code that it type promoted to a high positive
+> value and treat as a success.  The second problem with this code is
+> that it can return meaningless positive values on error.
 
-So, let's actually document this instead of just calling the laptop panels
-liars. As well, I would like to formally apologize to all of the laptop
-panels I called liars. I'm sorry laptop panels, hopefully you can all
-forgive me and we can move past this~
+It looks to me that this piece of code is not fully correct at all.
+dsi_cmds2bus_tx would return the size of DSI packet, not the size of the 
+DSI buffer.
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- .../drm/i915/display/intel_dp_aux_backlight.c    | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+Could you please be more specific, which 'meaningless positive values' 
+were you receiving?
 
-diff --git a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-index 91daf9ab50e8..04a52d6a74ed 100644
---- a/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-+++ b/drivers/gpu/drm/i915/display/intel_dp_aux_backlight.c
-@@ -455,11 +455,17 @@ int intel_dp_aux_init_backlight_funcs(struct intel_connector *connector)
- 	}
- 
- 	/*
--	 * A lot of eDP panels in the wild will report supporting both the
--	 * Intel proprietary backlight control interface, and the VESA
--	 * backlight control interface. Many of these panels are liars though,
--	 * and will only work with the Intel interface. So, always probe for
--	 * that first.
-+	 * Since Intel has their own backlight control interface, the majority of machines out there
-+	 * using DPCD backlight controls with Intel GPUs will be using this interface as opposed to
-+	 * the VESA interface. However, other GPUs (such as Nvidia's) will always use the VESA
-+	 * interface. This means that there's quite a number of panels out there that will advertise
-+	 * support for both interfaces, primarily systems with Intel/Nvidia hybrid GPU setups.
-+	 *
-+	 * There's a catch to this though: on many panels that advertise support for both
-+	 * interfaces, the VESA backlight interface will stop working once we've programmed the
-+	 * panel with Intel's OUI - which is also required for us to be able to detect Intel's
-+	 * backlight interface at all. This means that the only sensible way for us to detect both
-+	 * interfaces is to probe for Intel's first, and VESA's second.
- 	 */
- 	if (try_intel_interface && intel_dp_aux_supports_hdr_backlight(connector)) {
- 		drm_dbg_kms(dev, "Using Intel proprietary eDP backlight controls\n");
+> 
+> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index c86b5090fae6..42073a562072 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -2133,8 +2133,10 @@ int msm_dsi_host_cmd_rx(struct mipi_dsi_host *host,
+>   		}
+>   
+>   		ret = dsi_cmds2buf_tx(msm_host, msg);
+> -		if (ret < msg->tx_len) {
+> +		if (ret < 0 || ret < msg->tx_len) {
+>   			pr_err("%s: Read cmd Tx failed, %d\n", __func__, ret);
+> +			if (ret >= 0)
+> +				ret = -EIO;
+>   			return ret;
+>   		}
+>   
+> 
+
+
 -- 
-2.31.1
-
+With best wishes
+Dmitry
