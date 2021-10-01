@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DBEE41EA84
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 12:07:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACD741EA82
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 12:07:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B568B6EDE3;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 331336EDDA;
 	Fri,  1 Oct 2021 10:06:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DAFED6EDDA;
- Fri,  1 Oct 2021 10:06:29 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id k7so14492332wrd.13;
- Fri, 01 Oct 2021 03:06:29 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C4DE6EDD2;
+ Fri,  1 Oct 2021 10:06:30 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id h15so12993851wrc.3;
+ Fri, 01 Oct 2021 03:06:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9ue7puBcgohS+7D/zNLeUPSF3Sf1Ar8z9127abKsq3w=;
- b=ZsjIr/vefBbHHiUwrD7XJy6MswdJEEhiBaLuWXQmIOhOiycUXnK4K0Mr6yl3X/ZLXN
- 01ZHFiF7Bcchgp+oaYJ6GzVkisSKo6t3pZKQuA1E4988bGs6bEeuPLIDTWv6oWbmD5AC
- YokBuiOn3ytUFAvyaZH6zfeVIRuI7sE0ZjbAEiT9tUi/VWmFAyYZIrIuUSCPNFwoSOk7
- knnoQIZICNp7V1xeCANmtyScQ3pL9y0AdIHstGD1+yFaUjG/KmQ6mbWLKDNR95opqfMI
- rVFjPTkPYXfVxv4pwgc96ORquSUQO2yvHhwsqn8AQQbBhT6+5PC6Nw9+Yki15qkSQDai
- P+eQ==
+ bh=s+B96AdxRkADIO5Sz7pGY2LZZPwHDe6rOqsFSHpv8M0=;
+ b=AzKiJlwT3VxO44dRR9XUeDPKxjRN3IWI2nv20mvSeTTXH4RstYBlN4dN50+WShjt13
+ fLz4+VVBKSv/KrO6M3pX63u+/9u+Ctu4DKJRMkTBMEfq1E5ZMinrOVvpnl6fxWtMC2LG
+ ZeRqoQQ5bN5nXzkVrJTcWHSnhGtGOYrl9UDbN18jxzJxew/l1ZaWTi+hnVl+GxOsMWHZ
+ QcUJecwJSuCF6815sP/fNKt9yL9mEthSWDrkCUEyTscCd2PSwvq8KalGHjz3Hko8ypli
+ 706GmZTT14mR3KyVQCAB4xnYQ86Fz32DPqEVlk/eSNNKXoQJnR+N823QVg17+8xgzxmF
+ hBSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9ue7puBcgohS+7D/zNLeUPSF3Sf1Ar8z9127abKsq3w=;
- b=VPvPQbc9OdDw7RlcJHCXjQm6NpnbJwlK3LE6VoLhHBmO6UqVRNjJh121Cg5lL2/ar1
- iKm2aFbK0ujGHsUtRIWLGptj0Pwo+dI4vfoxfrMGrXDjoZsDliw4FdfvxT47gLL+XpNW
- eNvAIVbKfuGzcsTQWCM6lcRdfUartVOSFFqyjshgVKwEoYGgguNb69lvtrwMlxZt/REN
- DfV2rFB3noQnc61moSwywcmaJki7haNq/ZL3ec3yx7ql+OJc1uQ3VBKdX8D/ikjYcxdy
- Xjr3ceN+T3vC6tgGR6W2SJwdG2Ixh5Nkoa3aXDG+jBbhPTABbA1CzMoiSXXD33SURC/k
- zIYg==
-X-Gm-Message-State: AOAM5301DvkNYN7LTuk/Dd62nefeURlSgGYFv1RunUHH0rjx+8Eg1n60
- GUi6yuW3Py+EBQPG342qUFs=
-X-Google-Smtp-Source: ABdhPJzm+9VExwWXqnVNs6G8xbrEIBMs86W03GOK95wzmAH6ZIKsuQCZRsC1otcFgzk6whqQoGRC0Q==
-X-Received: by 2002:adf:97d4:: with SMTP id t20mr4627990wrb.34.1633082788233; 
- Fri, 01 Oct 2021 03:06:28 -0700 (PDT)
+ bh=s+B96AdxRkADIO5Sz7pGY2LZZPwHDe6rOqsFSHpv8M0=;
+ b=grCWVP4WeTc9YyV6eAUQUXwoVIOfD90ZEW9cwDFtl190xulTtLQi3q8yxzmf/QyyK1
+ q0hnfIOX97+THGhRvZTCgD4FHjITW7FLDXM2Dy4CtgSgbCmiOrKiF1QUkeOo9p+8qXga
+ zFhwFC7JmOVVK/I4kkThScNca2jqn/xfd7Hzu7ZLqVAmcc/uTWjpBy+ut4z3O9Kcejfy
+ oWqnSZsQJlfE+xIib5KUBiXu8FtirR82C7aszX9kwhcJdNE+/dD2cf/uWw3hrM0449zu
+ H/XG41N4S00ir/dw/tjlaAB0UBGLk3/k3OwGWHJIBHlGsy7Dus/XRlI+RF/rNr4FkRTv
+ Xj6A==
+X-Gm-Message-State: AOAM531zKd18lyD18/UyLQ2eqCMbeZkqG6RMRw1DXIS5Y4uV/V5z7oFg
+ iaxDrHM06szbFTjN7vnhUMo=
+X-Google-Smtp-Source: ABdhPJyStwefq0t9iGN9OcfJ/7fDO+KwhT1qseTmxxqq08hFNrxxVRmAQiqqNgPam0/3z7wBw1f1lA==
+X-Received: by 2002:a05:6000:1569:: with SMTP id
+ 9mr11473987wrz.337.1633082789101; 
+ Fri, 01 Oct 2021 03:06:29 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- v17sm5746069wro.34.2021.10.01.03.06.27
+ v17sm5746069wro.34.2021.10.01.03.06.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 03:06:27 -0700 (PDT)
+ Fri, 01 Oct 2021 03:06:28 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +54,10 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 17/28] drm/i915: use the new iterator in i915_gem_busy_ioctl v2
-Date: Fri,  1 Oct 2021 12:05:59 +0200
-Message-Id: <20211001100610.2899-18-christian.koenig@amd.com>
+Subject: [PATCH 18/28] drm/i915: use the new iterator in
+ i915_sw_fence_await_reservation v3
+Date: Fri,  1 Oct 2021 12:06:00 +0200
+Message-Id: <20211001100610.2899-19-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211001100610.2899-1-christian.koenig@amd.com>
 References: <20211001100610.2899-1-christian.koenig@amd.com>
@@ -77,70 +79,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This makes the function much simpler since the complex
-retry logic is now handled else where.
+Simplifying the code a bit.
+
+v2: use dma_resv_for_each_fence instead, according to Tvrtko the lock is
+    held here anyway.
+v3: back to using dma_resv_for_each_fence_unlocked.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_busy.c | 35 ++++++++++--------------
- 1 file changed, 14 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/i915/i915_sw_fence.c | 53 ++++++----------------------
+ 1 file changed, 11 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-index 6234e17259c1..dc72b36dae54 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-@@ -82,8 +82,8 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence.c b/drivers/gpu/drm/i915/i915_sw_fence.c
+index c589a681da77..7ea0dbf81530 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence.c
+@@ -572,56 +572,25 @@ int i915_sw_fence_await_reservation(struct i915_sw_fence *fence,
+ 				    unsigned long timeout,
+ 				    gfp_t gfp)
  {
- 	struct drm_i915_gem_busy *args = data;
- 	struct drm_i915_gem_object *obj;
--	struct dma_resv_list *list;
--	unsigned int seq;
+-	struct dma_fence *excl;
 +	struct dma_resv_iter cursor;
-+	struct dma_fence *fence;
- 	int err;
++	struct dma_fence *f;
+ 	int ret = 0, pending;
  
- 	err = -ENOENT;
-@@ -109,27 +109,20 @@ i915_gem_busy_ioctl(struct drm_device *dev, void *data,
- 	 * to report the overall busyness. This is what the wait-ioctl does.
- 	 *
- 	 */
--retry:
--	seq = raw_read_seqcount(&obj->base.resv->seq);
+ 	debug_fence_assert(fence);
+ 	might_sleep_if(gfpflags_allow_blocking(gfp));
+ 
+-	if (write) {
+-		struct dma_fence **shared;
+-		unsigned int count, i;
 -
--	/* Translate the exclusive fence to the READ *and* WRITE engine */
--	args->busy = busy_check_writer(dma_resv_excl_fence(obj->base.resv));
+-		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+-		if (ret)
+-			return ret;
 -
--	/* Translate shared fences to READ set of engines */
--	list = dma_resv_shared_list(obj->base.resv);
--	if (list) {
--		unsigned int shared_count = list->shared_count, i;
+-		for (i = 0; i < count; i++) {
+-			if (shared[i]->ops == exclude)
+-				continue;
 -
--		for (i = 0; i < shared_count; ++i) {
--			struct dma_fence *fence =
--				rcu_dereference(list->shared[i]);
+-			pending = i915_sw_fence_await_dma_fence(fence,
+-								shared[i],
+-								timeout,
+-								gfp);
+-			if (pending < 0) {
+-				ret = pending;
+-				break;
+-			}
 -
-+	args->busy = 0;
-+	dma_resv_iter_begin(&cursor, obj->base.resv, true);
-+	dma_resv_for_each_fence_unlocked(&cursor, fence) {
-+		if (dma_resv_iter_is_restarted(&cursor))
-+			args->busy = 0;
-+
-+		if (dma_resv_iter_is_exclusive(&cursor))
-+			/* Translate the exclusive fence to the READ *and* WRITE engine */
-+			args->busy |= busy_check_writer(fence);
-+		else
-+			/* Translate shared fences to READ set of engines */
- 			args->busy |= busy_check_reader(fence);
+-			ret |= pending;
 -		}
- 	}
 -
--	if (args->busy && read_seqcount_retry(&obj->base.resv->seq, seq))
--		goto retry;
-+	dma_resv_iter_end(&cursor);
+-		for (i = 0; i < count; i++)
+-			dma_fence_put(shared[i]);
+-		kfree(shared);
+-	} else {
+-		excl = dma_resv_get_excl_unlocked(resv);
+-	}
+-
+-	if (ret >= 0 && excl && excl->ops != exclude) {
+-		pending = i915_sw_fence_await_dma_fence(fence,
+-							excl,
+-							timeout,
++	dma_resv_iter_begin(&cursor, resv, write);
++	dma_resv_for_each_fence_unlocked(&cursor, f) {
++		pending = i915_sw_fence_await_dma_fence(fence, f, timeout,
+ 							gfp);
+-		if (pending < 0)
++		if (pending < 0) {
+ 			ret = pending;
+-		else
+-			ret |= pending;
+-	}
+-
+-	dma_fence_put(excl);
++			break;
++		}
  
- 	err = 0;
- out:
++		ret |= pending;
++	}
++	dma_resv_iter_end(&cursor);
+ 	return ret;
+ }
+ 
 -- 
 2.25.1
 
