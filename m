@@ -2,79 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0EA741F04C
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 17:02:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B7A41F04F
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 17:03:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4005B6EE13;
-	Fri,  1 Oct 2021 15:02:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6C2EC6EE14;
+	Fri,  1 Oct 2021 15:03:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E7FA16EE13
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 15:02:54 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id x27so39503975lfa.9
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 08:02:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RRYA+dwntp7uVySc4zhYcXxMP7m3tm96xWjdtz/hFGQ=;
- b=wEpKAHyG/Z2DV3VekAfpccfohS6GuleXT+sluDZqrLWc4fVXO49fTrUqrSvxv8Zw8s
- RcDa8OGQoiU5NceOwJQxZmdavoBpaLp5cpZxOY6F+bufDOZ4FaXS7oneoiRNEd91hAaQ
- fi0ahFYRT+uLqfme/EMkPYKyQOUjJfW1EYU/EWc5+MnERt9ifHnZPT0xlsv79INHvAVa
- n5iBrHjvoImw38ZK0VwfsIEQXxUdGrUEBOEe3mKZSU/NxPY46J9bjQ5D+37CLL9HCmlI
- 03umH+yMd9J3zUrj55H5Ndk+MkCDMyLMUCaV6SGBRA2cOlVqS1jw5smxfm9J/cnyAziI
- nodg==
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com
+ [IPv6:2a00:1450:4864:20::434])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 10CC46EE19
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 15:03:13 +0000 (UTC)
+Received: by mail-wr1-x434.google.com with SMTP id v25so5351369wra.2
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 08:03:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=KWmQXpLHkhyGLgFEQEFT8AbrwfuWm4NU/3P6wqUzTH8=;
+ b=i1jFcfzbhpQoY5s3SBOsylE4AD6ip5tVwNR9uaRaMg9fjtImiP3DmwLmRMDSFreyer
+ nFbsji3vwYbEAVouE8YZsRd/q+WXJhhNzTHcJm7VciqUpT/q0/wBprW++9tmPA7YDRf+
+ 0DIpT5u3FgBj/PTVMF4eaqoP/zPKEde3hyYgQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RRYA+dwntp7uVySc4zhYcXxMP7m3tm96xWjdtz/hFGQ=;
- b=nS1zo5ITKGvdpZ2BvR0wujH1sx4uLCcfbFfHrLWPSiPTmly+qNa7V+WPLiNvjaoYib
- 1qUKHOEeUOhEsd9N8AfpXWv8nQi6YZ9TUtO8R/oHj3YSPKd8/rz50r5ENTEpayRqbFxf
- DUHXsgaYHVhVPWuMfNBc/ehcq7SE5xcGELx00UcfUtV4SJaPrsvNb0WreCLvX0/rjm9c
- Et0IesTZybwG75+pbEI+daQAl7NSnRM9j8o+EDq+SoG8wxAREiSzfYpBPl6BBXN91pJ2
- S/PlTEcALaEdvbn78YQPBB4WIM+qHl2OsU8SmoDJiNHjQO2eJqTzAXEK58/N19oBG2DV
- Knhg==
-X-Gm-Message-State: AOAM533sFj3cu0UwiV/xg9AC+ALzUfp7BbECsSeCUDTCuewUlT1lFM9F
- Mt9EaR6MT137S6sYiGi0VgkP5xPxUU7auUfudzrnAw==
-X-Google-Smtp-Source: ABdhPJxxMpC0sB/h1irGfplTvjCJzB8zxjxG16OKRPTRKR56TwhoKCfQgSz0EgtJooAfO/BDyR8+6WRX6Wl2uWGM0Ow=
-X-Received: by 2002:a05:6512:3095:: with SMTP id
- z21mr5969378lfd.167.1633100572233; 
- Fri, 01 Oct 2021 08:02:52 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=KWmQXpLHkhyGLgFEQEFT8AbrwfuWm4NU/3P6wqUzTH8=;
+ b=LWjNnpPqLiV6cIDHXIvx7uyILH1V3Sl4SowsvKw4470OmpqHIg1j/srcRC8QfPtp6U
+ 3+YIok4vQOAePcVpUoKQ0FIU8PfK5/MxEP6zCDB2Kq+b2atgTStYAoaf2xshmk5gjXDj
+ RWmoDXGmbfhH2Y3hq2/O6X9qMF1C/J8cdXmAWIDdQh4/R9og30m4khJiv34v7XGHjYzf
+ xN9hAbK1kf6+ZxZ8SAE7HIRDNWZBmqEj0B9Czhv5l7H4qQjhUXZYrauha5RyJ4Ea6bgh
+ 65WxvsiWZu28nPnAwFGboSIOuFbuM6XUWNYKMcuxORk53V/Oh0+pnR+mIC45JX16Web/
+ wE+g==
+X-Gm-Message-State: AOAM533dePG6VFQo7kLogImzRramU8118r4PyzB4aaH4aIl5fjdGZlLF
+ BsiCLvoDT5cau4ca/7LdkeGAXQ==
+X-Google-Smtp-Source: ABdhPJz3WGG2lTH8HBNLyxhI45br2zjZJ/VxzsL6MekKCDZIpSgZzvJVNdw8C/knu7gtNEFq/Topbw==
+X-Received: by 2002:adf:b7c1:: with SMTP id t1mr12849639wre.387.1633100591355; 
+ Fri, 01 Oct 2021 08:03:11 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id o1sm6029547wru.91.2021.10.01.08.03.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 08:03:10 -0700 (PDT)
+Date: Fri, 1 Oct 2021 17:03:09 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ airlied@gmail.com, daniel.vetter@ffwll.ch
+Subject: Re: [pull] amdgpu drm-fixes-5.15
+Message-ID: <YVcjLX87xQPrXh2N@phenom.ffwll.local>
+References: <20210930023013.5207-1-alexander.deucher@amd.com>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com>
- <CAPDyKFog31OatzU0fHUMfN5FRsX+8Thm8TfipA4QisgFepU+rA@mail.gmail.com>
- <662251e0-d1e4-97ce-16f9-703521cc2600@gmail.com>
-In-Reply-To: <662251e0-d1e4-97ce-16f9-703521cc2600@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Fri, 1 Oct 2021 17:02:15 +0200
-Message-ID: <CAPDyKFoEbemYawwKW_muUKt9W+pGx_pncXvT57K2k4o68Z3P7g@mail.gmail.com>
-Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
- Peter De Schrijver <pdeschrijver@nvidia.com>,
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, 
- Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
- linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, 
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210930023013.5207-1-alexander.deucher@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,47 +70,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Oct 2021 at 16:41, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 01.10.2021 17:36, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote=
-:
-> >>
-> >> This series adds runtime PM support to Tegra drivers and enables core
-> >> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
-> >>
-> >> All patches in this series are interdependent and should go via Tegra =
-tree.
-> >>
-> >> Changelog:
-> >>
-> >> v13: - Fixed compile-test error reported by build bot by reverting the
-> >>        mmc/ patch to v11. The sdhci_suspend/resume_host() functions ar=
-en't
-> >>        available with the disabled CONFIG_PM_SLEEP, some code needs th=
-e
-> >>        ifdef.
-> >>
-> >>      - Added last r-b from Rob Herring for the DT patches.
-> >>
-> >>      - Corrected clk/ PM domain-support patch by not using the
-> >>        devm_tegra_core_dev_init_opp_table_common() helper, which I
-> >>        utilized in v12. The clk driver implements its own power domain
-> >>        state syncing and common helper shouldn't be used. This fixes d=
-river
-> >>        probing for some clocks on some devices. It was reported by
-> >>        Svyatoslav Ryhel for PLLE OPP error on T30 Asus Transformer tab=
-let.
-> >
-> > Dmitry, I have looked through the series and besides those comments
-> > that I have posted, I have nothing more to add. Overall it looks good
-> > to me.
->
-> Ulf, thank you very much! Yours input is invaluable. I'm happy that this
-> series moving steadily to the final stage.
+On Wed, Sep 29, 2021 at 10:30:13PM -0400, Alex Deucher wrote:
+> Hi Dave, Daniel,
+> 
+> Fixes for 5.15.
+> 
+> The following changes since commit 05812b971c6d605c00987750f422918589aa4486:
+> 
+>   Merge tag 'drm/tegra/for-5.15-rc3' of ssh://git.freedesktop.org/git/tegra/linux into drm-fixes (2021-09-28 17:08:44 +1000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/agd5f/linux.git tags/amd-drm-fixes-5.15-2021-09-29
+> 
+> for you to fetch changes up to 26db706a6d77b9e184feb11725e97e53b7a89519:
+> 
+>   drm/amdgpu: force exit gfxoff on sdma resume for rmb s0ix (2021-09-28 14:40:27 -0400)
 
-My pleasure. Let's get the final pieces fixed so we can get this merged! :-=
-)
+Pulled into drm-fixes, thanks.
+-Daniel
 
-Kind regards
-Uffe
+> 
+> ----------------------------------------------------------------
+> amd-drm-fixes-5.15-2021-09-29:
+> 
+> amdgpu:
+> - gart pin count fix
+> - eDP flicker fix
+> - GFX9 MQD fix
+> - Display fixes
+> - Tiling flags fix for pre-GFX9
+> - SDMA resume fix for S0ix
+> 
+> ----------------------------------------------------------------
+> Charlene Liu (1):
+>       drm/amd/display: Pass PCI deviceid into DC
+> 
+> Hawking Zhang (1):
+>       drm/amdgpu: correct initial cp_hqd_quantum for gfx9
+> 
+> Josip Pavic (1):
+>       drm/amd/display: initialize backlight_ramping_override to false
+> 
+> Leslie Shi (1):
+>       drm/amdgpu: fix gart.bo pin_count leak
+> 
+> Praful Swarnakar (1):
+>       drm/amd/display: Fix Display Flicker on embedded panels
+> 
+> Prike Liang (1):
+>       drm/amdgpu: force exit gfxoff on sdma resume for rmb s0ix
+> 
+> Simon Ser (1):
+>       drm/amdgpu: check tiling flags when creating FB on GFX8-
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c       | 31 +++++++++++++++++++++++
+>  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c             |  2 +-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c            |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c             |  3 ++-
+>  drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c            |  8 ++++++
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c |  2 ++
+>  drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c  | 15 +++++------
+>  7 files changed, 53 insertions(+), 11 deletions(-)
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
