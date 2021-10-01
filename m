@@ -2,141 +2,88 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F9E41EF72
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D90541EF7B
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:29:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 202F46ECF8;
-	Fri,  1 Oct 2021 14:26:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 894526ECFE;
+	Fri,  1 Oct 2021 14:29:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
- [205.220.165.32])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B7C056ECF8
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:26:52 +0000 (UTC)
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 191DjkO0011106; 
- Fri, 1 Oct 2021 14:26:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=date : from : to : cc
- : subject : message-id : content-type : mime-version; s=corp-2021-07-09;
- bh=dZLoyM+JVw1vs4+oeo+pVphLLHDBiye2KDdD/2qhj3Q=;
- b=bF+ChahYtN4PX+br9nx9v1lK9JRtHxd+zzK/peby/STODTt8O22ofNo6Tw0c7sVJkLYe
- U+YQ+nJA91ZtlJGrOsAWVWTKL8sYuCIiDq4Ee/ukU0u3f+zgbcWXWb+p1ezmddY0IJwu
- 1ccbQt7YaxN0ZH3g7ssNQiPZtxxm3oqcSQxCifaxoqWae73Yc8yCbP5wb1t3oSU0/Oin
- LRwkEHKSH910wrN7QnETSqpTg0X7ZDdgSAzCRd/NUOZ21SgHImTybt01mSIWt2qPDK1d
- r0FEbRVJ58moZVkFXDhC0LrIFznLUkOuWk0zOMkivhs38LU5dr6QtrTT3vNbjOsJ5m6l 6g== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by mx0b-00069f02.pphosted.com with ESMTP id 3bde3cg6yk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 01 Oct 2021 14:26:49 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 191EBLGc138084;
- Fri, 1 Oct 2021 14:26:43 GMT
-Received: from nam12-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam12lp2176.outbound.protection.outlook.com [104.47.59.176])
- by aserp3030.oracle.com with ESMTP id 3bd5wcr8nm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 01 Oct 2021 14:26:43 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Kn5rMMu0A4ujKLE7/1x6Pr+NipK3v6Y1+Ly6pUofvx6PsswyWHpA2+yJjbFqh+2O8gh007y6hNtQaZQC+hIgshqevZr7WfvTk477ku4K+hucls2ha7kitJoMZg5rPtHezdk0vjy+0W5bJ1uCoOM9Pybu1pEienGRsNwcp/suGLs+k/sMDhDzkui6rklQK+7utOpfhV4jr2zp/6ZXHpT7/iic0pxLWCTWpYwV1WU5WW9NZaYUSKZACOuoKGVGCtiy/pLB9wxpPXSHQS00FeAl/l0a/qCp7LHMm2TSr2SwqRKnYDEmgbv35C3yPpPAkSi0daIRbAIJX9Ma7dLz4l4+/g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dZLoyM+JVw1vs4+oeo+pVphLLHDBiye2KDdD/2qhj3Q=;
- b=LeqxBzeB6lYlgVhf57+RPCb/QpW41olSWbmzvATmK+4MT44ks3bJzfzFphAwry3BgIeHRC7veJXvymExc/BC5ZEUuse1tgP4eopy8NJJFJju9Ek1PLYONp6VcY4W7euuf4Fop1AFafs06th+XK0UtoXUPP8OpjTMu4iTPKat6r68GHM8qGAXhnXJuG4iwZqbRnQooJG7lYKmLSQC0zqX3N5kYW2R8E6Cmn2YQnVG2kdn6rNJMqNJyPJ/BUqfzkEQ07i0EwUl9dTcWGlZBTfu6j/OpY+qg4TxofU2NWCZBSO/TeAy8vWGAjn2Qy5elrdj/IlGAEPv1F71Ef+obfNtrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dZLoyM+JVw1vs4+oeo+pVphLLHDBiye2KDdD/2qhj3Q=;
- b=Rf+o4c+wqE2giNyNN/cnKm9WaVe4eN9HtXvAwqw8zjFgfWnnfyHp1LMg37JnBNmsi5awQMLSw7lDXni3Mm32+JpJ8zC3yPnsDM11AcKvXYcfa8Py42nks+uszSJPCH5OPkQpDkcnOjnIiDE9rrztnhJGWHzXYr5kiN1U0sqa9T4=
-Authentication-Results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=oracle.com;
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28) by MWHPR10MB1615.namprd10.prod.outlook.com
- (2603:10b6:301:7::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4544.13; Fri, 1 Oct
- 2021 14:26:39 +0000
-Received: from MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9]) by MWHPR1001MB2365.namprd10.prod.outlook.com
- ([fe80::d409:11b5:5eb2:6be9%5]) with mapi id 15.20.4544.025; Fri, 1 Oct 2021
- 14:26:38 +0000
-Date: Fri, 1 Oct 2021 17:26:28 +0300
-From: Dan Carpenter <dan.carpenter@oracle.com>
-To: robdclark@chromium.org
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: [bug report] drm/msm/submit: Move copy_from_user ahead of locking bos
-Message-ID: <20211001142628.GA11810@kili>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-ClientProxiedBy: ZR0P278CA0020.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::7) To MWHPR1001MB2365.namprd10.prod.outlook.com
- (2603:10b6:301:2d::28)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 275E76ECFE
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:29:06 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id y26so39770568lfa.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:29:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=voZIz100U/rjLMiNA1FpTbRV2fZQ2pzisFPYPZZCXl4=;
+ b=puJwlS7Ax9ZCd/PJhu+WdFh+5z84FjaIWTVsmWD1Qwh1uKmgTiUhuHKxkF0Gu48fOZ
+ OmmgTJTxsj8yxxfm2+4CZAhjMbsDfKZdc6yRssTzU4esY7Xa8MKShjjaS8gcEbHh8mXf
+ nWJEL9AA3IxU3Ie3lX5vSm4BiEV7ASsz2OB+js0RGg9SCcT6M55T/fHMfXAcYKHPVALn
+ oV+jQGrIBJikcnTi7WxtE5m3QB+KY5DOAV+hxWeGZlLDxf4prPfWO4dU1//9h+/h5P0f
+ c0gyoZfRmjWkagh2KhhwC35t4hMvJVhO0dovxBL5Zc9kgmF2mRGIWjdLwznAGeyroKlF
+ ONLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=voZIz100U/rjLMiNA1FpTbRV2fZQ2pzisFPYPZZCXl4=;
+ b=1GSPrutQAeakmqafeT15XT27NJxsshQa4SuWeC5HtBMTjUAJReMj75+oVRMQUWY2ZP
+ olpjz8mUAdaC7yIJm/XWrTrSVHo6tjXnPpk/wVzsbpTTRzZYYt/f+3m1rMX8cjMc6zxX
+ J+q/1IhGsDzap7KuanOP2k/2+8hhQI97RMSohTLUyXVaBajcklLLQNXpZxs7k9g4h4Ek
+ 9lL51crOQT9F/RdAOIXgEVTsP90OqsIx+DKyNO6+rS/eCqBNY1K/3KHkRzvqj63LZB4x
+ Nuf+wkS2Dn7g7UP0jB2jjC4LhKKibCjFyCC9SXpQEGlrRuhZ9PC5rEzfOeGZZCSfBo24
+ X6RQ==
+X-Gm-Message-State: AOAM532QnEwfwVGPu0x2mzHaV8eQkLJ9nvKaYIVv/lGTNq/F46GucpYI
+ auVcOWjbVga+w/k8Et505nw=
+X-Google-Smtp-Source: ABdhPJxdoYeHl150nq4P9/HcT8jY9Ic6nmqt/PNmcuw9Oo+qY30jKDqCXTR3KuH7LEiZ0Aed3e2FSw==
+X-Received: by 2002:a05:6512:2397:: with SMTP id
+ c23mr5600324lfv.358.1633098542877; 
+ Fri, 01 Oct 2021 07:29:02 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-198.dynamic.spd-mgts.ru.
+ [79.139.163.198])
+ by smtp.googlemail.com with ESMTPSA id b12sm751816lfe.253.2021.10.01.07.29.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 07:29:02 -0700 (PDT)
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+Date: Fri, 1 Oct 2021 17:29:00 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Received: from kili (62.8.83.99) by ZR0P278CA0020.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:1c::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
- Transport; Fri, 1 Oct 2021 14:26:36 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 65eb06ef-3026-4345-dbff-08d984e77b1a
-X-MS-TrafficTypeDiagnostic: MWHPR10MB1615:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MWHPR10MB161592CCEA3D61DA2E784DE18EAB9@MWHPR10MB1615.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Cizv07VDKNTmcjVNuv6+eCr009HyC5rg2XurzjgXRfuq2I+kpxc99YdvAJA80UmlkSuTHlND7eJO3zhoohWjwjP6h7C7nt0iqshd8jzyUsxepASrgQggNaETZ//14k/xxFgX/iLW4YcP6Dq5uPeuL5kWQOXkVP6IvWXrr7VtJ2LtHg/b5KLuk5IpkhXnXiK58hDInGBm2TqL65mw70OnVDmDAnZDRtAyrc9IH7IsZNnN7qdj6vgp47kU/5slz0II2P9cH5EEnTVOsH7CnPVgnRRV+WilO3uSe2gKlQG1/4XtNiBzF6eY5Nbx7Ouh7EAMUiR5eP43YAf2w2JPqmiuUjPI5p8ndv2Sth1NmUIxvXMHYZRJXHzvSm5zXYHqW9+PA1vosRtCjIKZoWHg/wl49EgDoNSuXh+Uy83fo3NzaMR+XS425VuIxQSKNbjTbXvI4oty/6+LFNBwqPHe4A1U4S+hssDXgOfS+FwIUj+7v7mD/BL1j+NsUL99a80Pxltx+vFBAvhaamBs0Rxy3K3+CBfdBVvACsLhE2OvgObDbqJadKzxhhF4JiyIJ27vNJkXVk9Fmg2078PVaR4+FN7S5HZTzEyZStJZ3QWDhCUOaBC9Jtip6FLPI3u6/6z0ktkjWgY+IzBLOCkMIBU/f2jxfg6m3u14yB1uDL0EviSzIeCT3aY5L3xZLl91WMbbfuz5vJ2Wj9xTBz1rb1p1WqQuQw==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MWHPR1001MB2365.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(366004)(508600001)(5660300002)(38350700002)(38100700002)(316002)(1076003)(8676002)(52116002)(2906002)(55016002)(9686003)(4326008)(33716001)(6666004)(6496006)(66476007)(66556008)(8936002)(186003)(956004)(33656002)(26005)(6916009)(66946007)(9576002)(44832011)(83380400001)(86362001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ewu05iVqsBg6vJz4mhrBGYeo3JAN1cB5VSU2m2SpIc8xAktDn55ze373Vnbn?=
- =?us-ascii?Q?z/hGcmpD9Q5mAhKAt/PgTK/o6iwNEnz42SeLeEY2VpzT3cNbaFKwpuDFuoFa?=
- =?us-ascii?Q?RqIfpTmp0PoMk+GtCHERap85YTVnMW0QSFWzjD8a8h1J4blnFyMItmSvYE1M?=
- =?us-ascii?Q?tSgcG/ykpA8ivWdZbOeYLRW7ZOq55yOswOQ/e4qY0vVUkZITuRMGgUFH9gRP?=
- =?us-ascii?Q?gAo8ggdi78AnwtwhweDzV6zwCQlssQTPSEGO6aWWzqX/gqfD0mz6D0ORSqH1?=
- =?us-ascii?Q?d6Z1Ly1yoQaouGUWTXTtXzqIf5etFhyAXsxQ8WleQj7SU2AoS7AQJKv8xQfS?=
- =?us-ascii?Q?7sWaIPaoo9MW+fYikbTrSXtP1XR09wMuD3dO8B2+bfQL43jo/YIG3FOfH4IY?=
- =?us-ascii?Q?7R+SXrtl/MztSMDiUEc33lfj4uAXN+jdWJGJxyZKRjbK9oHSWRGDr7cbRXu0?=
- =?us-ascii?Q?uBqeUFsBlkcOHpCY77ih/iQz7LfI6w18oKVFjC4pEGhlVoPgnlVwG+nKvqof?=
- =?us-ascii?Q?QIlVayvPkwb1A4pez9dt6wUVAslbJ+i6n4UHarQu806J3RHHQtpBSauQi+0t?=
- =?us-ascii?Q?rQfdh3X+gclBHUm845iwDICcbU1nt5sxPx1AwTHdDTCvQVuQpli8Hdg7mBL8?=
- =?us-ascii?Q?D6Age+RIoM8Ud6JT9Eyqq9VeCzEMbCXrBc5w+lypJ732JEXekaqvT3DYQ5Ia?=
- =?us-ascii?Q?fmMIclysv3zbN66KHlhn2YGk1o1rrlp2asBRAnysv3LEo3WR3Q3KTHbSiJpW?=
- =?us-ascii?Q?bZCjDQKr4KzHJ69oHXOOK7E031quVpce25BeJLqp9kOUivnh6FCTR/X3yiEs?=
- =?us-ascii?Q?KxYgkZ63JrSKiTjyb3IrsDahe9d6RkPGD/W4pDgXQOuWX5+YhVgUp6BBAd56?=
- =?us-ascii?Q?8wiHHEjb3o6KXeruHI6mhgi4SS8aCXWwyD7N6FIEW0HuF8Y/0LZ7baUfmA+R?=
- =?us-ascii?Q?723LmMZ+lzn35izo/JG8OtDAXZ0xyagbqyL2OIsABMD9iDTK8/kYbVrGRChM?=
- =?us-ascii?Q?G7L/7RDEhWiXjzjx4DDvl6CYJNBV6X1jTOnKTSx3fhmPtbhYGKIEkxNxjUzf?=
- =?us-ascii?Q?Qip35jFe65yzwTjM8V24vFbYEhi6fJHu8frCF7ZI8DGBnn/hYnFKwf8K2RHH?=
- =?us-ascii?Q?mbafO3Ov91rkxndHcq8wwEmpkCMFDoKo4jgR4Y7CTxFi62c91pwK34Echzbk?=
- =?us-ascii?Q?eSOfZA0RkLXFTjGdcYqdvTK7h8n03fPLCSfNGkrhNFUIzYbSK7AaIzJv3Fyo?=
- =?us-ascii?Q?e9RFniEgppVgyZxi5CbmA/T9LvOVWxLuAhUeECKtDmHME4cO5B/o6Kicx+76?=
- =?us-ascii?Q?NOT+cbGwRhutbvQxIeZ+aC0Z?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 65eb06ef-3026-4345-dbff-08d984e77b1a
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2365.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2021 14:26:38.8874 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JcWbiYqlus09ju89EZLKy+pLdz8z9ScDrj5gIpg7jBWqQwVm/52VE76UtV+IyEvWa66w9b91Xwgg+Fablzcz1ow/GodF7KqHiF4EOixUlNs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1615
-X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10123
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- phishscore=0 malwarescore=0
- suspectscore=0 spamscore=0 mlxlogscore=999 bulkscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
- definitions=main-2110010097
-X-Proofpoint-GUID: d7vaR3Z-d8Hp7VMVMIBID6_DSPSq7ELx
-X-Proofpoint-ORIG-GUID: d7vaR3Z-d8Hp7VMVMIBID6_DSPSq7ELx
+In-Reply-To: <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -152,82 +99,40 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello Rob Clark,
+01.10.2021 16:39, Ulf Hansson пишет:
+> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> Add runtime power management and support generic power domains.
+>>
+>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>> ---
+>>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
+> 
+> [...]
+> 
+>>  static int gr2d_remove(struct platform_device *pdev)
+>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
+>>                 return err;
+>>         }
+>>
+>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+>> +       pm_runtime_disable(&pdev->dev);
+> 
+> There is no guarantee that the ->runtime_suspend() has been invoked
+> here, which means that clock may be left prepared/enabled beyond this
+> point.
+> 
+> I suggest you call pm_runtime_force_suspend(), instead of
+> pm_runtime_disable(), to make sure that gets done.
 
-The patch 20224d715a88: "drm/msm/submit: Move copy_from_user ahead of
-locking bos" from Oct 23, 2020, leads to the following
-Smatch static checker warning:
+The pm_runtime_disable() performs the final synchronization, please see [1].
 
-	drivers/gpu/drm/msm/msm_gem_submit.c:207 submit_lookup_cmds()
-	warn: impossible condition '(sz == (~0)) => (0-u32max == u64max)'
+[1]
+https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runtime.c#L1412
 
-drivers/gpu/drm/msm/msm_gem_submit.c
-    161 static int submit_lookup_cmds(struct msm_gem_submit *submit,
-    162                 struct drm_msm_gem_submit *args, struct drm_file *file)
-    163 {
-    164         unsigned i, sz;
-    165         int ret = 0;
-    166 
-    167         for (i = 0; i < args->nr_cmds; i++) {
-    168                 struct drm_msm_gem_submit_cmd submit_cmd;
-    169                 void __user *userptr =
-    170                         u64_to_user_ptr(args->cmds + (i * sizeof(submit_cmd)));
-    171 
-    172                 ret = copy_from_user(&submit_cmd, userptr, sizeof(submit_cmd));
-    173                 if (ret) {
-    174                         ret = -EFAULT;
-    175                         goto out;
-    176                 }
-    177 
-    178                 /* validate input from userspace: */
-    179                 switch (submit_cmd.type) {
-    180                 case MSM_SUBMIT_CMD_BUF:
-    181                 case MSM_SUBMIT_CMD_IB_TARGET_BUF:
-    182                 case MSM_SUBMIT_CMD_CTX_RESTORE_BUF:
-    183                         break;
-    184                 default:
-    185                         DRM_ERROR("invalid type: %08x\n", submit_cmd.type);
-    186                         return -EINVAL;
-    187                 }
-    188 
-    189                 if (submit_cmd.size % 4) {
-    190                         DRM_ERROR("non-aligned cmdstream buffer size: %u\n",
-    191                                         submit_cmd.size);
-    192                         ret = -EINVAL;
-    193                         goto out;
-    194                 }
-    195 
-    196                 submit->cmd[i].type = submit_cmd.type;
-    197                 submit->cmd[i].size = submit_cmd.size / 4;
-    198                 submit->cmd[i].offset = submit_cmd.submit_offset / 4;
-    199                 submit->cmd[i].idx  = submit_cmd.submit_idx;
-    200                 submit->cmd[i].nr_relocs = submit_cmd.nr_relocs;
-    201 
-    202                 userptr = u64_to_user_ptr(submit_cmd.relocs);
-    203 
-    204                 sz = array_size(submit_cmd.nr_relocs,
-    205                                 sizeof(struct drm_msm_gem_submit_reloc));
-    206                 /* check for overflow: */
---> 207                 if (sz == SIZE_MAX) {
-
-"sz" is u32 (not size_t) so this check is impossible on 64 bit systems.
-May as well just remove it and let the kmalloc() fail.  Or use a smaller
-limit so that users can't trigger the kmalloc() failure.
-
-    208                         ret = -ENOMEM;
-    209                         goto out;
-    210                 }
-    211                 submit->cmd[i].relocs = kmalloc(sz, GFP_KERNEL);
-    212                 ret = copy_from_user(submit->cmd[i].relocs, userptr, sz);
-    213                 if (ret) {
-    214                         ret = -EFAULT;
-    215                         goto out;
-    216                 }
-    217         }
-    218 
-    219 out:
-    220         return ret;
-    221 }
-
-regards,
-dan carpenter
+Calling pm_runtime_force_suspend() isn't correct because each 'enable'
+must have the corresponding 'disable'. Hence there is no problem here.
