@@ -1,66 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA6A41F299
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:00:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 963CB41F2E7
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 19:17:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07C9F6EE61;
-	Fri,  1 Oct 2021 17:00:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C0EB66EE69;
+	Fri,  1 Oct 2021 17:17:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
- [IPv6:2607:f8b0:4864:20::22f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F25136EE64
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 17:00:00 +0000 (UTC)
-Received: by mail-oi1-x22f.google.com with SMTP id e24so12182337oig.11
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 10:00:00 -0700 (PDT)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4ED076EE64
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 17:17:49 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b20so41710100lfv.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 10:17:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=8Gm6Q+3gL83lOfRwtpLLNfvQisAdfF3Ia6ayGbMElEw=;
- b=pDUNFyrZOcUuskHCbU/I2Y1ygu3T29/SExagNKEhufMg+lsSaRCTL/PdgaaK8dUrdk
- en1Ij7et7JzghU/zQkOXKGUzjy85AN9biL7tyCxLeWsSlZ4RyZRzNPm+WFTuaUH0crFe
- RRxmJzgLaRvTyLTR1OCjMeLuJebU8rhLsgRjNo/3zaSsJdaFAv2qEnHwr6IzjgCyprwS
- bZuwDHSiNT6f772xbLEZq26ZbgTOcNM52SlTVdJskTFA7k+khcL6ejb9RJbCOcdTxHTJ
- r9pNLF5HP5FQIIDYeTR8X7lKD5CaP0EWggtD/6BgKikedA9yTaXxeU1qlqzpEhra7Tq5
- PeHA==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4nq3ufox1xom42EnmcsKdxgFb5PRGjFCfz0qt/CUS50=;
+ b=DqUCYxf5ILzqEJ2ur4zYXd5mUhCfSppqHqDIdi8GVIbYHZzyPOgVgPrnsoNXWolz76
+ uJo37Uj1lIGE01zyFsiertqhTfvMNVazomy4yxykqCm0a+7wsPJpLI0sgmF2St4B2j1J
+ 6F8LEBKx7HuIXiMxm4bPbo1L2tkmxK147awCwK9V496ZDrMYqvrvMhzbY2pua2SyKeSR
+ MsM1j2jNsiQJdT43SmWSBDRfl63e2LEXlzSptRVzHV/ucQtqYWn1ZVRuamXojiKlA6/F
+ 4AM2vqUn9xybUyYjHpXqLaX2eFYWcZ9IHAbIvKdLTM6iF30llhmuu8HFqnFftPbeQnw/
+ CIWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=8Gm6Q+3gL83lOfRwtpLLNfvQisAdfF3Ia6ayGbMElEw=;
- b=VnY81SRYMJvJm/qase1waQ9DHXrgOKbgP/YAWryoF20EMTRCU3iB+fPIAsC0uHq4C8
- ypP6wxvQ30MXRMOFCWnTs5hH1WRR0WkGokwnbqvGnNWmMqvjkX6dJJKGXSfAfWN9Dg0/
- NhUaVOw16bzG3TSrmZxZDgThH+wxA2zsJPkxfz+CSL23QfRzfm7c/QA+mCnNVc8Rb5u6
- lzpe/SAyptSVzJvSEUB30N45rGiTorjuiyQtSkiDvmuV+6iQcYnrX16vEseTM7hPfPpr
- cdvw5L8XNwte8ltHjorDvz+4mfzL7xS4vp5YyDTqJIkS4X4sQSFK6AqHWTUP3DJdJKzr
- WnZQ==
-X-Gm-Message-State: AOAM530axN1atvOz6DOMEl5y3KeQN7JdBvA4HCjU6ITw8MzJrSlejxdZ
- 95c/uyJRAz1zTtml7L3IFWQmFQ==
-X-Google-Smtp-Source: ABdhPJz1hAzkaVKdgCmF0JTuGVyurJ0ysGfGJZfCOzLFln+3jfpw+ThZD72FlZ3HMRQ76LtnRyBD4g==
-X-Received: by 2002:aca:4007:: with SMTP id n7mr4702740oia.139.1633107600194; 
- Fri, 01 Oct 2021 10:00:00 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id bi1sm1340401oib.34.2021.10.01.09.59.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 09:59:59 -0700 (PDT)
-Date: Fri, 1 Oct 2021 10:01:47 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: Re: [PATCH 0/3] drm/msm: drop old eDP support
-Message-ID: <YVc++6JzSNL2sIBm@ripper>
-References: <20211001165011.441945-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4nq3ufox1xom42EnmcsKdxgFb5PRGjFCfz0qt/CUS50=;
+ b=BqU3LOx0uh0JTNb9FRPtt0fkMK97yQUKONabQmBG1kU+jrz8aHMPxuecnx3piIZMVI
+ bdTSViBmJRW9Egy+7oz7I6ejcB5mZRAZt+HVc91+ZY45VyolmhQE4v9MtLXQZn7/Du1B
+ z4uiL6hhk9MK2ef/26J3G0zxnUZFF+ZkWkOFfcQmRofQ7+BKup9QEskKq7FVs0fQ/rVh
+ HPZAQsWy7YGoOFegcA5MK4iq88pXzxuaQnQhO/gQbLVv1Rxm9LPNSxMumKLd3fPGz54r
+ j5LofxvTMID7cgmKVdl4vkPcb/UdCUw6YaJxjZLkGM3+xXvMSm41IVKtvSMsDpAEC12F
+ ajmQ==
+X-Gm-Message-State: AOAM533WWY8yfVqQtcYlamKjqnIgnNUwc7G7uHlBHYQ/6SuQb4GKNuLD
+ AAdj12RGMAmL92AI0b2brJ6Paw==
+X-Google-Smtp-Source: ABdhPJzx8FIsQnG6UCj2NGODwufkHIcRyzLmofPa0AcCaQFQjLKqVxtEOZE1Xib+jiiMU5PZGvC4oA==
+X-Received: by 2002:a2e:711c:: with SMTP id m28mr9896344ljc.354.1633108667519; 
+ Fri, 01 Oct 2021 10:17:47 -0700 (PDT)
+Received: from [192.168.1.211] ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id s8sm794636lfd.149.2021.10.01.10.17.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 01 Oct 2021 10:17:47 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm: Avoid potential overflow in timeout_to_jiffies()
+To: Marek Vasut <marex@denx.de>, linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>, Jordan Crouse <jcrouse@codeaurora.org>,
+ Rob Clark <robdclark@chromium.org>, stable@vger.kernel.org
+References: <20210917005913.157379-1-marex@denx.de>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Message-ID: <c15e4bc2-b377-a0a4-4a9e-3676db7bbc4b@linaro.org>
+Date: Fri, 1 Oct 2021 20:17:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211001165011.441945-1-dmitry.baryshkov@linaro.org>
+In-Reply-To: <20210917005913.157379-1-marex@denx.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,50 +77,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri 01 Oct 09:50 PDT 2021, Dmitry Baryshkov wrote:
+On 17/09/2021 03:59, Marek Vasut wrote:
+> The return type of ktime_divns() is s64. The timeout_to_jiffies() currently
+> assigns the result of this ktime_divns() to unsigned long, which on 32 bit
+> systems may overflow. Furthermore, the result of this function is sometimes
+> also passed to functions which expect signed long, dma_fence_wait_timeout()
+> is one such example.
+> 
+> Fix this by adjusting the type of remaining_jiffies to s64, so we do not
+> suffer overflow there, and return a value limited to range of 0..INT_MAX,
+> which is safe for all usecases of this timeout.
+> 
+> The above overflow can be triggered if userspace passes in too large timeout
+> value, larger than INT_MAX / HZ seconds. The kernel detects it and complains
+> about "schedule_timeout: wrong timeout value %lx" and generates a warning
+> backtrace.
+> 
+> Note that this fixes commit 6cedb8b377bb ("drm/msm: avoid using 'timespec'"),
+> because the previously used timespec_to_jiffies() function returned unsigned
+> long instead of s64:
+> static inline unsigned long timespec_to_jiffies(const struct timespec *value)
+> 
+> Fixes: 6cedb8b377bb ("drm/msm: avoid using 'timespec'")
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Jordan Crouse <jcrouse@codeaurora.org>
+> Cc: Rob Clark <robdclark@chromium.org>
+> Cc: stable@vger.kernel.org # 5.6+
 
-> MSM DRM driver has support for eDP block present on MSM 8x74/8x84 SoC
-> families. However since addition back in 2015 this driver received only
-> generic fixes. No actual devices with these SoCs supported upstream (or
-> by the community) seem to support eDP panels. Judging from downstream
-> kernels the eDP was present only on MSM8974 LIQUID or on APQ8084 CDP.
-> Remove this driver.
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+
+> ---
+> NOTE: This is related to Mesa MR
+>        https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/12886
+> ---
+>   drivers/gpu/drm/msm/msm_drv.h | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+> index 0b2686b060c73..d96b254b8aa46 100644
+> --- a/drivers/gpu/drm/msm/msm_drv.h
+> +++ b/drivers/gpu/drm/msm/msm_drv.h
+> @@ -543,7 +543,7 @@ static inline int align_pitch(int width, int bpp)
+>   static inline unsigned long timeout_to_jiffies(const ktime_t *timeout)
+>   {
+>   	ktime_t now = ktime_get();
+> -	unsigned long remaining_jiffies;
+> +	s64 remaining_jiffies;
+>   
+>   	if (ktime_compare(*timeout, now) < 0) {
+>   		remaining_jiffies = 0;
+> @@ -552,7 +552,7 @@ static inline unsigned long timeout_to_jiffies(const ktime_t *timeout)
+>   		remaining_jiffies = ktime_divns(rem, NSEC_PER_SEC / HZ);
+>   	}
+>   
+> -	return remaining_jiffies;
+> +	return clamp(remaining_jiffies, 0LL, (s64)INT_MAX);
+>   }
+>   
+>   #endif /* __MSM_DRV_H__ */
 > 
 
-Nice!
 
-Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-
-Regards,
-Bjorn
-
-> ----------------------------------------------------------------
-> Dmitry Baryshkov (3):
->       drm/msm/mdp5: drop eDP support
->       drm/msm/edp: drop old eDP support
->       dt-bindings: display/msm: remove edp.txt
-> 
->  .../devicetree/bindings/display/msm/edp.txt        |   56 -
->  drivers/gpu/drm/msm/Makefile                       |    6 -
->  drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c           |   17 +-
->  drivers/gpu/drm/msm/edp/edp.c                      |  198 ---
->  drivers/gpu/drm/msm/edp/edp.h                      |   77 --
->  drivers/gpu/drm/msm/edp/edp.xml.h                  |  388 ------
->  drivers/gpu/drm/msm/edp/edp_aux.c                  |  265 ----
->  drivers/gpu/drm/msm/edp/edp_bridge.c               |  111 --
->  drivers/gpu/drm/msm/edp/edp_connector.c            |  132 --
->  drivers/gpu/drm/msm/edp/edp_ctrl.c                 | 1375 --------------------
->  drivers/gpu/drm/msm/edp/edp_phy.c                  |   98 --
->  drivers/gpu/drm/msm/msm_drv.c                      |    2 -
->  drivers/gpu/drm/msm/msm_drv.h                      |   12 -
->  13 files changed, 1 insertion(+), 2736 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/msm/edp.txt
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp.c
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp.h
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp.xml.h
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp_aux.c
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp_bridge.c
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp_connector.c
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp_ctrl.c
->  delete mode 100644 drivers/gpu/drm/msm/edp/edp_phy.c
-> 
+-- 
+With best wishes
+Dmitry
