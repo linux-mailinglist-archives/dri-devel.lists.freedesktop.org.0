@@ -2,36 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B17D41E7C3
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 08:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A88C41E7FC
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 09:06:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 59C246ECEE;
-	Fri,  1 Oct 2021 06:47:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CBA546ECF9;
+	Fri,  1 Oct 2021 07:06:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B809E6ECEE
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 06:47:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 227E86ECF9
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 07:06:09 +0000 (UTC)
 Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
  bits)) (No client certificate requested)
  (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3853D1F452EB;
- Fri,  1 Oct 2021 07:47:44 +0100 (BST)
-Date: Fri, 1 Oct 2021 08:47:40 +0200
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C6F791F4530B;
+ Fri,  1 Oct 2021 08:06:07 +0100 (BST)
+Date: Fri, 1 Oct 2021 09:06:04 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Alyssa Rosenzweig <alyssa@collabora.com>
+To: Robin Murphy <robin.murphy@arm.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso
  <tomeu.vizoso@collabora.com>, Alyssa Rosenzweig
  <alyssa.rosenzweig@collabora.com>, Steven Price <steven.price@arm.com>,
- Robin Murphy <robin.murphy@arm.com>, dri-devel@lists.freedesktop.org
+ dri-devel@lists.freedesktop.org
 Subject: Re: [PATCH] drm/panfrost: Add PANFROST_BO_NO{READ,WRITE} flags
-Message-ID: <20211001084740.051e9d80@collabora.com>
-In-Reply-To: <YVY2O48ckub2fc5W@maud>
+Message-ID: <20211001090604.6f56106f@collabora.com>
+In-Reply-To: <20210930214424.0a355392@collabora.com>
 References: <20210930184723.1482426-1-boris.brezillon@collabora.com>
- <YVYMWdQS/EMc23IF@maud> <20210930214030.19f63eac@collabora.com>
- <YVY2O48ckub2fc5W@maud>
+ <20210930214424.0a355392@collabora.com>
 Organization: Collabora
 X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
@@ -52,40 +51,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 30 Sep 2021 18:12:11 -0400
-Alyssa Rosenzweig <alyssa@collabora.com> wrote:
+Hi Robin,
 
-> > > > +	/* Executable implies readable */
-> > > > +	if ((args->flags & PANFROST_BO_NOREAD) &&
-> > > > +	    !(args->flags & PANFROST_BO_NOEXEC))
-> > > > +		return -EINVAL;    
-> > > 
-> > > Generally, executable also implies not-writeable. Should we check that?  
-> > 
-> > We were allowing it until now, so doing that would break the backward
-> > compat, unfortunately.  
+On Thu, 30 Sep 2021 21:44:24 +0200
+Boris Brezillon <boris.brezillon@collabora.com> wrote:
+
+> On Thu, 30 Sep 2021 20:47:23 +0200
+> Boris Brezillon <boris.brezillon@collabora.com> wrote:
 > 
-> Not a problem if you only enforce this starting with the appropriate
-> UABI version, but...
-
-I still don't see how that solves the <old-userspace,new-kernel>
-situation, since old-userspace doesn't know about the new UABI, and
-there's no version field on the CREATE_BO ioctl() to let the kernel
-know about the UABI used by this userspace program. I mean, we could
-add one, or add a new PANFROST_BO_EXTENDED_FLAGS flag to enforce this
-'noexec implies nowrite' behavior, but is it really simpler than
-explicitly passing the NOWRITE flag when NOEXEC is passed?
-
+> > So we can create GPU mappings without R/W permissions. Particularly
+> > useful to debug corruptions caused by out-of-bound writes.  
 > 
-> > Steve also mentioned that the DDK might use shaders modifying other
-> > shaders here [1]  
-> 
-> What? I believe it, but what?
-> 
-> For the case of pilot shaders, that shouldn't require self-modifying
-> code. As I understand, the DDK binds the push uniform (FAU / RMU) buffer
-> as global shader memory (SSBO) and uses regular STORE instructions on
-> it. That requires writability on that BO but that should be fine.
+> Oops, I forgot to add the PANFROST_BO_PRIVATE flag suggested by Robin
+> here [1]. I'll send a v2.
 
-Okay.
+When you're talking about a PANFROST_BO_GPU_PRIVATE flag (or
+PANFROST_BO_NO_CPU_ACCESS), you mean something that can set
+ARM_LPAE_PTE_SH_IS instead of the unconditional ARM_LPAE_PTE_SH_OS we
+have right now [1], right? In this case, how would you pass this info
+to the iommu? Looks like we have an IOMMU_CACHE, but I don't think
+it reflects what we're trying to do. IOMMU_PRIV is about privileged
+mappings, so definitely not what we want. Should we add a new
+IOMMU_NO_{EXTERNAL,HOST,CPU}_ACCESS flag for that?
 
+Regards,
+
+Boris
+
+[1]https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/iommu/io-pgtable-arm.c#L453
