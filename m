@@ -2,74 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B1241F6AB
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 23:09:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65AAF41F6D9
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 23:23:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F0FD76F40E;
-	Fri,  1 Oct 2021 21:09:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A7C16E566;
+	Fri,  1 Oct 2021 21:23:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12a.google.com (mail-lf1-x12a.google.com
- [IPv6:2a00:1450:4864:20::12a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 107156F40F
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 21:09:19 +0000 (UTC)
-Received: by mail-lf1-x12a.google.com with SMTP id i4so43998379lfv.4
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 14:09:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IebbO+ma/A1unpbrZ8oEgbjXE5CUx4OQ3cw7YGHtnpM=;
- b=MmcVHRWhjWn9KKZ/McV6/+Uoq6LupKzHXYCrxqBnqPPByl9LyIApmjQdSArX5IS1wv
- BDDVCN+9yflaCTtMHYwZQ+4iARy/KJH+03vwJWdUSqHCbaR8P4hY6Fu5VcgIiWf9nJg+
- pRCmia4gT/fFJcgBptVySNk7evnIS9V1A20AeUhyqGO1gGfzw/TPA0Lk/xoNQSvF0Jws
- qEWVvp4fE9+kqg5rgO8UrLQZZad35dzpWxvcgyhHeiQLr6Sjwi/y5KDKrEuL7tII4ejq
- M0V94nquYSxGjWFn4H+ppA51fLS2INdCJs5U4TA5NqAG1rv7v4OALlsTqL6J+Y63pW1B
- 2NZw==
+Received: from mail-ot1-x331.google.com (mail-ot1-x331.google.com
+ [IPv6:2607:f8b0:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BAC826E566
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 21:23:42 +0000 (UTC)
+Received: by mail-ot1-x331.google.com with SMTP id
+ o59-20020a9d2241000000b0054745f28c69so13091723ota.13
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 14:23:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rQO+lMXU6VmqpbbuMNNIj4s/iSRqxxtzgzbizBnbLmk=;
+ b=iSh459FN5Z6Hqy9OYQZTytx3xm7vgeROeRrUA3KkjbSpJr6gHBeJtPg+IG1UktWtKi
+ j0nWzggnhcvpJsq6Oc90kySnuaUsE8mLUC3eHw503Ya41vqpbvJSsWuEN9YKwUQQAQ2f
+ ku+ZlpxCosstDPHAfe22bGGCKuGlOe0VgHbA4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IebbO+ma/A1unpbrZ8oEgbjXE5CUx4OQ3cw7YGHtnpM=;
- b=rfCq42Hw6PFbeIfabxqbbIC6EEC0gAwxhAsXCL7/6RZ5D4ctGXFKAMle7eM1IEFt0r
- 7Z5+jw9NEwqruJkJvHjcAKq1rCTg5cVA2ljcMHSvacNrs9bLEIS8RFKaGH4D3JjEFRUd
- /vGk2V6HfImJHlil2sXZv0beYu/abMbwFhCG8vtpOGLpVYrCuGAWPdgVNb1qLSN3XIom
- 2y0Ii+S+AR5KSrCBI/S/XoZNAzBGkt5BbtNSDVTNTbSxXEE7pwRO5k5cluU2rm1i6zGj
- XPuaoI0mEcOP90k3jCUuOfi7sxcubiexEureAIZgIu6n6EzQC151Gdk8O8reAm3SYxH7
- 2NPw==
-X-Gm-Message-State: AOAM530B7gcczolunnl3PMyH4UfBg/tpCtUa9O4vQN3hFYBb3JRBJADd
- kJtPLKbhv4ISNzroKcHJxRshBg==
-X-Google-Smtp-Source: ABdhPJw3pmsNgv9RYeS4huOp4qxuDaNliY0fsFTacMOU3A1X25G6Gt/OxqhoGbmcF5nk6N3Rx5wpkw==
-X-Received: by 2002:a05:6512:1399:: with SMTP id
- p25mr199919lfa.277.1633122557113; 
- Fri, 01 Oct 2021 14:09:17 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id u25sm846522lfr.279.2021.10.01.14.09.16
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rQO+lMXU6VmqpbbuMNNIj4s/iSRqxxtzgzbizBnbLmk=;
+ b=a8G6X321wPIBMcGnrMmal81mtwJ8nZXgWCzY8kQzFjWIHAhUnUShLGnQ3HE789DpRJ
+ RUx3ZNl9WkohGBs3PluQpjpONeLtPUHXvWsTEHdywRKAkEeaCM7jg/Z1CICCkNhiBMeI
+ /6rj4BIJVxiUerJe74FS8T5Kkb24Tbx9sZ/0Osgb8YHJw54kjwUKARaoa/J6fcUdySsI
+ TVNvo/Gww+iB4oyNQDyMMoh6If8BEB6Ph7P+xeUfy6oupqWAjCQM+q2Aoe++HyM9bwKa
+ eeFlL2PVOxWoncDlMBur+WjWhzBb7BJDlRALZLkZs3ZJq75NoJad6n02vbblGV0yz0ws
+ uZug==
+X-Gm-Message-State: AOAM530vPOyBlbRhtiSM1sgAkBpDu+ONuCiv2TezJ0TrVmY0hKNxGOfr
+ V+a4X1ujpBc7xqKMJlqk4Z3RYIDOa7j3Fw==
+X-Google-Smtp-Source: ABdhPJwYvma6IuEEJypt51e0GcIiYN9MvRNVToPDhVtM0VXq7OURhiQMrPvTxnP6q4BAoVRN/bnTSw==
+X-Received: by 2002:a9d:4e04:: with SMTP id p4mr43901otf.375.1633123421679;
+ Fri, 01 Oct 2021 14:23:41 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com.
+ [209.85.210.47])
+ by smtp.gmail.com with ESMTPSA id t17sm1429031otl.56.2021.10.01.14.23.40
+ for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 14:09:16 -0700 (PDT)
-Subject: Re: [PATCH v3 3/3] drm/msm/mdp5: Add configuration for MDP v1.16
-To: Sireesh Kodali <sireeshkodali1@gmail.com>, phone-devel@vger.kernel.org,
- ~postmarketos/upstreaming@lists.sr.ht, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Vladimir Lypak <vladimir.lypak@gmail.com>, Rob Clark
- <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- James Willcox <jwillcox@squareup.com>
-References: <20210928131929.18567-1-sireeshkodali1@gmail.com>
- <20210928131929.18567-4-sireeshkodali1@gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <06a40d0d-da39-ba0b-e932-d4435c0735d3@linaro.org>
-Date: Sat, 2 Oct 2021 00:09:15 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+ Fri, 01 Oct 2021 14:23:41 -0700 (PDT)
+Received: by mail-ot1-f47.google.com with SMTP id
+ l16-20020a9d6a90000000b0053b71f7dc83so13133884otq.7
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 14:23:40 -0700 (PDT)
+X-Received: by 2002:a05:6830:112:: with SMTP id
+ i18mr82821otp.186.1633123420525; 
+ Fri, 01 Oct 2021 14:23:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210928131929.18567-4-sireeshkodali1@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20210929144010.1.I773a08785666ebb236917b0c8e6c05e3de471e75@changeid>
+ <20211001203722.GZ2515@art_vandelay>
+In-Reply-To: <20211001203722.GZ2515@art_vandelay>
+From: Brian Norris <briannorris@chromium.org>
+Date: Fri, 1 Oct 2021 14:23:29 -0700
+X-Gmail-Original-Message-ID: <CA+ASDXNqwGWLHV5sPeUebd1AzPzLJva5hWm-385A+5vgQYMvVQ@mail.gmail.com>
+Message-ID: <CA+ASDXNqwGWLHV5sPeUebd1AzPzLJva5hWm-385A+5vgQYMvVQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/brdige: analogix_dp: Grab runtime PM reference for
+ DP-AUX
+To: Sean Paul <sean@poorly.run>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+ Linux Kernel <linux-kernel@vger.kernel.org>, Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, stable <stable@vger.kernel.org>, 
+ Tomeu Vizoso <tomeu.vizoso@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,132 +85,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 28/09/2021 16:19, Sireesh Kodali wrote:
-> From: Vladimir Lypak <vladimir.lypak@gmail.com>
-> 
-> MDP version v1.16 is almost identical to v1.15 with most significant
-> difference being presence of second DSI interface. MDP v1.16 is found on
-> SoCs such as MSM8x53, SDM450, SDM632 (All with Adreno 506).
-> 
-> Signed-off-by: Vladimir Lypak <vladimir.lypak@gmail.com>
-> Signed-off-by: Sireesh Kodali <sireeshkodali1@gmail.com>
+On Fri, Oct 1, 2021 at 1:37 PM Sean Paul <sean@poorly.run> wrote:
+> On Wed, Sep 29, 2021 at 02:41:03PM -0700, Brian Norris wrote:
+> > --- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> > +++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
+> > @@ -1632,8 +1632,23 @@ static ssize_t analogix_dpaux_transfer(struct drm_dp_aux *aux,
+> >                                      struct drm_dp_aux_msg *msg)
+> >  {
+> >       struct analogix_dp_device *dp = to_dp(aux);
+> > +     int ret, ret2;
+> >
+> > -     return analogix_dp_transfer(dp, msg);
+> > +     ret = analogix_dp_prepare_panel(dp, true, false);
+> > +     if (ret) {
+> > +             DRM_DEV_ERROR(dp->dev, "Failed to prepare panel (%d)\n", ret);
+>
+> s/DRM_DEV_ERROR/drm_err/
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Sure. Now that I'm looking a second time, I see the header recommends this.
 
-> ---
->   drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c | 89 ++++++++++++++++++++++++
->   1 file changed, 89 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> index 9741544ffc35..0d28c8ff4009 100644
-> --- a/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> +++ b/drivers/gpu/drm/msm/disp/mdp5/mdp5_cfg.c
-> @@ -752,6 +752,94 @@ const struct mdp5_cfg_hw msm8x76_config = {
->   	.max_clk = 360000000,
->   };
->   
-> +static const struct mdp5_cfg_hw msm8x53_config = {
-> +	.name = "msm8x53",
-> +	.mdp = {
-> +		.count = 1,
-> +		.caps = MDP_CAP_CDM |
-> +			MDP_CAP_SRC_SPLIT,
-> +	},
-> +	.ctl = {
-> +		.count = 3,
-> +		.base = { 0x01000, 0x01200, 0x01400 },
-> +		.flush_hw_mask = 0xffffffff,
-> +	},
-> +	.pipe_vig = {
-> +		.count = 1,
-> +		.base = { 0x04000 },
-> +		.caps = MDP_PIPE_CAP_HFLIP	|
-> +			MDP_PIPE_CAP_VFLIP	|
-> +			MDP_PIPE_CAP_SCALE	|
-> +			MDP_PIPE_CAP_CSC	|
-> +			MDP_PIPE_CAP_DECIMATION	|
-> +			MDP_PIPE_CAP_SW_PIX_EXT	|
-> +			0,
-> +	},
-> +	.pipe_rgb = {
-> +		.count = 2,
-> +		.base = { 0x14000, 0x16000 },
-> +		.caps = MDP_PIPE_CAP_HFLIP	|
-> +			MDP_PIPE_CAP_VFLIP	|
-> +			MDP_PIPE_CAP_DECIMATION	|
-> +			MDP_PIPE_CAP_SW_PIX_EXT	|
-> +			0,
-> +	},
-> +	.pipe_dma = {
-> +		.count = 1,
-> +		.base = { 0x24000 },
-> +		.caps = MDP_PIPE_CAP_HFLIP	|
-> +			MDP_PIPE_CAP_VFLIP	|
-> +			MDP_PIPE_CAP_SW_PIX_EXT	|
-> +			0,
-> +	},
-> +	.pipe_cursor = {
-> +		.count = 1,
-> +		.base = { 0x34000 },
-> +		.caps = MDP_PIPE_CAP_HFLIP	|
-> +			MDP_PIPE_CAP_VFLIP	|
-> +			MDP_PIPE_CAP_SW_PIX_EXT	|
-> +			MDP_PIPE_CAP_CURSOR	|
-> +			0,
-> +	},
-> +
-> +	.lm = {
-> +		.count = 3,
-> +		.base = { 0x44000, 0x45000 },
-> +		.instances = {
-> +				{ .id = 0, .pp = 0, .dspp = 0,
-> +				  .caps = MDP_LM_CAP_DISPLAY |
-> +					  MDP_LM_CAP_PAIR },
-> +				{ .id = 1, .pp = 1, .dspp = -1,
-> +				  .caps = MDP_LM_CAP_DISPLAY },
-> +			     },
-> +		.nb_stages = 5,
-> +		.max_width = 2048,
-> +		.max_height = 0xFFFF,
-> +	},
-> +	.dspp = {
-> +		.count = 1,
-> +		.base = { 0x54000 },
-> +
-> +	},
-> +	.pp = {
-> +		.count = 2,
-> +		.base = { 0x70000, 0x70800 },
-> +	},
-> +	.cdm = {
-> +		.count = 1,
-> +		.base = { 0x79200 },
-> +	},
-> +	.intf = {
-> +		.base = { 0x6a000, 0x6a800, 0x6b000 },
-> +		.connect = {
-> +			[0] = INTF_DISABLED,
-> +			[1] = INTF_DSI,
-> +			[2] = INTF_DSI,
-> +		},
-> +	},
-> +	.max_clk = 400000000,
-> +};
-> +
->   static const struct mdp5_cfg_hw msm8917_config = {
->   	.name = "msm8917",
->   	.mdp = {
-> @@ -1151,6 +1239,7 @@ static const struct mdp5_cfg_handler cfg_handlers_v1[] = {
->   	{ .revision = 7, .config = { .hw = &msm8x96_config } },
->   	{ .revision = 11, .config = { .hw = &msm8x76_config } },
->   	{ .revision = 15, .config = { .hw = &msm8917_config } },
-> +	{ .revision = 16, .config = { .hw = &msm8x53_config } },
->   };
->   
->   static const struct mdp5_cfg_handler cfg_handlers_v3[] = {
-> 
+> > +             return ret;
+> > +     }
+> > +
+> > +     pm_runtime_get_sync(dp->dev);
+> > +     ret = analogix_dp_transfer(dp, msg);
+> > +     pm_runtime_put(dp->dev);
+> > +
+> > +     ret2 = analogix_dp_prepare_panel(dp, false, false);
+> > +     if (ret2)
+> > +             DRM_DEV_ERROR(dp->dev, "Failed to unprepare panel (%d)\n", ret2);
+>
+> What's the reasoning for not propagating unprepare failures? I feel like that
+> should be fair game.
 
+I suppose the underlying reason is laziness, sorry. But a related
+reason is the we probably should prefer propagating the
+analogix_dp_transfer() error, if it's non-zero, rather than the
+unprepare error. That's not too hard to do though, even if it's
+slightly more awkward.
 
--- 
-With best wishes
-Dmitry
+> > +
+> > +     return ret;
+> >  }
+> >
+> >  struct analogix_dp_device *
+
+v2 coming.
+
+Regards,
+Brian
