@@ -2,41 +2,75 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8035541EF9D
-	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42B241EFA4
+	for <lists+dri-devel@lfdr.de>; Fri,  1 Oct 2021 16:37:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD4556ED11;
-	Fri,  1 Oct 2021 14:36:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 361E76ED65;
+	Fri,  1 Oct 2021 14:37:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EE5626ED11
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:36:21 +0000 (UTC)
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256
- bits)) (No client certificate requested)
- (Authenticated sender: bbrezillon)
- by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 69ED31F457AC;
- Fri,  1 Oct 2021 15:36:20 +0100 (BST)
-Date: Fri, 1 Oct 2021 16:36:17 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Joerg Roedel <joro@8bytes.org>, iommu@lists.linux-foundation.org, Rob
- Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>, Steven Price
- <steven.price@arm.com>, Robin Murphy <robin.murphy@arm.com>, Will Deacon
- <will@kernel.org>, linux-arm-kernel@lists.infradead.org
-Cc: dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v2 3/5] drm/panfrost: Add PANFROST_BO_NO{READ,WRITE} flags
-Message-ID: <20211001163617.0b35ba81@collabora.com>
-In-Reply-To: <20211001143427.1564786-4-boris.brezillon@collabora.com>
-References: <20211001143427.1564786-1-boris.brezillon@collabora.com>
- <20211001143427.1564786-4-boris.brezillon@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 3.18.0 (GTK+ 2.24.33; x86_64-redhat-linux-gnu)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 820E16ED29
+ for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 14:37:22 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id y26so39871110lfa.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 07:37:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=LVU9fXiM8g1pH7koqYPYX1n75qM66AiSkIRtsIE6Mik=;
+ b=rjdp3uSFyx/KPmILmOXA7zcMX2+9jvG1S5UIOIMptwVjPZDLmd2m2GUsZlCHaAW145
+ 3MAbPK9byBkqxyqigd/bPNlnHnU5aQO3Sb9i4E0G6+8b4lShKSFQ6cOdQ4GBXEx3h4kR
+ RexBLqYY+OWrmoGwvKy3/kio2LVbujF88ta8dsAcdGTqnC7YCbpDYLlFYAct6DmFCt5G
+ crMGo4xuxnDknabvbiAq5xJJISgd/dp2iZ+4O8nuRqdo59bmmCKL7czZCbXAAQCfu/nd
+ GXUzqvgWtpYHJpzlm7ZpLul8ysD3f3vTc5ftQMqnENyFLhXoSleoB35xsL/rwShU4xsu
+ mAQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LVU9fXiM8g1pH7koqYPYX1n75qM66AiSkIRtsIE6Mik=;
+ b=sMxBvQ5d0MSPMVkwt0iFFYvwrHAIwrL6RnUKh+0BkxrHW6m+cIp3Y+JKxKXp73e4dJ
+ pUnWgCN6XKRcxRaJtouEPBFjQeILT5q/NR5EvyOT0ylMieTNs4bHfEZa1W6/yOYVe3Cw
+ Y5uHuZ9V54h5z3Ryp3p4uzlww1Ahpc2PlwJLYeHr93fxQyCT9PQtLa3+mT6f4qGPPatI
+ s4Mon1uA4n83TVsYc7HR06oCQ7SgZjYI1op9aAvPeocIkEKGr3oTlB/cI2RdjDXQA7ff
+ fFAAsWnAfVRejYxU6DY8o3X21Bu2z3BQdn4E7qESDLWuPEsKffM46nWWInwbrfMqETH4
+ MmWg==
+X-Gm-Message-State: AOAM532WZHJvjK58rAzE19OeInJS+0mmuBD+F+TSypnsDIs8nVx4KQ/Z
+ XhPpXd9loraJdzlg7Jg6w/aas7EwYseq6j1exUZJfA==
+X-Google-Smtp-Source: ABdhPJzoa2d4NLaXfyZ7/92L/e88lFw9mt5p0hvXF87bHS92UJ1JIvsfDpz1WLHt81/6+mvdON7qC703SsoiVg2R0Mc=
+X-Received: by 2002:a05:6512:3095:: with SMTP id
+ z21mr5857247lfd.167.1633099040779; 
+ Fri, 01 Oct 2021 07:37:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20210926224058.1252-1-digetx@gmail.com>
+In-Reply-To: <20210926224058.1252-1-digetx@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Fri, 1 Oct 2021 16:36:44 +0200
+Message-ID: <CAPDyKFog31OatzU0fHUMfN5FRsX+8Thm8TfipA4QisgFepU+rA@mail.gmail.com>
+Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,126 +86,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri,  1 Oct 2021 16:34:25 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
+>
+> This series adds runtime PM support to Tegra drivers and enables core
+> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>
+> All patches in this series are interdependent and should go via Tegra tree.
+>
+> Changelog:
+>
+> v13: - Fixed compile-test error reported by build bot by reverting the
+>        mmc/ patch to v11. The sdhci_suspend/resume_host() functions aren't
+>        available with the disabled CONFIG_PM_SLEEP, some code needs the
+>        ifdef.
+>
+>      - Added last r-b from Rob Herring for the DT patches.
+>
+>      - Corrected clk/ PM domain-support patch by not using the
+>        devm_tegra_core_dev_init_opp_table_common() helper, which I
+>        utilized in v12. The clk driver implements its own power domain
+>        state syncing and common helper shouldn't be used. This fixes driver
+>        probing for some clocks on some devices. It was reported by
+>        Svyatoslav Ryhel for PLLE OPP error on T30 Asus Transformer tablet.
 
-> So we can create GPU mappings without R/W permissions. Particularly
-> useful to debug corruptions caused by out-of-bound writes.
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Dmitry, I have looked through the series and besides those comments
+that I have posted, I have nothing more to add. Overall it looks good
+to me.
 
-Oops, forgot:
-
-Reviewed-by: Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>
-Reviewed-by: Steven Price <steven.price@arm.com>
-
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 11 ++++++++++-
->  drivers/gpu/drm/panfrost/panfrost_gem.c |  2 ++
->  drivers/gpu/drm/panfrost/panfrost_gem.h |  2 ++
->  drivers/gpu/drm/panfrost/panfrost_mmu.c |  8 +++++++-
->  include/uapi/drm/panfrost_drm.h         |  2 ++
->  5 files changed, 23 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 82ad9a67f251..b29ac942ae2d 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -75,6 +75,10 @@ static int panfrost_ioctl_get_param(struct drm_device *ddev, void *data, struct
->  	return 0;
->  }
->  
-> +#define PANFROST_BO_FLAGS \
-> +	(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP | \
-> +	 PANFROST_BO_NOREAD | PANFROST_BO_NOWRITE)
-> +
->  static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  		struct drm_file *file)
->  {
-> @@ -84,7 +88,7 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  	struct panfrost_gem_mapping *mapping;
->  
->  	if (!args->size || args->pad ||
-> -	    (args->flags & ~(PANFROST_BO_NOEXEC | PANFROST_BO_HEAP)))
-> +	    (args->flags & ~PANFROST_BO_FLAGS))
->  		return -EINVAL;
->  
->  	/* Heaps should never be executable */
-> @@ -92,6 +96,11 @@ static int panfrost_ioctl_create_bo(struct drm_device *dev, void *data,
->  	    !(args->flags & PANFROST_BO_NOEXEC))
->  		return -EINVAL;
->  
-> +	/* Executable implies readable */
-> +	if ((args->flags & PANFROST_BO_NOREAD) &&
-> +	    !(args->flags & PANFROST_BO_NOEXEC))
-> +		return -EINVAL;
-> +
->  	bo = panfrost_gem_create_with_handle(file, dev, args->size, args->flags,
->  					     &args->handle);
->  	if (IS_ERR(bo))
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.c b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> index 23377481f4e3..d6c1bb1445f2 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.c
-> @@ -251,6 +251,8 @@ panfrost_gem_create_with_handle(struct drm_file *file_priv,
->  
->  	bo = to_panfrost_bo(&shmem->base);
->  	bo->noexec = !!(flags & PANFROST_BO_NOEXEC);
-> +	bo->noread = !!(flags & PANFROST_BO_NOREAD);
-> +	bo->nowrite = !!(flags & PANFROST_BO_NOWRITE);
->  	bo->is_heap = !!(flags & PANFROST_BO_HEAP);
->  
->  	/*
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_gem.h b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> index 8088d5fd8480..6246b5fef446 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_gem.h
-> +++ b/drivers/gpu/drm/panfrost/panfrost_gem.h
-> @@ -37,6 +37,8 @@ struct panfrost_gem_object {
->  	atomic_t gpu_usecount;
->  
->  	bool noexec		:1;
-> +	bool noread		:1;
-> +	bool nowrite		:1;
->  	bool is_heap		:1;
->  };
->  
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_mmu.c b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> index f51d3f791a17..6a5c9d94d6f2 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_mmu.c
-> @@ -307,7 +307,7 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
->  	struct drm_gem_object *obj = &bo->base.base;
->  	struct panfrost_device *pfdev = to_panfrost_device(obj->dev);
->  	struct sg_table *sgt;
-> -	int prot = IOMMU_READ | IOMMU_WRITE;
-> +	int prot = 0;
->  
->  	if (WARN_ON(mapping->active))
->  		return 0;
-> @@ -315,6 +315,12 @@ int panfrost_mmu_map(struct panfrost_gem_mapping *mapping)
->  	if (bo->noexec)
->  		prot |= IOMMU_NOEXEC;
->  
-> +	if (!bo->nowrite)
-> +		prot |= IOMMU_WRITE;
-> +
-> +	if (!bo->noread)
-> +		prot |= IOMMU_READ;
-> +
->  	sgt = drm_gem_shmem_get_pages_sgt(obj);
->  	if (WARN_ON(IS_ERR(sgt)))
->  		return PTR_ERR(sgt);
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 061e700dd06c..a2de81225125 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -86,6 +86,8 @@ struct drm_panfrost_wait_bo {
->  
->  #define PANFROST_BO_NOEXEC	1
->  #define PANFROST_BO_HEAP	2
-> +#define PANFROST_BO_NOREAD	4
-> +#define PANFROST_BO_NOWRITE	8
->  
->  /**
->   * struct drm_panfrost_create_bo - ioctl argument for creating Panfrost BOs.
-
+Kind regards
+Uffe
