@@ -1,54 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A7941FE66
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 00:13:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDF841FE67
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 00:14:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1340B6E042;
-	Sat,  2 Oct 2021 22:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9A50C6E043;
+	Sat,  2 Oct 2021 22:14:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C1336E042
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 22:13:45 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id i25so53813896lfg.6
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 15:13:45 -0700 (PDT)
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
+ [IPv6:2a00:1450:4864:20::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26E166E043
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 22:13:59 +0000 (UTC)
+Received: by mail-lf1-x133.google.com with SMTP id x27so53448131lfa.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 15:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=1PQ9rDxGkZ/nC9w9XyA3Z0nup3/Xg+RTAFrCGeTWPcw=;
- b=NwfjhLCiYEhAizHQjqvOZWaW9Out6/5dDXHFMSeN5Q7W3SG+CoQ0yUInPM/8C759+m
- 96SdhefzprnShMktj304d7sBMbmrFYXfEhRyicYi0iOQtbyO1smUz0xHgeApGpKkc9wr
- rilbcMhHmLyyDQl2kx8PIZ2fdnrftvPYo5wpI+ic795EWGd+fresILGFwz9GnVTukwMK
- 5t5x2D1giw21y4qJav1L4fdOErQC5H2pArvjvMejkKNqddoSZhFo0Xfp/E7fkfzryCiV
- TnmiH89xjAJzJ1dEs+jaCyaonzzzSsbAk1zOHskErIGJE9qiN//C3o+eUEcWyUn6cHD2
- //Ew==
+ :cc; bh=zqvlzNdilTmWhgIpAfVO8W565dokJ4JHJEBDZSdjBEQ=;
+ b=Uyx0+TVPmsxgqXeFmECWM042ilb2l6fz/75W4zAEx+4kkxWUFdtkZ/7znFTK62Jt4A
+ d+muhpiVHx5Zywg7cIIefJg+QkcPLwMUv4/FmRt2kMxvbnu8qjkgbTlAufY9Awq4wjod
+ fBEUugwHwM9/gYYpJb7qIN0wzU+sV9xujKAe1/FStyosEK1dmqQK+kkYlEzDrY2EkA1T
+ z9I5rieO9dkflsDoif8bf2tB0fQVrd4U8GuURhGDocGTMwWNkPwdHmGHZ2VWoXF3xVuv
+ x8MY13tSj8at9XOWQqzbAj5QxvBKALfcFZZLVaHzKIWt99wTKaDE2rJRmHz2UffX9ngy
+ dApA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=1PQ9rDxGkZ/nC9w9XyA3Z0nup3/Xg+RTAFrCGeTWPcw=;
- b=qgZdjyxFM2gyMIIvxU1s+SylEK3CSrsMnzrv1RFM8oeMXLmmvHbKX3pG0g3tuWsVdW
- /QLRncQFsqnEfZsLM5xxrbo2s3tz4MNCkktbEggBo2lCYcYkTV6nVaG1tnQUjkpo8fr5
- nCkNEhyZYlkcS+ajXYaSIKjYI0EPjKB98tal7A4QTLzza+dy8WTfGilAnRgKasvLn/Kt
- Uju/YCpJ/fGljmCkLhUlAHJ30i+6AcHgSW0Jqy/BxenwrB8aKQ9919/PIZlm5IjQ1ykz
- EFVSnN5WevZ4NB/LJlfpRiacyd6Tu43DWtmiRotBS8NcHnA7kZme2wkS+VqxvgSvzg2b
- 9X+w==
-X-Gm-Message-State: AOAM533UTdxl83bNMqgEePvPO9wo3/quPZYzFOGoxlltOxSiU8RBqfLU
- k6SIrvl2ieF8zpxBCqaXQdiJvpdqWZMErwzusBQ=
-X-Google-Smtp-Source: ABdhPJyuHoDP3auSRIBlC8GTHGFlPgiBus9Njfqpe9s4IDYXot0scpJD7ftFTcelHrCbN1mVJ8QmhWbXHt74JFGKkCk=
-X-Received: by 2002:a05:6512:610:: with SMTP id
- b16mr5607937lfe.56.1633212823751; 
- Sat, 02 Oct 2021 15:13:43 -0700 (PDT)
+ bh=zqvlzNdilTmWhgIpAfVO8W565dokJ4JHJEBDZSdjBEQ=;
+ b=YSbFhtzDH9VkxCAf6waXUKt+ibP4n4n8JwYiWJ9kShQZeWVkAjmug9JuIHXBehAHg0
+ 55Z4CMIRQMVpI+lyHvwnShrIwsW3phgyQV9PdfwKVUIcAcbStA/ZYJR5oC2QL7yeYVpM
+ R48/BHHRGBHtLAfmPnwWJtQ6MH/K4j8TCUajHZXzEcgqpamnSeJjywvTYAr2kCYVTM5n
+ rYQ8Nj8IReXCdPW5/lc7afZu2Sidzxax820C/PPRMUyn0Bnni/AHiWKfv+IBz5NKOOD1
+ ioNohTFz+LfbzG6O4fOaeru9W+Kn35W9neS0TUdih7iVPu05WOiqv4HWlt83ca6nqGBc
+ Ckrw==
+X-Gm-Message-State: AOAM531+tqecaqIZJkBWHqbqnOTs1vld4mwiNmSrHhfhvveDFaigKPHj
+ hUnxmRkHlnton6gM3X8pOdGSCV1K+v5V2rxKbmI=
+X-Google-Smtp-Source: ABdhPJw7WtRDq5Gin+AkA90muhsRgJlxYAdOaLKzQR9g2kufDjRWKD26S5PnSCWGdmhGPN2gsD5exg9gtGJFjRf0/N0=
+X-Received: by 2002:a2e:144b:: with SMTP id 11mr5709573lju.384.1633212837316; 
+ Sat, 02 Oct 2021 15:13:57 -0700 (PDT)
 MIME-Version: 1.0
 References: <20210928084446.22580-1-tzimmermann@suse.de>
- <20210928084446.22580-4-tzimmermann@suse.de>
-In-Reply-To: <20210928084446.22580-4-tzimmermann@suse.de>
+ <20210928084446.22580-5-tzimmermann@suse.de>
+In-Reply-To: <20210928084446.22580-5-tzimmermann@suse.de>
 From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Sun, 3 Oct 2021 00:13:32 +0200
-Message-ID: <CAMeQTsaNJisxQOX0su63A76LrJWMrw2r2JSCNBek54-sZnb-4w@mail.gmail.com>
-Subject: Re: [PATCH 03/10] drm/gma500: Reimplement psb_gem_create()
+Date: Sun, 3 Oct 2021 00:13:46 +0200
+Message-ID: <CAMeQTsZHzR3WKU8kWVSid8oY3nbwyBDCUfM3w0hFBFr0Rn9P9g@mail.gmail.com>
+Subject: Re: [PATCH 04/10] drm/gma500: Allocate GTT ranges in stolen memory
+ with psb_gem_create()
 To: Thomas Zimmermann <tzimmermann@suse.de>
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
  dri-devel <dri-devel@lists.freedesktop.org>
@@ -70,11 +70,23 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On Tue, Sep 28, 2021 at 10:44 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
 >
-> Implement psb_gem_create() for general use. Create the GEM handle in
-> psb_gem_create_dumb(). Allows to use psb_gem_create() for creating all
-> of the GEM objects.
+> Support private objects for stolen memory in psb_gem_create() and
+> convert users to psb_gem_create(). For stolen memory, psb_gem_create()
+> now initializes the GEM object via drm_gem_private_object_init().
 >
-> While at it, clean-up drm_gem_dumb_create() to make it more readable.
+> In the fbdev setup, replace the open-coded initialization of struct
+> gtt_range with a call to psb_gem_create(). Use drm_gem_object_put()
+> for release.
+>
+> In the cursor setup, use psb_gem_create() and get a real GEM object.
+> Previously the allocated instance of struct gtt_range was only partially
+> initialized. Release the cursor GEM object in gma_crtc_destroy(). The
+> release was missing from the original code.
+>
+> With the conversion of all callers to psb_gem_create(), the extern
+> declarations of psb_gtt_alloc_range, psb_gtt_free_range and
+> psb_gem_object_func are not required any longer. Declare them as
+> static inline.
 >
 > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 
@@ -82,143 +94,202 @@ Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
 
 > ---
->  drivers/gpu/drm/gma500/gem.c | 93 ++++++++++++++++++++++--------------
->  drivers/gpu/drm/gma500/gem.h |  4 +-
->  2 files changed, 59 insertions(+), 38 deletions(-)
+>  drivers/gpu/drm/gma500/framebuffer.c       | 44 ++++++----------------
+>  drivers/gpu/drm/gma500/gem.c               | 22 ++++++-----
+>  drivers/gpu/drm/gma500/gem.h               |  5 ---
+>  drivers/gpu/drm/gma500/gma_display.c       |  3 ++
+>  drivers/gpu/drm/gma500/psb_intel_display.c |  5 +--
+>  5 files changed, 29 insertions(+), 50 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-> index ff2c1d64689e..8f4bcf9cf912 100644
-> --- a/drivers/gpu/drm/gma500/gem.c
-> +++ b/drivers/gpu/drm/gma500/gem.c
-> @@ -164,45 +164,36 @@ struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
->         return NULL;
+> diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+> index ce92d11bd20f..3ea6679ccd38 100644
+> --- a/drivers/gpu/drm/gma500/framebuffer.c
+> +++ b/drivers/gpu/drm/gma500/framebuffer.c
+> @@ -224,31 +224,6 @@ static struct drm_framebuffer *psb_framebuffer_create
+>         return fb;
 >  }
 >
-> -int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
-> -                  u32 *handlep, int stolen, u32 align)
-> +struct gtt_range *
-> +psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align)
->  {
-> -       struct gtt_range *r;
-> +       struct gtt_range *gt;
-> +       struct drm_gem_object *obj;
->         int ret;
-> -       u32 handle;
->
->         size = roundup(size, PAGE_SIZE);
->
-> -       /* Allocate our object - for now a direct gtt range which is not
-> -          stolen memory backed */
-> -       r = psb_gtt_alloc_range(dev, size, "gem", 0, PAGE_SIZE);
-> -       if (r == NULL) {
-> +       gt = psb_gtt_alloc_range(dev, size, name, stolen, align);
-> +       if (!gt) {
->                 dev_err(dev->dev, "no memory for %lld byte GEM object\n", size);
-> -               return -ENOSPC;
-> +               return ERR_PTR(-ENOSPC);
->         }
-> -       r->gem.funcs = &psb_gem_object_funcs;
-> -       /* Initialize the extra goodies GEM needs to do all the hard work */
-> -       if (drm_gem_object_init(dev, &r->gem, size) != 0) {
-> -               psb_gtt_free_range(dev, r);
-> -               /* GEM doesn't give an error code so use -ENOMEM */
-> -               dev_err(dev->dev, "GEM init failed for %lld\n", size);
-> -               return -ENOMEM;
+> -/**
+> - *     psbfb_alloc             -       allocate frame buffer memory
+> - *     @dev: the DRM device
+> - *     @aligned_size: space needed
+> - *
+> - *     Allocate the frame buffer. In the usual case we get a GTT range that
+> - *     is stolen memory backed and life is simple. If there isn't sufficient
+> - *     we fail as we don't have the virtual mapping space to really vmap it
+> - *     and the kernel console code can't handle non linear framebuffers.
+> - *
+> - *     Re-address this as and if the framebuffer layer grows this ability.
+> - */
+> -static struct gtt_range *psbfb_alloc(struct drm_device *dev, int aligned_size)
+> -{
+> -       struct gtt_range *backing;
+> -       /* Begin by trying to use stolen memory backing */
+> -       backing = psb_gtt_alloc_range(dev, aligned_size, "fb", 1, PAGE_SIZE);
+> -       if (backing) {
+> -               backing->gem.funcs = &psb_gem_object_funcs;
+> -               drm_gem_private_object_init(dev, &backing->gem, aligned_size);
+> -               return backing;
 > -       }
-> -       /* Limit the object to 32bit mappings */
-> -       mapping_set_gfp_mask(r->gem.filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
-> -       /* Give the object a handle so we can carry it more easily */
-> -       ret = drm_gem_handle_create(file, &r->gem, &handle);
-> -       if (ret) {
-> -               dev_err(dev->dev, "GEM handle failed for %p, %lld\n",
-> -                                                       &r->gem, size);
-> -               drm_gem_object_release(&r->gem);
-> -               psb_gtt_free_range(dev, r);
-> -               return ret;
-> -       }
-> -       /* We have the initial and handle reference but need only one now */
-> -       drm_gem_object_put(&r->gem);
-> -       *handlep = handle;
-> -       return 0;
-> +       obj = &gt->gem;
-> +
-> +       obj->funcs = &psb_gem_object_funcs;
-> +
-> +       ret = drm_gem_object_init(dev, obj, size);
-> +       if (ret)
-> +               goto err_psb_gtt_free_range;
-> +
-> +       /* Limit the object to 32-bit mappings */
-> +       mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
-> +
-> +       return gt;
-> +
-> +err_psb_gtt_free_range:
-> +       psb_gtt_free_range(dev, gt);
-> +       return ERR_PTR(ret);
->  }
->
+> -       return NULL;
+> -}
+> -
 >  /**
-> @@ -218,10 +209,40 @@ int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
->  int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
->                         struct drm_mode_create_dumb *args)
->  {
-> -       args->pitch = ALIGN(args->width * ((args->bpp + 7) / 8), 64);
-> -       args->size = args->pitch * args->height;
-> -       return psb_gem_create(file, dev, args->size, &args->handle, 0,
-> -                             PAGE_SIZE);
-> +       size_t pitch, size;
-> +       struct gtt_range *gt;
+>   *     psbfb_create            -       create a framebuffer
+>   *     @fb_helper: the framebuffer helper
+> @@ -268,6 +243,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+>         int size;
+>         int ret;
+>         struct gtt_range *backing;
 > +       struct drm_gem_object *obj;
-> +       u32 handle;
-> +       int ret;
-> +
-> +       pitch = args->width * DIV_ROUND_UP(args->bpp, 8);
-> +       pitch = ALIGN(pitch, 64);
-> +
-> +       size = pitch * args->height;
-> +       size = roundup(size, PAGE_SIZE);
-> +       if (!size)
-> +               return -EINVAL;
-> +
-> +       gt = psb_gem_create(dev, size, "gem", false, PAGE_SIZE);
-> +       if (IS_ERR(gt))
-> +               return PTR_ERR(gt);
-> +       obj = &gt->gem;
-> +
-> +       ret = drm_gem_handle_create(file, obj, &handle);
-> +       if (ret)
+>         u32 bpp, depth;
+>
+>         mode_cmd.width = sizes->surface_width;
+> @@ -285,24 +261,25 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+>         size = ALIGN(size, PAGE_SIZE);
+>
+>         /* Allocate the framebuffer in the GTT with stolen page backing */
+> -       backing = psbfb_alloc(dev, size);
+> -       if (backing == NULL)
+> -               return -ENOMEM;
+> +       backing = psb_gem_create(dev, size, "fb", true, PAGE_SIZE);
+> +       if (IS_ERR(backing))
+> +               return PTR_ERR(backing);
+> +       obj = &backing->gem;
+>
+>         memset(dev_priv->vram_addr + backing->offset, 0, size);
+>
+>         info = drm_fb_helper_alloc_fbi(fb_helper);
+>         if (IS_ERR(info)) {
+>                 ret = PTR_ERR(info);
+> -               goto out;
 > +               goto err_drm_gem_object_put;
-> +
-> +       drm_gem_object_put(obj);
-> +
-> +       args->pitch = pitch;
-> +       args->size = size;
-> +       args->handle = handle;
-> +
-> +       return 0;
+>         }
+>
+>         mode_cmd.pixel_format = drm_mode_legacy_fb_format(bpp, depth);
+>
+> -       fb = psb_framebuffer_create(dev, &mode_cmd, &backing->gem);
+> +       fb = psb_framebuffer_create(dev, &mode_cmd, obj);
+>         if (IS_ERR(fb)) {
+>                 ret = PTR_ERR(fb);
+> -               goto out;
+> +               goto err_drm_gem_object_put;
+>         }
+>
+>         fb_helper->fb = fb;
+> @@ -333,8 +310,9 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
+>         dev_dbg(dev->dev, "allocated %dx%d fb\n", fb->width, fb->height);
+>
+>         return 0;
+> -out:
+> -       psb_gtt_free_range(dev, backing);
 > +
 > +err_drm_gem_object_put:
 > +       drm_gem_object_put(obj);
-> +       return ret;
+>         return ret;
 >  }
 >
->  /**
+> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
+> index 8f4bcf9cf912..4acab39a583a 100644
+> --- a/drivers/gpu/drm/gma500/gem.c
+> +++ b/drivers/gpu/drm/gma500/gem.c
+> @@ -90,7 +90,7 @@ void psb_gtt_unpin(struct gtt_range *gt)
+>         mutex_unlock(&dev_priv->gtt_mutex);
+>  }
+>
+> -void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
+> +static void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
+>  {
+>         /* Undo the mmap pin if we are destroying the object */
+>         if (gt->mmapping) {
+> @@ -122,13 +122,13 @@ static const struct vm_operations_struct psb_gem_vm_ops = {
+>         .close = drm_gem_vm_close,
+>  };
+>
+> -const struct drm_gem_object_funcs psb_gem_object_funcs = {
+> +static const struct drm_gem_object_funcs psb_gem_object_funcs = {
+>         .free = psb_gem_free_object,
+>         .vm_ops = &psb_gem_vm_ops,
+>  };
+>
+> -struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+> -                                     const char *name, int backed, u32 align)
+> +static struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+> +                                            const char *name, int backed, u32 align)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>         struct gtt_range *gt;
+> @@ -182,12 +182,16 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
+>
+>         obj->funcs = &psb_gem_object_funcs;
+>
+> -       ret = drm_gem_object_init(dev, obj, size);
+> -       if (ret)
+> -               goto err_psb_gtt_free_range;
+> +       if (stolen) {
+> +               drm_gem_private_object_init(dev, obj, size);
+> +       } else {
+> +               ret = drm_gem_object_init(dev, obj, size);
+> +               if (ret)
+> +                       goto err_psb_gtt_free_range;
+>
+> -       /* Limit the object to 32-bit mappings */
+> -       mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
+> +               /* Limit the object to 32-bit mappings */
+> +               mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
+> +       }
+>
+>         return gt;
+>
 > diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
-> index 275494aedd4c..ad76127dc719 100644
+> index ad76127dc719..6b67c58cbed5 100644
 > --- a/drivers/gpu/drm/gma500/gem.h
 > +++ b/drivers/gpu/drm/gma500/gem.h
-> @@ -14,8 +14,8 @@ struct drm_device;
+> @@ -12,14 +12,9 @@
 >
->  extern const struct drm_gem_object_funcs psb_gem_object_funcs;
+>  struct drm_device;
 >
-> -extern int psb_gem_create(struct drm_file *file, struct drm_device *dev,
-> -                         u64 size, u32 *handlep, int stolen, u32 align);
-> +struct gtt_range *
-> +psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align);
+> -extern const struct drm_gem_object_funcs psb_gem_object_funcs;
+> -
+>  struct gtt_range *
+>  psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align);
 >
->  struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len, const char *name,
->                                       int backed, u32 align);
+> -struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len, const char *name,
+> -                                     int backed, u32 align);
+> -void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt);
+>  int psb_gtt_pin(struct gtt_range *gt);
+>  void psb_gtt_unpin(struct gtt_range *gt);
+>
+> diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+> index 8285358fac01..8c95b50034a5 100644
+> --- a/drivers/gpu/drm/gma500/gma_display.c
+> +++ b/drivers/gpu/drm/gma500/gma_display.c
+> @@ -498,6 +498,9 @@ void gma_crtc_destroy(struct drm_crtc *crtc)
+>  {
+>         struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
+>
+> +       if (gma_crtc->cursor_gt)
+> +               drm_gem_object_put(&gma_crtc->cursor_gt->gem);
+> +
+>         kfree(gma_crtc->crtc_state);
+>         drm_crtc_cleanup(crtc);
+>         kfree(gma_crtc);
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
+> index 18d5f7e5889e..b5e9118c01a4 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_display.c
+> +++ b/drivers/gpu/drm/gma500/psb_intel_display.c
+> @@ -461,9 +461,8 @@ static void psb_intel_cursor_init(struct drm_device *dev,
+>                 /* Allocate 4 pages of stolen mem for a hardware cursor. That
+>                  * is enough for the 64 x 64 ARGB cursors we support.
+>                  */
+> -               cursor_gt = psb_gtt_alloc_range(dev, 4 * PAGE_SIZE, "cursor", 1,
+> -                                               PAGE_SIZE);
+> -               if (!cursor_gt) {
+> +               cursor_gt = psb_gem_create(dev, 4 * PAGE_SIZE, "cursor", true, PAGE_SIZE);
+> +               if (IS_ERR(cursor_gt)) {
+>                         gma_crtc->cursor_gt = NULL;
+>                         goto out;
+>                 }
 > --
 > 2.33.0
 >
