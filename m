@@ -2,66 +2,67 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D6741FDEF
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 21:49:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E0741FDFA
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 22:03:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8FE6E44C;
-	Sat,  2 Oct 2021 19:48:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBAAF6E03C;
+	Sat,  2 Oct 2021 20:03:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com
- [IPv6:2a00:1450:4864:20::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 722A16E038
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 19:48:57 +0000 (UTC)
-Received: by mail-lf1-x133.google.com with SMTP id u18so53250388lfd.12
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 12:48:57 -0700 (PDT)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BA6436E02F
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 20:03:44 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id x27so52663333lfa.9
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 13:03:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DvdMhFbXdHD7A6qJ5QaxL5UY0tJ08n/H0zZVRP0lw34=;
- b=YFaCW+4el+K/jG5JcYf1j3WPgImW/sWsAq6uGe/M/7YQcsfv5GhtquTVoq/8QWvm/Z
- Nft+fSHuwn92Gb8wI9Fgmu71gtxXLH+230Lz/0IS3GKMz2rxP1Fgmj4UtPaB3lgwnerN
- w1NUmEVaWUjxN8O6WR7FegRP1VP8n270ocoSQYJ+NdEJHVQdzkLDCmpqujBbukBDLSPG
- mFA7BswIhERO33Um6sRot8rlDwuyeDEE4zrMVy9Yvs49knS45DpfEb3pOq7VEPrx1NSz
- c8p8SJis7t9dlrW/V9e3Pct6Fg7xjR5cEMoH9LSC2TrhOwv5dbhzF5msqownb0alwtZ1
- Pk3A==
+ bh=13J5NCM9YubkgnF2CpC0yWl/i0g0jlxsWta30UGyZs0=;
+ b=oegKqyu7mPdwoj9O7UaSL7cBNwXG4+DCDfIIwHzwmEDyXxNlBxYXNWubfWrtiVv22I
+ yMpvmEagtIR5jGGfEm7WleKL+gYwYbph9rAcr9tnJefvYCkFRpBs2ZbyrF8QcxsIGyay
+ v4N+ETsW9Hc2f1yZXGdwrYSiBmYKAizqEgG1XU+vlBDIxA40atShmhTtum2ljLmwZxk6
+ P6+cL/GcTNYowwBd7M0ZWEDUlIvpP3SNu0uzyVwnXmuhmU6tY69nQ9FL4W7k80F/DpIu
+ sfz/1WcR3qd4/GSdZZoLVVe2UnliC3RysOdV+0ZXGzoE54qc+OaTbcmLltdN5nR44KNE
+ pOtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DvdMhFbXdHD7A6qJ5QaxL5UY0tJ08n/H0zZVRP0lw34=;
- b=UNVJ7AS6vpL08q9JF6o8GLAtWEBVzifqaOyf+6Ro30Omm5Y+bAq7fAGtTeqO0XCQ9/
- dIRNxx7RXsRNIQk3cQPEmAhvqWL6xF7xs6c9vpO+VSR73/q2Mokkx7yn4pBxM/aimp2C
- BF39IMrCAyjSJor4FVnjGIYY5ae0tYbb+dmyYnb+NbG0V45zvzqHnZ+3O4KUTuRH7ubH
- dW0NdfPk5M64cSxmilKDUii+hNYpvgkXlzFNoet9IBq26ih+qsNPT5mi80Th4sdpUbVr
- 4NicrzSvtqDrH9iFpAltqAO7VzIZnKyDlRtcfKV+lqLfEclZvL8yHy1JhqoUuNfkTgQd
- HADQ==
-X-Gm-Message-State: AOAM531vQfeJyGF1s+Bgpd4FGMvbvQ71XVgU8bSfnA/ENdfWi0s5W/92
- D+QEtqmpiRMjf5Mb+SMxdqXyeQ==
-X-Google-Smtp-Source: ABdhPJw8ihcmBd/kFBOK8dZPMvMjHmdQ7DFw/tJ78Z2qNJWwDmAT/6/rANheh1Pl0qvgWTzcNVzkDQ==
-X-Received: by 2002:a2e:95cc:: with SMTP id y12mr5396780ljh.337.1633204135751; 
- Sat, 02 Oct 2021 12:48:55 -0700 (PDT)
+ bh=13J5NCM9YubkgnF2CpC0yWl/i0g0jlxsWta30UGyZs0=;
+ b=yXhgPu2pTbaNlV6jA0C0Hf8tAZFupPjeO4MEPNTjSY32ctShF92iNc/YV/xF7Fxcda
+ /b0+ppfv6em8RVi2o21rMfUrGMlcm0oWYueFgnGAOj4dynpG+ker2GjPcfVnGfcHfazq
+ KdHO569vKHiawNjGfwS1z76HUDSl/9iKhZ4s722iV35jvKq/pErJwocdfcQqll5ChGq0
+ 3/ClFeKMTFlFsTnO1GeyQ4rS3556UiLQo1DgUKjbiW6orO9vrOcsfg1pTZC0fwi2Qn43
+ fsIYy904lrQYMhFX5iZgXjQIx9zRPjr7ADrcQ970HfB7CCBisDC5xc7wObPVmSlfbn0Q
+ hmwg==
+X-Gm-Message-State: AOAM531PTdvU3pwsVVafwq74UPV9NlofMdPR4LVvmb0b37UDdid2KgOo
+ qKJ4zXuZeAe3hZW4t8q3UR8vNQ==
+X-Google-Smtp-Source: ABdhPJxMzC5Hbab+sd5joT8D86weC5/IpuCQJrBVIIXEaN35dhD0lCCRcJVMffgtoz1UV//z8P6stw==
+X-Received: by 2002:a05:651c:504:: with SMTP id
+ o4mr5475218ljp.393.1633205023010; 
+ Sat, 02 Oct 2021 13:03:43 -0700 (PDT)
 Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id k21sm1115451lji.81.2021.10.02.12.48.55
+ by smtp.gmail.com with ESMTPSA id bj40sm1009896ljb.106.2021.10.02.13.03.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 12:48:55 -0700 (PDT)
-Subject: Re: [PATCH] drm/msm: dsi: Remove redundant null check before
- clk_prepare_enable/clk_disable_unprepare
-To: Xu Wang <vulab@iscas.ac.cn>, robdclark@gmail.com, sean@poorly.run,
- airlied@linux.ie, daniel@ffwll.ch, tzimmermann@suse.de, mka@chromium.org,
- harigovi@codeaurora.org, emil.velikov@collabora.com,
- rikard.falkeborn@gmail.com, viresh.kumar@linaro.org, rnayak@codeaurora.org
-Cc: linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20201231095616.25973-1-vulab@iscas.ac.cn>
+ Sat, 02 Oct 2021 13:03:42 -0700 (PDT)
+Subject: Re: [PATCH] drm/msm: delete conversion from bool value to bool return
+To: Bernard Zhao <bernard@vivo.com>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Drew Davenport <ddavenport@chromium.org>,
+ Zheng Bin <zhengbin13@huawei.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Cc: opensource.kernel@vivo.com
+References: <20201102125030.6209-1-bernard@vivo.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <3de6b365-7ef7-e191-a072-c7bd418c519b@linaro.org>
-Date: Sat, 2 Oct 2021 22:48:54 +0300
+Message-ID: <2e2abdc5-d426-a0f4-9fbb-640560b4abd4@linaro.org>
+Date: Sat, 2 Oct 2021 23:03:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.14.0
 MIME-Version: 1.0
-In-Reply-To: <20201231095616.25973-1-vulab@iscas.ac.cn>
+In-Reply-To: <20201102125030.6209-1-bernard@vivo.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -80,52 +81,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 31/12/2020 12:56, Xu Wang wrote:
-> Because clk_prepare_enable() and clk_disable_unprepare() already checked
-> NULL clock parameter, so the additional checks are unnecessary, just
-> remove them.
+On 02/11/2020 15:50, Bernard Zhao wrote:
+> Delete the conversion from bool value to bool function return.
 > 
-> Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+> Signed-off-by: Bernard Zhao <bernard@vivo.com>
 
 Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 
 > ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 15 ++++++---------
->   1 file changed, 6 insertions(+), 9 deletions(-)
+>   drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index ab281cba0f08..e7af90f045bf 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -565,13 +565,11 @@ int dsi_link_clk_enable_6g(struct msm_dsi_host *msm_host)
->   		goto pixel_clk_err;
->   	}
+> diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> index 8493d68ad841..411222f4cd6f 100644
+> --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder_phys_cmd.c
+> @@ -37,7 +37,7 @@
 >   
-> -	if (msm_host->byte_intf_clk) {
-> -		ret = clk_prepare_enable(msm_host->byte_intf_clk);
-> -		if (ret) {
-> -			pr_err("%s: Failed to enable byte intf clk\n",
-> -			       __func__);
-> -			goto byte_intf_clk_err;
-> -		}
-> +	ret = clk_prepare_enable(msm_host->byte_intf_clk);
-> +	if (ret) {
-> +		pr_err("%s: Failed to enable byte intf clk\n",
-> +			   __func__);
-> +		goto byte_intf_clk_err;
->   	}
->   
->   	return 0;
-> @@ -667,8 +665,7 @@ void dsi_link_clk_disable_6g(struct msm_dsi_host *msm_host)
->   	dev_pm_opp_set_rate(&msm_host->pdev->dev, 0);
->   	clk_disable_unprepare(msm_host->esc_clk);
->   	clk_disable_unprepare(msm_host->pixel_clk);
-> -	if (msm_host->byte_intf_clk)
-> -		clk_disable_unprepare(msm_host->byte_intf_clk);
-> +	clk_disable_unprepare(msm_host->byte_intf_clk);
->   	clk_disable_unprepare(msm_host->byte_clk);
+>   static bool dpu_encoder_phys_cmd_is_master(struct dpu_encoder_phys *phys_enc)
+>   {
+> -	return (phys_enc->split_role != ENC_ROLE_SLAVE) ? true : false;
+> +	return (phys_enc->split_role != ENC_ROLE_SLAVE);
 >   }
 >   
+>   static bool dpu_encoder_phys_cmd_mode_fixup(
 > 
 
 
