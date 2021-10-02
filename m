@@ -1,87 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368ED41FE1B
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 22:44:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F2D41FE63
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 00:13:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD6FE6E02F;
-	Sat,  2 Oct 2021 20:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A1D9B6E040;
+	Sat,  2 Oct 2021 22:13:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
- [IPv6:2a00:1450:4864:20::134])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A5B16E02F
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 20:44:50 +0000 (UTC)
-Received: by mail-lf1-x134.google.com with SMTP id y23so14063749lfb.0
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 13:44:50 -0700 (PDT)
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DCD076E03E
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 22:13:18 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id i24so5583946lfj.13
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 15:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=T5NA95fXjewFVQZ7RXmQGjvZaYL3KLG4ILjTuHYXm9E=;
- b=VInxURP7xctDXfL0Dl1Z5iIuI8Z57STPldPnyJ+NEoakoMviQJJZLMTDvRJajSYeUA
- L6hAx+33fXvlxHQdSLAb2swwYgCSXcm4IHTOs4QNGPXy0n+3kc1PaSRsPOeccYBdBeZd
- i/GVKW6ch0QjgR5Al9izKnsKjtkLP9b6WFxxbgQj5xOtMJ+SSJ3vI3nxrqadHVRi/RnA
- W6QxtWyfIbdShJzgMDhIpqfX5qzkmNQXHlvgGM11cFUopWEMKunpWxyqUcwKJKYvFAG5
- +vztm6uVxmXOzcI8Wt5yVr3CSoQmJa2Le0PpZjwLrPdDyp4eM6GhDyuSByQAckD1zOgW
- c3ug==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lUxSS0u16a59leCbdiKyswO6EUB4yGM5I30cTbOtpO8=;
+ b=gm1T+Gd6M4NZgmhBDKW6vInNJshE5szQoYT3/ySEt+LECpTbRe38G+mOZK21/g0aVk
+ +e0xijLNK/ChMKAWgq2vcp4OFXD92DVijYaQPGiceYvmGKT75Gj6oGKdDAAzyHG7XOoA
+ bj25ghmqYdk0E2BY1E1pb9pKwNizFU7Awd2fmVatmJZD/3d9F3Ost0IesL/8b6LRJEq4
+ Br2CQuA8Upa+SZi2c4H3biR7vvbIbdnZ0SLNgO8hdGn8AU1Tv1snzsHLJmJPtSEsgG+n
+ j9ZzQbtWFEt0jAmc5HkueEx4ND7h+14fJ1Gs9vFOB2nFI6zu4ubCGyWD8JmpkNKT54pz
+ JVcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=T5NA95fXjewFVQZ7RXmQGjvZaYL3KLG4ILjTuHYXm9E=;
- b=MrzkJU8shNY5/g4JosjHv9C965abnyCk9Y+FcKtoaqfxJeYNZaoMULBP8bI/2BlVq2
- bOkqNc1WEG5wiMLKqieHwgSczwez13sBJojroVqIrODwlHxRZolfEjzgrmSLwdgXXVaw
- VHOKGZizvD5Ar65V+bVfhYEZGS+YjsO78WgR2vw1XA4ER6y0TWVNtI2u6ekplvR21h4Q
- lxwVn5gGKsrBun7qB30jwc797AFj5KDHtI21PkDKIFWSQl8bUvMS0xz/02OFl8pTNRTu
- ixsGJVK0ZP7AVL6WiYzlEN6wVNL6lRYr9GnVhbnbRgGmy1CkDWeieMlWPd7Xg+iz78Tm
- Qt0w==
-X-Gm-Message-State: AOAM531XedXOSvQy3XXBc6cID+6FOokuVkQywrVleCNrLitKWBCbSdNb
- K3xZ0aQfl539b4cHLw13NdY=
-X-Google-Smtp-Source: ABdhPJzClEAya5hcn4TqFZQoHIn0mpgv86q3zG4rhbGd/Hwr0saEHFeEJIpz6XM0cCQNRVK631z4Mw==
-X-Received: by 2002:a2e:80cd:: with SMTP id r13mr5454584ljg.415.1633207488462; 
- Sat, 02 Oct 2021 13:44:48 -0700 (PDT)
-Received: from [192.168.2.145] (94-29-52-238.dynamic.spd-mgts.ru.
- [94.29.52.238])
- by smtp.googlemail.com with ESMTPSA id v27sm1233535lfp.0.2021.10.02.13.44.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 13:44:47 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
-Date: Sat, 2 Oct 2021 23:44:46 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lUxSS0u16a59leCbdiKyswO6EUB4yGM5I30cTbOtpO8=;
+ b=E2YtdZavUMe2llwylPza1GAJQD+mtm2L5/XFDfM85n0jE+OYcmWI/TigVuQYzHks4v
+ gpHYzgPxRiipqOvaTktZ1pJInA4jcp9VaTR01ZRkFtzcgCBnVKISSZDl1CrhQP3j6Q2k
+ CKBO+yop3BhM5iNaU7Yzt3xeOPQyOKmOuKanJBSQOqehOdoyVkuNGxfvS2XppLr8QuW9
+ qo4/y+zU4b2L4IjxD4kprLrLUYAS6DYyvwDk3lL2X4e/uuT5ROOcjHx+Mw9L9logYvOc
+ PaoZW8myD+7D6O3WK9w1Sl0IxTPx92YErSy4lXjYUqrs7Q9KlhvumsNEGdjgPVzFph6H
+ 3dcA==
+X-Gm-Message-State: AOAM531KucOFSA9fGNQDqzB0UyDkpULc+xCP1wpXXMDeQMdczqbnroUw
+ IzV3DFHq8q+5x8okUwmpwLvwAJI/n8xO6S7VvJM=
+X-Google-Smtp-Source: ABdhPJymrZaN3TbO75WWt9zkIJhAngPUORC7OoQeNkWpPDX3Ve24eYDgjs/oWG76F/rp+fvqpzz0NQjiWBN3AuaVL68=
+X-Received: by 2002:ac2:5c48:: with SMTP id s8mr5559529lfp.336.1633212796955; 
+ Sat, 02 Oct 2021 15:13:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210928084446.22580-1-tzimmermann@suse.de>
+ <20210928084446.22580-2-tzimmermann@suse.de>
+In-Reply-To: <20210928084446.22580-2-tzimmermann@suse.de>
+From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Date: Sun, 3 Oct 2021 00:13:05 +0200
+Message-ID: <CAMeQTsbazeJ626tknMY0dYUyDzTd+tTAHney+C9Q5dtDOUsHvQ@mail.gmail.com>
+Subject: Re: [PATCH 01/10] drm/gma500: Move helpers for struct gtt_range from
+ gtt.c to gem.c
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -97,52 +68,481 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-01.10.2021 15:32, Ulf Hansson пишет:
->> +static __maybe_unused int tegra_clock_pm_suspend(struct device *dev)
->> +{
->> +       struct tegra_clk_device *clk_dev = dev_get_drvdata(dev);
->> +
->> +       /*
->> +        * Power management of the clock is entangled with the Tegra PMC
->> +        * GENPD because PMC driver enables/disables clocks for toggling
->> +        * of the PD's on/off state.
->> +        *
->> +        * The PMC GENPD is resumed in NOIRQ phase, before RPM of the clocks
->> +        * becomes available, hence PMC can't use clocks at the early resume
->> +        * phase if RPM is involved. For example when 3d clock is enabled,
->> +        * it may enable the parent PLL clock that needs to be RPM-resumed.
->> +        *
->> +        * Secondly, the PLL clocks may be enabled by the low level suspend
->> +        * code, so we need to assume that PLL is in enabled state during
->> +        * suspend.
->> +        *
->> +        * We will keep PLLs and system clock resumed during suspend time.
->> +        * All PLLs on all SoCs are low power and system clock is always-on,
->> +        * so practically not much is changed here.
->> +        */
->> +
->> +       return clk_prepare(clk_dev->hw->clk);
-> I am trying to understand, more exactly, what you intend to achieve
-> with the clk_prepare() here. It looks a bit weird, to me. Can you try
-> to elaborate a bit more on the use case?
+On Tue, Sep 28, 2021 at 10:44 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
+>
+> Allocation and pinning helpers for struct gtt_range are GEM functions,
+> so move them to gem.c. No functional changes.
+>
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  drivers/gpu/drm/gma500/framebuffer.c       |   1 -
+>  drivers/gpu/drm/gma500/gem.c               | 133 +++++++++++++--
+>  drivers/gpu/drm/gma500/gem.h               |   8 +
+>  drivers/gpu/drm/gma500/gma_display.c       |   1 +
+>  drivers/gpu/drm/gma500/gtt.c               | 190 +--------------------
+>  drivers/gpu/drm/gma500/gtt.h               |  11 +-
+>  drivers/gpu/drm/gma500/psb_intel_display.c |   1 +
+>  7 files changed, 136 insertions(+), 209 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
+> index 321e416489a9..ce92d11bd20f 100644
+> --- a/drivers/gpu/drm/gma500/framebuffer.c
+> +++ b/drivers/gpu/drm/gma500/framebuffer.c
+> @@ -25,7 +25,6 @@
+>
+>  #include "framebuffer.h"
+>  #include "gem.h"
+> -#include "gtt.h"
+>  #include "psb_drv.h"
+>  #include "psb_intel_drv.h"
+>  #include "psb_intel_reg.h"
+> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
+> index 5ae54c9d2819..734bcb7a80c8 100644
+> --- a/drivers/gpu/drm/gma500/gem.c
+> +++ b/drivers/gpu/drm/gma500/gem.c
+> @@ -19,6 +19,89 @@
+>  #include "gem.h"
+>  #include "psb_drv.h"
+>
+> +static int psb_gtt_attach_pages(struct gtt_range *gt)
+> +{
+> +       struct page **pages;
+> +
+> +       WARN_ON(gt->pages);
+> +
+> +       pages = drm_gem_get_pages(&gt->gem);
+> +       if (IS_ERR(pages))
+> +               return PTR_ERR(pages);
+> +
+> +       gt->npage = gt->gem.size / PAGE_SIZE;
+> +       gt->pages = pages;
+> +
+> +       return 0;
+> +}
+> +
+> +static void psb_gtt_detach_pages(struct gtt_range *gt)
+> +{
+> +       drm_gem_put_pages(&gt->gem, gt->pages, true, false);
+> +       gt->pages = NULL;
+> +}
+> +
+> +int psb_gtt_pin(struct gtt_range *gt)
+> +{
+> +       int ret = 0;
+> +       struct drm_device *dev = gt->gem.dev;
+> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +       u32 gpu_base = dev_priv->gtt.gatt_start;
+> +
+> +       mutex_lock(&dev_priv->gtt_mutex);
+> +
+> +       if (gt->in_gart == 0 && gt->stolen == 0) {
+> +               ret = psb_gtt_attach_pages(gt);
+> +               if (ret < 0)
+> +                       goto out;
+> +               ret = psb_gtt_insert(dev, gt, 0);
+> +               if (ret < 0) {
+> +                       psb_gtt_detach_pages(gt);
+> +                       goto out;
+> +               }
+> +               psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+> +                                    gt->pages, (gpu_base + gt->offset),
+> +                                    gt->npage, 0, 0, PSB_MMU_CACHED_MEMORY);
+> +       }
+> +       gt->in_gart++;
+> +out:
+> +       mutex_unlock(&dev_priv->gtt_mutex);
+> +       return ret;
+> +}
+> +
+> +void psb_gtt_unpin(struct gtt_range *gt)
+> +{
+> +       struct drm_device *dev = gt->gem.dev;
+> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +       u32 gpu_base = dev_priv->gtt.gatt_start;
+> +
+> +       mutex_lock(&dev_priv->gtt_mutex);
+> +
+> +       WARN_ON(!gt->in_gart);
+> +
+> +       gt->in_gart--;
+> +       if (gt->in_gart == 0 && gt->stolen == 0) {
+> +               psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+> +                                    (gpu_base + gt->offset), gt->npage, 0, 0);
+> +               psb_gtt_remove(dev, gt);
+> +               psb_gtt_detach_pages(gt);
+> +       }
+> +
+> +       mutex_unlock(&dev_priv->gtt_mutex);
+> +}
+> +
+> +void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
+> +{
+> +       /* Undo the mmap pin if we are destroying the object */
+> +       if (gt->mmapping) {
+> +               psb_gtt_unpin(gt);
+> +               gt->mmapping = 0;
+> +       }
+> +       WARN_ON(gt->in_gart && !gt->stolen);
+> +       release_resource(&gt->resource);
+> +       kfree(gt);
+> +}
+> +
+>  static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
+>
+>  static void psb_gem_free_object(struct drm_gem_object *obj)
+> @@ -44,19 +127,43 @@ const struct drm_gem_object_funcs psb_gem_object_funcs = {
+>         .vm_ops = &psb_gem_vm_ops,
+>  };
+>
+> -/**
+> - *     psb_gem_create          -       create a mappable object
+> - *     @file: the DRM file of the client
+> - *     @dev: our device
+> - *     @size: the size requested
+> - *     @handlep: returned handle (opaque number)
+> - *     @stolen: unused
+> - *     @align: unused
+> - *
+> - *     Create a GEM object, fill in the boilerplate and attach a handle to
+> - *     it so that userspace can speak about it. This does the core work
+> - *     for the various methods that do/will create GEM objects for things
+> - */
+> +struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+> +                                     const char *name, int backed, u32 align)
+> +{
+> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> +       struct gtt_range *gt;
+> +       struct resource *r = dev_priv->gtt_mem;
+> +       int ret;
+> +       unsigned long start, end;
+> +
+> +       if (backed) {
+> +               /* The start of the GTT is the stolen pages */
+> +               start = r->start;
+> +               end = r->start + dev_priv->gtt.stolen_size - 1;
+> +       } else {
+> +               /* The rest we will use for GEM backed objects */
+> +               start = r->start + dev_priv->gtt.stolen_size;
+> +               end = r->end;
+> +       }
+> +
+> +       gt = kzalloc(sizeof(struct gtt_range), GFP_KERNEL);
+> +       if (gt == NULL)
+> +               return NULL;
+> +       gt->resource.name = name;
+> +       gt->stolen = backed;
+> +       gt->in_gart = backed;
+> +       /* Ensure this is set for non GEM objects */
+> +       gt->gem.dev = dev;
+> +       ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
+> +                               len, start, end, align, NULL, NULL);
 
-The Tegra GENPD driver enable/disable clocks when domain is turned on.
-This can't be done during early system resume, when domains are getting
-turned on by the drivers core, because when clock is enabled, it's
-getting prepared (RPM-resumed) and this preparation fails because
-performance state of the clock goes up and it doesn't work during the
-early resume time since I2C, which applies the state to hardware, is
-suspended and can't work at that early time.
+Not something for this patch but I think we're missing locking around
+resource alloc and release.
 
-Secondly, Tegra has arch-specific low level assembly which touches
-clocks during last phase of system suspend and in the beginning of
-resume. Hence, clocks should stay prepared during suspend just because
-technically clock should be prepared before it can be enabled.
+> +       if (ret == 0) {
+> +               gt->offset = gt->resource.start - r->start;
+> +               return gt;
+> +       }
+> +       kfree(gt);
+> +       return NULL;
+> +}
+> +
+>  int psb_gem_create(struct drm_file *file, struct drm_device *dev, u64 size,
+>                    u32 *handlep, int stolen, u32 align)
+>  {
+> diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
+> index bae6454ead29..275494aedd4c 100644
+> --- a/drivers/gpu/drm/gma500/gem.h
+> +++ b/drivers/gpu/drm/gma500/gem.h
+> @@ -8,6 +8,8 @@
+>  #ifndef _GEM_H
+>  #define _GEM_H
+>
+> +#include <drm/drm_gem.h>
+> +
+>  struct drm_device;
+>
+>  extern const struct drm_gem_object_funcs psb_gem_object_funcs;
+> @@ -15,4 +17,10 @@ extern const struct drm_gem_object_funcs psb_gem_object_funcs;
+>  extern int psb_gem_create(struct drm_file *file, struct drm_device *dev,
+>                           u64 size, u32 *handlep, int stolen, u32 align);
+>
+> +struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len, const char *name,
+> +                                     int backed, u32 align);
+> +void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt);
+> +int psb_gtt_pin(struct gtt_range *gt);
+> +void psb_gtt_unpin(struct gtt_range *gt);
+> +
+>  #endif
+> diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
+> index cbcecbaa041b..ecf8153416ac 100644
+> --- a/drivers/gpu/drm/gma500/gma_display.c
+> +++ b/drivers/gpu/drm/gma500/gma_display.c
+> @@ -15,6 +15,7 @@
+>  #include <drm/drm_vblank.h>
+>
+>  #include "framebuffer.h"
+> +#include "gem.h"
+>  #include "gma_display.h"
+>  #include "psb_drv.h"
+>  #include "psb_intel_drv.h"
+> diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
+> index 55a2a6919533..0aacf7122e32 100644
+> --- a/drivers/gpu/drm/gma500/gtt.c
+> +++ b/drivers/gpu/drm/gma500/gtt.c
+> @@ -71,8 +71,7 @@ static u32 __iomem *psb_gtt_entry(struct drm_device *dev, struct gtt_range *r)
+>   *     the GTT. This is protected via the gtt mutex which the caller
+>   *     must hold.
+>   */
+> -static int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r,
+> -                         int resume)
+> +int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r, int resume)
+>  {
+>         u32 __iomem *gtt_slot;
+>         u32 pte;
+> @@ -116,7 +115,7 @@ static int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r,
+>   *     page table entries with the dummy page. This is protected via the gtt
+>   *     mutex which the caller must hold.
+>   */
+> -static void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
+> +void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+>         u32 __iomem *gtt_slot;
+> @@ -135,191 +134,6 @@ static void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r)
+>         set_pages_array_wb(r->pages, r->npage);
+>  }
+>
+> -/**
+> - *     psb_gtt_attach_pages    -       attach and pin GEM pages
+> - *     @gt: the gtt range
+> - *
+> - *     Pin and build an in kernel list of the pages that back our GEM object.
+> - *     While we hold this the pages cannot be swapped out. This is protected
+> - *     via the gtt mutex which the caller must hold.
+> - */
 
-> Is this rather about making sure that the clock's corresponding PM
-> domain stays powered on during system suspend? In that case, I think
-> there may be an alternative option....
-> 
+The documentation about locking is still relevant. I'm not a big fan
+of documenting the obvious but locking is an exception.
 
-This is not about domain staying powered on, this is about keeping the
-performance state of the domain high during suspend.
+> -static int psb_gtt_attach_pages(struct gtt_range *gt)
+> -{
+> -       struct page **pages;
+> -
+> -       WARN_ON(gt->pages);
+> -
+> -       pages = drm_gem_get_pages(&gt->gem);
+> -       if (IS_ERR(pages))
+> -               return PTR_ERR(pages);
+> -
+> -       gt->npage = gt->gem.size / PAGE_SIZE;
+> -       gt->pages = pages;
+> -
+> -       return 0;
+> -}
+> -
+> -/**
+> - *     psb_gtt_detach_pages    -       attach and pin GEM pages
+> - *     @gt: the gtt range
+> - *
+> - *     Undo the effect of psb_gtt_attach_pages. At this point the pages
+> - *     must have been removed from the GTT as they could now be paged out
+> - *     and move bus address. This is protected via the gtt mutex which the
+> - *     caller must hold.
+> - */
+
+Same thing about locking here
+
+
+> -static void psb_gtt_detach_pages(struct gtt_range *gt)
+> -{
+> -       drm_gem_put_pages(&gt->gem, gt->pages, true, false);
+> -       gt->pages = NULL;
+> -}
+> -
+> -/**
+> - *     psb_gtt_pin             -       pin pages into the GTT
+> - *     @gt: range to pin
+> - *
+> - *     Pin a set of pages into the GTT. The pins are refcounted so that
+> - *     multiple pins need multiple unpins to undo.
+> - *
+> - *     Non GEM backed objects treat this as a no-op as they are always GTT
+> - *     backed objects.
+> - */
+> -int psb_gtt_pin(struct gtt_range *gt)
+> -{
+> -       int ret = 0;
+> -       struct drm_device *dev = gt->gem.dev;
+> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       u32 gpu_base = dev_priv->gtt.gatt_start;
+> -
+> -       mutex_lock(&dev_priv->gtt_mutex);
+> -
+> -       if (gt->in_gart == 0 && gt->stolen == 0) {
+> -               ret = psb_gtt_attach_pages(gt);
+> -               if (ret < 0)
+> -                       goto out;
+> -               ret = psb_gtt_insert(dev, gt, 0);
+> -               if (ret < 0) {
+> -                       psb_gtt_detach_pages(gt);
+> -                       goto out;
+> -               }
+> -               psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+> -                                    gt->pages, (gpu_base + gt->offset),
+> -                                    gt->npage, 0, 0, PSB_MMU_CACHED_MEMORY);
+> -       }
+> -       gt->in_gart++;
+> -out:
+> -       mutex_unlock(&dev_priv->gtt_mutex);
+> -       return ret;
+> -}
+> -
+> -/**
+> - *     psb_gtt_unpin           -       Drop a GTT pin requirement
+> - *     @gt: range to pin
+> - *
+> - *     Undoes the effect of psb_gtt_pin. On the last drop the GEM object
+> - *     will be removed from the GTT which will also drop the page references
+> - *     and allow the VM to clean up or page stuff.
+> - *
+> - *     Non GEM backed objects treat this as a no-op as they are always GTT
+> - *     backed objects.
+> - */
+> -void psb_gtt_unpin(struct gtt_range *gt)
+> -{
+> -       struct drm_device *dev = gt->gem.dev;
+> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       u32 gpu_base = dev_priv->gtt.gatt_start;
+> -
+> -       mutex_lock(&dev_priv->gtt_mutex);
+> -
+> -       WARN_ON(!gt->in_gart);
+> -
+> -       gt->in_gart--;
+> -       if (gt->in_gart == 0 && gt->stolen == 0) {
+> -               psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+> -                                    (gpu_base + gt->offset), gt->npage, 0, 0);
+> -               psb_gtt_remove(dev, gt);
+> -               psb_gtt_detach_pages(gt);
+> -       }
+> -
+> -       mutex_unlock(&dev_priv->gtt_mutex);
+> -}
+> -
+> -/*
+> - *     GTT resource allocator - allocate and manage GTT address space
+> - */
+> -
+> -/**
+> - *     psb_gtt_alloc_range     -       allocate GTT address space
+> - *     @dev: Our DRM device
+> - *     @len: length (bytes) of address space required
+> - *     @name: resource name
+> - *     @backed: resource should be backed by stolen pages
+> - *     @align: requested alignment
+> - *
+> - *     Ask the kernel core to find us a suitable range of addresses
+> - *     to use for a GTT mapping.
+> - *
+> - *     Returns a gtt_range structure describing the object, or NULL on
+> - *     error. On successful return the resource is both allocated and marked
+> - *     as in use.
+> - */
+> -struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+> -                                     const char *name, int backed, u32 align)
+> -{
+> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> -       struct gtt_range *gt;
+> -       struct resource *r = dev_priv->gtt_mem;
+> -       int ret;
+> -       unsigned long start, end;
+> -
+> -       if (backed) {
+> -               /* The start of the GTT is the stolen pages */
+> -               start = r->start;
+> -               end = r->start + dev_priv->gtt.stolen_size - 1;
+> -       } else {
+> -               /* The rest we will use for GEM backed objects */
+> -               start = r->start + dev_priv->gtt.stolen_size;
+> -               end = r->end;
+> -       }
+> -
+> -       gt = kzalloc(sizeof(struct gtt_range), GFP_KERNEL);
+> -       if (gt == NULL)
+> -               return NULL;
+> -       gt->resource.name = name;
+> -       gt->stolen = backed;
+> -       gt->in_gart = backed;
+> -       /* Ensure this is set for non GEM objects */
+> -       gt->gem.dev = dev;
+> -       ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
+> -                               len, start, end, align, NULL, NULL);
+> -       if (ret == 0) {
+> -               gt->offset = gt->resource.start - r->start;
+> -               return gt;
+> -       }
+> -       kfree(gt);
+> -       return NULL;
+> -}
+> -
+> -/**
+> - *     psb_gtt_free_range      -       release GTT address space
+> - *     @dev: our DRM device
+> - *     @gt: a mapping created with psb_gtt_alloc_range
+> - *
+> - *     Release a resource that was allocated with psb_gtt_alloc_range. If the
+> - *     object has been pinned by mmap users we clean this up here currently.
+> - */
+> -void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
+> -{
+> -       /* Undo the mmap pin if we are destroying the object */
+> -       if (gt->mmapping) {
+> -               psb_gtt_unpin(gt);
+> -               gt->mmapping = 0;
+> -       }
+> -       WARN_ON(gt->in_gart && !gt->stolen);
+> -       release_resource(&gt->resource);
+> -       kfree(gt);
+> -}
+> -
+>  static void psb_gtt_alloc(struct drm_device *dev)
+>  {
+>         struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+> diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
+> index 2bf165849ebe..36162b545570 100644
+> --- a/drivers/gpu/drm/gma500/gtt.h
+> +++ b/drivers/gpu/drm/gma500/gtt.h
+> @@ -41,12 +41,9 @@ struct gtt_range {
+>
+>  #define to_gtt_range(x) container_of(x, struct gtt_range, gem)
+>
+> -extern struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
+> -                                            const char *name, int backed,
+> -                                            u32 align);
+> -extern void psb_gtt_kref_put(struct gtt_range *gt);
+> -extern void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt);
+> -extern int psb_gtt_pin(struct gtt_range *gt);
+> -extern void psb_gtt_unpin(struct gtt_range *gt);
+>  extern int psb_gtt_restore(struct drm_device *dev);
+> +
+> +int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r, int resume);
+> +void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r);
+> +
+>  #endif
+> diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
+> index f5f259fde88e..18d5f7e5889e 100644
+> --- a/drivers/gpu/drm/gma500/psb_intel_display.c
+> +++ b/drivers/gpu/drm/gma500/psb_intel_display.c
+> @@ -12,6 +12,7 @@
+>  #include <drm/drm_plane_helper.h>
+>
+>  #include "framebuffer.h"
+> +#include "gem.h"
+>  #include "gma_display.h"
+>  #include "power.h"
+>  #include "psb_drv.h"
+> --
+> 2.33.0
+>
