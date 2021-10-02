@@ -1,59 +1,59 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41AEE41FCD0
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 17:46:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7201641FCD2
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 17:46:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572A26E852;
-	Sat,  2 Oct 2021 15:45:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 479AC6E854;
+	Sat,  2 Oct 2021 15:45:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x82d.google.com (mail-qt1-x82d.google.com
- [IPv6:2607:f8b0:4864:20::82d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 331C96E84F
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 15:45:52 +0000 (UTC)
-Received: by mail-qt1-x82d.google.com with SMTP id r1so11905636qta.12
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 08:45:52 -0700 (PDT)
+Received: from mail-qv1-xf33.google.com (mail-qv1-xf33.google.com
+ [IPv6:2607:f8b0:4864:20::f33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BED7F6E854
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 15:45:53 +0000 (UTC)
+Received: by mail-qv1-xf33.google.com with SMTP id a14so1161821qvb.6
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 08:45:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yfwLzkt6Wj9LVEwuFs8Fztnt2JiRG84Pd19yKEZ5NUI=;
- b=RCjeOl3uXFKjeT5y8ChtMdFtoc/DemEDcrPtZjyyw3nZp9IvM0ANzEfPHeZ2+7hrde
- E2W3m+jQsxKA78uoct518AU8q7TcgqEzfsNwGbs1w95du2qCMiTiRHPTTMngFVVKvoIa
- /HMMWjTOSnTFyWq0cc8Ne2bbt6Vx6YQ3qJHoY9he8a9z6RCfrucHGqcNVv0/CjUf/Npn
- 3SlhZry9Js4sVqJZDoXp/RhqxbzSElC/pVkAs05zy+9Kh0qP2ql40s8tgxPussID3TGB
- 1NVHQ7hxMIPKRlT1hEAJoaYyb2OKrqAEQ/B4HnGNHAH/C1uPMkjfy9Au5G7xg6LnK1qE
- 52mQ==
+ bh=a2Ksl/yOoIp9d1OfmREGTxDmv9OxtwgpQYto7KkqAUE=;
+ b=cIObE4WkWyD8pPouOTW7Iw4yBHSPfpFXolJD4oWmPX2SabK/TngeUSnmXuUzie2Ws6
+ PAEu3B1TSEfKcnoe3SumgabPHNulKxHtSZ6pzaX3PuX8nGujccW8KFicWnf1ptp0k9Pa
+ QHJQK+zM2pUEUochw4JdQNr2GUn3TolUHB8ThWboDyGXD2iOtgNzRNiNE2gSS3XWwHWm
+ W9hja7+e33tYNqW/IVUTbjn6aZTXYp4TDO0KCjz6lAQ5zh43Mjw4N7PxlL9pv6bTVZu0
+ Disu0j1a+oC9Tts6d3MI58csxwjD6MIB2fEuq+/nZeG/I+FRj3PxYschZSZer3zrBS65
+ mvaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yfwLzkt6Wj9LVEwuFs8Fztnt2JiRG84Pd19yKEZ5NUI=;
- b=RJbvQKFlQElFN+4Qlk1C8l34X0suXoZNj5vS8SAyj+e2MLxIwsl9lX2gMAL7Cvd3Qi
- Syar+Iz/QWj9gUgrcwIKk3p54Ex6j3x/BOEJrFljXtJZlUKalrr+XtiR43RFaGUyrUdK
- KG7WmYKhuuRg/RwpxMnB28um5nxv07JV2lZBWQXbTEiu9KwuM6vGgQ65f237b0y4RFR3
- 55xfvF/6/gNZyNaPLonaXFEkD4FxB8OTjfLZS2jvH+XiB0Lgu0F9ccGFahsJx0gELI4J
- O/UpDoldOqvy2BjpNcTOJpdNDtUu0e5wBhgK4U171HAeBWfQduON6DlCrzeX/qOt/3EC
- R2jQ==
-X-Gm-Message-State: AOAM533hLiAgBsgcxbJ5pqgD3mFytvu/LXLhcI6S2uaYpUWZ9hSv1hEN
- DL7cn+11T3pmwItnsbibR2GMjvPWTY2KuQ==
-X-Google-Smtp-Source: ABdhPJz106eerF7z8gUKBA67+OS+VuQpCvzdGUO3aRd9DlN+U5+r0o9iIJcTO3vlaomxElGm4YZNJg==
-X-Received: by 2002:ac8:514f:: with SMTP id h15mr2512036qtn.340.1633189551277; 
- Sat, 02 Oct 2021 08:45:51 -0700 (PDT)
+ bh=a2Ksl/yOoIp9d1OfmREGTxDmv9OxtwgpQYto7KkqAUE=;
+ b=cFio5c/EgL3UJAh77P+6MRhwTQAiLbKEePyQcsyOWR3QPHKUZOVkw5JctmAgwlyYUv
+ 0D+0l8x0kzPNFw2GL85J76xeNiQ+a1nsoQUE0UjblnXKFjZONjjZdcIXUvv8bWz8xcFB
+ SDEwPEWDe6ztqWwy5ww9z+BvhYo6626QdH820B26GOgQx/8lHEHX4WwPLp2AWLHnbZF0
+ oZ84M/CaNqArJiBo18PJgNu8WxIAZW9EWyR99VHsdvcKLU6Ilbck+EK8Biy8RR+kLLll
+ uJkbBrp5Ie4dLsz0zugvfVMQD9VV1KXpsJJAba5isoMRrdyU0K90eHko9EzAtkYTntIw
+ idIQ==
+X-Gm-Message-State: AOAM533TZ5HP5PZeZAbaQ8C3G5ePhtG0EkxdxXz7e+JR3phkTwnfW9LT
+ l3GuXjWu+CJtHO7b6dvi6EDY9wgHUk40XQ==
+X-Google-Smtp-Source: ABdhPJwS3cW7UXVVWqb4PZ/fMf6T6X9i1JVY0Hu/v/MPOjMbgD4vl1KrHfRmDch3jRF/8GmfZtxQHQ==
+X-Received: by 2002:ad4:4a32:: with SMTP id n18mr8135938qvz.29.1633189552821; 
+ Sat, 02 Oct 2021 08:45:52 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id f83sm4733612qke.79.2021.10.02.08.45.50
+ by smtp.gmail.com with ESMTPSA id a2sm4683296qkk.53.2021.10.02.08.45.52
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 02 Oct 2021 08:45:51 -0700 (PDT)
+ Sat, 02 Oct 2021 08:45:52 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org
 Cc: Sean Paul <seanpaul@chromium.org>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Fernando Ramos <greenfoo@u92.eu>
-Subject: [PATCH 06/16] Revert "drm/msm: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN()"
-Date: Sat,  2 Oct 2021 11:45:32 -0400
-Message-Id: <20211002154542.15800-6-sean@poorly.run>
+Subject: [PATCH 07/16] Revert "drm/nouveau: cleanup: drm_modeset_lock_all()
+ --> DRM_MODESET_LOCK_ALL_BEGIN()"
+Date: Sat,  2 Oct 2021 11:45:33 -0400
+Message-Id: <20211002154542.15800-7-sean@poorly.run>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20211002154542.15800-1-sean@poorly.run>
 References: <20211002154542.15800-1-sean@poorly.run>
@@ -77,7 +77,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-This reverts commit fd49ef52e2db015ce69ad02bab0702489d141a41.
+This reverts commit 6aa2daae589b63e8b39fe6f7f2b59fb3063efa05.
 
 This patchset breaks on intel platforms and was previously NACK'd by
 Ville.
@@ -86,51 +86,60 @@ Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: Fernando Ramos <greenfoo@u92.eu>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
 ---
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/nouveau/dispnv50/disp.c | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-index b89687074890..768012243b44 100644
---- a/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-+++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c
-@@ -18,7 +18,6 @@
+diff --git a/drivers/gpu/drm/nouveau/dispnv50/disp.c b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+index 86e18a844953..d7b9f7f8c9e3 100644
+--- a/drivers/gpu/drm/nouveau/dispnv50/disp.c
++++ b/drivers/gpu/drm/nouveau/dispnv50/disp.c
+@@ -42,7 +42,6 @@
  #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
+ #include <drm/drm_scdc_helper.h>
  #include <drm/drm_vblank.h>
 -#include <drm/drm_drv.h>
  
- #include "dpu_kms.h"
- #include "dpu_hw_lm.h"
-@@ -1173,15 +1172,14 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
- 	struct drm_display_mode *mode;
- 	struct drm_framebuffer *fb;
- 	struct drm_plane_state *state;
+ #include <nvif/push507c.h>
+ 
+@@ -668,18 +667,16 @@ nv50_audio_component_bind(struct device *kdev, struct device *hda_kdev,
+ 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
+ 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
+ 	struct drm_audio_component *acomp = data;
 -	struct drm_modeset_acquire_ctx ctx;
- 	struct dpu_crtc_state *cstate;
+-	int ret;
  
--	int i, out_width, ret;
-+	int i, out_width;
+ 	if (WARN_ON(!device_link_add(hda_kdev, kdev, DL_FLAG_STATELESS)))
+ 		return -ENOMEM;
  
- 	dpu_crtc = s->private;
- 	crtc = &dpu_crtc->base;
- 
--	DRM_MODESET_LOCK_ALL_BEGIN(crtc->dev, ctx, 0, ret);
-+	drm_modeset_lock_all(crtc->dev);
- 	cstate = to_dpu_crtc_state(crtc->state);
- 
- 	mode = &crtc->state->adjusted_mode;
-@@ -1265,9 +1263,9 @@ static int _dpu_debugfs_status_show(struct seq_file *s, void *data)
- 		dpu_crtc->vblank_cb_time = ktime_set(0, 0);
- 	}
- 
--	DRM_MODESET_LOCK_ALL_END(crtc->dev, ctx, ret);
-+	drm_modeset_unlock_all(crtc->dev);
- 
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
++	drm_modeset_lock_all(drm_dev);
+ 	acomp->ops = &nv50_audio_component_ops;
+ 	acomp->dev = kdev;
+ 	drm->audio.component = acomp;
+-	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
 -	return ret;
++	drm_modeset_unlock_all(drm_dev);
 +	return 0;
  }
  
- DEFINE_SHOW_ATTRIBUTE(_dpu_debugfs_status);
+ static void
+@@ -689,14 +686,12 @@ nv50_audio_component_unbind(struct device *kdev, struct device *hda_kdev,
+ 	struct drm_device *drm_dev = dev_get_drvdata(kdev);
+ 	struct nouveau_drm *drm = nouveau_drm(drm_dev);
+ 	struct drm_audio_component *acomp = data;
+-	struct drm_modeset_acquire_ctx ctx;
+-	int ret;
+ 
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm_dev, ctx, 0, ret);
++	drm_modeset_lock_all(drm_dev);
+ 	drm->audio.component = NULL;
+ 	acomp->ops = NULL;
+ 	acomp->dev = NULL;
+-	DRM_MODESET_LOCK_ALL_END(drm_dev, ctx, ret);
++	drm_modeset_unlock_all(drm_dev);
+ }
+ 
+ static const struct component_ops nv50_audio_component_bind_ops = {
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
