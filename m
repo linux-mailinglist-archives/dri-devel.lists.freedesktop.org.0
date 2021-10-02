@@ -2,63 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64ED041F928
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 03:27:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85ABD41F952
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 04:10:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8337D6E81D;
-	Sat,  2 Oct 2021 01:27:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2FC26E81E;
+	Sat,  2 Oct 2021 02:10:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8F1DB6E81D
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 01:27:18 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id x27so45304141lfu.5
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 18:27:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HCKHFO3dr+m9bm0sBpvW4eyWO19sk206ehV2Fufn3Uw=;
- b=RwoO6xCNqLSgb+yrVyvfkrUfVwPVgcCyfM28jknW+jK2socKpUyLvDeugNwcicYJwe
- idh5hMywEhDW43Zw6ok6BubluCqlu94qKb4ZISBIcil5Vx5y1je7q7NrESn5mh+DxAt8
- TgFRLa7YuKMAk48SEZ9xnSRGBldR3iMQnuCxc1zf4JqT2uwQ7mhFAwe4lYccsBpofkqP
- 2o3u0JhDLNsZf3ppgwC+5Jr+Afwq3X2TB5J1k/bvyDNy7fWQZcwLU/KbIeRTbDwU8Y62
- nL+yODKfvkZ5qlreYvYtYI0ihThS9RbnMgOVte/21PXpvp0QzXrj5oFSTLEG2eaNeFnw
- jwCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HCKHFO3dr+m9bm0sBpvW4eyWO19sk206ehV2Fufn3Uw=;
- b=dic4Y6iFYQ4dqbGKz0eUY4BfgID9ZfvrftdYlO8gNI8ffOd0/IBlVO98FD8oaK4t5I
- OhYvYbI/EzB/DLWTXwRoEFc9dUsirKoUVm+0ilM96f7wYBqJgD2rvgo3fXU7jn28Y2/u
- pSlHU9iUqS9diVogze9he93T6DAlEcnxdEphcWbbC4bopFPWb02gi+VC9id0LHmgsv63
- QFgAd+rv7fY3wImALKplqC8oQHWvumw9cpGq5OCqRc1zWKukL9v2gSinbXnTnJwRlaNd
- cf9Ghn9rqev8gv2NffqmsUS1M7ZAqeqlBztt4xbNkf8avVN0zDZFzV/YGpUTXwAfdD+d
- WPoQ==
-X-Gm-Message-State: AOAM5323HU/8KRuaJWZiHens6dMrObOGuhcDuHO1gPKHPcGgPWog1LX9
- bobGQKPzhfGZvy0WnDrOdM39xQ==
-X-Google-Smtp-Source: ABdhPJwyZY4O91MaQ4n2WL+AocW5fgIQtGUtMJ+NghEL1qP+x20mZOH+mg6hamq1SiXHgim0j0Q1LA==
-X-Received: by 2002:a19:6e06:: with SMTP id j6mr1208786lfc.351.1633138036834; 
- Fri, 01 Oct 2021 18:27:16 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id j20sm722405lfu.304.2021.10.01.18.27.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 01 Oct 2021 18:27:16 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 30B656E81E
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 02:10:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1633140608; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=IdPrSN7DyjjyDwl/JmPxGCeRJ0vl0pdvMkHcDlr+82s=;
+ b=jjRfAK2kBsuDBeNRgtDo+JoCEZA+5rbfatCUYKaIHOsEhi+f9pP/PSRYLtnOuMsHWz7gJxLg
+ RvXlNC8B6VflxGIilX8gRuFHHky+gUJcE7fjfy+5EG/gYEVgH6M/Y6Z4otw1BagSoUf7oeOq
+ ExG0dnPztjbA2+5XfrrwCP9rufc=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 6157bf7d713d5d6f9661d0c0 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Sat, 02 Oct 2021 02:10:05
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 5EEE5C43618; Sat,  2 Oct 2021 02:10:04 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 0C74FC4338F;
+ Sat,  2 Oct 2021 02:10:02 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Fri, 01 Oct 2021 19:10:02 -0700
+From: abhinavk@codeaurora.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Bjorn Andersson <bjorn.andersson@linaro.org>, Rob Clark
+ <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, Jonathan Marek
+ <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  freedreno@lists.freedesktop.org
-Subject: [PATCH] drm/msm/dsi: use bulk clk API
-Date: Sat,  2 Oct 2021 04:27:15 +0300
-Message-Id: <20211002012715.691406-1-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: Re: [Freedreno] [PATCH v3] drm/msm/dsi: do not enable irq handler
+ before powering up the host
+In-Reply-To: <20211002010830.647416-1-dmitry.baryshkov@linaro.org>
+References: <20211002010830.647416-1-dmitry.baryshkov@linaro.org>
+Message-ID: <2b7889de45ea3e27954b49bc96c49356@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,114 +75,164 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use clk_bulk_* API instead of hand-coding them. Note, this drops support
-for legacy clk naming (e.g. "iface_clk" instead of just "iface"),
-however all in-kernel device trees were converted long long ago. The
-warning is present there since 2017.
-
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi_host.c | 59 ++++++------------------------
- 1 file changed, 12 insertions(+), 47 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index e269df285136..3b81f40bba2e 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -106,7 +106,8 @@ struct msm_dsi_host {
- 	phys_addr_t ctrl_size;
- 	struct regulator_bulk_data supplies[DSI_DEV_REGULATOR_MAX];
- 
--	struct clk *bus_clks[DSI_BUS_CLK_MAX];
-+	int num_bus_clks;
-+	struct clk_bulk_data bus_clks[DSI_BUS_CLK_MAX];
- 
- 	struct clk *byte_clk;
- 	struct clk *esc_clk;
-@@ -374,15 +375,14 @@ static int dsi_clk_init(struct msm_dsi_host *msm_host)
- 	int i, ret = 0;
- 
- 	/* get bus clocks */
--	for (i = 0; i < cfg->num_bus_clks; i++) {
--		msm_host->bus_clks[i] = msm_clk_get(pdev,
--						cfg->bus_clk_names[i]);
--		if (IS_ERR(msm_host->bus_clks[i])) {
--			ret = PTR_ERR(msm_host->bus_clks[i]);
--			pr_err("%s: Unable to get %s clock, ret = %d\n",
--				__func__, cfg->bus_clk_names[i], ret);
--			goto exit;
--		}
-+	for (i = 0; i < cfg->num_bus_clks; i++)
-+		msm_host->bus_clks[i].id = cfg->bus_clk_names[i];
-+	msm_host->num_bus_clks = cfg->num_bus_clks;
-+
-+	ret = devm_clk_bulk_get(&pdev->dev, msm_host->num_bus_clks, msm_host->bus_clks);
-+	if (ret < 0) {
-+		dev_err(&pdev->dev, "Unable to get clocks, ret = %d\n", ret);
-+		goto exit;
- 	}
- 
- 	/* get link and source clocks */
-@@ -433,41 +433,6 @@ static int dsi_clk_init(struct msm_dsi_host *msm_host)
- 	return ret;
- }
- 
--static int dsi_bus_clk_enable(struct msm_dsi_host *msm_host)
--{
--	const struct msm_dsi_config *cfg = msm_host->cfg_hnd->cfg;
--	int i, ret;
--
--	DBG("id=%d", msm_host->id);
--
--	for (i = 0; i < cfg->num_bus_clks; i++) {
--		ret = clk_prepare_enable(msm_host->bus_clks[i]);
--		if (ret) {
--			pr_err("%s: failed to enable bus clock %d ret %d\n",
--				__func__, i, ret);
--			goto err;
--		}
--	}
--
--	return 0;
--err:
--	for (; i > 0; i--)
--		clk_disable_unprepare(msm_host->bus_clks[i]);
--
--	return ret;
--}
--
--static void dsi_bus_clk_disable(struct msm_dsi_host *msm_host)
--{
--	const struct msm_dsi_config *cfg = msm_host->cfg_hnd->cfg;
--	int i;
--
--	DBG("");
--
--	for (i = cfg->num_bus_clks - 1; i >= 0; i--)
--		clk_disable_unprepare(msm_host->bus_clks[i]);
--}
--
- int msm_dsi_runtime_suspend(struct device *dev)
- {
- 	struct platform_device *pdev = to_platform_device(dev);
-@@ -478,7 +443,7 @@ int msm_dsi_runtime_suspend(struct device *dev)
- 	if (!msm_host->cfg_hnd)
- 		return 0;
- 
--	dsi_bus_clk_disable(msm_host);
-+	clk_bulk_disable_unprepare(msm_host->num_bus_clks, msm_host->bus_clks);
- 
- 	return 0;
- }
-@@ -493,7 +458,7 @@ int msm_dsi_runtime_resume(struct device *dev)
- 	if (!msm_host->cfg_hnd)
- 		return 0;
- 
--	return dsi_bus_clk_enable(msm_host);
-+	return clk_bulk_prepare_enable(msm_host->num_bus_clks, msm_host->bus_clks);
- }
- 
- int dsi_link_clk_set_rate_6g(struct msm_dsi_host *msm_host)
--- 
-2.33.0
-
+On 2021-10-01 18:08, Dmitry Baryshkov wrote:
+> The DSI host might be left in some state by the bootloader. If this
+> state generates an IRQ, it might hang the system by holding the
+> interrupt line before the driver sets up the DSI host to the known
+> state.
+> 
+> Move the request_irq into msm_dsi_host_init and pass IRQF_NO_AUTOEN to
+> it. Call enable/disable_irq after msm_dsi_host_power_on/_off()
+> functions, so that we can be sure that the interrupt is delivered when
+> the host is in the known state.
+> 
+> It is not possible to defer the interrupt enablement to a later point,
+> because drm_panel_prepare might need to communicate with the panel over
+> the DSI link and that requires working interrupt.
+> 
+> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
+>  drivers/gpu/drm/msm/dsi/dsi.h         |  2 ++
+>  drivers/gpu/drm/msm/dsi/dsi_host.c    | 48 +++++++++++++++++----------
+>  drivers/gpu/drm/msm/dsi/dsi_manager.c | 16 +++++++++
+>  3 files changed, 49 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi.h 
+> b/drivers/gpu/drm/msm/dsi/dsi.h
+> index b50db91cb8a7..569c8ff062ba 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi.h
+> +++ b/drivers/gpu/drm/msm/dsi/dsi.h
+> @@ -107,6 +107,8 @@ void msm_dsi_host_cmd_xfer_commit(struct
+> mipi_dsi_host *host,
+>  					u32 dma_base, u32 len);
+>  int msm_dsi_host_enable(struct mipi_dsi_host *host);
+>  int msm_dsi_host_disable(struct mipi_dsi_host *host);
+> +void msm_dsi_host_enable_irq(struct mipi_dsi_host *host);
+> +void msm_dsi_host_disable_irq(struct mipi_dsi_host *host);
+>  int msm_dsi_host_power_on(struct mipi_dsi_host *host,
+>  			struct msm_dsi_phy_shared_timings *phy_shared_timings,
+>  			bool is_bonded_dsi, struct msm_dsi_phy *phy);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> index e269df285136..ce26eb78cb6c 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
+> @@ -1898,6 +1898,23 @@ int msm_dsi_host_init(struct msm_dsi *msm_dsi)
+>  		return ret;
+>  	}
+> 
+> +	msm_host->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> +	if (msm_host->irq < 0) {
+> +		ret = msm_host->irq;
+> +		dev_err(&pdev->dev, "failed to get irq: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* do not autoenable, will be enabled later */
+> +	ret = devm_request_irq(&pdev->dev, msm_host->irq, dsi_host_irq,
+> +			IRQF_TRIGGER_HIGH | IRQF_ONESHOT | IRQF_NO_AUTOEN,
+> +			"dsi_isr", msm_host);
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "failed to request IRQ%u: %d\n",
+> +				msm_host->irq, ret);
+> +		return ret;
+> +	}
+> +
+>  	init_completion(&msm_host->dma_comp);
+>  	init_completion(&msm_host->video_comp);
+>  	mutex_init(&msm_host->dev_mutex);
+> @@ -1941,25 +1958,8 @@ int msm_dsi_host_modeset_init(struct 
+> mipi_dsi_host *host,
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+>  	const struct msm_dsi_cfg_handler *cfg_hnd = msm_host->cfg_hnd;
+> -	struct platform_device *pdev = msm_host->pdev;
+>  	int ret;
+> 
+> -	msm_host->irq = irq_of_parse_and_map(pdev->dev.of_node, 0);
+> -	if (msm_host->irq < 0) {
+> -		ret = msm_host->irq;
+> -		DRM_DEV_ERROR(dev->dev, "failed to get irq: %d\n", ret);
+> -		return ret;
+> -	}
+> -
+> -	ret = devm_request_irq(&pdev->dev, msm_host->irq,
+> -			dsi_host_irq, IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+> -			"dsi_isr", msm_host);
+> -	if (ret < 0) {
+> -		DRM_DEV_ERROR(&pdev->dev, "failed to request IRQ%u: %d\n",
+> -				msm_host->irq, ret);
+> -		return ret;
+> -	}
+> -
+>  	msm_host->dev = dev;
+>  	ret = cfg_hnd->ops->tx_buf_alloc(msm_host, SZ_4K);
+>  	if (ret) {
+> @@ -2315,6 +2315,20 @@ void msm_dsi_host_get_phy_clk_req(struct
+> mipi_dsi_host *host,
+>  	clk_req->escclk_rate = msm_host->esc_clk_rate;
+>  }
+> 
+> +void msm_dsi_host_enable_irq(struct mipi_dsi_host *host)
+> +{
+> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+> +
+> +	enable_irq(msm_host->irq);
+> +}
+> +
+> +void msm_dsi_host_disable_irq(struct mipi_dsi_host *host)
+> +{
+> +	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+> +
+> +	disable_irq(msm_host->irq);
+> +}
+> +
+>  int msm_dsi_host_enable(struct mipi_dsi_host *host)
+>  {
+>  	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
+> diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> index c41d39f5b7cf..fb4ccffdcfe1 100644
+> --- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> +++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
+> @@ -377,6 +377,14 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+>  		}
+>  	}
+> 
+> +	/*
+> +	 * Enable before preparing the panel, disable after unpreparing, so
+> +	 * that the panel can communicate over the DSI link.
+> +	 */
+> +	msm_dsi_host_enable_irq(host);
+> +	if (is_bonded_dsi && msm_dsi1)
+> +		msm_dsi_host_enable_irq(msm_dsi1->host);
+> +
+>  	/* Always call panel functions once, because even for dual panels,
+>  	 * there is only one drm_panel instance.
+>  	 */
+> @@ -411,6 +419,10 @@ static void dsi_mgr_bridge_pre_enable(struct
+> drm_bridge *bridge)
+>  	if (panel)
+>  		drm_panel_unprepare(panel);
+>  panel_prep_fail:
+> +	msm_dsi_host_disable_irq(host);
+> +	if (is_bonded_dsi && msm_dsi1)
+> +		msm_dsi_host_disable_irq(msm_dsi1->host);
+> +
+>  	if (is_bonded_dsi && msm_dsi1)
+>  		msm_dsi_host_power_off(msm_dsi1->host);
+>  host1_on_fail:
+> @@ -523,6 +535,10 @@ static void dsi_mgr_bridge_post_disable(struct
+> drm_bridge *bridge)
+>  								id, ret);
+>  	}
+> 
+> +	msm_dsi_host_disable_irq(host);
+> +	if (is_bonded_dsi && msm_dsi1)
+> +		msm_dsi_host_disable_irq(msm_dsi1->host);
+> +
+>  	/* Save PHY status if it is a clock source */
+>  	msm_dsi_phy_pll_save_state(msm_dsi->phy);
