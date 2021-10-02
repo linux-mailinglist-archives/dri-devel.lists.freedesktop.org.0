@@ -2,59 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A2E41FCD5
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 17:46:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D9EB41FCD6
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 17:46:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 51F106F4AD;
-	Sat,  2 Oct 2021 15:45:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 480FE6F4AE;
+	Sat,  2 Oct 2021 15:46:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qk1-x733.google.com (mail-qk1-x733.google.com
- [IPv6:2607:f8b0:4864:20::733])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D81946E850
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 15:45:57 +0000 (UTC)
-Received: by mail-qk1-x733.google.com with SMTP id 138so12178881qko.10
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 08:45:57 -0700 (PDT)
+Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com
+ [IPv6:2607:f8b0:4864:20::831])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 38B716E850
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 15:45:59 +0000 (UTC)
+Received: by mail-qt1-x831.google.com with SMTP id r16so11902432qtw.11
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 08:45:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ft6d6TMpNghlCJqgeb5VMMaDDzmyvnIfsVFHrJe8ieI=;
- b=VE3LB29Jv917YOIrir+uSFIoUQYweZbx+g6iuzFqzIc6HJU54ZhSsMK+6hQXodB24H
- HSVgbE3dTKtF62Mw3p4h8uqAWuzsOyyz84o1CIzDVnn1tC5OILku/oiB7b04JTB8Mxf/
- eWgp2u88nFOWcfJf9UfiIHbb3S48TzkT4gwXuFdmoLSylg/qadpPbLR/bspWNJ4TC+9x
- Ujy/6NVD/RyMXj/xmu8OfyGcy/Mgoif9lRwKFzDgx1Lf2dGbdQFHinqKqAvAKP5wEHjh
- +fcIIKhOxe+axUuW+YNIU8qs/p2C8IpfZJaOmlUOjvEGEuvPIrqjAPB8wozwCkyw5ZzT
- 3qJw==
+ bh=ezMr2w2ZTkQq7+S7EIPWLLppt85Jku/rY0PIAocDono=;
+ b=UcvZi5N1QymT64iJW0mkbdAr/acdxd7hIzM21SbSpWGnMdl001xCySFRTuwt/11QHl
+ Rlr8JHjYqyAViJ9VSKZHmSB8NxTmP779415WTUGQn5AEZ5JcOqpHbVNSgePZqb9UFJa2
+ ZYLdEbjURmKu2iMubis9YfNiRnq91A4eOMvk1NEpf23j8vhdIH1l0Oj8Q6ePu2xubrzZ
+ cnwkv1J3WWMBqAt0IWgj+/B8NKgdcr3pAxZYiucJzi1BUd/E/Y/GCrnNo4QOiMfNglj9
+ VaR5z8jCdhxo6/byaG9494HHOp5jRVPN2tbgkHNEKXzNp8pT02rk/J35tfMfhEA9Cqsr
+ iZaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ft6d6TMpNghlCJqgeb5VMMaDDzmyvnIfsVFHrJe8ieI=;
- b=GP+3b3q8ytCxBMru+k18xeDUqkHR1Qrk2vzD8K7eBkcsGNead88ADpy77j688XhuUG
- ldQ14LVH4y/pWKR7xm74Bqe1KF7WTE/8q96e6x7Rb1AV1geC3Fz5i7mujrXWuWDXl5qY
- 6nvOgzbTIJzRGMEY8rwMrR8JrSZq1faNMuMGPmXw8F7V0bLDf0VQ01qeDf+AOO5MDzVe
- da9HCOcp72hZVYRQ7psWvfOSNznZUIkALn1FBXqEQUxcpFh768n9QPL/CiktMf2mDfK8
- LsYCjY6gHXxJb+JxwUFIm70HgI5bOd5aaAphgPVfQQxNAhqMRbjX0oqsm//1inlVaEOI
- SWBQ==
-X-Gm-Message-State: AOAM533SdB2YqrJr6zQE5og6PIfWcEPgjgvMidbfYLGXvoT6TnyQaKdH
- mIf0t4uIW0GawX245yikhFnxNP4ftUDL3Q==
-X-Google-Smtp-Source: ABdhPJx5qn0blFTLrM3hcIwWgN6llR7cc8WaLkq61gRr8i/kieYWvcSI+mx3Txa761R0JiHcUJ3roQ==
-X-Received: by 2002:a05:620a:22e:: with SMTP id
- u14mr2970233qkm.101.1633189556898; 
- Sat, 02 Oct 2021 08:45:56 -0700 (PDT)
+ bh=ezMr2w2ZTkQq7+S7EIPWLLppt85Jku/rY0PIAocDono=;
+ b=U//da6ONMmnw3rfa8tKhQBnRFjyZb0a9Mx87jm2O5osdvCCmd8CAwXq5ax6kx0wdQn
+ aEmUAeMg66QC4psKMDHL4bKLbgtISVTDsye7+2NDhYQSqUm8ZbmAp7bqQcFZZlMebgeu
+ 3mryWjD/6VR/3LcTb3Wn0Llhh1EwCIKmi0oLd5DZPTMEFUppc9+PZJ6vKFPZrONEuJ2S
+ 4lZqkKL9uAStuLvg366xS3Rw2R17YG8jWcBOOvMNfA6ADXas9NMZSUUtrypoyDFak3Bs
+ KOo2oPXwaXa88LWCAgiSM2SAr5smSw4Zwor44iFePFdBnb07stW/xmhuenokoZeI54Lf
+ 59MQ==
+X-Gm-Message-State: AOAM533MFpFgE5FYwnA8t44jIcXK1JY2M2epeICM5Dgxg7+ADioMBd5w
+ a2jCtX4s7jxsnxFAsntjVlvu8RLpMec/DQ==
+X-Google-Smtp-Source: ABdhPJxc1Krs3tV5A4zZMl53j7wmUJh6nWC4/Dwv4BicUeuDeNFlOJGVNLkyiPNjHPKJcpvs29CfLw==
+X-Received: by 2002:aed:2791:: with SMTP id a17mr4159427qtd.193.1633189558269; 
+ Sat, 02 Oct 2021 08:45:58 -0700 (PDT)
 Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id d17sm6401870qte.0.2021.10.02.08.45.56
+ by smtp.gmail.com with ESMTPSA id 18sm5710949qtz.49.2021.10.02.08.45.57
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sat, 02 Oct 2021 08:45:56 -0700 (PDT)
+ Sat, 02 Oct 2021 08:45:58 -0700 (PDT)
 From: Sean Paul <sean@poorly.run>
 To: dri-devel@lists.freedesktop.org
 Cc: Sean Paul <seanpaul@chromium.org>,
  =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
  Fernando Ramos <greenfoo@u92.eu>
-Subject: [PATCH 10/16] Revert "drm/shmobile: cleanup: drm_modeset_lock_all()
- --> DRM_MODESET_LOCK_ALL_BEGIN()"
-Date: Sat,  2 Oct 2021 11:45:36 -0400
-Message-Id: <20211002154542.15800-10-sean@poorly.run>
+Subject: [PATCH 11/16] Revert "drm/tegra: cleanup: drm_modeset_lock_all() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()"
+Date: Sat,  2 Oct 2021 11:45:37 -0400
+Message-Id: <20211002154542.15800-11-sean@poorly.run>
 X-Mailer: git-send-email 2.31.0
 In-Reply-To: <20211002154542.15800-1-sean@poorly.run>
 References: <20211002154542.15800-1-sean@poorly.run>
@@ -78,7 +77,7 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Sean Paul <seanpaul@chromium.org>
 
-This reverts commit 9b8c437ef1a5f34686fc96b391c201a80f1a2ea0.
+This reverts commit a2cd9947d99b54c959fce20dc19d81af53f4674e.
 
 This patchset breaks on intel platforms and was previously NACK'd by
 Ville.
@@ -87,28 +86,135 @@ Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
 Cc: Fernando Ramos <greenfoo@u92.eu>
 Signed-off-by: Sean Paul <seanpaul@chromium.org>
 ---
- drivers/gpu/drm/shmobile/shmob_drm_drv.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/tegra/dsi.c  |  6 ++----
+ drivers/gpu/drm/tegra/hdmi.c |  6 ++----
+ drivers/gpu/drm/tegra/sor.c  | 11 ++++-------
+ 3 files changed, 8 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/shmobile/shmob_drm_drv.c b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-index 8ee215ab614e..7db01904d18d 100644
---- a/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-+++ b/drivers/gpu/drm/shmobile/shmob_drm_drv.c
-@@ -156,12 +156,10 @@ static int shmob_drm_pm_suspend(struct device *dev)
- static int shmob_drm_pm_resume(struct device *dev)
- {
- 	struct shmob_drm_device *sdev = dev_get_drvdata(dev);
+diff --git a/drivers/gpu/drm/tegra/dsi.c b/drivers/gpu/drm/tegra/dsi.c
+index 28050c188c1c..f46d377f0c30 100644
+--- a/drivers/gpu/drm/tegra/dsi.c
++++ b/drivers/gpu/drm/tegra/dsi.c
+@@ -23,7 +23,6 @@
+ #include <drm/drm_mipi_dsi.h>
+ #include <drm/drm_panel.h>
+ #include <drm/drm_simple_kms_helper.h>
+-#include <drm/drm_drv.h>
+ 
+ #include "dc.h"
+ #include "drm.h"
+@@ -203,11 +202,10 @@ static int tegra_dsi_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_dsi *dsi = node->info_ent->data;
+ 	struct drm_crtc *crtc = dsi->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
 -	struct drm_modeset_acquire_ctx ctx;
--	int ret;
+ 	unsigned int i;
+ 	int err = 0;
  
--	DRM_MODESET_LOCK_ALL_BEGIN(sdev->ddev, ctx, 0, ret);
-+	drm_modeset_lock_all(sdev->ddev);
- 	shmob_drm_crtc_resume(&sdev->crtc);
--	DRM_MODESET_LOCK_ALL_END(sdev->ddev, ctx, ret);
-+	drm_modeset_unlock_all(sdev->ddev);
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
++	drm_modeset_lock_all(drm);
  
- 	drm_kms_helper_poll_enable(sdev->ddev);
- 	return 0;
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -222,7 +220,7 @@ static int tegra_dsi_show_regs(struct seq_file *s, void *data)
+ 	}
+ 
+ unlock:
+-	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
++	drm_modeset_unlock_all(drm);
+ 	return err;
+ }
+ 
+diff --git a/drivers/gpu/drm/tegra/hdmi.c b/drivers/gpu/drm/tegra/hdmi.c
+index a62de7f92414..e5d2a4026028 100644
+--- a/drivers/gpu/drm/tegra/hdmi.c
++++ b/drivers/gpu/drm/tegra/hdmi.c
+@@ -22,7 +22,6 @@
+ #include <drm/drm_fourcc.h>
+ #include <drm/drm_probe_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+-#include <drm/drm_drv.h>
+ 
+ #include "hda.h"
+ #include "hdmi.h"
+@@ -1032,11 +1031,10 @@ static int tegra_hdmi_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_hdmi *hdmi = node->info_ent->data;
+ 	struct drm_crtc *crtc = hdmi->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
+-	struct drm_modeset_acquire_ctx ctx;
+ 	unsigned int i;
+ 	int err = 0;
+ 
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
++	drm_modeset_lock_all(drm);
+ 
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1051,7 +1049,7 @@ static int tegra_hdmi_show_regs(struct seq_file *s, void *data)
+ 	}
+ 
+ unlock:
+-	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
++	drm_modeset_unlock_all(drm);
+ 	return err;
+ }
+ 
+diff --git a/drivers/gpu/drm/tegra/sor.c b/drivers/gpu/drm/tegra/sor.c
+index 3d1c8b3d1358..0ea320c1092b 100644
+--- a/drivers/gpu/drm/tegra/sor.c
++++ b/drivers/gpu/drm/tegra/sor.c
+@@ -23,7 +23,6 @@
+ #include <drm/drm_panel.h>
+ #include <drm/drm_scdc_helper.h>
+ #include <drm/drm_simple_kms_helper.h>
+-#include <drm/drm_drv.h>
+ 
+ #include "dc.h"
+ #include "dp.h"
+@@ -1491,11 +1490,10 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
+ 	struct tegra_sor *sor = node->info_ent->data;
+ 	struct drm_crtc *crtc = sor->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
+-	struct drm_modeset_acquire_ctx ctx;
+ 	int err = 0;
+ 	u32 value;
+ 
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
++	drm_modeset_lock_all(drm);
+ 
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1524,7 +1522,7 @@ static int tegra_sor_show_crc(struct seq_file *s, void *data)
+ 	seq_printf(s, "%08x\n", value);
+ 
+ unlock:
+-	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
++	drm_modeset_unlock_all(drm);
+ 	return err;
+ }
+ 
+@@ -1654,11 +1652,10 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
+ 	struct tegra_sor *sor = node->info_ent->data;
+ 	struct drm_crtc *crtc = sor->output.encoder.crtc;
+ 	struct drm_device *drm = node->minor->dev;
+-	struct drm_modeset_acquire_ctx ctx;
+ 	unsigned int i;
+ 	int err = 0;
+ 
+-	DRM_MODESET_LOCK_ALL_BEGIN(drm, ctx, 0, err);
++	drm_modeset_lock_all(drm);
+ 
+ 	if (!crtc || !crtc->state->active) {
+ 		err = -EBUSY;
+@@ -1673,7 +1670,7 @@ static int tegra_sor_show_regs(struct seq_file *s, void *data)
+ 	}
+ 
+ unlock:
+-	DRM_MODESET_LOCK_ALL_END(drm, ctx, err);
++	drm_modeset_unlock_all(drm);
+ 	return err;
+ }
+ 
 -- 
 Sean Paul, Software Engineer, Google / Chromium OS
 
