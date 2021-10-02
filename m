@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDB3141FEB8
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 01:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F94441FEB9
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 01:36:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22AD66F51E;
-	Sat,  2 Oct 2021 23:35:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ED5E06F51C;
+	Sat,  2 Oct 2021 23:35:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 60BEA6E056
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 23:35:51 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id t8so22161156wri.1
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 16:35:51 -0700 (PDT)
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFEAE6F51E
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 23:35:52 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id w29so22119351wra.8
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 16:35:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LiSqhbawJO5r3IUvawiiwgeuFYhTdPdUyp69JWKC0YY=;
- b=RLKyMz5XunVlARUy7/d64XjeBN0wMVsiKKSU5A4RfNlVRUnP7wT3ZLlKwMAz/gg33v
- 2g98lyoeSUIkVDdTfiXGxnPwpYJrDKwBpQyacEvsTCdqgODCb9QiZQQCD6cGlwnQk6iz
- 7/6I9RKKmHvs0SIO2fNkbI7NQ3u6Lq9wteOf2hmH36auRH4jPfnmDdtF1qVkqB0Vlp1B
- qPNe3s/DCVVdg2yQ0RlJ1MS4XBdDXustgGkGXdQDgpAC8O98ZC1qM2/gHiX6Ij24BdRM
- B+uDLcEBdM7K9Rg4UwP7MVIihfOLxrBkXvgA1e535vD40jbgLAIml4imT3LHuZssfEfq
- zS8g==
+ bh=wz/ee0QFf1zLzjYQvpsk8gV3BuqjIdVKipKwS9n+pgI=;
+ b=K/zTxhdXTQysfV5PWX4oXKki31wkDTC9MgoHWPFDft+dweOOr+4vjue+nocqKqPUcK
+ PMjE2Lu76QISmMx45veJyxwrnEepm1kcXuAkehF27rw4aXn77eq6Kp8fSXEQ9a0Y/fSe
+ fYfl8Rz/NpTRxDeJYxfiPCHsZRgIYzR4SbPU2r61Cjmc7e87Gr9+j0EPE6CX61heeeeo
+ ivM7wOkNqB6UkUMkBkTTAdLmeRUoU0MpHQuJIuKz7sv46G8Rccdb5mSMcKJIlhBJddDl
+ xgE9JXsR6Nluuevivrmlhgf7Jf3mTDi6V22Y5loP4NU+hiOj//EmXuY+pSePwlcLX9+l
+ SdTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LiSqhbawJO5r3IUvawiiwgeuFYhTdPdUyp69JWKC0YY=;
- b=APRGM39ddxghY5J7OuYd1G1+VuKdLCn2IxyTLmDhi5xwQf/CXTh2XmSnr/Myxts63l
- kZ3BuBCN8wABaTLKW8J9T/cjlDsWwwqEiaWzSkBVXGDp1JjN7hE/hSsZUsFYegzYjp9H
- W0wOaOeRUDZS2WnWQwcng7wtKJ5rZYDX04p285seuhPic3kGMdMkwvK/9Eh7IS1PR9zM
- 8kPuu4FGGxYCPUKqmmxsTb5PK17vhSl39uYiA4320lWx0cEnTGC5GKP5Mum5HR8qDbqz
- cqSWWHDs3nrNY6sGB7OnwE+UuG469n2FsQOv5tIASanXd9RgKOFEwQ/sHQmT8kXJ7nsV
- /beg==
-X-Gm-Message-State: AOAM532Tw2qQ6UYtI9N7RJ5+1VYqF/sQ2txOm6DJ2/4Uc903yggYbkIh
- lApoF+gbSzmU1ME1tgSKmio=
-X-Google-Smtp-Source: ABdhPJy/rQFvXc0iU45thEFuaYrZ5nHGnq9iWL3+N1XVO5WO7rmDCrrAWEjGg2cLndBu3oAJOkdw7g==
-X-Received: by 2002:adf:aade:: with SMTP id i30mr5362961wrc.384.1633217749882; 
- Sat, 02 Oct 2021 16:35:49 -0700 (PDT)
+ bh=wz/ee0QFf1zLzjYQvpsk8gV3BuqjIdVKipKwS9n+pgI=;
+ b=1uGomTFbZ0fNvnLJeg3myGyX7yKnbwKlBfTeuGNeWYGe1WDRAVsDIAgSHqk9EZoC5Z
+ 6W08NISAw0nxTYlA2CnlXSVa9scRDFzr3S0aXrnSnANRHckrCEdQBR7Exe5UPGGGsBLH
+ 32nCYd2uHS4OFOipYLUBr8QnCRd6KDBVgkpKPJsEMYOLv/Je0yxl0z3Z8RWgdaD7TihV
+ wzR1ndtRmNSyOKyGlrLcBXYVELg+U3aphUqSni779+vkbvD8p2+SS0GnSCh0vRimmpbV
+ 67deLU3ivePY8/uq9CZNB1PV3Eebhc/0Wbf3MK1q7FVulqGfzbCskB8Wp9l6nIzHDK2e
+ JvZg==
+X-Gm-Message-State: AOAM533A+ZwzXtJfGiRhCaw7OFFx+cJ3BMDAO1Ugxp5DoRQhk8fG1Bk3
+ HJwYzp2YY/Ih1k+rIu9GWF8=
+X-Google-Smtp-Source: ABdhPJxIyqhYmTBR0l+9XPy2tnEYfTVC1/MvoAGO+pHYpgzUgq3Mj/Ni+7Fhf6cjpKFVf5s6e3VmPA==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr5551333wrs.65.1633217751392;
+ Sat, 02 Oct 2021 16:35:51 -0700 (PDT)
 Received: from localhost.localdomain (94-29-54-195.dynamic.spd-mgts.ru.
  [94.29.54.195])
- by smtp.gmail.com with ESMTPSA id r2sm10487089wmq.28.2021.10.02.16.35.48
+ by smtp.gmail.com with ESMTPSA id r2sm10487089wmq.28.2021.10.02.16.35.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 02 Oct 2021 16:35:49 -0700 (PDT)
+ Sat, 02 Oct 2021 16:35:51 -0700 (PDT)
 From: Dmitry Osipenko <digetx@gmail.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Andrzej Hajda <a.hajda@samsung.com>,
@@ -59,9 +59,9 @@ To: Thierry Reding <thierry.reding@gmail.com>,
 Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
  dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
  linux-kernel@vger.kernel.org
-Subject: [PATCH v1 3/5] drm/bridge: tc358768: Calculate video start delay
-Date: Sun,  3 Oct 2021 02:34:45 +0300
-Message-Id: <20211002233447.1105-4-digetx@gmail.com>
+Subject: [PATCH v1 4/5] drm/bridge: tc358768: Disable non-continuous clock mode
+Date: Sun,  3 Oct 2021 02:34:46 +0300
+Message-Id: <20211002233447.1105-5-digetx@gmail.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211002233447.1105-1-digetx@gmail.com>
 References: <20211002233447.1105-1-digetx@gmail.com>
@@ -82,10 +82,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Calculate video start delay based on the display timing instead
-of hardcoding it to a default value. This fixes "trembling" display
-output on Asus Transformer TF700T which uses Panasonic VVX10F004B00
-display panel.
+Non-continuous clock mode doesn't work because driver doesn't support it
+properly. The bridge driver programs wrong bitfields that are required by
+the non-continuous mode (BTACNTRL1 register bitfields are swapped in the
+code), but fixing them doesn't help.
+
+Display panel of ASUS Transformer TF700T tablet supports non-continuous
+mode and display doesn't work at all using that mode. There are no
+device-trees that are actively using this DSI bridge in upstream yet,
+so clearly the broken mode wasn't ever tested properly. It's a bit too
+difficult to get LP mode working, hence let's disable the offending mode
+for now and fall back to continuous mode.
 
 Tested-by: Andreas Westman Dorcsak <hedmoo@yahoo.com> # Asus TF700T
 Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
@@ -95,57 +102,47 @@ Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
  1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/bridge/tc358768.c b/drivers/gpu/drm/bridge/tc358768.c
-index 10ebd0621ad3..5b3f8723bd3d 100644
+index 5b3f8723bd3d..cfceba5ef3b8 100644
 --- a/drivers/gpu/drm/bridge/tc358768.c
 +++ b/drivers/gpu/drm/bridge/tc358768.c
-@@ -634,7 +634,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+@@ -631,6 +631,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ {
+ 	struct tc358768_priv *priv = bridge_to_tc358768(bridge);
+ 	struct mipi_dsi_device *dsi_dev = priv->output.dev;
++	unsigned long mode_flags = dsi_dev->mode_flags;
  	u32 val, val2, lptxcnt, hact, data_type;
  	const struct drm_display_mode *mode;
  	u32 dsibclk_nsk, dsiclk_nsk, ui_nsk, phy_delay_nsk;
--	u32 dsiclk, dsibclk;
-+	u32 dsiclk, dsibclk, video_start;
-+	const u32 internal_delay = 40;
+@@ -638,6 +639,11 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	const u32 internal_delay = 40;
  	int ret, i;
  
++	if (mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS) {
++		dev_warn_once(priv->dev, "Non-continuous mode unimplemented, falling back to continuous\n");
++		mode_flags &= ~MIPI_DSI_CLOCK_NON_CONTINUOUS;
++	}
++
  	tc358768_hw_enable(priv);
-@@ -663,23 +664,27 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	case MIPI_DSI_FMT_RGB888:
- 		val |= (0x3 << 4);
- 		hact = mode->hdisplay * 3;
-+		video_start = (mode->htotal - mode->hsync_start) * 3;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_24;
- 		break;
- 	case MIPI_DSI_FMT_RGB666:
- 		val |= (0x4 << 4);
- 		hact = mode->hdisplay * 3;
-+		video_start = (mode->htotal - mode->hsync_start) * 3;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_18;
- 		break;
  
- 	case MIPI_DSI_FMT_RGB666_PACKED:
- 		val |= (0x4 << 4) | BIT(3);
- 		hact = mode->hdisplay * 18 / 8;
-+		video_start = (mode->htotal - mode->hsync_start) * 18 / 8;
- 		data_type = MIPI_DSI_PIXEL_STREAM_3BYTE_18;
- 		break;
+ 	ret = tc358768_sw_reset(priv);
+@@ -776,7 +782,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 		val |= BIT(i + 1);
+ 	tc358768_write(priv, TC358768_HSTXVREGEN, val);
  
- 	case MIPI_DSI_FMT_RGB565:
- 		val |= (0x5 << 4);
- 		hact = mode->hdisplay * 2;
-+		video_start = (mode->htotal - mode->hsync_start) * 2;
- 		data_type = MIPI_DSI_PACKED_PIXEL_STREAM_16;
- 		break;
- 	default:
-@@ -690,7 +695,8 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
- 	}
+-	if (!(dsi_dev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
++	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
+ 		tc358768_write(priv, TC358768_TXOPTIONCNTRL, 0x1);
  
- 	/* VSDly[9:0] */
--	tc358768_write(priv, TC358768_VSDLY, 1);
-+	video_start = max(video_start, internal_delay + 1) - internal_delay;
-+	tc358768_write(priv, TC358768_VSDLY, video_start);
+ 	/* TXTAGOCNT[26:16] RXTASURECNT[10:0] */
+@@ -864,7 +870,7 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
+ 	if (!(dsi_dev->mode_flags & MIPI_DSI_MODE_LPM))
+ 		val |= TC358768_DSI_CONTROL_TXMD;
  
- 	tc358768_write(priv, TC358768_DATAFMT, val);
- 	tc358768_write(priv, TC358768_DSITX_DT, data_type);
+-	if (!(dsi_dev->mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
++	if (!(mode_flags & MIPI_DSI_CLOCK_NON_CONTINUOUS))
+ 		val |= TC358768_DSI_CONTROL_HSCKMD;
+ 
+ 	if (dsi_dev->mode_flags & MIPI_DSI_MODE_NO_EOT_PACKET)
 -- 
 2.32.0
 
