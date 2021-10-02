@@ -2,71 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1375D41F7F2
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 01:00:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13B841F8F5
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 03:08:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DE4C26F446;
-	Fri,  1 Oct 2021 22:59:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2F1B6E808;
+	Sat,  2 Oct 2021 01:08:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
  [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C6D726F446
- for <dri-devel@lists.freedesktop.org>; Fri,  1 Oct 2021 22:59:58 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id z24so44378825lfu.13
- for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 15:59:58 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3931E6E804
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 01:08:17 +0000 (UTC)
+Received: by mail-lf1-x12d.google.com with SMTP id b20so45392141lfv.3
+ for <dri-devel@lists.freedesktop.org>; Fri, 01 Oct 2021 18:08:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MrcSevZqtNOFUzq3pWbbRjEjIk8+7OFN/vmiST/wtNU=;
- b=RgwL5KCvqBIeZB/gE1d8cY3bovbOy61asvkdirxaHIlo5MBe0JgNim+YGg9lSkZZi7
- s3kW6XPLnV8BHaEbrUCX64Qjrjndp+tGvPGvq7kMN3tadiWf7h6qjcNYKbxC9kXAdf1Z
- zyBlubbSFaP2lUsMcyymA3rJ3NQDPTZuD2qJ7BEZ2LyVBWSHM1jOJFRnqq8xU9ja4Ts0
- ccq/l0AeBTr+K6OygMYiU5NTee0Z2zxlNf1+wzLSDW4S04qaMgXZV3Pb0DPMqagLI44h
- vCEY4K+/i7Na4Hq5AGkgnwT3rL3/C2R8FI622J0qkIQCeBVFYycwUE/R3nMBJvnoty/L
- OA3Q==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=TwnUq8SXZ8u06PKKxQfO24AMGZAo3ARGDD9smY+hrSo=;
+ b=WBLFAXKP/avkEIJvCsu2UUbycozUidIo39NMEjAlaseENxcmjKucU7jw6ghx4sUcMJ
+ sxGEu+/YATqNePzUBS9j4sv7l2W2M+YqciWA9+DKhBni8J0Rr7N4u3vcTtt92JbZyxjr
+ fyH1oU040czfg6N/z7ThnmLXe+L3EiebUnSoSrDvgsWiG6Kf8spQeRC1w7hZsbKRPkUe
+ qvk0tsl3TXU/NVKbEtqTM1iQNwuHE1IUIgb/hHV1nUkjX4dwEotfaZu0rw+nswafi1rI
+ 2PgKz9DNz6Offsf7ORTFGtPK05W4MajfL3RJJSHSVwBGBbjIcOgnIczhLCtLtZTFfA4F
+ advg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=MrcSevZqtNOFUzq3pWbbRjEjIk8+7OFN/vmiST/wtNU=;
- b=fXONQ/UsSsoXrREM6r2jSU2hlMYEqQKBcwP2/prAIVyvp/Lq1PVy8BkJa+z24+X47b
- ZUg8IzAqILPT48DANWymW221DD+BqAtxAqDQ69DP1X7sNLD1DMHE+RhxaIbSvGg445Mp
- WTiag7iayY/N0BRgZT4iu7h0RFRmdVa4SkrEdc9stOA8B+bQBC748ybEZa8uQ78ElJVo
- NN3cpJtjjyG0l1ylZeIy6S+Eje7BhzBdHpt4m2okwVRPYxHOqM1xqNH1UNdpwvqogY/G
- Esl3W0rwQd74J0LQfk2rN6fIZznNt4RxpvTd/a3hWTaSO0V/sNIu1MzkNds2XuryR+8s
- 36Kw==
-X-Gm-Message-State: AOAM5326sGbpjkaUeuFdmUvPyh5bzcwbM09M/Be1VTB/JNPRq/0fzlb8
- +YRRrrg1kHCDcTTrCiqJueq3eA==
-X-Google-Smtp-Source: ABdhPJyDZ2oSrPzTa/TydJ+YDRi4V0TZmc4niH4msrXenJu8SJD6xo7ep5yvzdkledpWM36qcjmr1Q==
-X-Received: by 2002:ac2:4f02:: with SMTP id k2mr645027lfr.265.1633129197104;
- Fri, 01 Oct 2021 15:59:57 -0700 (PDT)
-Received: from [192.168.1.211] ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id 131sm552169ljj.43.2021.10.01.15.59.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 01 Oct 2021 15:59:56 -0700 (PDT)
-Subject: Re: [PATCH 3/3] drm/msm/dsi: fix signedness bug in
- msm_dsi_host_cmd_rx()
-To: Dan Carpenter <dan.carpenter@oracle.com>, Rob Clark
- <robdclark@gmail.com>, Hai Li <hali@codeaurora.org>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Abhinav Kumar <abhinavk@codeaurora.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Marek <jonathan@marek.ca>,
- Yangtao Li <tiny.windzz@gmail.com>, Nicolas Boichat <drinkcat@chromium.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-References: <20211001123617.GH2283@kili>
+ bh=TwnUq8SXZ8u06PKKxQfO24AMGZAo3ARGDD9smY+hrSo=;
+ b=fxJmW7Hb+dLzdKXC7cv2+KLEY21HMRJX4jmWWmYgEVbOzG6W5Nyq4emOLPvGcLcK3a
+ mMbF9OL3E3E8Siqt/BJ57VOqC6FuRKsdi1G2SRn1xmhr4+Ja/aTsa2rbbXGZJJIw5J14
+ 0JheKS85FOxTybAWIzVAPApHQACdm0FMjJssdMddpgyN8goBu1NPdpnvA1j3gLVQDcXC
+ 1BO551oi8IXRXxcMRwmSRPsJf758XXGhErUY1hMVz2iBPEkjDvxX0lhTNj4cfGU2hMX0
+ 9WZ744h47ndizG74Nm7uq7M7t8Ln+l6XuCYxJdjf93peQ6GNzf7g4UgQXLA9pdC15SNZ
+ JhRw==
+X-Gm-Message-State: AOAM533M1JjXY/h40BSjI7qwYrLm9JAag+B0Jn2C/aWDslmkSMZ/sXk5
+ 8UIx5946AI09gcrcEiZyB2iLXg==
+X-Google-Smtp-Source: ABdhPJz1h8wdgSqieaJyrzejlho/AFEp+e7W+xkxBieMCy2DG0EWozlg2gvagfH74adYlaiexki1ug==
+X-Received: by 2002:a2e:a4ca:: with SMTP id p10mr1048203ljm.379.1633136895276; 
+ Fri, 01 Oct 2021 18:08:15 -0700 (PDT)
+Received: from eriador.lan ([37.153.55.125])
+ by smtp.gmail.com with ESMTPSA id k17sm892673lfb.233.2021.10.01.18.08.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 01 Oct 2021 18:08:14 -0700 (PDT)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Message-ID: <a61cad95-d81d-6f6d-33d4-f5259d9814cb@linaro.org>
-Date: Sat, 2 Oct 2021 01:59:56 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+To: Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Abhinav Kumar <abhinavk@codeaurora.org>
+Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: [PATCH 1/3] mfd: qcom-pm8xxx: switch away from using chained IRQ
+ handlers
+Date: Sat,  2 Oct 2021 04:08:12 +0300
+Message-Id: <20211002010814.647394-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <20211001123617.GH2283@kili>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,45 +75,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 01/10/2021 15:36, Dan Carpenter wrote:
-> The "msg->tx_len" variable is type size_t so if dsi_cmds2buf_tx()
-> returns a negative error code that it type promoted to a high positive
-> value and treat as a success.  The second problem with this code is
-> that it can return meaningless positive values on error.
+PM8xxx PMIC family uses GPIO as parent IRQ. Using it together with the
+irq_set_chained_handler_and_data() results in warnings from the GPIOLIB
+as in this path the IRQ resources are not allocated (and thus the
+corresponding GPIO is not marked as used for the IRQ. Use request_irq so
+that the IRQ resources are proprely setup.
 
-It looks to me that this piece of code is not fully correct at all.
-dsi_cmds2bus_tx would return the size of DSI packet, not the size of the 
-DSI buffer.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ drivers/mfd/qcom-pm8xxx.c | 39 ++++++++++++++++-----------------------
+ 1 file changed, 16 insertions(+), 23 deletions(-)
 
-Could you please be more specific, which 'meaningless positive values' 
-were you receiving?
-
-> 
-> Fixes: a689554ba6ed ("drm/msm: Initial add DSI connector support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->   drivers/gpu/drm/msm/dsi/dsi_host.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> index c86b5090fae6..42073a562072 100644
-> --- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-> +++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-> @@ -2133,8 +2133,10 @@ int msm_dsi_host_cmd_rx(struct mipi_dsi_host *host,
->   		}
->   
->   		ret = dsi_cmds2buf_tx(msm_host, msg);
-> -		if (ret < msg->tx_len) {
-> +		if (ret < 0 || ret < msg->tx_len) {
->   			pr_err("%s: Read cmd Tx failed, %d\n", __func__, ret);
-> +			if (ret >= 0)
-> +				ret = -EIO;
->   			return ret;
->   		}
->   
-> 
-
-
+diff --git a/drivers/mfd/qcom-pm8xxx.c b/drivers/mfd/qcom-pm8xxx.c
+index ec18a04de355..2f2734ba5273 100644
+--- a/drivers/mfd/qcom-pm8xxx.c
++++ b/drivers/mfd/qcom-pm8xxx.c
+@@ -65,7 +65,7 @@
+ struct pm_irq_data {
+ 	int num_irqs;
+ 	struct irq_chip *irq_chip;
+-	void (*irq_handler)(struct irq_desc *desc);
++	irq_handler_t irq_handler;
+ };
+ 
+ struct pm_irq_chip {
+@@ -169,19 +169,16 @@ static int pm8xxx_irq_master_handler(struct pm_irq_chip *chip, int master)
+ 	return ret;
+ }
+ 
+-static void pm8xxx_irq_handler(struct irq_desc *desc)
++static irqreturn_t pm8xxx_irq_handler(int irq, void *data)
+ {
+-	struct pm_irq_chip *chip = irq_desc_get_handler_data(desc);
+-	struct irq_chip *irq_chip = irq_desc_get_chip(desc);
++	struct pm_irq_chip *chip = data;
+ 	unsigned int root;
+ 	int	i, ret, masters = 0;
+ 
+-	chained_irq_enter(irq_chip, desc);
+-
+ 	ret = regmap_read(chip->regmap, SSBI_REG_ADDR_IRQ_ROOT, &root);
+ 	if (ret) {
+ 		pr_err("Can't read root status ret=%d\n", ret);
+-		return;
++		return IRQ_NONE;
+ 	}
+ 
+ 	/* on pm8xxx series masters start from bit 1 of the root */
+@@ -192,7 +189,7 @@ static void pm8xxx_irq_handler(struct irq_desc *desc)
+ 		if (masters & (1 << i))
+ 			pm8xxx_irq_master_handler(chip, i);
+ 
+-	chained_irq_exit(irq_chip, desc);
++	return IRQ_HANDLED;
+ }
+ 
+ static void pm8821_irq_block_handler(struct pm_irq_chip *chip,
+@@ -230,19 +227,17 @@ static inline void pm8821_irq_master_handler(struct pm_irq_chip *chip,
+ 			pm8821_irq_block_handler(chip, master, block);
+ }
+ 
+-static void pm8821_irq_handler(struct irq_desc *desc)
++static irqreturn_t pm8821_irq_handler(int irq, void *data)
+ {
+-	struct pm_irq_chip *chip = irq_desc_get_handler_data(desc);
+-	struct irq_chip *irq_chip = irq_desc_get_chip(desc);
++	struct pm_irq_chip *chip = data;
+ 	unsigned int master;
+ 	int ret;
+ 
+-	chained_irq_enter(irq_chip, desc);
+ 	ret = regmap_read(chip->regmap,
+ 			  PM8821_SSBI_REG_ADDR_IRQ_MASTER0, &master);
+ 	if (ret) {
+ 		pr_err("Failed to read master 0 ret=%d\n", ret);
+-		goto done;
++		return IRQ_NONE;
+ 	}
+ 
+ 	/* bits 1 through 7 marks the first 7 blocks in master 0 */
+@@ -251,19 +246,18 @@ static void pm8821_irq_handler(struct irq_desc *desc)
+ 
+ 	/* bit 0 marks if master 1 contains any bits */
+ 	if (!(master & BIT(0)))
+-		goto done;
++		return IRQ_NONE;
+ 
+ 	ret = regmap_read(chip->regmap,
+ 			  PM8821_SSBI_REG_ADDR_IRQ_MASTER1, &master);
+ 	if (ret) {
+ 		pr_err("Failed to read master 1 ret=%d\n", ret);
+-		goto done;
++		return IRQ_NONE;
+ 	}
+ 
+ 	pm8821_irq_master_handler(chip, 1, master);
+ 
+-done:
+-	chained_irq_exit(irq_chip, desc);
++	return IRQ_HANDLED;
+ }
+ 
+ static void pm8xxx_irq_mask_ack(struct irq_data *d)
+@@ -574,14 +568,15 @@ static int pm8xxx_probe(struct platform_device *pdev)
+ 	if (!chip->irqdomain)
+ 		return -ENODEV;
+ 
+-	irq_set_chained_handler_and_data(irq, data->irq_handler, chip);
++	rc = devm_request_irq(&pdev->dev, irq, data->irq_handler, 0, dev_name(&pdev->dev), chip);
++	if (rc)
++		return rc;
++
+ 	irq_set_irq_wake(irq, 1);
+ 
+ 	rc = of_platform_populate(pdev->dev.of_node, NULL, NULL, &pdev->dev);
+-	if (rc) {
+-		irq_set_chained_handler_and_data(irq, NULL, NULL);
++	if (rc)
+ 		irq_domain_remove(chip->irqdomain);
+-	}
+ 
+ 	return rc;
+ }
+@@ -594,11 +589,9 @@ static int pm8xxx_remove_child(struct device *dev, void *unused)
+ 
+ static int pm8xxx_remove(struct platform_device *pdev)
+ {
+-	int irq = platform_get_irq(pdev, 0);
+ 	struct pm_irq_chip *chip = platform_get_drvdata(pdev);
+ 
+ 	device_for_each_child(&pdev->dev, NULL, pm8xxx_remove_child);
+-	irq_set_chained_handler_and_data(irq, NULL, NULL);
+ 	irq_domain_remove(chip->irqdomain);
+ 
+ 	return 0;
 -- 
-With best wishes
-Dmitry
+2.33.0
+
