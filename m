@@ -2,81 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE4C41FA90
-	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 11:14:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 772CC41FAE3
+	for <lists+dri-devel@lfdr.de>; Sat,  2 Oct 2021 12:31:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 194F76E85A;
-	Sat,  2 Oct 2021 09:14:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E833F6E838;
+	Sat,  2 Oct 2021 10:31:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [216.205.24.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C3E5B6E835
- for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 09:14:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633166060;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VJ9RXJTGIQ7TnplzhbGhNK6unhn11194McWtsI39dY4=;
- b=VcVtSCtO/4xlbQeqCAeGEAOVwJD/wlSzMZ+wTr9r96Zz4NZ/qSbGHtpjuV5blUUbJ2S9vc
- O7YPoXCVLUX5CYO7aqBDqyV6mDl5xnQfiFSuaVtGlmjzT/0F5OpEE4lk+66ltafd0oFOAv
- 9GPCvJTKF7dZ1puo+DZVOSl/dWwLiSo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-umEysV1CPxuFddF7LgubnA-1; Sat, 02 Oct 2021 05:14:18 -0400
-X-MC-Unique: umEysV1CPxuFddF7LgubnA-1
-Received: by mail-ed1-f71.google.com with SMTP id
- a7-20020a509e87000000b003da71d1b065so12656538edf.4
- for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 02:14:18 -0700 (PDT)
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com
+ [IPv6:2607:f8b0:4864:20::72b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 295CB6E83B
+ for <dri-devel@lists.freedesktop.org>; Sat,  2 Oct 2021 10:17:43 +0000 (UTC)
+Received: by mail-qk1-x72b.google.com with SMTP id 73so11663347qki.4
+ for <dri-devel@lists.freedesktop.org>; Sat, 02 Oct 2021 03:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=date:from:to:cc:subject:in-reply-to:message-id:references
+ :mime-version; bh=L04RaRlqH1ifPK8xvh6SS0IhEYtmxlsOrxlOabQ/lVs=;
+ b=SvbJHFYxj0cT/VKP+yAaUVTejlYdkIjBw2jzhZTzg1tc/vQCihoHIHvuv29dIVp7l0
+ WzY1XRv/plPcePEwwBqxu7JLq0MHjoIw7Qa7i2zFuVmpNwrBNsQa3lU55uVOqjWieaSK
+ YtJlwBcFqYVZab/hi841e+1CHMAkqRPL713HK4fQEGK+/L378MskK14yydQcA5SZNooG
+ LUzhh+YgcPAdD1DQvJueaPpqPr2sFioFPpw9CzAwgcvbHEP/uxZSr7aeykvAjGcLyVXb
+ 5+CKgm/YxzofKbqutwDRRcJMJ8h2EcYq1A58q8n0nlBpOu7lq7u2hGwK/OOptwxxxQjc
+ T0hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VJ9RXJTGIQ7TnplzhbGhNK6unhn11194McWtsI39dY4=;
- b=v1bBrMCS+R7H0CE9aG2D9uSsoOf7GjMaIjrMIA3kWclztDdgbX53irGylIS6eIk7Bh
- rYExkuMjjQeDmQqMRASdzCC/rVCwNzaeYYnwo9yECYUPh+K7Pdg7XiB9hPVm3rhdEAtK
- 67SZ4Jrt3jhKTbmrJZrO0udSkvCg5QCIZ5mvKiLAz3wDsLGDj3WmiAWcF2C+MQc5Vf/u
- CXw/oVdaEb5JckIQP0DVgT2dTicaJK3aAoFIFqgoJxHbg5MOHIi2zCKWtxTeG3Suvzqw
- 5mxVVdS50IwWLL4xKulSIaOcqv0R4blCbr4zP0MTyntbinGEnIzyx30tN9SSaLztDx7A
- iUFg==
-X-Gm-Message-State: AOAM5326QAN/B9UBb3TZK9Mt0fxsOeZW6a0n/566+JOo7mYnqIyGiZYZ
- 04uKS+lT8k3Qvpnfrv/Tl8kM/fhgtDMnK+jDPSTk30X7spwumGwSwgmhLAlmg33Azg7iNj93GwJ
- CSsOiroSTaK3JusGm3N2txUHa0qfQ
-X-Received: by 2002:a17:906:2bd0:: with SMTP id
- n16mr3186251ejg.132.1633166057434; 
- Sat, 02 Oct 2021 02:14:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw1WcknLHya1hGXb5KcKJOBaUIP1K0/AwOnuQKYVTxuWskWhkeiWUzh9k/0uLVoupeZjj/I0g==
-X-Received: by 2002:a17:906:2bd0:: with SMTP id
- n16mr3186232ejg.132.1633166057182; 
- Sat, 02 Oct 2021 02:14:17 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id l23sm3882559ejn.15.2021.10.02.02.14.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 02 Oct 2021 02:14:16 -0700 (PDT)
-Subject: Re: [Intel-gfx] [PATCH v2 0/4] drm/dp, drm/i915: Finish basic PWM
- support for VESA backlight helpers
-To: Lyude Paul <lyude@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
-References: <20211001225344.1752203-1-lyude@redhat.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <a6ea3fa3-fbbd-f5e8-54ab-3929ed9f7294@redhat.com>
-Date: Sat, 2 Oct 2021 11:14:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+ h=x-gm-message-state:date:from:to:cc:subject:in-reply-to:message-id
+ :references:mime-version;
+ bh=L04RaRlqH1ifPK8xvh6SS0IhEYtmxlsOrxlOabQ/lVs=;
+ b=lSnJRhatFXOOlpbL0LwyW17NjjCayEQJ77KTcKAlPhth519eenixGncgPFTnlDy1v9
+ 1FYzQugTNuj8u2P1qEQpzI8hF75zN9bvoNYN/vYpz2mxd8xsNAusf78jQgi7ynUZIz1n
+ NrVObxLhkKCwvGbnsdSv1gTjychofRA1Xil9vNg6cQKIJEzBMcyw/O+fcMfBFIgF5+2x
+ 7n4Nnk6TMOx3ikneo7h/X9O9svRjX/4VrbyXAEKxGoRPXEoaoD4cbQu8+OUUO0f9Dq3L
+ wsXFYK8SQ1sKOMdybV54OYZmDgfu7eTClvmv6z8+KL+cElnShyEDecUSBhJjJeK2C7LT
+ f/6g==
+X-Gm-Message-State: AOAM530dQ87ob/nu5ITUPt3o383u5oZrf2sLaT5DME04N2+uuIOIhjR+
+ tVtThcSOU4BK7NMeyz5YAFScPQ==
+X-Google-Smtp-Source: ABdhPJyhROMakybhDDzG86uIA1c9FvgY/j9InoVrCBK3aiffORLmH7+B+PoOiHB1+XM3qHWKKOSbKA==
+X-Received: by 2002:a37:9e8d:: with SMTP id h135mr1920291qke.189.1633169862014; 
+ Sat, 02 Oct 2021 03:17:42 -0700 (PDT)
+Received: from ripple.attlocal.net
+ (172-10-233-147.lightspeed.sntcca.sbcglobal.net. [172.10.233.147])
+ by smtp.gmail.com with ESMTPSA id w1sm4961927qtv.71.2021.10.02.03.17.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 02 Oct 2021 03:17:41 -0700 (PDT)
+Date: Sat, 2 Oct 2021 03:17:29 -0700 (PDT)
+From: Hugh Dickins <hughd@google.com>
+X-X-Sender: hugh@ripple.anvils
+To: Steven Rostedt <rostedt@goodmis.org>
+cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>, 
+ Matt Roper <matthew.d.roper@intel.com>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>, 
+ Caz Yokoyama <caz.yokoyama@intel.com>, LKML <linux-kernel@vger.kernel.org>, 
+ Linus Torvalds <torvalds@linux-foundation.org>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
+ dri-devel@lists.freedesktop.org
+Subject: Re: [BUG 5.15-rc3] kernel BUG at
+ drivers/gpu/drm/i915/i915_sw_fence.c:245!
+In-Reply-To: <20211002020257.34a0e882@oasis.local.home>
+Message-ID: <259ff554-76b8-8523-033-9e996f549c70@google.com>
+References: <20211002020257.34a0e882@oasis.local.home>
 MIME-Version: 1.0
-In-Reply-To: <20211001225344.1752203-1-lyude@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
+X-Mailman-Approved-At: Sat, 02 Oct 2021 10:30:59 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -92,54 +81,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Lyude,
+On Sat, 2 Oct 2021, Steven Rostedt wrote:
 
-On 10/2/21 12:53 AM, Lyude Paul wrote:
-> When I originally moved all of the VESA backlight code in i915 into DRM
-> helpers, one of the things I didn't have the hardware or time for
-> testing was machines that used a combination of PWM and DPCD in order to
-> control their backlights. This has since then caused some breakages and
-> resulted in us disabling DPCD backlight support on such machines. This
-> works fine, unless you have a machine that actually needs this
-> functionality for backlight controls to work at all. Additionally, we
-> will need to support PWM for when we start adding support for VESA's
-> product (as in the product of multiplication) control mode for better
-> brightness ranges.
+> When I tried to test patches applied to v5.15-rc3, I hit this bug (and
+> hence can not test my code), on 32 bit x86.
 > 
-> So - let's finally finish up implementing basic support for these types
-> of backlights to solve these problems in our DP helpers, along with
-> implementing support for this in i915. And since digging into this issue
-> solved the last questions we really had about probing backlights in i915
-> for the most part, let's update some of the comments around that as
-> well!
-
-Backlight control is a topic which I'm reasonably familiar with,
-do you want me to review this series for you ?
-
-Regards,
-
-Hans
-
-
-
+> ------------[ cut here ]------------
+> kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
+> invalid opcode: 0000 [#1] SMP PTI
+> CPU: 3 PID: 1 Comm: swapper/0 Not tainted 5.14.0-rc1-test+ #456
+> Hardware name: MSI MS-7823/CSM-H87M-G43 (MS-7823), BIOS V1.6 02/22/2014
+> EIP: __i915_sw_fence_init+0x15/0x38
+> Code: 2b 3d 58 98 88 c1 74 05 e8 60 d9 58 00 8d 65 f4 5b 5e 5f 5d c3 3e
+> 8d 74 26 00 55 89 e5 56 89 d6 53 85 d2 74 05 f6 c2 03 74 02 <0f> 0b 89
+> ca 8b 4d 08 89 c3 e8 48 94 ab ff 89 73 34 c7 43 38 01 00
+> EAX: c2508260 EBX: c2508000 ECX: c143de1e EDX: c09dfadd
+> ESI: c09dfadd EDI: c45e7200 EBP: c26c9c68 ESP: c26c9c60
+> DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010202
+> CR0: 80050033 CR2: 00000000 CR3: 019e2000 CR4: 001506f0
+> Call Trace:
+>  intel_context_init+0x112/0x145
+>  intel_context_create+0x29/0x37
+>  intel_ring_submission_setup+0x3cb/0x5a8
+>  ? kfree+0x135/0x1c6
+>  ? wa_init_finish+0x32/0x59
+>  ? wa_init_finish+0x4f/0x59
+>  ? intel_engine_init_ctx_wa+0x39a/0x3b3
+>  intel_engines_init+0x2dd/0x4d0
+>  ? gen6_bsd_submit_request+0x97/0x97
+>  intel_gt_init+0x122/0x20d
+>  i915_gem_init+0x80/0xef
+>  i915_driver_probe+0x880/0xa90
+>  ? i915_pci_remove+0x27/0x27
+>  i915_pci_probe+0xdd/0xf6
+>  ? __pm_runtime_resume+0x63/0x6b
+>  ? i915_pci_remove+0x27/0x27
+>  pci_device_probe+0xbc/0x11e
+>  really_probe+0x13e/0x328
+>  __driver_probe_device+0x140/0x176
+>  driver_probe_device+0x1f/0x71
+>  __driver_attach+0xf6/0x109
+>  ? __device_attach_driver+0xbd/0xbd
+>  bus_for_each_dev+0x5b/0x88
+>  driver_attach+0x19/0x1b
+>  ? __device_attach_driver+0xbd/0xbd
+>  bus_add_driver+0xf2/0x199
+>  driver_register+0x8c/0xbe
+>  __pci_register_driver+0x5b/0x60
+>  i915_register_pci_driver+0x19/0x1b
+>  i915_init+0x15/0x67
+>  ? radeon_module_init+0x6a/0x6a
+>  do_one_initcall+0xce/0x21c
+>  ? rcu_read_lock_sched_held+0x35/0x6d
+>  ? trace_initcall_level+0x5f/0x99
+>  kernel_init_freeable+0x1fb/0x247
+>  ? rest_init+0x129/0x129
+>  kernel_init+0x17/0xfd
+>  ret_from_fork+0x1c/0x28
+> Modules linked in:
+> ---[ end trace 791dc89810d853da ]---
+> EIP: __i915_sw_fence_init+0x15/0x38
+> Code: 2b 3d 58 98 88 c1 74 05 e8 60 d9 58 00 8d 65 f4 5b 5e 5f 5d c3 3e
+> 8d 74 26 00 55 89 e5 56 89 d6 53 85 d2 74 05 f6 c2 03 74 02 <0f> 0b 89
+> ca 8b 4d 08 89 c3 e8 48 94 ab ff 89 73 34 c7 43 38 01 00
+> EAX: c2508260 EBX: c2508000 ECX: c143de1e EDX: c09dfadd
+> ESI: c09dfadd EDI: c45e7200 EBP: c26c9c68 ESP: c26c9c60
+> DS: 007b ES: 007b FS: 00d8 GS: 0000 SS: 0068 EFLAGS: 00010202
+> CR0: 80050033 CR2: 00000000 CR3: 019e2000 CR4: 001506f0
+> Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b
+> Kernel Offset: disabled
+> ---[ end Kernel panic - not syncing: Attempted to kill init! exitcode=0x0000000b ]---
 > 
-> Changes:
-> * Fixup docs
-> * Add patch to stop us from breaking nouveau
+> Attached is the dmesg and the config.
 > 
-> Lyude Paul (4):
->   drm/i915: Add support for panels with VESA backlights with PWM
->     enable/disable
->   drm/nouveau/kms/nv50-: Explicitly check DPCD backlights for aux
->     enable/brightness
->   drm/dp, drm/i915: Add support for VESA backlights using PWM for
->     brightness control
->   drm/i915: Clarify probing order in intel_dp_aux_init_backlight_funcs()
+> I bisected it down to this commit:
 > 
->  drivers/gpu/drm/drm_dp_helper.c               | 75 +++++++++++------
->  .../drm/i915/display/intel_dp_aux_backlight.c | 80 ++++++++++++++-----
->  drivers/gpu/drm/nouveau/nouveau_backlight.c   |  5 +-
->  include/drm/drm_dp_helper.h                   |  7 +-
->  4 files changed, 122 insertions(+), 45 deletions(-)
-> 
+> 3ffe82d701a4 ("drm/i915/xehp: handle new steering options")
 
+Yes (though bisection doesn't work right on this one): the fix
+https://lore.kernel.org/lkml/1f955bff-fd9e-d2ee-132a-f758add9e9cb@google.com/
+seems to have got lost in the system: it has not even appeared in
+linux-next yet. I was going to send a reminder later this weekend.
+
+Here it is again (but edited to replace "__aligned(4)" in the original
+by the official "__i915_sw_fence_call" I discovered afterwards; and
+ignoring recent discussions of where __attributes ought to appear :-)
+
+
+[PATCH] drm/i915: fix blank screen booting crashes
+
+5.15-rc1 crashes with blank screen when booting up on two ThinkPads
+using i915.  Bisections converge convincingly, but arrive at different
+and suprising "culprits", none of them the actual culprit.
+
+netconsole (with init_netconsole() hacked to call i915_init() when
+logging has started, instead of by module_init()) tells the story:
+
+kernel BUG at drivers/gpu/drm/i915/i915_sw_fence.c:245!
+with RSI: ffffffff814d408b pointing to sw_fence_dummy_notify().
+I've been building with CONFIG_CC_OPTIMIZE_FOR_SIZE=y, and that
+function needs to be 4-byte aligned.
+
+Fixes: 62eaf0ae217d ("drm/i915/guc: Support request cancellation")
+Signed-off-by: Hugh Dickins <hughd@google.com>
+---
+
+ drivers/gpu/drm/i915/gt/intel_context.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/gpu/drm/i915/gt/intel_context.c
++++ b/drivers/gpu/drm/i915/gt/intel_context.c
+@@ -362,6 +362,7 @@ static int __intel_context_active(struct
+ 	return 0;
+ }
+ 
++__i915_sw_fence_call	/* Respect the I915_SW_FENCE_MASK */
+ static int sw_fence_dummy_notify(struct i915_sw_fence *sf,
+ 				 enum i915_sw_fence_notify state)
+ {
