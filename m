@@ -2,64 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C72E420138
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 12:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30AC4201B4
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 15:25:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5A046E057;
-	Sun,  3 Oct 2021 10:43:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 96C196E0BF;
+	Sun,  3 Oct 2021 13:25:17 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FE436E057
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Oct 2021 10:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1633257798;
- bh=zopy7JiduOhiOraL+CIOE8r8McNSECiWHJbGvJY+/wk=;
- h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
- b=lvx5GL/7dRsd5R/rBBj/tK46Hs3uVK08hGHs9VaKJev7d95nT7KoAgo7aEpUrCa7k
- 83SRFuRYMzsPBEdgge8DSDM5R0q3nqYztQq01UkWpw4O79nannpH7bk5uz4E18oi1w
- 0rsU9CC57/nCJ6bu1AJzqJw3PjjC2vB/oucng1CQ=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from localhost.localdomain ([79.150.72.99]) by mail.gmx.net
- (mrgmx004 [212.227.17.184]) with ESMTPSA (Nemesis) id
- 1N9dwd-1mtnBT2n9J-015c9e; Sun, 03 Oct 2021 12:43:18 +0200
-From: Len Baker <len.baker@gmx.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: Len Baker <len.baker@gmx.com>, Kees Cook <keescook@chromium.org>,
- "Gustavo A. R. Silva" <gustavoars@kernel.org>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-hardening@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/i915: Prefer struct_size over open coded arithmetic
-Date: Sun,  3 Oct 2021 12:42:58 +0200
-Message-Id: <20211003104258.18550-1-len.baker@gmx.com>
-X-Mailer: git-send-email 2.25.1
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CCDEC6E0BF;
+ Sun,  3 Oct 2021 13:25:16 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F2ADA2A;
+ Sun,  3 Oct 2021 15:25:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1633267514;
+ bh=VHWbPfGiA5vgTAu1+k5AM/WGLi1c7AUlzQbdWY3enhc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h/2eYjwJbH2EhjYD40qxfbcEgYr3mE2IAAas4v5feH+XAkkT1BgxIkzYa06DtV8ZJ
+ EGzSpMCGvRfSWCjwZLJzUC8o7X3Bf6J0UPkB/gHZWzl2XGBTtdBn6f67BRJU7V8OWE
+ df/2bykLM9Wcuj02kfnm0rlzKLBpNTFJPdjZTaAU=
+Date: Sun, 3 Oct 2021 16:25:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Daniel Vetter <daniel.vetter@intel.com>,
+ David Airlie <airlied@linux.ie>, Jonas Karlman <jonas@kwiboo.se>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sean Paul <sean@poorly.run>, freedreno@lists.freedesktop.org,
+ Kyungmin Park <kyungmin.park@samsung.com>, linux-kernel@vger.kernel.org,
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Tian Tao <tiantao6@hisilicon.com>, Inki Dae <inki.dae@samsung.com>,
+ linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org,
+ John Stultz <john.stultz@linaro.org>, Chen Feng <puck.chen@hisilicon.com>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>,
+ Joonyoung Shim <jy0922.shim@samsung.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v4 00/24] drm/bridge: Make panel and bridge probe order
+ consistent
+Message-ID: <YVmvNTzZyqQHI4Co@pendragon.ideasonboard.com>
+References: <20210910101218.1632297-1-maxime@cerno.tech>
+ <YVTg8nqA9obYokxT@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:uxCZL6xJRu3oEOGIGxrkEkeAYobt3kt5RUND+CwOV7gb29aFtlt
- XYBMW8PY3+dXrVVEyjK13+fJll8DyzLN5hKiyTJwBj7xorhQJWIRIJlhc7qgnpoRH1yJWkf
- 2hAQv7FbJdd4kVls/vfCWapbxyQ/CmhjQU/diQasrAEpcfjfCgHmpKHWhCb4I10bOqQkLUT
- Pl1tYhlOrbJQJf1gpBtaw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QArz2dc5ypc=:p3dODVcckWTX11y2VtLBr7
- FC/Utic68qHS63CflCCl/X/mpL8FtpFit/UwO99wCcZMBO1JS8G0MRlSRYJSv0w8aYX+OM/Gi
- 0g/5QwJ8hI91A3IUORASvq1Py8jAcoa2371wPgjzXDAlkjeJxyTn0nwzFuIeuOdp9Wz6qtrLO
- KqDd5Kn/vq8cGvb59EQWFwz/VfRxBqMLXCHzE6U8CZA8cBUH6WDcVGLNDOe8oiZX1GPS/H4+d
- YSEff4AmwtR3f0jr24gk0vYqTFNFJbPDYFqE8g2vqEblxo3SzOpVuoAbNiobu1PN8mHUEdJiB
- KEPFHijtDdOIzsAg3FmkiVrzyGz+/j8N9GlbIaDXx+c10rCjzeg5fTc036Bce48tJh1Y/phG0
- B/4aSWr1pHD7PeQPry1Ev/isEjZdovZLu/dFZMQFzJuoiDFi2guxhdKSJZOsZAnGfDvvgIslN
- O3nfeHlqbFxhMcB5amayK+e5mZ00v4AfqImC1wJPRZj0CKR/H0yYHcVbQTJk1F9nwIP1M0sKY
- caLX0bCQKnRZXK0b/OJkr9F+2Jioc98c66zsbZm4vP6WsMQj+n9XyFwFi4+phdUuer6N0rbBE
- UzUcMtXWWhUmY+AIoKJmWJ53JQG9qO358J7PMEJMVXt1COwQlZh8SoR3Ve8aTDng3TpP7KhEI
- 88f3kO03YSsBXibhXRandSRMdKMuZzF0GmcfSiioLaqVmJxc/+yszUq7wfeaNKKJg/93Jdo7d
- 4Il2pBI04ZylcnevLpzPm0o6KfoHv9PDjiPoINqlFfnd7bZprZWAFOTO6hvTQraPWTRQaYaGg
- fZBmNv+8PIIxZs/Lmjce8KIFr9vz6nnmVF/46ue+3fElE1UBYb3utd2ciSaf9eDOrcFyJGea3
- 2oU8WEZYAQpWUFTCB1eh/kJQy4PfLUp1YnkFM/comLpQib+PHEFIx/RIBlVpIqPbeNXN2P/I9
- xdd/texNihEkS69vV9nviESlpMvEcsX2NcmdxYViSYZqystYFjeXGnmpRdKuZ7KniGRMqsIIW
- vHrGhRMNFS4rbZTbHWOUUhcosT3/MQdtCIbLGktMWhRwiKy37OOr2339lZPXA6LvwTaq4SE0r
- +2AKRZwPwqeFYQ=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <YVTg8nqA9obYokxT@pendragon.ideasonboard.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,90 +71,130 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As noted in the "Deprecated Interfaces, Language Features, Attributes,
-and Conventions" documentation [1], size calculations (especially
-multiplication) should not be performed in memory allocator (or similar)
-function arguments due to the risk of them overflowing. This could lead
-to values wrapping around and a smaller allocation being made than the
-caller was expecting. Using those allocations could lead to linear
-overflows of heap memory and other misbehaviors.
+Hi Maxime,
 
-In this case these are not actually dynamic sizes: all the operands
-involved in the calculation are constant values. However it is better to
-refactor them anyway, just to keep the open-coded math idiom out of
-code.
+On Thu, Sep 30, 2021 at 12:56:02AM +0300, Laurent Pinchart wrote:
+> On Fri, Sep 10, 2021 at 12:11:54PM +0200, Maxime Ripard wrote:
+> > Hi,
+> > 
+> > We've encountered an issue with the RaspberryPi DSI panel that prevented the
+> > whole display driver from probing.
+> > 
+> > The issue is described in detail in the commit 7213246a803f ("drm/vc4: dsi:
+> > Only register our component once a DSI device is attached"), but the basic idea
+> > is that since the panel is probed through i2c, there's no synchronization
+> > between its probe and the registration of the MIPI-DSI host it's attached to.
+> > 
+> > We initially moved the component framework registration to the MIPI-DSI Host
+> > attach hook to make sure we register our component only when we have a DSI
+> > device attached to our MIPI-DSI host, and then use lookup our DSI device in our
+> > bind hook.
+> > 
+> > However, all the DSI bridges controlled through i2c are only registering their
+> > associated DSI device in their bridge attach hook, meaning with our change
+> > above, we never got that far, and therefore ended up in the same situation than
+> > the one we were trying to fix for panels.
+> > 
+> > The best practice to avoid those issues is to register its functions only after
+> > all its dependencies are live. We also shouldn't wait any longer than we should
+> > to play nice with the other components that are waiting for us, so in our case
+> > that would mean moving the DSI device registration to the bridge probe.
+> > 
+> > I also had a look at all the DSI hosts, and it seems that exynos, kirin and msm
+> > would be affected by this and wouldn't probe anymore after those changes.
+> > Exynos and kirin seems to be simple enough for a mechanical change (that still
+> > requires to be tested), but the changes in msm seemed to be far more important
+> > and I wasn't confortable doing them.
+> > 
+> > Let me know what you think,
+> 
+> I've tested this series on my RPi CM4-based board, and there's a clear
+> improvement: the sn65dsi83 now probes successfully !
+> 
+> The downside is that I can now look at a panel that desperately refuses
+> to display anything. That's a separate issue, but it prevents me from
+> telling whether this series introduces regressions :-S I'll try to debug
+> that separately.
 
-So, add at the end of the struct i915_syncmap a union with two flexible
-array members (these arrays share the same memory layout). This is
-possible using the new DECLARE_FLEX_ARRAY macro. And then, use the
-struct_size() helper to do the arithmetic instead of the argument
-"size + count * size" in the kmalloc and kzalloc() functions.
+I managed to (partly) fix that issue with a few backports from the RPi
+kernel, making me confident enough to say
 
-Also, take the opportunity to refactor the __sync_seqno and __sync_child
-making them more readable.
+Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This code was detected with the help of Coccinelle and audited and fixed
-manually.
+for
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#open-co=
-ded-arithmetic-in-allocator-arguments
+drivers/gpu/drm/bridge/ti-sn65dsi83.c
+drivers/gpu/drm/drm_bridge.c
+drivers/gpu/drm/drm_mipi_dsi.c
+include/drm/drm_mipi_dsi.h
 
-Signed-off-by: Len Baker <len.baker@gmx.com>
-=2D--
- drivers/gpu/drm/i915/i915_syncmap.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+> Also, Kieran, would you be able to test this with the SN65DSI86 ?
+> 
+> > ---
+> > 
+> > Changes from v3:
+> >   - Converted exynos and kirin
+> >   - Converted all the affected bridge drivers
+> >   - Reworded the documentation a bit
+> > 
+> > Changes from v2:
+> >   - Changed the approach as suggested by Andrzej, and aligned the bridge on the
+> >     panel this time.
+> >   - Fixed some typos
+> > 
+> > Changes from v1:
+> >   - Change the name of drm_of_get_next function to drm_of_get_bridge
+> >   - Mention the revert of 87154ff86bf6 and squash the two patches that were
+> >     reverting that commit
+> >   - Add some documentation
+> >   - Make drm_panel_attach and _detach succeed when no callback is there
+> > 
+> > Maxime Ripard (24):
+> >   drm/bridge: Add documentation sections
+> >   drm/bridge: Document the probe issue with MIPI-DSI bridges
+> >   drm/mipi-dsi: Create devm device registration
+> >   drm/mipi-dsi: Create devm device attachment
+> >   drm/bridge: adv7533: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: adv7511: Register and attach our DSI device at probe
+> >   drm/bridge: anx7625: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: anx7625: Register and attach our DSI device at probe
+> >   drm/bridge: lt8912b: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: lt8912b: Register and attach our DSI device at probe
+> >   drm/bridge: lt9611: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: lt9611: Register and attach our DSI device at probe
+> >   drm/bridge: lt9611uxc: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: lt9611uxc: Register and attach our DSI device at probe
+> >   drm/bridge: ps8640: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: ps8640: Register and attach our DSI device at probe
+> >   drm/bridge: sn65dsi83: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: sn65dsi83: Register and attach our DSI device at probe
+> >   drm/bridge: sn65dsi86: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: sn65dsi86: Register and attach our DSI device at probe
+> >   drm/bridge: tc358775: Switch to devm MIPI-DSI helpers
+> >   drm/bridge: tc358775: Register and attach our DSI device at probe
+> >   drm/kirin: dsi: Adjust probe order
+> >   drm/exynos: dsi: Adjust probe order
+> > 
+> >  Documentation/gpu/drm-kms-helpers.rst        |  12 +++
+> >  drivers/gpu/drm/bridge/adv7511/adv7511.h     |   1 -
+> >  drivers/gpu/drm/bridge/adv7511/adv7511_drv.c |  15 ++-
+> >  drivers/gpu/drm/bridge/adv7511/adv7533.c     |  20 +---
+> >  drivers/gpu/drm/bridge/analogix/anx7625.c    |  40 ++++----
+> >  drivers/gpu/drm/bridge/lontium-lt8912b.c     |  31 ++----
+> >  drivers/gpu/drm/bridge/lontium-lt9611.c      |  62 +++++-------
+> >  drivers/gpu/drm/bridge/lontium-lt9611uxc.c   |  65 +++++-------
+> >  drivers/gpu/drm/bridge/parade-ps8640.c       | 101 ++++++++++---------
+> >  drivers/gpu/drm/bridge/tc358775.c            |  50 +++++----
+> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c        |  86 ++++++++--------
+> >  drivers/gpu/drm/bridge/ti-sn65dsi86.c        |  94 ++++++++---------
+> >  drivers/gpu/drm/drm_bridge.c                 |  69 ++++++++++++-
+> >  drivers/gpu/drm/drm_mipi_dsi.c               |  81 +++++++++++++++
+> >  drivers/gpu/drm/exynos/exynos_drm_dsi.c      |  19 ++--
+> >  drivers/gpu/drm/hisilicon/kirin/dw_drm_dsi.c |  27 +++--
+> >  include/drm/drm_mipi_dsi.h                   |   4 +
+> >  17 files changed, 460 insertions(+), 317 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/i915_syncmap.c b/drivers/gpu/drm/i915/i9=
-15_syncmap.c
-index 60404dbb2e9f..a8d35491d05a 100644
-=2D-- a/drivers/gpu/drm/i915/i915_syncmap.c
-+++ b/drivers/gpu/drm/i915/i915_syncmap.c
-@@ -82,6 +82,10 @@ struct i915_syncmap {
- 	 *	struct i915_syncmap *child[KSYNCMAP];
- 	 * };
- 	 */
-+	union {
-+		DECLARE_FLEX_ARRAY(u32, seqno);
-+		DECLARE_FLEX_ARRAY(struct i915_syncmap *, child);
-+	};
- };
+-- 
+Regards,
 
- /**
-@@ -99,13 +103,13 @@ void i915_syncmap_init(struct i915_syncmap **root)
- static inline u32 *__sync_seqno(struct i915_syncmap *p)
- {
- 	GEM_BUG_ON(p->height);
--	return (u32 *)(p + 1);
-+	return p->seqno;
- }
-
- static inline struct i915_syncmap **__sync_child(struct i915_syncmap *p)
- {
- 	GEM_BUG_ON(!p->height);
--	return (struct i915_syncmap **)(p + 1);
-+	return p->child;
- }
-
- static inline unsigned int
-@@ -200,7 +204,7 @@ __sync_alloc_leaf(struct i915_syncmap *parent, u64 id)
- {
- 	struct i915_syncmap *p;
-
--	p =3D kmalloc(sizeof(*p) + KSYNCMAP * sizeof(u32), GFP_KERNEL);
-+	p =3D kmalloc(struct_size(p, seqno, KSYNCMAP), GFP_KERNEL);
- 	if (unlikely(!p))
- 		return NULL;
-
-@@ -282,7 +286,7 @@ static noinline int __sync_set(struct i915_syncmap **r=
-oot, u64 id, u32 seqno)
- 			unsigned int above;
-
- 			/* Insert a join above the current layer */
--			next =3D kzalloc(sizeof(*next) + KSYNCMAP * sizeof(next),
-+			next =3D kzalloc(struct_size(next, child, KSYNCMAP),
- 				       GFP_KERNEL);
- 			if (unlikely(!next))
- 				return -ENOMEM;
-=2D-
-2.25.1
-
+Laurent Pinchart
