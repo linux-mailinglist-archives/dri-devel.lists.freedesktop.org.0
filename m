@@ -1,47 +1,145 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05CFE4201F7
-	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 16:17:01 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE2DC420373
+	for <lists+dri-devel@lfdr.de>; Sun,  3 Oct 2021 20:37:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A48256E0D7;
-	Sun,  3 Oct 2021 14:16:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6287D6E0A6;
+	Sun,  3 Oct 2021 18:37:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 525F56E0D7
- for <dri-devel@lists.freedesktop.org>; Sun,  3 Oct 2021 14:16:57 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E9B9A2A;
- Sun,  3 Oct 2021 16:16:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1633270615;
- bh=5gvRulaxellwaJRc9+mZrnbFOxjWAEKVGmkt/SAXgh8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=fChGjNUS3o8b7s/vAvnxHk6bXpnWJpxJNMupRz69kZe2gYapFaMQ+xv5xnG1KuopG
- hPY3NySXCJ6km68gcaZodALmtI2axnmWiaW99w9atvq9LYmcMUr3L1HGK/wNofi6or
- LHhMxq21NCYn9/38NKmpLuHkgTCjN6zo1AM3TjSU=
-Date: Sun, 3 Oct 2021 17:16:51 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: Questions over DSI within DRM.
-Message-ID: <YVm7U0q6F8T9K32h@pendragon.ideasonboard.com>
-References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
- <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
- <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
- <20210706151320.kwn4dwu6buvy4isa@gilmour>
- <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
- <20210715095022.5plcocz6plxnb3xr@gilmour>
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com
+ [205.220.177.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5EEE76E064
+ for <dri-devel@lists.freedesktop.org>; Sun,  3 Oct 2021 18:09:54 +0000 (UTC)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 193GNE1J021958; 
+ Sun, 3 Oct 2021 18:09:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : subject :
+ date : message-id : content-type : content-id : content-transfer-encoding
+ : mime-version; s=corp-2021-07-09;
+ bh=cZBiNkeV+K1A+jHiTgK7Srz9iLeNcDkVN8KbB3yhAJA=;
+ b=m70947dxWE27svtSlENi6EBTsd9yAsu9q0Lqrcokai6SIm7x1RW86DFgRcjfjKUFfXPJ
+ Upr0hKxjqoYav8WrM1Cyo1nSMdjhJtIESv2nHzbeYQFxrFNWv51PHhPC3DqwQYEJxNkJ
+ SsIQywdTSqEyYvBOUlnMr+YnItoqWps+hiH1WpeUlu0YnRi9tr/rdu4j39tDSpXequVe
+ GpsyRqH1xTbhZLgrd4oa49VVityihq7rE55dvJ5sudOKzbzvbP0ovwpS4j3K5hXaJpcH
+ dk/ZpH9UkyP7A6slkmLpEOfNCsnQ6kNRgElzPW/rc/v2+SSbskFyQIAggmapSECozxld Ww== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bfaj20m0p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Sun, 03 Oct 2021 18:09:52 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 193I9pn3190682;
+ Sun, 3 Oct 2021 18:09:51 GMT
+Received: from nam12-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam12lp2168.outbound.protection.outlook.com [104.47.55.168])
+ by aserp3030.oracle.com with ESMTP id 3bev7qtutc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sun, 03 Oct 2021 18:09:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QkIk4Y+7/8F9pbblg/AL15+4N0sktjH7hqGjtCFD0HcdtlfAKCLcCxbHLZBx5Ux0+IYYs92MC+X9srqdw2hVTe0ngNF2y+qVzsLF9W+IHqNGqR7I+Pi6bGHNUJveL+pR+Z8Nbrey4gqJVYXSERUEBS40ufqEOJcPjgo5+h69DUQqQEVt8fN9BzxXisJTrfj8qUn80TA8jlubemaVlojeiJR2tmLWdZCYgEELdrQK1eLsZDnLk8SPmGib15hHWyK6uGHQvP9XvPzJTayMMtOHj4XJGS8a+VPozMZKOqJD/546Wf6iwfJIjBXatgj+kP0na4xFBqBx/Uk1UKMBixx3UA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cZBiNkeV+K1A+jHiTgK7Srz9iLeNcDkVN8KbB3yhAJA=;
+ b=ktw0zU8ysCffo54LxDK8treQzVGNPWnmFQ3Gf9jKRKfs1r4yLy2UujKVobpNryueB7OgLYBPSjYYiqtIxrSiL8dHbpU2wCF7pV7GMNDJ2FqiwpgrIJyZhcRcAVbOCUjkOnGy/Uv8sbfCcdu6jefFIqM9ePHoblsyBlNoo5X98cXDYjiSUUKlXGpp4u3n29BMXLofCR829vAXGHhAUeiWjkxOZEfZPeoZmgjXJZcO48gakARt0zO87rxGL0TsMUwdSSCzbWLY+HNn6tA6b0SMhpa9SCxKK4gEvwyWrZKJkJalzAjsLUX1FpuO6IlYxrv9XknhC7bIaYRBeQhXe+da5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cZBiNkeV+K1A+jHiTgK7Srz9iLeNcDkVN8KbB3yhAJA=;
+ b=LkLuU/yFMFdeOdGmJYniwXSSG0vEjnujta4tHNt7xI9J3KlPO1uhS6ZHSxAhhWhc6+1d2gmqFtTEivIUyA4TLaYvxerGOgxp3RbldtpefAzylODrCpwImcMUt5rq5KfXL+l5+w78aJOTOprt2gAtoHuJWVe44zaTVC+F45+F3fE=
+Received: from SJ0PR10MB4688.namprd10.prod.outlook.com (2603:10b6:a03:2db::24)
+ by SJ0PR10MB4623.namprd10.prod.outlook.com (2603:10b6:a03:2dc::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.13; Sun, 3 Oct
+ 2021 18:09:49 +0000
+Received: from SJ0PR10MB4688.namprd10.prod.outlook.com
+ ([fe80::f4fe:5b4:6bd9:4c5b]) by SJ0PR10MB4688.namprd10.prod.outlook.com
+ ([fe80::f4fe:5b4:6bd9:4c5b%6]) with mapi id 15.20.4566.022; Sun, 3 Oct 2021
+ 18:09:49 +0000
+From: Chuck Lever III <chuck.lever@oracle.com>
+To: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, Linux
+ Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: 572994bf18ff prevents system boot
+Thread-Topic: 572994bf18ff prevents system boot
+Thread-Index: AQHXuIHaQkpNBKzpEUm+VGhDUNOUhg==
+Date: Sun, 3 Oct 2021 18:09:49 +0000
+Message-ID: <A194B6CE-AF77-422D-A92F-292ABD83BCCE@oracle.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.120.0.1.13)
+authentication-results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=oracle.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9d755003-88b2-4fc6-71c6-08d98698fd6b
+x-ms-traffictypediagnostic: SJ0PR10MB4623:
+x-microsoft-antispam-prvs: <SJ0PR10MB4623773D37D364A9B839076C93AD9@SJ0PR10MB4623.namprd10.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1923;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 0iUPWDm1uhv0A1+whECtKIGENQVlRfKFtV48C2Sv0vQ6h0l5UeFBm1k30QhWoWTCqAQ6/YDStRxSaF8EQXYRxgYy2eht6d66+HhYzKsLYKJlX0WoRqjSQx6P0THmSq9jDOm8cKUCB6xPcJqlWlCTVA7ws8+Kex6oBmsW5gadT5dqnEXvHvLlRv8gEPolQu0UlmharbhZQKOdt/wXsIjp7hcL2/BykeM//Fd8AUHWyekZMshDsnugsaXnqtfnzXsbn9RYFx/4/2ud6TSMD4QgnFMcEQaJbNdY61/kyJbVCw1Vm02fnn2VaLY179wWC9Cq24jxQWxW2VzvYAruam1KslDqueEEXNxXet40ZbHKC+yIVug/IKkH3uXnEe/rBaVilkjF/4cclWCsM6DTZhVwSnX5WGt7Rr3tNMp7Vs2g7yo3cGk8mD3GAlXkZmfLfIr8eD1fbhmmajneMd84sUzsKPgiYhBw/qNGrdPzoLyZXCxvXScsf7gGCl3kcnESDuQ6XuA9/Qr7IzhhuSYms+2yy2X5w6111NA9jFKyZNrKpwlH7Fq72Y75iX4YxWc082MWIOB3f0HuUu7ql/+LBNO7Sh54ZhnnRg91ZmXc6MLUS8zo1Q+6DdQ22GR90PGTIoqXjcs7+kAVjuGY//mpctv9pbEKeA/Ur0G+QLmOevucRpjsqhPtiTFCikCYvGMShB4KcNsX5qI/Pg3JePyjRgl6SeHNJTScHx2+c46gfeMWCjk=
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SJ0PR10MB4688.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(4744005)(6506007)(122000001)(6486002)(71200400001)(6512007)(66556008)(66476007)(8936002)(66946007)(66446008)(64756008)(186003)(76116006)(91956017)(86362001)(38100700002)(508600001)(2906002)(83380400001)(8676002)(26005)(38070700005)(110136005)(33656002)(316002)(5660300002)(36756003)(2616005)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kcGiOakFGZfBvOzJCF4hUnOF26L8MyZTf051xnUMUJvtyJZITMULgtl5BAvt?=
+ =?us-ascii?Q?DnuNZyZCoQ7y1AYpGXG7bJz4MGCktAvRmF49FjL/uVXM3cbTQBicdtQr89s+?=
+ =?us-ascii?Q?96n68yxk9pUEAxBucB5GbXLlNUKPI/S2SHmU04wAQAt2l0d1fP2VvJh20pXo?=
+ =?us-ascii?Q?13XiTHQv0VtCzDg8LakHW6xGdZWhpJsjMalRabqiky9AhVEsrZHHl6ehXiAr?=
+ =?us-ascii?Q?eeju7MMEaaafK++vUANTaJ1r4Ys+qwoJ1RjqUck6diM3f+nM24M0ou3mxXuT?=
+ =?us-ascii?Q?tSnHx/zryfyYtDphAfKq5zCygaNNDNAMrLGwEdxj71IU+XOMHFaMU8zCK+2Y?=
+ =?us-ascii?Q?t3AwqZvnTNuSdTqhgGv2AHp+DenHLXvGuzUmtg0q+eyaVahyxgFjffJdk9Ea?=
+ =?us-ascii?Q?W4gew+Z+lyRz4YEoUrdyUyZD01fdwm/Js4qWRUdnFpPdEOrzgiLVSWQbHoux?=
+ =?us-ascii?Q?x8lHs/Z8wXiG2y/RMOU4iKhQiQy8h/8X2D/HARkxmTaEWaA3bcSHmEEAKQlA?=
+ =?us-ascii?Q?kpwBVZ2A38zTVAiNkVycj1vQb+HlzMysqYZokE3u7eKy45c+oo2a2Om0PFo0?=
+ =?us-ascii?Q?Gw53/CBWzrqlEXeKYYKjjD8yNCyZfsYgDcbbVG6VMY0t2tygOAriR9KddRFM?=
+ =?us-ascii?Q?i4GMW1paZpfNkYB8LyzeMhJgIV7qHWZl4XU30kJ6YL/l8PPe6seM7c9HKEhC?=
+ =?us-ascii?Q?E+F6eBk1z/OiFO2Gt7GW3er/w8R+u6ZtXpOuG/kEPrUmpSbU3OEbDAthdxZl?=
+ =?us-ascii?Q?N/wdYRLlzyXXpzpOt50k0coEiiJQnL4/Uwy2tXTG8OKS4uTxEIVeFLVRX7Iy?=
+ =?us-ascii?Q?ymaxxeP3bK6gl8HpKMvtqQ6AJHHClO/MbMufrj8RYXxNjAliPPOgSh9g7s0D?=
+ =?us-ascii?Q?4uQFgyXkpW5CShddrBJXNqf5LDqS+20jbQMnLEqiAe5nsCFuRXihM0blaG7s?=
+ =?us-ascii?Q?USdpDELWcx6yhjzsAoLYYppr7EsWplfAM+bni8mlZTIIfF7EwxGOWyRAuYgB?=
+ =?us-ascii?Q?ViWEZnDBIi/qe9ipB5DyAA96mZ6UM+XDKl8Pbe6K501n/2iF2Fb+wAeNgiUV?=
+ =?us-ascii?Q?FjSqt3e4WgfkQ9U52rG4flvdyHDsP4ZZtgZRQH8n6LvEdNqO/NdGvy82uT6D?=
+ =?us-ascii?Q?I2rZ/hS8oQx2ivihqTv8MAIBf4e95cVEu4HRiBVb8BgSH7ObvnDm+mufb/UO?=
+ =?us-ascii?Q?yNb46J+uKOYAPy5iu2hexfVWy3JTd10FxcsXnOvA0HiRHVd/z/r6i0pvaBEu?=
+ =?us-ascii?Q?enoSYiSZdZOUiw032TXnAy2EHZuKbtKeBlMmp/gph9HlY+6BAsSfEocUTlNJ?=
+ =?us-ascii?Q?a/CgcPcfqVpQFntRa6vP7FMg?=
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <B61D66D79FC7724DADEDEDC004CD8853@namprd10.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210715095022.5plcocz6plxnb3xr@gilmour>
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR10MB4688.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d755003-88b2-4fc6-71c6-08d98698fd6b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 Oct 2021 18:09:49.3657 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JPFmRFel+pZlPuxBxuK97yfNThvKW1MuLtfSOvgQC2NRyQHShhpeWd+Sf7njmicg19Z2AmpKRtOvj+/AAzYb1g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4623
+X-Proofpoint-Virus-Version: vendor=nai engine=6300 definitions=10126
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=917 adultscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2109230001
+ definitions=main-2110030132
+X-Proofpoint-GUID: VR4bW_vHmNciFMh0y8LYTbWPH4YpI4nd
+X-Proofpoint-ORIG-GUID: VR4bW_vHmNciFMh0y8LYTbWPH4YpI4nd
+X-Mailman-Approved-At: Sun, 03 Oct 2021 18:37:10 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,310 +155,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Hi-
 
-Reviving a bit of an old thread.
+After updating one of my test systems to v5.15-rc, I found that it
+becomes unresponsive during the later part of the boot process. A
+power-on reset is necessary to recover.
 
-On Thu, Jul 15, 2021 at 11:50:22AM +0200, Maxime Ripard wrote:
-> On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
-> > On Tue, 6 Jul 2021 at 16:13, Maxime Ripard wrote:
-> > > > > > On a similar theme, some devices want the clock lane in HS mode early
-> > > > > > so they can use it in place of an external oscillator, but the data
-> > > > > > lanes still in LP-11. There appears to be no way for the
-> > > > > > display/bridge to signal this requirement or it be achieved.
-> > > > >
-> > > > > You're right. A loooong time ago, the omapdrm driver had an internal
-> > > > > infrastructure that didn't use drm_bridge or drm_panel and instead
-> > > > > required omapdrm-specific drivers for those components. It used to model
-> > > > > the display pipeline in a different way than drm_bridge, with the sync
-> > > > > explicitly setting the source state. A DSI sink could thus control its
-> > > > > enable sequence, interleaving programming of the sink with control of
-> > > > > the source.
-> > > > >
-> > > > > Migrating omapdrm to the drm_bridge model took a really large effort,
-> > > > > which makes me believe that transitioning the whole subsystem to
-> > > > > sink-controlled sources would be close to impossible. We could add
-> > > > > DSI-specific operations, or add another enable bridge operation
-> > > > > (post_pre_enable ? :-D). Neither would scale, but it may be enough.
-> > > >
-> > > > I haven't thought it through for all generic cases, but I suspect it's
-> > > > more a pre_pre_enable that is needed to initialise the PHY etc,
-> > > > probably from source to sink.
+I bisected to this commit:
 
-I believe it could be implemented as a pre-pre-enable indeed. It feels
-like a bit of a hack, as the next time we need more fine-grained control
-over the startup sequence, we'll have to add a pre-pre-pre-enable. Given
-that the startup sequence requirements come from the sink device, it
-would make sense to let it explicitly control the initialization,
-instead of driving it from the source. I don't think we'll be able to
-rework the bridge API in that direction though, so I'm fine with a hack.
+572994bf18ff ("drm/ast: Zero is missing in detect function")
 
-> > > > If the panel/bridge can set a flag that can be checked at this point
-> > > > for whether an early clock is required or not, I think that allows us
-> > > > to comply with the requirements for a large number of panels/bridges
-> > > > (LP-11 vs HS config for clock and or data lanes before pre_enable is
-> > > > called).
-> > > >
-> > > > pre_enable retains the current behaviour (initialise the chain from
-> > > > sink to source).
-> > > > enable then actually starts sending video and enabling outputs.
-> > >
-> > > Flags indeed seem like a more contained option. Another one could be to
-> > > have a mipi_dsi_host to (for example) power up the clock lane that would
-> > > be called by default before the bridge's enable, or at the downstream
-> > > bridge driver discretion before that.
-> > 
-> > Which driver will that call?
-> 
-> The parent DSI Host
-> 
-> > An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
-> > bridge chip[1]. So the encoder will be eDP, but the DSI config needs
-> > to go to that bridge. Does that happen automatically within the
-> > framework? I guess so as the bridge will have called
-> > mipi_dsi_host_register for the DSI sink to attach to.
-> 
-> In that case, whatever sink would be connected to the bridge would call
-> the bridge clock enable hook if it needs it in its pre_enable, or it
-> would be called automatically before enable if it doesn't
-> 
-> Would that help?
+Checking out v5.15-rc3 and reverting this commit enables the system
+to boot again.
 
-Sounds good to me, in theory at least (let's see what issues we'll run
-into in practice :-)).
+0b:00.0 VGA compatible controller: ASPEED Technology, Inc. ASPEED Graphics =
+Family (rev 30) (prog-if 00 [VGA controller])
+        DeviceName:  ASPEED Video AST2400
+        Subsystem: Super Micro Computer Inc X10SRL-F
+        Control: I/O+ Mem+ BusMaster- SpecCycle- MemWINV- VGASnoop- ParErr-=
+ Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=3Dmedium >TAbort- =
+<TAbort- <MAbort- >SERR- <PERR- INTx-
+        Interrupt: pin A routed to IRQ 18
+        Region 0: Memory at fa000000 (32-bit, non-prefetchable) [size=3D16M=
+]
+        Region 1: Memory at fb000000 (32-bit, non-prefetchable) [size=3D128=
+K]
+        Region 2: I/O ports at c000 [size=3D128]
+        Expansion ROM at 000c0000 [virtual] [disabled] [size=3D128K]
+        Capabilities: [40] Power Management version 3
+                Flags: PMEClk- DSI- D1+ D2+ AuxCurrent=3D375mA PME(D0+,D1+,=
+D2+,D3hot+,D3cold+)
+                Status: D0 NoSoftRst- PME-Enable- DSel=3D0 DScale=3D0 PME-
+        Capabilities: [50] MSI: Enable- Count=3D1/4 Maskable- 64bit+
+                Address: 0000000000000000  Data: 0000
+        Kernel driver in use: ast
+        Kernel modules: ast
 
-Has anyone given it a try, or is planning to ?
+--
+Chuck Lever
 
-> > Perhaps a new mipi_dsi_host function to configure the PHY is the
-> > easier solution. If it can allow the sink to request whatever
-> > combination of states from clock and data lanes that it fancies, then
-> > it can be as explicit as required for the initialisation sequence, and
-> > the host driver does its best to comply with the requests.
-> 
-> I don't know, I'm not really fond in general of solutions that try to
-> cover any single case if we don't need it and / or have today an issue
-> with this. I'd rather have something that works for the particular
-> bridge we were discussing, see if it applies to other bridges and modify
-> it if it doesn't until it works for all our cases. Trying to reason in
-> all possible cases tend to lead to solutions that are difficult to
-> maintain and usually over-engineered.
 
-A DSI host clock enable operation or a DSI host PHY configuration
-operation both fit in the same place in the grand scheme of things, so I
-don't mind either. We should be able to easily move from a more specific
-operation to a more generic one if the need arises.
 
-> > I'd have a slight query over when and how the host would drop to ULPS
-> > or power off. It probably shouldn't be in post_disable as the sink
-> > hasn't had a chance to finalise everything in its post_disable.
-> >
-> > Perhaps pm_runtime with autosuspend is the right call there?
-> 
-> pm_runtime semantics mean that once the device is suspended, its power
-> domains, regulators, clocks, etc. are all shut down, so it doesn't
-> really fit the low power state expected by DSI
-> 
-> > [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/interface-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/detail.TC358860XBG.html
-> > 
-> > > > When I discussed this briefly with Maxime there was a suggestion of
-> > > > using pm_runtime to be able to power up the pipeline as a whole. If
-> > > > the bridge driver can use pm_runtime to power up the PHY when
-> > > > required, then that may solve the issue, however I know too little of
-> > > > the details to say whether that is actually practical.
-> > >
-> > > I'm not sure it was about this topic in particular. If I remember well
-> > > our discussion, this was about the vc4 driver that tries to circumvent
-> > > the framework and call the pre_enable and enable hooks itself because it
-> > > wasn't properly powered before and thus any DCS-related call by the
-> > > downstream bridge or panel would end up creating a CPU stall.
-> > >
-> > > I suggested to use runtime_pm in the DCS related calls to make sure the
-> > > device is powered because there's no relation between the state of the
-> > > downstream bridge or panel and whether it can send DCS commands or not.
-> > > For all we know, it could do it at probe time.
-> > 
-> > pm_runtime is all a bit of a magic black box to me.
-> > 
-> > We had discussed shifting to using pm_runtime from DCS (and enable)
-> > calls to power up the PHY on demand, and that's what I implemented.
-> > However Laurent flagged up that using
-> > dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
-> > required to send a HS DCS command from that call is deprecated, so how
-> > do we specify the clock rate to use at that point?
-> 
-> I guess the most sensible would be to have a custom bridge state, and
-> add a pointer to the current bridge state in struct drm_bridge. Then, as
-> long as you have a bridge pointer you have a way to get the current
-> state associated to it, and since we already have atomic_duplicate_state
-> / atomic_destroy_state we can create our own structure around it storing
-> whatever we want.
-
-That's a good point. It would only be needed if we use runtime PM to
-work around the initialization sequence issue, not if we implement a DSI
-host clock enable/disable operation, right ?
-
-> > > > > > host_transfer calls can supposedly be made at any time, however unless
-> > > > > > MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
-> > > > > > in high speed mode. If this is before a mode has been set, what
-> > > > > > defines the link frequency parameters at this point? Adopting a random
-> > > > > > default sounds like a good way to get undefined behaviour.
-> > > > > >
-> > > > > > DSI burst mode needs to set the DSI link frequency independently of
-> > > > > > the display mode. How is that meant to be configured? I would have
-> > > > > > expected it to come from DT due to link frequency often being chosen
-> > > > > > based on EMC restrictions, but I don't see such a thing in any
-> > > > > > binding.
-> > > > >
-> > > > > Undefined too. DSI support was added to DRM without any design effort,
-> > > > > it's more a hack than a real solution. The issue with devices that can
-> > > > > be controlled over both DSI and I2C is completely unhandled. So far
-> > > > > nobody has really cared about implementing DSI right as far as I can
-> > > > > tell.
-> > > >
-> > > > :-(
-> > > >
-> > > > Thinking aloud, does having the option to set a burst link frequency
-> > > > from DT (or ACPI) have any issue for other platforms?
-> > > > Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
-> > > > drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
-> > > > all the defined timings, but drop to LP during blanking" option. The
-> > > > link frequency has therefore remained a property of the
-> > > > display/bridge.
-> > > > dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
-> > > > through the full detail of the parameters it computes from there.
-> > >
-> > > I don't see anything wrong with using link-frequency from the DT to
-> > > setup the burst frequency. It's what v4l2 has been using for a while
-> > > without any known (to me) drawback, and we're using the same of-graph
-> > > bindings, so it shouldn't be too controversial there.
-
-How would that frequency we picked in practice ? Do panels typically
-support a range of HS frequencies for DCS HS transfers ?
-
-> > OK, that sounds like a vague plan.
-> > 
-> > > > DSI and I2C controlled devices is yet another issue that I haven't
-> > > > even looked at.
-> > > > I think it's more that vc4 wants to ignore DSI should the DSI host
-> > > > node be enabled in DT, but there's no panel bound to it. One could say
-> > > > that is a DT error and tough luck, but from a user's perspective that
-> > > > is a bit harsh.
-> > >
-> > > I guess the larger "issue" is that the tree in the DT is done following
-> > > the "control" bus, and Linux likes to tie the life cycle of a given
-> > > device to its parent bus. Both these decisions make sense, but they
-> > > interact in a weird way in some occurrences (like this one, or Allwinner
-> > > has an Ethernet PHY controlled through MMIO which end up in the same
-> > > case).
-> > >
-> > > I wonder if using device links here could help though.
-> > 
-> > I really don't know about that one.
-> 
-> It's a piece of infrastructure that was created at first (I think?) to
-> model the power dependency between devices that don't have a parent /
-> child relationship. For example, if you use DMA, you probably want to
-> keep the IOMMU powered as long as you are, but it is in a completely
-> separate branch of the "device tree" (not one from the DTB, the one that
-> linux DM creates).
-> 
-> It was later expanded to also cover probe order and make sure a supplier
-> would probe before its consumer, effectively making EPROBE_DEFER
-> obsolete.
-> 
-> The second part is still fairly new, but I think we can solve this by
-> adding a device link between the DSI host and whatever is at the end of
-> the OF-Graph endpoint.
-> 
-> > > > > > As a follow on, bridge devices can support burst mode (eg TI's
-> > > > > > SN65DSI83 that's just been merged), so it needs to know the desired
-> > > > > > panel timings for the output side of the bridge, but the DSI link
-> > > > > > timings to set up the bridge's PLL. What's the correct way for
-> > > > > > signalling that? drm_crtc_state->adjusted_mode vs
-> > > > > > drm_crtc_state->mode? Except mode is userspace's request, not what has
-> > > > > > been validated/updated by the panel/bridge.
-> > > > >
-> > > > > adjusted_mode is also a bit of a hack, it solves very specific issues,
-> > > > > and its design assumes a single encoder in the chain with no extra
-> > > > > bridges. We should instead add modes to the bridge state, and negotiate
-> > > > > modes along the pipeline the same way we negotiate formats.
-> > > >
-> > > > So as I understand it we already have format negotiation between
-> > > > bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
-> > > > so is it possible to extend that to modes?
-> > > > Are you thinking bridge state that is owned by the framework, or by
-> > > > the individual bridge drivers?
-> > >
-> > > atomic_check is made for that. I guess we could improve its call
-> > > sequence to each time a mode is modified along the bridge list we
-> > > restart the sequence until all components agree (or reject it entirely
-> > > if they can't), but I don't really see why we would need yet another
-> > > hook.
-
-Isn't this what atomic_get_output_bus_fmts() and
-atomic_get_input_bus_fmts() implement ?
-
-> > Why do all nodes in the bridge list need to agree? Adjacent nodes need
-> > to agree, but they then also need to retain that agreed timing
-> > somewhere.
-> 
-> We might have mutually exclusive requirements though? Let's use the
-> example of the VC4 HDMI driver that can't have odd horizontal timings,
-> and assume it's a constraint of our DSI driver instead.
-> 
-> Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
-> is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
-> even horizontal timings, then you just can't display it, even though
-> they are not adjacent (unless the bridge in the middle can modify the
-> timings between the input and output, but that's not always possible).
-> 
-> Similarly, if for the RGB panel we need to increase a bit some timings
-> to accommodate for a larger pixel clock and end up above what the DSI
-> host can provide, we're also done.
-
-The hard part will be to figure out a good heuristics to perform the
-negotiation without going back and forth (at least not in a way that
-would require too many iterations, and certainly avoiding infinite
-loops). That will be an interesting problem to solve, but maybe we'll be
-lucky and a simple approach will work for the use cases we have to
-support today.
-
-> > Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
-> > DSI frequency and timings are permitted to be different from that
-> > which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
-> > need to agree over the format, and the DSI host and DSI side of DSI83
-> > need to agree, but they may be two different timings.
-> > Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
-> > configure the LVDS rate compared to the DSI rate (the driver currently
-> > goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
-> > of active pixel and blanking on the LVDS side (again currently just
-> > copied across).
-> >
-> > The way I'm seeing burst mode as having been interpreted at present is
-> > that it's largely just a flag to say "drop to LP mode between lines".
-> > The timing that needs to be passed to the crtc is therefore going to
-> > be based on the DSI link rate (converted to pixels) with increased
-> > blanking periods.
-> > 
-> > I guess there are similarities with Media Controller and V4L2 here. A
-> > typical chain there could be:
-> >  sensor -> scaler -> crop -> CSI-2 receiver.
-> > The format on each of those links may be different, but the chain as a
-> > whole needs to be valid. Media Controller largely relies on userspace
-> > to configure all links, but with a DRM chain that isn't really an
-> > option as it's expected that the display chain configures itself.
-> 
-> Also, the userspace has no concept of media sub-devices in DRM, so it
-> just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
-> In v4l2, afaik, if you ended up with the above scenarios it would just
-> be rejected when you set the format on the link, letting the userspace
-> figure it out. We can't really do that here
-
-I wonder how long we'll be able to keep userspace out of the picture to
-configure the internals of the pipeline. I don't want to be the first
-person who will have a use case that requires this.
-
--- 
-Regards,
-
-Laurent Pinchart
