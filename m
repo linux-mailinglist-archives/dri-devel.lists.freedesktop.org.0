@@ -2,94 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D447421379
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 18:02:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4270C4213D9
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 18:18:33 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 200BC6EA44;
-	Mon,  4 Oct 2021 16:02:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0039A6EA4C;
+	Mon,  4 Oct 2021 16:18:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDD3F6EA43
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 16:02:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633363346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7pRNqi+qB5v6kiBNHusaNSqIWepIPyAOWTzotrPTKOc=;
- b=AJOIdB2A96TBeMpBBD8OF+wE7LYQJTNoBiBufR34mqNi8EpeOO8HrEuRrHXXRAuxExpITu
- L7SfS4tAg2JsbHaNtO4zfHho9sBjrB+bcTEP3FJ+wuhsy09U1Z8UkkqSwMPZ0pcX9X+5Gd
- lf91lgUtPLJ3HB2pgGnu8ezUAeGVGWA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-q7vSGJbyP6-EVf4oTjOy-g-1; Mon, 04 Oct 2021 12:02:24 -0400
-X-MC-Unique: q7vSGJbyP6-EVf4oTjOy-g-1
-Received: by mail-ed1-f72.google.com with SMTP id
- w8-20020a50c448000000b003dae8d38037so4587933edf.8
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 09:02:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7pRNqi+qB5v6kiBNHusaNSqIWepIPyAOWTzotrPTKOc=;
- b=trzUAbrSKy3Txvyn/q/HhIIHvXfnjBww+E6PaOLgIH0NoYS6ibzYwWBEdD7TSMqadR
- P5pGFZJEv5vwW0inOvRu2DZl526/X4SVgXdYPmQ1zBW2cfDG5tBDcjQ98K0XYwf3T/IC
- shCHgtucwQvPx7HCnusm/fSsyNOi5nhuxgC8wxmTQZRmVxyPhg+l55onjcDDJ41s+Dqn
- LPrnQR+PkvOusAF44+QGJdIPAZ/w0z0MR9TXVwbt5f/xYyKsnWtS+ZcB+h2D+GLbTdEk
- rDPgr2xG9ULHB3B52b09FXvNb7Vqz+3oGqIG0k+U5gI71XBPxOurfuZanrG5fx3Xhnx5
- NJIA==
-X-Gm-Message-State: AOAM531g6MquPYfb/wfzHqeMfHpGCJ1E+KKQNW8Jp91u7KYmxY3lmVZ1
- Lygf1Mb/47vwg3pVgGC7bmU8wVrQJWL2pdmDGSlviRDiAFtnFoby1z7ftPR5+T6jHPOc+rFI5NH
- CYf+SQmDyDpMtKFM1UwrCdleimmCp
-X-Received: by 2002:a05:6402:19ba:: with SMTP id
- o26mr19133743edz.1.1633363343084; 
- Mon, 04 Oct 2021 09:02:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCNvcl810W+pcs1T0NxPjJhcR3RyujjlOORxOA3tFBbSocDrsBkVd6ZqPxZPVflwg7KVWKWw==
-X-Received: by 2002:a05:6402:19ba:: with SMTP id
- o26mr19133688edz.1.1633363342664; 
- Mon, 04 Oct 2021 09:02:22 -0700 (PDT)
-Received: from x1.localdomain
- (2001-1c00-0c1e-bf00-1054-9d19-e0f0-8214.cable.dynamic.v6.ziggo.nl.
- [2001:1c00:c1e:bf00:1054:9d19:e0f0:8214])
- by smtp.gmail.com with ESMTPSA id u6sm7376548edt.30.2021.10.04.09.02.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 09:02:22 -0700 (PDT)
-Subject: Re: [PATCH 10/10] drm/i915: Add privacy-screen support (v2)
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rajat Jain <rajatja@google.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Lyude <lyude@redhat.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@infradead.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>,
- Pekka Paalanen <pekka.paalanen@collabora.com>,
- Mario Limonciello <mario.limonciello@outlook.com>,
- Mark Pearson <markpearson@lenovo.com>, Sebastien Bacher <seb128@ubuntu.com>,
- Marco Trevisan <marco.trevisan@canonical.com>,
- Emil Velikov <emil.l.velikov@gmail.com>,
- intel-gfx <intel-gfx@lists.freedesktop.org>,
- dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-References: <20211002163618.99175-1-hdegoede@redhat.com>
- <20211002163618.99175-11-hdegoede@redhat.com> <YVsfwmQjYOnIrxzl@intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-Message-ID: <ac1b7f4a-42f6-5f07-9733-e8945fb65179@redhat.com>
-Date: Mon, 4 Oct 2021 18:02:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59D926EA4C
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 16:18:26 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1633364309; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: From: References: Cc: To: Subject: MIME-Version: Date:
+ Message-ID: Sender; bh=SKqejxIT/P8GAHWrZuMInz6vjEvPr2YZ0BNWg+ce9Z4=;
+ b=YNtXXlHHk/9rYf+4y2zqdesqJ0aZ8FI273soMqhrfCg28Vz17NrRH3Fq9VbJvn+EPUBq6xdp
+ ndIUcPirPxzkvcGCUw5ETTqZ2Ju1pYXwDfNMIhzG/XP0bo1KMZbXL087lhgBfRfe1KIIxj3l
+ sihfv/fDhj7PG1lP8FstwnB0t8I=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n02.prod.us-west-2.postgun.com with SMTP id
+ 615b294447d64efb6dba583a (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 04 Oct 2021 16:18:12
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 3F8E5C43460; Mon,  4 Oct 2021 16:18:12 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
+ version=3.4.0
+Received: from [192.168.1.10] (unknown [117.210.177.11])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested) (Authenticated sender: akhilpo)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id E9BA4C4338F;
+ Mon,  4 Oct 2021 16:18:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.1 smtp.codeaurora.org E9BA4C4338F
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org;
+ spf=fail smtp.mailfrom=codeaurora.org
+Message-ID: <afdf991d-0012-609b-b0e6-232cc8e9f3f0@codeaurora.org>
+Date: Mon, 4 Oct 2021 21:48:03 +0530
 MIME-Version: 1.0
-In-Reply-To: <YVsfwmQjYOnIrxzl@intel.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=hdegoede@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH] drm/msm/a6xx: Serialize GMU communication
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@chromium.org>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>, Eric Anholt <eric@anholt.net>,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Douglas Anderson <dianders@chromium.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20211001193241.1348868-1-robdclark@gmail.com>
+From: Akhil P Oommen <akhilpo@codeaurora.org>
+In-Reply-To: <20211001193241.1348868-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -105,164 +85,173 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-
-On 10/4/21 5:37 PM, Ville Syrjälä wrote:
-> On Sat, Oct 02, 2021 at 06:36:18PM +0200, Hans de Goede wrote:
->> Add support for eDP panels with a built-in privacy screen using the
->> new drm_privacy_screen class.
->>
->> Changes in v2:
->> - Call drm_connector_update_privacy_screen() from
->>   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding a
->>   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
->> - Move the probe-deferral check to the intel_modeset_probe_defer() helper
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/gpu/drm/i915/display/intel_atomic.c  |  1 +
->>  drivers/gpu/drm/i915/display/intel_ddi.c     |  3 +++
->>  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
->>  drivers/gpu/drm/i915/display/intel_dp.c      | 10 ++++++++++
->>  4 files changed, 24 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
->> index b4e7ac51aa31..a62550711e98 100644
->> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
->> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
->> @@ -139,6 +139,7 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
->>  	    new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
->>  	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
->>  	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
->> +	    new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
->>  	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
->>  		crtc_state->mode_changed = true;
->>  
->> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
->> index 51cd0420e00e..e4496c830a35 100644
->> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
->> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
->> @@ -25,6 +25,7 @@
->>   *
->>   */
->>  
->> +#include <drm/drm_privacy_screen_consumer.h>
->>  #include <drm/drm_scdc_helper.h>
->>  
->>  #include "i915_drv.h"
->> @@ -3022,6 +3023,7 @@ static void intel_enable_ddi_dp(struct intel_atomic_state *state,
->>  	if (port == PORT_A && DISPLAY_VER(dev_priv) < 9)
->>  		intel_dp_stop_link_train(intel_dp, crtc_state);
->>  
->> +	drm_connector_update_privacy_screen(conn_state);
->>  	intel_edp_backlight_on(crtc_state, conn_state);
->>  
->>  	if (!dig_port->lspcon.active || dig_port->dp.has_hdmi_sink)
->> @@ -3247,6 +3249,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
->>  	intel_drrs_update(intel_dp, crtc_state);
->>  
->>  	intel_backlight_update(state, encoder, crtc_state, conn_state);
->> +	drm_connector_update_privacy_screen(conn_state);
->>  }
->>  
->>  void intel_ddi_update_pipe(struct intel_atomic_state *state,
->> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
->> index e67f3207ba54..9a5dbe51458d 100644
->> --- a/drivers/gpu/drm/i915/display/intel_display.c
->> +++ b/drivers/gpu/drm/i915/display/intel_display.c
->> @@ -42,6 +42,7 @@
->>  #include <drm/drm_edid.h>
->>  #include <drm/drm_fourcc.h>
->>  #include <drm/drm_plane_helper.h>
->> +#include <drm/drm_privacy_screen_consumer.h>
->>  #include <drm/drm_probe_helper.h>
->>  #include <drm/drm_rect.h>
->>  #include <drm/drm_drv.h>
->> @@ -12693,6 +12694,8 @@ void intel_modeset_driver_remove_nogem(struct drm_i915_private *i915)
->>  
->>  bool intel_modeset_probe_defer(struct pci_dev *pdev)
->>  {
->> +	struct drm_privacy_screen *privacy_screen;
->> +
->>  	/*
->>  	 * apple-gmux is needed on dual GPU MacBook Pro
->>  	 * to probe the panel if we're the inactive GPU.
->> @@ -12700,6 +12703,13 @@ bool intel_modeset_probe_defer(struct pci_dev *pdev)
->>  	if (vga_switcheroo_client_probe_defer(pdev))
->>  		return true;
->>  
->> +	/* If the LCD panel has a privacy-screen, wait for it */
->> +	privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
->> +	if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
->> +		return true;
->> +
->> +	drm_privacy_screen_put(privacy_screen);
->> +
->>  	return false;
->>  }
->>  
->> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
->> index 74a657ae131a..91207310dc0d 100644
->> --- a/drivers/gpu/drm/i915/display/intel_dp.c
->> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
->> @@ -37,6 +37,7 @@
->>  #include <drm/drm_crtc.h>
->>  #include <drm/drm_dp_helper.h>
->>  #include <drm/drm_edid.h>
->> +#include <drm/drm_privacy_screen_consumer.h>
->>  #include <drm/drm_probe_helper.h>
->>  
->>  #include "g4x_dp.h"
->> @@ -4808,6 +4809,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->>  	struct drm_connector *connector = &intel_connector->base;
->>  	struct drm_display_mode *fixed_mode = NULL;
->>  	struct drm_display_mode *downclock_mode = NULL;
->> +	struct drm_privacy_screen *privacy_screen;
->>  	bool has_dpcd;
->>  	enum pipe pipe = INVALID_PIPE;
->>  	struct edid *edid;
->> @@ -4902,6 +4904,14 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
->>  				fixed_mode->hdisplay, fixed_mode->vdisplay);
->>  	}
->>  
->> +	privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
->> +	if (!IS_ERR(privacy_screen)) {
->> +		drm_connector_attach_privacy_screen_provider(connector,
->> +							     privacy_screen);
->> +	} else if (PTR_ERR(privacy_screen) != -ENODEV) {
->> +		drm_warn(&dev_priv->drm, "Error getting privacy-screen\n");
->> +	}
+On 10/2/2021 1:02 AM, Rob Clark wrote:
+> From: Rob Clark <robdclark@chromium.org>
 > 
-> I'm thinking this should go into intel_ddi_init_dp_connector()
-> on account of only the ddi codepaths having the
-> drm_connector_update_privacy_screen() calls.
+> I've seen some crashes in our crash reporting that *look* like multiple
+> threads stomping on each other while communicating with GMU.  So wrap
+> all those paths in a lock.
+> 
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> ---
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.c |  6 ++++
+>   drivers/gpu/drm/msm/adreno/a6xx_gmu.h |  3 ++
+>   drivers/gpu/drm/msm/adreno/a6xx_gpu.c | 40 +++++++++++++++++++++++----
+>   3 files changed, 43 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> index a7c58018959f..8b73f70766a4 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+> @@ -296,6 +296,8 @@ int a6xx_gmu_set_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+>   	u32 val;
+>   	int request, ack;
+>   
+> +	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
+> +
+>   	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+>   		return -EINVAL;
+>   
+> @@ -337,6 +339,8 @@ void a6xx_gmu_clear_oob(struct a6xx_gmu *gmu, enum a6xx_gmu_oob_state state)
+>   {
+>   	int bit;
+>   
+> +	WARN_ON_ONCE(!mutex_is_locked(&gmu->lock));
+> +
+>   	if (state >= ARRAY_SIZE(a6xx_gmu_oob_bits))
+>   		return;
+>   
+> @@ -1482,6 +1486,8 @@ int a6xx_gmu_init(struct a6xx_gpu *a6xx_gpu, struct device_node *node)
+>   	if (!pdev)
+>   		return -ENODEV;
+>   
+> +	mutex_init(&gmu->lock);
+> +
+>   	gmu->dev = &pdev->dev;
+>   
+>   	of_dma_configure(gmu->dev, node, true);
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> index 3c74f64e3126..84bd516f01e8 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gmu.h
+> @@ -44,6 +44,9 @@ struct a6xx_gmu_bo {
+>   struct a6xx_gmu {
+>   	struct device *dev;
+>   
+> +	/* For serializing communication with the GMU: */
+> +	struct mutex lock;
+> +
+>   	struct msm_gem_address_space *aspace;
+>   
+>   	void * __iomem mmio;
+> diff --git a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> index f6a4dbef796b..bd7bdeff5d6f 100644
+> --- a/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> +++ b/drivers/gpu/drm/msm/adreno/a6xx_gpu.c
+> @@ -881,7 +881,7 @@ static int a6xx_zap_shader_init(struct msm_gpu *gpu)
+>   	  A6XX_RBBM_INT_0_MASK_UCHE_OOB_ACCESS | \
+>   	  A6XX_RBBM_INT_0_MASK_UCHE_TRAP_INTR)
+>   
+> -static int a6xx_hw_init(struct msm_gpu *gpu)
+> +static int hw_init(struct msm_gpu *gpu)
+>   {
+>   	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>   	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> @@ -1135,6 +1135,19 @@ static int a6xx_hw_init(struct msm_gpu *gpu)
+>   	return ret;
+>   }
+>   
+> +static int a6xx_hw_init(struct msm_gpu *gpu)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +	int ret;
+> +
+> +	mutex_lock(&a6xx_gpu->gmu.lock);
+> +	ret = hw_init(gpu);
+> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+> +
+> +	return ret;
+> +}
+> +
+>   static void a6xx_dump(struct msm_gpu *gpu)
+>   {
+>   	DRM_DEV_INFO(&gpu->pdev->dev, "status:   %08x\n",
+> @@ -1509,7 +1522,9 @@ static int a6xx_pm_resume(struct msm_gpu *gpu)
+>   
+>   	trace_msm_gpu_resume(0);
+>   
+> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>   	ret = a6xx_gmu_resume(a6xx_gpu);
+> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -1532,7 +1547,9 @@ static int a6xx_pm_suspend(struct msm_gpu *gpu)
+>   
+>   	msm_devfreq_suspend(gpu);
+>   
+> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>   	ret = a6xx_gmu_stop(a6xx_gpu);
+> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+>   	if (ret)
+>   		return ret;
+>   
+> @@ -1547,18 +1564,19 @@ static int a6xx_get_timestamp(struct msm_gpu *gpu, uint64_t *value)
+>   {
+>   	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+>   	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> -	static DEFINE_MUTEX(perfcounter_oob);
+>   
+> -	mutex_lock(&perfcounter_oob);
+> +	mutex_lock(&a6xx_gpu->gmu.lock);
+>   
+>   	/* Force the GPU power on so we can read this register */
+>   	a6xx_gmu_set_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+>   
+>   	*value = gpu_read64(gpu, REG_A6XX_CP_ALWAYS_ON_COUNTER_LO,
+> -		REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
+> +			    REG_A6XX_CP_ALWAYS_ON_COUNTER_HI);
+>   
+>   	a6xx_gmu_clear_oob(&a6xx_gpu->gmu, GMU_OOB_PERFCOUNTER_SET);
+> -	mutex_unlock(&perfcounter_oob);
+> +
+> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+> +
+>   	return 0;
+>   }
+>   
+> @@ -1622,6 +1640,16 @@ static unsigned long a6xx_gpu_busy(struct msm_gpu *gpu)
+>   	return (unsigned long)busy_time;
+>   }
+>   
+> +void a6xx_gpu_set_freq(struct msm_gpu *gpu, struct dev_pm_opp *opp)
+> +{
+> +	struct adreno_gpu *adreno_gpu = to_adreno_gpu(gpu);
+> +	struct a6xx_gpu *a6xx_gpu = to_a6xx_gpu(adreno_gpu);
+> +
+> +	mutex_lock(&a6xx_gpu->gmu.lock);
+> +	a6xx_gmu_set_freq(gpu, opp);
+> +	mutex_unlock(&a6xx_gpu->gmu.lock);
+> +}
+> +
+>   static struct msm_gem_address_space *
+>   a6xx_create_address_space(struct msm_gpu *gpu, struct platform_device *pdev)
+>   {
+> @@ -1766,7 +1794,7 @@ static const struct adreno_gpu_funcs funcs = {
+>   #endif
+>   		.gpu_busy = a6xx_gpu_busy,
+>   		.gpu_get_freq = a6xx_gmu_get_freq,
+> -		.gpu_set_freq = a6xx_gmu_set_freq,
+> +		.gpu_set_freq = a6xx_gpu_set_freq,
+>   #if defined(CONFIG_DRM_MSM_GPU_STATE)
+>   		.gpu_state_get = a6xx_gpu_state_get,
+>   		.gpu_state_put = a6xx_gpu_state_put,
+> 
 
-This should only be done in case of intel_dp_is_edp(intel_dp) returning
-true. We don't have a mapping which connector has the privacy screen
-(hence the NULL argument as second parameter to drm_privacy_screen_get()),
-so if there are multiple DP connectors we want this to only happen on
-the eDP one.
+I think I overlooked this because every hw access is serialized in the 
+downstream driver.
 
-Yes this assumes that devices with a builtin privacy-screen have only
-one eDP connector. For now this holds true, if this becomes not true in
-the future then that is something to figure out at that point in time
-(with a lot of luck the privacy-screen will be controlled through DP
-by then and not through some random ACPI interface).
+Reviewed-by: Akhil P Oommen <akhilpo@codeaurora.org>
 
-So I traced the call-graph and I see that we can also end up in
-intel_edp_init_connector() from g4x_dp_init(), which I assume is
-your main reason for requesting this change. But unless someone
-retro-fits an electronic privacy-screen to the old hw supported
-by g4x_dp_init() then drm_privacy_screen_get() will always
-return -ENODEV, so in that case this is a no-op.
-
-> Otherwise seems ok.
-
-Thanks, note if you still want me to move this please let me know,
-this does mean adding a intel_dp_is_edp() check to intel_ddi.c
-which so far is free of these kinda checks.
-
-Regards,
-
-Hans
-
+-Akhil
