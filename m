@@ -2,51 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B087420750
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 10:27:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C5E42077A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 10:40:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 67B6B6E959;
-	Mon,  4 Oct 2021 08:27:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 096C36E964;
+	Mon,  4 Oct 2021 08:40:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 066A86E959
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 08:27:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id 6A4E6FB03;
- Mon,  4 Oct 2021 10:27:39 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id yGsjUS830b5p; Mon,  4 Oct 2021 10:27:38 +0200 (CEST)
-Date: Mon, 4 Oct 2021 10:27:27 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Lucas Stach <l.stach@pengutronix.de>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>,
- Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
- Thierry Reding <thierry.reding@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Ondrej Jirman <megous@megous.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 5/5] drm: mxsfb: Set proper default bus format when
- using a bridge
-Message-ID: <YVq67wkOXUcqHJFz@qwark.sigxcpu.org>
-References: <cover.1633332399.git.agx@sigxcpu.org>
- <15afbcb04dea432867bb9f8b0e47205decd4bd6e.1633332399.git.agx@sigxcpu.org>
- <3b557e62ad8f313d8fdfb352730cb9a0c5c2eb57.camel@pengutronix.de>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 157C36E95F;
+ Mon,  4 Oct 2021 08:40:28 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="248594898"
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="248594898"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 01:39:34 -0700
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="621779755"
+Received: from pmittal1-mobl.gar.corp.intel.com (HELO localhost)
+ ([10.251.223.27])
+ by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 01:39:30 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Fernando
+ Ramos <greenfoo@u92.eu>
+Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
+ linux-tegra@vger.kernel.org
+Subject: Re: [Intel-gfx] [PATCH v2 00/17] drm: cleanup: Use
+ DRM_MODESET_LOCK_ALL_* helpers where possible
+In-Reply-To: <YVq49SWuC3T7i1a6@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20210924064324.229457-1-greenfoo@u92.eu>
+ <20211001183655.GW2515@art_vandelay> <YVda4jNSGuQf50JV@intel.com>
+ <20211001204815.GA2515@art_vandelay> <YVeGOyLzuhN7zzV7@intel.com>
+ <YVfEWaLfYWdhezCa@intel.com> <YVgGklsHT5fkavDL@zacax395.localdomain>
+ <YVjd7hLKtYG2bkY7@zacax395.localdomain> <YVq49SWuC3T7i1a6@intel.com>
+Date: Mon, 04 Oct 2021 11:39:27 +0300
+Message-ID: <87ee912ngg.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3b557e62ad8f313d8fdfb352730cb9a0c5c2eb57.camel@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -62,56 +60,72 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Mon, Oct 04, 2021 at 09:58:37AM +0200, Lucas Stach wrote:
-> Am Montag, dem 04.10.2021 um 09:27 +0200 schrieb Guido Günther:
-> > If a bridge doesn't do any bus format handling MEDIA_BUS_FMT_FIXED is
-> > returned. Fallback to a reasonable default (MEDIA_BUS_FMT_RGB888_1X24) in
-> > that case.
-> > 
-> > This unbreaks e.g. using mxsfb with the nwl bridge and mipi panels.
-> > 
-> > Fixes: b776b0f00f24 ("drm: mxsfb: Use bus_format from the nearest bridge if present")
-> > 
-> I don't think this qualifies for stable, so I would drop this tag, as
-> the stable maintainers are quite trigger happy to pull in patches with
-> a fixes tag. Also the subject isn't quite correct, this isn't setting a
-> "proper" bus format, but rather adds a fallback. Other than that:
+On Mon, 04 Oct 2021, Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com=
+> wrote:
+> On Sun, Oct 03, 2021 at 12:32:14AM +0200, Fernando Ramos wrote:
+>> On 21/10/02 09:13AM, Fernando Ramos wrote:
+>> >=20
+>> > Sean, could you revert the whole patch series? I'll have a deeper look=
+ into the
+>> > patch set and come up with a v3 where all these issues will be address=
+ed.
+>> >=20
+>>=20
+>> Hi Sean,
+>>=20
+>> I now understand the nature of the issue that caused the problem with i9=
+15 and
+>> have proceed to remove the global context structure (which revealed a si=
+milar
+>> issue in the amdgpu driver).
+>>=20
+>> I have prepared a V3 version of the patch set where these issues should
+>> hopefully be fixed for both the i915 and amdgpu drivers.
+>>=20
+>> In order to prevent causing more disruption, could you tell me what the =
+proper
+>> way to proceed would be? In particular:
+>>=20
+>>   1. Is there any place where I can push my changes so that they are tes=
+ted
+>>      on a i915 machine? (Some type of automated pool)
+>
+> cc:intel-gfx, which it looks like you did, _but_ your patches did
+> did not even apply against drm-tip so our CI rejected it. There was
+> a reply to the patches from CI indicating that. And that is one
+> reason I probably just ignored the whole thing. If it doesn't
+> even apply/build it's not worth my time to read.
+>
+>>=20
+>>   2. I can test the amdgpu driver on my machine but, what about all the =
+other
+>>      architectures? What is the standard procedure? Should I simply publ=
+ish V3
+>>      and wait for feedback from the different vendors? (I would hate to =
+cause a
+>>      simular situation again)
+>>=20
+>>   3. Should I post V3 on top of drm-next or drm-misc-next?
+>
+> The normal rule is: always work on drm-tip. That is what gets
+> tested by our CI as well. Yes, it does mean a bit of extra hurdles
+> during development since drm-tip is a rebasing tree, but there are
+> tools like dim retip to help out here.
+>
+> As for where to merge them. I would generally recommed against merging
+> i915 patches through drm-misc unless there is a very compelling reason
+> to do so. i915 is a fast moving target and if there are significant
+> changes coming in via drm-misc they usually will cause conflicts for
+> people during drm-tip rebuild. Also I would expect to see an ack
+> requested from i915 maintainers for merging anything significant via
+> drm-misc, which I don't think happened in this case.
 
-Adjusted for v3 (which I'll hold off a bit in case there are more
-comments) and dropped the Fixes: tag which is on the nwl driver
-only now. thanks!
- -- Guido
+Indeed. All other things aside, it looks like it has enough conflict
+potential to warrant merging via drm-intel anyway.
 
-> 
-> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
-> 
-> Regards,
-> Lucas
-> 
-> > Reported-by: Martin Kepplinger <martink@posteo.de>
-> > Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> 
-> > ---
-> >  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 6 ++++++
-> >  1 file changed, 6 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > index d6abd2077114..e3fbb8b58d5d 100644
-> > --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
-> > @@ -369,6 +369,12 @@ static void mxsfb_crtc_atomic_enable(struct drm_crtc *crtc,
-> >  			drm_atomic_get_new_bridge_state(state,
-> >  							mxsfb->bridge);
-> >  		bus_format = bridge_state->input_bus_cfg.format;
-> > +		if (bus_format == MEDIA_BUS_FMT_FIXED) {
-> > +			dev_warn_once(drm->dev,
-> > +				      "Bridge does not provide bus format, assuming MEDIA_BUS_FMT_RGB888_1X24.\n"
-> > +				      "Please fix bridge driver by handling atomic_get_input_bus_fmts.\n");
-> > +			bus_format = MEDIA_BUS_FMT_RGB888_1X24;
-> > +		}
-> >  	}
-> >  
-> >  	/* If there is no bridge, use bus format from connector */
-> 
-> 
+BR,
+Jani.
+
+
+--=20
+Jani Nikula, Intel Open Source Graphics Center
