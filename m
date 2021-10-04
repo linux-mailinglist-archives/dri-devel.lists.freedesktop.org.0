@@ -2,44 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2425F420828
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 11:22:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 896FB42083A
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 11:26:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4FF0C6E195;
-	Mon,  4 Oct 2021 09:22:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F05236E99D;
+	Mon,  4 Oct 2021 09:26:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 153076E195
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 09:22:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="222804506"
-X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="222804506"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 02:22:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="482852136"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga007.fm.intel.com with SMTP; 04 Oct 2021 02:22:18 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 04 Oct 2021 12:22:17 +0300
-Date: Mon, 4 Oct 2021 12:22:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Simon Ser <contact@emersion.fr>
+Received: from mail-4323.protonmail.ch (mail-4323.protonmail.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 198C16E995
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 09:26:41 +0000 (UTC)
+Date: Mon, 04 Oct 2021 09:26:38 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1633339598;
+ bh=qI9CT3Auo8F6SPJI2o9uF73GR43QjVzpBV/n1cElnr0=;
+ h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+ b=MUvuW1cl+UCQu7X0lggMKWrUbrtKB8kZq4bsAwNvyZCVNhW30HWV5p81eP1TZjp61
+ ZuczBjWwIQPt/HjIN6lk2TXTKNZgiJdfG5NQ6qIlK/O84KH4h1uelYVjCEctHdYQKD
+ fulEjhSlbE9qggiQesxnIb/E5FZ6QPRhol3UjtKalr8vOgnw7tJe7ojmj6v5uE5BAG
+ 8EgYKjgZJYvKJwL1wIpqIT6npbs0NUnjvfXm85A1XeMfZMX5bxBDn+d/PBTM3aKwV8
+ Ir4/gPERbtOngNs41nBoy7EZz9IWUC4egzufHNeazBwKVE7sZ6eofZ7huZwlbh8qo9
+ 3l1r4QLjKZzGA==
+To: =?utf-8?Q?Ville_Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>
+From: Simon Ser <contact@emersion.fr>
 Cc: dri-devel@lists.freedesktop.org,
- Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>,
- Daniel Vetter <daniel@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>, Daniel Vetter <daniel@ffwll.ch>,
+ Pekka Paalanen <ppaalanen@gmail.com>,
  Jani Nikula <jani.nikula@linux.intel.com>
 Subject: Re: [PATCH] drm/connector: refer to CTA-861-G in the "content type"
  prop docs
-Message-ID: <YVrHyUJPQg731vub@intel.com>
+Message-ID: <GxF8v55OzTvCCEXYAM9xPxVNxcb6DOsEG7hJRTlL3Zb_LsEW0CIvOajhn8bKQX2rZfC9cxYbXd0hg2RyIayYuwjsu7L2pLDJM5itUZ0xp1Q=@emersion.fr>
+In-Reply-To: <YVrHyUJPQg731vub@intel.com>
 References: <20211004091236.82010-1-contact@emersion.fr>
+ <YVrHyUJPQg731vub@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211004091236.82010-1-contact@emersion.fr>
-X-Patchwork-Hint: comment
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,46 +55,19 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 04, 2021 at 09:12:50AM +0000, Simon Ser wrote:
-> The KMS documentation doesn't say much about the meaning of each
-> content type. Add a reference to the specification defining them.
-> 
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Emmanuel Gil Peyrot <linkmauve@linkmauve.fr>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> Cc: Ville Syrjala <ville.syrjala@linux.intel.com>
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> ---
->  drivers/gpu/drm/drm_connector.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index 3bc782b630b9..79d8163686cd 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -1397,6 +1397,8 @@ EXPORT_SYMBOL(drm_connector_attach_dp_subconnector_property);
->   *	Game:
->   *		Content type is game
->   *
-> + *	The meaning of each content type is defined in CTA-861-G table 15.
-> + *
+On Monday, October 4th, 2021 at 11:22, Ville Syrj=C3=A4l=C3=A4 <ville.syrja=
+la@linux.intel.com> wrote:
 
-A bit annoying to have to refer to an external spec, but copy pasting
-the whole thing here seems a bit questionable.
+> A bit annoying to have to refer to an external spec, but copy pasting
+> the whole thing here seems a bit questionable.
 
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
->   *	Drivers can set up this property by calling
->   *	drm_connector_attach_content_type_property(). Decoding to
->   *	infoframe values is done through drm_hdmi_avi_infoframe_content_type().
-> -- 
-> 2.33.0
-> 
-
--- 
-Ville Syrjälä
-Intel
+Yeah, I'm mostly worried about copyright. We could also invent our own
+descriptions (Is that even possible without infringing copyright? The
+person inventing the new descriptions needs to read the original spec
+to know what to write=E2=80=A6), but I think referring to the original spec=
+ is
+desirable regardless.
