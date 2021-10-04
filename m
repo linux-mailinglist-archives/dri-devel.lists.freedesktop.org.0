@@ -2,83 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FF664209B0
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 13:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EABB4209F6
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 13:18:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B2F656E9C2;
-	Mon,  4 Oct 2021 11:01:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EE28E6E9CC;
+	Mon,  4 Oct 2021 11:18:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com
- [IPv6:2a00:1450:4864:20::132])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 099426E9C2
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 11:01:48 +0000 (UTC)
-Received: by mail-lf1-x132.google.com with SMTP id i24so21465296lfj.13
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 04:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=URCJeJ//i21kt2HQZuP4+ONPAa0mUFJTP/rOPl6nrkU=;
- b=hDM2Ru5ICrroBNDxLmX0If6DCGiyxNrOCxoYD447SPukcHDmbBPLNisrdhOLXQ0z+O
- XAGpgeNiSLvK62mVR4ycyTMTlxOUILWm5ec3jHIazC1TTcmE73Wiu6Uw4vHsUObQZ88A
- VxG8L26gqN1qrB2CE408IFuJmANo6HHn/LiqpAKVqjl4+Fv6k7ICtg/O46hugliGIxbi
- S/OxLLbFm/pg/rjpCfpNW1Knl+/16xjrIofQdoho7b+zWsc33s3wkXlvS7VH5BYU8/rA
- bq9k2sPB1ak/yK37C/Nh9dpokzhoA+CoGOF3/o+k0JQbg3KEE7GgAczasadRr+Ip1+pd
- ujCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=URCJeJ//i21kt2HQZuP4+ONPAa0mUFJTP/rOPl6nrkU=;
- b=ZqYQlnImPEQgVtSuzyfMxJ4/UQqEBmZ9PbuKE859O2Ll6hD1WxwN47Pktj4lTKlsSm
- RlluSR+hgEUFLtPf43bTeEuCPXIO9PAmqQZHXbivVvYf6TI8hyKF+42AGkrtFGWseCPV
- J1Qm8UCFugkmVYLy/wy6XWWX7nbta3sjeQAJWtSzoOOBSjHpDY7J/HJSmUAtCnYzyrG7
- 9KJxKT/lz/iqEifYq7h15BhzGDfQxnAtNDuaoXx7PXThNZiZsCJRjBUAyDYB+vkMd3SO
- thOeZBZbnZzYmi/jZMLMNEkwYGpV4OEPJu3KyZEsTTF/+DlSZaASIyzYMZNoQqkFB/lA
- 5PlQ==
-X-Gm-Message-State: AOAM531NSngSZHG42enMNtWpb7M7y6jEoc0lO+V3q11SycU5rg0aXuDy
- iYNF5Kk3wt34RBA6y88tpWf4LJGsIP4HVxzY88SZZg==
-X-Google-Smtp-Source: ABdhPJyFugIk4Tybq6G/fbOCCDLI0zDDe0OJLAEmCzaWz2xcRwlwVNqSWwGjRpZKOyrDmly1b2n9Ta2aR7jygzrrPNg=
-X-Received: by 2002:a05:6512:2397:: with SMTP id
- c23mr13296805lfv.358.1633345298337; 
- Mon, 04 Oct 2021 04:01:38 -0700 (PDT)
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 540FD6E9CB;
+ Mon,  4 Oct 2021 11:18:46 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="206194416"
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="206194416"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 04:15:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="523230780"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by fmsmga008.fm.intel.com with SMTP; 04 Oct 2021 04:15:52 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Mon, 04 Oct 2021 14:15:51 +0300
+Date: Mon, 4 Oct 2021 14:15:51 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Fernando Ramos <greenfoo@u92.eu>
+Subject: Re: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
+Message-ID: <YVriZxCeipBUgc8O@intel.com>
+References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
+ <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+ <YPbTUf9KfiZ5GnFz@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-14-digetx@gmail.com>
- <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
- <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
- <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
- <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
-In-Reply-To: <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
-From: Ulf Hansson <ulf.hansson@linaro.org>
-Date: Mon, 4 Oct 2021 13:01:01 +0200
-Message-ID: <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
-Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-To: Dmitry Osipenko <digetx@gmail.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>, 
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver <pdeschrijver@nvidia.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, Peter Chen <peter.chen@kernel.org>, 
- Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>, 
- Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
- linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
- linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
- Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
- Lucas Stach <dev@lynxeye.de>, 
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YPbTUf9KfiZ5GnFz@phenom.ffwll.local>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -94,102 +54,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
->
-> 01.10.2021 17:55, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
-> >>
-> >> 01.10.2021 16:39, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> >>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wro=
-te:
-> >>>>
-> >>>> Add runtime power management and support generic power domains.
-> >>>>
-> >>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
-> >>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
-> >>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T=
-124
-> >>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
-> >>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> >>>> ---
-> >>>>  drivers/gpu/drm/tegra/gr2d.c | 155 ++++++++++++++++++++++++++++++++=
-+--
-> >>>
-> >>> [...]
-> >>>
-> >>>>  static int gr2d_remove(struct platform_device *pdev)
-> >>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device=
- *pdev)
-> >>>>                 return err;
-> >>>>         }
-> >>>>
-> >>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
-> >>>> +       pm_runtime_disable(&pdev->dev);
-> >>>
-> >>> There is no guarantee that the ->runtime_suspend() has been invoked
-> >>> here, which means that clock may be left prepared/enabled beyond this
-> >>> point.
-> >>>
-> >>> I suggest you call pm_runtime_force_suspend(), instead of
-> >>> pm_runtime_disable(), to make sure that gets done.
-> >>
-> >> The pm_runtime_disable() performs the final synchronization, please se=
-e [1].
-> >>
-> >> [1]
-> >> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/r=
-untime.c#L1412
-> >
-> > pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
-> > cancel_work_sync() if dev->power.request_pending has been set.
-> >
-> > If the work that was punted to the pm_wq in rpm_idle() has not been
-> > started yet, we end up just canceling it. In other words, there are no
-> > guarantees it runs to completion.
->
-> You're right. Although, in a case of this particular patch, the syncing
-> is actually implicitly done by pm_runtime_dont_use_autosuspend().
->
-> But for drivers which don't use auto-suspend, there is no sync. This
-> looks like a disaster, it's a very common pattern for drivers to
-> 'put+disable'.
->
-> > Moreover, use space may have bumped the usage count via sysfs for the
-> > device (pm_runtime_forbid()) to keep the device runtime resumed.
->
-> Right, this is also a disaster in a case of driver removal.
->
-> >> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
-> >> must have the corresponding 'disable'. Hence there is no problem here.
-> >
-> > pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
-> > should be fine. No?
->
-> [adding Rafael]
->
-> Rafael, could you please explain how drivers are supposed to properly
-> suspend and disable RPM to cut off power and reset state that was
-> altered by the driver's resume callback? What we're missing? Is Ulf's
-> suggestion acceptable?
->
-> The RPM state of a device is getting reset on driver's removal, hence
-> all refcounts that were bumped by the rpm-resume callback of the device
-> driver will be screwed up if device is kept resumed after removal. I
-> just verified that it's true in practice.
+On Tue, Jul 20, 2021 at 03:44:49PM +0200, Daniel Vetter wrote:
+> On Thu, Jul 15, 2021 at 09:49:51PM +0300, Ville Syrjala wrote:
+> > From: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > 
+> > Quite a few places are hand rolling the modeset lock backoff dance.
+> > Let's suck that into a helper macro that is easier to use without
+> > forgetting some steps.
+> > 
+> > The main downside is probably that the implementation of
+> > drm_with_modeset_lock_ctx() is a bit harder to read than a hand
+> > rolled version on account of being split across three functions,
+> > but the actual code using it ends up being much simpler.
+> > 
+> > Cc: Sean Paul <seanpaul@chromium.org>
+> > Cc: Daniel Vetter <daniel@ffwll.ch>
+> > Signed-off-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > ---
+> >  drivers/gpu/drm/drm_modeset_lock.c | 44 ++++++++++++++++++++++++++++++
+> >  include/drm/drm_modeset_lock.h     | 20 ++++++++++++++
+> >  2 files changed, 64 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+> > index fcfe1a03c4a1..083df96632e8 100644
+> > --- a/drivers/gpu/drm/drm_modeset_lock.c
+> > +++ b/drivers/gpu/drm/drm_modeset_lock.c
+> > @@ -425,3 +425,47 @@ int drm_modeset_lock_all_ctx(struct drm_device *dev,
+> >  	return 0;
+> >  }
+> >  EXPORT_SYMBOL(drm_modeset_lock_all_ctx);
+> > +
+> > +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> > +			     struct drm_atomic_state *state,
+> > +			     unsigned int flags, int *ret)
+> > +{
+> > +	drm_modeset_acquire_init(ctx, flags);
+> > +
+> > +	if (state)
+> > +		state->acquire_ctx = ctx;
+> > +
+> > +	*ret = -EDEADLK;
+> > +}
+> > +EXPORT_SYMBOL(_drm_modeset_lock_begin);
+> > +
+> > +bool _drm_modeset_lock_loop(int *ret)
+> > +{
+> > +	if (*ret == -EDEADLK) {
+> > +		*ret = 0;
+> > +		return true;
+> > +	}
+> > +
+> > +	return false;
+> > +}
+> > +EXPORT_SYMBOL(_drm_modeset_lock_loop);
+> > +
+> > +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> > +			   struct drm_atomic_state *state,
+> > +			   int *ret)
+> > +{
+> > +	if (*ret == -EDEADLK) {
+> > +		if (state)
+> > +			drm_atomic_state_clear(state);
+> > +
+> > +		*ret = drm_modeset_backoff(ctx);
+> > +		if (*ret == 0) {
+> > +			*ret = -EDEADLK;
+> > +			return;
+> > +		}
+> > +	}
+> > +
+> > +	drm_modeset_drop_locks(ctx);
+> > +	drm_modeset_acquire_fini(ctx);
+> > +}
+> > +EXPORT_SYMBOL(_drm_modeset_lock_end);
+> > diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+> > index aafd07388eb7..5eaad2533de5 100644
+> > --- a/include/drm/drm_modeset_lock.h
+> > +++ b/include/drm/drm_modeset_lock.h
+> > @@ -26,6 +26,7 @@
+> >  
+> >  #include <linux/ww_mutex.h>
+> >  
+> > +struct drm_atomic_state;
+> >  struct drm_modeset_lock;
+> >  
+> >  /**
+> > @@ -203,4 +204,23 @@ modeset_lock_fail:							\
+> >  	if (!drm_drv_uses_atomic_modeset(dev))				\
+> >  		mutex_unlock(&dev->mode_config.mutex);
+> >  
+> > +void _drm_modeset_lock_begin(struct drm_modeset_acquire_ctx *ctx,
+> > +			     struct drm_atomic_state *state,
+> > +			     unsigned int flags,
+> > +			     int *ret);
+> > +bool _drm_modeset_lock_loop(int *ret);
+> > +void _drm_modeset_lock_end(struct drm_modeset_acquire_ctx *ctx,
+> > +			   struct drm_atomic_state *state,
+> > +			   int *ret);
+> > +
+> > +/*
+> > + * Note that one must always use "continue" rather than
+> > + * "break" or "return" to handle errors within the
+> > + * drm_modeset_lock_ctx_retry() block.
+> 
+> I'm not sold on loop macros with these kind of restrictions, C just isn't
+> a great language for these. That's why e.g. drm_connector_iter doesn't
+> give you a macro, but only the begin/next/end function calls explicitly.
 
-Note that, what makes the Tegra drivers a bit special is that they are
-always built with CONFIG_PM being set (selected from the "SoC"
-Kconfig).
+We already use this pattern extensively in i915. Gem ww ctx has one,
+power domains/pps/etc. use a similar things. It makes the code pretty nice,
+with the slight caveat that an accidental 'break' can ruin your day. But
+so can an accidental return with other constructs (and we even had that
+happen a few times with the connector iterators), so not a dealbreaker
+IMO.
 
-Therefore, pm_runtime_force_suspend() can work for some of these
-cases. Using this, would potentially avoid the driver from having to
-runtime resume the device in ->remove(), according to the below
-generic sequence, which is used in many drivers.
+So if we don't want this drm wide I guess I can propose this just for
+i915 since it fits in perfectly there.
 
-pm_runtime_get_sync()
-clk_disable_unprepare() (+ additional things to turn off the device)
-pm_runtime_disable()
-pm_runtime_put_noidle()
+> 
+> Yes the macro we have is also not nice, but at least it's a screaming
+> macro since it's all uppercase, so options are all a bit sucky. Which
+> leads me to think we have a bit a https://xkcd.com/927/ situation going
+> on.
+> 
+> I think minimally we should have one way to do this.
 
-Kind regards
-Uffe
+Well, there is no one way atm. All you can do is hand roll all the
+boilerplate (and likely get it slightly wrong) if you don't want
+lock_all.
+
+The current macros only help with lock_all, and IMO the hidden gotos
+are even uglier than a hidden for loop. Fernando already hit a case
+where he couldn't use the macros twice due to conflicting goto
+labels. With this for loop thing I think it would have just worked(tm).
+
+-- 
+Ville Syrjälä
+Intel
