@@ -1,29 +1,29 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EEB421397
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 18:05:48 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8648242139B
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 18:06:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4E58F6EA48;
-	Mon,  4 Oct 2021 16:05:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB5BF6EA4B;
+	Mon,  4 Oct 2021 16:06:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFD856EA46;
- Mon,  4 Oct 2021 16:05:41 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="222927063"
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="222927063"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 08:22:32 -0700
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD9466EA43;
+ Mon,  4 Oct 2021 16:06:05 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="248743828"
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="248743828"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 08:37:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="622415853"
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="567224374"
 Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by fmsmga001.fm.intel.com with SMTP; 04 Oct 2021 08:22:24 -0700
+ by fmsmga002.fm.intel.com with SMTP; 04 Oct 2021 08:37:39 -0700
 Received: by stinkbox (sSMTP sendmail emulation);
- Mon, 04 Oct 2021 18:22:23 +0300
-Date: Mon, 4 Oct 2021 18:22:23 +0300
+ Mon, 04 Oct 2021 18:37:38 +0300
+Date: Mon, 4 Oct 2021 18:37:38 +0300
 From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -42,16 +42,15 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Emil Velikov <emil.l.velikov@gmail.com>,
  intel-gfx <intel-gfx@lists.freedesktop.org>,
  dri-devel@lists.freedesktop.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH 05/10] drm/connector: Add a drm_connector privacy-screen
- helper functions (v2)
-Message-ID: <YVscLznEbn0m07Mi@intel.com>
+Subject: Re: [PATCH 10/10] drm/i915: Add privacy-screen support (v2)
+Message-ID: <YVsfwmQjYOnIrxzl@intel.com>
 References: <20211002163618.99175-1-hdegoede@redhat.com>
- <20211002163618.99175-6-hdegoede@redhat.com>
+ <20211002163618.99175-11-hdegoede@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211002163618.99175-6-hdegoede@redhat.com>
+In-Reply-To: <20211002163618.99175-11-hdegoede@redhat.com>
 X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -68,227 +67,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 02, 2021 at 06:36:13PM +0200, Hans de Goede wrote:
-> Add 2 drm_connector privacy-screen helper functions:
-> 
-> 1. drm_connector_attach_privacy_screen_provider(), this function creates
-> and attaches the standard privacy-screen properties and registers a
-> generic notifier for generating sysfs-connector-status-events on external
-> changes to the privacy-screen status.
-> 
-> 2. drm_connector_update_privacy_screen(), update the privacy-screen's
-> sw_state if the connector has a privacy-screen.
+On Sat, Oct 02, 2021 at 06:36:18PM +0200, Hans de Goede wrote:
+> Add support for eDP panels with a built-in privacy screen using the
+> new drm_privacy_screen class.
 > 
 > Changes in v2:
-> - Do not update connector->state->privacy_screen_sw_state on
->   atomic-commits.
-> - Change drm_connector_update_privacy_screen() to take drm_connector_state
->   as argument instead of a full drm_atomic_state. This allows the helper
->   to be called by drivers when they are enabling crtcs/encoders/connectors.
+> - Call drm_connector_update_privacy_screen() from
+>   intel_enable_ddi_dp() / intel_ddi_update_pipe_dp() instead of adding a
+>   for_each_new_connector_in_state() loop to intel_atomic_commit_tail()
+> - Move the probe-deferral check to the intel_modeset_probe_defer() helper
 > 
-> Reviewed-by: Emil Velikov <emil.l.velikov@gmail.com>
-> Reviewed-by: Lyude Paul <lyude@redhat.com>
 > Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
->  drivers/gpu/drm/drm_connector.c | 102 ++++++++++++++++++++++++++++++++
->  include/drm/drm_connector.h     |  11 ++++
->  2 files changed, 113 insertions(+)
+>  drivers/gpu/drm/i915/display/intel_atomic.c  |  1 +
+>  drivers/gpu/drm/i915/display/intel_ddi.c     |  3 +++
+>  drivers/gpu/drm/i915/display/intel_display.c | 10 ++++++++++
+>  drivers/gpu/drm/i915/display/intel_dp.c      | 10 ++++++++++
+>  4 files changed, 24 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
-> index b2f1f1b1bfb4..00cf3b6135f6 100644
-> --- a/drivers/gpu/drm/drm_connector.c
-> +++ b/drivers/gpu/drm/drm_connector.c
-> @@ -28,6 +28,7 @@
->  #include <drm/drm_print.h>
->  #include <drm/drm_drv.h>
->  #include <drm/drm_file.h>
+> diff --git a/drivers/gpu/drm/i915/display/intel_atomic.c b/drivers/gpu/drm/i915/display/intel_atomic.c
+> index b4e7ac51aa31..a62550711e98 100644
+> --- a/drivers/gpu/drm/i915/display/intel_atomic.c
+> +++ b/drivers/gpu/drm/i915/display/intel_atomic.c
+> @@ -139,6 +139,7 @@ int intel_digital_connector_atomic_check(struct drm_connector *conn,
+>  	    new_conn_state->base.picture_aspect_ratio != old_conn_state->base.picture_aspect_ratio ||
+>  	    new_conn_state->base.content_type != old_conn_state->base.content_type ||
+>  	    new_conn_state->base.scaling_mode != old_conn_state->base.scaling_mode ||
+> +	    new_conn_state->base.privacy_screen_sw_state != old_conn_state->base.privacy_screen_sw_state ||
+>  	    !drm_connector_atomic_hdr_metadata_equal(old_state, new_state))
+>  		crtc_state->mode_changed = true;
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
+> index 51cd0420e00e..e4496c830a35 100644
+> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
+> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
+> @@ -25,6 +25,7 @@
+>   *
+>   */
+>  
 > +#include <drm/drm_privacy_screen_consumer.h>
->  #include <drm/drm_sysfs.h>
+>  #include <drm/drm_scdc_helper.h>
 >  
->  #include <linux/uaccess.h>
-> @@ -462,6 +463,11 @@ void drm_connector_cleanup(struct drm_connector *connector)
->  		    DRM_CONNECTOR_REGISTERED))
->  		drm_connector_unregister(connector);
+>  #include "i915_drv.h"
+> @@ -3022,6 +3023,7 @@ static void intel_enable_ddi_dp(struct intel_atomic_state *state,
+>  	if (port == PORT_A && DISPLAY_VER(dev_priv) < 9)
+>  		intel_dp_stop_link_train(intel_dp, crtc_state);
 >  
-> +	if (connector->privacy_screen) {
-> +		drm_privacy_screen_put(connector->privacy_screen);
-> +		connector->privacy_screen = NULL;
-> +	}
-> +
->  	if (connector->tile_group) {
->  		drm_mode_put_tile_group(dev, connector->tile_group);
->  		connector->tile_group = NULL;
-> @@ -543,6 +549,10 @@ int drm_connector_register(struct drm_connector *connector)
->  	/* Let userspace know we have a new connector */
->  	drm_sysfs_hotplug_event(connector->dev);
+> +	drm_connector_update_privacy_screen(conn_state);
+>  	intel_edp_backlight_on(crtc_state, conn_state);
 >  
-> +	if (connector->privacy_screen)
-> +		drm_privacy_screen_register_notifier(connector->privacy_screen,
-> +					   &connector->privacy_screen_notifier);
-> +
->  	mutex_lock(&connector_list_lock);
->  	list_add_tail(&connector->global_connector_list_entry, &connector_list);
->  	mutex_unlock(&connector_list_lock);
-> @@ -578,6 +588,11 @@ void drm_connector_unregister(struct drm_connector *connector)
->  	list_del_init(&connector->global_connector_list_entry);
->  	mutex_unlock(&connector_list_lock);
+>  	if (!dig_port->lspcon.active || dig_port->dp.has_hdmi_sink)
+> @@ -3247,6 +3249,7 @@ static void intel_ddi_update_pipe_dp(struct intel_atomic_state *state,
+>  	intel_drrs_update(intel_dp, crtc_state);
 >  
-> +	if (connector->privacy_screen)
-> +		drm_privacy_screen_unregister_notifier(
-> +					connector->privacy_screen,
-> +					&connector->privacy_screen_notifier);
-> +
->  	if (connector->funcs->early_unregister)
->  		connector->funcs->early_unregister(connector);
->  
-> @@ -2442,6 +2457,93 @@ drm_connector_attach_privacy_screen_properties(struct drm_connector *connector)
+>  	intel_backlight_update(state, encoder, crtc_state, conn_state);
+> +	drm_connector_update_privacy_screen(conn_state);
 >  }
->  EXPORT_SYMBOL(drm_connector_attach_privacy_screen_properties);
 >  
-> +static void drm_connector_update_privacy_screen_properties(
-> +	struct drm_connector *connector, bool set_sw_state)
-> +{
-> +	enum drm_privacy_screen_status sw_state, hw_state;
-> +
-> +	drm_privacy_screen_get_state(connector->privacy_screen,
-> +				     &sw_state, &hw_state);
-> +
-> +	if (set_sw_state)
-> +		connector->state->privacy_screen_sw_state = sw_state;
-> +	drm_object_property_set_value(&connector->base,
-> +			connector->privacy_screen_hw_state_property, hw_state);
-> +}
-> +
-> +static int drm_connector_privacy_screen_notifier(
-> +	struct notifier_block *nb, unsigned long action, void *data)
-> +{
-> +	struct drm_connector *connector =
-> +		container_of(nb, struct drm_connector, privacy_screen_notifier);
-> +	struct drm_device *dev = connector->dev;
-> +
-> +	drm_modeset_lock(&dev->mode_config.connection_mutex, NULL);
-> +	drm_connector_update_privacy_screen_properties(connector, true);
-
-This thing still seems pretty unatomic in essence. The standard rule
-is that non-immutable properties do not change under external
-influence. So if userspace is unaware of the change then it could
-just flip the state back to where it was previously. Ie. seems racy
-at least which could in theory lead to some funny ping pong in the
-state.
-
-To go proper atomic route here the state of the prop should be
-fully cotrolled by userspace. Is that not possible for some reason?
-
-> +	drm_modeset_unlock(&dev->mode_config.connection_mutex);
-> +
-> +	drm_sysfs_connector_status_event(connector,
-> +				connector->privacy_screen_sw_state_property);
-> +	drm_sysfs_connector_status_event(connector,
-> +				connector->privacy_screen_hw_state_property);
-> +
-> +	return NOTIFY_DONE;
-> +}
-> +
-> +/**
-> + * drm_connector_attach_privacy_screen_provider - attach a privacy-screen to
-> + *    the connector
-> + * @connector: connector to attach the privacy-screen to
-> + * @priv: drm_privacy_screen to attach
-> + *
-> + * Create and attach the standard privacy-screen properties and register
-> + * a generic notifier for generating sysfs-connector-status-events
-> + * on external changes to the privacy-screen status.
-> + * This function takes ownership of the passed in drm_privacy_screen and will
-> + * call drm_privacy_screen_put() on it when the connector is destroyed.
-> + */
-> +void drm_connector_attach_privacy_screen_provider(
-> +	struct drm_connector *connector, struct drm_privacy_screen *priv)
-> +{
-> +	connector->privacy_screen = priv;
-> +	connector->privacy_screen_notifier.notifier_call =
-> +		drm_connector_privacy_screen_notifier;
-> +
-> +	drm_connector_create_privacy_screen_properties(connector);
-> +	drm_connector_update_privacy_screen_properties(connector, true);
-> +	drm_connector_attach_privacy_screen_properties(connector);
-> +}
-> +EXPORT_SYMBOL(drm_connector_attach_privacy_screen_provider);
-> +
-> +/**
-> + * drm_connector_update_privacy_screen - update connector's privacy-screen sw-state
-> + * @connector_state: connector-state to update the privacy-screen for
-> + *
-> + * This function calls drm_privacy_screen_set_sw_state() on the connector's
-> + * privacy-screen.
-> + *
-> + * If the connector has no privacy-screen, then this is a no-op.
-> + */
-> +void drm_connector_update_privacy_screen(const struct drm_connector_state *connector_state)
-> +{
-> +	struct drm_connector *connector = connector_state->connector;
-> +	int ret;
-> +
-> +	if (!connector->privacy_screen)
-> +		return;
-> +
-> +	ret = drm_privacy_screen_set_sw_state(connector->privacy_screen,
-> +					      connector_state->privacy_screen_sw_state);
-> +	if (ret) {
-> +		drm_err(connector->dev, "Error updating privacy-screen sw_state\n");
-> +		return;
-> +	}
-> +
-> +	/* The hw_state property value may have changed, update it. */
-> +	drm_connector_update_privacy_screen_properties(connector, false);
-> +}
-> +EXPORT_SYMBOL(drm_connector_update_privacy_screen);
-> +
->  int drm_connector_set_obj_prop(struct drm_mode_object *obj,
->  				    struct drm_property *property,
->  				    uint64_t value)
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index a79aec55ea40..b501d0badaea 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -27,6 +27,7 @@
->  #include <linux/llist.h>
->  #include <linux/ctype.h>
->  #include <linux/hdmi.h>
-> +#include <linux/notifier.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_util.h>
+>  void intel_ddi_update_pipe(struct intel_atomic_state *state,
+> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> index e67f3207ba54..9a5dbe51458d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_display.c
+> +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> @@ -42,6 +42,7 @@
+>  #include <drm/drm_edid.h>
+>  #include <drm/drm_fourcc.h>
+>  #include <drm/drm_plane_helper.h>
+> +#include <drm/drm_privacy_screen_consumer.h>
+>  #include <drm/drm_probe_helper.h>
+>  #include <drm/drm_rect.h>
+>  #include <drm/drm_drv.h>
+> @@ -12693,6 +12694,8 @@ void intel_modeset_driver_remove_nogem(struct drm_i915_private *i915)
 >  
-> @@ -40,6 +41,7 @@ struct drm_encoder;
->  struct drm_property;
->  struct drm_property_blob;
->  struct drm_printer;
-> +struct drm_privacy_screen;
->  struct edid;
->  struct i2c_adapter;
->  
-> @@ -1451,6 +1453,12 @@ struct drm_connector {
->  	 */
->  	struct drm_property *max_bpc_property;
->  
-> +	/** @privacy_screen: drm_privacy_screen for this connector, or NULL. */
+>  bool intel_modeset_probe_defer(struct pci_dev *pdev)
+>  {
 > +	struct drm_privacy_screen *privacy_screen;
 > +
-> +	/** @privacy_screen_notifier: privacy-screen notifier_block */
-> +	struct notifier_block privacy_screen_notifier;
-> +
->  	/**
->  	 * @privacy_screen_sw_state_property: Optional atomic property for the
->  	 * connector to control the integrated privacy screen.
-> @@ -1788,6 +1796,9 @@ int drm_connector_attach_max_bpc_property(struct drm_connector *connector,
->  					  int min, int max);
->  void drm_connector_create_privacy_screen_properties(struct drm_connector *conn);
->  void drm_connector_attach_privacy_screen_properties(struct drm_connector *conn);
-> +void drm_connector_attach_privacy_screen_provider(
-> +	struct drm_connector *connector, struct drm_privacy_screen *priv);
-> +void drm_connector_update_privacy_screen(const struct drm_connector_state *connector_state);
+>  	/*
+>  	 * apple-gmux is needed on dual GPU MacBook Pro
+>  	 * to probe the panel if we're the inactive GPU.
+> @@ -12700,6 +12703,13 @@ bool intel_modeset_probe_defer(struct pci_dev *pdev)
+>  	if (vga_switcheroo_client_probe_defer(pdev))
+>  		return true;
 >  
->  /**
->   * struct drm_tile_group - Tile group metadata
+> +	/* If the LCD panel has a privacy-screen, wait for it */
+> +	privacy_screen = drm_privacy_screen_get(&pdev->dev, NULL);
+> +	if (IS_ERR(privacy_screen) && PTR_ERR(privacy_screen) == -EPROBE_DEFER)
+> +		return true;
+> +
+> +	drm_privacy_screen_put(privacy_screen);
+> +
+>  	return false;
+>  }
+>  
+> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
+> index 74a657ae131a..91207310dc0d 100644
+> --- a/drivers/gpu/drm/i915/display/intel_dp.c
+> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
+> @@ -37,6 +37,7 @@
+>  #include <drm/drm_crtc.h>
+>  #include <drm/drm_dp_helper.h>
+>  #include <drm/drm_edid.h>
+> +#include <drm/drm_privacy_screen_consumer.h>
+>  #include <drm/drm_probe_helper.h>
+>  
+>  #include "g4x_dp.h"
+> @@ -4808,6 +4809,7 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+>  	struct drm_connector *connector = &intel_connector->base;
+>  	struct drm_display_mode *fixed_mode = NULL;
+>  	struct drm_display_mode *downclock_mode = NULL;
+> +	struct drm_privacy_screen *privacy_screen;
+>  	bool has_dpcd;
+>  	enum pipe pipe = INVALID_PIPE;
+>  	struct edid *edid;
+> @@ -4902,6 +4904,14 @@ static bool intel_edp_init_connector(struct intel_dp *intel_dp,
+>  				fixed_mode->hdisplay, fixed_mode->vdisplay);
+>  	}
+>  
+> +	privacy_screen = drm_privacy_screen_get(dev->dev, NULL);
+> +	if (!IS_ERR(privacy_screen)) {
+> +		drm_connector_attach_privacy_screen_provider(connector,
+> +							     privacy_screen);
+> +	} else if (PTR_ERR(privacy_screen) != -ENODEV) {
+> +		drm_warn(&dev_priv->drm, "Error getting privacy-screen\n");
+> +	}
+
+I'm thinking this should go into intel_ddi_init_dp_connector()
+on account of only the ddi codepaths having the
+drm_connector_update_privacy_screen() calls.
+
+Otherwise seems ok.
+
+> +
+>  	return true;
+>  
+>  out_vdd_off:
 > -- 
 > 2.31.1
 
