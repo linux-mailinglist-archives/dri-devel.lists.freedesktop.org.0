@@ -1,38 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 626B7421197
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 16:40:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3467042120C
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 16:52:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AB7016E9D4;
-	Mon,  4 Oct 2021 14:39:54 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6A56F6E9FB;
+	Mon,  4 Oct 2021 14:52:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C806E6E9D3;
- Mon,  4 Oct 2021 14:39:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="224221471"
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="224221471"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 07:37:24 -0700
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="622303735"
-Received: from shearne-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.208.122])
- by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 07:37:23 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: [RFC 8/8] drm/i915: Connect with the process nice change notifier
-Date: Mon,  4 Oct 2021 15:36:50 +0100
-Message-Id: <20211004143650.699120-9-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
-References: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
+Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
+ [IPv6:2a00:1450:4864:20::12c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 126286E9FB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 14:52:50 +0000 (UTC)
+Received: by mail-lf1-x12c.google.com with SMTP id j5so67813925lfg.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 07:52:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
+ b=j0Ur3IU22Dtc5kFnP/nXkoktbxHcZFHOAKKskIoJgXkwGHYXbbkyALnAz04dfcCoVV
+ 0Mi+yf7x6bLdauQEAwTnqbWC6yASn3DvUmQzjLsswUxGTTKJ6s/CRmffsVicfj4H/JdQ
+ c/LIIg0L7rv8lHs1sW2K5rZwgSx57ZXcHyto17YWq5qqGR+KdrUM8a/vBIQevrz7MKqt
+ 4+fAAMP0uH9K8IRIrKtcrYu5d1hJt2gQAndx84DW2UalqWNKhO6AnDeKmZJUWZRpcZPy
+ CmjMAchXyeOg4QY//26g7aMb6W3U/7YeGFmXOquN7S/42F7Yuv5Wu7Qw7InfGjWugPr7
+ q3/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e9mEC7vyz6aYS5ipxJsTFX2kQTkmdkM9KeZtG855BT0=;
+ b=NF+VKUaDQqmnT2JztNSu2GV0w7aujW6qAgURUKUNdJMcdOkLNU1LCD3otm2Qnu8fim
+ H3KExYMKybb9JCFA8yOZq5wLsSSwdgf3gvssadowwl0DZ3nXY7D2seLiqAwdO5RLB7Dr
+ h5s3YcMwsNJAfBUla0wwbqSamRUi4tAvsP2o4WxDIXGnHFEbBT6OnnEuvJVJFFTn7pVG
+ ibTJU0dvL5RWgtZobth2hrQCqj2/2S3/2qhm7xxD6vUItJAaEGTA3MjYmp3mMfpR2tlc
+ cQo1lZSZa3vDrgUM7rHYbNa8/r4jsY3HVXi7QsfyW03PMHhkkMqKxMIgtBTrtS7FdcyL
+ +e9w==
+X-Gm-Message-State: AOAM53248+ynjtkJlNWINS03CfrgJwsLflSkClMAeIEsCUw934yA8We+
+ LU148klBpzwZTl8hL9C7K/Y=
+X-Google-Smtp-Source: ABdhPJwZpF/pb309DarSmG6340t8JrbcT7IOPdU/tSH1oTe/CJm/C7yaYY6kTpK2zLUPD04MKNAKqg==
+X-Received: by 2002:a2e:5450:: with SMTP id y16mr16673360ljd.21.1633359167035; 
+ Mon, 04 Oct 2021 07:52:47 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
+ [79.139.163.57])
+ by smtp.googlemail.com with ESMTPSA id o19sm1632148lfg.68.2021.10.04.07.52.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 07:52:46 -0700 (PDT)
+Subject: Re: [PATCH v13 00/35] NVIDIA Tegra power management patches for 5.16
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>, linux-kernel@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-pm@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-clk@vger.kernel.org, Mark Brown <broonie@kernel.org>,
+ Vignesh Raghavendra <vigneshr@ti.com>, Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <80e0e5a9-7987-a334-7a2b-a7b09b591414@gmail.com>
+Date: Mon, 4 Oct 2021 17:52:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <20211004091129.fhlfhsddzk5fakuj@vireshk-i7>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,105 +94,17 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+04.10.2021 12:11, Viresh Kumar пишет:
+> On 27-09-21, 01:40, Dmitry Osipenko wrote:
+>> This series adds runtime PM support to Tegra drivers and enables core
+>> voltage scaling for Tegra20/30 SoCs, resolving overheating troubles.
+>>
+>> All patches in this series are interdependent and should go via Tegra tree.
+> 
+> So you don't need any OPP changes anymore ? I just came back from
+> vacation, don't know what you guys discussed in between :)
+> 
 
-Connect i915 with the process nice change notifier so that our scheduling
-can react to runtime adjustments, on top of previously added nice value
-inheritance at context create time.
-
-To achieve this we use the previously added map of clients per owning
-tasks in combination with the list of GEM contexts per client.
-
-To avoid possibly unnecessary complications the updated context nice value
-will only apply to future submissions against the context.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
----
- drivers/gpu/drm/i915/i915_drm_client.c | 31 ++++++++++++++++++++++++++
- drivers/gpu/drm/i915/i915_drm_client.h |  3 +++
- 2 files changed, 34 insertions(+)
-
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.c b/drivers/gpu/drm/i915/i915_drm_client.c
-index 82b9636482ef..e34c1228f65b 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.c
-+++ b/drivers/gpu/drm/i915/i915_drm_client.c
-@@ -7,10 +7,35 @@
- #include <linux/slab.h>
- #include <linux/types.h>
- 
-+#include "gem/i915_gem_context.h"
- #include "i915_drm_client.h"
- #include "i915_gem.h"
- #include "i915_utils.h"
- 
-+static int
-+clients_notify(struct notifier_block *nb, unsigned long val, void *ptr)
-+{
-+	struct i915_drm_clients *clients =
-+		container_of(nb, typeof(*clients), prio_notifier);
-+	struct i915_drm_client *client;
-+
-+	rcu_read_lock();
-+	read_lock(&clients->lock);
-+	hash_for_each_possible(clients->tasks, client, node, (uintptr_t)ptr) {
-+		struct i915_gem_context *ctx;
-+
-+		if (client->owner != ptr)
-+			continue;
-+
-+		list_for_each_entry_rcu(ctx, &client->ctx_list, client_link)
-+			ctx->sched.nice = (int)val;
-+	}
-+	read_unlock(&clients->lock);
-+	rcu_read_unlock();
-+
-+	return NOTIFY_DONE;
-+}
-+
- void i915_drm_clients_init(struct i915_drm_clients *clients,
- 			   struct drm_i915_private *i915)
- {
-@@ -21,6 +46,10 @@ void i915_drm_clients_init(struct i915_drm_clients *clients,
- 
- 	rwlock_init(&clients->lock);
- 	hash_init(clients->tasks);
-+
-+	memset(&clients->prio_notifier, 0, sizeof(clients->prio_notifier));
-+	clients->prio_notifier.notifier_call = clients_notify;
-+	register_user_nice_notifier(&clients->prio_notifier);
- }
- 
- struct i915_drm_client *i915_drm_client_add(struct i915_drm_clients *clients)
-@@ -75,6 +104,8 @@ void __i915_drm_client_free(struct kref *kref)
- 
- void i915_drm_clients_fini(struct i915_drm_clients *clients)
- {
-+	unregister_user_nice_notifier(&clients->prio_notifier);
-+
- 	GEM_BUG_ON(!xa_empty(&clients->xarray));
- 	xa_destroy(&clients->xarray);
- }
-diff --git a/drivers/gpu/drm/i915/i915_drm_client.h b/drivers/gpu/drm/i915/i915_drm_client.h
-index 42fd79f0558a..dda26aa42ac9 100644
---- a/drivers/gpu/drm/i915/i915_drm_client.h
-+++ b/drivers/gpu/drm/i915/i915_drm_client.h
-@@ -9,6 +9,7 @@
- #include <linux/hashtable.h>
- #include <linux/kref.h>
- #include <linux/list.h>
-+#include <linux/notifier.h>
- #include <linux/rwlock.h>
- #include <linux/sched.h>
- #include <linux/spinlock.h>
-@@ -24,6 +25,8 @@ struct i915_drm_clients {
- 
- 	rwlock_t lock;
- 	DECLARE_HASHTABLE(tasks, 6);
-+
-+	struct notifier_block prio_notifier;
- };
- 
- struct i915_drm_client {
--- 
-2.30.2
-
+We discussed it and decided that we don't need more OPP/domain core
+changes. It's already good enough for the starter and making it all
+absolutely ideal doesn't worth the effort for now.
