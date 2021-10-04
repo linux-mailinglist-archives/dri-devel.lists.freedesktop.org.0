@@ -2,22 +2,22 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5FD94219C0
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 00:12:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169624219A1
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 00:12:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 983336E235;
-	Mon,  4 Oct 2021 22:11:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D523F8920E;
+	Mon,  4 Oct 2021 22:11:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7D6C96E22B;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F4DE6E235;
  Mon,  4 Oct 2021 22:11:33 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="248854280"
-X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="248854280"
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="248854282"
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="248854282"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 15:11:32 -0700
-X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="487735508"
+ 04 Oct 2021 15:11:33 -0700
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="487735512"
 Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  04 Oct 2021 15:11:32 -0700
@@ -26,9 +26,10 @@ To: <intel-gfx@lists.freedesktop.org>,
 	<dri-devel@lists.freedesktop.org>
 Cc: <john.c.harrison@intel.com>,
 	<daniele.ceraolospurio@intel.com>
-Subject: [PATCH 15/26] drm/i915/guc: Update debugfs for GuC multi-lrc
-Date: Mon,  4 Oct 2021 15:06:26 -0700
-Message-Id: <20211004220637.14746-16-matthew.brost@intel.com>
+Subject: [PATCH 16/26] drm/i915: Fix bug in user proto-context creation that
+ leaked contexts
+Date: Mon,  4 Oct 2021 15:06:27 -0700
+Message-Id: <20211004220637.14746-17-matthew.brost@intel.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211004220637.14746-1-matthew.brost@intel.com>
 References: <20211004220637.14746-1-matthew.brost@intel.com>
@@ -49,91 +50,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Display the workqueue status in debugfs for GuC contexts that are in
-parent-child relationship.
+Set number of engines before attempting to create contexts so the
+function free_engines can clean up properly. Also check return of
+alloc_engines for NULL.
 
 v2:
+ (Tvrtko)
+  - Send as stand alone patch
  (John Harrison)
-  - Output number children in debugfs
+  - Check for alloc_engines returning NULL
+v3:
+ (Checkpatch / Tvrtko)
+  - Remove braces around single line if statement
 
+Cc: Jason Ekstrand <jason@jlekstrand.net>
+Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+Cc: <stable@vger.kernel.org>
 ---
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 53 ++++++++++++++-----
- 1 file changed, 39 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_context.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index d661a69ef4f7..f69e984683aa 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -3704,6 +3704,26 @@ static inline void guc_log_context_priority(struct drm_printer *p,
- 	drm_printf(p, "\n");
- }
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 8208fd5b72c3..8c7ea6e56262 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -898,6 +898,10 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+ 	unsigned int n;
  
+ 	e = alloc_engines(num_engines);
++	if (!e)
++		return ERR_PTR(-ENOMEM);
++	e->num_engines = num_engines;
 +
-+static inline void guc_log_context(struct drm_printer *p,
-+				   struct intel_context *ce)
-+{
-+	drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
-+	drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
-+	drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
-+		   ce->ring->head,
-+		   ce->lrc_reg_state[CTX_RING_HEAD]);
-+	drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
-+		   ce->ring->tail,
-+		   ce->lrc_reg_state[CTX_RING_TAIL]);
-+	drm_printf(p, "\t\tContext Pin Count: %u\n",
-+		   atomic_read(&ce->pin_count));
-+	drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
-+		   atomic_read(&ce->guc_id.ref));
-+	drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
-+		   ce->guc_state.sched_state);
-+}
-+
- void intel_guc_submission_print_context_info(struct intel_guc *guc,
- 					     struct drm_printer *p)
- {
-@@ -3713,22 +3733,27 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
- 
- 	xa_lock_irqsave(&guc->context_lookup, flags);
- 	xa_for_each(&guc->context_lookup, index, ce) {
--		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
--		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
--		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
--			   ce->ring->head,
--			   ce->lrc_reg_state[CTX_RING_HEAD]);
--		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
--			   ce->ring->tail,
--			   ce->lrc_reg_state[CTX_RING_TAIL]);
--		drm_printf(p, "\t\tContext Pin Count: %u\n",
--			   atomic_read(&ce->pin_count));
--		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
--			   atomic_read(&ce->guc_id.ref));
--		drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
--			   ce->guc_state.sched_state);
-+		GEM_BUG_ON(intel_context_is_child(ce));
- 
-+		guc_log_context(p, ce);
- 		guc_log_context_priority(p, ce);
-+
-+		if (intel_context_is_parent(ce)) {
-+			struct guc_process_desc *desc = __get_process_desc(ce);
-+			struct intel_context *child;
-+
-+			drm_printf(p, "\t\tNumber children: %u\n",
-+				   ce->parallel.number_children);
-+			drm_printf(p, "\t\tWQI Head: %u\n",
-+				   READ_ONCE(desc->head));
-+			drm_printf(p, "\t\tWQI Tail: %u\n",
-+				   READ_ONCE(desc->tail));
-+			drm_printf(p, "\t\tWQI Status: %u\n\n",
-+				   READ_ONCE(desc->wq_status));
-+
-+			for_each_child(ce, child)
-+				guc_log_context(p, child);
-+		}
+ 	for (n = 0; n < num_engines; n++) {
+ 		struct intel_context *ce;
+ 		int ret;
+@@ -931,7 +935,6 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
+ 			goto free_engines;
+ 		}
  	}
- 	xa_unlock_irqrestore(&guc->context_lookup, flags);
- }
+-	e->num_engines = num_engines;
+ 
+ 	return e;
+ 
 -- 
 2.32.0
 
