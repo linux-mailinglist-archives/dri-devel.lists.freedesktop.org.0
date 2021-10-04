@@ -2,61 +2,58 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48CF3421ACF
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 01:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDAE8421ACC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 01:41:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F26886EABC;
-	Mon,  4 Oct 2021 23:41:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DACB6EAC3;
+	Mon,  4 Oct 2021 23:41:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 637246EABC
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 23:41:54 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2F0F461381
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 23:41:54 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5909B6EAC3
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 23:41:44 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPS id 3076761381
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 23:41:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633390914;
- bh=WnectnZlCpcN61u4P637Y4VP+/XeYfu9evNmOwRjGE8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=PedMieptOH3QAu5hrQRBKb2vz5y9jLhG0XoC4awDbq5B2EUhQnt+Xr54GzaMAXzvC
- BB5MLnDCBBjRq5C1+RG9OM1CuGM6AiRxLsJC2yfvxq1A1COlDf7YJ6s/nTC1Sjv3Ul
- jKBcydao/10vr1Ubv+vKMcgqObFE74d00M0AJoiAxAw2toVHbFNy52CHC+wTCQbWP0
- 2TsG//vFGyem/A1+MY/CuhtK9JJMvic+C6dN88k0JvBGz3qt7DutxVBiOkK8doUolU
- jpcv7Fb5mwQnFNv18BRgtpfXCFRmeXyVM2iPzJJmZJ6r/+TfKhfojpAf+fp8b8Aaul
- 4CBT38HD2VlzA==
-Received: by mail-ed1-f52.google.com with SMTP id p11so18312869edy.10
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 16:41:54 -0700 (PDT)
-X-Gm-Message-State: AOAM531JL93iue7IyN0IU+Az2unf/I4VYBgYnf6quMSVUg8QFQEvpnXZ
- WxrFPxygmpb9PS3CA+ygnh0fQRluUH+uJ1rMnA==
-X-Google-Smtp-Source: ABdhPJytlz/j7z7RIkYICVtGXnlO4ZRu804S/63zkgVzKSKfZfB7OF+ECsWzuO7+wkBDJPSdAg9zzWDwhLAyYGrsbyY=
-X-Received: by 2002:a50:bf0f:: with SMTP id f15mr21400916edk.43.1633390912636; 
- Mon, 04 Oct 2021 16:41:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20210930131850.21202-1-yongqiang.niu@mediatek.com>
- <20210930131850.21202-2-yongqiang.niu@mediatek.com>
-In-Reply-To: <20210930131850.21202-2-yongqiang.niu@mediatek.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 5 Oct 2021 07:41:41 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_82OaLAz0o6BUcogQ=xgYTsFJSov=J72UzMwwq3YtkPdg@mail.gmail.com>
-Message-ID: <CAAOTY_82OaLAz0o6BUcogQ=xgYTsFJSov=J72UzMwwq3YtkPdg@mail.gmail.com>
-Subject: Re: [PATCH v2,
- 1/1] mailbox: cmdq: add instruction time-out interrupt support
-To: Yongqiang Niu <yongqiang.niu@mediatek.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Rob Herring <robh+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- Jassi Brar <jassisinghbrar@gmail.com>, Fabien Parent <fparent@baylibre.com>, 
- Dennis YC Hsieh <dennis-yc.hsieh@mediatek.com>,
- DTML <devicetree@vger.kernel.org>, 
- Linux ARM <linux-arm-kernel@lists.infradead.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Project_Global_Chrome_Upstream_Group@mediatek.com, 
- Hsin-Yi Wang <hsinyi@chromium.org>
+ s=k20201202; t=1633390904;
+ bh=yjTUOTSz5y2YP5MhyTeBRRtO/ST7TurSjz8vQ40gtso=;
+ h=From:To:Subject:Date:In-Reply-To:References:From;
+ b=Zm84/1cVTxCDHYlFyfuLYEKXkefsthhB1zsSejgXZgzPWVtLZQBN7VHeHsCANj6RX
+ A8o0xsH0BMAJlwHNaEakCexvT3Dq4HlGx2VSM0gVUFKuww1YgwLpAGuE991ad0czbi
+ CyPRGftWS/Huveq6JRqhveUBLvEGzzCOkXYSMoU6vtmjjjQuMdbf0zVjw3W3HHByMa
+ s1IfSUBTaL0KijiIyLrMsArCJ0HovAn4DFX+CU4P/MacMIpkhP651+hXb4sReizTgW
+ vwIVqoV6Wu8MtdBhPJPWEq5/baLFw1+eqRGMdXvy1Hy3Ac0fLX3aZO+nbRbv9YynIc
+ f7Bk6vDIp/1vg==
+Received: by pdx-korg-bugzilla-2.web.codeaurora.org (Postfix, from userid 48)
+ id 25F81610FA; Mon,  4 Oct 2021 23:41:44 +0000 (UTC)
+From: bugzilla-daemon@bugzilla.kernel.org
+To: dri-devel@lists.freedesktop.org
+Subject: [Bug 214621] WARNING: CPU: 3 PID: 521 at
+ drivers/gpu/drm/ttm/ttm_bo.c:409 ttm_bo_release+0xb64/0xe40 [ttm]
+Date: Mon, 04 Oct 2021 23:41:43 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: Video(DRI - non Intel)
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: erhard_f@mailbox.org
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P1
+X-Bugzilla-Assigned-To: drivers_video-dri@kernel-bugs.osdl.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: attachments.created
+Message-ID: <bug-214621-2300-93DcMCTzlE@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-214621-2300@https.bugzilla.kernel.org/>
+References: <bug-214621-2300@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
+MIME-Version: 1.0
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,72 +69,15 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Yongqiang:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D214621
 
-Yongqiang Niu <yongqiang.niu@mediatek.com> =E6=96=BC 2021=E5=B9=B49=E6=9C=
-=8830=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=889:18=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> add time-out cycle setting to make sure time-out interrupt irq
-> will happened when instruction time-out for wait and poll
->
-> Signed-off-by: Yongqiang Niu <yongqiang.niu@mediatek.com>
-> ---
->  drivers/mailbox/mtk-cmdq-mailbox.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmd=
-q-mailbox.c
-> index 64175a893312..197b03222f94 100644
-> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
-> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-> @@ -36,6 +36,7 @@
->  #define CMDQ_THR_END_ADDR              0x24
->  #define CMDQ_THR_WAIT_TOKEN            0x30
->  #define CMDQ_THR_PRIORITY              0x40
-> +#define CMDQ_THR_INSTN_TIMEOUT_CYCLES  0x50
->
->  #define GCE_GCTL_VALUE                 0x48
->
-> @@ -54,6 +55,15 @@
->  #define CMDQ_JUMP_BY_OFFSET            0x10000000
->  #define CMDQ_JUMP_BY_PA                        0x10000001
->
-> +/*
-> + * instruction time-out
-> + * cycles to issue instruction time-out interrupt for wait and poll inst=
-ructions
-> + * GCE axi_clock 156MHz
-> + * 1 cycle =3D 6.41ns
-> + * instruction time out 2^22*2*6.41ns =3D 53ms
+--- Comment #1 from Erhard F. (erhard_f@mailbox.org) ---
+Created attachment 299099
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D299099&action=3Dedit
+kernel .config (5.15-rc4, AMD PRO A10-8750B)
 
-For different clients, the timeout value would be different, and each
-client could use timer to detect timeout, so it's not necessary to
-enable timeout in cmdq driver.
+--=20
+You may reply to this email to add a comment.
 
-Regards,
-Chun-Kuang.
-
-> + */
-> +#define CMDQ_INSTN_TIMEOUT_CYCLES      22
-> +
->  struct cmdq_thread {
->         struct mbox_chan        *chan;
->         void __iomem            *base;
-> @@ -376,6 +386,7 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan=
-, void *data)
->                 writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->shift=
-_pa,
->                        thread->base + CMDQ_THR_END_ADDR);
->
-> +               writel(CMDQ_INSTN_TIMEOUT_CYCLES, thread->base + CMDQ_THR=
-_INSTN_TIMEOUT_CYCLES);
->                 writel(thread->priority, thread->base + CMDQ_THR_PRIORITY=
-);
->                 writel(CMDQ_THR_IRQ_EN, thread->base + CMDQ_THR_IRQ_ENABL=
-E);
->                 writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_T=
-ASK);
-> --
-> 2.25.1
->
+You are receiving this mail because:
+You are watching the assignee of the bug.=
