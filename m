@@ -1,60 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4428A4212E9
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:42:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4709C42132D
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:56:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CE453899B5;
-	Mon,  4 Oct 2021 15:42:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 966BA6EA49;
+	Mon,  4 Oct 2021 15:56:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
- [209.85.222.47])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 73348899B5
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 15:42:47 +0000 (UTC)
-Received: by mail-ua1-f47.google.com with SMTP id 64so12648012uab.12
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 08:42:47 -0700 (PDT)
+Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
+ [IPv6:2607:f8b0:4864:20::829])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5898A6EA43
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 15:56:43 +0000 (UTC)
+Received: by mail-qt1-x829.google.com with SMTP id t2so5211qtx.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 08:56:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to
+ :user-agent; bh=+1s8xcFt52yy248Zz8xic/U2dw69RfIY9HdKDO7ZV6Q=;
+ b=B1Np5WmWhg1UMjA/m3ybH4tGdQhZRLV9CJy3StiTL/r9OAu18ABRCvGBtzzZnsXL3s
+ Nbt/LoOC881ZQSWx+0lauMi4P9epUr+0zd5b72R9H9eObF58msbTwTkaMVvDzxSaSgN8
+ pOXjruE3AqFA6Ad90PqPBWJuhTM+gsSCfFPPfjNatLihzNe19jt3JysW6JAo6IsiD7bK
+ 9X1IgLnob5Uu39T6HtX4laDj7Ky4DMvxH+5Geo0R/OFQmc7XK0LTZGoxO/pwQtJBZm1n
+ h5InGNYoaBEFj8pW3+Q+SK9Q5WxAokKRSNfC3sY1aA48HAPxSMQtOSulX122setlO9XC
+ K3iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MQdBFrT4gY5hArjSORJuBxhjfd5fLS9GXe/QptoG1WE=;
- b=6UnMS0lL/EIDk2YMMhCVIajb/AKle3ZqxXy2HpxqzH/PRQdl+o7erYwt8SVNbOnjLd
- IUkbVnFOWvo5rHu44SxB/cBCx+t7IvS5lowb8F3c5bb3+lpXcoLmp8lAAjtcgAbZzQ97
- G7atLWZyELyiXy1OvQje8Epb0rGsiuMp9pq019SV3aj3kxbsyS0iluhrfh8r6LV2iJQj
- hpdiOTtRmtWumn/x0H6J/lfdoD81x4x9RQAPShKHflQLC/ljLuYcoAtRqBainiwhbpp3
- qsh7uab82x6VhaR+HctDSc8LV4iCdgVvpWM6T4RnhSFX9LHsf+4i8FI0Vkzowhnt0Ovm
- mXGw==
-X-Gm-Message-State: AOAM531jj+RRi90dwpYOAelp/Y20Xx1z4/RUgttQJp7Nrik+n7i5JZVK
- 5YE+17f2MUxtP4sScLGa7rPSAyqanVvtrZFraVU=
-X-Google-Smtp-Source: ABdhPJx0vB1rRxvDrREx/zG8/LgZeL2ryBFKT9obtzzKyTnHkzyoBuYlzdLJX5UVe9rEup1mwW9F5wpGlG4jGmIEVAY=
-X-Received: by 2002:ab0:311a:: with SMTP id e26mr7219640ual.122.1633362166344; 
- Mon, 04 Oct 2021 08:42:46 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to:user-agent;
+ bh=+1s8xcFt52yy248Zz8xic/U2dw69RfIY9HdKDO7ZV6Q=;
+ b=o2DVWujzThL7l/bzZqvaNKLOrTA5yfeLm7YPa7OFvve4ArTWQwu4gz3VHmZtjJjqoq
+ jWXdxglZdyEeYiX8yGoA2F4apz4o9FNmfbJcvF2iA/TkiRCZXawsmMYKRBaOuI/e3Nh+
+ r5Od9NYA41IbE8YCgdw9p8eR+S8EQt4+WSKh2pf4YeyYYC/ub409JoENsOp5ipdawheM
+ 5P/KuB+Upwg8dEYmmEo254pTqCbV7f/gqGZFNERT+C4VH2hN4F86w222C9i2HvCEeHYU
+ HGay+QdS5gCHAfV4rl1hxi+K6TFX940RturfMCjsJ8rNonJobQN+kzJZrJNPY/f1YMmW
+ Ofwg==
+X-Gm-Message-State: AOAM533DZeh51Dl2QLZ91Wkzp8mU/DrSkZU/wAYEeculSzq8FbYO6fV5
+ Ls2tD9+yuOILWc0jtYzx6ZxdKA==
+X-Google-Smtp-Source: ABdhPJzwT6kLqUcuNUbghjgNdxuvoUthnPAt+/gIE2rLyWnxVM/HaubzkBvq5//MZ9QtvjcZ5qwBZQ==
+X-Received: by 2002:ac8:18c:: with SMTP id x12mr13970971qtf.378.1633363002266; 
+ Mon, 04 Oct 2021 08:56:42 -0700 (PDT)
+Received: from localhost ([167.100.64.199])
+ by smtp.gmail.com with ESMTPSA id b65sm7850990qkc.46.2021.10.04.08.56.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 04 Oct 2021 08:56:41 -0700 (PDT)
+Date: Mon, 4 Oct 2021 11:56:37 -0400
+From: Sean Paul <sean@poorly.run>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
+ Sean Paul <seanpaul@chromium.org>, Fernando Ramos <greenfoo@u92.eu>
+Subject: Re: [PATCH 15/16] Revert "drm/i915: cleanup:
+ drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()"
+Message-ID: <20211004155637.GC2515@art_vandelay>
+References: <20211002154542.15800-1-sean@poorly.run>
+ <20211002154542.15800-15-sean@poorly.run>
+ <YVrMLNa/oaP2+ZWx@intel.com>
 MIME-Version: 1.0
-References: <20210914202202.1702601-1-dianders@chromium.org>
- <20210914132020.v5.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
-In-Reply-To: <20210914132020.v5.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Oct 2021 17:42:35 +0200
-Message-ID: <CAMuHMdWy+aASNevg8nc9LTvR9QNrGYZQnB3sYYLDRfEU1w_idg@mail.gmail.com>
-Subject: Re: [PATCH v5 02/15] drm/edid: Break out reading block 0 of the EDID
-To: Douglas Anderson <dianders@chromium.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Linus W <linus.walleij@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, 
- Jani Nikula <jani.nikula@intel.com>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YVrMLNa/oaP2+ZWx@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,161 +78,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Douglas,
+On Mon, Oct 04, 2021 at 12:41:00PM +0300, Ville Syrjälä wrote:
+> On Sat, Oct 02, 2021 at 11:45:41AM -0400, Sean Paul wrote:
+> > From: Sean Paul <seanpaul@chromium.org>
+> > 
+> > This reverts commit 399190e70816886e2bca1f3f3bc3d9c544af88e7.
+> > 
+> > This patchset breaks on intel platforms and was previously NACK'd by
+> > Ville.
+> > 
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: Fernando Ramos <greenfoo@u92.eu>
+> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+> 
+> Yeah, best to try again from the start I think.
 
-On Tue, Sep 14, 2021 at 10:23 PM Douglas Anderson <dianders@chromium.org> wrote:
-> A future change wants to be able to read just block 0 of the EDID, so
-> break it out of drm_do_get_edid() into a sub-function.
->
-> This is intended to be a no-op change--just code movement.
->
-> Signed-off-by: Douglas Anderson <dianders@chromium.org>
+Pushed the revert set (and left the TODO item out for now). Thanks for raising
+the issue.
 
-Thanks for your patch, which is now commit bac9c29482248b00 ("drm/edid:
-Break out reading block 0 of the EDID") in drm-next.
+@Fernando, hopefully you can revise and post again. Thank you for your patches
+and your effort!
 
-> --- a/drivers/gpu/drm/drm_edid.c
-> +++ b/drivers/gpu/drm/drm_edid.c
-> @@ -1905,6 +1905,44 @@ int drm_add_override_edid_modes(struct drm_connector *connector)
->  }
->  EXPORT_SYMBOL(drm_add_override_edid_modes);
->
-> +static struct edid *drm_do_get_edid_base_block(
-> +       int (*get_edid_block)(void *data, u8 *buf, unsigned int block,
-> +                             size_t len),
-> +       void *data, bool *edid_corrupt, int *null_edid_counter)
-> +{
-> +       int i;
-> +       void *edid;
-> +
-> +       edid = kmalloc(EDID_LENGTH, GFP_KERNEL);
-> +       if (edid == NULL)
-> +               return NULL;
-> +
-> +       /* base block fetch */
-> +       for (i = 0; i < 4; i++) {
-> +               if (get_edid_block(data, edid, 0, EDID_LENGTH))
-> +                       goto out;
-> +               if (drm_edid_block_valid(edid, 0, false, edid_corrupt))
-> +                       break;
-> +               if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
-> +                       if (null_edid_counter)
-> +                               (*null_edid_counter)++;
-> +                       goto carp;
-> +               }
-> +       }
-> +       if (i == 4)
-> +               goto carp;
-> +
-> +       return edid;
-> +
-> +carp:
-> +       kfree(edid);
-> +       return ERR_PTR(-EINVAL);
-> +
-> +out:
-> +       kfree(edid);
-> +       return NULL;
-> +}
-> +
->  /**
->   * drm_do_get_edid - get EDID data using a custom EDID block read function
->   * @connector: connector we're probing
-> @@ -1938,25 +1976,16 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->         if (override)
->                 return override;
->
-> -       if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
-> +       edid = (u8 *)drm_do_get_edid_base_block(get_edid_block, data,
-> +                                               &connector->edid_corrupt,
-> +                                               &connector->null_edid_counter);
-> +       if (IS_ERR_OR_NULL(edid)) {
-> +               if (IS_ERR(edid))
+Sean
 
-So edid is an error code, not a valid pointer...
-
-> +                       connector_bad_edid(connector, edid, 1);
-
-... while connector_bad_edid() expects edid to be a valid pointer,
-causing a crash:
-
-Unable to handle kernel NULL pointer dereference at virtual address
-0000000000000068
-Mem abort info:
-  ESR = 0x96000004
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x04: level 0 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000004
-  CM = 0, WnR = 0
-[0000000000000068] user address but active_mm is swapper
-Internal error: Oops: 96000004 [#1] PREEMPT SMP
-CPU: 0 PID: 7 Comm: kworker/u4:0 Not tainted
-5.15.0-rc3-arm64-renesas-00629-geb2d42841024-dirty #1313
-Hardware name: Renesas Ebisu-4D board based on r8a77990 (DT)
-Workqueue: events_unbound deferred_probe_work_func
-pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : connector_bad_edid+0x28/0x1a8
-lr : drm_do_get_edid+0x260/0x268
-sp : ffff8000121336a0
-x29: ffff8000121336a0 x28: ffff00000a373200 x27: 0000000000001ffe
-PM: ==== always-on/ee160000.mmc: stop
-x26: 0000000000000005 x25: 0000000000000041 x24: 0000000000000000
-x23: ffff000008a25080 x22: ffff8000106bd990 x21: ffff0000081496c0
-x20: 0000000000000001 x19: ffffffffffffffea x18: 0000000000000010
-x17: 0000000000000000 x16: 0000000000000000 x15: 0000000000000000
-x14: 0000000000000000 x13: 0000000000000000 x12: 0000000000000000
-x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-x8 : 0000000000000000 x7 : 0000000000000080 x6 : ffff000009c71000
-x5 : 0000000000000000 x4 : 0000000000000069 x3 : ffff00000a3c2900
-x2 : 0000000000000001 x1 : ffffffffffffffea x0 : ffff000009c71000
-Call trace:
- connector_bad_edid+0x28/0x1a8
- drm_do_get_edid+0x260/0x268
- adv7511_get_edid+0xb4/0xd0
- adv7511_bridge_get_edid+0x10/0x18
-
->                 return NULL;
-> -
-> -       /* base block fetch */
-> -       for (i = 0; i < 4; i++) {
-> -               if (get_edid_block(data, edid, 0, EDID_LENGTH))
-> -                       goto out;
-> -               if (drm_edid_block_valid(edid, 0, false,
-> -                                        &connector->edid_corrupt))
-> -                       break;
-> -               if (i == 0 && drm_edid_is_zero(edid, EDID_LENGTH)) {
-> -                       connector->null_edid_counter++;
-> -                       goto carp;
-> -               }
->         }
-> -       if (i == 4)
-> -               goto carp;
->
-> -       /* if there's no extensions, we're done */
-> +       /* if there's no extensions or no connector, we're done */
->         valid_extensions = edid[0x7e];
->         if (valid_extensions == 0)
->                 return (struct edid *)edid;
-> @@ -2010,8 +2039,6 @@ struct edid *drm_do_get_edid(struct drm_connector *connector,
->
->         return (struct edid *)edid;
->
-> -carp:
-> -       connector_bad_edid(connector, edid, 1);
->  out:
->         kfree(edid);
->         return NULL;
-
-Gr{oetje,eeting}s,
-
-                        Geert
+> 
+> For the series
+> Acked-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> 
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_display.c | 18 +++++++++++++-----
+> >  1 file changed, 13 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+> > index 2bf01416d656..134a6acbd8fb 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_display.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
+> > @@ -43,7 +43,6 @@
+> >  #include <drm/drm_plane_helper.h>
+> >  #include <drm/drm_probe_helper.h>
+> >  #include <drm/drm_rect.h>
+> > -#include <drm/drm_drv.h>
+> >  
+> >  #include "display/intel_audio.h"
+> >  #include "display/intel_crt.h"
+> > @@ -13477,13 +13476,22 @@ void intel_display_resume(struct drm_device *dev)
+> >  	if (state)
+> >  		state->acquire_ctx = &ctx;
+> >  
+> > -	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+> > +	drm_modeset_acquire_init(&ctx, 0);
+> >  
+> > -	ret = __intel_display_resume(dev, state, &ctx);
+> > +	while (1) {
+> > +		ret = drm_modeset_lock_all_ctx(dev, &ctx);
+> > +		if (ret != -EDEADLK)
+> > +			break;
+> >  
+> > -	intel_enable_ipc(dev_priv);
+> > +		drm_modeset_backoff(&ctx);
+> > +	}
+> > +
+> > +	if (!ret)
+> > +		ret = __intel_display_resume(dev, state, &ctx);
+> >  
+> > -	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+> > +	intel_enable_ipc(dev_priv);
+> > +	drm_modeset_drop_locks(&ctx);
+> > +	drm_modeset_acquire_fini(&ctx);
+> >  
+> >  	if (ret)
+> >  		drm_err(&dev_priv->drm,
+> > -- 
+> > Sean Paul, Software Engineer, Google / Chromium OS
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Sean Paul, Software Engineer, Google / Chromium OS
