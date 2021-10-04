@@ -1,44 +1,128 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B4B4212BA
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:33:07 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B0944212A0
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:27:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83DDF6EA3E;
-	Mon,  4 Oct 2021 15:33:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B3C4E6EA25;
+	Mon,  4 Oct 2021 15:27:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2F50D6EA3E;
- Mon,  4 Oct 2021 15:33:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="206286722"
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="206286722"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 08:21:48 -0700
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="483158199"
-Received: from shearne-mobl.ger.corp.intel.com (HELO [10.213.208.122])
- ([10.213.208.122])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 08:21:46 -0700
-Subject: Re: [PATCH] drm/i915/pmu: Connect engine busyness stats from GuC to
- pmu
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: john.c.harrison@intel.com, daniel.vetter@ffwll.ch
-References: <20210924223451.71316-1-umesh.nerlige.ramappa@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <d15ab2f3-6b4b-7603-75f3-aff7e3c0a913@linux.intel.com>
-Date: Mon, 4 Oct 2021 16:21:44 +0100
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2088.outbound.protection.outlook.com [40.107.236.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9DFD46EA25;
+ Mon,  4 Oct 2021 15:27:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=W9QnJe1pZBdfI76D5G1n/0XNSmCXgtojqyWecmuKKFz8Go2fpzhBeo6tmtHfiyShiJHYgbD0IPgpEGyH14kj3TNXQ9IJFsjdLcH2L33ooBt7PvKLChAH4vK3Ccjwwtj2PJUrH8LZKI/GlrFmbwmmae3l54cLls6XwBVEDdlRu5Q7ifmGBSQd7+Ski0tfpJ7iTcSOidN1rWRMEW37Q6PhinX7E++QPvYq3kf+GQ44xbXEgRMHnqHLLW/TkxxHhcSVFlmCQThXj+cvsjU07BAGUfnApqHus/tm4GKnIui1s+VCfFkBwAa+ro7n7zJwF4oNvOoA+paH2pFu4abB/SjWjA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pppmBjIrgcfim7viWeF35IW4/FuOQts6CdmkYNbchNs=;
+ b=d2WXiaUq3L1eh8Hs3AC2U8wI/5QCNqVouim62GtUipi3oMi2G0zao4V/6LKWtctr8qKghXT5R8Ivnp0DJrhMlpGdd+4UBZXeVyJTqadQNFZSpZMeD0GaaIjf/78IKxx3gDdpM9QKF3fxIzg/rjwsSRk5HNEp7QEsuWNORmqBgARKkV/z7C40qA1tQH2xlOR2g+FG+EJWAEFDlWlXkZHmaoNEEBmDg1CVYeQGNDY1/kpxypLRFDmuj7Kb4tlAkUnM+LslLEA9y59cQa77Vr3ynVXVZ8TBtpLk3kGjGcXPALnJzD0gLQb4i6qKmNy7M98F2FNUta5IUxFk4pXwyoetRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pppmBjIrgcfim7viWeF35IW4/FuOQts6CdmkYNbchNs=;
+ b=avUm3/QhqLhM74IeXfvZK0BaYbGKz9n+dcAYUXAzfCg2op5BIoGMp9qbz8CjPz/lnrwzWfkAPNTq919hDqzowpKHhdpUIZy1x1gVZhj9AVFVEsPFLjaHL+dwBwjJKhp3AVKrnj7xe4wfdFhMIvkufugUGB3EJi9zCbTfph/SzSo=
+Authentication-Results: lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none; lists.freedesktop.org;
+ dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com (2603:10b6:3:111::23)
+ by DM6PR12MB3482.namprd12.prod.outlook.com (2603:10b6:5:3d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Mon, 4 Oct
+ 2021 15:27:20 +0000
+Received: from DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::3153:3d7b:e216:74c0]) by DM5PR12MB1947.namprd12.prod.outlook.com
+ ([fe80::3153:3d7b:e216:74c0%11]) with mapi id 15.20.4566.022; Mon, 4 Oct 2021
+ 15:27:20 +0000
+Subject: Re: Lockdep spalt on killing a processes
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <73c163b4-1917-1cde-b75f-831ac66f6ea0@amd.com>
+ <2090e8e6-4b0a-4b75-a776-64dde1ecdfd5@amd.com>
+ <152adb05-e863-525a-f586-ecccb39a4724@gmail.com>
+From: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+Message-ID: <d4b3524e-719b-ca68-bcf3-f3574922be01@amd.com>
+Date: Mon, 4 Oct 2021 11:27:17 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-MIME-Version: 1.0
-In-Reply-To: <20210924223451.71316-1-umesh.nerlige.ramappa@intel.com>
+In-Reply-To: <152adb05-e863-525a-f586-ecccb39a4724@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: YTOPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b00:14::25) To DM5PR12MB1947.namprd12.prod.outlook.com
+ (2603:10b6:3:111::23)
+MIME-Version: 1.0
+Received: from [IPv6:2607:fea8:3edf:49b0:bc6f:8108:e4c4:3301]
+ (2607:fea8:3edf:49b0:bc6f:8108:e4c4:3301) by
+ YTOPR0101CA0048.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b00:14::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.17 via Frontend
+ Transport; Mon, 4 Oct 2021 15:27:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9154a2db-9d18-4949-a290-08d9874b7481
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3482:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3482A230C7FC37B1FABE2487EAAE9@DM6PR12MB3482.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HO9+cR8BDlf1vh/PdEjSUqrJufg67Jic97DoEUhWFWx7VBO1RbV/NxUK653bMwkXq7pgmK71KqMPdw1VakRjbB/wrW0YYuiEyxiGx+YdsixSSlrYwjrgQlEfPpVLBYSqmkESMYkhVXTGvOhoGc7C0yMeqY9MIAYXLBwEAophu1yR2xOipVb/yS06j5fdSHPnaywwYdhOl3XespMx3qcsHmx4QrYzziSrFAWZtu9jj6YFn4Dx1T4qFrZdNzQi6y8jTb+NB8kGldYi0NQQKiWHhHhiNkxxnxXJkpexOyIXqAU+Sfbf8XqGxDfeKbz9wMGjVCkLeLgjv8bRHEjE/Y+CXxSWKy5flHDVUQKl511oRV8Fy0UBWsn5ZaZANOoS6cCGB8ErR0x/DBrCKolxXn2pyZShUrgndGmVCT1IdGMhjwBC627akawE/J2W6k5Txi/hqLOpjbvlAAXg0hEpkkH9qSTP+hEfM3DjkQjtlyJBJXbT/+t+CvMAkM4Q20A5JrOM/cG7zzyz4e1cd6IXpU/Ob7xa/de4gzXxSmkGh+5qJJXvoLiv6FRvA5H8QRsNEUJJby3phmZeHZmVxPP5Jq6s7blinI/9jd4iKaC1dhEVCMglCh78kqB0VlR7QLXFI1sJJWXBa0B1iZNXNj4mOaehjw8BfYRuglEtgMC4SS0TciHlZ0hjeWjvfug4rsBonq6UcchgS+wSGiVVIMZejZGc7zmrhh6ejNebqQIO8mNI4ng8iFWWvWL6FIeZpe82x98q
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1947.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(6486002)(110136005)(66946007)(316002)(31686004)(66556008)(31696002)(53546011)(86362001)(508600001)(66476007)(2616005)(8936002)(8676002)(5660300002)(186003)(36756003)(66574015)(83380400001)(2906002)(38100700002)(44832011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?N2NGQW1LMllnOW54SjlYWmw2Z3Jqa3NVUlJzVmNtaEZQNHpLQ2ppWU9SbFo3?=
+ =?utf-8?B?ankySlB6YnRFYUd6TnBzQWF4QmhsRVNBQTNFQnlpNmNMc3kyaGhUNW0wVjhH?=
+ =?utf-8?B?V0taSTFmNDB1RjBPdEsxWXpUbFZXVk81dG1qNHJWWVB0em5pL2dQRkc0Uld6?=
+ =?utf-8?B?QjgvWWRnUk15WTZJNFI4Y2crY3RuUUtqMC9NaUcrdjBZZTNwT1ZMZmR6SDNl?=
+ =?utf-8?B?dDBqVnpJUTJxR2huWlBHcE5VMFhwZEhWUy9JUDNSNkFOclJvSnZkcVZCZ0Q3?=
+ =?utf-8?B?aUZlc2o1cndNMjFlemF0RjRhR0s4dkdXb0hsWEI1QnJDR3k3V2hCRjBmMTFU?=
+ =?utf-8?B?UUNQWmNMV0M2VWR3MUlKN3E2V2R6OW9DdzFFc1Y0dnU4YjhlR0JQdkRBemxi?=
+ =?utf-8?B?Rjd2S3czODVTTUdEQnppMlg2K2RMSVZZTHY3aDhRMWY0OGM4M2pWdFBQM29m?=
+ =?utf-8?B?VW53amdxOS8zMEptK0hZQnQ1MlY0SlNiblIzZW5oaVV5eUlLYzdNQ3dDNDVE?=
+ =?utf-8?B?TlZja1g4L2liaWZKMndpbnZ5UHZLeE0xQ3BwODhyalZNNGZWNFVwWGUrL2do?=
+ =?utf-8?B?RXJwY3R4LzNWL3BXZ1d5OUk5a1dzMStXcVNnSUpzbjRVRlhvVVZWT2hUK0Mw?=
+ =?utf-8?B?c1hWQ095dTZ5UmxTajdwbU8vaS94c0x6cERNY1FZOFNkcE9OZ0V5OXIzQm1X?=
+ =?utf-8?B?NlBoNUliMDlWYk1QVVFISGpxbTZOUGVXT3dtTWNPNDVyS1d5VFFKbVNOMlZN?=
+ =?utf-8?B?d3dVZEpZWEVWUW4rT09wUnpTZ3N1MzBVU3g1UXhSc2F5QmdtZkFUWExTVmNO?=
+ =?utf-8?B?bHlrMHVydGdzY0djWGFFUUo3UEtMZENuaVF6SzhnS0ZDVlpUMEQ2cDlPUTlo?=
+ =?utf-8?B?cmlaZTlETTZhMmZCamZSa2tneUVkTUlrWHNDeDlvSldhNEMrcXdDb3QwMVZL?=
+ =?utf-8?B?UGUyekkyS0NwclNjZmRGbU53QlFwZXlUMmZYOXVyUmdCdTc4bURGQ08xM202?=
+ =?utf-8?B?QmwvRGV0b1FnaGhteWxaYVZRQWhiOTQyVUZ2WVAvWVdLVzJYWFJPVGtBaUlX?=
+ =?utf-8?B?UVdnd1RaMHNrZEl3ZHdOb0xuT08vdVBpUW9YK1MvdWh6QmFueFVvZjNMdWEx?=
+ =?utf-8?B?Vzc5SjJYVmdWNHV3KytNNktvMmt6Tk1wTUFDbURkK3RxUVk4TE1YZ2J4dzBD?=
+ =?utf-8?B?SEwraXVYUU5WUURsSzNDUk9uamJ4NUhhc0gvRU0yTVYrYnlLY1I2SWJBQmEv?=
+ =?utf-8?B?T1N1cWNDTW05TEhIOUUzZHlpd21mamo3aXJ1dDZOcGJiLzM3SWM4VU5DWG1z?=
+ =?utf-8?B?aDhhd2FUMVdRdzc5c1BTSjVWalQrU3EwUzYwY2hzSnd4d1UzSG0wejZYbDlI?=
+ =?utf-8?B?RGhQYUhoV1FJZVRBWnU3SlJUR1dhVXRXZHBsZVpQcXRrWGJnTGt6SnlLYzZD?=
+ =?utf-8?B?WS9jVHM1SEdSM2pqdGtHODhJVENnUXN3SWMvd3Z0VVFLdktUREtQMm4vRUpE?=
+ =?utf-8?B?R1FYQVAxdHR4SG9Cd2hQV09WbDEzRnh4d0dNMGJTVE1hUnFmVXpzUzZTckhG?=
+ =?utf-8?B?Z0FGREgvSUhpU0xMWHlpTWlMbERoTUt5bURoOTU5L1ZlQ0RwOWs1OXI4elc2?=
+ =?utf-8?B?YTJaaE1EWFFxRTdvWDdnYVVGVm4xK1BnR1JWU0gvSWpjUGQyU0FEQWxrTzJu?=
+ =?utf-8?B?YkM2UWExN3VISXhqeUYrTHNUcURQV1hjcElralEzdTVLSkpxYWJMS05QRGlv?=
+ =?utf-8?B?R0IrbUo1bG84anY0dVVCK0ZxWTNzMmwvWGNOWjZHZU5MTnhsdXp5TDQvM3pG?=
+ =?utf-8?B?TmE5MWtmOU5JWGFrQVpEWHl3V2kwb2FaSmFrTThJMk83dDRvZ0NEaDB2bGQ4?=
+ =?utf-8?Q?k4KExFDRHEPvb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9154a2db-9d18-4949-a290-08d9874b7481
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1947.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Oct 2021 15:27:19.8784 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PReMlSLyiyiALaEKgPtsG3nCGyRC7LYtwEhuts96/oeZWF5Ffynd5JEF74L2o82ADZ57sDiUdTAs7ZUAzMl5Dw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3482
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,768 +138,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+I see my confusion, we hang all unsubmitted jobs on the last submitted 
+to HW job.
+Yea, in this case indeed rescheduling to a different thread context will 
+avoid the splat but
+the schedule work cannot be done for each dependency signalling but 
+rather they way we do
+for ttm_bo_delayed_delete with a list of dependencies to signal. 
+Otherwise some of the schedule
+work will be drop because previous invocation is still pending execution.
 
-On 24/09/2021 23:34, Umesh Nerlige Ramappa wrote:
-> With GuC handling scheduling, i915 is not aware of the time that a
-> context is scheduled in and out of the engine. Since i915 pmu relies on
-> this info to provide engine busyness to the user, GuC shares this info
-> with i915 for all engines using shared memory. For each engine, this
-> info contains:
-> 
-> - total busyness: total time that the context was running (total)
-> - id: id of the running context (id)
-> - start timestamp: timestamp when the context started running (start)
-> 
-> At the time (now) of sampling the engine busyness, if the id is valid
-> (!= ~0), and start is non-zero, then the context is considered to be
-> active and the engine busyness is calculated using the below equation
-> 
-> 	engine busyness = total + (now - start)
-> 
-> All times are obtained from the gt clock base. For inactive contexts,
-> engine busyness is just equal to the total.
-> 
-> The start and total values provided by GuC are 32 bits and wrap around
-> in a few minutes. Since perf pmu provides busyness as 64 bit
-> monotonically increasing values, there is a need for this implementation
-> to account for overflows and extend the time to 64 bits before returning
-> busyness to the user. In order to do that, a worker runs periodically at
-> frequqncy = 1/8th the time it takes for the timestamp to wrap. As an
+Andrey
 
-frequency
-
-> example, that would be once in 27 seconds for a gt clock frequency of
-> 19.2 MHz.
-> 
-> Opens and wip that are targeted for later patches:
-> 
-> 1) On global gt reset the total busyness of engines resets and i915
->     needs to fix that so that user sees monotonically increasing
->     busyness.
-> 2) In runtime suspend mode, the worker may not need to be run. We could
->     stop the worker on suspend and rerun it on resume provided that the
->     guc pm timestamp does not tick during suspend.
-
-2) sounds easy since there are park/unpark hooks for pmu already. Will 
-see if I can figure out why you did not just immediately do it.
-
-I would also document in the commit message the known problem of 
-possible over-accounting, just for historical reference.
-
-> 
-> v2: (Tvrtko)
-> - Include details in commit message
-> - Move intel engine busyness function into execlist code
-> - Use union inside engine->stats
-> - Use natural type for ping delay jiffies
-> - Drop active_work condition checks
-> - Use for_each_engine if iterating all engines
-> - Drop seq locking, use spinlock at guc level to update engine stats
-> - Document worker specific details
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  26 +--
->   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  82 ++++---
->   .../drm/i915/gt/intel_execlists_submission.c  |  32 +++
->   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  26 +++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  21 ++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |   5 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  13 ++
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 204 ++++++++++++++++++
->   drivers/gpu/drm/i915/i915_reg.h               |   2 +
->   10 files changed, 363 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 2ae57e4656a3..6fcc70a313d9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -1873,22 +1873,6 @@ void intel_engine_dump(struct intel_engine_cs *engine,
->   	intel_engine_print_breadcrumbs(engine, m);
->   }
->   
-> -static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
-> -					    ktime_t *now)
-> -{
-> -	ktime_t total = engine->stats.total;
-> -
-> -	/*
-> -	 * If the engine is executing something at the moment
-> -	 * add it to the total.
-> -	 */
-> -	*now = ktime_get();
-> -	if (READ_ONCE(engine->stats.active))
-> -		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
-> -
-> -	return total;
-> -}
-> -
->   /**
->    * intel_engine_get_busy_time() - Return current accumulated engine busyness
->    * @engine: engine to report on
-> @@ -1898,15 +1882,7 @@ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
->    */
->   ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
->   {
-> -	unsigned int seq;
-> -	ktime_t total;
-> -
-> -	do {
-> -		seq = read_seqcount_begin(&engine->stats.lock);
-> -		total = __intel_engine_get_busy_time(engine, now);
-> -	} while (read_seqcount_retry(&engine->stats.lock, seq));
-> -
-> -	return total;
-> +	return engine->busyness(engine, now);
->   }
->   
->   struct intel_context *
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 5ae1207c363b..490166b54ed6 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -432,6 +432,12 @@ struct intel_engine_cs {
->   	void		(*add_active_request)(struct i915_request *rq);
->   	void		(*remove_active_request)(struct i915_request *rq);
->   
-> +	/*
-> +	 * Get engine busyness and the time at which the busyness was sampled.
-> +	 */
-> +	ktime_t		(*busyness)(struct intel_engine_cs *engine,
-> +				    ktime_t *now);
-> +
->   	struct intel_engine_execlists execlists;
->   
->   	/*
-> @@ -481,30 +487,58 @@ struct intel_engine_cs {
->   	u32 (*get_cmd_length_mask)(u32 cmd_header);
->   
->   	struct {
-> -		/**
-> -		 * @active: Number of contexts currently scheduled in.
-> -		 */
-> -		unsigned int active;
-> -
-> -		/**
-> -		 * @lock: Lock protecting the below fields.
-> -		 */
-> -		seqcount_t lock;
-> -
-> -		/**
-> -		 * @total: Total time this engine was busy.
-> -		 *
-> -		 * Accumulated time not counting the most recent block in cases
-> -		 * where engine is currently busy (active > 0).
-> -		 */
-> -		ktime_t total;
-> -
-> -		/**
-> -		 * @start: Timestamp of the last idle to active transition.
-> -		 *
-> -		 * Idle is defined as active == 0, active is active > 0.
-> -		 */
-> -		ktime_t start;
-> +		union {
-
-Maybe put a marker like:
-
-			/* Fields used by the execlists backend. */
-
-> +			struct {
-> +				/**
-> +				 * @active: Number of contexts currently
-> +				 * scheduled in.
-> +				 */
-> +				unsigned int active;
-> +
-> +				/**
-> +				 * @lock: Lock protecting the below fields.
-> +				 */
-> +				seqcount_t lock;
-> +
-> +				/**
-> +				 * @total: Total time this engine was busy.
-> +				 *
-> +				 * Accumulated time not counting the most recent
-> +				 * block in cases where engine is currently busy
-> +				 * (active > 0).
-> +				 */
-> +				ktime_t total;
-> +
-> +				/**
-> +				 * @start: Timestamp of the last idle to active
-> +				 * transition.
-> +				 *
-> +				 * Idle is defined as active == 0, active is
-> +				 * active > 0.
-> +				 */
-> +				ktime_t start;
-> +			};
-> +
-
-			/* Fields used by the GuC backend. */
-
-> +			struct {
-> +				/**
-> +				 * @prev_total: Previous value of total runtime
-> +				 * clock cycles.
-> +				 */
-> +				u32 prev_total;
-> +
-> +				/**
-> +				 * @total_gt_clks: Total gt clock cycles this
-> +				 * engine was busy.
-> +				 */
-> +				u64 total_gt_clks;
-> +
-> +				/**
-> +				 * @start_gt_clk: GT clock time of last idle to
-> +				 * active transition.
-> +				 */
-> +				u64 start_gt_clk;
-> +			};
-> +		};
->   
->   		/**
->   		 * @rps: Utilisation at last RPS sampling.
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 7147fe80919e..5c9b695e906c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -3292,6 +3292,36 @@ static void execlists_release(struct intel_engine_cs *engine)
->   	lrc_fini_wa_ctx(engine);
->   }
->   
-> +static ktime_t __execlists_engine_busyness(struct intel_engine_cs *engine,
-> +					   ktime_t *now)
-> +{
-> +	ktime_t total = engine->stats.total;
-> +
-> +	/*
-> +	 * If the engine is executing something at the moment
-> +	 * add it to the total.
-> +	 */
-> +	*now = ktime_get();
-> +	if (READ_ONCE(engine->stats.active))
-> +		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
-> +
-> +	return total;
-> +}
-> +
-> +static ktime_t execlists_engine_busyness(struct intel_engine_cs *engine,
-> +					 ktime_t *now)
-> +{
-> +	unsigned int seq;
-> +	ktime_t total;
-> +
-> +	do {
-> +		seq = read_seqcount_begin(&engine->stats.lock);
-> +		total = __execlists_engine_busyness(engine, now);
-> +	} while (read_seqcount_retry(&engine->stats.lock, seq));
-> +
-> +	return total;
-> +}
-> +
->   static void
->   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   {
-> @@ -3348,6 +3378,8 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   		engine->emit_bb_start = gen8_emit_bb_start;
->   	else
->   		engine->emit_bb_start = gen8_emit_bb_start_noarb;
-> +
-> +	engine->busyness = execlists_engine_busyness;
->   }
->   
->   static void logical_ring_default_irqs(struct intel_engine_cs *engine)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> index 8ff582222aff..ff1311d4beff 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> @@ -143,6 +143,7 @@ enum intel_guc_action {
->   	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
->   	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
->   	INTEL_GUC_ACTION_RESET_CLIENT = 0x5507,
-> +	INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF = 0x550A,
->   	INTEL_GUC_ACTION_LIMIT
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 5dd174babf7a..22c30dbdf63a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -104,6 +104,8 @@ struct intel_guc {
->   	u32 ads_regset_size;
->   	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
->   	u32 ads_golden_ctxt_size;
-> +	/** @ads_engine_usage_size: size of engine usage in the ADS */
-> +	u32 ads_engine_usage_size;
->   
->   	/** @lrc_desc_pool: object allocated to hold the GuC LRC descriptor pool */
->   	struct i915_vma *lrc_desc_pool;
-> @@ -138,6 +140,30 @@ struct intel_guc {
->   
->   	/** @send_mutex: used to serialize the intel_guc_send actions */
->   	struct mutex send_mutex;
-> +
-> +	struct {
-> +		/**
-> +		 * @lock: Lock protecting the below fields and the engine stats.
-> +		 */
-> +		spinlock_t lock;
-> +
-> +		/**
-> +		 * @gt_stamp: 64 bit extended value of the GT timestamp.
-> +		 */
-> +		u64 gt_stamp;
-> +
-> +		/**
-> +		 * @ping_delay: Period for polling the GT timestamp for
-> +		 * overflow.
-> +		 */
-> +		unsigned long ping_delay;
-> +
-> +		/**
-> +		 * @work: Periodic work to adjust GT timestamp, engine and
-> +		 * context usage for overflows.
-> +		 */
-> +		struct delayed_work work;
-> +	} timestamp;
->   };
->   
->   static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 2c6ea64af7ec..ca9ab53999d5 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -26,6 +26,8 @@
->    *      | guc_policies                          |
->    *      +---------------------------------------+
->    *      | guc_gt_system_info                    |
-> + *      +---------------------------------------+
-> + *      | guc_engine_usage                      |
->    *      +---------------------------------------+ <== static
->    *      | guc_mmio_reg[countA] (engine 0.0)     |
->    *      | guc_mmio_reg[countB] (engine 0.1)     |
-> @@ -47,6 +49,7 @@ struct __guc_ads_blob {
->   	struct guc_ads ads;
->   	struct guc_policies policies;
->   	struct guc_gt_system_info system_info;
-> +	struct guc_engine_usage engine_usage;
->   	/* From here on, location is dynamic! Refer to above diagram. */
->   	struct guc_mmio_reg regset[0];
->   } __packed;
-> @@ -628,3 +631,21 @@ void intel_guc_ads_reset(struct intel_guc *guc)
->   
->   	guc_ads_private_data_reset(guc);
->   }
-> +
-> +u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
-> +{
-> +	struct __guc_ads_blob *blob = guc->ads_blob;
-> +	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
-> +	u32 offset = base + ptr_offset(blob, engine_usage);
-> +
-> +	return offset;
-> +}
-> +
-> +struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
-> +{
-> +	struct intel_guc *guc = &engine->gt->uc.guc;
-> +	struct __guc_ads_blob *blob = guc->ads_blob;
-> +	u8 guc_class = engine_class_to_guc_class(engine->class);
-> +
-> +	return &blob->engine_usage.engines[guc_class][engine->instance];
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> index 3d85051d57e4..e74c110facff 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> @@ -6,8 +6,11 @@
->   #ifndef _INTEL_GUC_ADS_H_
->   #define _INTEL_GUC_ADS_H_
->   
-> +#include <linux/types.h>
-> +
->   struct intel_guc;
->   struct drm_printer;
-> +struct intel_engine_cs;
->   
->   int intel_guc_ads_create(struct intel_guc *guc);
->   void intel_guc_ads_destroy(struct intel_guc *guc);
-> @@ -15,5 +18,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
->   void intel_guc_ads_reset(struct intel_guc *guc);
->   void intel_guc_ads_print_policy_info(struct intel_guc *guc,
->   				     struct drm_printer *p);
-> +struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
-> +u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index fa4be13c8854..7c9c081670fc 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -294,6 +294,19 @@ struct guc_ads {
->   	u32 reserved[15];
->   } __packed;
->   
-> +/* Engine usage stats */
-> +struct guc_engine_usage_record {
-> +	u32 current_context_index;
-> +	u32 last_switch_in_stamp;
-> +	u32 reserved0;
-> +	u32 total_runtime;
-> +	u32 reserved1[4];
-> +} __packed;
-> +
-> +struct guc_engine_usage {
-> +	struct guc_engine_usage_record engines[GUC_MAX_ENGINE_CLASSES][GUC_MAX_INSTANCES_PER_CLASS];
-> +} __packed;
-> +
->   /* GuC logging structures */
->   
->   enum guc_log_buffer_type {
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index ba0de35f6323..5d29a4913e17 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -12,6 +12,7 @@
->   #include "gt/intel_engine_pm.h"
->   #include "gt/intel_engine_heartbeat.h"
->   #include "gt/intel_gt.h"
-> +#include "gt/intel_gt_clock_utils.h"
->   #include "gt/intel_gt_irq.h"
->   #include "gt/intel_gt_pm.h"
->   #include "gt/intel_gt_requests.h"
-> @@ -20,6 +21,7 @@
->   #include "gt/intel_mocs.h"
->   #include "gt/intel_ring.h"
->   
-> +#include "intel_guc_ads.h"
->   #include "intel_guc_submission.h"
->   
->   #include "i915_drv.h"
-> @@ -762,12 +764,25 @@ submission_disabled(struct intel_guc *guc)
->   static void disable_submission(struct intel_guc *guc)
->   {
->   	struct i915_sched_engine * const sched_engine = guc->sched_engine;
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	struct intel_engine_cs *engine;
-> +	enum intel_engine_id id;
-> +	unsigned long flags;
->   
->   	if (__tasklet_is_enabled(&sched_engine->tasklet)) {
->   		GEM_BUG_ON(!guc->ct.enabled);
->   		__tasklet_disable_sync_once(&sched_engine->tasklet);
->   		sched_engine->tasklet.callback = NULL;
->   	}
-> +
-> +	cancel_delayed_work(&guc->timestamp.work);
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	for_each_engine(engine, gt, id)
-> +		engine->stats.prev_total = 0;
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
->   }
->   
->   static void enable_submission(struct intel_guc *guc)
-> @@ -1164,6 +1179,192 @@ void intel_guc_submission_fini(struct intel_guc *guc)
->   	i915_sched_engine_put(guc->sched_engine);
->   }
->   
-> +/*
-> + * GuC stores busyness stats for each engine at context in/out boundaries. A
-> + * context 'in' logs execution start time, 'out' adds in -> out delta to total.
-> + * i915/kmd accesses 'start', 'total' and 'context id' from memory shared with
-> + * GuC.
-> + *
-> + * __i915_pmu_event_read samples engine busyness. When sampling, if context id
-> + * is valid (!= ~0) and start is non-zero, the engine is considered to be
-> + * active. For an active engine total busyness = total + (now - start), where
-> + * 'now' is the time at which the busyness is sampled. For inactive engine,
-> + * total busyness = total.
-> + *
-> + * All times are captured from GUCPMTIMESTAMP reg and are in gt clock domain.
-> + *
-> + * The start and total values provided by GuC are 32 bits and wrap around in a
-> + * few minutes. Since perf pmu provides busyness as 64 bit monotonically
-> + * increasing ns values, there is a need for this implementation to account for
-> + * overflows and extend the GuC proviced values to 64 bits before returning
-> + * busyness to the user. In order to do that, a worker runs periodically at
-> + * frequency = 1/8th the time it takes for the timestamp to wrap (i.e. once in
-> + * 27 seconds for a gt clock frequency of 19.2 MHz).
-> + */
-> +
-> +#define WRAP_TIME_CLKS U32_MAX
-> +#define POLL_TIME_CLKS (WRAP_TIME_CLKS >> 3)
-> +
-> +static inline void
-
-I'd probably drop the inline from here and the one below and let the 
-compiler decide.
-
-> +__update_timestamp(struct intel_guc *guc, u64 *prev_start, u32 new_start)
-> +{
-> +	u32 gt_stamp_hi = upper_32_bits(guc->timestamp.gt_stamp);
-> +	u32 gt_stamp_last = lower_32_bits(guc->timestamp.gt_stamp);
-> +
-> +	if (new_start == lower_32_bits(*prev_start))
-> +		return;
-> +
-> +	if (new_start < gt_stamp_last &&
-> +	    (new_start - gt_stamp_last) <= POLL_TIME_CLKS)
-> +		gt_stamp_hi++;
-> +
-> +	if (new_start > gt_stamp_last &&
-> +	    (gt_stamp_last - new_start) <= POLL_TIME_CLKS)
-> +		if (gt_stamp_hi)
-> +			gt_stamp_hi--;
-> +
-> +	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
-> +}
-> +
-> +static inline void
-> +__update_counter(u64 *curr_value, u32 new)
-> +{
-> +	u32 hi = upper_32_bits(*curr_value);
-> +
-> +	if (new < lower_32_bits(*curr_value))
-> +		hi++;
-> +
-> +	*curr_value = ((u64)hi << 32) | new;
-> +}
-> +
-> +static bool guc_update_engine_gt_clks(struct intel_engine_cs *engine)
-> +{
-> +	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
-> +	struct intel_guc *guc = &engine->gt->uc.guc;
-> +	u32 last_switch = rec->last_switch_in_stamp;
-> +	u32 ctx_id = rec->current_context_index;
-> +	u32 total = rec->total_runtime;
-> +	bool active = ctx_id != ~0U && last_switch;
-> +
-> +	if (active)
-> +		__update_timestamp(guc, &engine->stats.start_gt_clk,
-> +				   last_switch);
-> +
-> +	/*
-> +	 * Instead of adjusting the total for overflow, just add the
-> +	 * difference from previous sample to the stats.total_gt_clks
-> +	 */
-> +	if (total && total != ~0U) {
-> +		engine->stats.total_gt_clks += (u32)(total -
-> +						     engine->stats.prev_total);
-> +		engine->stats.prev_total = total;
-> +	}
-> +
-> +	return active;
-> +}
-> +
-> +static void guc_update_pm_timestamp(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	u32 gt_stamp_now;
-> +
-> +	if (intel_gt_pm_get_if_awake(gt)) {
-> +		gt_stamp_now = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
-> +		intel_gt_pm_put_async(gt);
-> +		__update_counter(&guc->timestamp.gt_stamp, gt_stamp_now);
-> +	}
-> +}
-> +
-> +/*
-> + * Unlike the execlist mode of submission total and active times are in terms of
-> + * gt clocks. The *now parameter is retained to return the cpu time at which the
-> + * busyness was sampled.
-> + */
-> +static ktime_t guc_engine_busyness(struct intel_engine_cs *engine, ktime_t *now)
-> +{
-> +	struct intel_gt *gt = engine->gt;
-> +	struct intel_guc *guc = &gt->uc.guc;
-> +	unsigned long flags;
-> +	bool active;
-> +	u64 total;
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	*now = ktime_get();
-> +	active = guc_update_engine_gt_clks(engine);
-> +	guc_update_pm_timestamp(guc);
-
-I am a bit nervous that we have a mix of i915 view of "active" (pm get 
-if awake) and GuC via "active = <read shared page and determine>".
-
-The two sources come together in:
-
-  if (active) {
-	u64 clk = guc->timestamp.gt_stamp - engine->stats.start_gt_clk;
-
-Where active comes from GuC and gt_stamp "up to dateness" comes from 
-whether or not intel_gt_pm_get_if_awake succeeded.
-
-Coupled with the fact that you will need to add some hooks to pmu 
-park/unpark to handle the ping worker I wonder how it would look to try 
-and use a more consistent view here.
-
-What I mean is use the i915 view exclusively when deciding whether or 
-not to query anything from the GuC, or just use last known i915 copy of 
-the data.
-
-In other words the outline of the operation would be:
-
-guc_engine_busyness / guc_timestamp_ping
-{
-	intel_gt_pm_get_if_awake {
-		spin_lock
-		read and update guc state
-		spin_unlock
-	} else {
-		spin_lock
-		read last known guc state (100% driver copy)
-		spin_unlock
-	}
-
-	...
-}
-
-pmu park
-{
-	park worker
-
-	spin_lock
-	read and update guc state
-	spin_unlock
-}
-
-pmu unpark
-{
-	unpark worker
-}	
-
-Not sure to how much my concern amounts in practice so it is open for 
-discussion.
-
-At least we know we have inherent racyness in context save vs guc 
-tracking so perhaps best not to add more.
-
-Otherwise the design, in terms of how it fits into i915, now looks fine 
-to me (module unfinished worker parking).
-
-Regards,
-
-Tvrtko
-
-> +
-> +	total = intel_gt_clock_interval_to_ns(gt, engine->stats.total_gt_clks);
-> +	if (active) {
-> +		u64 clk = guc->timestamp.gt_stamp - engine->stats.start_gt_clk;
-> +
-> +		total += intel_gt_clock_interval_to_ns(gt, clk);
-> +	}
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
-> +
-> +	return ns_to_ktime(total);
-> +}
-> +
-> +static void guc_timestamp_ping(struct work_struct *wrk)
-> +{
-> +	struct intel_guc *guc = container_of(wrk, typeof(*guc), timestamp.work.work);
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	struct intel_engine_cs *engine;
-> +	intel_engine_mask_t tmp;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	/* adjust the guc pm timestamp for overflow */
-> +	guc_update_pm_timestamp(guc);
-> +
-> +	/* adjust the engine stats for overflow */
-> +	for_each_engine_masked(engine, gt, ALL_ENGINES, tmp)
-
-for_each_engine
-
-> +		guc_update_engine_gt_clks(engine);
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
-> +
-> +	mod_delayed_work(system_highpri_wq, &guc->timestamp.work, guc->timestamp.ping_delay);
-> +}
-> +
-> +static int guc_action_enable_usage_stats(struct intel_guc *guc)
-> +{
-> +	u32 offset = intel_guc_engine_usage_offset(guc);
-> +	u32 action[] = {
-> +		INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF,
-> +		offset,
-> +		0,
-> +	};
-> +
-> +	return intel_guc_send(guc, action, ARRAY_SIZE(action));
-> +}
-> +
-> +static void __queue_work(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +
-> +	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
-> +	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
-> +	mod_delayed_work(system_highpri_wq, &guc->timestamp.work, guc->timestamp.ping_delay);
-> +}
-> +
-> +static void guc_init_engine_stats(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	intel_wakeref_t wakeref;
-> +
-> +	spin_lock_init(&guc->timestamp.lock);
-> +	__queue_work(guc);
-> +	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref) {
-> +		int ret = guc_action_enable_usage_stats(guc);
-> +
-> +		if (ret)
-> +			drm_err(&gt->i915->drm,
-> +				"Failed to enable usage stats: %d!\n", ret);
-> +	}
-> +}
-> +
->   static inline void queue_request(struct i915_sched_engine *sched_engine,
->   				 struct i915_request *rq,
->   				 int prio)
-> @@ -2606,7 +2807,9 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
->   		engine->emit_flush = gen12_emit_flush_xcs;
->   	}
->   	engine->set_default_submission = guc_set_default_submission;
-> +	engine->busyness = guc_engine_busyness;
->   
-> +	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
->   	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
->   	engine->flags |= I915_ENGINE_HAS_TIMESLICES;
->   
-> @@ -2705,6 +2908,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
->   void intel_guc_submission_enable(struct intel_guc *guc)
->   {
->   	guc_init_lrc_mapping(guc);
-> +	guc_init_engine_stats(guc);
->   }
->   
->   void intel_guc_submission_disable(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index ef594df039db..8bc88c1bd68e 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -2664,6 +2664,8 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->   #define   RING_WAIT		(1 << 11) /* gen3+, PRBx_CTL */
->   #define   RING_WAIT_SEMAPHORE	(1 << 10) /* gen6+ */
->   
-> +#define GUCPMTIMESTAMP          _MMIO(0xC3E8)
-> +
->   /* There are 16 64-bit CS General Purpose Registers per-engine on Gen8+ */
->   #define GEN8_RING_CS_GPR(base, n)	_MMIO((base) + 0x600 + (n) * 8)
->   #define GEN8_RING_CS_GPR_UDW(base, n)	_MMIO((base) + 0x600 + (n) * 8 + 4)
-> 
+On 2021-10-04 4:14 a.m., Christian König wrote:
+> The problem is a bit different.
+>
+> The callback is on the dependent fence, while we need to signal the 
+> scheduler fence.
+>
+> Daniel is right that this needs an irq_work struct to handle this 
+> properly.
+>
+> Christian.
+>
+> Am 01.10.21 um 17:10 schrieb Andrey Grodzovsky:
+>> From what I see here you supposed to have actual deadlock and not 
+>> only warning, sched_fence->finished is  first signaled from within
+>> hw fence done callback (drm_sched_job_done_cb) but then again from 
+>> within it's own callback (drm_sched_entity_kill_jobs_cb) and so
+>> looks like same fence  object is recursively signaled twice. This 
+>> leads to attempt to lock fence->lock second time while it's already
+>> locked. I don't see a need to call drm_sched_fence_finished from 
+>> within drm_sched_entity_kill_jobs_cb as this callback already registered
+>> on sched_fence->finished fence (entity->last_scheduled == 
+>> s_fence->finished) and hence the signaling already took place.
+>>
+>> Andrey
+>>
+>> On 2021-10-01 6:50 a.m., Christian König wrote:
+>>> Hey, Andrey.
+>>>
+>>> while investigating some memory management problems I've got the 
+>>> logdep splat below.
+>>>
+>>> Looks like something is wrong with drm_sched_entity_kill_jobs_cb(), 
+>>> can you investigate?
+>>>
+>>> Thanks,
+>>> Christian.
+>>>
+>>> [11176.741052] ============================================
+>>> [11176.741056] WARNING: possible recursive locking detected
+>>> [11176.741060] 5.15.0-rc1-00031-g9d546d600800 #171 Not tainted
+>>> [11176.741066] --------------------------------------------
+>>> [11176.741070] swapper/12/0 is trying to acquire lock:
+>>> [11176.741074] ffff9c337ed175a8 (&fence->lock){-.-.}-{3:3}, at: 
+>>> dma_fence_signal+0x28/0x80
+>>> [11176.741088]
+>>>                but task is already holding lock:
+>>> [11176.741092] ffff9c337ed172a8 (&fence->lock){-.-.}-{3:3}, at: 
+>>> dma_fence_signal+0x28/0x80
+>>> [11176.741100]
+>>>                other info that might help us debug this:
+>>> [11176.741104]  Possible unsafe locking scenario:
+>>>
+>>> [11176.741108]        CPU0
+>>> [11176.741110]        ----
+>>> [11176.741113]   lock(&fence->lock);
+>>> [11176.741118]   lock(&fence->lock);
+>>> [11176.741122]
+>>>                 *** DEADLOCK ***
+>>>
+>>> [11176.741125]  May be due to missing lock nesting notation
+>>>
+>>> [11176.741128] 2 locks held by swapper/12/0:
+>>> [11176.741133]  #0: ffff9c339c30f768 
+>>> (&ring->fence_drv.lock){-.-.}-{3:3}, at: dma_fence_signal+0x28/0x80
+>>> [11176.741142]  #1: ffff9c337ed172a8 (&fence->lock){-.-.}-{3:3}, at: 
+>>> dma_fence_signal+0x28/0x80
+>>> [11176.741151]
+>>>                stack backtrace:
+>>> [11176.741155] CPU: 12 PID: 0 Comm: swapper/12 Not tainted 
+>>> 5.15.0-rc1-00031-g9d546d600800 #171
+>>> [11176.741160] Hardware name: System manufacturer System Product 
+>>> Name/PRIME X399-A, BIOS 0808 10/12/2018
+>>> [11176.741165] Call Trace:
+>>> [11176.741169]  <IRQ>
+>>> [11176.741173]  dump_stack_lvl+0x5b/0x74
+>>> [11176.741181]  dump_stack+0x10/0x12
+>>> [11176.741186]  __lock_acquire.cold+0x208/0x2df
+>>> [11176.741197]  lock_acquire+0xc6/0x2d0
+>>> [11176.741204]  ? dma_fence_signal+0x28/0x80
+>>> [11176.741212]  _raw_spin_lock_irqsave+0x4d/0x70
+>>> [11176.741219]  ? dma_fence_signal+0x28/0x80
+>>> [11176.741225]  dma_fence_signal+0x28/0x80
+>>> [11176.741230]  drm_sched_fence_finished+0x12/0x20 [gpu_sched]
+>>> [11176.741240]  drm_sched_entity_kill_jobs_cb+0x1c/0x50 [gpu_sched]
+>>> [11176.741248]  dma_fence_signal_timestamp_locked+0xac/0x1a0
+>>> [11176.741254]  dma_fence_signal+0x3b/0x80
+>>> [11176.741260]  drm_sched_fence_finished+0x12/0x20 [gpu_sched]
+>>> [11176.741268]  drm_sched_job_done.isra.0+0x7f/0x1a0 [gpu_sched]
+>>> [11176.741277]  drm_sched_job_done_cb+0x12/0x20 [gpu_sched]
+>>> [11176.741284]  dma_fence_signal_timestamp_locked+0xac/0x1a0
+>>> [11176.741290]  dma_fence_signal+0x3b/0x80
+>>> [11176.741296]  amdgpu_fence_process+0xd1/0x140 [amdgpu]
+>>> [11176.741504]  sdma_v4_0_process_trap_irq+0x8c/0xb0 [amdgpu]
+>>> [11176.741731]  amdgpu_irq_dispatch+0xce/0x250 [amdgpu]
+>>> [11176.741954]  amdgpu_ih_process+0x81/0x100 [amdgpu]
+>>> [11176.742174]  amdgpu_irq_handler+0x26/0xa0 [amdgpu]
+>>> [11176.742393]  __handle_irq_event_percpu+0x4f/0x2c0
+>>> [11176.742402]  handle_irq_event_percpu+0x33/0x80
+>>> [11176.742408]  handle_irq_event+0x39/0x60
+>>> [11176.742414]  handle_edge_irq+0x93/0x1d0
+>>> [11176.742419]  __common_interrupt+0x50/0xe0
+>>> [11176.742426]  common_interrupt+0x80/0x90
+>>> [11176.742431]  </IRQ>
+>>> [11176.742436]  asm_common_interrupt+0x1e/0x40
+>>> [11176.742442] RIP: 0010:cpuidle_enter_state+0xff/0x470
+>>> [11176.742449] Code: 0f a3 05 04 54 24 01 0f 82 70 02 00 00 31 ff e8 
+>>> 37 5d 6f ff 80 7d d7 00 0f 85 e9 01 00 00 e8 58 a2 7f ff fb 66 0f 1f 
+>>> 44 00 00 <45> 85 ff 0f 88 01 01 00 00 49 63 c7 4c 2b 75 c8 48 8d 14 
+>>> 40 48 8d
+>>> [11176.742455] RSP: 0018:ffffb6970021fe48 EFLAGS: 00000202
+>>> [11176.742461] RAX: 000000000059be25 RBX: 0000000000000002 RCX: 
+>>> 0000000000000000
+>>> [11176.742465] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 
+>>> ffffffff9efeed78
+>>> [11176.742470] RBP: ffffb6970021fe80 R08: 0000000000000001 R09: 
+>>> 0000000000000001
+>>> [11176.742473] R10: 0000000000000001 R11: 0000000000000001 R12: 
+>>> ffff9c3350b0e800
+>>> [11176.742477] R13: ffffffffa00e9680 R14: 00000a2a49ada060 R15: 
+>>> 0000000000000002
+>>> [11176.742483]  ? cpuidle_enter_state+0xf8/0x470
+>>> [11176.742489]  ? cpuidle_enter_state+0xf8/0x470
+>>> [11176.742495]  cpuidle_enter+0x2e/0x40
+>>> [11176.742500]  call_cpuidle+0x23/0x40
+>>> [11176.742506]  do_idle+0x201/0x280
+>>> [11176.742512]  cpu_startup_entry+0x20/0x30
+>>> [11176.742517]  start_secondary+0x11f/0x160
+>>> [11176.742523]  secondary_startup_64_no_verify+0xb0/0xbb
+>>>
+>
