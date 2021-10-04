@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A93420A1D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 13:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C91A0420A07
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 13:24:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 379BD6E9D7;
-	Mon,  4 Oct 2021 11:30:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6E02D6E9E2;
+	Mon,  4 Oct 2021 11:24:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by gabe.freedesktop.org (Postfix) with ESMTP id 3ADD56E1A3
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 11:30:50 +0000 (UTC)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 66C6D1FB;
- Mon,  4 Oct 2021 04:30:49 -0700 (PDT)
-Received: from [192.168.1.179] (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E19AF3F766;
- Mon,  4 Oct 2021 04:30:47 -0700 (PDT)
-Subject: Re: [PATCH v5 6/8] drm/panfrost: Support synchronization jobs
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Rob Herring <robh+dt@kernel.org>, Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Jason Ekstrand <jason@jlekstrand.net>, Daniel Stone <daniel@fooishbar.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210930190954.1525933-1-boris.brezillon@collabora.com>
- <20210930190954.1525933-7-boris.brezillon@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Message-ID: <9ed27061-54f3-1804-936d-18aecf3d8872@arm.com>
-Date: Mon, 4 Oct 2021 12:30:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47C416E9DE;
+ Mon,  4 Oct 2021 11:24:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10126"; a="225705692"
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="225705692"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 04:24:48 -0700
+X-IronPort-AV: E=Sophos;i="5.85,345,1624345200"; d="scan'208";a="713101010"
+Received: from labuser-z97x-ud5h.jf.intel.com ([10.165.21.211])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA;
+ 04 Oct 2021 04:24:47 -0700
+From: Manasi Navare <manasi.d.navare@intel.com>
+To: intel-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Cc: Manasi Navare <manasi.d.navare@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Simon Ser <contact@emersion.fr>,
+ Pekka Paalanen <pekka.paalanen@collabora.co.uk>,
+ Daniel Stone <daniels@collabora.com>,
+ Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH v2] drm/atomic: Add the crtc to affected crtc only if
+ uapi.enable = true
+Date: Mon,  4 Oct 2021 04:36:29 -0700
+Message-Id: <20211004113629.23715-1-manasi.d.navare@intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-In-Reply-To: <20210930190954.1525933-7-boris.brezillon@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,115 +53,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 30/09/2021 20:09, Boris Brezillon wrote:
-> Sometimes, all the user wants to do is add a synchronization point.
-> Userspace can already do that by submitting a NULL job, but this implies
-> submitting something to the GPU when we could simply skip the job and
-> signal the done fence directly.
-> 
-> v5:
-> * New patch
-> 
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+In case of a modeset where a mode gets split across mutiple CRTCs
+in the driver specific implementation (bigjoiner in i915) we wrongly count
+the affected CRTCs based on the drm_crtc_mask and indicate the stolen CRTC as
+an affected CRTC in atomic_check_only().
+This triggers a warning since affected CRTCs doent match requested CRTC.
 
-I had thought we would be fine without kbase's "dependency only atom"
-because we don't have the fan-{in,out} problems that kbase's atoms
-produce. But if we're ending up with real hardware NULL jobs then this
-is clearly better.
+To fix this in such bigjoiner configurations, we should only
+increment affected crtcs if that CRTC is enabled in UAPI not
+if it is just used internally in the driver to split the mode.
 
-A couple of minor points below, but as far as I can tell this is
-functionally correct.
+There is no way we can adjust requested_crtc calculation as suggested
+in review comments because the crtc gets stolen only after the atomic_check call.
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: Pekka Paalanen <pekka.paalanen@collabora.co.uk>
+Cc: Daniel Stone <daniels@collabora.com>
+Cc: Daniel Vetter <daniel.vetter@intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Signed-off-by: Manasi Navare <manasi.d.navare@intel.com>
+---
+ drivers/gpu/drm/drm_atomic.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> ---
->  drivers/gpu/drm/panfrost/panfrost_drv.c | 9 +++++++--
->  drivers/gpu/drm/panfrost/panfrost_job.c | 6 ++++++
->  include/uapi/drm/panfrost_drm.h         | 7 +++++++
->  3 files changed, 20 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_drv.c b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> index 30dc158d56e6..89a0c484310c 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_drv.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_drv.c
-> @@ -542,7 +542,9 @@ static const struct panfrost_submit_ioctl_version_info submit_versions[] = {
->  	[1] = { 48, 8, 16 },
->  };
->  
-> -#define PANFROST_JD_ALLOWED_REQS PANFROST_JD_REQ_FS
-> +#define PANFROST_JD_ALLOWED_REQS \
-> +	(PANFROST_JD_REQ_FS | \
-> +	 PANFROST_JD_REQ_DEP_ONLY)
->  
->  static int
->  panfrost_submit_job(struct drm_device *dev, struct drm_file *file_priv,
-> @@ -559,7 +561,10 @@ panfrost_submit_job(struct drm_device *dev, struct drm_file *file_priv,
->  	if (args->requirements & ~PANFROST_JD_ALLOWED_REQS)
->  		return -EINVAL;
->  
-> -	if (!args->head)
-> +	/* If this is a dependency-only job, the job chain head should be NULL,
-> +	 * otherwise it should be non-NULL.
-> +	 */
-> +	if ((args->head != 0) != !(args->requirements & PANFROST_JD_REQ_DEP_ONLY))
-
-NIT: There's confusion over NULL vs 0 here - the code is correct
-(args->head is a u64 and not a pointer for a kernel) but the comment
-makes it seem like it should be a pointer.
-
-We could side-step the mismatch by rewriting as below:
-
-  !args->head == !(args->requirements & PANFROST_JD_REQ_DEP_ONLY)
-
-Although I'm not convinced whether that's more readable or not!
-
->  		return -EINVAL;
->  
->  	bo_stride = submit_versions[version].bo_ref_stride;
-> diff --git a/drivers/gpu/drm/panfrost/panfrost_job.c b/drivers/gpu/drm/panfrost/panfrost_job.c
-> index 0367cee8f6df..6d8706d4a096 100644
-> --- a/drivers/gpu/drm/panfrost/panfrost_job.c
-> +++ b/drivers/gpu/drm/panfrost/panfrost_job.c
-> @@ -192,6 +192,12 @@ static void panfrost_job_hw_submit(struct panfrost_job *job, int js)
->  	u64 jc_head = job->jc;
->  	int ret;
->  
-> +	if (job->requirements & PANFROST_JD_REQ_DEP_ONLY) {
-> +		/* Nothing to execute, signal the fence directly. */
-> +		dma_fence_signal_locked(job->done_fence);
-> +		return;
-> +	}
-> +
-
-It took me a while to convince myself that the reference counting for
-the PM reference is correct. Before panfrost_job_hw_submit() always
-returned with an extra reference, but now we have a case which doesn't.
-AFAICT this is probably fine because we dereference on the path where
-the hardware has completed the job (which obviously won't happen here).
-But I'm still a bit uneasy whether the reference counts are always correct.
-
-Steve
-
->  	panfrost_devfreq_record_busy(&pfdev->pfdevfreq);
->  
->  	ret = pm_runtime_get_sync(pfdev->dev);
-> diff --git a/include/uapi/drm/panfrost_drm.h b/include/uapi/drm/panfrost_drm.h
-> index 5e3f8a344f41..b9df066970f6 100644
-> --- a/include/uapi/drm/panfrost_drm.h
-> +++ b/include/uapi/drm/panfrost_drm.h
-> @@ -46,6 +46,13 @@ extern "C" {
->  #define DRM_IOCTL_PANFROST_PERFCNT_DUMP		DRM_IOW(DRM_COMMAND_BASE + DRM_PANFROST_PERFCNT_DUMP, struct drm_panfrost_perfcnt_dump)
->  
->  #define PANFROST_JD_REQ_FS (1 << 0)
-> +
-> +/*
-> + * Dependency only job. The job chain head should be set to 0 when this flag
-> + * is set.
-> + */
-> +#define PANFROST_JD_REQ_DEP_ONLY (1 << 1)
-> +
->  /**
->   * struct drm_panfrost_submit - ioctl argument for submitting commands to the 3D
->   * engine.
-> 
+diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+index ff1416cd609a..44e7ebf43a2a 100644
+--- a/drivers/gpu/drm/drm_atomic.c
++++ b/drivers/gpu/drm/drm_atomic.c
+@@ -1360,8 +1360,10 @@ int drm_atomic_check_only(struct drm_atomic_state *state)
+ 		}
+ 	}
+ 
+-	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i)
+-		affected_crtc |= drm_crtc_mask(crtc);
++	for_each_new_crtc_in_state(state, crtc, new_crtc_state, i) {
++		if (new_crtc_state->enable)
++			affected_crtc |= drm_crtc_mask(crtc);
++	}
+ 
+ 	/*
+ 	 * For commits that allow modesets drivers can add other CRTCs to the
+-- 
+2.19.1
 
