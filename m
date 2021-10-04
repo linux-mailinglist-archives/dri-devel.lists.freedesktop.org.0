@@ -1,68 +1,94 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4709C42132D
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:56:49 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id C448F421335
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 17:57:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 966BA6EA49;
-	Mon,  4 Oct 2021 15:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6AB4F6E1BB;
+	Mon,  4 Oct 2021 15:57:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com
- [IPv6:2607:f8b0:4864:20::829])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5898A6EA43
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 15:56:43 +0000 (UTC)
-Received: by mail-qt1-x829.google.com with SMTP id t2so5211qtx.8
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 08:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poorly.run; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=+1s8xcFt52yy248Zz8xic/U2dw69RfIY9HdKDO7ZV6Q=;
- b=B1Np5WmWhg1UMjA/m3ybH4tGdQhZRLV9CJy3StiTL/r9OAu18ABRCvGBtzzZnsXL3s
- Nbt/LoOC881ZQSWx+0lauMi4P9epUr+0zd5b72R9H9eObF58msbTwTkaMVvDzxSaSgN8
- pOXjruE3AqFA6Ad90PqPBWJuhTM+gsSCfFPPfjNatLihzNe19jt3JysW6JAo6IsiD7bK
- 9X1IgLnob5Uu39T6HtX4laDj7Ky4DMvxH+5Geo0R/OFQmc7XK0LTZGoxO/pwQtJBZm1n
- h5InGNYoaBEFj8pW3+Q+SK9Q5WxAokKRSNfC3sY1aA48HAPxSMQtOSulX122setlO9XC
- K3iQ==
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
+ [IPv6:2a00:1450:4864:20::136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0BAF76E1BB
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 15:57:14 +0000 (UTC)
+Received: by mail-lf1-x136.google.com with SMTP id b20so74126998lfv.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 08:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
+ b=pH5gGGqkZlMuFnRyIJAXiewuWBbmrXc4nrj48Dzw+Xc6gukr3JlL4bc0XqPdYPe5DQ
+ NDB4vv+qA4gvKAo7lM0mnIDk8dHTj89Skv+bi+CnIwKoB0GbtflokeLFAGWMWBkGuUwO
+ vnV+cxSUarX4fvwMNp98YdWmdtdCmVfrq9kQiTD/iscLYeiALsQL/FGXMsD8gWDMtQgb
+ SdntlSYjQY8VC2aw+ENPn0LFmLD5mx6hdBsOFMb8vi+SpeKciwoN3fNZiNgmP/61OVVQ
+ wnD2qG3x98rXnlrsSFT8O6Xj/b7E6uaK2TJJmtNceUOe0ut/Z6O07eTqHqNZmJmGlly8
+ 1zZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=+1s8xcFt52yy248Zz8xic/U2dw69RfIY9HdKDO7ZV6Q=;
- b=o2DVWujzThL7l/bzZqvaNKLOrTA5yfeLm7YPa7OFvve4ArTWQwu4gz3VHmZtjJjqoq
- jWXdxglZdyEeYiX8yGoA2F4apz4o9FNmfbJcvF2iA/TkiRCZXawsmMYKRBaOuI/e3Nh+
- r5Od9NYA41IbE8YCgdw9p8eR+S8EQt4+WSKh2pf4YeyYYC/ub409JoENsOp5ipdawheM
- 5P/KuB+Upwg8dEYmmEo254pTqCbV7f/gqGZFNERT+C4VH2hN4F86w222C9i2HvCEeHYU
- HGay+QdS5gCHAfV4rl1hxi+K6TFX940RturfMCjsJ8rNonJobQN+kzJZrJNPY/f1YMmW
- Ofwg==
-X-Gm-Message-State: AOAM533DZeh51Dl2QLZ91Wkzp8mU/DrSkZU/wAYEeculSzq8FbYO6fV5
- Ls2tD9+yuOILWc0jtYzx6ZxdKA==
-X-Google-Smtp-Source: ABdhPJzwT6kLqUcuNUbghjgNdxuvoUthnPAt+/gIE2rLyWnxVM/HaubzkBvq5//MZ9QtvjcZ5qwBZQ==
-X-Received: by 2002:ac8:18c:: with SMTP id x12mr13970971qtf.378.1633363002266; 
- Mon, 04 Oct 2021 08:56:42 -0700 (PDT)
-Received: from localhost ([167.100.64.199])
- by smtp.gmail.com with ESMTPSA id b65sm7850990qkc.46.2021.10.04.08.56.41
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 04 Oct 2021 08:56:41 -0700 (PDT)
-Date: Mon, 4 Oct 2021 11:56:37 -0400
-From: Sean Paul <sean@poorly.run>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: Sean Paul <sean@poorly.run>, dri-devel@lists.freedesktop.org,
- Sean Paul <seanpaul@chromium.org>, Fernando Ramos <greenfoo@u92.eu>
-Subject: Re: [PATCH 15/16] Revert "drm/i915: cleanup:
- drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()"
-Message-ID: <20211004155637.GC2515@art_vandelay>
-References: <20211002154542.15800-1-sean@poorly.run>
- <20211002154542.15800-15-sean@poorly.run>
- <YVrMLNa/oaP2+ZWx@intel.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oXxI7X/1bkoyfWLqsQl0b8N5L2M43qDxOhyRLjNgwgs=;
+ b=GVcJwE0FuAp4UcwqREDbUPp4G4KzUJBtAeJVH2EBwROzp97sU3Tl4qQOIcCd3q8K99
+ dZa2cSYr4pdppQGbh0t3hTu24yoFGsuCm0ehxYjAGdOVkFoeC16se0CsW8zwYdx2IxPh
+ 1XoXOM9XqxAYkQ6tw3y7ZT934Zy7pz7GJgD9rKv5toT/jPKbHfIJf7bJYzZsbTFmDQdd
+ XDuFiqpUImuh53wdfBmE/HFGVp64EG4ju/5/43emy6CUsiYLo2K7HWBOoGGiW61YqDFx
+ AetQLsYZebvf7hDV9jRAYXYfpm2zPBcf4PnckTBxJNR1KBE094+iVqS3apXHjQfcYKav
+ j4mw==
+X-Gm-Message-State: AOAM530lzu02QqD0qelhrpW2U3kLGyxNlN7EK6P95ngH4jk3cdurdf5C
+ 2/jri+V3C2G66eB6MukteUQ=
+X-Google-Smtp-Source: ABdhPJwVBnc7vV9bh5UvETfiXZp05qVUc3d2AIsNbe2sLzFhSwuNlbIJLQFDdKH2jbPpxZ0FciK83w==
+X-Received: by 2002:a05:6512:31c1:: with SMTP id
+ j1mr15924982lfe.442.1633363033096; 
+ Mon, 04 Oct 2021 08:57:13 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
+ [79.139.163.57])
+ by smtp.googlemail.com with ESMTPSA id l9sm886038lje.32.2021.10.04.08.57.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 08:57:12 -0700 (PDT)
+Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
+ and runtime PM
+To: Ulf Hansson <ulf.hansson@linaro.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
+ Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
+ <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
+ =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
+ Michael Turquette <mturquette@baylibre.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>,
+ Linux PM <linux-pm@vger.kernel.org>,
+ Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
+ linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Richard Weinberger <richard@nod.at>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-14-digetx@gmail.com>
+ <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
+ <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
+ <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
+ <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
+ <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
+From: Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
+Date: Mon, 4 Oct 2021 18:57:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YVrMLNa/oaP2+ZWx@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,82 +104,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 04, 2021 at 12:41:00PM +0300, Ville Syrjälä wrote:
-> On Sat, Oct 02, 2021 at 11:45:41AM -0400, Sean Paul wrote:
-> > From: Sean Paul <seanpaul@chromium.org>
-> > 
-> > This reverts commit 399190e70816886e2bca1f3f3bc3d9c544af88e7.
-> > 
-> > This patchset breaks on intel platforms and was previously NACK'd by
-> > Ville.
-> > 
-> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> > Cc: Fernando Ramos <greenfoo@u92.eu>
-> > Signed-off-by: Sean Paul <seanpaul@chromium.org>
+04.10.2021 14:01, Ulf Hansson Ð¿Ð¸ÑˆÐµÑ‚:
+> On Fri, 1 Oct 2021 at 21:00, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>
+>> 01.10.2021 17:55, Ulf Hansson Ð¿Ð¸ÑˆÐµÑ‚:
+>>> On Fri, 1 Oct 2021 at 16:29, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>
+>>>> 01.10.2021 16:39, Ulf Hansson Ð¿Ð¸ÑˆÐµÑ‚:
+>>>>> On Mon, 27 Sept 2021 at 00:42, Dmitry Osipenko <digetx@gmail.com> wrote:
+>>>>>>
+>>>>>> Add runtime power management and support generic power domains.
+>>>>>>
+>>>>>> Tested-by: Peter Geis <pgwipeout@gmail.com> # Ouya T30
+>>>>>> Tested-by: Paul Fertser <fercerpav@gmail.com> # PAZ00 T20
+>>>>>> Tested-by: Nicolas Chauvet <kwizart@gmail.com> # PAZ00 T20 and TK1 T124
+>>>>>> Tested-by: Matt Merhar <mattmerhar@protonmail.com> # Ouya T30
+>>>>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>>>>> ---
+>>>>>>  drivers/gpu/drm/tegra/gr2d.c | 155 +++++++++++++++++++++++++++++++++--
+>>>>>
+>>>>> [...]
+>>>>>
+>>>>>>  static int gr2d_remove(struct platform_device *pdev)
+>>>>>> @@ -259,15 +312,101 @@ static int gr2d_remove(struct platform_device *pdev)
+>>>>>>                 return err;
+>>>>>>         }
+>>>>>>
+>>>>>> +       pm_runtime_dont_use_autosuspend(&pdev->dev);
+>>>>>> +       pm_runtime_disable(&pdev->dev);
+>>>>>
+>>>>> There is no guarantee that the ->runtime_suspend() has been invoked
+>>>>> here, which means that clock may be left prepared/enabled beyond this
+>>>>> point.
+>>>>>
+>>>>> I suggest you call pm_runtime_force_suspend(), instead of
+>>>>> pm_runtime_disable(), to make sure that gets done.
+>>>>
+>>>> The pm_runtime_disable() performs the final synchronization, please see [1].
+>>>>
+>>>> [1]
+>>>> https://elixir.bootlin.com/linux/v5.15-rc3/source/drivers/base/power/runtime.c#L1412
+>>>
+>>> pm_runtime_disable() end up calling _pm_runtime_barrier(), which calls
+>>> cancel_work_sync() if dev->power.request_pending has been set.
+>>>
+>>> If the work that was punted to the pm_wq in rpm_idle() has not been
+>>> started yet, we end up just canceling it. In other words, there are no
+>>> guarantees it runs to completion.
+>>
+>> You're right. Although, in a case of this particular patch, the syncing
+>> is actually implicitly done by pm_runtime_dont_use_autosuspend().
+>>
+>> But for drivers which don't use auto-suspend, there is no sync. This
+>> looks like a disaster, it's a very common pattern for drivers to
+>> 'put+disable'.
+>>
+>>> Moreover, use space may have bumped the usage count via sysfs for the
+>>> device (pm_runtime_forbid()) to keep the device runtime resumed.
+>>
+>> Right, this is also a disaster in a case of driver removal.
+>>
+>>>> Calling pm_runtime_force_suspend() isn't correct because each 'enable'
+>>>> must have the corresponding 'disable'. Hence there is no problem here.
+>>>
+>>> pm_runtime_force_suspend() calls pm_runtime_disable(), so I think that
+>>> should be fine. No?
+>>
+>> [adding Rafael]
+>>
+>> Rafael, could you please explain how drivers are supposed to properly
+>> suspend and disable RPM to cut off power and reset state that was
+>> altered by the driver's resume callback? What we're missing? Is Ulf's
+>> suggestion acceptable?
+>>
+>> The RPM state of a device is getting reset on driver's removal, hence
+>> all refcounts that were bumped by the rpm-resume callback of the device
+>> driver will be screwed up if device is kept resumed after removal. I
+>> just verified that it's true in practice.
 > 
-> Yeah, best to try again from the start I think.
-
-Pushed the revert set (and left the TODO item out for now). Thanks for raising
-the issue.
-
-@Fernando, hopefully you can revise and post again. Thank you for your patches
-and your effort!
-
-Sean
-
+> Note that, what makes the Tegra drivers a bit special is that they are
+> always built with CONFIG_PM being set (selected from the "SoC"
+> Kconfig).
 > 
-> For the series
-> Acked-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Therefore, pm_runtime_force_suspend() can work for some of these
+> cases. Using this, would potentially avoid the driver from having to
+> runtime resume the device in ->remove(), according to the below
+> generic sequence, which is used in many drivers.
 > 
-> > ---
-> >  drivers/gpu/drm/i915/display/intel_display.c | 18 +++++++++++++-----
-> >  1 file changed, 13 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-> > index 2bf01416d656..134a6acbd8fb 100644
-> > --- a/drivers/gpu/drm/i915/display/intel_display.c
-> > +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> > @@ -43,7 +43,6 @@
-> >  #include <drm/drm_plane_helper.h>
-> >  #include <drm/drm_probe_helper.h>
-> >  #include <drm/drm_rect.h>
-> > -#include <drm/drm_drv.h>
-> >  
-> >  #include "display/intel_audio.h"
-> >  #include "display/intel_crt.h"
-> > @@ -13477,13 +13476,22 @@ void intel_display_resume(struct drm_device *dev)
-> >  	if (state)
-> >  		state->acquire_ctx = &ctx;
-> >  
-> > -	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-> > +	drm_modeset_acquire_init(&ctx, 0);
-> >  
-> > -	ret = __intel_display_resume(dev, state, &ctx);
-> > +	while (1) {
-> > +		ret = drm_modeset_lock_all_ctx(dev, &ctx);
-> > +		if (ret != -EDEADLK)
-> > +			break;
-> >  
-> > -	intel_enable_ipc(dev_priv);
-> > +		drm_modeset_backoff(&ctx);
-> > +	}
-> > +
-> > +	if (!ret)
-> > +		ret = __intel_display_resume(dev, state, &ctx);
-> >  
-> > -	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
-> > +	intel_enable_ipc(dev_priv);
-> > +	drm_modeset_drop_locks(&ctx);
-> > +	drm_modeset_acquire_fini(&ctx);
-> >  
-> >  	if (ret)
-> >  		drm_err(&dev_priv->drm,
-> > -- 
-> > Sean Paul, Software Engineer, Google / Chromium OS
-> 
-> -- 
-> Ville Syrjälä
-> Intel
+> pm_runtime_get_sync()
+> clk_disable_unprepare() (+ additional things to turn off the device)
+> pm_runtime_disable()
+> pm_runtime_put_noidle()
 
--- 
-Sean Paul, Software Engineer, Google / Chromium OS
+It's not a problem to change this patchset. The problem is that if
+you'll grep mainline for 'pm_runtime_disable', you will find that there
+are a lot of drivers in a potential trouble.
+
+I'm proposing that we should change pm_runtime_disable() to perform the
+syncing with this oneliner:
+
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index ec94049442b9..5c9f28165824 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1380,6 +1380,8 @@ EXPORT_SYMBOL_GPL(pm_runtime_barrier);
+  */
+ void __pm_runtime_disable(struct device *dev, bool check_resume)
+ {
++	flush_work(&dev->power.work);
++
+ 	spin_lock_irq(&dev->power.lock);
+
+ 	if (dev->power.disable_depth > 0) {
+
+Objections?
+
+The sysfs rpm-forbid is a separate problem and it's less troublesome
+since it requires root privileges. It's also not something that
+userspace touches casually. For now I don't know what could be done
+about it.
