@@ -1,59 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9150F4214F4
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 19:14:06 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00FD4214FB
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 19:14:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 035946E1D7;
-	Mon,  4 Oct 2021 17:14:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 945C06EA6F;
+	Mon,  4 Oct 2021 17:14:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
- [209.85.217.45])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A6A8E6EA7D
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 17:13:59 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id y14so6502656vsm.9
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 10:13:59 -0700 (PDT)
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+ [209.85.217.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 65BB66EA6F
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 17:14:46 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id 188so20552693vsv.0
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 10:14:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qDIVmR/qFuDDiFyWNf3y3niN15+lX6TIgv0kekHzpE8=;
- b=km0ux1fzkBPrgXmD0dk5k1Z2q20lUPySFVSoXs9vOMD8Q/PJSxVKq/RzuzOfrad6QE
- A3+sH5KgVwOhq70Fp7yk8CSGF48xoQbxwkr+8eHNXObFnQxxBT4bcL+vzzXeKAEEHWlp
- DOLbbWxV82YQRPQM0h8pyywOoGAOaMkIJb3YHbKPNxWD+4eqfLadK63fp3kboiX7ZNdQ
- 5b2LpbFW/3XpGZOwk4sdfMOLZ0DCg6k8x+Ywmgu/6O5QRMR0fglMmBgVtTOwLzWFGkCX
- Q9e1plVlNv52ZRafb0jTXflSoNCchLwhSVHDdevTIcrqakY8hm0zcrVB8KbSLO0aiQQG
- Lg0g==
-X-Gm-Message-State: AOAM531H+BbiRL2RJHIcl4bipNCCdga0weE1YaaOwtOS5x7ZZMDnQYBu
- spDMobBaY2MOd8QHBrYG6us1FoXtOGCYDB0vJMM=
-X-Google-Smtp-Source: ABdhPJyfd/P5arwYcERnUkJxEhSvSRTgfpXDmvSyUgqTuMJgZeXYqwzGlSFUN1nE+bCjMj2ewLylD/0E6wTHQevyZgk=
-X-Received: by 2002:a67:2c58:: with SMTP id s85mr13878232vss.35.1633367638697; 
- Mon, 04 Oct 2021 10:13:58 -0700 (PDT)
+ bh=SBkLa/4MTN2AV7Ayi5b9WkAAkgh6llV494VW2u23y8M=;
+ b=6/YDITnw3l4XrYmNQr+YE8fqxBVviA3e9ccNY1955XK9JceCgerbPu8W26ylvzsiJA
+ z1fOjXp7kR6JBzFVc4eEBle18NrZbvFfSqrNhazE69UOmQK1LtyXJGMiTQkj0TwefyQ+
+ S9Fod9ODmeribzH7Uvit1ePPqQHPDNHEvTIYPYKMlQN98RGuYuBogSU74lDsVSOOZVCs
+ eirDEUQOrKVGA1UZDhqupLmgTKKSUv0zYOwFPVqVGwpyDPVCyg2jdZ1hihxUG6GFZiDT
+ BAYEV2f44p84fjZz/BgAf89o/+nSOFDmnXITbmGXNgrV8wjrq6dON1c/OzrNFxvq9QTu
+ ehRQ==
+X-Gm-Message-State: AOAM532QH8BkO/Yuxw7G5QsNylpeNOF4/1eWk691/sMmdNfQE33aWqlY
+ QPl2BH71gg23a4+Q1qVI25wfCGYqn1egPYghYUA=
+X-Google-Smtp-Source: ABdhPJzAKXaRAKp8VeLwihf2bO6s9nPybnMNdkmRdoDft3Mi8PGfDtP6R7h0/ORYrFJkE1nuoq5c2ZdYEpvBhstP0DQ=
+X-Received: by 2002:a67:ac04:: with SMTP id v4mr5352188vse.50.1633367683989;
+ Mon, 04 Oct 2021 10:14:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210914202202.1702601-1-dianders@chromium.org>
- <20210914132020.v5.2.I62e76a034ac78c994d40a23cd4ec5aeee56fa77c@changeid>
- <CAMuHMdWy+aASNevg8nc9LTvR9QNrGYZQnB3sYYLDRfEU1w_idg@mail.gmail.com>
- <CAD=FV=W07iZigvNaxv1WodhQZVm8hD-1NxTuBuapJYifi6ROng@mail.gmail.com>
-In-Reply-To: <CAD=FV=W07iZigvNaxv1WodhQZVm8hD-1NxTuBuapJYifi6ROng@mail.gmail.com>
+References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
+In-Reply-To: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 4 Oct 2021 19:13:47 +0200
-Message-ID: <CAMuHMdVK9p3J762+TQM9ogS5YE2QdJ5fiXKOQo7mXy8TwzCeew@mail.gmail.com>
-Subject: Re: [PATCH v5 02/15] drm/edid: Break out reading block 0 of the EDID
-To: Doug Anderson <dianders@chromium.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, 
- "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
- <devicetree@vger.kernel.org>, Steev Klimaszewski <steev@kali.org>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>, David Airlie <airlied@linux.ie>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Linus W <linus.walleij@linaro.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Daniel Vetter <daniel@ffwll.ch>, Maxime Ripard <mripard@kernel.org>, 
+Date: Mon, 4 Oct 2021 19:14:32 +0200
+Message-ID: <CAMuHMdUsoBO2hjd0tAecAjnwCUbp=d8i8vaUFDT6Yn3emw2s9Q@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Fix crash with zero/invalid EDID
+To: Douglas Anderson <dianders@chromium.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, oliver.sang@intel.com, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
  Jani Nikula <jani.nikula@intel.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
  Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
  Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
@@ -72,36 +64,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+Hi Douglas,
 
-On Mon, Oct 4, 2021 at 6:26 PM Doug Anderson <dianders@chromium.org> wrote:
-> On Mon, Oct 4, 2021 at 8:42 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> > > -       if ((edid = kmalloc(EDID_LENGTH, GFP_KERNEL)) == NULL)
-> > > +       edid = (u8 *)drm_do_get_edid_base_block(get_edid_block, data,
-> > > +                                               &connector->edid_corrupt,
-> > > +                                               &connector->null_edid_counter);
-> > > +       if (IS_ERR_OR_NULL(edid)) {
-> > > +               if (IS_ERR(edid))
-> >
-> > So edid is an error code, not a valid pointer...
-> >
-> > > +                       connector_bad_edid(connector, edid, 1);
-> >
-> > ... while connector_bad_edid() expects edid to be a valid pointer,
-> > causing a crash:
-> >
-> > Unable to handle kernel NULL pointer dereference at virtual address
+On Mon, Oct 4, 2021 at 6:22 PM Douglas Anderson <dianders@chromium.org> wrote:
+> In the commit bac9c2948224 ("drm/edid: Break out reading block 0 of
+> the EDID") I broke out reading the base block of the EDID to its own
+> function. Unfortunately, when I did that I messed up the handling when
+> drm_edid_is_zero() indicated that we had an EDID that was all 0x00 or
+> when we went through 4 loops and didn't get a valid EDID. Specifically
+> I needed to pass the broken EDID to connector_bad_edid() but now I was
+> passing an error-pointer.
 >
-> Sigh. Thanks for the report and analysis. I guess I don't have any
-> displays reporting invalid EDIDs to test with. Hopefully this will
-> help:
+> Let's re-jigger things so we can pass the bad EDID in properly.
+>
+> Fixes: bac9c2948224 ("drm/edid: Break out reading block 0 of the EDID")
+> Reported-by: kernel test robot <oliver.sang@intel.com>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Douglas Anderson <dianders@chromium.org>
 
-It doesn't happen all the time.  Looks like my EDID is only invalid after
-a reset needed to resolve an s2ram crash in the adv7511 driver...
-
-> https://lore.kernel.org/r/20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid/
-
-Thanks for the quick fix!
+The crash is was seeing is gone, so
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
