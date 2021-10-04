@@ -2,37 +2,35 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3034219C9
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 00:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746B0421A33
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 00:39:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 92F556EAC0;
-	Mon,  4 Oct 2021 22:11:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A01826E239;
+	Mon,  4 Oct 2021 22:39:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6A80E89339;
- Mon,  4 Oct 2021 22:11:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225498453"
-X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="225498453"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 15:11:35 -0700
-X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="487735552"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 15:11:35 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <john.c.harrison@intel.com>,
-	<daniele.ceraolospurio@intel.com>
-Subject: [PATCH 26/26] drm/i915/execlists: Weak parallel submission support
- for execlists
-Date: Mon,  4 Oct 2021 15:06:37 -0700
-Message-Id: <20211004220637.14746-27-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211004220637.14746-1-matthew.brost@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E60556E210;
+ Mon,  4 Oct 2021 22:39:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225916233"
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="225916233"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 15:39:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="477392607"
+Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
+ by orsmga007.jf.intel.com with ESMTP; 04 Oct 2021 15:39:06 -0700
+From: Alan Previn <alan.previn.teres.alexis@intel.com>
+To: igt-dev@lists.freedesktop.org
+Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>
+Subject: [PATCH i-g-t v12 00/15] Introduce PXP Test
+Date: Mon,  4 Oct 2021 15:39:34 -0700
+Message-Id: <20211004223949.2138370-1-alan.previn.teres.alexis@intel.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,180 +48,145 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-A weak implementation of parallel submission (multi-bb execbuf IOCTL) for
-execlists. Doing as little as possible to support this interface for
-execlists - basically just passing submit fences between each request
-generated and virtual engines are not allowed. This is on par with what
-is there for the existing (hopefully soon deprecated) bonding interface.
+This series adds gem_pxp tests for the new PXP subsystem currently
+being reviewed at https://patchwork.freedesktop.org/series/90503/.
+This series currently includes 4 groups of tests addressing the
+features and restrictions described by Daniele's series :
+   1. test i915 interfaces for allocation of protected bo's
+      and contexts and enforcement of UAPI rule disallowing the
+      modification of parameters after it's been created.
+   2. verify PXP subsystem protected sessions generate encrypted
+      content on protected output buffers and decrypt protected
+      inputs buffers.
+   3. verify i915 PXP auto-teardown succeeds on suspend-resume
+      cycles and gem-exec of stale protected assets fail. Ensure
+      protected-contexts adhere to stricter invalidation
+      enforcement upon teardown event.
+   4. Ensure that display plane decryption works as expected with
+      protected buffers.
 
-We perma-pin these execlists contexts to align with GuC implementation.
+NOTE: This series is on the tenth revision. All R-v-b's have been
+received except UAPI patch which will be dropped at merge time (after
+kernel patches gets merged and igt's drm UAPI gets sync'd).
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gem/i915_gem_context.c   | 10 ++--
- drivers/gpu/drm/i915/gt/intel_context.c       |  4 +-
- .../drm/i915/gt/intel_execlists_submission.c  | 56 ++++++++++++++++++-
- drivers/gpu/drm/i915/gt/intel_lrc.c           |  2 +
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c |  2 -
- 5 files changed, 64 insertions(+), 10 deletions(-)
+Changes from prior rev1 to now:
+   v12:
+      - Rebase on latest igt and updated the UAPI changes to align
+        with commits from kernel side.
+   v11:
+      - When detecting hw support, retry pxp context creation
+        multiple times a timeout as per HW SLA.
+      - initialize bo or ctx handles to zero before calling
+        creation ioctl wrapper.
+   v10:
+      - In patch #2, reuse existing gem_create_ext wrapper.
+      - In patch #10, kernel side changed the debugfs file name
+        (but no difference in behavior / usage).
+      - Removed patch #14 from Rev9 as decision on kernel side
+        was to drop the usage of RESET_STATS IOCTL to track
+        invalidated pxp contexts.
+   v9:
+      - Remove patch #2 from rev7 as it was duplicating
+        an existing ioctl wrapper helper
+      - Fix the false-negative warnings when triggering
+        auto-suspend-resume (remove checking if we are
+        suspending after the system has already resumed).
+   v8:
+      - Nothing - mistaken detection from patchwork
+   v7:
+      - In prior rev, Patches #11->13 was testing expected results
+        from calling gem_execbuf with stale pxp-context, pxp-buffer
+        or combinations of them (including an opt-out usage). All
+        of them used a single suspend-resume power state cycles to
+        trigger the PXP teardown event. These patches have been
+        combined into patch #14 that continues to carry the prior rev
+        Rvb.
+      - In its place, the new patches of #11->#13 do the identical
+        set of tests as before (results from gem_execbuf with various
+        combinations of stale pxp context and buffer), but this time
+        using a debugfs file handle that triggers the same code path
+        taken when the HW triggers the pxp teardown. That said, the
+        code is nearly identical as v6 but I did not keep the Rvb's.
+      - In patch #15, RESET_STAT now reports invalidated / banned
+        pxp contexts via the existing batch_active's lost count.
+   v6:
+      - Addressed rev5 review comments for patch #1, #7, #14
+        and #17.
+      - For #17, I'm using Rodrigo's Rv-b because offline 
+        discussions concluded that we couldn't use those
+        test sequences with HDCP and so it was removed it.
+      - Added Rv-b into all patches that received it.
+      - Modified the test requirement from a list of device
+        ids to checking if runtime PXP interface succeeds
+        due to kernel's build config dependency.
+   v5:
+      - Addressed all rev4 review comments. No changes to
+        overall flow and logic compared to the last rev.
+   v4:
+      - Addressed all rev3 review comments. NOTE: that all
+        test cases and code logic are the same but a decent
+        amount of refactoring has occured due to address
+        v3 comments to break out subtests into separate
+        functions while combining certain checks into the same
+        function to reduce test time by minimizing number of
+        suspend-resume power cycles.
+   v3:
+      - Addressed all rev2 review comments.
+      - In line with one of the rev2 comments, a thorough fixup
+        of all line-breaks in function calls was made for a more
+        consistent styling.
+      - Rebased on igt upstream repo and updated to latest kernel
+        UAPI that added GEM_CREATE_EXT.
+   v2: 
+      - Addressed all rev1 review comments except these:
+           1.Chris Wilson : "...have the caller do 1-3 once for its protected
+             context. Call it something like intel_bb_enable_pxp(),
+             intel_bb_set_pxp if it should be reversible.".
+             -  This couldn't be implemented because [1] HW needs different
+             instruction sequences for enabling/disabling PXP depending
+             on the engine class and [2] the pair of "pxp-enable" and "pxp-
+             disable" instructions need to be contained within the same batch
+             that is dispatched to the hardware. That said, implementing
+             internal intel_batchbuffer funtionality for this would conflict
+             with how rendercopy_gen9 uses batch buffer memory by repositioing
+             the pointer and consuming unused portions of the batch buffer as
+             3d state offsets that batchbuffer has no visibility.
+          
+      - Added these additional subtests:
+           1. verify that buffer sharing works across testing pxp context.
+           2. verify teardown bans contexts via DRM_IOCTL_I915_GET_RESET_STAT.
+           3. verify display plane decryption of protected buffers.
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-index 605440388988..732111457dd2 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-@@ -536,10 +536,6 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	struct intel_engine_cs **siblings = NULL;
- 	intel_engine_mask_t prev_mask;
- 
--	/* FIXME: This is NIY for execlists */
--	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
--		return -ENODEV;
--
- 	if (get_user(slot, &ext->engine_index))
- 		return -EFAULT;
- 
-@@ -549,6 +545,12 @@ set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
- 	if (get_user(num_siblings, &ext->num_siblings))
- 		return -EFAULT;
- 
-+	if (!intel_uc_uses_guc_submission(&i915->gt.uc) && num_siblings != 1) {
-+		drm_dbg(&i915->drm, "Only 1 sibling (%d) supported in non-GuC mode\n",
-+			num_siblings);
-+		return -EINVAL;
-+	}
-+
- 	if (slot >= set->num_engines) {
- 		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
- 			slot, set->num_engines);
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index ee84259959d0..3fc1c5155fd4 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -79,7 +79,8 @@ static int intel_context_active_acquire(struct intel_context *ce)
- 
- 	__i915_active_acquire(&ce->active);
- 
--	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine))
-+	if (intel_context_is_barrier(ce) || intel_engine_uses_guc(ce->engine) ||
-+	    intel_context_is_parallel(ce))
- 		return 0;
- 
- 	/* Preallocate tracking nodes */
-@@ -562,7 +563,6 @@ void intel_context_bind_parent_child(struct intel_context *parent,
- 	 * Callers responsibility to validate that this function is used
- 	 * correctly but we use GEM_BUG_ON here ensure that they do.
- 	 */
--	GEM_BUG_ON(!intel_engine_uses_guc(parent->engine));
- 	GEM_BUG_ON(intel_context_is_pinned(parent));
- 	GEM_BUG_ON(intel_context_is_child(parent));
- 	GEM_BUG_ON(intel_context_is_pinned(child));
-diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-index 8d7f571029df..a747fbbf18b5 100644
---- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-@@ -927,8 +927,7 @@ static void execlists_submit_ports(struct intel_engine_cs *engine)
- 
- static bool ctx_single_port_submission(const struct intel_context *ce)
- {
--	return (IS_ENABLED(CONFIG_DRM_I915_GVT) &&
--		intel_context_force_single_submission(ce));
-+	return intel_context_force_single_submission(ce);
- }
- 
- static bool can_merge_ctx(const struct intel_context *prev,
-@@ -2598,6 +2597,58 @@ static void execlists_context_cancel_request(struct intel_context *ce,
- 				      current->comm);
- }
- 
-+static struct intel_context *
-+execlists_create_parallel(struct intel_engine_cs **engines,
-+			  unsigned int num_siblings,
-+			  unsigned int width)
-+{
-+	struct intel_engine_cs **siblings = NULL;
-+	struct intel_context *parent = NULL, *ce, *err;
-+	int i, j;
-+
-+	GEM_BUG_ON(num_siblings != 1);
-+
-+	siblings = kmalloc_array(num_siblings,
-+				 sizeof(*siblings),
-+				 GFP_KERNEL);
-+	if (!siblings)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (i = 0; i < width; ++i) {
-+		for (j = 0; j < num_siblings; ++j)
-+			siblings[j] = engines[i * num_siblings + j];
-+
-+		ce = intel_context_create(siblings[0]);
-+		if (!ce) {
-+			err = ERR_PTR(-ENOMEM);
-+			goto unwind;
-+		}
-+
-+		if (i == 0)
-+			parent = ce;
-+		else
-+			intel_context_bind_parent_child(parent, ce);
-+	}
-+
-+	parent->parallel.fence_context = dma_fence_context_alloc(1);
-+
-+	intel_context_set_nopreempt(parent);
-+	intel_context_set_single_submission(parent);
-+	for_each_child(parent, ce) {
-+		intel_context_set_nopreempt(ce);
-+		intel_context_set_single_submission(ce);
-+	}
-+
-+	kfree(siblings);
-+	return parent;
-+
-+unwind:
-+	if (parent)
-+		intel_context_put(parent);
-+	kfree(siblings);
-+	return err;
-+}
-+
- static const struct intel_context_ops execlists_context_ops = {
- 	.flags = COPS_HAS_INFLIGHT,
- 
-@@ -2616,6 +2667,7 @@ static const struct intel_context_ops execlists_context_ops = {
- 	.reset = lrc_reset,
- 	.destroy = lrc_destroy,
- 
-+	.create_parallel = execlists_create_parallel,
- 	.create_virtual = execlists_create_virtual,
- };
- 
-diff --git a/drivers/gpu/drm/i915/gt/intel_lrc.c b/drivers/gpu/drm/i915/gt/intel_lrc.c
-index 57339d5c1fc8..8137d0aabf99 100644
---- a/drivers/gpu/drm/i915/gt/intel_lrc.c
-+++ b/drivers/gpu/drm/i915/gt/intel_lrc.c
-@@ -1065,6 +1065,8 @@ lrc_pin(struct intel_context *ce,
- 
- void lrc_unpin(struct intel_context *ce)
- {
-+	if (unlikely(ce->parallel.last_rq))
-+		i915_request_put(ce->parallel.last_rq);
- 	check_redzone((void *)ce->lrc_reg_state - LRC_STATE_OFFSET,
- 		      ce->engine);
- }
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index 05e8b199e4ce..1f077024c4b8 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -2961,8 +2961,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
- 	GEM_BUG_ON(!intel_context_is_parent(ce));
- 	GEM_BUG_ON(!intel_engine_is_virtual(ce->engine));
- 
--	if (ce->parallel.last_rq)
--		i915_request_put(ce->parallel.last_rq);
- 	unpin_guc_id(guc, ce);
- 	lrc_unpin(ce);
- }
+Alan Previn (14):
+  i915_drm.h sync
+  Add basic PXP testing of buffer and context alloc
+  Perform a regular 3d copy as a control checkpoint
+  Add PXP attribute support in batchbuffer and buffer_ops libs
+  Add MI_SET_APPID instruction definition
+  Enable protected session cmd in gen12_render_copyfunc
+  Add subtest to copy raw source to protected dest
+  Add test where both src and dest are protected
+  Verify PXP teardown occurred through suspend-resume
+  Verify execbuf fails with stale PXP context after teardown
+  Verify execbuf fails with stale PXP buffer after teardown
+  Verify execbuf ok with stale PXP buf in opt-out use
+  Verify execution behavior with stale PXP assets through suspend-resume
+  Verify protected surfaces are dma buffer sharable
+
+Karthik B S (1):
+  tests/i915_pxp: CRC validation for display tests.
+
+ include/drm-uapi/i915_drm.h |   94 +++
+ lib/intel_batchbuffer.c     |   23 +-
+ lib/intel_batchbuffer.h     |   31 +
+ lib/intel_bufops.h          |   15 +
+ lib/intel_reg.h             |    8 +
+ lib/rendercopy_gen9.c       |   57 ++
+ tests/i915/gem_pxp.c        | 1283 +++++++++++++++++++++++++++++++++++
+ tests/meson.build           |    1 +
+ 8 files changed, 1511 insertions(+), 1 deletion(-)
+ create mode 100644 tests/i915/gem_pxp.c
+
 -- 
-2.32.0
+2.25.1
 
