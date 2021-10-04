@@ -1,46 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E7CF4218C8
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 22:52:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52D1542199C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 00:12:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C2FBD6E20A;
-	Mon,  4 Oct 2021 20:52:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 54C0D6E22F;
+	Mon,  4 Oct 2021 22:11:32 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 775EF6E20A;
- Mon,  4 Oct 2021 20:52:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="224361365"
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="224361365"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 13:52:29 -0700
-X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="711581265"
-Received: from hejohns1-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.180.94])
- by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 04 Oct 2021 13:52:28 -0700
-Date: Mon, 4 Oct 2021 13:52:27 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Steven Price <steven.price@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
- intel-gfx@lists.freedesktop.org,
- "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>,
- Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove IS_ACTIVE
-Message-ID: <20211004205227.xpx67yawrs23gzr2@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20211001074041.2076538-1-lucas.demarchi@intel.com>
- <163308055415.8412.14215483004176995847@build.alporthouse.com>
- <87bl49t6di.fsf@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 170F16E21D;
+ Mon,  4 Oct 2021 22:11:31 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="248854259"
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="248854259"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 15:11:29 -0700
+X-IronPort-AV: E=Sophos;i="5.85,347,1624345200"; d="scan'208";a="487735446"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 15:11:29 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <john.c.harrison@intel.com>,
+	<daniele.ceraolospurio@intel.com>
+Subject: [PATCH 00/26] Parallel submission aka multi-bb execbuf
+Date: Mon,  4 Oct 2021 15:06:11 -0700
+Message-Id: <20211004220637.14746-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <87bl49t6di.fsf@intel.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,76 +47,105 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Cc'ing Dan Carpenter
+As discussed in [1] we are introducing a new parallel submission uAPI
+for the i915 which allows more than 1 BB to be submitted in an execbuf
+IOCTL. This is the implemenation for both GuC and execlists.
 
-On Fri, Oct 01, 2021 at 12:57:13PM +0300, Jani Nikula wrote:
->On Fri, 01 Oct 2021, Chris Wilson <chris@chris-wilson.co.uk> wrote:
->> Quoting Lucas De Marchi (2021-10-01 08:40:41)
->>> When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
->>> provide much value just encapsulating it in a boolean context. So I also
->>> added the support for handling undefined macros as the IS_ENABLED()
->>> counterpart. However the feedback received from Masahiro Yamada was that
->>> it is too ugly, not providing much value. And just wrapping in a boolean
->>> context is too dumb - we could simply open code it.
->>>
->>> As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
->>> constant values inside boolean predicates"), the IS_ACTIVE macro was
->>> added to workaround a compilation warning. However after checking again
->>> our current uses of IS_ACTIVE it turned out there is only
->>> 1 case in which it would potentially trigger a warning. All the others
->>>   can simply use the shorter version, without wrapping it in any macro.
->>> And even that single one didn't trigger any warning in gcc 10.3.
->>>
->>> So here I'm dialing all the way back to simply removing the macro. If it
->>> triggers warnings in future we may change the few cases to check for > 0
->>> or != 0. Another possibility would be to use the great "not not
->>> operator" for all positive checks, which would allow us to maintain
->>> consistency.  However let's try first the simplest form though, hopefully
->>> we don't hit broken compilers spitting a warning:
->>
->> You didn't prevent the compilation warning this re-introduces.
->>
->> drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
->> drivers/gpu/drm/i915/i915_request.c:1679 i915_request_wait() warn: should this be a bitwise op?
->
->Looks like that's a Smatch warning. The immediate fix would be to just
->add the != 0 in the relevant places. But this is stuff that's just going
->to get broken again unless we add Smatch to CI. Most people aren't
->running it on a regular basis.
+In addition to selftests in the series, an IGT is available implemented
+in the first 4 patches [2].
 
-clang gives a warning only in drivers/gpu/drm/i915/i915_config.c and the
-warning is gone if the condition swapped:
+The execbuf IOCTL changes have been done in a single large patch (#21)
+as all the changes flow together and I believe a single patch will be
+better if some one has to lookup this change in the future. Can split in
+a series of smaller patches if desired.
 
--	if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
-+	if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
+This code is available in a public [3] repo for UMD teams to test there
+code on.
 
-which would make sense if we think about shortcutting the if condition.
-However smatch still reports the warning and an additional one
-in drivers/gpu/drm/i915/i915_request.c. The ways I found to stop the
-false positives with smatch are:
+v2: Drop complicated state machine to block in kernel if no guc_ids
+available, perma-pin parallel contexts, reworker execbuf IOCTL to be a
+series of loops inside the IOCTL rather than 1 large one on the outside,
+address Daniel Vetter's comments
+v3: Address John Harrison's comments, add a couple of patches which fix
+bugs found internally
 
-if (context && CONFIG_DRM_I915_FENCE_TIMEOUT != 0)
-or
-if (context && !!CONFIG_DRM_I915_FENCE_TIMEOUT)
-or
-if (context && CONFIG_DRM_I915_FENCE_TIMEOUT > 0)
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
 
-Dan, anything else that we could do here?  This is about this kind of
-code:
+[1] https://patchwork.freedesktop.org/series/92028/
+[2] https://patchwork.freedesktop.org/series/93071/
+[3] https://gitlab.freedesktop.org/mbrost/mbrost-drm-intel/-/tree/drm-intel-parallel
 
-	f (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+Matthew Brost (26):
+  drm/i915/guc: Move GuC guc_id allocation under submission state
+    sub-struct
+  drm/i915/guc: Take GT PM ref when deregistering context
+  drm/i915/guc: Take engine PM when a context is pinned with GuC
+    submission
+  drm/i915/guc: Don't call switch_to_kernel_context with GuC submission
+  drm/i915: Add logical engine mapping
+  drm/i915: Expose logical engine instance to user
+  drm/i915/guc: Introduce context parent-child relationship
+  drm/i915/guc: Add multi-lrc context registration
+  drm/i915/guc: Ensure GuC schedule operations do not operate on child
+    contexts
+  drm/i915/guc: Assign contexts in parent-child relationship consecutive
+    guc_ids
+  drm/i915/guc: Implement parallel context pin / unpin functions
+  drm/i915/guc: Implement multi-lrc submission
+  drm/i915/guc: Insert submit fences between requests in parent-child
+    relationship
+  drm/i915/guc: Implement multi-lrc reset
+  drm/i915/guc: Update debugfs for GuC multi-lrc
+  drm/i915: Fix bug in user proto-context creation that leaked contexts
+  drm/i915/guc: Connect UAPI to GuC multi-lrc interface
+  drm/i915/doc: Update parallel submit doc to point to i915_drm.h
+  drm/i915/guc: Add basic GuC multi-lrc selftest
+  drm/i915/guc: Implement no mid batch preemption for multi-lrc
+  drm/i915: Multi-BB execbuf
+  drm/i915/guc: Handle errors in multi-lrc requests
+  drm/i915: Make request conflict tracking understand parallel submits
+  drm/i915: Update I915_GEM_BUSY IOCTL to understand composite fences
+  drm/i915: Enable multi-bb execbuf
+  drm/i915/execlists: Weak parallel submission support for execlists
 
-in which context is a u64 variable, that gives this warning:
+ Documentation/gpu/rfc/i915_parallel_execbuf.h |  122 --
+ Documentation/gpu/rfc/i915_scheduler.rst      |    4 +-
+ drivers/gpu/drm/i915/gem/i915_gem_busy.c      |   60 +-
+ drivers/gpu/drm/i915/gem/i915_gem_context.c   |  225 ++-
+ .../gpu/drm/i915/gem/i915_gem_context_types.h |    6 +
+ .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  796 ++++++---
+ drivers/gpu/drm/i915/gt/intel_context.c       |   50 +-
+ drivers/gpu/drm/i915/gt/intel_context.h       |   54 +-
+ drivers/gpu/drm/i915/gt/intel_context_types.h |   73 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h        |   12 +-
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   66 +-
+ drivers/gpu/drm/i915/gt/intel_engine_pm.c     |   13 +
+ drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   37 +
+ drivers/gpu/drm/i915/gt/intel_engine_types.h  |    7 +
+ .../drm/i915/gt/intel_execlists_submission.c  |   63 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.h         |   14 +
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |    7 +
+ drivers/gpu/drm/i915/gt/selftest_execlists.c  |   12 +-
+ .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |    1 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.c        |   26 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   49 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |    2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   24 +-
+ drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |   27 +-
+ .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 1456 ++++++++++++++---
+ .../drm/i915/gt/uc/selftest_guc_multi_lrc.c   |  179 ++
+ drivers/gpu/drm/i915/i915_query.c             |    2 +
+ drivers/gpu/drm/i915/i915_request.c           |  143 +-
+ drivers/gpu/drm/i915/i915_request.h           |   23 +
+ drivers/gpu/drm/i915/i915_vma.c               |   21 +-
+ drivers/gpu/drm/i915/i915_vma.h               |   13 +-
+ drivers/gpu/drm/i915/intel_wakeref.h          |   12 +
+ .../drm/i915/selftests/i915_live_selftests.h  |    1 +
+ include/uapi/drm/i915_drm.h                   |  139 +-
+ 34 files changed, 3038 insertions(+), 701 deletions(-)
+ delete mode 100644 Documentation/gpu/rfc/i915_parallel_execbuf.h
+ create mode 100644 drivers/gpu/drm/i915/gt/uc/selftest_guc_multi_lrc.c
 
-drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
+-- 
+2.32.0
 
-thanks
-Lucas De Marchi
-
->
->BR,
->Jani.
->
->
->-- 
->Jani Nikula, Intel Open Source Graphics Center
