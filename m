@@ -2,50 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26514205CE
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 08:22:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8774205DA
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 08:23:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DA46E917;
-	Mon,  4 Oct 2021 06:21:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A516E6E90C;
+	Mon,  4 Oct 2021 06:23:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3B136E90C
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 06:21:49 +0000 (UTC)
-X-UUID: f8c11defc98849bdb0019f3f4af8f395-20211004
-X-UUID: f8c11defc98849bdb0019f3f4af8f395-20211004
-Received: from mtkexhb01.mediatek.inc [(172.21.101.102)] by
- mailgw02.mediatek.com (envelope-from <nancy.lin@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 758218152; Mon, 04 Oct 2021 14:21:46 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Mon, 4 Oct 2021 14:21:45 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via
- Frontend Transport; Mon, 4 Oct 2021 14:21:45 +0800
-From: Nancy.Lin <nancy.lin@mediatek.com>
-To: CK Hu <ck.hu@mediatek.com>
-CC: Chun-Kuang Hu <chunkuang.hu@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, "jason-jh . lin" <jason-jh.lin@mediatek.com>,
- "Nancy . Lin" <nancy.lin@mediatek.com>, Yongqiang Niu
- <yongqiang.niu@mediatek.com>, <dri-devel@lists.freedesktop.org>,
- <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
- <singo.chang@mediatek.com>, <srv_heupstream@mediatek.com>
-Subject: [PATCH v6 16/16] drm/mediatek: add mediatek-drm of vdosys1 support
- for MT8195
-Date: Mon, 4 Oct 2021 14:21:40 +0800
-Message-ID: <20211004062140.29803-17-nancy.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20211004062140.29803-1-nancy.lin@mediatek.com>
-References: <20211004062140.29803-1-nancy.lin@mediatek.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C129B6E170
+ for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 06:23:11 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 54077220D8;
+ Mon,  4 Oct 2021 06:23:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1633328590; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V/GwPo1z5UzsksyQD+RbxyqkCf396fLTNXl2A2/yi7k=;
+ b=vQFmSxfM2/AbHpB5xwbM9K9zv5ThNNNIosfpbQ8DZVRVFf3qUV+a0jgy9mmbSe2Qf3XK32
+ qQimRWpkhyMcvNVdGX+rShclf1yUdPtoXONfhLL8ScGnDtowTx5ciftTpHp4l21UILnVAs
+ +VLiyf0yjEluAatKfNCingo+k2spRnI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1633328590;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V/GwPo1z5UzsksyQD+RbxyqkCf396fLTNXl2A2/yi7k=;
+ b=PxV5ZSZcAwrG+avMcXLB1QvVQa55aHx/8egZM5U+LgnhB11TyILa45EOwiNNjGB6V/yMtQ
+ rKOlvkGF1bFsBlCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 310AA139C1;
+ Mon,  4 Oct 2021 06:23:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id odPHCs6dWmEuXwAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Mon, 04 Oct 2021 06:23:10 +0000
+Message-ID: <29191783-1e7e-64de-7937-c77d2bf19618@suse.de>
+Date: Mon, 4 Oct 2021 08:23:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH 07/10] drm/gma500: Inline psb_gtt_{alloc,free}_range()
+ into rsp callers
+Content-Language: en-US
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+References: <20210928084446.22580-1-tzimmermann@suse.de>
+ <20210928084446.22580-8-tzimmermann@suse.de>
+ <CAMeQTsYLfqiZ4CXG-gsqYbr5=xQOh5yVTWu17AL2m0go-nkNaQ@mail.gmail.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <CAMeQTsYLfqiZ4CXG-gsqYbr5=xQOh5yVTWu17AL2m0go-nkNaQ@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------12uDrVXZX9yP3xoPWnEKmlld"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,301 +77,221 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Add driver data of mt8195 vdosys1 to mediatek-drm and the sub driver.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------12uDrVXZX9yP3xoPWnEKmlld
+Content-Type: multipart/mixed; boundary="------------RZzhWUtjdGR5OU0Qai7uiQpi";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>
+Message-ID: <29191783-1e7e-64de-7937-c77d2bf19618@suse.de>
+Subject: Re: [PATCH 07/10] drm/gma500: Inline psb_gtt_{alloc,free}_range()
+ into rsp callers
+References: <20210928084446.22580-1-tzimmermann@suse.de>
+ <20210928084446.22580-8-tzimmermann@suse.de>
+ <CAMeQTsYLfqiZ4CXG-gsqYbr5=xQOh5yVTWu17AL2m0go-nkNaQ@mail.gmail.com>
+In-Reply-To: <CAMeQTsYLfqiZ4CXG-gsqYbr5=xQOh5yVTWu17AL2m0go-nkNaQ@mail.gmail.com>
 
-Signed-off-by: Nancy.Lin <nancy.lin@mediatek.com>
----
- drivers/gpu/drm/mediatek/mtk_disp_merge.c   |  4 ++
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c     | 13 ++---
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c | 30 +++++++++--
- drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h |  1 +
- drivers/gpu/drm/mediatek/mtk_drm_drv.c      | 56 ++++++++++++++++-----
- 5 files changed, 78 insertions(+), 26 deletions(-)
+--------------RZzhWUtjdGR5OU0Qai7uiQpi
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/mediatek/mtk_disp_merge.c b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-index 696bb948352b..d62c5e0632a2 100644
---- a/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-+++ b/drivers/gpu/drm/mediatek/mtk_disp_merge.c
-@@ -8,6 +8,7 @@
- #include <linux/of_device.h>
- #include <linux/of_irq.h>
- #include <linux/platform_device.h>
-+#include <linux/reset.h>
- #include <linux/soc/mediatek/mtk-cmdq.h>
- 
- #include "mtk_drm_ddp_comp.h"
-@@ -79,6 +80,9 @@ void mtk_merge_stop(struct device *dev)
- 	struct mtk_disp_merge *priv = dev_get_drvdata(dev);
- 
- 	mtk_merge_disable(dev, NULL);
-+
-+	if (priv->async_clk)
-+		device_reset_optional(dev);
- }
- 
- void mtk_merge_enable(struct device *dev, struct cmdq_pkt *cmdq_pkt)
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index ece407c6d44a..ecec1440eb07 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -859,15 +859,10 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 		node = priv->comp_node[comp_id];
- 		comp = &priv->ddp_comp[comp_id];
- 
--		if (!node) {
--			dev_info(dev,
--				 "Not creating crtc %d because component %d is disabled or missing\n",
--				 crtc_i, comp_id);
--			return 0;
--		}
--
--		if (!comp->dev) {
--			dev_err(dev, "Component %pOF not initialized\n", node);
-+		if (!node && !comp->dev) {
-+			dev_err(dev,
-+				"Not creating crtc %d because component %d is disabled, missing or not initialized\n",
-+				crtc_i, comp_id);
- 			return -ENODEV;
- 		}
- 	}
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-index eb9835102d79..279087ae889b 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.c
-@@ -385,6 +385,18 @@ static const struct mtk_ddp_comp_funcs ddp_ufoe = {
- 	.start = mtk_ufoe_start,
- };
- 
-+static const struct mtk_ddp_comp_funcs ddp_ovl_adaptor = {
-+	.clk_enable = mtk_ovl_adaptor_clk_enable,
-+	.clk_disable = mtk_ovl_adaptor_clk_disable,
-+	.config = mtk_ovl_adaptor_config,
-+	.start = mtk_ovl_adaptor_start,
-+	.stop = mtk_ovl_adaptor_stop,
-+	.layer_nr = mtk_ovl_adaptor_layer_nr,
-+	.layer_config = mtk_ovl_adaptor_layer_config,
-+	.enable_vblank = mtk_ovl_adaptor_enable_vblank,
-+	.disable_vblank = mtk_ovl_adaptor_disable_vblank,
-+};
-+
- static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_AAL] = "aal",
- 	[MTK_DISP_BLS] = "bls",
-@@ -398,6 +410,7 @@ static const char * const mtk_ddp_comp_stem[MTK_DDP_COMP_TYPE_MAX] = {
- 	[MTK_DISP_OD] = "od",
- 	[MTK_DISP_OVL] = "ovl",
- 	[MTK_DISP_OVL_2L] = "ovl-2l",
-+	[MTK_DISP_OVL_ADAPTOR] = "ovl_adaptor",
- 	[MTK_DISP_POSTMASK] = "postmask",
- 	[MTK_DISP_PWM] = "pwm",
- 	[MTK_DISP_RDMA] = "rdma",
-@@ -443,6 +456,7 @@ static const struct mtk_ddp_comp_match mtk_ddp_matches[DDP_COMPONENT_ID_MAX] = {
- 	[DDP_COMPONENT_OVL_2L0]		= { MTK_DISP_OVL_2L,	0, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L1]		= { MTK_DISP_OVL_2L,	1, &ddp_ovl },
- 	[DDP_COMPONENT_OVL_2L2]		= { MTK_DISP_OVL_2L,    2, &ddp_ovl },
-+	[DDP_COMPONENT_OVL_ADAPTOR]	= { MTK_DISP_OVL_ADAPTOR,	0, &ddp_ovl_adaptor },
- 	[DDP_COMPONENT_POSTMASK0]	= { MTK_DISP_POSTMASK,	0, &ddp_postmask },
- 	[DDP_COMPONENT_PWM0]		= { MTK_DISP_PWM,	0, NULL },
- 	[DDP_COMPONENT_PWM1]		= { MTK_DISP_PWM,	1, NULL },
-@@ -548,12 +562,17 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 
- 	comp->id = comp_id;
- 	comp->funcs = mtk_ddp_matches[comp_id].funcs;
--	comp_pdev = of_find_device_by_node(node);
--	if (!comp_pdev) {
--		DRM_INFO("Waiting for device %s\n", node->full_name);
--		return -EPROBE_DEFER;
-+	/* Not all drm components have a DTS device node, such as ovl_adaptor,
-+	 * which is the drm bring up sub driver
-+	 */
-+	if (node) {
-+		comp_pdev = of_find_device_by_node(node);
-+		if (!comp_pdev) {
-+			DRM_INFO("Waiting for device %s\n", node->full_name);
-+			return -EPROBE_DEFER;
-+		}
-+		comp->dev = &comp_pdev->dev;
- 	}
--	comp->dev = &comp_pdev->dev;
- 
- 	/* Only DMA capable components need the LARB property */
- 	if (type == MTK_DISP_OVL ||
-@@ -573,6 +592,7 @@ int mtk_ddp_comp_init(struct device_node *node, struct mtk_ddp_comp *comp,
- 	    type == MTK_DISP_MERGE ||
- 	    type == MTK_DISP_OVL ||
- 	    type == MTK_DISP_OVL_2L ||
-+	    type == MTK_DISP_OVL_ADAPTOR ||
- 	    type == MTK_DISP_PWM ||
- 	    type == MTK_DISP_RDMA ||
- 	    type == MTK_DPI ||
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-index 221e2e3a3c8d..5e1404dc20c4 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_ddp_comp.h
-@@ -30,6 +30,7 @@ enum mtk_ddp_comp_type {
- 	MTK_DISP_OD,
- 	MTK_DISP_OVL,
- 	MTK_DISP_OVL_2L,
-+	MTK_DISP_OVL_ADAPTOR,
- 	MTK_DISP_POSTMASK,
- 	MTK_DISP_PWM,
- 	MTK_DISP_RDMA,
-diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-index eedf10ed30c8..778aec81a0de 100644
---- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-+++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-@@ -190,6 +190,12 @@ static const enum mtk_ddp_comp_id mt8195_mtk_ddp_main[] = {
- 	DDP_COMPONENT_DP_INTF0,
- };
- 
-+static const enum mtk_ddp_comp_id mt8195_mtk_ddp_ext[] = {
-+	DDP_COMPONENT_OVL_ADAPTOR,
-+	DDP_COMPONENT_MERGE5,
-+	DDP_COMPONENT_DP_INTF1,
-+};
-+
- static const struct mtk_mmsys_driver_data mt2701_mmsys_driver_data = {
- 	.main_path = mt2701_mtk_ddp_main,
- 	.main_len = ARRAY_SIZE(mt2701_mtk_ddp_main),
-@@ -262,6 +268,13 @@ static const struct mtk_mmsys_driver_data mt8195_vdosys0_driver_data = {
- 	.mmsys_dev_num = 2,
- };
- 
-+static const struct mtk_mmsys_driver_data mt8195_vdosys1_driver_data = {
-+	.ext_path = mt8195_mtk_ddp_ext,
-+	.ext_len = ARRAY_SIZE(mt8195_mtk_ddp_ext),
-+	.mmsys_id = 1,
-+	.mmsys_dev_num = 2,
-+};
-+
- static const struct of_device_id mtk_drm_of_ids[] = {
- 	{ .compatible = "mediatek,mt2701-mmsys",
- 	  .data = &mt2701_mmsys_driver_data},
-@@ -279,6 +292,8 @@ static const struct of_device_id mtk_drm_of_ids[] = {
- 	  .data = &mt8192_mmsys_driver_data},
- 	{ .compatible = "mediatek,mt8195-vdosys0",
- 	  .data = &mt8195_vdosys0_driver_data},
-+	{ .compatible = "mediatek,mt8195-vdosys1",
-+	  .data = &mt8195_vdosys1_driver_data},
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, mtk_drm_of_ids);
-@@ -362,9 +377,7 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- {
- 	struct mtk_drm_private *private = drm->dev_private;
- 	struct mtk_drm_private *priv_n;
--	struct platform_device *pdev;
--	struct device_node *np = NULL;
--	struct device *dma_dev;
-+	struct device *dma_dev = NULL;
- 	int ret, i, j;
- 
- 	ret = drmm_mode_config_init(drm);
-@@ -406,8 +419,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->main_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->main_path[0]].dev;
- 
- 				continue;
- 			} else if (i == 1 && priv_n->data->ext_len) {
-@@ -416,8 +429,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->ext_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->ext_path[0]].dev;
- 
- 				continue;
- 			} else if (i == 2 && priv_n->data->third_len) {
-@@ -426,8 +439,8 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 				if (ret)
- 					goto err_component_unbind;
- 
--				if (!np)
--					np = priv_n->comp_node[priv_n->data->third_path[0]];
-+				if (!dma_dev)
-+					dma_dev = priv_n->ddp_comp[priv_n->data->third_path[0]].dev;
- 
- 				continue;
- 			}
-@@ -435,14 +448,12 @@ static int mtk_drm_kms_init(struct drm_device *drm)
- 	}
- 
- 	/* Use OVL device for all DMA memory allocations */
--	pdev = of_find_device_by_node(np);
--	if (!pdev) {
-+	if (!dma_dev) {
- 		ret = -ENODEV;
- 		dev_err(drm->dev, "Need at least one OVL device\n");
- 		goto err_component_unbind;
- 	}
- 
--	dma_dev = &pdev->dev;
- 	for (i = 0; i < private->data->mmsys_dev_num; i++)
- 		private->all_drm_private[i]->dma_dev = dma_dev;
- 
-@@ -521,6 +532,11 @@ static int compare_of(struct device *dev, void *data)
- 	return dev->of_node == data;
- }
- 
-+static int compare_dev(struct device *dev, void *data)
-+{
-+	return dev == (struct device *)data;
-+}
-+
- static int mtk_drm_bind(struct device *dev)
- {
- 	struct mtk_drm_private *private = dev_get_drvdata(dev);
-@@ -709,6 +725,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 	struct mtk_drm_private *private;
- 	struct device_node *node;
- 	struct component_match *match = NULL;
-+	struct platform_device *ovl_adaptor;
- 	int ret;
- 	int i;
- 
-@@ -734,6 +751,19 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		return -ENODEV;
- 	}
- 
-+	/* Bringup ovl_adaptor */
-+	if (mtk_drm_find_mmsys_comp(private, DDP_COMPONENT_OVL_ADAPTOR)) {
-+		ovl_adaptor = platform_device_register_data(dev, "mediatek-disp-ovl-adaptor",
-+							    PLATFORM_DEVID_AUTO,
-+							    (void *)private->mmsys_dev,
-+							    sizeof(*private->mmsys_dev));
-+		private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR].dev = &ovl_adaptor->dev;
-+		private->comp_node[DDP_COMPONENT_OVL_ADAPTOR] = ovl_adaptor->dev.of_node;
-+		mtk_ddp_comp_init(NULL, &private->ddp_comp[DDP_COMPONENT_OVL_ADAPTOR],
-+				  DDP_COMPONENT_OVL_ADAPTOR);
-+		component_match_add(dev, &match, compare_dev, &ovl_adaptor->dev);
-+	}
-+
- 	/* Iterate over sibling DISP function blocks */
- 	for_each_child_of_node(phandle->parent, node) {
- 		const struct of_device_id *of_id;
-@@ -787,6 +817,7 @@ static int mtk_drm_probe(struct platform_device *pdev)
- 		    comp_type == MTK_DISP_MERGE ||
- 		    comp_type == MTK_DISP_OVL ||
- 		    comp_type == MTK_DISP_OVL_2L ||
-+		    comp_type == MTK_DISP_OVL_ADAPTOR ||
- 		    comp_type == MTK_DISP_RDMA ||
- 		    comp_type == MTK_DPI ||
- 		    comp_type == MTK_DSI) {
-@@ -889,6 +920,7 @@ static struct platform_driver * const mtk_drm_drivers[] = {
- 	&mtk_disp_color_driver,
- 	&mtk_disp_gamma_driver,
- 	&mtk_disp_merge_driver,
-+	&mtk_disp_ovl_adaptor_driver,
- 	&mtk_disp_ovl_driver,
- 	&mtk_disp_rdma_driver,
- 	&mtk_dpi_driver,
--- 
-2.18.0
+SGkNCg0KQW0gMDMuMTAuMjEgdW0gMDA6MTQgc2NocmllYiBQYXRyaWsgSmFrb2Jzc29uOg0K
+PiBPbiBUdWUsIFNlcCAyOCwgMjAyMSBhdCAxMDo0NCBBTSBUaG9tYXMgWmltbWVybWFubiA8
+dHppbW1lcm1hbm5Ac3VzZS5kZT4gd3JvdGU6DQo+Pg0KPj4gcHNiX2d0dF9hbGxvY19yYW5n
+ZSgpIGFsbG9jYXRlcyBzdHJ1Y3QgZ3R0X3JhbmdlLCBjcmVhdGUgdGhlIEdUVCByZXNvdXJj
+ZQ0KPj4gYW5kIHBlcmZvcm1zIHNvbWUgaGFsZi1iYWtlZCBpbml0aWFsaXphdGlvbi4gSW5s
+aW5lIHRoZSBmdW5jdGlvbiBpbnRvIGl0cw0KPj4gb25seSBjYWxsZXIgcHNiX2dlbV9jcmVh
+dGUoKS4gRm9yIGNyZWF0aW5nIHRoZSBHVFQgcmVzb3VyY2UsIGludHJvZHVjZSBhDQo+PiBu
+ZXcgaGVscGVyLCBwc2JfZ3R0X2FsbG9jX3Jlc291cmNlKCkgdGhhdCBoaWRlcyB0aGUgZGV0
+YWlscyBvZiB0aGUgR1RULg0KPj4NCj4+IEZvciBwc2JfZ3R0X2ZyZWVfcmFuZ2UoKSwgaW5s
+aW5lIHRoZSBmdW5jdGlvbiBpbnRvIGl0cyBvbmx5IGNhbGxlcg0KPj4gcHNiX2dlbV9mcmVl
+X29iamVjdCgpLiBXaGlsZSBhdCBpdCwgcmVtb3ZlIHRoZSBleHBsaWNpdCBpbnZvY2F0aW9u
+IG9mDQo+PiBkcm1fZ2VtX2ZyZWVfbW1hcF9vZmZzZXQoKS4gVGhlIG1tYXAgb2Zmc2V0IGlz
+IGFscmVhZHkgcmVsZWFzZWQgYnkNCj4+IGRybV9nZW1fb2JqZWN0X3JlbGVhc2UoKS4NCj4+
+DQo+PiBTaWduZWQtb2ZmLWJ5OiBUaG9tYXMgWmltbWVybWFubiA8dHppbW1lcm1hbm5Ac3Vz
+ZS5kZT4NCj4+IC0tLQ0KPj4gICBkcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5jIHwgOTQg
+KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+PiAgIGRyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvZ3R0LmMgfCAyNyArKysrKysrKysrKw0KPj4gICBkcml2ZXJzL2dwdS9k
+cm0vZ21hNTAwL2d0dC5oIHwgIDYgKysrDQo+PiAgIDMgZmlsZXMgY2hhbmdlZCwgNjUgaW5z
+ZXJ0aW9ucygrKSwgNjIgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZl
+cnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmMgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2dlbS5j
+DQo+PiBpbmRleCBhNDhkN2Q1ZWQwMjYuLjQ2MjA5ZTEwZGNjMiAxMDA2NDQNCj4+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9nbWE1MDAvZ2VtLmMNCj4+ICsrKyBiL2RyaXZlcnMvZ3B1L2Ry
+bS9nbWE1MDAvZ2VtLmMNCj4+IEBAIC04NywzMCArODcsMjIgQEAgdm9pZCBwc2JfZ2VtX3Vu
+cGluKHN0cnVjdCBndHRfcmFuZ2UgKmd0KQ0KPj4gICAgICAgICAgbXV0ZXhfdW5sb2NrKCZk
+ZXZfcHJpdi0+Z3R0X211dGV4KTsNCj4+ICAgfQ0KPj4NCj4+IC1zdGF0aWMgdm9pZCBwc2Jf
+Z3R0X2ZyZWVfcmFuZ2Uoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGd0dF9yYW5n
+ZSAqZ3QpDQo+PiAtew0KPj4gLSAgICAgICAvKiBVbmRvIHRoZSBtbWFwIHBpbiBpZiB3ZSBh
+cmUgZGVzdHJveWluZyB0aGUgb2JqZWN0ICovDQo+PiAtICAgICAgIGlmIChndC0+bW1hcHBp
+bmcpIHsNCj4+IC0gICAgICAgICAgICAgICBwc2JfZ2VtX3VucGluKGd0KTsNCj4+IC0gICAg
+ICAgICAgICAgICBndC0+bW1hcHBpbmcgPSAwOw0KPj4gLSAgICAgICB9DQo+PiAtICAgICAg
+IFdBUk5fT04oZ3QtPmluX2dhcnQgJiYgIWd0LT5zdG9sZW4pOw0KPj4gLSAgICAgICByZWxl
+YXNlX3Jlc291cmNlKCZndC0+cmVzb3VyY2UpOw0KPj4gLSAgICAgICBrZnJlZShndCk7DQo+
+PiAtfQ0KPj4gLQ0KPj4gICBzdGF0aWMgdm1fZmF1bHRfdCBwc2JfZ2VtX2ZhdWx0KHN0cnVj
+dCB2bV9mYXVsdCAqdm1mKTsNCj4+DQo+PiAgIHN0YXRpYyB2b2lkIHBzYl9nZW1fZnJlZV9v
+YmplY3Qoc3RydWN0IGRybV9nZW1fb2JqZWN0ICpvYmopDQo+PiAgIHsNCj4+IC0gICAgICAg
+c3RydWN0IGd0dF9yYW5nZSAqZ3R0ID0gdG9fZ3R0X3JhbmdlKG9iaik7DQo+PiArICAgICAg
+IHN0cnVjdCBndHRfcmFuZ2UgKmd0ID0gdG9fZ3R0X3JhbmdlKG9iaik7DQo+Pg0KPj4gLSAg
+ICAgICAvKiBSZW1vdmUgdGhlIGxpc3QgbWFwIGlmIG9uZSBpcyBwcmVzZW50ICovDQo+PiAt
+ICAgICAgIGRybV9nZW1fZnJlZV9tbWFwX29mZnNldChvYmopOw0KPj4gICAgICAgICAgZHJt
+X2dlbV9vYmplY3RfcmVsZWFzZShvYmopOw0KPj4NCj4+IC0gICAgICAgLyogVGhpcyBtdXN0
+IG9jY3VyIGxhc3QgYXMgaXQgZnJlZXMgdXAgdGhlIG1lbW9yeSBvZiB0aGUgR0VNIG9iamVj
+dCAqLw0KPj4gLSAgICAgICBwc2JfZ3R0X2ZyZWVfcmFuZ2Uob2JqLT5kZXYsIGd0dCk7DQo+
+PiArICAgICAgIC8qIFVuZG8gdGhlIG1tYXAgcGluIGlmIHdlIGFyZSBkZXN0cm95aW5nIHRo
+ZSBvYmplY3QgKi8NCj4+ICsgICAgICAgaWYgKGd0LT5tbWFwcGluZykNCj4+ICsgICAgICAg
+ICAgICAgICBwc2JfZ2VtX3VucGluKGd0KTsNCj4+ICsNCj4+ICsgICAgICAgV0FSTl9PTihn
+dC0+aW5fZ2FydCAmJiAhZ3QtPnN0b2xlbik7DQo+PiArDQo+PiArICAgICAgIHJlbGVhc2Vf
+cmVzb3VyY2UoJmd0LT5yZXNvdXJjZSk7DQo+PiArICAgICAgIGtmcmVlKGd0KTsNCj4+ICAg
+fQ0KPj4NCj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCB2bV9vcGVyYXRpb25zX3N0cnVjdCBw
+c2JfZ2VtX3ZtX29wcyA9IHsNCj4+IEBAIC0xMjQsNTkgKzExNiwzNSBAQCBzdGF0aWMgY29u
+c3Qgc3RydWN0IGRybV9nZW1fb2JqZWN0X2Z1bmNzIHBzYl9nZW1fb2JqZWN0X2Z1bmNzID0g
+ew0KPj4gICAgICAgICAgLnZtX29wcyA9ICZwc2JfZ2VtX3ZtX29wcywNCj4+ICAgfTsNCj4+
+DQo+PiAtc3RhdGljIHN0cnVjdCBndHRfcmFuZ2UgKnBzYl9ndHRfYWxsb2NfcmFuZ2Uoc3Ry
+dWN0IGRybV9kZXZpY2UgKmRldiwgaW50IGxlbiwNCj4+IC0gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNoYXIgKm5hbWUsIGludCBiYWNrZWQs
+IHUzMiBhbGlnbikNCj4+IC17DQo+PiAtICAgICAgIHN0cnVjdCBkcm1fcHNiX3ByaXZhdGUg
+KmRldl9wcml2ID0gdG9fZHJtX3BzYl9wcml2YXRlKGRldik7DQo+PiAtICAgICAgIHN0cnVj
+dCBndHRfcmFuZ2UgKmd0Ow0KPj4gLSAgICAgICBzdHJ1Y3QgcmVzb3VyY2UgKnIgPSBkZXZf
+cHJpdi0+Z3R0X21lbTsNCj4+IC0gICAgICAgaW50IHJldDsNCj4+IC0gICAgICAgdW5zaWdu
+ZWQgbG9uZyBzdGFydCwgZW5kOw0KPj4gLQ0KPj4gLSAgICAgICBpZiAoYmFja2VkKSB7DQo+
+PiAtICAgICAgICAgICAgICAgLyogVGhlIHN0YXJ0IG9mIHRoZSBHVFQgaXMgdGhlIHN0b2xl
+biBwYWdlcyAqLw0KPj4gLSAgICAgICAgICAgICAgIHN0YXJ0ID0gci0+c3RhcnQ7DQo+PiAt
+ICAgICAgICAgICAgICAgZW5kID0gci0+c3RhcnQgKyBkZXZfcHJpdi0+Z3R0LnN0b2xlbl9z
+aXplIC0gMTsNCj4+IC0gICAgICAgfSBlbHNlIHsNCj4+IC0gICAgICAgICAgICAgICAvKiBU
+aGUgcmVzdCB3ZSB3aWxsIHVzZSBmb3IgR0VNIGJhY2tlZCBvYmplY3RzICovDQo+PiAtICAg
+ICAgICAgICAgICAgc3RhcnQgPSByLT5zdGFydCArIGRldl9wcml2LT5ndHQuc3RvbGVuX3Np
+emU7DQo+PiAtICAgICAgICAgICAgICAgZW5kID0gci0+ZW5kOw0KPj4gLSAgICAgICB9DQo+
+PiAtDQo+PiAtICAgICAgIGd0ID0ga3phbGxvYyhzaXplb2Yoc3RydWN0IGd0dF9yYW5nZSks
+IEdGUF9LRVJORUwpOw0KPj4gLSAgICAgICBpZiAoZ3QgPT0gTlVMTCkNCj4+IC0gICAgICAg
+ICAgICAgICByZXR1cm4gTlVMTDsNCj4+IC0gICAgICAgZ3QtPnJlc291cmNlLm5hbWUgPSBu
+YW1lOw0KPj4gLSAgICAgICBndC0+c3RvbGVuID0gYmFja2VkOw0KPj4gLSAgICAgICBndC0+
+aW5fZ2FydCA9IGJhY2tlZDsNCj4+IC0gICAgICAgLyogRW5zdXJlIHRoaXMgaXMgc2V0IGZv
+ciBub24gR0VNIG9iamVjdHMgKi8NCj4+IC0gICAgICAgZ3QtPmdlbS5kZXYgPSBkZXY7DQo+
+PiAtICAgICAgIHJldCA9IGFsbG9jYXRlX3Jlc291cmNlKGRldl9wcml2LT5ndHRfbWVtLCAm
+Z3QtPnJlc291cmNlLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBsZW4s
+IHN0YXJ0LCBlbmQsIGFsaWduLCBOVUxMLCBOVUxMKTsNCj4+IC0gICAgICAgaWYgKHJldCA9
+PSAwKSB7DQo+PiAtICAgICAgICAgICAgICAgZ3QtPm9mZnNldCA9IGd0LT5yZXNvdXJjZS5z
+dGFydCAtIHItPnN0YXJ0Ow0KPj4gLSAgICAgICAgICAgICAgIHJldHVybiBndDsNCj4+IC0g
+ICAgICAgfQ0KPj4gLSAgICAgICBrZnJlZShndCk7DQo+PiAtICAgICAgIHJldHVybiBOVUxM
+Ow0KPj4gLX0NCj4+IC0NCj4+ICAgc3RydWN0IGd0dF9yYW5nZSAqDQo+PiAgIHBzYl9nZW1f
+Y3JlYXRlKHN0cnVjdCBkcm1fZGV2aWNlICpkZXYsIHU2NCBzaXplLCBjb25zdCBjaGFyICpu
+YW1lLCBib29sIHN0b2xlbiwgdTMyIGFsaWduKQ0KPj4gICB7DQo+PiArICAgICAgIHN0cnVj
+dCBkcm1fcHNiX3ByaXZhdGUgKmRldl9wcml2ID0gdG9fZHJtX3BzYl9wcml2YXRlKGRldik7
+DQo+PiAgICAgICAgICBzdHJ1Y3QgZ3R0X3JhbmdlICpndDsNCj4+ICAgICAgICAgIHN0cnVj
+dCBkcm1fZ2VtX29iamVjdCAqb2JqOw0KPj4gICAgICAgICAgaW50IHJldDsNCj4+DQo+PiAg
+ICAgICAgICBzaXplID0gcm91bmR1cChzaXplLCBQQUdFX1NJWkUpOw0KPj4NCj4+IC0gICAg
+ICAgZ3QgPSBwc2JfZ3R0X2FsbG9jX3JhbmdlKGRldiwgc2l6ZSwgbmFtZSwgc3RvbGVuLCBh
+bGlnbik7DQo+PiAtICAgICAgIGlmICghZ3QpIHsNCj4+IC0gICAgICAgICAgICAgICBkZXZf
+ZXJyKGRldi0+ZGV2LCAibm8gbWVtb3J5IGZvciAlbGxkIGJ5dGUgR0VNIG9iamVjdFxuIiwg
+c2l6ZSk7DQo+PiAtICAgICAgICAgICAgICAgcmV0dXJuIEVSUl9QVFIoLUVOT1NQQyk7DQo+
+PiAtICAgICAgIH0NCj4+ICsgICAgICAgZ3QgPSBremFsbG9jKHNpemVvZigqZ3QpLCBHRlBf
+S0VSTkVMKTsNCj4+ICsgICAgICAgaWYgKCFndCkNCj4+ICsgICAgICAgICAgICAgICByZXR1
+cm4gRVJSX1BUUigtRU5PTUVNKTsNCj4+ICAgICAgICAgIG9iaiA9ICZndC0+Z2VtOw0KPj4N
+Cj4+ICsgICAgICAgLyogR1RUIHJlc291cmNlICovDQo+PiArDQo+PiArICAgICAgIHJldCA9
+IHBzYl9ndHRfYWxsb2NhdGVfcmVzb3VyY2UoZGV2X3ByaXYsICZndC0+cmVzb3VyY2UsIG5h
+bWUsIHNpemUsIGFsaWduLCBzdG9sZW4sDQo+PiArICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgJmd0LT5vZmZzZXQpOw0KPj4gKyAgICAgICBpZiAocmV0KQ0KPj4g
+KyAgICAgICAgICAgICAgIGdvdG8gZXJyX2tmcmVlOw0KPj4gKw0KPj4gKyAgICAgICBpZiAo
+c3RvbGVuKSB7DQo+PiArICAgICAgICAgICAgICAgZ3QtPnN0b2xlbiA9IHRydWU7DQo+PiAr
+ICAgICAgICAgICAgICAgZ3QtPmluX2dhcnQgPSAxOw0KPj4gKyAgICAgICB9DQo+PiArDQo+
+PiArICAgICAgIC8qIEdFTSBvYmplY3QgKi8NCj4+ICsNCj4+ICAgICAgICAgIG9iai0+ZnVu
+Y3MgPSAmcHNiX2dlbV9vYmplY3RfZnVuY3M7DQo+Pg0KPj4gICAgICAgICAgaWYgKHN0b2xl
+bikgew0KPj4gQEAgLTE4NCw3ICsxNTIsNyBAQCBwc2JfZ2VtX2NyZWF0ZShzdHJ1Y3QgZHJt
+X2RldmljZSAqZGV2LCB1NjQgc2l6ZSwgY29uc3QgY2hhciAqbmFtZSwgYm9vbCBzdG9sZW4s
+DQo+PiAgICAgICAgICB9IGVsc2Ugew0KPj4gICAgICAgICAgICAgICAgICByZXQgPSBkcm1f
+Z2VtX29iamVjdF9pbml0KGRldiwgb2JqLCBzaXplKTsNCj4+ICAgICAgICAgICAgICAgICAg
+aWYgKHJldCkNCj4+IC0gICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZXJyX3BzYl9ndHRf
+ZnJlZV9yYW5nZTsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZXJyX3JlbGVh
+c2VfcmVzb3VyY2U7DQo+Pg0KPj4gICAgICAgICAgICAgICAgICAvKiBMaW1pdCB0aGUgb2Jq
+ZWN0IHRvIDMyLWJpdCBtYXBwaW5ncyAqLw0KPj4gICAgICAgICAgICAgICAgICBtYXBwaW5n
+X3NldF9nZnBfbWFzayhvYmotPmZpbHAtPmZfbWFwcGluZywgR0ZQX0tFUk5FTCB8IF9fR0ZQ
+X0RNQTMyKTsNCj4+IEBAIC0xOTIsOCArMTYwLDEwIEBAIHBzYl9nZW1fY3JlYXRlKHN0cnVj
+dCBkcm1fZGV2aWNlICpkZXYsIHU2NCBzaXplLCBjb25zdCBjaGFyICpuYW1lLCBib29sIHN0
+b2xlbiwNCj4+DQo+PiAgICAgICAgICByZXR1cm4gZ3Q7DQo+Pg0KPj4gLWVycl9wc2JfZ3R0
+X2ZyZWVfcmFuZ2U6DQo+PiAtICAgICAgIHBzYl9ndHRfZnJlZV9yYW5nZShkZXYsIGd0KTsN
+Cj4+ICtlcnJfcmVsZWFzZV9yZXNvdXJjZToNCj4+ICsgICAgICAgcmVsZWFzZV9yZXNvdXJj
+ZSgmZ3QtPnJlc291cmNlKTsNCj4+ICtlcnJfa2ZyZWU6DQo+PiArICAgICAgIGtmcmVlKGd0
+KTsNCj4+ICAgICAgICAgIHJldHVybiBFUlJfUFRSKHJldCk7DQo+PiAgIH0NCj4+DQo+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuYyBiL2RyaXZlcnMvZ3B1
+L2RybS9nbWE1MDAvZ3R0LmMNCj4+IGluZGV4IDBhYWNmNzEyMmUzMi4uNWQ5NDBmZGJlNmI4
+IDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuYw0KPj4gKysr
+IGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuYw0KPj4gQEAgLTE4LDYgKzE4LDMzIEBA
+DQo+PiAgICAqICAgICBHVFQgcmVzb3VyY2UgYWxsb2NhdG9yIC0gbWFuYWdlIHBhZ2UgbWFw
+cGluZ3MgaW4gR1RUIHNwYWNlDQo+PiAgICAqLw0KPj4NCj4+ICtpbnQgcHNiX2d0dF9hbGxv
+Y2F0ZV9yZXNvdXJjZShzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlICpwZGV2LCBzdHJ1Y3QgcmVz
+b3VyY2UgKnJlcywNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNo
+YXIgKm5hbWUsIHJlc291cmNlX3NpemVfdCBzaXplLCByZXNvdXJjZV9zaXplX3QgYWxpZ24s
+DQo+PiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIHN0b2xlbiwgdTMyIG9m
+ZnNldFtzdGF0aWMgMV0pDQo+IA0KPiBXaHkgW3N0YXRpYyAxXT8NCg0KW3N0YXRpYyBOXSBh
+IG5vdGF0aW9uIHRoYXQgdGVsbHMgdGhlIEMgY29tcGlsZXIgdGhhdCB0aGVyZSBhcmUgYXQg
+bGVhc3QgDQpOIGVsZW1lbnRzIGluIHRoZSBhcnJheS4gUGFzc2luZyBhbiBhcnJheSB3aXRo
+IGxlc3Mgb3IgTlVMTCByZXN1bHRzIGluIA0KYW4gZXJyb3IgKHdpdGggY2xhbmcgYXQgbGVh
+c3QpLiBJTUhPIHdlIHNob3VkbGQgdXNlIGl0IGV2ZXJ5d2hlcmUsIGJ1dCANCnRoZW4gd2Un
+ZCBnZXQgY29tcGxhaW5zIG9uIGNvZGluZyBzdHlsZSwgSSBndWVzcy4NCg0KQmVzdCByZWdh
+cmRzDQpUaG9tYXMNCg0KPiANCj4gDQo+PiArew0KPj4gKyAgICAgICBzdHJ1Y3QgcmVzb3Vy
+Y2UgKnJvb3QgPSBwZGV2LT5ndHRfbWVtOw0KPj4gKyAgICAgICByZXNvdXJjZV9zaXplX3Qg
+c3RhcnQsIGVuZDsNCj4+ICsgICAgICAgaW50IHJldDsNCj4+ICsNCj4+ICsgICAgICAgaWYg
+KHN0b2xlbikgew0KPj4gKyAgICAgICAgICAgICAgIC8qIFRoZSBzdGFydCBvZiB0aGUgR1RU
+IGlzIGJhY2tlZCBieSBzdG9sZW4gcGFnZXMuICovDQo+PiArICAgICAgICAgICAgICAgc3Rh
+cnQgPSByb290LT5zdGFydDsNCj4+ICsgICAgICAgICAgICAgICBlbmQgPSByb290LT5zdGFy
+dCArIHBkZXYtPmd0dC5zdG9sZW5fc2l6ZSAtIDE7DQo+PiArICAgICAgIH0gZWxzZSB7DQo+
+PiArICAgICAgICAgICAgICAgLyogVGhlIHJlc3QgaXMgYmFja2VkIGJ5IHN5c3RlbSBwYWdl
+cy4gKi8NCj4+ICsgICAgICAgICAgICAgICBzdGFydCA9IHJvb3QtPnN0YXJ0ICsgcGRldi0+
+Z3R0LnN0b2xlbl9zaXplOw0KPj4gKyAgICAgICAgICAgICAgIGVuZCA9IHJvb3QtPmVuZDsN
+Cj4+ICsgICAgICAgfQ0KPj4gKw0KPj4gKyAgICAgICByZXMtPm5hbWUgPSBuYW1lOw0KPj4g
+KyAgICAgICByZXQgPSBhbGxvY2F0ZV9yZXNvdXJjZShyb290LCByZXMsIHNpemUsIHN0YXJ0
+LCBlbmQsIGFsaWduLCBOVUxMLCBOVUxMKTsNCj4+ICsgICAgICAgaWYgKHJldCkNCj4+ICsg
+ICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPj4gKyAgICAgICAqb2Zmc2V0ID0gcmVzLT5z
+dGFydCAtIHJvb3QtPnN0YXJ0Ow0KPj4gKw0KPj4gKyAgICAgICByZXR1cm4gMDsNCj4+ICt9
+DQo+PiArDQo+PiAgIC8qKg0KPj4gICAgKiAgICAgcHNiX2d0dF9tYXNrX3B0ZSAgICAgICAg
+LSAgICAgICBnZW5lcmF0ZSBHVFQgcHRlIGVudHJ5DQo+PiAgICAqICAgICBAcGZuOiBwYWdl
+IG51bWJlciB0byBlbmNvZGUNCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vZ21h
+NTAwL2d0dC5oIGIvZHJpdmVycy9ncHUvZHJtL2dtYTUwMC9ndHQuaA0KPj4gaW5kZXggMzYx
+NjJiNTQ1NTcwLi40NTlhMDMxNDFlOGIgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL2dwdS9k
+cm0vZ21hNTAwL2d0dC5oDQo+PiArKysgYi9kcml2ZXJzL2dwdS9kcm0vZ21hNTAwL2d0dC5o
+DQo+PiBAQCAtMTAsNiArMTAsOCBAQA0KPj4NCj4+ICAgI2luY2x1ZGUgPGRybS9kcm1fZ2Vt
+Lmg+DQo+Pg0KPj4gK3N0cnVjdCBkcm1fcHNiX3ByaXZhdGU7DQo+PiArDQo+PiAgIC8qIFRo
+aXMgd2FudHMgY2xlYW5pbmcgdXAgd2l0aCByZXNwZWN0IHRvIHRoZSBwc2JfZGV2IGFuZCB1
+bi1uZWVkZWQgc3R1ZmYgKi8NCj4+ICAgc3RydWN0IHBzYl9ndHQgew0KPj4gICAgICAgICAg
+dWludDMyX3QgZ2F0dF9zdGFydDsNCj4+IEBAIC00Myw2ICs0NSwxMCBAQCBzdHJ1Y3QgZ3R0
+X3JhbmdlIHsNCj4+DQo+PiAgIGV4dGVybiBpbnQgcHNiX2d0dF9yZXN0b3JlKHN0cnVjdCBk
+cm1fZGV2aWNlICpkZXYpOw0KPj4NCj4+ICtpbnQgcHNiX2d0dF9hbGxvY2F0ZV9yZXNvdXJj
+ZShzdHJ1Y3QgZHJtX3BzYl9wcml2YXRlICpwZGV2LCBzdHJ1Y3QgcmVzb3VyY2UgKnJlcywN
+Cj4+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbnN0IGNoYXIgKm5hbWUsIHJl
+c291cmNlX3NpemVfdCBzaXplLCByZXNvdXJjZV9zaXplX3QgYWxpZ24sDQo+PiArICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBib29sIHN0b2xlbiwgdTMyIG9mZnNldFtzdGF0aWMg
+MV0pOw0KPj4gKw0KPj4gICBpbnQgcHNiX2d0dF9pbnNlcnQoc3RydWN0IGRybV9kZXZpY2Ug
+KmRldiwgc3RydWN0IGd0dF9yYW5nZSAqciwgaW50IHJlc3VtZSk7DQo+PiAgIHZvaWQgcHNi
+X2d0dF9yZW1vdmUoc3RydWN0IGRybV9kZXZpY2UgKmRldiwgc3RydWN0IGd0dF9yYW5nZSAq
+cik7DQo+Pg0KPj4gLS0NCj4+IDIuMzMuMA0KPj4NCg0KLS0gDQpUaG9tYXMgWmltbWVybWFu
+bg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMg
+R2VybWFueSBHbWJIDQpNYXhmZWxkc3RyLiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkN
+CihIUkIgMzY4MDksIEFHIE7DvHJuYmVyZykNCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJ
+bWVuZMO2cmZmZXINCg==
 
+--------------RZzhWUtjdGR5OU0Qai7uiQpi--
+
+--------------12uDrVXZX9yP3xoPWnEKmlld
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFanc0FAwAAAAAACgkQlh/E3EQov+Cj
+FA/+MnJ742grh0yb5AfSkVYqqVcO2MHjxtqrgjQGbaJI0G/for8C9punXwpr69jsSF+Z8aLm4MNj
+thlUBiQWRaxDnVLRd44dE5JbLdIik6EVyHAKYo3IlS8ctvMowQMh4LCcm9BCVYw8tNelDyygdHFG
+Nqvs8B3rVPhto2swm+lSa8GCavc2NhCWNsnv3LgitMwCi0tU69lGdalMMtSp4kwXxKe6cbIeFN9J
+jf7SRJ27NuW+MtjLeXDR+ygey2i6/ZJEuf7K6qJLd8xnUuujGm84ptK6ezakZq8mWiZyy1ugY5wA
+OG6+Xv2Uh5+yvaDIPeiMBiBTLYxzmkR96Z1d4iFex1UWzcV9JzzWD7X/ygrWMFmGdZ3amSTlUTI9
+JdDGOEWuqM/wnvYWwfS5nEUXN4SmT5rMQLQ/IxF2FONNwlQQVPBKwRRcUZ/souyMIdHdj4R6RcCY
+Jh+k+wmfCgJgIwaNFHiHjClLW42Tjv4F287rHB4fKWlEGHlB4Ejvux4fzqW8ZaHktpehV1p4omX8
+hkli1juiDr6QO1NHrfrVRJVnkqU7HVZEAUvebQ6kCAMSYlX0V+ITZpjPGKsrw5Ua2xkAYrHBhje4
+vizGih5T9hN2vc7AvJxjuY/2k3/TJxFq9/Sc9byy3SGJenQXUqRlkVj+creCWxwu5qAeOrXtWAV1
+tps=
+=M8LL
+-----END PGP SIGNATURE-----
+
+--------------12uDrVXZX9yP3xoPWnEKmlld--
