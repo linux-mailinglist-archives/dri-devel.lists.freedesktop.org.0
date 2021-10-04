@@ -2,57 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62D042165A
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 20:24:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E56842167E
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 20:29:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D71A6EA89;
-	Mon,  4 Oct 2021 18:24:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85F036EA8A;
+	Mon,  4 Oct 2021 18:29:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com
- [209.85.167.176])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8E03F6EA89
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 18:24:49 +0000 (UTC)
-Received: by mail-oi1-f176.google.com with SMTP id u22so22864892oie.5
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 11:24:49 -0700 (PDT)
+Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com
+ [209.85.161.44])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AB27E6EA8A;
+ Mon,  4 Oct 2021 18:29:42 +0000 (UTC)
+Received: by mail-oo1-f44.google.com with SMTP id
+ v17-20020a4ae051000000b002b5a56e3da3so5654487oos.2; 
+ Mon, 04 Oct 2021 11:29:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=uqtsnyNKKJS9yEITd+jPQas/rw37SI2DxYEgJEPNXP8=;
- b=LAKSGD0sjLAL4qrJugI9wT+U1VVOO2b3xdK7c92sEHN1hCAdccvW+HEfUgyz/S43Rf
- RUX9QIUzGidxz1pRDgZIX6FhkTL61wjlwH3YowHkq2Bl1A5MKd4GpZRKkMYYCfhgPW3B
- AKNBJHE3ymNjpebpIXGr+QFMmiSG1W7Z6wzetrdIaVxHO+VSmSTs1bzNV2HWaYVjPWUW
- A7ZDI2xAxotlODIHcoJIYsfWpq+qdSgafK3xjfy2jnpqGz8iMIx4LhDPI5ie+o40zPtT
- Oxui+vj+S778GjLjAE/wOwJLsOmb/iNnSNvEjY+/8Q+H8RbWfxpOPr3rOl6T8E80v5VO
- Gb3g==
-X-Gm-Message-State: AOAM533J/8KXFFvIsFUZXfupdF/yid8VPW1ilpHQiM6ZMMKYa1fMfWVe
- zlDU8wOZFWcsLIL/7KYh8Q==
-X-Google-Smtp-Source: ABdhPJyTyPZM+WOk9JYo2l4wBBPBqaBkwGZycQzvuQxp5B5a6aRmAyRc76soi8nj+CiRbzOQa0HtHQ==
-X-Received: by 2002:a54:4d89:: with SMTP id y9mr4913473oix.22.1633371888817;
- Mon, 04 Oct 2021 11:24:48 -0700 (PDT)
+ bh=FSknb9XucRZhO/00BM6q8xI5pafRYeo3fmHNydtNnM0=;
+ b=5tJ7RZThZ2Gh5o0KcQ3lrtLKgZZm6FKAkWjFM1g0eQsinfPeTqLVnORDHPQDBNnPT/
+ jPEDh1Yo+Kx5ZJLQOS29lED1GwltfA2SEI2OLX6mLIa64MDc6UktiQW/HvvrDgt7lnAN
+ 3zHwq2qbHkXJ4ZuoHpsJvGRDoJpE98VYbS0O1s1pKcMGHV7/HfOJDWwIsXeD/crrvgQT
+ 86rqRpjnNKMucDHSGbpYJc3xEsTPFDokmuCu9fshaa7hDaFIEZQ9nxOU/APBCg71rr0Q
+ 3PpUV8H6TwgDMXb44DgEKjYmcWjjoF908zuZvX93jVv9XuZMUWR0AwwGbZ8xY1pAIYx/
+ pP5w==
+X-Gm-Message-State: AOAM532j363nYeGZ59HZ4pQxUD7QGUVLTC/J73sGCUBELXA2dXNSrUqa
+ 8RSrYMfhQIXeNNrzJ3pCZA==
+X-Google-Smtp-Source: ABdhPJwuTkETkHYNHgbb6MaD/3AdXAmRL9R4LDUql91q1Gowx5uviZJ/UMF/CcvKt6jC2ED9RpnzbQ==
+X-Received: by 2002:a4a:da41:: with SMTP id f1mr10336324oou.45.1633372181940; 
+ Mon, 04 Oct 2021 11:29:41 -0700 (PDT)
 Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
  [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id l28sm2928304oof.30.2021.10.04.11.24.47
+ by smtp.gmail.com with ESMTPSA id e2sm2925851ooh.40.2021.10.04.11.29.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 04 Oct 2021 11:24:48 -0700 (PDT)
-Received: (nullmailer pid 1605963 invoked by uid 1000);
- Mon, 04 Oct 2021 18:24:47 -0000
-Date: Mon, 4 Oct 2021 13:24:47 -0500
+ Mon, 04 Oct 2021 11:29:41 -0700 (PDT)
+Received: (nullmailer pid 1614180 invoked by uid 1000);
+ Mon, 04 Oct 2021 18:29:40 -0000
+Date: Mon, 4 Oct 2021 13:29:40 -0500
 From: Rob Herring <robh@kernel.org>
-To: tommy-huang <tommy_huang@aspeedtech.com>
-Cc: BMC-SW@aspeedtech.com, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, joel@jms.id.au, robh+dt@kernel.org,
- linux-aspeed@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, airlied@linux.ie, andrew@aj.id.au, daniel@ffwll.ch
-Subject: Re: [PATCH 6/6] dt-bindings: gpu: Add ASPEED GFX bindings document
-Message-ID: <YVtG72uZKHrkGk6u@robh.at.kernel.org>
-References: <20210928025703.10909-1-tommy_huang@aspeedtech.com>
- <20210928025703.10909-7-tommy_huang@aspeedtech.com>
+To: Sireesh Kodali <sireeshkodali1@gmail.com>
+Cc: devicetree@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
+ linux-kernel@vger.kernel.org, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ Rob Herring <robh+dt@kernel.org>, Sean Paul <sean@poorly.run>,
+ ~postmarketos/upstreaming@lists.sr.ht, freedreno@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, phone-devel@vger.kernel.org,
+ Krishna Manikandan <mkrishn@codeaurora.org>
+Subject: Re: [PATCH v3 1/3] dt-bindings: msm: dsi: Add MSM8953 dsi phy
+Message-ID: <YVtIFGfBnJB7Qd0n@robh.at.kernel.org>
+References: <20210928131929.18567-1-sireeshkodali1@gmail.com>
+ <20210928131929.18567-2-sireeshkodali1@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210928025703.10909-7-tommy_huang@aspeedtech.com>
+In-Reply-To: <20210928131929.18567-2-sireeshkodali1@gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,12 +72,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 28 Sep 2021 10:57:03 +0800, tommy-huang wrote:
-> Add ast2600-gfx description for gfx driver.
+On Tue, 28 Sep 2021 18:49:27 +0530, Sireesh Kodali wrote:
+> SoCs based on the MSM8953 platform use the 14nm DSI PHY driver
 > 
-> Signed-off-by: tommy-huang <tommy_huang@aspeedtech.com>
+> Signed-off-by: Sireesh Kodali <sireeshkodali1@gmail.com>
 > ---
->  Documentation/devicetree/bindings/gpu/aspeed-gfx.txt | 1 +
+>  Documentation/devicetree/bindings/display/msm/dsi-phy-14nm.yaml | 1 +
 >  1 file changed, 1 insertion(+)
 > 
 
