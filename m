@@ -1,76 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DD1842186C
-	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 22:31:20 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E7CF4218C8
+	for <lists+dri-devel@lfdr.de>; Mon,  4 Oct 2021 22:52:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5BF016E0F7;
-	Mon,  4 Oct 2021 20:31:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C2FBD6E20A;
+	Mon,  4 Oct 2021 20:52:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
- [64.147.123.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26F8A6E0F7
- for <dri-devel@lists.freedesktop.org>; Mon,  4 Oct 2021 20:31:13 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.west.internal (Postfix) with ESMTP id 15F0A3200C17;
- Mon,  4 Oct 2021 16:31:10 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 04 Oct 2021 16:31:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
- :from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm3; bh=sFLwbogJTuaCetYvbTgL9lVGckd
- MqCuANETSyDED0ic=; b=vqyQos20a/arlUSomJpIghSRIm4ksffuKB/BYhs12v6
- X4vChG1tHdeJBsSTaQfbvNH2rUYw5eGrmM59ujD5pFg4XY7fY5tePcK6Zy2q3HMl
- /VlvxQLKUt6hQ+HDIbOV1vwh2R5vqGCZu21Ade811FOnW2WlONh83hurHOdCx03u
- p3B4e0RTGskHE7kdaLrOy3XEyXF10RXnNMz5wfVxklCtmnDRM1Qlb0NyYmV4jNo1
- dTi6/e7CNjE5eqGiWZlvLlR0uEKcStOtFb9y4dI6F3PWQ7jcrjJW4ROfe8Rd3wTN
- C1/eNbBCYyNLa661Ung3CCzoH3jKih5kYTA4CAZHBJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=sFLwbo
- gJTuaCetYvbTgL9lVGckdMqCuANETSyDED0ic=; b=OXrCP0+24KjwzM4CdZ/4y+
- 7u0Z9ehy9pXSYTINADLHZa1U+kF0oPNpI5OtrONgqHblSQbjlZUi65UCbp/ftXsZ
- 53V2Iw27ItJ3fCYcJLtD/X4jiqcLhxL7VRYi67Ni50AnT9KV7KmQqDyVTw/sUHYw
- IcW7ZxBUxyqAQ4uhsHPbClEjMGCWtzraeyY13ziuyn4AkOgEKXZdixsupZdlzMAC
- MhhjvyDWnhNuinsaFmf03cjQA6n8fU4zBT5T8cb+cKPuik/fBKUV3iFtZZtnc072
- F0EQcEyLSgMuamdSd/lZ5SfrsEQXUXSeswA5iKIZx/RB/cMDoD8z0nKcMAJodS9A
- ==
-X-ME-Sender: <xms:jGRbYXg8jig9WJ5pj23oW9w5TeH_QtuZhq_jkL_uFX55xcwdPJnuYg>
- <xme:jGRbYUCreSVyktPK8pfslNVzFGi2Ht8BWawyi-afSrwXuhu91UsXFV6SYj3Vz5tjt
- 5ICir4S5Ruxpd70DA>
-X-ME-Received: <xmr:jGRbYXHCCZuEd3j3p7UWB1Kt3NKQ4LXVVXo9aeNVKRQIwCk2m_sg8g4dLukXwQXL843IOaA0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelvddgudegjecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtjeenucfhrhhomhephfgvrhhn
- rghnughoucftrghmohhsuceoghhrvggvnhhfohhosehuledvrdgvuheqnecuggftrfgrth
- htvghrnhepvdfggedvhfeiuddvveeffeegveehjeevieekhfeggefhgfdvudduuefhuedv
- keevnecuffhomhgrihhnpedtuddrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
- grrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:jGRbYUS86EomLSepVD-3TScw0k2x5zDEGRN-gch8Dh77orQtMolG9g>
- <xmx:jGRbYUwFMcFuSvvC3IZ2ZjpVYt9b2Hg7eKvaMy2LerHaNdO8DR8iwA>
- <xmx:jGRbYa4lmJfYEl--Rvi0Wunw-2-BaxXiqvOvP-K6qVNwG6eI7_TPaA>
- <xmx:jWRbYf_vYg4yti562erZ-MInbinNuWuk3BEFr4zxFmhIC-82X1C_0w>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 4 Oct 2021 16:31:07 -0400 (EDT)
-Date: Mon, 4 Oct 2021 22:31:04 +0200
-From: Fernando Ramos <greenfoo@u92.eu>
-To: Sean Paul <sean@poorly.run>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>
-Subject: Re: [PATCH 15/16] Revert "drm/i915: cleanup:
- drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()"
-Message-ID: <YVtkiP//rXCmTy59@zacax395.localdomain>
-References: <20211002154542.15800-1-sean@poorly.run>
- <20211002154542.15800-15-sean@poorly.run>
- <YVrMLNa/oaP2+ZWx@intel.com> <20211004155637.GC2515@art_vandelay>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 775EF6E20A;
+ Mon,  4 Oct 2021 20:52:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="224361365"
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="224361365"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 13:52:29 -0700
+X-IronPort-AV: E=Sophos;i="5.85,346,1624345200"; d="scan'208";a="711581265"
+Received: from hejohns1-mobl.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.180.94])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 04 Oct 2021 13:52:28 -0700
+Date: Mon, 4 Oct 2021 13:52:27 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Steven Price <steven.price@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ intel-gfx@lists.freedesktop.org,
+ "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>,
+ Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove IS_ACTIVE
+Message-ID: <20211004205227.xpx67yawrs23gzr2@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20211001074041.2076538-1-lucas.demarchi@intel.com>
+ <163308055415.8412.14215483004176995847@build.alporthouse.com>
+ <87bl49t6di.fsf@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20211004155637.GC2515@art_vandelay>
+In-Reply-To: <87bl49t6di.fsf@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -86,42 +56,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 21/10/04 11:56AM, Sean Paul wrote:
-> @Fernando, hopefully you can revise and post again. Thank you for your patches
-> and your effort!
+Cc'ing Dan Carpenter
 
-No problem :)
+On Fri, Oct 01, 2021 at 12:57:13PM +0300, Jani Nikula wrote:
+>On Fri, 01 Oct 2021, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+>> Quoting Lucas De Marchi (2021-10-01 08:40:41)
+>>> When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
+>>> provide much value just encapsulating it in a boolean context. So I also
+>>> added the support for handling undefined macros as the IS_ENABLED()
+>>> counterpart. However the feedback received from Masahiro Yamada was that
+>>> it is too ugly, not providing much value. And just wrapping in a boolean
+>>> context is too dumb - we could simply open code it.
+>>>
+>>> As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
+>>> constant values inside boolean predicates"), the IS_ACTIVE macro was
+>>> added to workaround a compilation warning. However after checking again
+>>> our current uses of IS_ACTIVE it turned out there is only
+>>> 1 case in which it would potentially trigger a warning. All the others
+>>>   can simply use the shorter version, without wrapping it in any macro.
+>>> And even that single one didn't trigger any warning in gcc 10.3.
+>>>
+>>> So here I'm dialing all the way back to simply removing the macro. If it
+>>> triggers warnings in future we may change the few cases to check for > 0
+>>> or != 0. Another possibility would be to use the great "not not
+>>> operator" for all positive checks, which would allow us to maintain
+>>> consistency.  However let's try first the simplest form though, hopefully
+>>> we don't hit broken compilers spitting a warning:
+>>
+>> You didn't prevent the compilation warning this re-introduces.
+>>
+>> drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
+>> drivers/gpu/drm/i915/i915_request.c:1679 i915_request_wait() warn: should this be a bitwise op?
+>
+>Looks like that's a Smatch warning. The immediate fix would be to just
+>add the != 0 in the relevant places. But this is stuff that's just going
+>to get broken again unless we add Smatch to CI. Most people aren't
+>running it on a regular basis.
 
-Just to be sure I do the right thing this time (and to better understand the
-process), please confirm that this is the correct sequence of events:
+clang gives a warning only in drivers/gpu/drm/i915/i915_config.c and the
+warning is gone if the condition swapped:
 
-  1. I fix the lock issue and test on my local machine.
+-	if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
++	if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
 
-  2. I then post this new patch set (v3) rebased on top of drm-tip (instead of
-     drm-next). This will automatically trigger tests on intel hardware (and
-     maybe in other hardwares?)
+which would make sense if we think about shortcutting the if condition.
+However smatch still reports the warning and an additional one
+in drivers/gpu/drm/i915/i915_request.c. The ways I found to stop the
+false positives with smatch are:
 
-        NOTE: I originally chose drm-next because that's what is mentioned here:
-        https://01.org/linuxgraphics/gfx-docs/drm/gpu/introduction.html#contribution-process
-        Maybe this doc should be updated?
+if (context && CONFIG_DRM_I915_FENCE_TIMEOUT != 0)
+or
+if (context && !!CONFIG_DRM_I915_FENCE_TIMEOUT)
+or
+if (context && CONFIG_DRM_I915_FENCE_TIMEOUT > 0)
 
-  3. Once reviewed and approved, someone (Sean?) merges them into "somewhere"
-     (drm-next? drm-misc-next? drm-intel-next? How is this decided?).
+Dan, anything else that we could do here?  This is about this kind of
+code:
 
-  4. Eventually, that other branch from the previous point is merged into
-     drm-tip.
+	f (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
 
-  5. ??
+in which context is a u64 variable, that gives this warning:
 
-  6. The branch is merged into linux-next.
+drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
 
+thanks
+Lucas De Marchi
 
-There must be something wrong in my description above, as it doesn't make sense
-to post the patch series based on "drm-tip" only to later have one of the
-mainteiners merge them into a different branch that will eventually be merged
-back into "drm-tip".
-
-Sorry for being completely lost! Is there a document explaining how all of this
-works so that I can learn for the next time?
-
-Thanks!
+>
+>BR,
+>Jani.
+>
+>
+>-- 
+>Jani Nikula, Intel Open Source Graphics Center
