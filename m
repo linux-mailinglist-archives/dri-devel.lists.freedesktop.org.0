@@ -2,41 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73135421B14
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:23:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF777421B47
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:42:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB75B6EACF;
-	Tue,  5 Oct 2021 00:23:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED246E2B4;
+	Tue,  5 Oct 2021 00:42:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5206EACF
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:23:03 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id D26D225B;
- Tue,  5 Oct 2021 02:23:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1633393382;
- bh=4DnE9NCoGB1wlYjTRO5i9MP1EIij713NzbRiy2mIPRE=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=rI7IzRyW+fZcFBPbZGgQGUihkZPcYd9WWvq3vORZb7q1fpIECCRKHLQmiNvoY0U3E
- s1xqBUcGidjl67emyY0tlYMq1gZBiDUx3nGvAFOd+LHzrzj/+RThCXp3va2QvPGH1x
- 9UlKGQ2s41zkCokcANn1VQFG2C/rLEQcVkgPYuS0=
-Date: Tue, 5 Oct 2021 03:22:55 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH V4 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-Message-ID: <YVua3/wI86EoIt1N@pendragon.ideasonboard.com>
-References: <20210727161357.8842-1-marex@denx.de>
- <20210727161357.8842-2-marex@denx.de>
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
+ [IPv6:2607:f8b0:4864:20::f34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 468A26E2B4
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:42:05 +0000 (UTC)
+Received: by mail-qv1-xf34.google.com with SMTP id d20so4048727qvm.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:42:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cIEfmhHMWRR+UfbfarKixY0VfYOQ7qrc2Yu2ffv5Aws=;
+ b=HVKYKpLYZsQ9UTyyVy1Vf68F9k+FOnBn7+9LJBhoCIDGj4DtpqnbiLLEuHoP7URbRu
+ yWbC7e48enorTEgwAc9q+sBTCplD/Nk3G42Ixoy6VrM2x9T1VsqUikRntsEX0fSkrzfT
+ mapzJmRojmYesEyumCJd5at2lucUUJNvK2HSE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cIEfmhHMWRR+UfbfarKixY0VfYOQ7qrc2Yu2ffv5Aws=;
+ b=RXhoVm5AmRWlMm+LgCGAKui6VsCsQ7a21ozRXE1+x6Ny7Q+41zACS7LqjgsAJen/M/
+ gSlclbZutlzRfo/l9XrIE9RASv9I2PGCOkkEjnUE7d0ReVbsXZ2PYnzStoAVqcDgW8B/
+ JNGGUoa6EMnN/cmpupfBNxtwxZawOZEQk96CrYETu0IpPbQokzbx5STvUevb244Hl4qs
+ rlyOk7CAXYC67GyxDiwziPrKAoV47RFsLkrwBZNhSYpKyhd5eZh1qu4aGohcp/Gx9KR+
+ Ost5bMcEVqwnZmXHMqG8ItKNNDDu0KaOLs3ULlO1aZs7D8WCPQBvKOvZ+o6mtL0eheav
+ lJPQ==
+X-Gm-Message-State: AOAM530I/TtS66XxjTmPpZ850/CFfL92DQqEsy1iBB42+tGuzM8IYd6P
+ fFJtrzXu8o4GaLOfv/5i1lDFWxNgi7VrwA==
+X-Google-Smtp-Source: ABdhPJxLDRkoCzvpOnmaOyDnp7bnnHXCz5gqcq5nx6QapxBX5AuOsJmFIdXSEchQolhFkYd7DAlTRw==
+X-Received: by 2002:ad4:57ac:: with SMTP id g12mr25138390qvx.49.1633394524210; 
+ Mon, 04 Oct 2021 17:42:04 -0700 (PDT)
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com.
+ [209.85.222.182])
+ by smtp.gmail.com with ESMTPSA id d17sm11171935qte.0.2021.10.04.17.42.03
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 04 Oct 2021 17:42:03 -0700 (PDT)
+Received: by mail-qk1-f182.google.com with SMTP id 194so18273747qkj.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:42:03 -0700 (PDT)
+X-Received: by 2002:a02:c7d2:: with SMTP id s18mr175853jao.68.1633394182579;
+ Mon, 04 Oct 2021 17:36:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210727161357.8842-2-marex@denx.de>
+References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
+ <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
+ <YVd3YdfgFVc0Br5T@ripper>
+In-Reply-To: <YVd3YdfgFVc0Br5T@ripper>
+From: Doug Anderson <dianders@chromium.org>
+Date: Mon, 4 Oct 2021 17:36:10 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
+Message-ID: <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
+Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ Vara Reddy <varar@codeaurora.org>, freedreno <freedreno@lists.freedesktop.org>,
+ Chandan Uddaraju <chandanu@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,176 +83,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Marek,
+Hi,
 
-Thank you for the patch, and all my apologies for the delay.
+On Fri, Oct 1, 2021 at 2:00 PM Bjorn Andersson
+<bjorn.andersson@linaro.org> wrote:
+>
+> On Fri 27 Aug 13:52 PDT 2021, Doug Anderson wrote:
+>
+> > Hi,
+> >
+> > On Mon, Jul 26, 2021 at 4:15 PM Bjorn Andersson
+> > <bjorn.andersson@linaro.org> wrote:
+> > >
+> > > +static int dp_parser_find_panel(struct dp_parser *parser)
+> > > +{
+> > > +       struct device_node *np = parser->pdev->dev.of_node;
+> > > +       int rc;
+> > > +
+> > > +       rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
+> >
+> > Why port 2? Shouldn't this just be port 1 always? The yaml says that
+> > port 1 is "Output endpoint of the controller". We should just use port
+> > 1 here, right?
+> >
+>
+> Finally got back to this, changed it to 1 and figured out why I left it
+> at 2.
+>
+> drm_of_find_panel_or_bridge() on a DP controller will find the of_graph
+> reference to the USB-C controller, scan through the registered panels
+> and conclude that the of_node of the USB-C controller isn't a registered
+> panel and return -EPROBE_DEFER.
 
-On Tue, Jul 27, 2021 at 06:13:57PM +0200, Marek Vasut wrote:
-> Decoder input LVDS format is a property of the decoder chip or even
-> its strapping. Handle data-mapping the same way lvds-panel does. In
-> case data-mapping is not present, do nothing, since there are still
-> legacy bindings which do not specify this property.
-> 
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> To: dri-devel@lists.freedesktop.org
-> ---
-> V2: - Move the data-mapping to endpoint
-> V3: - Rebase on V2 submitted a while ago, reinstate changelog
->     - Use .atomic_get_input_bus_fmts for the decoder, separate funcs for encoder
-> V4: - No change
-> ---
->  drivers/gpu/drm/bridge/lvds-codec.c | 76 ++++++++++++++++++++++++++++-
->  1 file changed, 75 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-> index dcf579a4cf833..afa7ce7ea01e8 100644
-> --- a/drivers/gpu/drm/bridge/lvds-codec.c
-> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
-> @@ -12,6 +12,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/regulator/consumer.h>
->  
-> +#include <drm/drm_atomic_helper.h>
->  #include <drm/drm_bridge.h>
->  #include <drm/drm_panel.h>
->  
-> @@ -22,6 +23,7 @@ struct lvds_codec {
->  	struct regulator *vcc;
->  	struct gpio_desc *powerdown_gpio;
->  	u32 connector_type;
-> +	unsigned int bus_format;
->  };
->  
->  static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-> @@ -74,12 +76,50 @@ static const struct drm_bridge_funcs funcs = {
->  	.disable = lvds_codec_disable,
->  };
->  
-> +#define MAX_INPUT_SEL_FORMATS 1
-> +static u32 *
-> +lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-> +				     struct drm_bridge_state *bridge_state,
-> +				     struct drm_crtc_state *crtc_state,
-> +				     struct drm_connector_state *conn_state,
-> +				     u32 output_fmt,
-> +				     unsigned int *num_input_fmts)
-> +{
-> +	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-> +	u32 *input_fmts;
-> +
-> +	*num_input_fmts = 0;
-> +
-> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-> +			     GFP_KERNEL);
-> +	if (!input_fmts)
-> +		return NULL;
-> +
-> +	input_fmts[0] = lvds_codec->bus_format;
-> +	*num_input_fmts = MAX_INPUT_SEL_FORMATS;
+I'm confused, but maybe it would help if I could see something
+concrete. Is there a specific board this was happening on?
 
-Are there cases where the input format would depend on the output format
-? For instance, a 24-bit RGB output that could also work in RGB666 mode,
-where we would select between MEDIA_BUS_FMT_RGB666_1X7X3_SPWG and
-MEDIA_BUS_FMT_RGB888_1X7X4_SPWG depending on whether the output is
-RGB666 or RGB888 ? I don't think we need to handle this now, and I
-believe it will be possible to do this in a backward-compatible way if
-the need ever arises. A confirmation that I'm not missing something
-obvious would be nice.
+Under the DP node in the device tree I expect:
 
-> +
-> +	return input_fmts;
-> +}
-> +
-> +static const struct drm_bridge_funcs funcs_decoder = {
-> +	.attach = lvds_codec_attach,
-> +	.enable = lvds_codec_enable,
-> +	.disable = lvds_codec_disable,
-> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-> +	.atomic_reset = drm_atomic_helper_bridge_reset,
-> +	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
-> +};
-> +
->  static int lvds_codec_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
->  	struct device_node *panel_node;
-> +	struct device_node *bus_node;
->  	struct drm_panel *panel;
->  	struct lvds_codec *lvds_codec;
-> +	const char *mapping;
-> +	int ret;
->  
->  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
->  	if (!lvds_codec)
-> @@ -119,13 +159,47 @@ static int lvds_codec_probe(struct platform_device *pdev)
->  	if (IS_ERR(lvds_codec->panel_bridge))
->  		return PTR_ERR(lvds_codec->panel_bridge);
->  
-> +	lvds_codec->bridge.funcs = &funcs;
-> +
-> +	/*
-> +	 * Decoder input LVDS format is a property of the decoder chip or even
-> +	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-> +	 * case data-mapping is not present, do nothing, since there are still
-> +	 * legacy bindings which do not specify this property.
-> +	 */
-> +	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-> +		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
+ports {
+  port@1 {
+    reg = <1>;
+    edp_out: endpoint {
+      remote-endpoint = <&edp_panel_in>;
+    };
+  };
+};
 
-I think this should be
+If you have "port@1" pointing to a USB-C controller but this instance
+of the DP controller is actually hooked up straight to a panel then
+you should simply delete the "port@1" that points to the typeC and
+replace it with one that points to a panel, right?
 
-		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-
-(see the comment on patch 1/2).
-
-> +		if (!bus_node) {
-> +			dev_dbg(dev, "bus DT node not found\n");
-> +			return -ENXIO;
-> +		}
-> +
-> +		ret = of_property_read_string(bus_node, "data-mapping",
-> +					      &mapping);
-> +		of_node_put(bus_node);
-> +		if (ret < 0) {
-> +			dev_err(dev, "missing 'data-mapping' DT property\n");
-> +		} else {
-> +			if (!strcmp(mapping, "jeida-18")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-> +			} else if (!strcmp(mapping, "jeida-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-> +			} else if (!strcmp(mapping, "vesa-24")) {
-> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-> +			} else {
-> +				dev_err(dev, "invalid 'data-mapping' DT property\n");
-> +				return -EINVAL;
-> +			}
-> +			lvds_codec->bridge.funcs = &funcs_decoder;
-> +		}
-
-I may have split this to a separate function to reduce line length and
-simplify error handling, up to you.
-
-With at least the port number fix above (unless I'm mistaken of course),
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	}
-> +
->  	/*
->  	 * The panel_bridge bridge is attached to the panel's of_node,
->  	 * but we need a bridge attached to our of_node for our user
->  	 * to look up.
->  	 */
->  	lvds_codec->bridge.of_node = dev->of_node;
-> -	lvds_codec->bridge.funcs = &funcs;
->  	drm_bridge_add(&lvds_codec->bridge);
->  
->  	platform_set_drvdata(pdev, lvds_codec);
-
--- 
-Regards,
-
-Laurent Pinchart
+-Doug
