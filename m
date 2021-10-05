@@ -2,45 +2,77 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B15422246
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 11:26:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070AE42225F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 11:33:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3D7C6EB43;
-	Tue,  5 Oct 2021 09:26:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2F7776EB34;
+	Tue,  5 Oct 2021 09:33:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D0D9C6EB34;
- Tue,  5 Oct 2021 09:26:12 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="286574212"
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="286574212"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 02:26:01 -0700
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="438629351"
-Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194])
- ([10.213.238.194])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 02:26:00 -0700
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Fix bug in user proto-context
- creation that leaked contexts
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jason@jlekstrand.net, Daniel Vetter <daniel@ffwll.ch>
-References: <20210922194333.8956-1-matthew.brost@intel.com>
- <ecb916eb-7755-2c19-4f4f-389580f9acd6@linux.intel.com>
- <20211001154859.GA5892@jons-linux-dev-box>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <3ce7b650-ef10-66e1-1370-99b0522909d4@linux.intel.com>
-Date: Tue, 5 Oct 2021 10:25:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com
+ [IPv6:2a00:1450:4864:20::331])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DB9396EB34
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 09:33:34 +0000 (UTC)
+Received: by mail-wm1-x331.google.com with SMTP id
+ b136-20020a1c808e000000b0030d60716239so2369982wmd.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 02:33:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=84i4+SzL9tiQo/SOSLeEzwo8g6Lg9b2B2s8GHO0rn9o=;
+ b=WaWK+vO3GHH71aqMogJcK7UAKifrVXNE9OzaJrTvObEyqj74YLfbafdzDVMQL0coEu
+ CuNwRzCsT1pVdmPLSvb4NBANiT41zxtJI/SZc5EkT941+DLJJyiDYjAU6StNuECZ33K8
+ UrZluNpRWi00T6c6c4EaouBbA9mcnyzrkZgctEJrBrB8Nke/hS1CXTY1pSMh7lwQF7p7
+ yXXoS1QvI5knJ31FblmsHibRFJO1PkYCaZiAzVVeV9rqDo1asr/fVvHsMuwQczohxNNk
+ 77assjsCcZsguQ5DbAWzKSTtiYb3ovZVTa34BZSleiF8LlfWIek22ADi0zk9ZvLtaLNn
+ cS6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=84i4+SzL9tiQo/SOSLeEzwo8g6Lg9b2B2s8GHO0rn9o=;
+ b=0+tWnSD9unUGqSjWNWm8Z5TsQdrvkIv5uEmgxEEDfmgwkxcR2stoxsFfPO1rcax0RO
+ XFbh87RACXJNqwi6RrGG3q7XdoOBOEkeaoVFUUYyzj6KXI0FINnc/J/oJJ8V5V/7NBy/
+ CLuvcLFRg0qLx/tK2iblUWaLhMDZ6l3jlPtZphKyxQkErLydZFgWSpENnap5ZPzimIHP
+ j/f2WjqEuQZytRK/5WvmyXoF2+6yQ/emx8bAxdPOQMHwqH8EgrSprG/0mzFwveqMR5RY
+ vQzvTWzrSHKP+FI1GKQ1EwBvb7T2vSsIBzvnKQMSciu8pn+Rs9fCiOSSvvBMy0Up8plj
+ w58Q==
+X-Gm-Message-State: AOAM530gDVPHc8jdKNnG3SFHTp3AwAswQL2schXYI8yll/LLH16zd/Dn
+ Du6Lo+DYmD9sqYC8dQAO8ktY0nQ59VBEoQ==
+X-Google-Smtp-Source: ABdhPJw0zjXOLhlcSRooceJ4ayxqpv13Rbw1Of426+AbhSJDGcM2mvcDifH9KLoqa9i1dBz8lo0OzA==
+X-Received: by 2002:a1c:4e0f:: with SMTP id g15mr2276144wmh.74.1633426413360; 
+ Tue, 05 Oct 2021 02:33:33 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id r9sm17065679wru.2.2021.10.05.02.33.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 02:33:32 -0700 (PDT)
+Date: Tue, 5 Oct 2021 10:33:31 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+Cc: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 09/10] backlight: qcom-wled: Consistently use
+ enabled-strings in set_brightness
+Message-ID: <20211005093331.4houxsc5b6lfzmbz@maple.lan>
+References: <20211004192741.621870-1-marijn.suijten@somainline.org>
+ <20211004192741.621870-10-marijn.suijten@somainline.org>
 MIME-Version: 1.0
-In-Reply-To: <20211001154859.GA5892@jons-linux-dev-box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211004192741.621870-10-marijn.suijten@somainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,90 +88,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Mon, Oct 04, 2021 at 09:27:40PM +0200, Marijn Suijten wrote:
+> The hardware is capable of controlling any non-contiguous sequence of
+> LEDs specified in the DT using qcom,enabled-strings as u32
+> array, and this also follows from the DT-bindings documentation.  The
+> numbers specified in this array represent indices of the LED strings
+> that are to be enabled and disabled.
+> 
+> Its value is appropriately used to setup and enable string modules, but
+> completely disregarded in the set_brightness paths which only iterate
+> over the number of strings linearly.
+> Take an example where only string 2 is enabled with
+> qcom,enabled_strings=<2>: this string is appropriately enabled but
+> subsequent brightness changes would have only touched the zero'th
+> brightness register because num_strings is 1 here.  This is simply
+> addressed by looking up the string for this index in the enabled_strings
+> array just like the other codepaths that iterate over num_strings.
 
-On 01/10/2021 16:48, Matthew Brost wrote:
-> On Fri, Oct 01, 2021 at 09:40:19AM +0100, Tvrtko Ursulin wrote:
->>
->> + Daniel as reviewer and maybe merge, avoid falling through cracks at least.
->>
-> 
-> Ty, working on push rights myself.
+This isn't true until patch 10 is applied!
 
-I ended up pushing it myself to avoid having a potential crash in the 
-driver for too long. Hope people will not mind.
+Given both patches fix the same issue in different functions I'd prefer
+these to be squashed together (and doubly so because the autodetect code
+uses set_brightness() as a helper function).
 
-Regards,
 
-Tvrtko
-
->> On 22/09/2021 20:43, Matthew Brost wrote:
->>> Set number of engines before attempting to create contexts so the
->>> function free_engines can clean up properly. Also check return of
->>> alloc_engines for NULL.
->>>
->>> v2:
->>>    (Tvrtko)
->>>     - Send as stand alone patch
->>>    (John Harrison)
->>>     - Check for alloc_engines returning NULL
->>>
->>> Cc: Jason Ekstrand <jason@jlekstrand.net>
->>> Fixes: d4433c7600f7 ("drm/i915/gem: Use the proto-context to handle create parameters (v5)")
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> Cc: <stable@vger.kernel.org>
->>> ---
->>>    drivers/gpu/drm/i915/gem/i915_gem_context.c | 6 +++++-
->>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> index c2ab0e22db0a..9627c7aac6a3 100644
->>> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
->>> @@ -898,6 +898,11 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->>>    	unsigned int n;
->>>    	e = alloc_engines(num_engines);
->>> +	if (!e) {
->>> +		return ERR_PTR(-ENOMEM);
->>> +	}
->>
->> Ideally remove the braces and respin.
->>
-> 
-> Yep, checkpatch didn't like this. Will respin.
->   
->>> +	e->num_engines = num_engines;
->>
->> Theoretically you could have put it next to "e->engines[n] = ce" assignment
->> so the pattern is the same as in default_engines(). Kind of makes more sense
->> that the number is not set before anything is created, but as it doesn't
->> really matter since free_engines handles sparse arrays so there is argument
->> to have a simpler single assignment as well.
->>
-> 
-> I like a single assignment, let's not overthink this.
->   
->>> +
->>>    	for (n = 0; n < num_engines; n++) {
->>>    		struct intel_context *ce;
->>>    		int ret;
->>> @@ -931,7 +936,6 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->>>    			goto free_engines;
->>>    		}
->>>    	}
->>> -	e->num_engines = num_engines;
->>>    	return e;
->>>
->>
->> Fix looks good to me. I did not want to butt in but since more than a week
->> has passed without it getting noticed:
->>
-> 
-> Again, ty.
-> 
-> Matt
-> 
->> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>
->> Regards,
->>
->> Tvrtko
+Daniel.
