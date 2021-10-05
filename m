@@ -1,54 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C3354232E5
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:34:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D284232F0
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:39:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0136EC64;
-	Tue,  5 Oct 2021 21:34:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0B5E36EC65;
+	Tue,  5 Oct 2021 21:38:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4B46EC64;
- Tue,  5 Oct 2021 21:34:26 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="212795850"
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="212795850"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 14:34:25 -0700
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="477855541"
-Received: from pwali-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.213.170.68])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 14:34:24 -0700
-Date: Tue, 5 Oct 2021 14:34:23 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
- Mikita Lipski <mikita.lipski@amd.com>, Eryk Brol <eryk.brol@amd.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- "David S. Miller" <davem@davemloft.net>,
- Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
- Francis Laniel <laniel_francis@privacyrequired.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- netdev@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>,
- Leo Li <sunpeng.li@amd.com>,
- Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Raju Rangoju <rajur@chelsio.com>, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: [PATCH v1 1/3] string: Consolidate yesno() helpers under
- string.h hood
-Message-ID: <20211005213423.dklsii4jx37pjvb4@ldmartin-desk2>
-References: <20210215142137.64476-1-andriy.shevchenko@linux.intel.com>
+Received: from mail-ot1-x32d.google.com (mail-ot1-x32d.google.com
+ [IPv6:2607:f8b0:4864:20::32d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0F20F6EC65
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 21:38:57 +0000 (UTC)
+Received: by mail-ot1-x32d.google.com with SMTP id
+ c26-20020a056830349a00b0054d96d25c1eso613564otu.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 14:38:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=XwBxFBF/Wz7qJo21AO0Spsmb8Z2fz8+ghFhMq6YjQTU=;
+ b=WQ8XmZxsPfbZllzokRO7+Jjx/nD/hJboaXKtbethxbp3yID6yrPSP1lSPe2WQPhrn5
+ aeG5uWM9yj3v7XY1gQVk6l3rK/YsaGZIADln28Ae7thnLpJf9Ee1SIDTiQdmshxmsX20
+ nRwZfEheKCBrFroqZt1ZFnHViTUarBBJrk/mHHGt9sZpCdy06NetQ5pQv86QuaHuLGOf
+ keRle//NDqbe2CoGUEJb57LfABJe3RsjgPaU2tIFKthI80mE0XR+6OrW4NKZuCu0ZZnP
+ EnhGft/J5pAEvxsRah9fc9NjZjBOlRsX8VYzyOnNtTbHbBtod0DGP66L9iPCddng66Ge
+ zmFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=XwBxFBF/Wz7qJo21AO0Spsmb8Z2fz8+ghFhMq6YjQTU=;
+ b=COEJgKC3PYhmht8ClVcB3bCQrMabLkiOI3Pca7bICtni+aNSpoQDF+F43rZUh8wGfq
+ pngBz7mR6SCRmA1bZh52YqFNffg//wUKwxbZ39P4kEGpzl3iCbiPijuDDEzzC7cXSeoV
+ gUACNxdxEcVu59mIufRRaiokaptKx4VZzX+76KI2Bsv8CH71mcwnVoIs0HWOKWEj8EQN
+ 1i1TyvV7WykOlF1IrdBy6E24DNkoRCJpVBOse76l0SxpSVp4T6/zyzkhIdmowpT4KNzY
+ foJdO7KuZ5m3hSS2UwdKnGG/UQuB5ejwM5tyt+AvXZwz9qumEy8e5kvIykI6xQyaZePr
+ UGVQ==
+X-Gm-Message-State: AOAM532nm85PhrHj34rfHoAtqzNvCzBbVa6TmtAFsv/VvJzx39z5NJgs
+ ndmX5Cc/4aNVqJmD3nnzLiMZcA==
+X-Google-Smtp-Source: ABdhPJxZU82kUOM2pe8hCHCAjxEF1gNb5QXbBnbhthExkr2zHei0ZXp/UlrjxB3s9dJBtIBvaocs5w==
+X-Received: by 2002:a05:6830:812:: with SMTP id
+ r18mr16200467ots.282.1633469936358; 
+ Tue, 05 Oct 2021 14:38:56 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id z24sm3514610oic.26.2021.10.05.14.38.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 14:38:55 -0700 (PDT)
+Date: Tue, 5 Oct 2021 14:40:38 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sankeerth Billakanti <sbillaka@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
+Message-ID: <YVzGVmJXEDH0HfIL@ripper>
+References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
+ <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210215142137.64476-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -64,126 +81,29 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Feb 15, 2021 at 04:21:35PM +0200, Andy Shevchenko wrote:
->We have already few similar implementation and a lot of code that can benefit
->of the yesno() helper.  Consolidate yesno() helpers under string.h hood.
+On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
 
-I was taking a look on i915_utils.h to reduce it and move some of it
-elsewhere to be shared with others.  I was starting with these helpers
-and had [1] done, then Jani pointed me to this thread and also his
-previous tentative. I thought the natural place for this would be
-include/linux/string_helpers.h, but I will leave it up to you.
+> Quoting Bjorn Andersson (2021-10-04 19:37:50)
+> > Found in the middle of a patch from Sankeerth was the reduction of the
+> > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
+> > is initalized and HPD interrupt start to be serviced, so in the case of
+> > eDP this reduction improves the user experience dramatically - i.e.
+> > removes 9.9s of bland screen time at boot.
+> >
+> > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > ---
+> 
+> Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
+> re-read the code a couple times to understand that it's waiting 100ms
+> times the 'delay' number. Whaaaaat?
+> 
 
-After reading the threads, I don't see real opposition to it.
-Is there a tree you plan to take this through?
+I assume you're happy with the current 10s delay on the current
+devices, so I don't think we should push for this to be backported.
+I have no need for it to be backported on my side at least.
 
-thanks
-Lucas De Marchi
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
 
-[1] https://lore.kernel.org/lkml/20211005212634.3223113-1-lucas.demarchi@intel.com/T/#u
-
->
->Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->---
-> .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c    |  6 +-----
-> drivers/gpu/drm/i915/i915_utils.h                    |  6 +-----
-> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c   | 12 +-----------
-> include/linux/string.h                               |  5 +++++
-> 4 files changed, 8 insertions(+), 21 deletions(-)
->
->diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->index 360952129b6d..7fde4f90e513 100644
->--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
->@@ -23,6 +23,7 @@
->  *
->  */
->
->+#include <linux/string.h>
-> #include <linux/uaccess.h>
->
-> #include <drm/drm_debugfs.h>
->@@ -49,11 +50,6 @@ struct dmub_debugfs_trace_entry {
-> 	uint32_t param1;
-> };
->
->-static inline const char *yesno(bool v)
->-{
->-	return v ? "yes" : "no";
->-}
->-
-> /* parse_write_buffer_into_params - Helper function to parse debugfs write buffer into an array
->  *
->  * Function takes in attributes passed to debugfs write entry
->diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
->index abd4dcd9f79c..e6da5a951132 100644
->--- a/drivers/gpu/drm/i915/i915_utils.h
->+++ b/drivers/gpu/drm/i915/i915_utils.h
->@@ -27,6 +27,7 @@
->
-> #include <linux/list.h>
-> #include <linux/overflow.h>
->+#include <linux/string.h>
-> #include <linux/sched.h>
-> #include <linux/types.h>
-> #include <linux/workqueue.h>
->@@ -408,11 +409,6 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
-> #define MBps(x) KBps(1000 * (x))
-> #define GBps(x) ((u64)1000 * MBps((x)))
->
->-static inline const char *yesno(bool v)
->-{
->-	return v ? "yes" : "no";
->-}
->-
-> static inline const char *onoff(bool v)
-> {
-> 	return v ? "on" : "off";
->diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
->index 7d49fd4edc9e..c857d73abbd7 100644
->--- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
->+++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
->@@ -34,6 +34,7 @@
->
-> #include <linux/seq_file.h>
-> #include <linux/debugfs.h>
->+#include <linux/string.h>
-> #include <linux/string_helpers.h>
-> #include <linux/sort.h>
-> #include <linux/ctype.h>
->@@ -2015,17 +2016,6 @@ static const struct file_operations rss_debugfs_fops = {
-> /* RSS Configuration.
->  */
->
->-/* Small utility function to return the strings "yes" or "no" if the supplied
->- * argument is non-zero.
->- */
->-static const char *yesno(int x)
->-{
->-	static const char *yes = "yes";
->-	static const char *no = "no";
->-
->-	return x ? yes : no;
->-}
->-
-> static int rss_config_show(struct seq_file *seq, void *v)
-> {
-> 	struct adapter *adapter = seq->private;
->diff --git a/include/linux/string.h b/include/linux/string.h
->index 9521d8cab18e..fd946a5e18c8 100644
->--- a/include/linux/string.h
->+++ b/include/linux/string.h
->@@ -308,4 +308,9 @@ static __always_inline size_t str_has_prefix(const char *str, const char *prefix
-> 	return strncmp(str, prefix, len) == 0 ? len : 0;
-> }
->
->+static inline const char *yesno(bool yes)
->+{
->+	return yes ? "yes" : "no";
->+}
->+
-> #endif /* _LINUX_STRING_H_ */
->-- 
->2.30.0
->
->
+Thanks,
+Bjorn
