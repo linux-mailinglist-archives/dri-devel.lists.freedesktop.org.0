@@ -1,37 +1,66 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97439422C1B
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:14:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A987422BF4
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:11:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 938C06F5EA;
-	Tue,  5 Oct 2021 15:14:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3CAA6E402;
+	Tue,  5 Oct 2021 15:10:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8CEEC6F5EA;
- Tue,  5 Oct 2021 15:14:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="226082786"
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="226082786"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 08:09:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="523805312"
-Received: from aalteres-desk.fm.intel.com ([10.80.57.53])
- by fmsmga008.fm.intel.com with ESMTP; 05 Oct 2021 08:09:37 -0700
-From: Alan Previn <alan.previn.teres.alexis@intel.com>
-To: igt-dev@lists.freedesktop.org
-Cc: Alan Previn <alan.previn.teres.alexis@intel.com>,
- dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-Subject: [PATCH i-g-t v13 00/16] Introduce PXP Test
-Date: Tue,  5 Oct 2021 08:10:06 -0700
-Message-Id: <20211005151022.2161424-1-alan.previn.teres.alexis@intel.com>
-X-Mailer: git-send-email 2.25.1
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
+ [IPv6:2607:f8b0:4864:20::1033])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2796EB90
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:10:58 +0000 (UTC)
+Received: by mail-pj1-x1033.google.com with SMTP id k23so3477356pji.0
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+QnKdMD67+rQVIo2b0/8Hr/i0O4OC/30heYtQ6dc/js=;
+ b=MWGHadB5myjzG7hi7dEWEPb8pOcALr2pFYDh0ztFd5+60GiynIznraGmKCFLG9e1J/
+ 60NqPZOBhULuBWXwnucxJ/AWgtP8nKcV9vTLWvlpBYy6FbdRgHG+xKzEJFloyTLEUIs4
+ QzOxy+kLAS/LJ3leSqgLOjJlx23/8zJ9MRXAs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+QnKdMD67+rQVIo2b0/8Hr/i0O4OC/30heYtQ6dc/js=;
+ b=w6hBhF2vC77+/VUs2pI/UQPtPoX9rd02LpyTKVO5qjdM0FwUinOzECOiohe3z+OmC6
+ pbl9IPqGmqHWd92Ulo8lomkx3A9YtbcWLXTREjgZW9+Tbk3lm2CKf+JyNQOBhpH1fFAY
+ A9tpw084EHR/gdATPMkYBzpX4XAujqKZAX498vLQ9tD6D8XPytMA6HbHsB/zsfvU67xL
+ Etr9vhxDqmfDwyW3XTZwFD/KOOHwI2Aw6kKm12QrUfIGEkb8rxSaWL8DnEgx9XNCkvcz
+ Ucl3bDg9V5m3E7AaJt2oYOfKTlk2LpKKjuS+o2VeuWiX8PXjRapH5x3t1nCpWeIWwyDk
+ CIaQ==
+X-Gm-Message-State: AOAM533G/dwDsJPrmji/r2pmA6vWgIvkK78hG0C8IK+nZb/XmZcEK7Nn
+ EkoUAdXRdRud7XY+DwcEb42c97HK5WSAwQ==
+X-Google-Smtp-Source: ABdhPJzSVCahQti09JKEx8hW7Dg7wwwmo3seeZ5OZCLdMc6jbjcG482M1ZiVw+8V4Fx/bV899Alhjw==
+X-Received: by 2002:a17:90a:1a4c:: with SMTP id
+ 12mr4467161pjl.89.1633446657910; 
+ Tue, 05 Oct 2021 08:10:57 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com
+ ([2620:15c:202:201:68e6:d130:478e:edbd])
+ by smtp.gmail.com with ESMTPSA id a15sm6280000pfg.53.2021.10.05.08.10.56
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 08:10:57 -0700 (PDT)
+From: Douglas Anderson <dianders@chromium.org>
+To: dri-devel@lists.freedesktop.org
+Cc: Rodrigo.Siqueira@amd.com, ville.syrjala@linux.intel.com,
+ Harry.Wentland@amd.com, khsieh@codeaurora.org, Jerry.Zuo@amd.com,
+ alexander.deucher@amd.com, Douglas Anderson <dianders@chromium.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Harry Wentland <harry.wentland@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/edid: In connector_bad_edid() cap num_of_ext by
+ num_blocks read
+Date: Tue,  5 Oct 2021 08:10:28 -0700
+Message-Id: <20211005081022.1.Ib059f9c23c2611cb5a9d760e7d0a700c1295928d@changeid>
+X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -48,148 +77,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series adds gem_pxp tests for the new PXP subsystem currently
-being reviewed at https://patchwork.freedesktop.org/series/90503/.
-This series currently includes 4 groups of tests addressing the
-features and restrictions described by Daniele's series :
-   1. test i915 interfaces for allocation of protected bo's
-      and contexts and enforcement of UAPI rule disallowing the
-      modification of parameters after it's been created.
-   2. verify PXP subsystem protected sessions generate encrypted
-      content on protected output buffers and decrypt protected
-      inputs buffers.
-   3. verify i915 PXP auto-teardown succeeds on suspend-resume
-      cycles and gem-exec of stale protected assets fail. Ensure
-      protected-contexts adhere to stricter invalidation
-      enforcement upon teardown event.
-   4. Ensure that display plane decryption works as expected with
-      protected buffers.
+In commit e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid
+corruption test") the function connector_bad_edid() started assuming
+that the memory for the EDID passed to it was big enough to hold
+`edid[0x7e] + 1` blocks of data (1 extra for the base block). It
+completely ignored the fact that the function was passed `num_blocks`
+which indicated how much memory had been allocated for the EDID.
 
-NOTE: This series is on the thirteenth revision. All R-v-b's have been
-received except UAPI patch which will be dropped at merge time (after
-kernel patches gets merged and igt's drm UAPI gets sync'd).
+Let's fix this by adding a bounds check.
 
-Changes from prior rev1 to now:
-   v13:
-      - Rebase again and fix UAPI sync to match kernel commits.
-   v12:
-      - Rebase on latest igt and updated the UAPI changes to align
-        with commits from kernel side.
-   v11:
-      - When detecting hw support, retry pxp context creation
-        multiple times a timeout as per HW SLA.
-      - initialize bo or ctx handles to zero before calling
-        creation ioctl wrapper.
-   v10:
-      - In patch #2, reuse existing gem_create_ext wrapper.
-      - In patch #10, kernel side changed the debugfs file name
-        (but no difference in behavior / usage).
-      - Removed patch #14 from Rev9 as decision on kernel side
-        was to drop the usage of RESET_STATS IOCTL to track
-        invalidated pxp contexts.
-   v9:
-      - Remove patch #2 from rev7 as it was duplicating
-        an existing ioctl wrapper helper
-      - Fix the false-negative warnings when triggering
-        auto-suspend-resume (remove checking if we are
-        suspending after the system has already resumed).
-   v8:
-      - Nothing - mistaken detection from patchwork
-   v7:
-      - In prior rev, Patches #11->13 was testing expected results
-        from calling gem_execbuf with stale pxp-context, pxp-buffer
-        or combinations of them (including an opt-out usage). All
-        of them used a single suspend-resume power state cycles to
-        trigger the PXP teardown event. These patches have been
-        combined into patch #14 that continues to carry the prior rev
-        Rvb.
-      - In its place, the new patches of #11->#13 do the identical
-        set of tests as before (results from gem_execbuf with various
-        combinations of stale pxp context and buffer), but this time
-        using a debugfs file handle that triggers the same code path
-        taken when the HW triggers the pxp teardown. That said, the
-        code is nearly identical as v6 but I did not keep the Rvb's.
-      - In patch #15, RESET_STAT now reports invalidated / banned
-        pxp contexts via the existing batch_active's lost count.
-   v6:
-      - Addressed rev5 review comments for patch #1, #7, #14
-        and #17.
-      - For #17, I'm using Rodrigo's Rv-b because offline 
-        discussions concluded that we couldn't use those
-        test sequences with HDCP and so it was removed it.
-      - Added Rv-b into all patches that received it.
-      - Modified the test requirement from a list of device
-        ids to checking if runtime PXP interface succeeds
-        due to kernel's build config dependency.
-   v5:
-      - Addressed all rev4 review comments. No changes to
-        overall flow and logic compared to the last rev.
-   v4:
-      - Addressed all rev3 review comments. NOTE: that all
-        test cases and code logic are the same but a decent
-        amount of refactoring has occured due to address
-        v3 comments to break out subtests into separate
-        functions while combining certain checks into the same
-        function to reduce test time by minimizing number of
-        suspend-resume power cycles.
-   v3:
-      - Addressed all rev2 review comments.
-      - In line with one of the rev2 comments, a thorough fixup
-        of all line-breaks in function calls was made for a more
-        consistent styling.
-      - Rebased on igt upstream repo and updated to latest kernel
-        UAPI that added GEM_CREATE_EXT.
-   v2: 
-      - Addressed all rev1 review comments except these:
-           1.Chris Wilson : "...have the caller do 1-3 once for its protected
-             context. Call it something like intel_bb_enable_pxp(),
-             intel_bb_set_pxp if it should be reversible.".
-             -  This couldn't be implemented because [1] HW needs different
-             instruction sequences for enabling/disabling PXP depending
-             on the engine class and [2] the pair of "pxp-enable" and "pxp-
-             disable" instructions need to be contained within the same batch
-             that is dispatched to the hardware. That said, implementing
-             internal intel_batchbuffer funtionality for this would conflict
-             with how rendercopy_gen9 uses batch buffer memory by repositioing
-             the pointer and consuming unused portions of the batch buffer as
-             3d state offsets that batchbuffer has no visibility.
-          
-      - Added these additional subtests:
-           1. verify that buffer sharing works across testing pxp context.
-           2. verify teardown bans contexts via DRM_IOCTL_I915_GET_RESET_STAT.
-           3. verify display plane decryption of protected buffers.
+This is important for handling the case where there's an error in the
+first block of the EDID. In that case we will call
+connector_bad_edid() without having re-allocated memory based on
+`edid[0x7e]`.
 
-Alan Previn (15):
-  i915_drm.h sync PXP default session
-  i915_drm.h sync PXP object creation
-  Add basic PXP testing of buffer and context alloc
-  Perform a regular 3d copy as a control checkpoint
-  Add PXP attribute support in batchbuffer and buffer_ops libs
-  Add MI_SET_APPID instruction definition
-  Enable protected session cmd in gen12_render_copyfunc
-  Add subtest to copy raw source to protected dest
-  Add test where both src and dest are protected
-  Verify PXP teardown occurred through suspend-resume
-  Verify execbuf fails with stale PXP context after teardown
-  Verify execbuf fails with stale PXP buffer after teardown
-  Verify execbuf ok with stale PXP buf in opt-out use
-  Verify execution behavior with stale PXP assets through suspend-resume
-  Verify protected surfaces are dma buffer sharable
+Fixes: e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid corruption test")
+Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+This problem report came up in the context of a patch I sent out [1]
+and this is my attempt at a fix. The problem predates my patch,
+though. I don't personally know anything about DP compliance testing
+and what should be happening here, nor do I apparently have any
+hardware that actually reports a bad EDID. Thus this is just compile
+tested. I'm hoping that someone here can test this and make sure it
+seems OK to them.
 
-Karthik B S (1):
-  tests/i915_pxp: CRC validation for display tests.
+ drivers/gpu/drm/drm_edid.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
- include/drm-uapi/i915_drm.h |   97 +++
- lib/intel_batchbuffer.c     |   23 +-
- lib/intel_batchbuffer.h     |   31 +
- lib/intel_bufops.h          |   15 +
- lib/intel_reg.h             |    8 +
- lib/rendercopy_gen9.c       |   57 ++
- tests/i915/gem_pxp.c        | 1283 +++++++++++++++++++++++++++++++++++
- tests/meson.build           |    1 +
- 8 files changed, 1514 insertions(+), 1 deletion(-)
- create mode 100644 tests/i915/gem_pxp.c
-
+diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
+index 9b19eee0e1b4..ccfa08631c57 100644
+--- a/drivers/gpu/drm/drm_edid.c
++++ b/drivers/gpu/drm/drm_edid.c
+@@ -1843,8 +1843,9 @@ static void connector_bad_edid(struct drm_connector *connector,
+ 	u8 num_of_ext = edid[0x7e];
+ 
+ 	/* Calculate real checksum for the last edid extension block data */
+-	connector->real_edid_checksum =
+-		drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
++	if (num_of_ext <= num_blocks - 1)
++		connector->real_edid_checksum =
++			drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
+ 
+ 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
+ 		return;
 -- 
-2.25.1
+2.33.0.800.g4c38ced690-goog
 
