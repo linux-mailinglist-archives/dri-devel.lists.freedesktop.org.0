@@ -2,71 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF777421B47
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:42:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AADBE421B41
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:41:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6ED246E2B4;
-	Tue,  5 Oct 2021 00:42:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37DFF6E2B6;
+	Tue,  5 Oct 2021 00:41:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com
- [IPv6:2607:f8b0:4864:20::f34])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 468A26E2B4
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:42:05 +0000 (UTC)
-Received: by mail-qv1-xf34.google.com with SMTP id d20so4048727qvm.8
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:42:05 -0700 (PDT)
+Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
+ [IPv6:2607:f8b0:4864:20::d2a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EFF316E2B6
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:41:04 +0000 (UTC)
+Received: by mail-io1-xd2a.google.com with SMTP id y197so22375245iof.11
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cIEfmhHMWRR+UfbfarKixY0VfYOQ7qrc2Yu2ffv5Aws=;
- b=HVKYKpLYZsQ9UTyyVy1Vf68F9k+FOnBn7+9LJBhoCIDGj4DtpqnbiLLEuHoP7URbRu
- yWbC7e48enorTEgwAc9q+sBTCplD/Nk3G42Ixoy6VrM2x9T1VsqUikRntsEX0fSkrzfT
- mapzJmRojmYesEyumCJd5at2lucUUJNvK2HSE=
+ :cc; bh=S8/bkKiby+7EkwB2wz+nIC2A5KBIG95pAQLX24jqAYI=;
+ b=M4ztBx95ziwV0D+GbQdUtLp28pZJUKwn8h37ftcAcvY9Q+EomhOOR8ELG6jdaRGj3a
+ QVUY+CqmNTnFHSoiLipf+EsQQkWXzpd3KFueYcdENLdMuAKkkHMaY/0f7xI77fy+JeFB
+ EaXeVy1tYdpZoF8k/8oUKSLYtCLcaRmwShGnI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=cIEfmhHMWRR+UfbfarKixY0VfYOQ7qrc2Yu2ffv5Aws=;
- b=RXhoVm5AmRWlMm+LgCGAKui6VsCsQ7a21ozRXE1+x6Ny7Q+41zACS7LqjgsAJen/M/
- gSlclbZutlzRfo/l9XrIE9RASv9I2PGCOkkEjnUE7d0ReVbsXZ2PYnzStoAVqcDgW8B/
- JNGGUoa6EMnN/cmpupfBNxtwxZawOZEQk96CrYETu0IpPbQokzbx5STvUevb244Hl4qs
- rlyOk7CAXYC67GyxDiwziPrKAoV47RFsLkrwBZNhSYpKyhd5eZh1qu4aGohcp/Gx9KR+
- Ost5bMcEVqwnZmXHMqG8ItKNNDDu0KaOLs3ULlO1aZs7D8WCPQBvKOvZ+o6mtL0eheav
- lJPQ==
-X-Gm-Message-State: AOAM530I/TtS66XxjTmPpZ850/CFfL92DQqEsy1iBB42+tGuzM8IYd6P
- fFJtrzXu8o4GaLOfv/5i1lDFWxNgi7VrwA==
-X-Google-Smtp-Source: ABdhPJxLDRkoCzvpOnmaOyDnp7bnnHXCz5gqcq5nx6QapxBX5AuOsJmFIdXSEchQolhFkYd7DAlTRw==
-X-Received: by 2002:ad4:57ac:: with SMTP id g12mr25138390qvx.49.1633394524210; 
- Mon, 04 Oct 2021 17:42:04 -0700 (PDT)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com.
- [209.85.222.182])
- by smtp.gmail.com with ESMTPSA id d17sm11171935qte.0.2021.10.04.17.42.03
+ bh=S8/bkKiby+7EkwB2wz+nIC2A5KBIG95pAQLX24jqAYI=;
+ b=Uf88N+s5hGa5hx4ElPOlMcAokqotC3p8X6GVYE7ExKiFTnr5pf4mqS9OiYoE9XWQvE
+ CMhKhryGTQNd/iouoqK+xb0q9ogudVgLUuHYUNiQ9U+URJc48oVqCAA12hkkYK6ZHfGK
+ gUcIZ1s2xIpjJV1f3NMXm7Xrshbo/t9FDmBo8bQfCZxL8xAYUNqxUrtxzsyzmW606q1H
+ yqXEgHZnEJLdC2LoIDe/jg7gHHAMSIIiyhK/maux5uuwJlGertML+TauOlMdi5+9WjHp
+ oG+ehNXrdjvtf+IruOf0KKrd9IyEM3JkDvPnHRPooyYeGiPC7aKrESgVk1noXs2lM5T+
+ zZNg==
+X-Gm-Message-State: AOAM531naF0Sjvu8MSnudR755TlZFmA5K3mC9wuukYLTVznUwq1qNjRk
+ BrC5Ot0ZPQkJDg4yKiCOCd65HdpGAsXzLw==
+X-Google-Smtp-Source: ABdhPJymZCUwazgKn9h4CFtZGYSe2TWq9TeQkR0ol/q2afj9kdb1yZEH1Jt1USvISsaMlUe8zMQcsA==
+X-Received: by 2002:a5d:9493:: with SMTP id v19mr164127ioj.34.1633394464071;
+ Mon, 04 Oct 2021 17:41:04 -0700 (PDT)
+Received: from mail-io1-f51.google.com (mail-io1-f51.google.com.
+ [209.85.166.51])
+ by smtp.gmail.com with ESMTPSA id x13sm10925454ilu.86.2021.10.04.17.41.02
  for <dri-devel@lists.freedesktop.org>
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 04 Oct 2021 17:42:03 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id 194so18273747qkj.11
- for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:42:03 -0700 (PDT)
-X-Received: by 2002:a02:c7d2:: with SMTP id s18mr175853jao.68.1633394182579;
- Mon, 04 Oct 2021 17:36:22 -0700 (PDT)
+ Mon, 04 Oct 2021 17:41:03 -0700 (PDT)
+Received: by mail-io1-f51.google.com with SMTP id e144so22398737iof.3
+ for <dri-devel@lists.freedesktop.org>; Mon, 04 Oct 2021 17:41:02 -0700 (PDT)
+X-Received: by 2002:a6b:2ccb:: with SMTP id s194mr153772ios.128.1633394462524; 
+ Mon, 04 Oct 2021 17:41:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210726231351.655302-1-bjorn.andersson@linaro.org>
- <CAD=FV=UGtHXD==Yy8CVCOioYGb=2hqGQOoNWftD1Jj7OiEp51g@mail.gmail.com>
- <YVd3YdfgFVc0Br5T@ripper>
-In-Reply-To: <YVd3YdfgFVc0Br5T@ripper>
+References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
+ <CAMuHMdUsoBO2hjd0tAecAjnwCUbp=d8i8vaUFDT6Yn3emw2s9Q@mail.gmail.com>
+In-Reply-To: <CAMuHMdUsoBO2hjd0tAecAjnwCUbp=d8i8vaUFDT6Yn3emw2s9Q@mail.gmail.com>
 From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 4 Oct 2021 17:36:10 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
-Message-ID: <CAD=FV=U=xVLuKOYHbGPTkLjGa8_U+F1ZtEvJt4LGaRuR5SsKFw@mail.gmail.com>
-Subject: Re: [RFC] drm/msm/dp: Allow attaching a drm_panel
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm <linux-arm-msm@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- Abhinav Kumar <abhinavk@codeaurora.org>, Stephen Boyd <swboyd@chromium.org>, 
- Kuogee Hsieh <khsieh@codeaurora.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- Vara Reddy <varar@codeaurora.org>, freedreno <freedreno@lists.freedesktop.org>,
- Chandan Uddaraju <chandanu@codeaurora.org>
+Date: Mon, 4 Oct 2021 17:40:49 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
+Message-ID: <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
+Subject: Re: [PATCH] drm/edid: Fix crash with zero/invalid EDID
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
+ kernel test robot <oliver.sang@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, 
+ Jani Nikula <jani.nikula@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+ Linux-Renesas <linux-renesas-soc@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,53 +84,31 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 Hi,
 
-On Fri, Oct 1, 2021 at 2:00 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
+On Mon, Oct 4, 2021 at 10:14 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
 >
-> On Fri 27 Aug 13:52 PDT 2021, Doug Anderson wrote:
+> Hi Douglas,
 >
-> > Hi,
+> On Mon, Oct 4, 2021 at 6:22 PM Douglas Anderson <dianders@chromium.org> wrote:
+> > In the commit bac9c2948224 ("drm/edid: Break out reading block 0 of
+> > the EDID") I broke out reading the base block of the EDID to its own
+> > function. Unfortunately, when I did that I messed up the handling when
+> > drm_edid_is_zero() indicated that we had an EDID that was all 0x00 or
+> > when we went through 4 loops and didn't get a valid EDID. Specifically
+> > I needed to pass the broken EDID to connector_bad_edid() but now I was
+> > passing an error-pointer.
 > >
-> > On Mon, Jul 26, 2021 at 4:15 PM Bjorn Andersson
-> > <bjorn.andersson@linaro.org> wrote:
-> > >
-> > > +static int dp_parser_find_panel(struct dp_parser *parser)
-> > > +{
-> > > +       struct device_node *np = parser->pdev->dev.of_node;
-> > > +       int rc;
-> > > +
-> > > +       rc = drm_of_find_panel_or_bridge(np, 2, 0, &parser->drm_panel, NULL);
+> > Let's re-jigger things so we can pass the bad EDID in properly.
 > >
-> > Why port 2? Shouldn't this just be port 1 always? The yaml says that
-> > port 1 is "Output endpoint of the controller". We should just use port
-> > 1 here, right?
-> >
+> > Fixes: bac9c2948224 ("drm/edid: Break out reading block 0 of the EDID")
+> > Reported-by: kernel test robot <oliver.sang@intel.com>
+> > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > Signed-off-by: Douglas Anderson <dianders@chromium.org>
 >
-> Finally got back to this, changed it to 1 and figured out why I left it
-> at 2.
->
-> drm_of_find_panel_or_bridge() on a DP controller will find the of_graph
-> reference to the USB-C controller, scan through the registered panels
-> and conclude that the of_node of the USB-C controller isn't a registered
-> panel and return -EPROBE_DEFER.
+> The crash is was seeing is gone, so
+> Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-I'm confused, but maybe it would help if I could see something
-concrete. Is there a specific board this was happening on?
-
-Under the DP node in the device tree I expect:
-
-ports {
-  port@1 {
-    reg = <1>;
-    edp_out: endpoint {
-      remote-endpoint = <&edp_panel_in>;
-    };
-  };
-};
-
-If you have "port@1" pointing to a USB-C controller but this instance
-of the DP controller is actually hooked up straight to a panel then
-you should simply delete the "port@1" that points to the typeC and
-replace it with one that points to a panel, right?
+Thanks for testing! I'll plan to apply tomorrow morning (California
+time) to balance between giving folks a chance to yell at me for my
+patch and the urgency of fixing the breakage.
 
 -Doug
