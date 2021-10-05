@@ -1,21 +1,21 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A06E6423245
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 22:44:17 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DAED42325C
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 22:50:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2EBF66E45C;
-	Tue,  5 Oct 2021 20:44:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D3DBD6EC5B;
+	Tue,  5 Oct 2021 20:50:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from aposti.net (aposti.net [89.234.176.197])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5243F6E45C
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 20:44:12 +0000 (UTC)
-Date: Tue, 05 Oct 2021 21:43:56 +0100
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2EC036EC5B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 20:50:26 +0000 (UTC)
+Date: Tue, 05 Oct 2021 21:50:12 +0100
 From: Paul Cercueil <paul@crapouillou.net>
-Subject: Re: [PATCH v5 3/7] dt-bindings: display: Add ingenic,jz4780-dw-hdmi
- DT Schema
+Subject: Re: [PATCH v5 5/7] MIPS: DTS: jz4780: Account for Synopsys HDMI
+ driver and LCD controllers
 To: "H. Nikolaus Schaller" <hns@goldelico.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Thomas Bogendoerfer <tsbogend@alpha.franken.de>, Geert Uytterhoeven
@@ -32,11 +32,11 @@ Cc: Rob Herring <robh+dt@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
  Paul Boddie <paul@boddie.org.uk>, devicetree@vger.kernel.org,
  linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org,
  letux-kernel@openphoenux.org, Jonas Karlman <jonas@kwiboo.se>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh@kernel.org>
-Message-Id: <8XUI0R.KDQ64KIMI9BU@crapouillou.net>
-In-Reply-To: <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
+ dri-devel@lists.freedesktop.org
+Message-Id: <O7VI0R.CRIG8R7O0OOI3@crapouillou.net>
+In-Reply-To: <c243176cb5e5a3ab5df1fe77f9246b6d5ec4f88e.1633436959.git.hns@goldelico.com>
 References: <cover.1633436959.git.hns@goldelico.com>
- <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
+ <c243176cb5e5a3ab5df1fe77f9246b6d5ec4f88e.1633436959.git.hns@goldelico.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1; format=flowed
 Content-Transfer-Encoding: quoted-printable
@@ -55,131 +55,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Nikolaus,
+Hi Nikolaus & Paul,
 
-Le mar., oct. 5 2021 at 14:29:15 +0200, H. Nikolaus Schaller=20
+Le mar., oct. 5 2021 at 14:29:17 +0200, H. Nikolaus Schaller=20
 <hns@goldelico.com> a =E9crit :
-> From: Sam Ravnborg <sam@ravnborg.org>
+> From: Paul Boddie <paul@boddie.org.uk>
 >=20
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
+> A specialisation of the generic Synopsys HDMI driver is employed for=20
+> JZ4780
+> HDMI support. This requires a new driver, plus device tree and=20
+> configuration
+> modifications.
 >=20
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Paul Boddie <paul@boddie.org.uk>
 > Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
 > ---
->  .../bindings/display/ingenic-jz4780-hdmi.yaml | 79=20
-> +++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644=20
-> Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+>  arch/mips/boot/dts/ingenic/jz4780.dtsi | 45=20
+> ++++++++++++++++++++++++++
+>  1 file changed, 45 insertions(+)
 >=20
-> diff --git=20
-> a/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml=20
-> b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-> new file mode 100644
-> index 000000000000..5bcb342da86f
-> --- /dev/null
-> +++=20
-> b/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-> @@ -0,0 +1,79 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/ingenic-jz4780-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/mips/boot/dts/ingenic/jz4780.dtsi=20
+> b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> index 9e34f433b9b5..c3c18a59c377 100644
+> --- a/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> +++ b/arch/mips/boot/dts/ingenic/jz4780.dtsi
+> @@ -424,6 +424,51 @@ i2c4: i2c@10054000 {
+>  		status =3D "disabled";
+>  	};
+>=20
+> +	hdmi: hdmi@10180000 {
+> +		compatible =3D "ingenic,jz4780-dw-hdmi";
+> +		reg =3D <0x10180000 0x8000>;
+> +		reg-io-width =3D <4>;
 > +
-> +title: Bindings for Ingenic JZ4780 HDMI Transmitter
+> +		clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
+> +		clock-names =3D "iahb", "isfr";
 > +
-> +maintainers:
-> +  - H. Nikolaus Schaller <hns@goldelico.com>
-> +
-> +description: |
-> +  The HDMI Transmitter in the Ingenic JZ4780 is a Synopsys=20
-> DesignWare HDMI 1.4
-> +  TX controller IP with accompanying PHY IP.
+> +		assigned-clocks =3D <&cgu JZ4780_CLK_HDMI>;
+> +		assigned-clock-rates =3D <27000000>;
 
-My dmesg disagrees:
-dw-hdmi-ingenic 10180000.hdmi: Detected HDMI TX controller v1.31a with=20
-HDCP (DWC HDMI 3D TX PHY)
-
-Or am I comparing apples to oranges?
+Any reason why this is set to 27 MHz? Is it even required? Because with=20
+the current ci20.dts, it won't be clocked at anything but 48 MHz.
 
 > +
-> +allOf:
-> +  - $ref: bridge/synopsys,dw-hdmi.yaml#
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <3>;
 > +
-> +properties:
-> +  compatible:
-> +    const: ingenic,jz4780-dw-hdmi
+> +		/* ddc-i2c-bus =3D <&i2c4>; */
 > +
-> +  reg-io-width:
-> +    const: 4
+> +		status =3D "disabled";
+> +	};
 > +
-> +  clocks:
-> +    maxItems: 2
+> +	lcdc0: lcdc0@13050000 {
+> +		compatible =3D "ingenic,jz4780-lcd";
+> +		reg =3D <0x13050000 0x1800>;
 > +
-> +  hdmi-5v-supply:
-> +    description: Optional regulator to provide +5V at the connector
+> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD0PIXCLK>;
+> +		clock-names =3D "lcd", "lcd_pclk";
 > +
-> +  ddc-i2c-bus:
-> +    description: An I2C interface if the internal DDC I2C driver is=20
-> not to be used
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <31>;
+> +
+> +		status =3D "disabled";
 
-This property is used within=20
-(drivers/gpu/drm/bridge/synopsys/dw-hdmi.c); I think it would make=20
-sense to move it to bridge/synopsys,dw-hdmi.yaml.
+I think you can keep lcdc0 enabled by default (not lcdc1 though), since=20
+it is highly likely that you'd want that.
 
 Cheers,
 -Paul
 
+> +	};
 > +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
+> +	lcdc1: lcdc1@130a0000 {
+> +		compatible =3D "ingenic,jz4780-lcd";
+> +		reg =3D <0x130a0000 0x1800>;
 > +
-> +required:
-> +    - compatible
-> +    - clocks
-> +    - clock-names
-> +    - ports
-> +    - reg-io-width
+> +		clocks =3D <&cgu JZ4780_CLK_TVE>, <&cgu JZ4780_CLK_LCD1PIXCLK>;
+> +		clock-names =3D "lcd", "lcd_pclk";
 > +
-> +additionalProperties: false
+> +		interrupt-parent =3D <&intc>;
+> +		interrupts =3D <31>;
 > +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/jz4780-cgu.h>
+> +		status =3D "disabled";
+> +	};
 > +
-> +    hdmi: hdmi@10180000 {
-> +        compatible =3D "ingenic,jz4780-dw-hdmi";
-> +        reg =3D <0x10180000 0x8000>;
-> +        reg-io-width =3D <4>;
-> +        ddc-i2c-bus =3D <&i2c4>;
-> +        interrupt-parent =3D <&intc>;
-> +        interrupts =3D <3>;
-> +        clocks =3D <&cgu JZ4780_CLK_AHB0>, <&cgu JZ4780_CLK_HDMI>;
-> +        clock-names =3D "iahb", "isfr";
-> +
-> +        ports {
-> +            #address-cells =3D <1>;
-> +            #size-cells =3D <0>;
-> +            hdmi_in: port@0 {
-> +                reg =3D <0>;
-> +                dw_hdmi_in: endpoint {
-> +                    remote-endpoint =3D <&jz4780_lcd_out>;
-> +                };
-> +            };
-> +            hdmi_out: port@1 {
-> +                reg =3D <1>;
-> +                dw_hdmi_out: endpoint {
-> +                    remote-endpoint =3D <&hdmi_con>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+>  	nemc: nemc@13410000 {
+>  		compatible =3D "ingenic,jz4780-nemc", "simple-mfd";
+>  		reg =3D <0x13410000 0x10000>;
 > --
 > 2.33.0
 >=20
