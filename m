@@ -1,73 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1FE0422339
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 12:20:43 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1B0B422356
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 12:25:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6FF266E3C6;
-	Tue,  5 Oct 2021 10:20:38 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AE996E3CE;
+	Tue,  5 Oct 2021 10:25:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E100E6E3C6
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 10:20:36 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id y23so44775395lfb.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 03:20:36 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 49EBD6E3AE
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 10:25:34 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id e12so16163516wra.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 03:25:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ d=raspberrypi.com; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=h5eWAlsBcPaCkydyhR1RIa83PN3tApBg5a8ahQGgmh0=;
- b=V3OZpNIPA8zyqLw1+FGFrF9qyPZOfTGTaKobceQ3hItcflCmOct35fLbegts1ARbg7
- MVdeC/Q4DOdY6OhZ1faKJH3VyfDeU2DHvq5UiFQ3dyWRAmpyR9K5irHjtb7AgxA3yqgg
- L8wMt3EmuPOw8Gh2MoG/DE3HABq7c2o8Ls4uXELGw8VJQ4BMuElntZ+SzTuGFxirQ1P/
- osb+0rkOM/o7t2VAQYmNykiKJcZrva5e5M5riG95BhNzTeWPBEPYdNRV/Xr6+ujhSWAp
- 24HBBfVRMC6p9vt0O8dgPNBWO2xGLasj5jVoV3iLegK/EuOeALMw/u3FhATUl6RHW9ZS
- aA0w==
+ :cc; bh=UidU0tRecWKIyWZB25SphcL391P9qPyFUm9Ge8l4mYA=;
+ b=VJJEvAdqnirP0BimBdBM4MhlIT0OFG+t941bzFTJnoXHHeOE6gE2MOwJ6tO011hWg1
+ IJVxT2iiPVUzTRojLD6xGEhBWGVizlWkPzGY0HEbVvRw6PkHyWTdW77lBL3dQbpY1efy
+ RmjFaQY/WAGhtd6r2N9BtcTH8jk40Sgf0OH4LG9SQNw1WSl54RLYy9y5wZLTRK2gvdTh
+ 2fEopg9IiC71RkztEaUOa/uGWqfrRc3T5hDqXcbKYQ5wwDoDWUtDieY4S3iCgMaeKwKx
+ Qf63T6Qn7HPwR9ujBziCOR4DiZPkfJfBVHeL79AhWoX4/NCcLyBYm2gejuetC3o4j7ki
+ CKqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=h5eWAlsBcPaCkydyhR1RIa83PN3tApBg5a8ahQGgmh0=;
- b=7E67aPqWyycn6OV2xKRA0nv5SrrilvCNk8oOI37jMEPzko8lDUo8xiaxFuNFrI6nk/
- 1LISmcwO4Ds6e8xjKIZPsP38p1zBrmvSZCaEufWHJSoLCzMAWNLe/9JeQYCUrBS+gyLM
- lAO73CJialhcSbavyd9lSiu8R6zD753lnYrBgq3nF8tJU5x8YAqmqxAAGxHjgmRHa8f8
- xiFwTk6+cfdkDQyJJjgMqYDvo7QzyNWJ5m0OHJbBdLdRg5BuTsiKdZy2b2BsS9D504GU
- zjP1JkzIForhEKaNRRlQPI+a8ijHeWblg3z3/fayubgoRBUjs7JFtvKnqGQSAXI730nH
- DHiQ==
-X-Gm-Message-State: AOAM531Cb1+SjjNy0uHVKRJtympSyDgx8ggGk8/ekPzLEKQusG2z21IX
- wFQIQ2fFooyCDqjmX6DUMRKcGzzdgKdTvZBM/QzyPg==
-X-Google-Smtp-Source: ABdhPJyMDNw0BXWN1INJQprETzV3w2z/NxPgBvcU7Eh+gKMFYQJWkmWummjKvQOZ+bGhcEv7Pl+JGjakarxnM4p4SOg=
-X-Received: by 2002:a05:651c:1549:: with SMTP id
- y9mr22612953ljp.105.1633429235050; 
- Tue, 05 Oct 2021 03:20:35 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=UidU0tRecWKIyWZB25SphcL391P9qPyFUm9Ge8l4mYA=;
+ b=zuCAaxA8rYtxpsqbS4lwWcNXe+plv2yT9VutpwIoxYPdhBRscUExEkMSx00oorTVjh
+ xPKYODTtKmaY9B1N/UR1nMPIACUXWQuTNQIVFdq0NgAZMHPl8TuLKci7QSt4cVuJcUFR
+ BhFgEdE8+mFph70u+vRRRa93EASJVqwluxp4LdvQaa8n26TP5mOiq+Jy4R7z4ASrCYgS
+ Z+r9SRP4erJHJ6Wn/Tog/tYyb5bfZbf6fBGBXVEn/Q469o6h8ANE8Csu/eF3HTUfGlbK
+ yt1K8Yyp7PoH4D3hKh82/h56FSv8TBK6Smrmm/8XyKsMzS/JAJ4f47QzgHuk6Kl9lZug
+ XOFA==
+X-Gm-Message-State: AOAM530XBjmk7/VxkoX176ayCoUs4lNMdWrIvetpUoeHRRtfwyADGi8I
+ lOcuY8U2XBrhC9JkvBj/OggbtTYAFAwC8j1Ue9QhD4cjOqY=
+X-Google-Smtp-Source: ABdhPJwdX4CWG/kQ5UoZSIEeof6zDUf6rLyUrJvkiqxpYzeZa6jnfmWbOgXxP4uZNEsoSSLoXbl8raJLAUORK07GLSs=
+X-Received: by 2002:adf:aa88:: with SMTP id h8mr6885302wrc.112.1633429532787; 
+ Tue, 05 Oct 2021 03:25:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210929041905.126454-1-mie@igel.co.jp>
- <20210929041905.126454-3-mie@igel.co.jp>
- <YVXMkSDXybju88TU@phenom.ffwll.local>
- <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
-In-Reply-To: <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
-From: Shunsuke Mie <mie@igel.co.jp>
-Date: Tue, 5 Oct 2021 19:20:24 +0900
-Message-ID: <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
-To: Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>, 
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>, Doug Ledford <dledford@redhat.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Jianxin Xiong <jianxin.xiong@intel.com>, 
- Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
- Sean Hefty <sean.hefty@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-rdma <linux-rdma@vger.kernel.org>, 
- Damian Hobson-Garcia <dhobsong@igel.co.jp>, Takanari Hayama <taki@igel.co.jp>,
- Tomohito Esaki <etom@igel.co.jp>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+References: <20210907023948.871281-1-marex@denx.de>
+ <CGME20210907073151eucas1p196543fbd114f34f6de700013fd0e4168@eucas1p1.samsung.com>
+ <2f530ec2-3781-67eb-6f34-c7b6a29641ea@samsung.com>
+ <6544aaba-a3e3-f3f6-32d9-5c396df52601@denx.de>
+ <9b3d6595-0330-f716-b443-95f3f4783ac4@samsung.com>
+ <2bf8e1fe-3f55-85ab-715a-c53ad98bb6d2@denx.de>
+ <CAPY8ntBVdvHSofXcd7nU5Z4uCMUzmiMF3GmJn=VpLDVoe6xL2g@mail.gmail.com>
+ <6700c90f-d0e0-5cbf-1616-0c1d158441b1@samsung.com>
+In-Reply-To: <6700c90f-d0e0-5cbf-1616-0c1d158441b1@samsung.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 5 Oct 2021 11:25:16 +0100
+Message-ID: <CAPY8ntDAATwgK24msPbXo7RKP0JKB9x-CKccLV-NQWxpzHPC_g@mail.gmail.com>
+Subject: Re: [PATCH] drm/bridge: ti-sn65dsi83: Check link status register
+ after enabling the bridge
+To: Andrzej Hajda <a.hajda@samsung.com>
+Cc: Marek Vasut <marex@denx.de>,
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Jagan Teki <jagan@amarulasolutions.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, Robert Foss <robert.foss@linaro.org>,
+ Sam Ravnborg <sam@ravnborg.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,309 +79,269 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-ping
+Hi Andrzej
 
-2021=E5=B9=B410=E6=9C=881=E6=97=A5(=E9=87=91) 12:56 Shunsuke Mie <mie@igel.=
-co.jp>:
+Sorry, I'm just coming back to this. I'd started this reply a while
+back, but got sidetracked onto other priorities and not sent it.
+
+On Wed, 8 Sept 2021 at 22:14, Andrzej Hajda <a.hajda@samsung.com> wrote:
 >
-> 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <daniel=
-@ffwll.ch>:
-> >
-> > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
-> > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=99.=
- Generate a
-> > > rxe_map from the memory space linked the passed dma-buf.
-> > >
-> > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
-> > > ---
-> > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
-> > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++++=
-++
-> > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
-> > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
-> > >  4 files changed, 156 insertions(+)
-> > >
-> > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniband=
-/sw/rxe/rxe_loc.h
-> > > index 1ca43b859d80..8bc19ea1a376 100644
-> > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
-> > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
-> > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr *m=
-r);
-> > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64 i=
-ova,
-> > >                    int access, struct rxe_mr *mr);
-> > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u6=
-4 length,
-> > > +                         u64 iova, int access, struct rxe_mr *mr);
-> > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr=
- *mr);
-> > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int length,
-> > >               enum rxe_mr_copy_dir dir);
-> > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniband/=
-sw/rxe/rxe_mr.c
-> > > index 53271df10e47..af6ef671c3a5 100644
-> > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
-> > > @@ -4,6 +4,7 @@
-> > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserved.
-> > >   */
-> > >
-> > > +#include <linux/dma-buf.h>
-> > >  #include "rxe.h"
-> > >  #include "rxe_loc.h"
-> > >
-> > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 sta=
-rt, u64 length, u64 iova,
-> > >       return err;
-> > >  }
-> > >
-> > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
-> > > +                          struct ib_umem_dmabuf *umem_dmabuf)
-> > > +{
-> > > +     struct rxe_map_set *set;
-> > > +     struct rxe_phys_buf *buf =3D NULL;
-> > > +     struct rxe_map **map;
-> > > +     void *vaddr, *vaddr_end;
-> > > +     int num_buf =3D 0;
-> > > +     int err;
-> > > +     size_t remain;
-> > > +
-> > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL);
-> >
-> > dmabuf_maps are just tagged pointers (and we could shrink them to actua=
-lly
-> > just a tagged pointer if anyone cares about the overhead of the separat=
-e
-> > bool), allocating them seperately is overkill.
 >
-> I agree with you. However, I think it is needed to unmap by
-> dma_buf_vunmap(). If there is another simple way to unmap it. It is not
-> needed I think. What do you think about it?
+> W dniu 08.09.2021 o 13:11, Dave Stevenson pisze:
+> > Hi Marek and Andrzej
+> >
+> > On Tue, 7 Sept 2021 at 22:24, Marek Vasut <marex@denx.de> wrote:
+> >> On 9/7/21 7:29 PM, Andrzej Hajda wrote:
+> >>> W dniu 07.09.2021 o 16:25, Marek Vasut pisze:
+> >>>> On 9/7/21 9:31 AM, Andrzej Hajda wrote:
+> >>>>> On 07.09.2021 04:39, Marek Vasut wrote:
+> >>>>>> In rare cases, the bridge may not start up correctly, which usually
+> >>>>>> leads to no display output. In case this happens, warn about it in
+> >>>>>> the kernel log.
+> >>>>>>
+> >>>>>> Signed-off-by: Marek Vasut <marex@denx.de>
+> >>>>>> Cc: Jagan Teki <jagan@amarulasolutions.com>
+> >>>>>> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>>>> Cc: Linus Walleij <linus.walleij@linaro.org>
+> >>>>>> Cc: Robert Foss <robert.foss@linaro.org>
+> >>>>>> Cc: Sam Ravnborg <sam@ravnborg.org>
+> >>>>>> Cc: dri-devel@lists.freedesktop.org
+> >>>>>> ---
+> >>>>>> NOTE: See the following:
+> >>>>>> https://e2e.ti.com/support/interface-group/interface/f/interface-forum/942005/sn65dsi83-dsi83-lvds-bridge---sporadic-behavior---no-video
+> >>>>>>
+> >>>>>> https://community.nxp.com/t5/i-MX-Processors/i-MX8M-MIPI-DSI-Interface-LVDS-Bridge-Initialization/td-p/1156533
+> >>>>>>
+> >>>>>> ---
+> >>>>>>      drivers/gpu/drm/bridge/ti-sn65dsi83.c | 5 +++++
+> >>>>>>      1 file changed, 5 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> >>>>>> b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> >>>>>> index a32f70bc68ea4..4ea71d7f0bfbc 100644
+> >>>>>> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> >>>>>> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> >>>>>> @@ -520,6 +520,11 @@ static void sn65dsi83_atomic_enable(struct
+> >>>>>> drm_bridge *bridge,
+> >>>>>>          /* Clear all errors that got asserted during initialization. */
+> >>>>>>          regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> >>>>>>          regmap_write(ctx->regmap, REG_IRQ_STAT, pval);
+> >>>>>
+> >>>>> It does not look as correct error handling, maybe it would be good to
+> >>>>> analyze and optionally report 'unexpected' errors here as well.
+> >>>> The above is correct -- it clears the status register because the
+> >>>> setup might've set random bits in that register. Then we wait a bit,
+> >>>> let the link run, and read them again to get the real link status in
+> >>>> this new piece of code below, hence the usleep_range there. And then
+> >>>> if the link indicates a problem, we know it is a problem.
+> >>>
+> >>> Usually such registers are cleared on very beginning of the
+> >>> initialization, and tested (via irq handler, or via reading), during
+> >>> initalization, if initialization phase goes well. If it is not the case
+> >>> forgive me.
+> >> The init just flips the bit at random in the IRQ_STAT register, so no,
+> >> that's not really viable here. That's why we clear them at the end, and
+> >> then wait a bit, and then check whether something new appeared in them.
+> >>
+> >> If not, all is great.
+> >>
+> >> Sure, we could generate an IRQ, but then IRQ line is not always
+> >> connected to this chip on all hardware I have available. So this gives
+> >> the user at least some indication that something is wrong with their HW.
+> >>
+> >>>>>> +
+> >>>>>> +    usleep_range(10000, 12000);
+> >>>>>> +    regmap_read(ctx->regmap, REG_IRQ_STAT, &pval);
+> >>>>>> +    if (pval)
+> >>>>>> +        dev_err(ctx->dev, "Unexpected link status 0x%02x\n", pval);
+> >>>>>
+> >>>>> I am not sure what is the case here but it looks like 'we do not know
+> >>>>> what is going on, so let's add some diagnostic messages to gather info
+> >>>>> and figure it out later'.
+> >>>> That's pretty much the case, see the two links above in the NOTE
+> >>>> section. If something goes wrong, we print the value for the user
+> >>>> (usually developer) so they can fix their problems. We cannot do much
+> >>>> better in the attach callback.
+> >>>>
+> >>>> The issue I ran into (and where this would be helpful information to
+> >>>> me during debugging, since the issue happened real seldom, see also
+> >>>> the NOTE links above) is that the DSI controller driver started
+> >>>> streaming video on the data lanes before the DSI83 had a chance to
+> >>>> initialize. This worked most of the time, except for a few exceptions
+> >>>> here and there, where the video didn't start. This does set link
+> >>>> status bits consistently. In the meantime, I fixed the controller
+> >>>> driver (so far downstream, due to ongoing discussion).
+> >>>
+> >>> Maybe drm_connector_set_link_status_property(conn,
+> >>> DRM_MODE_LINK_STATUS_BAD) would be usefule here.
+> >> Hmm, this works on connector, the dsi83 is a bridge and it can be stuck
+> >> between two other bridges. That doesn't seem like the right tool, no ?
+> >>
+> >>>>> Whole driver lacks IRQ handler which IMO could perform better diagnosis,
+> >>>>> and I guess it could also help in recovery, but this is just my guess.
+> >>>>> So if this patch is enough for now you can add:
+> >>>> No, IRQ won't help you here, because by the time you get the IRQ, the
+> >>>> DSI host already started streaming video on data lanes and you won't
+> >>>> be able to correctly reinit the DSI83 unless you communicate to the
+> >>>> DSI host that it should switch the data lanes back to LP11.
+> >>>>
+> >>>> And for that, there is a bigger chunk missing really. What needs to be
+> >>>> added is a way for the DSI bridge / panel to communicate its needs to
+> >>>> the DSI host -- things like "I need DSI clock lane frequency f MHz, I
+> >>>> need clock lane in HS mode and data lanes in LP11 mode". If you look
+> >>>> at the way DSI hosts and bridges/panels work out the DSI link
+> >>>> parameters, you will notice they basically do it each on their own,
+> >>>> there is no such API or communication channel.
+> >>>
+> >>> There is one-time communication channel via mipi_dsi_attach, it allows
+> >>> to set max frequency i HS and LP, choose mode of operation (HS/LPM) and
+> >>> few more things. If it is necessary to extend it please propse sth.
+> >> Well, take for example the drivers/gpu/drm/exynos/exynos_drm_dsi.c ,
+> >> there is this:
+> >>
+> >> static void exynos_dsi_enable(struct drm_encoder *encoder)
+> >> ...
+> >>                   list_for_each_entry_reverse(iter, &dsi->bridge_chain,
+> >>                                               chain_node) {
+> >>                           if (iter->funcs->pre_enable)
+> >>                                   iter->funcs->pre_enable(iter);
+> >> ...
+> >>           exynos_dsi_set_display_mode(dsi);
+> >>           exynos_dsi_set_display_enable(dsi, true);
+> >> ...
+> >>                   list_for_each_entry(iter, &dsi->bridge_chain, chain_node) {
+> >>                           if (iter->funcs->enable)
+> >>                                   iter->funcs->enable(iter);
+> >>                   }
+> >> ...
+> >>
+> >> So the bridge enable callback is called with clock lane already in HS
+> >> mode, and data lanes streaming video. This doesn't work with the DSI83,
+> >> which would need clock lane in HS and providing clock , but data lanes
+> >> in LP11 with no video.
+> >>
+> >> Sure, I could probably move exynos_dsi_set_display_enable(dsi, true);
+> >> after the enable call, but is that really the right solution ? What
+> >> about bridges which need some other specific configuration of the data
+> >> lanes during init ?
+> > I hadn't noticed that Exynos was doing that.
+> > vc4 DSI is doing the same thing in deliberately breaking the
+> > panel/bridge chain so that it gets a chance to do some initialisation
+> > before panel/bridge pre_enable.
 >
-> > > +     if (!mr->dmabuf_map) {
-> > > +             err =3D -ENOMEM;
-> > > +             goto err_out;
-> > > +     }
-> > > +
-> > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > +     if (err)
-> > > +             goto err_free_dmabuf_map;
-> > > +
-> > > +     set =3D mr->cur_map_set;
-> > > +     set->page_shift =3D PAGE_SHIFT;
-> > > +     set->page_mask =3D PAGE_SIZE - 1;
-> > > +
-> > > +     map =3D set->map;
-> > > +     buf =3D map[0]->buf;
-> > > +
-> > > +     vaddr =3D mr->dmabuf_map->vaddr;
-> >
-> > dma_buf_map can be an __iomem too, you shouldn't dig around in this, bu=
-t
-> > use the dma-buf-map.h helpers instead. On x86 (and I think also on most
-> > arm) it doesn't matter, but it's kinda not very nice in a pure software
-> > driver.
-> >
-> > If anything is missing in dma-buf-map.h wrappers just add more.
-> >
-> > Or alternatively you need to fail the import if you can't handle __iome=
-m.
-> >
-> > Aside from these I think the dma-buf side here for cpu access looks
-> > reasonable now.
-> > -Daniel
-> I'll see the dma-buf-map.h and consider the error handling that you sugge=
-sted.
-> I appreciate your support.
+> Initially ExynosDSI was written with panel support only, in such case
+> developer can explicitly control time of calling panel ops - and that
+> was good.
 >
-> Thanks a lot,
-> Shunsuke.
+> Later, adding bridge support showed that bridge chain has fixed call
+> order which is incompatible with Exynos, so the driver needs to calls
+> bridge ops explicitly - flexibility was scarified for simplicity.
 >
-> > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
-> > > +     remain =3D umem_dmabuf->dmabuf->size;
-> > > +
-> > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
-> > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
-> > > +                     map++;
-> > > +                     buf =3D map[0]->buf;
-> > > +                     num_buf =3D 0;
-> > > +             }
-> > > +
-> > > +             buf->addr =3D (uintptr_t)vaddr;
-> > > +             if (remain >=3D PAGE_SIZE)
-> > > +                     buf->size =3D PAGE_SIZE;
-> > > +             else
-> > > +                     buf->size =3D remain;
-> > > +             remain -=3D buf->size;
-> > > +
-> > > +             num_buf++;
-> > > +             buf++;
-> > > +     }
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err_free_dmabuf_map:
-> > > +     kfree(mr->dmabuf_map);
-> > > +err_out:
-> > > +     return err;
-> > > +}
-> > > +
-> > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
-> > > +{
-> > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->um=
-em);
-> > > +
-> > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
-> > > +     kfree(mr->dmabuf_map);
-> > > +}
-> > > +
-> > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, u6=
-4 length,
-> > > +                         u64 iova, int access, struct rxe_mr *mr)
-> > > +{
-> > > +     struct ib_umem_dmabuf *umem_dmabuf;
-> > > +     struct rxe_map_set *set;
-> > > +     int err;
-> > > +
-> > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, leng=
-th, fd,
-> > > +                                      access, NULL);
-> > > +     if (IS_ERR(umem_dmabuf)) {
-> > > +             err =3D PTR_ERR(umem_dmabuf);
-> > > +             goto err_out;
-> > > +     }
-> > > +
-> > > +     rxe_mr_init(access, mr);
-> > > +
-> > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem),=
- 0);
-> > > +     if (err) {
-> > > +             pr_warn("%s: Unable to allocate memory for map\n", __fu=
-nc__);
-> > > +             goto err_release_umem;
-> > > +     }
-> > > +
-> > > +     mr->ibmr.pd =3D &pd->ibpd;
-> > > +     mr->umem =3D &umem_dmabuf->umem;
-> > > +     mr->access =3D access;
-> > > +     mr->state =3D RXE_MR_STATE_VALID;
-> > > +     mr->type =3D IB_MR_TYPE_USER;
-> > > +
-> > > +     set =3D mr->cur_map_set;
-> > > +     set->length =3D length;
-> > > +     set->iova =3D iova;
-> > > +     set->va =3D start;
-> > > +     set->offset =3D ib_umem_offset(mr->umem);
-> > > +
-> > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
-> > > +     if (err)
-> > > +             goto err_free_map_set;
-> > > +
-> > > +     return 0;
-> > > +
-> > > +err_free_map_set:
-> > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
-> > > +err_release_umem:
-> > > +     ib_umem_release(&umem_dmabuf->umem);
-> > > +err_out:
-> > > +     return err;
-> > > +}
-> > > +
-> > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_mr=
- *mr)
-> > >  {
-> > >       int err;
-> > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
-> > >  {
-> > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
-> > >
-> > > +     if (mr->umem && mr->umem->is_dmabuf)
-> > > +             rxe_unmap_dmabuf_mr(mr);
-> > > +
-> > >       ib_umem_release(mr->umem);
-> > >
-> > >       if (mr->cur_map_set)
-> > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infiniba=
-nd/sw/rxe/rxe_verbs.c
-> > > index 9d0bb9aa7514..6191bb4f434d 100644
-> > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
-> > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib_p=
-d *ibpd,
-> > >       return ERR_PTR(err);
-> > >  }
-> > >
-> > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 =
-start,
-> > > +                                         u64 length, u64 iova, int f=
-d,
-> > > +                                         int access, struct ib_udata=
- *udata)
-> > > +{
-> > > +     int err;
-> > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
-> > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
-> > > +     struct rxe_mr *mr;
-> > > +
-> > > +     mr =3D rxe_alloc(&rxe->mr_pool);
-> > > +     if (!mr) {
-> > > +             err =3D -ENOMEM;
-> > > +             goto err2;
-> > > +     }
-> > > +
-> > > +     rxe_add_index(mr);
-> > > +
-> > > +     rxe_add_ref(pd);
-> > > +
-> > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, ac=
-cess, mr);
-> > > +     if (err)
-> > > +             goto err3;
-> > > +
-> > > +     return &mr->ibmr;
-> > > +
-> > > +err3:
-> > > +     rxe_drop_ref(pd);
-> > > +     rxe_drop_index(mr);
-> > > +     rxe_drop_ref(mr);
-> > > +err2:
-> > > +     return ERR_PTR(err);
-> > > +}
-> > > +
-> > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_typ=
-e mr_type,
-> > >                                 u32 max_num_sg)
-> > >  {
-> > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops =
-=3D {
-> > >       .query_qp =3D rxe_query_qp,
-> > >       .query_srq =3D rxe_query_srq,
-> > >       .reg_user_mr =3D rxe_reg_user_mr,
-> > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
-> > >       .req_notify_cq =3D rxe_req_notify_cq,
-> > >       .resize_cq =3D rxe_resize_cq,
-> > >
-> > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infiniba=
-nd/sw/rxe/rxe_verbs.h
-> > > index c807639435eb..0aa95ab06b6e 100644
-> > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
-> > > @@ -334,6 +334,8 @@ struct rxe_mr {
-> > >
-> > >       struct rxe_map_set      *cur_map_set;
-> > >       struct rxe_map_set      *next_map_set;
-> > > +
-> > > +     struct dma_buf_map *dmabuf_map;
-> > >  };
-> > >
-> > >  enum rxe_mw_state {
-> > > --
-> > > 2.17.1
-> > >
+> For me, fixed order of calls in the whole chain
+> (crtc->encoder->bridges...->panel) seems incorrect. Crtc starts
+> transmission but the encoder is not yet ready, the same with encoder and
+> bridges, later is slightly better - bridges have two ops (pre_enable,
+> enable) but since they are not well defined developers are confused what
+> should be performed where, as a result we have incompatible approaches.
+
+I can't comment on how other platforms work, but on the Broadcom chips
+the clock to read pixel data out of the pipeline comes from the
+encoder, whether that is HDMI, DSI, DPI, or other. Therefore until the
+encoder is enabled no data actually flows.
+
+I'm not in a position to discuss whether the ordering is correct or
+not - there are many others who know the subsystem far better than me
+in that regard.
+
+> Only panels have well defined opses: .prepare is for getting panel ready
+> for video transmission, .enable is called after starting transmission to
+> start showing the image (backlight-on or MIPI_DCS_SET_DISPLAY_ON).
+>
+> Apparently this model somehow works, probably due to nice hardware and
+> custom hacks, but as we see more complicated protocols like DSI or more
+> delicate devices cannot be handled with such callbacks.
+>
+> In case of Exynos DSI and s6e8aa0 panel we need to implement complicated
+> sequence, which I have implemented this way:
+>
+> 1. Power on DSI host, start clocks, enable DSI PHY:
+> pm_runtime_resume_and_get->exynos_dsi_resume.
+>
+> 2. Power on DSI device:
+> drm_panel_prepare->s6e8aa0_prepare->s6e8aa0_power_on.
+>
+> 3. Initialize DSI host:
+> drm_panel_prepare->s6e8aa0_prepare->s6e8aa0_set_sequence->...mipi_dsi_device_transfer->...->exynos_dsi_init.
+>
+> 4. Initialize DSI device:
+> drm_panel_prepare->s6e8aa0_prepare->s6e8aa0_set_sequence (bulk of MIPI
+> DCS/MCS commands).
+>
+> 5. Configure and start video stream on host:
+> exynos_dsi_set_display_mode, exynos_dsi_set_display_enable.
+>
+> 6. Show the image: drm_panel_enable
+>
+>
+> I guess LP-11 state is after DSI host init (3).
+
+Possibly, but seeing as you have phy_power_on called from
+exynos_dsi_resume in step 1 that's also possibly setting LP-11, but
+may be ULPS (LP-00).
+
+Then again exynos_dsi_init_link called from exynos_dsi_init configures
+which lanes are required, and it would seem a bit odd to power up
+lanes that weren't wanted.
+Oddly that only seems to be called from exynos_dsi_host_transfer (your
+step 3), so that'll never be called for something like the SN65DSI83
+where it's configured via I2C rather than MIPI commands.
+
 > >
-> > --
-> > Daniel Vetter
-> > Software Engineer, Intel Corporation
-> > http://blog.ffwll.ch
+> > Another issue I've noted in doing this is that it breaks calls to the
+> > bridge's mode_set, mode_valid, and mode_fixup hooks. The framework
+> > doesn't know about the bridges/panels beyond the encoder, and the
+> > encoder doesn't get all the information required in order to replicate
+> > those calls.
+> If you put such calls into dsi host it will work, this is minus of the
+> flexibility - you must do on your own.
+
+You can't for mode_valid - the drm_bridge_funcs version has a "const
+struct drm_display_info *info" parameter which the
+drm_encoder_helper_funcs version doesn't have.
+
+> > I'm about to look into whether switching the DSI host to being a
+> > bridge instead of an encoder allows me to overcome that one.
+> > Doing so doesn't solve the issue of the DSI host bridge pre_enable
+> > being called after the panel/bridge pre_enable though.
+
+I've just been working through converting our driver to being a bridge
+as the current intended way of modelling DSI, and so that we can get
+access to the relevant parameters to be able to implement mode_valid
+and call down the chain.
+
+It largely works, except for drm_atomic_add_encoder_bridges adds state
+for all the bridges that the framework believes are attached to the
+encoder. That stops at our DSI encoder/bridge as we've split the
+chain, and there doesn't seem to be a simple way to replicate the
+effect down the split section. AFAICT we can't replicate that from our
+atomic_duplicate_state as we don't get given the full state to add our
+state to.
+
+Keeping this split chain approach seems flawed, so I'll look at either
+a pre_pre_enable, or a phy state DSI call.
+
+> The latter is rather blocking issue, maybe you can overcome it by adding
+> mipi_host callbacks: power_on, init - this way you can call them from
+> device's pre_enable
+>
+> This would solve the issues described later.
+>
+> It seems little bit hacky, but quite easy to implement, what do you think.
+
+I started a discussion back in July as to whether a new function was
+sensible[1]. Laurent's just resurrected it, and you've posted to it
+too, so I'll shift the discussion there.
+
+  Dave
+
+[1] https://lists.freedesktop.org/archives/dri-devel/2021-July/313576.html
