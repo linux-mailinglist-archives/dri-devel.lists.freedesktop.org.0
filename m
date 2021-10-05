@@ -2,42 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E22B421AFA
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73135421B14
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 02:23:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8E8606EABE;
-	Tue,  5 Oct 2021 00:11:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB75B6EACF;
+	Tue,  5 Oct 2021 00:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
  [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65FE46EABE
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:11:25 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6C5206EACF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 00:23:03 +0000 (UTC)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
  [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id C663125B;
- Tue,  5 Oct 2021 02:11:23 +0200 (CEST)
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id D26D225B;
+ Tue,  5 Oct 2021 02:23:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1633392684;
- bh=2zCePWCbzdTq1N5atWYuAzi+lrFHg9m463Bwkwcqwyg=;
+ s=mail; t=1633393382;
+ bh=4DnE9NCoGB1wlYjTRO5i9MP1EIij713NzbRiy2mIPRE=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pKSkJlaFDzegWXzAkH9Mn/V7M2xUpga2SiJEtCOeQwr6yMwtKwHFXMfH0LexzifDP
- pCFGvbqPmtZ4TSAS1vUOgH6vuRSIscSKahQa3oMcCFJMChCH0En4g12K+9HDu9Eq3g
- EzvSrh5YIwlgDZ5tGUK5J9bCsAkYxb8CL+TBCwUc=
-Date: Tue, 5 Oct 2021 03:11:17 +0300
+ b=rI7IzRyW+fZcFBPbZGgQGUihkZPcYd9WWvq3vORZb7q1fpIECCRKHLQmiNvoY0U3E
+ s1xqBUcGidjl67emyY0tlYMq1gZBiDUx3nGvAFOd+LHzrzj/+RThCXp3va2QvPGH1x
+ 9UlKGQ2s41zkCokcANn1VQFG2C/rLEQcVkgPYuS0=
+Date: Tue, 5 Oct 2021 03:22:55 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Marek Vasut <marex@denx.de>
-Cc: dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH V4 1/2] dt-bindings: display: bridge: lvds-codec:
- Document LVDS data mapping select
-Message-ID: <YVuYJVjCDxdwcHd1@pendragon.ideasonboard.com>
+Cc: dri-devel@lists.freedesktop.org, Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH V4 2/2] drm/bridge: lvds-codec: Add support for LVDS data
+ mapping select
+Message-ID: <YVua3/wI86EoIt1N@pendragon.ideasonboard.com>
 References: <20210727161357.8842-1-marex@denx.de>
- <YVuWWz+njDNy99sz@pendragon.ideasonboard.com>
+ <20210727161357.8842-2-marex@denx.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YVuWWz+njDNy99sz@pendragon.ideasonboard.com>
+In-Reply-To: <20210727161357.8842-2-marex@denx.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,103 +52,174 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 03:03:40AM +0300, Laurent Pinchart wrote:
-> Hi Marek,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Jul 27, 2021 at 06:13:56PM +0200, Marek Vasut wrote:
-> > Decoder input LVDS format is a property of the decoder chip or even
-> > its strapping. Add DT property data-mapping the same way lvds-panel
-> > does, to define the LVDS data mapping.
-> > 
-> > Signed-off-by: Marek Vasut <marex@denx.de>
-> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Cc: Rob Herring <robh+dt@kernel.org>
-> > Cc: Sam Ravnborg <sam@ravnborg.org>
-> > Cc: devicetree@vger.kernel.org
-> > To: dri-devel@lists.freedesktop.org
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Marek,
 
-I think I have to retract this, see below :-(
+Thank you for the patch, and all my apologies for the delay.
 
-> And all my apologies for the delay.
+On Tue, Jul 27, 2021 at 06:13:57PM +0200, Marek Vasut wrote:
+> Decoder input LVDS format is a property of the decoder chip or even
+> its strapping. Handle data-mapping the same way lvds-panel does. In
+> case data-mapping is not present, do nothing, since there are still
+> legacy bindings which do not specify this property.
 > 
-> > ---
-> > V2: - Use allOf
-> >     - Move the data-mapping to endpoint
-> > V3: - Rebase on V2 submitted a while ago, reinstate changelog
-> >     - Drop the allOf and un-rebase on previous pclk patch
-> > V4: - port@1, remove $ref: /schemas/graph.yaml#/properties/port and
-> >       add $ref: /schemas/graph.yaml#/$defs/port-base
-> > ---
-> >  .../bindings/display/bridge/lvds-codec.yaml   | 33 ++++++++++++++++++-
-> >  1 file changed, 32 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > index 304a1367faaa7..c0400c60f272a 100644
-> > --- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > +++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
-> > @@ -55,11 +55,26 @@ properties:
-> >            For LVDS decoders, port 0 is the LVDS input
-> >  
-> >        port@1:
-> > -        $ref: /schemas/graph.yaml#/properties/port
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >          description: |
-> >            For LVDS encoders, port 1 is the LVDS output
-> >            For LVDS decoders, port 1 is the parallel output
-> >  
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: /schemas/media/video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              data-mapping:
-> > +                enum:
-> > +                  - jeida-18
-> > +                  - jeida-24
-> > +                  - vesa-24
-> > +                description: |
-> > +                  The color signals mapping order. See details in
-> > +                  Documentation/devicetree/bindings/display/panel/lvds.yaml
-> > +
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Sam Ravnborg <sam@ravnborg.org>
+> To: dri-devel@lists.freedesktop.org
+> ---
+> V2: - Move the data-mapping to endpoint
+> V3: - Rebase on V2 submitted a while ago, reinstate changelog
+>     - Use .atomic_get_input_bus_fmts for the decoder, separate funcs for encoder
+> V4: - No change
+> ---
+>  drivers/gpu/drm/bridge/lvds-codec.c | 76 ++++++++++++++++++++++++++++-
+>  1 file changed, 75 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
+> index dcf579a4cf833..afa7ce7ea01e8 100644
+> --- a/drivers/gpu/drm/bridge/lvds-codec.c
+> +++ b/drivers/gpu/drm/bridge/lvds-codec.c
+> @@ -12,6 +12,7 @@
+>  #include <linux/platform_device.h>
+>  #include <linux/regulator/consumer.h>
+>  
+> +#include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+>  #include <drm/drm_panel.h>
+>  
+> @@ -22,6 +23,7 @@ struct lvds_codec {
+>  	struct regulator *vcc;
+>  	struct gpio_desc *powerdown_gpio;
+>  	u32 connector_type;
+> +	unsigned int bus_format;
+>  };
+>  
+>  static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
+> @@ -74,12 +76,50 @@ static const struct drm_bridge_funcs funcs = {
+>  	.disable = lvds_codec_disable,
+>  };
+>  
+> +#define MAX_INPUT_SEL_FORMATS 1
+> +static u32 *
+> +lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+> +				     struct drm_bridge_state *bridge_state,
+> +				     struct drm_crtc_state *crtc_state,
+> +				     struct drm_connector_state *conn_state,
+> +				     u32 output_fmt,
+> +				     unsigned int *num_input_fmts)
+> +{
+> +	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
+> +	u32 *input_fmts;
+> +
+> +	*num_input_fmts = 0;
+> +
+> +	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
+> +			     GFP_KERNEL);
+> +	if (!input_fmts)
+> +		return NULL;
+> +
+> +	input_fmts[0] = lvds_codec->bus_format;
+> +	*num_input_fmts = MAX_INPUT_SEL_FORMATS;
 
-Shouldn't this be for port 0 ? For decoders, port 1 is the parallel
-side, not the LVDS side.
+Are there cases where the input format would depend on the output format
+? For instance, a 24-bit RGB output that could also work in RGB666 mode,
+where we would select between MEDIA_BUS_FMT_RGB666_1X7X3_SPWG and
+MEDIA_BUS_FMT_RGB888_1X7X4_SPWG depending on whether the output is
+RGB666 or RGB888 ? I don't think we need to handle this now, and I
+believe it will be possible to do this in a backward-compatible way if
+the need ever arises. A confirmation that I'm not missing something
+obvious would be nice.
 
-With this fixed, you can retain the
+> +
+> +	return input_fmts;
+> +}
+> +
+> +static const struct drm_bridge_funcs funcs_decoder = {
+> +	.attach = lvds_codec_attach,
+> +	.enable = lvds_codec_enable,
+> +	.disable = lvds_codec_disable,
+> +	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
+> +	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
+> +	.atomic_reset = drm_atomic_helper_bridge_reset,
+> +	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
+> +};
+> +
+>  static int lvds_codec_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct device_node *panel_node;
+> +	struct device_node *bus_node;
+>  	struct drm_panel *panel;
+>  	struct lvds_codec *lvds_codec;
+> +	const char *mapping;
+> +	int ret;
+>  
+>  	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
+>  	if (!lvds_codec)
+> @@ -119,13 +159,47 @@ static int lvds_codec_probe(struct platform_device *pdev)
+>  	if (IS_ERR(lvds_codec->panel_bridge))
+>  		return PTR_ERR(lvds_codec->panel_bridge);
+>  
+> +	lvds_codec->bridge.funcs = &funcs;
+> +
+> +	/*
+> +	 * Decoder input LVDS format is a property of the decoder chip or even
+> +	 * its strapping. Handle data-mapping the same way lvds-panel does. In
+> +	 * case data-mapping is not present, do nothing, since there are still
+> +	 * legacy bindings which do not specify this property.
+> +	 */
+> +	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
+> +		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 1, 0);
+
+I think this should be
+
+		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
+
+(see the comment on patch 1/2).
+
+> +		if (!bus_node) {
+> +			dev_dbg(dev, "bus DT node not found\n");
+> +			return -ENXIO;
+> +		}
+> +
+> +		ret = of_property_read_string(bus_node, "data-mapping",
+> +					      &mapping);
+> +		of_node_put(bus_node);
+> +		if (ret < 0) {
+> +			dev_err(dev, "missing 'data-mapping' DT property\n");
+> +		} else {
+> +			if (!strcmp(mapping, "jeida-18")) {
+> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
+> +			} else if (!strcmp(mapping, "jeida-24")) {
+> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
+> +			} else if (!strcmp(mapping, "vesa-24")) {
+> +				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
+> +			} else {
+> +				dev_err(dev, "invalid 'data-mapping' DT property\n");
+> +				return -EINVAL;
+> +			}
+> +			lvds_codec->bridge.funcs = &funcs_decoder;
+> +		}
+
+I may have split this to a separate function to reduce line length and
+simplify error handling, up to you.
+
+With at least the port number fix above (unless I'm mistaken of course),
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> >      required:
-> >        - port@0
-> >        - port@1
-> > @@ -71,6 +86,22 @@ properties:
-> >  
-> >    power-supply: true
-> >  
-> > +if:
-> > +  not:
-> > +    properties:
-> > +      compatible:
-> > +        contains:
-> > +          const: lvds-decoder
-> > +then:
-> > +  properties:
-> > +    ports:
-> > +      properties:
-> > +        port@1:
-> > +          properties:
-> > +            endpoint:
-> > +              properties:
-> > +                data-mapping: false
-> > +
-> >  required:
-> >    - compatible
-> >    - ports
+> +	}
+> +
+>  	/*
+>  	 * The panel_bridge bridge is attached to the panel's of_node,
+>  	 * but we need a bridge attached to our of_node for our user
+>  	 * to look up.
+>  	 */
+>  	lvds_codec->bridge.of_node = dev->of_node;
+> -	lvds_codec->bridge.funcs = &funcs;
+>  	drm_bridge_add(&lvds_codec->bridge);
+>  
+>  	platform_set_drvdata(pdev, lvds_codec);
 
 -- 
 Regards,
