@@ -2,54 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE9B421F3D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:07:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0BD8421F4D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:13:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 43F966E2E6;
-	Tue,  5 Oct 2021 07:07:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9416E2F2;
+	Tue,  5 Oct 2021 07:13:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from galois.linutronix.de (Galois.linutronix.de
- [IPv6:2a0a:51c0:0:12e:550::1])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 097A36E2E6;
- Tue,  5 Oct 2021 07:06:59 +0000 (UTC)
-Date: Tue, 5 Oct 2021 09:06:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020; t=1633417617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ErA+FMQ6eKB3vV9Xcub5nS1R+oPyIK29BJzJ17LvooM=;
- b=TKyOeNadxK+YbpVRbnTobRx+hlY0jvXQLsCZqQ1NJfLHLcqXPv5Frfgf16XT0GmwF30aCP
- EkBtm5O0A43yp2IJOPdyFqyDCDO8NVjVyl9bksS+9F7okGmui5SD7IKsPVeT9RK7SCHMqW
- yXnPd6b4HSMagJxKWk/EuSpF9+d1FjUE9iO0bOZmjLhjuKi5unG4fr9LwAvTviq7LBDjXx
- /gKre7uXmmjv4R22cxLqj7/7OjF2EnBftggnC1k2DZbvJNUxaYqECQ0//YrZuxAsKYQxqn
- bjjK1yK2H4teOwQHBJR1ir0OWlNs7K2BPwUtV0IX+t2p4oZmRj3plJxoTvti/g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
- s=2020e; t=1633417617;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ErA+FMQ6eKB3vV9Xcub5nS1R+oPyIK29BJzJ17LvooM=;
- b=htwemY/lmJQUqDOfw1kdfEC67q6oq0hYMl7wVlXISV/FSnRRtUhCntLVMLoD6R/KEprLNV
- 6XOgBwt9yptZwSCw==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Matthew Brost <matthew.brost@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com, Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH 25/33] drm/i915/guc: Support request cancellation
-Message-ID: <20211005070656.25xszayci52wqe7h@linutronix.de>
-References: <20210727002348.97202-1-matthew.brost@intel.com>
- <20210727002348.97202-26-matthew.brost@intel.com>
- <2a417f11-050a-2445-d5e9-38fe354402f2@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A91B56E2EF;
+ Tue,  5 Oct 2021 07:13:44 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="223087210"
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="223087210"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 00:13:44 -0700
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="713967759"
+Received: from jstleger-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.209.157.147])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 00:13:43 -0700
+Date: Tue, 5 Oct 2021 00:13:43 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Steven Price <steven.price@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
+ intel-gfx@lists.freedesktop.org,
+ "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove IS_ACTIVE
+Message-ID: <20211005071343.nufuh3fx3vnxrzro@ldmartin-desk2>
+X-Patchwork-Hint: comment
+References: <20211001074041.2076538-1-lucas.demarchi@intel.com>
+ <163308055415.8412.14215483004176995847@build.alporthouse.com>
+ <87bl49t6di.fsf@intel.com>
+ <20211004205227.xpx67yawrs23gzr2@ldmartin-desk2>
+ <20211005061939.GF2083@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <2a417f11-050a-2445-d5e9-38fe354402f2@intel.com>
+In-Reply-To: <20211005061939.GF2083@kadam>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,82 +58,95 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-07-27 12:15:59 [-0700], Daniele Ceraolo Spurio wrote:
-> On 7/26/2021 5:23 PM, Matthew Brost wrote:
-> > This adds GuC backend support for i915_request_cancel(), which in turn
-> > makes CONFIG_DRM_I915_REQUEST_TIMEOUT work.
-> >=20
-> Reviewed-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+On Tue, Oct 05, 2021 at 09:19:39AM +0300, Dan Carpenter wrote:
+>On Mon, Oct 04, 2021 at 01:52:27PM -0700, Lucas De Marchi wrote:
+>> Cc'ing Dan Carpenter
+>>
+>> On Fri, Oct 01, 2021 at 12:57:13PM +0300, Jani Nikula wrote:
+>> > On Fri, 01 Oct 2021, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+>> > > Quoting Lucas De Marchi (2021-10-01 08:40:41)
+>> > > > When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
+>> > > > provide much value just encapsulating it in a boolean context. So I also
+>> > > > added the support for handling undefined macros as the IS_ENABLED()
+>> > > > counterpart. However the feedback received from Masahiro Yamada was that
+>> > > > it is too ugly, not providing much value. And just wrapping in a boolean
+>> > > > context is too dumb - we could simply open code it.
+>> > > >
+>> > > > As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
+>> > > > constant values inside boolean predicates"), the IS_ACTIVE macro was
+>> > > > added to workaround a compilation warning. However after checking again
+>> > > > our current uses of IS_ACTIVE it turned out there is only
+>> > > > 1 case in which it would potentially trigger a warning. All the others
+>> > > >   can simply use the shorter version, without wrapping it in any macro.
+>> > > > And even that single one didn't trigger any warning in gcc 10.3.
+>> > > >
+>> > > > So here I'm dialing all the way back to simply removing the macro. If it
+>> > > > triggers warnings in future we may change the few cases to check for > 0
+>> > > > or != 0. Another possibility would be to use the great "not not
+>> > > > operator" for all positive checks, which would allow us to maintain
+>> > > > consistency.  However let's try first the simplest form though, hopefully
+>> > > > we don't hit broken compilers spitting a warning:
+>> > >
+>> > > You didn't prevent the compilation warning this re-introduces.
+>> > >
+>> > > drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
+>> > > drivers/gpu/drm/i915/i915_request.c:1679 i915_request_wait() warn: should this be a bitwise op?
+>> >
+>> > Looks like that's a Smatch warning. The immediate fix would be to just
+>> > add the != 0 in the relevant places. But this is stuff that's just going
+>> > to get broken again unless we add Smatch to CI. Most people aren't
+>> > running it on a regular basis.
+>
+>I would really prefer that instead of ensuring that code doesn't
+>generate Smatch warnings, people just look over the warnings and then
+>mass mark them all as false positives and never look at them again.
+>
+>It let's us warn about more complicated things without worrying so much
+>about being perfect.  When code is fresh in your head then warnings are
+>not a big deal to review and you want to warn about every possible issue
+>After a year then they take forever and so you really want them to be
+>correct or it's a huge waste of time.  I'd prefer Smatch live in the
+>space where people run it when the code is fresh.
+>
+>You would have received some automated emails about this Smatch warning
+>but I look over the zero day output and filter the results.
+>
+>>
+>> clang gives a warning only in drivers/gpu/drm/i915/i915_config.c and the
+>> warning is gone if the condition swapped:
+>>
+>> -	if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+>> +	if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
+>
+>I like this rule that when the constant is on the left it's not a mask.
+>That makes sense.  I will add that.
 
-I have a few instances of ODEBUG warnings since this commit
-   62eaf0ae217d4 ("drm/i915/guc: Support request cancellation")
+thanks, that would be great, so we can really get rid of the macro by
+sticking this rule since it works for smatch and clang (and gcc doesn't
+give this warning).
 
-like:
 
-| ------------[ cut here ]------------
-| ODEBUG: init destroyed (active state 0) object type: i915_sw_fence hint: =
-sw_fence_dummy_notify+0x0/0x10
-| WARNING: CPU: 0 PID: 987 at lib/debugobjects.c:505 debug_print_object+0x6=
-e/0x90
-| Modules linked in:
-| CPU: 0 PID: 987 Comm: Xorg Not tainted 5.15.0-rc4+ #67
-| Hardware name: To Be Filled By O.E.M. To Be Filled By O.E.M./Z68 Pro3-M, =
-BIOS P2.10 04/24/2012
-| RIP: 0010:debug_print_object+0x6e/0x90
-=E2=80=A6
-| Call Trace:
-|  i915_sw_fence_reinit+0x10/0x40
-|  intel_context_init+0x185/0x1e0
-|  intel_context_create+0x2e/0x100
-|  default_engines+0x9d/0x120
-|  i915_gem_create_context+0x40a/0x5d0
-|  ? trace_kmalloc+0x29/0xd0
-|  ? kmem_cache_alloc_trace+0xdd/0x190
-|  i915_gem_context_open+0x140/0x1c0
-|  i915_gem_open+0x70/0xa0
-|  drm_file_alloc+0x1af/0x270
-|  drm_open+0xdc/0x270
-|  drm_stub_open+0xa6/0x130
-|  chrdev_open+0xbe/0x250
-|  ? cdev_device_add+0x80/0x80
-|  do_dentry_open+0x15e/0x390
-|  path_openat+0x76b/0xa60
-|  do_filp_open+0xa4/0x150
-|  ? lock_release+0x149/0x2f0
-|  ? _raw_spin_unlock+0x24/0x40
-|  do_sys_openat2+0x92/0x160
-|  __x64_sys_openat+0x4f/0x90
-|  do_syscall_64+0x3b/0xc0
-|  entry_SYSCALL_64_after_hwframe+0x44/0xae
-| RIP: 0033:0x7f91b5cfdf07
+thanks
+Lucas De Marchi
 
-and:
-| ODEBUG: activate destroyed (active state 0) object type: i915_sw_fence hi=
-nt: sw_fence_dummy_notify+0x0/0x10
-| WARNING: CPU: 0 PID: 987 at lib/debugobjects.c:505 debug_print_object+0x6=
-e/0x90
-|=20
-| Call Trace:
-|  debug_object_activate+0x174/0x200
-|  i915_sw_fence_commit+0x10/0x20
-|  intel_context_init+0x18d/0x1e0
-|  intel_context_create+0x2e/0x100
-|  default_engines+0x9d/0x120
 
----
-
-| ODEBUG: active_state destroyed (active state 0) object type: i915_sw_fenc=
-e hint: sw_fence_dummy_notify+0x0/0x10
-| WARNING: CPU: 0 PID: 987 at lib/debugobjects.c:505 debug_print_object+0x6=
-e/0x90
-| Call Trace:
-|  __i915_sw_fence_complete+0x6f/0x280
-|  intel_context_init+0x18d/0x1e0
-|  intel_context_create+0x2e/0x100
-|  default_engines+0x9d/0x120
-
-Is this known? This is yesterday's -rc4, I first noticed it in -rc3.
-
-> Daniele
-
-Sebastian
+>
+>>
+>> which would make sense if we think about shortcutting the if condition.
+>> However smatch still reports the warning and an additional one
+>> in drivers/gpu/drm/i915/i915_request.c. The ways I found to stop the
+>> false positives with smatch are:
+>>
+>> if (context && CONFIG_DRM_I915_FENCE_TIMEOUT != 0)
+>> or
+>> if (context && !!CONFIG_DRM_I915_FENCE_TIMEOUT)
+>> or
+>> if (context && CONFIG_DRM_I915_FENCE_TIMEOUT > 0)
+>>
+>
+>I guess I prefer the first and third but I'll add the rule that Clang
+>uses to silence the warning.
+>
+>regards,
+>dan carpenter
+>
