@@ -2,44 +2,82 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5EC422A46
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 16:09:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E4C422A04
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 16:03:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 704226EB8F;
-	Tue,  5 Oct 2021 14:09:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4111E6E40B;
+	Tue,  5 Oct 2021 14:03:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7686E6EB8F;
- Tue,  5 Oct 2021 14:09:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="286626549"
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="286626549"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 06:48:19 -0700
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="438700234"
-Received: from jlangp-mobl1.ger.corp.intel.com (HELO [10.249.254.71])
- ([10.249.254.71])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 06:48:17 -0700
-Message-ID: <14b259d1-82b3-e3bc-01f9-64342ec57336@linux.intel.com>
-Date: Tue, 5 Oct 2021 15:48:10 +0200
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 955116E40B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 14:03:53 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e12so17282063wra.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 07:03:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=UOP5lMM4CI08qP9awa2DkZ8S17LVd+LJIKmBh/A8w+Q=;
+ b=AumBtP+VYn0dbKtbwXKw0iaSZEgRAE9kZQwJQ/YOZLPIBRC7P4Za0KB9XBEEOcw9XT
+ CFrLV4q+pEFAYRPDNoot5viX6oCbr+AwsQNvuWlqYGTthOg39+5IL0aX436vMMCf4qKS
+ 0quMuq4Bcc0yIy3Wv1/aeMRkSSlnhd34iBRW2moqJj8pKGYLb/6MV3sZek9Fiv+JUOLO
+ WLsfG2f6VAF5WN3SKsdEvddpRJAkVfkxvtQFErFFyOM66f7NyxCxNc84Htj8yVbwngdd
+ 3Jxi5qZF4idMSsI4fjI0ifB34YgX59XdaCt7ONo52wj0WhvDINnF1HAKd4Q+BxleqTQx
+ 8jgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UOP5lMM4CI08qP9awa2DkZ8S17LVd+LJIKmBh/A8w+Q=;
+ b=oQLBVeyr8bvVGS0IjyQNvn3xyf0TkKmY2Ayn3kXA7B/Hg7VFUIqJF2P2UnNla7Z7sg
+ AUHReax/RvzhnJIJZF/wOsETZERzFzn72C8eVL72Kc+ekH5dIzvpTpqQKqoVSHZcW84K
+ qZTmQJl8Fyrl8yHtakU0qyZkqf5U/vbOyk4YdA1J9hTMi0/GeinUfo07ApARc23tTevq
+ /DEfDZwMnBfRF2yxPpWFPeo9Swge0Y4d9O/l5E3xnYD9cGdsOapLM5AhjvdZG24KJoym
+ lBH3amFEAjTYEoGdGAScRnQqwpM6V32TSQlSNi3lXBmcwCzReoiNBFH4FXVtoo/fP7/o
+ wKxA==
+X-Gm-Message-State: AOAM5317AHZ2RciztAnofoYBf3P6o/T3+Je1zb/S8DV7I7tRpNeS+BJ5
+ /yNBze7OHYcFef6l4j5kdJFfMw==
+X-Google-Smtp-Source: ABdhPJxSNuoi2/ILT5FfLSCFrAP0gNEnLVjb+ucoMeUutrRDVOxDXZdRnmzyWHw+AQXKkwO3VsEQcg==
+X-Received: by 2002:a05:6000:1561:: with SMTP id
+ 1mr21512974wrz.369.1633442631937; 
+ Tue, 05 Oct 2021 07:03:51 -0700 (PDT)
+Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
+ [80.7.220.175])
+ by smtp.gmail.com with ESMTPSA id v23sm1980215wmj.4.2021.10.05.07.03.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 07:03:51 -0700 (PDT)
+Date: Tue, 5 Oct 2021 15:03:49 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Marijn Suijten <marijn.suijten@somainline.org>,
+ phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 05/10] backlight: qcom-wled: Fix off-by-one maximum with
+ default num_strings
+Message-ID: <20211005140349.kefi26yev3gy3zhv@maple.lan>
+References: <20211004192741.621870-1-marijn.suijten@somainline.org>
+ <20211004192741.621870-6-marijn.suijten@somainline.org>
+ <20211005091947.7msztp5l554c7cy4@maple.lan>
+ <20211005100606.faxra73mzkvjd4f6@SoMainline.org>
+ <20211005103843.heufyonycnudxnzd@maple.lan>
+ <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
+ <20211005114435.phyq2jsbdyroa6kn@SoMainline.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [Intel-gfx] [PATCH v5 09/13] drm/i915/ttm: add tt shmem backend
-Content-Language: en-US
-To: "Zeng, Oak" <oak.zeng@intel.com>, "Auld, Matthew" <matthew.auld@intel.com>,
- "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>
-Cc: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-References: <20210927114114.152310-1-matthew.auld@intel.com>
- <20210927114114.152310-9-matthew.auld@intel.com>
- <CO6PR11MB56656C7E2B63C88AB6A40FE392AF9@CO6PR11MB5665.namprd11.prod.outlook.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <CO6PR11MB56656C7E2B63C88AB6A40FE392AF9@CO6PR11MB5665.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005114435.phyq2jsbdyroa6kn@SoMainline.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,545 +93,113 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On Tue, Oct 05, 2021 at 01:44:35PM +0200, Marijn Suijten wrote:
+> On 2021-10-05 11:53:12, Daniel Thompson wrote:
+> > On Tue, Oct 05, 2021 at 11:38:43AM +0100, Daniel Thompson wrote:
+> > > On Tue, Oct 05, 2021 at 12:06:06PM +0200, Marijn Suijten wrote:
+> > > > On 2021-10-05 10:19:47, Daniel Thompson wrote:
+> > > > > On Mon, Oct 04, 2021 at 09:27:36PM +0200, Marijn Suijten wrote:
+> > > > > > When not specifying num-strings in the DT the default is used, but +1 is
+> > > > > > added to it which turns wled3 into 4 and wled4/5 into 5 strings instead
+> > > > > > of 3 and 4 respectively, causing out of bounds reads and register
+> > > > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
+> > > > > > and is simply omitted entirely - solving this oob issue - by allowing
+> > > > > > one extra iteration of the wled_var_cfg function parsing this particular
+> > > > > > property.
+> > > > > > 
+> > > > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
+> > > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > > > > ---
+> > > > > >  drivers/video/backlight/qcom-wled.c | 8 +++-----
+> > > > > >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > > > > > index 27e8949c7922..66ce77ee3099 100644
+> > > > > > --- a/drivers/video/backlight/qcom-wled.c
+> > > > > > +++ b/drivers/video/backlight/qcom-wled.c
+> > > > > > @@ -1255,17 +1255,17 @@ static const struct wled_var_cfg wled5_ovp_cfg = {
+> > > > > >  
+> > > > > >  static u32 wled3_num_strings_values_fn(u32 idx)
+> > > > > >  {
+> > > > > > -	return idx + 1;
+> > > > > > +	return idx;
+> > > > > >  }
+> > > > > >  
+> > > > > >  static const struct wled_var_cfg wled3_num_strings_cfg = {
+> > > > > >  	.fn = wled3_num_strings_values_fn,
+> > > > > > -	.size = 3,
+> > > > > > +	.size = 4, /* [0, 3] */
+> > > > > 
+> > > > > 0 is not a valid value for this property.
+> > > > 
+> > > > These comments represent the possible loop iterations the DT "cfg
+> > > > parser" runs through, starting at j=0 and running up until and including
+> > > > j=3.  Should I make that more clear or omit these comments entirely?
+> > > 
+> > > The role of wled3_num_strings_values_fn() is to enumerate the list of
+> > > legal values for the property [ 1, 2, 3 ]. Your changes cause the
+> > > enumeration to include a non-legal value so that you can have an
+> > > identity mapping between the symbol and the enumerate value.
+> > > 
+> > > An alternative approach would be to leave the enumeration logic
+> > > alone but set the num_string default to UINT_MAX in all cases:
+> > > 
+> > > -	cfg->num_strings = cfg->num_strings + 1;
+> > > +	if (cfg->num_strings == UINT_MAX)
+> > > +		cfg->num_strings = 
+> > 
+> > Oops... looks like I missed the cfg->max_string_count here.
+> > 
+> > 
+> > > +	else
+> > > +               /* Convert from enumerated to numeric form */
+> > > +		cfg->num_strings = wled3_num_strings_values_fn(
+> > > +						cfg->num_strings);
+> > 
+> > 
+> > PS the alternative option is not to treat num-strings as an enumerated
+> >    value at all and just read it directly without using wled_values()...
+> 
+> I much prefer doing that instead of trying to wrangle enumeration
+> parsing around integer values that are supposed to be used as-is.  After
+> all this variable is already named to set the `+ 1` override currently,
+> and `qcom,enabled_strings` has "custom" handling as well.  I'll extend
+> the validation to ensure num_strings>=1 too.
 
-On 10/5/21 04:05, Zeng, Oak wrote:
-> Hi Matthew/Thomas,
->
-> See one question inline
->
-> Regards,
-> Oak
->
-> -----Original Message-----
-> From: Intel-gfx <intel-gfx-bounces@lists.freedesktop.org> On Behalf Of Matthew Auld
-> Sent: September 27, 2021 7:41 AM
-> To: intel-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org; Thomas Hellström <thomas.hellstrom@linux.intel.com>; Christian König <christian.koenig@amd.com>
-> Subject: [Intel-gfx] [PATCH v5 09/13] drm/i915/ttm: add tt shmem backend
->
-> For cached objects we can allocate our pages directly in shmem. This should make it possible(in a later patch) to utilise the existing i915-gem shrinker code for such objects. For now this is still disabled.
->
-> v2(Thomas):
->    - Add optional try_to_writeback hook for objects. Importantly we need
->      to check if the object is even still shrinkable; in between us
->      dropping the shrinker LRU lock and acquiring the object lock it could for
->      example have been moved. Also we need to differentiate between
->      "lazy" shrinking and the immediate writeback mode. Also later we need to
->      handle objects which don't even have mm.pages, so bundling this into
->      put_pages() would require somehow handling that edge case, hence
->      just letting the ttm backend handle everything in try_to_writeback
->      doesn't seem too bad.
-> v3(Thomas):
->    - Likely a bad idea to touch the object from the unpopulate hook,
->      since it's not possible to hold a reference, without also creating
->      circular dependency, so likely this is too fragile. For now just
->      ensure we at least mark the pages as dirty/accessed when called from the
->      shrinker on WILLNEED objects.
->    - s/try_to_writeback/shrinker_release_pages, since this can do more
->      than just writeback.
->    - Get rid of do_backup boolean and just set the SWAPPED flag prior to
->      calling unpopulate.
->    - Keep shmem_tt as lowest priority for the TTM LRU bo_swapout walk, since
->      these just get skipped anyway. We can try to come up with something
->      better later.
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.h    |   8 +
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  |   2 +
->   drivers/gpu/drm/i915/gem/i915_gem_shmem.c     |  14 +-
->   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  |  17 +-
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 240 ++++++++++++++++--
->   5 files changed, 245 insertions(+), 36 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index 3043fcbd31bd..1c9a1d8d3434 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -601,6 +601,14 @@ int i915_gem_object_wait_migration(struct drm_i915_gem_object *obj,  bool i915_gem_object_placement_possible(struct drm_i915_gem_object *obj,
->   					enum intel_memory_type type);
->   
-> +struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
-> +				size_t size, struct intel_memory_region *mr,
-> +				struct address_space *mapping,
-> +				unsigned int max_segment);
-> +void shmem_free_st(struct sg_table *st, struct address_space *mapping,
-> +		   bool dirty, bool backup);
-> +void __shmem_writeback(size_t size, struct address_space *mapping);
-> +
->   #ifdef CONFIG_MMU_NOTIFIER
->   static inline bool
->   i915_gem_object_is_userptr(struct drm_i915_gem_object *obj) diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index fa2ba9e2a4d0..f0fb17be2f7a 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -56,6 +56,8 @@ struct drm_i915_gem_object_ops {
->   			  struct sg_table *pages);
->   	void (*truncate)(struct drm_i915_gem_object *obj);
->   	void (*writeback)(struct drm_i915_gem_object *obj);
-> +	int (*shrinker_release_pages)(struct drm_i915_gem_object *obj,
-> +				      bool should_writeback);
->   
->   	int (*pread)(struct drm_i915_gem_object *obj,
->   		     const struct drm_i915_gem_pread *arg); diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> index 36b711ae9e28..19e55cc29a15 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
-> @@ -25,8 +25,8 @@ static void check_release_pagevec(struct pagevec *pvec)
->   	cond_resched();
->   }
->   
-> -static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
-> -			  bool dirty, bool backup)
-> +void shmem_free_st(struct sg_table *st, struct address_space *mapping,
-> +		   bool dirty, bool backup)
->   {
->   	struct sgt_iter sgt_iter;
->   	struct pagevec pvec;
-> @@ -52,10 +52,10 @@ static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
->   	kfree(st);
->   }
->   
-> -static struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
-> -				       size_t size, struct intel_memory_region *mr,
-> -				       struct address_space *mapping,
-> -				       unsigned int max_segment)
-> +struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
-> +				size_t size, struct intel_memory_region *mr,
-> +				struct address_space *mapping,
-> +				unsigned int max_segment)
->   {
->   	const unsigned long page_count = size / PAGE_SIZE;
->   	unsigned long i;
-> @@ -300,7 +300,7 @@ shmem_truncate(struct drm_i915_gem_object *obj)
->   	obj->mm.pages = ERR_PTR(-EFAULT);
->   }
->   
-> -static void __shmem_writeback(size_t size, struct address_space *mapping)
-> +void __shmem_writeback(size_t size, struct address_space *mapping)
->   {
->   	struct writeback_control wbc = {
->   		.sync_mode = WB_SYNC_NONE,
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index e382b7f2353b..cc80bd23d323 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -56,19 +56,24 @@ static bool unsafe_drop_pages(struct drm_i915_gem_object *obj,
->   	return false;
->   }
->   
-> -static void try_to_writeback(struct drm_i915_gem_object *obj,
-> -			     unsigned int flags)
-> +static int try_to_writeback(struct drm_i915_gem_object *obj, unsigned
-> +int flags)
->   {
-> +	if (obj->ops->shrinker_release_pages)
-> +		return obj->ops->shrinker_release_pages(obj,
-> +							flags & I915_SHRINK_WRITEBACK);
-> +
->   	switch (obj->mm.madv) {
->   	case I915_MADV_DONTNEED:
->   		i915_gem_object_truncate(obj);
-> -		return;
-> +		return 0;
->   	case __I915_MADV_PURGED:
-> -		return;
-> +		return 0;
->   	}
->   
->   	if (flags & I915_SHRINK_WRITEBACK)
->   		i915_gem_object_writeback(obj);
-> +
-> +	return 0;
->   }
->   
->   /**
-> @@ -222,8 +227,8 @@ i915_gem_shrink(struct i915_gem_ww_ctx *ww,
->   				}
->   
->   				if (!__i915_gem_object_put_pages(obj)) {
-> -					try_to_writeback(obj, shrink);
-> -					count += obj->base.size >> PAGE_SHIFT;
-> +					if (!try_to_writeback(obj, shrink))
-> +						count += obj->base.size >> PAGE_SHIFT;
->   				}
->   				if (!ww)
->   					i915_gem_object_unlock(obj);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index a77e90f300fe..c7402995a8f9 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -35,6 +35,8 @@
->    * @ttm: The base TTM page vector.
->    * @dev: The struct device used for dma mapping and unmapping.
->    * @cached_st: The cached scatter-gather table.
-> + * @is_shmem: Set if using shmem.
-> + * @filp: The shmem file, if using shmem backend.
->    *
->    * Note that DMA may be going on right up to the point where the page-
->    * vector is unpopulated in delayed destroy. Hence keep the @@ -46,6 +48,9 @@ struct i915_ttm_tt {
->   	struct ttm_tt ttm;
->   	struct device *dev;
->   	struct sg_table *cached_st;
-> +
-> +	bool is_shmem;
-> +	struct file *filp;
->   };
->   
->   static const struct ttm_place sys_placement_flags = { @@ -179,12 +184,90 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
->   	placement->busy_placement = busy;
->   }
->   
-> +static int i915_ttm_tt_shmem_populate(struct ttm_device *bdev,
-> +				      struct ttm_tt *ttm,
-> +				      struct ttm_operation_ctx *ctx) {
-> +	struct drm_i915_private *i915 = container_of(bdev, typeof(*i915), bdev);
-> +	struct intel_memory_region *mr = i915->mm.regions[INTEL_MEMORY_SYSTEM];
-> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
-> +	const unsigned int max_segment = i915_sg_segment_size();
-> +	const size_t size = ttm->num_pages << PAGE_SHIFT;
-> +	struct file *filp = i915_tt->filp;
-> +	struct sgt_iter sgt_iter;
-> +	struct sg_table *st;
-> +	struct page *page;
-> +	unsigned long i;
-> +	int err;
-> +
-> +	if (!filp) {
-> +		struct address_space *mapping;
-> +		gfp_t mask;
-> +
-> +		filp = shmem_file_setup("i915-shmem-tt", size, VM_NORESERVE);
-> +		if (IS_ERR(filp))
-> +			return PTR_ERR(filp);
-> +
-> +		mask = GFP_HIGHUSER | __GFP_RECLAIMABLE;
-> +
-> +		mapping = filp->f_mapping;
-> +		mapping_set_gfp_mask(mapping, mask);
-> +		GEM_BUG_ON(!(mapping_gfp_mask(mapping) & __GFP_RECLAIM));
-> +
-> +		i915_tt->filp = filp;
-> +	}
-> +
-> +	st = shmem_alloc_st(i915, size, mr, filp->f_mapping, max_segment);
-> +	if (IS_ERR(st))
-> +		return PTR_ERR(st);
-> +
-> +	err = dma_map_sg_attrs(i915_tt->dev,
-> +			       st->sgl, st->nents,
-> +			       PCI_DMA_BIDIRECTIONAL,
-> +			       DMA_ATTR_SKIP_CPU_SYNC |
-> +			       DMA_ATTR_NO_KERNEL_MAPPING |
-> +			       DMA_ATTR_NO_WARN);
-> +	if (err <= 0) {
-> +		err = -EINVAL;
-> +		goto err_free_st;
-> +	}
-> +
-> +	i = 0;
-> +	for_each_sgt_page(page, sgt_iter, st)
-> +		ttm->pages[i++] = page;
-> +
-> +	if (ttm->page_flags & TTM_TT_FLAG_SWAPPED)
-> +		ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
-> +
-> +	i915_tt->cached_st = st;
-> +	return 0;
-> +
-> +err_free_st:
-> +	shmem_free_st(st, filp->f_mapping, false, false);
-> +	return err;
-> +}
-> +
-> +static void i915_ttm_tt_shmem_unpopulate(struct ttm_tt *ttm) {
-> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
-> +	bool backup = ttm->page_flags & TTM_TT_FLAG_SWAPPED;
-> +
-> +	dma_unmap_sg(i915_tt->dev, i915_tt->cached_st->sgl,
-> +		     i915_tt->cached_st->nents,
-> +		     PCI_DMA_BIDIRECTIONAL);
-> +
-> +	shmem_free_st(fetch_and_zero(&i915_tt->cached_st),
-> +		      file_inode(i915_tt->filp)->i_mapping,
-> +		      backup, backup);
->
-> Should we do something to undo the  shmem_file_setup operation here? From its implementation it does take a reference counter of inode and allocate file:  https://elixir.bootlin.com/linux/latest/source/mm/shmem.c#L4084
->
-> Regards,
-> Oak
-
-Hi, Oak,
-
-That's done in i915_ttm_tt_destroy() afaict.
-
-/Thomas
+Great.
 
 
+> In addition, and this needs some investigation on the dt-bindings side
+> too, it might be beneficial to make both properties mutually exclusive.
+> When specifying qcom,enabled_strings it makes little sense to also
+> provide qcom,num_strings and we want the former to take precedence.
 
->
-> +}
-> +
->   static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   					 uint32_t page_flags)
->   {
->   	struct ttm_resource_manager *man =
->   		ttm_manager_type(bo->bdev, bo->resource->mem_type);
->   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
-> +	enum ttm_caching caching = i915_ttm_select_tt_caching(obj);
->   	struct i915_ttm_tt *i915_tt;
->   	int ret;
->   
-> @@ -196,36 +279,62 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
->   	    man->use_tt)
->   		page_flags |= TTM_TT_FLAG_ZERO_ALLOC;
->   
-> -	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags,
-> -			  i915_ttm_select_tt_caching(obj));
-> -	if (ret) {
-> -		kfree(i915_tt);
-> -		return NULL;
-> +	if (i915_gem_object_is_shrinkable(obj) && caching == ttm_cached) {
-> +		page_flags |= TTM_TT_FLAG_EXTERNAL |
-> +			      TTM_TT_FLAG_EXTERNAL_MAPPABLE;
-> +		i915_tt->is_shmem = true;
->   	}
->   
-> +	ret = ttm_tt_init(&i915_tt->ttm, bo, page_flags, caching);
-> +	if (ret)
-> +		goto err_free;
-> +
->   	i915_tt->dev = obj->base.dev->dev;
->   
->   	return &i915_tt->ttm;
-> +
-> +err_free:
-> +	kfree(i915_tt);
-> +	return NULL;
-> +}
-> +
-> +static int i915_ttm_tt_populate(struct ttm_device *bdev,
-> +				struct ttm_tt *ttm,
-> +				struct ttm_operation_ctx *ctx)
-> +{
-> +	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt),
-> +ttm);
-> +
-> +	if (i915_tt->is_shmem)
-> +		return i915_ttm_tt_shmem_populate(bdev, ttm, ctx);
-> +
-> +	return ttm_pool_alloc(&bdev->pool, ttm, ctx);
->   }
->   
->   static void i915_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)  {
->   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
->   
-> -	if (i915_tt->cached_st) {
-> -		dma_unmap_sgtable(i915_tt->dev, i915_tt->cached_st,
-> -				  DMA_BIDIRECTIONAL, 0);
-> -		sg_free_table(i915_tt->cached_st);
-> -		kfree(i915_tt->cached_st);
-> -		i915_tt->cached_st = NULL;
-> +	if (i915_tt->is_shmem) {
-> +		i915_ttm_tt_shmem_unpopulate(ttm);
-> +	} else {
-> +		if (i915_tt->cached_st) {
-> +			dma_unmap_sgtable(i915_tt->dev, i915_tt->cached_st,
-> +					  DMA_BIDIRECTIONAL, 0);
-> +			sg_free_table(i915_tt->cached_st);
-> +			kfree(i915_tt->cached_st);
-> +			i915_tt->cached_st = NULL;
-> +		}
-> +		ttm_pool_free(&bdev->pool, ttm);
->   	}
-> -	ttm_pool_free(&bdev->pool, ttm);
->   }
->   
->   static void i915_ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)  {
->   	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
->   
-> +	if (i915_tt->filp)
-> +		fput(i915_tt->filp);
-> +
->   	ttm_tt_fini(ttm);
->   	kfree(i915_tt);
->   }
-> @@ -235,6 +344,14 @@ static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,  {
->   	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
->   
-> +	/*
-> +	 * EXTERNAL objects should never be swapped out by TTM, instead we need
-> +	 * to handle that ourselves. TTM will already skip such objects for us,
-> +	 * but we would like to avoid grabbing locks for no good reason.
-> +	 */
-> +	if (bo->ttm && bo->ttm->page_flags & TTM_TT_FLAG_EXTERNAL)
-> +		return -EBUSY;
-> +
->   	/* Will do for now. Our pinned objects are still on TTM's LRU lists */
->   	return i915_gem_object_evictable(obj);  } @@ -328,9 +445,11 @@ static void i915_ttm_adjust_gem_after_move(struct drm_i915_gem_object *obj)
->   	i915_gem_object_set_cache_coherency(obj, cache_level);  }
->   
-> -static void i915_ttm_purge(struct drm_i915_gem_object *obj)
-> +static int __i915_ttm_purge(struct drm_i915_gem_object *obj)
->   {
->   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-> +	struct i915_ttm_tt *i915_tt =
-> +		container_of(bo->ttm, typeof(*i915_tt), ttm);
->   	struct ttm_operation_ctx ctx = {
->   		.interruptible = true,
->   		.no_wait_gpu = false,
-> @@ -339,17 +458,79 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
->   	int ret;
->   
->   	if (obj->mm.madv == __I915_MADV_PURGED)
-> -		return;
-> +		return 0;
->   
-> -	/* TTM's purge interface. Note that we might be reentering. */
->   	ret = ttm_bo_validate(bo, &place, &ctx);
-> -	if (!ret) {
-> -		obj->write_domain = 0;
-> -		obj->read_domains = 0;
-> -		i915_ttm_adjust_gem_after_move(obj);
-> -		i915_ttm_free_cached_io_st(obj);
-> -		obj->mm.madv = __I915_MADV_PURGED;
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (bo->ttm && i915_tt->filp) {
-> +		/*
-> +		 * The below fput(which eventually calls shmem_truncate) might
-> +		 * be delayed by worker, so when directly called to purge the
-> +		 * pages(like by the shrinker) we should try to be more
-> +		 * aggressive and release the pages immediately.
-> +		 */
-> +		shmem_truncate_range(file_inode(i915_tt->filp),
-> +				     0, (loff_t)-1);
-> +		fput(fetch_and_zero(&i915_tt->filp));
-> +	}
-> +
-> +	obj->write_domain = 0;
-> +	obj->read_domains = 0;
-> +	i915_ttm_adjust_gem_after_move(obj);
-> +	i915_ttm_free_cached_io_st(obj);
-> +	obj->mm.madv = __I915_MADV_PURGED;
-> +	return 0;
-> +}
-> +
-> +static void i915_ttm_purge(struct drm_i915_gem_object *obj) {
-> +	__i915_ttm_purge(obj);
-> +}
-> +
-> +static int i915_ttm_shrinker_release_pages(struct drm_i915_gem_object *obj,
-> +					   bool should_writeback)
-> +{
-> +	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-> +	struct i915_ttm_tt *i915_tt =
-> +		container_of(bo->ttm, typeof(*i915_tt), ttm);
-> +	struct ttm_operation_ctx ctx = {
-> +		.interruptible = true,
-> +		.no_wait_gpu = false,
-> +	};
-> +	struct ttm_placement place = {};
-> +	int ret;
-> +
-> +	if (!bo->ttm || bo->resource->mem_type != TTM_PL_SYSTEM)
-> +		return 0;
-> +
-> +	GEM_BUG_ON(!i915_tt->is_shmem);
-> +
-> +	if (!i915_tt->filp)
-> +		return 0;
-> +
-> +	switch (obj->mm.madv) {
-> +	case I915_MADV_DONTNEED:
-> +		return __i915_ttm_purge(obj);
-> +	case __I915_MADV_PURGED:
-> +		return 0;
-> +	}
-> +
-> +	if (bo->ttm->page_flags & TTM_TT_FLAG_SWAPPED)
-> +		return 0;
-> +
-> +	bo->ttm->page_flags |= TTM_TT_FLAG_SWAPPED;
-> +	ret = ttm_bo_validate(bo, &place, &ctx);
-> +	if (ret) {
-> +		bo->ttm->page_flags &= ~TTM_TT_FLAG_SWAPPED;
-> +		return ret;
->   	}
-> +
-> +	if (should_writeback)
-> +		__shmem_writeback(obj->base.size, i915_tt->filp->f_mapping);
-> +
-> +	return 0;
->   }
->   
->   static void i915_ttm_swap_notify(struct ttm_buffer_object *bo) @@ -618,6 +799,7 @@ static unsigned long i915_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
->   
->   static struct ttm_device_funcs i915_ttm_bo_driver = {
->   	.ttm_tt_create = i915_ttm_tt_create,
-> +	.ttm_tt_populate = i915_ttm_tt_populate,
->   	.ttm_tt_unpopulate = i915_ttm_tt_unpopulate,
->   	.ttm_tt_destroy = i915_ttm_tt_destroy,
->   	.eviction_valuable = i915_ttm_eviction_valuable, @@ -685,12 +867,17 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->   	}
->   
->   	if (!i915_gem_object_has_pages(obj)) {
-> +		struct i915_ttm_tt *i915_tt =
-> +			container_of(bo->ttm, typeof(*i915_tt), ttm);
-> +
->   		/* Object either has a page vector or is an iomem object */
->   		st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
->   		if (IS_ERR(st))
->   			return PTR_ERR(st);
->   
->   		__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
-> +		if (!bo->ttm || !i915_tt->is_shmem)
-> +			i915_gem_object_make_unshrinkable(obj);
->   	}
->   
->   	return ret;
-> @@ -770,6 +957,8 @@ static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,  static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)  {
->   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-> +	struct i915_ttm_tt *i915_tt =
-> +		container_of(bo->ttm, typeof(*i915_tt), ttm);
->   
->   	/*
->   	 * Don't manipulate the TTM LRUs while in TTM bo destruction.
-> @@ -782,7 +971,10 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
->   	 * Put on the correct LRU list depending on the MADV status
->   	 */
->   	spin_lock(&bo->bdev->lru_lock);
-> -	if (obj->mm.madv != I915_MADV_WILLNEED) {
-> +	if (bo->ttm && i915_tt->filp) {
-> +		/* Try to keep shmem_tt from being considered for shrinking. */
-> +		bo->priority = TTM_MAX_BO_PRIORITY - 1;
-> +	} else if (obj->mm.madv != I915_MADV_WILLNEED) {
->   		bo->priority = I915_TTM_PRIO_PURGE;
->   	} else if (!i915_gem_object_has_pages(obj)) {
->   		if (bo->priority < I915_TTM_PRIO_HAS_PAGES) @@ -887,9 +1079,12 @@ static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->   	.get_pages = i915_ttm_get_pages,
->   	.put_pages = i915_ttm_put_pages,
->   	.truncate = i915_ttm_purge,
-> +	.shrinker_release_pages = i915_ttm_shrinker_release_pages,
-> +
->   	.adjust_lru = i915_ttm_adjust_lru,
->   	.delayed_free = i915_ttm_delayed_free,
->   	.migrate = i915_ttm_migrate,
-> +
->   	.mmap_offset = i915_ttm_mmap_offset,
->   	.mmap_ops = &vm_ops_ttm,
->   };
-> @@ -937,7 +1132,6 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->   	drm_gem_private_object_init(&i915->drm, &obj->base, size);
->   	i915_gem_object_init(obj, &i915_gem_ttm_obj_ops, &lock_class, flags);
->   	i915_gem_object_init_memory_region(obj, mem);
-> -	i915_gem_object_make_unshrinkable(obj);
->   	INIT_RADIX_TREE(&obj->ttm.get_io_page.radix, GFP_KERNEL | __GFP_NOWARN);
->   	mutex_init(&obj->ttm.get_io_page.lock);
->   	bo_type = (obj->flags & I915_BO_ALLOC_USER) ? ttm_bo_type_device :
-> --
-> 2.26.3
->
+If we are designing a "fix" for that then my view is that if both are
+passed then num-strings should take precedence because it is an
+explicit statement about the number of strings where enabled_strings
+is implicit. In other words, if num-strings <= len(enabled_strings) then
+we should do what we are told, otherwise report error.
+
+
+> At that point one might ask why qcom,num_strings remains at all when
+> DT can use qcom,enabled_strings instead.  We will supposedly have to
+> keep backwards compatibility with DTs in mind so none of this can be
+> removed or made mutually exclusive from a driver standpoint, that all
+> has to be done in dt-bindings yaml to be enforced on checked-in DTs.
+
+So... perhaps I made a make offering a Reviewed-by: to a patch
+that allows len(enabled-strings) to have precedence. If anything
+currently uses enabled-strings then it *will* be 4 cells long and
+is relying on num-strings to ensure the right things happens ;-) .
+
+We'd like that case to keep working so we must allow num-strings to have
+precedence. In other words, when you add the new code, please put it at
+the end of the function!
+
+
+Daniel.
+
+
+> 
+> - Marijn
