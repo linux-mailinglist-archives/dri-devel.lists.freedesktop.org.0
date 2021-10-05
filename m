@@ -2,50 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEA09422552
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:38:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3F9542254D
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:38:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30F386F5C1;
-	Tue,  5 Oct 2021 11:38:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F114D6EB60;
+	Tue,  5 Oct 2021 11:38:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
  [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AFE576EB56;
- Tue,  5 Oct 2021 11:37:53 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id e12so16507715wra.4;
- Tue, 05 Oct 2021 04:37:53 -0700 (PDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9E2796EB53;
+ Tue,  5 Oct 2021 11:37:54 +0000 (UTC)
+Received: by mail-wr1-x431.google.com with SMTP id j8so6359158wro.7;
+ Tue, 05 Oct 2021 04:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oFRvQ6RV96jBX25654PxBqA2cF5GdsX8IuqjMmhPmaQ=;
- b=J0goe+paILeDCstwX5dO+h/f5bdXMgwbJdcHxWzBYkDA/HeUVVb7H7f3ZT71kzpH5S
- wH07Kb8OjSYBSh6h0vemMtzWYVVxScn0nAHYsugxnRIzpyjxekPsCyu/N32zTzHKMuhN
- uvdYf6xWJyTe9P4vEc/nxdliS4yYEBaFmu+b3KHp2nUgOFzkFxsoNuz7zW99HglZHM8D
- 1W0ti9/J7LfMY/IlTioCpKEWHfEbhUYRcrtXhuRLexAJ/xMP5aR5ZSITuW8bx4zDwpon
- sRhO9T0gjPqBROkajLhR6xgWMi2VBficySW04o17XHg5jMgmrSbFtO3Y+BFu3MjDKVxn
- nRBw==
+ bh=+zjjRS+8SmWmuiEHBZ1EQ1Juvwdnv29UPzLRK7KSTng=;
+ b=ohTGmGBM0A8SAi0X4KFX3NT6pQ/30b41WhOGkrrL+7B8UvTjLrJWvZAntXY8girHBR
+ ajYj7yCpVysGzaqRBmDutEmLCHMS7paIiTg6+SKdfssvVWh//unH0GJ2eHZxgtZq6nq/
+ 0P9ySyi6lyyaa0EiPFEYHsWPN0D7lbQXESG/t4UK6B+EXG73QnqMBUopGqhPNb82A3jY
+ BojXM0m+pQfac26WOf/Gp5+ZvEAxLGzKhE9LcoTMPLpS+wJShMnmiLwQj5xUcctM1os6
+ JuKHFmDaRSFj2ebuepKHQKXc6jCYGzEh8eCZLpId4NIvD9pf8MxjqIBDA/GRKph1jLkm
+ l9IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oFRvQ6RV96jBX25654PxBqA2cF5GdsX8IuqjMmhPmaQ=;
- b=yOYyMYvaIBy0RVInH3qHIHpPolMn+6ixZ1YDJTeo3fRmLrDAJw5zckxpqs3bhZljKP
- dQ99gIozMNu5MJ8f6iL0Mx6xTcDycfv1VTo99kSv5j3bKwg8l38sIc8XFGwBo75iQHHQ
- lwzr29aD/qwmV+yE7lJ8YZ3tNan4SZFSwY7pLcEHte2zKw2ofOiArU5jRHdU03rOKbNi
- TiP6cjiht3s1RWKXxiExPOftHLvjfjlD7JbARF+NbswcXmETmzy+yImV+JsDYxqBWero
- NN+4uwcqoHQMiEsJ1yZSRUp3+Hk+7tL7fegS3kDpodQdk0Wx4tLcr7H4vdGmpcxnLwvX
- h2yg==
-X-Gm-Message-State: AOAM531MoNPRwVTenA8bLK5qEB3Fcl9mwvfoJXCeRU7Y3sWe4C+REBL7
- kTruzYraMx/6hnfydzz/X1/R/NQKb60=
-X-Google-Smtp-Source: ABdhPJx9O8AMO2EbzbaaLU0qYPUVdrF8sww3tGKZar9j615pxOcLezJVK4/CW3wMxw/5Y8lCl1penQ==
-X-Received: by 2002:adf:bb93:: with SMTP id q19mr9464875wrg.423.1633433872113; 
- Tue, 05 Oct 2021 04:37:52 -0700 (PDT)
+ bh=+zjjRS+8SmWmuiEHBZ1EQ1Juvwdnv29UPzLRK7KSTng=;
+ b=QRytmz5Rd5QkWSCwdpoEp9AGib6hll5tJ+TaDgZ8rEReuDLAn10DSRg34ByDhL/8ZB
+ 1yG6VbVmVSpGkMVnFn5wB2qj2BQERejZuezTmwq2e7ffTQSYWzwlf7KtSlJadmxHPI8I
+ nKgzrk4d6zK7hFfWnwNGzZhFpjAn/vy8QKl3Az1Chtssy4ek+1lvXTdkaxPsWpCbW0VC
+ 1JeEWOf7eoidYnomWjvkJaVCOedFiUoOJJXyuOWzzi4gbSlNUVRLufqV2kVjpfYBKFDL
+ u06COgGmT8LtlMaSc0zJ61ITj8iCFQkTSz08xdvBVfiz0c4XgdKyEMbzyhmI5dSVw/Ug
+ ABag==
+X-Gm-Message-State: AOAM533K0TPpRhMlqobVLXCaxi4OLRhCJG7/ja0/34P7+1tjGU4jayeh
+ mEmMfDP0ExHHPQn6swq6J9Q=
+X-Google-Smtp-Source: ABdhPJy2pixIZqFIovlFcXsQYTpIiaXY4KfMYzOgWwdofof5tdX29oAHfep9AQ0wksJU1J4oI5B7QQ==
+X-Received: by 2002:a5d:6c6e:: with SMTP id r14mr21115749wrz.264.1633433873170; 
+ Tue, 05 Oct 2021 04:37:53 -0700 (PDT)
 Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
  by smtp.gmail.com with ESMTPSA id
- c5sm1739912wml.9.2021.10.05.04.37.51
+ c5sm1739912wml.9.2021.10.05.04.37.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 04:37:51 -0700 (PDT)
+ Tue, 05 Oct 2021 04:37:52 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>
@@ -53,9 +53,9 @@ To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
  linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
 Cc: daniel@ffwll.ch,
 	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 08/28] dma-buf: use the new iterator in dma_buf_debug_show
-Date: Tue,  5 Oct 2021 13:37:22 +0200
-Message-Id: <20211005113742.1101-9-christian.koenig@amd.com>
+Subject: [PATCH 09/28] dma-buf: use the new iterator in dma_resv_poll
+Date: Tue,  5 Oct 2021 13:37:23 +0200
+Message-Id: <20211005113742.1101-10-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211005113742.1101-1-christian.koenig@amd.com>
 References: <20211005113742.1101-1-christian.koenig@amd.com>
@@ -77,57 +77,86 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Simplifying the code a bit.
+Simplify the code a bit.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 ---
- drivers/dma-buf/dma-buf.c | 24 ++++++------------------
- 1 file changed, 6 insertions(+), 18 deletions(-)
+ drivers/dma-buf/dma-buf.c | 36 ++++++------------------------------
+ 1 file changed, 6 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 61e20ae7b08b..8242b5d9baeb 100644
+index 8242b5d9baeb..beb504a92d60 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
-@@ -1356,10 +1356,9 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
+@@ -209,19 +209,14 @@ static void dma_buf_poll_cb(struct dma_fence *fence, struct dma_fence_cb *cb)
+ 	dma_fence_put(fence);
+ }
+ 
+-static bool dma_buf_poll_shared(struct dma_resv *resv,
++static bool dma_buf_poll_add_cb(struct dma_resv *resv, bool write,
+ 				struct dma_buf_poll_cb_t *dcb)
  {
- 	struct dma_buf *buf_obj;
- 	struct dma_buf_attachment *attach_obj;
--	struct dma_resv *robj;
--	struct dma_resv_list *fobj;
+-	struct dma_resv_list *fobj = dma_resv_shared_list(resv);
 +	struct dma_resv_iter cursor;
  	struct dma_fence *fence;
--	int count = 0, attach_count, shared_count, i;
-+	int count = 0, attach_count;
- 	size_t size = 0;
- 	int ret;
- 
-@@ -1386,21 +1385,10 @@ static int dma_buf_debug_show(struct seq_file *s, void *unused)
- 				file_inode(buf_obj->file)->i_ino,
- 				buf_obj->name ?: "");
- 
--		robj = buf_obj->resv;
--		fence = dma_resv_excl_fence(robj);
--		if (fence)
--			seq_printf(s, "\tExclusive fence: %s %s %ssignalled\n",
--				   fence->ops->get_driver_name(fence),
--				   fence->ops->get_timeline_name(fence),
--				   dma_fence_is_signaled(fence) ? "" : "un");
+-	int i, r;
 -
--		fobj = rcu_dereference_protected(robj->fence,
--						 dma_resv_held(robj));
--		shared_count = fobj ? fobj->shared_count : 0;
--		for (i = 0; i < shared_count; i++) {
--			fence = rcu_dereference_protected(fobj->shared[i],
--							  dma_resv_held(robj));
--			seq_printf(s, "\tShared fence: %s %s %ssignalled\n",
-+		dma_resv_for_each_fence(&cursor, buf_obj->resv, true, fence) {
-+			seq_printf(s, "\t%s fence: %s %s %ssignalled\n",
-+				   dma_resv_iter_is_exclusive(&cursor) ?
-+					"Exclusive" : "Shared",
- 				   fence->ops->get_driver_name(fence),
- 				   fence->ops->get_timeline_name(fence),
- 				   dma_fence_is_signaled(fence) ? "" : "un");
+-	if (!fobj)
+-		return false;
++	int r;
+ 
+-	for (i = 0; i < fobj->shared_count; ++i) {
+-		fence = rcu_dereference_protected(fobj->shared[i],
+-						  dma_resv_held(resv));
++	dma_resv_for_each_fence(&cursor, resv, write, fence) {
+ 		dma_fence_get(fence);
+ 		r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+ 		if (!r)
+@@ -232,24 +227,6 @@ static bool dma_buf_poll_shared(struct dma_resv *resv,
+ 	return false;
+ }
+ 
+-static bool dma_buf_poll_excl(struct dma_resv *resv,
+-			      struct dma_buf_poll_cb_t *dcb)
+-{
+-	struct dma_fence *fence = dma_resv_excl_fence(resv);
+-	int r;
+-
+-	if (!fence)
+-		return false;
+-
+-	dma_fence_get(fence);
+-	r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+-	if (!r)
+-		return true;
+-	dma_fence_put(fence);
+-
+-	return false;
+-}
+-
+ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ {
+ 	struct dma_buf *dmabuf;
+@@ -282,8 +259,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+ 		if (events & EPOLLOUT) {
+-			if (!dma_buf_poll_shared(resv, dcb) &&
+-			    !dma_buf_poll_excl(resv, dcb))
++			if (!dma_buf_poll_add_cb(resv, true, dcb))
+ 				/* No callback queued, wake up any other waiters */
+ 				dma_buf_poll_cb(NULL, &dcb->cb);
+ 			else
+@@ -303,7 +279,7 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 		spin_unlock_irq(&dmabuf->poll.lock);
+ 
+ 		if (events & EPOLLIN) {
+-			if (!dma_buf_poll_excl(resv, dcb))
++			if (!dma_buf_poll_add_cb(resv, false, dcb))
+ 				/* No callback queued, wake up any other waiters */
+ 				dma_buf_poll_cb(NULL, &dcb->cb);
+ 			else
 -- 
 2.25.1
 
