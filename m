@@ -1,45 +1,81 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E88842275F
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:07:50 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 23603422773
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:11:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 831606EB7F;
-	Tue,  5 Oct 2021 13:07:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD7646F5DA;
+	Tue,  5 Oct 2021 13:11:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A5A7E6EB7B;
- Tue,  5 Oct 2021 13:07:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="248991178"
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="248991178"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 06:05:29 -0700
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="438687122"
-Received: from jlangp-mobl1.ger.corp.intel.com (HELO [10.249.254.71])
- ([10.249.254.71])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 06:05:27 -0700
-Message-ID: <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
-Date: Tue, 5 Oct 2021 15:05:25 +0200
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 84A4D6F5CF
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 13:11:14 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id n8so29908755lfk.6
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 06:11:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=jjr/5gs80cWEm3vhyk3aM1mKvl135EXltar2PLrRZ/k=;
+ b=P2GJcTPd6Kk45HZ8Ezt3mOStexgciMfR/ERjqn7quus9WPj7c0pgJ31TVKDyKIyFGw
+ Y+F7WGFBzXS/vp5jDxxMyzTz/hmBB5xPYGuEv6qEQ23KVdyCACYcfsWUkcNmRV/ofYHS
+ vE4LfuNllox/XGETXWlqstK2Q0L/vr7oXCynROhlgtpi4vvXnVvj6wEyBllh0eoIaYn8
+ f40td9gch4cO2Jp1h51EkJPAQ6/xwpwREWWIr5YIzLYLVQSBM9my6mb9NpueANAdQfBZ
+ CLGXLy2HZcaqGOasKeUtPNXPs47D7ubFHOmVm/lx2TuvCwySuEvv9iGf+AtaMpafWnSk
+ y69w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=jjr/5gs80cWEm3vhyk3aM1mKvl135EXltar2PLrRZ/k=;
+ b=MIC5L0dOg2HyiYnoE+Wfa5OqGdwTRk3Ga4MDS7VNKqrYv0YWfWTA5t1Ev94Qj1wRfN
+ aIUvqOl/hktWiGAR1DzF9z1YpQWnqAnO5jg47z1Go4CaGtwJc5OxMoCyKDjhaijQ10+/
+ b2rUKmBzDdx+LUX33RjlkkA8j4cWWyStah5O8i3FS8kH/+TYQcOd5UC9v7nPMN7be6sL
+ JGIz0UPJAo3nqKC0n6cJAamwnv2q6EjY2PDji6oPmD8CUltBqLMc+OAz5ZBAgz6vHwHq
+ pkWoB8VEx6j8UlbWlsSThCbVO7bslZcXjMxmz8NKphH9mey2QYbHAHfh+MmF7hl7cwN7
+ W4Bg==
+X-Gm-Message-State: AOAM533W1SOuwhNqOmI62g5ZTEe3LRYQSlcsCDlAusYOr85iZQg/FCQ9
+ 2TNDxOws+nfK+QVkjBLEgg3hDmjEAv4PUsQ6L3oNGA==
+X-Google-Smtp-Source: ABdhPJzhN75cYX0QdxPZZrVkTo8LNm3eo8IzoivQ7mSAH2J9FquztKwBCIMLaRlaWOOdBUUox7ZGcX1wvMYGNrjgk1w=
+X-Received: by 2002:a05:651c:20b:: with SMTP id
+ y11mr22911109ljn.463.1633439466354; 
+ Tue, 05 Oct 2021 06:11:06 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics
- setup
-Content-Language: en-US
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin
- <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Auld <matthew.auld@intel.com>
-References: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20210926224058.1252-1-digetx@gmail.com>
+ <20210926224058.1252-7-digetx@gmail.com>
+ <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
+ <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
+In-Reply-To: <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
+From: Ulf Hansson <ulf.hansson@linaro.org>
+Date: Tue, 5 Oct 2021 15:10:30 +0200
+Message-ID: <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
+Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
+To: Dmitry Osipenko <digetx@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Viresh Kumar <vireshk@kernel.org>, Stephen Boyd <sboyd@kernel.org>, 
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Mikko Perttunen <mperttunen@nvidia.com>, 
+ Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>, 
+ =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, 
+ Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-tegra <linux-tegra@vger.kernel.org>, 
+ Linux PM <linux-pm@vger.kernel.org>, Linux USB List <linux-usb@vger.kernel.org>,
+ linux-staging@lists.linux.dev, linux-pwm@vger.kernel.org, 
+ linux-mmc <linux-mmc@vger.kernel.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>, 
+ DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>, 
+ Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Richard Weinberger <richard@nod.at>, Miquel Raynal <miquel.raynal@bootlin.com>,
+ Lucas Stach <dev@lynxeye.de>, 
+ Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ David Heidelberg <david@ixit.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,96 +91,93 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi, Tvrtko,
-
-On 10/5/21 13:31, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Sat, 2 Oct 2021 at 22:44, Dmitry Osipenko <digetx@gmail.com> wrote:
 >
-> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
-> when rendering is done on Intel dgfx and scanout/composition on Intel
-> igfx.
+> 01.10.2021 15:32, Ulf Hansson =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> >> +static __maybe_unused int tegra_clock_pm_suspend(struct device *dev)
+> >> +{
+> >> +       struct tegra_clk_device *clk_dev =3D dev_get_drvdata(dev);
+> >> +
+> >> +       /*
+> >> +        * Power management of the clock is entangled with the Tegra P=
+MC
+> >> +        * GENPD because PMC driver enables/disables clocks for toggli=
+ng
+> >> +        * of the PD's on/off state.
+> >> +        *
+> >> +        * The PMC GENPD is resumed in NOIRQ phase, before RPM of the =
+clocks
+> >> +        * becomes available, hence PMC can't use clocks at the early =
+resume
+> >> +        * phase if RPM is involved. For example when 3d clock is enab=
+led,
+> >> +        * it may enable the parent PLL clock that needs to be RPM-res=
+umed.
+> >> +        *
+> >> +        * Secondly, the PLL clocks may be enabled by the low level su=
+spend
+> >> +        * code, so we need to assume that PLL is in enabled state dur=
+ing
+> >> +        * suspend.
+> >> +        *
+> >> +        * We will keep PLLs and system clock resumed during suspend t=
+ime.
+> >> +        * All PLLs on all SoCs are low power and system clock is alwa=
+ys-on,
+> >> +        * so practically not much is changed here.
+> >> +        */
+> >> +
+> >> +       return clk_prepare(clk_dev->hw->clk);
+> > I am trying to understand, more exactly, what you intend to achieve
+> > with the clk_prepare() here. It looks a bit weird, to me. Can you try
+> > to elaborate a bit more on the use case?
 >
-> Before this patch the driver was not quite ready for that setup, mainly
-> because it was able to emit a semaphore wait between the two GPUs, which
-> results in deadlocks because semaphore target location in HWSP is neither
-> shared between the two, nor mapped in both GGTT spaces.
+> The Tegra GENPD driver enable/disable clocks when domain is turned on.
+
+Okay. I noticed that in tegra_genpd_power_on(). And the same clocks
+are enabled/disabled also in tegra_genpd_power_off(), when powering
+off the PM domain.
+
+So I guess the problem kind of exists for tegra_genpd_power_off() too?
+
+> This can't be done during early system resume, when domains are getting
+> turned on by the drivers core, because when clock is enabled, it's
+> getting prepared (RPM-resumed) and this preparation fails because
+> performance state of the clock goes up and it doesn't work during the
+> early resume time since I2C, which applies the state to hardware, is
+> suspended and can't work at that early time.
+
+This sounds complicated and I still don't quite follow all of it, sorry.
+
+So, tegra_genpd_power_on() gets called from genpd_resume_noirq(), when
+the first device of the attached devices to genpd gets resumed. And
+vice versa for tegra_genpd_power_off() and genpd_suspend_noirq().
+
+Are you saying that trying to enable/disable clocks from
+tegra_genpd_power_on|off() in these paths doesn't work, because it
+would also require the performance state to be changed, which would
+fail because the I2C bus/driver is suspended?
+
 >
-> To fix it the patch adds an additional check to a couple of relevant code
-> paths in order to prevent using semaphores for inter-engine
-> synchronisation when relevant objects are not in the same GGTT space.
+> Secondly, Tegra has arch-specific low level assembly which touches
+> clocks during last phase of system suspend and in the beginning of
+> resume. Hence, clocks should stay prepared during suspend just because
+> technically clock should be prepared before it can be enabled.
+
+So the low level code is gating and ungating the clock behind the back
+of the clock driver then? Why is that done like that, more exactly?
+
 >
-> v2:
->   * Avoid adding rq->i915. (Chris)
+> > Is this rather about making sure that the clock's corresponding PM
+> > domain stays powered on during system suspend? In that case, I think
+> > there may be an alternative option....
+> >
 >
-> v3:
->   * Use GGTT which describes the limit more precisely.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> This is not about domain staying powered on, this is about keeping the
+> performance state of the domain high during suspend.
 
-An IMO pretty important bugfix. I read up a bit on the previous 
-discussion on this, and from what I understand the other two options were
+Right, so the PM domain managed in tegra_genpd_power_on|off() can
+still be powered on/off, as long as the clock remains ungated?
 
-1) Ripping out the semaphore code,
-2) Consider dma-fences from other instances of the same driver as foreign.
-
-For imported dma-bufs we do 2), but particularly with lmem and p2p 
-that's a more straightforward decision.
-
-I don't think 1) is a reasonable approach to fix this bug, (but perhaps 
-as a general cleanup?), and for 2) yes I guess we might end up doing 
-that, unless we find some real benefits in treating 
-same-driver-separate-device dma-fences as local, but for this particular 
-bug, IMO this is a reasonable fix.
-
-So,
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
-
-
-
-> ---
->   drivers/gpu/drm/i915/i915_request.c | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 79da5eca60af..4f189982f67e 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -1145,6 +1145,12 @@ __emit_semaphore_wait(struct i915_request *to,
->   	return 0;
->   }
->   
-> +static bool
-> +can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
-> +{
-> +	return to->engine->gt->ggtt == from->engine->gt->ggtt;
-> +}
-> +
->   static int
->   emit_semaphore_wait(struct i915_request *to,
->   		    struct i915_request *from,
-> @@ -1153,6 +1159,9 @@ emit_semaphore_wait(struct i915_request *to,
->   	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
->   	struct i915_sw_fence *wait = &to->submit;
->   
-> +	if (!can_use_semaphore_wait(to, from))
-> +		goto await_fence;
-> +
->   	if (!intel_context_use_semaphores(to->context))
->   		goto await_fence;
->   
-> @@ -1256,7 +1265,8 @@ __i915_request_await_execution(struct i915_request *to,
->   	 * immediate execution, and so we must wait until it reaches the
->   	 * active slot.
->   	 */
-> -	if (intel_engine_has_semaphores(to->engine) &&
-> +	if (can_use_semaphore_wait(to, from) &&
-> +	    intel_engine_has_semaphores(to->engine) &&
->   	    !i915_request_has_initial_breadcrumb(to)) {
->   		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
->   		if (err < 0)
+Kind regards
+Uffe
