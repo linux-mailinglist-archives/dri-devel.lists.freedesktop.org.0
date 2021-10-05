@@ -2,48 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3300B42204A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 10:12:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF951422051
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 10:12:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4DD786EB3A;
-	Tue,  5 Oct 2021 08:11:58 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 85E1F6F5BC;
+	Tue,  5 Oct 2021 08:12:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 08C246EB3A
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3FBD76F5B7
  for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 08:11:56 +0000 (UTC)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 859A5223F2;
+ by smtp-out2.suse.de (Postfix) with ESMTPS id AE0F720271;
  Tue,  5 Oct 2021 08:11:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
  t=1633421514; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qDl8ZguXuyDbbZiyscWgLIlhsrArfzmqxhg/rr6+6po=;
- b=Db4ia5UTRSiVeYnU42t6lT8kbgyu7e3ZVX70CoMrusY0Eq03WParw6UDgcrOlZgh+p5+y3
- v6389NhgfMdwyKpLZuh74wUXd3fUYGCGbA1l00fYMfTCHN5BsGbw7KCNEl5JLRRdxDYsgk
- jwh2Kw0YDrBPx5bi4QssTsRMsYGwPgI=
+ bh=SCokUjIC8bj7UTTzYiYflgTknlwwoJLr95EMZl26qZg=;
+ b=GRp3T3XvOOGs3STPHrzD4PFdEFvhbV2Du2pL4xoTboNeI/wLlAPV0WmKQqwAtTEe96CMc5
+ BlaEYDB5zxMHHGWVvQTnRQiPNJDJ1fyxLpYGsnPADoHB7Mu0N9zvXFH8jmqXGw0QU0HSR3
+ DIwuEBr9qa1rktsCqiihwHKLzt0Y2Q0=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
  s=susede2_ed25519; t=1633421514;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qDl8ZguXuyDbbZiyscWgLIlhsrArfzmqxhg/rr6+6po=;
- b=19ZZ7Oemoo0JoFAlQBGSJJWMi4QU/iu4DLb7jRrGRO2hyVtkWsyKvwZDP0Owul4ihQip36
- bfxz5OajqDeayFBg==
+ bh=SCokUjIC8bj7UTTzYiYflgTknlwwoJLr95EMZl26qZg=;
+ b=JeU6r15bNTAY2w1+s5douGmIeDuP0eD/iWbs38vO65TU9vT6IUHnn7VaEcnNFC5q7JaDBn
+ HLHtTmCDU6jIOoBA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5FFA413A78;
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 899D113BE1;
  Tue,  5 Oct 2021 08:11:54 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id yLSKFsoIXGEgXgAAMHmgww
+ by imap2.suse-dmz.suse.de with ESMTPSA id QA+QIMoIXGEgXgAAMHmgww
  (envelope-from <tzimmermann@suse.de>); Tue, 05 Oct 2021 08:11:54 +0000
 From: Thomas Zimmermann <tzimmermann@suse.de>
 To: patrik.r.jakobsson@gmail.com,
@@ -51,10 +51,10 @@ To: patrik.r.jakobsson@gmail.com,
 	daniel@ffwll.ch
 Cc: dri-devel@lists.freedesktop.org,
 	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 05/10] drm/gma500: Rename psb_gtt_{pin,
- unpin}() to psb_gem_{pin, unpin}()
-Date: Tue,  5 Oct 2021 10:11:46 +0200
-Message-Id: <20211005081151.23612-6-tzimmermann@suse.de>
+Subject: [PATCH v2 06/10] drm/gma500: Inline psb_gtt_attach_pages() and
+ psb_gtt_detach_pages()
+Date: Tue,  5 Oct 2021 10:11:47 +0200
+Message-Id: <20211005081151.23612-7-tzimmermann@suse.de>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211005081151.23612-1-tzimmermann@suse.de>
 References: <20211005081151.23612-1-tzimmermann@suse.de>
@@ -75,127 +75,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Rename psb_gtt_pin() to psb_gem_pin() to reflect the semantics of the
-function. Same for psb_gtt_unpin(). No functional changes.
+psb_gtt_attach_pages() are not GTT functions but deal with the GEM
+object's SHMEM pages. The only callers of psb_gtt_attach_pages() and
+psb_gtt_detach_pages() are the GEM pin helpers. Inline the calls and
+cleanup the resulting code.
+
+v2:
+	* unlock gtt_mutex in pin-error handling (Patrik)
 
 Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 ---
- drivers/gpu/drm/gma500/gem.c         |  8 ++++----
- drivers/gpu/drm/gma500/gem.h         |  4 ++--
- drivers/gpu/drm/gma500/gma_display.c | 12 ++++++------
- 3 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/gma500/gem.c | 94 ++++++++++++++++--------------------
+ 1 file changed, 42 insertions(+), 52 deletions(-)
 
 diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-index 97b7f3bdbdc3..1905468924ca 100644
+index 1905468924ca..37b61334ade2 100644
 --- a/drivers/gpu/drm/gma500/gem.c
 +++ b/drivers/gpu/drm/gma500/gem.c
-@@ -52,7 +52,7 @@ static void psb_gtt_detach_pages(struct gtt_range *gt)
- 	gt->pages = NULL;
- }
+@@ -19,63 +19,48 @@
+ #include "gem.h"
+ #include "psb_drv.h"
  
--int psb_gtt_pin(struct gtt_range *gt)
-+int psb_gem_pin(struct gtt_range *gt)
+-/*
+- * Pin and build an in-kernel list of the pages that back our GEM object.
+- * While we hold this the pages cannot be swapped out. This is protected
+- * via the gtt mutex which the caller must hold.
+- */
+-static int psb_gtt_attach_pages(struct gtt_range *gt)
+-{
+-	struct page **pages;
+-
+-	WARN_ON(gt->pages);
+-
+-	pages = drm_gem_get_pages(&gt->gem);
+-	if (IS_ERR(pages))
+-		return PTR_ERR(pages);
+-
+-	gt->npage = gt->gem.size / PAGE_SIZE;
+-	gt->pages = pages;
+-
+-	return 0;
+-}
+-
+-/*
+- * Undo the effect of psb_gtt_attach_pages. At this point the pages
+- * must have been removed from the GTT as they could now be paged out
+- * and move bus address. This is protected via the gtt mutex which the
+- * caller must hold.
+- */
+-static void psb_gtt_detach_pages(struct gtt_range *gt)
+-{
+-	drm_gem_put_pages(&gt->gem, gt->pages, true, false);
+-	gt->pages = NULL;
+-}
+-
+ int psb_gem_pin(struct gtt_range *gt)
  {
  	int ret = 0;
  	struct drm_device *dev = gt->gem.dev;
-@@ -80,7 +80,7 @@ int psb_gtt_pin(struct gtt_range *gt)
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	u32 gpu_base = dev_priv->gtt.gatt_start;
++	struct page **pages;
++	unsigned int npages;
+ 
+ 	mutex_lock(&dev_priv->gtt_mutex);
+ 
+-	if (gt->in_gart == 0 && gt->stolen == 0) {
+-		ret = psb_gtt_attach_pages(gt);
+-		if (ret < 0)
+-			goto out;
+-		ret = psb_gtt_insert(dev, gt, 0);
+-		if (ret < 0) {
+-			psb_gtt_detach_pages(gt);
+-			goto out;
+-		}
+-		psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+-				     gt->pages, (gpu_base + gt->offset),
+-				     gt->npage, 0, 0, PSB_MMU_CACHED_MEMORY);
++	if (gt->in_gart || gt->stolen)
++		goto out; /* already mapped */
++
++	pages = drm_gem_get_pages(&gt->gem);
++	if (IS_ERR(pages)) {
++		ret = PTR_ERR(pages);
++		goto err_mutex_unlock;
+ 	}
+-	gt->in_gart++;
++
++	npages = gt->gem.size / PAGE_SIZE;
++
++	ret = psb_gtt_insert(dev, gt, 0);
++	if (ret)
++		goto err_drm_gem_put_pages;
++
++	psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
++			     (gpu_base + gt->offset), npages, 0, 0,
++			     PSB_MMU_CACHED_MEMORY);
++
++	gt->npage = npages;
++	gt->pages = pages;
++
+ out:
++	++gt->in_gart;
++	mutex_unlock(&dev_priv->gtt_mutex);
++
++	return 0;
++
++err_drm_gem_put_pages:
++	drm_gem_put_pages(&gt->gem, pages, true, false);
++err_mutex_unlock:
+ 	mutex_unlock(&dev_priv->gtt_mutex);
  	return ret;
  }
+@@ -90,14 +75,19 @@ void psb_gem_unpin(struct gtt_range *gt)
  
--void psb_gtt_unpin(struct gtt_range *gt)
-+void psb_gem_unpin(struct gtt_range *gt)
- {
- 	struct drm_device *dev = gt->gem.dev;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-@@ -105,7 +105,7 @@ static void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
- {
- 	/* Undo the mmap pin if we are destroying the object */
- 	if (gt->mmapping) {
--		psb_gtt_unpin(gt);
-+		psb_gem_unpin(gt);
- 		gt->mmapping = 0;
- 	}
- 	WARN_ON(gt->in_gart && !gt->stolen);
-@@ -301,7 +301,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- 	/* For now the mmap pins the object and it stays pinned. As things
- 	   stand that will do us no harm */
- 	if (r->mmapping == 0) {
--		err = psb_gtt_pin(r);
-+		err = psb_gem_pin(r);
- 		if (err < 0) {
- 			dev_err(dev->dev, "gma500: pin failed: %d\n", err);
- 			ret = vmf_error(err);
-diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
-index 6b67c58cbed5..21c86df482a6 100644
---- a/drivers/gpu/drm/gma500/gem.h
-+++ b/drivers/gpu/drm/gma500/gem.h
-@@ -15,7 +15,7 @@ struct drm_device;
- struct gtt_range *
- psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align);
+ 	WARN_ON(!gt->in_gart);
  
--int psb_gtt_pin(struct gtt_range *gt);
--void psb_gtt_unpin(struct gtt_range *gt);
-+int psb_gem_pin(struct gtt_range *gt);
-+void psb_gem_unpin(struct gtt_range *gt);
+-	gt->in_gart--;
+-	if (gt->in_gart == 0 && gt->stolen == 0) {
+-		psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
++	--gt->in_gart;
++
++	if (gt->in_gart || gt->stolen)
++		goto out;
++
++	psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
+ 				     (gpu_base + gt->offset), gt->npage, 0, 0);
+-		psb_gtt_remove(dev, gt);
+-		psb_gtt_detach_pages(gt);
+-	}
++	psb_gtt_remove(dev, gt);
  
- #endif
-diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
-index 8c95b50034a5..6d0470b27bc5 100644
---- a/drivers/gpu/drm/gma500/gma_display.c
-+++ b/drivers/gpu/drm/gma500/gma_display.c
-@@ -75,7 +75,7 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
- 
- 	/* We are displaying this buffer, make sure it is actually loaded
- 	   into the GTT */
--	ret = psb_gtt_pin(gtt);
-+	ret = psb_gem_pin(gtt);
- 	if (ret < 0)
- 		goto gma_pipe_set_base_exit;
- 	start = gtt->offset;
-@@ -126,7 +126,7 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
- gma_pipe_cleaner:
- 	/* If there was a previous display we can now unpin it */
- 	if (old_fb)
--		psb_gtt_unpin(to_gtt_range(old_fb->obj[0]));
-+		psb_gem_unpin(to_gtt_range(old_fb->obj[0]));
- 
- gma_pipe_set_base_exit:
- 	gma_power_end(dev);
-@@ -350,7 +350,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 		/* Unpin the old GEM object */
- 		if (gma_crtc->cursor_obj) {
- 			gt = to_gtt_range(gma_crtc->cursor_obj);
--			psb_gtt_unpin(gt);
-+			psb_gem_unpin(gt);
- 			drm_gem_object_put(gma_crtc->cursor_obj);
- 			gma_crtc->cursor_obj = NULL;
- 		}
-@@ -378,7 +378,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 	gt = to_gtt_range(obj);
- 
- 	/* Pin the memory into the GTT */
--	ret = psb_gtt_pin(gt);
-+	ret = psb_gem_pin(gt);
- 	if (ret) {
- 		dev_err(dev->dev, "Can not pin down handle 0x%x\n", handle);
- 		goto unref_cursor;
-@@ -426,7 +426,7 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 	/* unpin the old bo */
- 	if (gma_crtc->cursor_obj) {
- 		gt = to_gtt_range(gma_crtc->cursor_obj);
--		psb_gtt_unpin(gt);
-+		psb_gem_unpin(gt);
- 		drm_gem_object_put(gma_crtc->cursor_obj);
- 	}
- 
-@@ -490,7 +490,7 @@ void gma_crtc_disable(struct drm_crtc *crtc)
- 
- 	if (crtc->primary->fb) {
- 		gt = to_gtt_range(crtc->primary->fb->obj[0]);
--		psb_gtt_unpin(gt);
-+		psb_gem_unpin(gt);
- 	}
++	drm_gem_put_pages(&gt->gem, gt->pages, true, false);
++	gt->pages = NULL;
++
++out:
+ 	mutex_unlock(&dev_priv->gtt_mutex);
  }
  
 -- 
