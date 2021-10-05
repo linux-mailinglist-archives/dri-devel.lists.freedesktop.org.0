@@ -1,51 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8635C4228BE
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:52:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0D742289E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:51:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2706E3F4;
-	Tue,  5 Oct 2021 13:52:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ADDFF6E8B9;
+	Tue,  5 Oct 2021 13:51:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
- Tue, 05 Oct 2021 13:52:21 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF16E3F4
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 13:52:21 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
- by mail.kmu-office.ch (Postfix) with ESMTPSA id 6C26A5C2764;
- Tue,  5 Oct 2021 15:45:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
- t=1633441536;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MnLwo57Qj0/f1FqMi0leRR6DjLfqh+PNYNZjNC/l4+0=;
- b=zKhxc2nCDtT7NVNnobPuUcNui9X+zSA9Vs2LQxQTfZLLHnjPI5iIQgAsnNfUu9tJ0F7FqN
- GjDcZgclNsSchMXXyg/pSNKphqGLYO81gDqwfo4jSF1TdRYauvtQidp0pt5IGb69yh96fJ
- Dc8kulsxMammBs8ZAm8noz/WgKNGYxU=
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6826A6E8B9;
+ Tue,  5 Oct 2021 13:51:26 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 52F9061526;
+ Tue,  5 Oct 2021 13:51:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633441886;
+ bh=DsPJl/iyh2vy74kC2KrgfpSrR9ujMHz1jx8pfkfVBtQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=IER5z8GT3Pd3ksJ2YcFS6hsOxyuj1xwn/52Ees9JSIFSXYDZiN8mKCi5fgPJLj0wS
+ Ku32NTYfHzBTZ+vt7a1t/mYI8fE558OiR/aqZLQwnc5xGc0SlOqbZYHI2EL+Pkv9lp
+ miIWQx5KrApoCChMGAjPLIgfwZh09471qrld50mAtQs8oiGF6Ag6DmsprLrv5INKaT
+ 2or0Nv1nHDmq3xxxmVR3Sc3c0HVXMpUDBUm1hQZGNlUqbzpTePQrndyhuWxkImS+E1
+ IUlD7+GU5qXYcIYhBnx3Fq7HC0SujerY60RfT/y9SeLNjjo96eu3qF74eTnf4pLFFy
+ Jn1eUbkxr9vUA==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Leslie Shi <Yuliang.Shi@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>,
+ Guchun Chen <guchun.chen@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
+ Xinhui.Pan@amd.com, airlied@linux.ie, daniel@ffwll.ch, tao.zhou1@amd.com,
+ ray.huang@amd.com, PengJu.Zhou@amd.com, Likun.Gao@amd.com,
+ John.Clements@amd.com, Felix.Kuehling@amd.com, Oak.Zeng@amd.com,
+ lee.jones@linaro.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH AUTOSEL 5.14 32/40] drm/amdgpu: fix gart.bo pin_count leak
+Date: Tue,  5 Oct 2021 09:50:11 -0400
+Message-Id: <20211005135020.214291-32-sashal@kernel.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211005135020.214291-1-sashal@kernel.org>
+References: <20211005135020.214291-1-sashal@kernel.org>
 MIME-Version: 1.0
-Date: Tue, 05 Oct 2021 15:45:36 +0200
-From: Stefan Agner <stefan@agner.ch>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Cc: sboyd@kernel.org, mturquette@baylibre.com, Alison Wang
- <alison.wang@nxp.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
- <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm: fsl-dcu: enable PIXCLK on LS1021A
-In-Reply-To: <8e6830c43fbd97bbca59702896b0dd320f83e940.camel@ew.tq-group.com>
-References: <20200820105832.22331-1-matthias.schiffer@ew.tq-group.com>
- <0321e3b1a9def003322b71f2a5fdfe08@agner.ch>
- <5015d9c9fe02733f8dfb2714a903ab725e7cdd7f.camel@ew.tq-group.com>
- <8e6830c43fbd97bbca59702896b0dd320f83e940.camel@ew.tq-group.com>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <b718fb759c07aaac8f397e4bf7632141@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,126 +62,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-10-05 14:35, Matthias Schiffer wrote:
-> On Thu, 2021-09-16 at 14:50 +0200, Matthias Schiffer wrote:
->> On Fri, 2020-08-21 at 15:41 +0200, Stefan Agner wrote:
->> > Hi Matthias,
->> >
->> > On 2020-08-20 12:58, Matthias Schiffer wrote:
->> > > The PIXCLK needs to be enabled in SCFG before accessing the DCU on LS1021A,
->> > > or the access will hang.
->> >
->> > Hm, this seems a rather ad-hoc access to SCFG from the DCU. We do
->> > support a pixel clock in the device tree bindings of fsl-dcu, so ideally
->> > we should enable the pixel clock through the clock framework.
->> >
->> > On the other hand, I guess that would mean adding a clock driver to flip
->> > a single bit, which seems a bit excessive too.
->> >
->> > I'd like a second opinion on that. Adding clk framework maintainers.
->>
->> It's been a while, and nobody else has given their opinion. How should
->> we proceed with this patch?
->>
->> Matthias
-> 
-> This patch is still blocked on a maintainer decision. Should I send a
-> rebased version of the current solution, or do we want to have a proper
-> clk driver to flip this bit?
-> 
+From: Leslie Shi <Yuliang.Shi@amd.com>
 
-The clock maintainers haven't stated an opinion. I've seen similar hacks
-for reset and other bits in other places, so I guess it's fine.
+[ Upstream commit 66805763a97f8f7bdf742fc0851d85c02ed9411f ]
 
-Can you also drop the np argument from fsl_dcu_scfg_config_ls1021a(), it
-seems unnecessary.
+gmc_v{9,10}_0_gart_disable() isn't called matched with
+correspoding gart_enbale function in SRIOV case. This will
+lead to gart.bo pin_count leak on driver unload.
 
---
-Stefan
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Signed-off-by: Leslie Shi <Yuliang.Shi@amd.com>
+Signed-off-by: Guchun Chen <guchun.chen@amd.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c | 3 ++-
+ drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c  | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-> 
->>
->>
->> >
->> > --
->> > Stefan
->> >
->> > >
->> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
->> > > ---
->> > >  drivers/gpu/drm/fsl-dcu/Kconfig           |  1 +
->> > >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 25 +++++++++++++++++++++++
->> > >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h |  3 +++
->> > >  3 files changed, 29 insertions(+)
->> > >
->> > > diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
->> > > index d7dd8ba90e3a..9e5a35e7c00c 100644
->> > > --- a/drivers/gpu/drm/fsl-dcu/Kconfig
->> > > +++ b/drivers/gpu/drm/fsl-dcu/Kconfig
->> > > @@ -8,6 +8,7 @@ config DRM_FSL_DCU
->> > >  	select DRM_PANEL
->> > >  	select REGMAP_MMIO
->> > >  	select VIDEOMODE_HELPERS
->> > > +	select MFD_SYSCON if SOC_LS1021A
->> > >  	help
->> > >  	  Choose this option if you have an Freescale DCU chipset.
->> > >  	  If M is selected the module will be called fsl-dcu-drm.
->> > > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
->> > > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
->> > > index abbc1ddbf27f..8a7556655581 100644
->> > > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
->> > > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
->> > > @@ -51,6 +51,23 @@ static const struct regmap_config fsl_dcu_regmap_config = {
->> > >  	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
->> > >  };
->> > >
->> > > +static int fsl_dcu_scfg_config_ls1021a(struct device_node *np)
->> > > +{
->> > > +	struct regmap *scfg;
->> > > +
->> > > +	scfg = syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
->> > > +	if (IS_ERR(scfg))
->> > > +		return PTR_ERR(scfg);
->> > > +
->> > > +	/*
->> > > +	 * For simplicity, enable the PIXCLK unconditionally. It might
->> > > +	 * be possible to disable the clock in PM or on unload as a future
->> > > +	 * improvement.
->> > > +	 */
->> > > +	return regmap_update_bits(scfg, SCFG_PIXCLKCR, SCFG_PIXCLKCR_PXCEN,
->> > > +				  SCFG_PIXCLKCR_PXCEN);
->> > > +}
->> > > +
->> > >  static void fsl_dcu_irq_uninstall(struct drm_device *dev)
->> > >  {
->> > >  	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
->> > > @@ -70,6 +87,14 @@ static int fsl_dcu_load(struct drm_device *dev,
->> > > unsigned long flags)
->> > >  		return ret;
->> > >  	}
->> > >
->> > > +	if (of_device_is_compatible(fsl_dev->np, "fsl,ls1021a-dcu")) {
->> > > +		ret = fsl_dcu_scfg_config_ls1021a(fsl_dev->np);
->> > > +		if (ret < 0) {
->> > > +			dev_err(dev->dev, "failed to enable pixclk\n");
->> > > +			goto done;
->> > > +		}
->> > > +	}
->> > > +
->> > >  	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
->> > >  	if (ret < 0) {
->> > >  		dev_err(dev->dev, "failed to initialize vblank\n");
->> > > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
->> > > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
->> > > index e2049a0e8a92..566396013c04 100644
->> > > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
->> > > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
->> > > @@ -160,6 +160,9 @@
->> > >  #define FSL_DCU_ARGB4444		12
->> > >  #define FSL_DCU_YUV422			14
->> > >
->> > > +#define SCFG_PIXCLKCR			0x28
->> > > +#define SCFG_PIXCLKCR_PXCEN		BIT(31)
->> > > +
->> > >  #define VF610_LAYER_REG_NUM		9
->> > >  #define LS1021A_LAYER_REG_NUM		10
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+index 4523df2785d6..5b6317bf9751 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v10_0.c
+@@ -1094,6 +1094,8 @@ static int gmc_v10_0_hw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
++	gmc_v10_0_gart_disable(adev);
++
+ 	if (amdgpu_sriov_vf(adev)) {
+ 		/* full access mode, so don't touch any GMC register */
+ 		DRM_DEBUG("For SRIOV client, shouldn't do anything.\n");
+@@ -1102,7 +1104,6 @@ static int gmc_v10_0_hw_fini(void *handle)
+ 
+ 	amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
+-	gmc_v10_0_gart_disable(adev);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+index 7eb70d69f760..f3cd2b3fb4cc 100644
+--- a/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+@@ -1764,6 +1764,8 @@ static int gmc_v9_0_hw_fini(void *handle)
+ {
+ 	struct amdgpu_device *adev = (struct amdgpu_device *)handle;
+ 
++	gmc_v9_0_gart_disable(adev);
++
+ 	if (amdgpu_sriov_vf(adev)) {
+ 		/* full access mode, so don't touch any GMC register */
+ 		DRM_DEBUG("For SRIOV client, shouldn't do anything.\n");
+@@ -1772,7 +1774,6 @@ static int gmc_v9_0_hw_fini(void *handle)
+ 
+ 	amdgpu_irq_put(adev, &adev->gmc.ecc_irq, 0);
+ 	amdgpu_irq_put(adev, &adev->gmc.vm_fault, 0);
+-	gmc_v9_0_gart_disable(adev);
+ 
+ 	return 0;
+ }
+-- 
+2.33.0
+
