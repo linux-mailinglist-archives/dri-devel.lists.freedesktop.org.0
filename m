@@ -1,78 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E124423299
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:03:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A7A442329A
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:04:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D7F8C6E457;
-	Tue,  5 Oct 2021 21:03:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5C39E6EC4C;
+	Tue,  5 Oct 2021 21:04:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
- [IPv6:2a00:1450:4864:20::436])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 379A16E457
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 21:03:06 +0000 (UTC)
-Received: by mail-wr1-x436.google.com with SMTP id v17so1816413wrv.9
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 14:03:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lW+8NB0q0WR/PLp/BCe9SZDATmE9t921mJ6gqo+Ldrc=;
- b=RS7+gsH2B/yJYbpOg3529VkcmZePGFt6d0YtH3a4O3NHnnNpBiKhh5a7Y/qo1rKwyy
- xLDZEe1l53nH0xDjSXU/XN4Ft2/d1EfWssQgrFWdSg9Z2vQwAjR46hXOoqRJvZ2VB2H4
- DZ6aTdElaoym4h8pYe6bvr3QtChFvqqhZHS5ZePBQsGqcYmSTnyP6HtyTOYo3dETZZ/D
- uWG37Hs7EV4SW/c4nYW4xfoUNhkLIWbuEU9QLN+kyg8CSzo78o+ty6CwcdL2p90BypQJ
- eK/JrbWbvVMutX26gt2zywlAHOIdnyTchlJLdbCFo1vzJ3tpx7MW9QRnGl5Mta5q8NHf
- rzsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lW+8NB0q0WR/PLp/BCe9SZDATmE9t921mJ6gqo+Ldrc=;
- b=y99yznneUO4f3VLrXBRaLCfCh6R6r0cm1VAqNFNKx9jvs1ksOsMpa3AupHCPKRTeHz
- 5xBrMKeqo/w6vjTP9coB5ujbDq5y+mFwo5EE0hmnAg4JvGiMvYO3eCMYuMbKsy7Z4juC
- 3Kn+XDgaEiLH9dVT/1OqkzujhYDcVOP7bWiE/cMwOuMxsp+uX+wgMNzRnLokONJK2rqZ
- Gj1jm35ybAdoZrM4zSpVw33RTnp1wpi1tHbGS12ieagyBLxsL+NIGXLURy94k7B0NfLx
- bqsK0BEFEDq2FXhMUaHwnPd3dYToif2c7mUltrkdCpcso7oHLJEw6VLOupjsiIwW9ctW
- tJbQ==
-X-Gm-Message-State: AOAM533hYgTHLBEG5TTLe2te0eDfclnQqq9Vgf0sdZbNxW0pKMzhpkdQ
- oA34rTLyfgFSVy1V50tkd60=
-X-Google-Smtp-Source: ABdhPJym0SqmtdUZEqWB9d0K2nzrvF7Ke9y4dUtxVafXLKiQ9ZlTKEeEiG874kjIJ7cKDL7Yxeunqg==
-X-Received: by 2002:adf:fbd1:: with SMTP id d17mr24061545wrs.146.1633467784300; 
- Tue, 05 Oct 2021 14:03:04 -0700 (PDT)
-Received: from [192.168.0.14]
- (095160158079.dynamic-2-waw-k-4-2-0.vectranet.pl. [95.160.158.79])
- by smtp.gmail.com with ESMTPSA id a127sm1368989wme.40.2021.10.05.14.03.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 14:03:03 -0700 (PDT)
-Subject: Re: Questions over DSI within DRM.
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>,
- DRI Development <dri-devel@lists.freedesktop.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
- <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
- <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
- <20210706151320.kwn4dwu6buvy4isa@gilmour>
- <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
- <20210715095022.5plcocz6plxnb3xr@gilmour>
- <YVm7U0q6F8T9K32h@pendragon.ideasonboard.com>
- <CAPY8ntAWqaHH=+cGWcpKypvZfGApE6SQ1p0qFzE9XyyqaaQ1OQ@mail.gmail.com>
- <418bd5c8-00a9-5502-f918-821616870943@gmail.com>
- <CAPY8ntDzTa0Xzfk-YUj9pOShi9wMb+_Y0ogRfROaf3kz5Ru5qQ@mail.gmail.com>
-From: Andrzej Hajda <andrzej.hajda@gmail.com>
-Message-ID: <ce4851e2-3e17-5a4b-eb99-bc8787ec8259@gmail.com>
-Date: Tue, 5 Oct 2021 23:03:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B34816EC4C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 21:04:08 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1633467848; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=aohmKDHxUizr7g+KEYfcZAY/l/qhbTXOBdBr8mlBho4=;
+ b=XCuemdIeciZrZ27xhWQdSBKiIW3eyymZHbLvfCtMPEBL4iXKx5ZiTXERVLKOCcJbWWG70RGa
+ LiVSegXr5pdoHIgVVFMubEApJDE9lzHnrCmgBdjWZ/UnxtGaXl/s23GXxxex80+kYEk+uWEy
+ 1JpNGxZpN13Zz15ZuFMwU0QZkUI=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
+ 615cbdc7ff0285fb0aa92144 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 05 Oct 2021 21:04:07
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 8E7D4C43618; Tue,  5 Oct 2021 21:04:07 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+ URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id A2F91C43460;
+ Tue,  5 Oct 2021 21:04:05 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntDzTa0Xzfk-YUj9pOShi9wMb+_Y0ogRfROaf3kz5Ru5qQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
+Date: Tue, 05 Oct 2021 14:04:05 -0700
+From: abhinavk@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David
+ Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Rob Herring
+ <robh+dt@kernel.org>, Stephen Boyd <swboyd@chromium.org>, Kuogee Hsieh
+ <khsieh@codeaurora.org>, Tanmay Shah <tanmay@codeaurora.org>, Chandan
+ Uddaraju <chandanu@codeaurora.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Freedreno] [PATCH v3 4/5] drm/msm/dp: Store each subblock in the
+ io region
+In-Reply-To: <20211001174400.981707-5-bjorn.andersson@linaro.org>
+References: <20211001174400.981707-1-bjorn.andersson@linaro.org>
+ <20211001174400.981707-5-bjorn.andersson@linaro.org>
+Message-ID: <18a6085ad9807223cdd557a96ed71360@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,510 +77,285 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 05.10.2021 17:32, Dave Stevenson wrote:
-> Hi Andrzej
+On 2021-10-01 10:43, Bjorn Andersson wrote:
+> Not all platforms has DP_P0 at offset 0x1000 from the beginning of the
+> DP block. So split the dss_io_data memory region into a set of
+> sub-regions, to make it possible in the next patch to specify each of
+> the sub-regions individually.
 > 
-> Thanks for joining in the discussion.
+> Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Abhinav Kumar <abhinavk@codeaurora.org>
+> ---
 > 
-> On Tue, 5 Oct 2021 at 16:08, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
->>
->> On 05.10.2021 13:23, Dave Stevenson wrote:
->>> Hi Laurent
->>>
->>> On Sun, 3 Oct 2021 at 15:16, Laurent Pinchart
->>> <laurent.pinchart@ideasonboard.com> wrote:
->>>>
->>>> Hello,
->>>>
->>>> Reviving a bit of an old thread.
->>>
->>> I'd been looking at reviving this conversation too as I've moved
->>> further on with DSI on the Pi, and converting from an encoder to a
->>> bridge
->>>
->>>> On Thu, Jul 15, 2021 at 11:50:22AM +0200, Maxime Ripard wrote:
->>>>> On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
->>>>>> On Tue, 6 Jul 2021 at 16:13, Maxime Ripard wrote:
->>>>>>>>>> On a similar theme, some devices want the clock lane in HS mode early
->>>>>>>>>> so they can use it in place of an external oscillator, but the data
->>>>>>>>>> lanes still in LP-11. There appears to be no way for the
->>>>>>>>>> display/bridge to signal this requirement or it be achieved.
->>>>>>>>>
->>>>>>>>> You're right. A loooong time ago, the omapdrm driver had an internal
->>>>>>>>> infrastructure that didn't use drm_bridge or drm_panel and instead
->>>>>>>>> required omapdrm-specific drivers for those components. It used to model
->>>>>>>>> the display pipeline in a different way than drm_bridge, with the sync
->>>>>>>>> explicitly setting the source state. A DSI sink could thus control its
->>>>>>>>> enable sequence, interleaving programming of the sink with control of
->>>>>>>>> the source.
->>>>>>>>>
->>>>>>>>> Migrating omapdrm to the drm_bridge model took a really large effort,
->>>>>>>>> which makes me believe that transitioning the whole subsystem to
->>>>>>>>> sink-controlled sources would be close to impossible. We could add
->>>>>>>>> DSI-specific operations, or add another enable bridge operation
->>>>>>>>> (post_pre_enable ? :-D). Neither would scale, but it may be enough.
->>>>>>>>
->>>>>>>> I haven't thought it through for all generic cases, but I suspect it's
->>>>>>>> more a pre_pre_enable that is needed to initialise the PHY etc,
->>>>>>>> probably from source to sink.
->>>>
->>>> I believe it could be implemented as a pre-pre-enable indeed. It feels
->>>> like a bit of a hack, as the next time we need more fine-grained control
->>>> over the startup sequence, we'll have to add a pre-pre-pre-enable. Given
->>>> that the startup sequence requirements come from the sink device, it
->>>> would make sense to let it explicitly control the initialization,
->>>> instead of driving it from the source. I don't think we'll be able to
->>>> rework the bridge API in that direction though, so I'm fine with a hack.
->>>
->>> There are pros and cons to both approaches.
->>> You're in a much better place to make that sort of call than I am, so
->>> I'll take your advice.
->>>
->>> Implementing a DSI host op function may mean an update to a number of
->>> existing DSI host drivers,
->>
->> Why? You just add new op to mipi_dsi_host_ops and create appropriate
->> helper, which in case of NULL will perform default action, either:
->> - return -ENOSYS,
->> - try to emulate by calling mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET)
->>
->> The latter is just wild guess, but I suspect it could work (even now) as
->> an alternate way of entering into stop state.
+> Changes since v2:
+> - Skipped the unnecessary reorder in struct dss_io_region
 > 
-> If we're looking at fixing bridges to use the new DSI state call and
-> then initialise in "pre_enable" (ie before video is started), then
-> making that change to the bridge will require support for the DSI
-> state call or risk regressions.
-
-I think there is misunderstanding somewhere, I do not know where, yet :)
-My idea is as follow:
-1. Add dsi_host.set_state() op to dsi host accompanied with helper, lets 
-call it mipi_dsi_host_set_state for now.
-2. Implement dsi_host.set_state in DSI host you are working with.
-3. In body of your bridge pre_enable you call mipi_dsi_host_set_state in 
-proper place.
-
-1 and 2 do not introduce any regression.
-3 can introduce regression only if your bridge is used with another dsi 
-host but only on such platforms.
-
-Why do you think we need to 'fix' it everywhere?
-
-> Some may have been getting away with it by making the initialisation
-> call in "enable" whilst video is active - that sounds like the issue
-> Marek was trying to log in his patch to SN65DSI83.
+>  drivers/gpu/drm/msm/dp/dp_catalog.c | 64 +++++++++--------------------
+>  drivers/gpu/drm/msm/dp/dp_parser.c  | 28 +++++++++++--
+>  drivers/gpu/drm/msm/dp/dp_parser.h  |  9 +++-
+>  3 files changed, 53 insertions(+), 48 deletions(-)
 > 
->>> but it would be cleaner. It's also what
->>> Andrzej has suggested.
->>>
->>> Thinking it through, a function that requests clock lane frequency and
->>> state (ULPS or LP-11 predominantly), and data lane state (again ULPS
->>> or LP-11) should allow the required behaviour for most of the bridges
->>> I'm aware of. Most want either LP-11, or HS clock at a known
->>> frequency.
->>
->> LP-11 is quite reasonable, but regarding frequency I am not sure who
->> should manage it? DSI device datasheets known to me usually mentioned
->> max frequency, and it is covered by mipi_dsi_device.hs_rate. Min
->> frequency is usually determined by amount of data we need to transfer
->> per second.
->> Do you need to set frequency from device, or just to know actual frequency?
->> In former case (if it is really necessary !!!) you should request
->> frequency range anyway, as host usually is able to set only discrete
->> number of frequencies. But it need to be clearly specified how and when
->> this op can be used - more ops, more questions about interaction between
->> them.
->> In latter case another mipi host op should be quite easy to implement.
+> diff --git a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> index cc2bb8295329..6ae9b29044b6 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_catalog.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_catalog.c
+> @@ -24,15 +24,6 @@
+>  #define DP_INTERRUPT_STATUS_ACK_SHIFT	1
+>  #define DP_INTERRUPT_STATUS_MASK_SHIFT	2
 > 
-> If a burst mode frequency is specified in struct mipi_dsi_device
-> hs_rate then there is no issue.
-
-hs_rate should be called rather max_hs_rate as it describes only top 
-limit of HS clock, decision which clock to choose is on DSI host side.
-
-> If not, then you'll generally want to use the pixel clock,
-
-Probably not, often we want to use rate higher than pixel clock 
-(time-compression in DSI spec), to leave time gaps for LP mode.
-
-> and the DSI
-> host hasn't necessarily been told the video mode at the point the
-> bridge/panel requests a new DSI state.
-
-pre_enable and enable ops are called after modeset, so video mode is known.
+> -#define MSM_DP_CONTROLLER_AHB_OFFSET	0x0000
+> -#define MSM_DP_CONTROLLER_AHB_SIZE	0x0200
+> -#define MSM_DP_CONTROLLER_AUX_OFFSET	0x0200
+> -#define MSM_DP_CONTROLLER_AUX_SIZE	0x0200
+> -#define MSM_DP_CONTROLLER_LINK_OFFSET	0x0400
+> -#define MSM_DP_CONTROLLER_LINK_SIZE	0x0C00
+> -#define MSM_DP_CONTROLLER_P0_OFFSET	0x1000
+> -#define MSM_DP_CONTROLLER_P0_SIZE	0x0400
+> -
+>  #define DP_INTERRUPT_STATUS1 \
+>  	(DP_INTR_AUX_I2C_DONE| \
+>  	DP_INTR_WRONG_ADDR | DP_INTR_TIMEOUT | \
+> @@ -66,82 +57,77 @@ void dp_catalog_snapshot(struct dp_catalog
+> *dp_catalog, struct msm_disp_state *d
+>  {
+>  	struct dp_catalog_private *catalog = container_of(dp_catalog,
+>  			struct dp_catalog_private, dp_catalog);
+> +	struct dss_io_data *dss = &catalog->io->dp_controller;
+> 
+> -	msm_disp_snapshot_add_block(disp_state, 
+> catalog->io->dp_controller.len,
+> -			catalog->io->dp_controller.base, "dp_ctrl");
+> +	msm_disp_snapshot_add_block(disp_state, dss->ahb.len, dss->ahb.base,
+> "dp_ahb");
+> +	msm_disp_snapshot_add_block(disp_state, dss->aux.len, dss->aux.base,
+> "dp_aux");
+> +	msm_disp_snapshot_add_block(disp_state, dss->link.len,
+> dss->link.base, "dp_link");
+> +	msm_disp_snapshot_add_block(disp_state, dss->p0.len, dss->p0.base, 
+> "dp_p0");
+>  }
+I like this part, devcoredump will look pretty clean and well separated 
+with this.
 
 > 
->>> Giving the option for setting back into ULPS also allows
->>> for power saving/standby mechanisms should the need arise.
->>
->> Another op :)
+>  static inline u32 dp_read_aux(struct dp_catalog_private *catalog, u32 
+> offset)
+>  {
+> -	offset += MSM_DP_CONTROLLER_AUX_OFFSET;
+> -	return readl_relaxed(catalog->io->dp_controller.base + offset);
+> +	return readl_relaxed(catalog->io->dp_controller.aux.base + offset);
+>  }
 > 
-> Does it need to be, or can it be one op as
-> enum mipi_dsi_lane_state{
->   DSI_ULPS,
->   DSI_LP11,
->   DSI_HS,
-> };
+>  static inline void dp_write_aux(struct dp_catalog_private *catalog,
+>  			       u32 offset, u32 data)
+>  {
+> -	offset += MSM_DP_CONTROLLER_AUX_OFFSET;
+>  	/*
+>  	 * To make sure aux reg writes happens before any other operation,
+>  	 * this function uses writel() instread of writel_relaxed()
+>  	 */
+> -	writel(data, catalog->io->dp_controller.base + offset);
+> +	writel(data, catalog->io->dp_controller.aux.base + offset);
+>  }
 > 
-> int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
->         enum mipi_dsi_lane_state clock_lane_state,
->         u64 clock_lane_freq,
->         enum mipi_dsi_lane_state data_lane_state)
-
-I still do not know why do you want to set freq explicitly, ie why DSI 
-host could not choose it, based on bridge constraints, DSI host 
-constraints and requested video mode.
-
-Regarding different modes for clock and data lanes there exists DSI mode 
-flag MIPI_DSI_CLOCK_NON_CONTINUOUS which determines if host in LP-11 
-data lanes state can also put clock lane into LP-11. Is there need for 
-sth more?
-I'd like to avoid possibility of nonsense(?) configurations like clock 
-in LP-11 and data lanes in HS.
-
-Regards
-Andrzej
-
-
-
+>  static inline u32 dp_read_ahb(struct dp_catalog_private *catalog, u32 
+> offset)
+>  {
+> -	offset += MSM_DP_CONTROLLER_AHB_OFFSET;
+> -	return readl_relaxed(catalog->io->dp_controller.base + offset);
+> +	return readl_relaxed(catalog->io->dp_controller.ahb.base + offset);
+>  }
 > 
->    Dave
+>  static inline void dp_write_ahb(struct dp_catalog_private *catalog,
+>  			       u32 offset, u32 data)
+>  {
+> -	offset += MSM_DP_CONTROLLER_AHB_OFFSET;
+>  	/*
+>  	 * To make sure phy reg writes happens before any other operation,
+>  	 * this function uses writel() instread of writel_relaxed()
+>  	 */
+> -	writel(data, catalog->io->dp_controller.base + offset);
+> +	writel(data, catalog->io->dp_controller.ahb.base + offset);
+>  }
 > 
->> Regards
->> Andrzej
->>
->>
->>> Does it need a way to pass back the actual DSI frequency being used,
->>> in a similar vein to mode_fixup? That allows for the bridge to request
->>> the display clock, but the burst mode link frequency to be returned
->>> (I'm assuming that's a property of the DSI host only, and not the
->>> bridge).
->>>
->>> I'm having a discussion with someone who wants to run SN65DSI85 in the
->>> two independent LVDS display mode. That requires a DSI HS clock on
->>> DSI-A even if only panel B is active, so with this extra function that
->>> would be achievable as well.
->>>
->>> Thoughts?
->>>
->>>>>>>> If the panel/bridge can set a flag that can be checked at this point
->>>>>>>> for whether an early clock is required or not, I think that allows us
->>>>>>>> to comply with the requirements for a large number of panels/bridges
->>>>>>>> (LP-11 vs HS config for clock and or data lanes before pre_enable is
->>>>>>>> called).
->>>>>>>>
->>>>>>>> pre_enable retains the current behaviour (initialise the chain from
->>>>>>>> sink to source).
->>>>>>>> enable then actually starts sending video and enabling outputs.
->>>>>>>
->>>>>>> Flags indeed seem like a more contained option. Another one could be to
->>>>>>> have a mipi_dsi_host to (for example) power up the clock lane that would
->>>>>>> be called by default before the bridge's enable, or at the downstream
->>>>>>> bridge driver discretion before that.
->>>>>>
->>>>>> Which driver will that call?
->>>>>
->>>>> The parent DSI Host
->>>>>
->>>>>> An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
->>>>>> bridge chip[1]. So the encoder will be eDP, but the DSI config needs
->>>>>> to go to that bridge. Does that happen automatically within the
->>>>>> framework? I guess so as the bridge will have called
->>>>>> mipi_dsi_host_register for the DSI sink to attach to.
->>>>>
->>>>> In that case, whatever sink would be connected to the bridge would call
->>>>> the bridge clock enable hook if it needs it in its pre_enable, or it
->>>>> would be called automatically before enable if it doesn't
->>>>>
->>>>> Would that help?
->>>>
->>>> Sounds good to me, in theory at least (let's see what issues we'll run
->>>> into in practice :-)).
->>>>
->>>> Has anyone given it a try, or is planning to ?
->>>>
->>>>>> Perhaps a new mipi_dsi_host function to configure the PHY is the
->>>>>> easier solution. If it can allow the sink to request whatever
->>>>>> combination of states from clock and data lanes that it fancies, then
->>>>>> it can be as explicit as required for the initialisation sequence, and
->>>>>> the host driver does its best to comply with the requests.
->>>>>
->>>>> I don't know, I'm not really fond in general of solutions that try to
->>>>> cover any single case if we don't need it and / or have today an issue
->>>>> with this. I'd rather have something that works for the particular
->>>>> bridge we were discussing, see if it applies to other bridges and modify
->>>>> it if it doesn't until it works for all our cases. Trying to reason in
->>>>> all possible cases tend to lead to solutions that are difficult to
->>>>> maintain and usually over-engineered.
->>>>
->>>> A DSI host clock enable operation or a DSI host PHY configuration
->>>> operation both fit in the same place in the grand scheme of things, so I
->>>> don't mind either. We should be able to easily move from a more specific
->>>> operation to a more generic one if the need arises.
->>>>
->>>>>> I'd have a slight query over when and how the host would drop to ULPS
->>>>>> or power off. It probably shouldn't be in post_disable as the sink
->>>>>> hasn't had a chance to finalise everything in its post_disable.
->>>>>>
->>>>>> Perhaps pm_runtime with autosuspend is the right call there?
->>>>>
->>>>> pm_runtime semantics mean that once the device is suspended, its power
->>>>> domains, regulators, clocks, etc. are all shut down, so it doesn't
->>>>> really fit the low power state expected by DSI
->>>>>
->>>>>> [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/interface-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/detail.TC358860XBG.html
->>>>>>
->>>>>>>> When I discussed this briefly with Maxime there was a suggestion of
->>>>>>>> using pm_runtime to be able to power up the pipeline as a whole. If
->>>>>>>> the bridge driver can use pm_runtime to power up the PHY when
->>>>>>>> required, then that may solve the issue, however I know too little of
->>>>>>>> the details to say whether that is actually practical.
->>>>>>>
->>>>>>> I'm not sure it was about this topic in particular. If I remember well
->>>>>>> our discussion, this was about the vc4 driver that tries to circumvent
->>>>>>> the framework and call the pre_enable and enable hooks itself because it
->>>>>>> wasn't properly powered before and thus any DCS-related call by the
->>>>>>> downstream bridge or panel would end up creating a CPU stall.
->>>>>>>
->>>>>>> I suggested to use runtime_pm in the DCS related calls to make sure the
->>>>>>> device is powered because there's no relation between the state of the
->>>>>>> downstream bridge or panel and whether it can send DCS commands or not.
->>>>>>> For all we know, it could do it at probe time.
->>>>>>
->>>>>> pm_runtime is all a bit of a magic black box to me.
->>>>>>
->>>>>> We had discussed shifting to using pm_runtime from DCS (and enable)
->>>>>> calls to power up the PHY on demand, and that's what I implemented.
->>>>>> However Laurent flagged up that using
->>>>>> dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
->>>>>> required to send a HS DCS command from that call is deprecated, so how
->>>>>> do we specify the clock rate to use at that point?
->>>>>
->>>>> I guess the most sensible would be to have a custom bridge state, and
->>>>> add a pointer to the current bridge state in struct drm_bridge. Then, as
->>>>> long as you have a bridge pointer you have a way to get the current
->>>>> state associated to it, and since we already have atomic_duplicate_state
->>>>> / atomic_destroy_state we can create our own structure around it storing
->>>>> whatever we want.
->>>>
->>>> That's a good point. It would only be needed if we use runtime PM to
->>>> work around the initialization sequence issue, not if we implement a DSI
->>>> host clock enable/disable operation, right ?
->>>
->>> Obviously this only works with atomic bridges otherwise you have no
->>> state, but I assume all bridges should be heading that route now.
->>>
->>>>>>>>>> host_transfer calls can supposedly be made at any time, however unless
->>>>>>>>>> MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
->>>>>>>>>> in high speed mode. If this is before a mode has been set, what
->>>>>>>>>> defines the link frequency parameters at this point? Adopting a random
->>>>>>>>>> default sounds like a good way to get undefined behaviour.
->>>>>>>>>>
->>>>>>>>>> DSI burst mode needs to set the DSI link frequency independently of
->>>>>>>>>> the display mode. How is that meant to be configured? I would have
->>>>>>>>>> expected it to come from DT due to link frequency often being chosen
->>>>>>>>>> based on EMC restrictions, but I don't see such a thing in any
->>>>>>>>>> binding.
->>>>>>>>>
->>>>>>>>> Undefined too. DSI support was added to DRM without any design effort,
->>>>>>>>> it's more a hack than a real solution. The issue with devices that can
->>>>>>>>> be controlled over both DSI and I2C is completely unhandled. So far
->>>>>>>>> nobody has really cared about implementing DSI right as far as I can
->>>>>>>>> tell.
->>>>>>>>
->>>>>>>> :-(
->>>>>>>>
->>>>>>>> Thinking aloud, does having the option to set a burst link frequency
->>>>>>>> from DT (or ACPI) have any issue for other platforms?
->>>>>>>> Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
->>>>>>>> drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
->>>>>>>> all the defined timings, but drop to LP during blanking" option. The
->>>>>>>> link frequency has therefore remained a property of the
->>>>>>>> display/bridge.
->>>>>>>> dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
->>>>>>>> through the full detail of the parameters it computes from there.
->>>>>>>
->>>>>>> I don't see anything wrong with using link-frequency from the DT to
->>>>>>> setup the burst frequency. It's what v4l2 has been using for a while
->>>>>>> without any known (to me) drawback, and we're using the same of-graph
->>>>>>> bindings, so it shouldn't be too controversial there.
->>>>
->>>> How would that frequency we picked in practice ? Do panels typically
->>>> support a range of HS frequencies for DCS HS transfers ?
->>>
->>> I was thinking more of bridges where they often run a PLL off the
->>> incoming DSI clock, and then have a FIFO with potentially different
->>> clock rates and timings on input and output. SN65DSI83 supports that,
->>> as do the Toshiba bridge chips I'm currently looking at.
->>> You need to know the DSI link frequency to configure the PLL
->>> correctly, but then the bridge output timing is a different matter.
->>>
->>>>>> OK, that sounds like a vague plan.
->>>>>>
->>>>>>>> DSI and I2C controlled devices is yet another issue that I haven't
->>>>>>>> even looked at.
->>>>>>>> I think it's more that vc4 wants to ignore DSI should the DSI host
->>>>>>>> node be enabled in DT, but there's no panel bound to it. One could say
->>>>>>>> that is a DT error and tough luck, but from a user's perspective that
->>>>>>>> is a bit harsh.
->>>>>>>
->>>>>>> I guess the larger "issue" is that the tree in the DT is done following
->>>>>>> the "control" bus, and Linux likes to tie the life cycle of a given
->>>>>>> device to its parent bus. Both these decisions make sense, but they
->>>>>>> interact in a weird way in some occurrences (like this one, or Allwinner
->>>>>>> has an Ethernet PHY controlled through MMIO which end up in the same
->>>>>>> case).
->>>>>>>
->>>>>>> I wonder if using device links here could help though.
->>>>>>
->>>>>> I really don't know about that one.
->>>>>
->>>>> It's a piece of infrastructure that was created at first (I think?) to
->>>>> model the power dependency between devices that don't have a parent /
->>>>> child relationship. For example, if you use DMA, you probably want to
->>>>> keep the IOMMU powered as long as you are, but it is in a completely
->>>>> separate branch of the "device tree" (not one from the DTB, the one that
->>>>> linux DM creates).
->>>>>
->>>>> It was later expanded to also cover probe order and make sure a supplier
->>>>> would probe before its consumer, effectively making EPROBE_DEFER
->>>>> obsolete.
->>>>>
->>>>> The second part is still fairly new, but I think we can solve this by
->>>>> adding a device link between the DSI host and whatever is at the end of
->>>>> the OF-Graph endpoint.
->>>>>
->>>>>>>>>> As a follow on, bridge devices can support burst mode (eg TI's
->>>>>>>>>> SN65DSI83 that's just been merged), so it needs to know the desired
->>>>>>>>>> panel timings for the output side of the bridge, but the DSI link
->>>>>>>>>> timings to set up the bridge's PLL. What's the correct way for
->>>>>>>>>> signalling that? drm_crtc_state->adjusted_mode vs
->>>>>>>>>> drm_crtc_state->mode? Except mode is userspace's request, not what has
->>>>>>>>>> been validated/updated by the panel/bridge.
->>>>>>>>>
->>>>>>>>> adjusted_mode is also a bit of a hack, it solves very specific issues,
->>>>>>>>> and its design assumes a single encoder in the chain with no extra
->>>>>>>>> bridges. We should instead add modes to the bridge state, and negotiate
->>>>>>>>> modes along the pipeline the same way we negotiate formats.
->>>>>>>>
->>>>>>>> So as I understand it we already have format negotiation between
->>>>>>>> bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
->>>>>>>> so is it possible to extend that to modes?
->>>>>>>> Are you thinking bridge state that is owned by the framework, or by
->>>>>>>> the individual bridge drivers?
->>>>>>>
->>>>>>> atomic_check is made for that. I guess we could improve its call
->>>>>>> sequence to each time a mode is modified along the bridge list we
->>>>>>> restart the sequence until all components agree (or reject it entirely
->>>>>>> if they can't), but I don't really see why we would need yet another
->>>>>>> hook.
->>>>
->>>> Isn't this what atomic_get_output_bus_fmts() and
->>>> atomic_get_input_bus_fmts() implement ?
->>>
->>> Those negotiate a single u32 bus format between nodes, not a complete timing.
->>>
->>>>>> Why do all nodes in the bridge list need to agree? Adjacent nodes need
->>>>>> to agree, but they then also need to retain that agreed timing
->>>>>> somewhere.
->>>>>
->>>>> We might have mutually exclusive requirements though? Let's use the
->>>>> example of the VC4 HDMI driver that can't have odd horizontal timings,
->>>>> and assume it's a constraint of our DSI driver instead.
->>>>>
->>>>> Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
->>>>> is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
->>>>> even horizontal timings, then you just can't display it, even though
->>>>> they are not adjacent (unless the bridge in the middle can modify the
->>>>> timings between the input and output, but that's not always possible).
->>>>>
->>>>> Similarly, if for the RGB panel we need to increase a bit some timings
->>>>> to accommodate for a larger pixel clock and end up above what the DSI
->>>>> host can provide, we're also done.
->>>>
->>>> The hard part will be to figure out a good heuristics to perform the
->>>> negotiation without going back and forth (at least not in a way that
->>>> would require too many iterations, and certainly avoiding infinite
->>>> loops). That will be an interesting problem to solve, but maybe we'll be
->>>> lucky and a simple approach will work for the use cases we have to
->>>> support today.
->>>
->>> One to kick into the long grass possibly then.
->>>
->>> For burst mode and bridges retiming things, generally I think it works
->>> if you consider a single pass through a mode_fixup equivalent starting
->>> at the panel.
->>> The panel advertises what it wants.
->>> The closest bridge (eg DSI83) fixup amends panel's requested mode
->>> based on any constraints that it has, stores a copy, and passes that
->>> down the chain.
->>> The next bridge (eg vc4_dsi) amends the mode based on restrictions it
->>> has (eg burst mode link frequency). That's the end of the chain in
->>> this case, so that's the mode that the crtc needs to be programmed
->>> with.
->>>
->>> The modes then need to be passed back up the chain so that eg DSI83
->>> knows the link frequency in use, and can therefore configure the PLL
->>> appropriately.
->>>
->>> The bit it would be nice to fix is that burst mode has effectively
->>> increased the horizontal front porch, but that could be fixed within
->>> the bridge so that the panel gets the timing it requested.
->>>
->>>>>> Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
->>>>>> DSI frequency and timings are permitted to be different from that
->>>>>> which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
->>>>>> need to agree over the format, and the DSI host and DSI side of DSI83
->>>>>> need to agree, but they may be two different timings.
->>>>>> Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
->>>>>> configure the LVDS rate compared to the DSI rate (the driver currently
->>>>>> goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
->>>>>> of active pixel and blanking on the LVDS side (again currently just
->>>>>> copied across).
->>>>>>
->>>>>> The way I'm seeing burst mode as having been interpreted at present is
->>>>>> that it's largely just a flag to say "drop to LP mode between lines".
->>>>>> The timing that needs to be passed to the crtc is therefore going to
->>>>>> be based on the DSI link rate (converted to pixels) with increased
->>>>>> blanking periods.
->>>>>>
->>>>>> I guess there are similarities with Media Controller and V4L2 here. A
->>>>>> typical chain there could be:
->>>>>>    sensor -> scaler -> crop -> CSI-2 receiver.
->>>>>> The format on each of those links may be different, but the chain as a
->>>>>> whole needs to be valid. Media Controller largely relies on userspace
->>>>>> to configure all links, but with a DRM chain that isn't really an
->>>>>> option as it's expected that the display chain configures itself.
->>>>>
->>>>> Also, the userspace has no concept of media sub-devices in DRM, so it
->>>>> just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
->>>>> In v4l2, afaik, if you ended up with the above scenarios it would just
->>>>> be rejected when you set the format on the link, letting the userspace
->>>>> figure it out. We can't really do that here
->>>>
->>>> I wonder how long we'll be able to keep userspace out of the picture to
->>>> configure the internals of the pipeline. I don't want to be the first
->>>> person who will have a use case that requires this.
->>>
->>> I suspect none of us want to be the first one to hit this scenario!
->>>
->>> As I've just posted on the other thread about SN65DSI83, I've hit a
->>> major stumbling block with the current design where vc4_dsi (and
->>> Exynos) breaks the bridge_chain so that it gets called first and can
->>> do initialisation, and then it calls down the chain.
->>> Having now converted to a DSI bridge driver, it works fine with
->>> connected non-atomic bridges, but fails with atomic bridges.
->>> drm_atomic_add_encoder_bridges adds the state for all the bridges the
->>> framework is aware of. With the split chain it misses adding the state
->>> of our "hidden" bridges, and we can't add the extra state from our
->>> atomic_duplicate_state call as we don't have the state to add to (we
->>> just return our state to be added).
->>> This bumps up the priority for us of finding a suitable solution for
->>> this initialisation issue, so I'll start looking at how feasible a new
->>> DSI host function is.
->>>
->>> Thanks
->>>     Dave
->>>
->>
-
+>  static inline void dp_write_p0(struct dp_catalog_private *catalog,
+>  			       u32 offset, u32 data)
+>  {
+> -	offset += MSM_DP_CONTROLLER_P0_OFFSET;
+>  	/*
+>  	 * To make sure interface reg writes happens before any other 
+> operation,
+>  	 * this function uses writel() instread of writel_relaxed()
+>  	 */
+> -	writel(data, catalog->io->dp_controller.base + offset);
+> +	writel(data, catalog->io->dp_controller.p0.base + offset);
+>  }
+> 
+>  static inline u32 dp_read_p0(struct dp_catalog_private *catalog,
+>  			       u32 offset)
+>  {
+> -	offset += MSM_DP_CONTROLLER_P0_OFFSET;
+>  	/*
+>  	 * To make sure interface reg writes happens before any other 
+> operation,
+>  	 * this function uses writel() instread of writel_relaxed()
+>  	 */
+> -	return readl_relaxed(catalog->io->dp_controller.base + offset);
+> +	return readl_relaxed(catalog->io->dp_controller.p0.base + offset);
+>  }
+> 
+>  static inline u32 dp_read_link(struct dp_catalog_private *catalog, u32 
+> offset)
+>  {
+> -	offset += MSM_DP_CONTROLLER_LINK_OFFSET;
+> -	return readl_relaxed(catalog->io->dp_controller.base + offset);
+> +	return readl_relaxed(catalog->io->dp_controller.link.base + offset);
+>  }
+> 
+>  static inline void dp_write_link(struct dp_catalog_private *catalog,
+>  			       u32 offset, u32 data)
+>  {
+> -	offset += MSM_DP_CONTROLLER_LINK_OFFSET;
+>  	/*
+>  	 * To make sure link reg writes happens before any other operation,
+>  	 * this function uses writel() instread of writel_relaxed()
+>  	 */
+> -	writel(data, catalog->io->dp_controller.base + offset);
+> +	writel(data, catalog->io->dp_controller.link.base + offset);
+>  }
+> 
+>  /* aux related catalog functions */
+> @@ -276,29 +262,21 @@ static void dump_regs(void __iomem *base, int 
+> len)
+> 
+>  void dp_catalog_dump_regs(struct dp_catalog *dp_catalog)
+>  {
+> -	u32 offset, len;
+>  	struct dp_catalog_private *catalog = container_of(dp_catalog,
+>  		struct dp_catalog_private, dp_catalog);
+> +	struct dss_io_data *io = &catalog->io->dp_controller;
+> 
+>  	pr_info("AHB regs\n");
+> -	offset = MSM_DP_CONTROLLER_AHB_OFFSET;
+> -	len = MSM_DP_CONTROLLER_AHB_SIZE;
+> -	dump_regs(catalog->io->dp_controller.base + offset, len);
+> +	dump_regs(io->ahb.base, io->ahb.len);
+> 
+>  	pr_info("AUXCLK regs\n");
+> -	offset = MSM_DP_CONTROLLER_AUX_OFFSET;
+> -	len = MSM_DP_CONTROLLER_AUX_SIZE;
+> -	dump_regs(catalog->io->dp_controller.base + offset, len);
+> +	dump_regs(io->aux.base, io->aux.len);
+> 
+>  	pr_info("LCLK regs\n");
+> -	offset = MSM_DP_CONTROLLER_LINK_OFFSET;
+> -	len = MSM_DP_CONTROLLER_LINK_SIZE;
+> -	dump_regs(catalog->io->dp_controller.base + offset, len);
+> +	dump_regs(io->link.base, io->link.len);
+> 
+>  	pr_info("P0CLK regs\n");
+> -	offset = MSM_DP_CONTROLLER_P0_OFFSET;
+> -	len = MSM_DP_CONTROLLER_P0_SIZE;
+> -	dump_regs(catalog->io->dp_controller.base + offset, len);
+> +	dump_regs(io->p0.base, io->p0.len);
+>  }
+> 
+>  u32 dp_catalog_aux_get_irq(struct dp_catalog *dp_catalog)
+> @@ -493,8 +471,7 @@ int dp_catalog_ctrl_set_pattern(struct dp_catalog
+> *dp_catalog,
+>  	bit = BIT(pattern - 1) << DP_MAINLINK_READY_LINK_TRAINING_SHIFT;
+> 
+>  	/* Poll for mainlink ready status */
+> -	ret = readx_poll_timeout(readl, catalog->io->dp_controller.base +
+> -					MSM_DP_CONTROLLER_LINK_OFFSET +
+> +	ret = readx_poll_timeout(readl, catalog->io->dp_controller.link.base 
+> +
+>  					REG_DP_MAINLINK_READY,
+>  					data, data & bit,
+>  					POLLING_SLEEP_US, POLLING_TIMEOUT_US);
+> @@ -541,8 +518,7 @@ bool dp_catalog_ctrl_mainlink_ready(struct
+> dp_catalog *dp_catalog)
+>  				struct dp_catalog_private, dp_catalog);
+> 
+>  	/* Poll for mainlink ready status */
+> -	ret = readl_poll_timeout(catalog->io->dp_controller.base +
+> -				MSM_DP_CONTROLLER_LINK_OFFSET +
+> +	ret = readl_poll_timeout(catalog->io->dp_controller.link.base +
+>  				REG_DP_MAINLINK_READY,
+>  				data, data & DP_MAINLINK_READY_FOR_VIDEO,
+>  				POLLING_SLEEP_US, POLLING_TIMEOUT_US);
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c
+> b/drivers/gpu/drm/msm/dp/dp_parser.c
+> index c05ba1990218..1f084b2b5bd3 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
+> @@ -11,6 +11,15 @@
+>  #include "dp_parser.h"
+>  #include "dp_reg.h"
+> 
+> +#define DP_DEFAULT_AHB_OFFSET	0x0000
+> +#define DP_DEFAULT_AHB_SIZE	0x0200
+> +#define DP_DEFAULT_AUX_OFFSET	0x0200
+> +#define DP_DEFAULT_AUX_SIZE	0x0200
+> +#define DP_DEFAULT_LINK_OFFSET	0x0400
+> +#define DP_DEFAULT_LINK_SIZE	0x0C00
+> +#define DP_DEFAULT_P0_OFFSET	0x1000
+> +#define DP_DEFAULT_P0_SIZE	0x0400
+> +
+>  static const struct dp_regulator_cfg sdm845_dp_reg_cfg = {
+>  	.num = 2,
+>  	.regs = {
+> @@ -37,9 +46,22 @@ static int dp_parser_ctrl_res(struct dp_parser 
+> *parser)
+>  	struct dp_io *io = &parser->io;
+>  	struct dss_io_data *dss = &io->dp_controller;
+> 
+> -	dss->base = dp_ioremap(pdev, 0, &dss->len);
+> -	if (IS_ERR(dss->base))
+> -		return PTR_ERR(dss->base);
+> +	dss->ahb.base = dp_ioremap(pdev, 0, &dss->ahb.len);
+> +	if (IS_ERR(dss->ahb.base))
+> +		return PTR_ERR(dss->ahb.base);
+> +
+> +	if (dss->ahb.len < DP_DEFAULT_P0_OFFSET + DP_DEFAULT_P0_SIZE) {
+> +		DRM_ERROR("legacy memory region not large enough\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	dss->ahb.len = DP_DEFAULT_AHB_SIZE;
+> +	dss->aux.base = dss->ahb.base + DP_DEFAULT_AUX_OFFSET;
+> +	dss->aux.len = DP_DEFAULT_AUX_SIZE;
+> +	dss->link.base = dss->ahb.base + DP_DEFAULT_LINK_OFFSET;
+> +	dss->link.len = DP_DEFAULT_LINK_SIZE;
+> +	dss->p0.base = dss->ahb.base + DP_DEFAULT_P0_OFFSET;
+> +	dss->p0.len = DP_DEFAULT_P0_SIZE;
+> 
+>  	io->phy = devm_phy_get(&pdev->dev, "dp");
+>  	if (IS_ERR(io->phy))
+> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h
+> b/drivers/gpu/drm/msm/dp/dp_parser.h
+> index dc62e70b1640..dac10923abde 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
+> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
+> @@ -25,11 +25,18 @@ enum dp_pm_type {
+>  	DP_MAX_PM
+>  };
+> 
+> -struct dss_io_data {
+> +struct dss_io_region {
+>  	size_t len;
+>  	void __iomem *base;
+>  };
+> 
+> +struct dss_io_data {
+> +	struct dss_io_region ahb;
+> +	struct dss_io_region aux;
+> +	struct dss_io_region link;
+> +	struct dss_io_region p0;
+> +};
+> +
+>  static inline const char *dp_parser_pm_name(enum dp_pm_type module)
+>  {
+>  	switch (module) {
