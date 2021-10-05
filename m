@@ -2,66 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A987422BF4
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:11:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AC62422C1A
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:14:07 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3CAA6E402;
-	Tue,  5 Oct 2021 15:10:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 82BF16EB87;
+	Tue,  5 Oct 2021 15:14:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com
- [IPv6:2607:f8b0:4864:20::1033])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C2796EB90
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:10:58 +0000 (UTC)
-Received: by mail-pj1-x1033.google.com with SMTP id k23so3477356pji.0
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:10:58 -0700 (PDT)
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
+ [IPv6:2607:f8b0:4864:20::d30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0FE46EB87
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:14:02 +0000 (UTC)
+Received: by mail-io1-xd30.google.com with SMTP id p80so24690248iod.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:14:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+QnKdMD67+rQVIo2b0/8Hr/i0O4OC/30heYtQ6dc/js=;
- b=MWGHadB5myjzG7hi7dEWEPb8pOcALr2pFYDh0ztFd5+60GiynIznraGmKCFLG9e1J/
- 60NqPZOBhULuBWXwnucxJ/AWgtP8nKcV9vTLWvlpBYy6FbdRgHG+xKzEJFloyTLEUIs4
- QzOxy+kLAS/LJ3leSqgLOjJlx23/8zJ9MRXAs=
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=sh8VNE4FCLdSm5VCdPfycmMPvw4PtVqb68V0H1ZpEUk=;
+ b=HtcGpyyh2UUVNrAb5Igdog262j6GdlcgBCBggIlt8jnaHyk4jpyGysSyBfHZba0mdm
+ pDC1Acu7d9xqLvWCmW3TynL/Iw1DjKCWed9Iw2sJZ/8HJ8dhcrJzRSHOsg1v8+xashTp
+ skKhyltA89Q0HPRLVE510wa50TQNxyIKcppPg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+QnKdMD67+rQVIo2b0/8Hr/i0O4OC/30heYtQ6dc/js=;
- b=w6hBhF2vC77+/VUs2pI/UQPtPoX9rd02LpyTKVO5qjdM0FwUinOzECOiohe3z+OmC6
- pbl9IPqGmqHWd92Ulo8lomkx3A9YtbcWLXTREjgZW9+Tbk3lm2CKf+JyNQOBhpH1fFAY
- A9tpw084EHR/gdATPMkYBzpX4XAujqKZAX498vLQ9tD6D8XPytMA6HbHsB/zsfvU67xL
- Etr9vhxDqmfDwyW3XTZwFD/KOOHwI2Aw6kKm12QrUfIGEkb8rxSaWL8DnEgx9XNCkvcz
- Ucl3bDg9V5m3E7AaJt2oYOfKTlk2LpKKjuS+o2VeuWiX8PXjRapH5x3t1nCpWeIWwyDk
- CIaQ==
-X-Gm-Message-State: AOAM533G/dwDsJPrmji/r2pmA6vWgIvkK78hG0C8IK+nZb/XmZcEK7Nn
- EkoUAdXRdRud7XY+DwcEb42c97HK5WSAwQ==
-X-Google-Smtp-Source: ABdhPJzSVCahQti09JKEx8hW7Dg7wwwmo3seeZ5OZCLdMc6jbjcG482M1ZiVw+8V4Fx/bV899Alhjw==
-X-Received: by 2002:a17:90a:1a4c:: with SMTP id
- 12mr4467161pjl.89.1633446657910; 
- Tue, 05 Oct 2021 08:10:57 -0700 (PDT)
-Received: from tictac2.mtv.corp.google.com
- ([2620:15c:202:201:68e6:d130:478e:edbd])
- by smtp.gmail.com with ESMTPSA id a15sm6280000pfg.53.2021.10.05.08.10.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 08:10:57 -0700 (PDT)
-From: Douglas Anderson <dianders@chromium.org>
-To: dri-devel@lists.freedesktop.org
-Cc: Rodrigo.Siqueira@amd.com, ville.syrjala@linux.intel.com,
- Harry.Wentland@amd.com, khsieh@codeaurora.org, Jerry.Zuo@amd.com,
- alexander.deucher@amd.com, Douglas Anderson <dianders@chromium.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Harry Wentland <harry.wentland@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-kernel@vger.kernel.org
-Subject: [PATCH] drm/edid: In connector_bad_edid() cap num_of_ext by
- num_blocks read
-Date: Tue,  5 Oct 2021 08:10:28 -0700
-Message-Id: <20211005081022.1.Ib059f9c23c2611cb5a9d760e7d0a700c1295928d@changeid>
-X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=sh8VNE4FCLdSm5VCdPfycmMPvw4PtVqb68V0H1ZpEUk=;
+ b=FkJtIGvePSYmoOqPlUxZfUB5TjNQYAayhkNApCYG/Ze12D2sjYHj9L7nNPgNY2JynP
+ COeEBvbpc9dnNW9z4gOB+wtXbGF8SWQREugJmy9zTX/M+9MLdcQKS5Bp0CQamDUaG19/
+ 8Mv9iPTyZBzMJqcDsxT6CNwLvhvhwaK08qqO9gpAfdhvp2IHihzXVnsj8ZUrc+lhqXGe
+ yc2/zVumKF4pKHTBYijNh4+5rJgMPhq/BfcSkX0WtyT1L59yh2Ozx6aVAgqmbdR6Tr1l
+ GUVZbx5FiETWZGVAngRcrmg7vjbmgtlwNpqtXMI7oCR8DB3ElL8wzSE4iI1wL7Bil1HT
+ YumA==
+X-Gm-Message-State: AOAM530yolRiW2YDIrWGbC3OcXDwPSD11VoaBYSC99RsyN0LZIbcfpB7
+ Vwo1U+8LooGDewDcSJykKO6vBt1U1Z7cQA==
+X-Google-Smtp-Source: ABdhPJx7prNpRcFgELbpKXmmHVlwZZVSTA+P/ZNoLGjF9HuqpDi/DlyCviUx7cNq9ijcKFNu9Fffyw==
+X-Received: by 2002:a02:3407:: with SMTP id x7mr3123680jae.18.1633446841699;
+ Tue, 05 Oct 2021 08:14:01 -0700 (PDT)
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com.
+ [209.85.166.170])
+ by smtp.gmail.com with ESMTPSA id g3sm20232ile.61.2021.10.05.08.13.59
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 05 Oct 2021 08:14:00 -0700 (PDT)
+Received: by mail-il1-f170.google.com with SMTP id y17so13890222ilb.9
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:13:59 -0700 (PDT)
+X-Received: by 2002:a05:6e02:1847:: with SMTP id
+ b7mr3420583ilv.180.1633446839293; 
+ Tue, 05 Oct 2021 08:13:59 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
+ <YVtZstInQxXfPmsZ@intel.com>
+ <DM6PR12MB49127B8B63079E6533197EA6E5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
+In-Reply-To: <DM6PR12MB49127B8B63079E6533197EA6E5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
+From: Doug Anderson <dianders@chromium.org>
+Date: Tue, 5 Oct 2021 08:13:47 -0700
+X-Gmail-Original-Message-ID: <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
+Message-ID: <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
+Subject: Re: connector_bad_edid() is broken (was: Re: [PATCH] drm/edid: Fix
+ crash with zero/invalid EDID)
+To: "Zuo, Jerry" <Jerry.Zuo@amd.com>
+Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "geert@linux-m68k.org" <geert@linux-m68k.org>,
+ "oliver.sang@intel.com" <oliver.sang@intel.com>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Jani Nikula <jani.nikula@intel.com>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wentland,
+ Harry" <Harry.Wentland@amd.com>, 
+ "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
+ Kuogee Hsieh <khsieh@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,51 +90,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-In commit e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid
-corruption test") the function connector_bad_edid() started assuming
-that the memory for the EDID passed to it was big enough to hold
-`edid[0x7e] + 1` blocks of data (1 extra for the base block). It
-completely ignored the fact that the function was passed `num_blocks`
-which indicated how much memory had been allocated for the EDID.
+Hi,
 
-Let's fix this by adding a bounds check.
+On Tue, Oct 5, 2021 at 6:33 AM Zuo, Jerry <Jerry.Zuo@amd.com> wrote:
+>
+> > BTW I believe connector_bad_edid() itself is broken since commit
+> > e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid corruption
+> > test"). Before we've even allocated the memory for the extension blocks
+> > that code now assumes edid[0x7e] is to be 100% trusted and goes and
+> > calculates the checksum on a block based on that. So that's likely going to be
+> > pointing somewhere beyond the base block into memory we've not even
+> > allocated. So anyone who wanted could craft a bogus EDID and maybe get
+> > something interesting to happen.
+> >
+> > Would be good if someone could fix that while at it. Or just revert the
+> > offending commit if there is no simple solution immediately in sight.
+> >
+> > The fact that we're parsing entirely untrustworthy crap in the kernel always
+> > worries me. Either we need super careful review of all relevant code, and/or
+> > we need to think about moving the parser out of the kernel.
+> > I was considering playing around with the usermode helper stuff. IIRC there
+> > is a way to embed the userspace binary into the kernel and just fire it up
+> > when needed. But so far it's been the usual -ENOTIME for me...
+> >
+> [AMD Official Use Only]
+>
+> Hi Ville:
+>
+>      Yhea, it is pretty old change from two years ago, and it is no long valid anymore. Please simply drop it.
+>
+> Regards,
+> Jerry
 
-This is important for handling the case where there's an error in the
-first block of the EDID. In that case we will call
-connector_bad_edid() without having re-allocated memory based on
-`edid[0x7e]`.
+I've cut out other bits from this email and changed the subject line
+since I think this is an issue unrelated to the one my original patch
+was fixing.
 
-Fixes: e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid corruption test")
-Reported-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-Signed-off-by: Douglas Anderson <dianders@chromium.org>
----
-This problem report came up in the context of a patch I sent out [1]
-and this is my attempt at a fix. The problem predates my patch,
-though. I don't personally know anything about DP compliance testing
-and what should be happening here, nor do I apparently have any
-hardware that actually reports a bad EDID. Thus this is just compile
-tested. I'm hoping that someone here can test this and make sure it
-seems OK to them.
+I don't actually know a ton about DP compliance testing, but I
+attempted to try to be helpful and revert commit e11f5bd8228f ("drm:
+Add support for DP 1.4 Compliance edid corruption test"). It wasn't
+too hard to deal with the conflicts in the revert itself, but then
+things didn't compile because there are two places that use
+`real_edid_checksum` and that goes away if I revert the patch.
 
- drivers/gpu/drm/drm_edid.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+I've made an attempt to fix the problem by just adding a bounds check.
+Perhaps you can see if that looks good to you:
 
-diff --git a/drivers/gpu/drm/drm_edid.c b/drivers/gpu/drm/drm_edid.c
-index 9b19eee0e1b4..ccfa08631c57 100644
---- a/drivers/gpu/drm/drm_edid.c
-+++ b/drivers/gpu/drm/drm_edid.c
-@@ -1843,8 +1843,9 @@ static void connector_bad_edid(struct drm_connector *connector,
- 	u8 num_of_ext = edid[0x7e];
- 
- 	/* Calculate real checksum for the last edid extension block data */
--	connector->real_edid_checksum =
--		drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
-+	if (num_of_ext <= num_blocks - 1)
-+		connector->real_edid_checksum =
-+			drm_edid_block_checksum(edid + num_of_ext * EDID_LENGTH);
- 
- 	if (connector->bad_edid_counter++ && !drm_debug_enabled(DRM_UT_KMS))
- 		return;
--- 
-2.33.0.800.g4c38ced690-goog
+https://lore.kernel.org/r/20211005081022.1.Ib059f9c23c2611cb5a9d760e7d0a700c1295928d@changeid
 
+-Doug
