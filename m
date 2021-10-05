@@ -2,44 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7507E421FA7
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:48:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF113421FA6
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:48:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0D0976EB16;
-	Tue,  5 Oct 2021 07:48:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7F3466E33F;
+	Tue,  5 Oct 2021 07:48:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 476F56EB16
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 07:48:24 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="212800378"
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="212800378"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 00:48:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="457976420"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga002.jf.intel.com with SMTP; 05 Oct 2021 00:48:08 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 05 Oct 2021 10:48:07 +0300
-Date: Tue, 5 Oct 2021 10:48:07 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: daniel@ffwll.ch, airlied@linux.ie, mripard@kernel.org,
- maarten.lankhorst@linux.intel.com, kernel@amanoeldawod.com,
- dirty.ice.hu@gmail.com, michael+lkml@stapelberg.ch,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Maxime Ripard <maxime@cerno.tech>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] drm/fbdev: Clamp fbdev surface size if too large
-Message-ID: <YVwDN6vYfvo0wzSX@intel.com>
-References: <20211005070355.7680-1-tzimmermann@suse.de>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B7E096E334;
+ Tue,  5 Oct 2021 07:48:21 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="225620467"
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="225620467"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 00:48:21 -0700
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="487921719"
+Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194])
+ ([10.213.238.194])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 00:48:19 -0700
+Subject: Re: [PATCH 23/28] drm: use new iterator in
+ drm_gem_fence_array_add_implicit v3
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20211001100610.2899-1-christian.koenig@amd.com>
+ <20211001100610.2899-24-christian.koenig@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <2caa3933-2e29-1b86-a20e-82225d266710@linux.intel.com>
+Date: Tue, 5 Oct 2021 08:48:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20211001100610.2899-24-christian.koenig@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211005070355.7680-1-tzimmermann@suse.de>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,64 +56,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 09:03:55AM +0200, Thomas Zimmermann wrote:
-> Clamp the fbdev surface size of the available maximumi height to avoid
-> failing to init console emulation. An example error is shown below.
-> 
->   bad framebuffer height 2304, should be >= 768 && <= 768
->   [drm] Initialized simpledrm 1.0.0 20200625 for simple-framebuffer.0 on minor 0
->   simple-framebuffer simple-framebuffer.0: [drm] *ERROR* fbdev: Failed to setup generic emulation (ret=-22)
-> 
-> This is especially a problem with drivers that have very small screen
-> sizes and cannot over-allocate at all.
-> 
-> v2:
-> 	* reduce warning level (Ville)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-> Reported-by: Amanoel Dawod <kernel@amanoeldawod.com>
-> Reported-by: Zoltán Kővágó <dirty.ice.hu@gmail.com>
-> Reported-by: Michael Stapelberg <michael+lkml@stapelberg.ch>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Maxime Ripard <maxime@cerno.tech>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: <stable@vger.kernel.org> # v5.14+
 
-Looks sane.
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
-
+On 01/10/2021 11:06, Christian König wrote:
+> Simplifying the code a bit.
+> 
+> v2: add missing rcu_read_lock()/unlock()
+> v3: switch to locked version
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
 > ---
->  drivers/gpu/drm/drm_fb_helper.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>   drivers/gpu/drm/drm_gem.c | 26 +++++---------------------
+>   1 file changed, 5 insertions(+), 21 deletions(-)
 > 
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 6860223f0068..3b5661cf6c2b 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -1508,6 +1508,7 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
->  {
->  	struct drm_client_dev *client = &fb_helper->client;
->  	struct drm_device *dev = fb_helper->dev;
-> +	struct drm_mode_config *config = &dev->mode_config;
->  	int ret = 0;
->  	int crtc_count = 0;
->  	struct drm_connector_list_iter conn_iter;
-> @@ -1665,6 +1666,11 @@ static int drm_fb_helper_single_fb_probe(struct drm_fb_helper *fb_helper,
->  	/* Handle our overallocation */
->  	sizes.surface_height *= drm_fbdev_overalloc;
->  	sizes.surface_height /= 100;
-> +	if (sizes.surface_height > config->max_height) {
-> +		drm_dbg_kms(dev, "Fbdev over-allocation too large; clamping height to %d\n",
-> +			    config->max_height);
-> +		sizes.surface_height = config->max_height;
-> +	}
->  
->  	/* push down into drivers */
->  	ret = (*fb_helper->funcs->fb_probe)(fb_helper, &sizes);
-> -- 
-> 2.33.0
+> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+> index 09c820045859..4dcdec6487bb 100644
+> --- a/drivers/gpu/drm/drm_gem.c
+> +++ b/drivers/gpu/drm/drm_gem.c
+> @@ -1340,31 +1340,15 @@ int drm_gem_fence_array_add_implicit(struct xarray *fence_array,
+>   				     struct drm_gem_object *obj,
+>   				     bool write)
+>   {
+> -	int ret;
+> -	struct dma_fence **fences;
+> -	unsigned int i, fence_count;
+> -
+> -	if (!write) {
+> -		struct dma_fence *fence =
+> -			dma_resv_get_excl_unlocked(obj->resv);
+> -
+> -		return drm_gem_fence_array_add(fence_array, fence);
+> -	}
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+> +	int ret = 0;
+>   
+> -	ret = dma_resv_get_fences(obj->resv, NULL,
+> -						&fence_count, &fences);
+> -	if (ret || !fence_count)
+> -		return ret;
+> -
+> -	for (i = 0; i < fence_count; i++) {
+> -		ret = drm_gem_fence_array_add(fence_array, fences[i]);
+> +	dma_resv_for_each_fence(&cursor, obj->resv, write, fence) {
+> +		ret = drm_gem_fence_array_add(fence_array, fence);
+>   		if (ret)
+>   			break;
+>   	}
+> -
+> -	for (; i < fence_count; i++)
+> -		dma_fence_put(fences[i]);
+> -	kfree(fences);
+>   	return ret;
+>   }
+>   EXPORT_SYMBOL(drm_gem_fence_array_add_implicit);
+> 
 
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+
+Regards,
+
+Tvrtko
