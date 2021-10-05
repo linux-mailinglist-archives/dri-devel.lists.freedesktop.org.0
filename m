@@ -1,71 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72B5D4233C4
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 00:46:09 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B413E4233A4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 00:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C7EBE6E46B;
-	Tue,  5 Oct 2021 22:46:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCB3689F53;
+	Tue,  5 Oct 2021 22:41:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
- [209.85.210.41])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3921A6E46B
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 22:46:02 +0000 (UTC)
-Received: by mail-ot1-f41.google.com with SMTP id
- u20-20020a9d7214000000b0054e170300adso762224otj.13
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 15:46:02 -0700 (PDT)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com
+ [IPv6:2a00:1450:4864:20::429])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EA6289BFF;
+ Tue,  5 Oct 2021 22:41:34 +0000 (UTC)
+Received: by mail-wr1-x429.google.com with SMTP id v25so2543592wra.2;
+ Tue, 05 Oct 2021 15:41:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=innzCsihXomZmrhVK7jQXZcENUr7+ebtMDPo3Mzcujk=;
+ b=F1Ahjb4KIfhWT/zPbY7Ny2zkSNa9mWESCa0UGJgHOkiEX/0LCFpCHxDYP1s+pPcOD3
+ o8mJnKvFb7hBB4LQ1wfrfpFVA7mhepHTOCCdEWfppXAZq/VAF63pMl0VwnKmCClHqvdY
+ y6nLitZOSwLgZVwXHH81jXntq8peAXkctdf2j+zmStkeIyg4ErGOtBAg1F8BFQEw5/TN
+ dzRmYdsdb+MXSqHEgHGvVfGsk5L9tGuMTpxhKGGiD2Tzc8wzxSkhne99EWCvv3hx6nlt
+ WinMtWY35qIZrERKR+RqgkThuxHZp135mzM2wpFo097yCWGj1NnSyPjy0eHmFk2fWboK
+ CfhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=7Yvv1Am41pkLFWVRRxtVFFpmmIZ/+MuvB5/QTODKe0c=;
- b=P2oDRf1HeizMRc0LDqCvytJ3P+tPRSh1aRFdJ7n9WcKZvfpHcI2qAzn3zXcvfMe3w4
- qiD/DKg2N6or181RTor6QE5rlY8xdKTYNc5+EyJP2MqfBm3NgJCxYmhpcP+q/KLWNQI5
- M44LOZ9GOximBFOmw+rqWNUUMKkSeesohvAbT/DNy5Nb7d1DrfJBk5Zgx7lgABZT3YRe
- vfkPfRksAcMTjwT09rNsiP3EqeEHaL+4KHLzRqTJE6iYpd7n1AgWjhvUCJYByL6rSwrr
- n0owysj5xcSsSTjZmWOpFvQUG7HrLteBj5A0JjizCFvI6j+3hiRl2bawD9c5tX61IsbJ
- rnwA==
-X-Gm-Message-State: AOAM532mztf8orD4S6GHPv21kv6XRNyBEDqlJ7UmT4EP2CsD/p/yjfN2
- wZMW2NOgIq5yW/KpYU+VLA==
-X-Google-Smtp-Source: ABdhPJz8rCGrSwA5JycAr4jjywMT6Q9vFnZJCvKui4nCAMdxcCRG96o4SGy+jI6iNtZhTv01VbbH+Q==
-X-Received: by 2002:a9d:6d14:: with SMTP id o20mr17177311otp.57.1633473961337; 
- Tue, 05 Oct 2021 15:46:01 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id v25sm3684003oov.14.2021.10.05.15.45.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 15:46:00 -0700 (PDT)
-Received: (nullmailer pid 106764 invoked by uid 1000);
- Tue, 05 Oct 2021 22:45:59 -0000
-From: Rob Herring <robh@kernel.org>
-To: "H. Nikolaus Schaller" <hns@goldelico.com>
-Cc: Maxime Ripard <maxime@cerno.tech>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mark Brown <broonie@kernel.org>, 
- "Eric W. Biederman" <ebiederm@xmission.com>, linux-mips@vger.kernel.org, 
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- David Airlie <airlied@linux.ie>, 
- dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>, 
- Liam Girdwood <lgirdwood@gmail.com>, letux-kernel@openphoenux.org, 
- Rob Herring <robh+dt@kernel.org>, Harry Wentland <harry.wentland@amd.com>, 
- Paul Cercueil <paul@crapouillou.net>, Kees Cook <keescook@chromium.org>, 
- Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
- Miquel Raynal <miquel.raynal@bootlin.com>, Jonas Karlman <jonas@kwiboo.se>, 
- Daniel Vetter <daniel@ffwll.ch>, Mark Rutland <mark.rutland@arm.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- devicetree@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Andrzej Hajda <a.hajda@samsung.com>, linux-kernel@vger.kernel.org, 
- Paul Boddie <paul@boddie.org.uk>
-In-Reply-To: <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
-References: <cover.1633436959.git.hns@goldelico.com>
- <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
-Subject: Re: [PATCH v5 3/7] dt-bindings: display: Add ingenic,
- jz4780-dw-hdmi DT Schema
-Date: Tue, 05 Oct 2021 17:45:59 -0500
-Message-Id: <1633473959.306315.106759.nullmailer@robh.at.kernel.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=innzCsihXomZmrhVK7jQXZcENUr7+ebtMDPo3Mzcujk=;
+ b=yD7UhotG0bdApviaWTtjgKMeop5JGeT/gB1jcobRpr7XbWhxPedM0AKlfyWzjx9O1u
+ 3pwVP9QxyY9qKXQqYY4tV8aGCtUN11Z3Nwl9UDDMthGTsT9jVSqxzzGRgzVxwR5uASW3
+ 4Lql5j3qFE3KRbB3h8Y5BQNeADieYbnYT5ZMBFPFnF2fGAsZiXFMYI/vpW9tofE5/wfK
+ emmUGKLm977J2QR2mFmmWNvNQ2fM9TacLcysKG4gWwQNUE8N90sjXwrR4yzohiQvyy0y
+ l+OBw1J2WA4HAc18NQh9xtVTX0bRvyB+FTfVqMmxtNTtNveDwAkYuoh7O/C8kKmfX7kG
+ nImg==
+X-Gm-Message-State: AOAM532wIZsAb1tzMkJOi/eLyrPzFhAit3jjt77lKyexMGk/cC2MyAib
+ YZ5wL6lDWg0w78GJwL9vS7mQmHUfxs541LG4EQc=
+X-Google-Smtp-Source: ABdhPJyXyel7wd9XYQw7fOOTZFhFN7VZZTsgdvrlgxiXZZDrBBUd8nw8dfi1lXSx+UUe5JcmP8VTe1KQ5j60Dt1zwnk=
+X-Received: by 2002:adf:bbd1:: with SMTP id z17mr24750497wrg.61.1633473692538; 
+ Tue, 05 Oct 2021 15:41:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <CAF6AEGtD4u7yyiy+BQLmibUCbn=AdDRu7FrmdViHVx0QrcGf8g@mail.gmail.com>
+In-Reply-To: <CAF6AEGtD4u7yyiy+BQLmibUCbn=AdDRu7FrmdViHVx0QrcGf8g@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 5 Oct 2021 15:46:07 -0700
+Message-ID: <CAF6AEGu0E8TQyW4Zykve5Y_ZG9kGWS_MCa2y1iVu+N6gR5XGtw@mail.gmail.com>
+Subject: Re: [pull] drm/msm: drm-msm-fixes-2021-10-05 for v5.15-rc5
+To: Dave Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
+ freedreno <freedreno@lists.freedesktop.org>, 
+ linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+ Jordan Crouse <jordan@cosmicpenguin.net>, 
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,44 +70,96 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 05 Oct 2021 14:29:15 +0200, H. Nikolaus Schaller wrote:
-> From: Sam Ravnborg <sam@ravnborg.org>
-> 
-> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
-> Based on .txt binding from Zubair Lutfullah Kakakhel
-> 
-> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
-> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
-> Cc: Rob Herring <robh@kernel.org>
-> Cc: devicetree@vger.kernel.org
-> ---
->  .../bindings/display/ingenic-jz4780-hdmi.yaml | 79 +++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-> 
++ dri-devel, sorry hit 'send' too quickly
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
-
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:39:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
-
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dt.yaml: hdmi@10180000: 'clock-names', 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
-	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/patch/1536624
-
-This check can fail if there are any dependencies. The base for a patch
-series is generally the most recent rc1.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+On Tue, Oct 5, 2021 at 3:45 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> Hi Dave & Daniel,
+>
+> A few fixes for v5.15:
+>
+> * Fix a new crash on dev file close if the dev file was opened when
+>   GPU is not loaded (such as missing fw in initrd)
+> * Switch to single drm_sched_entity per priority level per drm_file
+>   to unbreak multi-context userspace
+> * Serialize GMU access to fix GMU OOB errors
+> * Various error path fixes
+> * A couple integer overflow fixes
+> * Fix mdp5 cursor plane WARNs
+>
+> The following changes since commit 5816b3e6577eaa676ceb00a848f0fd65fe2adc29:
+>
+>   Linux 5.15-rc3 (2021-09-26 14:08:19 -0700)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.freedesktop.org/drm/msm.git drm-msm-fixes-2021-10-05
+>
+> for you to fetch changes up to c6921fbc88e120b2279c55686a071ca312d058e9:
+>
+>   drm/msm/dsi: fix off by one in dsi_bus_clk_enable error handling
+> (2021-10-04 08:08:07 -0700)
+>
+> ----------------------------------------------------------------
+> Arnd Bergmann (1):
+>       drm/msm/submit: fix overflow check on 64-bit architectures
+>
+> Colin Ian King (1):
+>       drm/msm: Fix null pointer dereference on pointer edp
+>
+> Dan Carpenter (4):
+>       drm/msm/a4xx: fix error handling in a4xx_gpu_init()
+>       drm/msm/a3xx: fix error handling in a3xx_gpu_init()
+>       drm/msm/dsi: Fix an error code in msm_dsi_modeset_init()
+>       drm/msm/dsi: fix off by one in dsi_bus_clk_enable error handling
+>
+> Dmitry Baryshkov (2):
+>       drm/msm/mdp5: fix cursor-related warnings
+>       drm/msm/dsi/phy: fix clock names in 28nm_8960 phy
+>
+> Fabio Estevam (1):
+>       drm/msm: Do not run snapshot on non-DPU devices
+>
+> Kuogee Hsieh (1):
+>       drm/msm/dp: only signal audio when disconnected detected at dp_pm_resume
+>
+> Marek Vasut (1):
+>       drm/msm: Avoid potential overflow in timeout_to_jiffies()
+>
+> Marijn Suijten (1):
+>       drm/msm/dsi: dsi_phy_14nm: Take ready-bit into account in poll_for_ready
+>
+> Rob Clark (5):
+>       drm/msm: Fix crash on dev file close
+>       drm/msm/a6xx: Serialize GMU communication
+>       drm/msm/a6xx: Track current ctx by seqno
+>       drm/msm: A bit more docs + cleanup
+>       drm/msm: One sched entity per process per priority
+>
+> Robert Foss (1):
+>       drm/msm/dpu: Fix address of SM8150 PINGPONG5 IRQ register
+>
+> Stephan Gerhold (1):
+>       drm/msm: Fix devfreq NULL pointer dereference on a3xx
+>
+>  drivers/gpu/drm/msm/adreno/a3xx_gpu.c           |  9 ++--
+>  drivers/gpu/drm/msm/adreno/a4xx_gpu.c           |  9 ++--
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c           |  6 +++
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.h           |  3 ++
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c           | 46 ++++++++++++----
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.h           | 11 +++-
+>  drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c  |  2 +-
+>  drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c       | 16 ++++++
+>  drivers/gpu/drm/msm/dp/dp_display.c             | 10 ++--
+>  drivers/gpu/drm/msm/dsi/dsi.c                   |  4 +-
+>  drivers/gpu/drm/msm/dsi/dsi_host.c              |  2 +-
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c      | 30 +++++------
+>  drivers/gpu/drm/msm/dsi/phy/dsi_phy_28nm_8960.c |  4 +-
+>  drivers/gpu/drm/msm/edp/edp_ctrl.c              |  3 +-
+>  drivers/gpu/drm/msm/msm_drv.c                   | 15 ++++--
+>  drivers/gpu/drm/msm/msm_drv.h                   | 47 +---------------
+>  drivers/gpu/drm/msm/msm_gem_submit.c            |  7 +--
+>  drivers/gpu/drm/msm/msm_gpu.h                   | 66 ++++++++++++++++++++++-
+>  drivers/gpu/drm/msm/msm_gpu_devfreq.c           |  6 +++
+>  drivers/gpu/drm/msm/msm_submitqueue.c           | 72 ++++++++++++++++++++-----
+>  20 files changed, 256 insertions(+), 112 deletions(-)
