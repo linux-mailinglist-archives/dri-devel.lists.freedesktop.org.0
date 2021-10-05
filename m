@@ -2,89 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB8544233B0
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 00:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72B5D4233C4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 00:46:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 572816E466;
-	Tue,  5 Oct 2021 22:43:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C7EBE6E46B;
+	Tue,  5 Oct 2021 22:46:03 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com
- [IPv6:2a00:1450:4864:20::12e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702D26E466
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 22:43:23 +0000 (UTC)
-Received: by mail-lf1-x12e.google.com with SMTP id i24so2068143lfj.13
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 15:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QG+ghKl7BYypZZjDut6dTGHyiOgVAsyM1BWUZUWMu5U=;
- b=Hd/Hgnl41abY2ut8awTV9Znfi0+mLbBx9rjGKMvBmv1GvhO4shIY8zKBANOfUfey6t
- f5Ia/T7DT6465kZqrrXQThtz+C/Dyv3WwmTVE2S1/knhHJ2ZkcQGMJbpA7lJW8S92LV6
- d4sMrDbdjRQ26EUeegNXhFT6soeFLf+BrXj5mPF3K+E6tl1/jGMbmKZnQ0VlaBRfoOWR
- LuKoByxkOGkGhSjkSGOlHwyrskSGBdkV8ouXlaDVeZDQXkFs5OsF+2lgPEibKvUXARwq
- QkljhBPkuFryLkM004napUFJxFdOqOTZNrXbWHEUeRQ3+onIjoSJKZ6XnhXG+LemKrOd
- A8Qw==
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com
+ [209.85.210.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3921A6E46B
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 22:46:02 +0000 (UTC)
+Received: by mail-ot1-f41.google.com with SMTP id
+ u20-20020a9d7214000000b0054e170300adso762224otj.13
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 15:46:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QG+ghKl7BYypZZjDut6dTGHyiOgVAsyM1BWUZUWMu5U=;
- b=eA0X6i0PjXoTF9rJxuQC1TEZMoTvI9L1ZCHL+Q5xHlJkCyWASmNf2rLcuUpwuj8a33
- kzjOc+qDdYEwPeuKU2RE0xEJeHWQwBC+TXVCxGj4zWJ3TSBffvIoOPkMkSw+8UHMZhOa
- 3E7Zjv95HLSMxll41wbvNT/l1D0OiYsVx5WGUjhuIxSs1/eiFLG9rIcVkreoGMLdYb1J
- 3qlwR9H9FPsq+YP53nJ6E1GjQ9J070ZzGX4Svvaw+BMg898AULV0FkQliDlbpN+YKcQx
- xFwrnlWBGJEjsYfC3uypypt62MjWeYJ0QhGFrhKAthlrBGxYYZbaPD53omCT55KRm0is
- lLyw==
-X-Gm-Message-State: AOAM531nX2ANukzscMSmij9zfoIpsyDdMv194UcyzILjvcNhtaE8D2Gy
- gr62rAvkI318eDb26VPoV3k=
-X-Google-Smtp-Source: ABdhPJxfNs4Gfg7N3fvFBrC2l/U9ZmVjgRHnpJ3ajA7WdQF4gcWUZ5S7J4URL5OZbbHW8d5K2gyE2g==
-X-Received: by 2002:a2e:743:: with SMTP id i3mr24366437ljd.250.1633473801726; 
- Tue, 05 Oct 2021 15:43:21 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
- [79.139.163.57])
- by smtp.googlemail.com with ESMTPSA id q30sm2086817lfb.108.2021.10.05.15.43.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 15:43:21 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
- <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
- <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
- <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
-Message-ID: <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
-Date: Wed, 6 Oct 2021 01:43:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
-MIME-Version: 1.0
-In-Reply-To: <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=7Yvv1Am41pkLFWVRRxtVFFpmmIZ/+MuvB5/QTODKe0c=;
+ b=P2oDRf1HeizMRc0LDqCvytJ3P+tPRSh1aRFdJ7n9WcKZvfpHcI2qAzn3zXcvfMe3w4
+ qiD/DKg2N6or181RTor6QE5rlY8xdKTYNc5+EyJP2MqfBm3NgJCxYmhpcP+q/KLWNQI5
+ M44LOZ9GOximBFOmw+rqWNUUMKkSeesohvAbT/DNy5Nb7d1DrfJBk5Zgx7lgABZT3YRe
+ vfkPfRksAcMTjwT09rNsiP3EqeEHaL+4KHLzRqTJE6iYpd7n1AgWjhvUCJYByL6rSwrr
+ n0owysj5xcSsSTjZmWOpFvQUG7HrLteBj5A0JjizCFvI6j+3hiRl2bawD9c5tX61IsbJ
+ rnwA==
+X-Gm-Message-State: AOAM532mztf8orD4S6GHPv21kv6XRNyBEDqlJ7UmT4EP2CsD/p/yjfN2
+ wZMW2NOgIq5yW/KpYU+VLA==
+X-Google-Smtp-Source: ABdhPJz8rCGrSwA5JycAr4jjywMT6Q9vFnZJCvKui4nCAMdxcCRG96o4SGy+jI6iNtZhTv01VbbH+Q==
+X-Received: by 2002:a9d:6d14:: with SMTP id o20mr17177311otp.57.1633473961337; 
+ Tue, 05 Oct 2021 15:46:01 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id v25sm3684003oov.14.2021.10.05.15.45.59
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 15:46:00 -0700 (PDT)
+Received: (nullmailer pid 106764 invoked by uid 1000);
+ Tue, 05 Oct 2021 22:45:59 -0000
+From: Rob Herring <robh@kernel.org>
+To: "H. Nikolaus Schaller" <hns@goldelico.com>
+Cc: Maxime Ripard <maxime@cerno.tech>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mark Brown <broonie@kernel.org>, 
+ "Eric W. Biederman" <ebiederm@xmission.com>, linux-mips@vger.kernel.org, 
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ David Airlie <airlied@linux.ie>, 
+ dri-devel@lists.freedesktop.org, Neil Armstrong <narmstrong@baylibre.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, letux-kernel@openphoenux.org, 
+ Rob Herring <robh+dt@kernel.org>, Harry Wentland <harry.wentland@amd.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Kees Cook <keescook@chromium.org>, 
+ Robert Foss <robert.foss@linaro.org>, Sam Ravnborg <sam@ravnborg.org>, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, Jonas Karlman <jonas@kwiboo.se>, 
+ Daniel Vetter <daniel@ffwll.ch>, Mark Rutland <mark.rutland@arm.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ devicetree@vger.kernel.org, Ezequiel Garcia <ezequiel@collabora.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Andrzej Hajda <a.hajda@samsung.com>, linux-kernel@vger.kernel.org, 
+ Paul Boddie <paul@boddie.org.uk>
+In-Reply-To: <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
+References: <cover.1633436959.git.hns@goldelico.com>
+ <518d5db83e84e3f0326854c5afb53a92e7ae4e41.1633436959.git.hns@goldelico.com>
+Subject: Re: [PATCH v5 3/7] dt-bindings: display: Add ingenic,
+ jz4780-dw-hdmi DT Schema
+Date: Tue, 05 Oct 2021 17:45:59 -0500
+Message-Id: <1633473959.306315.106759.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -100,25 +81,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-06.10.2021 01:19, Dmitry Osipenko пишет:
-...
-> I reproduced the OFF problem by removing the clk prepare/unprepare from
-> the suspend/resume of the clk driver and making some extra changes to
-> clock tree topology and etc to trigger the problem on Nexus 7.
+On Tue, 05 Oct 2021 14:29:15 +0200, H. Nikolaus Schaller wrote:
+> From: Sam Ravnborg <sam@ravnborg.org>
 > 
-> tegra-pmc 7000e400.pmc: failed to turn off PM domain heg: -13
+> Add DT bindings for the hdmi driver for the Ingenic JZ4780 SoC.
+> Based on .txt binding from Zubair Lutfullah Kakakhel
 > 
-> It happens from genpd_suspend_noirq() -> tegra_genpd_power_off() -> clk
-> -> GENPD -> I2C -> runtime-pm.
+> Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: H. Nikolaus Schaller <hns@goldelico.com>
+> Cc: Rob Herring <robh@kernel.org>
+> Cc: devicetree@vger.kernel.org
+> ---
+>  .../bindings/display/ingenic-jz4780-hdmi.yaml | 79 +++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
 > 
-> -13 is EACCES, it comes from the runtime PM of I2C device. RPM is
-> prohibited/disabled during late (NOIRQ) suspend by the drivers core.
 
-My bad, I double-checked and it's not I2C RPM that is failing now, but
-the clock's RPM [1], which is also unavailable during NOIRQ.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-[1]
-https://elixir.free-electrons.com/linux/v5.15-rc4/source/drivers/clk/clk.c#L116
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml:39:5: [warning] wrong indentation: expected 2 but found 4 (indentation)
 
-Previously it was I2C RPM that was failing in a similar way, but code
-changed a tad since that time.
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.example.dt.yaml: hdmi@10180000: 'clock-names', 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: 'pinctrl-[0-9]+'
+	From schema: /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1536624
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
