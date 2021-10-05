@@ -2,36 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9082422509
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:31:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B2E422528
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:38:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9A3D16EB50;
-	Tue,  5 Oct 2021 11:31:53 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5B6D56EB49;
+	Tue,  5 Oct 2021 11:37:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C92166EB49;
- Tue,  5 Oct 2021 11:31:51 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="224489807"
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="224489807"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 04:31:45 -0700
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="487990222"
-Received: from tbarret1-mobl.ger.corp.intel.com (HELO tursulin-mobl2.home)
- ([10.213.238.194])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 04:31:43 -0700
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-To: Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>,
- Matthew Auld <matthew.auld@intel.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics setup
-Date: Tue,  5 Oct 2021 12:31:35 +0100
-Message-Id: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B468A6EB49;
+ Tue,  5 Oct 2021 11:37:46 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id j8so6358369wro.7;
+ Tue, 05 Oct 2021 04:37:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=164W6w6LWLW8NebvBaOQLdQNgGQ7HT0mCWe77mt2uTA=;
+ b=CVGpci/DUifH+cgn4zVZt0u6zvgxk8H2IkT1tiTjfOKlQiOCIbrDrSklxXM2z4uGwE
+ NPqUwPXZFpzcRctflKI6m1aRUvSYBlcbC/PZgTtELEiGcpxWAg+4kU8w1ldMrIoNsJW0
+ 8KdAGK497O4rOkHHwC17PZ7l/kbI6ISm505CNzIYLDUMp9HoZWkfWeytfAAip6GovSxK
+ 9GWyebTKN9uN+9tyUeGC+ao/jx3lI8SHVHpt6fkEGLdf2F/+kJCXfZyhufV7wSHh49Gb
+ aPmivEB/q1wGlJFItDX50C6gvlE0q82iL7o0UA2dmh+3rXFsZKNlEpzvfag1L/CxqCDp
+ jMQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=164W6w6LWLW8NebvBaOQLdQNgGQ7HT0mCWe77mt2uTA=;
+ b=Sa6QRoGSFVuu21vbU9Ru4P1GBwjXqRpCZBuUV13ozMI9wyMoJXgHWQPiAQKTPEhiXI
+ CXcZcudC+jddJSA904arMEc8B9XCSGgt/fCZCxccjeE7YHEkQJfeLG6EolbNgdT6TFg7
+ JWX6injBVCDwCLZWsGNYm+QCsPCFUmDu4FmZL0FVbl0NRA6h+JmnaHAr1rn4ofSuUgDf
+ fGoZ+JP+TvVgShr68YnnigQ8+/PMMDAq0uykpRs+SCsDjytPxFMeYdN3wdbOEduIJ3Mk
+ Vqqsa7k16w4yQ5YKKwYF1Dflkrb9JsJNfUe3d6F/dmLPTymnxXJfM9wrdEndbBMoP3LC
+ e2Qg==
+X-Gm-Message-State: AOAM531enlZvaKk8WPbDzm779WTO3JRLLdMQgKzclnqmtaINh8eJZQG1
+ ZnuQPIGRUHTjCZQ8V1yZMZk=
+X-Google-Smtp-Source: ABdhPJyhqXRR6L5iPjlJy84F/JJ9ouoYwQ3pgClwPtPCzqX3Ce9742XSqFnuYdjXcMF2edgJm2bXlA==
+X-Received: by 2002:adf:a2c4:: with SMTP id t4mr21433926wra.296.1633433865218; 
+ Tue, 05 Oct 2021 04:37:45 -0700 (PDT)
+Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
+ by smtp.gmail.com with ESMTPSA id
+ c5sm1739912wml.9.2021.10.05.04.37.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 04:37:44 -0700 (PDT)
+From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
+X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
+ <christian.koenig@amd.com>
+To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch,
+	tvrtko.ursulin@linux.intel.com
+Subject: Deploying new iterator interface for dma-buf
+Date: Tue,  5 Oct 2021 13:37:14 +0200
+Message-Id: <20211005113742.1101-1-christian.koenig@amd.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -50,72 +75,13 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Hi guys,
 
-In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
-when rendering is done on Intel dgfx and scanout/composition on Intel
-igfx.
+a few more bug fixes, looks like the more selftests I add the more odies I find.
 
-Before this patch the driver was not quite ready for that setup, mainly
-because it was able to emit a semaphore wait between the two GPUs, which
-results in deadlocks because semaphore target location in HWSP is neither
-shared between the two, nor mapped in both GGTT spaces.
+Assuming the CI tests now pass I will start pushing patches I've already got an rb for to drm-misc-next.
 
-To fix it the patch adds an additional check to a couple of relevant code
-paths in order to prevent using semaphores for inter-engine
-synchronisation when relevant objects are not in the same GGTT space.
+Please review and/or comment,
+Christian.
 
-v2:
- * Avoid adding rq->i915. (Chris)
-
-v3:
- * Use GGTT which describes the limit more precisely.
-
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/i915/i915_request.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index 79da5eca60af..4f189982f67e 100644
---- a/drivers/gpu/drm/i915/i915_request.c
-+++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -1145,6 +1145,12 @@ __emit_semaphore_wait(struct i915_request *to,
- 	return 0;
- }
- 
-+static bool
-+can_use_semaphore_wait(struct i915_request *to, struct i915_request *from)
-+{
-+	return to->engine->gt->ggtt == from->engine->gt->ggtt;
-+}
-+
- static int
- emit_semaphore_wait(struct i915_request *to,
- 		    struct i915_request *from,
-@@ -1153,6 +1159,9 @@ emit_semaphore_wait(struct i915_request *to,
- 	const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
- 	struct i915_sw_fence *wait = &to->submit;
- 
-+	if (!can_use_semaphore_wait(to, from))
-+		goto await_fence;
-+
- 	if (!intel_context_use_semaphores(to->context))
- 		goto await_fence;
- 
-@@ -1256,7 +1265,8 @@ __i915_request_await_execution(struct i915_request *to,
- 	 * immediate execution, and so we must wait until it reaches the
- 	 * active slot.
- 	 */
--	if (intel_engine_has_semaphores(to->engine) &&
-+	if (can_use_semaphore_wait(to, from) &&
-+	    intel_engine_has_semaphores(to->engine) &&
- 	    !i915_request_has_initial_breadcrumb(to)) {
- 		err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
- 		if (err < 0)
--- 
-2.30.2
 
