@@ -2,70 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A27D422585
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 560B7422686
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 14:29:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 860C86EB53;
-	Tue,  5 Oct 2021 11:44:40 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8CE966EB92;
+	Tue,  5 Oct 2021 12:29:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::167])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 07D3D6EB53
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 11:44:39 +0000 (UTC)
-Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
- [94.209.165.62])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id F3D703EE3F;
- Tue,  5 Oct 2021 13:44:36 +0200 (CEST)
-Date: Tue, 5 Oct 2021 13:44:35 +0200
-From: Marijn Suijten <marijn.suijten@somainline.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>
-Cc: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/10] backlight: qcom-wled: Fix off-by-one maximum with
- default num_strings
-Message-ID: <20211005114435.phyq2jsbdyroa6kn@SoMainline.org>
-Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20211004192741.621870-1-marijn.suijten@somainline.org>
- <20211004192741.621870-6-marijn.suijten@somainline.org>
- <20211005091947.7msztp5l554c7cy4@maple.lan>
- <20211005100606.faxra73mzkvjd4f6@SoMainline.org>
- <20211005103843.heufyonycnudxnzd@maple.lan>
- <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
+Received: from mo4-p02-ob.smtp.rzone.de (mo4-p02-ob.smtp.rzone.de
+ [85.215.255.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4BCE66EB92
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 12:29:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1633436962;
+ s=strato-dkim-0002; d=goldelico.com;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=ibQtZi26+9hNiOXyMaYmaTWmMOHUhba7MnqHV0neXR8=;
+ b=Go/bkihAWMxVBFqQxPnRKnjVtaNKZvvrn0z762dmE3BjU+zb1AuG6aac/6X4XY2UQY
+ ju/vsTKyN9SuiZJbJ4EqiXXtts/P+GXCh3Q952pa/DILtFz8WPMcK14obXepP6k1vJ/+
+ tbzos7whY2mGb6leRIcUGCrbvAJPA48b0qtiTwgQO8Xj3gZom5yfnlrKRNJd3XLV9Ij6
+ ob+WpCfxZTE/EIxycBz3t/B15B0ax6K6+sz5UJOPdrKMAZB6rZ5I4YQgy4fkqovFjrvU
+ iiuXoHJnc9M+vzkkHUqEhKwvF+BpTQ8uXY/4TSygAe/Ad069xBQXPZQ9mr4BA9jkxJt3
+ 6baA==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":JGIXVUS7cutRB/49FwqZ7WcJeFKiMhflhwDubTJ9o12DNOsPj0lByOdcKlH0"
+X-RZG-CLASS-ID: mo00
+Received: from iMac.fritz.box by smtp.strato.de (RZmta 47.33.8 DYNA|AUTH)
+ with ESMTPSA id I01f74x95CTK50Z
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 5 Oct 2021 14:29:20 +0200 (CEST)
+From: "H. Nikolaus Schaller" <hns@goldelico.com>
+To: Paul Cercueil <paul@crapouillou.net>, Rob Herring <robh+dt@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ "H. Nikolaus Schaller" <hns@goldelico.com>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Kees Cook <keescook@chromium.org>,
+ "Eric W. Biederman" <ebiederm@xmission.com>,
+ Miquel Raynal <miquel.raynal@bootlin.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Ezequiel Garcia <ezequiel@collabora.com>,
+ Harry Wentland <harry.wentland@amd.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Maxime Ripard <maxime@cerno.tech>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Paul Boddie <paul@boddie.org.uk>
+Cc: devicetree@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-kernel@vger.kernel.org, letux-kernel@openphoenux.org,
+ Jonas Karlman <jonas@kwiboo.se>, dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/7] MIPS: JZ4780 and CI20 HDMI
+Date: Tue,  5 Oct 2021 14:29:12 +0200
+Message-Id: <cover.1633436959.git.hns@goldelico.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -81,88 +75,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 2021-10-05 11:53:12, Daniel Thompson wrote:
-> On Tue, Oct 05, 2021 at 11:38:43AM +0100, Daniel Thompson wrote:
-> > On Tue, Oct 05, 2021 at 12:06:06PM +0200, Marijn Suijten wrote:
-> > > On 2021-10-05 10:19:47, Daniel Thompson wrote:
-> > > > On Mon, Oct 04, 2021 at 09:27:36PM +0200, Marijn Suijten wrote:
-> > > > > When not specifying num-strings in the DT the default is used, but +1 is
-> > > > > added to it which turns wled3 into 4 and wled4/5 into 5 strings instead
-> > > > > of 3 and 4 respectively, causing out of bounds reads and register
-> > > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
-> > > > > and is simply omitted entirely - solving this oob issue - by allowing
-> > > > > one extra iteration of the wled_var_cfg function parsing this particular
-> > > > > property.
-> > > > > 
-> > > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
-> > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > > > > ---
-> > > > >  drivers/video/backlight/qcom-wled.c | 8 +++-----
-> > > > >  1 file changed, 3 insertions(+), 5 deletions(-)
-> > > > > 
-> > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> > > > > index 27e8949c7922..66ce77ee3099 100644
-> > > > > --- a/drivers/video/backlight/qcom-wled.c
-> > > > > +++ b/drivers/video/backlight/qcom-wled.c
-> > > > > @@ -1255,17 +1255,17 @@ static const struct wled_var_cfg wled5_ovp_cfg = {
-> > > > >  
-> > > > >  static u32 wled3_num_strings_values_fn(u32 idx)
-> > > > >  {
-> > > > > -	return idx + 1;
-> > > > > +	return idx;
-> > > > >  }
-> > > > >  
-> > > > >  static const struct wled_var_cfg wled3_num_strings_cfg = {
-> > > > >  	.fn = wled3_num_strings_values_fn,
-> > > > > -	.size = 3,
-> > > > > +	.size = 4, /* [0, 3] */
-> > > > 
-> > > > 0 is not a valid value for this property.
-> > > 
-> > > These comments represent the possible loop iterations the DT "cfg
-> > > parser" runs through, starting at j=0 and running up until and including
-> > > j=3.  Should I make that more clear or omit these comments entirely?
-> > 
-> > The role of wled3_num_strings_values_fn() is to enumerate the list of
-> > legal values for the property [ 1, 2, 3 ]. Your changes cause the
-> > enumeration to include a non-legal value so that you can have an
-> > identity mapping between the symbol and the enumerate value.
-> > 
-> > An alternative approach would be to leave the enumeration logic
-> > alone but set the num_string default to UINT_MAX in all cases:
-> > 
-> > -	cfg->num_strings = cfg->num_strings + 1;
-> > +	if (cfg->num_strings == UINT_MAX)
-> > +		cfg->num_strings = 
-> 
-> Oops... looks like I missed the cfg->max_string_count here.
-> 
-> 
-> > +	else
-> > +               /* Convert from enumerated to numeric form */
-> > +		cfg->num_strings = wled3_num_strings_values_fn(
-> > +						cfg->num_strings);
-> 
-> 
-> PS the alternative option is not to treat num-strings as an enumerated
->    value at all and just read it directly without using wled_values()...
+PATCH V5  2021-10-05 14:28:44:
+- dropped mode_fixup and timings support in dw-hdmi as it is no longer needed in this V5 (by hns@goldelico.com)
+- dropped "drm/ingenic: add some jz4780 specific features" (stimulated by paul@crapouillou.net)
+- fixed typo in commit subject: "synopsis" -> "synopsys" (by hns@goldelico.com)
+- swapped clocks in jz4780.dtsi to match synopsys,dw-hdmi.yaml (by hns@goldelico.com)
+- improved, simplified, fixed, dtbschecked ingenic-jz4780-hdmi.yaml and made dependent of bridge/synopsys,dw-hdmi.yaml (based on suggestions by maxime@cerno.tech)
+- fixed binding vs. driver&DTS use of hdmi-5v regulator (suggested by maxime@cerno.tech)
+- dropped "drm/bridge: synopsis: Fix to properly handle HPD" - was a no longer needed workaround for a previous version
+  (suggested by maxime@cerno.tech)
 
-I much prefer doing that instead of trying to wrangle enumeration
-parsing around integer values that are supposed to be used as-is.  After
-all this variable is already named to set the `+ 1` override currently,
-and `qcom,enabled_strings` has "custom" handling as well.  I'll extend
-the validation to ensure num_strings>=1 too.
+PATCH V4 2021-09-27 18:44:38:
+- fix setting output_port = 1 (issue found by paul@crapouillou.net)
+- ci20.dts: convert to use hdmi-connector (by hns@goldelico.com)
+- add a hdmi-regulator to control +5V power (by hns@goldelico.com)
+- added a fix to dw-hdmi to call drm_kms_helper_hotplug_event on plugin event detection (by hns@goldelico.com)
+- always allocate extended descriptor but initialize only for jz4780 (by hns@goldelico.com)
+- updated to work on top of "[PATCH v3 0/6] drm/ingenic: Various improvements v3" (by paul@crapouillou.net)
+- rebased to v5.13-rc3
 
-In addition, and this needs some investigation on the dt-bindings side
-too, it might be beneficial to make both properties mutually exclusive.
-When specifying qcom,enabled_strings it makes little sense to also
-provide qcom,num_strings and we want the former to take precedence.  At
-that point one might ask why qcom,num_strings remains at all when DT can
-use qcom,enabled_strings instead.
-We will supposedly have to keep backwards compatibility with DTs in mind
-so none of this can be removed or made mutually exclusive from a driver
-standpoint, that all has to be done in dt-bindings yaml to be enforced
-on checked-in DTs.
+PATCH V3 2021-08-08 07:10:50:
+This series adds HDMI support for JZ4780 and CI20 board (and fixes one IPU related issue in registration error path)
+- [patch 1/8] switched from mode_fixup to atomic_check (suggested by robert.foss@linaro.org)
+  - the call to the dw-hdmi specialization is still called mode_fixup
+- [patch 3/8] diverse fixes for ingenic-drm-drv (suggested by paul@crapouillou.net)
+  - factor out some non-HDMI features of the jz4780 into a separate patch
+  - multiple fixes around max height
+  - do not change regmap config but a copy on stack
+  - define some constants
+  - factor out fixing of drm_init error path for IPU into separate patch
+  - use FIELD_PREP()
+- [patch 8/8] conversion to component framework dropped (suggested by Laurent.pinchart@ideasonboard.com and paul@crapouillou.net)
 
-- Marijn
+PATCH V2 2021-08-05 16:08:05:
+This series adds HDMI support for JZ4780 and CI20 board
+
+V2:
+- code and commit messages revisited for checkpatch warnings
+- rebased on v5.14-rc4
+- include (failed, hence RFC 8/8) attempt to convert to component framework
+  (was suggested by Paul Cercueil <paul@crapouillou.net> a while ago)
+
+
+H. Nikolaus Schaller (1):
+  MIPS: defconfig: CI20: configure for DRM_DW_HDMI_JZ4780
+
+Paul Boddie (5):
+  drm/ingenic: Fix drm_init error path if IPU was registered
+  drm/ingenic: Add support for JZ4780 and HDMI output
+  drm/ingenic: Add dw-hdmi driver for jz4780
+  MIPS: DTS: jz4780: Account for Synopsys HDMI driver and LCD
+    controllers
+  MIPS: DTS: CI20: Add DT nodes for HDMI setup
+
+Sam Ravnborg (1):
+  dt-bindings: display: Add ingenic,jz4780-dw-hdmi DT Schema
+
+ .../bindings/display/ingenic-jz4780-hdmi.yaml |  79 +++++++++++
+ arch/mips/boot/dts/ingenic/ci20.dts           |  67 ++++++++++
+ arch/mips/boot/dts/ingenic/jz4780.dtsi        |  45 +++++++
+ arch/mips/configs/ci20_defconfig              |   6 +
+ drivers/gpu/drm/ingenic/Kconfig               |   9 ++
+ drivers/gpu/drm/ingenic/Makefile              |   1 +
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  96 +++++++++++++-
+ drivers/gpu/drm/ingenic/ingenic-drm.h         |  42 ++++++
+ drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c     | 125 ++++++++++++++++++
+ 9 files changed, 464 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/ingenic-jz4780-hdmi.yaml
+ create mode 100644 drivers/gpu/drm/ingenic/ingenic-dw-hdmi.c
+
+-- 
+2.33.0
+
