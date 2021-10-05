@@ -2,64 +2,122 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4190A422050
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 10:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400DB422071
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 10:16:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D47356F5C0;
-	Tue,  5 Oct 2021 08:12:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03ADE6E332;
+	Tue,  5 Oct 2021 08:16:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 067086F5BC
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 08:11:57 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 6873220275;
- Tue,  5 Oct 2021 08:11:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1633421515; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zb8UFewAqttpC2XpH1KTbwx8GES1hkwAYlZxwydVAtc=;
- b=lg9mKbwIMrLVeTfoMubuATYXH/v7n1itcN6zY3Xu4mYik85wdRUN7d+h56euGUGwZWD4g/
- +BpOsLh9T3axcxwaqRwjOr7k1+o5mJG0XO/RYWELAuh5kwB59BKfHulSKxVcZ7UibUjjm+
- 8cDGSVVC8wjx3jwzH55Cpg31XaoLcbM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1633421515;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zb8UFewAqttpC2XpH1KTbwx8GES1hkwAYlZxwydVAtc=;
- b=+7gMnhsuGIUGZ1KfDBoRrsp/0Q5DYncQ6qHMvFdy+Fw7nbOIK12SZ2EqJs0GxMxkOYeUAL
- gAKo7qGHwYXRzHDg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 36CFB13A78;
- Tue,  5 Oct 2021 08:11:55 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id UJFnDMsIXGEgXgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Tue, 05 Oct 2021 08:11:55 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: patrik.r.jakobsson@gmail.com,
-	airlied@linux.ie,
-	daniel@ffwll.ch
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v2 10/10] drm/gma500: Rename struct gtt_range to struct
- psb_gem_object
-Date: Tue,  5 Oct 2021 10:11:51 +0200
-Message-Id: <20211005081151.23612-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211005081151.23612-1-tzimmermann@suse.de>
-References: <20211005081151.23612-1-tzimmermann@suse.de>
-MIME-Version: 1.0
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com
+ (mail-dm3nam07on2069.outbound.protection.outlook.com [40.107.95.69])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CD2B56E332;
+ Tue,  5 Oct 2021 08:16:15 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c/uvPlQUywEUVjTtuGeBvCb74/5u8LU7j5R3NoHdqWlbRkJJ+B9nQv7h3gy2aQJOpAmT0ULpAFim+ra7WSh/OW+enmJ+ZX8esShVoShQg+cQIEJpL8dxWXKNaDaPDGzY4tQulVCSRd4hvoMcbmnhMn3gnxnSmRfQz75yl8zDTlxlIdugTo2PY92WDuSCV+NEr3AZk/UAafiCWCPoe/n/Cz0bvuhNtuEVnTFtCtA78wIm5+DEAFmzYc7wtQ6zgS/GKYVNETXZPtPzPEJN15W6sX+MVP/bHexTW1s/lhrRp5j50b/NSiPfJrleUufJ1rRxgCm+a0dQlsWHbGvoeKF5KA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=M+bFFU3GtDMEbKY8X8UNu8Fg+BfmjBVGO09QNkacM0o=;
+ b=ajpTVH2wxDDcx0DCbPkLf2l0WgCChTo8qszTkNqnJ83IirunaNygKmqzstJbCAgmHxBIUwK2hmcRy5mkJRJN5HDtNtykWQbk5AXbXGnJ4nrgTDCG7qVIo4ulSznozKGpaJpmgjc9FCN0HgIaL3iuOtM9oZSLTpoKZPy22NCaBksa4TMQd6HuHXqYqnRnhoTeexm8Gxf1l324D2MLHE+8oy0Mf4WYsdlYmC8cqGQFmzFORS4yQFXOc3Y+NOHI8mgqO4s8+60VEm7G9tiNgDFlA56lbSIekkziP/3yFwdIsMGQ2eugvX7yme6QRIyGjBid4Wm1v0shr7iF0vkGuWjPKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=M+bFFU3GtDMEbKY8X8UNu8Fg+BfmjBVGO09QNkacM0o=;
+ b=wlSxxjMGhmPWlcNwIVpmOqM6Fq34XhSZNFEKvpyhuXWEunM9PWnSX0SKfrZ0BTYgN3xyV5kLu2zdwSEVRNznijBPVejPS0Zk81NMqJT1TVw2VemdJu7sC1vhD2n8Xfvjz2gTX8THHB2s0o43aQfWg+8SSk3Q74lTs96WTeCpyA8=
+Authentication-Results: ffwll.ch; dkim=none (message not signed)
+ header.d=none;ffwll.ch; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR1201MB0111.namprd12.prod.outlook.com
+ (2603:10b6:301:55::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.19; Tue, 5 Oct
+ 2021 08:16:11 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
+ 08:16:11 +0000
+Subject: Re: [PATCH 09/28] dma-buf: use the new iterator in dma_resv_poll
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20211001100610.2899-1-christian.koenig@amd.com>
+ <20211001100610.2899-10-christian.koenig@amd.com>
+ <ef650439-a418-979b-56fb-4cf10f91747e@linux.intel.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <e43bc3f9-60be-0f7f-b1a7-3cd2fe1a6289@amd.com>
+Date: Tue, 5 Oct 2021 10:16:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <ef650439-a418-979b-56fb-4cf10f91747e@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR05CA0081.eurprd05.prod.outlook.com
+ (2603:10a6:208:136::21) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
+MIME-Version: 1.0
+Received: from [172.31.55.180] (165.204.72.6) by
+ AM0PR05CA0081.eurprd05.prod.outlook.com (2603:10a6:208:136::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Tue, 5 Oct 2021 08:16:08 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 13e73777-6a31-4317-6a76-08d987d863c4
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0111:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB01114E95B2899FB36ADAB0F883AF9@MWHPR1201MB0111.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: M8A5+o8o/fKxRMaMSn+nQ1xwVMSXXsZV0MUhDJY9tA3SoenQ4ls//HYaoJXbOvYvNbY9L+Hz3i+I0lXuxRz1Y2bFXnvO37rbHMUU8O6ZyR8Qy1N66ybbuYHNkx638KmKp9uICI7p2o9PeDXJXNlYaC54SGONEFV8bK3RKoORLCdBgLQEZWVerZh05Ah150YJWqUy7AWqAU1MGlvd4TN19NqX2J2bEixIwAhfBes7MA9zCaC5ypmJmKA3KKOIa2/dWGwrRP9tjK6Z/lDzuG2WGoqJYhy5kDt95w2vKlz+O+FvZIFt5tujzWJxQRo0yQVv0qu6KdbSEVpn7zq3dPClYBAbGG1Ls7OpKnEi4cZ8R2BWxc8eYyR2MEOWAh31qcqkGK+PNGAlH9Sm83ifd3pnFggFuYmuHBQsD3QKWrtAvqN0HK/TgMon/2dGW+X3bkkAdQOFEznQh13KlO5YPVoWKttQj/pKCdEFEH3krAm4aS89GUxfoZa0tAKDR5/FsIUADZE1GPM0a4eJ9SbmWfIb2qeWPK4YUEBVL1tSXqnqVQkowbPney4b/kwVbUzKHN5L021o/8JowCkK8glkdt3R6zrDA0DlYoTnmBAtr6utco4NEj8Iibru7Y4vqXoXUAY8US0XISQWpc+7rg42fM6aMGiaI0FDyp0AMVlR5SUonWkmNfGl6xf3CwfUEZQRmxXFYhWgye4pQvzc0vX/kgkxPt5zTKwit3ZpbA/d5XSHLiY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(5660300002)(6666004)(86362001)(31686004)(956004)(508600001)(36756003)(66556008)(316002)(38100700002)(8676002)(66946007)(66476007)(8936002)(26005)(83380400001)(53546011)(66574015)(6486002)(186003)(16576012)(2906002)(2616005)(4326008)(31696002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SmJBaDBHdU44VHNWdDZOMjJGUFBKbTZqdGRTVEZuMXJUWmdkS25LakVBRkJS?=
+ =?utf-8?B?RWg0UUgvRFU1LzdjUXB1Y3c5eVBsSlE1YWxqblZCT3V3dmJQclZkelJ3U0Q0?=
+ =?utf-8?B?UmJRRmVMYks5aUNKQU5PNlArakgwKy9SQTdIK1ZLYkNFekwwWmEyVjNScjly?=
+ =?utf-8?B?d1pJUFNVNFZjTEh4MmpaRjU2R29RN1lnZzhQcTFnbXovOTlLdm11RGNGckVI?=
+ =?utf-8?B?U2ppdmxHZHRwMXpPem4yZEVPSEJQbXF4NkxCc0RvQklzdmhBRDFPQkg5ZlVy?=
+ =?utf-8?B?elducGdBR1FtSmFIaG12Zzh4c2p0MmI3U2ZMeWpDb2JkZlJrOGJBRDNlOCtq?=
+ =?utf-8?B?TGdkQmFkeklyR3FzQmlpYTFLQ3pOUnd1ZStCeWNOWEFySlNOQlRFQXRRTzY4?=
+ =?utf-8?B?MVNySy9YanRpRHBUa3dVNFQ2Sk9nd0lzQlRoUllYSTFmeGJreXJGNGk1SDlC?=
+ =?utf-8?B?YUVERkszSFBmWHU5Rm5uRW1NV3VaRVlsSW0wd016TElPM3dQTjlub2RkaXlM?=
+ =?utf-8?B?VVRBVWFFdWRuaEFhbGJieWllUWtwSmd3TnRjNkMyd0hGVnBUMmRITUczeTVH?=
+ =?utf-8?B?UWU5U2FqRTRHa1k4eTBCOEoxVFl4ZTNOY212dDBQTzBwcExLdTBsaHcvaHJX?=
+ =?utf-8?B?bWhjRnVzdk1RdDFJWkQ4U1A2U01vNDFIQjEvSWRkVDJsc1U5UEpFaFZCUFYy?=
+ =?utf-8?B?eHNNYlB2cVYwandVM3ZpYzU4b28zdGQvN2RTRVJFU1cwMVpoMElrTitjNENE?=
+ =?utf-8?B?b042NTQ2UWtKNXBxZVlkcHhXU2FBandnQTlXZ2NJWjllbFR5TFVwOHpZQ3lv?=
+ =?utf-8?B?STl2R0tESVAyZzBjTnNzd0pXcVpFWlJYRmdvY3hRVy9ySVBVMUhka1VEY3FQ?=
+ =?utf-8?B?YmU3ZFVsMzJtMzRFZEpyVnVBSXM4cGVsMFl5ODFCR1o0QklaeEtIdnJITjM0?=
+ =?utf-8?B?NUJ6WjF3QnMwRU1GT1poRGsxS3FETkpBUDJwMURtRXpzelZhbEY5MnR4UjhN?=
+ =?utf-8?B?d2FhYkh6dU1jVEVGSFk5ZmhpVTh2UlhjUnY0K0M2RVVtc0ZEZVBtbWZKb0h1?=
+ =?utf-8?B?VjFCalNDeDN2YUtLWWZvRGp0YkgvTXhLT01SdytlSGJTOVo2U0lHS2VwSTFx?=
+ =?utf-8?B?ZERsRGNrbmUzU214WFBCWlZxZ05GY2JRNmZOdk1zWlQ3NmRqVC9CWEtEUVg0?=
+ =?utf-8?B?b0lWampXME5kb0QyVzJzdmJnMUVOdGJkeFA4eExCak5HN3B0eUVOZU1VcGE2?=
+ =?utf-8?B?M09DTGkvby9SdUV6eXJhMVhlV1VXUGlBdmhZWDNkSm5RY1p0ZjdhdzUxdzdz?=
+ =?utf-8?B?ejR5UkdoK2R5N1ltczRLOVhaT1NEL2RaZ3R3MFlTMFBmaExSOW13RGZCZlhH?=
+ =?utf-8?B?VjVpTFBtc1NSbitCdmp6M29mSmZ5aUw5Mkc5Nk50ajEvb0JiQzR0RVdxWDlV?=
+ =?utf-8?B?TlpwVWRBcll6eEtXVU9yMWp1OTQ2b3lrNk9HKy9tNTVVOEZIM0d1T3d4M2xl?=
+ =?utf-8?B?TGV2bElnbjVUdWtjL2VXWU5yenBramRUaXlsMi9mSTRpTzFaa3hPVVZuT3d1?=
+ =?utf-8?B?WmZwSHdtRCtFY0EzT1UyV3JZVDlSeDdrc3ZhVnhiSHBEem05a1QrcmRVZURz?=
+ =?utf-8?B?TDZLZkdud0pKY1NGdDIzWkNjcFdaZzJPUEU2QTdmbGpYY0JsRkJKVGw2NTVK?=
+ =?utf-8?B?c2p3QTlMUjVGL3k2ZC83Z3FFVTJQeU1ETm5XZHg5UExnQjRsTndlZVpvQ2M3?=
+ =?utf-8?Q?5/5IMgbsZBfh9h2R06tc569x3UvKntfiHteAPLv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 13e73777-6a31-4317-6a76-08d987d863c4
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2021 08:16:11.1905 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r5J4H+op5BTApAn/9aQ/jya5bD2+pPo2x2snz5w6NbCngizFTT5TkHKWLLPuwDnX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0111
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,645 +133,107 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-struct gtt_range represents a GEM object. Rename the structure to struct
-psb_gem_object and update all users. No functional changes.
+Am 05.10.21 um 09:44 schrieb Tvrtko Ursulin:
+>
+> On 01/10/2021 11:05, Christian König wrote:
+>> Simplify the code a bit.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> ---
+>>   drivers/dma-buf/dma-buf.c | 36 ++++++------------------------------
+>>   1 file changed, 6 insertions(+), 30 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 8242b5d9baeb..beb504a92d60 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -209,19 +209,14 @@ static void dma_buf_poll_cb(struct dma_fence 
+>> *fence, struct dma_fence_cb *cb)
+>>       dma_fence_put(fence);
+>>   }
+>>   -static bool dma_buf_poll_shared(struct dma_resv *resv,
+>> +static bool dma_buf_poll_add_cb(struct dma_resv *resv, bool write,
+>>                   struct dma_buf_poll_cb_t *dcb)
+>>   {
+>> -    struct dma_resv_list *fobj = dma_resv_shared_list(resv);
+>> +    struct dma_resv_iter cursor;
+>>       struct dma_fence *fence;
+>> -    int i, r;
+>> -
+>> -    if (!fobj)
+>> -        return false;
+>> +    int r;
+>>   -    for (i = 0; i < fobj->shared_count; ++i) {
+>> -        fence = rcu_dereference_protected(fobj->shared[i],
+>> -                          dma_resv_held(resv));
+>> +    dma_resv_for_each_fence(&cursor, resv, write, fence) {
+>>           dma_fence_get(fence);
+>>           r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+>>           if (!r)
+>
+> It is unchanged with this patch, but are the semantics supposed to be 
+> like this? Signal poll event if _any_ of the shared fences has been 
+> signaled?
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Acked-by: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
----
- drivers/gpu/drm/gma500/framebuffer.c       |   9 +-
- drivers/gpu/drm/gma500/gem.c               | 106 +++++++++++----------
- drivers/gpu/drm/gma500/gem.h               |  25 ++++-
- drivers/gpu/drm/gma500/gma_display.c       |  50 +++++-----
- drivers/gpu/drm/gma500/gtt.c               |  15 +--
- drivers/gpu/drm/gma500/gtt.h               |  15 ---
- drivers/gpu/drm/gma500/oaktrail_crtc.c     |   3 +-
- drivers/gpu/drm/gma500/psb_intel_display.c |  15 ++-
- drivers/gpu/drm/gma500/psb_intel_drv.h     |   2 +-
- 9 files changed, 123 insertions(+), 117 deletions(-)
+That had Daniel and me confused for a moment as well.
 
-diff --git a/drivers/gpu/drm/gma500/framebuffer.c b/drivers/gpu/drm/gma500/framebuffer.c
-index 3ea6679ccd38..45df9de22007 100644
---- a/drivers/gpu/drm/gma500/framebuffer.c
-+++ b/drivers/gpu/drm/gma500/framebuffer.c
-@@ -81,14 +81,13 @@ static vm_fault_t psbfb_vm_fault(struct vm_fault *vmf)
- 	struct drm_framebuffer *fb = vma->vm_private_data;
- 	struct drm_device *dev = fb->dev;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct gtt_range *gtt = to_gtt_range(fb->obj[0]);
-+	struct psb_gem_object *pobj = to_psb_gem_object(fb->obj[0]);
- 	int page_num;
- 	int i;
- 	unsigned long address;
- 	vm_fault_t ret = VM_FAULT_SIGBUS;
- 	unsigned long pfn;
--	unsigned long phys_addr = (unsigned long)dev_priv->stolen_base +
--				  gtt->offset;
-+	unsigned long phys_addr = (unsigned long)dev_priv->stolen_base + pobj->offset;
- 
- 	page_num = vma_pages(vma);
- 	address = vmf->address - (vmf->pgoff << PAGE_SHIFT);
-@@ -242,7 +241,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 	struct drm_mode_fb_cmd2 mode_cmd;
- 	int size;
- 	int ret;
--	struct gtt_range *backing;
-+	struct psb_gem_object *backing;
- 	struct drm_gem_object *obj;
- 	u32 bpp, depth;
- 
-@@ -264,7 +263,7 @@ static int psbfb_create(struct drm_fb_helper *fb_helper,
- 	backing = psb_gem_create(dev, size, "fb", true, PAGE_SIZE);
- 	if (IS_ERR(backing))
- 		return PTR_ERR(backing);
--	obj = &backing->gem;
-+	obj = &backing->base;
- 
- 	memset(dev_priv->vram_addr + backing->offset, 0, size);
- 
-diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-index c93d09e1921e..8d65af80bb08 100644
---- a/drivers/gpu/drm/gma500/gem.c
-+++ b/drivers/gpu/drm/gma500/gem.c
-@@ -21,9 +21,10 @@
- #include "gem.h"
- #include "psb_drv.h"
- 
--int psb_gem_pin(struct gtt_range *gt)
-+int psb_gem_pin(struct psb_gem_object *pobj)
- {
--	struct drm_device *dev = gt->gem.dev;
-+	struct drm_gem_object *obj = &pobj->base;
-+	struct drm_device *dev = obj->dev;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	u32 gpu_base = dev_priv->gtt.gatt_start;
- 	struct page **pages;
-@@ -32,29 +33,29 @@ int psb_gem_pin(struct gtt_range *gt)
- 
- 	mutex_lock(&dev_priv->gtt_mutex);
- 
--	if (gt->in_gart || gt->stolen)
-+	if (pobj->in_gart || pobj->stolen)
- 		goto out; /* already mapped */
- 
--	pages = drm_gem_get_pages(&gt->gem);
-+	pages = drm_gem_get_pages(obj);
- 	if (IS_ERR(pages)) {
- 		ret = PTR_ERR(pages);
- 		goto err_mutex_unlock;
- 	}
- 
--	npages = gt->gem.size / PAGE_SIZE;
-+	npages = obj->size / PAGE_SIZE;
- 
- 	set_pages_array_wc(pages, npages);
- 
--	psb_gtt_insert_pages(dev_priv, &gt->resource, pages);
-+	psb_gtt_insert_pages(dev_priv, &pobj->resource, pages);
- 	psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
--			     (gpu_base + gt->offset), npages, 0, 0,
-+			     (gpu_base + pobj->offset), npages, 0, 0,
- 			     PSB_MMU_CACHED_MEMORY);
- 
--	gt->npage = npages;
--	gt->pages = pages;
-+	pobj->npage = npages;
-+	pobj->pages = pages;
- 
- out:
--	++gt->in_gart;
-+	++pobj->in_gart;
- 	mutex_unlock(&dev_priv->gtt_mutex);
- 
- 	return 0;
-@@ -64,31 +65,32 @@ int psb_gem_pin(struct gtt_range *gt)
- 	return ret;
- }
- 
--void psb_gem_unpin(struct gtt_range *gt)
-+void psb_gem_unpin(struct psb_gem_object *pobj)
- {
--	struct drm_device *dev = gt->gem.dev;
-+	struct drm_gem_object *obj = &pobj->base;
-+	struct drm_device *dev = obj->dev;
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	u32 gpu_base = dev_priv->gtt.gatt_start;
- 
- 	mutex_lock(&dev_priv->gtt_mutex);
- 
--	WARN_ON(!gt->in_gart);
-+	WARN_ON(!pobj->in_gart);
- 
--	--gt->in_gart;
-+	--pobj->in_gart;
- 
--	if (gt->in_gart || gt->stolen)
-+	if (pobj->in_gart || pobj->stolen)
- 		goto out;
- 
- 	psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
--				     (gpu_base + gt->offset), gt->npage, 0, 0);
--	psb_gtt_remove_pages(dev_priv, &gt->resource);
-+			     (gpu_base + pobj->offset), pobj->npage, 0, 0);
-+	psb_gtt_remove_pages(dev_priv, &pobj->resource);
- 
- 	/* Reset caching flags */
--	set_pages_array_wb(gt->pages, gt->npage);
-+	set_pages_array_wb(pobj->pages, pobj->npage);
- 
--	drm_gem_put_pages(&gt->gem, gt->pages, true, false);
--	gt->pages = NULL;
--	gt->npage = 0;
-+	drm_gem_put_pages(obj, pobj->pages, true, false);
-+	pobj->pages = NULL;
-+	pobj->npage = 0;
- 
- out:
- 	mutex_unlock(&dev_priv->gtt_mutex);
-@@ -98,18 +100,18 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
- 
- static void psb_gem_free_object(struct drm_gem_object *obj)
- {
--	struct gtt_range *gt = to_gtt_range(obj);
-+	struct psb_gem_object *pobj = to_psb_gem_object(obj);
- 
- 	drm_gem_object_release(obj);
- 
- 	/* Undo the mmap pin if we are destroying the object */
--	if (gt->mmapping)
--		psb_gem_unpin(gt);
-+	if (pobj->mmapping)
-+		psb_gem_unpin(pobj);
- 
--	WARN_ON(gt->in_gart && !gt->stolen);
-+	WARN_ON(pobj->in_gart && !pobj->stolen);
- 
--	release_resource(&gt->resource);
--	kfree(gt);
-+	release_resource(&pobj->resource);
-+	kfree(pobj);
- }
- 
- static const struct vm_operations_struct psb_gem_vm_ops = {
-@@ -123,31 +125,31 @@ static const struct drm_gem_object_funcs psb_gem_object_funcs = {
- 	.vm_ops = &psb_gem_vm_ops,
- };
- 
--struct gtt_range *
-+struct psb_gem_object *
- psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
--	struct gtt_range *gt;
-+	struct psb_gem_object *pobj;
- 	struct drm_gem_object *obj;
- 	int ret;
- 
- 	size = roundup(size, PAGE_SIZE);
- 
--	gt = kzalloc(sizeof(*gt), GFP_KERNEL);
--	if (!gt)
-+	pobj = kzalloc(sizeof(*pobj), GFP_KERNEL);
-+	if (!pobj)
- 		return ERR_PTR(-ENOMEM);
--	obj = &gt->gem;
-+	obj = &pobj->base;
- 
- 	/* GTT resource */
- 
--	ret = psb_gtt_allocate_resource(dev_priv, &gt->resource, name, size, align, stolen,
--					&gt->offset);
-+	ret = psb_gtt_allocate_resource(dev_priv, &pobj->resource, name, size, align, stolen,
-+					&pobj->offset);
- 	if (ret)
- 		goto err_kfree;
- 
- 	if (stolen) {
--		gt->stolen = true;
--		gt->in_gart = 1;
-+		pobj->stolen = true;
-+		pobj->in_gart = 1;
- 	}
- 
- 	/* GEM object */
-@@ -165,12 +167,12 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
- 		mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
- 	}
- 
--	return gt;
-+	return pobj;
- 
- err_release_resource:
--	release_resource(&gt->resource);
-+	release_resource(&pobj->resource);
- err_kfree:
--	kfree(gt);
-+	kfree(pobj);
- 	return ERR_PTR(ret);
- }
- 
-@@ -188,7 +190,7 @@ int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 			struct drm_mode_create_dumb *args)
- {
- 	size_t pitch, size;
--	struct gtt_range *gt;
-+	struct psb_gem_object *pobj;
- 	struct drm_gem_object *obj;
- 	u32 handle;
- 	int ret;
-@@ -201,10 +203,10 @@ int psb_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
- 	if (!size)
- 		return -EINVAL;
- 
--	gt = psb_gem_create(dev, size, "gem", false, PAGE_SIZE);
--	if (IS_ERR(gt))
--		return PTR_ERR(gt);
--	obj = &gt->gem;
-+	pobj = psb_gem_create(dev, size, "gem", false, PAGE_SIZE);
-+	if (IS_ERR(pobj))
-+		return PTR_ERR(pobj);
-+	obj = &pobj->base;
- 
- 	ret = drm_gem_handle_create(file, obj, &handle);
- 	if (ret)
-@@ -243,7 +245,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- {
- 	struct vm_area_struct *vma = vmf->vma;
- 	struct drm_gem_object *obj;
--	struct gtt_range *r;
-+	struct psb_gem_object *pobj;
- 	int err;
- 	vm_fault_t ret;
- 	unsigned long pfn;
-@@ -255,7 +257,7 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- 	dev = obj->dev;
- 	dev_priv = to_drm_psb_private(dev);
- 
--	r = to_gtt_range(obj);
-+	pobj = to_psb_gem_object(obj);
- 
- 	/* Make sure we don't parallel update on a fault, nor move or remove
- 	   something from beneath our feet */
-@@ -263,14 +265,14 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- 
- 	/* For now the mmap pins the object and it stays pinned. As things
- 	   stand that will do us no harm */
--	if (r->mmapping == 0) {
--		err = psb_gem_pin(r);
-+	if (pobj->mmapping == 0) {
-+		err = psb_gem_pin(pobj);
- 		if (err < 0) {
- 			dev_err(dev->dev, "gma500: pin failed: %d\n", err);
- 			ret = vmf_error(err);
- 			goto fail;
- 		}
--		r->mmapping = 1;
-+		pobj->mmapping = 1;
- 	}
- 
- 	/* Page relative to the VMA start - we must calculate this ourselves
-@@ -278,10 +280,10 @@ static vm_fault_t psb_gem_fault(struct vm_fault *vmf)
- 	page_offset = (vmf->address - vma->vm_start) >> PAGE_SHIFT;
- 
- 	/* CPU view of the page, don't go via the GART for CPU writes */
--	if (r->stolen)
--		pfn = (dev_priv->stolen_base + r->offset) >> PAGE_SHIFT;
-+	if (pobj->stolen)
-+		pfn = (dev_priv->stolen_base + pobj->offset) >> PAGE_SHIFT;
- 	else
--		pfn = page_to_pfn(r->pages[page_offset]);
-+		pfn = page_to_pfn(pobj->pages[page_offset]);
- 	ret = vmf_insert_pfn(vma, vmf->address, pfn);
- fail:
- 	mutex_unlock(&dev_priv->mmap_mutex);
-diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
-index 21c86df482a6..79cced40c87f 100644
---- a/drivers/gpu/drm/gma500/gem.h
-+++ b/drivers/gpu/drm/gma500/gem.h
-@@ -8,14 +8,33 @@
- #ifndef _GEM_H
- #define _GEM_H
- 
-+#include <linux/kernel.h>
-+
- #include <drm/drm_gem.h>
- 
- struct drm_device;
- 
--struct gtt_range *
-+struct psb_gem_object {
-+	struct drm_gem_object base;
-+
-+	struct resource resource;	/* GTT resource for our allocation */
-+	u32 offset;			/* GTT offset of our object */
-+	int in_gart;			/* Currently in the GART (ref ct) */
-+	bool stolen;			/* Backed from stolen RAM */
-+	bool mmapping;			/* Is mmappable */
-+	struct page **pages;		/* Backing pages if present */
-+	int npage;			/* Number of backing pages */
-+};
-+
-+static inline struct psb_gem_object *to_psb_gem_object(struct drm_gem_object *obj)
-+{
-+	return container_of(obj, struct psb_gem_object, base);
-+}
-+
-+struct psb_gem_object *
- psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align);
- 
--int psb_gem_pin(struct gtt_range *gt);
--void psb_gem_unpin(struct gtt_range *gt);
-+int psb_gem_pin(struct psb_gem_object *pobj);
-+void psb_gem_unpin(struct psb_gem_object *pobj);
- 
- #endif
-diff --git a/drivers/gpu/drm/gma500/gma_display.c b/drivers/gpu/drm/gma500/gma_display.c
-index 6d0470b27bc5..99da3118131a 100644
---- a/drivers/gpu/drm/gma500/gma_display.c
-+++ b/drivers/gpu/drm/gma500/gma_display.c
-@@ -55,7 +55,7 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
- 	struct drm_framebuffer *fb = crtc->primary->fb;
--	struct gtt_range *gtt;
-+	struct psb_gem_object *pobj;
- 	int pipe = gma_crtc->pipe;
- 	const struct psb_offset *map = &dev_priv->regmap[pipe];
- 	unsigned long start, offset;
-@@ -71,14 +71,14 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
- 		goto gma_pipe_cleaner;
- 	}
- 
--	gtt = to_gtt_range(fb->obj[0]);
-+	pobj = to_psb_gem_object(fb->obj[0]);
- 
- 	/* We are displaying this buffer, make sure it is actually loaded
- 	   into the GTT */
--	ret = psb_gem_pin(gtt);
-+	ret = psb_gem_pin(pobj);
- 	if (ret < 0)
- 		goto gma_pipe_set_base_exit;
--	start = gtt->offset;
-+	start = pobj->offset;
- 	offset = y * fb->pitches[0] + x * fb->format->cpp[0];
- 
- 	REG_WRITE(map->stride, fb->pitches[0]);
-@@ -126,7 +126,7 @@ int gma_pipe_set_base(struct drm_crtc *crtc, int x, int y,
- gma_pipe_cleaner:
- 	/* If there was a previous display we can now unpin it */
- 	if (old_fb)
--		psb_gem_unpin(to_gtt_range(old_fb->obj[0]));
-+		psb_gem_unpin(to_psb_gem_object(old_fb->obj[0]));
- 
- gma_pipe_set_base_exit:
- 	gma_power_end(dev);
-@@ -332,8 +332,8 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 	uint32_t base = (pipe == 0) ? CURABASE : CURBBASE;
- 	uint32_t temp;
- 	size_t addr = 0;
--	struct gtt_range *gt;
--	struct gtt_range *cursor_gt = gma_crtc->cursor_gt;
-+	struct psb_gem_object *pobj;
-+	struct psb_gem_object *cursor_pobj = gma_crtc->cursor_pobj;
- 	struct drm_gem_object *obj;
- 	void *tmp_dst, *tmp_src;
- 	int ret = 0, i, cursor_pages;
-@@ -349,8 +349,8 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 
- 		/* Unpin the old GEM object */
- 		if (gma_crtc->cursor_obj) {
--			gt = to_gtt_range(gma_crtc->cursor_obj);
--			psb_gem_unpin(gt);
-+			pobj = to_psb_gem_object(gma_crtc->cursor_obj);
-+			psb_gem_unpin(pobj);
- 			drm_gem_object_put(gma_crtc->cursor_obj);
- 			gma_crtc->cursor_obj = NULL;
- 		}
-@@ -375,40 +375,40 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 		goto unref_cursor;
- 	}
- 
--	gt = to_gtt_range(obj);
-+	pobj = to_psb_gem_object(obj);
- 
- 	/* Pin the memory into the GTT */
--	ret = psb_gem_pin(gt);
-+	ret = psb_gem_pin(pobj);
- 	if (ret) {
- 		dev_err(dev->dev, "Can not pin down handle 0x%x\n", handle);
- 		goto unref_cursor;
- 	}
- 
- 	if (dev_priv->ops->cursor_needs_phys) {
--		if (cursor_gt == NULL) {
-+		if (!cursor_pobj) {
- 			dev_err(dev->dev, "No hardware cursor mem available");
- 			ret = -ENOMEM;
- 			goto unref_cursor;
- 		}
- 
- 		/* Prevent overflow */
--		if (gt->npage > 4)
-+		if (pobj->npage > 4)
- 			cursor_pages = 4;
- 		else
--			cursor_pages = gt->npage;
-+			cursor_pages = pobj->npage;
- 
- 		/* Copy the cursor to cursor mem */
--		tmp_dst = dev_priv->vram_addr + cursor_gt->offset;
-+		tmp_dst = dev_priv->vram_addr + cursor_pobj->offset;
- 		for (i = 0; i < cursor_pages; i++) {
--			tmp_src = kmap(gt->pages[i]);
-+			tmp_src = kmap(pobj->pages[i]);
- 			memcpy(tmp_dst, tmp_src, PAGE_SIZE);
--			kunmap(gt->pages[i]);
-+			kunmap(pobj->pages[i]);
- 			tmp_dst += PAGE_SIZE;
- 		}
- 
- 		addr = gma_crtc->cursor_addr;
- 	} else {
--		addr = gt->offset;
-+		addr = pobj->offset;
- 		gma_crtc->cursor_addr = addr;
- 	}
- 
-@@ -425,8 +425,8 @@ int gma_crtc_cursor_set(struct drm_crtc *crtc,
- 
- 	/* unpin the old bo */
- 	if (gma_crtc->cursor_obj) {
--		gt = to_gtt_range(gma_crtc->cursor_obj);
--		psb_gem_unpin(gt);
-+		pobj = to_psb_gem_object(gma_crtc->cursor_obj);
-+		psb_gem_unpin(pobj);
- 		drm_gem_object_put(gma_crtc->cursor_obj);
- 	}
- 
-@@ -483,14 +483,14 @@ void gma_crtc_commit(struct drm_crtc *crtc)
- 
- void gma_crtc_disable(struct drm_crtc *crtc)
- {
--	struct gtt_range *gt;
-+	struct psb_gem_object *pobj;
- 	const struct drm_crtc_helper_funcs *crtc_funcs = crtc->helper_private;
- 
- 	crtc_funcs->dpms(crtc, DRM_MODE_DPMS_OFF);
- 
- 	if (crtc->primary->fb) {
--		gt = to_gtt_range(crtc->primary->fb->obj[0]);
--		psb_gem_unpin(gt);
-+		pobj = to_psb_gem_object(crtc->primary->fb->obj[0]);
-+		psb_gem_unpin(pobj);
- 	}
- }
- 
-@@ -498,8 +498,8 @@ void gma_crtc_destroy(struct drm_crtc *crtc)
- {
- 	struct gma_crtc *gma_crtc = to_gma_crtc(crtc);
- 
--	if (gma_crtc->cursor_gt)
--		drm_gem_object_put(&gma_crtc->cursor_gt->gem);
-+	if (gma_crtc->cursor_pobj)
-+		drm_gem_object_put(&gma_crtc->cursor_pobj->base);
- 
- 	kfree(gma_crtc->crtc_state);
- 	drm_crtc_cleanup(crtc);
-diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-index cf71a2396c16..75e483c88ceb 100644
---- a/drivers/gpu/drm/gma500/gtt.c
-+++ b/drivers/gpu/drm/gma500/gtt.c
-@@ -7,6 +7,7 @@
-  *	    Alan Cox <alan@linux.intel.com>
-  */
- 
-+#include "gem.h" /* TODO: for struct psb_gem_object, see psb_gtt_restore() */
- #include "psb_drv.h"
- 
- 
-@@ -292,7 +293,7 @@ int psb_gtt_restore(struct drm_device *dev)
- {
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	struct resource *r = dev_priv->gtt_mem->child;
--	struct gtt_range *range;
-+	struct psb_gem_object *pobj;
- 	unsigned int restored = 0, total = 0, size = 0;
- 
- 	/* On resume, the gtt_mutex is already initialized */
-@@ -302,13 +303,13 @@ int psb_gtt_restore(struct drm_device *dev)
- 	while (r != NULL) {
- 		/*
- 		 * TODO: GTT restoration needs a refactoring, so that we don't have to touch
--		 *       struct gtt_range here. The type represents a GEM object and is not
--		 *       related to the GTT itself.
-+		 *       struct psb_gem_object here. The type represents a GEM object and is
-+		 *       not related to the GTT itself.
- 		 */
--		range = container_of(r, struct gtt_range, resource);
--		if (range->pages) {
--			psb_gtt_insert_pages(dev_priv, &range->resource, range->pages);
--			size += range->resource.end - range->resource.start;
-+		pobj = container_of(r, struct psb_gem_object, resource);
-+		if (pobj->pages) {
-+			psb_gtt_insert_pages(dev_priv, &pobj->resource, pobj->pages);
-+			size += pobj->resource.end - pobj->resource.start;
- 			restored++;
- 		}
- 		r = r->sibling;
-diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-index 6a28e24a18b7..29649395c531 100644
---- a/drivers/gpu/drm/gma500/gtt.h
-+++ b/drivers/gpu/drm/gma500/gtt.h
-@@ -28,21 +28,6 @@ struct psb_gtt {
- /* Exported functions */
- extern int psb_gtt_init(struct drm_device *dev, int resume);
- extern void psb_gtt_takedown(struct drm_device *dev);
--
--/* Each gtt_range describes an allocation in the GTT area */
--struct gtt_range {
--	struct resource resource;	/* Resource for our allocation */
--	u32 offset;			/* GTT offset of our object */
--	struct drm_gem_object gem;	/* GEM high level stuff */
--	int in_gart;			/* Currently in the GART (ref ct) */
--	bool stolen;			/* Backed from stolen RAM */
--	bool mmapping;			/* Is mmappable */
--	struct page **pages;		/* Backing pages if present */
--	int npage;			/* Number of backing pages */
--};
--
--#define to_gtt_range(x) container_of(x, struct gtt_range, gem)
--
- extern int psb_gtt_restore(struct drm_device *dev);
- 
- int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res,
-diff --git a/drivers/gpu/drm/gma500/oaktrail_crtc.c b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-index c6b115954b7d..36c7c2686c90 100644
---- a/drivers/gpu/drm/gma500/oaktrail_crtc.c
-+++ b/drivers/gpu/drm/gma500/oaktrail_crtc.c
-@@ -10,6 +10,7 @@
- #include <drm/drm_fourcc.h>
- 
- #include "framebuffer.h"
-+#include "gem.h"
- #include "gma_display.h"
- #include "power.h"
- #include "psb_drv.h"
-@@ -608,7 +609,7 @@ static int oaktrail_pipe_set_base(struct drm_crtc *crtc,
- 	if (!gma_power_begin(dev, true))
- 		return 0;
- 
--	start = to_gtt_range(fb->obj[0])->offset;
-+	start = to_psb_gem_object(fb->obj[0])->offset;
- 	offset = y * fb->pitches[0] + x * fb->format->cpp[0];
- 
- 	REG_WRITE(map->stride, fb->pitches[0]);
-diff --git a/drivers/gpu/drm/gma500/psb_intel_display.c b/drivers/gpu/drm/gma500/psb_intel_display.c
-index b5e9118c01a4..d5f95212934e 100644
---- a/drivers/gpu/drm/gma500/psb_intel_display.c
-+++ b/drivers/gpu/drm/gma500/psb_intel_display.c
-@@ -455,22 +455,21 @@ static void psb_intel_cursor_init(struct drm_device *dev,
- 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
- 	u32 control[3] = { CURACNTR, CURBCNTR, CURCCNTR };
- 	u32 base[3] = { CURABASE, CURBBASE, CURCBASE };
--	struct gtt_range *cursor_gt;
-+	struct psb_gem_object *cursor_pobj;
- 
- 	if (dev_priv->ops->cursor_needs_phys) {
- 		/* Allocate 4 pages of stolen mem for a hardware cursor. That
- 		 * is enough for the 64 x 64 ARGB cursors we support.
- 		 */
--		cursor_gt = psb_gem_create(dev, 4 * PAGE_SIZE, "cursor", true, PAGE_SIZE);
--		if (IS_ERR(cursor_gt)) {
--			gma_crtc->cursor_gt = NULL;
-+		cursor_pobj = psb_gem_create(dev, 4 * PAGE_SIZE, "cursor", true, PAGE_SIZE);
-+		if (IS_ERR(cursor_pobj)) {
-+			gma_crtc->cursor_pobj = NULL;
- 			goto out;
- 		}
--		gma_crtc->cursor_gt = cursor_gt;
--		gma_crtc->cursor_addr = dev_priv->stolen_base +
--							cursor_gt->offset;
-+		gma_crtc->cursor_pobj = cursor_pobj;
-+		gma_crtc->cursor_addr = dev_priv->stolen_base + cursor_pobj->offset;
- 	} else {
--		gma_crtc->cursor_gt = NULL;
-+		gma_crtc->cursor_pobj = NULL;
- 	}
- 
- out:
-diff --git a/drivers/gpu/drm/gma500/psb_intel_drv.h b/drivers/gpu/drm/gma500/psb_intel_drv.h
-index 5340225d6997..db3e757328fe 100644
---- a/drivers/gpu/drm/gma500/psb_intel_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_intel_drv.h
-@@ -140,7 +140,7 @@ struct gma_crtc {
- 	int pipe;
- 	int plane;
- 	uint32_t cursor_addr;
--	struct gtt_range *cursor_gt;
-+	struct psb_gem_object *cursor_pobj;
- 	u8 lut_adj[256];
- 	struct psb_intel_framebuffer *fbdev_fb;
- 	/* a mode_set for fbdev users on this crtc */
--- 
-2.33.0
+We don't signal the poll when any of the shared fences has signaled, but 
+rather install a callback on the first not-signaled fence.
+
+This callback then issues a re-test of the poll and only if we can't 
+find any more fence the poll is considered signaled (at least that's the 
+idea, the coding could as well be broken).
+
+Christian.
+
+>
+> Regards,
+>
+> Tvrtko
+>
+>> @@ -232,24 +227,6 @@ static bool dma_buf_poll_shared(struct dma_resv 
+>> *resv,
+>>       return false;
+>>   }
+>>   -static bool dma_buf_poll_excl(struct dma_resv *resv,
+>> -                  struct dma_buf_poll_cb_t *dcb)
+>> -{
+>> -    struct dma_fence *fence = dma_resv_excl_fence(resv);
+>> -    int r;
+>> -
+>> -    if (!fence)
+>> -        return false;
+>> -
+>> -    dma_fence_get(fence);
+>> -    r = dma_fence_add_callback(fence, &dcb->cb, dma_buf_poll_cb);
+>> -    if (!r)
+>> -        return true;
+>> -    dma_fence_put(fence);
+>> -
+>> -    return false;
+>> -}
+>> -
+>>   static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+>>   {
+>>       struct dma_buf *dmabuf;
+>> @@ -282,8 +259,7 @@ static __poll_t dma_buf_poll(struct file *file, 
+>> poll_table *poll)
+>>           spin_unlock_irq(&dmabuf->poll.lock);
+>>             if (events & EPOLLOUT) {
+>> -            if (!dma_buf_poll_shared(resv, dcb) &&
+>> -                !dma_buf_poll_excl(resv, dcb))
+>> +            if (!dma_buf_poll_add_cb(resv, true, dcb))
+>>                   /* No callback queued, wake up any other waiters */
+>>                   dma_buf_poll_cb(NULL, &dcb->cb);
+>>               else
+>> @@ -303,7 +279,7 @@ static __poll_t dma_buf_poll(struct file *file, 
+>> poll_table *poll)
+>>           spin_unlock_irq(&dmabuf->poll.lock);
+>>             if (events & EPOLLIN) {
+>> -            if (!dma_buf_poll_excl(resv, dcb))
+>> +            if (!dma_buf_poll_add_cb(resv, false, dcb))
+>>                   /* No callback queued, wake up any other waiters */
+>>                   dma_buf_poll_cb(NULL, &dcb->cb);
+>>               else
+>>
 
