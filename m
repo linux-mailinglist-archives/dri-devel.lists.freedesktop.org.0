@@ -1,43 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87614422B1E
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 16:36:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8564422B8F
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 16:55:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 09EAF6F5DC;
-	Tue,  5 Oct 2021 14:35:59 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCF816E416;
+	Tue,  5 Oct 2021 14:55:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0B6866F5DC;
- Tue,  5 Oct 2021 14:35:58 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6DE7161372;
- Tue,  5 Oct 2021 14:35:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1633444557;
- bh=WvZ8JLb5v93QBADCd0vUKgm5lhpJbxIW9TwhqZ0TzdM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JjFWcOLGO1DYCmQLBXXDU7pHE4TCziZiUu68bh6z27RvqRP1ihbXe1Ukc99/QzH78
- JPaz5bk7gVXpoOMDb2UOHjch5c17x6n9GX3+wNanmyCgiKoRGKX7//xQ+umkLA+Hm3
- fWgJx+vTpPM2oJGtjz7bzQFiYgBLKbmxo0CC4XxM=
-Date: Tue, 5 Oct 2021 16:35:55 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org, tiwai@suse.de,
- alsa-devel@alsa-project.org, jani.nikula@intel.com,
- Imre Deak <imre.deak@intel.com>,
- Russell King <rmk+kernel@arm.linux.org.uk>,
- "Rafael J . Wysocki" <rafael@kernel.org>, intel-gfx@lists.freedesktop.org,
- Russell King <rmk+kernel@armlinux.org.uk>
-Subject: Re: [PATCH v2] component: do not leave master devres group open
- after bind
-Message-ID: <YVxiyzNrKG8S1GDb@kroah.com>
-References: <20210922085432.2776886-1-kai.vehmanen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2B87F6E416;
+ Tue,  5 Oct 2021 14:55:39 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="226077344"
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="226077344"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 07:55:38 -0700
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="438726367"
+Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194])
+ ([10.213.238.194])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 07:55:36 -0700
+Subject: Re: [PATCH] drm/i915: Handle Intel igfx + Intel dgfx hybrid graphics
+ setup
+To: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>,
+ Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin
+ <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Matthew Auld <matthew.auld@intel.com>
+References: <20211005113135.768295-1-tvrtko.ursulin@linux.intel.com>
+ <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <2e5d05dd-8497-1695-dc3f-9f68c00bd898@linux.intel.com>
+Date: Tue, 5 Oct 2021 15:55:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210922085432.2776886-1-kai.vehmanen@linux.intel.com>
+In-Reply-To: <3aa70cb9-c28b-b85d-eac0-b3f5cca5bf73@linux.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,64 +57,128 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Sep 22, 2021 at 11:54:32AM +0300, Kai Vehmanen wrote:
-> In current code, the devres group for aggregate master is left open
-> after call to component_master_add_*(). This leads to problems when the
-> master does further managed allocations on its own. When any
-> participating driver calls component_del(), this leads to immediate
-> release of resources.
-> 
-> This came up when investigating a page fault occurring with i915 DRM
-> driver unbind with 5.15-rc1 kernel. The following sequence occurs:
-> 
->  i915_pci_remove()
->    -> intel_display_driver_unregister()
->      -> i915_audio_component_cleanup()
->        -> component_del()
->          -> component.c:take_down_master()
->            -> hdac_component_master_unbind() [via master->ops->unbind()]
->            -> devres_release_group(master->parent, NULL)
-> 
-> With older kernels this has not caused issues, but with audio driver
-> moving to use managed interfaces for more of its allocations, this no
-> longer works. Devres log shows following to occur:
-> 
-> component_master_add_with_match()
-> [  126.886032] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000323ccdc5 devm_component_match_release (24 bytes)
-> [  126.886045] snd_hda_intel 0000:00:1f.3: DEVRES ADD 00000000865cdb29 grp< (0 bytes)
-> [  126.886049] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 grp< (0 bytes)
-> 
-> audio driver completes its PCI probe()
-> [  126.892238] snd_hda_intel 0000:00:1f.3: DEVRES ADD 000000001b480725 pcim_iomap_release (48 bytes)
-> 
-> component_del() called() at DRM/i915 unbind()
-> [  137.579422] i915 0000:00:02.0: DEVRES REL 00000000ef44c293 grp< (0 bytes)
-> [  137.579445] snd_hda_intel 0000:00:1f.3: DEVRES REL 00000000865cdb29 grp< (0 bytes)
-> [  137.579458] snd_hda_intel 0000:00:1f.3: DEVRES REL 000000001b480725 pcim_iomap_release (48 bytes)
-> 
-> So the "devres_release_group(master->parent, NULL)" ends up freeing the
-> pcim_iomap allocation. Upon next runtime resume, the audio driver will
-> cause a page fault as the iomap alloc was released without the driver
-> knowing about it.
-> 
-> Fix this issue by using the "struct master" pointer as identifier for
-> the devres group, and by closing the devres group after
-> the master->ops->bind() call is done. This allows devres allocations
-> done by the driver acting as master to be isolated from the binding state
-> of the aggregate driver. This modifies the logic originally introduced in
-> commit 9e1ccb4a7700 ("drivers/base: fix devres handling for master device")
-> 
-> BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/4136
-> Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-> Acked-by: Imre Deak <imre.deak@intel.com>
-> Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
-> ---
->  drivers/base/component.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
 
-What commit does this "fix:"?  And does it need to go to stable
-kernel(s)?
+On 05/10/2021 14:05, Thomas Hellström wrote:
+> Hi, Tvrtko,
+> 
+> On 10/5/21 13:31, Tvrtko Ursulin wrote:
+>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>
+>> In short this makes i915 work for hybrid setups (DRI_PRIME=1 with Mesa)
+>> when rendering is done on Intel dgfx and scanout/composition on Intel
+>> igfx.
+>>
+>> Before this patch the driver was not quite ready for that setup, mainly
+>> because it was able to emit a semaphore wait between the two GPUs, which
+>> results in deadlocks because semaphore target location in HWSP is neither
+>> shared between the two, nor mapped in both GGTT spaces.
+>>
+>> To fix it the patch adds an additional check to a couple of relevant code
+>> paths in order to prevent using semaphores for inter-engine
+>> synchronisation when relevant objects are not in the same GGTT space.
+>>
+>> v2:
+>>   * Avoid adding rq->i915. (Chris)
+>>
+>> v3:
+>>   * Use GGTT which describes the limit more precisely.
+>>
+>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>> Cc: Matthew Auld <matthew.auld@intel.com>
+>> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+> 
+> An IMO pretty important bugfix. I read up a bit on the previous 
+> discussion on this, and from what I understand the other two options were
+> 
+> 1) Ripping out the semaphore code,
+> 2) Consider dma-fences from other instances of the same driver as foreign.
 
-thanks,
+Yes, with the caveat on the second point that there is a multi-tile 
+scenario, granted of limited consequence because it only applies is 
+someone tries to run that wo/ GuC, where the "same driver" check is not 
+enough. This patch handles that case as well. And of course it is 
+hypothetical someone would be able to create a inter-tile dependency 
+there. Probably nothing in the current code does it.
 
-greg k-h
+> For imported dma-bufs we do 2), but particularly with lmem and p2p 
+> that's a more straightforward decision.
+
+I am not immediately familiar with p2p considerations.
+
+> I don't think 1) is a reasonable approach to fix this bug, (but perhaps 
+> as a general cleanup?), and for 2) yes I guess we might end up doing 
+> that, unless we find some real benefits in treating 
+> same-driver-separate-device dma-fences as local, but for this particular 
+> bug, IMO this is a reasonable fix.
+
+On the option of removing the semaphore inter-optimisation I would not 
+call it cleanup since it had clear performance benefits. I personally 
+don't have those benchmarks results saved though. So I'd proceed with 
+caution there if the code can harmlessly remain in the confines of the 
+execlists backend.
+
+Second topic, the whole same driver fence upcast issue, I suppose can be 
+discussed along the lines of whether priority inheritance across drivers 
+is useful. Like for instance page flip prio boost, which currently does 
+safely work between i915 instances, and is relevant to hybrid graphics. 
+It was safe when I looked at it, courtesy of global scheduler lock. If 
+we wanted to keep that and formalise via an more explicit/generic cross 
+driver API is the question. So unless it is not safe after all, I 
+wouldn't rip it out before the discussion on the big picture happens.
+
+> So,
+> 
+> Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+
+Thanks, I'll push it once again cleared by CI.
+
+Regards,
+
+Tvrtko
+
+> 
+> 
+> 
+> 
+>> ---
+>>   drivers/gpu/drm/i915/i915_request.c | 12 +++++++++++-
+>>   1 file changed, 11 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/gpu/drm/i915/i915_request.c 
+>> b/drivers/gpu/drm/i915/i915_request.c
+>> index 79da5eca60af..4f189982f67e 100644
+>> --- a/drivers/gpu/drm/i915/i915_request.c
+>> +++ b/drivers/gpu/drm/i915/i915_request.c
+>> @@ -1145,6 +1145,12 @@ __emit_semaphore_wait(struct i915_request *to,
+>>       return 0;
+>>   }
+>> +static bool
+>> +can_use_semaphore_wait(struct i915_request *to, struct i915_request 
+>> *from)
+>> +{
+>> +    return to->engine->gt->ggtt == from->engine->gt->ggtt;
+>> +}
+>> +
+>>   static int
+>>   emit_semaphore_wait(struct i915_request *to,
+>>               struct i915_request *from,
+>> @@ -1153,6 +1159,9 @@ emit_semaphore_wait(struct i915_request *to,
+>>       const intel_engine_mask_t mask = READ_ONCE(from->engine)->mask;
+>>       struct i915_sw_fence *wait = &to->submit;
+>> +    if (!can_use_semaphore_wait(to, from))
+>> +        goto await_fence;
+>> +
+>>       if (!intel_context_use_semaphores(to->context))
+>>           goto await_fence;
+>> @@ -1256,7 +1265,8 @@ __i915_request_await_execution(struct 
+>> i915_request *to,
+>>        * immediate execution, and so we must wait until it reaches the
+>>        * active slot.
+>>        */
+>> -    if (intel_engine_has_semaphores(to->engine) &&
+>> +    if (can_use_semaphore_wait(to, from) &&
+>> +        intel_engine_has_semaphores(to->engine) &&
+>>           !i915_request_has_initial_breadcrumb(to)) {
+>>           err = __emit_semaphore_wait(to, from, from->fence.seqno - 1);
+>>           if (err < 0)
