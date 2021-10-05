@@ -1,78 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F5F4223BB
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 12:42:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC174223DD
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 12:48:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7AB6589F24;
-	Tue,  5 Oct 2021 10:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24EA26EB4F;
+	Tue,  5 Oct 2021 10:47:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com
- [IPv6:2a00:1450:4864:20::32a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D5E9589F24
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 10:42:20 +0000 (UTC)
-Received: by mail-wm1-x32a.google.com with SMTP id z2so15952948wmc.3
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 03:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=pVmRMn4rUtOm+1OEO0FywEMDowWiLVKHkRDbrijKrwg=;
- b=ZS4YWF0OVkd9jDh40UlLY2uWt9d78SYkfjqGVKzM8G7JktwnA3ZteL30wEy+4PTRQ4
- XemlL5BOCByzoBuNx8gMHUkinaI3VAsxs3agCljtjM2BJ4R7QMgIr2glQ/g0PXhB2nCR
- tsfYgj9lJY3iPWBf/OmK4QTrupPJGVj1MdGUb2lHG5tt3aYvEPIFvmZPqkNkvOHH2EqN
- juUBaWFSztsy/ioPPpV+e4Vr+Iv7Ce5UflDsH3oMJUoTR8y9CjLz6P/xHautUGrUdYNm
- 8nDQjmCoHgV7KEXm3LLN3JPxmk+wXRxcZ1j7ig9qgk6ZPKxaQxptiOnOorsFd6RyEciP
- AKuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=pVmRMn4rUtOm+1OEO0FywEMDowWiLVKHkRDbrijKrwg=;
- b=VM9wU6iFvfW//riuJSY14GVXAG4xskVkCnuyxzoIgzTAAxhHQkUrgaFfoCxZt0cONq
- WtOaMhKDioa9HPVIGXvYZL8hq0iCSsvtwaSdtC6cXIZmGBirqJ2oN8YBcblZj82Dm6hG
- igfS1bsf5u086ZeZ8HgXPh3alptGpImTghXtFpa/U7zE6TfyChs1k2XxFA/Q8GCMAE8u
- jZrbosTi9esV974VmONpOubvwL2VYdYCaGuifKHi71YC/dNAHNyk/W7OzndEu2rGo1rL
- U7jgCtxSG/fY47DhHXSuE1t2B9vMg32f6f9fhqCJlNV2yK7uZzeMmchrTLs4QRvkcp02
- xCBA==
-X-Gm-Message-State: AOAM530tuEOnV2HATrd8uxm+V8rReKf+RnQ7SI8OHvC+JdvEfPyT4qCb
- ELyUzZKAd+FTqFXEkKQBu2lQ2A==
-X-Google-Smtp-Source: ABdhPJzk4476G45fhoT/tD2ExwshD2DdotRERLbyFyzc5wY17wFdvvLODEf4w4SPO9mjXk77xKdD6w==
-X-Received: by 2002:a1c:f008:: with SMTP id a8mr2588809wmb.140.1633430539291; 
- Tue, 05 Oct 2021 03:42:19 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id k18sm699320wrn.81.2021.10.05.03.42.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 03:42:18 -0700 (PDT)
-Date: Tue, 5 Oct 2021 11:42:16 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/10] backlight: qcom-wled: Validate enabled string
- indices in DT
-Message-ID: <20211005104216.7hqqdyqcqekqhg56@maple.lan>
-References: <20211004192741.621870-1-marijn.suijten@somainline.org>
- <20211004192741.621870-5-marijn.suijten@somainline.org>
- <20211005091452.4ecqhlhrdxdgvs3c@maple.lan>
- <20211005100350.p56xuq74qsc7vhyp@SoMainline.org>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 961CC6EB49;
+ Tue,  5 Oct 2021 10:47:53 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="206522649"
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="206522649"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 03:47:52 -0700
+X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="438651191"
+Received: from tbarret1-mobl.ger.corp.intel.com (HELO [10.213.238.194])
+ ([10.213.238.194])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 03:47:51 -0700
+Subject: Re: [PATCH 24/28] drm: use new iterator in
+ drm_gem_plane_helper_prepare_fb
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
+Cc: daniel@ffwll.ch
+References: <20211001100610.2899-1-christian.koenig@amd.com>
+ <20211001100610.2899-25-christian.koenig@amd.com>
+ <80bb132f-0e40-68a1-d034-2d4b17d321ad@linux.intel.com>
+ <4e94e263-fd20-4779-690a-b530c220b350@gmail.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <32d9b655-0b18-417a-eefc-cc1dc41fb554@linux.intel.com>
+Date: Tue, 5 Oct 2021 11:47:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211005100350.p56xuq74qsc7vhyp@SoMainline.org>
+In-Reply-To: <4e94e263-fd20-4779-690a-b530c220b350@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -88,72 +58,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 12:03:50PM +0200, Marijn Suijten wrote:
-> On 2021-10-05 10:14:52, Daniel Thompson wrote:
-> > On Mon, Oct 04, 2021 at 09:27:35PM +0200, Marijn Suijten wrote:
-> > > The strings passed in DT may possibly cause out-of-bounds register
-> > > accesses and should be validated before use.
-> > > 
-> > > Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
-> > 
-> > The first half of this patch actually fixes patch 1 from this patch set.
-> > It would be better to move that code there.
+
+On 05/10/2021 11:27, Christian König wrote:
+> Am 05.10.21 um 09:53 schrieb Tvrtko Ursulin:
+>>
+>> On 01/10/2021 11:06, Christian König wrote:
+>>> Makes the handling a bit more complex, but avoids the use of
+>>> dma_resv_get_excl_unlocked().
+>>>
+>>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>>> ---
+>>>   drivers/gpu/drm/drm_gem_atomic_helper.c | 13 +++++++++++--
+>>>   1 file changed, 11 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_gem_atomic_helper.c 
+>>> b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>> index e570398abd78..21ed930042b8 100644
+>>> --- a/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>> +++ b/drivers/gpu/drm/drm_gem_atomic_helper.c
+>>> @@ -143,6 +143,7 @@
+>>>    */
+>>>   int drm_gem_plane_helper_prepare_fb(struct drm_plane *plane, struct 
+>>> drm_plane_state *state)
+>>>   {
+>>> +    struct dma_resv_iter cursor;
+>>>       struct drm_gem_object *obj;
+>>>       struct dma_fence *fence;
+>>>   @@ -150,9 +151,17 @@ int drm_gem_plane_helper_prepare_fb(struct 
+>>> drm_plane *plane, struct drm_plane_st
+>>>           return 0;
+>>>         obj = drm_gem_fb_get_obj(state->fb, 0);
+>>> -    fence = dma_resv_get_excl_unlocked(obj->resv);
+>>> -    drm_atomic_set_fence_for_plane(state, fence);
+>>> +    dma_resv_iter_begin(&cursor, obj->resv, false);
+>>> +    dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>>> +        dma_fence_get(fence);
+>>> +        dma_resv_iter_end(&cursor);
+>>> +        /* TODO: We only use the first write fence here */
+>>
+>> What is the TODO? NB instead?
 > 
-> It only helps guarding against a maximum of 3 leds for WLED3, while
-> using string_len instead of an unintentional sizeof(u32) (resulting in
-> a fixed size of 4) is a different issue requiring a separate patch to
-> fix.
+> The drm atomic API can unfortunately handle only one fence and we can 
+> certainly have more than that.
 > 
-> Would it help to reorder this patch before 1/10, and mention in patch
-> 1/10 (then 2/10) that, besides properly using string_len instead of
-> hardcoded 4 (which causes wrong reads from DT on top of this), it relies
-> on the previous patch to prevent against an array longer than 3 for
-> WLED3?
+>>
+>>> + drm_atomic_set_fence_for_plane(state, fence);
+>>> +        return 0;
+>>> +    }
+>>> +    dma_resv_iter_end(&cursor);
+>>>   +    drm_atomic_set_fence_for_plane(state, NULL);
+>>
+>>     dma_resv_iter_begin(&cursor, obj->resv, false);
+>>     dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>>         dma_fence_get(fence);
+>>         break;
+>>     }
+>>     dma_resv_iter_end(&cursor);
+>>
+>>     drm_atomic_set_fence_for_plane(state, fence);
+>>
+>> Does this work?
+> 
+> Yeah that should work as well.
+> 
+>>
+>> But overall I am not sure this is nicer. Is the goal to remove 
+>> dma_resv_get_excl_unlocked as API it just does not happen in this series?
+> 
+> Yes, the only user left is the i915_gem_object_last_write_engine() 
+> function and that one you already removed in i915.
 
-Reordering is OK for me.
+To me the above feels clumsier than dma_resv_get_excl_unlocked and you 
+can even view it as open coding that helper. So don't know, someone else 
+can have a casting vote.
 
+I guess if support for more than one fence is coming soon(-ish) do drm 
+atomic api then I could be convinced the iterator here makes sense today.
 
-Daniel.
+Regards,
 
+Tvrtko
 
-> > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-> > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-> > > ---
-> > >  drivers/video/backlight/qcom-wled.c | 14 ++++++++++++++
-> > >  1 file changed, 14 insertions(+)
-> > > 
-> > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-> > > index 29910e603c42..27e8949c7922 100644
-> > > --- a/drivers/video/backlight/qcom-wled.c
-> > > +++ b/drivers/video/backlight/qcom-wled.c
-> > > @@ -1526,6 +1526,12 @@ static int wled_configure(struct wled *wled)
-> > >  						     "qcom,enabled-strings",
-> > >  						     sizeof(u32));
-> > >  	if (string_len > 0) {
-> > > +		if (string_len > wled->max_string_count) {
-> > > +			dev_err(dev, "Cannot have more than %d strings\n",
-> > > +				wled->max_string_count);
-> > > +			return -EINVAL;
-> > > +		}
-> > > +
-> > >  		rc = of_property_read_u32_array(dev->of_node,
-> > >  						"qcom,enabled-strings",
-> > >  						wled->cfg.enabled_strings,
-> > > @@ -1537,6 +1543,14 @@ static int wled_configure(struct wled *wled)
-> > >  			return -EINVAL;
-> > >  		}
-> > >  
-> > > +		for (i = 0; i < string_len; ++i) {
-> > > +			if (wled->cfg.enabled_strings[i] >= wled->max_string_count) {
-> > > +				dev_err(dev, "qcom,enabled-strings index %d at %d is out of bounds\n",
-> > > +					wled->cfg.enabled_strings[i], i);
-> > > +				return -EINVAL;
-> > > +			}
-> > > +		}
-> > > +
-> > >  		cfg->num_strings = string_len;
-> > >  	}
-> > >  
-> > > -- 
-> > > 2.33.0
-> > > 
+> Regards,
+> Christian.
+> 
+>>
+>> Regards,
+>>
+>> Tvrtko
+>>
+>>>       return 0;
+>>>   }
+>>>   EXPORT_SYMBOL_GPL(drm_gem_plane_helper_prepare_fb);
+>>>
+> 
