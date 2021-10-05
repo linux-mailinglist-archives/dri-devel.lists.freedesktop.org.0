@@ -1,67 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0274422559
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:39:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A27D422585
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 13:44:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 331C16EB70;
-	Tue,  5 Oct 2021 11:38:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 860C86EB53;
+	Tue,  5 Oct 2021 11:44:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9EBC06F5C4;
- Tue,  5 Oct 2021 11:38:11 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id u18so36801871wrg.5;
- Tue, 05 Oct 2021 04:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
- b=L6QXQyheD0iBmll/6+c9+sMjS2UXeP6CZLR1N0Tr1p1DMvcTPcvrj/vKNkefQk6hSC
- XAX6j4T7WLIwelmGb3Vw7DLUWhezBvGs6oJ3tp31RGY4A+X0HaDNuHljSm35cqPZ0o7t
- QjEw8cbfgbfbfrG0xG80Z13SY25aLjgSqr4p04o5hntg/aaV0vvG/1PixW0ayo+SGnXJ
- bFD3lm4R1p4jMBoFZy9chDD/RdYUm8y5O3ncSTfdOnwBmi/Mxiqh1f9NXgEiYFTN6zb7
- 0302neM0bN2wUiHC1/wncpvnSPz1YwKSZAGSg2az4zIvqkTWIv8EO2A860B80CR3DbjE
- l88Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vDNZbZcYoW7IFr6lQi88QIbXjkbY+ZD5EoDTFjlvddA=;
- b=gVQsSDQgU6s0tmcZKxDFDnjilwIC6v7JcV/7zsTLgtK4PLgWwQNfai3xDvhF2/4yZR
- InE8uwmhnqLRhEdYiqIwC09wpzVGXQq0+7sanNXRBtMxER2+Bqp7pTt8udMiSb2/yR0G
- Pf+38h5BAInNgTq8v6C8OI4dhkOeU70NwI5P5YgvnwR8l2vK/qpCyg5AHMawEoKn6m+6
- kgpqTpmuGYu5JBlU6JMGvB/bzJgd7My2pHDBbfIA3rDtvFTyR7HGnYKyZDjaLUjmDmEV
- VMUcLCqQt+h/Vyaj5Nu7TrEXH5wCDMTM5pU8RAFJje5zYMztd27EkwfeDVcFsuJtxa4v
- FJBw==
-X-Gm-Message-State: AOAM530rgj6ld2v2swDyrO3VNEP4zvD6ZxIYnMhoiFhqfxf0eZ8wRZjk
- 1yZY2NIzbkBTnDKDW/FGTTg=
-X-Google-Smtp-Source: ABdhPJxGZxWVpSVFBiaJumxIFqfRiFL+GVcyqCPa5EfSRy4T9vy6Ac7sHOtq3cmmvYrRJTQvJN0d4w==
-X-Received: by 2002:a5d:4cca:: with SMTP id c10mr17829743wrt.188.1633433890218; 
- Tue, 05 Oct 2021 04:38:10 -0700 (PDT)
-Received: from abel.fritz.box (p5b0ea1b5.dip0.t-ipconnect.de. [91.14.161.181])
- by smtp.gmail.com with ESMTPSA id
- c5sm1739912wml.9.2021.10.05.04.38.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 05 Oct 2021 04:38:09 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>
-To: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org
-Cc: daniel@ffwll.ch,
-	tvrtko.ursulin@linux.intel.com
-Subject: [PATCH 28/28] drm/etnaviv: replace dma_resv_get_excl_unlocked
-Date: Tue,  5 Oct 2021 13:37:42 +0200
-Message-Id: <20211005113742.1101-29-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211005113742.1101-1-christian.koenig@amd.com>
-References: <20211005113742.1101-1-christian.koenig@amd.com>
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 07D3D6EB53
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 11:44:39 +0000 (UTC)
+Received: from SoMainline.org (94-209-165-62.cable.dynamic.v4.ziggo.nl
+ [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id F3D703EE3F;
+ Tue,  5 Oct 2021 13:44:36 +0200 (CEST)
+Date: Tue, 5 Oct 2021 13:44:35 +0200
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: Daniel Thompson <daniel.thompson@linaro.org>
+Cc: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 05/10] backlight: qcom-wled: Fix off-by-one maximum with
+ default num_strings
+Message-ID: <20211005114435.phyq2jsbdyroa6kn@SoMainline.org>
+Mail-Followup-To: Marijn Suijten <marijn.suijten@somainline.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Kiran Gunda <kgunda@codeaurora.org>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20211004192741.621870-1-marijn.suijten@somainline.org>
+ <20211004192741.621870-6-marijn.suijten@somainline.org>
+ <20211005091947.7msztp5l554c7cy4@maple.lan>
+ <20211005100606.faxra73mzkvjd4f6@SoMainline.org>
+ <20211005103843.heufyonycnudxnzd@maple.lan>
+ <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,26 +81,88 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-We certainly hold the reservation lock here, no need for the RCU dance.
+On 2021-10-05 11:53:12, Daniel Thompson wrote:
+> On Tue, Oct 05, 2021 at 11:38:43AM +0100, Daniel Thompson wrote:
+> > On Tue, Oct 05, 2021 at 12:06:06PM +0200, Marijn Suijten wrote:
+> > > On 2021-10-05 10:19:47, Daniel Thompson wrote:
+> > > > On Mon, Oct 04, 2021 at 09:27:36PM +0200, Marijn Suijten wrote:
+> > > > > When not specifying num-strings in the DT the default is used, but +1 is
+> > > > > added to it which turns wled3 into 4 and wled4/5 into 5 strings instead
+> > > > > of 3 and 4 respectively, causing out of bounds reads and register
+> > > > > read/writes.  This +1 exists for a deficiency in the DT parsing code,
+> > > > > and is simply omitted entirely - solving this oob issue - by allowing
+> > > > > one extra iteration of the wled_var_cfg function parsing this particular
+> > > > > property.
+> > > > > 
+> > > > > Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
+> > > > > Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+> > > > > Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+> > > > > ---
+> > > > >  drivers/video/backlight/qcom-wled.c | 8 +++-----
+> > > > >  1 file changed, 3 insertions(+), 5 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+> > > > > index 27e8949c7922..66ce77ee3099 100644
+> > > > > --- a/drivers/video/backlight/qcom-wled.c
+> > > > > +++ b/drivers/video/backlight/qcom-wled.c
+> > > > > @@ -1255,17 +1255,17 @@ static const struct wled_var_cfg wled5_ovp_cfg = {
+> > > > >  
+> > > > >  static u32 wled3_num_strings_values_fn(u32 idx)
+> > > > >  {
+> > > > > -	return idx + 1;
+> > > > > +	return idx;
+> > > > >  }
+> > > > >  
+> > > > >  static const struct wled_var_cfg wled3_num_strings_cfg = {
+> > > > >  	.fn = wled3_num_strings_values_fn,
+> > > > > -	.size = 3,
+> > > > > +	.size = 4, /* [0, 3] */
+> > > > 
+> > > > 0 is not a valid value for this property.
+> > > 
+> > > These comments represent the possible loop iterations the DT "cfg
+> > > parser" runs through, starting at j=0 and running up until and including
+> > > j=3.  Should I make that more clear or omit these comments entirely?
+> > 
+> > The role of wled3_num_strings_values_fn() is to enumerate the list of
+> > legal values for the property [ 1, 2, 3 ]. Your changes cause the
+> > enumeration to include a non-legal value so that you can have an
+> > identity mapping between the symbol and the enumerate value.
+> > 
+> > An alternative approach would be to leave the enumeration logic
+> > alone but set the num_string default to UINT_MAX in all cases:
+> > 
+> > -	cfg->num_strings = cfg->num_strings + 1;
+> > +	if (cfg->num_strings == UINT_MAX)
+> > +		cfg->num_strings = 
+> 
+> Oops... looks like I missed the cfg->max_string_count here.
+> 
+> 
+> > +	else
+> > +               /* Convert from enumerated to numeric form */
+> > +		cfg->num_strings = wled3_num_strings_values_fn(
+> > +						cfg->num_strings);
+> 
+> 
+> PS the alternative option is not to treat num-strings as an enumerated
+>    value at all and just read it directly without using wled_values()...
 
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I much prefer doing that instead of trying to wrangle enumeration
+parsing around integer values that are supposed to be used as-is.  After
+all this variable is already named to set the `+ 1` override currently,
+and `qcom,enabled_strings` has "custom" handling as well.  I'll extend
+the validation to ensure num_strings>=1 too.
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-index 4dd7d9d541c0..7e17bc2b5df1 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c
-@@ -195,7 +195,7 @@ static int submit_fence_sync(struct etnaviv_gem_submit *submit)
- 			if (ret)
- 				return ret;
- 		} else {
--			bo->excl = dma_resv_get_excl_unlocked(robj);
-+			bo->excl = dma_fence_get(dma_resv_excl_fence(robj));
- 		}
- 
- 	}
--- 
-2.25.1
+In addition, and this needs some investigation on the dt-bindings side
+too, it might be beneficial to make both properties mutually exclusive.
+When specifying qcom,enabled_strings it makes little sense to also
+provide qcom,num_strings and we want the former to take precedence.  At
+that point one might ask why qcom,num_strings remains at all when DT can
+use qcom,enabled_strings instead.
+We will supposedly have to keep backwards compatibility with DTs in mind
+so none of this can be removed or made mutually exclusive from a driver
+standpoint, that all has to be done in dt-bindings yaml to be enforced
+on checked-in DTs.
 
+- Marijn
