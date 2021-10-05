@@ -2,79 +2,79 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC62422C1A
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:14:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97AB2422BFB
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:11:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 82BF16EB87;
-	Tue,  5 Oct 2021 15:14:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 210956E422;
+	Tue,  5 Oct 2021 15:11:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com
- [IPv6:2607:f8b0:4864:20::d30])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A0FE46EB87
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:14:02 +0000 (UTC)
-Received: by mail-io1-xd30.google.com with SMTP id p80so24690248iod.10
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:14:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sh8VNE4FCLdSm5VCdPfycmMPvw4PtVqb68V0H1ZpEUk=;
- b=HtcGpyyh2UUVNrAb5Igdog262j6GdlcgBCBggIlt8jnaHyk4jpyGysSyBfHZba0mdm
- pDC1Acu7d9xqLvWCmW3TynL/Iw1DjKCWed9Iw2sJZ/8HJ8dhcrJzRSHOsg1v8+xashTp
- skKhyltA89Q0HPRLVE510wa50TQNxyIKcppPg=
+Received: from mail-pg1-x529.google.com (mail-pg1-x529.google.com
+ [IPv6:2607:f8b0:4864:20::529])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D592D6E40D;
+ Tue,  5 Oct 2021 15:11:54 +0000 (UTC)
+Received: by mail-pg1-x529.google.com with SMTP id v11so7464184pgb.8;
+ Tue, 05 Oct 2021 08:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QSrcQ531lYvMDyqtMmSNSg1D9eOHYmXdh6Sn4g0VZLQ=;
+ b=LE+nGxihu74oC3P/yXCbRUT8joVuLjedGgQjvKmK8f3RDbhsFz2Vi3/sS9u9wXnGcX
+ K2GgrTHQM2kjOTjbHfEDKSOGaIQ95GlbZ/QF327Ospm5XEbm5TPf6490GoZyuWQ1E/y+
+ IeJKKHDWKXVrwoDC9bWA7CsdXkqo8n4aTYFKKesOpEGc2WcdjcTgXydrApYSun1UVsgw
+ iY76WfnFfYcz9KR5eDOdItpIDV0s68u3xP+x9H5iDGJotHLBIZgkU1UDs/KH+Jtv0Uja
+ Hd84BWPjshr5CEK7HmMKnP/2imJsZdYLGNfIk8+cWZQTHfe+FZ/z7BP+9G5U4gsshMEp
+ MPpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sh8VNE4FCLdSm5VCdPfycmMPvw4PtVqb68V0H1ZpEUk=;
- b=FkJtIGvePSYmoOqPlUxZfUB5TjNQYAayhkNApCYG/Ze12D2sjYHj9L7nNPgNY2JynP
- COeEBvbpc9dnNW9z4gOB+wtXbGF8SWQREugJmy9zTX/M+9MLdcQKS5Bp0CQamDUaG19/
- 8Mv9iPTyZBzMJqcDsxT6CNwLvhvhwaK08qqO9gpAfdhvp2IHihzXVnsj8ZUrc+lhqXGe
- yc2/zVumKF4pKHTBYijNh4+5rJgMPhq/BfcSkX0WtyT1L59yh2Ozx6aVAgqmbdR6Tr1l
- GUVZbx5FiETWZGVAngRcrmg7vjbmgtlwNpqtXMI7oCR8DB3ElL8wzSE4iI1wL7Bil1HT
- YumA==
-X-Gm-Message-State: AOAM530yolRiW2YDIrWGbC3OcXDwPSD11VoaBYSC99RsyN0LZIbcfpB7
- Vwo1U+8LooGDewDcSJykKO6vBt1U1Z7cQA==
-X-Google-Smtp-Source: ABdhPJx7prNpRcFgELbpKXmmHVlwZZVSTA+P/ZNoLGjF9HuqpDi/DlyCviUx7cNq9ijcKFNu9Fffyw==
-X-Received: by 2002:a02:3407:: with SMTP id x7mr3123680jae.18.1633446841699;
- Tue, 05 Oct 2021 08:14:01 -0700 (PDT)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com.
- [209.85.166.170])
- by smtp.gmail.com with ESMTPSA id g3sm20232ile.61.2021.10.05.08.13.59
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 08:14:00 -0700 (PDT)
-Received: by mail-il1-f170.google.com with SMTP id y17so13890222ilb.9
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:13:59 -0700 (PDT)
-X-Received: by 2002:a05:6e02:1847:: with SMTP id
- b7mr3420583ilv.180.1633446839293; 
- Tue, 05 Oct 2021 08:13:59 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QSrcQ531lYvMDyqtMmSNSg1D9eOHYmXdh6Sn4g0VZLQ=;
+ b=msLJbhRf/pMqWHEFI1DTpCda/mQdbMNuuc2+rNtq2fC0ZM3kmgUn8gHZPYN4LS9Es1
+ mfwHNKTtX3lwTY0JTYlUpR15MJJAkR9Q/1SKD1a92MJCU0AEK+aKF+yGafYkSMM45pw1
+ ZmlGSwvkkoV6wGYove7n66nJM8tjmdRD5gFxTpVZPH2R/CzlItjpVvE7OZgm8GN5c67K
+ hAGHaz90Zq9jBYZFUDq+T9rfw93r/9pVAFJ3VAAWGah9jSpHSf8mcIVvRvU5d5uXcMTH
+ 3r65Knz0JETzcmdwaP/0MV56M/b3n3XRvIT1ZVQrpF0+3p+e4thIBYjDc0FTrapKMg+l
+ T+XQ==
+X-Gm-Message-State: AOAM530ovnameaqpKDH4IZCBaigFKxgUE7yMIrZqOwmBvvEqGdLX76jl
+ nOaF3VmXuZdczdL/tG1JCdVop25OpSk=
+X-Google-Smtp-Source: ABdhPJxO3G+HWzM6JzFUJostwno3QxJkFsVc0ojvp/XHIKEdzTvHkYlD/6vx1y3wEb8mXk5HXIWGFA==
+X-Received: by 2002:aa7:828c:0:b0:44c:28d1:46b9 with SMTP id
+ s12-20020aa7828c000000b0044c28d146b9mr19508978pfm.43.1633446713563; 
+ Tue, 05 Oct 2021 08:11:53 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+ by smtp.gmail.com with ESMTPSA id
+ k22sm18388032pfi.149.2021.10.05.08.11.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 08:11:51 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-arm-kernel@lists.infradead.org, freedreno@lists.freedesktop.org,
+ Jordan Crouse <jordan@cosmicpenguin.net>,
+ Robin Murphy <robin.murphy@arm.com>, Will Deacon <will@kernel.org>,
+ Rob Clark <robdclark@chromium.org>,
+ Akhil P Oommen <akhilpo@codeaurora.org>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Douglas Anderson <dianders@chromium.org>,
+ Georgi Djakov <quic_c_gdjako@quicinc.com>,
+ iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
+ "Isaac J. Manjarres" <isaacm@codeaurora.org>,
+ Joerg Roedel <jroedel@suse.de>, Jonathan Marek <jonathan@marek.ca>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+ linux-kernel@vger.kernel.org (open list),
+ Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+ Sharat Masetty <smasetty@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+ Sven Peter <sven@svenpeter.dev>, Yangtao Li <tiny.windzz@gmail.com>,
+ Yong Wu <yong.wu@mediatek.com>
+Subject: [PATCH v2 0/3] io-pgtable-arm + drm/msm: Extend iova fault debugging
+Date: Tue,  5 Oct 2021 08:16:24 -0700
+Message-Id: <20211005151633.1738878-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
- <YVtZstInQxXfPmsZ@intel.com>
- <DM6PR12MB49127B8B63079E6533197EA6E5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
-In-Reply-To: <DM6PR12MB49127B8B63079E6533197EA6E5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Oct 2021 08:13:47 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
-Message-ID: <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
-Subject: Re: connector_bad_edid() is broken (was: Re: [PATCH] drm/edid: Fix
- crash with zero/invalid EDID)
-To: "Zuo, Jerry" <Jerry.Zuo@amd.com>
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
- "geert@linux-m68k.org" <geert@linux-m68k.org>,
- "oliver.sang@intel.com" <oliver.sang@intel.com>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Jani Nikula <jani.nikula@intel.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wentland,
- Harry" <Harry.Wentland@amd.com>, 
- "Siqueira, Rodrigo" <Rodrigo.Siqueira@amd.com>,
- Kuogee Hsieh <khsieh@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,52 +90,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Rob Clark <robdclark@chromium.org>
 
-On Tue, Oct 5, 2021 at 6:33 AM Zuo, Jerry <Jerry.Zuo@amd.com> wrote:
->
-> > BTW I believe connector_bad_edid() itself is broken since commit
-> > e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid corruption
-> > test"). Before we've even allocated the memory for the extension blocks
-> > that code now assumes edid[0x7e] is to be 100% trusted and goes and
-> > calculates the checksum on a block based on that. So that's likely going to be
-> > pointing somewhere beyond the base block into memory we've not even
-> > allocated. So anyone who wanted could craft a bogus EDID and maybe get
-> > something interesting to happen.
-> >
-> > Would be good if someone could fix that while at it. Or just revert the
-> > offending commit if there is no simple solution immediately in sight.
-> >
-> > The fact that we're parsing entirely untrustworthy crap in the kernel always
-> > worries me. Either we need super careful review of all relevant code, and/or
-> > we need to think about moving the parser out of the kernel.
-> > I was considering playing around with the usermode helper stuff. IIRC there
-> > is a way to embed the userspace binary into the kernel and just fire it up
-> > when needed. But so far it's been the usual -ENOTIME for me...
-> >
-> [AMD Official Use Only]
->
-> Hi Ville:
->
->      Yhea, it is pretty old change from two years ago, and it is no long valid anymore. Please simply drop it.
->
-> Regards,
-> Jerry
+This series extends io-pgtable-arm with a method to retrieve the page
+table entries traversed in the process of address translation, and then
+beefs up drm/msm gpu devcore dump to include this (and additional info)
+in the devcore dump.
 
-I've cut out other bits from this email and changed the subject line
-since I think this is an issue unrelated to the one my original patch
-was fixing.
+The motivation is tracking down an obscure iova fault triggered crash on
+the address of the IB1 cmdstream.  This is one of the few places where
+the GPU address written into the cmdstream is soley under control of the
+kernel mode driver, so I don't think it can be a userspace bug.  The
+logged cmdstream from the devcore's I've looked at look correct, and the
+TTBR0 read back from arm-smmu agrees with the kernel emitted cmdstream.
+Unfortunately it happens infrequently enough (something like once per
+1000hrs of usage, from what I can tell from our telemetry) that actually
+reproducing it with an instrumented debug kernel is not an option.  So
+further spiffying out the devcore dumps and hoping we can spot a clue is
+the plan I'm shooting for.
 
-I don't actually know a ton about DP compliance testing, but I
-attempted to try to be helpful and revert commit e11f5bd8228f ("drm:
-Add support for DP 1.4 Compliance edid corruption test"). It wasn't
-too hard to deal with the conflicts in the revert itself, but then
-things didn't compile because there are two places that use
-`real_edid_checksum` and that goes away if I revert the patch.
+See https://gitlab.freedesktop.org/drm/msm/-/issues/8 for more info on
+the issue I'm trying to debug.
 
-I've made an attempt to fix the problem by just adding a bounds check.
-Perhaps you can see if that looks good to you:
+v2: Fix an armv7/32b build error in the last patch
 
-https://lore.kernel.org/r/20211005081022.1.Ib059f9c23c2611cb5a9d760e7d0a700c1295928d@changeid
+Rob Clark (3):
+  iommu/io-pgtable-arm: Add way to debug pgtable walk
+  drm/msm: Show all smmu info for iova fault devcore dumps
+  drm/msm: Extend gpu devcore dumps with pgtbl info
 
--Doug
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c   |  2 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c | 35 +++++++++++++++++-----
+ drivers/gpu/drm/msm/msm_gpu.c           | 10 +++++++
+ drivers/gpu/drm/msm/msm_gpu.h           | 10 ++++++-
+ drivers/gpu/drm/msm/msm_iommu.c         | 17 +++++++++++
+ drivers/gpu/drm/msm/msm_mmu.h           |  2 ++
+ drivers/iommu/io-pgtable-arm.c          | 40 ++++++++++++++++++++-----
+ include/linux/io-pgtable.h              |  9 ++++++
+ 8 files changed, 107 insertions(+), 18 deletions(-)
+
+-- 
+2.31.1
+
