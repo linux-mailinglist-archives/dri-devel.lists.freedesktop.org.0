@@ -1,73 +1,54 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7375B4232D1
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:27:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3354232E5
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 23:34:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C90A36E462;
-	Tue,  5 Oct 2021 21:27:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A0136EC64;
+	Tue,  5 Oct 2021 21:34:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B4BED6E462
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 21:27:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1633469253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=PwFfE+Y5InXuG9Mab93GHBXLo4VdByGAgXtkzB6nG04=;
- b=fHfdka/zfLwvLoBw7UygiX9NKpcVNSmzjMELbxOBetR9ukDCce9zyQzD1IYr/e1Baso3nZ
- DNEOqwqKjws0E/CrXd+ignQFbV1c49S8AWdWuJ9nb6DZ0g9a31pieiEbnIKG8QiIEJ0Uqs
- UZL36cdNKhH/cUVpogjq5M/NNAPkeD4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-onq33gnpNe2KpKv3oG4Fvw-1; Tue, 05 Oct 2021 17:27:32 -0400
-X-MC-Unique: onq33gnpNe2KpKv3oG4Fvw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- k2-20020adfc702000000b0016006b2da9bso354945wrg.1
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 14:27:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PwFfE+Y5InXuG9Mab93GHBXLo4VdByGAgXtkzB6nG04=;
- b=jif/nv5lWBZwiCXasdH4v6zjj8a4XC39Fh+VhiiwX3xR11Mlv9F3OMbBMESeRgmDg8
- MQKvwmII6+jeHytsQHPq2KgBUJZVXp8PIbDhLsN5FrM8Q9D4h3tiHxYS16HVPtWou8UJ
- 6Gi89oSSo4pFI+KecDJxsdymIY2I2AA7ICaQJc8igq4GXeHe8FYkcH+/CyAFBm+vRh94
- VIAWZV7XMk01D3hKW3JBTDtavtPrbXoVmUJMqC+H8KzqRNpKCNW+i/YXhUkxCRrQFuVt
- 501STssnMxs0uirkXJ/PiY0SBfi/pFpobZYLjMoMvYTK1JtA0X5aOCXuUpbIXhhbxvpY
- BVHA==
-X-Gm-Message-State: AOAM531P7lf/anr2bZuxEa/8HSwcX953keM9zmFoSl6YTSlmyD1I0M8F
- PIjOr3l8zsISAN0K/UvBON5M9JnkLmS3UezFW1UNLQ0a6GGehJMNqw1Nx7MjL7XFmfgB4tLp3a5
- lD2Kn8C8vZjsZnhc4wH4yWZFUYoWt19fcrkQfPwQ775KO
-X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr6013054wmk.141.1633469251629; 
- Tue, 05 Oct 2021 14:27:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxI6arb7Nu/LjPRQIeObx0l28qGXQBbA7WeXp9gAXr9AfEhUSIm9b8jErwZn57n5uHfE3BhTGBeeSFglHTNUn4=
-X-Received: by 2002:a7b:c5c9:: with SMTP id n9mr6013031wmk.141.1633469251335; 
- Tue, 05 Oct 2021 14:27:31 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3E4B46EC64;
+ Tue,  5 Oct 2021 21:34:26 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="212795850"
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="212795850"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 14:34:25 -0700
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="477855541"
+Received: from pwali-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
+ ([10.213.170.68])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 14:34:24 -0700
+Date: Tue, 5 Oct 2021 14:34:23 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+ Mikita Lipski <mikita.lipski@amd.com>, Eryk Brol <eryk.brol@amd.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ "David S. Miller" <davem@davemloft.net>,
+ Rahul Lakkireddy <rahul.lakkireddy@chelsio.com>,
+ Francis Laniel <laniel_francis@privacyrequired.com>,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ netdev@vger.kernel.org, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>,
+ Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Raju Rangoju <rajur@chelsio.com>, Jakub Kicinski <kuba@kernel.org>
+Subject: Re: [PATCH v1 1/3] string: Consolidate yesno() helpers under
+ string.h hood
+Message-ID: <20211005213423.dklsii4jx37pjvb4@ldmartin-desk2>
+References: <20210215142137.64476-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-References: <20210907122633.16665-1-cymi20@fudan.edu.cn>
-In-Reply-To: <20210907122633.16665-1-cymi20@fudan.edu.cn>
-From: Karol Herbst <kherbst@redhat.com>
-Date: Tue, 5 Oct 2021 23:27:20 +0200
-Message-ID: <CACO55tvUuZJD_AOgxS=Ts3MBhXkJARwWapF6QaxQqTk0JG7zWQ@mail.gmail.com>
-Subject: Re: [PATCH] drm/nouveau/svm: Fix refcount leak bug and missing check
- against null bug
-To: Chenyuan Mi <cymi20@fudan.edu.cn>
-Cc: yuanxzhang@fudan.edu.cn, Xiyu Yang <xiyuyang19@fudan.edu.cn>, 
- Xin Tan <tanxin.ctf@gmail.com>, Ben Skeggs <bskeggs@redhat.com>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- nouveau <nouveau@lists.freedesktop.org>, 
- LKML <linux-kernel@vger.kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20210215142137.64476-1-andriy.shevchenko@linux.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,54 +64,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-I think it makes sense to add a Fixes tag to this:
+On Mon, Feb 15, 2021 at 04:21:35PM +0200, Andy Shevchenko wrote:
+>We have already few similar implementation and a lot of code that can benefit
+>of the yesno() helper.  Consolidate yesno() helpers under string.h hood.
 
-Fixes: 822cab6150d3 ("drm/nouveau/svm: check for SVM initialized
-before migrating")
-Reviewed-by: Karol Herbst <kherbst@redhat.com>
+I was taking a look on i915_utils.h to reduce it and move some of it
+elsewhere to be shared with others.  I was starting with these helpers
+and had [1] done, then Jani pointed me to this thread and also his
+previous tentative. I thought the natural place for this would be
+include/linux/string_helpers.h, but I will leave it up to you.
 
-On Tue, Sep 7, 2021 at 3:20 PM Chenyuan Mi <cymi20@fudan.edu.cn> wrote:
->
-> The reference counting issue happens in one exception handling path of
-> nouveau_svmm_bind(). When cli->svm.svmm is null, the function forgets
-> to decrease the refcount of mm increased by get_task_mm(), causing a
-> refcount leak.
->
-> Fix this issue by using mmput() to decrease the refcount in the
-> exception handling path.
->
-> Also, the function forgets to do check against null when get mm
-> by get_task_mm().
->
-> Fix this issue by adding null check after get mm by get_task_mm().
->
-> Signed-off-by: Chenyuan Mi <cymi20@fudan.edu.cn>
-> Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
-> Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
-> ---
->  drivers/gpu/drm/nouveau/nouveau_svm.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_svm.c b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> index b0c3422cb01f..9985bfde015a 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_svm.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_svm.c
-> @@ -162,10 +162,14 @@ nouveau_svmm_bind(struct drm_device *dev, void *data,
->          */
->
->         mm = get_task_mm(current);
-> +       if (!mm) {
-> +               return -EINVAL;
-> +       }
->         mmap_read_lock(mm);
->
->         if (!cli->svm.svmm) {
->                 mmap_read_unlock(mm);
-> +               mmput(mm);
->                 return -EINVAL;
->         }
->
-> --
-> 2.17.1
->
+After reading the threads, I don't see real opposition to it.
+Is there a tree you plan to take this through?
 
+thanks
+Lucas De Marchi
+
+[1] https://lore.kernel.org/lkml/20211005212634.3223113-1-lucas.demarchi@intel.com/T/#u
+
+>
+>Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+>---
+> .../drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c    |  6 +-----
+> drivers/gpu/drm/i915/i915_utils.h                    |  6 +-----
+> drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c   | 12 +-----------
+> include/linux/string.h                               |  5 +++++
+> 4 files changed, 8 insertions(+), 21 deletions(-)
+>
+>diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>index 360952129b6d..7fde4f90e513 100644
+>--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
+>@@ -23,6 +23,7 @@
+>  *
+>  */
+>
+>+#include <linux/string.h>
+> #include <linux/uaccess.h>
+>
+> #include <drm/drm_debugfs.h>
+>@@ -49,11 +50,6 @@ struct dmub_debugfs_trace_entry {
+> 	uint32_t param1;
+> };
+>
+>-static inline const char *yesno(bool v)
+>-{
+>-	return v ? "yes" : "no";
+>-}
+>-
+> /* parse_write_buffer_into_params - Helper function to parse debugfs write buffer into an array
+>  *
+>  * Function takes in attributes passed to debugfs write entry
+>diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+>index abd4dcd9f79c..e6da5a951132 100644
+>--- a/drivers/gpu/drm/i915/i915_utils.h
+>+++ b/drivers/gpu/drm/i915/i915_utils.h
+>@@ -27,6 +27,7 @@
+>
+> #include <linux/list.h>
+> #include <linux/overflow.h>
+>+#include <linux/string.h>
+> #include <linux/sched.h>
+> #include <linux/types.h>
+> #include <linux/workqueue.h>
+>@@ -408,11 +409,6 @@ wait_remaining_ms_from_jiffies(unsigned long timestamp_jiffies, int to_wait_ms)
+> #define MBps(x) KBps(1000 * (x))
+> #define GBps(x) ((u64)1000 * MBps((x)))
+>
+>-static inline const char *yesno(bool v)
+>-{
+>-	return v ? "yes" : "no";
+>-}
+>-
+> static inline const char *onoff(bool v)
+> {
+> 	return v ? "on" : "off";
+>diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
+>index 7d49fd4edc9e..c857d73abbd7 100644
+>--- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
+>+++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c
+>@@ -34,6 +34,7 @@
+>
+> #include <linux/seq_file.h>
+> #include <linux/debugfs.h>
+>+#include <linux/string.h>
+> #include <linux/string_helpers.h>
+> #include <linux/sort.h>
+> #include <linux/ctype.h>
+>@@ -2015,17 +2016,6 @@ static const struct file_operations rss_debugfs_fops = {
+> /* RSS Configuration.
+>  */
+>
+>-/* Small utility function to return the strings "yes" or "no" if the supplied
+>- * argument is non-zero.
+>- */
+>-static const char *yesno(int x)
+>-{
+>-	static const char *yes = "yes";
+>-	static const char *no = "no";
+>-
+>-	return x ? yes : no;
+>-}
+>-
+> static int rss_config_show(struct seq_file *seq, void *v)
+> {
+> 	struct adapter *adapter = seq->private;
+>diff --git a/include/linux/string.h b/include/linux/string.h
+>index 9521d8cab18e..fd946a5e18c8 100644
+>--- a/include/linux/string.h
+>+++ b/include/linux/string.h
+>@@ -308,4 +308,9 @@ static __always_inline size_t str_has_prefix(const char *str, const char *prefix
+> 	return strncmp(str, prefix, len) == 0 ? len : 0;
+> }
+>
+>+static inline const char *yesno(bool yes)
+>+{
+>+	return yes ? "yes" : "no";
+>+}
+>+
+> #endif /* _LINUX_STRING_H_ */
+>-- 
+>2.30.0
+>
+>
