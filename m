@@ -1,48 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BD8421F4D
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:13:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF56C421F51
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 09:16:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4A9416E2F2;
-	Tue,  5 Oct 2021 07:13:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 417D86E30C;
+	Tue,  5 Oct 2021 07:16:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A91B56E2EF;
- Tue,  5 Oct 2021 07:13:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10127"; a="223087210"
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="223087210"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 00:13:44 -0700
-X-IronPort-AV: E=Sophos;i="5.85,348,1624345200"; d="scan'208";a="713967759"
-Received: from jstleger-mobl1.amr.corp.intel.com (HELO ldmartin-desk2)
- ([10.209.157.147])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 00:13:43 -0700
-Date: Tue, 5 Oct 2021 00:13:43 -0700
-From: Lucas De Marchi <lucas.demarchi@intel.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, dri-devel@lists.freedesktop.org,
- Masahiro Yamada <masahiroy@kernel.org>,
- Steven Price <steven.price@arm.com>, Andrzej Hajda <a.hajda@samsung.com>,
- intel-gfx@lists.freedesktop.org,
- "Sarvela, Tomi P" <tomi.p.sarvela@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: remove IS_ACTIVE
-Message-ID: <20211005071343.nufuh3fx3vnxrzro@ldmartin-desk2>
-X-Patchwork-Hint: comment
-References: <20211001074041.2076538-1-lucas.demarchi@intel.com>
- <163308055415.8412.14215483004176995847@build.alporthouse.com>
- <87bl49t6di.fsf@intel.com>
- <20211004205227.xpx67yawrs23gzr2@ldmartin-desk2>
- <20211005061939.GF2083@kadam>
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com
+ [IPv6:2a00:1450:4864:20::32e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3D6B76E30C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 07:16:36 +0000 (UTC)
+Received: by mail-wm1-x32e.google.com with SMTP id
+ s198-20020a1ca9cf000000b0030d6986ea9fso2096973wme.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 00:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=CXY/HEJbVlXKwfPIEz9oTXRR73+zLVHYdLUDT3KYBYI=;
+ b=mgu2vwTmGuRsaMFialQpSYafE/THN5LhwWwrUIgB6VIOzqMDcfTSTE47Cqcx5ShySG
+ +vTs3z+SNhUUIKt9da009SoNWw4514ifoiFlMLHfEpUYwDXVILBCJnelP1WX0WD71bWN
+ wlh/QdWLnejFp5Q4o+2JwUHIkJTWcPgeE8ZLwrEWx6zW2ZGTIIjF0ybqw6yv0kcgiR51
+ 7aqjkc3Ke51QmFAnBQXivl/w5tEo1LVeAtrKnhea2GjjPuhGzbnA2Ou6sfNYpDx0fko1
+ BEXYum/1h7KP7s2mZXJF+4KfRXTaOnABMw7sm7PzA6uVoa5/dPAgVa/2n2ha4EJkkR7e
+ fyfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=CXY/HEJbVlXKwfPIEz9oTXRR73+zLVHYdLUDT3KYBYI=;
+ b=AyCo4JDCGfe8nUwyPdOTgmjzWY/4CEognsBuNZ8eMuoOLs4wc0hAL5bZMD5egaCoAX
+ 5Vbk2FNU5QLzBpg+JJbruB3b/MbJK9OgptePzkUCTC66dO04Ma0NecVwvOgT/HRyZxmC
+ fJH9YO99KGqFedxSpZw3C4G2k2JIOqguemEt8sHdtkfxUU9nfpfXwUHnG7R5EvPeGqhg
+ XCwaNCJxeEQZ8ypAbv4IiyeNVaX64AQTCqu3dAtai4aCi84fJS3THp2U2Sc1+wh9dfVz
+ DTSBx0rDy+Mit5J0mwcspyg9NreaooqaDQN1GeVVJuQx02eIR3WGOW420tbj11T5r50C
+ C0Ow==
+X-Gm-Message-State: AOAM532BqcBWgbgv3ssx0ssmxPUHnQuQAPimQ0VIQRh3YcqVj6ejvqIt
+ w+gNLwm1Fgj6/+cm4aSiPx2aKA==
+X-Google-Smtp-Source: ABdhPJzaUsAGcej6QzdUPEhfKWYYSe1/l0cFZEWN/ELzTVU1K5vN2jMbP58homcEWk4eLuwawKN0Kg==
+X-Received: by 2002:a1c:ac86:: with SMTP id v128mr1683990wme.3.1633418194608; 
+ Tue, 05 Oct 2021 00:16:34 -0700 (PDT)
+Received: from blmsp (dynamic-046-114-035-189.46.114.pool.telefonica.de.
+ [46.114.35.189])
+ by smtp.gmail.com with ESMTPSA id q18sm892688wmc.7.2021.10.05.00.16.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 00:16:34 -0700 (PDT)
+Date: Tue, 5 Oct 2021 09:16:32 +0200
+From: Markus Schneider-Pargmann <msp@baylibre.com>
+To: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, Sam Ravnborg <sam@ravnborg.org>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v3 6/6] drm/mediatek: Add mt8195 DisplayPort driver
+Message-ID: <20211005071632.impnpix5f26xxxii@blmsp>
+References: <20211001094443.2770169-1-msp@baylibre.com>
+ <20211001094443.2770169-7-msp@baylibre.com>
+ <CAAOTY_-+T-wRCH2yw2XSm=ZbaBbqBQ4EqpU2P0TF90gAWQeRsg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20211005061939.GF2083@kadam>
+In-Reply-To: <CAAOTY_-+T-wRCH2yw2XSm=ZbaBbqBQ4EqpU2P0TF90gAWQeRsg@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,95 +79,26 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 09:19:39AM +0300, Dan Carpenter wrote:
->On Mon, Oct 04, 2021 at 01:52:27PM -0700, Lucas De Marchi wrote:
->> Cc'ing Dan Carpenter
->>
->> On Fri, Oct 01, 2021 at 12:57:13PM +0300, Jani Nikula wrote:
->> > On Fri, 01 Oct 2021, Chris Wilson <chris@chris-wilson.co.uk> wrote:
->> > > Quoting Lucas De Marchi (2021-10-01 08:40:41)
->> > > > When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
->> > > > provide much value just encapsulating it in a boolean context. So I also
->> > > > added the support for handling undefined macros as the IS_ENABLED()
->> > > > counterpart. However the feedback received from Masahiro Yamada was that
->> > > > it is too ugly, not providing much value. And just wrapping in a boolean
->> > > > context is too dumb - we could simply open code it.
->> > > >
->> > > > As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
->> > > > constant values inside boolean predicates"), the IS_ACTIVE macro was
->> > > > added to workaround a compilation warning. However after checking again
->> > > > our current uses of IS_ACTIVE it turned out there is only
->> > > > 1 case in which it would potentially trigger a warning. All the others
->> > > >   can simply use the shorter version, without wrapping it in any macro.
->> > > > And even that single one didn't trigger any warning in gcc 10.3.
->> > > >
->> > > > So here I'm dialing all the way back to simply removing the macro. If it
->> > > > triggers warnings in future we may change the few cases to check for > 0
->> > > > or != 0. Another possibility would be to use the great "not not
->> > > > operator" for all positive checks, which would allow us to maintain
->> > > > consistency.  However let's try first the simplest form though, hopefully
->> > > > we don't hit broken compilers spitting a warning:
->> > >
->> > > You didn't prevent the compilation warning this re-introduces.
->> > >
->> > > drivers/gpu/drm/i915/i915_config.c:11 i915_fence_context_timeout() warn: should this be a bitwise op?
->> > > drivers/gpu/drm/i915/i915_request.c:1679 i915_request_wait() warn: should this be a bitwise op?
->> >
->> > Looks like that's a Smatch warning. The immediate fix would be to just
->> > add the != 0 in the relevant places. But this is stuff that's just going
->> > to get broken again unless we add Smatch to CI. Most people aren't
->> > running it on a regular basis.
->
->I would really prefer that instead of ensuring that code doesn't
->generate Smatch warnings, people just look over the warnings and then
->mass mark them all as false positives and never look at them again.
->
->It let's us warn about more complicated things without worrying so much
->about being perfect.  When code is fresh in your head then warnings are
->not a big deal to review and you want to warn about every possible issue
->After a year then they take forever and so you really want them to be
->correct or it's a huge waste of time.  I'd prefer Smatch live in the
->space where people run it when the code is fresh.
->
->You would have received some automated emails about this Smatch warning
->but I look over the zero day output and filter the results.
->
->>
->> clang gives a warning only in drivers/gpu/drm/i915/i915_config.c and the
->> warning is gone if the condition swapped:
->>
->> -	if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
->> +	if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
->
->I like this rule that when the constant is on the left it's not a mask.
->That makes sense.  I will add that.
+Hi Chun-Kuang,
 
-thanks, that would be great, so we can really get rid of the macro by
-sticking this rule since it works for smatch and clang (and gcc doesn't
-give this warning).
+On Sat, Oct 02, 2021 at 12:16:26AM +0800, Chun-Kuang Hu wrote:
+> Hi, Markus:
+> [...]
+> >
+> >  drivers/gpu/drm/mediatek/Kconfig       |    7 +
+> >  drivers/gpu/drm/mediatek/Makefile      |    2 +
+> >  drivers/gpu/drm/mediatek/mtk_dp.c      | 2825 ++++++++++++++++++++++++
+> >  drivers/gpu/drm/mediatek/mtk_dp_reg.h  |  535 +++++
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.c |    1 +
+> >  drivers/gpu/drm/mediatek/mtk_drm_drv.h |    1 +
+> >  drivers/phy/mediatek/Kconfig           |    8 +
+> >  drivers/phy/mediatek/Makefile          |    1 +
+> >  drivers/phy/mediatek/phy-mtk-dp.c      |  218 ++
+> 
+> Separate the phy driver to another patch because phy driver would go
+> into different maintainer's tree.
 
+Oh of course. Thank you. I fixed it for the next version.
 
-thanks
-Lucas De Marchi
-
-
->
->>
->> which would make sense if we think about shortcutting the if condition.
->> However smatch still reports the warning and an additional one
->> in drivers/gpu/drm/i915/i915_request.c. The ways I found to stop the
->> false positives with smatch are:
->>
->> if (context && CONFIG_DRM_I915_FENCE_TIMEOUT != 0)
->> or
->> if (context && !!CONFIG_DRM_I915_FENCE_TIMEOUT)
->> or
->> if (context && CONFIG_DRM_I915_FENCE_TIMEOUT > 0)
->>
->
->I guess I prefer the first and third but I'll add the rule that Clang
->uses to silence the warning.
->
->regards,
->dan carpenter
->
+Best,
+Markus
