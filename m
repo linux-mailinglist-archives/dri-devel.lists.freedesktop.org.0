@@ -2,50 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3434230BF
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 21:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C654230DC
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 21:41:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 749D16E450;
-	Tue,  5 Oct 2021 19:27:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 416176EC33;
+	Tue,  5 Oct 2021 19:41:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4CD2B6E44F;
- Tue,  5 Oct 2021 19:27:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="225729812"
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="225729812"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 05 Oct 2021 12:27:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="458176402"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga002.jf.intel.com with SMTP; 05 Oct 2021 12:26:56 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Tue, 05 Oct 2021 22:26:55 +0300
-Date: Tue, 5 Oct 2021 22:26:55 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Imre Deak <imre.deak@intel.com>,
- =?iso-8859-1?Q?Jos=E9?= Roberto de Souza <jose.souza@intel.com>,
- Matt Roper <matthew.d.roper@intel.com>,
- Dave Airlie <airlied@redhat.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/i915/tc: Delete bogus NULL check in
- intel_ddi_encoder_destroy()
-Message-ID: <YVym/wi1xCuyntvY@intel.com>
-References: <20211004103737.GC25015@kili>
+X-Greylist: delayed 301 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Oct 2021 19:41:05 UTC
+Received: from out28-2.mail.aliyun.com (out28-2.mail.aliyun.com [115.124.28.2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E7A366EC3C
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 19:41:05 +0000 (UTC)
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.07579427|-1; CH=green;
+ DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00686209-0.000177396-0.992961;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047192; MF=amos@sietium.com; NM=1; PH=DS;
+ RN=3; RT=3; SR=0; TI=SMTPD_---.LUh8Q1Q_1633462556; 
+Received: from fedora..(mailfrom:amos@sietium.com
+ fp:SMTPD_---.LUh8Q1Q_1633462556)
+ by smtp.aliyun-inc.com(10.147.42.22); Wed, 06 Oct 2021 03:36:01 +0800
+From: Amos Kong <amos@sietium.com>
+To: dri-devel@lists.freedesktop.org
+Cc: christian.koenig@amd.com,
+	ray.huang@amd.com
+Subject: [PATCH] drm/ttm_bo_api: update the description for @placement and @sg
+Date: Wed,  6 Oct 2021 03:35:56 +0800
+Message-Id: <38eac09bf2ddd6088cc8a126e6bc4792eaa2dc88.1633462176.git.amos@sietium.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211004103737.GC25015@kili>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,35 +47,55 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 04, 2021 at 01:37:37PM +0300, Dan Carpenter wrote:
-> The "digi_port" pointer can't be NULL and we have already dereferenced
-> it so checking for NULL is not necessary.  Delete the check.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+Correct the argument name of @placement and added @sg description for
+ttm_bo_init() and ttm_bo_init_reserved().
 
-Thanks. Applied to drm-intel-next.
+Argument @flags was replaced to @placement by Jerome in commit
+09855acb1c2e3779f25317ec9a8ffe1b1784a4a8
 
-> ---
->  drivers/gpu/drm/i915/display/intel_ddi.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_ddi.c b/drivers/gpu/drm/i915/display/intel_ddi.c
-> index 51d07e9af9f3..b9c6eb13804f 100644
-> --- a/drivers/gpu/drm/i915/display/intel_ddi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_ddi.c
-> @@ -4025,8 +4025,7 @@ static void intel_ddi_encoder_destroy(struct drm_encoder *encoder)
->  	intel_display_power_flush_work(i915);
->  
->  	drm_encoder_cleanup(encoder);
-> -	if (dig_port)
-> -		kfree(dig_port->hdcp_port_data.streams);
-> +	kfree(dig_port->hdcp_port_data.streams);
->  	kfree(dig_port);
->  }
->  
-> -- 
-> 2.20.1
+Argument @sg was added by Dave in commit
+129b78bfca591e736e56a294f0e357d73d938f7e
 
+Signed-off-by: Amos Kong <amos@sietium.com>
+Cc: Jerome Glisse <jglisse@redhat.com>
+Cc: Dave Airlie <airlied@redhat.com>
+---
+ include/drm/ttm/ttm_bo_api.h | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+index f681bbdbc698..eb27bbee9888 100644
+--- a/include/drm/ttm/ttm_bo_api.h
++++ b/include/drm/ttm/ttm_bo_api.h
+@@ -363,9 +363,10 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+  * @bo: Pointer to a ttm_buffer_object to be initialized.
+  * @size: Requested size of buffer object.
+  * @type: Requested type of buffer object.
+- * @flags: Initial placement flags.
++ * @placement: Initial placement for buffer object.
+  * @page_alignment: Data alignment in pages.
+  * @ctx: TTM operation context for memory allocation.
++ * @sg: Scatter-gather table.
+  * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+  * @destroy: Destroy function. Use NULL for kfree().
+  *
+@@ -406,7 +407,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+  * @bo: Pointer to a ttm_buffer_object to be initialized.
+  * @size: Requested size of buffer object.
+  * @type: Requested type of buffer object.
+- * @flags: Initial placement flags.
++ * @placement: Initial placement for buffer object.
+  * @page_alignment: Data alignment in pages.
+  * @interruptible: If needing to sleep to wait for GPU resources,
+  * sleep interruptible.
+@@ -414,6 +415,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+  * holds a pointer to a persistent shmem object. Typically, this would
+  * point to the shmem object backing a GEM object if TTM is used to back a
+  * GEM user interface.
++ * @sg: Scatter-gather table.
+  * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+  * @destroy: Destroy function. Use NULL for kfree().
+  *
 -- 
-Ville Syrjälä
-Intel
+2.31.1
+
