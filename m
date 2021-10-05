@@ -2,95 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E22F422EE6
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 19:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 190A1422F0B
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 19:21:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E77C76E439;
-	Tue,  5 Oct 2021 17:16:16 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D3C56E43C;
+	Tue,  5 Oct 2021 17:21:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com
- [IPv6:2a00:1450:4864:20::12d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CA3F56E438
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 17:16:15 +0000 (UTC)
-Received: by mail-lf1-x12d.google.com with SMTP id n8so32472839lfk.6
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 10:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=v4VMlYai/5OJD6I0jXVUBp7T7QQDEKF1EDfzlyrXPNg=;
- b=W2HYfURkJzDMqxvMvdLnaSxyL8uT7r1csfbSZPSbXORQw+cwWFtMynJRUEG4LiQrHQ
- y3v5acYIRN1Eb0FbSRLCSIRtUZRGATp/wXu0GpAF7MIKkyEe30yYqs44aRZ5hx7PQUf8
- KTIq6kvEdh07WxUJ9lahyZFbc91AomDi579Y3/gpCjlzb6mopUwQ7ho2PCW0cuccDWMY
- /i99LFk5tTWbSOuutGf0fRJHd37tPZRn46J6NSoa+sUFqOvBAVR+EQT9iPI/71vRNDUs
- E1DUIcTLGVE0YH8x38A9SKJivF5TQbdR1jagf785PZye81GIeWabHB+XUJ5q/1UXW+WG
- AQEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v4VMlYai/5OJD6I0jXVUBp7T7QQDEKF1EDfzlyrXPNg=;
- b=iC6itM6Kc6/550TY4hkibo/AtJ9dh0iFkUx+8frkzC6lPCBmDkvafL5/Wa88wNHlqV
- Xf80kp0CFPqFRJaMNuBpveh2uI/u2OaWzo5tuTqhLCispYbystar4q8z6VAcE2A4ijhl
- MMT3XnoUXbjqhjNlPTbrhgyRuYMgLI3hFKNexc5EXu8AFY4ladl75yg1GVCpFLnZOG3W
- WVOKIV0UdKrNog5Zu1ToPEMvGUSk3LMaq8F/3Z/QQMO9NQJdwJ4T7lXf6idZ4aFefgqw
- MccuSzHDKA+apA+JQGY/5E/DlJPF1SSlGouOyaFQREVet13aF/DVourN1CD4RrXZ6vKU
- c+6w==
-X-Gm-Message-State: AOAM533o8leloB6ZuX9TKXwnAbky8Yhn1Ux+hYsCTCbA1QnwwPjThDbn
- XYvJXgguN/6u0MREkDuA23E=
-X-Google-Smtp-Source: ABdhPJzFxn+EEvAfXINlDGqbDWfWJzkpl0QRwm+Z1jKxlyPCyoz5MyhKfZrnAr2zjaXtazuDCKJIlw==
-X-Received: by 2002:a05:6512:10d0:: with SMTP id
- k16mr4573650lfg.530.1633454173285; 
- Tue, 05 Oct 2021 10:16:13 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
- [79.139.163.57])
- by smtp.googlemail.com with ESMTPSA id o12sm2013505lft.254.2021.10.05.10.16.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 10:16:12 -0700 (PDT)
-Subject: Re: [PATCH v13 13/35] drm/tegra: gr2d: Support generic power domain
- and runtime PM
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-14-digetx@gmail.com>
- <CAPDyKFpzhv1UxjM0q5AWHVxTWC_cCO_Kg_6exO0o_=EoVvjo+w@mail.gmail.com>
- <aad7a508-7fb5-3418-f902-def80c365094@gmail.com>
- <CAPDyKFppSuP6FfaBaGn3o+8WvTT=vJ8XMzZ47WPQ1JKiUYyEpw@mail.gmail.com>
- <8d75436d-864a-7ce0-ba53-daa8b663035a@gmail.com>
- <CAPDyKFpqs5gUcym4q+GuiJy13eXqjEnx-eFdUT4bQpcfPAOEYw@mail.gmail.com>
- <f5b5e06a-71ed-1250-f0ad-692062e00e01@gmail.com>
- <CAPDyKFpWzLdKr0bYX4VYwNpPuJNEs=weEpNpDH6zfv9e8SaxJQ@mail.gmail.com>
-From: Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <65f5ea6a-5d04-57cc-f4e4-bf29f22af7f0@gmail.com>
-Date: Tue, 5 Oct 2021 20:16:11 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1CE5E6E43C;
+ Tue,  5 Oct 2021 17:21:07 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="212737902"
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="212737902"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 10:17:44 -0700
+X-IronPort-AV: E=Sophos;i="5.85,349,1624345200"; d="scan'208";a="438780700"
+Received: from lucas-s2600cw.jf.intel.com ([10.165.21.202])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 05 Oct 2021 10:17:44 -0700
+From: Lucas De Marchi <lucas.demarchi@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Masahiro Yamada <masahiroy@kernel.org>,
+ Steven Price <steven.price@arm.com>, chris@chris-wilson.co.uk,
+ Andrzej Hajda <a.hajda@samsung.com>, Jani Nikula <jani.nikula@intel.com>
+Subject: [PATCH v3] drm/i915: remove IS_ACTIVE
+Date: Tue,  5 Oct 2021 10:17:28 -0700
+Message-Id: <20211005171728.3147094-1-lucas.demarchi@intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-In-Reply-To: <CAPDyKFpWzLdKr0bYX4VYwNpPuJNEs=weEpNpDH6zfv9e8SaxJQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -106,46 +49,271 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-...
->> It's not a problem to change this patchset. The problem is that if
->> you'll grep mainline for 'pm_runtime_disable', you will find that there
->> are a lot of drivers in a potential trouble.
-> 
-> Let's start by fixing this patchset, please - then we can consider
-> what to do with the other cases separately.
+When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
+provide much value just encapsulating it in a boolean context. So I also
+added the support for handling undefined macros as the IS_ENABLED()
+counterpart. However the feedback received from Masahiro Yamada was that
+it is too ugly, not providing much value. And just wrapping in a boolean
+context is too dumb - we could simply open code it.
 
-Yeah, should be better to discuss it separately.
+As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
+constant values inside boolean predicates"), the IS_ACTIVE macro was
+added to workaround a compilation warning. However after checking again
+our current uses of IS_ACTIVE it turned out there is only
+1 case in which it triggers a warning in clang (due
+-Wconstant-logical-operand) and 2 in smatch. All the others
+can simply use the shorter version, without wrapping it in any macro.
 
-...
->>  void __pm_runtime_disable(struct device *dev, bool check_resume)
->>  {
->> +       flush_work(&dev->power.work);
->> +
-> 
-> What about the latency this may introduce? I am not sure that is
-> acceptable here!?
+So here I'm dialing all the way back to simply removing the macro. That
+single case hit by clang can be changed to make the constant come first,
+so it doesn't think it's mask:
 
-I'm not aware about any code which relies on the original 'cancelling'
-behaviour, perhaps Rafael should have more insight.
+	-       if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+	+       if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
 
-...
->> The sysfs rpm-forbid is a separate problem and it's less troublesome
->> since it requires root privileges. It's also not something that
->> userspace touches casually. For now I don't know what could be done
->> about it.
-> 
-> As I said, the common method to address this problem is to run the
-> following sequence:
-> 
-> pm_runtime_get_sync()
-> "power off the device"
-> pm_runtime_disable()
-> pm_runtime_put_noidle()
-> 
-> This works even if user space, via sysfs, has triggered a call to
-> pm_runtime_forbid(). Or doesn't it?
-> 
-> If you don't like it, pm_runtime_force_suspend() should work too, at
-> least for your cases, I believe.
+As talked with Dan Carpenter, that logic will be added in smatch as
+well, so it will also stop warning about it.
 
-I'll update the patches, thank you.
+Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+Acked-by: Jani Nikula <jani.nikula@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_context.c        |  2 +-
+ drivers/gpu/drm/i915/gem/i915_gem_mman.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine.h             |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c   |  2 +-
+ drivers/gpu/drm/i915/gt/intel_engine_types.h       |  2 +-
+ .../gpu/drm/i915/gt/intel_execlists_submission.c   |  2 +-
+ .../gpu/drm/i915/gt/selftest_engine_heartbeat.c    |  4 ++--
+ drivers/gpu/drm/i915/gt/selftest_execlists.c       | 14 +++++++-------
+ drivers/gpu/drm/i915/i915_config.c                 |  2 +-
+ drivers/gpu/drm/i915/i915_request.c                |  2 +-
+ drivers/gpu/drm/i915/i915_utils.h                  | 13 -------------
+ 11 files changed, 18 insertions(+), 31 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+index 74e33a4cdfe8..d225d3dd0b40 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
+@@ -804,7 +804,7 @@ static int intel_context_set_gem(struct intel_context *ce,
+ 	    intel_engine_has_semaphores(ce->engine))
+ 		__set_bit(CONTEXT_USE_SEMAPHORES, &ce->flags);
+ 
+-	if (IS_ACTIVE(CONFIG_DRM_I915_REQUEST_TIMEOUT) &&
++	if (CONFIG_DRM_I915_REQUEST_TIMEOUT &&
+ 	    ctx->i915->params.request_timeout_ms) {
+ 		unsigned int timeout_ms = ctx->i915->params.request_timeout_ms;
+ 
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+index 5130e8ed9564..65fc6ff5f59d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+@@ -395,7 +395,7 @@ static vm_fault_t vm_fault_gtt(struct vm_fault *vmf)
+ 	/* Track the mmo associated with the fenced vma */
+ 	vma->mmo = mmo;
+ 
+-	if (IS_ACTIVE(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND))
++	if (CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND)
+ 		intel_wakeref_auto(&i915->ggtt.userfault_wakeref,
+ 				   msecs_to_jiffies_timeout(CONFIG_DRM_I915_USERFAULT_AUTOSUSPEND));
+ 
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
+index eed4634c08cd..452248884ef1 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine.h
+@@ -275,7 +275,7 @@ static inline bool intel_engine_uses_guc(const struct intel_engine_cs *engine)
+ static inline bool
+ intel_engine_has_preempt_reset(const struct intel_engine_cs *engine)
+ {
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_PREEMPT_TIMEOUT))
++	if (!CONFIG_DRM_I915_PREEMPT_TIMEOUT)
+ 		return false;
+ 
+ 	return intel_engine_has_preemption(engine);
+@@ -302,7 +302,7 @@ intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
+ static inline bool
+ intel_engine_has_heartbeat(const struct intel_engine_cs *engine)
+ {
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
++	if (!CONFIG_DRM_I915_HEARTBEAT_INTERVAL)
+ 		return false;
+ 
+ 	if (intel_engine_is_virtual(engine))
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+index 74775ae961b2..a3698f611f45 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
++++ b/drivers/gpu/drm/i915/gt/intel_engine_heartbeat.c
+@@ -207,7 +207,7 @@ static void heartbeat(struct work_struct *wrk)
+ 
+ void intel_engine_unpark_heartbeat(struct intel_engine_cs *engine)
+ {
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
++	if (!CONFIG_DRM_I915_HEARTBEAT_INTERVAL)
+ 		return;
+ 
+ 	next_heartbeat(engine);
+diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+index 5ae1207c363b..9167ce52487c 100644
+--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
++++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+@@ -556,7 +556,7 @@ intel_engine_has_semaphores(const struct intel_engine_cs *engine)
+ static inline bool
+ intel_engine_has_timeslices(const struct intel_engine_cs *engine)
+ {
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++	if (!CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 		return false;
+ 
+ 	return engine->flags & I915_ENGINE_HAS_TIMESLICES;
+diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+index 7147fe80919e..73a79c2acd3a 100644
+--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
++++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+@@ -3339,7 +3339,7 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+ 		engine->flags |= I915_ENGINE_HAS_SEMAPHORES;
+ 		if (can_preempt(engine)) {
+ 			engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+-			if (IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++			if (CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 				engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+ 		}
+ 	}
+diff --git a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+index 317eebf086c3..6e6e4d747cca 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
++++ b/drivers/gpu/drm/i915/gt/selftest_engine_heartbeat.c
+@@ -290,7 +290,7 @@ static int live_heartbeat_fast(void *arg)
+ 	int err = 0;
+ 
+ 	/* Check that the heartbeat ticks at the desired rate. */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
++	if (!CONFIG_DRM_I915_HEARTBEAT_INTERVAL)
+ 		return 0;
+ 
+ 	for_each_engine(engine, gt, id) {
+@@ -352,7 +352,7 @@ static int live_heartbeat_off(void *arg)
+ 	int err = 0;
+ 
+ 	/* Check that we can turn off heartbeat and not interrupt VIP */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_HEARTBEAT_INTERVAL))
++	if (!CONFIG_DRM_I915_HEARTBEAT_INTERVAL)
+ 		return 0;
+ 
+ 	for_each_engine(engine, gt, id) {
+diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+index b3863abc51f5..25a8c4f62b0d 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
++++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
+@@ -992,7 +992,7 @@ static int live_timeslice_preempt(void *arg)
+ 	 * need to preempt the current task and replace it with another
+ 	 * ready task.
+ 	 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++	if (!CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 		return 0;
+ 
+ 	obj = i915_gem_object_create_internal(gt->i915, PAGE_SIZE);
+@@ -1122,7 +1122,7 @@ static int live_timeslice_rewind(void *arg)
+ 	 * but only a few of those requests, forcing us to rewind the
+ 	 * RING_TAIL of the original request.
+ 	 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++	if (!CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 		return 0;
+ 
+ 	for_each_engine(engine, gt, id) {
+@@ -1299,7 +1299,7 @@ static int live_timeslice_queue(void *arg)
+ 	 * ELSP[1] is already occupied, so must rely on timeslicing to
+ 	 * eject ELSP[0] in favour of the queue.)
+ 	 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++	if (!CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 		return 0;
+ 
+ 	obj = i915_gem_object_create_internal(gt->i915, PAGE_SIZE);
+@@ -1420,7 +1420,7 @@ static int live_timeslice_nopreempt(void *arg)
+ 	 * We should not timeslice into a request that is marked with
+ 	 * I915_REQUEST_NOPREEMPT.
+ 	 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_TIMESLICE_DURATION))
++	if (!CONFIG_DRM_I915_TIMESLICE_DURATION)
+ 		return 0;
+ 
+ 	if (igt_spinner_init(&spin, gt))
+@@ -2260,7 +2260,7 @@ static int __cancel_hostile(struct live_preempt_cancel *arg)
+ 	int err;
+ 
+ 	/* Preempt cancel non-preemptible spinner in ELSP0 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_PREEMPT_TIMEOUT))
++	if (!CONFIG_DRM_I915_PREEMPT_TIMEOUT)
+ 		return 0;
+ 
+ 	if (!intel_has_reset_engine(arg->engine->gt))
+@@ -2316,7 +2316,7 @@ static int __cancel_fail(struct live_preempt_cancel *arg)
+ 	struct i915_request *rq;
+ 	int err;
+ 
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_PREEMPT_TIMEOUT))
++	if (!CONFIG_DRM_I915_PREEMPT_TIMEOUT)
+ 		return 0;
+ 
+ 	if (!intel_has_reset_engine(engine->gt))
+@@ -3375,7 +3375,7 @@ static int live_preempt_timeout(void *arg)
+ 	 * Check that we force preemption to occur by cancelling the previous
+ 	 * context if it refuses to yield the GPU.
+ 	 */
+-	if (!IS_ACTIVE(CONFIG_DRM_I915_PREEMPT_TIMEOUT))
++	if (!CONFIG_DRM_I915_PREEMPT_TIMEOUT)
+ 		return 0;
+ 
+ 	if (!intel_has_reset_engine(gt))
+diff --git a/drivers/gpu/drm/i915/i915_config.c b/drivers/gpu/drm/i915/i915_config.c
+index b79b5f6d2cfa..afb828dab53b 100644
+--- a/drivers/gpu/drm/i915/i915_config.c
++++ b/drivers/gpu/drm/i915/i915_config.c
+@@ -8,7 +8,7 @@
+ unsigned long
+ i915_fence_context_timeout(const struct drm_i915_private *i915, u64 context)
+ {
+-	if (context && IS_ACTIVE(CONFIG_DRM_I915_FENCE_TIMEOUT))
++	if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
+ 		return msecs_to_jiffies_timeout(CONFIG_DRM_I915_FENCE_TIMEOUT);
+ 
+ 	return 0;
+diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
+index 79da5eca60af..91bd6f4e9909 100644
+--- a/drivers/gpu/drm/i915/i915_request.c
++++ b/drivers/gpu/drm/i915/i915_request.c
+@@ -1852,7 +1852,7 @@ long i915_request_wait(struct i915_request *rq,
+ 	 * completion. That requires having a good predictor for the request
+ 	 * duration, which we currently lack.
+ 	 */
+-	if (IS_ACTIVE(CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT) &&
++	if (CONFIG_DRM_I915_MAX_REQUEST_BUSYWAIT &&
+ 	    __i915_spin_request(rq, state))
+ 		goto out;
+ 
+diff --git a/drivers/gpu/drm/i915/i915_utils.h b/drivers/gpu/drm/i915/i915_utils.h
+index 5259edacde38..62f189e064a9 100644
+--- a/drivers/gpu/drm/i915/i915_utils.h
++++ b/drivers/gpu/drm/i915/i915_utils.h
+@@ -458,17 +458,4 @@ static inline bool timer_expired(const struct timer_list *t)
+ 	return timer_active(t) && !timer_pending(t);
+ }
+ 
+-/*
+- * This is a lookalike for IS_ENABLED() that takes a kconfig value,
+- * e.g. CONFIG_DRM_I915_SPIN_REQUEST, and evaluates whether it is non-zero
+- * i.e. whether the configuration is active. Wrapping up the config inside
+- * a boolean context prevents clang and smatch from complaining about potential
+- * issues in confusing logical-&& with bitwise-& for constants.
+- *
+- * Sadly IS_ENABLED() itself does not work with kconfig values.
+- *
+- * Returns 0 if @config is 0, 1 if set to any value.
+- */
+-#define IS_ACTIVE(config) ((config) != 0)
+-
+ #endif /* !__I915_UTILS_H */
+-- 
+2.33.0
+
