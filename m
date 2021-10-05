@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E11DE422831
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:45:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8635C4228BE
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 15:52:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1766E084;
-	Tue,  5 Oct 2021 13:45:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 6F2706E3F4;
+	Tue,  5 Oct 2021 13:52:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2d.google.com (mail-io1-xd2d.google.com
- [IPv6:2607:f8b0:4864:20::d2d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E01736E084
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 13:45:24 +0000 (UTC)
-Received: by mail-io1-xd2d.google.com with SMTP id b78so3368716iof.2
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 06:45:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DgOIE96eS9LCwM8xrp/VmKNjdKCV3OUl2f/h98/P2uA=;
- b=Ik3VtettYsKq8tCKrQwpYih9V4scwM/ap7YHv9s4H1bIAmcl44e9EYxcyile1eNDjn
- BA60YaZR+yP6XLpREe7X48XFqf2HQLVL/VgOaJfgs5/OE7V9Vp2DkS5EhbtvrYQNGIaV
- XqjjaHpSRqrz7gvM4MQOiNmfkXBcFX89TDXl0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DgOIE96eS9LCwM8xrp/VmKNjdKCV3OUl2f/h98/P2uA=;
- b=InipjDw6OSDh0RC3/9CrGZJ5zaC3cd742CxcFtZg2HSb0xcQNqW7nx4T+bqzcCsVih
- jfj8+C4SECbDCY7FBgi5DY9CCIWF4ROdrT5ObQd93EsPUyz6wHrKfmC0ETuprg5tBPdT
- 9vVS/3f8MbiguzeFI7jCTUayNpY9J/nxJJIQL4ZwX0K9yNxcrPUZCyNCN6PqPFXeYj9H
- KqS1WwYopYeXyzF2QvSR95v0fHoQ2Y9UVTsbOYE9I4fzUuVFR+UUuNGfjvMiLLP8uOEY
- rZ0ZA8yGEhAJh97JXJrnPJvU9KFdR7HQQ61auvkqQ8s46+Oh+Z4zGkC2oHyFk11ELxOy
- IOAw==
-X-Gm-Message-State: AOAM533ekGoLgaId+lYQcA0GVn6MRSq2rJdlyRu1s4bAgTfa/aUDM4PT
- oeizAJEjKGxUKqpZu2j4G4L8UsY5j5ZmHw==
-X-Google-Smtp-Source: ABdhPJwERzki2XXRRmn1jezGlJeVWBRyIjO4U0jligeGtUm6d8Pn4bXGMXMe6/bmKIv5BOrK6UkMRg==
-X-Received: by 2002:a02:7154:: with SMTP id n20mr2676712jaf.77.1633441523404; 
- Tue, 05 Oct 2021 06:45:23 -0700 (PDT)
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com.
- [209.85.166.46])
- by smtp.gmail.com with ESMTPSA id k7sm2015574ilq.37.2021.10.05.06.45.21
- for <dri-devel@lists.freedesktop.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id p80so24345712iod.10
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
-X-Received: by 2002:a02:c7d2:: with SMTP id s18mr2725618jao.68.1633441521325; 
- Tue, 05 Oct 2021 06:45:21 -0700 (PDT)
+X-Greylist: delayed 403 seconds by postgrey-1.36 at gabe;
+ Tue, 05 Oct 2021 13:52:21 UTC
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 41CF16E3F4
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 13:52:21 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 6C26A5C2764;
+ Tue,  5 Oct 2021 15:45:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1633441536;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MnLwo57Qj0/f1FqMi0leRR6DjLfqh+PNYNZjNC/l4+0=;
+ b=zKhxc2nCDtT7NVNnobPuUcNui9X+zSA9Vs2LQxQTfZLLHnjPI5iIQgAsnNfUu9tJ0F7FqN
+ GjDcZgclNsSchMXXyg/pSNKphqGLYO81gDqwfo4jSF1TdRYauvtQidp0pt5IGb69yh96fJ
+ Dc8kulsxMammBs8ZAm8noz/WgKNGYxU=
 MIME-Version: 1.0
-References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
- <CAMuHMdUsoBO2hjd0tAecAjnwCUbp=d8i8vaUFDT6Yn3emw2s9Q@mail.gmail.com>
- <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=V8MoYX2deqD_YE6ii9+VFbwqX0bre=5xaYe8ZwwExziQ@mail.gmail.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Tue, 5 Oct 2021 06:45:08 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=VEdnszvbRR3dPijbzvwENUnQi2Ai+Erg6e1L9fb24R9Q@mail.gmail.com>
-Message-ID: <CAD=FV=VEdnszvbRR3dPijbzvwENUnQi2Ai+Erg6e1L9fb24R9Q@mail.gmail.com>
-Subject: Re: [PATCH] drm/edid: Fix crash with zero/invalid EDID
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: DRI Development <dri-devel@lists.freedesktop.org>, 
- kernel test robot <oliver.sang@intel.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, 
- Jani Nikula <jani.nikula@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Sam Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Date: Tue, 05 Oct 2021 15:45:36 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: sboyd@kernel.org, mturquette@baylibre.com, Alison Wang
+ <alison.wang@nxp.com>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm: fsl-dcu: enable PIXCLK on LS1021A
+In-Reply-To: <8e6830c43fbd97bbca59702896b0dd320f83e940.camel@ew.tq-group.com>
+References: <20200820105832.22331-1-matthias.schiffer@ew.tq-group.com>
+ <0321e3b1a9def003322b71f2a5fdfe08@agner.ch>
+ <5015d9c9fe02733f8dfb2714a903ab725e7cdd7f.camel@ew.tq-group.com>
+ <8e6830c43fbd97bbca59702896b0dd320f83e940.camel@ew.tq-group.com>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <b718fb759c07aaac8f397e4bf7632141@agner.ch>
+X-Sender: stefan@agner.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,40 +61,126 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On 2021-10-05 14:35, Matthias Schiffer wrote:
+> On Thu, 2021-09-16 at 14:50 +0200, Matthias Schiffer wrote:
+>> On Fri, 2020-08-21 at 15:41 +0200, Stefan Agner wrote:
+>> > Hi Matthias,
+>> >
+>> > On 2020-08-20 12:58, Matthias Schiffer wrote:
+>> > > The PIXCLK needs to be enabled in SCFG before accessing the DCU on LS1021A,
+>> > > or the access will hang.
+>> >
+>> > Hm, this seems a rather ad-hoc access to SCFG from the DCU. We do
+>> > support a pixel clock in the device tree bindings of fsl-dcu, so ideally
+>> > we should enable the pixel clock through the clock framework.
+>> >
+>> > On the other hand, I guess that would mean adding a clock driver to flip
+>> > a single bit, which seems a bit excessive too.
+>> >
+>> > I'd like a second opinion on that. Adding clk framework maintainers.
+>>
+>> It's been a while, and nobody else has given their opinion. How should
+>> we proceed with this patch?
+>>
+>> Matthias
+> 
+> This patch is still blocked on a maintainer decision. Should I send a
+> rebased version of the current solution, or do we want to have a proper
+> clk driver to flip this bit?
+> 
 
-On Mon, Oct 4, 2021 at 5:40 PM Doug Anderson <dianders@chromium.org> wrote:
->
-> Hi,
->
-> On Mon, Oct 4, 2021 at 10:14 AM Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> >
-> > Hi Douglas,
-> >
-> > On Mon, Oct 4, 2021 at 6:22 PM Douglas Anderson <dianders@chromium.org> wrote:
-> > > In the commit bac9c2948224 ("drm/edid: Break out reading block 0 of
-> > > the EDID") I broke out reading the base block of the EDID to its own
-> > > function. Unfortunately, when I did that I messed up the handling when
-> > > drm_edid_is_zero() indicated that we had an EDID that was all 0x00 or
-> > > when we went through 4 loops and didn't get a valid EDID. Specifically
-> > > I needed to pass the broken EDID to connector_bad_edid() but now I was
-> > > passing an error-pointer.
-> > >
-> > > Let's re-jigger things so we can pass the bad EDID in properly.
-> > >
-> > > Fixes: bac9c2948224 ("drm/edid: Break out reading block 0 of the EDID")
-> > > Reported-by: kernel test robot <oliver.sang@intel.com>
-> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Signed-off-by: Douglas Anderson <dianders@chromium.org>
-> >
-> > The crash is was seeing is gone, so
-> > Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> Thanks for testing! I'll plan to apply tomorrow morning (California
-> time) to balance between giving folks a chance to yell at me for my
-> patch and the urgency of fixing the breakage.
+The clock maintainers haven't stated an opinion. I've seen similar hacks
+for reset and other bits in other places, so I guess it's fine.
 
-Ah, doh! I can't push until I can get a review tag from someone. As
-soon as I see one then I'll give it a push.
+Can you also drop the np argument from fsl_dcu_scfg_config_ls1021a(), it
+seems unnecessary.
 
--Doug
+--
+Stefan
+
+> 
+>>
+>>
+>> >
+>> > --
+>> > Stefan
+>> >
+>> > >
+>> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+>> > > ---
+>> > >  drivers/gpu/drm/fsl-dcu/Kconfig           |  1 +
+>> > >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c | 25 +++++++++++++++++++++++
+>> > >  drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h |  3 +++
+>> > >  3 files changed, 29 insertions(+)
+>> > >
+>> > > diff --git a/drivers/gpu/drm/fsl-dcu/Kconfig b/drivers/gpu/drm/fsl-dcu/Kconfig
+>> > > index d7dd8ba90e3a..9e5a35e7c00c 100644
+>> > > --- a/drivers/gpu/drm/fsl-dcu/Kconfig
+>> > > +++ b/drivers/gpu/drm/fsl-dcu/Kconfig
+>> > > @@ -8,6 +8,7 @@ config DRM_FSL_DCU
+>> > >  	select DRM_PANEL
+>> > >  	select REGMAP_MMIO
+>> > >  	select VIDEOMODE_HELPERS
+>> > > +	select MFD_SYSCON if SOC_LS1021A
+>> > >  	help
+>> > >  	  Choose this option if you have an Freescale DCU chipset.
+>> > >  	  If M is selected the module will be called fsl-dcu-drm.
+>> > > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+>> > > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+>> > > index abbc1ddbf27f..8a7556655581 100644
+>> > > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+>> > > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.c
+>> > > @@ -51,6 +51,23 @@ static const struct regmap_config fsl_dcu_regmap_config = {
+>> > >  	.volatile_reg = fsl_dcu_drm_is_volatile_reg,
+>> > >  };
+>> > >
+>> > > +static int fsl_dcu_scfg_config_ls1021a(struct device_node *np)
+>> > > +{
+>> > > +	struct regmap *scfg;
+>> > > +
+>> > > +	scfg = syscon_regmap_lookup_by_compatible("fsl,ls1021a-scfg");
+>> > > +	if (IS_ERR(scfg))
+>> > > +		return PTR_ERR(scfg);
+>> > > +
+>> > > +	/*
+>> > > +	 * For simplicity, enable the PIXCLK unconditionally. It might
+>> > > +	 * be possible to disable the clock in PM or on unload as a future
+>> > > +	 * improvement.
+>> > > +	 */
+>> > > +	return regmap_update_bits(scfg, SCFG_PIXCLKCR, SCFG_PIXCLKCR_PXCEN,
+>> > > +				  SCFG_PIXCLKCR_PXCEN);
+>> > > +}
+>> > > +
+>> > >  static void fsl_dcu_irq_uninstall(struct drm_device *dev)
+>> > >  {
+>> > >  	struct fsl_dcu_drm_device *fsl_dev = dev->dev_private;
+>> > > @@ -70,6 +87,14 @@ static int fsl_dcu_load(struct drm_device *dev,
+>> > > unsigned long flags)
+>> > >  		return ret;
+>> > >  	}
+>> > >
+>> > > +	if (of_device_is_compatible(fsl_dev->np, "fsl,ls1021a-dcu")) {
+>> > > +		ret = fsl_dcu_scfg_config_ls1021a(fsl_dev->np);
+>> > > +		if (ret < 0) {
+>> > > +			dev_err(dev->dev, "failed to enable pixclk\n");
+>> > > +			goto done;
+>> > > +		}
+>> > > +	}
+>> > > +
+>> > >  	ret = drm_vblank_init(dev, dev->mode_config.num_crtc);
+>> > >  	if (ret < 0) {
+>> > >  		dev_err(dev->dev, "failed to initialize vblank\n");
+>> > > diff --git a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+>> > > b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+>> > > index e2049a0e8a92..566396013c04 100644
+>> > > --- a/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+>> > > +++ b/drivers/gpu/drm/fsl-dcu/fsl_dcu_drm_drv.h
+>> > > @@ -160,6 +160,9 @@
+>> > >  #define FSL_DCU_ARGB4444		12
+>> > >  #define FSL_DCU_YUV422			14
+>> > >
+>> > > +#define SCFG_PIXCLKCR			0x28
+>> > > +#define SCFG_PIXCLKCR_PXCEN		BIT(31)
+>> > > +
+>> > >  #define VF610_LAYER_REG_NUM		9
+>> > >  #define LS1021A_LAYER_REG_NUM		10
