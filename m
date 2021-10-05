@@ -2,131 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17A9D422C68
-	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:25:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA152422C8E
+	for <lists+dri-devel@lfdr.de>; Tue,  5 Oct 2021 17:32:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id BA5CE6F5E3;
-	Tue,  5 Oct 2021 15:25:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 24EB36F5E5;
+	Tue,  5 Oct 2021 15:32:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam11on2053.outbound.protection.outlook.com [40.107.236.53])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16F836E418
- for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:25:19 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iXq/MryW6u1+Pbz9YcDlHfIwZfujzLl9Ekui3lBeg6o0G+sLd+1smVrJPL7lyrBdrJQw5s8WeKfx4GhmWDsaLh4fCDJ5k/oWrUeBi4BhB3HlGEflsXuRK0a2frqbjQCP7PIQrFmkySnlrcMg1LmXJeAUrUGxTxaWeSZQE21dxURu8+OOUQ/7JFi6EwDlvUvoUmgB7kfLMIWX3RwLdI6dW1i6LbER+MpQE+Qn+/DCd0T9sw5TZfVl6MqS8a0/XksQTj2qoqwlhjrAtzIlWSk694YF5guXQhkuqtBbSpNl6fd7T2F1qHXv/HN0piXAvwrHQxBDM+/df6RqHIuaG+PliQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FR5Y8R2rQ1UvQfRPGu9EUapp3UvttWMjfJOpknNUuJk=;
- b=XNloDyx0SZf/S8RcFGSyWqYixlqvhIT0Q/aHA7qdTxCQBRR5nW+g78gibXicFzOqtaVEVTIKnEworgvOqbj1u5UtvTz28AV8vrnCnGGjkeyWkxQk/crUdbttnk7ZK16zuIBz2fpIHrEhUCd2LhzaG67rCXzJITFmquYXblyKnQD53+PwWNAbao0P4bXgHuJQoXmNLvuhjNT7u85+yQpR+CSNcwn/jetqo3XQXcemN9IAFW8wLk7Eqrm/Td8lNNeg9RPBW8ldChyhCfwF4/cFlgq/cOnzfFDfog6cWMq/yZU3g5tLcb11EGMG/25Iay4gAXObdOA89NLceftgRBvDOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FR5Y8R2rQ1UvQfRPGu9EUapp3UvttWMjfJOpknNUuJk=;
- b=2Z3hS4l5cTt0Rd9yr5xx3Jcy4wxd3uPT+NpWDZDfIQYIeWV0pwch3+kqaepcP2OqeuJpgu1wLaMlxepYHvvsTFHOjkXDzHiC6XMWrIcIQe2sObj1TW2C4CBwxiR7FpsMcSTDgJoZXgCsmNGcAi15N09wpnHc5Y0Eox1hLqw4HjY=
-Received: from DM6PR12MB4912.namprd12.prod.outlook.com (2603:10b6:5:20b::24)
- by DM6PR12MB3708.namprd12.prod.outlook.com (2603:10b6:5:1c5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.19; Tue, 5 Oct
- 2021 15:25:16 +0000
-Received: from DM6PR12MB4912.namprd12.prod.outlook.com
- ([fe80::81f5:b123:f485:e51a]) by DM6PR12MB4912.namprd12.prod.outlook.com
- ([fe80::81f5:b123:f485:e51a%7]) with mapi id 15.20.4566.022; Tue, 5 Oct 2021
- 15:25:16 +0000
-From: "Zuo, Jerry" <Jerry.Zuo@amd.com>
-To: Doug Anderson <dianders@chromium.org>
-CC: =?iso-8859-1?Q?Ville_Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "geert@linux-m68k.org" <geert@linux-m68k.org>, "oliver.sang@intel.com"
- <oliver.sang@intel.com>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
- <airlied@linux.ie>, Jani Nikula <jani.nikula@intel.com>, Linus Walleij
- <linus.walleij@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, Sam
- Ravnborg <sam@ravnborg.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wentland,
- Harry" <Harry.Wentland@amd.com>, "Siqueira, Rodrigo"
- <Rodrigo.Siqueira@amd.com>, Kuogee Hsieh <khsieh@codeaurora.org>
-Subject: RE: connector_bad_edid() is broken (was: Re: [PATCH] drm/edid: Fix
- crash with zero/invalid EDID)
-Thread-Topic: connector_bad_edid() is broken (was: Re: [PATCH] drm/edid: Fix
- crash with zero/invalid EDID)
-Thread-Index: AQHXufuiB3TntzhJLk2KvcowNJeYQqvEhcmw
-Date: Tue, 5 Oct 2021 15:25:16 +0000
-Message-ID: <DM6PR12MB4912FFA74D1E7FF4599DA57EE5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
-References: <20211004092100.1.Ic90a5ebd44c75db963112be167a03cc96f9fb249@changeid>
- <YVtZstInQxXfPmsZ@intel.com>
- <DM6PR12MB49127B8B63079E6533197EA6E5AF9@DM6PR12MB4912.namprd12.prod.outlook.com>
- <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
-In-Reply-To: <CAD=FV=VvKsrB9RZKdB6vQJ-38BZEYLnuENxb1+1v-PahcdBtiQ@mail.gmail.com>
-Accept-Language: en-CA, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ActionId=7d076426-1b3d-4c4e-9918-231b1a7eec37;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_ContentBits=0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Enabled=true;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Method=Standard;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_Name=AMD
- Official Use Only-AIP 2.0;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SetDate=2021-10-05T15:22:57Z;
- MSIP_Label_88914ebd-7e6c-4e12-a031-a9906be2db14_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;
-authentication-results: chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9acf66f3-7517-471a-5a8c-08d98814555d
-x-ms-traffictypediagnostic: DM6PR12MB3708:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR12MB37081D9C2B266E7BF54EC23DE5AF9@DM6PR12MB3708.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:324;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 17vVdAZSJ40sC68UblO5RNpXWLH7iKU110DPOsXKcUXZxLey4KyLY/vEHWDuasuXYGKCVgC6ouu5EQqctXyG8b7JQOdMKfVNcypoTx8xlilWhgMHq4R1O7KHNuJ5eOGMcma3XaVq0YqdsjUc72nmFa8Dv/gIe8yHL1JH3Gb1cbMjFNYR7vJU9jTWRr+gjFop0+TYltCz1tttZmqK5f/6lOMnb247C6JmO7wODNoG+1YLQaPv2E8gz7IUJs9ffiXyYjFmoDt6pRY0hGY1w/gGHsEKjRFlTDflPilO/4AMTowXYo8O8rhn2tMlHlyKT5GShfpUmrg6od1YlkL0eAvezIFf01O3BGm8IhlqHKlexgXvOdB8fTjl1DIIhj/5Tar3ptKoN7E1CautCuTq7FxqxtcOTGaol7yaAcnFxR0etkXvaiH9VHTZfzdimzYcPGsaa43ecEebVAhk/3CAmFY9nr/6cqnm9awmY4SdfT+p/XyyUooR/Imz7ofrTQldiMOZzMrI2brbrYQ1pijbtsR2BVyPS6SENhzKc32dX+HBWK26TsBI5C+K4IfnGRemT/FOt0WhPJA3N7dnlH6wJCmL1k0ByXv97I99yIDHmUlgIC9OHVGaZv2j+J3veu4smKPDwToLPp0oObEQeuwQXJolryGHzpqwQWqmekchNuXu1R/QXe785WJ2Q/KLGsOz7jR7+ww1QFZr1KP7Z8X/LAxMFZK9QTfNOR2kfmqNJQTuzIia0TIkLIYFfbgUXBGiXdPZ0rHS+/VPxXxY8FMtTHOausYq2YRZDeDSI9DrIpYxhag=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR12MB4912.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(7416002)(9686003)(966005)(45080400002)(53546011)(7696005)(33656002)(54906003)(6506007)(5660300002)(38070700005)(316002)(508600001)(2906002)(8676002)(8936002)(6916009)(66476007)(186003)(76116006)(66446008)(66946007)(86362001)(66556008)(4326008)(64756008)(83380400001)(66574015)(71200400001)(122000001)(52536014)(26005)(55016002)(38100700002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?kgiVIpVQmYH6TiZUhUP3mFjmhlt3jMHqE20qh/nOm+VMwqsnRVWPV+5Iqu?=
- =?iso-8859-1?Q?IiLYAQ+zudp/Us/ClGgfo+qBNzKuKikfn+iKi/7yXiBTasmx5ZcTnICUWW?=
- =?iso-8859-1?Q?Fc/wP9gl1tlL/s4P/jsG2Qk5KUTirjSqvopbrsXpWpL/v6vQpslSpA5jy0?=
- =?iso-8859-1?Q?Qchv+cXjDh7TR52zX3GhKGFaO6ZkIC6WdtkuefaNKrtbStuyLz9lIIU4tg?=
- =?iso-8859-1?Q?+Fv4Kn0G9Cd9AE84jijvPc1+q30rg19oFgsCOqPHD0slZToqVgq1k/Gy0x?=
- =?iso-8859-1?Q?tqCPxPLwGrFrEBwLaZO41GZ+yBqODoeHLkqXXKMzItgTST05b1QgiuEpJk?=
- =?iso-8859-1?Q?FP7Ay0im4iSGfdmhaef2xgJoJ5MPA9zv6YWsQfNf2UKj0jZ+9DCbMnGBSn?=
- =?iso-8859-1?Q?FOGZgksMo2emWieCII9KoJDIRiPtA5AEW/o/iEAAn/crBnHXpQx4jq7yrO?=
- =?iso-8859-1?Q?cJTkv8oK2Fhw6oPXc7LaDijX1RB4Er+I9L6QzmnCIs1FlnJyhCc4JPQd8s?=
- =?iso-8859-1?Q?G4ZQjUEUxb1VTXOM7NilgmGNGk1XtRlxrAvm9rob/4ifHbhd4kDLbg8M6+?=
- =?iso-8859-1?Q?UJig82t7Y3z84gOg7wfRVrmIjRwOLJm4i4XnXVCzvkoK11rnkK+iYmrad7?=
- =?iso-8859-1?Q?roEy1orBlz6RbKu0mpP34Ot7pHhxX3jtYLqdN+ULMjRKYgcA4CBHSvX92e?=
- =?iso-8859-1?Q?4VlnMFmdx0239n1t0i/BJNZkUu10ZbnT94RkJZl32csOPS02I0JVtMpPrI?=
- =?iso-8859-1?Q?ODZq2AmTqp5W+BxPaUwIC5WeEkSoGm0bvnEpa+CNESmHavO80/li9Quxk2?=
- =?iso-8859-1?Q?tFnal4sLWX/ESwLNQQYylweZ6G8SLrAlGlTbMwZIOnNK+yGz2wH5AX0G7u?=
- =?iso-8859-1?Q?D/8yd9XSBKeYQKqnF2V3irsljji6QfqUeYZa/pRGrQgMbs9ZEJd6LW+eVn?=
- =?iso-8859-1?Q?gb7QtbKcfR5/p0HH5VZ7/W6m6nvRZygLcUa+LBK/C4JdmzXffx5tqNY6ua?=
- =?iso-8859-1?Q?seEvDO9HKJfxanv5iU+ib9MfI9AX5m3ZWOSNzcyt1iXqL8WJAVkvlqe0QF?=
- =?iso-8859-1?Q?9jC7xEcX9w6OQ5VcT03DntSnFU3WAkoq201Gf7Gz9GPrdZW8pClQAheRM2?=
- =?iso-8859-1?Q?qyukSZQKJh4Dtntm7EZdzndeykI3VvT2zBRBTmzWCLt17+iay3kYd1zs1b?=
- =?iso-8859-1?Q?cJdt3IhaOB78aYs9jQOsU6H4De0Pe2W6uXN4CMfK4WqVaqh+9RreJ3n94o?=
- =?iso-8859-1?Q?wbHtmUjNhlM07Wmhgwripd6+6YXepyuzKEpXWlbIKIRR1lqyQ1rOEMLPWY?=
- =?iso-8859-1?Q?lRH3mcMovWpMfcSo5kwR201zgPEpmdlJ5F8qLEpH/2QDVmaYkMqlAJb1OV?=
- =?iso-8859-1?Q?J4Q2htXdfZ?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
+ [IPv6:2a00:1450:4864:20::42b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 510B16F5E5
+ for <dri-devel@lists.freedesktop.org>; Tue,  5 Oct 2021 15:32:52 +0000 (UTC)
+Received: by mail-wr1-x42b.google.com with SMTP id e12so17824192wra.4
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 08:32:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=raspberrypi.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=FvkuoHtLmMySSozgRY4i3KZX9n2iJkKHMUgPk8T3Poo=;
+ b=I4UneBbdzqhLRXhUsexwDvn3d7IdsgwsPJB9WOZuWFbsRx0A2e2gxdiXFG5bc+WCQO
+ y6eLNeAe0RukHOnZipbJs1RTi5k5E2Q1lfXf1Q3eRnqt4LWNmQa3rKgvCOa+2wh4XhdB
+ KF5rlqFuGEQEcol5n12GufNG5K/YQu6zOZtYHe4d2EISvwz3waWPdMuALHXqdIwjqd1Y
+ +hRkUgwDZmlrcISN3a/rgIi2INNPDalK21S0h1/PvVgi1TnKnrgHomZOvhXfX4yY8NfR
+ mygoAWP4czO1on6A8wGgiWcjz6NEbV/y6AjVWNQ0dVGDnPo8577MS/OSos5pHbxZbu7O
+ LhKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=FvkuoHtLmMySSozgRY4i3KZX9n2iJkKHMUgPk8T3Poo=;
+ b=Ro3QxLnM6LG9xs6a/wK//m+NGNqqwFTfrtJO/KeJh5XSdkAxqb2s7yoZdlaPMJ8cYU
+ 1IwS69s5MJuCEsRlL5vsatRfenXO8xcCz6ISYEXbYoCR5PJNYzcuHIYWwooW8yWt07og
+ pj+jz/nQqr7PdUxN+C2AcnIUNgfou2dIxgNs5lhHqFEPoFuIURW9v3PZKI8GE80BzAUX
+ e/nM00tLh48gWrc3TcLtU4xQMIo1VMm6ZXi4c/4AghxYFKNudiNJH/0rQc11UYHLD/a0
+ Zfo+tWHzz/Cf7H7rSqFvd6vYOQ2RJyrcGZoMBfFOL8EvF7DdmqWqPV1QxDgujgQrP64n
+ 3KLQ==
+X-Gm-Message-State: AOAM530u+wMGiiUhjO54S2ZlkAXm70qm19K3EhUljJq4i7EOZjZD5j8Y
+ bOQqX7mvQyjtKEVIL8YtvZRTRrvGNLFIx/8/GQKm8A==
+X-Google-Smtp-Source: ABdhPJzOll6R29Z/lr7XZV4nk8C8il3v11ANBctLK7C9BB9s5Ewu+VztcW4wOWBnbp+RbeZO6JfyMk1mXY/6M0aE1cc=
+X-Received: by 2002:adf:aa88:: with SMTP id h8mr8892667wrc.112.1633447970518; 
+ Tue, 05 Oct 2021 08:32:50 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR12MB4912.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9acf66f3-7517-471a-5a8c-08d98814555d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Oct 2021 15:25:16.1355 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Kw3FuEdJLRohIA5W6mRSG7xTNUo3a6ZY86Hz4jAmZY8tniA25b9B24W1Flo63JZ1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3708
+References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
+ <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
+ <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
+ <20210706151320.kwn4dwu6buvy4isa@gilmour>
+ <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
+ <20210715095022.5plcocz6plxnb3xr@gilmour>
+ <YVm7U0q6F8T9K32h@pendragon.ideasonboard.com>
+ <CAPY8ntAWqaHH=+cGWcpKypvZfGApE6SQ1p0qFzE9XyyqaaQ1OQ@mail.gmail.com>
+ <418bd5c8-00a9-5502-f918-821616870943@gmail.com>
+In-Reply-To: <418bd5c8-00a9-5502-f918-821616870943@gmail.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 5 Oct 2021 16:32:34 +0100
+Message-ID: <CAPY8ntDzTa0Xzfk-YUj9pOShi9wMb+_Y0ogRfROaf3kz5Ru5qQ@mail.gmail.com>
+Subject: Re: Questions over DSI within DRM.
+To: Andrzej Hajda <andrzej.hajda@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>, 
+ DRI Development <dri-devel@lists.freedesktop.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -142,93 +77,464 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-[AMD Official Use Only]
+Hi Andrzej
 
-> -----Original Message-----
-> From: Doug Anderson <dianders@chromium.org>
-> Sent: October 5, 2021 11:14 AM
-> To: Zuo, Jerry <Jerry.Zuo@amd.com>
-> Cc: Ville Syrj=E4l=E4 <ville.syrjala@linux.intel.com>; dri-
-> devel@lists.freedesktop.org; geert@linux-m68k.org; oliver.sang@intel.com;
-> Daniel Vetter <daniel@ffwll.ch>; David Airlie <airlied@linux.ie>; Jani Ni=
-kula
-> <jani.nikula@intel.com>; Linus Walleij <linus.walleij@linaro.org>; Maarte=
-n
-> Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard
-> <mripard@kernel.org>; Sam Ravnborg <sam@ravnborg.org>; Thomas
-> Zimmermann <tzimmermann@suse.de>; linux-kernel@vger.kernel.org;
-> Wentland, Harry <Harry.Wentland@amd.com>; Siqueira, Rodrigo
-> <Rodrigo.Siqueira@amd.com>; Kuogee Hsieh <khsieh@codeaurora.org>
-> Subject: Re: connector_bad_edid() is broken (was: Re: [PATCH] drm/edid:
-> Fix crash with zero/invalid EDID)
->
-> Hi,
->
-> On Tue, Oct 5, 2021 at 6:33 AM Zuo, Jerry <Jerry.Zuo@amd.com> wrote:
-> >
-> > > BTW I believe connector_bad_edid() itself is broken since commit
-> > > e11f5bd8228f ("drm: Add support for DP 1.4 Compliance edid
-> > > corruption test"). Before we've even allocated the memory for the
-> > > extension blocks that code now assumes edid[0x7e] is to be 100%
-> > > trusted and goes and calculates the checksum on a block based on
-> > > that. So that's likely going to be pointing somewhere beyond the
-> > > base block into memory we've not even allocated. So anyone who
-> > > wanted could craft a bogus EDID and maybe get something interesting t=
-o
-> happen.
-> > >
-> > > Would be good if someone could fix that while at it. Or just revert
-> > > the offending commit if there is no simple solution immediately in si=
-ght.
-> > >
-> > > The fact that we're parsing entirely untrustworthy crap in the
-> > > kernel always worries me. Either we need super careful review of all
-> > > relevant code, and/or we need to think about moving the parser out of
-> the kernel.
-> > > I was considering playing around with the usermode helper stuff.
-> > > IIRC there is a way to embed the userspace binary into the kernel
-> > > and just fire it up when needed. But so far it's been the usual -ENOT=
-IME
-> for me...
-> > >
-> > [AMD Official Use Only]
-> >
-> > Hi Ville:
-> >
-> >      Yhea, it is pretty old change from two years ago, and it is no lon=
-g valid
-> anymore. Please simply drop it.
-> >
-> > Regards,
-> > Jerry
->
-> I've cut out other bits from this email and changed the subject line sinc=
-e I
-> think this is an issue unrelated to the one my original patch was fixing.
->
-> I don't actually know a ton about DP compliance testing, but I attempted =
-to
-> try to be helpful and revert commit e11f5bd8228f ("drm:
-> Add support for DP 1.4 Compliance edid corruption test"). It wasn't too h=
-ard
-> to deal with the conflicts in the revert itself, but then things didn't c=
-ompile
-> because there are two places that use `real_edid_checksum` and that goes
-> away if I revert the patch.
->
-> I've made an attempt to fix the problem by just adding a bounds check.
-> Perhaps you can see if that looks good to you:
->
-> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Flore.
-> kernel.org%2Fr%2F20211005081022.1.Ib059f9c23c2611cb5a9d760e7d0a700c1
-> 295928d%40changeid&amp;data=3D04%7C01%7CJerry.Zuo%40amd.com%7C90
-> b948659454400cedd308d98812c339%7C3dd8961fe4884e608e11a82d994e183d
-> %7C0%7C0%7C637690436453163864%7CUnknown%7CTWFpbGZsb3d8eyJWIj
-> oiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1
-> 000&amp;sdata=3DOtSngWlYyDc1NbNSgAeALqN3nF%2Bnw08nJ068cpAKZJk%3
-> D&amp;reserved=3D0
->
-> -Doug
+Thanks for joining in the discussion.
 
-The patch used for DP1.4 compliance edid corruption test. Let me double che=
-ck if edid corruption test could be passed without the patch.
+On Tue, 5 Oct 2021 at 16:08, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
+>
+> On 05.10.2021 13:23, Dave Stevenson wrote:
+> > Hi Laurent
+> >
+> > On Sun, 3 Oct 2021 at 15:16, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> >>
+> >> Hello,
+> >>
+> >> Reviving a bit of an old thread.
+> >
+> > I'd been looking at reviving this conversation too as I've moved
+> > further on with DSI on the Pi, and converting from an encoder to a
+> > bridge
+> >
+> >> On Thu, Jul 15, 2021 at 11:50:22AM +0200, Maxime Ripard wrote:
+> >>> On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
+> >>>> On Tue, 6 Jul 2021 at 16:13, Maxime Ripard wrote:
+> >>>>>>>> On a similar theme, some devices want the clock lane in HS mode early
+> >>>>>>>> so they can use it in place of an external oscillator, but the data
+> >>>>>>>> lanes still in LP-11. There appears to be no way for the
+> >>>>>>>> display/bridge to signal this requirement or it be achieved.
+> >>>>>>>
+> >>>>>>> You're right. A loooong time ago, the omapdrm driver had an internal
+> >>>>>>> infrastructure that didn't use drm_bridge or drm_panel and instead
+> >>>>>>> required omapdrm-specific drivers for those components. It used to model
+> >>>>>>> the display pipeline in a different way than drm_bridge, with the sync
+> >>>>>>> explicitly setting the source state. A DSI sink could thus control its
+> >>>>>>> enable sequence, interleaving programming of the sink with control of
+> >>>>>>> the source.
+> >>>>>>>
+> >>>>>>> Migrating omapdrm to the drm_bridge model took a really large effort,
+> >>>>>>> which makes me believe that transitioning the whole subsystem to
+> >>>>>>> sink-controlled sources would be close to impossible. We could add
+> >>>>>>> DSI-specific operations, or add another enable bridge operation
+> >>>>>>> (post_pre_enable ? :-D). Neither would scale, but it may be enough.
+> >>>>>>
+> >>>>>> I haven't thought it through for all generic cases, but I suspect it's
+> >>>>>> more a pre_pre_enable that is needed to initialise the PHY etc,
+> >>>>>> probably from source to sink.
+> >>
+> >> I believe it could be implemented as a pre-pre-enable indeed. It feels
+> >> like a bit of a hack, as the next time we need more fine-grained control
+> >> over the startup sequence, we'll have to add a pre-pre-pre-enable. Given
+> >> that the startup sequence requirements come from the sink device, it
+> >> would make sense to let it explicitly control the initialization,
+> >> instead of driving it from the source. I don't think we'll be able to
+> >> rework the bridge API in that direction though, so I'm fine with a hack.
+> >
+> > There are pros and cons to both approaches.
+> > You're in a much better place to make that sort of call than I am, so
+> > I'll take your advice.
+> >
+> > Implementing a DSI host op function may mean an update to a number of
+> > existing DSI host drivers,
+>
+> Why? You just add new op to mipi_dsi_host_ops and create appropriate
+> helper, which in case of NULL will perform default action, either:
+> - return -ENOSYS,
+> - try to emulate by calling mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET)
+>
+> The latter is just wild guess, but I suspect it could work (even now) as
+> an alternate way of entering into stop state.
+
+If we're looking at fixing bridges to use the new DSI state call and
+then initialise in "pre_enable" (ie before video is started), then
+making that change to the bridge will require support for the DSI
+state call or risk regressions.
+Some may have been getting away with it by making the initialisation
+call in "enable" whilst video is active - that sounds like the issue
+Marek was trying to log in his patch to SN65DSI83.
+
+> > but it would be cleaner. It's also what
+> > Andrzej has suggested.
+> >
+> > Thinking it through, a function that requests clock lane frequency and
+> > state (ULPS or LP-11 predominantly), and data lane state (again ULPS
+> > or LP-11) should allow the required behaviour for most of the bridges
+> > I'm aware of. Most want either LP-11, or HS clock at a known
+> > frequency.
+>
+> LP-11 is quite reasonable, but regarding frequency I am not sure who
+> should manage it? DSI device datasheets known to me usually mentioned
+> max frequency, and it is covered by mipi_dsi_device.hs_rate. Min
+> frequency is usually determined by amount of data we need to transfer
+> per second.
+> Do you need to set frequency from device, or just to know actual frequency?
+> In former case (if it is really necessary !!!) you should request
+> frequency range anyway, as host usually is able to set only discrete
+> number of frequencies. But it need to be clearly specified how and when
+> this op can be used - more ops, more questions about interaction between
+> them.
+> In latter case another mipi host op should be quite easy to implement.
+
+If a burst mode frequency is specified in struct mipi_dsi_device
+hs_rate then there is no issue.
+If not, then you'll generally want to use the pixel clock, and the DSI
+host hasn't necessarily been told the video mode at the point the
+bridge/panel requests a new DSI state.
+
+> > Giving the option for setting back into ULPS also allows
+> > for power saving/standby mechanisms should the need arise.
+>
+> Another op :)
+
+Does it need to be, or can it be one op as
+enum mipi_dsi_lane_state{
+ DSI_ULPS,
+ DSI_LP11,
+ DSI_HS,
+};
+
+int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
+       enum mipi_dsi_lane_state clock_lane_state,
+       u64 clock_lane_freq,
+       enum mipi_dsi_lane_state data_lane_state)
+
+  Dave
+
+> Regards
+> Andrzej
+>
+>
+> > Does it need a way to pass back the actual DSI frequency being used,
+> > in a similar vein to mode_fixup? That allows for the bridge to request
+> > the display clock, but the burst mode link frequency to be returned
+> > (I'm assuming that's a property of the DSI host only, and not the
+> > bridge).
+> >
+> > I'm having a discussion with someone who wants to run SN65DSI85 in the
+> > two independent LVDS display mode. That requires a DSI HS clock on
+> > DSI-A even if only panel B is active, so with this extra function that
+> > would be achievable as well.
+> >
+> > Thoughts?
+> >
+> >>>>>> If the panel/bridge can set a flag that can be checked at this point
+> >>>>>> for whether an early clock is required or not, I think that allows us
+> >>>>>> to comply with the requirements for a large number of panels/bridges
+> >>>>>> (LP-11 vs HS config for clock and or data lanes before pre_enable is
+> >>>>>> called).
+> >>>>>>
+> >>>>>> pre_enable retains the current behaviour (initialise the chain from
+> >>>>>> sink to source).
+> >>>>>> enable then actually starts sending video and enabling outputs.
+> >>>>>
+> >>>>> Flags indeed seem like a more contained option. Another one could be to
+> >>>>> have a mipi_dsi_host to (for example) power up the clock lane that would
+> >>>>> be called by default before the bridge's enable, or at the downstream
+> >>>>> bridge driver discretion before that.
+> >>>>
+> >>>> Which driver will that call?
+> >>>
+> >>> The parent DSI Host
+> >>>
+> >>>> An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
+> >>>> bridge chip[1]. So the encoder will be eDP, but the DSI config needs
+> >>>> to go to that bridge. Does that happen automatically within the
+> >>>> framework? I guess so as the bridge will have called
+> >>>> mipi_dsi_host_register for the DSI sink to attach to.
+> >>>
+> >>> In that case, whatever sink would be connected to the bridge would call
+> >>> the bridge clock enable hook if it needs it in its pre_enable, or it
+> >>> would be called automatically before enable if it doesn't
+> >>>
+> >>> Would that help?
+> >>
+> >> Sounds good to me, in theory at least (let's see what issues we'll run
+> >> into in practice :-)).
+> >>
+> >> Has anyone given it a try, or is planning to ?
+> >>
+> >>>> Perhaps a new mipi_dsi_host function to configure the PHY is the
+> >>>> easier solution. If it can allow the sink to request whatever
+> >>>> combination of states from clock and data lanes that it fancies, then
+> >>>> it can be as explicit as required for the initialisation sequence, and
+> >>>> the host driver does its best to comply with the requests.
+> >>>
+> >>> I don't know, I'm not really fond in general of solutions that try to
+> >>> cover any single case if we don't need it and / or have today an issue
+> >>> with this. I'd rather have something that works for the particular
+> >>> bridge we were discussing, see if it applies to other bridges and modify
+> >>> it if it doesn't until it works for all our cases. Trying to reason in
+> >>> all possible cases tend to lead to solutions that are difficult to
+> >>> maintain and usually over-engineered.
+> >>
+> >> A DSI host clock enable operation or a DSI host PHY configuration
+> >> operation both fit in the same place in the grand scheme of things, so I
+> >> don't mind either. We should be able to easily move from a more specific
+> >> operation to a more generic one if the need arises.
+> >>
+> >>>> I'd have a slight query over when and how the host would drop to ULPS
+> >>>> or power off. It probably shouldn't be in post_disable as the sink
+> >>>> hasn't had a chance to finalise everything in its post_disable.
+> >>>>
+> >>>> Perhaps pm_runtime with autosuspend is the right call there?
+> >>>
+> >>> pm_runtime semantics mean that once the device is suspended, its power
+> >>> domains, regulators, clocks, etc. are all shut down, so it doesn't
+> >>> really fit the low power state expected by DSI
+> >>>
+> >>>> [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/interface-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/detail.TC358860XBG.html
+> >>>>
+> >>>>>> When I discussed this briefly with Maxime there was a suggestion of
+> >>>>>> using pm_runtime to be able to power up the pipeline as a whole. If
+> >>>>>> the bridge driver can use pm_runtime to power up the PHY when
+> >>>>>> required, then that may solve the issue, however I know too little of
+> >>>>>> the details to say whether that is actually practical.
+> >>>>>
+> >>>>> I'm not sure it was about this topic in particular. If I remember well
+> >>>>> our discussion, this was about the vc4 driver that tries to circumvent
+> >>>>> the framework and call the pre_enable and enable hooks itself because it
+> >>>>> wasn't properly powered before and thus any DCS-related call by the
+> >>>>> downstream bridge or panel would end up creating a CPU stall.
+> >>>>>
+> >>>>> I suggested to use runtime_pm in the DCS related calls to make sure the
+> >>>>> device is powered because there's no relation between the state of the
+> >>>>> downstream bridge or panel and whether it can send DCS commands or not.
+> >>>>> For all we know, it could do it at probe time.
+> >>>>
+> >>>> pm_runtime is all a bit of a magic black box to me.
+> >>>>
+> >>>> We had discussed shifting to using pm_runtime from DCS (and enable)
+> >>>> calls to power up the PHY on demand, and that's what I implemented.
+> >>>> However Laurent flagged up that using
+> >>>> dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
+> >>>> required to send a HS DCS command from that call is deprecated, so how
+> >>>> do we specify the clock rate to use at that point?
+> >>>
+> >>> I guess the most sensible would be to have a custom bridge state, and
+> >>> add a pointer to the current bridge state in struct drm_bridge. Then, as
+> >>> long as you have a bridge pointer you have a way to get the current
+> >>> state associated to it, and since we already have atomic_duplicate_state
+> >>> / atomic_destroy_state we can create our own structure around it storing
+> >>> whatever we want.
+> >>
+> >> That's a good point. It would only be needed if we use runtime PM to
+> >> work around the initialization sequence issue, not if we implement a DSI
+> >> host clock enable/disable operation, right ?
+> >
+> > Obviously this only works with atomic bridges otherwise you have no
+> > state, but I assume all bridges should be heading that route now.
+> >
+> >>>>>>>> host_transfer calls can supposedly be made at any time, however unless
+> >>>>>>>> MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
+> >>>>>>>> in high speed mode. If this is before a mode has been set, what
+> >>>>>>>> defines the link frequency parameters at this point? Adopting a random
+> >>>>>>>> default sounds like a good way to get undefined behaviour.
+> >>>>>>>>
+> >>>>>>>> DSI burst mode needs to set the DSI link frequency independently of
+> >>>>>>>> the display mode. How is that meant to be configured? I would have
+> >>>>>>>> expected it to come from DT due to link frequency often being chosen
+> >>>>>>>> based on EMC restrictions, but I don't see such a thing in any
+> >>>>>>>> binding.
+> >>>>>>>
+> >>>>>>> Undefined too. DSI support was added to DRM without any design effort,
+> >>>>>>> it's more a hack than a real solution. The issue with devices that can
+> >>>>>>> be controlled over both DSI and I2C is completely unhandled. So far
+> >>>>>>> nobody has really cared about implementing DSI right as far as I can
+> >>>>>>> tell.
+> >>>>>>
+> >>>>>> :-(
+> >>>>>>
+> >>>>>> Thinking aloud, does having the option to set a burst link frequency
+> >>>>>> from DT (or ACPI) have any issue for other platforms?
+> >>>>>> Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
+> >>>>>> drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
+> >>>>>> all the defined timings, but drop to LP during blanking" option. The
+> >>>>>> link frequency has therefore remained a property of the
+> >>>>>> display/bridge.
+> >>>>>> dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
+> >>>>>> through the full detail of the parameters it computes from there.
+> >>>>>
+> >>>>> I don't see anything wrong with using link-frequency from the DT to
+> >>>>> setup the burst frequency. It's what v4l2 has been using for a while
+> >>>>> without any known (to me) drawback, and we're using the same of-graph
+> >>>>> bindings, so it shouldn't be too controversial there.
+> >>
+> >> How would that frequency we picked in practice ? Do panels typically
+> >> support a range of HS frequencies for DCS HS transfers ?
+> >
+> > I was thinking more of bridges where they often run a PLL off the
+> > incoming DSI clock, and then have a FIFO with potentially different
+> > clock rates and timings on input and output. SN65DSI83 supports that,
+> > as do the Toshiba bridge chips I'm currently looking at.
+> > You need to know the DSI link frequency to configure the PLL
+> > correctly, but then the bridge output timing is a different matter.
+> >
+> >>>> OK, that sounds like a vague plan.
+> >>>>
+> >>>>>> DSI and I2C controlled devices is yet another issue that I haven't
+> >>>>>> even looked at.
+> >>>>>> I think it's more that vc4 wants to ignore DSI should the DSI host
+> >>>>>> node be enabled in DT, but there's no panel bound to it. One could say
+> >>>>>> that is a DT error and tough luck, but from a user's perspective that
+> >>>>>> is a bit harsh.
+> >>>>>
+> >>>>> I guess the larger "issue" is that the tree in the DT is done following
+> >>>>> the "control" bus, and Linux likes to tie the life cycle of a given
+> >>>>> device to its parent bus. Both these decisions make sense, but they
+> >>>>> interact in a weird way in some occurrences (like this one, or Allwinner
+> >>>>> has an Ethernet PHY controlled through MMIO which end up in the same
+> >>>>> case).
+> >>>>>
+> >>>>> I wonder if using device links here could help though.
+> >>>>
+> >>>> I really don't know about that one.
+> >>>
+> >>> It's a piece of infrastructure that was created at first (I think?) to
+> >>> model the power dependency between devices that don't have a parent /
+> >>> child relationship. For example, if you use DMA, you probably want to
+> >>> keep the IOMMU powered as long as you are, but it is in a completely
+> >>> separate branch of the "device tree" (not one from the DTB, the one that
+> >>> linux DM creates).
+> >>>
+> >>> It was later expanded to also cover probe order and make sure a supplier
+> >>> would probe before its consumer, effectively making EPROBE_DEFER
+> >>> obsolete.
+> >>>
+> >>> The second part is still fairly new, but I think we can solve this by
+> >>> adding a device link between the DSI host and whatever is at the end of
+> >>> the OF-Graph endpoint.
+> >>>
+> >>>>>>>> As a follow on, bridge devices can support burst mode (eg TI's
+> >>>>>>>> SN65DSI83 that's just been merged), so it needs to know the desired
+> >>>>>>>> panel timings for the output side of the bridge, but the DSI link
+> >>>>>>>> timings to set up the bridge's PLL. What's the correct way for
+> >>>>>>>> signalling that? drm_crtc_state->adjusted_mode vs
+> >>>>>>>> drm_crtc_state->mode? Except mode is userspace's request, not what has
+> >>>>>>>> been validated/updated by the panel/bridge.
+> >>>>>>>
+> >>>>>>> adjusted_mode is also a bit of a hack, it solves very specific issues,
+> >>>>>>> and its design assumes a single encoder in the chain with no extra
+> >>>>>>> bridges. We should instead add modes to the bridge state, and negotiate
+> >>>>>>> modes along the pipeline the same way we negotiate formats.
+> >>>>>>
+> >>>>>> So as I understand it we already have format negotiation between
+> >>>>>> bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
+> >>>>>> so is it possible to extend that to modes?
+> >>>>>> Are you thinking bridge state that is owned by the framework, or by
+> >>>>>> the individual bridge drivers?
+> >>>>>
+> >>>>> atomic_check is made for that. I guess we could improve its call
+> >>>>> sequence to each time a mode is modified along the bridge list we
+> >>>>> restart the sequence until all components agree (or reject it entirely
+> >>>>> if they can't), but I don't really see why we would need yet another
+> >>>>> hook.
+> >>
+> >> Isn't this what atomic_get_output_bus_fmts() and
+> >> atomic_get_input_bus_fmts() implement ?
+> >
+> > Those negotiate a single u32 bus format between nodes, not a complete timing.
+> >
+> >>>> Why do all nodes in the bridge list need to agree? Adjacent nodes need
+> >>>> to agree, but they then also need to retain that agreed timing
+> >>>> somewhere.
+> >>>
+> >>> We might have mutually exclusive requirements though? Let's use the
+> >>> example of the VC4 HDMI driver that can't have odd horizontal timings,
+> >>> and assume it's a constraint of our DSI driver instead.
+> >>>
+> >>> Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
+> >>> is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
+> >>> even horizontal timings, then you just can't display it, even though
+> >>> they are not adjacent (unless the bridge in the middle can modify the
+> >>> timings between the input and output, but that's not always possible).
+> >>>
+> >>> Similarly, if for the RGB panel we need to increase a bit some timings
+> >>> to accommodate for a larger pixel clock and end up above what the DSI
+> >>> host can provide, we're also done.
+> >>
+> >> The hard part will be to figure out a good heuristics to perform the
+> >> negotiation without going back and forth (at least not in a way that
+> >> would require too many iterations, and certainly avoiding infinite
+> >> loops). That will be an interesting problem to solve, but maybe we'll be
+> >> lucky and a simple approach will work for the use cases we have to
+> >> support today.
+> >
+> > One to kick into the long grass possibly then.
+> >
+> > For burst mode and bridges retiming things, generally I think it works
+> > if you consider a single pass through a mode_fixup equivalent starting
+> > at the panel.
+> > The panel advertises what it wants.
+> > The closest bridge (eg DSI83) fixup amends panel's requested mode
+> > based on any constraints that it has, stores a copy, and passes that
+> > down the chain.
+> > The next bridge (eg vc4_dsi) amends the mode based on restrictions it
+> > has (eg burst mode link frequency). That's the end of the chain in
+> > this case, so that's the mode that the crtc needs to be programmed
+> > with.
+> >
+> > The modes then need to be passed back up the chain so that eg DSI83
+> > knows the link frequency in use, and can therefore configure the PLL
+> > appropriately.
+> >
+> > The bit it would be nice to fix is that burst mode has effectively
+> > increased the horizontal front porch, but that could be fixed within
+> > the bridge so that the panel gets the timing it requested.
+> >
+> >>>> Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
+> >>>> DSI frequency and timings are permitted to be different from that
+> >>>> which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
+> >>>> need to agree over the format, and the DSI host and DSI side of DSI83
+> >>>> need to agree, but they may be two different timings.
+> >>>> Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
+> >>>> configure the LVDS rate compared to the DSI rate (the driver currently
+> >>>> goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
+> >>>> of active pixel and blanking on the LVDS side (again currently just
+> >>>> copied across).
+> >>>>
+> >>>> The way I'm seeing burst mode as having been interpreted at present is
+> >>>> that it's largely just a flag to say "drop to LP mode between lines".
+> >>>> The timing that needs to be passed to the crtc is therefore going to
+> >>>> be based on the DSI link rate (converted to pixels) with increased
+> >>>> blanking periods.
+> >>>>
+> >>>> I guess there are similarities with Media Controller and V4L2 here. A
+> >>>> typical chain there could be:
+> >>>>   sensor -> scaler -> crop -> CSI-2 receiver.
+> >>>> The format on each of those links may be different, but the chain as a
+> >>>> whole needs to be valid. Media Controller largely relies on userspace
+> >>>> to configure all links, but with a DRM chain that isn't really an
+> >>>> option as it's expected that the display chain configures itself.
+> >>>
+> >>> Also, the userspace has no concept of media sub-devices in DRM, so it
+> >>> just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
+> >>> In v4l2, afaik, if you ended up with the above scenarios it would just
+> >>> be rejected when you set the format on the link, letting the userspace
+> >>> figure it out. We can't really do that here
+> >>
+> >> I wonder how long we'll be able to keep userspace out of the picture to
+> >> configure the internals of the pipeline. I don't want to be the first
+> >> person who will have a use case that requires this.
+> >
+> > I suspect none of us want to be the first one to hit this scenario!
+> >
+> > As I've just posted on the other thread about SN65DSI83, I've hit a
+> > major stumbling block with the current design where vc4_dsi (and
+> > Exynos) breaks the bridge_chain so that it gets called first and can
+> > do initialisation, and then it calls down the chain.
+> > Having now converted to a DSI bridge driver, it works fine with
+> > connected non-atomic bridges, but fails with atomic bridges.
+> > drm_atomic_add_encoder_bridges adds the state for all the bridges the
+> > framework is aware of. With the split chain it misses adding the state
+> > of our "hidden" bridges, and we can't add the extra state from our
+> > atomic_duplicate_state call as we don't have the state to add to (we
+> > just return our state to be added).
+> > This bumps up the priority for us of finding a suitable solution for
+> > this initialisation issue, so I'll start looking at how feasible a new
+> > DSI host function is.
+> >
+> > Thanks
+> >    Dave
+> >
+>
