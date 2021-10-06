@@ -2,41 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D469F424432
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:29:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBCA424436
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:29:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 053C16EDDA;
-	Wed,  6 Oct 2021 17:29:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0177B6EDDE;
+	Wed,  6 Oct 2021 17:29:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADA8A6EDDA;
- Wed,  6 Oct 2021 17:29:40 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="206175641"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; d="scan'208";a="206175641"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 10:29:38 -0700
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; d="scan'208";a="439199883"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 10:29:38 -0700
-Date: Wed, 6 Oct 2021 10:24:50 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [Intel-gfx] [RFC 7/8] drm/i915: Inherit process nice for context
- scheduling priority
-Message-ID: <20211006172450.GA8103@jons-linux-dev-box>
-References: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
- <20211004143650.699120-8-tvrtko.ursulin@linux.intel.com>
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
+ [IPv6:2607:f8b0:4864:20::330])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7A16EDDF
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 17:29:53 +0000 (UTC)
+Received: by mail-ot1-x330.google.com with SMTP id
+ r43-20020a05683044ab00b0054716b40005so4045445otv.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 10:29:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=sriAlmS/O1ECrsUc2OnPgpiaqh82uZoYCygtIK25Qms=;
+ b=U5/BlyXEMbL16pTIuvauG2ZaIDGc6fUX3EV72SGDx4T74Tpwj7UsA4oMhgwrGuZ0rW
+ fcA3XyEz97l1ejfg/T3jSNAKYJfOn3lgIulJaltlOzES327tc9JDntqc1WoDwL3IQY+I
+ ZX1T766ELr1cACdNGgEYpKpbd4Pd2IiW5/0EdQea1shQixU0ojEhOwdPfmKvKPa1Wm42
+ llCsdKQGeEgbfvYOVDfukom68SPhSvDcSK3fFkcrVK4pywZp8HYdJ6x7hp4mpZORmK+y
+ iCrBFqSBLAhcSpdFT2gVkB1duSzYAnhDyvHMt7Bb5Cf8jI+opOh59nm4Zr8BHDD6Hd56
+ tclA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=sriAlmS/O1ECrsUc2OnPgpiaqh82uZoYCygtIK25Qms=;
+ b=dk74MVu7DWn+2lXnWlr4AG6SH8kQoi8hjJNQ3LiGRXM9/NLuTtl8fvHrGZvSRaWAxQ
+ 3vR14gDrXdVpgrAFXrTiYiy4eeCYSmdOJ1yneFAdvvvH/KBgTvL6DHkajsAdd/v9UtHl
+ 9Zdn1qDnv9A9hTgfhIH4AyKwlMZ1DdbFAA1h/R4TmZa6jUTFU2Jtwwy8ZFXIEWW4+G+X
+ JL16gzntNFG0ovaD5mJ0mTltbX3mVlmaJyhIe0trwDhrLJesQnIoqI08LQ6DoK23fGyQ
+ ABnRiWJ0NZIu1aeqIqdMUHC7blarZgm/qHSdgGaMq+o6rHnJzN23yxsHL6NRQ0IjBOdJ
+ HCwg==
+X-Gm-Message-State: AOAM530oa5CEI1JiqtmoZz/m8CkhKmrozlDEgaCn/zf5Gu31039Y9sCw
+ 3hKYVJwH161Kh82bZUuCWX2GFw==
+X-Google-Smtp-Source: ABdhPJyS/b8mbpHQI/Rhb/Fwvm6HfYEn/3btWLeRutifqSrkBNiIKsEaa4tSBor2yY437OBnLj1jhg==
+X-Received: by 2002:a9d:1716:: with SMTP id i22mr20008206ota.20.1633541392652; 
+ Wed, 06 Oct 2021 10:29:52 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id z24sm4027968oic.26.2021.10.06.10.29.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 10:29:52 -0700 (PDT)
+Date: Wed, 6 Oct 2021 10:31:33 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: khsieh@codeaurora.org
+Cc: Stephen Boyd <swboyd@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Sankeerth Billakanti <sbillaka@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
+Message-ID: <YV3dddt/GOidTmlN@ripper>
+References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
+ <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
+ <YVzGVmJXEDH0HfIL@ripper>
+ <CAE-0n53FC7JCCJoye_uKeqaLKrZeHXLtvObxWFedaUzjirmBaA@mail.gmail.com>
+ <a4a4980e586a70e3b7de989bc61a3e33@codeaurora.org>
+ <YV0FlTyMEzlyNsN9@ripper>
+ <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211004143650.699120-8-tvrtko.ursulin@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,238 +85,87 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 04, 2021 at 03:36:49PM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On Wed 06 Oct 08:37 PDT 2021, khsieh@codeaurora.org wrote:
+
+> On 2021-10-05 19:10, Bjorn Andersson wrote:
+> > On Tue 05 Oct 16:04 PDT 2021, khsieh@codeaurora.org wrote:
+> > 
+> > > On 2021-10-05 15:36, Stephen Boyd wrote:
+> > > > Quoting Bjorn Andersson (2021-10-05 14:40:38)
+> > > > > On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
+> > > > >
+> > > > > > Quoting Bjorn Andersson (2021-10-04 19:37:50)
+> > > > > > > Found in the middle of a patch from Sankeerth was the reduction of the
+> > > > > > > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
+> > > > > > > is initalized and HPD interrupt start to be serviced, so in the case of
+> > > > > > > eDP this reduction improves the user experience dramatically - i.e.
+> > > > > > > removes 9.9s of bland screen time at boot.
+> > > > > > >
+> > > > > > > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
+> > > > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> > > > > > > ---
+> > > > > >
+> > > > > > Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
+> > > > > > re-read the code a couple times to understand that it's waiting 100ms
+> > > > > > times the 'delay' number. Whaaaaat?
+> > > > > >
+> > > > >
+> > > > > I assume you're happy with the current 10s delay on the current
+> > > > > devices, so I don't think we should push for this to be backported.
+> > > > > I have no need for it to be backported on my side at least.
+> > > > >
+> > > >
+> > > > Sure. Fixes tag != backported to stable trees but it is close.
+> > > >
+> > > > > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> > > > >
+> > >   dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1); <== to 100ms
+> > > 
+> > > This patch will prevent usb3 from working due to dp driver
+> > > initialize phy
+> > > earlier than usb3 which cause timeout error at power up usb3 phy
+> > > when both
+> > > edp and dp are enabled.
+> > 
+> > Can you please help me understand what you mean here, I use this on my
+> > sc8180x with both eDP and USB-C/DP right now. What is it that doesn't
+> > work? Or am I just lucky in some race condition?
+> > 
+> > Thanks,
+> > Bjorn
+> > 
+> The problem is seen at sc7280.
+> Apple dongle have both  hdmi and usb port.
+> plug Apple dongle into type-c, then plug DP into apple's hdmi port and usb
+> mouse into apple's usb port.
+> If edp enabled at this time, then usb mouse will not work due to timeout at
+> phy power up.
 > 
-> Introduce the concept of context nice value which matches the process
-> nice.
-> 
-> We do this by extending the struct i915_sched_attr and add a helper
-> (i915_sched_attr_priority) to be used to convert to effective priority
-> when used by backend code and for priority sorting.
-> 
-> Context nice is then inherited from the process which creates the GEM
-> context and utilised secondary to context priority, only when the latter
-> has been left at the default setting, in order to avoid disturbing any
-> application made choices of low and high (batch processing and maybe
-> latency sensitive compositing). In those cases nice value adjusts the
-> effective priority in the narrow band of -19 to +20 around
-> I915_CONTEXT_DEFAULT_PRIORITY.
-> 
-> This means that in theory userspace using the context priority uapi
-> directly has a wider range of possible adjustments (thought to be
-> beneficial), but in practice that only applies to execlists platforms.
-> With GuC there are only three priority buckets (less than zero is low
-> priority, zero is normal and greater than zero is high) which therefore
-> interact as expected with the nice adjustment. It makes the question of
-> should the nice be a sub-range of GEM priorities, or stretched across the
-> whole, a moot one.
-> 
 
-Opps, sorry for the double reply to this patch - for some reason I
-thinking the below comment would be on the next patch.
+Okay, so you're saying that if the DP driver invokes phy_power_on()
+before the USB driver does, USB initialization fails (or at least USB
+doesn't work)?
 
-The GuC + DRM scheduler actually has 4 priorities with the highest
-reserved for the KMD, so 3 user levels which is what I think you mean.
-So how would this work with only 3 levels? 
+Sounds like something we need to work out in the QMP phy driver. Do you
+have any more details about what's going wrong.
 
-The nice value can move a normal priority value to either low or high,
-right?
 
-Normal to low seems fine but would moving to high be an issue?
+Also, I've seen various references to said "Apple dongle", do you have a
+link to the exact one you're testing with so I can pick one up for
+testing purposes as well?
 
-I thought a high level was reserved for elevated user processes (e.g. a
-root user or a compositor)?
+Regards,
+Bjorn
 
-Would it be ok for a non-elevated user process to be the same priority
-as an elevated process?
-
-Matt
-
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c        |  1 +
->  .../gpu/drm/i915/gt/intel_execlists_submission.c   |  4 ++--
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  2 +-
->  drivers/gpu/drm/i915/i915_request.c                |  2 +-
->  drivers/gpu/drm/i915/i915_request.h                |  5 +++++
->  drivers/gpu/drm/i915/i915_scheduler.c              | 12 ++++++++----
->  drivers/gpu/drm/i915/i915_scheduler.h              | 14 ++++++++++++++
->  drivers/gpu/drm/i915/i915_scheduler_types.h        |  8 ++++++++
->  8 files changed, 40 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 8d4d687ab1d0..fed0733cb652 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -257,6 +257,7 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
->  	if (i915->params.enable_hangcheck)
->  		pc->user_flags |= BIT(UCONTEXT_PERSISTENCE);
->  	pc->sched.priority = I915_PRIORITY_NORMAL;
-> +	pc->sched.nice = task_nice(current);
->  
->  	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
->  		if (!HAS_EXECLISTS(i915)) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index e91d803a6453..1a02c65823a7 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -250,7 +250,7 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
->  
->  static int rq_prio(const struct i915_request *rq)
->  {
-> -	return READ_ONCE(rq->sched.attr.priority);
-> +	return i915_request_priority(rq);
->  }
->  
->  static int effective_prio(const struct i915_request *rq)
-> @@ -3221,8 +3221,8 @@ static void kick_execlists(const struct i915_request *rq,
->  {
->  	struct intel_engine_cs *engine = rq->engine;
->  	struct i915_sched_engine *sched_engine = engine->sched_engine;
-> +	const int prio = i915_sched_attr_priority(attr);
->  	const struct i915_request *inflight;
-> -	const int prio = attr->priority;
->  
->  	/*
->  	 * We only need to kick the tasklet once for the high priority
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b5883a4365ca..f258607685a2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2417,7 +2417,7 @@ static void guc_bump_inflight_request_prio(struct i915_request *rq,
->  					   const struct i915_sched_attr *attr)
->  {
->  	struct intel_context *ce = rq->context;
-> -	const int prio = attr->priority;
-> +	const int prio = i915_sched_attr_priority(attr);
->  	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
->  
->  	/* Short circuit function */
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 79da5eca60af..a8c6f3a64895 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -1930,7 +1930,7 @@ static int print_sched_attr(const struct i915_sched_attr *attr,
->  		return x;
->  
->  	x += snprintf(buf + x, len - x,
-> -		      " prio=%d", attr->priority);
-> +		      " prio=%d nice=%d", attr->priority, attr->nice);
->  
->  	return x;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 7bd9ed20623e..c2c4c344837e 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -399,6 +399,11 @@ long i915_request_wait(struct i915_request *rq,
->  #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
->  #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
->  
-> +static inline int i915_request_priority(const struct i915_request *rq)
-> +{
-> +	return i915_sched_attr_priority(&rq->sched.attr);
-> +}
-> +
->  void i915_request_show(struct drm_printer *m,
->  		       const struct i915_request *rq,
->  		       const char *prefix,
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-> index 534bab99fcdc..e75793e36454 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.c
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
-> @@ -155,7 +155,9 @@ lock_sched_engine(struct i915_sched_node *node,
->  static void __i915_schedule(struct i915_sched_node *node,
->  			    const struct i915_sched_attr *attr)
->  {
-> -	const int prio = max(attr->priority, node->attr.priority);
-> +	const int prio =
-> +		max(i915_sched_attr_priority(attr),
-> +		    i915_sched_attr_priority(&node->attr));
->  	struct i915_sched_engine *sched_engine;
->  	struct i915_dependency *dep, *p;
->  	struct i915_dependency stack;
-> @@ -209,7 +211,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->  			if (node_signaled(p->signaler))
->  				continue;
->  
-> -			if (prio > READ_ONCE(p->signaler->attr.priority))
-> +			if (prio > i915_sched_attr_priority(&p->signaler->attr))
->  				list_move_tail(&p->dfs_link, &dfs);
->  		}
->  	}
-> @@ -247,7 +249,8 @@ static void __i915_schedule(struct i915_sched_node *node,
->  		lockdep_assert_held(&sched_engine->lock);
->  
->  		/* Recheck after acquiring the engine->timeline.lock */
-> -		if (prio <= node->attr.priority || node_signaled(node))
-> +		if (prio <= i915_sched_attr_priority(&node->attr) ||
-> +		    node_signaled(node))
->  			continue;
->  
->  		GEM_BUG_ON(node_to_request(node)->engine->sched_engine !=
-> @@ -257,7 +260,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->  		if (sched_engine->bump_inflight_request_prio)
->  			sched_engine->bump_inflight_request_prio(from, attr);
->  
-> -		WRITE_ONCE(node->attr.priority, prio);
-> +		WRITE_ONCE(node->attr, *attr);
->  
->  		/*
->  		 * Once the request is ready, it will be placed into the
-> @@ -305,6 +308,7 @@ void i915_sched_node_init(struct i915_sched_node *node)
->  void i915_sched_node_reinit(struct i915_sched_node *node)
->  {
->  	node->attr.priority = I915_PRIORITY_INVALID;
-> +	node->attr.nice = 0;
->  	node->semaphores = 0;
->  	node->flags = 0;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
-> index 0b9b86af6c7f..75ccc9f55d14 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
-> @@ -38,6 +38,20 @@ void i915_sched_node_fini(struct i915_sched_node *node);
->  void i915_schedule(struct i915_request *request,
->  		   const struct i915_sched_attr *attr);
->  
-> +static inline int i915_sched_attr_priority(const struct i915_sched_attr *attr)
-> +{
-> +	int prio = attr->priority;
-> +
-> +	/*
-> +	 * Only allow I915_CONTEXT_DEFAULT_PRIORITY to be affected by the
-> +	 * nice setting.
-> +	 */
-> +	if (!prio)
-> +		prio = -attr->nice;
-> +
-> +	return prio;
-> +}
-> +
->  struct list_head *
->  i915_sched_lookup_priolist(struct i915_sched_engine *sched_engine, int prio);
->  
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> index 24b9ac1c2ce2..159237aa7609 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> @@ -29,6 +29,14 @@ struct i915_sched_attr {
->  	 * The &drm_i915_private.kernel_context is assigned the lowest priority.
->  	 */
->  	int priority;
-> +
-> +	/**
-> +	 * @nice: context nice level
-> +	 *
-> +	 * Nice level follows the CPU scheduler nice value as set for the
-> +	 * process owning the GPU context.
-> +	 */
-> +	int nice;
->  };
->  
->  /*
-> -- 
-> 2.30.2
-> 
+> > > I had prepared a patch (drm/msm/dp: do not initialize combo phy
+> > > until plugin
+> > > interrupt) to fix this problem.
+> > > Unfortunately, my patch is depend on Bjorn's patch (PATCH v3 3/5]
+> > > drm/msm/dp: Support up to 3 DP controllers).
+> > > I will submit my patch for review once Bjorn's patches merged in.
+> > > Therefore I would think this patch should go after both Bjorn's
+> > > patches and
+> > > my patch.
+> > > 
+> > > 
+> > > 
