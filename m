@@ -2,55 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DF0C4245A6
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 20:05:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DA4B4245B4
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 20:08:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F15C26EDE2;
-	Wed,  6 Oct 2021 18:05:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 33C566EDDF;
+	Wed,  6 Oct 2021 18:08:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (unknown [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BC8556EDDF;
- Wed,  6 Oct 2021 18:05:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
- Subject:Sender:Reply-To:Content-ID:Content-Description;
- bh=UXOqw6LYYO+wVibxP4e/orAi9rkc97L/HWtRElWnpJY=; b=462AX6p5/pblPwzDuTNTIoQdTm
- 55fDtkidx88LFDHJd7iCL4sfa4X9pd49aIkLbRrrkT/4J+lPF2CIVkSNPC2uiWVCkmX0nrzfkrvP/
- hItmXQl9oeHxbtulFkxUSI/W0+fpAp++iKDSXmK0+gQRKj8fkCEQaMA36uBHA+DB6OykHj4mSmjk+
- dz1y7uErtG4BPtMRBq6TV3zWJJYGZEstq7GU3u7NYnYLpwifW4etczK1+qIIiU8EvXM/FaCATw7SE
- PBawL4Gskhv9VpWxkS4KW4rahq55RR5E3I0GyQOqQizeMF78ZUfKF7+LTMZml0Kdz5cXFy9UGOXLJ
- +3MlZq2Q==;
-Received: from [2601:1c0:6280:3f0::aa0b]
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mYBIV-00FILd-UO; Wed, 06 Oct 2021 18:05:44 +0000
-Subject: Re: mmotm 2021-10-05-19-53 uploaded
- (drivers/gpu/drm/msm/hdmi/hdmi_phy.o)
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Stephen Rothwell <sfr@canb.auug.org.au>
-Cc: akpm@linux-foundation.org, broonie@kernel.org,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-next@vger.kernel.org, mhocko@suse.cz,
- mm-commits@vger.kernel.org, Rob Clark <robdclark@gmail.com>,
- Sean Paul <sean@poorly.run>, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Intel Graphics <intel-gfx@lists.freedesktop.org>,
- DRI <dri-devel@lists.freedesktop.org>
-References: <20211006025350.a5PczFZP4%akpm@linux-foundation.org>
- <58fbf2ff-b367-2137-aa77-fcde6c46bbb7@infradead.org>
- <20211006182052.6ecc17cf@canb.auug.org.au>
- <f877a1c9-1898-23f3-bba3-3442dc1f3979@amd.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <34c2f6ab-3982-a031-1af6-5ed482b5c344@infradead.org>
-Date: Wed, 6 Oct 2021 11:05:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
+ [IPv6:2a00:1450:4864:20::435])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A046EDDF
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 18:08:44 +0000 (UTC)
+Received: by mail-wr1-x435.google.com with SMTP id e12so11397838wra.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 11:08:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=DTgcaODMLq0FDZOTCg8W/z1Fr7XxKSIUscX7w76buGQ=;
+ b=RsC8UScmhM19mw1WinyAleFhYLrVR7Gk3GliZHEQSHzxNPJkPFd61OGqk6FXJ44ozz
+ qT0/VMvwcqKN8FnasbeAPYQqyMV/rsrfFBMkidUDnqKPnzXI3FWxx3QJwbsFq+k2Y1j0
+ drtqGfyEjt1LJDtlcEBUSlSl4GbLePnASMLtINKAIyOeKKUGr3aKEKwUEUtFQDPrwV0r
+ NCUwmA+XKXNw4p+AnzHGp0buNiwV681fvQvpzXj9JHCtGUt4zS/OH1S05115IxU6Bzng
+ j8JkC6ojWs9MU1OlYebr6sVkSCo4jNTH45P0vAIw5Xmi5B5/9/BGn8siYp2QrVSAC2Qj
+ rHSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=DTgcaODMLq0FDZOTCg8W/z1Fr7XxKSIUscX7w76buGQ=;
+ b=Yz56SXBuz14igUG8q6qv+QeSt/rxxb4s9nGaF+i1jb80YpNesVvTdLLPONwiVugCAI
+ yB6fw17LKJnPVpdjhVrGA2M0+dvih4z1hw6hEn66vHZo+V26eVOUuoVPwF6UOPL1NKDn
+ WZwNs5ZptnZQFPCGUwY47SV+s+HhysM/1ziUl/lbveUc+s17VZuUNyeDi0fz53k/t8zq
+ cdK272sbl+qCvACIDfa8Fn6y8PXWDbdXtZKiJI9RdhVblC9gcJNuNYHcsWlSDV5URPVi
+ rAQrNNndmNVY3jWelAeBvPMOh1OZ8srnBSIqZ87O4lvHfnvoMsiQT9+nJK/j+PteII9s
+ QuwQ==
+X-Gm-Message-State: AOAM530p3XzbcKAUKIxmkMLASw4QTCkiFrY48yrN6hE4eTHQJc+PL33w
+ +rI7dJA+9fTR6BNFVZfBxiQ=
+X-Google-Smtp-Source: ABdhPJy5jk7/29DVswHa34STgqGvvLSP8za9je7mjfhKchSht/aLzUE6uR0yrsmglRMKhmyeLcjmTw==
+X-Received: by 2002:a7b:c10e:: with SMTP id w14mr11736487wmi.98.1633543723399; 
+ Wed, 06 Oct 2021 11:08:43 -0700 (PDT)
+Received: from localhost ([217.111.27.204])
+ by smtp.gmail.com with ESMTPSA id d1sm25183923wrr.72.2021.10.06.11.08.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 11:08:42 -0700 (PDT)
+Date: Wed, 6 Oct 2021 20:08:39 +0200
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: jonathanh@nvidia.com, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/tegra: Bump VIC/NVDEC clock rates to Fmax
+Message-ID: <YV3mJ6hH6M08CTvG@orome.fritz.box>
+References: <20210916150920.2136180-1-mperttunen@nvidia.com>
 MIME-Version: 1.0
-In-Reply-To: <f877a1c9-1898-23f3-bba3-3442dc1f3979@amd.com>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="knCz4z4ruBPHn7pA"
+Content-Disposition: inline
+In-Reply-To: <20210916150920.2136180-1-mperttunen@nvidia.com>
+User-Agent: Mutt/2.1.3 (987dde4c) (2021-09-10)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -66,44 +74,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/6/21 12:24 AM, Christian König wrote:
-> 
-> 
-> Am 06.10.21 um 09:20 schrieb Stephen Rothwell:
->> Hi Randy,
->>
->> On Tue, 5 Oct 2021 22:48:03 -0700 Randy Dunlap <rdunlap@infradead.org> wrote:
->>> on i386:
->>>
->>> ld: drivers/gpu/drm/msm/hdmi/hdmi_phy.o:(.rodata+0x3f0): undefined reference to `msm_hdmi_phy_8996_cfg'
->>>
->>>
->>> Full randconfig fle is attached.
->> This would be because CONFIG_DRM_MSM is set but CONFIG_COMMON_CLOCK is
->> not and has been exposed by commit
->>
->>    b3ed524f84f5 ("drm/msm: allow compile_test on !ARM")
->>
->> from the drm-misc tree.
-> 
-> Good point, how about this change:
-> 
-> diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-> index 5879f67bc88c..d9879b011fb0 100644
-> --- a/drivers/gpu/drm/msm/Kconfig
-> +++ b/drivers/gpu/drm/msm/Kconfig
-> @@ -5,7 +5,7 @@ config DRM_MSM
->          depends on DRM
->          depends on ARCH_QCOM || SOC_IMX5 || COMPILE_TEST
->          depends on IOMMU_SUPPORT
-> -       depends on (OF && COMMON_CLK) || COMPILE_TEST
-> +       depends on (OF || COMPILE_TEST) && COMMON_CLK
->          depends on QCOM_OCMEM || QCOM_OCMEM=n
->          depends on QCOM_LLCC || QCOM_LLCC=n
->          depends on QCOM_COMMAND_DB || QCOM_COMMAND_DB=n
 
-WorksForMe. Thanks.
-(other than the whitespace damage)
+--knCz4z4ruBPHn7pA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- 
-~Randy
+On Thu, Sep 16, 2021 at 06:09:20PM +0300, Mikko Perttunen wrote:
+> To get full performance out of these engines, bump their clock rates
+> to maximum. In the future we may want something smarter but this
+> should be fine for now.
+>=20
+> Signed-off-by: Mikko Perttunen <mperttunen@nvidia.com>
+> ---
+>  drivers/gpu/drm/tegra/nvdec.c | 6 ++++++
+>  drivers/gpu/drm/tegra/vic.c   | 6 ++++++
+>  2 files changed, 12 insertions(+)
+
+Applied, thanks.
+
+Thierry
+
+--knCz4z4ruBPHn7pA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmFd5icACgkQ3SOs138+
+s6GztQ//ce6l8V7kt1dBAN03Tk2ITlc434/6Q8kmc1mbfTIcNFhFh2Xd5LqzdPVw
+x8xuxiSmUGfwnSBmIt7527SoiQX6xJZnb5MDJNjTotHQEV7iXlV46eGPEC34WmdG
+PrnbPdrGOYxIKvVRomsAY4V/BOUTjwUxX8VyCeXGRm6pgtFL/Cm+VQ+T7BVtZ13Z
+JhsUA3nUIv8MVCZvubFNTacSidRLhPUs/IlaSZFPK7QQIXrkQ+VGTXKDFBN+c/yf
+oaHQNc9kPlCr8odOG5KbdL4jJfwOuOvRGkKfbXtMpp3fkygfxRE/nnwi+McHdEfG
+YvQjZ2vOa2rRx1AcFfRMy9IK72CY9ZeRCUNNjlqoCYeGGUs2ScO1qxb8j8Iz33oK
+2pZaA5Ewi0ygmmJBnZtV5xX2f48w7ijq2kzJeMUNn1QlLdgNR7XbgRcP1zM0Oda5
+BZcetENg61O+QiMwb8jsX6lYGnOQlul6YsTVWsuiLVGpFt7356PXfF/VP54299oy
+j1DPKdLFD3803EelRgmEQe67qjshGt3iB48vKBGv3xlEUb70V/csd70DzC3CUaUN
+SF0tGS+GGchEF3t+t7+zQNSwh/sw5q6wZNVFKscBxDKotQDNoVqce+9hyMSZkjEu
+NNhXWK+2OjODfEeU18IeBYga1Xmf1U2s3Pk3rGKK14bwh7MBPwM=
+=12s0
+-----END PGP SIGNATURE-----
+
+--knCz4z4ruBPHn7pA--
