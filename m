@@ -1,49 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C3C423E08
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:47:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D7DA423E15
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:49:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6CA616EDB2;
-	Wed,  6 Oct 2021 12:47:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A2586E49D;
+	Wed,  6 Oct 2021 12:49:00 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C963E6E49D;
- Wed,  6 Oct 2021 12:47:36 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BF58660F59;
- Wed,  6 Oct 2021 12:47:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633524456;
- bh=tTQVklaQ/ldVLqaoEK1050e3eup4oM5ED69uVhqEmSo=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Kl7HkcYSlA5eh1NwBNeZasuALZA6nFX5EtgDlzo5SclCOpq0vmtzwzBYscFYfkHBD
- 1UxWTCmLKoO1hrWIy05JfryPwMBkltkYgu/kCXSP705D+h8CgetgOmyfKQiZAKfBDs
- +osIlln5+g87KtAF8PpBBstrU20CWwzZ6U1cEomEj0I7Jz5P0OvoONsTHcPbadcPof
- qa8ia7v1UYz7rJVZ/jMGvbPCkv32B7fLDl1I7rjVeT4U1POqWUen5UEgbKKFUCEJ2E
- B5HxRQxyLXdvr6yPrC/oPtHb3QKTH+tER39egWbeojdfWs9FaeM2Rduy0n/d/c+2Sq
- Q5WJm/ErR7ATw==
-Date: Wed, 6 Oct 2021 18:17:32 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: abhinavk@codeaurora.org
-Cc: Rob Clark <robdclark@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
- Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
- David Airlie <airlied@linux.ie>, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bjorn Andersson <bjorn.andersson@linaro.org>,
- dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [Freedreno] [PATCH 08/11] drm/msm/disp/dpu1: Add support for DSC
- in encoder
-Message-ID: <YV2a5MzDUWMTotpP@matsya>
-References: <20210715065203.709914-1-vkoul@kernel.org>
- <20210715065203.709914-9-vkoul@kernel.org>
- <70d5abae07b4dbf63d8dbf47ba31262d@codeaurora.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F35D36E49D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 12:48:58 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
+ [91.158.153.130])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA3B9581;
+ Wed,  6 Oct 2021 14:48:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1633524537;
+ bh=7By+evsO+V8pvOVSMoqS/pELwTwJg63ZEEVqwo6GCQY=;
+ h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+ b=i8m8iA7JLynPglqq11ooqSUemGKd3myJBU3tGvOuvrmHuuVM3Rkk0TNP5KPM/nD4R
+ Xh4IuttgosirCVxsFN4XTkBqwtMiEmfccRLicw6+qr7VsNQfU6On7g+NgcPnNQ7XSq
+ gexDRxLZorZFVXJbZwdWLqWrdHUT1c5ilPEXTivc=
+Subject: Re: [PATCH v5 0/8] drm/omap: Add virtual-planes support
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, khilman@baylibre.com
+References: <20210923070701.145377-1-narmstrong@baylibre.com>
+ <5e60b305-dda2-ab9a-0954-f2d2b441667e@baylibre.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Message-ID: <de447fe0-69dd-9b1b-6ed9-d1b75a7665a3@ideasonboard.com>
+Date: Wed, 6 Oct 2021 15:48:53 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <70d5abae07b4dbf63d8dbf47ba31262d@codeaurora.org>
+In-Reply-To: <5e60b305-dda2-ab9a-0954-f2d2b441667e@baylibre.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,36 +55,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02-08-21, 17:57, abhinavk@codeaurora.org wrote:
-> On 2021-07-14 23:52, Vinod Koul wrote:
-> > When DSC is enabled in DT, we need to configure the encoder for DSC
-> > configuration, calculate DSC parameters for the given timing.
-> > 
-> > This patch adds that support by adding dpu_encoder_prep_dsc() which is
-> > invoked when DSC is enabled in DT
-> correct me if wrong but this commit text is not valid anymore in my opinion.
-> are there any params you are getting from DT now? I thought its all coming
-> from the panel
-> driver directly.
+Hi Neil,
 
-Yes thanks for spotting this, updated!
-
-> > 
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> agree with dmitry's comment's
-> https://patchwork.freedesktop.org/patch/444078/?series=90413&rev=2
+On 06/10/2021 11:17, Neil Armstrong wrote:
+> Hi,
 > 
-> instead of dsc being part of priv->dsc it should be per encoder.
+> On 23/09/2021 09:06, Neil Armstrong wrote:
+>> This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
+>>
+>> This patch series adds virtual-plane support to omapdrm driver to allow the use
+>> of display wider than 2048 pixels.
+>>
+>> In order to do so we introduce the concept of hw_overlay which can then be
+>> dynamically allocated to a plane. When the requested output width exceed what
+>> be supported by one overlay a second is then allocated if possible to handle
+>> display wider then 2048.
+>>
+>> This series replaces an earlier series which was DT based and using statically
+>> allocated resources.
+>>
+>> This implementation is inspired from the work done in msm/disp/mdp5
+>> driver.
 > 
-> On top of his comment, I also think that like on the newer chipsets, moving
-> the dsc related
-> encoder configuration to a dpu_encoder_dce.c will help for future expansion
-> of other topologies
-> and also for other compression algorithms.
+> Gentle ping, who is supposed reviewing those patches ?
 
-As replied to Dimitry, the DP and other topology support needs to be
-comprehended so this should be done when we know how DP, other
-compression algorithms and other topologies would be modeled here :)
+I think that would be me. I'll try to find time in the nearby future to 
+do the review.
 
--- 
-~Vinod
+  Tomi
