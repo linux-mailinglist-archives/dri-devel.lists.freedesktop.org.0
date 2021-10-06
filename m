@@ -2,89 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE54246C2
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 21:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E43B4246CA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 21:38:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B6D8E6EE1F;
-	Wed,  6 Oct 2021 19:38:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 49FAA6EE23;
+	Wed,  6 Oct 2021 19:38:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
- [IPv6:2607:f8b0:4864:20::1031])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF086EE1C
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 19:38:23 +0000 (UTC)
-Received: by mail-pj1-x1031.google.com with SMTP id
- d13-20020a17090ad3cd00b0019e746f7bd4so5227116pjw.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 12:38:23 -0700 (PDT)
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com
+ [IPv6:2607:f8b0:4864:20::102b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 306BE6EE21
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 19:38:25 +0000 (UTC)
+Received: by mail-pj1-x102b.google.com with SMTP id
+ cs11-20020a17090af50b00b0019fe3df3dddso4231421pjb.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 12:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LOPyAAlgkloGBvBKaHv+rjO0uew1lLPS4TPvNQXgGpg=;
- b=NfRXDAjZ56Sp834gnEHgLwuXxQVUtsJkT2wga3+6IgC06j+y5bTeXit8d+59Vzb3EB
- d5z8MUC2yTrMyl/REWDz7Xj7y4VryHU2ACdz7TdMZ2sEy74M46zyTFe14HUcaaYbxfCK
- nRCyGp7GzMSIaj6tmAg4lxzSmurSmmRsCLgRk=
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=j58dfbUBZwW/hmKRgo5vs/lRyzqUMHKsGPNMMLbunhU=;
+ b=Y1wwuokx1MWQz4W2KC/uPsEkBd0g9c/plbqrfDvJtzWEc1aBfdoop1V0Dc2u9vOhPH
+ hYvla/hDzcf2v0T/Ip27pxFOXrEMGFik/7TgNBcJiu7akqVTps/R0cyCwdokrPGgzJl9
+ t5Aitqjz35mb81s4dWcZM5M9hjNnjM87CHeCg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=LOPyAAlgkloGBvBKaHv+rjO0uew1lLPS4TPvNQXgGpg=;
- b=Q1zvp+cSj37TziAyCO5dCQ2OaMjGZ/BidyzaLdx3AgMerAF/iERH5xDdV/HN5vIg73
- an7X2uYsOzU3bnTU9eg0J8K1svWBfvH1r+yBFLKv1IW2o4zuyIjx3g5bO77g/pLbQ5mY
- iWVRjp4VzH8OEcxXNQrmezmY6nhc8jfAL/QpTYz9CShD2BZ4VIlYq1I8Gs/Sd5x/AcZq
- 5p5znrG3/bPUhIt4QSyricWsJQTnutu/xeYaSoKXCuicOgp4FzSL3naUX6vXWXcOzpPX
- sbj2dbrGIxnQekq7s/uSyJl29iXA/dRYPgC6MXzTGuQ0zQwtHKWcJnrHbuT4auPnWE2x
- wHeQ==
-X-Gm-Message-State: AOAM533N58Q31cvA0YHKHcDb7U34jwoGWaHY5PnQeu4k6X6b79QPrq2o
- fTXHlgHHZKYP/STf7SWjimvEXw==
-X-Google-Smtp-Source: ABdhPJyOSP9eTH58O4sZphYJfqDacdQGshqo1a+GgIDJL6zusxu34JwQnPr+XtN/rdjjr7tkocXkfA==
-X-Received: by 2002:a17:902:6b0b:b0:13a:18bf:1ece with SMTP id
- o11-20020a1709026b0b00b0013a18bf1ecemr12512498plk.49.1633549103194; 
- Wed, 06 Oct 2021 12:38:23 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=j58dfbUBZwW/hmKRgo5vs/lRyzqUMHKsGPNMMLbunhU=;
+ b=fcADojIR2CigcUrgQWa6Q7UdlpDxu9cdtgbMQFaAGQIC2B+HAMM8qn00Kx66xLSWZc
+ ri8/CVXtfPZt6K6oZ7dz6de9wNNiwDHJZQXw1IGgHP//WFNKzXepciQlyY6e/14VkjGA
+ GmNOhd6OYdt3BCyDC2z/bBF7fVm5LbPbsSv2bQCcPROtNrD7UDMvWvN8PJw3sLcmVYQv
+ R3h1kVb2ST+SSwCJRU7TuNshkiuUmNH+JQRxLgl5sIQp8sBC7x20yunpId500BKZZmOw
+ 2c9Ux8XvltD1iH1b+0KbCZIn5vzF0P1yoteckv9GM6dQAQLS2yv5hhXCCb1JhZ4aybJt
+ wYoQ==
+X-Gm-Message-State: AOAM532qzmwZhaI3by904KYOtiYQtozrg6HIY21CCTibXAmBpevP48Be
+ pnbfYQROFbq/IENWnENlqxQT7A==
+X-Google-Smtp-Source: ABdhPJxveN5+w6exJUG3HPrlzIcBU5i2978bNXQWxbzER8tpwo1BywzakGpB7P9r5NapUP9bUXzrIA==
+X-Received: by 2002:a17:903:18d:b0:13e:f1ef:d80c with SMTP id
+ z13-20020a170903018d00b0013ef1efd80cmr58781plg.63.1633549104314; 
+ Wed, 06 Oct 2021 12:38:24 -0700 (PDT)
 Received: from smtp.gmail.com ([2620:15c:202:201:d412:c5eb:4aca:4738])
- by smtp.gmail.com with ESMTPSA id o14sm22011296pfh.84.2021.10.06.12.38.20
+ by smtp.gmail.com with ESMTPSA id o14sm22011296pfh.84.2021.10.06.12.38.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 12:38:22 -0700 (PDT)
+ Wed, 06 Oct 2021 12:38:24 -0700 (PDT)
 From: Stephen Boyd <swboyd@chromium.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- Arnd Bergmann <arnd@arndb.de>,
- Benjamin Gaignard <benjamin.gaignard@linaro.org>,
- Chen Feng <puck.chen@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Daniel Vetter <daniel.vetter@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
- Inki Dae <inki.dae@samsung.com>, James Qian Wang <james.qian.wang@arm.com>,
- Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <joro@8bytes.org>,
- John Stultz <john.stultz@linaro.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, Jyri Sarha <jyri.sarha@iki.fi>,
- Kai Vehmanen <kai.vehmanen@linux.intel.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
- linux-pm@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
- Lucas Stach <l.stach@pengutronix.de>, Mark Brown <broonie@kernel.org>,
- Maxime Ripard <mripard@kernel.org>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Paul Cercueil <paul@crapouillou.net>,
- Philipp Zabel <p.zabel@pengutronix.de>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
  "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>,
- Russell King <linux@armlinux.org.uk>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
  Russell King <rmk+kernel@arm.linux.org.uk>,
- Sandy Huang <hjc@rock-chips.com>, Saravana Kannan <saravanak@google.com>,
- Sebastian Reichel <sre@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Takashi Iwai <tiwai@suse.com>, Tian Tao <tiantao6@hisilicon.com>,
- Tomas Winkler <tomas.winkler@intel.com>, Tomi Valkeinen <tomba@kernel.org>,
- Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>,
- Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yong Wu <yong.wu@mediatek.com>
-Subject: [PATCH v2 00/34] component: Make into an aggregate bus
-Date: Wed,  6 Oct 2021 12:37:45 -0700
-Message-Id: <20211006193819.2654854-1-swboyd@chromium.org>
+ Saravana Kannan <saravanak@google.com>
+Subject: [PATCH v2 01/34] component: Introduce struct aggregate_device
+Date: Wed,  6 Oct 2021 12:37:46 -0700
+Message-Id: <20211006193819.2654854-2-swboyd@chromium.org>
 X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
+In-Reply-To: <20211006193819.2654854-1-swboyd@chromium.org>
+References: <20211006193819.2654854-1-swboyd@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -101,162 +75,645 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This series is from discussion we had on reordering the device lists for
-drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
-the aggregate device onto and then we probe the aggregate device once
-all the components are probed and call component_add(). The probe/remove
-hooks are where the bind/unbind calls go, and then a shutdown hook is
-added that can be used to shutdown the drm display pipeline at the right
-time.
+Replace 'struct master' with 'struct aggregate_device' and then rename
+'master' to 'adev' everywhere in the code. While we're here, put a
+struct device inside the aggregate device so that we can register it
+with a bus_type in the next patch.
 
-This works for me on my sc7180 board. I no longer get a warning from i2c
-at shutdown that we're trying to make an i2c transaction after the i2c
-bus has been shutdown. There's more work to do on the msm drm driver to
-extract component device resources like clks, regulators, etc. out of
-the component bind function into the driver probe but I wanted to move
-everything over now in other component drivers before tackling that
-problem.
+The diff is large but that's because this is mostly a rename, where
+sometimes 'master' is replaced with 'adev' and other times it is
+replaced with 'parent' to indicate that the struct device that was being
+used is actually the parent of the aggregate device and driver.
 
-I'll definitely be sending a v3 so this is partially a request for
-testing to shake out any more problems. Tested-by tags would be appreciated,
-and Acked-by/Reviewed-by tags too. I sent this to gregkh which may be
-incorrect but I don't know what better tree to send it all through.
-Maybe drm?
-
-I'll be faster at resending this next time, sorry for the long delay!
-
-Changes since v1 (https://lore.kernel.org/r/20210520002519.3538432-1-swboyd@chromium.org):
- - Use devlink to connect components to the aggregate device
- - Don't set the registering device as a parent of the aggregate device
- - New patch for bind_component/unbind_component ops that takes the
-   aggregate device
- - Convert all drivers in the tree to use the aggregate driver approach
- - Allow one aggregate driver to be used for multiple aggregate devices
-
-[1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
-
-Stephen Boyd (34):
-  component: Introduce struct aggregate_device
-  component: Introduce the aggregate bus_type
-  component: Move struct aggregate_device out to header file
-  drm/msm: Migrate to aggregate driver
-  component: Add {bind,unbind}_component() ops that take aggregate
-    device
-  drm/of: Add a drm_of_aggregate_probe() API
-  drm/komeda: Migrate to aggregate driver
-  drm/arm/hdlcd: Migrate to aggregate driver
-  drm/malidp: Migrate to aggregate driver
-  drm/armada: Migrate to aggregate driver
-  drm/etnaviv: Migrate to aggregate driver
-  drm/kirin: Migrate to aggregate driver
-  drm/exynos: Migrate to aggregate driver
-  drm/imx: Migrate to aggregate driver
-  drm/ingenic: Migrate to aggregate driver
-  drm/mcde: Migrate to aggregate driver
-  drm/mediatek: Migrate to aggregate driver
-  drm/meson: Migrate to aggregate driver
-  drm/omap: Migrate to aggregate driver
-  drm/rockchip: Migrate to aggregate driver
-  drm/sti: Migrate to aggregate driver
-  drm/sun4i: Migrate to aggregate driver
-  drm/tilcdc: Migrate to aggregate driver
-  drm/vc4: Migrate to aggregate driver
-  drm/zte: Migrate to aggregate driver
-  iommu/mtk: Migrate to aggregate driver
-  mei: Migrate to aggregate driver
-  power: supply: ab8500: Migrate to aggregate driver
-  fbdev: omap2: Migrate to aggregate driver
-  sound: hdac: Migrate to aggregate driver
-  ASoC: codecs: wcd938x: Migrate to aggregate driver
-  component: Get rid of drm_of_component_probe()
-  component: Remove component_master_ops and friends
-  component: Remove all references to 'master'
-
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
-Cc: Chen Feng <puck.chen@hisilicon.com>
-Cc: Chen-Yu Tsai <wens@csie.org>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Emma Anholt <emma@anholt.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Heiko Stübner" <heiko@sntech.de>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
-Cc: Jaroslav Kysela <perex@perex.cz>
-Cc: Joerg Roedel <joro@8bytes.org>
-Cc: John Stultz <john.stultz@linaro.org>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Jyri Sarha <jyri.sarha@iki.fi>
-Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: <linux-fbdev@vger.kernel.org>
-Cc: <linux-omap@vger.kernel.org>
-Cc: <linux-pm@vger.kernel.org>
-Cc: Liviu Dudau <liviu.dudau@arm.com>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: Neil Armstrong <narmstrong@baylibre.com>
-Cc: Paul Cercueil <paul@crapouillou.net>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>
 Cc: "Rafael J. Wysocki" <rafael@kernel.org>
 Cc: Rob Clark <robdclark@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
 Cc: Russell King <rmk+kernel@arm.linux.org.uk>
-Cc: Sandy Huang <hjc@rock-chips.com>
 Cc: Saravana Kannan <saravanak@google.com>
-Cc: Sebastian Reichel <sre@kernel.org>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Takashi Iwai <tiwai@suse.com>
-Cc: Tian Tao <tiantao6@hisilicon.com>
-Cc: Tomas Winkler <tomas.winkler@intel.com>
-Cc: Tomi Valkeinen <tomba@kernel.org>
-Cc: Will Deacon <will@kernel.org>
-Cc: Xinliang Liu <xinliang.liu@linaro.org>
-Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
-Cc: Yong Wu <yong.wu@mediatek.com>
+Signed-off-by: Stephen Boyd <swboyd@chromium.org>
+---
+ drivers/base/component.c  | 250 ++++++++++++++++++++------------------
+ include/linux/component.h |   2 +-
+ 2 files changed, 134 insertions(+), 118 deletions(-)
 
- drivers/base/component.c                      | 555 +++++++++++-------
- .../gpu/drm/arm/display/komeda/komeda_drv.c   |  20 +-
- drivers/gpu/drm/arm/hdlcd_drv.c               |  21 +-
- drivers/gpu/drm/arm/malidp_drv.c              |  21 +-
- drivers/gpu/drm/armada/armada_drv.c           |  23 +-
- drivers/gpu/drm/drm_drv.c                     |   2 +-
- drivers/gpu/drm/drm_of.c                      |  20 +-
- drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  20 +-
- drivers/gpu/drm/exynos/exynos_drm_drv.c       |  21 +-
- .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  20 +-
- drivers/gpu/drm/imx/imx-drm-core.c            |  20 +-
- drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  24 +-
- drivers/gpu/drm/mcde/mcde_drv.c               |  23 +-
- drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  20 +-
- drivers/gpu/drm/meson/meson_drv.c             |  21 +-
- drivers/gpu/drm/msm/msm_drv.c                 |  46 +-
- drivers/gpu/drm/omapdrm/dss/dss.c             |  17 +-
- drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  20 +-
- drivers/gpu/drm/sti/sti_drv.c                 |  20 +-
- drivers/gpu/drm/sun4i/sun4i_drv.c             |  26 +-
- drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  28 +-
- drivers/gpu/drm/vc4/vc4_drv.c                 |  20 +-
- drivers/gpu/drm/zte/zx_drm_drv.c              |  20 +-
- drivers/iommu/mtk_iommu.c                     |  14 +-
- drivers/iommu/mtk_iommu.h                     |   6 +-
- drivers/iommu/mtk_iommu_v1.c                  |  14 +-
- drivers/misc/mei/hdcp/mei_hdcp.c              |  22 +-
- drivers/power/supply/ab8500_charger.c         |  22 +-
- drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  20 +-
- include/drm/drm_of.h                          |   9 +-
- include/linux/component.h                     |  92 ++-
- sound/hda/hdac_component.c                    |  21 +-
- sound/soc/codecs/wcd938x.c                    |  20 +-
- 33 files changed, 780 insertions(+), 488 deletions(-)
-
-
-base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+diff --git a/drivers/base/component.c b/drivers/base/component.c
+index 5e79299f6c3f..0a41bbe14981 100644
+--- a/drivers/base/component.c
++++ b/drivers/base/component.c
+@@ -9,6 +9,7 @@
+  */
+ #include <linux/component.h>
+ #include <linux/device.h>
++#include <linux/idr.h>
+ #include <linux/kref.h>
+ #include <linux/list.h>
+ #include <linux/mutex.h>
+@@ -58,18 +59,21 @@ struct component_match {
+ 	struct component_match_array *compare;
+ };
+ 
+-struct master {
++struct aggregate_device {
+ 	struct list_head node;
+ 	bool bound;
+ 
+ 	const struct component_master_ops *ops;
+ 	struct device *parent;
++	struct device dev;
+ 	struct component_match *match;
++
++	int id;
+ };
+ 
+ struct component {
+ 	struct list_head node;
+-	struct master *master;
++	struct aggregate_device *adev;
+ 	bool bound;
+ 
+ 	const struct component_ops *ops;
+@@ -79,7 +83,9 @@ struct component {
+ 
+ static DEFINE_MUTEX(component_mutex);
+ static LIST_HEAD(component_list);
+-static LIST_HEAD(masters);
++static LIST_HEAD(aggregate_devices);
++
++static DEFINE_IDA(aggregate_ida);
+ 
+ #ifdef CONFIG_DEBUG_FS
+ 
+@@ -87,12 +93,12 @@ static struct dentry *component_debugfs_dir;
+ 
+ static int component_devices_show(struct seq_file *s, void *data)
+ {
+-	struct master *m = s->private;
++	struct aggregate_device *m = s->private;
+ 	struct component_match *match = m->match;
+ 	size_t i;
+ 
+ 	mutex_lock(&component_mutex);
+-	seq_printf(s, "%-40s %20s\n", "master name", "status");
++	seq_printf(s, "%-40s %20s\n", "aggregate_device name", "status");
+ 	seq_puts(s, "-------------------------------------------------------------\n");
+ 	seq_printf(s, "%-40s %20s\n\n",
+ 		   dev_name(m->parent), m->bound ? "bound" : "not bound");
+@@ -122,46 +128,46 @@ static int __init component_debug_init(void)
+ 
+ core_initcall(component_debug_init);
+ 
+-static void component_master_debugfs_add(struct master *m)
++static void component_master_debugfs_add(struct aggregate_device *m)
+ {
+ 	debugfs_create_file(dev_name(m->parent), 0444, component_debugfs_dir, m,
+ 			    &component_devices_fops);
+ }
+ 
+-static void component_master_debugfs_del(struct master *m)
++static void component_master_debugfs_del(struct aggregate_device *m)
+ {
+ 	debugfs_remove(debugfs_lookup(dev_name(m->parent), component_debugfs_dir));
+ }
+ 
+ #else
+ 
+-static void component_master_debugfs_add(struct master *m)
++static void component_master_debugfs_add(struct aggregate_device *m)
+ { }
+ 
+-static void component_master_debugfs_del(struct master *m)
++static void component_master_debugfs_del(struct aggregate_device *m)
+ { }
+ 
+ #endif
+ 
+-static struct master *__master_find(struct device *parent,
++static struct aggregate_device *__aggregate_find(struct device *parent,
+ 	const struct component_master_ops *ops)
+ {
+-	struct master *m;
++	struct aggregate_device *m;
+ 
+-	list_for_each_entry(m, &masters, node)
++	list_for_each_entry(m, &aggregate_devices, node)
+ 		if (m->parent == parent && (!ops || m->ops == ops))
+ 			return m;
+ 
+ 	return NULL;
+ }
+ 
+-static struct component *find_component(struct master *master,
++static struct component *find_component(struct aggregate_device *adev,
+ 	struct component_match_array *mc)
+ {
+ 	struct component *c;
+ 
+ 	list_for_each_entry(c, &component_list, node) {
+-		if (c->master && c->master != master)
++		if (c->adev && c->adev != adev)
+ 			continue;
+ 
+ 		if (mc->compare && mc->compare(c->dev, mc->data))
+@@ -175,101 +181,102 @@ static struct component *find_component(struct master *master,
+ 	return NULL;
+ }
+ 
+-static int find_components(struct master *master)
++static int find_components(struct aggregate_device *adev)
+ {
+-	struct component_match *match = master->match;
++	struct component_match *match = adev->match;
+ 	size_t i;
+ 	int ret = 0;
+ 
+ 	/*
+ 	 * Scan the array of match functions and attach
+-	 * any components which are found to this master.
++	 * any components which are found to this adev.
+ 	 */
+ 	for (i = 0; i < match->num; i++) {
+ 		struct component_match_array *mc = &match->compare[i];
+ 		struct component *c;
+ 
+-		dev_dbg(master->parent, "Looking for component %zu\n", i);
++		dev_dbg(adev->parent, "Looking for component %zu\n", i);
+ 
+ 		if (match->compare[i].component)
+ 			continue;
+ 
+-		c = find_component(master, mc);
++		c = find_component(adev, mc);
+ 		if (!c) {
+ 			ret = -ENXIO;
+ 			break;
+ 		}
+ 
+-		dev_dbg(master->parent, "found component %s, duplicate %u\n", dev_name(c->dev), !!c->master);
++		dev_dbg(adev->parent, "found component %s, duplicate %u\n",
++			dev_name(c->dev), !!c->adev);
+ 
+-		/* Attach this component to the master */
+-		match->compare[i].duplicate = !!c->master;
++		/* Attach this component to the adev */
++		match->compare[i].duplicate = !!c->adev;
+ 		match->compare[i].component = c;
+-		c->master = master;
++		c->adev = adev;
+ 	}
+ 	return ret;
+ }
+ 
+-/* Detach component from associated master */
+-static void remove_component(struct master *master, struct component *c)
++/* Detach component from associated aggregate_device */
++static void remove_component(struct aggregate_device *adev, struct component *c)
+ {
+ 	size_t i;
+ 
+-	/* Detach the component from this master. */
+-	for (i = 0; i < master->match->num; i++)
+-		if (master->match->compare[i].component == c)
+-			master->match->compare[i].component = NULL;
++	/* Detach the component from this adev. */
++	for (i = 0; i < adev->match->num; i++)
++		if (adev->match->compare[i].component == c)
++			adev->match->compare[i].component = NULL;
+ }
+ 
+ /*
+- * Try to bring up a master.  If component is NULL, we're interested in
+- * this master, otherwise it's a component which must be present to try
+- * and bring up the master.
++ * Try to bring up an aggregate device.  If component is NULL, we're interested
++ * in this aggregate device, otherwise it's a component which must be present
++ * to try and bring up the aggregate device.
+  *
+  * Returns 1 for successful bringup, 0 if not ready, or -ve errno.
+  */
+-static int try_to_bring_up_master(struct master *master,
++static int try_to_bring_up_aggregate_device(struct aggregate_device *adev,
+ 	struct component *component)
+ {
+ 	int ret;
+ 
+-	dev_dbg(master->parent, "trying to bring up master\n");
++	dev_dbg(adev->parent, "trying to bring up adev\n");
+ 
+-	if (find_components(master)) {
+-		dev_dbg(master->parent, "master has incomplete components\n");
++	if (find_components(adev)) {
++		dev_dbg(adev->parent, "master has incomplete components\n");
+ 		return 0;
+ 	}
+ 
+-	if (component && component->master != master) {
+-		dev_dbg(master->parent, "master is not for this component (%s)\n",
++	if (component && component->adev != adev) {
++		dev_dbg(adev->parent, "master is not for this component (%s)\n",
+ 			dev_name(component->dev));
+ 		return 0;
+ 	}
+ 
+-	if (!devres_open_group(master->parent, NULL, GFP_KERNEL))
++	if (!devres_open_group(adev->parent, NULL, GFP_KERNEL))
+ 		return -ENOMEM;
+ 
+ 	/* Found all components */
+-	ret = master->ops->bind(master->parent);
++	ret = adev->ops->bind(adev->parent);
+ 	if (ret < 0) {
+-		devres_release_group(master->parent, NULL);
++		devres_release_group(adev->parent, NULL);
+ 		if (ret != -EPROBE_DEFER)
+-			dev_info(master->parent, "master bind failed: %d\n", ret);
++			dev_info(adev->parent, "adev bind failed: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+-	master->bound = true;
++	adev->bound = true;
+ 	return 1;
+ }
+ 
+ static int try_to_bring_up_masters(struct component *component)
+ {
+-	struct master *m;
++	struct aggregate_device *adev;
+ 	int ret = 0;
+ 
+-	list_for_each_entry(m, &masters, node) {
+-		if (!m->bound) {
+-			ret = try_to_bring_up_master(m, component);
++	list_for_each_entry(adev, &aggregate_devices, node) {
++		if (!adev->bound) {
++			ret = try_to_bring_up_aggregate_device(adev, component);
+ 			if (ret != 0)
+ 				break;
+ 		}
+@@ -278,12 +285,12 @@ static int try_to_bring_up_masters(struct component *component)
+ 	return ret;
+ }
+ 
+-static void take_down_master(struct master *master)
++static void take_down_aggregate_device(struct aggregate_device *adev)
+ {
+-	if (master->bound) {
+-		master->ops->unbind(master->parent);
+-		devres_release_group(master->parent, NULL);
+-		master->bound = false;
++	if (adev->bound) {
++		adev->ops->unbind(adev->parent);
++		devres_release_group(adev->parent, NULL);
++		adev->bound = false;
+ 	}
+ }
+ 
+@@ -324,7 +331,7 @@ static int component_match_realloc(struct component_match *match, size_t num)
+ 	return 0;
+ }
+ 
+-static void __component_match_add(struct device *master,
++static void __component_match_add(struct device *parent,
+ 	struct component_match **matchptr,
+ 	void (*release)(struct device *, void *),
+ 	int (*compare)(struct device *, void *),
+@@ -344,7 +351,7 @@ static void __component_match_add(struct device *master,
+ 			return;
+ 		}
+ 
+-		devres_add(master, match);
++		devres_add(parent, match);
+ 
+ 		*matchptr = match;
+ 	}
+@@ -370,13 +377,13 @@ static void __component_match_add(struct device *master,
+ 
+ /**
+  * component_match_add_release - add a component match entry with release callback
+- * @master: device with the aggregate driver
++ * @parent: parent device of the aggregate driver
+  * @matchptr: pointer to the list of component matches
+  * @release: release function for @compare_data
+  * @compare: compare function to match against all components
+  * @compare_data: opaque pointer passed to the @compare function
+  *
+- * Adds a new component match to the list stored in @matchptr, which the @master
++ * Adds a new component match to the list stored in @matchptr, which the
+  * aggregate driver needs to function. The list of component matches pointed to
+  * by @matchptr must be initialized to NULL before adding the first match. This
+  * only matches against components added with component_add().
+@@ -388,19 +395,19 @@ static void __component_match_add(struct device *master,
+  *
+  * See also component_match_add() and component_match_add_typed().
+  */
+-void component_match_add_release(struct device *master,
++void component_match_add_release(struct device *parent,
+ 	struct component_match **matchptr,
+ 	void (*release)(struct device *, void *),
+ 	int (*compare)(struct device *, void *), void *compare_data)
+ {
+-	__component_match_add(master, matchptr, release, compare, NULL,
++	__component_match_add(parent, matchptr, release, compare, NULL,
+ 			      compare_data);
+ }
+ EXPORT_SYMBOL(component_match_add_release);
+ 
+ /**
+  * component_match_add_typed - add a component match entry for a typed component
+- * @master: device with the aggregate driver
++ * @parent: parent device of the aggregate driver
+  * @matchptr: pointer to the list of component matches
+  * @compare_typed: compare function to match against all typed components
+  * @compare_data: opaque pointer passed to the @compare function
+@@ -415,32 +422,33 @@ EXPORT_SYMBOL(component_match_add_release);
+  *
+  * See also component_match_add_release() and component_match_add_typed().
+  */
+-void component_match_add_typed(struct device *master,
++void component_match_add_typed(struct device *parent,
+ 	struct component_match **matchptr,
+ 	int (*compare_typed)(struct device *, int, void *), void *compare_data)
+ {
+-	__component_match_add(master, matchptr, NULL, NULL, compare_typed,
++	__component_match_add(parent, matchptr, NULL, NULL, compare_typed,
+ 			      compare_data);
+ }
+ EXPORT_SYMBOL(component_match_add_typed);
+ 
+-static void free_master(struct master *master)
++static void free_aggregate_device(struct aggregate_device *adev)
+ {
+-	struct component_match *match = master->match;
++	struct component_match *match = adev->match;
+ 	int i;
+ 
+-	component_master_debugfs_del(master);
+-	list_del(&master->node);
++	component_master_debugfs_del(adev);
++	list_del(&adev->node);
+ 
+ 	if (match) {
+ 		for (i = 0; i < match->num; i++) {
+ 			struct component *c = match->compare[i].component;
+ 			if (c)
+-				c->master = NULL;
++				c->adev = NULL;
+ 		}
+ 	}
+ 
+-	kfree(master);
++	ida_free(&aggregate_ida, adev->id);
++	kfree(adev);
+ }
+ 
+ /**
+@@ -459,31 +467,39 @@ int component_master_add_with_match(struct device *parent,
+ 	const struct component_master_ops *ops,
+ 	struct component_match *match)
+ {
+-	struct master *master;
+-	int ret;
++	struct aggregate_device *adev;
++	int ret, id;
+ 
+ 	/* Reallocate the match array for its true size */
+ 	ret = component_match_realloc(match, match->num);
+ 	if (ret)
+ 		return ret;
+ 
+-	master = kzalloc(sizeof(*master), GFP_KERNEL);
+-	if (!master)
++	adev = kzalloc(sizeof(*adev), GFP_KERNEL);
++	if (!adev)
+ 		return -ENOMEM;
+ 
+-	master->parent = parent;
+-	master->ops = ops;
+-	master->match = match;
++	id = ida_alloc(&aggregate_ida, GFP_KERNEL);
++	if (id < 0) {
++		kfree(adev);
++		return id;
++	}
++
++	adev->id = id;
++	adev->parent = parent;
++	adev->ops = ops;
++	adev->match = match;
++	dev_set_name(&adev->dev, "aggregate%d", id);
+ 
+-	component_master_debugfs_add(master);
+-	/* Add to the list of available masters. */
++	component_master_debugfs_add(adev);
++	/* Add to the list of available aggregate devices. */
+ 	mutex_lock(&component_mutex);
+-	list_add(&master->node, &masters);
++	list_add(&adev->node, &aggregate_devices);
+ 
+-	ret = try_to_bring_up_master(master, NULL);
++	ret = try_to_bring_up_aggregate_device(adev, NULL);
+ 
+ 	if (ret < 0)
+-		free_master(master);
++		free_aggregate_device(adev);
+ 
+ 	mutex_unlock(&component_mutex);
+ 
+@@ -503,25 +519,25 @@ EXPORT_SYMBOL_GPL(component_master_add_with_match);
+ void component_master_del(struct device *parent,
+ 	const struct component_master_ops *ops)
+ {
+-	struct master *master;
++	struct aggregate_device *adev;
+ 
+ 	mutex_lock(&component_mutex);
+-	master = __master_find(parent, ops);
+-	if (master) {
+-		take_down_master(master);
+-		free_master(master);
++	adev = __aggregate_find(parent, ops);
++	if (adev) {
++		take_down_aggregate_device(adev);
++		free_aggregate_device(adev);
+ 	}
+ 	mutex_unlock(&component_mutex);
+ }
+ EXPORT_SYMBOL_GPL(component_master_del);
+ 
+ static void component_unbind(struct component *component,
+-	struct master *master, void *data)
++	struct aggregate_device *adev, void *data)
+ {
+ 	WARN_ON(!component->bound);
+ 
+ 	if (component->ops && component->ops->unbind)
+-		component->ops->unbind(component->dev, master->parent, data);
++		component->ops->unbind(component->dev, adev->parent, data);
+ 	component->bound = false;
+ 
+ 	/* Release all resources claimed in the binding of this component */
+@@ -539,26 +555,26 @@ static void component_unbind(struct component *component,
+  */
+ void component_unbind_all(struct device *parent, void *data)
+ {
+-	struct master *master;
++	struct aggregate_device *adev;
+ 	struct component *c;
+ 	size_t i;
+ 
+ 	WARN_ON(!mutex_is_locked(&component_mutex));
+ 
+-	master = __master_find(parent, NULL);
+-	if (!master)
++	adev = __aggregate_find(parent, NULL);
++	if (!adev)
+ 		return;
+ 
+ 	/* Unbind components in reverse order */
+-	for (i = master->match->num; i--; )
+-		if (!master->match->compare[i].duplicate) {
+-			c = master->match->compare[i].component;
+-			component_unbind(c, master, data);
++	for (i = adev->match->num; i--; )
++		if (!adev->match->compare[i].duplicate) {
++			c = adev->match->compare[i].component;
++			component_unbind(c, adev, data);
+ 		}
+ }
+ EXPORT_SYMBOL_GPL(component_unbind_all);
+ 
+-static int component_bind(struct component *component, struct master *master,
++static int component_bind(struct component *component, struct aggregate_device *adev,
+ 	void *data)
+ {
+ 	int ret;
+@@ -568,7 +584,7 @@ static int component_bind(struct component *component, struct master *master,
+ 	 * This allows us to roll-back a failed component without
+ 	 * affecting anything else.
+ 	 */
+-	if (!devres_open_group(master->parent, NULL, GFP_KERNEL))
++	if (!devres_open_group(adev->parent, NULL, GFP_KERNEL))
+ 		return -ENOMEM;
+ 
+ 	/*
+@@ -577,14 +593,14 @@ static int component_bind(struct component *component, struct master *master,
+ 	 * at the appropriate moment.
+ 	 */
+ 	if (!devres_open_group(component->dev, component, GFP_KERNEL)) {
+-		devres_release_group(master->parent, NULL);
++		devres_release_group(adev->parent, NULL);
+ 		return -ENOMEM;
+ 	}
+ 
+-	dev_dbg(master->parent, "binding %s (ops %ps)\n",
++	dev_dbg(adev->parent, "binding %s (ops %ps)\n",
+ 		dev_name(component->dev), component->ops);
+ 
+-	ret = component->ops->bind(component->dev, master->parent, data);
++	ret = component->ops->bind(component->dev, adev->parent, data);
+ 	if (!ret) {
+ 		component->bound = true;
+ 
+@@ -595,16 +611,16 @@ static int component_bind(struct component *component, struct master *master,
+ 		 * can clean those resources up independently.
+ 		 */
+ 		devres_close_group(component->dev, NULL);
+-		devres_remove_group(master->parent, NULL);
++		devres_remove_group(adev->parent, NULL);
+ 
+-		dev_info(master->parent, "bound %s (ops %ps)\n",
++		dev_info(adev->parent, "bound %s (ops %ps)\n",
+ 			 dev_name(component->dev), component->ops);
+ 	} else {
+ 		devres_release_group(component->dev, NULL);
+-		devres_release_group(master->parent, NULL);
++		devres_release_group(adev->parent, NULL);
+ 
+ 		if (ret != -EPROBE_DEFER)
+-			dev_err(master->parent, "failed to bind %s (ops %ps): %d\n",
++			dev_err(adev->parent, "failed to bind %s (ops %ps): %d\n",
+ 				dev_name(component->dev), component->ops, ret);
+ 	}
+ 
+@@ -622,31 +638,31 @@ static int component_bind(struct component *component, struct master *master,
+  */
+ int component_bind_all(struct device *parent, void *data)
+ {
+-	struct master *master;
++	struct aggregate_device *adev;
+ 	struct component *c;
+ 	size_t i;
+ 	int ret = 0;
+ 
+ 	WARN_ON(!mutex_is_locked(&component_mutex));
+ 
+-	master = __master_find(parent, NULL);
+-	if (!master)
++	adev = __aggregate_find(parent, NULL);
++	if (!adev)
+ 		return -EINVAL;
+ 
+ 	/* Bind components in match order */
+-	for (i = 0; i < master->match->num; i++)
+-		if (!master->match->compare[i].duplicate) {
+-			c = master->match->compare[i].component;
+-			ret = component_bind(c, master, data);
++	for (i = 0; i < adev->match->num; i++)
++		if (!adev->match->compare[i].duplicate) {
++			c = adev->match->compare[i].component;
++			ret = component_bind(c, adev, data);
+ 			if (ret)
+ 				break;
+ 		}
+ 
+ 	if (ret != 0) {
+ 		for (; i > 0; i--)
+-			if (!master->match->compare[i - 1].duplicate) {
+-				c = master->match->compare[i - 1].component;
+-				component_unbind(c, master, data);
++			if (!adev->match->compare[i - 1].duplicate) {
++				c = adev->match->compare[i - 1].component;
++				component_unbind(c, adev, data);
+ 			}
+ 	}
+ 
+@@ -675,8 +691,8 @@ static int __component_add(struct device *dev, const struct component_ops *ops,
+ 
+ 	ret = try_to_bring_up_masters(component);
+ 	if (ret < 0) {
+-		if (component->master)
+-			remove_component(component->master, component);
++		if (component->adev)
++			remove_component(component->adev, component);
+ 		list_del(&component->node);
+ 
+ 		kfree(component);
+@@ -757,9 +773,9 @@ void component_del(struct device *dev, const struct component_ops *ops)
+ 			break;
+ 		}
+ 
+-	if (component && component->master) {
+-		take_down_master(component->master);
+-		remove_component(component->master, component);
++	if (component && component->adev) {
++		take_down_aggregate_device(component->adev);
++		remove_component(component->adev, component);
+ 	}
+ 
+ 	mutex_unlock(&component_mutex);
+diff --git a/include/linux/component.h b/include/linux/component.h
+index 16de18f473d7..71bfc3862633 100644
+--- a/include/linux/component.h
++++ b/include/linux/component.h
+@@ -41,7 +41,7 @@ void component_del(struct device *, const struct component_ops *);
+ int component_bind_all(struct device *master, void *master_data);
+ void component_unbind_all(struct device *master, void *master_data);
+ 
+-struct master;
++struct aggregate_device;
+ 
+ /**
+  * struct component_master_ops - callback for the aggregate driver
 -- 
 https://chromeos.dev
 
