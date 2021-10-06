@@ -1,66 +1,70 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DBCF42483B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 22:48:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E03F424875
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 23:07:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D1BF56EE7B;
-	Wed,  6 Oct 2021 20:48:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB996EE77;
+	Wed,  6 Oct 2021 21:07:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 482A06EE77
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 20:48:33 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id r19so14617349lfe.10
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 13:48:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=omBxJqx/FyuXHNB3iSfAI33Nu5vXJyXne6zSU6njhHw=;
- b=kMXzRWnKXIXhCAcuRaafEUEmwhOd6NWc2nEUh4LClHTs3R5bCtkIYFIrS9/Raog3Ku
- D9NVdxNw0AhF7oynGKTQtWVEkdlzqV4QVksSstJ7iiiXsM1irYJUsF4WQmFQMcUOkvcZ
- 4W4rzmCo2Z7QfJwiCOliCag0FYJ2x6Q9lLE2Khlexe0X5VsDoP1uaIMhMD+zlz6shRjs
- qqAskVVYkxk9n2HLXFN+odr0++5h6qMv5XJbr+200nIyXOA6Q2Q96ND3AVjU7nPpOYYX
- 7q9tnCZr6z7eugPd1jwCd+Da5GcGR3etXmaPv5WLAwd2rbOMi8BF+3oMoUyyrx3QckY0
- fCJQ==
+Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
+ [IPv6:2a00:1450:4864:20::12f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E0AFD6EE77
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 21:07:22 +0000 (UTC)
+Received: by mail-lf1-x12f.google.com with SMTP id i24so15012733lfj.13
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 14:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TflpwPZE9QDA5GXWczKBZDym4osUpjQCVJ+bbBsqiE0=;
+ b=nr8IPaGR1dE28DEaaKLAuVRaakV/rT8o2sub72N4Vzwem33US+OZ7pRqFAGpsv2b+i
+ lI1rER4JJusEF+6mm4DL/JFQ+c8vjYTakgRkk8StkAmvPx8iVagXD12N8eOMSjvPujB/
+ GReojgRxWsTnoVGdH0LFU+t3QJiN6Nzxd7+VDIOJscDBMK/K+smxLe77tvD+SxZ265C7
+ 36pkNhYiQL1xmOPs6W5FJDZoo0rOz5LOPbmjEzLto19t7MTdAHvRFohyKA6WcUu/QVkm
+ eH937ELGYfEyA7CUukGQgofCi0SuIIxds6vA/F+2kxMSSD+HuXSmW/UfnzXii39GRf2R
+ STVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=omBxJqx/FyuXHNB3iSfAI33Nu5vXJyXne6zSU6njhHw=;
- b=wdHYxC+tLnZWEek8Rqkt4U/9LOZptIxzusITKFxH/jEcSxIn0IJNklbPJ9nrwX7tZT
- FaT2vKjLCqIEj7c6NP5/QySxuYGXsjhlLya0yyH4YINKFcAba+tYpu+QlFfSBh07UOAd
- dxadQyXEGDCH0i/lWM6yb6/Cc0pK6O7A40pRhrpFSDTIEUZbkv1NwUfkeQ+uW2wZsOj3
- X6K4TDACE4AFVZveXz7YkuFlDdlRiy7cDias2t11SL/c0UqoxvryHTnpWeJnClV/DXFq
- LzmQYTcm3iUUKyorhtGxxcguXzgtmKjDXDoxU1Sb1opRFE6DdL+ZK0eheviDU0hPaUl/
- MsVA==
-X-Gm-Message-State: AOAM531aJu8IvCVX83iSI2MfQOz9+WxlIEy5N6PkhAnfaBmWhwzfOr+Q
- +kvGpFFTXOgLXnsv7eq2K/3/9w==
-X-Google-Smtp-Source: ABdhPJwzRAoSXLNBfgkpGRLNZ/6a2V7s0SldbWKOa+R9EMgjB1wOVpraMIWLbcsaUID8xKyMa2a4Ew==
-X-Received: by 2002:a05:6512:1291:: with SMTP id
- u17mr238075lfs.226.1633553310810; 
- Wed, 06 Oct 2021 13:48:30 -0700 (PDT)
-Received: from eriador.lan ([37.153.55.125])
- by smtp.gmail.com with ESMTPSA id y19sm2378787ljc.116.2021.10.06.13.48.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 13:48:30 -0700 (PDT)
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Abhinav Kumar <abhinavk@codeaurora.org>
-Cc: Jonathan Marek <jonathan@marek.ca>, Stephen Boyd <sboyd@kernel.org>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org
-Subject: [PATCH 2/2] drm/msm/dsi: stop setting clock parents manually
-Date: Wed,  6 Oct 2021 23:48:28 +0300
-Message-Id: <20211006204828.1218225-2-dmitry.baryshkov@linaro.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211006204828.1218225-1-dmitry.baryshkov@linaro.org>
-References: <20211006204828.1218225-1-dmitry.baryshkov@linaro.org>
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TflpwPZE9QDA5GXWczKBZDym4osUpjQCVJ+bbBsqiE0=;
+ b=1bP0WEH7/03s+aFLYck8e6n+NZudhs1sUT69xSLl4aBTVCx5cSkFwUOhb3YrpmO67M
+ nQ+YOgYi5wOvNMdiecQckU/utOr5JlqvkYRRG7Y7fCEk4LvT3qU7Dj56s5QObHtz0Ot/
+ 1nzmoRSOl9+qGM9fladIo6T7ck9fNIDhCDxeHQZPchXQRE72DTTVawMri9Pzvqyn3Ojd
+ UjhBee/qZWkzIWCAIAhj5ehsgT4O9/uqQ0aziSmW/TmqojZPVAJVxQJXSpBVTh49rni5
+ NTRHWoBsmSmwxpRYJyUk7BCzmXaoza1bUiVmvcAUt58DNJYd2GBJkWVftVdAvoixlD4l
+ /zyA==
+X-Gm-Message-State: AOAM532qf3vwicbsRQeDGKQdMc8jsb+5zEE2HpMSc+b838g+BmPOiPdx
+ gXtEs6SidX8o46zfoDDb4+0=
+X-Google-Smtp-Source: ABdhPJxH3M3UiC/acM65+VrH5JGJnrQ/jXtTLT/Et40R0BaNG9dEoR4GmjTFe9pdwQITkdGBSbWWqQ==
+X-Received: by 2002:a2e:7311:: with SMTP id o17mr296029ljc.267.1633554441149; 
+ Wed, 06 Oct 2021 14:07:21 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
+ [79.139.163.57])
+ by smtp.googlemail.com with ESMTPSA id p5sm155845lfk.282.2021.10.06.14.07.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 14:07:20 -0700 (PDT)
+Subject: Re: [PATCH v1 2/2] drm/tegra: dc: rgb: Allow changing PLLD rate on
+ Tegra30+
+From: Dmitry Osipenko <digetx@gmail.com>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Jonathan Hunter <jonathanh@nvidia.com>,
+ Maxim Schwalm <maxim.schwalm@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-tegra@vger.kernel.org
+References: <20210929222805.16511-1-digetx@gmail.com>
+ <20210929222805.16511-3-digetx@gmail.com> <YV3nQuo7eG6dkl0f@orome.fritz.box>
+ <b858348a-698e-c22b-da9a-83cd2f00e668@gmail.com>
+Message-ID: <b43c8e99-ba34-d853-c052-b9e7212d117e@gmail.com>
+Date: Thu, 7 Oct 2021 00:07:20 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.11.0
 MIME-Version: 1.0
+In-Reply-To: <b858348a-698e-c22b-da9a-83cd2f00e668@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -77,149 +81,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-There is no reason to set clock parents manually, use device tree to
-assign DSI/display clock parents to DSI PHY clocks. Dropping this manual
-setup allows us to drop repeating code and to move registration of hw
-clock providers to generic place.
+06.10.2021 21:27, Dmitry Osipenko пишет:
+> 06.10.2021 21:13, Thierry Reding пишет:
+>> On Thu, Sep 30, 2021 at 01:28:05AM +0300, Dmitry Osipenko wrote:
+>>> Asus Transformer TF700T is a Tegra30 tablet device which uses RGB->DSI
+>>> bridge that requires a precise clock rate in order to operate properly.
+>>> Tegra30 has a dedicated PLL for each display controller, hence the PLL
+>>> rate can be changed freely. Allow PLL rate changes on Tegra30+ for RGB
+>>> output. Configure the clock rate before display controller is enabled
+>>> since DC itself may be running off this PLL and it's not okay to change
+>>> the rate of the active PLL that doesn't support dynamic frequency
+>>> switching since hardware will hang.
+>>>
+>>> Tested-by: Maxim Schwalm <maxim.schwalm@gmail.com> #TF700T
+>>> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+>>> ---
+>>>  drivers/gpu/drm/tegra/dc.c  | 27 ++++++++++++--------
+>>>  drivers/gpu/drm/tegra/dc.h  |  1 +
+>>>  drivers/gpu/drm/tegra/rgb.c | 49 +++++++++++++++++++++++++++++++++++--
+>>>  3 files changed, 65 insertions(+), 12 deletions(-)
+>>
+>> This seems overly complicated. I especially don't like the way how
+>> clocks are looked up with clk_get_sys() and then used in the comparison.
+>> Could this not be achieved by using assigned-clocks and friends
+>> properties in DT?
+> 
+> Assigned-clocks have nothing to do with this patch. We need to check
+> whether PLLD *is* already pre-assigned as the parent.
+> 
+> Adding properties for describing the clk parents is overly complicated,
+> clk_get_sys() is a much simpler solution that doesn't involve extra DT
+> changes.
+> 
+> BTW, assigned-clocks can't be used for display controller  because
+> controller is usually turned on during boot and reparenting of active DC
+> will hang machine.
+> 
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
----
- drivers/gpu/drm/msm/dsi/dsi.h         |  2 -
- drivers/gpu/drm/msm/dsi/dsi_host.c    | 53 ---------------------------
- drivers/gpu/drm/msm/dsi/dsi_manager.c | 11 +-----
- drivers/gpu/drm/msm/dsi/phy/dsi_phy.c | 11 ------
- 4 files changed, 2 insertions(+), 75 deletions(-)
+To make it more clear, we change the DC's "parent" in TF700T device-tree
+to PLLD [1] to match the bootloader's configuration, otherwise it will
+hang on boot since default "parent" in tegra30.dtsi is PLLP, and thus,
+tegra_dc_rgb_probe() will try to reparent it to PLLP. Display of TF700T
+won't work with PLLP anyways since it needs a specific clock rate.
 
-diff --git a/drivers/gpu/drm/msm/dsi/dsi.h b/drivers/gpu/drm/msm/dsi/dsi.h
-index 7dfb6d198ca9..c03a8d09c764 100644
---- a/drivers/gpu/drm/msm/dsi/dsi.h
-+++ b/drivers/gpu/drm/msm/dsi/dsi.h
-@@ -173,8 +173,6 @@ int msm_dsi_phy_enable(struct msm_dsi_phy *phy,
- void msm_dsi_phy_disable(struct msm_dsi_phy *phy);
- void msm_dsi_phy_set_usecase(struct msm_dsi_phy *phy,
- 			     enum msm_dsi_phy_usecase uc);
--int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
--	struct clk **byte_clk_provider, struct clk **pixel_clk_provider);
- void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy);
- int msm_dsi_phy_pll_restore_state(struct msm_dsi_phy *phy);
- void msm_dsi_phy_snapshot(struct msm_disp_state *disp_state, struct msm_dsi_phy *phy);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index 1ffcd0577e99..9600b4fa27eb 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -2232,59 +2232,6 @@ void msm_dsi_host_set_phy_mode(struct mipi_dsi_host *host,
- 	msm_host->cphy_mode = src_phy->cphy_mode;
- }
- 
--int msm_dsi_host_set_src_pll(struct mipi_dsi_host *host,
--	struct msm_dsi_phy *src_phy)
--{
--	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
--	struct clk *byte_clk_provider, *pixel_clk_provider;
--	int ret;
--
--	msm_host->cphy_mode = src_phy->cphy_mode;
--
--	ret = msm_dsi_phy_get_clk_provider(src_phy,
--				&byte_clk_provider, &pixel_clk_provider);
--	if (ret) {
--		pr_info("%s: can't get provider from pll, don't set parent\n",
--			__func__);
--		return 0;
--	}
--
--	ret = clk_set_parent(msm_host->byte_clk_src, byte_clk_provider);
--	if (ret) {
--		pr_err("%s: can't set parent to byte_clk_src. ret=%d\n",
--			__func__, ret);
--		goto exit;
--	}
--
--	ret = clk_set_parent(msm_host->pixel_clk_src, pixel_clk_provider);
--	if (ret) {
--		pr_err("%s: can't set parent to pixel_clk_src. ret=%d\n",
--			__func__, ret);
--		goto exit;
--	}
--
--	if (msm_host->dsi_clk_src) {
--		ret = clk_set_parent(msm_host->dsi_clk_src, pixel_clk_provider);
--		if (ret) {
--			pr_err("%s: can't set parent to dsi_clk_src. ret=%d\n",
--				__func__, ret);
--			goto exit;
--		}
--	}
--
--	if (msm_host->esc_clk_src) {
--		ret = clk_set_parent(msm_host->esc_clk_src, byte_clk_provider);
--		if (ret) {
--			pr_err("%s: can't set parent to esc_clk_src. ret=%d\n",
--				__func__, ret);
--			goto exit;
--		}
--	}
--
--exit:
--	return ret;
--}
--
- void msm_dsi_host_reset_phy(struct mipi_dsi_host *host)
- {
- 	struct msm_dsi_host *msm_host = to_msm_dsi_host(host);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_manager.c b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-index 49a0a0841487..9342a822ad20 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_manager.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_manager.c
-@@ -78,10 +78,7 @@ static int dsi_mgr_setup_components(int id)
- 
- 		msm_dsi_phy_set_usecase(msm_dsi->phy, MSM_DSI_PHY_STANDALONE);
- 		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
--		ret = msm_dsi_host_set_src_pll(msm_dsi->host, msm_dsi->phy);
--	} else if (!other_dsi) {
--		ret = 0;
--	} else {
-+	} else if (other_dsi) {
- 		struct msm_dsi *master_link_dsi = IS_MASTER_DSI_LINK(id) ?
- 							msm_dsi : other_dsi;
- 		struct msm_dsi *slave_link_dsi = IS_MASTER_DSI_LINK(id) ?
-@@ -107,13 +104,9 @@ static int dsi_mgr_setup_components(int id)
- 					MSM_DSI_PHY_SLAVE);
- 		msm_dsi_host_set_phy_mode(msm_dsi->host, msm_dsi->phy);
- 		msm_dsi_host_set_phy_mode(other_dsi->host, other_dsi->phy);
--		ret = msm_dsi_host_set_src_pll(msm_dsi->host, clk_master_dsi->phy);
--		if (ret)
--			return ret;
--		ret = msm_dsi_host_set_src_pll(other_dsi->host, clk_master_dsi->phy);
- 	}
- 
--	return ret;
-+	return 0;
- }
- 
- static int enable_phy(struct msm_dsi *msm_dsi,
-diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-index 8c65ef6968ca..8ec331e751a2 100644
---- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-+++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy.c
-@@ -890,17 +890,6 @@ bool msm_dsi_phy_set_continuous_clock(struct msm_dsi_phy *phy, bool enable)
- 	return phy->cfg->ops.set_continuous_clock(phy, enable);
- }
- 
--int msm_dsi_phy_get_clk_provider(struct msm_dsi_phy *phy,
--	struct clk **byte_clk_provider, struct clk **pixel_clk_provider)
--{
--	if (byte_clk_provider)
--		*byte_clk_provider = phy->provided_clocks->hws[DSI_BYTE_PLL_CLK]->clk;
--	if (pixel_clk_provider)
--		*pixel_clk_provider = phy->provided_clocks->hws[DSI_PIXEL_PLL_CLK]->clk;
--
--	return 0;
--}
--
- void msm_dsi_phy_pll_save_state(struct msm_dsi_phy *phy)
- {
- 	if (phy->cfg->ops.save_pll_state) {
--- 
-2.33.0
-
+[1]
+https://github.com/grate-driver/linux/blob/master/arch/arm/boot/dts/tegra30-asus-tf700t.dts#L13
