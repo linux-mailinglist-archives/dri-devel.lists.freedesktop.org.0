@@ -1,70 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5C244247B2
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 22:06:47 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EC84247CA
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 22:14:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 411D96EE5D;
-	Wed,  6 Oct 2021 20:06:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 731986EE63;
+	Wed,  6 Oct 2021 20:14:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
- [IPv6:2a00:1450:4864:20::42c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CDB1A6EE5D
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 20:06:41 +0000 (UTC)
-Received: by mail-wr1-x42c.google.com with SMTP id m22so12343109wrb.0
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 13:06:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BRddJYufb1AvtUZ2/MguDS3t2amrBJJpxBlBWWPBNTw=;
- b=myF7algxAMPS4DO76O10XXn0iW/MgEDzmGrrjrBN2HBOvLAaW3WCq+ETkrE7R1f2kj
- rfoHMmKR1dDoerVt3a2hiZwTqdZo2GUC8XZLcdHadQY4b9tArIx16phX9406SRBixGIX
- vbsD8utsGq6CTlMF/NZKsQOmlqadH0Qd3P0dpWuxvM1Yu/EXljuKr6ny4v8oYnoWMUxY
- JV1qgBTjLxu1vZ3myZteme9gx46Om23pJ3zVfCioA6uiUU/3MXfwRrh4m5kHkeFFXugn
- yMkWATG1wAo6Dxm9JVr8xNbyesJvEyWPAhTGcgSq0t7QLFX0iJc111JXDEMETDvCGJXZ
- P2Dg==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8412D6EE63
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 20:14:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633551275;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cagY2D5F5NT1bAs4th+N+T0RHoiMV1A9dmi9z8s6Y24=;
+ b=VLZNQbA9UvyHT3mrpM1FJG+wBMqG9SWbST9R4t1wIJLw47r6XWSnVKm2Ol6vy2MIZBpJB2
+ xcmbzvRK6Hj3gR5aviTuMFOXb4kv8CDZna2K2f6i76SWT1+p2lEX1MK7GelFXoNUrrs7Dv
+ bsTAwovQImg7x3pD4645pvc+mfydWMw=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-34-v6gpngCHNAWmnFstHvTI9w-1; Wed, 06 Oct 2021 16:14:33 -0400
+X-MC-Unique: v6gpngCHNAWmnFstHvTI9w-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ s10-20020ac80d8a000000b002a753776238so3131884qti.15
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 13:14:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:organization:user-agent:mime-version
  :content-transfer-encoding;
- bh=BRddJYufb1AvtUZ2/MguDS3t2amrBJJpxBlBWWPBNTw=;
- b=jwjOf43DhlDgpJ/H/+Oy15PwP7x8FsC1pcSUqhAzUNFCMZ4k05+vRSsW2Kji9nsy6J
- pMtdmyIRo1HPT3BiQjdeZ86NGG7HCGI7fakd+VzH9cG7tm5d50onmLYo2WOc74v1wD93
- kplvs+GqrL3vO7dtbWXoFHUlnYEreKqpi49n2aEN/Th+lPU+mN78wP+bSHzxMXuEWHLO
- x6rAkuRHJ5HqBW7SXmqTKqkjrKZlp78gheDYOQxCWRsB0NgOQCyRqaY+PCFUrsXcckCk
- GUcXYdaBb87QLzQLOM7ZovqVGnEm/BNY8FWUGs9l8mswPXvxt70sjggcRDrZiibW9vR6
- y+nQ==
-X-Gm-Message-State: AOAM533sUFjZwv1Q6dgBZ/K+nDJaPOEKLzB87CinbAwSKpDEiDRLL3d7
- 40gGm37rpRakKBUSKX37rac=
-X-Google-Smtp-Source: ABdhPJwV9RBX93Wec42hfUvvLBLsHWnqQT6dPKDtXr74+NF3LvoDBPUT6pQ+Hhi7R7S4JcyWs4wxnA==
-X-Received: by 2002:a1c:4e04:: with SMTP id g4mr246808wmh.192.1633550800289;
- Wed, 06 Oct 2021 13:06:40 -0700 (PDT)
-Received: from [192.168.0.14]
- (095160158079.dynamic-2-waw-k-4-2-0.vectranet.pl. [95.160.158.79])
- by smtp.gmail.com with ESMTPSA id p18sm10563275wrt.96.2021.10.06.13.06.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 13:06:40 -0700 (PDT)
-Subject: Re: [PATCH v2] dt-bindings: display/bridge: sil, sii8620: Convert to
- YAML binding
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- robh+dt@kernel.org
-Cc: airlied@linux.ie, daniel@ffwll.ch, a.hajda@samsung.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20211006150459.584875-1-angelogioacchino.delregno@collabora.com>
-From: Andrzej Hajda <andrzej.hajda@gmail.com>
-Message-ID: <8d058317-b696-d2c8-ae0c-817105b759f3@gmail.com>
-Date: Wed, 6 Oct 2021 22:06:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ bh=cagY2D5F5NT1bAs4th+N+T0RHoiMV1A9dmi9z8s6Y24=;
+ b=BprhJPN6mW6+1oi1GyqrluiYJLt2qVRXB/D2oO6gKX2ZfGP+3xtQXYz5JiXXubE6X2
+ 07Qz9x6mTJ9R2epJLJQxL8UQLsFX64X4+8SWZucIRHKuFCBfCT7cY6tEYcQgNszBW3cA
+ vTRPTz6Wn+yWjgeu2lLZ5sSY3QR2SBH+ZiRvw/e1x+DqOd4xLK8oTugQSAhW4A69aOxI
+ xGaotuAXQYOJGM7OxLLFA0ih9QqkeBT4+ase4g0xPlhmAsk1UzrJqPDB+gSECviO5p3b
+ zDPiBrVBUlP0PlhhkZlOcQCCY0X5RdSnz0aX+ibLoeLfezjHiaONXfy8IJag4SlVLV7l
+ LltA==
+X-Gm-Message-State: AOAM530RG56Hp5QUWpAFKMrp2dwWa9c50uFDsczvQ/LWMXmThL+rn+zg
+ j5Oeeps8Q5G17agwnNqtsSK6BDQxoK32nQofE8mNqjs8XkkQ9ZwWaknb4rqEVXdgqE43DNeyMM7
+ G25e51FFe4dM2ZRITD5a1iuRb2nIg
+X-Received: by 2002:a37:2e03:: with SMTP id u3mr104149qkh.313.1633551273203;
+ Wed, 06 Oct 2021 13:14:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy67uYZrgGccEL/pHmqUgpGEvM4fHcBT6qlvJsJt9Y4Bhg/bkAcrUOLDF6lDPANJdbr6kVesg==
+X-Received: by 2002:a37:2e03:: with SMTP id u3mr104131qkh.313.1633551272978;
+ Wed, 06 Oct 2021 13:14:32 -0700 (PDT)
+Received: from [192.168.8.206] (pool-96-230-249-157.bstnma.fios.verizon.net.
+ [96.230.249.157])
+ by smtp.gmail.com with ESMTPSA id h17sm13302582qtp.13.2021.10.06.13.14.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 13:14:32 -0700 (PDT)
+Message-ID: <f9c4bd7a1ac1a43a4cd2cde8e6d23a60a245b7e7.camel@redhat.com>
+Subject: Re: [Nouveau] [PATCH v3 2/5] drm/nouveau/kms/nv50-: Explicitly
+ check DPCD backlights for aux enable/brightness
+From: Lyude Paul <lyude@redhat.com>
+To: Karol Herbst <kherbst@redhat.com>
+Cc: Intel Graphics Development <intel-gfx@lists.freedesktop.org>, dri-devel
+ <dri-devel@lists.freedesktop.org>, nouveau <nouveau@lists.freedesktop.org>,
+ Ben Skeggs <bskeggs@redhat.com>, David Airlie <airlied@linux.ie>, Daniel
+ Vetter <daniel@ffwll.ch>,  open list <linux-kernel@vger.kernel.org>
+Date: Wed, 06 Oct 2021 16:14:31 -0400
+In-Reply-To: <CACO55tuMWVgsd44s1sAvgrKDHFZT2Z3F+CSqAh34_XaekYWuHA@mail.gmail.com>
+References: <20211006024018.320394-1-lyude@redhat.com>
+ <20211006024018.320394-3-lyude@redhat.com>
+ <CACO55tuMWVgsd44s1sAvgrKDHFZT2Z3F+CSqAh34_XaekYWuHA@mail.gmail.com>
+Organization: Red Hat
+User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
 MIME-Version: 1.0
-In-Reply-To: <20211006150459.584875-1-angelogioacchino.delregno@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,162 +93,62 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 06.10.2021 17:04, AngeloGioacchino Del Regno wrote:
-> Convert the Silicon Image SiI8620 HDMI/MHL bridge documentation to YAML.
+On Wed, 2021-10-06 at 18:30 +0200, Karol Herbst wrote:
+> On Wed, Oct 6, 2021 at 4:41 AM Lyude Paul <lyude@redhat.com> wrote:
+> > 
+> > Since we don't support hybrid AUX/PWM backlights in nouveau right now,
+> > let's add some explicit checks so that we don't break nouveau once we
+> > enable support for these backlights in other drivers.
+> > 
+> > Signed-off-by: Lyude Paul <lyude@redhat.com>
+> > ---
+> >  drivers/gpu/drm/nouveau/nouveau_backlight.c | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> > b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> > index 1cbd71abc80a..ae2f2abc8f5a 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_backlight.c
+> > @@ -308,7 +308,10 @@ nv50_backlight_init(struct nouveau_backlight *bl,
+> >                 if (ret < 0)
+> >                         return ret;
+> > 
+> > -               if (drm_edp_backlight_supported(edp_dpcd)) {
+> > +               /* TODO: Add support for hybrid PWM/DPCD panels */
+> > +               if (drm_edp_backlight_supported(edp_dpcd) &&
+> > +                   (edp_dpcd[1] & DP_EDP_BACKLIGHT_AUX_ENABLE_CAP) &&
 > 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->   .../bindings/display/bridge/sil,sii8620.yaml  | 93 +++++++++++++++++++
->   .../bindings/display/bridge/sil-sii8620.txt   | 33 -------
->   2 files changed, 93 insertions(+), 33 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
->   delete mode 100644 Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
+> where does the DP_EDP_BACKLIGHT_AUX_ENABLE_CAP come from? afaik
+> drm_edp_backlight_supported checks for
+> DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP and
+> DP_EDP_TCON_BACKLIGHT_ADJUSTMENT_CAP so wondering if this was
+> intentional or a typo
+
+This is intentional - drm_edp_backlight_supported() does check for these, but
+in the patch after this we remove the BRIGHTNESS_AUX_SET_CAP from
+drm_edp_backlight_supported() in order to implement support for panels lacking
+BRIGHTNESS_AUX_SET_CAP in i915. Since we don't have support for this in
+nouveau yet but such backlights are likely to mostly work without the use of
+DPCD if we avoid trying to set it up, this patch is just here to make sure
+that the changes to drm_edp_backlight_supported() don't result in nouveau
+suddenly trying (and failing) to enable DPCD backlight controls on those
+backlights.
+
 > 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
-> new file mode 100644
-> index 000000000000..5a38595b6687
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
-> @@ -0,0 +1,93 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/sil,sii8620.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Silicon Image SiI8620 HDMI/MHL bridge
-> +
-> +maintainers:
-> +  - Andrzej Hajda <a.hajda@samsung.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: sil,sii8620
-> +
-> +  reg:
-> +    description: I2C address of the bridge
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    const: xtal
-> +
-> +  cvcc10-supply:
-> +    description: Digital Core Supply Voltage, 1.0V
-> +
-> +  iovcc18-supply:
-> +    description: I/O voltage supply, 1.8V
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: GPIO connected to the reset pin.
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for HDMI input
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - cvcc10-supply
-> +  - iovcc18-supply
-> +  - interrupts
-> +  - ports
-
-What about gpios and other missing props.
-With that fixed you can add my r-b.
-
-Regards
-Andrzej
-
-
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    i2c1 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      bridge@39 {
-> +        compatible = "sil,sii8620";
-> +        reg = <0x39>;
-> +        cvcc10-supply = <&ldo36_reg>;
-> +        iovcc18-supply = <&ldo34_reg>;
-> +        interrupt-parent = <&gpf0>;
-> +        interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
-> +        reset-gpios = <&gpv7 0 GPIO_ACTIVE_HIGH>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@0 {
-> +            reg = <0>;
-> +            mhl_to_hdmi: endpoint {
-> +              remote-endpoint = <&hdmi_to_mhl>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> diff --git a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt b/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
-> deleted file mode 100644
-> index b05052f7d62f..000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
-> +++ /dev/null
-> @@ -1,33 +0,0 @@
-> -Silicon Image SiI8620 HDMI/MHL bridge bindings
-> -
-> -Required properties:
-> -	- compatible: "sil,sii8620"
-> -	- reg: i2c address of the bridge
-> -	- cvcc10-supply: Digital Core Supply Voltage (1.0V)
-> -	- iovcc18-supply: I/O Supply Voltage (1.8V)
-> -	- interrupts: interrupt specifier of INT pin
-> -	- reset-gpios: gpio specifier of RESET pin
-> -	- clocks, clock-names: specification and name of "xtal" clock
-> -	- video interfaces: Device node can contain video interface port
-> -			    node for HDMI encoder according to [1].
-> -
-> -[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
-> -
-> -Example:
-> -	sii8620@39 {
-> -		reg = <0x39>;
-> -		compatible = "sil,sii8620";
-> -		cvcc10-supply = <&ldo36_reg>;
-> -		iovcc18-supply = <&ldo34_reg>;
-> -		interrupt-parent = <&gpf0>;
-> -		interrupts = <2 0>;
-> -		reset-gpio = <&gpv7 0 0>;
-> -		clocks = <&pmu_system_controller 0>;
-> -		clock-names = "xtal";
-> -
-> -		port {
-> -			mhl_to_hdmi: endpoint {
-> -				remote-endpoint = <&hdmi_to_mhl>;
-> -			};
-> -		};
-> -	};
+> > +                   (edp_dpcd[2] &
+> > DP_EDP_BACKLIGHT_BRIGHTNESS_AUX_SET_CAP)) {
+> >                         NV_DEBUG(drm, "DPCD backlight controls supported
+> > on %s\n",
+> >                                  nv_conn->base.name);
+> > 
+> > --
+> > 2.31.1
+> > 
 > 
+
+-- 
+Cheers,
+ Lyude Paul (she/her)
+ Software Engineer at Red Hat
 
