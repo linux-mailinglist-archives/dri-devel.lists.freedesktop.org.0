@@ -1,42 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B46C424127
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:19:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A1A424190
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:44:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 02DDB6E550;
-	Wed,  6 Oct 2021 15:19:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC96ED18;
+	Wed,  6 Oct 2021 15:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-40136.proton.ch (mail-40136.proton.ch [185.70.40.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ADEF46E550
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 15:19:39 +0000 (UTC)
-Date: Wed, 06 Oct 2021 15:19:30 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
- s=protonmail; t=1633533576;
- bh=IlqtNhdaO8cZ/qn4ZXnzlyd0yvsCx815ogXEnwm1pso=;
- h=Date:To:From:Cc:Reply-To:Subject:From;
- b=vubZtN0vmy0ecSDZhbKr7GyveDwpkGK/pogMoY+xchJbvs5KyOuvGWEipkTqbdjAO
- x98FMA4W7/QUZpIJLVstDil3p/cn6wnpOjv8dKFPiSNFqdjKxsXg4VoIDTST/+gVFT
- jXEU8USTnDi7qaOhmZDVg6GrL85KG+YRKtdBvPCpYMxVRsuaud8fqX507lLD7KDcoq
- Q2Yl1uR78RvUgyBQQen0kM5SZJsPn6/+qMJmT/JVfulUTSt7l0CDJjmlAJHfeG6SVE
- 3FPJcG5A8XL5q07zuKVxxK5F9xB/OzRqC9M7iqDYU0xbrrrhG3V/bqUZoOpxkaJwaW
- /1ll3LrOSt/xQ==
-To: dri-devel@lists.freedesktop.org
-From: Simon Ser <contact@emersion.fr>
-Cc: Hans de Goede <hdegoede@redhat.com>, Dennis Filder <d.filder@web.de>,
- Daniel Vetter <daniel@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>
-Subject: [PATCH RFC] drm: introduce DRM_MODE_FB_PERSIST
-Message-ID: <20211006151921.312714-1-contact@emersion.fr>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B3C036ED91
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 15:22:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 16E841F44BDC
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: robh+dt@kernel.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, m.purski@samsung.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] dt-bindings: display/bridge: sil,
+ sii9234: Convert to YAML binding
+Date: Wed,  6 Oct 2021 17:21:58 +0200
+Message-Id: <20211006152158.601856-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
- DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
- autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
- mailout.protonmail.ch
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 06 Oct 2021 15:43:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -49,87 +41,190 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
-Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This new ADDFB2 flag allows callers to mark a framebuffer as
-"persistent", and no longer have RMFB semantics when the DRM
-file is closed.
+Convert the Silicon Image SiI9234 HDMI/MHL bridge documentation to YAML.
 
-[1]: https://lore.kernel.org/dri-devel/YTJypepF1Hpc2YYT@reader/
-
-Signed-off-by: Simon Ser <contact@emersion.fr>
-Cc: Hans de Goede <hdegoede@redhat.com>
-Cc: Dennis Filder <d.filder@web.de>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
+ .../bindings/display/bridge/sii9234.txt       |  49 --------
+ .../bindings/display/bridge/sil,sii9234.yaml  | 110 ++++++++++++++++++
+ 2 files changed, 110 insertions(+), 49 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/sii9234.txt
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
 
-I'm not sure this is enough, but posting this to get initial
-feedback and allow to start e.g. Plymouth experiments. I'll
-follow up with an IGT test soon.
-
- drivers/gpu/drm/drm_framebuffer.c |  6 ++++--
- include/uapi/drm/drm_mode.h       | 15 +++++++++++++++
- 2 files changed, 19 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
-uffer.c
-index 07f5abc875e9..9b398838e1f4 100644
---- a/drivers/gpu/drm/drm_framebuffer.c
-+++ b/drivers/gpu/drm/drm_framebuffer.c
-@@ -292,7 +292,8 @@ drm_internal_framebuffer_create(struct drm_device *dev,
- =09struct drm_framebuffer *fb;
- =09int ret;
-=20
--=09if (r->flags & ~(DRM_MODE_FB_INTERLACED | DRM_MODE_FB_MODIFIERS)) {
-+=09if (r->flags & ~(DRM_MODE_FB_INTERLACED | DRM_MODE_FB_MODIFIERS |
-+=09=09=09 DRM_MODE_FB_PERSIST)) {
- =09=09DRM_DEBUG_KMS("bad framebuffer flags 0x%08x\n", r->flags);
- =09=09return ERR_PTR(-EINVAL);
- =09}
-@@ -789,7 +790,8 @@ void drm_fb_release(struct drm_file *priv)
- =09 * at it any more.
- =09 */
- =09list_for_each_entry_safe(fb, tfb, &priv->fbs, filp_head) {
--=09=09if (drm_framebuffer_read_refcount(fb) > 1) {
-+=09=09if (drm_framebuffer_read_refcount(fb) > 1 &&
-+=09=09    !(fb->flags & DRM_MODE_FB_PERSIST)) {
- =09=09=09list_move_tail(&fb->filp_head, &arg.fbs);
- =09=09} else {
- =09=09=09list_del_init(&fb->filp_head);
-diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-index e1e351682872..c7a7089ec31e 100644
---- a/include/uapi/drm/drm_mode.h
-+++ b/include/uapi/drm/drm_mode.h
-@@ -662,6 +662,21 @@ struct drm_mode_fb_cmd {
-=20
- #define DRM_MODE_FB_INTERLACED=09(1<<0) /* for interlaced framebuffers */
- #define DRM_MODE_FB_MODIFIERS=09(1<<1) /* enables ->modifer[] */
-+/**
-+ * DRM_MODE_FB_PERSIST
-+ *
-+ * DRM framebuffers are normally implicitly removed when their owner close=
-s the
-+ * DRM FD. Passing this flag will make the framebuffer persistent: it will=
- not
-+ * be implicitly removed. This is useful to implement flicker-free transit=
-ions
-+ * between two processes.
-+ *
-+ * This flag doesn't change the behavior of &DRM_IOCTL_MODE_RMFB.
-+ *
-+ * User-space should ensure the framebuffer doesn't expose any sensitive u=
-ser
-+ * information: persistent framebuffers can be read back by the next DRM
-+ * master.
-+ */
-+#define DRM_MODE_FB_PERSIST (1 << 2)
-=20
- struct drm_mode_fb_cmd2 {
- =09__u32 fb_id;
---=20
+diff --git a/Documentation/devicetree/bindings/display/bridge/sii9234.txt b/Documentation/devicetree/bindings/display/bridge/sii9234.txt
+deleted file mode 100644
+index a55bf77bd960..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/sii9234.txt
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Silicon Image SiI9234 HDMI/MHL bridge bindings
+-
+-Required properties:
+-	- compatible : "sil,sii9234".
+-	- reg : I2C address for TPI interface, use 0x39
+-	- avcc33-supply : MHL/USB Switch Supply Voltage (3.3V)
+-	- iovcc18-supply : I/O Supply Voltage (1.8V)
+-	- avcc12-supply : TMDS Analog Supply Voltage (1.2V)
+-	- cvcc12-supply : Digital Core Supply Voltage (1.2V)
+-	- interrupts: interrupt specifier of INT pin
+-	- reset-gpios: gpio specifier of RESET pin (active low)
+-	- video interfaces: Device node can contain two video interface port
+-			    nodes for HDMI encoder and connector according to [1].
+-			    - port@0 - MHL to HDMI
+-			    - port@1 - MHL to connector
+-
+-[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+-
+-
+-Example:
+-	sii9234@39 {
+-		compatible = "sil,sii9234";
+-		reg = <0x39>;
+-		avcc33-supply = <&vcc33mhl>;
+-		iovcc18-supply = <&vcc18mhl>;
+-		avcc12-supply = <&vsil12>;
+-		cvcc12-supply = <&vsil12>;
+-		reset-gpios = <&gpf3 4 GPIO_ACTIVE_LOW>;
+-		interrupt-parent = <&gpf3>;
+-		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
+-
+-		ports {
+-			#address-cells = <1>;
+-			#size-cells = <0>;
+-
+-			port@0 {
+-				reg = <0>;
+-				mhl_to_hdmi: endpoint {
+-					remote-endpoint = <&hdmi_to_mhl>;
+-				};
+-			};
+-			port@1 {
+-				reg = <1>;
+-				mhl_to_connector: endpoint {
+-					remote-endpoint = <&connector_to_mhl>;
+-				};
+-			};
+-		};
+-	};
+diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
+new file mode 100644
+index 000000000000..f88ddfe4818b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
+@@ -0,0 +1,110 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/sil,sii9234.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silicon Image SiI9234 HDMI/MHL bridge
++
++maintainers:
++  - Maciej Purski <m.purski@samsung.com>
++
++properties:
++  compatible:
++    const: sil,sii9234
++
++  reg:
++    description: I2C address for TPI interface
++    maxItems: 1
++
++  avcc12-supply:
++    description: TMDS Analog Supply Voltage, 1.2V
++
++  avcc33-supply:
++    description: MHL/USB Switch Supply Voltage, 3.3V
++
++  cvcc12-supply:
++    description: Digital Core Supply Voltage, 1.2V
++
++  iovcc18-supply:
++    description: I/O voltage supply, 1.8V
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    description: GPIO connected to the reset pin.
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Video port for HDMI (encoder) input
++
++      port@1:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          MHL to connector port
++
++    required:
++      - port@0
++
++required:
++  - compatible
++  - reg
++  - avcc12-supply
++  - avcc33-supply
++  - cvcc12-supply
++  - iovcc18-supply
++  - interrupts
++  - reset-gpios
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c1 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      bridge@39 {
++        compatible = "sil,sii9234";
++        reg = <0x39>;
++        avcc12-supply = <&vsil12>;
++        avcc33-supply = <&vcc33mhl>;
++        cvcc12-supply = <&vsil12>;
++        iovcc18-supply = <&vcc18mhl>;
++        interrupt-parent = <&gpf3>;
++        interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
++        reset-gpios = <&gpf3 4 GPIO_ACTIVE_LOW>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++            mhl_to_hdmi: endpoint {
++              remote-endpoint = <&hdmi_to_mhl>;
++            };
++          };
++
++          port@1 {
++            reg = <1>;
++            mhl_to_connector: endpoint {
++              remote-endpoint = <&connector_to_mhl>;
++            };
++          };
++        };
++      };
++    };
++
++...
+-- 
 2.33.0
-
 
