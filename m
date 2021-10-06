@@ -1,75 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBCA424436
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:29:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C0DF424553
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:54:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0177B6EDDE;
-	Wed,  6 Oct 2021 17:29:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 606F96E52D;
+	Wed,  6 Oct 2021 17:54:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com
- [IPv6:2607:f8b0:4864:20::330])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7A7A16EDDF
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 17:29:53 +0000 (UTC)
-Received: by mail-ot1-x330.google.com with SMTP id
- r43-20020a05683044ab00b0054716b40005so4045445otv.4
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 10:29:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=sriAlmS/O1ECrsUc2OnPgpiaqh82uZoYCygtIK25Qms=;
- b=U5/BlyXEMbL16pTIuvauG2ZaIDGc6fUX3EV72SGDx4T74Tpwj7UsA4oMhgwrGuZ0rW
- fcA3XyEz97l1ejfg/T3jSNAKYJfOn3lgIulJaltlOzES327tc9JDntqc1WoDwL3IQY+I
- ZX1T766ELr1cACdNGgEYpKpbd4Pd2IiW5/0EdQea1shQixU0ojEhOwdPfmKvKPa1Wm42
- llCsdKQGeEgbfvYOVDfukom68SPhSvDcSK3fFkcrVK4pywZp8HYdJ6x7hp4mpZORmK+y
- iCrBFqSBLAhcSpdFT2gVkB1duSzYAnhDyvHMt7Bb5Cf8jI+opOh59nm4Zr8BHDD6Hd56
- tclA==
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B5E716E52D
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 17:54:18 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id j5so13796067lfg.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 10:54:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=a9k9Di8QRSjHw+JIJ/kleEuOF1voj2mDbtq0EAdXgvM=;
+ b=Wf+pL0su6BHsKR7nlTe4gApWdcQHsp/leFukMVJRwwlCHm9bYGXCCEHfE/UzxHP35l
+ ua9L9dwYoYgW8FZLFR2T/X0kkw5TTIT1EwVp+IPDNKlYnvPCdkrDdBDh2fwNErLBZcqR
+ QvqMduqW1YUshbcSW/TZxK5OoTPDHA/VOtaEEzFdod25pKOFYArE5JhFU50SMfubedDF
+ 23N010XzSDQG4B1iWEnETkQQ5JM69wr15LkqxBFlUl+CcVwnSRo6afgR9CNVB7x54OPp
+ VRE1qj++FdIwkEhenqgOnCzV8SvVqww6ZMv0eFiskF/vu8rlG38ZvUQLj4SjJxJIMPiV
+ IvKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=sriAlmS/O1ECrsUc2OnPgpiaqh82uZoYCygtIK25Qms=;
- b=dk74MVu7DWn+2lXnWlr4AG6SH8kQoi8hjJNQ3LiGRXM9/NLuTtl8fvHrGZvSRaWAxQ
- 3vR14gDrXdVpgrAFXrTiYiy4eeCYSmdOJ1yneFAdvvvH/KBgTvL6DHkajsAdd/v9UtHl
- 9Zdn1qDnv9A9hTgfhIH4AyKwlMZ1DdbFAA1h/R4TmZa6jUTFU2Jtwwy8ZFXIEWW4+G+X
- JL16gzntNFG0ovaD5mJ0mTltbX3mVlmaJyhIe0trwDhrLJesQnIoqI08LQ6DoK23fGyQ
- ABnRiWJ0NZIu1aeqIqdMUHC7blarZgm/qHSdgGaMq+o6rHnJzN23yxsHL6NRQ0IjBOdJ
- HCwg==
-X-Gm-Message-State: AOAM530oa5CEI1JiqtmoZz/m8CkhKmrozlDEgaCn/zf5Gu31039Y9sCw
- 3hKYVJwH161Kh82bZUuCWX2GFw==
-X-Google-Smtp-Source: ABdhPJyS/b8mbpHQI/Rhb/Fwvm6HfYEn/3btWLeRutifqSrkBNiIKsEaa4tSBor2yY437OBnLj1jhg==
-X-Received: by 2002:a9d:1716:: with SMTP id i22mr20008206ota.20.1633541392652; 
- Wed, 06 Oct 2021 10:29:52 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id z24sm4027968oic.26.2021.10.06.10.29.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 10:29:52 -0700 (PDT)
-Date: Wed, 6 Oct 2021 10:31:33 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: khsieh@codeaurora.org
-Cc: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sankeerth Billakanti <sbillaka@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
-Message-ID: <YV3dddt/GOidTmlN@ripper>
-References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
- <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
- <YVzGVmJXEDH0HfIL@ripper>
- <CAE-0n53FC7JCCJoye_uKeqaLKrZeHXLtvObxWFedaUzjirmBaA@mail.gmail.com>
- <a4a4980e586a70e3b7de989bc61a3e33@codeaurora.org>
- <YV0FlTyMEzlyNsN9@ripper>
- <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=a9k9Di8QRSjHw+JIJ/kleEuOF1voj2mDbtq0EAdXgvM=;
+ b=dElSeQHxpXY8QO4khVj4l530DCZ6ZBEhpQwVBIG1UARFdNr7TUNBEYxbJ1drPmnjba
+ N2SlhtV5SR/sIb3W+1akI/Z8EfaG0yHaM+cyxFWLRlEsurFs4KiazdA0Q9Q/laxHbq44
+ sQhLVK7a8acLTkikdMBNpoJ2H38gwhyVZkUR+hGj5bt0K7GvrmonKsK7lqSTMKCmIAgp
+ 210Xj6tmdHQWk9sNFdOiRsywfGVYHx2LYqitMX+0A76GcL/Url2U5R9ql+IwRJ0wnZcz
+ V8ErngQ26E0Ny2sL99vfEov9PTjJYMpXdZHM7CY/L6zWeQF16mCJtOu0/KnKw8JP/n8Y
+ J2IQ==
+X-Gm-Message-State: AOAM533thQ7wBQT39GFnpOViesr+P//VKf4SwICurkIpoa2A7BYjQHD6
+ TDKqp9mXXogPPmhK9uqATKKGitBNe84RZDQdUfQ=
+X-Google-Smtp-Source: ABdhPJxgy/mRrH43RK1J7qxx++zPO1SKNcj+z9JQU9lHV32x5j+sYEYYje0zcWG/sKu+dZyqTsbUvtQH1+hYIkENBeo=
+X-Received: by 2002:ac2:5e9c:: with SMTP id b28mr11025869lfq.405.1633542856224; 
+ Wed, 06 Oct 2021 10:54:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
+References: <20210813145302.3933-1-kevin3.tang@gmail.com>
+ <20210813145302.3933-7-kevin3.tang@gmail.com>
+ <20210917154047.leojvqjqjj2sg34l@gilmour>
+ <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
+ <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
+In-Reply-To: <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
+From: Kevin Tang <kevin3.tang@gmail.com>
+Date: Thu, 7 Oct 2021 01:54:04 +0800
+Message-ID: <CAFPSGXbiRQ22gnqDB13LBFt-RSPneS751JsoN8y6gTpTh7M1fw@mail.gmail.com>
+Subject: Re: [PATCH v6 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
+To: Maxime Ripard <maxime@cerno.tech>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Sean Paul <sean@poorly.run>, 
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, pony1.wu@gmail.com,
+ Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
+ "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
+ ML dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,87 +78,258 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed 06 Oct 08:37 PDT 2021, khsieh@codeaurora.org wrote:
-
-> On 2021-10-05 19:10, Bjorn Andersson wrote:
-> > On Tue 05 Oct 16:04 PDT 2021, khsieh@codeaurora.org wrote:
-> > 
-> > > On 2021-10-05 15:36, Stephen Boyd wrote:
-> > > > Quoting Bjorn Andersson (2021-10-05 14:40:38)
-> > > > > On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
-> > > > >
-> > > > > > Quoting Bjorn Andersson (2021-10-04 19:37:50)
-> > > > > > > Found in the middle of a patch from Sankeerth was the reduction of the
-> > > > > > > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
-> > > > > > > is initalized and HPD interrupt start to be serviced, so in the case of
-> > > > > > > eDP this reduction improves the user experience dramatically - i.e.
-> > > > > > > removes 9.9s of bland screen time at boot.
-> > > > > > >
-> > > > > > > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
-> > > > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > > > > > ---
-> > > > > >
-> > > > > > Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
-> > > > > > re-read the code a couple times to understand that it's waiting 100ms
-> > > > > > times the 'delay' number. Whaaaaat?
-> > > > > >
-> > > > >
-> > > > > I assume you're happy with the current 10s delay on the current
-> > > > > devices, so I don't think we should push for this to be backported.
-> > > > > I have no need for it to be backported on my side at least.
-> > > > >
+Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8828=E6=97=
+=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=885:28=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Sun, Sep 26, 2021 at 10:31:53PM +0800, Kevin Tang wrote:
+> > Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8817=E6=
+=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:40=E5=86=99=E9=81=93=EF=BC=9A
+> > > > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
+> > > > +                              struct drm_display_mode *mode,
+> > > > +                              struct drm_display_mode *adj_mode)
+> > > > +{
+> > > > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
+> > > > +
+> > > > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode-=
+>name);
+> > > > +}
+> > >
+> > > You don't need that function?
+> > No need for now. need to delete it?
+>
+> Yes
+>
+> > > > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encod=
+er,
+> > > > +                                 struct drm_crtc_state *crtc_state=
+,
+> > > > +                                 struct drm_connector_state *conn_=
+state)
+> > > > +{
+> > > > +     return 0;
+> > > > +}
+> > >
+> > > Ditto
+> >
+> > No need for now. need to delete it?
+>
+> Yep
+>
+> > > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
+> > > > +{
+> > > > +     struct device *dev =3D dsi->host.dev;
+> > > > +     struct device_node *child, *lcds_node;
+> > > > +     struct drm_panel *panel;
+> > > > +
+> > > > +     /* search /lcds child node first */
+> > > > +     lcds_node =3D of_find_node_by_path("/lcds");
+> > > > +     for_each_child_of_node(lcds_node, child) {
+> > > > +             panel =3D of_drm_find_panel(child);
+> > > > +             if (!IS_ERR(panel)) {
+> > > > +                     dsi->panel =3D panel;
+> > > > +                     return 0;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     /*
+> > > > +      * If /lcds child node search failed, we search
+> > > > +      * the child of dsi host node.
+> > > > +      */
+> > > > +     for_each_child_of_node(dev->of_node, child) {
+> > > > +             panel =3D of_drm_find_panel(child);
+> > > > +             if (!IS_ERR(panel)) {
+> > > > +                     dsi->panel =3D panel;
+> > > > +                     return 0;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
+> > > > +     return -ENODEV;
+> > > > +}
+> > >
+> > > Just use devm_drm_of_get_bridge there
+> >
+> > We use drm_panel_init and drm_panel_add API to add panel, so here is a
+> > panel device, not a bridge.
+>
+> Like Sam said, the panel API is on its way out and is being superseded
+> by bridge_panels.
+Ok, i will try it.
+>
+> > > > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device =
+*dev)
+> > > > +{
+> > > > +     int ret;
+> > > > +
+> > > > +     dsi->host.dev =3D dev;
+> > > > +     dsi->host.ops =3D &sprd_dsi_host_ops;
+> > > > +
+> > > > +     ret =3D mipi_dsi_host_register(&dsi->host);
+> > > > +     if (ret)
+> > > > +             drm_err(dsi->drm, "failed to register dsi host\n");
+> > > > +
+> > > > +     return ret;
+> > > > +}
 > > > >
-> > > > Sure. Fixes tag != backported to stable trees but it is close.
+> > > > [...]
 > > > >
-> > > > > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > > > >
-> > >   dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1); <== to 100ms
-> > > 
-> > > This patch will prevent usb3 from working due to dp driver
-> > > initialize phy
-> > > earlier than usb3 which cause timeout error at power up usb3 phy
-> > > when both
-> > > edp and dp are enabled.
-> > 
-> > Can you please help me understand what you mean here, I use this on my
-> > sc8180x with both eDP and USB-C/DP right now. What is it that doesn't
-> > work? Or am I just lucky in some race condition?
-> > 
-> > Thanks,
-> > Bjorn
-> > 
-> The problem is seen at sc7280.
-> Apple dongle have both  hdmi and usb port.
-> plug Apple dongle into type-c, then plug DP into apple's hdmi port and usb
-> mouse into apple's usb port.
-> If edp enabled at this time, then usb mouse will not work due to timeout at
-> phy power up.
-> 
+> > > > +static int sprd_dsi_connector_init(struct drm_device *drm, struct =
+sprd_dsi *dsi)
+> > > > +{
+> > > > +     struct drm_encoder *encoder =3D &dsi->encoder;
+> > > > +     struct drm_connector *connector =3D &dsi->connector;
+> > > > +     int ret;
+> > > > +
+> > > > +     connector->polled =3D DRM_CONNECTOR_POLL_HPD;
+> > > > +
+> > > > +     ret =3D drm_connector_init(drm, connector,
+> > > > +                              &sprd_dsi_atomic_connector_funcs,
+> > > > +                              DRM_MODE_CONNECTOR_DSI);
+> > > > +     if (ret) {
+> > > > +             drm_err(drm, "drm_connector_init() failed\n");
+> > > > +             return ret;
+> > > > +     }
+> > > > +
+> > > > +     drm_connector_helper_add(connector,
+> > > > +                              &sprd_dsi_connector_helper_funcs);
+> > > > +
+> > > > +     drm_connector_attach_encoder(connector, encoder);
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int sprd_dsi_context_init(struct sprd_dsi *dsi,
+> > > > +                     struct device *dev)
+> > > > +{
+> > > > +     struct platform_device *pdev =3D to_platform_device(dev);
+> > > > +     struct dsi_context *ctx =3D &dsi->ctx;
+> > > > +     struct resource *res;
+> > > > +
+> > > > +     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > > > +     ctx->base =3D devm_ioremap(dev, res->start, resource_size(res=
+));
+> > > > +     if (!ctx->base) {
+> > > > +             drm_err(dsi->drm, "failed to map dsi host registers\n=
+");
+> > > > +             return -ENXIO;
+> > > > +     }
+> > > > +
+> > > > +     ctx->pll =3D devm_kzalloc(dev, sizeof(*ctx->pll), GFP_KERNEL)=
+;
+> > > > +     if (!ctx->pll)
+> > > > +             return -ENOMEM;
+> > > > +
+> > > > +     ctx->regmap =3D devm_regmap_init(dev, &regmap_tst_io, dsi, &b=
+yte_config);
+> > > > +     if (IS_ERR(ctx->regmap)) {
+> > > > +             drm_err(dsi->drm, "dphy regmap init failed\n");
+> > > > +             return PTR_ERR(ctx->regmap);
+> > > > +     }
+> > > > +
+> > > > +     ctx->data_hs2lp =3D 120;
+> > > > +     ctx->data_lp2hs =3D 500;
+> > > > +     ctx->clk_hs2lp =3D 4;
+> > > > +     ctx->clk_lp2hs =3D 15;
+> > > > +     ctx->max_rd_time =3D 6000;
+> > > > +     ctx->int0_mask =3D 0xffffffff;
+> > > > +     ctx->int1_mask =3D 0xffffffff;
+> > > > +     ctx->enabled =3D true;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static int sprd_dsi_bind(struct device *dev, struct device *master=
+, void *data)
+> > > > +{
+> > > > +     struct drm_device *drm =3D data;
+> > > > +     struct sprd_dsi *dsi;
+> > > > +     int ret;
+> > > > +
+> > > > +     dsi =3D sprd_dsi_encoder_init(drm, dev);
+> > > > +     if (IS_ERR(dsi))
+> > > > +             return PTR_ERR(dsi);
+> > > > +
+> > > > +     dsi->drm =3D drm;
+> > > > +     dev_set_drvdata(dev, dsi);
+> > > > +
+> > > > +     ret =3D sprd_dsi_connector_init(drm, dsi);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     ret =3D sprd_dsi_context_init(dsi, dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     ret =3D sprd_dsi_host_init(dsi, dev);
+> > > > +     if (ret)
+> > > > +             return ret;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > > +static void sprd_dsi_unbind(struct device *dev,
+> > > > +                     struct device *master, void *data)
+> > > > +{
+> > > > +     struct sprd_dsi *dsi =3D dev_get_drvdata(dev);
+> > > > +
+> > > > +     mipi_dsi_host_unregister(&dsi->host);
+> > > > +}
+> > > > +
+> > > > +static const struct component_ops dsi_component_ops =3D {
+> > > > +     .bind   =3D sprd_dsi_bind,
+> > > > +     .unbind =3D sprd_dsi_unbind,
+> > > > +};
+> > > > +
+> > > > +static const struct of_device_id dsi_match_table[] =3D {
+> > > > +     { .compatible =3D "sprd,sharkl3-dsi-host" },
+> > > > +     { /* sentinel */ },
+> > > > +};
+> > > > +
+> > > > +static int sprd_dsi_probe(struct platform_device *pdev)
+> > > > +{
+> > > > +     return component_add(&pdev->dev, &dsi_component_ops);
+> > >
+> > > In order to prevent probe issues, you need to register you mipi_dsi_h=
+ost
+> > > here, see:
+> > > https://lore.kernel.org/dri-devel/20210910101218.1632297-3-maxime@cer=
+no.tech/
+> >
+> > We register mipi_dsi_hot on our panel driver, like this:
+> >
+> > 1092   ret =3D mipi_dsi_attach(slave);
+> > 1093   if (ret) {
+> > 1094   DRM_ERROR("failed to attach dsi panel to host\n");
+> > 1095   drm_panel_remove(&panel->base);
+> > 1096   return ret;
+> > 1097   }
+>
+> It's not about when you attach, but when you call
+> mipi_dsi_host_register. You're doing it in sprd_dsi_host_init that you
+> call in bind(), which is against the best practices and will create
+> probing issues in the future.
+If we call mipi_dsi_host_register on probe phase, it looks like can't
+call drmm_encoder_alloc to create dsi device on bind.
+It may be necessary to go back to the devm_kzalloc method used before
 
-Okay, so you're saying that if the DP driver invokes phy_power_on()
-before the USB driver does, USB initialization fails (or at least USB
-doesn't work)?
+static int sprd_dsi_probe(struct platform_device *pdev)
+{
+struct device *dev =3D &pdev->dev;
+struct sprd_dsi *dsi;
 
-Sounds like something we need to work out in the QMP phy driver. Do you
-have any more details about what's going wrong.
+dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
+if (!dsi)
+    return -ENOMEM;
 
+dsi->host.dev =3D dev;
+dsi->host.ops =3D &sprd_dsi_host_ops;
+ret =3D mipi_dsi_host_register(&dsi->host);
+if (ret)
+    dev_err(dev, "failed to register dsi host\n");
 
-Also, I've seen various references to said "Apple dongle", do you have a
-link to the exact one you're testing with so I can pick one up for
-testing purposes as well?
+......
+return 0;
+}
 
-Regards,
-Bjorn
-
-> > > I had prepared a patch (drm/msm/dp: do not initialize combo phy
-> > > until plugin
-> > > interrupt) to fix this problem.
-> > > Unfortunately, my patch is depend on Bjorn's patch (PATCH v3 3/5]
-> > > drm/msm/dp: Support up to 3 DP controllers).
-> > > I will submit my patch for review once Bjorn's patches merged in.
-> > > Therefore I would think this patch should go after both Bjorn's
-> > > patches and
-> > > my patch.
-> > > 
-> > > 
-> > > 
+>
+> Maxime
