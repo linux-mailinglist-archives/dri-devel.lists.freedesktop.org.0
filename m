@@ -2,33 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79A1A424190
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5222E424171
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:37:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D5DC96ED18;
-	Wed,  6 Oct 2021 15:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 885BA6ED02;
+	Wed,  6 Oct 2021 15:37:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
- [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B3C036ED91
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 15:22:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 16E841F44BDC
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-To: robh+dt@kernel.org
-Cc: airlied@linux.ie, daniel@ffwll.ch, m.purski@samsung.com,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] dt-bindings: display/bridge: sil,
- sii9234: Convert to YAML binding
-Date: Wed,  6 Oct 2021 17:21:58 +0200
-Message-Id: <20211006152158.601856-1-angelogioacchino.delregno@collabora.com>
-X-Mailer: git-send-email 2.33.0
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B51E46ECFD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 15:37:51 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1633534672; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=nsnvN8SFzET/qx+VaZ+i91Lv8nnayRJHw03nzETyATE=;
+ b=hNHJ3oz5pKr2ZMuz5ncoFnn5t27xVAoSeI6My5Y/PdXMLuXuN1ATXtk2eXKhJjduEtMcMiri
+ cpQzAv2bXzombAd1zCxUef+QbplTryUMa+xez/LWv0CLj9U7x5yJtVuyOHvB4OjsejFjpY8T
+ nMh21anTUCAdeWrxvt+RUsQ1Jtc=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 615dc2cb9ebaf35aaa3804e6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 06 Oct 2021 15:37:47
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id C7EF3C4360D; Wed,  6 Oct 2021 15:37:46 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: khsieh)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id C12DBC43460;
+ Wed,  6 Oct 2021 15:37:45 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Mailman-Approved-At: Wed, 06 Oct 2021 15:43:56 +0000
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Wed, 06 Oct 2021 08:37:45 -0700
+From: khsieh@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Stephen Boyd <swboyd@chromium.org>, Abhinav Kumar
+ <abhinavk@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>, David Airlie
+ <airlied@linux.ie>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, Rob
+ Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org, Sankeerth
+ Billakanti <sbillaka@codeaurora.org>
+Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
+In-Reply-To: <YV0FlTyMEzlyNsN9@ripper>
+References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
+ <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
+ <YVzGVmJXEDH0HfIL@ripper>
+ <CAE-0n53FC7JCCJoye_uKeqaLKrZeHXLtvObxWFedaUzjirmBaA@mail.gmail.com>
+ <a4a4980e586a70e3b7de989bc61a3e33@codeaurora.org> <YV0FlTyMEzlyNsN9@ripper>
+Message-ID: <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
+X-Sender: khsieh@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -44,187 +79,69 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Silicon Image SiI9234 HDMI/MHL bridge documentation to YAML.
+On 2021-10-05 19:10, Bjorn Andersson wrote:
+> On Tue 05 Oct 16:04 PDT 2021, khsieh@codeaurora.org wrote:
+> 
+>> On 2021-10-05 15:36, Stephen Boyd wrote:
+>> > Quoting Bjorn Andersson (2021-10-05 14:40:38)
+>> > > On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
+>> > >
+>> > > > Quoting Bjorn Andersson (2021-10-04 19:37:50)
+>> > > > > Found in the middle of a patch from Sankeerth was the reduction of the
+>> > > > > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
+>> > > > > is initalized and HPD interrupt start to be serviced, so in the case of
+>> > > > > eDP this reduction improves the user experience dramatically - i.e.
+>> > > > > removes 9.9s of bland screen time at boot.
+>> > > > >
+>> > > > > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
+>> > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>> > > > > ---
+>> > > >
+>> > > > Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
+>> > > > re-read the code a couple times to understand that it's waiting 100ms
+>> > > > times the 'delay' number. Whaaaaat?
+>> > > >
+>> > >
+>> > > I assume you're happy with the current 10s delay on the current
+>> > > devices, so I don't think we should push for this to be backported.
+>> > > I have no need for it to be backported on my side at least.
+>> > >
+>> >
+>> > Sure. Fixes tag != backported to stable trees but it is close.
+>> >
+>> > > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+>> > >
+>>   dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1); <== to 100ms
+>> 
+>> This patch will prevent usb3 from working due to dp driver initialize 
+>> phy
+>> earlier than usb3 which cause timeout error at power up usb3 phy when 
+>> both
+>> edp and dp are enabled.
+> 
+> Can you please help me understand what you mean here, I use this on my
+> sc8180x with both eDP and USB-C/DP right now. What is it that doesn't
+> work? Or am I just lucky in some race condition?
+> 
+> Thanks,
+> Bjorn
+> 
+The problem is seen at sc7280.
+Apple dongle have both  hdmi and usb port.
+plug Apple dongle into type-c, then plug DP into apple's hdmi port and 
+usb mouse into apple's usb port.
+If edp enabled at this time, then usb mouse will not work due to timeout 
+at phy power up.
 
-Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
----
- .../bindings/display/bridge/sii9234.txt       |  49 --------
- .../bindings/display/bridge/sil,sii9234.yaml  | 110 ++++++++++++++++++
- 2 files changed, 110 insertions(+), 49 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/display/bridge/sii9234.txt
- create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
-
-diff --git a/Documentation/devicetree/bindings/display/bridge/sii9234.txt b/Documentation/devicetree/bindings/display/bridge/sii9234.txt
-deleted file mode 100644
-index a55bf77bd960..000000000000
---- a/Documentation/devicetree/bindings/display/bridge/sii9234.txt
-+++ /dev/null
-@@ -1,49 +0,0 @@
--Silicon Image SiI9234 HDMI/MHL bridge bindings
--
--Required properties:
--	- compatible : "sil,sii9234".
--	- reg : I2C address for TPI interface, use 0x39
--	- avcc33-supply : MHL/USB Switch Supply Voltage (3.3V)
--	- iovcc18-supply : I/O Supply Voltage (1.8V)
--	- avcc12-supply : TMDS Analog Supply Voltage (1.2V)
--	- cvcc12-supply : Digital Core Supply Voltage (1.2V)
--	- interrupts: interrupt specifier of INT pin
--	- reset-gpios: gpio specifier of RESET pin (active low)
--	- video interfaces: Device node can contain two video interface port
--			    nodes for HDMI encoder and connector according to [1].
--			    - port@0 - MHL to HDMI
--			    - port@1 - MHL to connector
--
--[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
--
--
--Example:
--	sii9234@39 {
--		compatible = "sil,sii9234";
--		reg = <0x39>;
--		avcc33-supply = <&vcc33mhl>;
--		iovcc18-supply = <&vcc18mhl>;
--		avcc12-supply = <&vsil12>;
--		cvcc12-supply = <&vsil12>;
--		reset-gpios = <&gpf3 4 GPIO_ACTIVE_LOW>;
--		interrupt-parent = <&gpf3>;
--		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
--
--		ports {
--			#address-cells = <1>;
--			#size-cells = <0>;
--
--			port@0 {
--				reg = <0>;
--				mhl_to_hdmi: endpoint {
--					remote-endpoint = <&hdmi_to_mhl>;
--				};
--			};
--			port@1 {
--				reg = <1>;
--				mhl_to_connector: endpoint {
--					remote-endpoint = <&connector_to_mhl>;
--				};
--			};
--		};
--	};
-diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
-new file mode 100644
-index 000000000000..f88ddfe4818b
---- /dev/null
-+++ b/Documentation/devicetree/bindings/display/bridge/sil,sii9234.yaml
-@@ -0,0 +1,110 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/display/bridge/sil,sii9234.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Silicon Image SiI9234 HDMI/MHL bridge
-+
-+maintainers:
-+  - Maciej Purski <m.purski@samsung.com>
-+
-+properties:
-+  compatible:
-+    const: sil,sii9234
-+
-+  reg:
-+    description: I2C address for TPI interface
-+    maxItems: 1
-+
-+  avcc12-supply:
-+    description: TMDS Analog Supply Voltage, 1.2V
-+
-+  avcc33-supply:
-+    description: MHL/USB Switch Supply Voltage, 3.3V
-+
-+  cvcc12-supply:
-+    description: Digital Core Supply Voltage, 1.2V
-+
-+  iovcc18-supply:
-+    description: I/O voltage supply, 1.8V
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  reset-gpios:
-+    description: GPIO connected to the reset pin.
-+    maxItems: 1
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    properties:
-+      port@0:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          Video port for HDMI (encoder) input
-+
-+      port@1:
-+        $ref: /schemas/graph.yaml#/properties/port
-+        description:
-+          MHL to connector port
-+
-+    required:
-+      - port@0
-+
-+required:
-+  - compatible
-+  - reg
-+  - avcc12-supply
-+  - avcc33-supply
-+  - cvcc12-supply
-+  - iovcc18-supply
-+  - interrupts
-+  - reset-gpios
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c1 {
-+      #address-cells = <1>;
-+      #size-cells = <0>;
-+
-+      bridge@39 {
-+        compatible = "sil,sii9234";
-+        reg = <0x39>;
-+        avcc12-supply = <&vsil12>;
-+        avcc33-supply = <&vcc33mhl>;
-+        cvcc12-supply = <&vsil12>;
-+        iovcc18-supply = <&vcc18mhl>;
-+        interrupt-parent = <&gpf3>;
-+        interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
-+        reset-gpios = <&gpf3 4 GPIO_ACTIVE_LOW>;
-+
-+        ports {
-+          #address-cells = <1>;
-+          #size-cells = <0>;
-+
-+          port@0 {
-+            reg = <0>;
-+            mhl_to_hdmi: endpoint {
-+              remote-endpoint = <&hdmi_to_mhl>;
-+            };
-+          };
-+
-+          port@1 {
-+            reg = <1>;
-+            mhl_to_connector: endpoint {
-+              remote-endpoint = <&connector_to_mhl>;
-+            };
-+          };
-+        };
-+      };
-+    };
-+
-+...
--- 
-2.33.0
-
+>> I had prepared a patch (drm/msm/dp: do not initialize combo phy until 
+>> plugin
+>> interrupt) to fix this problem.
+>> Unfortunately, my patch is depend on Bjorn's patch (PATCH v3 3/5]
+>> drm/msm/dp: Support up to 3 DP controllers).
+>> I will submit my patch for review once Bjorn's patches merged in.
+>> Therefore I would think this patch should go after both Bjorn's 
+>> patches and
+>> my patch.
+>> 
+>> 
+>> 
