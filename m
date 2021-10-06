@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76BE1423DAA
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:22:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DDD423DAE
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:22:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 65A616ECD4;
-	Wed,  6 Oct 2021 12:22:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 094416ED22;
+	Wed,  6 Oct 2021 12:22:45 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 285FB6E4B7;
- Wed,  6 Oct 2021 12:22:03 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 0F2F861076;
- Wed,  6 Oct 2021 12:22:01 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05B496E4B7;
+ Wed,  6 Oct 2021 12:22:43 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E6881610A2;
+ Wed,  6 Oct 2021 12:22:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633522923;
- bh=GjdXB4CBUTuCHgg5ae5o/noPoLm1nYBZkINiNMaM/Lw=;
+ s=k20201202; t=1633522962;
+ bh=gtGj1ZK3qFauXUTVt0mwKMorMTrcx2LU7cWdijC2pBo=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=oe3odlBcQJ0FczNrgKkyoY6iP7j0ia588/hsTfirbe2FPWn7EcLFZjrt7emFkzQAS
- OOs1CPIrO1W+HiEyhDihKT1fxEbzrC2L7fiDEgUOEnXAcA0UL7bWhVzRA0AAWd1Ltn
- NYXRVKSnqwhc+ieE2kvbMs61jDc3Q4Cmyl7btdKDDX4Ks/o3VxHAbR4PrOG/VXEXU+
- wjyEHPOO4xbuQ0TgwLf/WA6KgEZJ9StY6PlZSj0A/C0CPVaCMQCwvtEKhoKUC2pnUA
- e7WZ0AJpbBa0yymINx64YOt18RitlcoTgGO7t7PRxyx4fcZApccMc/qTIxmdhS6ngQ
- XIlZf6h8k18xw==
-Date: Wed, 6 Oct 2021 17:51:59 +0530
+ b=F5Y3YD1OS4WWQxkIzADJfP7SsvCxK5JOgkgYUHVE2VqN+sP9dgq0q6aiWTOHuomFQ
+ MiiPptBcgS/eqfKoO5jR4CyHpN6BTduD8clzM9aIbpzogi6szC7W3ueUFc8y4aNhDd
+ UjqEwIa5klJzAIueWubIVlA/PZ7DE8IiAeaqTAC4TXHOBL2gCT4tBVpKcE5bmOsz8q
+ nAH1+zKCw88kNy6nl9FRGBMvkDPcAI8MYmogzAPUO2kyaR8Ac2c08nhxgCV7/DM5KX
+ UCYuo1F2b3Mt9k2o6tZ/0DK5FKDkfMNVhWnzCmI9QCXwYiba0rDWfCwQjMDGgV5zYO
+ ao2y896JArvJQ==
+Date: Wed, 6 Oct 2021 17:52:38 +0530
 From: Vinod Koul <vkoul@kernel.org>
 To: abhinavk@codeaurora.org
 Cc: Rob Clark <robdclark@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
@@ -34,16 +34,16 @@ Cc: Rob Clark <robdclark@gmail.com>, Jonathan Marek <jonathan@marek.ca>,
  dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
  Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
  freedreno@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [Freedreno] [PATCH 06/11] drm/msm/disp/dpu1: Add DSC support in
- hw_ctl
-Message-ID: <YV2U511LhQ2Ea+bA@matsya>
+Subject: Re: [Freedreno] [PATCH 07/11] drm/msm/disp/dpu1: Don't use DSC with
+ mode_3d
+Message-ID: <YV2VDtYMhPJgTXoQ@matsya>
 References: <20210715065203.709914-1-vkoul@kernel.org>
- <20210715065203.709914-7-vkoul@kernel.org>
- <7317c6b71043267ce19b7826502c9735@codeaurora.org>
+ <20210715065203.709914-8-vkoul@kernel.org>
+ <cd5d1e1fb3a8ce1a9970c29a39df1b4b@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7317c6b71043267ce19b7826502c9735@codeaurora.org>
+In-Reply-To: <cd5d1e1fb3a8ce1a9970c29a39df1b4b@codeaurora.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,22 +59,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 02-08-21, 17:00, abhinavk@codeaurora.org wrote:
+On 02-08-21, 17:24, abhinavk@codeaurora.org wrote:
 > On 2021-07-14 23:51, Vinod Koul wrote:
-> > Later gens of hardware have DSC bits moved to hw_ctl, so configure these
-> > bits so that DSC would work there as well
+> > We cannot enable mode_3d when we are using the DSC. So pass
+> > configuration to detect DSC is enabled and not enable mode_3d
+> > when we are using DSC
 > > 
-> > Signed-off-by: Vinod Koul <vkoul@kernel.org>
-> Please correct me if wrong but here you seem to be flushing all the DSC bits
-> even the unused ones. This will end-up enabling DSC even when DSC is unused
-> on
-> the newer targets.
-> If so, thats wrong.
-> We need to implement bit-mask based approach to avoid this change and only
-> enable
-> those DSCs which are used.
+> > We add a helper dpu_encoder_helper_get_dsc_mode() to detect dsc
+> > enabled and pass this to .setup_intf_cfg()
+> > 
+> This is not entirely correct. This is true only for the 2-2-1 topology you
+> are using
+> on this panel.
+> 
+> When you are using 2-2-1, you are using 2 LMs, 2 DSCs and 1 DSI.
+> So 3D mux shouldnt be used.
+> 
+> If you are using something like 4-2-1 or 4-2-2, then you have 4LMs,
+> 2 DSCs and 2/1 DSI.
+> 
+> Here you need the 3D mux to convert the data from 4LMs to 2 DSCs.
+> 
+> So please correct the commit text here and also add a check for the
+> topology.
 
-Yes as Dimitry suggested I have done that by passing indices
+Ack, we should mention this and modify it in future when more topology
+support is added.
 
 -- 
 ~Vinod
