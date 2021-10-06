@@ -2,44 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35E0E423A4B
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:12:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F38423A54
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:16:44 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 4CB8D6F631;
-	Wed,  6 Oct 2021 09:12:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 798486E50D;
+	Wed,  6 Oct 2021 09:16:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A53D6F631;
- Wed,  6 Oct 2021 09:12:05 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="226263667"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="226263667"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 02:12:02 -0700
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="484069012"
-Received: from ccronin-mobl.ger.corp.intel.com (HELO [10.213.247.242])
- ([10.213.247.242])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 02:12:00 -0700
-Subject: Re: [PATCH] drm/i915/pmu: Connect engine busyness stats from GuC to
- pmu
-To: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Cc: john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
- Matthew Brost <matthew.brost@intel.com>
-References: <20211005174711.55618-1-umesh.nerlige.ramappa@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <73824dba-142a-1022-252e-ce56de1227fa@linux.intel.com>
-Date: Wed, 6 Oct 2021 10:11:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 298826E50D;
+ Wed,  6 Oct 2021 09:16:37 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="225843451"
+X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="225843451"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2021 02:16:35 -0700
+X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="589690745"
+Received: from dcharle1-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
+ ([10.252.19.138])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 06 Oct 2021 02:16:34 -0700
+From: Matthew Auld <matthew.auld@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Subject: [PATCH v7 1/8] drm/i915/gem: Break out some shmem backend utils
+Date: Wed,  6 Oct 2021 10:16:06 +0100
+Message-Id: <20211006091614.970596-1-matthew.auld@intel.com>
+X-Mailer: git-send-email 2.26.3
 MIME-Version: 1.0
-In-Reply-To: <20211005174711.55618-1-umesh.nerlige.ramappa@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,807 +48,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+From: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-On 05/10/2021 18:47, Umesh Nerlige Ramappa wrote:
-> With GuC handling scheduling, i915 is not aware of the time that a
-> context is scheduled in and out of the engine. Since i915 pmu relies on
-> this info to provide engine busyness to the user, GuC shares this info
-> with i915 for all engines using shared memory. For each engine, this
-> info contains:
-> 
-> - total busyness: total time that the context was running (total)
-> - id: id of the running context (id)
-> - start timestamp: timestamp when the context started running (start)
-> 
-> At the time (now) of sampling the engine busyness, if the id is valid
-> (!= ~0), and start is non-zero, then the context is considered to be
-> active and the engine busyness is calculated using the below equation
-> 
-> 	engine busyness = total + (now - start)
-> 
-> All times are obtained from the gt clock base. For inactive contexts,
-> engine busyness is just equal to the total.
-> 
-> The start and total values provided by GuC are 32 bits and wrap around
-> in a few minutes. Since perf pmu provides busyness as 64 bit
-> monotonically increasing values, there is a need for this implementation
-> to account for overflows and extend the time to 64 bits before returning
-> busyness to the user. In order to do that, a worker runs periodically at
-> frequency = 1/8th the time it takes for the timestamp to wrap. As an
-> example, that would be once in 27 seconds for a gt clock frequency of
-> 19.2 MHz.
-> 
-> Opens and wip that are targeted for later patches:
-> 
-> 1) On global gt reset the total busyness of engines resets and i915
->     needs to fix that so that user sees monotonically increasing
->     busyness.
-> 2) In runtime suspend mode, the worker may not need to be run. We could
->     stop the worker on suspend and rerun it on resume provided that the
->     guc pm timestamp does not tick during suspend.
+Break out some shmem backend utils for future reuse by the TTM backend:
+shmem_alloc_st(), shmem_free_st() and __shmem_writeback() which we can
+use to provide a shmem-backed TTM page pool for cached-only TTM
+buffer objects.
 
-Second point had now been addressed, right?
+Main functional change here is that we now compute the page sizes using
+the dma segments rather than using the physical page address segments.
 
-> 
-> Note:
-> There might be an overaccounting of busyness due to the fact that GuC
-> may be updating the total and start values while kmd is reading them.
-> (i.e kmd may read the updated total and the stale start). In such a
-> case, user may see higher busyness value followed by smaller ones which
-> would eventually catch up to the higher value.
-> 
-> v2: (Tvrtko)
-> - Include details in commit message
-> - Move intel engine busyness function into execlist code
-> - Use union inside engine->stats
-> - Use natural type for ping delay jiffies
-> - Drop active_work condition checks
-> - Use for_each_engine if iterating all engines
-> - Drop seq locking, use spinlock at guc level to update engine stats
-> - Document worker specific details
-> 
-> v3: (Tvrtko/Umesh)
-> - Demarcate guc and execlist stat objects with comments
-> - Document known over-accounting issue in commit
-> - Provide a consistent view of guc state
-> - Add hooks to gt park/unpark for guc busyness
-> - Stop/start worker in gt park/unpark path
-> - Drop inline
-> - Move spinlock and worker inits to guc initialization
-> - Drop helpers that are called only once
-> 
-> Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
-> Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  26 +-
->   drivers/gpu/drm/i915/gt/intel_engine_types.h  |  90 +++++--
->   .../drm/i915/gt/intel_execlists_submission.c  |  32 +++
->   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   2 +
->   .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  26 ++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  21 ++
->   drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |   5 +
->   drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  13 +
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 227 ++++++++++++++++++
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   2 +
->   drivers/gpu/drm/i915/i915_reg.h               |   2 +
->   12 files changed, 398 insertions(+), 49 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 2ae57e4656a3..6fcc70a313d9 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -1873,22 +1873,6 @@ void intel_engine_dump(struct intel_engine_cs *engine,
->   	intel_engine_print_breadcrumbs(engine, m);
->   }
->   
-> -static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
-> -					    ktime_t *now)
-> -{
-> -	ktime_t total = engine->stats.total;
-> -
-> -	/*
-> -	 * If the engine is executing something at the moment
-> -	 * add it to the total.
-> -	 */
-> -	*now = ktime_get();
-> -	if (READ_ONCE(engine->stats.active))
-> -		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
-> -
-> -	return total;
-> -}
-> -
->   /**
->    * intel_engine_get_busy_time() - Return current accumulated engine busyness
->    * @engine: engine to report on
-> @@ -1898,15 +1882,7 @@ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
->    */
->   ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
->   {
-> -	unsigned int seq;
-> -	ktime_t total;
-> -
-> -	do {
-> -		seq = read_seqcount_begin(&engine->stats.lock);
-> -		total = __intel_engine_get_busy_time(engine, now);
-> -	} while (read_seqcount_retry(&engine->stats.lock, seq));
-> -
-> -	return total;
-> +	return engine->busyness(engine, now);
->   }
->   
->   struct intel_context *
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> index 5ae1207c363b..8e1b9c38a6fc 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
-> @@ -432,6 +432,12 @@ struct intel_engine_cs {
->   	void		(*add_active_request)(struct i915_request *rq);
->   	void		(*remove_active_request)(struct i915_request *rq);
->   
-> +	/*
-> +	 * Get engine busyness and the time at which the busyness was sampled.
-> +	 */
-> +	ktime_t		(*busyness)(struct intel_engine_cs *engine,
-> +				    ktime_t *now);
-> +
->   	struct intel_engine_execlists execlists;
->   
->   	/*
-> @@ -481,30 +487,66 @@ struct intel_engine_cs {
->   	u32 (*get_cmd_length_mask)(u32 cmd_header);
->   
->   	struct {
-> -		/**
-> -		 * @active: Number of contexts currently scheduled in.
-> -		 */
-> -		unsigned int active;
-> -
-> -		/**
-> -		 * @lock: Lock protecting the below fields.
-> -		 */
-> -		seqcount_t lock;
-> -
-> -		/**
-> -		 * @total: Total time this engine was busy.
-> -		 *
-> -		 * Accumulated time not counting the most recent block in cases
-> -		 * where engine is currently busy (active > 0).
-> -		 */
-> -		ktime_t total;
-> -
-> -		/**
-> -		 * @start: Timestamp of the last idle to active transition.
-> -		 *
-> -		 * Idle is defined as active == 0, active is active > 0.
-> -		 */
-> -		ktime_t start;
-> +		union {
-> +			/* Fields used by the execlists backend. */
-> +			struct {
-> +				/**
-> +				 * @active: Number of contexts currently
-> +				 * scheduled in.
-> +				 */
-> +				unsigned int active;
-> +
-> +				/**
-> +				 * @lock: Lock protecting the below fields.
-> +				 */
-> +				seqcount_t lock;
-> +
-> +				/**
-> +				 * @total: Total time this engine was busy.
-> +				 *
-> +				 * Accumulated time not counting the most recent
-> +				 * block in cases where engine is currently busy
-> +				 * (active > 0).
-> +				 */
-> +				ktime_t total;
-> +
-> +				/**
-> +				 * @start: Timestamp of the last idle to active
-> +				 * transition.
-> +				 *
-> +				 * Idle is defined as active == 0, active is
-> +				 * active > 0.
-> +				 */
-> +				ktime_t start;
-> +			};
-> +
-> +			/* Fields used by the GuC backend. */
-> +			struct {
-> +				/**
-> +				 * @running: Active state of the engine when
-> +				 * busyness was last sampled.
-> +				 */
-> +				bool running;
-> +
-> +				/**
-> +				 * @prev_total: Previous value of total runtime
-> +				 * clock cycles.
-> +				 */
-> +				u32 prev_total;
-> +
-> +				/**
-> +				 * @total_gt_clks: Total gt clock cycles this
-> +				 * engine was busy.
-> +				 */
-> +				u64 total_gt_clks;
-> +
-> +				/**
-> +				 * @start_gt_clk: GT clock time of last idle to
-> +				 * active transition.
-> +				 */
-> +				u64 start_gt_clk;
-> +			};
-> +		};
->   
->   		/**
->   		 * @rps: Utilisation at last RPS sampling.
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 7147fe80919e..5c9b695e906c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -3292,6 +3292,36 @@ static void execlists_release(struct intel_engine_cs *engine)
->   	lrc_fini_wa_ctx(engine);
->   }
->   
-> +static ktime_t __execlists_engine_busyness(struct intel_engine_cs *engine,
-> +					   ktime_t *now)
-> +{
-> +	ktime_t total = engine->stats.total;
-> +
-> +	/*
-> +	 * If the engine is executing something at the moment
-> +	 * add it to the total.
-> +	 */
-> +	*now = ktime_get();
-> +	if (READ_ONCE(engine->stats.active))
-> +		total = ktime_add(total, ktime_sub(*now, engine->stats.start));
-> +
-> +	return total;
-> +}
-> +
-> +static ktime_t execlists_engine_busyness(struct intel_engine_cs *engine,
-> +					 ktime_t *now)
-> +{
-> +	unsigned int seq;
-> +	ktime_t total;
-> +
-> +	do {
-> +		seq = read_seqcount_begin(&engine->stats.lock);
-> +		total = __execlists_engine_busyness(engine, now);
-> +	} while (read_seqcount_retry(&engine->stats.lock, seq));
-> +
-> +	return total;
-> +}
-> +
->   static void
->   logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   {
-> @@ -3348,6 +3378,8 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
->   		engine->emit_bb_start = gen8_emit_bb_start;
->   	else
->   		engine->emit_bb_start = gen8_emit_bb_start_noarb;
-> +
-> +	engine->busyness = execlists_engine_busyness;
->   }
->   
->   static void logical_ring_default_irqs(struct intel_engine_cs *engine)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index 524eaf678790..b4a8594bc46c 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -86,6 +86,7 @@ static int __gt_unpark(struct intel_wakeref *wf)
->   	intel_rc6_unpark(&gt->rc6);
->   	intel_rps_unpark(&gt->rps);
->   	i915_pmu_gt_unparked(i915);
-> +	intel_guc_busyness_unpark(gt);
->   
->   	intel_gt_unpark_requests(gt);
->   	runtime_begin(gt);
-> @@ -104,6 +105,7 @@ static int __gt_park(struct intel_wakeref *wf)
->   	runtime_end(gt);
->   	intel_gt_park_requests(gt);
->   
-> +	intel_guc_busyness_park(gt);
->   	i915_vma_parked(gt);
->   	i915_pmu_gt_parked(i915);
->   	intel_rps_park(&gt->rps);
-> diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> index 8ff582222aff..ff1311d4beff 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
-> @@ -143,6 +143,7 @@ enum intel_guc_action {
->   	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
->   	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
->   	INTEL_GUC_ACTION_RESET_CLIENT = 0x5507,
-> +	INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF = 0x550A,
->   	INTEL_GUC_ACTION_LIMIT
->   };
->   
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 5dd174babf7a..22c30dbdf63a 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -104,6 +104,8 @@ struct intel_guc {
->   	u32 ads_regset_size;
->   	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
->   	u32 ads_golden_ctxt_size;
-> +	/** @ads_engine_usage_size: size of engine usage in the ADS */
-> +	u32 ads_engine_usage_size;
->   
->   	/** @lrc_desc_pool: object allocated to hold the GuC LRC descriptor pool */
->   	struct i915_vma *lrc_desc_pool;
-> @@ -138,6 +140,30 @@ struct intel_guc {
->   
->   	/** @send_mutex: used to serialize the intel_guc_send actions */
->   	struct mutex send_mutex;
-> +
-> +	struct {
-> +		/**
-> +		 * @lock: Lock protecting the below fields and the engine stats.
-> +		 */
-> +		spinlock_t lock;
-> +
-> +		/**
-> +		 * @gt_stamp: 64 bit extended value of the GT timestamp.
-> +		 */
-> +		u64 gt_stamp;
-> +
-> +		/**
-> +		 * @ping_delay: Period for polling the GT timestamp for
-> +		 * overflow.
-> +		 */
-> +		unsigned long ping_delay;
-> +
-> +		/**
-> +		 * @work: Periodic work to adjust GT timestamp, engine and
-> +		 * context usage for overflows.
-> +		 */
-> +		struct delayed_work work;
-> +	} timestamp;
->   };
->   
->   static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> index 2c6ea64af7ec..ca9ab53999d5 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
-> @@ -26,6 +26,8 @@
->    *      | guc_policies                          |
->    *      +---------------------------------------+
->    *      | guc_gt_system_info                    |
-> + *      +---------------------------------------+
-> + *      | guc_engine_usage                      |
->    *      +---------------------------------------+ <== static
->    *      | guc_mmio_reg[countA] (engine 0.0)     |
->    *      | guc_mmio_reg[countB] (engine 0.1)     |
-> @@ -47,6 +49,7 @@ struct __guc_ads_blob {
->   	struct guc_ads ads;
->   	struct guc_policies policies;
->   	struct guc_gt_system_info system_info;
-> +	struct guc_engine_usage engine_usage;
->   	/* From here on, location is dynamic! Refer to above diagram. */
->   	struct guc_mmio_reg regset[0];
->   } __packed;
-> @@ -628,3 +631,21 @@ void intel_guc_ads_reset(struct intel_guc *guc)
->   
->   	guc_ads_private_data_reset(guc);
->   }
-> +
-> +u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
-> +{
-> +	struct __guc_ads_blob *blob = guc->ads_blob;
-> +	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
-> +	u32 offset = base + ptr_offset(blob, engine_usage);
-> +
-> +	return offset;
-> +}
-> +
-> +struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
-> +{
-> +	struct intel_guc *guc = &engine->gt->uc.guc;
-> +	struct __guc_ads_blob *blob = guc->ads_blob;
-> +	u8 guc_class = engine_class_to_guc_class(engine->class);
-> +
-> +	return &blob->engine_usage.engines[guc_class][engine->instance];
-> +}
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> index 3d85051d57e4..e74c110facff 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
-> @@ -6,8 +6,11 @@
->   #ifndef _INTEL_GUC_ADS_H_
->   #define _INTEL_GUC_ADS_H_
->   
-> +#include <linux/types.h>
-> +
->   struct intel_guc;
->   struct drm_printer;
-> +struct intel_engine_cs;
->   
->   int intel_guc_ads_create(struct intel_guc *guc);
->   void intel_guc_ads_destroy(struct intel_guc *guc);
-> @@ -15,5 +18,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
->   void intel_guc_ads_reset(struct intel_guc *guc);
->   void intel_guc_ads_print_policy_info(struct intel_guc *guc,
->   				     struct drm_printer *p);
-> +struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
-> +u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
->   
->   #endif
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> index fa4be13c8854..7c9c081670fc 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
-> @@ -294,6 +294,19 @@ struct guc_ads {
->   	u32 reserved[15];
->   } __packed;
->   
-> +/* Engine usage stats */
-> +struct guc_engine_usage_record {
-> +	u32 current_context_index;
-> +	u32 last_switch_in_stamp;
-> +	u32 reserved0;
-> +	u32 total_runtime;
-> +	u32 reserved1[4];
-> +} __packed;
-> +
-> +struct guc_engine_usage {
-> +	struct guc_engine_usage_record engines[GUC_MAX_ENGINE_CLASSES][GUC_MAX_INSTANCES_PER_CLASS];
-> +} __packed;
-> +
->   /* GuC logging structures */
->   
->   enum guc_log_buffer_type {
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index ba0de35f6323..3f7d0f2ac9da 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -12,6 +12,7 @@
->   #include "gt/intel_engine_pm.h"
->   #include "gt/intel_engine_heartbeat.h"
->   #include "gt/intel_gt.h"
-> +#include "gt/intel_gt_clock_utils.h"
->   #include "gt/intel_gt_irq.h"
->   #include "gt/intel_gt_pm.h"
->   #include "gt/intel_gt_requests.h"
-> @@ -20,6 +21,7 @@
->   #include "gt/intel_mocs.h"
->   #include "gt/intel_ring.h"
->   
-> +#include "intel_guc_ads.h"
->   #include "intel_guc_submission.h"
->   
->   #include "i915_drv.h"
-> @@ -762,12 +764,25 @@ submission_disabled(struct intel_guc *guc)
->   static void disable_submission(struct intel_guc *guc)
->   {
->   	struct i915_sched_engine * const sched_engine = guc->sched_engine;
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	struct intel_engine_cs *engine;
-> +	enum intel_engine_id id;
-> +	unsigned long flags;
->   
->   	if (__tasklet_is_enabled(&sched_engine->tasklet)) {
->   		GEM_BUG_ON(!guc->ct.enabled);
->   		__tasklet_disable_sync_once(&sched_engine->tasklet);
->   		sched_engine->tasklet.callback = NULL;
->   	}
-> +
-> +	cancel_delayed_work(&guc->timestamp.work);
+v2(Reported-by: kernel test robot <lkp@intel.com>)
+    - Make sure we initialise the mapping on the error path in
+      shmem_get_pages()
 
-I am not sure when disable_submission gets called so a question - could 
-it be important to call cancel_delayed_work_sync here to ensure if the 
-worker was running it had exited before proceeding?
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Reviewed-by: Matthew Auld <matthew.auld@intel.com>
+Signed-off-by: Matthew Auld <matthew.auld@intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_shmem.c | 181 +++++++++++++---------
+ 1 file changed, 106 insertions(+), 75 deletions(-)
 
-Also, does this interact with the open about resets? Should/could 
-parking helper be called from here?
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+index 11f072193f3b..36b711ae9e28 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_shmem.c
+@@ -25,46 +25,61 @@ static void check_release_pagevec(struct pagevec *pvec)
+ 	cond_resched();
+ }
+ 
+-static int shmem_get_pages(struct drm_i915_gem_object *obj)
++static void shmem_free_st(struct sg_table *st, struct address_space *mapping,
++			  bool dirty, bool backup)
+ {
+-	struct drm_i915_private *i915 = to_i915(obj->base.dev);
+-	struct intel_memory_region *mem = obj->mm.region;
+-	const unsigned long page_count = obj->base.size / PAGE_SIZE;
++	struct sgt_iter sgt_iter;
++	struct pagevec pvec;
++	struct page *page;
++
++	mapping_clear_unevictable(mapping);
++
++	pagevec_init(&pvec);
++	for_each_sgt_page(page, sgt_iter, st) {
++		if (dirty)
++			set_page_dirty(page);
++
++		if (backup)
++			mark_page_accessed(page);
++
++		if (!pagevec_add(&pvec, page))
++			check_release_pagevec(&pvec);
++	}
++	if (pagevec_count(&pvec))
++		check_release_pagevec(&pvec);
++
++	sg_free_table(st);
++	kfree(st);
++}
++
++static struct sg_table *shmem_alloc_st(struct drm_i915_private *i915,
++				       size_t size, struct intel_memory_region *mr,
++				       struct address_space *mapping,
++				       unsigned int max_segment)
++{
++	const unsigned long page_count = size / PAGE_SIZE;
+ 	unsigned long i;
+-	struct address_space *mapping;
+ 	struct sg_table *st;
+ 	struct scatterlist *sg;
+-	struct sgt_iter sgt_iter;
+ 	struct page *page;
+ 	unsigned long last_pfn = 0;	/* suppress gcc warning */
+-	unsigned int max_segment = i915_sg_segment_size();
+-	unsigned int sg_page_sizes;
+ 	gfp_t noreclaim;
+ 	int ret;
+ 
+-	/*
+-	 * Assert that the object is not currently in any GPU domain. As it
+-	 * wasn't in the GTT, there shouldn't be any way it could have been in
+-	 * a GPU cache
+-	 */
+-	GEM_BUG_ON(obj->read_domains & I915_GEM_GPU_DOMAINS);
+-	GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
+-
+ 	/*
+ 	 * If there's no chance of allocating enough pages for the whole
+ 	 * object, bail early.
+ 	 */
+-	if (obj->base.size > resource_size(&mem->region))
+-		return -ENOMEM;
++	if (size > resource_size(&mr->region))
++		return ERR_PTR(-ENOMEM);
+ 
+ 	st = kmalloc(sizeof(*st), GFP_KERNEL);
+ 	if (!st)
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 
+-rebuild_st:
+ 	if (sg_alloc_table(st, page_count, GFP_KERNEL)) {
+ 		kfree(st);
+-		return -ENOMEM;
++		return ERR_PTR(-ENOMEM);
+ 	}
+ 
+ 	/*
+@@ -73,14 +88,12 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	 *
+ 	 * Fail silently without starting the shrinker
+ 	 */
+-	mapping = obj->base.filp->f_mapping;
+ 	mapping_set_unevictable(mapping);
+ 	noreclaim = mapping_gfp_constraint(mapping, ~__GFP_RECLAIM);
+ 	noreclaim |= __GFP_NORETRY | __GFP_NOWARN;
+ 
+ 	sg = st->sgl;
+ 	st->nents = 0;
+-	sg_page_sizes = 0;
+ 	for (i = 0; i < page_count; i++) {
+ 		const unsigned int shrink[] = {
+ 			I915_SHRINK_BOUND | I915_SHRINK_UNBOUND,
+@@ -135,10 +148,9 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 		if (!i ||
+ 		    sg->length >= max_segment ||
+ 		    page_to_pfn(page) != last_pfn + 1) {
+-			if (i) {
+-				sg_page_sizes |= sg->length;
++			if (i)
+ 				sg = sg_next(sg);
+-			}
++
+ 			st->nents++;
+ 			sg_set_page(sg, page, PAGE_SIZE, 0);
+ 		} else {
+@@ -149,14 +161,65 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 		/* Check that the i965g/gm workaround works. */
+ 		GEM_BUG_ON(gfp & __GFP_DMA32 && last_pfn >= 0x00100000UL);
+ 	}
+-	if (sg) { /* loop terminated early; short sg table */
+-		sg_page_sizes |= sg->length;
++	if (sg) /* loop terminated early; short sg table */
+ 		sg_mark_end(sg);
+-	}
+ 
+ 	/* Trim unused sg entries to avoid wasting memory. */
+ 	i915_sg_trim(st);
+ 
++	return st;
++err_sg:
++	sg_mark_end(sg);
++	if (sg != st->sgl) {
++		shmem_free_st(st, mapping, false, false);
++	} else {
++		mapping_clear_unevictable(mapping);
++		sg_free_table(st);
++		kfree(st);
++	}
++
++	/*
++	 * shmemfs first checks if there is enough memory to allocate the page
++	 * and reports ENOSPC should there be insufficient, along with the usual
++	 * ENOMEM for a genuine allocation failure.
++	 *
++	 * We use ENOSPC in our driver to mean that we have run out of aperture
++	 * space and so want to translate the error from shmemfs back to our
++	 * usual understanding of ENOMEM.
++	 */
++	if (ret == -ENOSPC)
++		ret = -ENOMEM;
++
++	return ERR_PTR(ret);
++}
++
++static int shmem_get_pages(struct drm_i915_gem_object *obj)
++{
++	struct drm_i915_private *i915 = to_i915(obj->base.dev);
++	struct intel_memory_region *mem = obj->mm.region;
++	struct address_space *mapping = obj->base.filp->f_mapping;
++	const unsigned long page_count = obj->base.size / PAGE_SIZE;
++	unsigned int max_segment = i915_sg_segment_size();
++	struct sg_table *st;
++	struct sgt_iter sgt_iter;
++	struct page *page;
++	int ret;
++
++	/*
++	 * Assert that the object is not currently in any GPU domain. As it
++	 * wasn't in the GTT, there shouldn't be any way it could have been in
++	 * a GPU cache
++	 */
++	GEM_BUG_ON(obj->read_domains & I915_GEM_GPU_DOMAINS);
++	GEM_BUG_ON(obj->write_domain & I915_GEM_GPU_DOMAINS);
++
++rebuild_st:
++	st = shmem_alloc_st(i915, obj->base.size, mem, mapping, max_segment);
++	if (IS_ERR(st)) {
++		ret = PTR_ERR(st);
++		goto err_st;
++	}
++
+ 	ret = i915_gem_gtt_prepare_pages(obj, st);
+ 	if (ret) {
+ 		/*
+@@ -168,6 +231,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 			for_each_sgt_page(page, sgt_iter, st)
+ 				put_page(page);
+ 			sg_free_table(st);
++			kfree(st);
+ 
+ 			max_segment = PAGE_SIZE;
+ 			goto rebuild_st;
+@@ -200,28 +264,12 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	if (IS_JSL_EHL(i915) && obj->flags & I915_BO_ALLOC_USER)
+ 		obj->cache_dirty = true;
+ 
+-	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
++	__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
+ 
+ 	return 0;
+ 
+-err_sg:
+-	sg_mark_end(sg);
+ err_pages:
+-	mapping_clear_unevictable(mapping);
+-	if (sg != st->sgl) {
+-		struct pagevec pvec;
+-
+-		pagevec_init(&pvec);
+-		for_each_sgt_page(page, sgt_iter, st) {
+-			if (!pagevec_add(&pvec, page))
+-				check_release_pagevec(&pvec);
+-		}
+-		if (pagevec_count(&pvec))
+-			check_release_pagevec(&pvec);
+-	}
+-	sg_free_table(st);
+-	kfree(st);
+-
++	shmem_free_st(st, mapping, false, false);
+ 	/*
+ 	 * shmemfs first checks if there is enough memory to allocate the page
+ 	 * and reports ENOSPC should there be insufficient, along with the usual
+@@ -231,6 +279,7 @@ static int shmem_get_pages(struct drm_i915_gem_object *obj)
+ 	 * space and so want to translate the error from shmemfs back to our
+ 	 * usual understanding of ENOMEM.
+ 	 */
++err_st:
+ 	if (ret == -ENOSPC)
+ 		ret = -ENOMEM;
+ 
+@@ -251,10 +300,8 @@ shmem_truncate(struct drm_i915_gem_object *obj)
+ 	obj->mm.pages = ERR_PTR(-EFAULT);
+ }
+ 
+-static void
+-shmem_writeback(struct drm_i915_gem_object *obj)
++static void __shmem_writeback(size_t size, struct address_space *mapping)
+ {
+-	struct address_space *mapping;
+ 	struct writeback_control wbc = {
+ 		.sync_mode = WB_SYNC_NONE,
+ 		.nr_to_write = SWAP_CLUSTER_MAX,
+@@ -270,10 +317,9 @@ shmem_writeback(struct drm_i915_gem_object *obj)
+ 	 * instead of invoking writeback so they are aged and paged out
+ 	 * as normal.
+ 	 */
+-	mapping = obj->base.filp->f_mapping;
+ 
+ 	/* Begin writeback on each dirty page */
+-	for (i = 0; i < obj->base.size >> PAGE_SHIFT; i++) {
++	for (i = 0; i < size >> PAGE_SHIFT; i++) {
+ 		struct page *page;
+ 
+ 		page = find_lock_page(mapping, i);
+@@ -296,6 +342,12 @@ shmem_writeback(struct drm_i915_gem_object *obj)
+ 	}
+ }
+ 
++static void
++shmem_writeback(struct drm_i915_gem_object *obj)
++{
++	__shmem_writeback(obj->base.size, obj->base.filp->f_mapping);
++}
++
+ void
+ __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
+ 				struct sg_table *pages,
+@@ -316,11 +368,6 @@ __i915_gem_object_release_shmem(struct drm_i915_gem_object *obj,
+ 
+ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_table *pages)
+ {
+-	struct sgt_iter sgt_iter;
+-	struct pagevec pvec;
+-	struct page *page;
+-
+-	GEM_WARN_ON(IS_DGFX(to_i915(obj->base.dev)));
+ 	__i915_gem_object_release_shmem(obj, pages, true);
+ 
+ 	i915_gem_gtt_finish_pages(obj, pages);
+@@ -328,25 +375,9 @@ void i915_gem_object_put_pages_shmem(struct drm_i915_gem_object *obj, struct sg_
+ 	if (i915_gem_object_needs_bit17_swizzle(obj))
+ 		i915_gem_object_save_bit_17_swizzle(obj, pages);
+ 
+-	mapping_clear_unevictable(file_inode(obj->base.filp)->i_mapping);
+-
+-	pagevec_init(&pvec);
+-	for_each_sgt_page(page, sgt_iter, pages) {
+-		if (obj->mm.dirty)
+-			set_page_dirty(page);
+-
+-		if (obj->mm.madv == I915_MADV_WILLNEED)
+-			mark_page_accessed(page);
+-
+-		if (!pagevec_add(&pvec, page))
+-			check_release_pagevec(&pvec);
+-	}
+-	if (pagevec_count(&pvec))
+-		check_release_pagevec(&pvec);
++	shmem_free_st(pages, file_inode(obj->base.filp)->i_mapping,
++		      obj->mm.dirty, obj->mm.madv == I915_MADV_WILLNEED);
+ 	obj->mm.dirty = false;
+-
+-	sg_free_table(pages);
+-	kfree(pages);
+ }
+ 
+ static void
+-- 
+2.26.3
 
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	for_each_engine(engine, gt, id)
-> +		engine->stats.prev_total = 0;
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
->   }
->   
->   static void enable_submission(struct intel_guc *guc)
-> @@ -1126,12 +1141,217 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
->   	intel_gt_unpark_heartbeats(guc_to_gt(guc));
->   }
->   
-> +/*
-> + * GuC stores busyness stats for each engine at context in/out boundaries. A
-> + * context 'in' logs execution start time, 'out' adds in -> out delta to total.
-> + * i915/kmd accesses 'start', 'total' and 'context id' from memory shared with
-> + * GuC.
-> + *
-> + * __i915_pmu_event_read samples engine busyness. When sampling, if context id
-> + * is valid (!= ~0) and start is non-zero, the engine is considered to be
-> + * active. For an active engine total busyness = total + (now - start), where
-> + * 'now' is the time at which the busyness is sampled. For inactive engine,
-> + * total busyness = total.
-> + *
-> + * All times are captured from GUCPMTIMESTAMP reg and are in gt clock domain.
-> + *
-> + * The start and total values provided by GuC are 32 bits and wrap around in a
-> + * few minutes. Since perf pmu provides busyness as 64 bit monotonically
-> + * increasing ns values, there is a need for this implementation to account for
-> + * overflows and extend the GuC provided values to 64 bits before returning
-> + * busyness to the user. In order to do that, a worker runs periodically at
-> + * frequency = 1/8th the time it takes for the timestamp to wrap (i.e. once in
-> + * 27 seconds for a gt clock frequency of 19.2 MHz).
-> + */
-> +
-> +#define WRAP_TIME_CLKS U32_MAX
-> +#define POLL_TIME_CLKS (WRAP_TIME_CLKS >> 3)
-> +
-> +static void
-> +__extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
-> +{
-> +	u32 gt_stamp_hi = upper_32_bits(guc->timestamp.gt_stamp);
-> +	u32 gt_stamp_last = lower_32_bits(guc->timestamp.gt_stamp);
-> +
-> +	if (new_start == lower_32_bits(*prev_start))
-> +		return;
-> +
-> +	if (new_start < gt_stamp_last &&
-> +	    (new_start - gt_stamp_last) <= POLL_TIME_CLKS)
-> +		gt_stamp_hi++;
-> +
-> +	if (new_start > gt_stamp_last &&
-> +	    (gt_stamp_last - new_start) <= POLL_TIME_CLKS && gt_stamp_hi)
-> +		gt_stamp_hi--;
-> +
-> +	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
-> +}
-> +
-> +static void guc_update_engine_gt_clks(struct intel_engine_cs *engine)
-> +{
-> +	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
-> +	struct intel_guc *guc = &engine->gt->uc.guc;
-> +	u32 last_switch = rec->last_switch_in_stamp;
-> +	u32 ctx_id = rec->current_context_index;
-> +	u32 total = rec->total_runtime;
-> +
-> +	lockdep_assert_held(&guc->timestamp.lock);
-> +
-> +	engine->stats.running = ctx_id != ~0U && last_switch;
-> +	if (engine->stats.running)
-> +		__extend_last_switch(guc, &engine->stats.start_gt_clk,
-> +				     last_switch);
-> +
-> +	/*
-> +	 * Instead of adjusting the total for overflow, just add the
-> +	 * difference from previous sample to the stats.total_gt_clks
-> +	 */
-> +	if (total && total != ~0U) {
-> +		engine->stats.total_gt_clks += (u32)(total -
-> +						     engine->stats.prev_total);
-> +		engine->stats.prev_total = total;
-> +	}
-> +}
-> +
-> +static void guc_update_pm_timestamp(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	u32 gt_stamp_now, gt_stamp_hi;
-> +
-> +	lockdep_assert_held(&guc->timestamp.lock);
-> +
-> +	gt_stamp_hi = upper_32_bits(guc->timestamp.gt_stamp);
-> +	gt_stamp_now = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
-> +
-> +	if (gt_stamp_now < lower_32_bits(guc->timestamp.gt_stamp))
-> +		gt_stamp_hi++;
-> +
-> +	guc->timestamp.gt_stamp = ((u64) gt_stamp_hi << 32) | gt_stamp_now;
-> +}
-> +
-> +/*
-> + * Unlike the execlist mode of submission total and active times are in terms of
-> + * gt clocks. The *now parameter is retained to return the cpu time at which the
-> + * busyness was sampled.
-> + */
-> +static ktime_t guc_engine_busyness(struct intel_engine_cs *engine, ktime_t *now)
-> +{
-> +	struct intel_gt *gt = engine->gt;
-> +	struct intel_guc *guc = &gt->uc.guc;
-> +	unsigned long flags;
-> +	u64 total;
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	*now = ktime_get();
-> +
-> +	/*
-> +	 * The active busyness depends on start_gt_clk and gt_stamp.
-> +	 * gt_stamp is updated by i915 only when gt is awake and the
-> +	 * start_gt_clk is derived from GuC state. To get a consistent
-> +	 * view of activity, we query the GuC state only if gt is awake.
-> +	 */
-> +	if (intel_gt_pm_get_if_awake(gt)) {
-> +		guc_update_engine_gt_clks(engine);
-> +		guc_update_pm_timestamp(guc);
-> +		intel_gt_pm_put_async(gt);
-> +	}
-> +
-> +	total = intel_gt_clock_interval_to_ns(gt, engine->stats.total_gt_clks);
-> +	if (engine->stats.running) {
-> +		u64 clk = guc->timestamp.gt_stamp - engine->stats.start_gt_clk;
-> +
-> +		total += intel_gt_clock_interval_to_ns(gt, clk);
-> +	}
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
-> +
-> +	return ns_to_ktime(total);
-> +}
-> +
-> +static void __update_guc_busyness_stats(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	struct intel_engine_cs *engine;
-> +	enum intel_engine_id id;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&guc->timestamp.lock, flags);
-> +
-> +	if (intel_gt_pm_get_if_awake(gt)) {
-> +		guc_update_pm_timestamp(guc);
-> +
-> +		for_each_engine(engine, gt, id)
-> +			guc_update_engine_gt_clks(engine);
-> +
-> +		intel_gt_pm_put_async(gt);
-> +	}
-> +
-> +	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
-> +}
-> +
-> +static void guc_timestamp_ping(struct work_struct *wrk)
-> +{
-> +	struct intel_guc *guc = container_of(wrk, typeof(*guc),
-> +					     timestamp.work.work);
-> +
-> +	__update_guc_busyness_stats(guc);
-
- From ping you may need to ensure you wake up the GPU (not call 
-intel_gt_pm_get_if_awake in update) or I think there is a chance ping 
-gets unlucky and fails to do its job.
-
-Probably get the pm ref here and remove it from 
-__update_guc_busyness_stats, since the other caller (park) guarantees pm 
-ref is still held.
-
-> +	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
-> +			 guc->timestamp.ping_delay);
-> +}
-> +
-> +static int guc_action_enable_usage_stats(struct intel_guc *guc)
-> +{
-> +	u32 offset = intel_guc_engine_usage_offset(guc);
-> +	u32 action[] = {
-> +		INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF,
-> +		offset,
-> +		0,
-> +	};
-> +
-> +	return intel_guc_send(guc, action, ARRAY_SIZE(action));
-> +}
-> +
-> +static void guc_init_engine_stats(struct intel_guc *guc)
-> +{
-> +	struct intel_gt *gt = guc_to_gt(guc);
-> +	intel_wakeref_t wakeref;
-> +
-> +	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
-> +			 guc->timestamp.ping_delay);
-
-Not sure how this slots in with unpark. It will probably be called two 
-times but it also probably does not matter? If you can figure it out 
-perhaps you can remove this call from here. Or maybe there is a separate 
-path where disable-enable can be called without the park-unpark 
-transition. In which case you could call the unpark helper here. Not 
-sure really.
-
-Regards,
-
-Tvrtko
-
-> +
-> +	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref) {
-> +		int ret = guc_action_enable_usage_stats(guc);
-> +
-> +		if (ret)
-> +			drm_err(&gt->i915->drm,
-> +				"Failed to enable usage stats: %d!\n", ret);
-> +	}
-> +}
-> +
-> +void intel_guc_busyness_park(struct intel_gt *gt)
-> +{
-> +	struct intel_guc *guc = &gt->uc.guc;
-> +
-> +	cancel_delayed_work(&guc->timestamp.work);
-> +	__update_guc_busyness_stats(guc);
-> +}
-> +
-> +void intel_guc_busyness_unpark(struct intel_gt *gt)
-> +{
-> +	struct intel_guc *guc = &gt->uc.guc;
-> +
-> +	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
-> +			 guc->timestamp.ping_delay);
-> +}
-> +
->   /*
->    * Set up the memory resources to be shared with the GuC (via the GGTT)
->    * at firmware loading time.
->    */
->   int intel_guc_submission_init(struct intel_guc *guc)
->   {
-> +	struct intel_gt *gt = guc_to_gt(guc);
->   	int ret;
->   
->   	if (guc->lrc_desc_pool)
-> @@ -1152,6 +1372,10 @@ int intel_guc_submission_init(struct intel_guc *guc)
->   	INIT_LIST_HEAD(&guc->guc_id_list);
->   	ida_init(&guc->guc_ids);
->   
-> +	spin_lock_init(&guc->timestamp.lock);
-> +	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
-> +	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
-> +
->   	return 0;
->   }
->   
-> @@ -2606,7 +2830,9 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
->   		engine->emit_flush = gen12_emit_flush_xcs;
->   	}
->   	engine->set_default_submission = guc_set_default_submission;
-> +	engine->busyness = guc_engine_busyness;
->   
-> +	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
->   	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
->   	engine->flags |= I915_ENGINE_HAS_TIMESLICES;
->   
-> @@ -2705,6 +2931,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
->   void intel_guc_submission_enable(struct intel_guc *guc)
->   {
->   	guc_init_lrc_mapping(guc);
-> +	guc_init_engine_stats(guc);
->   }
->   
->   void intel_guc_submission_disable(struct intel_guc *guc)
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> index c7ef44fa0c36..5a95a9f0a8e3 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
-> @@ -28,6 +28,8 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
->   void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
->   				    struct i915_request *hung_rq,
->   				    struct drm_printer *m);
-> +void intel_guc_busyness_park(struct intel_gt *gt);
-> +void intel_guc_busyness_unpark(struct intel_gt *gt);
->   
->   bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
->   
-> diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-> index a897f4abea0c..9aee08425382 100644
-> --- a/drivers/gpu/drm/i915/i915_reg.h
-> +++ b/drivers/gpu/drm/i915/i915_reg.h
-> @@ -2664,6 +2664,8 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
->   #define   RING_WAIT		(1 << 11) /* gen3+, PRBx_CTL */
->   #define   RING_WAIT_SEMAPHORE	(1 << 10) /* gen6+ */
->   
-> +#define GUCPMTIMESTAMP          _MMIO(0xC3E8)
-> +
->   /* There are 16 64-bit CS General Purpose Registers per-engine on Gen8+ */
->   #define GEN8_RING_CS_GPR(base, n)	_MMIO((base) + 0x600 + (n) * 8)
->   #define GEN8_RING_CS_GPR_UDW(base, n)	_MMIO((base) + 0x600 + (n) * 8 + 4)
-> 
