@@ -1,85 +1,34 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C834424052
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 16:44:54 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3998A42418C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:44:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9EDB86E51B;
-	Wed,  6 Oct 2021 14:44:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC46E846;
+	Wed,  6 Oct 2021 15:43:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
- [IPv6:2a00:1450:4864:20::42d])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 5D42E6E51B
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 14:44:49 +0000 (UTC)
-Received: by mail-wr1-x42d.google.com with SMTP id u18so9623774wrg.5
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 07:44:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=D8IjD/aX+SAqkEjm7xgEe5lxocD/PXw4l5YWyLqfbtc=;
- b=sjymcv1htUJfHr/ek8Mjj/Jzt/jL4wvmG/taOYRNvKcZWk9BkgQtJjHgO7wbXBFrHy
- meZmY5A0tTIXo7CrDb1wtV1kVUe0zpcretTP/oJR1dUYtCogFfD4itlw7SlETG69n6Xi
- cRM1/7X/fYoubACDyBPEiCkkKuAUi0hY2aAzKxEFA/nDteTiuhRMStnHbhpfANKS6SOo
- aZ2uU5GuqODutpS9OMjadts9W8OOjuOAgFSiKeYSCLDwsbW9Cov/zeNYAJFIXp8iKB4R
- qB3jLqqhLJY0SdzrfSgr+y6OWem7CqBIbjFWChJaTT0M0IN9Rp0D7UjF4OBKnk8d1pUl
- rGUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=D8IjD/aX+SAqkEjm7xgEe5lxocD/PXw4l5YWyLqfbtc=;
- b=Sd8RYRzm7R9+b2S8ua9YE8YpMrbzZg04z5fkeE6kDN1PR0V5vR7YrSqU38Zj+aWENf
- IlBck1YwHItgIrXwMrRaZmdYG/LHptIT0YLo6ZxDZSS8I7MDM5fvbatP6nr1P8MxkV3e
- mL/JLYTeKLSb0tvpWxFxM6RAZ/4fYSnzX2uaR59cXId6c+4Yjr2PaxW3JMqIEjQz81UI
- uWurrM34XsHg5ZBQc+ABTAUeYRGPYvxI+/R4LwH14SQQjMdYNebcXLSIdJYLVZxyfCL9
- AAqe2iftDn1rF6zPUsj8049k3w3WDeDSsaQHgaahiOMm1U8/BAT4G0Sgjf4QiOyQEgjN
- hPsQ==
-X-Gm-Message-State: AOAM532r6i2kA5Pl/LsOpZmf/ex6Ht3HRMcsXjIO9uSha3bwZ6sh+e1Q
- EPbhD4iZJQcbFs1WZ8ARXUlNiHzFueAVmg==
-X-Google-Smtp-Source: ABdhPJzOIM/pk9tWOTUWl5e+TDTH0xpNOQTnfj4KEfoU6EtOZONtFMHK6lwbDtQM4rXB6YpRldnDdg==
-X-Received: by 2002:a1c:5413:: with SMTP id i19mr10372676wmb.31.1633531487682; 
- Wed, 06 Oct 2021 07:44:47 -0700 (PDT)
-Received: from maple.lan (cpc141216-aztw34-2-0-cust174.18-1.cable.virginm.net.
- [80.7.220.175])
- by smtp.gmail.com with ESMTPSA id f7sm3104178wmj.20.2021.10.06.07.44.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 06 Oct 2021 07:44:46 -0700 (PDT)
-Date: Wed, 6 Oct 2021 15:44:44 +0100
-From: Daniel Thompson <daniel.thompson@linaro.org>
-To: Marijn Suijten <marijn.suijten@somainline.org>
-Cc: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- ~postmarketos/upstreaming@lists.sr.ht,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Konrad Dybcio <konrad.dybcio@somainline.org>,
- Martin Botka <martin.botka@somainline.org>,
- Jami Kettunen <jami.kettunen@somainline.org>,
- Pavel Dubrova <pashadubrova@gmail.com>,
- Kiran Gunda <kgunda@codeaurora.org>,
- Courtney Cavin <courtney.cavin@sonymobile.com>,
- Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/10] backlight: qcom-wled: Fix off-by-one maximum with
- default num_strings
-Message-ID: <20211006144444.6q3qm3bzfrhzwa46@maple.lan>
-References: <20211004192741.621870-6-marijn.suijten@somainline.org>
- <20211005091947.7msztp5l554c7cy4@maple.lan>
- <20211005100606.faxra73mzkvjd4f6@SoMainline.org>
- <20211005103843.heufyonycnudxnzd@maple.lan>
- <20211005105312.kqiyzoqtzzjxayhg@maple.lan>
- <20211005114435.phyq2jsbdyroa6kn@SoMainline.org>
- <20211005140349.kefi26yev3gy3zhv@maple.lan>
- <20211005152326.5k5cb53ajqnactrg@SoMainline.org>
- <20211005162453.ozckxhm47jcarsza@maple.lan>
- <20211005173400.lyu3gabbalv2l3uq@SoMainline.org>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
+ [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4680B6ECB5
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 14:49:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+ (Authenticated sender: kholk11) with ESMTPSA id 7DDE81F44C3D
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: robh+dt@kernel.org
+Cc: airlied@linux.ie, daniel@ffwll.ch, a.hajda@samsung.com,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [PATCH] dt-bindings: display/bridge: sil,
+ sii8620: Convert to YAML binding
+Date: Wed,  6 Oct 2021 16:49:14 +0200
+Message-Id: <20211006144914.568787-1-angelogioacchino.delregno@collabora.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211005173400.lyu3gabbalv2l3uq@SoMainline.org>
+Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Wed, 06 Oct 2021 15:43:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -95,49 +44,158 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 07:34:00PM +0200, Marijn Suijten wrote:
-> On 2021-10-05 17:24:53, Daniel Thompson wrote:
-> > On Tue, Oct 05, 2021 at 05:23:26PM +0200, Marijn Suijten wrote:
-> > > Since there don't seem to be any substantial platforms/PMICs using this
-> > > functionality in a working manner, can I talk you into agreeing with
-> > > fixing the DT instead?
-> > 
-> > I've no objections to seeing the DT updated. However I don't really see
-> > what benefit we get from breaking existing DTs in order to do so.
-> > 
-> > "Cleaning up annoying legacy" is seldom a good reason to break existing
-> > DTs since, if we could break DTs whenever we choose, there would never
-> > be any annoying legacy to worry about. When conflicting properties
-> > result in uninterpretable DTs then a break may be justified but that is
-> > not the case here.
-> 
-> As mentioned in my message and repeated by Konrad, the only "existing
-> DT" that could possibly be broken is a platform that's brought up by us
-> (SoMainline) and we're more than happy to improve the driver and leave
-> legacy DT behind us, unless there's more DT in circulation that hasn't
-> landed in Linux mainline but should be taken into account?
+Convert the Silicon Image SiI8620 MIPI-DSI to LVDS bridge documentation
+to YAML.
 
-Devicetrees are supposed to be the domain of firmware (e.g. not part of
-the kernel).
+Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+ .../bindings/display/bridge/sil,sii8620.yaml  | 96 +++++++++++++++++++
+ .../bindings/display/bridge/sil-sii8620.txt   | 33 -------
+ 2 files changed, 96 insertions(+), 33 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
+ delete mode 100644 Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
 
-I'm therefore reluctant to adopt an "it only exists if it is upstream"
-approach for documented DT bindings. Doubly so when it is our bugs that
-causes DTs to be written in a manner which we then retrospectively
-declare to be wrong.
+diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
+new file mode 100644
+index 000000000000..4e32409eff17
+--- /dev/null
++++ b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
+@@ -0,0 +1,96 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/display/bridge/sil,sii8620.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Silicon Image SiI8620 MIPI-DSI to LVDS bridge
++
++maintainers:
++  - Andrzej Hajda <a.hajda@samsung.com>
++
++description: |
++  The SiI8620 is bridge device which converts MIPI DSI or MIPI DPI to DP/eDP.
++
++properties:
++  compatible:
++    const: sil,sii8620
++
++  reg:
++    description: I2C address of the bridge
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  clock-names:
++    const: xtal
++
++  cvcc10-supply:
++    description: Digital Core Supply Voltage, 1.0V
++
++  iovcc18-supply:
++    description: I/O voltage supply, 1.8V
++
++  interrupts:
++    maxItems: 1
++
++  reset-gpios:
++    description: GPIO connected to the reset pin.
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/properties/port
++        description:
++          Video port for HDMI input
++
++    required:
++      - port@0
++
++required:
++  - compatible
++  - reg
++  - cvcc10-supply
++  - iovcc18-supply
++  - interrupts
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/interrupt-controller/irq.h>
++
++    i2c1 {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      bridge@39 {
++        compatible = "sil,sii8620";
++        reg = <0x39>;
++        cvcc10-supply = <&ldo36_reg>;
++        iovcc18-supply = <&ldo34_reg>;
++        interrupt-parent = <&gpf0>;
++        interrupts = <2 IRQ_TYPE_LEVEL_HIGH>;
++        reset-gpios = <&gpv7 0 GPIO_ACTIVE_HIGH>;
++
++        ports {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          port@0 {
++            reg = <0>;
++            mhl_to_hdmi: endpoint {
++              remote-endpoint = <&hdmi_to_mhl>;
++            };
++          };
++        };
++      };
++    };
++
++...
+diff --git a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt b/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
+deleted file mode 100644
+index b05052f7d62f..000000000000
+--- a/Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
++++ /dev/null
+@@ -1,33 +0,0 @@
+-Silicon Image SiI8620 HDMI/MHL bridge bindings
+-
+-Required properties:
+-	- compatible: "sil,sii8620"
+-	- reg: i2c address of the bridge
+-	- cvcc10-supply: Digital Core Supply Voltage (1.0V)
+-	- iovcc18-supply: I/O Supply Voltage (1.8V)
+-	- interrupts: interrupt specifier of INT pin
+-	- reset-gpios: gpio specifier of RESET pin
+-	- clocks, clock-names: specification and name of "xtal" clock
+-	- video interfaces: Device node can contain video interface port
+-			    node for HDMI encoder according to [1].
+-
+-[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
+-
+-Example:
+-	sii8620@39 {
+-		reg = <0x39>;
+-		compatible = "sil,sii8620";
+-		cvcc10-supply = <&ldo36_reg>;
+-		iovcc18-supply = <&ldo34_reg>;
+-		interrupt-parent = <&gpf0>;
+-		interrupts = <2 0>;
+-		reset-gpio = <&gpv7 0 0>;
+-		clocks = <&pmu_system_controller 0>;
+-		clock-names = "xtal";
+-
+-		port {
+-			mhl_to_hdmi: endpoint {
+-				remote-endpoint = <&hdmi_to_mhl>;
+-			};
+-		};
+-	};
+-- 
+2.33.0
 
-
-> Anyway the plan is to leave qcom,num-strings in place so that the
-> default enabled_strings list in this driver actually serves a purpose.
-> Then, if num-strings and enabled-strings is provided the former has
-> precedence (assuming it doesn't exceed the size of the latter) but
-> we'll print a warning about this (now unnecessary) ambiguity, and if
-> possible at all - haven't found an example yet - make the properties
-> mutually exclusive in dt-bindings.
-> 
-> Disallowing both cases would only simplify the code in the end but we
-> can spend a few lines to support the desired legacy.
-
-Yes, warning is OK for me.
-
-
-Daniel.
