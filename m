@@ -2,54 +2,90 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E7444246A9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 21:25:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EEE54246C2
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 21:38:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3F486EE13;
-	Wed,  6 Oct 2021 19:24:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6D8E6EE1F;
+	Wed,  6 Oct 2021 19:38:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oo1-xc31.google.com (mail-oo1-xc31.google.com
- [IPv6:2607:f8b0:4864:20::c31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC6566EE13
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 19:24:55 +0000 (UTC)
-Received: by mail-oo1-xc31.google.com with SMTP id
- w9-20020a4adec9000000b002b696945457so671244oou.10
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 12:24:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FDFkYpBLosMxYGZY/CSFRmwq0TA2J/uDPiB9rdiCrxo=;
- b=QYBIPrg2eaz3wvbHzdK8druUTk4RvAXaIqY3jq6a7XTOjoSbzytp4oRw/HNHFITESb
- R5oXYE/V9KPMxOHgy6P1uIsiRt18H7GwNbi9EtYgmSGtphzlqP6JqsT3kjscyARWMRBv
- pH6CDaW8u7ygyS0WsQLoJUB5kErLh+xQNXv7w=
+Received: from mail-pj1-x1031.google.com (mail-pj1-x1031.google.com
+ [IPv6:2607:f8b0:4864:20::1031])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9AF086EE1C
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 19:38:23 +0000 (UTC)
+Received: by mail-pj1-x1031.google.com with SMTP id
+ d13-20020a17090ad3cd00b0019e746f7bd4so5227116pjw.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 12:38:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOPyAAlgkloGBvBKaHv+rjO0uew1lLPS4TPvNQXgGpg=;
+ b=NfRXDAjZ56Sp834gnEHgLwuXxQVUtsJkT2wga3+6IgC06j+y5bTeXit8d+59Vzb3EB
+ d5z8MUC2yTrMyl/REWDz7Xj7y4VryHU2ACdz7TdMZ2sEy74M46zyTFe14HUcaaYbxfCK
+ nRCyGp7GzMSIaj6tmAg4lxzSmurSmmRsCLgRk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FDFkYpBLosMxYGZY/CSFRmwq0TA2J/uDPiB9rdiCrxo=;
- b=rSJ3UXIhgJ9q8sMN3iXiO/YYFkpeesV5HXWgUDfcFBa9Y4byQUaImNdYn/dqs/YZ26
- yRiuSvObVTE+MJpaEI+a4g1w7FQD1UxFgM5otUtilx9Mwqr/yLf8/QIE/35Mk/BvhMlx
- VBRL+4WhafKiqxvVSSSmIT7P3MbJ/3iRkNZpMFW6S/Sdufg2LuISG5nftniPQeiHwxHo
- Sc3Ga6ypKuB+NykFENU5IZ+I2+3/MMmOGfHD2hJf2lbTVmAIvR2njHNTktqu1/b4C4NS
- HS+ercTA31muTzLzOvSRkWGAIuZg0ur9csGQFb7ckw4aupfZJst/n7B6n1v9GchC3zBq
- xrDQ==
-X-Gm-Message-State: AOAM531G5qLimJtAXHvujDE6SJanOWp2nFHM9lErdb49pACvT0z2fgEG
- fdGDKjxEcEG27M0/iRiIN7aYAPaEROKLLmHGUVRZkg==
-X-Google-Smtp-Source: ABdhPJzlXfhvxJdefJkXGBA71LCE/K891OK21Kjnag+DHtdAi6HqdOLbsJMrNRX3fqn2DKQftz0Cr03YScpfrQcDRjE=
-X-Received: by 2002:a4a:d814:: with SMTP id f20mr115483oov.66.1633548295016;
- Wed, 06 Oct 2021 12:24:55 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=LOPyAAlgkloGBvBKaHv+rjO0uew1lLPS4TPvNQXgGpg=;
+ b=Q1zvp+cSj37TziAyCO5dCQ2OaMjGZ/BidyzaLdx3AgMerAF/iERH5xDdV/HN5vIg73
+ an7X2uYsOzU3bnTU9eg0J8K1svWBfvH1r+yBFLKv1IW2o4zuyIjx3g5bO77g/pLbQ5mY
+ iWVRjp4VzH8OEcxXNQrmezmY6nhc8jfAL/QpTYz9CShD2BZ4VIlYq1I8Gs/Sd5x/AcZq
+ 5p5znrG3/bPUhIt4QSyricWsJQTnutu/xeYaSoKXCuicOgp4FzSL3naUX6vXWXcOzpPX
+ sbj2dbrGIxnQekq7s/uSyJl29iXA/dRYPgC6MXzTGuQ0zQwtHKWcJnrHbuT4auPnWE2x
+ wHeQ==
+X-Gm-Message-State: AOAM533N58Q31cvA0YHKHcDb7U34jwoGWaHY5PnQeu4k6X6b79QPrq2o
+ fTXHlgHHZKYP/STf7SWjimvEXw==
+X-Google-Smtp-Source: ABdhPJyOSP9eTH58O4sZphYJfqDacdQGshqo1a+GgIDJL6zusxu34JwQnPr+XtN/rdjjr7tkocXkfA==
+X-Received: by 2002:a17:902:6b0b:b0:13a:18bf:1ece with SMTP id
+ o11-20020a1709026b0b00b0013a18bf1ecemr12512498plk.49.1633549103194; 
+ Wed, 06 Oct 2021 12:38:23 -0700 (PDT)
+Received: from smtp.gmail.com ([2620:15c:202:201:d412:c5eb:4aca:4738])
+ by smtp.gmail.com with ESMTPSA id o14sm22011296pfh.84.2021.10.06.12.38.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 12:38:22 -0700 (PDT)
+From: Stephen Boyd <swboyd@chromium.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ Arnd Bergmann <arnd@arndb.de>,
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Chen Feng <puck.chen@hisilicon.com>, Chen-Yu Tsai <wens@csie.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>,
+ Inki Dae <inki.dae@samsung.com>, James Qian Wang <james.qian.wang@arm.com>,
+ Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <joro@8bytes.org>,
+ John Stultz <john.stultz@linaro.org>,
+ Joonyoung Shim <jy0922.shim@samsung.com>, Jyri Sarha <jyri.sarha@iki.fi>,
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-fbdev@vger.kernel.org, linux-omap@vger.kernel.org,
+ linux-pm@vger.kernel.org, Liviu Dudau <liviu.dudau@arm.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Mark Brown <broonie@kernel.org>,
+ Maxime Ripard <mripard@kernel.org>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Paul Cercueil <paul@crapouillou.net>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>,
+ Russell King <linux@armlinux.org.uk>,
+ Russell King <linux+etnaviv@armlinux.org.uk>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ Sandy Huang <hjc@rock-chips.com>, Saravana Kannan <saravanak@google.com>,
+ Sebastian Reichel <sre@kernel.org>, Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Takashi Iwai <tiwai@suse.com>, Tian Tao <tiantao6@hisilicon.com>,
+ Tomas Winkler <tomas.winkler@intel.com>, Tomi Valkeinen <tomba@kernel.org>,
+ Will Deacon <will@kernel.org>, Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, Yong Wu <yong.wu@mediatek.com>
+Subject: [PATCH v2 00/34] component: Make into an aggregate bus
+Date: Wed,  6 Oct 2021 12:37:45 -0700
+Message-Id: <20211006193819.2654854-1-swboyd@chromium.org>
+X-Mailer: git-send-email 2.33.0.800.g4c38ced690-goog
 MIME-Version: 1.0
-References: <20211006151921.312714-1-contact@emersion.fr>
-In-Reply-To: <20211006151921.312714-1-contact@emersion.fr>
-From: Daniel Vetter <daniel@ffwll.ch>
-Date: Wed, 6 Oct 2021 21:24:44 +0200
-Message-ID: <CAKMK7uGsFDGR7TFR1A5utrtyOL19Vc2=MEXO3XLbEOexJcuj0A@mail.gmail.com>
-Subject: Re: [PATCH RFC] drm: introduce DRM_MODE_FB_PERSIST
-To: Simon Ser <contact@emersion.fr>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- Hans de Goede <hdegoede@redhat.com>, 
- Dennis Filder <d.filder@web.de>, Pekka Paalanen <ppaalanen@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,97 +101,162 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 6, 2021 at 5:19 PM Simon Ser <contact@emersion.fr> wrote:
-> This new ADDFB2 flag allows callers to mark a framebuffer as
-> "persistent", and no longer have RMFB semantics when the DRM
-> file is closed.
->
-> [1]: https://lore.kernel.org/dri-devel/YTJypepF1Hpc2YYT@reader/
->
-> Signed-off-by: Simon Ser <contact@emersion.fr>
-> Cc: Hans de Goede <hdegoede@redhat.com>
-> Cc: Dennis Filder <d.filder@web.de>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Pekka Paalanen <ppaalanen@gmail.com>
-> ---
->
-> I'm not sure this is enough, but posting this to get initial
-> feedback and allow to start e.g. Plymouth experiments. I'll
-> follow up with an IGT test soon.
->
->  drivers/gpu/drm/drm_framebuffer.c |  6 ++++--
->  include/uapi/drm/drm_mode.h       | 15 +++++++++++++++
->  2 files changed, 19 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_framebuffer.c
-> index 07f5abc875e9..9b398838e1f4 100644
-> --- a/drivers/gpu/drm/drm_framebuffer.c
-> +++ b/drivers/gpu/drm/drm_framebuffer.c
-> @@ -292,7 +292,8 @@ drm_internal_framebuffer_create(struct drm_device *dev,
->         struct drm_framebuffer *fb;
->         int ret;
->
-> -       if (r->flags & ~(DRM_MODE_FB_INTERLACED | DRM_MODE_FB_MODIFIERS)) {
-> +       if (r->flags & ~(DRM_MODE_FB_INTERLACED | DRM_MODE_FB_MODIFIERS |
-> +                        DRM_MODE_FB_PERSIST)) {
->                 DRM_DEBUG_KMS("bad framebuffer flags 0x%08x\n", r->flags);
->                 return ERR_PTR(-EINVAL);
->         }
-> @@ -789,7 +790,8 @@ void drm_fb_release(struct drm_file *priv)
->          * at it any more.
->          */
->         list_for_each_entry_safe(fb, tfb, &priv->fbs, filp_head) {
-> -               if (drm_framebuffer_read_refcount(fb) > 1) {
-> +               if (drm_framebuffer_read_refcount(fb) > 1 &&
-> +                   !(fb->flags & DRM_MODE_FB_PERSIST)) {
->                         list_move_tail(&fb->filp_head, &arg.fbs);
->                 } else {
->                         list_del_init(&fb->filp_head);
-> diff --git a/include/uapi/drm/drm_mode.h b/include/uapi/drm/drm_mode.h
-> index e1e351682872..c7a7089ec31e 100644
-> --- a/include/uapi/drm/drm_mode.h
-> +++ b/include/uapi/drm/drm_mode.h
-> @@ -662,6 +662,21 @@ struct drm_mode_fb_cmd {
->
->  #define DRM_MODE_FB_INTERLACED (1<<0) /* for interlaced framebuffers */
->  #define DRM_MODE_FB_MODIFIERS  (1<<1) /* enables ->modifer[] */
-> +/**
-> + * DRM_MODE_FB_PERSIST
-> + *
-> + * DRM framebuffers are normally implicitly removed when their owner closes the
-> + * DRM FD. Passing this flag will make the framebuffer persistent: it will not
-> + * be implicitly removed. This is useful to implement flicker-free transitions
-> + * between two processes.
-> + *
-> + * This flag doesn't change the behavior of &DRM_IOCTL_MODE_RMFB.
-> + *
-> + * User-space should ensure the framebuffer doesn't expose any sensitive user
-> + * information: persistent framebuffers can be read back by the next DRM
-> + * master.
+This series is from discussion we had on reordering the device lists for
+drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
+the aggregate device onto and then we probe the aggregate device once
+all the components are probed and call component_add(). The probe/remove
+hooks are where the bind/unbind calls go, and then a shutdown hook is
+added that can be used to shutdown the drm display pipeline at the right
+time.
 
-Should probably explain here that the persistent fb stays around for
-as long as it's still in use by a plane, but will disappear
-automatically when it's no longer in active use.
+This works for me on my sc7180 board. I no longer get a warning from i2c
+at shutdown that we're trying to make an i2c transaction after the i2c
+bus has been shutdown. There's more work to do on the msm drm driver to
+extract component device resources like clks, regulators, etc. out of
+the component bind function into the driver probe but I wanted to move
+everything over now in other component drivers before tackling that
+problem.
 
-Also I guess there was some discussion I've missed on why we exclude
-rmfb from this (unlike the CLOSEFB thing robclark proposed ages ago).
-The nice thing about closefb is that you can give it persistent
-semantics retroactively, so don't need to re-wrap an gem_bo and do a
-page flip when you quit.
--Daniel
+I'll definitely be sending a v3 so this is partially a request for
+testing to shake out any more problems. Tested-by tags would be appreciated,
+and Acked-by/Reviewed-by tags too. I sent this to gregkh which may be
+incorrect but I don't know what better tree to send it all through.
+Maybe drm?
 
-> + */
-> +#define DRM_MODE_FB_PERSIST (1 << 2)
->
->  struct drm_mode_fb_cmd2 {
->         __u32 fb_id;
-> --
-> 2.33.0
->
->
+I'll be faster at resending this next time, sorry for the long delay!
+
+Changes since v1 (https://lore.kernel.org/r/20210520002519.3538432-1-swboyd@chromium.org):
+ - Use devlink to connect components to the aggregate device
+ - Don't set the registering device as a parent of the aggregate device
+ - New patch for bind_component/unbind_component ops that takes the
+   aggregate device
+ - Convert all drivers in the tree to use the aggregate driver approach
+ - Allow one aggregate driver to be used for multiple aggregate devices
+
+[1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.org
+
+Stephen Boyd (34):
+  component: Introduce struct aggregate_device
+  component: Introduce the aggregate bus_type
+  component: Move struct aggregate_device out to header file
+  drm/msm: Migrate to aggregate driver
+  component: Add {bind,unbind}_component() ops that take aggregate
+    device
+  drm/of: Add a drm_of_aggregate_probe() API
+  drm/komeda: Migrate to aggregate driver
+  drm/arm/hdlcd: Migrate to aggregate driver
+  drm/malidp: Migrate to aggregate driver
+  drm/armada: Migrate to aggregate driver
+  drm/etnaviv: Migrate to aggregate driver
+  drm/kirin: Migrate to aggregate driver
+  drm/exynos: Migrate to aggregate driver
+  drm/imx: Migrate to aggregate driver
+  drm/ingenic: Migrate to aggregate driver
+  drm/mcde: Migrate to aggregate driver
+  drm/mediatek: Migrate to aggregate driver
+  drm/meson: Migrate to aggregate driver
+  drm/omap: Migrate to aggregate driver
+  drm/rockchip: Migrate to aggregate driver
+  drm/sti: Migrate to aggregate driver
+  drm/sun4i: Migrate to aggregate driver
+  drm/tilcdc: Migrate to aggregate driver
+  drm/vc4: Migrate to aggregate driver
+  drm/zte: Migrate to aggregate driver
+  iommu/mtk: Migrate to aggregate driver
+  mei: Migrate to aggregate driver
+  power: supply: ab8500: Migrate to aggregate driver
+  fbdev: omap2: Migrate to aggregate driver
+  sound: hdac: Migrate to aggregate driver
+  ASoC: codecs: wcd938x: Migrate to aggregate driver
+  component: Get rid of drm_of_component_probe()
+  component: Remove component_master_ops and friends
+  component: Remove all references to 'master'
+
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+Cc: Chen Feng <puck.chen@hisilicon.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Emma Anholt <emma@anholt.net>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Heiko Stübner" <heiko@sntech.de>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+Cc: Jaroslav Kysela <perex@perex.cz>
+Cc: Joerg Roedel <joro@8bytes.org>
+Cc: John Stultz <john.stultz@linaro.org>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Jyri Sarha <jyri.sarha@iki.fi>
+Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: <linux-fbdev@vger.kernel.org>
+Cc: <linux-omap@vger.kernel.org>
+Cc: <linux-pm@vger.kernel.org>
+Cc: Liviu Dudau <liviu.dudau@arm.com>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Paul Cercueil <paul@crapouillou.net>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+Cc: Sandy Huang <hjc@rock-chips.com>
+Cc: Saravana Kannan <saravanak@google.com>
+Cc: Sebastian Reichel <sre@kernel.org>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Takashi Iwai <tiwai@suse.com>
+Cc: Tian Tao <tiantao6@hisilicon.com>
+Cc: Tomas Winkler <tomas.winkler@intel.com>
+Cc: Tomi Valkeinen <tomba@kernel.org>
+Cc: Will Deacon <will@kernel.org>
+Cc: Xinliang Liu <xinliang.liu@linaro.org>
+Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+Cc: Yong Wu <yong.wu@mediatek.com>
+
+ drivers/base/component.c                      | 555 +++++++++++-------
+ .../gpu/drm/arm/display/komeda/komeda_drv.c   |  20 +-
+ drivers/gpu/drm/arm/hdlcd_drv.c               |  21 +-
+ drivers/gpu/drm/arm/malidp_drv.c              |  21 +-
+ drivers/gpu/drm/armada/armada_drv.c           |  23 +-
+ drivers/gpu/drm/drm_drv.c                     |   2 +-
+ drivers/gpu/drm/drm_of.c                      |  20 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  20 +-
+ drivers/gpu/drm/exynos/exynos_drm_drv.c       |  21 +-
+ .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  20 +-
+ drivers/gpu/drm/imx/imx-drm-core.c            |  20 +-
+ drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  24 +-
+ drivers/gpu/drm/mcde/mcde_drv.c               |  23 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  20 +-
+ drivers/gpu/drm/meson/meson_drv.c             |  21 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  46 +-
+ drivers/gpu/drm/omapdrm/dss/dss.c             |  17 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  20 +-
+ drivers/gpu/drm/sti/sti_drv.c                 |  20 +-
+ drivers/gpu/drm/sun4i/sun4i_drv.c             |  26 +-
+ drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  28 +-
+ drivers/gpu/drm/vc4/vc4_drv.c                 |  20 +-
+ drivers/gpu/drm/zte/zx_drm_drv.c              |  20 +-
+ drivers/iommu/mtk_iommu.c                     |  14 +-
+ drivers/iommu/mtk_iommu.h                     |   6 +-
+ drivers/iommu/mtk_iommu_v1.c                  |  14 +-
+ drivers/misc/mei/hdcp/mei_hdcp.c              |  22 +-
+ drivers/power/supply/ab8500_charger.c         |  22 +-
+ drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  20 +-
+ include/drm/drm_of.h                          |   9 +-
+ include/linux/component.h                     |  92 ++-
+ sound/hda/hdac_component.c                    |  21 +-
+ sound/soc/codecs/wcd938x.c                    |  20 +-
+ 33 files changed, 780 insertions(+), 488 deletions(-)
 
 
+base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+https://chromeos.dev
+
