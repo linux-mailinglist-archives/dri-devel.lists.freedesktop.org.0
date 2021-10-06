@@ -1,70 +1,121 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EDA4237CB
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 08:10:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC9394237DB
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 08:12:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 89CAF6F614;
-	Wed,  6 Oct 2021 06:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 37A6D6E504;
+	Wed,  6 Oct 2021 06:12:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7378E6F614
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 06:10:37 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id y26so5629739lfa.11
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 23:10:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3T+TGBencEJy/MKc2XUOgA2q8UY2iUX505rMJLcxVPU=;
- b=DSU2Xui7RKW2g87nUyIyZbNLWpR7VY0zb0Siqg3NgYzxfwWdIy6m0sv7Jkwa6m956a
- TPB8DUa9gv/n3Q8Qtf3GLCbR9qyw2Y3wp0t3/PEMvRTITDJfg+scIw/phYAPIxhqoMfI
- BViqRuZfh1US6E6i+9kkLB3CNvPsbJZThUmePt93eiyWHgw8S70HTAXkAGBkBnOoRp02
- RNi3zhl2alU2jklWChItxJcAFimg9fV54P82zS9OLGN9QJCFTIdDHqMALdose+mCyPbK
- 8dQYWlprl/vtEnbQ7Y69XpScVZMU4K1w56M3XJzIzRGIHUl0sbeFNaXXicIfyFAVn8o9
- UBgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3T+TGBencEJy/MKc2XUOgA2q8UY2iUX505rMJLcxVPU=;
- b=MK8sNXCtLjTIapsQ9aj2/fEsupWtVFYTa/Ctobt1Dly/c+P/V3VQ5BNpzYidkfdT5w
- iURbDIxNeNZwfn6S7iIXKACkuu0guVCcCJaecABn+x30bRjLiZJHcTmfqMQN9a8ArEzi
- VqF5PwpDhERHDPxO+0zjMDvFrSYhVfLy8AuQNgjFIJ+NaOzdftyJ5/Is1VepOqDH/YAE
- meVGS/brS1F96xQwxrrTegWRNCCF3GhvPMXUwXn3rL/TXHTX5qoyZ15WfXHuZaU5hTSo
- fCRsb02CRl0PCKc3A5eMzX9JcpslcGvHE2j1rXY8IGr7X6XqKuit70TRAFJF3znnOuki
- +ikA==
-X-Gm-Message-State: AOAM530sMas5SJm0ZQpzgCw6kOr6ovtk/EsIjJdnhOi1L5JUgwOzcDH6
- BHNUcVkNY4IEvqUOEgoQmB9kyoqYflgQoH7h6hnsmQ==
-X-Google-Smtp-Source: ABdhPJzO+apCwef8cLQQwpcGjkrWqV+43TqdVlOY9h4HLN/9nOrH2qyRklw6CuHGeUoO1UwZorl+ezY3+UcwYEC1JFU=
-X-Received: by 2002:a2e:bd0b:: with SMTP id n11mr26003927ljq.71.1633500634461; 
- Tue, 05 Oct 2021 23:10:34 -0700 (PDT)
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com
+ (mail-co1nam11on2073.outbound.protection.outlook.com [40.107.220.73])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C6EF36E504
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 06:12:23 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eBRi67leMiosfuzvmThvEOIcVf0QCBM0c94aIiGYcMo1ajcYU8irdeDEsnOXFrKiM3eXk1zkYFpQ+5sy244oQ9sG3kX+e0CW9mdvOK2ZCJjutqdQp7E5lwRWiPVHo2qfouswxk8rpi5e6SCVDIlREcE/yL02HO2dm37H58+AxRB0B0vwiYgzVDHjeaY9LMnnX+fyGrEr6QM2Uhou5aO4sDn8DsjW/MITwb3P9V9U7ZHn3OTGk4oHpa2gqwreQsWFArGUiqRHg602iWaYYmhLJNPpHXCSuv7Q11WTnvewOhgZjcHAgHWuJedViQ+1DgeDJiyQ22uf21K3HYGuO8vmJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vd3GtJ2gQTJRLaaFWI4Xt7iXq5HLNgTjBDhsrqCDoCQ=;
+ b=gR62b0/TLruEUNjOfzpihJKA7YKBWXlp/vFCQ9cq9S6Fqh3dtss3Q9w0xiHG91Gy9pb6iPkML/1wT966nyjfX3fl8jDK5CqsG5OyM+GJdTlxVh0IzBlJUXrRQNrgVzEMcxYsSoPcTRGfC7Bmv8TMP2WofJ6mcrDGA6OFKrXyoseFK/HtYokZD++/GY0Jtn/I1R36rEkgE65eEpIkHPVIJflQHo3IYmmnG8ZDOICkFVUN5cD8oJ6L8SmzDY4BRXYsa/fBU/d1MqKqLu8cv6XcNXcq/IN9m0ckulBcdhrP7zbbOZ2obJBfeAKtT70us+CsiPIBo0CuJ+aVy3RCd36odg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vd3GtJ2gQTJRLaaFWI4Xt7iXq5HLNgTjBDhsrqCDoCQ=;
+ b=5s3dWOnpmRnWs7XHj+lt/xTZj+1WiL5KGSksinfAbzzeqzAQybLPn2LGqN9x/iNtGS1DYlC+x9uMJGcWcxD+RPZwA95D6ygJAoetDCu41Kn0fl8xCjb8q3Mt2joTtYPfbXlJdqi1qG60XSwzjSQTKf20Dk+IRZSInj5zMEi2NaA=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR12MB1837.namprd12.prod.outlook.com
+ (2603:10b6:300:113::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.15; Wed, 6 Oct
+ 2021 06:12:16 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4587.018; Wed, 6 Oct 2021
+ 06:12:16 +0000
+Subject: Re: [PATCH] drm/ttm_bo_api: update the description for @placement and
+ @sg
+To: Amos Kong <amos@sietium.com>, dri-devel@lists.freedesktop.org
+Cc: ray.huang@amd.com
+References: <38eac09bf2ddd6088cc8a126e6bc4792eaa2dc88.1633462176.git.amos@sietium.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <43b0b13a-7b69-a492-0f28-51206490656f@amd.com>
+Date: Wed, 6 Oct 2021 08:12:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <38eac09bf2ddd6088cc8a126e6bc4792eaa2dc88.1633462176.git.amos@sietium.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: AM5PR0201CA0012.eurprd02.prod.outlook.com
+ (2603:10a6:203:3d::22) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
- <20211005231323.2663520-6-bjorn.andersson@linaro.org>
- <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
- <YVz/NOL3AFn2zBA0@ripper>
- <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
- <YV0MAF/Y5BR1e6My@ripper>
- <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
-In-Reply-To: <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 6 Oct 2021 09:10:22 +0300
-Message-ID: <CAA8EJpou8ssBD2VGqfKKg43Gu031X-Bm+eirS_AL3Dr2AcdOJg@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>, 
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
- Kalyan Thota <kalyan_t@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>, 
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Rob Herring <robh+dt@kernel.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <linux-arm-msm@vger.kernel.org>, 
- "open list:DRM DRIVER FOR MSM ADRENO GPU" <dri-devel@lists.freedesktop.org>, 
- freedreno <freedreno@lists.freedesktop.org>,
- open list <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM5PR0201CA0012.eurprd02.prod.outlook.com (2603:10a6:203:3d::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
+ Transport; Wed, 6 Oct 2021 06:12:14 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ce1ad4d7-aa21-4258-5b56-08d988903ec7
+X-MS-TrafficTypeDiagnostic: MWHPR12MB1837:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MWHPR12MB18377FFE6F3265A7D0169BD483B09@MWHPR12MB1837.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: gyTdTURTbOs9o4ISdQsDuxSEkLK3ZeoW0KuKVuzjdj9RVy5f7ckjcWtu7kOAA5OG5HOWLv4FKHXfbdSy9yXJWV+2w3WfxCccaQZICdKARQfsjqD3hy4ujlBWasdbSVxrr3+5I81tdhxzRt7eq0Q1xb3XBXs2uG6fHUNT9sHyy8j17gpp2OuNvmNjCadajd06RB2bY7sTyxBE9aZe7aQkfMMghzV6UcRuEMMfZUpYcRIO5c2fqPvuGcgXWHRfvg8aMSyBJi0OGf9Y5Doz8FkI3ELW35snlYAX31s4BVg7cg5IFJ+9/AI0JCmIPT9JvJjqfJTQBS4+kAFhSwJS4Q/ba1vXoBOeuUuJbT1pitvAji5Y+2NaCMp9Vhhfw6gsV4HEOvM4Wn98QyyttHO/uKmgA68To3W+ULHIUUteKRIqG1moTqD9Mv7hKEJl1Ntp5AEPYaXR97EgNPxmFkdP9oAck/wrR9a9Cv8dA5vZO+gcA+IY754aKIVFDUJkZof2pPrpujphwl2Fmec90anCyr16aALcOzRydbGV6WYmP565VRi1CHkUOT+BubVyBD2ZuCJKUW44I+inJ3Orn5EX4XeT1ewAt5t9dHxH8kSEVx+ogNo42dvzsEiUquFM7nlzCw4VrNk5Rx890xwgA/vyvg9rIqO86HYs8We7G6D5xRkQMbOiW7hGIYtEwBX7gkfRbTaurAR6QTiaahURixnnxSFMy76no9mGeOjsYpSNV5l7//E=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(31686004)(316002)(16576012)(38100700002)(186003)(956004)(2616005)(6666004)(26005)(36756003)(2906002)(6486002)(66556008)(66476007)(83380400001)(31696002)(5660300002)(66946007)(86362001)(8936002)(508600001)(4326008)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dzJBVC9mNWlLVjJTVnI5MDhBZkR3ZnpVb0FIY3VvSkYrejNUTTdocjZscVc3?=
+ =?utf-8?B?NUhzZzdLaEpvZ1B4SnE3alpDRVVXN0x0eEcvclhVZmhwdG1SVldMVXRpQjdi?=
+ =?utf-8?B?TkJwM1hFcWJ0U2pNcjl6KzdvOEs0WXk1RElvaGFZZk9TelVmdTlHWmxOMmZR?=
+ =?utf-8?B?ZlRwMjVJVmQrTjlCanJPemlVWXQ4dkNwZnBrK0ZjS0xmcHQ4bm9VdGY4RUtJ?=
+ =?utf-8?B?ck5iUmhIZlhDZ3JzTWRmTklYaUtGb1FwL3dMNVc1b2x3Nldzd1ZkSHJlVHhG?=
+ =?utf-8?B?NEJ1dW8vSG1WbkxzakdtRmhUWFZhZjRodFZ0ZjdEM3ByK1ZqditrWXR6b0dG?=
+ =?utf-8?B?SVVSbmNxSnZmSEFaOFkvVDVxUFNGVStVc25DRFRFY0c3VmprUGJCWnl0ZWd0?=
+ =?utf-8?B?cXhXa2pNdVdKcll3b2VGR2hodWZqWjkwd0ZEcEpVRjRHWW52cE5SR202Zy9C?=
+ =?utf-8?B?MkhrNzdlSm9NU0VQZ21xSEx1R1E3U1NiZTd2TUZWakM1d2hoOTFkbFhMblFi?=
+ =?utf-8?B?UHAvWnd5TTE0aXBjbkpwNjJGQTRxeHg4c0pVRXhLWll6TzVoeTJ1d0krT09X?=
+ =?utf-8?B?QUpVMjIvYWQ1akdZOUhMcUNoR3U2UXl3M1NxdTVGY1ZtTUVuMjNjbE8xR3o1?=
+ =?utf-8?B?RStFTmFWdld5alFzaThuTnM2SGdZOXY0VDdmeXRyUFR4UEZkcWZiRlBPWDZD?=
+ =?utf-8?B?T25yMWE5SVZGTUhwcjVDM2RoNmJCVHBqbFdrSVNhb1hnY080WmZOdjg4M2dk?=
+ =?utf-8?B?ZUEydVFQSVU0ZUdOUzVSM0pWSWZOM3BSL3dEMFluTHVsY1lJOStzbUY4SDdO?=
+ =?utf-8?B?Y0RLZHlNMlVMbTlwRUxXcmVwTXgzM3hDTzZOZE9DTmEvQ0UrVGNOTXM1U09W?=
+ =?utf-8?B?T2pWeW9ha0JZZ3NIa3Nna2VvdmdqbGY1bVRFMFc4VnNkbjdSK0IrMUtkUXVp?=
+ =?utf-8?B?MnArdU5jM1hJMytRYlVDWUtrL0xPanE4aEtVZVpGVy81S25ndWo2Slhlbysy?=
+ =?utf-8?B?SGk4b1FNMkxVR0V0UFZMcHM1d05kQnBocEpWR1gxMm03SVJmMkFLRmhlOCsw?=
+ =?utf-8?B?RWtuOWk0RWpYb1NKWjJNSk5yQS9SejZ5NUhKQkVUMDJDNHR1aXcrZnFGZlJZ?=
+ =?utf-8?B?T1VNY3I4OCtaaVVDYTNxc3B3V2NUNnpScFVQWEFROWNha1d1VmZPT0RFcDZD?=
+ =?utf-8?B?NFZaU3A5eGpqR0lROEZETDVxZGZtQzdCOXk1d1NHdnJ0ZXhyWVJERlBQeHRO?=
+ =?utf-8?B?QlYwZFJzZlBBS2h0WkpKOEJncWlXRGhQUXlMQmtrdGgrSEk1NUM1T3gwUE1o?=
+ =?utf-8?B?MGIrSEs4YlFJeXJpNzBHWldRWGNLT2hML0QxbzM1anR4Q1VHWmlFQWRSblls?=
+ =?utf-8?B?TCtVeXAzYjB1QkovWGZiTzFVcmYyckY4KzFYVERiVDBMRnowVGcrVmI1QlBk?=
+ =?utf-8?B?NjkycWVDait1cytETFErUFF1ZG1vRXg2K3dtTEM4NVRyVkVIbDJpNkFxS3pp?=
+ =?utf-8?B?Nk5TVGRIYkZLUkk3ZWwyUWUvOTBMenNFUWhPOVRYNHRpYng1WnV1QmhOOU04?=
+ =?utf-8?B?bmIvWjQ4aW5EalNxTUZQVVlDc1BKYzhkcUxGOGNLSmc1QkhoMDZMVStxQTdq?=
+ =?utf-8?B?Tk5xYUI5NHdWdGovMXVGNnd0M2QwaEpTWCtkRUJzTEpyQ3hnRWJmUFhMWmN2?=
+ =?utf-8?B?SU5TTXVrbnA0M1Y1Y1crL0RjOU04STRzOVB5OVhTcDBtTkhoOE52c0dnNHJN?=
+ =?utf-8?Q?0Do3eoKNeKBs9MfOmFvADO6cFL33UNJQJfHsR+b?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ce1ad4d7-aa21-4258-5b56-08d988903ec7
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Oct 2021 06:12:16.3474 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CKjNz4s2zKBtK9Sq8acVitRv80Yi7vx5DivPSfKWHt/eMWqGkN0n35qs8k6UwC/d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1837
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,119 +131,59 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 6 Oct 2021 at 07:26, Stephen Boyd <swboyd@chromium.org> wrote:
+Am 05.10.21 um 21:35 schrieb Amos Kong:
+> Correct the argument name of @placement and added @sg description for
+> ttm_bo_init() and ttm_bo_init_reserved().
 >
-> Quoting Bjorn Andersson (2021-10-05 19:37:52)
-> > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
-> >
-> > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
-> > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
-> > > >
-> > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
-> > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > > > index bdaf227f05dc..674cddfee5b0 100644
-> > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
-> > > > > >         if (!dp)
-> > > > > >                 return -ENOMEM;
-> > > > > >
-> > > > > > -       desc = dp_display_get_desc(pdev);
-> > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
-> > > > >
-> > > > > I'm sad that dp->id has to match the number in the SoC specific
-> > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
-> > > > > still. Is there any way we can avoid that? Also, notice how those arrays
-> > > > > already have INTF_DP macros, which makes me think that it may be better
-> > > > > to connect this to those arrays instead of making an msm_dp_desc
-> > > > > structure and then make sure the 'type' member matches a connector
-> > > > > type number. Otherwise this code is super fragile.
-> > > > >
-> > > >
-> > > > I'm afraid I don't understand what you're proposing. Or which part you
-> > > > consider fragile, the indices of the INTF_DP instances aren't going to
-> > > > move around...
-> > > >
-> > > > I have N instances of the DP driver that I need to match to N entries
-> > > > from the platform specific intf array, I need some stable reference
-> > > > between them. When I started this journey I figured I could rely on the
-> > > > of_graph between the DPU and the interface controllers, but the values
-> > > > used there today are just bogus, so that was a no go.
-> > > >
-> > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
-> > > > come up with an identifier to put in h_tile_instance[0] so that
-> > > > dpu_encoder_setup_display() can find the relevant INTF.
-> > > >
-> > >
-> > > To make it more concrete we can look at sc7180
-> > >
-> > > static const struct dpu_intf_cfg sc7180_intf[] = {
-> > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
-> > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-> > >                                                      ^
-> > >                                                      |
-> > >
-> > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
-> > > zero, the number after INTF_DP, and that is very relevant. That number
-> > > needs to match the dp->id. Somewhere we have a match between
-> > > controller_id and dp->id in the code.
-> >
-> > That number (the 0, not INTF_0) is what the code matches against dp->id
-> > in _dpu_kms_initialize_displayport(), in order to figure out that this
-> > is INTF_0 in dpu_encoder_setup_display().
-> >
-> > I.e. look at the sc8180x patch:
-> >
-> > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
-> > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
-> > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
-> > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
-> > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
-> > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
-> > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
-> >
-> > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
-> > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
-> >
+> Argument @flags was replaced to @placement by Jerome in commit
+> 09855acb1c2e3779f25317ec9a8ffe1b1784a4a8
 >
-> Yep. I'm saying that having to make that number in this intf array match
-> the order of the register mapping descriptor array is fragile. Why can't
-> we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
-> map from the descriptor array to this intf array somehow so that the
-> order of the descriptor array doesn't matter? Then we don't have to put
-> the connector type in the descriptor array, and we don't have to keep
-> the order of the array a certain way to match this intf descriptor.
-
-The order of the descriptor array does not matter currently (or we do
-not understand fully your concern).
-The encoder is mapped to intf using type + controller_id (next field
-after INTF_foo).
-Also having the controller_id in the descs array allows us to simplify
-DSI code (where DSI_0 is master and DSI_1 is slave, no matter which
-INTF they are associated with).
-
-Last, but not least, maybe I'd point you to one of the proposed
-cleanup patches:
-https://lore.kernel.org/linux-arm-msm/20210515225757.1989955-5-dmitry.baryshkov@linaro.org/
-It removes one extra level of indirection in interface association.
-
+> Argument @sg was added by Dave in commit
+> 129b78bfca591e736e56a294f0e357d73d938f7e
 >
-> Maybe
->
->         struct msm_dp_desc {
->                 phys_addr_t io_start;
->                 unsigned int id;
->         };
->
-> and then have msm_dp_desc::id equal INTF_<N> and then look through the
-> intf from DPU here in the DP driver to find the id and type of connector
-> that should be used by default? Still sort of fragile because the only
-> connection is an unsigned int which isn't great, but at least it's
-> explicit instead of implicit based on the array order.
+> Signed-off-by: Amos Kong <amos@sietium.com>
+> Cc: Jerome Glisse <jglisse@redhat.com>
+> Cc: Dave Airlie <airlied@redhat.com>
 
-It would move indirection, because we'd still have to map INTF_N <->
-priv->dp[j].
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
--- 
-With best wishes
-Dmitry
+Going to push that to drm-misc-next later today.
+
+> ---
+>   include/drm/ttm/ttm_bo_api.h | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+>
+> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_api.h
+> index f681bbdbc698..eb27bbee9888 100644
+> --- a/include/drm/ttm/ttm_bo_api.h
+> +++ b/include/drm/ttm/ttm_bo_api.h
+> @@ -363,9 +363,10 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>    * @bo: Pointer to a ttm_buffer_object to be initialized.
+>    * @size: Requested size of buffer object.
+>    * @type: Requested type of buffer object.
+> - * @flags: Initial placement flags.
+> + * @placement: Initial placement for buffer object.
+>    * @page_alignment: Data alignment in pages.
+>    * @ctx: TTM operation context for memory allocation.
+> + * @sg: Scatter-gather table.
+>    * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+>    * @destroy: Destroy function. Use NULL for kfree().
+>    *
+> @@ -406,7 +407,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+>    * @bo: Pointer to a ttm_buffer_object to be initialized.
+>    * @size: Requested size of buffer object.
+>    * @type: Requested type of buffer object.
+> - * @flags: Initial placement flags.
+> + * @placement: Initial placement for buffer object.
+>    * @page_alignment: Data alignment in pages.
+>    * @interruptible: If needing to sleep to wait for GPU resources,
+>    * sleep interruptible.
+> @@ -414,6 +415,7 @@ int ttm_bo_init_reserved(struct ttm_device *bdev,
+>    * holds a pointer to a persistent shmem object. Typically, this would
+>    * point to the shmem object backing a GEM object if TTM is used to back a
+>    * GEM user interface.
+> + * @sg: Scatter-gather table.
+>    * @resv: Pointer to a dma_resv, or NULL to let ttm allocate one.
+>    * @destroy: Destroy function. Use NULL for kfree().
+>    *
+
