@@ -2,48 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4DE5423A69
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:17:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90262423A6C
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:18:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A7D356E44A;
-	Wed,  6 Oct 2021 09:16:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7FE8E6F633;
+	Wed,  6 Oct 2021 09:18:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 713C66F648;
- Wed,  6 Oct 2021 09:16:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="206072292"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="206072292"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 02:16:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="560120672"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by FMSMGA003.fm.intel.com with SMTP; 06 Oct 2021 02:16:46 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Wed, 06 Oct 2021 12:16:45 +0300
-Date: Wed, 6 Oct 2021 12:16:45 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Thomas Gleixner <tglx@linutronix.de>,
- Mike Galbraith <umgwanakikbuti@gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 2/8] drm/i915: Don't disable interrupts on
- PREEMPT_RT during atomic updates
-Message-ID: <YV1pfUZlbGYfe7d9@intel.com>
-References: <20211005150046.1000285-1-bigeasy@linutronix.de>
- <20211005150046.1000285-3-bigeasy@linutronix.de>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7C9516F633
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 09:18:10 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id EB96D581;
+ Wed,  6 Oct 2021 11:18:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1633511889;
+ bh=fiqfKG3L64cLbvZPgvkNgc3NgIfZmZNwqaQfxP1++RI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=M/ZQF4EVasXl3FfunmAQjsb3ZEDP/evlezDsGT6WXjIw5H+5/Rhmpxp5tqu9qj6YG
+ 1XTbwlh4I7OF3zlq8jvkZBBjBXf6CRrl2wi8cOrmuabdGct7m4TDuEFQ1+1QFrmJqE
+ 6XErY8d9g0RNYlt/NwNALmP50YtBxrWKv/EGQt8M=
+Date: Wed, 6 Oct 2021 12:18:00 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi8: Make enable GPIO optional
+Message-ID: <YV1pyAq8CeiTO7hD@pendragon.ideasonboard.com>
+References: <20211006074713.1094396-1-alexander.stein@ew.tq-group.com>
+ <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211005150046.1000285-3-bigeasy@linutronix.de>
-X-Patchwork-Hint: comment
+In-Reply-To: <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,108 +56,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 05, 2021 at 05:00:40PM +0200, Sebastian Andrzej Siewior wrote:
-> From: Mike Galbraith <umgwanakikbuti@gmail.com>
-> 
-> Commit
->    8d7849db3eab7 ("drm/i915: Make sprite updates atomic")
-> 
-> started disabling interrupts across atomic updates. This breaks on PREEMPT_RT
-> because within this section the code attempt to acquire spinlock_t locks which
-> are sleeping locks on PREEMPT_RT.
-> 
-> According to the comment the interrupts are disabled to avoid random delays and
-> not required for protection or synchronisation.
-> If this needs to happen with disabled interrupts on PREEMPT_RT, and the
-> whole section is restricted to register access then all sleeping locks
-> need to be acquired before interrupts are disabled and some function
-> maybe moved after enabling interrupts again.
-> This includes:
-> - prepare_to_wait() + finish_wait() due its wake queue.
-> - drm_crtc_vblank_put() -> vblank_disable_fn() drm_device::vbl_lock.
-> - skl_pfit_enable(), intel_update_plane(), vlv_atomic_update_fifo() and
->   maybe others due to intel_uncore::lock
-> - drm_crtc_arm_vblank_event() due to drm_device::event_lock and
->   drm_device::vblank_time_lock.
-> 
-> Don't disable interrupts on PREEMPT_RT during atomic updates.
-> 
-> [bigeasy: drop local locks, commit message]
+Hi Alexander,
 
-I have my doubts about meething the deadlines here.
-CONFIG_DRM_I915_DEBUG_VBLANK_EVADE should scream a bunch if it
-looks like we're missing it.
+Thank you for the patch.
 
-That said, we already miss the deadline sometimes, esp. with
-lockdep and whatnot enabled which makes the locking very expensive.
-
-Also some ideas how to reduce the overhead:
-- Try to make the mmio accesses lockless as much s possible
-- Reduce the amount of work we do in the critical section
-
-Anyways, RT hasn't really been on anyone's radar so no one
-has yet spent significant amount of brain cells on this.
-
+On Wed, Oct 06, 2021 at 09:47:13AM +0200, Alexander Stein wrote:
+> The enable signal may not be controllable by the kernel. Make it
+> optional.
+> This is a similar to commit bbda1704fc15 ("drm/bridge: ti-sn65dsi86: Make
+> enable GPIO optional")
 > 
-> Signed-off-by: Mike Galbraith <umgwanakikbuti@gmail.com>
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_crtc.c | 15 ++++++++++-----
->  1 file changed, 10 insertions(+), 5 deletions(-)
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-> index 254e67141a776..7a39029b083f4 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-> @@ -425,7 +425,8 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
->  	 */
->  	intel_psr_wait_for_idle(new_crtc_state);
->  
-> -	local_irq_disable();
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +		local_irq_disable();
->  
->  	crtc->debug.min_vbl = min;
->  	crtc->debug.max_vbl = max;
-> @@ -450,11 +451,13 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
->  			break;
->  		}
->  
-> -		local_irq_enable();
-> +		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +			local_irq_enable();
->  
->  		timeout = schedule_timeout(timeout);
->  
-> -		local_irq_disable();
-> +		if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +			local_irq_disable();
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 5fab0fabcd15..101da29ba698 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -679,7 +679,7 @@ static int sn65dsi83_probe(struct i2c_client *client,
+>  		model = id->driver_data;
 >  	}
 >  
->  	finish_wait(wq, &wait);
-> @@ -487,7 +490,8 @@ void intel_pipe_update_start(const struct intel_crtc_state *new_crtc_state)
->  	return;
+> -	ctx->enable_gpio = devm_gpiod_get(ctx->dev, "enable", GPIOD_OUT_LOW);
+> +	ctx->enable_gpio = devm_gpiod_get_optional(ctx->dev, "enable", GPIOD_OUT_LOW);
+
+You can wrap this line as
+
+	ctx->enable_gpio = devm_gpiod_get_optional(ctx->dev, "enable",
+						   GPIOD_OUT_LOW);
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Corresponding DT bindings changes are needed, I've sent a patch in this
+mail thread.
+
+>  	if (IS_ERR(ctx->enable_gpio))
+>  		return PTR_ERR(ctx->enable_gpio);
 >  
->  irq_disable:
-> -	local_irq_disable();
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +		local_irq_disable();
->  }
->  
->  #if IS_ENABLED(CONFIG_DRM_I915_DEBUG_VBLANK_EVADE)
-> @@ -566,7 +570,8 @@ void intel_pipe_update_end(struct intel_crtc_state *new_crtc_state)
->  		new_crtc_state->uapi.event = NULL;
->  	}
->  
-> -	local_irq_enable();
-> +	if (!IS_ENABLED(CONFIG_PREEMPT_RT))
-> +		local_irq_enable();
->  
->  	/* Send VRR Push to terminate Vblank */
->  	intel_vrr_send_push(new_crtc_state);
-> -- 
-> 2.33.0
 
 -- 
-Ville Syrjälä
-Intel
+Regards,
+
+Laurent Pinchart
