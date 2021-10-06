@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3998A42418C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:44:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D515424193
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 17:44:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1FFC46E846;
-	Wed,  6 Oct 2021 15:43:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F27E6ED74;
+	Wed,  6 Oct 2021 15:43:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk
  [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4680B6ECB5
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 14:49:32 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6A3966E526
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 15:05:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
- (Authenticated sender: kholk11) with ESMTPSA id 7DDE81F44C3D
+ (Authenticated sender: kholk11) with ESMTPSA id DDED91F44C85
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 To: robh+dt@kernel.org
 Cc: airlied@linux.ie, daniel@ffwll.ch, a.hajda@samsung.com,
  dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH] dt-bindings: display/bridge: sil,
+Subject: [PATCH v2] dt-bindings: display/bridge: sil,
  sii8620: Convert to YAML binding
-Date: Wed,  6 Oct 2021 16:49:14 +0200
-Message-Id: <20211006144914.568787-1-angelogioacchino.delregno@collabora.com>
+Date: Wed,  6 Oct 2021 17:04:59 +0200
+Message-Id: <20211006150459.584875-1-angelogioacchino.delregno@collabora.com>
 X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -44,36 +44,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Convert the Silicon Image SiI8620 MIPI-DSI to LVDS bridge documentation
-to YAML.
+Convert the Silicon Image SiI8620 HDMI/MHL bridge documentation to YAML.
 
 Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 ---
- .../bindings/display/bridge/sil,sii8620.yaml  | 96 +++++++++++++++++++
+ .../bindings/display/bridge/sil,sii8620.yaml  | 93 +++++++++++++++++++
  .../bindings/display/bridge/sil-sii8620.txt   | 33 -------
- 2 files changed, 96 insertions(+), 33 deletions(-)
+ 2 files changed, 93 insertions(+), 33 deletions(-)
  create mode 100644 Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
  delete mode 100644 Documentation/devicetree/bindings/display/bridge/sil-sii8620.txt
 
 diff --git a/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
 new file mode 100644
-index 000000000000..4e32409eff17
+index 000000000000..5a38595b6687
 --- /dev/null
 +++ b/Documentation/devicetree/bindings/display/bridge/sil,sii8620.yaml
-@@ -0,0 +1,96 @@
+@@ -0,0 +1,93 @@
 +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 +%YAML 1.2
 +---
 +$id: http://devicetree.org/schemas/display/bridge/sil,sii8620.yaml#
 +$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
-+title: Silicon Image SiI8620 MIPI-DSI to LVDS bridge
++title: Silicon Image SiI8620 HDMI/MHL bridge
 +
 +maintainers:
 +  - Andrzej Hajda <a.hajda@samsung.com>
-+
-+description: |
-+  The SiI8620 is bridge device which converts MIPI DSI or MIPI DPI to DP/eDP.
 +
 +properties:
 +  compatible:
