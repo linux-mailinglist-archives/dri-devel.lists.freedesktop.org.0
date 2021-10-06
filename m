@@ -1,68 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0DF424553
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:54:25 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D95D42458F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 20:03:37 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 606F96E52D;
-	Wed,  6 Oct 2021 17:54:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 99BDB6EDE0;
+	Wed,  6 Oct 2021 18:03:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B5E716E52D
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 17:54:18 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id j5so13796067lfg.8
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 10:54:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=a9k9Di8QRSjHw+JIJ/kleEuOF1voj2mDbtq0EAdXgvM=;
- b=Wf+pL0su6BHsKR7nlTe4gApWdcQHsp/leFukMVJRwwlCHm9bYGXCCEHfE/UzxHP35l
- ua9L9dwYoYgW8FZLFR2T/X0kkw5TTIT1EwVp+IPDNKlYnvPCdkrDdBDh2fwNErLBZcqR
- QvqMduqW1YUshbcSW/TZxK5OoTPDHA/VOtaEEzFdod25pKOFYArE5JhFU50SMfubedDF
- 23N010XzSDQG4B1iWEnETkQQ5JM69wr15LkqxBFlUl+CcVwnSRo6afgR9CNVB7x54OPp
- VRE1qj++FdIwkEhenqgOnCzV8SvVqww6ZMv0eFiskF/vu8rlG38ZvUQLj4SjJxJIMPiV
- IvKA==
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4E0C96E542
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 18:03:30 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id 24so5306835oix.0
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 11:03:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=psbawOvPREZetk25SKjFy5KJSwwye8SwkesERDXI3nE=;
+ b=oR8WbBbdGcBhOyRol0BX9gGw9olPQauh/uNq+0HBvN99nCECfc9sOnfYaSN4cwVW7m
+ lpV+icqQmvwYZ6a3eKAkspe3w7LJq86RW7woQ5liDgTL5yMGk//PYSOZThDirKnJDLU8
+ 4ylLi6kNXp8yhMrSJml5u0ECKZGCu+DA2yOZw+DkTj5TDCXUIRTJavB/VBIF7Y4e/AWN
+ oOSeMhuSpfv/vYZVf21O6jHeLuX7CNr22jnNQQwW3LRdO0FCYyzyGnhWWYgfiGFqhn0d
+ PeVsWMWYr4jLPO3Ed3tLkult6FN2HdeW/+2mq48T8W259f1uwuJwMtd11bjQibmJNIN2
+ Ijeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=a9k9Di8QRSjHw+JIJ/kleEuOF1voj2mDbtq0EAdXgvM=;
- b=dElSeQHxpXY8QO4khVj4l530DCZ6ZBEhpQwVBIG1UARFdNr7TUNBEYxbJ1drPmnjba
- N2SlhtV5SR/sIb3W+1akI/Z8EfaG0yHaM+cyxFWLRlEsurFs4KiazdA0Q9Q/laxHbq44
- sQhLVK7a8acLTkikdMBNpoJ2H38gwhyVZkUR+hGj5bt0K7GvrmonKsK7lqSTMKCmIAgp
- 210Xj6tmdHQWk9sNFdOiRsywfGVYHx2LYqitMX+0A76GcL/Url2U5R9ql+IwRJ0wnZcz
- V8ErngQ26E0Ny2sL99vfEov9PTjJYMpXdZHM7CY/L6zWeQF16mCJtOu0/KnKw8JP/n8Y
- J2IQ==
-X-Gm-Message-State: AOAM533thQ7wBQT39GFnpOViesr+P//VKf4SwICurkIpoa2A7BYjQHD6
- TDKqp9mXXogPPmhK9uqATKKGitBNe84RZDQdUfQ=
-X-Google-Smtp-Source: ABdhPJxgy/mRrH43RK1J7qxx++zPO1SKNcj+z9JQU9lHV32x5j+sYEYYje0zcWG/sKu+dZyqTsbUvtQH1+hYIkENBeo=
-X-Received: by 2002:ac2:5e9c:: with SMTP id b28mr11025869lfq.405.1633542856224; 
- Wed, 06 Oct 2021 10:54:16 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=psbawOvPREZetk25SKjFy5KJSwwye8SwkesERDXI3nE=;
+ b=URi4fNoH7jEWxKRfKW8G/Wj3JXpj3CLar0vB62JOQnb28xnHbUD8Z6A04eriIZ20Rp
+ pGMsXlf3bu0STBtD7MC/J/hRmbPpOld4O3wwTj+X5SisGQKTYpKNZlTvS8bxhK/iq990
+ yYGmmFFYZuxh7agUqPXK2XzDKB4RJazmkhWSdVpfn0aVN0rNMf7Dsn9htNMyeQ+yNwan
+ bLknkM7XFp4VImfNIMqxb1lC0T2RnrhiLdw6yaRJNYPyroLq8KBEjvyZ1rGt4tSROwnz
+ dZb8aE9oBPOEHe7dle5tzO84eiGhUqfEAHgR72BEO+7i2qoXRgj4NVPORcxIJe7oHb1S
+ EVcA==
+X-Gm-Message-State: AOAM5307bgofX1+y3XEM18YmagmRGl1upzFNkceoO3gW7o+CnkDOGuz+
+ rOPsEG+J1iQXNx7obnr2fnr3sQ==
+X-Google-Smtp-Source: ABdhPJwUrchPXK9lZJ1tabKRBDpEu+logff6FVa2JUAt5mZfqLq4rQ952XrdMoRX1v0jsuLH8+rr4w==
+X-Received: by 2002:a54:4818:: with SMTP id j24mr8437839oij.150.1633543408990; 
+ Wed, 06 Oct 2021 11:03:28 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id 17sm4055983ois.45.2021.10.06.11.03.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 06 Oct 2021 11:03:28 -0700 (PDT)
+Date: Wed, 6 Oct 2021 11:05:09 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
+Message-ID: <YV3lVWjct5RQ5FEK@ripper>
+References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
+ <20211005231323.2663520-6-bjorn.andersson@linaro.org>
+ <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
+ <YVz/NOL3AFn2zBA0@ripper>
+ <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
+ <YV0MAF/Y5BR1e6My@ripper>
+ <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
+ <YV3XxadYE/KU2w89@ripper>
+ <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210813145302.3933-1-kevin3.tang@gmail.com>
- <20210813145302.3933-7-kevin3.tang@gmail.com>
- <20210917154047.leojvqjqjj2sg34l@gilmour>
- <CAFPSGXZbqh0f6kEoQaq_Nt677ksVS6QPdAa5==KVVAszSAuasw@mail.gmail.com>
- <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
-In-Reply-To: <20210928092805.wbc4ev3ze7a7zgqr@gilmour>
-From: Kevin Tang <kevin3.tang@gmail.com>
-Date: Thu, 7 Oct 2021 01:54:04 +0800
-Message-ID: <CAFPSGXbiRQ22gnqDB13LBFt-RSPneS751JsoN8y6gTpTh7M1fw@mail.gmail.com>
-Subject: Re: [PATCH v6 6/6] drm/sprd: add Unisoc's drm mipi dsi&dphy driver
-To: Maxime Ripard <maxime@cerno.tech>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Sean Paul <sean@poorly.run>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, pony1.wu@gmail.com,
- Orson Zhai <orsonzhai@gmail.com>, Chunyan Zhang <zhang.lyra@gmail.com>, 
- "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>, 
- ML dri-devel <dri-devel@lists.freedesktop.org>, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,258 +87,256 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8828=E6=97=
-=A5=E5=91=A8=E4=BA=8C =E4=B8=8B=E5=8D=885:28=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Sun, Sep 26, 2021 at 10:31:53PM +0800, Kevin Tang wrote:
-> > Maxime Ripard <maxime@cerno.tech> =E4=BA=8E2021=E5=B9=B49=E6=9C=8817=E6=
-=97=A5=E5=91=A8=E4=BA=94 =E4=B8=8B=E5=8D=8811:40=E5=86=99=E9=81=93=EF=BC=9A
-> > > > +static void sprd_dsi_encoder_mode_set(struct drm_encoder *encoder,
-> > > > +                              struct drm_display_mode *mode,
-> > > > +                              struct drm_display_mode *adj_mode)
-> > > > +{
-> > > > +     struct sprd_dsi *dsi =3D encoder_to_dsi(encoder);
-> > > > +
-> > > > +     drm_dbg(dsi->drm, "%s() set mode: %s\n", __func__, dsi->mode-=
->name);
-> > > > +}
-> > >
-> > > You don't need that function?
-> > No need for now. need to delete it?
->
-> Yes
->
-> > > > +static int sprd_dsi_encoder_atomic_check(struct drm_encoder *encod=
-er,
-> > > > +                                 struct drm_crtc_state *crtc_state=
-,
-> > > > +                                 struct drm_connector_state *conn_=
-state)
-> > > > +{
-> > > > +     return 0;
-> > > > +}
-> > >
-> > > Ditto
+On Wed 06 Oct 10:19 PDT 2021, Stephen Boyd wrote:
+
+> Quoting Bjorn Andersson (2021-10-06 10:07:17)
+> > On Tue 05 Oct 21:26 PDT 2021, Stephen Boyd wrote:
 > >
-> > No need for now. need to delete it?
->
-> Yep
->
-> > > > +static int sprd_dsi_find_panel(struct sprd_dsi *dsi)
-> > > > +{
-> > > > +     struct device *dev =3D dsi->host.dev;
-> > > > +     struct device_node *child, *lcds_node;
-> > > > +     struct drm_panel *panel;
-> > > > +
-> > > > +     /* search /lcds child node first */
-> > > > +     lcds_node =3D of_find_node_by_path("/lcds");
-> > > > +     for_each_child_of_node(lcds_node, child) {
-> > > > +             panel =3D of_drm_find_panel(child);
-> > > > +             if (!IS_ERR(panel)) {
-> > > > +                     dsi->panel =3D panel;
-> > > > +                     return 0;
-> > > > +             }
-> > > > +     }
-> > > > +
-> > > > +     /*
-> > > > +      * If /lcds child node search failed, we search
-> > > > +      * the child of dsi host node.
-> > > > +      */
-> > > > +     for_each_child_of_node(dev->of_node, child) {
-> > > > +             panel =3D of_drm_find_panel(child);
-> > > > +             if (!IS_ERR(panel)) {
-> > > > +                     dsi->panel =3D panel;
-> > > > +                     return 0;
-> > > > +             }
-> > > > +     }
-> > > > +
-> > > > +     drm_err(dsi->drm, "of_drm_find_panel() failed\n");
-> > > > +     return -ENODEV;
-> > > > +}
-> > >
-> > > Just use devm_drm_of_get_bridge there
-> >
-> > We use drm_panel_init and drm_panel_add API to add panel, so here is a
-> > panel device, not a bridge.
->
-> Like Sam said, the panel API is on its way out and is being superseded
-> by bridge_panels.
-Ok, i will try it.
->
-> > > > +static int sprd_dsi_host_init(struct sprd_dsi *dsi, struct device =
-*dev)
-> > > > +{
-> > > > +     int ret;
-> > > > +
-> > > > +     dsi->host.dev =3D dev;
-> > > > +     dsi->host.ops =3D &sprd_dsi_host_ops;
-> > > > +
-> > > > +     ret =3D mipi_dsi_host_register(&dsi->host);
-> > > > +     if (ret)
-> > > > +             drm_err(dsi->drm, "failed to register dsi host\n");
-> > > > +
-> > > > +     return ret;
-> > > > +}
+> > > Quoting Bjorn Andersson (2021-10-05 19:37:52)
+> > > > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
 > > > >
-> > > > [...]
+> > > > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
+> > > > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
+> > > > > >
+> > > > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
+> > > > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > index bdaf227f05dc..674cddfee5b0 100644
+> > > > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
+> > > > > > > >         if (!dp)
+> > > > > > > >                 return -ENOMEM;
+> > > > > > > >
+> > > > > > > > -       desc = dp_display_get_desc(pdev);
+> > > > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
+> > > > > > >
+> > > > > > > I'm sad that dp->id has to match the number in the SoC specific
+> > > > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > > > > > > still. Is there any way we can avoid that? Also, notice how those arrays
+> > > > > > > already have INTF_DP macros, which makes me think that it may be better
+> > > > > > > to connect this to those arrays instead of making an msm_dp_desc
+> > > > > > > structure and then make sure the 'type' member matches a connector
+> > > > > > > type number. Otherwise this code is super fragile.
+> > > > > > >
+> > > > > >
+> > > > > > I'm afraid I don't understand what you're proposing. Or which part you
+> > > > > > consider fragile, the indices of the INTF_DP instances aren't going to
+> > > > > > move around...
+> > > > > >
+> > > > > > I have N instances of the DP driver that I need to match to N entries
+> > > > > > from the platform specific intf array, I need some stable reference
+> > > > > > between them. When I started this journey I figured I could rely on the
+> > > > > > of_graph between the DPU and the interface controllers, but the values
+> > > > > > used there today are just bogus, so that was a no go.
+> > > > > >
+> > > > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
+> > > > > > come up with an identifier to put in h_tile_instance[0] so that
+> > > > > > dpu_encoder_setup_display() can find the relevant INTF.
+> > > > > >
+> > > > >
+> > > > > To make it more concrete we can look at sc7180
+> > > > >
+> > > > > static const struct dpu_intf_cfg sc7180_intf[] = {
+> > > > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
+> > > > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > > >                                                      ^
+> > > > >                                                      |
+> > > > >
+> > > > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
+> > > > > zero, the number after INTF_DP, and that is very relevant. That number
+> > > > > needs to match the dp->id. Somewhere we have a match between
+> > > > > controller_id and dp->id in the code.
 > > > >
-> > > > +static int sprd_dsi_connector_init(struct drm_device *drm, struct =
-sprd_dsi *dsi)
-> > > > +{
-> > > > +     struct drm_encoder *encoder =3D &dsi->encoder;
-> > > > +     struct drm_connector *connector =3D &dsi->connector;
-> > > > +     int ret;
-> > > > +
-> > > > +     connector->polled =3D DRM_CONNECTOR_POLL_HPD;
-> > > > +
-> > > > +     ret =3D drm_connector_init(drm, connector,
-> > > > +                              &sprd_dsi_atomic_connector_funcs,
-> > > > +                              DRM_MODE_CONNECTOR_DSI);
-> > > > +     if (ret) {
-> > > > +             drm_err(drm, "drm_connector_init() failed\n");
-> > > > +             return ret;
-> > > > +     }
-> > > > +
-> > > > +     drm_connector_helper_add(connector,
-> > > > +                              &sprd_dsi_connector_helper_funcs);
-> > > > +
-> > > > +     drm_connector_attach_encoder(connector, encoder);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int sprd_dsi_context_init(struct sprd_dsi *dsi,
-> > > > +                     struct device *dev)
-> > > > +{
-> > > > +     struct platform_device *pdev =3D to_platform_device(dev);
-> > > > +     struct dsi_context *ctx =3D &dsi->ctx;
-> > > > +     struct resource *res;
-> > > > +
-> > > > +     res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> > > > +     ctx->base =3D devm_ioremap(dev, res->start, resource_size(res=
-));
-> > > > +     if (!ctx->base) {
-> > > > +             drm_err(dsi->drm, "failed to map dsi host registers\n=
-");
-> > > > +             return -ENXIO;
-> > > > +     }
-> > > > +
-> > > > +     ctx->pll =3D devm_kzalloc(dev, sizeof(*ctx->pll), GFP_KERNEL)=
-;
-> > > > +     if (!ctx->pll)
-> > > > +             return -ENOMEM;
-> > > > +
-> > > > +     ctx->regmap =3D devm_regmap_init(dev, &regmap_tst_io, dsi, &b=
-yte_config);
-> > > > +     if (IS_ERR(ctx->regmap)) {
-> > > > +             drm_err(dsi->drm, "dphy regmap init failed\n");
-> > > > +             return PTR_ERR(ctx->regmap);
-> > > > +     }
-> > > > +
-> > > > +     ctx->data_hs2lp =3D 120;
-> > > > +     ctx->data_lp2hs =3D 500;
-> > > > +     ctx->clk_hs2lp =3D 4;
-> > > > +     ctx->clk_lp2hs =3D 15;
-> > > > +     ctx->max_rd_time =3D 6000;
-> > > > +     ctx->int0_mask =3D 0xffffffff;
-> > > > +     ctx->int1_mask =3D 0xffffffff;
-> > > > +     ctx->enabled =3D true;
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int sprd_dsi_bind(struct device *dev, struct device *master=
-, void *data)
-> > > > +{
-> > > > +     struct drm_device *drm =3D data;
-> > > > +     struct sprd_dsi *dsi;
-> > > > +     int ret;
-> > > > +
-> > > > +     dsi =3D sprd_dsi_encoder_init(drm, dev);
-> > > > +     if (IS_ERR(dsi))
-> > > > +             return PTR_ERR(dsi);
-> > > > +
-> > > > +     dsi->drm =3D drm;
-> > > > +     dev_set_drvdata(dev, dsi);
-> > > > +
-> > > > +     ret =3D sprd_dsi_connector_init(drm, dsi);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     ret =3D sprd_dsi_context_init(dsi, dev);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     ret =3D sprd_dsi_host_init(dsi, dev);
-> > > > +     if (ret)
-> > > > +             return ret;
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static void sprd_dsi_unbind(struct device *dev,
-> > > > +                     struct device *master, void *data)
-> > > > +{
-> > > > +     struct sprd_dsi *dsi =3D dev_get_drvdata(dev);
-> > > > +
-> > > > +     mipi_dsi_host_unregister(&dsi->host);
-> > > > +}
-> > > > +
-> > > > +static const struct component_ops dsi_component_ops =3D {
-> > > > +     .bind   =3D sprd_dsi_bind,
-> > > > +     .unbind =3D sprd_dsi_unbind,
-> > > > +};
-> > > > +
-> > > > +static const struct of_device_id dsi_match_table[] =3D {
-> > > > +     { .compatible =3D "sprd,sharkl3-dsi-host" },
-> > > > +     { /* sentinel */ },
-> > > > +};
-> > > > +
-> > > > +static int sprd_dsi_probe(struct platform_device *pdev)
-> > > > +{
-> > > > +     return component_add(&pdev->dev, &dsi_component_ops);
+> > > > That number (the 0, not INTF_0) is what the code matches against dp->id
+> > > > in _dpu_kms_initialize_displayport(), in order to figure out that this
+> > > > is INTF_0 in dpu_encoder_setup_display().
+> > > >
+> > > > I.e. look at the sc8180x patch:
+> > > >
+> > > > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> > > > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+> > > > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+> > > > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+> > > > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+> > > > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> > > >
+> > > > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
+> > > > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
+> > > >
 > > >
-> > > In order to prevent probe issues, you need to register you mipi_dsi_h=
-ost
-> > > here, see:
-> > > https://lore.kernel.org/dri-devel/20210910101218.1632297-3-maxime@cer=
-no.tech/
+> > > Yep. I'm saying that having to make that number in this intf array match
+> > > the order of the register mapping descriptor array is fragile. Why can't
+> > > we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
+> > > map from the descriptor array to this intf array somehow so that the
+> > > order of the descriptor array doesn't matter? Then we don't have to put
+> > > the connector type in the descriptor array, and we don't have to keep
+> > > the order of the array a certain way to match this intf descriptor.
+> > >
+> > > Maybe
+> > >
+> > >       struct msm_dp_desc {
+> > >               phys_addr_t io_start;
+> > >               unsigned int id;
 > >
-> > We register mipi_dsi_hot on our panel driver, like this:
+> > The INTF_<N> constants are a property of the DPU driver and not
+> > available in the DP driver and the msm_dp struct is a property of the DP
+> > driver and can't be dereferenced in the DPU driver.
 > >
-> > 1092   ret =3D mipi_dsi_attach(slave);
-> > 1093   if (ret) {
-> > 1094   DRM_ERROR("failed to attach dsi panel to host\n");
-> > 1095   drm_panel_remove(&panel->base);
-> > 1096   return ret;
-> > 1097   }
->
-> It's not about when you attach, but when you call
-> mipi_dsi_host_register. You're doing it in sprd_dsi_host_init that you
-> call in bind(), which is against the best practices and will create
-> probing issues in the future.
-If we call mipi_dsi_host_register on probe phase, it looks like can't
-call drmm_encoder_alloc to create dsi device on bind.
-It may be necessary to go back to the devm_kzalloc method used before
+> > The proposed way around this is that the descs array defines the order
+> > in priv->dp[N] and this N is used as controller_id.
+> 
+> I'm pretty sure I'm following along.
+> 
+> >
+> > So the only thing that I don't find straight forward here is that the
+> > eDP controller is considered just a DP controller, so you have to use
+> > INTF_DP, <N> for that, and not just INTF_EDP, 0.
+> >
+> > >       };
+> > >
+> > > and then have msm_dp_desc::id equal INTF_<N> and then look through the
+> > > intf from DPU here in the DP driver to find the id and type of connector
+> > > that should be used by default? Still sort of fragile because the only
+> > > connection is an unsigned int which isn't great, but at least it's
+> > > explicit instead of implicit based on the array order.
+> >
+> > No matter how I look at this, you need to put some number somewhere here
+> > that will be used to match up the INTF with the right DSI/DP encoder.
+> 
+> Correct.
+> 
+> >
+> > Using the proposed number scheme follows the numbering of all the DP
+> > controllers from the documentation.
+> >
+> 
+> Maybe I can make a better example. I have this for sc7280 in dpu_hw_catalog.c:
+> 
+> 	static const struct dpu_intf_cfg sc7280_intf[] = {
+> 		INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, CONTROLLER_ID_A, 24,
+> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> 		INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24,
+> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> 		INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, CONTROLLER_ID_B, 24,
+> INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> 	};
+> 
+> And then this array for sc7280 in dp_display.c:
+> 
+> 	static const struct msm_dp_desc sc7280_dp_cfg = {
+> 		.desc = {
+> 			[CONTROLLER_ID_A] = { 0xaea0000, DRM_MODE_CONNECTOR_eDP },
+> 			[CONTROLLER_ID_B] = { 0xae90000, DRM_MODE_CONNECTOR_DisplayPort },
+> 		},
+> 		.num_dp = 2,
+> 	};
+> 
+> So these two arrays must match based on CONTROLLER_ID_{A,B}. I don't
+> like having to make these two numbers match so if it was explicit, even
+> possibly by having a bunch of macros put in both places then I would be
+> happy. I spent a few hours when I messed up the order of the
+> sc7280_dp_cfg.desc array trying to figure out why things weren't
+> working.
 
-static int sprd_dsi_probe(struct platform_device *pdev)
-{
-struct device *dev =3D &pdev->dev;
-struct sprd_dsi *dsi;
+So essentially, you didn't know that the controller_id has to match the
+index in priv->dsi[] and priv->dp[] and providing a define for them
+would make this more obvious?
 
-dsi =3D devm_kzalloc(dev, sizeof(*dsi), GFP_KERNEL);
-if (!dsi)
-    return -ENOMEM;
+I think per your argument the 0 following INTF_DSI should also be using
+this scheme, so we'd have multiple CONTROLLER_ID_A, which probably is
+confusing as well.
 
-dsi->host.dev =3D dev;
-dsi->host.ops =3D &sprd_dsi_host_ops;
-ret =3D mipi_dsi_host_register(&dsi->host);
-if (ret)
-    dev_err(dev, "failed to register dsi host\n");
+I tried it out with below patch; it documents the relationship, provides
+constants for the magic 2 and 3 for number of DSI and DP controllers in
+struct msm_drm_private.
 
-......
-return 0;
-}
+I like it.
 
->
-> Maxime
+Regards,
+Bjorn
+
+diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+index 60eed3128b54..e9510083f568 100644
+--- a/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
++++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+@@ -918,13 +918,13 @@ static const struct dpu_intf_cfg sc7280_intf[] = {
+ };
+ 
+ static const struct dpu_intf_cfg sc8180x_intf[] = {
+-	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+-	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+-	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
++	INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, DP_CONTROLLER_0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
++	INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, DSI_CONTROLLER_0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
++	INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, DSI_CONTROLLER_1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+ 	/* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+ 	INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+-	INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+-	INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
++	INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, DP_CONTROLLER_1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
++	INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, DP_CONTROLLER_2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+ };
+ 
+ /*************************************************************
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 41a6f58916e6..feccdc59b181 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -132,16 +132,16 @@ struct msm_dp_config {
+ 
+ static const struct msm_dp_config sc7180_dp_cfg = {
+ 	.descs = (struct msm_dp_desc[]) {
+-		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
++		[DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+ 	},
+ 	.num_descs = 1,
+ };
+ 
+ static const struct msm_dp_config sc8180x_dp_cfg = {
+ 	.descs = (struct msm_dp_desc[]) {
+-		{ .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+-		{ .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+-		{ .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
++		[DP_CONTROLLER_0] = { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
++		[DP_CONTROLLER_1] = { .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
++		[DP_CONTROLLER_2] = { .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
+ 	},
+ 	.num_descs = 3,
+ };
+diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
+index 2e84dc30e12e..af572d1297ea 100644
+--- a/drivers/gpu/drm/msm/msm_drv.h
++++ b/drivers/gpu/drm/msm/msm_drv.h
+@@ -68,6 +68,19 @@ enum msm_mdp_plane_property {
+ 	PLANE_PROP_MAX_NUM
+ };
+ 
++enum msm_dsi_controllers {
++	DSI_CONTROLLER_0,
++	DSI_CONTROLLER_1,
++	DSI_CONTROLLER_COUNT,
++};
++
++enum msm_dp_controllers {
++	DP_CONTROLLER_0,
++	DP_CONTROLLER_1,
++	DP_CONTROLLER_2,
++	DP_CONTROLLER_COUNT,
++};
++
+ #define MSM_GPU_MAX_RINGS 4
+ #define MAX_H_TILES_PER_DISPLAY 2
+ 
+@@ -159,9 +172,9 @@ struct msm_drm_private {
+ 	struct msm_edp *edp;
+ 
+ 	/* DSI is shared by mdp4 and mdp5 */
+-	struct msm_dsi *dsi[2];
++	struct msm_dsi *dsi[DSI_CONTROLLER_COUNT];
+ 
+-	struct msm_dp *dp[3];
++	struct msm_dp *dp[DP_CONTROLLER_COUNT];
+ 
+ 	/* when we have more than one 'msm_gpu' these need to be an array: */
+ 	struct msm_gpu *gpu;
