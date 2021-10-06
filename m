@@ -1,42 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54F0242396C
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 10:10:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F8742398F
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 10:17:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 181676ED10;
-	Wed,  6 Oct 2021 08:10:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id DCCBC6ECFC;
+	Wed,  6 Oct 2021 08:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 863776ECFC;
- Wed,  6 Oct 2021 08:10:37 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="206752000"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="206752000"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 01:10:37 -0700
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="714708009"
-Received: from jpferrer-mobl1.ger.corp.intel.com (HELO [10.249.254.79])
- ([10.249.254.79])
- by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 01:10:35 -0700
-Message-ID: <0dbd528a-31b2-bf39-dd3c-02b353aecf7a@linux.intel.com>
-Date: Wed, 6 Oct 2021 10:10:33 +0200
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
+ [IPv6:2a00:1450:4864:20::42a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7556ECFC
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 08:17:10 +0000 (UTC)
+Received: by mail-wr1-x42a.google.com with SMTP id e12so6203708wra.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 01:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=baylibre-com.20210112.gappssmtp.com; s=20210112;
+ h=subject:to:cc:references:from:organization:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1wB5d45hEZgCS8nUqh0LAV78NiFyfDUuN0cP1eNzA80=;
+ b=0qTl0YxZH/PurBcNGxfEdfTQovDp73AFaNSk+gowxYmrCRlyWZ2LUtwiubES+cyR9i
+ /8ukLhpO7Px1N2M+x+eZvIviNHGDNz2xLlVY9PJRzDQfimQNU/M3UtpWl+Wux9KzOjCz
+ UGACAadPLpQO7J8dnx3DCKqdvsT6MOp5iVWwMqw6PsWzNDO0bbEKVgDijZiDewjA7UB+
+ HVdKSW14IVxobP/JojOmW6QsHJgO9HqIXIDJKD3tBJaIg7JUliYWa9wg5cYu/97sW+wV
+ l3NBqcLc28Gxp3aI0+iMjf+uAR8lY6hmthQPGxe/SZtVOwtNi6qE87qTlmGxBXDxkwxH
+ ehyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:organization
+ :message-id:date:user-agent:mime-version:in-reply-to
+ :content-language:content-transfer-encoding;
+ bh=1wB5d45hEZgCS8nUqh0LAV78NiFyfDUuN0cP1eNzA80=;
+ b=azFOT1uiW04dcwZ2C23w9KUIKruQdNiVBPtH0Ro3wT7yJKNSnkeSBTub4mxdhCjZAv
+ SK43mHBZT6rRqn8E/WOZcR9l3+aGV1yFiG3CtJguYJd8n8O4VSqGrpLljCliFfddE+vF
+ UeKc8ryHnBD6Xcy3s+O/mN4ddF3HeiwQy9ciAKnsQM/LyYV9/krMkDR9mSe1285HH34N
+ glvxImgt2d5KYA8fcYeuV0kMVtM9IyA9Ka9eQLwjw+WKydXvVNmF0IOM0XESO0NxNmv2
+ 7LgCDMFToBa6Wt9E+K79HjaKS/vv3a+fSWboM+j8Hij5IF0edFxTr3SshbqupZI4wSzi
+ x9Ig==
+X-Gm-Message-State: AOAM532bZid0W9Rd/WzkYBx4kLPU6U1L8q9gcMkKKpEWEUuyIpTqLPNs
+ 4eB7DahIT2VtVTiTVSavCizlUw==
+X-Google-Smtp-Source: ABdhPJzkoAuNsY3jeNMCa16QPGhdCvf7i034q/yhJmaxeWozjuYlTUadRYjNSZaSIOaWNjSPynmk6w==
+X-Received: by 2002:adf:bc03:: with SMTP id s3mr27607106wrg.37.1633508228639; 
+ Wed, 06 Oct 2021 01:17:08 -0700 (PDT)
+Received: from ?IPv6:2001:861:44c0:66c0:287f:efbb:492d:f66b?
+ ([2001:861:44c0:66c0:287f:efbb:492d:f66b])
+ by smtp.gmail.com with ESMTPSA id u2sm19593614wrr.35.2021.10.06.01.17.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 06 Oct 2021 01:17:07 -0700 (PDT)
+Subject: Re: [PATCH v5 0/8] drm/omap: Add virtual-planes support
+To: tomba@kernel.org
+Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, khilman@baylibre.com
+References: <20210923070701.145377-1-narmstrong@baylibre.com>
+From: Neil Armstrong <narmstrong@baylibre.com>
+Organization: Baylibre
+Message-ID: <5e60b305-dda2-ab9a-0954-f2d2b441667e@baylibre.com>
+Date: Wed, 6 Oct 2021 10:17:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH v6 6/8] drm/i915/ttm: move shrinker management into
- adjust_lru
+In-Reply-To: <20210923070701.145377-1-narmstrong@baylibre.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-References: <20211005182405.915100-1-matthew.auld@intel.com>
- <20211005182405.915100-6-matthew.auld@intel.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
-In-Reply-To: <20211005182405.915100-6-matthew.auld@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -53,364 +80,64 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
 
-On 10/5/21 20:24, Matthew Auld wrote:
-> We currently just evict lmem objects to system memory when under memory
-> pressure. For this case we might lack the usual object mm.pages, which
-> effectively hides the pages from the i915-gem shrinker, until we
-> actually "attach" the TT to the object, or in the case of lmem-only
-> objects it just gets migrated back to lmem when touched again.
->
-> For all cases we can just adjust the i915 shrinker LRU each time we also
-> adjust the TTM LRU. The two cases we care about are:
->
->    1) When something is moved by TTM, including when initially populating
->       an object. Importantly this covers the case where TTM moves something from
->       lmem <-> smem, outside of the normal get_pages() interface, which
->       should still ensure the shmem pages underneath are reclaimable.
->
->    2) When calling into i915_gem_object_unlock(). The unlock should
->       ensure the object is removed from the shinker LRU, if it was indeed
->       swapped out, or just purged, when the shrinker drops the object lock.
->
-> v2(Thomas):
->    - Handle managing the shrinker LRU in adjust_lru, where it is always
->      safe to touch the object.
-> v3(Thomas):
->    - Pretty much a re-write. This time piggy back off the shrink_pin
->      stuff, which actually seems to fit quite well for what we want here.
->
-> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_object.h    |  8 +++
->   .../gpu/drm/i915/gem/i915_gem_object_types.h  | 25 ++++++-
->   drivers/gpu/drm/i915/gem/i915_gem_pages.c     |  5 +-
->   drivers/gpu/drm/i915/gem/i915_gem_shrinker.c  | 45 +++++++++++--
->   drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 65 +++++++++++++++++--
->   5 files changed, 130 insertions(+), 18 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object.h b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> index e641db297e0e..3eac8cf2ae10 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object.h
-> @@ -294,6 +294,12 @@ i915_gem_object_is_shrinkable(const struct drm_i915_gem_object *obj)
->   	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_IS_SHRINKABLE);
->   }
->   
-> +static inline bool
-> +i915_gem_object_has_self_managed_shrink_list(const struct drm_i915_gem_object *obj)
-> +{
-> +	return i915_gem_object_type_has(obj, I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST);
-> +}
-> +
->   static inline bool
->   i915_gem_object_is_proxy(const struct drm_i915_gem_object *obj)
->   {
-> @@ -531,6 +537,8 @@ i915_gem_object_pin_to_display_plane(struct drm_i915_gem_object *obj,
->   
->   void i915_gem_object_make_unshrinkable(struct drm_i915_gem_object *obj);
->   void i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj);
-> +void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj);
-> +void __i915_gem_object_make_purgeable(struct drm_i915_gem_object *obj);
->   void i915_gem_object_make_purgeable(struct drm_i915_gem_object *obj);
->   
->   static inline bool cpu_write_needs_clflush(struct drm_i915_gem_object *obj)
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> index f4233c4e8d2e..9dbbca682a77 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-> @@ -34,9 +34,11 @@ struct i915_lut_handle {
->   
->   struct drm_i915_gem_object_ops {
->   	unsigned int flags;
-> -#define I915_GEM_OBJECT_IS_SHRINKABLE	BIT(1)
-> -#define I915_GEM_OBJECT_IS_PROXY	BIT(2)
-> -#define I915_GEM_OBJECT_NO_MMAP		BIT(3)
-> +#define I915_GEM_OBJECT_IS_SHRINKABLE			BIT(1)
-> +/* Skip the shrinker management in set_pages/unset_pages */
-> +#define I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST	BIT(2)
-> +#define I915_GEM_OBJECT_IS_PROXY			BIT(3)
-> +#define I915_GEM_OBJECT_NO_MMAP				BIT(4)
->   
->   	/* Interface between the GEM object and its backing storage.
->   	 * get_pages() is called once prior to the use of the associated set
-> @@ -485,6 +487,23 @@ struct drm_i915_gem_object {
->   		 */
->   		atomic_t shrink_pin;
->   
-> +		/**
-> +		 * @ttm_shrinker_status: Whether TTM is currently holding a
-> +		 * shrink_pin for this object. Protected by the object lock.
-> +		 *
-> +		 * I915_TTM_SHRINKER_UNPINNED: We don't have an extra shrink_pin
-> +		 * for this object. The underlying pages or ttm_tt is using
-> +		 * shmem pages underneath, and as such this object might be
-> +		 * currently visible to the shrinker.
-> +		 *
-> +		 * I915_TTM_SHRINKER_PINNED: We are holding shrink_pin for this
-> +		 * object, which prevents the shrinker from seeing this object.
-> +		 * The object is not currently using shmem pages undearneath.
-> +		 */
-> +#define I915_TTM_SHRINKER_UNPINNED 1
-> +#define I915_TTM_SHRINKER_PINNED   2
-> +		int ttm_shrinker_status;
+On 23/09/2021 09:06, Neil Armstrong wrote:
+> This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
+> 
+> This patch series adds virtual-plane support to omapdrm driver to allow the use
+> of display wider than 2048 pixels.
+> 
+> In order to do so we introduce the concept of hw_overlay which can then be
+> dynamically allocated to a plane. When the requested output width exceed what
+> be supported by one overlay a second is then allocated if possible to handle
+> display wider then 2048.
+> 
+> This series replaces an earlier series which was DT based and using statically
+> allocated resources. 
+> 
+> This implementation is inspired from the work done in msm/disp/mdp5
+> driver.
 
-Would it be possible to use a single bool ttm_shrinkable here? Also see 
-below.
+Gentle ping, who is supposed reviewing those patches ?
 
-...
+Thanks,
+Neil
 
-> +
->   		/**
->   		 * Priority list of potential placements for this object.
->   		 */
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_pages.c b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> index ea6d9b3d2d6b..308e22a80af4 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_pages.c
-> @@ -68,7 +68,7 @@ void __i915_gem_object_set_pages(struct drm_i915_gem_object *obj,
->   		shrinkable = false;
->   	}
->   
-> -	if (shrinkable) {
-> +	if (shrinkable && !i915_gem_object_has_self_managed_shrink_list(obj)) {
->   		struct list_head *list;
->   		unsigned long flags;
->   
-> @@ -210,7 +210,8 @@ __i915_gem_object_unset_pages(struct drm_i915_gem_object *obj)
->   	if (i915_gem_object_is_volatile(obj))
->   		obj->mm.madv = I915_MADV_WILLNEED;
->   
-> -	i915_gem_object_make_unshrinkable(obj);
-> +	if (!i915_gem_object_has_self_managed_shrink_list(obj))
-> +		i915_gem_object_make_unshrinkable(obj);
->   
->   	if (obj->mm.mapping) {
->   		unmap_object(obj, page_mask_bits(obj->mm.mapping));
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> index 66121fedc655..dde0a5c232f8 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
-> @@ -497,13 +497,12 @@ void i915_gem_object_make_unshrinkable(struct drm_i915_gem_object *obj)
->   	spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
->   }
->   
-> -static void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
-> -					      struct list_head *head)
-> +static void ___i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
-> +					       struct list_head *head)
->   {
->   	struct drm_i915_private *i915 = obj_to_i915(obj);
->   	unsigned long flags;
->   
-> -	GEM_BUG_ON(!i915_gem_object_has_pages(obj));
->   	if (!i915_gem_object_is_shrinkable(obj))
->   		return;
->   
-> @@ -523,6 +522,38 @@ static void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
->   	spin_unlock_irqrestore(&i915->mm.obj_lock, flags);
->   }
->   
-> +/**
-> + * __i915_gem_object_make_shrinkable - Move the object to the tail of the
-> + * shrinkable list. Objects on this list might be swapped out. Used with
-> + * WILLNEED objects.
-> + * @obj: The GEM object.
-> + *
-> + * DO NOT USE. This is intended to be called on very special objects that don't
-> + * yet have mm.pages, but are guaranteed to have potentially reclaimable pages
-> + * underneath.
-> + */
-> +void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj)
-> +{
-> +	___i915_gem_object_make_shrinkable(obj,
-> +					   &obj_to_i915(obj)->mm.shrink_list);
-> +}
-> +
-> +/**
-> + * __i915_gem_object_make_purgeable - Move the object to the tail of the
-> + * purgeable list. Objects on this list might be swapped out. Used with
-> + * DONTNEED objects.
-> + * @obj: The GEM object.
-> + *
-> + * DO NOT USE. This is intended to be called on very special objects that don't
-> + * yet have mm.pages, but are guaranteed to have potentially reclaimable pages
-> + * underneath.
-> + */
-> +void __i915_gem_object_make_purgeable(struct drm_i915_gem_object *obj)
-> +{
-> +	___i915_gem_object_make_shrinkable(obj,
-> +					   &obj_to_i915(obj)->mm.purge_list);
-> +}
-> +
->   /**
->    * i915_gem_object_make_shrinkable - Move the object to the tail of the
->    * shrinkable list. Objects on this list might be swapped out. Used with
-> @@ -535,8 +566,8 @@ static void __i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj,
->    */
->   void i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj)
->   {
-> -	__i915_gem_object_make_shrinkable(obj,
-> -					  &obj_to_i915(obj)->mm.shrink_list);
-> +	GEM_BUG_ON(!i915_gem_object_has_pages(obj));
-> +	__i915_gem_object_make_shrinkable(obj);
->   }
->   
->   /**
-> @@ -552,6 +583,6 @@ void i915_gem_object_make_shrinkable(struct drm_i915_gem_object *obj)
->    */
->   void i915_gem_object_make_purgeable(struct drm_i915_gem_object *obj)
->   {
-> -	__i915_gem_object_make_shrinkable(obj,
-> -					  &obj_to_i915(obj)->mm.purge_list);
-> +	GEM_BUG_ON(!i915_gem_object_has_pages(obj));
-> +	__i915_gem_object_make_purgeable(obj);
->   }
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> index 0fe1eb8f38e9..98b7ead1a008 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-> @@ -851,7 +851,6 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->   			return i915_ttm_err_to_gem(ret);
->   	}
->   
-> -	i915_ttm_adjust_lru(obj);
->   	if (bo->ttm && !ttm_tt_is_populated(bo->ttm)) {
->   		ret = ttm_tt_populate(bo->bdev, bo->ttm, &ctx);
->   		if (ret)
-> @@ -871,10 +870,9 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
->   			return PTR_ERR(st);
->   
->   		__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
-> -		if (!bo->ttm || !i915_tt->is_shmem)
-> -			i915_gem_object_make_unshrinkable(obj);
->   	}
->   
-> +	i915_ttm_adjust_lru(obj);
->   	return ret;
->   }
->   
-> @@ -945,8 +943,6 @@ static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
->   	 * If the object is not destroyed next, The TTM eviction logic
->   	 * and shrinkers will move it out if needed.
->   	 */
-> -
-> -	i915_ttm_adjust_lru(obj);
->   }
->   
->   static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
-> @@ -954,6 +950,9 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
->   	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
->   	struct i915_ttm_tt *i915_tt =
->   		container_of(bo->ttm, typeof(*i915_tt), ttm);
-> +	bool shrinkable =
-> +		bo->ttm && i915_tt->filp && ttm_tt_is_populated(bo->ttm);
-> +	int status;
->   
->   	/*
->   	 * Don't manipulate the TTM LRUs while in TTM bo destruction.
-> @@ -962,11 +961,42 @@ static void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
->   	if (!kref_read(&bo->kref))
->   		return;
->   
-> +	/*
-> +	 * We skip managing the shrinker LRU in set_pages() and just manage
-> +	 * everything here. This does at least solve the issue with having
-> +	 * temporary shmem mappings(like with evicted lmem) not being visible to
-> +	 * the shrinker. Only our shmem objects are shrinkable, everything else
-> +	 * we keep as unshrinkable.
-> +	 *
-> +	 * To make sure everything plays nice we keep an extra shrink pin in TTM
-> +	 * if the underlying pages are not currently shrinkable. Once we release
-> +	 * our pin, like when the pages are moved to shmem, the pages will then
-> +	 * be added to the shrinker LRU, assuming the caller isn't also holding
-> +	 * a pin.
-> +	 *
-> +	 * TODO: consider maybe also bumping the shrinker list here when we have
-> +	 * already unpinned it, which should give us something more like an LRU.
-> +	 */
-> +	status = obj->mm.ttm_shrinker_status;
+> 
+> Changes since v4 at [1]:
+> - rebased on v5.15-rc2
+> - adapted to drm_atomic_get_new/old_plane_state()
+> - tested on Beagle-x15
+> - checked for non-regression on Beagle-x15
+> - removed unused "state" variable in omap_global_state
+> 
+> [1] https://lore.kernel.org/all/20181012201703.29065-1-bparrot@ti.com/
+> 
+> Benoit Parrot (8):
+>   drm/omap: Add ability to check if requested plane modes can be
+>     supported
+>   drm/omap: Add ovl checking funcs to dispc_ops
+>   drm/omap: introduce omap_hw_overlay
+>   drm/omap: omap_plane: subclass drm_plane_state
+>   drm/omap: Add global state as a private atomic object
+>   drm/omap: dynamically assign hw overlays to planes
+>   drm/omap: add plane_atomic_print_state support
+>   drm/omap: Add a 'right overlay' to plane state
+> 
+>  drivers/gpu/drm/omapdrm/Makefile       |   1 +
+>  drivers/gpu/drm/omapdrm/dss/dispc.c    |  31 +-
+>  drivers/gpu/drm/omapdrm/dss/dss.h      |   5 +
+>  drivers/gpu/drm/omapdrm/omap_drv.c     | 189 ++++++++++++-
+>  drivers/gpu/drm/omapdrm/omap_drv.h     |  28 ++
+>  drivers/gpu/drm/omapdrm/omap_fb.c      |  33 ++-
+>  drivers/gpu/drm/omapdrm/omap_fb.h      |   4 +-
+>  drivers/gpu/drm/omapdrm/omap_overlay.c | 254 +++++++++++++++++
+>  drivers/gpu/drm/omapdrm/omap_overlay.h |  41 +++
+>  drivers/gpu/drm/omapdrm/omap_plane.c   | 375 +++++++++++++++++++++----
+>  drivers/gpu/drm/omapdrm/omap_plane.h   |   1 +
+>  11 files changed, 903 insertions(+), 59 deletions(-)
+>  create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.c
+>  create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.h
+> 
 
-Then perhaps
-
-if (shrinkable != obj->mm.ttm_shrinkable) {
-
-     ...
-
-     obj->mm.ttm_shrinkable = shrinkable;
-
-}
-
-Otherwise LGTM,
-
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-
-
-> +	if (shrinkable) {
-> +		if (status != I915_TTM_SHRINKER_UNPINNED) {
-> +			if (obj->mm.madv == I915_MADV_WILLNEED)
-> +				__i915_gem_object_make_shrinkable(obj);
-> +			else
-> +				__i915_gem_object_make_purgeable(obj);
-> +			status = I915_TTM_SHRINKER_UNPINNED;
-> +		}
-> +	} else if (status != I915_TTM_SHRINKER_PINNED) {
-> +		i915_gem_object_make_unshrinkable(obj);
-> +		status = I915_TTM_SHRINKER_PINNED;
-> +	}
-> +	obj->mm.ttm_shrinker_status = status;
-> +
->   	/*
->   	 * Put on the correct LRU list depending on the MADV status
->   	 */
->   	spin_lock(&bo->bdev->lru_lock);
-> -	if (bo->ttm && i915_tt->filp) {
-> +	if (shrinkable) {
->   		/* Try to keep shmem_tt from being considered for shrinking. */
->   		bo->priority = TTM_MAX_BO_PRIORITY - 1;
->   	} else if (obj->mm.madv != I915_MADV_WILLNEED) {
-> @@ -1067,6 +1097,7 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
->   
->   static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
->   	.name = "i915_gem_object_ttm",
-> +	.flags = I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
->   
->   	.get_pages = i915_ttm_get_pages,
->   	.put_pages = i915_ttm_put_pages,
-> @@ -1089,6 +1120,19 @@ void i915_ttm_bo_destroy(struct ttm_buffer_object *bo)
->   	mutex_destroy(&obj->ttm.get_io_page.lock);
->   
->   	if (obj->ttm.created) {
-> +		/*
-> +		 * We freely manage the shrinker LRU outide of the mm.pages life
-> +		 * cycle. As a result when destroying the object we should be
-> +		 * extra paranoid and ensure we remove it from the LRU, before
-> +		 * we free the object.
-> +		 *
-> +		 * Touching the ttm_shrinker_status outside of the object lock
-> +		 * here should be safe now that the last GEM object ref was
-> +		 * dropped.
-> +		 */
-> +		if (obj->mm.ttm_shrinker_status == I915_TTM_SHRINKER_UNPINNED)
-> +			i915_gem_object_make_unshrinkable(obj);
-> +
->   		i915_ttm_backup_free(obj);
->   
->   		/* This releases all gem object bindings to the backend. */
-> @@ -1141,6 +1185,15 @@ int __i915_gem_ttm_object_init(struct intel_memory_region *mem,
->   	/* Forcing the page size is kernel internal only */
->   	GEM_BUG_ON(page_size && obj->mm.n_placements);
->   
-> +	/*
-> +	 * Keep an extra shrink pin to prevent the object from being made
-> +	 * shrinkable too early. If the ttm_tt is ever allocated in shmem, we
-> +	 * drop the pin. The TTM backend manages the shrinker LRU itself,
-> +	 * outside of the normal mm.pages life cycle.
-> +	 */
-> +	i915_gem_object_make_unshrinkable(obj);
-> +	obj->mm.ttm_shrinker_status = I915_TTM_SHRINKER_PINNED;
-> +
->   	/*
->   	 * If this function fails, it will call the destructor, but
->   	 * our caller still owns the object. So no freeing in the
