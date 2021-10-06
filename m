@@ -1,53 +1,71 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AC642354E
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 02:59:42 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id BB69F423594
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 03:41:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 979206E47A;
-	Wed,  6 Oct 2021 00:59:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BC48F6ECAF;
+	Wed,  6 Oct 2021 01:41:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8984C6E47A;
- Wed,  6 Oct 2021 00:59:35 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 059BE581;
- Wed,  6 Oct 2021 02:59:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1633481973;
- bh=l+rjQCwGSyO9yFVWNn3k5VoiRZiXyt/OvwCdmBBkbIk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=paeRZwqyBlSZYkzgJ9sRpDHvCCejFY33YXZ973CdSOdB9Lcdu7JHDfVOiLXezm/ZM
- Q073WIMbnCkoVtsQwmhgPz1FFbvhnpGUDbyxMjpBmetbphhwlwcAp0U3ou3pK5RSQz
- TJfxjOypdDXomdcFr/KAa28rCEIzOxlsDUhvpNss=
-Date: Wed, 6 Oct 2021 03:59:25 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Doug Anderson <dianders@chromium.org>
-Cc: Rob Clark <robdclark@gmail.com>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- freedreno <freedreno@lists.freedesktop.org>,
- Rob Clark <robdclark@chromium.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 3/3] drm/bridge: ti-sn65dsi86: Add NO_CONNECTOR support
-Message-ID: <YVz07YIXzFMwl8iR@pendragon.ideasonboard.com>
-References: <20210920225801.227211-1-robdclark@gmail.com>
- <20210920225801.227211-4-robdclark@gmail.com>
- <YUvN3j0v+8NMjNte@pendragon.ideasonboard.com>
- <CAF6AEGviyfX6+c-CB5gMXqRQfHhvb5L8t++-VkZpvS3r9qDNoA@mail.gmail.com>
- <YU03M+CXJ+ALi8De@pendragon.ideasonboard.com>
- <CAD=FV=UU1_ZR0K9XEgkTM2M55FgmqoH=ciU5a_oCC+W2NPdZ-A@mail.gmail.com>
+Received: from mail-oi1-x22d.google.com (mail-oi1-x22d.google.com
+ [IPv6:2607:f8b0:4864:20::22d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 005B16ECAD
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 01:41:35 +0000 (UTC)
+Received: by mail-oi1-x22d.google.com with SMTP id o4so1800862oia.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 18:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=4niQb+ChjBKk3gz00vShq3HoyKfU91BwX3/Km/PIGIo=;
+ b=WnuvGllbpNYhwmxw5wJH6R90ywQmFVY2TD2zedQYjjjnIYruSsy8DQKR8BcgO674j1
+ 2fmm8toCKD7wo9Y8NjXvNbaZdDR7OrfVwDpGqsLtHfDN6JTqzcbrn10pzWLyxs2KrrHO
+ A2YCjoJZuBQUc/0gMnsmV9tL2Kwn2F3oZQFOCCXFuriew/5sHjaN2D8SxYw5/BYGwXB7
+ +/cuveeMd6lxALO8uLYdYLB2SjZ1s1MH38mMl4iN6YZ/UxMiKU8aV/+eesFA1uQ0Dq55
+ DgXyUuis2p8V3GeEXdQHlE94HuQx0oaGOOvWoEVIC9yC0TCozhyXSKm5PMVH6Vfp43uB
+ ErbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=4niQb+ChjBKk3gz00vShq3HoyKfU91BwX3/Km/PIGIo=;
+ b=xxGfALtJlS4d9s3yMwHcFMymdDZp5XAlGfnmsWwu531E9iQGy/WJ8hYEc9mVfB4usF
+ JaOrQIZZsC7Ir7qNqirxPi4BwCyls9VydEbo8FQmsUsxavVTsVii2wmtn2B0iNP6dKf+
+ /SA9ZX2HS6E47bl9FjV5p0tkiHjvAlqC+1O/BoyU2lw03m2niA41cSEdQhIk+yUoDflh
+ EC5cJ7GH12P+nw39zpT1IKob/F01q4YqxISHQ0q3cORkpBUGyhVHFqIO5R44USJIAPYq
+ JXm1X8UCB3qHj3/tz2dfbjqrG2bBlJPVynL5jKHKb2qJYJ8q0qxj10Ij2tJFoGR0BY0m
+ XuXQ==
+X-Gm-Message-State: AOAM532qPIwooldCzBhwqCzhyDDy2mCU2/ws3AH4DhThm9mPzs1a5yLi
+ sVjCo4HLsYGslqiNTailKN4EiA==
+X-Google-Smtp-Source: ABdhPJzB1nVUbcAg2ygDJsbAKfNo2WaOcRBBsiURGSi9TrJdSvekqtP8kP81TeudTC/xznXfzoHzpA==
+X-Received: by 2002:aca:f0c3:: with SMTP id o186mr5368496oih.37.1633484494852; 
+ Tue, 05 Oct 2021 18:41:34 -0700 (PDT)
+Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id a3sm3647321oie.3.2021.10.05.18.41.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 05 Oct 2021 18:41:34 -0700 (PDT)
+Date: Tue, 5 Oct 2021 18:43:16 -0700
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
+Message-ID: <YVz/NOL3AFn2zBA0@ripper>
+References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
+ <20211005231323.2663520-6-bjorn.andersson@linaro.org>
+ <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD=FV=UU1_ZR0K9XEgkTM2M55FgmqoH=ciU5a_oCC+W2NPdZ-A@mail.gmail.com>
+In-Reply-To: <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,40 +81,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Doug,
+On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
 
-On Fri, Oct 01, 2021 at 11:02:54AM -0700, Doug Anderson wrote:
-> On Thu, Sep 23, 2021 at 7:26 PM Laurent Pinchart wrote:
+> Quoting Bjorn Andersson (2021-10-05 16:13:21)
+> > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > index bdaf227f05dc..674cddfee5b0 100644
+> > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > @@ -79,6 +79,8 @@ struct dp_display_private {
+> >         char *name;
+> >         int irq;
 > >
-> > > > >  err_conn_init:
-> > > > >       drm_dp_aux_unregister(&pdata->aux);
-> > > > >       return ret;
-> > > > > @@ -792,9 +790,30 @@ static void ti_sn_bridge_set_dsi_rate(struct ti_sn65dsi86 *pdata)
-> > > > >       regmap_write(pdata->regmap, SN_DSIA_CLK_FREQ_REG, val);
-> > > > >  }
-> > > > >
-> > > > > +/*
-> > > > > + * Find the connector and fish out the bpc from display_info.  It would
-> > > > > + * be nice if we could get this instead from drm_bridge_state, but that
-> > > > > + * doesn't yet appear to be the case.
-> > > >
-> > > > You already have a bus format in the bridge state, from which you can
-> > > > derive the bpp. Could you give it a try ?
-> > >
-> > > Possibly the bridge should be converted to ->atomic_enable(), etc..
-> > > I'll leave that for another time
+> > +       unsigned int id;
+> > +
+> >         /* state variables */
+> >         bool core_initialized;
+> >         bool hpd_irq_on;
+> > @@ -229,7 +231,7 @@ static int dp_display_bind(struct device *dev, struct device *master,
 > >
-> > It should be fairly straightforward, and would avoid the hack below.
+> >         dp->dp_display.drm_dev = drm;
+> >         priv = drm->dev_private;
+> > -       priv->dp = &(dp->dp_display);
+> > +       priv->dp[dp->id] = &(dp->dp_display);
 > 
-> Given this point of controversy, my inclination is to wait and not
-> apply this patch now. I don't think there's anything urgent here,
-> right? Worst case eventually Laurent might pick it up in his patch
-> series? At least we know it will work with the MSM driver once patch
-> #1 lands. :-)
+> Can we drop the extra parenthesis?
+> 
 
-I've recorded the task for my upcoming work on the ti-sn65dsi86 driver.
+Definitely.
 
--- 
+> >
+> >         rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
+> >         if (rc) {
+> > @@ -269,7 +271,7 @@ static void dp_display_unbind(struct device *dev, struct device *master,
+> >
+> >         dp_power_client_deinit(dp->power);
+> >         dp_aux_unregister(dp->aux);
+> > -       priv->dp = NULL;
+> > +       priv->dp[dp->id] = NULL;
+> >  }
+> >
+> >  static const struct component_ops dp_display_comp_ops = {
+> > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
+> >         if (!dp)
+> >                 return -ENOMEM;
+> >
+> > -       desc = dp_display_get_desc(pdev);
+> > +       desc = dp_display_get_desc(pdev, &dp->id);
+> 
+> I'm sad that dp->id has to match the number in the SoC specific
+> dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> still. Is there any way we can avoid that? Also, notice how those arrays
+> already have INTF_DP macros, which makes me think that it may be better
+> to connect this to those arrays instead of making an msm_dp_desc
+> structure and then make sure the 'type' member matches a connector
+> type number. Otherwise this code is super fragile.
+> 
+
+I'm afraid I don't understand what you're proposing. Or which part you
+consider fragile, the indices of the INTF_DP instances aren't going to
+move around...
+
+I have N instances of the DP driver that I need to match to N entries
+from the platform specific intf array, I need some stable reference
+between them. When I started this journey I figured I could rely on the
+of_graph between the DPU and the interface controllers, but the values
+used there today are just bogus, so that was a no go.
+
+We can use whatever, as long as _dpu_kms_initialize_displayport() can
+come up with an identifier to put in h_tile_instance[0] so that
+dpu_encoder_setup_display() can find the relevant INTF.
+
 Regards,
+Bjorn
 
-Laurent Pinchart
+> >         if (!desc)
+> >                 return -EINVAL;
+> >
