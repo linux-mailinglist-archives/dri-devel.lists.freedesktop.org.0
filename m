@@ -1,66 +1,67 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523D2423513
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 02:35:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D0B423521
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 02:36:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D33686E48E;
-	Wed,  6 Oct 2021 00:35:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E185E6E49B;
+	Wed,  6 Oct 2021 00:36:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m43-7.mailgun.net (m43-7.mailgun.net [69.72.43.7])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0886E6E492
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 00:35:50 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1633480550; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=LQboSA03/AonDIOzGhDOGEo+U3kzH/52zxf3cHKNCmY=;
- b=b5fAO7gQUEKDKxRHFWiyJdZqPI7TNrN8g7Fh49w5gixo8wN3bE0FNy5iy47jz0tnSm1n3fCe
- PT1rWA15Uk3Ktrp5/8cVxPVMYir1bN0CT9yyxtJPoFeajGsjar8tCBLNCfF2srwjzFYhngDH
- IzY7Uh+jaGE91hi5IvNqI6kLEdM=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 615cef66ff0285fb0a5f1654 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 06 Oct 2021 00:35:50
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 0BA6FC43616; Wed,  6 Oct 2021 00:35:50 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
- URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id BF9E5C43460;
- Wed,  6 Oct 2021 00:35:46 +0000 (UTC)
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DD8EF6E49B
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 00:36:39 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 77-20020a9d0ed3000000b00546e10e6699so1154011otj.2
+ for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 17:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=34FHsnThWd5cJ2Bu4AZwOiJDWeSTgTUmslcydMZU27I=;
+ b=h3+Dekiu7PeXTtrw/wymCYT7cideBYDpY3zS3TTprVL+pZ/JWaEDq0UbstfC69POmj
+ BCjmQtm9drcLf1tPYRVACnccuJW2IkEp7c7K2yBKmYv4a7PKHG6clmum+9hszB3Zep+v
+ eyeSZ8UgbMQLzlkO1onJyYElAVEA9VIQRdgbc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=34FHsnThWd5cJ2Bu4AZwOiJDWeSTgTUmslcydMZU27I=;
+ b=JllquxkiYPJmqYZK2wzVXa8VbAs4fSHFdw/W9+ol1Tw1oKmZE3w++sCE1nObQhevHK
+ dnKdz003arE+dB3VjtYxUU+TlSPo4q3JqwlCNlYpuc6KA4rygpXc0mgIi94KHCTnxvWi
+ /6pU+zmUbNFXVNJ5Hn6DwHlf+dhRPdYH05B6hMnZOBUdsktx1UZxN+OcIfEEMYi8nhqc
+ bNDPGjNZCgMZJ8MIQUFDynqjZ1jFOAsMAX2uOzAwSz66cWsIjrSjzYZ+GNq5FGdHzefY
+ 2uLG7M0Rs3sB6+wODmvkRt14Sg/Dj9ATh+KXGxAJBH4OVq0BY9iW2CemPtkFxFOwmtih
+ mZag==
+X-Gm-Message-State: AOAM533vy2B5u/4KfzHDik/nwn4N/GCBKWjoFQEHh14Gjz9vBgzBnYK0
+ 9c1Ix6hZ6TDC6FMs1YSrOTTGtTBoBdp2p1SKEbzdiw==
+X-Google-Smtp-Source: ABdhPJzLtds0BffH3uZEHTiFhq527czugxVx7eDlpHa/6QzckkoMEfbzawgp/QBcet9u1WshjOzIz2lqcbc5Ej7qgYw=
+X-Received: by 2002:a05:6830:4116:: with SMTP id
+ w22mr3879148ott.159.1633480599234; 
+ Tue, 05 Oct 2021 17:36:39 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Tue, 5 Oct 2021 17:36:38 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 05 Oct 2021 17:35:46 -0700
-From: abhinavk@codeaurora.org
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>, David
- Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Rob Herring <robh+dt@kernel.org>,
- Stephen Boyd <swboyd@chromium.org>, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [Freedreno] [PATCH v4 4/7] drm/msm/dp: Allow attaching a drm_panel
-In-Reply-To: <20211005231323.2663520-5-bjorn.andersson@linaro.org>
+In-Reply-To: <20211005231323.2663520-8-bjorn.andersson@linaro.org>
 References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
- <20211005231323.2663520-5-bjorn.andersson@linaro.org>
-Message-ID: <28fbd8f5b2d6bae7bedfc7e81e3fddd9@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+ <20211005231323.2663520-8-bjorn.andersson@linaro.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Tue, 5 Oct 2021 17:36:38 -0700
+Message-ID: <CAE-0n52MhUk_bE23FpDCrrk9errV3CvSAhNV-xm_5eiRyQ1zLw@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] drm/msm/dp: Add sc8180x DP controllers
+To: Abhinav Kumar <abhinavk@codeaurora.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>, 
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Kalyan Thota <kalyan_t@codeaurora.org>, 
+ Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>,
+ Sean Paul <sean@poorly.run>
+Cc: Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,220 +77,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bjorn
-
-On 2021-10-05 16:13, Bjorn Andersson wrote:
-> eDP panels might need some power sequencing and backlight management,
-> so make it possible to associate a drm_panel with an eDP instance and
-> prepare and enable the panel accordingly.
-> 
-> Now that we know which hardware instance is DP and which is eDP,
-> parser->parse() is passed the connector_type and the parser is limited
-> to only search for a panel in the eDP case.
-> 
+Quoting Bjorn Andersson (2021-10-05 16:13:23)
+> The sc8180x has 2 DP and 1 eDP controllers, add support for these to the
+> DP driver.
+>
 > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
 > ---
-> 
+>
 > Changes since v3:
-> - Previously posted separately, now added to series
-> - Make the search for a panel conditional on it being an eDP connector
-> - Move the search to of_graph port 1 (was 2 to distinguish from DP
-> link to USB-C connector)
-> 
->  drivers/gpu/drm/msm/dp/dp_display.c |  9 ++++++---
->  drivers/gpu/drm/msm/dp/dp_display.h |  1 +
->  drivers/gpu/drm/msm/dp/dp_drm.c     | 11 +++++++++++
->  drivers/gpu/drm/msm/dp/dp_parser.c  | 30 ++++++++++++++++++++++++++++-
->  drivers/gpu/drm/msm/dp/dp_parser.h  |  3 ++-
->  5 files changed, 49 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c
-> b/drivers/gpu/drm/msm/dp/dp_display.c
-> index eaf08f9e7d87..bdaf227f05dc 100644
+> - Rebased upon previous patches in series
+>
+>  drivers/gpu/drm/msm/dp/dp_display.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> index 674cddfee5b0..29c2c1c52ddb 100644
 > --- a/drivers/gpu/drm/msm/dp/dp_display.c
 > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -10,6 +10,7 @@
->  #include <linux/component.h>
->  #include <linux/of_irq.h>
->  #include <linux/delay.h>
-> +#include <drm/drm_panel.h>
-> 
->  #include "msm_drv.h"
->  #include "msm_kms.h"
-> @@ -230,12 +231,14 @@ static int dp_display_bind(struct device *dev,
-> struct device *master,
->  	priv = drm->dev_private;
->  	priv->dp = &(dp->dp_display);
-> 
-> -	rc = dp->parser->parse(dp->parser);
-> +	rc = dp->parser->parse(dp->parser, dp->dp_display.connector_type);
->  	if (rc) {
->  		DRM_ERROR("device tree parsing failed\n");
->  		goto end;
->  	}
-> 
-> +	dp->dp_display.panel_bridge = dp->parser->panel_bridge;
-> +
->  	dp->aux->drm_dev = drm;
->  	rc = dp_aux_register(dp->aux);
->  	if (rc) {
-> @@ -822,7 +825,7 @@ static int dp_display_set_mode(struct msm_dp 
-> *dp_display,
->  	return 0;
->  }
-> 
-> -static int dp_display_prepare(struct msm_dp *dp)
-> +static int dp_display_prepare(struct msm_dp *dp_display)
->  {
->  	return 0;
->  }
-> @@ -896,7 +899,7 @@ static int dp_display_disable(struct
-> dp_display_private *dp, u32 data)
->  	return 0;
->  }
-> 
-> -static int dp_display_unprepare(struct msm_dp *dp)
-> +static int dp_display_unprepare(struct msm_dp *dp_display)
->  {
->  	return 0;
->  }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.h
-> b/drivers/gpu/drm/msm/dp/dp_display.h
-> index 02999408c052..24aefca66029 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.h
-> @@ -15,6 +15,7 @@ struct msm_dp {
->  	struct device *codec_dev;
->  	struct drm_connector *connector;
->  	struct drm_encoder *encoder;
-> +	struct drm_bridge *panel_bridge;
->  	bool is_connected;
->  	bool audio_enabled;
->  	bool power_on;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.c 
-> b/drivers/gpu/drm/msm/dp/dp_drm.c
-> index f33e31523f56..76856c4ee1d6 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.c
-> @@ -5,6 +5,7 @@
-> 
->  #include <drm/drm_atomic_helper.h>
->  #include <drm/drm_atomic.h>
-> +#include <drm/drm_bridge.h>
->  #include <drm/drm_crtc.h>
-> 
->  #include "msm_drv.h"
-> @@ -160,5 +161,15 @@ struct drm_connector
-> *dp_drm_connector_init(struct msm_dp *dp_display)
-> 
->  	drm_connector_attach_encoder(connector, dp_display->encoder);
-> 
-> +	if (dp_display->panel_bridge) {
-> +		ret = drm_bridge_attach(dp_display->encoder,
-> +					dp_display->panel_bridge, NULL,
-> +					DRM_BRIDGE_ATTACH_NO_CONNECTOR);
-> +		if (ret < 0) {
-> +			DRM_ERROR("failed to attach panel bridge: %d\n", ret);
-> +			return ERR_PTR(ret);
-> +		}
-> +	}
-> +
->  	return connector;
->  }
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.c
-> b/drivers/gpu/drm/msm/dp/dp_parser.c
-> index 4d6e047f803d..eb6bbfbea484 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.c
-> @@ -6,6 +6,7 @@
->  #include <linux/of_gpio.h>
->  #include <linux/phy/phy.h>
-> 
-> +#include <drm/drm_of.h>
->  #include <drm/drm_print.h>
-> 
->  #include "dp_parser.h"
-> @@ -263,7 +264,28 @@ static int dp_parser_clock(struct dp_parser 
-> *parser)
->  	return 0;
->  }
-> 
-> -static int dp_parser_parse(struct dp_parser *parser)
-> +static int dp_parser_find_panel(struct dp_parser *parser)
-> +{
-> +	struct device *dev = &parser->pdev->dev;
-> +	struct drm_panel *panel;
-> +	int rc;
-> +
-> +	rc = drm_of_find_panel_or_bridge(dev->of_node, 1, 0, &panel, NULL);
-> +	if (rc) {
-> +		DRM_ERROR("failed to acquire DRM panel: %d\n", rc);
-> +		return rc;
-> +	}
-> +
-> +	parser->panel_bridge = devm_drm_panel_bridge_add(dev, panel);
-> +	if (IS_ERR(parser->panel_bridge)) {
-> +		DRM_ERROR("failed to create panel bridge\n");
-> +		return PTR_ERR(parser->panel_bridge);
-> +	}
-
-When we add a bridge using devm_drm_panel_bridge_add(), it will register 
-with default bridge functions which is fine
-because we need the panel power to be controlled here.
-
-
-140 static const struct drm_bridge_funcs panel_bridge_bridge_funcs = {
-141 	.attach = panel_bridge_attach,
-142 	.detach = panel_bridge_detach,
-143 	.pre_enable = panel_bridge_pre_enable,
-144 	.enable = panel_bridge_enable,
-145 	.disable = panel_bridge_disable,
-146 	.post_disable = panel_bridge_post_disable,
-147 	.get_modes = panel_bridge_get_modes,
-
-But what about the EDID related things, the DP/eDP driver already reads 
-the EDID and gets the modes so we need to skip
-that in this case as otherwise it will end up calling the 
-panel_get_modes in the eDP panel which will be redundant.
-
-Let me know if I am missing something in this proposal.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int dp_parser_parse(struct dp_parser *parser, int 
-> connector_type)
->  {
->  	int rc = 0;
-> 
-> @@ -284,6 +306,12 @@ static int dp_parser_parse(struct dp_parser 
-> *parser)
->  	if (rc)
->  		return rc;
-> 
-> +	if (connector_type == DRM_MODE_CONNECTOR_eDP) {
-> +		rc = dp_parser_find_panel(parser);
-> +		if (rc)
-> +			return rc;
-> +	}
-> +
->  	/* Map the corresponding regulator information according to
->  	 * version. Currently, since we only have one supported platform,
->  	 * mapping the regulator directly.
-> diff --git a/drivers/gpu/drm/msm/dp/dp_parser.h
-> b/drivers/gpu/drm/msm/dp/dp_parser.h
-> index dac10923abde..3172da089421 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_parser.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_parser.h
-> @@ -123,8 +123,9 @@ struct dp_parser {
->  	struct dp_display_data disp_data;
->  	const struct dp_regulator_cfg *regulator_cfg;
->  	u32 max_dp_lanes;
-> +	struct drm_bridge *panel_bridge;
-> 
-> -	int (*parse)(struct dp_parser *parser);
-> +	int (*parse)(struct dp_parser *parser, int connector_type);
+> @@ -135,8 +135,19 @@ static const struct msm_dp_config sc7180_dp_cfg = {
+>         .num_descs = 1,
 >  };
-> 
->  /**
+>
+> +static const struct msm_dp_config sc8180x_dp_cfg = {
+> +       .descs = (struct msm_dp_desc[]) {
+
+const?
+
+> +               { .io_start = 0x0ae90000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +               { .io_start = 0x0ae98000, .connector_type = DRM_MODE_CONNECTOR_DisplayPort },
+> +               { .io_start = 0x0ae9a000, .connector_type = DRM_MODE_CONNECTOR_eDP },
+> +       },
+> +       .num_descs = 3,
+> +};
+> +
+>  static const struct of_device_id dp_dt_match[] = {
+>         { .compatible = "qcom,sc7180-dp", .data = &sc7180_dp_cfg },
+> +       { .compatible = "qcom,sc8180x-dp", .data = &sc8180x_dp_cfg },
+> +       { .compatible = "qcom,sc8180x-edp", .data = &sc8180x_dp_cfg },
+
+Otherwise
+
+Reviewed-by: Stephen Boyd <swboyd@chromium.org>
