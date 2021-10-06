@@ -2,120 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B188424637
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 20:44:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE599424664
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 20:59:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 945336EE0D;
-	Wed,  6 Oct 2021 18:44:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1B3F46EE11;
+	Wed,  6 Oct 2021 18:59:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com
- (mail-bn1nam07on2097.outbound.protection.outlook.com [40.107.212.97])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D49826EE0D
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 18:43:59 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VFUEdPXVhNluI7eemhTn4OzDnL3EAjjSivDUk1HTYu7aCEOD3buiswudkudtQceGFz1g+eCejOVTqcEl3cqU9aVQoPJQcxjRuyrv9CUA70K3kANe+W+lj6kcE8qR1gRfCI88TXAjqfup88Qpiku7WQpgZTmtkI3c8H2w/x565YGMs7ktl01ZVnyQfWjhjouawFkHhsnVolhAUmT4sMd4KdKs5pgVUIkAx/0dN4ZtT11A71UnVBV2/Dr9YzwkqTcAPEkqS6XG7QjXyOj38m4pH+icLt1WwvzHJYcKcE7wlkw+SbTHcap9JbsmCxH7KiU5E7UKufvWNmBkI7aaCZyzlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PK1IZozbk75EHeKtrH/Uu0VltMlx8qGhVOyB+XWhbHk=;
- b=IdCQvK7NMmzt8CA10RN4So3rsyEjZCwkyPCwEEcl5KAC5mEhsjVboo6GUw7OMKAfdLKrm+fvR8/1p2mjBY5O1mWnB+zyli3+dcUiLsPjcZbr7f2gOcEL+4SyCyAs1OEJ68RxuAJ2wY+jEXdo61xdQybywrU8GVXOsQK7UoLi7R4TULy8GWPcFPALBX5wxH7C5myIPDeulhQXgvQ/YhpVUM2Rq21EosC2/sfb2GAi0Sjewd/gdqWE+9n3/ckBqke9bRSaVjATgxF/95aD8GYtTStZYKpprVHSj3zDciRQJUMC35Ihu4Yk9tSVd1EpZkpAQAYLSoI6+bwhefwx+RkLPA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=microsoft.com; dmarc=pass action=none
- header.from=microsoft.com; dkim=pass header.d=microsoft.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PK1IZozbk75EHeKtrH/Uu0VltMlx8qGhVOyB+XWhbHk=;
- b=dqyus2Td1sHL0iQ9mixA7SdBAte2eSQ5wISKxhfBMgFDj/e6Jo4+UP/iRGL50hZDal0G8oz2O8jwElpH3dM6qLvVVojFT5Ch/RVEbQYkyMr6SQ5FYiwVEB7qY0Bc4b79XAdPsnxy+AL0TgMLBS7dAZa9StLuIrWbxOVmO4dT3XI=
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com (2603:10b6:a03:105::15)
- by BYAPR21MB1272.namprd21.prod.outlook.com (2603:10b6:a03:109::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.3; Wed, 6 Oct
- 2021 18:43:56 +0000
-Received: from BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::78b5:7b19:a930:2aac]) by BYAPR21MB1270.namprd21.prod.outlook.com
- ([fe80::78b5:7b19:a930:2aac%9]) with mapi id 15.20.4608.004; Wed, 6 Oct 2021
- 18:43:56 +0000
-From: Dexuan Cui <decui@microsoft.com>
-To: "drawat.floss@gmail.com" <drawat.floss@gmail.com>, Haiyang Zhang
- <haiyangz@microsoft.com>, "airlied@linux.ie" <airlied@linux.ie>,
- "daniel@ffwll.ch" <daniel@ffwll.ch>, "tzimmermann@suse.de"
- <tzimmermann@suse.de>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-CC: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] drm/hyperv: Fix double mouse pointers
-Thread-Topic: [PATCH v2] drm/hyperv: Fix double mouse pointers
-Thread-Index: AQHXqzJC9UNAXIu01UiDkgfJCrQSMavGbYgg
-Date: Wed, 6 Oct 2021 18:43:56 +0000
-Message-ID: <BYAPR21MB1270B4AB0AFC1668C9D9009FBFB09@BYAPR21MB1270.namprd21.prod.outlook.com>
-References: <20210916193644.45650-1-decui@microsoft.com>
-In-Reply-To: <20210916193644.45650-1-decui@microsoft.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ActionId=22a3bdc1-9e3c-48e5-8c8f-142d5246e4f1;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_ContentBits=0;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Enabled=true;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Method=Standard;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_Name=Internal;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SetDate=2021-10-06T18:42:49Z;
- MSIP_Label_f42aa342-8706-4288-bd11-ebb85995028c_SiteId=72f988bf-86f1-41af-91ab-2d7cd011db47;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=microsoft.com;
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: af13b4dc-c083-47c9-356c-08d988f9409b
-x-ms-traffictypediagnostic: BYAPR21MB1272:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR21MB1272304431C5D1D5A967AE87BFB09@BYAPR21MB1272.namprd21.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +p6lYHSjiWL6aUS/t6Wb9vBKkqs8OksZX/wzm7Zie4HDYJepyn0YAqPr6ehL1/NZ0Pv1bvIPLpRHVWwTpaPZQWvhm+eQ8IkgoO42coRdWUKyGOkcOjtmxlFLLgL7SUVXsZ6wYKEXz0sMm7pR8J/952ozXU4DA4ACcCneb9haVBkqPnRBywuZ67kfSv+vuYsSQk5LzoyrTYXoOATpnTgDeGuyaMuaQoGcW/TkD3kh4OjYcVUGBGba7z6sSqNTqSzM0S32z5yAAD5kAOSgsIOHICg6fdgoc1LuBxMT2Sr5sdWIyedcjFAu+sTdQkSupEtmhwxQgFm5YIOf7dcwgnbaswS7y4iu0Ae+1t3YVxrFoEKX4oExtrNkhR5zDEo0JgJA+TbfDRgohXTVjWHsO/Ib+v1VIJCi7FCzCDxUzAnMxKBFo5yW1uFwPIOHmha9IuDTNq3AtM/z/SCashTm0GL2scfNySvv3M+Peys8TmZJVX0TBgt39OhLjrv48RplFeJxS2lXq5J9SANysxAgKVNVFZSytj5z5Vtq0PVSfjJfeJC/Kjvxy38zkf0uKyp2GYix7TmZD/a3jekv4A/LC2x+g0jbbr2ujyNqyEnXGkpaT6bEQ7sTBym5m86c5G+irooCHl2rgRBzX2LNgEcKWfD5JpCu0NEnlle+GJi3QhoUknd+n/hycvNwNz7+IJkuFUtHM8aTDZ0VdmRREb4MFmS7/A==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR21MB1270.namprd21.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(26005)(186003)(33656002)(110136005)(83380400001)(86362001)(2906002)(52536014)(4326008)(5660300002)(54906003)(316002)(8936002)(10290500003)(53546011)(9686003)(6506007)(71200400001)(66946007)(55016002)(7696005)(76116006)(66476007)(508600001)(82950400001)(82960400001)(66556008)(8676002)(64756008)(66446008)(8990500004)(38070700005)(122000001)(38100700002);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?sB87bX1OfgH1/3rINC5rjJq5vCEqxi3CT6zCqkHGGPJDqTaOtZWuE7uv0Xbb?=
- =?us-ascii?Q?ZGAQUZISRF7GV2W1EVRgWKdbNfc7yL6h2i74/UdktQEo0qlV09SbCpUrufUn?=
- =?us-ascii?Q?XoxrlloxLqzAEajLA8CGikXGD9lQG1bn/eF7RMzFVOcAieBFZPDqTbc3VOhg?=
- =?us-ascii?Q?OYN/SscC33QZA5lrzQP6QJX1gZksUiFIuWtOV+wUvx0vzX2ZIVjJIzDQtatn?=
- =?us-ascii?Q?YkWeWnxa6afKQfEOb1HUPlM4WWwJn2gRzu5Fvvd7bQwI/Nj6sYwMbucQLHoR?=
- =?us-ascii?Q?XZ+zT7d2AqiA06gADIhLwcfEmwP9Iegpv/N+4RCGxS7g/X03s6XtgBuYkRF3?=
- =?us-ascii?Q?6veMUDwO9acZGd8atSrL+0TiyYrnJT6joV+BwlpeUz+DBUDgP+SEY1PbuOqm?=
- =?us-ascii?Q?j5OvP2AV/pHgI5twI4UCTgjvtVolD/Syfy294sW5qQyIWxmb+4hrUVHYPgoV?=
- =?us-ascii?Q?t5DYvZaVtv0qHNslz9AmdY86c0I6DeYgJTL92M2xvCRYkRuhloBLFfR7d1uG?=
- =?us-ascii?Q?82u/5ZNZXM/BtqdHc+y8DzuqchmUTMYNowDxSGbx10NY/J9xLvSeafzdYsT+?=
- =?us-ascii?Q?SmaJkeXmFUW9kq32Bi79/ymVaKY23lwFBJGmm49k9D/LuYf/FF09x674zeYQ?=
- =?us-ascii?Q?X00OrQfB7TO9G0VD46prGsOBVqbbNBTjIutjARQZKgZaNeLhqD0J825ft+pz?=
- =?us-ascii?Q?wsSFjlLAaRbXuOo8I7fT7IeRsDeHWAF9U4ekbPCz32LRj+Ob6YcFEAFmoCMa?=
- =?us-ascii?Q?cITxcl61IIRwsfMLsHD3Q8YxAtRbCaVh//x/dPT6sCPzqn6Bw5cVaHP6cnmz?=
- =?us-ascii?Q?NcuwyYa53pwCsIOZjdwjl5p4EUrpaQvRo4mLeqmgy2ndSDkIW8lf39xn8vTE?=
- =?us-ascii?Q?MOHp9V1vw4IdqBz1OppkwlKe/Ig5TjzVn2Bg9eANEgPASOTmyAsCBiE+qSxd?=
- =?us-ascii?Q?xsqDVjoTxhsvK01MvaVHFQJxZ1Mw1Waw1rNTj2WEP49KVVsXqHqPKo40vrgY?=
- =?us-ascii?Q?KmUHUGuxrKIY47FgmQgKxEyZLEtTfbU6NiOpAwoZMQuV+yT171QKlpc3KNLh?=
- =?us-ascii?Q?hKnL6TguEsOyHyQjoLCWyp+sM+lfMkpNE2kqUWkeArPxqYvDedfrdIaadE1U?=
- =?us-ascii?Q?5aJXIYJ3Z+1Fm6FzvxpQGJHspukJbNae/hKueKcohv9vfGxoz9WZagzCJu20?=
- =?us-ascii?Q?QBGOy773w3e23+OeVGG5iliNMJFRrmzQbiczPVIkVSjEQkVuQwr2JWpkEuqc?=
- =?us-ascii?Q?EXDfBxir4bbrE4qzhITkD1AJ6MGBVFiXF4eRyn6ciqRVyEBIiIwykapPlukG?=
- =?us-ascii?Q?o8w92zx9i55xvOdxBfwlTiCM?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com
+ [IPv6:2607:f8b0:4864:20::22f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 00BCA6EE11
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 18:59:02 +0000 (UTC)
+Received: by mail-oi1-x22f.google.com with SMTP id w206so5440245oiw.4
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 11:59:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=5ZINfB9SQVVCASEGMXA+wgTyFsn9PxgEJKXBXsw12vM=;
+ b=K+CLm5Qo7QEvPuFku8WgyouC1CTb1elG5a5S+55t0GczwvJh9CWLpZ3MnYfSsXpW+U
+ sy29jY0KOoTNyZhbhdK7HgNTrzuePT7XKy07fRysDUQ3zjH3y/5eyzEWFh5uJkCrcr3P
+ VxrbQmmgFpOKQImA6d9/x9o1wDLhtri9CKULs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=5ZINfB9SQVVCASEGMXA+wgTyFsn9PxgEJKXBXsw12vM=;
+ b=h7RKJklxEyS3/FIffZVxJrNghdkf1l85H10KEcLx0y/oRQuG1mt9OhP704nV9+Dto+
+ SO/u8yZP8+3CEcq9idlf+B2ygCdaE+EFCkbdR4DVodC+YjLTTSrEIW0xa98lCgISOvoj
+ CWahg1DnIh/MzNGv+xeJ/x7K5kTfWaD9ZQ97W/j6DphO6tkarXi5M69RLobstRzIbPG0
+ mqt58lbjvtihMmjxBFmcQV/pu9vVHjlPEAcr3axo7/Ri+m00T9qW4HAIoqXFNvmFJX8f
+ n71v9YoKHXcS5ZF+3guHotWZAlVLYMKwkQ3K3+Hif3p1lRCzauEnhgtVGnKfWWl2Ao/k
+ 2O6Q==
+X-Gm-Message-State: AOAM531TY+1F8x303oKJRADRRUu/8SGI1oNpnYkkxMl4/jFQ60O/Ur1k
+ 47wv7iWHkY8BDawu9R9J5qNbIeXE9EwW2JfcEHEAEQ==
+X-Google-Smtp-Source: ABdhPJwhHmt0GZCHbm03gHHvMOEwKvkTptVPVNChAlyXV/FvGXgvkjQs1E+1M7ZseTDhJ6HjOQy858aO7MuXYixeHQU=
+X-Received: by 2002:aca:42d7:: with SMTP id p206mr8651607oia.32.1633546742129; 
+ Wed, 06 Oct 2021 11:59:02 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 6 Oct 2021 11:59:01 -0700
 MIME-Version: 1.0
-X-OriginatorOrg: microsoft.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR21MB1270.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: af13b4dc-c083-47c9-356c-08d988f9409b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2021 18:43:56.1004 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 72f988bf-86f1-41af-91ab-2d7cd011db47
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nxkh7UPcg5DmCKbL3YJw7mDxKA2OcdgwfaZBIvzN5WV23QE44DqKryN9PwVLXzVENcjrWS9ZrHyvQ3ESqNoJog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR21MB1272
+In-Reply-To: <YV3lVWjct5RQ5FEK@ripper>
+References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
+ <20211005231323.2663520-6-bjorn.andersson@linaro.org>
+ <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
+ <YVz/NOL3AFn2zBA0@ripper>
+ <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
+ <YV0MAF/Y5BR1e6My@ripper>
+ <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
+ <YV3XxadYE/KU2w89@ripper>
+ <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
+ <YV3lVWjct5RQ5FEK@ripper>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 6 Oct 2021 11:59:01 -0700
+Message-ID: <CAE-0n537_YLDkWOX0kBHZHPHMi4-XTODeJ8TB=_xOrZwJc1HfQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Kalyan Thota <kalyan_t@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -131,48 +82,181 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> From: Dexuan Cui <decui@microsoft.com>
-> Sent: Thursday, September 16, 2021 12:37 PM
-> To: drawat.floss@gmail.com; Haiyang Zhang <haiyangz@microsoft.com>;
-> airlied@linux.ie; daniel@ffwll.ch; tzimmermann@suse.de;
-> dri-devel@lists.freedesktop.org
-> Cc: linux-hyperv@vger.kernel.org; linux-kernel@vger.kernel.org; Dexuan Cu=
-i
-> <decui@microsoft.com>
-> Subject: [PATCH v2] drm/hyperv: Fix double mouse pointers
->=20
-> Hyper-V supports a hardware cursor feature. It is not used by Linux VM,
-> but the Hyper-V host still draws a point as an extra mouse pointer,
-> which is unwanted, especially when Xorg is running.
->=20
-> The hyperv_fb driver uses synthvid_send_ptr() to hide the unwanted pointe=
-r.
-> When the hyperv_drm driver was developed, the function synthvid_send_ptr(=
-)
-> was not copied from the hyperv_fb driver. Fix the issue by adding the
-> function into hyperv_drm.
->=20
-> Fixes: 76c56a5affeb ("drm/hyperv: Add DRM driver for hyperv synthetic vid=
-eo
-> device")
-> Signed-off-by: Dexuan Cui <decui@microsoft.com>
-> Reviewed-by: Haiyang Zhang <haiyangz@microsoft.com>
-> Reviewed-by: Deepak Rawat <drawat.floss@gmail.com>
-> ---
->=20
-> Changes in v2:
-> 	Renamed hyperv_send_ptr() to hyperv_hide_hw_ptr().
-> 	Improved the comments and the git commit message.
-> 	Added Reviewed-by's from Haiyang and Deepak.
->=20
->  drivers/gpu/drm/hyperv/hyperv_drm.h         |  1 +
->  drivers/gpu/drm/hyperv/hyperv_drm_modeset.c |  1 +
->  drivers/gpu/drm/hyperv/hyperv_drm_proto.c   | 54
-> ++++++++++++++++++++-
->  3 files changed, 55 insertions(+), 1 deletion(-)
+Quoting Bjorn Andersson (2021-10-06 11:05:09)
+> On Wed 06 Oct 10:19 PDT 2021, Stephen Boyd wrote:
+>
+> > Quoting Bjorn Andersson (2021-10-06 10:07:17)
+> > > On Tue 05 Oct 21:26 PDT 2021, Stephen Boyd wrote:
+> > >
+> > > > Quoting Bjorn Andersson (2021-10-05 19:37:52)
+> > > > > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
+> > > > >
+> > > > > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
+> > > > > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
+> > > > > > >
+> > > > > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
+> > > > > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > > index bdaf227f05dc..674cddfee5b0 100644
+> > > > > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
+> > > > > > > > >         if (!dp)
+> > > > > > > > >                 return -ENOMEM;
+> > > > > > > > >
+> > > > > > > > > -       desc = dp_display_get_desc(pdev);
+> > > > > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
+> > > > > > > >
+> > > > > > > > I'm sad that dp->id has to match the number in the SoC specific
+> > > > > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > > > > > > > still. Is there any way we can avoid that? Also, notice how those arrays
+> > > > > > > > already have INTF_DP macros, which makes me think that it may be better
+> > > > > > > > to connect this to those arrays instead of making an msm_dp_desc
+> > > > > > > > structure and then make sure the 'type' member matches a connector
+> > > > > > > > type number. Otherwise this code is super fragile.
+> > > > > > > >
+> > > > > > >
+> > > > > > > I'm afraid I don't understand what you're proposing. Or which part you
+> > > > > > > consider fragile, the indices of the INTF_DP instances aren't going to
+> > > > > > > move around...
+> > > > > > >
+> > > > > > > I have N instances of the DP driver that I need to match to N entries
+> > > > > > > from the platform specific intf array, I need some stable reference
+> > > > > > > between them. When I started this journey I figured I could rely on the
+> > > > > > > of_graph between the DPU and the interface controllers, but the values
+> > > > > > > used there today are just bogus, so that was a no go.
+> > > > > > >
+> > > > > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
+> > > > > > > come up with an identifier to put in h_tile_instance[0] so that
+> > > > > > > dpu_encoder_setup_display() can find the relevant INTF.
+> > > > > > >
+> > > > > >
+> > > > > > To make it more concrete we can look at sc7180
+> > > > > >
+> > > > > > static const struct dpu_intf_cfg sc7180_intf[] = {
+> > > > > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
+> > > > > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > > > >                                                      ^
+> > > > > >                                                      |
+> > > > > >
+> > > > > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
+> > > > > > zero, the number after INTF_DP, and that is very relevant. That number
+> > > > > > needs to match the dp->id. Somewhere we have a match between
+> > > > > > controller_id and dp->id in the code.
+> > > > >
+> > > > > That number (the 0, not INTF_0) is what the code matches against dp->id
+> > > > > in _dpu_kms_initialize_displayport(), in order to figure out that this
+> > > > > is INTF_0 in dpu_encoder_setup_display().
+> > > > >
+> > > > > I.e. look at the sc8180x patch:
+> > > > >
+> > > > > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > > > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> > > > > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+> > > > > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+> > > > > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+> > > > > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+> > > > > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> > > > >
+> > > > > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
+> > > > > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
+> > > > >
+> > > >
+> > > > Yep. I'm saying that having to make that number in this intf array match
+> > > > the order of the register mapping descriptor array is fragile. Why can't
+> > > > we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
+> > > > map from the descriptor array to this intf array somehow so that the
+> > > > order of the descriptor array doesn't matter? Then we don't have to put
+> > > > the connector type in the descriptor array, and we don't have to keep
+> > > > the order of the array a certain way to match this intf descriptor.
+> > > >
+> > > > Maybe
+> > > >
+> > > >       struct msm_dp_desc {
+> > > >               phys_addr_t io_start;
+> > > >               unsigned int id;
+> > >
+> > > The INTF_<N> constants are a property of the DPU driver and not
+> > > available in the DP driver and the msm_dp struct is a property of the DP
+> > > driver and can't be dereferenced in the DPU driver.
+> > >
+> > > The proposed way around this is that the descs array defines the order
+> > > in priv->dp[N] and this N is used as controller_id.
+> >
+> > I'm pretty sure I'm following along.
+> >
+> > >
+> > > So the only thing that I don't find straight forward here is that the
+> > > eDP controller is considered just a DP controller, so you have to use
+> > > INTF_DP, <N> for that, and not just INTF_EDP, 0.
+> > >
+> > > >       };
+> > > >
+> > > > and then have msm_dp_desc::id equal INTF_<N> and then look through the
+> > > > intf from DPU here in the DP driver to find the id and type of connector
+> > > > that should be used by default? Still sort of fragile because the only
+> > > > connection is an unsigned int which isn't great, but at least it's
+> > > > explicit instead of implicit based on the array order.
+> > >
+> > > No matter how I look at this, you need to put some number somewhere here
+> > > that will be used to match up the INTF with the right DSI/DP encoder.
+> >
+> > Correct.
+> >
+> > >
+> > > Using the proposed number scheme follows the numbering of all the DP
+> > > controllers from the documentation.
+> > >
+> >
+> > Maybe I can make a better example. I have this for sc7280 in dpu_hw_catalog.c:
+> >
+> >       static const struct dpu_intf_cfg sc7280_intf[] = {
+> >               INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, CONTROLLER_ID_A, 24,
+> > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> >               INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24,
+> > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> >               INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, CONTROLLER_ID_B, 24,
+> > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> >       };
+> >
+> > And then this array for sc7280 in dp_display.c:
+> >
+> >       static const struct msm_dp_desc sc7280_dp_cfg = {
+> >               .desc = {
+> >                       [CONTROLLER_ID_A] = { 0xaea0000, DRM_MODE_CONNECTOR_eDP },
+> >                       [CONTROLLER_ID_B] = { 0xae90000, DRM_MODE_CONNECTOR_DisplayPort },
+> >               },
+> >               .num_dp = 2,
+> >       };
+> >
+> > So these two arrays must match based on CONTROLLER_ID_{A,B}. I don't
+> > like having to make these two numbers match so if it was explicit, even
+> > possibly by having a bunch of macros put in both places then I would be
+> > happy. I spent a few hours when I messed up the order of the
+> > sc7280_dp_cfg.desc array trying to figure out why things weren't
+> > working.
+>
+> So essentially, you didn't know that the controller_id has to match the
+> index in priv->dsi[] and priv->dp[] and providing a define for them
+> would make this more obvious?
 
-Hi DRM maintainers,
-Could you please take a look at the patch?
+Now you got it!
 
-Thanks,
--- Dexuan
+>
+> I think per your argument the 0 following INTF_DSI should also be using
+> this scheme, so we'd have multiple CONTROLLER_ID_A, which probably is
+> confusing as well.
+
+Agreed.
+
+>
+> I tried it out with below patch; it documents the relationship, provides
+> constants for the magic 2 and 3 for number of DSI and DP controllers in
+> struct msm_drm_private.
+>
+> I like it.
+
+Thanks. I prefer this approach as well. I can see now why qcom always
+wants to change the output ports on the DPU node in DT to match the
+INTF number. If they would have described this problem it may have made
+sense to have the graph endpoints with reg properties matching the
+interface number in the intf array. Sigh.
