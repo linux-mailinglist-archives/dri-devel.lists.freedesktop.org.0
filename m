@@ -2,90 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2780A4235ED
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 04:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B3054235F1
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 04:41:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E276ECBC;
-	Wed,  6 Oct 2021 02:40:07 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8ECEB6ECC0;
+	Wed,  6 Oct 2021 02:41:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
- [IPv6:2a00:1450:4864:20::129])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 632126ECBC
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 02:40:06 +0000 (UTC)
-Received: by mail-lf1-x129.google.com with SMTP id n8so3945295lfk.6
- for <dri-devel@lists.freedesktop.org>; Tue, 05 Oct 2021 19:40:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=jBjl2SKIDUWdGGNNCdNQzm0sXvagxduES6I98oCU5Y8=;
- b=chv8eTFsLZvhIeL+hkzvYI0WTv6C1hQt4IbTe+2xmGQkTHoN3MvZ0Jtjaf5nJ60yH8
- Qll610va/L7nfzXyHi9q5H18Ow+SshG+eVNj+gSdDfOq3y7RXIcXU17IFSrdKUsqMGDl
- Bns94mjB430lIX1L+jpyb63pJy7SuBLUq2Zz5gUmkoa+ld9TdVOzDhd/itLWhWEQUYh6
- w/ij/t35/Agn1d9bEjw9KP0FJwCJbX0TIcoQQ9rohRXEEbOoZw69in/qeyGnWiJ4R/RF
- +DxmiKiv3q4SpB4Czd0/XkoQ7itREY7Ra4KeHWPZGr13fZLG2O0bWXrsMD3HPPH5buvd
- Yn0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=jBjl2SKIDUWdGGNNCdNQzm0sXvagxduES6I98oCU5Y8=;
- b=EQLd95KFEiaNjZbfVRjUtzFOHaW3p5moTbJKNNSej96rV3urNhVPpPkPkhd5BqC9Sy
- uWqXnhth3W5qeecL3z5FMeJC1JtNynDbIoqakAJ6xZkeuZYJHpZcnIGYFJNfLKcJFGzS
- bXNLsRppL4xRW8Gk/u/+jG9aK9Hj3dVoQbNwiblxEnzdC6HcyHDr1sfKMz2s9CLEqS7j
- /AqGXZZ4wa/ZPxVgrsscAePVds9fxUoQkXmuUa7YeG247eFejjOJduVX643RyL4rLIvT
- 7cx9f7THVOnvrIr31XFQ2jUK8Rf7V5vvK+Sh9Ok/O4VbtFHhVp4bfPYfvHLShaqOcQqr
- m5uA==
-X-Gm-Message-State: AOAM530aSRjH7qjfcgLwoNzk1ZjfCMGQquHHnzKKpCtxocbFLzgIZ0Ex
- XXxLMFNscgYQ5Mj0ci4fSHA=
-X-Google-Smtp-Source: ABdhPJz5nDf5e1lLckhTPfcq8ws67JWhBNrPmg70PycmaRWuWT397hKxpbU2YgDLYDLc8supNRztWA==
-X-Received: by 2002:a2e:91d4:: with SMTP id u20mr25686467ljg.81.1633488004426; 
- Tue, 05 Oct 2021 19:40:04 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
- [79.139.163.57])
- by smtp.googlemail.com with ESMTPSA id o19sm2137695lfg.68.2021.10.05.19.40.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 05 Oct 2021 19:40:03 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
- <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
- <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
- <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
- <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
-Message-ID: <8597d539-311b-4f04-481c-b48e6a5a882a@gmail.com>
-Date: Wed, 6 Oct 2021 05:40:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4AC4A6ECBE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 02:41:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633488082;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=E3ytseCi5Oj9doDUfSdCM4nKRCGEoIFgdUICjz0Jf1s=;
+ b=O0zILraHzF5aanKp3t9lFUSF4YR3U1mORZ07MojBTsQlQ66vZeNuqr/+WKlaCyWbhhgm32
+ 0TX/gJfYlLBFTlRWb2yyCy7ySl8KaYmR67ODnsrv1GxTkFwuBdw2pIQmfTSVBjx0hEDDn1
+ jgF+AgSWoKaRQMXJb0YDIxUlJHMGKzw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-125-YEH35CVKMVOY5jxgtUR7Pw-1; Tue, 05 Oct 2021 22:41:21 -0400
+X-MC-Unique: YEH35CVKMVOY5jxgtUR7Pw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1510010168C0;
+ Wed,  6 Oct 2021 02:41:20 +0000 (UTC)
+Received: from Ruby.lyude.net (unknown [10.22.16.47])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E1429AA38;
+ Wed,  6 Oct 2021 02:41:14 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org
+Subject: [PATCH v3 0/5] drm/dp,
+ drm/i915: Finish basic PWM support for VESA backlight helpers
+Date: Tue,  5 Oct 2021 22:40:13 -0400
+Message-Id: <20211006024018.320394-1-lyude@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -101,39 +65,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-06.10.2021 01:43, Dmitry Osipenko пишет:
-> 06.10.2021 01:19, Dmitry Osipenko пишет:
-> ...
->> I reproduced the OFF problem by removing the clk prepare/unprepare from
->> the suspend/resume of the clk driver and making some extra changes to
->> clock tree topology and etc to trigger the problem on Nexus 7.
->>
->> tegra-pmc 7000e400.pmc: failed to turn off PM domain heg: -13
->>
->> It happens from genpd_suspend_noirq() -> tegra_genpd_power_off() -> clk
->> -> GENPD -> I2C -> runtime-pm.
->>
->> -13 is EACCES, it comes from the runtime PM of I2C device. RPM is
->> prohibited/disabled during late (NOIRQ) suspend by the drivers core.
-> 
-> My bad, I double-checked and it's not I2C RPM that is failing now, but
-> the clock's RPM [1], which is also unavailable during NOIRQ.
-> 
-> [1]
-> https://elixir.free-electrons.com/linux/v5.15-rc4/source/drivers/clk/clk.c#L116
-> 
-> Previously it was I2C RPM that was failing in a similar way, but code
-> changed a tad since that time.
-> 
+When I originally moved all of the VESA backlight code in i915 into DRM
+helpers, one of the things I didn't have the hardware or time for
+testing was machines that used a combination of PWM and DPCD in order to
+control their backlights. This has since then caused some breakages and
+resulted in us disabling DPCD backlight support on such machines. This
+works fine, unless you have a machine that actually needs this
+functionality for backlight controls to work at all. Additionally, we
+will need to support PWM for when we start adding support for VESA's
+product (as in the product of multiplication) control mode for better
+brightness ranges.
 
-Just in case, I checked that the suspension order isn't somehow the
-source of the problem by adding links to device tree in order to always
-suspend clocks after the rest of devices and still GENPD gets -EACCESS
-from clk_pm_runtime_get().
+So - let's finally finish up implementing basic support for these types
+of backlights to solve these problems in our DP helpers, along with
+implementing support for this in i915. And since digging into this issue
+solved the last questions we really had about probing backlights in i915
+for the most part, let's update some of the comments around that as
+well!
 
-RPM is disabled by dpm_suspend_late(), which is invoked before
-dpm_suspend_noirq() [1]. Hence RPM is unavailable in NOIRQ phase in any
-case.
+Changes (v3):
+* Add likely fix for weird backlight scaling issues on samus-fi-bdw in intel's
+  CI, which pointed out we've been leaving some (currently) unsupported
+  backlight features on by mistake which certainly have the potential to cause
+  problems.
+Changes (v2):
+* Fixup docs
+* Add patch to stop us from breaking nouveau
 
-[1]
-https://elixir.bootlin.com/linux/v5.15-rc4/source/kernel/power/suspend.c#L399
+Lyude Paul (5):
+  drm/i915: Add support for panels with VESA backlights with PWM
+    enable/disable
+  drm/nouveau/kms/nv50-: Explicitly check DPCD backlights for aux
+    enable/brightness
+  drm/dp: Disable unsupported features in
+    DP_EDP_BACKLIGHT_MODE_SET_REGISTER
+  drm/dp, drm/i915: Add support for VESA backlights using PWM for
+    brightness control
+  drm/i915: Clarify probing order in intel_dp_aux_init_backlight_funcs()
+
+ drivers/gpu/drm/drm_dp_helper.c               | 82 +++++++++++++------
+ .../drm/i915/display/intel_dp_aux_backlight.c | 80 ++++++++++++++----
+ drivers/gpu/drm/nouveau/nouveau_backlight.c   |  5 +-
+ include/drm/drm_dp_helper.h                   |  7 +-
+ 4 files changed, 128 insertions(+), 46 deletions(-)
+
+-- 
+2.31.1
+
