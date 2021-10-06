@@ -2,41 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D614243EE
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:21:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42A54243DD
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 19:19:14 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B3E906EDD5;
-	Wed,  6 Oct 2021 17:21:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7263C6EDD1;
+	Wed,  6 Oct 2021 17:19:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 02D0B6EDCE;
- Wed,  6 Oct 2021 17:21:01 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="212996408"
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; d="scan'208";a="212996408"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 10:21:01 -0700
-X-IronPort-AV: E=Sophos;i="5.85,352,1624345200"; d="scan'208";a="439197459"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 10:21:01 -0700
-Date: Wed, 6 Oct 2021 10:16:13 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: Intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [Intel-gfx] [RFC 7/8] drm/i915: Inherit process nice for context
- scheduling priority
-Message-ID: <20211006171612.GA8084@jons-linux-dev-box>
-References: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
- <20211004143650.699120-8-tvrtko.ursulin@linux.intel.com>
+Received: from mail-oi1-x22c.google.com (mail-oi1-x22c.google.com
+ [IPv6:2607:f8b0:4864:20::22c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7650B6EDCE
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 17:19:10 +0000 (UTC)
+Received: by mail-oi1-x22c.google.com with SMTP id x187so2628404oix.9
+ for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 10:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=KCyDxwCSIkYTEL945Ad8UN+jbcwXEwy+nElDO3WCm5U=;
+ b=AcCQ3DwE27wRfzYEcoJxXVjW1mku4CvXcu9MdCy62Hr7YmeiYBzTQAy+8yMD6lGym5
+ eAZ/c7o7r1QTE07j3X3gt7PBw7sa8SnF/8tetrqdJeIFscstW6KKcyY/pIXoyxmw0Klp
+ laxBS6OFSIKVB/U6uSqU1mY6tQ7ijM0dubGHY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=KCyDxwCSIkYTEL945Ad8UN+jbcwXEwy+nElDO3WCm5U=;
+ b=am0cVabEaXwXuCqc62jn1yvh6eENF7RcHGD59ZG+bLJAI3hAwMKgvSjmtfn3DnuNLD
+ VlM1bb1Pa3P2dX4SDeNATJk6A1cbNBRuhBL6/hfsNZSn/bo1pzRlkaxGUT+B5MRm8b2s
+ STt+yg5HPWpw8MO27GrPUEQ90CuWCunIETI58+vXnA11ZJoc+LReDMRlqmPBR6onk7yH
+ SAeQl9dqUNM+q2ET3EpzzJ4IChokQiDfuVd3+0Td3oqstxqpIiSQXpFDlDDhDnhOHTy1
+ Jlt+ix2TebEZmb9Qln7xzhFamwwUwjvISLid/lQrwY35mOqDN7IsJFrc14r2kkJ3lsk0
+ PfZw==
+X-Gm-Message-State: AOAM531Jh1yU9H0Wl+OIcr/UbYm1JrgPpkBEebMgg9drxMn2+HIdgLsl
+ AdJsx+2YiLD1bg8HpIFJq5QrW8m6nWXIEywmPL7YAw==
+X-Google-Smtp-Source: ABdhPJxNO6XyURZRt8S9b/YCR45+rINmMoTOs7+TbO6eaAIXMDIrqSS/NDJZCbj4dbHEgxJbT9Y60pR/hVQnlL87xzc=
+X-Received: by 2002:a05:6808:f8f:: with SMTP id
+ o15mr8142802oiw.164.1633540749920; 
+ Wed, 06 Oct 2021 10:19:09 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 6 Oct 2021 10:19:09 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211004143650.699120-8-tvrtko.ursulin@linux.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <YV3XxadYE/KU2w89@ripper>
+References: <20211005231323.2663520-1-bjorn.andersson@linaro.org>
+ <20211005231323.2663520-6-bjorn.andersson@linaro.org>
+ <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
+ <YVz/NOL3AFn2zBA0@ripper>
+ <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
+ <YV0MAF/Y5BR1e6My@ripper>
+ <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
+ <YV3XxadYE/KU2w89@ripper>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Wed, 6 Oct 2021 10:19:09 -0700
+Message-ID: <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
+Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Kalyan Thota <kalyan_t@codeaurora.org>, Kuogee Hsieh <khsieh@codeaurora.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ Rob Herring <robh+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,226 +81,152 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 04, 2021 at 03:36:49PM +0100, Tvrtko Ursulin wrote:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> 
-> Introduce the concept of context nice value which matches the process
-> nice.
-> 
-> We do this by extending the struct i915_sched_attr and add a helper
-> (i915_sched_attr_priority) to be used to convert to effective priority
-> when used by backend code and for priority sorting.
-> 
-> Context nice is then inherited from the process which creates the GEM
-> context and utilised secondary to context priority, only when the latter
-> has been left at the default setting, in order to avoid disturbing any
-> application made choices of low and high (batch processing and maybe
-> latency sensitive compositing). In those cases nice value adjusts the
-> effective priority in the narrow band of -19 to +20 around
-> I915_CONTEXT_DEFAULT_PRIORITY.
-> 
-> This means that in theory userspace using the context priority uapi
-> directly has a wider range of possible adjustments (thought to be
-> beneficial), but in practice that only applies to execlists platforms.
-> With GuC there are only three priority buckets (less than zero is low
-> priority, zero is normal and greater than zero is high) which therefore
-> interact as expected with the nice adjustment. It makes the question of
-> should the nice be a sub-range of GEM priorities, or stretched across the
-> whole, a moot one.
-> 
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> ---
->  drivers/gpu/drm/i915/gem/i915_gem_context.c        |  1 +
->  .../gpu/drm/i915/gt/intel_execlists_submission.c   |  4 ++--
->  drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c  |  2 +-
->  drivers/gpu/drm/i915/i915_request.c                |  2 +-
->  drivers/gpu/drm/i915/i915_request.h                |  5 +++++
->  drivers/gpu/drm/i915/i915_scheduler.c              | 12 ++++++++----
->  drivers/gpu/drm/i915/i915_scheduler.h              | 14 ++++++++++++++
->  drivers/gpu/drm/i915/i915_scheduler_types.h        |  8 ++++++++
->  8 files changed, 40 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 8d4d687ab1d0..fed0733cb652 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -257,6 +257,7 @@ proto_context_create(struct drm_i915_private *i915, unsigned int flags)
->  	if (i915->params.enable_hangcheck)
->  		pc->user_flags |= BIT(UCONTEXT_PERSISTENCE);
->  	pc->sched.priority = I915_PRIORITY_NORMAL;
-> +	pc->sched.nice = task_nice(current);
->  
->  	if (flags & I915_CONTEXT_CREATE_FLAGS_SINGLE_TIMELINE) {
->  		if (!HAS_EXECLISTS(i915)) {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index e91d803a6453..1a02c65823a7 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -250,7 +250,7 @@ static struct i915_priolist *to_priolist(struct rb_node *rb)
->  
->  static int rq_prio(const struct i915_request *rq)
->  {
-> -	return READ_ONCE(rq->sched.attr.priority);
-> +	return i915_request_priority(rq);
->  }
->  
->  static int effective_prio(const struct i915_request *rq)
-> @@ -3221,8 +3221,8 @@ static void kick_execlists(const struct i915_request *rq,
->  {
->  	struct intel_engine_cs *engine = rq->engine;
->  	struct i915_sched_engine *sched_engine = engine->sched_engine;
-> +	const int prio = i915_sched_attr_priority(attr);
->  	const struct i915_request *inflight;
-> -	const int prio = attr->priority;
->  
->  	/*
->  	 * We only need to kick the tasklet once for the high priority
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index b5883a4365ca..f258607685a2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -2417,7 +2417,7 @@ static void guc_bump_inflight_request_prio(struct i915_request *rq,
->  					   const struct i915_sched_attr *attr)
->  {
->  	struct intel_context *ce = rq->context;
-> -	const int prio = attr->priority;
-> +	const int prio = i915_sched_attr_priority(attr);
->  	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
->  
->  	/* Short circuit function */
-> diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-> index 79da5eca60af..a8c6f3a64895 100644
-> --- a/drivers/gpu/drm/i915/i915_request.c
-> +++ b/drivers/gpu/drm/i915/i915_request.c
-> @@ -1930,7 +1930,7 @@ static int print_sched_attr(const struct i915_sched_attr *attr,
->  		return x;
->  
->  	x += snprintf(buf + x, len - x,
-> -		      " prio=%d", attr->priority);
-> +		      " prio=%d nice=%d", attr->priority, attr->nice);
->  
->  	return x;
->  }
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 7bd9ed20623e..c2c4c344837e 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -399,6 +399,11 @@ long i915_request_wait(struct i915_request *rq,
->  #define I915_WAIT_PRIORITY	BIT(1) /* small priority bump for the request */
->  #define I915_WAIT_ALL		BIT(2) /* used by i915_gem_object_wait() */
->  
-> +static inline int i915_request_priority(const struct i915_request *rq)
-> +{
-> +	return i915_sched_attr_priority(&rq->sched.attr);
-> +}
-> +
->  void i915_request_show(struct drm_printer *m,
->  		       const struct i915_request *rq,
->  		       const char *prefix,
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
-> index 534bab99fcdc..e75793e36454 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.c
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
-> @@ -155,7 +155,9 @@ lock_sched_engine(struct i915_sched_node *node,
->  static void __i915_schedule(struct i915_sched_node *node,
->  			    const struct i915_sched_attr *attr)
->  {
-> -	const int prio = max(attr->priority, node->attr.priority);
-> +	const int prio =
-> +		max(i915_sched_attr_priority(attr),
-> +		    i915_sched_attr_priority(&node->attr));
->  	struct i915_sched_engine *sched_engine;
->  	struct i915_dependency *dep, *p;
->  	struct i915_dependency stack;
-> @@ -209,7 +211,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->  			if (node_signaled(p->signaler))
->  				continue;
->  
-> -			if (prio > READ_ONCE(p->signaler->attr.priority))
-> +			if (prio > i915_sched_attr_priority(&p->signaler->attr))
->  				list_move_tail(&p->dfs_link, &dfs);
->  		}
->  	}
-> @@ -247,7 +249,8 @@ static void __i915_schedule(struct i915_sched_node *node,
->  		lockdep_assert_held(&sched_engine->lock);
->  
->  		/* Recheck after acquiring the engine->timeline.lock */
-> -		if (prio <= node->attr.priority || node_signaled(node))
-> +		if (prio <= i915_sched_attr_priority(&node->attr) ||
-> +		    node_signaled(node))
->  			continue;
->  
->  		GEM_BUG_ON(node_to_request(node)->engine->sched_engine !=
-> @@ -257,7 +260,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->  		if (sched_engine->bump_inflight_request_prio)
->  			sched_engine->bump_inflight_request_prio(from, attr);
->  
-> -		WRITE_ONCE(node->attr.priority, prio);
-> +		WRITE_ONCE(node->attr, *attr);
->  
->  		/*
->  		 * Once the request is ready, it will be placed into the
-> @@ -305,6 +308,7 @@ void i915_sched_node_init(struct i915_sched_node *node)
->  void i915_sched_node_reinit(struct i915_sched_node *node)
->  {
->  	node->attr.priority = I915_PRIORITY_INVALID;
-> +	node->attr.nice = 0;
->  	node->semaphores = 0;
->  	node->flags = 0;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler.h b/drivers/gpu/drm/i915/i915_scheduler.h
-> index 0b9b86af6c7f..75ccc9f55d14 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler.h
-> @@ -38,6 +38,20 @@ void i915_sched_node_fini(struct i915_sched_node *node);
->  void i915_schedule(struct i915_request *request,
->  		   const struct i915_sched_attr *attr);
->  
-> +static inline int i915_sched_attr_priority(const struct i915_sched_attr *attr)
-> +{
-> +	int prio = attr->priority;
-> +
-> +	/*
-> +	 * Only allow I915_CONTEXT_DEFAULT_PRIORITY to be affected by the
-> +	 * nice setting.
-> +	 */
-> +	if (!prio)
-> +		prio = -attr->nice;
-> +
-> +	return prio;
-> +}
-> +
->  struct list_head *
->  i915_sched_lookup_priolist(struct i915_sched_engine *sched_engine, int prio);
->  
-> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> index 24b9ac1c2ce2..159237aa7609 100644
-> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
-> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
-> @@ -29,6 +29,14 @@ struct i915_sched_attr {
->  	 * The &drm_i915_private.kernel_context is assigned the lowest priority.
->  	 */
->  	int priority;
-> +
-> +	/**
-> +	 * @nice: context nice level
-> +	 *
-> +	 * Nice level follows the CPU scheduler nice value as set for the
-> +	 * process owning the GPU context.
-> +	 */
-> +	int nice;
+Quoting Bjorn Andersson (2021-10-06 10:07:17)
+> On Tue 05 Oct 21:26 PDT 2021, Stephen Boyd wrote:
+>
+> > Quoting Bjorn Andersson (2021-10-05 19:37:52)
+> > > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
+> > >
+> > > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
+> > > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
+> > > > >
+> > > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
+> > > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > index bdaf227f05dc..674cddfee5b0 100644
+> > > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> > > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
+> > > > > > >         if (!dp)
+> > > > > > >                 return -ENOMEM;
+> > > > > > >
+> > > > > > > -       desc = dp_display_get_desc(pdev);
+> > > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
+> > > > > >
+> > > > > > I'm sad that dp->id has to match the number in the SoC specific
+> > > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+> > > > > > still. Is there any way we can avoid that? Also, notice how those arrays
+> > > > > > already have INTF_DP macros, which makes me think that it may be better
+> > > > > > to connect this to those arrays instead of making an msm_dp_desc
+> > > > > > structure and then make sure the 'type' member matches a connector
+> > > > > > type number. Otherwise this code is super fragile.
+> > > > > >
+> > > > >
+> > > > > I'm afraid I don't understand what you're proposing. Or which part you
+> > > > > consider fragile, the indices of the INTF_DP instances aren't going to
+> > > > > move around...
+> > > > >
+> > > > > I have N instances of the DP driver that I need to match to N entries
+> > > > > from the platform specific intf array, I need some stable reference
+> > > > > between them. When I started this journey I figured I could rely on the
+> > > > > of_graph between the DPU and the interface controllers, but the values
+> > > > > used there today are just bogus, so that was a no go.
+> > > > >
+> > > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
+> > > > > come up with an identifier to put in h_tile_instance[0] so that
+> > > > > dpu_encoder_setup_display() can find the relevant INTF.
+> > > > >
+> > > >
+> > > > To make it more concrete we can look at sc7180
+> > > >
+> > > > static const struct dpu_intf_cfg sc7180_intf[] = {
+> > > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
+> > > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > >                                                      ^
+> > > >                                                      |
+> > > >
+> > > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
+> > > > zero, the number after INTF_DP, and that is very relevant. That number
+> > > > needs to match the dp->id. Somewhere we have a match between
+> > > > controller_id and dp->id in the code.
+> > >
+> > > That number (the 0, not INTF_0) is what the code matches against dp->id
+> > > in _dpu_kms_initialize_displayport(), in order to figure out that this
+> > > is INTF_0 in dpu_encoder_setup_display().
+> > >
+> > > I.e. look at the sc8180x patch:
+> > >
+> > > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+> > > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+> > > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+> > > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+> > > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+> > > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+> > > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+> > >
+> > > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
+> > > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
+> > >
+> >
+> > Yep. I'm saying that having to make that number in this intf array match
+> > the order of the register mapping descriptor array is fragile. Why can't
+> > we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
+> > map from the descriptor array to this intf array somehow so that the
+> > order of the descriptor array doesn't matter? Then we don't have to put
+> > the connector type in the descriptor array, and we don't have to keep
+> > the order of the array a certain way to match this intf descriptor.
+> >
+> > Maybe
+> >
+> >       struct msm_dp_desc {
+> >               phys_addr_t io_start;
+> >               unsigned int id;
+>
+> The INTF_<N> constants are a property of the DPU driver and not
+> available in the DP driver and the msm_dp struct is a property of the DP
+> driver and can't be dereferenced in the DPU driver.
+>
+> The proposed way around this is that the descs array defines the order
+> in priv->dp[N] and this N is used as controller_id.
 
-Same comment as the previous patch, I'd avoid adding a field to this
-structure as I don't think this will play with the DRM scheduler very
-well. If anything I think we should drop i915_sched_attr completely and
-just store these values directly in the request and pass around the
-request rather than i915_sched_attr.
+I'm pretty sure I'm following along.
 
-Matt
+>
+> So the only thing that I don't find straight forward here is that the
+> eDP controller is considered just a DP controller, so you have to use
+> INTF_DP, <N> for that, and not just INTF_EDP, 0.
+>
+> >       };
+> >
+> > and then have msm_dp_desc::id equal INTF_<N> and then look through the
+> > intf from DPU here in the DP driver to find the id and type of connector
+> > that should be used by default? Still sort of fragile because the only
+> > connection is an unsigned int which isn't great, but at least it's
+> > explicit instead of implicit based on the array order.
+>
+> No matter how I look at this, you need to put some number somewhere here
+> that will be used to match up the INTF with the right DSI/DP encoder.
 
->  };
->  
->  /*
-> -- 
-> 2.30.2
-> 
+Correct.
+
+>
+> Using the proposed number scheme follows the numbering of all the DP
+> controllers from the documentation.
+>
+
+Maybe I can make a better example. I have this for sc7280 in dpu_hw_catalog.c:
+
+	static const struct dpu_intf_cfg sc7280_intf[] = {
+		INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, CONTROLLER_ID_A, 24,
+INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+		INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24,
+INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+		INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, CONTROLLER_ID_B, 24,
+INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+	};
+
+And then this array for sc7280 in dp_display.c:
+
+	static const struct msm_dp_desc sc7280_dp_cfg = {
+		.desc = {
+			[CONTROLLER_ID_A] = { 0xaea0000, DRM_MODE_CONNECTOR_eDP },
+			[CONTROLLER_ID_B] = { 0xae90000, DRM_MODE_CONNECTOR_DisplayPort },
+		},
+		.num_dp = 2,
+	};
+
+So these two arrays must match based on CONTROLLER_ID_{A,B}. I don't
+like having to make these two numbers match so if it was explicit, even
+possibly by having a bunch of macros put in both places then I would be
+happy. I spent a few hours when I messed up the order of the
+sc7280_dp_cfg.desc array trying to figure out why things weren't
+working.
