@@ -1,43 +1,50 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D792423DE9
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:42:38 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB6DB423DED
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 14:43:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 037806EDBD;
-	Wed,  6 Oct 2021 12:42:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4674B6EDC1;
+	Wed,  6 Oct 2021 12:43:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EDE5E6EDB2;
- Wed,  6 Oct 2021 12:42:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="224756485"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="224756485"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 05:40:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="589740133"
-Received: from ccronin-mobl.ger.corp.intel.com (HELO [10.213.247.242])
- ([10.213.247.242])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 05:40:45 -0700
-Subject: Re: [PATCH 1/2] dma-buf: add dma_resv_for_each_fence v3
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org, daniel@ffwll.ch
-References: <20211006123609.2026-1-christian.koenig@amd.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <d3b344cf-d7b8-437a-b751-106d42b4f26f@linux.intel.com>
-Date: Wed, 6 Oct 2021 13:40:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0935C6EDB2;
+ Wed,  6 Oct 2021 12:43:21 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id E8A5B60F23;
+ Wed,  6 Oct 2021 12:43:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633524200;
+ bh=NXX/YVeSC1/xMv0e7rgZCXBKEbXgorLqIvzRSnMfkfA=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=KiwZEZTBaFLkFv2VNrd0e9f56QbQwT/fvCufaFLfozr4TRjxw1yntvxAKGYX8gbtL
+ s9Ilw6I4jGZr/w9X7NtIvuZBR2GqSG6mxyfJASQ3v5p7+U+SARrT3cEhZb+M6CmAzf
+ wuc/FZIYjZdMGAyTNDB5etmzBwMaNXjlOqmrartbq1wcGlBcESlsAvP/siFZz9aO1j
+ RFXVme+4roOdlkjaxzxSKMj3IdwVZUGhE+w6aTMpGS/UywqEhpcmvZDPU4sAByK1Ao
+ rjEd7tzi+ZToE5W7ngVUO56CiBeG1rbLXAbpkrlhLeDRWbVXD8ZuyJN685m37EY1C+
+ 2Ja2arWnSxQeA==
+Date: Wed, 6 Oct 2021 18:13:16 +0530
+From: Vinod Koul <vkoul@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Rob Clark <robdclark@gmail.com>, linux-arm-msm@vger.kernel.org,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Jonathan Marek <jonathan@marek.ca>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Jeffrey Hugo <jeffrey.l.hugo@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org
+Subject: Re: [PATCH 08/11] drm/msm/disp/dpu1: Add support for DSC in encoder
+Message-ID: <YV2Z5JbfFAgLo0n6@matsya>
+References: <20210715065203.709914-1-vkoul@kernel.org>
+ <20210715065203.709914-9-vkoul@kernel.org>
+ <0227846a-47b1-96e7-f14c-7dc3b4f1ba47@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20211006123609.2026-1-christian.koenig@amd.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0227846a-47b1-96e7-f14c-7dc3b4f1ba47@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,124 +60,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+On 29-07-21, 23:54, Dmitry Baryshkov wrote:
+> On 15/07/2021 09:52, Vinod Koul wrote:
 
-On 06/10/2021 13:36, Christian König wrote:
-> A simpler version of the iterator to be used when the dma_resv object is
-> locked.
+> > diff --git a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > index 8d942052db8a..41140b781e66 100644
+> > --- a/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > +++ b/drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c
+> > @@ -21,12 +21,17 @@
+> >   #include "dpu_hw_intf.h"
+> >   #include "dpu_hw_ctl.h"
+> >   #include "dpu_hw_dspp.h"
+> > +#include "dpu_hw_dsc.h"
+> >   #include "dpu_formats.h"
+> >   #include "dpu_encoder_phys.h"
+> >   #include "dpu_crtc.h"
+> >   #include "dpu_trace.h"
+> >   #include "dpu_core_irq.h"
+> > +#define DSC_MODE_SPLIT_PANEL		BIT(0)
+> > +#define DSC_MODE_MULTIPLEX		BIT(1)
+> > +#define DSC_MODE_VIDEO			BIT(2)
 > 
-> v2: fix index check here as well
-> v3: minor coding improvement, some documentation cleanup
-> 
-> Signed-off-by: Christian König <christian.koenig@amd.com>
-> ---
->   drivers/dma-buf/dma-resv.c | 51 ++++++++++++++++++++++++++++++++++++++
->   include/linux/dma-resv.h   | 20 +++++++++++++++
->   2 files changed, 71 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index a480af9581bd..2f98caa68ae5 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -423,6 +423,57 @@ struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor)
->   }
->   EXPORT_SYMBOL(dma_resv_iter_next_unlocked);
->   
-> +/**
-> + * dma_resv_iter_first - first fence from a locked dma_resv object
-> + * @cursor: cursor to record the current position
-> + *
-> + * Return the first fence in the dma_resv object while holding the
-> + * &dma_resv.lock.
-> + */
-> +struct dma_fence *dma_resv_iter_first(struct dma_resv_iter *cursor)
-> +{
-> +	struct dma_fence *fence;
-> +
-> +	dma_resv_assert_held(cursor->obj);
-> +
-> +	cursor->index = 0;
-> +	if (cursor->all_fences)
-> +		cursor->fences = dma_resv_shared_list(cursor->obj);
-> +	else
-> +		cursor->fences = NULL;
-> +
-> +	fence = dma_resv_excl_fence(cursor->obj);
-> +	if (!fence)
-> +		fence = dma_resv_iter_next(cursor);
-> +
-> +	cursor->is_restarted = true;
-> +	return fence;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_resv_iter_first);
-> +
-> +/**
-> + * dma_resv_iter_next - next fence from a locked dma_resv object
-> + * @cursor: cursor to record the current position
-> + *
-> + * Return the next fences from the dma_resv object while holding the
-> + * &dma_resv.lock.
-> + */
-> +struct dma_fence *dma_resv_iter_next(struct dma_resv_iter *cursor)
-> +{
-> +	unsigned int idx;
-> +
-> +	dma_resv_assert_held(cursor->obj);
-> +
-> +	cursor->is_restarted = false;
-> +	if (!cursor->fences || cursor->index >= cursor->fences->shared_count)
-> +		return NULL;
-> +
-> +	idx = cursor->index++;
-> +	return rcu_dereference_protected(cursor->fences->shared[idx],
-> +					 dma_resv_held(cursor->obj));
-> +}
-> +EXPORT_SYMBOL_GPL(dma_resv_iter_next);
-> +
->   /**
->    * dma_resv_copy_fences - Copy all fences from src to dst.
->    * @dst: the destination reservation object
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 764138ad8583..491359cea54c 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -179,6 +179,8 @@ struct dma_resv_iter {
->   
->   struct dma_fence *dma_resv_iter_first_unlocked(struct dma_resv_iter *cursor);
->   struct dma_fence *dma_resv_iter_next_unlocked(struct dma_resv_iter *cursor);
-> +struct dma_fence *dma_resv_iter_first(struct dma_resv_iter *cursor);
-> +struct dma_fence *dma_resv_iter_next(struct dma_resv_iter *cursor);
->   
->   /**
->    * dma_resv_iter_begin - initialize a dma_resv_iter object
-> @@ -244,6 +246,24 @@ static inline bool dma_resv_iter_is_restarted(struct dma_resv_iter *cursor)
->   	for (fence = dma_resv_iter_first_unlocked(cursor);		\
->   	     fence; fence = dma_resv_iter_next_unlocked(cursor))
->   
-> +/**
-> + * dma_resv_for_each_fence - fence iterator
-> + * @cursor: a struct dma_resv_iter pointer
-> + * @obj: a dma_resv object pointer
-> + * @all_fences: true if all fences should be returned
-> + * @fence: the current fence
-> + *
-> + * Iterate over the fences in a struct dma_resv object while holding the
-> + * &dma_resv.lock. @all_fences controls if the shared fences are returned as
-> + * well. The cursor initialisation is part of the iterator and the fence stays
-> + * valid as long as the lock is held and so no extra reference to the fence is
-> + * taken.
-> + */
-> +#define dma_resv_for_each_fence(cursor, obj, all_fences, fence)	\
-> +	for (dma_resv_iter_begin(cursor, obj, all_fences),	\
-> +	     fence = dma_resv_iter_first(cursor); fence;	\
-> +	     fence = dma_resv_iter_next(cursor))
-> +
->   #define dma_resv_held(obj) lockdep_is_held(&(obj)->lock.base)
->   #define dma_resv_assert_held(obj) lockdep_assert_held(&(obj)->lock.base)
->   
-> 
+> This should go into dpu_hw_dsc.h. Ah. They are already defined there and
+> just redefined there. Remove the defines here.
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Sure, updated
 
-Regards,
+> It might be cleaner to add bool flags to struct msm_display_dsc_config and
+> then calculate common mode in the dpu_hw_dsc_config().
 
-Tvrtko
+How would that be better than calculating here? I dont see much of an
+advantage.
+
+> > +static void dpu_encoder_dsc_pipe_cfg(struct dpu_hw_dsc *hw_dsc,
+> > +				     struct dpu_hw_pingpong *hw_pp,
+> > +				     struct msm_display_dsc_config *dsc,
+> > +				     u32 common_mode)
+> > +{
+> > +	if (hw_dsc->ops.dsc_config)
+> > +		hw_dsc->ops.dsc_config(hw_dsc, dsc, common_mode);
+> > +
+> > +	if (hw_dsc->ops.dsc_config_thresh)
+> > +		hw_dsc->ops.dsc_config_thresh(hw_dsc, dsc);
+> > +
+> > +	if (hw_pp->ops.setup_dsc)
+> > +		hw_pp->ops.setup_dsc(hw_pp);
+> > +
+> > +	if (hw_pp->ops.enable_dsc)
+> > +		hw_pp->ops.enable_dsc(hw_pp);
+> 
+> I think, we do not need to split these operations, I'd suggest having just
+> hw_dsc->ops.dsc_config() and hw_pp->ops.enable_dsc(), merging
+> dsc_config_thres() and setup_dsc() into respective methods.
+
+Merging hw_dsc->ops.dsc_config() and hw_dsc->ops.dsc_config_thresh() would make
+it from L to XL size, so lets keep them split.
+
+We could merge the small hw_pp->ops.setup_dsc() and
+hw_pp->ops.enable_dsc() though.
+
+> >   void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+> >   {
+> >   	struct dpu_encoder_virt *dpu_enc;
+> >   	struct dpu_encoder_phys *phys;
+> > +	struct msm_drm_private *priv;
+> >   	bool needs_hw_reset = false;
+> >   	unsigned int i;
+> > @@ -1841,6 +1977,10 @@ void dpu_encoder_prepare_for_kickoff(struct drm_encoder *drm_enc)
+> >   			dpu_encoder_helper_hw_reset(dpu_enc->phys_encs[i]);
+> >   		}
+> >   	}
+> > +
+> > +	priv = drm_enc->dev->dev_private;
+> > +	if (priv->dsc)
+> > +		dpu_encoder_prep_dsc(dpu_enc, priv->dsc);
+> 
+> Not quite. This makes dsc config global, while we can have several encoders
+> enabled at once (think of DSI + DP). So the dsc should be a per-encoder
+> setting rather than global.
+
+I agree it would make sense to have per-encoder. The DP part needs to be
+comprehended for DSC and would need more changes. I think updating this
+for DP then and making it generic as required for DP would be better,
+right? In that case I will skip moving to encoder for now.
+
+-- 
+~Vinod
