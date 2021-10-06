@@ -1,39 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD22423A68
-	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:17:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70957423A60
+	for <lists+dri-devel@lfdr.de>; Wed,  6 Oct 2021 11:17:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2A21A6F648;
-	Wed,  6 Oct 2021 09:16:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8DF4A6F640;
+	Wed,  6 Oct 2021 09:16:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 183C06F645;
- Wed,  6 Oct 2021 09:16:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10128"; a="225843510"
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="225843510"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 02:16:46 -0700
-X-IronPort-AV: E=Sophos;i="5.85,350,1624345200"; d="scan'208";a="589690813"
-Received: from dcharle1-mobl1.ger.corp.intel.com (HELO mwauld-desk1.intel.com)
- ([10.252.19.138])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 06 Oct 2021 02:16:45 -0700
-From: Matthew Auld <matthew.auld@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH v7 8/8] drm/i915/ttm: enable shmem tt backend
-Date: Wed,  6 Oct 2021 10:16:13 +0100
-Message-Id: <20211006091614.970596-8-matthew.auld@intel.com>
-X-Mailer: git-send-email 2.26.3
-In-Reply-To: <20211006091614.970596-1-matthew.auld@intel.com>
-References: <20211006091614.970596-1-matthew.auld@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CF7C16E44A
+ for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 09:16:42 +0000 (UTC)
+Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65C92581;
+ Wed,  6 Oct 2021 11:16:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1633511800;
+ bh=7EZEVLor2blKHboM0zN+7tSG1twSkFXBR0R70J04Rwk=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=mWENS5tMD5lmYT97wh+0GZOBPwo9xBrCaUV/1+tGjTWMg4JAx9w15gAmjJNx/jm3k
+ Y8zsGXQk2f2BiS0Dq5fABAE/WSiLfTp2lezKma76a2nIl0SYeqgPDwMeZ1/1iujJ6i
+ Jz7u/CUnVyJnpYDn96zFubKK/pwSxQqctYpG7X6s=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: dri-devel@lists.freedesktop.org
+Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
+ devicetree@vger.kernel.org, Rob Herring <robh+dt@kernel.org>,
+ Marek Vasut <marex@denx.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] dt-bindings: display: bridge: sn65dsi83: Make enable GPIO
+ optional
+Date: Wed,  6 Oct 2021 12:16:24 +0300
+Message-Id: <20211006091624.6293-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.32.0
+In-Reply-To: <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
+References: <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,29 +53,32 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Turn on the shmem tt backend, and enable shrinking.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Signed-off-by: Matthew Auld <matthew.auld@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+The SN65DSI8x EN signal may be tied to VCC, or otherwise controlled by
+means not available to the kernel. Make the GPIO optional.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/display/bridge/ti,sn65dsi83.yaml         | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 0006ab35cd4d..c889beb7696e 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -1094,7 +1094,8 @@ static u64 i915_ttm_mmap_offset(struct drm_i915_gem_object *obj)
+diff --git a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+index 07b20383cbca..a5779bf17849 100644
+--- a/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/ti,sn65dsi83.yaml
+@@ -93,7 +93,6 @@ properties:
+ required:
+   - compatible
+   - reg
+-  - enable-gpios
+   - ports
  
- static const struct drm_i915_gem_object_ops i915_gem_ttm_obj_ops = {
- 	.name = "i915_gem_object_ttm",
--	.flags = I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
-+	.flags = I915_GEM_OBJECT_IS_SHRINKABLE |
-+		 I915_GEM_OBJECT_SELF_MANAGED_SHRINK_LIST,
- 
- 	.get_pages = i915_ttm_get_pages,
- 	.put_pages = i915_ttm_put_pages,
+ allOf:
+
+base-commit: 1e3944578b749449bd7fa6bf0bae4c3d3f5f1733
 -- 
-2.26.3
+Regards,
+
+Laurent Pinchart
 
