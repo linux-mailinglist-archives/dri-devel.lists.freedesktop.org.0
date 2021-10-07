@@ -2,63 +2,45 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FAF4256B4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6808E4256D1
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:42:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 404666E848;
-	Thu,  7 Oct 2021 15:35:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAE86E84C;
+	Thu,  7 Oct 2021 15:42:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com
- [IPv6:2607:f8b0:4864:20::234])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9DCF26E841;
- Thu,  7 Oct 2021 15:35:22 +0000 (UTC)
-Received: by mail-oi1-x234.google.com with SMTP id n63so9495538oif.7;
- Thu, 07 Oct 2021 08:35:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=RarZC0DyhhLg13GOrYFDr8NcXK9FIufYOOLFZU9wHfQ=;
- b=ZJ2AS0ZVbS9jA+Hqwj82ytWYWsaLS1Ns4HObbEH4BVgIpMa8Kwlefv3KZCRKKzZwR7
- MylpjwRAC1Td5bO19GNTMwBAzaoDNWIOWCCUhpVTwMCLU6etTo1UdZt5oJn60YhF1J7m
- kKfTdESIEWTIVwtYcTa47J3ZwXkaTcH1upbAIwkCytGR111jwfC5Pp6U6A2mRdWZZTz2
- g+xDHiRWtHFT3y4v5sCIslqZC12fMQsZFdjfPdispfmg5XP7NwzFk99iJtcr6g4WIkMN
- gyau5vmetfTUpR2IWyMuwdqK8nScwXIA8tmesfF4Q53s7G+8Q+Tyk1BgqWWSeo1QWbyG
- Dwrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=RarZC0DyhhLg13GOrYFDr8NcXK9FIufYOOLFZU9wHfQ=;
- b=lqR/2KVIIbPcpYeZfz1HNttu8ozPjnzvaU8WZQH+9dOvtnNWPqE+kVsDC8nzlekUEK
- 23+cM1ygIvzpTWHlHecRlwqRzpqHDfoT00IWSAlzwH1asZAeMZaHplQFYQF20X+jf78j
- AiYoZyS7SNmoESTFs1brSqS3SmdFSm/0SLQJxSW8dctJwAN5R9mR90udqazOxBWoMFR6
- YWe1M5wprLjDAB/JDloUNHjQLUXKf8x+9uoOZReC6Oq1xyGwfJoglo+UpFX0BvPsBQxr
- dpjrlQ0dsuxTJFvhF8gXOruaHEaw4HMDkcqO8WZjBpLEmbB/Iv5bm1XpEFiT1F3tms28
- +Cxw==
-X-Gm-Message-State: AOAM533MyNJRREGWrZGvgpUVkZ/Ob8QSjb/CP/cNXSLJa1IG1z6dKpX/
- s7/mud/34FtkfVzvxBGTCeXFJJuNST8bM1ZDh9E=
-X-Google-Smtp-Source: ABdhPJzm23B4aJ7u+6jK/b6qYYLaIYoEve1Wt62fj0JIjH1+3WpkM+TdDRftw8V9bE4WpO40YcaOYdCD+KQKLlnZMVE=
-X-Received: by 2002:a05:6808:1141:: with SMTP id
- u1mr3640714oiu.123.1633620921765; 
- Thu, 07 Oct 2021 08:35:21 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D133E6E84C;
+ Thu,  7 Oct 2021 15:42:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="206404746"
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="206404746"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 08:42:34 -0700
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="458835173"
+Received: from unerlige-ril-10.jf.intel.com (HELO unerlige-ril-10.165.21.208)
+ ([10.165.21.208])
+ by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 08:42:33 -0700
+Date: Thu, 7 Oct 2021 08:42:33 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH] drm/i915/pmu: Connect engine busyness stats from GuC to
+ pmu
+Message-ID: <20211007154233.GJ4467@unerlige-ril-10.165.21.208>
+References: <20211005174711.55618-1-umesh.nerlige.ramappa@intel.com>
+ <73824dba-142a-1022-252e-ce56de1227fa@linux.intel.com>
+ <20211006204552.GI4467@unerlige-ril-10.165.21.208>
+ <ae1570ac-4af1-bb3e-7a97-9b56e2242441@linux.intel.com>
 MIME-Version: 1.0
-References: <20211007120637.14459-1-colin.king@canonical.com>
-In-Reply-To: <20211007120637.14459-1-colin.king@canonical.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 7 Oct 2021 11:35:10 -0400
-Message-ID: <CADnq5_P2ZC5oaDZYPZixxH6BLoPZfvwWQqiGM2msQAcA3ebL8Q@mail.gmail.com>
-Subject: Re: [PATCH][next] drm/amd/display: Remove redundant initialization of
- variable result
-To: Colin King <colin.king@canonical.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- xinhui pan <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- amd-gfx list <amd-gfx@lists.freedesktop.org>, 
- Maling list - DRI developers <dri-devel@lists.freedesktop.org>,
- kernel-janitors@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ae1570ac-4af1-bb3e-7a97-9b56e2242441@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,37 +56,60 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Applied.  Thanks!
+On Thu, Oct 07, 2021 at 09:17:34AM +0100, Tvrtko Ursulin wrote:
+>
+>On 06/10/2021 21:45, Umesh Nerlige Ramappa wrote:
+>>On Wed, Oct 06, 2021 at 10:11:58AM +0100, Tvrtko Ursulin wrote:
+>
+>[snip]
+>
+>>>>@@ -762,12 +764,25 @@ submission_disabled(struct intel_guc *guc)
+>>>> static void disable_submission(struct intel_guc *guc)
+>>>> {
+>>>>     struct i915_sched_engine * const sched_engine = guc->sched_engine;
+>>>>+    struct intel_gt *gt = guc_to_gt(guc);
+>>>>+    struct intel_engine_cs *engine;
+>>>>+    enum intel_engine_id id;
+>>>>+    unsigned long flags;
+>>>>     if (__tasklet_is_enabled(&sched_engine->tasklet)) {
+>>>>         GEM_BUG_ON(!guc->ct.enabled);
+>>>>         __tasklet_disable_sync_once(&sched_engine->tasklet);
+>>>>         sched_engine->tasklet.callback = NULL;
+>>>>     }
+>>>>+
+>>>>+    cancel_delayed_work(&guc->timestamp.work);
+>>>
+>>>I am not sure when disable_submission gets called so a question - 
+>>>could it be important to call cancel_delayed_work_sync here to 
+>>>ensure if the worker was running it had exited before proceeding?
+>>
+>>disable_submission is called in the reset_prepare path for uc 
+>>resets. I see this happening only with busy-hang test which does a 
+>>global gt reset. The counterpart for this is the 
+>>guc_init_engine_stats which is called post reset in the path to 
+>>initialize GuC.
+>>
+>>I tried cancel_delayed_work_sync both here and in park. Seems to 
+>>work fine, so will change the calls to _sync versions.
+>
+>From park is not allowed to sleep so can't do sync from there. It 
+>might have been my question which put you on a wrong path, sorry. Now 
+>I think question remains what happens if the ping worker happens to be 
+>sampling GuC state as GuC is being reset? Do you need some sort of a 
+>lock to protect that, or make sure worker skips if reset in progress?
+>
 
-Alex
+If ping ran after the actual gt reset, we should be okay. If it ran 
+after we reset prev_total and before gt reset, then we have bad 
+busyness. At the same time, skipping ping risks timestamp overflow. I am 
+thinking skip ping, but update all stats in the reset_prepare path.  
+reset_prepare is running with pm runtime.
 
-On Thu, Oct 7, 2021 at 8:06 AM Colin King <colin.king@canonical.com> wrote:
->
-> From: Colin Ian King <colin.king@canonical.com>
->
-> The variable result is being initialized with a value that is never
-> read, it is being updated immediately afterwards in both branches
-> of an if statement. The assignment is redundant and can be removed.
->
-> Addresses-Coverity: ("Unused value")
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
-> index 6936b9d549e5..8387767ec1b3 100644
-> --- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
-> +++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
-> @@ -774,7 +774,7 @@ static enum link_training_result dpia_training_eq_phase(struct dc_link *link,
->                 struct link_training_settings *lt_settings,
->                 uint32_t hop)
->  {
-> -       enum link_training_result result = LINK_TRAINING_EQ_FAIL_EQ;
-> +       enum link_training_result result;
->
->         if (link->lttpr_mode == LTTPR_MODE_NON_TRANSPARENT)
->                 result = dpia_training_eq_non_transparent(link, lt_settings, hop);
-> --
-> 2.32.0
->
+On a different note, during reset, we need to store now-start into the 
+total_gt_clks also because we may lose that information in the next pmu 
+query or ping (post reset). Maybe I will store active_clks instead of 
+running in the stats to do that.
+
+Thanks,
+Umesh
+
