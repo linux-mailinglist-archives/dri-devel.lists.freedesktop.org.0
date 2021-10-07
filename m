@@ -1,75 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 387BA425FDC
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 00:30:11 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F29E425FFF
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 00:35:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CF6546E046;
-	Thu,  7 Oct 2021 22:30:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 830BD6E03F;
+	Thu,  7 Oct 2021 22:34:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7E47E89A92
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 22:30:04 +0000 (UTC)
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
- q=dns/txt; 
- s=smtp; t=1633645805; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=WPlsjcASrIFnWjau3JCRcYa5Ieggti3cBN5snQedytI=;
- b=aztZ6Ncx8wC3uUJ+B457APjmuBl9EPnlYg8TOW579fJccfzPrM+IaqEf2HoMe4bfDtevvM+A
- gHvw++CpXjjhuEe6y0ib0VtYw6jSAivKFgbXsQE8bTXWLObe1MON0BMemmCjC25L71ZdjWQQ
- /D0wM4JEw9pjlO81AV2oSKB73AU=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 615f74e9446c6db0cbb89cae (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Oct 2021 22:30:01
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
- id 03B27C4361A; Thu,  7 Oct 2021 22:30:00 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
- aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
- autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
- (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
- (No client certificate requested) (Authenticated sender: abhinavk)
- by smtp.codeaurora.org (Postfix) with ESMTPSA id 01255C4338F;
- Thu,  7 Oct 2021 22:29:58 +0000 (UTC)
+Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com
+ [IPv6:2607:f8b0:4864:20::c2f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 065E66E03E
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 22:34:55 +0000 (UTC)
+Received: by mail-oo1-xc2f.google.com with SMTP id
+ w9-20020a4adec9000000b002b696945457so1860952oou.10
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 15:34:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=xvLkmQK9Bybd4TfsJEOa13aU7h3LNEaMsTOh+C5eBTg=;
+ b=RrC+LQ4p5RknyhummIEgUPYOa5Fz91+AtAnA3rEUlbkmAuwRbsdE6lfznJHa0LlbJD
+ gHeKxZrbTLMQqWWXvsiNBMMeaRwgA2mRA/n0nVIfo+Vcylr2NHZLoSz93AavNudYmQay
+ JhoZXgGqu43xpmqTbQ4Z52i8Am0AOPbAQSlwg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=xvLkmQK9Bybd4TfsJEOa13aU7h3LNEaMsTOh+C5eBTg=;
+ b=JmdXLoc5ZmzxH2+gvYSrksgigUnDVOP4lJk6B26pJFz4BbwmBS9Q9hQJ1aAuyCmoxK
+ FngzLQpFmFToLCDri7SIxHG4zXkrUBhIbblP60hUsKaEikx91NDmsFqjgePcPlhXFhjn
+ QRyqFgQC9Lgamb4QHDWwA3Z3lo0zTh5W53RPDMKUkOZuvW1JkpfLedleSANI5OIe3ZnP
+ Twlo6lAig1LDObw9TnP1aAolBLcyJtVtO0IUs8TZ/T28w+P2ZalOmvOhy0rSKQu/thVq
+ NBeIOII6lhlMOOdgHnk1+T4FPSnmOj8Uu98SNvE51hO3pTvE72df3qzAnI06n312JGHH
+ Wdcg==
+X-Gm-Message-State: AOAM5307WYQcJNLHJ6bJBM/EolkQNaflfNrFtWT5l8bkj+rq5gTZ8FIr
+ Frrjb4w2Zha8WC8pwMpKWGYPuX9hyE+iZxwvLSA7k0orBeY=
+X-Google-Smtp-Source: ABdhPJxw5GB+L1Z2oveCShSFbqavZMVrh82r2Kmb+640p8VfkAcz3rr6nqKCzxe0QKBNen93cGn02/Y5v97GrzlGfSM=
+X-Received: by 2002:a4a:e2d3:: with SMTP id l19mr5401226oot.1.1633646094225;
+ Thu, 07 Oct 2021 15:34:54 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 Oct 2021 18:34:53 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Thu, 07 Oct 2021 15:29:58 -0700
-From: abhinavk@codeaurora.org
-To: Bjorn Andersson <bjorn.andersson@linaro.org>
-Cc: Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>, Sean
- Paul <sean@poorly.run>, Rob Herring <robh+dt@kernel.org>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
-In-Reply-To: <YV4JjutldSujvoT8@ripper>
-References: <20211005231323.2663520-6-bjorn.andersson@linaro.org>
- <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
- <YVz/NOL3AFn2zBA0@ripper>
- <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
- <YV0MAF/Y5BR1e6My@ripper>
- <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
- <YV3XxadYE/KU2w89@ripper>
- <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
- <YV3lVWjct5RQ5FEK@ripper>
- <CAE-0n537_YLDkWOX0kBHZHPHMi4-XTODeJ8TB=_xOrZwJc1HfQ@mail.gmail.com>
- <YV4JjutldSujvoT8@ripper>
-Message-ID: <33aa53c7e1784440ae2892163830acf1@codeaurora.org>
-X-Sender: abhinavk@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+In-Reply-To: <0c72f3fd8c49cdada09bb6ee366b53a6@codeaurora.org>
+References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
+ <YVzGVmJXEDH0HfIL@ripper>
+ <CAE-0n53FC7JCCJoye_uKeqaLKrZeHXLtvObxWFedaUzjirmBaA@mail.gmail.com>
+ <a4a4980e586a70e3b7de989bc61a3e33@codeaurora.org> <YV0FlTyMEzlyNsN9@ripper>
+ <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org> <YV3dddt/GOidTmlN@ripper>
+ <9dc50145fb3e9b189fd38857b20f326a@codeaurora.org> <YV9TQEKPh4SXYFF/@ripper>
+ <0c72f3fd8c49cdada09bb6ee366b53a6@codeaurora.org>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 7 Oct 2021 18:34:53 -0400
+Message-ID: <CAE-0n51bvKXmHj0X_cvR2fdk4-mh4SRsrEE33H0e1Q+p=7iPxA@mail.gmail.com>
+Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
+To: Bjorn Andersson <bjorn.andersson@linaro.org>, khsieh@codeaurora.org
+Cc: Abhinav Kumar <abhinavk@codeaurora.org>, Daniel Vetter <daniel@ffwll.ch>, 
+ David Airlie <airlied@linux.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ linux-arm-msm@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, Sankeerth Billakanti <sbillaka@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,208 +79,97 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Bjorn and Stephen
+Quoting khsieh@codeaurora.org (2021-10-07 13:28:12)
+> On 2021-10-07 13:06, Bjorn Andersson wrote:
+> > On Thu 07 Oct 12:51 PDT 2021, khsieh@codeaurora.org wrote:
+> >
+> >> On 2021-10-06 10:31, Bjorn Andersson wrote:
+> >> > On Wed 06 Oct 08:37 PDT 2021, khsieh@codeaurora.org wrote:
+> >> >
+> >> > > On 2021-10-05 19:10, Bjorn Andersson wrote:
+> >> > > > On Tue 05 Oct 16:04 PDT 2021, khsieh@codeaurora.org wrote:
+> >> > > >
+> >> > > > > On 2021-10-05 15:36, Stephen Boyd wrote:
+> >> > > > > > Quoting Bjorn Andersson (2021-10-05 14:40:38)
+> >> > > > > > > On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
+> >> > > > > > >
+> >> > > > > > > > Quoting Bjorn Andersson (2021-10-04 19:37:50)
+> >> > > > > > > > > Found in the middle of a patch from Sankeerth was the reduction of the
+> >> > > > > > > > > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
+> >> > > > > > > > > is initalized and HPD interrupt start to be serviced, so in the case of
+> >> > > > > > > > > eDP this reduction improves the user experience dramatically - i.e.
+> >> > > > > > > > > removes 9.9s of bland screen time at boot.
+> >> > > > > > > > >
+> >> > > > > > > > > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
+> >> > > > > > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+> >> > > > > > > > > ---
+> >> > > > > > > >
+> >> > > > > > > > Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
+> >> > > > > > > > re-read the code a couple times to understand that it's waiting 100ms
+> >> > > > > > > > times the 'delay' number. Whaaaaat?
+> >> > > > > > > >
+> >> > > > > > >
+> >> > > > > > > I assume you're happy with the current 10s delay on the current
+> >> > > > > > > devices, so I don't think we should push for this to be backported.
+> >> > > > > > > I have no need for it to be backported on my side at least.
+> >> > > > > > >
+> >> > > > > >
+> >> > > > > > Sure. Fixes tag != backported to stable trees but it is close.
+> >> > > > > >
+> >> > > > > > > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+> >> > > > > > >
+> >> > > > >   dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1); <== to 100ms
+> >> > > > >
+> >> > > > > This patch will prevent usb3 from working due to dp driver
+> >> > > > > initialize phy
+> >> > > > > earlier than usb3 which cause timeout error at power up usb3 phy
+> >> > > > > when both
+> >> > > > > edp and dp are enabled.
+> >> > > >
+> >> > > > Can you please help me understand what you mean here, I use this on my
+> >> > > > sc8180x with both eDP and USB-C/DP right now. What is it that doesn't
+> >> > > > work? Or am I just lucky in some race condition?
+> >> > > >
+> >> > > > Thanks,
+> >> > > > Bjorn
+> >> > > >
+> >> > > The problem is seen at sc7280.
+> >> > > Apple dongle have both  hdmi and usb port.
+> >> > > plug Apple dongle into type-c, then plug DP into apple's hdmi port
+> >> > > and usb
+> >> > > mouse into apple's usb port.
+> >> > > If edp enabled at this time, then usb mouse will not work due to
+> >> > > timeout at
+> >> > > phy power up.
+> >> > >
+> >> >
+> >> > Okay, so you're saying that if the DP driver invokes phy_power_on()
+> >> > before the USB driver does, USB initialization fails (or at least USB
+> >> > doesn't work)?
+> >>
+> >> if dp driver call qcom_qmp_phy_init() before usb3 call
+> >> qcom_qmp_phy_init(),
+> >> usb3 driver will timeout at readl_poll_timeout(status, val, (val &
+> >> mask) ==
+> >> ready, 10, PHY_INIT_COMPLETE_TIMEOUT) of qcom_qmp_phy_power_on().
+> >
+> > Thanks, I will try to reproduce this on my side. So the 10 seconds here
+> > is strictly to give good enough time for the dwc3 driver to probe...
+> >
+> > Any idea why you're saying that this is specific to sc7280, what
+> > changed
+> > from sc7180?
+>
+> I did not have sc7180 with edp before so that i am not sure it will
+> happen on sc7180 or not.
+> The usb3 does not work when both edp and dp enabled I just seen at
+> sc7280.
+> Current at sc7280 EC is not boot up correctly when system power up.
+> I have to manual reboot EC from linux kernel shell before DP/usb3 can
+> work.
+> I am not sure this contribute to this problem or not.
+>
 
-On 2021-10-06 13:39, Bjorn Andersson wrote:
-> On Wed 06 Oct 11:59 PDT 2021, Stephen Boyd wrote:
-> 
->> Quoting Bjorn Andersson (2021-10-06 11:05:09)
->> > On Wed 06 Oct 10:19 PDT 2021, Stephen Boyd wrote:
->> >
->> > > Quoting Bjorn Andersson (2021-10-06 10:07:17)
->> > > > On Tue 05 Oct 21:26 PDT 2021, Stephen Boyd wrote:
->> > > >
->> > > > > Quoting Bjorn Andersson (2021-10-05 19:37:52)
->> > > > > > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
->> > > > > >
->> > > > > > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
->> > > > > > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
->> > > > > > > >
->> > > > > > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
->> > > > > > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
->> > > > > > > > > > index bdaf227f05dc..674cddfee5b0 100644
->> > > > > > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
->> > > > > > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
->> > > > > > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
->> > > > > > > > > >         if (!dp)
->> > > > > > > > > >                 return -ENOMEM;
->> > > > > > > > > >
->> > > > > > > > > > -       desc = dp_display_get_desc(pdev);
->> > > > > > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
->> > > > > > > > >
->> > > > > > > > > I'm sad that dp->id has to match the number in the SoC specific
->> > > > > > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
->> > > > > > > > > still. Is there any way we can avoid that? Also, notice how those arrays
->> > > > > > > > > already have INTF_DP macros, which makes me think that it may be better
->> > > > > > > > > to connect this to those arrays instead of making an msm_dp_desc
->> > > > > > > > > structure and then make sure the 'type' member matches a connector
->> > > > > > > > > type number. Otherwise this code is super fragile.
->> > > > > > > > >
->> > > > > > > >
->> > > > > > > > I'm afraid I don't understand what you're proposing. Or which part you
->> > > > > > > > consider fragile, the indices of the INTF_DP instances aren't going to
->> > > > > > > > move around...
->> > > > > > > >
->> > > > > > > > I have N instances of the DP driver that I need to match to N entries
->> > > > > > > > from the platform specific intf array, I need some stable reference
->> > > > > > > > between them. When I started this journey I figured I could rely on the
->> > > > > > > > of_graph between the DPU and the interface controllers, but the values
->> > > > > > > > used there today are just bogus, so that was a no go.
->> > > > > > > >
->> > > > > > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
->> > > > > > > > come up with an identifier to put in h_tile_instance[0] so that
->> > > > > > > > dpu_encoder_setup_display() can find the relevant INTF.
->> > > > > > > >
->> > > > > > >
->> > > > > > > To make it more concrete we can look at sc7180
->> > > > > > >
->> > > > > > > static const struct dpu_intf_cfg sc7180_intf[] = {
->> > > > > > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
->> > > > > > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->> > > > > > >                                                      ^
->> > > > > > >                                                      |
->> > > > > > >
->> > > > > > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
->> > > > > > > zero, the number after INTF_DP, and that is very relevant. That number
->> > > > > > > needs to match the dp->id. Somewhere we have a match between
->> > > > > > > controller_id and dp->id in the code.
->> > > > > >
->> > > > > > That number (the 0, not INTF_0) is what the code matches against dp->id
->> > > > > > in _dpu_kms_initialize_displayport(), in order to figure out that this
->> > > > > > is INTF_0 in dpu_encoder_setup_display().
->> > > > > >
->> > > > > > I.e. look at the sc8180x patch:
->> > > > > >
->> > > > > > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->> > > > > > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
->> > > > > > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
->> > > > > > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
->> > > > > > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
->> > > > > > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
->> > > > > > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
->> > > > > >
->> > > > > > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
->> > > > > > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
->> > > > > >
->> > > > >
->> > > > > Yep. I'm saying that having to make that number in this intf array match
->> > > > > the order of the register mapping descriptor array is fragile. Why can't
->> > > > > we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
->> > > > > map from the descriptor array to this intf array somehow so that the
->> > > > > order of the descriptor array doesn't matter? Then we don't have to put
->> > > > > the connector type in the descriptor array, and we don't have to keep
->> > > > > the order of the array a certain way to match this intf descriptor.
->> > > > >
->> > > > > Maybe
->> > > > >
->> > > > >       struct msm_dp_desc {
->> > > > >               phys_addr_t io_start;
->> > > > >               unsigned int id;
->> > > >
->> > > > The INTF_<N> constants are a property of the DPU driver and not
->> > > > available in the DP driver and the msm_dp struct is a property of the DP
->> > > > driver and can't be dereferenced in the DPU driver.
->> > > >
->> > > > The proposed way around this is that the descs array defines the order
->> > > > in priv->dp[N] and this N is used as controller_id.
->> > >
->> > > I'm pretty sure I'm following along.
->> > >
->> > > >
->> > > > So the only thing that I don't find straight forward here is that the
->> > > > eDP controller is considered just a DP controller, so you have to use
->> > > > INTF_DP, <N> for that, and not just INTF_EDP, 0.
->> > > >
->> > > > >       };
->> > > > >
->> > > > > and then have msm_dp_desc::id equal INTF_<N> and then look through the
->> > > > > intf from DPU here in the DP driver to find the id and type of connector
->> > > > > that should be used by default? Still sort of fragile because the only
->> > > > > connection is an unsigned int which isn't great, but at least it's
->> > > > > explicit instead of implicit based on the array order.
->> > > >
->> > > > No matter how I look at this, you need to put some number somewhere here
->> > > > that will be used to match up the INTF with the right DSI/DP encoder.
->> > >
->> > > Correct.
->> > >
->> > > >
->> > > > Using the proposed number scheme follows the numbering of all the DP
->> > > > controllers from the documentation.
->> > > >
->> > >
->> > > Maybe I can make a better example. I have this for sc7280 in dpu_hw_catalog.c:
->> > >
->> > >       static const struct dpu_intf_cfg sc7280_intf[] = {
->> > >               INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, CONTROLLER_ID_A, 24,
->> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
->> > >               INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24,
->> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
->> > >               INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, CONTROLLER_ID_B, 24,
->> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
->> > >       };
->> > >
->> > > And then this array for sc7280 in dp_display.c:
->> > >
->> > >       static const struct msm_dp_desc sc7280_dp_cfg = {
->> > >               .desc = {
->> > >                       [CONTROLLER_ID_A] = { 0xaea0000, DRM_MODE_CONNECTOR_eDP },
->> > >                       [CONTROLLER_ID_B] = { 0xae90000, DRM_MODE_CONNECTOR_DisplayPort },
->> > >               },
->> > >               .num_dp = 2,
->> > >       };
->> > >
->> > > So these two arrays must match based on CONTROLLER_ID_{A,B}. I don't
->> > > like having to make these two numbers match so if it was explicit, even
->> > > possibly by having a bunch of macros put in both places then I would be
->> > > happy. I spent a few hours when I messed up the order of the
->> > > sc7280_dp_cfg.desc array trying to figure out why things weren't
->> > > working.
->> >
->> > So essentially, you didn't know that the controller_id has to match the
->> > index in priv->dsi[] and priv->dp[] and providing a define for them
->> > would make this more obvious?
->> 
->> Now you got it!
->> 
->> >
->> > I think per your argument the 0 following INTF_DSI should also be using
->> > this scheme, so we'd have multiple CONTROLLER_ID_A, which probably is
->> > confusing as well.
->> 
->> Agreed.
->> 
->> >
->> > I tried it out with below patch; it documents the relationship, provides
->> > constants for the magic 2 and 3 for number of DSI and DP controllers in
->> > struct msm_drm_private.
->> >
->> > I like it.
->> 
->> Thanks. I prefer this approach as well.
-> 
-> Sweet, I'll update my patch set accordingly.
-Yes, I also agree with this approach to better document the relationship 
-between the hw_catalog array
-and the dp_display msm_dp_desc
-
-> 
->> I can see now why qcom always wants to change the output ports on the
->> DPU node in DT to match the INTF number. If they would have described
->> this problem it may have made sense to have the graph endpoints with
->> reg properties matching the interface number in the intf array. Sigh.
-> 
-> Yes, I think the supposed design is that you should use the of_graph 
-> and
-> then call of_find_possible_crtcs() to figure out your links.
-> 
-> Unfortunately that doesn't work with the design of the DPU driver,
-> because the crtcs doesn't represent the INTFs - and as you say, the
-> existing of_graphs are full of incorrect data.
-> 
-> Which also means that I don't know why we keep filling out the 
-> of_graph,
-> because afaict it's not used and it contains invalid information.
-> 
-> Thanks,
-> Bjorn
+Can you make the usb driver into a module and only load that module
+later in boot after the DP driver calls qcom_qmp_phy_init()? That would
+be an easy way to move usb probe after DP probe and expose this problem.
