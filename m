@@ -1,48 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAAAB42563C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:10:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCEF425689
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:24:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3E8346F895;
-	Thu,  7 Oct 2021 15:10:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3AA146F4A6;
+	Thu,  7 Oct 2021 15:24:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2D6486F894;
- Thu,  7 Oct 2021 15:10:29 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ACD6661245;
- Thu,  7 Oct 2021 15:10:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633619429;
- bh=JbP3u6z5HQuqnmWLruM9RdfFpU2qgop0fFjGQDuIZxQ=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=V8/yyfNYLU57EydIpKKA3rXfdUdQpNHPnxs2fvUwtJTTjVngUbX58IFXCRHacsKWk
- I2ACEGE2JRF6eoklgQ0rk3C1t4UPA8y8qIZ6uk3qYz0wEaKX7TA0noCIAdexMXiM+L
- Q3S1l+UvfetGR8aHMDp1vNwpKF5rBthi4Y6Vy2HPxm4LfPxbEYWlQA7imWut0fPRgC
- kpA4fNPu9gbrfrMXYCo6AEZ+CVtpw25f++4axV+M7NuYCnZO6K//cs6FzP8T7MHAKL
- nswKhq7llI9vu9BM7bPVd3IdVKs/auB/P0z0t60LE7YAF7DZuFe+GFJzTcWq9vg0bE
- IlLA30E7mJBQA==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-kernel@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- linux-riscv@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
- linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
- ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
- linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
- Kalle Valo <kvalo@codeaurora.org>, Alex Elder <elder@linaro.org>
-Subject: [PATCH v2 2/2] qcom_scm: hide Kconfig symbol
-Date: Thu,  7 Oct 2021 17:10:10 +0200
-Message-Id: <20211007151010.333516-2-arnd@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20211007151010.333516-1-arnd@kernel.org>
-References: <20211007151010.333516-1-arnd@kernel.org>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2D3DA6E841;
+ Thu,  7 Oct 2021 15:24:36 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226178025"
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="226178025"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 08:24:34 -0700
+X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="590181318"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 08:24:34 -0700
+Date: Thu, 7 Oct 2021 08:19:47 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH 03/26] drm/i915/guc: Take engine PM when a context is
+ pinned with GuC submission
+Message-ID: <20211007151947.GA27846@jons-linux-dev-box>
+References: <20211004220637.14746-1-matthew.brost@intel.com>
+ <20211004220637.14746-4-matthew.brost@intel.com>
+ <a2d5377a-ec8e-40ec-d0cf-c91aa51bba48@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a2d5377a-ec8e-40ec-d0cf-c91aa51bba48@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,325 +53,228 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, Oct 06, 2021 at 08:45:42PM -0700, John Harrison wrote:
+> On 10/4/2021 15:06, Matthew Brost wrote:
+> > Taking a PM reference to prevent intel_gt_wait_for_idle from short
+> > circuiting while a scheduling of user context could be enabled.
+> I'm not sure what 'while a scheduling of user context could be enabled'
+> means.
+>
 
-Now that SCM can be a loadable module, we have to add another
-dependency to avoid link failures when ipa or adreno-gpu are
-built-in:
+Not really sure how this isn't clear.
 
-aarch64-linux-ld: drivers/net/ipa/ipa_main.o: in function `ipa_probe':
-ipa_main.c:(.text+0xfc4): undefined reference to `qcom_scm_is_available'
+It means if a user context has scheduling enabled this function cannot
+short circuit returning idle.
 
-ld.lld: error: undefined symbol: qcom_scm_is_available
->>> referenced by adreno_gpu.c
->>>               gpu/drm/msm/adreno/adreno_gpu.o:(adreno_zap_shader_load) in archive drivers/built-in.a
-
-This can happen when CONFIG_ARCH_QCOM is disabled and we don't select
-QCOM_MDT_LOADER, but some other module selects QCOM_SCM. Ideally we'd
-use a similar dependency here to what we have for QCOM_RPROC_COMMON,
-but that causes dependency loops from other things selecting QCOM_SCM.
-
-This appears to be an endless problem, so try something different this
-time:
-
- - CONFIG_QCOM_SCM becomes a hidden symbol that nothing 'depends on'
-   but that is simply selected by all of its users
-
- - All the stubs in include/linux/qcom_scm.h can go away
-
- - arm-smccc.h needs to provide a stub for __arm_smccc_smc() to
-   allow compile-testing QCOM_SCM on all architectures.
-
- - To avoid a circular dependency chain involving RESET_CONTROLLER
-   and PINCTRL_SUNXI, drop the 'select RESET_CONTROLLER' statement.
-   According to my testing this still builds fine, and the QCOM
-   platform selects this symbol already.
-
-Acked-by: Kalle Valo <kvalo@codeaurora.org>
-Acked-by: Alex Elder <elder@linaro.org>
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-Changes in v2:
-- fix the iommu dependencies
-
-I've queued this version as a bugfix along with patch 1/2
-in my asm-generic tree.
-
- drivers/firmware/Kconfig                   |  5 +-
- drivers/gpu/drm/msm/Kconfig                |  4 +-
- drivers/iommu/Kconfig                      |  3 +-
- drivers/iommu/arm/arm-smmu/Makefile        |  3 +-
- drivers/iommu/arm/arm-smmu/arm-smmu-impl.c |  3 +-
- drivers/media/platform/Kconfig             |  2 +-
- drivers/mmc/host/Kconfig                   |  2 +-
- drivers/net/ipa/Kconfig                    |  1 +
- drivers/net/wireless/ath/ath10k/Kconfig    |  2 +-
- drivers/pinctrl/qcom/Kconfig               |  3 +-
- include/linux/arm-smccc.h                  | 10 +++
- include/linux/qcom_scm.h                   | 71 ----------------------
- 12 files changed, 24 insertions(+), 85 deletions(-)
-
-diff --git a/drivers/firmware/Kconfig b/drivers/firmware/Kconfig
-index 220a58cf0a44..cda7d7162cbb 100644
---- a/drivers/firmware/Kconfig
-+++ b/drivers/firmware/Kconfig
-@@ -203,10 +203,7 @@ config INTEL_STRATIX10_RSU
- 	  Say Y here if you want Intel RSU support.
+Matt
  
- config QCOM_SCM
--	tristate "Qcom SCM driver"
--	depends on ARM || ARM64
--	depends on HAVE_ARM_SMCCC
--	select RESET_CONTROLLER
-+	tristate
- 
- config QCOM_SCM_DOWNLOAD_MODE_DEFAULT
- 	bool "Qualcomm download mode enabled by default"
-diff --git a/drivers/gpu/drm/msm/Kconfig b/drivers/gpu/drm/msm/Kconfig
-index e9c6af78b1d7..3ddf739a6f9b 100644
---- a/drivers/gpu/drm/msm/Kconfig
-+++ b/drivers/gpu/drm/msm/Kconfig
-@@ -17,7 +17,7 @@ config DRM_MSM
- 	select DRM_SCHED
- 	select SHMEM
- 	select TMPFS
--	select QCOM_SCM if ARCH_QCOM
-+	select QCOM_SCM
- 	select WANT_DEV_COREDUMP
- 	select SND_SOC_HDMI_CODEC if SND_SOC
- 	select SYNC_FILE
-@@ -55,7 +55,7 @@ config DRM_MSM_GPU_SUDO
- 
- config DRM_MSM_HDMI_HDCP
- 	bool "Enable HDMI HDCP support in MSM DRM driver"
--	depends on DRM_MSM && QCOM_SCM
-+	depends on DRM_MSM
- 	default y
- 	help
- 	  Choose this option to enable HDCP state machine
-diff --git a/drivers/iommu/Kconfig b/drivers/iommu/Kconfig
-index 124c41adeca1..c5c71b7ab7e8 100644
---- a/drivers/iommu/Kconfig
-+++ b/drivers/iommu/Kconfig
-@@ -308,7 +308,6 @@ config APPLE_DART
- config ARM_SMMU
- 	tristate "ARM Ltd. System MMU (SMMU) Support"
- 	depends on ARM64 || ARM || (COMPILE_TEST && !GENERIC_ATOMIC64)
--	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
- 	select IOMMU_API
- 	select IOMMU_IO_PGTABLE_LPAE
- 	select ARM_DMA_USE_IOMMU if ARM
-@@ -438,7 +437,7 @@ config QCOM_IOMMU
- 	# Note: iommu drivers cannot (yet?) be built as modules
- 	bool "Qualcomm IOMMU Support"
- 	depends on ARCH_QCOM || (COMPILE_TEST && !GENERIC_ATOMIC64)
--	depends on QCOM_SCM=y
-+	select QCOM_SCM
- 	select IOMMU_API
- 	select IOMMU_IO_PGTABLE_LPAE
- 	select ARM_DMA_USE_IOMMU
-diff --git a/drivers/iommu/arm/arm-smmu/Makefile b/drivers/iommu/arm/arm-smmu/Makefile
-index e240a7bcf310..b0cc01aa20c9 100644
---- a/drivers/iommu/arm/arm-smmu/Makefile
-+++ b/drivers/iommu/arm/arm-smmu/Makefile
-@@ -1,4 +1,5 @@
- # SPDX-License-Identifier: GPL-2.0
- obj-$(CONFIG_QCOM_IOMMU) += qcom_iommu.o
- obj-$(CONFIG_ARM_SMMU) += arm_smmu.o
--arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-nvidia.o arm-smmu-qcom.o
-+arm_smmu-objs += arm-smmu.o arm-smmu-impl.o arm-smmu-nvidia.o
-+arm_smmu-$(CONFIG_ARM_SMMU_QCOM) += arm-smmu-qcom.o
-diff --git a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-index 9f465e146799..2c25cce38060 100644
---- a/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-+++ b/drivers/iommu/arm/arm-smmu/arm-smmu-impl.c
-@@ -215,7 +215,8 @@ struct arm_smmu_device *arm_smmu_impl_init(struct arm_smmu_device *smmu)
- 	    of_device_is_compatible(np, "nvidia,tegra186-smmu"))
- 		return nvidia_smmu_impl_init(smmu);
- 
--	smmu = qcom_smmu_impl_init(smmu);
-+	if (IS_ENABLED(CONFIG_ARM_SMMU_QCOM))
-+		smmu = qcom_smmu_impl_init(smmu);
- 
- 	if (of_device_is_compatible(np, "marvell,ap806-smmu-500"))
- 		smmu->impl = &mrvl_mmu500_impl;
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 157c924686e4..80321e03809a 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -565,7 +565,7 @@ config VIDEO_QCOM_VENUS
- 	depends on VIDEO_DEV && VIDEO_V4L2 && QCOM_SMEM
- 	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
- 	select QCOM_MDT_LOADER if ARCH_QCOM
--	select QCOM_SCM if ARCH_QCOM
-+	select QCOM_SCM
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_MEM2MEM_DEV
- 	help
-diff --git a/drivers/mmc/host/Kconfig b/drivers/mmc/host/Kconfig
-index 71313961cc54..95b3511b0560 100644
---- a/drivers/mmc/host/Kconfig
-+++ b/drivers/mmc/host/Kconfig
-@@ -547,7 +547,7 @@ config MMC_SDHCI_MSM
- 	depends on MMC_SDHCI_PLTFM
- 	select MMC_SDHCI_IO_ACCESSORS
- 	select MMC_CQHCI
--	select QCOM_SCM if MMC_CRYPTO && ARCH_QCOM
-+	select QCOM_SCM if MMC_CRYPTO
- 	help
- 	  This selects the Secure Digital Host Controller Interface (SDHCI)
- 	  support present in Qualcomm SOCs. The controller supports
-diff --git a/drivers/net/ipa/Kconfig b/drivers/net/ipa/Kconfig
-index 8f99cfa14680..d037682fb7ad 100644
---- a/drivers/net/ipa/Kconfig
-+++ b/drivers/net/ipa/Kconfig
-@@ -4,6 +4,7 @@ config QCOM_IPA
- 	depends on ARCH_QCOM || COMPILE_TEST
- 	depends on QCOM_RPROC_COMMON || (QCOM_RPROC_COMMON=n && COMPILE_TEST)
- 	select QCOM_MDT_LOADER if ARCH_QCOM
-+	select QCOM_SCM
- 	select QCOM_QMI_HELPERS
- 	help
- 	  Choose Y or M here to include support for the Qualcomm
-diff --git a/drivers/net/wireless/ath/ath10k/Kconfig b/drivers/net/wireless/ath/ath10k/Kconfig
-index 741289e385d5..ca007b800f75 100644
---- a/drivers/net/wireless/ath/ath10k/Kconfig
-+++ b/drivers/net/wireless/ath/ath10k/Kconfig
-@@ -44,7 +44,7 @@ config ATH10K_SNOC
- 	tristate "Qualcomm ath10k SNOC support"
- 	depends on ATH10K
- 	depends on ARCH_QCOM || COMPILE_TEST
--	depends on QCOM_SCM || !QCOM_SCM #if QCOM_SCM=m this can't be =y
-+	select QCOM_SCM
- 	select QCOM_QMI_HELPERS
- 	help
- 	  This module adds support for integrated WCN3990 chip connected
-diff --git a/drivers/pinctrl/qcom/Kconfig b/drivers/pinctrl/qcom/Kconfig
-index 32ea2a8ec02b..5ff4207df66e 100644
---- a/drivers/pinctrl/qcom/Kconfig
-+++ b/drivers/pinctrl/qcom/Kconfig
-@@ -3,7 +3,8 @@ if (ARCH_QCOM || COMPILE_TEST)
- 
- config PINCTRL_MSM
- 	tristate "Qualcomm core pin controller driver"
--	depends on GPIOLIB && (QCOM_SCM || !QCOM_SCM) #if QCOM_SCM=m this can't be =y
-+	depends on GPIOLIB
-+	select QCOM_SCM
- 	select PINMUX
- 	select PINCONF
- 	select GENERIC_PINCONF
-diff --git a/include/linux/arm-smccc.h b/include/linux/arm-smccc.h
-index 7d1cabe15262..63ccb5252190 100644
---- a/include/linux/arm-smccc.h
-+++ b/include/linux/arm-smccc.h
-@@ -321,10 +321,20 @@ asmlinkage unsigned long __arm_smccc_sve_check(unsigned long x0);
-  * from register 0 to 3 on return from the SMC instruction.  An optional
-  * quirk structure provides vendor specific behavior.
-  */
-+#ifdef CONFIG_HAVE_ARM_SMCCC
- asmlinkage void __arm_smccc_smc(unsigned long a0, unsigned long a1,
- 			unsigned long a2, unsigned long a3, unsigned long a4,
- 			unsigned long a5, unsigned long a6, unsigned long a7,
- 			struct arm_smccc_res *res, struct arm_smccc_quirk *quirk);
-+#else
-+static inline void __arm_smccc_smc(unsigned long a0, unsigned long a1,
-+			unsigned long a2, unsigned long a3, unsigned long a4,
-+			unsigned long a5, unsigned long a6, unsigned long a7,
-+			struct arm_smccc_res *res, struct arm_smccc_quirk *quirk)
-+{
-+	*res = (struct arm_smccc_res){};
-+}
-+#endif
- 
- /**
-  * __arm_smccc_hvc() - make HVC calls
-diff --git a/include/linux/qcom_scm.h b/include/linux/qcom_scm.h
-index c0475d1c9885..81cad9e1e412 100644
---- a/include/linux/qcom_scm.h
-+++ b/include/linux/qcom_scm.h
-@@ -61,7 +61,6 @@ enum qcom_scm_ice_cipher {
- #define QCOM_SCM_PERM_RW (QCOM_SCM_PERM_READ | QCOM_SCM_PERM_WRITE)
- #define QCOM_SCM_PERM_RWX (QCOM_SCM_PERM_RW | QCOM_SCM_PERM_EXEC)
- 
--#if IS_ENABLED(CONFIG_QCOM_SCM)
- extern bool qcom_scm_is_available(void);
- 
- extern int qcom_scm_set_cold_boot_addr(void *entry, const cpumask_t *cpus);
-@@ -115,74 +114,4 @@ extern int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
- extern int qcom_scm_lmh_profile_change(u32 profile_id);
- extern bool qcom_scm_lmh_dcvsh_available(void);
- 
--#else
--
--#include <linux/errno.h>
--
--static inline bool qcom_scm_is_available(void) { return false; }
--
--static inline int qcom_scm_set_cold_boot_addr(void *entry,
--		const cpumask_t *cpus) { return -ENODEV; }
--static inline int qcom_scm_set_warm_boot_addr(void *entry,
--		const cpumask_t *cpus) { return -ENODEV; }
--static inline void qcom_scm_cpu_power_down(u32 flags) {}
--static inline u32 qcom_scm_set_remote_state(u32 state,u32 id)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_pas_init_image(u32 peripheral, const void *metadata,
--		size_t size) { return -ENODEV; }
--static inline int qcom_scm_pas_mem_setup(u32 peripheral, phys_addr_t addr,
--		phys_addr_t size) { return -ENODEV; }
--static inline int qcom_scm_pas_auth_and_reset(u32 peripheral)
--		{ return -ENODEV; }
--static inline int qcom_scm_pas_shutdown(u32 peripheral) { return -ENODEV; }
--static inline bool qcom_scm_pas_supported(u32 peripheral) { return false; }
--
--static inline int qcom_scm_io_readl(phys_addr_t addr, unsigned int *val)
--		{ return -ENODEV; }
--static inline int qcom_scm_io_writel(phys_addr_t addr, unsigned int val)
--		{ return -ENODEV; }
--
--static inline bool qcom_scm_restore_sec_cfg_available(void) { return false; }
--static inline int qcom_scm_restore_sec_cfg(u32 device_id, u32 spare)
--		{ return -ENODEV; }
--static inline int qcom_scm_iommu_secure_ptbl_size(u32 spare, size_t *size)
--		{ return -ENODEV; }
--static inline int qcom_scm_iommu_secure_ptbl_init(u64 addr, u32 size, u32 spare)
--		{ return -ENODEV; }
--extern inline int qcom_scm_mem_protect_video_var(u32 cp_start, u32 cp_size,
--						 u32 cp_nonpixel_start,
--						 u32 cp_nonpixel_size)
--		{ return -ENODEV; }
--static inline int qcom_scm_assign_mem(phys_addr_t mem_addr, size_t mem_sz,
--		unsigned int *src, const struct qcom_scm_vmperm *newvm,
--		unsigned int dest_cnt) { return -ENODEV; }
--
--static inline bool qcom_scm_ocmem_lock_available(void) { return false; }
--static inline int qcom_scm_ocmem_lock(enum qcom_scm_ocmem_client id, u32 offset,
--		u32 size, u32 mode) { return -ENODEV; }
--static inline int qcom_scm_ocmem_unlock(enum qcom_scm_ocmem_client id,
--		u32 offset, u32 size) { return -ENODEV; }
--
--static inline bool qcom_scm_ice_available(void) { return false; }
--static inline int qcom_scm_ice_invalidate_key(u32 index) { return -ENODEV; }
--static inline int qcom_scm_ice_set_key(u32 index, const u8 *key, u32 key_size,
--				       enum qcom_scm_ice_cipher cipher,
--				       u32 data_unit_size) { return -ENODEV; }
--
--static inline bool qcom_scm_hdcp_available(void) { return false; }
--static inline int qcom_scm_hdcp_req(struct qcom_scm_hdcp_req *req, u32 req_cnt,
--		u32 *resp) { return -ENODEV; }
--
--static inline int qcom_scm_qsmmu500_wait_safe_toggle(bool en)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_lmh_dcvsh(u32 payload_fn, u32 payload_reg, u32 payload_val,
--				     u64 limit_node, u32 node_id, u64 version)
--		{ return -ENODEV; }
--
--static inline int qcom_scm_lmh_profile_change(u32 profile_id) { return -ENODEV; }
--
--static inline bool qcom_scm_lmh_dcvsh_available(void) { return -ENODEV; }
--#endif
- #endif
--- 
-2.29.2
-
+> John.
+> 
+> > Returning GT idle when it is not can cause all sorts of issues
+> > throughout the stack.
+> > 
+> > v2:
+> >   (Daniel Vetter)
+> >    - Add might_lock annotations to pin / unpin function
+> > v3:
+> >   (CI)
+> >    - Drop intel_engine_pm_might_put from unpin path as an async put is
+> >      used
+> > v4:
+> >   (John Harrison)
+> >    - Make intel_engine_pm_might_get/put work with GuC virtual engines
+> >    - Update commit message
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
+> >   drivers/gpu/drm/i915/gt/intel_engine_pm.h     | 32 +++++++++++++++++
+> >   drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 10 ++++++
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++--
+> >   drivers/gpu/drm/i915/intel_wakeref.h          | 12 +++++++
+> >   5 files changed, 89 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
+> > index 1076066f41e0..f601323b939f 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_context.c
+> > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
+> > @@ -240,6 +240,8 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
+> >   	if (err)
+> >   		goto err_post_unpin;
+> > +	intel_engine_pm_might_get(ce->engine);
+> > +
+> >   	if (unlikely(intel_context_is_closed(ce))) {
+> >   		err = -ENOENT;
+> >   		goto err_unlock;
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > index 6fdeae668e6e..d68675925b79 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
+> > @@ -6,9 +6,11 @@
+> >   #ifndef INTEL_ENGINE_PM_H
+> >   #define INTEL_ENGINE_PM_H
+> > +#include "i915_drv.h"
+> >   #include "i915_request.h"
+> >   #include "intel_engine_types.h"
+> >   #include "intel_wakeref.h"
+> > +#include "intel_gt_pm.h"
+> >   static inline bool
+> >   intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
+> > @@ -31,6 +33,21 @@ static inline bool intel_engine_pm_get_if_awake(struct intel_engine_cs *engine)
+> >   	return intel_wakeref_get_if_active(&engine->wakeref);
+> >   }
+> > +static inline void intel_engine_pm_might_get(struct intel_engine_cs *engine)
+> > +{
+> > +	if (!intel_engine_is_virtual(engine)) {
+> > +		intel_wakeref_might_get(&engine->wakeref);
+> > +	} else {
+> > +		struct intel_gt *gt = engine->gt;
+> > +		struct intel_engine_cs *tengine;
+> > +		intel_engine_mask_t tmp, mask = engine->mask;
+> > +
+> > +		for_each_engine_masked(tengine, gt, mask, tmp)
+> > +			intel_wakeref_might_get(&tengine->wakeref);
+> > +	}
+> > +	intel_gt_pm_might_get(engine->gt);
+> > +}
+> > +
+> >   static inline void intel_engine_pm_put(struct intel_engine_cs *engine)
+> >   {
+> >   	intel_wakeref_put(&engine->wakeref);
+> > @@ -52,6 +69,21 @@ static inline void intel_engine_pm_flush(struct intel_engine_cs *engine)
+> >   	intel_wakeref_unlock_wait(&engine->wakeref);
+> >   }
+> > +static inline void intel_engine_pm_might_put(struct intel_engine_cs *engine)
+> > +{
+> > +	if (!intel_engine_is_virtual(engine)) {
+> > +		intel_wakeref_might_put(&engine->wakeref);
+> > +	} else {
+> > +		struct intel_gt *gt = engine->gt;
+> > +		struct intel_engine_cs *tengine;
+> > +		intel_engine_mask_t tmp, mask = engine->mask;
+> > +
+> > +		for_each_engine_masked(tengine, gt, mask, tmp)
+> > +			intel_wakeref_might_put(&tengine->wakeref);
+> > +	}
+> > +	intel_gt_pm_might_put(engine->gt);
+> > +}
+> > +
+> >   static inline struct i915_request *
+> >   intel_engine_create_kernel_request(struct intel_engine_cs *engine)
+> >   {
+> > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > index 05de6c1af25b..bc898df7a48c 100644
+> > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
+> > @@ -31,6 +31,11 @@ static inline bool intel_gt_pm_get_if_awake(struct intel_gt *gt)
+> >   	return intel_wakeref_get_if_active(&gt->wakeref);
+> >   }
+> > +static inline void intel_gt_pm_might_get(struct intel_gt *gt)
+> > +{
+> > +	intel_wakeref_might_get(&gt->wakeref);
+> > +}
+> > +
+> >   static inline void intel_gt_pm_put(struct intel_gt *gt)
+> >   {
+> >   	intel_wakeref_put(&gt->wakeref);
+> > @@ -41,6 +46,11 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
+> >   	intel_wakeref_put_async(&gt->wakeref);
+> >   }
+> > +static inline void intel_gt_pm_might_put(struct intel_gt *gt)
+> > +{
+> > +	intel_wakeref_might_put(&gt->wakeref);
+> > +}
+> > +
+> >   #define with_intel_gt_pm(gt, tmp) \
+> >   	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
+> >   	     intel_gt_pm_put(gt), tmp = 0)
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 17da2fea1bff..8b82da50c2bc 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -1571,7 +1571,12 @@ static int guc_context_pre_pin(struct intel_context *ce,
+> >   static int guc_context_pin(struct intel_context *ce, void *vaddr)
+> >   {
+> > -	return __guc_context_pin(ce, ce->engine, vaddr);
+> > +	int ret = __guc_context_pin(ce, ce->engine, vaddr);
+> > +
+> > +	if (likely(!ret && !intel_context_is_barrier(ce)))
+> > +		intel_engine_pm_get(ce->engine);
+> > +
+> > +	return ret;
+> >   }
+> >   static void guc_context_unpin(struct intel_context *ce)
+> > @@ -1580,6 +1585,9 @@ static void guc_context_unpin(struct intel_context *ce)
+> >   	unpin_guc_id(guc, ce);
+> >   	lrc_unpin(ce);
+> > +
+> > +	if (likely(!intel_context_is_barrier(ce)))
+> > +		intel_engine_pm_put_async(ce->engine);
+> >   }
+> >   static void guc_context_post_unpin(struct intel_context *ce)
+> > @@ -2341,8 +2349,30 @@ static int guc_virtual_context_pre_pin(struct intel_context *ce,
+> >   static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
+> >   {
+> >   	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
+> > +	int ret = __guc_context_pin(ce, engine, vaddr);
+> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
+> > +
+> > +	if (likely(!ret))
+> > +		for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> > +			intel_engine_pm_get(engine);
+> > -	return __guc_context_pin(ce, engine, vaddr);
+> > +	return ret;
+> > +}
+> > +
+> > +static void guc_virtual_context_unpin(struct intel_context *ce)
+> > +{
+> > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
+> > +	struct intel_engine_cs *engine;
+> > +	struct intel_guc *guc = ce_to_guc(ce);
+> > +
+> > +	GEM_BUG_ON(context_enabled(ce));
+> > +	GEM_BUG_ON(intel_context_is_barrier(ce));
+> > +
+> > +	unpin_guc_id(guc, ce);
+> > +	lrc_unpin(ce);
+> > +
+> > +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
+> > +		intel_engine_pm_put_async(engine);
+> >   }
+> >   static void guc_virtual_context_enter(struct intel_context *ce)
+> > @@ -2379,7 +2409,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
+> >   	.pre_pin = guc_virtual_context_pre_pin,
+> >   	.pin = guc_virtual_context_pin,
+> > -	.unpin = guc_context_unpin,
+> > +	.unpin = guc_virtual_context_unpin,
+> >   	.post_unpin = guc_context_post_unpin,
+> >   	.ban = guc_context_ban,
+> > diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
+> > index 545c8f277c46..4f4c2e15e736 100644
+> > --- a/drivers/gpu/drm/i915/intel_wakeref.h
+> > +++ b/drivers/gpu/drm/i915/intel_wakeref.h
+> > @@ -123,6 +123,12 @@ enum {
+> >   	__INTEL_WAKEREF_PUT_LAST_BIT__
+> >   };
+> > +static inline void
+> > +intel_wakeref_might_get(struct intel_wakeref *wf)
+> > +{
+> > +	might_lock(&wf->mutex);
+> > +}
+> > +
+> >   /**
+> >    * intel_wakeref_put_flags: Release the wakeref
+> >    * @wf: the wakeref
+> > @@ -170,6 +176,12 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
+> >   			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
+> >   }
+> > +static inline void
+> > +intel_wakeref_might_put(struct intel_wakeref *wf)
+> > +{
+> > +	might_lock(&wf->mutex);
+> > +}
+> > +
+> >   /**
+> >    * intel_wakeref_lock: Lock the wakeref (mutex)
+> >    * @wf: the wakeref
+> 
