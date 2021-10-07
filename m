@@ -2,143 +2,74 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0680C425FAD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 00:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 387BA425FDC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 00:30:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2D2946F4EC;
-	Thu,  7 Oct 2021 22:11:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF6546E046;
+	Thu,  7 Oct 2021 22:30:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B497A6F4EC;
- Thu,  7 Oct 2021 22:11:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="206499599"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="206499599"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 15:03:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="560937249"
-Received: from orsmsx604.amr.corp.intel.com ([10.22.229.17])
- by FMSMGA003.fm.intel.com with ESMTP; 07 Oct 2021 15:03:10 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 7 Oct 2021 15:03:09 -0700
-Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 7 Oct 2021 15:03:09 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.100)
- by edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 7 Oct 2021 15:03:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QBU8Gc6BwxBXL1/ghjE7RyLQAeM1wB3CYwIPjh9vDHOFiQrYMAtn3yhhdDDVjXVsCyfQN+1UR0jIOz48/FzACvP5pL80DNj8pbAGKZ7LSDzOD5F3+8qLY4ToZCTM3C5LrqjTkFK13PEE7EV36n19UufsNee3fpwD/DJVByTrzGoInWEdvd6YNuuf/534uFm2kZqC51jhGHudd12EAZuE3FdoXnoRX4EOH6gF+gGn2nC+jqjynwezT/6f/AcsWY3FgGH+5XqiY3sSNYD4Clo6r1EBz3syWDYrNPeGH7FidMRmw/oKJu7LjDupDPdIL6KifrzHXiqwI3kK/c+kX+11rQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jSUfXBYFMakcXvRhzyxgHUFOuRPQu3gJqcQ//k6oxSo=;
- b=BoJfrQbX+SSJpYKa8w6rVGXLtudVvZxWyKsfOWCadaYLTziuopkwgQPHuafvmgraGnJA6kITnbZFp/iJn3NJTmMMc/ps+iIAoA8ztw8pee8Zq7iiy/ztTGWq/s/ztQoiJlX6t2jejcGD+bg3ngAQZW9lbfeU3EZWVQ/uLXI1UCy86/E/9xlMap3GTboR711rZuBQ7/+/DVaqDz0RYO9IICxJ8tQTN/yHa6mSetWYJcqYcfCU4I3QBNXVYPMkOAjVk+Ph7IFzKqt+cz46gx5Kf9aw8cM6rxNFfFaP4uG6HrgVgNP1rGMeu5nA7cQZ043Tm50RX8/raX/Hs212XZGaZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jSUfXBYFMakcXvRhzyxgHUFOuRPQu3gJqcQ//k6oxSo=;
- b=niWw377E0i4AwNE3gKE8BKuLsP5kON0K0THjGAZFiG2LlZAetNMc/jnE2bGwccOw52uktAoh6DBQZBb1mtXwm2S9iuXu/QZPp9rf+gnUeNuMon+AgEsXjqeCwP618iNyvNtDSPV5VfgabxFNF6QtCLWl5JXLZB6kN2HMw8JO3XA=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5593.namprd11.prod.outlook.com (2603:10b6:510:e0::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Thu, 7 Oct
- 2021 22:03:07 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
- 22:03:07 +0000
-Subject: Re: [PATCH 10/26] drm/i915/guc: Assign contexts in parent-child
- relationship consecutive guc_ids
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <daniele.ceraolospurio@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-11-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <63c2eb50-b5e9-5aec-1cf8-0e0b94cb991a@intel.com>
-Date: Thu, 7 Oct 2021 15:03:04 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211004220637.14746-11-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: BYAPR06CA0024.namprd06.prod.outlook.com
- (2603:10b6:a03:d4::37) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from so254-9.mailgun.net (so254-9.mailgun.net [198.61.254.9])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7E47E89A92
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 22:30:04 +0000 (UTC)
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org;
+ q=dns/txt; 
+ s=smtp; t=1633645805; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=WPlsjcASrIFnWjau3JCRcYa5Ieggti3cBN5snQedytI=;
+ b=aztZ6Ncx8wC3uUJ+B457APjmuBl9EPnlYg8TOW579fJccfzPrM+IaqEf2HoMe4bfDtevvM+A
+ gHvw++CpXjjhuEe6y0ib0VtYw6jSAivKFgbXsQE8bTXWLObe1MON0BMemmCjC25L71ZdjWQQ
+ /D0wM4JEw9pjlO81AV2oSKB73AU=
+X-Mailgun-Sending-Ip: 198.61.254.9
+X-Mailgun-Sid: WyJkOTU5ZSIsICJkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnIiwgImJlOWU0YSJd
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 615f74e9446c6db0cbb89cae (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 07 Oct 2021 22:30:01
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+ id 03B27C4361A; Thu,  7 Oct 2021 22:30:00 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+ aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+ autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+ (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+ (No client certificate requested) (Authenticated sender: abhinavk)
+ by smtp.codeaurora.org (Postfix) with ESMTPSA id 01255C4338F;
+ Thu,  7 Oct 2021 22:29:58 +0000 (UTC)
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- BYAPR06CA0024.namprd06.prod.outlook.com (2603:10b6:a03:d4::37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4566.20 via Frontend Transport; Thu, 7 Oct 2021 22:03:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 4a7ad123-2206-4c0f-6960-08d989de3e71
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5593:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5593F31B0536ED84209CAB11BDB19@PH0PR11MB5593.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pEK8cLvYtCYT9enc8roiPgMRmd6mOokArGsbPkrZM86P8oULEeYBo6RJQGG1GeWjM7jHfJtGF03Vht0DtHAnZI0Cuoe9M9gQ+eE2TZ3wHIW2XQS9memNS3KVH87UcrunNp+BinW/E7QAAMR0tqZE+5BCaTaIYd84lcEYcyRw+yU/2GTXwlTVrFrx4PiImwDOOaseX+1ZYbNb8AS7P8KKS2MdVtSCH5LYGGNLolNDPulu6uhsPMu3bux67O45+DuoXe9+jyqVzMdAlOGQKyR6GUJwwaDqT8qB3jS59iXf6KVjHGIyAe6Ot3cndhq0v6QwvQDCaPvY92bX5W0+bptFvBvekiOL1b/dQPBa5uICx1fmbBL6JUbpQRUpA3ACczk3cR2Zu3j0qGIJ8cY8qc4odMmWMozlSZ80MVHwpxBAaMEf5X+HE0Y23wsQ7fuREtSASTMrgxEHN8p5rEaG9lThDVSDdP+H1zquW0Cu3oHLJ2pQ5VZOCduAt/QTdPXsTWX5zvDWfXI23pooYdfN1GyVoczVwQk/hCRyb+Dw3p92vhpUgvcYa9hllOdziVcMBXxk0wYrh62tOJuR5rjlXFgxD1mccdO310BiGW/ZZmn4sqI5XXy7uXmzX1XI4QylwgBX932Jvh4QTNMTR7keywJBCxRYE/94rr42T1sQiU80YLdbASCAoaxuOv8IktNIf2EezQZn2nm61NAN+Skl+E50CwkMCfs8MeECRkneP33qqjvi+JSuMAGyZqa7zxjl44yO
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(66556008)(66476007)(31686004)(8936002)(66946007)(31696002)(4326008)(450100002)(86362001)(83380400001)(8676002)(6666004)(38100700002)(6486002)(5660300002)(316002)(16576012)(2906002)(53546011)(956004)(107886003)(2616005)(508600001)(26005)(36756003)(186003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RFR1aDlVUk03ejIxNDYzdVNVaEs2bjhYRjg5K3IyQThHMTVRTksvVzhtWXVX?=
- =?utf-8?B?d1o5WlMyYlU3RHBOd2hRbGJ3SzZ2R1ZBLzBCZTViM2VEbkIrTUN2cXlIZmhn?=
- =?utf-8?B?MjJESVRNS2tXUnFQbFNIQ2V3Vzk3NWNldU1vRzBLRG9Ydys5cDB6VE5GUU1X?=
- =?utf-8?B?MXo4c2pnTVVuR1lSbDVsV2dLZ0hzL3hHZ2ZmSUxINUFxMHhNRWN0cTdIUEFw?=
- =?utf-8?B?TlJ3U0VXcEM5dVM2bnpzS0grZlVXM2RaSlFkWCtaSWpkUEgvMGF4S3ZTQ0d3?=
- =?utf-8?B?WVJQMGpqSFRxSXRaWHhkK2hrUkZuRjRXelY1T280dnNVbmFJcWNLSEtqUzM1?=
- =?utf-8?B?Wm9QS2dORkJBUFpCQXpRM2tnVEZGV2JmV3FLbVJhYnNrUnEvNlkyNzdrcy9X?=
- =?utf-8?B?VHk4MkE1T3pFYTZNclFEN0ZhaWw0Tjl0MndaQUxySlVvOUJIWEllek5GS0RK?=
- =?utf-8?B?U0lJWVlCZTV1OHRXK2ZOUElTQ3VBRERYWGNBeTRnQnF0UUlwZ0d6eVJLUDR6?=
- =?utf-8?B?ZTdwTmNKZVlsbHkrbi9mZkZTOXUvTkl5SktUdDZYMEIwbUl6WEd0ZEFxWFNa?=
- =?utf-8?B?L1FUeEtCakMrY1o0R3lZUjRYRkJQT1pac3ZiYnBtYXFqenFhOUc4eFQyZnAw?=
- =?utf-8?B?UlFBSGtWQ2RGeDdILzdnVTdqcVhwREpuWDkwR1ptWGUwWGVobTA5OGVldDYr?=
- =?utf-8?B?SmhEek9qZkkweTA4a1crMUZ5YnZwQWEwSnAvZVh0MkZJMHhoU0lMbEo0eU4x?=
- =?utf-8?B?Y2R3a2g3b2FPenNVZE9XeTJkMkVpa3NLZ2VmRDB0OVh1WTd3V2RlMzBCd3dT?=
- =?utf-8?B?clhnYTRFemxKWnhEOGFlT2dlQVFLendhTnlja1JCYVIvb2JUSW9jVzlTVTJq?=
- =?utf-8?B?UlZmdzl0WWc1SmxML0lkckNQRkxCd21KRXlHQmlUSkJYQkwyVXBaRHNUTnJw?=
- =?utf-8?B?OHpNYkZ0YWRLdHd1d01ucjc0aFIvUzkwWlJTTjRjbERudTB6VS9xdXlRRDUy?=
- =?utf-8?B?b2VyeWxVTFI2NWpwVlNhZnZObFZFOURnSkZNNExOVlBsRjlyVVQ3Nk1JOEth?=
- =?utf-8?B?VkVqUE9wSWx5QVRQVm5OY3VCZVE1QXdyMyszYVB6TnZJZ3M1ZlVDaFlqVEZO?=
- =?utf-8?B?czh5Ykw2NG9aZnVjbDJsSjhKQmhBQ3hSQi9kaU45L1JYeGRpVmhnTFIweFRW?=
- =?utf-8?B?QXNmQWtLRzBDVTZOaVM5akZmeTR2Y05yK0FWRzZ2ZWJCaWlQbFAwNVpVb05i?=
- =?utf-8?B?c0NKNFJlYzhBNUZ2QlZXK05hVUxzTnFDU21jMXJ4UVlFZnBNSVV5YUM0QVZD?=
- =?utf-8?B?bXlMWW52bUJvbk9QNU15NWVvYlZlU294bTZYZ3Q2VUNtRlhZZkNZRnMySm5q?=
- =?utf-8?B?UlFKQUxCMk9RUWlMSTI2ZUk5SFJkVENVRFFsNzNQOGxjUFdRZ09hSDlzZ0Uz?=
- =?utf-8?B?T2VwSWV5Y09ZUlNveDhpUm9BUDJ2cFNPQU1xT0V1aUNhRTNXa0swcjlCQkth?=
- =?utf-8?B?dnlvUFNUMlZyVHpMNlM3eFc2dkJGSVNONDk3OWI4aGx4cjMxYSt2QlJ6QWJr?=
- =?utf-8?B?RElLQmJoeWRVN1BYMUtoSW54RnF5Qllhck5oUXo4UmlNUHJxcWtDSk9FaUFv?=
- =?utf-8?B?RkkwYWc3TGlHTWptNC9RUkpSbVVzMXlxNk9vbXMzSldWWGcwbHU4bDV2clpm?=
- =?utf-8?B?N2FodWIra1dMamNoZ0ljOWt5TFROVlRqZjBMNE9Hby9KSUQxejl0Um5jcFR6?=
- =?utf-8?Q?EBcoTrxIafkVWw0uPZ5pJ0Qra58jIZx1OVGMNyU?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a7ad123-2206-4c0f-6960-08d989de3e71
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 22:03:07.6137 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y8j/5T2h+EketpveaPm7np3cB5w2sRBDr/pbn22Ht0083wOmDfDh7SfXPxafdarNVFquEZWiYYtnAYERFFHMR0FH2pY6uvCzfyr2SNR38KI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5593
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date: Thu, 07 Oct 2021 15:29:58 -0700
+From: abhinavk@codeaurora.org
+To: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Stephen Boyd <swboyd@chromium.org>, Daniel Vetter <daniel@ffwll.ch>,
+ David Airlie <airlied@linux.ie>, Dmitry Baryshkov
+ <dmitry.baryshkov@linaro.org>, Kalyan Thota <kalyan_t@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>, Sean
+ Paul <sean@poorly.run>, Rob Herring <robh+dt@kernel.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 5/7] drm/msm/dp: Support up to 3 DP controllers
+In-Reply-To: <YV4JjutldSujvoT8@ripper>
+References: <20211005231323.2663520-6-bjorn.andersson@linaro.org>
+ <CAE-0n52gOCC8bUfMFnNHRKFoq2=q4Ho8a-UYH5JKgumguhUD2A@mail.gmail.com>
+ <YVz/NOL3AFn2zBA0@ripper>
+ <CAE-0n513cs282Dh_YFMHK2uKCVFSWxtNyfRaFwWGyUvpfShixw@mail.gmail.com>
+ <YV0MAF/Y5BR1e6My@ripper>
+ <CAE-0n53TwEyycpAaWVpRUKPpos4z-gqwrvyUdgobh1V88VUsXg@mail.gmail.com>
+ <YV3XxadYE/KU2w89@ripper>
+ <CAE-0n52q=iEhRO1V-ked6SEesJGozLWv-H1mK81oyP7zAeO6QQ@mail.gmail.com>
+ <YV3lVWjct5RQ5FEK@ripper>
+ <CAE-0n537_YLDkWOX0kBHZHPHMi4-XTODeJ8TB=_xOrZwJc1HfQ@mail.gmail.com>
+ <YV4JjutldSujvoT8@ripper>
+Message-ID: <33aa53c7e1784440ae2892163830acf1@codeaurora.org>
+X-Sender: abhinavk@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -154,246 +85,208 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/4/2021 15:06, Matthew Brost wrote:
-> Assign contexts in parent-child relationship consecutive guc_ids. This
-> is accomplished by partitioning guc_id space between ones that need to
-> be consecutive (1/16 available guc_ids) and ones that do not (15/16 of
-> available guc_ids). The consecutive search is implemented via the bitmap
-> API.
->
-> This is a precursor to the full GuC multi-lrc implementation but aligns
-> to how GuC mutli-lrc interface is defined - guc_ids must be consecutive
-> when using the GuC multi-lrc interface.
->
-> v2:
->   (Daniel Vetter)
->    - Explicitly state why we assign consecutive guc_ids
-> v3:
->   (John Harrison)
->    - Bring back in spin lock
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   6 +-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 104 ++++++++++++++----
->   2 files changed, 86 insertions(+), 24 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> index 25a598e2b6e8..a9f4ec972bfb 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> @@ -76,9 +76,13 @@ struct intel_guc {
->   		 */
->   		spinlock_t lock;
->   		/**
-> -		 * @guc_ids: used to allocate new guc_ids
-> +		 * @guc_ids: used to allocate new guc_ids, single-lrc
->   		 */
->   		struct ida guc_ids;
-> +		/**
-> +		 * @guc_ids_bitmap: used to allocate new guc_ids, multi-lrc
-> +		 */
-> +		unsigned long *guc_ids_bitmap;
->   		/**
->   		 * @guc_id_list: list of intel_context with valid guc_ids but no
->   		 * refs
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 1f2809187513..79e7732e83b2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -128,6 +128,16 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
->   
->   #define GUC_REQUEST_SIZE 64 /* bytes */
->   
-> +/*
-> + * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
-> + * per the GuC submission interface. A different allocation algorithm is used
-> + * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
-> + * partition the guc_id space. We believe the number of multi-lrc contexts in
-> + * use should be low and 1/16 should be sufficient. Minimum of 32 guc_ids for
-> + * multi-lrc.
-> + */
-> +#define NUMBER_MULTI_LRC_GUC_ID		(GUC_MAX_LRC_DESCRIPTORS / 16)
-> +
->   /*
->    * Below is a set of functions which control the GuC scheduling state which
->    * require a lock.
-> @@ -1206,6 +1216,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
->   	INIT_WORK(&guc->submission_state.destroyed_worker,
->   		  destroyed_worker_func);
->   
-> +	guc->submission_state.guc_ids_bitmap =
-> +		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID, GFP_KERNEL);
-> +	if (!guc->submission_state.guc_ids_bitmap)
-> +		return -ENOMEM;
-> +
->   	return 0;
->   }
->   
-> @@ -1217,6 +1232,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
->   	guc_lrc_desc_pool_destroy(guc);
->   	guc_flush_destroyed_contexts(guc);
->   	i915_sched_engine_put(guc->sched_engine);
-> +	bitmap_free(guc->submission_state.guc_ids_bitmap);
->   }
->   
->   static inline void queue_request(struct i915_sched_engine *sched_engine,
-> @@ -1268,18 +1284,43 @@ static void guc_submit_request(struct i915_request *rq)
->   	spin_unlock_irqrestore(&sched_engine->lock, flags);
->   }
->   
-> -static int new_guc_id(struct intel_guc *guc)
-> +static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   {
-> -	return ida_simple_get(&guc->submission_state.guc_ids, 0,
-> -			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
-> -			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-> +	int ret;
-> +
-> +	GEM_BUG_ON(intel_context_is_child(ce));
-> +
-> +	if (intel_context_is_parent(ce))
-> +		ret = bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
-> +					      NUMBER_MULTI_LRC_GUC_ID,
-> +					      order_base_2(ce->parallel.number_children
-> +							   + 1));
-> +	else
-> +		ret = ida_simple_get(&guc->submission_state.guc_ids,
-> +				     NUMBER_MULTI_LRC_GUC_ID,
-> +				     GUC_MAX_LRC_DESCRIPTORS,
-> +				     GFP_KERNEL | __GFP_RETRY_MAYFAIL |
-> +				     __GFP_NOWARN);
-> +	if (unlikely(ret < 0))
-> +		return ret;
-> +
-> +	ce->guc_id.id = ret;
-> +	return 0;
->   }
->   
->   static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   {
-> +	GEM_BUG_ON(intel_context_is_child(ce));
-> +
->   	if (!context_guc_id_invalid(ce)) {
-> -		ida_simple_remove(&guc->submission_state.guc_ids,
-> -				  ce->guc_id.id);
-> +		if (intel_context_is_parent(ce))
-> +			bitmap_release_region(guc->submission_state.guc_ids_bitmap,
-> +					      ce->guc_id.id,
-> +					      order_base_2(ce->parallel.number_children
-> +							   + 1));
-There was a discussion on the previous revision about adding a BUG_ON to 
-ensure that number_children cannot change between the bitmap alloc and 
-the bitmap release. I'm not seeing the new BUG_ON mentioned in this patch.
+Hi Bjorn and Stephen
 
-John.
+On 2021-10-06 13:39, Bjorn Andersson wrote:
+> On Wed 06 Oct 11:59 PDT 2021, Stephen Boyd wrote:
+> 
+>> Quoting Bjorn Andersson (2021-10-06 11:05:09)
+>> > On Wed 06 Oct 10:19 PDT 2021, Stephen Boyd wrote:
+>> >
+>> > > Quoting Bjorn Andersson (2021-10-06 10:07:17)
+>> > > > On Tue 05 Oct 21:26 PDT 2021, Stephen Boyd wrote:
+>> > > >
+>> > > > > Quoting Bjorn Andersson (2021-10-05 19:37:52)
+>> > > > > > On Tue 05 Oct 19:06 PDT 2021, Stephen Boyd wrote:
+>> > > > > >
+>> > > > > > > Quoting Bjorn Andersson (2021-10-05 18:43:16)
+>> > > > > > > > On Tue 05 Oct 17:43 PDT 2021, Stephen Boyd wrote:
+>> > > > > > > >
+>> > > > > > > > > Quoting Bjorn Andersson (2021-10-05 16:13:21)
+>> > > > > > > > > > diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+>> > > > > > > > > > index bdaf227f05dc..674cddfee5b0 100644
+>> > > > > > > > > > --- a/drivers/gpu/drm/msm/dp/dp_display.c
+>> > > > > > > > > > +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+>> > > > > > > > > > @@ -1233,7 +1239,7 @@ static int dp_display_probe(struct platform_device *pdev)
+>> > > > > > > > > >         if (!dp)
+>> > > > > > > > > >                 return -ENOMEM;
+>> > > > > > > > > >
+>> > > > > > > > > > -       desc = dp_display_get_desc(pdev);
+>> > > > > > > > > > +       desc = dp_display_get_desc(pdev, &dp->id);
+>> > > > > > > > >
+>> > > > > > > > > I'm sad that dp->id has to match the number in the SoC specific
+>> > > > > > > > > dpu_intf_cfg array in drivers/gpu/drm/msm/disp/dpu1/dpu_hw_catalog.c
+>> > > > > > > > > still. Is there any way we can avoid that? Also, notice how those arrays
+>> > > > > > > > > already have INTF_DP macros, which makes me think that it may be better
+>> > > > > > > > > to connect this to those arrays instead of making an msm_dp_desc
+>> > > > > > > > > structure and then make sure the 'type' member matches a connector
+>> > > > > > > > > type number. Otherwise this code is super fragile.
+>> > > > > > > > >
+>> > > > > > > >
+>> > > > > > > > I'm afraid I don't understand what you're proposing. Or which part you
+>> > > > > > > > consider fragile, the indices of the INTF_DP instances aren't going to
+>> > > > > > > > move around...
+>> > > > > > > >
+>> > > > > > > > I have N instances of the DP driver that I need to match to N entries
+>> > > > > > > > from the platform specific intf array, I need some stable reference
+>> > > > > > > > between them. When I started this journey I figured I could rely on the
+>> > > > > > > > of_graph between the DPU and the interface controllers, but the values
+>> > > > > > > > used there today are just bogus, so that was a no go.
+>> > > > > > > >
+>> > > > > > > > We can use whatever, as long as _dpu_kms_initialize_displayport() can
+>> > > > > > > > come up with an identifier to put in h_tile_instance[0] so that
+>> > > > > > > > dpu_encoder_setup_display() can find the relevant INTF.
+>> > > > > > > >
+>> > > > > > >
+>> > > > > > > To make it more concrete we can look at sc7180
+>> > > > > > >
+>> > > > > > > static const struct dpu_intf_cfg sc7180_intf[] = {
+>> > > > > > >         INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24,
+>> > > > > > > INTF_SC7180_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>> > > > > > >                                                      ^
+>> > > > > > >                                                      |
+>> > > > > > >
+>> > > > > > > intf0 is irrelevant. Also the address is irrelevant. But here we have a
+>> > > > > > > zero, the number after INTF_DP, and that is very relevant. That number
+>> > > > > > > needs to match the dp->id. Somewhere we have a match between
+>> > > > > > > controller_id and dp->id in the code.
+>> > > > > >
+>> > > > > > That number (the 0, not INTF_0) is what the code matches against dp->id
+>> > > > > > in _dpu_kms_initialize_displayport(), in order to figure out that this
+>> > > > > > is INTF_0 in dpu_encoder_setup_display().
+>> > > > > >
+>> > > > > > I.e. look at the sc8180x patch:
+>> > > > > >
+>> > > > > > INTF_BLK("intf_0", INTF_0, 0x6A000, INTF_DP, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>> > > > > > INTF_BLK("intf_1", INTF_1, 0x6A800, INTF_DSI, 0, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>> > > > > > INTF_BLK("intf_2", INTF_2, 0x6B000, INTF_DSI, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 28, 29),
+>> > > > > > /* INTF_3 is for MST, wired to INTF_DP 0 and 1, use dummy index until this is supported */
+>> > > > > > INTF_BLK("intf_3", INTF_3, 0x6B800, INTF_DP, 999, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 30, 31),
+>> > > > > > INTF_BLK("intf_4", INTF_4, 0x6C000, INTF_DP, 1, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 20, 21),
+>> > > > > > INTF_BLK("intf_5", INTF_5, 0x6C800, INTF_DP, 2, 24, INTF_SC8180X_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>> > > > > >
+>> > > > > > Where the DP driver defines the 3 controllers with dp->id of 0, 1 and 2,
+>> > > > > > which the DPU code will match against to INTF_0, INTF_4 and INTF_5.
+>> > > > > >
+>> > > > >
+>> > > > > Yep. I'm saying that having to make that number in this intf array match
+>> > > > > the order of the register mapping descriptor array is fragile. Why can't
+>> > > > > we indicate the interface is DP or eDP with INTF_DP or INTF_EDP and then
+>> > > > > map from the descriptor array to this intf array somehow so that the
+>> > > > > order of the descriptor array doesn't matter? Then we don't have to put
+>> > > > > the connector type in the descriptor array, and we don't have to keep
+>> > > > > the order of the array a certain way to match this intf descriptor.
+>> > > > >
+>> > > > > Maybe
+>> > > > >
+>> > > > >       struct msm_dp_desc {
+>> > > > >               phys_addr_t io_start;
+>> > > > >               unsigned int id;
+>> > > >
+>> > > > The INTF_<N> constants are a property of the DPU driver and not
+>> > > > available in the DP driver and the msm_dp struct is a property of the DP
+>> > > > driver and can't be dereferenced in the DPU driver.
+>> > > >
+>> > > > The proposed way around this is that the descs array defines the order
+>> > > > in priv->dp[N] and this N is used as controller_id.
+>> > >
+>> > > I'm pretty sure I'm following along.
+>> > >
+>> > > >
+>> > > > So the only thing that I don't find straight forward here is that the
+>> > > > eDP controller is considered just a DP controller, so you have to use
+>> > > > INTF_DP, <N> for that, and not just INTF_EDP, 0.
+>> > > >
+>> > > > >       };
+>> > > > >
+>> > > > > and then have msm_dp_desc::id equal INTF_<N> and then look through the
+>> > > > > intf from DPU here in the DP driver to find the id and type of connector
+>> > > > > that should be used by default? Still sort of fragile because the only
+>> > > > > connection is an unsigned int which isn't great, but at least it's
+>> > > > > explicit instead of implicit based on the array order.
+>> > > >
+>> > > > No matter how I look at this, you need to put some number somewhere here
+>> > > > that will be used to match up the INTF with the right DSI/DP encoder.
+>> > >
+>> > > Correct.
+>> > >
+>> > > >
+>> > > > Using the proposed number scheme follows the numbering of all the DP
+>> > > > controllers from the documentation.
+>> > > >
+>> > >
+>> > > Maybe I can make a better example. I have this for sc7280 in dpu_hw_catalog.c:
+>> > >
+>> > >       static const struct dpu_intf_cfg sc7280_intf[] = {
+>> > >               INTF_BLK("intf_0", INTF_0, 0x34000, INTF_DP, CONTROLLER_ID_A, 24,
+>> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 24, 25),
+>> > >               INTF_BLK("intf_1", INTF_1, 0x35000, INTF_DSI, 0, 24,
+>> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 26, 27),
+>> > >               INTF_BLK("intf_5", INTF_5, 0x39000, INTF_DP, CONTROLLER_ID_B, 24,
+>> > > INTF_SC7280_MASK, MDP_SSPP_TOP0_INTR, 22, 23),
+>> > >       };
+>> > >
+>> > > And then this array for sc7280 in dp_display.c:
+>> > >
+>> > >       static const struct msm_dp_desc sc7280_dp_cfg = {
+>> > >               .desc = {
+>> > >                       [CONTROLLER_ID_A] = { 0xaea0000, DRM_MODE_CONNECTOR_eDP },
+>> > >                       [CONTROLLER_ID_B] = { 0xae90000, DRM_MODE_CONNECTOR_DisplayPort },
+>> > >               },
+>> > >               .num_dp = 2,
+>> > >       };
+>> > >
+>> > > So these two arrays must match based on CONTROLLER_ID_{A,B}. I don't
+>> > > like having to make these two numbers match so if it was explicit, even
+>> > > possibly by having a bunch of macros put in both places then I would be
+>> > > happy. I spent a few hours when I messed up the order of the
+>> > > sc7280_dp_cfg.desc array trying to figure out why things weren't
+>> > > working.
+>> >
+>> > So essentially, you didn't know that the controller_id has to match the
+>> > index in priv->dsi[] and priv->dp[] and providing a define for them
+>> > would make this more obvious?
+>> 
+>> Now you got it!
+>> 
+>> >
+>> > I think per your argument the 0 following INTF_DSI should also be using
+>> > this scheme, so we'd have multiple CONTROLLER_ID_A, which probably is
+>> > confusing as well.
+>> 
+>> Agreed.
+>> 
+>> >
+>> > I tried it out with below patch; it documents the relationship, provides
+>> > constants for the magic 2 and 3 for number of DSI and DP controllers in
+>> > struct msm_drm_private.
+>> >
+>> > I like it.
+>> 
+>> Thanks. I prefer this approach as well.
+> 
+> Sweet, I'll update my patch set accordingly.
+Yes, I also agree with this approach to better document the relationship 
+between the hw_catalog array
+and the dp_display msm_dp_desc
 
-
-> +		else
-> +			ida_simple_remove(&guc->submission_state.guc_ids,
-> +					  ce->guc_id.id);
->   		reset_lrc_desc(guc, ce->guc_id.id);
->   		set_context_guc_id_invalid(ce);
->   	}
-> @@ -1296,49 +1337,64 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
->   }
->   
-> -static int steal_guc_id(struct intel_guc *guc)
-> +static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   {
-> -	struct intel_context *ce;
-> -	int guc_id;
-> +	struct intel_context *cn;
->   
->   	lockdep_assert_held(&guc->submission_state.lock);
-> +	GEM_BUG_ON(intel_context_is_child(ce));
-> +	GEM_BUG_ON(intel_context_is_parent(ce));
->   
->   	if (!list_empty(&guc->submission_state.guc_id_list)) {
-> -		ce = list_first_entry(&guc->submission_state.guc_id_list,
-> +		cn = list_first_entry(&guc->submission_state.guc_id_list,
->   				      struct intel_context,
->   				      guc_id.link);
->   
-> -		GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
-> -		GEM_BUG_ON(context_guc_id_invalid(ce));
-> +		GEM_BUG_ON(atomic_read(&cn->guc_id.ref));
-> +		GEM_BUG_ON(context_guc_id_invalid(cn));
-> +		GEM_BUG_ON(intel_context_is_child(cn));
-> +		GEM_BUG_ON(intel_context_is_parent(cn));
->   
-> -		list_del_init(&ce->guc_id.link);
-> -		guc_id = ce->guc_id.id;
-> +		list_del_init(&cn->guc_id.link);
-> +		ce->guc_id = cn->guc_id;
->   
->   		spin_lock(&ce->guc_state.lock);
-> -		clr_context_registered(ce);
-> +		clr_context_registered(cn);
->   		spin_unlock(&ce->guc_state.lock);
->   
-> -		set_context_guc_id_invalid(ce);
-> -		return guc_id;
-> +		set_context_guc_id_invalid(cn);
-> +
-> +		return 0;
->   	} else {
->   		return -EAGAIN;
->   	}
->   }
->   
-> -static int assign_guc_id(struct intel_guc *guc, u16 *out)
-> +static int assign_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   {
->   	int ret;
->   
->   	lockdep_assert_held(&guc->submission_state.lock);
-> +	GEM_BUG_ON(intel_context_is_child(ce));
->   
-> -	ret = new_guc_id(guc);
-> +	ret = new_guc_id(guc, ce);
->   	if (unlikely(ret < 0)) {
-> -		ret = steal_guc_id(guc);
-> +		if (intel_context_is_parent(ce))
-> +			return -ENOSPC;
-> +
-> +		ret = steal_guc_id(guc, ce);
->   		if (ret < 0)
->   			return ret;
->   	}
->   
-> -	*out = ret;
-> +	if (intel_context_is_parent(ce)) {
-> +		struct intel_context *child;
-> +		int i = 1;
-> +
-> +		for_each_child(ce, child)
-> +			child->guc_id.id = ce->guc_id.id + i++;
-> +	}
-> +
->   	return 0;
->   }
->   
-> @@ -1356,7 +1412,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   	might_lock(&ce->guc_state.lock);
->   
->   	if (context_guc_id_invalid(ce)) {
-> -		ret = assign_guc_id(guc, &ce->guc_id.id);
-> +		ret = assign_guc_id(guc, ce);
->   		if (ret)
->   			goto out_unlock;
->   		ret = 1;	/* Indidcates newly assigned guc_id */
-> @@ -1398,8 +1454,10 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
->   	unsigned long flags;
->   
->   	GEM_BUG_ON(atomic_read(&ce->guc_id.ref) < 0);
-> +	GEM_BUG_ON(intel_context_is_child(ce));
->   
-> -	if (unlikely(context_guc_id_invalid(ce)))
-> +	if (unlikely(context_guc_id_invalid(ce) ||
-> +		     intel_context_is_parent(ce)))
->   		return;
->   
->   	spin_lock_irqsave(&guc->submission_state.lock, flags);
-
+> 
+>> I can see now why qcom always wants to change the output ports on the
+>> DPU node in DT to match the INTF number. If they would have described
+>> this problem it may have made sense to have the graph endpoints with
+>> reg properties matching the interface number in the intf array. Sigh.
+> 
+> Yes, I think the supposed design is that you should use the of_graph 
+> and
+> then call of_find_possible_crtcs() to figure out your links.
+> 
+> Unfortunately that doesn't work with the design of the DPU driver,
+> because the crtcs doesn't represent the INTFs - and as you say, the
+> existing of_graphs are full of incorrect data.
+> 
+> Which also means that I don't know why we keep filling out the 
+> of_graph,
+> because afaict it's not used and it contains invalid information.
+> 
+> Thanks,
+> Bjorn
