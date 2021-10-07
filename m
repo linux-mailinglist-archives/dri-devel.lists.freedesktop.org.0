@@ -2,37 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ABA4253A4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 15:05:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E5374253DE
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 15:15:41 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 865FE6F475;
-	Thu,  7 Oct 2021 13:05:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2BED46F474;
+	Thu,  7 Oct 2021 13:15:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.sig21.net (mail.sig21.net [217.197.84.222])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 248ED6F475;
- Thu,  7 Oct 2021 13:05:27 +0000 (UTC)
-Received: from localhorst ([127.0.0.1])
- by mail.sig21.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.92) (envelope-from <js@sig21.net>)
- id 1mYT4q-0004YS-DS ; Thu, 07 Oct 2021 15:04:48 +0200
-Received: from js by abc.local with local (Exim 4.95)
- (envelope-from <js@sig21.net>) id 1mYT4V-0004mR-3n;
- Thu, 07 Oct 2021 15:04:27 +0200
-Date: Thu, 7 Oct 2021 15:04:27 +0200
-From: Johannes Stezenbach <js@sig21.net>
-To: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>,
- intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
-Subject: Re: [Intel-gfx] [bisected] suspend broken by DRM fbdev name change
- on i915 IVB
-Message-ID: <YV7wW+RxKzJVn6Uf@sig21.net>
-References: <YV6hBl5ybMxm5Dln@sig21.net> <YV7qVorGtO5NHKkC@intel.com>
- <4d93315b-d370-c178-7c68-3dce1c95b42f@redhat.com>
+Received: from mail-4323.proton.ch (mail-4323.proton.ch [185.70.43.23])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C33F16F474
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 13:15:36 +0000 (UTC)
+Date: Thu, 07 Oct 2021 13:15:24 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emersion.fr;
+ s=protonmail; t=1633612534;
+ bh=rxEmWpYLcvAIw8O1G2R9Z9GrIirKJgiKi8fPXVaP4Ek=;
+ h=Date:To:From:Cc:Reply-To:Subject:From;
+ b=pgkLoIVCGAEgV7phRLWD/F3Jkmp47QuOTYcQoVf05q5MDyJcYUfVaTxqT+6QVnfjd
+ y0BbbOZB3DniznrsKYPYTHMX0QyOIOr+F/kK6qXIaGUEmqm3613p234EGxqit08i9F
+ M2yZdfSdNPJ75c6GoFIqV6aTaF7L6H4gCRfDztQlz2kREfc+FdBOAlic5pFtYiVl6s
+ ZvOYegsm9DOZErxIUoNKhAakslsYoyD0eAdyZC5arXxbKhsSy96HUeqqTaGbMEWYXU
+ O/upGyDpWkpx56eMHA+9zwCE+V4eUwDPenxkBp4uSBphFFmyIACRTZImLggy22DSQo
+ yPS3AA/y0Ns/g==
+To: dri-devel@lists.freedesktop.org
+From: Simon Ser <contact@emersion.fr>
+Cc: Hans de Goede <hdegoede@redhat.com>, Dennis Filder <d.filder@web.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Pekka Paalanen <ppaalanen@gmail.com>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <seanpaul@chromium.org>
+Subject: [PATCH RFC 1/2] drm: extract closefb logic in separate function
+Message-ID: <20211007131507.149734-1-contact@emersion.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4d93315b-d370-c178-7c68-3dce1c95b42f@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=10.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+ DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF shortcircuit=no
+ autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on
+ mailout.protonmail.ch
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -45,20 +50,119 @@ List-Post: <mailto:dri-devel@lists.freedesktop.org>
 List-Help: <mailto:dri-devel-request@lists.freedesktop.org?subject=help>
 List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
  <mailto:dri-devel-request@lists.freedesktop.org?subject=subscribe>
+Reply-To: Simon Ser <contact@emersion.fr>
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Javier,
+drm_mode_rmfb performs two operations: drop the FB from the
+file_priv->fbs list, and make sure the FB is no longer used on a
+plane.
 
-On Thu, Oct 07, 2021 at 03:01:46PM +0200, Javier Martinez Canillas wrote:
-> Yes, the change was just cosmetic because we had confusing names such as
-> "simpledrmdrmfb". When it was proposed, the agreement was that /proc/fb
-> shouldn't be considered an ABI but now we found that people are using it.
-> 
-> So I agree that would be better to revert this patch. Johannes, will you
-> post a revert or do you want me to do it ?
+In the next commit an IOCTL which only does so former will be
+introduced, so let's split it into a separate function.
 
-Please do it.
+No functional change, only refactoring.
 
-Thanks,
-Johannes
+Signed-off-by: Simon Ser <contact@emersion.fr>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Dennis Filder <d.filder@web.de>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: Pekka Paalanen <ppaalanen@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sean Paul <seanpaul@chromium.org>
+---
+ drivers/gpu/drm/drm_framebuffer.c | 51 +++++++++++++++++++------------
+ 1 file changed, 31 insertions(+), 20 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_framebuffer.c b/drivers/gpu/drm/drm_frameb=
+uffer.c
+index 07f5abc875e9..2352972ba6ac 100644
+--- a/drivers/gpu/drm/drm_framebuffer.c
++++ b/drivers/gpu/drm/drm_framebuffer.c
+@@ -412,6 +412,31 @@ static void drm_mode_rmfb_work_fn(struct work_struct *=
+w)
+ =09}
+ }
+=20
++static int drm_mode_closefb(struct drm_framebuffer *fb,
++=09=09=09    struct drm_file *file_priv)
++{
++=09struct drm_framebuffer *fbl =3D NULL;
++=09bool found =3D false;
++
++=09mutex_lock(&file_priv->fbs_lock);
++=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
++=09=09if (fb =3D=3D fbl)
++=09=09=09found =3D true;
++
++=09if (!found) {
++=09=09mutex_unlock(&file_priv->fbs_lock);
++=09=09return -ENOENT;
++=09}
++
++=09list_del_init(&fb->filp_head);
++=09mutex_unlock(&file_priv->fbs_lock);
++
++=09/* Drop the reference that was stored in the fbs list */
++=09drm_framebuffer_put(fb);
++
++=09return 0;
++}
++
+ /**
+  * drm_mode_rmfb - remove an FB from the configuration
+  * @dev: drm device
+@@ -429,8 +454,7 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09  struct drm_file *file_priv)
+ {
+ =09struct drm_framebuffer *fb =3D NULL;
+-=09struct drm_framebuffer *fbl =3D NULL;
+-=09int found =3D 0;
++=09int ret;
+=20
+ =09if (!drm_core_check_feature(dev, DRIVER_MODESET))
+ =09=09return -EOPNOTSUPP;
+@@ -439,23 +463,14 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09if (!fb)
+ =09=09return -ENOENT;
+=20
+-=09mutex_lock(&file_priv->fbs_lock);
+-=09list_for_each_entry(fbl, &file_priv->fbs, filp_head)
+-=09=09if (fb =3D=3D fbl)
+-=09=09=09found =3D 1;
+-=09if (!found) {
+-=09=09mutex_unlock(&file_priv->fbs_lock);
+-=09=09goto fail_unref;
++=09ret =3D drm_mode_closefb(fb, file_priv);
++=09if (ret !=3D 0) {
++=09=09drm_framebuffer_put(fb);
++=09=09return ret;
+ =09}
+=20
+-=09list_del_init(&fb->filp_head);
+-=09mutex_unlock(&file_priv->fbs_lock);
+-
+-=09/* drop the reference we picked up in framebuffer lookup */
+-=09drm_framebuffer_put(fb);
+-
+ =09/*
+-=09 * we now own the reference that was stored in the fbs list
++=09 * We now own the reference we picked up in drm_framebuffer_lookup.
+ =09 *
+ =09 * drm_framebuffer_remove may fail with -EINTR on pending signals,
+ =09 * so run this in a separate stack as there's no way to correctly
+@@ -475,10 +490,6 @@ int drm_mode_rmfb(struct drm_device *dev, u32 fb_id,
+ =09=09drm_framebuffer_put(fb);
+=20
+ =09return 0;
+-
+-fail_unref:
+-=09drm_framebuffer_put(fb);
+-=09return -ENOENT;
+ }
+=20
+ int drm_mode_rmfb_ioctl(struct drm_device *dev,
+--=20
+2.33.0
+
+
