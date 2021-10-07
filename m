@@ -1,25 +1,25 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA87425F2A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB0C425F2B
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:36 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A377C6F4F2;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 836626F4F1;
 	Thu,  7 Oct 2021 21:34:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B310C6F4E3
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:10 +0000 (UTC)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC6706F4E0
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:11 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id DCD883E857;
- Thu,  7 Oct 2021 23:34:08 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id A8A903E7BE;
+ Thu,  7 Oct 2021 23:34:09 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
@@ -29,16 +29,17 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Pavel Dubrova <pashadubrova@gmail.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
  Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Kiran Gunda <kgunda@codeaurora.org>,
  linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 08/13] backlight: qcom-wled: Remove unnecessary double
- whitespace
-Date: Thu,  7 Oct 2021 23:33:55 +0200
-Message-Id: <20211007213400.258371-9-marijn.suijten@somainline.org>
+Subject: [PATCH v2 09/13] backlight: qcom-wled: Respect enabled-strings in
+ set_brightness
+Date: Thu,  7 Oct 2021 23:33:56 +0200
+Message-Id: <20211007213400.258371-10-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211007213400.258371-1-marijn.suijten@somainline.org>
 References: <20211007213400.258371-1-marijn.suijten@somainline.org>
@@ -59,38 +60,125 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Remove redundant spaces inside for loop conditions.  No other double
-spaces were found that are not part of indentation with `[^\s]  `.
+The hardware is capable of controlling any non-contiguous sequence of
+LEDs specified in the DT using qcom,enabled-strings as u32
+array, and this also follows from the DT-bindings documentation.  The
+numbers specified in this array represent indices of the LED strings
+that are to be enabled and disabled.
 
+Its value is appropriately used to setup and enable string modules, but
+completely disregarded in the set_brightness paths which only iterate
+over the number of strings linearly.
+Take an example where only string 2 is enabled with
+qcom,enabled_strings=<2>: this string is appropriately enabled but
+subsequent brightness changes would have only touched the zero'th
+brightness register because num_strings is 1 here.  This is simply
+addressed by looking up the string for this index in the enabled_strings
+array just like the other codepaths that iterate over num_strings.
+
+Likewise enabled_strings is now also used in the autodetection path for
+consistent behaviour: when a list of strings is specified in DT only
+those strings will be probed for autodetection, analogous to how the
+number of strings that need to be probed is already bound by
+qcom,num-strings.  After all autodetection uses the set_brightness
+helpers to set an initial value, which could otherwise end up changing
+brightness on a different set of strings.
+
+Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
+Fixes: 03b2b5e86986 ("backlight: qcom-wled: Add support for WLED4 peripheral")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
 Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
 ---
- drivers/video/backlight/qcom-wled.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/video/backlight/qcom-wled.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index a8fb8f19922d..4524e80591cd 100644
+index 4524e80591cd..bdda6b424113 100644
 --- a/drivers/video/backlight/qcom-wled.c
 +++ b/drivers/video/backlight/qcom-wled.c
-@@ -235,7 +235,7 @@ static int wled3_set_brightness(struct wled *wled, u16 brightness)
+@@ -237,7 +237,7 @@ static int wled3_set_brightness(struct wled *wled, u16 brightness)
  
- 	v = cpu_to_le16(brightness & WLED3_SINK_REG_BRIGHT_MAX);
- 
--	for (i = 0;  i < wled->cfg.num_strings; ++i) {
-+	for (i = 0; i < wled->cfg.num_strings; ++i) {
+ 	for (i = 0; i < wled->cfg.num_strings; ++i) {
  		rc = regmap_bulk_write(wled->regmap, wled->ctrl_addr +
- 				       WLED3_SINK_REG_BRIGHT(i),
+-				       WLED3_SINK_REG_BRIGHT(i),
++				       WLED3_SINK_REG_BRIGHT(wled->cfg.enabled_strings[i]),
  				       &v, sizeof(v));
-@@ -257,7 +257,7 @@ static int wled4_set_brightness(struct wled *wled, u16 brightness)
+ 		if (rc < 0)
+ 			return rc;
+@@ -259,7 +259,7 @@ static int wled4_set_brightness(struct wled *wled, u16 brightness)
  
- 	v = cpu_to_le16(brightness & WLED3_SINK_REG_BRIGHT_MAX);
- 
--	for (i = 0;  i < wled->cfg.num_strings; ++i) {
-+	for (i = 0; i < wled->cfg.num_strings; ++i) {
+ 	for (i = 0; i < wled->cfg.num_strings; ++i) {
  		rc = regmap_bulk_write(wled->regmap, wled->sink_addr +
- 				       WLED4_SINK_REG_BRIGHT(i),
+-				       WLED4_SINK_REG_BRIGHT(i),
++				       WLED4_SINK_REG_BRIGHT(wled->cfg.enabled_strings[i]),
  				       &v, sizeof(v));
+ 		if (rc < 0)
+ 			return rc;
+@@ -569,7 +569,7 @@ static irqreturn_t wled_short_irq_handler(int irq, void *_wled)
+ 
+ static void wled_auto_string_detection(struct wled *wled)
+ {
+-	int rc = 0, i, delay_time_us;
++	int rc = 0, i, j, delay_time_us;
+ 	u32 sink_config = 0;
+ 	u8 sink_test = 0, sink_valid = 0, val;
+ 	bool fault_set;
+@@ -616,14 +616,15 @@ static void wled_auto_string_detection(struct wled *wled)
+ 
+ 	/* Iterate through the strings one by one */
+ 	for (i = 0; i < wled->cfg.num_strings; i++) {
+-		sink_test = BIT((WLED4_SINK_REG_CURR_SINK_SHFT + i));
++		j = wled->cfg.enabled_strings[i];
++		sink_test = BIT((WLED4_SINK_REG_CURR_SINK_SHFT + j));
+ 
+ 		/* Enable feedback control */
+ 		rc = regmap_write(wled->regmap, wled->ctrl_addr +
+-				  WLED3_CTRL_REG_FEEDBACK_CONTROL, i + 1);
++				  WLED3_CTRL_REG_FEEDBACK_CONTROL, j + 1);
+ 		if (rc < 0) {
+ 			dev_err(wled->dev, "Failed to enable feedback for SINK %d rc = %d\n",
+-				i + 1, rc);
++				j + 1, rc);
+ 			goto failed_detect;
+ 		}
+ 
+@@ -632,7 +633,7 @@ static void wled_auto_string_detection(struct wled *wled)
+ 				  WLED4_SINK_REG_CURR_SINK, sink_test);
+ 		if (rc < 0) {
+ 			dev_err(wled->dev, "Failed to configure SINK %d rc=%d\n",
+-				i + 1, rc);
++				j + 1, rc);
+ 			goto failed_detect;
+ 		}
+ 
+@@ -659,7 +660,7 @@ static void wled_auto_string_detection(struct wled *wled)
+ 
+ 		if (fault_set)
+ 			dev_dbg(wled->dev, "WLED OVP fault detected with SINK %d\n",
+-				i + 1);
++				j + 1);
+ 		else
+ 			sink_valid |= sink_test;
+ 
+@@ -699,15 +700,16 @@ static void wled_auto_string_detection(struct wled *wled)
+ 	/* Enable valid sinks */
+ 	if (wled->version == 4) {
+ 		for (i = 0; i < wled->cfg.num_strings; i++) {
++			j = wled->cfg.enabled_strings[i];
+ 			if (sink_config &
+-			    BIT(WLED4_SINK_REG_CURR_SINK_SHFT + i))
++			    BIT(WLED4_SINK_REG_CURR_SINK_SHFT + j))
+ 				val = WLED4_SINK_REG_STR_MOD_MASK;
+ 			else
+ 				/* Disable modulator_en for unused sink */
+ 				val = 0;
+ 
+ 			rc = regmap_write(wled->regmap, wled->sink_addr +
+-					  WLED4_SINK_REG_STR_MOD_EN(i), val);
++					  WLED4_SINK_REG_STR_MOD_EN(j), val);
+ 			if (rc < 0) {
+ 				dev_err(wled->dev, "Failed to configure MODULATOR_EN rc=%d\n",
+ 					rc);
 -- 
 2.33.0
 
