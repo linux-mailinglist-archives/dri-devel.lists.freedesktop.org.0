@@ -1,49 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4B142521D
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 13:36:30 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1981A425222
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 13:37:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 18CAE6E847;
-	Thu,  7 Oct 2021 11:36:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8F0456F417;
+	Thu,  7 Oct 2021 11:37:40 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 484 seconds by postgrey-1.36 at gabe;
- Thu, 07 Oct 2021 11:36:25 UTC
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 96C896E847
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 11:36:25 +0000 (UTC)
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
- SHA256) (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4HQ8Fp4Lgmz4xR9;
- Thu,  7 Oct 2021 22:28:14 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
- s=201909; t=1633606095;
- bh=6XmEiUcJBUQ8ZFQRxDdulMZQn/HEizswWC5HCbgLKv4=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=DOGfBEHeWO47bjBBHSHsqxFr8+O8sec9YHMOV06w07chkyLOXFhiy33LfNn5VlWDC
- cKjYQVSHWpXovo4+4sITrz7gih9V9V4AXN2Wcdazpm+o5eAgii7U43m1xogcjaQacD
- qjhiWYCHziZAWNYDXzUAGSREejHv2cc/u5ySDu+uRZC81Uxd2+WmbuUTmnYW0Po+TB
- Sf5ivALvgxG2JTs/QmsZ6tIHV9JvFkIFw91QNK2C7Fl7c8uzlqWsCWXqGN8kCJuve4
- jwITcpfEw9wlw82uh2lulpy0eFqLA76uFzeA8+J4vJxxk8fxUBIynWjzD9Opa3CuYE
- mEmRv4WpkTXKw==
-From: Michael Ellerman <mpe@ellerman.id.au>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>, Benjamin Herrenschmidt
- <benh@kernel.crashing.org>, Andrew Morton <akpm@linux-foundation.org>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>,
- dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, Stan Johnson
- <userm57@yahoo.com>, Finn Thain <fthain@linux-m68k.org>
-Subject: Re: [PATCH] video: fbdev: use memset_io() instead of memset()
-In-Reply-To: <884a54f1e5cb774c1d9b4db780209bee5d4f6718.1631712563.git.christophe.leroy@csgroup.eu>
-References: <884a54f1e5cb774c1d9b4db780209bee5d4f6718.1631712563.git.christophe.leroy@csgroup.eu>
-Date: Thu, 07 Oct 2021 22:28:10 +1100
-Message-ID: <87lf35nkfp.fsf@mpe.ellerman.id.au>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CC3246F417
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 11:37:39 +0000 (UTC)
+Received: from [IPv6:2a01:e0a:4cb:a870:f328:d7c8:496e:3dd] (unknown
+ [IPv6:2a01:e0a:4cb:a870:f328:d7c8:496e:3dd])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+ (No client certificate requested)
+ (Authenticated sender: benjamin.gaignard)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F076B1F44FA3;
+ Thu,  7 Oct 2021 12:37:36 +0100 (BST)
+Subject: Re: [PATCH v6, 12/15] media: mtk-vcodec: Support 34bits dma address
+ for vdec
+To: Yunfei Dong <yunfei.dong@mediatek.com>,
+ Alexandre Courbot <acourbot@chromium.org>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Tzung-Bi Shih
+ <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Tomasz Figa <tfiga@google.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>,
+ Irui Wang <irui.wang@mediatek.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, srv_heupstream@mediatek.com,
+ linux-mediatek@lists.infradead.org,
+ Project_Global_Chrome_Upstream_Group@mediatek.com
+References: <20210901083215.25984-1-yunfei.dong@mediatek.com>
+ <20210901083215.25984-13-yunfei.dong@mediatek.com>
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Message-ID: <09ce48f4-a785-97d9-2920-eacb39c59573@collabora.com>
+Date: Thu, 7 Oct 2021 13:37:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <20210901083215.25984-13-yunfei.dong@mediatek.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,24 +65,41 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Christophe Leroy <christophe.leroy@csgroup.eu> writes:
-> While investigating a lockup at startup on Powerbook 3400C, it was
-> identified that the fbdev driver generates alignment exception at
-> startup:
-...
+
+Le 01/09/2021 à 10:32, Yunfei Dong a écrit :
+> Use the dma_set_mask_and_coherent helper to set vdec
+> DMA bit mask to support 34bits iova space(16GB) that
+> the mt8192 iommu HW support.
 >
-> Use fb_memset() instead of memset(). fb_memset() is defined as
-> memset_io() for powerpc.
+> Whole the iova range separate to 0~4G/4G~8G/8G~12G/12G~16G,
+> regarding which iova range VDEC actually locate, it
+> depends on the dma-ranges property of vdec dtsi node.
 >
-> Fixes: 8c8709334cec ("[PATCH] ppc32: Remove CONFIG_PMAC_PBOOK")
-> Reported-by: Stan Johnson <userm57@yahoo.com>
-> Cc: Finn Thain <fthain@linux-m68k.org>
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 > ---
->  drivers/video/fbdev/chipsfb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> index 002352fcf8de..1a8d9308327d 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c
+> @@ -417,6 +417,9 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+>   		}
+>   	}
+>   
+> +	if (of_get_property(pdev->dev.of_node, "dma-ranges", NULL))
+> +		dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(34));
+> +
 
-Looks like drivers/video/fbdev is orphaned, so I'll pick this up via
-powerpc.
+Hi Yunfei,
 
-cheers
+Does all SoC support 34bits iova space ?
+If not you need to also check SoC version before setting dma mask.
+
+Regards,
+Benjamin
+
+>   	for (i = 0; i < MTK_VDEC_HW_MAX; i++)
+>   		mutex_init(&dev->dec_mutex[i]);
+>   	spin_lock_init(&dev->irqlock);
