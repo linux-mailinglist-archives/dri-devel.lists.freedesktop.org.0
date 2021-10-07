@@ -2,69 +2,92 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E204251BA
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 13:07:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38C7B4251EB
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 13:22:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD9706F408;
-	Thu,  7 Oct 2021 11:07:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 741D86F40E;
+	Thu,  7 Oct 2021 11:22:36 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2DB686E86E
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 11:07:50 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id r7so17816378wrc.10
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 04:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=raspberrypi.com; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nFzlcrwyBdyYBjnllISpaoiG6NdVhj8zWQoTkoyN5d4=;
- b=LkJeZJ2mJw1bLfWYncULGz3tWYWCaCcvVq/AXnKfvCxj4U6C3rm3A2HqfudFbAdQeV
- Hkzs7FAjzMxY1t++3CXMTbblyXklecV/wK6GTk3Rc5pu9dI+YUra0jD6Qky5PtoukeTY
- LcjqkzUl+iFExSs2gBnT8iaD9T2OwsYDPkIrPs4Qt6HZ0evL/P4bXwamFR5PxihlDXk/
- 2VE0TZxWVtI7NprDQE6GEhbVzAsiDi4NtGVi/WQbuVR5chVEq6riHS3EZbywlwG8h3Fn
- 2mnli1+/Kv6EE4X3MLUS2z6C8cMTfoBKIYmPqI0Pc66CHBqAoMUTQctjUKtf9dJ4Pw6o
- 2sGQ==
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com
+ [IPv6:2a00:1450:4864:20::52f])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 727216F40E;
+ Thu,  7 Oct 2021 11:22:35 +0000 (UTC)
+Received: by mail-ed1-x52f.google.com with SMTP id v18so21803312edc.11;
+ Thu, 07 Oct 2021 04:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+ :cc; bh=k9SJtneK/vSoC9p+OCn7fw6JRlrTPl6hr1zCp8PWYvs=;
+ b=dfZu0sRBdSrUsJ2G+GxWpquH+iI/E5ei9nHYhfmy/xrF98sCjW0+HpmEobNtFTomVV
+ ytRv2yickootU0IXZXHqti35o5/E1AbzAB/CFzcMbNLRJgjI9onEqEqDNtSUoOjcPZuK
+ uVchemRT7ou9elSu5DsR7knuCgXVV59aCkJvvs6gxorX5KbjjB9uIXox8UPqzaKY1P+S
+ 2digQw20I8ojC0Tp21dP+5M9k48f8LcABBuPz/BbYZyNpRVP0jE1rm1HJ+IEt/PelVV6
+ +t8eMIdp8JfQRi7dbXoWLQ/P60hWOK6GCANPIadA+ngYICsDtSTQX55BME4cAC2+KhpZ
+ gXfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
  :message-id:subject:to:cc;
- bh=nFzlcrwyBdyYBjnllISpaoiG6NdVhj8zWQoTkoyN5d4=;
- b=w4laj2IvgTa6UeYxUcafynKrb82187EOeKkK0MMr98XYS//u6it8FWhEWRyJsxbYqz
- 0aGpXhEqsnCrn4OTKWLiDX72rJNDdY9bE9m0K1QJ9+HUajl2B8wwSUDsTsX+MRkzu8L7
- o4bJhKFKIkj2EDmnSxXI46KT9Zwvu/gPm453NPsZc6IyR79WQOZY5Dj3+z/NXtldwyst
- r6EPugNNtX3IQt4dAiTHLNSYSzRZFtK1UZMRJpL0MOweAt7QQzSfpXko6gJQatLhuvAl
- syRDpQGsTsJLGWs2LEI1PBiooXBqOTRohM6uq0nNXko7LpwJg65XuL6ZiMjfL1NMESwI
- tKww==
-X-Gm-Message-State: AOAM530rhNaXCTYBeFS/o5U0XTmmrQEM+iyET5hQaEzAPWLx1x3hcGHB
- nC/HL4EwxIsKCZZBoaItz23me+JacDHX+hRO0sa4Tr/u+mA0ug==
-X-Google-Smtp-Source: ABdhPJwUDbKlI1swR5c8j2UbswnBjzs4S4tml9yqXqZ9vBtWs+eNzThqCSXqUfAWdCljL58pcBdqlljY4v4vx0hZNXw=
-X-Received: by 2002:a05:600c:17ca:: with SMTP id
- y10mr15394925wmo.15.1633604868232; 
- Thu, 07 Oct 2021 04:07:48 -0700 (PDT)
+ bh=k9SJtneK/vSoC9p+OCn7fw6JRlrTPl6hr1zCp8PWYvs=;
+ b=JPXYIYCdHT+lvjpYe51EHhG5yFqnlu5pBbwBtSa/jbQfQr0W/sXNN/J3jXYVdUNMjv
+ c6Tvwpx6R1uXEV/qgr9mUeiR5cw/ugDbM66shH9IWFeWXM7cgSxT/c8c89vqalJmn3PD
+ fd4PKNaEnDpEVvqFSVmDp0ucQ2KP7kEGWCspXZQMDHdqqsE7SmbxFA50nZd9KpdEOS4Y
+ ycnfzh+FuaKxeaQtjfa6/HSWEBuSoqNydcZ9BqXakmIISEsWjbPUwmvYta36MGU3QuJt
+ LSCVnzd1eiB3gwnfbmWEAI8+g59ZFe1yZGNqINYO5gbRHFAIZhxCdcVzrXX8oFktGa3U
+ KM2Q==
+X-Gm-Message-State: AOAM531Vrci3n1+R2mowIfPbh7ZQToSENaTDAMhKKdSiBmKqLeUmvhAk
+ XT19Mt8cMGSW32OPsty/LdcwEW3VQkdofLEGL44=
+X-Google-Smtp-Source: ABdhPJyqWCTEHxIIwVyvGSXXLw8RHfe0/eya27e8rPsSC/3JGw9m5zPzlVc6siQjpfJd6fxlhzfETfPr7nFYO6Ae9k4=
+X-Received: by 2002:a17:907:7601:: with SMTP id
+ jx1mr4936630ejc.69.1633605753847; 
+ Thu, 07 Oct 2021 04:22:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
- <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
- <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
- <20210706151320.kwn4dwu6buvy4isa@gilmour>
- <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
- <20210715095022.5plcocz6plxnb3xr@gilmour>
- <YVm7U0q6F8T9K32h@pendragon.ideasonboard.com>
- <CAPY8ntAWqaHH=+cGWcpKypvZfGApE6SQ1p0qFzE9XyyqaaQ1OQ@mail.gmail.com>
- <418bd5c8-00a9-5502-f918-821616870943@gmail.com>
- <CAPY8ntDzTa0Xzfk-YUj9pOShi9wMb+_Y0ogRfROaf3kz5Ru5qQ@mail.gmail.com>
- <ce4851e2-3e17-5a4b-eb99-bc8787ec8259@gmail.com>
-In-Reply-To: <ce4851e2-3e17-5a4b-eb99-bc8787ec8259@gmail.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 7 Oct 2021 12:07:31 +0100
-Message-ID: <CAPY8ntDgu1t1zxpewVPFnjug0O00D-gPhgXqJtm6hr2JMo_Gmw@mail.gmail.com>
-Subject: Re: Questions over DSI within DRM.
-To: Andrzej Hajda <andrzej.hajda@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Maxime Ripard <maxime@cerno.tech>, 
- DRI Development <dri-devel@lists.freedesktop.org>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
+Received: by 2002:a17:906:f758:0:0:0:0 with HTTP; Thu, 7 Oct 2021 04:22:32
+ -0700 (PDT)
+In-Reply-To: <20211006193819.2654854-1-swboyd@chromium.org>
+References: <20211006193819.2654854-1-swboyd@chromium.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Thu, 7 Oct 2021 14:22:32 +0300
+Message-ID: <CAHp75VdLg-rBjCDGEwgkY6QDbFGW0of4SjSmp08FXXRN_raQtQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/34] component: Make into an aggregate bus
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+ "linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>, 
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
+ "freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+ Arnd Bergmann <arnd@arndb.de>, 
+ Benjamin Gaignard <benjamin.gaignard@linaro.org>,
+ Chen Feng <puck.chen@hisilicon.com>, 
+ Chen-Yu Tsai <wens@csie.org>, Christian Gmeiner <christian.gmeiner@gmail.com>, 
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Emma Anholt <emma@anholt.net>, =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Inki Dae <inki.dae@samsung.com>, James Qian Wang <james.qian.wang@arm.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Joerg Roedel <joro@8bytes.org>,
+ John Stultz <john.stultz@linaro.org>, 
+ Joonyoung Shim <jy0922.shim@samsung.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+ Kai Vehmanen <kai.vehmanen@linux.intel.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ "linux-fbdev@vger.kernel.org" <linux-fbdev@vger.kernel.org>, 
+ "linux-omap@vger.kernel.org" <linux-omap@vger.kernel.org>, 
+ "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+ Liviu Dudau <liviu.dudau@arm.com>, 
+ Lucas Stach <l.stach@pengutronix.de>, Mark Brown <broonie@kernel.org>, 
+ Maxime Ripard <mripard@kernel.org>, Neil Armstrong <narmstrong@baylibre.com>, 
+ Paul Cercueil <paul@crapouillou.net>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>,
+ Russell King <linux+etnaviv@armlinux.org.uk>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>, Sandy Huang <hjc@rock-chips.com>, 
+ Saravana Kannan <saravanak@google.com>, Sebastian Reichel <sre@kernel.org>, 
+ Seung-Woo Kim <sw0312.kim@samsung.com>, Takashi Iwai <tiwai@suse.com>, 
+ Tian Tao <tiantao6@hisilicon.com>, Tomas Winkler <tomas.winkler@intel.com>, 
+ Tomi Valkeinen <tomba@kernel.org>, Will Deacon <will@kernel.org>, 
+ Xinliang Liu <xinliang.liu@linaro.org>,
+ Xinwei Kong <kong.kongxinwei@hisilicon.com>, 
+ Yong Wu <yong.wu@mediatek.com>
+Content-Type: multipart/alternative; boundary="000000000000a9431205cdc17abc"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -80,584 +103,463 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 5 Oct 2021 at 22:03, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
+--000000000000a9431205cdc17abc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wednesday, October 6, 2021, Stephen Boyd <swboyd@chromium.org> wrote:
+
+> This series is from discussion we had on reordering the device lists for
+> drm shutdown paths[1]. I've introduced an 'aggregate' bus that we put
+> the aggregate device onto and then we probe the aggregate device once
+> all the components are probed and call component_add(). The probe/remove
+> hooks are where the bind/unbind calls go, and then a shutdown hook is
+> added that can be used to shutdown the drm display pipeline at the right
+> time.
 >
-> On 05.10.2021 17:32, Dave Stevenson wrote:
-> > Hi Andrzej
-> >
-> > Thanks for joining in the discussion.
-> >
-> > On Tue, 5 Oct 2021 at 16:08, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
-> >>
-> >> On 05.10.2021 13:23, Dave Stevenson wrote:
-> >>> Hi Laurent
-> >>>
-> >>> On Sun, 3 Oct 2021 at 15:16, Laurent Pinchart
-> >>> <laurent.pinchart@ideasonboard.com> wrote:
-> >>>>
-> >>>> Hello,
-> >>>>
-> >>>> Reviving a bit of an old thread.
-> >>>
-> >>> I'd been looking at reviving this conversation too as I've moved
-> >>> further on with DSI on the Pi, and converting from an encoder to a
-> >>> bridge
-> >>>
-> >>>> On Thu, Jul 15, 2021 at 11:50:22AM +0200, Maxime Ripard wrote:
-> >>>>> On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
-> >>>>>> On Tue, 6 Jul 2021 at 16:13, Maxime Ripard wrote:
-> >>>>>>>>>> On a similar theme, some devices want the clock lane in HS mode early
-> >>>>>>>>>> so they can use it in place of an external oscillator, but the data
-> >>>>>>>>>> lanes still in LP-11. There appears to be no way for the
-> >>>>>>>>>> display/bridge to signal this requirement or it be achieved.
-> >>>>>>>>>
-> >>>>>>>>> You're right. A loooong time ago, the omapdrm driver had an internal
-> >>>>>>>>> infrastructure that didn't use drm_bridge or drm_panel and instead
-> >>>>>>>>> required omapdrm-specific drivers for those components. It used to model
-> >>>>>>>>> the display pipeline in a different way than drm_bridge, with the sync
-> >>>>>>>>> explicitly setting the source state. A DSI sink could thus control its
-> >>>>>>>>> enable sequence, interleaving programming of the sink with control of
-> >>>>>>>>> the source.
-> >>>>>>>>>
-> >>>>>>>>> Migrating omapdrm to the drm_bridge model took a really large effort,
-> >>>>>>>>> which makes me believe that transitioning the whole subsystem to
-> >>>>>>>>> sink-controlled sources would be close to impossible. We could add
-> >>>>>>>>> DSI-specific operations, or add another enable bridge operation
-> >>>>>>>>> (post_pre_enable ? :-D). Neither would scale, but it may be enough.
-> >>>>>>>>
-> >>>>>>>> I haven't thought it through for all generic cases, but I suspect it's
-> >>>>>>>> more a pre_pre_enable that is needed to initialise the PHY etc,
-> >>>>>>>> probably from source to sink.
-> >>>>
-> >>>> I believe it could be implemented as a pre-pre-enable indeed. It feels
-> >>>> like a bit of a hack, as the next time we need more fine-grained control
-> >>>> over the startup sequence, we'll have to add a pre-pre-pre-enable. Given
-> >>>> that the startup sequence requirements come from the sink device, it
-> >>>> would make sense to let it explicitly control the initialization,
-> >>>> instead of driving it from the source. I don't think we'll be able to
-> >>>> rework the bridge API in that direction though, so I'm fine with a hack.
-> >>>
-> >>> There are pros and cons to both approaches.
-> >>> You're in a much better place to make that sort of call than I am, so
-> >>> I'll take your advice.
-> >>>
-> >>> Implementing a DSI host op function may mean an update to a number of
-> >>> existing DSI host drivers,
-> >>
-> >> Why? You just add new op to mipi_dsi_host_ops and create appropriate
-> >> helper, which in case of NULL will perform default action, either:
-> >> - return -ENOSYS,
-> >> - try to emulate by calling mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET)
-> >>
-> >> The latter is just wild guess, but I suspect it could work (even now) as
-> >> an alternate way of entering into stop state.
-> >
-> > If we're looking at fixing bridges to use the new DSI state call and
-> > then initialise in "pre_enable" (ie before video is started), then
-> > making that change to the bridge will require support for the DSI
-> > state call or risk regressions.
+> This works for me on my sc7180 board. I no longer get a warning from i2c
+> at shutdown that we're trying to make an i2c transaction after the i2c
+> bus has been shutdown. There's more work to do on the msm drm driver to
+> extract component device resources like clks, regulators, etc. out of
+> the component bind function into the driver probe but I wanted to move
+> everything over now in other component drivers before tackling that
+> problem.
 >
-> I think there is misunderstanding somewhere, I do not know where, yet :)
-> My idea is as follow:
-> 1. Add dsi_host.set_state() op to dsi host accompanied with helper, lets
-> call it mipi_dsi_host_set_state for now.
-> 2. Implement dsi_host.set_state in DSI host you are working with.
-> 3. In body of your bridge pre_enable you call mipi_dsi_host_set_state in
-> proper place.
+> I'll definitely be sending a v3 so this is partially a request for
+> testing to shake out any more problems. Tested-by tags would be
+> appreciated,
+> and Acked-by/Reviewed-by tags too. I sent this to gregkh which may be
+> incorrect but I don't know what better tree to send it all through.
+> Maybe drm?
 >
-> 1 and 2 do not introduce any regression.
-> 3 can introduce regression only if your bridge is used with another dsi
-> host but only on such platforms.
->
-> Why do you think we need to 'fix' it everywhere?
-
-I'm looking at sn65dsi83 which is already working against other
-platforms (I don't know which). If it is fixed to request the DSI
-state and initialise in pre_enable, then those platforms need updating
-too.
-If mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET) can be used to wake
-the host up then that would be great, but I don't have access to those
-platforms to test.
-
-> > Some may have been getting away with it by making the initialisation
-> > call in "enable" whilst video is active - that sounds like the issue
-> > Marek was trying to log in his patch to SN65DSI83.
-> >
-> >>> but it would be cleaner. It's also what
-> >>> Andrzej has suggested.
-> >>>
-> >>> Thinking it through, a function that requests clock lane frequency and
-> >>> state (ULPS or LP-11 predominantly), and data lane state (again ULPS
-> >>> or LP-11) should allow the required behaviour for most of the bridges
-> >>> I'm aware of. Most want either LP-11, or HS clock at a known
-> >>> frequency.
-> >>
-> >> LP-11 is quite reasonable, but regarding frequency I am not sure who
-> >> should manage it? DSI device datasheets known to me usually mentioned
-> >> max frequency, and it is covered by mipi_dsi_device.hs_rate. Min
-> >> frequency is usually determined by amount of data we need to transfer
-> >> per second.
-> >> Do you need to set frequency from device, or just to know actual frequency?
-> >> In former case (if it is really necessary !!!) you should request
-> >> frequency range anyway, as host usually is able to set only discrete
-> >> number of frequencies. But it need to be clearly specified how and when
-> >> this op can be used - more ops, more questions about interaction between
-> >> them.
-> >> In latter case another mipi host op should be quite easy to implement.
-> >
-> > If a burst mode frequency is specified in struct mipi_dsi_device
-> > hs_rate then there is no issue.
->
-> hs_rate should be called rather max_hs_rate as it describes only top
-> limit of HS clock, decision which clock to choose is on DSI host side.
-
-Indeed, I've just realised that one.
-
-> > If not, then you'll generally want to use the pixel clock,
->
-> Probably not, often we want to use rate higher than pixel clock
-> (time-compression in DSI spec), to leave time gaps for LP mode.
-
-Only if MIPI_DSI_MODE_VIDEO_BURST is set in the mode_flags, otherwise
-you should be running at the pixel clock. (Slight assumption as there
-is no definition of what MIPI_DSI_MODE_VIDEO_BURST really means in the
-documentation).
-
-> > and the DSI
-> > host hasn't necessarily been told the video mode at the point the
-> > bridge/panel requests a new DSI state.
->
-> pre_enable and enable ops are called after modeset, so video mode is known.
-
-Thanks, I wasn't aware of that. It didn't help that our DSI driver
-didn't implement a mode_set function as it did all the work in
-pre_enable having looked back at the crtc for the mode.
-
-It looks like there is a slight quirk that there is an encoder
-atomic_mode_set, but not a bridge one. If we're implementing the
-atomic API is it correct to update our bridge's internal state (ie the
-hs_rate) from a (atomic_)mode_set? That's a different discussion
-though.
-
-> >
-> >>> Giving the option for setting back into ULPS also allows
-> >>> for power saving/standby mechanisms should the need arise.
-> >>
-> >> Another op :)
-> >
-> > Does it need to be, or can it be one op as
-> > enum mipi_dsi_lane_state{
-> >   DSI_ULPS,
-> >   DSI_LP11,
-> >   DSI_HS,
-> > };
-> >
-> > int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
-> >         enum mipi_dsi_lane_state clock_lane_state,
-> >         u64 clock_lane_freq,
-> >         enum mipi_dsi_lane_state data_lane_state)
->
-> I still do not know why do you want to set freq explicitly, ie why DSI
-> host could not choose it, based on bridge constraints, DSI host
-> constraints and requested video mode.
-
-I'm partly trying to piece together what information is already around
-in order to be able to make a good decision on the frequency.
-If we have (max_)hs_rate defined and a mode, then we can make a
-decision within the DSI host driver.
-
-Adding a link-frequencies DT property would allow the system
-configuration to be defined rather than some random heuristics.
-
-But otherwise I do now agree with you that we probably don't need an
-explicit frequency from the bridge/panel driver.
-
-There is still the situation documented in [1] that the transfer
-function "can be called no matter the state the host is in", so that
-would include as part of attach when we don't have a video mode. Any
-transfer without the MIPI_DSI_MSG_USE_LPM flag is then at an undefined
-HS speed. There are likely very few cases where that matters, so a
-WARN from the DSI host driver is probably sufficient for now.
-
-[1] https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html?highlight=dsi#c.mipi_dsi_host_ops
-
-> Regarding different modes for clock and data lanes there exists DSI mode
-> flag MIPI_DSI_CLOCK_NON_CONTINUOUS which determines if host in LP-11
-> data lanes state can also put clock lane into LP-11. Is there need for
-> sth more?
-> I'd like to avoid possibility of nonsense(?) configurations like clock
-> in LP-11 and data lanes in HS.
-
-Having had a first pass at implementing this, then I certainly agree
-with altering the potential states I'd previously suggested.
-    DSI_STANDBY,
-    DSI_ULPS,
-    DSI_ACTIVE,
-Seems more sensible now.
-For the clock lane, as you say, MIPI_DSI_CLOCK_NON_CONTINUOUS
-determines whether DSI_ACTIVE means LP-11 or HS.
-The data lanes follow the clock lane in state, so DSI_ACTIVE means
-LP-11, sending LP commands, or HS if video is actively being
-transmitted.
-
-Having just DSI_ACTIVE also avoids the nonsense you rightly raise of
-LP clock but HS data.
-
-So it can be condensed down to a single state.
-int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
-        enum mipi_dsi_lane_state state);
-Does that seem reasonable?
-
-I guess the other thing to do is document what is meant by each flag.
-Currently the documentation is rather lacking in the intended
-behaviour, which is where I started with this thread.
-
-Thanks.
-  Dave
-
-> Regards
-> Andrzej
+> I'll be faster at resending this next time, sorry for the long delay!
 >
 >
+Yet another avoidance of mathematically proven device dependency graph...
+
+
+Can we actually find and ask a mathematician to look into the problem and
+suggest real solution instead of all these ugly hacks: deferred probe
+(ugliest hack, how it even came into kernel?), component framework, custom
+approaches on how to see if devices are in the system (ASoC hack).
+
+
+
+> Changes since v1 (https://lore.kernel.org/r/20210520002519.3538432-1-
+> swboyd@chromium.org):
+>  - Use devlink to connect components to the aggregate device
+>  - Don't set the registering device as a parent of the aggregate device
+>  - New patch for bind_component/unbind_component ops that takes the
+>    aggregate device
+>  - Convert all drivers in the tree to use the aggregate driver approach
+>  - Allow one aggregate driver to be used for multiple aggregate devices
 >
-> >
-> >    Dave
-> >
-> >> Regards
-> >> Andrzej
-> >>
-> >>
-> >>> Does it need a way to pass back the actual DSI frequency being used,
-> >>> in a similar vein to mode_fixup? That allows for the bridge to request
-> >>> the display clock, but the burst mode link frequency to be returned
-> >>> (I'm assuming that's a property of the DSI host only, and not the
-> >>> bridge).
-> >>>
-> >>> I'm having a discussion with someone who wants to run SN65DSI85 in the
-> >>> two independent LVDS display mode. That requires a DSI HS clock on
-> >>> DSI-A even if only panel B is active, so with this extra function that
-> >>> would be achievable as well.
-> >>>
-> >>> Thoughts?
-> >>>
-> >>>>>>>> If the panel/bridge can set a flag that can be checked at this point
-> >>>>>>>> for whether an early clock is required or not, I think that allows us
-> >>>>>>>> to comply with the requirements for a large number of panels/bridges
-> >>>>>>>> (LP-11 vs HS config for clock and or data lanes before pre_enable is
-> >>>>>>>> called).
-> >>>>>>>>
-> >>>>>>>> pre_enable retains the current behaviour (initialise the chain from
-> >>>>>>>> sink to source).
-> >>>>>>>> enable then actually starts sending video and enabling outputs.
-> >>>>>>>
-> >>>>>>> Flags indeed seem like a more contained option. Another one could be to
-> >>>>>>> have a mipi_dsi_host to (for example) power up the clock lane that would
-> >>>>>>> be called by default before the bridge's enable, or at the downstream
-> >>>>>>> bridge driver discretion before that.
-> >>>>>>
-> >>>>>> Which driver will that call?
-> >>>>>
-> >>>>> The parent DSI Host
-> >>>>>
-> >>>>>> An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
-> >>>>>> bridge chip[1]. So the encoder will be eDP, but the DSI config needs
-> >>>>>> to go to that bridge. Does that happen automatically within the
-> >>>>>> framework? I guess so as the bridge will have called
-> >>>>>> mipi_dsi_host_register for the DSI sink to attach to.
-> >>>>>
-> >>>>> In that case, whatever sink would be connected to the bridge would call
-> >>>>> the bridge clock enable hook if it needs it in its pre_enable, or it
-> >>>>> would be called automatically before enable if it doesn't
-> >>>>>
-> >>>>> Would that help?
-> >>>>
-> >>>> Sounds good to me, in theory at least (let's see what issues we'll run
-> >>>> into in practice :-)).
-> >>>>
-> >>>> Has anyone given it a try, or is planning to ?
-> >>>>
-> >>>>>> Perhaps a new mipi_dsi_host function to configure the PHY is the
-> >>>>>> easier solution. If it can allow the sink to request whatever
-> >>>>>> combination of states from clock and data lanes that it fancies, then
-> >>>>>> it can be as explicit as required for the initialisation sequence, and
-> >>>>>> the host driver does its best to comply with the requests.
-> >>>>>
-> >>>>> I don't know, I'm not really fond in general of solutions that try to
-> >>>>> cover any single case if we don't need it and / or have today an issue
-> >>>>> with this. I'd rather have something that works for the particular
-> >>>>> bridge we were discussing, see if it applies to other bridges and modify
-> >>>>> it if it doesn't until it works for all our cases. Trying to reason in
-> >>>>> all possible cases tend to lead to solutions that are difficult to
-> >>>>> maintain and usually over-engineered.
-> >>>>
-> >>>> A DSI host clock enable operation or a DSI host PHY configuration
-> >>>> operation both fit in the same place in the grand scheme of things, so I
-> >>>> don't mind either. We should be able to easily move from a more specific
-> >>>> operation to a more generic one if the need arises.
-> >>>>
-> >>>>>> I'd have a slight query over when and how the host would drop to ULPS
-> >>>>>> or power off. It probably shouldn't be in post_disable as the sink
-> >>>>>> hasn't had a chance to finalise everything in its post_disable.
-> >>>>>>
-> >>>>>> Perhaps pm_runtime with autosuspend is the right call there?
-> >>>>>
-> >>>>> pm_runtime semantics mean that once the device is suspended, its power
-> >>>>> domains, regulators, clocks, etc. are all shut down, so it doesn't
-> >>>>> really fit the low power state expected by DSI
-> >>>>>
-> >>>>>> [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/interface-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/detail.TC358860XBG.html
-> >>>>>>
-> >>>>>>>> When I discussed this briefly with Maxime there was a suggestion of
-> >>>>>>>> using pm_runtime to be able to power up the pipeline as a whole. If
-> >>>>>>>> the bridge driver can use pm_runtime to power up the PHY when
-> >>>>>>>> required, then that may solve the issue, however I know too little of
-> >>>>>>>> the details to say whether that is actually practical.
-> >>>>>>>
-> >>>>>>> I'm not sure it was about this topic in particular. If I remember well
-> >>>>>>> our discussion, this was about the vc4 driver that tries to circumvent
-> >>>>>>> the framework and call the pre_enable and enable hooks itself because it
-> >>>>>>> wasn't properly powered before and thus any DCS-related call by the
-> >>>>>>> downstream bridge or panel would end up creating a CPU stall.
-> >>>>>>>
-> >>>>>>> I suggested to use runtime_pm in the DCS related calls to make sure the
-> >>>>>>> device is powered because there's no relation between the state of the
-> >>>>>>> downstream bridge or panel and whether it can send DCS commands or not.
-> >>>>>>> For all we know, it could do it at probe time.
-> >>>>>>
-> >>>>>> pm_runtime is all a bit of a magic black box to me.
-> >>>>>>
-> >>>>>> We had discussed shifting to using pm_runtime from DCS (and enable)
-> >>>>>> calls to power up the PHY on demand, and that's what I implemented.
-> >>>>>> However Laurent flagged up that using
-> >>>>>> dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
-> >>>>>> required to send a HS DCS command from that call is deprecated, so how
-> >>>>>> do we specify the clock rate to use at that point?
-> >>>>>
-> >>>>> I guess the most sensible would be to have a custom bridge state, and
-> >>>>> add a pointer to the current bridge state in struct drm_bridge. Then, as
-> >>>>> long as you have a bridge pointer you have a way to get the current
-> >>>>> state associated to it, and since we already have atomic_duplicate_state
-> >>>>> / atomic_destroy_state we can create our own structure around it storing
-> >>>>> whatever we want.
-> >>>>
-> >>>> That's a good point. It would only be needed if we use runtime PM to
-> >>>> work around the initialization sequence issue, not if we implement a DSI
-> >>>> host clock enable/disable operation, right ?
-> >>>
-> >>> Obviously this only works with atomic bridges otherwise you have no
-> >>> state, but I assume all bridges should be heading that route now.
-> >>>
-> >>>>>>>>>> host_transfer calls can supposedly be made at any time, however unless
-> >>>>>>>>>> MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
-> >>>>>>>>>> in high speed mode. If this is before a mode has been set, what
-> >>>>>>>>>> defines the link frequency parameters at this point? Adopting a random
-> >>>>>>>>>> default sounds like a good way to get undefined behaviour.
-> >>>>>>>>>>
-> >>>>>>>>>> DSI burst mode needs to set the DSI link frequency independently of
-> >>>>>>>>>> the display mode. How is that meant to be configured? I would have
-> >>>>>>>>>> expected it to come from DT due to link frequency often being chosen
-> >>>>>>>>>> based on EMC restrictions, but I don't see such a thing in any
-> >>>>>>>>>> binding.
-> >>>>>>>>>
-> >>>>>>>>> Undefined too. DSI support was added to DRM without any design effort,
-> >>>>>>>>> it's more a hack than a real solution. The issue with devices that can
-> >>>>>>>>> be controlled over both DSI and I2C is completely unhandled. So far
-> >>>>>>>>> nobody has really cared about implementing DSI right as far as I can
-> >>>>>>>>> tell.
-> >>>>>>>>
-> >>>>>>>> :-(
-> >>>>>>>>
-> >>>>>>>> Thinking aloud, does having the option to set a burst link frequency
-> >>>>>>>> from DT (or ACPI) have any issue for other platforms?
-> >>>>>>>> Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
-> >>>>>>>> drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
-> >>>>>>>> all the defined timings, but drop to LP during blanking" option. The
-> >>>>>>>> link frequency has therefore remained a property of the
-> >>>>>>>> display/bridge.
-> >>>>>>>> dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
-> >>>>>>>> through the full detail of the parameters it computes from there.
-> >>>>>>>
-> >>>>>>> I don't see anything wrong with using link-frequency from the DT to
-> >>>>>>> setup the burst frequency. It's what v4l2 has been using for a while
-> >>>>>>> without any known (to me) drawback, and we're using the same of-graph
-> >>>>>>> bindings, so it shouldn't be too controversial there.
-> >>>>
-> >>>> How would that frequency we picked in practice ? Do panels typically
-> >>>> support a range of HS frequencies for DCS HS transfers ?
-> >>>
-> >>> I was thinking more of bridges where they often run a PLL off the
-> >>> incoming DSI clock, and then have a FIFO with potentially different
-> >>> clock rates and timings on input and output. SN65DSI83 supports that,
-> >>> as do the Toshiba bridge chips I'm currently looking at.
-> >>> You need to know the DSI link frequency to configure the PLL
-> >>> correctly, but then the bridge output timing is a different matter.
-> >>>
-> >>>>>> OK, that sounds like a vague plan.
-> >>>>>>
-> >>>>>>>> DSI and I2C controlled devices is yet another issue that I haven't
-> >>>>>>>> even looked at.
-> >>>>>>>> I think it's more that vc4 wants to ignore DSI should the DSI host
-> >>>>>>>> node be enabled in DT, but there's no panel bound to it. One could say
-> >>>>>>>> that is a DT error and tough luck, but from a user's perspective that
-> >>>>>>>> is a bit harsh.
-> >>>>>>>
-> >>>>>>> I guess the larger "issue" is that the tree in the DT is done following
-> >>>>>>> the "control" bus, and Linux likes to tie the life cycle of a given
-> >>>>>>> device to its parent bus. Both these decisions make sense, but they
-> >>>>>>> interact in a weird way in some occurrences (like this one, or Allwinner
-> >>>>>>> has an Ethernet PHY controlled through MMIO which end up in the same
-> >>>>>>> case).
-> >>>>>>>
-> >>>>>>> I wonder if using device links here could help though.
-> >>>>>>
-> >>>>>> I really don't know about that one.
-> >>>>>
-> >>>>> It's a piece of infrastructure that was created at first (I think?) to
-> >>>>> model the power dependency between devices that don't have a parent /
-> >>>>> child relationship. For example, if you use DMA, you probably want to
-> >>>>> keep the IOMMU powered as long as you are, but it is in a completely
-> >>>>> separate branch of the "device tree" (not one from the DTB, the one that
-> >>>>> linux DM creates).
-> >>>>>
-> >>>>> It was later expanded to also cover probe order and make sure a supplier
-> >>>>> would probe before its consumer, effectively making EPROBE_DEFER
-> >>>>> obsolete.
-> >>>>>
-> >>>>> The second part is still fairly new, but I think we can solve this by
-> >>>>> adding a device link between the DSI host and whatever is at the end of
-> >>>>> the OF-Graph endpoint.
-> >>>>>
-> >>>>>>>>>> As a follow on, bridge devices can support burst mode (eg TI's
-> >>>>>>>>>> SN65DSI83 that's just been merged), so it needs to know the desired
-> >>>>>>>>>> panel timings for the output side of the bridge, but the DSI link
-> >>>>>>>>>> timings to set up the bridge's PLL. What's the correct way for
-> >>>>>>>>>> signalling that? drm_crtc_state->adjusted_mode vs
-> >>>>>>>>>> drm_crtc_state->mode? Except mode is userspace's request, not what has
-> >>>>>>>>>> been validated/updated by the panel/bridge.
-> >>>>>>>>>
-> >>>>>>>>> adjusted_mode is also a bit of a hack, it solves very specific issues,
-> >>>>>>>>> and its design assumes a single encoder in the chain with no extra
-> >>>>>>>>> bridges. We should instead add modes to the bridge state, and negotiate
-> >>>>>>>>> modes along the pipeline the same way we negotiate formats.
-> >>>>>>>>
-> >>>>>>>> So as I understand it we already have format negotiation between
-> >>>>>>>> bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
-> >>>>>>>> so is it possible to extend that to modes?
-> >>>>>>>> Are you thinking bridge state that is owned by the framework, or by
-> >>>>>>>> the individual bridge drivers?
-> >>>>>>>
-> >>>>>>> atomic_check is made for that. I guess we could improve its call
-> >>>>>>> sequence to each time a mode is modified along the bridge list we
-> >>>>>>> restart the sequence until all components agree (or reject it entirely
-> >>>>>>> if they can't), but I don't really see why we would need yet another
-> >>>>>>> hook.
-> >>>>
-> >>>> Isn't this what atomic_get_output_bus_fmts() and
-> >>>> atomic_get_input_bus_fmts() implement ?
-> >>>
-> >>> Those negotiate a single u32 bus format between nodes, not a complete timing.
-> >>>
-> >>>>>> Why do all nodes in the bridge list need to agree? Adjacent nodes need
-> >>>>>> to agree, but they then also need to retain that agreed timing
-> >>>>>> somewhere.
-> >>>>>
-> >>>>> We might have mutually exclusive requirements though? Let's use the
-> >>>>> example of the VC4 HDMI driver that can't have odd horizontal timings,
-> >>>>> and assume it's a constraint of our DSI driver instead.
-> >>>>>
-> >>>>> Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
-> >>>>> is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
-> >>>>> even horizontal timings, then you just can't display it, even though
-> >>>>> they are not adjacent (unless the bridge in the middle can modify the
-> >>>>> timings between the input and output, but that's not always possible).
-> >>>>>
-> >>>>> Similarly, if for the RGB panel we need to increase a bit some timings
-> >>>>> to accommodate for a larger pixel clock and end up above what the DSI
-> >>>>> host can provide, we're also done.
-> >>>>
-> >>>> The hard part will be to figure out a good heuristics to perform the
-> >>>> negotiation without going back and forth (at least not in a way that
-> >>>> would require too many iterations, and certainly avoiding infinite
-> >>>> loops). That will be an interesting problem to solve, but maybe we'll be
-> >>>> lucky and a simple approach will work for the use cases we have to
-> >>>> support today.
-> >>>
-> >>> One to kick into the long grass possibly then.
-> >>>
-> >>> For burst mode and bridges retiming things, generally I think it works
-> >>> if you consider a single pass through a mode_fixup equivalent starting
-> >>> at the panel.
-> >>> The panel advertises what it wants.
-> >>> The closest bridge (eg DSI83) fixup amends panel's requested mode
-> >>> based on any constraints that it has, stores a copy, and passes that
-> >>> down the chain.
-> >>> The next bridge (eg vc4_dsi) amends the mode based on restrictions it
-> >>> has (eg burst mode link frequency). That's the end of the chain in
-> >>> this case, so that's the mode that the crtc needs to be programmed
-> >>> with.
-> >>>
-> >>> The modes then need to be passed back up the chain so that eg DSI83
-> >>> knows the link frequency in use, and can therefore configure the PLL
-> >>> appropriately.
-> >>>
-> >>> The bit it would be nice to fix is that burst mode has effectively
-> >>> increased the horizontal front porch, but that could be fixed within
-> >>> the bridge so that the panel gets the timing it requested.
-> >>>
-> >>>>>> Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
-> >>>>>> DSI frequency and timings are permitted to be different from that
-> >>>>>> which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
-> >>>>>> need to agree over the format, and the DSI host and DSI side of DSI83
-> >>>>>> need to agree, but they may be two different timings.
-> >>>>>> Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
-> >>>>>> configure the LVDS rate compared to the DSI rate (the driver currently
-> >>>>>> goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
-> >>>>>> of active pixel and blanking on the LVDS side (again currently just
-> >>>>>> copied across).
-> >>>>>>
-> >>>>>> The way I'm seeing burst mode as having been interpreted at present is
-> >>>>>> that it's largely just a flag to say "drop to LP mode between lines".
-> >>>>>> The timing that needs to be passed to the crtc is therefore going to
-> >>>>>> be based on the DSI link rate (converted to pixels) with increased
-> >>>>>> blanking periods.
-> >>>>>>
-> >>>>>> I guess there are similarities with Media Controller and V4L2 here. A
-> >>>>>> typical chain there could be:
-> >>>>>>    sensor -> scaler -> crop -> CSI-2 receiver.
-> >>>>>> The format on each of those links may be different, but the chain as a
-> >>>>>> whole needs to be valid. Media Controller largely relies on userspace
-> >>>>>> to configure all links, but with a DRM chain that isn't really an
-> >>>>>> option as it's expected that the display chain configures itself.
-> >>>>>
-> >>>>> Also, the userspace has no concept of media sub-devices in DRM, so it
-> >>>>> just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
-> >>>>> In v4l2, afaik, if you ended up with the above scenarios it would just
-> >>>>> be rejected when you set the format on the link, letting the userspace
-> >>>>> figure it out. We can't really do that here
-> >>>>
-> >>>> I wonder how long we'll be able to keep userspace out of the picture to
-> >>>> configure the internals of the pipeline. I don't want to be the first
-> >>>> person who will have a use case that requires this.
-> >>>
-> >>> I suspect none of us want to be the first one to hit this scenario!
-> >>>
-> >>> As I've just posted on the other thread about SN65DSI83, I've hit a
-> >>> major stumbling block with the current design where vc4_dsi (and
-> >>> Exynos) breaks the bridge_chain so that it gets called first and can
-> >>> do initialisation, and then it calls down the chain.
-> >>> Having now converted to a DSI bridge driver, it works fine with
-> >>> connected non-atomic bridges, but fails with atomic bridges.
-> >>> drm_atomic_add_encoder_bridges adds the state for all the bridges the
-> >>> framework is aware of. With the split chain it misses adding the state
-> >>> of our "hidden" bridges, and we can't add the extra state from our
-> >>> atomic_duplicate_state call as we don't have the state to add to (we
-> >>> just return our state to be added).
-> >>> This bumps up the priority for us of finding a suitable solution for
-> >>> this initialisation issue, so I'll start looking at how feasible a new
-> >>> DSI host function is.
-> >>>
-> >>> Thanks
-> >>>     Dave
-> >>>
-> >>
+> [1] https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@chromium.or=
+g
 >
+> Stephen Boyd (34):
+>   component: Introduce struct aggregate_device
+>   component: Introduce the aggregate bus_type
+>   component: Move struct aggregate_device out to header file
+>   drm/msm: Migrate to aggregate driver
+>   component: Add {bind,unbind}_component() ops that take aggregate
+>     device
+>   drm/of: Add a drm_of_aggregate_probe() API
+>   drm/komeda: Migrate to aggregate driver
+>   drm/arm/hdlcd: Migrate to aggregate driver
+>   drm/malidp: Migrate to aggregate driver
+>   drm/armada: Migrate to aggregate driver
+>   drm/etnaviv: Migrate to aggregate driver
+>   drm/kirin: Migrate to aggregate driver
+>   drm/exynos: Migrate to aggregate driver
+>   drm/imx: Migrate to aggregate driver
+>   drm/ingenic: Migrate to aggregate driver
+>   drm/mcde: Migrate to aggregate driver
+>   drm/mediatek: Migrate to aggregate driver
+>   drm/meson: Migrate to aggregate driver
+>   drm/omap: Migrate to aggregate driver
+>   drm/rockchip: Migrate to aggregate driver
+>   drm/sti: Migrate to aggregate driver
+>   drm/sun4i: Migrate to aggregate driver
+>   drm/tilcdc: Migrate to aggregate driver
+>   drm/vc4: Migrate to aggregate driver
+>   drm/zte: Migrate to aggregate driver
+>   iommu/mtk: Migrate to aggregate driver
+>   mei: Migrate to aggregate driver
+>   power: supply: ab8500: Migrate to aggregate driver
+>   fbdev: omap2: Migrate to aggregate driver
+>   sound: hdac: Migrate to aggregate driver
+>   ASoC: codecs: wcd938x: Migrate to aggregate driver
+>   component: Get rid of drm_of_component_probe()
+>   component: Remove component_master_ops and friends
+>   component: Remove all references to 'master'
+>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Benjamin Gaignard <benjamin.gaignard@linaro.org>
+> Cc: Chen Feng <puck.chen@hisilicon.com>
+> Cc: Chen-Yu Tsai <wens@csie.org>
+> Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Emma Anholt <emma@anholt.net>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: "Heiko St=C3=BCbner" <heiko@sntech.de>
+> Cc: Inki Dae <inki.dae@samsung.com>
+> Cc: James Qian Wang (Arm Technology China) <james.qian.wang@arm.com>
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Joerg Roedel <joro@8bytes.org>
+> Cc: John Stultz <john.stultz@linaro.org>
+> Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+> Cc: Jyri Sarha <jyri.sarha@iki.fi>
+> Cc: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: <linux-fbdev@vger.kernel.org>
+> Cc: <linux-omap@vger.kernel.org>
+> Cc: <linux-pm@vger.kernel.org>
+> Cc: Liviu Dudau <liviu.dudau@arm.com>
+> Cc: Lucas Stach <l.stach@pengutronix.de>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Neil Armstrong <narmstrong@baylibre.com>
+> Cc: Paul Cercueil <paul@crapouillou.net>
+> Cc: Philipp Zabel <p.zabel@pengutronix.de>
+> Cc: "Rafael J. Wysocki" <rafael@kernel.org>
+> Cc: Rob Clark <robdclark@gmail.com>
+> Cc: Russell King <linux@armlinux.org.uk>
+> Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+> Cc: Russell King <rmk+kernel@arm.linux.org.uk>
+> Cc: Sandy Huang <hjc@rock-chips.com>
+> Cc: Saravana Kannan <saravanak@google.com>
+> Cc: Sebastian Reichel <sre@kernel.org>
+> Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Tian Tao <tiantao6@hisilicon.com>
+> Cc: Tomas Winkler <tomas.winkler@intel.com>
+> Cc: Tomi Valkeinen <tomba@kernel.org>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: Xinliang Liu <xinliang.liu@linaro.org>
+> Cc: Xinwei Kong <kong.kongxinwei@hisilicon.com>
+> Cc: Yong Wu <yong.wu@mediatek.com>
+>
+>  drivers/base/component.c                      | 555 +++++++++++-------
+>  .../gpu/drm/arm/display/komeda/komeda_drv.c   |  20 +-
+>  drivers/gpu/drm/arm/hdlcd_drv.c               |  21 +-
+>  drivers/gpu/drm/arm/malidp_drv.c              |  21 +-
+>  drivers/gpu/drm/armada/armada_drv.c           |  23 +-
+>  drivers/gpu/drm/drm_drv.c                     |   2 +-
+>  drivers/gpu/drm/drm_of.c                      |  20 +-
+>  drivers/gpu/drm/etnaviv/etnaviv_drv.c         |  20 +-
+>  drivers/gpu/drm/exynos/exynos_drm_drv.c       |  21 +-
+>  .../gpu/drm/hisilicon/kirin/kirin_drm_drv.c   |  20 +-
+>  drivers/gpu/drm/imx/imx-drm-core.c            |  20 +-
+>  drivers/gpu/drm/ingenic/ingenic-drm-drv.c     |  24 +-
+>  drivers/gpu/drm/mcde/mcde_drv.c               |  23 +-
+>  drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  20 +-
+>  drivers/gpu/drm/meson/meson_drv.c             |  21 +-
+>  drivers/gpu/drm/msm/msm_drv.c                 |  46 +-
+>  drivers/gpu/drm/omapdrm/dss/dss.c             |  17 +-
+>  drivers/gpu/drm/rockchip/rockchip_drm_drv.c   |  20 +-
+>  drivers/gpu/drm/sti/sti_drv.c                 |  20 +-
+>  drivers/gpu/drm/sun4i/sun4i_drv.c             |  26 +-
+>  drivers/gpu/drm/tilcdc/tilcdc_drv.c           |  28 +-
+>  drivers/gpu/drm/vc4/vc4_drv.c                 |  20 +-
+>  drivers/gpu/drm/zte/zx_drm_drv.c              |  20 +-
+>  drivers/iommu/mtk_iommu.c                     |  14 +-
+>  drivers/iommu/mtk_iommu.h                     |   6 +-
+>  drivers/iommu/mtk_iommu_v1.c                  |  14 +-
+>  drivers/misc/mei/hdcp/mei_hdcp.c              |  22 +-
+>  drivers/power/supply/ab8500_charger.c         |  22 +-
+>  drivers/video/fbdev/omap2/omapfb/dss/dss.c    |  20 +-
+>  include/drm/drm_of.h                          |   9 +-
+>  include/linux/component.h                     |  92 ++-
+>  sound/hda/hdac_component.c                    |  21 +-
+>  sound/soc/codecs/wcd938x.c                    |  20 +-
+>  33 files changed, 780 insertions(+), 488 deletions(-)
+>
+>
+> base-commit: e4e737bb5c170df6135a127739a9e6148ee3da82
+> --
+> https://chromeos.dev
+>
+>
+
+--=20
+With Best Regards,
+Andy Shevchenko
+
+--000000000000a9431205cdc17abc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<br><br>On Wednesday, October 6, 2021, Stephen Boyd &lt;<a href=3D"mailto:s=
+wboyd@chromium.org">swboyd@chromium.org</a>&gt; wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">This series is from discussion we had on reordering the devic=
+e lists for<br>
+drm shutdown paths[1]. I&#39;ve introduced an &#39;aggregate&#39; bus that =
+we put<br>
+the aggregate device onto and then we probe the aggregate device once<br>
+all the components are probed and call component_add(). The probe/remove<br=
+>
+hooks are where the bind/unbind calls go, and then a shutdown hook is<br>
+added that can be used to shutdown the drm display pipeline at the right<br=
+>
+time.<br>
+<br>
+This works for me on my sc7180 board. I no longer get a warning from i2c<br=
+>
+at shutdown that we&#39;re trying to make an i2c transaction after the i2c<=
+br>
+bus has been shutdown. There&#39;s more work to do on the msm drm driver to=
+<br>
+extract component device resources like clks, regulators, etc. out of<br>
+the component bind function into the driver probe but I wanted to move<br>
+everything over now in other component drivers before tackling that<br>
+problem.<br>
+<br>
+I&#39;ll definitely be sending a v3 so this is partially a request for<br>
+testing to shake out any more problems. Tested-by tags would be appreciated=
+,<br>
+and Acked-by/Reviewed-by tags too. I sent this to gregkh which may be<br>
+incorrect but I don&#39;t know what better tree to send it all through.<br>
+Maybe drm?<br>
+<br>
+I&#39;ll be faster at resending this next time, sorry for the long delay!<b=
+r>
+<br></blockquote><div><br></div><div>Yet another avoidance of mathematicall=
+y proven device dependency graph...</div><div><br></div><div><br></div><div=
+>Can we actually find and ask a mathematician to look into the problem and =
+suggest real solution instead of all these ugly hacks: deferred probe (ugli=
+est hack, how it even came into kernel?), component framework, custom appro=
+aches on how to see if devices are in the system (ASoC hack).</div><div><br=
+></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Changes since v1 (<a href=3D"https://lore.kernel.org/r/20210520002519.35384=
+32-1-swboyd@chromium.org" target=3D"_blank">https://lore.kernel.org/r/<wbr>=
+20210520002519.3538432-1-<wbr>swboyd@chromium.org</a>):<br>
+=C2=A0- Use devlink to connect components to the aggregate device<br>
+=C2=A0- Don&#39;t set the registering device as a parent of the aggregate d=
+evice<br>
+=C2=A0- New patch for bind_component/unbind_<wbr>component ops that takes t=
+he<br>
+=C2=A0 =C2=A0aggregate device<br>
+=C2=A0- Convert all drivers in the tree to use the aggregate driver approac=
+h<br>
+=C2=A0- Allow one aggregate driver to be used for multiple aggregate device=
+s<br>
+<br>
+[1] <a href=3D"https://lore.kernel.org/r/20210508074118.1621729-1-swboyd@ch=
+romium.org" target=3D"_blank">https://lore.kernel.org/r/<wbr>20210508074118=
+.1621729-1-<wbr>swboyd@chromium.org</a><br>
+<br>
+Stephen Boyd (34):<br>
+=C2=A0 component: Introduce struct aggregate_device<br>
+=C2=A0 component: Introduce the aggregate bus_type<br>
+=C2=A0 component: Move struct aggregate_device out to header file<br>
+=C2=A0 drm/msm: Migrate to aggregate driver<br>
+=C2=A0 component: Add {bind,unbind}_component() ops that take aggregate<br>
+=C2=A0 =C2=A0 device<br>
+=C2=A0 drm/of: Add a drm_of_aggregate_probe() API<br>
+=C2=A0 drm/komeda: Migrate to aggregate driver<br>
+=C2=A0 drm/arm/hdlcd: Migrate to aggregate driver<br>
+=C2=A0 drm/malidp: Migrate to aggregate driver<br>
+=C2=A0 drm/armada: Migrate to aggregate driver<br>
+=C2=A0 drm/etnaviv: Migrate to aggregate driver<br>
+=C2=A0 drm/kirin: Migrate to aggregate driver<br>
+=C2=A0 drm/exynos: Migrate to aggregate driver<br>
+=C2=A0 drm/imx: Migrate to aggregate driver<br>
+=C2=A0 drm/ingenic: Migrate to aggregate driver<br>
+=C2=A0 drm/mcde: Migrate to aggregate driver<br>
+=C2=A0 drm/mediatek: Migrate to aggregate driver<br>
+=C2=A0 drm/meson: Migrate to aggregate driver<br>
+=C2=A0 drm/omap: Migrate to aggregate driver<br>
+=C2=A0 drm/rockchip: Migrate to aggregate driver<br>
+=C2=A0 drm/sti: Migrate to aggregate driver<br>
+=C2=A0 drm/sun4i: Migrate to aggregate driver<br>
+=C2=A0 drm/tilcdc: Migrate to aggregate driver<br>
+=C2=A0 drm/vc4: Migrate to aggregate driver<br>
+=C2=A0 drm/zte: Migrate to aggregate driver<br>
+=C2=A0 iommu/mtk: Migrate to aggregate driver<br>
+=C2=A0 mei: Migrate to aggregate driver<br>
+=C2=A0 power: supply: ab8500: Migrate to aggregate driver<br>
+=C2=A0 fbdev: omap2: Migrate to aggregate driver<br>
+=C2=A0 sound: hdac: Migrate to aggregate driver<br>
+=C2=A0 ASoC: codecs: wcd938x: Migrate to aggregate driver<br>
+=C2=A0 component: Get rid of drm_of_component_probe()<br>
+=C2=A0 component: Remove component_master_ops and friends<br>
+=C2=A0 component: Remove all references to &#39;master&#39;<br>
+<br>
+Cc: Arnd Bergmann &lt;<a href=3D"mailto:arnd@arndb.de">arnd@arndb.de</a>&gt=
+;<br>
+Cc: Benjamin Gaignard &lt;<a href=3D"mailto:benjamin.gaignard@linaro.org">b=
+enjamin.gaignard@linaro.org</a>&gt;<br>
+Cc: Chen Feng &lt;<a href=3D"mailto:puck.chen@hisilicon.com">puck.chen@hisi=
+licon.com</a>&gt;<br>
+Cc: Chen-Yu Tsai &lt;<a href=3D"mailto:wens@csie.org">wens@csie.org</a>&gt;=
+<br>
+Cc: Christian Gmeiner &lt;<a href=3D"mailto:christian.gmeiner@gmail.com">ch=
+ristian.gmeiner@gmail.com</a>&gt;<br>
+Cc: Chun-Kuang Hu &lt;<a href=3D"mailto:chunkuang.hu@kernel.org">chunkuang.=
+hu@kernel.org</a>&gt;<br>
+Cc: Daniel Vetter &lt;<a href=3D"mailto:daniel.vetter@ffwll.ch">daniel.vett=
+er@ffwll.ch</a>&gt;<br>
+Cc: Emma Anholt &lt;<a href=3D"mailto:emma@anholt.net">emma@anholt.net</a>&=
+gt;<br>
+Cc: Greg Kroah-Hartman &lt;<a href=3D"mailto:gregkh@linuxfoundation.org">gr=
+egkh@linuxfoundation.org</a>&gt;<br>
+Cc: &quot;Heiko St=C3=BCbner&quot; &lt;<a href=3D"mailto:heiko@sntech.de">h=
+eiko@sntech.de</a>&gt;<br>
+Cc: Inki Dae &lt;<a href=3D"mailto:inki.dae@samsung.com">inki.dae@samsung.c=
+om</a>&gt;<br>
+Cc: James Qian Wang (Arm Technology China) &lt;<a href=3D"mailto:james.qian=
+.wang@arm.com">james.qian.wang@arm.com</a>&gt;<br>
+Cc: Jaroslav Kysela &lt;<a href=3D"mailto:perex@perex.cz">perex@perex.cz</a=
+>&gt;<br>
+Cc: Joerg Roedel &lt;<a href=3D"mailto:joro@8bytes.org">joro@8bytes.org</a>=
+&gt;<br>
+Cc: John Stultz &lt;<a href=3D"mailto:john.stultz@linaro.org">john.stultz@l=
+inaro.org</a>&gt;<br>
+Cc: Joonyoung Shim &lt;<a href=3D"mailto:jy0922.shim@samsung.com">jy0922.sh=
+im@samsung.com</a>&gt;<br>
+Cc: Jyri Sarha &lt;<a href=3D"mailto:jyri.sarha@iki.fi">jyri.sarha@iki.fi</=
+a>&gt;<br>
+Cc: Kai Vehmanen &lt;<a href=3D"mailto:kai.vehmanen@linux.intel.com">kai.ve=
+hmanen@linux.intel.com</a>&gt;<br>
+Cc: Kyungmin Park &lt;<a href=3D"mailto:kyungmin.park@samsung.com">kyungmin=
+.park@samsung.com</a>&gt;<br>
+Cc: Laurent Pinchart &lt;<a href=3D"mailto:laurent.pinchart@ideasonboard.co=
+m">laurent.pinchart@<wbr>ideasonboard.com</a>&gt;<br>
+Cc: &lt;<a href=3D"mailto:linux-fbdev@vger.kernel.org">linux-fbdev@vger.ker=
+nel.org</a>&gt;<br>
+Cc: &lt;<a href=3D"mailto:linux-omap@vger.kernel.org">linux-omap@vger.kerne=
+l.org</a>&gt;<br>
+Cc: &lt;<a href=3D"mailto:linux-pm@vger.kernel.org">linux-pm@vger.kernel.or=
+g</a>&gt;<br>
+Cc: Liviu Dudau &lt;<a href=3D"mailto:liviu.dudau@arm.com">liviu.dudau@arm.=
+com</a>&gt;<br>
+Cc: Lucas Stach &lt;<a href=3D"mailto:l.stach@pengutronix.de">l.stach@pengu=
+tronix.de</a>&gt;<br>
+Cc: Mark Brown &lt;<a href=3D"mailto:broonie@kernel.org">broonie@kernel.org=
+</a>&gt;<br>
+Cc: Maxime Ripard &lt;<a href=3D"mailto:mripard@kernel.org">mripard@kernel.=
+org</a>&gt;<br>
+Cc: Neil Armstrong &lt;<a href=3D"mailto:narmstrong@baylibre.com">narmstron=
+g@baylibre.com</a>&gt;<br>
+Cc: Paul Cercueil &lt;<a href=3D"mailto:paul@crapouillou.net">paul@crapouil=
+lou.net</a>&gt;<br>
+Cc: Philipp Zabel &lt;<a href=3D"mailto:p.zabel@pengutronix.de">p.zabel@pen=
+gutronix.de</a>&gt;<br>
+Cc: &quot;Rafael J. Wysocki&quot; &lt;<a href=3D"mailto:rafael@kernel.org">=
+rafael@kernel.org</a>&gt;<br>
+Cc: Rob Clark &lt;<a href=3D"mailto:robdclark@gmail.com">robdclark@gmail.co=
+m</a>&gt;<br>
+Cc: Russell King &lt;<a href=3D"mailto:linux@armlinux.org.uk">linux@armlinu=
+x.org.uk</a>&gt;<br>
+Cc: Russell King &lt;<a href=3D"mailto:linux+etnaviv@armlinux.org.uk">linux=
++etnaviv@armlinux.org.uk</a><wbr>&gt;<br>
+Cc: Russell King &lt;<a href=3D"mailto:rmk+kernel@arm.linux.org.uk">rmk+ker=
+nel@arm.linux.org.uk</a>&gt;<br>
+Cc: Sandy Huang &lt;<a href=3D"mailto:hjc@rock-chips.com">hjc@rock-chips.co=
+m</a>&gt;<br>
+Cc: Saravana Kannan &lt;<a href=3D"mailto:saravanak@google.com">saravanak@g=
+oogle.com</a>&gt;<br>
+Cc: Sebastian Reichel &lt;<a href=3D"mailto:sre@kernel.org">sre@kernel.org<=
+/a>&gt;<br>
+Cc: Seung-Woo Kim &lt;<a href=3D"mailto:sw0312.kim@samsung.com">sw0312.kim@=
+samsung.com</a>&gt;<br>
+Cc: Takashi Iwai &lt;<a href=3D"mailto:tiwai@suse.com">tiwai@suse.com</a>&g=
+t;<br>
+Cc: Tian Tao &lt;<a href=3D"mailto:tiantao6@hisilicon.com">tiantao6@hisilic=
+on.com</a>&gt;<br>
+Cc: Tomas Winkler &lt;<a href=3D"mailto:tomas.winkler@intel.com">tomas.wink=
+ler@intel.com</a>&gt;<br>
+Cc: Tomi Valkeinen &lt;<a href=3D"mailto:tomba@kernel.org">tomba@kernel.org=
+</a>&gt;<br>
+Cc: Will Deacon &lt;<a href=3D"mailto:will@kernel.org">will@kernel.org</a>&=
+gt;<br>
+Cc: Xinliang Liu &lt;<a href=3D"mailto:xinliang.liu@linaro.org">xinliang.li=
+u@linaro.org</a>&gt;<br>
+Cc: Xinwei Kong &lt;<a href=3D"mailto:kong.kongxinwei@hisilicon.com">kong.k=
+ongxinwei@hisilicon.com</a><wbr>&gt;<br>
+Cc: Yong Wu &lt;<a href=3D"mailto:yong.wu@mediatek.com">yong.wu@mediatek.co=
+m</a>&gt;<br>
+<br>
+=C2=A0drivers/base/component.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 555 +++++++++++-------<br>
+=C2=A0.../gpu/drm/arm/display/<wbr>komeda/komeda_drv.c=C2=A0 =C2=A0|=C2=A0 =
+20 +-<br>
+=C2=A0drivers/gpu/drm/arm/hdlcd_drv.<wbr>c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 21 +-<br>
+=C2=A0drivers/gpu/drm/arm/malidp_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 21 +-<br>
+=C2=A0drivers/gpu/drm/armada/armada_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 23 +-<br>
+=C2=A0drivers/gpu/drm/drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A0drivers/gpu/drm/drm_of.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/etnaviv/<wbr>etnaviv_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/exynos/exynos_<wbr>drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 21 +-<br>
+=C2=A0.../gpu/drm/hisilicon/kirin/<wbr>kirin_drm_drv.c=C2=A0 =C2=A0|=C2=A0 =
+20 +-<br>
+=C2=A0drivers/gpu/drm/imx/imx-drm-<wbr>core.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/ingenic/<wbr>ingenic-drm-drv.c=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 24 +-<br>
+=C2=A0drivers/gpu/drm/mcde/mcde_drv.<wbr>c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 23 +-<br>
+=C2=A0drivers/gpu/drm/mediatek/mtk_<wbr>drm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/meson/meson_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 21 +-<br>
+=C2=A0drivers/gpu/drm/msm/msm_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 46 +-<br>
+=C2=A0drivers/gpu/drm/omapdrm/dss/<wbr>dss.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 17 +-<br>
+=C2=A0drivers/gpu/drm/rockchip/<wbr>rockchip_drm_drv.c=C2=A0 =C2=A0|=C2=A0 =
+20 +-<br>
+=C2=A0drivers/gpu/drm/sti/sti_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/sun4i/sun4i_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 26 +-<br>
+=C2=A0drivers/gpu/drm/tilcdc/tilcdc_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 28 +-<br>
+=C2=A0drivers/gpu/drm/vc4/vc4_drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 20 +-<br>
+=C2=A0drivers/gpu/drm/zte/zx_drm_<wbr>drv.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 20 +-<br>
+=C2=A0drivers/iommu/mtk_iommu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 14 +-<br>
+=C2=A0drivers/iommu/mtk_iommu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A06 +-<br>
+=C2=A0drivers/iommu/mtk_iommu_v1.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 14 +-<br>
+=C2=A0drivers/misc/mei/hdcp/mei_<wbr>hdcp.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 22 +-<br>
+=C2=A0drivers/power/supply/ab8500_<wbr>charger.c=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0|=C2=A0 22 +-<br>
+=C2=A0drivers/video/fbdev/omap2/<wbr>omapfb/dss/dss.c=C2=A0 =C2=A0 |=C2=A0 =
+20 +-<br>
+=C2=A0include/drm/drm_of.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A09 +-<br>
+=C2=A0include/linux/component.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 92 ++-<br>
+=C2=A0sound/hda/hdac_component.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 21 +-<br>
+=C2=A0sound/soc/codecs/wcd938x.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 20 +-<br>
+=C2=A033 files changed, 780 insertions(+), 488 deletions(-)<br>
+<br>
+<br>
+base-commit: e4e737bb5c170df6135a127739a9e6<wbr>148ee3da82<br>
+-- <br>
+<a href=3D"https://chromeos.dev" target=3D"_blank">https://chromeos.dev</a>=
+<br>
+<br>
+</blockquote><br><br>-- <br>With Best Regards,<br>Andy Shevchenko<br><br><b=
+r>
+
+--000000000000a9431205cdc17abc--
