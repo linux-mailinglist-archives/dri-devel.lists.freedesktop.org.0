@@ -2,150 +2,48 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2505142618D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:06:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9EC426149
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 02:27:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 150036E05A;
-	Fri,  8 Oct 2021 01:06:26 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 928FD6E053;
+	Fri,  8 Oct 2021 00:27:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTP id A8FBD6E05A;
- Fri,  8 Oct 2021 01:06:23 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="249647585"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="249647585"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 11:15:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="657486386"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga005.jf.intel.com with ESMTP; 07 Oct 2021 11:15:57 -0700
-Received: from fmsmsx612.amr.corp.intel.com (10.18.126.92) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 7 Oct 2021 11:15:57 -0700
-Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
- fmsmsx612.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Thu, 7 Oct 2021 11:15:57 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Thu, 7 Oct 2021 11:15:57 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.171)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Thu, 7 Oct 2021 11:15:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=grzoUDnXguAsdfCThxp6PuDGNXzj0jg1GMOV8+UzvfIqlc5jKdKS2BlNdVS6p7enCUbBl2o0ipkCwDqzW3UjahLZFrVChT1XR7WIacw2JztbRo5TUcAG2NzZ8hoz23Kg+IFOcFicP4vFLtL86o68/YXctK1hd14UOiw25/KWBQZN/ea71PRr2NGKNBIj9IyxRkkrpZ0QrHjG3BnrKwkyfoLU5D/F0tkmb+PCdeJVsC+bSh2uxpWNMLDZGDwezsmP/m398boRH+gcZs+olsHMfLpOtiUcy0qaRyWE8/UhzlY25bd9QhL1usztWr+iyzlREidQ9KHSQ7ugOvxwefFTzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cGZOA0huCX6HWXETXrQgjLI86ED1CCHS4UBVeMoSl3Y=;
- b=iPKfOq4IJxlB68zg2QiW7Ti94+04rnD7i6JnRqgAdwhh7Tc8KkvGE+jDxSJJPElehoLlQdZh6FuJD9D/flZ5TcfcpUvpebb64HtPGw0N9q48NfLTVcuMTAoPuSIR8T2HIo5JJCWIj/7WYPaI2/6JH1K4HIdiTibD7khClDflEjJ/rw+kuuPKoRn5EdiaK/JK0SNf2fKAFAmM3BJiSpGmbyUXmaCrmJE/3FHH6pS5XcuxErF0Luht9ckLBkmIo6t/qjXKnn73j721o6FnFBwGukCX5P3Irh1v0qZT93dRRitPVjYGpkjLc1OSzJ+aj9ui+8UHMiABFIBZmFnw3i029g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cGZOA0huCX6HWXETXrQgjLI86ED1CCHS4UBVeMoSl3Y=;
- b=qx8XqlqlthWGVX9UW5aQ7JOvZMwXSuBv2jIWm8y1KrbQQ7/iXppVp5WheuiowBYWDI7u4ZC7pjFeDXml5k4kAL27VDLjnNsmB8am8SYckJHX632RkBx4qFLbEaDcT3qkybrqmhuHoH+9Ja+3h7+hL0KYLVXrQprC7QKzfXlFk88=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5673.namprd11.prod.outlook.com (2603:10b6:510:d6::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Thu, 7 Oct
- 2021 18:15:54 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
- 18:15:54 +0000
-Subject: Re: [PATCH 03/26] drm/i915/guc: Take engine PM when a context is
- pinned with GuC submission
-To: Matthew Brost <matthew.brost@intel.com>
-CC: <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
- <daniele.ceraolospurio@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-4-matthew.brost@intel.com>
- <a2d5377a-ec8e-40ec-d0cf-c91aa51bba48@intel.com>
- <20211007151947.GA27846@jons-linux-dev-box>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <6b47737d-9708-1055-197a-de9609ca5481@intel.com>
-Date: Thu, 7 Oct 2021 11:15:51 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211007151947.GA27846@jons-linux-dev-box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: SJ0PR13CA0079.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::24) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+X-Greylist: delayed 4699 seconds by postgrey-1.36 at gabe;
+ Fri, 08 Oct 2021 00:27:45 UTC
+Received: from 2.mo177.mail-out.ovh.net (2.mo177.mail-out.ovh.net
+ [178.33.109.80])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7721E6E053
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 00:27:45 +0000 (UTC)
+Received: from player711.ha.ovh.net (unknown [10.110.103.195])
+ by mo177.mail-out.ovh.net (Postfix) with ESMTP id 608C7174FE2
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 01:09:24 +0200 (CEST)
+Received: from etezian.org (unknown [31.22.59.2])
+ (Authenticated sender: andi@etezian.org)
+ by player711.ha.ovh.net (Postfix) with ESMTPSA id 4176B22D33013;
+ Thu,  7 Oct 2021 23:09:16 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006f2aba140-9aaa-469e-badb-23d328ce0857,
+ 8790DCEDFF6AD8C831A06EBEA49B55E03DAFB6BE) smtp.auth=andi@etezian.org
+X-OVh-ClientIp: 31.22.59.2
+From: Andi Shyti <andi@etezian.org>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, Andi Shyti <andi@etezian.org>
+Subject: [PATCH v2] drm/i915/gt: move remaining debugfs interfaces into gt
+Date: Fri,  8 Oct 2021 01:09:03 +0200
+Message-Id: <20211007230903.4084-1-andi@etezian.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- SJ0PR13CA0079.namprd13.prod.outlook.com (2603:10b6:a03:2c4::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.5 via Frontend
- Transport; Thu, 7 Oct 2021 18:15:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0a79ca8c-c3ef-4e05-e1f1-08d989be808f
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5673:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB56738C8C959BE22F21FAE395BDB19@PH0PR11MB5673.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pQaXye1gdCwAfn8zaonS00TJ6CSj1hbwqMDyBPlBMdY2qGc82nIjyXzOpg9WktcA2lEJbAbuJFwH4K+i2Pgqc5aN5Sm7jXuhBhx0Pz9ZChFGPXGcu33tiHs1Bjv+k3J+lDnhgBKJTLcN6gwZtK+VvlJfHG2pw0g4MIIYK+9rLMcyNL1/BEJBB1FFUFyUk5Nax3+4TqnXCbYsLQUTimOPDLr5u+awmrWB+fTuAguMYbwITxBO6kKIMcX3jMzFAlB7gzv/G7qp0pEyC8xpoQnOTQ1BVAXh4ND/abF88DN53RrQbyBxQxyMMTPf4Sf+nunBLyHnjO+1FKoV13C1+cS3iNaRc6aC12W2kUFOrGiqgiFyfUgFPR4Q9cBngoIAyU5FLpMgepNz7i98lcEGBQpmCEzfT6dgCBh40Sb+P9XN9Ilq0GSng82JAhd0ik2siFdndHlKAU0TwOjlauDlhbRIZgTMifp8E/0Cfq1nKBWqA9QHB9z86lEjo5a/Ya6mCh8uZdU0E0vuBeHIDACViNXGT2tFf606zs2s5XfjmK/UE/91lvarbPgShoicBBUMvpwF5vy/pox0+7Mbfhm7KMtUG6hzomXbXnMv+mRtMpUcdRgwvVqaLpdpEPBNFUrWrSL9sPLgUQrqVIPeIZPDCC/UyYp6F2rIfGNFDQlSWdx6E1Fn4CPDTgLiGmb5Vn36C0O/7NLPN0IUrd5ytgg5jtpVbpOpocwwmLMOdziGAhGOksvggPiQyp6X0o3EoUWcPTz1
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(450100002)(8676002)(31686004)(107886003)(66556008)(66476007)(26005)(66946007)(186003)(6486002)(6862004)(8936002)(86362001)(6666004)(31696002)(2906002)(83380400001)(956004)(508600001)(37006003)(16576012)(316002)(36756003)(5660300002)(38100700002)(53546011)(6636002)(2616005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?ZzZrREM1UTdpUUREL2RPL1FFSWNhd3FTcGhwaEtVQnRCYmNYUUJwS3g1aW9o?=
- =?utf-8?B?NFV4cGRsbll6SStNZ2E2Q3ZnbVBDcjJqV3NXcG1vbFU2OTRLTFk1bkxFNEo3?=
- =?utf-8?B?Tkt4dVY2bHdta0xPRE1TbTR1YkJueGl4RjhNWS9zdWlzNG42OU42cHlvZlEr?=
- =?utf-8?B?cUdubU94T0ZEWWxtYzZYSUFVWmVrSEovK1hCbmNxSFE4U1FRYVdlSTdRR3NE?=
- =?utf-8?B?NVozVEVMR3Yzai9YRGJuSjVsNmxWeUdmaGdBTFRIanBDYXZkemw1L3RJMWkx?=
- =?utf-8?B?TEJOY0V3SzBGZFI1N2RQTTFZUDk5WEZqMS8rL2FMOVZGVUZub2ZReks4L2R0?=
- =?utf-8?B?OXpxWTZhdnRXbDFvN1VWQ3J4ZlRKaTllZ2pCS3hMa2MweUZqN2dBVHlNMnVk?=
- =?utf-8?B?WDY1cWVYMCtua2dpM3pBOHljYkEwODZ0RmZlc2p5ZStGdlo4T1A4WHhkZCtO?=
- =?utf-8?B?V25LRlRQNSs5b1lyRE9OQkZORUZranoxS3VrOVpZQjE1VTlmUGdqQ2Z5d3J0?=
- =?utf-8?B?UnU2SFBieDVWNTllWTF4eWhPRGVGWTY3a0lua2FLS2dDdE00ZmNYZDJNUGtU?=
- =?utf-8?B?bnF0S0JFNGphNERRY01PQkJnM1AyeitFaFZwR3lNQTFTM01QV04yUU9yM0ZZ?=
- =?utf-8?B?eHZReFVtRjVtckVlS09FTlRvRWNDUFZXK2lia2hmVjd6M1QzNWM4Uy9zaDBB?=
- =?utf-8?B?T3ZIejlxd2xLOEI5elA5RmJTbGo1WHlQMDNuZmVaUjJnQTUxTWFQemcrN0hn?=
- =?utf-8?B?QVpVSVpsNjZiT1hjc1VXZHZJZVc5OFRycXVpOHVqWUptNHdpU3FxaGtoOG9i?=
- =?utf-8?B?ODRsbW4vTld2U3ZoRXlhUnJZTUxhWEszQ1J2SGhQdWxrL0Q5dnFKSFJITzZs?=
- =?utf-8?B?ZWZkbDZEdk5sUk10c052WHh6Ykd4bzFQT1NmYU4vVmR3R1VHK3ZkYjhOY0Qx?=
- =?utf-8?B?MytsUS9DWXQrakRvUjJvZ09jT0tlRUpCWU9KQzRrdHk1MTNrb3k4Znk1Umx4?=
- =?utf-8?B?T1ZQMktHdzhET1k0T3RseUxlRjVvUmZaUHhZY0drRU9id3IrYmZWK0x2eXdE?=
- =?utf-8?B?RCsvM1pocmlGWHBUaC9UR05IRGhjTDlkdTdaMmkrb0c1NDZWcXdzaFRkOVJm?=
- =?utf-8?B?T2dVc1NVUVVxS2g5NDJ5VmNPVElGb1BIcFpndUpnZktMOXJVNHE2MlBjVVVz?=
- =?utf-8?B?YW8rTmYxZXBuS3g3YWpNbUloc2NzSkNHUmVDTWZicFBUL283WXgvU3JGRE4x?=
- =?utf-8?B?RnUvcy94dHczcUswbWZlQWVBdjZ6NVM1dGV4cGQ2dzhjRW1nVU4zR0s1V21C?=
- =?utf-8?B?UkpVK2FpOWF5MXhuTUtIeHVLRE1sKzY4QWxpNTJXbHQwQUI2dG5WUEtCSmNk?=
- =?utf-8?B?YkpSVlhSTWREYy8zMVhFRHA3V2VOWGVWaisyNitzWFB2UkJWSm8vRCtDVkxa?=
- =?utf-8?B?SGw1NFBhdWc3SGhZT3ZtWDdXblIzcVowYk5hZm50V2t5cVRXZ25jL0lLOUhX?=
- =?utf-8?B?YTZvNmZPVklqS21UeExoRWZ5TjV2RHpLcmQzelVzcUZRdDd6aWFtbWlBdTRL?=
- =?utf-8?B?Z3hZaDJvZ3dKczdhU2dqaEQvN2VMWTBqa2xSc3hoSnY4TU9rNzdNTk9mY2ZM?=
- =?utf-8?B?K1dhUXdDaTRLWlJJd1FKNnlYaWNsN1BLTEhZN3Z0cWxNYStJTDh3dGNWVjRi?=
- =?utf-8?B?c3ZIWFZITTVHekxNYW1EWUxVOW9XZlJvenloWmRiUFFjT1djQ0loOFY3V1Qx?=
- =?utf-8?Q?kXOweRFtxadNAfHKrx/SGQPLvE1k3Xc5nJtUsV8?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a79ca8c-c3ef-4e05-e1f1-08d989be808f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 18:15:54.4425 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tMck6snzHFcbTv1clT2IZQKNxdhZ8qYZmhjfkBXvi8l6Q/UoVanDVCsWi95P0UNQcln2NMpYYb0ILRgR92z7tFK2geJm4M0sOg64ouVDB0o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5673
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 9089108474615958026
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelledgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomheptehnughiucfuhhihthhiuceorghnughisegvthgviihirghnrdhorhhgqeenucggtffrrghtthgvrhhnpeeulefhheeiuddvvdetleevleduuefgteekfedugedutdelvdegkefgheetvddtudenucfkpheptddrtddrtddrtddpfedurddvvddrheelrddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -161,235 +59,422 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/7/2021 08:19, Matthew Brost wrote:
-> On Wed, Oct 06, 2021 at 08:45:42PM -0700, John Harrison wrote:
->> On 10/4/2021 15:06, Matthew Brost wrote:
->>> Taking a PM reference to prevent intel_gt_wait_for_idle from short
->>> circuiting while a scheduling of user context could be enabled.
->> I'm not sure what 'while a scheduling of user context could be enabled'
->> means.
->>
-> Not really sure how this isn't clear.
->
-> It means if a user context has scheduling enabled this function cannot
-> short circuit returning idle.
->
-> Matt
-Okay. The 'a scheduling' was throwing me off. And I was reading 'could 
-be enabled' as saying something that might happen in the future. English 
-is great at being ambiguous ;). Maybe 'while any user context has 
-scheduling enabled' would be simpler?
+From: Andi Shyti <andi.shyti@intel.com>
 
-John.
+The following interfaces:
 
->   
->> John.
->>
->>> Returning GT idle when it is not can cause all sorts of issues
->>> throughout the stack.
->>>
->>> v2:
->>>    (Daniel Vetter)
->>>     - Add might_lock annotations to pin / unpin function
->>> v3:
->>>    (CI)
->>>     - Drop intel_engine_pm_might_put from unpin path as an async put is
->>>       used
->>> v4:
->>>    (John Harrison)
->>>     - Make intel_engine_pm_might_get/put work with GuC virtual engines
->>>     - Update commit message
->>>
->>> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
->>> ---
->>>    drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
->>>    drivers/gpu/drm/i915/gt/intel_engine_pm.h     | 32 +++++++++++++++++
->>>    drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 10 ++++++
->>>    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++--
->>>    drivers/gpu/drm/i915/intel_wakeref.h          | 12 +++++++
->>>    5 files changed, 89 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
->>> index 1076066f41e0..f601323b939f 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_context.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
->>> @@ -240,6 +240,8 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
->>>    	if (err)
->>>    		goto err_post_unpin;
->>> +	intel_engine_pm_might_get(ce->engine);
->>> +
->>>    	if (unlikely(intel_context_is_closed(ce))) {
->>>    		err = -ENOENT;
->>>    		goto err_unlock;
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->>> index 6fdeae668e6e..d68675925b79 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
->>> @@ -6,9 +6,11 @@
->>>    #ifndef INTEL_ENGINE_PM_H
->>>    #define INTEL_ENGINE_PM_H
->>> +#include "i915_drv.h"
->>>    #include "i915_request.h"
->>>    #include "intel_engine_types.h"
->>>    #include "intel_wakeref.h"
->>> +#include "intel_gt_pm.h"
->>>    static inline bool
->>>    intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
->>> @@ -31,6 +33,21 @@ static inline bool intel_engine_pm_get_if_awake(struct intel_engine_cs *engine)
->>>    	return intel_wakeref_get_if_active(&engine->wakeref);
->>>    }
->>> +static inline void intel_engine_pm_might_get(struct intel_engine_cs *engine)
->>> +{
->>> +	if (!intel_engine_is_virtual(engine)) {
->>> +		intel_wakeref_might_get(&engine->wakeref);
->>> +	} else {
->>> +		struct intel_gt *gt = engine->gt;
->>> +		struct intel_engine_cs *tengine;
->>> +		intel_engine_mask_t tmp, mask = engine->mask;
->>> +
->>> +		for_each_engine_masked(tengine, gt, mask, tmp)
->>> +			intel_wakeref_might_get(&tengine->wakeref);
->>> +	}
->>> +	intel_gt_pm_might_get(engine->gt);
->>> +}
->>> +
->>>    static inline void intel_engine_pm_put(struct intel_engine_cs *engine)
->>>    {
->>>    	intel_wakeref_put(&engine->wakeref);
->>> @@ -52,6 +69,21 @@ static inline void intel_engine_pm_flush(struct intel_engine_cs *engine)
->>>    	intel_wakeref_unlock_wait(&engine->wakeref);
->>>    }
->>> +static inline void intel_engine_pm_might_put(struct intel_engine_cs *engine)
->>> +{
->>> +	if (!intel_engine_is_virtual(engine)) {
->>> +		intel_wakeref_might_put(&engine->wakeref);
->>> +	} else {
->>> +		struct intel_gt *gt = engine->gt;
->>> +		struct intel_engine_cs *tengine;
->>> +		intel_engine_mask_t tmp, mask = engine->mask;
->>> +
->>> +		for_each_engine_masked(tengine, gt, mask, tmp)
->>> +			intel_wakeref_might_put(&tengine->wakeref);
->>> +	}
->>> +	intel_gt_pm_might_put(engine->gt);
->>> +}
->>> +
->>>    static inline struct i915_request *
->>>    intel_engine_create_kernel_request(struct intel_engine_cs *engine)
->>>    {
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> index 05de6c1af25b..bc898df7a48c 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
->>> @@ -31,6 +31,11 @@ static inline bool intel_gt_pm_get_if_awake(struct intel_gt *gt)
->>>    	return intel_wakeref_get_if_active(&gt->wakeref);
->>>    }
->>> +static inline void intel_gt_pm_might_get(struct intel_gt *gt)
->>> +{
->>> +	intel_wakeref_might_get(&gt->wakeref);
->>> +}
->>> +
->>>    static inline void intel_gt_pm_put(struct intel_gt *gt)
->>>    {
->>>    	intel_wakeref_put(&gt->wakeref);
->>> @@ -41,6 +46,11 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
->>>    	intel_wakeref_put_async(&gt->wakeref);
->>>    }
->>> +static inline void intel_gt_pm_might_put(struct intel_gt *gt)
->>> +{
->>> +	intel_wakeref_might_put(&gt->wakeref);
->>> +}
->>> +
->>>    #define with_intel_gt_pm(gt, tmp) \
->>>    	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
->>>    	     intel_gt_pm_put(gt), tmp = 0)
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index 17da2fea1bff..8b82da50c2bc 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -1571,7 +1571,12 @@ static int guc_context_pre_pin(struct intel_context *ce,
->>>    static int guc_context_pin(struct intel_context *ce, void *vaddr)
->>>    {
->>> -	return __guc_context_pin(ce, ce->engine, vaddr);
->>> +	int ret = __guc_context_pin(ce, ce->engine, vaddr);
->>> +
->>> +	if (likely(!ret && !intel_context_is_barrier(ce)))
->>> +		intel_engine_pm_get(ce->engine);
->>> +
->>> +	return ret;
->>>    }
->>>    static void guc_context_unpin(struct intel_context *ce)
->>> @@ -1580,6 +1585,9 @@ static void guc_context_unpin(struct intel_context *ce)
->>>    	unpin_guc_id(guc, ce);
->>>    	lrc_unpin(ce);
->>> +
->>> +	if (likely(!intel_context_is_barrier(ce)))
->>> +		intel_engine_pm_put_async(ce->engine);
->>>    }
->>>    static void guc_context_post_unpin(struct intel_context *ce)
->>> @@ -2341,8 +2349,30 @@ static int guc_virtual_context_pre_pin(struct intel_context *ce,
->>>    static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
->>>    {
->>>    	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
->>> +	int ret = __guc_context_pin(ce, engine, vaddr);
->>> +	intel_engine_mask_t tmp, mask = ce->engine->mask;
->>> +
->>> +	if (likely(!ret))
->>> +		for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
->>> +			intel_engine_pm_get(engine);
->>> -	return __guc_context_pin(ce, engine, vaddr);
->>> +	return ret;
->>> +}
->>> +
->>> +static void guc_virtual_context_unpin(struct intel_context *ce)
->>> +{
->>> +	intel_engine_mask_t tmp, mask = ce->engine->mask;
->>> +	struct intel_engine_cs *engine;
->>> +	struct intel_guc *guc = ce_to_guc(ce);
->>> +
->>> +	GEM_BUG_ON(context_enabled(ce));
->>> +	GEM_BUG_ON(intel_context_is_barrier(ce));
->>> +
->>> +	unpin_guc_id(guc, ce);
->>> +	lrc_unpin(ce);
->>> +
->>> +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
->>> +		intel_engine_pm_put_async(engine);
->>>    }
->>>    static void guc_virtual_context_enter(struct intel_context *ce)
->>> @@ -2379,7 +2409,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
->>>    	.pre_pin = guc_virtual_context_pre_pin,
->>>    	.pin = guc_virtual_context_pin,
->>> -	.unpin = guc_context_unpin,
->>> +	.unpin = guc_virtual_context_unpin,
->>>    	.post_unpin = guc_context_post_unpin,
->>>    	.ban = guc_context_ban,
->>> diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
->>> index 545c8f277c46..4f4c2e15e736 100644
->>> --- a/drivers/gpu/drm/i915/intel_wakeref.h
->>> +++ b/drivers/gpu/drm/i915/intel_wakeref.h
->>> @@ -123,6 +123,12 @@ enum {
->>>    	__INTEL_WAKEREF_PUT_LAST_BIT__
->>>    };
->>> +static inline void
->>> +intel_wakeref_might_get(struct intel_wakeref *wf)
->>> +{
->>> +	might_lock(&wf->mutex);
->>> +}
->>> +
->>>    /**
->>>     * intel_wakeref_put_flags: Release the wakeref
->>>     * @wf: the wakeref
->>> @@ -170,6 +176,12 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
->>>    			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
->>>    }
->>> +static inline void
->>> +intel_wakeref_might_put(struct intel_wakeref *wf)
->>> +{
->>> +	might_lock(&wf->mutex);
->>> +}
->>> +
->>>    /**
->>>     * intel_wakeref_lock: Lock the wakeref (mutex)
->>>     * @wf: the wakeref
+  i915_wedged
+  i915_forcewake_user
+  i915_gem_interrupt
+
+are dependent on gt values. Put them inside gt/ and drop the
+"i915_" prefix name. This would be the new structure:
+
+  dri/0/gt
+  |
+  +-- forcewake_user
+  |
+  +-- interrupt_info
+  |
+  \-- reset
+
+For backwards compatibility with existing igt (and the slight
+semantic difference between operating on the i915 abi entry
+points and the deep gt info):
+
+  dri/0
+  |
+  +-- i915_wedged
+  |
+  \-- i915_forcewake_user
+
+remain at the top level.
+
+Signed-off-by: Andi Shyti <andi.shyti@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+---
+Hi,
+
+I am reproposing this patch exactly as it was proposed initially
+where the original interfaces are kept where they have been
+originally placed. It might generate some duplicated code but,
+well, it's debugfs and I don't see any issue. In the future we
+can transform the upper interfaces to act upon all the GTs and
+provide information from all the GTs. This is, for example, how
+the sysfs interfaces will act.
+
+The reason I removed them in V1 is because igt as only user is
+not a strong reason to keep duplicated code, but as Chris
+suggested offline:
+
+"It's debugfs, igt is the primary consumer. CI has to be bridged over
+changes to the interfaces it is using in any case, as you want
+comparable results before/after the patches land.
+
+For i915_forcewake_user, it's not just igt testing, but part of the
+tools/ packaged up by distro. That makes it a very strong candidate to be
+moved out of debugfs into sysfs/gt."
+
+I, therefore, repropose this patch with the idea of improving the
+behavior of the upper level interfaces as described above.
+
+Thanks,
+Andi
+
+Changelog:
+----------
+v1 -> v2:
+ * keep the original interfaces intact (thanks Chris).
+
+ drivers/gpu/drm/i915/Makefile                 |   1 +
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |  47 ++++-
+ .../gpu/drm/i915/gt/intel_gt_irq_debugfs.c    | 178 ++++++++++++++++++
+ .../gpu/drm/i915/gt/intel_gt_irq_debugfs.h    |  15 ++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c |  31 +++
+ 5 files changed, 271 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
+ create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
+
+diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+index cdc244bbbfc1..e92984954ba8 100644
+--- a/drivers/gpu/drm/i915/Makefile
++++ b/drivers/gpu/drm/i915/Makefile
+@@ -98,6 +98,7 @@ gt-y += \
+ 	gt/intel_gt_debugfs.o \
+ 	gt/intel_gt_engines_debugfs.o \
+ 	gt/intel_gt_irq.o \
++	gt/intel_gt_irq_debugfs.o \
+ 	gt/intel_gt_pm.o \
+ 	gt/intel_gt_pm_debugfs.o \
+ 	gt/intel_gt_pm_irq.o \
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+index 1fe19ccd2794..d3075c138585 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+@@ -8,11 +8,54 @@
+ #include "i915_drv.h"
+ #include "intel_gt_debugfs.h"
+ #include "intel_gt_engines_debugfs.h"
++#include "intel_gt_irq_debugfs.h"
++#include "intel_gt_pm.h"
+ #include "intel_gt_pm_debugfs.h"
++#include "intel_gt_requests.h"
+ #include "intel_sseu_debugfs.h"
+ #include "pxp/intel_pxp_debugfs.h"
+ #include "uc/intel_uc_debugfs.h"
+ 
++static int reset_show(void *data, u64 *val)
++{
++	struct intel_gt *gt = data;
++	int ret = intel_gt_terminally_wedged(gt);
++
++	switch (ret) {
++	case -EIO:
++		*val = 1;
++		return 0;
++	case 0:
++		*val = 0;
++		return 0;
++	default:
++		return ret;
++	}
++}
++
++static int reset_store(void *data, u64 val)
++{
++	struct intel_gt *gt = data;
++
++	/* Flush any previous reset before applying for a new one */
++	wait_event(gt->reset.queue,
++		   !test_bit(I915_RESET_BACKOFF, &gt->reset.flags));
++
++	intel_gt_handle_error(gt, val, I915_ERROR_CAPTURE,
++			      "Manually reset engine mask to %llx", val);
++	return 0;
++}
++DEFINE_SIMPLE_ATTRIBUTE(reset_fops, reset_show, reset_store, "%llu\n");
++
++static void gt_debugfs_register(struct intel_gt *gt, struct dentry *root)
++{
++	static const struct intel_gt_debugfs_file files[] = {
++		{ "reset", &reset_fops, NULL },
++	};
++
++	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
++}
++
+ void intel_gt_debugfs_register(struct intel_gt *gt)
+ {
+ 	struct dentry *root;
+@@ -24,10 +67,12 @@ void intel_gt_debugfs_register(struct intel_gt *gt)
+ 	if (IS_ERR(root))
+ 		return;
+ 
++	gt_debugfs_register(gt, root);
++
+ 	intel_gt_engines_debugfs_register(gt, root);
+ 	intel_gt_pm_debugfs_register(gt, root);
++	intel_gt_irq_debugfs_register(gt, root);
+ 	intel_sseu_debugfs_register(gt, root);
+-
+ 	intel_uc_debugfs_register(&gt->uc, root);
+ 	intel_pxp_debugfs_register(&gt->pxp, root);
+ }
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
+new file mode 100644
+index 000000000000..3cf9ae8437e5
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
+@@ -0,0 +1,178 @@
++// SPDX-License-Identifier: MIT
++
++/*
++ * Copyright © 2020 Intel Corporation
++ */
++
++#include "i915_drv.h"
++#include "intel_gt_debugfs.h"
++#include "intel_gt_irq_debugfs.h"
++
++static int interrupt_info_show(struct seq_file *m, void *data)
++{
++	struct intel_gt *gt = m->private;
++	struct drm_i915_private *i915 = gt->i915;
++	struct intel_uncore *uncore = gt->uncore;
++	struct intel_engine_cs *engine;
++	enum intel_engine_id id;
++	intel_wakeref_t wakeref;
++	int i;
++
++	wakeref = intel_runtime_pm_get(uncore->rpm);
++
++	if (IS_CHERRYVIEW(i915)) {
++		seq_printf(m, "Master Interrupt Control:\t%08x\n",
++			   intel_uncore_read(uncore, GEN8_MASTER_IRQ));
++
++		for (i = 0; i < 4; i++) {
++			seq_printf(m, "GT Interrupt IMR %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IMR(i)));
++			seq_printf(m, "GT Interrupt IIR %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IIR(i)));
++			seq_printf(m, "GT Interrupt IER %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IER(i)));
++		}
++
++	} else if (GRAPHICS_VER(i915) >= 11) {
++		seq_printf(m, "Master Interrupt Control:  %08x\n",
++			   intel_uncore_read(uncore, GEN11_GFX_MSTR_IRQ));
++
++		seq_printf(m, "Render/Copy Intr Enable:   %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_RENDER_COPY_INTR_ENABLE));
++		seq_printf(m, "VCS/VECS Intr Enable:      %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_VCS_VECS_INTR_ENABLE));
++		seq_printf(m, "GUC/SG Intr Enable:\t   %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GUC_SG_INTR_ENABLE));
++		seq_printf(m, "GPM/WGBOXPERF Intr Enable: %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GPM_WGBOXPERF_INTR_ENABLE));
++		seq_printf(m, "Crypto Intr Enable:\t   %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_CRYPTO_RSVD_INTR_ENABLE));
++		seq_printf(m, "GUnit/CSME Intr Enable:\t   %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GUNIT_CSME_INTR_ENABLE));
++
++	} else if (GRAPHICS_VER(i915) >= 8) {
++		seq_printf(m, "Master Interrupt Control:\t%08x\n",
++			   intel_uncore_read(uncore, GEN8_MASTER_IRQ));
++
++		for (i = 0; i < 4; i++) {
++			seq_printf(m, "GT Interrupt IMR %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IMR(i)));
++			seq_printf(m, "GT Interrupt IIR %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IIR(i)));
++			seq_printf(m, "GT Interrupt IER %d:\t%08x\n",
++				   i, intel_uncore_read(uncore,
++							GEN8_GT_IER(i)));
++		}
++
++	} else if (IS_VALLEYVIEW(i915)) {
++		seq_printf(m, "Master IER:\t%08x\n",
++			   intel_uncore_read(uncore, VLV_MASTER_IER));
++
++		seq_printf(m, "Render IER:\t%08x\n",
++			   intel_uncore_read(uncore, GTIER));
++		seq_printf(m, "Render IIR:\t%08x\n",
++			   intel_uncore_read(uncore, GTIIR));
++		seq_printf(m, "Render IMR:\t%08x\n",
++			   intel_uncore_read(uncore, GTIMR));
++
++		seq_printf(m, "PM IER:\t\t%08x\n",
++			   intel_uncore_read(uncore, GEN6_PMIER));
++		seq_printf(m, "PM IIR:\t\t%08x\n",
++			   intel_uncore_read(uncore, GEN6_PMIIR));
++		seq_printf(m, "PM IMR:\t\t%08x\n",
++			   intel_uncore_read(uncore, GEN6_PMIMR));
++
++	} else if (!HAS_PCH_SPLIT(i915)) {
++		seq_printf(m, "Interrupt enable:    %08x\n",
++			   intel_uncore_read(uncore, GEN2_IER));
++		seq_printf(m, "Interrupt identity:  %08x\n",
++			   intel_uncore_read(uncore, GEN2_IIR));
++		seq_printf(m, "Interrupt mask:      %08x\n",
++			   intel_uncore_read(uncore, GEN2_IMR));
++	} else {
++		seq_printf(m, "Graphics Interrupt enable:		%08x\n",
++			   intel_uncore_read(uncore, GTIER));
++		seq_printf(m, "Graphics Interrupt identity:		%08x\n",
++			   intel_uncore_read(uncore, GTIIR));
++		seq_printf(m, "Graphics Interrupt mask:		%08x\n",
++			   intel_uncore_read(uncore, GTIMR));
++	}
++
++	if (GRAPHICS_VER(i915) >= 11) {
++		seq_printf(m, "RCS Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_RCS0_RSVD_INTR_MASK));
++		seq_printf(m, "BCS Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_BCS_RSVD_INTR_MASK));
++		seq_printf(m, "VCS0/VCS1 Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_VCS0_VCS1_INTR_MASK));
++		seq_printf(m, "VCS2/VCS3 Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_VCS2_VCS3_INTR_MASK));
++
++		if (HAS_ENGINE(gt, VCS4) || HAS_ENGINE(gt, VCS5))
++			seq_printf(m, "VCS4/VCS5 Intr Mask:\t %08x\n",
++				   intel_uncore_read(uncore,
++						GEN12_VCS4_VCS5_INTR_MASK));
++		if (HAS_ENGINE(gt, VCS6) || HAS_ENGINE(gt, VCS7))
++			seq_printf(m, "VCS6/VCS7 Intr Mask:\t %08x\n",
++				   intel_uncore_read(uncore,
++						GEN12_VCS6_VCS7_INTR_MASK));
++
++		seq_printf(m, "VECS0/VECS1 Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_VECS0_VECS1_INTR_MASK));
++
++		if (HAS_ENGINE(gt, VECS2) || HAS_ENGINE(gt, VECS3))
++			seq_printf(m, "VECS2/VECS3 Intr Mask:\t %08x\n",
++				   intel_uncore_read(uncore,
++						GEN12_VECS2_VECS3_INTR_MASK));
++
++		seq_printf(m, "GUC/SG Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GUC_SG_INTR_MASK));
++		seq_printf(m, "GPM/WGBOXPERF Intr Mask: %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GPM_WGBOXPERF_INTR_MASK));
++		seq_printf(m, "Crypto Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_CRYPTO_RSVD_INTR_MASK));
++		seq_printf(m, "Gunit/CSME Intr Mask:\t %08x\n",
++			   intel_uncore_read(uncore,
++					     GEN11_GUNIT_CSME_INTR_MASK));
++
++	} else if (GRAPHICS_VER(i915) >= 6) {
++		for_each_engine(engine, gt, id) {
++			seq_printf(m,
++				   "Graphics Interrupt mask (%s):	%08x\n",
++				   engine->name, ENGINE_READ(engine, RING_IMR));
++		}
++	}
++
++	intel_runtime_pm_put(uncore->rpm, wakeref);
++
++	return 0;
++}
++DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(interrupt_info);
++
++void intel_gt_irq_debugfs_register(struct intel_gt *gt, struct dentry *root)
++{
++	static const struct intel_gt_debugfs_file files[] = {
++		{ "interrupt_info", &interrupt_info_fops, NULL },
++	};
++
++	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
++}
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
+new file mode 100644
+index 000000000000..95e519705001
+--- /dev/null
++++ b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
+@@ -0,0 +1,15 @@
++/* SPDX-License-Identifier: MIT */
++
++/*
++ * Copyright © 2020 Intel Corporation
++ */
++
++#ifndef INTEL_GT_IRQ_DEBUGFS_H
++#define INTEL_GT_IRQ_DEBUGFS_H
++
++struct intel_gt;
++struct dentry;
++
++void intel_gt_irq_debugfs_register(struct intel_gt *gt, struct dentry *root);
++
++#endif /* INTEL_GT_IRQ_DEBUGFS_H */
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 5f84ad602642..c75af6f97e7e 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -19,6 +19,36 @@
+ #include "intel_sideband.h"
+ #include "intel_uncore.h"
+ 
++static int forcewake_user_open(struct inode *inode, struct file *file)
++{
++	struct intel_gt *gt = inode->i_private;
++
++	atomic_inc(&gt->user_wakeref);
++	intel_gt_pm_get(gt);
++	if (GRAPHICS_VER(gt->i915) >= 6)
++		intel_uncore_forcewake_user_get(gt->uncore);
++
++	return 0;
++}
++
++static int forcewake_user_release(struct inode *inode, struct file *file)
++{
++	struct intel_gt *gt = inode->i_private;
++
++	if (GRAPHICS_VER(gt->i915) >= 6)
++		intel_uncore_forcewake_user_put(gt->uncore);
++	intel_gt_pm_put(gt);
++	atomic_dec(&gt->user_wakeref);
++
++	return 0;
++}
++
++static const struct file_operations forcewake_user_fops = {
++	.owner = THIS_MODULE,
++	.open = forcewake_user_open,
++	.release = forcewake_user_release,
++};
++
+ static int fw_domains_show(struct seq_file *m, void *data)
+ {
+ 	struct intel_gt *gt = m->private;
+@@ -627,6 +657,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ 		{ "drpc", &drpc_fops, NULL },
+ 		{ "frequency", &frequency_fops, NULL },
+ 		{ "forcewake", &fw_domains_fops, NULL },
++		{ "forcewake_user", &forcewake_user_fops, NULL},
+ 		{ "llc", &llc_fops, llc_eval },
+ 		{ "rps_boost", &rps_boost_fops, rps_eval },
+ 	};
+-- 
+2.27.0
 
