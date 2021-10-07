@@ -2,42 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D456E42563F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D848B425638
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:10:28 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 1EAA76F87B;
-	Thu,  7 Oct 2021 15:10:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 490926F892;
+	Thu,  7 Oct 2021 15:10:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 298B16F87B;
- Thu,  7 Oct 2021 15:10:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="223673890"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="223673890"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 08:10:31 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="440296851"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 08:10:31 -0700
-Date: Thu, 7 Oct 2021 08:05:43 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com
-Subject: Re: [PATCH 01/26] drm/i915/guc: Move GuC guc_id allocation under
- submission state sub-struct
-Message-ID: <20211007150543.GA12560@jons-linux-dev-box>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-2-matthew.brost@intel.com>
- <019f1cca-a971-f9ee-4eec-6450572ae580@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8F5096F892;
+ Thu,  7 Oct 2021 15:10:23 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 4B0B26113E;
+ Thu,  7 Oct 2021 15:10:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1633619423;
+ bh=6XparVng5W/AReJHiKchmXlIe9lsC3Z91YzkLUlPNCg=;
+ h=From:To:Cc:Subject:Date:From;
+ b=uGBU3w5ZPcovOtfzM/FIsHTD7h3JxuPJygqvsc/Akx8WIgRCpgs3UgXZBZTV82I1O
+ pW+TIPVurN88xf3WvDzFDkgp4KUNa7HpHH0yruRMhNm5135jx5bqq+/CKSzQGvE9Do
+ ViwsXF7lFqxOsI6bHhr9Jy2jv4XcchqTsLVaQi+z5d/b1rYbgoS7hR41kw3y30v3an
+ GfXh2Vp3SSFv+/Ic2Yauk4D9evUCiGVqN10/ZzGkA3ER8QQimEVtKd0+OTGa/g7KUM
+ 0ggiEgI2DrGim19ev5P6YtxGkOvCy0ZLC7gw6ICyGtfCMR5AINWv1keeKoUptUyCZ3
+ OdUDZ2/BTlnCQ==
+From: Arnd Bergmann <arnd@kernel.org>
+To: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-ia64@vger.kernel.org,
+ linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linux-riscv@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ iommu@lists.linux-foundation.org, linux-media@vger.kernel.org,
+ linux-mmc@vger.kernel.org, netdev@vger.kernel.org,
+ ath10k@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linux-gpio@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Charles Keepax <ckeepax@opensource.cirrus.com>,
+ Will Deacon <will@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Liam Girdwood <lgirdwood@gmail.com>,
+ Simon Trimmer <simont@opensource.cirrus.com>,
+ Michael Ellerman <mpe@ellerman.id.au>
+Subject: [PATCH v2 1/2] firmware: include drivers/firmware/Kconfig
+ unconditionally
+Date: Thu,  7 Oct 2021 17:10:09 +0200
+Message-Id: <20211007151010.333516-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <019f1cca-a971-f9ee-4eec-6450572ae580@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -53,244 +62,147 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 06, 2021 at 08:06:41PM -0700, John Harrison wrote:
-> On 10/4/2021 15:06, Matthew Brost wrote:
-> > Move guc_id allocation under submission state sub-struct as a future
-> > patch will reuse the spin lock as a global submission state lock. Moving
-> > this into sub-struct makes ownership of fields / lock clear.
-> > 
-> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > ---
-> >   drivers/gpu/drm/i915/gt/intel_context_types.h |  6 +-
-> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        | 26 +++++----
-> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 56 ++++++++++---------
-> >   3 files changed, 47 insertions(+), 41 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > index 12252c411159..e7e3984aab78 100644
-> > --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> > @@ -197,18 +197,18 @@ struct intel_context {
-> >   	struct {
-> >   		/**
-> >   		 * @id: handle which is used to uniquely identify this context
-> > -		 * with the GuC, protected by guc->contexts_lock
-> > +		 * with the GuC, protected by guc->submission_state.lock
-> >   		 */
-> >   		u16 id;
-> >   		/**
-> >   		 * @ref: the number of references to the guc_id, when
-> >   		 * transitioning in and out of zero protected by
-> > -		 * guc->contexts_lock
-> > +		 * guc->submission_state.lock
-> >   		 */
-> >   		atomic_t ref;
-> >   		/**
-> >   		 * @link: in guc->guc_id_list when the guc_id has no refs but is
-> > -		 * still valid, protected by guc->contexts_lock
-> > +		 * still valid, protected by guc->submission_state.lock
-> >   		 */
-> >   		struct list_head link;
-> >   	} guc_id;
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > index 5dd174babf7a..65b5e8eeef96 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > @@ -70,17 +70,21 @@ struct intel_guc {
-> >   		void (*disable)(struct intel_guc *guc);
-> >   	} interrupts;
-> > -	/**
-> > -	 * @contexts_lock: protects guc_ids, guc_id_list, ce->guc_id.id, and
-> > -	 * ce->guc_id.ref when transitioning in and out of zero
-> > -	 */
-> > -	spinlock_t contexts_lock;
-> > -	/** @guc_ids: used to allocate unique ce->guc_id.id values */
-> > -	struct ida guc_ids;
-> > -	/**
-> > -	 * @guc_id_list: list of intel_context with valid guc_ids but no refs
-> > -	 */
-> > -	struct list_head guc_id_list;
-> > +	struct {
-> > +		/**
-> > +		 * @lock: protects everything in submission_state
-> > +		 */
-> > +		spinlock_t lock;
-> The old version also mentioned 'ce->guc_id.ref'. Should this not also
-> mention that transition? Or was the old comment inaccurate. I'm not seeing
-> any actual behaviour changes in the patch.
-> 
-> 
+From: Arnd Bergmann <arnd@arndb.de>
 
-Can add that back in.
+Compile-testing drivers that require access to a firmware layer
+fails when that firmware symbol is unavailable. This happened
+twice this week:
 
-> > +		/**
-> > +		 * @guc_ids: used to allocate new guc_ids
-> > +		 */
-> > +		struct ida guc_ids;
-> > +		/**
-> > +		 * @guc_id_list: list of intel_context with valid guc_ids but no
-> > +		 * refs
-> > +		 */
-> > +		struct list_head guc_id_list;
-> > +	} submission_state;
-> >   	/**
-> >   	 * @submission_supported: tracks whether we support GuC submission on
-> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > index ba0de35f6323..ad5c18119d92 100644
-> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > @@ -68,16 +68,16 @@
-> >    * fence is used to stall all requests associated with this guc_id until the
-> >    * corresponding G2H returns indicating the guc_id has been deregistered.
-> >    *
-> > - * guc_ids:
-> > + * submission_state.guc_ids:
-> >    * Unique number associated with private GuC context data passed in during
-> >    * context registration / submission / deregistration. 64k available. Simple ida
-> >    * is used for allocation.
-> >    *
-> > - * Stealing guc_ids:
-> > - * If no guc_ids are available they can be stolen from another context at
-> > - * request creation time if that context is unpinned. If a guc_id can't be found
-> > - * we punt this problem to the user as we believe this is near impossible to hit
-> > - * during normal use cases.
-> > + * Stealing submission_state.guc_ids:
-> > + * If no submission_state.guc_ids are available they can be stolen from another
-> I would abbreviate this instance as well, submission_state.guc_id is quite
-> the mouthful. Unless this somehow magically links back to the structure
-> entry in the kerneldoc output?
->
+ - My proposed to change to rework the QCOM_SCM firmware symbol
+   broke on ppc64 and others.
 
-It might, not really sure but agree the submission_state should be
-dropped. Think changed because of global find replace.
+ - The cs_dsp firmware patch added device specific firmware loader
+   into drivers/firmware, which broke on the same set of
+   architectures.
 
-Matt
+We should probably do the same thing for other subsystems as well,
+but fix this one first as this is a dependency for other patches
+getting merged.
 
-> John.
-> 
-> > + * context at request creation time if that context is unpinned. If a guc_id
-> > + * can't be found we punt this problem to the user as we believe this is near
-> > + * impossible to hit during normal use cases.
-> >    *
-> >    * Locking:
-> >    * In the GuC submission code we have 3 basic spin locks which protect
-> > @@ -89,7 +89,7 @@
-> >    * sched_engine can be submitting at a time. Currently only one sched_engine is
-> >    * used for all of GuC submission but that could change in the future.
-> >    *
-> > - * guc->contexts_lock
-> > + * guc->submission_state.lock
-> >    * Protects guc_id allocation for the given GuC, i.e. only one context can be
-> >    * doing guc_id allocation operations at a time for each GuC in the system.
-> >    *
-> > @@ -103,7 +103,7 @@
-> >    *
-> >    * Lock ordering rules:
-> >    * sched_engine->lock -> ce->guc_state.lock
-> > - * guc->contexts_lock -> ce->guc_state.lock
-> > + * guc->submission_state.lock -> ce->guc_state.lock
-> >    *
-> >    * Reset races:
-> >    * When a full GT reset is triggered it is assumed that some G2H responses to
-> > @@ -1148,9 +1148,9 @@ int intel_guc_submission_init(struct intel_guc *guc)
-> >   	xa_init_flags(&guc->context_lookup, XA_FLAGS_LOCK_IRQ);
-> > -	spin_lock_init(&guc->contexts_lock);
-> > -	INIT_LIST_HEAD(&guc->guc_id_list);
-> > -	ida_init(&guc->guc_ids);
-> > +	spin_lock_init(&guc->submission_state.lock);
-> > +	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
-> > +	ida_init(&guc->submission_state.guc_ids);
-> >   	return 0;
-> >   }
-> > @@ -1215,7 +1215,7 @@ static void guc_submit_request(struct i915_request *rq)
-> >   static int new_guc_id(struct intel_guc *guc)
-> >   {
-> > -	return ida_simple_get(&guc->guc_ids, 0,
-> > +	return ida_simple_get(&guc->submission_state.guc_ids, 0,
-> >   			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
-> >   			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-> >   }
-> > @@ -1223,7 +1223,8 @@ static int new_guc_id(struct intel_guc *guc)
-> >   static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> >   {
-> >   	if (!context_guc_id_invalid(ce)) {
-> > -		ida_simple_remove(&guc->guc_ids, ce->guc_id.id);
-> > +		ida_simple_remove(&guc->submission_state.guc_ids,
-> > +				  ce->guc_id.id);
-> >   		reset_lrc_desc(guc, ce->guc_id.id);
-> >   		set_context_guc_id_invalid(ce);
-> >   	}
-> > @@ -1235,9 +1236,9 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> >   {
-> >   	unsigned long flags;
-> > -	spin_lock_irqsave(&guc->contexts_lock, flags);
-> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> >   	__release_guc_id(guc, ce);
-> > -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> >   }
-> >   static int steal_guc_id(struct intel_guc *guc)
-> > @@ -1245,10 +1246,10 @@ static int steal_guc_id(struct intel_guc *guc)
-> >   	struct intel_context *ce;
-> >   	int guc_id;
-> > -	lockdep_assert_held(&guc->contexts_lock);
-> > +	lockdep_assert_held(&guc->submission_state.lock);
-> > -	if (!list_empty(&guc->guc_id_list)) {
-> > -		ce = list_first_entry(&guc->guc_id_list,
-> > +	if (!list_empty(&guc->submission_state.guc_id_list)) {
-> > +		ce = list_first_entry(&guc->submission_state.guc_id_list,
-> >   				      struct intel_context,
-> >   				      guc_id.link);
-> > @@ -1273,7 +1274,7 @@ static int assign_guc_id(struct intel_guc *guc, u16 *out)
-> >   {
-> >   	int ret;
-> > -	lockdep_assert_held(&guc->contexts_lock);
-> > +	lockdep_assert_held(&guc->submission_state.lock);
-> >   	ret = new_guc_id(guc);
-> >   	if (unlikely(ret < 0)) {
-> > @@ -1295,7 +1296,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> >   	GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
-> >   try_again:
-> > -	spin_lock_irqsave(&guc->contexts_lock, flags);
-> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> >   	might_lock(&ce->guc_state.lock);
-> > @@ -1310,7 +1311,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> >   	atomic_inc(&ce->guc_id.ref);
-> >   out_unlock:
-> > -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> >   	/*
-> >   	 * -EAGAIN indicates no guc_id are available, let's retire any
-> > @@ -1346,11 +1347,12 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> >   	if (unlikely(context_guc_id_invalid(ce)))
-> >   		return;
-> > -	spin_lock_irqsave(&guc->contexts_lock, flags);
-> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> >   	if (!context_guc_id_invalid(ce) && list_empty(&ce->guc_id.link) &&
-> >   	    !atomic_read(&ce->guc_id.ref))
-> > -		list_add_tail(&ce->guc_id.link, &guc->guc_id_list);
-> > -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > +		list_add_tail(&ce->guc_id.link,
-> > +			      &guc->submission_state.guc_id_list);
-> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> >   }
-> >   static int __guc_action_register_context(struct intel_guc *guc,
-> > @@ -1921,16 +1923,16 @@ static void guc_context_destroy(struct kref *kref)
-> >   	 * returns indicating this context has been deregistered the guc_id is
-> >   	 * returned to the pool of available guc_id.
-> >   	 */
-> > -	spin_lock_irqsave(&guc->contexts_lock, flags);
-> > +	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> >   	if (context_guc_id_invalid(ce)) {
-> > -		spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > +		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> >   		__guc_context_destroy(ce);
-> >   		return;
-> >   	}
-> >   	if (!list_empty(&ce->guc_id.link))
-> >   		list_del_init(&ce->guc_id.link);
-> > -	spin_unlock_irqrestore(&guc->contexts_lock, flags);
-> > +	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> >   	/* Seal race with Reset */
-> >   	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> 
+Reviewed-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Reviewed-by: Charles Keepax <ckeepax@opensource.cirrus.com>
+Acked-by: Will Deacon <will@kernel.org>
+Acked-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Charles Keepax <ckeepax@opensource.cirrus.com>
+Cc: Simon Trimmer <simont@opensource.cirrus.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Reviewed-by: Mark Brown <broonie@kernel.org>
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+No changes in v2, but it's now queued in my asm-generic
+tree for v5.15
+
+ arch/arm/Kconfig    | 2 --
+ arch/arm64/Kconfig  | 2 --
+ arch/ia64/Kconfig   | 2 --
+ arch/mips/Kconfig   | 2 --
+ arch/parisc/Kconfig | 2 --
+ arch/riscv/Kconfig  | 2 --
+ arch/x86/Kconfig    | 2 --
+ drivers/Kconfig     | 2 ++
+ 8 files changed, 2 insertions(+), 14 deletions(-)
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index fc196421b2ce..59baf6c132a7 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -1989,8 +1989,6 @@ config ARCH_HIBERNATION_POSSIBLE
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ if CRYPTO
+ source "arch/arm/crypto/Kconfig"
+ endif
+diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+index 077f2ec4eeb2..407b4addea36 100644
+--- a/arch/arm64/Kconfig
++++ b/arch/arm64/Kconfig
+@@ -1931,8 +1931,6 @@ source "drivers/cpufreq/Kconfig"
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "drivers/acpi/Kconfig"
+ 
+ source "arch/arm64/kvm/Kconfig"
+diff --git a/arch/ia64/Kconfig b/arch/ia64/Kconfig
+index 045792cde481..1e33666fa679 100644
+--- a/arch/ia64/Kconfig
++++ b/arch/ia64/Kconfig
+@@ -388,8 +388,6 @@ config CRASH_DUMP
+ 	  help
+ 	    Generate crash dump after being started by kexec.
+ 
+-source "drivers/firmware/Kconfig"
+-
+ endmenu
+ 
+ menu "Power management and ACPI options"
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index 771ca53af06d..6b8f591c5054 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -3316,8 +3316,6 @@ source "drivers/cpuidle/Kconfig"
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "arch/mips/kvm/Kconfig"
+ 
+ source "arch/mips/vdso/Kconfig"
+diff --git a/arch/parisc/Kconfig b/arch/parisc/Kconfig
+index 4742b6f169b7..27a8b49af11f 100644
+--- a/arch/parisc/Kconfig
++++ b/arch/parisc/Kconfig
+@@ -384,6 +384,4 @@ config KEXEC_FILE
+ 
+ endmenu
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "drivers/parisc/Kconfig"
+diff --git a/arch/riscv/Kconfig b/arch/riscv/Kconfig
+index c3f3fd583e04..8bc71ab143e3 100644
+--- a/arch/riscv/Kconfig
++++ b/arch/riscv/Kconfig
+@@ -561,5 +561,3 @@ menu "Power management options"
+ source "kernel/power/Kconfig"
+ 
+ endmenu
+-
+-source "drivers/firmware/Kconfig"
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 4e001bbbb425..4dca39744ee9 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2828,8 +2828,6 @@ config HAVE_ATOMIC_IOMAP
+ 	def_bool y
+ 	depends on X86_32
+ 
+-source "drivers/firmware/Kconfig"
+-
+ source "arch/x86/kvm/Kconfig"
+ 
+ source "arch/x86/Kconfig.assembler"
+diff --git a/drivers/Kconfig b/drivers/Kconfig
+index 30d2db37cc87..0d399ddaa185 100644
+--- a/drivers/Kconfig
++++ b/drivers/Kconfig
+@@ -17,6 +17,8 @@ source "drivers/bus/Kconfig"
+ 
+ source "drivers/connector/Kconfig"
+ 
++source "drivers/firmware/Kconfig"
++
+ source "drivers/gnss/Kconfig"
+ 
+ source "drivers/mtd/Kconfig"
+-- 
+2.29.2
+
