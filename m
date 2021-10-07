@@ -2,45 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6808E4256D1
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:42:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F94742570E
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 17:50:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2AAE86E84C;
-	Thu,  7 Oct 2021 15:42:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0D8316E855;
+	Thu,  7 Oct 2021 15:50:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D133E6E84C;
- Thu,  7 Oct 2021 15:42:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="206404746"
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="206404746"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 08:42:34 -0700
-X-IronPort-AV: E=Sophos;i="5.85,355,1624345200"; d="scan'208";a="458835173"
-Received: from unerlige-ril-10.jf.intel.com (HELO unerlige-ril-10.165.21.208)
- ([10.165.21.208])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 08:42:33 -0700
-Date: Thu, 7 Oct 2021 08:42:33 -0700
-From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
- Matthew Brost <matthew.brost@intel.com>
-Subject: Re: [PATCH] drm/i915/pmu: Connect engine busyness stats from GuC to
- pmu
-Message-ID: <20211007154233.GJ4467@unerlige-ril-10.165.21.208>
-References: <20211005174711.55618-1-umesh.nerlige.ramappa@intel.com>
- <73824dba-142a-1022-252e-ce56de1227fa@linux.intel.com>
- <20211006204552.GI4467@unerlige-ril-10.165.21.208>
- <ae1570ac-4af1-bb3e-7a97-9b56e2242441@linux.intel.com>
+Received: from conssluserg-06.nifty.com (conssluserg-06.nifty.com
+ [210.131.2.91])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A36216E84E;
+ Thu,  7 Oct 2021 15:50:49 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+ [209.85.216.48]) (authenticated)
+ by conssluserg-06.nifty.com with ESMTP id 197FoMK3025660;
+ Fri, 8 Oct 2021 00:50:23 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 197FoMK3025660
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+ s=dec2015msa; t=1633621823;
+ bh=2ictrqXAcs0/Jf+501IU2xn9Ag6+SYGQ2GB1JSMdfsk=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=XMZHChvUbi0/x64LrjBMjBDD8xRAZzR0gb9nQmJ4eBWHB+eJXeRdTWOM7lOGE2Pbk
+ o+ybVG6MvojCUYxmsOrO94dutpJ4TF5r27EIaAkutr5R3xWYp8zutrKW4eVr2BHbXe
+ mP5ktpD991UXujzbHoZ6Ra21/WrPvbgBxukVk2oyt8XoQSh9g2pKYyi0DJlsJzuGHt
+ 0bxzEgLKc3uBh/UYnUCmgBcQm6nt585LAM+9mMvnvVTghIR6ziEIvqTz3mtKrKI0ZI
+ LW/ME6rITE8b9ySgQKetVBIGyjHa14nmpY4LAdpDrwxkCxPfJDynCs04O1B6pkhPsD
+ qxfwCnglWwjSQ==
+X-Nifty-SrcIP: [209.85.216.48]
+Received: by mail-pj1-f48.google.com with SMTP id
+ g13-20020a17090a3c8d00b00196286963b9so7206685pjc.3; 
+ Thu, 07 Oct 2021 08:50:23 -0700 (PDT)
+X-Gm-Message-State: AOAM532SHH6TSsRbvbYfjIeO3+yPt/FkZGr4fT/OVOaX/yG3zCHMeEHS
+ wPo90swcJ+KBFXTg4QN2SJRb9saahaFQ/e6Jbcc=
+X-Google-Smtp-Source: ABdhPJzGjr0g3OMZKs7rwCvM6PfYXgPw2KXHF9cvejM0rXE06zKWYrhO1bS2++snMAc8G6LVr00CozT0DNarzLxE4sk=
+X-Received: by 2002:a17:90a:4414:: with SMTP id
+ s20mr5636167pjg.144.1633621822196; 
+ Thu, 07 Oct 2021 08:50:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ae1570ac-4af1-bb3e-7a97-9b56e2242441@linux.intel.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
+References: <20211005171728.3147094-1-lucas.demarchi@intel.com>
+In-Reply-To: <20211005171728.3147094-1-lucas.demarchi@intel.com>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 8 Oct 2021 00:49:44 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARbNQHPxHHp4=oLOsJLpaCv0c3NRHGSs6hAKnP3N4DHKQ@mail.gmail.com>
+Message-ID: <CAK7LNARbNQHPxHHp4=oLOsJLpaCv0c3NRHGSs6hAKnP3N4DHKQ@mail.gmail.com>
+Subject: Re: [PATCH v3] drm/i915: remove IS_ACTIVE
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: intel-gfx <intel-gfx@lists.freedesktop.org>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ Dan Carpenter <dan.carpenter@oracle.com>,
+ Steven Price <steven.price@arm.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Andrzej Hajda <a.hajda@samsung.com>, Jani Nikula <jani.nikula@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,60 +70,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 07, 2021 at 09:17:34AM +0100, Tvrtko Ursulin wrote:
+On Wed, Oct 6, 2021 at 2:21 AM Lucas De Marchi <lucas.demarchi@intel.com> wrote:
 >
->On 06/10/2021 21:45, Umesh Nerlige Ramappa wrote:
->>On Wed, Oct 06, 2021 at 10:11:58AM +0100, Tvrtko Ursulin wrote:
+> When trying to bring IS_ACTIVE to linux/kconfig.h I thought it wouldn't
+> provide much value just encapsulating it in a boolean context. So I also
+> added the support for handling undefined macros as the IS_ENABLED()
+> counterpart. However the feedback received from Masahiro Yamada was that
+> it is too ugly, not providing much value. And just wrapping in a boolean
+> context is too dumb - we could simply open code it.
 >
->[snip]
+> As detailed in commit babaab2f4738 ("drm/i915: Encapsulate kconfig
+> constant values inside boolean predicates"), the IS_ACTIVE macro was
+> added to workaround a compilation warning. However after checking again
+> our current uses of IS_ACTIVE it turned out there is only
+> 1 case in which it triggers a warning in clang (due
+> -Wconstant-logical-operand) and 2 in smatch. All the others
+> can simply use the shorter version, without wrapping it in any macro.
 >
->>>>@@ -762,12 +764,25 @@ submission_disabled(struct intel_guc *guc)
->>>> static void disable_submission(struct intel_guc *guc)
->>>> {
->>>>     struct i915_sched_engine * const sched_engine = guc->sched_engine;
->>>>+    struct intel_gt *gt = guc_to_gt(guc);
->>>>+    struct intel_engine_cs *engine;
->>>>+    enum intel_engine_id id;
->>>>+    unsigned long flags;
->>>>     if (__tasklet_is_enabled(&sched_engine->tasklet)) {
->>>>         GEM_BUG_ON(!guc->ct.enabled);
->>>>         __tasklet_disable_sync_once(&sched_engine->tasklet);
->>>>         sched_engine->tasklet.callback = NULL;
->>>>     }
->>>>+
->>>>+    cancel_delayed_work(&guc->timestamp.work);
->>>
->>>I am not sure when disable_submission gets called so a question - 
->>>could it be important to call cancel_delayed_work_sync here to 
->>>ensure if the worker was running it had exited before proceeding?
->>
->>disable_submission is called in the reset_prepare path for uc 
->>resets. I see this happening only with busy-hang test which does a 
->>global gt reset. The counterpart for this is the 
->>guc_init_engine_stats which is called post reset in the path to 
->>initialize GuC.
->>
->>I tried cancel_delayed_work_sync both here and in park. Seems to 
->>work fine, so will change the calls to _sync versions.
+> So here I'm dialing all the way back to simply removing the macro. That
+> single case hit by clang can be changed to make the constant come first,
+> so it doesn't think it's mask:
 >
->From park is not allowed to sleep so can't do sync from there. It 
->might have been my question which put you on a wrong path, sorry. Now 
->I think question remains what happens if the ping worker happens to be 
->sampling GuC state as GuC is being reset? Do you need some sort of a 
->lock to protect that, or make sure worker skips if reset in progress?
+>         -       if (context && CONFIG_DRM_I915_FENCE_TIMEOUT)
+>         +       if (CONFIG_DRM_I915_FENCE_TIMEOUT && context)
 >
+> As talked with Dan Carpenter, that logic will be added in smatch as
+> well, so it will also stop warning about it.
+>
+> Signed-off-by: Lucas De Marchi <lucas.demarchi@intel.com>
+> Acked-by: Jani Nikula <jani.nikula@intel.com>
 
-If ping ran after the actual gt reset, we should be okay. If it ran 
-after we reset prev_total and before gt reset, then we have bad 
-busyness. At the same time, skipping ping risks timestamp overflow. I am 
-thinking skip ping, but update all stats in the reset_prepare path.  
-reset_prepare is running with pm runtime.
+Reviewed-by: Masahiro Yamada <masahiroy@kernel.org>
 
-On a different note, during reset, we need to store now-start into the 
-total_gt_clks also because we may lose that information in the next pmu 
-query or ping (post reset). Maybe I will store active_clks instead of 
-running in the stats to do that.
 
-Thanks,
-Umesh
 
+
+
+-- 
+Best Regards
+Masahiro Yamada
