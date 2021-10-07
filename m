@@ -1,59 +1,127 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8CAF42515A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 12:43:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9C2425165
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 12:45:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8861A6F3FB;
-	Thu,  7 Oct 2021 10:43:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0626C6F3FC;
+	Thu,  7 Oct 2021 10:45:16 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BDDA36F3FC
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 10:43:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1633603423; x=1665139423;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=ZC5z2T2gw+PahGCJ3v0eUrB5lX6HX0lWhLeZpwqBms0=;
- b=J4sHm7aPfDrOgzAFz6l8+7BoDWt5BzmI6A/n7V0t0Z+2NW3sU/A7h4Kb
- 9lesvAdmq2iO/VBRjbNPm/OVOt9uHYGjeTfWbsST8ggF4n+olEuGlYBGL
- sznEfS6/+Bi9v2JwWaC6ZjniOof4eKO7HiUC5P2Ot3ty+cGp1xunWKTdg 0=;
-X-IronPort-AV: E=Sophos;i="5.85,354,1624320000"; d="scan'208";a="142961449"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-pdx-2a-e6c05252.us-west-2.amazon.com) ([10.43.8.2])
- by smtp-border-fw-2101.iad2.amazon.com with ESMTP; 07 Oct 2021 10:43:33 +0000
-Received: from EX13D02EUC001.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
- by email-inbound-relay-pdx-2a-e6c05252.us-west-2.amazon.com (Postfix) with
- ESMTPS id 8D121415A8; Thu,  7 Oct 2021 10:43:32 +0000 (UTC)
-Received: from EX13MTAUWC001.ant.amazon.com (10.43.162.135) by
- EX13D02EUC001.ant.amazon.com (10.43.164.92) with Microsoft SMTP Server (TLS)
- id 15.0.1497.23; Thu, 7 Oct 2021 10:43:31 +0000
-Received: from 8c85908914bf.ant.amazon.com.com (10.1.213.27) by
- mail-relay.amazon.com (10.43.162.232) with Microsoft SMTP Server id
- 15.0.1497.23 via Frontend Transport; Thu, 7 Oct 2021 10:43:24 +0000
-From: Gal Pressman <galpress@amazon.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
- <christian.koenig@amd.com>, Doug Ledford <dledford@redhat.com>, Jason
- Gunthorpe <jgg@ziepe.ca>
-CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>, Oded Gabbay
- <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>, Yossi Leybovich
- <sleybo@amazon.com>, Alexander Matushevsky <matua@amazon.com>, Leon
- Romanovsky <leonro@nvidia.com>, Jianxin Xiong <jianxin.xiong@intel.com>,
- Firas Jahjah <firasj@amazon.com>, Gal Pressman <galpress@amazon.com>
-Subject: [RFC PATCH 2/2] RDMA/efa: Add support for dmabuf memory regions
-Date: Thu, 7 Oct 2021 13:43:00 +0300
-Message-ID: <20211007104301.76693-3-galpress@amazon.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211007104301.76693-1-galpress@amazon.com>
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com
+ (mail-sn1anam02on2086.outbound.protection.outlook.com [40.107.96.86])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 81DAB6F3FC
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 10:45:14 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=EbB2zjr3DSxXOk6lBre6OOJU9wNYDcUhnu8ldp6XYZw7QmcHwoXyiBR51HPXR3JbhWurCaEJ/g9sGTi/nvo0aU68Fqo55kPI7o5O/z9k3q2BMtdQf+Y746M/czQ/52ogcmyk1le78d3Q22PO8l4BFGmdyI7+KGAyNEhPYm60I6d2wXeahU54bcj0hoXd82pPl5EJHFv7gCQWHPw24rfufbV2PTjbhQkCGk8j4cV8ateF4iiq3TTBu5nu6ptR7PiOTbgmbENPC/zckZKJDInystsDZhQ8NpwAxa+R41S2aiTjM2712DTZtpFPT/zO1Bew+FHYmhRLgDfxI3q9SrMFAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WAro+Q+c2Aj9eEh4eCjPCo8J9JXEOE80UcAosLJalCs=;
+ b=WNt//fx+iO5pbmnaopD9Rp7xzWIpdfQk6K6lRltsu5oG5fNNiuTVbPROAlkIE2FznwUtNVqjJOwDpTlS/kSSaeNRF0thUIWZaKGYihGj/ChReuBJbmPJHqPk0tizDfI/CFxJdq+yE2shxsbFnQ0LiSAT603UT7omOjgTVd7GDbZKL2HFeoZYDZ+/jDjcwHfR4G9iThdsdiKMrefCIzAAXtji9aWwMmJcgv6+3VB9ljlaBMkkJPARoB0dWisSaoELyeQRZXBcdDwhi3UNcTVXeXW77QjkT7cbqiwI1mMFy/nLQPdnNIAE0nxR3N3/jZelY/efpZLlarMs8fC+/GRznQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=WAro+Q+c2Aj9eEh4eCjPCo8J9JXEOE80UcAosLJalCs=;
+ b=GyYIVEuMNOZqo2S7hYk3sS6WGbY84vn9dvdbACFero1Aa6ao4rHinA34zVfPJtL+p6S6qTnpq3+1dGpGnkk9FFnIhW3qGO6Tm+MPC7PZ32pDQHKK0j9UE55zPHG2+dZtRqZySpGXfOlue7ew10pUPyWhXcph+8A866Rw71cu9Do=
+Authentication-Results: amazon.com; dkim=none (message not signed)
+ header.d=none;amazon.com; dmarc=none action=none header.from=amd.com;
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14) by MWHPR1201MB0077.namprd12.prod.outlook.com
+ (2603:10b6:301:55::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.19; Thu, 7 Oct
+ 2021 10:45:11 +0000
+Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
+ ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4587.020; Thu, 7 Oct 2021
+ 10:45:11 +0000
+Subject: Re: [RFC PATCH 1/2] dma-buf: Fix pin callback comment
+To: Gal Pressman <galpress@amazon.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Doug Ledford <dledford@redhat.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org,
+ Oded Gabbay <ogabbay@habana.ai>, Tomer Tayar <ttayar@habana.ai>,
+ Yossi Leybovich <sleybo@amazon.com>, Alexander Matushevsky
+ <matua@amazon.com>, Leon Romanovsky <leonro@nvidia.com>,
+ Jianxin Xiong <jianxin.xiong@intel.com>, Firas Jahjah <firasj@amazon.com>
 References: <20211007104301.76693-1-galpress@amazon.com>
+ <20211007104301.76693-2-galpress@amazon.com>
+From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <747d423e-9073-9bed-778a-292e47adf0f6@amd.com>
+Date: Thu, 7 Oct 2021 12:44:59 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+In-Reply-To: <20211007104301.76693-2-galpress@amazon.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR02CA0108.eurprd02.prod.outlook.com
+ (2603:10a6:208:154::49) To MWHPR1201MB0192.namprd12.prod.outlook.com
+ (2603:10b6:301:5a::14)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Received: from [192.168.178.21] (91.14.161.181) by
+ AM0PR02CA0108.eurprd02.prod.outlook.com (2603:10a6:208:154::49) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4566.14 via Frontend
+ Transport; Thu, 7 Oct 2021 10:45:05 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a0a1cc96-d16a-4219-a2f5-08d9897f895b
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0077:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB007718E36125D4757CCB0E4F83B19@MWHPR1201MB0077.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: K/4a7JLFLhpIa1MnclOzA6SfcgkcMtGLfuoIU5ZkRINv8DKd2zgbwyLuhCkeikwusTWyUyU+9fZfXGCgxlBNVKlZ5RQUm4mik9uK7/qTtzIWFIssea0pQnPjFmVMI+YDwsI4VC17tX4neqTgZ0vKn7gD3ZA+LFchNzu1VD9aq2LvPAFX2HZW0PRg6Am3x3zSTiCpQ1bQ//fxDC7pNcaHvY1NZ4Rc1HPcKSKzg9PyxSn0iFL19VxuUgRnG0ezuVrm6C53RYphPZ93lywTCWmTn0gyauTUjjBMtnxKyovsRzROe5UYXIC8HicxltV4fAcdhLnnNfK0c75gbp2lvf4LCKzvHekwzChXk0Shjbo69Yeq0y3wh9cJdo3heT8Ue9uSDrS+fZQsLwBuDQq7182vZcdO0BRx5h49YXVgJfkC4OAt9N4JOAJJYMrG5u3UqX+O6FnRFxlbNdGItSGYfdA4cOPAL7Q0o2BPQY4lzDFGvugw6VE9EsGrvD5tIUPQRf0qoJCKbMbUS6GMKgyYZF8+h0xwJtvmhLpJ/zw+bZqKqq1/FEXfVOzDzDIoR7G2iOYlI09p9fRMILoBI3U64KJjh6FJLQarSju7918rQuH5La9iDgozz0/B4gRp86wLPFIRlmDuySlbqTtFX0d7ZQpqd3U8W6D01ms+8VJOe/qUMCvhszuQwUHIygpOP5uUpkv5ZPzX5wwoIgZxJnGNXn3OMEZurxmSrcJqoWel66fIyhqScFhlc3OjcW3rbBlDAGdv
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(7416002)(66476007)(110136005)(54906003)(38100700002)(16576012)(66946007)(316002)(66556008)(4326008)(2906002)(956004)(26005)(8936002)(5660300002)(8676002)(508600001)(2616005)(86362001)(6486002)(83380400001)(31686004)(36756003)(6666004)(31696002)(186003)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?amJmeXh4cVpwMitxYVJXOW9WKy9JWGQzVkZmKzFGandjSFN5TmZwNE9sNHVD?=
+ =?utf-8?B?NjhKL1VsR3IwamJ3UStsNUl3NFJBemszcXRCNm9jUXBRNERyWHJNWnJPcWxu?=
+ =?utf-8?B?dkQwQ1lYcGt0dnFBYUFjMUZ6SlpEVE5nZHg4NnVEQTIxQ2JrRVVKNmphNXhN?=
+ =?utf-8?B?UDFVZyt5NVBlTnlkenI1OHo5aVRLcVlHQXdvZEg0cGZ4TTRBS0M4MzVDS2Rj?=
+ =?utf-8?B?MmQ4NlFBVFpGWmg2bCs1cjRRcnlQdllJZC95OWttSmN5akhuYk95L1g5QkhM?=
+ =?utf-8?B?QzR3UTlpRWhXb0xXY2QzRVQ5MXMrLzRTQUZ0SlBhQjRDdkU4MGNueTNIU2tn?=
+ =?utf-8?B?K2NHRlUxbGJ0dklLc0V6dWdINFhZNEFtNXlFOXpWM0Yrcmwrekt1MHJiZzlG?=
+ =?utf-8?B?ZlVnaTc5bjBtVjc2cEFBTERBUzBOTUJOaGJQUEhmaFJGQWpIWkhJUkwzMEF3?=
+ =?utf-8?B?OE1sK1lOQk84WUlSQm9Jc1ltdjJxWVA4MG1xeWNuRnpTbSthRnFrajYxVGlj?=
+ =?utf-8?B?SW5wNmJPTEE2RnJRaXdkcklhYUFYZ0svZytUR0ZHb0dveXoyTzVmYUNtV3d0?=
+ =?utf-8?B?b013ejg4OHpWS1hDWDZ6Y2JPQmxrMmdNTm4vZXJYNjB4NmtlZ3ZUbU5vUlBX?=
+ =?utf-8?B?dEZFb2UyeWFYejJvOEZka2ttMmpLRlNYL29FYkx6dnBqSEZGbDRqRTEzVDNp?=
+ =?utf-8?B?V0NmanJraHYwZTErN3NHdVJKTTVSUDNGTnpmdXI1UVdWdXlEekpLMnFzd0ww?=
+ =?utf-8?B?dmtMQXRkNW4rclFWVzFTeXNVZW9lNzh5bEJOeXVMNUorb1VpU3hXVUJTMFJz?=
+ =?utf-8?B?MXVhcTg2a21ZMm41VitzSXhBTS8zampEZXh1cUxuTFE4VVV3VGlSS0hrNWJw?=
+ =?utf-8?B?T3VjMHhXVDFpSXFJdXNhamRaQXU0YVJDNVhDelVCRk82QzduR3VrRFcweUFG?=
+ =?utf-8?B?blJPbFBjcmRtMVA1TVhBaXNPczh6amp0bVdDMmwvRTZYQ0labnY3NEdJcVdn?=
+ =?utf-8?B?ZHpvSU54TFJ4akE4Z21IYlI1Zks5RHUyU2NGL05DQlNkcU9RWkU3UGJRZ3Fq?=
+ =?utf-8?B?S3Bva3p2bHpaT3g4TmpqVVQvdlc4MTdLOEtjcUc4ZjRWc0p3cnlZN1VBU0Js?=
+ =?utf-8?B?V05CU1IvMjdlWWdhajRGUUxxR2Y1T2ROQlk1elRrMTRHZTJKL2R0aTh6OUhp?=
+ =?utf-8?B?K3dWTThmQ3dNWmlpaTU1RHlhTHNmOThZaytQbEJvWkhJakRzenl6aGtML0tn?=
+ =?utf-8?B?a25Jc2xLeS9XUEJuTnRCSU92VmRoVlFGQWxOeGx2ZzhRYThYTzQ1RkZySVNh?=
+ =?utf-8?B?WmhRV3lGckp0VlJPQTE5UWFiZ1FSc0JRNGFDWGEwQlNkelV0M09RVm50NVY0?=
+ =?utf-8?B?ME9lYlpvckNPbWN4NEFPRndlR1VtRnFxR09aaUM1ZzlaSWRzSWNwMUVuTlVl?=
+ =?utf-8?B?UXdGRitXRndyU2dSakFlZld1QjdEeUFNQWpJTWloczV3dUVwZk4vVElxeGVC?=
+ =?utf-8?B?b3ZQTkZ4VWl4M2I0YmhOUVlPWlZ0a2NQeGdBUi9iUFpUVjh3VEhEcjc4REdy?=
+ =?utf-8?B?MzE2SEx1eXVaOXBsVXIyM1FDeUJvZkVZMWxseUU4dnVJQVkwZGJGb2xwd3VJ?=
+ =?utf-8?B?QWFUenVjRUR2UTVVdEhnQWo0T1ZoTTBtL1lYdCtZWW52SWQwZFBHQUVEaFVL?=
+ =?utf-8?B?ZWNYSTNVT205dFFYQTRRYWI5VStuUjZGVkpmUXdkR1FlRGpZaGZVVEZMTm5a?=
+ =?utf-8?Q?TMKRMwYmnyBMozyiWvDPLyxIrW6HkJ/Ak7VMGbL?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0a1cc96-d16a-4219-a2f5-08d9897f895b
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Oct 2021 10:45:11.0590 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zv0if4Ywpe0RRHeP6UHVlB+dst3m28Bt02RojUaNWjR98ycBHKbtWCAwvWBzEqXi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0077
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,299 +137,36 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Implement a dmabuf importer for the EFA driver. As ODP is not supported,
-the dmabuf memory regions always pin the buffers to prevent the
-move_notify callback from being called.
 
-Signed-off-by: Gal Pressman <galpress@amazon.com>
----
- drivers/infiniband/hw/efa/efa.h       |   4 +
- drivers/infiniband/hw/efa/efa_main.c  |   1 +
- drivers/infiniband/hw/efa/efa_verbs.c | 166 +++++++++++++++++++++-----
- 3 files changed, 141 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/infiniband/hw/efa/efa.h b/drivers/infiniband/hw/efa/efa.h
-index 2b8ca099b381..407d7c4baa16 100644
---- a/drivers/infiniband/hw/efa/efa.h
-+++ b/drivers/infiniband/hw/efa/efa.h
-@@ -141,6 +141,10 @@ int efa_create_cq(struct ib_cq *ibcq, const struct ib_cq_init_attr *attr,
- struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 			 u64 virt_addr, int access_flags,
- 			 struct ib_udata *udata);
-+struct ib_mr *efa_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
-+				     u64 length, u64 virt_addr,
-+				     int fd, int access_flags,
-+				     struct ib_udata *udata);
- int efa_dereg_mr(struct ib_mr *ibmr, struct ib_udata *udata);
- int efa_get_port_immutable(struct ib_device *ibdev, u32 port_num,
- 			   struct ib_port_immutable *immutable);
-diff --git a/drivers/infiniband/hw/efa/efa_main.c b/drivers/infiniband/hw/efa/efa_main.c
-index 203e6ddcacbc..72cd7d952a07 100644
---- a/drivers/infiniband/hw/efa/efa_main.c
-+++ b/drivers/infiniband/hw/efa/efa_main.c
-@@ -267,6 +267,7 @@ static const struct ib_device_ops efa_dev_ops = {
- 	.query_port = efa_query_port,
- 	.query_qp = efa_query_qp,
- 	.reg_user_mr = efa_reg_mr,
-+	.reg_user_mr_dmabuf = efa_reg_user_mr_dmabuf,
- 
- 	INIT_RDMA_OBJ_SIZE(ib_ah, efa_ah, ibah),
- 	INIT_RDMA_OBJ_SIZE(ib_cq, efa_cq, ibcq),
-diff --git a/drivers/infiniband/hw/efa/efa_verbs.c b/drivers/infiniband/hw/efa/efa_verbs.c
-index be6d3ff0f1be..ca907853a84f 100644
---- a/drivers/infiniband/hw/efa/efa_verbs.c
-+++ b/drivers/infiniband/hw/efa/efa_verbs.c
-@@ -3,6 +3,8 @@
-  * Copyright 2018-2020 Amazon.com, Inc. or its affiliates. All rights reserved.
-  */
- 
-+#include <linux/dma-buf.h>
-+#include <linux/dma-resv.h>
- #include <linux/vmalloc.h>
- #include <linux/log2.h>
- 
-@@ -1491,26 +1493,29 @@ static int efa_create_pbl(struct efa_dev *dev,
- 	return 0;
- }
- 
--struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
--			 u64 virt_addr, int access_flags,
--			 struct ib_udata *udata)
-+static void efa_dmabuf_invalidate_cb(struct dma_buf_attachment *attach)
-+{
-+	WARN_ON_ONCE(1,
-+		     "Invalidate callback should not be called when memory is pinned\n");
-+}
-+
-+static struct dma_buf_attach_ops efa_dmabuf_attach_ops = {
-+	.allow_peer2peer = true,
-+	.move_notify = efa_dmabuf_invalidate_cb,
-+};
-+
-+static struct efa_mr *efa_alloc_mr(struct ib_pd *ibpd, int access_flags,
-+				   struct ib_udata *udata)
- {
- 	struct efa_dev *dev = to_edev(ibpd->device);
--	struct efa_com_reg_mr_params params = {};
--	struct efa_com_reg_mr_result result = {};
--	struct pbl_context pbl;
- 	int supp_access_flags;
--	unsigned int pg_sz;
- 	struct efa_mr *mr;
--	int inline_size;
--	int err;
- 
- 	if (udata && udata->inlen &&
- 	    !ib_is_udata_cleared(udata, 0, sizeof(udata->inlen))) {
- 		ibdev_dbg(&dev->ibdev,
- 			  "Incompatible ABI params, udata not cleared\n");
--		err = -EINVAL;
--		goto err_out;
-+		return ERR_PTR(-EINVAL);
- 	}
- 
- 	supp_access_flags =
-@@ -1522,23 +1527,26 @@ struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 		ibdev_dbg(&dev->ibdev,
- 			  "Unsupported access flags[%#x], supported[%#x]\n",
- 			  access_flags, supp_access_flags);
--		err = -EOPNOTSUPP;
--		goto err_out;
-+		return ERR_PTR(-EOPNOTSUPP);
- 	}
- 
- 	mr = kzalloc(sizeof(*mr), GFP_KERNEL);
--	if (!mr) {
--		err = -ENOMEM;
--		goto err_out;
--	}
-+	if (!mr)
-+		return ERR_PTR(-ENOMEM);
- 
--	mr->umem = ib_umem_get(ibpd->device, start, length, access_flags);
--	if (IS_ERR(mr->umem)) {
--		err = PTR_ERR(mr->umem);
--		ibdev_dbg(&dev->ibdev,
--			  "Failed to pin and map user space memory[%d]\n", err);
--		goto err_free;
--	}
-+	return mr;
-+}
-+
-+static int efa_register_mr(struct ib_pd *ibpd, struct efa_mr *mr, u64 start,
-+			   u64 length, u64 virt_addr, int access_flags)
-+{
-+	struct efa_dev *dev = to_edev(ibpd->device);
-+	struct efa_com_reg_mr_params params = {};
-+	struct efa_com_reg_mr_result result = {};
-+	struct pbl_context pbl;
-+	unsigned int pg_sz;
-+	int inline_size;
-+	int err;
- 
- 	params.pd = to_epd(ibpd)->pdn;
- 	params.iova = virt_addr;
-@@ -1549,10 +1557,9 @@ struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 				       dev->dev_attr.page_size_cap,
- 				       virt_addr);
- 	if (!pg_sz) {
--		err = -EOPNOTSUPP;
- 		ibdev_dbg(&dev->ibdev, "Failed to find a suitable page size in page_size_cap %#llx\n",
- 			  dev->dev_attr.page_size_cap);
--		goto err_unmap;
-+		return -EOPNOTSUPP;
- 	}
- 
- 	params.page_shift = order_base_2(pg_sz);
-@@ -1566,21 +1573,21 @@ struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 	if (params.page_num <= inline_size) {
- 		err = efa_create_inline_pbl(dev, mr, &params);
- 		if (err)
--			goto err_unmap;
-+			return err;
- 
- 		err = efa_com_register_mr(&dev->edev, &params, &result);
- 		if (err)
--			goto err_unmap;
-+			return err;
- 	} else {
- 		err = efa_create_pbl(dev, &pbl, mr, &params);
- 		if (err)
--			goto err_unmap;
-+			return err;
- 
- 		err = efa_com_register_mr(&dev->edev, &params, &result);
- 		pbl_destroy(dev, &pbl);
- 
- 		if (err)
--			goto err_unmap;
-+			return err;
- 	}
- 
- 	mr->ibmr.lkey = result.l_key;
-@@ -1588,9 +1595,98 @@ struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
- 	mr->ibmr.length = length;
- 	ibdev_dbg(&dev->ibdev, "Registered mr[%d]\n", mr->ibmr.lkey);
- 
-+	return 0;
-+}
-+
-+struct ib_mr *efa_reg_user_mr_dmabuf(struct ib_pd *ibpd, u64 start,
-+				     u64 length, u64 virt_addr,
-+				     int fd, int access_flags,
-+				     struct ib_udata *udata)
-+{
-+	struct efa_dev *dev = to_edev(ibpd->device);
-+	struct ib_umem_dmabuf *umem_dmabuf;
-+	struct efa_mr *mr;
-+	int err;
-+
-+	mr = efa_alloc_mr(ibpd, access_flags, udata);
-+	if (IS_ERR(mr)) {
-+		err = PTR_ERR(mr);
-+		goto err_out;
-+	}
-+
-+	umem_dmabuf = ib_umem_dmabuf_get(ibpd->device, start, length, fd,
-+					 access_flags, &efa_dmabuf_attach_ops);
-+	if (IS_ERR(umem_dmabuf)) {
-+		ibdev_dbg(&dev->ibdev, "Failed to get dmabuf[%d]\n", err);
-+		err = PTR_ERR(umem_dmabuf);
-+		goto err_free;
-+	}
-+
-+	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
-+	err = dma_buf_pin(umem_dmabuf->attach);
-+	if (err) {
-+		ibdev_dbg(&dev->ibdev, "Failed to pin dmabuf memory\n");
-+		goto err_release;
-+	}
-+
-+	err = ib_umem_dmabuf_map_pages(umem_dmabuf);
-+	if (err) {
-+		ibdev_dbg(&dev->ibdev, "Failed to map dmabuf pages\n");
-+		goto err_unpin;
-+	}
-+	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-+
-+	mr->umem = &umem_dmabuf->umem;
-+	err = efa_register_mr(ibpd, mr, start, length, virt_addr, access_flags);
-+	if (err)
-+		goto err_unmap;
-+
- 	return &mr->ibmr;
- 
- err_unmap:
-+	dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
-+	ib_umem_dmabuf_unmap_pages(umem_dmabuf);
-+err_unpin:
-+	dma_buf_unpin(umem_dmabuf->attach);
-+err_release:
-+	dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-+	ib_umem_release(mr->umem);
-+err_free:
-+	kfree(mr);
-+err_out:
-+	atomic64_inc(&dev->stats.reg_mr_err);
-+	return ERR_PTR(err);
-+}
-+
-+struct ib_mr *efa_reg_mr(struct ib_pd *ibpd, u64 start, u64 length,
-+			 u64 virt_addr, int access_flags,
-+			 struct ib_udata *udata)
-+{
-+	struct efa_dev *dev = to_edev(ibpd->device);
-+	struct efa_mr *mr;
-+	int err;
-+
-+	mr = efa_alloc_mr(ibpd, access_flags, udata);
-+	if (IS_ERR(mr)) {
-+		err = PTR_ERR(mr);
-+		goto err_out;
-+	}
-+
-+	mr->umem = ib_umem_get(ibpd->device, start, length, access_flags);
-+	if (IS_ERR(mr->umem)) {
-+		err = PTR_ERR(mr->umem);
-+		ibdev_dbg(&dev->ibdev,
-+			  "Failed to pin and map user space memory[%d]\n", err);
-+		goto err_free;
-+	}
-+
-+	err = efa_register_mr(ibpd, mr, start, length, virt_addr, access_flags);
-+	if (err)
-+		goto err_release;
-+
-+	return &mr->ibmr;
-+
-+err_release:
- 	ib_umem_release(mr->umem);
- err_free:
- 	kfree(mr);
-@@ -1603,6 +1699,7 @@ int efa_dereg_mr(struct ib_mr *ibmr, struct ib_udata *udata)
- {
- 	struct efa_dev *dev = to_edev(ibmr->device);
- 	struct efa_com_dereg_mr_params params;
-+	struct ib_umem_dmabuf *umem_dmabuf;
- 	struct efa_mr *mr = to_emr(ibmr);
- 	int err;
- 
-@@ -1613,6 +1710,15 @@ int efa_dereg_mr(struct ib_mr *ibmr, struct ib_udata *udata)
- 	if (err)
- 		return err;
- 
-+	if (mr->umem->is_dmabuf) {
-+		umem_dmabuf = to_ib_umem_dmabuf(mr->umem);
-+
-+		dma_resv_lock(umem_dmabuf->attach->dmabuf->resv, NULL);
-+		ib_umem_dmabuf_unmap_pages(umem_dmabuf);
-+		dma_buf_unpin(umem_dmabuf->attach);
-+		dma_resv_unlock(umem_dmabuf->attach->dmabuf->resv);
-+	}
-+
- 	ib_umem_release(mr->umem);
- 	kfree(mr);
- 
--- 
-2.33.0
+Am 07.10.21 um 12:42 schrieb Gal Pressman:
+> The pin callback does not necessarily have to move the memory to system
+> memory, remove the sentence from the comment.
+>
+> Signed-off-by: Gal Pressman <galpress@amazon.com>
+> ---
+>   include/linux/dma-buf.h | 4 +---
+>   1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index efdc56b9d95f..93830731a9a3 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -86,9 +86,7 @@ struct dma_buf_ops {
+>   	 * @pin:
+>   	 *
+>   	 * This is called by dma_buf_pin() and lets the exporter know that the
+> -	 * DMA-buf can't be moved any more. The exporter should pin the buffer
+> -	 * into system memory to make sure it is generally accessible by other
+> -	 * devices.
+
+Maybe change that to something like "Ideally the exporter should pin the 
+buffer so that it is generally accessible by all devices".
+
+Christian.
+
+> +	 * DMA-buf can't be moved any more.
+>   	 *
+>   	 * This is called with the &dmabuf.resv object locked and is mutual
+>   	 * exclusive with @cache_sgt_mapping.
 
