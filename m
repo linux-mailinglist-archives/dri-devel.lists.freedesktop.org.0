@@ -1,40 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F57542540C
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 15:27:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B14425583
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 16:33:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0FA406F49E;
-	Thu,  7 Oct 2021 13:26:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7359D6F4A5;
+	Thu,  7 Oct 2021 14:33:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 20FA26F49B
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 13:26:52 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10129"; a="206367350"
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; d="scan'208";a="206367350"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 06:26:51 -0700
-X-IronPort-AV: E=Sophos;i="5.85,354,1624345200"; d="scan'208";a="440264999"
-Received: from ibanaga-mobl.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
- ([10.249.254.250])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 06:26:50 -0700
-From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [RFC PATCH 2/2] drm/amdgpu: Use an rwsem for the notifier lock
-Date: Thu,  7 Oct 2021 15:26:30 +0200
-Message-Id: <20211007132630.495184-3-thomas.hellstrom@linux.intel.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20211007132630.495184-1-thomas.hellstrom@linux.intel.com>
-References: <20211007132630.495184-1-thomas.hellstrom@linux.intel.com>
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C167C6F64D
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 14:33:36 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 2A52F22415;
+ Thu,  7 Oct 2021 14:33:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1633617214; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0kPHCIwOi6yOaCscKFUvZxr3E139xXkUk3nwqYFUxz4=;
+ b=oKTEOQskEQU0aKd1HxqbqVqjt3iUS3Nt0AgXdS8uqgdHyXaGuufu39K5xwLiI8LNdcJ9tk
+ CVivdl4kq2hTgxNvydXSOuq52Udn8oCCUV0Eu/GSDwoGBL1BSXeBv4E9sFb36DTN8Cp23G
+ T1jbXNQmNVZS3rhYpZOve21YpD9ucog=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1633617214;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0kPHCIwOi6yOaCscKFUvZxr3E139xXkUk3nwqYFUxz4=;
+ b=QvzadQVxDJkNVrPvCNmNPMZ2FFnyLamTc7FUVMZMgbVYrDWXyFSH0uyCYiAqk4b7HcfO9r
+ NNldXwuAUnygTHBQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id F08D613CE5;
+ Thu,  7 Oct 2021 14:33:33 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AH60OT0FX2EmXAAAMHmgww
+ (envelope-from <tzimmermann@suse.de>); Thu, 07 Oct 2021 14:33:33 +0000
+Message-ID: <3353e013-6716-ea90-2eb1-8352279ed685@suse.de>
+Date: Thu, 7 Oct 2021 16:33:33 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.1
+Subject: Re: [PATCH v2] drm/hyperv: Fix double mouse pointers
+Content-Language: en-US
+To: Dexuan Cui <decui@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <20210916193644.45650-1-decui@microsoft.com>
+ <BYAPR21MB1270B4AB0AFC1668C9D9009FBFB09@BYAPR21MB1270.namprd21.prod.outlook.com>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+In-Reply-To: <BYAPR21MB1270B4AB0AFC1668C9D9009FBFB09@BYAPR21MB1270.namprd21.prod.outlook.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------EGwy7DhMFr9056g8B08VlDj0"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,154 +79,89 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Use an rwsem as the notifier lock, and take it in read mode during
-command submission.
-This avoids the device-wide serialization of command submission in
-the absence of userptr invalidations.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------EGwy7DhMFr9056g8B08VlDj0
+Content-Type: multipart/mixed; boundary="------------A2jFUXct9OonL9tnO0ep48x8";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Dexuan Cui <decui@microsoft.com>,
+ "drawat.floss@gmail.com" <drawat.floss@gmail.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, "airlied@linux.ie"
+ <airlied@linux.ie>, "daniel@ffwll.ch" <daniel@ffwll.ch>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
+Cc: "linux-hyperv@vger.kernel.org" <linux-hyperv@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Message-ID: <3353e013-6716-ea90-2eb1-8352279ed685@suse.de>
+Subject: Re: [PATCH v2] drm/hyperv: Fix double mouse pointers
+References: <20210916193644.45650-1-decui@microsoft.com>
+ <BYAPR21MB1270B4AB0AFC1668C9D9009FBFB09@BYAPR21MB1270.namprd21.prod.outlook.com>
+In-Reply-To: <BYAPR21MB1270B4AB0AFC1668C9D9009FBFB09@BYAPR21MB1270.namprd21.prod.outlook.com>
 
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h              |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c           | 12 ++++++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c       |  2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c           | 10 +++++-----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c          |  2 +-
- 6 files changed, 17 insertions(+), 13 deletions(-)
+--------------A2jFUXct9OonL9tnO0ep48x8
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index d356e329e6f8..04fec2299c02 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -1051,7 +1051,7 @@ struct amdgpu_device {
- 	struct rw_semaphore reset_sem;
- 	struct amdgpu_doorbell_index doorbell_index;
- 
--	struct mutex			notifier_lock;
-+	struct rw_semaphore		notifier_sem;
- 
- 	int asic_reset_res;
- 	struct work_struct		xgmi_reset_work;
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-index 2d6b2d77b738..14be51692539 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-@@ -2049,7 +2049,7 @@ static int update_invalid_user_pages(struct amdkfd_process_info *process_info,
- 
- 		/*
- 		 * FIXME: Cannot ignore the return code, must hold
--		 * notifier_lock
-+		 * notifier_sem in read mode.
- 		 */
- 		amdgpu_ttm_tt_get_user_pages_done(bo->tbo.ttm);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 0311d799a010..26f447c49bdd 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -1224,11 +1224,13 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 
- 	drm_sched_job_arm(&job->base);
- 
--	/* No memory allocation is allowed while holding the notifier lock.
-+	/* No memory allocation is allowed while holding the notifier sem.
- 	 * The lock is held until amdgpu_cs_submit is finished and fence is
- 	 * added to BOs.
- 	 */
--	mutex_lock(&p->adev->notifier_lock);
-+	r = down_read_interruptible(&p->adev->notifier_sem);
-+	if (r)
-+		goto error_notifier;
- 
- 	/* If userptr are invalidated after amdgpu_cs_parser_bos(), return
- 	 * -EAGAIN, drmIoctl in libdrm will restart the amdgpu_cs_ioctl.
-@@ -1288,13 +1290,15 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
- 	}
- 
- 	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
--	mutex_unlock(&p->adev->notifier_lock);
-+	up_read(&p->adev->notifier_sem);
- 
- 	return 0;
- 
- error_abort:
-+	up_read(&p->adev->notifier_sem);
-+
-+error_notifier:
- 	drm_sched_job_cleanup(&job->base);
--	mutex_unlock(&p->adev->notifier_lock);
- 
- error_unlock:
- 	amdgpu_job_free(job);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index 48089dc0180b..aa27b462152d 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -3476,7 +3476,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
- 	atomic_set(&adev->in_gpu_reset, 0);
- 	init_rwsem(&adev->reset_sem);
- 	mutex_init(&adev->psp.mutex);
--	mutex_init(&adev->notifier_lock);
-+	init_rwsem(&adev->notifier_sem);
- 
- 	r = amdgpu_device_init_apu_flags(adev);
- 	if (r)
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-index d3d340a6129c..e0b1b6e11bf5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_mn.c
-@@ -71,11 +71,11 @@ static bool amdgpu_mn_invalidate_gfx(struct mmu_interval_notifier *mni,
- 	if (!mmu_notifier_range_blockable(range))
- 		return false;
- 
--	mutex_lock(&adev->notifier_lock);
-+	down_write(&adev->notifier_sem);
- 
- 	mmu_interval_set_seq(mni, cur_seq);
- 
--	mutex_unlock(&adev->notifier_lock);
-+	up_write(&adev->notifier_sem);
- 
- 	r = dma_resv_wait_timeout(bo->tbo.base.resv, true, false,
- 				  MAX_SCHEDULE_TIMEOUT);
-@@ -108,12 +108,12 @@ static bool amdgpu_mn_invalidate_hsa(struct mmu_interval_notifier *mni,
- 	if (!mmu_notifier_range_blockable(range))
- 		return false;
- 
--	mutex_lock(&adev->notifier_lock);
-+	down_write(&adev->notifier_sem);
- 
- 	mmu_interval_set_seq(mni, cur_seq);
- 
- 	amdgpu_amdkfd_evict_userptr(bo->kfd_bo, bo->notifier.mm);
--	mutex_unlock(&adev->notifier_lock);
-+	up_write(&adev->notifier_sem);
- 
- 	return true;
- }
-@@ -215,7 +215,7 @@ int amdgpu_hmm_range_get_pages(struct mmu_interval_notifier *notifier,
- 	/*
- 	 * Due to default_flags, all pages are HMM_PFN_VALID or
- 	 * hmm_range_fault() fails. FIXME: The pages cannot be touched outside
--	 * the notifier_lock, and mmu_interval_read_retry() must be done first.
-+	 * the notifier_sem, and mmu_interval_read_retry() must be done first.
- 	 */
- 	for (i = 0; pages && i < npages; i++)
- 		pages[i] = hmm_pfn_to_page(pfns[i]);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-index 0cf94421665f..b2af53a05fb5 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-@@ -723,7 +723,7 @@ bool amdgpu_ttm_tt_get_user_pages_done(struct ttm_tt *ttm)
- 
- 	if (gtt->range) {
- 		/*
--		 * FIXME: Must always hold notifier_lock for this, and must
-+		 * FIXME: Must always hold notifier_sem for this, and must
- 		 * not ignore the return code.
- 		 */
- 		r = amdgpu_hmm_range_get_pages_done(gtt->range);
--- 
-2.31.1
+SGkNCg0KQW0gMDYuMTAuMjEgdW0gMjA6NDMgc2NocmllYiBEZXh1YW4gQ3VpOg0KPj4gRnJv
+bTogRGV4dWFuIEN1aSA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4NCj4+IFNlbnQ6IFRodXJzZGF5
+LCBTZXB0ZW1iZXIgMTYsIDIwMjEgMTI6MzcgUE0NCj4+IFRvOiBkcmF3YXQuZmxvc3NAZ21h
+aWwuY29tOyBIYWl5YW5nIFpoYW5nIDxoYWl5YW5nekBtaWNyb3NvZnQuY29tPjsNCj4+IGFp
+cmxpZWRAbGludXguaWU7IGRhbmllbEBmZndsbC5jaDsgdHppbW1lcm1hbm5Ac3VzZS5kZTsN
+Cj4+IGRyaS1kZXZlbEBsaXN0cy5mcmVlZGVza3RvcC5vcmcNCj4+IENjOiBsaW51eC1oeXBl
+cnZAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnOyBEZXh1
+YW4gQ3VpDQo+PiA8ZGVjdWlAbWljcm9zb2Z0LmNvbT4NCj4+IFN1YmplY3Q6IFtQQVRDSCB2
+Ml0gZHJtL2h5cGVydjogRml4IGRvdWJsZSBtb3VzZSBwb2ludGVycw0KPj4NCj4+IEh5cGVy
+LVYgc3VwcG9ydHMgYSBoYXJkd2FyZSBjdXJzb3IgZmVhdHVyZS4gSXQgaXMgbm90IHVzZWQg
+YnkgTGludXggVk0sDQo+PiBidXQgdGhlIEh5cGVyLVYgaG9zdCBzdGlsbCBkcmF3cyBhIHBv
+aW50IGFzIGFuIGV4dHJhIG1vdXNlIHBvaW50ZXIsDQo+PiB3aGljaCBpcyB1bndhbnRlZCwg
+ZXNwZWNpYWxseSB3aGVuIFhvcmcgaXMgcnVubmluZy4NCj4+DQo+PiBUaGUgaHlwZXJ2X2Zi
+IGRyaXZlciB1c2VzIHN5bnRodmlkX3NlbmRfcHRyKCkgdG8gaGlkZSB0aGUgdW53YW50ZWQg
+cG9pbnRlci4NCj4+IFdoZW4gdGhlIGh5cGVydl9kcm0gZHJpdmVyIHdhcyBkZXZlbG9wZWQs
+IHRoZSBmdW5jdGlvbiBzeW50aHZpZF9zZW5kX3B0cigpDQo+PiB3YXMgbm90IGNvcGllZCBm
+cm9tIHRoZSBoeXBlcnZfZmIgZHJpdmVyLiBGaXggdGhlIGlzc3VlIGJ5IGFkZGluZyB0aGUN
+Cj4+IGZ1bmN0aW9uIGludG8gaHlwZXJ2X2RybS4NCj4+DQo+PiBGaXhlczogNzZjNTZhNWFm
+ZmViICgiZHJtL2h5cGVydjogQWRkIERSTSBkcml2ZXIgZm9yIGh5cGVydiBzeW50aGV0aWMg
+dmlkZW8NCj4+IGRldmljZSIpDQo+PiBTaWduZWQtb2ZmLWJ5OiBEZXh1YW4gQ3VpIDxkZWN1
+aUBtaWNyb3NvZnQuY29tPg0KPj4gUmV2aWV3ZWQtYnk6IEhhaXlhbmcgWmhhbmcgPGhhaXlh
+bmd6QG1pY3Jvc29mdC5jb20+DQo+PiBSZXZpZXdlZC1ieTogRGVlcGFrIFJhd2F0IDxkcmF3
+YXQuZmxvc3NAZ21haWwuY29tPg0KPj4gLS0tDQo+Pg0KPj4gQ2hhbmdlcyBpbiB2MjoNCj4+
+IAlSZW5hbWVkIGh5cGVydl9zZW5kX3B0cigpIHRvIGh5cGVydl9oaWRlX2h3X3B0cigpLg0K
+Pj4gCUltcHJvdmVkIHRoZSBjb21tZW50cyBhbmQgdGhlIGdpdCBjb21taXQgbWVzc2FnZS4N
+Cj4+IAlBZGRlZCBSZXZpZXdlZC1ieSdzIGZyb20gSGFpeWFuZyBhbmQgRGVlcGFrLg0KPj4N
+Cj4+ICAgZHJpdmVycy9ncHUvZHJtL2h5cGVydi9oeXBlcnZfZHJtLmggICAgICAgICB8ICAx
+ICsNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2h5cGVydi9oeXBlcnZfZHJtX21vZGVzZXQuYyB8
+ICAxICsNCj4+ICAgZHJpdmVycy9ncHUvZHJtL2h5cGVydi9oeXBlcnZfZHJtX3Byb3RvLmMg
+ICB8IDU0DQo+PiArKysrKysrKysrKysrKysrKysrKy0NCj4+ICAgMyBmaWxlcyBjaGFuZ2Vk
+LCA1NSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBIaSBEUk0gbWFpbnRh
+aW5lcnMsDQo+IENvdWxkIHlvdSBwbGVhc2UgdGFrZSBhIGxvb2sgYXQgdGhlIHBhdGNoPw0K
+DQpJIHB1c2hlZCB0aGUgcGF0Y2ggaW50byBkcm0tbWlzYy1maXhlcy4gSXQgc2hvdWxkIHJl
+YWNoIHVwc3RyZWFtIHNvb25lZC4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMNCg0KPiANCj4g
+VGhhbmtzLA0KPiAtLSBEZXh1YW4NCj4gDQoNCi0tIA0KVGhvbWFzIFppbW1lcm1hbm4NCkdy
+YXBoaWNzIERyaXZlciBEZXZlbG9wZXINClNVU0UgU29mdHdhcmUgU29sdXRpb25zIEdlcm1h
+bnkgR21iSA0KTWF4ZmVsZHN0ci4gNSwgOTA0MDkgTsO8cm5iZXJnLCBHZXJtYW55DQooSFJC
+IDM2ODA5LCBBRyBOw7xybmJlcmcpDQpHZXNjaMOkZnRzZsO8aHJlcjogRmVsaXggSW1lbmTD
+tnJmZmVyDQo=
 
+--------------A2jFUXct9OonL9tnO0ep48x8--
+
+--------------EGwy7DhMFr9056g8B08VlDj0
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFfBT0FAwAAAAAACgkQlh/E3EQov+BU
+6RAAogq8ib94GKJSAb5fLjIAWDYEcz7t5jbbjVZcxQile7oAlI3/0/BBwkkN1qRD9ndt5+tIcIAF
+aouzdfU98LjJSpAT5E0KXQPRC7AdVAr37gPZPcEISrjzMFUCGAWKSjQbDCF4s+g8PmTdlaSITKl7
+oyNrRepbPtiXAAWOacpsfX2pHWQamGTpmxUckDVN03XU7y+xQZBt6atyH9VJtQJb5BxB4xLUKWKD
+xtyZN3rQSsl3H5AP2OEVePY/yqWToRy8MWDRqKd14jrfdm/wOJagZ+ewqoERo460z3LddzosbpRc
+SF1T7XBzP/XJc/reMN5t11GCYqEw7wFG016kjOthImQC6pbkDeb6oiiuU1wJ0F8dVi+vTeZi8CcA
+qdU+Zx8X4aDd9gsk5K9d1yIFs3usTKXpJZl3WQMJCRH7z62aXMrCI44uJUEoPSSEWW1kBAF4T+XK
+IjqBHM/xvHvzEszmL+yIOPc2kVmTmVwIPyEj00Ifa2ofTcWkOEw/fY2CiTFZnQr8YIphpEjtXkEG
+B7o9rmjNr6CcPjI5nFbWf6WEHMEXplrZrNoYH5GpOEocI1Nd6sLvp8f4zMjtgcSTEYEv+peLkXBh
+AJbPYXxGF1JBVO/w50at6+CVt10pHuEqetoDJFMtbBIR72wyLBbYnmJ+zv8vM5yRpxy8AhdtCTGI
+UxU=
+=vjnW
+-----END PGP SIGNATURE-----
+
+--------------EGwy7DhMFr9056g8B08VlDj0--
