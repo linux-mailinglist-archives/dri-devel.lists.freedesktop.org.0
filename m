@@ -1,37 +1,37 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4E4260C2
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 01:53:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F3E4260C3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 01:53:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 058166E865;
-	Thu,  7 Oct 2021 23:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7C54B6E513;
+	Thu,  7 Oct 2021 23:53:25 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 266296E513
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 23:53:21 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 9470D61073;
- Thu,  7 Oct 2021 23:53:19 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E39666E513
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 23:53:22 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5B33261029;
+ Thu,  7 Oct 2021 23:53:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633650801;
- bh=jksIvOFn2/rCWlNxNu5m9rT7B9CZ8nXVj1BG1YPjab0=;
+ s=k20201202; t=1633650802;
+ bh=hkB4BEfXrWvXzGMtu+X+7bqUSgo9sLVy1s0KrXgVH2A=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=aCxsApGdUtmhGm8cPOMtLzs60PMNG+lp+UeKb8U+Zf6h48CSfYaVXRTPuMEJCVndR
- lnTsLgXZaB32Uxxw5B88xLyDGbKtqx5gqU5cs4eFKCQy/y05S/gWOAwC6+2OnTLLj3
- pEnZem3pWDMBus0vQSzMkohX805Tv5XGar2qq3728lRfl2xT/go17ysQHf+Kr0nvRW
- 9JAcyyk44rWwH9ENpljdMbDVsWbL+DYqmGFwE3Uv7kHZ8IIbu1nept7dNTM8pHMEG/
- 0JQHxJ4cGqKdloj9ZE4NKTeNEB026+TUM3wYTzVBODzQUbIVQMVDTAFvGWeMRtPPhn
- cQcQipaKNP5Xg==
+ b=eX5Sgmoot9rVguCk4g/W1O5qMtTOuj831qunmbRk5J06aH9ctP1lgeojU0WNt7aU+
+ vKGuRxbDd7v5zHjQGwM2Sv+10MePrhlauARhQiHfQ2sQHIwJghKJrC1jFqhYTCIcfi
+ wScYKfgZOmk/oxvZODwRWDo4UoDEyl7FzZ1mlcEx4uZOBiKKhy1vXvpqrL8kG7DN8e
+ 93pzeUuoQQYNE/klrMtoKzSRYaLWhdmygL+VHH+Xh375pS8fy/eawadQ5YEUAhcVZA
+ Ka97RHYARPoMF3GHQZHhK6a2eGq+FMfgtVNPaNPe49EHWRNhumstgrKGdVCk3zJK+S
+ vR2MGOWEljqrw==
 From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 To: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>, Enric Balletbo Serra <eballetbo@gmail.com>
 Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linux-mediatek@lists.infradead.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Subject: [PATCH 2/5] Revert "drm/mediatek: Add cmdq_handle in mtk_crtc"
-Date: Fri,  8 Oct 2021 07:53:07 +0800
-Message-Id: <20211007235310.14626-3-chunkuang.hu@kernel.org>
+Subject: [PATCH 3/5] Revert "drm/mediatek: Detect CMDQ execution timeout"
+Date: Fri,  8 Oct 2021 07:53:08 +0800
+Message-Id: <20211007235310.14626-4-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20211007235310.14626-1-chunkuang.hu@kernel.org>
 References: <20211007235310.14626-1-chunkuang.hu@kernel.org>
@@ -52,7 +52,7 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This reverts commit bc9241be73d9b2b3bcb7033598521fd669639848.
+This reverts commit 8cdcb365342402fdeb664479b0a04e9debef8efb.
 
 Commit c1ec54b7b5af
 ("drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb")
@@ -66,94 +66,58 @@ So revert that patch and all the patches depend on that patch.
 Reported-by: Enric Balletbo Serra <eballetbo@gmail.com>
 Signed-off-by: Chun-Kuang Hu <chunkuang.hu@kernel.org>
 ---
- drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 28 +++++++++----------------
- 1 file changed, 10 insertions(+), 18 deletions(-)
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-index 9840b8d035dc..697c4dec1890 100644
+index 697c4dec1890..0cd5b9ed8956 100644
 --- a/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
 +++ b/drivers/gpu/drm/mediatek/mtk_drm_crtc.c
-@@ -54,7 +54,6 @@ struct mtk_drm_crtc {
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+@@ -55,7 +55,6 @@ struct mtk_drm_crtc {
  	struct mbox_client		cmdq_cl;
  	struct mbox_chan		*cmdq_chan;
--	struct cmdq_pkt			cmdq_handle;
  	u32				cmdq_event;
- 	u32				cmdq_vblank_cnt;
+-	u32				cmdq_vblank_cnt;
  #endif
-@@ -227,16 +226,19 @@ struct mtk_ddp_comp *mtk_drm_ddp_comp_for_plane(struct drm_crtc *crtc,
+ 
+ 	struct device			*mmsys_dev;
+@@ -270,7 +269,6 @@ static void ddp_cmdq_cb(struct mbox_client *cl, void *mssg)
+ 	struct mtk_drm_crtc *mtk_crtc = container_of(cl, struct mtk_drm_crtc, cmdq_cl);
+ 	struct cmdq_cb_data *data = mssg;
+ 
+-	mtk_crtc->cmdq_vblank_cnt = 0;
+ 	mtk_drm_cmdq_pkt_destroy(mtk_crtc->cmdq_chan, data->pkt);
+ }
+ #endif
+@@ -526,11 +524,6 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
+ 					    cmdq_handle->pa_base,
+ 					    cmdq_handle->cmd_buf_size,
+ 					    DMA_TO_DEVICE);
+-		/*
+-		 * CMDQ command should execute in next vblank,
+-		 * If it fail to execute in next 2 vblank, timeout happen.
+-		 */
+-		mtk_crtc->cmdq_vblank_cnt = 2;
+ 		mbox_send_message(mtk_crtc->cmdq_chan, cmdq_handle);
+ 		mbox_client_txdone(mtk_crtc->cmdq_chan, 0);
+ 	}
+@@ -547,14 +540,11 @@ static void mtk_crtc_ddp_irq(void *data)
+ 
+ #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+ 	if (!priv->data->shadow_register && !mtk_crtc->cmdq_chan)
+-		mtk_crtc_ddp_config(crtc, NULL);
+-	else if (mtk_crtc->cmdq_vblank_cnt > 0 && --mtk_crtc->cmdq_vblank_cnt == 0)
+-		DRM_ERROR("mtk_crtc %d CMDQ execute command timeout!\n",
+-			  drm_crtc_index(&mtk_crtc->base));
+ #else
+ 	if (!priv->data->shadow_register)
+-		mtk_crtc_ddp_config(crtc, NULL);
+ #endif
++		mtk_crtc_ddp_config(crtc, NULL);
++
+ 	mtk_drm_finish_page_flip(mtk_crtc);
  }
  
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
--static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_pkt *pkt,
--				    size_t size)
-+static struct cmdq_pkt *mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, size_t size)
- {
-+	struct cmdq_pkt *pkt;
- 	struct device *dev;
- 	dma_addr_t dma_addr;
- 
-+	pkt = kzalloc(sizeof(*pkt), GFP_KERNEL);
-+	if (!pkt)
-+		return ERR_PTR(-ENOMEM);
- 	pkt->va_base = kzalloc(size, GFP_KERNEL);
- 	if (!pkt->va_base) {
- 		kfree(pkt);
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 	}
- 	pkt->buf_size = size;
- 
-@@ -247,12 +249,12 @@ static int mtk_drm_cmdq_pkt_create(struct mbox_chan *chan, struct cmdq_pkt *pkt,
- 		dev_err(dev, "dma map failed, size=%u\n", (u32)(u64)size);
- 		kfree(pkt->va_base);
- 		kfree(pkt);
--		return -ENOMEM;
-+		return ERR_PTR(-ENOMEM);
- 	}
- 
- 	pkt->pa_base = dma_addr;
- 
--	return 0;
-+	return pkt;
- }
- 
- static void mtk_drm_cmdq_pkt_destroy(struct mbox_chan *chan, struct cmdq_pkt *pkt)
-@@ -475,7 +477,7 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
- 				       bool needs_vblank)
- {
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
--	struct cmdq_pkt *cmdq_handle = &mtk_crtc->cmdq_handle;
-+	struct cmdq_pkt *cmdq_handle;
- #endif
- 	struct drm_crtc *crtc = &mtk_crtc->base;
- 	struct mtk_drm_private *priv = crtc->dev->dev_private;
-@@ -515,7 +517,7 @@ static void mtk_drm_crtc_update_config(struct mtk_drm_crtc *mtk_crtc,
- #if IS_REACHABLE(CONFIG_MTK_CMDQ)
- 	if (mtk_crtc->cmdq_chan) {
- 		mbox_flush(mtk_crtc->cmdq_chan, 2000);
--		cmdq_handle->cmd_buf_size = 0;
-+		cmdq_handle = mtk_drm_cmdq_pkt_create(mtk_crtc->cmdq_chan, PAGE_SIZE);
- 		cmdq_pkt_clear_event(cmdq_handle, mtk_crtc->cmdq_event);
- 		cmdq_pkt_wfe(cmdq_handle, mtk_crtc->cmdq_event, false);
- 		mtk_crtc_ddp_config(crtc, cmdq_handle);
-@@ -910,16 +912,6 @@ int mtk_drm_crtc_create(struct drm_device *drm_dev,
- 				drm_crtc_index(&mtk_crtc->base));
- 			mbox_free_channel(mtk_crtc->cmdq_chan);
- 			mtk_crtc->cmdq_chan = NULL;
--		} else {
--			ret = mtk_drm_cmdq_pkt_create(mtk_crtc->cmdq_chan,
--						       &mtk_crtc->cmdq_handle,
--						       PAGE_SIZE);
--			if (ret) {
--				dev_dbg(dev, "mtk_crtc %d failed to create cmdq packet\n",
--					drm_crtc_index(&mtk_crtc->base));
--				mbox_free_channel(mtk_crtc->cmdq_chan);
--				mtk_crtc->cmdq_chan = NULL;
--			}
- 		}
- 	}
- #endif
 -- 
 2.25.1
 
