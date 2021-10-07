@@ -2,29 +2,26 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C906425F00
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A37A425F0D
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3DB976F4D7;
-	Thu,  7 Oct 2021 21:34:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E91B6F4DA;
+	Thu,  7 Oct 2021 21:34:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from relay08.th.seeweb.it (relay08.th.seeweb.it [5.144.164.169])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E8B436F4D4
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:04 +0000 (UTC)
+Received: from relay05.th.seeweb.it (relay05.th.seeweb.it
+ [IPv6:2001:4b7a:2000:18::166])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A56696F4D4
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:05 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 71B273E7BE;
- Thu,  7 Oct 2021 23:34:02 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id 5846E3E815;
+ Thu,  7 Oct 2021 23:34:03 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
-To: phone-devel@vger.kernel.org, Andy Gross <agross@kernel.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Rob Herring <robh+dt@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
- Jingoo Han <jingoohan1@gmail.com>
+To: phone-devel@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
  Konrad Dybcio <konrad.dybcio@somainline.org>,
@@ -32,15 +29,20 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Pavel Dubrova <pashadubrova@gmail.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Kiran Gunda <kgunda@codeaurora.org>, Bryan Wu <cooloney@gmail.com>,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-Subject: [PATCH v2 00/13] backlight: qcom-wled: fix and solidify handling of
- enabled-strings
-Date: Thu,  7 Oct 2021 23:33:47 +0200
-Message-Id: <20211007213400.258371-1-marijn.suijten@somainline.org>
+ Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Kiran Gunda <kgunda@codeaurora.org>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 01/13] backlight: qcom-wled: Validate enabled string
+ indices in DT
+Date: Thu,  7 Oct 2021 23:33:48 +0200
+Message-Id: <20211007213400.258371-2-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211007213400.258371-1-marijn.suijten@somainline.org>
+References: <20211007213400.258371-1-marijn.suijten@somainline.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -58,57 +60,50 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patchset fixes WLED's handling of enabled-strings: besides some
-cleanup it is now actually possible to specify a non-contiguous array of
-enabled strings (not necessarily starting at zero) and the values from
-DT are now validated to prevent possible unexpected out-of-bounds
-register and array element accesses.
-Off-by-one mistakes in the maximum number of strings, also causing
-out-of-bounds access, have been addressed as well.
+The strings passed in DT may possibly cause out-of-bounds register
+accesses and should be validated before use.
 
-Changes in v2:
-- Reordered patch 4/10 (Validate enabled string indices in DT) to sit
-  before patch 1/10 (Pass number of elements to read to read_u32_array);
-- Pulled qcom,num-strings out of the DT enumeration parser, and moved it
-  after qcom,enabled-strings parser to always have final sign-off over
-  the number of strings;
-- Extra validation for this number of strings against
-  qcom,enabled-strings;
-- Recombined patch 9 (Consistently use enabled-strings in
-  set_brightness) and patch 10 (Consider enabled_strings in
-  autodetection), which both solve the same problem in two different
-  functions.  In addition the autodetection code uses set_brightness as
-  helper already;
-- Improved DT configurations for pmi8994 and pm660l, currently in 5.15
-  rc's.
+Fixes: 775d2ffb4af6 ("backlight: qcom-wled: Restructure the driver for WLED3")
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+---
+ drivers/video/backlight/qcom-wled.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
-v1: https://lore.kernel.org/dri-devel/20211004192741.621870-1-marijn.suijten@somainline.org
-
-Marijn Suijten (13):
-  backlight: qcom-wled: Validate enabled string indices in DT
-  backlight: qcom-wled: Pass number of elements to read to
-    read_u32_array
-  backlight: qcom-wled: Use cpu_to_le16 macro to perform conversion
-  backlight: qcom-wled: Fix off-by-one maximum with default num_strings
-  backlight: qcom-wled: Override default length with
-    qcom,enabled-strings
-  backlight: qcom-wled: Remove unnecessary 4th default string in WLED3
-  backlight: qcom-wled: Provide enabled_strings default for WLED 4 and 5
-  backlight: qcom-wled: Remove unnecessary double whitespace
-  backlight: qcom-wled: Respect enabled-strings in set_brightness
-  arm64: dts: qcom: pmi8994: Fix "eternal"->"external" typo in WLED node
-  arm64: dts: qcom: pmi8994: Remove hardcoded linear WLED
-    enabled-strings
-  arm64: dts: qcom: Move WLED num-strings from pmi8994 to
-    sony-xperia-tone
-  arm64: dt: qcom: pm660l: Remove board-specific WLED configuration
-
- .../dts/qcom/msm8996-sony-xperia-tone.dtsi    |   1 +
- arch/arm64/boot/dts/qcom/pm660l.dtsi          |   7 -
- arch/arm64/boot/dts/qcom/pmi8994.dtsi         |   5 +-
- drivers/video/backlight/qcom-wled.c           | 131 ++++++++++--------
- 4 files changed, 73 insertions(+), 71 deletions(-)
-
---
+diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
+index d094299c2a48..8a42ed89c59c 100644
+--- a/drivers/video/backlight/qcom-wled.c
++++ b/drivers/video/backlight/qcom-wled.c
+@@ -1528,12 +1528,28 @@ static int wled_configure(struct wled *wled)
+ 	string_len = of_property_count_elems_of_size(dev->of_node,
+ 						     "qcom,enabled-strings",
+ 						     sizeof(u32));
+-	if (string_len > 0)
++	if (string_len > 0) {
++		if (string_len > wled->max_string_count) {
++			dev_err(dev, "Cannot have more than %d strings\n",
++				wled->max_string_count);
++			return -EINVAL;
++		}
++
+ 		of_property_read_u32_array(dev->of_node,
+ 						"qcom,enabled-strings",
+ 						wled->cfg.enabled_strings,
+ 						sizeof(u32));
+ 
++		for (i = 0; i < string_len; ++i) {
++			if (wled->cfg.enabled_strings[i] >= wled->max_string_count) {
++				dev_err(dev,
++					"qcom,enabled-strings index %d at %d is out of bounds\n",
++					wled->cfg.enabled_strings[i], i);
++				return -EINVAL;
++			}
++		}
++	}
++
+ 	return 0;
+ }
+ 
+-- 
 2.33.0
 
