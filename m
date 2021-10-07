@@ -2,54 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A828342527F
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 14:05:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 728F8425289
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 14:06:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DD7666F448;
-	Thu,  7 Oct 2021 12:05:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 701AC6F453;
+	Thu,  7 Oct 2021 12:06:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com
- [209.85.167.172])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B91E76F448
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 12:05:38 +0000 (UTC)
-Received: by mail-oi1-f172.google.com with SMTP id y201so8725379oie.3
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 05:05:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
- :message-id;
- bh=ZpeghEkpC1Pg3UdO1HwAb8FK9i7VWHQ5YdwnoplJxK8=;
- b=BZ2WR+5i4pUW0KaE5mgd86yJl8frz7hKlfVprAl2/waqf+fiSDa/gSGyLQXL0lJ84K
- hYcX6Tb8QWvWfTpI1L1YMeWBv4FZLDhqQT0iBjJIfjIjDroFXEQy/+bvf009SNm+Y/UY
- 9CufCJsiEEA8F8TgzlALPYqeDH3NcHqrB4gsW0ei6HQb7iJCJcVKQOJwC+Qrffk9bda8
- TRqeQHIxam1HBEXdz80avhpnFmw7fsQIhfoBz69wcXyiTS9r5ym+y+HSkSK/aCMlEWuf
- GmNlrejho7pzNqAOEPTwtrHm7eoFwxDHHR0KAVW1tzW5t7Dw7C/WnpFGE/DVvqoVExoe
- 8Hww==
-X-Gm-Message-State: AOAM5306hNg4D4Gqli6cEc4EB06EgpSeLrbZ1wsx734E/Oyk5M/lKCNu
- axXYWJlxHddiX4A2lk70RD1s9ivKEg==
-X-Google-Smtp-Source: ABdhPJzhiXeQo/eXhIOrAs7OPuhGigLU49G1jNhsaB5Ipypuu/N1nhLiSKgYOzsnVO0FqhVwFnc2ZQ==
-X-Received: by 2002:a05:6808:1248:: with SMTP id
- o8mr11034031oiv.151.1633608337744; 
- Thu, 07 Oct 2021 05:05:37 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id u26sm4655625oic.51.2021.10.07.05.05.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 05:05:37 -0700 (PDT)
-Received: (nullmailer pid 121522 invoked by uid 1000);
- Thu, 07 Oct 2021 12:05:36 -0000
-From: Rob Herring <robh@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-kernel@vger.kernel.org, daniel@ffwll.ch,
- dri-devel@lists.freedesktop.org, airlied@linux.ie, tomi.valkeinen@ti.com,
- robh+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20211006135150.504897-1-angelogioacchino.delregno@collabora.com>
-References: <20211006135150.504897-1-angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH] dt-bindings: display/bridge: tc358764: Convert to YAML
- binding
-Date: Thu, 07 Oct 2021 07:05:36 -0500
-Message-Id: <1633608336.190712.121521.nullmailer@robh.at.kernel.org>
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EEBEE6F453;
+ Thu,  7 Oct 2021 12:06:39 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 2965F3FFF1; 
+ Thu,  7 Oct 2021 12:06:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1633608398;
+ bh=SYNiC1Bmjm6dMpjE54zivbQWUBIDEpK4EbYx3DBOl5A=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=p/aatMn3SIjGyQjdVCdkZ4nhYhC4IGKSagUfPukEyC6l/0v/Y0IE2Jbl9ZoQQgUvC
+ 58G8vzG7iCDh/5exqkMslZHdTERoFzKyO3SKf1G9SwFYUWKsApHCVpJ8PtvORUHwvO
+ 5dglzIyZ89oTsAyD34QQLY5FcAK+IckxirfL8bXlbTwE6gdNNlkDHcKqRw5DVDCdVF
+ xj6XJ2c/Sce+YqkevoJup5cRPjkG55trVfljqscJt0GWNt4/yq1fW+WYOHTp3A0Rtr
+ RkoG5hvv/sDDeWbhODKRD2qGZzVPvJI+39Zf3EUtnic/FoEnk5u6geCUaRHlByUBNi
+ P5M3G6daKGvVg==
+From: Colin King <colin.king@canonical.com>
+To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Xinhui.Pan@amd.com, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/amd/display: Remove redundant initialization of
+ variable result
+Date: Thu,  7 Oct 2021 13:06:37 +0100
+Message-Id: <20211007120637.14459-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,31 +61,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, 06 Oct 2021 15:51:50 +0200, AngeloGioacchino Del Regno wrote:
-> Convert the Toshiba TC358764 txt documentation to YAML.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> ---
->  .../display/bridge/toshiba,tc358764.txt       | 35 -------
->  .../display/bridge/toshiba,tc358764.yaml      | 94 +++++++++++++++++++
->  2 files changed, 94 insertions(+), 35 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
-> 
+From: Colin Ian King <colin.king@canonical.com>
 
-Running 'make dtbs_check' with the schema in this patch gives the
-following warnings. Consider if they are expected or the schema is
-incorrect. These may not be new warnings.
+The variable result is being initialized with a value that is never
+read, it is being updated immediately afterwards in both branches
+of an if statement. The assignment is redundant and can be removed.
 
-Note that it is not yet a requirement to have 0 warnings for dtbs_check.
-This will change in the future.
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Full log is available here: https://patchwork.ozlabs.org/patch/1537162
-
-
-bridge@0: '#address-cells', '#size-cells', 'port@1' do not match any of the regexes: 'pinctrl-[0-9]+'
-	arch/arm/boot/dts/exynos5250-arndale.dt.yaml
-
-bridge@0: 'ports' is a required property
-	arch/arm/boot/dts/exynos5250-arndale.dt.yaml
+diff --git a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
+index 6936b9d549e5..8387767ec1b3 100644
+--- a/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
++++ b/drivers/gpu/drm/amd/display/dc/core/dc_link_dpia.c
+@@ -774,7 +774,7 @@ static enum link_training_result dpia_training_eq_phase(struct dc_link *link,
+ 		struct link_training_settings *lt_settings,
+ 		uint32_t hop)
+ {
+-	enum link_training_result result = LINK_TRAINING_EQ_FAIL_EQ;
++	enum link_training_result result;
+ 
+ 	if (link->lttpr_mode == LTTPR_MODE_NON_TRANSPARENT)
+ 		result = dpia_training_eq_non_transparent(link, lt_settings, hop);
+-- 
+2.32.0
 
