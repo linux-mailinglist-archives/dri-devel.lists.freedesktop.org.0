@@ -1,77 +1,65 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A9C425CE2
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 22:04:51 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E76B425D02
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 22:11:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 93C676E833;
-	Thu,  7 Oct 2021 20:04:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5A7C96F40C;
+	Thu,  7 Oct 2021 20:11:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com
- [IPv6:2607:f8b0:4864:20::22b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 558156E833
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 20:04:46 +0000 (UTC)
-Received: by mail-oi1-x22b.google.com with SMTP id a3so10603771oid.6
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 13:04:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=b/PqRzpyVtlyjPlyKdFSeiLQuecNKo6Y9AE2/S+px8k=;
- b=Gz1HykHmxh4Mw+C+mrzq4VdONjEqw2WqUmXkj/sl0682+oWXeTB16Z7j4DU8tWnawG
- DWdViQjJ8Zb6vlX/EQ8gHv4hJALqwCLdmp56xM9V4v9f3YNL6rMlTwD3Gkg6kkdE9oLh
- 1GkU8eqdf9bWmS5g37zYvXkzmj4p/au7g4khQ1Bw/uoOCJyjTt5mrgG+UMNxg9CE/m3Q
- oOQY15t0V2r0s2W5yx2x96o/sxor7RbbG/QW+WqIVk78j0VLwhXHZYOUS04yQhk5bqcS
- rbNGK+d10HBIjN+89UUsAyC+8qMRwLXgWQB9YTDEEBG8lAOnviAUMAniwnh6oWIPKGqE
- wcVw==
+Received: from mail-ot1-x335.google.com (mail-ot1-x335.google.com
+ [IPv6:2607:f8b0:4864:20::335])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 827526F40C
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 20:11:41 +0000 (UTC)
+Received: by mail-ot1-x335.google.com with SMTP id
+ 5-20020a9d0685000000b0054706d7b8e5so8969802otx.3
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 13:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=RQk4fZ8zAs/6aRjZB+mzOwZtqbl00fU4slehYKDsrqc=;
+ b=IHhVwmWPbTvQi99ZO+D11B1elyHaSTPHfBa98vxfDPsiU7ydHtTDkbfrw+5UWn2CIL
+ jQWGqK/pKPW/1iSVBTjlVxyLFQftacDlm45yTJ9znDdg0rSnqXGMOUPUD0Vmhi3yxtxK
+ BIPcL3MhLZC72XE6J3d8bsGziRr3hllyrkc1c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=b/PqRzpyVtlyjPlyKdFSeiLQuecNKo6Y9AE2/S+px8k=;
- b=NJqyMnskyqBOmIZQ95QVZxuir5H0XzZr7NrCdNFh16XqWle8X7SQGqaH9P6qLadDMs
- Emo86i5EzeNVJ8Yi6ayC9DRk/onNjEb6n/QaMTKQC46P8trdy3ldHeDeNNGBUmlwPIH8
- yp+lqkkYzDljSLZRYjGC/bKrdfnO/wyqFF8N3+qvM3WRK72dsd971FJIsa6xClDD7of8
- nF1BodYgkG07207frp5DPagg9ruvayKHIpftiG9p3eKDQ0NMLOeywSTyUkZq62pUE8vd
- HFmuhrrq7youjv3DYjvxD26yudaYZ2+DYuCozS9JN6l+qw8wtWuVTvyc0AsP9oleqaSh
- /D3A==
-X-Gm-Message-State: AOAM530laFNJgaTg5D2dqidM8MqKLnqQPlR03V8hKUWaTGO41XVrdw1d
- 92ArGUBwFDizF/fA3iCi4pEUxQ==
-X-Google-Smtp-Source: ABdhPJz1MsOchcTt/Fs6xxXAJt0IgIp9aBJPtFq+os4WRdFTdntvX2t+hBIxXWlByHNgz2w92qz+jw==
-X-Received: by 2002:a05:6808:15a3:: with SMTP id
- t35mr4684496oiw.92.1633637085537; 
- Thu, 07 Oct 2021 13:04:45 -0700 (PDT)
-Received: from ripper ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
- by smtp.gmail.com with ESMTPSA id l2sm95100otu.23.2021.10.07.13.04.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 07 Oct 2021 13:04:45 -0700 (PDT)
-Date: Thu, 7 Oct 2021 13:06:24 -0700
-From: Bjorn Andersson <bjorn.andersson@linaro.org>
-To: khsieh@codeaurora.org
-Cc: Stephen Boyd <swboyd@chromium.org>,
- Abhinav Kumar <abhinavk@codeaurora.org>,
- Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@linux.ie>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Sankeerth Billakanti <sbillaka@codeaurora.org>
-Subject: Re: [PATCH] drm/msm/dp: Shorten SETUP timeout
-Message-ID: <YV9TQEKPh4SXYFF/@ripper>
-References: <20211005023750.2037631-1-bjorn.andersson@linaro.org>
- <CAE-0n52wN1s=Ph4r4iLposxNPfa562Bv1mM81j1KvNmWOQS1-Q@mail.gmail.com>
- <YVzGVmJXEDH0HfIL@ripper>
- <CAE-0n53FC7JCCJoye_uKeqaLKrZeHXLtvObxWFedaUzjirmBaA@mail.gmail.com>
- <a4a4980e586a70e3b7de989bc61a3e33@codeaurora.org>
- <YV0FlTyMEzlyNsN9@ripper>
- <3dbe0fe48da88af9dee396a85b940e76@codeaurora.org>
- <YV3dddt/GOidTmlN@ripper>
- <9dc50145fb3e9b189fd38857b20f326a@codeaurora.org>
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=RQk4fZ8zAs/6aRjZB+mzOwZtqbl00fU4slehYKDsrqc=;
+ b=mcdkEtSAYZEZEpA+TPgF3/ZelFom6ENHjgIwIn/g7SrF6kUr34URWisIioPgl5a9CV
+ IK3dbTw7eXmQWeBQLjvlx0tz96YZwED4scxBHqdfFa09rKIKJQ5Z+1ZLQd6H0ZnErVyw
+ qKsnmm60AucquNhQG7v6//lES2ofPDDDkVRK2GRaVGy+kfKYI4lPwp/zv5kUr1mkIdVW
+ qCXxP3mcd4Uq+Ik8SdOw7cY9iDK/VL5osiCSCsd0moVrhj8F9ppW22wekPqAacQ7M3mu
+ 6YiOW6J507AcKHZKcQqqKQ37RwiCXkFDisgwdal5HH76iEsH5vUEND83y3PcH/cc2p6W
+ MNew==
+X-Gm-Message-State: AOAM531Wg0Bngk4vQFFUluC75/SEpstIIjiT7UVZ+GEmh/q0gzI+WGy0
+ YkCK+M2VqTST0Vff8b9K89nSeB5H8u0F5toBkeppUA==
+X-Google-Smtp-Source: ABdhPJw6F0cMIR3gHGSKrivUlJvz9nMPEORHTG5UDv1ab+eSfl1wmDgSWj65PdXu+FyfAhZ1Zixs1O4RRYobdhRF36Q=
+X-Received: by 2002:a9d:12f4:: with SMTP id g107mr1438053otg.77.1633637500801; 
+ Thu, 07 Oct 2021 13:11:40 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 Oct 2021 16:11:40 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9dc50145fb3e9b189fd38857b20f326a@codeaurora.org>
+In-Reply-To: <CAE-0n50YqKr1nKy-4WaxsfuwPiJ5kZcf46t-U_4i-TpfXzOX1g@mail.gmail.com>
+References: <20211006193819.2654854-1-swboyd@chromium.org>
+ <20211006193819.2654854-3-swboyd@chromium.org>
+ <CAGETcx9T59dHXodt9MW=tTV_hYhtNOZzYFT=35D--VN7WJ0GqQ@mail.gmail.com>
+ <CAE-0n50YqKr1nKy-4WaxsfuwPiJ5kZcf46t-U_4i-TpfXzOX1g@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 7 Oct 2021 16:11:40 -0400
+Message-ID: <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/34] component: Introduce the aggregate bus_type
+To: Saravana Kannan <saravanak@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,111 +75,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu 07 Oct 12:51 PDT 2021, khsieh@codeaurora.org wrote:
+Quoting Stephen Boyd (2021-10-07 11:40:07)
+> Quoting Saravana Kannan (2021-10-06 20:07:11)
+> > On Wed, Oct 6, 2021 at 12:38 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > > diff --git a/drivers/base/component.c b/drivers/base/component.c
+> > > index 0a41bbe14981..d99e99cabb99 100644
+> > > --- a/drivers/base/component.c
+> > > +++ b/drivers/base/component.c
+> [...]
+> > > +                       continue;
+> > > +
+> > > +               /* Matches put in component_del() */
+> > > +               get_device(&adev->dev);
+> > > +               c->link = device_link_add(&adev->dev, c->dev,
+> > > +                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+> >
+> > Remove the STATELESS flag and you'll get a bunch of other stuff done for free:
+>
+> I tried that and it didn't work for me. The aggregate device never
+> probed and I was left with no display. Let me see if I can reproduce it
+> with logging to provide more details.
 
-> On 2021-10-06 10:31, Bjorn Andersson wrote:
-> > On Wed 06 Oct 08:37 PDT 2021, khsieh@codeaurora.org wrote:
-> > 
-> > > On 2021-10-05 19:10, Bjorn Andersson wrote:
-> > > > On Tue 05 Oct 16:04 PDT 2021, khsieh@codeaurora.org wrote:
-> > > >
-> > > > > On 2021-10-05 15:36, Stephen Boyd wrote:
-> > > > > > Quoting Bjorn Andersson (2021-10-05 14:40:38)
-> > > > > > > On Tue 05 Oct 11:45 PDT 2021, Stephen Boyd wrote:
-> > > > > > >
-> > > > > > > > Quoting Bjorn Andersson (2021-10-04 19:37:50)
-> > > > > > > > > Found in the middle of a patch from Sankeerth was the reduction of the
-> > > > > > > > > INIT_SETUP timeout from 10s to 100ms. Upon INIT_SETUP timeout the host
-> > > > > > > > > is initalized and HPD interrupt start to be serviced, so in the case of
-> > > > > > > > > eDP this reduction improves the user experience dramatically - i.e.
-> > > > > > > > > removes 9.9s of bland screen time at boot.
-> > > > > > > > >
-> > > > > > > > > Suggested-by: Sankeerth Billakanti <sbillaka@codeaurora.org>
-> > > > > > > > > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> > > > > > > > > ---
-> > > > > > > >
-> > > > > > > > Any Fixes tag? BTW, the delay design is pretty convoluted. I had to go
-> > > > > > > > re-read the code a couple times to understand that it's waiting 100ms
-> > > > > > > > times the 'delay' number. Whaaaaat?
-> > > > > > > >
-> > > > > > >
-> > > > > > > I assume you're happy with the current 10s delay on the current
-> > > > > > > devices, so I don't think we should push for this to be backported.
-> > > > > > > I have no need for it to be backported on my side at least.
-> > > > > > >
-> > > > > >
-> > > > > > Sure. Fixes tag != backported to stable trees but it is close.
-> > > > > >
-> > > > > > > > Reviewed-by: Stephen Boyd <swboyd@chromium.org>
-> > > > > > >
-> > > > >   dp_add_event(dp, EV_HPD_INIT_SETUP, 0, 1); <== to 100ms
-> > > > >
-> > > > > This patch will prevent usb3 from working due to dp driver
-> > > > > initialize phy
-> > > > > earlier than usb3 which cause timeout error at power up usb3 phy
-> > > > > when both
-> > > > > edp and dp are enabled.
-> > > >
-> > > > Can you please help me understand what you mean here, I use this on my
-> > > > sc8180x with both eDP and USB-C/DP right now. What is it that doesn't
-> > > > work? Or am I just lucky in some race condition?
-> > > >
-> > > > Thanks,
-> > > > Bjorn
-> > > >
-> > > The problem is seen at sc7280.
-> > > Apple dongle have both  hdmi and usb port.
-> > > plug Apple dongle into type-c, then plug DP into apple's hdmi port
-> > > and usb
-> > > mouse into apple's usb port.
-> > > If edp enabled at this time, then usb mouse will not work due to
-> > > timeout at
-> > > phy power up.
-> > > 
-> > 
-> > Okay, so you're saying that if the DP driver invokes phy_power_on()
-> > before the USB driver does, USB initialization fails (or at least USB
-> > doesn't work)?
-> 
-> if dp driver call qcom_qmp_phy_init() before usb3 call qcom_qmp_phy_init(),
-> usb3 driver will timeout at readl_poll_timeout(status, val, (val & mask) ==
-> ready, 10, PHY_INIT_COMPLETE_TIMEOUT) of qcom_qmp_phy_power_on().
+This patch fixes it (whitespace damaged sorry).
 
-Thanks, I will try to reproduce this on my side. So the 10 seconds here
-is strictly to give good enough time for the dwc3 driver to probe...
+----8<----
+diff --git a/drivers/base/component.c b/drivers/base/component.c
+index 65042c9f8a42..43cac9ed70b7 100644
+--- a/drivers/base/component.c
++++ b/drivers/base/component.c
+@@ -202,7 +202,7 @@ static int find_components(struct aggregate_device *adev)
+ 		/* Matches put in component_del() */
+ 		get_device(&adev->dev);
+ 		c->link = device_link_add(&adev->dev, c->dev,
+-					  DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
++					  DL_FLAG_PM_RUNTIME);
+ 		c->adev = adev;
+ 	}
 
-Any idea why you're saying that this is specific to sc7280, what changed
-from sc7180?
+@@ -749,7 +749,9 @@ static int __component_add(struct device *dev,
+const struct component_ops *ops,
+ 	mutex_unlock(&component_mutex);
 
-> > 
-> > Sounds like something we need to work out in the QMP phy driver. Do you
-> > have any more details about what's going wrong.
-> > 
-> > 
-> > Also, I've seen various references to said "Apple dongle", do you have a
-> > link to the exact one you're testing with so I can pick one up for
-> > testing purposes as well?
-> 
-> Apple A2119 hdmi+usb dongle.
-> https://www.amazon.com/Apple-USB-C-Digital-Multiport-Adapter/dp/B07WF96FY5/ref=sr_1_2?dchild=1&keywords=apple+a2119&qid=1633636227&sr=8-2
-> 
+ 	/* Try to bind */
+-	return bus_rescan_devices(&aggregate_bus_type);
++	bus_rescan_devices(&aggregate_bus_type);
++
++	return 0;
+ }
 
-Thanks,
-Bjorn
+ /**
 
-> > 
-> > Regards,
-> > Bjorn
-> > 
-> > > > > I had prepared a patch (drm/msm/dp: do not initialize combo phy
-> > > > > until plugin
-> > > > > interrupt) to fix this problem.
-> > > > > Unfortunately, my patch is depend on Bjorn's patch (PATCH v3 3/5]
-> > > > > drm/msm/dp: Support up to 3 DP controllers).
-> > > > > I will submit my patch for review once Bjorn's patches merged in.
-> > > > > Therefore I would think this patch should go after both Bjorn's
-> > > > > patches and
-> > > > > my patch.
-> > > > >
-> > > > >
-> > > > >
+
+The important part is ignoring the return value of bus_rescan_devices().
+It's a cycle problem. The last component is probing and calling
+component_add() in its probe function. The call to component_add() is
+trying to probe the aggregate device now that all components are added.
+But when it tries to probe the aggregate device it sees that a supplier,
+which is this component calling compnent_add(), hasn't been probed yet,
+so it returns -EPROBE_DEFER. That is passed up to the component and it
+defers probe.
+
+I don't think the component device cares at all about the aggregate
+device being able to probe or not. We should be able to ignore the
+return value of bus_rescan_devices() in component_add(). I'll add a
+comment to the code here so it's more obvious.
