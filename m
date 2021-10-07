@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D33F425BA4
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 21:38:13 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D29D425BBA
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 21:38:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5D4966E02A;
-	Thu,  7 Oct 2021 19:38:05 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 507C56E83C;
+	Thu,  7 Oct 2021 19:38:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1DE5D6E02A;
- Thu,  7 Oct 2021 19:38:04 +0000 (UTC)
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailnew.west.internal (Postfix) with ESMTP id 67C112B0094F;
- Thu,  7 Oct 2021 15:38:01 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 09AC66E833;
+ Thu,  7 Oct 2021 19:38:07 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 1B17B2B009FD;
+ Thu,  7 Oct 2021 15:38:06 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Thu, 07 Oct 2021 15:38:02 -0400
+ by compute6.internal (MEProxy); Thu, 07 Oct 2021 15:38:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
- :to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm3; bh=6t8F0nLbX20nu7PWPH1NYpcD+G
- PaasA0AhXVP4bdQeg=; b=JbSx3GOKH7vNl/FpGltwtg3AZUy1DFEpk3vm8eY//O
- flkCLZKAm8pPdCWBAQZpW94diYSRzFrR3Q647227ZtfVDITndVrC7RiaroK/Jjlm
- BwHRKB6smGYnqEYFWJZsQA++pvidooGK2KnGD8HYTBvsubgAPl5Gt3A0wiI5B7CB
- SoB7I3zY9EOgCTDVQqmQdREcGqhIOZkuehrHlNKeXzMuoU6e6oLL9lTAgb+yG4y8
- wVBYEotGsHDBQkCD2/javESwZseMnfGAd3yswIhIHElKQ89y/6L3HgBtfKGiv3+J
- oCcAMPAlMBFivDABJIDrc0hfsmnAy5Npx4XFb4Qe/3VA==
+ :to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm3; bh=7drGizuMVrgy3
+ XtFLhWzlftyWemSxaP+r0ayB6xLFcI=; b=KvXB9xq8TlLHSJus6JCKqNaZADhq5
+ MVGaDsjNudk2fAZqlWlHUuSbMD2AAakw4R2HKYsN/iQED24zPjG/cMm9ZVOnE8jJ
+ noJBzjzkfRn+wrb0loh2pwrZaM+05IntAMTU4YIWChG2hTvAOyFQwpelsthUUeyg
+ FBqjf4QCwbGaeB7c4MyR9fOka2oMfQY+zPJ8mbFJy76cIG4qfDftlIDZMKLW9P2g
+ tLfsGVwHJeTUAEBRAjJvLL36WICGC6KiNGHD5kyy8JUVEMY63tUyzugmMjDRG4Hl
+ eYNUhswO1V5oEBE4a8+0Gd2MYKLFkEp8pmsSMQ+YHISSx6CxoD76w2lug==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=6t8F0nLbX20nu7PWP
- H1NYpcD+GPaasA0AhXVP4bdQeg=; b=iG6I+j5yTt5uTX97E5jqD+NlIyG1tt0Gr
- WqnzfiVN+ztTSf1Y5J5wz4lDegm2I4U73EJkRF0juBICjZOXvEq2YT2IzqeCuH4F
- DmCoOzxmZVfccL3VDC8zrG6zrTNH8IJW3gBC5SXzzouKm4+k7as2nUr0NgQ1ghpW
- p6Wj1b3v6t60FREAj0522MNCqEC1pqSPRt54NIkT6P045gBAkzIjiB0nw7KzZObL
- DvzAVvIVQVBdbSrpB4NfAcT5orhnGxNvF2H91HRBuAvrD42PZwqxas1zfPyCHk2O
- 8yTzX+huaav75fF7FcNQCcZn6yI0I4ZsCXYPNzi4QpqCCkvvmIQFA==
-X-ME-Sender: <xms:mExfYbwmvcaV46OjSqvV9VROtDRm8RPeRJcnHp2YmY_I9_KrjLJi2w>
- <xme:mExfYTSCnJSVph4UbD6EjE6C_hjJbxPf21ISFtthzvPfX4jcjegOPJ03svLjq-iAQ
- nn0EILsxqB7pDralA>
-X-ME-Received: <xmr:mExfYVWA7voDTH6AIU6RKfSH5j83Q8KMumChFhVVHZSXM-MVIXr1Jg6aVkjI9hZRptCB>
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=7drGizuMVrgy3XtFLhWzlftyWemSxaP+r0ayB6xLFcI=; b=nT9hFVt2
+ mc2sYTZLaOCw9Z7Kk5RCVO7eBRMoHclVehYvGhmyMkmQ5f726WohWcOM4Lh6epE4
+ 8fnNqkbksabDVCOtZDoCEo1UeuqKeXUXpJT0owneJXnL0kWNX6yBvECkF0Nbj3yA
+ 1ICIaB05UvWI/scUSfqE2JVBCGClTg7kVCvD957pNG3GXX0RFTvQZlcZJPZKgCP4
+ QMJ8sSOD61uR26xt0JR1noHpz1jprOA5xNztd5CjbTFWE0rD2f8FQU+JQK4QLsoP
+ M7lxQvBwR8n3je4PkI8RxoDALQEPY0+U3fG5CdI0PX0bmgX6Hkkkx2ZRorjN3mDl
+ R3FUVqqnMbtpRw==
+X-ME-Sender: <xms:nUxfYUxaTBgwdTjYG9xTc4jy7PjZPpS6izJdIgqIrwQ7XR_aQCfRnQ>
+ <xme:nUxfYYTWqF_slclXQ4eLhOW9pATKmLpRVrdsV5Nz5hqRgJ9zhYc0Op_XrByguoll7
+ b4Ubi9eA0o0egrsaA>
+X-ME-Received: <xmr:nUxfYWVGrpz9IuTgKvXhSUB-a_BzCwGI13qlpvrPXJDYb709tyIM5vMlI7JW7r8VXQdc>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelkedgudefjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
- ertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohes
- uhelvddrvghuqeenucggtffrrghtthgvrhhnpeegtdehgeduteehkeeugedtuedugfffhe
- fguedtudefvddtgeevudeuleegkeeitdenucffohhmrghinhepkhgvrhhnvghlrdhorhhg
- necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvg
- gvnhhfohhosehuledvrdgvuh
-X-ME-Proxy: <xmx:mExfYVhuGGjP9MEfT54i62c-DRcV6tdOSW8sUV78GTVjqd8TCcCvGg>
- <xmx:mExfYdDP7YrsM-FuWPRVLcD4rfVWdP-cu0HNBnrzPlDn6mt4jXGFJg>
- <xmx:mExfYeL3nESssM1W-pZKF0UTOQHTt8CUORKOamz4ZAu5OEtG9RzGxA>
- <xmx:mUxfYRvVBbxdR19es_j0r8Pto48kGjVLX3PU0iHxCySaTVM2IE0UHYE420c>
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
+ ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
+ ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:nUxfYSgjcgnn6GxQbYMqRjjZ8ZyRg3QBcAMVowrDcEnOjF3ROplG-Q>
+ <xmx:nUxfYWCsUubJmCzKEHWDKbMAxh6oBou_cHjcpgxYRW2MwJcvrfxnpQ>
+ <xmx:nUxfYTJBeAF_rZGm-ZxCw89KYhjCy0FPjUQ3x4C1-SxPipyWS3lJGA>
+ <xmx:nUxfYetddlX3vUf2ms7cvrzo2DnVqintbqj0N10dlq5vMp1IxYO2yk7C_8s>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Oct 2021 15:37:57 -0400 (EDT)
+ 7 Oct 2021 15:38:02 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,13 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v3 00/20] drm: cleanup: Use DRM_MODESET_LOCK_ALL_* helpers
-Date: Thu,  7 Oct 2021 21:37:35 +0200
-Message-Id: <20211007193755.29579-1-greenfoo@u92.eu>
+Subject: [PATCH v3 01/20] drm: cleanup: drm_modeset_lock_all_ctx() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Date: Thu,  7 Oct 2021 21:37:36 +0200
+Message-Id: <20211007193755.29579-2-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211007193755.29579-1-greenfoo@u92.eu>
+References: <20211007193755.29579-1-greenfoo@u92.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -83,110 +86,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi all,
+As requested in Documentation/gpu/todo.rst, replace the boilerplate code
+surrounding drm_modeset_lock_all_ctx() with DRM_MODESET_LOCK_ALL_BEGIN()
+and DRM_MODESET_LOCK_ALL_END()
 
-One of the things in the DRM TODO list ("Documentation/gpu/todo.rst") was to
-"use DRM_MODESET_LOCAL_ALL_* helpers instead of boilerplate". That's what this
-patch series is about.
+Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
+---
+ drivers/gpu/drm/drm_client_modeset.c | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-You will find two types of changes here:
-
-  - Replacing "drm_modeset_lock_all_ctx()" (and surrounding boilerplate) with
-    "DRM_MODESET_LOCK_ALL_BEGIN()/END()" in the remaining places (as it has
-    already been done in previous commits such as b7ea04d2)
-
-  - Replacing "drm_modeset_lock_all()" with "DRM_MODESET_LOCK_ALL_BEGIN()/END()"
-    in the remaining places (as it has already been done in previous commits
-    such as 57037094)
-    
-Most of the changes are straight forward, except for a few cases in the "amd"
-and "i915" drivers where some extra dancing was needed to overcome the
-limitation that the DRM_MODESET_LOCK_ALL_BEGIN()/END() macros can only be used
-once inside the same function (the reason being that the macro expansion
-includes *labels*, and you can not have two labels named the same inside one
-function)
-
-Notice that, even after this patch series, some places remain where
-"drm_modeset_lock_all()" and "drm_modeset_lock_all_ctx()" are still present,
-all inside drm core (which makes sense), except for two (in "amd" and "i915")
-which cannot be replaced due to the way they are being used.
-
-Changes in v2:
-  - Fix commit message typo
-  - Use the value returned by DRM_MODESET_LOCK_ALL_END when possible
-  - Split drm/i915 patch into two simpler ones
-  - Remove drm_modeset_(un)lock_all()
-  - Fix build problems in non-x86 platforms
-
-Changes in v3:
-  - Fix in drm/i915 driver to make sure global context is no longer used
-  - Fix in drm/amdgpu driver to make sure global context is no longer used
-  - Split amdgpu driver to make it easier to understand
-  - Remove acquire_ctx from drm_mode_config 
-  - Rebase on top of drm-tip
-  - WARNING: There is some discussion going on regarding whether the new macros
-    should be used (or not) in the i915 driver, as a different set of functions
-    has been proposed in the past (see here:
-    https://lore.kernel.org/dri-devel/YVriZxCeipBUgc8O@intel.com/).
-    In that case I will need to create a v4 where i915 files are left unchanged.
-    Let me know your thoughts regarding this.
-
-Fernando Ramos (20):
-  drm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/i915: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/msm: cleanup: drm_modeset_lock_all_ctx() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/vmwgfx: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/tegra: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/shmobile: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/radeon: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/omapdrm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/nouveau: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/msm: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
-  drm/i915: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
-  drm/gma500: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN()
-  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 2]
-  drm/amd: cleanup: drm_modeset_lock_all() --> DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
-  drm: cleanup: remove drm_modeset_(un)lock_all()
-  drm: cleanup: remove acquire_ctx from drm_mode_config
-
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c   | 21 +++--
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 59 ++++++------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 +-
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 25 ++---
- drivers/gpu/drm/drm_client_modeset.c          | 14 ++-
- drivers/gpu/drm/drm_crtc_helper.c             | 18 ++--
- drivers/gpu/drm/drm_fb_helper.c               | 10 +-
- drivers/gpu/drm/drm_framebuffer.c             |  6 +-
- drivers/gpu/drm/drm_modeset_lock.c            | 94 +------------------
- drivers/gpu/drm/gma500/psb_device.c           | 18 ++--
- drivers/gpu/drm/i915/display/intel_audio.c    | 16 ++--
- drivers/gpu/drm/i915/display/intel_display.c  | 25 ++---
- .../drm/i915/display/intel_display_debugfs.c  | 46 +++++----
- drivers/gpu/drm/i915/display/intel_overlay.c  | 46 ++++-----
- drivers/gpu/drm/i915/display/intel_pipe_crc.c |  7 +-
- drivers/gpu/drm/i915/i915_drv.c               | 13 ++-
- drivers/gpu/drm/msm/disp/dpu1/dpu_crtc.c      | 10 +-
- .../gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 +--
- drivers/gpu/drm/nouveau/dispnv50/disp.c       | 15 ++-
- drivers/gpu/drm/omapdrm/omap_fb.c             |  9 +-
- drivers/gpu/drm/radeon/radeon_device.c        | 21 +++--
- drivers/gpu/drm/radeon/radeon_dp_mst.c        | 10 +-
- drivers/gpu/drm/shmobile/shmob_drm_drv.c      |  6 +-
- drivers/gpu/drm/tegra/dsi.c                   |  6 +-
- drivers/gpu/drm/tegra/hdmi.c                  |  6 +-
- drivers/gpu/drm/tegra/sor.c                   | 11 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_ioctl.c         | 11 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_kms.c           | 12 ++-
- include/drm/drm_mode_config.h                 | 10 --
- include/drm/drm_modeset_lock.h                |  2 -
- 30 files changed, 272 insertions(+), 290 deletions(-)
-
-
-base-commit: 58a206ae5bf2f81a11e4408d10a3e1b445d6eebb
+diff --git a/drivers/gpu/drm/drm_client_modeset.c b/drivers/gpu/drm/drm_client_modeset.c
+index ced09c7c06f9..5f5184f071ed 100644
+--- a/drivers/gpu/drm/drm_client_modeset.c
++++ b/drivers/gpu/drm/drm_client_modeset.c
+@@ -574,6 +574,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 	int num_connectors_detected = 0;
+ 	int num_tiled_conns = 0;
+ 	struct drm_modeset_acquire_ctx ctx;
++	int err;
+ 
+ 	if (!drm_drv_uses_atomic_modeset(dev))
+ 		return false;
+@@ -585,10 +586,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 	if (!save_enabled)
+ 		return false;
+ 
+-	drm_modeset_acquire_init(&ctx, 0);
+-
+-	while (drm_modeset_lock_all_ctx(dev, &ctx) != 0)
+-		drm_modeset_backoff(&ctx);
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, err);
+ 
+ 	memcpy(save_enabled, enabled, count);
+ 	mask = GENMASK(count - 1, 0);
+@@ -743,8 +741,7 @@ static bool drm_client_firmware_config(struct drm_client_dev *client,
+ 		ret = false;
+ 	}
+ 
+-	drm_modeset_drop_locks(&ctx);
+-	drm_modeset_acquire_fini(&ctx);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, err);
+ 
+ 	kfree(save_enabled);
+ 	return ret;
 -- 
 2.33.0
 
