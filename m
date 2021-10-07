@@ -1,69 +1,36 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60E27425097
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 12:00:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 02A1142511E
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 12:34:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D73E66E86A;
-	Thu,  7 Oct 2021 10:00:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BABA36F3F2;
+	Thu,  7 Oct 2021 10:33:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com
- [IPv6:2a00:1450:4864:20::52b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B65356E86A;
- Thu,  7 Oct 2021 10:00:28 +0000 (UTC)
-Received: by mail-ed1-x52b.google.com with SMTP id dj4so20934362edb.5;
- Thu, 07 Oct 2021 03:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=NhTwke3cjte7Q3JaE9315Dm9DORgiyRheed7dlQcA5k=;
- b=YEvw3uf0kuSFOYZXk/LhkZId/z8jm7kiMEyq8Hsjs8jEdsRu8N17mjVwUl01DQNQSW
- 2LQXFr7cTVmbPPetCmESbNPv4IrHmUSJADoAqW/PVx5YYvY2SjDCAiOC9WKeKXBJsn+m
- vncyO7Tgq5gzaU4sSd4MgaVDdAtzKSrT6+XyFuGxkxAKFlPYweWtSHvwWwV0cwKRaZU2
- zzXlMw+AXt2ok4gZZi3ky1eghYnVLij9phuiZGAF7e3aLYYV1XdSFQ+UH2sRHnP9hPEH
- 1wiGbcMJDwK0eBkFFUDsAXFtcxgguEbEMOB8Yu+cg13Y5SYe52o39o56t3xGu1qx7Z01
- o8Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=NhTwke3cjte7Q3JaE9315Dm9DORgiyRheed7dlQcA5k=;
- b=1lxGHwK7uhkYpMF6AeWg+Gl20Pv0kD6xrMjb0BrOo7Y6Z8rAxl2F9xSAIDB6RFoWkH
- RFErJ0a8miy8P5g7dD5OQb1/P5Crjahd6pYLXC2uA0c5G2bIwKt+E/pjPwebXhB25FLr
- KGrALbJJK2rRwUdIq1J0DY00yhz4NfKVJlAqxs85onFgba1PNn3Wj8VSHXw+QUeVITV8
- sIHP+MwMHighCo5/vlCjMAf3p9o650AYy+WZ3KAeQEMA14P6YytbO+viSlJ/rl0jjicX
- +lU698wm9FFFrjDKdwIJkyIWj8CBI1XFxEPkj4YmMr0v56cj/XRS4nZg29cac5u+Vd6c
- DSYg==
-X-Gm-Message-State: AOAM531qXxLFuz6edr6IxMMAvF9GQHlfJ2P1mS5/vGu5Qb7KDUq7R+JC
- DKN8a1r0Moi9oVCFsJJq1T6qqbgXS5SEhkT66CDtju8Z6Rsi/A==
-X-Google-Smtp-Source: ABdhPJy3fEYEnFVIoHwOYfSV4ZicID4dTC0aDt6NA0cHi71Cx6Nk5betWseW3wPPuggsizOS1YwDJSlM/crjwUXRsTk=
-X-Received: by 2002:a17:906:7c4:: with SMTP id
- m4mr4503713ejc.553.1633600827094; 
- Thu, 07 Oct 2021 03:00:27 -0700 (PDT)
+X-Greylist: delayed 1799 seconds by postgrey-1.36 at gabe;
+ Thu, 07 Oct 2021 09:11:07 UTC
+Received: from mail.sig21.net (mail.sig21.net [217.197.84.222])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 216E96F3D6;
+ Thu,  7 Oct 2021 09:11:07 +0000 (UTC)
+Received: from localhorst ([127.0.0.1])
+ by mail.sig21.net with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.92) (envelope-from <js@sig21.net>)
+ id 1mYNnG-0002cz-OH ; Thu, 07 Oct 2021 09:26:18 +0200
+Received: from js by abc.local with local (Exim 4.95)
+ (envelope-from <js@sig21.net>) id 1mYNmw-0002lc-Fm;
+ Thu, 07 Oct 2021 09:25:58 +0200
+Date: Thu, 7 Oct 2021 09:25:58 +0200
+From: Johannes Stezenbach <js@sig21.net>
+To: Javier Martinez Canillas <javierm@redhat.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: [bisected] suspend broken by DRM fbdev name change on i915 IVB
+Message-ID: <YV6hBl5ybMxm5Dln@sig21.net>
 MIME-Version: 1.0
-References: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
- <20211004143650.699120-2-tvrtko.ursulin@linux.intel.com>
- <562d45e1-4a27-3252-f615-3ab1ef531f2b@huawei.com>
- <CAGsJ_4w5Y4=v93YmTrXJ6hDgjKshxiAZ-ox-Nz_7uRwe4ECtdw@mail.gmail.com>
- <8381e87d-ef7f-4759-569b-f6dabeb02939@linux.intel.com>
- <CAGsJ_4wF1SmDL6eoEXRB-NwGLALkwhj9wLC5JKaQJpaQx1=5ZA@mail.gmail.com>
- <382a4bd5-bb74-5928-be67-afbdc7aa3663@linux.intel.com>
- <6818e34e-d41c-67b7-85dd-76d2e47bc078@linux.intel.com>
-In-Reply-To: <6818e34e-d41c-67b7-85dd-76d2e47bc078@linux.intel.com>
-From: Barry Song <21cnbao@gmail.com>
-Date: Thu, 7 Oct 2021 23:00:15 +1300
-Message-ID: <CAGsJ_4zr7JAMCqgw7PqvRzc=haCzDVpsi7cyWXKHRG2H4MdPfw@mail.gmail.com>
-Subject: Re: [RFC 1/8] sched: Add nice value change notifier
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc: "Wanghui (John)" <john.wanghui@huawei.com>, Intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, LKML <linux-kernel@vger.kernel.org>, 
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailman-Approved-At: Thu, 07 Oct 2021 10:33:58 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,168 +46,109 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 7, 2021 at 10:09 PM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 07/10/2021 09:50, Tvrtko Ursulin wrote:
-> >
-> > On 06/10/2021 21:21, Barry Song wrote:
-> >> On Thu, Oct 7, 2021 at 2:44 AM Tvrtko Ursulin
-> >> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>
-> >>>
-> >>> Hi,
-> >>>
-> >>> On 06/10/2021 08:58, Barry Song wrote:
-> >>>> On Wed, Oct 6, 2021 at 5:15 PM Wanghui (John)
-> >>>> <john.wanghui@huawei.com> wrote:
-> >>>>>
-> >>>>> HI Tvrtko
-> >>>>>
-> >>>>> On 2021/10/4 22:36, Tvrtko Ursulin wrote:
-> >>>>>>     void set_user_nice(struct task_struct *p, long nice)
-> >>>>>>     {
-> >>>>>>         bool queued, running;
-> >>>>>> -     int old_prio;
-> >>>>>> +     int old_prio, ret;
-> >>>>>>         struct rq_flags rf;
-> >>>>>>         struct rq *rq;
-> >>>>>>
-> >>>>>> @@ -6915,6 +6947,9 @@ void set_user_nice(struct task_struct *p,
-> >>>>>> long nice)
-> >>>>>>
-> >>>>>>     out_unlock:
-> >>>>>>         task_rq_unlock(rq, p, &rf);
-> >>>>>> +
-> >>>>>> +     ret =3D atomic_notifier_call_chain(&user_nice_notifier_list,
-> >>>>>> nice, p);
-> >>>>>> +     WARN_ON_ONCE(ret !=3D NOTIFY_DONE);
-> >>>>>>     }
-> >>>>> How about adding a new "io_nice" to task_struct=EF=BC=8Cand move th=
-e call
-> >>>>> chain to
-> >>>>> sched_setattr/getattr, there are two benefits:
-> >>>>
-> >>>> We already have an ionice for block io scheduler. hardly can this
-> >>>> new io_nice
-> >>>> be generic to all I/O. it seems the patchset is trying to link
-> >>>> process' nice with
-> >>>> GPU's scheduler, to some extent, it makes more senses than having a
-> >>>> common ionice because we have a lot of IO devices in the systems, we
-> >>>> don't
-> >>>> know which I/O the ionice of task_struct should be applied to.
-> >>>>
-> >>>> Maybe we could have an ionice dedicated for GPU just like ionice for
-> >>>> CFQ
-> >>>> of bio/request scheduler.
-> >>>
-> >>> Thought crossed my mind but I couldn't see the practicality of a 3rd
-> >>> nice concept. I mean even to start with I struggle a bit with the
-> >>> usefulness of existing ionice vs nice. Like coming up with practical
-> >>> examples of usecases where it makes sense to decouple the two
-> >>> priorities.
-> >>>
-> >>>   From a different angle I did think inheriting CPU nice makes sense =
-for
-> >>> GPU workloads. This is because today, and more so in the future,
-> >>> computations on a same data set do flow from one to the other.
-> >>>
-> >>> Like maybe a simple example of batch image processing where CPU decod=
-es,
-> >>> GPU does a transform and then CPU encodes. Or a different mix, doesn'=
-t
-> >>> really matter, since the main point it is one computing pipeline from
-> >>> users point of view.
-> >>>
-> >>
-> >> I am on it. but I am also seeing two problems here:
-> >> 1. nice is not global in linux. For example, if you have two cgroups,
-> >> cgroup A
-> >> has more quota then cgroup B. Tasks in B won't win even if it has a
-> >> lower nice.
-> >> cgroups will run proportional-weight time-based division of CPU.
-> >>
-> >> 2. Historically, we had dynamic nice which was adjusted based on the
-> >> average
-> >> sleep/running time; right now, we don't have dynamic nice, but virtual
-> >> time
-> >> still make tasks which sleep more preempt other tasks with the same ni=
-ce
-> >> or even lower nice.
-> >> virtual time +=3D physical time/weight by nice
-> >> so, static nice number doesn't always make sense to decide preemption.
-> >>
-> >> So it seems your patch only works under some simple situation for exam=
-ple
-> >> no cgroups, tasks have similar sleep/running time.
-> >
-> > Yes, I broadly agree with your assessment. Although there are plans for
-> > adding cgroup support to i915 scheduling, I doubt as fine grained
-> > control and exact semantics as there are on the CPU side will happen.
-> >
-> > Mostly because the drive seems to be for more micro-controller managed
-> > scheduling which adds further challenges in connecting the two sides
-> > together.
-> >
-> > But when you say it is a problem, I would characterize it more a
-> > weakness in terms of being only a subset of possible control. It is
-> > still richer (better?) than what currently exists and as demonstrated
-> > with benchmarks in my cover letter it can deliver improvements in user
-> > experience. If in the mid term future we can extend it with cgroup
-> > support then the concept should still apply and get closer to how you
-> > described nice works in the CPU world.
-> >
-> > Main question in my mind is whether the idea of adding the
-> > sched_attr/priority notifier to the kernel can be justified. Because as
-> > mentioned before, everything apart from adjusting currently running GPU
-> > jobs could be done purely in userspace. Stack changes would be quite
-> > extensive and all, but that is not usually a good enough reason to put
-> > something in the kernel. That's why it is an RFC an invitation to discu=
-ss.
-> >
-> > Even ionice inherits from nice (see task_nice_ioprio()) so I think
-> > argument can be made for drivers as well.
->
-> Now that I wrote this, I had a little bit of a light bulb moment. If I
-> abandon the idea of adjusting the priority of already submitted work
-> items, then I can do much of what I want purely from within the confines
-> of i915.
->
-> I simply add code to inherit from current task nice on every new work
-> item submission. This should probably bring the majority of the benefit
-> I measured.
+Hi,
 
-I think the idea makes sense to link the process's priority with the GPU's
-scheduler. I have no doubt about this.
-My question is more of what is the best way to implement this.
+yesterday I updated the kernel from 5.13.7 to 5.14.9 and found
+it broke suspend-to-RAM. The machine displays a few messages on
+text console after resume but hangs when switching to X11.
 
-Android has bg_non_interactive cgroup with much lower weight for
-background processes. interactive tasks, on the other hand, are placed
-in another cgroup with much higer weight. So Android depends on
-cgroup to improve user experience.
+The hardware: Asus P8H77-V with Intel Core i5-3550 CPU,
+display connected via DP.
 
-Chrome browser in your cover-letter uses nice to de-prioritise background
-tabs.  this works perfectly as the whole chrome should be in the same
-cgroup, so changing nice will improve/decrease the resource gotten by
-tasks in this cgroup. But once we have two cgroups,  bringing this nice
-belonging to the cgroup  to the global scheduler of GPU will somehow
-break the aim.
+  DP1 connected primary 1920x1200+0+0 (normal left inverted right x axis y axis) 520mm x 320mm
+     1920x1200     59.95*+
 
-For example, if we have two cgroup A and B
-/sys/fs/cgroup/cpu$ sudo sh -c 'echo 4096 > A/cpu.shares'
-/sys/fs/cgroup/cpu$ sudo sh -c 'echo 512 > B/cpu.shares'
+I bisected it and the offending commit is the totally unlikely
+and innocent looking
 
-task in B with lower nice will get more GPU than task in A. But actually A =
-group
-has 8X weight of B. So the result seems wrong. especially real users like
-Android does depend on cgroup.
-I don't know how to overcome this "weakness", it seems not easy.
+  commit b3484d2b03e4c940a9598aa841a52d69729c582a
+  Author: Javier Martinez Canillas <javierm@redhat.com>
+  Date:   Tue May 25 17:13:13 2021 +0200
 
->
-> Regards,
->
-> Tvrtko
+    drm/fb-helper: improve DRM fbdev emulation device names
 
-Thanks
-barry
+Now I'm running 5.14.9 with this commit reverted and
+suspend works.
+
+In /var/log/kern.log I found this on suspend:
+
+[   34.002252][ T3455] ------------[ cut here ]------------
+[   34.002256][ T3455] i915 0000:00:02.0: drm_WARN_ON((intel_de_read(dev_priv, intel_dp->output_reg) & (1 << 31)) == 0)
+[   34.002274][ T3455] WARNING: CPU: 0 PID: 3455 at drivers/gpu/drm/i915/display/g4x_dp.c:431 intel_dp_link_down.isra.0+0x2e7/0x390
+[   34.002285][ T3455] Modules linked in: kvm_intel kvm irqbypass ehci_pci xhci_pci ehci_hcd xhci_hcd
+[   34.002304][ T3455] CPU: 0 PID: 3455 Comm: kworker/u8:27 Not tainted 5.14.9 #29
+[   34.002309][ T3455] Hardware name: System manufacturer System Product Name/P8H77-V, BIOS 1905 10/27/2014
+[   34.002312][ T3455] Workqueue: events_unbound async_run_entry_fn
+[   34.002320][ T3455] RIP: 0010:intel_dp_link_down.isra.0+0x2e7/0x390
+[   34.002326][ T3455] Code: 4c 8b 67 50 4d 85 e4 75 03 4c 8b 27 e8 d2 19 05 00 48 c7 c1 e8 53 8c 88 4c 89 e2 48 c7 c7 7b 83 89 88 48 89 c6 e8 d1 d0 52 00 <0f> 0b 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 49 8b 7d 08 4c
+[   34.002330][ T3455] RSP: 0018:ffffaa1dc1be3a88 EFLAGS: 00010282
+[   34.002335][ T3455] RAX: 0000000000000000 RBX: ffffa15a45f28000 RCX: 0000000000000000
+[   34.002338][ T3455] RDX: 0000000000000001 RSI: ffffffff8714af2f RDI: ffffffff8714af2f
+[   34.002341][ T3455] RBP: 0000000080180344 R08: 00000007eab15173 R09: 0000000000000001
+[   34.002344][ T3455] R10: 0000000000080000 R11: 0000000000000000 R12: ffffa15a40f87180
+[   34.002347][ T3455] R13: ffffa15a464e0000 R14: ffffa15a593c6000 R15: 0000000000000001
+[   34.002350][ T3455] FS:  0000000000000000(0000) GS:ffffa15d4f800000(0000) knlGS:0000000000000000
+[   34.002354][ T3455] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   34.002357][ T3455] CR2: 000056000d53cf60 CR3: 000000015fa2a006 CR4: 00000000001706f0
+[   34.002361][ T3455] Call Trace:
+[   34.002373][ T3455]  g4x_post_disable_dp+0x2e/0x110
+[   34.002380][ T3455]  intel_encoders_post_disable+0x73/0x80
+[   34.002391][ T3455]  ilk_crtc_disable+0x96/0x3a0
+[   34.002402][ T3455]  intel_old_crtc_state_disables+0x5c/0x110
+[   34.002412][ T3455]  intel_atomic_commit_tail+0xdcc/0x1410
+[   34.002434][ T3455]  intel_atomic_commit+0x332/0x3b0
+[   34.002443][ T3455]  drm_atomic_helper_disable_all+0x175/0x190
+[   34.002453][ T3455]  drm_atomic_helper_suspend+0xa6/0x200
+[   34.002474][ T3455]  intel_display_suspend+0x23/0x50
+[   34.002480][ T3455]  i915_drm_suspend+0x42/0xe0
+[   34.002488][ T3455]  pci_pm_suspend+0x74/0x160
+[   34.002496][ T3455]  ? pci_pm_freeze+0xb0/0xb0
+[   34.002500][ T3455]  dpm_run_callback+0x6f/0x170
+[   34.002512][ T3455]  __device_suspend+0x110/0x4b0
+[   34.002521][ T3455]  async_suspend+0x1b/0x90
+[   34.002529][ T3455]  async_run_entry_fn+0x2e/0x110
+[   34.002535][ T3455]  process_one_work+0x2c9/0x550
+[   34.002551][ T3455]  worker_thread+0x4f/0x3e0
+[   34.002556][ T3455]  ? rescuer_thread+0x340/0x340
+[   34.002563][ T3455]  kthread+0x14a/0x170
+[   34.002569][ T3455]  ? set_kthread_struct+0x40/0x40
+[   34.002578][ T3455]  ret_from_fork+0x22/0x30
+[   34.002600][ T3455] ---[ end trace 2058ff589e8cbd78 ]---
+
+and after resume:
+
+[   44.513409][    C0] i915 0000:00:02.0: [drm] *ERROR* uncleared pch fifo underrun on pch transcoder A
+[   44.514557][    C0] i915 0000:00:02.0: [drm] *ERROR* PCH transcoder A FIFO underrun
+[   54.997256][ T3520] [drm:drm_atomic_helper_wait_for_flip_done] *ERROR* [CRTC:45:pipe A] flip_done timed out
+
+
+Scratching my head about it I found one hint in
+/usr/lib/pm-utils/sleep.d/98video-quirk-db-handler:
+
+ using_kms() { grep -q -E '(nouveau|drm)fb' /proc/fb; }
+
+So the ABI change in /proc/fb causes the pm-utils scripts to
+skip the --quirk-no-chvt and apply other quirks,
+/var/log/pm-suspend.log says:
+
+  Running hook /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler suspend suspend:
+  No quirk database entry for this system, using default.
+  /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler suspend suspend: success.
+  
+  Running hook /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler resume suspend:
+  Saving last known working quirks: --quirk-vbe-post --quirk-dpms-on
+                              --quirk-dpms-suspend --quirk-vbestate-restore
+                              --quirk-vbemode-restore --quirk-vga-mode-3
+  /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler resume suspend: success.
+
+whereas in the normal case it's
+
+  Running hook /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler suspend suspend:
+  Kernel modesetting video driver detected, not using quirks.
+  /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler suspend suspend: success.
+  
+  Running hook /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler resume suspend:
+  /usr/lib/pm-utils/sleep.d/98video-quirk-db-handler resume suspend: success.
+
+
+Johannes
