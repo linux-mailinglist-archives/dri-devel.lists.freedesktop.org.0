@@ -1,25 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1E29425F0A
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A30F425F23
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 23:34:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0E3286F4D4;
-	Thu,  7 Oct 2021 21:34:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B7BAC6F4E1;
+	Thu,  7 Oct 2021 21:34:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from m-r2.th.seeweb.it (m-r2.th.seeweb.it
- [IPv6:2001:4b7a:2000:18::171])
- by gabe.freedesktop.org (Postfix) with ESMTPS id BEE536F4DA
- for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:06 +0000 (UTC)
+Received: from relay06.th.seeweb.it (relay06.th.seeweb.it [5.144.164.167])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1EEE66F4DD
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 21:34:08 +0000 (UTC)
 Received: from Marijn-Arch-PC.localdomain
  (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by m-r2.th.seeweb.it (Postfix) with ESMTPSA id EB24B3E883;
- Thu,  7 Oct 2021 23:34:04 +0200 (CEST)
+ by m-r2.th.seeweb.it (Postfix) with ESMTPSA id B6AA83E908;
+ Thu,  7 Oct 2021 23:34:05 +0200 (CEST)
 From: Marijn Suijten <marijn.suijten@somainline.org>
 To: phone-devel@vger.kernel.org
 Cc: ~postmarketos/upstreaming@lists.sr.ht,
@@ -29,16 +28,19 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht,
  Jami Kettunen <jami.kettunen@somainline.org>,
  Pavel Dubrova <pashadubrova@gmail.com>,
  Marijn Suijten <marijn.suijten@somainline.org>,
- Daniel Thompson <daniel.thompson@linaro.org>,
  Andy Gross <agross@kernel.org>,
  Bjorn Andersson <bjorn.andersson@linaro.org>,
- Lee Jones <lee.jones@linaro.org>, Jingoo Han <jingoohan1@gmail.com>,
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 03/13] backlight: qcom-wled: Use cpu_to_le16 macro to
- perform conversion
-Date: Thu,  7 Oct 2021 23:33:50 +0200
-Message-Id: <20211007213400.258371-4-marijn.suijten@somainline.org>
+ Lee Jones <lee.jones@linaro.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>,
+ Courtney Cavin <courtney.cavin@sonymobile.com>,
+ Bryan Wu <cooloney@gmail.com>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH v2 04/13] backlight: qcom-wled: Fix off-by-one maximum with
+ default num_strings
+Date: Thu,  7 Oct 2021 23:33:51 +0200
+Message-Id: <20211007213400.258371-5-marijn.suijten@somainline.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211007213400.258371-1-marijn.suijten@somainline.org>
 References: <20211007213400.258371-1-marijn.suijten@somainline.org>
@@ -59,87 +61,121 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The kernel already provides appropriate primitives to perform endianness
-conversion which should be used in favour of manual bit-wrangling.
+When not specifying num-strings in the DT the default is used, but +1 is
+added to it which turns WLED3 into 4 and WLED4/5 into 5 strings instead
+of 3 and 4 respectively, causing out-of-bounds reads and register
+read/writes.  This +1 exists for a deficiency in the DT parsing code,
+and is simply omitted entirely - solving this oob issue - by parsing the
+property separately much like qcom,enabled-strings.
 
+This also allows more stringent checks on the maximum value when
+qcom,enabled-strings is provided in the DT.  Note that num-strings is
+parsed after enabled-strings to give it final sign-off over the length,
+which DT currently utilizes to get around an incorrect fixed read of
+four elements from that array (has been addressed in a prior patch).
+
+Fixes: 93c64f1ea1e8 ("leds: add Qualcomm PM8941 WLED driver")
 Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
-Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+Reviewed-By: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
 ---
- drivers/video/backlight/qcom-wled.c | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ drivers/video/backlight/qcom-wled.c | 51 +++++++++++------------------
+ 1 file changed, 19 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/video/backlight/qcom-wled.c b/drivers/video/backlight/qcom-wled.c
-index d413b913fef3..977cd75827d7 100644
+index 977cd75827d7..c5232478a343 100644
 --- a/drivers/video/backlight/qcom-wled.c
 +++ b/drivers/video/backlight/qcom-wled.c
-@@ -231,14 +231,14 @@ struct wled {
- static int wled3_set_brightness(struct wled *wled, u16 brightness)
+@@ -1253,21 +1253,6 @@ static const struct wled_var_cfg wled5_ovp_cfg = {
+ 	.size = 16,
+ };
+ 
+-static u32 wled3_num_strings_values_fn(u32 idx)
+-{
+-	return idx + 1;
+-}
+-
+-static const struct wled_var_cfg wled3_num_strings_cfg = {
+-	.fn = wled3_num_strings_values_fn,
+-	.size = 3,
+-};
+-
+-static const struct wled_var_cfg wled4_num_strings_cfg = {
+-	.fn = wled3_num_strings_values_fn,
+-	.size = 4,
+-};
+-
+ static u32 wled3_switch_freq_values_fn(u32 idx)
  {
- 	int rc, i;
--	u8 v[2];
-+	u16 v;
+ 	return 19200 / (2 * (1 + idx));
+@@ -1341,11 +1326,6 @@ static int wled_configure(struct wled *wled)
+ 			.val_ptr = &cfg->switch_freq,
+ 			.cfg = &wled3_switch_freq_cfg,
+ 		},
+-		{
+-			.name = "qcom,num-strings",
+-			.val_ptr = &cfg->num_strings,
+-			.cfg = &wled3_num_strings_cfg,
+-		},
+ 	};
  
--	v[0] = brightness & 0xff;
--	v[1] = (brightness >> 8) & 0xf;
-+	v = cpu_to_le16(brightness & WLED3_SINK_REG_BRIGHT_MAX);
+ 	const struct wled_u32_opts wled4_opts[] = {
+@@ -1369,11 +1349,6 @@ static int wled_configure(struct wled *wled)
+ 			.val_ptr = &cfg->switch_freq,
+ 			.cfg = &wled3_switch_freq_cfg,
+ 		},
+-		{
+-			.name = "qcom,num-strings",
+-			.val_ptr = &cfg->num_strings,
+-			.cfg = &wled4_num_strings_cfg,
+-		},
+ 	};
  
- 	for (i = 0;  i < wled->cfg.num_strings; ++i) {
- 		rc = regmap_bulk_write(wled->regmap, wled->ctrl_addr +
--				       WLED3_SINK_REG_BRIGHT(i), v, 2);
-+				       WLED3_SINK_REG_BRIGHT(i),
-+				       &v, sizeof(v));
- 		if (rc < 0)
- 			return rc;
+ 	const struct wled_u32_opts wled5_opts[] = {
+@@ -1397,11 +1372,6 @@ static int wled_configure(struct wled *wled)
+ 			.val_ptr = &cfg->switch_freq,
+ 			.cfg = &wled3_switch_freq_cfg,
+ 		},
+-		{
+-			.name = "qcom,num-strings",
+-			.val_ptr = &cfg->num_strings,
+-			.cfg = &wled4_num_strings_cfg,
+-		},
+ 		{
+ 			.name = "qcom,modulator-sel",
+ 			.val_ptr = &cfg->mod_sel,
+@@ -1520,8 +1490,6 @@ static int wled_configure(struct wled *wled)
+ 			*bool_opts[i].val_ptr = true;
  	}
-@@ -249,19 +249,18 @@ static int wled3_set_brightness(struct wled *wled, u16 brightness)
- static int wled4_set_brightness(struct wled *wled, u16 brightness)
- {
- 	int rc, i;
--	u16 low_limit = wled->max_brightness * 4 / 1000;
--	u8 v[2];
-+	u16 v, low_limit = wled->max_brightness * 4 / 1000;
  
- 	/* WLED4's lower limit of operation is 0.4% */
- 	if (brightness > 0 && brightness < low_limit)
- 		brightness = low_limit;
- 
--	v[0] = brightness & 0xff;
--	v[1] = (brightness >> 8) & 0xf;
-+	v = cpu_to_le16(brightness & WLED3_SINK_REG_BRIGHT_MAX);
- 
- 	for (i = 0;  i < wled->cfg.num_strings; ++i) {
- 		rc = regmap_bulk_write(wled->regmap, wled->sink_addr +
--				       WLED4_SINK_REG_BRIGHT(i), v, 2);
-+				       WLED4_SINK_REG_BRIGHT(i),
-+				       &v, sizeof(v));
- 		if (rc < 0)
- 			return rc;
+-	cfg->num_strings = cfg->num_strings + 1;
+-
+ 	string_len = of_property_count_elems_of_size(dev->of_node,
+ 						     "qcom,enabled-strings",
+ 						     sizeof(u32));
+@@ -1552,6 +1520,25 @@ static int wled_configure(struct wled *wled)
+ 		}
  	}
-@@ -272,22 +271,20 @@ static int wled4_set_brightness(struct wled *wled, u16 brightness)
- static int wled5_set_brightness(struct wled *wled, u16 brightness)
- {
- 	int rc, offset;
--	u16 low_limit = wled->max_brightness * 1 / 1000;
--	u8 v[2];
-+	u16 v, low_limit = wled->max_brightness * 1 / 1000;
  
- 	/* WLED5's lower limit is 0.1% */
- 	if (brightness < low_limit)
- 		brightness = low_limit;
- 
--	v[0] = brightness & 0xff;
--	v[1] = (brightness >> 8) & 0x7f;
-+	v = cpu_to_le16(brightness & WLED5_SINK_REG_BRIGHT_MAX_15B);
- 
- 	offset = (wled->cfg.mod_sel == MOD_A) ?
- 		  WLED5_SINK_REG_MOD_A_BRIGHTNESS_LSB :
- 		  WLED5_SINK_REG_MOD_B_BRIGHTNESS_LSB;
- 
- 	rc = regmap_bulk_write(wled->regmap, wled->sink_addr + offset,
--			       v, 2);
-+			       &v, sizeof(v));
- 	return rc;
++	rc = of_property_read_u32(dev->of_node, "qcom,num-strings", &val);
++	if (!rc) {
++		if (val < 1 || val > wled->max_string_count) {
++			dev_err(dev, "qcom,num-strings must be between 1 and %d\n",
++				wled->max_string_count);
++			return -EINVAL;
++		}
++
++		if (string_len > 0) {
++			dev_warn(dev, "qcom,num-strings and qcom,enabled-strings are ambiguous\n");
++			if (val > string_len) {
++				dev_err(dev, "qcom,num-strings exceeds qcom,enabled-strings\n");
++				return -EINVAL;
++			}
++		}
++
++		cfg->num_strings = val;
++	}
++
+ 	return 0;
  }
  
 -- 
