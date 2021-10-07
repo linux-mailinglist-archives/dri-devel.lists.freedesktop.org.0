@@ -2,92 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89546424A77
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 01:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8869B424B66
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 02:53:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 22C5F6E56D;
-	Wed,  6 Oct 2021 23:21:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 378726E5C5;
+	Thu,  7 Oct 2021 00:53:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 15CFA6E56D
- for <dri-devel@lists.freedesktop.org>; Wed,  6 Oct 2021 23:21:36 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id r19so15908807lfe.10
- for <dri-devel@lists.freedesktop.org>; Wed, 06 Oct 2021 16:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a/ql+r46Ame/CsYV0fgunPq11GmpNhDml+WxJj5qjlw=;
- b=JKm7LKBrYq3LrZ9P4TjFV0xnEVV5oFhCjO8jq6QK7r2sFfCeLaVeWur8vvLPj+bcOK
- 3ijaiGyLljSMAfPZa/VEYRjgPnOewdTfLJQxCvN+JoRDS0HLgzZ/q74pg+AjPcazOz5n
- Ojaq8PwZPy62kphplYEz4vipCog/VV6Km3G5D02Il8G/wXPvM3NBBGINMv+/vd2EsRW/
- ycYWRLlWm7GUP5avwqaptqbxeuw3LLjZMY0lQri8idx3TDLJaVfHQvWlFwviTkzmJ6Bh
- ZAj2Z9AxhyKDP0C7wPQxPxv1LVpnFliUedydnUalNZFKZFx7963POwxq1miRructAR4w
- QIgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a/ql+r46Ame/CsYV0fgunPq11GmpNhDml+WxJj5qjlw=;
- b=4mqSoFmGph0TUGLdN30o098dCgxstgNA9kn9renS154Q9Gaff1q89Obkg0M0LE3HgI
- wxjyctlwY6yZ00PeGkmzY8GvrDJgaBWhobmWv9nzFGzWsVP4HLjufQTj5DziLckOY/Hr
- XoOsvXlZQL+mj7O0ju1rCezNKLB9bdelsJXPLSmuiezbD2fbG2WzyyN4BQG0DpNatNZD
- y6djklmTJ2pIRXVRcnvn3492ULsH32rN/3IfSgfT7RHNpF7C8JzpGR+2WmaEo7tSloA0
- lH6ZfOIJgLt4n+qtBkRrbCl/Q3CIfJL23G+VULx5COQA/EyKbZUPPDYVgBuQXIwi0eTp
- PFOQ==
-X-Gm-Message-State: AOAM533PJ3mWQZGMSNB+ccnU+OtKUrub/jxbqAEpJh+st+s9I5oPLmuD
- lQMfwFhIj4t97vVUNdj5G8Y=
-X-Google-Smtp-Source: ABdhPJw1nzydLMDqpraN/PkeCiCqMRjExYJnqaQOWQLneLDJ9G5wjD+HFXU5hLbNfgyv+WR4nF9vzQ==
-X-Received: by 2002:a2e:8858:: with SMTP id z24mr902852ljj.203.1633562494365; 
- Wed, 06 Oct 2021 16:21:34 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-163-57.dynamic.spd-mgts.ru.
- [79.139.163.57])
- by smtp.googlemail.com with ESMTPSA id 9sm2377459ljo.78.2021.10.06.16.21.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 06 Oct 2021 16:21:34 -0700 (PDT)
-Subject: Re: [PATCH v13 06/35] clk: tegra: Support runtime PM and power domain
-From: Dmitry Osipenko <digetx@gmail.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- Jonathan Hunter <jonathanh@nvidia.com>, Viresh Kumar <vireshk@kernel.org>,
- Stephen Boyd <sboyd@kernel.org>, Peter De Schrijver
- <pdeschrijver@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>,
- Peter Chen <peter.chen@kernel.org>, Lee Jones <lee.jones@linaro.org>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Nishanth Menon <nm@ti.com>, Adrian Hunter <adrian.hunter@intel.com>,
- Michael Turquette <mturquette@baylibre.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- linux-tegra <linux-tegra@vger.kernel.org>,
- Linux PM <linux-pm@vger.kernel.org>,
- Linux USB List <linux-usb@vger.kernel.org>, linux-staging@lists.linux.dev,
- linux-pwm@vger.kernel.org, linux-mmc <linux-mmc@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- DTML <devicetree@vger.kernel.org>, linux-clk <linux-clk@vger.kernel.org>,
- Mark Brown <broonie@kernel.org>, Vignesh Raghavendra <vigneshr@ti.com>,
- Richard Weinberger <richard@nod.at>,
- Miquel Raynal <miquel.raynal@bootlin.com>, Lucas Stach <dev@lynxeye.de>,
- Stefan Agner <stefan@agner.ch>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- David Heidelberg <david@ixit.cz>
-References: <20210926224058.1252-1-digetx@gmail.com>
- <20210926224058.1252-7-digetx@gmail.com>
- <CAPDyKFq+LS4Jr1GyC-a-tGWPzGH0JxfJ9wKY=uQEBGYm952azw@mail.gmail.com>
- <24101cd6-d3f5-1e74-db39-145ecd30418b@gmail.com>
- <CAPDyKFreK7976PJL-1zySoza_yXM7rMQ64aODWUZ+U3L-uCa0w@mail.gmail.com>
- <4bdba8a2-4b9b-ed7d-e6ca-9218d8200a85@gmail.com>
- <74a47158-e2e4-5fd0-3f37-0b50d4ead4d9@gmail.com>
- <CAPDyKFr2-f1wM+6jF9vWJ-Nq80Zg1Z3qFP6saULOrBi1270HGw@mail.gmail.com>
- <b06bf794-b8b3-417b-58ef-4d815ca86c95@gmail.com>
- <4c7b1a4c-c136-3650-8f77-9f98caa506f7@gmail.com>
-Message-ID: <2dd6bffc-9817-f4b1-0b92-f82f22fcf79a@gmail.com>
-Date: Thu, 7 Oct 2021 02:21:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+Received: from bombadil.infradead.org (bombadil.infradead.org
+ [IPv6:2607:7c80:54:e::133])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 440926E5C1
+ for <dri-devel@lists.freedesktop.org>; Thu,  7 Oct 2021 00:53:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=ObkHVuygR1MWUSVNqUghO5lJjpIVaNYJHto7C1tku98=; b=TZ2JYyRRjk1qjDDPT8KiRUOAvw
+ 5qHZ94m3SEcov4PXCg1ekjNOx0CwjVMyJzPnXbh/9MbqpNpRWK7ZPhw/Tk0/Cik+1Y6cyVyIxg0CI
+ zVvScf7iQfFsn7bVufxomoszpo4evII6vbwRbHpmY5P7e6RGrmTrw4d1XPewDO76IPNhQw0yBrznX
+ WghCm4gUD3AofAkGWU71qHPIwVNx3d0D2RAykLq8/WGkP/mWr46zEUToV8ON/e4zBkQCz2bss7dWB
+ Vm5VEgJOkIZUtN+evNUfh9sEyUj3Q/b08fXSIWSVI7qbRrof7t2bwxxiQss5fpPNSQhmy/4H/lG6j
+ 2v+kCEjg==;
+Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
+ by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1mYHek-00FwHH-OC; Thu, 07 Oct 2021 00:53:06 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>,
+ =?UTF-8?q?Ville=20Syrj=C3=A4l=C3=A4?= <ville.syrjala@linux.intel.com>,
+ Boris Brezillon <boris.brezillon@bootlin.com>,
+ Derek Basehore <dbasehore@chromium.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH -next] drm/connector: fix all kernel-doc warnings
+Date: Wed,  6 Oct 2021 17:53:05 -0700
+Message-Id: <20211007005305.15171-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <4c7b1a4c-c136-3650-8f77-9f98caa506f7@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -104,85 +59,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-07.10.2021 01:01, Dmitry Osipenko пишет:
-> 07.10.2021 00:14, Dmitry Osipenko пишет:
->> 06.10.2021 15:43, Ulf Hansson пишет:
->>> On Wed, 6 Oct 2021 at 00:43, Dmitry Osipenko <digetx@gmail.com> wrote:
->>>>
->>>> 06.10.2021 01:19, Dmitry Osipenko пишет:
->>>> ...
->>>>> I reproduced the OFF problem by removing the clk prepare/unprepare from
->>>>> the suspend/resume of the clk driver and making some extra changes to
->>>>> clock tree topology and etc to trigger the problem on Nexus 7.
->>>>>
->>>>> tegra-pmc 7000e400.pmc: failed to turn off PM domain heg: -13
->>>>>
->>>>> It happens from genpd_suspend_noirq() -> tegra_genpd_power_off() -> clk
->>>>> -> GENPD -> I2C -> runtime-pm.
->>>>>
->>>>> -13 is EACCES, it comes from the runtime PM of I2C device. RPM is
->>>>> prohibited/disabled during late (NOIRQ) suspend by the drivers core.
->>>>
->>>> My bad, I double-checked and it's not I2C RPM that is failing now, but
->>>> the clock's RPM [1], which is also unavailable during NOIRQ.
->>>
->>> Yes, that sounds reasonable.
->>>
->>> You would then need a similar patch for the tegra clock driver as I
->>> suggested for tegra I2C driver. That should solve the problem, I
->>> think.
->>>
->>>>
->>>> [1]
->>>> https://elixir.free-electrons.com/linux/v5.15-rc4/source/drivers/clk/clk.c#L116
->>>>
->>>> Previously it was I2C RPM that was failing in a similar way, but code
->>>> changed a tad since that time.
->>>
->>> Alright. In any case, as long as the devices gets suspended in the
->>> correct order, I think it should be fine to cook a patch along the
->>> lines of what I suggest for the I2C driver as well.
->>>
->>> It should work, I think. Although, maybe you want to avoid runtime
->>> resuming the I2C device, unless it's the device belonging to the PMIC
->>> interface, if there is a way to distinguish that for the driver.
->>
->> Ulf, thank you very much for the suggestions! I was thinking about this
->> all once again and concluded that the simplest variant will be to just
->> remove the suspend ops from the clk driver since neither of PLLs require
->> high voltage. We now have voltage bumped to a nominal level during
->> suspend by Tegra's regulator-coupler driver and it's much higher than
->> voltage needed by PLLs. So the problem I was trying to work around
->> doesn't really exist anymore.
-> 
-> I hurried a bit with the conclusion, keep forgetting that I need to
-> change the clock tree in order to test it all properly :/ It's not fixed
-> yet.
-> 
+Clean up all of the kernel-doc issues in drm_connector.c:
 
-Please let me iterate once again. The problem we currently have is that
-clock may be enabled during NOIRQ time. In order to enable clock, it
-needs to be prepared. In order to prepare clock, the clock's device
-needs to be runtime-resumed. The runtime PM is unavailable at the NOIRQ
-time.
+drivers/gpu/drm/drm_connector.c:2611: warning: Excess function parameter 'connector' description in 'drm_connector_oob_hotplug_event'
+drivers/gpu/drm/drm_connector.c:2611: warning: Function parameter or member 'connector_fwnode' not described in 'drm_connector_oob_hotplug_event'
 
-To solve this problem we need to prepare clock beforehand.
+drm_connector.c:630: warning: No description found for return value of 'drm_get_connector_status_name'
+drm_connector.c:715: warning: No description found for return value of 'drm_connector_list_iter_next'
+drm_connector.c:785: warning: No description found for return value of 'drm_get_subpixel_order_name'
+drm_connector.c:816: warning: No description found for return value of 'drm_display_info_set_bus_formats'
+drm_connector.c:1331: warning: No description found for return value of 'drm_mode_create_dvi_i_properties'
+drm_connector.c:1412: warning: No description found for return value of 'drm_connector_attach_content_type_property'
+drm_connector.c:1492: warning: No description found for return value of 'drm_mode_create_tv_margin_properties'
+drm_connector.c:1534: warning: No description found for return value of 'drm_mode_create_tv_properties'
+drm_connector.c:1627: warning: No description found for return value of 'drm_mode_create_scaling_mode_property'
+drm_connector.c:1944: warning: No description found for return value of 'drm_mode_create_suggested_offset_properties'
 
-The clock will stay prepared during suspend, but this is not a problem
-since all the clocks we care about don't require high voltage and
-voltage is guaranteed to be bumped high during suspend by Tegra's
-regulator-coupler driver anyways.
+drm_connector.c:2315: warning: missing initial short description on line:
+ * drm_connector_set_panel_orientation_with_quirk -
 
-So everything we need to do is to keep clocks prepared. There are two
-options how to do that:
+[The last warning listed is probably a quirk/bug in scripts/kernel-doc.]
 
-[1] this patch which explicitly prepares clocks using clk API.
+Fixes: 613051dac40d ("drm: locking&new iterators for connector_list")
+Fixes: 522171951761 ("drm: Extract drm_connector.[hc]")
+Fixes: b3c6c8bfe378 ("drm: document drm_display_info")
+Fixes: 50525c332b55 ("drm: content-type property for HDMI connector")
+Fixes: 6c4f52dca36f ("drm/connector: Allow creation of margin props alone")
+Fixes: 69654c632d80 ("drm/connector: Split out orientation quirk detection (v2)")
+Fixes: 72ad49682dde ("drm/connector: Add support for out-of-band hotplug notification (v3)")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: David Airlie <airlied@linux.ie>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+Cc: Boris Brezillon <boris.brezillon@bootlin.com>
+Cc: Derek Basehore <dbasehore@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+---
+72ad49682dde ("drm/connector: Add support for out-of-band hotplug notification (v3)")
+  is only in linux-next. The others are in mainline.
 
-[2] Use runtime PM API, like this:
+ drivers/gpu/drm/drm_connector.c |   30 ++++++++++++++++++++++++++----
+ 1 file changed, 26 insertions(+), 4 deletions(-)
 
-static const struct dev_pm_ops tegra_clock_pm = {
-	SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_resume_and_get, pm_runtime_put)
-};
-
-Ulf, are you now okay with the current variant [1] of the patch or you
-prefer the second [2] option more?
+--- linux-next-20211006.orig/drivers/gpu/drm/drm_connector.c
++++ linux-next-20211006/drivers/gpu/drm/drm_connector.c
+@@ -625,6 +625,8 @@ int drm_connector_register_all(struct dr
+  *
+  * In contrast to the other drm_get_*_name functions this one here returns a
+  * const pointer and hence is threadsafe.
++ *
++ * Returns: connector status string
+  */
+ const char *drm_get_connector_status_name(enum drm_connector_status status)
+ {
+@@ -707,7 +709,7 @@ __drm_connector_put_safe(struct drm_conn
+  * drm_connector_list_iter_next - return next connector
+  * @iter: connector_list iterator
+  *
+- * Returns the next connector for @iter, or NULL when the list walk has
++ * Returns: the next connector for @iter, or NULL when the list walk has
+  * completed.
+  */
+ struct drm_connector *
+@@ -780,6 +782,8 @@ static const struct drm_prop_enum_list d
+  *
+  * Note you could abuse this and return something out of bounds, but that
+  * would be a caller error.  No unscrubbed user data should make it here.
++ *
++ * Returns: string describing an enumerated subpixel property
+  */
+ const char *drm_get_subpixel_order_name(enum subpixel_order order)
+ {
+@@ -809,6 +813,9 @@ static const struct drm_prop_enum_list d
+  * Store the supported bus formats in display info structure.
+  * See MEDIA_BUS_FMT_* definitions in include/uapi/linux/media-bus-format.h for
+  * a full list of available formats.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
+  */
+ int drm_display_info_set_bus_formats(struct drm_display_info *info,
+ 				     const u32 *formats,
+@@ -1326,6 +1333,8 @@ int drm_connector_create_standard_proper
+  * @dev: DRM device
+  *
+  * Called by a driver the first time a DVI-I connector is made.
++ *
++ * Returns: %0
+  */
+ int drm_mode_create_dvi_i_properties(struct drm_device *dev)
+ {
+@@ -1407,6 +1416,8 @@ EXPORT_SYMBOL(drm_connector_attach_dp_su
+  * @connector: connector to attach content type property on.
+  *
+  * Called by a driver the first time a HDMI connector is made.
++ *
++ * Returns: %0
+  */
+ int drm_connector_attach_content_type_property(struct drm_connector *connector)
+ {
+@@ -1487,6 +1498,9 @@ EXPORT_SYMBOL(drm_connector_attach_tv_ma
+  * creates the TV margin properties for a given device. No need to call this
+  * function for an SDTV connector, it's already called from
+  * drm_mode_create_tv_properties().
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
+  */
+ int drm_mode_create_tv_margin_properties(struct drm_device *dev)
+ {
+@@ -1527,6 +1541,9 @@ EXPORT_SYMBOL(drm_mode_create_tv_margin_
+  * the TV specific connector properties for a given device.  Caller is
+  * responsible for allocating a list of format names and passing them to
+  * this routine.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
+  */
+ int drm_mode_create_tv_properties(struct drm_device *dev,
+ 				  unsigned int num_modes,
+@@ -1622,6 +1639,8 @@ EXPORT_SYMBOL(drm_mode_create_tv_propert
+  * Atomic drivers should use drm_connector_attach_scaling_mode_property()
+  * instead to correctly assign &drm_connector_state.scaling_mode
+  * in the atomic state.
++ *
++ * Returns: %0
+  */
+ int drm_mode_create_scaling_mode_property(struct drm_device *dev)
+ {
+@@ -1939,6 +1958,9 @@ EXPORT_SYMBOL(drm_mode_create_content_ty
+  * @dev: DRM device
+  *
+  * Create the suggested x/y offset property for connectors.
++ *
++ * Returns:
++ * Zero on success, negative errno on failure.
+  */
+ int drm_mode_create_suggested_offset_properties(struct drm_device *dev)
+ {
+@@ -2312,8 +2334,8 @@ int drm_connector_set_panel_orientation(
+ EXPORT_SYMBOL(drm_connector_set_panel_orientation);
+ 
+ /**
+- * drm_connector_set_panel_orientation_with_quirk -
+- *	set the connector's panel_orientation after checking for quirks
++ * drm_connector_set_panel_orientation_with_quirk - set the
++ *	connector's panel_orientation after checking for quirks
+  * @connector: connector for which to init the panel-orientation property.
+  * @panel_orientation: drm_panel_orientation value to set
+  * @width: width in pixels of the panel, used for panel quirk detection
+@@ -2597,7 +2619,7 @@ struct drm_connector *drm_connector_find
+ 
+ /**
+  * drm_connector_oob_hotplug_event - Report out-of-band hotplug event to connector
+- * @connector: connector to report the event on
++ * @connector_fwnode: fwnode_handle to report the event on
+  *
+  * On some hardware a hotplug event notification may come from outside the display
+  * driver / device. An example of this is some USB Type-C setups where the hardware
