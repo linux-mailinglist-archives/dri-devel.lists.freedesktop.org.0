@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19271425C43
-	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 21:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C4E425C4C
+	for <lists+dri-devel@lfdr.de>; Thu,  7 Oct 2021 21:39:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B1FC6F4D6;
-	Thu,  7 Oct 2021 19:39:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BD7906F4F5;
+	Thu,  7 Oct 2021 19:39:26 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from wnew1-smtp.messagingengine.com (wnew1-smtp.messagingengine.com
  [64.147.123.26])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F36B16F4CC;
- Thu,  7 Oct 2021 19:39:19 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.west.internal (Postfix) with ESMTP id 07B282B00A30;
- Thu,  7 Oct 2021 15:39:18 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 05E606F4E5;
+ Thu,  7 Oct 2021 19:39:24 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.west.internal (Postfix) with ESMTP id 14A4E2B00A33;
+ Thu,  7 Oct 2021 15:39:23 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Thu, 07 Oct 2021 15:39:19 -0400
+ by compute1.internal (MEProxy); Thu, 07 Oct 2021 15:39:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=omW2dBXveyMqG
- 7DvDdkh1H1/pnPFL38MoqzgQ5lnZto=; b=VbRIs9ovzOrzkRP5I5NQpGZTi6KNS
- z8q47PqR1h0M4i8FXRxzq/yqHJEpYi1dZMSKz1nNIUDn+X5tsMsToX+j24YFEqqV
- mZrFJ49qJRJ5KJHcENGQ19BsKcYM+PkRJ/rB45qQdRBv+yLxhAtPbtis+lkSwpda
- 8Nog66oITdcyHmiiSeUeovT4wDSvIDXs6wLRHMLvCHLYNmhVKR4j+rjwalQPJf37
- i1oZAxmbb4KmcDBN+B51m1AtZDbr2rhxPjkAvs1bG/J1V4s6/nQmWxYGIU1yWhkS
- ngP0bejn2H7YtIIQxz8u4f/eg5tbdrFw5fp+SPPGxDl/styfL4wOQ90Pg==
+ :mime-version:content-transfer-encoding; s=fm3; bh=JMRbRjZdc3Tdp
+ VsyoSFWvoeRwxWybiBnYbFZhu98rTo=; b=ar69jEdWOUnJDV8rtAiAdLcMQ02v4
+ Gd3IOjYY4K/eInZILTtfxpd0LbRwhLL4Qc3fAvnWdwKFxtAXzKDdUJgKf2TaqkZl
+ Q/FBPLolzYfiO695DuoFL6GvuNJkDo6yUJbmunDESNa072RJXjInZ+AaC6PYa55M
+ TkuPuhjgWK2TJRXdIx5RY0o99j9GAMPTqbgBwIy6es0RidmmWg6MfjnDHlOctBSs
+ exA6p/+rkM4CPdzvxoUxUoqyJUO8boj+k2FkHTDDAGALk5ZYa0prfb5gxe1FoxDv
+ viy/EB07mmTd9mmt2LATvjXQkHaT9wneJQ+wMcFCw825ol4eQIsEVfczg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=omW2dBXveyMqG7DvDdkh1H1/pnPFL38MoqzgQ5lnZto=; b=Lkhn41XD
- JlDsqcRZlAl412IvIKTt4Z6XXC6LM2TkyCEIY3wwloPObQnHVUB6FImVh4yX6Fws
- mj9gaHbmwRe71F15MzVblEJykAkOu+jPoXrNzJqzOsuEKOdEgmdP+4SBtXyob/7W
- eGaABt4RACsWu23Qkx0vEzBgF/2MMtN6Ml0OVGoNgwkKg2VKsyg6gbfcpF+TXRWp
- 2NyHhjTb2S411MvhmlCrFeP+/crAGMkTdCPJnXRzHn/EpmF2nuPU2e2XGUPK0v2d
- 7anizruLkUC+TuJOAdeEE8vHnIttenconGd0B11mCIOgcS3RVy/LV7ZoTpk1PWTH
- KpYdI+v7pDiSQA==
-X-ME-Sender: <xms:5kxfYRIHi862uq2BJDN-oTzXIBrcgMDpejttNKS6XcFHghZoEjE4JA>
- <xme:5kxfYdJKGkJv0vtQLb5T7LMEh1cz44GT1zYq7ua6WOY0k89qITECY2hna7lpvLG6P
- nBxeHjauJD8BOPSAg>
-X-ME-Received: <xmr:5kxfYZvfYtGJUxocVtKPyAenti0VLXR9hSCnCbgdNC6mArmvF5lOZSW9dlcmGsYLTmLM>
+ fm1; bh=JMRbRjZdc3TdpVsyoSFWvoeRwxWybiBnYbFZhu98rTo=; b=ZU/GCIYu
+ 7LjIKL54SSVqLMnq8a9fpvzlnAvv/njfrr2s9Iv4yH12Omq98GW3ocapBObkS7Di
+ 2mlDdrkUmqfUg1MzrzUFo5jUEBoMcwLkWy9qgIATILDtIQsZISZdEXO58uUTm9d8
+ GVaLvOswoaCURwtDR9AtaCTvVafrGPFt8ec4Z4iVLwLFSut/I8O/hzLx2MabmnoR
+ Edjdzy02bHF0ZCMK35ofpGWYHPxNCJB7UXziifsDauKXjuSTcgHNQCCmlh7Nevkj
+ Tvx9g18t+zJWqM3tA2ly5N3Oe4s27TXWdTwDFaZMlk4OdBh/SsJnbsiUhi6TG+35
+ Y2cLapUlI+yi3w==
+X-ME-Sender: <xms:6kxfYS6oKL6lt7FBkIZEOcN8jwO3DrrNP5LiDokipD6RaUgaZw4K_g>
+ <xme:6kxfYb4Lx7QAwmktEkV70DSR0IIj8MDY3QSUpthBha4UQbe9qAHA36tt6rsmkU1s7
+ 9grYEz70vO3iXAOaQ>
+X-ME-Received: <xmr:6kxfYRcM1VuN1cr7xaC2sVHGRqUOTpw2TKd1lEkVauZPfLYa1r-FNgzNOwROKBjtetT9>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrudelkedgudefjecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
+ fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedvnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:5kxfYSbjxc1Dl2TStYzAAevlhYksDF22vJNyyAW5VXSQqqcc2liIYw>
- <xmx:5kxfYYafof77XHhQZJ3ghlxMMCADnLlawIXEdcIQfAZuN6dmLYZIjg>
- <xmx:5kxfYWDskWScm4uASznDW714P72SVH6zSlaMO9CXTa6jXoWxw7wY4A>
- <xmx:5kxfYWkZUhXNN9c2qXvDDCkxVNwurUEIloA1M4DNEvrpIKBJeVJcck_qqpI>
+X-ME-Proxy: <xmx:6kxfYfI7qt4ZT5v-QbsygebVGqZ8iJ5raTHHus9njGGnjovGGbbS9g>
+ <xmx:6kxfYWK2shthNztAl7QNMUrfUTFD9wCnnxJQHMsIdonJcyhWktP6BA>
+ <xmx:6kxfYQxQMvpa9qC_Rti1_GcsCHzL48qdDdxv1hV_ho53TxYazCa9PQ>
+ <xmx:6kxfYTU9buR390E-RIBMvLypk8xfjHKJODaCt6lqvI6eGnwRHiOe_il8LW4>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 7 Oct 2021 15:39:15 -0400 (EDT)
+ 7 Oct 2021 15:39:20 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,9 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v3 18/20] drm/amd: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
-Date: Thu,  7 Oct 2021 21:37:53 +0200
-Message-Id: <20211007193755.29579-19-greenfoo@u92.eu>
+Subject: [PATCH v3 19/20] drm: cleanup: remove drm_modeset_(un)lock_all()
+Date: Thu,  7 Oct 2021 21:37:54 +0200
+Message-Id: <20211007193755.29579-20-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211007193755.29579-1-greenfoo@u92.eu>
 References: <20211007193755.29579-1-greenfoo@u92.eu>
@@ -86,199 +85,140 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As requested in Documentation/gpu/todo.rst, replace driver calls to
-drm_modeset_lock_all() with DRM_MODESET_LOCK_ALL_BEGIN() and
-DRM_MODESET_LOCK_ALL_END()
-
-NOTE:
-
-While this change is similar to the one done two commits ago, it
-contains an important extra nuances that I'm going to explain next.
-
-The only difference between the old drm_modeset_{lock,unlock}_all()
-functions and the new DRM_MODESET_LOCK_ALL_{BEGIN,END}() macros is that
-the former use a global context stored in dev->mode_config.acquire_ctx
-while the latter depend on a user provided one (typically in the stack).
-
-This means that as long as no one accesses the global
-dev->mode_config.acquire_ctx context in the block that runs between
-lock/BEGIN and unlock/END, the code should be equivalent before and
-after my changes.
-
-Turns out that, while not obvious at first sight, the call to
-dm_restore_drm_connector_state() done between drm_modset_lock_all() and
-drm_modeset_unlock_all() ends up using that global context structure
-stored in dev.
-
-To fix this we need to update some function prototypes to accept the
-new stack allocated variable as an argument.
+Functions drm_modeset_lock_all() and drm_modeset_unlock_all() are no
+longer used anywhere and can be removed.
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 ---
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 27 ++++++++++++-------
- .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h |  3 ++-
- .../amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 13 ++++++---
- 3 files changed, 29 insertions(+), 14 deletions(-)
+ drivers/gpu/drm/drm_modeset_lock.c | 94 +-----------------------------
+ include/drm/drm_modeset_lock.h     |  2 -
+ 2 files changed, 3 insertions(+), 93 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index 444ad054980a..2041075243d5 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -80,6 +80,7 @@
- #include <drm/drm_edid.h>
- #include <drm/drm_vblank.h>
- #include <drm/drm_audio_component.h>
-+#include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/drm_modeset_lock.c b/drivers/gpu/drm/drm_modeset_lock.c
+index bf8a6e823a15..ac49bf6169a2 100644
+--- a/drivers/gpu/drm/drm_modeset_lock.c
++++ b/drivers/gpu/drm/drm_modeset_lock.c
+@@ -77,93 +77,6 @@
  
- #if defined(CONFIG_DRM_AMD_DC_DCN)
- #include "ivsrcid/dcn/irqsrcs_dcn_1_0.h"
-@@ -2880,6 +2881,8 @@ static void handle_hpd_irq_helper(struct amdgpu_dm_connector *aconnector)
- 	struct amdgpu_device *adev = drm_to_adev(dev);
- 	struct dm_connector_state *dm_con_state = to_dm_connector_state(connector->state);
- 	struct dm_crtc_state *dm_crtc_state = NULL;
-+	struct drm_modeset_acquire_ctx ctx;
-+	int ret;
+ static DEFINE_WW_CLASS(crtc_ww_class);
  
- 	if (adev->dm.disable_hpd_irq)
- 		return;
-@@ -2921,9 +2924,9 @@ static void handle_hpd_irq_helper(struct amdgpu_dm_connector *aconnector)
- 		goto out;
- 	}
+-/**
+- * drm_modeset_lock_all - take all modeset locks
+- * @dev: DRM device
+- *
+- * This function takes all modeset locks, suitable where a more fine-grained
+- * scheme isn't (yet) implemented. Locks must be dropped by calling the
+- * drm_modeset_unlock_all() function.
+- *
+- * This function is deprecated. It allocates a lock acquisition context and
+- * stores it in &drm_device.mode_config. This facilitate conversion of
+- * existing code because it removes the need to manually deal with the
+- * acquisition context, but it is also brittle because the context is global
+- * and care must be taken not to nest calls. New code should use the
+- * drm_modeset_lock_all_ctx() function and pass in the context explicitly.
+- */
+-void drm_modeset_lock_all(struct drm_device *dev)
+-{
+-	struct drm_mode_config *config = &dev->mode_config;
+-	struct drm_modeset_acquire_ctx *ctx;
+-	int ret;
+-
+-	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL | __GFP_NOFAIL);
+-	if (WARN_ON(!ctx))
+-		return;
+-
+-	mutex_lock(&config->mutex);
+-
+-	drm_modeset_acquire_init(ctx, 0);
+-
+-retry:
+-	ret = drm_modeset_lock_all_ctx(dev, ctx);
+-	if (ret < 0) {
+-		if (ret == -EDEADLK) {
+-			drm_modeset_backoff(ctx);
+-			goto retry;
+-		}
+-
+-		drm_modeset_acquire_fini(ctx);
+-		kfree(ctx);
+-		return;
+-	}
+-	ww_acquire_done(&ctx->ww_ctx);
+-
+-	WARN_ON(config->acquire_ctx);
+-
+-	/*
+-	 * We hold the locks now, so it is safe to stash the acquisition
+-	 * context for drm_modeset_unlock_all().
+-	 */
+-	config->acquire_ctx = ctx;
+-
+-	drm_warn_on_modeset_not_all_locked(dev);
+-}
+-EXPORT_SYMBOL(drm_modeset_lock_all);
+-
+-/**
+- * drm_modeset_unlock_all - drop all modeset locks
+- * @dev: DRM device
+- *
+- * This function drops all modeset locks taken by a previous call to the
+- * drm_modeset_lock_all() function.
+- *
+- * This function is deprecated. It uses the lock acquisition context stored
+- * in &drm_device.mode_config. This facilitates conversion of existing
+- * code because it removes the need to manually deal with the acquisition
+- * context, but it is also brittle because the context is global and care must
+- * be taken not to nest calls. New code should pass the acquisition context
+- * directly to the drm_modeset_drop_locks() function.
+- */
+-void drm_modeset_unlock_all(struct drm_device *dev)
+-{
+-	struct drm_mode_config *config = &dev->mode_config;
+-	struct drm_modeset_acquire_ctx *ctx = config->acquire_ctx;
+-
+-	if (WARN_ON(!ctx))
+-		return;
+-
+-	config->acquire_ctx = NULL;
+-	drm_modeset_drop_locks(ctx);
+-	drm_modeset_acquire_fini(ctx);
+-
+-	kfree(ctx);
+-
+-	mutex_unlock(&dev->mode_config.mutex);
+-}
+-EXPORT_SYMBOL(drm_modeset_unlock_all);
+-
+ /**
+  * drm_warn_on_modeset_not_all_locked - check that all modeset locks are locked
+  * @dev: device
+@@ -380,10 +293,9 @@ EXPORT_SYMBOL(drm_modeset_unlock);
+  * This function takes all modeset locks, suitable where a more fine-grained
+  * scheme isn't (yet) implemented.
+  *
+- * Unlike drm_modeset_lock_all(), it doesn't take the &drm_mode_config.mutex
+- * since that lock isn't required for modeset state changes. Callers which
+- * need to grab that lock too need to do so outside of the acquire context
+- * @ctx.
++ * It doesn't take the &drm_mode_config.mutex since that lock isn't required for
++ * modeset state changes. Callers which need to grab that lock too need to do so
++ * outside of the acquire context @ctx.
+  *
+  * Locks acquired with this function should be released by calling the
+  * drm_modeset_drop_locks() function on @ctx.
+diff --git a/include/drm/drm_modeset_lock.h b/include/drm/drm_modeset_lock.h
+index aafd07388eb7..865e64bcc4cb 100644
+--- a/include/drm/drm_modeset_lock.h
++++ b/include/drm/drm_modeset_lock.h
+@@ -132,8 +132,6 @@ struct drm_device;
+ struct drm_crtc;
+ struct drm_plane;
  
--	drm_modeset_lock_all(dev);
--	dm_restore_drm_connector_state(dev, connector);
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-+	dm_restore_drm_connector_state(dev, connector, &ctx);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
+-void drm_modeset_lock_all(struct drm_device *dev);
+-void drm_modeset_unlock_all(struct drm_device *dev);
+ void drm_warn_on_modeset_not_all_locked(struct drm_device *dev);
  
- 	if (aconnector->base.force == DRM_FORCE_UNSPECIFIED)
- 		drm_kms_helper_hotplug_event(dev);
-@@ -3044,6 +3047,7 @@ static void handle_hpd_rx_irq(void *param)
- 	struct drm_connector *connector = &aconnector->base;
- 	struct drm_device *dev = connector->dev;
- 	struct dc_link *dc_link = aconnector->dc_link;
-+	struct drm_modeset_acquire_ctx ctx;
- 	bool is_mst_root_connector = aconnector->mst_mgr.mst_state;
- 	bool result = false;
- 	enum dc_connection_type new_connection_type = dc_connection_none;
-@@ -3053,6 +3057,7 @@ static void handle_hpd_rx_irq(void *param)
- 	bool has_left_work = false;
- 	int idx = aconnector->base.index;
- 	struct hpd_rx_irq_offload_work_queue *offload_wq = &adev->dm.hpd_rx_offload_wq[idx];
-+	int ret;
- 
- 	memset(&hpd_irq_data, 0, sizeof(hpd_irq_data));
- 
-@@ -3127,9 +3132,9 @@ static void handle_hpd_rx_irq(void *param)
- 			goto finish;
- 		}
- 
--		drm_modeset_lock_all(dev);
--		dm_restore_drm_connector_state(dev, connector);
--		drm_modeset_unlock_all(dev);
-+		DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-+		dm_restore_drm_connector_state(dev, connector, &ctx);
-+		DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
- 
- 		drm_kms_helper_hotplug_event(dev);
- 	}
-@@ -9662,7 +9667,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
- }
- 
- 
--static int dm_force_atomic_commit(struct drm_connector *connector)
-+static int dm_force_atomic_commit(struct drm_connector *connector,
-+				  struct drm_modeset_acquire_ctx *ctx)
- {
- 	int ret = 0;
- 	struct drm_device *ddev = connector->dev;
-@@ -9676,7 +9682,7 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
- 	if (!state)
- 		return -ENOMEM;
- 
--	state->acquire_ctx = ddev->mode_config.acquire_ctx;
-+	state->acquire_ctx = ctx;
- 
- 	/* Construct an atomic state to restore previous display setting */
- 
-@@ -9723,7 +9729,8 @@ static int dm_force_atomic_commit(struct drm_connector *connector)
-  * same port and when running without usermode desktop manager supprot
-  */
- void dm_restore_drm_connector_state(struct drm_device *dev,
--				    struct drm_connector *connector)
-+				    struct drm_connector *connector,
-+				    struct drm_modeset_acquire_ctx *ctx)
- {
- 	struct amdgpu_dm_connector *aconnector = to_amdgpu_dm_connector(connector);
- 	struct amdgpu_crtc *disconnected_acrtc;
-@@ -9746,7 +9753,7 @@ void dm_restore_drm_connector_state(struct drm_device *dev,
- 	 * to turn on the display, so we do it here
- 	 */
- 	if (acrtc_state->stream->sink != aconnector->dc_sink)
--		dm_force_atomic_commit(&aconnector->base);
-+		dm_force_atomic_commit(&aconnector->base, ctx);
- }
- 
- /*
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-index a85b09986aab..96fc74975dde 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.h
-@@ -699,7 +699,8 @@ enum drm_mode_status amdgpu_dm_connector_mode_valid(struct drm_connector *connec
- 				   struct drm_display_mode *mode);
- 
- void dm_restore_drm_connector_state(struct drm_device *dev,
--				    struct drm_connector *connector);
-+				    struct drm_connector *connector,
-+				    struct drm_modeset_acquire_ctx *ctx);
- 
- void amdgpu_dm_update_freesync_caps(struct drm_connector *connector,
- 					struct edid *edid);
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 4efb1f355fe7..5681476f8a57 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -24,6 +24,7 @@
-  */
- 
- #include <linux/uaccess.h>
-+#include <drm/drm_drv.h>
- 
- #include "dc.h"
- #include "amdgpu.h"
-@@ -1192,12 +1193,14 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
- 	struct drm_connector *connector = &aconnector->base;
- 	struct dc_link *link = NULL;
- 	struct drm_device *dev = connector->dev;
-+	struct drm_modeset_acquire_ctx ctx;
- 	enum dc_connection_type new_connection_type = dc_connection_none;
- 	char *wr_buf = NULL;
- 	uint32_t wr_buf_size = 42;
- 	int max_param_num = 1;
- 	long param[1] = {0};
- 	uint8_t param_nums = 0;
-+	int ret;
- 
- 	if (!aconnector || !aconnector->dc_link)
- 		return -EINVAL;
-@@ -1258,9 +1261,13 @@ static ssize_t trigger_hotplug(struct file *f, const char __user *buf,
- 		goto unlock;
- 	}
- 
--	drm_modeset_lock_all(dev);
--	dm_restore_drm_connector_state(dev, connector);
--	drm_modeset_unlock_all(dev);
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
-+	dm_restore_drm_connector_state(dev, connector, &ctx);
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
-+
-+	if (ret)
-+		return ret;
-+
- 	drm_kms_helper_hotplug_event(dev);
- 
- unlock:
+ int drm_modeset_lock_all_ctx(struct drm_device *dev,
 -- 
 2.33.0
 
