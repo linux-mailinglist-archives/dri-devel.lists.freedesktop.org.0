@@ -1,74 +1,69 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4719B426B94
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:16:53 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CF2B426BA5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:27:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 28F676E0EE;
-	Fri,  8 Oct 2021 13:16:49 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 921B26F4A4;
+	Fri,  8 Oct 2021 13:27:49 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3A7266E0EE
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 13:16:48 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id r7so29735361wrc.10
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Oct 2021 06:16:48 -0700 (PDT)
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com
+ [IPv6:2a00:1450:4864:20::42d])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D71B96F4A4
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 13:27:47 +0000 (UTC)
+Received: by mail-wr1-x42d.google.com with SMTP id r7so29836386wrc.10
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Oct 2021 06:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=message-id:date:mime-version:user-agent:subject:content-language:to
- :cc:references:from:in-reply-to:content-transfer-encoding;
- bh=Gr1byabWHn1PUa1m+Lt+dKzXId3ni3LSSa9lwDSa3gk=;
- b=TJwvim7w+eQFFfurbsl40FGMPwvnfLNLF3mqkVbNUxpugKorDKYZpgJ6ppC/PTEfU/
- zOILl/qFEGzOdn6zfkCqtCzngeViZPdhvYzMHbM3IFZjQGHrra/zDS/6TMIKgTnVc55t
- FcMxubz12x29/ajr4yg/4IapyvyKUFNo3xqRhsRdQeIVc4OPAXyzrkZY81y6rOdHomht
- hqzwPEcVHx/WmerpaSHDHB18z/kd2XNccqlNpJydYkZY9xgv9A3ahUCBrPFCZeng3Ptm
- jP6ttiHbfEf7muJb0bTHpjXuPa4qjwlq/IFgZ8831A1pXDw+R+PUitOMme4fSBTH9oWk
- WxPg==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gqzR+o0h40Gz9BebRFy0Yxo1R3lTUfD74jf72dbg2zg=;
+ b=mgNx+Hvailh/BlhYWC2KINCh0g6fkBuHssRPSLTeN1qnjVTpJF7OnwT3a5IP/f90cu
+ /QVjz9Z1As6kqKNNxXwhigfw7ZUL+lZIEOelpbkCjSRsyIrRKCL8ObtTGWivRUWusx8q
+ pN9/QJ5ahx0yzwAI3aTjWoKpP82loTAcpFWxc7dSw1/GCdyjqz3LheZJm8MMkEZjwcDk
+ jA0jbFGdMrerbqWu71DYBvyTHbmBZXlQ921VzEPCpnOwzwfuALVUEQLPQihiftLkp/Fr
+ MkLbfCBmSxOhWhaOWH1xFVk8SuFCHHvaINSNjBFgOOSFJwcmWigJUNWUMvhiyfnmQEZc
+ EQsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:in-reply-to
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Gr1byabWHn1PUa1m+Lt+dKzXId3ni3LSSa9lwDSa3gk=;
- b=cKQ8XtTQIMTJqzlHJ//anl/HNNoeHaqxBAvxl9sh9KpiVaIDOMDVFtOjD/w8uBfZOf
- hkL7VLDbYStgxLDkPAN8WUVtEQ9dDgrWaCp25dGekiX8ORJKqO/wuaSnpvfH0ITN60OK
- qkH5TPusbguz3MeMrjY5Bz9q4GAWeuEHk/tphV6l0pKeWDyKCmLcxj2qeVG+EYkEawv6
- wN9XyUCPzBdINbPS9Pab6RnyQuyEsJP3CwCi0DUw/2lIErY1Ggm/5EkSbJDnpLaO/mx7
- gfAwiBOI1vZong6LIdYS9vOQcffpwZhqZ/H8JAa0TVcvTQwCIoFsaCv8hqLB3sISmDvt
- yzOA==
-X-Gm-Message-State: AOAM533LY5e81CR0jGhbAMX+eyS6oRd5R+CyjP0OpfsG3X7/kwnjGINM
- MF+sJRjn6vUUbTM22WZkG34=
-X-Google-Smtp-Source: ABdhPJwchweLQBjxy6TkxOtLDsNz1AODqVJ3fWsbZRISUfWyoArhAgv4Go21sBR80xsRmqCQwndA7w==
-X-Received: by 2002:a5d:6245:: with SMTP id m5mr4099639wrv.148.1633699006563; 
- Fri, 08 Oct 2021 06:16:46 -0700 (PDT)
-Received: from [192.168.2.177] ([206.204.146.29])
- by smtp.gmail.com with ESMTPSA id g2sm2642909wrb.20.2021.10.08.06.16.44
+ bh=gqzR+o0h40Gz9BebRFy0Yxo1R3lTUfD74jf72dbg2zg=;
+ b=VKqMiURV6Tsu2t/FjborXvUowTtxcTar0wXohNMIPupQOjJXC5W3hWrzw8oHq9EiQu
+ 8WfCj14fVOSFLXB6lR13rv+5DpVtHlyfOFuFGERmYYnQWF67JrfaH1HMGhZLhek89iKO
+ oHw+2C5pH4MEoIYQN3wxUD1SbzESWEbR+gDj5XbdqwdmjC7cyKAs/GY881lIg2wjXvBf
+ L13yacXol7pWw/gNAiePxiHwFyGhjFK4suMkIySvcjIpmvKKrTOFOaJBWdNxJW+JJaeT
+ 4F4GmhsrVPYDIIlXtF76psSC/CAPqn8qFpOUITWC1U/tM6b16cU3NvNLL5Xh3NKgFAuU
+ YmKg==
+X-Gm-Message-State: AOAM5311veWW2R09xCCOpiy9P2sN1DgJ8k9qtBgn4ysdNiPXBqoeTw9i
+ duREba++JgEr5/stzadM4UWECDFYMnKvB8NQQxc=
+X-Google-Smtp-Source: ABdhPJyz20MAiD4SWzEJPsbKkEkdqrZ7OJrh/ELNsAf47ouQIwcPHMhZ89iPEFgScStsccnKgwFyfA==
+X-Received: by 2002:a7b:cc14:: with SMTP id f20mr3383571wmh.137.1633699665499; 
+ Fri, 08 Oct 2021 06:27:45 -0700 (PDT)
+Received: from [192.168.0.14]
+ (095160158079.dynamic-2-waw-k-4-2-0.vectranet.pl. [95.160.158.79])
+ by smtp.gmail.com with ESMTPSA id d8sm2631426wrv.80.2021.10.08.06.27.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 08 Oct 2021 06:16:45 -0700 (PDT)
-Message-ID: <266143bd-6135-adf6-8a80-537f9d6ea3ff@gmail.com>
-Date: Fri, 8 Oct 2021 15:16:43 +0200
+ Fri, 08 Oct 2021 06:27:45 -0700 (PDT)
+Subject: Re: DSI Bridge switching
+To: Jagan Teki <jagan@amarulasolutions.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>
+References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+From: Andrzej Hajda <andrzej.hajda@gmail.com>
+Message-ID: <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+Date: Fri, 8 Oct 2021 15:27:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.2
-Subject: Re: [PATCH v4 0/7] Add support to the mmsys driver to be a reset
- controller
+In-Reply-To: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-To: Enric Balletbo i Serra <enric.balletbo@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: linux-mediatek@lists.infradead.org, eizan@chromium.org,
- kernel@collabora.com, drinkcat@chromium.org, jitao.shi@mediatek.com,
- chunkuang.hu@kernel.org, hsinyi@chromium.org,
- Crystal Guo <crystal.guo@mediatek.com>, Daniel Vetter <daniel@ffwll.ch>,
- David Airlie <airlied@linux.ie>, Fabien Parent <fparent@baylibre.com>,
- Guenter Roeck <linux@roeck-us.net>, Philipp Zabel <p.zabel@pengutronix.de>,
- Rob Herring <robh+dt@kernel.org>, Wim Van Sebroeck <wim@linux-watchdog.org>,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-watchdog@vger.kernel.org
-References: <20210930083150.3317003-1-enric.balletbo@collabora.com>
-From: Matthias Brugger <matthias.bgg@gmail.com>
-In-Reply-To: <20210930083150.3317003-1-enric.balletbo@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -85,72 +80,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hi,
+
+Removed my invalid email (I will update files next week).
 
 
-On 30/09/2021 10:31, Enric Balletbo i Serra wrote:
-> Dear all,
+On 08.10.2021 13:14, Jagan Teki wrote:
+> Hi,
 > 
-> The following patchset is a reimplementation of the patch sent by Jitao
-> Shi [1] some time ago. As suggested by Chun-Kuang Hu, this time the
-> reset is done using the reset API, where the mmsys driver is the reset
-> controller and the mtk_dsi driver is the reset consumer.
+> I think this seems to be a known use case for industrial these days with i.mx8m.
 > 
-> Note that the first patch is kind of unrelated change, it's just a
-> cleanup but is needed if you want to apply all the following patches
-> cleanly.
+> The host DSI would configure with two bridges one for DSI to LVDS
+> (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
+> can use only one bridge at a time as host DSI support single out port.
+> So we can have two separate device tree files for LVDS and HDMI and
+> load them static.
 > 
-> This patchset is important in order to have the DSI panel working on some
-> kukui MT8183 Chromebooks (i.e Lenovo IdeaPad Duet). Without it, you just
-> get a black screen.
+> But, one of the use cases is to support both of them in single dts, and
+> - Turn On LVDS (default)
+> - Turn Off LVDS then Turn On HDMI when cable plug-in
+
+Are you sure it will work from hardware PoV? Do you have some demuxer? 
+isolation of pins?
+
+> 
+> The HDMI event can be detected via some HDMI-INT GPIO on-board design.
+> 
+> The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
+> port 2 in the DSI host node, and trying to attach the respective
+> bridge based on HDMI-INT like repeating the bridge attachment cycle
+> based on the HDMI-INT.
+
+I think more appropriate would be to share the same port, but provide 
+two endpoints inside this port - we have two hardware sharing the same 
+physical port.
+
+> 
+> Can it be possible to do bridge attachment at runtime? something like
+> a bridge hotplug event? or any other possible solutions?
+> 
+> Any suggestions?
+
+Practically it is possible, see exynos_dsi + panels, or exynos_dsi + 
+some toshiba bridge - panel and bridge are dynamically 'plugged' and 
+'unplugged' from exynos_drm, but they do not use bridge chain for this 
+and some other reasons. (un|re|)plugging should be performed of course 
+when pipeline is off (connector disconnected). I am not sure about 
+bridges added to bridge chain - you need to inspect all opses to ensure 
+it can be done safely.
+
+And the main issue: Daniel does not like it :)
+
+Regards
+Andrzej
+
+
+> 
+> Thanks,
+> Jagan.
 > 
 
-Patch 1-5 pushed to v5.15-next/dts64
-Patch 6-7 pushed to v5.15-next/soc
-
-Thanks!
-Matthias
-
-> Best regards,
->    Enric
-> 
-> [1] https://lore.kernel.org/linux-arm-kernel/20210420132614.150242-4-jitao.shi@mediatek.com/
-> 
-> 
-> Changes in v4:
-> - Remove unnused variable as pointed by Hsin-Yi
-> 
-> Changes in v3:
-> - Based on top of the patch that converts mmsys to schema
-> - Fix typo in the commit description
-> 
-> Changes in v2:
-> - Fix build test ERROR Reported-by: kernel test robot <lkp@intel.com>
-> - Added a new patch to describe the dsi reset optional property.
-> 
-> Enric Balletbo i Serra (7):
->    arm64: dts: mediatek: Move reset controller constants into common
->      location
->    dt-bindings: mediatek: Add #reset-cells to mmsys system controller
->    dt-bindings: display: mediatek: add dsi reset optional property
->    arm64: dts: mt8173: Add the mmsys reset bit to reset the dsi0
->    arm64: dts: mt8183: Add the mmsys reset bit to reset the dsi0
->    soc: mediatek: mmsys: Add reset controller support
->    drm/mediatek: mtk_dsi: Reset the dsi0 hardware
-> 
->   .../bindings/arm/mediatek/mediatek,mmsys.yaml |  4 ++
->   .../display/mediatek/mediatek,dsi.txt         |  6 ++
->   arch/arm64/boot/dts/mediatek/mt8173.dtsi      |  2 +
->   arch/arm64/boot/dts/mediatek/mt8183.dtsi      |  5 +-
->   drivers/gpu/drm/mediatek/mtk_dsi.c            |  5 +-
->   drivers/soc/mediatek/mtk-mmsys.c              | 68 +++++++++++++++++++
->   drivers/soc/mediatek/mtk-mmsys.h              |  2 +
->   drivers/watchdog/mtk_wdt.c                    |  6 +-
->   .../mt2712-resets.h                           |  0
->   include/dt-bindings/reset/mt8173-resets.h     |  2 +
->   .../mt8183-resets.h                           |  3 +
->   .../mt8192-resets.h                           |  0
->   12 files changed, 97 insertions(+), 6 deletions(-)
->   rename include/dt-bindings/{reset-controller => reset}/mt2712-resets.h (100%)
->   rename include/dt-bindings/{reset-controller => reset}/mt8183-resets.h (98%)
->   rename include/dt-bindings/{reset-controller => reset}/mt8192-resets.h (100%)
-> 
