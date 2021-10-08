@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77934426727
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:50:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 893B442672A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:50:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CD21A6E0CE;
-	Fri,  8 Oct 2021 09:50:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D493D6E0D0;
+	Fri,  8 Oct 2021 09:50:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C7EDE6E0C4;
- Fri,  8 Oct 2021 09:50:00 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="213423361"
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="213423361"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 02:50:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522932495"
-Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
- by orsmga001.jf.intel.com with SMTP; 08 Oct 2021 02:49:57 -0700
-Received: by stinkbox (sSMTP sendmail emulation);
- Fri, 08 Oct 2021 12:49:57 +0300
-Date: Fri, 8 Oct 2021 12:49:57 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-Subject: Re: [PATCH] drm/i915: Stop using I915_TILING_* in client blit selftest
-Message-ID: <YWAURQ0kpRWsdeyM@intel.com>
-References: <20211001005816.73330-1-matthew.d.roper@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2DA426E0CF;
+ Fri,  8 Oct 2021 09:50:19 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287356312"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287356312"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+ by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 02:50:18 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="478920486"
+Received: from tocallag-mobl2.ger.corp.intel.com (HELO tursulin-mobl2.home)
+ ([10.213.250.80])
+ by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 02:50:16 -0700
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+To: Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-resv: Fix dma_resv_get_fences and dma_resv_copy_fences
+ after conversion
+Date: Fri,  8 Oct 2021 10:50:07 +0100
+Message-Id: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211001005816.73330-1-matthew.d.roper@intel.com>
-X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,135 +52,136 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 30, 2021 at 05:58:16PM -0700, Matt Roper wrote:
-> The I915_TILING_* definitions in the uapi header are intended solely for
-> tiling modes that are visible to the old de-tiling fence ioctls.  Since
-> modern hardware does not support de-tiling fences, we should not add new
-> definitions for new tiling types going forward.  However we do want the
-> client blit selftest to eventually cover other new tiling modes (such as
-> Tile4), so switch it to using its own enum of tiling modes.
-> 
-> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
-> Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->  .../i915/gem/selftests/i915_gem_client_blt.c  | 29 ++++++++++++-------
->  include/uapi/drm/i915_drm.h                   |  6 ++++
->  2 files changed, 24 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> index ecbcbb86ae1e..8402ed925a69 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
-> @@ -17,13 +17,20 @@
->  #include "huge_gem_object.h"
->  #include "mock_context.h"
->  
-> +enum client_tiling {
-> +	CLIENT_TILING_LINEAR,
-> +	CLIENT_TILING_X,
-> +	CLIENT_TILING_Y,
-> +	CLIENT_NUM_TILING_TYPES
-> +};
-> +
->  #define WIDTH 512
->  #define HEIGHT 32
->  
->  struct blit_buffer {
->  	struct i915_vma *vma;
->  	u32 start_val;
-> -	u32 tiling;
-> +	enum client_tiling tiling;
->  };
->  
->  struct tiled_blits {
-> @@ -53,9 +60,9 @@ static int prepare_blit(const struct tiled_blits *t,
->  	*cs++ = MI_LOAD_REGISTER_IMM(1);
->  	*cs++ = i915_mmio_reg_offset(BCS_SWCTRL);
->  	cmd = (BCS_SRC_Y | BCS_DST_Y) << 16;
-> -	if (src->tiling == I915_TILING_Y)
-> +	if (src->tiling == CLIENT_TILING_Y)
->  		cmd |= BCS_SRC_Y;
-> -	if (dst->tiling == I915_TILING_Y)
-> +	if (dst->tiling == CLIENT_TILING_Y)
->  		cmd |= BCS_DST_Y;
->  	*cs++ = cmd;
->  
-> @@ -172,7 +179,7 @@ static int tiled_blits_create_buffers(struct tiled_blits *t,
->  
->  		t->buffers[i].vma = vma;
->  		t->buffers[i].tiling =
-> -			i915_prandom_u32_max_state(I915_TILING_Y + 1, prng);
-> +			i915_prandom_u32_max_state(CLIENT_TILING_Y + 1, prng);
->  	}
->  
->  	return 0;
-> @@ -197,17 +204,17 @@ static u64 swizzle_bit(unsigned int bit, u64 offset)
->  static u64 tiled_offset(const struct intel_gt *gt,
->  			u64 v,
->  			unsigned int stride,
-> -			unsigned int tiling)
-> +			enum client_tiling tiling)
->  {
->  	unsigned int swizzle;
->  	u64 x, y;
->  
-> -	if (tiling == I915_TILING_NONE)
-> +	if (tiling == CLIENT_TILING_LINEAR)
->  		return v;
->  
->  	y = div64_u64_rem(v, stride, &x);
->  
-> -	if (tiling == I915_TILING_X) {
-> +	if (tiling == CLIENT_TILING_X) {
->  		v = div64_u64_rem(y, 8, &y) * stride * 8;
->  		v += y * 512;
->  		v += div64_u64_rem(x, 512, &x) << 12;
-> @@ -244,12 +251,12 @@ static u64 tiled_offset(const struct intel_gt *gt,
->  	return v;
->  }
->  
-> -static const char *repr_tiling(int tiling)
-> +static const char *repr_tiling(enum client_tiling tiling)
->  {
->  	switch (tiling) {
-> -	case I915_TILING_NONE: return "linear";
-> -	case I915_TILING_X: return "X";
-> -	case I915_TILING_Y: return "Y";
-> +	case CLIENT_TILING_LINEAR: return "linear";
-> +	case CLIENT_TILING_X: return "X";
-> +	case CLIENT_TILING_Y: return "Y";
->  	default: return "unknown";
->  	}
->  }
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index bde5860b3686..00311a63068e 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1522,6 +1522,12 @@ struct drm_i915_gem_caching {
->  #define I915_TILING_NONE	0
->  #define I915_TILING_X		1
->  #define I915_TILING_Y		2
-> +/*
-> + * Do not add new tiling types here.  The I915_TILING_* values are for
-> + * de-tiling fence registers that no longer exist on modern platforms.  Although
-> + * the hardware may support new types of tiling in general (e.g., Tile4), we
-> + * do not need to add them to the uapi that is specific to now-defunct ioctls.
-> + */
->  #define I915_TILING_LAST	I915_TILING_Y
+From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-I think we should split this one into a separate patch to give it
-some visibility. The people who care about gem uapi seem to be in
-some kind of early winter hibernation and no one read this.
+Cache the count of shared fences in the iterator to avoid dereferencing
+the dma_resv_object outside the RCU protection. Otherwise iterator and its
+users can observe an incosistent state which makes it impossible to use
+safely. Such as:
 
-Apart from that
-Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+<6> [187.517041] [IGT] gem_sync: executing
+<7> [187.536343] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+<7> [187.536793] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+<6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
+<1> [188.935462] BUG: kernel NULL pointer dereference, address: 0000000000000010
+<1> [188.935485] #PF: supervisor write access in kernel mode
+<1> [188.935495] #PF: error_code(0x0002) - not-present page
+<6> [188.935504] PGD 0 P4D 0
+<4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
+<4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 5.15.0-rc4-CI-Patchwork_21264+ #1
+<4> [188.935535] Hardware name:  /NUC6CAYB, BIOS AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
+<4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
+<4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df ff eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 48 01 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 75 8c 48 8b 44 24 10
+<4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
+<4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 0000000000000001
+<4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: ffffc900011dbcc8
+<4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 00000000fffffffe
+<4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: ffffc900011dbd44
+<4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 0000000000000000
+<4> [188.935643] FS:  00007f68d17e9700(0000) GS:ffff888277900000(0000) knlGS:0000000000000000
+<4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+<4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 00000000003506e0
+<4> [188.935676] Call Trace:
+<4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
+<4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
+<4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
+<4> [188.936533]  drm_ioctl_kernel+0xae/0x140
+<4> [188.936546]  drm_ioctl+0x201/0x3d0
+<4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
+<4> [188.936820]  ? __fget_files+0xc2/0x1c0
+<4> [188.936830]  ? __fget_files+0xda/0x1c0
+<4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
+<4> [188.936848]  do_syscall_64+0x3a/0xb0
+<4> [188.936859]  entry_SYSCALL_64_after_hwframe+0x44/0xae
 
->  
->  #define I915_BIT_6_SWIZZLE_NONE		0
-> -- 
-> 2.33.0
+If the shared object has changed during the RCU unlocked period
+callers will correctly handle the restart on the next iteration.
 
+Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Fixes: 96601e8a4755 ("dma-buf: use new iterator in dma_resv_copy_fences")
+Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
+Closes: https://gitlab.freedesktop.org/drm/intel/-/issues/4274
+Cc: Christian KÃ¶nig <christian.koenig@amd.com>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-resv.c | 18 ++++++++++--------
+ include/linux/dma-resv.h   |  5 ++++-
+ 2 files changed, 14 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+index a480af9581bd..7b6d881c8904 100644
+--- a/drivers/dma-buf/dma-resv.c
++++ b/drivers/dma-buf/dma-resv.c
+@@ -333,10 +333,14 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
+ {
+ 	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
+ 	cursor->index = -1;
+-	if (cursor->all_fences)
++	cursor->shared_count = 0;
++	if (cursor->all_fences) {
+ 		cursor->fences = dma_resv_shared_list(cursor->obj);
+-	else
++		if (cursor->fences)
++			cursor->shared_count = cursor->fences->shared_count;
++	} else {
+ 		cursor->fences = NULL;
++	}
+ 	cursor->is_restarted = true;
+ }
+ 
+@@ -363,7 +367,7 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
+ 				continue;
+ 
+ 		} else if (!cursor->fences ||
+-			   cursor->index >= cursor->fences->shared_count) {
++			   cursor->index >= cursor->shared_count) {
+ 			cursor->fence = NULL;
+ 			break;
+ 
+@@ -448,10 +452,8 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
+ 			dma_resv_list_free(list);
+ 			dma_fence_put(excl);
+ 
+-			if (cursor.fences) {
+-				unsigned int cnt = cursor.fences->shared_count;
+-
+-				list = dma_resv_list_alloc(cnt);
++			if (cursor.shared_count) {
++				list = dma_resv_list_alloc(cursor.shared_count);
+ 				if (!list) {
+ 					dma_resv_iter_end(&cursor);
+ 					return -ENOMEM;
+@@ -522,7 +524,7 @@ int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
+ 			if (fence_excl)
+ 				dma_fence_put(*fence_excl);
+ 
+-			count = cursor.fences ? cursor.fences->shared_count : 0;
++			count = cursor.shared_count;
+ 			count += fence_excl ? 0 : 1;
+ 
+ 			/* Eventually re-allocate the array */
+diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+index 8b6c20636a79..3e1bff147428 100644
+--- a/include/linux/dma-resv.h
++++ b/include/linux/dma-resv.h
+@@ -170,9 +170,12 @@ struct dma_resv_iter {
+ 	/** @index: index into the shared fences */
+ 	unsigned int index;
+ 
+-	/** @fences: the shared fences */
++	/** @fences: the shared fences; private, *MUST* not dereference  */
+ 	struct dma_resv_list *fences;
+ 
++	/** @shared_count: number of shared fences */
++	unsigned int shared_count;
++
+ 	/** @is_restarted: true if this is the first returned fence */
+ 	bool is_restarted;
+ };
 -- 
-Ville Syrjälä
-Intel
+2.30.2
+
