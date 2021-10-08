@@ -2,35 +2,37 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F4A4426BBD
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:36:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A02D6426BBC
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:35:54 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B87C46F500;
+	by gabe.freedesktop.org (Postfix) with ESMTP id 58EF56E0C1;
 	Fri,  8 Oct 2021 13:35:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 517AD6E069;
- Fri,  8 Oct 2021 13:35:44 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388438"
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388438"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 990EB6E069;
+ Fri,  8 Oct 2021 13:35:45 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388443"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388443"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:43 -0700
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983697"
+ 08 Oct 2021 06:35:45 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983703"
 Received: from lenovo-x280.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
  ([10.249.254.98])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:42 -0700
+ 08 Oct 2021 06:35:43 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 0/6] drm/i915: Failsafe migration blits
-Date: Fri,  8 Oct 2021 15:35:24 +0200
-Message-Id: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 1/6] drm/i915: Update dma_fence_work
+Date: Fri,  8 Oct 2021 15:35:25 +0200
+Message-Id: <20211008133530.664509-2-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
+In-Reply-To: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
+References: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -49,62 +51,166 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This patch series introduces failsafe migration blits.
-The reason for this seemingly strange concept is that if the initial
-clearing or readback of LMEM fails for some reason, and we then set up
-either GPU- or CPU ptes to the allocated LMEM, we can expose old
-contents from other clients.
+Move the release callback to after fence signaling to align with
+what's done for upcoming VM_BIND user-fence signaling.
 
-So after each migration blit we attach a struct dma-fence-work that checks
-the error value and if it's an error, perform a memcpy blit, instead.
+Finally call the work callback regardless of whether we have a fence
+error or not and update the existing callbacks accordingly. We will
+need this to intercept the error for failsafe migration.
 
-This comes with some needed infrastructure updates:
+Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_clflush.c |  5 +++
+ drivers/gpu/drm/i915/i915_sw_fence_work.c   | 36 ++++++++++-----------
+ drivers/gpu/drm/i915/i915_sw_fence_work.h   |  1 +
+ drivers/gpu/drm/i915/i915_vma.c             | 12 +++++--
+ 4 files changed, 33 insertions(+), 21 deletions(-)
 
-Patch 1, updates dma_fence_work to do the work even if there is an error.
-The work callback needs to check for error and take action accordingly.
-Patch 2, Introduces refcounted sg-tables. The sg-tables are needed async for
-the memcpy.
-Patch 3, Introduces the failsafe migration blits and selftests.
-Patch 4, Adds the possibility to attach the struct dma_fence_work to a timeline.
-Patch 5, Attached the migration fence to a timeline since TTM requires that
-for upcoming async eviction.
-Patch 6 Adds an optimization for coalescing-only struct dma_fence_work.
-
-Worth to consider during review: Patch 4-6 are probably better done in the
-context of struct dma_fence_array. Both since we perhaps shouldn't add
-irq work to yet another fence data structure and also because the
-i915 command submission can individualize struct dma_fence_arrays.
-
-Also the memcpy solution here isn't a final one as it only works if the
-aperture covers all of lmem. We probably need to work on a solution where
-we intercept move_fence errors and refuse GPU- and CPU mappings.
-
-Thomas Hellström (6):
-  drm/i915: Update dma_fence_work
-  drm/i915: Introduce refcounted sg-tables
-  drm/i915/ttm: Failsafe migration blits
-  drm/i915: Add a struct dma_fence_work timeline
-  drm/i915/ttm: Attach the migration fence to a region timeline on
-    eviction
-  drm/i915: Use irq work for coalescing-only dma-fence-work
-
- drivers/gpu/drm/i915/gem/i915_gem_clflush.c   |   5 +
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 467 ++++++++++++++----
- drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   4 +
- .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
- drivers/gpu/drm/i915/i915_scatterlist.c       |  62 ++-
- drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++-
- drivers/gpu/drm/i915/i915_sw_fence_work.c     | 145 +++++-
- drivers/gpu/drm/i915/i915_sw_fence_work.h     |  61 +++
- drivers/gpu/drm/i915/i915_vma.c               |  12 +-
- drivers/gpu/drm/i915/intel_memory_region.c    |  43 ++
- drivers/gpu/drm/i915/intel_memory_region.h    |   7 +
- drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
- drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
- drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
- 15 files changed, 776 insertions(+), 165 deletions(-)
-
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+index f0435c6feb68..2143ebaf5b6f 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_clflush.c
+@@ -28,6 +28,11 @@ static void clflush_work(struct dma_fence_work *base)
+ {
+ 	struct clflush *clflush = container_of(base, typeof(*clflush), base);
+ 
++	if (base->error) {
++		dma_fence_set_error(&base->dma, base->error);
++		return;
++	}
++
+ 	__do_clflush(clflush->obj);
+ }
+ 
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+index 5b33ef23d54c..5b55cddafc9b 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+@@ -6,21 +6,24 @@
+ 
+ #include "i915_sw_fence_work.h"
+ 
+-static void fence_complete(struct dma_fence_work *f)
++static void dma_fence_work_complete(struct dma_fence_work *f)
+ {
++	dma_fence_signal(&f->dma);
++
+ 	if (f->ops->release)
+ 		f->ops->release(f);
+-	dma_fence_signal(&f->dma);
++
++	dma_fence_put(&f->dma);
+ }
+ 
+-static void fence_work(struct work_struct *work)
++static void dma_fence_work_work(struct work_struct *work)
+ {
+ 	struct dma_fence_work *f = container_of(work, typeof(*f), work);
+ 
+-	f->ops->work(f);
++	if (f->ops->work)
++		f->ops->work(f);
+ 
+-	fence_complete(f);
+-	dma_fence_put(&f->dma);
++	dma_fence_work_complete(f);
+ }
+ 
+ static int __i915_sw_fence_call
+@@ -31,17 +34,13 @@ fence_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify state)
+ 	switch (state) {
+ 	case FENCE_COMPLETE:
+ 		if (fence->error)
+-			dma_fence_set_error(&f->dma, fence->error);
+-
+-		if (!f->dma.error) {
+-			dma_fence_get(&f->dma);
+-			if (test_bit(DMA_FENCE_WORK_IMM, &f->dma.flags))
+-				fence_work(&f->work);
+-			else
+-				queue_work(system_unbound_wq, &f->work);
+-		} else {
+-			fence_complete(f);
+-		}
++			cmpxchg(&f->error, 0, fence->error);
++
++		dma_fence_get(&f->dma);
++		if (test_bit(DMA_FENCE_WORK_IMM, &f->dma.flags))
++			dma_fence_work_work(&f->work);
++		else
++			queue_work(system_unbound_wq, &f->work);
+ 		break;
+ 
+ 	case FENCE_FREE:
+@@ -84,10 +83,11 @@ void dma_fence_work_init(struct dma_fence_work *f,
+ 			 const struct dma_fence_work_ops *ops)
+ {
+ 	f->ops = ops;
++	f->error = 0;
+ 	spin_lock_init(&f->lock);
+ 	dma_fence_init(&f->dma, &fence_ops, &f->lock, 0, 0);
+ 	i915_sw_fence_init(&f->chain, fence_notify);
+-	INIT_WORK(&f->work, fence_work);
++	INIT_WORK(&f->work, dma_fence_work_work);
+ }
+ 
+ int dma_fence_work_chain(struct dma_fence_work *f, struct dma_fence *signal)
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.h b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+index d56806918d13..caa59fb5252b 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.h
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+@@ -24,6 +24,7 @@ struct dma_fence_work_ops {
+ struct dma_fence_work {
+ 	struct dma_fence dma;
+ 	spinlock_t lock;
++	int error;
+ 
+ 	struct i915_sw_fence chain;
+ 	struct i915_sw_dma_fence_cb cb;
+diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
+index 4b7fc4647e46..5123ac28ad9a 100644
+--- a/drivers/gpu/drm/i915/i915_vma.c
++++ b/drivers/gpu/drm/i915/i915_vma.c
+@@ -301,6 +301,11 @@ static void __vma_bind(struct dma_fence_work *work)
+ 	struct i915_vma_work *vw = container_of(work, typeof(*vw), base);
+ 	struct i915_vma *vma = vw->vma;
+ 
++	if (work->error) {
++		dma_fence_set_error(&work->dma, work->error);
++		return;
++	}
++
+ 	vma->ops->bind_vma(vw->vm, &vw->stash,
+ 			   vma, vw->cache_level, vw->flags);
+ }
+@@ -333,7 +338,7 @@ struct i915_vma_work *i915_vma_work(void)
+ 		return NULL;
+ 
+ 	dma_fence_work_init(&vw->base, &bind_ops);
+-	vw->base.dma.error = -EAGAIN; /* disable the worker by default */
++	vw->base.error = -EAGAIN; /* disable the worker by default */
+ 
+ 	return vw;
+ }
+@@ -416,6 +421,9 @@ int i915_vma_bind(struct i915_vma *vma,
+ 		 * part of the obj->resv->excl_fence as it only affects
+ 		 * execution and not content or object's backing store lifetime.
+ 		 */
++
++		work->base.error = 0; /* enable the queue_work() */
++
+ 		prev = i915_active_set_exclusive(&vma->active, &work->base.dma);
+ 		if (prev) {
+ 			__i915_sw_fence_await_dma_fence(&work->base.chain,
+@@ -424,8 +432,6 @@ int i915_vma_bind(struct i915_vma *vma,
+ 			dma_fence_put(prev);
+ 		}
+ 
+-		work->base.dma.error = 0; /* enable the queue_work() */
+-
+ 		if (vma->obj) {
+ 			__i915_gem_object_pin_pages(vma->obj);
+ 			work->pinned = i915_gem_object_get(vma->obj);
 -- 
 2.31.1
 
