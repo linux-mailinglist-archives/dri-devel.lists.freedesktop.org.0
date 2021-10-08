@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72D9426BBF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C12C426BC1
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:36:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 30FBC6F50A;
-	Fri,  8 Oct 2021 13:35:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C1F246F50B;
+	Fri,  8 Oct 2021 13:35:52 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E1B1F6F509;
- Fri,  8 Oct 2021 13:35:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388450"
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388450"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF2D16F509;
+ Fri,  8 Oct 2021 13:35:49 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388457"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388457"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983712"
+ 08 Oct 2021 06:35:49 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983721"
 Received: from lenovo-x280.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
  ([10.249.254.98])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:45 -0700
+ 08 Oct 2021 06:35:47 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 2/6] drm/i915: Introduce refcounted sg-tables
-Date: Fri,  8 Oct 2021 15:35:26 +0200
-Message-Id: <20211008133530.664509-3-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 3/6] drm/i915/ttm: Failsafe migration blits
+Date: Fri,  8 Oct 2021 15:35:27 +0200
+Message-Id: <20211008133530.664509-4-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
 References: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
@@ -51,762 +51,418 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-As we start to introduce asynchronous failsafe object migration,
-where we update the object state and then submit asynchronous
-commands we need to record what memory resources are actually used
-by various part of the command stream. Initially for three purposes:
+If the initial fill blit or copy blit of an object fails, the old
+content of the data might be exposed and read as soon as either CPU- or
+GPU PTEs are set up to point at the pages.
 
-1) Error capture.
-2) Asynchronous migration error recovery.
-3) Asynchronous vma bind.
+Intercept the blit fence with an async dma_fence_work that checks the
+blit fence for errors and if there are errors performs an async cpu blit
+instead. If there is a failure to allocate the async dma_fence_work,
+allocate it on the stack and sync wait for the blit to complete.
 
-At the time where these happens, the object state may have been updated
-to be several migrations ahead and object sg-tables discarded.
-
-In order to make it possible to keep sg-tables with memory resource
-information for these operations, introduce refcounted sg-tables that
-aren't freed until the last user is done with them.
-
-The alternative would be to reference information sitting on the
-corresponding ttm_resources which typically have the same lifetime as
-these refcountes sg_tables, but that leads to other awkward constructs:
-Due to the design direction chosen for ttm resource managers that would
-lead to diamond-style inheritance, the LMEM resources may sometimes be
-prematurely freed, and finally the subclassed struct ttm_resource would
-have to bleed into the asynchronous vma bind code.
+Add selftests that simulate gpu blit failures and failure to allocate
+the async dma_fence_work.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- .../gpu/drm/i915/gem/i915_gem_object_types.h  |   3 +-
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 159 +++++++++++-------
- drivers/gpu/drm/i915/i915_scatterlist.c       |  62 +++++--
- drivers/gpu/drm/i915/i915_scatterlist.h       |  76 ++++++++-
- drivers/gpu/drm/i915/intel_region_ttm.c       |  15 +-
- drivers/gpu/drm/i915/intel_region_ttm.h       |   5 +-
- drivers/gpu/drm/i915/selftests/mock_region.c  |  12 +-
- 7 files changed, 238 insertions(+), 94 deletions(-)
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.c       | 268 ++++++++++++++----
+ drivers/gpu/drm/i915/gem/i915_gem_ttm.h       |   4 +
+ .../drm/i915/gem/selftests/i915_gem_migrate.c |  24 +-
+ 3 files changed, 240 insertions(+), 56 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-index 7c3da4e3e737..d600cf7ceb35 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_object_types.h
-@@ -485,6 +485,7 @@ struct drm_i915_gem_object {
- 		 */
- 		struct list_head region_link;
- 
-+		struct i915_refct_sgt *rsgt;
- 		struct sg_table *pages;
- 		void *mapping;
- 
-@@ -538,7 +539,7 @@ struct drm_i915_gem_object {
- 	} mm;
- 
- 	struct {
--		struct sg_table *cached_io_st;
-+		struct i915_refct_sgt *cached_io_rsgt;
- 		struct i915_gem_object_page_iter get_io_page;
- 		struct drm_i915_gem_object *backup;
- 		bool created:1;
 diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 74a1ffd0d7dd..4b4d7457bef9 100644
+index 4b4d7457bef9..79d4d50aa4e5 100644
 --- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
 +++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -34,7 +34,7 @@
-  * struct i915_ttm_tt - TTM page vector with additional private information
-  * @ttm: The base TTM page vector.
-  * @dev: The struct device used for dma mapping and unmapping.
-- * @cached_st: The cached scatter-gather table.
-+ * @cached_rsgt: The cached scatter-gather table.
-  *
-  * Note that DMA may be going on right up to the point where the page-
-  * vector is unpopulated in delayed destroy. Hence keep the
-@@ -45,7 +45,7 @@
- struct i915_ttm_tt {
- 	struct ttm_tt ttm;
- 	struct device *dev;
--	struct sg_table *cached_st;
-+	struct i915_refct_sgt cached_rsgt;
- };
+@@ -7,6 +7,7 @@
+ #include <drm/ttm/ttm_placement.h>
  
- static const struct ttm_place sys_placement_flags = {
-@@ -179,6 +179,21 @@ i915_ttm_placement_from_obj(const struct drm_i915_gem_object *obj,
- 	placement->busy_placement = busy;
- }
+ #include "i915_drv.h"
++#include "i915_sw_fence_work.h"
+ #include "intel_memory_region.h"
+ #include "intel_region_ttm.h"
  
-+static void i915_ttm_tt_release(struct kref *ref)
+@@ -25,6 +26,18 @@
+ #define I915_TTM_PRIO_NO_PAGES  1
+ #define I915_TTM_PRIO_HAS_PAGES 2
+ 
++I915_SELFTEST_DECLARE(static bool fail_gpu_migration;)
++I915_SELFTEST_DECLARE(static bool fail_work_allocation;)
++
++#ifdef CONFIG_DRM_I915_SELFTEST
++void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
++					bool work_allocation)
 +{
-+	struct i915_ttm_tt *i915_tt =
-+		container_of(ref, typeof(*i915_tt), cached_rsgt.kref);
-+	struct sg_table *st = &i915_tt->cached_rsgt.table;
-+
-+	GEM_WARN_ON(st->sgl);
-+
-+	kfree(i915_tt);
++	fail_gpu_migration = gpu_migration;
++	fail_work_allocation = work_allocation;
 +}
++#endif
 +
-+static const struct i915_refct_sgt_ops tt_rsgt_ops = {
-+	.release = i915_ttm_tt_release
-+};
-+
- static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 					 uint32_t page_flags)
- {
-@@ -203,6 +218,8 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- 		return NULL;
- 	}
- 
-+	i915_refct_sgt_init_ops(&i915_tt->cached_rsgt, bo->base.size,
-+				&tt_rsgt_ops);
- 	i915_tt->dev = obj->base.dev->dev;
- 
- 	return &i915_tt->ttm;
-@@ -211,13 +228,13 @@ static struct ttm_tt *i915_ttm_tt_create(struct ttm_buffer_object *bo,
- static void i915_ttm_tt_unpopulate(struct ttm_device *bdev, struct ttm_tt *ttm)
- {
- 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
-+	struct sg_table *st = &i915_tt->cached_rsgt.table;
-+
-+	GEM_WARN_ON(kref_read(&i915_tt->cached_rsgt.kref) != 1);
- 
--	if (i915_tt->cached_st) {
--		dma_unmap_sgtable(i915_tt->dev, i915_tt->cached_st,
--				  DMA_BIDIRECTIONAL, 0);
--		sg_free_table(i915_tt->cached_st);
--		kfree(i915_tt->cached_st);
--		i915_tt->cached_st = NULL;
-+	if (st->sgl) {
-+		dma_unmap_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL, 0);
-+		sg_free_table(st);
- 	}
- 	ttm_pool_free(&bdev->pool, ttm);
- }
-@@ -226,8 +243,10 @@ static void i915_ttm_tt_destroy(struct ttm_device *bdev, struct ttm_tt *ttm)
- {
- 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
- 
-+	GEM_WARN_ON(kref_read(&i915_tt->cached_rsgt.kref) != 1);
-+
- 	ttm_tt_fini(ttm);
--	kfree(i915_tt);
-+	i915_refct_sgt_put(&i915_tt->cached_rsgt);
+ /*
+  * Size of struct ttm_place vector in on-stack struct ttm_placement allocs
+  */
+@@ -466,11 +479,11 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
+ 	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res);
  }
  
- static bool i915_ttm_eviction_valuable(struct ttm_buffer_object *bo,
-@@ -261,12 +280,12 @@ static int i915_ttm_move_notify(struct ttm_buffer_object *bo)
- 	return 0;
- }
- 
--static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
-+static void i915_ttm_free_cached_io_rsgt(struct drm_i915_gem_object *obj)
- {
- 	struct radix_tree_iter iter;
- 	void __rcu **slot;
- 
--	if (!obj->ttm.cached_io_st)
-+	if (!obj->ttm.cached_io_rsgt)
- 		return;
- 
- 	rcu_read_lock();
-@@ -274,9 +293,8 @@ static void i915_ttm_free_cached_io_st(struct drm_i915_gem_object *obj)
- 		radix_tree_delete(&obj->ttm.get_io_page.radix, iter.index);
- 	rcu_read_unlock();
- 
--	sg_free_table(obj->ttm.cached_io_st);
--	kfree(obj->ttm.cached_io_st);
--	obj->ttm.cached_io_st = NULL;
-+	i915_refct_sgt_put(obj->ttm.cached_io_rsgt);
-+	obj->ttm.cached_io_rsgt = NULL;
- }
- 
- static void
-@@ -347,7 +365,7 @@ static void i915_ttm_purge(struct drm_i915_gem_object *obj)
- 		obj->write_domain = 0;
- 		obj->read_domains = 0;
- 		i915_ttm_adjust_gem_after_move(obj);
--		i915_ttm_free_cached_io_st(obj);
-+		i915_ttm_free_cached_io_rsgt(obj);
- 		obj->mm.madv = __I915_MADV_PURGED;
- 	}
- }
-@@ -358,7 +376,7 @@ static void i915_ttm_swap_notify(struct ttm_buffer_object *bo)
- 	int ret = i915_ttm_move_notify(bo);
- 
- 	GEM_WARN_ON(ret);
--	GEM_WARN_ON(obj->ttm.cached_io_st);
-+	GEM_WARN_ON(obj->ttm.cached_io_rsgt);
- 	if (!ret && obj->mm.madv != I915_MADV_WILLNEED)
- 		i915_ttm_purge(obj);
- }
-@@ -369,7 +387,7 @@ static void i915_ttm_delete_mem_notify(struct ttm_buffer_object *bo)
- 
- 	if (likely(obj)) {
- 		__i915_gem_object_pages_fini(obj);
--		i915_ttm_free_cached_io_st(obj);
-+		i915_ttm_free_cached_io_rsgt(obj);
- 	}
- }
- 
-@@ -389,40 +407,35 @@ i915_ttm_region(struct ttm_device *bdev, int ttm_mem_type)
- 					  ttm_mem_type - I915_PL_LMEM0);
- }
- 
--static struct sg_table *i915_ttm_tt_get_st(struct ttm_tt *ttm)
-+static struct i915_refct_sgt *i915_ttm_tt_get_st(struct ttm_tt *ttm)
- {
- 	struct i915_ttm_tt *i915_tt = container_of(ttm, typeof(*i915_tt), ttm);
- 	struct sg_table *st;
- 	int ret;
- 
--	if (i915_tt->cached_st)
--		return i915_tt->cached_st;
--
--	st = kzalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
--		return ERR_PTR(-ENOMEM);
-+	if (i915_tt->cached_rsgt.table.sgl)
-+		return i915_refct_sgt_get(&i915_tt->cached_rsgt);
- 
-+	st = &i915_tt->cached_rsgt.table;
- 	ret = sg_alloc_table_from_pages_segment(st,
- 			ttm->pages, ttm->num_pages,
- 			0, (unsigned long)ttm->num_pages << PAGE_SHIFT,
- 			i915_sg_segment_size(), GFP_KERNEL);
- 	if (ret) {
--		kfree(st);
-+		st->sgl = NULL;
- 		return ERR_PTR(ret);
- 	}
- 
- 	ret = dma_map_sgtable(i915_tt->dev, st, DMA_BIDIRECTIONAL, 0);
- 	if (ret) {
- 		sg_free_table(st);
--		kfree(st);
- 		return ERR_PTR(ret);
- 	}
- 
--	i915_tt->cached_st = st;
--	return st;
-+	return i915_refct_sgt_get(&i915_tt->cached_rsgt);
- }
- 
--static struct sg_table *
-+static struct i915_refct_sgt *
- i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 			 struct ttm_resource *res)
- {
-@@ -436,7 +449,21 @@ i915_ttm_resource_get_st(struct drm_i915_gem_object *obj,
- 	 * the resulting st. Might make sense for GGTT.
- 	 */
- 	GEM_WARN_ON(!cpu_maps_iomem(res));
--	return intel_region_ttm_resource_to_st(obj->mm.region, res);
-+	if (bo->resource == res) {
-+		if (!obj->ttm.cached_io_rsgt) {
-+			struct i915_refct_sgt *rsgt;
-+
-+			rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
-+								 res);
-+			if (IS_ERR(rsgt))
-+				return rsgt;
-+
-+			obj->ttm.cached_io_rsgt = rsgt;
-+		}
-+		return i915_refct_sgt_get(obj->ttm.cached_io_rsgt);
-+	}
-+
-+	return intel_region_ttm_resource_to_rsgt(obj->mm.region, res);
- }
- 
- static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
-@@ -447,10 +474,7 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+-static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+-			       bool clear,
+-			       struct ttm_resource *dst_mem,
+-			       struct ttm_tt *dst_ttm,
+-			       struct sg_table *dst_st)
++static struct dma_fence *i915_ttm_accel_move(struct ttm_buffer_object *bo,
++					     bool clear,
++					     struct ttm_resource *dst_mem,
++					     struct ttm_tt *dst_ttm,
++					     struct sg_table *dst_st)
  {
  	struct drm_i915_private *i915 = container_of(bo->bdev, typeof(*i915),
  						     bdev);
--	struct ttm_resource_manager *src_man =
--		ttm_manager_type(bo->bdev, bo->resource->mem_type);
- 	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
--	struct sg_table *src_st;
- 	struct i915_request *rq;
- 	struct ttm_tt *src_ttm = bo->ttm;
- 	enum i915_cache_level src_level, dst_level;
-@@ -476,17 +500,22 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- 		}
- 		intel_engine_pm_put(i915->gt.migrate.context->engine);
- 	} else {
--		src_st = src_man->use_tt ? i915_ttm_tt_get_st(src_ttm) :
--			obj->ttm.cached_io_st;
-+		struct i915_refct_sgt *src_rsgt =
-+			i915_ttm_resource_get_st(obj, bo->resource);
+@@ -481,30 +494,29 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
+ 	int ret;
+ 
+ 	if (!i915->gt.migrate.context || intel_gt_is_wedged(&i915->gt))
+-		return -EINVAL;
++		return ERR_PTR(-EINVAL);
 +
-+		if (IS_ERR(src_rsgt))
-+			return PTR_ERR(src_rsgt);
++	/* With fail_gpu_migration, we always perform a GPU clear. */
++	if (I915_SELFTEST_ONLY(fail_gpu_migration))
++		clear = true;
+ 
+ 	dst_level = i915_ttm_cache_level(i915, dst_mem, dst_ttm);
+ 	if (clear) {
+-		if (bo->type == ttm_bo_type_kernel)
+-			return -EINVAL;
++		if (bo->type == ttm_bo_type_kernel &&
++		    !I915_SELFTEST_ONLY(fail_gpu_migration))
++			return ERR_PTR(-EINVAL);
+ 
+ 		intel_engine_pm_get(i915->gt.migrate.context->engine);
+ 		ret = intel_context_migrate_clear(i915->gt.migrate.context, NULL,
+ 						  dst_st->sgl, dst_level,
+ 						  gpu_binds_iomem(dst_mem),
+ 						  0, &rq);
+-
+-		if (!ret && rq) {
+-			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+-			i915_request_put(rq);
+-		}
+-		intel_engine_pm_put(i915->gt.migrate.context->engine);
+ 	} else {
+ 		struct i915_refct_sgt *src_rsgt =
+ 			i915_ttm_resource_get_st(obj, bo->resource);
+ 
+ 		if (IS_ERR(src_rsgt))
+-			return PTR_ERR(src_rsgt);
++			return ERR_CAST(src_rsgt);
  
  		src_level = i915_ttm_cache_level(i915, bo->resource, src_ttm);
  		intel_engine_pm_get(i915->gt.migrate.context->engine);
- 		ret = intel_context_migrate_copy(i915->gt.migrate.context,
--						 NULL, src_st->sgl, src_level,
-+						 NULL, src_rsgt->table.sgl,
-+						 src_level,
- 						 gpu_binds_iomem(bo->resource),
+@@ -515,55 +527,201 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
  						 dst_st->sgl, dst_level,
  						 gpu_binds_iomem(dst_mem),
  						 &rq);
-+		i915_refct_sgt_put(src_rsgt);
- 		if (!ret && rq) {
- 			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
- 			i915_request_put(rq);
-@@ -500,13 +529,14 @@ static int i915_ttm_accel_move(struct ttm_buffer_object *bo,
- static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 			    struct ttm_resource *dst_mem,
- 			    struct ttm_tt *dst_ttm,
--			    struct sg_table *dst_st,
-+			    struct i915_refct_sgt *dst_rsgt,
- 			    bool allow_accel)
++
+ 		i915_refct_sgt_put(src_rsgt);
+-		if (!ret && rq) {
+-			i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
+-			i915_request_put(rq);
+-		}
+-		intel_engine_pm_put(i915->gt.migrate.context->engine);
+ 	}
+ 
+-	return ret;
++	intel_engine_pm_put(i915->gt.migrate.context->engine);
++
++	if (ret && rq) {
++		i915_request_wait(rq, 0, MAX_SCHEDULE_TIMEOUT);
++		i915_request_put(rq);
++	}
++
++	return ret ? ERR_PTR(ret) : &rq->fence;
++}
++
++/**
++ * struct i915_ttm_memcpy_work - memcpy work item under a dma-fence
++ * @base: The struct dma_fence_work we subclass.
++ * @_dst_iter: Storage space for the destination kmap iterator.
++ * @_src_iter: Storage space for the source kmap iterator.
++ * @dst_iter: Pointer to the destination kmap iterator.
++ * @src_iter: Pointer to the source kmap iterator.
++ * @clear: Whether to clear instead of copy.
++ * @num_pages: Number of pages in the copy.
++ * @src_rsgt: Refcounted scatter-gather list of source memory.
++ * @dst_rsgt: Refcounted scatter-gather list of destination memory.
++ */
++struct i915_ttm_memcpy_work {
++	struct dma_fence_work base;
++	union {
++		struct ttm_kmap_iter_tt tt;
++		struct ttm_kmap_iter_iomap io;
++	} _dst_iter,
++	_src_iter;
++	struct ttm_kmap_iter *dst_iter;
++	struct ttm_kmap_iter *src_iter;
++	unsigned long num_pages;
++	bool clear;
++	struct i915_refct_sgt *src_rsgt;
++	struct i915_refct_sgt *dst_rsgt;
++};
++
++static void __memcpy_work(struct dma_fence_work *work)
++{
++	struct i915_ttm_memcpy_work *copy_work =
++		container_of(work, typeof(*copy_work), base);
++
++	if (I915_SELFTEST_ONLY(fail_gpu_migration))
++		cmpxchg(&work->error, 0, -EINVAL);
++
++	/* If there was an error in the gpu copy operation, run memcpy. */
++	if (work->error)
++		ttm_move_memcpy(copy_work->clear, copy_work->num_pages,
++				copy_work->dst_iter, copy_work->src_iter);
++
++	/*
++	 * Can't signal before we unref the rsgts, because then
++	 * ttms might be unpopulated before we unref these and we'll hit
++	 * a GEM_WARN_ON() in i915_ttm_tt_unpopulate. Not a real problem,
++	 * but good to keep the GEM_WARN_ON to check that we don't leak rsgts.
++	 */
++	i915_refct_sgt_put(copy_work->src_rsgt);
++	i915_refct_sgt_put(copy_work->dst_rsgt);
++}
++
++static const struct dma_fence_work_ops i915_ttm_memcpy_ops = {
++	.work = __memcpy_work,
++};
++
++static void i915_ttm_memcpy_work_init(struct i915_ttm_memcpy_work *copy_work,
++				      struct ttm_buffer_object *bo, bool clear,
++				      struct ttm_resource *dst_mem,
++				      struct ttm_tt *dst_ttm,
++				      struct i915_refct_sgt *dst_rsgt)
++{
++	struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
++	struct intel_memory_region *dst_reg, *src_reg;
++
++	dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
++	src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
++	GEM_BUG_ON(!dst_reg || !src_reg);
++
++	/*
++	 * We could consider populating only parts of this structure
++	 * (like avoiding the iterators) until it's actually
++	 * determined that we need it. But initializing the iterators
++	 * shouldn't be that costly really.
++	 */
++
++	copy_work->dst_iter = !cpu_maps_iomem(dst_mem) ?
++		ttm_kmap_iter_tt_init(&copy_work->_dst_iter.tt, dst_ttm) :
++		ttm_kmap_iter_iomap_init(&copy_work->_dst_iter.io, &dst_reg->iomap,
++					 &dst_rsgt->table, dst_reg->region.start);
++
++	copy_work->src_iter = !cpu_maps_iomem(bo->resource) ?
++		ttm_kmap_iter_tt_init(&copy_work->_src_iter.tt, bo->ttm) :
++		ttm_kmap_iter_iomap_init(&copy_work->_src_iter.io, &src_reg->iomap,
++					 &obj->ttm.cached_io_rsgt->table,
++					 src_reg->region.start);
++	copy_work->clear = clear;
++	copy_work->num_pages = bo->base.size >> PAGE_SHIFT;
++
++	copy_work->dst_rsgt = i915_refct_sgt_get(dst_rsgt);
++	copy_work->src_rsgt = clear ? NULL :
++		i915_ttm_resource_get_st(obj, bo->resource);
+ }
+ 
+-static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
+-			    struct ttm_resource *dst_mem,
+-			    struct ttm_tt *dst_ttm,
+-			    struct i915_refct_sgt *dst_rsgt,
+-			    bool allow_accel)
++/*
++ * This is only used as a last fallback if the copy_work
++ * memory allocation fails, prohibiting async moves.
++ */
++static void __i915_ttm_move_fallback(struct ttm_buffer_object *bo, bool clear,
++				     struct ttm_resource *dst_mem,
++				     struct ttm_tt *dst_ttm,
++				     struct i915_refct_sgt *dst_rsgt,
++				     bool allow_accel)
  {
  	int ret = -EINVAL;
  
- 	if (allow_accel)
--		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm, dst_st);
-+		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
-+					  &dst_rsgt->table);
- 	if (ret) {
- 		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
- 		struct intel_memory_region *dst_reg, *src_reg;
-@@ -523,12 +553,13 @@ static void __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 		dst_iter = !cpu_maps_iomem(dst_mem) ?
- 			ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
- 			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
--						 dst_st, dst_reg->region.start);
-+						 &dst_rsgt->table,
-+						 dst_reg->region.start);
- 
- 		src_iter = !cpu_maps_iomem(bo->resource) ?
- 			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
- 			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
--						 obj->ttm.cached_io_st,
-+						 &obj->ttm.cached_io_rsgt->table,
- 						 src_reg->region.start);
- 
- 		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
-@@ -544,7 +575,7 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 	struct ttm_resource_manager *dst_man =
- 		ttm_manager_type(bo->bdev, dst_mem->mem_type);
- 	struct ttm_tt *ttm = bo->ttm;
--	struct sg_table *dst_st;
-+	struct i915_refct_sgt *dst_rsgt;
- 	bool clear;
- 	int ret;
- 
-@@ -570,22 +601,24 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 			return ret;
- 	}
- 
--	dst_st = i915_ttm_resource_get_st(obj, dst_mem);
--	if (IS_ERR(dst_st))
--		return PTR_ERR(dst_st);
-+	dst_rsgt = i915_ttm_resource_get_st(obj, dst_mem);
-+	if (IS_ERR(dst_rsgt))
-+		return PTR_ERR(dst_rsgt);
- 
- 	clear = !cpu_maps_iomem(bo->resource) && (!ttm || !ttm_tt_is_populated(ttm));
- 	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
--		__i915_ttm_move(bo, clear, dst_mem, bo->ttm, dst_st, true);
-+		__i915_ttm_move(bo, clear, dst_mem, bo->ttm, dst_rsgt, true);
- 
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_adjust_domains_after_move(obj);
--	i915_ttm_free_cached_io_st(obj);
-+	i915_ttm_free_cached_io_rsgt(obj);
- 
- 	if (gpu_binds_iomem(dst_mem) || cpu_maps_iomem(dst_mem)) {
--		obj->ttm.cached_io_st = dst_st;
--		obj->ttm.get_io_page.sg_pos = dst_st->sgl;
-+		obj->ttm.cached_io_rsgt = dst_rsgt;
-+		obj->ttm.get_io_page.sg_pos = dst_rsgt->table.sgl;
- 		obj->ttm.get_io_page.sg_idx = 0;
-+	} else {
-+		i915_refct_sgt_put(dst_rsgt);
- 	}
- 
- 	i915_ttm_adjust_gem_after_move(obj);
-@@ -649,7 +682,6 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
- 		.interruptible = true,
- 		.no_wait_gpu = false,
- 	};
--	struct sg_table *st;
- 	int real_num_busy;
- 	int ret;
- 
-@@ -687,12 +719,16 @@ static int __i915_ttm_get_pages(struct drm_i915_gem_object *obj,
- 	}
- 
- 	if (!i915_gem_object_has_pages(obj)) {
--		/* Object either has a page vector or is an iomem object */
--		st = bo->ttm ? i915_ttm_tt_get_st(bo->ttm) : obj->ttm.cached_io_st;
--		if (IS_ERR(st))
--			return PTR_ERR(st);
-+		struct i915_refct_sgt *rsgt =
-+			i915_ttm_resource_get_st(obj, bo->resource);
+-	if (allow_accel)
+-		ret = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
+-					  &dst_rsgt->table);
+-	if (ret) {
+-		struct drm_i915_gem_object *obj = i915_ttm_to_gem(bo);
+-		struct intel_memory_region *dst_reg, *src_reg;
+-		union {
+-			struct ttm_kmap_iter_tt tt;
+-			struct ttm_kmap_iter_iomap io;
+-		} _dst_iter, _src_iter;
+-		struct ttm_kmap_iter *dst_iter, *src_iter;
+-
+-		dst_reg = i915_ttm_region(bo->bdev, dst_mem->mem_type);
+-		src_reg = i915_ttm_region(bo->bdev, bo->resource->mem_type);
+-		GEM_BUG_ON(!dst_reg || !src_reg);
+-
+-		dst_iter = !cpu_maps_iomem(dst_mem) ?
+-			ttm_kmap_iter_tt_init(&_dst_iter.tt, dst_ttm) :
+-			ttm_kmap_iter_iomap_init(&_dst_iter.io, &dst_reg->iomap,
+-						 &dst_rsgt->table,
+-						 dst_reg->region.start);
+-
+-		src_iter = !cpu_maps_iomem(bo->resource) ?
+-			ttm_kmap_iter_tt_init(&_src_iter.tt, bo->ttm) :
+-			ttm_kmap_iter_iomap_init(&_src_iter.io, &src_reg->iomap,
+-						 &obj->ttm.cached_io_rsgt->table,
+-						 src_reg->region.start);
+-
+-		ttm_move_memcpy(clear, dst_mem->num_pages, dst_iter, src_iter);
++	if (allow_accel) {
++		struct dma_fence *fence;
 +
-+		if (IS_ERR(rsgt))
-+			return PTR_ERR(rsgt);
- 
--		__i915_gem_object_set_pages(obj, st, i915_sg_dma_sizes(st->sgl));
-+		GEM_BUG_ON(obj->mm.rsgt);
-+		obj->mm.rsgt = rsgt;
-+		__i915_gem_object_set_pages(obj, &rsgt->table,
-+					    i915_sg_dma_sizes(rsgt->table.sgl));
- 	}
- 
- 	return ret;
-@@ -766,6 +802,11 @@ static void i915_ttm_put_pages(struct drm_i915_gem_object *obj,
- 	 * and shrinkers will move it out if needed.
- 	 */
- 
-+	if (obj->mm.rsgt) {
-+		i915_refct_sgt_put(obj->mm.rsgt);
-+		obj->mm.rsgt = NULL;
++		fence = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
++					    &dst_rsgt->table);
++		if (IS_ERR(fence)) {
++			ret = PTR_ERR(fence);
++		} else {
++			ret = dma_fence_wait(fence, false);
++			if (!ret)
++				ret = fence->error;
++			dma_fence_put(fence);
++		}
 +	}
 +
- 	i915_ttm_adjust_lru(obj);
- }
- 
-@@ -1023,7 +1064,7 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 	struct ttm_operation_ctx ctx = {
- 		.interruptible = intr,
- 	};
--	struct sg_table *dst_st;
-+	struct i915_refct_sgt *dst_rsgt;
- 	int ret;
- 
- 	assert_object_held(dst);
-@@ -1038,11 +1079,11 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 	if (ret)
- 		return ret;
- 
--	dst_st = gpu_binds_iomem(dst_bo->resource) ?
--		dst->ttm.cached_io_st : i915_ttm_tt_get_st(dst_bo->ttm);
--
-+	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
- 	__i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
--			dst_st, allow_accel);
-+			dst_rsgt, allow_accel);
++	if (ret || I915_SELFTEST_ONLY(fail_gpu_migration)) {
++		struct i915_ttm_memcpy_work copy_work;
 +
-+	i915_refct_sgt_put(dst_rsgt);
- 
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.c b/drivers/gpu/drm/i915/i915_scatterlist.c
-index 4a6712dca838..8a510ee5d1ad 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.c
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.c
-@@ -41,8 +41,32 @@ bool i915_sg_trim(struct sg_table *orig_st)
- 	return true;
- }
- 
-+static void i915_refct_sgt_release(struct kref *ref)
-+{
-+	struct i915_refct_sgt *rsgt =
-+		container_of(ref, typeof(*rsgt), kref);
++		i915_ttm_memcpy_work_init(&copy_work, bo, clear, dst_mem,
++					  dst_ttm, dst_rsgt);
 +
-+	sg_free_table(&rsgt->table);
-+	kfree(rsgt);
++		/* Trigger a copy by setting an error value */
++		copy_work.base.dma.error = -EINVAL;
++		__memcpy_work(&copy_work.base);
++	}
 +}
 +
-+static const struct i915_refct_sgt_ops rsgt_ops = {
-+	.release = i915_refct_sgt_release
-+};
-+
-+/**
-+ * i915_refct_sgt_init - Initialize a struct i915_refct_sgt with default ops
-+ * @rsgt: The struct i915_refct_sgt to initialize.
-+ * size: The size of the underlying memory buffer.
-+ */
-+void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size)
++static int __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
++			   struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
++			   struct i915_refct_sgt *dst_rsgt, bool allow_accel)
 +{
-+	i915_refct_sgt_init_ops(rsgt, size, &rsgt_ops);
-+}
++	struct i915_ttm_memcpy_work *copy_work;
++	struct dma_fence *fence;
++	int ret;
 +
- /**
-- * i915_sg_from_mm_node - Create an sg_table from a struct drm_mm_node
-+ * i915_rsgt_from_mm_node - Create a refcounted sg_table from a struct
-+ * drm_mm_node
-  * @node: The drm_mm_node.
-  * @region_start: An offset to add to the dma addresses of the sg list.
-  *
-@@ -50,25 +74,28 @@ bool i915_sg_trim(struct sg_table *orig_st)
-  * taking a maximum segment length into account, splitting into segments
-  * if necessary.
-  *
-- * Return: A pointer to a kmalloced struct sg_table on success, negative
-+ * Return: A pointer to a kmalloced struct i915_refct_sgt on success, negative
-  * error code cast to an error pointer on failure.
-  */
--struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
--				      u64 region_start)
-+struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
-+					      u64 region_start)
- {
- 	const u64 max_segment = SZ_1G; /* Do we have a limit on this? */
- 	u64 segment_pages = max_segment >> PAGE_SHIFT;
- 	u64 block_size, offset, prev_end;
-+	struct i915_refct_sgt *rsgt;
- 	struct sg_table *st;
- 	struct scatterlist *sg;
- 
--	st = kmalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
-+	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
-+	if (!rsgt)
- 		return ERR_PTR(-ENOMEM);
- 
-+	i915_refct_sgt_init(rsgt, node->size << PAGE_SHIFT);
-+	st = &rsgt->table;
- 	if (sg_alloc_table(st, DIV_ROUND_UP(node->size, segment_pages),
- 			   GFP_KERNEL)) {
--		kfree(st);
-+		i915_refct_sgt_put(rsgt);
- 		return ERR_PTR(-ENOMEM);
++	if (!I915_SELFTEST_ONLY(fail_work_allocation))
++		copy_work = kzalloc(sizeof(*copy_work), GFP_KERNEL);
++	else
++		copy_work = NULL;
++
++	if (!copy_work) {
++		/* Don't fail with -ENOMEM. Move sync instead. */
++		__i915_ttm_move_fallback(bo, clear, dst_mem, dst_ttm, dst_rsgt,
++					 allow_accel);
++		return 0;
++	}
++
++	dma_fence_work_init(&copy_work->base, &i915_ttm_memcpy_ops);
++	if (allow_accel) {
++		fence = i915_ttm_accel_move(bo, clear, dst_mem, dst_ttm,
++					    &dst_rsgt->table);
++		if (IS_ERR(fence)) {
++			i915_sw_fence_set_error_once(&copy_work->base.chain,
++						     PTR_ERR(fence));
++		} else {
++			ret = dma_fence_work_chain(&copy_work->base, fence);
++			dma_fence_put(fence);
++			GEM_WARN_ON(ret < 0);
++		}
++	} else {
++		i915_sw_fence_set_error_once(&copy_work->base.chain, -EINVAL);
  	}
- 
-@@ -104,11 +131,11 @@ struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
- 	sg_mark_end(sg);
- 	i915_sg_trim(st);
- 
--	return st;
-+	return rsgt;
- }
- 
- /**
-- * i915_sg_from_buddy_resource - Create an sg_table from a struct
-+ * i915_rsgt_from_buddy_resource - Create a refcounted sg_table from a struct
-  * i915_buddy_block list
-  * @res: The struct i915_ttm_buddy_resource.
-  * @region_start: An offset to add to the dma addresses of the sg list.
-@@ -117,11 +144,11 @@ struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
-  * taking a maximum segment length into account, splitting into segments
-  * if necessary.
-  *
-- * Return: A pointer to a kmalloced struct sg_table on success, negative
-+ * Return: A pointer to a kmalloced struct i915_refct_sgts on success, negative
-  * error code cast to an error pointer on failure.
-  */
--struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
--					     u64 region_start)
-+struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
-+						     u64 region_start)
- {
- 	struct i915_ttm_buddy_resource *bman_res = to_ttm_buddy_resource(res);
- 	const u64 size = res->num_pages << PAGE_SHIFT;
-@@ -129,18 +156,21 @@ struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
- 	struct i915_buddy_mm *mm = bman_res->mm;
- 	struct list_head *blocks = &bman_res->blocks;
- 	struct i915_buddy_block *block;
-+	struct i915_refct_sgt *rsgt;
- 	struct scatterlist *sg;
- 	struct sg_table *st;
- 	resource_size_t prev_end;
- 
- 	GEM_BUG_ON(list_empty(blocks));
- 
--	st = kmalloc(sizeof(*st), GFP_KERNEL);
--	if (!st)
-+	rsgt = kmalloc(sizeof(*rsgt), GFP_KERNEL);
-+	if (!rsgt)
- 		return ERR_PTR(-ENOMEM);
- 
-+	i915_refct_sgt_init(rsgt, size);
-+	st = &rsgt->table;
- 	if (sg_alloc_table(st, res->num_pages, GFP_KERNEL)) {
--		kfree(st);
-+		i915_refct_sgt_put(rsgt);
- 		return ERR_PTR(-ENOMEM);
- 	}
- 
-@@ -181,7 +211,7 @@ struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
- 	sg_mark_end(sg);
- 	i915_sg_trim(st);
- 
--	return st;
-+	return rsgt;
- }
- 
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
-diff --git a/drivers/gpu/drm/i915/i915_scatterlist.h b/drivers/gpu/drm/i915/i915_scatterlist.h
-index b8bd5925b03f..321fd4a9f777 100644
---- a/drivers/gpu/drm/i915/i915_scatterlist.h
-+++ b/drivers/gpu/drm/i915/i915_scatterlist.h
-@@ -144,10 +144,78 @@ static inline unsigned int i915_sg_segment_size(void)
- 
- bool i915_sg_trim(struct sg_table *orig_st);
- 
--struct sg_table *i915_sg_from_mm_node(const struct drm_mm_node *node,
--				      u64 region_start);
-+/**
-+ * struct i915_refct_sgt_ops - Operations structure for struct i915_refct_sgt
-+ */
-+struct i915_refct_sgt_ops {
-+	/**
-+	 * release() - Free the memory of the struct i915_refct_sgt
-+	 * @ref: struct kref that is embedded in the struct i915_refct_sgt
++
++	/* Setup async memcpy */
++	i915_ttm_memcpy_work_init(copy_work, bo, clear, dst_mem, dst_ttm,
++				  dst_rsgt);
++	fence = dma_fence_get(&copy_work->base.dma);
++	dma_fence_work_commit_imm(&copy_work->base);
++
++	/*
++	 * We're synchronizing here for now. For async moves, return the
++	 * fence.
 +	 */
-+	void (*release)(struct kref *ref);
-+};
++	dma_fence_wait(fence, false);
++	dma_fence_put(fence);
 +
-+/**
-+ * struct i915_refct_sgt - A refcounted scatter-gather table
-+ * @kref: struct kref for refcounting
-+ * @table: struct sg_table holding the scatter-gather table itself. Note that
-+ * @table->sgl = NULL can be used to determine whether a scatter-gather table
-+ * is present or not.
-+ * @size: The size in bytes of the underlying memory buffer
-+ * @ops: The operations structure.
-+ */
-+struct i915_refct_sgt {
-+	struct kref kref;
-+	struct sg_table table;
-+	size_t size;
-+	const struct i915_refct_sgt_ops *ops;
-+};
-+
-+/**
-+ * i915_refct_sgt_put - Put a refcounted sg-table
-+ * @rsgt the struct i915_refct_sgt to put.
-+ */
-+static inline void i915_refct_sgt_put(struct i915_refct_sgt *rsgt)
-+{
-+	if (rsgt)
-+		kref_put(&rsgt->kref, rsgt->ops->release);
-+}
-+
-+/**
-+ * i915_refct_sgt_get - Get a refcounted sg-table
-+ * @rsgt the struct i915_refct_sgt to get.
-+ */
-+static inline struct i915_refct_sgt *
-+i915_refct_sgt_get(struct i915_refct_sgt *rsgt)
-+{
-+	kref_get(&rsgt->kref);
-+	return rsgt;
-+}
-+
-+/**
-+ * i915_refct_sgt_init_ops - Initialize a refcounted sg-list with a custom
-+ * operations structure
-+ * @rsgt The struct i915_refct_sgt to initialize.
-+ * @size: Size in bytes of the underlying memory buffer.
-+ * @ops: A customized operations structure in case the refcounted sg-list
-+ * is embedded into another structure.
-+ */
-+static inline void i915_refct_sgt_init_ops(struct i915_refct_sgt *rsgt,
-+					   size_t size,
-+					   const struct i915_refct_sgt_ops *ops)
-+{
-+	kref_init(&rsgt->kref);
-+	rsgt->table.sgl = NULL;
-+	rsgt->size = size;
-+	rsgt->ops = ops;
-+}
-+
-+void i915_refct_sgt_init(struct i915_refct_sgt *rsgt, size_t size);
-+
-+struct i915_refct_sgt *i915_rsgt_from_mm_node(const struct drm_mm_node *node,
-+					      u64 region_start);
- 
--struct sg_table *i915_sg_from_buddy_resource(struct ttm_resource *res,
--					     u64 region_start);
-+struct i915_refct_sgt *i915_rsgt_from_buddy_resource(struct ttm_resource *res,
-+						     u64 region_start);
- 
- #endif
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.c b/drivers/gpu/drm/i915/intel_region_ttm.c
-index 98c7339bf8ba..2e901a27e259 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.c
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.c
-@@ -115,8 +115,8 @@ void intel_region_ttm_fini(struct intel_memory_region *mem)
++	return ret;
  }
  
- /**
-- * intel_region_ttm_resource_to_st - Convert an opaque TTM resource manager resource
-- * to an sg_table.
-+ * intel_region_ttm_resource_to_rsgt -
-+ * Convert an opaque TTM resource manager resource to a refcounted sg_table.
-  * @mem: The memory region.
-  * @res: The resource manager resource obtained from the TTM resource manager.
-  *
-@@ -126,17 +126,18 @@ void intel_region_ttm_fini(struct intel_memory_region *mem)
-  *
-  * Return: A malloced sg_table on success, an error pointer on failure.
+ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+index 0b7291dd897c..c5bf8863446d 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.h
+@@ -51,6 +51,10 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
+ 			  struct drm_i915_gem_object *src,
+ 			  bool allow_accel, bool intr);
+ 
++I915_SELFTEST_DECLARE
++(void i915_ttm_migrate_set_failure_modes(bool gpu_migration,
++					 bool work_allocation);)
++
+ /* Internal I915 TTM declarations and definitions below. */
+ 
+ #define I915_PL_LMEM0 TTM_PL_PRIV
+diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+index 28a700f08b49..a2122bdcc1cb 100644
+--- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
++++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_migrate.c
+@@ -4,6 +4,7 @@
   */
--struct sg_table *intel_region_ttm_resource_to_st(struct intel_memory_region *mem,
--						 struct ttm_resource *res)
-+struct i915_refct_sgt *
-+intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
-+				  struct ttm_resource *res)
- {
- 	if (mem->is_range_manager) {
- 		struct ttm_range_mgr_node *range_node =
- 			to_ttm_range_mgr_node(res);
  
--		return i915_sg_from_mm_node(&range_node->mm_nodes[0],
--					    mem->region.start);
-+		return i915_rsgt_from_mm_node(&range_node->mm_nodes[0],
-+					      mem->region.start);
- 	} else {
--		return i915_sg_from_buddy_resource(res, mem->region.start);
-+		return i915_rsgt_from_buddy_resource(res, mem->region.start);
- 	}
+ #include "gt/intel_migrate.h"
++#include "gem/i915_gem_ttm.h"
+ 
+ static int igt_fill_check_buffer(struct drm_i915_gem_object *obj,
+ 				 bool fill)
+@@ -227,13 +228,34 @@ static int igt_lmem_pages_migrate(void *arg)
+ 	return err;
  }
  
-diff --git a/drivers/gpu/drm/i915/intel_region_ttm.h b/drivers/gpu/drm/i915/intel_region_ttm.h
-index 6f44075920f2..7bbe2b46b504 100644
---- a/drivers/gpu/drm/i915/intel_region_ttm.h
-+++ b/drivers/gpu/drm/i915/intel_region_ttm.h
-@@ -22,8 +22,9 @@ int intel_region_ttm_init(struct intel_memory_region *mem);
- 
- void intel_region_ttm_fini(struct intel_memory_region *mem);
- 
--struct sg_table *intel_region_ttm_resource_to_st(struct intel_memory_region *mem,
--						 struct ttm_resource *res);
-+struct i915_refct_sgt *
-+intel_region_ttm_resource_to_rsgt(struct intel_memory_region *mem,
-+				  struct ttm_resource *res);
- 
- void intel_region_ttm_resource_free(struct intel_memory_region *mem,
- 				    struct ttm_resource *res);
-diff --git a/drivers/gpu/drm/i915/selftests/mock_region.c b/drivers/gpu/drm/i915/selftests/mock_region.c
-index efa86dffe3c6..2752b5b98f60 100644
---- a/drivers/gpu/drm/i915/selftests/mock_region.c
-+++ b/drivers/gpu/drm/i915/selftests/mock_region.c
-@@ -17,9 +17,9 @@
- static void mock_region_put_pages(struct drm_i915_gem_object *obj,
- 				  struct sg_table *pages)
++static int igt_lmem_pages_failsafe_migrate(void *arg)
++{
++	int fail_gpu, fail_alloc, ret;
++
++	for (fail_gpu = 0; fail_gpu < 2; ++fail_gpu) {
++		for (fail_alloc = 0; fail_alloc < 2; ++fail_alloc) {
++			pr_info("Simulated failure modes: gpu: %d, alloc: %d\n",
++				fail_gpu, fail_alloc);
++			i915_ttm_migrate_set_failure_modes(fail_gpu,
++							   fail_alloc);
++			ret = igt_lmem_pages_migrate(arg);
++			if (ret)
++				goto out_err;
++		}
++	}
++
++out_err:
++	i915_ttm_migrate_set_failure_modes(false, false);
++	return ret;
++}
++
+ int i915_gem_migrate_live_selftests(struct drm_i915_private *i915)
  {
-+	i915_refct_sgt_put(obj->mm.rsgt);
-+	obj->mm.rsgt = NULL;
- 	intel_region_ttm_resource_free(obj->mm.region, obj->mm.res);
--	sg_free_table(pages);
--	kfree(pages);
- }
+ 	static const struct i915_subtest tests[] = {
+ 		SUBTEST(igt_smem_create_migrate),
+ 		SUBTEST(igt_lmem_create_migrate),
+ 		SUBTEST(igt_same_create_migrate),
+-		SUBTEST(igt_lmem_pages_migrate),
++		SUBTEST(igt_lmem_pages_failsafe_migrate),
+ 	};
  
- static int mock_region_get_pages(struct drm_i915_gem_object *obj)
-@@ -38,12 +38,14 @@ static int mock_region_get_pages(struct drm_i915_gem_object *obj)
- 	if (IS_ERR(obj->mm.res))
- 		return PTR_ERR(obj->mm.res);
- 
--	pages = intel_region_ttm_resource_to_st(obj->mm.region, obj->mm.res);
--	if (IS_ERR(pages)) {
--		err = PTR_ERR(pages);
-+	obj->mm.rsgt = intel_region_ttm_resource_to_rsgt(obj->mm.region,
-+							 obj->mm.res);
-+	if (IS_ERR(obj->mm.rsgt)) {
-+		err = PTR_ERR(obj->mm.rsgt);
- 		goto err_free_resource;
- 	}
- 
-+	pages = &obj->mm.rsgt->table;
- 	__i915_gem_object_set_pages(obj, pages, i915_sg_dma_sizes(pages->sgl));
- 
- 	return 0;
+ 	if (!HAS_LMEM(i915))
 -- 
 2.31.1
 
