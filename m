@@ -2,43 +2,64 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CABA426BCA
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:37:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B6BB426E04
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 17:46:52 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C75416E069;
-	Fri,  8 Oct 2021 13:37:15 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4171E6E077;
+	Fri,  8 Oct 2021 15:46:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E80006E069
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 13:37:14 +0000 (UTC)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
- [62.78.145.57])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 92F2DFD7;
- Fri,  8 Oct 2021 15:37:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1633700232;
- bh=uKvqAFBYYAnwEH/sA4mAtnYEI6aUG+bpw4ygKmU6L54=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=FqXAqER0oYxNVo+e5UFxZ00Z9DTXOD/lOEN8A84JQVWf9ldS2DQ+dkrlXoKmoFXP0
- t82BpRZevpuBPCsEKd4mwnNwKhd53aa6l8emaVzJZwYJav9c9mIraFzN/GmoqhUafV
- xXf+qXQ/dyurasws7LuEYUKFp8xtb1Sg5okhL3XM=
-Date: Fri, 8 Oct 2021 16:37:02 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Andrzej Hajda <andrzej.hajda@gmail.com>
-Cc: Jagan Teki <jagan@amarulasolutions.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>, Maxime Ripard <maxime@cerno.tech>,
- dri-devel <dri-devel@lists.freedesktop.org>
-Subject: Re: DSI Bridge switching
-Message-ID: <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
-References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
- <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com
+ [IPv6:2607:f8b0:4864:20::432])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 793856E077
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 15:46:44 +0000 (UTC)
+Received: by mail-pf1-x432.google.com with SMTP id 145so8558919pfz.11
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Oct 2021 08:46:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=5ctiMOgcKNZbwO+I+bqoe2efiKehJePIhv+cYstntJA=;
+ b=wV8L3vXA4wnMlHP7d3ZvnoXIXRXMZHy83oyPI01WT63WO4HeMg59TXqtqkMjJ8Cq5f
+ +ykidzi9ffxYunMNLRGqPC4miH6GYlkaGrEpgdF7V1RwvaxIjdOeCX+Qt1X7N1dKlBkg
+ uRrLa8DMbtQ4uiAGXXGqM4aEynitnk4bVHeZokSjKJg63i8W4t7OOGwvtwWMGRUPudbE
+ YfT+I3P9KPIZ2/rVaRgyhzwAB0M23xNbsaUzDbPcgHFlq0vWkZc01Db6SindT0urkgD6
+ GInkOuzUuLk5G2Lc7Mv9KRcsUKtSVQbtVKX3GUMQ8Hpyu4OYLSQsIu3bgjJ1+VdYH2hL
+ /4Nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5ctiMOgcKNZbwO+I+bqoe2efiKehJePIhv+cYstntJA=;
+ b=BRHpWX0LKKVbhlBCTxIhZSTtw6axV9MFMB1RR0uj0g1f1fSkORjUMPpvYx39cbNK0j
+ fso0iERsQhCGdsj0UbkGArHtmgyh7nivAw3PajPLw0dGXrayiog6OFV2VObfPSduVpkk
+ KJuSvnpQ7FH/fNl6w4jeARzhMVru8AeStrFw05wsKoqB5y+IDQ4d0ocXqtKgAQw+XMqw
+ FveEgGMgBvAsKIhOAdgJZL8aCNekhxwM3R+dPQg4y4rJTzzEThBNcAqqzL+EJqEY78NX
+ g8apGlLlFaOCogeIMy34IudM5sDWN2XfbbIn/utgoSTGTacd5xXqnrqSdu43K0+pXFK6
+ O5aQ==
+X-Gm-Message-State: AOAM531UF2gyItFiNGJammcWIg2lBmUhXuaDIyc0cV5Kjj6hixRhh/sd
+ LWRea822orzmKcE2KbJHsb/6bFgG+nxZmMje3jiiSw==
+X-Google-Smtp-Source: ABdhPJxCIs63N1AEVoE9JLiVqD8Rt3LAnvm0WoiU5xo+0y+SBYvO324mUTInFk7lVWtwvrA/Z8x2JuqxPbscKJasGn8=
+X-Received: by 2002:a63:3643:: with SMTP id d64mr5395570pga.110.1633708004080; 
+ Fri, 08 Oct 2021 08:46:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+References: <20210930030557.1426-1-bjorn.andersson@linaro.org>
+ <20210930030557.1426-3-bjorn.andersson@linaro.org> <YV5vIyhy+m+Nx/gQ@ripper>
+In-Reply-To: <YV5vIyhy+m+Nx/gQ@ripper>
+From: Robert Foss <robert.foss@linaro.org>
+Date: Fri, 8 Oct 2021 17:46:33 +0200
+Message-ID: <CAG3jFyuP_QDKP6iUZmte3u4s=HbxBPx2iDTR8uh=Sc=24hguVA@mail.gmail.com>
+Subject: Re: [PATCH v6 3/3] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
+To: Bjorn Andersson <bjorn.andersson@linaro.org>, 
+ "Uwe Kleine-K?nig" <u.kleine-koenig@pengutronix.de>
+Cc: Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
+ Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>, 
+ Lee Jones <lee.jones@linaro.org>, dri-devel <dri-devel@lists.freedesktop.org>, 
+ linux-kernel <linux-kernel@vger.kernel.org>, linux-pwm@vger.kernel.org, 
+ MSM <linux-arm-msm@vger.kernel.org>, Doug Anderson <dianders@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,68 +75,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+On Thu, 7 Oct 2021 at 05:51, Bjorn Andersson <bjorn.andersson@linaro.org> wrote:
+>
+> On Wed 29 Sep 20:05 PDT 2021, Bjorn Andersson wrote:
+>
+> > The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
+> > with the primary purpose of controlling the backlight of the attached
+> > panel. Add an implementation that exposes this using the standard PWM
+> > framework, to allow e.g. pwm-backlight to expose this to the user.
+> >
+> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+>
+> Any feedback on this?
 
-On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
-> Hi,
-> 
-> Removed my invalid email (I will update files next week).
-> 
-> On 08.10.2021 13:14, Jagan Teki wrote:
-> > Hi,
-> > 
-> > I think this seems to be a known use case for industrial these days with i.mx8m.
-> > 
-> > The host DSI would configure with two bridges one for DSI to LVDS
-> > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
-> > can use only one bridge at a time as host DSI support single out port.
-> > So we can have two separate device tree files for LVDS and HDMI and
-> > load them static.
-> > 
-> > But, one of the use cases is to support both of them in single dts, and
-> > - Turn On LVDS (default)
-> > - Turn Off LVDS then Turn On HDMI when cable plug-in
-> 
-> Are you sure it will work from hardware PoV? Do you have some demuxer? 
-> isolation of pins?
+I think this series looks good, and passes all of the normal sanity
+checks. So I'd like to merge it.
 
-It may be in the category of "you shouldn't do this, but it actually
-works". I've seen the same being done with two CSI-2 camera sensors
-connected to the same receiver, with one of them being held in reset at
-all times.
+Uwe: Can I have your ack on patch 1?
 
-> > The HDMI event can be detected via some HDMI-INT GPIO on-board design.
-> > 
-> > The possible solution, I'm thinking of adding LVDS on port 1, HDMI on
-> > port 2 in the DSI host node, and trying to attach the respective
-> > bridge based on HDMI-INT like repeating the bridge attachment cycle
-> > based on the HDMI-INT.
-> 
-> I think more appropriate would be to share the same port, but provide 
-> two endpoints inside this port - we have two hardware sharing the same 
-> physical port.
 
-That sounds like the correct DT description to me.
-
-> > Can it be possible to do bridge attachment at runtime? something like
-> > a bridge hotplug event? or any other possible solutions?
-> > 
-> > Any suggestions?
-> 
-> Practically it is possible, see exynos_dsi + panels, or exynos_dsi + 
-> some toshiba bridge - panel and bridge are dynamically 'plugged' and 
-> 'unplugged' from exynos_drm, but they do not use bridge chain for this 
-> and some other reasons. (un|re|)plugging should be performed of course 
-> when pipeline is off (connector disconnected). I am not sure about 
-> bridges added to bridge chain - you need to inspect all opses to ensure 
-> it can be done safely.
-> 
-> And the main issue: Daniel does not like it :)
-
-Neither do I :-) Could it be handled with two DRM connectors that are
-mutually exclusive ?
-
--- 
-Regards,
-
-Laurent Pinchart
+Rob.
