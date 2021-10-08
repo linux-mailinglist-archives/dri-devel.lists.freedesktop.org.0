@@ -2,67 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A68F427320
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB03D42733D
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:57:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0591A6E108;
-	Fri,  8 Oct 2021 21:38:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EBC226E87D;
+	Fri,  8 Oct 2021 21:57:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
- [IPv6:2607:f8b0:4864:20::d36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 695D96E51A
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 21:38:06 +0000 (UTC)
-Received: by mail-io1-xd36.google.com with SMTP id z184so12228790iof.5
- for <dri-devel@lists.freedesktop.org>; Fri, 08 Oct 2021 14:38:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=b/00gewG7UHvLp0h/Ly/IXeN+qoVZwxiCoqxtVebbaI=;
- b=dQ0efTIPLYgHkP9U3dBEnvmvLY8za0lfnn/jylE/ulZ7zzSc1RBgqjCPWTJbCywGq6
- cpcZej1RcJAyZQ/UhxVaE7tvdYg7DQI/2Els9a0Xjzo6Si3dcWw3ltdvGFRVsCniX3+0
- LABaOfhs3fvNty6v0UECd4B4StXBRl+6QmoiwtXAfBPgIvUqenZJEs+NqDqIM9rGE9Rf
- QhXCblG3djveSWk5T98TPMRXSDvDnmaNIOsPKPZyXJKg4hjzaw+Cv1z4APTMPb1YMLy4
- A3X643heB80Rhlfhmo6o2AFNOf4UfJEKkndgWAky5btmvpHG/9hVh1G1AJGX9Cjolc2i
- WkpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=b/00gewG7UHvLp0h/Ly/IXeN+qoVZwxiCoqxtVebbaI=;
- b=zs4yxpGyCimolnlnZLEtMHZSAjmhVsaktFLT+/O300bLRaM4AIGAaYkK6BwRM/1dfh
- +yTUFRqkttDeY5OZR+p23RRn5QJd8gK3RBHgsrs+IWqJyMryLtO6W5U+CRnzcASvEqyH
- IbwRRq8fbqqzNLkhE2Y5Zgim6bYGrnJ2MdtWY9BI1K1D1wgcYufML2rsbZDBNzTONRTF
- xCbvjC0/09XHBHbROhn0ihzmDuPgI+qBIXNpPkSRGBNCb+RA9fkiHO3cRYgYvkOUqY+T
- hoxxUwliHhb1ZzWabIPQq9EYGdXxljn8XDmmTgTjtV1S9VYn2Av67FeiOxH28Noe5W9s
- +VRw==
-X-Gm-Message-State: AOAM53117nlENU3l4CQcouQu9aqV6d6F13hY9VSH2Ra5kPrKEjzrGyWH
- c3uwz2J5nnRHOHC2aBs/WhOjE9zsqu96y/JVGZ5IaA==
-X-Google-Smtp-Source: ABdhPJyTKjP0ROPI3lwiR64pOofPrdgty82JjDrOFyBtUPNFTt7D9ijmUlMj5dyBjrcq0P+6VIjSXFzDNz2EEnEXtzw=
-X-Received: by 2002:a6b:f915:: with SMTP id j21mr9273745iog.98.1633729085509; 
- Fri, 08 Oct 2021 14:38:05 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 97E786E878;
+ Fri,  8 Oct 2021 21:57:12 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="206715321"
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="206715321"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 14:57:12 -0700
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="489625431"
+Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 14:57:11 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org,
+	Matt Roper <matthew.d.roper@intel.com>
+Subject: [PATCH 00/11] i915: Initial multi-tile support
+Date: Fri,  8 Oct 2021 14:56:24 -0700
+Message-Id: <20211008215635.2026385-1-matthew.d.roper@intel.com>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20210930030557.1426-1-bjorn.andersson@linaro.org>
- <20210930030557.1426-3-bjorn.andersson@linaro.org> <YV5vIyhy+m+Nx/gQ@ripper>
-In-Reply-To: <YV5vIyhy+m+Nx/gQ@ripper>
-From: Doug Anderson <dianders@google.com>
-Date: Fri, 8 Oct 2021 14:37:52 -0700
-Message-ID: <CAD=FV=UZoZ6amH9KfJOMWy9AHfGOuEpCPJYDy5YCtks6WqVkLw@mail.gmail.com>
-Subject: Re: [PATCH v6 3/3] drm/bridge: ti-sn65dsi86: Implement the pwm_chip
-To: Bjorn Andersson <bjorn.andersson@linaro.org>,
- Robert Foss <robert.foss@linaro.org>
-Cc: Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, 
- Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@linux.ie>, 
- Daniel Vetter <daniel@ffwll.ch>, Thierry Reding <thierry.reding@gmail.com>, 
- "Uwe Kleine-K?nig" <u.kleine-koenig@pengutronix.de>,
- Lee Jones <lee.jones@linaro.org>, 
- dri-devel <dri-devel@lists.freedesktop.org>,
- LKML <linux-kernel@vger.kernel.org>, 
- linux-pwm <linux-pwm@vger.kernel.org>,
- linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -78,28 +47,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Some of our upcoming platforms, including the Xe_HP SDV, support a
+"multi-tile" design.  A multi-tile platform is effectively a platform
+with multiple GT instances and local memory regions, all behind a single
+PCI device.  From an i915 perspective, this translates to multiple
+intel_gt structures per drm_i915_private.  This series provides the
+initial refactoring to support multiple independent GTs per card, but
+further work (especially related to local memory) will be required to
+fully enable a multi-tile platform.
 
-On Wed, Oct 6, 2021 at 8:51 PM Bjorn Andersson
-<bjorn.andersson@linaro.org> wrote:
->
-> On Wed 29 Sep 20:05 PDT 2021, Bjorn Andersson wrote:
->
-> > The SN65DSI86 provides the ability to supply a PWM signal on GPIO 4,
-> > with the primary purpose of controlling the backlight of the attached
-> > panel. Add an implementation that exposes this using the standard PWM
-> > framework, to allow e.g. pwm-backlight to expose this to the user.
-> >
-> > Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
->
-> Any feedback on this?
+Note that the presence of multiple GTs is largely transparent to
+userspace.  A multi-tile platform will advertise a larger list of
+engines to userspace, but the concept of "tile" is not something
+userspace has to worry about directly.  There will be some uapi
+implications later due to the devices having multiple local memory
+regions, but that aspect of multi-tile is not covered by this patch
+series and will show up in future work.
 
-I feel like Uwe and you have spent enough time on all the math and it
-is clearly working well for you, so I continued to not dive deep into
-it. However, in general I think this has been spun enough and it's
-ready / beneficial to land.
 
-It sounds like Robert has agreed to do the honors (assuming Uwe acks
-patch #1) and that suits me fine.
+Daniele Ceraolo Spurio (2):
+  drm/i915: split general MMIO setup from per-GT uncore init
+  drm/i915: Initial support for per-tile uncore
 
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Matt Roper (1):
+  drm/i915: Restructure probe to handle multi-tile platforms
+
+Michal Wajdeczko (1):
+  drm/i915/guc: Update CT debug macro for multi-tile
+
+Michał Winiarski (1):
+  drm/i915: Store backpointer to GT in uncore
+
+Paulo Zanoni (3):
+  drm/i915: rework some irq functions to take intel_gt as argument
+  drm/i915/xehp: Determine which tile raised an interrupt
+  drm/i915/xehp: Make IRQ reset and postinstall multi-tile aware
+
+Tvrtko Ursulin (2):
+  drm/i915: Prepare for multiple gts
+  drm/i915/xehpsdv: Initialize multi-tiles
+
+Venkata Sandeep Dhanalakota (1):
+  drm/i915: Release per-gt resources allocated
+
+ drivers/gpu/drm/i915/gt/intel_gt.c            | 180 +++++++++++++++++-
+ drivers/gpu/drm/i915/gt/intel_gt.h            |  11 +-
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   9 +-
+ drivers/gpu/drm/i915/gt/intel_gt_types.h      |   7 +
+ drivers/gpu/drm/i915/gt/uc/intel_guc_ct.c     |   6 +-
+ drivers/gpu/drm/i915/i915_debugfs.c           |   5 +-
+ drivers/gpu/drm/i915/i915_drv.c               |  80 ++++++--
+ drivers/gpu/drm/i915/i915_drv.h               |   9 +
+ drivers/gpu/drm/i915/i915_irq.c               |  71 ++++---
+ drivers/gpu/drm/i915/i915_pci.c               |   1 +
+ drivers/gpu/drm/i915/i915_reg.h               |   4 +
+ drivers/gpu/drm/i915/intel_device_info.h      |   1 +
+ drivers/gpu/drm/i915/intel_memory_region.h    |   3 +
+ drivers/gpu/drm/i915/intel_uncore.c           |  36 ++--
+ drivers/gpu/drm/i915/intel_uncore.h           |   6 +-
+ .../gpu/drm/i915/selftests/mock_gem_device.c  |   3 +-
+ drivers/gpu/drm/i915/selftests/mock_uncore.c  |   2 +-
+ 17 files changed, 345 insertions(+), 89 deletions(-)
+
+-- 
+2.33.0
+
