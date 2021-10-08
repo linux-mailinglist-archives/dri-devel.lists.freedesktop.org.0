@@ -2,41 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87748426709
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:41:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77934426727
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:50:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 538E26E0CD;
-	Fri,  8 Oct 2021 09:40:57 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CD21A6E0CE;
+	Fri,  8 Oct 2021 09:50:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B2F1E6E0C4;
- Fri,  8 Oct 2021 09:40:55 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226761956"
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="226761956"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 02:40:55 -0700
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="489396522"
-Received: from ssedpiaz-mobl.ger.corp.intel.com (HELO localhost)
- ([10.249.40.186])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 02:40:51 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [Intel-gfx] [PATCH 1/5] dri: cleanup debugfs error handling
-In-Reply-To: <20211008091704.27094-1-nirmoy.das@amd.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211008091704.27094-1-nirmoy.das@amd.com>
-Date: Fri, 08 Oct 2021 12:40:47 +0300
-Message-ID: <87a6jjyhuo.fsf@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C7EDE6E0C4;
+ Fri,  8 Oct 2021 09:50:00 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="213423361"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="213423361"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 02:50:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522932495"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.171])
+ by orsmga001.jf.intel.com with SMTP; 08 Oct 2021 02:49:57 -0700
+Received: by stinkbox (sSMTP sendmail emulation);
+ Fri, 08 Oct 2021 12:49:57 +0300
+Date: Fri, 8 Oct 2021 12:49:57 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH] drm/i915: Stop using I915_TILING_* in client blit selftest
+Message-ID: <YWAURQ0kpRWsdeyM@intel.com>
+References: <20211001005816.73330-1-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211001005816.73330-1-matthew.d.roper@intel.com>
+X-Patchwork-Hint: comment
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,172 +52,135 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Oct 2021, Nirmoy Das <nirmoy.das@amd.com> wrote:
-> Debugfs API returns encoded error instead of NULL.
-> This patch cleanups drm debugfs error handling to
-> properly set dri and its minor's root dentry to NULL.
->
-> Also do not error out if dri/minor debugfs directory
-> creation fails as a debugfs error is not a fatal error.
-
-Cc: Greg
-
-I thought this is the opposite of what Greg's been telling everyone to
-do with debugfs.
-
-BR,
-Jani.
-
->
-> CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: Thomas Zimmermann <tzimmermann@suse.de>
-> CC: David Airlie <airlied@linux.ie>
-> CC: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+On Thu, Sep 30, 2021 at 05:58:16PM -0700, Matt Roper wrote:
+> The I915_TILING_* definitions in the uapi header are intended solely for
+> tiling modes that are visible to the old de-tiling fence ioctls.  Since
+> modern hardware does not support de-tiling fences, we should not add new
+> definitions for new tiling types going forward.  However we do want the
+> client blit selftest to eventually cover other new tiling modes (such as
+> Tile4), so switch it to using its own enum of tiling modes.
+> 
+> Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 > ---
->  drivers/gpu/drm/drm_debugfs.c  | 25 +++++++++++++++++++++++--
->  drivers/gpu/drm/drm_drv.c      | 16 ++++++++++------
->  drivers/gpu/drm/drm_internal.h |  7 +++----
->  3 files changed, 36 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
-> index b0a826489488..af275a0c09b4 100644
-> --- a/drivers/gpu/drm/drm_debugfs.c
-> +++ b/drivers/gpu/drm/drm_debugfs.c
-> @@ -180,6 +180,9 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
->  	struct drm_info_node *tmp;
->  	int i;
->
-> +	if (!minor->debugfs_root)
-> +		return;
+>  .../i915/gem/selftests/i915_gem_client_blt.c  | 29 ++++++++++++-------
+>  include/uapi/drm/i915_drm.h                   |  6 ++++
+>  2 files changed, 24 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> index ecbcbb86ae1e..8402ed925a69 100644
+> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> @@ -17,13 +17,20 @@
+>  #include "huge_gem_object.h"
+>  #include "mock_context.h"
+>  
+> +enum client_tiling {
+> +	CLIENT_TILING_LINEAR,
+> +	CLIENT_TILING_X,
+> +	CLIENT_TILING_Y,
+> +	CLIENT_NUM_TILING_TYPES
+> +};
 > +
->  	for (i = 0; i < count; i++) {
->  		u32 features = files[i].driver_features;
->
-> @@ -203,7 +206,7 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
->  }
->  EXPORT_SYMBOL(drm_debugfs_create_files);
->
-> -int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> +void drm_debugfs_init(struct drm_minor *minor, int minor_id,
->  		     struct dentry *root)
->  {
->  	struct drm_device *dev = minor->dev;
-> @@ -212,8 +215,16 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
->  	INIT_LIST_HEAD(&minor->debugfs_list);
->  	mutex_init(&minor->debugfs_lock);
->  	sprintf(name, "%d", minor_id);
-> +
-> +	if (!root)
-> +		goto error;
-> +
->  	minor->debugfs_root = debugfs_create_dir(name, root);
->
-> +	if (IS_ERR(minor->debugfs_root))
-> +		goto error;
-> +
-> +
->  	drm_debugfs_create_files(drm_debugfs_list, DRM_DEBUGFS_ENTRIES,
->  				 minor->debugfs_root, minor);
->
-> @@ -230,7 +241,11 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
->  	if (dev->driver->debugfs_init)
->  		dev->driver->debugfs_init(minor);
->
-> -	return 0;
-> +	return;
-> +
-> +error:
-> +	minor->debugfs_root = NULL;
-> +	return;
->  }
->
->
-> @@ -241,6 +256,9 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
->  	struct drm_info_node *tmp;
->  	int i;
->
-> +	if (!minor->debugfs_root)
-> +		return 0;
-> +
->  	mutex_lock(&minor->debugfs_lock);
->  	for (i = 0; i < count; i++) {
->  		list_for_each_safe(pos, q, &minor->debugfs_list) {
-> @@ -261,6 +279,9 @@ static void drm_debugfs_remove_all_files(struct drm_minor *minor)
->  {
->  	struct drm_info_node *node, *tmp;
->
-> +	if (!minor->debugfs_root)
-> +		return;
-> +
->  	mutex_lock(&minor->debugfs_lock);
->  	list_for_each_entry_safe(node, tmp, &minor->debugfs_list, list) {
->  		debugfs_remove(node->dent);
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 7a5097467ba5..fa57ec2d49bf 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -160,11 +160,7 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
->  	if (!minor)
->  		return 0;
->
-> -	ret = drm_debugfs_init(minor, minor->index, drm_debugfs_root);
-> -	if (ret) {
-> -		DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
-> -		goto err_debugfs;
-> -	}
-> +	drm_debugfs_init(minor, minor->index, drm_debugfs_root);
->
->  	ret = device_add(minor->kdev);
->  	if (ret)
-> @@ -1050,7 +1046,15 @@ static int __init drm_core_init(void)
->  		goto error;
+>  #define WIDTH 512
+>  #define HEIGHT 32
+>  
+>  struct blit_buffer {
+>  	struct i915_vma *vma;
+>  	u32 start_val;
+> -	u32 tiling;
+> +	enum client_tiling tiling;
+>  };
+>  
+>  struct tiled_blits {
+> @@ -53,9 +60,9 @@ static int prepare_blit(const struct tiled_blits *t,
+>  	*cs++ = MI_LOAD_REGISTER_IMM(1);
+>  	*cs++ = i915_mmio_reg_offset(BCS_SWCTRL);
+>  	cmd = (BCS_SRC_Y | BCS_DST_Y) << 16;
+> -	if (src->tiling == I915_TILING_Y)
+> +	if (src->tiling == CLIENT_TILING_Y)
+>  		cmd |= BCS_SRC_Y;
+> -	if (dst->tiling == I915_TILING_Y)
+> +	if (dst->tiling == CLIENT_TILING_Y)
+>  		cmd |= BCS_DST_Y;
+>  	*cs++ = cmd;
+>  
+> @@ -172,7 +179,7 @@ static int tiled_blits_create_buffers(struct tiled_blits *t,
+>  
+>  		t->buffers[i].vma = vma;
+>  		t->buffers[i].tiling =
+> -			i915_prandom_u32_max_state(I915_TILING_Y + 1, prng);
+> +			i915_prandom_u32_max_state(CLIENT_TILING_Y + 1, prng);
 >  	}
->
-> -	drm_debugfs_root = debugfs_create_dir("dri", NULL);
-> +	if (!debugfs_initialized()) {
-> +		drm_debugfs_root = NULL;
-> +	} else {
-> +		drm_debugfs_root = debugfs_create_dir("dri", NULL);
-> +		if (IS_ERR(drm_debugfs_root)) {
-> +			DRM_WARN("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
-> +			drm_debugfs_root = NULL;
-> +		}
-> +	}
->
->  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
->  	if (ret < 0)
-> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
-> index 17f3548c8ed2..e27a40166178 100644
-> --- a/drivers/gpu/drm/drm_internal.h
-> +++ b/drivers/gpu/drm/drm_internal.h
-> @@ -182,8 +182,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
->
->  /* drm_debugfs.c drm_debugfs_crc.c */
->  #if defined(CONFIG_DEBUG_FS)
-> -int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> -		     struct dentry *root);
-> +void drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> +		      struct dentry *root);
->  void drm_debugfs_cleanup(struct drm_minor *minor);
->  void drm_debugfs_connector_add(struct drm_connector *connector);
->  void drm_debugfs_connector_remove(struct drm_connector *connector);
-> @@ -191,10 +191,9 @@ void drm_debugfs_crtc_add(struct drm_crtc *crtc);
->  void drm_debugfs_crtc_remove(struct drm_crtc *crtc);
->  void drm_debugfs_crtc_crc_add(struct drm_crtc *crtc);
->  #else
-> -static inline int drm_debugfs_init(struct drm_minor *minor, int minor_id,
-> +static inline void drm_debugfs_init(struct drm_minor *minor, int minor_id,
->  				   struct dentry *root)
+>  
+>  	return 0;
+> @@ -197,17 +204,17 @@ static u64 swizzle_bit(unsigned int bit, u64 offset)
+>  static u64 tiled_offset(const struct intel_gt *gt,
+>  			u64 v,
+>  			unsigned int stride,
+> -			unsigned int tiling)
+> +			enum client_tiling tiling)
 >  {
-> -	return 0;
+>  	unsigned int swizzle;
+>  	u64 x, y;
+>  
+> -	if (tiling == I915_TILING_NONE)
+> +	if (tiling == CLIENT_TILING_LINEAR)
+>  		return v;
+>  
+>  	y = div64_u64_rem(v, stride, &x);
+>  
+> -	if (tiling == I915_TILING_X) {
+> +	if (tiling == CLIENT_TILING_X) {
+>  		v = div64_u64_rem(y, 8, &y) * stride * 8;
+>  		v += y * 512;
+>  		v += div64_u64_rem(x, 512, &x) << 12;
+> @@ -244,12 +251,12 @@ static u64 tiled_offset(const struct intel_gt *gt,
+>  	return v;
 >  }
->
->  static inline void drm_debugfs_cleanup(struct drm_minor *minor)
-> --
-> 2.32.0
->
+>  
+> -static const char *repr_tiling(int tiling)
+> +static const char *repr_tiling(enum client_tiling tiling)
+>  {
+>  	switch (tiling) {
+> -	case I915_TILING_NONE: return "linear";
+> -	case I915_TILING_X: return "X";
+> -	case I915_TILING_Y: return "Y";
+> +	case CLIENT_TILING_LINEAR: return "linear";
+> +	case CLIENT_TILING_X: return "X";
+> +	case CLIENT_TILING_Y: return "Y";
+>  	default: return "unknown";
+>  	}
+>  }
+> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> index bde5860b3686..00311a63068e 100644
+> --- a/include/uapi/drm/i915_drm.h
+> +++ b/include/uapi/drm/i915_drm.h
+> @@ -1522,6 +1522,12 @@ struct drm_i915_gem_caching {
+>  #define I915_TILING_NONE	0
+>  #define I915_TILING_X		1
+>  #define I915_TILING_Y		2
+> +/*
+> + * Do not add new tiling types here.  The I915_TILING_* values are for
+> + * de-tiling fence registers that no longer exist on modern platforms.  Although
+> + * the hardware may support new types of tiling in general (e.g., Tile4), we
+> + * do not need to add them to the uapi that is specific to now-defunct ioctls.
+> + */
+>  #define I915_TILING_LAST	I915_TILING_Y
+
+I think we should split this one into a separate patch to give it
+some visibility. The people who care about gem uapi seem to be in
+some kind of early winter hibernation and no one read this.
+
+Apart from that
+Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
+
+>  
+>  #define I915_BIT_6_SWIZZLE_NONE		0
+> -- 
+> 2.33.0
 
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+Ville Syrjälä
+Intel
