@@ -1,64 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CFE42619B
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:11:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3B64261FE
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:26:43 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0E6F6E05D;
-	Fri,  8 Oct 2021 01:11:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B6C7E6E05F;
+	Fri,  8 Oct 2021 01:26:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
- [IPv6:2607:f8b0:4864:20::b29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 655266E05D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 01:11:01 +0000 (UTC)
-Received: by mail-yb1-xb29.google.com with SMTP id w10so17475717ybt.4
- for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 18:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fu1qbb9TIftGGLiopDIHJNKJDVey9e03m26BW4nVQKw=;
- b=Po56gcNdg4y0ShSFya7iIGBaaYp8lJIgoWK2sKkC2odnhSdrhLke32eYYchYWX3zz+
- Nm+/wq0ok2Zr5dKDvEpdJYix/07lkxeuSx0249JyESbN5Xlr5CvvlEpFo9YwzyBq4Zq4
- 1PQnUlPIfYnZ2LBNy7px4RtIpECNMUR89AfE/U1pJLC6OaPFz9abQjsmmjE/j997mdbB
- lGGZXG8PwWP30MjktBdRJYtUrcKJafkHtsB/3XYpV5m82PgtMgNDuMRTMqnqWUCe9t3U
- 54SSiScQ9DFOj6TFDreDNUcuEGJS1Lbudtab9yqFIoMbpb/qDs2KFo0pJm+ezMpmEAkN
- nFoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fu1qbb9TIftGGLiopDIHJNKJDVey9e03m26BW4nVQKw=;
- b=z3MrgzMjZXezy4lE47epkFL6Bns5tlxHEzWBoEV9nfi3AKYKDGjEaOZoDW+pjo7q5I
- QAEvYdIdPHIr/vTo/wPzmhNcYkg3JDpDgsBAgGwQfckSqGTdscjJg1gT8tVa1feaEE/1
- Qz1MXua4DcZnZl5CHD2otNbg/3/fO6fioa3h9O9nAYLPgpV4BMxd9e/1Eo/SCQ7afY6x
- /++rfwOPVNSiDj5Z0PJkpGCa6kImQUmzrlHAPhowg/HBoANI6peG4RfZAHYKwStChYCB
- OY/HI8jcPq73adYO5JnXHMU1zbCZndACz1Jqq7xFxnu1rX28YHlUP2v3wh/047U5+t1Y
- JuTg==
-X-Gm-Message-State: AOAM530kmTg7rBaFFIWC9999IS56Vv2MhStR7p5XwmsQNtYTwzW6Nj6q
- nOUdXDty+fO9djCTU14TEXzgnfsAjRWXVulNRS70nw==
-X-Google-Smtp-Source: ABdhPJzRqmpc7ZCLtvfPCPlOJuwh7NKrbymtx/f5NZk8E50MzwzoBQeCzV16ElGWYbGopGOusWI0XFQieBWdHv96j04=
-X-Received: by 2002:a25:bd93:: with SMTP id f19mr285693ybh.23.1633655460310;
- Thu, 07 Oct 2021 18:11:00 -0700 (PDT)
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E57B36E05F;
+ Fri,  8 Oct 2021 01:26:38 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="312607407"
+X-IronPort-AV: E=Sophos;i="5.85,356,1624345200"; d="scan'208";a="312607407"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 18:26:38 -0700
+X-IronPort-AV: E=Sophos;i="5.85,356,1624345200"; d="scan'208";a="713557843"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 07 Oct 2021 18:26:38 -0700
+Date: Thu, 7 Oct 2021 18:21:51 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH 10/26] drm/i915/guc: Assign contexts in parent-child
+ relationship consecutive guc_ids
+Message-ID: <20211008012151.GA24680@jons-linux-dev-box>
+References: <20211004220637.14746-1-matthew.brost@intel.com>
+ <20211004220637.14746-11-matthew.brost@intel.com>
+ <63c2eb50-b5e9-5aec-1cf8-0e0b94cb991a@intel.com>
 MIME-Version: 1.0
-References: <20211006193819.2654854-1-swboyd@chromium.org>
- <20211006193819.2654854-3-swboyd@chromium.org>
- <CAGETcx9T59dHXodt9MW=tTV_hYhtNOZzYFT=35D--VN7WJ0GqQ@mail.gmail.com>
- <CAE-0n50YqKr1nKy-4WaxsfuwPiJ5kZcf46t-U_4i-TpfXzOX1g@mail.gmail.com>
- <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
-In-Reply-To: <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
-From: Saravana Kannan <saravanak@google.com>
-Date: Thu, 7 Oct 2021 18:10:24 -0700
-Message-ID: <CAGETcx_0GRg7u3dAxP9u0qO-hfJ0N3V44CGLwFFX1kVxZ00g+w@mail.gmail.com>
-Subject: Re: [PATCH v2 02/34] component: Introduce the aggregate bus_type
-To: Stephen Boyd <swboyd@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>, 
- Russell King <rmk+kernel@arm.linux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <63c2eb50-b5e9-5aec-1cf8-0e0b94cb991a@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,76 +53,235 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 7, 2021 at 1:11 PM Stephen Boyd <swboyd@chromium.org> wrote:
->
-> Quoting Stephen Boyd (2021-10-07 11:40:07)
-> > Quoting Saravana Kannan (2021-10-06 20:07:11)
-> > > On Wed, Oct 6, 2021 at 12:38 PM Stephen Boyd <swboyd@chromium.org> wrote:
-> > > > diff --git a/drivers/base/component.c b/drivers/base/component.c
-> > > > index 0a41bbe14981..d99e99cabb99 100644
-> > > > --- a/drivers/base/component.c
-> > > > +++ b/drivers/base/component.c
-> > [...]
-> > > > +                       continue;
-> > > > +
-> > > > +               /* Matches put in component_del() */
-> > > > +               get_device(&adev->dev);
-> > > > +               c->link = device_link_add(&adev->dev, c->dev,
-> > > > +                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
-> > >
-> > > Remove the STATELESS flag and you'll get a bunch of other stuff done for free:
-> >
-> > I tried that and it didn't work for me. The aggregate device never
-> > probed and I was left with no display. Let me see if I can reproduce it
-> > with logging to provide more details.
->
-> This patch fixes it (whitespace damaged sorry).
+On Thu, Oct 07, 2021 at 03:03:04PM -0700, John Harrison wrote:
+> On 10/4/2021 15:06, Matthew Brost wrote:
+> > Assign contexts in parent-child relationship consecutive guc_ids. This
+> > is accomplished by partitioning guc_id space between ones that need to
+> > be consecutive (1/16 available guc_ids) and ones that do not (15/16 of
+> > available guc_ids). The consecutive search is implemented via the bitmap
+> > API.
+> > 
+> > This is a precursor to the full GuC multi-lrc implementation but aligns
+> > to how GuC mutli-lrc interface is defined - guc_ids must be consecutive
+> > when using the GuC multi-lrc interface.
+> > 
+> > v2:
+> >   (Daniel Vetter)
+> >    - Explicitly state why we assign consecutive guc_ids
+> > v3:
+> >   (John Harrison)
+> >    - Bring back in spin lock
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   6 +-
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 104 ++++++++++++++----
+> >   2 files changed, 86 insertions(+), 24 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > index 25a598e2b6e8..a9f4ec972bfb 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+> > @@ -76,9 +76,13 @@ struct intel_guc {
+> >   		 */
+> >   		spinlock_t lock;
+> >   		/**
+> > -		 * @guc_ids: used to allocate new guc_ids
+> > +		 * @guc_ids: used to allocate new guc_ids, single-lrc
+> >   		 */
+> >   		struct ida guc_ids;
+> > +		/**
+> > +		 * @guc_ids_bitmap: used to allocate new guc_ids, multi-lrc
+> > +		 */
+> > +		unsigned long *guc_ids_bitmap;
+> >   		/**
+> >   		 * @guc_id_list: list of intel_context with valid guc_ids but no
+> >   		 * refs
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 1f2809187513..79e7732e83b2 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -128,6 +128,16 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
+> >   #define GUC_REQUEST_SIZE 64 /* bytes */
+> > +/*
+> > + * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
+> > + * per the GuC submission interface. A different allocation algorithm is used
+> > + * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
+> > + * partition the guc_id space. We believe the number of multi-lrc contexts in
+> > + * use should be low and 1/16 should be sufficient. Minimum of 32 guc_ids for
+> > + * multi-lrc.
+> > + */
+> > +#define NUMBER_MULTI_LRC_GUC_ID		(GUC_MAX_LRC_DESCRIPTORS / 16)
+> > +
+> >   /*
+> >    * Below is a set of functions which control the GuC scheduling state which
+> >    * require a lock.
+> > @@ -1206,6 +1216,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
+> >   	INIT_WORK(&guc->submission_state.destroyed_worker,
+> >   		  destroyed_worker_func);
+> > +	guc->submission_state.guc_ids_bitmap =
+> > +		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID, GFP_KERNEL);
+> > +	if (!guc->submission_state.guc_ids_bitmap)
+> > +		return -ENOMEM;
+> > +
+> >   	return 0;
+> >   }
+> > @@ -1217,6 +1232,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
+> >   	guc_lrc_desc_pool_destroy(guc);
+> >   	guc_flush_destroyed_contexts(guc);
+> >   	i915_sched_engine_put(guc->sched_engine);
+> > +	bitmap_free(guc->submission_state.guc_ids_bitmap);
+> >   }
+> >   static inline void queue_request(struct i915_sched_engine *sched_engine,
+> > @@ -1268,18 +1284,43 @@ static void guc_submit_request(struct i915_request *rq)
+> >   	spin_unlock_irqrestore(&sched_engine->lock, flags);
+> >   }
+> > -static int new_guc_id(struct intel_guc *guc)
+> > +static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   {
+> > -	return ida_simple_get(&guc->submission_state.guc_ids, 0,
+> > -			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
+> > -			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
+> > +	int ret;
+> > +
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > +
+> > +	if (intel_context_is_parent(ce))
+> > +		ret = bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
+> > +					      NUMBER_MULTI_LRC_GUC_ID,
+> > +					      order_base_2(ce->parallel.number_children
+> > +							   + 1));
+> > +	else
+> > +		ret = ida_simple_get(&guc->submission_state.guc_ids,
+> > +				     NUMBER_MULTI_LRC_GUC_ID,
+> > +				     GUC_MAX_LRC_DESCRIPTORS,
+> > +				     GFP_KERNEL | __GFP_RETRY_MAYFAIL |
+> > +				     __GFP_NOWARN);
+> > +	if (unlikely(ret < 0))
+> > +		return ret;
+> > +
+> > +	ce->guc_id.id = ret;
+> > +	return 0;
+> >   }
+> >   static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   {
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > +
+> >   	if (!context_guc_id_invalid(ce)) {
+> > -		ida_simple_remove(&guc->submission_state.guc_ids,
+> > -				  ce->guc_id.id);
+> > +		if (intel_context_is_parent(ce))
+> > +			bitmap_release_region(guc->submission_state.guc_ids_bitmap,
+> > +					      ce->guc_id.id,
+> > +					      order_base_2(ce->parallel.number_children
+> > +							   + 1));
+> There was a discussion on the previous revision about adding a BUG_ON to
+> ensure that number_children cannot change between the bitmap alloc and the
+> bitmap release. I'm not seeing the new BUG_ON mentioned in this patch.
+> 
 
-Not sure why you have to trigger an explicit rescan, but instead of
-this patch below, you could also try setting this flag instead?
-DL_FLAG_AUTOPROBE_CONSUMER
+I thought you meant to add a BUG_ON to ensure before we release a region
+/ id it is occupied? I looked in both the bitmap API and ida API and
+neither have a function that checks if region / id is occupied so can't
+really add a BUG_ON for that.
 
--Saravana
+How much you add BUG_ON to ensure the number of children canoot change
+between alloc and release? I don't follow how that would work.
 
->
-> ----8<----
-> diff --git a/drivers/base/component.c b/drivers/base/component.c
-> index 65042c9f8a42..43cac9ed70b7 100644
-> --- a/drivers/base/component.c
-> +++ b/drivers/base/component.c
-> @@ -202,7 +202,7 @@ static int find_components(struct aggregate_device *adev)
->                 /* Matches put in component_del() */
->                 get_device(&adev->dev);
->                 c->link = device_link_add(&adev->dev, c->dev,
-> -                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
-> +                                         DL_FLAG_PM_RUNTIME);
->                 c->adev = adev;
->         }
->
-> @@ -749,7 +749,9 @@ static int __component_add(struct device *dev,
-> const struct component_ops *ops,
->         mutex_unlock(&component_mutex);
->
->         /* Try to bind */
-> -       return bus_rescan_devices(&aggregate_bus_type);
-> +       bus_rescan_devices(&aggregate_bus_type);
-> +
-> +       return 0;
->  }
->
->  /**
->
->
-> The important part is ignoring the return value of bus_rescan_devices().
-> It's a cycle problem. The last component is probing and calling
-> component_add() in its probe function. The call to component_add() is
-> trying to probe the aggregate device now that all components are added.
-> But when it tries to probe the aggregate device it sees that a supplier,
-> which is this component calling compnent_add(), hasn't been probed yet,
-> so it returns -EPROBE_DEFER. That is passed up to the component and it
-> defers probe.
->
-> I don't think the component device cares at all about the aggregate
-> device being able to probe or not. We should be able to ignore the
-> return value of bus_rescan_devices() in component_add(). I'll add a
-> comment to the code here so it's more obvious.
+Matt 
+
+> John.
+> 
+> 
+> > +		else
+> > +			ida_simple_remove(&guc->submission_state.guc_ids,
+> > +					  ce->guc_id.id);
+> >   		reset_lrc_desc(guc, ce->guc_id.id);
+> >   		set_context_guc_id_invalid(ce);
+> >   	}
+> > @@ -1296,49 +1337,64 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
+> >   }
+> > -static int steal_guc_id(struct intel_guc *guc)
+> > +static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   {
+> > -	struct intel_context *ce;
+> > -	int guc_id;
+> > +	struct intel_context *cn;
+> >   	lockdep_assert_held(&guc->submission_state.lock);
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > +	GEM_BUG_ON(intel_context_is_parent(ce));
+> >   	if (!list_empty(&guc->submission_state.guc_id_list)) {
+> > -		ce = list_first_entry(&guc->submission_state.guc_id_list,
+> > +		cn = list_first_entry(&guc->submission_state.guc_id_list,
+> >   				      struct intel_context,
+> >   				      guc_id.link);
+> > -		GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
+> > -		GEM_BUG_ON(context_guc_id_invalid(ce));
+> > +		GEM_BUG_ON(atomic_read(&cn->guc_id.ref));
+> > +		GEM_BUG_ON(context_guc_id_invalid(cn));
+> > +		GEM_BUG_ON(intel_context_is_child(cn));
+> > +		GEM_BUG_ON(intel_context_is_parent(cn));
+> > -		list_del_init(&ce->guc_id.link);
+> > -		guc_id = ce->guc_id.id;
+> > +		list_del_init(&cn->guc_id.link);
+> > +		ce->guc_id = cn->guc_id;
+> >   		spin_lock(&ce->guc_state.lock);
+> > -		clr_context_registered(ce);
+> > +		clr_context_registered(cn);
+> >   		spin_unlock(&ce->guc_state.lock);
+> > -		set_context_guc_id_invalid(ce);
+> > -		return guc_id;
+> > +		set_context_guc_id_invalid(cn);
+> > +
+> > +		return 0;
+> >   	} else {
+> >   		return -EAGAIN;
+> >   	}
+> >   }
+> > -static int assign_guc_id(struct intel_guc *guc, u16 *out)
+> > +static int assign_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   {
+> >   	int ret;
+> >   	lockdep_assert_held(&guc->submission_state.lock);
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > -	ret = new_guc_id(guc);
+> > +	ret = new_guc_id(guc, ce);
+> >   	if (unlikely(ret < 0)) {
+> > -		ret = steal_guc_id(guc);
+> > +		if (intel_context_is_parent(ce))
+> > +			return -ENOSPC;
+> > +
+> > +		ret = steal_guc_id(guc, ce);
+> >   		if (ret < 0)
+> >   			return ret;
+> >   	}
+> > -	*out = ret;
+> > +	if (intel_context_is_parent(ce)) {
+> > +		struct intel_context *child;
+> > +		int i = 1;
+> > +
+> > +		for_each_child(ce, child)
+> > +			child->guc_id.id = ce->guc_id.id + i++;
+> > +	}
+> > +
+> >   	return 0;
+> >   }
+> > @@ -1356,7 +1412,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   	might_lock(&ce->guc_state.lock);
+> >   	if (context_guc_id_invalid(ce)) {
+> > -		ret = assign_guc_id(guc, &ce->guc_id.id);
+> > +		ret = assign_guc_id(guc, ce);
+> >   		if (ret)
+> >   			goto out_unlock;
+> >   		ret = 1;	/* Indidcates newly assigned guc_id */
+> > @@ -1398,8 +1454,10 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
+> >   	unsigned long flags;
+> >   	GEM_BUG_ON(atomic_read(&ce->guc_id.ref) < 0);
+> > +	GEM_BUG_ON(intel_context_is_child(ce));
+> > -	if (unlikely(context_guc_id_invalid(ce)))
+> > +	if (unlikely(context_guc_id_invalid(ce) ||
+> > +		     intel_context_is_parent(ce)))
+> >   		return;
+> >   	spin_lock_irqsave(&guc->submission_state.lock, flags);
+> 
