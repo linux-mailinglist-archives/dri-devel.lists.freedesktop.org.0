@@ -2,35 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2AEB426BC5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:36:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43551426BC7
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 15:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 27DF96F514;
-	Fri,  8 Oct 2021 13:35:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1BDE36F512;
+	Fri,  8 Oct 2021 13:35:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8D1196F50D;
- Fri,  8 Oct 2021 13:35:53 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388467"
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388467"
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 47F716F512;
+ Fri,  8 Oct 2021 13:35:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="287388473"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="287388473"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:53 -0700
-X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983736"
+ 08 Oct 2021 06:35:55 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="522983749"
 Received: from lenovo-x280.ger.corp.intel.com (HELO thellstr-mobl1.intel.com)
  ([10.249.254.98])
  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 06:35:51 -0700
+ 08 Oct 2021 06:35:53 -0700
 From: =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
 To: intel-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org
 Cc: maarten.lankhorst@linux.intel.com, matthew.auld@intel.com,
  =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 5/6] drm/i915/ttm: Attach the migration fence to a region
- timeline on eviction
-Date: Fri,  8 Oct 2021 15:35:29 +0200
-Message-Id: <20211008133530.664509-6-thomas.hellstrom@linux.intel.com>
+Subject: [PATCH 6/6] drm/i915: Use irq work for coalescing-only dma-fence-work
+Date: Fri,  8 Oct 2021 15:35:30 +0200
+Message-Id: <20211008133530.664509-7-thomas.hellstrom@linux.intel.com>
 X-Mailer: git-send-email 2.31.1
 In-Reply-To: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
 References: <20211008133530.664509-1-thomas.hellstrom@linux.intel.com>
@@ -52,255 +51,141 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On eviction, TTM requires that migration fences from the same region are
-ordered using dma_fence_is_later(). For request-based fences we therefore
-need to use the same context for the migration, but now that we use a
-dma_fence_work for error recovery, and, in addition, might need to coalesce
-the migration fence with async unbind fences, Create a coalesce fence for
-this.
-
-Chain the coalesce fence on the migration fence and attach it to a region
-timeline.
+We are using a timeline-attached struct dma_fence_work to coalesce
+dma-fences on eviction. In this mode we will not have a work callback
+attached.
+Similar to how the dma-fence-chain and dma-fence-array containers do this,
+use irq work to signal to reduce latency.
 
 Signed-off-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/i915/gem/i915_gem_ttm.c    | 84 ++++++++++++++++++----
- drivers/gpu/drm/i915/intel_memory_region.c | 43 +++++++++++
- drivers/gpu/drm/i915/intel_memory_region.h |  7 ++
- 3 files changed, 119 insertions(+), 15 deletions(-)
+ drivers/gpu/drm/i915/i915_sw_fence_work.c | 36 ++++++++++++++++++-----
+ drivers/gpu/drm/i915/i915_sw_fence_work.h |  2 ++
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-index 79d4d50aa4e5..625ce52e8662 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-@@ -672,9 +672,10 @@ static void __i915_ttm_move_fallback(struct ttm_buffer_object *bo, bool clear,
- 	}
- }
- 
--static int __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
--			   struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
--			   struct i915_refct_sgt *dst_rsgt, bool allow_accel)
-+static struct dma_fence *
-+__i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
-+		struct ttm_resource *dst_mem, struct ttm_tt *dst_ttm,
-+		struct i915_refct_sgt *dst_rsgt, bool allow_accel)
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+index 87cdb3158042..4573f537ada4 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
+@@ -32,16 +32,17 @@ void dma_fence_work_timeline_attach(struct dma_fence_work_timeline *tl,
  {
- 	struct i915_ttm_memcpy_work *copy_work;
- 	struct dma_fence *fence;
-@@ -689,7 +690,7 @@ static int __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 		/* Don't fail with -ENOMEM. Move sync instead. */
- 		__i915_ttm_move_fallback(bo, clear, dst_mem, dst_ttm, dst_rsgt,
- 					 allow_accel);
--		return 0;
-+		return NULL;
+ 	struct dma_fence *await;
+ 
++	might_sleep();
+ 	if (tl->ops->get)
+ 		tl->ops->get(tl);
+ 
+-	spin_lock(&tl->lock);
++	spin_lock_irq(&tl->lock);
+ 	await = tl->last_fence;
+ 	tl->last_fence = dma_fence_get(&f->dma);
+ 	f->dma.seqno = tl->seqno++;
+ 	f->dma.context = tl->context;
+ 	f->tl = tl;
+-	spin_unlock(&tl->lock);
++	spin_unlock_irq(&tl->lock);
+ 
+ 	if (await) {
+ 		__i915_sw_fence_await_dma_fence(&f->chain, await, tl_cb);
+@@ -53,13 +54,14 @@ static void dma_fence_work_timeline_detach(struct dma_fence_work *f)
+ {
+ 	struct dma_fence_work_timeline *tl = f->tl;
+ 	bool put = false;
++	unsigned long irq_flags;
+ 
+-	spin_lock(&tl->lock);
++	spin_lock_irqsave(&tl->lock, irq_flags);
+ 	if (tl->last_fence == &f->dma) {
+ 		put = true;
+ 		tl->last_fence = NULL;
  	}
+-	spin_unlock(&tl->lock);
++	spin_unlock_irqrestore(&tl->lock, irq_flags);
+ 	if (tl->ops->put)
+ 		tl->ops->put(tl);
+ 	if (put)
+@@ -68,8 +70,6 @@ static void dma_fence_work_timeline_detach(struct dma_fence_work *f)
  
- 	dma_fence_work_init(&copy_work->base, &i915_ttm_memcpy_ops);
-@@ -714,14 +715,45 @@ static int __i915_ttm_move(struct ttm_buffer_object *bo, bool clear,
- 	fence = dma_fence_get(&copy_work->base.dma);
- 	dma_fence_work_commit_imm(&copy_work->base);
- 
--	/*
--	 * We're synchronizing here for now. For async moves, return the
--	 * fence.
--	 */
--	dma_fence_wait(fence, false);
--	dma_fence_put(fence);
-+	return fence;
-+}
- 
--	return ret;
-+/**
-+ * struct i915_coalesce_fence - A dma-fence used to coalesce multiple fences
-+ * similar to struct dm_fence_array, and at the same time being timeline-
-+ * attached.
-+ * @base: struct dma_fence_work base.
-+ * @cb: Callback for timeline attachment.
-+ */
-+struct i915_coalesce_fence {
-+	struct dma_fence_work base;
-+	struct i915_sw_dma_fence_cb cb;
-+};
-+
-+/* No .work or .release callback. Just coalescing. */
-+static const struct dma_fence_work_ops i915_coalesce_fence_ops = {
-+	.name = "Coalesce fence",
-+};
-+
-+static struct dma_fence *
-+i915_ttm_coalesce_fence(struct dma_fence *fence, struct intel_memory_region *mr)
-+{
-+	struct i915_coalesce_fence *coalesce =
-+		kmalloc(sizeof(*coalesce), GFP_KERNEL);
-+
-+	if (!coalesce) {
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
-+		return NULL;
-+	}
-+
-+	dma_fence_work_init(&coalesce->base, &i915_coalesce_fence_ops);
-+	dma_fence_work_chain(&coalesce->base, fence);
-+	dma_fence_work_timeline_attach(&mr->tl, &coalesce->base, &coalesce->cb);
-+	dma_fence_get(&coalesce->base.dma);
-+	dma_fence_work_commit_imm(&coalesce->base);
-+	dma_fence_put(fence);
-+	return &coalesce->base.dma;
- }
- 
- static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
-@@ -734,6 +766,7 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 		ttm_manager_type(bo->bdev, dst_mem->mem_type);
- 	struct ttm_tt *ttm = bo->ttm;
- 	struct i915_refct_sgt *dst_rsgt;
-+	struct dma_fence *fence = NULL;
- 	bool clear;
- 	int ret;
- 
-@@ -765,7 +798,23 @@ static int i915_ttm_move(struct ttm_buffer_object *bo, bool evict,
- 
- 	clear = !cpu_maps_iomem(bo->resource) && (!ttm || !ttm_tt_is_populated(ttm));
- 	if (!(clear && ttm && !(ttm->page_flags & TTM_TT_FLAG_ZERO_ALLOC)))
--		__i915_ttm_move(bo, clear, dst_mem, bo->ttm, dst_rsgt, true);
-+		fence = __i915_ttm_move(bo, clear, dst_mem, bo->ttm, dst_rsgt, true);
-+	if (fence && evict) {
-+		struct intel_memory_region *mr =
-+			i915_ttm_region(bo->bdev, bo->resource->mem_type);
-+
-+		/*
-+		 * Attach to the region timeline and for future async unbind,
-+		 * which requires a timeline. Also future async unbind fences
-+		 * can be attached here.
-+		 */
-+		fence = i915_ttm_coalesce_fence(fence, mr);
-+	}
-+
-+	if (fence) {
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
-+	}
- 
- 	ttm_bo_move_sync_cleanup(bo, dst_mem);
- 	i915_ttm_adjust_domains_after_move(obj);
-@@ -1223,6 +1272,7 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 		.interruptible = intr,
- 	};
- 	struct i915_refct_sgt *dst_rsgt;
-+	struct dma_fence *fence;
- 	int ret;
- 
- 	assert_object_held(dst);
-@@ -1238,10 +1288,14 @@ int i915_gem_obj_copy_ttm(struct drm_i915_gem_object *dst,
- 		return ret;
- 
- 	dst_rsgt = i915_ttm_resource_get_st(dst, dst_bo->resource);
--	__i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
--			dst_rsgt, allow_accel);
+ static void dma_fence_work_complete(struct dma_fence_work *f)
+ {
+-	dma_fence_signal(&f->dma);
 -
-+	fence = __i915_ttm_move(src_bo, false, dst_bo->resource, dst_bo->ttm,
-+				dst_rsgt, allow_accel);
- 	i915_refct_sgt_put(dst_rsgt);
+ 	if (f->ops->release)
+ 		f->ops->release(f);
  
-+	if (fence) {
-+		dma_fence_wait(fence, false);
-+		dma_fence_put(fence);
+@@ -79,13 +79,32 @@ static void dma_fence_work_complete(struct dma_fence_work *f)
+ 	dma_fence_put(&f->dma);
+ }
+ 
++static void dma_fence_work_irq_work(struct irq_work *irq_work)
++{
++	struct dma_fence_work *f = container_of(irq_work, typeof(*f), irq_work);
++
++	dma_fence_signal(&f->dma);
++	if (f->ops->release)
++		/* Note we take the signaled path in dma_fence_work_work() */
++		queue_work(system_unbound_wq, &f->work);
++	else
++		dma_fence_work_complete(f);
++}
++
+ static void dma_fence_work_work(struct work_struct *work)
+ {
+ 	struct dma_fence_work *f = container_of(work, typeof(*f), work);
+ 
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &f->dma.flags)) {
++		dma_fence_work_complete(f);
++		return;
 +	}
 +
- 	return 0;
- }
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.c b/drivers/gpu/drm/i915/intel_memory_region.c
-index e7f7e6627750..aa1733e840f7 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.c
-+++ b/drivers/gpu/drm/i915/intel_memory_region.c
-@@ -7,6 +7,9 @@
- #include "i915_drv.h"
- #include "i915_ttm_buddy_manager.h"
+ 	if (f->ops->work)
+ 		f->ops->work(f);
  
-+static const struct dma_fence_work_timeline_ops tl_ops;
-+static void intel_region_timeline_release_work(struct work_struct *work);
++	dma_fence_signal(&f->dma);
 +
- static const struct {
- 	u16 class;
- 	u16 instance;
-@@ -127,6 +130,10 @@ intel_memory_region_create(struct drm_i915_private *i915,
- 	}
- 
- 	kref_init(&mem->kref);
-+
-+	INIT_WORK(&mem->tl_put_work, intel_region_timeline_release_work);
-+	dma_fence_work_timeline_init(&mem->tl, NULL, &tl_ops);
-+
- 	return mem;
- 
- err_free:
-@@ -238,6 +245,42 @@ void intel_memory_regions_driver_release(struct drm_i915_private *i915)
- 	}
+ 	dma_fence_work_complete(f);
  }
  
-+static void intel_region_timeline_get(struct dma_fence_work_timeline *tl)
-+{
-+	struct intel_memory_region *mr = container_of(tl, typeof(*mr), tl);
-+
-+	intel_memory_region_get(mr);
-+}
-+
-+static void intel_region_timeline_release_work(struct work_struct *work)
-+{
-+	struct intel_memory_region *mr =
-+		container_of(work, typeof(*mr), tl_put_work);
-+
-+	__intel_memory_region_destroy(&mr->kref);
-+}
-+
-+static void intel_region_timeline_release(struct kref *ref)
-+{
-+	struct intel_memory_region *mr = container_of(ref, typeof(*mr), kref);
-+
-+	/* May be called from hardirq context, so queue the final release. */
-+	queue_work(system_unbound_wq, &mr->tl_put_work);
-+}
-+
-+static void intel_region_timeline_put(struct dma_fence_work_timeline *tl)
-+{
-+	struct intel_memory_region *mr = container_of(tl, typeof(*mr), tl);
-+
-+	kref_put(&mr->kref, intel_region_timeline_release);
-+}
-+
-+static const struct dma_fence_work_timeline_ops tl_ops = {
-+	.name = "Region timeline",
-+	.get = intel_region_timeline_get,
-+	.put = intel_region_timeline_put,
-+};
-+
- #if IS_ENABLED(CONFIG_DRM_I915_SELFTEST)
- #include "selftests/intel_memory_region.c"
- #include "selftests/mock_region.c"
-diff --git a/drivers/gpu/drm/i915/intel_memory_region.h b/drivers/gpu/drm/i915/intel_memory_region.h
-index 3feae3353d33..928819e2edba 100644
---- a/drivers/gpu/drm/i915/intel_memory_region.h
-+++ b/drivers/gpu/drm/i915/intel_memory_region.h
-@@ -13,6 +13,8 @@
- #include <drm/drm_mm.h>
- #include <drm/i915_drm.h>
+@@ -102,8 +121,10 @@ fence_notify(struct i915_sw_fence *fence, enum i915_sw_fence_notify state)
+ 		dma_fence_get(&f->dma);
+ 		if (test_bit(DMA_FENCE_WORK_IMM, &f->dma.flags))
+ 			dma_fence_work_work(&f->work);
+-		else
++		else if (f->ops->work)
+ 			queue_work(system_unbound_wq, &f->work);
++		else
++			irq_work_queue(&f->irq_work);
+ 		break;
  
-+#include "i915_sw_fence_work.h"
-+
- struct drm_i915_private;
- struct drm_i915_gem_object;
- struct drm_printer;
-@@ -94,6 +96,11 @@ struct intel_memory_region {
- 	bool is_range_manager;
+ 	case FENCE_FREE:
+@@ -155,6 +176,7 @@ void dma_fence_work_init(struct dma_fence_work *f,
+ 	dma_fence_init(&f->dma, &fence_ops, &f->lock, 0, 0);
+ 	i915_sw_fence_init(&f->chain, fence_notify);
+ 	INIT_WORK(&f->work, dma_fence_work_work);
++	init_irq_work(&f->irq_work, dma_fence_work_irq_work);
+ }
  
- 	void *region_private;
-+
-+	/** Timeline for TTM eviction fences */
-+	struct dma_fence_work_timeline tl;
-+	/** Work struct for _region_put() from atomic / irq context */
-+	struct work_struct tl_put_work;
- };
+ int dma_fence_work_chain(struct dma_fence_work *f, struct dma_fence *signal)
+diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.h b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+index 6f41ee360133..c412bb4cb288 100644
+--- a/drivers/gpu/drm/i915/i915_sw_fence_work.h
++++ b/drivers/gpu/drm/i915/i915_sw_fence_work.h
+@@ -8,6 +8,7 @@
+ #define I915_SW_FENCE_WORK_H
  
- struct intel_memory_region *
+ #include <linux/dma-fence.h>
++#include <linux/irq_work.h>
+ #include <linux/spinlock.h>
+ #include <linux/workqueue.h>
+ 
+@@ -77,6 +78,7 @@ struct dma_fence_work {
+ 	struct i915_sw_dma_fence_cb cb;
+ 
+ 	struct work_struct work;
++	struct irq_work irq_work;
+ 
+ 	struct dma_fence_work_timeline *tl;
+ 
 -- 
 2.31.1
 
