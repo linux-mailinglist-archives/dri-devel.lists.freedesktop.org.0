@@ -2,145 +2,141 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF2E426FAF
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 19:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D721C426FB6
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 19:46:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 128D06F51B;
-	Fri,  8 Oct 2021 17:39:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EEBA26F519;
+	Fri,  8 Oct 2021 17:46:35 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 535256F519;
- Fri,  8 Oct 2021 17:39:42 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="213504214"
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="213504214"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 10:39:41 -0700
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4D4606F519;
+ Fri,  8 Oct 2021 17:46:34 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226845781"
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="226845781"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 10:46:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="459245563"
-Received: from orsmsx606.amr.corp.intel.com ([10.22.229.19])
- by orsmga002.jf.intel.com with ESMTP; 08 Oct 2021 10:39:41 -0700
-Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
- ORSMSX606.amr.corp.intel.com (10.22.229.19) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="440724199"
+Received: from orsmsx603.amr.corp.intel.com ([10.22.229.16])
+ by orsmga003.jf.intel.com with ESMTP; 08 Oct 2021 10:46:33 -0700
+Received: from orsmsx605.amr.corp.intel.com (10.22.229.18) by
+ ORSMSX603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 8 Oct 2021 10:39:41 -0700
-Received: from orsmsx604.amr.corp.intel.com (10.22.229.17) by
- ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Fri, 8 Oct 2021 10:39:40 -0700
+ 15.1.2242.12; Fri, 8 Oct 2021 10:46:33 -0700
 Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx604.amr.corp.intel.com (10.22.229.17) with Microsoft SMTP Server
+ orsmsx605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Fri, 8 Oct 2021 10:39:40 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.175)
+ 15.1.2242.12 via Frontend Transport; Fri, 8 Oct 2021 10:46:33 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
  by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Fri, 8 Oct 2021 10:39:40 -0700
+ 15.1.2242.12; Fri, 8 Oct 2021 10:46:30 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RJozQWlViCPRTj/xEoDPOmYOwhTVKDZLTvoBaLcwZ0xWmbfCskoimj8cKOZahW+4loUjoODfZz3RvUy35OtwA5XLCoztFK3rh/pEcgahIYu6fsSvC5h6Pjojv7HDwgn6fZhWEZB/vA9tIot9Uau6pMK8v7AOBu2TEDeWegsVNsNXYQ88LsbrpPIEExUumU7D3OnSoaKbfRP6wJNWF6tUYi92aKVb0ZEhAV1Te1uv/1IfNhvqvmvkHeMz7WtMi8QgfA5ZFbC2IqGheqLSG3SB04TYWIx/yss3yH+aCYaCpzjYWZcAtR1FvQiVQ6eQhI8iMkdmfSQKpdagvR9zToN1HQ==
+ b=Z44CK7kY0jFWVVw5+SH21zO6tsPkbr7jsmgSQvGzFojiSTjfIIXsHzh3IU0Xk/tlXPuxNr0ZnAjJTz7K3hStoQtM46D5T10umV96UisdHwbekK/T0iZnWmbTYp1Ggqq+1C13pedq8WMqXQA9b2n3ylCt3GxjIgbJ6l4+Nhgne1dYEZvLk1hy2VGqnwgrJmm/9hNLdohW7k7+h8DW+cln+uM3yow5MKL+64k4SDUHHKOkHi824A2d2W0Q/fINWGl9A9/fXVRvYTer+z5mFljDckuzUbku0riYVEB6ETErTSkfaFmO1SZpPIJZpj0N5SctUH3JM6+j7ZqUZ14nMpdHng==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gmHXBD0ewV9k4iGFLAGQO4qtno4PxCTA+WBRINfgyIs=;
- b=KyyzKiOCqT0p8tb6Q/25EQnkCWo5WiDEddOzchEaAzlFYNr7Jc0P0/nsKFTHUfmYNX0dqd+wLbC+sDf50mkeT5zbGMLYM5ZvKDUrVjld/VVezBSAAu89c9qNs1hramkH2/VoYa4PjNJ5LrwO6+64ZMv482UmV35f3Hs04uYxmdSxgc8mxjWM1lT9aFFrcGS5Of4yMYnv1iN9SXLkcrxgh5TUTtKYqe1ht2Mrgf1Rz5xsDk3aRG9936U8FGGXYiW33zgjJAgxzLjK8/Wzt8D+gJvxJfwKPHM/37gXrV1VNvKs9oqYaa8UJ90ZrYo7pPZotAhrZbp1E9ViocDH7nwJ9Q==
+ bh=cHGdITakKdvd1pe9PWi7yzdW2DYxSYprN34+mylcqd0=;
+ b=hk7yv8/RbUg/vnNXDZQv8XzDXzsBNkjPpKrzr3hfA/rXiR8MeB5UVAXBBATXlBaWClYcLOM5/JWyQvi9py2Ib2n9t2Sc6D0V0WsgMcWbRUQd2LHYE47IewsIkFhft8UlMztTg8OEkylH/RDXLMP3MH2qvtlTlo5Ab61vGaFQcGG5XlxlUcXHeydrZrCSXVh/vwzfkGPm+a7YuB1mvG8zGP1hqXF3k9vgRCypTs6xx9nm+33WpWeFHv/uca/7wbpBcsltqEbSGp+7Au0F9rxZ8NlTwgZArMYLtW7Z4/N8i7OwTtJbCkWRz8p9txthWufSkdV8sLq1lnNvEXwokrz8qw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
  s=selector2-intel-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gmHXBD0ewV9k4iGFLAGQO4qtno4PxCTA+WBRINfgyIs=;
- b=qHHPa+OMKuFo6QfDzfMDgf0Mk6FDRuH/Tba57GG2gvNOhUAmWtBRF7unnpPgbEnFyhPTpfXMjHeKsN2Odf7bo31wZVzAinJB6g7/TUbtfiySe1PpyJcrQecfQiXQytUTeIY6aBVSmbHfJsktuiQWWto5FAUSC2hl0KnQX6es5XE=
+ bh=cHGdITakKdvd1pe9PWi7yzdW2DYxSYprN34+mylcqd0=;
+ b=QsvP7u0YHPieqryxYj8GIo+otcxvwhPt/kpqVoT31CW2Wkyn7lGIjyHMkjoJSITyH0NaSBPf1SsuQt1Qw7Sbxk+j2ayV7TCy0+Rc7UIwyRPjuWfXreFmDY1JdCsNnfH+UpI0Vx6mg0u0WZr0+Xj6Ys7+8t3itn7YVI6gHABS368=
 Authentication-Results: intel.com; dkim=none (message not signed)
  header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
 Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5593.namprd11.prod.outlook.com (2603:10b6:510:e0::15)
+ by PH0PR11MB5595.namprd11.prod.outlook.com (2603:10b6:510:e5::16)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Fri, 8 Oct
- 2021 17:39:39 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Fri, 8 Oct
+ 2021 17:46:22 +0000
 Received: from PH0PR11MB5642.namprd11.prod.outlook.com
  ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
  ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.020; Fri, 8 Oct 2021
- 17:39:39 +0000
-Subject: Re: [PATCH 14/26] drm/i915/guc: Implement multi-lrc reset
+ 17:46:22 +0000
+Subject: Re: [PATCH 15/26] drm/i915/guc: Update debugfs for GuC multi-lrc
 To: Matthew Brost <matthew.brost@intel.com>,
  <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
 CC: <daniele.ceraolospurio@intel.com>
 References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-15-matthew.brost@intel.com>
+ <20211004220637.14746-16-matthew.brost@intel.com>
 From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <2d816209-7c88-8059-ff04-0cb7559f2c2f@intel.com>
-Date: Fri, 8 Oct 2021 10:39:35 -0700
+Message-ID: <3bbea31b-2b4f-c609-7e88-209b876267f1@intel.com>
+Date: Fri, 8 Oct 2021 10:46:18 -0700
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211004220637.14746-15-matthew.brost@intel.com>
+In-Reply-To: <20211004220637.14746-16-matthew.brost@intel.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-GB
-X-ClientProxiedBy: MW4PR04CA0291.namprd04.prod.outlook.com
- (2603:10b6:303:89::26) To PH0PR11MB5642.namprd11.prod.outlook.com
+X-ClientProxiedBy: MW4PR03CA0056.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::31) To PH0PR11MB5642.namprd11.prod.outlook.com
  (2603:10b6:510:e5::13)
 MIME-Version: 1.0
 Received: from [192.168.1.106] (73.157.192.58) by
- MW4PR04CA0291.namprd04.prod.outlook.com (2603:10b6:303:89::26) with Microsoft
+ MW4PR03CA0056.namprd03.prod.outlook.com (2603:10b6:303:8e::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4587.18 via Frontend Transport; Fri, 8 Oct 2021 17:39:38 +0000
+ 15.20.4587.19 via Frontend Transport; Fri, 8 Oct 2021 17:46:21 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dc2d0c27-a8f3-47aa-d5e4-08d98a829a44
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5593:
+X-MS-Office365-Filtering-Correlation-Id: d7917ba3-81ab-410e-9278-08d98a838a92
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5595:
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB5593D8E551D5A2C28F49676ABDB29@PH0PR11MB5593.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4502;
+X-Microsoft-Antispam-PRVS: <PH0PR11MB559555D26AC2615E934252B3BDB29@PH0PR11MB5595.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:569;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +IMWWLgIjHZfxN+D0imcNqoHbqN6FTgkPqWXW7j/Uz3G1wmnfeXFG4EFkOgG6+OLU+CctOI+Rb/WFiAYVqHzYxgFgMKypALnt8hWtB48RZE96bIQjA2G/6zI5YT+O/rhuTlD3Qkb1l2iM3bgt9FF+SdhHrVcfsOlRdeb1UZpmhGVfhwWRMR/yGNktgyTqg6wGsg594oQVAnr+ZEfpc/MBH/6uJPL/j5LhLf/TXwK1XjdUeX0IwyfGYcwT9l5eZ5pOhLNnBzJ7FoawAm9NKfnNhqhZ+RYsad14L6rxjsJSszPX98oWCVrjikg13hMRnJGNBl4RHIoEjTZmBb7u+jJMBrj5Mj0mP1fMVzVZfPrf/6OkocZJoMJLevtry8i95An6qL/+A7VilWCzykoOM6XwtirP6J0RmUkFxJ5xa5CDPZUvqbYkzhs4n4N5AGG1TIwhQs/JUsfYgHbJwJDO/LFR5QxcUJ3I1YMvBMqdRIRuqLOnzkY6HQyuhov7d1vFSWSCOjs5XCTxBo9t4adQ+SlHocv91XVJubXUPGhFRJ4FgJiFX7Vw7fb8ei8ta+LDVDgoLcl2cr+1fYDIhP5zidqWFDoSZXmjHFws7kpFPz4Xujko8u2Wuf745cDe1g6MFX6l3CC18onTe11aeTfBAXn59DCQL2t7Oj+tVzT4YM8ftElLA3/9OEZ1y32oFqRmnw6rniJf6Nd3jmRjDwFDRj82FceJYufIzsGt83oloBBwhypSKwHXcji+OsLB8uY+oWv
+X-Microsoft-Antispam-Message-Info: 7/m5r1s/d3wU4a9bkdvpiSSRUgzs9MbBlBfivc9P+397mW9jUsVUgjhhC5MU0OXK3Aq43046AoWly3CbXCbSYnwcn6ICk64vm57iCeYS4UzUOChgX7h2bCyPdhmWljhzgN0+2CKkeiDrf2oN61jFNE4t0MWpfeSVP9taB7uNHFQrCaz02SEj1AiOC65NXSDgZx3Dk+q69WqyXhwhPU/Q55h7WiXnFhZDlFl+vWe0UMxg0ho/8zAy4lXSCU0YOo70jzBjR+iElvOB9+uVMpuSmtturf4vclzi3+jV2DuTA9Qmb1zZDkwLRCNupYoRnQAWw1TP7IxcUaFFBusIJp8ODZFuG7FaPpoQcwOx/2ae5y440YN3oYHvXAXiSYFoFhj35guHmki/Ufqgd0DKU7Mdy6Ltvv4WiLDXyF8Wxxz5MBrcaIGoah8rxpkx73lFVqwV05LMvViaDi2y+ngllK7t88JqSu/qlg9VQoXcDJNoKUqK3BV/8sKEJeZh+1xXxd93se8auLQhplv+B3lFLvIqpGOZ36MGwvzMPReNc6vPscp9xF/dT3wVT4fmN1tHhlr/rYYlzpRm8QlexSuQycYPt+HLM0fKG+tOr5MlD9vaXmaEtH89v/BvVN49QvRJPQMKF3ZeZmJO9r84aKCXLpOX8T/6Cpu+P/5oGByO7/Tj9jQdUV9Iyt8nsCsL90OexTAb6cuM6sB5LJNe8YsjXMA8zWqjSPNLj3Zpx5DFksT342XZah8B8uHINRtr1+wEdCfc
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(53546011)(26005)(107886003)(6666004)(6486002)(8676002)(38100700002)(956004)(2616005)(31696002)(36756003)(4326008)(8936002)(508600001)(450100002)(2906002)(86362001)(66946007)(83380400001)(31686004)(66556008)(66476007)(316002)(16576012)(5660300002)(186003)(45980500001)(43740500002);
+ SFS:(4636009)(366004)(38100700002)(186003)(53546011)(26005)(8936002)(31696002)(36756003)(2906002)(5660300002)(508600001)(4326008)(8676002)(107886003)(31686004)(2616005)(6486002)(16576012)(316002)(66556008)(66946007)(956004)(66476007)(450100002)(6666004)(86362001)(83380400001)(45980500001)(43740500002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TFhxVGs0ZnF0YTlCNzJFSzRGOFgwV0hlOG5lZEZjSFpxQm9yUVRkVEZ5emtr?=
- =?utf-8?B?TkpWQ3hkMWx5MFdXbUhUTlhTVFZyS0V1eFZMN1I2S2E4azhXdUpITFFiZ3dG?=
- =?utf-8?B?Ym5LUHd4UTZJSUxLUEJIOE9LTVFZZ2YxVWRkS29GanpaUGVteGt0WkNyNS9R?=
- =?utf-8?B?K1BJbSt2bVNYMkRuZDU3MkdHTlBSSGU5MWU1SmhVVDczTktLRWNWdlg5cTFG?=
- =?utf-8?B?S2VReG1xR2JwbWVlNVBWcitQdVpDWUpxL2NGSXdOZG1aUC9sL2JPSVFuSmZo?=
- =?utf-8?B?TUR3QUFEWFMzRDdGaUoxYnFuNEJCQ2RLWks2VnhTcHlDaDUwTSs1SGtPTklq?=
- =?utf-8?B?STF1MDBsSmplalNvaDZIZS8xUGJHWFM2dmkvbVNtaFNKSVF1aDhuRHQ4QjFQ?=
- =?utf-8?B?b2N3Z2o0SXA4R2hWTGlLM09pZUZwUDdGSzhwYjJHamxqQWlwVUsvMmxZbjVG?=
- =?utf-8?B?bE5TRTE5VEorSkQ1SU8yWkRDck5scFZoVW5NSlcyUTdDc1c2ZEpzUDY1OUlW?=
- =?utf-8?B?UG1tTmtEcXNBY3FJRW9LM055RWhSaEhLN0Z6RjN4UlpyUEZDMEthVjRtbytL?=
- =?utf-8?B?UW9lSHJUa1RVbTNhVWcyZEQ0dmJuTUt0c2tRK1NZcCtsSFlNZGRTdUdzQjBr?=
- =?utf-8?B?SDdLRkY3T05WZk1GeDFDSHA3WWFjYXRGUVZGYWp0ZThNMzhuam5MeEluNVpq?=
- =?utf-8?B?cW0xS09oallySFBoTWZKSDN1OElrS3doOUM1Mi9oTE9BRy9FMFQrSG9EU2Rp?=
- =?utf-8?B?eGtyd1dTWlZ4T1Z1T1BiWHEwV3RuOEUyNVh1Y3lST1A5ZmFLVFd2THE5ZG5N?=
- =?utf-8?B?c0dKaTU1UHU0OXZoZTJ1MS9ObXAzQ21nNU9STGJTWmF0aXZDZ1lNWUM3MFp1?=
- =?utf-8?B?bE5SNXJ2NTBocUFsd1lmOHdlMVozbFJTZ09uQyt5azFvRmVuajBHdWN1QkJI?=
- =?utf-8?B?U3F6c1NSR0xyZkt5YVpGamswMFRGMDF6M3hJcHBRdktCNnFMekpRN2IvamZJ?=
- =?utf-8?B?MkZSdWJ6WFhORzcyaHI0dGlMaXpqN3AxU0VFcnNkZHJvcHVuVmFmcGExdzl2?=
- =?utf-8?B?d0tOQ09NNXR3SUUzSXNYN1k2SFFJWUR3ZlNRQ0RLNEMxcGFlNFF1azJLRnJm?=
- =?utf-8?B?VFdMU3VkYUNCNWJXY2t1THFqMU9YZzZqZTNReTh2WnU1TXhxRFVWd0lkaWZQ?=
- =?utf-8?B?OEdZeWlEQWtnZGhwWTc1S3Q5Q2hYYWtrVE1ieGVhTFJQcUJUNFYxOEJyTXFG?=
- =?utf-8?B?MUMxNUJVU0NSK2lhUzFROGVNOExlYVc3NzdjOG9GeHpNaE1LY0tsbXlsZlIv?=
- =?utf-8?B?dlhLeUZtWmRyUFQzR2RscmQzQzdDcWIzTVg5Zm1nN004QmdNbVg0Y0dQRDE0?=
- =?utf-8?B?cTAydk5jM3kwb0VQRHpXRHE5aUNTelY2bWxFVGE0RW1UUUEva2ZSZkxxcFJn?=
- =?utf-8?B?R1p4SWhaZlpBOGh6Mml3S0w4OFNPRkZicEhUZ0FrTHUxTHp0dzdxSEl4Nlgv?=
- =?utf-8?B?cjcrUnZUc1RBM3hLYzV4UDRFVjdMc2ZYU3lENU9zbXd3VUNEVGZ4MUV4Njh0?=
- =?utf-8?B?bmNnV3QwTkt4cjBraDB2dTZZYStYeGs2V0xDOUxaS0tkNWFnQVd5cVBMVHBL?=
- =?utf-8?B?VllFell1YVp1bmZJWnU0YWIvek84VnZzWVRJRzJ3TTFQMDFBdThxQmh2WmZU?=
- =?utf-8?B?ODB0RjFaNkNzTS9vcXZiRGhhZk9SeHl0LzJVMVBjL0xFV055Rk14RmQ5YVh0?=
- =?utf-8?Q?hFn+B4TYdhDM1hc006vHijoC0Yxu2ZYzgfG804P?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: dc2d0c27-a8f3-47aa-d5e4-08d98a829a44
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M21zeUxqNjRpOUpEVTNlek96cHUvSkdpZ21DMk5LeExuSUxvRHgzTHl1cDBv?=
+ =?utf-8?B?OVVNZllJcC9DUW5SdFFrc2ZCMUlXSmgzb3R4RWJ5a2trSXcrNy8zK0hxejBu?=
+ =?utf-8?B?NlBkb0xVenVCNjdvNTNiR1dpcS9CMlVyWnN2azdZZzZKSEJMazcya2VEQW14?=
+ =?utf-8?B?WjMrbEJaYWQzOENkTGphN01MSFRTdXMvTTBtQU12KzZ3SnpvZi9nbjNEZkFD?=
+ =?utf-8?B?dGV0MjM5QVJ0N2FnUnFKUGN3cVlUaHcyR3BlWTZyZGhQcW56cE40N1pqVWVy?=
+ =?utf-8?B?MDZQbUZyRGJ2RnBNdTZJZ1IvYW43WDBvcEFubEhTb3JTRTFqYVZCVDlodWo4?=
+ =?utf-8?B?a2RVbC9xYWtkSU81cWJHTUNqOUdRVWxUZTZ5cmtVNEtqa05XRVhhdytyM2Yr?=
+ =?utf-8?B?SzJTZGEwa0g4d2RhbTd0bVI4VDBtZUhtcWkxeFZOTnR0S3hrbTlhaFhOSElD?=
+ =?utf-8?B?K1J4NGhFZU9PbytTb25DUVh0K2xHRy9aRjRuSk9FWmZRanUzRGhtUU42WjJ1?=
+ =?utf-8?B?cGx4R3d4YTdhdVNaRzRLY0Uwd0FrL0hVbUJ3cVY0Y24rTlpCY20yU0V3ZldL?=
+ =?utf-8?B?NDFHelo3NnZPL0pIRlB2WHpiNitXYVE5b3gyT25UclZxcGd2MVAzbWNWNklD?=
+ =?utf-8?B?S2N3MTRyalNRYU82NU9TVTVyV0FWS1pZamkyeTBPQmxiUGxmcElGcTlHTkxO?=
+ =?utf-8?B?OXU5OFpkNmx2aGs5QU0zbkF0V3paV0dSVk44MUs1S3lEL3BwekpHK2FCY1l3?=
+ =?utf-8?B?ZjYrNFlJMzNrUUhKcUJ0WFQ2cDcyYW5ERWU4bTNyWEhYeEhIOVpETmpjOHV5?=
+ =?utf-8?B?S1lJTnByR0FheDRMZVBzbFgvVDNkcEtOMUppOUhCYm95aTlFVExEaGljSTE3?=
+ =?utf-8?B?bitBUmlSdnR3L2dxUDFqRGxZYUNNS1R4MFdCZktGZ3FoQStFVXhEYzJlNG5V?=
+ =?utf-8?B?aHBHSVU3WWtHOW03dXNoaVh1QWtLUUFCejdyM3hOVUpsUE5QUnBGRDV0MHdY?=
+ =?utf-8?B?di8rWkFHUE9nKzI1cEcyZmRiemt5aEloM3oyeVBsOWZ5M2tIeVZNVVRWTEQ2?=
+ =?utf-8?B?TVRqL1dwQkhtb3pCWmlLVk44eHlsRUYyc0p3MzhiRnVOWWY2SysyK0xIK0g5?=
+ =?utf-8?B?aVVaVGNNRnBoWWJvWkJJSUtTcEkzRUVMYzdjRXpycnVHMnB4eGFRSXR6U0pB?=
+ =?utf-8?B?VEFCcDNSNmpBMFdGU0dvdjRubGtrMkdsaFBZNkZpckNpaTZZVkJpNWNoYko0?=
+ =?utf-8?B?S1Fzam4xNzdtZmJaNWZCc1NYcnJJZHE1OHF4NFBia2psQnpTTUlwZG93ZDFK?=
+ =?utf-8?B?UDV2TWhhVnhHQ3d2elExL0ZFdEdBbVN0SXhjZCtKd3FXY1U2aWRURU5wTG5J?=
+ =?utf-8?B?eFUzcGI2Mkg0b0Y0UFk5RitlTmFOaDZVc01VbytwUWxsVTd0Z1NBWW1hOGZU?=
+ =?utf-8?B?Y2JWVlVmUE5yV1VBTmUwVFROekJXSms4bW9WZk5QUk1TSHlzVkVoNDBaOERq?=
+ =?utf-8?B?bm41OUllSnZPUkVWb3ljS29BaXlYTDFVdE8rT2ltMFMyOTcvVE9NTUwvVGR2?=
+ =?utf-8?B?TU1MWjBRMXFFMUlPRVA0ak53cUp3U0pxbThZZjRIVVMzZElEbHdsRGxCRGo0?=
+ =?utf-8?B?R2ZoK0t2TEVUcFV1ZDIydTZoa0VsOW1nRmdHT0lJUi9CWXFwYmNnUERyeFp3?=
+ =?utf-8?B?dE9yREcyL2FsdzhWMHJIdFFWcFIyWkxYYjFVZ3lOVm1tc3NzYzduRk1TZ1Rp?=
+ =?utf-8?Q?j0zArZuz6AEpHkniCqflnbKdTiKi55JqR0kX8VH?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7917ba3-81ab-410e-9278-08d98a838a92
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 17:39:38.9882 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 17:46:22.1588 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y5/G1SQz+l8BQWf4VenpStkNBV0joQHqzMOtxfKe7Mdxvum7OF6qsSvGl4n3Mt3R1xxWF1v/IKe99A6gpnA3j6euWYCl9KEtF+92i6vvYhY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5593
+X-MS-Exchange-CrossTenant-UserPrincipalName: qgdxqR39raUFy8hZTlXEgMJzvgypQ6YE6PgGtAvAaui0rEz6z4wegqeMsIt0jhSrV9oCZk79HRKLA2dqksRhpsKzpLrmztZl8I+J1zqxTOs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5595
 X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -158,222 +154,91 @@ Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 On 10/4/2021 15:06, Matthew Brost wrote:
-> Update context and full GPU reset to work with multi-lrc. The idea is
-> parent context tracks all the active requests inflight for itself and
-> its' children. The parent context owns the reset replaying / canceling
-Still its' should be its.
-
-> requests as needed.
+> Display the workqueue status in debugfs for GuC contexts that are in
+> parent-child relationship.
 >
 > v2:
 >   (John Harrison)
->    - Simply loop in find active request
->    - Add comments to find ative request / reset loop
+>    - Output number children in debugfs
 >
 > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gt/intel_context.c       | 15 +++-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 69 ++++++++++++++-----
->   2 files changed, 63 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> index c5bb7ccfb3f8..3b340eb59ada 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> @@ -528,20 +528,29 @@ struct i915_request *intel_context_create_request(struct intel_context *ce)
->   
->   struct i915_request *intel_context_find_active_request(struct intel_context *ce)
->   {
-> +	struct intel_context *parent = intel_context_to_parent(ce);
->   	struct i915_request *rq, *active = NULL;
->   	unsigned long flags;
->   
->   	GEM_BUG_ON(!intel_engine_uses_guc(ce->engine));
->   
-> -	spin_lock_irqsave(&ce->guc_state.lock, flags);
-> -	list_for_each_entry_reverse(rq, &ce->guc_state.requests,
-> +	/*
-> +	 * We search the parent list to find an active request on the submitted
-> +	 * context. The parent list contains the requests for all the contexts
-> +	 * in the relationship so we have to do a compare of each request's
-> +	 * context must be done.
-"have to do ... must be done" - no need for both.
+Reviewed-by: John Harrison <John.C.Harrison@Intel.com>
 
-> +	 */
-> +	spin_lock_irqsave(&parent->guc_state.lock, flags);
-> +	list_for_each_entry_reverse(rq, &parent->guc_state.requests,
->   				    sched.link) {
-> +		if (rq->context != ce)
-> +			continue;
->   		if (i915_request_completed(rq))
->   			break;
->   
->   		active = rq;
->   	}
-> -	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-> +	spin_unlock_irqrestore(&parent->guc_state.lock, flags);
->   
->   	return active;
->   }
+> ---
+>   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 53 ++++++++++++++-----
+>   1 file changed, 39 insertions(+), 14 deletions(-)
+>
 > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 6be7adf89e4f..d661a69ef4f7 100644
+> index d661a69ef4f7..f69e984683aa 100644
 > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
 > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -681,6 +681,11 @@ static inline int rq_prio(const struct i915_request *rq)
->   	return rq->sched.attr.priority;
+> @@ -3704,6 +3704,26 @@ static inline void guc_log_context_priority(struct drm_printer *p,
+>   	drm_printf(p, "\n");
 >   }
 >   
-> +static inline bool is_multi_lrc(struct intel_context *ce)
+> +
+> +static inline void guc_log_context(struct drm_printer *p,
+> +				   struct intel_context *ce)
 > +{
-> +	return intel_context_is_parallel(ce);
+> +	drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
+> +	drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> +	drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> +		   ce->ring->head,
+> +		   ce->lrc_reg_state[CTX_RING_HEAD]);
+> +	drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> +		   ce->ring->tail,
+> +		   ce->lrc_reg_state[CTX_RING_TAIL]);
+> +	drm_printf(p, "\t\tContext Pin Count: %u\n",
+> +		   atomic_read(&ce->pin_count));
+> +	drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> +		   atomic_read(&ce->guc_id.ref));
+> +	drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+> +		   ce->guc_state.sched_state);
 > +}
 > +
->   static bool is_multi_lrc_rq(struct i915_request *rq)
+>   void intel_guc_submission_print_context_info(struct intel_guc *guc,
+>   					     struct drm_printer *p)
 >   {
->   	return intel_context_is_parallel(rq->context);
-> @@ -1214,10 +1219,15 @@ __unwind_incomplete_requests(struct intel_context *ce)
+> @@ -3713,22 +3733,27 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
 >   
->   static void __guc_reset_context(struct intel_context *ce, bool stalled)
->   {
-> +	bool local_stalled;
->   	struct i915_request *rq;
->   	unsigned long flags;
->   	u32 head;
-> +	int i, number_children = ce->parallel.number_children;
->   	bool skip = false;
-> +	struct intel_context *parent = ce;
+>   	xa_lock_irqsave(&guc->context_lookup, flags);
+>   	xa_for_each(&guc->context_lookup, index, ce) {
+> -		drm_printf(p, "GuC lrc descriptor %u:\n", ce->guc_id.id);
+> -		drm_printf(p, "\tHW Context Desc: 0x%08x\n", ce->lrc.lrca);
+> -		drm_printf(p, "\t\tLRC Head: Internal %u, Memory %u\n",
+> -			   ce->ring->head,
+> -			   ce->lrc_reg_state[CTX_RING_HEAD]);
+> -		drm_printf(p, "\t\tLRC Tail: Internal %u, Memory %u\n",
+> -			   ce->ring->tail,
+> -			   ce->lrc_reg_state[CTX_RING_TAIL]);
+> -		drm_printf(p, "\t\tContext Pin Count: %u\n",
+> -			   atomic_read(&ce->pin_count));
+> -		drm_printf(p, "\t\tGuC ID Ref Count: %u\n",
+> -			   atomic_read(&ce->guc_id.ref));
+> -		drm_printf(p, "\t\tSchedule State: 0x%x\n\n",
+> -			   ce->guc_state.sched_state);
+> +		GEM_BUG_ON(intel_context_is_child(ce));
+>   
+> +		guc_log_context(p, ce);
+>   		guc_log_context_priority(p, ce);
 > +
-> +	GEM_BUG_ON(intel_context_is_child(ce));
->   
->   	intel_context_get(ce);
->   
-> @@ -1243,25 +1253,38 @@ static void __guc_reset_context(struct intel_context *ce, bool stalled)
->   	if (unlikely(skip))
->   		goto out_put;
->   
-> -	rq = intel_context_find_active_request(ce);
-> -	if (!rq) {
-> -		head = ce->ring->tail;
-> -		stalled = false;
-> -		goto out_replay;
-> -	}
-> +	/*
-> +	 * For each context in the relationship find the hanging request
-> +	 * resetting each context / request as needed
-> +	 */
-> +	for (i = 0; i < number_children + 1; ++i) {
-> +		if (!intel_context_is_pinned(ce))
-> +			goto next_context;
+> +		if (intel_context_is_parent(ce)) {
+> +			struct guc_process_desc *desc = __get_process_desc(ce);
+> +			struct intel_context *child;
 > +
-> +		local_stalled = false;
-> +		rq = intel_context_find_active_request(ce);
-> +		if (!rq) {
-> +			head = ce->ring->tail;
-> +			goto out_replay;
+> +			drm_printf(p, "\t\tNumber children: %u\n",
+> +				   ce->parallel.number_children);
+> +			drm_printf(p, "\t\tWQI Head: %u\n",
+> +				   READ_ONCE(desc->head));
+> +			drm_printf(p, "\t\tWQI Tail: %u\n",
+> +				   READ_ONCE(desc->tail));
+> +			drm_printf(p, "\t\tWQI Status: %u\n\n",
+> +				   READ_ONCE(desc->wq_status));
+> +
+> +			for_each_child(ce, child)
+> +				guc_log_context(p, child);
 > +		}
->   
-> -	if (!i915_request_started(rq))
-> -		stalled = false;
-> +		GEM_BUG_ON(i915_active_is_idle(&ce->active));
-> +		head = intel_ring_wrap(ce->ring, rq->head);
->   
-> -	GEM_BUG_ON(i915_active_is_idle(&ce->active));
-> -	head = intel_ring_wrap(ce->ring, rq->head);
-> -	__i915_request_reset(rq, stalled);
-> +		if (i915_request_started(rq))
-I didn't see an answer as to why the started test and the wrap call need 
-to be reversed?
-
-John.
-
-> +			local_stalled = true;
->   
-> +		__i915_request_reset(rq, local_stalled && stalled);
->   out_replay:
-> -	guc_reset_state(ce, head, stalled);
-> -	__unwind_incomplete_requests(ce);
-> +		guc_reset_state(ce, head, local_stalled && stalled);
-> +next_context:
-> +		if (i != number_children)
-> +			ce = list_next_entry(ce, parallel.child_link);
-> +	}
-> +
-> +	__unwind_incomplete_requests(parent);
->   out_put:
-> -	intel_context_put(ce);
-> +	intel_context_put(parent);
->   }
->   
->   void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
-> @@ -1282,7 +1305,8 @@ void intel_guc_submission_reset(struct intel_guc *guc, bool stalled)
->   
->   		xa_unlock(&guc->context_lookup);
->   
-> -		if (intel_context_is_pinned(ce))
-> +		if (intel_context_is_pinned(ce) &&
-> +		    !intel_context_is_child(ce))
->   			__guc_reset_context(ce, stalled);
->   
->   		intel_context_put(ce);
-> @@ -1374,7 +1398,8 @@ void intel_guc_submission_cancel_requests(struct intel_guc *guc)
->   
->   		xa_unlock(&guc->context_lookup);
->   
-> -		if (intel_context_is_pinned(ce))
-> +		if (intel_context_is_pinned(ce) &&
-> +		    !intel_context_is_child(ce))
->   			guc_cancel_context_requests(ce);
->   
->   		intel_context_put(ce);
-> @@ -2067,6 +2092,8 @@ static struct i915_sw_fence *guc_context_block(struct intel_context *ce)
->   	u16 guc_id;
->   	bool enabled;
->   
-> +	GEM_BUG_ON(intel_context_is_child(ce));
-> +
->   	spin_lock_irqsave(&ce->guc_state.lock, flags);
->   
->   	incr_context_blocked(ce);
-> @@ -2121,6 +2148,7 @@ static void guc_context_unblock(struct intel_context *ce)
->   	bool enable;
->   
->   	GEM_BUG_ON(context_enabled(ce));
-> +	GEM_BUG_ON(intel_context_is_child(ce));
->   
->   	spin_lock_irqsave(&ce->guc_state.lock, flags);
->   
-> @@ -2147,11 +2175,14 @@ static void guc_context_unblock(struct intel_context *ce)
->   static void guc_context_cancel_request(struct intel_context *ce,
->   				       struct i915_request *rq)
->   {
-> +	struct intel_context *block_context =
-> +		request_to_scheduling_context(rq);
-> +
->   	if (i915_sw_fence_signaled(&rq->submit)) {
->   		struct i915_sw_fence *fence;
->   
->   		intel_context_get(ce);
-> -		fence = guc_context_block(ce);
-> +		fence = guc_context_block(block_context);
->   		i915_sw_fence_wait(fence);
->   		if (!i915_request_completed(rq)) {
->   			__i915_request_skip(rq);
-> @@ -2165,7 +2196,7 @@ static void guc_context_cancel_request(struct intel_context *ce,
->   		 */
->   		flush_work(&ce_to_guc(ce)->ct.requests.worker);
->   
-> -		guc_context_unblock(ce);
-> +		guc_context_unblock(block_context);
->   		intel_context_put(ce);
 >   	}
+>   	xa_unlock_irqrestore(&guc->context_lookup, flags);
 >   }
-> @@ -2191,6 +2222,8 @@ static void guc_context_ban(struct intel_context *ce, struct i915_request *rq)
->   	intel_wakeref_t wakeref;
->   	unsigned long flags;
->   
-> +	GEM_BUG_ON(intel_context_is_child(ce));
-> +
->   	guc_flush_submissions(guc);
->   
->   	spin_lock_irqsave(&ce->guc_state.lock, flags);
 
