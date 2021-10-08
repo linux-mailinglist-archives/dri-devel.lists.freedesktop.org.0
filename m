@@ -1,63 +1,46 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC78C427466
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 01:51:46 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6772F427473
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 01:59:04 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 946BD6E896;
-	Fri,  8 Oct 2021 23:51:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D2E036E893;
+	Fri,  8 Oct 2021 23:58:59 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
- [IPv6:2a00:1450:4864:20::12b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1EF6E893;
- Fri,  8 Oct 2021 23:51:38 +0000 (UTC)
-Received: by mail-lf1-x12b.google.com with SMTP id x27so45322869lfa.9;
- Fri, 08 Oct 2021 16:51:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uwgZMiF+2EZrddFYvj4zPW2uaBGbkJ1NsJjndwLFgmo=;
- b=QOKPxUmXBAKw6igDPT/zjPt5QMIFZE2KNEKOO/sVKw0K97S2Je2cABFymmu5qKAx4t
- iYMiWHnbtwY3LwV6wkpDvRGZ1RwVqJIxTlvl1E35YVrTFKAmmrmOCmaRrCZYSkr1ktvS
- H3haz772ryqXlSwRc957ycXHXmHvefPE5v9i6sCXDlVtMMKejk7Ocrk9JwR9lEdQzDX2
- l0uzse9bTo9as0ZZ1N6eK/bxWW4xmwKTFsQG8vfWkccim6atXoPNvYYvhUVMDwA7Tfqi
- qPGoo1bIiKqbPcTo1LnnaPiNRXBXSWTqtYpev401iUR0auPdzGx1rag306LnXFCwoenu
- zo/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uwgZMiF+2EZrddFYvj4zPW2uaBGbkJ1NsJjndwLFgmo=;
- b=y7osFFX8CBWtBrJx1YX53izlFkZPuhhxNEa5ucdHL0VzQ6zXLwYx9SSRQDpFwsiBOF
- C8QkYwDchOcMJLOibAsZcHKDiYeVBB6lpYnIad585lYKl05lM8BqOt+DT7owYVv12Pb/
- 6rOmSH7CFWq1p3qUHbfGGeHe3Vmw98/qnCHCfugT+KL2NtnU2lRuR0dXfNg0jFvs/zvP
- EheBa1UD416EVTh8mk3rMTz4y0E1LHw34qfBOvC8O2WC8CVBvFNnpvpyYoI/9VKjqE5i
- Oi5ScPy/6D4UTk65XsSkLW4kzf3/iAPHwdk18fRk0Veo8SBEGgOlVIhXmiSDyt3iQ3PR
- Z93A==
-X-Gm-Message-State: AOAM531PI2qwPWFKbUnfqsq6AxL6vfBWNFw0nG2BOFkQ0G8RQ6R2rrWL
- jTtHa2z1Lit/YygGuSfY7SO/hG42ISEM3HPhIoM=
-X-Google-Smtp-Source: ABdhPJz7Ow+K8EIslKeXp+4vVFFt/sRu9Sx24RquRofTAvElLfDQdvi+dltK3N0wFBb4tXcgGAUE9bWtvMGRBVZNDYw=
-X-Received: by 2002:a05:6512:3d11:: with SMTP id
- d17mr11324880lfv.542.1633737096563; 
- Fri, 08 Oct 2021 16:51:36 -0700 (PDT)
+Received: from 7.mo575.mail-out.ovh.net (7.mo575.mail-out.ovh.net
+ [46.105.63.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E5A906E893
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 23:58:58 +0000 (UTC)
+Received: from player157.ha.ovh.net (unknown [10.108.20.200])
+ by mo575.mail-out.ovh.net (Postfix) with ESMTP id 133F621C2F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 23:58:56 +0000 (UTC)
+Received: from etezian.org (unknown [31.22.59.2])
+ (Authenticated sender: andi@etezian.org)
+ by player157.ha.ovh.net (Postfix) with ESMTPSA id 763CE230C3A8E;
+ Fri,  8 Oct 2021 23:58:49 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00472c411d3-a15e-4448-bbcf-59f2e5d35f4e,
+ 96E6F0DCCDE64F4AA19C256DCD19BBCC8770B30E) smtp.auth=andi@etezian.org
+X-OVh-ClientIp: 31.22.59.2
+From: Andi Shyti <andi@etezian.org>
+To: Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Andi Shyti <andi.shyti@intel.com>, Andi Shyti <andi@etezian.org>
+Subject: [PATCH v4] drm/i915/gt: move remaining debugfs interfaces into gt
+Date: Sat,  9 Oct 2021 01:58:46 +0200
+Message-Id: <20211008235846.15482-1-andi@etezian.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-References: <20211007230903.4084-1-andi@etezian.org>
- <CAKi4VAJ-HUR1=-VKeB0i21Q81i3aC00n2c-gp2zmw3ybeULUbw@mail.gmail.com>
- <YWAaGdKXpSAaBfab@intel.intel>
-In-Reply-To: <YWAaGdKXpSAaBfab@intel.intel>
-From: Lucas De Marchi <lucas.de.marchi@gmail.com>
-Date: Fri, 8 Oct 2021 16:51:24 -0700
-Message-ID: <CAKi4VAJHYyoOmO52yGN0TxgAZv7BPB7A+0FxoJc4caUVySsqVQ@mail.gmail.com>
-Subject: Re: [PATCH v2] drm/i915/gt: move remaining debugfs interfaces into gt
-To: Andi Shyti <andi.shyti@intel.com>
-Cc: Andi Shyti <andi@etezian.org>, Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>, 
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>, 
- Lucas De Marchi <lucas.demarchi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Ovh-Tracer-Id: 15798627494819465738
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtuddgvdekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnhepjeejheevgfetgfetudehudehgeefudeffeffieegvdduhefhleeghfdttdfggeevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgnecukfhppedtrddtrddtrddtpdefuddrvddvrdehledrvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheprghnughisegvthgviihirghnrdhorhhgpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -73,67 +56,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 8, 2021 at 3:14 AM Andi Shyti <andi.shyti@intel.com> wrote:
->
-> Hi Lucas,
->
-> > > I am reproposing this patch exactly as it was proposed initially
-> > > where the original interfaces are kept where they have been
-> > > originally placed. It might generate some duplicated code but,
-> > > well, it's debugfs and I don't see any issue. In the future we
-> > > can transform the upper interfaces to act upon all the GTs and
-> > > provide information from all the GTs. This is, for example, how
-> > > the sysfs interfaces will act.
-> >
-> > NACK. We've made this mistake in the past for other debugfs files.
-> > We don't want to do it again just to maintain 2 separate places for
-> > one year and then finally realize we want to merge them.
->
-> In my opinion it's all about what mistake you like the most
-> because until we will have multi-gt support in upstream all the
-> patches come with the "promise" of a follow-up and maintenance
-> cost.
+From: Andi Shyti <andi.shyti@intel.com>
 
-no. If you put the implementation in a single place, later you only have the
-decision on what to do with the per-device entrypoint:
+The following interfaces:
 
-- should we remove it once igt is converted?
-- should we make it iterate all gts?
-- should we make it mean root tile?
+  i915_wedged
+  i915_forcewake_user
 
-Then you take the action that is needed and decide it per interface.
-Here you are leaving behind a lot of code that we will need to maintain
-until there is support for such a thing.
+are dependent on gt values. Put them inside gt/ and drop the
+"i915_" prefix name. This would be the new structure:
 
-It already happened once: we needed to maintain that duplicated code
-for over a year with multiple patches changing them (or failing to do so).
+  dri/0/gt
+  |
+  +-- forcewake_user
+  |
+  \-- reset
 
->
-> > > The reason I removed them in V1 is because igt as only user is
-> > > not a strong reason to keep duplicated code, but as Chris
-> > > suggested offline:
-> > >
-> > > "It's debugfs, igt is the primary consumer. CI has to be bridged over
-> > > changes to the interfaces it is using in any case, as you want
-> > > comparable results before/after the patches land.
-> >
-> > That doesn't mean you have to copy and paste it. It may mean you
-> > do the implementation in one of them and the other calls that implementation.
-> > See how I did the deduplication in commit d0c560316d6f ("drm/i915:
-> > deduplicate frequency dump on debugfs")
->
-> In this case, from a user perspective, which gt is the interface
-> affecting? is it affecting all the system? or gt 0, 1...? Does
-> the user know? The maintenance cost is that later you will need
-> to use for_each_gt and make all those interfaces multitile, and
-> this would be your "promise".
+For backwards compatibility with existing igt (and the slight
+semantic difference between operating on the i915 abi entry
+points and the deep gt info):
 
-multi-gt is irrelevant here.  This patch without any "promise" should do
-what the commit message says: *move*. The only reason to keep
-the old entrypoint around is because it's missing the igt conversion. If
-you are going to support a per-device entrypoint and do for_each_gt(),
-or do a symlink to the root tile, or whatever, it isn't very relevant
-to this patch.
-Right now we have just a single directory, gt.
+  dri/0
+  |
+  +-- i915_wedged
+  |
+  \-- i915_forcewake_user
 
-Lucas De Marchi
+remain at the top level.
+
+Signed-off-by: Andi Shyti <andi.shyti@intel.com>
+Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+---
+Changelog:
+----------
+v3 -> v4: https://patchwork.freedesktop.org/patch/458225/
+ * remove the unnecessary interrupt_info_show() information. They
+   were already removed here by Chris:
+
+	cf977e18610e6 ("drm/i915/gem: Spring clean debugfs")
+
+v2 -> v3: https://patchwork.freedesktop.org/patch/458108/
+ * keep the original interfaces as they were (thanks Chris) but
+   implement the functionality inside the gt. The upper level
+   files will call the gt functions (thanks Lucas).
+
+v1 -> v2: https://patchwork.freedesktop.org/patch/456652/
+ * keep the original interfaces intact (thanks Chris).
+
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    | 42 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_debugfs.h    |  4 ++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c | 41 ++++++++++++++++++
+ drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h |  4 ++
+ drivers/gpu/drm/i915/i915_debugfs.c           | 43 +++----------------
+ 5 files changed, 98 insertions(+), 36 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+index 1fe19ccd27942..f712670993b68 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
+@@ -13,6 +13,46 @@
+ #include "pxp/intel_pxp_debugfs.h"
+ #include "uc/intel_uc_debugfs.h"
+ 
++int reset_show(void *data, u64 *val)
++{
++	struct intel_gt *gt = data;
++	int ret = intel_gt_terminally_wedged(gt);
++
++	switch (ret) {
++	case -EIO:
++		*val = 1;
++		return 0;
++	case 0:
++		*val = 0;
++		return 0;
++	default:
++		return ret;
++	}
++}
++
++int reset_store(void *data, u64 val)
++{
++	struct intel_gt *gt = data;
++
++	/* Flush any previous reset before applying for a new one */
++	wait_event(gt->reset.queue,
++		   !test_bit(I915_RESET_BACKOFF, &gt->reset.flags));
++
++	intel_gt_handle_error(gt, val, I915_ERROR_CAPTURE,
++			      "Manually reset engine mask to %llx", val);
++	return 0;
++}
++DEFINE_SIMPLE_ATTRIBUTE(reset_fops, reset_show, reset_store, "%llu\n");
++
++static void gt_debugfs_register(struct intel_gt *gt, struct dentry *root)
++{
++	static const struct intel_gt_debugfs_file files[] = {
++		{ "reset", &reset_fops, NULL },
++	};
++
++	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
++}
++
+ void intel_gt_debugfs_register(struct intel_gt *gt)
+ {
+ 	struct dentry *root;
+@@ -24,6 +64,8 @@ void intel_gt_debugfs_register(struct intel_gt *gt)
+ 	if (IS_ERR(root))
+ 		return;
+ 
++	gt_debugfs_register(gt, root);
++
+ 	intel_gt_engines_debugfs_register(gt, root);
+ 	intel_gt_pm_debugfs_register(gt, root);
+ 	intel_sseu_debugfs_register(gt, root);
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+index 8b6fca09897ce..6bc4f044c23f3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.h
+@@ -35,4 +35,8 @@ void intel_gt_debugfs_register_files(struct dentry *root,
+ 				     const struct intel_gt_debugfs_file *files,
+ 				     unsigned long count, void *data);
+ 
++/* functions that need to be accessed by the upper level non-gt interfaces */
++int reset_show(void *data, u64 *val);
++int reset_store(void *data, u64 val);
++
+ #endif /* INTEL_GT_DEBUGFS_H */
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+index 5f84ad6026423..712c91d588eb3 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
+@@ -19,6 +19,46 @@
+ #include "intel_sideband.h"
+ #include "intel_uncore.h"
+ 
++int __forcewake_user_open(struct intel_gt *gt)
++{
++	atomic_inc(&gt->user_wakeref);
++	intel_gt_pm_get(gt);
++	if (GRAPHICS_VER(gt->i915) >= 6)
++		intel_uncore_forcewake_user_get(gt->uncore);
++
++	return 0;
++}
++
++int __forcewake_user_release(struct intel_gt *gt)
++{
++	if (GRAPHICS_VER(gt->i915) >= 6)
++		intel_uncore_forcewake_user_put(gt->uncore);
++	intel_gt_pm_put(gt);
++	atomic_dec(&gt->user_wakeref);
++
++	return 0;
++}
++
++static int forcewake_user_open(struct inode *inode, struct file *file)
++{
++	struct intel_gt *gt = inode->i_private;
++
++	return __forcewake_user_open(gt);
++}
++
++static int forcewake_user_release(struct inode *inode, struct file *file)
++{
++	struct intel_gt *gt = inode->i_private;
++
++	return __forcewake_user_release(gt);
++}
++
++static const struct file_operations forcewake_user_fops = {
++	.owner = THIS_MODULE,
++	.open = forcewake_user_open,
++	.release = forcewake_user_release,
++};
++
+ static int fw_domains_show(struct seq_file *m, void *data)
+ {
+ 	struct intel_gt *gt = m->private;
+@@ -627,6 +667,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
+ 		{ "drpc", &drpc_fops, NULL },
+ 		{ "frequency", &frequency_fops, NULL },
+ 		{ "forcewake", &fw_domains_fops, NULL },
++		{ "forcewake_user", &forcewake_user_fops, NULL},
+ 		{ "llc", &llc_fops, llc_eval },
+ 		{ "rps_boost", &rps_boost_fops, rps_eval },
+ 	};
+diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
+index 2b824289582be..fe306412b996d 100644
+--- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
++++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.h
+@@ -13,4 +13,8 @@ struct drm_printer;
+ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root);
+ void intel_gt_pm_frequency_dump(struct intel_gt *gt, struct drm_printer *m);
+ 
++/* functions that need to be accessed by the upper level non-gt interfaces */
++int __forcewake_user_open(struct intel_gt *gt);
++int __forcewake_user_release(struct intel_gt *gt);
++
+ #endif /* INTEL_GT_PM_DEBUGFS_H */
+diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
+index fdbd46ff59e0e..fd7f5bd5f304c 100644
+--- a/drivers/gpu/drm/i915/i915_debugfs.c
++++ b/drivers/gpu/drm/i915/i915_debugfs.c
+@@ -35,6 +35,7 @@
+ #include "gt/intel_gt.h"
+ #include "gt/intel_gt_buffer_pool.h"
+ #include "gt/intel_gt_clock_utils.h"
++#include "gt/intel_gt_debugfs.h"
+ #include "gt/intel_gt_pm.h"
+ #include "gt/intel_gt_pm_debugfs.h"
+ #include "gt/intel_gt_requests.h"
+@@ -554,36 +555,18 @@ static int i915_wa_registers(struct seq_file *m, void *unused)
+ 	return 0;
+ }
+ 
+-static int
+-i915_wedged_get(void *data, u64 *val)
++static int i915_wedged_get(void *data, u64 *val)
+ {
+ 	struct drm_i915_private *i915 = data;
+-	int ret = intel_gt_terminally_wedged(&i915->gt);
+ 
+-	switch (ret) {
+-	case -EIO:
+-		*val = 1;
+-		return 0;
+-	case 0:
+-		*val = 0;
+-		return 0;
+-	default:
+-		return ret;
+-	}
++	return reset_show(&i915->gt, val);
+ }
+ 
+-static int
+-i915_wedged_set(void *data, u64 val)
++static int i915_wedged_set(void *data, u64 val)
+ {
+ 	struct drm_i915_private *i915 = data;
+ 
+-	/* Flush any previous reset before applying for a new one */
+-	wait_event(i915->gt.reset.queue,
+-		   !test_bit(I915_RESET_BACKOFF, &i915->gt.reset.flags));
+-
+-	intel_gt_handle_error(&i915->gt, val, I915_ERROR_CAPTURE,
+-			      "Manually set wedged engine mask = %llx", val);
+-	return 0;
++	return reset_store(&i915->gt, val);
+ }
+ 
+ DEFINE_SIMPLE_ATTRIBUTE(i915_wedged_fops,
+@@ -728,27 +711,15 @@ static int i915_sseu_status(struct seq_file *m, void *unused)
+ static int i915_forcewake_open(struct inode *inode, struct file *file)
+ {
+ 	struct drm_i915_private *i915 = inode->i_private;
+-	struct intel_gt *gt = &i915->gt;
+-
+-	atomic_inc(&gt->user_wakeref);
+-	intel_gt_pm_get(gt);
+-	if (GRAPHICS_VER(i915) >= 6)
+-		intel_uncore_forcewake_user_get(gt->uncore);
+ 
+-	return 0;
++	return __forcewake_user_open(&i915->gt);
+ }
+ 
+ static int i915_forcewake_release(struct inode *inode, struct file *file)
+ {
+ 	struct drm_i915_private *i915 = inode->i_private;
+-	struct intel_gt *gt = &i915->gt;
+ 
+-	if (GRAPHICS_VER(i915) >= 6)
+-		intel_uncore_forcewake_user_put(&i915->uncore);
+-	intel_gt_pm_put(gt);
+-	atomic_dec(&gt->user_wakeref);
+-
+-	return 0;
++	return __forcewake_user_release(&i915->gt);
+ }
+ 
+ static const struct file_operations i915_forcewake_fops = {
+-- 
+2.33.0
+
