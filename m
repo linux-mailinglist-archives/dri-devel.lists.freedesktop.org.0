@@ -2,34 +2,34 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C78C427352
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:57:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8464D427348
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:57:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 94F3A6E884;
-	Fri,  8 Oct 2021 21:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C570B8957D;
+	Fri,  8 Oct 2021 21:57:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 789516E881;
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A0CB46E878;
  Fri,  8 Oct 2021 21:57:15 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="206715330"
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="206715330"
+X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="206715331"
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="206715331"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 14:57:14 -0700
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="489625462"
+ 08 Oct 2021 14:57:15 -0700
+X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="489625465"
 Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  08 Oct 2021 14:57:14 -0700
 From: Matt Roper <matthew.d.roper@intel.com>
 To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
+Cc: dri-devel@lists.freedesktop.org, Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Stuart Summers <stuart.summers@intel.com>,
  Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
  Matt Roper <matthew.d.roper@intel.com>
-Subject: [PATCH 06/11] drm/i915: Initial support for per-tile uncore
-Date: Fri,  8 Oct 2021 14:56:30 -0700
-Message-Id: <20211008215635.2026385-7-matthew.d.roper@intel.com>
+Subject: [PATCH 07/11] drm/i915/xehp: Determine which tile raised an interrupt
+Date: Fri,  8 Oct 2021 14:56:31 -0700
+Message-Id: <20211008215635.2026385-8-matthew.d.roper@intel.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211008215635.2026385-1-matthew.d.roper@intel.com>
 References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
@@ -50,226 +50,81 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+From: Paulo Zanoni <paulo.r.zanoni@intel.com>
 
-Initialization and suspend/resume is replicated per-tile.
+The first step of interrupt handling is to read a tile0 register that
+tells us in which tile the interrupt happened; we can then we read the
+usual interrupt registers from the appropriate tile.
 
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+Note that this is just the first step of handling interrupts properly on
+multi-tile platforms.  Subsequent patches will convert other parts of
+the interrupt handling flow.
+
+Cc: Stuart Summers <stuart.summers@intel.com>
+Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
 Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c  |  1 +
- drivers/gpu/drm/i915/i915_debugfs.c |  5 ++-
- drivers/gpu/drm/i915/i915_drv.c     | 61 ++++++++++++++++++++++-------
- 3 files changed, 51 insertions(+), 16 deletions(-)
+ drivers/gpu/drm/i915/i915_irq.c | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 736725411f51..6528d21e68eb 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -1008,6 +1008,7 @@ void intel_gts_release(struct drm_i915_private *i915)
- void intel_gt_info_print(const struct intel_gt_info *info,
- 			 struct drm_printer *p)
+diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
+index 038a9ec563c1..9f99ad56cde6 100644
+--- a/drivers/gpu/drm/i915/i915_irq.c
++++ b/drivers/gpu/drm/i915/i915_irq.c
+@@ -2772,37 +2772,38 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
  {
-+	drm_printf(p, "GT %u info:\n", info->id);
- 	drm_printf(p, "available engines: %x\n", info->engine_mask);
- 
- 	intel_sseu_dump(&info->sseu, p);
-diff --git a/drivers/gpu/drm/i915/i915_debugfs.c b/drivers/gpu/drm/i915/i915_debugfs.c
-index fdbd46ff59e0..34fefdfb6661 100644
---- a/drivers/gpu/drm/i915/i915_debugfs.c
-+++ b/drivers/gpu/drm/i915/i915_debugfs.c
-@@ -60,12 +60,15 @@ static int i915_capabilities(struct seq_file *m, void *data)
- {
- 	struct drm_i915_private *i915 = node_to_i915(m->private);
- 	struct drm_printer p = drm_seq_file_printer(m);
-+	struct intel_gt *gt;
-+	unsigned int id;
- 
- 	seq_printf(m, "pch: %d\n", INTEL_PCH_TYPE(i915));
- 
- 	intel_device_info_print_static(INTEL_INFO(i915), &p);
- 	intel_device_info_print_runtime(RUNTIME_INFO(i915), &p);
--	intel_gt_info_print(&i915->gt.info, &p);
-+	for_each_gt(i915, id, gt)
-+		intel_gt_info_print(&gt->info, &p);
- 	intel_driver_caps_print(&i915->caps, &p);
- 
- 	kernel_param_lock(THIS_MODULE);
-diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-index 44ccf0078ac4..36b6e6f2cebf 100644
---- a/drivers/gpu/drm/i915/i915_drv.c
-+++ b/drivers/gpu/drm/i915/i915_drv.c
-@@ -406,6 +406,8 @@ static void i915_driver_late_release(struct drm_i915_private *dev_priv)
-  */
- static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
- {
-+	struct intel_gt *gt;
-+	unsigned int i, j;
- 	int ret;
- 
- 	if (i915_inject_probe_failure(dev_priv))
-@@ -415,26 +417,35 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = intel_uncore_init_mmio(&dev_priv->uncore);
--	if (ret)
--		return ret;
-+	for_each_gt(dev_priv, i, gt) {
-+		ret = intel_uncore_init_mmio(gt->uncore);
-+		if (ret)
-+			goto err_uncore;
-+	}
- 
- 	/* Try to make sure MCHBAR is enabled before poking at it */
- 	intel_setup_mchbar(dev_priv);
- 	intel_device_info_runtime_init(dev_priv);
- 
--	ret = intel_gt_init_mmio(&dev_priv->gt);
--	if (ret)
--		goto err_uncore;
-+	for_each_gt(dev_priv, j, gt) {
-+		ret = intel_gt_init_mmio(gt);
-+		if (ret)
-+			goto err_mchbar;
-+	}
- 
- 	/* As early as possible, scrub existing GPU state before clobbering */
- 	sanitize_gpu(dev_priv);
- 
- 	return 0;
- 
--err_uncore:
-+err_mchbar:
- 	intel_teardown_mchbar(dev_priv);
--	intel_uncore_fini_mmio(&dev_priv->uncore);
-+err_uncore:
-+	for_each_gt(dev_priv, j, gt) {
-+		if (j >= i)
-+			break;
-+		intel_uncore_fini_mmio(gt->uncore);
-+	}
- 	pci_dev_put(dev_priv->bridge_dev);
- 
- 	return ret;
-@@ -446,8 +457,12 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
-  */
- static void i915_driver_mmio_release(struct drm_i915_private *dev_priv)
- {
-+	struct intel_gt *gt;
+ 	struct drm_i915_private * const i915 = arg;
+ 	struct intel_gt *gt = &i915->gt;
+-	void __iomem * const regs = gt->uncore->regs;
++	void __iomem * const t0_regs = gt->uncore->regs;
+ 	u32 master_tile_ctl, master_ctl;
+-	u32 gu_misc_iir;
++	u32 gu_misc_iir = 0;
 +	unsigned int i;
-+
- 	intel_teardown_mchbar(dev_priv);
--	intel_uncore_fini_mmio(&dev_priv->uncore);
-+	for_each_gt(dev_priv, i, gt)
-+		intel_uncore_fini_mmio(gt->uncore);
- 	pci_dev_put(dev_priv->bridge_dev);
- }
  
-@@ -734,6 +749,8 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
- {
- 	if (drm_debug_enabled(DRM_UT_DRIVER)) {
- 		struct drm_printer p = drm_debug_printer("i915 device info:");
-+		struct intel_gt *gt;
-+		unsigned int id;
+ 	if (!intel_irqs_enabled(i915))
+ 		return IRQ_NONE;
  
- 		drm_printf(&p, "pciid=0x%04x rev=0x%02x platform=%s (subplatform=0x%x) gen=%i\n",
- 			   INTEL_DEVID(dev_priv),
-@@ -745,7 +762,8 @@ static void i915_welcome_messages(struct drm_i915_private *dev_priv)
- 
- 		intel_device_info_print_static(INTEL_INFO(dev_priv), &p);
- 		intel_device_info_print_runtime(RUNTIME_INFO(dev_priv), &p);
--		intel_gt_info_print(&dev_priv->gt.info, &p);
-+		for_each_gt(dev_priv, id, gt)
-+			intel_gt_info_print(&gt->info, &p);
+-	master_tile_ctl = dg1_master_intr_disable(regs);
++	master_tile_ctl = dg1_master_intr_disable(t0_regs);
+ 	if (!master_tile_ctl) {
+-		dg1_master_intr_enable(regs);
++		dg1_master_intr_enable(t0_regs);
+ 		return IRQ_NONE;
  	}
  
- 	if (IS_ENABLED(CONFIG_DRM_I915_DEBUG))
-@@ -1167,13 +1185,16 @@ static int i915_drm_suspend_late(struct drm_device *dev, bool hibernation)
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
- 	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
-+	struct intel_gt *gt;
-+	unsigned int i;
- 	int ret;
+-	/* FIXME: we only support tile 0 for now. */
+-	if (master_tile_ctl & DG1_MSTR_TILE(0)) {
++	for_each_gt(i915, i, gt) {
++		void __iomem *const regs = gt->uncore->regs;
++
++		if ((master_tile_ctl & DG1_MSTR_TILE(i)) == 0)
++			continue;
++
+ 		master_ctl = raw_reg_read(regs, GEN11_GFX_MSTR_IRQ);
+ 		raw_reg_write(regs, GEN11_GFX_MSTR_IRQ, master_ctl);
+-	} else {
+-		DRM_ERROR("Tile not supported: 0x%08x\n", master_tile_ctl);
+-		dg1_master_intr_enable(regs);
+-		return IRQ_NONE;
+-	}
  
- 	disable_rpm_wakeref_asserts(rpm);
+-	gen11_gt_irq_handler(gt, master_ctl);
++		gen11_gt_irq_handler(gt, master_ctl);
++
++		gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
++	}
  
- 	i915_gem_suspend_late(dev_priv);
+ 	if (master_ctl & GEN11_DISPLAY_IRQ)
+ 		gen11_display_irq_handler(i915);
  
--	intel_uncore_suspend(&dev_priv->uncore);
-+	for_each_gt(dev_priv, i, gt)
-+		intel_uncore_suspend(gt->uncore);
+-	gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
+-
+-	dg1_master_intr_enable(regs);
++	dg1_master_intr_enable(t0_regs);
  
- 	intel_power_domains_suspend(dev_priv,
- 				    get_suspend_mode(dev_priv, hibernation));
-@@ -1302,6 +1323,8 @@ static int i915_drm_resume_early(struct drm_device *dev)
- {
- 	struct drm_i915_private *dev_priv = to_i915(dev);
- 	struct pci_dev *pdev = to_pci_dev(dev_priv->drm.dev);
-+	struct intel_gt *gt;
-+	unsigned int i;
- 	int ret;
- 
- 	/*
-@@ -1356,7 +1379,8 @@ static int i915_drm_resume_early(struct drm_device *dev)
- 		drm_err(&dev_priv->drm,
- 			"Resume prepare failed: %d, continuing anyway\n", ret);
- 
--	intel_uncore_resume_early(&dev_priv->uncore);
-+	for_each_gt(dev_priv, i, gt)
-+		intel_uncore_resume_early(gt->uncore);
- 
- 	intel_gt_check_and_clear_faults(&dev_priv->gt);
- 
-@@ -1525,6 +1549,8 @@ static int intel_runtime_suspend(struct device *kdev)
- {
- 	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
- 	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
-+	struct intel_gt *gt;
-+	unsigned int i;
- 	int ret;
- 
- 	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
-@@ -1544,7 +1570,8 @@ static int intel_runtime_suspend(struct device *kdev)
- 
- 	intel_runtime_pm_disable_interrupts(dev_priv);
- 
--	intel_uncore_suspend(&dev_priv->uncore);
-+	for_each_gt(dev_priv, i, gt)
-+		intel_uncore_suspend(gt->uncore);
- 
- 	intel_display_power_suspend(dev_priv);
- 
-@@ -1552,7 +1579,8 @@ static int intel_runtime_suspend(struct device *kdev)
- 	if (ret) {
- 		drm_err(&dev_priv->drm,
- 			"Runtime suspend failed, disabling it (%d)\n", ret);
--		intel_uncore_runtime_resume(&dev_priv->uncore);
-+		for_each_gt(dev_priv, i, gt)
-+			intel_uncore_runtime_resume(gt->uncore);
- 
- 		intel_runtime_pm_enable_interrupts(dev_priv);
- 
-@@ -1608,6 +1636,8 @@ static int intel_runtime_resume(struct device *kdev)
- {
- 	struct drm_i915_private *dev_priv = kdev_to_i915(kdev);
- 	struct intel_runtime_pm *rpm = &dev_priv->runtime_pm;
-+	struct intel_gt *gt;
-+	unsigned int i;
- 	int ret;
- 
- 	if (drm_WARN_ON_ONCE(&dev_priv->drm, !HAS_RUNTIME_PM(dev_priv)))
-@@ -1628,7 +1658,8 @@ static int intel_runtime_resume(struct device *kdev)
- 
- 	ret = vlv_resume_prepare(dev_priv, true);
- 
--	intel_uncore_runtime_resume(&dev_priv->uncore);
-+	for_each_gt(dev_priv, i, gt)
-+		intel_uncore_runtime_resume(gt->uncore);
- 
- 	intel_runtime_pm_enable_interrupts(dev_priv);
+ 	gen11_gu_misc_irq_handler(gt, gu_misc_iir);
  
 -- 
 2.33.0
