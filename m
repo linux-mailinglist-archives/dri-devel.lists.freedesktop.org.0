@@ -1,42 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF4842745D
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 01:48:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC78C427466
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 01:51:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 009BA6E2C7;
-	Fri,  8 Oct 2021 23:48:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 946BD6E896;
+	Fri,  8 Oct 2021 23:51:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 26EA26E2C7;
- Fri,  8 Oct 2021 23:48:27 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="226564844"
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="226564844"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 16:48:26 -0700
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="590708028"
-Received: from mdroper-desk1.fm.intel.com (HELO
- mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 16:48:26 -0700
-Date: Fri, 8 Oct 2021 16:48:25 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Stuart Summers <stuart.summers@intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [PATCH 07/11] drm/i915/xehp: Determine which tile raised an
- interrupt
-Message-ID: <20211008234825.GS602200@mdroper-desk1.amr.corp.intel.com>
-References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-8-matthew.d.roper@intel.com>
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com
+ [IPv6:2a00:1450:4864:20::12b])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9D1EF6E893;
+ Fri,  8 Oct 2021 23:51:38 +0000 (UTC)
+Received: by mail-lf1-x12b.google.com with SMTP id x27so45322869lfa.9;
+ Fri, 08 Oct 2021 16:51:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uwgZMiF+2EZrddFYvj4zPW2uaBGbkJ1NsJjndwLFgmo=;
+ b=QOKPxUmXBAKw6igDPT/zjPt5QMIFZE2KNEKOO/sVKw0K97S2Je2cABFymmu5qKAx4t
+ iYMiWHnbtwY3LwV6wkpDvRGZ1RwVqJIxTlvl1E35YVrTFKAmmrmOCmaRrCZYSkr1ktvS
+ H3haz772ryqXlSwRc957ycXHXmHvefPE5v9i6sCXDlVtMMKejk7Ocrk9JwR9lEdQzDX2
+ l0uzse9bTo9as0ZZ1N6eK/bxWW4xmwKTFsQG8vfWkccim6atXoPNvYYvhUVMDwA7Tfqi
+ qPGoo1bIiKqbPcTo1LnnaPiNRXBXSWTqtYpev401iUR0auPdzGx1rag306LnXFCwoenu
+ zo/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uwgZMiF+2EZrddFYvj4zPW2uaBGbkJ1NsJjndwLFgmo=;
+ b=y7osFFX8CBWtBrJx1YX53izlFkZPuhhxNEa5ucdHL0VzQ6zXLwYx9SSRQDpFwsiBOF
+ C8QkYwDchOcMJLOibAsZcHKDiYeVBB6lpYnIad585lYKl05lM8BqOt+DT7owYVv12Pb/
+ 6rOmSH7CFWq1p3qUHbfGGeHe3Vmw98/qnCHCfugT+KL2NtnU2lRuR0dXfNg0jFvs/zvP
+ EheBa1UD416EVTh8mk3rMTz4y0E1LHw34qfBOvC8O2WC8CVBvFNnpvpyYoI/9VKjqE5i
+ Oi5ScPy/6D4UTk65XsSkLW4kzf3/iAPHwdk18fRk0Veo8SBEGgOlVIhXmiSDyt3iQ3PR
+ Z93A==
+X-Gm-Message-State: AOAM531PI2qwPWFKbUnfqsq6AxL6vfBWNFw0nG2BOFkQ0G8RQ6R2rrWL
+ jTtHa2z1Lit/YygGuSfY7SO/hG42ISEM3HPhIoM=
+X-Google-Smtp-Source: ABdhPJz7Ow+K8EIslKeXp+4vVFFt/sRu9Sx24RquRofTAvElLfDQdvi+dltK3N0wFBb4tXcgGAUE9bWtvMGRBVZNDYw=
+X-Received: by 2002:a05:6512:3d11:: with SMTP id
+ d17mr11324880lfv.542.1633737096563; 
+ Fri, 08 Oct 2021 16:51:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211008215635.2026385-8-matthew.d.roper@intel.com>
+References: <20211007230903.4084-1-andi@etezian.org>
+ <CAKi4VAJ-HUR1=-VKeB0i21Q81i3aC00n2c-gp2zmw3ybeULUbw@mail.gmail.com>
+ <YWAaGdKXpSAaBfab@intel.intel>
+In-Reply-To: <YWAaGdKXpSAaBfab@intel.intel>
+From: Lucas De Marchi <lucas.de.marchi@gmail.com>
+Date: Fri, 8 Oct 2021 16:51:24 -0700
+Message-ID: <CAKi4VAJHYyoOmO52yGN0TxgAZv7BPB7A+0FxoJc4caUVySsqVQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/i915/gt: move remaining debugfs interfaces into gt
+To: Andi Shyti <andi.shyti@intel.com>
+Cc: Andi Shyti <andi@etezian.org>, Intel GFX <intel-gfx@lists.freedesktop.org>,
+ DRI Devel <dri-devel@lists.freedesktop.org>, 
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ Chris Wilson <chris@chris-wilson.co.uk>, 
+ Lucas De Marchi <lucas.demarchi@intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -52,102 +73,67 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 08, 2021 at 02:56:31PM -0700, Matt Roper wrote:
-> From: Paulo Zanoni <paulo.r.zanoni@intel.com>
-> 
-> The first step of interrupt handling is to read a tile0 register that
-> tells us in which tile the interrupt happened; we can then we read the
-> usual interrupt registers from the appropriate tile.
-> 
-> Note that this is just the first step of handling interrupts properly on
-> multi-tile platforms.  Subsequent patches will convert other parts of
-> the interrupt handling flow.
-> 
-> Cc: Stuart Summers <stuart.summers@intel.com>
-> Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->  drivers/gpu/drm/i915/i915_irq.c | 31 ++++++++++++++++---------------
->  1 file changed, 16 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/i915_irq.c b/drivers/gpu/drm/i915/i915_irq.c
-> index 038a9ec563c1..9f99ad56cde6 100644
-> --- a/drivers/gpu/drm/i915/i915_irq.c
-> +++ b/drivers/gpu/drm/i915/i915_irq.c
-> @@ -2772,37 +2772,38 @@ static irqreturn_t dg1_irq_handler(int irq, void *arg)
->  {
->  	struct drm_i915_private * const i915 = arg;
->  	struct intel_gt *gt = &i915->gt;
-> -	void __iomem * const regs = gt->uncore->regs;
-> +	void __iomem * const t0_regs = gt->uncore->regs;
->  	u32 master_tile_ctl, master_ctl;
-> -	u32 gu_misc_iir;
-> +	u32 gu_misc_iir = 0;
-> +	unsigned int i;
->  
->  	if (!intel_irqs_enabled(i915))
->  		return IRQ_NONE;
->  
-> -	master_tile_ctl = dg1_master_intr_disable(regs);
-> +	master_tile_ctl = dg1_master_intr_disable(t0_regs);
->  	if (!master_tile_ctl) {
-> -		dg1_master_intr_enable(regs);
-> +		dg1_master_intr_enable(t0_regs);
->  		return IRQ_NONE;
->  	}
->  
-> -	/* FIXME: we only support tile 0 for now. */
-> -	if (master_tile_ctl & DG1_MSTR_TILE(0)) {
-> +	for_each_gt(i915, i, gt) {
-> +		void __iomem *const regs = gt->uncore->regs;
-> +
-> +		if ((master_tile_ctl & DG1_MSTR_TILE(i)) == 0)
-> +			continue;
-> +
->  		master_ctl = raw_reg_read(regs, GEN11_GFX_MSTR_IRQ);
->  		raw_reg_write(regs, GEN11_GFX_MSTR_IRQ, master_ctl);
-> -	} else {
-> -		DRM_ERROR("Tile not supported: 0x%08x\n", master_tile_ctl);
-> -		dg1_master_intr_enable(regs);
-> -		return IRQ_NONE;
-> -	}
->  
-> -	gen11_gt_irq_handler(gt, master_ctl);
-> +		gen11_gt_irq_handler(gt, master_ctl);
-> +
-> +		gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
+On Fri, Oct 8, 2021 at 3:14 AM Andi Shyti <andi.shyti@intel.com> wrote:
+>
+> Hi Lucas,
+>
+> > > I am reproposing this patch exactly as it was proposed initially
+> > > where the original interfaces are kept where they have been
+> > > originally placed. It might generate some duplicated code but,
+> > > well, it's debugfs and I don't see any issue. In the future we
+> > > can transform the upper interfaces to act upon all the GTs and
+> > > provide information from all the GTs. This is, for example, how
+> > > the sysfs interfaces will act.
+> >
+> > NACK. We've made this mistake in the past for other debugfs files.
+> > We don't want to do it again just to maintain 2 separate places for
+> > one year and then finally realize we want to merge them.
+>
+> In my opinion it's all about what mistake you like the most
+> because until we will have multi-gt support in upstream all the
+> patches come with the "promise" of a follow-up and maintenance
+> cost.
 
-Hmm, I missed it before sending the series, but this doesn't look right.
-We ack every tile's gu_misc_irq separately, but...
+no. If you put the implementation in a single place, later you only have the
+decision on what to do with the per-device entrypoint:
 
+- should we remove it once igt is converted?
+- should we make it iterate all gts?
+- should we make it mean root tile?
 
-> +	}
->  
->  	if (master_ctl & GEN11_DISPLAY_IRQ)
->  		gen11_display_irq_handler(i915);
->  
-> -	gu_misc_iir = gen11_gu_misc_irq_ack(gt, master_ctl);
-> -
-> -	dg1_master_intr_enable(regs);
-> +	dg1_master_intr_enable(t0_regs);
->  
->  	gen11_gu_misc_irq_handler(gt, gu_misc_iir);
+Then you take the action that is needed and decide it per interface.
+Here you are leaving behind a lot of code that we will need to maintain
+until there is support for such a thing.
 
-...only handle the value from the final tile?  Looks like this was
-intended to move inside the loop as well.
+It already happened once: we needed to maintain that duplicated code
+for over a year with multiple patches changing them (or failing to do so).
 
+>
+> > > The reason I removed them in V1 is because igt as only user is
+> > > not a strong reason to keep duplicated code, but as Chris
+> > > suggested offline:
+> > >
+> > > "It's debugfs, igt is the primary consumer. CI has to be bridged over
+> > > changes to the interfaces it is using in any case, as you want
+> > > comparable results before/after the patches land.
+> >
+> > That doesn't mean you have to copy and paste it. It may mean you
+> > do the implementation in one of them and the other calls that implementation.
+> > See how I did the deduplication in commit d0c560316d6f ("drm/i915:
+> > deduplicate frequency dump on debugfs")
+>
+> In this case, from a user perspective, which gt is the interface
+> affecting? is it affecting all the system? or gt 0, 1...? Does
+> the user know? The maintenance cost is that later you will need
+> to use for_each_gt and make all those interfaces multitile, and
+> this would be your "promise".
 
-Matt
+multi-gt is irrelevant here.  This patch without any "promise" should do
+what the commit message says: *move*. The only reason to keep
+the old entrypoint around is because it's missing the igt conversion. If
+you are going to support a per-device entrypoint and do for_each_gt(),
+or do a symlink to the root tile, or whatever, it isn't very relevant
+to this patch.
+Right now we have just a single directory, gt.
 
->  
-> -- 
-> 2.33.0
-> 
-
--- 
-Matt Roper
-Graphics Software Engineer
-VTT-OSGC Platform Enablement
-Intel Corporation
-(916) 356-2795
+Lucas De Marchi
