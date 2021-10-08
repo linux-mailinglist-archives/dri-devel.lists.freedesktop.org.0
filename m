@@ -1,53 +1,77 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20E394272D5
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:06:40 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2D74272AB
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 22:55:30 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 283B76E1BD;
-	Fri,  8 Oct 2021 21:06:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BFAFE6E116;
+	Fri,  8 Oct 2021 20:55:23 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 33561 seconds by postgrey-1.36 at gabe;
- Fri, 08 Oct 2021 21:06:34 UTC
-Received: from 7.mo561.mail-out.ovh.net (7.mo561.mail-out.ovh.net
- [46.105.57.200])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643656E1BD
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 21:06:34 +0000 (UTC)
-Received: from player693.ha.ovh.net (unknown [10.108.16.60])
- by mo561.mail-out.ovh.net (Postfix) with ESMTP id 6F74A28887
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 20:46:35 +0000 (UTC)
-Received: from etezian.org (unknown [31.22.59.2])
- (Authenticated sender: andi@etezian.org)
- by player693.ha.ovh.net (Postfix) with ESMTPSA id 5F3E822FDEEE8;
- Fri,  8 Oct 2021 20:46:25 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-95G001159410ab-ac47-493b-bfac-d2758c534f7e,
- 8790DCEDFF6AD8C831A06EBEA49B55E03DAFB6BE) smtp.auth=andi@etezian.org
-X-OVh-ClientIp: 31.22.59.2
-Date: Fri, 8 Oct 2021 22:46:25 +0200
-From: Andi Shyti <andi@etezian.org>
-To: Ville =?iso-8859-15?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-Cc: Andi Shyti <andi@etezian.org>, Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>,
- Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Andi Shyti <andi.shyti@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v3] drm/i915/gt: move remaining debugfs
- interfaces into gt
-Message-ID: <YWCuIb1wZU6+e57D@jack.zhora.eu>
-References: <20211008112733.3600-1-andi@etezian.org>
- <YWB0+Bls9kvUUk9z@intel.com>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+ [66.111.4.230])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0B1FF6E115;
+ Fri,  8 Oct 2021 20:55:22 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id A9CF0580C13;
+ Fri,  8 Oct 2021 16:55:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Fri, 08 Oct 2021 16:55:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+ :from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm3; bh=U/0tI2WqpY8R/D5cCNUlc8nWhAl
+ LsJXOzrctQujWspY=; b=l/83LD6l0rHvCZwTBsNAVmL0SqTO0/h8C5H2nz6CaE9
+ md5NOYwRiHDc6jGDWDvKo0iR9nkIZSNGQEIjT8pR+5GYB9tddVnD9emmUQGwuHeg
+ /XaeWspPz3GuFT/xqzFkTKAIDZCsdJU6v8uZ/47/ulLKqul5XLrF7kK6IF1uaNp6
+ EvHsRJNO3E2y0TqoqAzBJE+YW16DN+aKXC7jFF0ybZUvzcCKzAcFt+eHdQnUKaU2
+ W2YgPK5I2ERA1OQHY4EFj63/CfNVxsAz0e6vdb7aua/tm9u0rj2M2Bd3Z5NaA+TZ
+ 6UJUjBL1kIy2hE9BEPChzkjElPApG3xYKnLSSlRIe1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=U/0tI2
+ WqpY8R/D5cCNUlc8nWhAlLsJXOzrctQujWspY=; b=m2SDU6/GzFY7kNBWjel2k5
+ QMEEP9MAC0CM9LfpyTHmTohPW33zwMfXCgy9jlfJuRot5mNKDUfluGt1Chnc7S56
+ jBAE9SJ2A7OljpYYIbpisObs2KG3x2ppe/cQ6s8F+fk1a46k3RJ3gfRo3F56nQf0
+ 9y25aP8ii7jQlGiE19C/ich569t3faFmJxH8ht4VRUuDdLCMhUBPJUgE8j3ASqKD
+ JKe+BaXKl7D8AsX+faKETfGglnuEzW8UY3BVgWnLH5+btZA5wccHDMHTdmIkoP6r
+ /UuXeszP6MKZkEGiY1ezFuUB3vayyPXgDC4O1zqb4BsaKlwJKa5aXKMvZf4MOKWQ
+ ==
+X-ME-Sender: <xms:N7BgYRFnXQpksB119JM60EYoUp1HdvDkDoTj8GqluIHrunTIiMs9xA>
+ <xme:N7BgYWVEAF48p_ub6G8kiOLvInPbQRxOQveFA40yTau8rXhuZc0PI4N7JCnysYuuN
+ 5GklthLaMCdonISFw>
+X-ME-Received: <xmr:N7BgYTI1DN7JnUaNl4GIN1L0od1bEI4Lb8ivvXSmGNPh7y9W-OH-Pg9Qr9LkMibMGB6LetB3>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddttddgudehvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecunecujfgurhepfffhvffukfhfgggtuggjsehttd
+ ertddttdejnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
+ ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpedvjeeifeelhfetiefhhfdthfefke
+ fhhfeutdetvdfgvefgveefheffgfekjeefheenucevlhhushhtvghrufhiiigvpedtnecu
+ rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
+X-ME-Proxy: <xmx:OLBgYXH--C3B6cyF5MQe8RYpEULz7AsYHfXfb4nxT77sNhnXV1sFqg>
+ <xmx:OLBgYXWgDRJjNqBOXiP9JxTR4PnQb05pTwdvIFS_dicO4cgnkYLOMA>
+ <xmx:OLBgYSMMudCuWYDBs09GVSCVcETxBx0_XYMLA63OpFrtXz40j5t7Hw>
+ <xmx:OLBgYXSdfmbw2Zr7_8ALlJODSWNZqACW47MJLKfrt32cPzHaIv6KdA>
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 8 Oct 2021 16:55:16 -0400 (EDT)
+Date: Fri, 8 Oct 2021 22:55:14 +0200
+From: Fernando Ramos <greenfoo@u92.eu>
+To: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org, sean@poorly.run,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
+ freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+ linux-renesas-soc@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v3 20/20] drm: cleanup: remove acquire_ctx from
+ drm_mode_config
+Message-ID: <YWCwMnHh09wOKwig@zacax395.localdomain>
+References: <20211007193755.29579-1-greenfoo@u92.eu>
+ <20211007193755.29579-21-greenfoo@u92.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YWB0+Bls9kvUUk9z@intel.com>
-X-Ovh-Tracer-Id: 12550124786722671168
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddttddgudehtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheptehnughiucfuhhihthhiuceorghnughisegvthgviihirghnrdhorhhgqeenucggtffrrghtthgvrhhnpedtgfduudfhfeeuueejfeeihedtfeetgfegveehgfeuleelhfduteegieekudeifeenucfkpheptddrtddrtddrtddpfedurddvvddrheelrddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrieelfedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+In-Reply-To: <20211007193755.29579-21-greenfoo@u92.eu>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -63,73 +87,14 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Ville,
-
-> > +	if (IS_CHERRYVIEW(i915)) {
-> > +		seq_printf(m, "Master Interrupt Control:\t%08x\n",
-> > +			   intel_uncore_read(uncore, GEN8_MASTER_IRQ));
-> > +
-> > +		for (i = 0; i < 4; i++) {
-> > +			seq_printf(m, "GT Interrupt IMR %d:\t%08x\n",
-> > +				   i, intel_uncore_read(uncore,
-> > +							GEN8_GT_IMR(i)));
-> > +			seq_printf(m, "GT Interrupt IIR %d:\t%08x\n",
-> > +				   i, intel_uncore_read(uncore,
-> > +							GEN8_GT_IIR(i)));
-> > +			seq_printf(m, "GT Interrupt IER %d:\t%08x\n",
-> > +				   i, intel_uncore_read(uncore,
-> > +							GEN8_GT_IER(i)));
-> > +		}
-> > +
+On 21/10/07 09:37PM, Fernando Ramos wrote:
+> ---
+>  include/drm/drm_mode_config.h | 10 ----------
+>  1 file changed, 10 deletions(-)
 > 
-> Why does chv get its own block? Looks identical to the bdw block.
-
-[...]
-
-> > +	} else if (!HAS_PCH_SPLIT(i915)) {
+> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
+> index 48b7de80daf5..b214b07157f2 100644
 > 
-> HAS_PCH_SPLIT in gt code looks a bit out of place.
-> 
-> > +		seq_printf(m, "Interrupt enable:    %08x\n",
-> > +			   intel_uncore_read(uncore, GEN2_IER));
-> > +		seq_printf(m, "Interrupt identity:  %08x\n",
-> > +			   intel_uncore_read(uncore, GEN2_IIR));
-> > +		seq_printf(m, "Interrupt mask:      %08x\n",
-> > +			   intel_uncore_read(uncore, GEN2_IMR));
-> 
-> Technically on gen2 these are 16 bits, on gen3+ 32 bits. I don't
-> quite remember now what happens when you read them as 32bit on gen2.
-> Might be the msbs just come out all zeroes.
-> 
-> > +	} else {
-> > +		seq_printf(m, "Graphics Interrupt enable:		%08x\n",
-> > +			   intel_uncore_read(uncore, GTIER));
-> > +		seq_printf(m, "Graphics Interrupt identity:		%08x\n",
-> > +			   intel_uncore_read(uncore, GTIIR));
-> > +		seq_printf(m, "Graphics Interrupt mask:		%08x\n",
-> > +			   intel_uncore_read(uncore, GTIMR));
-> 
-> Probably this should be before the previous block to keep things in
-> order. Also missing GEN6_PM stuff for snb+, and the master interrupt
-> stuff for ilk+.
-
-[...]
-
-thanks for your input. Actually I'm not even sure this part of
-the patch is required anymore. It was originally a copy paste of
-the parts of the 'i915_interrupt_info' functions in the
-'i915_gem_interrupt' debugfs file.
-
-This file was removed here by Chris:
-
-	cf977e18610e6 ("drm/i915/gem: Spring clean debugfs")
-
-I have reproposed it in this patch seeking for comments because I
-wanted to understand after all this time it might be needed or
-not. If not I was going to remove it in my last version.
-
-I haven't received any comments and therefore I am going to
-remove it in v4.
-
-Thank you,
-Andi
+This patch was missing the commit description and signed-off-by line. I'll fix
+that for the next revision (v4) together with the rest of issues that might come
+up.
