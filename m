@@ -1,59 +1,58 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 492E9426252
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 04:09:55 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35224426340
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 05:43:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D37F76E85D;
-	Fri,  8 Oct 2021 02:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 05D376E087;
+	Fri,  8 Oct 2021 03:42:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1A4376E85D
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 02:09:49 +0000 (UTC)
-X-UUID: adb40b7926ba412b886b9ec735dbe698-20211008
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com;
- s=dk; 
- h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID;
- bh=a+/QJ5TtnBHsIxZpu3XSq6R2eEEwXhVGTnIy0IfISHE=; 
- b=vH6IYo1UOZ2yn3Jg5ZYxTYb43wDpc7b6t3Wj1XdWA4BNHKsqYmqotmKbcdyMMJQUjx6jRWHn4wvFDzPoKOY12vkwoOw4698k0tx58gxUYsaV421pjBrbwsocyaSDFYCidv5vCfIYSNcmR3onunQEOVd7ZCQ/v4a884kP8/tqT5M=;
-X-UUID: adb40b7926ba412b886b9ec735dbe698-20211008
-Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
- (envelope-from <yongqiang.niu@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 978022888; Fri, 08 Oct 2021 10:09:45 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Fri, 8 Oct 2021 10:09:39 +0800
-Received: from mhfsdcap04 (10.17.3.154) by mtkcas10.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 8 Oct 2021 10:09:38 +0800
-Message-ID: <3eff2cfb15677f03d6dcd724fd977ab48fe101aa.camel@mediatek.com>
-Subject: Re: [PATCH v10, 2/5] drm/mediatek: add component POSTMASK
-From: yongqiang.niu <yongqiang.niu@mediatek.com>
-To: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, Chun-Kuang Hu
- <chunkuang.hu@kernel.org>
-CC: Rob Herring <robh+dt@kernel.org>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, "David
- Airlie" <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Jassi Brar
- <jassisinghbrar@gmail.com>, Fabien Parent <fparent@baylibre.com>, "Dennis YC
- Hsieh" <dennis-yc.hsieh@mediatek.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>, 
- <linux-kernel@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
- <Project_Global_Chrome_Upstream_Group@mediatek.com>, Hsin-Yi Wang
- <hsinyi@chromium.org>, CK Hu <ck.hu@mediatek.com>
-Date: Fri, 8 Oct 2021 10:09:41 +0800
-In-Reply-To: <fffdc65c-9c74-3183-f8cf-293134144042@collabora.com>
-References: <20210930155222.5861-1-yongqiang.niu@mediatek.com>
- <20210930155222.5861-3-yongqiang.niu@mediatek.com>
- <fffdc65c-9c74-3183-f8cf-293134144042@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
+ [IPv6:2a00:1450:4864:20::52c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D12536E087
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 03:42:53 +0000 (UTC)
+Received: by mail-ed1-x52c.google.com with SMTP id t16so9181010eds.9
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 20:42:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=gzfRCng/ob32UAdS59rgRVkD8sP1P5E1PemtGQSpK3Q=;
+ b=KhuPhs1dTdgJyiZffQ0ttkquY8w/UI7Q8m4krceYAF9q0HjPWJNWzEz1kLtFnm9H5i
+ 6FoZ7XqrQ2kIhW9u7/VYjDdlXd4/oehXIpLxgGYddQzKvFGjpc3cA4HBRWSZA8MGZwa4
+ un8qrAF12KfZ7wlj1qzDwjMyp5WpNFPh7JPnmxBinN6cBc8lQ9OnnpOp7hTgOgOP9SdR
+ 01VN9JiWenM8ty4ai0TOt/46gC9Op81G0WBeGpYKIyWiuGgjvQSph+2qBmCs5MBIHeG/
+ 00Z154HrFkHXYnnqri/towwwcZlsJTzVIdXA0Y2ZY6sDyrVnKP5RXfuXILjgDED9AWEW
+ ET5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+ :content-transfer-encoding;
+ bh=gzfRCng/ob32UAdS59rgRVkD8sP1P5E1PemtGQSpK3Q=;
+ b=iUkSwu8eCVDsNDEUeYC8hs2yViCpshb2S2/SM7iCXQtYVxG91RJBoXb+xev+ucBkj1
+ Vd/HsG0yqVhoBxdaOeyD/Yv7NmmF1pbdIFqNw8aeE2Xp1RaG+bO7NAZdFNkK2FrgA3Dd
+ MgmKYOXQkqMpLJlnF3nwxSlt6FKA2vBbP2y/RpVangjHs9WYPglD83w4SBw8oZTEOKdc
+ hqrDBPunnkmT4eEOJqy+t6p+3D0TtheX948n9+zYJFFB+GOLs7+mnzVaY3dlGXvK7QkQ
+ Lea7+EtX4EgNkQ5orst6FtIYP10AybrEWJFdDhLPUVt+DOVRZvZhfDcX/AnNPAOYj+AO
+ beIA==
+X-Gm-Message-State: AOAM530OwD2AR2RNXVHT+sH6ZeYiNAbCKFyFedMb8EKI3kdNgRKi62lx
+ VIgODjGTiGXnR6JG+dzkYmFz8ZS6C0P06Pg6gh8=
+X-Google-Smtp-Source: ABdhPJyp+qZpg6yASkIJ5hdiLxk+3WaECOlbvCwut9OczSlrFHn2Y6OwIZqLgesVbLPWLSpUHayHR564cExXFxxPVvA=
+X-Received: by 2002:a17:907:1199:: with SMTP id
+ uz25mr1130137ejb.470.1633664572140; 
+ Thu, 07 Oct 2021 20:42:52 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK: N
-Content-Transfer-Encoding: base64
+From: Dave Airlie <airlied@gmail.com>
+Date: Fri, 8 Oct 2021 13:42:41 +1000
+Message-ID: <CAPM=9txCVSSAQF8f_wR41sEBh_NjT-VSkbod6Pxcwb4dHu=WBw@mail.gmail.com>
+Subject: [git pull] drm fixes for 5.15-rc5
+To: Linus Torvalds <torvalds@linux-foundation.org>,
+ Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: dri-devel <dri-devel@lists.freedesktop.org>,
+ LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,151 +68,280 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-T24gRnJpLCAyMDIxLTEwLTAxIGF0IDEzOjAwICswMjAwLCBEYWZuYSBIaXJzY2hmZWxkIHdyb3Rl
-Og0KPiANCj4gT24gMzAuMDkuMjEgMTc6NTIsIFlvbmdxaWFuZyBOaXUgd3JvdGU6DQo+ID4gVGhp
-cyBwYXRjaCBhZGQgY29tcG9uZW50IFBPU1RNQVNLLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6
-IFlvbmdxaWFuZyBOaXUgPHlvbmdxaWFuZy5uaXVAbWVkaWF0ZWsuY29tPg0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IEhzaW4tWWkgV2FuZyA8aHNpbnlpQGNocm9taXVtLm9yZz4NCj4gPiBSZXZpZXdlZC1i
-eTogQ0sgSHUgPGNrLmh1QG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgIGRyaXZlcnMvZ3B1
-L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmMgfCAxMDIgKysrKysrKysrKysrKystDQo+
-ID4gLS0tLS0NCj4gPiAgIGRyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21w
-LmggfCAgIDEgKw0KPiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCA3MyBpbnNlcnRpb25zKCspLCAzMCBk
-ZWxldGlvbnMoLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL21lZGlh
-dGVrL210a19kcm1fZGRwX2NvbXAuYw0KPiA+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210
-a19kcm1fZGRwX2NvbXAuYw0KPiA+IGluZGV4IDRhMmFiY2YzZTVmOS4uODkxNzBhZDgyNWZkIDEw
-MDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvZ3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21w
-LmMNCj4gPiArKysgYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5j
-DQo+ID4gQEAgLTYyLDYgKzYyLDEyIEBADQo+ID4gICAjZGVmaW5lIERJVEhFUl9BRERfTFNISUZU
-X0coeCkJCQkoKCh4KSAmIDB4NykgPDwNCj4gPiA0KQ0KPiA+ICAgI2RlZmluZSBESVRIRVJfQURE
-X1JTSElGVF9HKHgpCQkJKCgoeCkgJiAweDcpIDw8DQo+ID4gMCkNCj4gPiAgIA0KPiA+ICsjZGVm
-aW5lIERJU1BfUE9TVE1BU0tfRU4JCQkweDAwMDANCj4gPiArI2RlZmluZSBQT1NUTUFTS19FTgkJ
-CQkJQklUKDApDQo+ID4gKyNkZWZpbmUgRElTUF9QT1NUTUFTS19DRkcJCQkweDAwMjANCj4gPiAr
-I2RlZmluZSBQT1NUTUFTS19SRUxBWV9NT0RFCQkJCUJJVCgwKQ0KPiA+ICsjZGVmaW5lIERJU1Bf
-UE9TVE1BU0tfU0laRQkJCTB4MDAzMA0KPiA+ICsNCj4gPiAgIHN0cnVjdCBtdGtfZGRwX2NvbXBf
-ZGV2IHsNCj4gPiAgIAlzdHJ1Y3QgY2xrICpjbGs7DQo+ID4gICAJdm9pZCBfX2lvbWVtICpyZWdz
-Ow0KPiA+IEBAIC0yMTQsNiArMjIwLDMyIEBAIHN0YXRpYyB2b2lkIG10a19kaXRoZXJfc3RvcChz
-dHJ1Y3QgZGV2aWNlDQo+ID4gKmRldikNCj4gPiAgIAl3cml0ZWxfcmVsYXhlZCgweDAsIHByaXYt
-PnJlZ3MgKyBESVNQX0RJVEhFUl9FTik7DQo+ID4gICB9DQo+ID4gICANCj4gPiArc3RhdGljIHZv
-aWQgbXRrX3Bvc3RtYXNrX2NvbmZpZyhzdHJ1Y3QgZGV2aWNlICpkZXYsIHVuc2lnbmVkIGludA0K
-PiA+IHcsDQo+ID4gKwkJCQl1bnNpZ25lZCBpbnQgaCwgdW5zaWduZWQgaW50IHZyZWZyZXNoLA0K
-PiA+ICsJCQkJdW5zaWduZWQgaW50IGJwYywgc3RydWN0IGNtZHFfcGt0DQo+ID4gKmNtZHFfcGt0
-KQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgbXRrX2RkcF9jb21wX2RldiAqcHJpdiA9IGRldl9nZXRf
-ZHJ2ZGF0YShkZXYpOw0KPiA+ICsNCj4gPiArCW10a19kZHBfd3JpdGUoY21kcV9wa3QsIHcgPDwg
-MTYgfCBoLCAmcHJpdi0+Y21kcV9yZWcsIHByaXYtDQo+ID4gPnJlZ3MsDQo+ID4gKwkJICAgICAg
-RElTUF9QT1NUTUFTS19TSVpFKTsNCj4gPiArCW10a19kZHBfd3JpdGUoY21kcV9wa3QsIFBPU1RN
-QVNLX1JFTEFZX01PREUsICZwcml2LT5jbWRxX3JlZywNCj4gPiArCQkgICAgICBwcml2LT5yZWdz
-LCBESVNQX1BPU1RNQVNLX0NGRyk7DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIG10
-a19wb3N0bWFza19zdGFydChzdHJ1Y3QgZGV2aWNlICpkZXYpDQo+ID4gK3sNCj4gPiArCXN0cnVj
-dCBtdGtfZGRwX2NvbXBfZGV2ICpwcml2ID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ID4gKw0K
-PiA+ICsJd3JpdGVsKFBPU1RNQVNLX0VOLCBwcml2LT5yZWdzICsgRElTUF9QT1NUTUFTS19FTik7
-DQo+ID4gK30NCj4gPiArDQo+ID4gK3N0YXRpYyB2b2lkIG10a19wb3N0bWFza19zdG9wKHN0cnVj
-dCBkZXZpY2UgKmRldikNCj4gPiArew0KPiA+ICsJc3RydWN0IG10a19kZHBfY29tcF9kZXYgKnBy
-aXYgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiArDQo+ID4gKwl3cml0ZWxfcmVsYXhlZCgw
-eDAsIHByaXYtPnJlZ3MgKyBESVNQX1BPU1RNQVNLX0VOKTsNCj4gPiArfQ0KPiA+ICsNCj4gPiAg
-IHN0YXRpYyBjb25zdCBzdHJ1Y3QgbXRrX2RkcF9jb21wX2Z1bmNzIGRkcF9hYWwgPSB7DQo+ID4g
-ICAJLmNsa19lbmFibGUgPSBtdGtfYWFsX2Nsa19lbmFibGUsDQo+ID4gICAJLmNsa19kaXNhYmxl
-ID0gbXRrX2FhbF9jbGtfZGlzYWJsZSwNCj4gPiBAQCAtMjg5LDYgKzMyMSwxNCBAQCBzdGF0aWMg
-Y29uc3Qgc3RydWN0IG10a19kZHBfY29tcF9mdW5jcyBkZHBfb3ZsDQo+ID4gPSB7DQo+ID4gICAJ
-LmJnY2xyX2luX29mZiA9IG10a19vdmxfYmdjbHJfaW5fb2ZmLA0KPiA+ICAgfTsNCj4gPiAgIA0K
-PiA+ICtzdGF0aWMgY29uc3Qgc3RydWN0IG10a19kZHBfY29tcF9mdW5jcyBkZHBfcG9zdG1hc2sg
-PSB7DQo+ID4gKwkuY2xrX2VuYWJsZSA9IG10a19kZHBfY2xrX2VuYWJsZSwNCj4gPiArCS5jbGtf
-ZGlzYWJsZSA9IG10a19kZHBfY2xrX2Rpc2FibGUsDQo+ID4gKwkuY29uZmlnID0gbXRrX3Bvc3Rt
-YXNrX2NvbmZpZywNCj4gPiArCS5zdGFydCA9IG10a19wb3N0bWFza19zdGFydCwNCj4gPiArCS5z
-dG9wID0gbXRrX3Bvc3RtYXNrX3N0b3AsDQo+ID4gK307DQo+ID4gKw0KPiA+ICAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBtdGtfZGRwX2NvbXBfZnVuY3MgZGRwX3JkbWEgPSB7DQo+ID4gICAJLmNsa19l
-bmFibGUgPSBtdGtfcmRtYV9jbGtfZW5hYmxlLA0KPiA+ICAgCS5jbGtfZGlzYWJsZSA9IG10a19y
-ZG1hX2Nsa19kaXNhYmxlLA0KPiA+IEBAIC0zMjQsNiArMzY0LDcgQEAgc3RhdGljIGNvbnN0IGNo
-YXIgKiBjb25zdA0KPiA+IG10a19kZHBfY29tcF9zdGVtW01US19ERFBfQ09NUF9UWVBFX01BWF0g
-PSB7DQo+ID4gICAJW01US19ESVNQX01VVEVYXSA9ICJtdXRleCIsDQo+ID4gICAJW01US19ESVNQ
-X09EXSA9ICJvZCIsDQo+ID4gICAJW01US19ESVNQX0JMU10gPSAiYmxzIiwNCj4gPiArCVtNVEtf
-RElTUF9QT1NUTUFTS10gPSAicG9zdG1hc2siLA0KPiA+ICAgfTsNCj4gPiAgIA0KPiA+ICAgc3Ry
-dWN0IG10a19kZHBfY29tcF9tYXRjaCB7DQo+ID4gQEAgLTMzMywzNiArMzc0LDM3IEBAIHN0cnVj
-dCBtdGtfZGRwX2NvbXBfbWF0Y2ggew0KPiA+ICAgfTsNCj4gPiAgIA0KPiA+ICAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBtdGtfZGRwX2NvbXBfbWF0Y2gNCj4gPiBtdGtfZGRwX21hdGNoZXNbRERQX0NP
-TVBPTkVOVF9JRF9NQVhdID0gew0KPiA+IC0JW0REUF9DT01QT05FTlRfQUFMMF0JPSB7IE1US19E
-SVNQX0FBTCwJMCwgJmRkcF9hYWwNCj4gPiB9LA0KPiA+IC0JW0REUF9DT01QT05FTlRfQUFMMV0J
-PSB7IE1US19ESVNQX0FBTCwJMSwgJmRkcF9hYWwNCj4gPiB9LA0KPiA+IC0JW0REUF9DT01QT05F
-TlRfQkxTXQk9IHsgTVRLX0RJU1BfQkxTLAkwLCBOVUxMIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVO
-VF9DQ09SUl0JPSB7IE1US19ESVNQX0NDT1JSLAkwLA0KPiA+ICZkZHBfY2NvcnIgfSwNCj4gPiAt
-CVtERFBfQ09NUE9ORU5UX0NPTE9SMF0JPSB7IE1US19ESVNQX0NPTE9SLAkwLA0KPiA+ICZkZHBf
-Y29sb3IgfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX0NPTE9SMV0JPSB7IE1US19ESVNQX0NPTE9S
-LAkxLA0KPiA+ICZkZHBfY29sb3IgfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX0RJVEhFUl0JPSB7
-IE1US19ESVNQX0RJVEhFUiwJMCwNCj4gPiAmZGRwX2RpdGhlciB9LA0KPiA+IC0JW0REUF9DT01Q
-T05FTlRfRFBJMF0JPSB7IE1US19EUEksCQkwLCAmZGRwX2RwaQ0KPiA+IH0sDQo+ID4gLQlbRERQ
-X0NPTVBPTkVOVF9EUEkxXQk9IHsgTVRLX0RQSSwJCTEsICZkZHBfZHBpDQo+ID4gfSwNCj4gPiAt
-CVtERFBfQ09NUE9ORU5UX0RTSTBdCT0geyBNVEtfRFNJLAkJMCwgJmRkcF9kc2kNCj4gPiB9LA0K
-PiA+IC0JW0REUF9DT01QT05FTlRfRFNJMV0JPSB7IE1US19EU0ksCQkxLCAmZGRwX2RzaQ0KPiA+
-IH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9EU0kyXQk9IHsgTVRLX0RTSSwJCTIsICZkZHBfZHNp
-DQo+ID4gfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX0RTSTNdCT0geyBNVEtfRFNJLAkJMywgJmRk
-cF9kc2kNCj4gPiB9LA0KPiA+IC0JW0REUF9DT01QT05FTlRfR0FNTUFdCT0geyBNVEtfRElTUF9H
-QU1NQSwJMCwNCj4gPiAmZGRwX2dhbW1hIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9PRDBdCT0g
-eyBNVEtfRElTUF9PRCwJMCwgJmRkcF9vZCB9LA0KPiA+IC0JW0REUF9DT01QT05FTlRfT0QxXQk9
-IHsgTVRLX0RJU1BfT0QsCTEsICZkZHBfb2QgfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX09WTDBd
-CT0geyBNVEtfRElTUF9PVkwsCTAsICZkZHBfb3ZsDQo+ID4gfSwNCj4gPiAtCVtERFBfQ09NUE9O
-RU5UX09WTDFdCT0geyBNVEtfRElTUF9PVkwsCTEsICZkZHBfb3ZsDQo+ID4gfSwNCj4gPiAtCVtE
-RFBfQ09NUE9ORU5UX09WTF8yTDBdCT0geyBNVEtfRElTUF9PVkxfMkwsCTAsICZkZHBfb3ZsDQo+
-ID4gfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX09WTF8yTDFdCT0geyBNVEtfRElTUF9PVkxfMkws
-CTEsICZkZHBfb3ZsDQo+ID4gfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX09WTF8yTDJdID0geyBN
-VEtfRElTUF9PVkxfMkwsICAgIDIsICZkZHBfb3ZsIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9Q
-V00wXQk9IHsgTVRLX0RJU1BfUFdNLAkwLCBOVUxMIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9Q
-V00xXQk9IHsgTVRLX0RJU1BfUFdNLAkxLCBOVUxMIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9Q
-V00yXQk9IHsgTVRLX0RJU1BfUFdNLAkyLCBOVUxMIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9S
-RE1BMF0JPSB7IE1US19ESVNQX1JETUEsCTAsDQo+ID4gJmRkcF9yZG1hIH0sDQo+ID4gLQlbRERQ
-X0NPTVBPTkVOVF9SRE1BMV0JPSB7IE1US19ESVNQX1JETUEsCTEsDQo+ID4gJmRkcF9yZG1hIH0s
-DQo+ID4gLQlbRERQX0NPTVBPTkVOVF9SRE1BMl0JPSB7IE1US19ESVNQX1JETUEsCTIsDQo+ID4g
-JmRkcF9yZG1hIH0sDQo+ID4gLQlbRERQX0NPTVBPTkVOVF9VRk9FXQk9IHsgTVRLX0RJU1BfVUZP
-RSwJMCwNCj4gPiAmZGRwX3Vmb2UgfSwNCj4gPiAtCVtERFBfQ09NUE9ORU5UX1dETUEwXQk9IHsg
-TVRLX0RJU1BfV0RNQSwJMCwgTlVMTCB9LA0KPiA+IC0JW0REUF9DT01QT05FTlRfV0RNQTFdCT0g
-eyBNVEtfRElTUF9XRE1BLAkxLCBOVUxMIH0sDQo+ID4gKwlbRERQX0NPTVBPTkVOVF9BQUwwXQkJ
-PSB7IE1US19ESVNQX0FBTCwJMCwNCj4gPiAmZGRwX2FhbCB9LA0KPiA+ICsJW0REUF9DT01QT05F
-TlRfQUFMMV0JCT0geyBNVEtfRElTUF9BQUwsCTEsDQo+ID4gJmRkcF9hYWwgfSwNCj4gPiArCVtE
-RFBfQ09NUE9ORU5UX0JMU10JCT0geyBNVEtfRElTUF9CTFMsCTAsIE5VTEwgfSwNCj4gPiArCVtE
-RFBfQ09NUE9ORU5UX0NDT1JSXQkJPSB7IE1US19ESVNQX0NDT1JSLAkwLA0KPiA+ICZkZHBfY2Nv
-cnIgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX0NPTE9SMF0JCT0geyBNVEtfRElTUF9DT0xPUiwJ
-MCwNCj4gPiAmZGRwX2NvbG9yIH0sDQo+ID4gKwlbRERQX0NPTVBPTkVOVF9DT0xPUjFdCQk9IHsg
-TVRLX0RJU1BfQ09MT1IsCTEsDQo+ID4gJmRkcF9jb2xvciB9LA0KPiA+ICsJW0REUF9DT01QT05F
-TlRfRElUSEVSXQkJPSB7IE1US19ESVNQX0RJVEhFUiwJMCwNCj4gPiAmZGRwX2RpdGhlciB9LA0K
-PiA+ICsJW0REUF9DT01QT05FTlRfRFBJMF0JCT0geyBNVEtfRFBJLAkJMCwNCj4gPiAmZGRwX2Rw
-aSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfRFBJMV0JCT0geyBNVEtfRFBJLAkJMSwNCj4gPiAm
-ZGRwX2RwaSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfRFNJMF0JCT0geyBNVEtfRFNJLAkJMCwN
-Cj4gPiAmZGRwX2RzaSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfRFNJMV0JCT0geyBNVEtfRFNJ
-LAkJMSwNCj4gPiAmZGRwX2RzaSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfRFNJMl0JCT0geyBN
-VEtfRFNJLAkJMiwNCj4gPiAmZGRwX2RzaSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfRFNJM10J
-CT0geyBNVEtfRFNJLAkJMywNCj4gPiAmZGRwX2RzaSB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRf
-R0FNTUFdCQk9IHsgTVRLX0RJU1BfR0FNTUEsCTAsDQo+ID4gJmRkcF9nYW1tYSB9LA0KPiA+ICsJ
-W0REUF9DT01QT05FTlRfT0QwXQkJPSB7IE1US19ESVNQX09ELAkwLCAmZGRwX29kDQo+ID4gfSwN
-Cj4gPiArCVtERFBfQ09NUE9ORU5UX09EMV0JCT0geyBNVEtfRElTUF9PRCwJMSwgJmRkcF9vZA0K
-PiA+IH0sDQo+ID4gKwlbRERQX0NPTVBPTkVOVF9PVkwwXQkJPSB7IE1US19ESVNQX09WTCwJMCwN
-Cj4gPiAmZGRwX292bCB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfT1ZMMV0JCT0geyBNVEtfRElT
-UF9PVkwsCTEsDQo+ID4gJmRkcF9vdmwgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX09WTF8yTDBd
-CQk9IHsgTVRLX0RJU1BfT1ZMXzJMLAkwLA0KPiA+ICZkZHBfb3ZsIH0sDQo+ID4gKwlbRERQX0NP
-TVBPTkVOVF9PVkxfMkwxXQkJPSB7IE1US19ESVNQX09WTF8yTCwJMSwNCj4gPiAmZGRwX292bCB9
-LA0KPiA+ICsJW0REUF9DT01QT05FTlRfT1ZMXzJMMl0JCT0geyBNVEtfRElTUF9PVkxfMkwsICAg
-IDIsDQo+ID4gJmRkcF9vdmwgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX1BPU1RNQVNLMF0JPSB7
-IE1US19ESVNQX1BPU1RNQVNLLAkwLA0KPiA+ICZkZHBfcG9zdG1hc2sgfSwNCj4gDQo+IEhpLCBJ
-IGNhbid0IHNlZSB3aGVyZSBpcyBERFBfQ09NUE9ORU5UX1BPU1RNQVNLMCBkZWZpbmVkLg0KPiAN
-Cj4gVGhhbmtzLA0KPiBEYWZuYQ0KDQppdCBpcyBkZWZpbmVkIGluIG10a19tbXN5cy5oDQoNCg0K
-aHR0cHM6Ly9wYXRjaHdvcmsua2VybmVsLm9yZy9wcm9qZWN0L2xpbnV4LW1lZGlhdGVrL3BhdGNo
-LzIwMjEwOTMwMTU1MjIyLjU4NjEtMy15b25ncWlhbmcubml1QG1lZGlhdGVrLmNvbS8NCg0KPiAN
-Cj4gPiArCVtERFBfQ09NUE9ORU5UX1BXTTBdCQk9IHsgTVRLX0RJU1BfUFdNLAkwLA0KPiA+IE5V
-TEwgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX1BXTTFdCQk9IHsgTVRLX0RJU1BfUFdNLAkxLA0K
-PiA+IE5VTEwgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX1BXTTJdCQk9IHsgTVRLX0RJU1BfUFdN
-LAkyLA0KPiA+IE5VTEwgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX1JETUEwXQkJPSB7IE1US19E
-SVNQX1JETUEsCTAsDQo+ID4gJmRkcF9yZG1hIH0sDQo+ID4gKwlbRERQX0NPTVBPTkVOVF9SRE1B
-MV0JCT0geyBNVEtfRElTUF9SRE1BLAkxLA0KPiA+ICZkZHBfcmRtYSB9LA0KPiA+ICsJW0REUF9D
-T01QT05FTlRfUkRNQTJdCQk9IHsgTVRLX0RJU1BfUkRNQSwJMiwNCj4gPiAmZGRwX3JkbWEgfSwN
-Cj4gPiArCVtERFBfQ09NUE9ORU5UX1VGT0VdCQk9IHsgTVRLX0RJU1BfVUZPRSwJMCwNCj4gPiAm
-ZGRwX3Vmb2UgfSwNCj4gPiArCVtERFBfQ09NUE9ORU5UX1dETUEwXQkJPSB7IE1US19ESVNQX1dE
-TUEsCTAsDQo+ID4gTlVMTCB9LA0KPiA+ICsJW0REUF9DT01QT05FTlRfV0RNQTFdCQk9IHsgTVRL
-X0RJU1BfV0RNQSwJMSwNCj4gPiBOVUxMIH0sDQo+ID4gICB9Ow0KPiA+ICAgDQo+ID4gICBzdGF0
-aWMgYm9vbCBtdGtfZHJtX2ZpbmRfY29tcF9pbl9kZHAoc3RydWN0IGRldmljZSAqZGV2LA0KPiA+
-IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5o
-DQo+ID4gYi9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RybV9kZHBfY29tcC5oDQo+ID4g
-aW5kZXggYmI5MTRkOTc2Y2Y1Li5jZDFkZWM2YjRjZGYgMTAwNjQ0DQo+ID4gLS0tIGEvZHJpdmVy
-cy9ncHUvZHJtL21lZGlhdGVrL210a19kcm1fZGRwX2NvbXAuaA0KPiA+ICsrKyBiL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZHJtX2RkcF9jb21wLmgNCj4gPiBAQCAtMzAsNiArMzAsNyBA
-QCBlbnVtIG10a19kZHBfY29tcF90eXBlIHsNCj4gPiAgIAlNVEtfRElTUF9VRk9FLA0KPiA+ICAg
-CU1US19EU0ksDQo+ID4gICAJTVRLX0RQSSwNCj4gPiArCU1US19ESVNQX1BPU1RNQVNLLA0KPiA+
-ICAgCU1US19ESVNQX1BXTSwNCj4gPiAgIAlNVEtfRElTUF9NVVRFWCwNCj4gPiAgIAlNVEtfRElT
-UF9PRCwNCj4gPiANCg==
+Hi Linus,
 
+I've returned from my tropical island retreat, even managed to bring
+one of my kids on a dive with some turtles. Thanks to Daniel for doing
+last week's work.
+
+Otherwise this is the weekly fixes pull, it's a bit bigger because the
+vc4 reverts in your tree caused some problems with fixes in the
+drm-misc tree so it got left out last week, so this week has the misc
+fixes rebased without the vc4 pieces. Otherwise it's i915, amdgpu with
+the usual fixes and a scattering over other drivers.
+
+I expect things should calm down a bit more next week.
+
+Regards,
+Dave.
+
+drm-fixes-2021-10-08:
+drm fixes for 5.15-rc5
+
+core:
+- Kconfig fix for fb_simple vs simpledrm.
+
+i915:
+- Fix RKL HDMI audio
+- Fix runtime pm imbalance on i915_gem_shrink() error path
+- Fix Type-C port access before hw/sw state sync
+- Fix VBT backlight struct version/size check
+- Fix VT-d async flip on SKL/BXT with plane stretch workaround
+
+amdgpu:
+- DCN 3.1 DP alt mode fixes
+- S0ix gfxoff fix
+- Fix DRM_AMD_DC_SI dependencies
+- PCIe DPC handling fix
+- DCN 3.1 scaling fix
+- Documentation fix
+
+amdkfd:
+- Fix potential memory leak
+- IOMMUv2 init fixes
+
+vc4:
+- compiler fix
+- (there were some hdmi fixes but things got reverted, sort it out later)
+
+nouveau:
+- Cursor fix
+- Fix ttm buffer moves for ampere gpu's by adding minimal acceleration supp=
+ort.
+- memory leak fixes
+
+rockchip:
+- crtc/clk fixup
+
+panel:
+- ili9341 Fix DT bindings indent
+- y030xx067a - yellow tint init seq fix
+
+gbefb:
+- Fix gbefb when built with COMPILE_TEST.
+The following changes since commit 9e1ff307c779ce1f0f810c7ecce3d95bbae40896=
+:
+
+  Linux 5.15-rc4 (2021-10-03 14:08:47 -0700)
+
+are available in the Git repository at:
+
+  git://anongit.freedesktop.org/drm/drm tags/drm-fixes-2021-10-08
+
+for you to fetch changes up to bf79045e0ef5f0fb2a0619f9d0782665d07b2d66:
+
+  Merge tag 'amd-drm-fixes-5.15-2021-10-06' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes (2021-10-08
+11:40:21 +1000)
+
+----------------------------------------------------------------
+drm fixes for 5.15-rc5
+
+core:
+- Kconfig fix for fb_simple vs simpledrm.
+
+i915:
+- Fix RKL HDMI audio
+- Fix runtime pm imbalance on i915_gem_shrink() error path
+- Fix Type-C port access before hw/sw state sync
+- Fix VBT backlight struct version/size check
+- Fix VT-d async flip on SKL/BXT with plane stretch workaround
+
+amdgpu:
+- DCN 3.1 DP alt mode fixes
+- S0ix gfxoff fix
+- Fix DRM_AMD_DC_SI dependencies
+- PCIe DPC handling fix
+- DCN 3.1 scaling fix
+- Documentation fix
+
+amdkfd:
+- Fix potential memory leak
+- IOMMUv2 init fixes
+
+vc4:
+- compiler fix
+- (there were some hdmi fixes but things got reverted, sort it out later)
+
+nouveau:
+- Cursor fix
+- Fix ttm buffer moves for ampere gpu's by adding minimal acceleration supp=
+ort.
+- memory leak fixes
+
+rockchip:
+- crtc/clk fixup
+
+panel:
+- ili9341 Fix DT bindings indent
+- y030xx067a - yellow tint init seq fix
+
+gbefb:
+- Fix gbefb when built with COMPILE_TEST.
+
+----------------------------------------------------------------
+Alex Deucher (2):
+      Documentation/gpu: remove spurious "+" in amdgpu.rst
+      drm/amdgpu/display: fix dependencies for DRM_AMD_DC_SI
+
+Arnd Bergmann (1):
+      fbdev: simplefb: fix Kconfig dependencies
+
+Ben Skeggs (3):
+      drm/nouveau/kms/tu102-: delay enabling cursor until after assign_wind=
+ows
+      drm/nouveau/ga102-: support ttm buffer moves via copy engine
+      drm/nouveau/fifo/ga102: initialise chid on return from channel creati=
+on
+
+Chris Morgan (1):
+      drm/rockchip: Update crtc fixup to account for fractional clk change
+
+Christophe Branchereau (1):
+      drm/panel: abt-y030xx067a: yellow tint fix
+
+Dave Airlie (3):
+      Merge tag 'drm-intel-fixes-2021-10-07' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-fixes
+      Merge tag 'drm-misc-fixes-2021-10-06' of
+git://anongit.freedesktop.org/drm/drm-misc into drm-fixes
+      Merge tag 'amd-drm-fixes-5.15-2021-10-06' of
+https://gitlab.freedesktop.org/agd5f/linux into drm-fixes
+
+Edmund Dea (1):
+      drm/kmb: Enable alpha blended second plane
+
+George Shen (1):
+      drm/amd/display: Skip override for preferred link settings
+during link training
+
+Guchun Chen (1):
+      drm/amdgpu: handle the case of pci_channel_io_frozen only in
+amdgpu_pci_resume
+
+Hansen (1):
+      drm/amd/display: Fix detection of 4 lane for DPALT
+
+Imre Deak (1):
+      drm/i915/tc: Fix TypeC port init/resume time sanitization
+
+Jeremy Cline (1):
+      drm/nouveau: avoid a use-after-free when BO init fails
+
+Jernej Skrabec (1):
+      drm/sun4i: dw-hdmi: Fix HDMI PHY clock setup
+
+Jude Shih (1):
+      drm/amd/display: USB4 bring up set correct address
+
+Kai-Heng Feng (1):
+      drm/i915/audio: Use BIOS provided value for RKL HDA link
+
+Krzysztof Kozlowski (1):
+      dt-bindings: panel: ili9341: correct indentation
+
+Lang Yu (1):
+      drm/amdkfd: fix a potential ttm->sg memory leak
+
+Lijo Lazar (1):
+      drm/amdgpu: During s0ix don't wait to signal GFXOFF
+
+Liu, Zhan (2):
+      drm/amd/display: Fix B0 USB-C DP Alt mode
+      drm/amd/display: Fix DCN3 B0 DP Alt Mapping
+
+Lukasz Majczak (1):
+      drm/i915/bdb: Fix version check
+
+Maarten Lankhorst (1):
+      drm/i915: Fix runtime pm handling in i915_gem_shrink
+
+Mark Brown (1):
+      video: fbdev: gbefb: Only instantiate device when built for IP32
+
+Maxime Ripard (1):
+      drm/vc4: hdmi: Remove unused struct
+
+Nikola Cornij (1):
+      drm/amd/display: Limit display scaling to up to 4k for DCN 3.1
+
+Randy Dunlap (1):
+      DRM: delete DRM IRQ legacy midlayer docs
+
+Ville Syrj=C3=A4l=C3=A4 (1):
+      drm/i915: Extend the async flip VT-d w/a to skl/bxt
+
+Yang Yingliang (2):
+      drm/nouveau/kms/nv50-: fix file release memory leak
+      drm/nouveau/debugfs: fix file release memory leak
+
+Yifan Zhang (2):
+      drm/amdkfd: remove redundant iommu cleanup code
+      drm/amdgpu: init iommu after amdkfd device init
+
+ .../bindings/display/panel/ilitek,ili9341.yaml     |   2 +-
+ Documentation/gpu/amdgpu.rst                       |   4 +-
+ Documentation/gpu/drm-internals.rst                |   9 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h                |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c   |   1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c         |  14 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gfx.c            |  14 +-
+ drivers/gpu/drm/amd/amdkfd/kfd_device.c            |   8 +-
+ drivers/gpu/drm/amd/display/Kconfig                |   2 +
+ drivers/gpu/drm/amd/display/dc/core/dc_link_dp.c   |   6 -
+ .../drm/amd/display/dc/dcn10/dcn10_link_encoder.h  |   1 +
+ .../amd/display/dc/dcn31/dcn31_dio_link_encoder.c  |  66 ++++-
+ .../amd/display/dc/dcn31/dcn31_dio_link_encoder.h  |  14 +-
+ .../gpu/drm/amd/display/dc/dcn31/dcn31_resource.c  |   8 +-
+ drivers/gpu/drm/amd/display/include/dal_asic_id.h  |   2 +-
+ .../amd/include/asic_reg/dpcs/dpcs_4_2_0_offset.h  |  27 ++
+ drivers/gpu/drm/i915/display/icl_dsi.c             |  10 +-
+ drivers/gpu/drm/i915/display/intel_audio.c         |   5 +-
+ drivers/gpu/drm/i915/display/intel_bios.c          |  22 +-
+ drivers/gpu/drm/i915/display/intel_ddi.c           |   8 +-
+ drivers/gpu/drm/i915/display/intel_display.c       |  20 +-
+ drivers/gpu/drm/i915/display/intel_vbt_defs.h      |   5 +
+ drivers/gpu/drm/i915/gem/i915_gem_shrinker.c       |   7 +-
+ drivers/gpu/drm/i915/i915_reg.h                    |   5 +
+ drivers/gpu/drm/i915/intel_pm.c                    |  12 +
+ drivers/gpu/drm/kmb/kmb_drv.c                      |   8 +-
+ drivers/gpu/drm/kmb/kmb_drv.h                      |   5 +
+ drivers/gpu/drm/kmb/kmb_plane.c                    |  81 +++++-
+ drivers/gpu/drm/kmb/kmb_plane.h                    |   5 +-
+ drivers/gpu/drm/kmb/kmb_regs.h                     |   3 +
+ drivers/gpu/drm/nouveau/dispnv50/crc.c             |   1 +
+ drivers/gpu/drm/nouveau/dispnv50/head.c            |   2 +-
+ drivers/gpu/drm/nouveau/include/nvif/class.h       |   2 +
+ drivers/gpu/drm/nouveau/include/nvkm/engine/fifo.h |   1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.c               |   1 +
+ drivers/gpu/drm/nouveau/nouveau_chan.c             |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_debugfs.c          |   1 +
+ drivers/gpu/drm/nouveau/nouveau_drm.c              |   4 +
+ drivers/gpu/drm/nouveau/nouveau_gem.c              |   4 +-
+ drivers/gpu/drm/nouveau/nv84_fence.c               |   2 +-
+ drivers/gpu/drm/nouveau/nvkm/engine/device/base.c  |   3 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/Kbuild    |   1 +
+ drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c   | 311 +++++++++++++++++=
+++++
+ drivers/gpu/drm/nouveau/nvkm/subdev/top/ga100.c    |   7 +-
+ drivers/gpu/drm/panel/panel-abt-y030xx067a.c       |   4 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c        |  26 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.c              |   7 +-
+ drivers/gpu/drm/sun4i/sun8i_dw_hdmi.h              |   4 +-
+ drivers/gpu/drm/sun4i/sun8i_hdmi_phy.c             |  97 ++++---
+ drivers/gpu/drm/vc4/vc4_hdmi.c                     |   8 -
+ drivers/of/base.c                                  |   1 +
+ drivers/video/fbdev/Kconfig                        |   5 +-
+ drivers/video/fbdev/gbefb.c                        |   2 +-
+ 53 files changed, 712 insertions(+), 163 deletions(-)
+ create mode 100644 drivers/gpu/drm/nouveau/nvkm/engine/fifo/ga102.c
