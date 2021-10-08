@@ -2,38 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80AF4426F99
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 19:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B91A426F9A
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 19:32:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16AD26E106;
-	Fri,  8 Oct 2021 17:32:01 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 202B86E10C;
+	Fri,  8 Oct 2021 17:32:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from EX13-EDG-OU-001.vmware.com (ex13-edg-ou-001.vmware.com
- [208.91.0.189])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 602DC6E10F
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 17:31:55 +0000 (UTC)
+Received: from EX13-EDG-OU-002.vmware.com (ex13-edg-ou-002.vmware.com
+ [208.91.0.190])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9F6BB6E0FB
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 17:31:56 +0000 (UTC)
 Received: from sc9-mailhost2.vmware.com (10.113.161.72) by
- EX13-EDG-OU-001.vmware.com (10.113.208.155) with Microsoft SMTP Server id
- 15.0.1156.6; Fri, 8 Oct 2021 10:31:50 -0700
+ EX13-EDG-OU-002.vmware.com (10.113.208.156) with Microsoft SMTP Server id
+ 15.0.1156.6; Fri, 8 Oct 2021 10:31:51 -0700
 Received: from vmware.com (unknown [10.21.244.180])
- by sc9-mailhost2.vmware.com (Postfix) with ESMTP id 45F57204C4;
- Fri,  8 Oct 2021 10:31:54 -0700 (PDT)
+ by sc9-mailhost2.vmware.com (Postfix) with ESMTP id A51A4204FD;
+ Fri,  8 Oct 2021 10:31:55 -0700 (PDT)
 From: Zack Rusin <zackr@vmware.com>
 To: <dri-devel@lists.freedesktop.org>
-CC: Zack Rusin <zackr@vmware.com>, Martin Krastev <krastevm@vmware.com>,
- =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
- =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
-Subject: [PATCH 4/5] drm/vmwgfx: Introduce a new placement for MOB page tables
-Date: Fri, 8 Oct 2021 13:31:45 -0400
-Message-ID: <20211008173146.645127-5-zackr@vmware.com>
+CC: Zack Rusin <zackr@vmware.com>, Martin Krastev <krastevm@vmware.com>
+Subject: [PATCH 5/5] drm/vmwgfx: Switch the internal BO's to ttm_bo_type_kernel
+Date: Fri, 8 Oct 2021 13:31:46 -0400
+Message-ID: <20211008173146.645127-6-zackr@vmware.com>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211008173146.645127-1-zackr@vmware.com>
 References: <20211008173146.645127-1-zackr@vmware.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: None (EX13-EDG-OU-001.vmware.com: zackr@vmware.com does not
+Content-Type: text/plain
+Received-SPF: None (EX13-EDG-OU-002.vmware.com: zackr@vmware.com does not
  designate permitted sender hosts)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -50,354 +48,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-For larger (bigger than a page) and noncontiguous mobs we have
-to create page tables that allow the host to find the memory.
-Those page tables just used regular system memory. Unfortunately
-in TTM those BO's are not allowed to be busy thus can't be
-fenced and we have to fence those bo's  because we don't want
-to destroy the page tables while the host is still executing
-the command buffers which might be accessing them.
-
-To solve it we introduce a new placement VMW_PL_SYSTEM which
-is very similar to TTM_PL_SYSTEM except that it allows
-fencing. This fixes kernel oops'es during unloading of the driver
-(and pci hot remove/add) which were caused by busy BO's in
-TTM_PL_SYSTEM being present in the delayed deletion list in
-TTM (TTM_PL_SYSTEM manager is destroyed before the delayed
-deletions are executed)
+There's never a need to access our internal kernel bo's from
+user-space. Those objects are used exclusively for internal
+support to guest backed surfaces (in otable setup and mob
+page tables) and there's no need to have them be of device
+type, i.e. mmappable from user-space.
 
 Signed-off-by: Zack Rusin <zackr@vmware.com>
 Reviewed-by: Martin Krastev <krastevm@vmware.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 ---
- drivers/gpu/drm/vmwgfx/Makefile               |  2 +-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 14 ++-
- drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 12 ++-
- .../gpu/drm/vmwgfx/vmwgfx_system_manager.c    | 90 +++++++++++++++++++
- drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 58 ++++++------
- 5 files changed, 138 insertions(+), 38 deletions(-)
- create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
+ drivers/gpu/drm/vmwgfx/vmwgfx_bo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
-index bc323f7d4032..0188a312c38c 100644
---- a/drivers/gpu/drm/vmwgfx/Makefile
-+++ b/drivers/gpu/drm/vmwgfx/Makefile
-@@ -9,7 +9,7 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
- 	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
- 	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
- 	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
--            vmwgfx_devcaps.o ttm_object.o ttm_memory.o
-+	    vmwgfx_devcaps.o ttm_object.o ttm_memory.o vmwgfx_system_manager.o
+diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+index fd007f1c1776..c97a3d5e90ce 100644
+--- a/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
++++ b/drivers/gpu/drm/vmwgfx/vmwgfx_bo.c
+@@ -494,7 +494,7 @@ int vmw_bo_create_kernel(struct vmw_private *dev_priv, unsigned long size,
+ 	drm_vma_node_reset(&bo->base.vma_node);
  
- vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
- vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) += vmwgfx_thp.o
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-index 8d0b083ba267..daf65615308a 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
-@@ -1071,6 +1071,12 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 				 "3D will be disabled.\n");
- 			dev_priv->has_mob = false;
- 		}
-+		if (vmw_sys_man_init(dev_priv) != 0) {
-+			drm_info(&dev_priv->drm,
-+				 "No MOB page table memory available. "
-+				 "3D will be disabled.\n");
-+			dev_priv->has_mob = false;
-+		}
- 	}
- 
- 	if (dev_priv->has_mob && (dev_priv->capabilities & SVGA_CAP_DX)) {
-@@ -1121,8 +1127,10 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
- 	vmw_overlay_close(dev_priv);
- 	vmw_kms_close(dev_priv);
- out_no_kms:
--	if (dev_priv->has_mob)
-+	if (dev_priv->has_mob) {
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
-+		vmw_sys_man_fini(dev_priv);
-+	}
- 	if (dev_priv->has_gmr)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
- 	vmw_devcaps_destroy(dev_priv);
-@@ -1172,8 +1180,10 @@ static void vmw_driver_unload(struct drm_device *dev)
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
- 
- 	vmw_release_device_early(dev_priv);
--	if (dev_priv->has_mob)
-+	if (dev_priv->has_mob) {
- 		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
-+		vmw_sys_man_fini(dev_priv);
-+	}
- 	vmw_devcaps_destroy(dev_priv);
- 	vmw_vram_manager_fini(dev_priv);
- 	ttm_device_fini(&dev_priv->bdev);
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-index a833751099b5..df19dfb3ce18 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
-@@ -82,8 +82,9 @@
- 			VMWGFX_NUM_GB_SURFACE +\
- 			VMWGFX_NUM_GB_SCREEN_TARGET)
- 
--#define VMW_PL_GMR (TTM_PL_PRIV + 0)
--#define VMW_PL_MOB (TTM_PL_PRIV + 1)
-+#define VMW_PL_GMR      (TTM_PL_PRIV + 0)
-+#define VMW_PL_MOB      (TTM_PL_PRIV + 1)
-+#define VMW_PL_SYSTEM   (TTM_PL_PRIV + 2)
- 
- #define VMW_RES_CONTEXT ttm_driver_type0
- #define VMW_RES_SURFACE ttm_driver_type1
-@@ -1039,7 +1040,6 @@ extern struct ttm_placement vmw_vram_placement;
- extern struct ttm_placement vmw_vram_sys_placement;
- extern struct ttm_placement vmw_vram_gmr_placement;
- extern struct ttm_placement vmw_sys_placement;
--extern struct ttm_placement vmw_evictable_placement;
- extern struct ttm_placement vmw_srf_placement;
- extern struct ttm_placement vmw_mob_placement;
- extern struct ttm_placement vmw_nonfixed_placement;
-@@ -1251,6 +1251,12 @@ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
- int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
- void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
- 
-+/**
-+ * System memory manager
-+ */
-+int vmw_sys_man_init(struct vmw_private *dev_priv);
-+void vmw_sys_man_fini(struct vmw_private *dev_priv);
-+
- /**
-  * Prime - vmwgfx_prime.c
-  */
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-new file mode 100644
-index 000000000000..2b86e2d8aefe
---- /dev/null
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
-@@ -0,0 +1,90 @@
-+/* SPDX-License-Identifier: GPL-2.0 OR MIT */
-+/*
-+ * Copyright 2021 VMware, Inc.
-+ *
-+ * Permission is hereby granted, free of charge, to any person
-+ * obtaining a copy of this software and associated documentation
-+ * files (the "Software"), to deal in the Software without
-+ * restriction, including without limitation the rights to use, copy,
-+ * modify, merge, publish, distribute, sublicense, and/or sell copies
-+ * of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be
-+ * included in all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-+ * SOFTWARE.
-+ *
-+ */
-+
-+#include "vmwgfx_drv.h"
-+
-+#include <drm/ttm/ttm_bo_driver.h>
-+#include <drm/ttm/ttm_device.h>
-+#include <drm/ttm/ttm_placement.h>
-+#include <drm/ttm/ttm_resource.h>
-+#include <linux/slab.h>
-+
-+
-+static int vmw_sys_man_alloc(struct ttm_resource_manager *man,
-+			     struct ttm_buffer_object *bo,
-+			     const struct ttm_place *place,
-+			     struct ttm_resource **res)
-+{
-+	*res = kzalloc(sizeof(**res), GFP_KERNEL);
-+	if (!*res)
-+		return -ENOMEM;
-+
-+	ttm_resource_init(bo, place, *res);
-+	return 0;
-+}
-+
-+static void vmw_sys_man_free(struct ttm_resource_manager *man,
-+			     struct ttm_resource *res)
-+{
-+	kfree(res);
-+}
-+
-+static const struct ttm_resource_manager_func vmw_sys_manager_func = {
-+	.alloc = vmw_sys_man_alloc,
-+	.free = vmw_sys_man_free,
-+};
-+
-+int vmw_sys_man_init(struct vmw_private *dev_priv)
-+{
-+	struct ttm_device *bdev = &dev_priv->bdev;
-+	struct ttm_resource_manager *man =
-+			kzalloc(sizeof(*man), GFP_KERNEL);
-+
-+	if (unlikely(!man))
-+		return -ENOMEM;
-+
-+	man->use_tt = true;
-+	man->func = &vmw_sys_manager_func;
-+
-+	ttm_resource_manager_init(man, 0);
-+	ttm_set_driver_manager(bdev, VMW_PL_SYSTEM, man);
-+	ttm_resource_manager_set_used(man, true);
-+	return 0;
-+}
-+
-+void vmw_sys_man_fini(struct vmw_private *dev_priv)
-+{
-+	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev,
-+							    VMW_PL_SYSTEM);
-+
-+	ttm_resource_manager_evict_all(&dev_priv->bdev, man);
-+
-+	ttm_resource_manager_set_used(man, false);
-+	ttm_resource_manager_cleanup(man);
-+
-+	ttm_set_driver_manager(&dev_priv->bdev, VMW_PL_SYSTEM, NULL);
-+	kfree(man);
-+}
-diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-index e899a936a42a..b15228e7dbeb 100644
---- a/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-+++ b/drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c
-@@ -92,6 +92,13 @@ static const struct ttm_place gmr_vram_placement_flags[] = {
- 	}
- };
- 
-+static const struct ttm_place vmw_sys_placement_flags = {
-+	.fpfn = 0,
-+	.lpfn = 0,
-+	.mem_type = VMW_PL_SYSTEM,
-+	.flags = 0
-+};
-+
- struct ttm_placement vmw_vram_gmr_placement = {
- 	.num_placement = 2,
- 	.placement = vram_gmr_placement_flags,
-@@ -113,28 +120,11 @@ struct ttm_placement vmw_sys_placement = {
- 	.busy_placement = &sys_placement_flags
- };
- 
--static const struct ttm_place evictable_placement_flags[] = {
--	{
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_SYSTEM,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = TTM_PL_VRAM,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = VMW_PL_GMR,
--		.flags = 0
--	}, {
--		.fpfn = 0,
--		.lpfn = 0,
--		.mem_type = VMW_PL_MOB,
--		.flags = 0
--	}
-+struct ttm_placement vmw_pt_sys_placement = {
-+	.num_placement = 1,
-+	.placement = &vmw_sys_placement_flags,
-+	.num_busy_placement = 1,
-+	.busy_placement = &vmw_sys_placement_flags
- };
- 
- static const struct ttm_place nonfixed_placement_flags[] = {
-@@ -156,13 +146,6 @@ static const struct ttm_place nonfixed_placement_flags[] = {
- 	}
- };
- 
--struct ttm_placement vmw_evictable_placement = {
--	.num_placement = 4,
--	.placement = evictable_placement_flags,
--	.num_busy_placement = 1,
--	.busy_placement = &sys_placement_flags
--};
--
- struct ttm_placement vmw_srf_placement = {
- 	.num_placement = 1,
- 	.num_busy_placement = 2,
-@@ -484,6 +467,9 @@ static int vmw_ttm_bind(struct ttm_device *bdev,
- 				    &vmw_be->vsgt, ttm->num_pages,
- 				    vmw_be->gmr_id);
- 		break;
-+	case VMW_PL_SYSTEM:
-+		/* Nothing to be done for a system bind */
-+		break;
- 	default:
- 		BUG();
- 	}
-@@ -507,6 +493,8 @@ static void vmw_ttm_unbind(struct ttm_device *bdev,
- 	case VMW_PL_MOB:
- 		vmw_mob_unbind(vmw_be->dev_priv, vmw_be->mob);
- 		break;
-+	case VMW_PL_SYSTEM:
-+		break;
- 	default:
- 		BUG();
- 	}
-@@ -624,6 +612,7 @@ static int vmw_ttm_io_mem_reserve(struct ttm_device *bdev, struct ttm_resource *
- 
- 	switch (mem->mem_type) {
- 	case TTM_PL_SYSTEM:
-+	case VMW_PL_SYSTEM:
- 	case VMW_PL_GMR:
- 	case VMW_PL_MOB:
- 		return 0;
-@@ -670,6 +659,11 @@ static void vmw_swap_notify(struct ttm_buffer_object *bo)
- 	(void) ttm_bo_wait(bo, false, false);
- }
- 
-+static bool vmw_memtype_is_system(uint32_t mem_type)
-+{
-+	return mem_type == TTM_PL_SYSTEM || mem_type == VMW_PL_SYSTEM;
-+}
-+
- static int vmw_move(struct ttm_buffer_object *bo,
- 		    bool evict,
- 		    struct ttm_operation_ctx *ctx,
-@@ -680,7 +674,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 	struct ttm_resource_manager *new_man = ttm_manager_type(bo->bdev, new_mem->mem_type);
- 	int ret;
- 
--	if (new_man->use_tt && new_mem->mem_type != TTM_PL_SYSTEM) {
-+	if (new_man->use_tt && !vmw_memtype_is_system(new_mem->mem_type)) {
- 		ret = vmw_ttm_bind(bo->bdev, bo->ttm, new_mem);
- 		if (ret)
- 			return ret;
-@@ -689,7 +683,7 @@ static int vmw_move(struct ttm_buffer_object *bo,
- 	vmw_move_notify(bo, bo->resource, new_mem);
- 
- 	if (old_man->use_tt && new_man->use_tt) {
--		if (bo->resource->mem_type == TTM_PL_SYSTEM) {
-+		if (vmw_memtype_is_system(bo->resource->mem_type)) {
- 			ttm_bo_move_null(bo, new_mem);
- 			return 0;
- 		}
-@@ -736,7 +730,7 @@ int vmw_bo_create_and_populate(struct vmw_private *dev_priv,
- 	int ret;
- 
- 	ret = vmw_bo_create_kernel(dev_priv, bo_size,
--				   &vmw_sys_placement,
-+				   &vmw_pt_sys_placement,
- 				   &bo);
- 	if (unlikely(ret != 0))
- 		return ret;
+ 	ret = ttm_bo_init_reserved(&dev_priv->bdev, bo, size,
+-				   ttm_bo_type_device, placement, 0,
++				   ttm_bo_type_kernel, placement, 0,
+ 				   &ctx, NULL, NULL, NULL);
+ 	if (unlikely(ret))
+ 		goto error_account;
 -- 
 2.30.2
 
