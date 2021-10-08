@@ -2,40 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C037427353
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 23:57:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 582964273CA
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 00:31:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 525D66E882;
-	Fri,  8 Oct 2021 21:57:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0F9856E892;
+	Fri,  8 Oct 2021 22:31:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 888B66E882;
- Fri,  8 Oct 2021 21:57:16 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10131"; a="206715336"
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="206715336"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 14:57:16 -0700
-X-IronPort-AV: E=Sophos;i="5.85,358,1624345200"; d="scan'208";a="489625487"
-Received: from mdroper-desk1.fm.intel.com ([10.1.27.134])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 08 Oct 2021 14:57:15 -0700
-From: Matt Roper <matthew.d.roper@intel.com>
-To: intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Paulo Zanoni <paulo.r.zanoni@intel.com>,
- Michal Wajdeczko <michal.wajdeczko@intel.com>
-Subject: [PATCH 11/11] drm/i915/xehpsdv: Initialize multi-tiles
-Date: Fri,  8 Oct 2021 14:56:35 -0700
-Message-Id: <20211008215635.2026385-12-matthew.d.roper@intel.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211008215635.2026385-1-matthew.d.roper@intel.com>
-References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com
+ [IPv6:2607:f8b0:4864:20::102a])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2A1BE6E892
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 22:31:12 +0000 (UTC)
+Received: by mail-pj1-x102a.google.com with SMTP id
+ qe4-20020a17090b4f8400b0019f663cfcd1so10348496pjb.1
+ for <dri-devel@lists.freedesktop.org>; Fri, 08 Oct 2021 15:31:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x2SslUtgREFqZPZutv1E1PPwo3SH8tGLrCooYjOSvSU=;
+ b=ZzZ/oSyVvoCxGioRJePesqRhkD8P2jQXTVcAX0CSI1G9R8HExP9FXtY+XQlKn5YwJQ
+ qjt7JjgwliSD9ml2KeVlqUGfztZlit9CnKKQ3SqdIAiUEZRePGUnB/vct3RXKVd5dau0
+ gcCGc4KcFgDBUvgeLus8NKt+CpGuNnJGCnc7s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=x2SslUtgREFqZPZutv1E1PPwo3SH8tGLrCooYjOSvSU=;
+ b=FNzzUvSpLzZvu+9m/k3a0pe2koeBSz/oHtJ3Kt9HR+L1rQSSpvCL5HYpAc0fFXhXC6
+ 3BOK5uzBKbKK1wRMYopc0p3wtbRrYh4JTadrugJ3ccmthzrajJ5QEMdyu1ZxTIhfyOxI
+ OVZuzIIKTu95P25V3L+wf+673AsvExs3soOBBhrD5NDnHTWdvwBSo5IiY7CN7jqRD8V9
+ Be/ymskWQpKmqJcUqObRGeNJOIk7933g5xX1mEdYjFYBF5xfvlWq+OJBADUxDB4rPN1i
+ dEtRx4S/SqzRXN5wfzoxeS1dIKQqqEsx4p5FIBwrgp+y54LQ3WZMpegTZam7dEyaJrEQ
+ We3A==
+X-Gm-Message-State: AOAM530Kojful0ABytpmu38QahBZBvZ2tCymmxXfAb/SqHwjVxeIofUg
+ 4xwMNW2MTCxygVLHlnTPtUmLeggnenTzIw==
+X-Google-Smtp-Source: ABdhPJxUwsepBnEFFQTQHNh7+2nFo7S8tcOEzslFztnMxkYzwYSLSUB/2QlZPi9UFdSP/NdTQY+cSg==
+X-Received: by 2002:a17:90a:e547:: with SMTP id
+ ei7mr8195089pjb.169.1633732271765; 
+ Fri, 08 Oct 2021 15:31:11 -0700 (PDT)
+Received: from localhost ([2620:15c:202:201:2a6d:84fa:761e:91e4])
+ by smtp.gmail.com with UTF8SMTPSA id e20sm312867pfc.11.2021.10.08.15.31.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 08 Oct 2021 15:31:11 -0700 (PDT)
+From: Brian Norris <briannorris@chromium.org>
+To: =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko@sntech.de>
+Cc: linux-rockchip@lists.infradead.org, Sandy Huang <hjc@rock-chips.com>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ Brian Norris <briannorris@chromium.org>
+Subject: [PATCH] drm/rockchip: vop: Add timeout for DSP hold
+Date: Fri,  8 Oct 2021 15:31:04 -0700
+Message-Id: <20211008153102.1.I2a5dbaaada35023a9703a8db7af501528fbb6e31@changeid>
+X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -52,188 +71,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+If hardware is malfunctioning (e.g., misconfigured clocks?), we can get
+stuck here forever, holding various DRM locks and eventually locking up
+the entire system. It's better to complain loudly and move on, than to
+lock up the system.
 
-Check how many extra GT tiles are available on the system and setup
-register access for all of them. We can detect how may GT tiles are
-available by reading a register on the root tile. The same register
-returns the tile ID on all tiles.
+In local tests, this operation takes less than 20ms.
 
-Bspec: 33407
-Original-author: Abdiel Janulgue
-Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Matthew Auld <matthew.auld@intel.com>
-Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Paulo Zanoni <paulo.r.zanoni@intel.com>
-Signed-off-by: Paulo Zanoni <paulo.r.zanoni@intel.com>
-Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-Signed-off-by: Michal Wajdeczko <michal.wajdeczko@intel.com>
+Signed-off-by: Brian Norris <briannorris@chromium.org>
 ---
- drivers/gpu/drm/i915/gt/intel_gt.c       | 66 +++++++++++++++++++++++-
- drivers/gpu/drm/i915/i915_drv.h          |  3 ++
- drivers/gpu/drm/i915/i915_pci.c          |  1 +
- drivers/gpu/drm/i915/i915_reg.h          |  4 ++
- drivers/gpu/drm/i915/intel_device_info.h |  1 +
- 5 files changed, 74 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-index 6528d21e68eb..d7efaef9ade7 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-@@ -943,6 +943,17 @@ tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
- 	if (ret)
- 		return ret;
+ drivers/gpu/drm/rockchip/rockchip_drm_vop.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+index ba9e14da41b4..b28ea5d6a3e2 100644
+--- a/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
++++ b/drivers/gpu/drm/rockchip/rockchip_drm_vop.c
+@@ -726,7 +726,9 @@ static void vop_crtc_atomic_disable(struct drm_crtc *crtc,
  
-+	/* Which tile am I? default to zero on single tile systems */
-+	if (HAS_REMOTE_TILES(i915)) {
-+		u32 instance =
-+			__raw_uncore_read32(gt->uncore, XEHPSDV_MTCFG_ADDR) &
-+			TILE_NUMBER;
-+
-+		if (GEM_WARN_ON(instance != id))
-+			return -ENXIO;
-+	}
-+
-+	gt->info.id = id;
- 	gt->phys_addr = phys_addr;
+ 	spin_unlock(&vop->reg_lock);
  
- 	return 0;
-@@ -958,11 +969,25 @@ static void tile_cleanup(struct intel_gt *gt)
- 	}
- }
+-	wait_for_completion(&vop->dsp_hold_completion);
++	if (!wait_for_completion_timeout(&vop->dsp_hold_completion,
++					 msecs_to_jiffies(200)))
++		WARN(1, "%s: timed out waiting for DSP hold", crtc->name);
  
-+static unsigned int tile_count(struct drm_i915_private *i915)
-+{
-+	u32 mtcfg;
-+
-+	/*
-+	 * We use raw MMIO reads at this point since the
-+	 * MMIO vfuncs are not setup yet
-+	 */
-+	mtcfg = __raw_uncore_read32(&i915->uncore, XEHPSDV_MTCFG_ADDR);
-+	return REG_FIELD_GET(TILE_COUNT, mtcfg) + 1;
-+}
-+
- int intel_probe_gts(struct drm_i915_private *i915)
- {
- 	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-+	struct intel_gt *gt;
- 	phys_addr_t phys_addr;
- 	unsigned int mmio_bar;
-+	unsigned int i, tiles;
- 	int ret;
+ 	vop_dsp_hold_valid_irq_disable(vop);
  
- 	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
-@@ -975,8 +1000,47 @@ int intel_probe_gts(struct drm_i915_private *i915)
- 
- 	i915->gts[0] = &i915->gt;
- 
--	/* TODO: add more tiles */
-+	if (!HAS_REMOTE_TILES(i915))
-+		return 0;
-+
-+	/* Setup other tiles */
-+	tiles = tile_count(i915);
-+	drm_dbg(&i915->drm, "Tile count: %u\n", tiles);
-+
-+	if (GEM_WARN_ON(tiles > I915_MAX_TILES))
-+		return -EINVAL;
-+
-+	/* For multi-tile platforms, size of GTTMMADR is 16MB per tile */
-+	if (GEM_WARN_ON(pci_resource_len(pdev, 0) / tiles != SZ_16M))
-+		return -EINVAL;
-+
-+	for (i = 1; i < tiles; i++) {
-+		gt = kzalloc(sizeof(*gt), GFP_KERNEL);
-+		if (!gt) {
-+			ret = -ENOMEM;
-+			goto err;
-+		}
-+
-+		ret = tile_setup(gt, i, phys_addr + SZ_16M * i);
-+		if (ret)
-+			goto err;
-+
-+		i915->gts[i] = gt;
-+	}
-+
-+	i915->remote_tiles = tiles - 1;
-+
- 	return 0;
-+
-+err:
-+	drm_err(&i915->drm, "Failed to initialize tile %u! (%d)\n", i, ret);
-+
-+	for_each_gt(i915, i, gt) {
-+		tile_cleanup(gt);
-+		i915->gts[i] = NULL;
-+	}
-+
-+	return ret;
- }
- 
- int intel_gt_tiles_init(struct drm_i915_private *i915)
-diff --git a/drivers/gpu/drm/i915/i915_drv.h b/drivers/gpu/drm/i915/i915_drv.h
-index 3a26a21ffb3a..342c42e5aa96 100644
---- a/drivers/gpu/drm/i915/i915_drv.h
-+++ b/drivers/gpu/drm/i915/i915_drv.h
-@@ -865,6 +865,8 @@ struct drm_i915_private {
- 	 */
- 	resource_size_t stolen_usable_size;	/* Total size minus reserved ranges */
- 
-+	unsigned int remote_tiles;
-+
- 	struct intel_uncore uncore;
- 	struct intel_uncore_mmio_debug mmio_debug;
- 
-@@ -1724,6 +1726,7 @@ IS_SUBPLATFORM(const struct drm_i915_private *i915,
- 
- #define HAS_REGION(i915, i) (INTEL_INFO(i915)->memory_regions & (i))
- #define HAS_LMEM(i915) HAS_REGION(i915, REGION_LMEM)
-+#define HAS_REMOTE_TILES(dev_priv)   (INTEL_INFO(dev_priv)->has_remote_tiles)
- 
- #define HAS_GT_UC(dev_priv)	(INTEL_INFO(dev_priv)->has_gt_uc)
- 
-diff --git a/drivers/gpu/drm/i915/i915_pci.c b/drivers/gpu/drm/i915/i915_pci.c
-index 169837de395d..95870c2e366e 100644
---- a/drivers/gpu/drm/i915/i915_pci.c
-+++ b/drivers/gpu/drm/i915/i915_pci.c
-@@ -1015,6 +1015,7 @@ static const struct intel_device_info xehpsdv_info = {
- 	DGFX_FEATURES,
- 	PLATFORM(INTEL_XEHPSDV),
- 	.display = { },
-+	.has_remote_tiles = 1,
- 	.pipe_mask = 0,
- 	.platform_engine_mask =
- 		BIT(RCS0) | BIT(BCS0) |
-diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
-index a897f4abea0c..5d13c19e14aa 100644
---- a/drivers/gpu/drm/i915/i915_reg.h
-+++ b/drivers/gpu/drm/i915/i915_reg.h
-@@ -12477,6 +12477,10 @@ enum skl_power_gate {
- 
- #define GEN12_GLOBAL_MOCS(i)	_MMIO(0x4000 + (i) * 4) /* Global MOCS regs */
- 
-+#define XEHPSDV_MTCFG_ADDR			_MMIO(0x101800)
-+#define   TILE_COUNT			REG_GENMASK(15, 8)
-+#define   TILE_NUMBER			REG_GENMASK(7, 0)
-+
- #define GEN12_GSMBASE			_MMIO(0x108100)
- #define GEN12_DSMBASE			_MMIO(0x1080C0)
- 
-diff --git a/drivers/gpu/drm/i915/intel_device_info.h b/drivers/gpu/drm/i915/intel_device_info.h
-index 8e6f48d1eb7b..3992b414e21d 100644
---- a/drivers/gpu/drm/i915/intel_device_info.h
-+++ b/drivers/gpu/drm/i915/intel_device_info.h
-@@ -136,6 +136,7 @@ enum intel_ppgtt_type {
- 	func(has_pxp); \
- 	func(has_rc6); \
- 	func(has_rc6p); \
-+	func(has_remote_tiles); \
- 	func(has_rps); \
- 	func(has_runtime_pm); \
- 	func(has_snoop); \
 -- 
-2.33.0
+2.33.0.882.g93a45727a2-goog
 
