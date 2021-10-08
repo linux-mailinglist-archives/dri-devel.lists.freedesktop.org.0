@@ -2,29 +2,29 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BA542649D
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 08:27:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99C34264B5
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 08:35:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 3A3646E09C;
-	Fri,  8 Oct 2021 06:27:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 113776E0A0;
+	Fri,  8 Oct 2021 06:35:47 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 2FC5B6E09C
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 06:27:25 +0000 (UTC)
-X-UUID: 7b259ceebea74b16a99be15b1f92cd6c-20211008
-X-UUID: 7b259ceebea74b16a99be15b1f92cd6c-20211008
-Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 762636E0A0
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 06:35:45 +0000 (UTC)
+X-UUID: eaea71e3e19d4ca6aede932f5f812b8e-20211008
+X-UUID: eaea71e3e19d4ca6aede932f5f812b8e-20211008
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
  (envelope-from <guangming.cao@mediatek.com>)
  (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
- with ESMTP id 291282554; Fri, 08 Oct 2021 14:27:20 +0800
+ with ESMTP id 49959066; Fri, 08 Oct 2021 14:35:42 +0800
 Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Fri, 8 Oct 2021 14:27:19 +0800
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Fri, 8 Oct 2021 14:35:41 +0800
 Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
  mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Fri, 8 Oct 2021 14:27:18 +0800
+ 15.0.1497.2 via Frontend Transport; Fri, 8 Oct 2021 14:35:40 +0800
 From: <guangming.cao@mediatek.com>
 To: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
  <christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>,
@@ -37,9 +37,9 @@ To: Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?q?Christian=20K=C3=B6nig?=
  <linux-arm-kernel@lists.infradead.org>, "moderated list:ARM/Mediatek SoC
  support" <linux-mediatek@lists.infradead.org>
 CC: <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH] dma-buf: acquire name lock before read/write dma_buf.name
-Date: Fri, 8 Oct 2021 14:29:03 +0800
-Message-ID: <20211008062903.39731-1-guangming.cao@mediatek.com>
+Subject: [PATCH v2] dma-buf: acquire name lock before read/write dma_buf.name
+Date: Fri, 8 Oct 2021 14:37:22 +0800
+Message-ID: <20211008063722.40181-1-guangming.cao@mediatek.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain
@@ -71,7 +71,7 @@ Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
  1 file changed, 5 insertions(+)
 
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 511fe0d217a0..aebb51b3ff52 100644
+index 511fe0d217a0..9436483a9cfd 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
 @@ -80,7 +80,9 @@ static void dma_buf_release(struct dentry *dentry)
@@ -89,7 +89,7 @@ index 511fe0d217a0..aebb51b3ff52 100644
  			goto error_unlock;
  
 +
-+		spin_lock(&dmabuf->name_lock);
++		spin_lock(&buf_obj->name_lock);
  		seq_printf(s, "%08zu\t%08x\t%08x\t%08ld\t%s\t%08lu\t%s\n",
  				buf_obj->size,
  				buf_obj->file->f_flags, buf_obj->file->f_mode,
@@ -97,7 +97,7 @@ index 511fe0d217a0..aebb51b3ff52 100644
  				buf_obj->exp_name,
  				file_inode(buf_obj->file)->i_ino,
  				buf_obj->name ?: "");
-+		spin_unlock(&dmabuf->name_lock);
++		spin_unlock(&buf_obj->name_lock);
  
  		robj = buf_obj->resv;
  		fence = dma_resv_excl_fence(robj);
