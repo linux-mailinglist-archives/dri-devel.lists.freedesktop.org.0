@@ -1,66 +1,42 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 837374266F8
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:35:41 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87748426709
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 11:41:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4BAB6E0C8;
-	Fri,  8 Oct 2021 09:35:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 538E26E0CD;
+	Fri,  8 Oct 2021 09:40:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8C07F6E0C8;
- Fri,  8 Oct 2021 09:35:35 +0000 (UTC)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 0044420112;
- Fri,  8 Oct 2021 09:35:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1633685734; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oR5ZxFmRD6TdYNhetQCFxwhDU/NrhGPObfyDYCH99ok=;
- b=HzdaY/l/Ho565nYt2djCTKAa7hTTPywU6Ll8t6QXh2jnAQiVK4kS+qWVaFWiCvCrqIAlmz
- jazAQ9UJnmcus7m15lxrL2I1tCbzgi9/AmLNu/4HNcB4vOSVJYvpaAb3UnFXc15QRH1vLA
- EljxHIo4W5ZX9G24kQR05mb6DReldBs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1633685734;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oR5ZxFmRD6TdYNhetQCFxwhDU/NrhGPObfyDYCH99ok=;
- b=fYjrpVsWZZoOwsHwoguVQ2/H97P34vaDVD/u+4MAte468lwg1s25HiP+Rg0khWhf96D/2v
- Gqr+JDW5qDE5YmDA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB3E513EA2;
- Fri,  8 Oct 2021 09:35:33 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id K5ywMOUQYGGHBgAAMHmgww
- (envelope-from <tzimmermann@suse.de>); Fri, 08 Oct 2021 09:35:33 +0000
-Message-ID: <378933da-c49a-dc0d-a28f-c9c1ed502a49@suse.de>
-Date: Fri, 8 Oct 2021 11:35:33 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.1
-Subject: Re: [PATCH 1/5] dri: cleanup debugfs error handling
-Content-Language: en-US
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B2F1E6E0C4;
+ Fri,  8 Oct 2021 09:40:55 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226761956"
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="226761956"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 02:40:55 -0700
+X-IronPort-AV: E=Sophos;i="5.85,357,1624345200"; d="scan'208";a="489396522"
+Received: from ssedpiaz-mobl.ger.corp.intel.com (HELO localhost)
+ ([10.249.40.186])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 08 Oct 2021 02:40:51 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
 To: Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
+Cc: intel-gfx@lists.freedesktop.org, Nirmoy Das <nirmoy.das@amd.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-References: <20211008091704.27094-1-nirmoy.das@amd.com>
-From: Thomas Zimmermann <tzimmermann@suse.de>
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [Intel-gfx] [PATCH 1/5] dri: cleanup debugfs error handling
 In-Reply-To: <20211008091704.27094-1-nirmoy.das@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------k6YfyDe6B5eIPTxY9GNfpIWH"
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20211008091704.27094-1-nirmoy.das@amd.com>
+Date: Fri, 08 Oct 2021 12:40:47 +0300
+Message-ID: <87a6jjyhuo.fsf@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -76,161 +52,172 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------k6YfyDe6B5eIPTxY9GNfpIWH
-Content-Type: multipart/mixed; boundary="------------SkMpxEjqp5zDCd6hpQNHmy5s";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>
-Message-ID: <378933da-c49a-dc0d-a28f-c9c1ed502a49@suse.de>
-Subject: Re: [PATCH 1/5] dri: cleanup debugfs error handling
-References: <20211008091704.27094-1-nirmoy.das@amd.com>
-In-Reply-To: <20211008091704.27094-1-nirmoy.das@amd.com>
+On Fri, 08 Oct 2021, Nirmoy Das <nirmoy.das@amd.com> wrote:
+> Debugfs API returns encoded error instead of NULL.
+> This patch cleanups drm debugfs error handling to
+> properly set dri and its minor's root dentry to NULL.
+>
+> Also do not error out if dri/minor debugfs directory
+> creation fails as a debugfs error is not a fatal error.
 
---------------SkMpxEjqp5zDCd6hpQNHmy5s
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Cc: Greg
 
-SGkNCg0KQW0gMDguMTAuMjEgdW0gMTE6MTcgc2NocmllYiBOaXJtb3kgRGFzOg0KPiBEZWJ1
-Z2ZzIEFQSSByZXR1cm5zIGVuY29kZWQgZXJyb3IgaW5zdGVhZCBvZiBOVUxMLg0KPiBUaGlz
-IHBhdGNoIGNsZWFudXBzIGRybSBkZWJ1Z2ZzIGVycm9yIGhhbmRsaW5nIHRvDQo+IHByb3Bl
-cmx5IHNldCBkcmkgYW5kIGl0cyBtaW5vcidzIHJvb3QgZGVudHJ5IHRvIE5VTEwuDQo+IA0K
-PiBBbHNvIGRvIG5vdCBlcnJvciBvdXQgaWYgZHJpL21pbm9yIGRlYnVnZnMgZGlyZWN0b3J5
-DQo+IGNyZWF0aW9uIGZhaWxzIGFzIGEgZGVidWdmcyBlcnJvciBpcyBub3QgYSBmYXRhbCBl
-cnJvci4NCj4gDQo+IENDOiBNYWFydGVuIExhbmtob3JzdCA8bWFhcnRlbi5sYW5raG9yc3RA
-bGludXguaW50ZWwuY29tPg0KPiBDQzogTWF4aW1lIFJpcGFyZCA8bXJpcGFyZEBrZXJuZWwu
-b3JnPg0KPiBDQzogVGhvbWFzIFppbW1lcm1hbm4gPHR6aW1tZXJtYW5uQHN1c2UuZGU+DQo+
-IENDOiBEYXZpZCBBaXJsaWUgPGFpcmxpZWRAbGludXguaWU+DQo+IENDOiBEYW5pZWwgVmV0
-dGVyIDxkYW5pZWxAZmZ3bGwuY2g+DQo+IFNpZ25lZC1vZmYtYnk6IE5pcm1veSBEYXMgPG5p
-cm1veS5kYXNAYW1kLmNvbT4NCj4gLS0tDQo+ICAgZHJpdmVycy9ncHUvZHJtL2RybV9kZWJ1
-Z2ZzLmMgIHwgMjUgKysrKysrKysrKysrKysrKysrKysrKystLQ0KPiAgIGRyaXZlcnMvZ3B1
-L2RybS9kcm1fZHJ2LmMgICAgICB8IDE2ICsrKysrKysrKystLS0tLS0NCj4gICBkcml2ZXJz
-L2dwdS9kcm0vZHJtX2ludGVybmFsLmggfCAgNyArKystLS0tDQo+ICAgMyBmaWxlcyBjaGFu
-Z2VkLCAzNiBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9k
-cm1fZGVidWdmcy5jDQo+IGluZGV4IGIwYTgyNjQ4OTQ4OC4uYWYyNzVhMGMwOWI0IDEwMDY0
-NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYw0KPiArKysgYi9kcml2
-ZXJzL2dwdS9kcm0vZHJtX2RlYnVnZnMuYw0KPiBAQCAtMTgwLDYgKzE4MCw5IEBAIHZvaWQg
-ZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVzKGNvbnN0IHN0cnVjdCBkcm1faW5mb19saXN0ICpm
-aWxlcywgaW50IGNvdW50LA0KPiAgIAlzdHJ1Y3QgZHJtX2luZm9fbm9kZSAqdG1wOw0KPiAg
-IAlpbnQgaTsNCj4gDQo+ICsJaWYgKCFtaW5vci0+ZGVidWdmc19yb290KQ0KPiArCQlyZXR1
-cm47DQo+ICsNCj4gICAJZm9yIChpID0gMDsgaSA8IGNvdW50OyBpKyspIHsNCj4gICAJCXUz
-MiBmZWF0dXJlcyA9IGZpbGVzW2ldLmRyaXZlcl9mZWF0dXJlczsNCj4gDQo+IEBAIC0yMDMs
-NyArMjA2LDcgQEAgdm9pZCBkcm1fZGVidWdmc19jcmVhdGVfZmlsZXMoY29uc3Qgc3RydWN0
-IGRybV9pbmZvX2xpc3QgKmZpbGVzLCBpbnQgY291bnQsDQo+ICAgfQ0KPiAgIEVYUE9SVF9T
-WU1CT0woZHJtX2RlYnVnZnNfY3JlYXRlX2ZpbGVzKTsNCj4gDQo+IC1pbnQgZHJtX2RlYnVn
-ZnNfaW5pdChzdHJ1Y3QgZHJtX21pbm9yICptaW5vciwgaW50IG1pbm9yX2lkLA0KPiArdm9p
-ZCBkcm1fZGVidWdmc19pbml0KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yLCBpbnQgbWlub3Jf
-aWQsDQo+ICAgCQkgICAgIHN0cnVjdCBkZW50cnkgKnJvb3QpDQo+ICAgew0KPiAgIAlzdHJ1
-Y3QgZHJtX2RldmljZSAqZGV2ID0gbWlub3ItPmRldjsNCj4gQEAgLTIxMiw4ICsyMTUsMTYg
-QEAgaW50IGRybV9kZWJ1Z2ZzX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlub3IsIGludCBt
-aW5vcl9pZCwNCj4gICAJSU5JVF9MSVNUX0hFQUQoJm1pbm9yLT5kZWJ1Z2ZzX2xpc3QpOw0K
-PiAgIAltdXRleF9pbml0KCZtaW5vci0+ZGVidWdmc19sb2NrKTsNCj4gICAJc3ByaW50Zihu
-YW1lLCAiJWQiLCBtaW5vcl9pZCk7DQo+ICsNCj4gKwlpZiAoIXJvb3QpDQo+ICsJCWdvdG8g
-ZXJyb3I7DQo+ICsNCj4gICAJbWlub3ItPmRlYnVnZnNfcm9vdCA9IGRlYnVnZnNfY3JlYXRl
-X2RpcihuYW1lLCByb290KTsNCj4gDQo+ICsJaWYgKElTX0VSUihtaW5vci0+ZGVidWdmc19y
-b290KSkNCj4gKwkJZ290byBlcnJvcjsNCj4gKw0KPiArDQo+ICAgCWRybV9kZWJ1Z2ZzX2Ny
-ZWF0ZV9maWxlcyhkcm1fZGVidWdmc19saXN0LCBEUk1fREVCVUdGU19FTlRSSUVTLA0KPiAg
-IAkJCQkgbWlub3ItPmRlYnVnZnNfcm9vdCwgbWlub3IpOw0KPiANCj4gQEAgLTIzMCw3ICsy
-NDEsMTEgQEAgaW50IGRybV9kZWJ1Z2ZzX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlub3Is
-IGludCBtaW5vcl9pZCwNCj4gICAJaWYgKGRldi0+ZHJpdmVyLT5kZWJ1Z2ZzX2luaXQpDQo+
-ICAgCQlkZXYtPmRyaXZlci0+ZGVidWdmc19pbml0KG1pbm9yKTsNCj4gDQo+IC0JcmV0dXJu
-IDA7DQo+ICsJcmV0dXJuOw0KPiArDQo+ICtlcnJvcjoNCj4gKwltaW5vci0+ZGVidWdmc19y
-b290ID0gTlVMTDsNCj4gKwlyZXR1cm47DQo+ICAgfQ0KPiANCj4gDQo+IEBAIC0yNDEsNiAr
-MjU2LDkgQEAgaW50IGRybV9kZWJ1Z2ZzX3JlbW92ZV9maWxlcyhjb25zdCBzdHJ1Y3QgZHJt
-X2luZm9fbGlzdCAqZmlsZXMsIGludCBjb3VudCwNCj4gICAJc3RydWN0IGRybV9pbmZvX25v
-ZGUgKnRtcDsNCj4gICAJaW50IGk7DQo+IA0KPiArCWlmICghbWlub3ItPmRlYnVnZnNfcm9v
-dCkNCj4gKwkJcmV0dXJuIDA7DQo+ICsNCj4gICAJbXV0ZXhfbG9jaygmbWlub3ItPmRlYnVn
-ZnNfbG9jayk7DQo+ICAgCWZvciAoaSA9IDA7IGkgPCBjb3VudDsgaSsrKSB7DQo+ICAgCQls
-aXN0X2Zvcl9lYWNoX3NhZmUocG9zLCBxLCAmbWlub3ItPmRlYnVnZnNfbGlzdCkgew0KPiBA
-QCAtMjYxLDYgKzI3OSw5IEBAIHN0YXRpYyB2b2lkIGRybV9kZWJ1Z2ZzX3JlbW92ZV9hbGxf
-ZmlsZXMoc3RydWN0IGRybV9taW5vciAqbWlub3IpDQo+ICAgew0KPiAgIAlzdHJ1Y3QgZHJt
-X2luZm9fbm9kZSAqbm9kZSwgKnRtcDsNCj4gDQo+ICsJaWYgKCFtaW5vci0+ZGVidWdmc19y
-b290KQ0KPiArCQlyZXR1cm47DQo+ICsNCj4gICAJbXV0ZXhfbG9jaygmbWlub3ItPmRlYnVn
-ZnNfbG9jayk7DQo+ICAgCWxpc3RfZm9yX2VhY2hfZW50cnlfc2FmZShub2RlLCB0bXAsICZt
-aW5vci0+ZGVidWdmc19saXN0LCBsaXN0KSB7DQo+ICAgCQlkZWJ1Z2ZzX3JlbW92ZShub2Rl
-LT5kZW50KTsNCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMgYi9k
-cml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+IGluZGV4IDdhNTA5NzQ2N2JhNS4uZmE1N2Vj
-MmQ0OWJmIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0vZHJtX2Rydi5jDQo+ICsr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9kcm1fZHJ2LmMNCj4gQEAgLTE2MCwxMSArMTYwLDcgQEAg
-c3RhdGljIGludCBkcm1fbWlub3JfcmVnaXN0ZXIoc3RydWN0IGRybV9kZXZpY2UgKmRldiwg
-dW5zaWduZWQgaW50IHR5cGUpDQo+ICAgCWlmICghbWlub3IpDQo+ICAgCQlyZXR1cm4gMDsN
-Cj4gDQo+IC0JcmV0ID0gZHJtX2RlYnVnZnNfaW5pdChtaW5vciwgbWlub3ItPmluZGV4LCBk
-cm1fZGVidWdmc19yb290KTsNCj4gLQlpZiAocmV0KSB7DQo+IC0JCURSTV9FUlJPUigiRFJN
-OiBGYWlsZWQgdG8gaW5pdGlhbGl6ZSAvc3lzL2tlcm5lbC9kZWJ1Zy9kcmkuXG4iKTsNCg0K
-UmF0aGVyIHRoYW4gZGVsZXRpbmcgdGhlIGVycm9yIG1lc3NhZ2UsIHJldHVybiBhbiBlcnJv
-ciBjb2RlIGZyb20gDQpkcm1fZGVidWdmc19pbml0KCkgYW5kIHByaW50IGl0IGhlcmUuIEkn
-ZCBjaGFuZ2UgRFJNX0VSUk9SKCkgdG8gDQpkcm1fZGJnX2NvcmUoTlVMTCwgLi4uKS4NCg0K
-DQo+IC0JCWdvdG8gZXJyX2RlYnVnZnM7DQo+IC0JfQ0KPiArCWRybV9kZWJ1Z2ZzX2luaXQo
-bWlub3IsIG1pbm9yLT5pbmRleCwgZHJtX2RlYnVnZnNfcm9vdCk7DQo+IA0KPiAgIAlyZXQg
-PSBkZXZpY2VfYWRkKG1pbm9yLT5rZGV2KTsNCj4gICAJaWYgKHJldCkNCj4gQEAgLTEwNTAs
-NyArMTA0NiwxNSBAQCBzdGF0aWMgaW50IF9faW5pdCBkcm1fY29yZV9pbml0KHZvaWQpDQo+
-ICAgCQlnb3RvIGVycm9yOw0KPiAgIAl9DQo+IA0KPiAtCWRybV9kZWJ1Z2ZzX3Jvb3QgPSBk
-ZWJ1Z2ZzX2NyZWF0ZV9kaXIoImRyaSIsIE5VTEwpOw0KPiArCWlmICghZGVidWdmc19pbml0
-aWFsaXplZCgpKSB7DQo+ICsJCWRybV9kZWJ1Z2ZzX3Jvb3QgPSBOVUxMOw0KPiArCX0gZWxz
-ZSB7DQo+ICsJCWRybV9kZWJ1Z2ZzX3Jvb3QgPSBkZWJ1Z2ZzX2NyZWF0ZV9kaXIoImRyaSIs
-IE5VTEwpOw0KPiArCQlpZiAoSVNfRVJSKGRybV9kZWJ1Z2ZzX3Jvb3QpKSB7DQo+ICsJCQlE
-Uk1fV0FSTigiRFJNOiBGYWlsZWQgdG8gaW5pdGlhbGl6ZSAvc3lzL2tlcm5lbC9kZWJ1Zy9k
-cmkuXG4iKTsNCg0KVGhpcyBzaG91bGQgYWxzbyBwcmludCB0aGUgZXJyb3IgY29kZS4gSSdk
-IGFsc28gY2hhbmdlIHRoZSBjYWxsIHRvIA0KZHJtX2RiZ19jb3JlKCkuIFRoZSBtZXNzYWdl
-IHNob3VsZCBzYXkgJ2ZhaWxlZCB0byBjcmVhdGUnLCBzbyBpdCdzIA0KZGlmZmVybnQgZnJv
-bSB0aGUgb3RoZXIgb25lLg0KDQpCZXN0IHJlZ2FyZHMNClRob21hcw0KDQo+ICsJCQlkcm1f
-ZGVidWdmc19yb290ID0gTlVMTDsNCj4gKwkJfQ0KPiArCX0NCj4gDQo+ICAgCXJldCA9IHJl
-Z2lzdGVyX2NocmRldihEUk1fTUFKT1IsICJkcm0iLCAmZHJtX3N0dWJfZm9wcyk7DQo+ICAg
-CWlmIChyZXQgPCAwKQ0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJtL2RybV9pbnRl
-cm5hbC5oIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pbnRlcm5hbC5oDQo+IGluZGV4IDE3ZjM1
-NDhjOGVkMi4uZTI3YTQwMTY2MTc4IDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL2dwdS9kcm0v
-ZHJtX2ludGVybmFsLmgNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJtL2RybV9pbnRlcm5hbC5o
-DQo+IEBAIC0xODIsOCArMTgyLDggQEAgaW50IGRybV9nZW1fZHVtYl9kZXN0cm95KHN0cnVj
-dCBkcm1fZmlsZSAqZmlsZSwgc3RydWN0IGRybV9kZXZpY2UgKmRldiwNCj4gDQo+ICAgLyog
-ZHJtX2RlYnVnZnMuYyBkcm1fZGVidWdmc19jcmMuYyAqLw0KPiAgICNpZiBkZWZpbmVkKENP
-TkZJR19ERUJVR19GUykNCj4gLWludCBkcm1fZGVidWdmc19pbml0KHN0cnVjdCBkcm1fbWlu
-b3IgKm1pbm9yLCBpbnQgbWlub3JfaWQsDQo+IC0JCSAgICAgc3RydWN0IGRlbnRyeSAqcm9v
-dCk7DQo+ICt2b2lkIGRybV9kZWJ1Z2ZzX2luaXQoc3RydWN0IGRybV9taW5vciAqbWlub3Is
-IGludCBtaW5vcl9pZCwNCj4gKwkJICAgICAgc3RydWN0IGRlbnRyeSAqcm9vdCk7DQo+ICAg
-dm9pZCBkcm1fZGVidWdmc19jbGVhbnVwKHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yKTsNCj4g
-ICB2b2lkIGRybV9kZWJ1Z2ZzX2Nvbm5lY3Rvcl9hZGQoc3RydWN0IGRybV9jb25uZWN0b3Ig
-KmNvbm5lY3Rvcik7DQo+ICAgdm9pZCBkcm1fZGVidWdmc19jb25uZWN0b3JfcmVtb3ZlKHN0
-cnVjdCBkcm1fY29ubmVjdG9yICpjb25uZWN0b3IpOw0KPiBAQCAtMTkxLDEwICsxOTEsOSBA
-QCB2b2lkIGRybV9kZWJ1Z2ZzX2NydGNfYWRkKHN0cnVjdCBkcm1fY3J0YyAqY3J0Yyk7DQo+
-ICAgdm9pZCBkcm1fZGVidWdmc19jcnRjX3JlbW92ZShzdHJ1Y3QgZHJtX2NydGMgKmNydGMp
-Ow0KPiAgIHZvaWQgZHJtX2RlYnVnZnNfY3J0Y19jcmNfYWRkKHN0cnVjdCBkcm1fY3J0YyAq
-Y3J0Yyk7DQo+ICAgI2Vsc2UNCj4gLXN0YXRpYyBpbmxpbmUgaW50IGRybV9kZWJ1Z2ZzX2lu
-aXQoc3RydWN0IGRybV9taW5vciAqbWlub3IsIGludCBtaW5vcl9pZCwNCj4gK3N0YXRpYyBp
-bmxpbmUgdm9pZCBkcm1fZGVidWdmc19pbml0KHN0cnVjdCBkcm1fbWlub3IgKm1pbm9yLCBp
-bnQgbWlub3JfaWQsDQo+ICAgCQkJCSAgIHN0cnVjdCBkZW50cnkgKnJvb3QpDQo+ICAgew0K
-PiAtCXJldHVybiAwOw0KPiAgIH0NCj4gDQo+ICAgc3RhdGljIGlubGluZSB2b2lkIGRybV9k
-ZWJ1Z2ZzX2NsZWFudXAoc3RydWN0IGRybV9taW5vciAqbWlub3IpDQo+IC0tDQo+IDIuMzIu
-MA0KPiANCg0KLS0gDQpUaG9tYXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVs
-b3Blcg0KU1VTRSBTb2Z0d2FyZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpNYXhmZWxkc3Ry
-LiA1LCA5MDQwOSBOw7xybmJlcmcsIEdlcm1hbnkNCihIUkIgMzY4MDksIEFHIE7DvHJuYmVy
-ZykNCkdlc2Now6RmdHNmw7xocmVyOiBGZWxpeCBJbWVuZMO2cmZmZXINCg==
+I thought this is the opposite of what Greg's been telling everyone to
+do with debugfs.
 
---------------SkMpxEjqp5zDCd6hpQNHmy5s--
+BR,
+Jani.
 
---------------k6YfyDe6B5eIPTxY9GNfpIWH
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+>
+> CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> CC: Maxime Ripard <mripard@kernel.org>
+> CC: Thomas Zimmermann <tzimmermann@suse.de>
+> CC: David Airlie <airlied@linux.ie>
+> CC: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
+> ---
+>  drivers/gpu/drm/drm_debugfs.c  | 25 +++++++++++++++++++++++--
+>  drivers/gpu/drm/drm_drv.c      | 16 ++++++++++------
+>  drivers/gpu/drm/drm_internal.h |  7 +++----
+>  3 files changed, 36 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_debugfs.c b/drivers/gpu/drm/drm_debugfs.c
+> index b0a826489488..af275a0c09b4 100644
+> --- a/drivers/gpu/drm/drm_debugfs.c
+> +++ b/drivers/gpu/drm/drm_debugfs.c
+> @@ -180,6 +180,9 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
+>  	struct drm_info_node *tmp;
+>  	int i;
+>
+> +	if (!minor->debugfs_root)
+> +		return;
+> +
+>  	for (i = 0; i < count; i++) {
+>  		u32 features = files[i].driver_features;
+>
+> @@ -203,7 +206,7 @@ void drm_debugfs_create_files(const struct drm_info_list *files, int count,
+>  }
+>  EXPORT_SYMBOL(drm_debugfs_create_files);
+>
+> -int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+> +void drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>  		     struct dentry *root)
+>  {
+>  	struct drm_device *dev = minor->dev;
+> @@ -212,8 +215,16 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>  	INIT_LIST_HEAD(&minor->debugfs_list);
+>  	mutex_init(&minor->debugfs_lock);
+>  	sprintf(name, "%d", minor_id);
+> +
+> +	if (!root)
+> +		goto error;
+> +
+>  	minor->debugfs_root = debugfs_create_dir(name, root);
+>
+> +	if (IS_ERR(minor->debugfs_root))
+> +		goto error;
+> +
+> +
+>  	drm_debugfs_create_files(drm_debugfs_list, DRM_DEBUGFS_ENTRIES,
+>  				 minor->debugfs_root, minor);
+>
+> @@ -230,7 +241,11 @@ int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>  	if (dev->driver->debugfs_init)
+>  		dev->driver->debugfs_init(minor);
+>
+> -	return 0;
+> +	return;
+> +
+> +error:
+> +	minor->debugfs_root = NULL;
+> +	return;
+>  }
+>
+>
+> @@ -241,6 +256,9 @@ int drm_debugfs_remove_files(const struct drm_info_list *files, int count,
+>  	struct drm_info_node *tmp;
+>  	int i;
+>
+> +	if (!minor->debugfs_root)
+> +		return 0;
+> +
+>  	mutex_lock(&minor->debugfs_lock);
+>  	for (i = 0; i < count; i++) {
+>  		list_for_each_safe(pos, q, &minor->debugfs_list) {
+> @@ -261,6 +279,9 @@ static void drm_debugfs_remove_all_files(struct drm_minor *minor)
+>  {
+>  	struct drm_info_node *node, *tmp;
+>
+> +	if (!minor->debugfs_root)
+> +		return;
+> +
+>  	mutex_lock(&minor->debugfs_lock);
+>  	list_for_each_entry_safe(node, tmp, &minor->debugfs_list, list) {
+>  		debugfs_remove(node->dent);
+> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> index 7a5097467ba5..fa57ec2d49bf 100644
+> --- a/drivers/gpu/drm/drm_drv.c
+> +++ b/drivers/gpu/drm/drm_drv.c
+> @@ -160,11 +160,7 @@ static int drm_minor_register(struct drm_device *dev, unsigned int type)
+>  	if (!minor)
+>  		return 0;
+>
+> -	ret = drm_debugfs_init(minor, minor->index, drm_debugfs_root);
+> -	if (ret) {
+> -		DRM_ERROR("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+> -		goto err_debugfs;
+> -	}
+> +	drm_debugfs_init(minor, minor->index, drm_debugfs_root);
+>
+>  	ret = device_add(minor->kdev);
+>  	if (ret)
+> @@ -1050,7 +1046,15 @@ static int __init drm_core_init(void)
+>  		goto error;
+>  	}
+>
+> -	drm_debugfs_root = debugfs_create_dir("dri", NULL);
+> +	if (!debugfs_initialized()) {
+> +		drm_debugfs_root = NULL;
+> +	} else {
+> +		drm_debugfs_root = debugfs_create_dir("dri", NULL);
+> +		if (IS_ERR(drm_debugfs_root)) {
+> +			DRM_WARN("DRM: Failed to initialize /sys/kernel/debug/dri.\n");
+> +			drm_debugfs_root = NULL;
+> +		}
+> +	}
+>
+>  	ret = register_chrdev(DRM_MAJOR, "drm", &drm_stub_fops);
+>  	if (ret < 0)
+> diff --git a/drivers/gpu/drm/drm_internal.h b/drivers/gpu/drm/drm_internal.h
+> index 17f3548c8ed2..e27a40166178 100644
+> --- a/drivers/gpu/drm/drm_internal.h
+> +++ b/drivers/gpu/drm/drm_internal.h
+> @@ -182,8 +182,8 @@ int drm_gem_dumb_destroy(struct drm_file *file, struct drm_device *dev,
+>
+>  /* drm_debugfs.c drm_debugfs_crc.c */
+>  #if defined(CONFIG_DEBUG_FS)
+> -int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+> -		     struct dentry *root);
+> +void drm_debugfs_init(struct drm_minor *minor, int minor_id,
+> +		      struct dentry *root);
+>  void drm_debugfs_cleanup(struct drm_minor *minor);
+>  void drm_debugfs_connector_add(struct drm_connector *connector);
+>  void drm_debugfs_connector_remove(struct drm_connector *connector);
+> @@ -191,10 +191,9 @@ void drm_debugfs_crtc_add(struct drm_crtc *crtc);
+>  void drm_debugfs_crtc_remove(struct drm_crtc *crtc);
+>  void drm_debugfs_crtc_crc_add(struct drm_crtc *crtc);
+>  #else
+> -static inline int drm_debugfs_init(struct drm_minor *minor, int minor_id,
+> +static inline void drm_debugfs_init(struct drm_minor *minor, int minor_id,
+>  				   struct dentry *root)
+>  {
+> -	return 0;
+>  }
+>
+>  static inline void drm_debugfs_cleanup(struct drm_minor *minor)
+> --
+> 2.32.0
+>
 
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmFgEOUFAwAAAAAACgkQlh/E3EQov+DP
-mBAAuwNluYT3lfVFEwHXQbKS2vW5aLZC+hu8CxF3MnyLYzeENoWzYgGE6IeNcEZdLgchCR3b5O9a
-mQ7SwHSsmBvhCtDvbTchtWplDhmwIiZ34Ogdb3sAl7RX/4eCsmWJ+2BRC2VhYCIcKZagbbxKI5SX
-yjcSViOlNAW/eJ003rs/5e6uJhCHwrrHQlzS0xMZDScL2rdm6ZGUxuaf60+ugHiNBqpTaNJ1f60l
-3ZPNJnquCKpobcdL0a9JvEH/2UuMXryHHz0IGkFkwUdwZsf12R0p3h+uyJ4yLZyWRlP1wd9+ZLSs
-MP3ghaXDzBGgpkEExRiUheLzpJRdixAhybPCYnjk5u7xNbbxMRYlxWFKO1rn4ftc5ZRr4931HW7e
-/7fIwEpx4DkREPIjrBqs+Gl9vygQRJDyxCjQSjk+2A5bNml9b5KLIA62XPDxV2I3ebF+MbP3XKm6
-SawdcxY7kytyUO5ASBQ0zMAPMYCArEoROb9/dKUqwW4kz8ffGsdznD7xOZWgbjgs2Ulw9lM5jCJU
-cwZEIBoudBCshkJboKppntRl+agAEIvQF3CibUywMQkcZfQMpldD5a1rB8SsgvndJ32GhtuP+pw7
-f51IbmOIy3+bsUs/iK9c08GrbLdn24meKT3tpLPL8nOgx1aBKPq2GNWHyKvpT8Ytv7T+hsfKgbIt
-XYU=
-=7Hgb
------END PGP SIGNATURE-----
-
---------------k6YfyDe6B5eIPTxY9GNfpIWH--
+-- 
+Jani Nikula, Intel Open Source Graphics Center
