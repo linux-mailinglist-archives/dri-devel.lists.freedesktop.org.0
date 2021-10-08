@@ -2,44 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C117A426206
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6374E4261AA
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:24:10 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890E06E063;
-	Fri,  8 Oct 2021 01:28:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 67DB86E05C;
+	Fri,  8 Oct 2021 01:24:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by gabe.freedesktop.org (Postfix) with ESMTPS id CFF866E061;
- Fri,  8 Oct 2021 01:28:46 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10130"; a="226311163"
-X-IronPort-AV: E=Sophos;i="5.85,356,1624345200"; d="scan'208";a="226311163"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 18:28:44 -0700
-X-IronPort-AV: E=Sophos;i="5.85,356,1624345200"; d="scan'208";a="484849549"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 07 Oct 2021 18:28:45 -0700
-Date: Thu, 7 Oct 2021 18:23:58 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com
-Subject: Re: [PATCH 03/26] drm/i915/guc: Take engine PM when a context is
- pinned with GuC submission
-Message-ID: <20211008012358.GA30078@jons-linux-dev-box>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-4-matthew.brost@intel.com>
- <a2d5377a-ec8e-40ec-d0cf-c91aa51bba48@intel.com>
- <20211007151947.GA27846@jons-linux-dev-box>
- <6b47737d-9708-1055-197a-de9609ca5481@intel.com>
+Received: from mail-oi1-x229.google.com (mail-oi1-x229.google.com
+ [IPv6:2607:f8b0:4864:20::229])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D54526E05F
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 01:24:04 +0000 (UTC)
+Received: by mail-oi1-x229.google.com with SMTP id y207so8463604oia.11
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 18:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:in-reply-to:references:from:user-agent:date:message-id
+ :subject:to:cc;
+ bh=naG1P+MZ79esuZZtF4hMLGLIc5QCJUK3N1b3eboxXww=;
+ b=AeoKT6PhHNW1H+jjEz0WRm7QsKDIw2r9uDW8cmImCp6oNqJQEfV7B5dnkPNljyhMyI
+ 9L1wWLtJRw2kOFJtji2bs6M4Beav2bPeAYCyttEMkPZv3cBVsQcz0BIB7PHcoHoJ4gIu
+ qxHqzKAWcNYfnDYcmi9gv+3MVqTtYh9/pQ5No=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from
+ :user-agent:date:message-id:subject:to:cc;
+ bh=naG1P+MZ79esuZZtF4hMLGLIc5QCJUK3N1b3eboxXww=;
+ b=SwIBS4kuAcb557tZgVUzu/s77U8adqFU1MuGQNRKofcXUXlhCL6rrG/0Y1rE0qFCv/
+ et3d6elci2RoN2YmsyDjK+zlA2JM5QqAbBo8ZcQ3/pNYnAVbpA3PAd066TTIiZFhL1a3
+ 66hJTNX1JJ75+FKzKxTI4KxbMNDE5fyFgcpNwnEcFvHSsZIGF3iUq4TrpBN1bEkTEMQC
+ XABLpTG1pPB3YvQzVnFM9UIC+FT9XR6OOTgAM2Rc8zCppXLTDPz6LV+Wq1WHQZwfcf4D
+ foCBElV+gX4l1jY2z3KAKmNuTmMe+V979IS/lVUMV/ytF/S6XX/aSxlackJfgAKsYgUk
+ Jbpw==
+X-Gm-Message-State: AOAM530RODaYeGXAYpdvW3xfodMkkpHjCAOQeciz/z+Ylllg/3dxgpAc
+ xkIK5lGTMDQT56b5IuudoQrwfYeOLJh/qu+IbcvmeA==
+X-Google-Smtp-Source: ABdhPJxZpYNZdTIYUswnJFAZN5d8OgMx7wQAnRve3zAEDw9kNgGvNb0KWpe4QGeS/wAmqHDijcq6btR/ht/K/Y5dYwo=
+X-Received: by 2002:a05:6808:f8f:: with SMTP id
+ o15mr14247028oiw.164.1633656244097; 
+ Thu, 07 Oct 2021 18:24:04 -0700 (PDT)
+Received: from 753933720722 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 7 Oct 2021 21:24:03 -0400
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6b47737d-9708-1055-197a-de9609ca5481@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+In-Reply-To: <CAGETcx_0GRg7u3dAxP9u0qO-hfJ0N3V44CGLwFFX1kVxZ00g+w@mail.gmail.com>
+References: <20211006193819.2654854-1-swboyd@chromium.org>
+ <20211006193819.2654854-3-swboyd@chromium.org>
+ <CAGETcx9T59dHXodt9MW=tTV_hYhtNOZzYFT=35D--VN7WJ0GqQ@mail.gmail.com>
+ <CAE-0n50YqKr1nKy-4WaxsfuwPiJ5kZcf46t-U_4i-TpfXzOX1g@mail.gmail.com>
+ <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
+ <CAGETcx_0GRg7u3dAxP9u0qO-hfJ0N3V44CGLwFFX1kVxZ00g+w@mail.gmail.com>
+From: Stephen Boyd <swboyd@chromium.org>
+User-Agent: alot/0.9.1
+Date: Thu, 7 Oct 2021 21:24:03 -0400
+Message-ID: <CAE-0n52ytNtf5atojYrLviuAKOt3v+mLVoPeqtRUf-6uBpkiJA@mail.gmail.com>
+Subject: Re: [PATCH v2 02/34] component: Introduce the aggregate bus_type
+To: Saravana Kannan <saravanak@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,240 +77,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Oct 07, 2021 at 11:15:51AM -0700, John Harrison wrote:
-> On 10/7/2021 08:19, Matthew Brost wrote:
-> > On Wed, Oct 06, 2021 at 08:45:42PM -0700, John Harrison wrote:
-> > > On 10/4/2021 15:06, Matthew Brost wrote:
-> > > > Taking a PM reference to prevent intel_gt_wait_for_idle from short
-> > > > circuiting while a scheduling of user context could be enabled.
-> > > I'm not sure what 'while a scheduling of user context could be enabled'
-> > > means.
-> > > 
-> > Not really sure how this isn't clear.
-> > 
-> > It means if a user context has scheduling enabled this function cannot
-> > short circuit returning idle.
-> > 
-> > Matt
-> Okay. The 'a scheduling' was throwing me off. And I was reading 'could be
-> enabled' as saying something that might happen in the future. English is
-> great at being ambiguous ;). Maybe 'while any user context has scheduling
-> enabled' would be simpler?
-> 
+Quoting Saravana Kannan (2021-10-07 18:10:24)
+> On Thu, Oct 7, 2021 at 1:11 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> >
+> > Quoting Stephen Boyd (2021-10-07 11:40:07)
+> > > Quoting Saravana Kannan (2021-10-06 20:07:11)
+> > > > On Wed, Oct 6, 2021 at 12:38 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > > > > diff --git a/drivers/base/component.c b/drivers/base/component.c
+> > > > > index 0a41bbe14981..d99e99cabb99 100644
+> > > > > --- a/drivers/base/component.c
+> > > > > +++ b/drivers/base/component.c
+> > > [...]
+> > > > > +                       continue;
+> > > > > +
+> > > > > +               /* Matches put in component_del() */
+> > > > > +               get_device(&adev->dev);
+> > > > > +               c->link = device_link_add(&adev->dev, c->dev,
+> > > > > +                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+> > > >
+> > > > Remove the STATELESS flag and you'll get a bunch of other stuff done for free:
+> > >
+> > > I tried that and it didn't work for me. The aggregate device never
+> > > probed and I was left with no display. Let me see if I can reproduce it
+> > > with logging to provide more details.
+> >
+> > This patch fixes it (whitespace damaged sorry).
+>
+> Not sure why you have to trigger an explicit rescan, but instead of
+> this patch below, you could also try setting this flag instead?
+> DL_FLAG_AUTOPROBE_CONSUMER
+>
 
-Sure.
+I'd rather not conflate component driver probe with component_add()
+being called. It's simpler if that is the case, i.e. all component
+drivers are calling component_add() in their driver probe routine, but I
+don't know if that's always true. I did this poor audit of the kernel
 
-Matt
+$ git grep -p \[^_]component_add | grep \.c=  | grep -v probe
+drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c=static int
+amdgpu_dm_audio_init(struct amdgpu_device *adev)
+drivers/gpu/drm/i915/display/intel_audio.c=static void
+i915_audio_component_init(struct drm_i915_private *dev_priv)
+drivers/gpu/drm/i915/display/intel_hdcp.c=void
+intel_hdcp_component_init(struct drm_i915_private *dev_priv)
+drivers/gpu/drm/nouveau/dispnv50/disp.c=nv50_audio_component_init(struct
+nouveau_drm *drm)
+drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c=static int
+dw_mipi_dsi_rockchip_host_attach(void *priv_data,
+drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c=static int
+dw_mipi_dsi_dphy_init(struct phy *phy)
+drivers/gpu/drm/vc4/vc4_dsi.c=static int vc4_dsi_host_attach(struct
+mipi_dsi_host *host,
 
-> John.
-> 
-> > > John.
-> > > 
-> > > > Returning GT idle when it is not can cause all sorts of issues
-> > > > throughout the stack.
-> > > > 
-> > > > v2:
-> > > >    (Daniel Vetter)
-> > > >     - Add might_lock annotations to pin / unpin function
-> > > > v3:
-> > > >    (CI)
-> > > >     - Drop intel_engine_pm_might_put from unpin path as an async put is
-> > > >       used
-> > > > v4:
-> > > >    (John Harrison)
-> > > >     - Make intel_engine_pm_might_get/put work with GuC virtual engines
-> > > >     - Update commit message
-> > > > 
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > ---
-> > > >    drivers/gpu/drm/i915/gt/intel_context.c       |  2 ++
-> > > >    drivers/gpu/drm/i915/gt/intel_engine_pm.h     | 32 +++++++++++++++++
-> > > >    drivers/gpu/drm/i915/gt/intel_gt_pm.h         | 10 ++++++
-> > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 36 +++++++++++++++++--
-> > > >    drivers/gpu/drm/i915/intel_wakeref.h          | 12 +++++++
-> > > >    5 files changed, 89 insertions(+), 3 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > index 1076066f41e0..f601323b939f 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_context.c
-> > > > @@ -240,6 +240,8 @@ int __intel_context_do_pin_ww(struct intel_context *ce,
-> > > >    	if (err)
-> > > >    		goto err_post_unpin;
-> > > > +	intel_engine_pm_might_get(ce->engine);
-> > > > +
-> > > >    	if (unlikely(intel_context_is_closed(ce))) {
-> > > >    		err = -ENOENT;
-> > > >    		goto err_unlock;
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> > > > index 6fdeae668e6e..d68675925b79 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-> > > > @@ -6,9 +6,11 @@
-> > > >    #ifndef INTEL_ENGINE_PM_H
-> > > >    #define INTEL_ENGINE_PM_H
-> > > > +#include "i915_drv.h"
-> > > >    #include "i915_request.h"
-> > > >    #include "intel_engine_types.h"
-> > > >    #include "intel_wakeref.h"
-> > > > +#include "intel_gt_pm.h"
-> > > >    static inline bool
-> > > >    intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
-> > > > @@ -31,6 +33,21 @@ static inline bool intel_engine_pm_get_if_awake(struct intel_engine_cs *engine)
-> > > >    	return intel_wakeref_get_if_active(&engine->wakeref);
-> > > >    }
-> > > > +static inline void intel_engine_pm_might_get(struct intel_engine_cs *engine)
-> > > > +{
-> > > > +	if (!intel_engine_is_virtual(engine)) {
-> > > > +		intel_wakeref_might_get(&engine->wakeref);
-> > > > +	} else {
-> > > > +		struct intel_gt *gt = engine->gt;
-> > > > +		struct intel_engine_cs *tengine;
-> > > > +		intel_engine_mask_t tmp, mask = engine->mask;
-> > > > +
-> > > > +		for_each_engine_masked(tengine, gt, mask, tmp)
-> > > > +			intel_wakeref_might_get(&tengine->wakeref);
-> > > > +	}
-> > > > +	intel_gt_pm_might_get(engine->gt);
-> > > > +}
-> > > > +
-> > > >    static inline void intel_engine_pm_put(struct intel_engine_cs *engine)
-> > > >    {
-> > > >    	intel_wakeref_put(&engine->wakeref);
-> > > > @@ -52,6 +69,21 @@ static inline void intel_engine_pm_flush(struct intel_engine_cs *engine)
-> > > >    	intel_wakeref_unlock_wait(&engine->wakeref);
-> > > >    }
-> > > > +static inline void intel_engine_pm_might_put(struct intel_engine_cs *engine)
-> > > > +{
-> > > > +	if (!intel_engine_is_virtual(engine)) {
-> > > > +		intel_wakeref_might_put(&engine->wakeref);
-> > > > +	} else {
-> > > > +		struct intel_gt *gt = engine->gt;
-> > > > +		struct intel_engine_cs *tengine;
-> > > > +		intel_engine_mask_t tmp, mask = engine->mask;
-> > > > +
-> > > > +		for_each_engine_masked(tengine, gt, mask, tmp)
-> > > > +			intel_wakeref_might_put(&tengine->wakeref);
-> > > > +	}
-> > > > +	intel_gt_pm_might_put(engine->gt);
-> > > > +}
-> > > > +
-> > > >    static inline struct i915_request *
-> > > >    intel_engine_create_kernel_request(struct intel_engine_cs *engine)
-> > > >    {
-> > > > diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-> > > > index 05de6c1af25b..bc898df7a48c 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-> > > > @@ -31,6 +31,11 @@ static inline bool intel_gt_pm_get_if_awake(struct intel_gt *gt)
-> > > >    	return intel_wakeref_get_if_active(&gt->wakeref);
-> > > >    }
-> > > > +static inline void intel_gt_pm_might_get(struct intel_gt *gt)
-> > > > +{
-> > > > +	intel_wakeref_might_get(&gt->wakeref);
-> > > > +}
-> > > > +
-> > > >    static inline void intel_gt_pm_put(struct intel_gt *gt)
-> > > >    {
-> > > >    	intel_wakeref_put(&gt->wakeref);
-> > > > @@ -41,6 +46,11 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
-> > > >    	intel_wakeref_put_async(&gt->wakeref);
-> > > >    }
-> > > > +static inline void intel_gt_pm_might_put(struct intel_gt *gt)
-> > > > +{
-> > > > +	intel_wakeref_might_put(&gt->wakeref);
-> > > > +}
-> > > > +
-> > > >    #define with_intel_gt_pm(gt, tmp) \
-> > > >    	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
-> > > >    	     intel_gt_pm_put(gt), tmp = 0)
-> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > index 17da2fea1bff..8b82da50c2bc 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > @@ -1571,7 +1571,12 @@ static int guc_context_pre_pin(struct intel_context *ce,
-> > > >    static int guc_context_pin(struct intel_context *ce, void *vaddr)
-> > > >    {
-> > > > -	return __guc_context_pin(ce, ce->engine, vaddr);
-> > > > +	int ret = __guc_context_pin(ce, ce->engine, vaddr);
-> > > > +
-> > > > +	if (likely(!ret && !intel_context_is_barrier(ce)))
-> > > > +		intel_engine_pm_get(ce->engine);
-> > > > +
-> > > > +	return ret;
-> > > >    }
-> > > >    static void guc_context_unpin(struct intel_context *ce)
-> > > > @@ -1580,6 +1585,9 @@ static void guc_context_unpin(struct intel_context *ce)
-> > > >    	unpin_guc_id(guc, ce);
-> > > >    	lrc_unpin(ce);
-> > > > +
-> > > > +	if (likely(!intel_context_is_barrier(ce)))
-> > > > +		intel_engine_pm_put_async(ce->engine);
-> > > >    }
-> > > >    static void guc_context_post_unpin(struct intel_context *ce)
-> > > > @@ -2341,8 +2349,30 @@ static int guc_virtual_context_pre_pin(struct intel_context *ce,
-> > > >    static int guc_virtual_context_pin(struct intel_context *ce, void *vaddr)
-> > > >    {
-> > > >    	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> > > > +	int ret = __guc_context_pin(ce, engine, vaddr);
-> > > > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> > > > +
-> > > > +	if (likely(!ret))
-> > > > +		for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> > > > +			intel_engine_pm_get(engine);
-> > > > -	return __guc_context_pin(ce, engine, vaddr);
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static void guc_virtual_context_unpin(struct intel_context *ce)
-> > > > +{
-> > > > +	intel_engine_mask_t tmp, mask = ce->engine->mask;
-> > > > +	struct intel_engine_cs *engine;
-> > > > +	struct intel_guc *guc = ce_to_guc(ce);
-> > > > +
-> > > > +	GEM_BUG_ON(context_enabled(ce));
-> > > > +	GEM_BUG_ON(intel_context_is_barrier(ce));
-> > > > +
-> > > > +	unpin_guc_id(guc, ce);
-> > > > +	lrc_unpin(ce);
-> > > > +
-> > > > +	for_each_engine_masked(engine, ce->engine->gt, mask, tmp)
-> > > > +		intel_engine_pm_put_async(engine);
-> > > >    }
-> > > >    static void guc_virtual_context_enter(struct intel_context *ce)
-> > > > @@ -2379,7 +2409,7 @@ static const struct intel_context_ops virtual_guc_context_ops = {
-> > > >    	.pre_pin = guc_virtual_context_pre_pin,
-> > > >    	.pin = guc_virtual_context_pin,
-> > > > -	.unpin = guc_context_unpin,
-> > > > +	.unpin = guc_virtual_context_unpin,
-> > > >    	.post_unpin = guc_context_post_unpin,
-> > > >    	.ban = guc_context_ban,
-> > > > diff --git a/drivers/gpu/drm/i915/intel_wakeref.h b/drivers/gpu/drm/i915/intel_wakeref.h
-> > > > index 545c8f277c46..4f4c2e15e736 100644
-> > > > --- a/drivers/gpu/drm/i915/intel_wakeref.h
-> > > > +++ b/drivers/gpu/drm/i915/intel_wakeref.h
-> > > > @@ -123,6 +123,12 @@ enum {
-> > > >    	__INTEL_WAKEREF_PUT_LAST_BIT__
-> > > >    };
-> > > > +static inline void
-> > > > +intel_wakeref_might_get(struct intel_wakeref *wf)
-> > > > +{
-> > > > +	might_lock(&wf->mutex);
-> > > > +}
-> > > > +
-> > > >    /**
-> > > >     * intel_wakeref_put_flags: Release the wakeref
-> > > >     * @wf: the wakeref
-> > > > @@ -170,6 +176,12 @@ intel_wakeref_put_delay(struct intel_wakeref *wf, unsigned long delay)
-> > > >    			    FIELD_PREP(INTEL_WAKEREF_PUT_DELAY, delay));
-> > > >    }
-> > > > +static inline void
-> > > > +intel_wakeref_might_put(struct intel_wakeref *wf)
-> > > > +{
-> > > > +	might_lock(&wf->mutex);
-> > > > +}
-> > > > +
-> > > >    /**
-> > > >     * intel_wakeref_lock: Lock the wakeref (mutex)
-> > > >     * @wf: the wakeref
-> 
+and then peeking at rockchip above I see that component_add() is called
+in the mipi dsi attach ops and then I got lost trying to figure out
+where it ends up. Maybe it is still in some probe call?
+
+Anyway, I think we still have to do a rescan so that we can try to bind
+the aggregate device. Is there a better API to use for that?
