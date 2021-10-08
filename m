@@ -2,48 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F9EC426149
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 02:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82CFE42619B
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 03:11:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 928FD6E053;
-	Fri,  8 Oct 2021 00:27:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0E6F6E05D;
+	Fri,  8 Oct 2021 01:11:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 4699 seconds by postgrey-1.36 at gabe;
- Fri, 08 Oct 2021 00:27:45 UTC
-Received: from 2.mo177.mail-out.ovh.net (2.mo177.mail-out.ovh.net
- [178.33.109.80])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7721E6E053
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 00:27:45 +0000 (UTC)
-Received: from player711.ha.ovh.net (unknown [10.110.103.195])
- by mo177.mail-out.ovh.net (Postfix) with ESMTP id 608C7174FE2
- for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 01:09:24 +0200 (CEST)
-Received: from etezian.org (unknown [31.22.59.2])
- (Authenticated sender: andi@etezian.org)
- by player711.ha.ovh.net (Postfix) with ESMTPSA id 4176B22D33013;
- Thu,  7 Oct 2021 23:09:16 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass
- (GARM-105G006f2aba140-9aaa-469e-badb-23d328ce0857,
- 8790DCEDFF6AD8C831A06EBEA49B55E03DAFB6BE) smtp.auth=andi@etezian.org
-X-OVh-ClientIp: 31.22.59.2
-From: Andi Shyti <andi@etezian.org>
-To: Intel GFX <intel-gfx@lists.freedesktop.org>,
- DRI Devel <dri-devel@lists.freedesktop.org>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Chris Wilson <chris@chris-wilson.co.uk>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Andi Shyti <andi.shyti@intel.com>, Andi Shyti <andi@etezian.org>
-Subject: [PATCH v2] drm/i915/gt: move remaining debugfs interfaces into gt
-Date: Fri,  8 Oct 2021 01:09:03 +0200
-Message-Id: <20211007230903.4084-1-andi@etezian.org>
-X-Mailer: git-send-email 2.33.0
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com
+ [IPv6:2607:f8b0:4864:20::b29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 655266E05D
+ for <dri-devel@lists.freedesktop.org>; Fri,  8 Oct 2021 01:11:01 +0000 (UTC)
+Received: by mail-yb1-xb29.google.com with SMTP id w10so17475717ybt.4
+ for <dri-devel@lists.freedesktop.org>; Thu, 07 Oct 2021 18:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fu1qbb9TIftGGLiopDIHJNKJDVey9e03m26BW4nVQKw=;
+ b=Po56gcNdg4y0ShSFya7iIGBaaYp8lJIgoWK2sKkC2odnhSdrhLke32eYYchYWX3zz+
+ Nm+/wq0ok2Zr5dKDvEpdJYix/07lkxeuSx0249JyESbN5Xlr5CvvlEpFo9YwzyBq4Zq4
+ 1PQnUlPIfYnZ2LBNy7px4RtIpECNMUR89AfE/U1pJLC6OaPFz9abQjsmmjE/j997mdbB
+ lGGZXG8PwWP30MjktBdRJYtUrcKJafkHtsB/3XYpV5m82PgtMgNDuMRTMqnqWUCe9t3U
+ 54SSiScQ9DFOj6TFDreDNUcuEGJS1Lbudtab9yqFIoMbpb/qDs2KFo0pJm+ezMpmEAkN
+ nFoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fu1qbb9TIftGGLiopDIHJNKJDVey9e03m26BW4nVQKw=;
+ b=z3MrgzMjZXezy4lE47epkFL6Bns5tlxHEzWBoEV9nfi3AKYKDGjEaOZoDW+pjo7q5I
+ QAEvYdIdPHIr/vTo/wPzmhNcYkg3JDpDgsBAgGwQfckSqGTdscjJg1gT8tVa1feaEE/1
+ Qz1MXua4DcZnZl5CHD2otNbg/3/fO6fioa3h9O9nAYLPgpV4BMxd9e/1Eo/SCQ7afY6x
+ /++rfwOPVNSiDj5Z0PJkpGCa6kImQUmzrlHAPhowg/HBoANI6peG4RfZAHYKwStChYCB
+ OY/HI8jcPq73adYO5JnXHMU1zbCZndACz1Jqq7xFxnu1rX28YHlUP2v3wh/047U5+t1Y
+ JuTg==
+X-Gm-Message-State: AOAM530kmTg7rBaFFIWC9999IS56Vv2MhStR7p5XwmsQNtYTwzW6Nj6q
+ nOUdXDty+fO9djCTU14TEXzgnfsAjRWXVulNRS70nw==
+X-Google-Smtp-Source: ABdhPJzRqmpc7ZCLtvfPCPlOJuwh7NKrbymtx/f5NZk8E50MzwzoBQeCzV16ElGWYbGopGOusWI0XFQieBWdHv96j04=
+X-Received: by 2002:a25:bd93:: with SMTP id f19mr285693ybh.23.1633655460310;
+ Thu, 07 Oct 2021 18:11:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Ovh-Tracer-Id: 9089108474615958026
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrudelledgudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomheptehnughiucfuhhihthhiuceorghnughisegvthgviihirghnrdhorhhgqeenucggtffrrghtthgvrhhnpeeulefhheeiuddvvdetleevleduuefgteekfedugedutdelvdegkefgheetvddtudenucfkpheptddrtddrtddrtddpfedurddvvddrheelrddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduuddrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
+References: <20211006193819.2654854-1-swboyd@chromium.org>
+ <20211006193819.2654854-3-swboyd@chromium.org>
+ <CAGETcx9T59dHXodt9MW=tTV_hYhtNOZzYFT=35D--VN7WJ0GqQ@mail.gmail.com>
+ <CAE-0n50YqKr1nKy-4WaxsfuwPiJ5kZcf46t-U_4i-TpfXzOX1g@mail.gmail.com>
+ <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
+In-Reply-To: <CAE-0n532XYgT=dTTCyLcwikvxgUyGi=TcybDh=v3wQTNb=wqyw@mail.gmail.com>
+From: Saravana Kannan <saravanak@google.com>
+Date: Thu, 7 Oct 2021 18:10:24 -0700
+Message-ID: <CAGETcx_0GRg7u3dAxP9u0qO-hfJ0N3V44CGLwFFX1kVxZ00g+w@mail.gmail.com>
+Subject: Re: [PATCH v2 02/34] component: Introduce the aggregate bus_type
+To: Stephen Boyd <swboyd@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ freedreno@lists.freedesktop.org, Daniel Vetter <daniel.vetter@ffwll.ch>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Rob Clark <robdclark@gmail.com>, 
+ Russell King <rmk+kernel@arm.linux.org.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,422 +74,76 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Andi Shyti <andi.shyti@intel.com>
+On Thu, Oct 7, 2021 at 1:11 PM Stephen Boyd <swboyd@chromium.org> wrote:
+>
+> Quoting Stephen Boyd (2021-10-07 11:40:07)
+> > Quoting Saravana Kannan (2021-10-06 20:07:11)
+> > > On Wed, Oct 6, 2021 at 12:38 PM Stephen Boyd <swboyd@chromium.org> wrote:
+> > > > diff --git a/drivers/base/component.c b/drivers/base/component.c
+> > > > index 0a41bbe14981..d99e99cabb99 100644
+> > > > --- a/drivers/base/component.c
+> > > > +++ b/drivers/base/component.c
+> > [...]
+> > > > +                       continue;
+> > > > +
+> > > > +               /* Matches put in component_del() */
+> > > > +               get_device(&adev->dev);
+> > > > +               c->link = device_link_add(&adev->dev, c->dev,
+> > > > +                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+> > >
+> > > Remove the STATELESS flag and you'll get a bunch of other stuff done for free:
+> >
+> > I tried that and it didn't work for me. The aggregate device never
+> > probed and I was left with no display. Let me see if I can reproduce it
+> > with logging to provide more details.
+>
+> This patch fixes it (whitespace damaged sorry).
 
-The following interfaces:
+Not sure why you have to trigger an explicit rescan, but instead of
+this patch below, you could also try setting this flag instead?
+DL_FLAG_AUTOPROBE_CONSUMER
 
-  i915_wedged
-  i915_forcewake_user
-  i915_gem_interrupt
+-Saravana
 
-are dependent on gt values. Put them inside gt/ and drop the
-"i915_" prefix name. This would be the new structure:
-
-  dri/0/gt
-  |
-  +-- forcewake_user
-  |
-  +-- interrupt_info
-  |
-  \-- reset
-
-For backwards compatibility with existing igt (and the slight
-semantic difference between operating on the i915 abi entry
-points and the deep gt info):
-
-  dri/0
-  |
-  +-- i915_wedged
-  |
-  \-- i915_forcewake_user
-
-remain at the top level.
-
-Signed-off-by: Andi Shyti <andi.shyti@intel.com>
-Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
----
-Hi,
-
-I am reproposing this patch exactly as it was proposed initially
-where the original interfaces are kept where they have been
-originally placed. It might generate some duplicated code but,
-well, it's debugfs and I don't see any issue. In the future we
-can transform the upper interfaces to act upon all the GTs and
-provide information from all the GTs. This is, for example, how
-the sysfs interfaces will act.
-
-The reason I removed them in V1 is because igt as only user is
-not a strong reason to keep duplicated code, but as Chris
-suggested offline:
-
-"It's debugfs, igt is the primary consumer. CI has to be bridged over
-changes to the interfaces it is using in any case, as you want
-comparable results before/after the patches land.
-
-For i915_forcewake_user, it's not just igt testing, but part of the
-tools/ packaged up by distro. That makes it a very strong candidate to be
-moved out of debugfs into sysfs/gt."
-
-I, therefore, repropose this patch with the idea of improving the
-behavior of the upper level interfaces as described above.
-
-Thanks,
-Andi
-
-Changelog:
-----------
-v1 -> v2:
- * keep the original interfaces intact (thanks Chris).
-
- drivers/gpu/drm/i915/Makefile                 |   1 +
- drivers/gpu/drm/i915/gt/intel_gt_debugfs.c    |  47 ++++-
- .../gpu/drm/i915/gt/intel_gt_irq_debugfs.c    | 178 ++++++++++++++++++
- .../gpu/drm/i915/gt/intel_gt_irq_debugfs.h    |  15 ++
- drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c |  31 +++
- 5 files changed, 271 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
- create mode 100644 drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
-
-diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-index cdc244bbbfc1..e92984954ba8 100644
---- a/drivers/gpu/drm/i915/Makefile
-+++ b/drivers/gpu/drm/i915/Makefile
-@@ -98,6 +98,7 @@ gt-y += \
- 	gt/intel_gt_debugfs.o \
- 	gt/intel_gt_engines_debugfs.o \
- 	gt/intel_gt_irq.o \
-+	gt/intel_gt_irq_debugfs.o \
- 	gt/intel_gt_pm.o \
- 	gt/intel_gt_pm_debugfs.o \
- 	gt/intel_gt_pm_irq.o \
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
-index 1fe19ccd2794..d3075c138585 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_debugfs.c
-@@ -8,11 +8,54 @@
- #include "i915_drv.h"
- #include "intel_gt_debugfs.h"
- #include "intel_gt_engines_debugfs.h"
-+#include "intel_gt_irq_debugfs.h"
-+#include "intel_gt_pm.h"
- #include "intel_gt_pm_debugfs.h"
-+#include "intel_gt_requests.h"
- #include "intel_sseu_debugfs.h"
- #include "pxp/intel_pxp_debugfs.h"
- #include "uc/intel_uc_debugfs.h"
- 
-+static int reset_show(void *data, u64 *val)
-+{
-+	struct intel_gt *gt = data;
-+	int ret = intel_gt_terminally_wedged(gt);
-+
-+	switch (ret) {
-+	case -EIO:
-+		*val = 1;
-+		return 0;
-+	case 0:
-+		*val = 0;
-+		return 0;
-+	default:
-+		return ret;
-+	}
-+}
-+
-+static int reset_store(void *data, u64 val)
-+{
-+	struct intel_gt *gt = data;
-+
-+	/* Flush any previous reset before applying for a new one */
-+	wait_event(gt->reset.queue,
-+		   !test_bit(I915_RESET_BACKOFF, &gt->reset.flags));
-+
-+	intel_gt_handle_error(gt, val, I915_ERROR_CAPTURE,
-+			      "Manually reset engine mask to %llx", val);
-+	return 0;
-+}
-+DEFINE_SIMPLE_ATTRIBUTE(reset_fops, reset_show, reset_store, "%llu\n");
-+
-+static void gt_debugfs_register(struct intel_gt *gt, struct dentry *root)
-+{
-+	static const struct intel_gt_debugfs_file files[] = {
-+		{ "reset", &reset_fops, NULL },
-+	};
-+
-+	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
-+}
-+
- void intel_gt_debugfs_register(struct intel_gt *gt)
- {
- 	struct dentry *root;
-@@ -24,10 +67,12 @@ void intel_gt_debugfs_register(struct intel_gt *gt)
- 	if (IS_ERR(root))
- 		return;
- 
-+	gt_debugfs_register(gt, root);
-+
- 	intel_gt_engines_debugfs_register(gt, root);
- 	intel_gt_pm_debugfs_register(gt, root);
-+	intel_gt_irq_debugfs_register(gt, root);
- 	intel_sseu_debugfs_register(gt, root);
--
- 	intel_uc_debugfs_register(&gt->uc, root);
- 	intel_pxp_debugfs_register(&gt->pxp, root);
- }
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
-new file mode 100644
-index 000000000000..3cf9ae8437e5
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.c
-@@ -0,0 +1,178 @@
-+// SPDX-License-Identifier: MIT
-+
-+/*
-+ * Copyright © 2020 Intel Corporation
-+ */
-+
-+#include "i915_drv.h"
-+#include "intel_gt_debugfs.h"
-+#include "intel_gt_irq_debugfs.h"
-+
-+static int interrupt_info_show(struct seq_file *m, void *data)
-+{
-+	struct intel_gt *gt = m->private;
-+	struct drm_i915_private *i915 = gt->i915;
-+	struct intel_uncore *uncore = gt->uncore;
-+	struct intel_engine_cs *engine;
-+	enum intel_engine_id id;
-+	intel_wakeref_t wakeref;
-+	int i;
-+
-+	wakeref = intel_runtime_pm_get(uncore->rpm);
-+
-+	if (IS_CHERRYVIEW(i915)) {
-+		seq_printf(m, "Master Interrupt Control:\t%08x\n",
-+			   intel_uncore_read(uncore, GEN8_MASTER_IRQ));
-+
-+		for (i = 0; i < 4; i++) {
-+			seq_printf(m, "GT Interrupt IMR %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IMR(i)));
-+			seq_printf(m, "GT Interrupt IIR %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IIR(i)));
-+			seq_printf(m, "GT Interrupt IER %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IER(i)));
-+		}
-+
-+	} else if (GRAPHICS_VER(i915) >= 11) {
-+		seq_printf(m, "Master Interrupt Control:  %08x\n",
-+			   intel_uncore_read(uncore, GEN11_GFX_MSTR_IRQ));
-+
-+		seq_printf(m, "Render/Copy Intr Enable:   %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_RENDER_COPY_INTR_ENABLE));
-+		seq_printf(m, "VCS/VECS Intr Enable:      %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_VCS_VECS_INTR_ENABLE));
-+		seq_printf(m, "GUC/SG Intr Enable:\t   %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GUC_SG_INTR_ENABLE));
-+		seq_printf(m, "GPM/WGBOXPERF Intr Enable: %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GPM_WGBOXPERF_INTR_ENABLE));
-+		seq_printf(m, "Crypto Intr Enable:\t   %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_CRYPTO_RSVD_INTR_ENABLE));
-+		seq_printf(m, "GUnit/CSME Intr Enable:\t   %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GUNIT_CSME_INTR_ENABLE));
-+
-+	} else if (GRAPHICS_VER(i915) >= 8) {
-+		seq_printf(m, "Master Interrupt Control:\t%08x\n",
-+			   intel_uncore_read(uncore, GEN8_MASTER_IRQ));
-+
-+		for (i = 0; i < 4; i++) {
-+			seq_printf(m, "GT Interrupt IMR %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IMR(i)));
-+			seq_printf(m, "GT Interrupt IIR %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IIR(i)));
-+			seq_printf(m, "GT Interrupt IER %d:\t%08x\n",
-+				   i, intel_uncore_read(uncore,
-+							GEN8_GT_IER(i)));
-+		}
-+
-+	} else if (IS_VALLEYVIEW(i915)) {
-+		seq_printf(m, "Master IER:\t%08x\n",
-+			   intel_uncore_read(uncore, VLV_MASTER_IER));
-+
-+		seq_printf(m, "Render IER:\t%08x\n",
-+			   intel_uncore_read(uncore, GTIER));
-+		seq_printf(m, "Render IIR:\t%08x\n",
-+			   intel_uncore_read(uncore, GTIIR));
-+		seq_printf(m, "Render IMR:\t%08x\n",
-+			   intel_uncore_read(uncore, GTIMR));
-+
-+		seq_printf(m, "PM IER:\t\t%08x\n",
-+			   intel_uncore_read(uncore, GEN6_PMIER));
-+		seq_printf(m, "PM IIR:\t\t%08x\n",
-+			   intel_uncore_read(uncore, GEN6_PMIIR));
-+		seq_printf(m, "PM IMR:\t\t%08x\n",
-+			   intel_uncore_read(uncore, GEN6_PMIMR));
-+
-+	} else if (!HAS_PCH_SPLIT(i915)) {
-+		seq_printf(m, "Interrupt enable:    %08x\n",
-+			   intel_uncore_read(uncore, GEN2_IER));
-+		seq_printf(m, "Interrupt identity:  %08x\n",
-+			   intel_uncore_read(uncore, GEN2_IIR));
-+		seq_printf(m, "Interrupt mask:      %08x\n",
-+			   intel_uncore_read(uncore, GEN2_IMR));
-+	} else {
-+		seq_printf(m, "Graphics Interrupt enable:		%08x\n",
-+			   intel_uncore_read(uncore, GTIER));
-+		seq_printf(m, "Graphics Interrupt identity:		%08x\n",
-+			   intel_uncore_read(uncore, GTIIR));
-+		seq_printf(m, "Graphics Interrupt mask:		%08x\n",
-+			   intel_uncore_read(uncore, GTIMR));
-+	}
-+
-+	if (GRAPHICS_VER(i915) >= 11) {
-+		seq_printf(m, "RCS Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_RCS0_RSVD_INTR_MASK));
-+		seq_printf(m, "BCS Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_BCS_RSVD_INTR_MASK));
-+		seq_printf(m, "VCS0/VCS1 Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_VCS0_VCS1_INTR_MASK));
-+		seq_printf(m, "VCS2/VCS3 Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_VCS2_VCS3_INTR_MASK));
-+
-+		if (HAS_ENGINE(gt, VCS4) || HAS_ENGINE(gt, VCS5))
-+			seq_printf(m, "VCS4/VCS5 Intr Mask:\t %08x\n",
-+				   intel_uncore_read(uncore,
-+						GEN12_VCS4_VCS5_INTR_MASK));
-+		if (HAS_ENGINE(gt, VCS6) || HAS_ENGINE(gt, VCS7))
-+			seq_printf(m, "VCS6/VCS7 Intr Mask:\t %08x\n",
-+				   intel_uncore_read(uncore,
-+						GEN12_VCS6_VCS7_INTR_MASK));
-+
-+		seq_printf(m, "VECS0/VECS1 Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_VECS0_VECS1_INTR_MASK));
-+
-+		if (HAS_ENGINE(gt, VECS2) || HAS_ENGINE(gt, VECS3))
-+			seq_printf(m, "VECS2/VECS3 Intr Mask:\t %08x\n",
-+				   intel_uncore_read(uncore,
-+						GEN12_VECS2_VECS3_INTR_MASK));
-+
-+		seq_printf(m, "GUC/SG Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GUC_SG_INTR_MASK));
-+		seq_printf(m, "GPM/WGBOXPERF Intr Mask: %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GPM_WGBOXPERF_INTR_MASK));
-+		seq_printf(m, "Crypto Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_CRYPTO_RSVD_INTR_MASK));
-+		seq_printf(m, "Gunit/CSME Intr Mask:\t %08x\n",
-+			   intel_uncore_read(uncore,
-+					     GEN11_GUNIT_CSME_INTR_MASK));
-+
-+	} else if (GRAPHICS_VER(i915) >= 6) {
-+		for_each_engine(engine, gt, id) {
-+			seq_printf(m,
-+				   "Graphics Interrupt mask (%s):	%08x\n",
-+				   engine->name, ENGINE_READ(engine, RING_IMR));
-+		}
-+	}
-+
-+	intel_runtime_pm_put(uncore->rpm, wakeref);
-+
-+	return 0;
-+}
-+DEFINE_INTEL_GT_DEBUGFS_ATTRIBUTE(interrupt_info);
-+
-+void intel_gt_irq_debugfs_register(struct intel_gt *gt, struct dentry *root)
-+{
-+	static const struct intel_gt_debugfs_file files[] = {
-+		{ "interrupt_info", &interrupt_info_fops, NULL },
-+	};
-+
-+	intel_gt_debugfs_register_files(root, files, ARRAY_SIZE(files), gt);
-+}
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
-new file mode 100644
-index 000000000000..95e519705001
---- /dev/null
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_irq_debugfs.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: MIT */
-+
-+/*
-+ * Copyright © 2020 Intel Corporation
-+ */
-+
-+#ifndef INTEL_GT_IRQ_DEBUGFS_H
-+#define INTEL_GT_IRQ_DEBUGFS_H
-+
-+struct intel_gt;
-+struct dentry;
-+
-+void intel_gt_irq_debugfs_register(struct intel_gt *gt, struct dentry *root);
-+
-+#endif /* INTEL_GT_IRQ_DEBUGFS_H */
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-index 5f84ad602642..c75af6f97e7e 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm_debugfs.c
-@@ -19,6 +19,36 @@
- #include "intel_sideband.h"
- #include "intel_uncore.h"
- 
-+static int forcewake_user_open(struct inode *inode, struct file *file)
-+{
-+	struct intel_gt *gt = inode->i_private;
-+
-+	atomic_inc(&gt->user_wakeref);
-+	intel_gt_pm_get(gt);
-+	if (GRAPHICS_VER(gt->i915) >= 6)
-+		intel_uncore_forcewake_user_get(gt->uncore);
-+
-+	return 0;
-+}
-+
-+static int forcewake_user_release(struct inode *inode, struct file *file)
-+{
-+	struct intel_gt *gt = inode->i_private;
-+
-+	if (GRAPHICS_VER(gt->i915) >= 6)
-+		intel_uncore_forcewake_user_put(gt->uncore);
-+	intel_gt_pm_put(gt);
-+	atomic_dec(&gt->user_wakeref);
-+
-+	return 0;
-+}
-+
-+static const struct file_operations forcewake_user_fops = {
-+	.owner = THIS_MODULE,
-+	.open = forcewake_user_open,
-+	.release = forcewake_user_release,
-+};
-+
- static int fw_domains_show(struct seq_file *m, void *data)
- {
- 	struct intel_gt *gt = m->private;
-@@ -627,6 +657,7 @@ void intel_gt_pm_debugfs_register(struct intel_gt *gt, struct dentry *root)
- 		{ "drpc", &drpc_fops, NULL },
- 		{ "frequency", &frequency_fops, NULL },
- 		{ "forcewake", &fw_domains_fops, NULL },
-+		{ "forcewake_user", &forcewake_user_fops, NULL},
- 		{ "llc", &llc_fops, llc_eval },
- 		{ "rps_boost", &rps_boost_fops, rps_eval },
- 	};
--- 
-2.27.0
-
+>
+> ----8<----
+> diff --git a/drivers/base/component.c b/drivers/base/component.c
+> index 65042c9f8a42..43cac9ed70b7 100644
+> --- a/drivers/base/component.c
+> +++ b/drivers/base/component.c
+> @@ -202,7 +202,7 @@ static int find_components(struct aggregate_device *adev)
+>                 /* Matches put in component_del() */
+>                 get_device(&adev->dev);
+>                 c->link = device_link_add(&adev->dev, c->dev,
+> -                                         DL_FLAG_STATELESS | DL_FLAG_PM_RUNTIME);
+> +                                         DL_FLAG_PM_RUNTIME);
+>                 c->adev = adev;
+>         }
+>
+> @@ -749,7 +749,9 @@ static int __component_add(struct device *dev,
+> const struct component_ops *ops,
+>         mutex_unlock(&component_mutex);
+>
+>         /* Try to bind */
+> -       return bus_rescan_devices(&aggregate_bus_type);
+> +       bus_rescan_devices(&aggregate_bus_type);
+> +
+> +       return 0;
+>  }
+>
+>  /**
+>
+>
+> The important part is ignoring the return value of bus_rescan_devices().
+> It's a cycle problem. The last component is probing and calling
+> component_add() in its probe function. The call to component_add() is
+> trying to probe the aggregate device now that all components are added.
+> But when it tries to probe the aggregate device it sees that a supplier,
+> which is this component calling compnent_add(), hasn't been probed yet,
+> so it returns -EPROBE_DEFER. That is passed up to the component and it
+> defers probe.
+>
+> I don't think the component device cares at all about the aggregate
+> device being able to probe or not. We should be able to ignore the
+> return value of bus_rescan_devices() in component_add(). I'll add a
+> comment to the code here so it's more obvious.
