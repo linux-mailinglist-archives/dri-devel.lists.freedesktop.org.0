@@ -2,126 +2,124 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C795A4267AC
-	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 12:21:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C7C54267B3
+	for <lists+dri-devel@lfdr.de>; Fri,  8 Oct 2021 12:23:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 680726E0C4;
-	Fri,  8 Oct 2021 10:21:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBECE6E0D6;
+	Fri,  8 Oct 2021 10:23:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from NAM10-MW2-obe.outbound.protection.outlook.com
- (mail-mw2nam10on2078.outbound.protection.outlook.com [40.107.94.78])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 34DDD6E0D6;
- Fri,  8 Oct 2021 10:21:34 +0000 (UTC)
+ (mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3BDE26E0D6;
+ Fri,  8 Oct 2021 10:23:22 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nNk8D6fKeq9CRJHU17wGYmclL2RFEHPjdqpv76zlH1vv4X2DK19eHROi7c1+lSB6UvyKjiUsVqZl/xmfbxk2jEBE2upMPqiZIa2q7gFGP+epIyu4RXk+U85SovMzXQ8KZX1owIx/7WePL0qvfD4bAbOzT9sgPyzGgZjRqRcHAyTEsISvrCh7V3vrWiEFIArufMjAp6Ck16zPU7BM0Qfpuv+TO//Aj93panBAaisI5vV88i4A6qYqCctSvy7P7+kkcvk46sGgz8p8+OMBiRQU4vp8Rg/B/Dpfc6FlSt82vH76DwLp2cuXkWGSJhhLdeZqEMifXbbexPdMukrmgAQG/g==
+ b=exEF3EZChuk7DDhZbovqhdREXthr5tmfQZVb+B9+J6wRTPtB2Y8THpey8NWyYwEdAQSHNZU+4ptHJrbB2lFQ5elC6m/7BlHi7/mMlCPcB48E4PbhRr+kJDe8m6e2OCHC5/ApdDIcKk3y8ERW38xQkSPMT4P99WFPQ6k0KHIVDqx/b3j9kwV5OiJzEUT4vt7lYFkb/h/1uhUxUy/GC9PP5M8HbqZxs8oJrPm5TKpXBm4oO5+mKGMy+eVp4nDAWuhd/7EwrdYIfaSPlwG+R43FueK//sBn0S1H+eYh/LZY1gAfU9VENhtKPNRp5lzrqVBI0U3VSJgmUNrz+PgiPONg8g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iH95oKyI0JiQe/wT4dilUFHE3DP1ObxuUOQWtUSwTgg=;
- b=hhlTKT/DatlJFbhNW2EtQZZgABc4QNpDQq0gKa+HH3uS/3UNs0dv4dSlgvCjjl+K9pGmWRgIWo6QsgAA3P3XByT6vTrq+OVjD9WMA2nypeMaQUghL8duLGD87lqmNWUXEdzOJlmVH5WfRmoDzmnp4ZGf3LrvjBk+IcMIzBLuBTn6+Wc4Xoe9lpXZbSLJoU/5QIcEf4xvY0s3n3ils3Bqnf3suhl9e00ZSghopiZihhz64yxNMbaXMUafkKu4NKUTjEO9tT6A8bfjZ2JLYFBLyKGFkNyfsLVYRDlAG4dHi4UcYT1n4JGNxUBdek6GJOBgHqaI31Xvf968Wxr5czJv+w==
+ bh=ejfqVAbzAkQpPdjb2xtz1+xitV5/K5CvkYcT12ekrfg=;
+ b=OnzZMt63jzFuecg/zPBFObKj27nZYT6JDSwcLEjPNw3mdL6VtnjnpxETEN7UkUktVVNIb/H/x+8+k3WHBemjB4Qic20RglgcEsazvSHJ+POXf/N2nhFJHGRbRlQtHmpfnqt1ij3pi4GrwAAUpStKvhJSg/dDsGLyAsjoC16zYrbhYd8Q1YhQefvonAeZauaad/RFjbYkiRIrDwJCQqXvNTMn0b8IZ8h/h1022Hexs/85CxQ61Gqu21TciSc90mSjsDKHH2dqQroRnCmHeGNC1EJkcjvtzgWUmJOjo92t3vVi4Lz+xmPi0ioxvrbMUGmr1nxOTUvjUXLLwNS1y2ow6Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iH95oKyI0JiQe/wT4dilUFHE3DP1ObxuUOQWtUSwTgg=;
- b=UeLZIb8UmeS5ujzR1hj8VhnEhgaY1wB+QturfuD2RgJDamfSk7irZ98p8UBzho18WfpDh07zqckG+ejm9hKz94zywwD3xS5GcPURST4slIv69iGjBuk8TmXJL+dpsvuYji0lnJ9VHZ7iifWGt0aFEKtploqRj6wLehv/FH6N3KI=
-Authentication-Results: lists.linaro.org; dkim=none (message not signed)
- header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+ bh=ejfqVAbzAkQpPdjb2xtz1+xitV5/K5CvkYcT12ekrfg=;
+ b=LFmPadzYIrXs2eE03+zZ7N+v3pzYKTIRrRBLUJSF2wceMJvo45EUZW8wnrlOUawY/JWsavWko6EyPt3jbiYNNuk9UCsrhcWuXoGCnMV6pWI2Totzv3dRgmpTtdpkq+BoAWFKuBdktesodCRMrJZ0n3xVgORCSuTWNPsJinYh4eY=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=amd.com;
 Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
- (2603:10b6:301:5a::14) by MWHPR12MB1405.namprd12.prod.outlook.com
- (2603:10b6:300:13::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Fri, 8 Oct
- 2021 10:21:31 +0000
+ (2603:10b6:301:5a::14) by MW3PR12MB4457.namprd12.prod.outlook.com
+ (2603:10b6:303:2e::20) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20; Fri, 8 Oct
+ 2021 10:23:19 +0000
 Received: from MWHPR1201MB0192.namprd12.prod.outlook.com
  ([fe80::55c7:6fc9:b2b1:1e6a]) by MWHPR1201MB0192.namprd12.prod.outlook.com
  ([fe80::55c7:6fc9:b2b1:1e6a%10]) with mapi id 15.20.4587.022; Fri, 8 Oct 2021
- 10:21:31 +0000
-Subject: Re: [PATCH] dma-resv: Fix dma_resv_get_fences and
- dma_resv_copy_fences after conversion
-To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
- Intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin
- <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+ 10:23:19 +0000
+Subject: Re: [PATCH 3/5] drm/radeon: check dri root before debugfs init
+To: Nirmoy Das <nirmoy.das@amd.com>, dri-devel@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org, Alex Deucher
+ <alexander.deucher@amd.com>, "Pan, Xinhui" <Xinhui.Pan@amd.com>
+References: <20211008091704.27094-1-nirmoy.das@amd.com>
+ <20211008091704.27094-3-nirmoy.das@amd.com>
 From: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <9eca89ab-f954-8b2a-7af5-b4a63b90eed0@amd.com>
-Date: Fri, 8 Oct 2021 12:21:23 +0200
+Message-ID: <221c5237-6e7d-11d2-1de4-39e77c539663@amd.com>
+Date: Fri, 8 Oct 2021 12:23:12 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
-In-Reply-To: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+In-Reply-To: <20211008091704.27094-3-nirmoy.das@amd.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-ClientProxiedBy: AM5PR0201CA0012.eurprd02.prod.outlook.com
- (2603:10a6:203:3d::22) To MWHPR1201MB0192.namprd12.prod.outlook.com
+X-ClientProxiedBy: AM5PR0201CA0017.eurprd02.prod.outlook.com
+ (2603:10a6:203:3d::27) To MWHPR1201MB0192.namprd12.prod.outlook.com
  (2603:10b6:301:5a::14)
 MIME-Version: 1.0
 Received: from [IPv6:2a02:908:1252:fb60:efac:61bc:bb73:d6b5]
  (2a02:908:1252:fb60:efac:61bc:bb73:d6b5) by
- AM5PR0201CA0012.eurprd02.prod.outlook.com (2603:10a6:203:3d::22) with
+ AM5PR0201CA0017.eurprd02.prod.outlook.com (2603:10a6:203:3d::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
- Transport; Fri, 8 Oct 2021 10:21:28 +0000
+ Transport; Fri, 8 Oct 2021 10:23:17 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 61f8e162-7730-4711-3838-08d98a45654d
-X-MS-TrafficTypeDiagnostic: MWHPR12MB1405:
-X-Microsoft-Antispam-PRVS: <MWHPR12MB1405F517A4DBB5784B374AB583B29@MWHPR12MB1405.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Office365-Filtering-Correlation-Id: 20e37e46-6ae5-49d9-12c4-08d98a45a60d
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4457:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <MW3PR12MB445797EDC255F3DE6D7124A583B29@MW3PR12MB4457.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KtZXxF0Ka88BlH98s8SiJQPrUrkElLfHkm2VqdKI5lpnUf4lC7Xm6BEFpcfENafF/9lkqnCR0FvSwLjcpla++cQbhxKQW1n+ER6VDR3hDNbUKXL/m3ia1sjZ3usEIU7baMBm5rs7PHDTv6vKo2Pd4Cg6WSVzF7lu6IgN5gBg15ADbZW9RrBglFmofe3pic9KBVfiqC4e/T7A1JEy9nAQfpN+fq4c+jlkIPBqbS34isX8YNQnSNUfYaidJSa4eHJJpAJSmfgKS7MYgW2z9WhW73QKXnFXQB8Lt4GIhLaiIG6/86W2X9DZ90LBqS08T39QKrodQm2/K/4qBmS7sMuSrDMOhdMHofVjeWMIwBlWZNQ0992qAdvX01iVtO1QlVJH0GFtcUbtWmyzZWA7vm+FEvwbMjiiZHMlj12rLoB23MLL+1tYNm41173xIETJSCo+5tOanMDtT3mBv499MOanv5wsgt4PyQdwwSjEW5qKNZMUYFURFxh5eroyXVSL0ZVUzEPWuvgHfTaq2G+uTUYXjkwwlfWcNMp3iQUUtNuEfnOWEvT28rpz4oSkTpzs8ZouvoaA7t/Vc/d3DfdEjJpmdXFsiIU8/qFHzg3hqpLIdwEIvh/EpTl1DhOx9emoxl0AbYSjBvwuX+zD2azo8GicSnSWjv7B2YNCl8Uh5q3zVBLljx4McrHM8h1l9wndNxNnyW7sRrcjuZQEzr/syf4HIBBBGY7EGiLntdy9lH1qyssmjT0duMNZvt+9bGzWfvhn
+X-Microsoft-Antispam-Message-Info: vM9gUmip5pjN0Yeun7sG7ZqDq0ZZreVVtAEX7ofh1QsNxb5e1Bo5e9kqJyPVibk/TOdb4NJmlx0lA9Cj+QgmjHcForRAad+xNtPgdIvWVL8WNEv0+dRto14e25Ylg17T1rr6PCKGENDirLZ6EM4kx6eEavi7V6ELYRHOPE6/UAeHuNI0XsOUddnkuKvIDExX0NLZXv1KlYv0szOlcZQxtfbMBXb2dKXZaAFtLFpMlsVdUeiHGwVvmDrllEnFW5I+Au+OYCVleQvoFh6F9dsHfQQlshhZRNHJ2lanfu/icGG7dGN9OguAbzzMbNFnc3AZYlqNedy03eccUTxxPeGGYgkasgBXZmHm1zn65ugPFUXQJO1qf7BK4yvDrjB7y39y45qlvpb9hJNa/io/eAJUXttXgJ4VXZgITw6i1L7+CaGx0/6Rc/+glKAaUtwpW8VBYKTQBHryiELVw+kmQRfP5RG35HNTLh+Qy5N2hF5YLxwjfrcBweNaU9QkB6oBe0hGoEoxL4lfSKArH8A10RIg8EJVwCxAZXD53ZcO2G2muim7jEKzsvIGHbjr/+z63xcDqW3GcmBWGD1/mmVV/QFIaCPMM8UHz3t6eYseES5aLpfe9XNO0xRnBMWXib6/AgJKdQB3jQR43ghlPTFFn4QySDgaKpGdQJKB/jswWB6PZTGWLfDg5wy3AUo+AgdEEEJgTws0DgBhIKI9/Ly2nzzaZiSA4AkucPKX0fUuZS6tYyb/UpoFsNrIgThjEGehMUjF
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR1201MB0192.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(966005)(83380400001)(2906002)(508600001)(8676002)(8936002)(66574015)(316002)(45080400002)(66946007)(186003)(38100700002)(66556008)(66476007)(5660300002)(86362001)(6486002)(31686004)(6666004)(54906003)(31696002)(36756003)(2616005)(43740500002)(45980500001);
+ SFS:(4636009)(366004)(508600001)(31686004)(8936002)(2616005)(38100700002)(450100002)(66476007)(4326008)(66946007)(5660300002)(36756003)(54906003)(83380400001)(31696002)(6486002)(66556008)(86362001)(6666004)(66574015)(186003)(2906002)(8676002)(316002)(45980500001)(43740500002);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NXkwcVRjTzV0MWZmV1lFdWo5c2w0VHhWcXhTZThJUzN2S2xVa0JZK3Ztck5o?=
- =?utf-8?B?M3pKRm1iL01VRmZVMVc2VWlwanZWTEVucW5wWWg0MHBnaG9URERzSGxXY2dF?=
- =?utf-8?B?NUc2ZWZCa2phYy90VWtTcE9aN2xNcUZVOFdSWUFpd3ZmOElOTzBrS0N6bDI2?=
- =?utf-8?B?MnJZamp3M3c0K3ZHZ2M5WGkxd0x6d0ZyQTZoMlRYU3ZFY0NyS05EME9RZ0ZG?=
- =?utf-8?B?QmR4RG1LbzdJM1FJSUxtMmZueGlZSmplc1doaXloV3BkTVNUYjg1cVJkdGRO?=
- =?utf-8?B?bkRwSlN4T1JiZzNpK0FjY1R0emZidFpMdXo3YXdGKzVYdzF1Nnh4aGRMM0pY?=
- =?utf-8?B?bFJ1UHFzQ3NyaWgwY1haNjNzUG5pVU5BQzdLaExnVXJEUVVCSWRoVjV4VlAv?=
- =?utf-8?B?NXM2MFU3WlU5cVFqYTlCbGs1V0xGcVptNDcxdE5xNFcwM0UxZVNrOW9ZV2lV?=
- =?utf-8?B?U3E4d2N3WjJHS0doMi8rSk50Um1HMmQyeWNaRGYyRFl0cFN0SHdkQndXMGRj?=
- =?utf-8?B?bUVOSittbW5FWnRTV1dyMktYenBwYlNxckVBekxTejMvQkF2eVhCaGZUZ3ky?=
- =?utf-8?B?d0U3L29TM28waitGQW1yUEt3MEp6NGpNWmdKUG1hY2tzWGRsekVkOEprTnkx?=
- =?utf-8?B?UHBjekdrdVUwbW1NeFIxWGJBakRBbGlvWXNTM3FSOWpDbCtNSjBpZjhlY2t6?=
- =?utf-8?B?a1UvTnBNaFdrR0l0OTBUalp1NWtGUzZxeFJyMU0xclVkK3Ribm43QTlPZzRU?=
- =?utf-8?B?azZXUkdYM09OMDJFRVBrdzBidUZpNklLdEYrbXRlemZNQVJXTkhzYmFwMmt2?=
- =?utf-8?B?cDFiT1NVaDYxUWNRSSt5K21WQmdHTWY4eFB1UUowTjd3VnBlWkVGeVh2ekpW?=
- =?utf-8?B?NzRWQWVFM2JlamRuTW8vY0swS1JBTjlGdnlZc0xOa3h1YUliTEQ5cDZUZE03?=
- =?utf-8?B?Z0UySjdzaFJidzQ5UzhPVXJXbkdCN090T3dhbkUrWUdGR3o1SHBoOU4xQkov?=
- =?utf-8?B?ZDQ5Q0VXZVhiUFlGZnkvVGNTZDhvTEVYUG5YUWNBQ2dhZytheW5teHcxaUp6?=
- =?utf-8?B?am1ZWVgxdXF6WEY5ZERQWTNZWFU3ZXFrcUdxUXIrTUV3WExjZ2tIajdkMnpD?=
- =?utf-8?B?UW1jNmxnemdkengzdy9mUWdGYnlPT3E0bEtSQ2UxL2ZaYlBtVE8yNDYydmJ0?=
- =?utf-8?B?d2tvcEgza2xac0ZNNTBQeDNFbnU5Zm9nWW1vaXhmOGFERDB1ZGNYbUY3ZEk5?=
- =?utf-8?B?Q0RHVnpEUk1nSEJvbzJVUXRtbXdGZW1ZcU5IbW9TNlN4dXU2ZWc3ejZ5ZXUy?=
- =?utf-8?B?Q2w0Ukg2ZHFSdDJ5VHJrdzYwdGxpS3pjbktBVnJGTnFGeU1yalp0V2xnUUli?=
- =?utf-8?B?S1l2dFc4WTQ4dEJZZE4rT1pPY0xSdXZROUd0MEU0end1MXJyT05sRkZiaXFx?=
- =?utf-8?B?QVJscnVPNFRqUWg2NWJjTlkzZ05OV3hiNXRDRmM4ZFRodlJ5bkFFcm9KVnow?=
- =?utf-8?B?MXAvK3ZUbSt3amRHbzBhcUk1QW40NnpJOC9WbTBxdzFBa01jdjBwMDh5L2VT?=
- =?utf-8?B?VDQzT3NhaEE4WVhsZi9HRFZFem1zT2Y2VzMzUlJWemN0UFA0RzIvZUUyRVJp?=
- =?utf-8?B?MVdHa3oxYXFtMWJpQTlBNXc1YUJNNDRZejFWNWFlYUJrQmZ4V21FUnFsa3lS?=
- =?utf-8?B?SkZVbC8xY0Q5OTJMblIzQkVta0hMY0VTU0QvN3RmR1NCdFVveWlVRk9XVUJU?=
- =?utf-8?B?OEE2YWJTbkJ0NFVQaWxXdndweklEbjZOSDBkN0hQOUhvRDRDU3QrR3BSQ2dr?=
- =?utf-8?B?bFVadWJ0S2FETW00ajhkUi9jV1lyTE9LNU5zekh4MVR6c2N5dURSZVp6aWVT?=
- =?utf-8?Q?GyU1imDMsxwYo?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SVJBNWxSNGRRYk1NdlY5eWQ5UDhLeW5rbDBGZFlOcitBcjFPS0Nnb25PVjNL?=
+ =?utf-8?B?YWwxa0luajdLQW5OYmN0eTl5bGlOamQydGZlQ0pFU2N1bGxGTjBQNEI1NHJs?=
+ =?utf-8?B?UGEyaDdaWVByRCt6VHpXalh1OXd3VFRUMHBNVmhTRDJwQUkvaEJCRzZ0bkdS?=
+ =?utf-8?B?Vmd0TUlhT083RUVxTWpDMHZIK0tDZlJhZGFOcWp3TThlRDVYU2FVTDZPeU9Y?=
+ =?utf-8?B?YnVVZTdNemlRWGt4NW1nWk5xMUs3ZnBVUWVabTVRRU50aUZEMFJ1UkFtNWhG?=
+ =?utf-8?B?d1JDOEZYcXNZbHV1SkQ0WUt6eGpveXV0WjgvaWF1R1BsZnZqa2hoZ0tCUXFm?=
+ =?utf-8?B?bmh5L1A1R3FpYVV3Z0tORTNxb2pPR3Q1czVSVXovNytIMHh4T05aQ0I5V1Ix?=
+ =?utf-8?B?QUwwaW9HVHFSK29BcXU5SldJTXh1RUlabWUzTzd0Wmc5UENhaGxtR3VlNVdB?=
+ =?utf-8?B?bE9VeW9FL2VDWU9BemFHV1Vua3BvYklCR3k0SVF4QUhWUHhJbFR6eVpqZU5Z?=
+ =?utf-8?B?TnpOcE1ZYlJIZHRWRVFYZzZFU00yazRVMGl2VVZOTi94R0VqL0xUU05CbXdm?=
+ =?utf-8?B?VXNoY0ErNUJYbmVod2RqNE1pZmNieUNPTUk2SXNyVE1Mc3prU0lOWnl6UGU0?=
+ =?utf-8?B?cGdIOG1aamFWMEliNlJzRmFWRUxiYmlVTnlkeVNTQk5HeDVQdDZWY2UxcHc2?=
+ =?utf-8?B?RVVsV1YxMmc0eFdvcll2U1Bocjl5REtZK1p2aUV2R2hadWlYektnbGlZZ285?=
+ =?utf-8?B?azRzalhKTUpqTmdJOHJLSmhLMzBEeVNOaEZua0NuT2lRY002RDRQWVM3MWhn?=
+ =?utf-8?B?VFhqMDJkUnZheFdZWklHMlAyeTNMNkxuUkZFREJscHcwTERlS2dpN1FLK1or?=
+ =?utf-8?B?bW1YbzFDcVRwaVJEbFh4Y2xSOFE0bW1JcHQ0TzIxRGlUVkswQkpqdVV4bGYw?=
+ =?utf-8?B?KzNDMFZQenoyUUw5anltRkNrelNlVk1KRi9wTTAzZkQ4QnBybjQ2dFdzVzNl?=
+ =?utf-8?B?VlBDRDdzZGI5RlhyN3RWUmkxd3FpQmcwNHdrMjFTT29hcmhXdXFKVjZCd2RY?=
+ =?utf-8?B?RVRpT3JFNVpsbHJISis2QlN1aGEzcnpoWFhKeituK2s1NW5Bc0JwWS9rWXVl?=
+ =?utf-8?B?VFQ2S2xGcmpPZ2JGallOVWVrUXk1Z0hhaTZwd3pTcWR2TllEMFlVMmdsU1dL?=
+ =?utf-8?B?UHVwSzNPT05Yb1YwSVpFZ2p2UkVLOEY3U2VOSXlvSDR1ZllqWGl6OGJYbjVV?=
+ =?utf-8?B?MEdBVHVQZVZwM205Z1AvRzhFc3pZYUF0Sk43eTdybEwwSGF2cjg4RnZsWDZw?=
+ =?utf-8?B?eGhKL2JWNGtCUE5STDB4S2xwYzBSSTlJVXRZMFNPWnh4anFVZk5PVGZiOVJv?=
+ =?utf-8?B?Zmd2UEpFdHdkaGJKSzVBeFI5bTRsRkxDRHpxMTAyK0xFb1o4aFYvT1RST2c1?=
+ =?utf-8?B?OTBIeXdrZitDZDk0cDBsa09Eek1YaytuTllNS1ptSUlIRjVMcTEvMU5XWlIr?=
+ =?utf-8?B?N09HR0dIWGF4VEZ0cWRDSFVoc2VVK05JeGRnVDloN25tdXZCUlU0ckdCUldM?=
+ =?utf-8?B?b2phSEUxdUhmTTR3eTUzWmp2VmdaOWZURXkyZmJzTmxVQ1MwRGhDaVhSTUxU?=
+ =?utf-8?B?QzBCOGFINlUvelRzeGJIV1E0bnczWnZ6MTlpS1RyeDJCSFlIT2MySmhpMzVv?=
+ =?utf-8?B?eGhoUHZJeGk3eEpVRCs0UEZ2SllqL3NXOVZvQ3VmQ01pVlBHbUxaZmZQZ0t0?=
+ =?utf-8?B?aFZwbDkxV1lOMXNuSmlZdUo3ZzRXaUp5VHNNNGlDU1FwYVhZeTE1YXNScm84?=
+ =?utf-8?B?QzhNREpraldGMlMxamRMK2JRdmxaVVB5Z29OdGRMR09iSTBwbnFYWVA0dzRv?=
+ =?utf-8?Q?Y7F8gQ27Gk2+C?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61f8e162-7730-4711-3838-08d98a45654d
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20e37e46-6ae5-49d9-12c4-08d98a45a60d
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1201MB0192.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 10:21:31.1169 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2021 10:23:19.5465 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iUYsWU3OtEOUWW9eHp8C/71nTq21CSV0qQNag98ymxIY9LpeEsU5X3EnEeN8mYEg
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR12MB1405
+X-MS-Exchange-CrossTenant-UserPrincipalName: FJfiX+TwDZln/6VU3hrXf5vAZj1SydNylyjNEMpb8HN4UPde9kRn/DNEK4mXDFW8
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4457
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -137,151 +135,241 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Am 08.10.21 um 11:50 schrieb Tvrtko Ursulin:
-> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+Am 08.10.21 um 11:17 schrieb Nirmoy Das:
+> Return early if dri minor root dentry is NULL.
 >
-> Cache the count of shared fences in the iterator to avoid dereferencing
-> the dma_resv_object outside the RCU protection. Otherwise iterator and its
-> users can observe an incosistent state which makes it impossible to use
-> safely.
-
-Ah, of course! I've been staring at the code the whole morning and 
-couldn't see it.
-
-Going to write a testcase to cover that.
-
-> Such as:
+> CC: Alex Deucher <alexander.deucher@amd.com>
+> CC: "Christian König" <christian.koenig@amd.com>
+> CC: "Pan, Xinhui" <Xinhui.Pan@amd.com>
 >
-> <6> [187.517041] [IGT] gem_sync: executing
-> <7> [187.536343] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
-> <7> [187.536793] i915 0000:00:02.0: [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
-> <6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
-> <1> [188.935462] BUG: kernel NULL pointer dereference, address: 0000000000000010
-> <1> [188.935485] #PF: supervisor write access in kernel mode
-> <1> [188.935495] #PF: error_code(0x0002) - not-present page
-> <6> [188.935504] PGD 0 P4D 0
-> <4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
-> <4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 5.15.0-rc4-CI-Patchwork_21264+ #1
-> <4> [188.935535] Hardware name:  /NUC6CAYB, BIOS AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
-> <4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
-> <4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df ff eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 48 01 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 75 8c 48 8b 44 24 10
-> <4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
-> <4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 0000000000000001
-> <4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: ffffc900011dbcc8
-> <4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 00000000fffffffe
-> <4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: ffffc900011dbd44
-> <4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 0000000000000000
-> <4> [188.935643] FS:  00007f68d17e9700(0000) GS:ffff888277900000(0000) knlGS:0000000000000000
-> <4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> <4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 00000000003506e0
-> <4> [188.935676] Call Trace:
-> <4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
-> <4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
-> <4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
-> <4> [188.936533]  drm_ioctl_kernel+0xae/0x140
-> <4> [188.936546]  drm_ioctl+0x201/0x3d0
-> <4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
-> <4> [188.936820]  ? __fget_files+0xc2/0x1c0
-> <4> [188.936830]  ? __fget_files+0xda/0x1c0
-> <4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
-> <4> [188.936848]  do_syscall_64+0x3a/0xb0
-> <4> [188.936859]  entry_SYSCALL_64_after_hwframe+0x44/0xae
->
-> If the shared object has changed during the RCU unlocked period
-> callers will correctly handle the restart on the next iteration.
->
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Fixes: 96601e8a4755 ("dma-buf: use new iterator in dma_resv_copy_fences")
-> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in dma_resv_get_fences v3")
-> Closes: https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F4274&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C0a73b5d07f5f44cdc5a808d98a4109f9%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637692834972816537%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C2000&amp;sdata=jhcO2Q8bGhLTW7b4%2BNn4TE3UCwBbAcQVuceJEwDK0fg%3D&amp;reserved=0
-> Cc: Christian König <christian.koenig@amd.com>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
 
-Maybe we should remove cursor->fences altogether, but either way the 
-patch is Reviewed-by: Christian König <christian.koenig@amd.com>
+Acked-by: Christian König <christian.koenig@amd.com>
 
-Please push to drm-misc-next ASAP.
+Where are the other patches from the series?
 
 Thanks,
 Christian.
 
 > ---
->   drivers/dma-buf/dma-resv.c | 18 ++++++++++--------
->   include/linux/dma-resv.h   |  5 ++++-
->   2 files changed, 14 insertions(+), 9 deletions(-)
+>   drivers/gpu/drm/radeon/r100.c          | 9 +++++++++
+>   drivers/gpu/drm/radeon/r300.c          | 3 +++
+>   drivers/gpu/drm/radeon/r420.c          | 3 +++
+>   drivers/gpu/drm/radeon/r600.c          | 3 +++
+>   drivers/gpu/drm/radeon/radeon_dp_mst.c | 3 +++
+>   drivers/gpu/drm/radeon/radeon_fence.c  | 3 +++
+>   drivers/gpu/drm/radeon/radeon_gem.c    | 3 +++
+>   drivers/gpu/drm/radeon/radeon_ib.c     | 3 +++
+>   drivers/gpu/drm/radeon/radeon_pm.c     | 5 ++++-
+>   drivers/gpu/drm/radeon/radeon_ring.c   | 3 +++
+>   drivers/gpu/drm/radeon/radeon_ttm.c    | 3 +++
+>   drivers/gpu/drm/radeon/rs400.c         | 3 +++
+>   drivers/gpu/drm/radeon/rv515.c         | 3 +++
+>   13 files changed, 46 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index a480af9581bd..7b6d881c8904 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -333,10 +333,14 @@ static void dma_resv_iter_restart_unlocked(struct dma_resv_iter *cursor)
->   {
->   	cursor->seq = read_seqcount_begin(&cursor->obj->seq);
->   	cursor->index = -1;
-> -	if (cursor->all_fences)
-> +	cursor->shared_count = 0;
-> +	if (cursor->all_fences) {
->   		cursor->fences = dma_resv_shared_list(cursor->obj);
-> -	else
-> +		if (cursor->fences)
-> +			cursor->shared_count = cursor->fences->shared_count;
-> +	} else {
->   		cursor->fences = NULL;
-> +	}
->   	cursor->is_restarted = true;
->   }
->   
-> @@ -363,7 +367,7 @@ static void dma_resv_iter_walk_unlocked(struct dma_resv_iter *cursor)
->   				continue;
->   
->   		} else if (!cursor->fences ||
-> -			   cursor->index >= cursor->fences->shared_count) {
-> +			   cursor->index >= cursor->shared_count) {
->   			cursor->fence = NULL;
->   			break;
->   
-> @@ -448,10 +452,8 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->   			dma_resv_list_free(list);
->   			dma_fence_put(excl);
->   
-> -			if (cursor.fences) {
-> -				unsigned int cnt = cursor.fences->shared_count;
-> -
-> -				list = dma_resv_list_alloc(cnt);
-> +			if (cursor.shared_count) {
-> +				list = dma_resv_list_alloc(cursor.shared_count);
->   				if (!list) {
->   					dma_resv_iter_end(&cursor);
->   					return -ENOMEM;
-> @@ -522,7 +524,7 @@ int dma_resv_get_fences(struct dma_resv *obj, struct dma_fence **fence_excl,
->   			if (fence_excl)
->   				dma_fence_put(*fence_excl);
->   
-> -			count = cursor.fences ? cursor.fences->shared_count : 0;
-> +			count = cursor.shared_count;
->   			count += fence_excl ? 0 : 1;
->   
->   			/* Eventually re-allocate the array */
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index 8b6c20636a79..3e1bff147428 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -170,9 +170,12 @@ struct dma_resv_iter {
->   	/** @index: index into the shared fences */
->   	unsigned int index;
->   
-> -	/** @fences: the shared fences */
-> +	/** @fences: the shared fences; private, *MUST* not dereference  */
->   	struct dma_resv_list *fences;
->   
-> +	/** @shared_count: number of shared fences */
-> +	unsigned int shared_count;
+> diff --git a/drivers/gpu/drm/radeon/r100.c b/drivers/gpu/drm/radeon/r100.c
+> index 2dd85ba1faa2..ae6c95b34013 100644
+> --- a/drivers/gpu/drm/radeon/r100.c
+> +++ b/drivers/gpu/drm/radeon/r100.c
+> @@ -3059,6 +3059,9 @@ void  r100_debugfs_rbbm_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
 > +
->   	/** @is_restarted: true if this is the first returned fence */
->   	bool is_restarted;
->   };
+>   	debugfs_create_file("r100_rbbm_info", 0444, root, rdev,
+>   			    &r100_debugfs_rbbm_info_fops);
+>   #endif
+> @@ -3069,6 +3072,9 @@ void r100_debugfs_cp_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("r100_cp_ring_info", 0444, root, rdev,
+>   			    &r100_debugfs_cp_ring_info_fops);
+>   	debugfs_create_file("r100_cp_csq_fifo", 0444, root, rdev,
+> @@ -3081,6 +3087,9 @@ void  r100_debugfs_mc_info_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("r100_mc_info", 0444, root, rdev,
+>   			    &r100_debugfs_mc_info_fops);
+>   #endif
+> diff --git a/drivers/gpu/drm/radeon/r300.c b/drivers/gpu/drm/radeon/r300.c
+> index 621ff174dff3..b22969e2394f 100644
+> --- a/drivers/gpu/drm/radeon/r300.c
+> +++ b/drivers/gpu/drm/radeon/r300.c
+> @@ -618,6 +618,9 @@ static void rv370_debugfs_pcie_gart_info_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("rv370_pcie_gart_info", 0444, root, rdev,
+>   			    &rv370_debugfs_pcie_gart_info_fops);
+>   #endif
+> diff --git a/drivers/gpu/drm/radeon/r420.c b/drivers/gpu/drm/radeon/r420.c
+> index 7e6320e8c6a0..cdb4ac3e346b 100644
+> --- a/drivers/gpu/drm/radeon/r420.c
+> +++ b/drivers/gpu/drm/radeon/r420.c
+> @@ -494,6 +494,9 @@ void r420_debugfs_pipes_info_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("r420_pipes_info", 0444, root, rdev,
+>   			    &r420_debugfs_pipes_info_fops);
+>   #endif
+> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.c
+> index ca3fcae2adb5..d8f525cf0c3b 100644
+> --- a/drivers/gpu/drm/radeon/r600.c
+> +++ b/drivers/gpu/drm/radeon/r600.c
+> @@ -4360,6 +4360,9 @@ static void r600_debugfs_mc_info_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("r600_mc_info", 0444, root, rdev,
+>   			    &r600_debugfs_mc_info_fops);
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_dp_mst.c b/drivers/gpu/drm/radeon/radeon_dp_mst.c
+> index ec867fa880a4..cf06da89bb7c 100644
+> --- a/drivers/gpu/drm/radeon/radeon_dp_mst.c
+> +++ b/drivers/gpu/drm/radeon/radeon_dp_mst.c
+> @@ -771,6 +771,9 @@ void radeon_mst_debugfs_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_mst_info", 0444, root, rdev,
+>   			    &radeon_debugfs_mst_info_fops);
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+> index 73e3117420bf..11f30349de46 100644
+> --- a/drivers/gpu/drm/radeon/radeon_fence.c
+> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
+> @@ -1006,6 +1006,9 @@ void radeon_debugfs_fence_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_gpu_reset", 0444, root, rdev,
+>   			    &radeon_debugfs_gpu_reset_fops);
+>   	debugfs_create_file("radeon_fence_info", 0444, root, rdev,
+> diff --git a/drivers/gpu/drm/radeon/radeon_gem.c b/drivers/gpu/drm/radeon/radeon_gem.c
+> index 458f92a70887..e6df1451af37 100644
+> --- a/drivers/gpu/drm/radeon/radeon_gem.c
+> +++ b/drivers/gpu/drm/radeon/radeon_gem.c
+> @@ -890,6 +890,9 @@ void radeon_gem_debugfs_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_gem_info", 0444, root, rdev,
+>   			    &radeon_debugfs_gem_info_fops);
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_ib.c b/drivers/gpu/drm/radeon/radeon_ib.c
+> index 62b116727b4f..28316eb4fd49 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ib.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ib.c
+> @@ -311,6 +311,9 @@ static void radeon_debugfs_sa_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_sa_info", 0444, root, rdev,
+>   			    &radeon_debugfs_sa_info_fops);
+>   #endif
+> diff --git a/drivers/gpu/drm/radeon/radeon_pm.c b/drivers/gpu/drm/radeon/radeon_pm.c
+> index c67b6ddb29a4..c09e574d04f0 100644
+> --- a/drivers/gpu/drm/radeon/radeon_pm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_pm.c
+> @@ -1958,6 +1958,9 @@ static void radeon_debugfs_pm_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_pm_info", 0444, root, rdev,
+>   			    &radeon_debugfs_pm_info_fops);
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_ring.c b/drivers/gpu/drm/radeon/radeon_ring.c
+> index 7e207276df37..31a5b1ebf7c9 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ring.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ring.c
+> @@ -550,6 +550,9 @@ static void radeon_debugfs_ring_init(struct radeon_device *rdev, struct radeon_r
+>   	const char *ring_name = radeon_debugfs_ring_idx_to_name(ring->idx);
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	if (ring_name)
+>   		debugfs_create_file(ring_name, 0444, root, ring,
+>   				    &radeon_debugfs_ring_info_fops);
+> diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+> index 11b21d605584..2e18ec93768d 100644
+> --- a/drivers/gpu/drm/radeon/radeon_ttm.c
+> +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+> @@ -942,6 +942,9 @@ static void radeon_ttm_debugfs_init(struct radeon_device *rdev)
+>   	struct drm_minor *minor = rdev->ddev->primary;
+>   	struct dentry *root = minor->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("radeon_vram", 0444, root, rdev,
+>   			    &radeon_ttm_vram_fops);
+>
+> diff --git a/drivers/gpu/drm/radeon/rs400.c b/drivers/gpu/drm/radeon/rs400.c
+> index 6383f7a34bd8..b41a903a29c3 100644
+> --- a/drivers/gpu/drm/radeon/rs400.c
+> +++ b/drivers/gpu/drm/radeon/rs400.c
+> @@ -380,6 +380,9 @@ static void rs400_debugfs_pcie_gart_info_init(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("rs400_gart_info", 0444, root, rdev,
+>   			    &rs400_debugfs_gart_info_fops);
+>   #endif
+> diff --git a/drivers/gpu/drm/radeon/rv515.c b/drivers/gpu/drm/radeon/rv515.c
+> index 63fb06e8e2d7..f39b6ab554f2 100644
+> --- a/drivers/gpu/drm/radeon/rv515.c
+> +++ b/drivers/gpu/drm/radeon/rv515.c
+> @@ -257,6 +257,9 @@ void rv515_debugfs(struct radeon_device *rdev)
+>   #if defined(CONFIG_DEBUG_FS)
+>   	struct dentry *root = rdev->ddev->primary->debugfs_root;
+>
+> +	if (!root)
+> +		return;
+> +
+>   	debugfs_create_file("rv515_pipes_info", 0444, root, rdev,
+>   			    &rv515_debugfs_pipes_info_fops);
+>   	debugfs_create_file("rv515_ga_info", 0444, root, rdev,
+> --
+> 2.32.0
+>
 
