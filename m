@@ -1,45 +1,47 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25150427771
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 06:51:32 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B77A4277A7
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 07:53:29 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 53B6F6E122;
-	Sat,  9 Oct 2021 04:51:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0AC26E059;
+	Sat,  9 Oct 2021 05:53:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 361 seconds by postgrey-1.36 at gabe;
- Sat, 09 Oct 2021 04:51:26 UTC
-Received: from rere.qmqm.pl (rere.qmqm.pl [91.227.64.183])
- by gabe.freedesktop.org (Postfix) with ESMTPS id ABB706E122
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Oct 2021 04:51:26 +0000 (UTC)
-Received: from remote.user (localhost [127.0.0.1])
- by rere.qmqm.pl (Postfix) with ESMTPSA id 4HRCD149mdzBD;
- Sat,  9 Oct 2021 06:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
- t=1633754722; bh=Al+d/dwu71Q5HoylR3UebWD0GQaPId+64C/tD/x2YQk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jFCkbVP0VfQ/BHVuHi9ZYoge27n8XkONTxxdvdPLzq8Gi/CcweU4F23N8GJq/1kI/
- n3sV9GAvGLOfnrz/j8pc0NI3jpV9MKyjvwPZR9I5knrvElk5HjcZ6HJ9nVOVKDGwrO
- shzhW1X6a/mBFG0MYNoDP6t0ICYexozbthxhFQW7dzVz8WcWkWMkpCQXuRIryU8gIy
- /dEK3n74/cpTr1p1hEZGDBhnbu6b6ybzyhgZwDW2EvOxfcJPHxnmwsoVgQ18UeIS0o
- WbJIkwTKRygjcjpbwbBh6XnnU86M4iv8Tqx4FAiCZtPFMEE7dASV3uOGhSDn5Ta2QB
- lf+v+zzxLSk4w==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.103.3 at mail
-Date: Sat, 9 Oct 2021 06:45:17 +0200
-From: =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH 1/6] lib/scatterlist: Add contiguous DMA chunks helpers
-Message-ID: <YWEeXZOPslG0v7N2@qmqm.qmqm.pl>
-References: <20210916094404.888267-1-thierry.reding@gmail.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EC5D66E059
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Oct 2021 05:53:23 +0000 (UTC)
+X-UUID: bb78f1369c79463db52dfa763b5575e2-20211009
+X-UUID: bb78f1369c79463db52dfa763b5575e2-20211009
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
+ mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 211365005; Sat, 09 Oct 2021 13:53:19 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.2.792.15; Sat, 9 Oct 2021 13:53:18 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Sat, 9 Oct 2021 13:53:17 +0800
+From: <guangming.cao@mediatek.com>
+To: <rdunlap@infradead.org>
+CC: <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+ <guangming.cao@mediatek.com>, <linaro-mm-sig@lists.linaro.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
+ <matthias.bgg@gmail.com>, <sumit.semwal@linaro.org>,
+ <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date: Sat, 9 Oct 2021 13:55:04 +0800
+Message-ID: <20211009055504.68272-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
+References: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210916094404.888267-1-thierry.reding@gmail.com>
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,16 +57,61 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, Sep 16, 2021 at 11:43:59AM +0200, Thierry Reding wrote:
-> From: Thierry Reding <treding@nvidia.com>
-> 
-> Add a few helpers to count the number of contiguous DMA chunks found in
-> an SG table. This is useful to determine whether or not a mapping can be
-> used by drivers whose devices need contiguous memory.
-[...]
+From: Guangming Cao <Guangming.Cao@mediatek.com>
 
-Is the counting of all blocks necessary if all to be checked is whether
-there is more than one continuous block?
+If dma-buf don't want userspace users to touch the dmabuf buffer,
+it seems we should add this restriction into dma_buf_ops.mmap,
+not in this IOCTL:DMA_BUF_SET_NAME.
 
-Best Regards
-Micha³ Miros³aw
+With this restriction, we can only know the kernel users of the dmabuf
+by attachments.
+However, for many userspace users, such as userpsace users of dma_heap,
+they also need to mark the usage of dma-buf, and they don't care about
+who attached to this dmabuf, and seems it's no meaning to be waiting for
+IOCTL:DMA_BUF_SET_NAME rather than mmap.
+
+Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+---
+ drivers/dma-buf/dma-buf.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 511fe0d217a0..db2f4efdec32 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+ 
+ /**
+  * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+- * The name of the dma-buf buffer can only be set when the dma-buf is not
+- * attached to any devices. It could theoritically support changing the
+- * name of the dma-buf if the same piece of memory is used for multiple
+- * purpose between different devices.
++ * It could theoretically support changing the name of the dma-buf if the same
++ * piece of memory is used for multiple purpose between different devices.
+  *
+  * @dmabuf: [in]     dmabuf buffer that will be renamed.
+  * @buf:    [in]     A piece of userspace memory that contains the name of
+@@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+ 	if (IS_ERR(name))
+ 		return PTR_ERR(name);
+ 
+-	dma_resv_lock(dmabuf->resv, NULL);
+-	if (!list_empty(&dmabuf->attachments)) {
+-		ret = -EBUSY;
+-		kfree(name);
+-		goto out_unlock;
+-	}
+ 	spin_lock(&dmabuf->name_lock);
+ 	kfree(dmabuf->name);
+ 	dmabuf->name = name;
+ 	spin_unlock(&dmabuf->name_lock);
+ 
+-out_unlock:
+-	dma_resv_unlock(dmabuf->resv);
+ 	return ret;
+ }
+ 
+-- 
+2.17.1
+
