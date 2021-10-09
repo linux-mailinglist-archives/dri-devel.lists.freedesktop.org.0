@@ -2,46 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B77A4277A7
-	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 07:53:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E6A42785C
+	for <lists+dri-devel@lfdr.de>; Sat,  9 Oct 2021 11:17:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B0AC26E059;
-	Sat,  9 Oct 2021 05:53:24 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B390A6E14F;
+	Sat,  9 Oct 2021 09:17:39 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
- by gabe.freedesktop.org (Postfix) with ESMTPS id EC5D66E059
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Oct 2021 05:53:23 +0000 (UTC)
-X-UUID: bb78f1369c79463db52dfa763b5575e2-20211009
-X-UUID: bb78f1369c79463db52dfa763b5575e2-20211009
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by
- mailgw01.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 211365005; Sat, 09 Oct 2021 13:53:19 +0800
-Received: from mtkcas10.mediatek.inc (172.21.101.39) by
- mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- 15.2.792.15; Sat, 9 Oct 2021 13:53:18 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas10.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Sat, 9 Oct 2021 13:53:17 +0800
-From: <guangming.cao@mediatek.com>
-To: <rdunlap@infradead.org>
-CC: <christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
- <guangming.cao@mediatek.com>, <linaro-mm-sig@lists.linaro.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-mediatek@lists.infradead.org>,
- <matthias.bgg@gmail.com>, <sumit.semwal@linaro.org>,
- <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-Date: Sat, 9 Oct 2021 13:55:04 +0800
-Message-ID: <20211009055504.68272-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
-References: <c23181a5-b75b-c04b-7cc4-020f2b2b44c1@infradead.org>
+X-Greylist: delayed 1197 seconds by postgrey-1.36 at gabe;
+ Sat, 09 Oct 2021 09:17:38 UTC
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 46DBA6E14F
+ for <dri-devel@lists.freedesktop.org>; Sat,  9 Oct 2021 09:17:38 +0000 (UTC)
+Received: from dggeme764-chm.china.huawei.com (unknown [172.30.72.56])
+ by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4HRJjx6KNlzbn03;
+ Sat,  9 Oct 2021 16:53:09 +0800 (CST)
+Received: from compute.localdomain (10.175.112.70) by
+ dggeme764-chm.china.huawei.com (10.3.19.110) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.2308.8; Sat, 9 Oct 2021 16:57:34 +0800
+From: Jing Xiangfeng <jingxiangfeng@huawei.com>
+To: <airlied@linux.ie>, <kraxel@redhat.com>, <daniel@ffwll.ch>
+CC: <dri-devel@lists.freedesktop.org>,
+ <virtualization@lists.linux-foundation.org>, <linux-kernel@vger.kernel.org>,
+ <jingxiangfeng@huawei.com>
+Subject: [PATCH] drm/virtio: fix the missed drm_gem_object_put() in
+ virtio_gpu_user_framebuffer_create()
+Date: Sat, 9 Oct 2021 17:09:20 +0800
+Message-ID: <1633770560-11658-1-git-send-email-jingxiangfeng@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 Content-Type: text/plain
-X-MTK: N
+X-Originating-IP: [10.175.112.70]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ dggeme764-chm.china.huawei.com (10.3.19.110)
+X-CFilter-Loop: Reflected
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,61 +52,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+virtio_gpu_user_framebuffer_create() misses to call drm_gem_object_put()
+in an error path. Add the missed function call to fix it.
 
-If dma-buf don't want userspace users to touch the dmabuf buffer,
-it seems we should add this restriction into dma_buf_ops.mmap,
-not in this IOCTL:DMA_BUF_SET_NAME.
-
-With this restriction, we can only know the kernel users of the dmabuf
-by attachments.
-However, for many userspace users, such as userpsace users of dma_heap,
-they also need to mark the usage of dma-buf, and they don't care about
-who attached to this dmabuf, and seems it's no meaning to be waiting for
-IOCTL:DMA_BUF_SET_NAME rather than mmap.
-
-Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+Signed-off-by: Jing Xiangfeng <jingxiangfeng@huawei.com>
 ---
- drivers/dma-buf/dma-buf.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+ drivers/gpu/drm/virtio/virtgpu_display.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 511fe0d217a0..db2f4efdec32 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+diff --git a/drivers/gpu/drm/virtio/virtgpu_display.c b/drivers/gpu/drm/virtio/virtgpu_display.c
+index a6caebd4a0dd..5b00310ac4cd 100644
+--- a/drivers/gpu/drm/virtio/virtgpu_display.c
++++ b/drivers/gpu/drm/virtio/virtgpu_display.c
+@@ -308,8 +308,10 @@ virtio_gpu_user_framebuffer_create(struct drm_device *dev,
+ 		return ERR_PTR(-EINVAL);
  
- /**
-  * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
-- * The name of the dma-buf buffer can only be set when the dma-buf is not
-- * attached to any devices. It could theoritically support changing the
-- * name of the dma-buf if the same piece of memory is used for multiple
-- * purpose between different devices.
-+ * It could theoretically support changing the name of the dma-buf if the same
-+ * piece of memory is used for multiple purpose between different devices.
-  *
-  * @dmabuf: [in]     dmabuf buffer that will be renamed.
-  * @buf:    [in]     A piece of userspace memory that contains the name of
-@@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
- 	if (IS_ERR(name))
- 		return PTR_ERR(name);
+ 	virtio_gpu_fb = kzalloc(sizeof(*virtio_gpu_fb), GFP_KERNEL);
+-	if (virtio_gpu_fb == NULL)
++	if (virtio_gpu_fb == NULL) {
++		drm_gem_object_put(obj);
+ 		return ERR_PTR(-ENOMEM);
++	}
  
--	dma_resv_lock(dmabuf->resv, NULL);
--	if (!list_empty(&dmabuf->attachments)) {
--		ret = -EBUSY;
--		kfree(name);
--		goto out_unlock;
--	}
- 	spin_lock(&dmabuf->name_lock);
- 	kfree(dmabuf->name);
- 	dmabuf->name = name;
- 	spin_unlock(&dmabuf->name_lock);
- 
--out_unlock:
--	dma_resv_unlock(dmabuf->resv);
- 	return ret;
- }
- 
+ 	ret = virtio_gpu_framebuffer_init(dev, virtio_gpu_fb, mode_cmd, obj);
+ 	if (ret) {
 -- 
-2.17.1
+2.26.0.106.g9fadedd
 
