@@ -1,38 +1,61 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2863A4281A5
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 16:07:57 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 877574281B1
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 16:15:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0C29D6E30C;
-	Sun, 10 Oct 2021 14:07:52 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D147E6E328;
+	Sun, 10 Oct 2021 14:15:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from smtp.smtpout.orange.fr (smtp13.smtpout.orange.fr
- [80.12.242.135])
- by gabe.freedesktop.org (Postfix) with ESMTP id D75486E328
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 14:07:50 +0000 (UTC)
-Received: from pop-os.home ([90.126.248.220]) by mwinf5d78 with ME
- id 4E0F260064m3Hzu03E0Fup; Sun, 10 Oct 2021 16:00:18 +0200
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 10 Oct 2021 16:00:18 +0200
-X-ME-IP: 90.126.248.220
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
- christian.gmeiner@gmail.com, airlied@linux.ie, daniel@ffwll.ch,
- robdclark@gmail.com, sean@poorly.run, jyri.sarha@iki.fi, tomba@kernel.org,
- linux-graphics-maintainer@vmware.com, zackr@vmware.com,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org
-Cc: etnaviv@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] drm: Remove redundant 'flush_workqueue()' calls
-Date: Sun, 10 Oct 2021 15:59:40 +0200
-Message-Id: <75e8ba40076ad707d47e3a3670e6b23c1b8b11bc.1633874223.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.30.2
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com
+ [IPv6:2607:f8b0:4864:20::e30])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F20D36E328
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 14:15:52 +0000 (UTC)
+Received: by mail-vs1-xe30.google.com with SMTP id a10so5573033vsr.1
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 07:15:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=usp.br; s=usp-google;
+ h=date:from:to:subject:message-id:mime-version:content-disposition
+ :content-transfer-encoding;
+ bh=izKUqplOlmWkgjpjFs49PGSqbc2h9R8tIH8Xtb4XJNg=;
+ b=U+4fxzpDjqHua+VWNZJOxIq1Wz2MZQ5R/56ea7sju/7qwEJbL+KW29uRGo+8510jUd
+ WJIoKHCARhEtMivL8LnJVmis8eVI/qXccbyqGmI+J/PY+hZuiPA/3sXlgzpcJDGtEOK8
+ 75mueYH3SlKlYMmPRU4gv6Zu9WMqZDuCC9ngEJ50cRE2jUezh7aWVuD3tbSGQ2+xdQw9
+ 6+UEToDwEhEPJmBnYnbUVKxZ1x97vntD1FuiDvwKfyZNn0T8vwQNpSQ3Omi9Xza7yMnJ
+ 5G5ySujNyPNUtmKLw13Qyx4pQ2nu79niOu0rjxsXLtz9bIJjboafMP7QHHQsJmRrN9Dz
+ Glsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=izKUqplOlmWkgjpjFs49PGSqbc2h9R8tIH8Xtb4XJNg=;
+ b=WX6WoW9iq4ipvVGcGU2vyVX4hmx7Chs8hSik9MVAY60od7bQyjEZieVhNqmvQTb2gj
+ +2sBxE2ygjHYdkE+z/ei01GXgewPIhsn76vY2d5Tu5aoxNre2KMcS9E2Fvbf0vdFlTUc
+ II+45SbDdHBiGk4EMFkz80qukRdx85oM5y7trJlrPAyIEUjdjc8xNh2p3CeecOpMfAZg
+ cgFST2kXccD5coAaHl4IsvBqQiZESaYnPbscNs86YwA5mIKXftPU04UACeamAawOhY8u
+ ze1QkJtXTDBSbhNEoSYGxEMciGQiiEQhccvI3Rwi14UDGk6tIhUcsOsh+A/INQ4TKkM7
+ KYkw==
+X-Gm-Message-State: AOAM5324ukTvjqYduJaetJ+u/FHHTETu20IljE9p7Nv1B4vLDd8Qn2B1
+ onCVZZHTt64oXgySF2PrrHTFiw5HGyJNWA==
+X-Google-Smtp-Source: ABdhPJzXalRyY+6yUjIXEiHBORgYlLEMNVnNyKkBrHP89Bjrw4g20ki6kJLfTkpKxXz0V6+BghAcsA==
+X-Received: by 2002:a05:6102:f08:: with SMTP id
+ v8mr19614984vss.60.1633875351140; 
+ Sun, 10 Oct 2021 07:15:51 -0700 (PDT)
+Received: from fedora ([187.64.134.142])
+ by smtp.gmail.com with ESMTPSA id s81sm2093208vks.55.2021.10.10.07.15.49
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 10 Oct 2021 07:15:50 -0700 (PDT)
+Date: Sun, 10 Oct 2021 11:15:47 -0300
+From: =?iso-8859-1?Q?Ma=EDra?= Canal <maira.canal@usp.br>
+To: dri-devel@lists.freedesktop.org
+Subject: [PATCH] drm/i915: replacing drm_modeset_lock_all for
+ DRM_MODESET_LOCK_ALL_*
+Message-ID: <YWL1kxAbsq26//kF@fedora>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -49,109 +72,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-'destroy_workqueue()' already drains the queue before destroying it, so
-there is no need to flush it explicitly.
+As requested in GPU Driver Developers Guide TODO list, replaces all
+drm_lock boilerplates for DRM_MODESET_LOCK_ALL_* helpers.
 
-Remove the redundant 'flush_workqueue()' calls.
-
-This was generated with coccinelle:
-
-@@
-expression E;
-@@
-- 	flush_workqueue(E);
-	destroy_workqueue(E);
-
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Signed-off-by: Maíra Canal <maira.canal@usp.br>
 ---
- drivers/gpu/drm/etnaviv/etnaviv_gpu.c | 1 -
- drivers/gpu/drm/msm/dsi/dsi_host.c    | 1 -
- drivers/gpu/drm/msm/edp/edp_ctrl.c    | 1 -
- drivers/gpu/drm/msm/hdmi/hdmi.c       | 4 +---
- drivers/gpu/drm/tilcdc/tilcdc_drv.c   | 4 +---
- drivers/gpu/drm/vmwgfx/ttm_memory.c   | 1 -
- 6 files changed, 2 insertions(+), 10 deletions(-)
+ drivers/gpu/drm/i915/display/intel_display.c | 13 ++-----------
+ 1 file changed, 2 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-index 789acae37f55..06bde46df451 100644
---- a/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-+++ b/drivers/gpu/drm/etnaviv/etnaviv_gpu.c
-@@ -1733,7 +1733,6 @@ static void etnaviv_gpu_unbind(struct device *dev, struct device *master,
+diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
+index 17f44ffea586..71b7ff7b7dea 100644
+--- a/drivers/gpu/drm/i915/display/intel_display.c
++++ b/drivers/gpu/drm/i915/display/intel_display.c
+@@ -13466,22 +13466,13 @@ void intel_display_resume(struct drm_device *dev)
+ 	if (state)
+ 		state->acquire_ctx = &ctx;
  
- 	DBG("%s", dev_name(gpu->dev));
- 
--	flush_workqueue(gpu->wq);
- 	destroy_workqueue(gpu->wq);
- 
- 	etnaviv_sched_fini(gpu);
-diff --git a/drivers/gpu/drm/msm/dsi/dsi_host.c b/drivers/gpu/drm/msm/dsi/dsi_host.c
-index c86b5090fae6..462ea65ebf89 100644
---- a/drivers/gpu/drm/msm/dsi/dsi_host.c
-+++ b/drivers/gpu/drm/msm/dsi/dsi_host.c
-@@ -1925,7 +1925,6 @@ void msm_dsi_host_destroy(struct mipi_dsi_host *host)
- 	DBG("");
- 	dsi_tx_buf_free(msm_host);
- 	if (msm_host->workqueue) {
--		flush_workqueue(msm_host->workqueue);
- 		destroy_workqueue(msm_host->workqueue);
- 		msm_host->workqueue = NULL;
- 	}
-diff --git a/drivers/gpu/drm/msm/edp/edp_ctrl.c b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-index fe1366b4c49f..07129a6e5dbb 100644
---- a/drivers/gpu/drm/msm/edp/edp_ctrl.c
-+++ b/drivers/gpu/drm/msm/edp/edp_ctrl.c
-@@ -1190,7 +1190,6 @@ void msm_edp_ctrl_destroy(struct edp_ctrl *ctrl)
- 		return;
- 
- 	if (ctrl->workqueue) {
--		flush_workqueue(ctrl->workqueue);
- 		destroy_workqueue(ctrl->workqueue);
- 		ctrl->workqueue = NULL;
- 	}
-diff --git a/drivers/gpu/drm/msm/hdmi/hdmi.c b/drivers/gpu/drm/msm/hdmi/hdmi.c
-index 737453b6e596..5ba7c8f28419 100644
---- a/drivers/gpu/drm/msm/hdmi/hdmi.c
-+++ b/drivers/gpu/drm/msm/hdmi/hdmi.c
-@@ -61,10 +61,8 @@ static void msm_hdmi_destroy(struct hdmi *hdmi)
- 	 * at this point, hpd has been disabled,
- 	 * after flush workq, it's safe to deinit hdcp
- 	 */
--	if (hdmi->workq) {
--		flush_workqueue(hdmi->workq);
-+	if (hdmi->workq)
- 		destroy_workqueue(hdmi->workq);
+-	drm_modeset_acquire_init(&ctx, 0);
+-
+-	while (1) {
+-		ret = drm_modeset_lock_all_ctx(dev, &ctx);
+-		if (ret != -EDEADLK)
+-			break;
+-
+-		drm_modeset_backoff(&ctx);
 -	}
- 	msm_hdmi_hdcp_destroy(hdmi);
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
  
- 	if (hdmi->phy_dev) {
-diff --git a/drivers/gpu/drm/tilcdc/tilcdc_drv.c b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-index 6b03f89a98d4..3ddb7c710a3d 100644
---- a/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-+++ b/drivers/gpu/drm/tilcdc/tilcdc_drv.c
-@@ -186,10 +186,8 @@ static void tilcdc_fini(struct drm_device *dev)
- 	if (priv->mmio)
- 		iounmap(priv->mmio);
+ 	if (!ret)
+ 		ret = __intel_display_resume(dev, state, &ctx);
  
--	if (priv->wq) {
--		flush_workqueue(priv->wq);
-+	if (priv->wq)
- 		destroy_workqueue(priv->wq);
--	}
+ 	intel_enable_ipc(dev_priv);
+-	drm_modeset_drop_locks(&ctx);
+-	drm_modeset_acquire_fini(&ctx);
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
  
- 	dev->dev_private = NULL;
- 
-diff --git a/drivers/gpu/drm/vmwgfx/ttm_memory.c b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-index edd17c30d5a5..7f7fe35fc21d 100644
---- a/drivers/gpu/drm/vmwgfx/ttm_memory.c
-+++ b/drivers/gpu/drm/vmwgfx/ttm_memory.c
-@@ -468,7 +468,6 @@ void ttm_mem_global_release(struct ttm_mem_global *glob)
- 	struct ttm_mem_zone *zone;
- 	unsigned int i;
- 
--	flush_workqueue(glob->swap_queue);
- 	destroy_workqueue(glob->swap_queue);
- 	glob->swap_queue = NULL;
- 	for (i = 0; i < glob->num_zones; ++i) {
+ 	if (ret)
+ 		drm_err(&dev_priv->drm,
 -- 
-2.30.2
+2.31.1
 
