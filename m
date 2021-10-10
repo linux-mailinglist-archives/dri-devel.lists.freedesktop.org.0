@@ -1,30 +1,31 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id D779E42814D
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 14:41:19 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C54842814F
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 14:42:18 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C81C56E321;
-	Sun, 10 Oct 2021 12:41:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9D6D36E323;
+	Sun, 10 Oct 2021 12:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E76A46E323
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 12:41:16 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 2E6AF60D07;
- Sun, 10 Oct 2021 12:41:16 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 927016E323
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 12:42:14 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C42B560E9B;
+ Sun, 10 Oct 2021 12:42:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1633869676;
- bh=o7w90LSNRYu3AezcvSR4dAernvfz123PxduSd3YmtCc=;
+ s=korg; t=1633869734;
+ bh=Bpy6PoeXSREAwPQ0KcOu32aZSxTiBSBrVaAh6SrEQFI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=gdKE04NYiz7YZMW0mlmTDySLzhyqylYJl1Ey/fQ5uY6NRjLA1LKb8FkLbr42QFH1O
- MZRfs6rH8EsH0D7APJCwXc0rodR1l0lA5LBkdgv8x3kTrD5dCy3YZxG55pJGq0yOY1
- Dzmz8hzn6rdhQnh8DGzOo1s9lYByCXmcXLS7Gtno=
-Date: Sun, 10 Oct 2021 14:41:14 +0200
+ b=FxbNIA7lfuxW1Is4/zht8jBaWGaBkTbxAVU0xxna4LeFF89ZKaxT5p2Zkx5WlaTCd
+ 4IYJ02oEBRZ4+NwHoF0HaxZW3xebMMOeD/C81pMhuCLnOZFF8l7hbO+6XhRuByYTo9
+ oKKIswcBFig4LUq9HHluZs5/ETup12NyjW5H5MLs=
+Date: Sun, 10 Oct 2021 14:42:11 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+To: Arnd Bergmann <arnd@arndb.de>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
  Alex Deucher <alexander.deucher@amd.com>,
  "Pan, Xinhui" <Xinhui.Pan@amd.com>, David Airlie <airlied@linux.ie>,
  Daniel Vetter <daniel@ffwll.ch>,
@@ -32,18 +33,18 @@ Cc: Sumit Semwal <sumit.semwal@linaro.org>,
  Maxime Ripard <mripard@kernel.org>,
  Thomas Zimmermann <tzimmermann@suse.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH] dma-buf: move dma-buf symbols into the DMA_BUF module
  namespace
-Message-ID: <YWLfav3afArnyBFg@kroah.com>
+Message-ID: <YWLfo5xRKjVGmP62@kroah.com>
 References: <YU8oVDFoeD5YYeDT@kroah.com>
- <18108ec3-550f-be65-7fe6-655444b7f75b@amd.com>
+ <CAK8P3a3pdVhjv4J4HSB1cvHU7U_P7TV7HCOYmrK==V_MAnT2BQ@mail.gmail.com>
+ <CAK8P3a0gSJrR=rLtyLOH+D-grsoy_9_kOOS-AT3aX8R48p+zww@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <18108ec3-550f-be65-7fe6-655444b7f75b@amd.com>
+In-Reply-To: <CAK8P3a0gSJrR=rLtyLOH+D-grsoy_9_kOOS-AT3aX8R48p+zww@mail.gmail.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,35 +60,20 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Sep 27, 2021 at 12:08:45PM +0200, Christian König wrote:
-> Am 25.09.21 um 15:47 schrieb Greg Kroah-Hartman:
-> > In order to better track where in the kernel the dma-buf code is used,
-> > put the symbols in the namespace DMA_BUF and modify all users of the
-> > symbols to properly import the namespace to not break the build at the
-> > same time.
-> > 
-> > Now the output of modinfo shows the use of these symbols, making it
-> > easier to watch for users over time:
-> > 
-> > $ modinfo drivers/misc/fastrpc.ko | grep import
-> > import_ns:      DMA_BUF
-> > 
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Pan, Xinhui" <Xinhui.Pan@amd.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Mon, Sep 27, 2021 at 11:39:21AM +0200, Arnd Bergmann wrote:
+> On Sat, Sep 25, 2021 at 7:41 PM Arnd Bergmann <arnd@arndb.de> wrote:
+> > On Sat, Sep 25, 2021 at 3:47 PM Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
 > 
-> Acked-by: Christian König <christian.koenig@amd.com>
+> > > Only test-built on x86 allmodconfig, don't know what other arches will
+> > > pick up, will let 0-day run on it for a bit...
+> >
+> > I've added it to my build box doing arm32/arm64/x86 randconfig tests,
+> > if it doesn't report anything by Monday, it's probably good in that regard.
+> 
+> It found these two, please fold into your patch:
 
-Thanks for the ack.
+Now folded in, odd that 0-day didn't find it...
+
+Thanks for the ack as well, I'll send out a v2 soon.
 
 greg k-h
