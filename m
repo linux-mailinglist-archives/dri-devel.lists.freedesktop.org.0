@@ -2,48 +2,71 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09E984281FD
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 16:49:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA5F42821E
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 17:02:09 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B84889F27;
-	Sun, 10 Oct 2021 14:49:39 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13A626E25A;
+	Sun, 10 Oct 2021 15:02:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de [85.214.62.61])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 8211289F2D
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 14:49:37 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 0952983695;
- Sun, 10 Oct 2021 16:49:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1633877376;
- bh=lh9VP9M/BOQRtNykOLqlRayz1f7Pp3NV8MsKeVB6r60=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=qTDxUaP9ZCLw7DRIxsZEClI/Rw3qsw2VHzwtgHn20cMCNhgUbKpDd1yHnWd690jZ6
- fgVObt4NaTmboU/EjwejzrzKqpZI3HSvMtNz+bL3vKLMhf0w2fRAN3ygd4jzjlDfCU
- lo6abz6p7VyIOMQQi2P6+DBWhWeZkGQj8OMr2spdCW0ZmE5EwnQeaEeI+4GkfsnG71
- zccmbIhHeBREznjFAJwNfAlQHhu2Y/sjWRI3kwT2BI5A332JLwOIZEoa/KwSXxrmRn
- a43ceDw+Ud9Tp1I2ZGdNcIbzzn1R/6JLCNoYvWJVkSEebc8ODwcM7JQ2RsjMB3t+HS
- 1xx6OJ4+QAOCQ==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v6 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-Date: Sun, 10 Oct 2021 16:49:19 +0200
-Message-Id: <20211010144919.38392-2-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211010144919.38392-1-marex@denx.de>
-References: <20211010144919.38392-1-marex@denx.de>
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
+ [IPv6:2a00:1450:4864:20::130])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C83AC6E25A
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 15:02:03 +0000 (UTC)
+Received: by mail-lf1-x130.google.com with SMTP id x27so62077714lfa.9
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 08:02:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
+ b=gx08TuE3Tb4+eM6AdSERF65Ipv7F1DmOp87cFU4pdr7qasXK5YM/PANcJsflzD+QGL
+ Y4IXZDsnwyJQKyeZ7+Givuv9N59pFJ7McbW4bS/mnX0TGEFUTuzlOqKlJgmCHIWRTshx
+ tep3Lf8qrSNtk4AhsyvtYg+oNsrOj2azV1zzYgx+bCiM/9089ZAw09gnbX2eWXHnYrss
+ TVizHiO40jEV5LBQcBIYUO8Bksdj+NXxw5t/5/VQgo8e7bHGJGdJbrAVy3QYrP/itclc
+ rGRc/d8iuwOgqS2q7h4hScCowBwpELFZDsKUjO7nQxuTMPIZxIuZWDE8YkeOn/653ly1
+ DZHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ZB+cVCAwS+ktrbkzyia0RQKNBK7/AOAZxJFAJNUaHcM=;
+ b=vscxlX5y1ySNQJN+duVjz/GDmT+i9qAsNoWZ4tdkaRhOyvSJ+6edwuXjJQvi1USz2b
+ 3LGfVmZZKbfoQowOD+SOcIHyw6zxw2uwykcas4qI/883CM+gvxKZoqYXLLU6jbw7B3Ns
+ OAyKcWTSVTKnyM5e/WvXmgikljjz9WrMSNRVE+z2FLnST7oEHW/OycYucmfM+Y4jYe5S
+ 3M/l0ZUJxA8R6AySHtaC/bpGxnIxcVkC7vX2GTkHaDL06rJRMh0pDJoXKO08NW6g7Dp9
+ fexlQL+0ny4NrcbiQvUeINHZ8s0gk3lltbEnv8pIRuRpOvrPvfNDDpnpEV8jRuDGLX3e
+ a+cg==
+X-Gm-Message-State: AOAM531JMRGnkA5bPbqbtXXy+y8x1epLfvD/udUsKmkgGkb7/MGNnn0u
+ OUk+MeEjajUO0UgUtmU+cJYIQiXJMdx2d92ZBG0=
+X-Google-Smtp-Source: ABdhPJx1WiVqhvW9kuzsMZbe57Eo3wmj+epLDA1q5iPHcIONo2FRXbXxgaO3Q99ATeU43WPJyMEf4KiNRW7/6kTLkSw=
+X-Received: by 2002:a05:651c:230e:: with SMTP id
+ bi14mr15606782ljb.467.1633878121862; 
+ Sun, 10 Oct 2021 08:02:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
+References: <20210929041905.126454-1-mie@igel.co.jp>
+ <20210929041905.126454-3-mie@igel.co.jp>
+ <YVXMkSDXybju88TU@phenom.ffwll.local>
+ <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
+ <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
+In-Reply-To: <CANXvt5rWEDQ1gRQOht3-O5KreEch6tPBuRtBkH8xLbEUXC2+MA@mail.gmail.com>
+From: Zhu Yanjun <zyjzyj2000@gmail.com>
+Date: Sun, 10 Oct 2021 23:01:50 +0800
+Message-ID: <CAD=hENdObLSg8qFJ8VftHNjv+riswU=qfU2ZBPr2eMiu210emg@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
+To: Shunsuke Mie <mie@igel.co.jp>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Doug Ledford <dledford@redhat.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Jianxin Xiong <jianxin.xiong@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>, Takanari Hayama <taki@igel.co.jp>,
+ Tomohito Esaki <etom@igel.co.jp>, Daniel Vetter <daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -59,149 +82,320 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Decoder input LVDS format is a property of the decoder chip or even
-its strapping. Handle data-mapping the same way lvds-panel does. In
-case data-mapping is not present, do nothing, since there are still
-legacy bindings which do not specify this property.
+On Tue, Oct 5, 2021 at 6:20 PM Shunsuke Mie <mie@igel.co.jp> wrote:
+>
+> ping
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
----
-V2: - Move the data-mapping to endpoint
-V3: - Rebase on V2 submitted a while ago, reinstate changelog
-    - Use .atomic_get_input_bus_fmts for the decoder, separate funcs for encoder
-V4: - No change
-V5: - Move the data-mapping property to port@0 , decoder LVDS input
-    - Add RB from Laurent
-V6: - Turn missing data-mapping into warning, since the driver does
-      continue in legacy probing mode without it.
----
- drivers/gpu/drm/bridge/lvds-codec.c | 76 ++++++++++++++++++++++++++++-
- 1 file changed, 75 insertions(+), 1 deletion(-)
+Sorry. I will check it soon.
+Zhu Yanjun
 
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index dcf579a4cf83..ad460b96c0a3 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -12,6 +12,7 @@
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
- 
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_panel.h>
- 
-@@ -22,6 +23,7 @@ struct lvds_codec {
- 	struct regulator *vcc;
- 	struct gpio_desc *powerdown_gpio;
- 	u32 connector_type;
-+	unsigned int bus_format;
- };
- 
- static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-@@ -74,12 +76,50 @@ static const struct drm_bridge_funcs funcs = {
- 	.disable = lvds_codec_disable,
- };
- 
-+#define MAX_INPUT_SEL_FORMATS 1
-+static u32 *
-+lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *bridge_state,
-+				     struct drm_crtc_state *crtc_state,
-+				     struct drm_connector_state *conn_state,
-+				     u32 output_fmt,
-+				     unsigned int *num_input_fmts)
-+{
-+	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = lvds_codec->bus_format;
-+	*num_input_fmts = MAX_INPUT_SEL_FORMATS;
-+
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs funcs_decoder = {
-+	.attach = lvds_codec_attach,
-+	.enable = lvds_codec_enable,
-+	.disable = lvds_codec_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
-+};
-+
- static int lvds_codec_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *panel_node;
-+	struct device_node *bus_node;
- 	struct drm_panel *panel;
- 	struct lvds_codec *lvds_codec;
-+	const char *mapping;
-+	int ret;
- 
- 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
- 	if (!lvds_codec)
-@@ -119,13 +159,47 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	if (IS_ERR(lvds_codec->panel_bridge))
- 		return PTR_ERR(lvds_codec->panel_bridge);
- 
-+	lvds_codec->bridge.funcs = &funcs;
-+
-+	/*
-+	 * Decoder input LVDS format is a property of the decoder chip or even
-+	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-+	 * case data-mapping is not present, do nothing, since there are still
-+	 * legacy bindings which do not specify this property.
-+	 */
-+	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-+		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-+		if (!bus_node) {
-+			dev_dbg(dev, "bus DT node not found\n");
-+			return -ENXIO;
-+		}
-+
-+		ret = of_property_read_string(bus_node, "data-mapping",
-+					      &mapping);
-+		of_node_put(bus_node);
-+		if (ret < 0) {
-+			dev_warn(dev, "missing 'data-mapping' DT property\n");
-+		} else {
-+			if (!strcmp(mapping, "jeida-18")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-+			} else if (!strcmp(mapping, "jeida-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+			} else if (!strcmp(mapping, "vesa-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-+			} else {
-+				dev_err(dev, "invalid 'data-mapping' DT property\n");
-+				return -EINVAL;
-+			}
-+			lvds_codec->bridge.funcs = &funcs_decoder;
-+		}
-+	}
-+
- 	/*
- 	 * The panel_bridge bridge is attached to the panel's of_node,
- 	 * but we need a bridge attached to our of_node for our user
- 	 * to look up.
- 	 */
- 	lvds_codec->bridge.of_node = dev->of_node;
--	lvds_codec->bridge.funcs = &funcs;
- 	drm_bridge_add(&lvds_codec->bridge);
- 
- 	platform_set_drvdata(pdev, lvds_codec);
--- 
-2.33.0
-
+>
+> 2021=E5=B9=B410=E6=9C=881=E6=97=A5(=E9=87=91) 12:56 Shunsuke Mie <mie@ige=
+l.co.jp>:
+> >
+> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <dani=
+el@ffwll.ch>:
+> > >
+> > > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
+> > > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=
+=99. Generate a
+> > > > rxe_map from the memory space linked the passed dma-buf.
+> > > >
+> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > > > ---
+> > > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+> > > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++=
+++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
+> > > >  4 files changed, 156 insertions(+)
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniba=
+nd/sw/rxe/rxe_loc.h
+> > > > index 1ca43b859d80..8bc19ea1a376 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+> > > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr =
+*mr);
+> > > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64=
+ iova,
+> > > >                    int access, struct rxe_mr *mr);
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr);
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr);
+> > > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int lengt=
+h,
+> > > >               enum rxe_mr_copy_dir dir);
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniban=
+d/sw/rxe/rxe_mr.c
+> > > > index 53271df10e47..af6ef671c3a5 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > @@ -4,6 +4,7 @@
+> > > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserve=
+d.
+> > > >   */
+> > > >
+> > > > +#include <linux/dma-buf.h>
+> > > >  #include "rxe.h"
+> > > >  #include "rxe_loc.h"
+> > > >
+> > > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 s=
+tart, u64 length, u64 iova,
+> > > >       return err;
+> > > >  }
+> > > >
+> > > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
+> > > > +                          struct ib_umem_dmabuf *umem_dmabuf)
+> > > > +{
+> > > > +     struct rxe_map_set *set;
+> > > > +     struct rxe_phys_buf *buf =3D NULL;
+> > > > +     struct rxe_map **map;
+> > > > +     void *vaddr, *vaddr_end;
+> > > > +     int num_buf =3D 0;
+> > > > +     int err;
+> > > > +     size_t remain;
+> > > > +
+> > > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL=
+);
+> > >
+> > > dmabuf_maps are just tagged pointers (and we could shrink them to act=
+ually
+> > > just a tagged pointer if anyone cares about the overhead of the separ=
+ate
+> > > bool), allocating them seperately is overkill.
+> >
+> > I agree with you. However, I think it is needed to unmap by
+> > dma_buf_vunmap(). If there is another simple way to unmap it. It is not
+> > needed I think. What do you think about it?
+> >
+> > > > +     if (!mr->dmabuf_map) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     if (err)
+> > > > +             goto err_free_dmabuf_map;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->page_shift =3D PAGE_SHIFT;
+> > > > +     set->page_mask =3D PAGE_SIZE - 1;
+> > > > +
+> > > > +     map =3D set->map;
+> > > > +     buf =3D map[0]->buf;
+> > > > +
+> > > > +     vaddr =3D mr->dmabuf_map->vaddr;
+> > >
+> > > dma_buf_map can be an __iomem too, you shouldn't dig around in this, =
+but
+> > > use the dma-buf-map.h helpers instead. On x86 (and I think also on mo=
+st
+> > > arm) it doesn't matter, but it's kinda not very nice in a pure softwa=
+re
+> > > driver.
+> > >
+> > > If anything is missing in dma-buf-map.h wrappers just add more.
+> > >
+> > > Or alternatively you need to fail the import if you can't handle __io=
+mem.
+> > >
+> > > Aside from these I think the dma-buf side here for cpu access looks
+> > > reasonable now.
+> > > -Daniel
+> > I'll see the dma-buf-map.h and consider the error handling that you sug=
+gested.
+> > I appreciate your support.
+> >
+> > Thanks a lot,
+> > Shunsuke.
+> >
+> > > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
+> > > > +     remain =3D umem_dmabuf->dmabuf->size;
+> > > > +
+> > > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
+> > > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
+> > > > +                     map++;
+> > > > +                     buf =3D map[0]->buf;
+> > > > +                     num_buf =3D 0;
+> > > > +             }
+> > > > +
+> > > > +             buf->addr =3D (uintptr_t)vaddr;
+> > > > +             if (remain >=3D PAGE_SIZE)
+> > > > +                     buf->size =3D PAGE_SIZE;
+> > > > +             else
+> > > > +                     buf->size =3D remain;
+> > > > +             remain -=3D buf->size;
+> > > > +
+> > > > +             num_buf++;
+> > > > +             buf++;
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_dmabuf_map:
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->=
+umem);
+> > > > +
+> > > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +}
+> > > > +
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf;
+> > > > +     struct rxe_map_set *set;
+> > > > +     int err;
+> > > > +
+> > > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, le=
+ngth, fd,
+> > > > +                                      access, NULL);
+> > > > +     if (IS_ERR(umem_dmabuf)) {
+> > > > +             err =3D PTR_ERR(umem_dmabuf);
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     rxe_mr_init(access, mr);
+> > > > +
+> > > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem=
+), 0);
+> > > > +     if (err) {
+> > > > +             pr_warn("%s: Unable to allocate memory for map\n", __=
+func__);
+> > > > +             goto err_release_umem;
+> > > > +     }
+> > > > +
+> > > > +     mr->ibmr.pd =3D &pd->ibpd;
+> > > > +     mr->umem =3D &umem_dmabuf->umem;
+> > > > +     mr->access =3D access;
+> > > > +     mr->state =3D RXE_MR_STATE_VALID;
+> > > > +     mr->type =3D IB_MR_TYPE_USER;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->length =3D length;
+> > > > +     set->iova =3D iova;
+> > > > +     set->va =3D start;
+> > > > +     set->offset =3D ib_umem_offset(mr->umem);
+> > > > +
+> > > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
+> > > > +     if (err)
+> > > > +             goto err_free_map_set;
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_map_set:
+> > > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
+> > > > +err_release_umem:
+> > > > +     ib_umem_release(&umem_dmabuf->umem);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr)
+> > > >  {
+> > > >       int err;
+> > > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+> > > >  {
+> > > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
+> > > >
+> > > > +     if (mr->umem && mr->umem->is_dmabuf)
+> > > > +             rxe_unmap_dmabuf_mr(mr);
+> > > > +
+> > > >       ib_umem_release(mr->umem);
+> > > >
+> > > >       if (mr->cur_map_set)
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infini=
+band/sw/rxe/rxe_verbs.c
+> > > > index 9d0bb9aa7514..6191bb4f434d 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib=
+_pd *ibpd,
+> > > >       return ERR_PTR(err);
+> > > >  }
+> > > >
+> > > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u6=
+4 start,
+> > > > +                                         u64 length, u64 iova, int=
+ fd,
+> > > > +                                         int access, struct ib_uda=
+ta *udata)
+> > > > +{
+> > > > +     int err;
+> > > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
+> > > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
+> > > > +     struct rxe_mr *mr;
+> > > > +
+> > > > +     mr =3D rxe_alloc(&rxe->mr_pool);
+> > > > +     if (!mr) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err2;
+> > > > +     }
+> > > > +
+> > > > +     rxe_add_index(mr);
+> > > > +
+> > > > +     rxe_add_ref(pd);
+> > > > +
+> > > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, =
+access, mr);
+> > > > +     if (err)
+> > > > +             goto err3;
+> > > > +
+> > > > +     return &mr->ibmr;
+> > > > +
+> > > > +err3:
+> > > > +     rxe_drop_ref(pd);
+> > > > +     rxe_drop_index(mr);
+> > > > +     rxe_drop_ref(mr);
+> > > > +err2:
+> > > > +     return ERR_PTR(err);
+> > > > +}
+> > > > +
+> > > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_t=
+ype mr_type,
+> > > >                                 u32 max_num_sg)
+> > > >  {
+> > > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops=
+ =3D {
+> > > >       .query_qp =3D rxe_query_qp,
+> > > >       .query_srq =3D rxe_query_srq,
+> > > >       .reg_user_mr =3D rxe_reg_user_mr,
+> > > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
+> > > >       .req_notify_cq =3D rxe_req_notify_cq,
+> > > >       .resize_cq =3D rxe_resize_cq,
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infini=
+band/sw/rxe/rxe_verbs.h
+> > > > index c807639435eb..0aa95ab06b6e 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > @@ -334,6 +334,8 @@ struct rxe_mr {
+> > > >
+> > > >       struct rxe_map_set      *cur_map_set;
+> > > >       struct rxe_map_set      *next_map_set;
+> > > > +
+> > > > +     struct dma_buf_map *dmabuf_map;
+> > > >  };
+> > > >
+> > > >  enum rxe_mw_state {
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
