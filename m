@@ -1,45 +1,44 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC9674282A4
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 19:30:08 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 161FE4282AB
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 19:33:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CB4ED6E33F;
-	Sun, 10 Oct 2021 17:30:02 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8AE946E095;
+	Sun, 10 Oct 2021 17:33:46 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from bombadil.infradead.org (bombadil.infradead.org
- [IPv6:2607:7c80:54:e::133])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 684A56E33F
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 17:30:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
- Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
- Content-ID:Content-Description:In-Reply-To:References;
- bh=ElKmRgunDXAFgaLsva8h4MdS8Z4mUm9nwnKPIHOnh9k=; b=kMhFnATrV0InsEL8jwYwbHxcUL
- 1jHkqRYsYAnhubVi4Vz7gOm+mq7tHf/cMM6DQcrTCG5w80V3tCgxkXSb+FlJl5kRGWQTK5LcmnVlG
- 3nyoajIPQwuOe90AwtUydgSSGhJqlw/P/JL9g+UAd4ejQaMWZ8T0mqINKRGWFGkByYOvrMp1J7Fhz
- 4zoWM1PqKVus0NsxQcmK9tlUpZJu/rar1nno5cGIJh8HozeN6IMgzUQNcmv2Qb0pmj+tnmrnuplA4
- JbEhjQ0EIIJE7P3HjmWG6D5cPVQGBlCO9swnZO+hxHD+1u2TAxJJ+LkbhofoFA6OCdZcNpEgOgZij
- dRCqLdiw==;
-Received: from [2601:1c0:6280:3f0::aa0b] (helo=bombadil.infradead.org)
- by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1mZce4-007CI6-5H; Sun, 10 Oct 2021 17:29:56 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, dri-devel@lists.freedesktop.org,
- Jeff Dike <jdike@addtoit.com>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- linux-um@lists.infradead.org
-Subject: [PATCH v2] drm/r128: fix build for UML
-Date: Sun, 10 Oct 2021 10:29:55 -0700
-Message-Id: <20211010172955.30088-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.31.1
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93F2B6E095
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 17:33:44 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id 2e76b871-29f0-11ec-9c3f-0050568c148b;
+ Sun, 10 Oct 2021 17:33:29 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id 72898194BA6;
+ Sun, 10 Oct 2021 19:33:27 +0200 (CEST)
+Date: Sun, 10 Oct 2021 19:33:37 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 0/2] Add support for Sharp LS060T1SX01 panel
+Message-ID: <YWMj8Yj5XM7YUPqs@ravnborg.org>
+References: <20211009203806.56821-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211009203806.56821-1-dmitry.baryshkov@linaro.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,37 +54,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Fix a build error on CONFIG_UML, which does not support (provide)
-wbinvd(). UML can use the generic mb() instead.
+Hi Dmitry,
 
-../drivers/gpu/drm/r128/ati_pcigart.c: In function ‘drm_ati_pcigart_init’:
-../drivers/gpu/drm/r128/ati_pcigart.c:218:2: error: implicit declaration of function ‘wbinvd’ [-Werror=implicit-function-declaration]
-  wbinvd();
-  ^~~~~~
+On Sat, Oct 09, 2021 at 11:38:04PM +0300, Dmitry Baryshkov wrote:
+> Add driver to support Sharp LS06T1SX01 6.0" FullHD panel found e.g. in
+> the kwaek.ca Dragonboard Display Adapter Bundle.
+> 
+> Changes since v4:
+>  - Use MIPI_DSI_MODE_NO_EOT_PACKET instead of the old name
+> 
+> Changes since v3:
+>  - Replaced small msleeps with usleep_range
+> 
+> Changes since v2:
+>  - Add missing power supplies used by the panel according to the
+>    datasheet
+> 
+> Changes since v1:
+>  - Fix the id in the schema file
+> 
+> ----------------------------------------------------------------
+> Dmitry Baryshkov (2):
+>       dt-bindings: add bindings for the Sharp LS060T1SX01 panel
+>       drm/panel: Add support for Sharp LS060T1SX01 panel
 
-Fixes: 68f5d3f3b654 ("um: add PCI over virtio emulation driver")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Jeff Dike <jdike@addtoit.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Cc: linux-um@lists.infradead.org
----
-v2: update Fixes: tag (thanks, Johannes)
+Applied to drm-misc-next and this time on purpose.
+Thanks for the quick fixes.
 
- drivers/gpu/drm/r128/ati_pcigart.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-next-20211007.orig/drivers/gpu/drm/r128/ati_pcigart.c
-+++ linux-next-20211007/drivers/gpu/drm/r128/ati_pcigart.c
-@@ -215,7 +215,7 @@ int drm_ati_pcigart_init(struct drm_devi
- 	}
- 	ret = 0;
- 
--#if defined(__i386__) || defined(__x86_64__)
-+#if (defined(__i386__) || defined(__x86_64__)) && !defined(CONFIG_UML)
- 	wbinvd();
- #else
- 	mb();
+	Sam
