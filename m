@@ -1,50 +1,68 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E6E427DF1
-	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 00:42:33 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBEF5427E76
+	for <lists+dri-devel@lfdr.de>; Sun, 10 Oct 2021 05:03:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 90E1A6E214;
-	Sat,  9 Oct 2021 22:42:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A25F6E21C;
+	Sun, 10 Oct 2021 03:03:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from phobos.denx.de (phobos.denx.de
- [IPv6:2a01:238:438b:c500:173d:9f52:ddab:ee01])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 108C56E213
- for <dri-devel@lists.freedesktop.org>; Sat,  9 Oct 2021 22:42:21 +0000 (UTC)
-Received: from tr.lan (ip-89-176-112-137.net.upcbroadband.cz [89.176.112.137])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: marex@denx.de)
- by phobos.denx.de (Postfix) with ESMTPSA id 7A20D83679;
- Sun, 10 Oct 2021 00:42:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=denx.de;
- s=phobos-20191101; t=1633819339;
- bh=M7cg3K9aByJeOF1WGDMb0IUW2HbCuAQms1ODAUrSNsw=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=TgXnoU7ghYlJr7ZhIYhGEub+dEYHp4yjAEMo9cd7GyxrXrgCVSmSz3arUILd6P6oA
- pittYw/97g2n2fev7yOXBr2F+dLHXWdhA2+ZZT5qOZtJAoW3J7FysVh7VdxUBcW0+z
- 27Z4iuPOjIrpnaqXctmyh9yJpxtRTXlhlwIV5IeJGh8tOgvK04eBALEheIYyVVnzj8
- 6mNVrU66Oz1eh7ZVVD81BD63o3LOxvqmcARKX6Xn54vFaIrEmB1mRG1nVBQDKVRu03
- Ag0FpU7dKIP1BuErmeSfvURteIeBhEiJyVVMhxNMELyYC09MCjkf5pZH8qPW1eNj6C
- jiFgDYcsbX0iA==
-From: Marek Vasut <marex@denx.de>
-To: dri-devel@lists.freedesktop.org
-Cc: Marek Vasut <marex@denx.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sam Ravnborg <sam@ravnborg.org>
-Subject: [PATCH v5 2/2] drm/bridge: lvds-codec: Add support for LVDS data
- mapping select
-Date: Sun, 10 Oct 2021 00:41:52 +0200
-Message-Id: <20211009224152.427219-2-marex@denx.de>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211009224152.427219-1-marex@denx.de>
-References: <20211009224152.427219-1-marex@denx.de>
+Received: from mail-ot1-x332.google.com (mail-ot1-x332.google.com
+ [IPv6:2607:f8b0:4864:20::332])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 62AD26E210
+ for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 03:03:01 +0000 (UTC)
+Received: by mail-ot1-x332.google.com with SMTP id
+ w10-20020a056830280a00b0054e4e6c85a6so7794253otu.5
+ for <dri-devel@lists.freedesktop.org>; Sat, 09 Oct 2021 20:03:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dULes5+aKNO9I+xG1qAGVCL0ir0FJqSn6Fpl0VJVQKg=;
+ b=IrfhRy1H3cFzWgH10PhI0r5z0+eWTpL+BooBqTktyj/FHdmNLVj6svwXEIOi7EktUs
+ EDv6OFCJ4aLOFipxOt93n0rF4Dr0qPyrhg+F9diminBuXyprOk5oeGxIDrzumXPH3yxw
+ CVrpuMzmXQG/P0vPwjS0VLEvizsmVgNZ/IspDoHLADHINn6a7mZYz1bq6OYxiMEC6rL8
+ Ts/ZqxS/oPktK1E+Ec7rJQbVS3bWnR1jsBA4FMRkPrLYwKn130U10JHJW7vL0mS3gKH3
+ F5v3EdFeHWzSo8N4JMxgGKli6AfGZxwuWG77tVrI6m6Q33neQ/JfS3WvrdZfklUJzVCT
+ bqBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dULes5+aKNO9I+xG1qAGVCL0ir0FJqSn6Fpl0VJVQKg=;
+ b=SB9o/tK6WHVJ/Gx8qhfgDpToWZNWy9KVJEzFWwrpvmiN0/Ixg30szNdJH/Lta94RAO
+ PSW/6/FNOEFcB1g50aHQ3i8abpR55+4+eAGiqiZ+mvDv4BYTjWWSm0xilr3OfxYrNljg
+ zsgJu1S7QoIiyqWEVwXjxLw5KC2SQgbtFEmROS+r1eM1+wM2gtHX94HSF+MY9O9S4VVP
+ 1ieLzl03kIjWDHcip+qaif/wY7eq5eHcm2shq4J4a2R/lLF5FoYZ+Oizhzfo9tq1Ixnk
+ OlXfKW1QX8xM5318E6d0iqbcCf79rTlVTGjG8H2VB0eMbGcPvs6MsmP6p7fFhqevtgAc
+ sAtw==
+X-Gm-Message-State: AOAM530HH/af685KFRyx+U1QMVvUpRp8X0CRpn1OvYR0IGRsNnHTZbWE
+ AQxkKa4x5K+fiaeao5eUk9FbAQ==
+X-Google-Smtp-Source: ABdhPJyla0z0yyMYy+ZmMtAsDPkpQKZ/s6cNhagJT2URxlyS37YKvJSmjB+MIKrSb4TcY1g//DJkEQ==
+X-Received: by 2002:a05:6830:3093:: with SMTP id
+ f19mr2218948ots.97.1633834980511; 
+ Sat, 09 Oct 2021 20:03:00 -0700 (PDT)
+Received: from localhost.localdomain ([2600:1700:a0:3dc8:205:1bff:fec0:b9b3])
+ by smtp.gmail.com with ESMTPSA id
+ s22sm894943ois.32.2021.10.09.20.02.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 09 Oct 2021 20:02:59 -0700 (PDT)
+From: Bjorn Andersson <bjorn.andersson@linaro.org>
+To: Rob Clark <robdclark@gmail.com>, Stephen Boyd <swboyd@chromium.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Kuogee Hsieh <khsieh@codeaurora.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, linux-arm-msm@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/msm/dp: Use the connector passed to dp_debug_get()
+Date: Sat,  9 Oct 2021 20:04:35 -0700
+Message-Id: <20211010030435.4000642-1-bjorn.andersson@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Virus-Scanned: clamav-milter 0.103.2 at phobos.denx.de
-X-Virus-Status: Clean
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -60,147 +78,247 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Decoder input LVDS format is a property of the decoder chip or even
-its strapping. Handle data-mapping the same way lvds-panel does. In
-case data-mapping is not present, do nothing, since there are still
-legacy bindings which do not specify this property.
+The debugfs code is provided an array of a single drm_connector. Then to
+access the connector, the list of all connectors of the DRM device is
+traversed and all non-DisplayPort connectors are skipped, to find the
+one and only DisplayPort connector.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-To: dri-devel@lists.freedesktop.org
----
-V2: - Move the data-mapping to endpoint
-V3: - Rebase on V2 submitted a while ago, reinstate changelog
-    - Use .atomic_get_input_bus_fmts for the decoder, separate funcs for encoder
-V4: - No change
-V5: - Move the data-mapping property to port@0 , decoder LVDS input
-    - Add RB from Laurent
----
- drivers/gpu/drm/bridge/lvds-codec.c | 76 ++++++++++++++++++++++++++++-
- 1 file changed, 75 insertions(+), 1 deletion(-)
+But as we move to support multiple DisplayPort controllers this will now
+find multiple connectors and has no way to distinguish them.
 
-diff --git a/drivers/gpu/drm/bridge/lvds-codec.c b/drivers/gpu/drm/bridge/lvds-codec.c
-index dcf579a4cf83..08091bab4857 100644
---- a/drivers/gpu/drm/bridge/lvds-codec.c
-+++ b/drivers/gpu/drm/bridge/lvds-codec.c
-@@ -12,6 +12,7 @@
- #include <linux/platform_device.h>
- #include <linux/regulator/consumer.h>
+Pass the single connector to dp_debug_get() and use this in the debugfs
+functions instead, both to simplify the code and the support the
+multiple instances.
+
+Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
+---
+ drivers/gpu/drm/msm/dp/dp_debug.c   | 131 ++++++++++------------------
+ drivers/gpu/drm/msm/dp/dp_debug.h   |   2 +-
+ drivers/gpu/drm/msm/dp/dp_display.c |   2 +-
+ 3 files changed, 46 insertions(+), 89 deletions(-)
+
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.c b/drivers/gpu/drm/msm/dp/dp_debug.c
+index af709d93bb9f..da4323556ef3 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.c
++++ b/drivers/gpu/drm/msm/dp/dp_debug.c
+@@ -24,7 +24,7 @@ struct dp_debug_private {
+ 	struct dp_usbpd *usbpd;
+ 	struct dp_link *link;
+ 	struct dp_panel *panel;
+-	struct drm_connector **connector;
++	struct drm_connector *connector;
+ 	struct device *dev;
+ 	struct drm_device *drm_dev;
  
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_bridge.h>
- #include <drm/drm_panel.h>
+@@ -97,59 +97,35 @@ DEFINE_SHOW_ATTRIBUTE(dp_debug);
  
-@@ -22,6 +23,7 @@ struct lvds_codec {
- 	struct regulator *vcc;
- 	struct gpio_desc *powerdown_gpio;
- 	u32 connector_type;
-+	unsigned int bus_format;
- };
- 
- static inline struct lvds_codec *to_lvds_codec(struct drm_bridge *bridge)
-@@ -74,12 +76,50 @@ static const struct drm_bridge_funcs funcs = {
- 	.disable = lvds_codec_disable,
- };
- 
-+#define MAX_INPUT_SEL_FORMATS 1
-+static u32 *
-+lvds_codec_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
-+				     struct drm_bridge_state *bridge_state,
-+				     struct drm_crtc_state *crtc_state,
-+				     struct drm_connector_state *conn_state,
-+				     u32 output_fmt,
-+				     unsigned int *num_input_fmts)
-+{
-+	struct lvds_codec *lvds_codec = to_lvds_codec(bridge);
-+	u32 *input_fmts;
-+
-+	*num_input_fmts = 0;
-+
-+	input_fmts = kcalloc(MAX_INPUT_SEL_FORMATS, sizeof(*input_fmts),
-+			     GFP_KERNEL);
-+	if (!input_fmts)
-+		return NULL;
-+
-+	input_fmts[0] = lvds_codec->bus_format;
-+	*num_input_fmts = MAX_INPUT_SEL_FORMATS;
-+
-+	return input_fmts;
-+}
-+
-+static const struct drm_bridge_funcs funcs_decoder = {
-+	.attach = lvds_codec_attach,
-+	.enable = lvds_codec_enable,
-+	.disable = lvds_codec_disable,
-+	.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-+	.atomic_reset = drm_atomic_helper_bridge_reset,
-+	.atomic_get_input_bus_fmts = lvds_codec_atomic_get_input_bus_fmts,
-+};
-+
- static int lvds_codec_probe(struct platform_device *pdev)
+ static int dp_test_data_show(struct seq_file *m, void *data)
  {
- 	struct device *dev = &pdev->dev;
- 	struct device_node *panel_node;
-+	struct device_node *bus_node;
- 	struct drm_panel *panel;
- 	struct lvds_codec *lvds_codec;
-+	const char *mapping;
-+	int ret;
+-	struct drm_device *dev;
+-	struct dp_debug_private *debug;
+-	struct drm_connector *connector;
+-	struct drm_connector_list_iter conn_iter;
++	const struct dp_debug_private *debug = m->private;
++	const struct drm_connector *connector = debug->connector;
+ 	u32 bpc;
  
- 	lvds_codec = devm_kzalloc(dev, sizeof(*lvds_codec), GFP_KERNEL);
- 	if (!lvds_codec)
-@@ -119,13 +159,47 @@ static int lvds_codec_probe(struct platform_device *pdev)
- 	if (IS_ERR(lvds_codec->panel_bridge))
- 		return PTR_ERR(lvds_codec->panel_bridge);
+-	debug = m->private;
+-	dev = debug->drm_dev;
+-	drm_connector_list_iter_begin(dev, &conn_iter);
+-	drm_for_each_connector_iter(connector, &conn_iter) {
+-
+-		if (connector->connector_type !=
+-			DRM_MODE_CONNECTOR_DisplayPort)
+-			continue;
+-
+-		if (connector->status == connector_status_connected) {
+-			bpc = debug->link->test_video.test_bit_depth;
+-			seq_printf(m, "hdisplay: %d\n",
+-					debug->link->test_video.test_h_width);
+-			seq_printf(m, "vdisplay: %d\n",
+-					debug->link->test_video.test_v_height);
+-			seq_printf(m, "bpc: %u\n",
+-					dp_link_bit_depth_to_bpc(bpc));
+-		} else
+-			seq_puts(m, "0");
++	if (connector->status == connector_status_connected) {
++		bpc = debug->link->test_video.test_bit_depth;
++		seq_printf(m, "hdisplay: %d\n",
++				debug->link->test_video.test_h_width);
++		seq_printf(m, "vdisplay: %d\n",
++				debug->link->test_video.test_v_height);
++		seq_printf(m, "bpc: %u\n",
++				dp_link_bit_depth_to_bpc(bpc));
++	} else {
++		seq_puts(m, "0");
+ 	}
  
-+	lvds_codec->bridge.funcs = &funcs;
-+
-+	/*
-+	 * Decoder input LVDS format is a property of the decoder chip or even
-+	 * its strapping. Handle data-mapping the same way lvds-panel does. In
-+	 * case data-mapping is not present, do nothing, since there are still
-+	 * legacy bindings which do not specify this property.
-+	 */
-+	if (lvds_codec->connector_type != DRM_MODE_CONNECTOR_LVDS) {
-+		bus_node = of_graph_get_endpoint_by_regs(dev->of_node, 0, 0);
-+		if (!bus_node) {
-+			dev_dbg(dev, "bus DT node not found\n");
-+			return -ENXIO;
-+		}
-+
-+		ret = of_property_read_string(bus_node, "data-mapping",
-+					      &mapping);
-+		of_node_put(bus_node);
-+		if (ret < 0) {
-+			dev_err(dev, "missing 'data-mapping' DT property\n");
-+		} else {
-+			if (!strcmp(mapping, "jeida-18")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG;
-+			} else if (!strcmp(mapping, "jeida-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA;
-+			} else if (!strcmp(mapping, "vesa-24")) {
-+				lvds_codec->bus_format = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG;
-+			} else {
-+				dev_err(dev, "invalid 'data-mapping' DT property\n");
-+				return -EINVAL;
-+			}
-+			lvds_codec->bridge.funcs = &funcs_decoder;
-+		}
-+	}
-+
- 	/*
- 	 * The panel_bridge bridge is attached to the panel's of_node,
- 	 * but we need a bridge attached to our of_node for our user
- 	 * to look up.
- 	 */
- 	lvds_codec->bridge.of_node = dev->of_node;
--	lvds_codec->bridge.funcs = &funcs;
- 	drm_bridge_add(&lvds_codec->bridge);
+-	drm_connector_list_iter_end(&conn_iter);
+-
+ 	return 0;
+ }
+ DEFINE_SHOW_ATTRIBUTE(dp_test_data);
  
- 	platform_set_drvdata(pdev, lvds_codec);
+ static int dp_test_type_show(struct seq_file *m, void *data)
+ {
+-	struct dp_debug_private *debug = m->private;
+-	struct drm_device *dev = debug->drm_dev;
+-	struct drm_connector *connector;
+-	struct drm_connector_list_iter conn_iter;
+-
+-	drm_connector_list_iter_begin(dev, &conn_iter);
+-	drm_for_each_connector_iter(connector, &conn_iter) {
+-
+-		if (connector->connector_type !=
+-			DRM_MODE_CONNECTOR_DisplayPort)
+-			continue;
++	const struct dp_debug_private *debug = m->private;
++	const struct drm_connector *connector = debug->connector;
+ 
+-		if (connector->status == connector_status_connected)
+-			seq_printf(m, "%02x", DP_TEST_LINK_VIDEO_PATTERN);
+-		else
+-			seq_puts(m, "0");
+-	}
+-	drm_connector_list_iter_end(&conn_iter);
++	if (connector->status == connector_status_connected)
++		seq_printf(m, "%02x", DP_TEST_LINK_VIDEO_PATTERN);
++	else
++		seq_puts(m, "0");
+ 
+ 	return 0;
+ }
+@@ -161,14 +137,12 @@ static ssize_t dp_test_active_write(struct file *file,
+ {
+ 	char *input_buffer;
+ 	int status = 0;
+-	struct dp_debug_private *debug;
+-	struct drm_device *dev;
+-	struct drm_connector *connector;
+-	struct drm_connector_list_iter conn_iter;
++	const struct dp_debug_private *debug;
++	const struct drm_connector *connector;
+ 	int val = 0;
+ 
+ 	debug = ((struct seq_file *)file->private_data)->private;
+-	dev = debug->drm_dev;
++	connector = debug->connector;
+ 
+ 	if (len == 0)
+ 		return 0;
+@@ -179,30 +153,22 @@ static ssize_t dp_test_active_write(struct file *file,
+ 
+ 	DRM_DEBUG_DRIVER("Copied %d bytes from user\n", (unsigned int)len);
+ 
+-	drm_connector_list_iter_begin(dev, &conn_iter);
+-	drm_for_each_connector_iter(connector, &conn_iter) {
+-		if (connector->connector_type !=
+-			DRM_MODE_CONNECTOR_DisplayPort)
+-			continue;
+-
+-		if (connector->status == connector_status_connected) {
+-			status = kstrtoint(input_buffer, 10, &val);
+-			if (status < 0)
+-				break;
+-			DRM_DEBUG_DRIVER("Got %d for test active\n", val);
+-			/* To prevent erroneous activation of the compliance
+-			 * testing code, only accept an actual value of 1 here
+-			 */
+-			if (val == 1)
+-				debug->panel->video_test = true;
+-			else
+-				debug->panel->video_test = false;
++	if (connector->status == connector_status_connected) {
++		status = kstrtoint(input_buffer, 10, &val);
++		if (status < 0) {
++			kfree(input_buffer);
++			return status;
+ 		}
++		DRM_DEBUG_DRIVER("Got %d for test active\n", val);
++		/* To prevent erroneous activation of the compliance
++		 * testing code, only accept an actual value of 1 here
++		 */
++		if (val == 1)
++			debug->panel->video_test = true;
++		else
++			debug->panel->video_test = false;
+ 	}
+-	drm_connector_list_iter_end(&conn_iter);
+ 	kfree(input_buffer);
+-	if (status < 0)
+-		return status;
+ 
+ 	*offp += len;
+ 	return len;
+@@ -211,25 +177,16 @@ static ssize_t dp_test_active_write(struct file *file,
+ static int dp_test_active_show(struct seq_file *m, void *data)
+ {
+ 	struct dp_debug_private *debug = m->private;
+-	struct drm_device *dev = debug->drm_dev;
+-	struct drm_connector *connector;
+-	struct drm_connector_list_iter conn_iter;
+-
+-	drm_connector_list_iter_begin(dev, &conn_iter);
+-	drm_for_each_connector_iter(connector, &conn_iter) {
+-		if (connector->connector_type !=
+-			DRM_MODE_CONNECTOR_DisplayPort)
+-			continue;
+-
+-		if (connector->status == connector_status_connected) {
+-			if (debug->panel->video_test)
+-				seq_puts(m, "1");
+-			else
+-				seq_puts(m, "0");
+-		} else
++	struct drm_connector *connector = debug->connector;
++
++	if (connector->status == connector_status_connected) {
++		if (debug->panel->video_test)
++			seq_puts(m, "1");
++		else
+ 			seq_puts(m, "0");
++	} else {
++		seq_puts(m, "0");
+ 	}
+-	drm_connector_list_iter_end(&conn_iter);
+ 
+ 	return 0;
+ }
+@@ -278,7 +235,7 @@ static int dp_debug_init(struct dp_debug *dp_debug, struct drm_minor *minor)
+ 
+ struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
+ 		struct dp_usbpd *usbpd, struct dp_link *link,
+-		struct drm_connector **connector, struct drm_minor *minor)
++		struct drm_connector *connector, struct drm_minor *minor)
+ {
+ 	int rc = 0;
+ 	struct dp_debug_private *debug;
+diff --git a/drivers/gpu/drm/msm/dp/dp_debug.h b/drivers/gpu/drm/msm/dp/dp_debug.h
+index 7eaedfbb149c..3f90acfffc5a 100644
+--- a/drivers/gpu/drm/msm/dp/dp_debug.h
++++ b/drivers/gpu/drm/msm/dp/dp_debug.h
+@@ -43,7 +43,7 @@ struct dp_debug {
+  */
+ struct dp_debug *dp_debug_get(struct device *dev, struct dp_panel *panel,
+ 		struct dp_usbpd *usbpd, struct dp_link *link,
+-		struct drm_connector **connector,
++		struct drm_connector *connector,
+ 		struct drm_minor *minor);
+ 
+ /**
+diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
+index 1708b7cdc1b3..41a6f58916e6 100644
+--- a/drivers/gpu/drm/msm/dp/dp_display.c
++++ b/drivers/gpu/drm/msm/dp/dp_display.c
+@@ -1464,7 +1464,7 @@ void msm_dp_debugfs_init(struct msm_dp *dp_display, struct drm_minor *minor)
+ 	dev = &dp->pdev->dev;
+ 
+ 	dp->debug = dp_debug_get(dev, dp->panel, dp->usbpd,
+-					dp->link, &dp->dp_display.connector,
++					dp->link, dp->dp_display.connector,
+ 					minor);
+ 	if (IS_ERR(dp->debug)) {
+ 		rc = PTR_ERR(dp->debug);
 -- 
-2.33.0
+2.29.2
 
