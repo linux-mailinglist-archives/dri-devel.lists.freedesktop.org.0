@@ -2,47 +2,66 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5530B42982D
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:33:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 370B842983B
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:42:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2DFC66E95F;
-	Mon, 11 Oct 2021 20:33:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 689E46E969;
+	Mon, 11 Oct 2021 20:42:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 388926E95F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 20:33:10 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 6a0dadbf-2ad2-11ec-ac3c-0050568cd888;
- Mon, 11 Oct 2021 20:32:55 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id D32B7194BA7;
- Mon, 11 Oct 2021 22:32:55 +0200 (CEST)
-Date: Mon, 11 Oct 2021 22:33:06 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 3/3] drm/bridge: ti-sn65dsi8: Make enable GPIO optional
-Message-ID: <YWSfgmMsSBha11XF@ravnborg.org>
-References: <20211006074713.1094396-1-alexander.stein@ew.tq-group.com>
- <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D90656E969
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 20:42:30 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ma27j-0006Dn-4t; Mon, 11 Oct 2021 22:42:15 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ma27c-0003x4-Pt; Mon, 11 Oct 2021 22:42:08 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1ma27c-0001bN-Nd; Mon, 11 Oct 2021 22:42:08 +0200
+Date: Mon, 11 Oct 2021 22:42:07 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Peter Huewe <peterhuewe@gmx.de>, Thierry Reding <thierry.reding@gmail.com>,
+ Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc: linux-hwmon@vger.kernel.org, linux-serial@vger.kernel.org,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-spi@vger.kernel.org,
+ Wolfram Sang <wsa@kernel.org>,
+ "Jason Gunthorpe linux-integrity @ vger . kernel . org" <jgg@ziepe.ca>,
+ Mark Brown <broonie@kernel.org>, linux-i2c@vger.kernel.org,
+ kernel@pengutronix.de, linux-input@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, linux-stm32@st-md-mailman.stormreply.com,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/13] Make some spi device drivers return zero in
+ .remove()
+Message-ID: <20211011204207.zfmofwf4d6ga45ao@pengutronix.de>
+References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="4crg6rmgkslx3kie"
 Content-Disposition: inline
-In-Reply-To: <20211006074713.1094396-3-alexander.stein@ew.tq-group.com>
+In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -58,18 +77,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi Alexander,
 
-On Wed, Oct 06, 2021 at 09:47:13AM +0200, Alexander Stein wrote:
-> The enable signal may not be controllable by the kernel. Make it
-> optional.
-> This is a similar to commit bbda1704fc15 ("drm/bridge: ti-sn65dsi86: Make
-> enable GPIO optional")
-> 
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Looks good.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
-Please include the dt-bindings patch from Laurent *before* this patch when you
-repost.
+--4crg6rmgkslx3kie
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-	Sam
+Hello,
+
+On Mon, Oct 11, 2021 at 03:27:41PM +0200, Uwe Kleine-K=F6nig wrote:
+> this series is part of my new quest to make spi remove callbacks return
+> void. Today they return an int, but the only result of returning a
+> non-zero value is a warning message. So it's a bad idea to return an
+> error code in the expectation that not freeing some resources is ok
+> then. The same holds true for i2c and platform devices which benefit en
+> passant for a few drivers.
+>=20
+> The patches in this series address some of the spi drivers that might
+> return non-zero and adapt them accordingly to return zero instead. For
+> most drivers it's just about not hiding the fact that they already
+> return zero.
+>=20
+> Given that there are quite some more patches of this type to create
+> before I can change the spi remove callback, I suggest the respecive
+> subsystem maintainers pick up these patches. There are no
+> interdependencies in this series.
+>=20
+> Uwe Kleine-K=F6nig (13):
+>   drm/panel: s6e63m0: Make s6e63m0_remove() return void
+>   hwmon: adt7x10: Make adt7x10_remove() return void
+>   hwmon: max31722: Warn about failure to put device in stand-by in
+>     .remove()
+>   input: adxl34xx: Make adxl34x_remove() return void
+>   input: touchscreen: tsc200x: Make tsc200x_remove() return void
+>   media: cxd2880: Eliminate dead code
+>   mfd: mc13xxx: Make mc13xxx_common_exit() return void
+>   mfd: stmpe: Make stmpe_remove() return void
+>   mfd: tps65912: Make tps65912_device_exit() return void
+>   serial: max310x: Make max310x_remove() return void
+>   serial: sc16is7xx: Make sc16is7xx_remove() return void
+>   staging: fbtft: Make fbtft_remove_common() return void
+>   tpm: st33zp24: Make st33zp24_remove() return void
+
+I thought I would be a good enough programmer to not need build tests.
+Obviously I was wrong and introduced build problems with the following
+patches:
+
+	input: touchscreen: tsc200x: Make tsc200x_remove() return void
+	mfd: mc13xxx: Make mc13xxx_common_exit() return void
+	serial: max310x: Make max310x_remove() return void
+	serial: sc16is7xx: Make sc16is7xx_remove() return void
+
+Please don't apply these (unless you also fix the trivial problems in
+them). I will prepare a v2 soon.
+
+Best regards and sorry for the inconvenience,
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--4crg6rmgkslx3kie
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkoZsACgkQwfwUeK3K
+7AkTugf9FW8u+Q+uOdqyv/dig5mZMoKZ01YqhMcNB1hLm+NpjtUVPs0yR3CgUTq2
+lhQH+cy+0zeuFQEuyDRBXSLYHuSJJKVES8CBrpN960wFh6WaLLKLet8ri0sBJRe3
+gakaZ/TcwPP4RwY/f1V4w/APWuU3or8dviF7hasfFR+D8tIMK+Wgi0LbdWMQIRHf
+P9T60rK5sOnHH33Kksf5stqLxdk06MBHzwJV15PhzWc0TUQAmO+oG0FDfxq+C8tQ
+8lXq6dtxtEMlzLhtLsBBHoUegGR/XbnKUmxT6kC0nO+G88xCYTO+BBjIGacAxhmQ
+2mK/fRgMytsTSX41qXejUgp6TuoW+Q==
+=mP11
+-----END PGP SIGNATURE-----
+
+--4crg6rmgkslx3kie--
