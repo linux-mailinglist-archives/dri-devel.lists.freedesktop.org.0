@@ -1,43 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD90B429743
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 21:06:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34E6E429745
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 21:06:48 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AD366E940;
-	Mon, 11 Oct 2021 19:06:36 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D98326E94A;
+	Mon, 11 Oct 2021 19:06:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2057.outbound.protection.outlook.com [40.107.237.57])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 627D06E940;
- Mon, 11 Oct 2021 19:06:33 +0000 (UTC)
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+ (mail-mw2nam12on2048.outbound.protection.outlook.com [40.107.244.48])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9EA426E94B;
+ Mon, 11 Oct 2021 19:06:37 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Af7UAu0JFceptbrWaon3HLASCs2FxrSKwJFCOq9rjHs9o3DT1xVAK0oPUackRWw9dXHuHe7+kP9p5LZP5tT/siBEluLi+xMhxtm4xiUmyAlWghFkFPyp9vC75bp6+Kv+SBNLiLyke+SOC4kPeBAjI1H0XFS+9I9xnvB3TaIEc2FKt6q42IDdEmkhykfcYsP4JwAgnLoO6bKPowP7KmrGvkURErRVlFHW7aBATPaSZUWGCIJr2EZMdObTgEpxIU6rIurETN+ZE8D4qbB6n0CT5N/IsErtP867KAUcwbbHn3UfdDwzsSk/LgYSjmZsuCofbggxMWZFUEu5Pp4MO0cQvg==
+ b=em/OUhISLEejfw47cW2Y4pRmA2uxbJUmygrhqk9vDa0au/E8pgO1K3RhCYYH3PwOzILVcIHLatQVfX2mlmEEoNp2MaJvQ+d7gqCnx2lvmTgsV7TGPoHbLpHJDX15NvuqZxxE+LlM7onFgzWsEv59fNnf83zl3vclxYS0rvIg6NuWYqBmfm/7KSV9nYoYdowLTDOK+j1XADi6FRJD2M4UR5J7hTSYy8QMo19QK9vSmxWVsuA5yEvEUm4rSUybIsqZGjAUDtJzUAp2xRGWpaUAoYbhD3AYefaK1jSeZJ859QE5WhRMbGbJPD2FmkS7zyl0zmMneIzQ/UENrpIi3xUFTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=94Hsy9uxVpjI7NE9tvsVTZAOa7AiXgnaKaKUuYzDA94=;
- b=BIrxuYFY3mH1SYmaMrKnpwEC26TfDDxmZb96DBOnLLensWnrmACV/gQC/DRQNr4taaxZVcQlNgiJegdkfE1oZy1J3HeAc1fbUosL4A4Y50lQhQnwXilg6BaY2fAx2wnUnY+ghAA11Tql4BxB6/LbNLkLojKTBRQ5BAvPwUciNnXZqX4RCk3hzgEfVBGWHhqxkwwYYsSqtBYgRygJw/mze98Rd9LDiA/pfBmZ1AzMcGshDkBTPGg8ZV0uFjbU3PjgPKZPSdRPfWxC3O1ygpIfDEQoGjRY5Jryu7P8OomO3ilW/o7B8Boqp4sTpMV1Bi23dCXHfd7OP83LHS8p3tBqGw==
+ bh=z4HdPZCjumm9oelccI9dnuSZ4Ye025zhV4VIlx2eUyE=;
+ b=Fi8jRrZDafeWTFhX7Yx9swFEgedKFGq8FWM6ax6ClnAuchSaEK1kfgdpbCHaC9ZiOJpsFLNIgtiIMc+SRfak8kwlv7X5Uf5/NuD443W7Lip02nBHNKAJMJkMyfCTGUNFxhKDSd9dTKdwQC/HyNDk9vb3dzX58FHLg7NZsi6cgeBliYJwUKfWZY9FRbZYHjaM8l/eLNQZN75xTG+bJV6rA32sLwS25Lod1iBBkUXmGOTs0xSeo5wZbh0Qz+wrlIaAhpGR+g5DMJ0O13NfqXSYfmAfF2LLAeeubES+rbPdwt4ah3ktGzSKFwzuQk1bPzm5gnUUYql9P56Gc065nuwJfA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=94Hsy9uxVpjI7NE9tvsVTZAOa7AiXgnaKaKUuYzDA94=;
- b=lNQgdvqpUifB84D/qQuriqs6k7ob31upr3x2rezt8KNVaNm8WAVJLsvP1i+RFaz7vnNSDC68j4enYn9Su/xy8Y7QRoyNziJjTw5V1oepq+ifzJStF/CkuwsMBT6ipv2EUoo4GD0ekKnUJ7yZVFkChPc8ESvX+pSuc5cwe1h3TSQ=
-Received: from DM3PR12CA0113.namprd12.prod.outlook.com (2603:10b6:0:55::33) by
- MN2PR12MB4110.namprd12.prod.outlook.com (2603:10b6:208:1dd::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20; Mon, 11 Oct
- 2021 19:06:31 +0000
-Received: from DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
- (2603:10b6:0:55:cafe::52) by DM3PR12CA0113.outlook.office365.com
- (2603:10b6:0:55::33) with Microsoft SMTP Server (version=TLS1_2,
+ bh=z4HdPZCjumm9oelccI9dnuSZ4Ye025zhV4VIlx2eUyE=;
+ b=Mmbuw/iWCCc9iwJD9a+sOXq8OMzZpCWk+cnczhdgFKa7QHZtqQ4WQUI33LLAGH0AFhC1TE1mdgdDwzs2YZcqXs5K5aMFBYoPW7YG/JvzuCbmWq34LBaELs98y2bpxbV809aGGXd3wy6rQy/tISL5u3YrB1WTEoU5f/C3+53dR/Y=
+Received: from DM5PR15CA0062.namprd15.prod.outlook.com (2603:10b6:3:ae::24) by
+ BN6PR12MB1476.namprd12.prod.outlook.com (2603:10b6:405:11::13) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4587.22; Mon, 11 Oct 2021 19:06:34 +0000
+Received: from DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:3:ae:cafe::dd) by DM5PR15CA0062.outlook.office365.com
+ (2603:10b6:3:ae::24) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18 via Frontend
- Transport; Mon, 11 Oct 2021 19:06:30 +0000
+ Transport; Mon, 11 Oct 2021 19:06:34 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
  header.d=none;lists.freedesktop.org; dmarc=pass action=none
@@ -46,22 +46,22 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com;
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DM6NAM11FT050.mail.protection.outlook.com (10.13.173.111) with Microsoft SMTP
+ DM6NAM11FT039.mail.protection.outlook.com (10.13.172.83) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.4587.18 via Frontend Transport; Mon, 11 Oct 2021 19:06:30 +0000
+ 15.20.4587.18 via Frontend Transport; Mon, 11 Oct 2021 19:06:33 +0000
 Received: from brihaspati.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Mon, 11 Oct
- 2021 14:06:26 -0500
+ 2021 14:06:29 -0500
 From: Nirmoy Das <nirmoy.das@amd.com>
 To: <dri-devel@lists.freedesktop.org>
-CC: <intel-gfx@lists.freedesktop.org>, Nirmoy Das <nirmoy.das@amd.com>, "Jani
- Nikula" <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
-Subject: [PATCH 3/4] drm/i915/gt: do not check for NULL debugfs dentry
-Date: Mon, 11 Oct 2021 21:06:06 +0200
-Message-ID: <20211011190607.104618-3-nirmoy.das@amd.com>
+CC: <intel-gfx@lists.freedesktop.org>, Nirmoy Das <nirmoy.das@amd.com>, "Lukas
+ Wunner" <lukas@wunner.de>, David Airlie <airlied@linux.ie>, Daniel Vetter
+ <daniel@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH 4/4] vgaswitcheroo: do not check for NULL debugfs dentry
+Date: Mon, 11 Oct 2021 21:06:07 +0200
+Message-ID: <20211011190607.104618-4-nirmoy.das@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211011190607.104618-1-nirmoy.das@amd.com>
 References: <20211011190607.104618-1-nirmoy.das@amd.com>
@@ -73,28 +73,28 @@ X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9abd9914-9af0-47c8-703c-08d98cea3be0
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4110:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB4110DCFAE260AF46DC42560C8BB59@MN2PR12MB4110.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:862;
+X-MS-Office365-Filtering-Correlation-Id: 5fa6e686-b3ae-4672-76ac-08d98cea3e0a
+X-MS-TrafficTypeDiagnostic: BN6PR12MB1476:
+X-Microsoft-Antispam-PRVS: <BN6PR12MB147600371FD9301BBE7AB1908BB59@BN6PR12MB1476.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1850;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: /BNFKHJXzQ8S8TfcGwPeJG0s2TCbDSxCpS0ev5piE7YMTXGf35bZtRok8DY6S+YweJ90JDYrBDCX7B+0X1yhAmzoFJR5fVfBzaz5iaZPLP5Ai5qKy1LeL7B2Ff89GGSkuzO/5iai5e+r9oKfekfvgY6V/Kje+q6zSE6+6j6CnlnBZma4jh1brE6WMkQHiZW8du2IjCvwN56UheWOcVTyJI6AEjlXa5K3aPi1BmRJS3sHySVA2veprpRZEdpqKvRc0vBPm4+7+1CnEBvFKH4AGxvpXs1JO+W4Zm8Q4Lf719zMuxxklg1RnKinzTl6olbaXgFSkwGOioz8pwh7rHv2+kT+O+tQRz0F4yE1XyHVEUHGH53UmzvHNPvJEkjSmZyCrQRc/a4kKszw1R7+QAb6NOT01mPRBDgU1HRmJ7S/tW1qK/o4xSXjQ8Io8VEU0KldBXOfiLUZ9kBT5HGQI6pCq8Fa3MHlyRNY/+DTnZQsnjPc/ZuP49flaZuqgFWQcF2Zq+Vhryurba+eYoSHQjv4tMzZNv4eUN2PpUQEQMZoFYNBCYzDgWG08mtnzEDjTapWtGnitxgXc7GVnLpnb4vvRHooQjW0p7FhjmtsghpwvQiVSrpFFBW0XlIDNbpSF9CmO4bwlmG4XDnwV5E4cJtK6DYVKIRDPb6QSEOzESXrssPv0ehwPKc7plq3vrFsdkTE2P1OLdI2E8x30l32oaFF3jSM/TaMN5W3EMEpKy6AwCc=
+X-Microsoft-Antispam-Message-Info: cDiE2j57aUlmMCiwGHEFEcPbR9dUPKGa3M94DsV/qVkDf86GPzFQbM4xpIV3a/QiA9RnJSBl7dd84t2LbLaXpYq8cT0i0b3TWH+VTJyQo+W9ov+LQ/8qOMSb6mQEAv+fLtqEYgiygT0L09sLfEAAkv5uXk5XOSZ3yWc/mC/vE+TdmXn/6vMLY5EcdOJCFck4/w0vTGSpyluit9NA0Pqi1VhrK6lRMJXKjG6IGH/F/ixR20NZax10Tz65QKLwkrrPziUSIw/E/2O/40GhdIc3X0WYhLANknpZGFcskDke2LiFmX0NcjPpBw8Q34922ArFvc7iSe1EmtZzRPvIdn8roI+wSzmR2ziAwT5B+efKEnIqo/Bau6h4hnJ3iyeyiKR64KLiBQTMUuB/e/6AzZ6ypTfM4KyRc8mzpNASU/nXv8Kmm4xOL/RhMqnaVYC6+S0HVQEJxdaOxDJCKYNRE/LbvHrQfJtYJ5LFrfXj/CH+Fsoa0SWV/vb7MXYNzliOySlyEzJpCP6tMyA+5vRS1qKuEAmfBxW1IS59oJxbZL5cIi9WoKvr6NC3Bmzlegmt4r+nS0A/6HInYw6zeE6arfkSIc9yjt3On9fb0fKmsfYVFcluwe0DSn0Gqbkn/eARtxIPvI6BKukPbwHn51o+/hP1H7676h2yi5S/omk3Sn8eEuMetFjNdiF2lYWrQK0iCrpCAL4ydqcGUdmjzwA2bUGA3Z0PMkXIe87czT/odTXYxgs=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(336012)(70206006)(36756003)(4326008)(83380400001)(1076003)(426003)(47076005)(6666004)(54906003)(2616005)(26005)(8676002)(186003)(508600001)(16526019)(356005)(44832011)(70586007)(81166007)(86362001)(6916009)(7696005)(5660300002)(82310400003)(8936002)(316002)(36860700001)(2906002)(4744005)(36900700001);
+ SFS:(4636009)(46966006)(36840700001)(44832011)(316002)(508600001)(4326008)(336012)(81166007)(6666004)(186003)(70206006)(356005)(7696005)(1076003)(36860700001)(2906002)(70586007)(8936002)(26005)(47076005)(83380400001)(82310400003)(6916009)(5660300002)(36756003)(2616005)(8676002)(16526019)(86362001)(426003)(54906003)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2021 19:06:30.3586 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9abd9914-9af0-47c8-703c-08d98cea3be0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2021 19:06:33.9935 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa6e686-b3ae-4672-76ac-08d98cea3e0a
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT050.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT039.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4110
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1476
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,35 +110,34 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Do not check for NULL value as drm.primary->debugfs_root
-will either contain a valid pointer or an encoded error
-instead of NULL.
+Debugfs APIs returns encoded error on failure so use
+debugfs_lookup() instead of checking for NULL.
 
-CC: Jani Nikula <jani.nikula@linux.intel.com>
-CC: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: Lukas Wunner <lukas@wunner.de>
 CC: David Airlie <airlied@linux.ie>
 CC: Daniel Vetter <daniel@ffwll.ch>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 Signed-off-by: Nirmoy Das <nirmoy.das@amd.com>
 ---
- drivers/gpu/drm/i915/gt/debugfs_gt.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/gpu/vga/vga_switcheroo.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/i915/gt/debugfs_gt.c b/drivers/gpu/drm/i915/gt/debugfs_gt.c
-index 591eb60785db..95ca1b3ad320 100644
---- a/drivers/gpu/drm/i915/gt/debugfs_gt.c
-+++ b/drivers/gpu/drm/i915/gt/debugfs_gt.c
-@@ -16,9 +16,6 @@ void debugfs_gt_register(struct intel_gt *gt)
+diff --git a/drivers/gpu/vga/vga_switcheroo.c b/drivers/gpu/vga/vga_switcheroo.c
+index 365e6ddbe90f..a331525f0b32 100644
+--- a/drivers/gpu/vga/vga_switcheroo.c
++++ b/drivers/gpu/vga/vga_switcheroo.c
+@@ -914,7 +914,7 @@ static void vga_switcheroo_debugfs_fini(struct vgasr_priv *priv)
+ static void vga_switcheroo_debugfs_init(struct vgasr_priv *priv)
  {
- 	struct dentry *root;
-
--	if (!gt->i915->drm.primary->debugfs_root)
--		return;
--
- 	root = debugfs_create_dir("gt", gt->i915->drm.primary->debugfs_root);
- 	if (IS_ERR(root))
+ 	/* already initialised */
+-	if (priv->debugfs_root)
++	if (debugfs_lookup("vgaswitcheroo", NULL))
  		return;
+
+ 	priv->debugfs_root = debugfs_create_dir("vgaswitcheroo", NULL);
 --
 2.32.0
 
