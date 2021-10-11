@@ -1,60 +1,38 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 864424299F7
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 01:45:00 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB964299FD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 01:51:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 7100289E3B;
-	Mon, 11 Oct 2021 23:44:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A91F899D4;
+	Mon, 11 Oct 2021 23:51:55 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
- [209.85.210.51])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 726DE89E3B
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 23:44:55 +0000 (UTC)
-Received: by mail-ot1-f51.google.com with SMTP id
- g62-20020a9d2dc4000000b0054752cfbc59so23763710otb.1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 16:44:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=dq9+YkMx0GHCeJWvTqnKsmwOPTk7sjGTA6ATq7IokFA=;
- b=0JvxIhOlR9vsR4N1A+EtAxLNYAcVMo8fHHid3j9tjrLnKkE/+fKpR940Tyjet1KnC8
- LhU5apm0N4dDTXwVY7LYmaIoPjzLJjKpo8K4n4cCCf6ZN0QuOoc0pWsvhyZGrRDDMcye
- chZDz2Mmku4Oj076xX/Ll2NAKQWeHPWRk9AsJGi6ilig65sKyic4o/SpaSY4LT9Wxmec
- zCnGN351PNJu6GQpm2YoopdCjKGx6g12/8A+6AHgE5CFc11rrmYi2KBwVK7pNXhahWX1
- 8ZmJVEoJAdrv21Q/hqEvjflOVtfnwIzY7wtiMsUfFHMJhwAFF4brx5rB2xf99w1gTjH7
- SjvQ==
-X-Gm-Message-State: AOAM531y+SvtSuQs+YM6Umx5Ll3CVItPiz+GOzFmH/tZMjl4+C99csMu
- fTsVkCcnRO5DkD4zNC0cug==
-X-Google-Smtp-Source: ABdhPJwdGAZLwdNaLgCvThYshN0fgEkSQ3hr7M+UCK9PDK4rr/2YteoPrw9SV/cr4euuY0pIsDg4ZQ==
-X-Received: by 2002:a9d:7114:: with SMTP id n20mr14449501otj.25.1633995894622; 
- Mon, 11 Oct 2021 16:44:54 -0700 (PDT)
-Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
- [66.90.148.213])
- by smtp.gmail.com with ESMTPSA id r4sm2060017oti.27.2021.10.11.16.44.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 16:44:53 -0700 (PDT)
-Received: (nullmailer pid 1392392 invoked by uid 1000);
- Mon, 11 Oct 2021 23:44:53 -0000
-Date: Mon, 11 Oct 2021 18:44:53 -0500
-From: Rob Herring <robh@kernel.org>
-To: Markus Schneider-Pargmann <msp@baylibre.com>
-Cc: Vinod Koul <vkoul@kernel.org>, devicetree@vger.kernel.org,
- linux-phy@lists.infradead.org, Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Sam Ravnborg <sam@ravnborg.org>, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, Philipp Zabel <p.zabel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v4 1/7] dt-bindings: mediatek,dpintf: Add DP_INTF binding
-Message-ID: <YWTMdewWCNCZy+UE@robh.at.kernel.org>
-References: <20211011094624.3416029-1-msp@baylibre.com>
- <20211011094624.3416029-2-msp@baylibre.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 26370899D4;
+ Mon, 11 Oct 2021 23:51:54 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="227283919"
+X-IronPort-AV: E=Sophos;i="5.85,366,1624345200"; d="scan'208";a="227283919"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+ by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 16:51:53 -0700
+X-IronPort-AV: E=Sophos;i="5.85,366,1624345200"; d="scan'208";a="490688278"
+Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
+ by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 16:51:53 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <intel-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>
+Cc: <john.c.harrison@intel.com>,
+	<thomas.hellstrom@linux.intel.com>
+Subject: [PATCH] drm/i915/selftests: Allow engine reset failure to do a GT
+ reset in hangcheck selftest
+Date: Mon, 11 Oct 2021 16:47:05 -0700
+Message-Id: <20211011234705.30853-1-matthew.brost@intel.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211011094624.3416029-2-msp@baylibre.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -70,27 +48,63 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 11 Oct 2021 11:46:18 +0200, Markus Schneider-Pargmann wrote:
-> DP_INTF is a similar functional block to mediatek,dpi but is different
-> in that it serves the DisplayPort controller on mediatek SoCs and uses
-> different clocks. Therefore this patch creates a new binding file for
-> this functional block.
-> 
-> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> ---
-> 
-> Notes:
->     Changes v3 -> v4:
->     - Fixed clock names in the example as the clock patch series is merged into
->       next now
->     - Add missing ports decleration to the example
-> 
->     Changes v1 -> v2:
->     - Move the devicetree binding from mediatek,dpi into its own binding file.
-> 
->  .../display/mediatek/mediatek,dpintf.yaml     | 86 +++++++++++++++++++
->  1 file changed, 86 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dpintf.yaml
-> 
+The hangcheck selftest blocks per engine resets by setting magic bits in
+the reset flags. This is incorrect for GuC submission because if the GuC
+fails to reset an engine we would like to do a full GT reset. Do no set
+these magic bits when using GuC submission.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+Side note this lockless algorithm with magic bits to block resets really
+should be ripped out.
+
+Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+---
+ drivers/gpu/drm/i915/gt/selftest_hangcheck.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+index 7e2d99dd012d..90a03c60c80c 100644
+--- a/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
++++ b/drivers/gpu/drm/i915/gt/selftest_hangcheck.c
+@@ -734,7 +734,8 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
+ 		reset_engine_count = i915_reset_engine_count(global, engine);
+ 
+ 		st_engine_heartbeat_disable(engine);
+-		set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		if (!using_guc)
++			set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		count = 0;
+ 		do {
+ 			struct i915_request *rq = NULL;
+@@ -824,7 +825,8 @@ static int __igt_reset_engine(struct intel_gt *gt, bool active)
+ 			if (err)
+ 				break;
+ 		} while (time_before(jiffies, end_time));
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		if (!using_guc)
++			clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable(engine);
+ 		pr_info("%s: Completed %lu %s resets\n",
+ 			engine->name, count, active ? "active" : "idle");
+@@ -1042,7 +1044,8 @@ static int __igt_reset_engines(struct intel_gt *gt,
+ 		yield(); /* start all threads before we begin */
+ 
+ 		st_engine_heartbeat_disable_no_pm(engine);
+-		set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		if (!using_guc)
++			set_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		do {
+ 			struct i915_request *rq = NULL;
+ 			struct intel_selftest_saved_policy saved;
+@@ -1165,7 +1168,8 @@ static int __igt_reset_engines(struct intel_gt *gt,
+ 			if (err)
+ 				break;
+ 		} while (time_before(jiffies, end_time));
+-		clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
++		if (!using_guc)
++			clear_bit(I915_RESET_ENGINE + id, &gt->reset.flags);
+ 		st_engine_heartbeat_enable_no_pm(engine);
+ 
+ 		pr_info("i915_reset_engine(%s:%s): %lu resets\n",
+-- 
+2.32.0
+
