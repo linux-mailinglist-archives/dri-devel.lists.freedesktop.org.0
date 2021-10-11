@@ -2,57 +2,55 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B560428956
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 11:02:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC1442898F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 11:20:03 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0B61B6E44F;
-	Mon, 11 Oct 2021 09:02:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 934E16E452;
+	Mon, 11 Oct 2021 09:20:01 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B180F6E44F
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 09:01:59 +0000 (UTC)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mZrBu-0005tB-0R; Mon, 11 Oct 2021 11:01:50 +0200
-Received: from ore by ptx.hi.pengutronix.de with local (Exim 4.92)
- (envelope-from <ore@pengutronix.de>)
- id 1mZrBs-0002N4-4R; Mon, 11 Oct 2021 11:01:48 +0200
-Date: Mon, 11 Oct 2021 11:01:48 +0200
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Rob Herring <robh+dt@kernel.org>, Robin van der Gracht <robin@protonic.nl>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org
-Subject: Re: [PATCH v1 2/3] drm: panel-simple: Add support for the Innolux
- G070Y2-T02 panel
-Message-ID: <20211011090148.GA28262@pengutronix.de>
-References: <20210930100501.15690-1-o.rempel@pengutronix.de>
- <20210930100501.15690-2-o.rempel@pengutronix.de>
- <YWGxbKm/5r/J1Vi6@ravnborg.org>
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [216.205.24.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A486B6E452
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 09:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1633943999;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LUZhr1weIZB5Mgjnu+H1Acau2hOu5RQNiImQsCT566c=;
+ b=NlBxMb+/cuRu5DSDMsf+QT2uxN3oN5AQPGjawXcZ5wtcl5Agq91D0l+QdofjvSCu/A9UFL
+ A+MagpBkMBiIfBIg22888B+0M4U99cHS3piS1ci8l1zwVzmMa+v9ZdT4k6UzS0bswe5o61
+ TdPxeEZ3FOVb8genx2x6JhO2y+d+K8I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-7pgL72FvMBiUe_PGPZMK2Q-1; Mon, 11 Oct 2021 05:19:56 -0400
+X-MC-Unique: 7pgL72FvMBiUe_PGPZMK2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C4F8801A92;
+ Mon, 11 Oct 2021 09:19:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.193.22])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DE4CB4180;
+ Mon, 11 Oct 2021 09:19:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 8EB6018009D4; Mon, 11 Oct 2021 11:19:51 +0200 (CEST)
+Date: Mon, 11 Oct 2021 11:19:51 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Jing Xiangfeng <jingxiangfeng@huawei.com>
+Cc: airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+ virtualization@lists.linux-foundation.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drm/virtio: fix the missed drm_gem_object_put() in
+ virtio_gpu_user_framebuffer_create()
+Message-ID: <20211011091951.3ncpolbsiavke6rr@sirius.home.kraxel.org>
+References: <1633770560-11658-1-git-send-email-jingxiangfeng@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YWGxbKm/5r/J1Vi6@ravnborg.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 11:00:14 up 235 days, 12:24, 140 users,  load average: 0.70, 0.28,
- 0.26
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+In-Reply-To: <1633770560-11658-1-git-send-email-jingxiangfeng@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,48 +66,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sat, Oct 09, 2021 at 05:12:44PM +0200, Sam Ravnborg wrote:
-> Hi Oleksij, Robin,
-> 
-> On Thu, Sep 30, 2021 at 12:05:00PM +0200, Oleksij Rempel wrote:
-> > Add compatible and timings for the Innolux G070Y2-T02 panel. It is 7"
-> > WVGA (800x480) TFT LCD panel with TTL interface and a backlight unit.
-> > 
-> > Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
-> > Signed-off-by: Robin van der Gracht <robin@protonic.nl>
-> > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > ---
-> >  drivers/gpu/drm/panel/panel-simple.c | 16 ++++++++++++++++
-> >  1 file changed, 16 insertions(+)
-> > 
-> > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
-> > index 9b6c4e6c38a1..a03b60f6fa99 100644
-> > --- a/drivers/gpu/drm/panel/panel-simple.c
-> > +++ b/drivers/gpu/drm/panel/panel-simple.c
-> > @@ -2524,6 +2524,19 @@ static const struct panel_desc innolux_g070y2_l01 = {
-> >  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
-> >  };
-> >  
-> > +static const struct panel_desc innolux_g070y2_t02 = {
-> > +	.modes = &innolux_at070tn92_mode,
-> 
-> It is suprising to see that the innolux_g070y2_t02 uses the mode
-> innolux_at070tn92_mode.
-> Is it on purpose?
+On Sat, Oct 09, 2021 at 05:09:20PM +0800, Jing Xiangfeng wrote:
+> virtio_gpu_user_framebuffer_create() misses to call drm_gem_object_put()
+> in an error path. Add the missed function call to fix it.
 
-yes.
+Pushed to drm-misc-next.
 
-> If yes then I would expect the changelog to say so.
-> 
-> In most (all?) other cases the panel provide their own mode.
+thanks,
+  Gerd
 
-It works with same timing values. What is the preferred way, add own
-mode or extend the changelog?
-
-Regards,
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
