@@ -2,54 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30592428DDD
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2BFE428DCF
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id F14576E4B6;
-	Mon, 11 Oct 2021 13:28:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id D0DD06E0B9;
+	Mon, 11 Oct 2021 13:28:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 95EBB6E4B6
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:11 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA226E0B9
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:08 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLZ-0006fj-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+ id 1mZvLZ-0006g4-Rm; Mon, 11 Oct 2021 15:28:05 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLV-0003ng-C7; Mon, 11 Oct 2021 15:28:01 +0200
+ id 1mZvLY-0003ny-EI; Mon, 11 Oct 2021 15:28:04 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLV-0000SC-BC; Mon, 11 Oct 2021 15:28:01 +0200
+ id 1mZvLX-0000TQ-Cg; Mon, 11 Oct 2021 15:28:03 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Thierry Reding <thierry.reding@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
- Sam Ravnborg <sam@ravnborg.org>, kernel@pengutronix.de,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH 01/13] drm/panel: s6e63m0: Make s6e63m0_remove() return void
-Date: Mon, 11 Oct 2021 15:27:42 +0200
-Message-Id: <20211011132754.2479853-2-u.kleine-koenig@pengutronix.de>
+ kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
+ linux-staging@lists.linux.dev, "Rafael J. Wysocki" <rafael@kernel.org>
+Subject: [PATCH 12/13] staging: fbtft: Make fbtft_remove_common() return void
+Date: Mon, 11 Oct 2021 15:27:53 +0200
+Message-Id: <20211011132754.2479853-13-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
 In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=s7lxpA3SlxdAgalZdfZtQ9BEymVUSL76ohaDIVT+Hbk=;
- m=QwS8VQ147nh5eUkRo9mxGTfBcUgnx3Jl4gdGJ73rKHM=;
- p=gB1Eh6qhdZKXG7+Sv2MnM6FjygYEx1l/LzdGrasJ/Qc=;
- g=4d3b9377dd7211c6773f6965376e81757de8d724
+X-Patch-Hashes: v=1; h=sha256; i=/RLR4bDyADQRwzANF6ER5sKrX+JFDYSh90Q0J5N84UY=;
+ m=6FiNYI6au9uFB2IoKzr/cKU1LkGxlwoXSYCPM/+GX+Y=;
+ p=19a0XOl3ZNoBogBHt63wtoEAqL9C5QZcMx0lWBBcXvs=;
+ g=3740c58a50a748d6ac2559b325ee4fcd79372ba0
 X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de;
  s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6;
- b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkO2AACgkQwfwUeK3K7Ame9Qf/eAD
- tFQYqwS+uD6PKIsI4sLe39e5/3VEZ6+nKm9vaW16R3ClIdLI5TNn+Ve60BlNob14yiCgANJyrHf0A
- 6uTH+vpvp8Ydmhg8R+4p7bDJZL6VLlcDSdbgp9z82EKnRDEJa3yHA+9bQaI5YE3rMsUlJRllChWlc
- gl5/UIK336D1rG6NgLfb8XPCtpO+hNdUE30JRpyPPx6ZI/MQ0XAgjgsLnoDT6keRzAN/cF02MSo0/
- MMOPHHZmstFum/q4oxqUIWkLt9ZWvv6e7TS4dr11GZ/hESKI9qZ8ArXXOmcDgyxWcC5BXWqKTvLLV
- 5GqAwDrkucRj8rSvRG7B4n2uVA3LviA==
+ b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkO4IACgkQwfwUeK3K7AmPFAgAi2j
+ +ekzLBUvvkSW1V7aAZ7NxSqFgWZ8q7dgSdTwOKmsCZCyNbQsT02lQhdQnxam0NAMjaxhPzaEVAUf9
+ cjqtzjNApl7RfLYR7nGLh2XuJ4EqX7uUlOzAdeoEe3r1T4eqGrWC+7AfBINYA992Q6zFAZRqNXZrY
+ PBfjEYtKmJ0IAO/Qx4tDgVISz0GQsn+8JJ01P4udY1sud6QjhaO+87wCpCXT7qwQa9q8WN+fIsSYs
+ 0Ut+4ptQh7WDuG+Qb09CIIf4Bk9nAi/X3gofxHs97omC6x3ldQlraHCrNuUHUe77brVawa8/TR38j
+ SEFRvmVk4U0dYlvaiuLXguJP8IRqcVA==
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
@@ -71,79 +71,74 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Up to now s6e63m0_remove() returns zero unconditionally. Make it return
-void instead which makes it easier to see in the callers that there is
-no error to handle.
+fbtft_remove_common() is only called with a non-NULL fb_info. (All
+callers are in remove callbacks and the matching probe callbacks set
+driver data accordingly.) So fbtft_remove_common() always returns zero.
+Make it return void instead which makes it easier to see in the callers
+that there is no error to handle.
 
-Also the return value of spi remove callbacks is ignored anyway.
+Also the return value of platform and spi remove callbacks is ignored
+anyway and not freeing resources in .remove() is a bad idea.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c | 3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c | 3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     | 4 +---
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/staging/fbtft/fbtft-core.c | 8 +-------
+ drivers/staging/fbtft/fbtft.h      | 6 ++++--
+ 2 files changed, 5 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-index e0b1a7e354f3..e0f773678168 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
-@@ -116,7 +116,8 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
- static int s6e63m0_dsi_remove(struct mipi_dsi_device *dsi)
+diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
+index ed992ca605eb..9c9eab1182a6 100644
+--- a/drivers/staging/fbtft/fbtft-core.c
++++ b/drivers/staging/fbtft/fbtft-core.c
+@@ -1318,23 +1318,17 @@ EXPORT_SYMBOL(fbtft_probe_common);
+  * @info: Framebuffer
+  *
+  * Unregisters and releases the framebuffer
+- *
+- * Return: 0 if successful, negative if error
+  */
+-int fbtft_remove_common(struct device *dev, struct fb_info *info)
++void fbtft_remove_common(struct device *dev, struct fb_info *info)
  {
- 	mipi_dsi_detach(dsi);
--	return s6e63m0_remove(&dsi->dev);
-+	s6e63m0_remove(&dsi->dev);
-+	return 0;
- }
+ 	struct fbtft_par *par;
  
- static const struct of_device_id s6e63m0_dsi_of_match[] = {
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-index 3669cc3719ce..c178d962b0d5 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
-@@ -64,7 +64,8 @@ static int s6e63m0_spi_probe(struct spi_device *spi)
- 
- static int s6e63m0_spi_remove(struct spi_device *spi)
- {
--	return s6e63m0_remove(&spi->dev);
-+	s6e63m0_remove(&spi->dev);
-+	return 0;
- }
- 
- static const struct of_device_id s6e63m0_spi_of_match[] = {
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-index 35d72ac663d6..b34fa4d5de07 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
-@@ -749,13 +749,11 @@ int s6e63m0_probe(struct device *dev, void *trsp,
- }
- EXPORT_SYMBOL_GPL(s6e63m0_probe);
- 
--int s6e63m0_remove(struct device *dev)
-+void s6e63m0_remove(struct device *dev)
- {
- 	struct s6e63m0 *ctx = dev_get_drvdata(dev);
- 
- 	drm_panel_remove(&ctx->panel);
+-	if (!info)
+-		return -EINVAL;
+ 	par = info->par;
+ 	if (par)
+ 		fbtft_par_dbg(DEBUG_DRIVER_INIT_FUNCTIONS, par,
+ 			      "%s()\n", __func__);
+ 	fbtft_unregister_framebuffer(info);
+ 	fbtft_framebuffer_release(info);
 -
 -	return 0;
  }
- EXPORT_SYMBOL_GPL(s6e63m0_remove);
+ EXPORT_SYMBOL(fbtft_remove_common);
  
-diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-index 306605ed1117..c926eca1c817 100644
---- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-+++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
-@@ -35,6 +35,6 @@ int s6e63m0_probe(struct device *dev, void *trsp,
- 				   const u8 *data,
- 				   size_t len),
- 		  bool dsi_mode);
--int s6e63m0_remove(struct device *dev);
-+void s6e63m0_remove(struct device *dev);
- 
- #endif /* _PANEL_SAMSUNG_S6E63M0_H */
+diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
+index 76f8c090a837..68eba6c71b0f 100644
+--- a/drivers/staging/fbtft/fbtft.h
++++ b/drivers/staging/fbtft/fbtft.h
+@@ -283,7 +283,8 @@ static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
+ {                                                                          \
+ 	struct fb_info *info = spi_get_drvdata(spi);                       \
+ 									   \
+-	return fbtft_remove_common(&spi->dev, info);                       \
++	fbtft_remove_common(&spi->dev, info);                              \
++	return 0;                                                          \
+ }                                                                          \
+ 									   \
+ static int fbtft_driver_probe_pdev(struct platform_device *pdev)           \
+@@ -295,7 +296,8 @@ static int fbtft_driver_remove_pdev(struct platform_device *pdev)          \
+ {                                                                          \
+ 	struct fb_info *info = platform_get_drvdata(pdev);                 \
+ 									   \
+-	return fbtft_remove_common(&pdev->dev, info);                      \
++	fbtft_remove_common(&pdev->dev, info);                             \
++	return 0;                                                          \
+ }                                                                          \
+ 									   \
+ static const struct of_device_id dt_ids[] = {                              \
 -- 
 2.30.2
 
