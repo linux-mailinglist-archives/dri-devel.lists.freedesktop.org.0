@@ -2,57 +2,44 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FD442841F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 00:57:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C8B428453
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 02:38:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id DEFDE89740;
-	Sun, 10 Oct 2021 22:57:45 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A3D306E3D8;
+	Mon, 11 Oct 2021 00:38:06 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-vk1-xa35.google.com (mail-vk1-xa35.google.com
- [IPv6:2607:f8b0:4864:20::a35])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 386CB89740
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 22:57:44 +0000 (UTC)
-Received: by mail-vk1-xa35.google.com with SMTP id m199so6654495vka.6
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 15:57:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qoIad/gz3NIIFODvhJsBwOdDldsuEM2apX7DRlGW2Zg=;
- b=pgvRYcOKPNEwyErPnmoVyJgr9bWAy7+b4x3NK6+9+cpQ2JUz8LpH2EbuvYt62l3tFM
- jUKPpvDQALsTL4v2A7/A6r3cz2Pd4S2LifADH6RZ96qycBj3xJtP3rZkeiaAe9zyMNkB
- k9ce51TNzmorolgNmk7j3RUJLyVXLgJJaQUfWduj2+KZwRkmV9T/VQm+3uyplm5H3i06
- Al+qObIxTDOYOSviuUhqCOsZKHTPzkSritDUejVYb4O9Fkf7HbuwjvXSSBX6zOHYA6ji
- vlExcYBPO+V2KHiRZ1Pcv+/jb6/gcgNItlq0NSFcdq00cbLZES146pQOYqyOTR+GQMqu
- NUjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qoIad/gz3NIIFODvhJsBwOdDldsuEM2apX7DRlGW2Zg=;
- b=pJY0KaZFAd2t5LmGq4tSlUr9ewFUSPBMiY2pUZcrrVGoiNXWGyFf4cUxHFIc2bpFfs
- X+d3hXsHNuSBM/covZtZjXWheVjzc+FIQhLzCQLvKNjl7r6NGQtJ2dOEd4CUNwhsrKFr
- RgNW30TErDDpP2uVLhAp9Svo2T8O2E2q6p7N/+AFK9Ku4LB9Yt9ObdOvDsKeA0uowDM+
- 44M0wS0uqfCfCm31qv6nzAVzWZ911VpyO5WsocKpw0xqF24GUlbPtWVxMtw/7vBRZB57
- hgMErMx/aSNd/LJ61MayMCDhbvK4H5t4AJmshnx0cpm1ojjcVPYgnzlRcsIpVMWhI0Fk
- TS2A==
-X-Gm-Message-State: AOAM531U8eZglw2ukqtJLEC244Z3rqDZ4fIMMFSvDL6VNjSmFD34VPGr
- 96cjz8f9gJGerIy3MGEL0PcX5DOUmbuo4nuxe/mG3n70
-X-Google-Smtp-Source: ABdhPJx9ztQcBU9YhMVfqnmRuhByE6vXSMSHcrX6BRZFmdRNEVS+OzYahgGooNOiw4+l7JeGbdierdlRzF/4E98dQ6w=
-X-Received: by 2002:a1f:2515:: with SMTP id l21mr17235092vkl.13.1633906663201; 
- Sun, 10 Oct 2021 15:57:43 -0700 (PDT)
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 273BE6E3D8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 00:38:04 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HSKdd4pmJz4xb9;
+ Mon, 11 Oct 2021 11:37:56 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1633912679;
+ bh=Ax1GJIXnCtIn0NUDYilG5pwOdgBFXtOsdMYg8/AgB6g=;
+ h=Date:From:To:Cc:Subject:From;
+ b=jVs6WrPVvJ/IaNBbsDEBDvMOdEwsInrHiQXLjVUAK+70ERxRKtIJF2a8fF7X+178m
+ K/J2/w13i5qwm5JT3QP9HkR5U/v6qqc0LqScOYL3glguaG5xsijF866MDHE0cO8cR5
+ tkr5oNE7ZBLIz16CP3F/CwPuIE6/X8GzrnqRNklvntD0Zs6wKcxclsnOIHgFltOF9i
+ FiC2TavL9c4W+dCz5vTSsUvrF0MwMsedEx4K8Xz7pKCpFPxW9f16GvhPNIKc/3vMUH
+ QzRzqrEKWDNc2kbnL1cNTI3kxIUahOrP4ZojEQK8CnNWN5l046X0uP3wMDemCVnBzd
+ f3l29kYgxOBhw==
+Date: Mon, 11 Oct 2021 11:37:55 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>, Jude Shih <shenshih@amd.com>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, Linux Next
+ Mailing List <linux-next@vger.kernel.org>, Meenakshikumar Somasundaram
+ <meenakshikumar.somasundaram@amd.com>
+Subject: linux-next: manual merge of the drm tree with Linus' tree
+Message-ID: <20211011113755.7a0597af@canb.auug.org.au>
 MIME-Version: 1.0
-References: <CAOMZO5DkOT6-c67akbj_c8Bq9+kDsaC51ovMP23QLOCArKx1eQ@mail.gmail.com>
-In-Reply-To: <CAOMZO5DkOT6-c67akbj_c8Bq9+kDsaC51ovMP23QLOCArKx1eQ@mail.gmail.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Sun, 10 Oct 2021 19:57:32 -0300
-Message-ID: <CAOMZO5AuEi_pi9wSb1HGS3GCffj3bOOS7sVVf4Z4F5LMyk-o1g@mail.gmail.com>
-Subject: Re: imx_ldb: lockdep warning on 5.14.x
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: Philipp Zabel <p.zabel@pengutronix.de>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- Russell King - ARM Linux <linux@armlinux.org.uk>,
- Tim Harvey <tharvey@gateworks.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/HOhXqr_tUBv5nIVqn1p28Y5";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -68,54 +55,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, Oct 10, 2021 at 12:39 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Hi,
->
-> I am getting the lockdep warning below on a imx6q-sabred running 5.14.9.
->
-> Haven't debugged this yet, but just wanted to report in case someone
-> has any suggestions.
+--Sig_/HOhXqr_tUBv5nIVqn1p28Y5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-git bisect shows that the guilty commit is:
+Hi all,
 
-commit f4b34faa08428d813fc3629f882c503487f94a12
-Author: Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu Jan 21 16:29:55 2021 +0100
+Today's linux-next merge of the drm tree got a conflict in:
 
-    drm/imx: Annotate dma-fence critical section in commit path
+  drivers/gpu/drm/amd/display/include/dal_asic_id.h
 
-    drm_atomic_helper_commit_hw_done() is the last thing (no plane cleanup
-    apparrently), so it's the entire function. And a nice comment
-    explaining why the wait_for_flip_done is ahead, unlike the usual
-    sequence.
+between commit:
 
-    Aside, I think since the atomic helpers do track plane disabling now
-    separately this might no longer be a real problem since:
+  7ab0965079bb ("drm/amd/display: USB4 bring up set correct address")
 
-    commit 21a01abbe32a3cbeb903378a24e504bfd9fe0648
-    Author: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-    Date:   Mon Sep 4 12:48:37 2017 +0200
+from Linus' tree and commit:
 
-        drm/atomic: Fix freeing connector/plane state too early by
-tracking commits, v3.
+  13900e6fde3f ("drm/amd/display: Fix for null pointer access for ddc pin a=
+nd aux engine.")
 
-    Plus the subsequent bugfixes of course, this was tricky to get right.
+from the drm tree.
 
-    Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-    Cc: Philipp Zabel <p.zabel@pengutronix.de>
-    Cc: Shawn Guo <shawnguo@kernel.org>
-    Cc: Sascha Hauer <s.hauer@pengutronix.de>
-    Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-    Cc: Fabio Estevam <festevam@gmail.com>
-    Cc: NXP Linux Team <linux-imx@nxp.com>
-    Cc: linux-arm-kernel@lists.infradead.org
-    Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
+I fixed it up (I used the former) and can carry the fix as necessary. This
+is now fixed as far as linux-next is concerned, but any non trivial
+conflicts should be mentioned to your upstream maintainer when your tree
+is submitted for merging.  You may also want to consider cooperating
+with the maintainer of the conflicting tree to minimise any particularly
+complex conflicts.
 
-If I revert this commit on top of 5.14, the lockdep warning is gone.
+--=20
+Cheers,
+Stephen Rothwell
 
-Daniel,
+--Sig_/HOhXqr_tUBv5nIVqn1p28Y5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
-How do we fix this?
+-----BEGIN PGP SIGNATURE-----
 
-Thanks
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFjh2MACgkQAVBC80lX
+0Gy3/gf9EhTj4llOseoDDJw9Ky2BbHLscqr+d3jCLVp/0A287YlSFrvcsX+9fgw4
+QGoLlP2jUqy6krXH2OnYRx8KAEuDhmGe+iqRYeSGIwHteUbUPlzqMD7IMPegxhRh
+RO5h4G+FrQVljzzBLhDUL2sonHaTexAoS/GANJj7vdc1bkK/IwT7yTcrvmytspb3
+5mVXqyMbtfxUFGaLFsHX/NrlbpwxDxuQLS2DItA9PHkAxG42pcpavwEfswq0DWH4
+5sNRKkyKyPeaTJj5ar31/qrIe5ZA6e0VSlXgyEypDsllznRpgeIAQQYLwQRpFhSH
+91/w9fLfL0F0TN9a+woSIPkzwBbo6w==
+=gR3t
+-----END PGP SIGNATURE-----
+
+--Sig_/HOhXqr_tUBv5nIVqn1p28Y5--
