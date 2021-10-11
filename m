@@ -2,43 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFDD4297F8
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:12:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDE2342980A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:17:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 20ED96E53C;
-	Mon, 11 Oct 2021 20:12:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BBAFD89458;
+	Mon, 11 Oct 2021 20:17:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
- [91.221.196.228])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 793876E53C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 20:12:07 +0000 (UTC)
-Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
- by mx2.smtp.larsendata.com (Halon) with ESMTPS
- id 78ee2470-2acf-11ec-ac3c-0050568cd888;
- Mon, 11 Oct 2021 20:11:51 +0000 (UTC)
-Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
- [80.162.45.141])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from relay02.th.seeweb.it (relay02.th.seeweb.it [5.144.164.163])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 1DB39892DE;
+ Mon, 11 Oct 2021 20:17:08 +0000 (UTC)
+Received: from Marijn-Arch-PC.localdomain
+ (94-209-165-62.cable.dynamic.v4.ziggo.nl [94.209.165.62])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- (Authenticated sender: sam@ravnborg.org)
- by mail01.mxhotel.dk (Postfix) with ESMTPSA id 169E5194BAE;
- Mon, 11 Oct 2021 22:11:51 +0200 (CEST)
-Date: Mon, 11 Oct 2021 22:12:02 +0200
-X-Report-Abuse-To: abuse@mxhotel.dk
-From: Sam Ravnborg <sam@ravnborg.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: robh+dt@kernel.org, tomi.valkeinen@ti.com, daniel@ffwll.ch,
- airlied@linux.ie, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: display/bridge: tc358764: Convert to YAML
- binding
-Message-ID: <YWSakiB4OFqGzAiw@ravnborg.org>
-References: <20211006135150.504897-1-angelogioacchino.delregno@collabora.com>
+ by m-r1.th.seeweb.it (Postfix) with ESMTPSA id E99401F5FA;
+ Mon, 11 Oct 2021 22:17:04 +0200 (CEST)
+From: Marijn Suijten <marijn.suijten@somainline.org>
+To: phone-devel@vger.kernel.org
+Cc: ~postmarketos/upstreaming@lists.sr.ht,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Konrad Dybcio <konrad.dybcio@somainline.org>,
+ Martin Botka <martin.botka@somainline.org>,
+ Jami Kettunen <jami.kettunen@somainline.org>,
+ Pavel Dubrova <pashadubrova@gmail.com>,
+ Marijn Suijten <marijn.suijten@somainline.org>,
+ Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Abhinav Kumar <abhinavk@codeaurora.org>,
+ Stephen Boyd <swboyd@chromium.org>, Jonathan Marek <jonathan@marek.ca>,
+ linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2] drm/msm/dsi: Use division result from div_u64_rem in 7nm
+ and 14nm PLL
+Date: Mon, 11 Oct 2021 22:16:40 +0200
+Message-Id: <20211011201642.167700-1-marijn.suijten@somainline.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211006135150.504897-1-angelogioacchino.delregno@collabora.com>
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,181 +57,54 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi AngeloGioacchino,
+div_u64_rem provides the result of the division and additionally the
+remainder; don't use this function to solely calculate the remainder
+while calculating the division again with div_u64.
 
-On Wed, Oct 06, 2021 at 03:51:50PM +0200, AngeloGioacchino Del Regno wrote:
-> Convert the Toshiba TC358764 txt documentation to YAML.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+A similar improvement was applied earlier to the 10nm pll in
+5c191fef4ce2 ("drm/msm/dsi_pll_10nm: Fix dividing the same numbers
+twice").
 
-Thanks for all these conversions to DT-schema.
+Signed-off-by: Marijn Suijten <marijn.suijten@somainline.org>
+---
 
-It would be very good if the changelog could document the warnings they
-triggers when they are used to check the existing dts files.
-This is a good way to document that the warnings are expected.
+Changes in v2:
+- Corrected two typos in the first commit-message sentence.
 
-While waiting for Rob to review, here is one small nit. See inline
-comment below.
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c | 4 +---
+ drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c  | 4 +---
+ 2 files changed, 2 insertions(+), 6 deletions(-)
 
-My personal preference is to use 4 spaces for indent in the examples.
-But two is perfectly fine and there is today no rule for it.
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+index 9a959a5dcc1e..de3c6556a587 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_14nm.c
+@@ -215,9 +215,7 @@ static void pll_14nm_dec_frac_calc(struct dsi_pll_14nm *pll, struct dsi_pll_conf
+ 	DBG("vco_clk_rate=%lld ref_clk_rate=%lld", vco_clk_rate, fref);
 
-When you are resending these, then it would be nice with a cover letter
-and all patches in one series. You can then use the cover letter both to
-tell on a higher level what was changed since v1 and to give a status on the
-conversion effort. I hope you have converted all bridge DT-schemas.
+ 	dec_start_multiple = div_u64(vco_clk_rate * multiplier, fref);
+-	div_u64_rem(dec_start_multiple, multiplier, &div_frac_start);
+-
+-	dec_start = div_u64(dec_start_multiple, multiplier);
++	dec_start = div_u64_rem(dec_start_multiple, multiplier, &div_frac_start);
 
-	Sam
+ 	pconf->dec_start = (u32)dec_start;
+ 	pconf->div_frac_start = div_frac_start;
+diff --git a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+index 9f7c408325ba..36eb6109cb88 100644
+--- a/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
++++ b/drivers/gpu/drm/msm/dsi/phy/dsi_phy_7nm.c
+@@ -114,9 +114,7 @@ static void dsi_pll_calc_dec_frac(struct dsi_pll_7nm *pll, struct dsi_pll_config
 
-> ---
->  .../display/bridge/toshiba,tc358764.txt       | 35 -------
->  .../display/bridge/toshiba,tc358764.yaml      | 94 +++++++++++++++++++
->  2 files changed, 94 insertions(+), 35 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
->  create mode 100644 Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
-> deleted file mode 100644
-> index 8f9abf28a8fa..000000000000
-> --- a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.txt
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -TC358764 MIPI-DSI to LVDS panel bridge
-> -
-> -Required properties:
-> -  - compatible: "toshiba,tc358764"
-> -  - reg: the virtual channel number of a DSI peripheral
-> -  - vddc-supply: core voltage supply, 1.2V
-> -  - vddio-supply: I/O voltage supply, 1.8V or 3.3V
-> -  - vddlvds-supply: LVDS1/2 voltage supply, 3.3V
-> -  - reset-gpios: a GPIO spec for the reset pin
-> -
-> -The device node can contain following 'port' child nodes,
-> -according to the OF graph bindings defined in [1]:
-> -  0: DSI Input, not required, if the bridge is DSI controlled
-> -  1: LVDS Output, mandatory
-> -
-> -[1]: Documentation/devicetree/bindings/media/video-interfaces.txt
-> -
-> -Example:
-> -
-> -	bridge@0 {
-> -		reg = <0>;
-> -		compatible = "toshiba,tc358764";
-> -		vddc-supply = <&vcc_1v2_reg>;
-> -		vddio-supply = <&vcc_1v8_reg>;
-> -		vddlvds-supply = <&vcc_3v3_reg>;
-> -		reset-gpios = <&gpd1 6 GPIO_ACTIVE_LOW>;
-> -		#address-cells = <1>;
-> -		#size-cells = <0>;
-> -		port@1 {
-> -			reg = <1>;
-> -			lvds_ep: endpoint {
-> -				remote-endpoint = <&panel_ep>;
-> -			};
-> -		};
-> -	};
-> diff --git a/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
-> new file mode 100644
-> index 000000000000..267a870b6b0b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/bridge/toshiba,tc358764.yaml
-> @@ -0,0 +1,94 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/bridge/toshiba,tc358764.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Toshiba TC358764 MIPI-DSI to LVDS bridge
-> +
-> +maintainers:
-> +  - Andrzej Hajda <a.hajda@samsung.com>
-> +
-> +description: |
-> +  The TC358764 is bridge device which converts MIPI DSI or MIPI DPI to DP/eDP.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - toshiba,tc358764
-> +
-> +  reg:
-> +    description: Virtual channel number of a DSI peripheral
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    description: GPIO connected to the reset pin.
-> +    maxItems: 1
-> +
-> +  vddc-supply:
-> +    description: Core voltage supply, 1.2V
-> +
-> +  vddio-supply:
-> +    description: I/O voltage supply, 1.8V or 3.3V
-> +
-> +  vddlvds-supply:
-> +    description: LVDS1/2 voltage supply, 3.3V
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for MIPI DSI input, if the bridge DSI controlled
-Fix: ..., if the bridge is DSI controlled
+ 	multiplier = 1 << FRAC_BITS;
+ 	dec_multiple = div_u64(pll_freq * multiplier, divider);
+-	div_u64_rem(dec_multiple, multiplier, &frac);
+-
+-	dec = div_u64(dec_multiple, multiplier);
++	dec = div_u64_rem(dec_multiple, multiplier, &frac);
 
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description:
-> +          Video port for LVDS output (panel or connector).
-> +
-> +    required:
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - vddc-supply
-> +  - vddio-supply
-> +  - vddlvds-supply
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c1 {
-> +      #address-cells = <1>;
-> +      #size-cells = <0>;
-> +
-> +      bridge@0 {
-> +        compatible = "toshiba,tc358764";
-> +        reg = <0>;
-> +        vddc-supply = <&vcc_1v2_reg>;
-> +        vddio-supply = <&vcc_1v8_reg>;
-> +        vddlvds-supply = <&vcc_3v3_reg>;
-> +        reset-gpios = <&gpd1 6 GPIO_ACTIVE_LOW>;
-> +
-> +        ports {
-> +          #address-cells = <1>;
-> +          #size-cells = <0>;
-> +
-> +          port@1 {
-> +            reg = <1>;
-> +            lvds_ep: endpoint {
-> +              remote-endpoint = <&panel_ep>;
-> +            };
-> +          };
-> +        };
-> +      };
-> +    };
-> +
-> +...
-> -- 
-> 2.33.0
+ 	if (!(pll->phy->cfg->quirks & DSI_PHY_7NM_QUIRK_V4_1))
+ 		config->pll_clock_inverters = 0x28;
+--
+2.33.0
+
