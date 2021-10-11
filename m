@@ -1,67 +1,56 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C82428782
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 09:15:26 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 033DB428725
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 09:02:59 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 42DF589FDD;
-	Mon, 11 Oct 2021 07:15:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97F586E417;
+	Mon, 11 Oct 2021 07:02:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com
- [IPv6:2a00:1450:4864:20::52c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FAE489F97
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 06:43:15 +0000 (UTC)
-Received: by mail-ed1-x52c.google.com with SMTP id d3so36159266edp.3
- for <dri-devel@lists.freedesktop.org>; Sun, 10 Oct 2021 23:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amarulasolutions.com; s=google;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=bYl5CRIyrC8wFN0NYRqQbeVluqzSNbGhILQFZ99pqqg=;
- b=do7i0hZXQxXmbFMlBAc/jYFNLbCovmgxI8OXYrORIWKNB9ksGnbxrPDNGTF9cOgEfL
- t5lKGavhkGnOk3KDk7t2wpPCa8Lsil040jHpP1pFzRXoXRxI6pb4gG7DqDdLe7OeJdy3
- Rgbr9mjvCGtR9SaC9LmDEPHhiu5X0d15M7MyY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=bYl5CRIyrC8wFN0NYRqQbeVluqzSNbGhILQFZ99pqqg=;
- b=aAjqeqImUR553clNqSHXrZJPwVztr38eBtPcHcFCScz5glUX/dIBeNTtzDSMK5Hltw
- YtxIkazDDFcwZ2u9Xpm8ztt5i8Qb8ixLYxjXzmmPYoEiQy2hNcuK+Mu/I2WcjDEArhcI
- t4yDEf5v+ngDj8oC7Uf4yC8Y8Dg0KZbNfhsvzlI8msKGTqbJubK7GzTm5hxpId1RBTkB
- e0LloyBDaf6r+OG0KFyKYlriyLAcdJvnXNOUkH3wcEzEeEPnh9q4DpZKqrNNzWsAohCt
- wpky8e2HuJPYPNhFPp8HsiSIFxdRcM+8QP+2EYCK5AaMB+pfDGh3r8hCPrqRfMf4OgHc
- jVpQ==
-X-Gm-Message-State: AOAM532ngPK3yNoanSUv+EMwpnhVFMiu6qJMha5k6lfAkbu8HePw9UXY
- AHenzJ+L3h/EDabRcEknDJQJXA==
-X-Google-Smtp-Source: ABdhPJxQWnbpZPi8rf/dpw2QxAGpGwY5atfOgMtsunmWfo9cBl9+I7SHNG/TPByiGhuGeiiBZLM7vA==
-X-Received: by 2002:a17:906:6844:: with SMTP id
- a4mr23059097ejs.65.1633934593255; 
- Sun, 10 Oct 2021 23:43:13 -0700 (PDT)
-Received: from panicking ([2.198.78.7])
- by smtp.gmail.com with ESMTPSA id c11sm3659023edk.68.2021.10.10.23.43.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 10 Oct 2021 23:43:12 -0700 (PDT)
-Date: Mon, 11 Oct 2021 08:42:52 +0200
-From: Michael Trimarchi <michael@amarulasolutions.com>
-To: Jagan Teki <jagan@amarulasolutions.com>
-Cc: Heiko Stubner <heiko@sntech.de>, Andrzej Hajda <a.hajda@samsung.com>,
- Neil Armstrong <narmstrong@baylibre.com>,
- Robert Foss <robert.foss@linaro.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonathan Liu <net147@gmail.com>,
- Yannick Fertre <yannick.fertre@foss.st.com>,
- Alexander Sack <asac@linaro.org>, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH] drm/bridge: dw-mipi-dsi: Find the possible DSI devices
-Message-ID: <20211011063948.GA1487752@panicking>
-References: <20210704140309.268469-1-jagan@amarulasolutions.com>
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B29E6E417
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 07:02:53 +0000 (UTC)
+X-UUID: fdd0e469a2e949298b1827122c71b0bf-20211011
+X-UUID: fdd0e469a2e949298b1827122c71b0bf-20211011
+Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
+ mailgw01.mediatek.com (envelope-from <yunfei.dong@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+ with ESMTP id 2083840527; Mon, 11 Oct 2021 15:02:48 +0800
+Received: from mtkexhb01.mediatek.inc (172.21.101.102) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 11 Oct 2021 15:02:47 +0800
+Received: from mtkcas10.mediatek.inc (172.21.101.39) by mtkexhb01.mediatek.inc
+ (172.21.101.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2;
+ Mon, 11 Oct 2021 15:02:46 +0800
+Received: from localhost.localdomain (10.17.3.154) by mtkcas10.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 11 Oct 2021 15:02:45 +0800
+From: Yunfei Dong <yunfei.dong@mediatek.com>
+To: Yunfei Dong <yunfei.dong@mediatek.com>, Alexandre Courbot
+ <acourbot@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, "Tzung-Bi
+ Shih" <tzungbi@chromium.org>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+ <matthias.bgg@gmail.com>, Tomasz Figa <tfiga@google.com>
+CC: Hsin-Yi Wang <hsinyi@chromium.org>, Fritz Koenig <frkoenig@chromium.org>, 
+ Dafna Hirschfeld <dafna.hirschfeld@collabora.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Daniel Vetter <daniel@ffwll.ch>, dri-devel
+ <dri-devel@lists.freedesktop.org>, Irui Wang <irui.wang@mediatek.com>,
+ <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <srv_heupstream@mediatek.com>, <linux-mediatek@lists.infradead.org>,
+ <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v7,
+ 00/15] Support multi hardware decode using of_platform_populate
+Date: Mon, 11 Oct 2021 15:02:32 +0800
+Message-ID: <20211011070247.792-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210704140309.268469-1-jagan@amarulasolutions.com>
-X-Mailman-Approved-At: Mon, 11 Oct 2021 07:15:20 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,263 +66,194 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi
+This series adds support for multi hardware decode into mtk-vcodec, by first
+adding use of_platform_populate to manage each hardware information: interrupt,
+clock, register bases and power. Secondly add core thread to deal with core
+hardware message, at the same time, add msg queue for different hardware
+share messages. Lastly, the architecture of different specs are not the same,
+using specs type to separate them.
 
-On Sun, Jul 04, 2021 at 07:33:09PM +0530, Jagan Teki wrote:
-> Finding panel_or_bridge might vary based on associated
-> DSI devices like DSI panel, bridge, and I2C based DSI
-> bridge.
-> 
-> 1. DSI panels and bridges will invoke the host attach
->    from probe in order to find the panel_or_bridge.
-> 
->    chipone_probe()
->        dw_mipi_dsi_host_attach().start
-> 	   dw_mipi_dsi_panel_or_bridge()
-> 		...found the panel_or_bridge...
-> 
->    ltdc_encoder_init().start
->        dw_mipi_dsi_bridge_attach().start
-> 		   dw_mipi_dsi_host_attach().start
-> 		       chipone_attach(). start
-> 
-> 	               chipone_attach(). done
-> 		   dw_mipi_dsi_host_attach().done
->        dw_mipi_dsi_bridge_attach(). done
->    ltdc_encoder_init().done
-> 
-> 2. I2C based DSI bridge will invoke the drm_bridge_attach
->    from bridge attach in order to find the panel_or_bridge.
-> 
->    ltdc_encoder_init().start
->        dw_mipi_dsi_bridge_attach().start
-> 	   dw_mipi_dsi_panel_or_bridge()
-> 		...found the panel_or_bridge...
-> 		   dw_mipi_dsi_host_attach().start
-> 		       sn65dsi83_attach(). start
-> 
-> 	               sn65dsi83_attach(). done
-> 		   dw_mipi_dsi_host_attach().done
->        dw_mipi_dsi_bridge_attach(). done
->    ltdc_encoder_init().done
-> 
-> So, invoke the panel_or_bridge from host attach and
-> bridge attach in order to find all possible DSI devices.
-> 
+This series has been tested with both MT8183 and MT8173. Decoding was working
+for both chips.
 
-Working on linux-next-5.14-rc4 on px30-evb rockchip board. On top of this patch for px30 dsi
-I need to add:
+Patches 1~3 rewrite get register bases and power on/off interface.
 
+Patch 4 add to support multi hardware.
 
-From a0e0344b4cb4df3d97fac0e27e0aa76a2a191b0e Mon Sep 17 00:00:00 2001
-From: Michael Trimarchi <michael@amarulasolutions.com>
-Date: Sun, 10 Oct 2021 23:56:20 +0200
-Subject: [PATCH] drm: dw-mipi-dsi-rockchip: Avoid the attach before probe is
- completed
+Patch 5 separate video encoder and decoder document
 
-Signed-off-by: Michael Trimarchi <michael@amarulasolutions.com>
----
- drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c   |  8 +++++++-
- drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c | 12 ++++++++----
- include/drm/bridge/dw_mipi_dsi.h                |  2 +-
- 3 files changed, 16 insertions(+), 6 deletions(-)
+Patches 6-15 add interfaces to support core hardware.
+----
+Changes compared with v6:
+- Use of_platform_populate to manage multi hardware, not component framework for patch 4/15
+- Re-write dtsi document for hardware architecture changed for patch 13/15
+-The dtsi will write like below in patch 13/15:
+    vcodec_dec: vcodec_dec@16000000 {
+        compatible = "mediatek,mt8192-vcodec-dec";
+        #address-cells = <2>;
+        #size-cells = <2>;
+        ranges;
+        reg = <0 0x16000000 0 0x1000>;		/* VDEC_SYS */
+        mediatek,scp = <&scp>;
+        iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>;
+        dma-ranges = <0x1 0x0 0x0 0x40000000 0x0 0xfff00000>;
+        vcodec_lat {
+            compatible = "mediatek,mtk-vcodec-lat";
+            reg = <0 0x16010000 0 0x800>;		/* VDEC_MISC */
+            reg-name = "reg-misc";
+            interrupts = <GIC_SPI 426 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_WDMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_LAT0_RG_CTRL_DMA_EXT>,
+                 <&iommu0 M4U_PORT_L5_VDEC_UFO_ENC_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys_soc CLK_VDEC_SOC_VDEC>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LAT>,
+                 <&vdecsys_soc CLK_VDEC_SOC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC>;
+        };
 
-diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-index 45f4515dda00..a5535f183af3 100644
---- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-+++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-@@ -362,8 +362,14 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
- 		dsi->device_found = true;
- 	}
- 
-+	/*
-+	 * NOTE: the dsi registration is implemented in
-+	 * platform driver, that to say dsi would be exist after
-+	 * probe is terminated. The call is done before the end of probe
-+	 * so we need to pass the dsi to the platform driver.
-+	 */
- 	if (pdata->host_ops && pdata->host_ops->attach) {
--		ret = pdata->host_ops->attach(pdata->priv_data, device);
-+		ret = pdata->host_ops->attach(pdata->priv_data, device, dsi);
- 		if (ret < 0)
- 			return ret;
- 	}
-diff --git a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-index ec7729d18cb8..cf7c9cf11c9e 100644
---- a/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-+++ b/drivers/gpu/drm/rockchip/dw-mipi-dsi-rockchip.c
-@@ -972,12 +972,15 @@ static const struct component_ops dw_mipi_dsi_rockchip_ops = {
- };
- 
- static int dw_mipi_dsi_rockchip_host_attach(void *priv_data,
--					    struct mipi_dsi_device *device)
-+					    struct mipi_dsi_device *device,
-+					    struct dw_mipi_dsi *dmd)
- {
- 	struct dw_mipi_dsi_rockchip *dsi = priv_data;
- 	struct device *second;
- 	int ret;
- 
-+	dsi->dmd = dmd;
-+
- 	ret = component_add(dsi->dev, &dw_mipi_dsi_rockchip_ops);
- 	if (ret) {
- 		DRM_DEV_ERROR(dsi->dev, "Failed to register component: %d\n",
-@@ -1027,6 +1030,7 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
- 	struct device_node *np = dev->of_node;
- 	struct dw_mipi_dsi_rockchip *dsi;
- 	struct resource *res;
-+	struct dw_mipi_dsi *dmd;
- 	const struct rockchip_dw_dsi_chip_data *cdata =
- 				of_device_get_match_data(dev);
- 	int ret, i;
-@@ -1115,9 +1119,9 @@ static int dw_mipi_dsi_rockchip_probe(struct platform_device *pdev)
- 	dsi->pdata.priv_data = dsi;
- 	platform_set_drvdata(pdev, dsi);
- 
--	dsi->dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
--	if (IS_ERR(dsi->dmd)) {
--		ret = PTR_ERR(dsi->dmd);
-+	dmd = dw_mipi_dsi_probe(pdev, &dsi->pdata);
-+	if (IS_ERR(dmd)) {
-+		ret = PTR_ERR(dmd);
- 		if (ret != -EPROBE_DEFER)
- 			DRM_DEV_ERROR(dev,
- 				      "Failed to probe dw_mipi_dsi: %d\n", ret);
-diff --git a/include/drm/bridge/dw_mipi_dsi.h b/include/drm/bridge/dw_mipi_dsi.h
-index bda8aa7c2280..cf81f19806ad 100644
---- a/include/drm/bridge/dw_mipi_dsi.h
-+++ b/include/drm/bridge/dw_mipi_dsi.h
-@@ -41,7 +41,7 @@ struct dw_mipi_dsi_phy_ops {
- 
- struct dw_mipi_dsi_host_ops {
- 	int (*attach)(void *priv_data,
--		      struct mipi_dsi_device *dsi);
-+		      struct mipi_dsi_device *dsi, struct dw_mipi_dsi *dmd);
- 	int (*detach)(void *priv_data,
- 		      struct mipi_dsi_device *dsi);
- };
+        vcodec_core {
+            compatible = "mediatek,mtk-vcodec-core";
+            reg = <0 0x16025000 0 0x1000>;		/* VDEC_CORE_MISC */
+            reg-names = "reg-misc";
+            interrupts = <GIC_SPI 425 IRQ_TYPE_LEVEL_HIGH 0>;
+            iommus = <&iommu0 M4U_PORT_L4_VDEC_MC_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_UFO_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_RD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PRED_WR_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_PPWRAP_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_TILE_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_VLD2_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_AVC_MV_EXT>,
+                 <&iommu0 M4U_PORT_L4_VDEC_RG_CTRL_DMA_EXT>;
+            clocks = <&topckgen CLK_TOP_VDEC_SEL>,
+                 <&vdecsys CLK_VDEC_VDEC>,
+                 <&vdecsys CLK_VDEC_LAT>,
+                 <&vdecsys CLK_VDEC_LARB1>,
+                 <&topckgen CLK_TOP_MAINPLL_D4>;
+            clock-names = "vdec-sel", "vdec-soc-vdec", "vdec-soc-lat",
+                  "vdec-vdec", "vdec-top";
+            assigned-clocks = <&topckgen CLK_TOP_VDEC_SEL>;
+            assigned-clock-parents = <&topckgen CLK_TOP_MAINPLL_D4>;
+            power-domains = <&spm MT8192_POWER_DOMAIN_VDEC2>;
+        };
+    };
 
-During the probing the sequence let arrive to attach before the rockchip
-driver terminate to be registered. Anyway the panel is not working at
-the moment for some timing issue
+Changes compared with v5:
+- Add decoder hardware block diagram for patch 13/15
 
-Michael
+Changes compared with v4:
+- Fix comments for patch 4/15
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  Fix platform_set_drvdata.
+- Fix build error for patch 9/15
+- Add depend patch in case of error header file for patch 13/15
+
+Changes compared with v3:
+- Fix return value for patch 1/15
+- Fix comments for patch 4/15
+  > Looking up "mediatek,mtk-vcodec-core" to determine if it uses component framwork sounds like...
+  Add prameter in pdata, for all platform will use compoent after mt8183
+
+  >> +     if (dev->is_comp_supported) {
+  >> +             ret = mtk_vcodec_init_master(dev);
+  >> +             if (ret < 0)
+  >> +                     goto err_component_match;
+  >> +     } else {
+  >> +             platform_set_drvdata(pdev, dev);
+  >> +     }
+  > + Has asked the same question in [1].  Why it removes the
+  > +platform_set_drvdata() above?  mtk_vcodec_init_master() also calls platform_set_drvdata().
+  Must call component_master_add_with_match after platform_set_drvdata for component architecture.
+- Fix yaml files check fail for patch 5/15
+- Fix yaml file check fail for patch 14/15
+
+Changes compared with v1:
+- Fix many comments for patch 3/14
+- Remove unnecessary code for patch 4/14
+- Using enum mtk_vdec_hw_count instead of magic numbers for patch 6/14
+- Reconstructed get/put lat buffer for lat and core hardware for patch 7/14
+- Using yaml format to instead of txt file for patch 12/14
+
+Yunfei Dong (15):
+  media: mtk-vcodec: Get numbers of register bases from DT
+  media: mtk-vcodec: Align vcodec wake up interrupt interface
+  media: mtk-vcodec: Refactor vcodec pm interface
+  media: mtk-vcodec: Manage multi hardware information
+  dt-bindings: media: mtk-vcodec: Separate video encoder and decoder
+    dt-bindings
+  media: mtk-vcodec: Use pure single core for MT8183
+  media: mtk-vcodec: Add irq interface for multi hardware
+  media: mtk-vcodec: Add msg queue feature for lat and core architecture
+  media: mtk-vcodec: Generalize power and clock on/off interfaces
+  media: mtk-vcodec: Add new interface to lock different hardware
+  media: mtk-vcodec: Add core thread
+  media: mtk-vcodec: Support 34bits dma address for vdec
+  dt-bindings: media: mtk-vcodec: Adds decoder dt-bindings for mt8192
+  media: mtk-vcodec: Add core dec and dec end ipi msg
+  media: mtk-vcodec: Use codec type to separate different hardware
+
+ .../media/mediatek,vcodec-comp-decoder.yaml   | 193 ++++++++++++
+ .../media/mediatek,vcodec-decoder.yaml        | 175 +++++++++++
+ .../media/mediatek,vcodec-encoder.yaml        | 185 +++++++++++
+ .../bindings/media/mediatek-vcodec.txt        | 130 --------
+ drivers/media/platform/mtk-vcodec/Makefile    |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec.c      |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec.h      |   1 +
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  | 233 +++++++++++---
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.c   | 165 ++++++++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_hw.h   |  53 ++++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |  98 ++++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.h   |  13 +-
+ .../mtk-vcodec/mtk_vcodec_dec_stateful.c      |   2 +
+ .../mtk-vcodec/mtk_vcodec_dec_stateless.c     |   2 +
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  75 ++++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |  12 +-
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_intr.c     |  27 +-
+ .../platform/mtk-vcodec/mtk_vcodec_intr.h     |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |  87 +++++-
+ .../platform/mtk-vcodec/mtk_vcodec_util.h     |   8 +-
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   2 +-
+ .../mtk-vcodec/vdec/vdec_h264_req_if.c        |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   2 +-
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   2 +-
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |  21 +-
+ .../media/platform/mtk-vcodec/vdec_ipi_msg.h  |  16 +-
+ .../platform/mtk-vcodec/vdec_msg_queue.c      | 290 ++++++++++++++++++
+ .../platform/mtk-vcodec/vdec_msg_queue.h      | 157 ++++++++++
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  46 ++-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  22 ++
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |   2 +-
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |   2 +-
+ 33 files changed, 1756 insertions(+), 278 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-comp-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-decoder.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/mediatek-vcodec.txt
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_hw.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/vdec_msg_queue.h
 
 -- 
 2.25.1
 
-> Signed-off-by: Jagan Teki <jagan@amarulasolutions.com>
-> ---
->  drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c | 58 ++++++++++++++-----
->  1 file changed, 43 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> index 6b268f9445b3..45f4515dda00 100644
-> --- a/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> +++ b/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.c
-> @@ -246,6 +246,7 @@ struct dw_mipi_dsi {
->  
->  	struct clk *pclk;
->  
-> +	bool device_found;
->  	unsigned int lane_mbps; /* per lane */
->  	u32 channel;
->  	u32 lanes;
-> @@ -309,13 +310,37 @@ static inline u32 dsi_read(struct dw_mipi_dsi *dsi, u32 reg)
->  	return readl(dsi->base + reg);
->  }
->  
-> +static int dw_mipi_dsi_panel_or_bridge(struct dw_mipi_dsi *dsi,
-> +				       struct device_node *node)
-> +{
-> +	struct drm_bridge *bridge;
-> +	struct drm_panel *panel;
-> +	int ret;
-> +
-> +	ret = drm_of_find_panel_or_bridge(node, 1, 0, &panel, &bridge);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (panel) {
-> +		bridge = drm_panel_bridge_add_typed(panel,
-> +						    DRM_MODE_CONNECTOR_DSI);
-> +		if (IS_ERR(bridge))
-> +			return PTR_ERR(bridge);
-> +	}
-> +
-> +	dsi->panel_bridge = bridge;
-> +
-> +	if (!dsi->panel_bridge)
-> +		return -EPROBE_DEFER;
-> +
-> +	return 0;
-> +}
-> +
->  static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  				   struct mipi_dsi_device *device)
->  {
->  	struct dw_mipi_dsi *dsi = host_to_dsi(host);
->  	const struct dw_mipi_dsi_plat_data *pdata = dsi->plat_data;
-> -	struct drm_bridge *bridge;
-> -	struct drm_panel *panel;
->  	int ret;
->  
->  	if (device->lanes > dsi->plat_data->max_data_lanes) {
-> @@ -329,22 +354,14 @@ static int dw_mipi_dsi_host_attach(struct mipi_dsi_host *host,
->  	dsi->format = device->format;
->  	dsi->mode_flags = device->mode_flags;
->  
-> -	ret = drm_of_find_panel_or_bridge(host->dev->of_node, 1, 0,
-> -					  &panel, &bridge);
-> -	if (ret)
-> -		return ret;
-> +	if (!dsi->device_found) {
-> +		ret = dw_mipi_dsi_panel_or_bridge(dsi, host->dev->of_node);
-> +		if (ret)
-> +			return ret;
->  
-> -	if (panel) {
-> -		bridge = drm_panel_bridge_add_typed(panel,
-> -						    DRM_MODE_CONNECTOR_DSI);
-> -		if (IS_ERR(bridge))
-> -			return PTR_ERR(bridge);
-> +		dsi->device_found = true;
->  	}
->  
-> -	dsi->panel_bridge = bridge;
-> -
-> -	drm_bridge_add(&dsi->bridge);
-> -
->  	if (pdata->host_ops && pdata->host_ops->attach) {
->  		ret = pdata->host_ops->attach(pdata->priv_data, device);
->  		if (ret < 0)
-> @@ -999,6 +1016,16 @@ static int dw_mipi_dsi_bridge_attach(struct drm_bridge *bridge,
->  	/* Set the encoder type as caller does not know it */
->  	bridge->encoder->encoder_type = DRM_MODE_ENCODER_DSI;
->  
-> +	if (!dsi->device_found) {
-> +		int ret;
-> +
-> +		ret = dw_mipi_dsi_panel_or_bridge(dsi, dsi->dev->of_node);
-> +		if (ret)
-> +			return ret;
-> +
-> +		dsi->device_found = true;
-> +	}
-> +
->  	/* Attach the panel-bridge to the dsi bridge */
->  	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
->  				 flags);
-> @@ -1181,6 +1208,7 @@ __dw_mipi_dsi_probe(struct platform_device *pdev,
->  #ifdef CONFIG_OF
->  	dsi->bridge.of_node = pdev->dev.of_node;
->  #endif
-> +	drm_bridge_add(&dsi->bridge);
->  
->  	return dsi;
->  }
-> -- 
-> 2.25.1
-> 
-> 
