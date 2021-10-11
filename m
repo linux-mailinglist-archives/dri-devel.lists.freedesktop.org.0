@@ -1,44 +1,48 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4FFC429826
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:30:45 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id F100A429823
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 22:29:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A3DCA6E959;
-	Mon, 11 Oct 2021 20:30:41 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 06AA36E95B;
+	Mon, 11 Oct 2021 20:29:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-X-Greylist: delayed 369 seconds by postgrey-1.36 at gabe;
- Mon, 11 Oct 2021 20:30:40 UTC
-Received: from bmailout2.hostsharing.net (bmailout2.hostsharing.net
- [IPv6:2a01:37:3000::53df:4ef0:0])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 45A846E959;
- Mon, 11 Oct 2021 20:30:40 +0000 (UTC)
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+Received: from mx1.smtp.larsendata.com (mx1.smtp.larsendata.com
+ [91.221.196.215])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5BB96E95B
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 20:29:35 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx1.smtp.larsendata.com (Halon) with ESMTPS
+ id ea1c7aa4-2ad1-11ec-9c3f-0050568c148b;
+ Mon, 11 Oct 2021 20:29:20 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (Client CN "*.hostsharing.net",
- Issuer "RapidSSL TLS DV RSA Mixed SHA256 2020 CA-1" (verified OK))
- by bmailout2.hostsharing.net (Postfix) with ESMTPS id B427F28071C43;
- Mon, 11 Oct 2021 22:24:29 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
- id A71CA5755E; Mon, 11 Oct 2021 22:24:29 +0200 (CEST)
-Date: Mon, 11 Oct 2021 22:24:29 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Nirmoy Das <nirmoy.das@amd.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH 4/4] vgaswitcheroo: do not check for NULL debugfs dentry
-Message-ID: <20211011202429.GC14357@wunner.de>
-References: <20211011190607.104618-1-nirmoy.das@amd.com>
- <20211011190607.104618-4-nirmoy.das@amd.com>
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id CD5E4194B69;
+ Mon, 11 Oct 2021 22:29:19 +0200 (CEST)
+Date: Mon, 11 Oct 2021 22:29:30 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/3] drm/bridge: ti-sn65dsi83: Add vcc supply regulator
+ support
+Message-ID: <YWSeqpTq2XSCzU0U@ravnborg.org>
+References: <20211006074713.1094396-1-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20211011190607.104618-4-nirmoy.das@amd.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20211006074713.1094396-1-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,35 +58,43 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 11, 2021 at 09:06:07PM +0200, Nirmoy Das wrote:
-> Debugfs APIs returns encoded error on failure so use
-> debugfs_lookup() instead of checking for NULL.
-[...]
-> --- a/drivers/gpu/vga/vga_switcheroo.c
-> +++ b/drivers/gpu/vga/vga_switcheroo.c
-> @@ -914,7 +914,7 @@ static void vga_switcheroo_debugfs_fini(struct vgasr_priv *priv)
->  static void vga_switcheroo_debugfs_init(struct vgasr_priv *priv)
->  {
->  	/* already initialised */
-> -	if (priv->debugfs_root)
-> +	if (debugfs_lookup("vgaswitcheroo", NULL))
->  		return;
+Hi Alexander,
+
+On Wed, Oct 06, 2021 at 09:47:11AM +0200, Alexander Stein wrote:
+> VCC needs to be enabled before releasing the enable GPIO.
 > 
->  	priv->debugfs_root = debugfs_create_dir("vgaswitcheroo", NULL);
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index a32f70bc68ea..5fab0fabcd15 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> @@ -143,6 +144,7 @@ struct sn65dsi83 {
+>  	struct mipi_dsi_device		*dsi;
+>  	struct drm_bridge		*panel_bridge;
+>  	struct gpio_desc		*enable_gpio;
+> +	struct regulator		*vcc;
+>  	int				dsi_lanes;
+>  	bool				lvds_dual_link;
+>  	bool				lvds_dual_link_even_odd_swap;
+> @@ -647,6 +649,12 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+>  
+>  	ctx->panel_bridge = panel_bridge;
+>  
+> +	ctx->vcc = devm_regulator_get(dev, "vcc");
+In the binding the vcc regulator is required, but devm_regulator_get()
+will create a dummy regulator if not found. Maybe this is on purpose and
+all is good.
 
-If debugfs_create_dir() returns an error code, it does make sense to
-retry the call when another vga_switcheroo client registers later.
-I like that.
-
-However I'd prefer simply changing this to explicitly check for NULL, i.e.:
-
--	if (priv->debugfs_root)
-+	if (priv->debugfs_root == NULL)
-
-It's just as clear as calling debugfs_lookup() and it has way less
-overhead.  Granted, this isn't a hot path, but it's called on boot,
-and the less code we execute, the faster the machine boots.
-
-Thanks,
-
-Lukas
+	Sam
