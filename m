@@ -2,39 +2,62 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDAED428D76
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:00:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1CF428DED
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:31 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B55076E49C;
-	Mon, 11 Oct 2021 13:00:14 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1856E4C4;
+	Mon, 11 Oct 2021 13:28:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from fanzine.igalia.com (fanzine.igalia.com [178.60.130.6])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7C6186E49C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:00:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date;
- bh=PoKytWeTWU9o8A8VzF3YqI0Hh2P+ySoZTfaCGvR1j9E=; 
- b=iOBOmQCgQMMZz/Er7xMX0pCLOWQJwIoZvGT1WKNonAefGjm9XMmU6t0+6s4/BOubzNHVgMADUY8nMem8xkA6zhRgNDyYuP900kvzwrJb4GFGN0HZkRHb4Vw7GgD7sgaffyGqF3+kEpRzg/U9XXwZHct/SQ7qnIT5Qb6tFJf/lhgql8VDb3U6EQPD32cQabfIFHUqGeCSpXDJwXBtLFM9DiNIC4S67JKv1k+z9PzNm5H8jpuIt8zY58Ggo/9j9Ar7KxtQgfYnvDp1vL4IE7qK07LuuiIoJfHJJ8C2s3hLgYx4KgUrxsZtk92LS4fqmOaHdNxPHuDeTSpHN1n4COnjCg==;
-Received: from a95-92-181-29.cpe.netcabo.pt ([95.92.181.29]
- helo=mail.igalia.com) by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1mZuuQ-0005DT-JX; Mon, 11 Oct 2021 15:00:02 +0200
-Date: Mon, 11 Oct 2021 13:59:08 +0100
-From: Melissa Wen <mwen@igalia.com>
-To: Dan Carpenter <dan.carpenter@oracle.com>
-Cc: Emma Anholt <emma@anholt.net>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Iago Toral Quiroga <itoral@igalia.com>,
- dri-devel@lists.freedesktop.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] drm/v3d: fix copy_from_user() error codes
-Message-ID: <20211011125908.rqsaunju5weqmhbi@mail.igalia.com>
-References: <20211011123303.GA14314@kili>
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+ [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE726E4C4
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:27 +0000 (UTC)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+ by metis.ext.pengutronix.de with esmtps
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+ by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
+ (envelope-from <ukl@pengutronix.de>)
+ id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Guenter Roeck <linux@roeck-us.net>, Jarkko Sakkinen <jarkko@kernel.org>,
+ Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jirislaby@kernel.org>,
+ Lee Jones <lee.jones@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Michael Hennerich <michael.hennerich@analog.com>,
+ Peter Huewe <peterhuewe@gmx.de>, Thierry Reding <thierry.reding@gmail.com>,
+ Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
+Cc: Mark Brown <broonie@kernel.org>, Wolfram Sang <wsa@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Jason Gunthorpe linux-integrity @ vger . kernel . org" <jgg@ziepe.ca>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ kernel@pengutronix.de, linux-hwmon@vger.kernel.org,
+ linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
+Date: Mon, 11 Oct 2021 15:27:41 +0200
+Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="eyr67bt3k6i7edlt"
-Content-Disposition: inline
-In-Reply-To: <20211011123303.GA14314@kili>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+ SAEximRunCond expanded to false
+X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -50,90 +73,83 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
+Hello,
 
---eyr67bt3k6i7edlt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+this series is part of my new quest to make spi remove callbacks return
+void. Today they return an int, but the only result of returning a
+non-zero value is a warning message. So it's a bad idea to return an
+error code in the expectation that not freeing some resources is ok
+then. The same holds true for i2c and platform devices which benefit en
+passant for a few drivers.
 
-On 10/11, Dan Carpenter wrote:
-> The copy_to/from_user() function returns the number of bytes remaining
-> to be copied, but we want to return -EFAULT on error.
->=20
-> Fixes: e4165ae8304e ("drm/v3d: add multiple syncobjs support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
->  drivers/gpu/drm/v3d/v3d_gem.c | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/v3d/v3d_gem.c b/drivers/gpu/drm/v3d/v3d_gem.c
-> index 6a000d77c568..e47ae40a865a 100644
-> --- a/drivers/gpu/drm/v3d/v3d_gem.c
-> +++ b/drivers/gpu/drm/v3d/v3d_gem.c
-> @@ -487,8 +487,8 @@ v3d_job_init(struct v3d_dev *v3d, struct drm_file *fi=
-le_priv,
->  			for (i =3D 0; i < se->in_sync_count; i++) {
->  				struct drm_v3d_sem in;
-> =20
-> -				ret =3D copy_from_user(&in, handle++, sizeof(in));
-> -				if (ret) {
-> +				if (copy_from_user(&in, handle++, sizeof(in))) {
-> +					ret =3D -EFAULT;
->  					DRM_DEBUG("Failed to copy wait dep handle.\n");
->  					goto fail_deps;
->  				}
-> @@ -609,8 +609,8 @@ v3d_get_multisync_post_deps(struct drm_file *file_pri=
-v,
->  	for (i =3D 0; i < count; i++) {
->  		struct drm_v3d_sem out;
-> =20
-> -		ret =3D copy_from_user(&out, post_deps++, sizeof(out));
-> -		if (ret) {
-> +		if (copy_from_user(&out, post_deps++, sizeof(out))) {
-> +			ret =3D -EFAULT;
->  			DRM_DEBUG("Failed to copy post dep handles\n");
->  			goto fail;
->  		}
-> @@ -646,9 +646,8 @@ v3d_get_multisync_submit_deps(struct drm_file *file_p=
-riv,
->  	struct v3d_submit_ext *se =3D data;
->  	int ret;
-> =20
-> -	ret =3D copy_from_user(&multisync, ext, sizeof(multisync));
-> -	if (ret)
-> -		return ret;
-> +	if (copy_from_user(&multisync, ext, sizeof(multisync)))
-> +		return -EFAULT;
-> =20
->  	if (multisync.pad)
->  		return -EINVAL;
-Hi Dan,
+The patches in this series address some of the spi drivers that might
+return non-zero and adapt them accordingly to return zero instead. For
+most drivers it's just about not hiding the fact that they already
+return zero.
 
-Thanks for catching this.
+Given that there are quite some more patches of this type to create
+before I can change the spi remove callback, I suggest the respecive
+subsystem maintainers pick up these patches. There are no
+interdependencies in this series.
 
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-> --=20
-> 2.20.1
->=20
+Uwe Kleine-König (13):
+  drm/panel: s6e63m0: Make s6e63m0_remove() return void
+  hwmon: adt7x10: Make adt7x10_remove() return void
+  hwmon: max31722: Warn about failure to put device in stand-by in
+    .remove()
+  input: adxl34xx: Make adxl34x_remove() return void
+  input: touchscreen: tsc200x: Make tsc200x_remove() return void
+  media: cxd2880: Eliminate dead code
+  mfd: mc13xxx: Make mc13xxx_common_exit() return void
+  mfd: stmpe: Make stmpe_remove() return void
+  mfd: tps65912: Make tps65912_device_exit() return void
+  serial: max310x: Make max310x_remove() return void
+  serial: sc16is7xx: Make sc16is7xx_remove() return void
+  staging: fbtft: Make fbtft_remove_common() return void
+  tpm: st33zp24: Make st33zp24_remove() return void
 
---eyr67bt3k6i7edlt
-Content-Type: application/pgp-signature; name="signature.asc"
+ drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
+ drivers/char/tpm/st33zp24/spi.c                   |  5 +----
+ drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
+ drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
+ drivers/hwmon/adt7310.c                           |  3 ++-
+ drivers/hwmon/adt7410.c                           |  3 ++-
+ drivers/hwmon/adt7x10.c                           |  3 +--
+ drivers/hwmon/adt7x10.h                           |  2 +-
+ drivers/hwmon/max31722.c                          |  8 +++++++-
+ drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
+ drivers/input/misc/adxl34x-spi.c                  |  4 +++-
+ drivers/input/misc/adxl34x.c                      |  4 +---
+ drivers/input/misc/adxl34x.h                      |  2 +-
+ drivers/input/touchscreen/tsc2004.c               |  4 +++-
+ drivers/input/touchscreen/tsc2005.c               |  4 +++-
+ drivers/input/touchscreen/tsc200x-core.c          |  4 +---
+ drivers/input/touchscreen/tsc200x-core.h          |  2 +-
+ drivers/media/spi/cxd2880-spi.c                   | 13 +------------
+ drivers/mfd/mc13xxx-core.c                        |  4 +---
+ drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
+ drivers/mfd/mc13xxx-spi.c                         |  3 ++-
+ drivers/mfd/mc13xxx.h                             |  2 +-
+ drivers/mfd/stmpe-i2c.c                           |  4 +++-
+ drivers/mfd/stmpe-spi.c                           |  4 +++-
+ drivers/mfd/stmpe.c                               |  4 +---
+ drivers/mfd/stmpe.h                               |  2 +-
+ drivers/mfd/tps65912-core.c                       |  4 +---
+ drivers/mfd/tps65912-i2c.c                        |  4 +++-
+ drivers/mfd/tps65912-spi.c                        |  4 +++-
+ drivers/staging/fbtft/fbtft-core.c                |  8 +-------
+ drivers/staging/fbtft/fbtft.h                     |  6 ++++--
+ drivers/tty/serial/max310x.c                      |  7 +++----
+ drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
+ include/linux/mfd/tps65912.h                      |  2 +-
+ 38 files changed, 77 insertions(+), 81 deletions(-)
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAABCgAdFiEEd8WOo/JViG+Tu+XIwqF3j0dLehwFAmFkNRAACgkQwqF3j0dL
-ehy/8w/+NA5rtf+1hM9UHJtkm2sonSUdSnemnNvtHpbvA8N7x9J3xfATkFvmRuus
-Eax1lSMDJmamubhDeeOj0EwZXIWfUdTxMahFJrnjW1VMZw+mWmbwqPCP4S1/52za
-bH8fwjDzP+d4GOY9iVk+ILxw7VbZbPF+PLsoOmC8BTP8/mdo0afakvAf8xfa644J
-eQ1Z8Yk7V8wq5+rbHojW22lH1+xRsOZ64WlTiraLvHA5VR+WBwe/E8m8Bq5V3aga
-2TF9aD8Fw3x7EP86QqK4eVo30c9hdVNMPmrWF8jeGtyexxMFG7PphDiEr/A21IQZ
-crzhBgEH8N3AfdHQNENmY11rtMAzJ/g/dt36PzLvq7tYDGrTt5hs7F4GANgYXE3Q
-rke/rk/O4Z/p0NT5sDlkoJ5RXtoLFv+bf9eaVhgcTCJzR5Sjm6xQpqwbKdAEWrT6
-SMp3w46k/jN2+vAKuxayBsj65lLDK8kZGLx/bP82lF0Z/wusTsllsiTLnww4v/dj
-vZ/hedq/MXFzkb/C82gOmsMzT20LRo+aDJL1YWD5PPD540b0PZC+GEkkF3W7aQeZ
-DPyCD2PuCM53gsCdLc9OeV6SbbUPTprvktPK+nBYr5+6bPwCM/cQuYg7FPc9r02y
-UzI1PopTq+cQqYD+8LO0pJxuunwVm8+be8ofAgALN06J+lH6/WI=
-=JAyb
------END PGP SIGNATURE-----
+base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+-- 
+2.30.2
 
---eyr67bt3k6i7edlt--
