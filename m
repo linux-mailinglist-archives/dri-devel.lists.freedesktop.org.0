@@ -1,57 +1,55 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1CF428DED
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:31 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30592428DDD
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8A1856E4C4;
-	Mon, 11 Oct 2021 13:28:28 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F14576E4B6;
+	Mon, 11 Oct 2021 13:28:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
  [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7FE726E4C4
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:27 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 95EBB6E4B6
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:11 +0000 (UTC)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
  by metis.ext.pengutronix.de with esmtps
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLZ-0006fi-Rm; Mon, 11 Oct 2021 15:28:05 +0200
+ id 1mZvLZ-0006fj-Rm; Mon, 11 Oct 2021 15:28:05 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
  by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLV-0003nd-8g; Mon, 11 Oct 2021 15:28:01 +0200
+ id 1mZvLV-0003ng-C7; Mon, 11 Oct 2021 15:28:01 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
  (envelope-from <ukl@pengutronix.de>)
- id 1mZvLV-0000Re-6O; Mon, 11 Oct 2021 15:28:01 +0200
+ id 1mZvLV-0000SC-BC; Mon, 11 Oct 2021 15:28:01 +0200
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Guenter Roeck <linux@roeck-us.net>, Jarkko Sakkinen <jarkko@kernel.org>,
- Jean Delvare <jdelvare@suse.com>, Jiri Slaby <jirislaby@kernel.org>,
- Lee Jones <lee.jones@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Michael Hennerich <michael.hennerich@analog.com>,
- Peter Huewe <peterhuewe@gmx.de>, Thierry Reding <thierry.reding@gmail.com>,
- Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>
-Cc: Mark Brown <broonie@kernel.org>, Wolfram Sang <wsa@kernel.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- "Jason Gunthorpe linux-integrity @ vger . kernel . org" <jgg@ziepe.ca>,
- Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
- kernel@pengutronix.de, linux-hwmon@vger.kernel.org,
- linux-i2c@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-spi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com
-Subject: [PATCH 00/13] Make some spi device drivers return zero in .remove()
-Date: Mon, 11 Oct 2021 15:27:41 +0200
-Message-Id: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>, kernel@pengutronix.de,
+ dri-devel@lists.freedesktop.org
+Subject: [PATCH 01/13] drm/panel: s6e63m0: Make s6e63m0_remove() return void
+Date: Mon, 11 Oct 2021 15:27:42 +0200
+Message-Id: <20211011132754.2479853-2-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
+References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+X-Patch-Hashes: v=1; h=sha256; i=s7lxpA3SlxdAgalZdfZtQ9BEymVUSL76ohaDIVT+Hbk=;
+ m=QwS8VQ147nh5eUkRo9mxGTfBcUgnx3Jl4gdGJ73rKHM=;
+ p=gB1Eh6qhdZKXG7+Sv2MnM6FjygYEx1l/LzdGrasJ/Qc=;
+ g=4d3b9377dd7211c6773f6965376e81757de8d724
+X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de;
+ s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6;
+ b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkO2AACgkQwfwUeK3K7Ame9Qf/eAD
+ tFQYqwS+uD6PKIsI4sLe39e5/3VEZ6+nKm9vaW16R3ClIdLI5TNn+Ve60BlNob14yiCgANJyrHf0A
+ 6uTH+vpvp8Ydmhg8R+4p7bDJZL6VLlcDSdbgp9z82EKnRDEJa3yHA+9bQaI5YE3rMsUlJRllChWlc
+ gl5/UIK336D1rG6NgLfb8XPCtpO+hNdUE30JRpyPPx6ZI/MQ0XAgjgsLnoDT6keRzAN/cF02MSo0/
+ MMOPHHZmstFum/q4oxqUIWkLt9ZWvv6e7TS4dr11GZ/hESKI9qZ8ArXXOmcDgyxWcC5BXWqKTvLLV
+ 5GqAwDrkucRj8rSvRG7B4n2uVA3LviA==
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ukl@pengutronix.de
@@ -73,83 +71,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hello,
+Up to now s6e63m0_remove() returns zero unconditionally. Make it return
+void instead which makes it easier to see in the callers that there is
+no error to handle.
 
-this series is part of my new quest to make spi remove callbacks return
-void. Today they return an int, but the only result of returning a
-non-zero value is a warning message. So it's a bad idea to return an
-error code in the expectation that not freeing some resources is ok
-then. The same holds true for i2c and platform devices which benefit en
-passant for a few drivers.
+Also the return value of spi remove callbacks is ignored anyway.
 
-The patches in this series address some of the spi drivers that might
-return non-zero and adapt them accordingly to return zero instead. For
-most drivers it's just about not hiding the fact that they already
-return zero.
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c | 3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c | 3 ++-
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     | 4 +---
+ drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-Given that there are quite some more patches of this type to create
-before I can change the spi remove callback, I suggest the respecive
-subsystem maintainers pick up these patches. There are no
-interdependencies in this series.
-
-Uwe Kleine-König (13):
-  drm/panel: s6e63m0: Make s6e63m0_remove() return void
-  hwmon: adt7x10: Make adt7x10_remove() return void
-  hwmon: max31722: Warn about failure to put device in stand-by in
-    .remove()
-  input: adxl34xx: Make adxl34x_remove() return void
-  input: touchscreen: tsc200x: Make tsc200x_remove() return void
-  media: cxd2880: Eliminate dead code
-  mfd: mc13xxx: Make mc13xxx_common_exit() return void
-  mfd: stmpe: Make stmpe_remove() return void
-  mfd: tps65912: Make tps65912_device_exit() return void
-  serial: max310x: Make max310x_remove() return void
-  serial: sc16is7xx: Make sc16is7xx_remove() return void
-  staging: fbtft: Make fbtft_remove_common() return void
-  tpm: st33zp24: Make st33zp24_remove() return void
-
- drivers/char/tpm/st33zp24/i2c.c                   |  5 +----
- drivers/char/tpm/st33zp24/spi.c                   |  5 +----
- drivers/char/tpm/st33zp24/st33zp24.c              |  3 +--
- drivers/char/tpm/st33zp24/st33zp24.h              |  2 +-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c |  3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c |  3 ++-
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.c     |  4 +---
- drivers/gpu/drm/panel/panel-samsung-s6e63m0.h     |  2 +-
- drivers/hwmon/adt7310.c                           |  3 ++-
- drivers/hwmon/adt7410.c                           |  3 ++-
- drivers/hwmon/adt7x10.c                           |  3 +--
- drivers/hwmon/adt7x10.h                           |  2 +-
- drivers/hwmon/max31722.c                          |  8 +++++++-
- drivers/input/misc/adxl34x-i2c.c                  |  4 +++-
- drivers/input/misc/adxl34x-spi.c                  |  4 +++-
- drivers/input/misc/adxl34x.c                      |  4 +---
- drivers/input/misc/adxl34x.h                      |  2 +-
- drivers/input/touchscreen/tsc2004.c               |  4 +++-
- drivers/input/touchscreen/tsc2005.c               |  4 +++-
- drivers/input/touchscreen/tsc200x-core.c          |  4 +---
- drivers/input/touchscreen/tsc200x-core.h          |  2 +-
- drivers/media/spi/cxd2880-spi.c                   | 13 +------------
- drivers/mfd/mc13xxx-core.c                        |  4 +---
- drivers/mfd/mc13xxx-i2c.c                         |  3 ++-
- drivers/mfd/mc13xxx-spi.c                         |  3 ++-
- drivers/mfd/mc13xxx.h                             |  2 +-
- drivers/mfd/stmpe-i2c.c                           |  4 +++-
- drivers/mfd/stmpe-spi.c                           |  4 +++-
- drivers/mfd/stmpe.c                               |  4 +---
- drivers/mfd/stmpe.h                               |  2 +-
- drivers/mfd/tps65912-core.c                       |  4 +---
- drivers/mfd/tps65912-i2c.c                        |  4 +++-
- drivers/mfd/tps65912-spi.c                        |  4 +++-
- drivers/staging/fbtft/fbtft-core.c                |  8 +-------
- drivers/staging/fbtft/fbtft.h                     |  6 ++++--
- drivers/tty/serial/max310x.c                      |  7 +++----
- drivers/tty/serial/sc16is7xx.c                    | 10 +++++++---
- include/linux/mfd/tps65912.h                      |  2 +-
- 38 files changed, 77 insertions(+), 81 deletions(-)
-
-
-base-commit: 9e1ff307c779ce1f0f810c7ecce3d95bbae40896
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+index e0b1a7e354f3..e0f773678168 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-dsi.c
+@@ -116,7 +116,8 @@ static int s6e63m0_dsi_probe(struct mipi_dsi_device *dsi)
+ static int s6e63m0_dsi_remove(struct mipi_dsi_device *dsi)
+ {
+ 	mipi_dsi_detach(dsi);
+-	return s6e63m0_remove(&dsi->dev);
++	s6e63m0_remove(&dsi->dev);
++	return 0;
+ }
+ 
+ static const struct of_device_id s6e63m0_dsi_of_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
+index 3669cc3719ce..c178d962b0d5 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0-spi.c
+@@ -64,7 +64,8 @@ static int s6e63m0_spi_probe(struct spi_device *spi)
+ 
+ static int s6e63m0_spi_remove(struct spi_device *spi)
+ {
+-	return s6e63m0_remove(&spi->dev);
++	s6e63m0_remove(&spi->dev);
++	return 0;
+ }
+ 
+ static const struct of_device_id s6e63m0_spi_of_match[] = {
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+index 35d72ac663d6..b34fa4d5de07 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.c
+@@ -749,13 +749,11 @@ int s6e63m0_probe(struct device *dev, void *trsp,
+ }
+ EXPORT_SYMBOL_GPL(s6e63m0_probe);
+ 
+-int s6e63m0_remove(struct device *dev)
++void s6e63m0_remove(struct device *dev)
+ {
+ 	struct s6e63m0 *ctx = dev_get_drvdata(dev);
+ 
+ 	drm_panel_remove(&ctx->panel);
+-
+-	return 0;
+ }
+ EXPORT_SYMBOL_GPL(s6e63m0_remove);
+ 
+diff --git a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
+index 306605ed1117..c926eca1c817 100644
+--- a/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
++++ b/drivers/gpu/drm/panel/panel-samsung-s6e63m0.h
+@@ -35,6 +35,6 @@ int s6e63m0_probe(struct device *dev, void *trsp,
+ 				   const u8 *data,
+ 				   size_t len),
+ 		  bool dsi_mode);
+-int s6e63m0_remove(struct device *dev);
++void s6e63m0_remove(struct device *dev);
+ 
+ #endif /* _PANEL_SAMSUNG_S6E63M0_H */
 -- 
 2.30.2
 
