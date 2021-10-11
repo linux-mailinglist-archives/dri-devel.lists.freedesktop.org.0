@@ -2,40 +2,49 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90968429449
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 18:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C550B42946F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 18:24:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0A58A6E8F0;
-	Mon, 11 Oct 2021 16:10:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4D00F6E527;
+	Mon, 11 Oct 2021 16:24:08 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id A13A46E8F0;
- Mon, 11 Oct 2021 16:10:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="214056829"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="214056829"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 09:09:55 -0700
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="441478029"
-Received: from ramaling-i9x.iind.intel.com ([10.99.66.205])
- by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 09:09:52 -0700
-From: Ramalingam C <ramalingam.c@intel.com>
-To: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>
-Cc: Daniel Vetter <daniel@ffwll.ch>, Matthew Auld <matthew.auld@intel.com>,
- CQ Tang <cq.tang@intel.com>, Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Ramalingam C <ramalingam.c@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Subject: [PATCH 14/14] Doc/gpu/rfc/i915: i915 DG2 uAPI
-Date: Mon, 11 Oct 2021 21:41:55 +0530
-Message-Id: <20211011161155.6397-15-ramalingam.c@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20211011161155.6397-1-ramalingam.c@intel.com>
-References: <20211011161155.6397-1-ramalingam.c@intel.com>
+Received: from mx2.smtp.larsendata.com (mx2.smtp.larsendata.com
+ [91.221.196.228])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EAA406E527
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 16:24:05 +0000 (UTC)
+Received: from mail01.mxhotel.dk (mail01.mxhotel.dk [91.221.196.236])
+ by mx2.smtp.larsendata.com (Halon) with ESMTPS
+ id 9dc8c04f-2aaf-11ec-ac3c-0050568cd888;
+ Mon, 11 Oct 2021 16:23:49 +0000 (UTC)
+Received: from ravnborg.org (80-162-45-141-cable.dk.customer.tdc.net
+ [80.162.45.141])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ (Authenticated sender: sam@ravnborg.org)
+ by mail01.mxhotel.dk (Postfix) with ESMTPSA id B3C82194B6F;
+ Mon, 11 Oct 2021 18:23:49 +0200 (CEST)
+Date: Mon, 11 Oct 2021 18:24:00 +0200
+X-Report-Abuse-To: abuse@mxhotel.dk
+From: Sam Ravnborg <sam@ravnborg.org>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Robin van der Gracht <robin@protonic.nl>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org
+Subject: Re: [PATCH v1 2/3] drm: panel-simple: Add support for the Innolux
+ G070Y2-T02 panel
+Message-ID: <YWRlIMEb0j9ji9T4@ravnborg.org>
+References: <20210930100501.15690-1-o.rempel@pengutronix.de>
+ <20210930100501.15690-2-o.rempel@pengutronix.de>
+ <YWGxbKm/5r/J1Vi6@ravnborg.org>
+ <20211011090148.GA28262@pengutronix.de>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211011090148.GA28262@pengutronix.de>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,85 +60,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Details of the new features getting added as part of DG2 enabling and their
-implicit impact on the uAPI.
+Hi Oleksij,
+On Mon, Oct 11, 2021 at 11:01:48AM +0200, Oleksij Rempel wrote:
+> On Sat, Oct 09, 2021 at 05:12:44PM +0200, Sam Ravnborg wrote:
+> > Hi Oleksij, Robin,
+> > 
+> > On Thu, Sep 30, 2021 at 12:05:00PM +0200, Oleksij Rempel wrote:
+> > > Add compatible and timings for the Innolux G070Y2-T02 panel. It is 7"
+> > > WVGA (800x480) TFT LCD panel with TTL interface and a backlight unit.
+> > > 
+> > > Co-Developed-by: Robin van der Gracht <robin@protonic.nl>
+> > > Signed-off-by: Robin van der Gracht <robin@protonic.nl>
+> > > Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+> > > ---
+> > >  drivers/gpu/drm/panel/panel-simple.c | 16 ++++++++++++++++
+> > >  1 file changed, 16 insertions(+)
+> > > 
+> > > diff --git a/drivers/gpu/drm/panel/panel-simple.c b/drivers/gpu/drm/panel/panel-simple.c
+> > > index 9b6c4e6c38a1..a03b60f6fa99 100644
+> > > --- a/drivers/gpu/drm/panel/panel-simple.c
+> > > +++ b/drivers/gpu/drm/panel/panel-simple.c
+> > > @@ -2524,6 +2524,19 @@ static const struct panel_desc innolux_g070y2_l01 = {
+> > >  	.connector_type = DRM_MODE_CONNECTOR_LVDS,
+> > >  };
+> > >  
+> > > +static const struct panel_desc innolux_g070y2_t02 = {
+> > > +	.modes = &innolux_at070tn92_mode,
+> > 
+> > It is suprising to see that the innolux_g070y2_t02 uses the mode
+> > innolux_at070tn92_mode.
+> > Is it on purpose?
+> 
+> yes.
+> 
+> > If yes then I would expect the changelog to say so.
+> > 
+> > In most (all?) other cases the panel provide their own mode.
+> 
+> It works with same timing values. What is the preferred way, add own
+> mode or extend the changelog?
 
-Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-cc: Matthew Auld <matthew.auld@intel.com>
----
- Documentation/gpu/rfc/i915_dg2.rst | 47 ++++++++++++++++++++++++++++++
- Documentation/gpu/rfc/index.rst    |  3 ++
- 2 files changed, 50 insertions(+)
- create mode 100644 Documentation/gpu/rfc/i915_dg2.rst
+Both works for me, but I would duplicate the timings.
+Only because I do not trust anyone that comes later to see that the
+timings are used twice.
 
-diff --git a/Documentation/gpu/rfc/i915_dg2.rst b/Documentation/gpu/rfc/i915_dg2.rst
-new file mode 100644
-index 000000000000..a83ca26cd758
---- /dev/null
-+++ b/Documentation/gpu/rfc/i915_dg2.rst
-@@ -0,0 +1,47 @@
-+====================
-+I915 DG2 RFC Section
-+====================
-+
-+Upstream plan
-+=============
-+Plan to upstream the DG2 enabling is:
-+
-+* Merge basic HW enabling for DG2(Still without pciid)
-+* Merge the 64k support for lmem
-+* Merge the flat CCS enabling patches
-+* Add the pciid for DG2 and enable the DG2 in CI
-+
-+
-+64K page support for lmem
-+=========================
-+On DG2 hw, local-memory supports minimum GTT page size of 64k only. 4k is not supported anymore.
-+
-+DG2 hw dont support the 64k(lmem) and 4k(smem) pages in the same ppgtt Page table. Refer the
-+struct drm_i915_gem_create_ext for the implication of handling the 64k page size.
-+
-+.. kernel-doc:: include/uapi/drm/i915_drm.h
-+        :functions: drm_i915_gem_create_ext
-+
-+
-+flat CCS support for lmem
-+=========================
-+Gen 12+ devices support 3D surfaces compression and compression formats. This is
-+accomplished by an additional compression control state (CCS) stored for each surface.
-+
-+Gen 12 devices(TGL and DG1) stores compression state in a separate region of memory.
-+It is managed by userspace and has an associated set of userspace managed page tables
-+used by hardware for address translation.
-+
-+In Gen 12.5 devices(XEXPSDV and DG2) Flat CCS is introduced to replace the userspace
-+managed AUX pagetable with the flat indexed region of device memory for storing the
-+compression state
-+
-+GOP Driver steals a chunk of memory for the CCS surface corresponding to the entire
-+range of local memory. The memory required for the CCS of the entire local memory is
-+1/256 of the main local memory. The Gop driver will also program a secure register
-+(XEHPSDV_FLAT_CCS_BASE_ADDR 0x4910) with this address value.
-+
-+So the Total local memory available for driver allocation is Total lmem size - CCS data size
-+
-+Flat CCS data needs to be cleared when a lmem object is allocated. And CCS data can
-+be copied in and out of CCS region through XY_CTRL_SURF_COPY_BLT.
-diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-index 91e93a705230..afb320ed4028 100644
---- a/Documentation/gpu/rfc/index.rst
-+++ b/Documentation/gpu/rfc/index.rst
-@@ -20,6 +20,9 @@ host such documentation:
- 
-     i915_gem_lmem.rst
- 
-+.. toctree::
-+    i915_dg2.rst
-+
- .. toctree::
- 
-     i915_scheduler.rst
--- 
-2.20.1
-
+	Sam
