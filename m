@@ -1,43 +1,49 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 629E8428C8C
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 14:05:24 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E9F9428D0F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 14:32:19 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 0AE7489E2A;
-	Mon, 11 Oct 2021 12:05:19 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7CC7A6E499;
+	Mon, 11 Oct 2021 12:32:13 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 65DE489E2A
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 12:05:17 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="207663910"
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="207663910"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 05:04:20 -0700
-X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="523791723"
-Received: from sfhansen-mobl1.ger.corp.intel.com (HELO [10.249.254.194])
- ([10.249.254.194])
- by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 05:04:18 -0700
-Message-ID: <4041c72ff1d3d149437cedbcf3c598ae2238519d.camel@linux.intel.com>
-Subject: Re: [PATCH 0/5] drm/vmwgfx: Support module unload and hotunplug
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Zack
- Rusin <zackr@vmware.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Date: Mon, 11 Oct 2021 14:04:16 +0200
-In-Reply-To: <232f45e9-8748-1243-09bf-56763e6668b3@amd.com>
-References: <20211008173146.645127-1-zackr@vmware.com>
- <7abe3906a814e40786da5cd5d45a7b826e262d8e.camel@linux.intel.com>
- <dbfb505f1034a2d725d76e30a26d2da0a850dd41.camel@vmware.com>
- <96a89fdb5a10141e87d7283720b4088461db722b.camel@linux.intel.com>
- <232f45e9-8748-1243-09bf-56763e6668b3@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDED66E3F7;
+ Mon, 11 Oct 2021 12:32:11 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10133"; a="213808656"
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="213808656"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 05:32:11 -0700
+X-IronPort-AV: E=Sophos;i="5.85,364,1624345200"; d="scan'208";a="485882647"
+Received: from aquine-mobl.ger.corp.intel.com (HELO [10.213.251.140])
+ ([10.213.251.140])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 11 Oct 2021 05:32:08 -0700
+Subject: Re: [PATCH] dma-resv: Fix dma_resv_get_fences and
+ dma_resv_copy_fences after conversion
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Intel-gfx@lists.freedesktop.org
+Cc: dri-devel@lists.freedesktop.org, Tvrtko Ursulin
+ <tvrtko.ursulin@intel.com>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20211008095007.972693-1-tvrtko.ursulin@linux.intel.com>
+ <9eca89ab-f954-8b2a-7af5-b4a63b90eed0@amd.com>
+ <67f413c4-b654-c7ea-bc4f-6b42418c7486@linux.intel.com>
+ <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
+From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Organization: Intel Corporation UK Plc
+Message-ID: <8f93439a-739d-835d-95e9-59ffb7380a27@linux.intel.com>
+Date: Mon, 11 Oct 2021 13:32:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
+In-Reply-To: <85489b72-6001-98d8-d66a-395e05cd3d01@amd.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -54,181 +60,119 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, 2021-10-11 at 10:17 +0200, Christian König wrote:
-> Am 08.10.21 um 23:13 schrieb Thomas Hellström:
-> > On Fri, 2021-10-08 at 20:40 +0000, Zack Rusin wrote:
-> > > On Fri, 2021-10-08 at 22:28 +0200, Thomas Hellström wrote:
-> > > > On Fri, 2021-10-08 at 13:31 -0400, Zack Rusin wrote:
-> > > > > This is a largely trivial set that makes vmwgfx support
-> > > > > module
-> > > > > reload
-> > > > > and PCI hot-unplug. It also makes IGT's core_hotunplug pass
-> > > > > instead
-> > > > > of kernel oops'ing.
-> > > > > 
-> > > > > The one "ugly" change is the "Introduce a new placement for
-> > > > > MOB
-> > > > > page
-> > > > > tables". It seems vmwgfx has been violating a TTM assumption
-> > > > > that
-> > > > > TTM_PL_SYSTEM buffers are never fenced for a while. Apart
-> > > > > from a
-> > > > > kernel
-> > > > > oops on module unload it didn't seem to wreak too much havoc,
-> > > > > but
-> > > > > we
-> > > > > shouldn't be abusing TTM. So to solve it we're introducing a
-> > > > > new
-> > > > > placement, which is basically system, but can deal with
-> > > > > fenced
-> > > > > bo's.
-> > > > > 
-> > > > > Cc: Christian König <christian.koenig@amd.com>
-> > > > > Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-> > > > Hi, Zack,
-> > > > 
-> > > > What part of TTM doesn't allow fenced system memory currently?
-> > > > It
-> > > > was
-> > > > certainly designed to allow that and vmwgfx has been relying on
-> > > > that
-> > > > since the introduction of MOBs IIRC. Also i915 is currently
-> > > > relying
-> > > > on
-> > > > that.
-> > > It's the shutdown. BO's allocated through the ttm system manager
-> > > might
-> > > be busy during ttm_bo_put which results in them being scheduled
-> > > for a
-> > > delayed deletion. The ttm system manager is disabled before the
-> > > final
-> > > delayed deletion is ran in ttm_device_fini. This results in
-> > > crashes
-> > > during freeing of the BO resources because they're trying to
-> > > remove
-> > > themselves from a no longer existent ttm_resource_manager (e.g.
-> > > in
-> > > IGT's core_hotunplug on vmwgfx)
-> > > 
-> > > During review of the trivial patch that was fixing it in ttm
-> > > Christian
-> > > said that system domain buffers must be idle or otherwise a
-> > > number of
-> > > assumptions in ttm breaks:
-> > > 
-> > > 
 
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2021-September%2F324027.html&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C2391a82208e6464c8db208d98aa08dd2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637693244449717755%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=BZ3C00rZDDdpKNoGa0PYwoHeM89uVzN1Md4iN2qkGB0%3D&amp;reserved=0
-> > > And later clarified that in fact system domain buffers being
-> > > fenced
-> > > is
-> > > illegal from a design point of view:
-> > > 
-> > > 
-
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Farchives%2Fdri-devel%2F2021-September%2F324697.html&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C2391a82208e6464c8db208d98aa08dd2%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637693244449717755%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=3eXNqeh7Ifqe6lllRMvdfJX%2F7rX7%2FqH3wldNE5AodMc%3D&amp;reserved=0
-> > Hmm, this looks very odd, because I remember reminding Christian as
-> > late as this spring that both vmwgfx and i915 sets up GPU bindings
-> > to
-> > system buffers, as part of the review of a patch series pushing a
-> > couple of changes to the swapout path that apparently had missed
-> > this.
+On 08/10/2021 13:19, Christian König wrote:
+> Am 08.10.21 um 12:49 schrieb Tvrtko Ursulin:
+>>
+>> On 08/10/2021 11:21, Christian König wrote:
+>>> Am 08.10.21 um 11:50 schrieb Tvrtko Ursulin:
+>>>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>>
+>>>> Cache the count of shared fences in the iterator to avoid dereferencing
+>>>> the dma_resv_object outside the RCU protection. Otherwise iterator 
+>>>> and its
+>>>> users can observe an incosistent state which makes it impossible to use
+>>>> safely.
+>>>
+>>> Ah, of course! I've been staring at the code the whole morning and 
+>>> couldn't see it.
+>>>
+>>> Going to write a testcase to cover that.
+>>>
+>>>> Such as:
+>>>>
+>>>> <6> [187.517041] [IGT] gem_sync: executing
+>>>> <7> [187.536343] i915 0000:00:02.0: 
+>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+>>>> <7> [187.536793] i915 0000:00:02.0: 
+>>>> [drm:i915_gem_context_create_ioctl [i915]] HW context 1 created
+>>>> <6> [187.551235] [IGT] gem_sync: starting subtest basic-many-each
+>>>> <1> [188.935462] BUG: kernel NULL pointer dereference, address: 
+>>>> 0000000000000010
+>>>> <1> [188.935485] #PF: supervisor write access in kernel mode
+>>>> <1> [188.935495] #PF: error_code(0x0002) - not-present page
+>>>> <6> [188.935504] PGD 0 P4D 0
+>>>> <4> [188.935512] Oops: 0002 [#1] PREEMPT SMP NOPTI
+>>>> <4> [188.935521] CPU: 2 PID: 1467 Comm: gem_sync Not tainted 
+>>>> 5.15.0-rc4-CI-Patchwork_21264+ #1
+>>>> <4> [188.935535] Hardware name:  /NUC6CAYB, BIOS 
+>>>> AYAPLCEL.86A.0049.2018.0508.1356 05/08/2018
+>>>> <4> [188.935546] RIP: 0010:dma_resv_get_fences+0x116/0x2d0
+>>>> <4> [188.935560] Code: 10 85 c0 7f c9 be 03 00 00 00 e8 15 8b df ff 
+>>>> eb bd e8 8e c6 ff ff eb b6 41 8b 04 24 49 8b 55 00 48 89 e7 8d 48 01 
+>>>> 41 89 0c 24 <4c> 89 34 c2 e8 41 f2 ff ff 49 89 c6 48 85 c0 75 8c 48 
+>>>> 8b 44 24 10
+>>>> <4> [188.935583] RSP: 0018:ffffc900011dbcc8 EFLAGS: 00010202
+>>>> <4> [188.935593] RAX: 0000000000000000 RBX: 00000000ffffffff RCX: 
+>>>> 0000000000000001
+>>>> <4> [188.935603] RDX: 0000000000000010 RSI: ffffffff822e343c RDI: 
+>>>> ffffc900011dbcc8
+>>>> <4> [188.935613] RBP: ffffc900011dbd48 R08: ffff88812d255bb8 R09: 
+>>>> 00000000fffffffe
+>>>> <4> [188.935623] R10: 0000000000000001 R11: 0000000000000000 R12: 
+>>>> ffffc900011dbd44
+>>>> <4> [188.935633] R13: ffffc900011dbd50 R14: ffff888113d29cc0 R15: 
+>>>> 0000000000000000
+>>>> <4> [188.935643] FS:  00007f68d17e9700(0000) 
+>>>> GS:ffff888277900000(0000) knlGS:0000000000000000
+>>>> <4> [188.935655] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+>>>> <4> [188.935665] CR2: 0000000000000010 CR3: 000000012d0a4000 CR4: 
+>>>> 00000000003506e0
+>>>> <4> [188.935676] Call Trace:
+>>>> <4> [188.935685]  i915_gem_object_wait+0x1ff/0x410 [i915]
+>>>> <4> [188.935988]  i915_gem_wait_ioctl+0xf2/0x2a0 [i915]
+>>>> <4> [188.936272]  ? i915_gem_object_wait+0x410/0x410 [i915]
+>>>> <4> [188.936533]  drm_ioctl_kernel+0xae/0x140
+>>>> <4> [188.936546]  drm_ioctl+0x201/0x3d0
+>>>> <4> [188.936555]  ? i915_gem_object_wait+0x410/0x410 [i915]
+>>>> <4> [188.936820]  ? __fget_files+0xc2/0x1c0
+>>>> <4> [188.936830]  ? __fget_files+0xda/0x1c0
+>>>> <4> [188.936839]  __x64_sys_ioctl+0x6d/0xa0
+>>>> <4> [188.936848]  do_syscall_64+0x3a/0xb0
+>>>> <4> [188.936859] entry_SYSCALL_64_after_hwframe+0x44/0xae
+>>>>
+>>>> If the shared object has changed during the RCU unlocked period
+>>>> callers will correctly handle the restart on the next iteration.
+>>>>
+>>>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+>>>> Fixes: 96601e8a4755 ("dma-buf: use new iterator in 
+>>>> dma_resv_copy_fences")
+>>>> Fixes: d3c80698c9f5 ("dma-buf: use new iterator in 
+>>>> dma_resv_get_fences v3")
+>>>> Closes: 
+>>>> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fgitlab.freedesktop.org%2Fdrm%2Fintel%2F-%2Fissues%2F4274&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7Cc22feea06a3f4285cdac08d98a495984%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637692870805160909%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000&amp;sdata=6oPR30sWnJe04I4GlhhvJWX3QvwKFIOMW1uOIyWZFOE%3D&amp;reserved=0 
+>>>>
+>>>> Cc: Christian König <christian.koenig@amd.com>
+>>>> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>>>> Cc: linux-media@vger.kernel.org
+>>>> Cc: dri-devel@lists.freedesktop.org
+>>>> Cc: linaro-mm-sig@lists.linaro.org
+>>>
+>>> Maybe we should remove cursor->fences altogether, but either way the 
+>>> patch is Reviewed-by: Christian König <christian.koenig@amd.com>
+>>>
+>>> Please push to drm-misc-next ASAP.
+>>
+>> Not sure I can or if my push permissions are limited to Intel 
+>> branches. I can try once CI gives a green light.
 > 
-> Well that was the trigger to look more deeply into this and as far as
-> I 
-> can tell TTM was never capable of doing this correctly.
+> If it doesn't work just ping me and I will push it.
 
-So apart from the teardown, which appear to be an oversight when the
-system manager was introduced where do whe fail currently with this? 
+It finally passed CI but it looks like you'll need to push it:
 
-> 
-> > This more sounds like there have been changes to TTM happening not
-> > taking into account or knowing that TTM was designed for system
-> > buffers
-> > bound to GPU and that there were drivers actually doing that.
-> > 
-> > And there is still older code around clearly implying system
-> > buffers
-> > can be fenced, like ttm_bo_swapout(), and that there is dma fences
-> > signaling completion on work that has never touched the GPU, not to
-> > mention async eviction where a bo may be evicted to system but has
-> > tons
-> > of outstanding fenced work in the pipe.
-> > 
-> > So if there has been a design change WRT this I believe it should
-> > have
-> > been brought up on dri-devel to have it properly discussed so
-> > affected
-> > drivers could agree on the different options.
-> > 
-> > Perhaps Christian can enlighten us here. Christian?
-> 
-> There are multiple occasions where we assume that BOs in the system 
-> domain are not accessible by the GPU, swapout and teardown are just
-> two 
-> examples.
-> 
+tursulin@tursulin-mobl2:~/wc/dim/src$ dim push-branch drm-misc-next
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 2.32 KiB | 593.00 KiB/s, done.
+Total 8 (delta 7), reused 0 (delta 0), pack-reused 0
+error: remote unpack failed: unable to create temporary object directory
+To ssh://git.freedesktop.org/git/drm/drm-misc
+  ! [remote rejected]           drm-misc-next -> drm-misc-next (unpacker error)
+error: failed to push some refs to 'ssh://git.freedesktop.org/git/drm/drm-misc'
 
-At swapout we *do* wait for idle after moving to system, It's relying
-on the swap_notifier to unbind. That's why the swap_notifier is there,
-so swapout is working perfectly fine.
+Regards,
 
-
-> When Dave reorganized the buffer move code we also had to insert
-> waits 
-> for moves to complete for anything which goes into the SYSTEM domain.
-> 
-> Apart from that it certainly makes sense to have that restriction. 
-> Memory which is accessed by the hardware and not directly evictable
-> must 
-> be accounted differently.
-
-Could you elaborate a bit on this? From a swapout point of view, it
-looks to me like SYSTEM is treated just like TT by TTM? Or is the
-accounting you mention something amdgpu-specific and more related to
-the amd GEM domains than to the TTM memory types?
-
-Note that TTM was never designed to deal with GPU binding, but to
-provide a set of placements or memory-types where the memory can be
-mapped by the CPU and bound by the GPU. TT was a special case solely
-because of the mappable apertures. A bind mechanism had to be provided
-for TTM to be able to map TT buffers, and most drivers used that bound
-mechanism for convenience.
-
-So now if this is going to be changed, I think we need to understand
-why and think this through really thoroughly:
-
-* What is not working and why (the teardown seems to be a trivial fix).
-* How did we end up here,
-* What's the cost of fixing that up compared to refactoring the drivers
-that rely on bindable system memory,
-* What's the justification of a system type at all if it's not GPU-
-bindable, meaning it's basically equivalent to swapped-out shmem with
-the exception that it's mappable?
-
-It's probably a non-trivial effort to refactor i915 to not use system
-for gpu-binding and in that case I think we need some solid
-justification why we need to do that rather than fix up what's not
-working with TTM + bindable system:
-
-So could you please elaborate (assuming that the teardown is fixable)
-on the other parts that don't work.
-
-Thanks
-
-/Thomas
-
-
-> 
-> Regards,
-> Christian.
-> 
-> > 
-> > /Thomas
-> > 
-> > 
-> > > z
-> > 
-> 
-
-
+Tvrtko
