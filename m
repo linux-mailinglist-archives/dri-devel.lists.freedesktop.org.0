@@ -1,24 +1,24 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A247428E59
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:41:59 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B068F428E5A
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:42:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E0CB86E4D0;
-	Mon, 11 Oct 2021 13:41:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 2E2F26E4CF;
+	Mon, 11 Oct 2021 13:41:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 702CB6E4CF
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:41:45 +0000 (UTC)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id B22436E4CF
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:41:46 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id B8F86FB03;
- Mon, 11 Oct 2021 15:41:42 +0200 (CEST)
+ by honk.sigxcpu.org (Postfix) with ESMTP id E2588FB05;
+ Mon, 11 Oct 2021 15:41:43 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
 Received: from honk.sigxcpu.org ([127.0.0.1])
  by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id AQ9Zwbnzn1ou; Mon, 11 Oct 2021 15:41:41 +0200 (CEST)
+ with ESMTP id NpBdlXM3dTqi; Mon, 11 Oct 2021 15:41:42 +0200 (CEST)
 From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
 To: Andrzej Hajda <a.hajda@samsung.com>,
  Neil Armstrong <narmstrong@baylibre.com>,
@@ -34,9 +34,9 @@ To: Andrzej Hajda <a.hajda@samsung.com>,
  Ondrej Jirman <megous@megous.com>, Lucas Stach <l.stach@pengutronix.de>,
  dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 3/5] drm/panel: st7703: Add media bus format
-Date: Mon, 11 Oct 2021 15:41:25 +0200
-Message-Id: <d7ebeec861f4518c8497a5e07d09d5a9fd123d3d.1633959458.git.agx@sigxcpu.org>
+Subject: [PATCH v3 4/5] drm: mxsfb: Print failed bus format in hex
+Date: Mon, 11 Oct 2021 15:41:26 +0200
+Message-Id: <c84b34855abbb85cd25bbb5126db302f88327640.1633959458.git.agx@sigxcpu.org>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <cover.1633959458.git.agx@sigxcpu.org>
 References: <cover.1633959458.git.agx@sigxcpu.org>
@@ -58,39 +58,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-This allows the DSI bridge to detect the correct bus format.
-We currently only support MEDIA_BUS_FMT_RGB888_1X24.
+media-bus-formats.h has them in hexadecimal as well so matching with
+that file saves one conversion when debugging.
 
 Signed-off-by: Guido Günther <agx@sigxcpu.org>
+Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
 ---
- drivers/gpu/drm/panel/panel-sitronix-st7703.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/gpu/drm/mxsfb/mxsfb_kms.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/panel/panel-sitronix-st7703.c b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-index a2c303e5732c..73f69c929a75 100644
---- a/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-+++ b/drivers/gpu/drm/panel/panel-sitronix-st7703.c
-@@ -453,6 +453,10 @@ static int st7703_prepare(struct drm_panel *panel)
- 	return ret;
- }
- 
-+static const u32 mantix_bus_formats[] = {
-+	MEDIA_BUS_FMT_RGB888_1X24,
-+};
-+
- static int st7703_get_modes(struct drm_panel *panel,
- 			    struct drm_connector *connector)
- {
-@@ -474,6 +478,10 @@ static int st7703_get_modes(struct drm_panel *panel,
- 	connector->display_info.height_mm = mode->height_mm;
- 	drm_mode_probed_add(connector, mode);
- 
-+	drm_display_info_set_bus_formats(&connector->display_info,
-+					 mantix_bus_formats,
-+					 ARRAY_SIZE(mantix_bus_formats));
-+
- 	return 1;
- }
+diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+index af6c620adf6e..d6abd2077114 100644
+--- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
++++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+@@ -89,7 +89,7 @@ static void mxsfb_set_formats(struct mxsfb_drm_private *mxsfb,
+ 		ctrl |= CTRL_BUS_WIDTH_24;
+ 		break;
+ 	default:
+-		dev_err(drm->dev, "Unknown media bus format %d\n", bus_format);
++		dev_err(drm->dev, "Unknown media bus format 0x%x\n", bus_format);
+ 		break;
+ 	}
  
 -- 
 2.33.0
