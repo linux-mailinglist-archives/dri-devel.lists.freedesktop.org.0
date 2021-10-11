@@ -1,148 +1,83 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B60B1429956
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 00:09:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A70642995C
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 00:13:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A4B726E546;
-	Mon, 11 Oct 2021 22:09:50 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id F3FFF6E55E;
+	Mon, 11 Oct 2021 22:13:10 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 6D03B6E546;
- Mon, 11 Oct 2021 22:09:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="207098597"
-X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; d="scan'208";a="207098597"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 11 Oct 2021 15:09:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,365,1624345200"; d="scan'208";a="714915177"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by fmsmga006.fm.intel.com with ESMTP; 11 Oct 2021 15:09:48 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 11 Oct 2021 15:09:48 -0700
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Mon, 11 Oct 2021 15:09:48 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Mon, 11 Oct 2021 15:09:48 -0700
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (104.47.57.44) by
- edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Mon, 11 Oct 2021 15:09:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=AkG8wzdu3Jna4DHYiyDYdQu1GfKxBhK6ro+iHtTaCUshZ2rxs1gXTz4QAh0xUopMhNeQNsvCv6Vaz9dKm2USKmdswyx43UQZy6FsKcOpxx0/xG55BVkYEHl3El0xvqljTFvvuMJ2N2aV/6r75cKvXIogfCkD/PkJH5CnRhh493jpSHysbCQs8QMm19mrA+62l7vU/3ru7Rw6QZTXYIFpRCg76x2wiRIeBCuo/JmdwPeiNObvXanHG1DZ3c7RJVMqccFhFH3VYk8rMTlXDz9uBEcBaTs40WaFG5hdaLIFdlDTGHurMxZ+a6CvJo8NCm2zOZXuCnH5JdWKPM9M7qvIYA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6kGC+Q7ceTndISBD0odHo9V3D7ojfRQ3xVJcdEFdja0=;
- b=ZqCi/fZHz8KI4Ci7Z9lH2OeAlbV5FTSilBVbVA0rbXqRIEzbiov+13Q/DFtPPfF0LZ8DHcdH1IL4DjL6jzuwoDnmmNremOx3RsrgWJU0oDLHa4zGCWAmippyNJvu8XqOufcOZxfEhmVDnHAdhc15emgHwJ6qZeLgEp9idmi9k+YzkwRSvlm21gWUvRfKwLRAn5JJeoxazelfcVQUi58zOZ3btNqNqJeoxD8dBN8UQDNkLUC0Om2bsFibG+B8CHumTgFNY25FdAe9n8ugc7CoPEk6n80LNJAq8FRag5tPDa2FNARWNzGbMrxS/t6/MvVN1Blwc5G6ct+Nr0U4fYf3+g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6kGC+Q7ceTndISBD0odHo9V3D7ojfRQ3xVJcdEFdja0=;
- b=Ma3gKMM/6BBrHfmk2QWHocysQ0pq729ZAhWqLpP+PgyjBU/vyZJwjUbw0We27yOp/hcKB4nre1ig/khHr5CMXIbqpGpZn+PE5JTXUnYvmNazdq/YgaprWPwGumJrRohF7gXVw6zA6DjB2VHxV4RWk+5KhcVl3O4eQGApTdMcqoo=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5626.namprd11.prod.outlook.com (2603:10b6:510:ee::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Mon, 11 Oct
- 2021 22:09:46 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.026; Mon, 11 Oct 2021
- 22:09:46 +0000
-Subject: Re: [PATCH 17/26] drm/i915/guc: Connect UAPI to GuC multi-lrc
- interface
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <daniele.ceraolospurio@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-18-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <b9db3036-d353-f54b-6f99-01964b5d57fa@intel.com>
-Date: Mon, 11 Oct 2021 15:09:43 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211004220637.14746-18-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MWHPR13CA0002.namprd13.prod.outlook.com
- (2603:10b6:300:16::12) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com
+ [IPv6:2a00:1450:4864:20::129])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A01EA6E55E
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 22:13:09 +0000 (UTC)
+Received: by mail-lf1-x129.google.com with SMTP id n8so76871474lfk.6
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 15:13:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CMjFkyfIdJYXL2one4RCF0+3erwI/XCvuJxpjE8HTTw=;
+ b=nhenOOdcYIOR7M0CUcTf1gRH10D/HFRqMgy/wHynXCcJadTckGLCI84/vnZzTi7hRh
+ NIZSys905Imj6x5xH1ULQkBLjDgPSdViot1xyu0/a+gilwQ0uKVuNhJrcnTlR0Zy+MYg
+ BhmMER5sMjN8FQGYeKJ5Wnc2XeBrBsWKP5Yy3vflFJyXI2kEXNs4LG9YNDIMYPjiQEMM
+ TnoBCRf2AVgLoJzrvddY9178onV+XXn3B8N0Rk5Oq0VsvOf6lvqA/JCvSqjWWk+r6n+I
+ CW2WZ/9NZWBHgLA0TUiwRKr1gf5KyDZobRnrP1gh98OiWIzmsNM2mIc1OvtFPn+z1m+Z
+ 5ZVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CMjFkyfIdJYXL2one4RCF0+3erwI/XCvuJxpjE8HTTw=;
+ b=FhCtt2VeI6OftiomIc2VB4l7E6xcYOXdhaBdwb6rN0rvfDfAdoC26GuH2nAL3HDBXz
+ GePaxume0hK9aIbFx2hkYO9zNgP199cdk6oBqbvyI0E2i7jbW7PcjlWzY9nHsyuIYRvr
+ dMusYM+41/YMdfxyKhU3L7qoUdpFGNvzEbQJDw+LuIa/RyGkGTFxlFbOIQYvojQ9kmxg
+ wVCrVgECAIuxT4Nz9Ww+JJrt+sHIAYGkyQFUyRraTpWmlkFqI1aLRmjwsMnHmdYpnRdb
+ 8es0s4PhdWIaGkGL9eV4082ujcf0kYcmXlCAd+3gPAjNiYQGVJnahMS74cTzN1wvLhgX
+ SvQA==
+X-Gm-Message-State: AOAM530ENIzsPSnq60Ld+VXc553FMkZohJCp/UUm6yt+xfqEjxw+bCEq
+ lYO71iAxo+C/4cd3ttmk6Zs=
+X-Google-Smtp-Source: ABdhPJzAaMJRbETh4sKhctjAl1zOTIaaWRvcN6hdZkMvIKR2WvUjR+8/NQHdAuO7EmkZNuk1m4XKxA==
+X-Received: by 2002:a05:6512:130e:: with SMTP id
+ x14mr29402793lfu.98.1633990387024; 
+ Mon, 11 Oct 2021 15:13:07 -0700 (PDT)
+Received: from [192.168.0.14]
+ (095160158079.dynamic-2-waw-k-4-2-0.vectranet.pl. [95.160.158.79])
+ by smtp.gmail.com with ESMTPSA id x10sm202726lfr.72.2021.10.11.15.13.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 11 Oct 2021 15:13:06 -0700 (PDT)
+Subject: Re: Questions over DSI within DRM.
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <maxime@cerno.tech>,
+ DRI Development <dri-devel@lists.freedesktop.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <CAPY8ntBUKRkSam59Y+72dW_6XOeKVswPWffzPj3uvgE6pV4ZGQ@mail.gmail.com>
+ <YN9BxNP5IfhbJGGk@pendragon.ideasonboard.com>
+ <CAPY8ntDRKcq0V_q04q25_EemsBiT4xHKNv1260Fr8kKGtZDpxw@mail.gmail.com>
+ <20210706151320.kwn4dwu6buvy4isa@gilmour>
+ <CAPY8ntDPQg76JTgZ5iJG=m3sWjKMwi-vXUHyAPqS_HGFbGGkkA@mail.gmail.com>
+ <20210715095022.5plcocz6plxnb3xr@gilmour>
+ <YVm7U0q6F8T9K32h@pendragon.ideasonboard.com>
+ <CAPY8ntAWqaHH=+cGWcpKypvZfGApE6SQ1p0qFzE9XyyqaaQ1OQ@mail.gmail.com>
+ <418bd5c8-00a9-5502-f918-821616870943@gmail.com>
+ <CAPY8ntDzTa0Xzfk-YUj9pOShi9wMb+_Y0ogRfROaf3kz5Ru5qQ@mail.gmail.com>
+ <ce4851e2-3e17-5a4b-eb99-bc8787ec8259@gmail.com>
+ <CAPY8ntDgu1t1zxpewVPFnjug0O00D-gPhgXqJtm6hr2JMo_Gmw@mail.gmail.com>
+ <11ebfc24-4170-5bd6-4d86-14667f44ac1a@gmail.com>
+ <CAPY8ntCGfJXG7S4fmWXWsKGYnJ1gJeCxyTD7bf=yBbQp2tJgtw@mail.gmail.com>
+From: Andrzej Hajda <andrzej.hajda@gmail.com>
+Message-ID: <fbe103d6-4b0b-7ac7-284a-9bb26f19c590@gmail.com>
+Date: Tue, 12 Oct 2021 00:13:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- MWHPR13CA0002.namprd13.prod.outlook.com (2603:10b6:300:16::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.4 via Frontend Transport; Mon, 11 Oct 2021 22:09:45 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5ec53dd5-f616-48e3-0550-08d98d03d5a7
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5626:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB56264911D35C81CD8C7C74F7BDB59@PH0PR11MB5626.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:483;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: l09yIRpoRqsVJbHA7EqmE4UwIHlvhbjLXSQJ1P6WaVKna0uXpPDsxfZ+urgECa+WzQMFeksl9TGOBrZVaa18rI0ugcH7NuoavfBVltgVgH7wa5aZ0gqAojZfBla6JmpnW/91phklu5Vq+oCTmNCSHK1kZtucrWWUvmvc1DsjtEKpq3UgK42lgO8vBBhl7iS3+enJ/P6buPK12CGvk+tde+4bYotbxMgpA5ywC8N856S6xpMKwRj/lsikXZxM+H5NDaQ5aAhxUrt7+wyiTlb7FEupkgNvcIIe1Ht1eJkeY9oFsas3So/kiiWQ3sjAtWETb2lvcnnoLpjIsS24ixarWCLpduyYRcXyaqAFmPXH+Mdo+dKQx/7yL+EfjNHl9r8gXFdNB71pPdcO8CkjpJjIey/X6eyPCPDtbIz8XpowlziZI03P0gslu+t42u7j39qFM1xh22UZR2YA+/NgugN5mTzSpByHIBvnNimnQohdGl6VBGtPRN6AkI66ZMcD+2m5YGNPOy20V0r3a6mMEjZQhlIi9cXBZuS8kPN6zukkXhkfPIK+croLNGDlUXQsrdGF/UZY6568NX0U3BoJv4mzH6d0HssL84vMU69XspOMgu82XEF+EbeiKAUD8i5rF+wnUWe9mtBotnwp2VYWeZzzakBkt6YmS5I4mtGTicJciArdhasdVVoXp3zpqyeO0gkKjy2yZh3+L3Qk/lSthFtT57EbsF9f3Qx/j5t3XFBdiXfBEe9uqhcGIAtraBzGzln3Uimm2TUrHz0I5oCJsFoqoxQffei0JntxODSGONVM4uHqBA0MVmtolS4wj9inHBMA1fB/xPWhhlO9Pe+nzH34KkV2sI0KGxlxaTmK48cxoZE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(956004)(8936002)(31696002)(450100002)(86362001)(66946007)(2616005)(6486002)(966005)(107886003)(30864003)(4326008)(83380400001)(66476007)(66556008)(316002)(508600001)(16576012)(5660300002)(36756003)(31686004)(38100700002)(8676002)(53546011)(2906002)(26005)(186003)(21314003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?WUZmU2tKazA2TG1zdmhNZzczZGIrQlIzVE9IV2VSNTZHTXJrS2dDTFZTalFQ?=
- =?utf-8?B?bit4cHZRUWw0VVFiR0VkTUU1OVlGb0RtOW9WU0xCK2FKZVlZd245TW5lNncv?=
- =?utf-8?B?aFhHZ2l1UkIxWnR2dlI0K3hrd1JXSkhDWXpXYlREbWJ5Qm1wQmtCU2NmSnRD?=
- =?utf-8?B?dWVQdTQ3dFVkNDZjN0RQTDVnSTRtTzNLUE9RTGJtU0VLSXZVbGtURTA0NzhJ?=
- =?utf-8?B?T3ptSFBoUEZxYTAvcmlFVm1FRFdmeWhodUl2R1dFVVJibWZLc1pnZnpGa1hK?=
- =?utf-8?B?T0xMVlpMeWVkN0l3VFBPdE1COEtXaktIWUU4Mnk5eXNTU1htblY4ZjZQYXBS?=
- =?utf-8?B?TjBueGNKNnhkYVkyYTlBd2dPTmduSWtLOU5lVGplTGtVMGh4aHAva0M1WWRD?=
- =?utf-8?B?ZENBdTU4WnBnTWg3ZVBHRDR2VXdQWWYvT2RFUTVHNldpSGFwNXVZeE91UmZu?=
- =?utf-8?B?OUEvbFV2TDhuRVpqcEhTREdYeFRlUm9YYVRIVUZOUTEyM0hQeWY2dlNzU2d3?=
- =?utf-8?B?Y3kyTm1XQ3VmWU9VcW9jTktzUWs4b050SzFZZkk1c3J1T0FWdVZzSEdObWFG?=
- =?utf-8?B?a1JpaUVnUk1NaXlJWXhUcWZRT2VKcDRZcWlHcFJSWjJUTEo5RUFVcjZMY0NB?=
- =?utf-8?B?bzR2WEYvVHI2TU9TK2pMK1NOLzFwNGplRDB3WmQ5VmJtRGorOWxYeXVnYWtm?=
- =?utf-8?B?VDZLYUg3YkFvUDlmdTJ3VnF3VGJLTlc2TmI3QytvZ3AzZ1krYTBrZ3Y5Y2Iz?=
- =?utf-8?B?UzhDSllUbklXWEJKMXR0USs5c3p1YjVJTUl3YjdBUllMV0YrcE9iK29EMWk3?=
- =?utf-8?B?UHBBWGRFZDRiQkYvTm5YMTdKZ1lmQmFTMWQ4OFZZTVhZS1FOakFkTFFWSlB4?=
- =?utf-8?B?dWo0UFd6MVBveWJFOHNWMGNpWEFjSmtkZy8yMFNuN1ZxTzRxQWJXOUh2ZFNq?=
- =?utf-8?B?ck1XTTNJOHl6bmFMenVWUExucTFXYkdEWmpyMnhudGlRa3hrSThCRDl6WTNl?=
- =?utf-8?B?a1NHeFVOQ25QREtWSk16REd5K0pUZWhFSkRiNGJoc0dwaUh3WUNPcUI1UWpX?=
- =?utf-8?B?cWFxOE9uK0JrQU5FaG91SDV4bFRuY0VPdFhMN2xuQ1lwMnI4MFRnV3dFYWVY?=
- =?utf-8?B?QUFOYTdqNkgrby81MTlQNEcyMUd2YWdwbFJHbGo0Z2hXZmdTZmZsZ2trQVk2?=
- =?utf-8?B?RkI0TnNSekIvQXF6YjBCMTFnU0hvdGN1VkFOaWxXK21idEc2Z085M3ZKNk84?=
- =?utf-8?B?OURiL0xDVkFRODFMZjMzSGp5aVIvME0rTDV2ZG9tM2FTWDBGV2FaeU5LckM0?=
- =?utf-8?B?YW41aUk5d0o3MjNscmVWZ0JUSVR3OUxxSWUzV3NPS1NaSURvMitxcGxaNGZC?=
- =?utf-8?B?NFBtVmpBSjZETzZCeDgyWHZCd3lVemdweVYvRVhYMENXMVYxQTYwd0lSQ05X?=
- =?utf-8?B?WGtRU1YvcytZRGxLOWRPbEE0TXJaNitmRlZZWHNNVFBMbzg4bURLYmxaemR4?=
- =?utf-8?B?RDFSMUIxSFIra2kvUytkOHBtS25QWkFXWTd1dkovQmVTR1NtcXFGeFlsMkJz?=
- =?utf-8?B?eE43dXBia0ZnbGpiTkN4SEFSeWhONGNOQmdWOGZxbVBxdkFyUUs0eHBjbHc2?=
- =?utf-8?B?WG5paFhXcnM1NkVWeG5vWG9KK3FjWHc0djZMNDFFVVZkdWkyL1RvdUd0ekdr?=
- =?utf-8?B?N0Mzd3JEYS9uVXVRMGZGdDAxa3RTQlErTkpiQ0NXWUhnWWlseWJxRlEyWlhL?=
- =?utf-8?Q?8//1UpGOdsuPus9pgv/lcWJZU5+q+7bCqf0Hli6?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5ec53dd5-f616-48e3-0550-08d98d03d5a7
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2021 22:09:46.2400 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KGwNYtfIkJWlaDEq/PJXM6lu5D0v1XYLyPjhwD/MkP8OCThXKz9qrpUIGn68PW6SAHxSysDdIbeQbpe4B8Z/h9vC3L4mUfhyxMO6uxb2W0Y=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5626
-X-OriginatorOrg: intel.com
+In-Reply-To: <CAPY8ntCGfJXG7S4fmWXWsKGYnJ1gJeCxyTD7bf=yBbQp2tJgtw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -158,840 +93,796 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/4/2021 15:06, Matthew Brost wrote:
-> Introduce 'set parallel submit' extension to connect UAPI to GuC
-> multi-lrc interface. Kernel doc in new uAPI should explain it all.
->
-> IGT: https://patchwork.freedesktop.org/patch/447008/?series=93071&rev=1
-> media UMD: https://github.com/intel/media-driver/pull/1252
->
-> v2:
->   (Daniel Vetter)
->    - Add IGT link and placeholder for media UMD link
-> v3:
->   (Kernel test robot)
->    - Fix warning in unpin engines call
->   (John Harrison)
->    - Reword a bunch of the kernel doc
->
-> Cc: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   drivers/gpu/drm/i915/gem/i915_gem_context.c   | 221 +++++++++++++++++-
->   .../gpu/drm/i915/gem/i915_gem_context_types.h |   6 +
->   drivers/gpu/drm/i915/gt/intel_context_types.h |   9 +-
->   drivers/gpu/drm/i915/gt/intel_engine.h        |  12 +-
->   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |   6 +-
->   .../drm/i915/gt/intel_execlists_submission.c  |   6 +-
->   drivers/gpu/drm/i915/gt/selftest_execlists.c  |  12 +-
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 114 ++++++++-
->   include/uapi/drm/i915_drm.h                   | 131 +++++++++++
->   9 files changed, 489 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context.c b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> index 8c7ea6e56262..6290bc20ccb1 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context.c
-> @@ -522,9 +522,150 @@ set_proto_ctx_engines_bond(struct i915_user_extension __user *base, void *data)
->   	return 0;
->   }
->   
-> +static int
-> +set_proto_ctx_engines_parallel_submit(struct i915_user_extension __user *base,
-> +				      void *data)
-> +{
-> +	struct i915_context_engines_parallel_submit __user *ext =
-> +		container_of_user(base, typeof(*ext), base);
-> +	const struct set_proto_ctx_engines *set = data;
-> +	struct drm_i915_private *i915 = set->i915;
-> +	u64 flags;
-> +	int err = 0, n, i, j;
-> +	u16 slot, width, num_siblings;
-> +	struct intel_engine_cs **siblings = NULL;
-> +	intel_engine_mask_t prev_mask;
-> +
-> +	/* Disabling for now */
-> +	return -ENODEV;
-> +
-> +	/* FIXME: This is NIY for execlists */
-> +	if (!(intel_uc_uses_guc_submission(&i915->gt.uc)))
-> +		return -ENODEV;
-> +
-> +	if (get_user(slot, &ext->engine_index))
-> +		return -EFAULT;
-> +
-> +	if (get_user(width, &ext->width))
-> +		return -EFAULT;
-> +
-> +	if (get_user(num_siblings, &ext->num_siblings))
-> +		return -EFAULT;
-> +
-> +	if (slot >= set->num_engines) {
-> +		drm_dbg(&i915->drm, "Invalid placement value, %d >= %d\n",
-> +			slot, set->num_engines);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (set->engines[slot].type != I915_GEM_ENGINE_TYPE_INVALID) {
-> +		drm_dbg(&i915->drm,
-> +			"Invalid placement[%d], already occupied\n", slot);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (get_user(flags, &ext->flags))
-> +		return -EFAULT;
-> +
-> +	if (flags) {
-> +		drm_dbg(&i915->drm, "Unknown flags 0x%02llx", flags);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (n = 0; n < ARRAY_SIZE(ext->mbz64); n++) {
-> +		err = check_user_mbz(&ext->mbz64[n]);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	if (width < 2) {
-> +		drm_dbg(&i915->drm, "Width (%d) < 2\n", width);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (num_siblings < 1) {
-> +		drm_dbg(&i915->drm, "Number siblings (%d) < 1\n",
-> +			num_siblings);
-> +		return -EINVAL;
-> +	}
-> +
-> +	siblings = kmalloc_array(num_siblings * width,
-> +				 sizeof(*siblings),
-> +				 GFP_KERNEL);
-> +	if (!siblings)
-> +		return -ENOMEM;
-> +
-> +	/* Create contexts / engines */
-> +	for (i = 0; i < width; ++i) {
-> +		intel_engine_mask_t current_mask = 0;
-> +		struct i915_engine_class_instance prev_engine;
-> +
-> +		for (j = 0; j < num_siblings; ++j) {
-> +			struct i915_engine_class_instance ci;
-> +
-> +			n = i * num_siblings + j;
-> +			if (copy_from_user(&ci, &ext->engines[n], sizeof(ci))) {
-> +				err = -EFAULT;
-> +				goto out_err;
-> +			}
-> +
-> +			siblings[n] =
-> +				intel_engine_lookup_user(i915, ci.engine_class,
-> +							 ci.engine_instance);
-> +			if (!siblings[n]) {
-> +				drm_dbg(&i915->drm,
-> +					"Invalid sibling[%d]: { class:%d, inst:%d }\n",
-> +					n, ci.engine_class, ci.engine_instance);
-> +				err = -EINVAL;
-> +				goto out_err;
-> +			}
-> +
-> +			if (n) {
-> +				if (prev_engine.engine_class !=
-> +				    ci.engine_class) {
-> +					drm_dbg(&i915->drm,
-> +						"Mismatched class %d, %d\n",
-> +						prev_engine.engine_class,
-> +						ci.engine_class);
-> +					err = -EINVAL;
-> +					goto out_err;
-> +				}
-> +			}
-> +
-> +			prev_engine = ci;
-> +			current_mask |= siblings[n]->logical_mask;
-> +		}
-> +
-> +		if (i > 0) {
-> +			if (current_mask != prev_mask << 1) {
-> +				drm_dbg(&i915->drm,
-> +					"Non contiguous logical mask 0x%x, 0x%x\n",
-> +					prev_mask, current_mask);
-> +				err = -EINVAL;
-> +				goto out_err;
-> +			}
-> +		}
-> +		prev_mask = current_mask;
-> +	}
-> +
-> +	set->engines[slot].type = I915_GEM_ENGINE_TYPE_PARALLEL;
-> +	set->engines[slot].num_siblings = num_siblings;
-> +	set->engines[slot].width = width;
-> +	set->engines[slot].siblings = siblings;
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	kfree(siblings);
-> +
-> +	return err;
-> +}
-> +
->   static const i915_user_extension_fn set_proto_ctx_engines_extensions[] = {
->   	[I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE] = set_proto_ctx_engines_balance,
->   	[I915_CONTEXT_ENGINES_EXT_BOND] = set_proto_ctx_engines_bond,
-> +	[I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT] =
-> +		set_proto_ctx_engines_parallel_submit,
->   };
->   
->   static int set_proto_ctx_engines(struct drm_i915_file_private *fpriv,
-> @@ -775,6 +916,25 @@ static int intel_context_set_gem(struct intel_context *ce,
->   	return ret;
->   }
->   
-> +static void __unpin_engines(struct i915_gem_engines *e, unsigned int count)
-> +{
-> +	while (count--) {
-> +		struct intel_context *ce = e->engines[count], *child;
-> +
-> +		if (!ce || !test_bit(CONTEXT_PERMA_PIN, &ce->flags))
-> +			continue;
-> +
-> +		for_each_child(ce, child)
-> +			intel_context_unpin(child);
-> +		intel_context_unpin(ce);
-> +	}
-> +}
-> +
-> +static void unpin_engines(struct i915_gem_engines *e)
-> +{
-> +	__unpin_engines(e, e->num_engines);
-> +}
-> +
->   static void __free_engines(struct i915_gem_engines *e, unsigned int count)
->   {
->   	while (count--) {
-> @@ -890,6 +1050,40 @@ static struct i915_gem_engines *default_engines(struct i915_gem_context *ctx,
->   	return err;
->   }
->   
-> +static int perma_pin_contexts(struct intel_context *ce)
-> +{
-> +	struct intel_context *child;
-> +	int i = 0, j = 0, ret;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	ret = intel_context_pin(ce);
-> +	if (unlikely(ret))
-> +		return ret;
-> +
-> +	for_each_child(ce, child) {
-> +		ret = intel_context_pin(child);
-> +		if (unlikely(ret))
-> +			goto unwind;
-> +		++i;
-> +	}
-> +
-> +	set_bit(CONTEXT_PERMA_PIN, &ce->flags);
-> +
-> +	return 0;
-> +
-> +unwind:
-> +	intel_context_unpin(ce);
-> +	for_each_child(ce, child) {
-> +		if (j++ < i)
-> +			intel_context_unpin(child);
-> +		else
-> +			break;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->   static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->   					     unsigned int num_engines,
->   					     struct i915_gem_proto_engine *pe)
-> @@ -903,7 +1097,7 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->   	e->num_engines = num_engines;
->   
->   	for (n = 0; n < num_engines; n++) {
-> -		struct intel_context *ce;
-> +		struct intel_context *ce, *child;
->   		int ret;
->   
->   		switch (pe[n].type) {
-> @@ -913,7 +1107,13 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->   
->   		case I915_GEM_ENGINE_TYPE_BALANCED:
->   			ce = intel_engine_create_virtual(pe[n].siblings,
-> -							 pe[n].num_siblings);
-> +							 pe[n].num_siblings, 0);
-> +			break;
-> +
-> +		case I915_GEM_ENGINE_TYPE_PARALLEL:
-> +			ce = intel_engine_create_parallel(pe[n].siblings,
-> +							  pe[n].num_siblings,
-> +							  pe[n].width);
->   			break;
->   
->   		case I915_GEM_ENGINE_TYPE_INVALID:
-> @@ -934,6 +1134,22 @@ static struct i915_gem_engines *user_engines(struct i915_gem_context *ctx,
->   			err = ERR_PTR(ret);
->   			goto free_engines;
->   		}
-> +		for_each_child(ce, child) {
-> +			ret = intel_context_set_gem(child, ctx, pe->sseu);
-> +			if (ret) {
-> +				err = ERR_PTR(ret);
-> +				goto free_engines;
-> +			}
-> +		}
-> +
-> +		/* XXX: Must be done after setting gem context */
-There is still no explanation of this comment either here or in the 
-commit message. It needs to say why it is a problem that the perma-pin 
-must be done after the above set_gem call. And what must be done to fix 
-this problem. And what issues could be expected because of this problem.
+On 08.10.2021 19:33, Dave Stevenson wrote:
+> On Thu, 7 Oct 2021 at 21:19, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
+>>
+>> On 07.10.2021 13:07, Dave Stevenson wrote:
+>>> On Tue, 5 Oct 2021 at 22:03, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
+>>>>
+>>>> On 05.10.2021 17:32, Dave Stevenson wrote:
+>>>>> Hi Andrzej
+>>>>>
+>>>>> Thanks for joining in the discussion.
+>>>>>
+>>>>> On Tue, 5 Oct 2021 at 16:08, Andrzej Hajda <andrzej.hajda@gmail.com> wrote:
+>>>>>>
+>>>>>> On 05.10.2021 13:23, Dave Stevenson wrote:
+>>>>>>> Hi Laurent
+>>>>>>>
+>>>>>>> On Sun, 3 Oct 2021 at 15:16, Laurent Pinchart
+>>>>>>> <laurent.pinchart@ideasonboard.com> wrote:
+>>>>>>>>
+>>>>>>>> Hello,
+>>>>>>>>
+>>>>>>>> Reviving a bit of an old thread.
+>>>>>>>
+>>>>>>> I'd been looking at reviving this conversation too as I've moved
+>>>>>>> further on with DSI on the Pi, and converting from an encoder to a
+>>>>>>> bridge
+>>>>>>>
+>>>>>>>> On Thu, Jul 15, 2021 at 11:50:22AM +0200, Maxime Ripard wrote:
+>>>>>>>>> On Tue, Jul 06, 2021 at 05:44:58PM +0100, Dave Stevenson wrote:
+>>>>>>>>>> On Tue, 6 Jul 2021 at 16:13, Maxime Ripard wrote:
+>>>>>>>>>>>>>> On a similar theme, some devices want the clock lane in HS mode early
+>>>>>>>>>>>>>> so they can use it in place of an external oscillator, but the data
+>>>>>>>>>>>>>> lanes still in LP-11. There appears to be no way for the
+>>>>>>>>>>>>>> display/bridge to signal this requirement or it be achieved.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> You're right. A loooong time ago, the omapdrm driver had an internal
+>>>>>>>>>>>>> infrastructure that didn't use drm_bridge or drm_panel and instead
+>>>>>>>>>>>>> required omapdrm-specific drivers for those components. It used to model
+>>>>>>>>>>>>> the display pipeline in a different way than drm_bridge, with the sync
+>>>>>>>>>>>>> explicitly setting the source state. A DSI sink could thus control its
+>>>>>>>>>>>>> enable sequence, interleaving programming of the sink with control of
+>>>>>>>>>>>>> the source.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Migrating omapdrm to the drm_bridge model took a really large effort,
+>>>>>>>>>>>>> which makes me believe that transitioning the whole subsystem to
+>>>>>>>>>>>>> sink-controlled sources would be close to impossible. We could add
+>>>>>>>>>>>>> DSI-specific operations, or add another enable bridge operation
+>>>>>>>>>>>>> (post_pre_enable ? :-D). Neither would scale, but it may be enough.
+>>>>>>>>>>>>
+>>>>>>>>>>>> I haven't thought it through for all generic cases, but I suspect it's
+>>>>>>>>>>>> more a pre_pre_enable that is needed to initialise the PHY etc,
+>>>>>>>>>>>> probably from source to sink.
+>>>>>>>>
+>>>>>>>> I believe it could be implemented as a pre-pre-enable indeed. It feels
+>>>>>>>> like a bit of a hack, as the next time we need more fine-grained control
+>>>>>>>> over the startup sequence, we'll have to add a pre-pre-pre-enable. Given
+>>>>>>>> that the startup sequence requirements come from the sink device, it
+>>>>>>>> would make sense to let it explicitly control the initialization,
+>>>>>>>> instead of driving it from the source. I don't think we'll be able to
+>>>>>>>> rework the bridge API in that direction though, so I'm fine with a hack.
+>>>>>>>
+>>>>>>> There are pros and cons to both approaches.
+>>>>>>> You're in a much better place to make that sort of call than I am, so
+>>>>>>> I'll take your advice.
+>>>>>>>
+>>>>>>> Implementing a DSI host op function may mean an update to a number of
+>>>>>>> existing DSI host drivers,
+>>>>>>
+>>>>>> Why? You just add new op to mipi_dsi_host_ops and create appropriate
+>>>>>> helper, which in case of NULL will perform default action, either:
+>>>>>> - return -ENOSYS,
+>>>>>> - try to emulate by calling mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET)
+>>>>>>
+>>>>>> The latter is just wild guess, but I suspect it could work (even now) as
+>>>>>> an alternate way of entering into stop state.
+>>>>>
+>>>>> If we're looking at fixing bridges to use the new DSI state call and
+>>>>> then initialise in "pre_enable" (ie before video is started), then
+>>>>> making that change to the bridge will require support for the DSI
+>>>>> state call or risk regressions.
+>>>>
+>>>> I think there is misunderstanding somewhere, I do not know where, yet :)
+>>>> My idea is as follow:
+>>>> 1. Add dsi_host.set_state() op to dsi host accompanied with helper, lets
+>>>> call it mipi_dsi_host_set_state for now.
+>>>> 2. Implement dsi_host.set_state in DSI host you are working with.
+>>>> 3. In body of your bridge pre_enable you call mipi_dsi_host_set_state in
+>>>> proper place.
+>>>>
+>>>> 1 and 2 do not introduce any regression.
+>>>> 3 can introduce regression only if your bridge is used with another dsi
+>>>> host but only on such platforms.
+>>>>
+>>>> Why do you think we need to 'fix' it everywhere?
+>>>
+>>> I'm looking at sn65dsi83 which is already working against other
+>>> platforms (I don't know which). If it is fixed to request the DSI
+>>> state and initialise in pre_enable, then those platforms need updating
+>>> too.
+>>> If mipi_dsi_device_transfer(MIPI_DSI_NULL_PACKET) can be used to wake
+>>> the host up then that would be great, but I don't have access to those
+>>> platforms to test.
+>>>
+>>>>> Some may have been getting away with it by making the initialisation
+>>>>> call in "enable" whilst video is active - that sounds like the issue
+>>>>> Marek was trying to log in his patch to SN65DSI83.
+>>>>>
+>>>>>>> but it would be cleaner. It's also what
+>>>>>>> Andrzej has suggested.
+>>>>>>>
+>>>>>>> Thinking it through, a function that requests clock lane frequency and
+>>>>>>> state (ULPS or LP-11 predominantly), and data lane state (again ULPS
+>>>>>>> or LP-11) should allow the required behaviour for most of the bridges
+>>>>>>> I'm aware of. Most want either LP-11, or HS clock at a known
+>>>>>>> frequency.
+>>>>>>
+>>>>>> LP-11 is quite reasonable, but regarding frequency I am not sure who
+>>>>>> should manage it? DSI device datasheets known to me usually mentioned
+>>>>>> max frequency, and it is covered by mipi_dsi_device.hs_rate. Min
+>>>>>> frequency is usually determined by amount of data we need to transfer
+>>>>>> per second.
+>>>>>> Do you need to set frequency from device, or just to know actual frequency?
+>>>>>> In former case (if it is really necessary !!!) you should request
+>>>>>> frequency range anyway, as host usually is able to set only discrete
+>>>>>> number of frequencies. But it need to be clearly specified how and when
+>>>>>> this op can be used - more ops, more questions about interaction between
+>>>>>> them.
+>>>>>> In latter case another mipi host op should be quite easy to implement.
+>>>>>
+>>>>> If a burst mode frequency is specified in struct mipi_dsi_device
+>>>>> hs_rate then there is no issue.
+>>>>
+>>>> hs_rate should be called rather max_hs_rate as it describes only top
+>>>> limit of HS clock, decision which clock to choose is on DSI host side.
+>>>
+>>> Indeed, I've just realised that one.
+>>>
+>>>>> If not, then you'll generally want to use the pixel clock,
+>>>>
+>>>> Probably not, often we want to use rate higher than pixel clock
+>>>> (time-compression in DSI spec), to leave time gaps for LP mode.
+>>>
+>>> Only if MIPI_DSI_MODE_VIDEO_BURST is set in the mode_flags, otherwise
+>>> you should be running at the pixel clock. (Slight assumption as there
+>>> is no definition of what MIPI_DSI_MODE_VIDEO_BURST really means in the
+>>> documentation).
+>>
+>> Specification describes it clearly [1], grep for 'burst'.
+>>
+>> [1]: https://hifpga.com/upfiles/15552304546301142.pdf
+> 
+> The MIPI DSI spec defines the concept of burst, it doesn't define the
+> Linux kernel implementation of it.
+> 
+> In a Linux DSI host driver:
+> - How should a DSI host driver choose the link frequency to enable
+> "blocks of pixel data can be transferred in a shorter time"? hs_rate
+> defines the max rate, and the pixel clock the minimum. Pick any number
+> in between?
+> - How does a DSI device driver get told the link frequency? Many
+> bridge chips run their PLLs off the DSI HS clock, so need to know how
+> to convert that into a desired pixel clock.
+> - 8.11.4 "Following HS pixel data transmission, the bus may stay in HS
+> Mode for sending blanking packets or go to Low Power Mode, during
+> which it may remain idle, i.e. the host processor remains in LP-11
+> state, or LP transmission may take place in either direction. ".
+> Option in the DSI spec. How is that mode chosen by the DSI device
+> driver for the host driver to implement?
+> - 8.11.1 "To enable PHY synchronization the host processor should
+> periodically end HS transmission and drive the Data Lanes to the LP
+> state. This transition should take place at least once per frame;
+> shown as LPM in the figures in this section." Another option within
+> the DSI spec as to whether it is once per frame or more frequently.
+> How does a DSI device driver signal which mode is required to the DSI
+> host driver? (And I've just had a device that is fussy about this
+> one).
 
-> +		if (pe[n].type == I915_GEM_ENGINE_TYPE_PARALLEL) {
-> +			ret = perma_pin_contexts(ce);
-> +			if (ret) {
-> +				err = ERR_PTR(ret);
-> +				goto free_engines;
-> +			}
-> +		}
->   	}
->   
->   	return e;
-> @@ -1173,6 +1389,7 @@ static void context_close(struct i915_gem_context *ctx)
->   
->   	/* Flush any concurrent set_engines() */
->   	mutex_lock(&ctx->engines_mutex);
-> +	unpin_engines(__context_engines_static(ctx));
->   	engines_idle_release(ctx, rcu_replace_pointer(ctx->engines, NULL, 1));
->   	i915_gem_context_set_closed(ctx);
->   	mutex_unlock(&ctx->engines_mutex);
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> index c4617e4d9fa9..eb5f9b4f2d19 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_context_types.h
-> @@ -78,6 +78,9 @@ enum i915_gem_engine_type {
->   
->   	/** @I915_GEM_ENGINE_TYPE_BALANCED: A load-balanced engine set */
->   	I915_GEM_ENGINE_TYPE_BALANCED,
-> +
-> +	/** @I915_GEM_ENGINE_TYPE_PARALLEL: A parallel engine set */
-> +	I915_GEM_ENGINE_TYPE_PARALLEL,
->   };
->   
->   /**
-> @@ -108,6 +111,9 @@ struct i915_gem_proto_engine {
->   	/** @num_siblings: Number of balanced siblings */
-Should this be updated to say 'number of balanced or parallel siblings'?
+I think all these questions are rather to hw platform team, if they 
+confirm that hw works well with specific clock and other hw settings 
+developer should obey it. This is probably why almost nobody is using 
+for example hs_rate constraint - developer receives straightforward 
+instruction with fixed set of parameters (or just set of magic numbers 
+without explanation) to program on both DSI host and device - no place 
+for hesitation :)
+As I understand your bridge is re-used in multiple configurations thus 
+you need more intelligence in the driver. Am I right? I think the best 
+would be to just start implementing missing bits.
 
-John.
+> 
+> I know we all hate writing documentation, but saying the parent
+> specification defines how it should be implemented on a system isn't
+> true, and developing/updating a DSI driver results in these sorts of
+> questions.
+> 
+>>>>> and the DSI
+>>>>> host hasn't necessarily been told the video mode at the point the
+>>>>> bridge/panel requests a new DSI state.
+>>>>
+>>>> pre_enable and enable ops are called after modeset, so video mode is known.
+>>>
+>>> Thanks, I wasn't aware of that. It didn't help that our DSI driver
+>>> didn't implement a mode_set function as it did all the work in
+>>> pre_enable having looked back at the crtc for the mode.
+>>>
+>>> It looks like there is a slight quirk that there is an encoder
+>>> atomic_mode_set, but not a bridge one. If we're implementing the
+>>> atomic API is it correct to update our bridge's internal state (ie the
+>>> hs_rate) from a (atomic_)mode_set? That's a different discussion
+>>> though.
+>>
+>> It shouldn't matter, the mode should be stored in atomic state. In
+>> pre-enable you should have all required info: videomode and constraints.
+> 
+> Sorry, perhaps I didn't describe my scenario well enough.
+> Atomic DSI host bridge driver. Atomic DSI bridge/panel driver.
+> 
+> mode_set gets called on all nodes.
+> pre_enables are called starting at the furthest end from the encoder,
+> so the bridge/panel driver pre_enable gets called before the DSI host
+> pre_enable. The bridge/panel wants to power up the DSI host using the
+> new API. The DSI host bridge hasn't had the pre_enable called yet, and
+> currently we're not proposing an atomic_set_state. At that point, what
+> parameters should the DSI host driver be using to determine the link
+> frequency as it doesn't have a state?
 
->   	unsigned int num_siblings;
->   
-> +	/** @width: Width of each sibling */
-> +	unsigned int width;
-> +
->   	/** @siblings: Balanced siblings */
->   	struct intel_engine_cs **siblings;
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index 8309d1141d0a..1d880303a7e4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -55,9 +55,13 @@ struct intel_context_ops {
->   	void (*reset)(struct intel_context *ce);
->   	void (*destroy)(struct kref *kref);
->   
-> -	/* virtual engine/context interface */
-> +	/* virtual/parallel engine/context interface */
->   	struct intel_context *(*create_virtual)(struct intel_engine_cs **engine,
-> -						unsigned int count);
-> +						unsigned int count,
-> +						unsigned long flags);
-> +	struct intel_context *(*create_parallel)(struct intel_engine_cs **engines,
-> +						 unsigned int num_siblings,
-> +						 unsigned int width);
->   	struct intel_engine_cs *(*get_sibling)(struct intel_engine_cs *engine,
->   					       unsigned int sibling);
->   };
-> @@ -113,6 +117,7 @@ struct intel_context {
->   #define CONTEXT_NOPREEMPT		8
->   #define CONTEXT_LRCA_DIRTY		9
->   #define CONTEXT_GUC_INIT		10
-> +#define CONTEXT_PERMA_PIN		11
->   
->   	struct {
->   		u64 timeout_us;
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine.h b/drivers/gpu/drm/i915/gt/intel_engine.h
-> index 87579affb952..43f16a8347ee 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine.h
-> @@ -279,9 +279,19 @@ intel_engine_has_preempt_reset(const struct intel_engine_cs *engine)
->   	return intel_engine_has_preemption(engine);
->   }
->   
-> +#define FORCE_VIRTUAL	BIT(0)
->   struct intel_context *
->   intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> -			    unsigned int count);
-> +			    unsigned int count, unsigned long flags);
-> +
-> +static inline struct intel_context *
-> +intel_engine_create_parallel(struct intel_engine_cs **engines,
-> +			     unsigned int num_engines,
-> +			     unsigned int width)
-> +{
-> +	GEM_BUG_ON(!engines[0]->cops->create_parallel);
-> +	return engines[0]->cops->create_parallel(engines, num_engines, width);
-> +}
->   
->   static inline bool
->   intel_virtual_engine_has_heartbeat(const struct intel_engine_cs *engine)
-> diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> index 2eb798ad068b..ff6753ccb129 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
-> @@ -1953,16 +1953,16 @@ ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
->   
->   struct intel_context *
->   intel_engine_create_virtual(struct intel_engine_cs **siblings,
-> -			    unsigned int count)
-> +			    unsigned int count, unsigned long flags)
->   {
->   	if (count == 0)
->   		return ERR_PTR(-EINVAL);
->   
-> -	if (count == 1)
-> +	if (count == 1 && !(flags & FORCE_VIRTUAL))
->   		return intel_context_create(siblings[0]);
->   
->   	GEM_BUG_ON(!siblings[0]->cops->create_virtual);
-> -	return siblings[0]->cops->create_virtual(siblings, count);
-> +	return siblings[0]->cops->create_virtual(siblings, count, flags);
->   }
->   
->   struct i915_request *
-> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> index 5ed1e222c308..8d7f571029df 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
-> @@ -201,7 +201,8 @@ static struct virtual_engine *to_virtual_engine(struct intel_engine_cs *engine)
->   }
->   
->   static struct intel_context *
-> -execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
-> +			 unsigned long flags);
->   
->   static struct i915_request *
->   __active_request(const struct intel_timeline * const tl,
-> @@ -3784,7 +3785,8 @@ static void virtual_submit_request(struct i915_request *rq)
->   }
->   
->   static struct intel_context *
-> -execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> +execlists_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
-> +			 unsigned long flags)
->   {
->   	struct virtual_engine *ve;
->   	unsigned int n;
-> diff --git a/drivers/gpu/drm/i915/gt/selftest_execlists.c b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> index b3863abc51f5..74986b094b96 100644
-> --- a/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> +++ b/drivers/gpu/drm/i915/gt/selftest_execlists.c
-> @@ -3733,7 +3733,7 @@ static int nop_virtual_engine(struct intel_gt *gt,
->   	GEM_BUG_ON(!nctx || nctx > ARRAY_SIZE(ve));
->   
->   	for (n = 0; n < nctx; n++) {
-> -		ve[n] = intel_engine_create_virtual(siblings, nsibling);
-> +		ve[n] = intel_engine_create_virtual(siblings, nsibling, 0);
->   		if (IS_ERR(ve[n])) {
->   			err = PTR_ERR(ve[n]);
->   			nctx = n;
-> @@ -3929,7 +3929,7 @@ static int mask_virtual_engine(struct intel_gt *gt,
->   	 * restrict it to our desired engine within the virtual engine.
->   	 */
->   
-> -	ve = intel_engine_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling, 0);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_close;
-> @@ -4060,7 +4060,7 @@ static int slicein_virtual_engine(struct intel_gt *gt,
->   		i915_request_add(rq);
->   	}
->   
-> -	ce = intel_engine_create_virtual(siblings, nsibling);
-> +	ce = intel_engine_create_virtual(siblings, nsibling, 0);
->   	if (IS_ERR(ce)) {
->   		err = PTR_ERR(ce);
->   		goto out;
-> @@ -4112,7 +4112,7 @@ static int sliceout_virtual_engine(struct intel_gt *gt,
->   
->   	/* XXX We do not handle oversubscription and fairness with normal rq */
->   	for (n = 0; n < nsibling; n++) {
-> -		ce = intel_engine_create_virtual(siblings, nsibling);
-> +		ce = intel_engine_create_virtual(siblings, nsibling, 0);
->   		if (IS_ERR(ce)) {
->   			err = PTR_ERR(ce);
->   			goto out;
-> @@ -4214,7 +4214,7 @@ static int preserved_virtual_engine(struct intel_gt *gt,
->   	if (err)
->   		goto out_scratch;
->   
-> -	ve = intel_engine_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling, 0);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_scratch;
-> @@ -4354,7 +4354,7 @@ static int reset_virtual_engine(struct intel_gt *gt,
->   	if (igt_spinner_init(&spin, gt))
->   		return -ENOMEM;
->   
-> -	ve = intel_engine_create_virtual(siblings, nsibling);
-> +	ve = intel_engine_create_virtual(siblings, nsibling, 0);
->   	if (IS_ERR(ve)) {
->   		err = PTR_ERR(ve);
->   		goto out_spin;
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index f69e984683aa..9b19e0d830a2 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -124,7 +124,13 @@ struct guc_virtual_engine {
->   };
->   
->   static struct intel_context *
-> -guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
-> +		   unsigned long flags);
-> +
-> +static struct intel_context *
-> +guc_create_parallel(struct intel_engine_cs **engines,
-> +		    unsigned int num_siblings,
-> +		    unsigned int width);
->   
->   #define GUC_REQUEST_SIZE 64 /* bytes */
->   
-> @@ -2611,6 +2617,7 @@ static const struct intel_context_ops guc_context_ops = {
->   	.destroy = guc_context_destroy,
->   
->   	.create_virtual = guc_create_virtual,
-> +	.create_parallel = guc_create_parallel,
->   };
->   
->   static void submit_work_cb(struct irq_work *wrk)
-> @@ -2860,8 +2867,6 @@ static const struct intel_context_ops virtual_guc_context_ops = {
->   	.get_sibling = guc_virtual_get_sibling,
->   };
->   
-> -/* Future patches will use this function */
-> -__maybe_unused
->   static int guc_parent_context_pin(struct intel_context *ce, void *vaddr)
->   {
->   	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> @@ -2878,8 +2883,6 @@ static int guc_parent_context_pin(struct intel_context *ce, void *vaddr)
->   	return __guc_context_pin(ce, engine, vaddr);
->   }
->   
-> -/* Future patches will use this function */
-> -__maybe_unused
->   static int guc_child_context_pin(struct intel_context *ce, void *vaddr)
->   {
->   	struct intel_engine_cs *engine = guc_virtual_get_sibling(ce->engine, 0);
-> @@ -2891,8 +2894,6 @@ static int guc_child_context_pin(struct intel_context *ce, void *vaddr)
->   	return __guc_context_pin(ce, engine, vaddr);
->   }
->   
-> -/* Future patches will use this function */
-> -__maybe_unused
->   static void guc_parent_context_unpin(struct intel_context *ce)
->   {
->   	struct intel_guc *guc = ce_to_guc(ce);
-> @@ -2908,8 +2909,6 @@ static void guc_parent_context_unpin(struct intel_context *ce)
->   	lrc_unpin(ce);
->   }
->   
-> -/* Future patches will use this function */
-> -__maybe_unused
->   static void guc_child_context_unpin(struct intel_context *ce)
->   {
->   	GEM_BUG_ON(context_enabled(ce));
-> @@ -2920,8 +2919,6 @@ static void guc_child_context_unpin(struct intel_context *ce)
->   	lrc_unpin(ce);
->   }
->   
-> -/* Future patches will use this function */
-> -__maybe_unused
->   static void guc_child_context_post_unpin(struct intel_context *ce)
->   {
->   	GEM_BUG_ON(!intel_context_is_child(ce));
-> @@ -2932,6 +2929,98 @@ static void guc_child_context_post_unpin(struct intel_context *ce)
->   	intel_context_unpin(ce->parallel.parent);
->   }
->   
-> +static void guc_child_context_destroy(struct kref *kref)
-> +{
-> +	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
-> +
-> +	__guc_context_destroy(ce);
-> +}
-> +
-> +static const struct intel_context_ops virtual_parent_context_ops = {
-> +	.alloc = guc_virtual_context_alloc,
-> +
-> +	.pre_pin = guc_context_pre_pin,
-> +	.pin = guc_parent_context_pin,
-> +	.unpin = guc_parent_context_unpin,
-> +	.post_unpin = guc_context_post_unpin,
-> +
-> +	.ban = guc_context_ban,
-> +
-> +	.cancel_request = guc_context_cancel_request,
-> +
-> +	.enter = guc_virtual_context_enter,
-> +	.exit = guc_virtual_context_exit,
-> +
-> +	.sched_disable = guc_context_sched_disable,
-> +
-> +	.destroy = guc_context_destroy,
-> +
-> +	.get_sibling = guc_virtual_get_sibling,
-> +};
-> +
-> +static const struct intel_context_ops virtual_child_context_ops = {
-> +	.alloc = guc_virtual_context_alloc,
-> +
-> +	.pre_pin = guc_context_pre_pin,
-> +	.pin = guc_child_context_pin,
-> +	.unpin = guc_child_context_unpin,
-> +	.post_unpin = guc_child_context_post_unpin,
-> +
-> +	.cancel_request = guc_context_cancel_request,
-> +
-> +	.enter = guc_virtual_context_enter,
-> +	.exit = guc_virtual_context_exit,
-> +
-> +	.destroy = guc_child_context_destroy,
-> +
-> +	.get_sibling = guc_virtual_get_sibling,
-> +};
-> +
-> +static struct intel_context *
-> +guc_create_parallel(struct intel_engine_cs **engines,
-> +		    unsigned int num_siblings,
-> +		    unsigned int width)
-> +{
-> +	struct intel_engine_cs **siblings = NULL;
-> +	struct intel_context *parent = NULL, *ce, *err;
-> +	int i, j;
-> +
-> +	siblings = kmalloc_array(num_siblings,
-> +				 sizeof(*siblings),
-> +				 GFP_KERNEL);
-> +	if (!siblings)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	for (i = 0; i < width; ++i) {
-> +		for (j = 0; j < num_siblings; ++j)
-> +			siblings[j] = engines[i * num_siblings + j];
-> +
-> +		ce = intel_engine_create_virtual(siblings, num_siblings,
-> +						 FORCE_VIRTUAL);
-> +		if (!ce) {
-> +			err = ERR_PTR(-ENOMEM);
-> +			goto unwind;
-> +		}
-> +
-> +		if (i == 0) {
-> +			parent = ce;
-> +			parent->ops = &virtual_parent_context_ops;
-> +		} else {
-> +			ce->ops = &virtual_child_context_ops;
-> +			intel_context_bind_parent_child(parent, ce);
-> +		}
-> +	}
-> +
-> +	kfree(siblings);
-> +	return parent;
-> +
-> +unwind:
-> +	if (parent)
-> +		intel_context_put(parent);
-> +	kfree(siblings);
-> +	return err;
-> +}
-> +
->   static bool
->   guc_irq_enable_breadcrumbs(struct intel_breadcrumbs *b)
->   {
-> @@ -3759,7 +3848,8 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
->   }
->   
->   static struct intel_context *
-> -guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count)
-> +guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count,
-> +		   unsigned long flags)
->   {
->   	struct guc_virtual_engine *ve;
->   	struct intel_guc *guc;
-> diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
-> index b1248a67b4f8..f7c19e5464ae 100644
-> --- a/include/uapi/drm/i915_drm.h
-> +++ b/include/uapi/drm/i915_drm.h
-> @@ -1824,6 +1824,7 @@ struct drm_i915_gem_context_param {
->    * Extensions:
->    *   i915_context_engines_load_balance (I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE)
->    *   i915_context_engines_bond (I915_CONTEXT_ENGINES_EXT_BOND)
-> + *   i915_context_engines_parallel_submit (I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT)
->    */
->   #define I915_CONTEXT_PARAM_ENGINES	0xa
->   
-> @@ -2049,6 +2050,135 @@ struct i915_context_engines_bond {
->   	struct i915_engine_class_instance engines[N__]; \
->   } __attribute__((packed)) name__
->   
-> +/**
-> + * struct i915_context_engines_parallel_submit - Configure engine for
-> + * parallel submission.
-> + *
-> + * Setup a slot in the context engine map to allow multiple BBs to be submitted
-> + * in a single execbuf IOCTL. Those BBs will then be scheduled to run on the GPU
-> + * in parallel. Multiple hardware contexts are created internally in the i915 to
-> + * run these BBs. Once a slot is configured for N BBs only N BBs can be
-> + * submitted in each execbuf IOCTL and this is implicit behavior e.g. The user
-> + * doesn't tell the execbuf IOCTL there are N BBs, the execbuf IOCTL knows how
-> + * many BBs there are based on the slot's configuration. The N BBs are the last
-> + * N buffer objects or first N if I915_EXEC_BATCH_FIRST is set.
-> + *
-> + * The default placement behavior is to create implicit bonds between each
-> + * context if each context maps to more than 1 physical engine (e.g. context is
-> + * a virtual engine). Also we only allow contexts of same engine class and these
-> + * contexts must be in logically contiguous order. Examples of the placement
-> + * behavior are described below. Lastly, the default is to not allow BBs to be
-> + * preempted mid-batch. Rather insert coordinated preemption points on all
-> + * hardware contexts between each set of BBs. Flags could be added in the future
-> + * to change both of these default behaviors.
-> + *
-> + * Returns -EINVAL if hardware context placement configuration is invalid or if
-> + * the placement configuration isn't supported on the platform / submission
-> + * interface.
-> + * Returns -ENODEV if extension isn't supported on the platform / submission
-> + * interface.
-> + *
-> + * .. code-block:: none
-> + *
-> + *	Examples syntax:
-> + *	CS[X] = generic engine of same class, logical instance X
-> + *	INVALID = I915_ENGINE_CLASS_INVALID, I915_ENGINE_CLASS_INVALID_NONE
-> + *
-> + *	Example 1 pseudo code:
-> + *	set_engines(INVALID)
-> + *	set_parallel(engine_index=0, width=2, num_siblings=1,
-> + *		     engines=CS[0],CS[1])
-> + *
-> + *	Results in the following valid placement:
-> + *	CS[0], CS[1]
-> + *
-> + *	Example 2 pseudo code:
-> + *	set_engines(INVALID)
-> + *	set_parallel(engine_index=0, width=2, num_siblings=2,
-> + *		     engines=CS[0],CS[2],CS[1],CS[3])
-> + *
-> + *	Results in the following valid placements:
-> + *	CS[0], CS[1]
-> + *	CS[2], CS[3]
-> + *
-> + *	This can be thought of as two virtual engines, each containing two
-> + *	engines thereby making a 2D array. However, there are bonds tying the
-> + *	entries together and placing restrictions on how they can be scheduled.
-> + *	Specifically, the scheduler can choose only vertical columns from the 2D
-> + *	array. That is, CS[0] is bonded to CS[1] and CS[2] to CS[3]. So if the
-> + *	scheduler wants to submit to CS[0], it must also choose CS[1] and vice
-> + *	versa. Same for CS[2] requires also using CS[3].
-> + *	VE[0] = CS[0], CS[2]
-> + *	VE[1] = CS[1], CS[3]
-> + *
-> + *	Example 3 pseudo code:
-> + *	set_engines(INVALID)
-> + *	set_parallel(engine_index=0, width=2, num_siblings=2,
-> + *		     engines=CS[0],CS[1],CS[1],CS[3])
-> + *
-> + *	Results in the following valid and invalid placements:
-> + *	CS[0], CS[1]
-> + *	CS[1], CS[3] - Not logically contiguous, return -EINVAL
-> + */
-> +struct i915_context_engines_parallel_submit {
-> +	/**
-> +	 * @base: base user extension.
-> +	 */
-> +	struct i915_user_extension base;
-> +
-> +	/**
-> +	 * @engine_index: slot for parallel engine
-> +	 */
-> +	__u16 engine_index;
-> +
-> +	/**
-> +	 * @width: number of contexts per parallel engine or in other words the
-> +	 * number of batches in each submission
-> +	 */
-> +	__u16 width;
-> +
-> +	/**
-> +	 * @num_siblings: number of siblings per context or in other words the
-> +	 * number of possible placements for each submission
-> +	 */
-> +	__u16 num_siblings;
-> +
-> +	/**
-> +	 * @mbz16: reserved for future use; must be zero
-> +	 */
-> +	__u16 mbz16;
-> +
-> +	/**
-> +	 * @flags: all undefined flags must be zero, currently not defined flags
-> +	 */
-> +	__u64 flags;
-> +
-> +	/**
-> +	 * @mbz64: reserved for future use; must be zero
-> +	 */
-> +	__u64 mbz64[3];
-> +
-> +	/**
-> +	 * @engines: 2-d array of engine instances to configure parallel engine
-> +	 *
-> +	 * length = width (i) * num_siblings (j)
-> +	 * index = j + i * num_siblings
-> +	 */
-> +	struct i915_engine_class_instance engines[0];
-> +
-> +} __packed;
-> +
-> +#define I915_DEFINE_CONTEXT_ENGINES_PARALLEL_SUBMIT(name__, N__) struct { \
-> +	struct i915_user_extension base; \
-> +	__u16 engine_index; \
-> +	__u16 width; \
-> +	__u16 num_siblings; \
-> +	__u16 mbz16; \
-> +	__u64 flags; \
-> +	__u64 mbz64[3]; \
-> +	struct i915_engine_class_instance engines[N__]; \
-> +} __attribute__((packed)) name__
-> +
->   /**
->    * DOC: Context Engine Map uAPI
->    *
-> @@ -2108,6 +2238,7 @@ struct i915_context_param_engines {
->   	__u64 extensions; /* linked chain of extension blocks, 0 terminates */
->   #define I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE 0 /* see i915_context_engines_load_balance */
->   #define I915_CONTEXT_ENGINES_EXT_BOND 1 /* see i915_context_engines_bond */
-> +#define I915_CONTEXT_ENGINES_EXT_PARALLEL_SUBMIT 2 /* see i915_context_engines_parallel_submit */
->   	struct i915_engine_class_instance engines[0];
->   } __attribute__((packed));
->   
+First of all it has access to device's hs_rate, so it can use it.
+But it has also access to crtc state at bridge.encoder->crtc->state. 
+Which should be already set by mode_set - any pre_enable is called after 
+mode_set.
+
+> 
+> Perhaps we should be proposing an atomic_set_state which takes a
+> struct drm_atomic_state *. How would that work if called from a
+> non-atomic bridge driver though?
+> 
+>>>
+>>>>>
+>>>>>>> Giving the option for setting back into ULPS also allows
+>>>>>>> for power saving/standby mechanisms should the need arise.
+>>>>>>
+>>>>>> Another op :)
+>>>>>
+>>>>> Does it need to be, or can it be one op as
+>>>>> enum mipi_dsi_lane_state{
+>>>>>     DSI_ULPS,
+>>>>>     DSI_LP11,
+>>>>>     DSI_HS,
+>>>>> };
+>>>>>
+>>>>> int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
+>>>>>           enum mipi_dsi_lane_state clock_lane_state,
+>>>>>           u64 clock_lane_freq,
+>>>>>           enum mipi_dsi_lane_state data_lane_state)
+>>>>
+>>>> I still do not know why do you want to set freq explicitly, ie why DSI
+>>>> host could not choose it, based on bridge constraints, DSI host
+>>>> constraints and requested video mode.
+>>>
+>>> I'm partly trying to piece together what information is already around
+>>> in order to be able to make a good decision on the frequency.
+>>> If we have (max_)hs_rate defined and a mode, then we can make a
+>>> decision within the DSI host driver.
+>>>
+>>> Adding a link-frequencies DT property would allow the system
+>>> configuration to be defined rather than some random heuristics.
+>>
+>> Exynos DSI used samsung,burst-clock-frequency property, I am not sure of
+>> others, but it was rather copy/paste solution from vendor code. Maybe it
+>> is OK this way.
+> 
+> Just for interest's sake I had a quick look for how other drivers configure it.
+> hs_rate is only used by ST-Ericsson MCDE and OMAP.
+> iMX8 nwl-dsi, Synopsys dw-mipi-dsi, hisilicon dw_drm_dsi, mtk_dsi, and
+> msm/dsi_host all set magic flags in the hardware based on
+> MIPI_DSI_MODE_VIDEO_BURST, and appear to have no reporting of the
+> frequency used.
+> Exynos appears to require vendor-specific DT property
+> "samsung,burst-clock-frequency".
+> 
+> It would be nice to have a standardised and documented approach.
+> 
+> It's obviously not valid for me to reuse a Samsung specific property
+> on a non-Samsung platform, and duplicating it as a different
+> vendor-specific property would imply that it shouldn't be
+> vendor-specific.
+>  From V4L2 there is already the defined link-frequencies DT property to
+> set CSI2 HS rates, so it would seem reasonable for that to be used for
+> DSI as well.
+
+Sounds OK.
+
+> 
+>>>
+>>> But otherwise I do now agree with you that we probably don't need an
+>>> explicit frequency from the bridge/panel driver.
+>>>
+>>> There is still the situation documented in [1] that the transfer
+>>> function "can be called no matter the state the host is in", so that
+>>> would include as part of attach when we don't have a video mode. Any
+>>> transfer without the MIPI_DSI_MSG_USE_LPM flag is then at an undefined
+>>> HS speed. There are likely very few cases where that matters, so a
+>>> WARN from the DSI host driver is probably sufficient for now.
+>>
+>> But we have already constraints from both players - host and device, so
+>> it should not be an issue to use max allowed speed.
+> 
+> For devices that set MIPI_DSI_MODE_VIDEO_BURST we can if hs_rate is
+> set or we otherwise assume 500MHz.
+
+Maybe better would be fix drivers to provide real limit.
+
+
+> This is an issue for devices without MIPI_DSI_MODE_VIDEO_BURST set
+> where they are expecting their pixel rate. Under these conditions we
+> don't know what that pixel rate 
+> 
+>>>
+>>> [1] https://www.kernel.org/doc/html/latest/gpu/drm-kms-helpers.html?highlight=dsi#c.mipi_dsi_host_ops
+>>>
+>>>> Regarding different modes for clock and data lanes there exists DSI mode
+>>>> flag MIPI_DSI_CLOCK_NON_CONTINUOUS which determines if host in LP-11
+>>>> data lanes state can also put clock lane into LP-11. Is there need for
+>>>> sth more?
+>>>> I'd like to avoid possibility of nonsense(?) configurations like clock
+>>>> in LP-11 and data lanes in HS.
+>>>
+>>> Having had a first pass at implementing this, then I certainly agree
+>>> with altering the potential states I'd previously suggested.
+>>>       DSI_STANDBY,
+>>
+>> Specification uses LP11 or STOP state to describe LP-11, so I would
+>> prefer to stick to one of it.
+> 
+> Sorry, I was meaning standby as in power off the PHY. DSI_OFF is
+> probably more accurate.
+> An LP-11 / STOP state would be DSI_ACTIVE.
+> 
+>>>       DSI_ULPS,
+>>
+>> I am not sure but I hope this is LP-00.
+> 
+> It is, but also it needs the relevant escape sequence to enter/exit
+> it. You can't simply just switch to LP-00.
+> I'm looking more at link states than physical states.
+> 
+>>>       DSI_ACTIVE,
+>>
+>> I am not sure about this one, this would mean start video transmission
+>> in HS, as there is no HS stop state. It does not look like desirable in
+>> pre-enable state. 'HS idle' state is just LP-11.
+>>
+>>> Seems more sensible now
+>>> For the clock lane, as you say, MIPI_DSI_CLOCK_NON_CONTINUOUS
+>>> determines whether DSI_ACTIVE means LP-11 or HS.
+>>> The data lanes follow the clock lane in state, so DSI_ACTIVE means
+>>> LP-11, sending LP commands, or HS if video is actively being
+>>> transmitted.
+>>
+>> I think you are messing up in above sentence :)
+>> For definition look for 'continuous clock' phrase in spec above [1].
+> 
+> Not sure I agree with you based on my clarification of what I meant by
+> DSI_STANDBY.
+> 
+>>> Having just DSI_ACTIVE also avoids the nonsense you rightly raise of
+>>> LP clock but HS data.
+>>>
+>>> So it can be condensed down to a single state.
+>>> int mipi_dsi_set_state(struct mipi_dsi_device *dsi,
+>>>           enum mipi_dsi_lane_state state);
+>>> Does that seem reasonable?
+>>
+>> Yes, but if we stay with two states I wonder if it wouldn't be better to
+>> use two separate ops, just matter of taste.
+> 
+> Well there is the question of whether ULPS is actually useful or not
+> over powering down the PHY, but by making it a single op taking an
+> enum means that even if we ignore it now then it could be added.
+> I am aware of DSI devices that will switch to standby when they see a
+> ULPS entry sequence, so being able to request that from disable would
+> be reasonable.
+> 
+> If I step back and asked you for a proposal of an API that allows a
+> DSI device to ask the bridge to enable itself based on the existing
+> flags and parameters, what would you have it look like?
+
+> 
+>>>
+>>> I guess the other thing to do is document what is meant by each flag.
+>>> Currently the documentation is rather lacking in the intended
+>>> behaviour, which is where I started with this thread.
+>>
+>> Yes, at least in case spec is not clear about it.
+> 
+> Again, the spec does not determine the implementation details under a
+> specific operating system.
+> 
+> I suspect I'm in the minority where we have a relatively open platform
+> and more and more random non-mainline kernel developers are coming
+> along and wanting to add this or that DSI device. If it isn't
+> documented somewhere as to how to configure this stuff then they go
+> down the totally wrong path, and both the platform and the DRM
+> subsystem look bad.
+
+This is classic issue - it is hard to write framework/docs for things 
+you cannot test/implement. It is left for devs who need it :)
+
+
+> When you have drivers merged into the mainline kernel such as [1]
+> which set mode_flags to just MIPI_DSI_MODE_VIDEO_BURST (presumably
+> command mode but higher link frequency?), or [2] which sets just
+> MIPI_DSI_MODE_VIDEO_SYNC_PULSE (command mode with sync pulses?), it
+> would appear that it isn't clear to experienced developers who are
+> submitting DSI device drivers as to what these flags mean, nor which
+> are valid in various combinations. If they get it wrong, nor is it
+> picked up during review, then relative newbies have no hope.
+> 
+> Laurent acknowledged at the start of this thread that a lot of stuff
+> isn't defined. I (or others working on our behalf) can put the work
+> into document it, but that documentation needs to be correct.
+> 
+> Thanks
+>    Dave
+> 
+> [1] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-feiyang-fy07024di26a30d.c#L226
+> I can't find a datasheet for this one, but it seems unlikely.
+
+http://files.pine64.org/doc/datasheet/pine64/FY07024DI26A30-D_feiyang_LCD_panel.pdf
+
+
+Regards
+Andrzej
+
+
+> [2] https://elixir.bootlin.com/linux/latest/source/drivers/gpu/drm/panel/panel-ilitek-ili9881c.c#L673
+> I'm fairly certain that ILI9881 doesn't support command mode.
+> 
+>> Regards
+>> Andrzej
+>>
+>>
+>>>
+>>> Thanks.
+>>>     Dave
+>>>
+>>>> Regards
+>>>> Andrzej
+>>>>
+>>>>
+>>>>
+>>>>>
+>>>>>      Dave
+>>>>>
+>>>>>> Regards
+>>>>>> Andrzej
+>>>>>>
+>>>>>>
+>>>>>>> Does it need a way to pass back the actual DSI frequency being used,
+>>>>>>> in a similar vein to mode_fixup? That allows for the bridge to request
+>>>>>>> the display clock, but the burst mode link frequency to be returned
+>>>>>>> (I'm assuming that's a property of the DSI host only, and not the
+>>>>>>> bridge).
+>>>>>>>
+>>>>>>> I'm having a discussion with someone who wants to run SN65DSI85 in the
+>>>>>>> two independent LVDS display mode. That requires a DSI HS clock on
+>>>>>>> DSI-A even if only panel B is active, so with this extra function that
+>>>>>>> would be achievable as well.
+>>>>>>>
+>>>>>>> Thoughts?
+>>>>>>>
+>>>>>>>>>>>> If the panel/bridge can set a flag that can be checked at this point
+>>>>>>>>>>>> for whether an early clock is required or not, I think that allows us
+>>>>>>>>>>>> to comply with the requirements for a large number of panels/bridges
+>>>>>>>>>>>> (LP-11 vs HS config for clock and or data lanes before pre_enable is
+>>>>>>>>>>>> called).
+>>>>>>>>>>>>
+>>>>>>>>>>>> pre_enable retains the current behaviour (initialise the chain from
+>>>>>>>>>>>> sink to source).
+>>>>>>>>>>>> enable then actually starts sending video and enabling outputs.
+>>>>>>>>>>>
+>>>>>>>>>>> Flags indeed seem like a more contained option. Another one could be to
+>>>>>>>>>>> have a mipi_dsi_host to (for example) power up the clock lane that would
+>>>>>>>>>>> be called by default before the bridge's enable, or at the downstream
+>>>>>>>>>>> bridge driver discretion before that.
+>>>>>>>>>>
+>>>>>>>>>> Which driver will that call?
+>>>>>>>>>
+>>>>>>>>> The parent DSI Host
+>>>>>>>>>
+>>>>>>>>>> An extreme example perhaps, but Toshiba make the TC358860 eDP to DSI
+>>>>>>>>>> bridge chip[1]. So the encoder will be eDP, but the DSI config needs
+>>>>>>>>>> to go to that bridge. Does that happen automatically within the
+>>>>>>>>>> framework? I guess so as the bridge will have called
+>>>>>>>>>> mipi_dsi_host_register for the DSI sink to attach to.
+>>>>>>>>>
+>>>>>>>>> In that case, whatever sink would be connected to the bridge would call
+>>>>>>>>> the bridge clock enable hook if it needs it in its pre_enable, or it
+>>>>>>>>> would be called automatically before enable if it doesn't
+>>>>>>>>>
+>>>>>>>>> Would that help?
+>>>>>>>>
+>>>>>>>> Sounds good to me, in theory at least (let's see what issues we'll run
+>>>>>>>> into in practice :-)).
+>>>>>>>>
+>>>>>>>> Has anyone given it a try, or is planning to ?
+>>>>>>>>
+>>>>>>>>>> Perhaps a new mipi_dsi_host function to configure the PHY is the
+>>>>>>>>>> easier solution. If it can allow the sink to request whatever
+>>>>>>>>>> combination of states from clock and data lanes that it fancies, then
+>>>>>>>>>> it can be as explicit as required for the initialisation sequence, and
+>>>>>>>>>> the host driver does its best to comply with the requests.
+>>>>>>>>>
+>>>>>>>>> I don't know, I'm not really fond in general of solutions that try to
+>>>>>>>>> cover any single case if we don't need it and / or have today an issue
+>>>>>>>>> with this. I'd rather have something that works for the particular
+>>>>>>>>> bridge we were discussing, see if it applies to other bridges and modify
+>>>>>>>>> it if it doesn't until it works for all our cases. Trying to reason in
+>>>>>>>>> all possible cases tend to lead to solutions that are difficult to
+>>>>>>>>> maintain and usually over-engineered.
+>>>>>>>>
+>>>>>>>> A DSI host clock enable operation or a DSI host PHY configuration
+>>>>>>>> operation both fit in the same place in the grand scheme of things, so I
+>>>>>>>> don't mind either. We should be able to easily move from a more specific
+>>>>>>>> operation to a more generic one if the need arises.
+>>>>>>>>
+>>>>>>>>>> I'd have a slight query over when and how the host would drop to ULPS
+>>>>>>>>>> or power off. It probably shouldn't be in post_disable as the sink
+>>>>>>>>>> hasn't had a chance to finalise everything in its post_disable.
+>>>>>>>>>>
+>>>>>>>>>> Perhaps pm_runtime with autosuspend is the right call there?
+>>>>>>>>>
+>>>>>>>>> pm_runtime semantics mean that once the device is suspended, its power
+>>>>>>>>> domains, regulators, clocks, etc. are all shut down, so it doesn't
+>>>>>>>>> really fit the low power state expected by DSI
+>>>>>>>>>
+>>>>>>>>>> [1] https://toshiba.semicon-storage.com/ap-en/semiconductor/product/interface-bridge-ics-for-mobile-peripheral-devices/display-interface-bridge-ics/detail.TC358860XBG.html
+>>>>>>>>>>
+>>>>>>>>>>>> When I discussed this briefly with Maxime there was a suggestion of
+>>>>>>>>>>>> using pm_runtime to be able to power up the pipeline as a whole. If
+>>>>>>>>>>>> the bridge driver can use pm_runtime to power up the PHY when
+>>>>>>>>>>>> required, then that may solve the issue, however I know too little of
+>>>>>>>>>>>> the details to say whether that is actually practical.
+>>>>>>>>>>>
+>>>>>>>>>>> I'm not sure it was about this topic in particular. If I remember well
+>>>>>>>>>>> our discussion, this was about the vc4 driver that tries to circumvent
+>>>>>>>>>>> the framework and call the pre_enable and enable hooks itself because it
+>>>>>>>>>>> wasn't properly powered before and thus any DCS-related call by the
+>>>>>>>>>>> downstream bridge or panel would end up creating a CPU stall.
+>>>>>>>>>>>
+>>>>>>>>>>> I suggested to use runtime_pm in the DCS related calls to make sure the
+>>>>>>>>>>> device is powered because there's no relation between the state of the
+>>>>>>>>>>> downstream bridge or panel and whether it can send DCS commands or not.
+>>>>>>>>>>> For all we know, it could do it at probe time.
+>>>>>>>>>>
+>>>>>>>>>> pm_runtime is all a bit of a magic black box to me.
+>>>>>>>>>>
+>>>>>>>>>> We had discussed shifting to using pm_runtime from DCS (and enable)
+>>>>>>>>>> calls to power up the PHY on demand, and that's what I implemented.
+>>>>>>>>>> However Laurent flagged up that using
+>>>>>>>>>> dsi->encoder->crtc->state->adjusted_mode to get the HS clock info
+>>>>>>>>>> required to send a HS DCS command from that call is deprecated, so how
+>>>>>>>>>> do we specify the clock rate to use at that point?
+>>>>>>>>>
+>>>>>>>>> I guess the most sensible would be to have a custom bridge state, and
+>>>>>>>>> add a pointer to the current bridge state in struct drm_bridge. Then, as
+>>>>>>>>> long as you have a bridge pointer you have a way to get the current
+>>>>>>>>> state associated to it, and since we already have atomic_duplicate_state
+>>>>>>>>> / atomic_destroy_state we can create our own structure around it storing
+>>>>>>>>> whatever we want.
+>>>>>>>>
+>>>>>>>> That's a good point. It would only be needed if we use runtime PM to
+>>>>>>>> work around the initialization sequence issue, not if we implement a DSI
+>>>>>>>> host clock enable/disable operation, right ?
+>>>>>>>
+>>>>>>> Obviously this only works with atomic bridges otherwise you have no
+>>>>>>> state, but I assume all bridges should be heading that route now.
+>>>>>>>
+>>>>>>>>>>>>>> host_transfer calls can supposedly be made at any time, however unless
+>>>>>>>>>>>>>> MIPI_DSI_MSG_USE_LPM is set in the message then we're meant to send it
+>>>>>>>>>>>>>> in high speed mode. If this is before a mode has been set, what
+>>>>>>>>>>>>>> defines the link frequency parameters at this point? Adopting a random
+>>>>>>>>>>>>>> default sounds like a good way to get undefined behaviour.
+>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> DSI burst mode needs to set the DSI link frequency independently of
+>>>>>>>>>>>>>> the display mode. How is that meant to be configured? I would have
+>>>>>>>>>>>>>> expected it to come from DT due to link frequency often being chosen
+>>>>>>>>>>>>>> based on EMC restrictions, but I don't see such a thing in any
+>>>>>>>>>>>>>> binding.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Undefined too. DSI support was added to DRM without any design effort,
+>>>>>>>>>>>>> it's more a hack than a real solution. The issue with devices that can
+>>>>>>>>>>>>> be controlled over both DSI and I2C is completely unhandled. So far
+>>>>>>>>>>>>> nobody has really cared about implementing DSI right as far as I can
+>>>>>>>>>>>>> tell.
+>>>>>>>>>>>>
+>>>>>>>>>>>> :-(
+>>>>>>>>>>>>
+>>>>>>>>>>>> Thinking aloud, does having the option to set a burst link frequency
+>>>>>>>>>>>> from DT (or ACPI) have any issue for other platforms?
+>>>>>>>>>>>> Looking at the handling of MIPI_DSI_MODE_VIDEO_BURST in the various
+>>>>>>>>>>>> drivers, all except stm/dw_mipi_dsi-stm.c appear to take it as a "use
+>>>>>>>>>>>> all the defined timings, but drop to LP during blanking" option. The
+>>>>>>>>>>>> link frequency has therefore remained a property of the
+>>>>>>>>>>>> display/bridge.
+>>>>>>>>>>>> dw_mipi_dsi-stm.c cranks the PLL up by 20%, but I haven't followed
+>>>>>>>>>>>> through the full detail of the parameters it computes from there.
+>>>>>>>>>>>
+>>>>>>>>>>> I don't see anything wrong with using link-frequency from the DT to
+>>>>>>>>>>> setup the burst frequency. It's what v4l2 has been using for a while
+>>>>>>>>>>> without any known (to me) drawback, and we're using the same of-graph
+>>>>>>>>>>> bindings, so it shouldn't be too controversial there.
+>>>>>>>>
+>>>>>>>> How would that frequency we picked in practice ? Do panels typically
+>>>>>>>> support a range of HS frequencies for DCS HS transfers ?
+>>>>>>>
+>>>>>>> I was thinking more of bridges where they often run a PLL off the
+>>>>>>> incoming DSI clock, and then have a FIFO with potentially different
+>>>>>>> clock rates and timings on input and output. SN65DSI83 supports that,
+>>>>>>> as do the Toshiba bridge chips I'm currently looking at.
+>>>>>>> You need to know the DSI link frequency to configure the PLL
+>>>>>>> correctly, but then the bridge output timing is a different matter.
+>>>>>>>
+>>>>>>>>>> OK, that sounds like a vague plan.
+>>>>>>>>>>
+>>>>>>>>>>>> DSI and I2C controlled devices is yet another issue that I haven't
+>>>>>>>>>>>> even looked at.
+>>>>>>>>>>>> I think it's more that vc4 wants to ignore DSI should the DSI host
+>>>>>>>>>>>> node be enabled in DT, but there's no panel bound to it. One could say
+>>>>>>>>>>>> that is a DT error and tough luck, but from a user's perspective that
+>>>>>>>>>>>> is a bit harsh.
+>>>>>>>>>>>
+>>>>>>>>>>> I guess the larger "issue" is that the tree in the DT is done following
+>>>>>>>>>>> the "control" bus, and Linux likes to tie the life cycle of a given
+>>>>>>>>>>> device to its parent bus. Both these decisions make sense, but they
+>>>>>>>>>>> interact in a weird way in some occurrences (like this one, or Allwinner
+>>>>>>>>>>> has an Ethernet PHY controlled through MMIO which end up in the same
+>>>>>>>>>>> case).
+>>>>>>>>>>>
+>>>>>>>>>>> I wonder if using device links here could help though.
+>>>>>>>>>>
+>>>>>>>>>> I really don't know about that one.
+>>>>>>>>>
+>>>>>>>>> It's a piece of infrastructure that was created at first (I think?) to
+>>>>>>>>> model the power dependency between devices that don't have a parent /
+>>>>>>>>> child relationship. For example, if you use DMA, you probably want to
+>>>>>>>>> keep the IOMMU powered as long as you are, but it is in a completely
+>>>>>>>>> separate branch of the "device tree" (not one from the DTB, the one that
+>>>>>>>>> linux DM creates).
+>>>>>>>>>
+>>>>>>>>> It was later expanded to also cover probe order and make sure a supplier
+>>>>>>>>> would probe before its consumer, effectively making EPROBE_DEFER
+>>>>>>>>> obsolete.
+>>>>>>>>>
+>>>>>>>>> The second part is still fairly new, but I think we can solve this by
+>>>>>>>>> adding a device link between the DSI host and whatever is at the end of
+>>>>>>>>> the OF-Graph endpoint.
+>>>>>>>>>
+>>>>>>>>>>>>>> As a follow on, bridge devices can support burst mode (eg TI's
+>>>>>>>>>>>>>> SN65DSI83 that's just been merged), so it needs to know the desired
+>>>>>>>>>>>>>> panel timings for the output side of the bridge, but the DSI link
+>>>>>>>>>>>>>> timings to set up the bridge's PLL. What's the correct way for
+>>>>>>>>>>>>>> signalling that? drm_crtc_state->adjusted_mode vs
+>>>>>>>>>>>>>> drm_crtc_state->mode? Except mode is userspace's request, not what has
+>>>>>>>>>>>>>> been validated/updated by the panel/bridge.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> adjusted_mode is also a bit of a hack, it solves very specific issues,
+>>>>>>>>>>>>> and its design assumes a single encoder in the chain with no extra
+>>>>>>>>>>>>> bridges. We should instead add modes to the bridge state, and negotiate
+>>>>>>>>>>>>> modes along the pipeline the same way we negotiate formats.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So as I understand it we already have format negotiation between
+>>>>>>>>>>>> bridges via atomic_get_output_bus_fmts and atomic_get_input_bus_fmts,
+>>>>>>>>>>>> so is it possible to extend that to modes?
+>>>>>>>>>>>> Are you thinking bridge state that is owned by the framework, or by
+>>>>>>>>>>>> the individual bridge drivers?
+>>>>>>>>>>>
+>>>>>>>>>>> atomic_check is made for that. I guess we could improve its call
+>>>>>>>>>>> sequence to each time a mode is modified along the bridge list we
+>>>>>>>>>>> restart the sequence until all components agree (or reject it entirely
+>>>>>>>>>>> if they can't), but I don't really see why we would need yet another
+>>>>>>>>>>> hook.
+>>>>>>>>
+>>>>>>>> Isn't this what atomic_get_output_bus_fmts() and
+>>>>>>>> atomic_get_input_bus_fmts() implement ?
+>>>>>>>
+>>>>>>> Those negotiate a single u32 bus format between nodes, not a complete timing.
+>>>>>>>
+>>>>>>>>>> Why do all nodes in the bridge list need to agree? Adjacent nodes need
+>>>>>>>>>> to agree, but they then also need to retain that agreed timing
+>>>>>>>>>> somewhere.
+>>>>>>>>>
+>>>>>>>>> We might have mutually exclusive requirements though? Let's use the
+>>>>>>>>> example of the VC4 HDMI driver that can't have odd horizontal timings,
+>>>>>>>>> and assume it's a constraint of our DSI driver instead.
+>>>>>>>>>
+>>>>>>>>> Then, we have a DSI->LVDS bridge, a LVDS->RGB bridge and a panel (which
+>>>>>>>>> is a bit ridiculous, but whatever). If the LVDS->RGB bridge can't have
+>>>>>>>>> even horizontal timings, then you just can't display it, even though
+>>>>>>>>> they are not adjacent (unless the bridge in the middle can modify the
+>>>>>>>>> timings between the input and output, but that's not always possible).
+>>>>>>>>>
+>>>>>>>>> Similarly, if for the RGB panel we need to increase a bit some timings
+>>>>>>>>> to accommodate for a larger pixel clock and end up above what the DSI
+>>>>>>>>> host can provide, we're also done.
+>>>>>>>>
+>>>>>>>> The hard part will be to figure out a good heuristics to perform the
+>>>>>>>> negotiation without going back and forth (at least not in a way that
+>>>>>>>> would require too many iterations, and certainly avoiding infinite
+>>>>>>>> loops). That will be an interesting problem to solve, but maybe we'll be
+>>>>>>>> lucky and a simple approach will work for the use cases we have to
+>>>>>>>> support today.
+>>>>>>>
+>>>>>>> One to kick into the long grass possibly then.
+>>>>>>>
+>>>>>>> For burst mode and bridges retiming things, generally I think it works
+>>>>>>> if you consider a single pass through a mode_fixup equivalent starting
+>>>>>>> at the panel.
+>>>>>>> The panel advertises what it wants.
+>>>>>>> The closest bridge (eg DSI83) fixup amends panel's requested mode
+>>>>>>> based on any constraints that it has, stores a copy, and passes that
+>>>>>>> down the chain.
+>>>>>>> The next bridge (eg vc4_dsi) amends the mode based on restrictions it
+>>>>>>> has (eg burst mode link frequency). That's the end of the chain in
+>>>>>>> this case, so that's the mode that the crtc needs to be programmed
+>>>>>>> with.
+>>>>>>>
+>>>>>>> The modes then need to be passed back up the chain so that eg DSI83
+>>>>>>> knows the link frequency in use, and can therefore configure the PLL
+>>>>>>> appropriately.
+>>>>>>>
+>>>>>>> The bit it would be nice to fix is that burst mode has effectively
+>>>>>>> increased the horizontal front porch, but that could be fixed within
+>>>>>>> the bridge so that the panel gets the timing it requested.
+>>>>>>>
+>>>>>>>>>> Taking SN65DSI8[3|4|5] as an example, it supports burst mode, and the
+>>>>>>>>>> DSI frequency and timings are permitted to be different from that
+>>>>>>>>>> which it uses on the LVDS side. The LVDS panel and LVDS side of DSI83
+>>>>>>>>>> need to agree over the format, and the DSI host and DSI side of DSI83
+>>>>>>>>>> need to agree, but they may be two different timings.
+>>>>>>>>>> Register 0x0B (DSI_CLK_DIVIDER & REFCLK_MULTIPLIER) allows you to
+>>>>>>>>>> configure the LVDS rate compared to the DSI rate (the driver currently
+>>>>>>>>>> goes for 1:1), and registers 0x20 to 0x34 allow you to set the number
+>>>>>>>>>> of active pixel and blanking on the LVDS side (again currently just
+>>>>>>>>>> copied across).
+>>>>>>>>>>
+>>>>>>>>>> The way I'm seeing burst mode as having been interpreted at present is
+>>>>>>>>>> that it's largely just a flag to say "drop to LP mode between lines".
+>>>>>>>>>> The timing that needs to be passed to the crtc is therefore going to
+>>>>>>>>>> be based on the DSI link rate (converted to pixels) with increased
+>>>>>>>>>> blanking periods.
+>>>>>>>>>>
+>>>>>>>>>> I guess there are similarities with Media Controller and V4L2 here. A
+>>>>>>>>>> typical chain there could be:
+>>>>>>>>>>      sensor -> scaler -> crop -> CSI-2 receiver.
+>>>>>>>>>> The format on each of those links may be different, but the chain as a
+>>>>>>>>>> whole needs to be valid. Media Controller largely relies on userspace
+>>>>>>>>>> to configure all links, but with a DRM chain that isn't really an
+>>>>>>>>>> option as it's expected that the display chain configures itself.
+>>>>>>>>>
+>>>>>>>>> Also, the userspace has no concept of media sub-devices in DRM, so it
+>>>>>>>>> just sets the mode on the whole DRM/KMS device, unlike what v4l2 does.
+>>>>>>>>> In v4l2, afaik, if you ended up with the above scenarios it would just
+>>>>>>>>> be rejected when you set the format on the link, letting the userspace
+>>>>>>>>> figure it out. We can't really do that here
+>>>>>>>>
+>>>>>>>> I wonder how long we'll be able to keep userspace out of the picture to
+>>>>>>>> configure the internals of the pipeline. I don't want to be the first
+>>>>>>>> person who will have a use case that requires this.
+>>>>>>>
+>>>>>>> I suspect none of us want to be the first one to hit this scenario!
+>>>>>>>
+>>>>>>> As I've just posted on the other thread about SN65DSI83, I've hit a
+>>>>>>> major stumbling block with the current design where vc4_dsi (and
+>>>>>>> Exynos) breaks the bridge_chain so that it gets called first and can
+>>>>>>> do initialisation, and then it calls down the chain.
+>>>>>>> Having now converted to a DSI bridge driver, it works fine with
+>>>>>>> connected non-atomic bridges, but fails with atomic bridges.
+>>>>>>> drm_atomic_add_encoder_bridges adds the state for all the bridges the
+>>>>>>> framework is aware of. With the split chain it misses adding the state
+>>>>>>> of our "hidden" bridges, and we can't add the extra state from our
+>>>>>>> atomic_duplicate_state call as we don't have the state to add to (we
+>>>>>>> just return our state to be added).
+>>>>>>> This bumps up the priority for us of finding a suitable solution for
+>>>>>>> this initialisation issue, so I'll start looking at how feasible a new
+>>>>>>> DSI host function is.
+>>>>>>>
+>>>>>>> Thanks
+>>>>>>>       Dave
+>>>>>>>
+>>>>>>
+>>>>
+>>
 
