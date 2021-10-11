@@ -2,60 +2,56 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2BFE428DCF
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:28:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD057428E1F
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:36:35 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id D0DD06E0B9;
-	Mon, 11 Oct 2021 13:28:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C95056E4C9;
+	Mon, 11 Oct 2021 13:36:28 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
- [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3CA226E0B9
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:28:08 +0000 (UTC)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
- by metis.ext.pengutronix.de with esmtps
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1mZvLZ-0006g4-Rm; Mon, 11 Oct 2021 15:28:05 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
- by drehscheibe.grey.stw.pengutronix.de with esmtp (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1mZvLY-0003ny-EI; Mon, 11 Oct 2021 15:28:04 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.92)
- (envelope-from <ukl@pengutronix.de>)
- id 1mZvLX-0000TQ-Cg; Mon, 11 Oct 2021 15:28:03 +0200
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
- kernel@pengutronix.de, dri-devel@lists.freedesktop.org,
- linux-staging@lists.linux.dev, "Rafael J. Wysocki" <rafael@kernel.org>
-Subject: [PATCH 12/13] staging: fbtft: Make fbtft_remove_common() return void
-Date: Mon, 11 Oct 2021 15:27:53 +0200
-Message-Id: <20211011132754.2479853-13-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
-References: <20211011132754.2479853-1-u.kleine-koenig@pengutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Patch-Hashes: v=1; h=sha256; i=/RLR4bDyADQRwzANF6ER5sKrX+JFDYSh90Q0J5N84UY=;
- m=6FiNYI6au9uFB2IoKzr/cKU1LkGxlwoXSYCPM/+GX+Y=;
- p=19a0XOl3ZNoBogBHt63wtoEAqL9C5QZcMx0lWBBcXvs=;
- g=3740c58a50a748d6ac2559b325ee4fcd79372ba0
-X-Patch-Sig: m=pgp; i=u.kleine-koenig@pengutronix.de;
- s=0x0D2511F322BFAB1C1580266BE2DCDD9132669BD6;
- b=iQEzBAABCgAdFiEEfnIqFpAYrP8+dKQLwfwUeK3K7AkFAmFkO4IACgkQwfwUeK3K7AmPFAgAi2j
- +ekzLBUvvkSW1V7aAZ7NxSqFgWZ8q7dgSdTwOKmsCZCyNbQsT02lQhdQnxam0NAMjaxhPzaEVAUf9
- cjqtzjNApl7RfLYR7nGLh2XuJ4EqX7uUlOzAdeoEe3r1T4eqGrWC+7AfBINYA992Q6zFAZRqNXZrY
- PBfjEYtKmJ0IAO/Qx4tDgVISz0GQsn+8JJ01P4udY1sud6QjhaO+87wCpCXT7qwQa9q8WN+fIsSYs
- 0Ut+4ptQh7WDuG+Qb09CIIf4Bk9nAi/X3gofxHs97omC6x3ldQlraHCrNuUHUe77brVawa8/TR38j
- SEFRvmVk4U0dYlvaiuLXguJP8IRqcVA==
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
- SAEximRunCond expanded to false
-X-PTX-Original-Recipient: dri-devel@lists.freedesktop.org
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
+ [209.85.167.170])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DDF3C6E4F1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:36:26 +0000 (UTC)
+Received: by mail-oi1-f170.google.com with SMTP id e63so4055334oif.8
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 06:36:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:in-reply-to:references:subject:date
+ :message-id;
+ bh=85xipXNv8mvBeKPmm2emtS9A+cn3fK5eUSpsvYA0F0s=;
+ b=KHlRQQKHUUsYFGj1kOrFf7sg3wyDPR1/Jl45CWmEWBiU4K8U58qdq2tJl+D54liea/
+ m2zbaDgbSyNePwJCGhVNZDVvs8yRzPQ4x9p0k0pX+ZbEH9jJtNAFcHkhBoEscvAoLwgG
+ g0g9V5WIZvx5419nymGcewoT+wxhqxVTW1XxyaKDvP4zVSIJIIr9uURaE/GSbZA0pcIh
+ HuWWr0v0Gw/d5ZCrNVGjAMlk3F43PCBPJ/wvC+6fHfcxpDQ1qa5nFPUFi7X9s3i9RtP4
+ x5QuNGdgHh7QkX4NTIHsOo4TBsA92fmPsRPBulmPm17hjK4ys/r1Y2Q2JJYdhOaAOlp7
+ O3zw==
+X-Gm-Message-State: AOAM532z50/4uad560Fid+TwbkDjc9r6G0sBF89dP9pSW6N7y9wSUbAe
+ ++2OI20/p3Hb5YAzy9GgAg==
+X-Google-Smtp-Source: ABdhPJyE7+/tzL7Uvj2g+kEPhUHNPa6mHB8C7Nw2hpoRd1TRl83LypTzSOtSMZPZ0Czq8QnqNVUDBg==
+X-Received: by 2002:a05:6808:1984:: with SMTP id
+ bj4mr4202420oib.30.1633959386217; 
+ Mon, 11 Oct 2021 06:36:26 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id v22sm1171004oot.43.2021.10.11.06.36.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 06:36:25 -0700 (PDT)
+Received: (nullmailer pid 504946 invoked by uid 1000);
+ Mon, 11 Oct 2021 13:36:18 -0000
+From: Rob Herring <robh@kernel.org>
+To: Markus Schneider-Pargmann <msp@baylibre.com>
+Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
+ linux-mediatek@lists.infradead.org, Rob Herring <robh+dt@kernel.org>,
+ dri-devel@lists.freedesktop.org, Philipp Zabel <p.zabel@pengutronix.de>,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
+In-Reply-To: <20211011094624.3416029-3-msp@baylibre.com>
+References: <20211011094624.3416029-1-msp@baylibre.com>
+ <20211011094624.3416029-3-msp@baylibre.com>
+Subject: Re: [PATCH v4 2/7] dt-bindings: mediatek, dp: Add Display Port binding
+Date: Mon, 11 Oct 2021 08:36:18 -0500
+Message-Id: <1633959378.253312.504945.nullmailer@robh.at.kernel.org>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,74 +67,47 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-fbtft_remove_common() is only called with a non-NULL fb_info. (All
-callers are in remove callbacks and the matching probe callbacks set
-driver data accordingly.) So fbtft_remove_common() always returns zero.
-Make it return void instead which makes it easier to see in the callers
-that there is no error to handle.
+On Mon, 11 Oct 2021 11:46:19 +0200, Markus Schneider-Pargmann wrote:
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> ---
+>  .../display/mediatek/mediatek,dp.yaml         | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> 
 
-Also the return value of platform and spi remove callbacks is ignored
-anyway and not freeing resources in .remove() is a bad idea.
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/fbtft/fbtft-core.c | 8 +-------
- drivers/staging/fbtft/fbtft.h      | 6 ++++--
- 2 files changed, 5 insertions(+), 9 deletions(-)
+yamllint warnings/errors:
 
-diff --git a/drivers/staging/fbtft/fbtft-core.c b/drivers/staging/fbtft/fbtft-core.c
-index ed992ca605eb..9c9eab1182a6 100644
---- a/drivers/staging/fbtft/fbtft-core.c
-+++ b/drivers/staging/fbtft/fbtft-core.c
-@@ -1318,23 +1318,17 @@ EXPORT_SYMBOL(fbtft_probe_common);
-  * @info: Framebuffer
-  *
-  * Unregisters and releases the framebuffer
-- *
-- * Return: 0 if successful, negative if error
-  */
--int fbtft_remove_common(struct device *dev, struct fb_info *info)
-+void fbtft_remove_common(struct device *dev, struct fb_info *info)
- {
- 	struct fbtft_par *par;
- 
--	if (!info)
--		return -EINVAL;
- 	par = info->par;
- 	if (par)
- 		fbtft_par_dbg(DEBUG_DRIVER_INIT_FUNCTIONS, par,
- 			      "%s()\n", __func__);
- 	fbtft_unregister_framebuffer(info);
- 	fbtft_framebuffer_release(info);
--
--	return 0;
- }
- EXPORT_SYMBOL(fbtft_remove_common);
- 
-diff --git a/drivers/staging/fbtft/fbtft.h b/drivers/staging/fbtft/fbtft.h
-index 76f8c090a837..68eba6c71b0f 100644
---- a/drivers/staging/fbtft/fbtft.h
-+++ b/drivers/staging/fbtft/fbtft.h
-@@ -283,7 +283,8 @@ static int fbtft_driver_remove_spi(struct spi_device *spi)                 \
- {                                                                          \
- 	struct fb_info *info = spi_get_drvdata(spi);                       \
- 									   \
--	return fbtft_remove_common(&spi->dev, info);                       \
-+	fbtft_remove_common(&spi->dev, info);                              \
-+	return 0;                                                          \
- }                                                                          \
- 									   \
- static int fbtft_driver_probe_pdev(struct platform_device *pdev)           \
-@@ -295,7 +296,8 @@ static int fbtft_driver_remove_pdev(struct platform_device *pdev)          \
- {                                                                          \
- 	struct fb_info *info = platform_get_drvdata(pdev);                 \
- 									   \
--	return fbtft_remove_common(&pdev->dev, info);                      \
-+	fbtft_remove_common(&pdev->dev, info);                             \
-+	return 0;                                                          \
- }                                                                          \
- 									   \
- static const struct of_device_id dt_ids[] = {                              \
--- 
-2.30.2
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:20:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
+   20 |         #include <dt-bindings/power/mt8195-power.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
+make[1]: *** Waiting for unfinished jobs....
+make: *** [Makefile:1441: dt_binding_check] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/patch/1539195
+
+This check can fail if there are any dependencies. The base for a patch
+series is generally the most recent rc1.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
