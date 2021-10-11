@@ -1,61 +1,52 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C73429D11
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 07:23:35 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E77A429D81
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 08:11:27 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C919989F08;
-	Tue, 12 Oct 2021 05:23:29 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id EB18489DA8;
+	Tue, 12 Oct 2021 06:11:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com
- [IPv6:2a00:1450:4864:20::12c])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C4E8E89F08;
- Tue, 12 Oct 2021 05:23:28 +0000 (UTC)
-Received: by mail-lf1-x12c.google.com with SMTP id j5so82861844lfg.8;
- Mon, 11 Oct 2021 22:23:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=12BNlbCQgd+waveWEis1i977xILPo4T6UTRLGRk5nQc=;
- b=SVirUMtzvIevieCz+PIbarz6CpfQKiu6wvuoCdwVu4FygCvzvWwAwH8HpSbGoJNRsp
- 2362NdRYNni2XIhJUlJdq912ImtrofNmSzI58NfsKYBxZaWYSlxjb3XWkfXNy+az3tes
- LJOxH4cM06Df+7LLiMhZSCYoj7sNRngGksiYzH7mFobXhfBKKcjeeAGPW6+UysaV3bij
- iWgIBcuScPDDM3UdMarE+YIHKIpmbptL20fw+8atXSDw1YkFXXkYbr3wz5EtknhkE4UA
- PewAKc6GKJGXPqJAOqqoy3TEe/Ky2Lp+6Jri8IijAUjYcz0Ag1B+/2AHSwHkRd0idH4U
- 1fjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=12BNlbCQgd+waveWEis1i977xILPo4T6UTRLGRk5nQc=;
- b=TrmYWfE607d7a/uJGpJblBgyYW84f5peWd8GBOZx9N0HP9KnvBvAgfDBIW5zlJh6er
- JHmwH5y+9D8XphFvFkMR8p3gg/TRvC+nfWe8urPlP9YgpmjJfgjiGUooehsvjFxumOwa
- zSM3x8zt0u5EFvgNZcjuQAjUBJvb2Mq8uELkhXYyw9FyL+Z9MvVTe52k6KpDZ9Qa+wzM
- qv+m6NeeNgvAZxDYaAATO+P2a4fApBfjyWEvp3l7DbekXxLmHvmHY/CEAU4aFebfQxDz
- l8M6qNRz0IIrFEGNN3NE7pC44gOVnegn0amcUV+VNcI1KOt3pPsEqgE0WSGXq1i3r+j1
- K3Zg==
-X-Gm-Message-State: AOAM532jvIdFMKWoVq2QN7vZJkaDIxTgMXVpVeLeMK/zlGQVTMPwfo9m
- zNsQhFgf8yttpSVaPFeBZBkCg7c0+cNe8OivHpzurFzU
-X-Google-Smtp-Source: ABdhPJx6e3tLq9pQQ9HeruBuNvSBr1oDsBc30h4zwEIg+aaklhKpcioPvoJderU155t61xL26fOPs2Lu11pSsU/9Mxk=
-X-Received: by 2002:a05:651c:1596:: with SMTP id
- h22mr26926505ljq.405.1634016206901; 
- Mon, 11 Oct 2021 22:23:26 -0700 (PDT)
+Received: from mslow1.mail.gandi.net (mslow1.mail.gandi.net [217.70.178.240])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6EA156E519
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 15:24:11 +0000 (UTC)
+Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
+ by mslow1.mail.gandi.net (Postfix) with ESMTP id BCD9FD2CAA
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 15:24:07 +0000 (UTC)
+Received: (Authenticated sender: n@nfraprado.net)
+ by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 80593240005;
+ Mon, 11 Oct 2021 15:23:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nfraprado.net;
+ s=gm1; t=1633965825;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=sezK/FAtcCli+p2YnDeNIUcTto02XK4Nsqv33VCxO7E=;
+ b=P9LVtYWqf/QKJcDJfkzgorULf9ZsoNS8YAKnA138ulq+BYkCr7blpOOuEkhFYD1Om9drKa
+ zxxX9e1vN6kb6NpCfJIDO90woKiVt4tmk1FWTyzbl2PkVTdyWZvzA9OY62MDlnkwum11Q7
+ 7GRD5LViaHb0xDZoK1ix7tzbtOpHAxjrvcRVMFA5z26TJ4Re/wMtB8L+p570Xai3OJsP5F
+ xsIyZp2+GLa0ctRGsNwQpeavEC6ESValcaHczL7NkUWvkPHF3Iy/UH2xe6ECx+w8eLOlp7
+ d0U5EcNZrcfOCez4w+ZM0cM35jZQGctIVP9G4s8O50DuE1pL5JPo8yr1Ee8vDA==
+Date: Mon, 11 Oct 2021 10:23:33 -0500
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <n@nfraprado.net>
+To: Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Daniel Latypov <dlatypov@google.com>,
+ David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+ linux-kselftest@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc: =?utf-8?B?QW5kcsOp?= Almeida <andrealmeid@riseup.net>,
+ Leandro Ribeiro <leandrohr@riseup.net>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Pedro Sader Azevedo <pedro.saderazevedo@protonmail.com>,
+ isinyaaa <isabellabdoamaral@gmail.com>, ~lkcamp/discussion@lists.sr.ht
+Subject: DRM KUnit hackathon
+Message-ID: <20211011152333.gm5jkaog6b6nbv5w@notapiano>
 MIME-Version: 1.0
-References: <20211011161155.6397-1-ramalingam.c@intel.com>
- <20211011161155.6397-15-ramalingam.c@intel.com>
-In-Reply-To: <20211011161155.6397-15-ramalingam.c@intel.com>
-From: Lucas De Marchi <lucas.de.marchi@gmail.com>
-Date: Mon, 11 Oct 2021 22:23:15 -0700
-Message-ID: <CAKi4VAJg2C1p6ceXqLUFtwCRoSp2c+c4D-RyxDy4QB8130s9nQ@mail.gmail.com>
-Subject: Re: [PATCH 14/14] Doc/gpu/rfc/i915: i915 DG2 uAPI
-To: Ramalingam C <ramalingam.c@intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>, 
- intel-gfx <intel-gfx@lists.freedesktop.org>, Daniel Vetter <daniel@ffwll.ch>, 
- Matthew Auld <matthew.auld@intel.com>, CQ Tang <cq.tang@intel.com>, 
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Daniel Vetter <daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailman-Approved-At: Tue, 12 Oct 2021 06:11:20 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -71,104 +62,28 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Mon, Oct 11, 2021 at 9:10 AM Ramalingam C <ramalingam.c@intel.com> wrote:
->
-> Details of the new features getting added as part of DG2 enabling and their
-> implicit impact on the uAPI.
->
-> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
-> cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> cc: Matthew Auld <matthew.auld@intel.com>
-> ---
->  Documentation/gpu/rfc/i915_dg2.rst | 47 ++++++++++++++++++++++++++++++
->  Documentation/gpu/rfc/index.rst    |  3 ++
->  2 files changed, 50 insertions(+)
->  create mode 100644 Documentation/gpu/rfc/i915_dg2.rst
->
-> diff --git a/Documentation/gpu/rfc/i915_dg2.rst b/Documentation/gpu/rfc/i915_dg2.rst
-> new file mode 100644
-> index 000000000000..a83ca26cd758
-> --- /dev/null
-> +++ b/Documentation/gpu/rfc/i915_dg2.rst
-> @@ -0,0 +1,47 @@
-> +====================
-> +I915 DG2 RFC Section
-> +====================
-> +
-> +Upstream plan
-> +=============
-> +Plan to upstream the DG2 enabling is:
-> +
-> +* Merge basic HW enabling for DG2(Still without pciid)
+Hello,
 
-here and everywhere below, missing space before (
+We belong to a student group, LKCAMP [1], which is focused on sharing kernel and
+free software development knowledge and mentoring newcomers to become
+contributors to these projects.
 
-> +* Merge the 64k support for lmem
-> +* Merge the flat CCS enabling patches
-> +* Add the pciid for DG2 and enable the DG2 in CI
-> +
-> +
-> +64K page support for lmem
-> +=========================
-> +On DG2 hw, local-memory supports minimum GTT page size of 64k only. 4k is not supported anymore.
-> +
-> +DG2 hw dont support the 64k(lmem) and 4k(smem) pages in the same ppgtt Page table. Refer the
+As part of our efforts, we'll be organizing a hackathon to convert the drm
+selftests in drivers/gpu/drm/selftests/ (and possibly the ones in
+drivers/dma-buf too) to the KUnit framework. It will take place on October 30.
 
-s/hw dont/doesn't/
+So please expect to receive some patches from our mentees on that date. It
+probably won't be a big volume (experience tells it'll be around half a dozen
+patches). We'll also make sure to do an internal review beforehand to catch
+common first-timer mistakes and teach the basics.
 
-> +struct drm_i915_gem_create_ext for the implication of handling the 64k page size.
-> +
-> +.. kernel-doc:: include/uapi/drm/i915_drm.h
-> +        :functions: drm_i915_gem_create_ext
-> +
-> +
-> +flat CCS support for lmem
+We're already working on making sure that the converted KUnit tests can still be
+run by IGT.
 
-Flat
+Please let us know if there's any issue with this date. Otherwise we look
+forward to helping a few newcomers get their patches in the kernel on the 30th
+:).
 
-> +=========================
-> +Gen 12+ devices support 3D surfaces compression and compression formats. This is
-> +accomplished by an additional compression control state (CCS) stored for each surface.
-> +
-> +Gen 12 devices(TGL and DG1) stores compression state in a separate region of memory.
+Thanks!
 
-s/stores/store/
-
-> +It is managed by userspace and has an associated set of userspace managed page tables
-> +used by hardware for address translation.
-> +
-> +In Gen 12.5 devices(XEXPSDV and DG2) Flat CCS is introduced to replace the userspace
-
-There is no such thing as Gen 12.5. The "Gen" nomenclature stopped on Gen 12.
-
-Lucas De Marchi
-
-> +managed AUX pagetable with the flat indexed region of device memory for storing the
-> +compression state
-> +
-> +GOP Driver steals a chunk of memory for the CCS surface corresponding to the entire
-> +range of local memory. The memory required for the CCS of the entire local memory is
-> +1/256 of the main local memory. The Gop driver will also program a secure register
-> +(XEHPSDV_FLAT_CCS_BASE_ADDR 0x4910) with this address value.
-> +
-> +So the Total local memory available for driver allocation is Total lmem size - CCS data size
-> +
-> +Flat CCS data needs to be cleared when a lmem object is allocated. And CCS data can
-> +be copied in and out of CCS region through XY_CTRL_SURF_COPY_BLT.
-> diff --git a/Documentation/gpu/rfc/index.rst b/Documentation/gpu/rfc/index.rst
-> index 91e93a705230..afb320ed4028 100644
-> --- a/Documentation/gpu/rfc/index.rst
-> +++ b/Documentation/gpu/rfc/index.rst
-> @@ -20,6 +20,9 @@ host such documentation:
->
->      i915_gem_lmem.rst
->
-> +.. toctree::
-> +    i915_dg2.rst
-> +
->  .. toctree::
->
->      i915_scheduler.rst
-> --
-> 2.20.1
->
+[1] - https://lkcamp.dev/
