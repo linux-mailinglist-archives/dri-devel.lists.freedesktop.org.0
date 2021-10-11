@@ -2,50 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA54B428F66
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:57:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A5E429241
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 16:40:50 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 372306E4C1;
-	Mon, 11 Oct 2021 13:56:56 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3D2A36E4A1;
+	Mon, 11 Oct 2021 14:40:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBF66E4C1
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:56:55 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 6610161050;
- Mon, 11 Oct 2021 13:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
- s=korg; t=1633960614;
- bh=8rv+dLDodlxCHV1xPtmKJextlAab2I7uYALBnhUtHyE=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=PsQDz8tDSAIz5R945Z6n7JJly84g0EUJiEXJbtJlwlGfvOT4CyNF8G+nXsXrHIfqN
- R2D+R+b3yDBTFF1emLzmIAegPBxWwlKFob9gckKZDbN0EJoAiogcjaIgsWFmKSji2z
- /BzzbUTbwGFSd64pqUZ0lFMCS02XEjAyuHEJX9ag=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-kernel@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
- Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
- Maxime Ripard <maxime@cerno.tech>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
- Borislav Petkov <bp@suse.de>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Peter Collingbourne <pcc@google.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- dri-devel@lists.freedesktop.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Rob Herring <robh@kernel.org>
-Subject: [PATCH 5.14 024/151] fbdev: simplefb: fix Kconfig dependencies
-Date: Mon, 11 Oct 2021 15:44:56 +0200
-Message-Id: <20211011134518.629623285@linuxfoundation.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211011134517.833565002@linuxfoundation.org>
-References: <20211011134517.833565002@linuxfoundation.org>
-User-Agent: quilt/0.66
+X-Greylist: delayed 576 seconds by postgrey-1.36 at gabe;
+ Mon, 11 Oct 2021 12:17:35 UTC
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E4D2B89D4D
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 12:17:35 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HScxh5lgHz4xbX;
+ Mon, 11 Oct 2021 23:07:52 +1100 (AEDT)
+From: Michael Ellerman <patch-notifications@ellerman.id.au>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+ Andrew Morton <akpm@linux-foundation.org>
+Cc: linuxppc-dev@lists.ozlabs.org, Stan Johnson <userm57@yahoo.com>,
+ linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Finn Thain <fthain@linux-m68k.org>, dri-devel@lists.freedesktop.org
+In-Reply-To: <884a54f1e5cb774c1d9b4db780209bee5d4f6718.1631712563.git.christophe.leroy@csgroup.eu>
+References: <884a54f1e5cb774c1d9b4db780209bee5d4f6718.1631712563.git.christophe.leroy@csgroup.eu>
+Subject: Re: [PATCH] video: fbdev: use memset_io() instead of memset()
+Message-Id: <163395400552.4094789.12015421663855128336.b4-ty@ellerman.id.au>
+Date: Mon, 11 Oct 2021 23:06:45 +1100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+X-Mailman-Approved-At: Mon, 11 Oct 2021 14:40:43 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,82 +52,45 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Wed, 15 Sep 2021 15:34:35 +0200, Christophe Leroy wrote:
+> While investigating a lockup at startup on Powerbook 3400C, it was
+> identified that the fbdev driver generates alignment exception at
+> startup:
+> 
+> 	--- interrupt: 600 at memset+0x60/0xc0
+> 	NIP:  c0021414 LR: c03fc49c CTR: 00007fff
+> 	REGS: ca021c10 TRAP: 0600   Tainted: G        W          (5.14.2-pmac-00727-g12a41fa69492)
+> 	MSR:  00009032 <EE,ME,IR,DR,RI>  CR: 44008442  XER: 20000100
+> 	DAR: cab80020 DSISR: 00017c07
+> 	GPR00: 00000007 ca021cd0 c14412e0 cab80000 00000000 00100000 cab8001c 00000004
+> 	GPR08: 00100000 00007fff 00000000 00000000 84008442 00000000 c0006fb4 00000000
+> 	GPR16: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00100000
+> 	GPR24: 00000000 81800000 00000320 c15fa400 c14d1878 00000000 c14d1800 c094e19c
+> 	NIP [c0021414] memset+0x60/0xc0
+> 	LR [c03fc49c] chipsfb_pci_init+0x160/0x580
+> 	--- interrupt: 600
+> 	[ca021cd0] [c03fc46c] chipsfb_pci_init+0x130/0x580 (unreliable)
+> 	[ca021d20] [c03a3a70] pci_device_probe+0xf8/0x1b8
+> 	[ca021d50] [c043d584] really_probe.part.0+0xac/0x388
+> 	[ca021d70] [c043d914] __driver_probe_device+0xb4/0x170
+> 	[ca021d90] [c043da18] driver_probe_device+0x48/0x144
+> 	[ca021dc0] [c043e318] __driver_attach+0x11c/0x1c4
+> 	[ca021de0] [c043ad30] bus_for_each_dev+0x88/0xf0
+> 	[ca021e10] [c043c724] bus_add_driver+0x190/0x22c
+> 	[ca021e40] [c043ee94] driver_register+0x9c/0x170
+> 	[ca021e60] [c0006c28] do_one_initcall+0x54/0x1ec
+> 	[ca021ed0] [c08246e4] kernel_init_freeable+0x1c0/0x270
+> 	[ca021f10] [c0006fdc] kernel_init+0x28/0x11c
+> 	[ca021f30] [c0017148] ret_from_kernel_thread+0x14/0x1c
+> 	Instruction dump:
+> 	7d4601a4 39490777 7d4701a4 39490888 7d4801a4 39490999 7d4901a4 39290aaa
+> 	7d2a01a4 4c00012c 4bfffe88 0fe00000 <4bfffe80> 9421fff0 38210010 48001970
+> 
+> [...]
 
-commit ec7cc3f74b4236860ce612656aa5be7936d1c594 upstream.
+Applied to powerpc/next.
 
-Configurations with both CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM=m
-are allowed by Kconfig because the 'depends on !DRM_SIMPLEDRM' dependency
-does not disallow FB_SIMPLE as long as SIMPLEDRM is not built-in. This
-can however result in a build failure when cfb_fillrect() etc are then
-also in loadable modules:
+[1/1] video: fbdev: use memset_io() instead of memset()
+      https://git.kernel.org/powerpc/c/f2719b26ae27282c145202ffd656d5ff1fe737cc
 
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x1f8): undefined reference to `cfb_fillrect'
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x200): undefined reference to `cfb_copyarea'
-x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x208): undefined reference to `cfb_imageblit'
-
-To work around this, change FB_SIMPLE to be a 'tristate' symbol,
-which still allows both to be =m together, but not one of them to
-be =y if the other one is =m. If a distro kernel picks this
-configuration, it can be determined by local policy which of
-the two modules gets loaded. The 'of_chosen' export is needed
-as this is the first loadable module referencing it.
-
-Alternatively, the Kconfig dependency could be changed to
-'depends on DRM_SIMPLEDRM=n', which would forbid the configuration
-with both drivers.
-
-Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
-Acked-by: Rob Herring <robh@kernel.org> # for drivers/of/
-Link: https://lore.kernel.org/all/20210721151839.2484245-1-arnd@kernel.org/
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch> # fbdev support
-Cc: Maxime Ripard <maxime@cerno.tech>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Borislav Petkov <bp@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: Peter Collingbourne <pcc@google.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org
-Cc: <stable@vger.kernel.org> # v5.14+
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Link: https://patchwork.freedesktop.org/patch/msgid/20210928145243.1098064-1-arnd@kernel.org
-Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/of/base.c           |    1 +
- drivers/video/fbdev/Kconfig |    5 +++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
-
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -36,6 +36,7 @@ LIST_HEAD(aliases_lookup);
- struct device_node *of_root;
- EXPORT_SYMBOL(of_root);
- struct device_node *of_chosen;
-+EXPORT_SYMBOL(of_chosen);
- struct device_node *of_aliases;
- struct device_node *of_stdout;
- static const char *of_stdout_options;
---- a/drivers/video/fbdev/Kconfig
-+++ b/drivers/video/fbdev/Kconfig
-@@ -2191,8 +2191,9 @@ config FB_HYPERV
- 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
- 
- config FB_SIMPLE
--	bool "Simple framebuffer support"
--	depends on (FB = y) && !DRM_SIMPLEDRM
-+	tristate "Simple framebuffer support"
-+	depends on FB
-+	depends on !DRM_SIMPLEDRM
- 	select FB_CFB_FILLRECT
- 	select FB_CFB_COPYAREA
- 	select FB_CFB_IMAGEBLIT
-
-
+cheers
