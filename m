@@ -1,69 +1,51 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8663428E6F
-	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:44:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA54B428F66
+	for <lists+dri-devel@lfdr.de>; Mon, 11 Oct 2021 15:57:01 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A466689EAC;
-	Mon, 11 Oct 2021 13:44:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 372306E4C1;
+	Mon, 11 Oct 2021 13:56:56 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com
- [IPv6:2a00:1450:4864:20::42a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 3281489EAC
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:44:10 +0000 (UTC)
-Received: by mail-wr1-x42a.google.com with SMTP id k7so56275539wrd.13
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 06:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=A7TD3sEyqxQ0X3DP82vXK523PsJpNS15uJqkN1lKgwU=;
- b=3zqPHeCtiwGU0NHoNjgSWw1LEyR7aqUxglAy8cIU+b094JEYM0sP3n7hHVL8CHf8nf
- HXC7RzLd5409ZeHqe4WfAkl8+ylkyCktx0NxqRi9D1QWKjuKmpQLm4NvCB/rTmW6VTww
- fZVqtW4tUfmosRfRn1aKa6Zwhdrejx1Kss9q66Z0cy861o1qtj3cxjjChvdPe6xt39D2
- ifqCf68cXpW8HZCB439PpsWeH1v6vjNauAHUACGGo2NF4fC00VStBvLj0M3BjEsyqOmN
- cWHAPcE3qAbe5n2yj9eESC8xYQfxjfNpFkUAEdC6Bco+cQ7XIhA5bqV9BpMDf4iTjsiX
- JkZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=A7TD3sEyqxQ0X3DP82vXK523PsJpNS15uJqkN1lKgwU=;
- b=mI6WB8HyjeYurz3B5kHsDzgwHd2mc4ijKgqNN16tw6Tu/ste9DP4iXrvGgZnPM5tdJ
- KC8Xa2jltx/amIUBuiQ+WNv8XyvBdzjlIgW83gfvuHcMTQAneaTPutqhGrio2IAxfDsy
- 2edDSNFvKSj00VrVcI7iINoA2AEpU8iLQl5P3KQpx5+RREErp3aqz30PC2AuU+H5seLW
- Eqf4cVo9RxpY832xp9M/GNHd3tquZq+558PVEBSItIHK/meLmb1lgnxlA6N/AkriHPCy
- uRN/KFn0vJkT8p3ztnF6sugf3uRZ3Chq24J1sRnSXWlyCjsFYuZi0J1OG8xnrSC5Ot8h
- bmLQ==
-X-Gm-Message-State: AOAM531kDhGHOs2WR2nDmxfIQMFA0I732yaXzUQ/ySFk2r5k44uXezrx
- ooJbVUUGiL2Di3vWmjsowHtsMQ==
-X-Google-Smtp-Source: ABdhPJydwj7M4z6iZA4YhZBGnqu/rkJnC9o3iN/3pp6K1plBVfMpdwPh8RRzmYY7BkzkRRwnEu23eA==
-X-Received: by 2002:adf:e292:: with SMTP id v18mr759164wri.369.1633959848748; 
- Mon, 11 Oct 2021 06:44:08 -0700 (PDT)
-Received: from blmsp ([2a02:2454:3e6:c900::97e])
- by smtp.gmail.com with ESMTPSA id v23sm7653201wmj.4.2021.10.11.06.44.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 06:44:08 -0700 (PDT)
-Date: Mon, 11 Oct 2021 15:44:07 +0200
-From: Markus Schneider-Pargmann <msp@baylibre.com>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
- linux-mediatek@lists.infradead.org,
- Rob Herring <robh+dt@kernel.org>, dri-devel@lists.freedesktop.org,
- Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>, Sam Ravnborg <sam@ravnborg.org>
-Subject: Re: [PATCH v4 2/7] dt-bindings: mediatek, dp: Add Display Port binding
-Message-ID: <20211011134407.t57ajlzrcequ2ln4@blmsp>
-References: <20211011094624.3416029-1-msp@baylibre.com>
- <20211011094624.3416029-3-msp@baylibre.com>
- <1633959378.253312.504945.nullmailer@robh.at.kernel.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 0FBF66E4C1
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:56:55 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 6610161050;
+ Mon, 11 Oct 2021 13:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1633960614;
+ bh=8rv+dLDodlxCHV1xPtmKJextlAab2I7uYALBnhUtHyE=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=PsQDz8tDSAIz5R945Z6n7JJly84g0EUJiEXJbtJlwlGfvOT4CyNF8G+nXsXrHIfqN
+ R2D+R+b3yDBTFF1emLzmIAegPBxWwlKFob9gckKZDbN0EJoAiogcjaIgsWFmKSji2z
+ /BzzbUTbwGFSd64pqUZ0lFMCS02XEjAyuHEJX9ag=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, stable@vger.kernel.org,
+ Arnd Bergmann <arnd@arndb.de>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Maxime Ripard <maxime@cerno.tech>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Daniel Vetter <daniel.vetter@ffwll.ch>,
+ Borislav Petkov <bp@suse.de>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Randy Dunlap <rdunlap@infradead.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Peter Collingbourne <pcc@google.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ dri-devel@lists.freedesktop.org,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Rob Herring <robh@kernel.org>
+Subject: [PATCH 5.14 024/151] fbdev: simplefb: fix Kconfig dependencies
+Date: Mon, 11 Oct 2021 15:44:56 +0200
+Message-Id: <20211011134518.629623285@linuxfoundation.org>
+X-Mailer: git-send-email 2.33.0
+In-Reply-To: <20211011134517.833565002@linuxfoundation.org>
+References: <20211011134517.833565002@linuxfoundation.org>
+User-Agent: quilt/0.66
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1633959378.253312.504945.nullmailer@robh.at.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,56 +61,82 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Arnd Bergmann <arnd@arndb.de>
 
-On Mon, Oct 11, 2021 at 08:36:18AM -0500, Rob Herring wrote:
-> On Mon, 11 Oct 2021 11:46:19 +0200, Markus Schneider-Pargmann wrote:
-> > This controller is present on several mediatek hardware. Currently
-> > mt8195 and mt8395 have this controller without a functional difference,
-> > so only one compatible field is added.
-> > 
-> > The controller can have two forms, as a normal display port and as an
-> > embedded display port.
-> > 
-> > Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
-> > ---
-> >  .../display/mediatek/mediatek,dp.yaml         | 89 +++++++++++++++++++
-> >  1 file changed, 89 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
-> > 
-> 
-> My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-> on your patch (DT_CHECKER_FLAGS is new in v5.13):
-> 
-> yamllint warnings/errors:
-> 
-> dtschema/dtc warnings/errors:
-> Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dts:20:18: fatal error: dt-bindings/power/mt8195-power.h: No such file or directory
->    20 |         #include <dt-bindings/power/mt8195-power.h>
->       |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> compilation terminated.
-> make[1]: *** [scripts/Makefile.lib:385: Documentation/devicetree/bindings/display/mediatek/mediatek,dp.example.dt.yaml] Error 1
-> make[1]: *** Waiting for unfinished jobs....
-> make: *** [Makefile:1441: dt_binding_check] Error 2
+commit ec7cc3f74b4236860ce612656aa5be7936d1c594 upstream.
 
-Yes, mt8195-power.h is unfortunately not merged yet.
+Configurations with both CONFIG_FB_SIMPLE=y and CONFIG_DRM_SIMPLEDRM=m
+are allowed by Kconfig because the 'depends on !DRM_SIMPLEDRM' dependency
+does not disallow FB_SIMPLE as long as SIMPLEDRM is not built-in. This
+can however result in a build failure when cfb_fillrect() etc are then
+also in loadable modules:
 
-Thanks,
-Markus
+x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x1f8): undefined reference to `cfb_fillrect'
+x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x200): undefined reference to `cfb_copyarea'
+x86_64-linux-ld: drivers/video/fbdev/simplefb.o:(.rodata+0x208): undefined reference to `cfb_imageblit'
 
-> 
-> doc reference errors (make refcheckdocs):
-> 
-> See https://patchwork.ozlabs.org/patch/1539195
-> 
-> This check can fail if there are any dependencies. The base for a patch
-> series is generally the most recent rc1.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
-> 
+To work around this, change FB_SIMPLE to be a 'tristate' symbol,
+which still allows both to be =m together, but not one of them to
+be =y if the other one is =m. If a distro kernel picks this
+configuration, it can be determined by local policy which of
+the two modules gets loaded. The 'of_chosen' export is needed
+as this is the first loadable module referencing it.
+
+Alternatively, the Kconfig dependency could be changed to
+'depends on DRM_SIMPLEDRM=n', which would forbid the configuration
+with both drivers.
+
+Fixes: 11e8f5fd223b ("drm: Add simpledrm driver")
+Acked-by: Rob Herring <robh@kernel.org> # for drivers/of/
+Link: https://lore.kernel.org/all/20210721151839.2484245-1-arnd@kernel.org/
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch> # fbdev support
+Cc: Maxime Ripard <maxime@cerno.tech>
+Cc: Liam Girdwood <lgirdwood@gmail.com>
+Cc: Mark Brown <broonie@kernel.org>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc: Borislav Petkov <bp@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: Peter Collingbourne <pcc@google.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: <stable@vger.kernel.org> # v5.14+
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Link: https://patchwork.freedesktop.org/patch/msgid/20210928145243.1098064-1-arnd@kernel.org
+Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/of/base.c           |    1 +
+ drivers/video/fbdev/Kconfig |    5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+--- a/drivers/of/base.c
++++ b/drivers/of/base.c
+@@ -36,6 +36,7 @@ LIST_HEAD(aliases_lookup);
+ struct device_node *of_root;
+ EXPORT_SYMBOL(of_root);
+ struct device_node *of_chosen;
++EXPORT_SYMBOL(of_chosen);
+ struct device_node *of_aliases;
+ struct device_node *of_stdout;
+ static const char *of_stdout_options;
+--- a/drivers/video/fbdev/Kconfig
++++ b/drivers/video/fbdev/Kconfig
+@@ -2191,8 +2191,9 @@ config FB_HYPERV
+ 	  This framebuffer driver supports Microsoft Hyper-V Synthetic Video.
+ 
+ config FB_SIMPLE
+-	bool "Simple framebuffer support"
+-	depends on (FB = y) && !DRM_SIMPLEDRM
++	tristate "Simple framebuffer support"
++	depends on FB
++	depends on !DRM_SIMPLEDRM
+ 	select FB_CFB_FILLRECT
+ 	select FB_CFB_COPYAREA
+ 	select FB_CFB_IMAGEBLIT
+
+
