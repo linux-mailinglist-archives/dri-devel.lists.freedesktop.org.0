@@ -2,73 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id C67BF429FF1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:32:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3C442A00E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:39:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6A37E89DE1;
-	Tue, 12 Oct 2021 08:32:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 66C546E7E5;
+	Tue, 12 Oct 2021 08:39:27 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com
- [IPv6:2a00:1450:4864:20::435])
- by gabe.freedesktop.org (Postfix) with ESMTPS id AC47189DA3
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:32:41 +0000 (UTC)
-Received: by mail-wr1-x435.google.com with SMTP id r7so64452764wrc.10
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 01:32:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TUvSIx+nrfyYPNGrlh+HEvhLQMqFyypCkatTEBOgC1A=;
- b=yvLDtbHxxo/J71nwnAee2wOclnpODr0EGWyoNPotvIbZ01dnNmh8F4PsNCEsJL6S0w
- W5A6sGO9XV56ftXcfCFAInVUWO3VeaWdlokptY3TkG9cJVhxe+mMqsKliFGWLTGNdxzi
- akzQUhlPYRlpf/1J1rrPLdDjVMamHMYH0mAqr6EuNmvble4oq2vPEASYB+myF60EMMmo
- KMhns8x9qWt90hituMBKT2nXgGaFjFCTcZs+5sndsvNCIqtIsQ0FRETtnbkUKk9qEPvV
- i7824IGJnTE4QigqBP/2sRzhbJakYfaCKBqFFteTMfZyueIzTVuSc6bxWkxApHSjuQ66
- wnjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=TUvSIx+nrfyYPNGrlh+HEvhLQMqFyypCkatTEBOgC1A=;
- b=ULUN3FUR9l6tDTmvp2qGh3K9S4QJYfb1DD4S1zzyiupsePq9MWs0+3QMftXVxyFl+F
- Ojfn+c3iGOuC0NnteVRXkzm4vLJo9Ps/I2VnmnuvnmjTveBjPnbuPErdFt1Tuk8YOxq7
- lBjQbsMkjiX+tfrHb/FHLaIYexSwn/31M2Lk3ajWM/dJUG3X3b2toljYF+KpiuHvMpgd
- VTnQDT0vv8MP2PP/EyulhwqtHQFkKwwmUlnvBb/c7wTeTYpmeZWjRkbYsFZS5Vriy81l
- llLkg7Dx86XM9dVraeDEgue3v+Wo/mUXTxdIhU6HWJnFNFqyDFtaaHjeiEXfYxfcDvai
- zynA==
-X-Gm-Message-State: AOAM5337APTWL9ock9gK8Dz/+hOe0J163ZVMzRblsZCE4zJPIghfqE51
- JVp94/tmnvNmfIygykeqzjlbtRDYJZWj5A==
-X-Google-Smtp-Source: ABdhPJys+AfHSh2FLnnU4+TSJPZxDv4GfchwIW+uyZysUWlrSxNUDLydalAPW7Dgjtwxm/PJmSSzPw==
-X-Received: by 2002:a5d:47ad:: with SMTP id 13mr29068984wrb.385.1634027559992; 
- Tue, 12 Oct 2021 01:32:39 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c?
- ([2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c])
- by smtp.gmail.com with ESMTPSA id s186sm2031249wme.14.2021.10.12.01.32.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 01:32:39 -0700 (PDT)
-Subject: Re: [PATCH v5 1/8] drm/omap: Add ability to check if requested plane
- modes can be supported
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com,
- Benoit Parrot <bparrot@ti.com>
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <20210923070701.145377-2-narmstrong@baylibre.com>
- <e69a1c23-3ea2-9777-c251-b5afd1cf4590@ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <b2a7d92a-7e9d-14e2-387f-beaf589f360a@baylibre.com>
-Date: Tue, 12 Oct 2021 10:32:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4B29E6E7E5
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:39:26 +0000 (UTC)
+X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
+X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
+ mailgw02.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
+ (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+ with ESMTP id 1964211283; Tue, 12 Oct 2021 16:39:21 +0800
+Received: from mtkcas11.mediatek.inc (172.21.101.40) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
+ Tue, 12 Oct 2021 16:39:20 +0800
+Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
+ mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.0.1497.2 via Frontend Transport; Tue, 12 Oct 2021 16:39:20 +0800
+From: <guangming.cao@mediatek.com>
+To: <christian.koenig@amd.com>
+CC: <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
+ <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
+ <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
+ <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
+Subject: Re: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
+Date: Tue, 12 Oct 2021 16:41:09 +0800
+Message-ID: <20211012084109.176542-1-guangming.cao@mediatek.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
+References: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <e69a1c23-3ea2-9777-c251-b5afd1cf4590@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,146 +57,79 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2021 09:21, Tomi Valkeinen wrote:
-> Hi,
+From: Guangming Cao <Guangming.Cao@mediatek.com>
+
+> Am 09.10.21 um 07:55 schrieb guangming.cao@mediatek.com:
+> From: Guangming Cao <Guangming.Cao@mediatek.com>
+> >
+> > If dma-buf don't want userspace users to touch the dmabuf buffer,
+> > it seems we should add this restriction into dma_buf_ops.mmap,
+> > not in this IOCTL:DMA_BUF_SET_NAME.
+> >
+> > With this restriction, we can only know the kernel users of the dmabuf
+> > by attachments.
+> > However, for many userspace users, such as userpsace users of dma_heap,
+> > they also need to mark the usage of dma-buf, and they don't care about
+> > who attached to this dmabuf, and seems it's no meaning to be waiting for
+> > IOCTL:DMA_BUF_SET_NAME rather than mmap.
 > 
-> On 23/09/2021 10:06, Neil Armstrong wrote:
->> From: Benoit Parrot <bparrot@ti.com>
->>
->> We currently assume that an overlay has the same maximum width and
->> maximum height as the overlay manager. This assumption is incorrect. On
->> some variants the overlay manager maximum width is twice the maximum
->> width that the overlay can handle. We need to add the appropriate data
->> per variant as well as export a helper function to retrieve the data so
->> check can be made dynamically in omap_plane_atomic_check().
->>
->> Signed-off-by: Benoit Parrot <bparrot@ti.com>
->> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->> ---
->>   drivers/gpu/drm/omapdrm/dss/dispc.c  | 22 ++++++++++++++++++++++
->>   drivers/gpu/drm/omapdrm/dss/dss.h    |  2 ++
->>   drivers/gpu/drm/omapdrm/omap_plane.c | 14 ++++++++++++++
->>   3 files changed, 38 insertions(+)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
->> index 3c4a4991e45a..bdecec8f4d88 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
->> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
->> @@ -92,6 +92,8 @@ struct dispc_features {
->>       u8 mgr_height_start;
->>       u16 mgr_width_max;
->>       u16 mgr_height_max;
->> +    u16 ovl_width_max;
->> +    u16 ovl_height_max;
->>       unsigned long max_lcd_pclk;
->>       unsigned long max_tv_pclk;
->>       unsigned int max_downscale;
->> @@ -2599,6 +2601,12 @@ static int dispc_ovl_calc_scaling(struct dispc_device *dispc,
->>       return 0;
->>   }
->>   +void dispc_ovl_get_max_size(struct dispc_device *dispc, u16 *width, u16 *height)
->> +{
->> +    *width = dispc->feat->ovl_width_max;
->> +    *height = dispc->feat->ovl_height_max;
->> +}
->> +
->>   static int dispc_ovl_setup_common(struct dispc_device *dispc,
->>                     enum omap_plane_id plane,
->>                     enum omap_overlay_caps caps,
->> @@ -4240,6 +4248,8 @@ static const struct dispc_features omap24xx_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    66500000,
->>       .max_downscale        =    2,
->>       /*
->> @@ -4278,6 +4288,8 @@ static const struct dispc_features omap34xx_rev1_0_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    173000000,
->>       .max_tv_pclk        =    59000000,
->>       .max_downscale        =    4,
->> @@ -4313,6 +4325,8 @@ static const struct dispc_features omap34xx_rev3_0_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    173000000,
->>       .max_tv_pclk        =    59000000,
->>       .max_downscale        =    4,
->> @@ -4348,6 +4362,8 @@ static const struct dispc_features omap36xx_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    173000000,
->>       .max_tv_pclk        =    59000000,
->>       .max_downscale        =    4,
->> @@ -4383,6 +4399,8 @@ static const struct dispc_features am43xx_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    173000000,
->>       .max_tv_pclk        =    59000000,
->>       .max_downscale        =    4,
->> @@ -4418,6 +4436,8 @@ static const struct dispc_features omap44xx_dispc_feats = {
->>       .mgr_height_start    =    26,
->>       .mgr_width_max        =    2048,
->>       .mgr_height_max        =    2048,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    2048,
->>       .max_lcd_pclk        =    170000000,
->>       .max_tv_pclk        =    185625000,
->>       .max_downscale        =    4,
->> @@ -4457,6 +4477,8 @@ static const struct dispc_features omap54xx_dispc_feats = {
->>       .mgr_height_start    =    27,
->>       .mgr_width_max        =    4096,
->>       .mgr_height_max        =    4096,
->> +    .ovl_width_max        =    2048,
->> +    .ovl_height_max        =    4096,
->>       .max_lcd_pclk        =    170000000,
->>       .max_tv_pclk        =    192000000,
->>       .max_downscale        =    4,
->> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.h b/drivers/gpu/drm/omapdrm/dss/dss.h
->> index a547527bb2f3..14c39f7c3988 100644
->> --- a/drivers/gpu/drm/omapdrm/dss/dss.h
->> +++ b/drivers/gpu/drm/omapdrm/dss/dss.h
->> @@ -397,6 +397,8 @@ int dispc_get_num_mgrs(struct dispc_device *dispc);
->>   const u32 *dispc_ovl_get_color_modes(struct dispc_device *dispc,
->>                           enum omap_plane_id plane);
->>   +void dispc_ovl_get_max_size(struct dispc_device *dispc, u16 *width, u16 *height);
->> +
->>   u32 dispc_read_irqstatus(struct dispc_device *dispc);
->>   void dispc_clear_irqstatus(struct dispc_device *dispc, u32 mask);
->>   void dispc_write_irqenable(struct dispc_device *dispc, u32 mask);
->> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
->> index 512af976b7e9..d0a67b7ed1a0 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
->> @@ -109,11 +109,18 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
->>   {
->>       struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->>                                            plane);
->> +    struct omap_drm_private *priv = plane->dev->dev_private;
->>       struct drm_crtc_state *crtc_state;
->> +    u16 width, height;
->> +    u32 width_fp, height_fp;
+> Sounds valid to me, but I have no idea why this restriction was added in 
+> the first place.
 > 
-> I think naming these max_w/max_width etc. would be better.
-
-Ack
-
-Neil
-
+> Can you double check the git history and maybe identify when that was 
+> added? Mentioning this change in the commit message then might make 
+> things a bit easier to understand.
 > 
->  Tomi
+> Thanks,
+> Christian.
+It was add in this patch: https://patchwork.freedesktop.org/patch/310349/.
+However, there is no illustration about it.
+I guess it wants users to set_name when no attachments on the dmabuf,
+for case with attachments, we can find owner by device in attachments.
+But just I said in commit message, this is might not a good idea.
 
+Do you have any idea?
+> 
+> >
+> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
+> > ---
+> >   drivers/dma-buf/dma-buf.c | 14 ++------------
+> >   1 file changed, 2 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 511fe0d217a0..db2f4efdec32 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
+> >   
+> >   /**
+> >    * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
+> > - * The name of the dma-buf buffer can only be set when the dma-buf is not
+> > - * attached to any devices. It could theoritically support changing the
+> > - * name of the dma-buf if the same piece of memory is used for multiple
+> > - * purpose between different devices.
+> > + * It could theoretically support changing the name of the dma-buf if the same
+> > + * piece of memory is used for multiple purpose between different devices.
+> >    *
+> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
+> >    * @buf:    [in]     A piece of userspace memory that contains the name of
+> > @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >   	if (IS_ERR(name))
+> >   		return PTR_ERR(name);
+> >   
+> > -	dma_resv_lock(dmabuf->resv, NULL);
+> > -	if (!list_empty(&dmabuf->attachments)) {
+> > -		ret = -EBUSY;
+> > -		kfree(name);
+> > -		goto out_unlock;
+> > -	}
+> >   	spin_lock(&dmabuf->name_lock);
+> >   	kfree(dmabuf->name);
+> >   	dmabuf->name = name;
+> >   	spin_unlock(&dmabuf->name_lock);
+> >   
+> > -out_unlock:
+> > -	dma_resv_unlock(dmabuf->resv);
+> >   	return ret;
+> >   }
+> >   
