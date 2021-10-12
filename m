@@ -2,45 +2,68 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id F222A42A0BD
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 11:10:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BF342A174
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 11:58:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 6547E6E821;
-	Tue, 12 Oct 2021 09:10:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id A887A89E0E;
+	Tue, 12 Oct 2021 09:58:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 41B576E821
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 09:10:09 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="214034561"
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="214034561"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 02:10:08 -0700
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="460282708"
-Received: from acagidia-mobl.ger.corp.intel.com (HELO [10.249.254.15])
- ([10.249.254.15])
- by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 02:10:07 -0700
-Message-ID: <02f01e6df6c1a55e7444926d06cc0239001bfd91.camel@linux.intel.com>
-Subject: Re: [PATCH 0/5] drm/vmwgfx: Support module unload and hotunplug
-From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Zack
- Rusin <zackr@vmware.com>, "dri-devel@lists.freedesktop.org"
- <dri-devel@lists.freedesktop.org>
-Date: Tue, 12 Oct 2021 11:10:04 +0200
-In-Reply-To: <1b80b739-3d7e-1228-03d5-eba11f58dbe0@amd.com>
-References: <20211008173146.645127-1-zackr@vmware.com>
- <7abe3906a814e40786da5cd5d45a7b826e262d8e.camel@linux.intel.com>
- <dbfb505f1034a2d725d76e30a26d2da0a850dd41.camel@vmware.com>
- <96a89fdb5a10141e87d7283720b4088461db722b.camel@linux.intel.com>
- <232f45e9-8748-1243-09bf-56763e6668b3@amd.com>
- <4041c72ff1d3d149437cedbcf3c598ae2238519d.camel@linux.intel.com>
- <1b80b739-3d7e-1228-03d5-eba11f58dbe0@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34) 
+Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
+ [IPv6:2607:f8b0:4864:20::333])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 747C189E0E
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 09:58:03 +0000 (UTC)
+Received: by mail-ot1-x333.google.com with SMTP id
+ v2-20020a05683018c200b0054e3acddd91so20711667ote.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 02:58:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=exw8d3KuGhElvzTHGBSpGdBnH3FvQOLQqakhYUKFBwo=;
+ b=W3fE3wAsv66M+coYvjcbMbl3r+dIcWqX2AIv8bXe1wiMNVe9wjzpexxe5M+fkdVlVV
+ zFpZlo8b+YI2ZgubXdu1CaU5ZwpbNYUEaxCNmhep1fD2b5lALSz0Gp70qfBm0I5BMpKD
+ P6aSrnRfjQo28DPvKrAihjAbzOEIrPAEGp/SJGIdHUMSFSPXu82iZwTcgpjCjoSoHGY3
+ TDDJe3gZkKQTa4AUVeabUOYKP9UqO4PQnfKRFDUahnk7NmB+QpG6zGcLRh4507Emb6AP
+ A2MdmK5TbB/ZaBMqIbgSh38I27+JA9fLgjQPRVSoQUUJguxML7cnFPZv1bgE/jGeJLD5
+ hbpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=exw8d3KuGhElvzTHGBSpGdBnH3FvQOLQqakhYUKFBwo=;
+ b=q22fYMh5PkmST3ZeXiSGohNm7z8ywyn4ijYiq7SBAuS8Bkh00PCdG/fp0do6EIgsnf
+ uJEy9zQiwFnf8lYJSyO+KrJtQ9XvOJWVfHVc3ZkvMKAbytbhgpEVZ12lOZiwSgcc+/Vw
+ 6adfcJwkvJs4CJsdrUNzObQxKHxBY/9vl3U7nIFAjavsJiO+XKkRGzEXVaGUIXaCMhAo
+ xiIohnEwAMjRZDkKZyLnRhNUFBP30IOlzw5k69nSPtmwK42/qerli45T5B1Bo0CFkVFt
+ +Vn0FAx/RwwtC3+7Qr0LeTJ1NW3MLLPLv4Em8c+J1Mz0eEXSzF9q9PkFV4ZTWgoP7H6j
+ YAAQ==
+X-Gm-Message-State: AOAM532jTWS5MMyzEkiww5HcagwwFtoDmKtA/TeftSXDvFQYn6B2AQEq
+ +nCHz5A1Tj6QioOdLYd1yiwHA2w6Hv/yzCcefvvwqw==
+X-Google-Smtp-Source: ABdhPJwnMjSe2iK46VvQsj+toPmoU+1bu69ociYjowvPMvF/Pj9LFdmYmnVlmjP8gQKThbljOpFLENefX7FP3vLI23w=
+X-Received: by 2002:a05:6830:24a7:: with SMTP id
+ v7mr1618845ots.329.1634032682395; 
+ Tue, 12 Oct 2021 02:58:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20211012090621.1357-1-vbabka@suse.cz>
+In-Reply-To: <20211012090621.1357-1-vbabka@suse.cz>
+From: Marco Elver <elver@google.com>
+Date: Tue, 12 Oct 2021 11:57:50 +0200
+Message-ID: <CANpmjNOLEvY9zuBRMe-P_8jUzK6=rS06bQC4r0+=_6YP-UfeSA@mail.gmail.com>
+Subject: Re: [PATCH v2] lib/stackdepot: allow optional init and stack_table
+ allocation by kvmalloc()
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com, 
+ Dmitry Vyukov <dvyukov@google.com>, Vijayanand Jitta <vjitta@codeaurora.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, 
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>, 
+ Andrey Konovalov <andreyknvl@gmail.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, 
+ Oliver Glitta <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,190 +79,281 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 2021-10-12 at 10:27 +0200, Christian König wrote:
-> Am 11.10.21 um 14:04 schrieb Thomas Hellström:
-> > [SNIP]
-> > > > Hmm, this looks very odd, because I remember reminding
-> > > > Christian as
-> > > > late as this spring that both vmwgfx and i915 sets up GPU
-> > > > bindings
-> > > > to
-> > > > system buffers, as part of the review of a patch series pushing
-> > > > a
-> > > > couple of changes to the swapout path that apparently had
-> > > > missed
-> > > > this.
-> > > Well that was the trigger to look more deeply into this and as
-> > > far as
-> > > I
-> > > can tell TTM was never capable of doing this correctly.
-> > So apart from the teardown, which appear to be an oversight when
-> > the
-> > system manager was introduced where do whe fail currently with
-> > this?
-> 
-> During validation for example. Moving BOs into the system domain
-> means 
-> that they are potentially swapped out.
-> 
-> In other words when drivers are accessing BOs in the system domain
-> they 
-> always need to take care of TTM_TT_FLAG_SWAPPED manually.
+On Tue, 12 Oct 2021 at 11:06, Vlastimil Babka <vbabka@suse.cz> wrote:
+> Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
+> from memblock, even if stack depot ends up not actually used. The default size
+> of stack_table is 4MB on 32-bit, 8MB on 64-bit.
+>
+> This is fine for use-cases such as KASAN which is also a config option and
+> has overhead on its own. But it's an issue for functionality that has to be
+> actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
+> and thus the memory might be wasted. This was raised as an issue [1] when
+> attempting to add stackdepot support for SLUB's debug object tracking
+> functionality. It's common to build kernels with CONFIG_SLUB_DEBUG and enable
+> slub_debug on boot only when needed, or create only specific kmem caches with
+> debugging for testing purposes.
+>
+> It would thus be more efficient if stackdepot's table was allocated only when
+> actually going to be used. This patch thus makes the allocation (and whole
+> stack_depot_init() call) optional:
+>
+> - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
+>   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
+>   select this flag.
+> - Other users have to call stack_depot_init() as part of their own init when
+>   it's determined that stack depot will actually be used. This may depend on
+>   both config and runtime conditions. Convert current users which are
+>   page_owner and several in the DRM subsystem. Same will be done for SLUB
+>   later.
+> - Because the init might now be called after the boot-time memblock allocation
+>   has given all memory to the buddy allocator, change stack_depot_init() to
+>   allocate stack_table with kvmalloc() when memblock is no longer available.
+>   Also handle allocation failure by disabling stackdepot (could have
+>   theoretically happened even with memblock allocation previously), and don't
+>   unnecessarily align the memblock allocation to its own size anymore.
+>
+> [1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
+>
+> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
+> Acked-by: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Marco Elver <elver@google.com>
+> Cc: Vijayanand Jitta <vjitta@codeaurora.org>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Maxime Ripard <mripard@kernel.org>
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
+> Cc: Alexander Potapenko <glider@google.com>
+> Cc: Andrey Konovalov <andreyknvl@gmail.com>
+> Cc: Dmitry Vyukov <dvyukov@google.com>
+> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+> Cc: Oliver Glitta <glittao@gmail.com>
+> Cc: Imran Khan <imran.f.khan@oracle.com>
 
-Yes, that's true. Initially TTMs were populated on a page basis. All
-users of a particular page was required to validate that it was
-present. This was later changed to per-tt population by Jerome I think
-and somewhere along the line that requirement on the user to validate
-appears to have gotten lost as well.
+Reviewed-by: Marco Elver <elver@google.com> # stackdepot
 
-> 
-> > > > This more sounds like there have been changes to TTM happening
-> > > > not
-> > > > taking into account or knowing that TTM was designed for system
-> > > > buffers
-> > > > bound to GPU and that there were drivers actually doing that.
-> > > > 
-> > > > And there is still older code around clearly implying system
-> > > > buffers
-> > > > can be fenced, like ttm_bo_swapout(), and that there is dma
-> > > > fences
-> > > > signaling completion on work that has never touched the GPU,
-> > > > not to
-> > > > mention async eviction where a bo may be evicted to system but
-> > > > has
-> > > > tons
-> > > > of outstanding fenced work in the pipe.
-> > > > 
-> > > > So if there has been a design change WRT this I believe it
-> > > > should
-> > > > have
-> > > > been brought up on dri-devel to have it properly discussed so
-> > > > affected
-> > > > drivers could agree on the different options.
-> > > > 
-> > > > Perhaps Christian can enlighten us here. Christian?
-> > > There are multiple occasions where we assume that BOs in the
-> > > system
-> > > domain are not accessible by the GPU, swapout and teardown are
-> > > just
-> > > two
-> > > examples.
-> > > 
-> > At swapout we *do* wait for idle after moving to system, It's
-> > relying
-> > on the swap_notifier to unbind. That's why the swap_notifier is
-> > there,
-> > so swapout is working perfectly fine.
-> 
-> You can of course define that BOs are not swapable or call 
-> ttm_bo_validate() with a system domain placement and then make sure
-> they 
-> are swapped in manually, but that is extremely hacky and bad design.
-> 
-> As far as I know that's what i915 does, but that doesn't mean that
-> this 
-> is a good idea.
+Thanks!
 
-It might be that it was not a good idea, but this was the initial
-design for TTM. 
-
-> 
-> Additional to that I've already noted that I think this swap_notify 
-> callback is not a good idea either. We should rather have a separate 
-> TTM_PL_SWAPPED domain for this so that drivers are cleanly informed 
-> about the state change.
-> 
-> > > When Dave reorganized the buffer move code we also had to insert
-> > > waits
-> > > for moves to complete for anything which goes into the SYSTEM
-> > > domain.
-> > > 
-> > > Apart from that it certainly makes sense to have that
-> > > restriction.
-> > > Memory which is accessed by the hardware and not directly
-> > > evictable
-> > > must
-> > > be accounted differently.
-> > Could you elaborate a bit on this? From a swapout point of view, it
-> > looks to me like SYSTEM is treated just like TT by TTM? Or is the
-> > accounting you mention something amdgpu-specific and more related
-> > to
-> > the amd GEM domains than to the TTM memory types?
-> 
-> No, that is something the Android people came up with to improve the 
-> shrinker behavior.
-> 
-> > Note that TTM was never designed to deal with GPU binding, but to
-> > provide a set of placements or memory-types where the memory can be
-> > mapped by the CPU and bound by the GPU. TT was a special case
-> > solely
-> > because of the mappable apertures. A bind mechanism had to be
-> > provided
-> > for TTM to be able to map TT buffers, and most drivers used that
-> > bound
-> > mechanism for convenience.
-> 
-> Well that's certainly not correct. Before Dave moved this back into
-> the 
-> drivers TTM had bind/unbind callbacks for the translation tables.
-
-Yes it had, and as discussed when Dave removed them, these were solely
-intended to be used from TTM's point of view to keep track of when data
-was in mappable apertures, so that TTM could point CPU mappings
-correctly. 
-
-Now most later drivers found that convenient and used those also to
-bind other memory types, like vmwgfx does for GMR and MOB memory for
-example, but that never meant it was a required use-pattern. Don't have
-time to dig commit messages up but IIRC this was mentioned a number of
-times during the years.
-
-> 
-> It's just that vmwgfx was an exception and all other drivers where
-> using 
-> that correctly. This vmwgfx exception is now what Zack is trying to
-> fix 
-> here.
-
-While vmwgfx is binding page-tables to system it also used the bind /
-unbind mechanisms for other memory types for convenience. Other drivers
-most probably used copy-paste and wasn't aware of the feature.
-
-> 
-> > So now if this is going to be changed, I think we need to
-> > understand
-> > why and think this through really thoroughly:
-> > 
-> > * What is not working and why (the teardown seems to be a trivial
-> > fix).
-> > * How did we end up here,
-> > * What's the cost of fixing that up compared to refactoring the
-> > drivers
-> > that rely on bindable system memory,
-> > * What's the justification of a system type at all if it's not GPU-
-> > bindable, meaning it's basically equivalent to swapped-out shmem
-> > with
-> > the exception that it's mappable?
-> 
-> Well, once more that isn't correct. This is nothing new and as far as
-> I 
-> know that behavior existing as long as TTM existed.
-
-I'm not sure whats incorrect? I'm trying to explain what the initial
-design was, and it may of course have been bad and the one you propose
-a better one and if required we certainly need to fix i915 to align
-with a new one.
-
-What worries me though, that if you perceive the design differently and
-change things in TTM according to that perception that breaks drivers
-that rely on the initial design and then force drivers to change
-claiming they are incorrect without a thorough discussion on dri-devel,
-that's IMHO not good.
-
-So I guess we don't have much choice other than to refactor i915 to
-align to not gpu-bind system, but could we meanwhile at least fix that
-takedown ordering while that's being worked on?
-
-/Thomas
-
-
+> ---
+> Changes in v2:
+> - Rebase to v5.15-rc5.
+> - Stylistic changes suggested by Marco Elver.
+>  drivers/gpu/drm/drm_dp_mst_topology.c   |  1 +
+>  drivers/gpu/drm/drm_mm.c                |  4 ++++
+>  drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +++
+>  include/linux/stackdepot.h              | 25 ++++++++++++-------
+>  init/main.c                             |  2 +-
+>  lib/Kconfig                             |  4 ++++
+>  lib/Kconfig.kasan                       |  2 +-
+>  lib/stackdepot.c                        | 32 +++++++++++++++++++++----
+>  mm/page_owner.c                         |  2 ++
+>  9 files changed, 59 insertions(+), 16 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+> index 86d13d6bc463..b0ebdc843a00 100644
+> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
+> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+> @@ -5493,6 +5493,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
+>         mutex_init(&mgr->probe_lock);
+>  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
+>         mutex_init(&mgr->topology_ref_history_lock);
+> +       stack_depot_init();
+>  #endif
+>         INIT_LIST_HEAD(&mgr->tx_msg_downq);
+>         INIT_LIST_HEAD(&mgr->destroy_port_list);
+> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
+> index 93d48a6f04ab..5916228ea0c9 100644
+> --- a/drivers/gpu/drm/drm_mm.c
+> +++ b/drivers/gpu/drm/drm_mm.c
+> @@ -983,6 +983,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
+>         add_hole(&mm->head_node);
+>
+>         mm->scan_active = 0;
+> +
+> +#ifdef CONFIG_DRM_DEBUG_MM
+> +       stack_depot_init();
+> +#endif
+>  }
+>  EXPORT_SYMBOL(drm_mm_init);
+>
+> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> index eaf7688f517d..d083506986e1 100644
+> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
+> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
+> @@ -78,6 +78,9 @@ static void __print_depot_stack(depot_stack_handle_t stack,
+>  static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
+>  {
+>         spin_lock_init(&rpm->debug.lock);
+> +
+> +       if (rpm->available)
+> +               stack_depot_init();
+>  }
+>
+>  static noinline depot_stack_handle_t
+> diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
+> index 6bb4bc1a5f54..40fc5e92194f 100644
+> --- a/include/linux/stackdepot.h
+> +++ b/include/linux/stackdepot.h
+> @@ -13,6 +13,22 @@
+>
+>  typedef u32 depot_stack_handle_t;
+>
+> +/*
+> + * Every user of stack depot has to call this during its own init when it's
+> + * decided that it will be calling stack_depot_save() later.
+> + *
+> + * The alternative is to select STACKDEPOT_ALWAYS_INIT to have stack depot
+> + * enabled as part of mm_init(), for subsystems where it's known at compile time
+> + * that stack depot will be used.
+> + */
+> +int stack_depot_init(void);
+> +
+> +#ifdef CONFIG_STACKDEPOT_ALWAYS_INIT
+> +static inline int stack_depot_early_init(void) { return stack_depot_init(); }
+> +#else
+> +static inline int stack_depot_early_init(void) { return 0; }
+> +#endif
+> +
+>  depot_stack_handle_t stack_depot_save(unsigned long *entries,
+>                                       unsigned int nr_entries, gfp_t gfp_flags);
+>
+> @@ -21,13 +37,4 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
+>
+>  unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_entries);
+>
+> -#ifdef CONFIG_STACKDEPOT
+> -int stack_depot_init(void);
+> -#else
+> -static inline int stack_depot_init(void)
+> -{
+> -       return 0;
+> -}
+> -#endif /* CONFIG_STACKDEPOT */
+> -
+>  #endif
+> diff --git a/init/main.c b/init/main.c
+> index 81a79a77db46..ca2765c8e45c 100644
+> --- a/init/main.c
+> +++ b/init/main.c
+> @@ -842,7 +842,7 @@ static void __init mm_init(void)
+>         init_mem_debugging_and_hardening();
+>         kfence_alloc_pool();
+>         report_meminit();
+> -       stack_depot_init();
+> +       stack_depot_early_init();
+>         mem_init();
+>         mem_init_print_info();
+>         /* page_owner must be initialized after buddy is ready */
+> diff --git a/lib/Kconfig b/lib/Kconfig
+> index 5e7165e6a346..9d0569084152 100644
+> --- a/lib/Kconfig
+> +++ b/lib/Kconfig
+> @@ -671,6 +671,10 @@ config STACKDEPOT
+>         bool
+>         select STACKTRACE
+>
+> +config STACKDEPOT_ALWAYS_INIT
+> +       bool
+> +       select STACKDEPOT
+> +
+>  config STACK_HASH_ORDER
+>         int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
+>         range 12 20
+> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
+> index cdc842d090db..879757b6dd14 100644
+> --- a/lib/Kconfig.kasan
+> +++ b/lib/Kconfig.kasan
+> @@ -38,7 +38,7 @@ menuconfig KASAN
+>                     CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
+>                    HAVE_ARCH_KASAN_HW_TAGS
+>         depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
+> -       select STACKDEPOT
+> +       select STACKDEPOT_ALWAYS_INIT
+>         help
+>           Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
+>           designed to find out-of-bounds accesses and use-after-free bugs.
+> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
+> index 0a2e417f83cb..9bb5333bf02f 100644
+> --- a/lib/stackdepot.c
+> +++ b/lib/stackdepot.c
+> @@ -24,6 +24,7 @@
+>  #include <linux/jhash.h>
+>  #include <linux/kernel.h>
+>  #include <linux/mm.h>
+> +#include <linux/mutex.h>
+>  #include <linux/percpu.h>
+>  #include <linux/printk.h>
+>  #include <linux/slab.h>
+> @@ -146,6 +147,7 @@ static struct stack_record *depot_alloc_stack(unsigned long *entries, int size,
+>  #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
+>  #define STACK_HASH_SEED 0x9747b28c
+>
+> +DEFINE_MUTEX(stack_depot_init_mutex);
+>  static bool stack_depot_disable;
+>  static struct stack_record **stack_table;
+>
+> @@ -162,18 +164,38 @@ static int __init is_stack_depot_disabled(char *str)
+>  }
+>  early_param("stack_depot_disable", is_stack_depot_disabled);
+>
+> -int __init stack_depot_init(void)
+> +/*
+> + * __ref because of memblock_alloc(), which will not be actually called after
+> + * the __init code is gone, because at that point slab_is_available() is true
+> + */
+> +__ref int stack_depot_init(void)
+>  {
+> -       if (!stack_depot_disable) {
+> +       mutex_lock(&stack_depot_init_mutex);
+> +       if (!stack_depot_disable && stack_table == NULL) {
+>                 size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
+>                 int i;
+>
+> -               stack_table = memblock_alloc(size, size);
+> -               for (i = 0; i < STACK_HASH_SIZE;  i++)
+> -                       stack_table[i] = NULL;
+> +               if (slab_is_available()) {
+> +                       pr_info("Stack Depot allocating hash table with kvmalloc\n");
+> +                       stack_table = kvmalloc(size, GFP_KERNEL);
+> +               } else {
+> +                       pr_info("Stack Depot allocating hash table with memblock_alloc\n");
+> +                       stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
+> +               }
+> +               if (stack_table) {
+> +                       for (i = 0; i < STACK_HASH_SIZE;  i++)
+> +                               stack_table[i] = NULL;
+> +               } else {
+> +                       pr_err("Stack Depot failed hash table allocationg, disabling\n");
+> +                       stack_depot_disable = true;
+> +                       mutex_unlock(&stack_depot_init_mutex);
+> +                       return -ENOMEM;
+> +               }
+>         }
+> +       mutex_unlock(&stack_depot_init_mutex);
+>         return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(stack_depot_init);
+>
+>  /* Calculate hash for a stack */
+>  static inline u32 hash_stack(unsigned long *entries, unsigned int size)
+> diff --git a/mm/page_owner.c b/mm/page_owner.c
+> index 62402d22539b..16a0ef903384 100644
+> --- a/mm/page_owner.c
+> +++ b/mm/page_owner.c
+> @@ -80,6 +80,8 @@ static void init_page_owner(void)
+>         if (!page_owner_enabled)
+>                 return;
+>
+> +       stack_depot_init();
+> +
+>         register_dummy_stack();
+>         register_failure_stack();
+>         register_early_stack();
+> --
+> 2.33.0
+>
+> --
+> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
+> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
+> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211012090621.1357-1-vbabka%40suse.cz.
