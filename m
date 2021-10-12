@@ -1,147 +1,41 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8538442AEC9
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:22:56 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2D542AF21
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:43:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 83F5D6E9E2;
-	Tue, 12 Oct 2021 21:22:51 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 0A3408996F;
+	Tue, 12 Oct 2021 21:43:24 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D33BA89C8F;
- Tue, 12 Oct 2021 21:22:49 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="313471630"
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="313471630"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 14:22:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="480529205"
-Received: from fmsmsx602.amr.corp.intel.com ([10.18.126.82])
- by orsmga007.jf.intel.com with ESMTP; 12 Oct 2021 14:22:48 -0700
-Received: from fmsmsx607.amr.corp.intel.com (10.18.126.87) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:22:48 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx607.amr.corp.intel.com (10.18.126.87) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:22:47 -0700
-Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Tue, 12 Oct 2021 14:22:47 -0700
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (104.47.58.109)
- by edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:22:47 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TBE4wGhrKo76kVGFhBEapFF99LBpwy/1BTeOPJ6cjRZUgGOCv8xWcr1S70Y/9giysYNMYE60PBsana9qcMdDUdnv3FY6RX7RRzt0MPB0ZevfFEA9Tq84KGbDxThoh9yFXaRCGLqGH2qUvLNEvE3KsVVMSEtnCRQCbHucIcNavXkLFmVGZy+Gsgxw6ssyLpB8BNihtk83B1vt1jT/xFvPS7/xZj5yWyQxy18yQmVCQujYt1jaX4kpKRAZzBYVtGDPoxwzZivM7/XIgIKo34jiTfbGG6uhOmtcp8swHugOnwnrVWQp0ulaztTN4leEAE8xeTigjhZFQtz071SiiR8JDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7JXCvPPlSGrYyxwEsKSZiVcdolRsg3DRjK6eXdAjOnY=;
- b=RIGlUzvrDEKAZRQwj/430NxJzj6HRBE1IqhByxFQrjf6t1UjJQNJAe0cNn8JUlwi2nmsrkSwPoBX9yYZDssU2qVxuJrdlh6z15Vkbf2zOZWf5F73XwV3jXwAHda7G9p/VUGvmBvDNH2bXinbdUpfvKRikVqaYykTqnWyHui2bJEZQ3W2+Q9Cde1xf8/Q43YHZs4sbkbOt9vMV3PR8CyRZtOWplZ2+HFZK/eZcWjQxlrZPE/C+ZsfzRpWFyr+KL5XRoHCwP2aNnCebqyKh64M4DzXfwm8or707yOkrvfuyaev57Sz7118PC3VMsWCHksqS05oeqvSmTyLP6+91qsTVQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7JXCvPPlSGrYyxwEsKSZiVcdolRsg3DRjK6eXdAjOnY=;
- b=Z4uctfTp0kH2VOx+LVgNq/mNW7Vy8xPZ1lI2mr2POraVZYiYjxAtEW9g5ez1FD58TI2kf+cnBZabdeCGkOUsVKe2oEtbMu5RakNvsk3bPC76y7P155vJu+3kX3Br9338aD96ahG79hJCBYW9knvDzstwQRJBQTrxbFQiixML7jI=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5641.namprd11.prod.outlook.com (2603:10b6:510:d6::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.19; Tue, 12 Oct
- 2021 21:22:43 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
- 21:22:43 +0000
-Subject: Re: [PATCH 21/26] drm/i915: Multi-BB execbuf
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <daniele.ceraolospurio@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-22-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <0fb083b5-41df-5d0c-ce3a-041f07541647@intel.com>
-Date: Tue, 12 Oct 2021 14:22:41 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211004220637.14746-22-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MW4PR04CA0056.namprd04.prod.outlook.com
- (2603:10b6:303:6a::31) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7F19F6E9E3;
+ Tue, 12 Oct 2021 21:43:22 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="250684844"
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="250684844"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 14:43:22 -0700
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="486614081"
+Received: from mdroper-desk1.fm.intel.com (HELO
+ mdroper-desk1.amr.corp.intel.com) ([10.1.27.134])
+ by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 14:43:21 -0700
+Date: Tue, 12 Oct 2021 14:43:20 -0700
+From: Matt Roper <matthew.d.roper@intel.com>
+To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+Subject: Re: [PATCH] drm/i915: Stop using I915_TILING_* in client blit selftest
+Message-ID: <20211012214320.GZ602200@mdroper-desk1.amr.corp.intel.com>
+References: <20211001005816.73330-1-matthew.d.roper@intel.com>
+ <YWAURQ0kpRWsdeyM@intel.com>
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- MW4PR04CA0056.namprd04.prod.outlook.com (2603:10b6:303:6a::31) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4587.25 via Frontend Transport; Tue, 12 Oct 2021 21:22:43 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c3d0c242-3c69-40d8-f278-08d98dc66dd7
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5641:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB564153FC739D0B4C3203F2DEBDB69@PH0PR11MB5641.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6lYOzITgUiZJJkxYPiykHPSfD4qeQha8xzq7XEhwNVgqDuFFdbNiFZFDo4KIwQDKpeJyoImP68CHvEx4TXF+bI7m4pE+34Bix+Qif6NRz5+vI0vcoCPiDdNR+NZFi8pJD0t2/QZGOFGydHI/d6jKPnEwLTycmxi6VGXXF3QLxLqsg84wIUA2Kpy+f3tbqQ81vWscFfuQI5+MR96OAkMzLu0vYdPqhGyha0yfZ9dyvqWVh+w06+7dKOpUWE4k9ghMBITxzNQXW93S6xBRU4ND7cWzS1ECKgmtdp/VMap0EYBV/WFYQFC79/mgW8mY+0LvkfI4pYDlBWgypHY7g9yDwQdRMBA0emiLYnFgN6idPEqcHRUbqZgkL3lIQ/n7BUkMuT/f1VbNA76wxr/+qmDuP3/Q4K5xcgg7n8n+h8++O8u9bXraWQJq4ki+wWLrC5csl+YiqE6WAudiSO9mV06IoL3wSur9ujhw1rPALGY4/D82z1EvP9oFBDA8FiXb5Qa4VgRaLcAKidSqQ2N89KNV/KEqfO5nxRdjG7+jL/2NylS7fJ4QrKULF2qpZHWYQuXwvM38x6lYBXzQq468cf4tmdfBSzIctZA6EZ7CXAv2MyFzSMeBS1yOqTdKmyyXg3W/xzmXEKOdDIgvhlF2jHa/o0g0dCufwKi5A3eBo1UrkMmLfkqJEZOBqnthIzKEWS4++t8Ueix8uk4LoCQ2+kP50pHYS36QrYrdTxsM7iaT7UKRAn45tZoZRUKZ6is4+Z5QjexcmYJ9eOnt1wep/IiA2/n5Yo5Q0dnMVCfCWZwfR2yThVpcHt4O+N8DUwHt3/lbXqEMiws4KJZSTk8tjfcHeQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8676002)(2616005)(966005)(66946007)(31696002)(316002)(2906002)(30864003)(508600001)(86362001)(66556008)(956004)(83380400001)(53546011)(36756003)(6486002)(66476007)(4326008)(26005)(5660300002)(107886003)(38100700002)(186003)(31686004)(16576012)(450100002)(8936002)(43740500002)(45980500001)(579004);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eFR4WkhEcTlWalJHWWhqMU5pam1oc3NrSXQvYWtDczZlbjlqZWJJcUp3RlBG?=
- =?utf-8?B?Tm5YZS9ocXVseUdQTUNuMExFd3JteVJYYUw5U3NSNmtuRDFhWGpGZTVOTkh3?=
- =?utf-8?B?SHRjSzhkZDR1VDlnaExqTFA3Y3ZtRVFsT1UrOWRKUDM4K0lkUWFvWTJMSWtY?=
- =?utf-8?B?RCs2ZFYyMWlTT3V5d2ZkcmdURWo4d1lvZm1qTDF4QTczN2hHQUpmMUJ6b3BJ?=
- =?utf-8?B?VkdjZU91MjMxMkdFUzErY3ZacDNZVW5FOVhNYTZOdmcxWVBoMmc2ajVWcFRE?=
- =?utf-8?B?eGNnRTY3L0NsTWdHZHRnV29NMWlKRzZmWVZVTlZpazNqSncyMDNBdFh1ZTlh?=
- =?utf-8?B?KzVVbTJ0RENIOGFCWklHUXV5WjJpam9EVDV1NVJ3aVpZVm9xbTNyVmhXUnhy?=
- =?utf-8?B?d25hY0pGMS9rR0dUczdING5OcHdGR2k1QUhSRnZZZ1ZlbVNGTWtvZVlUMHd3?=
- =?utf-8?B?NnFGM0RZalZrTkUxK1ZoZHlWU3dxUERDdTYvMTh6V1FmQlJzWUluL3BVbHFZ?=
- =?utf-8?B?dnFDNHNhV080bXNhWlFJTDBLT3lzb0JuWDNZT0Rqei9ydVJZcTVBUDNDM2xv?=
- =?utf-8?B?MmNNUHlvU080V3gyZDVoWnFTNDFpd2tRN25tL3F4WlQ3MkNMaGhQbDVrQnZw?=
- =?utf-8?B?MkxQNlRYZ3pkb0k1ZVUvM1ZCRE01Y05MUWJ0K1QvTVN6ZjZSbmZUdEgzcEpX?=
- =?utf-8?B?Tk5PZWJ0TEJCa09GWi9RWVFMamU5Uy9nZTVUdWZtVDQ4bWRJQWdXN25OdWFX?=
- =?utf-8?B?YWtsOG5Pa0gvajYyYXlOdVBnMEJ1V1Jqekcwd2QvdStZVWdVeDRJajdlaDRP?=
- =?utf-8?B?UGVWdU1yYXZQS1dKVFMrN3lQVnlkR1Ywb2RQb2FSU2hoQ1R3bStDTzI0VTFu?=
- =?utf-8?B?RldHS3VlQ1RiUjJkdG1EOHhqMThHVFB2K2U4VXVocUZYSDB3OE1UdTQ4Rzcz?=
- =?utf-8?B?Mjc3NDcyMzZvWTdlV0dLd1JKeUd3a2kybWkwaHlzQUtrdGJUZVlhcFhNTmtv?=
- =?utf-8?B?RjdCcVRwWXR0Tk12T0JqNEtLb3hGVjlxMFFVQ1A3d2hiMmNxcUZZU21ObjIv?=
- =?utf-8?B?WXBVSGRKUjR2Q0huNHNWTnFFa0VEMFVRRXNBaFN5eXg5MlJWWGg1OEdUTEhH?=
- =?utf-8?B?MDU2d1U3Zk5mNGFRMTc4VEVsL0hPanJ1aTVlcFJIMklEL2xuWFQrdjlFMndm?=
- =?utf-8?B?dkkyc3hhYTZad29uM1hON0kwc3cvUG80bjdKRlNXMGlBeVh4WTJtbGFsdTZZ?=
- =?utf-8?B?cCtEV2dwRnlOUG0yT2ZpYXlZQmd5K3BxelorSEt6STBQL1E5UlFxbkIvZnNO?=
- =?utf-8?B?SmhGVnBzdUdFMHRrL1Z2S0tOOTRzWWMzb01sWGJrdk5IY0NWVkh4NGlOT2hL?=
- =?utf-8?B?a3FjT1paWk5LY0I2ZEZKcmdwa3BwQ2FOR1hzS0pyZllaZEpweldSZlY4NUdL?=
- =?utf-8?B?WjduU0lwMm5ndHZVOWRHUG5DSHRGc2VmOFJZRWdsZXJKeDBLZUNld21Wcm1Y?=
- =?utf-8?B?N3gyc29ZSVQwTFcvaXFLMlFOQ1IrSWprdTlDOU1ac1J2VUtGZlFTeUU5VDZ2?=
- =?utf-8?B?VXN0eWZmMGs0M05Rc3htTVBxZkt5NDlnOVpLcEhuZDJQazRhTGgwcXg2R0pn?=
- =?utf-8?B?NkhIdU5TdzA0cVY0TWlPbmttS0pBdFNBWlNrQVl5VVBRdy9iemduZXdmNnNE?=
- =?utf-8?B?TzBuR0hGYmJzeGVkK3puQVZpL2x2a1R1TkpodlA0dDBlcHVzUXloeUVvRGZp?=
- =?utf-8?Q?LVxKKgm+uGZWr+HS5heGWqGu3ATzhn8Bm1HogX5?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: c3d0c242-3c69-40d8-f278-08d98dc66dd7
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 21:22:43.7835 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ptlZT+pzEREIiZkHYo2hcHsb5pkrr0932qt4fu0FzoTZ5kZ6s1i97dbq4poc/IkuOd/bPkZO1VMdy/guPCtG8+WnR8TWgZMv9+UGSjZR8gg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5641
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YWAURQ0kpRWsdeyM@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,1440 +51,150 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/4/2021 15:06, Matthew Brost wrote:
-> Allow multiple batch buffers to be submitted in a single execbuf IOCTL
-> after a context has been configured with the 'set_parallel' extension.
-> The number batches is implicit based on the contexts configuration.
->
-> This is implemented with a series of loops. First a loop is used to find
-> all the batches, a loop to pin all the HW contexts, a loop to create all
-> the requests, a loop to submit (emit BB start, etc...) all the requests,
-> a loop to tie the requests to the VMAs they touch, and finally a loop to
-> commit the requests to the backend.
->
-> A composite fence is also created for the generated requests to return
-> to the user and to stick in dma resv slots.
->
-> No behavior from the existing IOCTL should be changed aside from when
-> throttling because the ring for a context is full, wait on the request
-throttling because the ring for -> throttling the ring because
+On Fri, Oct 08, 2021 at 12:49:57PM +0300, Ville Syrjälä wrote:
+> On Thu, Sep 30, 2021 at 05:58:16PM -0700, Matt Roper wrote:
+> > The I915_TILING_* definitions in the uapi header are intended solely for
+> > tiling modes that are visible to the old de-tiling fence ioctls.  Since
+> > modern hardware does not support de-tiling fences, we should not add new
+> > definitions for new tiling types going forward.  However we do want the
+> > client blit selftest to eventually cover other new tiling modes (such as
+> > Tile4), so switch it to using its own enum of tiling modes.
+> > 
+> > Cc: Ville Syrjälä <ville.syrjala@linux.intel.com>
+> > Cc: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+> > Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
+> > ---
+> >  .../i915/gem/selftests/i915_gem_client_blt.c  | 29 ++++++++++++-------
+> >  include/uapi/drm/i915_drm.h                   |  6 ++++
+> >  2 files changed, 24 insertions(+), 11 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> > index ecbcbb86ae1e..8402ed925a69 100644
+> > --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> > +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_client_blt.c
+> > @@ -17,13 +17,20 @@
+> >  #include "huge_gem_object.h"
+> >  #include "mock_context.h"
+> >  
+> > +enum client_tiling {
+> > +	CLIENT_TILING_LINEAR,
+> > +	CLIENT_TILING_X,
+> > +	CLIENT_TILING_Y,
+> > +	CLIENT_NUM_TILING_TYPES
+> > +};
+> > +
+> >  #define WIDTH 512
+> >  #define HEIGHT 32
+> >  
+> >  struct blit_buffer {
+> >  	struct i915_vma *vma;
+> >  	u32 start_val;
+> > -	u32 tiling;
+> > +	enum client_tiling tiling;
+> >  };
+> >  
+> >  struct tiled_blits {
+> > @@ -53,9 +60,9 @@ static int prepare_blit(const struct tiled_blits *t,
+> >  	*cs++ = MI_LOAD_REGISTER_IMM(1);
+> >  	*cs++ = i915_mmio_reg_offset(BCS_SWCTRL);
+> >  	cmd = (BCS_SRC_Y | BCS_DST_Y) << 16;
+> > -	if (src->tiling == I915_TILING_Y)
+> > +	if (src->tiling == CLIENT_TILING_Y)
+> >  		cmd |= BCS_SRC_Y;
+> > -	if (dst->tiling == I915_TILING_Y)
+> > +	if (dst->tiling == CLIENT_TILING_Y)
+> >  		cmd |= BCS_DST_Y;
+> >  	*cs++ = cmd;
+> >  
+> > @@ -172,7 +179,7 @@ static int tiled_blits_create_buffers(struct tiled_blits *t,
+> >  
+> >  		t->buffers[i].vma = vma;
+> >  		t->buffers[i].tiling =
+> > -			i915_prandom_u32_max_state(I915_TILING_Y + 1, prng);
+> > +			i915_prandom_u32_max_state(CLIENT_TILING_Y + 1, prng);
+> >  	}
+> >  
+> >  	return 0;
+> > @@ -197,17 +204,17 @@ static u64 swizzle_bit(unsigned int bit, u64 offset)
+> >  static u64 tiled_offset(const struct intel_gt *gt,
+> >  			u64 v,
+> >  			unsigned int stride,
+> > -			unsigned int tiling)
+> > +			enum client_tiling tiling)
+> >  {
+> >  	unsigned int swizzle;
+> >  	u64 x, y;
+> >  
+> > -	if (tiling == I915_TILING_NONE)
+> > +	if (tiling == CLIENT_TILING_LINEAR)
+> >  		return v;
+> >  
+> >  	y = div64_u64_rem(v, stride, &x);
+> >  
+> > -	if (tiling == I915_TILING_X) {
+> > +	if (tiling == CLIENT_TILING_X) {
+> >  		v = div64_u64_rem(y, 8, &y) * stride * 8;
+> >  		v += y * 512;
+> >  		v += div64_u64_rem(x, 512, &x) << 12;
+> > @@ -244,12 +251,12 @@ static u64 tiled_offset(const struct intel_gt *gt,
+> >  	return v;
+> >  }
+> >  
+> > -static const char *repr_tiling(int tiling)
+> > +static const char *repr_tiling(enum client_tiling tiling)
+> >  {
+> >  	switch (tiling) {
+> > -	case I915_TILING_NONE: return "linear";
+> > -	case I915_TILING_X: return "X";
+> > -	case I915_TILING_Y: return "Y";
+> > +	case CLIENT_TILING_LINEAR: return "linear";
+> > +	case CLIENT_TILING_X: return "X";
+> > +	case CLIENT_TILING_Y: return "Y";
+> >  	default: return "unknown";
+> >  	}
+> >  }
+> > diff --git a/include/uapi/drm/i915_drm.h b/include/uapi/drm/i915_drm.h
+> > index bde5860b3686..00311a63068e 100644
+> > --- a/include/uapi/drm/i915_drm.h
+> > +++ b/include/uapi/drm/i915_drm.h
+> > @@ -1522,6 +1522,12 @@ struct drm_i915_gem_caching {
+> >  #define I915_TILING_NONE	0
+> >  #define I915_TILING_X		1
+> >  #define I915_TILING_Y		2
+> > +/*
+> > + * Do not add new tiling types here.  The I915_TILING_* values are for
+> > + * de-tiling fence registers that no longer exist on modern platforms.  Although
+> > + * the hardware may support new types of tiling in general (e.g., Tile4), we
+> > + * do not need to add them to the uapi that is specific to now-defunct ioctls.
+> > + */
+> >  #define I915_TILING_LAST	I915_TILING_Y
+> 
+> I think we should split this one into a separate patch to give it
+> some visibility. The people who care about gem uapi seem to be in
+> some kind of early winter hibernation and no one read this.
+> 
+> Apart from that
+> Reviewed-by: Ville Syrjälä <ville.syrjala@linux.intel.com>
 
-full, wait -> full. In this situation, i915 will now wait
-
-> while holding the object locks.
-, previously it would have dropped the locks for the wait.
-
-And maybe explain why this change is necessary?
+Thanks.  I dropped the comment here and pushed the rest of the patch.
+I'll re-send the uapi header comment separately to increase visibility.
 
 
->
-> IGT: https://patchwork.freedesktop.org/patch/447008/?series=93071&rev=1
-> media UMD: https://github.com/intel/media-driver/pull/1252
->
-> v2:
->   (Matthew Brost)
->    - Return proper error value if i915_request_create fails
-> v3:
->   (John Harrison)
->    - Add comment explaining create / add order loops + locking
->    - Update commit message explaining different in IOCTL behavior
->    - Line wrap some comments
->    - eb_add_request returns void
->    - Return -EINVAL rather triggering BUG_ON if cmd parser used
->   (Checkpatch)
->    - Check eb->batch_len[*current_batch]
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    | 793 ++++++++++++------
->   drivers/gpu/drm/i915/gt/intel_context.h       |   8 +-
->   drivers/gpu/drm/i915/gt/intel_context_types.h |  10 +
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c |   2 +
->   drivers/gpu/drm/i915/i915_request.h           |   9 +
->   drivers/gpu/drm/i915/i915_vma.c               |  21 +-
->   drivers/gpu/drm/i915/i915_vma.h               |  13 +-
->   7 files changed, 599 insertions(+), 257 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 2f2434b52317..5c7fb6f68bbb 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -244,17 +244,25 @@ struct i915_execbuffer {
->   	struct drm_i915_gem_exec_object2 *exec; /** ioctl execobj[] */
->   	struct eb_vma *vma;
->   
-> -	struct intel_engine_cs *engine; /** engine to queue the request to */
-> +	struct intel_gt *gt; /* gt for the execbuf */
->   	struct intel_context *context; /* logical state for the request */
->   	struct i915_gem_context *gem_context; /** caller's context */
->   
-> -	struct i915_request *request; /** our request to build */
-> -	struct eb_vma *batch; /** identity of the batch obj/vma */
-> +	/** our requests to build */
-> +	struct i915_request *requests[MAX_ENGINE_INSTANCE + 1];
-> +	/** identity of the batch obj/vma */
-> +	struct eb_vma *batches[MAX_ENGINE_INSTANCE + 1];
->   	struct i915_vma *trampoline; /** trampoline used for chaining */
->   
-> +	/** used for excl fence in dma_resv objects when > 1 BB submitted */
-> +	struct dma_fence *composite_fence;
-> +
->   	/** actual size of execobj[] as we may extend it for the cmdparser */
->   	unsigned int buffer_count;
->   
-> +	/* number of batches in execbuf IOCTL */
-> +	unsigned int num_batches;
-> +
->   	/** list of vma not yet bound during reservation phase */
->   	struct list_head unbound;
->   
-> @@ -281,7 +289,8 @@ struct i915_execbuffer {
->   
->   	u64 invalid_flags; /** Set of execobj.flags that are invalid */
->   
-> -	u64 batch_len; /** Length of batch within object */
-> +	/** Length of batch within object */
-> +	u64 batch_len[MAX_ENGINE_INSTANCE + 1];
->   	u32 batch_start_offset; /** Location within object of batch */
->   	u32 batch_flags; /** Flags composed for emit_bb_start() */
->   	struct intel_gt_buffer_pool_node *batch_pool; /** pool node for batch buffer */
-> @@ -299,14 +308,13 @@ struct i915_execbuffer {
->   };
->   
->   static int eb_parse(struct i915_execbuffer *eb);
-> -static struct i915_request *eb_pin_engine(struct i915_execbuffer *eb,
-> -					  bool throttle);
-> +static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle);
->   static void eb_unpin_engine(struct i915_execbuffer *eb);
->   
->   static inline bool eb_use_cmdparser(const struct i915_execbuffer *eb)
->   {
-> -	return intel_engine_requires_cmd_parser(eb->engine) ||
-> -		(intel_engine_using_cmd_parser(eb->engine) &&
-> +	return intel_engine_requires_cmd_parser(eb->context->engine) ||
-> +		(intel_engine_using_cmd_parser(eb->context->engine) &&
->   		 eb->args->batch_len);
->   }
->   
-> @@ -544,11 +552,21 @@ eb_validate_vma(struct i915_execbuffer *eb,
->   	return 0;
->   }
->   
-> -static void
-> +static inline bool
-> +is_batch_buffer(struct i915_execbuffer *eb, unsigned int buffer_idx)
-> +{
-> +	return eb->args->flags & I915_EXEC_BATCH_FIRST ?
-> +		buffer_idx < eb->num_batches :
-> +		buffer_idx >= eb->args->buffer_count - eb->num_batches;
-> +}
-> +
-> +static int
->   eb_add_vma(struct i915_execbuffer *eb,
-> -	   unsigned int i, unsigned batch_idx,
-> +	   unsigned int *current_batch,
-> +	   unsigned int i,
->   	   struct i915_vma *vma)
->   {
-> +	struct drm_i915_private *i915 = eb->i915;
->   	struct drm_i915_gem_exec_object2 *entry = &eb->exec[i];
->   	struct eb_vma *ev = &eb->vma[i];
->   
-> @@ -575,15 +593,41 @@ eb_add_vma(struct i915_execbuffer *eb,
->   	 * Note that actual hangs have only been observed on gen7, but for
->   	 * paranoia do it everywhere.
->   	 */
-> -	if (i == batch_idx) {
-> +	if (is_batch_buffer(eb, i)) {
->   		if (entry->relocation_count &&
->   		    !(ev->flags & EXEC_OBJECT_PINNED))
->   			ev->flags |= __EXEC_OBJECT_NEEDS_BIAS;
->   		if (eb->reloc_cache.has_fence)
->   			ev->flags |= EXEC_OBJECT_NEEDS_FENCE;
->   
-> -		eb->batch = ev;
-> +		eb->batches[*current_batch] = ev;
-> +
-> +		if (unlikely(ev->flags & EXEC_OBJECT_WRITE)) {
-> +			drm_dbg(&i915->drm,
-> +				"Attempting to use self-modifying batch buffer\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (range_overflows_t(u64,
-> +				      eb->batch_start_offset,
-> +				      eb->args->batch_len,
-> +				      ev->vma->size)) {
-> +			drm_dbg(&i915->drm, "Attempting to use out-of-bounds batch\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		if (eb->args->batch_len == 0)
-> +			eb->batch_len[*current_batch] = ev->vma->size -
-> +				eb->batch_start_offset;
-> +		if (unlikely(eb->batch_len[*current_batch] == 0)) { /* impossible! */
-> +			drm_dbg(&i915->drm, "Invalid batch length\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		++*current_batch;
->   	}
-> +
-> +	return 0;
->   }
->   
->   static inline int use_cpu_reloc(const struct reloc_cache *cache,
-> @@ -727,14 +771,6 @@ static int eb_reserve(struct i915_execbuffer *eb)
->   	} while (1);
->   }
->   
-> -static unsigned int eb_batch_index(const struct i915_execbuffer *eb)
-> -{
-> -	if (eb->args->flags & I915_EXEC_BATCH_FIRST)
-> -		return 0;
-> -	else
-> -		return eb->buffer_count - 1;
-> -}
-> -
->   static int eb_select_context(struct i915_execbuffer *eb)
->   {
->   	struct i915_gem_context *ctx;
-> @@ -839,9 +875,7 @@ static struct i915_vma *eb_lookup_vma(struct i915_execbuffer *eb, u32 handle)
->   
->   static int eb_lookup_vmas(struct i915_execbuffer *eb)
->   {
-> -	struct drm_i915_private *i915 = eb->i915;
-> -	unsigned int batch = eb_batch_index(eb);
-> -	unsigned int i;
-> +	unsigned int i, current_batch = 0;
->   	int err = 0;
->   
->   	INIT_LIST_HEAD(&eb->relocs);
-> @@ -861,7 +895,9 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
->   			goto err;
->   		}
->   
-> -		eb_add_vma(eb, i, batch, vma);
-> +		err = eb_add_vma(eb, &current_batch, i, vma);
-> +		if (err)
-> +			return err;
->   
->   		if (i915_gem_object_is_userptr(vma->obj)) {
->   			err = i915_gem_object_userptr_submit_init(vma->obj);
-> @@ -884,26 +920,6 @@ static int eb_lookup_vmas(struct i915_execbuffer *eb)
->   		}
->   	}
->   
-> -	if (unlikely(eb->batch->flags & EXEC_OBJECT_WRITE)) {
-> -		drm_dbg(&i915->drm,
-> -			"Attempting to use self-modifying batch buffer\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (range_overflows_t(u64,
-> -			      eb->batch_start_offset, eb->batch_len,
-> -			      eb->batch->vma->size)) {
-> -		drm_dbg(&i915->drm, "Attempting to use out-of-bounds batch\n");
-> -		return -EINVAL;
-> -	}
-> -
-> -	if (eb->batch_len == 0)
-> -		eb->batch_len = eb->batch->vma->size - eb->batch_start_offset;
-> -	if (unlikely(eb->batch_len == 0)) { /* impossible! */
-> -		drm_dbg(&i915->drm, "Invalid batch length\n");
-> -		return -EINVAL;
-> -	}
-> -
->   	return 0;
->   
->   err:
-> @@ -1636,8 +1652,7 @@ static int eb_reinit_userptr(struct i915_execbuffer *eb)
->   	return 0;
->   }
->   
-> -static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
-> -					   struct i915_request *rq)
-> +static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb)
->   {
->   	bool have_copy = false;
->   	struct eb_vma *ev;
-> @@ -1653,21 +1668,6 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
->   	eb_release_vmas(eb, false);
->   	i915_gem_ww_ctx_fini(&eb->ww);
->   
-> -	if (rq) {
-> -		/* nonblocking is always false */
-> -		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
-> -				      MAX_SCHEDULE_TIMEOUT) < 0) {
-> -			i915_request_put(rq);
-> -			rq = NULL;
-> -
-> -			err = -EINTR;
-> -			goto err_relock;
-> -		}
-> -
-> -		i915_request_put(rq);
-> -		rq = NULL;
-> -	}
-> -
->   	/*
->   	 * We take 3 passes through the slowpatch.
->   	 *
-> @@ -1694,28 +1694,21 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
->   	if (!err)
->   		err = eb_reinit_userptr(eb);
->   
-> -err_relock:
->   	i915_gem_ww_ctx_init(&eb->ww, true);
->   	if (err)
->   		goto out;
->   
->   	/* reacquire the objects */
->   repeat_validate:
-> -	rq = eb_pin_engine(eb, false);
-> -	if (IS_ERR(rq)) {
-> -		err = PTR_ERR(rq);
-> -		rq = NULL;
-> +	err = eb_pin_engine(eb, false);
-> +	if (err)
->   		goto err;
-> -	}
-> -
-> -	/* We didn't throttle, should be NULL */
-> -	GEM_WARN_ON(rq);
->   
->   	err = eb_validate_vmas(eb);
->   	if (err)
->   		goto err;
->   
-> -	GEM_BUG_ON(!eb->batch);
-> +	GEM_BUG_ON(!eb->batches[0]);
->   
->   	list_for_each_entry(ev, &eb->relocs, reloc_link) {
->   		if (!have_copy) {
-> @@ -1779,46 +1772,23 @@ static noinline int eb_relocate_parse_slow(struct i915_execbuffer *eb,
->   		}
->   	}
->   
-> -	if (rq)
-> -		i915_request_put(rq);
-> -
->   	return err;
->   }
->   
->   static int eb_relocate_parse(struct i915_execbuffer *eb)
->   {
->   	int err;
-> -	struct i915_request *rq = NULL;
->   	bool throttle = true;
->   
->   retry:
-> -	rq = eb_pin_engine(eb, throttle);
-> -	if (IS_ERR(rq)) {
-> -		err = PTR_ERR(rq);
-> -		rq = NULL;
-> +	err = eb_pin_engine(eb, throttle);
-> +	if (err) {
->   		if (err != -EDEADLK)
->   			return err;
->   
->   		goto err;
->   	}
->   
-> -	if (rq) {
-> -		bool nonblock = eb->file->filp->f_flags & O_NONBLOCK;
-> -
-> -		/* Need to drop all locks now for throttling, take slowpath */
-> -		err = i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE, 0);
-> -		if (err == -ETIME) {
-> -			if (nonblock) {
-> -				err = -EWOULDBLOCK;
-> -				i915_request_put(rq);
-> -				goto err;
-> -			}
-> -			goto slow;
-> -		}
-> -		i915_request_put(rq);
-> -		rq = NULL;
-> -	}
-> -
->   	/* only throttle once, even if we didn't need to throttle */
->   	throttle = false;
->   
-> @@ -1858,7 +1828,7 @@ static int eb_relocate_parse(struct i915_execbuffer *eb)
->   	return err;
->   
->   slow:
-> -	err = eb_relocate_parse_slow(eb, rq);
-> +	err = eb_relocate_parse_slow(eb);
->   	if (err)
->   		/*
->   		 * If the user expects the execobject.offset and
-> @@ -1872,11 +1842,40 @@ static int eb_relocate_parse(struct i915_execbuffer *eb)
->   	return err;
->   }
->   
-> +/*
-> + * Using two helper loops for the order of which requests / batches are created
-> + * and added the to backend. Requests are created in order from the parent to
-> + * the last child. Requests are add in the reverse order, from the last child to
-> + * parent. This is down from locking reasons as the timeline lock is acquired
-down from -> done for
+Matt
 
-John.
+> 
+> >  
+> >  #define I915_BIT_6_SWIZZLE_NONE		0
+> > -- 
+> > 2.33.0
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
-> + * during request creation and released when the request is added to the
-> + * backend. To make lockdep happy (see intel_context_timeline_lock) this must be
-> + * the ordering.
-> + */
-> +#define for_each_batch_create_order(_eb, _i) \
-> +	for (_i = 0; _i < (_eb)->num_batches; ++_i)
-> +#define for_each_batch_add_order(_eb, _i) \
-> +	BUILD_BUG_ON(!typecheck(int, _i)); \
-> +	for (_i = (_eb)->num_batches - 1; _i >= 0; --_i)
-> +
-> +static struct i915_request *
-> +eb_find_first_request_added(struct i915_execbuffer *eb)
-> +{
-> +	int i;
-> +
-> +	for_each_batch_add_order(eb, i)
-> +		if (eb->requests[i])
-> +			return eb->requests[i];
-> +
-> +	GEM_BUG_ON("Request not found");
-> +
-> +	return NULL;
-> +}
-> +
->   static int eb_move_to_gpu(struct i915_execbuffer *eb)
->   {
->   	const unsigned int count = eb->buffer_count;
->   	unsigned int i = count;
-> -	int err = 0;
-> +	int err = 0, j;
->   
->   	while (i--) {
->   		struct eb_vma *ev = &eb->vma[i];
-> @@ -1889,11 +1888,17 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
->   		if (flags & EXEC_OBJECT_CAPTURE) {
->   			struct i915_capture_list *capture;
->   
-> -			capture = kmalloc(sizeof(*capture), GFP_KERNEL);
-> -			if (capture) {
-> -				capture->next = eb->request->capture_list;
-> -				capture->vma = vma;
-> -				eb->request->capture_list = capture;
-> +			for_each_batch_create_order(eb, j) {
-> +				if (!eb->requests[j])
-> +					break;
-> +
-> +				capture = kmalloc(sizeof(*capture), GFP_KERNEL);
-> +				if (capture) {
-> +					capture->next =
-> +						eb->requests[j]->capture_list;
-> +					capture->vma = vma;
-> +					eb->requests[j]->capture_list = capture;
-> +				}
->   			}
->   		}
->   
-> @@ -1914,14 +1919,26 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
->   				flags &= ~EXEC_OBJECT_ASYNC;
->   		}
->   
-> +		/* We only need to await on the first request */
->   		if (err == 0 && !(flags & EXEC_OBJECT_ASYNC)) {
->   			err = i915_request_await_object
-> -				(eb->request, obj, flags & EXEC_OBJECT_WRITE);
-> +				(eb_find_first_request_added(eb), obj,
-> +				 flags & EXEC_OBJECT_WRITE);
->   		}
->   
-> -		if (err == 0)
-> -			err = i915_vma_move_to_active(vma, eb->request,
-> -						      flags | __EXEC_OBJECT_NO_RESERVE);
-> +		for_each_batch_add_order(eb, j) {
-> +			if (err)
-> +				break;
-> +			if (!eb->requests[j])
-> +				continue;
-> +
-> +			err = _i915_vma_move_to_active(vma, eb->requests[j],
-> +						       j ? NULL :
-> +						       eb->composite_fence ?
-> +						       eb->composite_fence :
-> +						       &eb->requests[j]->fence,
-> +						       flags | __EXEC_OBJECT_NO_RESERVE);
-> +		}
->   	}
->   
->   #ifdef CONFIG_MMU_NOTIFIER
-> @@ -1952,11 +1969,16 @@ static int eb_move_to_gpu(struct i915_execbuffer *eb)
->   		goto err_skip;
->   
->   	/* Unconditionally flush any chipset caches (for streaming writes). */
-> -	intel_gt_chipset_flush(eb->engine->gt);
-> +	intel_gt_chipset_flush(eb->gt);
->   	return 0;
->   
->   err_skip:
-> -	i915_request_set_error_once(eb->request, err);
-> +	for_each_batch_create_order(eb, j) {
-> +		if (!eb->requests[j])
-> +			break;
-> +
-> +		i915_request_set_error_once(eb->requests[j], err);
-> +	}
->   	return err;
->   }
->   
-> @@ -2051,14 +2073,17 @@ static int eb_parse(struct i915_execbuffer *eb)
->   	int err;
->   
->   	if (!eb_use_cmdparser(eb)) {
-> -		batch = eb_dispatch_secure(eb, eb->batch->vma);
-> +		batch = eb_dispatch_secure(eb, eb->batches[0]->vma);
->   		if (IS_ERR(batch))
->   			return PTR_ERR(batch);
->   
->   		goto secure_batch;
->   	}
->   
-> -	len = eb->batch_len;
-> +	if (intel_context_is_parallel(eb->context))
-> +		return -EINVAL;
-> +
-> +	len = eb->batch_len[0];
->   	if (!CMDPARSER_USES_GGTT(eb->i915)) {
->   		/*
->   		 * ppGTT backed shadow buffers must be mapped RO, to prevent
-> @@ -2072,11 +2097,11 @@ static int eb_parse(struct i915_execbuffer *eb)
->   	} else {
->   		len += I915_CMD_PARSER_TRAMPOLINE_SIZE;
->   	}
-> -	if (unlikely(len < eb->batch_len)) /* last paranoid check of overflow */
-> +	if (unlikely(len < eb->batch_len[0])) /* last paranoid check of overflow */
->   		return -EINVAL;
->   
->   	if (!pool) {
-> -		pool = intel_gt_get_buffer_pool(eb->engine->gt, len,
-> +		pool = intel_gt_get_buffer_pool(eb->gt, len,
->   						I915_MAP_WB);
->   		if (IS_ERR(pool))
->   			return PTR_ERR(pool);
-> @@ -2101,7 +2126,7 @@ static int eb_parse(struct i915_execbuffer *eb)
->   		trampoline = shadow;
->   
->   		shadow = shadow_batch_pin(eb, pool->obj,
-> -					  &eb->engine->gt->ggtt->vm,
-> +					  &eb->gt->ggtt->vm,
->   					  PIN_GLOBAL);
->   		if (IS_ERR(shadow)) {
->   			err = PTR_ERR(shadow);
-> @@ -2123,26 +2148,29 @@ static int eb_parse(struct i915_execbuffer *eb)
->   	if (err)
->   		goto err_trampoline;
->   
-> -	err = intel_engine_cmd_parser(eb->engine,
-> -				      eb->batch->vma,
-> +	err = intel_engine_cmd_parser(eb->context->engine,
-> +				      eb->batches[0]->vma,
->   				      eb->batch_start_offset,
-> -				      eb->batch_len,
-> +				      eb->batch_len[0],
->   				      shadow, trampoline);
->   	if (err)
->   		goto err_unpin_batch;
->   
-> -	eb->batch = &eb->vma[eb->buffer_count++];
-> -	eb->batch->vma = i915_vma_get(shadow);
-> -	eb->batch->flags = __EXEC_OBJECT_HAS_PIN;
-> +	eb->batches[0] = &eb->vma[eb->buffer_count++];
-> +	eb->batches[0]->vma = i915_vma_get(shadow);
-> +	eb->batches[0]->flags = __EXEC_OBJECT_HAS_PIN;
->   
->   	eb->trampoline = trampoline;
->   	eb->batch_start_offset = 0;
->   
->   secure_batch:
->   	if (batch) {
-> -		eb->batch = &eb->vma[eb->buffer_count++];
-> -		eb->batch->flags = __EXEC_OBJECT_HAS_PIN;
-> -		eb->batch->vma = i915_vma_get(batch);
-> +		if (intel_context_is_parallel(eb->context))
-> +			return -EINVAL;
-> +
-> +		eb->batches[0] = &eb->vma[eb->buffer_count++];
-> +		eb->batches[0]->flags = __EXEC_OBJECT_HAS_PIN;
-> +		eb->batches[0]->vma = i915_vma_get(batch);
->   	}
->   	return 0;
->   
-> @@ -2158,19 +2186,18 @@ static int eb_parse(struct i915_execbuffer *eb)
->   	return err;
->   }
->   
-> -static int eb_submit(struct i915_execbuffer *eb, struct i915_vma *batch)
-> +static int eb_request_submit(struct i915_execbuffer *eb,
-> +			     struct i915_request *rq,
-> +			     struct i915_vma *batch,
-> +			     u64 batch_len)
->   {
->   	int err;
->   
-> -	if (intel_context_nopreempt(eb->context))
-> -		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &eb->request->fence.flags);
-> -
-> -	err = eb_move_to_gpu(eb);
-> -	if (err)
-> -		return err;
-> +	if (intel_context_nopreempt(rq->context))
-> +		__set_bit(I915_FENCE_FLAG_NOPREEMPT, &rq->fence.flags);
->   
->   	if (eb->args->flags & I915_EXEC_GEN7_SOL_RESET) {
-> -		err = i915_reset_gen7_sol_offsets(eb->request);
-> +		err = i915_reset_gen7_sol_offsets(rq);
->   		if (err)
->   			return err;
->   	}
-> @@ -2181,26 +2208,26 @@ static int eb_submit(struct i915_execbuffer *eb, struct i915_vma *batch)
->   	 * allows us to determine if the batch is still waiting on the GPU
->   	 * or actually running by checking the breadcrumb.
->   	 */
-> -	if (eb->engine->emit_init_breadcrumb) {
-> -		err = eb->engine->emit_init_breadcrumb(eb->request);
-> +	if (rq->context->engine->emit_init_breadcrumb) {
-> +		err = rq->context->engine->emit_init_breadcrumb(rq);
->   		if (err)
->   			return err;
->   	}
->   
-> -	err = eb->engine->emit_bb_start(eb->request,
-> -					batch->node.start +
-> -					eb->batch_start_offset,
-> -					eb->batch_len,
-> -					eb->batch_flags);
-> +	err = rq->context->engine->emit_bb_start(rq,
-> +						 batch->node.start +
-> +						 eb->batch_start_offset,
-> +						 batch_len,
-> +						 eb->batch_flags);
->   	if (err)
->   		return err;
->   
->   	if (eb->trampoline) {
-> +		GEM_BUG_ON(intel_context_is_parallel(rq->context));
->   		GEM_BUG_ON(eb->batch_start_offset);
-> -		err = eb->engine->emit_bb_start(eb->request,
-> -						eb->trampoline->node.start +
-> -						eb->batch_len,
-> -						0, 0);
-> +		err = rq->context->engine->emit_bb_start(rq,
-> +							 eb->trampoline->node.start +
-> +							 batch_len, 0, 0);
->   		if (err)
->   			return err;
->   	}
-> @@ -2208,6 +2235,27 @@ static int eb_submit(struct i915_execbuffer *eb, struct i915_vma *batch)
->   	return 0;
->   }
->   
-> +static int eb_submit(struct i915_execbuffer *eb)
-> +{
-> +	unsigned int i;
-> +	int err;
-> +
-> +	err = eb_move_to_gpu(eb);
-> +
-> +	for_each_batch_create_order(eb, i) {
-> +		if (!eb->requests[i])
-> +			break;
-> +
-> +		trace_i915_request_queue(eb->requests[i], eb->batch_flags);
-> +		if (!err)
-> +			err = eb_request_submit(eb, eb->requests[i],
-> +						eb->batches[i]->vma,
-> +						eb->batch_len[i]);
-> +	}
-> +
-> +	return err;
-> +}
-> +
->   static int num_vcs_engines(const struct drm_i915_private *i915)
->   {
->   	return hweight_long(VDBOX_MASK(&i915->gt));
-> @@ -2273,26 +2321,11 @@ static struct i915_request *eb_throttle(struct i915_execbuffer *eb, struct intel
->   	return i915_request_get(rq);
->   }
->   
-> -static struct i915_request *eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
-> +static int eb_pin_timeline(struct i915_execbuffer *eb, struct intel_context *ce,
-> +			   bool throttle)
->   {
-> -	struct intel_context *ce = eb->context;
->   	struct intel_timeline *tl;
-> -	struct i915_request *rq = NULL;
-> -	int err;
-> -
-> -	GEM_BUG_ON(eb->args->flags & __EXEC_ENGINE_PINNED);
-> -
-> -	if (unlikely(intel_context_is_banned(ce)))
-> -		return ERR_PTR(-EIO);
-> -
-> -	/*
-> -	 * Pinning the contexts may generate requests in order to acquire
-> -	 * GGTT space, so do this first before we reserve a seqno for
-> -	 * ourselves.
-> -	 */
-> -	err = intel_context_pin_ww(ce, &eb->ww);
-> -	if (err)
-> -		return ERR_PTR(err);
-> +	struct i915_request *rq;
->   
->   	/*
->   	 * Take a local wakeref for preparing to dispatch the execbuf as
-> @@ -2303,33 +2336,108 @@ static struct i915_request *eb_pin_engine(struct i915_execbuffer *eb, bool throt
->   	 * taken on the engine, and the parent device.
->   	 */
->   	tl = intel_context_timeline_lock(ce);
-> -	if (IS_ERR(tl)) {
-> -		intel_context_unpin(ce);
-> -		return ERR_CAST(tl);
-> -	}
-> +	if (IS_ERR(tl))
-> +		return PTR_ERR(tl);
->   
->   	intel_context_enter(ce);
->   	if (throttle)
->   		rq = eb_throttle(eb, ce);
->   	intel_context_timeline_unlock(tl);
->   
-> +	if (rq) {
-> +		bool nonblock = eb->file->filp->f_flags & O_NONBLOCK;
-> +		long timeout = nonblock ? 0 : MAX_SCHEDULE_TIMEOUT;
-> +
-> +		if (i915_request_wait(rq, I915_WAIT_INTERRUPTIBLE,
-> +				      timeout) < 0) {
-> +			i915_request_put(rq);
-> +
-> +			tl = intel_context_timeline_lock(ce);
-> +			intel_context_exit(ce);
-> +			intel_context_timeline_unlock(tl);
-> +
-> +			if (nonblock)
-> +				return -EWOULDBLOCK;
-> +			else
-> +				return -EINTR;
-> +		}
-> +		i915_request_put(rq);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int eb_pin_engine(struct i915_execbuffer *eb, bool throttle)
-> +{
-> +	struct intel_context *ce = eb->context, *child;
-> +	int err;
-> +	int i = 0, j = 0;
-> +
-> +	GEM_BUG_ON(eb->args->flags & __EXEC_ENGINE_PINNED);
-> +
-> +	if (unlikely(intel_context_is_banned(ce)))
-> +		return -EIO;
-> +
-> +	/*
-> +	 * Pinning the contexts may generate requests in order to acquire
-> +	 * GGTT space, so do this first before we reserve a seqno for
-> +	 * ourselves.
-> +	 */
-> +	err = intel_context_pin_ww(ce, &eb->ww);
-> +	if (err)
-> +		return err;
-> +	for_each_child(ce, child) {
-> +		err = intel_context_pin_ww(child, &eb->ww);
-> +		GEM_BUG_ON(err);	/* perma-pinned should incr a counter */
-> +	}
-> +
-> +	for_each_child(ce, child) {
-> +		err = eb_pin_timeline(eb, child, throttle);
-> +		if (err)
-> +			goto unwind;
-> +		++i;
-> +	}
-> +	err = eb_pin_timeline(eb, ce, throttle);
-> +	if (err)
-> +		goto unwind;
-> +
->   	eb->args->flags |= __EXEC_ENGINE_PINNED;
-> -	return rq;
-> +	return 0;
-> +
-> +unwind:
-> +	for_each_child(ce, child) {
-> +		if (j++ < i) {
-> +			mutex_lock(&child->timeline->mutex);
-> +			intel_context_exit(child);
-> +			mutex_unlock(&child->timeline->mutex);
-> +		}
-> +	}
-> +	for_each_child(ce, child)
-> +		intel_context_unpin(child);
-> +	intel_context_unpin(ce);
-> +	return err;
->   }
->   
->   static void eb_unpin_engine(struct i915_execbuffer *eb)
->   {
-> -	struct intel_context *ce = eb->context;
-> -	struct intel_timeline *tl = ce->timeline;
-> +	struct intel_context *ce = eb->context, *child;
->   
->   	if (!(eb->args->flags & __EXEC_ENGINE_PINNED))
->   		return;
->   
->   	eb->args->flags &= ~__EXEC_ENGINE_PINNED;
->   
-> -	mutex_lock(&tl->mutex);
-> +	for_each_child(ce, child) {
-> +		mutex_lock(&child->timeline->mutex);
-> +		intel_context_exit(child);
-> +		mutex_unlock(&child->timeline->mutex);
-> +
-> +		intel_context_unpin(child);
-> +	}
-> +
-> +	mutex_lock(&ce->timeline->mutex);
->   	intel_context_exit(ce);
-> -	mutex_unlock(&tl->mutex);
-> +	mutex_unlock(&ce->timeline->mutex);
->   
->   	intel_context_unpin(ce);
->   }
-> @@ -2380,7 +2488,7 @@ eb_select_legacy_ring(struct i915_execbuffer *eb)
->   static int
->   eb_select_engine(struct i915_execbuffer *eb)
->   {
-> -	struct intel_context *ce;
-> +	struct intel_context *ce, *child;
->   	unsigned int idx;
->   	int err;
->   
-> @@ -2393,6 +2501,20 @@ eb_select_engine(struct i915_execbuffer *eb)
->   	if (IS_ERR(ce))
->   		return PTR_ERR(ce);
->   
-> +	if (intel_context_is_parallel(ce)) {
-> +		if (eb->buffer_count < ce->parallel.number_children + 1) {
-> +			intel_context_put(ce);
-> +			return -EINVAL;
-> +		}
-> +		if (eb->batch_start_offset || eb->args->batch_len) {
-> +			intel_context_put(ce);
-> +			return -EINVAL;
-> +		}
-> +	}
-> +	eb->num_batches = ce->parallel.number_children + 1;
-> +
-> +	for_each_child(ce, child)
-> +		intel_context_get(child);
->   	intel_gt_pm_get(ce->engine->gt);
->   
->   	if (!test_bit(CONTEXT_ALLOC_BIT, &ce->flags)) {
-> @@ -2400,6 +2522,13 @@ eb_select_engine(struct i915_execbuffer *eb)
->   		if (err)
->   			goto err;
->   	}
-> +	for_each_child(ce, child) {
-> +		if (!test_bit(CONTEXT_ALLOC_BIT, &child->flags)) {
-> +			err = intel_context_alloc_state(child);
-> +			if (err)
-> +				goto err;
-> +		}
-> +	}
->   
->   	/*
->   	 * ABI: Before userspace accesses the GPU (e.g. execbuffer), report
-> @@ -2410,7 +2539,7 @@ eb_select_engine(struct i915_execbuffer *eb)
->   		goto err;
->   
->   	eb->context = ce;
-> -	eb->engine = ce->engine;
-> +	eb->gt = ce->engine->gt;
->   
->   	/*
->   	 * Make sure engine pool stays alive even if we call intel_context_put
-> @@ -2421,6 +2550,8 @@ eb_select_engine(struct i915_execbuffer *eb)
->   
->   err:
->   	intel_gt_pm_put(ce->engine->gt);
-> +	for_each_child(ce, child)
-> +		intel_context_put(child);
->   	intel_context_put(ce);
->   	return err;
->   }
-> @@ -2428,7 +2559,11 @@ eb_select_engine(struct i915_execbuffer *eb)
->   static void
->   eb_put_engine(struct i915_execbuffer *eb)
->   {
-> -	intel_gt_pm_put(eb->engine->gt);
-> +	struct intel_context *child;
-> +
-> +	intel_gt_pm_put(eb->gt);
-> +	for_each_child(eb->context, child)
-> +		intel_context_put(child);
->   	intel_context_put(eb->context);
->   }
->   
-> @@ -2651,7 +2786,8 @@ static void put_fence_array(struct eb_fence *fences, int num_fences)
->   }
->   
->   static int
-> -await_fence_array(struct i915_execbuffer *eb)
-> +await_fence_array(struct i915_execbuffer *eb,
-> +		  struct i915_request *rq)
->   {
->   	unsigned int n;
->   	int err;
-> @@ -2665,8 +2801,7 @@ await_fence_array(struct i915_execbuffer *eb)
->   		if (!eb->fences[n].dma_fence)
->   			continue;
->   
-> -		err = i915_request_await_dma_fence(eb->request,
-> -						   eb->fences[n].dma_fence);
-> +		err = i915_request_await_dma_fence(rq, eb->fences[n].dma_fence);
->   		if (err < 0)
->   			return err;
->   	}
-> @@ -2674,9 +2809,9 @@ await_fence_array(struct i915_execbuffer *eb)
->   	return 0;
->   }
->   
-> -static void signal_fence_array(const struct i915_execbuffer *eb)
-> +static void signal_fence_array(const struct i915_execbuffer *eb,
-> +			       struct dma_fence * const fence)
->   {
-> -	struct dma_fence * const fence = &eb->request->fence;
->   	unsigned int n;
->   
->   	for (n = 0; n < eb->num_fences; n++) {
-> @@ -2724,9 +2859,8 @@ static void retire_requests(struct intel_timeline *tl, struct i915_request *end)
->   			break;
->   }
->   
-> -static int eb_request_add(struct i915_execbuffer *eb, int err)
-> +static void eb_request_add(struct i915_execbuffer *eb, struct i915_request *rq)
->   {
-> -	struct i915_request *rq = eb->request;
->   	struct intel_timeline * const tl = i915_request_timeline(rq);
->   	struct i915_sched_attr attr = {};
->   	struct i915_request *prev;
-> @@ -2741,11 +2875,6 @@ static int eb_request_add(struct i915_execbuffer *eb, int err)
->   	/* Check that the context wasn't destroyed before submission */
->   	if (likely(!intel_context_is_closed(eb->context))) {
->   		attr = eb->gem_context->sched;
-> -	} else {
-> -		/* Serialise with context_close via the add_to_timeline */
-> -		i915_request_set_error_once(rq, -ENOENT);
-> -		__i915_request_skip(rq);
-> -		err = -ENOENT; /* override any transient errors */
->   	}
->   
->   	__i915_request_queue(rq, &attr);
-> @@ -2755,6 +2884,42 @@ static int eb_request_add(struct i915_execbuffer *eb, int err)
->   		retire_requests(tl, prev);
->   
->   	mutex_unlock(&tl->mutex);
-> +}
-> +
-> +static int eb_requests_add(struct i915_execbuffer *eb, int err)
-> +{
-> +	int i;
-> +
-> +	/*
-> +	 * We iterate in reverse order of creation to release timeline mutexes in
-> +	 * same order.
-> +	 */
-> +	for_each_batch_add_order(eb, i) {
-> +		struct i915_request *rq = eb->requests[i];
-> +
-> +		if (!rq)
-> +			continue;
-> +
-> +		if (unlikely(intel_context_is_closed(eb->context))) {
-> +			/* Serialise with context_close via the add_to_timeline */
-> +			i915_request_set_error_once(rq, -ENOENT);
-> +			__i915_request_skip(rq);
-> +			err = -ENOENT; /* override any transient errors */
-> +		}
-> +
-> +		if (intel_context_is_parallel(eb->context)) {
-> +			if (err) {
-> +				__i915_request_skip(rq);
-> +				set_bit(I915_FENCE_FLAG_SKIP_PARALLEL,
-> +					&rq->fence.flags);
-> +			}
-> +			if (i == 0)
-> +				set_bit(I915_FENCE_FLAG_SUBMIT_PARALLEL,
-> +					&rq->fence.flags);
-> +		}
-> +
-> +		eb_request_add(eb, rq);
-> +	}
->   
->   	return err;
->   }
-> @@ -2785,6 +2950,182 @@ parse_execbuf2_extensions(struct drm_i915_gem_execbuffer2 *args,
->   				    eb);
->   }
->   
-> +static void eb_requests_get(struct i915_execbuffer *eb)
-> +{
-> +	unsigned int i;
-> +
-> +	for_each_batch_create_order(eb, i) {
-> +		if (!eb->requests[i])
-> +			break;
-> +
-> +		i915_request_get(eb->requests[i]);
-> +	}
-> +}
-> +
-> +static void eb_requests_put(struct i915_execbuffer *eb)
-> +{
-> +	unsigned int i;
-> +
-> +	for_each_batch_create_order(eb, i) {
-> +		if (!eb->requests[i])
-> +			break;
-> +
-> +		i915_request_put(eb->requests[i]);
-> +	}
-> +}
-> +
-> +static struct sync_file *
-> +eb_composite_fence_create(struct i915_execbuffer *eb, int out_fence_fd)
-> +{
-> +	struct sync_file *out_fence = NULL;
-> +	struct dma_fence_array *fence_array;
-> +	struct dma_fence **fences;
-> +	unsigned int i;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(eb->context));
-> +
-> +	fences = kmalloc_array(eb->num_batches, sizeof(*fences), GFP_KERNEL);
-> +	if (!fences)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	for_each_batch_create_order(eb, i)
-> +		fences[i] = &eb->requests[i]->fence;
-> +
-> +	fence_array = dma_fence_array_create(eb->num_batches,
-> +					     fences,
-> +					     eb->context->parallel.fence_context,
-> +					     eb->context->parallel.seqno,
-> +					     false);
-> +	if (!fence_array) {
-> +		kfree(fences);
-> +		return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	/* Move ownership to the dma_fence_array created above */
-> +	for_each_batch_create_order(eb, i)
-> +		dma_fence_get(fences[i]);
-> +
-> +	if (out_fence_fd != -1) {
-> +		out_fence = sync_file_create(&fence_array->base);
-> +		/* sync_file now owns fence_arry, drop creation ref */
-> +		dma_fence_put(&fence_array->base);
-> +		if (!out_fence)
-> +			return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	eb->composite_fence = &fence_array->base;
-> +
-> +	return out_fence;
-> +}
-> +
-> +static struct sync_file *
-> +eb_fences_add(struct i915_execbuffer *eb, struct i915_request *rq,
-> +	      struct dma_fence *in_fence, int out_fence_fd)
-> +{
-> +	struct sync_file *out_fence = NULL;
-> +	int err;
-> +
-> +	if (unlikely(eb->gem_context->syncobj)) {
-> +		struct dma_fence *fence;
-> +
-> +		fence = drm_syncobj_fence_get(eb->gem_context->syncobj);
-> +		err = i915_request_await_dma_fence(rq, fence);
-> +		dma_fence_put(fence);
-> +		if (err)
-> +			return ERR_PTR(err);
-> +	}
-> +
-> +	if (in_fence) {
-> +		if (eb->args->flags & I915_EXEC_FENCE_SUBMIT)
-> +			err = i915_request_await_execution(rq, in_fence);
-> +		else
-> +			err = i915_request_await_dma_fence(rq, in_fence);
-> +		if (err < 0)
-> +			return ERR_PTR(err);
-> +	}
-> +
-> +	if (eb->fences) {
-> +		err = await_fence_array(eb, rq);
-> +		if (err)
-> +			return ERR_PTR(err);
-> +	}
-> +
-> +	if (intel_context_is_parallel(eb->context)) {
-> +		out_fence = eb_composite_fence_create(eb, out_fence_fd);
-> +		if (IS_ERR(out_fence))
-> +			return ERR_PTR(-ENOMEM);
-> +	} else if (out_fence_fd != -1) {
-> +		out_fence = sync_file_create(&rq->fence);
-> +		if (!out_fence)
-> +			return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	return out_fence;
-> +}
-> +
-> +static struct intel_context *
-> +eb_find_context(struct i915_execbuffer *eb, unsigned int context_number)
-> +{
-> +	struct intel_context *child;
-> +
-> +	if (likely(context_number == 0))
-> +		return eb->context;
-> +
-> +	for_each_child(eb->context, child)
-> +		if (!--context_number)
-> +			return child;
-> +
-> +	GEM_BUG_ON("Context not found");
-> +
-> +	return NULL;
-> +}
-> +
-> +static struct sync_file *
-> +eb_requests_create(struct i915_execbuffer *eb, struct dma_fence *in_fence,
-> +		   int out_fence_fd)
-> +{
-> +	struct sync_file *out_fence = NULL;
-> +	unsigned int i;
-> +
-> +	for_each_batch_create_order(eb, i) {
-> +		/* Allocate a request for this batch buffer nice and early. */
-> +		eb->requests[i] = i915_request_create(eb_find_context(eb, i));
-> +		if (IS_ERR(eb->requests[i])) {
-> +			out_fence = ERR_PTR(PTR_ERR(eb->requests[i]));
-> +			eb->requests[i] = NULL;
-> +			return out_fence;
-> +		}
-> +
-> +		/*
-> +		 * Only the first request added (committed to backend) has to
-> +		 * take the in fences into account as all subsequent requests
-> +		 * will have fences inserted inbetween them.
-> +		 */
-> +		if (i + 1 == eb->num_batches) {
-> +			out_fence = eb_fences_add(eb, eb->requests[i],
-> +						  in_fence, out_fence_fd);
-> +			if (IS_ERR(out_fence))
-> +				return out_fence;
-> +		}
-> +
-> +		/*
-> +		 * Whilst this request exists, batch_obj will be on the
-> +		 * active_list, and so will hold the active reference. Only when
-> +		 * this request is retired will the batch_obj be moved onto
-> +		 * the inactive_list and lose its active reference. Hence we do
-> +		 * not need to explicitly hold another reference here.
-> +		 */
-> +		eb->requests[i]->batch = eb->batches[i]->vma;
-> +		if (eb->batch_pool) {
-> +			GEM_BUG_ON(intel_context_is_parallel(eb->context));
-> +			intel_gt_buffer_pool_mark_active(eb->batch_pool,
-> +							 eb->requests[i]);
-> +		}
-> +	}
-> +
-> +	return out_fence;
-> +}
-> +
->   static int
->   i915_gem_do_execbuffer(struct drm_device *dev,
->   		       struct drm_file *file,
-> @@ -2795,7 +3136,6 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->   	struct i915_execbuffer eb;
->   	struct dma_fence *in_fence = NULL;
->   	struct sync_file *out_fence = NULL;
-> -	struct i915_vma *batch;
->   	int out_fence_fd = -1;
->   	int err;
->   
-> @@ -2819,12 +3159,15 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->   
->   	eb.buffer_count = args->buffer_count;
->   	eb.batch_start_offset = args->batch_start_offset;
-> -	eb.batch_len = args->batch_len;
->   	eb.trampoline = NULL;
->   
->   	eb.fences = NULL;
->   	eb.num_fences = 0;
->   
-> +	memset(eb.requests, 0, sizeof(struct i915_request *) *
-> +	       ARRAY_SIZE(eb.requests));
-> +	eb.composite_fence = NULL;
-> +
->   	eb.batch_flags = 0;
->   	if (args->flags & I915_EXEC_SECURE) {
->   		if (GRAPHICS_VER(i915) >= 11)
-> @@ -2908,70 +3251,25 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->   
->   	ww_acquire_done(&eb.ww.ctx);
->   
-> -	batch = eb.batch->vma;
-> -
-> -	/* Allocate a request for this batch buffer nice and early. */
-> -	eb.request = i915_request_create(eb.context);
-> -	if (IS_ERR(eb.request)) {
-> -		err = PTR_ERR(eb.request);
-> -		goto err_vma;
-> -	}
-> -
-> -	if (unlikely(eb.gem_context->syncobj)) {
-> -		struct dma_fence *fence;
-> -
-> -		fence = drm_syncobj_fence_get(eb.gem_context->syncobj);
-> -		err = i915_request_await_dma_fence(eb.request, fence);
-> -		dma_fence_put(fence);
-> -		if (err)
-> -			goto err_ext;
-> -	}
-> -
-> -	if (in_fence) {
-> -		if (args->flags & I915_EXEC_FENCE_SUBMIT)
-> -			err = i915_request_await_execution(eb.request,
-> -							   in_fence);
-> -		else
-> -			err = i915_request_await_dma_fence(eb.request,
-> -							   in_fence);
-> -		if (err < 0)
-> -			goto err_request;
-> -	}
-> -
-> -	if (eb.fences) {
-> -		err = await_fence_array(&eb);
-> -		if (err)
-> +	out_fence = eb_requests_create(&eb, in_fence, out_fence_fd);
-> +	if (IS_ERR(out_fence)) {
-> +		err = PTR_ERR(out_fence);
-> +		if (eb.requests[0])
->   			goto err_request;
-> +		else
-> +			goto err_vma;
->   	}
->   
-> -	if (out_fence_fd != -1) {
-> -		out_fence = sync_file_create(&eb.request->fence);
-> -		if (!out_fence) {
-> -			err = -ENOMEM;
-> -			goto err_request;
-> -		}
-> -	}
-> -
-> -	/*
-> -	 * Whilst this request exists, batch_obj will be on the
-> -	 * active_list, and so will hold the active reference. Only when this
-> -	 * request is retired will the the batch_obj be moved onto the
-> -	 * inactive_list and lose its active reference. Hence we do not need
-> -	 * to explicitly hold another reference here.
-> -	 */
-> -	eb.request->batch = batch;
-> -	if (eb.batch_pool)
-> -		intel_gt_buffer_pool_mark_active(eb.batch_pool, eb.request);
-> -
-> -	trace_i915_request_queue(eb.request, eb.batch_flags);
-> -	err = eb_submit(&eb, batch);
-> +	err = eb_submit(&eb);
->   
->   err_request:
-> -	i915_request_get(eb.request);
-> -	err = eb_request_add(&eb, err);
-> +	eb_requests_get(&eb);
-> +	err = eb_requests_add(&eb, err);
->   
->   	if (eb.fences)
-> -		signal_fence_array(&eb);
-> +		signal_fence_array(&eb, eb.composite_fence ?
-> +				   eb.composite_fence :
-> +				   &eb.requests[0]->fence);
->   
->   	if (out_fence) {
->   		if (err == 0) {
-> @@ -2986,10 +3284,15 @@ i915_gem_do_execbuffer(struct drm_device *dev,
->   
->   	if (unlikely(eb.gem_context->syncobj)) {
->   		drm_syncobj_replace_fence(eb.gem_context->syncobj,
-> -					  &eb.request->fence);
-> +					  eb.composite_fence ?
-> +					  eb.composite_fence :
-> +					  &eb.requests[0]->fence);
->   	}
->   
-> -	i915_request_put(eb.request);
-> +	if (!out_fence && eb.composite_fence)
-> +		dma_fence_put(eb.composite_fence);
-> +
-> +	eb_requests_put(&eb);
->   
->   err_vma:
->   	eb_release_vmas(&eb, true);
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context.h b/drivers/gpu/drm/i915/gt/intel_context.h
-> index 1bc705f98e2a..1781419fa105 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context.h
-> @@ -239,7 +239,13 @@ intel_context_timeline_lock(struct intel_context *ce)
->   	struct intel_timeline *tl = ce->timeline;
->   	int err;
->   
-> -	err = mutex_lock_interruptible(&tl->mutex);
-> +	if (intel_context_is_parent(ce))
-> +		err = mutex_lock_interruptible_nested(&tl->mutex, 0);
-> +	else if (intel_context_is_child(ce))
-> +		err = mutex_lock_interruptible_nested(&tl->mutex,
-> +						      ce->parallel.child_index + 1);
-> +	else
-> +		err = mutex_lock_interruptible(&tl->mutex);
->   	if (err)
->   		return ERR_PTR(err);
->   
-> diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> index 95a5b94b4ece..9e0177dc5484 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-> @@ -248,6 +248,16 @@ struct intel_context {
->   		 * context
->   		 */
->   		struct i915_request *last_rq;
-> +		/**
-> +		 * @fence_context: fence context composite fence when doing
-> +		 * parallel submission
-> +		 */
-> +		u64 fence_context;
-> +		/**
-> +		 * @seqno: seqno for composite fence when doing parallel
-> +		 * submission
-> +		 */
-> +		u32 seqno;
->   		/** @number_children: number of children if parent */
->   		u8 number_children;
->   		/** @child_index: index into child_list if child */
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index f28e36aa77c2..83b0d2a114af 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -3094,6 +3094,8 @@ guc_create_parallel(struct intel_engine_cs **engines,
->   		}
->   	}
->   
-> +	parent->parallel.fence_context = dma_fence_context_alloc(1);
-> +
->   	parent->engine->emit_bb_start =
->   		emit_bb_start_parent_no_preempt_mid_batch;
->   	parent->engine->emit_fini_breadcrumb =
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 8950785e55d6..24db8459376b 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -147,6 +147,15 @@ enum {
->   	 * tail.
->   	 */
->   	I915_FENCE_FLAG_SUBMIT_PARALLEL,
-> +
-> +	/*
-> +	 * I915_FENCE_FLAG_SKIP_PARALLEL - request with a context in a
-> +	 * parent-child relationship (parallel submission, multi-lrc) that
-> +	 * hit an error while generating requests in the execbuf IOCTL.
-> +	 * Indicates this request should be skipped as another request in
-> +	 * submission / relationship encoutered an error.
-> +	 */
-> +	I915_FENCE_FLAG_SKIP_PARALLEL,
->   };
->   
->   /**
-> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
-> index 4b7fc4647e46..90546fa58fc1 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.c
-> +++ b/drivers/gpu/drm/i915/i915_vma.c
-> @@ -1234,9 +1234,10 @@ int __i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq)
->   	return i915_active_add_request(&vma->active, rq);
->   }
->   
-> -int i915_vma_move_to_active(struct i915_vma *vma,
-> -			    struct i915_request *rq,
-> -			    unsigned int flags)
-> +int _i915_vma_move_to_active(struct i915_vma *vma,
-> +			     struct i915_request *rq,
-> +			     struct dma_fence *fence,
-> +			     unsigned int flags)
->   {
->   	struct drm_i915_gem_object *obj = vma->obj;
->   	int err;
-> @@ -1257,9 +1258,11 @@ int i915_vma_move_to_active(struct i915_vma *vma,
->   			intel_frontbuffer_put(front);
->   		}
->   
-> -		dma_resv_add_excl_fence(vma->resv, &rq->fence);
-> -		obj->write_domain = I915_GEM_DOMAIN_RENDER;
-> -		obj->read_domains = 0;
-> +		if (fence) {
-> +			dma_resv_add_excl_fence(vma->resv, fence);
-> +			obj->write_domain = I915_GEM_DOMAIN_RENDER;
-> +			obj->read_domains = 0;
-> +		}
->   	} else {
->   		if (!(flags & __EXEC_OBJECT_NO_RESERVE)) {
->   			err = dma_resv_reserve_shared(vma->resv, 1);
-> @@ -1267,8 +1270,10 @@ int i915_vma_move_to_active(struct i915_vma *vma,
->   				return err;
->   		}
->   
-> -		dma_resv_add_shared_fence(vma->resv, &rq->fence);
-> -		obj->write_domain = 0;
-> +		if (fence) {
-> +			dma_resv_add_shared_fence(vma->resv, fence);
-> +			obj->write_domain = 0;
-> +		}
->   	}
->   
->   	if (flags & EXEC_OBJECT_NEEDS_FENCE && vma->fence)
-> diff --git a/drivers/gpu/drm/i915/i915_vma.h b/drivers/gpu/drm/i915/i915_vma.h
-> index ed69f66c7ab0..648dbe744c96 100644
-> --- a/drivers/gpu/drm/i915/i915_vma.h
-> +++ b/drivers/gpu/drm/i915/i915_vma.h
-> @@ -57,9 +57,16 @@ static inline bool i915_vma_is_active(const struct i915_vma *vma)
->   
->   int __must_check __i915_vma_move_to_active(struct i915_vma *vma,
->   					   struct i915_request *rq);
-> -int __must_check i915_vma_move_to_active(struct i915_vma *vma,
-> -					 struct i915_request *rq,
-> -					 unsigned int flags);
-> +int __must_check _i915_vma_move_to_active(struct i915_vma *vma,
-> +					  struct i915_request *rq,
-> +					  struct dma_fence *fence,
-> +					  unsigned int flags);
-> +static inline int __must_check
-> +i915_vma_move_to_active(struct i915_vma *vma, struct i915_request *rq,
-> +			unsigned int flags)
-> +{
-> +	return _i915_vma_move_to_active(vma, rq, &rq->fence, flags);
-> +}
->   
->   #define __i915_vma_flags(v) ((unsigned long *)&(v)->flags.counter)
->   
-
+-- 
+Matt Roper
+Graphics Software Engineer
+VTT-OSGC Platform Enablement
+Intel Corporation
+(916) 356-2795
