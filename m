@@ -1,59 +1,63 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8055842A62C
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:42:23 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD2C42A618
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:42:17 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2FE8189EFF;
-	Tue, 12 Oct 2021 13:42:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 793ED6E990;
+	Tue, 12 Oct 2021 13:42:15 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com
- [IPv6:2a00:1450:4864:20::130])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C93EC89EFF
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 13:42:20 +0000 (UTC)
-Received: by mail-lf1-x130.google.com with SMTP id u18so87638631lfd.12
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:42:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VKOv68j+1chCcFa4WJd4YbDLAdgXKXDzpIVE8gefdzM=;
- b=a7whX2XDPX0GFiCq4C1U7c4yy1DCKCVnFqpuDIrPdwXtaAgQnpWJT3UtKh9DKeQlGA
- oE+NlgYbk9MB+LcKi0CLEnnM9EQTq5paJvxdnL07ctiZoPmBRR7PNh5rK65QYF58VF8A
- GHXCGpMx3mFvRqtoCPejFyIFB3AFywwE/q8aOjZRSs0OwDY4TzzNb/vZTeXjDZC4vGes
- 2tTkmQrcmf5kjm2YTUipIJQDpwPlcBPoDJI05xMR7+xcNMUP9nC7My2VG0VNaCq1/DPf
- jO6GNPYV1qQLaYASBNCLE94yx1F3495JT0sFtdE2bRzRQlt4CtyZ7xUbBuwuNgHGxoTg
- JR8g==
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com
+ [IPv6:2a00:1450:4864:20::436])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 2E3926E990
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 13:42:14 +0000 (UTC)
+Received: by mail-wr1-x436.google.com with SMTP id t2so67148919wrb.8
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=kynesim-co-uk.20210112.gappssmtp.com; s=20210112;
+ h=from:to:subject:date:message-id:user-agent:mime-version
+ :content-transfer-encoding;
+ bh=hwS9aDxYfM0NlbaZFVetR0eqXsuI0V8eGJKsRRT/jAA=;
+ b=VaAQNXg53WlnR1EQCiKCv6O1hpbSSuhDKdzKBlQs7aqQnQ6orZgmxp6dVednqwGvys
+ +EwqrLr/UyF84pUsbClCSnZGJr9W/7A8auR3AO/afhEBHCgyV6qIhHvDLeKSyPUY4OTj
+ +6p1agOK2PYKwWkz1qtzpoiTHE1wiOucLSBbPx+EXRh4QKyhXy/KC911CeUwAHukxJET
+ 1rEo5JZrDaohIoW64BXUzlqdJEySOqjt0i7b8e4YmW4fy50GW7/ukjy3UdRG6Hk0lCMc
+ M6A+m/YO+x/161eDA4i1PD/5XrOinSG9R6B3eWzXAYQ8+540A8H74BFr85Eg/8wv/pVF
+ VUyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VKOv68j+1chCcFa4WJd4YbDLAdgXKXDzpIVE8gefdzM=;
- b=XHW+eDcM3mhtoXj3FwEK6X7jrBfdmgxig2885w5tO4fAVGqQF4xwTxRWpRdkUVuBlG
- +mdH7Ysyl6nIxe1kvPO3D8zzV44Ygzts3j2qIhzIhHLDGy8VyoIiBQb+/Baz8zSTpKiZ
- 2oS6Sr/Jncg6SpDT9xUS8cNUyrz2CXCosDWK5NRvXXax+bQczfv0GYzDqNzBlZH0LPrC
- iJvixSCx5fiRyyrZHEmdpxw3rNN8dv0nd04h9Vemwi/l1i1CBegMV3zTGek1cH8PUo9e
- XggiafKnNmI04LvTb/5Uvr1BkFmFOXWlE82wZ8vh65CU3rareA2B2Eb7V4dm6l/fmglo
- TjXw==
-X-Gm-Message-State: AOAM5319jXML2kRBFyhLVezKoCD71S+A47e8ESk/e6mEx/77hUNAlqyz
- nwDFV1breny3BIhvbnIUX8UolvJjA1Le9rXCnx4=
-X-Google-Smtp-Source: ABdhPJzPsUx3dRdOzxzxzaMhITIuQj1+NUIYDDmpTqNCjVbjbyV0oEDe87BLfTEF4PEt7Z2hzwRPSvoUOKHXaowAxtc=
-X-Received: by 2002:a05:6512:3d24:: with SMTP id
- d36mr33486164lfv.78.1634046136789; 
- Tue, 12 Oct 2021 06:42:16 -0700 (PDT)
+ h=x-gm-message-state:from:to:subject:date:message-id:user-agent
+ :mime-version:content-transfer-encoding;
+ bh=hwS9aDxYfM0NlbaZFVetR0eqXsuI0V8eGJKsRRT/jAA=;
+ b=6ZV5Yt+zFNexneRLTi/xyHITNpQA6p8j5iZs0wvonba52xSvfpd/uAQefZekTX+9xv
+ j33Yc2KM5s1ApWsOwMf84vaLhaLbm8fSUs6eKNQb0xLxW2rArKBwIMe1mP4tsQa9dEUI
+ 8an2ihBN30curuZEC8G0a91kwXuLEIUPePDci8CbHMHH3wyGKUpYQQwoK4IGd9754Nzv
+ u+kcflyXy9L13/Aoh9r7qQaCdDd7kox4S+dYXk54n9emnr9GuEU0YE9c0eq50GX2W6sb
+ KV66XqlbGylKyLd8Hi7jVUB4WuTxnVbOB0JWE/L4NNXOTjVCbmKj2kzzAqZUNDG2k8Fp
+ F8PA==
+X-Gm-Message-State: AOAM530UjTsEDDLSj6erSXDSPH2Ht3eSpffXFmLLCH90sgW8o+SKVvv8
+ ntXyXzeFA2tYXtXoHDQDXkoUFkVnMB2SJ9cC
+X-Google-Smtp-Source: ABdhPJzVpCJM3pRiBSF+VzNlTd5tLFbbIxywH8hzmZe37Ee6IEktSvQ7GchJzQyrMZx+xKs4Nhh74w==
+X-Received: by 2002:a5d:6da9:: with SMTP id u9mr32096842wrs.84.1634046132636; 
+ Tue, 12 Oct 2021 06:42:12 -0700 (PDT)
+Received: from CTHALPA.outer.uphall.net
+ (cpc1-cmbg20-2-0-cust759.5-4.cable.virginm.net. [86.21.218.248])
+ by smtp.gmail.com with ESMTPSA id w11sm2446423wmc.44.2021.10.12.06.42.11
+ for <dri-devel@lists.freedesktop.org>
+ (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+ Tue, 12 Oct 2021 06:42:11 -0700 (PDT)
+From: John Cox <jc@kynesim.co.uk>
+To: dri-devel@lists.freedesktop.org
+Subject: Should multiple PRIME_FD_TO_HANDLE ioctls on the same fd require
+ multiple GEM_CLOSE?
+Date: Tue, 12 Oct 2021 14:42:11 +0100
+Message-ID: <mg3bmgt12b5s7qlqn1gkc5q8f75dgfu91m@4ax.com>
+User-Agent: ForteAgent/8.00.32.1272
 MIME-Version: 1.0
-References: <20211005081151.23612-1-tzimmermann@suse.de>
- <20211005081151.23612-8-tzimmermann@suse.de>
-In-Reply-To: <20211005081151.23612-8-tzimmermann@suse.de>
-From: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
-Date: Tue, 12 Oct 2021 15:42:05 +0200
-Message-ID: <CAMeQTsbOp+xM-=ZLPUVqr0z0fzmhPh2zPo0ndQBBfD2qK=pvqA@mail.gmail.com>
-Subject: Re: [PATCH v2 07/10] drm/gma500: Inline psb_gtt_{alloc, free}_range()
- into rsp callers
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -69,236 +73,23 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 5, 2021 at 10:11 AM Thomas Zimmermann <tzimmermann@suse.de> wrote:
->
-> psb_gtt_alloc_range() allocates struct gtt_range, create the GTT resource
-> and performs some half-baked initialization. Inline the function into its
-> only caller psb_gem_create(). For creating the GTT resource, introduce a
-> new helper, psb_gtt_alloc_resource() that hides the details of the GTT.
->
-> For psb_gtt_free_range(), inline the function into its only caller
-> psb_gem_free_object(). While at it, remove the explicit invocation of
-> drm_gem_free_mmap_offset(). The mmap offset is already released by
-> drm_gem_object_release().
->
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> ---
->  drivers/gpu/drm/gma500/gem.c | 94 ++++++++++++------------------------
->  drivers/gpu/drm/gma500/gtt.c | 27 +++++++++++
->  drivers/gpu/drm/gma500/gtt.h |  6 +++
->  3 files changed, 65 insertions(+), 62 deletions(-)
->
-> diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-> index 37b61334ade2..425d183c76ca 100644
-> --- a/drivers/gpu/drm/gma500/gem.c
-> +++ b/drivers/gpu/drm/gma500/gem.c
-> @@ -91,30 +91,22 @@ void psb_gem_unpin(struct gtt_range *gt)
->         mutex_unlock(&dev_priv->gtt_mutex);
->  }
->
-> -static void psb_gtt_free_range(struct drm_device *dev, struct gtt_range *gt)
-> -{
-> -       /* Undo the mmap pin if we are destroying the object */
-> -       if (gt->mmapping) {
-> -               psb_gem_unpin(gt);
-> -               gt->mmapping = 0;
-> -       }
-> -       WARN_ON(gt->in_gart && !gt->stolen);
-> -       release_resource(&gt->resource);
-> -       kfree(gt);
-> -}
-> -
->  static vm_fault_t psb_gem_fault(struct vm_fault *vmf);
->
->  static void psb_gem_free_object(struct drm_gem_object *obj)
->  {
-> -       struct gtt_range *gtt = to_gtt_range(obj);
-> +       struct gtt_range *gt = to_gtt_range(obj);
->
-> -       /* Remove the list map if one is present */
-> -       drm_gem_free_mmap_offset(obj);
->         drm_gem_object_release(obj);
->
-> -       /* This must occur last as it frees up the memory of the GEM object */
-> -       psb_gtt_free_range(obj->dev, gtt);
-> +       /* Undo the mmap pin if we are destroying the object */
-> +       if (gt->mmapping)
-> +               psb_gem_unpin(gt);
-> +
-> +       WARN_ON(gt->in_gart && !gt->stolen);
-> +
-> +       release_resource(&gt->resource);
-> +       kfree(gt);
->  }
->
->  static const struct vm_operations_struct psb_gem_vm_ops = {
-> @@ -128,59 +120,35 @@ static const struct drm_gem_object_funcs psb_gem_object_funcs = {
->         .vm_ops = &psb_gem_vm_ops,
->  };
->
-> -static struct gtt_range *psb_gtt_alloc_range(struct drm_device *dev, int len,
-> -                                            const char *name, int backed, u32 align)
-> -{
-> -       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-> -       struct gtt_range *gt;
-> -       struct resource *r = dev_priv->gtt_mem;
-> -       int ret;
-> -       unsigned long start, end;
-> -
-> -       if (backed) {
-> -               /* The start of the GTT is the stolen pages */
-> -               start = r->start;
-> -               end = r->start + dev_priv->gtt.stolen_size - 1;
-> -       } else {
-> -               /* The rest we will use for GEM backed objects */
-> -               start = r->start + dev_priv->gtt.stolen_size;
-> -               end = r->end;
-> -       }
-> -
-> -       gt = kzalloc(sizeof(struct gtt_range), GFP_KERNEL);
-> -       if (gt == NULL)
-> -               return NULL;
-> -       gt->resource.name = name;
-> -       gt->stolen = backed;
-> -       gt->in_gart = backed;
-> -       /* Ensure this is set for non GEM objects */
-> -       gt->gem.dev = dev;
-> -       ret = allocate_resource(dev_priv->gtt_mem, &gt->resource,
-> -                               len, start, end, align, NULL, NULL);
-> -       if (ret == 0) {
-> -               gt->offset = gt->resource.start - r->start;
-> -               return gt;
-> -       }
-> -       kfree(gt);
-> -       return NULL;
-> -}
-> -
->  struct gtt_range *
->  psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen, u32 align)
->  {
-> +       struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
->         struct gtt_range *gt;
->         struct drm_gem_object *obj;
->         int ret;
->
->         size = roundup(size, PAGE_SIZE);
->
-> -       gt = psb_gtt_alloc_range(dev, size, name, stolen, align);
-> -       if (!gt) {
-> -               dev_err(dev->dev, "no memory for %lld byte GEM object\n", size);
-> -               return ERR_PTR(-ENOSPC);
-> -       }
-> +       gt = kzalloc(sizeof(*gt), GFP_KERNEL);
-> +       if (!gt)
-> +               return ERR_PTR(-ENOMEM);
->         obj = &gt->gem;
->
-> +       /* GTT resource */
-> +
-> +       ret = psb_gtt_allocate_resource(dev_priv, &gt->resource, name, size, align, stolen,
-> +                                       &gt->offset);
-> +       if (ret)
-> +               goto err_kfree;
-> +
-> +       if (stolen) {
-> +               gt->stolen = true;
-> +               gt->in_gart = 1;
-> +       }
-> +
-> +       /* GEM object */
-> +
->         obj->funcs = &psb_gem_object_funcs;
->
->         if (stolen) {
-> @@ -188,7 +156,7 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
->         } else {
->                 ret = drm_gem_object_init(dev, obj, size);
->                 if (ret)
-> -                       goto err_psb_gtt_free_range;
-> +                       goto err_release_resource;
->
->                 /* Limit the object to 32-bit mappings */
->                 mapping_set_gfp_mask(obj->filp->f_mapping, GFP_KERNEL | __GFP_DMA32);
-> @@ -196,8 +164,10 @@ psb_gem_create(struct drm_device *dev, u64 size, const char *name, bool stolen,
->
->         return gt;
->
-> -err_psb_gtt_free_range:
-> -       psb_gtt_free_range(dev, gt);
-> +err_release_resource:
-> +       release_resource(&gt->resource);
-> +err_kfree:
-> +       kfree(gt);
->         return ERR_PTR(ret);
->  }
->
-> diff --git a/drivers/gpu/drm/gma500/gtt.c b/drivers/gpu/drm/gma500/gtt.c
-> index 0aacf7122e32..5d940fdbe6b8 100644
-> --- a/drivers/gpu/drm/gma500/gtt.c
-> +++ b/drivers/gpu/drm/gma500/gtt.c
-> @@ -18,6 +18,33 @@
->   *     GTT resource allocator - manage page mappings in GTT space
->   */
->
-> +int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res,
-> +                             const char *name, resource_size_t size, resource_size_t align,
-> +                             bool stolen, u32 offset[static 1])
+Hi
 
-My concern with [static 1] here is not how it's used with arrays. In
-this case offset isn't an array so should just be "u32 *offset".
+I've a question about expected behavior. I am using the "vc4" backend.
 
+If I convert a dmabuf fd to a bo handle twice using
+DRM_IOCTL_PRIME_FD_TO_HANDLE then I get the same bo handle both times -
+fair enough.
 
-> +{
-> +       struct resource *root = pdev->gtt_mem;
-> +       resource_size_t start, end;
-> +       int ret;
-> +
-> +       if (stolen) {
-> +               /* The start of the GTT is backed by stolen pages. */
-> +               start = root->start;
-> +               end = root->start + pdev->gtt.stolen_size - 1;
-> +       } else {
-> +               /* The rest is backed by system pages. */
-> +               start = root->start + pdev->gtt.stolen_size;
-> +               end = root->end;
-> +       }
-> +
-> +       res->name = name;
-> +       ret = allocate_resource(root, res, size, start, end, align, NULL, NULL);
-> +       if (ret)
-> +               return ret;
-> +       *offset = res->start - root->start;
-> +
-> +       return 0;
-> +}
-> +
->  /**
->   *     psb_gtt_mask_pte        -       generate GTT pte entry
->   *     @pfn: page number to encode
-> diff --git a/drivers/gpu/drm/gma500/gtt.h b/drivers/gpu/drm/gma500/gtt.h
-> index 36162b545570..459a03141e8b 100644
-> --- a/drivers/gpu/drm/gma500/gtt.h
-> +++ b/drivers/gpu/drm/gma500/gtt.h
-> @@ -10,6 +10,8 @@
->
->  #include <drm/drm_gem.h>
->
-> +struct drm_psb_private;
-> +
->  /* This wants cleaning up with respect to the psb_dev and un-needed stuff */
->  struct psb_gtt {
->         uint32_t gatt_start;
-> @@ -43,6 +45,10 @@ struct gtt_range {
->
->  extern int psb_gtt_restore(struct drm_device *dev);
->
-> +int psb_gtt_allocate_resource(struct drm_psb_private *pdev, struct resource *res,
-> +                             const char *name, resource_size_t size, resource_size_t align,
-> +                             bool stolen, u32 offset[static 1]);
-> +
->  int psb_gtt_insert(struct drm_device *dev, struct gtt_range *r, int resume);
->  void psb_gtt_remove(struct drm_device *dev, struct gtt_range *r);
->
-> --
-> 2.33.0
->
+If I then close it twice with DRM_IOCTL_GEM_CLOSE then the second time
+fails.
+
+Is this expected behavior?  I think I would have hoped that the
+PRIME_FD_TO_HANDLE ops would have incremented a ref count on the object
+and it would need to be CLOSED as many times as it was "opened"
+otherwise one bit of code can accidentally close a bo handle that was in
+use in another.
+
+Many thanks
+
+John Cox
