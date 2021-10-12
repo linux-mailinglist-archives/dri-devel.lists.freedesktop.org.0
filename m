@@ -2,36 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88A4F42AE68
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D878242AE6E
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:03:00 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B06AF6E9E1;
-	Tue, 12 Oct 2021 21:01:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8B0536E030;
+	Tue, 12 Oct 2021 21:02:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7CC1B6E9E6;
- Tue, 12 Oct 2021 21:01:34 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="227554904"
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="227554904"
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5FFD16E030;
+ Tue, 12 Oct 2021 21:02:57 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="227168082"
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="227168082"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
- by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 14:01:34 -0700
+ by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 14:02:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="547606463"
-Received: from fmsmsx606.amr.corp.intel.com ([10.18.126.86])
- by fmsmga004.fm.intel.com with ESMTP; 12 Oct 2021 14:01:34 -0700
-Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- fmsmsx606.amr.corp.intel.com (10.18.126.86) with Microsoft SMTP Server
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="547606934"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by fmsmga004.fm.intel.com with ESMTP; 12 Oct 2021 14:02:56 -0700
+Received: from bgsmsx606.gar.corp.intel.com (10.67.234.8) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:01:33 -0700
+ 15.1.2242.12; Tue, 12 Oct 2021 14:02:55 -0700
 Received: from bgsmsx604.gar.corp.intel.com (10.67.234.6) by
- BGSMSX604.gar.corp.intel.com (10.67.234.6) with Microsoft SMTP Server
+ BGSMSX606.gar.corp.intel.com (10.67.234.8) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Wed, 13 Oct 2021 02:31:31 +0530
+ 15.1.2242.12; Wed, 13 Oct 2021 02:32:53 +0530
 Received: from bgsmsx604.gar.corp.intel.com ([10.67.234.6]) by
  BGSMSX604.gar.corp.intel.com ([10.67.234.6]) with mapi id 15.01.2242.012;
- Wed, 13 Oct 2021 02:31:31 +0530
+ Wed, 13 Oct 2021 02:32:53 +0530
 From: "Shankar, Uma" <uma.shankar@intel.com>
 To: Pekka Paalanen <ppaalanen@gmail.com>
 CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
@@ -41,14 +41,15 @@ CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
  "brian.starkey@arm.com" <brian.starkey@arm.com>,
  "sebastian@sebastianwick.net" <sebastian@sebastianwick.net>,
  "Shashank.Sharma@amd.com" <Shashank.Sharma@amd.com>
-Subject: RE: [RFC v2 00/22] Add Support for Plane Color Lut and CSC features
-Thread-Topic: [RFC v2 00/22] Add Support for Plane Color Lut and CSC features
-Thread-Index: AQHXo2JIE/IO8tQ2FEih6gWwBznIZ6vPHSKAgAD0N9A=
-Date: Tue, 12 Oct 2021 21:01:30 +0000
-Message-ID: <1260585655bd41ebb734056dd1f42740@intel.com>
+Subject: RE: [RFC v2 03/22] drm: Add Plane Degamma Mode property
+Thread-Topic: [RFC v2 03/22] drm: Add Plane Degamma Mode property
+Thread-Index: AQHXo2JOuoDKY7Z/CEScLcTVgGuQlavPG5wAgAD2ZBA=
+Date: Tue, 12 Oct 2021 21:02:53 +0000
+Message-ID: <1875243ac7544f79b398c16c312b7322@intel.com>
 References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20211012145529.687dfdee@eldfell>
-In-Reply-To: <20211012145529.687dfdee@eldfell>
+ <20210906213904.27918-4-uma.shankar@intel.com>
+ <20211012145002.4382df2b@eldfell>
+In-Reply-To: <20211012145002.4382df2b@eldfell>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -79,177 +80,157 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 > -----Original Message-----
 > From: Pekka Paalanen <ppaalanen@gmail.com>
-> Sent: Tuesday, October 12, 2021 5:25 PM
+> Sent: Tuesday, October 12, 2021 5:20 PM
 > To: Shankar, Uma <uma.shankar@intel.com>
 > Cc: intel-gfx@lists.freedesktop.org; dri-devel@lists.freedesktop.org;
 > harry.wentland@amd.com; ville.syrjala@linux.intel.com; brian.starkey@arm.=
 com;
 > sebastian@sebastianwick.net; Shashank.Sharma@amd.com
-> Subject: Re: [RFC v2 00/22] Add Support for Plane Color Lut and CSC featu=
-res
+> Subject: Re: [RFC v2 03/22] drm: Add Plane Degamma Mode property
 >=20
-> On Tue,  7 Sep 2021 03:08:42 +0530
+> On Tue,  7 Sep 2021 03:08:45 +0530
 > Uma Shankar <uma.shankar@intel.com> wrote:
 >=20
-> > This is how a typical display color hardware pipeline looks like:
-> >  +-------------------------------------------+
-> >  |                RAM                        |
-> >  |  +------+    +---------+    +---------+   |
-> >  |  | FB 1 |    |  FB 2   |    | FB N    |   |
-> >  |  +------+    +---------+    +---------+   |
-> >  +-------------------------------------------+
-> >        |  Plane Color Hardware Block |
-> > +--------------------------------------------+
-> >  | +---v-----+   +---v-------+   +---v------+ |
-> >  | | Plane A |   | Plane B   |   | Plane N  | |
-> >  | | DeGamma |   | Degamma   |   | Degamma  | |
-> >  | +---+-----+   +---+-------+   +---+------+ |
-> >  |     |             |               |        |
-> >  | +---v-----+   +---v-------+   +---v------+ |
-> >  | |Plane A  |   | Plane B   |   | Plane N  | |
-> >  | |CSC/CTM  |   | CSC/CTM   |   | CSC/CTM  | |
-> >  | +---+-----+   +----+------+   +----+-----+ |
-> >  |     |              |               |       |
-> >  | +---v-----+   +----v------+   +----v-----+ |
-> >  | | Plane A |   | Plane B   |   | Plane N  | |
-> >  | | Gamma   |   | Gamma     |   | Gamma    | |
-> >  | +---+-----+   +----+------+   +----+-----+ |
-> >  |     |              |               |       |
-> >  +--------------------------------------------+
-> > +------v--------------v---------------v-------|
-> > ||                                           ||
-> > ||           Pipe Blender                    ||
-> > +--------------------+------------------------+
-> > |                    |                        |
-> > |        +-----------v----------+             |
-> > |        |  Pipe DeGamma        |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |            Pipe Color  |
-> > |        +-----------v----------+ Hardware    |
-> > |        |  Pipe CSC/CTM        |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |                        |
-> > |        +-----------v----------+             |
-> > |        |  Pipe Gamma          |             |
-> > |        |                      |             |
-> > |        +-----------+----------+             |
-> > |                    |                        |
-> > +---------------------------------------------+
-> >                      |
-> >                      v
-> >                Pipe Output
+> > Add Plane Degamma Mode as an enum property. Create a helper function
+> > for all plane color management features.
 > >
-> > This patch series adds properties for plane color features. It adds
-> > properties for degamma used to linearize data and CSC used for gamut
-> > conversion. It also includes Gamma support used to again non-linearize
-> > data as per panel supported color space. These can be utilize by user
-> > space to convert planes from one format to another, one color space to
-> > another etc.
+> > This is an enum property with values as blob_id's and exposes the
+> > various gamma modes supported and the lut ranges. Getting the blob id
+> > in userspace, user can get the mode supported and also the range of
+> > gamma mode supported with number of lut coefficients. It can then set
+> > one of the modes using this enum property.
 > >
-> > Userspace can take smart blending decisions and utilize these hardware
-> > supported plane color features to get accurate color profile. The same
-> > can help in consistent color quality from source to panel taking
-> > advantage of advanced color features in hardware.
+> > Lut values will be sent through separate GAMMA_LUT blob property.
 > >
-> > These patches add the property interfaces and enable helper functions.
-> > This series adds Intel's XE_LPD hw specific plane gamma feature. We
-> > can build up and add other platform/hardware specific implementation
-> > on top of this series.
+> > Signed-off-by: Uma Shankar <uma.shankar@intel.com>
+> > ---
+> >  Documentation/gpu/drm-kms.rst             | 90 ++++++++++++++++++++++
+> >  drivers/gpu/drm/drm_atomic.c              |  1 +
+> >  drivers/gpu/drm/drm_atomic_state_helper.c |  2 +
+> >  drivers/gpu/drm/drm_atomic_uapi.c         |  4 +
+> >  drivers/gpu/drm/drm_color_mgmt.c          | 93 ++++++++++++++++++++++-
+> >  include/drm/drm_mode_object.h             |  2 +-
+> >  include/drm/drm_plane.h                   | 23 ++++++
+> >  7 files changed, 212 insertions(+), 3 deletions(-)
 > >
-> > Credits: Special mention and credits to Ville Syrjala for coming up
-> > with a design for this feature and inputs. This series is based on his
-> > original design and idea.
+> > diff --git a/Documentation/gpu/drm-kms.rst
+> > b/Documentation/gpu/drm-kms.rst index 1ef7951ded5e..f4658417bf20
+> > 100644
+> > --- a/Documentation/gpu/drm-kms.rst
+> > +++ b/Documentation/gpu/drm-kms.rst
+> > @@ -545,9 +545,99 @@ Damage Tracking Properties  Color Management
+> > Properties
+> >  ---------------------------
 > >
-> > Note: Userspace support for this new UAPI will be done on Chrome in
-> > alignment with weston and general opensource community.
-> > Discussion ongoing with Harry Wentland, Pekka and community on color
-> > pipeline and UAPI design. Harry's RFC below:
-> > https://patchwork.freedesktop.org/series/89506/
-> > We need to converge on a common UAPI interface which caters to all the
-> > modern color hardware pipelines.
-> >
-> > ToDo: State readout for this feature will be added next.
-> >
-> > v2: Added UAPI description and added change in the rfc section of
-> > kernel Documentation folder
+> > +Below is how a typical hardware pipeline for color will look like:
+> > +
+> > +.. kernel-render:: DOT
+> > +   :alt: Display Color Pipeline
+> > +   :caption: Display Color Pipeline Overview
+> > +
+> > +   digraph "KMS" {
+> > +      node [shape=3Dbox]
+> > +
+> > +      subgraph cluster_static {
+> > +          style=3Ddashed
+> > +          label=3D"Display Color Hardware Blocks"
+> > +
+> > +          node [bgcolor=3Dgrey style=3Dfilled]
+> > +          "Plane Degamma A" -> "Plane CSC/CTM A"
+> > +          "Plane CSC/CTM A" -> "Plane Gamma A"
+> > +          "Pipe Blender" [color=3Dlightblue,style=3Dfilled, width=3D5.=
+25, height=3D0.75];
+> > +          "Plane Gamma A" -> "Pipe Blender"
+> > +	  "Pipe Blender" -> "Pipe DeGamma"
+> > +          "Pipe DeGamma" -> "Pipe CSC/CTM"
+> > +          "Pipe CSC/CTM" -> "Pipe Gamma"
+> > +          "Pipe Gamma" -> "Pipe Output"
+> > +      }
+> > +
+> > +      subgraph cluster_static {
+> > +          style=3Ddashed
+> > +
+> > +          node [shape=3Dbox]
+> > +          "Plane Degamma B" -> "Plane CSC/CTM B"
+> > +          "Plane CSC/CTM B" -> "Plane Gamma B"
+> > +          "Plane Gamma B" -> "Pipe Blender"
+> > +      }
+> > +
+> > +      subgraph cluster_static {
+> > +          style=3Ddashed
+> > +
+> > +          node [shape=3Dbox]
+> > +          "Plane Degamma C" -> "Plane CSC/CTM C"
+> > +          "Plane CSC/CTM C" -> "Plane Gamma C"
+> > +          "Plane Gamma C" -> "Pipe Blender"
+> > +      }
+> > +
+> > +      subgraph cluster_fb {
+> > +          style=3Ddashed
+> > +          label=3D"RAM"
+> > +
+> > +          node [shape=3Dbox width=3D1.7 height=3D0.2]
+> > +
+> > +          "FB 1" -> "Plane Degamma A"
+> > +          "FB 2" -> "Plane Degamma B"
+> > +          "FB 3" -> "Plane Degamma C"
+> > +      }
+> > +   }
+> > +
+> > +In real world usecases,
+> > +
+> > +1. Plane Degamma can be used to linearize a non linear gamma encoded
+> > +framebuffer. This is needed to do any linear math like color space
+> > +conversion. For ex, linearize frames encoded in SRGB or by HDR curve.
 >=20
 > Hi,
 >=20
-> thank you for this. I do believe the KMS UAPI should expose what hardware=
- can do
-> (prescribed operations) rather than how they would be often used (to real=
-ize a
-> conversion from one space description to another). This proposal fits qui=
-te nicely
-> with what I have envisioned for Weston.
+> Maybe better to avoid the term "gamma" as the curves are not always a pur=
+e power
+> function.
+>=20
+> sRGB with a small s.
 
-> I mainly went over the big picture by commenting in detail on the proposa=
-l
-> document, and not looking too carefully at the other documentation or UAP=
-I details
-> at this time.
+Sure Pekka, will update these.
 
-Thanks Pekka for the feedback.
-
-> Unfortunately I was unable to decipher how userspace is supposed to use t=
-he
-> XE_LPD special gamma features.
-
-I will include the details on how userspace should actually get this throug=
-h a sample
-IGT reference, that should help make this clear.
-
-Regards,
+Thanks & Regards,
 Uma Shankar
 
 >=20
 > Thanks,
 > pq
 >=20
+> > +
+> > +2. Later Plane CTM block can convert the content to some different
+> > +colorspace. For ex, SRGB to BT2020 etc.
+> > +
+> > +3. Plane Gamma block can be used later to re-apply the non-linear
+> > +curve. This can also be used to apply Tone Mapping for HDR usecases.
+> > +
+> > +All the layers or framebuffers need to be converted to same color
+> > +space and format before blending. The plane color hardware blocks can
+> > +help with this. Once the Data is blended, similar color processing
+> > +can be done on blended output using pipe color hardware blocks.
+> > +
+> > +DRM Properties have been created to define and expose all these
+> > +hardware blocks to userspace. A userspace application (compositor or
+> > +any color app) can use these interfaces and define policies to
+> > +efficiently use the display hardware for such color operations.
+> > +
+> > +Pipe Color Management Properties
+> > +---------------------------------
+> > +
+> >  .. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+> >     :doc: overview
 > >
-> > Uma Shankar (22):
-> >   drm: RFC for Plane Color Hardware Pipeline
-> >   drm: Add Enhanced Gamma and color lut range attributes
-> >   drm: Add Plane Degamma Mode property
-> >   drm: Add Plane Degamma Lut property
-> >   drm/i915/xelpd: Define Degamma Lut range struct for HDR planes
-> >   drm/i915/xelpd: Add register definitions for Plane Degamma
-> >   drm/i915/xelpd: Enable plane color features
-> >   drm/i915/xelpd: Add color capabilities of SDR planes
-> >   drm/i915/xelpd: Program Plane Degamma Registers
-> >   drm/i915/xelpd: Add plane color check to glk_plane_color_ctl
-> >   drm/i915/xelpd: Initialize plane color features
-> >   drm/i915/xelpd: Load plane color luts from atomic flip
-> >   drm: Add Plane CTM property
-> >   drm: Add helper to attach Plane ctm property
-> >   drm/i915/xelpd: Define Plane CSC Registers
-> >   drm/i915/xelpd: Enable Plane CSC
-> >   drm: Add Plane Gamma Mode property
-> >   drm: Add Plane Gamma Lut property
-> >   drm/i915/xelpd: Define and Initialize Plane Gamma Lut range
-> >   drm/i915/xelpd: Add register definitions for Plane Gamma
-> >   drm/i915/xelpd: Program Plane Gamma Registers
-> >   drm/i915/xelpd: Enable plane gamma
-> >
-> >  Documentation/gpu/drm-kms.rst                 |  90 +++
-> >  Documentation/gpu/rfc/drm_color_pipeline.rst  | 167 ++++++
-> >  drivers/gpu/drm/drm_atomic.c                  |   1 +
-> >  drivers/gpu/drm/drm_atomic_state_helper.c     |  12 +
-> >  drivers/gpu/drm/drm_atomic_uapi.c             |  38 ++
-> >  drivers/gpu/drm/drm_color_mgmt.c              | 177 +++++-
-> >  .../gpu/drm/i915/display/intel_atomic_plane.c |   6 +
-> >  .../gpu/drm/i915/display/intel_atomic_plane.h |   2 +
-> >  drivers/gpu/drm/i915/display/intel_color.c    | 513 ++++++++++++++++++
-> >  drivers/gpu/drm/i915/display/intel_color.h    |   2 +
-> >  .../drm/i915/display/skl_universal_plane.c    |  15 +-
-> >  drivers/gpu/drm/i915/i915_drv.h               |   3 +
-> >  drivers/gpu/drm/i915/i915_reg.h               | 176 +++++-
-> >  include/drm/drm_mode_object.h                 |   2 +-
-> >  include/drm/drm_plane.h                       |  81 +++
-> >  include/uapi/drm/drm_mode.h                   |  58 ++
-> >  16 files changed, 1337 insertions(+), 6 deletions(-)  create mode
-> > 100644 Documentation/gpu/rfc/drm_color_pipeline.rst
-> >
-
+> > +Plane Color Management Properties
+> > +---------------------------------
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+> > +   :doc: Plane Color Properties
+> > +
+> > +.. kernel-doc:: drivers/gpu/drm/drm_color_mgmt.c
+> > +   :doc: export
+> > +
+> >  Tile Group Property
+> >  -------------------
