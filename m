@@ -2,71 +2,78 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54063429FDE
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:30:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9E3429FE9
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:31:51 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id EAC056E7D7;
-	Tue, 12 Oct 2021 08:30:13 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id AC0B789FC3;
+	Tue, 12 Oct 2021 08:31:48 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com
- [IPv6:2a00:1450:4864:20::431])
- by gabe.freedesktop.org (Postfix) with ESMTPS id DB5026E7D7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:30:12 +0000 (UTC)
-Received: by mail-wr1-x431.google.com with SMTP id i12so51693281wrb.7
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 01:30:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=v0u01eW6pVIEIVQHUq1gwzCt0Crh/8LM88kItCmByGY=;
- b=AWL3WWm5TA1JOb/tjU59RANSfhru3mTDLFmtdWuDqd7U5T+SjpAZ3iMkoK1UrF/Brj
- jDr3fWCedHYfmt9d0VTl/piGF4LjArq6gz7v04tJaTHTwBtXV65XynhSfz4Fco9ZlJgb
- PgRietc/wmfDWkRW8jCwh8WI7YS29phZFKLQ7bft5+lty4Ti3Q4EjeETqVQ0fo/skO/G
- gPyWdkWJiEkgE8HXV/RAYC79mcljZPGDs1/PaPTx/zyGB14j3DcQhJovzq6Tz39v1cjf
- 5wwJ7Rg/ysTIP91czuov5XgI1u5ouQCPccO7kWx4tn4FMaC/8/uayGCtYXxni6renSrm
- 30zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=v0u01eW6pVIEIVQHUq1gwzCt0Crh/8LM88kItCmByGY=;
- b=DQeGzoUKICr1j7sxwrUT70Jn2/2pyX8dVEUtxxdYrsE7jjBCJSs2Lnd7fmt5d+1atc
- p/kTzSb9zbdGiVBY0PwvZUoQgJwYk0OVsdee0hNvzXC9w1viBATnsnYdRAjCu8Z+gNak
- 9wYsG3+Nngm+pBOnKmpjVlmHqLUwj6x7ci59yuWjXHOiQdRC1P5Q23GlDeu7NLIghOgB
- IxNX5mGf35h4+JwYAqW26EHiPtanwyY0z2tIpAszlMjhq86xe1voXooSiOi9BPM9zKuX
- obZWlcYgvkaS61YbxgaJB2zayAEsJWWKK/0VOaYkbS3K06GSjCyN4k2YPIV7cakGQ0JS
- ZpvQ==
-X-Gm-Message-State: AOAM532amLg8/ESgHFlLk7nlIOsX/xRz4MEUtKGjfc105JamobeaAIHz
- +sfRTAH3nz8pHmCuAgCVw+3zmg==
-X-Google-Smtp-Source: ABdhPJzkvaqzlM1do02bHVH6nS44rfitAqHTBfh0TXPk0pMJNJEPFYCHWU9I1CdkwwqSiOH4AiRUOw==
-X-Received: by 2002:a05:600c:4fd1:: with SMTP id
- o17mr4146166wmq.110.1634027411159; 
- Tue, 12 Oct 2021 01:30:11 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c?
- ([2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c])
- by smtp.gmail.com with ESMTPSA id q14sm1817081wmq.4.2021.10.12.01.30.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 01:30:10 -0700 (PDT)
-Subject: Re: [PATCH v5 0/8] drm/omap: Add virtual-planes support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <e7c295be-7a0c-877c-ba25-3b580d7d9521@ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <a4e72823-6e92-cce1-0607-5506ddda42fa@baylibre.com>
-Date: Tue, 12 Oct 2021 10:30:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id CA08489FC3;
+ Tue, 12 Oct 2021 08:31:46 +0000 (UTC)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 79F0220189;
+ Tue, 12 Oct 2021 08:31:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+ t=1634027504; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jzhciBvqQ0vTMCmMY7ans9eWDLkjdIgrfHAs17HgGQk=;
+ b=GBFKzyqP4aFaQYz4LYka2c25/WepD8eDLhKgmdlwDY6a8+PWKuJOb/YiFgASvKISf+L/pN
+ FFzTAIJY1yefHrYYwunVYeLbVw0tieKnuvSd6XVLWG0qQWCEm3uATRZKjOAVKucSkYj50p
+ BpzuKXYmE+VYr0N1cW0G+pdI9wI8XsM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+ s=susede2_ed25519; t=1634027504;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jzhciBvqQ0vTMCmMY7ans9eWDLkjdIgrfHAs17HgGQk=;
+ b=HJtXWc9v/GvoS2ZYZ+y3ofWWVJOYc0BvONGgP+qhjWtSFMdTcUMAsyyfJnKKIrhzt7u3Nr
+ XBa1gvw9kPfaDFAw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id E7E8613AD5;
+ Tue, 12 Oct 2021 08:31:43 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id +SDwN+9HZWFCSwAAMHmgww
+ (envelope-from <vbabka@suse.cz>); Tue, 12 Oct 2021 08:31:43 +0000
+Message-ID: <f4f9c5b8-7bff-4d5d-8768-5e58ee1cc907@suse.cz>
+Date: Tue, 12 Oct 2021 10:31:43 +0200
 MIME-Version: 1.0
-In-Reply-To: <e7c295be-7a0c-877c-ba25-3b580d7d9521@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.2.0
+Subject: Re: [PATCH] lib/stackdepot: allow optional init and stack_table
+ allocation by kvmalloc()
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+To: Marco Elver <elver@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com,
+ Vijayanand Jitta <vjitta@codeaurora.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+ Alexander Potapenko <glider@google.com>,
+ Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Oliver Glitta
+ <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
+References: <20211007095815.3563-1-vbabka@suse.cz>
+ <YV7TnygBLdHJjmRW@elver.google.com>
+ <2a62971d-467f-f354-caac-2b5ecf258e3c@suse.cz>
+ <CANpmjNP4U9a5HFoRt=HLHpUCNiR5v82ia++wfRCezTY1TpR9RA@mail.gmail.com>
+From: Vlastimil Babka <vbabka@suse.cz>
+In-Reply-To: <CANpmjNP4U9a5HFoRt=HLHpUCNiR5v82ia++wfRCezTY1TpR9RA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -82,36 +89,51 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2021 09:15, Tomi Valkeinen wrote:
-> On 23/09/2021 10:06, Neil Armstrong wrote:
->> This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
+On 10/11/21 19:08, Marco Elver wrote:
+> On Mon, 11 Oct 2021 at 19:02, Vlastimil Babka <vbabka@suse.cz> wrote:
+> [...]
+>> > On the other hand, the lazy initialization mode you're introducing
+>> > requires an explicit stack_depot_init() call somewhere and isn't as
+>> > straightforward as before.
+>> >
+>> > Not sure what is best. My intuition tells me STACKDEPOT_LAZY_INIT would
+>> > be safer as it's a deliberate opt-in to the lazy initialization
+>> > behaviour.
 >>
->> This patch series adds virtual-plane support to omapdrm driver to allow the use
->> of display wider than 2048 pixels.
->>
->> In order to do so we introduce the concept of hw_overlay which can then be
->> dynamically allocated to a plane. When the requested output width exceed what
->> be supported by one overlay a second is then allocated if possible to handle
->> display wider then 2048.
->>
->> This series replaces an earlier series which was DT based and using statically
->> allocated resources.
->>
->> This implementation is inspired from the work done in msm/disp/mdp5
->> driver.
->>
->> Changes since v4 at [1]:
->> - rebased on v5.15-rc2
+>> I think it should be fine with ALWAYS_INIT. There are not many stackdepot
+>> users being added, and anyone developing a new one will very quickly find
+>> out if they forget to call stack_depot_init()?
 > 
-> What is this based on? Doesn't apply to v5.15-rc2, and "error: sha1 information is lacking or useless".
-
-Indeed the sha1 info is useless, it's based on v5.15-rc2 on top of "HACK: drm/omap: increase DSS5 max tv pclk to 192MHz"
-in order to validate on 2k monitors.
-
-My bad, I thought it would apply based on this patch, I'll rebase on v5.15-rc2 for v6.
-
-Thanks for the review,
-Neil
+> I think that's fine.
 > 
->  Tomi
+>> > Preferences?
+>> >
+>> > [...]
+>> >> --- a/drivers/gpu/drm/drm_mm.c
+>> >> +++ b/drivers/gpu/drm/drm_mm.c
+>> >> @@ -980,6 +980,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
+>> >>      add_hole(&mm->head_node);
+>> >>
+>> >>      mm->scan_active = 0;
+>> >> +
+>> >> +#ifdef CONFIG_DRM_DEBUG_MM
+>> >> +    stack_depot_init();
+>> >> +#endif
+>> >
+>> > DRM_DEBUG_MM implies STACKDEPOT. Not sure what is more readable to drm
+>> > maintainers, but perhaps it'd be nicer to avoid the #ifdef here, and
+>> > instead just keep the no-op version of stack_depot_init() in
+>> > <linux/stackdepot.h>. I don't have a strong preference.
+>>
+>> Hm, but in case STACKDEPOT is also selected by something else (e.g.
+>> CONFIG_PAGE_OWNER) which uses lazy init but isn't enabled on boot, then
+>> without #ifdef CONFIG_DRM_DEBUG_MM above, this code would call a
+>> stack_depot_init() (that's not a no-op) even in case it's not going to be
+>> using it, so not what we want to achieve.
+>> But it could be changed to use IS_ENABLED() if that's preferred by DRM folks.
+> 
+> You're right -- but I'll leave this to DRM folks.
 
+Ah, the file only includes stackdepot.h in a #ifdef CONFIG_DRM_DEBUG_MM
+section so I will keep the #ifdef here for a minimal change, unless
+requested otherwise.
