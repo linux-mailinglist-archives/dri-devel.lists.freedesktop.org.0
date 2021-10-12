@@ -1,42 +1,43 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDD8429F09
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 09:53:34 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B773429F2B
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:00:12 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 62B4F6E7D1;
-	Tue, 12 Oct 2021 07:53:31 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 237466E802;
+	Tue, 12 Oct 2021 08:00:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1C5056E7D1;
- Tue, 12 Oct 2021 07:53:30 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="313266205"
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="313266205"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 00:53:29 -0700
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="441129366"
-Received: from cfinne2-mobl.ger.corp.intel.com (HELO [10.213.213.112])
- ([10.213.213.112])
- by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 00:53:27 -0700
-Subject: Re: [Intel-gfx] [PATCH 24/26] drm/i915: Update I915_GEM_BUSY IOCTL to
- understand composite fences
-To: Matthew Brost <matthew.brost@intel.com>, intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org
-Cc: john.c.harrison@intel.com, daniele.ceraolospurio@intel.com
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-25-matthew.brost@intel.com>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <033fd934-26b8-2888-8605-45f80a38dffa@linux.intel.com>
-Date: Tue, 12 Oct 2021 08:53:25 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id EB73789755
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:00:01 +0000 (UTC)
+Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
+ [91.158.153.130])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17E01F1;
+ Tue, 12 Oct 2021 10:00:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1634025600;
+ bh=1LolTykz25ZRqhJ0HndWPDaSMEgQLzF8E+TYn1nz52w=;
+ h=To:Cc:References:From:Subject:Date:In-Reply-To:From;
+ b=TQc8mSpKVruBEmeAJ+UBwlESPzg6K3Gx+nodHvu4mGx0adpSW+MXY+2gDK95xUGos
+ oiHHFO0G0eURkza3sqcUQD2myOkwzH/vxmVVhgbdoALjs1Df/vMi7aOstbB6C8Fubd
+ gRKRILPbUO6NzCBTaHfhy9xjhaFLH+THyEFskG8E=
+To: Neil Armstrong <narmstrong@baylibre.com>
+Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, khilman@baylibre.com,
+ Benoit Parrot <bparrot@ti.com>
+References: <20210923070701.145377-1-narmstrong@baylibre.com>
+ <20210923070701.145377-4-narmstrong@baylibre.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v5 3/8] drm/omap: introduce omap_hw_overlay
+Message-ID: <6e5980a6-218e-b585-3ad7-3e55350929b6@ideasonboard.com>
+Date: Tue, 12 Oct 2021 10:59:57 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.13.0
 MIME-Version: 1.0
-In-Reply-To: <20211004220637.14746-25-matthew.brost@intel.com>
+In-Reply-To: <20210923070701.145377-4-narmstrong@baylibre.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -55,187 +56,243 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 04/10/2021 23:06, Matthew Brost wrote:
-> Parallel submission create composite fences (dma_fence_array) for excl /
-> shared slots in objects. The I915_GEM_BUSY IOCTL checks these slots to
-> determine the busyness of the object. Prior to patch it only check if
-> the fence in the slot was a i915_request. Update the check to understand
-> composite fences and correctly report the busyness.
+On 23/09/2021 10:06, Neil Armstrong wrote:
+> From: Benoit Parrot <bparrot@ti.com>
 > 
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> Split out the hardware overlay specifics from omap_plane.
+> To start, the hw overlays are statically assigned to planes.
+> 
+> The goal is to eventually assign hw overlays dynamically to planes
+> during plane->atomic_check() based on requested caps (scaling, YUV,
+> etc). And then perform hw overlay re-assignment if required.
+> 
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
 > ---
->   drivers/gpu/drm/i915/gem/i915_gem_busy.c      | 60 +++++++++++++++----
->   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  5 +-
->   drivers/gpu/drm/i915/i915_request.h           |  6 ++
->   3 files changed, 58 insertions(+), 13 deletions(-)
+>   drivers/gpu/drm/omapdrm/Makefile       |  1 +
+>   drivers/gpu/drm/omapdrm/omap_drv.c     |  9 ++-
+>   drivers/gpu/drm/omapdrm/omap_drv.h     |  4 ++
+>   drivers/gpu/drm/omapdrm/omap_overlay.c | 87 ++++++++++++++++++++++++++
+>   drivers/gpu/drm/omapdrm/omap_overlay.h | 31 +++++++++
+>   drivers/gpu/drm/omapdrm/omap_plane.c   | 42 ++++++-------
+>   6 files changed, 151 insertions(+), 23 deletions(-)
+>   create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.c
+>   create mode 100644 drivers/gpu/drm/omapdrm/omap_overlay.h
 > 
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> index 6234e17259c1..b89d173c62eb 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
-> @@ -4,6 +4,8 @@
->    * Copyright © 2014-2016 Intel Corporation
->    */
+> diff --git a/drivers/gpu/drm/omapdrm/Makefile b/drivers/gpu/drm/omapdrm/Makefile
+> index 21e8277ff88f..710b4e0abcf0 100644
+> --- a/drivers/gpu/drm/omapdrm/Makefile
+> +++ b/drivers/gpu/drm/omapdrm/Makefile
+> @@ -9,6 +9,7 @@ omapdrm-y := omap_drv.o \
+>   	omap_debugfs.o \
+>   	omap_crtc.o \
+>   	omap_plane.o \
+> +	omap_overlay.o \
+>   	omap_encoder.o \
+>   	omap_fb.o \
+>   	omap_gem.o \
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
+> index f86e20578143..b994014b22e8 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
+> @@ -583,10 +583,14 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
 >   
-> +#include <linux/dma-fence-array.h>
+>   	omap_gem_init(ddev);
+>   
+> +	ret = omap_hwoverlays_init(priv);
+> +	if (ret)
+> +		goto err_gem_deinit;
 > +
->   #include "gt/intel_engine.h"
+>   	ret = omap_modeset_init(ddev);
+>   	if (ret) {
+>   		dev_err(priv->dev, "omap_modeset_init failed: ret=%d\n", ret);
+> -		goto err_gem_deinit;
+> +		goto err_free_overlays;
+>   	}
 >   
->   #include "i915_gem_ioctls.h"
-> @@ -36,7 +38,7 @@ static __always_inline u32 __busy_write_id(u16 id)
->   }
+>   	/* Initialize vblank handling, start with all CRTCs disabled. */
+> @@ -618,6 +622,8 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
+>   	omap_fbdev_fini(ddev);
+>   err_cleanup_modeset:
+>   	omap_modeset_fini(ddev);
+> +err_free_overlays:
+> +	omap_hwoverlays_destroy(priv);
+>   err_gem_deinit:
+>   	omap_gem_deinit(ddev);
+>   	destroy_workqueue(priv->wq);
+> @@ -642,6 +648,7 @@ static void omapdrm_cleanup(struct omap_drm_private *priv)
+>   	drm_atomic_helper_shutdown(ddev);
 >   
->   static __always_inline unsigned int
-> -__busy_set_if_active(const struct dma_fence *fence, u32 (*flag)(u16 id))
-> +__busy_set_if_active(struct dma_fence *fence, u32 (*flag)(u16 id))
->   {
->   	const struct i915_request *rq;
+>   	omap_modeset_fini(ddev);
+> +	omap_hwoverlays_destroy(priv);
+>   	omap_gem_deinit(ddev);
 >   
-> @@ -46,29 +48,63 @@ __busy_set_if_active(const struct dma_fence *fence, u32 (*flag)(u16 id))
->   	 * to eventually flush us, but to minimise latency just ask the
->   	 * hardware.
->   	 *
-> -	 * Note we only report on the status of native fences.
-> +	 * Note we only report on the status of native fences and we currently
-> +	 * have two native fences:
-> +	 *
-> +	 * 1. A composite fence (dma_fence_array) constructed of i915 requests
-> +	 * created during a parallel submission. In this case we deconstruct the
-> +	 * composite fence into individual i915 requests and check the status of
-> +	 * each request.
-> +	 *
-> +	 * 2. A single i915 request.
->   	 */
-> -	if (!dma_fence_is_i915(fence))
-> +	if (dma_fence_is_array(fence)) {
-> +		struct dma_fence_array *array = to_dma_fence_array(fence);
-> +		struct dma_fence **child = array->fences;
-> +		unsigned int nchild = array->num_fences;
+>   	destroy_workqueue(priv->wq);
+> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.h b/drivers/gpu/drm/omapdrm/omap_drv.h
+> index 591d4c273f02..b4d9c2062723 100644
+> --- a/drivers/gpu/drm/omapdrm/omap_drv.h
+> +++ b/drivers/gpu/drm/omapdrm/omap_drv.h
+> @@ -24,6 +24,7 @@
+>   #include "omap_gem.h"
+>   #include "omap_irq.h"
+>   #include "omap_plane.h"
+> +#include "omap_overlay.h"
+>   
+>   #define DBG(fmt, ...) DRM_DEBUG_DRIVER(fmt"\n", ##__VA_ARGS__)
+>   #define VERB(fmt, ...) if (0) DRM_DEBUG_DRIVER(fmt, ##__VA_ARGS__) /* verbose debug */
+> @@ -57,6 +58,9 @@ struct omap_drm_private {
+>   	unsigned int num_planes;
+>   	struct drm_plane *planes[8];
+>   
+> +	unsigned int num_ovls;
+> +	struct omap_hw_overlay *overlays[8];
 > +
-> +		do {
-> +			struct dma_fence *current_fence = *child++;
+>   	struct drm_fb_helper *fbdev;
+>   
+>   	struct workqueue_struct *wq;
+> diff --git a/drivers/gpu/drm/omapdrm/omap_overlay.c b/drivers/gpu/drm/omapdrm/omap_overlay.c
+> new file mode 100644
+> index 000000000000..2b1416d2aad2
+> --- /dev/null
+> +++ b/drivers/gpu/drm/omapdrm/omap_overlay.c
+> @@ -0,0 +1,87 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (C) 2018 Texas Instruments Incorporated -  http://www.ti.com/
+> + * Author: Benoit Parrot, <bparrot@ti.com>
+
+Extra comma there, and similar case below.
+
+> + */
 > +
-> +			/* Not an i915 fence, can't be busy per above */
-> +			if (!dma_fence_is_i915(current_fence) ||
-> +			    !test_bit(I915_FENCE_FLAG_COMPOSITE,
-> +				      &current_fence->flags)) {
-> +				return 0;
-> +			}
+> +#include <drm/drm_atomic.h>
+> +#include <drm/drm_atomic_helper.h>
+> +#include <drm/drm_plane_helper.h>
 > +
-> +			rq = to_request(current_fence);
-> +			if (!i915_request_completed(rq)) {
-> +				BUILD_BUG_ON(!typecheck(u16,
-> +							rq->engine->uabi_class));
-> +				return flag(rq->engine->uabi_class);
-> +			}
-> +		} while (--nchild);
-
-Do you even need to introduce I915_FENCE_FLAG_COMPOSITE? If parallel 
-submit is the only possible creator of array fences then possibly not. 
-Probably even would result in less code which even keeps working in a 
-hypothetical future. Otherwise you could add a debug bug on if array 
-fence contains a fence without I915_FENCE_FLAG_COMPOSITE set.
-
-Secondly, I'd also run the whole loop and not return on first busy or 
-incompatible for simplicity.
-
-And finally, with all above in place, I think you could have common 
-function for the below (checking one fence) and call that both for a 
-single fence and from an array loop above for less duplication. (Even 
-duplicated BUILD_BUG_ON which makes no sense!)
-
-End result would be a simpler patch like:
-
-__busy_set_if_active_one(...)
-{
-    .. existing __busy_set_if_active ..
-}
-
-__busy_set_if_active(..)
-{
-   ...
-   if (dma_fence_is_array(fence)) {
-	...
-	for (i = 0; i < array->num_fences; i++)
-		flags |= __busy_set_if_active_one(...);
-   } else {
-	flags = __busy_set_if_active_one(...);
-   }
-
-Regards,
-
-Tvrtko
-
+> +#include "omap_dmm_tiler.h"
+> +#include "omap_drv.h"
 > +
-> +		/* All requests in array complete, not busy */
->   		return 0;
-> +	} else {
-> +		if (!dma_fence_is_i915(fence))
-> +			return 0;
->   
-> -	/* opencode to_request() in order to avoid const warnings */
-> -	rq = container_of(fence, const struct i915_request, fence);
-> -	if (i915_request_completed(rq))
-> -		return 0;
-> +		rq = to_request(fence);
-> +		if (i915_request_completed(rq))
-> +			return 0;
->   
-> -	/* Beware type-expansion follies! */
-> -	BUILD_BUG_ON(!typecheck(u16, rq->engine->uabi_class));
-> -	return flag(rq->engine->uabi_class);
-> +		/* Beware type-expansion follies! */
-> +		BUILD_BUG_ON(!typecheck(u16, rq->engine->uabi_class));
-> +		return flag(rq->engine->uabi_class);
-> +	}
->   }
->   
->   static __always_inline unsigned int
-> -busy_check_reader(const struct dma_fence *fence)
-> +busy_check_reader(struct dma_fence *fence)
->   {
->   	return __busy_set_if_active(fence, __busy_read_flag);
->   }
->   
->   static __always_inline unsigned int
-> -busy_check_writer(const struct dma_fence *fence)
-> +busy_check_writer(struct dma_fence *fence)
->   {
->   	if (!fence)
->   		return 0;
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> index 5c7fb6f68bbb..16276f406fd6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
-> @@ -2988,8 +2988,11 @@ eb_composite_fence_create(struct i915_execbuffer *eb, int out_fence_fd)
->   	if (!fences)
->   		return ERR_PTR(-ENOMEM);
->   
-> -	for_each_batch_create_order(eb, i)
-> +	for_each_batch_create_order(eb, i) {
->   		fences[i] = &eb->requests[i]->fence;
-> +		__set_bit(I915_FENCE_FLAG_COMPOSITE,
-> +			  &eb->requests[i]->fence.flags);
-> +	}
->   
->   	fence_array = dma_fence_array_create(eb->num_batches,
->   					     fences,
-> diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
-> index 24db8459376b..dc359242d1ae 100644
-> --- a/drivers/gpu/drm/i915/i915_request.h
-> +++ b/drivers/gpu/drm/i915/i915_request.h
-> @@ -156,6 +156,12 @@ enum {
->   	 * submission / relationship encoutered an error.
->   	 */
->   	I915_FENCE_FLAG_SKIP_PARALLEL,
+> +/*
+> + * overlay funcs
+> + */
+> +static const char * const overlay_id_to_name[] = {
+> +	[OMAP_DSS_GFX] = "gfx",
+> +	[OMAP_DSS_VIDEO1] = "vid1",
+> +	[OMAP_DSS_VIDEO2] = "vid2",
+> +	[OMAP_DSS_VIDEO3] = "vid3",
+> +};
+
+I was expecting to see the name array to be removed from omap_plane.c as 
+it's moved here, but that's not the case. Why is that? Especially as 
+after this series these names make no sense with the planes.
+
+> +static void omap_overlay_destroy(struct omap_hw_overlay *overlay)
+> +{
+> +	kfree(overlay);
+> +}
 > +
+> +static struct omap_hw_overlay *omap_overlay_init(enum omap_plane_id overlay_id,
+> +						 enum omap_overlay_caps caps)
+> +{
+> +	struct omap_hw_overlay *overlay;
+> +
+> +	overlay = kzalloc(sizeof(*overlay), GFP_KERNEL);
+> +	if (!overlay)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	overlay->name = overlay_id_to_name[overlay_id];
+> +	overlay->overlay_id = overlay_id;
+> +	overlay->caps = caps;
 > +	/*
-> +	 * I915_FENCE_FLAG_COMPOSITE - Indicates fence is part of a composite
-> +	 * fence (dma_fence_array) and i915 generated for parallel submission.
+> +	 * When this is called priv->num_crtcs is not known yet.
+> +	 * Use a safe mask value to start with, it will get updated to the
+> +	 * proper value after the first use.
 > +	 */
-> +	I915_FENCE_FLAG_COMPOSITE,
->   };
->   
->   /**
-> 
+> +	overlay->possible_crtcs = 0xff;
+
+This sounds like a hack. Why do we need possible_crtcs anyway? If I'm 
+not mistaken, on all DSS versions any overlay can be used on any ctrtc. 
+On the DRM plane level we need the possible_crtc as the DRM framework 
+needs that (i.e. we just always set all crtcs available for all planes), 
+but why is it needed here?
+
+> +	return overlay;
+> +}
+> +
+> +int omap_hwoverlays_init(struct omap_drm_private *priv)
+> +{
+> +	static const enum omap_plane_id hw_plane_ids[] = {
+> +			OMAP_DSS_GFX, OMAP_DSS_VIDEO1,
+> +			OMAP_DSS_VIDEO2, OMAP_DSS_VIDEO3,
+> +	};
+> +	u32 num_overlays = dispc_get_num_ovls(priv->dispc);
+> +	enum omap_overlay_caps caps;
+> +	int i, ret;
+> +
+> +	for (i = 0; i < num_overlays; i++) {
+> +		struct omap_hw_overlay *overlay;
+> +
+> +		caps = dispc_ovl_get_caps(priv->dispc, hw_plane_ids[i]);
+> +		overlay = omap_overlay_init(hw_plane_ids[i], caps);
+> +		if (IS_ERR(overlay)) {
+> +			ret = PTR_ERR(overlay);
+> +			dev_err(priv->dev, "failed to construct overlay for %s (%d)\n",
+> +				overlay_id_to_name[i], ret);
+> +			return ret;
+> +		}
+
+I think this leaks memory if omap_overlay_init() fails.
+
+> +		overlay->idx = priv->num_ovls;
+> +		priv->overlays[priv->num_ovls++] = overlay;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +void omap_hwoverlays_destroy(struct omap_drm_private *priv)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < priv->num_ovls; i++) {
+> +		omap_overlay_destroy(priv->overlays[i]);
+> +		priv->overlays[i] = NULL;
+> +	}
+> +}
+> diff --git a/drivers/gpu/drm/omapdrm/omap_overlay.h b/drivers/gpu/drm/omapdrm/omap_overlay.h
+> new file mode 100644
+> index 000000000000..892fecb67adb
+> --- /dev/null
+> +++ b/drivers/gpu/drm/omapdrm/omap_overlay.h
+> @@ -0,0 +1,31 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (C) 2018 Texas Instruments Incorporated -  http://www.ti.com/
+> + * Author: Benoit Parrot, <bparrot@ti.com>
+> + */
+> +
+> +#ifndef __OMAPDRM_OVERLAY_H__
+> +#define __OMAPDRM_OVERLAY_H__
+> +
+> +#include <linux/types.h>
+> +
+> +enum drm_plane_type;
+> +
+> +struct drm_device;
+> +struct drm_mode_object;
+> +struct drm_plane;
+> +
+> +/* Used to associate a HW overlay/plane to a plane */
+> +struct omap_hw_overlay {
+> +	int idx;
+
+unsigned int.
+
+> +
+> +	const char *name;
+> +	enum omap_plane_id overlay_id;
+
+Perhaps just "id" is fine. You don't have "overlay_name" there either, 
+but just "name".
+
+  Tomi
