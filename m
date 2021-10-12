@@ -2,43 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF6342AE04
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 22:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8220642AE18
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 22:44:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id C078989AC0;
-	Tue, 12 Oct 2021 20:38:46 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 3C0D289B45;
+	Tue, 12 Oct 2021 20:44:12 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1266A89AC0
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 20:38:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
- by honk.sigxcpu.org (Postfix) with ESMTP id C3083FB03;
- Tue, 12 Oct 2021 22:38:42 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
-Received: from honk.sigxcpu.org ([127.0.0.1])
- by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id 8r1EHILMLt56; Tue, 12 Oct 2021 22:38:41 +0200 (CEST)
-Date: Tue, 12 Oct 2021 22:38:40 +0200
-From: Guido =?iso-8859-1?Q?G=FCnther?= <agx@sigxcpu.org>
-To: Sam Ravnborg <sam@ravnborg.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/bridge: Ignore -EPROBE_DEFER when bridge attach fails
-Message-ID: <YWXyUHAeoWUeyMY4@qwark.sigxcpu.org>
-References: <00493cc61d1443dab1c131c46c5890f95f6f9b25.1634068657.git.agx@sigxcpu.org>
- <YWXrPE/G6gaXA6o3@ravnborg.org>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 5C4CD89B45;
+ Tue, 12 Oct 2021 20:44:11 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 0DCA460E09;
+ Tue, 12 Oct 2021 20:44:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634071451;
+ bh=UOkTy92XzuCtUq8OKvsR+eNtXmbw0VxKGgOP+U8fxCc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=dVY6saMQJHCva5gnZHW+oNKn5KwkmHfFZvnbQUROIgps+NAUt0Tnuj+AqsHJKGtfH
+ 3fHCTg5zhTRFQBkE9DaPyIvLq6BgZgb8SXieAuio3g+RKCNgXkgj2AWekbStG3HwQO
+ r73rCEMYuTl8wf6CXc8IiMyvMrwhuH6CgKQ+huUJhcN/Cd4ktmC/prwq5eZL1v+ETb
+ IsvtcWhHGrY9FzkjvlwajnHPvRPZeA42AML/j40oo9r6dOSZcDR8bpbC4byAHmVUWD
+ m/NklUM8bXYUZEkRRenKS/x7vwBaC5D6GLTajdI2rjR8bYJGchfnXx2irIqrJjqJN9
+ pi/uIraLvn+lw==
+Date: Tue, 12 Oct 2021 13:44:10 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Felix Kuehling <felix.kuehling@amd.com>
+Cc: Matthew Wilcox <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Alex Sierra <alex.sierra@amd.com>, linux-mm@kvack.org,
+ rcampbell@nvidia.com, linux-ext4@vger.kernel.org,
+ linux-xfs@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, hch@lst.de, jgg@nvidia.com,
+ jglisse@redhat.com, apopple@nvidia.com
+Subject: Re: [PATCH v1 00/12] MEMORY_DEVICE_COHERENT for CPU-accessible
+ coherent device memory
+Message-ID: <20211012204410.GR24307@magnolia>
+References: <20211012171247.2861-1-alex.sierra@amd.com>
+ <20211012113957.53f05928dd60f3686331fede@linux-foundation.org>
+ <YWXd0leFtLepunVa@casper.infradead.org>
+ <1bcea911-58c6-c730-35b2-e8f1f8eddcd8@amd.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <YWXrPE/G6gaXA6o3@ravnborg.org>
+In-Reply-To: <1bcea911-58c6-c730-35b2-e8f1f8eddcd8@amd.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,59 +61,27 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
-On Tue, Oct 12, 2021 at 10:08:28PM +0200, Sam Ravnborg wrote:
-> Hi Guido,
+On Tue, Oct 12, 2021 at 04:24:25PM -0400, Felix Kuehling wrote:
 > 
-> On Tue, Oct 12, 2021 at 09:58:58PM +0200, Guido Günther wrote:
-> > Otherwise logs are filled with
-> > 
-> >   [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a0 0000 to encoder None-34: -517
-> > 
-> > when the bridge isn't ready yet.
-> > 
-> > Fixes: fb8d617f8fd6 ("drm/bridge: Centralize error message when bridge attach fails")
-> > Signed-off-by: Guido Günther <agx@sigxcpu.org>
-> > ---
-> >  drivers/gpu/drm/drm_bridge.c | 11 ++++++-----
-> >  1 file changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index a8ed66751c2d..f0508e85ae98 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -227,14 +227,15 @@ int drm_bridge_attach(struct drm_encoder *encoder, struct drm_bridge *bridge,
-> >  	bridge->encoder = NULL;
-> >  	list_del(&bridge->chain_node);
-> >  
-> > +	if (ret != -EPROBE_DEFER) {
-> >  #ifdef CONFIG_OF
-> > -	DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-> > -		  bridge->of_node, encoder->name, ret);
-> > +		DRM_ERROR("failed to attach bridge %pOF to encoder %s: %d\n",
-> > +			  bridge->of_node, encoder->name, ret);
+> Am 2021-10-12 um 3:11 p.m. schrieb Matthew Wilcox:
+> > On Tue, Oct 12, 2021 at 11:39:57AM -0700, Andrew Morton wrote:
+> >> Because I must ask: if this feature is for one single computer which
+> >> presumably has a custom kernel, why add it to mainline Linux?
+> > I think in particular patch 2 deserves to be merged because it removes
+> > a ton of cruft from every call to put_page() (at least if you're using
+> > a distro config).  It makes me nervous, but I think it's the right
+> > thing to do.  It may well need more fixups after it has been merged,
+> > but that's life.
 > 
-> It would be better to use drm_probe_err().
+> Maybe we should split the first two patches into a separate series, and
+> get it merged first, while the more controversial stuff is still under
+> review?
 
-That's what i thought initially but since the rest here uses DRM_*
-logging i stuck with it. Happy to change that though.
-Cheers,
- -- Guido
+Yes, please.  I've seen that first patch several times already. :)
 
+--D
+
+> Thanks,
+>   Felix
 > 
-> 	Sam
-> 
-> >  #else
-> > -	DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-> > -		  encoder->name, ret);
-> > +		DRM_ERROR("failed to attach bridge to encoder %s: %d\n",
-> > +			  encoder->name, ret);
-> >  #endif
-> > -
-> > +	}
-> >  	return ret;
-> >  }
-> >  EXPORT_SYMBOL(drm_bridge_attach);
-> > -- 
-> > 2.33.0
 > 
