@@ -2,72 +2,50 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566C142A586
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:23:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D0B642A59A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:25:58 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 225A26E86D;
-	Tue, 12 Oct 2021 13:23:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5FEA46E944;
+	Tue, 12 Oct 2021 13:25:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com
- [IPv6:2a00:1450:4864:20::433])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D2C256E86D
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 13:23:04 +0000 (UTC)
-Received: by mail-wr1-x433.google.com with SMTP id t2so66974913wrb.8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YTaDn2p7VZ92sBtgQtYNbQCTZ1WpJ/csOglKb3v7qtk=;
- b=qFdM3wTDBfuNv5JxSuq6lSdFJrwntH4ICGRNfvUUktT+fPFwZj49/CcIKO+D08vGjb
- O9Z8e+DnniJm1vkFiKiDwOsWxPJMdq0S6moTaqYQw+ztEZ6ujf2sYcPQIADPzmPO+WHl
- z4ebD2YVQVi/wkg6Jc57cJrnMZGzUuz3nad75nU8Zh7d9yt4IsVDRs1SjyZFH53orTrR
- KmHmTlfqlQ3CkWdD2p3v5PWu12C4VfYCSBy8KR/IAZ+scqWumsFGpXigJoWV5u9Y3mm5
- v5lwk0zTJNC6UHXVn/6f+7VEaGk6u8uK7KBDJeDt3Ga7yZYMsNHeVWPbTvMjVjYhoNs5
- IreQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=YTaDn2p7VZ92sBtgQtYNbQCTZ1WpJ/csOglKb3v7qtk=;
- b=PexhLtCd8T58d6RvuY9VtQviOh3/p0fpsZVV53qFBTOdp5DpBnsKQl6I905MdNmZtj
- kOxvTOQxT1Ta9kEsLYkwhzASxAmun/KlQxzTBlArfKB+3P6TusKgEu22jLgNkxg+55d1
- OPg9HaeWWYO8+VPLECal+JzqpYOWauqeDPMf9/Qh8AiI77b2xuBLH/YQ7caKXvGbcc2u
- z9MEsdoN2/amKlipgIS+lh2F+bSLTEr4U4LHsTZZAf+fpRV7VmKPSI1FTYeLm/vLvQaG
- xOs/G3D0q40fF0tNWXQ5/hIvc5i0acYjfJxSDnUxs0RpUD/D+I7MrpeiPR0PzC8s5NXz
- REuQ==
-X-Gm-Message-State: AOAM5318htpiObi0oVSDTYoRfuhz4MaXs5+8ELH4PKXegn3+fKdc/06P
- H7OOMYjz7Byq5qiZLIxz5GyVCQ==
-X-Google-Smtp-Source: ABdhPJz6RBo0jNXjVfPu1Mtxy4onFJopYOBEsV1SiaFxd5M+Y3ynxZphwdmFy7PyBzahcNwdTQ+xbQ==
-X-Received: by 2002:a1c:751a:: with SMTP id o26mr5746307wmc.94.1634044982250; 
- Tue, 12 Oct 2021 06:23:02 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c?
- ([2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c])
- by smtp.gmail.com with ESMTPSA id z6sm6628205wro.25.2021.10.12.06.23.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 06:23:01 -0700 (PDT)
-Subject: Re: [PATCH v5 5/8] drm/omap: Add global state as a private atomic
- object
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com,
- Benoit Parrot <bparrot@ti.com>
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <20210923070701.145377-6-narmstrong@baylibre.com>
- <2609ca32-90e8-1335-2769-14dcbcdfafde@ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <ab06e379-1579-2352-3525-dbdca6a94f9b@baylibre.com>
-Date: Tue, 12 Oct 2021 15:23:01 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from smtp-relay-canonical-1.canonical.com
+ (smtp-relay-canonical-1.canonical.com [185.125.188.121])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 171ED6E944;
+ Tue, 12 Oct 2021 13:25:52 +0000 (UTC)
+Received: from localhost (1.general.cking.uk.vpn [10.172.193.212])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
+ SHA256) (No client certificate requested)
+ by smtp-relay-canonical-1.canonical.com (Postfix) with ESMTPSA id 2940E40047; 
+ Tue, 12 Oct 2021 13:25:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
+ s=20210705; t=1634045150;
+ bh=zKVkWhJrCNRs1YQq8kD1+rhAcBYYHc1UVm4VR83IhSI=;
+ h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type;
+ b=Q6oKf1l4GDkPrJmo4hDWnxsi8yVM3/Rp8ckE2jwUqnsqWTuKUq+MXho/MgDob/1TL
+ /tlmZpQWjUACcstaUvckCGTc2OtlYrylIM4bRirEd6z9eK6mk+1kfKzQIo+RkaAFMe
+ P3o0+5tiH1uSrTDnvwmtcsyqI4+UJfDsB6QYmStNiEfyhURNwmOD4eAAqyK4Wzoz7Y
+ vycoFb6k5AgSSd8AtZijbEfQBhVLS2248pGovjDrie/NVtq75WMpAyCDG0spOLTI7L
+ mRsOF5HJvNWv16KqKjA/sUNls1++IdwLN97PuOxGdyB8TmxohDlGeCUNcvetdNwYvK
+ T6/qXBWOpJL+Q==
+From: Colin King <colin.king@canonical.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>,
+ =?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Matthew Auld <matthew.auld@intel.com>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] drm/i915: Fix dereference of pointer backup before it
+ is null checked
+Date: Tue, 12 Oct 2021 14:25:49 +0100
+Message-Id: <20211012132549.260089-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.32.0
 MIME-Version: 1.0
-In-Reply-To: <2609ca32-90e8-1335-2769-14dcbcdfafde@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -84,231 +62,42 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+From: Colin Ian King <colin.king@canonical.com>
 
-On 12/10/2021 12:44, Tomi Valkeinen wrote:
-> On 23/09/2021 10:06, Neil Armstrong wrote:
->> From: Benoit Parrot <bparrot@ti.com>
->>
->> Global shared resources (like hw overlays) for omapdrm are implemented
->> as a part of atomic state using the drm_private_obj infrastructure
->> available in the atomic core.
->>
->> omap_global_state is introduced as a drm atomic private object. The two
->> funcs omap_get_global_state() and omap_get_existing_global_state() are
->> the two variants that will be used to access omap_global_state.
->>
->> drm_mode_config_init() needs to be called earlier because it
->> creates/initializes the private_obj link list maintained by the atomic
->> framework. The private_obj link list has to exist prior to calling
->> drm_atomic_private_obj_init(). Similarly the cleanup handler are
->> reordered appropriately.
-> 
-> I'm not really familiar with the private object. Did you check how current drivers use it? These patches are 3 years old, and things might have changed around the private object.
+The assignment of pointer backup_bo dereferences pointer backup before
+backup is null checked, this could lead to a null pointer dereference
+issue. Fix this by only assigning backup_bo after backup has been null
+checked.
 
-Indeed, I checked and this is used in vc4/tegra/arm/amd & msm in the same as way.
+Addresses-Coverity: ("Dereference before null check")
+Fixes: c56ce9565374 ("drm/i915 Implement LMEM backup and restore for suspend / resume")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> 
->> Signed-off-by: Benoit Parrot <bparrot@ti.com>
->> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->> ---
->>   drivers/gpu/drm/omapdrm/omap_drv.c | 91 +++++++++++++++++++++++++++++-
->>   drivers/gpu/drm/omapdrm/omap_drv.h | 21 +++++++
->>   2 files changed, 109 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.c b/drivers/gpu/drm/omapdrm/omap_drv.c
->> index b994014b22e8..c7912374d393 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_drv.c
->> +++ b/drivers/gpu/drm/omapdrm/omap_drv.c
->> @@ -128,6 +128,82 @@ static const struct drm_mode_config_funcs omap_mode_config_funcs = {
->>       .atomic_commit = drm_atomic_helper_commit,
->>   };
->>   +/* Global/shared object state funcs */
->> +
->> +/*
->> + * This is a helper that returns the private state currently in operation.
->> + * Note that this would return the "old_state" if called in the atomic check
->> + * path, and the "new_state" after the atomic swap has been done.
->> + */
->> +struct omap_global_state *
->> +omap_get_existing_global_state(struct omap_drm_private *priv)
->> +{
->> +    return to_omap_global_state(priv->glob_obj.state);
->> +}
->> +
->> +/*
->> + * This acquires the modeset lock set aside for global state, creates
->> + * a new duplicated private object state.
->> + */
->> +struct omap_global_state *__must_check
->> +omap_get_global_state(struct drm_atomic_state *s)
->> +{
->> +    struct omap_drm_private *priv = s->dev->dev_private;
->> +    struct drm_private_state *priv_state;
->> +
->> +    priv_state = drm_atomic_get_private_obj_state(s, &priv->glob_obj);
->> +    if (IS_ERR(priv_state))
->> +        return ERR_CAST(priv_state);
->> +
->> +    return to_omap_global_state(priv_state);
->> +}
->> +
->> +static struct drm_private_state *
->> +omap_global_duplicate_state(struct drm_private_obj *obj)
->> +{
->> +    struct omap_global_state *state;
->> +
->> +    state = kmemdup(obj->state, sizeof(*state), GFP_KERNEL);
->> +    if (!state)
->> +        return NULL;
->> +
->> +    __drm_atomic_helper_private_obj_duplicate_state(obj, &state->base);
->> +
->> +    return &state->base;
->> +}
->> +
->> +static void omap_global_destroy_state(struct drm_private_obj *obj,
->> +                      struct drm_private_state *state)
->> +{
->> +    struct omap_global_state *omap_state = to_omap_global_state(state);
->> +
->> +    kfree(omap_state);
->> +}
->> +
->> +static const struct drm_private_state_funcs omap_global_state_funcs = {
->> +    .atomic_duplicate_state = omap_global_duplicate_state,
->> +    .atomic_destroy_state = omap_global_destroy_state,
->> +};
->> +
->> +static int omap_global_obj_init(struct drm_device *dev)
->> +{
->> +    struct omap_drm_private *priv = dev->dev_private;
->> +    struct omap_global_state *state;
->> +
->> +    state = kzalloc(sizeof(*state), GFP_KERNEL);
->> +    if (!state)
->> +        return -ENOMEM;
->> +
->> +    drm_atomic_private_obj_init(dev, &priv->glob_obj, &state->base,
->> +                    &omap_global_state_funcs);
->> +    return 0;
->> +}
->> +
->> +static void omap_global_obj_fini(struct omap_drm_private *priv)
->> +{
->> +    drm_atomic_private_obj_fini(&priv->glob_obj);
->> +}
->> +
->>   static void omap_disconnect_pipelines(struct drm_device *ddev)
->>   {
->>       struct omap_drm_private *priv = ddev->dev_private;
->> @@ -231,8 +307,6 @@ static int omap_modeset_init(struct drm_device *dev)
->>       if (!omapdss_stack_is_ready())
->>           return -EPROBE_DEFER;
->>   -    drm_mode_config_init(dev);
->> -
->>       ret = omap_modeset_init_properties(dev);
->>       if (ret < 0)
->>           return ret;
->> @@ -583,10 +657,16 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
->>         omap_gem_init(ddev);
->>   -    ret = omap_hwoverlays_init(priv);
->> +    drm_mode_config_init(ddev);
->> +
->> +    ret = omap_global_obj_init(ddev);
->>       if (ret)
->>           goto err_gem_deinit;
->>   +    ret = omap_hwoverlays_init(priv);
->> +    if (ret)
->> +        goto err_free_priv_obj;
->> +
->>       ret = omap_modeset_init(ddev);
->>       if (ret) {
->>           dev_err(priv->dev, "omap_modeset_init failed: ret=%d\n", ret);
->> @@ -624,7 +704,10 @@ static int omapdrm_init(struct omap_drm_private *priv, struct device *dev)
->>       omap_modeset_fini(ddev);
->>   err_free_overlays:
->>       omap_hwoverlays_destroy(priv);
->> +err_free_priv_obj:
->> +    omap_global_obj_fini(priv);
->>   err_gem_deinit:
->> +    drm_mode_config_cleanup(ddev);
->>       omap_gem_deinit(ddev);
->>       destroy_workqueue(priv->wq);
->>       omap_disconnect_pipelines(ddev);
->> @@ -649,6 +732,8 @@ static void omapdrm_cleanup(struct omap_drm_private *priv)
->>         omap_modeset_fini(ddev);
->>       omap_hwoverlays_destroy(priv);
->> +    omap_global_obj_fini(priv);
->> +    drm_mode_config_cleanup(ddev);
->>       omap_gem_deinit(ddev);
->>         destroy_workqueue(priv->wq);
->> diff --git a/drivers/gpu/drm/omapdrm/omap_drv.h b/drivers/gpu/drm/omapdrm/omap_drv.h
->> index b4d9c2062723..280cdd27bc8e 100644
->> --- a/drivers/gpu/drm/omapdrm/omap_drv.h
->> +++ b/drivers/gpu/drm/omapdrm/omap_drv.h
->> @@ -14,6 +14,7 @@
->>   #include "dss/omapdss.h"
->>   #include "dss/dss.h"
->>   +#include <drm/drm_atomic.h>
->>   #include <drm/drm_gem.h>
->>   #include <drm/omap_drm.h>
->>   @@ -41,6 +42,15 @@ struct omap_drm_pipeline {
->>       unsigned int alias_id;
->>   };
->>   +/*
->> + * Global private object state for tracking resources that are shared across
->> + * multiple kms objects (planes/crtcs/etc).
->> + */
->> +#define to_omap_global_state(x) container_of(x, struct omap_global_state, base)
-> 
-> Add empty line here.
-
-Ack
-
-> 
->> +struct omap_global_state {
->> +    struct drm_private_state base;
->> +};
->> +
->>   struct omap_drm_private {
->>       struct drm_device *ddev;
->>       struct device *dev;
->> @@ -61,6 +71,13 @@ struct omap_drm_private {
->>       unsigned int num_ovls;
->>       struct omap_hw_overlay *overlays[8];
->>   +    /*
->> +     * Global private object state, Do not access directly, use
->> +     * omap_global_get_state()
->> +     */
->> +    struct drm_modeset_lock glob_obj_lock;
-> 
-> This is not used... What am I missing?
-
-It's a leftover from v4, now the lock has been moved into drm_atomic_get_private_obj_state()
-
-> 
->> +    struct drm_private_obj glob_obj;
->> +
->>       struct drm_fb_helper *fbdev;
->>         struct workqueue_struct *wq;
->> @@ -88,5 +105,9 @@ struct omap_drm_private {
->>       void omap_debugfs_init(struct drm_minor *minor);
->> +struct omap_global_state *__must_check
->> +omap_get_global_state(struct drm_atomic_state *s);
->> +struct omap_global_state *
->> +omap_get_existing_global_state(struct omap_drm_private *priv);
-> 
-> These could also be separated by empty lines. At least to my eyes it gets confusing if those declarations are not separated.
-
-Atomic states can be extremely confusing, and hard to track.
-I checked and they do what they are documented for...
-
-The omap_get_existing_global_state() is the most confusing since the result depends if
-we are in an atomic transaction of not.
-
-Neil
-
-> 
->  Tomi
+diff --git a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+index 3b6d14b5c604..4ec6c557083a 100644
+--- a/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
++++ b/drivers/gpu/drm/i915/gem/i915_gem_ttm_pm.c
+@@ -149,7 +149,7 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
+ 	struct i915_gem_ttm_pm_apply *pm_apply =
+ 		container_of(apply, typeof(*pm_apply), base);
+ 	struct drm_i915_gem_object *backup = obj->ttm.backup;
+-	struct ttm_buffer_object *backup_bo = i915_gem_to_ttm(backup);
++	struct ttm_buffer_object *backup_bo;
+ 	struct ttm_operation_ctx ctx = {};
+ 	int err;
+ 
+@@ -163,6 +163,8 @@ static int i915_ttm_restore(struct i915_gem_apply_to_region *apply,
+ 	if (err)
+ 		return err;
+ 
++	backup_bo = i915_gem_to_ttm(backup);
++
+ 	/* Content may have been swapped. */
+ 	err = ttm_tt_populate(backup_bo->bdev, backup_bo->ttm, &ctx);
+ 	if (!err) {
+-- 
+2.32.0
 
