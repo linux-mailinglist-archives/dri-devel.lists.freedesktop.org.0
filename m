@@ -2,40 +2,54 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4A8F429EE8
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 09:46:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE86429EEC
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 09:47:22 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 964AA89F01;
-	Tue, 12 Oct 2021 07:46:22 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4F79489DDD;
+	Tue, 12 Oct 2021 07:47:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A5DC89F01;
- Tue, 12 Oct 2021 07:46:21 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="250466779"
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="250466779"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 00:45:57 -0700
-X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="490845240"
-Received: from pakumpul-mobl1.ger.corp.intel.com (HELO localhost)
- ([10.249.40.207])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 00:45:56 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: =?utf-8?Q?Ma=C3=ADra?= Canal <maira.canal@usp.br>,
- dri-devel@lists.freedesktop.org
-Cc: Fernando Ramos <greenfoo@u92.eu>, intel-gfx@lists.freedesktop.org
-Subject: Re: [PATCH] drm/i915: replacing drm_modeset_lock_all for
- DRM_MODESET_LOCK_ALL_*
-In-Reply-To: <YWL1kxAbsq26//kF@fedora>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <YWL1kxAbsq26//kF@fedora>
-Date: Tue, 12 Oct 2021 10:45:53 +0300
-Message-ID: <87v922znwu.fsf@intel.com>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [IPv6:2a02:418:6a02::a2])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C601789DDD
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 07:47:18 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+ by mail.kmu-office.ch (Postfix) with ESMTPSA id 9B0935C4F2C;
+ Tue, 12 Oct 2021 09:47:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+ t=1634024836;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=idxeNrESK9BP1LmBlXetHo/Zea0ePRTKjI8acYZFbjA=;
+ b=COK1pFADRNUB2bUX3TNx1IBPD4jUVa+lCgE7EvocCZwIdLntbJ8BZ3DQGyAtOQVsukvOiy
+ RK7HtdAcG/EKGQ0HrQw6RzrWlFxwyKOggkJpDQm/MJrTk1k1D7oORlSxMuP0LNVvjJIr3O
+ zKodCzhNCCve/P1NQ3GGx2PEvS+t1Lc=
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Date: Tue, 12 Oct 2021 09:47:16 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: =?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Cc: Andrzej Hajda <a.hajda@samsung.com>, Neil Armstrong
+ <narmstrong@baylibre.com>, Robert Foss <robert.foss@linaro.org>, Laurent
+ Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
+ <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie
+ <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, Marek Vasut
+ <marex@denx.de>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
+ <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ondrej Jirman <megous@megous.com>, Lucas Stach <l.stach@pengutronix.de>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 4/5] drm: mxsfb: Print failed bus format in hex
+In-Reply-To: <c84b34855abbb85cd25bbb5126db302f88327640.1633959458.git.agx@sigxcpu.org>
+References: <cover.1633959458.git.agx@sigxcpu.org>
+ <c84b34855abbb85cd25bbb5126db302f88327640.1633959458.git.agx@sigxcpu.org>
+User-Agent: Roundcube Webmail/1.4.9
+Message-ID: <736c1ab73b7d7db5b86ec4902cebec20@agner.ch>
+X-Sender: stefan@agner.ch
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -51,60 +65,30 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Sun, 10 Oct 2021, Ma=C3=ADra Canal <maira.canal@usp.br> wrote:
-> As requested in GPU Driver Developers Guide TODO list, replaces all
-> drm_lock boilerplates for DRM_MODESET_LOCK_ALL_* helpers.
+On 2021-10-11 15:41, Guido Günther wrote:
+> media-bus-formats.h has them in hexadecimal as well so matching with
+> that file saves one conversion when debugging.
+> 
+> Signed-off-by: Guido Günther <agx@sigxcpu.org>
+> Reviewed-by: Lucas Stach <l.stach@pengutronix.de>
+> Reviewed-by: Robert Foss <robert.foss@linaro.org>
 
-Please see [1].
+Acked-by: Stefan Agner <stefan@agner.ch>
 
-Also, all i915 patches must be Cc'd to intel-gfx mailing list. Please
-see MAINTAINERS file.
-
-
-BR,
-Jani.
-
-
-[1] https://lore.kernel.org/r/20211007193755.29579-1-greenfoo@u92.eu
-
-
->
-> Signed-off-by: Ma=C3=ADra Canal <maira.canal@usp.br>
 > ---
->  drivers/gpu/drm/i915/display/intel_display.c | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/d=
-rm/i915/display/intel_display.c
-> index 17f44ffea586..71b7ff7b7dea 100644
-> --- a/drivers/gpu/drm/i915/display/intel_display.c
-> +++ b/drivers/gpu/drm/i915/display/intel_display.c
-> @@ -13466,22 +13466,13 @@ void intel_display_resume(struct drm_device *de=
-v)
->  	if (state)
->  		state->acquire_ctx =3D &ctx;
->=20=20
-> -	drm_modeset_acquire_init(&ctx, 0);
-> -
-> -	while (1) {
-> -		ret =3D drm_modeset_lock_all_ctx(dev, &ctx);
-> -		if (ret !=3D -EDEADLK)
-> -			break;
-> -
-> -		drm_modeset_backoff(&ctx);
-> -	}
-> +	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
->=20=20
->  	if (!ret)
->  		ret =3D __intel_display_resume(dev, state, &ctx);
->=20=20
->  	intel_enable_ipc(dev_priv);
-> -	drm_modeset_drop_locks(&ctx);
-> -	drm_modeset_acquire_fini(&ctx);
-> +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
->=20=20
->  	if (ret)
->  		drm_err(&dev_priv->drm,
-
---=20
-Jani Nikula, Intel Open Source Graphics Center
+>  drivers/gpu/drm/mxsfb/mxsfb_kms.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> index af6c620adf6e..d6abd2077114 100644
+> --- a/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> +++ b/drivers/gpu/drm/mxsfb/mxsfb_kms.c
+> @@ -89,7 +89,7 @@ static void mxsfb_set_formats(struct mxsfb_drm_private *mxsfb,
+>  		ctrl |= CTRL_BUS_WIDTH_24;
+>  		break;
+>  	default:
+> -		dev_err(drm->dev, "Unknown media bus format %d\n", bus_format);
+> +		dev_err(drm->dev, "Unknown media bus format 0x%x\n", bus_format);
+>  		break;
+>  	}
