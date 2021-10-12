@@ -1,57 +1,57 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C3342AF79
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 00:03:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5434142AF7B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 00:04:21 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 303306E9EB;
-	Tue, 12 Oct 2021 22:03:12 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ACA086E9E5;
+	Tue, 12 Oct 2021 22:04:18 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com
- [IPv6:2607:f8b0:4864:20::b2e])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 9B47A6E9E5;
- Tue, 12 Oct 2021 22:03:10 +0000 (UTC)
-Received: by mail-yb1-xb2e.google.com with SMTP id g6so1742355ybb.3;
- Tue, 12 Oct 2021 15:03:10 -0700 (PDT)
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com
+ [IPv6:2607:f8b0:4864:20::b34])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6B6DD6E9E5;
+ Tue, 12 Oct 2021 22:04:17 +0000 (UTC)
+Received: by mail-yb1-xb34.google.com with SMTP id a7so1706234yba.6;
+ Tue, 12 Oct 2021 15:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ftKqaoZGMToDPlxiMR/hkrcdIKvYqHccSfyT6Zdak+w=;
- b=E2K/JHuLWHAwGOkBErV9EIGjL9VxVIkjV11E47Q6tcWifgmKKAy6QICUVuaLCRLHbF
- R2U0RxE4dVCzStCO7WkICmdqS765g4VZXWge7Dup+ZVu2hjTiQEL1cE+KNeHswmICc7O
- svaU3l0FSfV+ldc9E1X32nqUCaih8gUr48KlEucXIFpMJcpzZ4SrNkiGcyolcknqdJ7f
- x6oHH3XRVozET6g8BzwjTz7XW/9NuR9SujfBnT21XYh0oE5zn0olT4gDd5MbVpkDDcJf
- beQAqv6AegrhN/wtJsLIZ+ydJZX70UcWq6cc2kC9Ddr+1H42wIhWqfx2kSRFAAdWVRAG
- Q+Sw==
+ :cc; bh=auG+UMx9zytYp9lINzhPZO9u/TFK5cE+R08OejH5B0w=;
+ b=ne7652o0LqsXxa1F1cgXnxgCK2bxwNWHDrsyhUBtlAmcbIV/AtPK8pJIgvmbUIbEaD
+ h92TyPmec2iTl0SXhH/vi63WZzRK7W9caxUYKHcMVdC227jK67QU7owKiG83zjMU3MBb
+ bb61mGP/yDMpyVAZSY0IJkRZEr5mk50g0hAEHr7RL+q8EBT1w+cNjzMVs2cIG0y5xbic
+ 0W86qaLtxTeBPyMXA9tztIq7/maRwyqxexf/TqB2kPSdB0xbM9RVHUrOajFjEvlJyYQ0
+ dktD5Gp41bhoYKK2kIZbhi3WP5OQSlqIMuFHUEaAawTV36hlLtIqFepSObHS1+HC79YP
+ Ogiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ftKqaoZGMToDPlxiMR/hkrcdIKvYqHccSfyT6Zdak+w=;
- b=nOBjM4WnOsSOKQ0lvnpslJA42nHQ9wcDiWCyMrfin1rVjd9zSktBKNxbTMMAQmBvwz
- Ys3hoSsTfE+KPELBimdKvgzM9M4KgQ+mpj5G/kvznv2C/BrMsQg5SPZUjqhi+e4FZ6lU
- ZPCTdPxRQkTpXjVb/JuwmRcF37GzFbCgPx2Z+AuomLGwwfpIhK/RSIaF3/+rjvDMzBEE
- g9SmaPUgnQeTwyuqeLCXOCblfxgtWvTtfNjxPlkxO9BRKG635KBOrqfkEBUEbJHr34i2
- MD7hR5OCurUip8/A1cSiGfK7MTHwBjhSHjGGSgRUbPIgjr9s8tzCCLASubHEktJbsWL/
- PyjQ==
-X-Gm-Message-State: AOAM530HAYeU69mEG07Vj58hfp+IxJUzJr5ELcTaeOEVMsWmnNt2vaLu
- B+djz/B+D765NAbXsx+OE6bx9ZB0hL7DL9dXik6WzB1v
-X-Google-Smtp-Source: ABdhPJzw6ADZ1dpJOkdrPmTrdt2J53tEY05Emb4iJxrIIwJ77Ol4xtvXG3biqdksy3qqRPnIlIgTb9kBkCt/R+OYf70=
-X-Received: by 2002:a25:e6d0:: with SMTP id
- d199mr29939096ybh.527.1634076189634; 
- Tue, 12 Oct 2021 15:03:09 -0700 (PDT)
+ bh=auG+UMx9zytYp9lINzhPZO9u/TFK5cE+R08OejH5B0w=;
+ b=ABmq6ASLKfjpmgAmpmUyTw3eE3bB6BhUaYS5lT+IpAWcdJbaaQ9H49ESF7bgtdh4er
+ FEcly0xqyKGqszz48BZ1IYEqKS/zjuIn0Y6A2N2TxonAFWJMEzmYOckrrlQumAECzUkX
+ o477a+tl0E3gB2jeipl3PPiNkGCUfw59giWxBSa8SZ709j9Ghtql5OWywEA3msDhWnTY
+ SyUr5CYkYNZlUBq6YOxCu2P/S+eoALSywutA97VL68FPtSSIVpVFRK1OcmVwy4FJd6CK
+ +fSSHN8i+Qa5lDSJig2m7BRxzHgrTOoIZN4IiQdigpMKG4XZKeKZAF9vA1XYX4NVEVlJ
+ fjJw==
+X-Gm-Message-State: AOAM5304PYO131QfHf43R4v+8y347NX6TS6IwFszRi/05d+EI5h5q9OX
+ nAnPQgLCRB6egmOtCo8xynXFkadFbM9IbBP5Gw8=
+X-Google-Smtp-Source: ABdhPJy122ifGFhlEjzoGnOh1Y838UQ+5VnA3gX7zYtFxeJ4IZzHKXhB7X/f+krIMq3PbEeKYpoBnJ7DKFa3wwIoKco=
+X-Received: by 2002:a25:9a81:: with SMTP id s1mr32001654ybo.230.1634076256610; 
+ Tue, 12 Oct 2021 15:04:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20211012133334.1737918-1-kherbst@redhat.com>
-In-Reply-To: <20211012133334.1737918-1-kherbst@redhat.com>
+References: <4369779.LvFx2qVVIh@kreacher> <21245442.EfDdHjke4D@kreacher>
+In-Reply-To: <21245442.EfDdHjke4D@kreacher>
 From: Ben Skeggs <skeggsb@gmail.com>
-Date: Wed, 13 Oct 2021 08:02:58 +1000
-Message-ID: <CACAvsv47Xn07zM8pSqAAbTktjySaBeW_swrZAGjrfAVUnzdHzw@mail.gmail.com>
-Subject: Re: [Nouveau] [PATCH] drm/nouveau/mmu/gp100: remove unused variable
-To: Karol Herbst <kherbst@redhat.com>
-Cc: LKML <linux-kernel@vger.kernel.org>,
- Stephen Rothwell <sfr@canb.auug.org.au>, 
- DRI <dri-devel@lists.freedesktop.org>, 
+Date: Wed, 13 Oct 2021 08:04:05 +1000
+Message-ID: <CACAvsv4-MUEuoq0cb3mQ2PK3u8jnD7U2yPHVM++57X6QZEDX2w@mail.gmail.com>
+Subject: Re: [PATCH v1 2/7] nouveau: ACPI: Use the ACPI_COMPANION() macro
+ directly
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: Linux ACPI <linux-acpi@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, 
+ Ben Skeggs <bskeggs@redhat.com>, ML dri-devel <dri-devel@lists.freedesktop.org>,
  ML nouveau <nouveau@lists.freedesktop.org>
 Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -69,35 +69,53 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Oct 2021 at 23:33, Karol Herbst <kherbst@redhat.com> wrote:
+On Wed, 13 Oct 2021 at 03:58, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
 >
-> Fixes a compilation issue introduced because I forgot to test with WERROR
-> enabled.
+> From: Rafael J. Wysocki <rafael@kernel.org>
 >
-> Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> Cc: DRI <dri-devel@lists.freedesktop.org>
-> Cc: nouveau@lists.freedesktop.org
-> Fixes: 404046cf4805 ("drm/nouveau/mmu/gp100-: drop unneeded assignment in the if condition.")
-> Signed-off-by: Karol Herbst <kherbst@redhat.com>
+> The ACPI_HANDLE() macro is a wrapper arond the ACPI_COMPANION()
+> macro and the ACPI handle produced by the former comes from the
+> ACPI device object produced by the latter, so it is way more
+> straightforward to evaluate the latter directly instead of passing
+> the handle produced by the former to acpi_bus_get_device().
+>
+> Modify nouveau_acpi_edid() accordingly (no intentional functional
+> impact).
+>
+> Signed-off-by: Rafael J. Wysocki <rafael@kernel.org>
 Reviewed-by: Ben Skeggs <bskeggs@redhat.com>
 
 > ---
->  drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/gpu/drm/nouveau/nouveau_acpi.c |    9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> index 2b21f43069aa..17899fc95b2d 100644
-> --- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> +++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
-> @@ -488,7 +488,7 @@ gp100_vmm_fault_cancel(struct nvkm_vmm *vmm, void *argv, u32 argc)
->                 struct gp100_vmm_fault_cancel_v0 v0;
->         } *args = argv;
->         int ret = -ENOSYS;
-> -       u32 inst, aper;
-> +       u32 aper;
+> Index: linux-pm/drivers/gpu/drm/nouveau/nouveau_acpi.c
+> ===================================================================
+> --- linux-pm.orig/drivers/gpu/drm/nouveau/nouveau_acpi.c
+> +++ linux-pm/drivers/gpu/drm/nouveau/nouveau_acpi.c
+> @@ -364,7 +364,6 @@ void *
+>  nouveau_acpi_edid(struct drm_device *dev, struct drm_connector *connector)
+>  {
+>         struct acpi_device *acpidev;
+> -       acpi_handle handle;
+>         int type, ret;
+>         void *edid;
 >
->         if ((ret = nvif_unpack(ret, &argv, &argc, args->v0, 0, 0, false)))
->                 return ret;
-> --
-> 2.31.1
+> @@ -377,12 +376,8 @@ nouveau_acpi_edid(struct drm_device *dev
+>                 return NULL;
+>         }
+>
+> -       handle = ACPI_HANDLE(dev->dev);
+> -       if (!handle)
+> -               return NULL;
+> -
+> -       ret = acpi_bus_get_device(handle, &acpidev);
+> -       if (ret)
+> +       acpidev = ACPI_COMPANION(dev->dev);
+> +       if (!acpidev)
+>                 return NULL;
+>
+>         ret = acpi_video_get_edid(acpidev, type, -1, &edid);
+>
+>
 >
