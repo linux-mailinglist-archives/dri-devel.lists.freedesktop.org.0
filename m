@@ -2,68 +2,149 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7BF342A174
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 11:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC15542A177
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 11:59:34 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A887A89E0E;
-	Tue, 12 Oct 2021 09:58:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA75E6E82B;
+	Tue, 12 Oct 2021 09:59:30 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x333.google.com (mail-ot1-x333.google.com
- [IPv6:2607:f8b0:4864:20::333])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 747C189E0E
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 09:58:03 +0000 (UTC)
-Received: by mail-ot1-x333.google.com with SMTP id
- v2-20020a05683018c200b0054e3acddd91so20711667ote.8
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 02:58:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=exw8d3KuGhElvzTHGBSpGdBnH3FvQOLQqakhYUKFBwo=;
- b=W3fE3wAsv66M+coYvjcbMbl3r+dIcWqX2AIv8bXe1wiMNVe9wjzpexxe5M+fkdVlVV
- zFpZlo8b+YI2ZgubXdu1CaU5ZwpbNYUEaxCNmhep1fD2b5lALSz0Gp70qfBm0I5BMpKD
- P6aSrnRfjQo28DPvKrAihjAbzOEIrPAEGp/SJGIdHUMSFSPXu82iZwTcgpjCjoSoHGY3
- TDDJe3gZkKQTa4AUVeabUOYKP9UqO4PQnfKRFDUahnk7NmB+QpG6zGcLRh4507Emb6AP
- A2MdmK5TbB/ZaBMqIbgSh38I27+JA9fLgjQPRVSoQUUJguxML7cnFPZv1bgE/jGeJLD5
- hbpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=exw8d3KuGhElvzTHGBSpGdBnH3FvQOLQqakhYUKFBwo=;
- b=q22fYMh5PkmST3ZeXiSGohNm7z8ywyn4ijYiq7SBAuS8Bkh00PCdG/fp0do6EIgsnf
- uJEy9zQiwFnf8lYJSyO+KrJtQ9XvOJWVfHVc3ZkvMKAbytbhgpEVZ12lOZiwSgcc+/Vw
- 6adfcJwkvJs4CJsdrUNzObQxKHxBY/9vl3U7nIFAjavsJiO+XKkRGzEXVaGUIXaCMhAo
- xiIohnEwAMjRZDkKZyLnRhNUFBP30IOlzw5k69nSPtmwK42/qerli45T5B1Bo0CFkVFt
- +Vn0FAx/RwwtC3+7Qr0LeTJ1NW3MLLPLv4Em8c+J1Mz0eEXSzF9q9PkFV4ZTWgoP7H6j
- YAAQ==
-X-Gm-Message-State: AOAM532jTWS5MMyzEkiww5HcagwwFtoDmKtA/TeftSXDvFQYn6B2AQEq
- +nCHz5A1Tj6QioOdLYd1yiwHA2w6Hv/yzCcefvvwqw==
-X-Google-Smtp-Source: ABdhPJwnMjSe2iK46VvQsj+toPmoU+1bu69ociYjowvPMvF/Pj9LFdmYmnVlmjP8gQKThbljOpFLENefX7FP3vLI23w=
-X-Received: by 2002:a05:6830:24a7:: with SMTP id
- v7mr1618845ots.329.1634032682395; 
- Tue, 12 Oct 2021 02:58:02 -0700 (PDT)
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 4C7BC6E829;
+ Tue, 12 Oct 2021 09:59:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10134"; a="207214324"
+X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="207214324"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 02:59:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.85,367,1624345200"; d="scan'208";a="562564470"
+Received: from fmsmsx604.amr.corp.intel.com ([10.18.126.84])
+ by FMSMGA003.fm.intel.com with ESMTP; 12 Oct 2021 02:59:27 -0700
+Received: from fmsmsx611.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx604.amr.corp.intel.com (10.18.126.84) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 12 Oct 2021 02:59:27 -0700
+Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
+ fmsmsx611.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12; Tue, 12 Oct 2021 02:59:26 -0700
+Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
+ fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2242.12 via Frontend Transport; Tue, 12 Oct 2021 02:59:25 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.45) by
+ edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2242.12; Tue, 12 Oct 2021 02:59:25 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lCr5XkusxLE9GF97BSKmuFkkj+QCwCXrUXthOC+HAfs2aldYf0S7JfQP0ZovK8d0pjD+VZzCyTcvIta1a2YsHrvX2OQ8IkIVBZXxncUtaczbTDoLj5FZ/P+tlv0m8O2uSkpUdkOdwfObhb4b+sLUYZVjpuB4GsK724z1rzDV3e5O628Q0A4uGpqs6Rvvw2TZ+K0jTprYRQuh5RWVw4jTgmR78UzILzA5Z/5yBGirmTqE0BZIxTsW89PDpm47TdUzMV8QiFqhw1D/GxLtVfXp2RMMTbI2C4UQOgiTT+b9SR2h6fiTmznbLeZ0f+uRqzEqHgbOAE/t4HEMiGWgCocu8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8eZO3Wlzk3ICmQUAiu7xGWQ2E7ETpkSQ1ZTV6Mp51OM=;
+ b=i3H4D6iIXeOYNWKiDS+6FNltlTEsaazXqSg+WcT1CKMANhQPA6WG9XqNMN0LY4/p5r+yxDt4d6AK/ewuz2ZwPoEThPb7dqLOrFh/QbAtozgESXwG7k4Sa/khenmiKg6eVR8nNRKE2UDT0hexkAeEzKlYjLVf8HlxgGVHHSipkUnmeXymV8jv5luN/RiEU2sLleYWahW2H+aqddk0OzyB4T+ySfSS8FtfSsK5GgcwZuET8rFxBIA8qf3MsgoCpyLwNVa1cr2ssg3oHxneheuBH6+8JiSxBjGsiWJhH3hDUL+kJLAFBfePMZOVw+5/K1X+uNC1iXgFcjqXrQxysGRfbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+ s=selector2-intel-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8eZO3Wlzk3ICmQUAiu7xGWQ2E7ETpkSQ1ZTV6Mp51OM=;
+ b=WccvsqDaPDP2UcV9hKbLrtb1osvzFOLkNwN3VcnKG/O3fBnopfBgn8+hzdRK9J0G7gC+gqAalKk5lUlzQk1/74CsKzVaoVRwHL+j+Hv7+CXNRSM3d4vqKdK593/VuibkFT2o8QERPL17f5ZqflIm0MKBrc2gpj5gEJVSVr1Xq/s=
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com (2603:10b6:5:388::7) by
+ DM6PR11MB4170.namprd11.prod.outlook.com (2603:10b6:5:19a::30) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.4587.18; Tue, 12 Oct 2021 09:59:24 +0000
+Received: from DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::2db5:86a8:9c6f:3a1d]) by DM4PR11MB5549.namprd11.prod.outlook.com
+ ([fe80::2db5:86a8:9c6f:3a1d%4]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
+ 09:59:24 +0000
+From: "Wang, Zhi A" <zhi.a.wang@intel.com>
+To: Nirmoy Das <nirmoy.das@amd.com>, "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>
+CC: "intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+ Zhenyu Wang <zhenyuw@linux.intel.com>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, "Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>
+Subject: Re: [PATCH 2/5] drm/i915: check dri root before debugfs init
+Thread-Topic: [PATCH 2/5] drm/i915: check dri root before debugfs init
+Thread-Index: AQHXvCbKYMJcOSYSQkemEiRsja/2h6vPJ1yA
+Date: Tue, 12 Oct 2021 09:59:24 +0000
+Message-ID: <95bb9aa6-1e6e-c0da-64ed-30ac31f44b67@intel.com>
+References: <20211008091704.27094-1-nirmoy.das@amd.com>
+ <20211008091704.27094-2-nirmoy.das@amd.com>
+In-Reply-To: <20211008091704.27094-2-nirmoy.das@amd.com>
+Accept-Language: en-FI, en-US
+Content-Language: aa
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.13.0
+authentication-results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: e21d2c49-1426-4b4f-afaa-08d98d66f87e
+x-ms-traffictypediagnostic: DM6PR11MB4170:
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR11MB417003451F469BD68528F564CAB69@DM6PR11MB4170.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:1169;
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NPzcyDaEh586i+XHR8VBFP/H/1Tozk99HNEk3LAjbN+ooCB5zYbpp+r8aL6hek20z4UZM3XQydn2myB59cRK1gM6scIcL8q0gTHYyFts2ixWonXeE5bUxMDjUp8tF3EpicvIPvHx4x1cZ5w+wfBRwhEX8BfMD/VJOLnAZiUA8PEJg0zO9mIq96g0kqgAJkZMeiJqLYl44Ym08JWmK9VGhpPBD32r86/lkU5g1krlOfwA/PBFxXfB9K2BqqyrmxkL6QPABOV4Llt8st+zfiE8ecr5SGMIRiQTislPAWHKc3tUHWkPCklKBiD7y6OmEl8xXWTe07HkhEGmkzFUK381aOOoSkDY/XY2MG/nUwYDqzMQlhCRbAO7VSBPbEosDtnoPPb30xclc0iFc6uoshK7MUP9sDjP9CQtGJwhxiyiqspMjfgnPxCzzts5WPlPMHMq945kj+V+7s50Umcu9RX7FDH0sv4aZrijd8oIHTAnUl5Fjo5Xmkh3yaEoClWARf38y7SO8tsTtSnFhMc4IDix9pq9qQpZLtxahPORWhDVcOdgbhqvPA2e3LoJeUX6fTI41bV+Uo+TS/WDiuO/hLVA0YkWa3PsLdFYKWgVf9d4aHejLJoBaW0jhhUjLBocxdwevMCoeY8F97AYQKarZ9lDV2+3bp4agX4XDnr/64eJcpsTITmmP/xxwy4i44jNO7wG7emByyagmzbkwmuA3r3ZWkPlNPatSpi2uZI8HPw3/JyaMqcUjr/SDkezMd/3/ma97OX4rN6Fzb5yhTtfQJBLbQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5549.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(8676002)(6512007)(64756008)(71200400001)(2616005)(36756003)(53546011)(508600001)(26005)(66446008)(186003)(6506007)(66946007)(76116006)(66476007)(4326008)(8936002)(91956017)(6486002)(66556008)(54906003)(31696002)(316002)(110136005)(38070700005)(5660300002)(86362001)(38100700002)(31686004)(2906002)(122000001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Tzg1UWZ5TDlQUmRoUGFrb1BKcDNYdk1WOXMxd1RHSEUzMk04YXR1WmFXeXNK?=
+ =?utf-8?B?ZDdMVnFVQVVCTVlvckY4YVBqbG95a296UjlXTXhIbzIwMTI5NVR5WnFGRjUx?=
+ =?utf-8?B?bkxicUIrcXY5V0hhUjIzbmVlOTRQMFhPd2lyVkZEcXNoeGo5OWp4S0lja2w2?=
+ =?utf-8?B?YVRlc0JHeVIxQzBOSUtHcGNzSFJrbFNEUnRLTUlXSnNTSmkxS1RhQk5zNmNJ?=
+ =?utf-8?B?aWNBTXFWTWdRTlJaUGpxNXNwUjRrVVVseXZKMU9RbldTbHNRbTZhZkVXeHlO?=
+ =?utf-8?B?UE1ST0lzcjZqY0RsaW9lQmFaZDdReTJYcXVwWEtHVU9Mb2xwS3lVcGw1Qmoz?=
+ =?utf-8?B?Mk9RMEJUTzYxRXdKa2laNmRsUjlTNEsvS1M1Mkw3dmZFZ0ZObUdibW54T2li?=
+ =?utf-8?B?NDdQdUtjbEFmOUNyVmxaK29za1lpbHdEV0Rxdkw0U0QwdW5ubFFTQlJ4Ym5u?=
+ =?utf-8?B?ekJVa2ZrakFPR3pPSFZyOTRXZ0FOcVNMdGk3cUk2SHJHaE9qVUVUKzh6cnhU?=
+ =?utf-8?B?emFMN05UeW1KYXVSOE1NRHVMQTl0S0thY2xhdFovdHR0SG9YL1dOajRHUUo3?=
+ =?utf-8?B?UmtFRTR6cjluNzJISUNGbHRic1lUWERvSDgvYU5IUGF2ZEcwVzBjZmxQZ2J1?=
+ =?utf-8?B?THcxNlZXejRKRWY2SW5IUlo5S3BQMjA1NU43K2VWcElqMmRiNjJLRXRuOGJZ?=
+ =?utf-8?B?d3VWOEw5WEpReU4wbmdaRkZjclhuMnBLTnhuMHVkb3ExRFdGNzQ2bDAvUjZJ?=
+ =?utf-8?B?OVVFTGF4M1paM0hzYzUzS2Z0MWFrQXZJQnhpTlc5YUxuSDVPV1dxQ1VHVVFW?=
+ =?utf-8?B?WklDSzNaY2RRZURnaUhSK0lBbko5S3hQbXBOYWRKeDRKcFVyOHZxQ2FiOVhN?=
+ =?utf-8?B?ajdQeHVWcFlDbHBnb1FvZUtFUFc0MWJiMUtuMzZjcklsa2M2SWpuYjBadE1a?=
+ =?utf-8?B?M0xQNnVJeS9GbjNzWXJURnY1NkxhYVVleEc1ODVBNm9yUFJBQUhySGFxRE9u?=
+ =?utf-8?B?RHlsaG95OW1rZGYxMHZoQ2Zwc0cyUWRWRE1yak1Pd2Vyb0RrekJQNEh1S0cw?=
+ =?utf-8?B?amRYdjhJdDBoNXN5UVRkVk9HQmlPVjJQblJXTXhQbC9sSDlmWmgrckNHSFJu?=
+ =?utf-8?B?WlRDWmhKRE9BWE1VL3NoR2UwZkxBeitNS3BJQUZMQU5VY1pBSHZlSW9zSXRy?=
+ =?utf-8?B?eEgrUm5NazRSVGFUamlXbE8zcHBwZStsYmRkc1IyQU9sdDhJTktqUUg5MDJv?=
+ =?utf-8?B?ZTVudzFYQUg4L1AvaVQrZnhGamt1WEVwK3Fjakc5N3pid212UWc5cDdIdm10?=
+ =?utf-8?B?ZklqUlJoNnh6VFNDOGthUFpCY1BHc014THVZazV0THZrYlZ5ZDZ5bndiQTVy?=
+ =?utf-8?B?MDRCR1JtTWFCcGpkL3d3ZktjbWtaS1ZLT1FwdHQvVHZ2M3VlNk5NSmVWRVF6?=
+ =?utf-8?B?WC9uRFRXZS9TNGZMUGs4ckZuQ05DSE1pSi9FbHE4RjYyVkhoMG44Z0Q2bXQ2?=
+ =?utf-8?B?TThFbEdJNFk0VEs2VW0zdzBSYXpPemRpTWxqc2JyZk1leDlndzNlYXN1Tkg2?=
+ =?utf-8?B?MUdkZkxZRllCZzU2NE1LQ3lrVUo5bHZ3MzE4c2RndlMvby9wUm0zWXZqUzk1?=
+ =?utf-8?B?Zk5WQ1p6U2cyQzRoVGVtNTJ1VnQxOTJSVkl2a3Y1S0puRGEwZUtBUW9wVDRS?=
+ =?utf-8?B?azgvMUdjNEdQWENWazlLanZRcDRRZFY4SmJhSXhON3RsMy9hWURvYjJUOGVF?=
+ =?utf-8?Q?H5s1hQxGXNhOW6C8mgT03SwmziJ2cpADiy2KevA?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FFF7D396F83D7E4F8E3F0B7EBCF0B4CB@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20211012090621.1357-1-vbabka@suse.cz>
-In-Reply-To: <20211012090621.1357-1-vbabka@suse.cz>
-From: Marco Elver <elver@google.com>
-Date: Tue, 12 Oct 2021 11:57:50 +0200
-Message-ID: <CANpmjNOLEvY9zuBRMe-P_8jUzK6=rS06bQC4r0+=_6YP-UfeSA@mail.gmail.com>
-Subject: Re: [PATCH v2] lib/stackdepot: allow optional init and stack_table
- allocation by kvmalloc()
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- intel-gfx@lists.freedesktop.org, kasan-dev@googlegroups.com, 
- Dmitry Vyukov <dvyukov@google.com>, Vijayanand Jitta <vjitta@codeaurora.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, Andrey Ryabinin <ryabinin.a.a@gmail.com>,
- Alexander Potapenko <glider@google.com>, 
- Andrey Konovalov <andreyknvl@gmail.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>, 
- Oliver Glitta <glittao@gmail.com>, Imran Khan <imran.f.khan@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5549.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e21d2c49-1426-4b4f-afaa-08d98d66f87e
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Oct 2021 09:59:24.3713 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zksRoSHoKPupeyKikLNUhGmDchtWI1N5oFFnDS26l5/FV0SsfoYMJAXIvq7JuVseuaviMZBF+eeToR0xyExH3w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4170
+X-OriginatorOrg: intel.com
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -79,281 +160,35 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, 12 Oct 2021 at 11:06, Vlastimil Babka <vbabka@suse.cz> wrote:
-> Currently, enabling CONFIG_STACKDEPOT means its stack_table will be allocated
-> from memblock, even if stack depot ends up not actually used. The default size
-> of stack_table is 4MB on 32-bit, 8MB on 64-bit.
->
-> This is fine for use-cases such as KASAN which is also a config option and
-> has overhead on its own. But it's an issue for functionality that has to be
-> actually enabled on boot (page_owner) or depends on hardware (GPU drivers)
-> and thus the memory might be wasted. This was raised as an issue [1] when
-> attempting to add stackdepot support for SLUB's debug object tracking
-> functionality. It's common to build kernels with CONFIG_SLUB_DEBUG and enable
-> slub_debug on boot only when needed, or create only specific kmem caches with
-> debugging for testing purposes.
->
-> It would thus be more efficient if stackdepot's table was allocated only when
-> actually going to be used. This patch thus makes the allocation (and whole
-> stack_depot_init() call) optional:
->
-> - Add a CONFIG_STACKDEPOT_ALWAYS_INIT flag to keep using the current
->   well-defined point of allocation as part of mem_init(). Make CONFIG_KASAN
->   select this flag.
-> - Other users have to call stack_depot_init() as part of their own init when
->   it's determined that stack depot will actually be used. This may depend on
->   both config and runtime conditions. Convert current users which are
->   page_owner and several in the DRM subsystem. Same will be done for SLUB
->   later.
-> - Because the init might now be called after the boot-time memblock allocation
->   has given all memory to the buddy allocator, change stack_depot_init() to
->   allocate stack_table with kvmalloc() when memblock is no longer available.
->   Also handle allocation failure by disabling stackdepot (could have
->   theoretically happened even with memblock allocation previously), and don't
->   unnecessarily align the memblock allocation to its own size anymore.
->
-> [1] https://lore.kernel.org/all/CAMuHMdW=eoVzM1Re5FVoEN87nKfiLmM2+Ah7eNu2KXEhCvbZyA@mail.gmail.com/
->
-> Signed-off-by: Vlastimil Babka <vbabka@suse.cz>
-> Acked-by: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Marco Elver <elver@google.com>
-> Cc: Vijayanand Jitta <vjitta@codeaurora.org>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Maxime Ripard <mripard@kernel.org>
-> Cc: Thomas Zimmermann <tzimmermann@suse.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Alexander Potapenko <glider@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Dmitry Vyukov <dvyukov@google.com>
-> Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-> Cc: Oliver Glitta <glittao@gmail.com>
-> Cc: Imran Khan <imran.f.khan@oracle.com>
-
-Reviewed-by: Marco Elver <elver@google.com> # stackdepot
-
-Thanks!
-
-> ---
-> Changes in v2:
-> - Rebase to v5.15-rc5.
-> - Stylistic changes suggested by Marco Elver.
->  drivers/gpu/drm/drm_dp_mst_topology.c   |  1 +
->  drivers/gpu/drm/drm_mm.c                |  4 ++++
->  drivers/gpu/drm/i915/intel_runtime_pm.c |  3 +++
->  include/linux/stackdepot.h              | 25 ++++++++++++-------
->  init/main.c                             |  2 +-
->  lib/Kconfig                             |  4 ++++
->  lib/Kconfig.kasan                       |  2 +-
->  lib/stackdepot.c                        | 32 +++++++++++++++++++++----
->  mm/page_owner.c                         |  2 ++
->  9 files changed, 59 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index 86d13d6bc463..b0ebdc843a00 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -5493,6 +5493,7 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
->         mutex_init(&mgr->probe_lock);
->  #if IS_ENABLED(CONFIG_DRM_DEBUG_DP_MST_TOPOLOGY_REFS)
->         mutex_init(&mgr->topology_ref_history_lock);
-> +       stack_depot_init();
->  #endif
->         INIT_LIST_HEAD(&mgr->tx_msg_downq);
->         INIT_LIST_HEAD(&mgr->destroy_port_list);
-> diff --git a/drivers/gpu/drm/drm_mm.c b/drivers/gpu/drm/drm_mm.c
-> index 93d48a6f04ab..5916228ea0c9 100644
-> --- a/drivers/gpu/drm/drm_mm.c
-> +++ b/drivers/gpu/drm/drm_mm.c
-> @@ -983,6 +983,10 @@ void drm_mm_init(struct drm_mm *mm, u64 start, u64 size)
->         add_hole(&mm->head_node);
->
->         mm->scan_active = 0;
-> +
-> +#ifdef CONFIG_DRM_DEBUG_MM
-> +       stack_depot_init();
-> +#endif
->  }
->  EXPORT_SYMBOL(drm_mm_init);
->
-> diff --git a/drivers/gpu/drm/i915/intel_runtime_pm.c b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> index eaf7688f517d..d083506986e1 100644
-> --- a/drivers/gpu/drm/i915/intel_runtime_pm.c
-> +++ b/drivers/gpu/drm/i915/intel_runtime_pm.c
-> @@ -78,6 +78,9 @@ static void __print_depot_stack(depot_stack_handle_t stack,
->  static void init_intel_runtime_pm_wakeref(struct intel_runtime_pm *rpm)
->  {
->         spin_lock_init(&rpm->debug.lock);
-> +
-> +       if (rpm->available)
-> +               stack_depot_init();
->  }
->
->  static noinline depot_stack_handle_t
-> diff --git a/include/linux/stackdepot.h b/include/linux/stackdepot.h
-> index 6bb4bc1a5f54..40fc5e92194f 100644
-> --- a/include/linux/stackdepot.h
-> +++ b/include/linux/stackdepot.h
-> @@ -13,6 +13,22 @@
->
->  typedef u32 depot_stack_handle_t;
->
-> +/*
-> + * Every user of stack depot has to call this during its own init when it's
-> + * decided that it will be calling stack_depot_save() later.
-> + *
-> + * The alternative is to select STACKDEPOT_ALWAYS_INIT to have stack depot
-> + * enabled as part of mm_init(), for subsystems where it's known at compile time
-> + * that stack depot will be used.
-> + */
-> +int stack_depot_init(void);
-> +
-> +#ifdef CONFIG_STACKDEPOT_ALWAYS_INIT
-> +static inline int stack_depot_early_init(void) { return stack_depot_init(); }
-> +#else
-> +static inline int stack_depot_early_init(void) { return 0; }
-> +#endif
-> +
->  depot_stack_handle_t stack_depot_save(unsigned long *entries,
->                                       unsigned int nr_entries, gfp_t gfp_flags);
->
-> @@ -21,13 +37,4 @@ unsigned int stack_depot_fetch(depot_stack_handle_t handle,
->
->  unsigned int filter_irq_stacks(unsigned long *entries, unsigned int nr_entries);
->
-> -#ifdef CONFIG_STACKDEPOT
-> -int stack_depot_init(void);
-> -#else
-> -static inline int stack_depot_init(void)
-> -{
-> -       return 0;
-> -}
-> -#endif /* CONFIG_STACKDEPOT */
-> -
->  #endif
-> diff --git a/init/main.c b/init/main.c
-> index 81a79a77db46..ca2765c8e45c 100644
-> --- a/init/main.c
-> +++ b/init/main.c
-> @@ -842,7 +842,7 @@ static void __init mm_init(void)
->         init_mem_debugging_and_hardening();
->         kfence_alloc_pool();
->         report_meminit();
-> -       stack_depot_init();
-> +       stack_depot_early_init();
->         mem_init();
->         mem_init_print_info();
->         /* page_owner must be initialized after buddy is ready */
-> diff --git a/lib/Kconfig b/lib/Kconfig
-> index 5e7165e6a346..9d0569084152 100644
-> --- a/lib/Kconfig
-> +++ b/lib/Kconfig
-> @@ -671,6 +671,10 @@ config STACKDEPOT
->         bool
->         select STACKTRACE
->
-> +config STACKDEPOT_ALWAYS_INIT
-> +       bool
-> +       select STACKDEPOT
-> +
->  config STACK_HASH_ORDER
->         int "stack depot hash size (12 => 4KB, 20 => 1024KB)"
->         range 12 20
-> diff --git a/lib/Kconfig.kasan b/lib/Kconfig.kasan
-> index cdc842d090db..879757b6dd14 100644
-> --- a/lib/Kconfig.kasan
-> +++ b/lib/Kconfig.kasan
-> @@ -38,7 +38,7 @@ menuconfig KASAN
->                     CC_HAS_WORKING_NOSANITIZE_ADDRESS) || \
->                    HAVE_ARCH_KASAN_HW_TAGS
->         depends on (SLUB && SYSFS) || (SLAB && !DEBUG_SLAB)
-> -       select STACKDEPOT
-> +       select STACKDEPOT_ALWAYS_INIT
->         help
->           Enables KASAN (KernelAddressSANitizer) - runtime memory debugger,
->           designed to find out-of-bounds accesses and use-after-free bugs.
-> diff --git a/lib/stackdepot.c b/lib/stackdepot.c
-> index 0a2e417f83cb..9bb5333bf02f 100644
-> --- a/lib/stackdepot.c
-> +++ b/lib/stackdepot.c
-> @@ -24,6 +24,7 @@
->  #include <linux/jhash.h>
->  #include <linux/kernel.h>
->  #include <linux/mm.h>
-> +#include <linux/mutex.h>
->  #include <linux/percpu.h>
->  #include <linux/printk.h>
->  #include <linux/slab.h>
-> @@ -146,6 +147,7 @@ static struct stack_record *depot_alloc_stack(unsigned long *entries, int size,
->  #define STACK_HASH_MASK (STACK_HASH_SIZE - 1)
->  #define STACK_HASH_SEED 0x9747b28c
->
-> +DEFINE_MUTEX(stack_depot_init_mutex);
->  static bool stack_depot_disable;
->  static struct stack_record **stack_table;
->
-> @@ -162,18 +164,38 @@ static int __init is_stack_depot_disabled(char *str)
->  }
->  early_param("stack_depot_disable", is_stack_depot_disabled);
->
-> -int __init stack_depot_init(void)
-> +/*
-> + * __ref because of memblock_alloc(), which will not be actually called after
-> + * the __init code is gone, because at that point slab_is_available() is true
-> + */
-> +__ref int stack_depot_init(void)
->  {
-> -       if (!stack_depot_disable) {
-> +       mutex_lock(&stack_depot_init_mutex);
-> +       if (!stack_depot_disable && stack_table == NULL) {
->                 size_t size = (STACK_HASH_SIZE * sizeof(struct stack_record *));
->                 int i;
->
-> -               stack_table = memblock_alloc(size, size);
-> -               for (i = 0; i < STACK_HASH_SIZE;  i++)
-> -                       stack_table[i] = NULL;
-> +               if (slab_is_available()) {
-> +                       pr_info("Stack Depot allocating hash table with kvmalloc\n");
-> +                       stack_table = kvmalloc(size, GFP_KERNEL);
-> +               } else {
-> +                       pr_info("Stack Depot allocating hash table with memblock_alloc\n");
-> +                       stack_table = memblock_alloc(size, SMP_CACHE_BYTES);
-> +               }
-> +               if (stack_table) {
-> +                       for (i = 0; i < STACK_HASH_SIZE;  i++)
-> +                               stack_table[i] = NULL;
-> +               } else {
-> +                       pr_err("Stack Depot failed hash table allocationg, disabling\n");
-> +                       stack_depot_disable = true;
-> +                       mutex_unlock(&stack_depot_init_mutex);
-> +                       return -ENOMEM;
-> +               }
->         }
-> +       mutex_unlock(&stack_depot_init_mutex);
->         return 0;
->  }
-> +EXPORT_SYMBOL_GPL(stack_depot_init);
->
->  /* Calculate hash for a stack */
->  static inline u32 hash_stack(unsigned long *entries, unsigned int size)
-> diff --git a/mm/page_owner.c b/mm/page_owner.c
-> index 62402d22539b..16a0ef903384 100644
-> --- a/mm/page_owner.c
-> +++ b/mm/page_owner.c
-> @@ -80,6 +80,8 @@ static void init_page_owner(void)
->         if (!page_owner_enabled)
->                 return;
->
-> +       stack_depot_init();
-> +
->         register_dummy_stack();
->         register_failure_stack();
->         register_early_stack();
-> --
-> 2.33.0
->
-> --
-> You received this message because you are subscribed to the Google Groups "kasan-dev" group.
-> To unsubscribe from this group and stop receiving emails from it, send an email to kasan-dev+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgid/kasan-dev/20211012090621.1357-1-vbabka%40suse.cz.
+T24gMTAvOC8yMSA5OjE3IEFNLCBOaXJtb3kgRGFzIHdyb3RlOg0KPiBSZXR1cm4gZWFybHkgaWYg
+ZHJpIG1pbm9yIHJvb3QgZGVudHJ5IGlzIE5VTEwuDQo+IA0KPiBDQzogWmhlbnl1IFdhbmcgPHpo
+ZW55dXdAbGludXguaW50ZWwuY29tPg0KPiBDQzogWmhpIFdhbmcgPHpoaS5hLndhbmdAaW50ZWwu
+Y29tPg0KPiBDQzogSmFuaSBOaWt1bGEgPGphbmkubmlrdWxhQGxpbnV4LmludGVsLmNvbT4NCj4g
+Q0M6IEpvb25hcyBMYWh0aW5lbiA8am9vbmFzLmxhaHRpbmVuQGxpbnV4LmludGVsLmNvbT4NCj4g
+Q0M6IFJvZHJpZ28gVml2aSA8cm9kcmlnby52aXZpQGludGVsLmNvbT4NCj4gQ0M6IERhdmlkIEFp
+cmxpZSA8YWlybGllZEBsaW51eC5pZT4NCj4gQ0M6IERhbmllbCBWZXR0ZXIgPGRhbmllbEBmZnds
+bC5jaD4NCj4gU2lnbmVkLW9mZi1ieTogTmlybW95IERhcyA8bmlybW95LmRhc0BhbWQuY29tPg0K
+PiAtLS0NCj4gICBkcml2ZXJzL2dwdS9kcm0vaTkxNS9ndnQvZGVidWdmcy5jICB8IDMgKysrDQo+
+ICAgZHJpdmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kZWJ1Z2ZzLmMgfCAzICsrKw0KPiAgIDIgZmls
+ZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9n
+cHUvZHJtL2k5MTUvZ3Z0L2RlYnVnZnMuYyBiL2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9kZWJ1
+Z2ZzLmMNCj4gaW5kZXggOWYxYzIwOWQ5MjUxLi4yZDQ3YWNhYTAzZWUgMTAwNjQ0DQo+IC0tLSBh
+L2RyaXZlcnMvZ3B1L2RybS9pOTE1L2d2dC9kZWJ1Z2ZzLmMNCj4gKysrIGIvZHJpdmVycy9ncHUv
+ZHJtL2k5MTUvZ3Z0L2RlYnVnZnMuYw0KPiBAQCAtMTg3LDYgKzE4Nyw5IEBAIHZvaWQgaW50ZWxf
+Z3Z0X2RlYnVnZnNfaW5pdChzdHJ1Y3QgaW50ZWxfZ3Z0ICpndnQpDQo+ICAgew0KPiAgIAlzdHJ1
+Y3QgZHJtX21pbm9yICptaW5vciA9IGd2dC0+Z3QtPmk5MTUtPmRybS5wcmltYXJ5Ow0KPiANCj4g
+KwlpZiAoIW1pbm9yLT5kZWJ1Z2ZzX3Jvb3QpDQo+ICsJCXJldHVybjsNCj4gKw0KPiAgIAlndnQt
+PmRlYnVnZnNfcm9vdCA9IGRlYnVnZnNfY3JlYXRlX2RpcigiZ3Z0IiwgbWlub3ItPmRlYnVnZnNf
+cm9vdCk7DQo+IA0KPiAgIAlkZWJ1Z2ZzX2NyZWF0ZV91bG9uZygibnVtX3RyYWNrZWRfbW1pbyIs
+IDA0NDQsIGd2dC0+ZGVidWdmc19yb290LA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV9kZWJ1Z2ZzLmMgYi9kcml2ZXJzL2dwdS9kcm0vaTkxNS9pOTE1X2RlYnVnZnMu
+Yw0KPiBpbmRleCA0NDk2OWY1ZGRlNTAuLmQ1NzJiNjg2ZWRlYiAxMDA2NDQNCj4gLS0tIGEvZHJp
+dmVycy9ncHUvZHJtL2k5MTUvaTkxNV9kZWJ1Z2ZzLmMNCj4gKysrIGIvZHJpdmVycy9ncHUvZHJt
+L2k5MTUvaTkxNV9kZWJ1Z2ZzLmMNCj4gQEAgLTEwMTIsNiArMTAxMiw5IEBAIHZvaWQgaTkxNV9k
+ZWJ1Z2ZzX3JlZ2lzdGVyKHN0cnVjdCBkcm1faTkxNV9wcml2YXRlICpkZXZfcHJpdikNCj4gICAJ
+c3RydWN0IGRybV9taW5vciAqbWlub3IgPSBkZXZfcHJpdi0+ZHJtLnByaW1hcnk7DQo+ICAgCWlu
+dCBpOw0KPiANCj4gKwlpZiAoIW1pbm9yLT5kZWJ1Z2ZzX3Jvb3QpDQo+ICsJCXJldHVybjsNCj4g
+Kw0KPiAgIAlpOTE1X2RlYnVnZnNfcGFyYW1zKGRldl9wcml2KTsNCj4gDQo+ICAgCWRlYnVnZnNf
+Y3JlYXRlX2ZpbGUoImk5MTVfZm9yY2V3YWtlX3VzZXIiLCBTX0lSVVNSLCBtaW5vci0+ZGVidWdm
+c19yb290LA0KPiAtLQ0KPiAyLjMyLjANCj4gDQpUaGFua3MgZm9yIHRoZSBwYXRjaC4gcXVldWVk
+Lg0KUmV2aWV3ZWQtYnk6IFpoaSBXYW5nIDx6aGkuYS53YW5nQGludGVsLmNvbT4NCg==
