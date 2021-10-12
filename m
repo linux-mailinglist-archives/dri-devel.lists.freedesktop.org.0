@@ -2,46 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3C442A00E
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97C6542A027
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 10:43:32 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 66C546E7E5;
-	Tue, 12 Oct 2021 08:39:27 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 23D246E7E6;
+	Tue, 12 Oct 2021 08:43:29 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4B29E6E7E5
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:39:26 +0000 (UTC)
-X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
-X-UUID: 4cf412d9876e48d4b14de15c2228a019-20211012
-Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by
- mailgw02.mediatek.com (envelope-from <guangming.cao@mediatek.com>)
- (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
- with ESMTP id 1964211283; Tue, 12 Oct 2021 16:39:21 +0800
-Received: from mtkcas11.mediatek.inc (172.21.101.40) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.2.792.3; 
- Tue, 12 Oct 2021 16:39:20 +0800
-Received: from mszswglt01.gcn.mediatek.inc (10.16.20.20) by
- mtkcas11.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.0.1497.2 via Frontend Transport; Tue, 12 Oct 2021 16:39:20 +0800
-From: <guangming.cao@mediatek.com>
-To: <christian.koenig@amd.com>
-CC: <dri-devel@lists.freedesktop.org>, <guangming.cao@mediatek.com>,
- <linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <linux-mediatek@lists.infradead.org>, <matthias.bgg@gmail.com>,
- <rdunlap@infradead.org>, <sumit.semwal@linaro.org>,
- <wsd_upstream@mediatek.com>, Guangming Cao <Guangming.Cao@mediatek.com>
-Subject: Re: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-Date: Tue, 12 Oct 2021 16:41:09 +0800
-Message-ID: <20211012084109.176542-1-guangming.cao@mediatek.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
-References: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
+ [213.167.242.64])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 89D1E6E7E6
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 08:43:27 +0000 (UTC)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi
+ [62.78.145.57])
+ by perceval.ideasonboard.com (Postfix) with ESMTPSA id A299FF1;
+ Tue, 12 Oct 2021 10:43:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+ s=mail; t=1634028205;
+ bh=DghocipXHvP0NyLeaDEnD7TymmQkem6Rr3rSwUpNewo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=kyT4O2si6/0pIZQXfPgjTOuA9DgGuevyfbivXAsFelznSFHJWI9KHJaLnJ09d5T1m
+ qXAq2EXPeHtrzb7Q0CBdUecLpuOd6jioFKePvHAUZ7bsVgYpm61cvA+XNRJMbN0Gt+
+ 3WzqliXDgNPx1OL2r+f31x6y7fodec90GsNG3t2w=
+Date: Tue, 12 Oct 2021 11:43:12 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ Rob Herring <robh+dt@kernel.org>, Andrzej Hajda <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ Sam Ravnborg <sam@ravnborg.org>
+Subject: Re: [PATCH v2 4/4] drm/bridge: ti-sn65dsi83: Add vcc supply
+ regulator support
+Message-ID: <YWVKoDRdZJMshrW1@pendragon.ideasonboard.com>
+References: <20211012064843.298104-1-alexander.stein@ew.tq-group.com>
+ <20211012064843.298104-5-alexander.stein@ew.tq-group.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK: N
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20211012064843.298104-5-alexander.stein@ew.tq-group.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,79 +58,80 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Guangming Cao <Guangming.Cao@mediatek.com>
+Hi Alexander,
 
-> Am 09.10.21 um 07:55 schrieb guangming.cao@mediatek.com:
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
-> >
-> > If dma-buf don't want userspace users to touch the dmabuf buffer,
-> > it seems we should add this restriction into dma_buf_ops.mmap,
-> > not in this IOCTL:DMA_BUF_SET_NAME.
-> >
-> > With this restriction, we can only know the kernel users of the dmabuf
-> > by attachments.
-> > However, for many userspace users, such as userpsace users of dma_heap,
-> > they also need to mark the usage of dma-buf, and they don't care about
-> > who attached to this dmabuf, and seems it's no meaning to be waiting for
-> > IOCTL:DMA_BUF_SET_NAME rather than mmap.
-> 
-> Sounds valid to me, but I have no idea why this restriction was added in 
-> the first place.
-> 
-> Can you double check the git history and maybe identify when that was 
-> added? Mentioning this change in the commit message then might make 
-> things a bit easier to understand.
-> 
-> Thanks,
-> Christian.
-It was add in this patch: https://patchwork.freedesktop.org/patch/310349/.
-However, there is no illustration about it.
-I guess it wants users to set_name when no attachments on the dmabuf,
-for case with attachments, we can find owner by device in attachments.
-But just I said in commit message, this is might not a good idea.
+Thank you for the patch.
 
-Do you have any idea?
+On Tue, Oct 12, 2021 at 08:48:43AM +0200, Alexander Stein wrote:
+> VCC needs to be enabled before releasing the enable GPIO.
 > 
-> >
-> > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > ---
-> >   drivers/dma-buf/dma-buf.c | 14 ++------------
-> >   1 file changed, 2 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index 511fe0d217a0..db2f4efdec32 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file, poll_table *poll)
-> >   
-> >   /**
-> >    * dma_buf_set_name - Set a name to a specific dma_buf to track the usage.
-> > - * The name of the dma-buf buffer can only be set when the dma-buf is not
-> > - * attached to any devices. It could theoritically support changing the
-> > - * name of the dma-buf if the same piece of memory is used for multiple
-> > - * purpose between different devices.
-> > + * It could theoretically support changing the name of the dma-buf if the same
-> > + * piece of memory is used for multiple purpose between different devices.
-> >    *
-> >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
-> >    * @buf:    [in]     A piece of userspace memory that contains the name of
-> > @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
-> >   	if (IS_ERR(name))
-> >   		return PTR_ERR(name);
-> >   
-> > -	dma_resv_lock(dmabuf->resv, NULL);
-> > -	if (!list_empty(&dmabuf->attachments)) {
-> > -		ret = -EBUSY;
-> > -		kfree(name);
-> > -		goto out_unlock;
-> > -	}
-> >   	spin_lock(&dmabuf->name_lock);
-> >   	kfree(dmabuf->name);
-> >   	dmabuf->name = name;
-> >   	spin_unlock(&dmabuf->name_lock);
-> >   
-> > -out_unlock:
-> > -	dma_resv_unlock(dmabuf->resv);
-> >   	return ret;
-> >   }
-> >   
+> Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> index 9072342566f3..a6b1fd71dfee 100644
+> --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> @@ -33,6 +33,7 @@
+>  #include <linux/of_device.h>
+>  #include <linux/of_graph.h>
+>  #include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+>  
+>  #include <drm/drm_atomic_helper.h>
+>  #include <drm/drm_bridge.h>
+> @@ -143,6 +144,7 @@ struct sn65dsi83 {
+>  	struct mipi_dsi_device		*dsi;
+>  	struct drm_bridge		*panel_bridge;
+>  	struct gpio_desc		*enable_gpio;
+> +	struct regulator		*vcc;
+>  	int				dsi_lanes;
+>  	bool				lvds_dual_link;
+>  	bool				lvds_dual_link_even_odd_swap;
+> @@ -647,6 +649,12 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx, enum sn65dsi83_model model)
+>  
+>  	ctx->panel_bridge = panel_bridge;
+>  
+> +	ctx->vcc = devm_regulator_get(dev, "vcc");
+> +	if (IS_ERR(ctx->vcc))
+> +		return dev_err_probe(dev, PTR_ERR(ctx->vcc),
+> +				     "Failed to get supply 'vcc': %pe\n",
+> +				     ctx->vcc);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -691,7 +699,11 @@ static int sn65dsi83_probe(struct i2c_client *client,
+>  	ctx->bridge.of_node = dev->of_node;
+>  	drm_bridge_add(&ctx->bridge);
+>  
+> -	return 0;
+> +	ret = regulator_enable(ctx->vcc);
+> +	if (ret)
+> +		dev_err(dev, "Failed to enable vcc: %i\n", ret);
+
+I think this should move to sn65dsi83_atomic_pre_enable() (and similarly
+for regulator_disable()) as keeping the regulator enabled at all times
+will cost power.
+
+> +
+> +	return ret;
+>  }
+>  
+>  static int sn65dsi83_remove(struct i2c_client *client)
+> @@ -702,6 +714,7 @@ static int sn65dsi83_remove(struct i2c_client *client)
+>  	mipi_dsi_device_unregister(ctx->dsi);
+>  	drm_bridge_remove(&ctx->bridge);
+>  	of_node_put(ctx->host_node);
+> +	regulator_disable(ctx->vcc);
+>  
+>  	return 0;
+>  }
+
+-- 
+Regards,
+
+Laurent Pinchart
