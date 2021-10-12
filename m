@@ -2,61 +2,80 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E10429D82
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 08:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1333429E27
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 08:54:26 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AE28789DBD;
-	Tue, 12 Oct 2021 06:11:21 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1E6DF6E532;
+	Tue, 12 Oct 2021 06:54:22 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd2a.google.com (mail-io1-xd2a.google.com
- [IPv6:2607:f8b0:4864:20::d2a])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 17AF689D5C
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 20:22:03 +0000 (UTC)
-Received: by mail-io1-xd2a.google.com with SMTP id d125so5275596iof.5
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 13:22:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
- bh=mR1r6/ECG8yi6si5Sq8LCfLiqt83mEP64fZS0b5Zpvw=;
- b=P3F9gRwbWfa6U3rMrHyOrJQCCH7PzT/IAYQKBIAmr4d+0iB68Hb52AOPzyMvPe8SEh
- vYHQSqu7Mi+zWV2q/IMl8T3Um7nFY6H54ddJwbeLHL2WV3i3OnYuwzcvdnf80HLJ2Ik0
- 8L0s7ZJ5dLxVxWM2UIqsLZQQWo+IjAnOzNEClxJukZU4LUkfaBOg8b9q7FW3lpRQjDBZ
- +qCA6kVfG/WmFvna9EsEg7Zgxg2qXvRJzM+u8eljvIww1FspZy6KwRlc22LsQVGotK/X
- SmLclcvVnl/xTf/SkV7dSUnwHD6Hn9p7h2Ug8rOTY2l+nKIiDc5p3yu17QZHOr4TR6BC
- FYMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=mR1r6/ECG8yi6si5Sq8LCfLiqt83mEP64fZS0b5Zpvw=;
- b=cNpAbrwk984qQGyGorJY9zZn4nycC8j1D0rJbqUSK5WFBXWLDM11DZtzGhm01rZGMC
- VibDIyDTk5YRKKyDqAKTbTtLB5Nyaf06ctRl0pFf04qRyw73Z/4iOT53twYLooYjZSxU
- BV3BbhsPVVOSIMNnfWc9p6xUTHO7xETmi1YUtKiHExUzWiCOPHMC7Bze8X4UFPFlC2iE
- pw9uuwmdBLzMnYPFOLX5ZIFL7ect+ja18FAIhD16yaUclgGKzQsB/Uzzn4ZjoGfRVLFc
- A0cnW3rFrgKSju0rq+eVAZ5knUNiPJIhif1DnQ56L/NmnARFQi/ItUmxp2/3M9oigxDM
- lI+w==
-X-Gm-Message-State: AOAM533TeGI8ijyuN6+What/cRCZyB2AKs9bL3CKTIZomY4XsTBkYfAQ
- Llq7eL9zeZp28QiCpQ8VcYvknGhbbRe9Sg==
-X-Google-Smtp-Source: ABdhPJw1YJ6ui6BPpSN5nhhgNmpblK0pumQEZJ0TmbGY3skLQ25OywfSXa96jZi0c2ez4N+UWH2DkA==
-X-Received: by 2002:a05:6602:2e81:: with SMTP id
- m1mr9434430iow.23.1633983721679; 
- Mon, 11 Oct 2021 13:22:01 -0700 (PDT)
-Received: from t ([2600:1700:4b80:20d0::31])
- by smtp.gmail.com with ESMTPSA id n25sm3401895ioz.51.2021.10.11.13.22.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 11 Oct 2021 13:22:01 -0700 (PDT)
-Date: Mon, 11 Oct 2021 16:21:58 -0400
-From: docfate111 <tdwilliamsiv@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: harry.wentland@amd.com, sunpeng.li@amd.com
-Subject: [PATCH] Size can be any value and is user controlled resulting in
- overwriting the 40 byte array wr_buf with an arbitrary length of data from
- buf.
-Message-ID: <20211011202158.GA19208@t>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailman-Approved-At: Tue, 12 Oct 2021 06:11:20 +0000
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A37A189F07
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:35:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1634020528; x=1665556528;
+ h=subject:from:to:cc:date:mime-version:
+ content-transfer-encoding:message-id;
+ bh=AqDXFNbyoaiHXtkNnJ8/WYQC55Sps3VC5kkKVFJsr5M=;
+ b=ogASa9vPtJgnQIRsUM5WsEsKvR86do7aT7HL3aeaijw+DC+2C8E2KWUI
+ 9HjZ3+I+sFuWaFCAz81CsWYOByUR4wqf0r1hfb3P9qZoDseX4+o6FM9eg
+ 5WwgJ/i26BsWrx1BNLkrJ7RRkLuvu8aRv7055RlHD7AA8B0LCI+QD43S0
+ CInHJKfQwofnJ2432MhyRMVcPe/Z4W6JbR7OWu6ZG7e1olutM2pWBHn4a
+ NuuPLDkDRlktqXZ5T8zqO+BLPqubC+gMEWUPQZGgFE8wfuFiqcrh96HJi
+ +cDln53qY4YXChWVT+yTfnJyERLdqlPKlN6SB7OFlLhq80l4fzNBtP2dK Q==;
+X-IronPort-AV: E=Sophos;i="5.85,366,1624312800"; d="scan'208";a="19984664"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+ by mx1-pgp.tq-group.com with ESMTP; 12 Oct 2021 08:35:25 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+ by tq-pgp-pr1.tq-net.de (PGP Universal service);
+ Tue, 12 Oct 2021 08:35:25 +0200
+X-PGP-Universal: processed;
+ by tq-pgp-pr1.tq-net.de on Tue, 12 Oct 2021 08:35:25 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+ t=1634020525; x=1665556525;
+ h=subject:from:to:cc:date:mime-version:
+ content-transfer-encoding:message-id;
+ bh=AqDXFNbyoaiHXtkNnJ8/WYQC55Sps3VC5kkKVFJsr5M=;
+ b=HAqA0TsVQhFrkbLFrudlNC2FwdDH8j8XKR6L+ERpOvMDoiIlsGWIZzQR
+ 9dgBm5Urz4xteN5nsmERvhXZmT1nr7kbWyoDVaoUYLBfsnxUB+QBTbW/U
+ 53+6f20dBUN31QW0kYT8wJ/hfEGjdoSOfOTWz4RByEEXcv6ovyftQbdZd
+ hQluNvg6+15WUM56sgf5MeGA+N0jvyX1y5wYQjMsAt63uTlDekFnr8X+d
+ x28w3+qpU8nTi3oAoMBnr6hSkONQvXBz1PUPqt0uDDMylv9vTAaeQ1FoD
+ Ke97GU0pwGqiw89xWoqV9TrTQB2pCSQ7DBSjF+VqJ3QuCzghqj1VJacze w==;
+X-IronPort-AV: E=Sophos;i="5.85,366,1624312800"; d="scan'208";a="19984663"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+ by mx1.tq-group.com with ESMTP; 12 Oct 2021 08:35:25 +0200
+Received: from vtuxmail01.tq-net.de (localhost [127.0.0.1])
+ by vtuxmail01.tq-net.de (Postfix) with ESMTP id 3B6EB280065;
+ Tue, 12 Oct 2021 08:35:25 +0200 (CEST)
+Received: by vtuxmail01 (kopano-spooler) with MAPI; Tue, 12 Oct 2021 08:35:25
+ +0200
+Subject: AW: (EXT) Re: [PATCH 1/3] drm/bridge: ti-sn65dsi83: Add vcc supply
+ regulator support
+From: "Alexander Stein" <Alexander.Stein@ew.tq-group.com>
+To: "Sam Ravnborg" <sam@ravnborg.org>
+Cc: "David Airlie" <airlied@linux.ie>,
+ "Daniel Vetter" <daniel@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ "Andrzej Hajda" <a.hajda@samsung.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ "Robert Foss" <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ "Jonas Karlman" <jonas@kwiboo.se>,
+ "Jernej Skrabec" <jernej.skrabec@gmail.com>,
+ =?us-ascii?Q?dri-devel=40lists=2Efreedesktop=2Eorg?=
+ <dri-devel@lists.freedesktop.org>, 
+ =?us-ascii?Q?devicetree=40vger=2Eke?= =?us-ascii?Q?rnel=2Eorg?=
+ <devicetree@vger.kernel.org>
+Date: Tue, 12 Oct 2021 06:35:25 +0000
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Priority: 3 (Normal)
+X-Mailer: Kopano 8.7.82
+Message-Id: <kcEE.3XovpxrPSziglCoQmtmkFQ.gDS6VjO/1wE@vtuxmail01.tq-net.de>
+X-Mailman-Approved-At: Tue, 12 Oct 2021 06:54:21 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -72,24 +91,52 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Signed-off-by: docfate111 <tdwilliamsiv@gmail.com>
----
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi Sam,
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-index 87daa78a32b8..17f2756a64dc 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_debugfs.c
-@@ -263,7 +263,7 @@ static ssize_t dp_link_settings_write(struct file *f, const char __user *buf,
- 	if (!wr_buf)
- 		return -ENOSPC;
- 
--	if (parse_write_buffer_into_params(wr_buf, size,
-+	if (parse_write_buffer_into_params(wr_buf, wr_buf_size,
- 					   (long *)param, buf,
- 					   max_param_num,
- 					   &param_nums)) {
--- 
-2.25.1
+On Mon, 11 Oct 2021 22:29:30 +0200, Sam Ravnborg wrote:
+> > VCC needs to be enabled before releasing the enable GPIO.
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >  drivers/gpu/drm/bridge/ti-sn65dsi83.c | 15 ++++++++++++++-
+> >  1 file changed, 14 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/bridge/ti-sn65dsi83.c b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > index a32f70bc68ea..5fab0fabcd15 100644
+> > --- a/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > +++ b/drivers/gpu/drm/bridge/ti-sn65dsi83.c
+> > @@ -33,6 +33,7 @@
+> >  #include <linux/of_device.h>
+> >  #include <linux/of_graph.h>
+> >  #include <linux/regmap.h>
+> > +#include <linux/regulator/consumer.h>
+> > =20
+> >  #include <drm/drm_atomic_helper.h>
+> >  #include <drm/drm_bridge.h>
+> > @@ -143,6 +144,7 @@ struct sn65dsi83 {
+> >  =09struct mipi_dsi_device=09=09*dsi;
+> >  =09struct drm_bridge=09=09*panel_bridge;
+> >  =09struct gpio_desc=09=09*enable_gpio;
+> > +=09struct regulator=09=09*vcc;
+> >  =09int=09=09=09=09dsi_lanes;
+> >  =09bool=09=09=09=09lvds_dual_link;
+> >  =09bool=09=09=09=09lvds_dual_link_even_odd_swap;
+> > @@ -647,6 +649,12 @@ static int sn65dsi83_parse_dt(struct sn65dsi83 *ctx,
+> enum sn65dsi83_model model)
+> > =20
+> >  =09ctx->panel_bridge =3D panel_bridge;
+> > =20
+> > +=09ctx->vcc =3D devm_regulator_get(dev, "vcc");
+> In the binding the vcc regulator is required, but devm_regulator_get()
+> will create a dummy regulator if not found. Maybe this is on purpose and
+> all is good.
+
+Thanks for addressing this. I was slightly unsure myself, but IMHO this is
+all good as this makes the driver backward compatible with older DT
+which lack the regulator. If there was no vcc regulator necessary and the bridge
+was working,then a dummy regulator is fine, as the DT fix would be adding a
+always-on, regulator-fixed without any enable/disable possibility anyway.
+
+Best regards,
+Alexander
 
