@@ -2,42 +2,42 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987FD42AA73
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 19:13:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0CE242AA77
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 19:13:24 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id AEF9D89FD4;
-	Tue, 12 Oct 2021 17:13:06 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 97B8389FD7;
+	Tue, 12 Oct 2021 17:13:07 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
- (mail-bn8nam12on2044.outbound.protection.outlook.com [40.107.237.44])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 292ED89F3C;
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com
+ (mail-bn1nam07on2089.outbound.protection.outlook.com [40.107.212.89])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id DFDC889FA9;
  Tue, 12 Oct 2021 17:13:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Q2VPpTvDvyxWPkGTVFwOSf/gV96ZUfijuM3e2pD7yiqQiEudvKDhkt9skX1kNGoqmhEC0zZ32ok0xPC2EFGiHIuVxa6i3u4PTAh/Gdiz93oESsdKarPFPfILEqxlGNVDmYtxsu8lkR8VYT08zjcjKRSq5wPxtrVvaJ8/Jr1ujrZJ9cGqOj9WLVRUYKbs3pQJmPkVxTdpe9We3k+cs1Rr6C9maV2JPxR+AJ+p9/KxavD6HOma1X570Eh8qc0P34VJP2GYztlxjV0eG/c5N2hhVG+xWlRVR9n6zXrEd7i7m8PXDiPbnibVo4H0oACVfmGb+MJLEhv0Tp6hnXVEnMAX2g==
+ b=fKZMvkNcs+k7FTQOHyJCb7mTllQlpvI5j0srXqlRkRKrp3P6Y4a4nCLP5efBoOUnOLNSihNIAB3AgLfRJkRVbC28l63q8mMyNRmC7SAJQKSrimfHLrtq+8EyPG/u2fkBgcEf7rhXuThF1kLjSvVdRuSU8NwRPy7gdN9lhHtr7WVgjkg9XWokeR50Uy7IhMdc0Y8WZaXOAqOElPriRe8H1AtL1N453iF3Hk+a+hCO5FP3Ba60K1pQJ990ECbwEVlZjr8CzDf3UW43AcIJjdktcYCg7xEosw4nRi58EsGXUzUroX/qHmWscWYkwxCKOUVMEZ2csKeFFEX08KuXZ3uI6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=prqqgRWlNmUY+FCzPMwMlLKkTVbC2ZOWpWdIq8n/6hw=;
- b=Lb5Qg+CPF4sDaEJkxridy8L2rJnXquolU+UL/QMcHfoVoYP46tGr1krZhJ7NAMHmL86YzwrymoujchfK4JW6owAq9XxaTpz/7PW2gYA3dw1Xv0foWOlxRDgqOKuYWmOWsKu+KHzYRPpVYvV4T6wpVoJk2jrOZAa62dQYPu37no5WJQ4rAmG7neOMP+ktgqeR9okjRFFecVqOODjM92vgNYQayyqwE1eEwTE9FagTJFardbNcLcqUpUKLJGvo4PrWpYwf2P8PaHwFOhy2TLOCHXA0yVZgNvqPIg3mZbmJeySP5XZOeOwgXnq1jf+T2ppS6pYYCo3Inke19QpCg6lt4A==
+ bh=YOpucbc/fJ96/axSQRUqL6YobnSoy0nbWQSNVNqOGY4=;
+ b=U1GS8qq4ah7E2/6/Pdh78gF5GmmCSzBkW1UBIFko8nQkyiCt4KFTEiaj3+/D8iWL1E6uymPgR41asFV9xgbWF0aPiRXHVRGGNExTWcbUzQhcyGLFsnyHV/Q6w87tls8mE7/OfPZZPXNcL66MeLR6+CiEqmEyKYWq6ZU4orpC2WFiQv+kdpTQ4lOOxT6yybntXTP5R2buY5KUxWYXJpzK36cCWMjQR6aReKI5sSZbTjxw+uUUxR8OP78DqLKw9vdpmAQAnCHuhwRaS+b2ZZNUQFWVTOpUc5kBFunbph0ntgb+pGABNSJBsawwh2E5jtjfyUrZ7gPhmczZTKnch+hVGg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=linux-foundation.org smtp.mailfrom=amd.com;
  dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
  header.from=amd.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=prqqgRWlNmUY+FCzPMwMlLKkTVbC2ZOWpWdIq8n/6hw=;
- b=W299mrfcLzyYpKyLdyQ0Quo0yXPX3ylduTuyWyZQcFDnirtn7NucX5b4ebrTdrrS2UdDRJa0/6sfZ+lWohnNoNAeOk9wj6nbNGAhalU+g+TzwhT3IOW8HX0BoWhf7RKAei6EMgCh6v0PfaSOGS9cq3n4RgOmUJgSzy4R7V6n0ts=
-Received: from MW4PR04CA0284.namprd04.prod.outlook.com (2603:10b6:303:89::19)
- by SA0PR12MB4512.namprd12.prod.outlook.com (2603:10b6:806:71::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20; Tue, 12 Oct
- 2021 17:13:01 +0000
+ bh=YOpucbc/fJ96/axSQRUqL6YobnSoy0nbWQSNVNqOGY4=;
+ b=KH+TBfdUo0htyY1nfbwE1mP2gJvQzCrkbkLm4kYxRgNJYZnM1kAhT3jxdVvr6jdsEgicgPRJ82FkTgUwBR1igzoQT+xV/TuYxGtDAV+6f7/LPGh5GAljKLY3hwE/aiTSsRRjUXhwNIrpQsguoplpESRzW3NtJeo/vYzG0fr/zeM=
+Received: from MW4PR04CA0278.namprd04.prod.outlook.com (2603:10b6:303:89::13)
+ by MWHPR1201MB0125.namprd12.prod.outlook.com (2603:10b6:301:55::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.25; Tue, 12 Oct
+ 2021 17:13:02 +0000
 Received: from CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:89:cafe::43) by MW4PR04CA0284.outlook.office365.com
- (2603:10b6:303:89::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.25 via Frontend
- Transport; Tue, 12 Oct 2021 17:13:01 +0000
+ (2603:10b6:303:89:cafe::85) by MW4PR04CA0278.outlook.office365.com
+ (2603:10b6:303:89::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.14 via Frontend
+ Transport; Tue, 12 Oct 2021 17:13:02 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; linux-foundation.org; dkim=none (message not signed)
  header.d=none;linux-foundation.org; dmarc=pass action=none
@@ -52,16 +52,16 @@ Received: from SATLEXMB04.amd.com (165.204.84.17) by
 Received: from alex-MS-7B09.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 12 Oct
- 2021 12:12:58 -0500
+ 2021 12:12:59 -0500
 From: Alex Sierra <alex.sierra@amd.com>
 To: <akpm@linux-foundation.org>, <Felix.Kuehling@amd.com>,
  <linux-mm@kvack.org>, <rcampbell@nvidia.com>, <linux-ext4@vger.kernel.org>,
  <linux-xfs@vger.kernel.org>
 CC: <amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
  <hch@lst.de>, <jgg@nvidia.com>, <jglisse@redhat.com>, <apopple@nvidia.com>
-Subject: [PATCH v1 01/12] ext4/xfs: add page refcount helper
-Date: Tue, 12 Oct 2021 12:12:36 -0500
-Message-ID: <20211012171247.2861-2-alex.sierra@amd.com>
+Subject: [PATCH v1 02/12] mm: remove extra ZONE_DEVICE struct page refcount
+Date: Tue, 12 Oct 2021 12:12:37 -0500
+Message-ID: <20211012171247.2861-3-alex.sierra@amd.com>
 X-Mailer: git-send-email 2.32.0
 In-Reply-To: <20211012171247.2861-1-alex.sierra@amd.com>
 References: <20211012171247.2861-1-alex.sierra@amd.com>
@@ -73,28 +73,28 @@ X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8e3ea715-00a1-4afb-5580-08d98da38bac
-X-MS-TrafficTypeDiagnostic: SA0PR12MB4512:
-X-Microsoft-Antispam-PRVS: <SA0PR12MB4512F560EFC73D900A16DF58FDB69@SA0PR12MB4512.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Office365-Filtering-Correlation-Id: 8c2fa014-4974-4dca-daa1-08d98da38c39
+X-MS-TrafficTypeDiagnostic: MWHPR1201MB0125:
+X-Microsoft-Antispam-PRVS: <MWHPR1201MB0125857B17AEC820367DEBD4FDB69@MWHPR1201MB0125.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0jtMTfNAceBhf8FQmAGtJoBdU7jveQ/4yan0XVhsAoqNyHR3XrSzcIs+JJ3kPYTiKPJuGd5HcRq1ysyXZ8Uzv81vreesR+Bl2pCHx6/FpiTx4HYu167XAkqfyaIBaEnWx5p3U22UFDg/1dwaF+7xkQOlr5QlojKUUCO8IbJ+8iRr+gxrJBGm92OHNFUKj5ZJCK+H3U32xXMxyqzMEQRhFwNDRwqp3VgWt7Hsj01+ywBKjE4h8KwOLUe8UIM6EYse0WUygxM5M5hWlJyYH/vejVnMdzpcqVU/lyRGEv/8nMKc+uVUn6zK/LvBuMT6L+HJY2Mzof4Yql+tSxRwNR5UUNUboCRg4dV/jDic7Q0vcI7f8/87dOTtW0jTSR7BZ229aX2LpQIpJPX3JYcte4jjcopgzH6Xb5eb5Quuc62whqZYs8B+kONoPdbFlS9HfQW77ubcvzUxD9mt2rOLP1DL/wjGvQqXIoXm3fydffjyMhczopYa8eKmIYuGQhr+NeH3MPNfRM/4ZLM8TvbcGwqCfJCEtAlEGWSNb7MTXTCwxD19GoGAJedDDB7bmc7BluurpwHpodgqPQ9sWdaku6gcctXLAe3/seVQu+xz8sGirqavCT6mIvC9x5XiFpxHZO6hnDfKRDMZEw1SMaTIgCXvBumPfKNFAohxf4YUiBUuJJD6h9s2YiaEMOjQ4kYahKTnV6sqFfOoAZRzTCW8vWSO3MfvcQbPLkFuFzlJpIaz4AE=
+X-Microsoft-Antispam-Message-Info: SnOREwGvCCU510shuhN2tqejHQeQi5JapATL2xb58QxTOQe5no5L5QHmLaNAVzJC6FgZQwTefQ4ERZaVBjnsFWoP5w7+uqMQPSl6SDo5Xt3VdoAKiz7zf32tQnrQ7V1y9tjjr59jJu1W1sy0W7v1tm0B7HVArhnSYsD7lATv+QeTD9THb053kgG4eD0g2dvGnViqZEcla4YuNsmme8HneeiLcTiB3sqrsX47QGMWuCF5AZpXwdRg4Zt4IekpXgcAjIwEO7W0IikCtMdTpCjfke8H7c6so3BJLXwaV/SIWIzkFfuvVt3GthH+gqPI8bJ/WTRpu3PeATTtKuP19IjexD+pyc4+WnJA8pip4BczmWdKvrg1IoMDZaBhHvcTIHcz0tWIn1Gj++bDuxTVXfafHi6qNdZTRf/L2pLVQ8sK8XmVyDNa9C+cPWBId/GiE5p+48X3hrMS1oEcv6IkPo4fLFS3OlUktTZb4rfkKSX0zWfTtVpfVw8ENnTF7Q1m01+Bb+ZJFQ2rmrwq9cnmQ3sWQbm53a494Gp3mck2ZjdsL8L13ZFczdc1ri70+l61JiR7EqZm8SOUb/as7kBGtsmGbPClxfmQMLwDdrYb0ly8Wy9xxeUMKGAifjgSVkb2aIaNNdDFfvYZpLgMKgxScg1sAjseBVa+SuedafihhjVyarLallM0KMpjYSAuZRko+nbdEkF15b6KTgivSdoYr66yLIcLJTARXDMbgLpjPYl/WRBCPDd9yF7teddNiakybLifgyipX47FUwtuA/auOZ2DQ5/X3cKNfJqQeslIY2Xlz+SpGsR4itVSmeI5xxvpvVmsCKXTpd6z8CPpQIZhiSl0waSPDlLSHJs3ODiv/pp9mfg=
 X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:CAL; SFV:NSPM; H:SATLEXMB04.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
- SFS:(4636009)(36840700001)(46966006)(8676002)(336012)(7416002)(7696005)(86362001)(36860700001)(4326008)(83380400001)(1076003)(2906002)(316002)(44832011)(5660300002)(81166007)(2616005)(426003)(54906003)(186003)(16526019)(82310400003)(8936002)(6666004)(508600001)(70586007)(70206006)(47076005)(26005)(110136005)(356005)(36756003)(36900700001);
+ SFS:(4636009)(36840700001)(46966006)(44832011)(81166007)(26005)(36756003)(54906003)(356005)(30864003)(47076005)(508600001)(7696005)(2906002)(82310400003)(966005)(5660300002)(110136005)(36860700001)(16526019)(6666004)(1076003)(186003)(4326008)(8676002)(8936002)(7416002)(83380400001)(2616005)(336012)(70586007)(70206006)(86362001)(426003)(316002)(36900700001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 17:13:01.0389 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e3ea715-00a1-4afb-5580-08d98da38bac
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 17:13:01.9584 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c2fa014-4974-4dca-daa1-08d98da38c39
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
  Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT005.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4512
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR1201MB0125
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -112,118 +112,435 @@ Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
 From: Ralph Campbell <rcampbell@nvidia.com>
 
-There are several places where ZONE_DEVICE struct pages assume a reference
-count == 1 means the page is idle and free. Instead of open coding this,
-add a helper function to hide this detail.
+ZONE_DEVICE struct pages have an extra reference count that complicates the
+code for put_page() and several places in the kernel that need to check the
+reference count to see that a page is not being used (gup, compaction,
+migration, etc.). Clean up the code so the reference count doesn't need to
+be treated specially for ZONE_DEVICE.
 
 Signed-off-by: Ralph Campbell <rcampbell@nvidia.com>
 Signed-off-by: Alex Sierra <alex.sierra@amd.com>
 Reviewed-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Theodore Ts'o <tytso@mit.edu>
-Acked-by: Darrick J. Wong <djwong@kernel.org>
 ---
-v3:
-[AS]: rename dax_layout_is_idle_page func to dax_page_unused
+v2:
+AS: merged this patch in linux 5.11 version
 
-v4:
-[AS]: This ref count functionality was missing on fuse/dax.c.
+v5:
+AS: add condition at try_grab_page to check for the zone device type, while
+page ref counter is checked less/equal to zero. In case of device zone, pages
+ref counter are initialized to zero.
+
+v7:
+AS: fix condition at try_grab_page added at v5, is invalid. It supposed
+to fix xfstests/generic/413 test, however, there's a known issue on
+this test where DAX mapped area DIO to non-DAX expect to fail.
+https://patchwork.kernel.org/project/fstests/patch/1489463960-3579-1-git-send-email-xzhou@redhat.com
+This condition was removed after rebase over patch series
+https://lore.kernel.org/r/20210813044133.1536842-4-jhubbard@nvidia.com
 ---
- fs/dax.c            |  4 ++--
- fs/ext4/inode.c     |  5 +----
- fs/fuse/dax.c       |  4 +---
- fs/xfs/xfs_file.c   |  4 +---
- include/linux/dax.h | 10 ++++++++++
- 5 files changed, 15 insertions(+), 12 deletions(-)
+ arch/powerpc/kvm/book3s_hv_uvmem.c     |  2 +-
+ drivers/gpu/drm/nouveau/nouveau_dmem.c |  2 +-
+ fs/dax.c                               |  4 +-
+ include/linux/dax.h                    |  2 +-
+ include/linux/memremap.h               |  7 +--
+ include/linux/mm.h                     | 11 ----
+ lib/test_hmm.c                         |  2 +-
+ mm/internal.h                          |  8 +++
+ mm/memcontrol.c                        |  6 +--
+ mm/memremap.c                          | 69 +++++++-------------------
+ mm/migrate.c                           |  5 --
+ mm/page_alloc.c                        |  3 ++
+ mm/swap.c                              | 45 ++---------------
+ 13 files changed, 46 insertions(+), 120 deletions(-)
 
+diff --git a/arch/powerpc/kvm/book3s_hv_uvmem.c b/arch/powerpc/kvm/book3s_hv_uvmem.c
+index 84e5a2dc8be5..acee67710620 100644
+--- a/arch/powerpc/kvm/book3s_hv_uvmem.c
++++ b/arch/powerpc/kvm/book3s_hv_uvmem.c
+@@ -711,7 +711,7 @@ static struct page *kvmppc_uvmem_get_page(unsigned long gpa, struct kvm *kvm)
+ 
+ 	dpage = pfn_to_page(uvmem_pfn);
+ 	dpage->zone_device_data = pvt;
+-	get_page(dpage);
++	init_page_count(dpage);
+ 	lock_page(dpage);
+ 	return dpage;
+ out_clear:
+diff --git a/drivers/gpu/drm/nouveau/nouveau_dmem.c b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+index 92987daa5e17..8bc7120e1216 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_dmem.c
++++ b/drivers/gpu/drm/nouveau/nouveau_dmem.c
+@@ -324,7 +324,7 @@ nouveau_dmem_page_alloc_locked(struct nouveau_drm *drm)
+ 			return NULL;
+ 	}
+ 
+-	get_page(page);
++	init_page_count(page);
+ 	lock_page(page);
+ 	return page;
+ }
 diff --git a/fs/dax.c b/fs/dax.c
-index 62352cbcf0f4..c387d09e3e5a 100644
+index c387d09e3e5a..1166630b7190 100644
 --- a/fs/dax.c
 +++ b/fs/dax.c
-@@ -369,7 +369,7 @@ static void dax_disassociate_entry(void *entry, struct address_space *mapping,
- 	for_each_mapped_pfn(entry, pfn) {
- 		struct page *page = pfn_to_page(pfn);
+@@ -571,14 +571,14 @@ static void *grab_mapping_entry(struct xa_state *xas,
  
--		WARN_ON_ONCE(trunc && page_ref_count(page) > 1);
-+		WARN_ON_ONCE(trunc && !dax_page_unused(page));
- 		WARN_ON_ONCE(page->mapping && page->mapping != mapping);
- 		page->mapping = NULL;
- 		page->index = 0;
-@@ -383,7 +383,7 @@ static struct page *dax_busy_page(void *entry)
- 	for_each_mapped_pfn(entry, pfn) {
- 		struct page *page = pfn_to_page(pfn);
- 
--		if (page_ref_count(page) > 1)
-+		if (!dax_page_unused(page))
- 			return page;
- 	}
- 	return NULL;
-diff --git a/fs/ext4/inode.c b/fs/ext4/inode.c
-index fe6045a46599..05ffe6875cb1 100644
---- a/fs/ext4/inode.c
-+++ b/fs/ext4/inode.c
-@@ -3971,10 +3971,7 @@ int ext4_break_layouts(struct inode *inode)
- 		if (!page)
- 			return 0;
- 
--		error = ___wait_var_event(&page->_refcount,
--				atomic_read(&page->_refcount) == 1,
--				TASK_INTERRUPTIBLE, 0, 0,
--				ext4_wait_dax_page(ei));
-+		error = dax_wait_page(ei, page, ext4_wait_dax_page);
- 	} while (error == 0);
- 
- 	return error;
-diff --git a/fs/fuse/dax.c b/fs/fuse/dax.c
-index ff99ab2a3c43..2b1f190ba78a 100644
---- a/fs/fuse/dax.c
-+++ b/fs/fuse/dax.c
-@@ -677,9 +677,7 @@ static int __fuse_dax_break_layouts(struct inode *inode, bool *retry,
- 		return 0;
- 
- 	*retry = true;
--	return ___wait_var_event(&page->_refcount,
--			atomic_read(&page->_refcount) == 1, TASK_INTERRUPTIBLE,
--			0, 0, fuse_wait_dax_page(inode));
-+	return dax_wait_page(inode, page, fuse_wait_dax_page);
- }
- 
- /* dmap_end == 0 leads to unmapping of whole file */
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index 396ef36dcd0a..182057281086 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -840,9 +840,7 @@ xfs_break_dax_layouts(
- 		return 0;
- 
- 	*retry = true;
--	return ___wait_var_event(&page->_refcount,
--			atomic_read(&page->_refcount) == 1, TASK_INTERRUPTIBLE,
--			0, 0, xfs_wait_dax_page(inode));
-+	return dax_wait_page(inode, page, xfs_wait_dax_page);
- }
- 
- int
+ /**
+  * dax_layout_busy_page_range - find first pinned page in @mapping
+- * @mapping: address space to scan for a page with ref count > 1
++ * @mapping: address space to scan for a page with ref count > 0
+  * @start: Starting offset. Page containing 'start' is included.
+  * @end: End offset. Page containing 'end' is included. If 'end' is LLONG_MAX,
+  *       pages from 'start' till the end of file are included.
+  *
+  * DAX requires ZONE_DEVICE mapped pages. These pages are never
+  * 'onlined' to the page allocator so they are considered idle when
+- * page->count == 1. A filesystem uses this interface to determine if
++ * page->count == 0. A filesystem uses this interface to determine if
+  * any page in the mapping is busy, i.e. for DMA, or other
+  * get_user_pages() usages.
+  *
 diff --git a/include/linux/dax.h b/include/linux/dax.h
-index b52f084aa643..8b5da1d60dbc 100644
+index 8b5da1d60dbc..05fc982ce153 100644
 --- a/include/linux/dax.h
 +++ b/include/linux/dax.h
-@@ -243,6 +243,16 @@ static inline bool dax_mapping(struct address_space *mapping)
- 	return mapping->host && IS_DAX(mapping->host);
+@@ -245,7 +245,7 @@ static inline bool dax_mapping(struct address_space *mapping)
+ 
+ static inline bool dax_page_unused(struct page *page)
+ {
+-	return page_ref_count(page) == 1;
++	return page_ref_count(page) == 0;
  }
  
-+static inline bool dax_page_unused(struct page *page)
+ #define dax_wait_page(_inode, _page, _wait_cb)				\
+diff --git a/include/linux/memremap.h b/include/linux/memremap.h
+index 45a79da89c5f..77ff5fd0685f 100644
+--- a/include/linux/memremap.h
++++ b/include/linux/memremap.h
+@@ -66,9 +66,10 @@ enum memory_type {
+ 
+ struct dev_pagemap_ops {
+ 	/*
+-	 * Called once the page refcount reaches 1.  (ZONE_DEVICE pages never
+-	 * reach 0 refcount unless there is a refcount bug. This allows the
+-	 * device driver to implement its own memory management.)
++	 * Called once the page refcount reaches 0. The reference count
++	 * should be reset to one with init_page_count(page) before reusing
++	 * the page. This allows the device driver to implement its own
++	 * memory management.
+ 	 */
+ 	void (*page_free)(struct page *page);
+ 
+diff --git a/include/linux/mm.h b/include/linux/mm.h
+index d8f98d652164..e24c904deeec 100644
+--- a/include/linux/mm.h
++++ b/include/linux/mm.h
+@@ -1220,17 +1220,6 @@ static inline void put_page(struct page *page)
+ {
+ 	page = compound_head(page);
+ 
+-	/*
+-	 * For devmap managed pages we need to catch refcount transition from
+-	 * 2 to 1, when refcount reach one it means the page is free and we
+-	 * need to inform the device driver through callback. See
+-	 * include/linux/memremap.h and HMM for details.
+-	 */
+-	if (page_is_devmap_managed(page)) {
+-		put_devmap_managed_page(page);
+-		return;
+-	}
+-
+ 	if (put_page_testzero(page))
+ 		__put_page(page);
+ }
+diff --git a/lib/test_hmm.c b/lib/test_hmm.c
+index 80a78877bd93..6998f10350ea 100644
+--- a/lib/test_hmm.c
++++ b/lib/test_hmm.c
+@@ -561,7 +561,7 @@ static struct page *dmirror_devmem_alloc_page(struct dmirror_device *mdevice)
+ 	}
+ 
+ 	dpage->zone_device_data = rpage;
+-	get_page(dpage);
++	init_page_count(dpage);
+ 	lock_page(dpage);
+ 	return dpage;
+ 
+diff --git a/mm/internal.h b/mm/internal.h
+index e8fdb531f887..5438cceca4b9 100644
+--- a/mm/internal.h
++++ b/mm/internal.h
+@@ -667,4 +667,12 @@ int vmap_pages_range_noflush(unsigned long addr, unsigned long end,
+ 
+ void vunmap_range_noflush(unsigned long start, unsigned long end);
+ 
++#ifdef CONFIG_DEV_PAGEMAP_OPS
++void free_zone_device_page(struct page *page);
++#else
++static inline void free_zone_device_page(struct page *page)
 +{
-+	return page_ref_count(page) == 1;
 +}
++#endif
 +
-+#define dax_wait_page(_inode, _page, _wait_cb)				\
-+	___wait_var_event(&(_page)->_refcount,				\
-+		dax_page_unused(_page),				\
-+		TASK_INTERRUPTIBLE, 0, 0, _wait_cb(_inode))
+ #endif	/* __MM_INTERNAL_H */
+diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+index 64ada9e650a5..9a6bfb4fd36c 100644
+--- a/mm/memcontrol.c
++++ b/mm/memcontrol.c
+@@ -5350,11 +5350,7 @@ static struct page *mc_handle_swap_pte(struct vm_area_struct *vma,
+ 	 */
+ 	if (is_device_private_entry(ent)) {
+ 		page = device_private_entry_to_page(ent);
+-		/*
+-		 * MEMORY_DEVICE_PRIVATE means ZONE_DEVICE page and which have
+-		 * a refcount of 1 when free (unlike normal page)
+-		 */
+-		if (!page_ref_add_unless(page, 1, 1))
++		if (!get_page_unless_zero(page))
+ 			return NULL;
+ 		return page;
+ 	}
+diff --git a/mm/memremap.c b/mm/memremap.c
+index 15a074ffb8d7..ab949a571e78 100644
+--- a/mm/memremap.c
++++ b/mm/memremap.c
+@@ -12,6 +12,7 @@
+ #include <linux/types.h>
+ #include <linux/wait_bit.h>
+ #include <linux/xarray.h>
++#include "internal.h"
+ 
+ static DEFINE_XARRAY(pgmap_array);
+ 
+@@ -37,32 +38,6 @@ unsigned long memremap_compat_align(void)
+ EXPORT_SYMBOL_GPL(memremap_compat_align);
+ #endif
+ 
+-#ifdef CONFIG_DEV_PAGEMAP_OPS
+-DEFINE_STATIC_KEY_FALSE(devmap_managed_key);
+-EXPORT_SYMBOL(devmap_managed_key);
+-
+-static void devmap_managed_enable_put(struct dev_pagemap *pgmap)
+-{
+-	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
+-	    pgmap->type == MEMORY_DEVICE_FS_DAX)
+-		static_branch_dec(&devmap_managed_key);
+-}
+-
+-static void devmap_managed_enable_get(struct dev_pagemap *pgmap)
+-{
+-	if (pgmap->type == MEMORY_DEVICE_PRIVATE ||
+-	    pgmap->type == MEMORY_DEVICE_FS_DAX)
+-		static_branch_inc(&devmap_managed_key);
+-}
+-#else
+-static void devmap_managed_enable_get(struct dev_pagemap *pgmap)
+-{
+-}
+-static void devmap_managed_enable_put(struct dev_pagemap *pgmap)
+-{
+-}
+-#endif /* CONFIG_DEV_PAGEMAP_OPS */
+-
+ static void pgmap_array_delete(struct range *range)
+ {
+ 	xa_store_range(&pgmap_array, PHYS_PFN(range->start), PHYS_PFN(range->end),
+@@ -102,16 +77,6 @@ static unsigned long pfn_end(struct dev_pagemap *pgmap, int range_id)
+ 	return (range->start + range_len(range)) >> PAGE_SHIFT;
+ }
+ 
+-static unsigned long pfn_next(unsigned long pfn)
+-{
+-	if (pfn % 1024 == 0)
+-		cond_resched();
+-	return pfn + 1;
+-}
+-
+-#define for_each_device_pfn(pfn, map, i) \
+-	for (pfn = pfn_first(map, i); pfn < pfn_end(map, i); pfn = pfn_next(pfn))
+-
+ static void dev_pagemap_kill(struct dev_pagemap *pgmap)
+ {
+ 	if (pgmap->ops && pgmap->ops->kill)
+@@ -167,20 +132,18 @@ static void pageunmap_range(struct dev_pagemap *pgmap, int range_id)
+ 
+ void memunmap_pages(struct dev_pagemap *pgmap)
+ {
+-	unsigned long pfn;
+ 	int i;
+ 
+ 	dev_pagemap_kill(pgmap);
+ 	for (i = 0; i < pgmap->nr_range; i++)
+-		for_each_device_pfn(pfn, pgmap, i)
+-			put_page(pfn_to_page(pfn));
++		percpu_ref_put_many(pgmap->ref, pfn_end(pgmap, i) -
++						pfn_first(pgmap, i));
+ 	dev_pagemap_cleanup(pgmap);
+ 
+ 	for (i = 0; i < pgmap->nr_range; i++)
+ 		pageunmap_range(pgmap, i);
+ 
+ 	WARN_ONCE(pgmap->altmap.alloc, "failed to free all reserved pages\n");
+-	devmap_managed_enable_put(pgmap);
+ }
+ EXPORT_SYMBOL_GPL(memunmap_pages);
+ 
+@@ -382,8 +345,6 @@ void *memremap_pages(struct dev_pagemap *pgmap, int nid)
+ 		}
+ 	}
+ 
+-	devmap_managed_enable_get(pgmap);
+-
+ 	/*
+ 	 * Clear the pgmap nr_range as it will be incremented for each
+ 	 * successfully processed range. This communicates how many
+@@ -498,16 +459,9 @@ struct dev_pagemap *get_dev_pagemap(unsigned long pfn,
+ EXPORT_SYMBOL_GPL(get_dev_pagemap);
+ 
+ #ifdef CONFIG_DEV_PAGEMAP_OPS
+-void free_devmap_managed_page(struct page *page)
++static void free_device_page(struct page *page)
+ {
+-	/* notify page idle for dax */
+-	if (!is_device_private_page(page)) {
+-		wake_up_var(&page->_refcount);
+-		return;
+-	}
+-
+ 	__ClearPageWaiters(page);
+-
+ 	mem_cgroup_uncharge(page);
+ 
+ 	/*
+@@ -534,4 +488,19 @@ void free_devmap_managed_page(struct page *page)
+ 	page->mapping = NULL;
+ 	page->pgmap->ops->page_free(page);
+ }
 +
- #ifdef CONFIG_DEV_DAX_HMEM_DEVICES
- void hmem_register_device(int target_nid, struct resource *r);
- #else
++void free_zone_device_page(struct page *page)
++{
++	switch (page->pgmap->type) {
++	case MEMORY_DEVICE_PRIVATE:
++		free_device_page(page);
++		return;
++	case MEMORY_DEVICE_FS_DAX:
++		/* notify page idle */
++		wake_up_var(&page->_refcount);
++		return;
++	default:
++		return;
++	}
++}
+ #endif /* CONFIG_DEV_PAGEMAP_OPS */
+diff --git a/mm/migrate.c b/mm/migrate.c
+index 41ff2c9896c4..e3a10e2a1bb3 100644
+--- a/mm/migrate.c
++++ b/mm/migrate.c
+@@ -350,11 +350,6 @@ static int expected_page_refs(struct address_space *mapping, struct page *page)
+ {
+ 	int expected_count = 1;
+ 
+-	/*
+-	 * Device private pages have an extra refcount as they are
+-	 * ZONE_DEVICE pages.
+-	 */
+-	expected_count += is_device_private_page(page);
+ 	if (mapping)
+ 		expected_count += thp_nr_pages(page) + page_has_private(page);
+ 
+diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+index ef2265f86b91..1ef1f733af5b 100644
+--- a/mm/page_alloc.c
++++ b/mm/page_alloc.c
+@@ -6414,6 +6414,9 @@ void __ref memmap_init_zone_device(struct zone *zone,
+ 
+ 		__init_single_page(page, pfn, zone_idx, nid);
+ 
++		/* ZONE_DEVICE pages start with a zero reference count. */
++		set_page_count(page, 0);
++
+ 		/*
+ 		 * Mark page reserved as it will need to wait for onlining
+ 		 * phase for it to be fully associated with a zone.
+diff --git a/mm/swap.c b/mm/swap.c
+index dfb48cf9c2c9..9e821f1951c5 100644
+--- a/mm/swap.c
++++ b/mm/swap.c
+@@ -114,12 +114,11 @@ static void __put_compound_page(struct page *page)
+ void __put_page(struct page *page)
+ {
+ 	if (is_zone_device_page(page)) {
+-		put_dev_pagemap(page->pgmap);
+-
+ 		/*
+ 		 * The page belongs to the device that created pgmap. Do
+ 		 * not return it to page allocator.
+ 		 */
++		free_zone_device_page(page);
+ 		return;
+ 	}
+ 
+@@ -917,29 +916,18 @@ void release_pages(struct page **pages, int nr)
+ 		if (is_huge_zero_page(page))
+ 			continue;
+ 
++		if (!put_page_testzero(page))
++			continue;
++
+ 		if (is_zone_device_page(page)) {
+ 			if (lruvec) {
+ 				unlock_page_lruvec_irqrestore(lruvec, flags);
+ 				lruvec = NULL;
+ 			}
+-			/*
+-			 * ZONE_DEVICE pages that return 'false' from
+-			 * page_is_devmap_managed() do not require special
+-			 * processing, and instead, expect a call to
+-			 * put_page_testzero().
+-			 */
+-			if (page_is_devmap_managed(page)) {
+-				put_devmap_managed_page(page);
+-				continue;
+-			}
+-			if (put_page_testzero(page))
+-				put_dev_pagemap(page->pgmap);
++			free_zone_device_page(page);
+ 			continue;
+ 		}
+ 
+-		if (!put_page_testzero(page))
+-			continue;
+-
+ 		if (PageCompound(page)) {
+ 			if (lruvec) {
+ 				unlock_page_lruvec_irqrestore(lruvec, flags);
+@@ -1143,26 +1131,3 @@ void __init swap_setup(void)
+ 	 * _really_ don't want to cluster much more
+ 	 */
+ }
+-
+-#ifdef CONFIG_DEV_PAGEMAP_OPS
+-void put_devmap_managed_page(struct page *page)
+-{
+-	int count;
+-
+-	if (WARN_ON_ONCE(!page_is_devmap_managed(page)))
+-		return;
+-
+-	count = page_ref_dec_return(page);
+-
+-	/*
+-	 * devmap page refcounts are 1-based, rather than 0-based: if
+-	 * refcount is 1, then the page is free and the refcount is
+-	 * stable because nobody holds a reference on the page.
+-	 */
+-	if (count == 1)
+-		free_devmap_managed_page(page);
+-	else if (!count)
+-		__put_page(page);
+-}
+-EXPORT_SYMBOL(put_devmap_managed_page);
+-#endif
 -- 
 2.32.0
 
