@@ -2,66 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E3EC42A3BB
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 14:00:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5489442A444
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 14:22:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id E82876E94F;
-	Tue, 12 Oct 2021 12:00:17 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 13BB76E950;
+	Tue, 12 Oct 2021 12:21:57 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com
- [IPv6:2a00:1450:4864:20::136])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D627C6E94F;
- Tue, 12 Oct 2021 12:00:16 +0000 (UTC)
-Received: by mail-lf1-x136.google.com with SMTP id j21so69150419lfe.0;
- Tue, 12 Oct 2021 05:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=date:from:to:cc:subject:message-id:in-reply-to:references
- :mime-version; bh=igDUHpXOmKdm4UruCUvrsiTZiKsXHfmtoXi/2LFwPCY=;
- b=H6VEgDBH3IriwFL50I51uy/h+ewKIzKnSeE5H6yRxMAnl7e54sTs+NOSZDSTglZRaq
- 7kOdFXxkGDRkaWveuQ8LKOD1t7mxl+U9skFA9JwkbWPfOfZBphypcyFzz4/n3NJ7XjYd
- IJDtNUTI7U6qFbkUrbvhg2DiG4REvLt/JP7T+kp7nb0hpGkXQGp6Y2tHC/Sup9cb4uDI
- nscHV82bMw+hhbYYEPTtZnXjAgOFzAaMKNZBYAoWv/CpyTKpmBOhmQsNf4OHkcyWYt+8
- qpi5THI1m6QrUBs2OQM1mQj2zDNxWW1Rhe0HI32LVWxtZhBwmnbXKfbUq9eIP0kkS7p1
- xsWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=igDUHpXOmKdm4UruCUvrsiTZiKsXHfmtoXi/2LFwPCY=;
- b=kdg3/+v0vgZrLLBYZaxVFuHW3OIpZw/yqszoOtaDzFCDFWaog5SvxjaOLb/fSyCCBs
- yHv5RBepZDzrhQCxCnB5Y9Q8wbi40NqdF5N63LHTpteTUI7EXQR6mifXBrAPwmiFtEFa
- bz0gweKUybzQJEJD8f3eIx1yMjNEIbZAbZ1B9xEYppbRx8GyccM/ROSxz64dfVXbj0i/
- Bmerxp4VglsuFlj7SWa7npmClA0TzjQH0LCZTIH3HTUjMqFoByX6y0KfH69iwYdPh2Yl
- KmQy6/+osAqITOxhjWA+dxuaN/vpGOWxzBnHjOW+Sn/WWIHknrjmrD4eMWUqjRw/irGg
- 97BQ==
-X-Gm-Message-State: AOAM532x/Kz+1E7qs3hde2CeO//frPJYdKAhT8Swv6PvEmZpfnHkLycV
- tRtCAu5Lu9KmE8kCkY8f/5k=
-X-Google-Smtp-Source: ABdhPJzH8Hh6zWGktlQJoA5iu/YzVqWGzOeEq5oKiGxWBp87XJyGuoaOa2CHow7jUMv+sRFESJTsAQ==
-X-Received: by 2002:a19:5e11:: with SMTP id s17mr25729879lfb.2.1634040015126; 
- Tue, 12 Oct 2021 05:00:15 -0700 (PDT)
-Received: from eldfell ([194.136.85.206])
- by smtp.gmail.com with ESMTPSA id q12sm1155664ljg.19.2021.10.12.05.00.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 12 Oct 2021 05:00:14 -0700 (PDT)
-Date: Tue, 12 Oct 2021 15:00:11 +0300
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Simon Ser <contact@emersion.fr>
-Cc: Uma Shankar <uma.shankar@intel.com>, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, harry.wentland@amd.com,
- ville.syrjala@linux.intel.com, brian.starkey@arm.com,
- sebastian@sebastianwick.net, Shashank.Sharma@amd.com
-Subject: Re: [RFC v2 01/22] drm: RFC for Plane Color Hardware Pipeline
-Message-ID: <20211012150011.6ca63157@eldfell>
-In-Reply-To: <vBmviRgvVBT-q8HSsJLnRc5CfOMr5rFRj6oeIqwh8QJSicQzQxu8_ORxE3OffANSSyF3wUF9_QFRk1uzrggdx_dcI-1WGzmruI4kIFdZQcU=@emersion.fr>
-References: <20210906213904.27918-1-uma.shankar@intel.com>
- <20210906213904.27918-2-uma.shankar@intel.com>
- <20211006155559.606521de@eldfell>
- <vBmviRgvVBT-q8HSsJLnRc5CfOMr5rFRj6oeIqwh8QJSicQzQxu8_ORxE3OffANSSyF3wUF9_QFRk1uzrggdx_dcI-1WGzmruI4kIFdZQcU=@emersion.fr>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com
+ [205.220.165.32])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 269656E847
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 11:54:03 +0000 (UTC)
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 19CBqHki010546; 
+ Tue, 12 Oct 2021 11:54:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-transfer-encoding;
+ s=corp-2021-07-09; bh=GOvdf50VyIqyVyyskw2X4oyOo7gaVVfLw8MH7DW22do=;
+ b=TTy2tFud9/lhTKr2Ivkqm5YD4SgO4kmY3mMsohTFDI6AuaeJxvEqUFj/LGtH9sqs9yxo
+ MnfBp8DNcz/N6plQjHD6wVOIEOpN8Au+xl8TQ6XIoE1XdO7A8Aiz+5BKLxWYFzAjKYnG
+ 4DiyG93YR+pNDoZxSQzw7ueo4EIuKQf4eGqsr1z7z/dnlHySuexivPhg1zoA0QFN92oC
+ 3WYjN/hHnfpogyqqnIDn1PmcGhSQYXvkqyaeyJgGJ2/+DYFsogG7AJRL1/iL+pMCqZXB
+ BmrJtsZxZVKIFJDGLU+AY7VLyWpsEtehlXaJBE2d1G6eUpguBo6v2E4Z7f+pwrtzR7iK ww== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by mx0b-00069f02.pphosted.com with ESMTP id 3bmq29q7wd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Oct 2021 11:53:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.1.2/8.16.1.2) with SMTP id 19CBoPYu156819;
+ Tue, 12 Oct 2021 11:53:34 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by aserp3030.oracle.com with ESMTP id 3bkyxrj1ac-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 12 Oct 2021 11:53:34 +0000
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 19CBq7kS167266;
+ Tue, 12 Oct 2021 11:53:33 GMT
+Received: from t460.home (dhcp-10-175-26-251.vpn.oracle.com [10.175.26.251])
+ by aserp3030.oracle.com with ESMTP id 3bkyxrj19q-1;
+ Tue, 12 Oct 2021 11:53:33 +0000
+From: Vegard Nossum <vegard.nossum@oracle.com>
+To: Stefan Mavrodiev <stefan@olimex.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+ Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] drm/panel: olimex-lcd-olinuxino: select CRC32
+Date: Tue, 12 Oct 2021 13:52:42 +0200
+Message-Id: <20211012115242.10325-1-vegard.nossum@oracle.com>
+X-Mailer: git-send-email 2.23.0.718.g5ad94255a8
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Le53QRq=O80SERjVN1JiOQb";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: 5erpPMEU2r0ZG6OyF1FKTHOIhRW-UxED
+X-Proofpoint-GUID: 5erpPMEU2r0ZG6OyF1FKTHOIhRW-UxED
+X-Mailman-Approved-At: Tue, 12 Oct 2021 12:21:56 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -77,55 +71,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---Sig_/Le53QRq=O80SERjVN1JiOQb
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Fix the following build/link error by adding a dependency on the CRC32
+routines:
 
-On Tue, 12 Oct 2021 10:35:37 +0000
-Simon Ser <contact@emersion.fr> wrote:
+  ld: drivers/gpu/drm/panel/panel-olimex-lcd-olinuxino.o: in function `lcd_olinuxino_probe':
+  panel-olimex-lcd-olinuxino.c:(.text+0x303): undefined reference to `crc32_le'
 
-> On Tuesday, October 12th, 2021 at 12:30, Pekka Paalanen <ppaalanen@gmail.=
-com> wrote:
->=20
-> > is there a practise of landing proposal documents in the kernel? How
-> > does that work, will a kernel tree carry the patch files?
-> > Or should this document be worded like documentation for an accepted
-> > feature, and then the patches either land or don't? =20
->=20
-> Once everyone agrees, the RFC can land. I don't think a kernel tree is
-> necessary. See:
->=20
-> https://dri.freedesktop.org/docs/drm/gpu/rfc/index.html
+Fixes: 17fd7a9d324fd ("drm/panel: Add support for Olimex LCD-OLinuXino panel")
+Cc: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+---
+ drivers/gpu/drm/panel/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-Does this mean the RFC doc patch will land, but the code patches will
-remain in the review cycles waiting for userspace proving vehicles?
-Rather than e.g. committed as files that people would need to apply
-themselves? Or how does one find the code patches corresponding to RFC
-docs?
+diff --git a/drivers/gpu/drm/panel/Kconfig b/drivers/gpu/drm/panel/Kconfig
+index beb581b96ecdc..418638e6e3b0a 100644
+--- a/drivers/gpu/drm/panel/Kconfig
++++ b/drivers/gpu/drm/panel/Kconfig
+@@ -295,6 +295,7 @@ config DRM_PANEL_OLIMEX_LCD_OLINUXINO
+ 	depends on OF
+ 	depends on I2C
+ 	depends on BACKLIGHT_CLASS_DEVICE
++	select CRC32
+ 	help
+ 	  The panel is used with different sizes LCDs, from 480x272 to
+ 	  1280x800, and 24 bit per pixel.
+-- 
+2.23.0.718.g5ad94255a8
 
-
-Thanks,
-pq
-
---Sig_/Le53QRq=O80SERjVN1JiOQb
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmFleMsACgkQI1/ltBGq
-qqdkfQ//YJrXu73rNESEICldEEeWHzzYQnnknfZsEp1A6EfzlFQhZbLQc/1V+JaX
-ykYk5ZSUk67TPAmxDkiSPmTnO/xMm4FBRD7Zp/24m213MPmQXSX/STPJbCzweio/
-arkO3npNbS3ayczL7/OuMfZo6YReeAiGM3sIvHRBH/wUE4417MBMARLmIQlVf4wL
-9xRAVrUiaBr86MoFa3klNDN4hSKptb2tCbvTJSr/voWLZx198Pime/ej7VsEMHQ3
-+v1LB/HTA2eA6ofoxh8tKgDjZU+fKzOgsQAmZNRtoWVZP5n1FYRbwqXHElrpppTm
-R7aOL137bd0cbAHoZiX9gr2ff2rCVuxfhI8qNj3e7aSkYgBPI/MBpAhuVR/u7uoW
-IWNCZg1NsxRmfGVUDVSFsp0KIoBKJsubOefUzvKS7zX45b1v8Khbyb3868Bs6YSP
-dLn90NZU8byx5JPi9chvBlpIj7I9xOg51jo0yjRf5Wk23HsSSry9x3+JJWj8pLRX
-0CVWmELO4T1VTUiC17Dd83TdvPY3Cq8cyip0oytHVFVqP/sG54VNlO+FGxpe0DXk
-6QP5fFWcXBRV732hlEBABcx9wxoFaFB53oFwf1KUa5CwGiI3l6N8Ao0e/gYSDTQJ
-3+OhqWjiCCg+CyBU59E8c3ZO+3PUPDEnb0J+db8HzFDoEIglCOg=
-=+N4R
------END PGP SIGNATURE-----
-
---Sig_/Le53QRq=O80SERjVN1JiOQb--
