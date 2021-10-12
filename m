@@ -2,54 +2,60 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F261429A51
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 02:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC04D429A7F
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 02:43:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 910FB89D9A;
-	Tue, 12 Oct 2021 00:13:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 025E86E5A0;
+	Tue, 12 Oct 2021 00:43:20 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B8E5289D9A
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 00:13:34 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 96D4A60F43
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 00:13:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1633997614;
- bh=OXUvi6G050AJQ4OPBek0ufw7ZKzRxTQhHX/0FYRiCE8=;
- h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
- b=Q4UGSzvjtHyHLu68/g1K/x33KNDmpnLBws9RDs38WRclHkjTS2eXTjUQobHqxsZz5
- XM/G1BYUiNJZ/BT734m29NFQFGzFXy7mrx6mMkOinz/a0ns30M5jxUppddo6Tr3Ueg
- kDfXJghO5wfm5cfqUCAhextUwZIMBqPzGV6crlIWf4Gvgk1O/4cHHqAtvYMJpJd5bv
- 0swnGclMpgVPdoVN26pC1p50IML2YtHe6ZiRDbwLKm3vHzBKVW0RwN+YQXsSno9EeN
- LtKWWPmOcpOTNp2IzPQht/gsYxYEf+e715BXi/Sqr55fMoIjGPRN1d304snEK6iwWG
- bqd3Eu9KQuRSg==
-Received: by mail-ed1-f48.google.com with SMTP id w19so14046876edd.2
- for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 17:13:34 -0700 (PDT)
-X-Gm-Message-State: AOAM530uCf5jUea2VHgPpZbHBvAenpipZX43RiF1a5/gJpcIoiNT7UCP
- oZQM2WlhZF3p7IPIAfDA4ggerQ9x2RpAPe13hA==
-X-Google-Smtp-Source: ABdhPJy4tjjmTrFlejaCRoODEcML/sZ2dFjPaUPpY/JaPn4e9sT6cT9XzsRs7SGjmICTqvgKEJcCe3ia86anOYl+97Y=
-X-Received: by 2002:a17:906:f85b:: with SMTP id
- ks27mr30575894ejb.430.1633997612955; 
- Mon, 11 Oct 2021 17:13:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20211007235310.14626-1-chunkuang.hu@kernel.org>
- <CAFqH_51hO2efxbQkkbzNHSk92zOZGeFJBu4Ocijk_cpxFDJ2fw@mail.gmail.com>
-In-Reply-To: <CAFqH_51hO2efxbQkkbzNHSk92zOZGeFJBu4Ocijk_cpxFDJ2fw@mail.gmail.com>
-From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date: Tue, 12 Oct 2021 08:13:21 +0800
-X-Gmail-Original-Message-ID: <CAAOTY_8L_Pd+EmPVw5yQeZPzLVPkJM681y_uQmCbZ79tfF92AA@mail.gmail.com>
-Message-ID: <CAAOTY_8L_Pd+EmPVw5yQeZPzLVPkJM681y_uQmCbZ79tfF92AA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] Revert series "CMDQ refinement of Mediatek DRM driver"
-To: Enric Balletbo Serra <eballetbo@gmail.com>
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com
+ [209.85.210.46])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 72D2F6E5A0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 00:43:19 +0000 (UTC)
+Received: by mail-ot1-f46.google.com with SMTP id
+ w12-20020a056830410c00b0054e7ceecd88so5954328ott.2
+ for <dri-devel@lists.freedesktop.org>; Mon, 11 Oct 2021 17:43:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=C0veIXD12tRwkmARbIUPpytHwuGDS9GaI5ZCAL0YxtM=;
+ b=qj6TU7SXYH63QUi2MM6q47k37+lzb41olJf0WGxnMuz3Wu+03gPCIEjrRY3BoZ/jhr
+ og7feRnRWF3Rxw4zkNugo4fYgM3NmlKLQzQfTvSdv6rBbE3R5QbUvm0TriZwHz3IMSKj
+ K31yjVD3GB7CDrQXfRQZYCrTKl4x0uquLstuT2UO6bp6K6R64q7jrDeKmBWdfBqd9Yny
+ 0byhinzP0NiEmGNveATWavAHiH4MPbEyarnZk4AQd5ORg2WUfxu+LjE3yg2ik0WMzlM0
+ 6mP4uSEObzmv6Mh+FBxh0iv0eq4tFgCYIRk93F9EaY53bpZjUfQHO6xGFfj59VVMaas2
+ qTxw==
+X-Gm-Message-State: AOAM530k49IzpxqYs4aeqRaIjXFLNwtjMZTF/Nry66yF0uh8x4YiQm+Y
+ sFlZfQNmxC9Z9Bl9bBxb0w==
+X-Google-Smtp-Source: ABdhPJy8M+f4nFxCTH13TvMUHFxJ1m8soMYBOgZhxmB4w7ZoRNTKIjUDBsh0NAvX07BegYnRBAkEOw==
+X-Received: by 2002:a05:6830:44a9:: with SMTP id
+ r41mr678852otv.230.1633999398628; 
+ Mon, 11 Oct 2021 17:43:18 -0700 (PDT)
+Received: from robh.at.kernel.org (66-90-148-213.dyn.grandenetworks.net.
+ [66.90.148.213])
+ by smtp.gmail.com with ESMTPSA id p15sm1877611otq.59.2021.10.11.17.43.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 11 Oct 2021 17:43:17 -0700 (PDT)
+Received: (nullmailer pid 1474130 invoked by uid 1000);
+ Tue, 12 Oct 2021 00:43:16 -0000
+Date: Mon, 11 Oct 2021 19:43:16 -0500
+From: Rob Herring <robh@kernel.org>
+To: Markus Schneider-Pargmann <msp@baylibre.com>
 Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, 
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>, 
- linux-kernel <linux-kernel@vger.kernel.org>,
- dri-devel <dri-devel@lists.freedesktop.org>, 
- "moderated list:ARM/Mediatek SoC support" <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ Philipp Zabel <p.zabel@pengutronix.de>, Vinod Koul <vkoul@kernel.org>,
+ Sam Ravnborg <sam@ravnborg.org>, dri-devel@lists.freedesktop.org,
+ linux-mediatek@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 2/7] dt-bindings: mediatek, dp: Add Display Port binding
+Message-ID: <YWTaJOXGgF2bHznv@robh.at.kernel.org>
+References: <20211011094624.3416029-1-msp@baylibre.com>
+ <20211011094624.3416029-3-msp@baylibre.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211011094624.3416029-3-msp@baylibre.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -65,54 +71,122 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enric Balletbo Serra <eballetbo@gmail.com> =E6=96=BC 2021=E5=B9=B410=E6=9C=
-=888=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=889:33=E5=AF=AB=E9=81=93=
-=EF=BC=9A
->
-> Hi Chun-Kuang,
->
-> Thank you to take time to send this, for full series
->
-> Tested-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
->
-> Display is now working again.
+On Mon, Oct 11, 2021 at 11:46:19AM +0200, Markus Schneider-Pargmann wrote:
+> This controller is present on several mediatek hardware. Currently
+> mt8195 and mt8395 have this controller without a functional difference,
+> so only one compatible field is added.
+> 
+> The controller can have two forms, as a normal display port and as an
+> embedded display port.
+> 
+> Signed-off-by: Markus Schneider-Pargmann <msp@baylibre.com>
+> ---
+>  .../display/mediatek/mediatek,dp.yaml         | 89 +++++++++++++++++++
+>  1 file changed, 89 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> new file mode 100644
+> index 000000000000..f7a35962c23b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,dp.yaml
+> @@ -0,0 +1,89 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/mediatek/mediatek,dp.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Mediatek Display Port Controller
+> +
+> +maintainers:
+> +  - CK Hu <ck.hu@mediatek.com>
+> +  - Jitao shi <jitao.shi@mediatek.com>
+> +
+> +description: |
+> +  Device tree bindings for the Mediatek (embedded) Display Port controller
+> +  present on some Mediatek SoCs.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - mediatek,mt8195-edp_tx
+> +      - mediatek,mt8195-dp_tx
 
-Applied to mediatek-drm-fixes [1].
+Are these blocks different?
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-fixes
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: faxi clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: faxi
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Input endpoint of the controller, usually dp_intf
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Output endpoint of the controller
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/mt8195-power.h>
+> +    dp_tx: edp_tx@1c500000 {
+> +        compatible = "mediatek,mt8195-edp_tx";
+> +        reg = <0 0x1c500000 0 0x8000>;
+> +        interrupts = <GIC_SPI 676 IRQ_TYPE_LEVEL_HIGH 0>;
+> +        power-domains = <&spm MT8195_POWER_DOMAIN_EPD_TX>;
+> +        pinctrl-names = "default";
+> +        pinctrl-0 = <&edp_pin>;
+> +        status = "okay";
 
-Regards,
-Chun-Kuang.
+Don't show status in examples.
 
->
-> Thanks,
->   Enric
->
->
-> Missatge de Chun-Kuang Hu <chunkuang.hu@kernel.org> del dia dv., 8
-> d=E2=80=99oct. 2021 a les 1:53:
-> >
-> > Commit c1ec54b7b5af
-> > ("drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb")
-> > would cause numerous mtk cmdq mailbox driver warning:
-> >
-> > WARNING: CPU: 0 PID: 0 at drivers/mailbox/mtk-cmdq-mailbox.c:198
-> > cmdq_task_exec_done+0xb8/0xe0
-> >
-> > So revert that patch and all the patches depend on that patch.
-> >
-> > Chun-Kuang Hu (5):
-> >   Revert "drm/mediatek: Clear pending flag when cmdq packet is done"
-> >   Revert "drm/mediatek: Add cmdq_handle in mtk_crtc"
-> >   Revert "drm/mediatek: Detect CMDQ execution timeout"
-> >   Revert "drm/mediatek: Remove struct cmdq_client"
-> >   Revert "drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb=
-"
-> >
-> >  drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 157 ++++--------------------
-> >  1 file changed, 24 insertions(+), 133 deletions(-)
-> >
-> > --
-> > 2.25.1
-> >
+> +
+> +        ports {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                reg = <0>;
+> +                edp_in: endpoint {
+> +                    remote-endpoint = <&dp_intf0_out>;
+> +                };
+> +            };
+> +            port@1 {
+> +                reg = <1>;
+> +                edp_out: endpoint {
+> +                	remote-endpoint = <&panel_in>;
+> +                };
+> +            };
+> +        };
+> +    };
+> -- 
+> 2.33.0
+> 
+> 
