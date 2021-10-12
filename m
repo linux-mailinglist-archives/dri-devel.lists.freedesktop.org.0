@@ -2,46 +2,61 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21612429E7A
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 09:21:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 534CE429EC7
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 09:38:25 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id CFD736E5CE;
-	Tue, 12 Oct 2021 07:21:25 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id ABF9B89E41;
+	Tue, 12 Oct 2021 07:38:21 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 006316E5CE
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 07:21:24 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
- [91.158.153.130])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 31B81F1;
- Tue, 12 Oct 2021 09:21:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1634023283;
- bh=UdFCjI4cwaSDdeWWXv/2XqR4Rxx5UVD22jWQA8TQ7/o=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=HGHS9HXB3+qbhYLqY2jHEU/IwHJk1VsZ+KFTLgjyWp0JmU6FxuVHWH5dpLodndPEb
- uXOdIJFkSXtzpiyPzLAC6BTsBKup7eGyxP5GQwUBDlCPPYZFLggtZ56o7Vo4wXU3Zl
- G+BhhuFQMsfIQKmeZXZL6Z6U2yJ4OmXZv3RfRYNU=
-Subject: Re: [PATCH v5 1/8] drm/omap: Add ability to check if requested plane
- modes can be supported
-To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com,
- Benoit Parrot <bparrot@ti.com>
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <20210923070701.145377-2-narmstrong@baylibre.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <e69a1c23-3ea2-9777-c251-b5afd1cf4590@ideasonboard.com>
-Date: Tue, 12 Oct 2021 10:21:20 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com
+ [IPv6:2a00:1450:4864:20::530])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id F14D889E41
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 07:38:20 +0000 (UTC)
+Received: by mail-ed1-x530.google.com with SMTP id i20so61011022edj.10
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 00:38:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amarulasolutions.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=52gbNdjT7L6a6K8JuDnERJ0ZDRvfR072b1wiOt4CI9g=;
+ b=DkOKERI4QxjBHagELAJWqaGehjirjOQLic2mxxmgOp2m1vOhpeM1jwMhQPvPDOjZdQ
+ 4+w+pz6qk7FxPdaa4zUxrz5rXBsfGOg8Wz09cGQ8z9O7KIzArJAwwaHHN1IRnAb5ryQk
+ hOUm5CsxWtMOf8AYqYJ/kAJGklSomGH1MEobI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=52gbNdjT7L6a6K8JuDnERJ0ZDRvfR072b1wiOt4CI9g=;
+ b=1dmxN5womp+5+QcjrxD62he1XnMtebKBX9DR58Vns1JpoYuDuy9VAtSSmgYXHXQhja
+ xLUfzJyr1y5zoJVV+UN+jwsWTYwKLKKrJgGQmJAS72KtcvW/u8PWJvQxYcLBzNsguVT1
+ l2C9ULe4MKP4JmS8XWge04dGtJwgsearQwSpNhR957mEkq+qGiciaWFgD/4aj5F+hWR0
+ Sp+kfCbz+ruAFUVVMnhOn2ZAJdY/oKSXVxUVbudzHTM1rzYiLbt6d811X1RVg14m8bPM
+ CzzXr2IW225gITWL8hNLcH7TPZs2NZOC5IPiiT+619oQUjG9SZsEYO2apoYbcqB1W4rn
+ cUlg==
+X-Gm-Message-State: AOAM5306qalQBX1CVAi1EuKHRGONYG7FR9yB0VtkJvLeyRk/zkGrMwZS
+ iD/qV4VIr8bJ2OvDlccNK9uUpLIWvTc8cXEETOKfWA==
+X-Google-Smtp-Source: ABdhPJx6gPW74sAIZbEKqy1qFrKMkVG37SD22Rc/oqahrmnSZUTDy7lQH/1TPyHUAlzEmM6CjhF5P7nZXbe+ldhiCfk=
+X-Received: by 2002:a17:906:b104:: with SMTP id
+ u4mr30358811ejy.201.1634024299405; 
+ Tue, 12 Oct 2021 00:38:19 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20210923070701.145377-2-narmstrong@baylibre.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <CAMty3ZBKZaGCJ18GmnDO3hPrTT9hQSJfDLGc-M0+KV8MyFwVXQ@mail.gmail.com>
+ <09edd742-bed6-bd29-0e73-02b63d31df32@gmail.com>
+ <YWBJfkoiXy6aBUjQ@pendragon.ideasonboard.com>
+ <CAPY8ntC=mjLRbLY28C5M-3H-jTjN=WasYL9sn9=MxUmnKsMxaw@mail.gmail.com>
+ <CAMty3ZA6O8sXknKaPb6ySZHweGrM3=1V+TBPsVi8oLEri3S3_g@mail.gmail.com>
+In-Reply-To: <CAMty3ZA6O8sXknKaPb6ySZHweGrM3=1V+TBPsVi8oLEri3S3_g@mail.gmail.com>
+From: Jagan Teki <jagan@amarulasolutions.com>
+Date: Tue, 12 Oct 2021 13:08:08 +0530
+Message-ID: <CAMty3ZD5qu1ycxkVmfyUGza1tgnszAuDheztCLFC+jcXtoxMqA@mail.gmail.com>
+Subject: Re: DSI Bridge switching
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>, 
+ Robert Foss <robert.foss@linaro.org>, Maxime Ripard <maxime@cerno.tech>, 
+ dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,141 +72,68 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+On Mon, Oct 11, 2021 at 12:51 AM Jagan Teki <jagan@amarulasolutions.com> wrote:
+>
+> Hi Dave,
+>
+> On Fri, Oct 8, 2021 at 9:32 PM Dave Stevenson
+> <dave.stevenson@raspberrypi.com> wrote:
+> >
+> > On Fri, 8 Oct 2021 at 14:37, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > Hello,
+> > >
+> > > On Fri, Oct 08, 2021 at 03:27:43PM +0200, Andrzej Hajda wrote:
+> > > > Hi,
+> > > >
+> > > > Removed my invalid email (I will update files next week).
+> > > >
+> > > > On 08.10.2021 13:14, Jagan Teki wrote:
+> > > > > Hi,
+> > > > >
+> > > > > I think this seems to be a known use case for industrial these days with i.mx8m.
+> > > > >
+> > > > > The host DSI would configure with two bridges one for DSI to LVDS
+> > > > > (SN65DSI83) and another for DSI to HDMI Out (ADV7535). Technically we
+> > > > > can use only one bridge at a time as host DSI support single out port.
+> > > > > So we can have two separate device tree files for LVDS and HDMI and
+> > > > > load them static.
+> > > > >
+> > > > > But, one of the use cases is to support both of them in single dts, and
+> > > > > - Turn On LVDS (default)
+> > > > > - Turn Off LVDS then Turn On HDMI when cable plug-in
+> > > >
+> > > > Are you sure it will work from hardware PoV? Do you have some demuxer?
+> > > > isolation of pins?
+> > >
+> > > It may be in the category of "you shouldn't do this, but it actually
+> > > works". I've seen the same being done with two CSI-2 camera sensors
+> > > connected to the same receiver, with one of them being held in reset at
+> > > all times.
+> >
+> > Surely the correct way to do this would be with a D-PHY mux chip such
+> > as OnSemi FSA642 [1] or those from Diodes Incorporated [2].
+> > How you'd integrate such a mux into DRM is a totally different question.
+> > With V4L2 and CSI2 it'd be relatively simple via Media Controller.
+> >
+> > Just wiring them together isn't going to work very well for DSI
+> > reverse direction communication, but neither of the chips Jagan lists
+> > support this.
+>
+> Sorry to mention it before, we have two 2:1 MIPI D-PHY Switch [1] on
+> the design which take 2 data-lanes and clock from Host and produce 4
+> data-lane and 1 clock to connect to ADV7535 and SN65DSI84 bridges. The
+> switch has OE, SEL pins to select the desired to MUXed lanes/clock
+> routing to an appropriate bridge.
+>
+> I think supporting the switch in the pipeline or logic that handle the
+> bridge switching might help.
 
-On 23/09/2021 10:06, Neil Armstrong wrote:
-> From: Benoit Parrot <bparrot@ti.com>
-> 
-> We currently assume that an overlay has the same maximum width and
-> maximum height as the overlay manager. This assumption is incorrect. On
-> some variants the overlay manager maximum width is twice the maximum
-> width that the overlay can handle. We need to add the appropriate data
-> per variant as well as export a helper function to retrieve the data so
-> check can be made dynamically in omap_plane_atomic_check().
-> 
-> Signed-off-by: Benoit Parrot <bparrot@ti.com>
-> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> ---
->   drivers/gpu/drm/omapdrm/dss/dispc.c  | 22 ++++++++++++++++++++++
->   drivers/gpu/drm/omapdrm/dss/dss.h    |  2 ++
->   drivers/gpu/drm/omapdrm/omap_plane.c | 14 ++++++++++++++
->   3 files changed, 38 insertions(+)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dispc.c b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> index 3c4a4991e45a..bdecec8f4d88 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dispc.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/dispc.c
-> @@ -92,6 +92,8 @@ struct dispc_features {
->   	u8 mgr_height_start;
->   	u16 mgr_width_max;
->   	u16 mgr_height_max;
-> +	u16 ovl_width_max;
-> +	u16 ovl_height_max;
->   	unsigned long max_lcd_pclk;
->   	unsigned long max_tv_pclk;
->   	unsigned int max_downscale;
-> @@ -2599,6 +2601,12 @@ static int dispc_ovl_calc_scaling(struct dispc_device *dispc,
->   	return 0;
->   }
->   
-> +void dispc_ovl_get_max_size(struct dispc_device *dispc, u16 *width, u16 *height)
-> +{
-> +	*width = dispc->feat->ovl_width_max;
-> +	*height = dispc->feat->ovl_height_max;
-> +}
-> +
->   static int dispc_ovl_setup_common(struct dispc_device *dispc,
->   				  enum omap_plane_id plane,
->   				  enum omap_overlay_caps caps,
-> @@ -4240,6 +4248,8 @@ static const struct dispc_features omap24xx_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	66500000,
->   	.max_downscale		=	2,
->   	/*
-> @@ -4278,6 +4288,8 @@ static const struct dispc_features omap34xx_rev1_0_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	173000000,
->   	.max_tv_pclk		=	59000000,
->   	.max_downscale		=	4,
-> @@ -4313,6 +4325,8 @@ static const struct dispc_features omap34xx_rev3_0_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	173000000,
->   	.max_tv_pclk		=	59000000,
->   	.max_downscale		=	4,
-> @@ -4348,6 +4362,8 @@ static const struct dispc_features omap36xx_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	173000000,
->   	.max_tv_pclk		=	59000000,
->   	.max_downscale		=	4,
-> @@ -4383,6 +4399,8 @@ static const struct dispc_features am43xx_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	173000000,
->   	.max_tv_pclk		=	59000000,
->   	.max_downscale		=	4,
-> @@ -4418,6 +4436,8 @@ static const struct dispc_features omap44xx_dispc_feats = {
->   	.mgr_height_start	=	26,
->   	.mgr_width_max		=	2048,
->   	.mgr_height_max		=	2048,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	2048,
->   	.max_lcd_pclk		=	170000000,
->   	.max_tv_pclk		=	185625000,
->   	.max_downscale		=	4,
-> @@ -4457,6 +4477,8 @@ static const struct dispc_features omap54xx_dispc_feats = {
->   	.mgr_height_start	=	27,
->   	.mgr_width_max		=	4096,
->   	.mgr_height_max		=	4096,
-> +	.ovl_width_max		=	2048,
-> +	.ovl_height_max		=	4096,
->   	.max_lcd_pclk		=	170000000,
->   	.max_tv_pclk		=	192000000,
->   	.max_downscale		=	4,
-> diff --git a/drivers/gpu/drm/omapdrm/dss/dss.h b/drivers/gpu/drm/omapdrm/dss/dss.h
-> index a547527bb2f3..14c39f7c3988 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/dss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/dss.h
-> @@ -397,6 +397,8 @@ int dispc_get_num_mgrs(struct dispc_device *dispc);
->   const u32 *dispc_ovl_get_color_modes(struct dispc_device *dispc,
->   					    enum omap_plane_id plane);
->   
-> +void dispc_ovl_get_max_size(struct dispc_device *dispc, u16 *width, u16 *height);
-> +
->   u32 dispc_read_irqstatus(struct dispc_device *dispc);
->   void dispc_clear_irqstatus(struct dispc_device *dispc, u32 mask);
->   void dispc_write_irqenable(struct dispc_device *dispc, u32 mask);
-> diff --git a/drivers/gpu/drm/omapdrm/omap_plane.c b/drivers/gpu/drm/omapdrm/omap_plane.c
-> index 512af976b7e9..d0a67b7ed1a0 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_plane.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_plane.c
-> @@ -109,11 +109,18 @@ static int omap_plane_atomic_check(struct drm_plane *plane,
->   {
->   	struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
->   										 plane);
-> +	struct omap_drm_private *priv = plane->dev->dev_private;
->   	struct drm_crtc_state *crtc_state;
-> +	u16 width, height;
-> +	u32 width_fp, height_fp;
+MIPI Switch (PI3WVR626) has OE, SEL logic to select respective data
+and clock lanes which are routed to bridge/panel. I think, these OE
+and SEL logic can be part of pinmux so we can configure them on
+respective bridge/panel nodes pinctrl (atleast on imx8m) instead of
+handling them as separate nodes.
 
-I think naming these max_w/max_width etc. would be better.
-
-  Tomi
+Jagan.
