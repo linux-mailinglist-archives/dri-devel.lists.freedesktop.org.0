@@ -2,63 +2,47 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538AB42AAE3
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 19:36:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBFE42AB5A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 19:58:06 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 16A5E6E99A;
-	Tue, 12 Oct 2021 17:36:32 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 573346E834;
+	Tue, 12 Oct 2021 17:58:02 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-ot1-x336.google.com (mail-ot1-x336.google.com
- [IPv6:2607:f8b0:4864:20::336])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4A6866E901
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 17:36:31 +0000 (UTC)
-Received: by mail-ot1-x336.google.com with SMTP id
- g62-20020a9d2dc4000000b0054752cfbc59so321351otb.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 10:36:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
- h=mime-version:in-reply-to:references:from:user-agent:date:message-id
- :subject:to:cc;
- bh=2BypScO76h55G7PPwXnggV0DBtGQ8bEd9vyWr6bUXKE=;
- b=Wk+QXyGeOJld76njFrWWdXYkW3GKfTQ/CyXWZkUGzuyWPJX+Pi+MoN3lO8gWfd27YA
- XEPw4irp+IJnOtcZz29Vo+/QPkJ65ex8DejKLsHs3fsas3yab01i91K14MykMq+BJyb+
- qrZxf95YrZgFCXZtjSdsJwzrWfJKTTJPnuGOc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:in-reply-to:references:from
- :user-agent:date:message-id:subject:to:cc;
- bh=2BypScO76h55G7PPwXnggV0DBtGQ8bEd9vyWr6bUXKE=;
- b=8A/vv+o20361JZE7WhTfHuoNcsPlNOdCtTkuKTJemlOMgCLDWompQgEcQ/ccF6ZgZa
- E/HeJ5mzCYuBeUMYqdxNq3WVTwrRuinOgCGZmA/+MZVaA7iL/5xQC2hemlX27lt3d6zy
- n6vzHd5naizWBn4ZIz5EHmimoqFVU608QghhXPgAtoe0vqXfk9tJ1dA0gvbWwm6ztGhC
- 5Ggphv6pqebLRrUyBrvCQFdnWkrmv/JN0XQJiP25yqNKufcIv1dcZStnXfi1tifm5DyD
- zTC1BTGB9oRRkZ4qdi51EX1Cyts40IStfzSB9gVQO+g5oBzbqXgAhgyHAdhWTmB8akxJ
- Xkjg==
-X-Gm-Message-State: AOAM530cbyAtaz+PT7vz+F/+dMetcJINfkHlxdIHYWMhXBrp1/AW2tAW
- B9x/lCN/dVZLqPHJyMQjpWlHl5T0Ng8UgOlXvMUmHw==
-X-Google-Smtp-Source: ABdhPJxNOhgeqTAMjp5PAp6NyMFEPhaSaElT5ghTzkghPyWvKz0oqRQxrlR4ntBvFAX5KBLIMoaGbJbsJGSY5ELjd44=
-X-Received: by 2002:a05:6830:2317:: with SMTP id
- u23mr12874222ote.126.1634060190606; 
- Tue, 12 Oct 2021 10:36:30 -0700 (PDT)
-Received: from 753933720722 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 12 Oct 2021 10:36:30 -0700
+X-Greylist: delayed 399 seconds by postgrey-1.36 at gabe;
+ Tue, 12 Oct 2021 17:58:00 UTC
+Received: from cloudserver094114.home.pl (cloudserver094114.home.pl
+ [79.96.170.134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C4CDE6E834;
+ Tue, 12 Oct 2021 17:58:00 +0000 (UTC)
+Received: from localhost (127.0.0.1) (HELO v370.home.net.pl)
+ by /usr/run/smtp (/usr/run/postfix/private/idea_relay_lmtp) via UNIX with SMTP
+ (IdeaSmtpServer 3.0.0)
+ id 6bc65ade955083a8; Tue, 12 Oct 2021 19:51:18 +0200
+Received: from kreacher.localnet (unknown [213.134.187.88])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by v370.home.net.pl (Postfix) with ESMTPSA id 0739766A819;
+ Tue, 12 Oct 2021 19:51:17 +0200 (CEST)
+From: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+To: Linux ACPI <linux-acpi@vger.kernel.org>
+Cc: LKML <linux-kernel@vger.kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
+ dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org
+Subject: [PATCH v1 2/7] nouveau: ACPI: Use the ACPI_COMPANION() macro directly
+Date: Tue, 12 Oct 2021 19:44:21 +0200
+Message-ID: <21245442.EfDdHjke4D@kreacher>
+In-Reply-To: <4369779.LvFx2qVVIh@kreacher>
+References: <4369779.LvFx2qVVIh@kreacher>
 MIME-Version: 1.0
-In-Reply-To: <20211010030435.4000642-1-bjorn.andersson@linaro.org>
-References: <20211010030435.4000642-1-bjorn.andersson@linaro.org>
-From: Stephen Boyd <swboyd@chromium.org>
-User-Agent: alot/0.9.1
-Date: Tue, 12 Oct 2021 10:36:30 -0700
-Message-ID: <CAE-0n51CoX131DsDWZUxWoCu6c+HEm4HbK=SrKraqhDqFkc6ww@mail.gmail.com>
-Subject: Re: [PATCH] drm/msm/dp: Use the connector passed to dp_debug_get()
-To: Abhinav Kumar <abhinavk@codeaurora.org>,
- Bjorn Andersson <bjorn.andersson@linaro.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Kuogee Hsieh <khsieh@codeaurora.org>, Rob Clark <robdclark@gmail.com>
-Cc: Sean Paul <sean@poorly.run>, David Airlie <airlied@linux.ie>,
- Daniel Vetter <daniel@ffwll.ch>, 
- linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="UTF-8"
+X-CLIENT-IP: 213.134.187.88
+X-CLIENT-HOSTNAME: 213.134.187.88
+X-VADE-SPAMSTATE: clean
+X-VADE-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtkedgudduhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfjqffogffrnfdpggftiffpkfenuceurghilhhouhhtmecuudehtdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffvufffkfgjfhgggfgtsehtufertddttdejnecuhfhrohhmpedftfgrfhgrvghlucflrdcuhgihshhotghkihdfuceorhhjfiesrhhjfiihshhotghkihdrnhgvtheqnecuggftrfgrthhtvghrnhepvdejlefghfeiudektdelkeekvddugfeghffggeejgfeukeejleevgffgvdeluddtnecukfhppedvudefrddufeegrddukeejrdekkeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepihhnvghtpedvudefrddufeegrddukeejrdekkedphhgvlhhopehkrhgvrggthhgvrhdrlhhotggrlhhnvghtpdhmrghilhhfrhhomhepfdftrghfrggvlhculfdrucghhihsohgtkhhifdcuoehrjhifsehrjhifhihsohgtkhhirdhnvghtqedprhgtphhtthhopehlihhnuhigqdgrtghpihesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsshhkvghgghhssehrvgguhhgrthdrtghomhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepnhhouhhvvggr
+ uheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrgh
+X-DCC--Metrics: v370.home.net.pl 1024; Body=5 Fuz1=5 Fuz2=5
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -74,23 +58,49 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Quoting Bjorn Andersson (2021-10-09 20:04:35)
-> The debugfs code is provided an array of a single drm_connector. Then to
-> access the connector, the list of all connectors of the DRM device is
-> traversed and all non-DisplayPort connectors are skipped, to find the
-> one and only DisplayPort connector.
->
-> But as we move to support multiple DisplayPort controllers this will now
-> find multiple connectors and has no way to distinguish them.
->
-> Pass the single connector to dp_debug_get() and use this in the debugfs
-> functions instead, both to simplify the code and the support the
+From: Rafael J. Wysocki <rafael@kernel.org>
 
-s/the support the/to support the/
+The ACPI_HANDLE() macro is a wrapper arond the ACPI_COMPANION()
+macro and the ACPI handle produced by the former comes from the
+ACPI device object produced by the latter, so it is way more
+straightforward to evaluate the latter directly instead of passing
+the handle produced by the former to acpi_bus_get_device().
 
-> multiple instances.
->
-> Signed-off-by: Bjorn Andersson <bjorn.andersson@linaro.org>
-> ---
+Modify nouveau_acpi_edid() accordingly (no intentional functional
+impact).
 
-Reviewed-by: Stephen Boyd <swboyd@chromium.org>
+Signed-off-by: Rafael J. Wysocki <rafael@kernel.org>
+---
+ drivers/gpu/drm/nouveau/nouveau_acpi.c |    9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
+
+Index: linux-pm/drivers/gpu/drm/nouveau/nouveau_acpi.c
+===================================================================
+--- linux-pm.orig/drivers/gpu/drm/nouveau/nouveau_acpi.c
++++ linux-pm/drivers/gpu/drm/nouveau/nouveau_acpi.c
+@@ -364,7 +364,6 @@ void *
+ nouveau_acpi_edid(struct drm_device *dev, struct drm_connector *connector)
+ {
+ 	struct acpi_device *acpidev;
+-	acpi_handle handle;
+ 	int type, ret;
+ 	void *edid;
+ 
+@@ -377,12 +376,8 @@ nouveau_acpi_edid(struct drm_device *dev
+ 		return NULL;
+ 	}
+ 
+-	handle = ACPI_HANDLE(dev->dev);
+-	if (!handle)
+-		return NULL;
+-
+-	ret = acpi_bus_get_device(handle, &acpidev);
+-	if (ret)
++	acpidev = ACPI_COMPANION(dev->dev);
++	if (!acpidev)
+ 		return NULL;
+ 
+ 	ret = acpi_video_get_edid(acpidev, type, -1, &edid);
+
+
+
