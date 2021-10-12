@@ -1,46 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E7DC42A238
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 12:36:12 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53C842A23A
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 12:36:16 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 468486E8EA;
-	Tue, 12 Oct 2021 10:36:10 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id BA6916E8EB;
+	Tue, 12 Oct 2021 10:36:14 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com
- [213.167.242.64])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D33606E8E9
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 10:36:08 +0000 (UTC)
-Received: from [192.168.1.111] (91-158-153-130.elisa-laajakaista.fi
- [91.158.153.130])
- by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91BFD8C4;
- Tue, 12 Oct 2021 12:36:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
- s=mail; t=1634034966;
- bh=ijFZWx5zzw5XuaJtr8vLmCBe4W1PxzsU1aR9H3mFgAw=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=D1v2XUUVS2TKmcsuLkPvji8bZxMRpajuzlVfe+NlEzOPGSGO01ZmF16R8VzAH/OQC
- Hms9+YfDQIrgRSrmLUBcRlNCPiNtS3ffb3s3s231AwTRwP21MfTUmzZhu+dUdyMnAN
- 9/m+6+qzG/OiNN6phBqCFXAszgJclbdzVQoaKxyI=
-Subject: Re: [PATCH v5 0/8] drm/omap: Add virtual-planes support
-To: Neil Armstrong <narmstrong@baylibre.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <e7c295be-7a0c-877c-ba25-3b580d7d9521@ideasonboard.com>
- <a4e72823-6e92-cce1-0607-5506ddda42fa@baylibre.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Message-ID: <99c11b0b-eab8-a7b9-8aab-8cc06be14cd5@ideasonboard.com>
-Date: Tue, 12 Oct 2021 13:36:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from gandalf.ozlabs.org (gandalf.ozlabs.org
+ [IPv6:2404:9400:2:0:216:3eff:fee2:21ea])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 304CD6E8EE
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 10:36:10 +0000 (UTC)
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest
+ SHA256) (No client certificate requested)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4HTBsN1Lrbz4xbG;
+ Tue, 12 Oct 2021 21:36:07 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+ s=201702; t=1634034968;
+ bh=vRx++bFEsl2BHQylnM8wJf19bltnXOc8oVnJQjBbxlg=;
+ h=Date:From:To:Cc:Subject:From;
+ b=Efnx+GnCL5bVan4SV6G0SiX2Fo7Z/go9a3VnOKNOhHowLyaoE5GZy+1HKiLctc0sD
+ eK5UopbqodTXKP9ai+uXjQ+l4HoIcj3nKHVHP7hNpPQr+scIBGd7tIE0Dl2HVysE46
+ mwe01CAPgptyLjbDIxYm/p2qwDeydLrup47SYhk+ElS7vs67F7y6ywe8FFIJ1l3bVi
+ vfsOEuwwlUtegTT32M+VfCrPp6AkBoaDl2g9LBSpcniLs0ly0tNAuaLfG8NLr9S5TT
+ CtOda2HDYMHJaohLSdMzmXKLquO7GyKSGWM+JCgdAjNaF9PqZJxzxmilOoQ2p5kJea
+ Hckl1p35NU5jg==
+Date: Tue, 12 Oct 2021 21:36:06 +1100
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Dave Airlie <airlied@linux.ie>, DRI <dri-devel@lists.freedesktop.org>
+Cc: Rob Clark <robdclark@chromium.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>, Linux Next Mailing List
+ <linux-next@vger.kernel.org>
+Subject: linux-next: Fixes tag needs some work in the drm-fixes tree
+Message-ID: <20211012213606.54facf76@canb.auug.org.au>
 MIME-Version: 1.0
-In-Reply-To: <a4e72823-6e92-cce1-0607-5506ddda42fa@baylibre.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/1D0Ff+Y3RpH3B89yFf9vBpZ";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -56,36 +55,44 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 12/10/2021 11:30, Neil Armstrong wrote:
-> On 12/10/2021 09:15, Tomi Valkeinen wrote:
->> On 23/09/2021 10:06, Neil Armstrong wrote:
->>> This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
->>>
->>> This patch series adds virtual-plane support to omapdrm driver to allow the use
->>> of display wider than 2048 pixels.
->>>
->>> In order to do so we introduce the concept of hw_overlay which can then be
->>> dynamically allocated to a plane. When the requested output width exceed what
->>> be supported by one overlay a second is then allocated if possible to handle
->>> display wider then 2048.
->>>
->>> This series replaces an earlier series which was DT based and using statically
->>> allocated resources.
->>>
->>> This implementation is inspired from the work done in msm/disp/mdp5
->>> driver.
->>>
->>> Changes since v4 at [1]:
->>> - rebased on v5.15-rc2
->>
->> What is this based on? Doesn't apply to v5.15-rc2, and "error: sha1 information is lacking or useless".
-> 
-> Indeed the sha1 info is useless, it's based on v5.15-rc2 on top of "HACK: drm/omap: increase DSS5 max tv pclk to 192MHz"
-> in order to validate on 2k monitors.
+--Sig_/1D0Ff+Y3RpH3B89yFf9vBpZ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I'm personally fine with removing the HACK from that, and applying it 
-too. I used the patch for a long time without any issues. However, I 
-never found anyone to confirm that 192MHz is fine (or that it's not 
-fine). Too old HW for finding HW engineers to look at it =).
+Hi all,
 
-  Tomi
+In commit
+
+  654e9c18dfab ("drm/msm: Fix crash on dev file close")
+
+Fixes tag
+
+  Fixes: 86c2a0f000c1 drm/msm: ("Small submitqueue creation cleanup")
+
+has these problem(s):
+
+  - Subject does not match target commit subject
+    Just use
+	git log -1 --format=3D'Fixes: %h ("%s")'
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/1D0Ff+Y3RpH3B89yFf9vBpZ
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmFlZRYACgkQAVBC80lX
+0GzUYQf+Pz9ExFYDVBQLwV3s3M0NIvT88yFegdS2IHylosvgMkJXyXMMbEIaM+Ea
+sfZkRX1DrMeqjVD/CWL9asDyHKRn1hUtYy/dBOZb42YCBUb/bcflBS0b4eOmIdnM
+XeqlsthOoAMVuIUmLJwPCt1kKn1G+CICHK6a0+E2ZvU/1sddNV0FnhrWbmT4ea11
+zW/wKAt2WaZiJ+DATTEOB0IJyIN93Ix4ZbkySFfBTPE83fcmkrqWBhYr1YGNDu9W
+Jc7W/ULVRAZfzkr8igVcCXJBZa6xMyQSWch5wIaeAyNjQ1S+aW4rWRLkKf2+bprU
+KZWL/tkTz8hsU9qysHjG8g4zuJauKQ==
+=hdGd
+-----END PGP SIGNATURE-----
+
+--Sig_/1D0Ff+Y3RpH3B89yFf9vBpZ--
