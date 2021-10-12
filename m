@@ -1,74 +1,75 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE2F42A5B0
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:28:02 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6022642A5C1
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 15:33:47 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 9059289DFC;
-	Tue, 12 Oct 2021 13:28:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 21E5789C37;
+	Tue, 12 Oct 2021 13:33:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com
- [IPv6:2a00:1450:4864:20::430])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 410AB89DFC
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 13:27:59 +0000 (UTC)
-Received: by mail-wr1-x430.google.com with SMTP id g25so20487377wrb.2
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:27:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=baylibre-com.20210112.gappssmtp.com; s=20210112;
- h=subject:to:cc:references:from:organization:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yuAFR7oMHRERVT1WGTjSkKtVpWlYtL7mEybz0eaEJQw=;
- b=YWgpR0MZYC7zaEcbKQlIoGR8mr+wX6ADq20a1X7bm05FQL8idhvBujWscs0dVE/f0Q
- BbPMcOzpfBEAa+tsTFNb9HdWppnUKjgUyyBnzF3Y+dplyItf0wSyoTAYQmUp5kLHWYAK
- GMvuPyoRT8nT23pb+sYrGXUDbQAO5HRbtkKrTDbvY3W97eNbUtMNknOM4dhf3VzY1x37
- 9DDXuC9YmLK8nb9WusYGlu1NaAUtwO+AYvQ8982XhjzqH/9k6/5KxzPSeTuQ0mPLiTIw
- 65Dojhc+OfqNmxpB42ewuT/so6thSrpHV+FXcrGmwWjKmfwUKWsVOyI4vOfGq1nF8OvV
- 5NQQ==
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 3AAE389C37
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 13:33:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634045621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=MT+WGN85virsYnfaWkabBnlRhl4BVNJstj9q0qW4GvU=;
+ b=eoZQNTOi+nVo5gkdDPNREj5OyhvHPj1PPGtzQqhN7VxGE3hU1WUg7q7Ibf8h39OW5+OuTC
+ CDRc9HdcSNOrIZh6wu5YBI9JV7QLxBadLbd8jh8fGXDkqR+V9hJZ1bpgCi2lRnXsfNRneH
+ 9GlLktySzMA5GtC7EDxhoySzzzGJFSQ=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-RBUgYFH9O_q5mZZv5hxddA-1; Tue, 12 Oct 2021 09:33:39 -0400
+X-MC-Unique: RBUgYFH9O_q5mZZv5hxddA-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ k2-20020adfc702000000b0016006b2da9bso15721977wrg.1
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 06:33:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:subject:to:cc:references:from:organization
- :message-id:date:user-agent:mime-version:in-reply-to
- :content-language:content-transfer-encoding;
- bh=yuAFR7oMHRERVT1WGTjSkKtVpWlYtL7mEybz0eaEJQw=;
- b=2Ra/d9MAnw9tOohmHN2s5vau4+SVW4NQHmT4ZNHfnIJn9ncyvhpAzolkBX/31HT/Ya
- jhSHO88w2uG9GHYQJMtntjLsT4oDnl2A3P4G+Ei0uEOwuNan4xc65OiFBdU7KU32Exih
- tnU0FUhWaAJHKymhDkUe/avtJ3qRdIlPT5waK9Rys5XNwekWcS+g3OMuqx4/typN8+Hl
- VQO5SGIudFCuGeE4DRcJThFvSepcdL5XCldE3F983ZVxv4Pwu5tBZ7I2SkRaz8ZvtRDV
- UEoug1KOkzs2BReN8sqRApnfUBZkoy1FZTGQ0TaC/4wKjzHjmM/5xrzVwQlhTwpjCjNx
- cEDQ==
-X-Gm-Message-State: AOAM533Lbga+aSnzKKEJt1B15GMM+sobLIeN2HabrdWo/rNVBpBkcEnj
- 4bMiZhnL9u7IMOxWYZLS5gUGSw==
-X-Google-Smtp-Source: ABdhPJxyMFv4LLCVKv9M3X6ZNauRpw5RZnr8yVPSg7Qb/W5sbaSAUD1op7cDnt+nL/nsEaD5mL2hsg==
-X-Received: by 2002:a05:600c:4f92:: with SMTP id
- n18mr5670479wmq.22.1634045277651; 
- Tue, 12 Oct 2021 06:27:57 -0700 (PDT)
-Received: from ?IPv6:2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c?
- ([2001:861:44c0:66c0:4e93:9fa7:4d66:4f5c])
- by smtp.gmail.com with ESMTPSA id z1sm1499817wrt.94.2021.10.12.06.27.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 12 Oct 2021 06:27:57 -0700 (PDT)
-Subject: Re: [PATCH v5 0/8] drm/omap: Add virtual-planes support
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-omap@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, khilman@baylibre.com
-References: <20210923070701.145377-1-narmstrong@baylibre.com>
- <e7c295be-7a0c-877c-ba25-3b580d7d9521@ideasonboard.com>
- <a4e72823-6e92-cce1-0607-5506ddda42fa@baylibre.com>
- <99c11b0b-eab8-a7b9-8aab-8cc06be14cd5@ideasonboard.com>
-From: Neil Armstrong <narmstrong@baylibre.com>
-Organization: Baylibre
-Message-ID: <e5c37525-b150-2a8f-25f8-c3db3e249bf2@baylibre.com>
-Date: Tue, 12 Oct 2021 15:27:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MT+WGN85virsYnfaWkabBnlRhl4BVNJstj9q0qW4GvU=;
+ b=gFepKzmuoKfmVmjhHvMdiJT59koJIf+6LUdp9JprRTePMwWzi3BCm12rrJTj1+3ATD
+ 93DuZO7aQFFzk+U+iLnfUq4hm2Fipv0ElGTXq1PGgmQJwuYW/RRgkBodEWevuw+fBEGW
+ bq/86MXdJrsYn9AwUG/fFoN085nomT2nh/e3q2dDq0lLFxwZpiMjHrCvh/PUVaApYpcL
+ Tt0GjoBlLHVFqRVS6WgI7qM/gmkgWvug6NLH3AMobevfiGS50hIkZWA2pgxbX4A2EJwt
+ 3Ql/O1PHAMfuNpud2sbc5fFHeioh7hftxFwS4jbMEVWSRDZqDxugSYnoOT898xB7MQCT
+ sBHA==
+X-Gm-Message-State: AOAM533fioXcSy1cgSZXge8udVR8qj0I2mdPUIFAnaZrxTfmlzUU+7f4
+ hfWXOI2wkQL9leaBuFgpTeoHH3RDIIahUqMj/Qoe9UUWYrCIlV2qMXoYAdnTraPl2Mj8i7eNKPA
+ cpf+Ney6zt0JOZ5w2xGns7e8xaH3R
+X-Received: by 2002:a05:600c:a45:: with SMTP id
+ c5mr5550798wmq.79.1634045616528; 
+ Tue, 12 Oct 2021 06:33:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxhDxKhOlvfo/706pxslzpu1FHeBx94YPhwo2SnElkp9WJha5oN/R8hfR1LOXibQ33TMS0vwQ==
+X-Received: by 2002:a05:600c:a45:: with SMTP id
+ c5mr5550783wmq.79.1634045616303; 
+ Tue, 12 Oct 2021 06:33:36 -0700 (PDT)
+Received: from kherbst.pingu.com (ip1f10bb48.dynamic.kabel-deutschland.de.
+ [31.16.187.72])
+ by smtp.gmail.com with ESMTPSA id q204sm2656305wme.10.2021.10.12.06.33.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 12 Oct 2021 06:33:35 -0700 (PDT)
+From: Karol Herbst <kherbst@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Karol Herbst <kherbst@redhat.com>, Stephen Rothwell <sfr@canb.auug.org.au>,
+ DRI <dri-devel@lists.freedesktop.org>, nouveau@lists.freedesktop.org
+Subject: [PATCH] drm/nouveau/mmu/gp100: remove unused variable
+Date: Tue, 12 Oct 2021 15:33:34 +0200
+Message-Id: <20211012133334.1737918-1-kherbst@redhat.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-In-Reply-To: <99c11b0b-eab8-a7b9-8aab-8cc06be14cd5@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kherbst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -84,43 +85,31 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Hi,
+Fixes a compilation issue introduced because I forgot to test with WERROR
+enabled.
 
-On 12/10/2021 12:36, Tomi Valkeinen wrote:
-> On 12/10/2021 11:30, Neil Armstrong wrote:
->> On 12/10/2021 09:15, Tomi Valkeinen wrote:
->>> On 23/09/2021 10:06, Neil Armstrong wrote:
->>>> This patchset is the follow-up the v4 patchset from Benoit Parrot at [1].
->>>>
->>>> This patch series adds virtual-plane support to omapdrm driver to allow the use
->>>> of display wider than 2048 pixels.
->>>>
->>>> In order to do so we introduce the concept of hw_overlay which can then be
->>>> dynamically allocated to a plane. When the requested output width exceed what
->>>> be supported by one overlay a second is then allocated if possible to handle
->>>> display wider then 2048.
->>>>
->>>> This series replaces an earlier series which was DT based and using statically
->>>> allocated resources.
->>>>
->>>> This implementation is inspired from the work done in msm/disp/mdp5
->>>> driver.
->>>>
->>>> Changes since v4 at [1]:
->>>> - rebased on v5.15-rc2
->>>
->>> What is this based on? Doesn't apply to v5.15-rc2, and "error: sha1 information is lacking or useless".
->>
->> Indeed the sha1 info is useless, it's based on v5.15-rc2 on top of "HACK: drm/omap: increase DSS5 max tv pclk to 192MHz"
->> in order to validate on 2k monitors.
-> 
-> I'm personally fine with removing the HACK from that, and applying it too. I used the patch for a long time without any issues. However, I never found anyone to confirm that 192MHz is fine (or that it's not fine). Too old HW for finding HW engineers to look at it =).
+Cc: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: DRI <dri-devel@lists.freedesktop.org>
+Cc: nouveau@lists.freedesktop.org
+Fixes: 404046cf4805 ("drm/nouveau/mmu/gp100-: drop unneeded assignment in the if condition.")
+Signed-off-by: Karol Herbst <kherbst@redhat.com>
+---
+ drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Indeed it seems to be applied the TI trees for a long time now, will post it.
-
-Thanks,
-Neil
-
-> 
->  Tomi
+diff --git a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+index 2b21f43069aa..17899fc95b2d 100644
+--- a/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
++++ b/drivers/gpu/drm/nouveau/nvkm/subdev/mmu/vmmgp100.c
+@@ -488,7 +488,7 @@ gp100_vmm_fault_cancel(struct nvkm_vmm *vmm, void *argv, u32 argc)
+ 		struct gp100_vmm_fault_cancel_v0 v0;
+ 	} *args = argv;
+ 	int ret = -ENOSYS;
+-	u32 inst, aper;
++	u32 aper;
+ 
+ 	if ((ret = nvif_unpack(ret, &argv, &argc, args->v0, 0, 0, false)))
+ 		return ret;
+-- 
+2.31.1
 
