@@ -2,146 +2,102 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCFE42AF66
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:56:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35EA42AF69
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 23:59:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 039C06E57A;
-	Tue, 12 Oct 2021 21:56:44 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 648B189D67;
+	Tue, 12 Oct 2021 21:58:58 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 523476E57A;
- Tue, 12 Oct 2021 21:56:43 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="290772793"
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="290772793"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
- by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 14:56:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="441403271"
-Received: from fmsmsx605.amr.corp.intel.com ([10.18.126.85])
- by orsmga006.jf.intel.com with ESMTP; 12 Oct 2021 14:56:42 -0700
-Received: from fmsmsx609.amr.corp.intel.com (10.18.126.89) by
- fmsmsx605.amr.corp.intel.com (10.18.126.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:56:42 -0700
-Received: from fmsmsx608.amr.corp.intel.com (10.18.126.88) by
- fmsmsx609.amr.corp.intel.com (10.18.126.89) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:56:41 -0700
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx608.amr.corp.intel.com (10.18.126.88) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2242.12 via Frontend Transport; Tue, 12 Oct 2021 14:56:41 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.170)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2242.12; Tue, 12 Oct 2021 14:56:41 -0700
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com
+ (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id A8F9C89D67
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 21:58:57 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WSyTTdK3bA7pIJZLeeTXHHVTGbamK6dfUT7pkgIGdU2BW3/rIMFwNmjx/yX+tTiwNrKbHfE393yrvhRpZ/QsbAbrMRn0a+WHv931Jw8d2+hkYqxNvOzhJfqvUKHwLGSZBzvd8DFo6CKaUk0d6/9BxiZ2y0oK6IzzW8LlB2yZufWWJABzMvCuXztwtJMAVPHAKk4BtvYuAZJhfEpogwkmEcndfhPH9nLIPT7dOHa3phnUfA7BCOF8T9neN/78WC9u+EUlGSHXHQm2V02ptlt6ManVW1afsHsA1wcnWqpcF7O+fRLGQ2My27+L87xmD6ACRZKAXUM5IVNsn1td84pt3w==
+ b=WHHKeG+5OvdFOp1G1gjX8heWewy/aFBg7ebIPCoSe3sicI30uirbxWp8wxrR5qpT+6C87pARIBFNzr4s5wDVenuxnPDGuqTAja1xjafWgigXqfLSD0S0QvoaIkF5ZxMDbsYfk4u9jeiXL39InpRI73kucBdc1UhCGQCPEwH75p75GqAkf2rbjzYKTRR14ZwBTFraUNEITHPOR5Cr2M/LjTVysTH0SDxiu/6fSB5prTrhHvC+mjHbbtMXOM35sK1aPQy2tfKO9j09iszMRKg5zJnGlWsoQ4dAUOZ42WlWE8brFwl6+rHBPNGu7TMJNN+easNMXELcbQzJLZt2DeI5DA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WWXMRfyBPEa/wASXzKrEYUo0POFZNZvKDJvVxTV1Hlw=;
- b=MQ6En1XYCLY9BBXQdPfWp0WekSmQSSHoZCKBCwXkO/DKSzLtD5AeOBQXEZDHC1eaQ1hV5miwyirIVGoT84mLVDcZhVMoVNLHMKqpvJX8A5R1AfLMe2pjURfpwaqqrdd547AmPs02cIDmZ359wE7z2us7P/NJ2JUNRoFFUKSn9NBsk4SLO4t32SLp+cVYhGjsa2uSRngPYOcmVSfFkMnhSWZE3DOrCJ2EZBaEB0fnMGm/V1aoS4/GPDjG3pEmbnxEz8tH/8mp9QKtjR1KIWs0Hp98xMlW2cOMfNmIwP9dKJ6zJ7FLI8rTaPn8+QHtVpRdscgEbqADeTKnD8zcGrY85w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
- s=selector2-intel-onmicrosoft-com;
+ bh=+JAS4R+6VYlJulms1aUyxtnG7iTJAOQBbWiywMvL/tg=;
+ b=WRKRogTxKBsmBE7C6hOPDBiL3Au/te/tXftwDz1OyYomX9ZG99U5F5NbmbsYjP5rEmhWl6dfiHhA2NFarbEnmK3y4VItbxin/DT+5nHSFQ5a99C3cj0tgo80RIDMhMDuS2CJ5aabglupROjbZIveE5WUUJ+jfyYtgnXdYE7dz8gjJbBplnIBl3xyiMh3H7Dq4X67A9yzfECXflWEffQ1TQTu6lc9tPcdBBdCEsCPXyD6GU8HUNmFrdZWC1Tqb+ukLL3hvgn4UILYMyS3rPyKwHlOegdQkBMw8705ac4d9vSazUL448rWvwiLEtlDBYicHcSJmhLezMNCGo0mp9Tosw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com; 
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WWXMRfyBPEa/wASXzKrEYUo0POFZNZvKDJvVxTV1Hlw=;
- b=jSWvj6i5fwPsFUg6nsvadksU+wwHZ+Dl/OHAr9NrzLzpGnAUO+RN4KMlYXkus7RSmIh9botQynEtgCCScAW+Ao6lBG0FSkDHWy8iUhNzPij7zWqAyoHJeNC3GT7qgoLfmnR8tMhTKBzGwb4q5c/nQlv4zy6z63bxw9wXQgKFZEU=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=intel.com;
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com (2603:10b6:510:e5::13)
- by PH0PR11MB5594.namprd11.prod.outlook.com (2603:10b6:510:e4::19)
+ bh=+JAS4R+6VYlJulms1aUyxtnG7iTJAOQBbWiywMvL/tg=;
+ b=Asr/GdIUZxk5hZ6sODYIcRU9cmn4r6sabQl+2xdMVGx3a09IXNj7gvrmEcuKrGahgdAY2mSdQ+ZnC0OKhqn5vUavFeE2PiFXtZiTjFQNhq3bzHsP6D4axo7JQBn9PLUauZRSfdtbtXRIjIeGmptGgpOLZa9pZXwcnGAneT/Qu9s=
+Received: from MW4P220CA0028.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::33)
+ by MN2PR12MB4470.namprd12.prod.outlook.com (2603:10b6:208:260::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Tue, 12 Oct
- 2021 21:56:40 +0000
-Received: from PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a]) by PH0PR11MB5642.namprd11.prod.outlook.com
- ([fe80::880d:1a54:ca07:738a%8]) with mapi id 15.20.4587.026; Tue, 12 Oct 2021
- 21:56:39 +0000
-Subject: Re: [PATCH 22/26] drm/i915/guc: Handle errors in multi-lrc requests
-To: Matthew Brost <matthew.brost@intel.com>,
- <intel-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>
-CC: <daniele.ceraolospurio@intel.com>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-23-matthew.brost@intel.com>
-From: John Harrison <john.c.harrison@intel.com>
-Message-ID: <9e63ab2b-55e1-5b83-45c7-4d0f8bb771f2@intel.com>
-Date: Tue, 12 Oct 2021 14:56:36 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Firefox/78.0 Thunderbird/78.14.0
-In-Reply-To: <20211004220637.14746-23-matthew.brost@intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
-X-ClientProxiedBy: MW4P220CA0006.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::11) To PH0PR11MB5642.namprd11.prod.outlook.com
- (2603:10b6:510:e5::13)
+ 2021 21:58:55 +0000
+Received: from CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:303:115:cafe::84) by MW4P220CA0028.outlook.office365.com
+ (2603:10b6:303:115::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4608.14 via Frontend
+ Transport; Tue, 12 Oct 2021 21:58:54 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; lists.freedesktop.org; dkim=none (message not signed)
+ header.d=none;lists.freedesktop.org; dmarc=pass action=none
+ header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com;
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CO1NAM11FT045.mail.protection.outlook.com (10.13.175.181) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.4587.18 via Frontend Transport; Tue, 12 Oct 2021 21:58:54 +0000
+Received: from SATLEXMB08.amd.com (10.181.40.132) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 12 Oct
+ 2021 16:58:53 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB08.amd.com
+ (10.181.40.132) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Tue, 12 Oct
+ 2021 14:58:52 -0700
+Received: from blakha.ht.home (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server id 15.1.2308.8 via Frontend
+ Transport; Tue, 12 Oct 2021 16:58:51 -0500
+From: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+To: <Jerry.Zuo@amd.com>, <dri-devel@lists.freedesktop.org>, <lyude@redhat.com>
+CC: <Harry.Wentland@amd.com>, <Wayne.Lin@amd.com>,
+ <Nicholas.Kazlauskas@amd.com>, Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+Subject: [PATCH] drm: Update MST First Link Slot Information Based on Encoding
+ Format
+Date: Tue, 12 Oct 2021 17:58:48 -0400
+Message-ID: <20211012215848.1507023-1-Bhawanpreet.Lakha@amd.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
+References: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
 MIME-Version: 1.0
-Received: from [192.168.1.106] (73.157.192.58) by
- MW4P220CA0006.NAMP220.PROD.OUTLOOK.COM (2603:10b6:303:115::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.4608.14 via Frontend Transport; Tue, 12 Oct 2021 21:56:39 +0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f228c356-a9c4-4efc-1d03-08d98dcb2b7f
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5594:
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <PH0PR11MB55942D0187E23E38ECA830ECBDB69@PH0PR11MB5594.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 91d56323-6472-459b-f15d-08d98dcb7bd1
+X-MS-TrafficTypeDiagnostic: MN2PR12MB4470:
+X-Microsoft-Antispam-PRVS: <MN2PR12MB44706A14166D683D22972507F9B69@MN2PR12MB4470.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KcA7HJVbTQSIVhs7aEB8Rg6qiNuDgNvlEp0Qh8iJloKTcjCwiAEet72/uqyv3TBx4rype5zEV3c3DXNgDoeb5SrpATKJAmaddqNasQVloshxvJ9afAfduLcK0ed81cAr+ZH6+e8f3VSPe1YHDbSXWSitX1ZvmLNBKIAZR1hnsHcs+bEndtc91JW9S42rAwo9TcShhcLASjk+TL9Gr/+f1oFkJcwopqUZR2KmMqmh8ggtDFSQq7MQnA8+5XBOExVw6nN9P3rP7v0ngj47/+26oSOSm3vA9nbKugbmnnK3EcYif1ikoRemgskxdyDgHs9jC4ssscvKywi2kM3k/7+n6S54O9Jfjs+RH4/YczUi690JX8jO3KFKI42SbZHR9a8hnAJDjFiOyBvGY1QkxOnBTHTDuLVCr+FFLs/nCeL3SFfiiqjuYZpje4TdTgazikznnY2F3/Tgz0L2v1/O4uvhMcYiNcHkzfoIownyLE0HO6wJdcFkGLKIrjhRjr0sdMLzT8dO++3/RopKXdt+QDytsvDea/6QwgykRY+zUHl2r4bUX73hki6RM7NVjNHLY0V/WfgqaN2bvFu0rE9vNgVXilj0deNBtrSldzELEOxJwfFrTXUOF56BaCcHVMwtr5TEaJDkHFoSnWdaI5Dw9lixiu6KLwCfKCOAIlxZJ4fcI/+ot+84XmHkH+erq+Pp3FKgavOsiwcQ+8juwV/HQ/+iRM2HvCfYDP2UccTwQ1HoWg/QLao0jtQ7lV5Udwq7sDJn
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:PH0PR11MB5642.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(316002)(53546011)(186003)(8936002)(107886003)(36756003)(31686004)(83380400001)(16576012)(5660300002)(2906002)(6666004)(2616005)(6486002)(956004)(26005)(66556008)(450100002)(8676002)(66476007)(86362001)(66946007)(38100700002)(31696002)(508600001)(4326008)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SzYyaWJFcnVFVE9qdnMwakRwYlRrMmo2NlBvZWFTKzR1RTE3YlhEMVJOR2Z5?=
- =?utf-8?B?T1JxM0lPcTJhMDJFeFdvc2IyVWczcyt6NTNhaWNJNkJPSDRkdEd4VmtKV3VS?=
- =?utf-8?B?WGg2UUVmaUVsWFl6czk5a3piSkhVZFAxN2tIbUlWUUQxZHovS2FQMitBYUc3?=
- =?utf-8?B?RkdVL3dsRG5JbzBEZ1NCb082TmVCMFYveXl5T0h4aFQ0cEYrem52WUNjVkFD?=
- =?utf-8?B?aFFaVFdIdkI0dWZoSk5ub1VIQi90WVZySGQ1c1FkM2VsMlNKUmp1ZENmdEFV?=
- =?utf-8?B?Vit4ejVqRUZDQ01QblBKN1ZkeEk0anhMSkJad2lCV0lRV2lsWnFWR2tyNlBs?=
- =?utf-8?B?YmUzOEJaUkIvM1pNRyt3NGdXcml2Tmh6OWJlaC9uZWkzbHVodVBMRmxUU0E2?=
- =?utf-8?B?L0tDT09BVkZIQjMybi9JWk9rc3BNc1pFOWQ4K2FXWjNhSzlFL2FXWjFhajRn?=
- =?utf-8?B?MnI5R2xPRzVWcGNlNXlTbG81SFJReWUrbEJ0M24vOFU1VEZmbHFHczdZUGVs?=
- =?utf-8?B?YjFJaHhIYW1lekRuVU9hZmhrUHQ2S2VKa3ZkTG5uVWdUTHBPWjR6ZjkvSzcx?=
- =?utf-8?B?Tnp0bi9qYllHWlUrOEZmMDNDNHpzWi9ubmVycUI1Uis1M1B6aXVXZWZSQ2tC?=
- =?utf-8?B?RnVwMEc1NTJMTzFLS0FzamMwdHArQWhUQW9qdTRSQXRsYk9BWDdBS2RzbzVa?=
- =?utf-8?B?VzlpVnpjZEZQRzNoVks1dm5tREMxeHByU0x2RVNQeE9LSmVKS0E2TW1oeFow?=
- =?utf-8?B?TnViRHhlbGxZL1FrTU1VM0R0eUphMlZsLzQ0SStmdmI1UG92eVlwZGZnQUJw?=
- =?utf-8?B?TVVlYW11RWFYRDdyUEZ6S0JiQWlhdWI3Y2MzWVU1WTJIYURwYkl1UkpZSjNG?=
- =?utf-8?B?NEkyR003QzExR2pHRWw5cjMvZUNITmREaGZyVzh5b09QVmdSZzlxOXpvWTA1?=
- =?utf-8?B?YllSRWllMTFxcldIZjlYdnhYN1ZjekJjTXBIamR2NEd6QVhRaWpldnM4dGgr?=
- =?utf-8?B?QnQ1SEowQlVsRjJhWEJ2T3hMbU5hTFlBdDdBWCtvYVE4blNXdTRYdHJJR1Rv?=
- =?utf-8?B?RGNBTjZiL0ZUQzJ4UXZFSmhSUVhhK1BTam1WK1hHSEVLOFVaWWRUdEFLKzVu?=
- =?utf-8?B?WW5SZHZyUXlZaDZsQkVGdDdOak1VWjlwUHVrd3ZSbnFBOWMwUjFMR2NrcWVq?=
- =?utf-8?B?M3JPRkJJUzlpUUFOVXpMeGtjS25DUmZWN0hyd1NtaFZES29sME1IM2xGWmZu?=
- =?utf-8?B?eFlRUEhPT3FoNzBtK2xwSmpqRjJNdlFKSjFBNEErY2dUMVVOYTZnSEJMckcr?=
- =?utf-8?B?Vk5vU1phM3NuTitLQmxDY3p0WjU1cFZPRjJoNkl2SGtkN2F3S2tJSEFUR0tC?=
- =?utf-8?B?YXpUUUpLRUx1aWE0Q0dhMzVJbFVZSlZOL0xYc3o1MllJUnRkVUtkOEIrQ0hZ?=
- =?utf-8?B?aE1XdVN0bFR4UVoxMHhJZW5KbTJaSFgram1maHJYTWxGREQ3U2pBNHFRVmgz?=
- =?utf-8?B?UzR6VDQ1L2t1WGI3bUlhczR6eVpqR0tHMWErMHlYTkd6VXVTRS9sK0VjZXlK?=
- =?utf-8?B?VCtpekt1NVhULy9ZUyswbkV0OGJ5SW5TR0w4dlkzQjhqeDUzSEZEeUpscTUr?=
- =?utf-8?B?MkttSmF2NjkwR1ZKd0FGOUlYNXo4MVBwUTRPZ2d6Y05tVVFFQXpMemgrSFVp?=
- =?utf-8?B?RU1TbWtyR0dHQWk0WHU3V0hqbndCYnQvc0lGd3d5WDk0VkthelYwVnJucURK?=
- =?utf-8?Q?kv0G84CpWXDaiNLtBxxu0eWYXHanlZXQlXkyEzk?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: f228c356-a9c4-4efc-1d03-08d98dcb2b7f
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5642.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 21:56:39.8498 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zzL9dPH8tkOw/lM5J8OQ61uUhw4rqrjbUP5+1SW3T01AEz7QHFv0CFqpF9fbsDVEsRAUQb4wAqotyLth3lMkA7KMCV1R9aWPhTDzZTMQJvU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5594
-X-OriginatorOrg: intel.com
+X-Microsoft-Antispam-Message-Info: t6H/Intu9kD5/lZIqrzSD7mGDXZxRZsoWB4NkBusH6lO9s50Ue519jK8tCTGIks2a8QQrwGNdftkYb8zIaM9mdTL9URu19bCkIKe4HHvvhRnnXJXxFdMjnoAAA2kPLTduWBhBv76Ggc397rXkBh4+bNeEoZwMBuZNCPK6qtCujprZ4BpsT9Tow5Di0ZqfKtS1vxKgvifxWZVeptOvCpZNWSNO/F995JNSOUz6xHALfbA6BnDKrsuOOdJZ59dTh3gVPX/lC1sjxp0+4irU7iNhNK5L2BFZP+V8I3UyHrDlMnpejDbbZtVWx7GM+XYrE/Czl4MbNax44If1O5ul/AoSjWSRG9qLnadQpsucPe34TK6HCibxPfM5bmpQifELgYE6/Y8fUGDtoeNLMerWOsFad0mviJNWtjjnskfJF2ipwuRM+zDibuBGS8DlTcOk1iZMeFNhxAN3OfMG/44+8DCBUWNlm19MhXdEAIGEwL2mm6LLS5G/HA8S51ECE8ALnC71ckGjP8JAhyTFGRythfSirwAK6lAk5dTDHdfRV1qhcO9ZUa01Wa6pYDxYJlPCUu5npMTOqZTn+jTIda+ZZ/vk4U9tHN/xMC+FfFXNgBHhfHw2liZ7pFCaS2UwsSZ0epSo/N2M8tKlHsWZ/deCTrLaYTC8CotxVquseBjoU8tU0vUlefgbMwUncNH2i0lWmdIlPL/X3LposcNTZHfBuzV9npicgoMlDWfohNuAkD4MQM=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(4636009)(46966006)(36840700001)(36860700001)(8936002)(1076003)(6666004)(8676002)(47076005)(316002)(4326008)(81166007)(336012)(508600001)(82310400003)(54906003)(356005)(110136005)(2906002)(2616005)(426003)(5660300002)(186003)(36756003)(83380400001)(86362001)(70586007)(70206006)(26005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 21:58:54.3442 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91d56323-6472-459b-f15d-08d98dcb7bd1
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT045.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4470
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -157,135 +113,218 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 10/4/2021 15:06, Matthew Brost wrote:
-> If an error occurs in the front end when multi-lrc requests are getting
-> generated we need to skip these in the backend but we still need to
-> emit the breadcrumbs seqno. An issues arises because with multi-lrc
-> breadcrumbs there is a handshake between the parent and children to make
-> forward progress. If all the requests are not present this handshake
-> doesn't work. To work around this, if multi-lrc request has an error we
-> skip the handshake but still emit the breadcrumbs seqno.
->
-> v2:
->   (John Harrison)
->    - Add comment explaining the skipping of the handshake logic
->    - Fix typos in the commit message
->
-> Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> ---
->   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 71 ++++++++++++++++++-
->   1 file changed, 68 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> index 83b0d2a114af..05e8b199e4ce 100644
-> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> @@ -4072,8 +4072,8 @@ static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
->   }
->   
->   static u32 *
-> -emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> -						 u32 *cs)
-> +__emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						   u32 *cs)
->   {
->   	struct intel_context *ce = rq->context;
->   	u8 i;
-> @@ -4101,6 +4101,46 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
->   				  get_children_go_addr(ce),
->   				  0);
->   
-> +	return cs;
-> +}
-> +
-> +/*
-> + * If this true, a submission of multi-lrc requests had an error and the
-> + * requests need to be skipped. The front end (execuf IOCTL) should've called
-> + * i915_request_skip which squashes the BB but we still need to emit the fini
-> + * breadrcrumbs seqno write. At this point we don't know how many of the
-> + * requests in the multi-lrc submission were generated so we can't do the
-> + * handshake between the parent and children (e.g. if 4 requests should be
-> + * generated but 2nd hit an error only 1 would be seen by the GuC backend).
-> + * Simply skip the handshake, but still emit the breadcrumbd seqno, if an error
-> + * has occurred on any of the requests in submission / relationship.
-> + */
-> +static inline bool skip_handshake(struct i915_request *rq)
-> +{
-> +	return test_bit(I915_FENCE_FLAG_SKIP_PARALLEL, &rq->fence.flags);
-> +}
-> +
-> +static u32 *
-> +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
-> +						 u32 *cs)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +
-> +	GEM_BUG_ON(!intel_context_is_parent(ce));
-> +
-> +	if (unlikely(skip_handshake(rq))) {
-> +		/*
-> +		 * NOP everything in
-> +		 * __emit_fini_breadcrumb_parent_no_preempt_mid_batch, the -6
-The line wrapping makes this look confusing. It seems like the function 
-name should fit on the line before. Even if it is a few characters over 
-(although the limit is now 100 not 80, I think), the checkpatch warning 
-is worth the readability of the code.
+8b/10b encoding format requires to reserve the first slot for
+recording metadata. Real data transmission starts from the second slot,
+with a total of available 63 slots available.
 
-> +		 * comes of the length emission below.
--> comes from the length of the emits below.
+In 128b/132b encoding format, metadata is transmitted separately
+in LLCP packet before MTP. Real data transmission starts from
+the first slot, with a total of 64 slots available.
 
-John.
+v2:
+* Remove get_mst_link_encoding_cap
+* Move total/start slots to mst_state, and copy it to mst_mgr in
+atomic_check
 
-> +		 */
-> +		memset(cs, 0, sizeof(u32) *
-> +		       (ce->engine->emit_fini_breadcrumb_dw - 6));
-> +		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
-> +	} else {
-> +		cs = __emit_fini_breadcrumb_parent_no_preempt_mid_batch(rq, cs);
-> +	}
-> +
->   	/* Emit fini breadcrumb */
->   	cs = gen8_emit_ggtt_write(cs,
->   				  rq->fence.seqno,
-> @@ -4117,7 +4157,8 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
->   }
->   
->   static u32 *
-> -emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
-> +__emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-> +						  u32 *cs)
->   {
->   	struct intel_context *ce = rq->context;
->   	struct intel_context *parent = intel_context_to_parent(ce);
-> @@ -4144,6 +4185,30 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs
->   	*cs++ = get_children_go_addr(parent);
->   	*cs++ = 0;
->   
-> +	return cs;
-> +}
-> +
-> +static u32 *
-> +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
-> +						u32 *cs)
-> +{
-> +	struct intel_context *ce = rq->context;
-> +
-> +	GEM_BUG_ON(!intel_context_is_child(ce));
-> +
-> +	if (unlikely(skip_handshake(rq))) {
-> +		/*
-> +		 * NOP everything in
-> +		 * __emit_fini_breadcrumb_child_no_preempt_mid_batch, the -6
-> +		 * comes from the length the emission below.
-> +		 */
-> +		memset(cs, 0, sizeof(u32) *
-> +		       (ce->engine->emit_fini_breadcrumb_dw - 6));
-> +		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
-> +	} else {
-> +		cs = __emit_fini_breadcrumb_child_no_preempt_mid_batch(rq, cs);
-> +	}
-> +
->   	/* Emit fini breadcrumb */
->   	cs = gen8_emit_ggtt_write(cs,
->   				  rq->fence.seqno,
+Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
+Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
+---
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++++++++
+ drivers/gpu/drm/drm_dp_mst_topology.c         | 35 +++++++++++++++----
+ include/drm/drm_dp_mst_helper.h               | 13 +++++++
+ 3 files changed, 69 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index 5020f2d36fe1..4ad50eb0091a 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -10612,6 +10612,8 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ #if defined(CONFIG_DRM_AMD_DC_DCN)
+ 	struct dsc_mst_fairness_vars vars[MAX_PIPES];
+ #endif
++	struct drm_dp_mst_topology_state *mst_state;
++	struct drm_dp_mst_topology_mgr *mgr;
+ 
+ 	trace_amdgpu_dm_atomic_check_begin(state);
+ 
+@@ -10819,6 +10821,32 @@ static int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 		lock_and_validation_needed = true;
+ 	}
+ 
++#if defined(CONFIG_DRM_AMD_DC_DCN)
++	for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
++		struct amdgpu_dm_connector *aconnector;
++		struct drm_connector *connector;
++		struct drm_connector_list_iter iter;
++		u8 link_coding_cap;
++
++		if (!mgr->mst_state )
++			continue;
++
++		drm_connector_list_iter_begin(dev, &iter);
++		drm_for_each_connector_iter(connector, &iter) {
++			int id = connector->index;
++
++			if (id == mst_state->mgr->conn_base_id) {
++				aconnector = to_amdgpu_dm_connector(connector);
++				link_coding_cap = dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
++				drm_dp_mst_update_coding_cap(mst_state, link_coding_cap);
++
++				break;
++			}
++		}
++		drm_connector_list_iter_end(&iter);
++
++	}
++#endif
+ 	/**
+ 	 * Streams and planes are reset when there are changes that affect
+ 	 * bandwidth. Anything that affects bandwidth needs to go through
+diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c b/drivers/gpu/drm/drm_dp_mst_topology.c
+index ad0795afc21c..fb5c47c4cb2e 100644
+--- a/drivers/gpu/drm/drm_dp_mst_topology.c
++++ b/drivers/gpu/drm/drm_dp_mst_topology.c
+@@ -3368,7 +3368,7 @@ int drm_dp_update_payload_part1(struct drm_dp_mst_topology_mgr *mgr)
+ 	struct drm_dp_payload req_payload;
+ 	struct drm_dp_mst_port *port;
+ 	int i, j;
+-	int cur_slots = 1;
++	int cur_slots = mgr->start_slot;
+ 	bool skip;
+ 
+ 	mutex_lock(&mgr->payload_lock);
+@@ -4321,7 +4321,7 @@ int drm_dp_find_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
+ 	num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
+ 
+ 	/* max. time slots - one slot for MTP header */
+-	if (num_slots > 63)
++	if (num_slots > mgr->total_avail_slots)
+ 		return -ENOSPC;
+ 	return num_slots;
+ }
+@@ -4333,7 +4333,7 @@ static int drm_dp_init_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+ 	int ret;
+ 
+ 	/* max. time slots - one slot for MTP header */
+-	if (slots > 63)
++	if (slots > mgr->total_avail_slots)
+ 		return -ENOSPC;
+ 
+ 	vcpi->pbn = pbn;
+@@ -4507,6 +4507,18 @@ int drm_dp_atomic_release_vcpi_slots(struct drm_atomic_state *state,
+ }
+ EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
+ 
++void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state *mst_state, uint8_t link_coding_cap)
++{
++	if (link_coding_cap == DP_CAP_ANSI_128B132B) {
++		mst_state->total_avail_slots = 64;
++		mst_state->start_slot = 0;
++	}
++
++	DRM_DEBUG_KMS("%s coding format on mgr 0x%p\n",
++			(link_coding_cap == DP_CAP_ANSI_128B132B) ? "128b/132b":"8b/10b", mst_state->mgr);
++}
++EXPORT_SYMBOL(drm_dp_mst_update_coding_cap);
++
+ /**
+  * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
+  * @mgr: manager for this port
+@@ -4538,8 +4550,8 @@ bool drm_dp_mst_allocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+ 
+ 	ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
+ 	if (ret) {
+-		drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=63 ret=%d\n",
+-			    DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
++		drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=%d ret=%d\n",
++			    DIV_ROUND_UP(pbn, mgr->pbn_div), mgr->total_avail_slots, ret);
+ 		drm_dp_mst_topology_put_port(port);
+ 		goto out;
+ 	}
+@@ -5226,7 +5238,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
+ 					 struct drm_dp_mst_topology_state *mst_state)
+ {
+ 	struct drm_dp_vcpi_allocation *vcpi;
+-	int avail_slots = 63, payload_count = 0;
++	int avail_slots = mgr->total_avail_slots, payload_count = 0;
+ 
+ 	list_for_each_entry(vcpi, &mst_state->vcpis, next) {
+ 		/* Releasing VCPI is always OK-even if the port is gone */
+@@ -5255,7 +5267,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct drm_dp_mst_topology_mgr *mgr,
+ 		}
+ 	}
+ 	drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI avail=%d used=%d\n",
+-		       mgr, mst_state, avail_slots, 63 - avail_slots);
++		       mgr, mst_state, avail_slots, mgr->total_avail_slots - avail_slots);
+ 
+ 	return 0;
+ }
+@@ -5421,6 +5433,10 @@ int drm_dp_mst_atomic_check(struct drm_atomic_state *state)
+ 			break;
+ 
+ 		mutex_lock(&mgr->lock);
++
++		mgr->start_slot = mst_state->start_slot;
++		mgr->total_avail_slots = mst_state->total_avail_slots;
++
+ 		ret = drm_dp_mst_atomic_check_mstb_bw_limit(mgr->mst_primary,
+ 							    mst_state);
+ 		mutex_unlock(&mgr->lock);
+@@ -5527,11 +5543,16 @@ int drm_dp_mst_topology_mgr_init(struct drm_dp_mst_topology_mgr *mgr,
+ 	if (!mgr->proposed_vcpis)
+ 		return -ENOMEM;
+ 	set_bit(0, &mgr->payload_mask);
++	mgr->total_avail_slots = 63;
++	mgr->start_slot = 1;
+ 
+ 	mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
+ 	if (mst_state == NULL)
+ 		return -ENOMEM;
+ 
++	mst_state->total_avail_slots = 63;
++	mst_state->start_slot = 1;
++
+ 	mst_state->mgr = mgr;
+ 	INIT_LIST_HEAD(&mst_state->vcpis);
+ 
+diff --git a/include/drm/drm_dp_mst_helper.h b/include/drm/drm_dp_mst_helper.h
+index ddb9231d0309..f8152dfb34ed 100644
+--- a/include/drm/drm_dp_mst_helper.h
++++ b/include/drm/drm_dp_mst_helper.h
+@@ -554,6 +554,8 @@ struct drm_dp_mst_topology_state {
+ 	struct drm_private_state base;
+ 	struct list_head vcpis;
+ 	struct drm_dp_mst_topology_mgr *mgr;
++	u8 total_avail_slots;
++	u8 start_slot;
+ };
+ 
+ #define to_dp_mst_topology_mgr(x) container_of(x, struct drm_dp_mst_topology_mgr, base)
+@@ -661,6 +663,16 @@ struct drm_dp_mst_topology_mgr {
+ 	 */
+ 	int pbn_div;
+ 
++	/**
++	 * @total_avail_slots: 63 for 8b/10b, 64 for 128/132b
++	 */
++	u8 total_avail_slots;
++
++	/**
++	 * @start_slot: 1 for 8b/10b, 0 for 128/132b
++	 */
++	u8 start_slot;
++
+ 	/**
+ 	 * @funcs: Atomic helper callbacks
+ 	 */
+@@ -806,6 +818,7 @@ int drm_dp_mst_get_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp
+ 
+ void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr, struct drm_dp_mst_port *port);
+ 
++void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state *mst_state, uint8_t link_coding_cap);
+ 
+ void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
+ 				struct drm_dp_mst_port *port);
+-- 
+2.25.1
 
