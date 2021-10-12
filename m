@@ -2,119 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCEC442ACB1
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 20:56:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F6042ACBD
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 20:57:46 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A00C06E581;
-	Tue, 12 Oct 2021 18:56:33 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CB19B89CE0;
+	Tue, 12 Oct 2021 18:57:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
- (mail-dm6nam10on2048.outbound.protection.outlook.com [40.107.93.48])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D87EF6E581;
- Tue, 12 Oct 2021 18:56:32 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gY//MgDmY6OiVbKVbYIMRvQA252stJExzHSMw1/sYgM/19uaKb1q+ZA0jeQcBKfYVX8DcSc53OhqTycYwfpXfeT1Gw+iQMNU5ICnOVK/CF2exhnC31Hm3NXqD18Aax+5vcvgm4GW9Q3/MD2zy4b4eWx3aw8b/KiQW8EUy5zRpx1rHx+YCVxhwncpiFV0GyTNQy66/3hGJeWRIx3IYl5jPwiCXV+w6+mzPX32bn8Nu2KxMh+2Gw9HJ9h+C95f2Q3a3DN/wRBan+GpeMLbwk0ccEeM+gkzoHZx3AHPlmrypwS80DHKeEVx6NLW2bRrn1+dp0m7eiLkQSABz9gFN8Hpmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=M2HA22fOAybBiVz1DMZQOcmt3zumvXYNnBFx206maKQ=;
- b=Mc7qsCgAxcqeVk4Ct2AjzGHIOp9tI8Dqm42jsJB0eZILkkGO3etlrL1nBabNqnB7m21/r7A7GI+7TH0gAOstowqxxKf3Hle7LCCLV4+LNDCnTxanhXQKxVY5QIj98NAvO92GyctV5pxMFnxRENXD8eF4QmY5oHBFVabCz34uSGnCN7BwN1kJTTtWfwLhbkvRqkLi7Rj0HjrC1lSwgNAaJilhuBsdIYqvuq/p2jSECuFXcf2aC6NcdJJLYCeXfH9p9GM1N9jyglusFVEsVFlO/O1d+pMrSQEVMm4DT3lgy/i05z2aVi2M0k2QlyWxQ3Yn3hp+QLWMc6Q0eQh7DvRy8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=M2HA22fOAybBiVz1DMZQOcmt3zumvXYNnBFx206maKQ=;
- b=VgdLQCT2LqZx0wuxNwFZ0YD3febyvKZgBCJ5CDrjbG6mNX5D62q5+pN2eQxxfdZpXxBe2ACg0n4aQESn03NH9Zx0Y4gKuUllFg7BJZHJGnWPlbF5gJ16G5DU4K2ToWEkoAkEPQIwabU4EeTzn2p7rjeZPv17AGwVqDV/jCKD8f1eiaTmlceORehAe9MfDq/kVqFkUC8AG/5P1MBH+IFZ0Drbib2kER8YVodm4tLxLhZ50SyU7HbyEkCLUV9/ZTm5FhDdylGIloJszSMxlxoArXcHrONuWLi8hsgfaUDpoUfU5guNRV4F0MPORFvzPjLzD0CfzSI9CXrXHqtSmY7Wqw==
-Authentication-Results: linux-foundation.org; dkim=none (message not signed)
- header.d=none;linux-foundation.org; dmarc=none action=none
- header.from=nvidia.com;
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com (2603:10b6:208:1cb::22)
- by BL1PR12MB5030.namprd12.prod.outlook.com (2603:10b6:208:313::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.18; Tue, 12 Oct
- 2021 18:56:31 +0000
-Received: from BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95]) by BL0PR12MB5506.namprd12.prod.outlook.com
- ([fe80::e8af:232:915e:2f95%6]) with mapi id 15.20.4608.014; Tue, 12 Oct 2021
- 18:56:30 +0000
-Date: Tue, 12 Oct 2021 15:56:29 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Alex Sierra <alex.sierra@amd.com>, Felix.Kuehling@amd.com,
- linux-mm@kvack.org, rcampbell@nvidia.com,
- linux-ext4@vger.kernel.org, linux-xfs@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- hch@lst.de, jglisse@redhat.com, apopple@nvidia.com
-Subject: Re: [PATCH v1 00/12] MEMORY_DEVICE_COHERENT for CPU-accessible
- coherent device memory
-Message-ID: <20211012185629.GZ2744544@nvidia.com>
-References: <20211012171247.2861-1-alex.sierra@amd.com>
- <20211012113957.53f05928dd60f3686331fede@linux-foundation.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20211012113957.53f05928dd60f3686331fede@linux-foundation.org>
-X-ClientProxiedBy: MN2PR11CA0016.namprd11.prod.outlook.com
- (2603:10b6:208:23b::21) To BL0PR12MB5506.namprd12.prod.outlook.com
- (2603:10b6:208:1cb::22)
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id BBF9689CE0
+ for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 18:57:42 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="290735417"
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="290735417"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 11:57:41 -0700
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="715282661"
+Received: from pmnk-mobl1.gar.corp.intel.com (HELO [10.249.254.42])
+ ([10.249.254.42])
+ by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 11:57:40 -0700
+Message-ID: <a0d82e4c-f762-e6c6-0f08-7f92e735e0c2@linux.intel.com>
+Date: Tue, 12 Oct 2021 20:57:38 +0200
 MIME-Version: 1.0
-Received: from mlx.ziepe.ca (142.162.113.129) by
- MN2PR11CA0016.namprd11.prod.outlook.com (2603:10b6:208:23b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.4587.20 via Frontend
- Transport; Tue, 12 Oct 2021 18:56:30 +0000
-Received: from jgg by mlx with local (Exim 4.94)	(envelope-from
- <jgg@nvidia.com>)	id 1maMwv-00EIxU-FE; Tue, 12 Oct 2021 15:56:29 -0300
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d818ce8e-e5a7-4c3a-c500-08d98db200cd
-X-MS-TrafficTypeDiagnostic: BL1PR12MB5030:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL1PR12MB50304A5DD96E396BBB371754C2B69@BL1PR12MB5030.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0pD/Vw1Z/uVBIgO+BKRt6ffzbT5c8pzj61s9cfCpeRsZC89nujZXFAgGsvAgkgH8R8HQUQQPTUPNzrRFWA/kYUnNBecdOZ7xe0qL6U6Pb8aC/HQ4mCMNSZFHz7enqSyaPC/JXqlId1ucGSzLv93Kpv+XQg2AAUKHc5bliPiHNj+rV4Mho7PWYNy+UgPi5n4qFu+gqTxLp3MNu1No9/LZJp/nb2lIHLgnzeHW02YHxIwIDYMeECbr1nfz3l4jDq4oJyD2mIGlJ5jRMB4IuB+zjSEWWcwV6MUS9ItNfZO54cLtlwOwCRz8rq3aulFR/1wKNG0N4xyjCbsXBzXeGaruTxJDrPISZVSm4kkyNiGxaJpehyKGItGpXfZotp4IW5S4OTcNbOCQ75/Xc/08NYqaVbiGx35qm/pkrdzMfuyKuVqp98+VsUml7368nxst/1k98QG/c0tA1ObSqDe7BlMHIcLzEumz3ctdnEJRDy+ReX4pFwv67u79lwLL8f9orYsMXqA8qeZsUhaRXO+SLOgRsvaVr3qm3yBIqM0zhBfWW+X5hYAGiJ7uQTT9vmlaqQ7afWPPDGLRuD7sItZ6DKekpZ2w3q7FKwU9yVKuMvu3pmrVNZF1UqZ38T4lErEdDD+oozjoRidahEWNJuiDcCunaQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR12MB5506.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(8676002)(2616005)(2906002)(66574015)(1076003)(66946007)(107886003)(86362001)(8936002)(83380400001)(4326008)(66476007)(66556008)(38100700002)(316002)(9786002)(7416002)(426003)(26005)(33656002)(9746002)(36756003)(186003)(6916009)(5660300002)(508600001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yZwX9ciqG4i6oWSUACRd0NbclweFKv5fU5VMl8DT63Tf6JAdWHUm+MSAs9JH?=
- =?us-ascii?Q?MwUkzYSmKFZ9F3n41pdHpZjosN7BvIgtWwxuUQLWDsDmaDQr9IOSfimpAb1j?=
- =?us-ascii?Q?EJGICuTBlwAv3cu1i9I8gd/NNTHVSSeXMv3Q2QYXRhhkugc8B81tPpVcMIw3?=
- =?us-ascii?Q?Ncmb9xiRRjrz2aLitljbVBvVUxQVSFQ0RCIrAmgsbBFY+YvprNICyOJJgVZl?=
- =?us-ascii?Q?TuwJJ1CX2tqCg5OYULsZqah3sLWrZjgbGlPYi7j4CL7XIjzAyjiSqYiahpHK?=
- =?us-ascii?Q?P5JmxGtL2dO3GGq419O8XAaSapH3mCXkom2HEoWOCQfTmcx24njwlFthXRo3?=
- =?us-ascii?Q?hVVsIuITEm97JnhH1QMCHZe7urUyyyKaFP8QPgx0GQJ/E43bCxuEeEqfdyd7?=
- =?us-ascii?Q?pX+YnS2KTrZTOlVGrGMIKRyi6WYE98aqQUjSDX6NRmTC+aNnXlg10fdea91P?=
- =?us-ascii?Q?vKp0aFFv2KmLvLyZgaid5ElwIEgFV7uROtnxgUVdGnKuuoyQHitB8CXYf5TG?=
- =?us-ascii?Q?di+H8OXI6veE1Xg3AQJrT9Jtz4i4+/jbu43l6i7wv9pHwO9ZsHXdqyXGZLNx?=
- =?us-ascii?Q?HblyPzygHGi9i1pPfLBpxWjoisFZ+sHkWdrqd25t2epFkBJ5tgH5LFVwI0J6?=
- =?us-ascii?Q?EUJwrsqFYM5qI8aF6MXD1DKuOaicOTyG9ctideJgP4OSmPiktTvgH4Pt0o+D?=
- =?us-ascii?Q?osD8G5kVVL4adtM9FyTYjEDYhL+f7f7db0AWw99KhvY5yAtvMlaMzWG5J8Sw?=
- =?us-ascii?Q?ZZcGdW2hXUB5cX9iLLsV72arH1+GFJhONtkld62lYTwZqNaiJp3UwjQs8gbV?=
- =?us-ascii?Q?eGjBN0+IpbOjIQkok0Bcwf7+/swjOm/qz86jX8g1UywNQiA1e5bOinjJ1ikB?=
- =?us-ascii?Q?DtCkyA5b3bDJhrd0Ho5UqilSs+JuCBAr8K36LS7fES8vGdhNZjuFrzNEapZs?=
- =?us-ascii?Q?ObxsWrC3Jcu2pybzIdmd4CuXqgSVQs1AQhGr3x/ulXRoDjuZQrNvgHh4G6Eh?=
- =?us-ascii?Q?WZm27DprxL+LNY1CGmYTIKME6EYlIDVLT3ZyYLgAAz1AlL6UksJdlVJx3BW/?=
- =?us-ascii?Q?EkFMZ50WODDj8rzM5qiW26tNIvkPiJAXmpqrcA4EPdiBZa2cnr2yGkPHiXfB?=
- =?us-ascii?Q?Kr7npPFTC/HaFK+YA1NSeUnl01+ZaD4zTRnUDP6dyIVFfAObOg/+uzf+Tey8?=
- =?us-ascii?Q?jy0KtRwyK7j/UiThGD+fxrAfKBKnqrCVEh057O+WlWACo4O1zup9WBfvDsZi?=
- =?us-ascii?Q?BCyw1jdQyly6WRkiqOA3W+xuy4ry6QNsRBhm2B0+71oWVRk2IJtymq1i14z3?=
- =?us-ascii?Q?xnh/71GOZZWlmAulQ6w7WpM+dCREuAw6OTspt69NIzBUNg=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d818ce8e-e5a7-4c3a-c500-08d98db200cd
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB5506.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2021 18:56:30.8797 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nOG43RYjvGhpxW5PCLUX8/dB5tj/DK0RKj+npKZR5dAUxe+kUIr9pKzbEHzi78ra
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5030
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH 4/5] drm/vmwgfx: Introduce a new placement for MOB page
+ tables
+Content-Language: en-US
+To: Zack Rusin <zackr@vmware.com>, dri-devel@lists.freedesktop.org
+Cc: Martin Krastev <krastevm@vmware.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+References: <20211008173146.645127-1-zackr@vmware.com>
+ <20211008173146.645127-5-zackr@vmware.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m?= <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20211008173146.645127-5-zackr@vmware.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -130,56 +54,236 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Tue, Oct 12, 2021 at 11:39:57AM -0700, Andrew Morton wrote:
-> On Tue, 12 Oct 2021 12:12:35 -0500 Alex Sierra <alex.sierra@amd.com> wrote:
-> 
-> > This patch series introduces MEMORY_DEVICE_COHERENT, a type of memory
-> > owned by a device that can be mapped into CPU page tables like
-> > MEMORY_DEVICE_GENERIC and can also be migrated like MEMORY_DEVICE_PRIVATE.
-> > With MEMORY_DEVICE_COHERENT, we isolate the new memory type from other
-> > subsystems as far as possible, though there are some small changes to
-> > other subsystems such as filesystem DAX, to handle the new memory type
-> > appropriately.
-> > 
-> > We use ZONE_DEVICE for this instead of NUMA so that the amdgpu
-> > allocator can manage it without conflicting with core mm for non-unified
-> > memory use cases.
-> > 
-> > How it works: The system BIOS advertises the GPU device memory (aka VRAM)
-> > as SPM (special purpose memory) in the UEFI system address map.
-> > The amdgpu driver registers the memory with devmap as
-> > MEMORY_DEVICE_COHERENT using devm_memremap_pages.
-> > 
-> > The initial user for this hardware page migration capability will be
-> > the Frontier supercomputer project.
-> 
-> To what other uses will this infrastructure be put?
-> 
-> Because I must ask: if this feature is for one single computer which
-> presumably has a custom kernel, why add it to mainline Linux?
 
-Well, it certainly isn't just "one single computer". Overall I know of
-about, hmm, ~10 *datacenters* worth of installations that are using
-similar technology underpinnings.
+On 10/8/21 19:31, Zack Rusin wrote:
+> For larger (bigger than a page) and noncontiguous mobs we have
+> to create page tables that allow the host to find the memory.
+> Those page tables just used regular system memory. Unfortunately
+> in TTM those BO's are not allowed to be busy thus can't be
+> fenced and we have to fence those bo's  because we don't want
+> to destroy the page tables while the host is still executing
+> the command buffers which might be accessing them.
+>
+> To solve it we introduce a new placement VMW_PL_SYSTEM which
+> is very similar to TTM_PL_SYSTEM except that it allows
+> fencing. This fixes kernel oops'es during unloading of the driver
+> (and pci hot remove/add) which were caused by busy BO's in
+> TTM_PL_SYSTEM being present in the delayed deletion list in
+> TTM (TTM_PL_SYSTEM manager is destroyed before the delayed
+> deletions are executed)
+>
+> Signed-off-by: Zack Rusin <zackr@vmware.com>
+> Reviewed-by: Martin Krastev <krastevm@vmware.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-"Frontier" is the code name for a specific installation but as the
-technology is proven out there will be many copies made of that same
-approach.
+In general looks good to me. Some suggestions below:
 
-The previous program "Summit" was done with NVIDIA GPUs and PowerPC
-CPUs and also included a very similar capability. I think this is a
-good sign that this coherently attached accelerator will continue to
-be a theme in computing going foward. IIRC this was done using out of
-tree kernel patches and NUMA localities.
 
-Specifically with CXL now being standardized and on a path to ubiquity
-I think we will see an explosion in deployments of coherently attached
-accelerator memory. This is the high end trickling down to wider
-usage.
+> ---
+>   drivers/gpu/drm/vmwgfx/Makefile               |  2 +-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.c           | 14 ++-
+>   drivers/gpu/drm/vmwgfx/vmwgfx_drv.h           | 12 ++-
+>   .../gpu/drm/vmwgfx/vmwgfx_system_manager.c    | 90 +++++++++++++++++++
+>   drivers/gpu/drm/vmwgfx/vmwgfx_ttm_buffer.c    | 58 ++++++------
+>   5 files changed, 138 insertions(+), 38 deletions(-)
+>   create mode 100644 drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
+>
+> diff --git a/drivers/gpu/drm/vmwgfx/Makefile b/drivers/gpu/drm/vmwgfx/Makefile
+> index bc323f7d4032..0188a312c38c 100644
+> --- a/drivers/gpu/drm/vmwgfx/Makefile
+> +++ b/drivers/gpu/drm/vmwgfx/Makefile
+> @@ -9,7 +9,7 @@ vmwgfx-y := vmwgfx_execbuf.o vmwgfx_gmr.o vmwgfx_kms.o vmwgfx_drv.o \
+>   	    vmwgfx_cotable.o vmwgfx_so.o vmwgfx_binding.o vmwgfx_msg.o \
+>   	    vmwgfx_simple_resource.o vmwgfx_va.o vmwgfx_blit.o \
+>   	    vmwgfx_validation.o vmwgfx_page_dirty.o vmwgfx_streamoutput.o \
+> -            vmwgfx_devcaps.o ttm_object.o ttm_memory.o
+> +	    vmwgfx_devcaps.o ttm_object.o ttm_memory.o vmwgfx_system_manager.o
+>   
+>   vmwgfx-$(CONFIG_DRM_FBDEV_EMULATION) += vmwgfx_fb.o
+>   vmwgfx-$(CONFIG_TRANSPARENT_HUGEPAGE) += vmwgfx_thp.o
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> index 8d0b083ba267..daf65615308a 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+> @@ -1071,6 +1071,12 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+>   				 "3D will be disabled.\n");
+>   			dev_priv->has_mob = false;
+>   		}
+> +		if (vmw_sys_man_init(dev_priv) != 0) {
+> +			drm_info(&dev_priv->drm,
+> +				 "No MOB page table memory available. "
+> +				 "3D will be disabled.\n");
+> +			dev_priv->has_mob = false;
+> +		}
+>   	}
+>   
+>   	if (dev_priv->has_mob && (dev_priv->capabilities & SVGA_CAP_DX)) {
+> @@ -1121,8 +1127,10 @@ static int vmw_driver_load(struct vmw_private *dev_priv, u32 pci_id)
+>   	vmw_overlay_close(dev_priv);
+>   	vmw_kms_close(dev_priv);
+>   out_no_kms:
+> -	if (dev_priv->has_mob)
+> +	if (dev_priv->has_mob) {
+>   		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
+> +		vmw_sys_man_fini(dev_priv);
+> +	}
+>   	if (dev_priv->has_gmr)
+>   		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
+>   	vmw_devcaps_destroy(dev_priv);
+> @@ -1172,8 +1180,10 @@ static void vmw_driver_unload(struct drm_device *dev)
+>   		vmw_gmrid_man_fini(dev_priv, VMW_PL_GMR);
+>   
+>   	vmw_release_device_early(dev_priv);
+> -	if (dev_priv->has_mob)
+> +	if (dev_priv->has_mob) {
+>   		vmw_gmrid_man_fini(dev_priv, VMW_PL_MOB);
+> +		vmw_sys_man_fini(dev_priv);
+> +	}
+>   	vmw_devcaps_destroy(dev_priv);
+>   	vmw_vram_manager_fini(dev_priv);
+>   	ttm_device_fini(&dev_priv->bdev);
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> index a833751099b5..df19dfb3ce18 100644
+> --- a/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_drv.h
+> @@ -82,8 +82,9 @@
+>   			VMWGFX_NUM_GB_SURFACE +\
+>   			VMWGFX_NUM_GB_SCREEN_TARGET)
+>   
+> -#define VMW_PL_GMR (TTM_PL_PRIV + 0)
+> -#define VMW_PL_MOB (TTM_PL_PRIV + 1)
+> +#define VMW_PL_GMR      (TTM_PL_PRIV + 0)
+> +#define VMW_PL_MOB      (TTM_PL_PRIV + 1)
+> +#define VMW_PL_SYSTEM   (TTM_PL_PRIV + 2)
+>   
+>   #define VMW_RES_CONTEXT ttm_driver_type0
+>   #define VMW_RES_SURFACE ttm_driver_type1
+> @@ -1039,7 +1040,6 @@ extern struct ttm_placement vmw_vram_placement;
+>   extern struct ttm_placement vmw_vram_sys_placement;
+>   extern struct ttm_placement vmw_vram_gmr_placement;
+>   extern struct ttm_placement vmw_sys_placement;
+> -extern struct ttm_placement vmw_evictable_placement;
+>   extern struct ttm_placement vmw_srf_placement;
+>   extern struct ttm_placement vmw_mob_placement;
+>   extern struct ttm_placement vmw_nonfixed_placement;
+> @@ -1251,6 +1251,12 @@ int vmw_overlay_num_free_overlays(struct vmw_private *dev_priv);
+>   int vmw_gmrid_man_init(struct vmw_private *dev_priv, int type);
+>   void vmw_gmrid_man_fini(struct vmw_private *dev_priv, int type);
+>   
+> +/**
+> + * System memory manager
+> + */
+> +int vmw_sys_man_init(struct vmw_private *dev_priv);
+> +void vmw_sys_man_fini(struct vmw_private *dev_priv);
+> +
+>   /**
+>    * Prime - vmwgfx_prime.c
+>    */
+> diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
+> new file mode 100644
+> index 000000000000..2b86e2d8aefe
+> --- /dev/null
+> +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_system_manager.c
+> @@ -0,0 +1,90 @@
+> +/* SPDX-License-Identifier: GPL-2.0 OR MIT */
+> +/*
+> + * Copyright 2021 VMware, Inc.
+> + *
+> + * Permission is hereby granted, free of charge, to any person
+> + * obtaining a copy of this software and associated documentation
+> + * files (the "Software"), to deal in the Software without
+> + * restriction, including without limitation the rights to use, copy,
+> + * modify, merge, publish, distribute, sublicense, and/or sell copies
+> + * of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be
+> + * included in all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+> + * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+> + * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+> + * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+> + * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+> + * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+> + * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> + * SOFTWARE.
+> + *
+> + */
+> +
+> +#include "vmwgfx_drv.h"
+> +
+> +#include <drm/ttm/ttm_bo_driver.h>
+> +#include <drm/ttm/ttm_device.h>
+> +#include <drm/ttm/ttm_placement.h>
+> +#include <drm/ttm/ttm_resource.h>
+> +#include <linux/slab.h>
+> +
+> +
+> +static int vmw_sys_man_alloc(struct ttm_resource_manager *man,
+> +			     struct ttm_buffer_object *bo,
+> +			     const struct ttm_place *place,
+> +			     struct ttm_resource **res)
+> +{
+> +	*res = kzalloc(sizeof(**res), GFP_KERNEL);
+> +	if (!*res)
+> +		return -ENOMEM;
+> +
+> +	ttm_resource_init(bo, place, *res);
+> +	return 0;
+> +}
+> +
+> +static void vmw_sys_man_free(struct ttm_resource_manager *man,
+> +			     struct ttm_resource *res)
+> +{
+> +	kfree(res);
+> +}
+> +
+> +static const struct ttm_resource_manager_func vmw_sys_manager_func = {
+> +	.alloc = vmw_sys_man_alloc,
+> +	.free = vmw_sys_man_free,
+> +};
+> +
+> +int vmw_sys_man_init(struct vmw_private *dev_priv)
+> +{
+> +	struct ttm_device *bdev = &dev_priv->bdev;
+> +	struct ttm_resource_manager *man =
+> +			kzalloc(sizeof(*man), GFP_KERNEL);
+> +
+> +	if (unlikely(!man))
+> +		return -ENOMEM;
+Nit: Branch prediction hints are typically not used in driver code. And 
+here the potential benefit indeed appears small :)
+> +
+> +	man->use_tt = true;
+> +	man->func = &vmw_sys_manager_func;
+> +
+> +	ttm_resource_manager_init(man, 0);
+> +	ttm_set_driver_manager(bdev, VMW_PL_SYSTEM, man);
+> +	ttm_resource_manager_set_used(man, true);
+> +	return 0;
+> +}
+> +
+> +void vmw_sys_man_fini(struct vmw_private *dev_priv)
+> +{
+> +	struct ttm_resource_manager *man = ttm_manager_type(&dev_priv->bdev,
+> +							    VMW_PL_SYSTEM);
+> +
+> +	ttm_resource_manager_evict_all(&dev_priv->bdev, man);
+> +
+> +	ttm_resource_manager_set_used(man, false);
+> +	ttm_resource_manager_cleanup(man);
+> +
+> +	ttm_set_driver_manager(&dev_priv->bdev, VMW_PL_SYSTEM, NULL);
+> +	kfree(man);
+> +}
 
-I strongly think many CXL accelerators are going to want to manage
-their on-accelerator memory in this way as it makes universal sense to
-want to carefully manage memory access locality to optimize for
-performance.
+I seem to recognize the general pattern here from the ttm_sys_manager, 
+Any chance we could add what's needed to the ttm_sys_manager and make 
+the code reusable? That's the _fini function and the memory type choice 
+I guess. I figure i915 will need exactly the same.
 
-Jason
+/Thomas
+
+
