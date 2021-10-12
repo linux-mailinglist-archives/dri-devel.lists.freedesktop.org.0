@@ -2,37 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 584A642ABB6
-	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 20:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9191142ABFE
+	for <lists+dri-devel@lfdr.de>; Tue, 12 Oct 2021 20:36:38 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362D36E986;
-	Tue, 12 Oct 2021 18:16:23 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 600CC6E9B0;
+	Tue, 12 Oct 2021 18:36:31 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 070736E83A;
- Tue, 12 Oct 2021 18:16:20 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="250636684"
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="250636684"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 11:16:20 -0700
-X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="591869108"
-Received: from jons-linux-dev-box.fm.intel.com ([10.1.27.20])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 12 Oct 2021 11:16:19 -0700
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 59F1A6E852;
+ Tue, 12 Oct 2021 18:36:29 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="313434591"
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="313434591"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 11:36:28 -0700
+X-IronPort-AV: E=Sophos;i="5.85,368,1624345200"; d="scan'208";a="716975379"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 11:36:28 -0700
+Date: Tue, 12 Oct 2021 11:31:44 -0700
 From: Matthew Brost <matthew.brost@intel.com>
-To: <intel-gfx@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>
-Cc: <john.c.harrison@intel.com>
-Subject: [PATCH 02/26] drm/i915/guc: Take GT PM ref when deregistering context
-Date: Tue, 12 Oct 2021 11:11:30 -0700
-Message-Id: <20211012181130.9556-1-matthew.brost@intel.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20211004220637.14746-1-matthew.brost@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com, daniele.ceraolospurio@intel.com
+Subject: Re: [Intel-gfx] [PATCH 24/26] drm/i915: Update I915_GEM_BUSY IOCTL
+ to understand composite fences
+Message-ID: <20211012183144.GA9834@jons-linux-dev-box>
 References: <20211004220637.14746-1-matthew.brost@intel.com>
+ <20211004220637.14746-25-matthew.brost@intel.com>
+ <033fd934-26b8-2888-8605-45f80a38dffa@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <033fd934-26b8-2888-8605-45f80a38dffa@linux.intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -48,364 +54,196 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Taking a PM reference to prevent intel_gt_wait_for_idle from short
-circuiting while a deregister context H2G is in flight. To do this must
-issue the deregister H2G from a worker as context can be destroyed from
-an atomic context and taking GT PM ref blows up. Previously we took a
-runtime PM from this atomic context which worked but will stop working
-once runtime pm autosuspend in enabled.
+On Tue, Oct 12, 2021 at 08:53:25AM +0100, Tvrtko Ursulin wrote:
+> 
+> On 04/10/2021 23:06, Matthew Brost wrote:
+> > Parallel submission create composite fences (dma_fence_array) for excl /
+> > shared slots in objects. The I915_GEM_BUSY IOCTL checks these slots to
+> > determine the busyness of the object. Prior to patch it only check if
+> > the fence in the slot was a i915_request. Update the check to understand
+> > composite fences and correctly report the busyness.
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   drivers/gpu/drm/i915/gem/i915_gem_busy.c      | 60 +++++++++++++++----
+> >   .../gpu/drm/i915/gem/i915_gem_execbuffer.c    |  5 +-
+> >   drivers/gpu/drm/i915/i915_request.h           |  6 ++
+> >   3 files changed, 58 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_busy.c b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+> > index 6234e17259c1..b89d173c62eb 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_busy.c
+> > @@ -4,6 +4,8 @@
+> >    * Copyright © 2014-2016 Intel Corporation
+> >    */
+> > +#include <linux/dma-fence-array.h>
+> > +
+> >   #include "gt/intel_engine.h"
+> >   #include "i915_gem_ioctls.h"
+> > @@ -36,7 +38,7 @@ static __always_inline u32 __busy_write_id(u16 id)
+> >   }
+> >   static __always_inline unsigned int
+> > -__busy_set_if_active(const struct dma_fence *fence, u32 (*flag)(u16 id))
+> > +__busy_set_if_active(struct dma_fence *fence, u32 (*flag)(u16 id))
+> >   {
+> >   	const struct i915_request *rq;
+> > @@ -46,29 +48,63 @@ __busy_set_if_active(const struct dma_fence *fence, u32 (*flag)(u16 id))
+> >   	 * to eventually flush us, but to minimise latency just ask the
+> >   	 * hardware.
+> >   	 *
+> > -	 * Note we only report on the status of native fences.
+> > +	 * Note we only report on the status of native fences and we currently
+> > +	 * have two native fences:
+> > +	 *
+> > +	 * 1. A composite fence (dma_fence_array) constructed of i915 requests
+> > +	 * created during a parallel submission. In this case we deconstruct the
+> > +	 * composite fence into individual i915 requests and check the status of
+> > +	 * each request.
+> > +	 *
+> > +	 * 2. A single i915 request.
+> >   	 */
+> > -	if (!dma_fence_is_i915(fence))
+> > +	if (dma_fence_is_array(fence)) {
+> > +		struct dma_fence_array *array = to_dma_fence_array(fence);
+> > +		struct dma_fence **child = array->fences;
+> > +		unsigned int nchild = array->num_fences;
+> > +
+> > +		do {
+> > +			struct dma_fence *current_fence = *child++;
+> > +
+> > +			/* Not an i915 fence, can't be busy per above */
+> > +			if (!dma_fence_is_i915(current_fence) ||
+> > +			    !test_bit(I915_FENCE_FLAG_COMPOSITE,
+> > +				      &current_fence->flags)) {
+> > +				return 0;
+> > +			}
+> > +
+> > +			rq = to_request(current_fence);
+> > +			if (!i915_request_completed(rq)) {
+> > +				BUILD_BUG_ON(!typecheck(u16,
+> > +							rq->engine->uabi_class));
+> > +				return flag(rq->engine->uabi_class);
+> > +			}
+> > +		} while (--nchild);
+> 
+> Do you even need to introduce I915_FENCE_FLAG_COMPOSITE? If parallel submit
+> is the only possible creator of array fences then possibly not. Probably
+> even would result in less code which even keeps working in a hypothetical
+> future. Otherwise you could add a debug bug on if array fence contains a
+> fence without I915_FENCE_FLAG_COMPOSITE set.
+> 
 
-So this patch is two fold, stop intel_gt_wait_for_idle from short
-circuting and fix runtime pm autosuspend.
+Certainly other drivers can create a dma fence array and in theory could
+include a i915_request in that array. Adding this flag makes it clear
+that this fence was created by i915 for parallel submission and future
+proofs this code.
 
-v2:
- (John Harrison)
-  - Split structure changes out in different patch
- (Tvrtko)
-  - Don't drop lock in deregister_destroyed_contexts
-v3:
- (John Harrison)
-  - Flush destroyed contexts before destroying context reg pool
+> Secondly, I'd also run the whole loop and not return on first busy or
+> incompatible for simplicity.
+> 
 
-Signed-off-by: Matthew Brost <matthew.brost@intel.com>
----
- drivers/gpu/drm/i915/gt/intel_context.c       |   2 +
- drivers/gpu/drm/i915/gt/intel_context_types.h |   7 +
- drivers/gpu/drm/i915/gt/intel_engine_pm.h     |   5 +
- drivers/gpu/drm/i915/gt/intel_gt_pm.h         |   4 +
- drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  11 ++
- .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 146 +++++++++++-------
- 6 files changed, 121 insertions(+), 54 deletions(-)
+I disagree. Short circuiting when a condition is found is pretty
+standard and not hard to understand.
 
-diff --git a/drivers/gpu/drm/i915/gt/intel_context.c b/drivers/gpu/drm/i915/gt/intel_context.c
-index e9a0cad5c34d..1076066f41e0 100644
---- a/drivers/gpu/drm/i915/gt/intel_context.c
-+++ b/drivers/gpu/drm/i915/gt/intel_context.c
-@@ -399,6 +399,8 @@ intel_context_init(struct intel_context *ce, struct intel_engine_cs *engine)
- 	ce->guc_id.id = GUC_INVALID_LRC_ID;
- 	INIT_LIST_HEAD(&ce->guc_id.link);
- 
-+	INIT_LIST_HEAD(&ce->destroyed_link);
-+
- 	/*
- 	 * Initialize fence to be complete as this is expected to be complete
- 	 * unless there is a pending schedule disable outstanding.
-diff --git a/drivers/gpu/drm/i915/gt/intel_context_types.h b/drivers/gpu/drm/i915/gt/intel_context_types.h
-index e7e3984aab78..4613d027cbc3 100644
---- a/drivers/gpu/drm/i915/gt/intel_context_types.h
-+++ b/drivers/gpu/drm/i915/gt/intel_context_types.h
-@@ -213,6 +213,13 @@ struct intel_context {
- 		struct list_head link;
- 	} guc_id;
- 
-+	/**
-+	 * @destroyed_link: link in guc->submission_state.destroyed_contexts, in
-+	 * list when context is pending to be destroyed (deregistered with the
-+	 * GuC), protected by guc->submission_state.lock
-+	 */
-+	struct list_head destroyed_link;
-+
- #ifdef CONFIG_DRM_I915_SELFTEST
- 	/**
- 	 * @drop_schedule_enable: Force drop of schedule enable G2H for selftest
-diff --git a/drivers/gpu/drm/i915/gt/intel_engine_pm.h b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-index 8520c595f5e1..6fdeae668e6e 100644
---- a/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-+++ b/drivers/gpu/drm/i915/gt/intel_engine_pm.h
-@@ -16,6 +16,11 @@ intel_engine_pm_is_awake(const struct intel_engine_cs *engine)
- 	return intel_wakeref_is_active(&engine->wakeref);
- }
- 
-+static inline void __intel_engine_pm_get(struct intel_engine_cs *engine)
-+{
-+	__intel_wakeref_get(&engine->wakeref);
-+}
-+
- static inline void intel_engine_pm_get(struct intel_engine_cs *engine)
- {
- 	intel_wakeref_get(&engine->wakeref);
-diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.h b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-index d0588d8aaa44..05de6c1af25b 100644
---- a/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.h
-@@ -41,6 +41,10 @@ static inline void intel_gt_pm_put_async(struct intel_gt *gt)
- 	intel_wakeref_put_async(&gt->wakeref);
- }
- 
-+#define with_intel_gt_pm(gt, tmp) \
-+	for (tmp = 1, intel_gt_pm_get(gt); tmp; \
-+	     intel_gt_pm_put(gt), tmp = 0)
-+
- static inline int intel_gt_pm_wait_for_idle(struct intel_gt *gt)
- {
- 	return intel_wakeref_wait_for_idle(&gt->wakeref);
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-index 82e248c2290c..74f071a0b6d5 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-@@ -90,6 +90,17 @@ struct intel_guc {
- 		 * refs
- 		 */
- 		struct list_head guc_id_list;
-+		/**
-+		 * @destroyed_contexts: list of contexts waiting to be destroyed
-+		 * (deregistered with the GuC)
-+		 */
-+		struct list_head destroyed_contexts;
-+		/**
-+		 * @destroyed_worker: worker to deregister contexts, need as we
-+		 * need to take a GT PM reference and can't from destroy
-+		 * function as it might be in an atomic context (no sleeping)
-+		 */
-+		struct work_struct destroyed_worker;
- 	} submission_state;
- 
- 	/**
-diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-index b2646b088c7f..d2ce47b5541e 100644
---- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-@@ -90,8 +90,8 @@
-  * used for all of GuC submission but that could change in the future.
-  *
-  * guc->submission_state.lock
-- * Protects guc_id allocation for the given GuC, i.e. only one context can be
-- * doing guc_id allocation operations at a time for each GuC in the system.
-+ * Global lock for GuC submission state. Protects guc_ids and destroyed contexts
-+ * list.
-  *
-  * ce->guc_state.lock
-  * Protects everything under ce->guc_state. Ensures that a context is in the
-@@ -719,6 +719,7 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
- 			if (deregister)
- 				guc_signal_context_fence(ce);
- 			if (destroyed) {
-+				intel_gt_pm_put_async(guc_to_gt(guc));
- 				release_guc_id(guc, ce);
- 				__guc_context_destroy(ce);
- 			}
-@@ -797,6 +798,8 @@ static void guc_flush_submissions(struct intel_guc *guc)
- 	spin_unlock_irqrestore(&sched_engine->lock, flags);
- }
- 
-+static void guc_flush_destroyed_contexts(struct intel_guc *guc);
-+
- void intel_guc_submission_reset_prepare(struct intel_guc *guc)
- {
- 	int i;
-@@ -815,6 +818,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
- 	spin_unlock_irq(&guc_to_gt(guc)->irq_lock);
- 
- 	guc_flush_submissions(guc);
-+	guc_flush_destroyed_contexts(guc);
- 
- 	/*
- 	 * Handle any outstanding G2Hs before reset. Call IRQ handler directly
-@@ -1126,6 +1130,8 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
- 	intel_gt_unpark_heartbeats(guc_to_gt(guc));
- }
- 
-+static void destroyed_worker_func(struct work_struct *w);
-+
- /*
-  * Set up the memory resources to be shared with the GuC (via the GGTT)
-  * at firmware loading time.
-@@ -1151,6 +1157,9 @@ int intel_guc_submission_init(struct intel_guc *guc)
- 	spin_lock_init(&guc->submission_state.lock);
- 	INIT_LIST_HEAD(&guc->submission_state.guc_id_list);
- 	ida_init(&guc->submission_state.guc_ids);
-+	INIT_LIST_HEAD(&guc->submission_state.destroyed_contexts);
-+	INIT_WORK(&guc->submission_state.destroyed_worker,
-+		  destroyed_worker_func);
- 
- 	return 0;
- }
-@@ -1160,6 +1169,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
- 	if (!guc->lrc_desc_pool)
- 		return;
- 
-+	guc_flush_destroyed_contexts(guc);
- 	guc_lrc_desc_pool_destroy(guc);
- 	i915_sched_engine_put(guc->sched_engine);
- }
-@@ -1859,11 +1869,30 @@ static void guc_context_sched_disable(struct intel_context *ce)
- static inline void guc_lrc_desc_unpin(struct intel_context *ce)
- {
- 	struct intel_guc *guc = ce_to_guc(ce);
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	unsigned long flags;
-+	bool disabled;
- 
-+	GEM_BUG_ON(!intel_gt_pm_is_awake(gt));
- 	GEM_BUG_ON(!lrc_desc_registered(guc, ce->guc_id.id));
- 	GEM_BUG_ON(ce != __get_context(guc, ce->guc_id.id));
- 	GEM_BUG_ON(context_enabled(ce));
- 
-+	/* Seal race with Reset */
-+	spin_lock_irqsave(&ce->guc_state.lock, flags);
-+	disabled = submission_disabled(guc);
-+	if (likely(!disabled)) {
-+		__intel_gt_pm_get(gt);
-+		set_context_destroyed(ce);
-+		clr_context_registered(ce);
-+	}
-+	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
-+	if (unlikely(disabled)) {
-+		release_guc_id(guc, ce);
-+		__guc_context_destroy(ce);
-+		return;
-+	}
-+
- 	deregister_context(ce, ce->guc_id.id);
- }
- 
-@@ -1891,78 +1920,86 @@ static void __guc_context_destroy(struct intel_context *ce)
- 	}
- }
- 
-+static void guc_flush_destroyed_contexts(struct intel_guc *guc)
-+{
-+	struct intel_context *ce, *cn;
-+	unsigned long flags;
-+
-+	GEM_BUG_ON(!submission_disabled(guc) &&
-+		   guc_submission_initialized(guc));
-+
-+	spin_lock_irqsave(&guc->submission_state.lock, flags);
-+	list_for_each_entry_safe(ce, cn,
-+				 &guc->submission_state.destroyed_contexts,
-+				 destroyed_link) {
-+		list_del_init(&ce->destroyed_link);
-+		__release_guc_id(guc, ce);
-+		__guc_context_destroy(ce);
-+	}
-+	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-+}
-+
-+static void deregister_destroyed_contexts(struct intel_guc *guc)
-+{
-+	struct intel_context *ce, *cn;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&guc->submission_state.lock, flags);
-+	list_for_each_entry_safe(ce, cn,
-+				 &guc->submission_state.destroyed_contexts,
-+				 destroyed_link) {
-+		list_del_init(&ce->destroyed_link);
-+		guc_lrc_desc_unpin(ce);
-+	}
-+	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-+}
-+
-+static void destroyed_worker_func(struct work_struct *w)
-+{
-+	struct intel_guc *guc = container_of(w, struct intel_guc,
-+					     submission_state.destroyed_worker);
-+	struct intel_gt *gt = guc_to_gt(guc);
-+	int tmp;
-+
-+	with_intel_gt_pm(gt, tmp)
-+		deregister_destroyed_contexts(guc);
-+}
-+
- static void guc_context_destroy(struct kref *kref)
- {
- 	struct intel_context *ce = container_of(kref, typeof(*ce), ref);
--	struct intel_runtime_pm *runtime_pm = ce->engine->uncore->rpm;
- 	struct intel_guc *guc = ce_to_guc(ce);
--	intel_wakeref_t wakeref;
- 	unsigned long flags;
--	bool disabled;
-+	bool destroy;
- 
- 	/*
- 	 * If the guc_id is invalid this context has been stolen and we can free
- 	 * it immediately. Also can be freed immediately if the context is not
- 	 * registered with the GuC or the GuC is in the middle of a reset.
- 	 */
--	if (context_guc_id_invalid(ce)) {
--		__guc_context_destroy(ce);
--		return;
--	} else if (submission_disabled(guc) ||
--		   !lrc_desc_registered(guc, ce->guc_id.id)) {
--		release_guc_id(guc, ce);
--		__guc_context_destroy(ce);
--		return;
--	}
--
--	/*
--	 * We have to acquire the context spinlock and check guc_id again, if it
--	 * is valid it hasn't been stolen and needs to be deregistered. We
--	 * delete this context from the list of unpinned guc_id available to
--	 * steal to seal a race with guc_lrc_desc_pin(). When the G2H CTB
--	 * returns indicating this context has been deregistered the guc_id is
--	 * returned to the pool of available guc_id.
--	 */
- 	spin_lock_irqsave(&guc->submission_state.lock, flags);
--	if (context_guc_id_invalid(ce)) {
--		spin_unlock_irqrestore(&guc->submission_state.lock, flags);
--		__guc_context_destroy(ce);
--		return;
-+	destroy = submission_disabled(guc) || context_guc_id_invalid(ce) ||
-+		!lrc_desc_registered(guc, ce->guc_id.id);
-+	if (likely(!destroy)) {
-+		if (!list_empty(&ce->guc_id.link))
-+			list_del_init(&ce->guc_id.link);
-+		list_add_tail(&ce->destroyed_link,
-+			      &guc->submission_state.destroyed_contexts);
-+	} else {
-+		__release_guc_id(guc, ce);
- 	}
--
--	if (!list_empty(&ce->guc_id.link))
--		list_del_init(&ce->guc_id.link);
- 	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
--
--	/* Seal race with Reset */
--	spin_lock_irqsave(&ce->guc_state.lock, flags);
--	disabled = submission_disabled(guc);
--	if (likely(!disabled)) {
--		set_context_destroyed(ce);
--		clr_context_registered(ce);
--	}
--	spin_unlock_irqrestore(&ce->guc_state.lock, flags);
--	if (unlikely(disabled)) {
--		release_guc_id(guc, ce);
-+	if (unlikely(destroy)) {
- 		__guc_context_destroy(ce);
- 		return;
- 	}
- 
- 	/*
--	 * We defer GuC context deregistration until the context is destroyed
--	 * in order to save on CTBs. With this optimization ideally we only need
--	 * 1 CTB to register the context during the first pin and 1 CTB to
--	 * deregister the context when the context is destroyed. Without this
--	 * optimization, a CTB would be needed every pin & unpin.
--	 *
--	 * XXX: Need to acqiure the runtime wakeref as this can be triggered
--	 * from context_free_worker when runtime wakeref is not held.
--	 * guc_lrc_desc_unpin requires the runtime as a GuC register is written
--	 * in H2G CTB to deregister the context. A future patch may defer this
--	 * H2G CTB if the runtime wakeref is zero.
-+	 * We use a worker to issue the H2G to deregister the context as we can
-+	 * take the GT PM for the first time which isn't allowed from an atomic
-+	 * context.
- 	 */
--	with_intel_runtime_pm(runtime_pm, wakeref)
--		guc_lrc_desc_unpin(ce);
-+	queue_work(system_unbound_wq, &guc->submission_state.destroyed_worker);
- }
- 
- static int guc_context_alloc(struct intel_context *ce)
-@@ -2798,6 +2835,7 @@ int intel_guc_deregister_done_process_msg(struct intel_guc *guc,
- 		intel_context_put(ce);
- 	} else if (context_destroyed(ce)) {
- 		/* Context has been destroyed */
-+		intel_gt_pm_put_async(guc_to_gt(guc));
- 		release_guc_id(guc, ce);
- 		__guc_context_destroy(ce);
- 	}
--- 
-2.32.0
+> And finally, with all above in place, I think you could have common function
+> for the below (checking one fence) and call that both for a single fence and
+> from an array loop above for less duplication. (Even duplicated BUILD_BUG_ON
+> which makes no sense!)
+>
 
+Yea duplicating the BUILD_BUG_ON doesn't make a ton of sense. Will
+remove.
+
+Disagree on the helper, the code paths are different enough to just open
+code this.
+
+Matt
+
+> End result would be a simpler patch like:
+> 
+> __busy_set_if_active_one(...)
+> {
+>    .. existing __busy_set_if_active ..
+> }
+> 
+> __busy_set_if_active(..)
+> {
+>   ...
+>   if (dma_fence_is_array(fence)) {
+> 	...
+> 	for (i = 0; i < array->num_fences; i++)
+> 		flags |= __busy_set_if_active_one(...);
+>   } else {
+> 	flags = __busy_set_if_active_one(...);
+>   }
+> 
+> Regards,
+> 
+> Tvrtko
+> 
+> > +
+> > +		/* All requests in array complete, not busy */
+> >   		return 0;
+> > +	} else {
+> > +		if (!dma_fence_is_i915(fence))
+> > +			return 0;
+> > -	/* opencode to_request() in order to avoid const warnings */
+> > -	rq = container_of(fence, const struct i915_request, fence);
+> > -	if (i915_request_completed(rq))
+> > -		return 0;
+> > +		rq = to_request(fence);
+> > +		if (i915_request_completed(rq))
+> > +			return 0;
+> > -	/* Beware type-expansion follies! */
+> > -	BUILD_BUG_ON(!typecheck(u16, rq->engine->uabi_class));
+> > -	return flag(rq->engine->uabi_class);
+> > +		/* Beware type-expansion follies! */
+> > +		BUILD_BUG_ON(!typecheck(u16, rq->engine->uabi_class));
+> > +		return flag(rq->engine->uabi_class);
+> > +	}
+> >   }
+> >   static __always_inline unsigned int
+> > -busy_check_reader(const struct dma_fence *fence)
+> > +busy_check_reader(struct dma_fence *fence)
+> >   {
+> >   	return __busy_set_if_active(fence, __busy_read_flag);
+> >   }
+> >   static __always_inline unsigned int
+> > -busy_check_writer(const struct dma_fence *fence)
+> > +busy_check_writer(struct dma_fence *fence)
+> >   {
+> >   	if (!fence)
+> >   		return 0;
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > index 5c7fb6f68bbb..16276f406fd6 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
+> > @@ -2988,8 +2988,11 @@ eb_composite_fence_create(struct i915_execbuffer *eb, int out_fence_fd)
+> >   	if (!fences)
+> >   		return ERR_PTR(-ENOMEM);
+> > -	for_each_batch_create_order(eb, i)
+> > +	for_each_batch_create_order(eb, i) {
+> >   		fences[i] = &eb->requests[i]->fence;
+> > +		__set_bit(I915_FENCE_FLAG_COMPOSITE,
+> > +			  &eb->requests[i]->fence.flags);
+> > +	}
+> >   	fence_array = dma_fence_array_create(eb->num_batches,
+> >   					     fences,
+> > diff --git a/drivers/gpu/drm/i915/i915_request.h b/drivers/gpu/drm/i915/i915_request.h
+> > index 24db8459376b..dc359242d1ae 100644
+> > --- a/drivers/gpu/drm/i915/i915_request.h
+> > +++ b/drivers/gpu/drm/i915/i915_request.h
+> > @@ -156,6 +156,12 @@ enum {
+> >   	 * submission / relationship encoutered an error.
+> >   	 */
+> >   	I915_FENCE_FLAG_SKIP_PARALLEL,
+> > +
+> > +	/*
+> > +	 * I915_FENCE_FLAG_COMPOSITE - Indicates fence is part of a composite
+> > +	 * fence (dma_fence_array) and i915 generated for parallel submission.
+> > +	 */
+> > +	I915_FENCE_FLAG_COMPOSITE,
+> >   };
+> >   /**
+> > 
