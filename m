@@ -2,99 +2,43 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id A406A42C7B8
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 19:35:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D75942C663
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 18:27:57 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 890F86E0E8;
-	Wed, 13 Oct 2021 17:35:43 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 7E69F6EA8D;
+	Wed, 13 Oct 2021 16:27:53 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-io1-xd36.google.com (mail-io1-xd36.google.com
- [IPv6:2607:f8b0:4864:20::d36])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 855FC6EA8D
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 16:27:04 +0000 (UTC)
-Received: by mail-io1-xd36.google.com with SMTP id q205so338947iod.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 09:27:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xrtpz9NXHFWFufGg5SCBWCumluTEAtqRhhWyErbsuT8=;
- b=cm62qW/8bM+RvH6hNwULRssypHbQXgwQh9hAuLuU0Axk90D74llz7ih64+7HGRdbUx
- yEjqXWZvnHRMNxdOSqQfncIsHo9pGNcAbIAt4vtNjtGFGCCfubtEakJ/WK8T5PosJHX7
- SvO/7OaNqlLgZVT5X7OdbzsWgNbeAxl3BlLWjA+6XPiJd8uxlaKGakcjGuVYhPzDjead
- Nf7WBsZ+S0hRvV40PfR9I3um9qpbIfQjoegJkYpHE2unO5pwCaYQXrimbaPTvNxXp95b
- MaGaif9EsmZA3H5yk+M0khVV8DmhTgmKDbCCmhqSMpOho8AZ/8zAOMcW9Hxirq9BxUGJ
- 72Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xrtpz9NXHFWFufGg5SCBWCumluTEAtqRhhWyErbsuT8=;
- b=t+AnxoZeI3OXMmL+Ha65MAf6CDg+eJEkH/emiUiNrjOtFcClvlleCe9nufI+46jLvU
- GOT3V3eO0VA0Vyd64ZGZAhl0WZWQvusHI5dNHFPvCcYOupioOUICRxcHC7d73Y/3tECL
- mVkJO9D4sA7ZLxEduuRwp1QMa/yFH74Ulq135LilTwaxxw1tk7Haq3TuY/DQGVQw/56E
- 9k9mdwuKYmJPeX04J4oQJ72sWRYydnoWcYru8OGmiIVVGafYOyJM/NZbFP4lY39TchEO
- jR5Z8WP05KURn+/x+ugRE5Kor8n8eXaAfH7j2UsLuX88NdpmXB9wOq6yC9S6FPZrfZlZ
- SZHw==
-X-Gm-Message-State: AOAM533llDSKRRo/pjaFUDSoN7UzZeIfYU8FXyVC7uEl0SAjz907KFqp
- QIiclPzjVPioXeT+v164PMhJ91Iu+S+/OLZgGpo=
-X-Google-Smtp-Source: ABdhPJyuL03Mu4jCtrDahdjQhnotErC05Ve18e62uQyBilTUwz90riuTyD8fiewVxVGZWLl9N2i8KnFUl44nihqeTWo=
-X-Received: by 2002:a5e:a619:: with SMTP id q25mr200218ioi.144.1634142423625; 
- Wed, 13 Oct 2021 09:27:03 -0700 (PDT)
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 109236EA8D;
+ Wed, 13 Oct 2021 16:27:52 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="250894202"
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="250894202"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 09:27:23 -0700
+X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="570893599"
+Received: from unerlige-ril-10.jf.intel.com (HELO unerlige-ril-10.165.21.208)
+ ([10.165.21.208])
+ by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 13 Oct 2021 09:27:22 -0700
+Date: Wed, 13 Oct 2021 09:27:22 -0700
+From: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ john.c.harrison@intel.com, daniel.vetter@ffwll.ch,
+ Matthew Brost <matthew.brost@intel.com>
+Subject: Re: [PATCH 2/2] drm/i915/pmu: Connect engine busyness stats from GuC
+ to pmu
+Message-ID: <20211013162722.GN4467@unerlige-ril-10.165.21.208>
+References: <20211013005625.54770-1-umesh.nerlige.ramappa@intel.com>
+ <20211013005625.54770-2-umesh.nerlige.ramappa@intel.com>
+ <8c9ee365-81e3-f152-2580-64da51399e1f@linux.intel.com>
 MIME-Version: 1.0
-References: <20211013105226.20225-1-mst@redhat.com>
-In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 13 Oct 2021 18:26:51 +0200
-Message-ID: <CAM9Jb+j9=JKAaZp5vb82JYErpwkaVbv0zoUJagYLwr5m=Vbptg@mail.gmail.com>
-Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: LKML <linux-kernel@vger.kernel.org>, Jeff Dike <jdike@addtoit.com>, 
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
- Marcel Holtmann <marcel@holtmann.org>, Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Matt Mackall <mpm@selenic.com>, 
- Herbert Xu <herbert@gondor.apana.org.au>, Amit Shah <amit@kernel.org>, 
- Arnd Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>, 
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>, 
- "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Viresh Kumar <vireshk@kernel.org>, 
- Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, 
- Jie Deng <jie.deng@intel.com>, Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, 
- Johannes Berg <johannes@sipsolutions.net>, Kalle Valo <kvalo@codeaurora.org>, 
- Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, 
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
- Ohad Ben-Cohen <ohad@wizery.com>, Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>, 
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- David Hildenbrand <david@redhat.com>, 
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Eric Van Hensbergen <ericvh@gmail.com>, Latchesar Ionkov <lucho@ionkov.net>, 
- Dominique Martinet <asmadeus@codewreck.org>,
- Stefano Garzarella <sgarzare@redhat.com>, 
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, linux-um@lists.infradead.org, 
- virtualization@lists.linux-foundation.org, linux-block@vger.kernel.org, 
- linux-bluetooth@vger.kernel.org, linux-crypto@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-gpio@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org, 
- iommu@lists.linux-foundation.org, netdev@vger.kernel.org, 
- linux-wireless@vger.kernel.org, Linux NVDIMM <nvdimm@lists.linux.dev>, 
- linux-remoteproc@vger.kernel.org, linux-scsi@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, v9fs-developer@lists.sourceforge.net, 
- kvm@vger.kernel.org, alsa-devel@alsa-project.org
-Content-Type: text/plain; charset="UTF-8"
-X-Mailman-Approved-At: Wed, 13 Oct 2021 17:35:42 +0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <8c9ee365-81e3-f152-2580-64da51399e1f@linux.intel.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -110,461 +54,798 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-> This will enable cleanups down the road.
-> The idea is to disable cbs, then add "flush_queued_cbs" callback
-> as a parameter, this way drivers can flush any work
-> queued after callbacks have been disabled.
+On Wed, Oct 13, 2021 at 05:06:26PM +0100, Tvrtko Ursulin wrote:
 >
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  arch/um/drivers/virt-pci.c                 | 2 +-
->  drivers/block/virtio_blk.c                 | 4 ++--
->  drivers/bluetooth/virtio_bt.c              | 2 +-
->  drivers/char/hw_random/virtio-rng.c        | 2 +-
->  drivers/char/virtio_console.c              | 4 ++--
->  drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
->  drivers/firmware/arm_scmi/virtio.c         | 2 +-
->  drivers/gpio/gpio-virtio.c                 | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
->  drivers/i2c/busses/i2c-virtio.c            | 2 +-
->  drivers/iommu/virtio-iommu.c               | 2 +-
->  drivers/net/caif/caif_virtio.c             | 2 +-
->  drivers/net/virtio_net.c                   | 4 ++--
->  drivers/net/wireless/mac80211_hwsim.c      | 2 +-
->  drivers/nvdimm/virtio_pmem.c               | 2 +-
->  drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
->  drivers/scsi/virtio_scsi.c                 | 2 +-
->  drivers/virtio/virtio.c                    | 5 +++++
->  drivers/virtio/virtio_balloon.c            | 2 +-
->  drivers/virtio/virtio_input.c              | 2 +-
->  drivers/virtio/virtio_mem.c                | 2 +-
->  fs/fuse/virtio_fs.c                        | 4 ++--
->  include/linux/virtio.h                     | 1 +
->  net/9p/trans_virtio.c                      | 2 +-
->  net/vmw_vsock/virtio_transport.c           | 4 ++--
->  sound/virtio/virtio_card.c                 | 4 ++--
->  26 files changed, 39 insertions(+), 33 deletions(-)
+>On 13/10/2021 01:56, Umesh Nerlige Ramappa wrote:
+>>With GuC handling scheduling, i915 is not aware of the time that a
+>>context is scheduled in and out of the engine. Since i915 pmu relies on
+>>this info to provide engine busyness to the user, GuC shares this info
+>>with i915 for all engines using shared memory. For each engine, this
+>>info contains:
+>>
+>>- total busyness: total time that the context was running (total)
+>>- id: id of the running context (id)
+>>- start timestamp: timestamp when the context started running (start)
+>>
+>>At the time (now) of sampling the engine busyness, if the id is valid
+>>(!= ~0), and start is non-zero, then the context is considered to be
+>>active and the engine busyness is calculated using the below equation
+>>
+>>	engine busyness = total + (now - start)
+>>
+>>All times are obtained from the gt clock base. For inactive contexts,
+>>engine busyness is just equal to the total.
+>>
+>>The start and total values provided by GuC are 32 bits and wrap around
+>>in a few minutes. Since perf pmu provides busyness as 64 bit
+>>monotonically increasing values, there is a need for this implementation
+>>to account for overflows and extend the time to 64 bits before returning
+>>busyness to the user. In order to do that, a worker runs periodically at
+>>frequency = 1/8th the time it takes for the timestamp to wrap. As an
+>>example, that would be once in 27 seconds for a gt clock frequency of
+>>19.2 MHz.
+>>
+>>Note:
+>>There might be an overaccounting of busyness due to the fact that GuC
+>>may be updating the total and start values while kmd is reading them.
+>>(i.e kmd may read the updated total and the stale start). In such a
+>>case, user may see higher busyness value followed by smaller ones which
+>>would eventually catch up to the higher value.
+>>
+>>v2: (Tvrtko)
+>>- Include details in commit message
+>>- Move intel engine busyness function into execlist code
+>>- Use union inside engine->stats
+>>- Use natural type for ping delay jiffies
+>>- Drop active_work condition checks
+>>- Use for_each_engine if iterating all engines
+>>- Drop seq locking, use spinlock at guc level to update engine stats
+>>- Document worker specific details
+>>
+>>v3: (Tvrtko/Umesh)
+>>- Demarcate guc and execlist stat objects with comments
+>>- Document known over-accounting issue in commit
+>>- Provide a consistent view of guc state
+>>- Add hooks to gt park/unpark for guc busyness
+>>- Stop/start worker in gt park/unpark path
+>>- Drop inline
+>>- Move spinlock and worker inits to guc initialization
+>>- Drop helpers that are called only once
+>>
+>>v4: (Tvrtko/Matt/Umesh)
+>>- Drop addressed opens from commit message
+>>- Get runtime pm in ping, remove from the park path
+>>- Use cancel_delayed_work_sync in disable_submission path
+>>- Update stats during reset prepare
+>>- Skip ping if reset in progress
+>>- Explicitly name execlists and guc stats objects
+>>- Since disable_submission is called from many places, move resetting
+>>   stats to intel_guc_submission_reset_prepare
+>>
+>>v5: (Tvrtko)
+>>- Add a trylock helper that does not sleep and synchronize PMU event
+>>   callbacks and worker with gt reset
 >
-> diff --git a/arch/um/drivers/virt-pci.c b/arch/um/drivers/virt-pci.c
-> index c08066633023..22c4d87c9c15 100644
-> --- a/arch/um/drivers/virt-pci.c
-> +++ b/arch/um/drivers/virt-pci.c
-> @@ -616,7 +616,7 @@ static void um_pci_virtio_remove(struct virtio_device *vdev)
->         int i;
+>Looks good to me now, for some combination of high level and 
+>incomeplte low level review (I did not check the overflow handling or 
+>the GuC page layout and flow.). Both patches:
 >
->          /* Stop all virtqueues */
-> -        vdev->config->reset(vdev);
-> +        virtio_reset_device(vdev);
->          vdev->config->del_vqs(vdev);
->
->         device_set_wakeup_enable(&vdev->dev, false);
-> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-> index 303caf2d17d0..83d0af3fbf30 100644
-> --- a/drivers/block/virtio_blk.c
-> +++ b/drivers/block/virtio_blk.c
-> @@ -910,7 +910,7 @@ static void virtblk_remove(struct virtio_device *vdev)
->         mutex_lock(&vblk->vdev_mutex);
->
->         /* Stop all the virtqueues. */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         /* Virtqueues are stopped, nothing can use vblk->vdev anymore. */
->         vblk->vdev = NULL;
-> @@ -929,7 +929,7 @@ static int virtblk_freeze(struct virtio_device *vdev)
->         struct virtio_blk *vblk = vdev->priv;
->
->         /* Ensure we don't receive any more interrupts */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         /* Make sure no work handler is accessing the device. */
->         flush_work(&vblk->config_work);
-> diff --git a/drivers/bluetooth/virtio_bt.c b/drivers/bluetooth/virtio_bt.c
-> index 57908ce4fae8..24a9258962fa 100644
-> --- a/drivers/bluetooth/virtio_bt.c
-> +++ b/drivers/bluetooth/virtio_bt.c
-> @@ -364,7 +364,7 @@ static void virtbt_remove(struct virtio_device *vdev)
->         struct hci_dev *hdev = vbt->hdev;
->
->         hci_unregister_dev(hdev);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         hci_free_dev(hdev);
->         vbt->hdev = NULL;
-> diff --git a/drivers/char/hw_random/virtio-rng.c b/drivers/char/hw_random/virtio-rng.c
-> index a90001e02bf7..95980489514b 100644
-> --- a/drivers/char/hw_random/virtio-rng.c
-> +++ b/drivers/char/hw_random/virtio-rng.c
-> @@ -134,7 +134,7 @@ static void remove_common(struct virtio_device *vdev)
->         vi->hwrng_removed = true;
->         vi->data_avail = 0;
->         complete(&vi->have_data);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vi->busy = false;
->         if (vi->hwrng_register_done)
->                 hwrng_unregister(&vi->hwrng);
-> diff --git a/drivers/char/virtio_console.c b/drivers/char/virtio_console.c
-> index 7eaf303a7a86..08bbd693436f 100644
-> --- a/drivers/char/virtio_console.c
-> +++ b/drivers/char/virtio_console.c
-> @@ -1957,7 +1957,7 @@ static void virtcons_remove(struct virtio_device *vdev)
->         spin_unlock_irq(&pdrvdata_lock);
->
->         /* Disable interrupts for vqs */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         /* Finish up work that's lined up */
->         if (use_multiport(portdev))
->                 cancel_work_sync(&portdev->control_work);
-> @@ -2139,7 +2139,7 @@ static int virtcons_freeze(struct virtio_device *vdev)
->
->         portdev = vdev->priv;
->
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         if (use_multiport(portdev))
->                 virtqueue_disable_cb(portdev->c_ivq);
-> diff --git a/drivers/crypto/virtio/virtio_crypto_core.c b/drivers/crypto/virtio/virtio_crypto_core.c
-> index e2375d992308..8e977b7627cb 100644
-> --- a/drivers/crypto/virtio/virtio_crypto_core.c
-> +++ b/drivers/crypto/virtio/virtio_crypto_core.c
-> @@ -404,7 +404,7 @@ static int virtcrypto_probe(struct virtio_device *vdev)
->  free_engines:
->         virtcrypto_clear_crypto_engines(vcrypto);
->  free_vqs:
-> -       vcrypto->vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtcrypto_del_vqs(vcrypto);
->  free_dev:
->         virtcrypto_devmgr_rm_dev(vcrypto);
-> @@ -436,7 +436,7 @@ static void virtcrypto_remove(struct virtio_device *vdev)
->
->         if (virtcrypto_dev_started(vcrypto))
->                 virtcrypto_dev_stop(vcrypto);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtcrypto_free_unused_reqs(vcrypto);
->         virtcrypto_clear_crypto_engines(vcrypto);
->         virtcrypto_del_vqs(vcrypto);
-> @@ -456,7 +456,7 @@ static int virtcrypto_freeze(struct virtio_device *vdev)
->  {
->         struct virtio_crypto *vcrypto = vdev->priv;
->
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtcrypto_free_unused_reqs(vcrypto);
->         if (virtcrypto_dev_started(vcrypto))
->                 virtcrypto_dev_stop(vcrypto);
-> @@ -492,7 +492,7 @@ static int virtcrypto_restore(struct virtio_device *vdev)
->  free_engines:
->         virtcrypto_clear_crypto_engines(vcrypto);
->  free_vqs:
-> -       vcrypto->vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtcrypto_del_vqs(vcrypto);
->         return err;
->  }
-> diff --git a/drivers/firmware/arm_scmi/virtio.c b/drivers/firmware/arm_scmi/virtio.c
-> index 11e8efb71375..6b8d93fe8848 100644
-> --- a/drivers/firmware/arm_scmi/virtio.c
-> +++ b/drivers/firmware/arm_scmi/virtio.c
-> @@ -452,7 +452,7 @@ static void scmi_vio_remove(struct virtio_device *vdev)
->          * outstanding message on any vqueue to be ignored by complete_cb: now
->          * we can just stop processing buffers and destroy the vqueues.
->          */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->         /* Ensure scmi_vdev is visible as NULL */
->         smp_store_mb(scmi_vdev, NULL);
-> diff --git a/drivers/gpio/gpio-virtio.c b/drivers/gpio/gpio-virtio.c
-> index d24f1c9264bc..5029f01966f4 100644
-> --- a/drivers/gpio/gpio-virtio.c
-> +++ b/drivers/gpio/gpio-virtio.c
-> @@ -203,7 +203,7 @@ static void virtio_gpio_request_vq(struct virtqueue *vq)
->
->  static void virtio_gpio_free_vqs(struct virtio_device *vdev)
->  {
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->  }
->
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> index f3379059f324..6aa605b8d3a1 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-> @@ -257,7 +257,7 @@ void virtio_gpu_deinit(struct drm_device *dev)
->         flush_work(&vgdev->ctrlq.dequeue_work);
->         flush_work(&vgdev->cursorq.dequeue_work);
->         flush_work(&vgdev->config_changed_work);
-> -       vgdev->vdev->config->reset(vgdev->vdev);
-> +       virtio_reset_device(vgdev->vdev);
->         vgdev->vdev->config->del_vqs(vgdev->vdev);
->  }
->
-> diff --git a/drivers/i2c/busses/i2c-virtio.c b/drivers/i2c/busses/i2c-virtio.c
-> index f10a603b13fb..eb3261ac64dc 100644
-> --- a/drivers/i2c/busses/i2c-virtio.c
-> +++ b/drivers/i2c/busses/i2c-virtio.c
-> @@ -177,7 +177,7 @@ static int virtio_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg *msgs,
->
->  static void virtio_i2c_del_vqs(struct virtio_device *vdev)
->  {
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->  }
->
-> diff --git a/drivers/iommu/virtio-iommu.c b/drivers/iommu/virtio-iommu.c
-> index 80930ce04a16..1d4e1e7cf175 100644
-> --- a/drivers/iommu/virtio-iommu.c
-> +++ b/drivers/iommu/virtio-iommu.c
-> @@ -1115,7 +1115,7 @@ static void viommu_remove(struct virtio_device *vdev)
->         iommu_device_unregister(&viommu->iommu);
->
->         /* Stop all virtqueues */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->
->         dev_info(&vdev->dev, "device removed\n");
-> diff --git a/drivers/net/caif/caif_virtio.c b/drivers/net/caif/caif_virtio.c
-> index 91230894692d..444ef6a342f6 100644
-> --- a/drivers/net/caif/caif_virtio.c
-> +++ b/drivers/net/caif/caif_virtio.c
-> @@ -754,7 +754,7 @@ static void cfv_remove(struct virtio_device *vdev)
->         debugfs_remove_recursive(cfv->debugfs);
->
->         vringh_kiov_cleanup(&cfv->ctx.riov);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->vringh_config->del_vrhs(cfv->vdev);
->         cfv->vr_rx = NULL;
->         vdev->config->del_vqs(cfv->vdev);
-> diff --git a/drivers/net/virtio_net.c b/drivers/net/virtio_net.c
-> index 79bd2585ec6b..8c10fcad73a4 100644
-> --- a/drivers/net/virtio_net.c
-> +++ b/drivers/net/virtio_net.c
-> @@ -3274,7 +3274,7 @@ static int virtnet_probe(struct virtio_device *vdev)
->         return 0;
->
->  free_unregister_netdev:
-> -       vi->vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         unregister_netdev(dev);
->  free_failover:
-> @@ -3290,7 +3290,7 @@ static int virtnet_probe(struct virtio_device *vdev)
->
->  static void remove_vq_common(struct virtnet_info *vi)
->  {
-> -       vi->vdev->config->reset(vi->vdev);
-> +       virtio_reset_device(vi->vdev);
->
->         /* Free unused buffers in both send and recv, if any. */
->         free_unused_bufs(vi);
-> diff --git a/drivers/net/wireless/mac80211_hwsim.c b/drivers/net/wireless/mac80211_hwsim.c
-> index 0adae76eb8df..9ee430c1d4a2 100644
-> --- a/drivers/net/wireless/mac80211_hwsim.c
-> +++ b/drivers/net/wireless/mac80211_hwsim.c
-> @@ -4369,7 +4369,7 @@ static void remove_vqs(struct virtio_device *vdev)
->  {
->         int i;
->
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         for (i = 0; i < ARRAY_SIZE(hwsim_vqs); i++) {
->                 struct virtqueue *vq = hwsim_vqs[i];
-> diff --git a/drivers/nvdimm/virtio_pmem.c b/drivers/nvdimm/virtio_pmem.c
-> index 726c7354d465..995b6cdc67ed 100644
-> --- a/drivers/nvdimm/virtio_pmem.c
-> +++ b/drivers/nvdimm/virtio_pmem.c
-> @@ -105,7 +105,7 @@ static void virtio_pmem_remove(struct virtio_device *vdev)
->
->         nvdimm_bus_unregister(nvdimm_bus);
->         vdev->config->del_vqs(vdev);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->  }
->
->  static struct virtio_driver virtio_pmem_driver = {
-> diff --git a/drivers/rpmsg/virtio_rpmsg_bus.c b/drivers/rpmsg/virtio_rpmsg_bus.c
-> index 8e49a3bacfc7..6a11952822df 100644
-> --- a/drivers/rpmsg/virtio_rpmsg_bus.c
-> +++ b/drivers/rpmsg/virtio_rpmsg_bus.c
-> @@ -1015,7 +1015,7 @@ static void rpmsg_remove(struct virtio_device *vdev)
->         size_t total_buf_space = vrp->num_bufs * vrp->buf_size;
->         int ret;
->
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         ret = device_for_each_child(&vdev->dev, NULL, rpmsg_remove_device);
->         if (ret)
-> diff --git a/drivers/scsi/virtio_scsi.c b/drivers/scsi/virtio_scsi.c
-> index 07d0250f17c3..f2502a8a5213 100644
-> --- a/drivers/scsi/virtio_scsi.c
-> +++ b/drivers/scsi/virtio_scsi.c
-> @@ -778,7 +778,7 @@ static void virtscsi_init_vq(struct virtio_scsi_vq *virtscsi_vq,
->  static void virtscsi_remove_vqs(struct virtio_device *vdev)
->  {
->         /* Stop all the virtqueues. */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->  }
->
-> diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> index 0a5b54034d4b..a67dd0eca578 100644
-> --- a/drivers/virtio/virtio.c
-> +++ b/drivers/virtio/virtio.c
-> @@ -204,6 +204,11 @@ int virtio_finalize_features(struct virtio_device *dev)
->  }
->  EXPORT_SYMBOL_GPL(virtio_finalize_features);
->
-> +static void virtio_reset_device(struct virtio_device *dev)
-> +{
-> +       dev->config->reset(dev);
-> +}
-> +
->  static int virtio_dev_probe(struct device *_d)
->  {
->         int err, i;
-> diff --git a/drivers/virtio/virtio_balloon.c b/drivers/virtio/virtio_balloon.c
-> index c22ff0117b46..f4c34a2a6b8e 100644
-> --- a/drivers/virtio/virtio_balloon.c
-> +++ b/drivers/virtio/virtio_balloon.c
-> @@ -1056,7 +1056,7 @@ static void remove_common(struct virtio_balloon *vb)
->                 return_free_pages_to_mm(vb, ULONG_MAX);
->
->         /* Now we reset the device so we can clean up the queues. */
-> -       vb->vdev->config->reset(vb->vdev);
-> +       virtio_reset_device(vb->vdev);
->
->         vb->vdev->config->del_vqs(vb->vdev);
->  }
-> diff --git a/drivers/virtio/virtio_input.c b/drivers/virtio/virtio_input.c
-> index ce51ae165943..3aa46703872d 100644
-> --- a/drivers/virtio/virtio_input.c
-> +++ b/drivers/virtio/virtio_input.c
-> @@ -347,7 +347,7 @@ static void virtinput_remove(struct virtio_device *vdev)
->         spin_unlock_irqrestore(&vi->lock, flags);
->
->         input_unregister_device(vi->idev);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         while ((buf = virtqueue_detach_unused_buf(vi->sts)) != NULL)
->                 kfree(buf);
->         vdev->config->del_vqs(vdev);
-> diff --git a/drivers/virtio/virtio_mem.c b/drivers/virtio/virtio_mem.c
-> index bef8ad6bf466..3bab0a625a4b 100644
-> --- a/drivers/virtio/virtio_mem.c
-> +++ b/drivers/virtio/virtio_mem.c
-> @@ -2722,7 +2722,7 @@ static void virtio_mem_remove(struct virtio_device *vdev)
->         }
->
->         /* reset the device and cleanup the queues */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->
->         kfree(vm);
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index 0ad89c6629d7..27c3b74070a2 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -895,7 +895,7 @@ static int virtio_fs_probe(struct virtio_device *vdev)
->         return 0;
->
->  out_vqs:
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtio_fs_cleanup_vqs(vdev, fs);
->         kfree(fs->vqs);
->
-> @@ -927,7 +927,7 @@ static void virtio_fs_remove(struct virtio_device *vdev)
->         list_del_init(&fs->list);
->         virtio_fs_stop_all_queues(fs);
->         virtio_fs_drain_all_queues_locked(fs);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         virtio_fs_cleanup_vqs(vdev, fs);
->
->         vdev->priv = NULL;
-> diff --git a/include/linux/virtio.h b/include/linux/virtio.h
-> index 41edbc01ffa4..72292a62cd90 100644
-> --- a/include/linux/virtio.h
-> +++ b/include/linux/virtio.h
-> @@ -138,6 +138,7 @@ int virtio_finalize_features(struct virtio_device *dev);
->  int virtio_device_freeze(struct virtio_device *dev);
->  int virtio_device_restore(struct virtio_device *dev);
->  #endif
-> +void virtio_reset_device(struct virtio_device *dev);
->
->  size_t virtio_max_dma_size(struct virtio_device *vdev);
->
-> diff --git a/net/9p/trans_virtio.c b/net/9p/trans_virtio.c
-> index 490a4c900339..19c69821dd04 100644
-> --- a/net/9p/trans_virtio.c
-> +++ b/net/9p/trans_virtio.c
-> @@ -721,7 +721,7 @@ static void p9_virtio_remove(struct virtio_device *vdev)
->
->         mutex_unlock(&virtio_9p_lock);
->
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->         vdev->config->del_vqs(vdev);
->
->         sysfs_remove_file(&(vdev->dev.kobj), &dev_attr_mount_tag.attr);
-> diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-> index 4f7c99dfd16c..fb3302fff627 100644
-> --- a/net/vmw_vsock/virtio_transport.c
-> +++ b/net/vmw_vsock/virtio_transport.c
-> @@ -665,7 +665,7 @@ static void virtio_vsock_remove(struct virtio_device *vdev)
->         vsock_for_each_connected_socket(virtio_vsock_reset_sock);
->
->         /* Stop all work handlers to make sure no one is accessing the device,
-> -        * so we can safely call vdev->config->reset().
-> +        * so we can safely call virtio_reset_device().
->          */
->         mutex_lock(&vsock->rx_lock);
->         vsock->rx_run = false;
-> @@ -682,7 +682,7 @@ static void virtio_vsock_remove(struct virtio_device *vdev)
->         /* Flush all device writes and interrupts, device will not use any
->          * more buffers.
->          */
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         mutex_lock(&vsock->rx_lock);
->         while ((pkt = virtqueue_detach_unused_buf(vsock->vqs[VSOCK_VQ_RX])))
-> diff --git a/sound/virtio/virtio_card.c b/sound/virtio/virtio_card.c
-> index 150ab3e37013..e2847c040f75 100644
-> --- a/sound/virtio/virtio_card.c
-> +++ b/sound/virtio/virtio_card.c
-> @@ -350,7 +350,7 @@ static void virtsnd_remove(struct virtio_device *vdev)
->                 snd_card_free(snd->card);
->
->         vdev->config->del_vqs(vdev);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         for (i = 0; snd->substreams && i < snd->nsubstreams; ++i) {
->                 struct virtio_pcm_substream *vss = &snd->substreams[i];
-> @@ -379,7 +379,7 @@ static int virtsnd_freeze(struct virtio_device *vdev)
->         virtsnd_ctl_msg_cancel_all(snd);
->
->         vdev->config->del_vqs(vdev);
-> -       vdev->config->reset(vdev);
-> +       virtio_reset_device(vdev);
->
->         for (i = 0; i < snd->nsubstreams; ++i)
->                 cancel_work_sync(&snd->substreams[i].elapsed_period);
+>Acked-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Thanks
+
+>
+>Do you have someone available to check the parts I did not and r-b?
+
+I will check with Matt/John.
+
+Regards,
+Umesh
+>
+>Regards,
+>
+>Tvrtko
+>
+>>
+>>Signed-off-by: John Harrison <John.C.Harrison@Intel.com>
+>>Signed-off-by: Umesh Nerlige Ramappa <umesh.nerlige.ramappa@intel.com>
+>>---
+>>  drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  28 +-
+>>  drivers/gpu/drm/i915/gt/intel_engine_types.h  |  33 ++-
+>>  .../drm/i915/gt/intel_execlists_submission.c  |  34 +++
+>>  drivers/gpu/drm/i915/gt/intel_gt_pm.c         |   2 +
+>>  drivers/gpu/drm/i915/gt/intel_reset.c         |  16 ++
+>>  drivers/gpu/drm/i915/gt/intel_reset.h         |   1 +
+>>  .../gpu/drm/i915/gt/uc/abi/guc_actions_abi.h  |   1 +
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc.h        |  30 ++
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c    |  21 ++
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h    |   5 +
+>>  drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h   |  13 +
+>>  .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 267 ++++++++++++++++++
+>>  .../gpu/drm/i915/gt/uc/intel_guc_submission.h |   2 +
+>>  drivers/gpu/drm/i915/i915_reg.h               |   2 +
+>>  14 files changed, 427 insertions(+), 28 deletions(-)
+>>
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_engine_cs.c b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>index 38436f4b5706..6b783fdcba2a 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>+++ b/drivers/gpu/drm/i915/gt/intel_engine_cs.c
+>>@@ -1873,23 +1873,6 @@ void intel_engine_dump(struct intel_engine_cs *engine,
+>>  	intel_engine_print_breadcrumbs(engine, m);
+>>  }
+>>-static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+>>-					    ktime_t *now)
+>>-{
+>>-	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+>>-	ktime_t total = stats->total;
+>>-
+>>-	/*
+>>-	 * If the engine is executing something at the moment
+>>-	 * add it to the total.
+>>-	 */
+>>-	*now = ktime_get();
+>>-	if (READ_ONCE(stats->active))
+>>-		total = ktime_add(total, ktime_sub(*now, stats->start));
+>>-
+>>-	return total;
+>>-}
+>>-
+>>  /**
+>>   * intel_engine_get_busy_time() - Return current accumulated engine busyness
+>>   * @engine: engine to report on
+>>@@ -1899,16 +1882,7 @@ static ktime_t __intel_engine_get_busy_time(struct intel_engine_cs *engine,
+>>   */
+>>  ktime_t intel_engine_get_busy_time(struct intel_engine_cs *engine, ktime_t *now)
+>>  {
+>>-	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+>>-	unsigned int seq;
+>>-	ktime_t total;
+>>-
+>>-	do {
+>>-		seq = read_seqcount_begin(&stats->lock);
+>>-		total = __intel_engine_get_busy_time(engine, now);
+>>-	} while (read_seqcount_retry(&stats->lock, seq));
+>>-
+>>-	return total;
+>>+	return engine->busyness(engine, now);
+>>  }
+>>  struct intel_context *
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_engine_types.h b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>index b820a2c1124e..9300c65d6675 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>+++ b/drivers/gpu/drm/i915/gt/intel_engine_types.h
+>>@@ -284,6 +284,28 @@ struct intel_engine_execlists_stats {
+>>  	ktime_t start;
+>>  };
+>>+struct intel_engine_guc_stats {
+>>+	/**
+>>+	 * @running: Active state of the engine when busyness was last sampled.
+>>+	 */
+>>+	bool running;
+>>+
+>>+	/**
+>>+	 * @prev_total: Previous value of total runtime clock cycles.
+>>+	 */
+>>+	u32 prev_total;
+>>+
+>>+	/**
+>>+	 * @total_gt_clks: Total gt clock cycles this engine was busy.
+>>+	 */
+>>+	u64 total_gt_clks;
+>>+
+>>+	/**
+>>+	 * @start_gt_clk: GT clock time of last idle to active transition.
+>>+	 */
+>>+	u64 start_gt_clk;
+>>+};
+>>+
+>>  struct intel_engine_cs {
+>>  	struct drm_i915_private *i915;
+>>  	struct intel_gt *gt;
+>>@@ -459,6 +481,12 @@ struct intel_engine_cs {
+>>  	void		(*add_active_request)(struct i915_request *rq);
+>>  	void		(*remove_active_request)(struct i915_request *rq);
+>>+	/*
+>>+	 * Get engine busyness and the time at which the busyness was sampled.
+>>+	 */
+>>+	ktime_t		(*busyness)(struct intel_engine_cs *engine,
+>>+				    ktime_t *now);
+>>+
+>>  	struct intel_engine_execlists execlists;
+>>  	/*
+>>@@ -508,7 +536,10 @@ struct intel_engine_cs {
+>>  	u32 (*get_cmd_length_mask)(u32 cmd_header);
+>>  	struct {
+>>-		struct intel_engine_execlists_stats execlists;
+>>+		union {
+>>+			struct intel_engine_execlists_stats execlists;
+>>+			struct intel_engine_guc_stats guc;
+>>+		};
+>>  		/**
+>>  		 * @rps: Utilisation at last RPS sampling.
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>index 73a79c2acd3a..e8ffcf36f6f4 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>+++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
+>>@@ -3292,6 +3292,38 @@ static void execlists_release(struct intel_engine_cs *engine)
+>>  	lrc_fini_wa_ctx(engine);
+>>  }
+>>+static ktime_t __execlists_engine_busyness(struct intel_engine_cs *engine,
+>>+					   ktime_t *now)
+>>+{
+>>+	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+>>+	ktime_t total = stats->total;
+>>+
+>>+	/*
+>>+	 * If the engine is executing something at the moment
+>>+	 * add it to the total.
+>>+	 */
+>>+	*now = ktime_get();
+>>+	if (READ_ONCE(stats->active))
+>>+		total = ktime_add(total, ktime_sub(*now, stats->start));
+>>+
+>>+	return total;
+>>+}
+>>+
+>>+static ktime_t execlists_engine_busyness(struct intel_engine_cs *engine,
+>>+					 ktime_t *now)
+>>+{
+>>+	struct intel_engine_execlists_stats *stats = &engine->stats.execlists;
+>>+	unsigned int seq;
+>>+	ktime_t total;
+>>+
+>>+	do {
+>>+		seq = read_seqcount_begin(&stats->lock);
+>>+		total = __execlists_engine_busyness(engine, now);
+>>+	} while (read_seqcount_retry(&stats->lock, seq));
+>>+
+>>+	return total;
+>>+}
+>>+
+>>  static void
+>>  logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>>  {
+>>@@ -3348,6 +3380,8 @@ logical_ring_default_vfuncs(struct intel_engine_cs *engine)
+>>  		engine->emit_bb_start = gen8_emit_bb_start;
+>>  	else
+>>  		engine->emit_bb_start = gen8_emit_bb_start_noarb;
+>>+
+>>+	engine->busyness = execlists_engine_busyness;
+>>  }
+>>  static void logical_ring_default_irqs(struct intel_engine_cs *engine)
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>index 524eaf678790..b4a8594bc46c 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>+++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
+>>@@ -86,6 +86,7 @@ static int __gt_unpark(struct intel_wakeref *wf)
+>>  	intel_rc6_unpark(&gt->rc6);
+>>  	intel_rps_unpark(&gt->rps);
+>>  	i915_pmu_gt_unparked(i915);
+>>+	intel_guc_busyness_unpark(gt);
+>>  	intel_gt_unpark_requests(gt);
+>>  	runtime_begin(gt);
+>>@@ -104,6 +105,7 @@ static int __gt_park(struct intel_wakeref *wf)
+>>  	runtime_end(gt);
+>>  	intel_gt_park_requests(gt);
+>>+	intel_guc_busyness_park(gt);
+>>  	i915_vma_parked(gt);
+>>  	i915_pmu_gt_parked(i915);
+>>  	intel_rps_park(&gt->rps);
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_reset.c b/drivers/gpu/drm/i915/gt/intel_reset.c
+>>index 91200c43951f..ac12163c3639 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_reset.c
+>>+++ b/drivers/gpu/drm/i915/gt/intel_reset.c
+>>@@ -1389,6 +1389,22 @@ void intel_gt_handle_error(struct intel_gt *gt,
+>>  	intel_runtime_pm_put(gt->uncore->rpm, wakeref);
+>>  }
+>>+bool intel_gt_reset_trylock_no_wait(struct intel_gt *gt, int *srcu)
+>>+{
+>>+	int reset_in_progress;
+>>+
+>>+	might_lock(&gt->reset.backoff_srcu);
+>>+	cant_sleep();
+>>+
+>>+	rcu_read_lock();
+>>+	reset_in_progress = test_bit(I915_RESET_BACKOFF, &gt->reset.flags);
+>>+	if (!reset_in_progress)
+>>+		*srcu = srcu_read_lock(&gt->reset.backoff_srcu);
+>>+	rcu_read_unlock();
+>>+
+>>+	return reset_in_progress;
+>>+}
+>>+
+>>  int intel_gt_reset_trylock(struct intel_gt *gt, int *srcu)
+>>  {
+>>  	might_lock(&gt->reset.backoff_srcu);
+>>diff --git a/drivers/gpu/drm/i915/gt/intel_reset.h b/drivers/gpu/drm/i915/gt/intel_reset.h
+>>index adc734e67387..4f5f4c00c54f 100644
+>>--- a/drivers/gpu/drm/i915/gt/intel_reset.h
+>>+++ b/drivers/gpu/drm/i915/gt/intel_reset.h
+>>@@ -38,6 +38,7 @@ int __intel_engine_reset_bh(struct intel_engine_cs *engine,
+>>  void __i915_request_reset(struct i915_request *rq, bool guilty);
+>>+bool __must_check intel_gt_reset_trylock_no_wait(struct intel_gt *gt, int *srcu);
+>>  int __must_check intel_gt_reset_trylock(struct intel_gt *gt, int *srcu);
+>>  void intel_gt_reset_unlock(struct intel_gt *gt, int tag);
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>index 8ff582222aff..ff1311d4beff 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>+++ b/drivers/gpu/drm/i915/gt/uc/abi/guc_actions_abi.h
+>>@@ -143,6 +143,7 @@ enum intel_guc_action {
+>>  	INTEL_GUC_ACTION_DEREGISTER_COMMAND_TRANSPORT_BUFFER = 0x4506,
+>>  	INTEL_GUC_ACTION_DEREGISTER_CONTEXT_DONE = 0x4600,
+>>  	INTEL_GUC_ACTION_RESET_CLIENT = 0x5507,
+>>+	INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF = 0x550A,
+>>  	INTEL_GUC_ACTION_LIMIT
+>>  };
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>index 5dd174babf7a..3c3d48c7d5de 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
+>>@@ -104,6 +104,8 @@ struct intel_guc {
+>>  	u32 ads_regset_size;
+>>  	/** @ads_golden_ctxt_size: size of the golden contexts in the ADS */
+>>  	u32 ads_golden_ctxt_size;
+>>+	/** @ads_engine_usage_size: size of engine usage in the ADS */
+>>+	u32 ads_engine_usage_size;
+>>  	/** @lrc_desc_pool: object allocated to hold the GuC LRC descriptor pool */
+>>  	struct i915_vma *lrc_desc_pool;
+>>@@ -138,6 +140,34 @@ struct intel_guc {
+>>  	/** @send_mutex: used to serialize the intel_guc_send actions */
+>>  	struct mutex send_mutex;
+>>+
+>>+	/**
+>>+	 * @timestamp: GT timestamp object that stores a copy of the timestamp
+>>+	 * and adjusts it for overflow using a worker.
+>>+	 */
+>>+	struct {
+>>+		/**
+>>+		 * @lock: Lock protecting the below fields and the engine stats.
+>>+		 */
+>>+		spinlock_t lock;
+>>+
+>>+		/**
+>>+		 * @gt_stamp: 64 bit extended value of the GT timestamp.
+>>+		 */
+>>+		u64 gt_stamp;
+>>+
+>>+		/**
+>>+		 * @ping_delay: Period for polling the GT timestamp for
+>>+		 * overflow.
+>>+		 */
+>>+		unsigned long ping_delay;
+>>+
+>>+		/**
+>>+		 * @work: Periodic work to adjust GT timestamp, engine and
+>>+		 * context usage for overflows.
+>>+		 */
+>>+		struct delayed_work work;
+>>+	} timestamp;
+>>  };
+>>  static inline struct intel_guc *log_to_guc(struct intel_guc_log *log)
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+>>index 2c6ea64af7ec..ca9ab53999d5 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.c
+>>@@ -26,6 +26,8 @@
+>>   *      | guc_policies                          |
+>>   *      +---------------------------------------+
+>>   *      | guc_gt_system_info                    |
+>>+ *      +---------------------------------------+
+>>+ *      | guc_engine_usage                      |
+>>   *      +---------------------------------------+ <== static
+>>   *      | guc_mmio_reg[countA] (engine 0.0)     |
+>>   *      | guc_mmio_reg[countB] (engine 0.1)     |
+>>@@ -47,6 +49,7 @@ struct __guc_ads_blob {
+>>  	struct guc_ads ads;
+>>  	struct guc_policies policies;
+>>  	struct guc_gt_system_info system_info;
+>>+	struct guc_engine_usage engine_usage;
+>>  	/* From here on, location is dynamic! Refer to above diagram. */
+>>  	struct guc_mmio_reg regset[0];
+>>  } __packed;
+>>@@ -628,3 +631,21 @@ void intel_guc_ads_reset(struct intel_guc *guc)
+>>  	guc_ads_private_data_reset(guc);
+>>  }
+>>+
+>>+u32 intel_guc_engine_usage_offset(struct intel_guc *guc)
+>>+{
+>>+	struct __guc_ads_blob *blob = guc->ads_blob;
+>>+	u32 base = intel_guc_ggtt_offset(guc, guc->ads_vma);
+>>+	u32 offset = base + ptr_offset(blob, engine_usage);
+>>+
+>>+	return offset;
+>>+}
+>>+
+>>+struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine)
+>>+{
+>>+	struct intel_guc *guc = &engine->gt->uc.guc;
+>>+	struct __guc_ads_blob *blob = guc->ads_blob;
+>>+	u8 guc_class = engine_class_to_guc_class(engine->class);
+>>+
+>>+	return &blob->engine_usage.engines[guc_class][engine->instance];
+>>+}
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+>>index 3d85051d57e4..e74c110facff 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_ads.h
+>>@@ -6,8 +6,11 @@
+>>  #ifndef _INTEL_GUC_ADS_H_
+>>  #define _INTEL_GUC_ADS_H_
+>>+#include <linux/types.h>
+>>+
+>>  struct intel_guc;
+>>  struct drm_printer;
+>>+struct intel_engine_cs;
+>>  int intel_guc_ads_create(struct intel_guc *guc);
+>>  void intel_guc_ads_destroy(struct intel_guc *guc);
+>>@@ -15,5 +18,7 @@ void intel_guc_ads_init_late(struct intel_guc *guc);
+>>  void intel_guc_ads_reset(struct intel_guc *guc);
+>>  void intel_guc_ads_print_policy_info(struct intel_guc *guc,
+>>  				     struct drm_printer *p);
+>>+struct guc_engine_usage_record *intel_guc_engine_usage(struct intel_engine_cs *engine);
+>>+u32 intel_guc_engine_usage_offset(struct intel_guc *guc);
+>>  #endif
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>>index fa4be13c8854..7c9c081670fc 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_fwif.h
+>>@@ -294,6 +294,19 @@ struct guc_ads {
+>>  	u32 reserved[15];
+>>  } __packed;
+>>+/* Engine usage stats */
+>>+struct guc_engine_usage_record {
+>>+	u32 current_context_index;
+>>+	u32 last_switch_in_stamp;
+>>+	u32 reserved0;
+>>+	u32 total_runtime;
+>>+	u32 reserved1[4];
+>>+} __packed;
+>>+
+>>+struct guc_engine_usage {
+>>+	struct guc_engine_usage_record engines[GUC_MAX_ENGINE_CLASSES][GUC_MAX_INSTANCES_PER_CLASS];
+>>+} __packed;
+>>+
+>>  /* GuC logging structures */
+>>  enum guc_log_buffer_type {
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>index ba0de35f6323..0c2e4d8d8ec3 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+>>@@ -12,6 +12,7 @@
+>>  #include "gt/intel_engine_pm.h"
+>>  #include "gt/intel_engine_heartbeat.h"
+>>  #include "gt/intel_gt.h"
+>>+#include "gt/intel_gt_clock_utils.h"
+>>  #include "gt/intel_gt_irq.h"
+>>  #include "gt/intel_gt_pm.h"
+>>  #include "gt/intel_gt_requests.h"
+>>@@ -20,6 +21,7 @@
+>>  #include "gt/intel_mocs.h"
+>>  #include "gt/intel_ring.h"
+>>+#include "intel_guc_ads.h"
+>>  #include "intel_guc_submission.h"
+>>  #include "i915_drv.h"
+>>@@ -750,6 +752,262 @@ static void scrub_guc_desc_for_outstanding_g2h(struct intel_guc *guc)
+>>  	xa_unlock_irqrestore(&guc->context_lookup, flags);
+>>  }
+>>+/*
+>>+ * GuC stores busyness stats for each engine at context in/out boundaries. A
+>>+ * context 'in' logs execution start time, 'out' adds in -> out delta to total.
+>>+ * i915/kmd accesses 'start', 'total' and 'context id' from memory shared with
+>>+ * GuC.
+>>+ *
+>>+ * __i915_pmu_event_read samples engine busyness. When sampling, if context id
+>>+ * is valid (!= ~0) and start is non-zero, the engine is considered to be
+>>+ * active. For an active engine total busyness = total + (now - start), where
+>>+ * 'now' is the time at which the busyness is sampled. For inactive engine,
+>>+ * total busyness = total.
+>>+ *
+>>+ * All times are captured from GUCPMTIMESTAMP reg and are in gt clock domain.
+>>+ *
+>>+ * The start and total values provided by GuC are 32 bits and wrap around in a
+>>+ * few minutes. Since perf pmu provides busyness as 64 bit monotonically
+>>+ * increasing ns values, there is a need for this implementation to account for
+>>+ * overflows and extend the GuC provided values to 64 bits before returning
+>>+ * busyness to the user. In order to do that, a worker runs periodically at
+>>+ * frequency = 1/8th the time it takes for the timestamp to wrap (i.e. once in
+>>+ * 27 seconds for a gt clock frequency of 19.2 MHz).
+>>+ */
+>>+
+>>+#define WRAP_TIME_CLKS U32_MAX
+>>+#define POLL_TIME_CLKS (WRAP_TIME_CLKS >> 3)
+>>+
+>>+static void
+>>+__extend_last_switch(struct intel_guc *guc, u64 *prev_start, u32 new_start)
+>>+{
+>>+	u32 gt_stamp_hi = upper_32_bits(guc->timestamp.gt_stamp);
+>>+	u32 gt_stamp_last = lower_32_bits(guc->timestamp.gt_stamp);
+>>+
+>>+	if (new_start == lower_32_bits(*prev_start))
+>>+		return;
+>>+
+>>+	if (new_start < gt_stamp_last &&
+>>+	    (new_start - gt_stamp_last) <= POLL_TIME_CLKS)
+>>+		gt_stamp_hi++;
+>>+
+>>+	if (new_start > gt_stamp_last &&
+>>+	    (gt_stamp_last - new_start) <= POLL_TIME_CLKS && gt_stamp_hi)
+>>+		gt_stamp_hi--;
+>>+
+>>+	*prev_start = ((u64)gt_stamp_hi << 32) | new_start;
+>>+}
+>>+
+>>+static void guc_update_engine_gt_clks(struct intel_engine_cs *engine)
+>>+{
+>>+	struct guc_engine_usage_record *rec = intel_guc_engine_usage(engine);
+>>+	struct intel_engine_guc_stats *stats = &engine->stats.guc;
+>>+	struct intel_guc *guc = &engine->gt->uc.guc;
+>>+	u32 last_switch = rec->last_switch_in_stamp;
+>>+	u32 ctx_id = rec->current_context_index;
+>>+	u32 total = rec->total_runtime;
+>>+
+>>+	lockdep_assert_held(&guc->timestamp.lock);
+>>+
+>>+	stats->running = ctx_id != ~0U && last_switch;
+>>+	if (stats->running)
+>>+		__extend_last_switch(guc, &stats->start_gt_clk, last_switch);
+>>+
+>>+	/*
+>>+	 * Instead of adjusting the total for overflow, just add the
+>>+	 * difference from previous sample stats->total_gt_clks
+>>+	 */
+>>+	if (total && total != ~0U) {
+>>+		stats->total_gt_clks += (u32)(total - stats->prev_total);
+>>+		stats->prev_total = total;
+>>+	}
+>>+}
+>>+
+>>+static void guc_update_pm_timestamp(struct intel_guc *guc)
+>>+{
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>+	u32 gt_stamp_now, gt_stamp_hi;
+>>+
+>>+	lockdep_assert_held(&guc->timestamp.lock);
+>>+
+>>+	gt_stamp_hi = upper_32_bits(guc->timestamp.gt_stamp);
+>>+	gt_stamp_now = intel_uncore_read(gt->uncore, GUCPMTIMESTAMP);
+>>+
+>>+	if (gt_stamp_now < lower_32_bits(guc->timestamp.gt_stamp))
+>>+		gt_stamp_hi++;
+>>+
+>>+	guc->timestamp.gt_stamp = ((u64)gt_stamp_hi << 32) | gt_stamp_now;
+>>+}
+>>+
+>>+/*
+>>+ * Unlike the execlist mode of submission total and active times are in terms of
+>>+ * gt clocks. The *now parameter is retained to return the cpu time at which the
+>>+ * busyness was sampled.
+>>+ */
+>>+static ktime_t guc_engine_busyness(struct intel_engine_cs *engine, ktime_t *now)
+>>+{
+>>+	struct intel_engine_guc_stats *stats = &engine->stats.guc;
+>>+	struct intel_gt *gt = engine->gt;
+>>+	struct intel_guc *guc = &gt->uc.guc;
+>>+	unsigned long flags;
+>>+	bool reset_in_progress;
+>>+	u64 total;
+>>+	int srcu;
+>>+
+>>+	/*
+>>+	 * If a reset is in progress, we risk reading partially updated
+>>+	 * engine busyness from GuC, so we just use the driver stored
+>>+	 * copy of busyness. Synchronize with gt reset lock to achieve
+>>+	 * this.
+>>+	 */
+>>+	reset_in_progress = intel_gt_reset_trylock_no_wait(gt, &srcu);
+>>+
+>>+	/*
+>>+	 * The order of taking the reset lock first and then the
+>>+	 * timestamp lock is intentional to avoid lock inversion related
+>>+	 * issues.
+>>+	 */
+>>+	spin_lock_irqsave(&guc->timestamp.lock, flags);
+>>+
+>>+	*now = ktime_get();
+>>+
+>>+	/*
+>>+	 * The active busyness depends on start_gt_clk and gt_stamp.
+>>+	 * gt_stamp is updated by i915 only when gt is awake and the
+>>+	 * start_gt_clk is derived from GuC state. To get a consistent
+>>+	 * view of activity, we query the GuC state only if gt is awake.
+>>+	 */
+>>+	if (intel_gt_pm_get_if_awake(gt) && !reset_in_progress) {
+>>+		guc_update_engine_gt_clks(engine);
+>>+		guc_update_pm_timestamp(guc);
+>>+		intel_gt_pm_put_async(gt);
+>>+	}
+>>+
+>>+	total = intel_gt_clock_interval_to_ns(gt, stats->total_gt_clks);
+>>+	if (stats->running) {
+>>+		u64 clk = guc->timestamp.gt_stamp - stats->start_gt_clk;
+>>+
+>>+		total += intel_gt_clock_interval_to_ns(gt, clk);
+>>+	}
+>>+
+>>+	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
+>>+	if (!reset_in_progress)
+>>+		intel_gt_reset_unlock(gt, srcu);
+>>+
+>>+	return ns_to_ktime(total);
+>>+}
+>>+
+>>+static void __reset_guc_busyness_stats(struct intel_guc *guc)
+>>+{
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>+	struct intel_engine_cs *engine;
+>>+	enum intel_engine_id id;
+>>+	unsigned long flags;
+>>+
+>>+	cancel_delayed_work_sync(&guc->timestamp.work);
+>>+
+>>+	spin_lock_irqsave(&guc->timestamp.lock, flags);
+>>+
+>>+	guc_update_pm_timestamp(guc);
+>>+	for_each_engine(engine, gt, id) {
+>>+		guc_update_engine_gt_clks(engine);
+>>+		engine->stats.guc.prev_total = 0;
+>>+	}
+>>+
+>>+	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
+>>+}
+>>+
+>>+static void __update_guc_busyness_stats(struct intel_guc *guc)
+>>+{
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>+	struct intel_engine_cs *engine;
+>>+	enum intel_engine_id id;
+>>+
+>>+	guc_update_pm_timestamp(guc);
+>>+	for_each_engine(engine, gt, id)
+>>+		guc_update_engine_gt_clks(engine);
+>>+}
+>>+
+>>+static void guc_timestamp_ping(struct work_struct *wrk)
+>>+{
+>>+	struct intel_guc *guc = container_of(wrk, typeof(*guc),
+>>+					     timestamp.work.work);
+>>+	struct intel_uc *uc = container_of(guc, typeof(*uc), guc);
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>+	intel_wakeref_t wakeref;
+>>+	unsigned long flags;
+>>+	int srcu, ret;
+>>+
+>>+	/*
+>>+	 * Synchronize with gt reset to make sure the worker does not
+>>+	 * corrupt the engine/guc stats.
+>>+	 */
+>>+	ret = intel_gt_reset_trylock(gt, &srcu);
+>>+	if (ret)
+>>+		return;
+>>+
+>>+	spin_lock_irqsave(&guc->timestamp.lock, flags);
+>>+
+>>+	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref)
+>>+		__update_guc_busyness_stats(guc);
+>>+
+>>+	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
+>>+
+>>+	intel_gt_reset_unlock(gt, srcu);
+>>+
+>>+	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
+>>+			 guc->timestamp.ping_delay);
+>>+}
+>>+
+>>+static int guc_action_enable_usage_stats(struct intel_guc *guc)
+>>+{
+>>+	u32 offset = intel_guc_engine_usage_offset(guc);
+>>+	u32 action[] = {
+>>+		INTEL_GUC_ACTION_SET_ENG_UTIL_BUFF,
+>>+		offset,
+>>+		0,
+>>+	};
+>>+
+>>+	return intel_guc_send(guc, action, ARRAY_SIZE(action));
+>>+}
+>>+
+>>+static void guc_init_engine_stats(struct intel_guc *guc)
+>>+{
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>+	intel_wakeref_t wakeref;
+>>+
+>>+	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
+>>+			 guc->timestamp.ping_delay);
+>>+
+>>+	with_intel_runtime_pm(&gt->i915->runtime_pm, wakeref) {
+>>+		int ret = guc_action_enable_usage_stats(guc);
+>>+
+>>+		if (ret)
+>>+			drm_err(&gt->i915->drm,
+>>+				"Failed to enable usage stats: %d!\n", ret);
+>>+	}
+>>+}
+>>+
+>>+void intel_guc_busyness_park(struct intel_gt *gt)
+>>+{
+>>+	struct intel_guc *guc = &gt->uc.guc;
+>>+	unsigned long flags;
+>>+
+>>+	cancel_delayed_work(&guc->timestamp.work);
+>>+
+>>+	spin_lock_irqsave(&guc->timestamp.lock, flags);
+>>+	__update_guc_busyness_stats(guc);
+>>+	spin_unlock_irqrestore(&guc->timestamp.lock, flags);
+>>+}
+>>+
+>>+void intel_guc_busyness_unpark(struct intel_gt *gt)
+>>+{
+>>+	struct intel_guc *guc = &gt->uc.guc;
+>>+
+>>+	mod_delayed_work(system_highpri_wq, &guc->timestamp.work,
+>>+			 guc->timestamp.ping_delay);
+>>+}
+>>+
+>>  static inline bool
+>>  submission_disabled(struct intel_guc *guc)
+>>  {
+>>@@ -809,6 +1067,7 @@ void intel_guc_submission_reset_prepare(struct intel_guc *guc)
+>>  	intel_gt_park_heartbeats(guc_to_gt(guc));
+>>  	disable_submission(guc);
+>>  	guc->interrupts.disable(guc);
+>>+	__reset_guc_busyness_stats(guc);
+>>  	/* Flush IRQ handler */
+>>  	spin_lock_irq(&guc_to_gt(guc)->irq_lock);
+>>@@ -1132,6 +1391,7 @@ void intel_guc_submission_reset_finish(struct intel_guc *guc)
+>>   */
+>>  int intel_guc_submission_init(struct intel_guc *guc)
+>>  {
+>>+	struct intel_gt *gt = guc_to_gt(guc);
+>>  	int ret;
+>>  	if (guc->lrc_desc_pool)
+>>@@ -1152,6 +1412,10 @@ int intel_guc_submission_init(struct intel_guc *guc)
+>>  	INIT_LIST_HEAD(&guc->guc_id_list);
+>>  	ida_init(&guc->guc_ids);
+>>+	spin_lock_init(&guc->timestamp.lock);
+>>+	INIT_DELAYED_WORK(&guc->timestamp.work, guc_timestamp_ping);
+>>+	guc->timestamp.ping_delay = (POLL_TIME_CLKS / gt->clock_frequency + 1) * HZ;
+>>+
+>>  	return 0;
+>>  }
+>>@@ -2606,7 +2870,9 @@ static void guc_default_vfuncs(struct intel_engine_cs *engine)
+>>  		engine->emit_flush = gen12_emit_flush_xcs;
+>>  	}
+>>  	engine->set_default_submission = guc_set_default_submission;
+>>+	engine->busyness = guc_engine_busyness;
+>>+	engine->flags |= I915_ENGINE_SUPPORTS_STATS;
+>>  	engine->flags |= I915_ENGINE_HAS_PREEMPTION;
+>>  	engine->flags |= I915_ENGINE_HAS_TIMESLICES;
+>>@@ -2705,6 +2971,7 @@ int intel_guc_submission_setup(struct intel_engine_cs *engine)
+>>  void intel_guc_submission_enable(struct intel_guc *guc)
+>>  {
+>>  	guc_init_lrc_mapping(guc);
+>>+	guc_init_engine_stats(guc);
+>>  }
+>>  void intel_guc_submission_disable(struct intel_guc *guc)
+>>diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>index c7ef44fa0c36..5a95a9f0a8e3 100644
+>>--- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>+++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.h
+>>@@ -28,6 +28,8 @@ void intel_guc_submission_print_context_info(struct intel_guc *guc,
+>>  void intel_guc_dump_active_requests(struct intel_engine_cs *engine,
+>>  				    struct i915_request *hung_rq,
+>>  				    struct drm_printer *m);
+>>+void intel_guc_busyness_park(struct intel_gt *gt);
+>>+void intel_guc_busyness_unpark(struct intel_gt *gt);
+>>  bool intel_guc_virtual_engine_has_heartbeat(const struct intel_engine_cs *ve);
+>>diff --git a/drivers/gpu/drm/i915/i915_reg.h b/drivers/gpu/drm/i915/i915_reg.h
+>>index a897f4abea0c..9aee08425382 100644
+>>--- a/drivers/gpu/drm/i915/i915_reg.h
+>>+++ b/drivers/gpu/drm/i915/i915_reg.h
+>>@@ -2664,6 +2664,8 @@ static inline bool i915_mmio_reg_valid(i915_reg_t reg)
+>>  #define   RING_WAIT		(1 << 11) /* gen3+, PRBx_CTL */
+>>  #define   RING_WAIT_SEMAPHORE	(1 << 10) /* gen6+ */
+>>+#define GUCPMTIMESTAMP          _MMIO(0xC3E8)
+>>+
+>>  /* There are 16 64-bit CS General Purpose Registers per-engine on Gen8+ */
+>>  #define GEN8_RING_CS_GPR(base, n)	_MMIO((base) + 0x600 + (n) * 8)
+>>  #define GEN8_RING_CS_GPR_UDW(base, n)	_MMIO((base) + 0x600 + (n) * 8 + 4)
+>>
