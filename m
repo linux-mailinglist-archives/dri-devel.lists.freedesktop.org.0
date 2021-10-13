@@ -1,60 +1,60 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16F5442CB74
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:15 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4AE42CB88
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:49:23 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id A85166EB14;
-	Wed, 13 Oct 2021 20:49:00 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id CF3F26EB19;
+	Wed, 13 Oct 2021 20:49:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id B36076EB13;
- Wed, 13 Oct 2021 20:48:59 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 28723581175;
- Wed, 13 Oct 2021 16:48:59 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E62F36EB19;
+ Wed, 13 Oct 2021 20:49:02 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 5B9C1581176;
+ Wed, 13 Oct 2021 16:49:02 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Wed, 13 Oct 2021 16:48:59 -0400
+ by compute6.internal (MEProxy); Wed, 13 Oct 2021 16:49:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=4Oe5yMh7Te6eB
- YdkvCgUULOMM7ICrH5TnOSluUVONYs=; b=eW5Ip8AomcwuwiwMkMZP8t43/Zrzi
- j+VGIZA9Bp5PRBi6SxoyCqF6IvqryHr7L2g6iHdsblxzBtetWPB2YkTE91ObE5NI
- mvTlkgQnATZoBUUIAxYodaAEui40FxDNszbbcektD5jOH2jxhKTKXrcWMNiB0msK
- CzWvhLNGNZs29jV5TF8qbySckRH7T2CRFJMKEiKmSxwpTRRyfPubq7xQG3bfPBLB
- T8CNIdyk4sZttmciko0Y8lFZB8QgCncq4HViz9Bn3TDz0/6G6nHAbjJQ4dHdcQzp
- wqAHqoTtYWgHrfMc4HCT2P6TR6PFIl8obgtNaRjhFrq30dyMiOd0USC6w==
+ :mime-version:content-transfer-encoding; s=fm3; bh=bjZP3Lgut5mp9
+ xuokNNwrS2cdV0t8bE34sMk9sGPssk=; b=c6r33z9Y064wci5B+pw1tyY077FW3
+ n1lca3QGK8RKDhvQ9WWyfvMVtL3GCAEbKPXWd9etVMNOtJR/mND8WSeYcZoqfg0Q
+ YfKkF2Vdtb+vbWkeYy0raJYz07/4l6MEJJK5ev++p4jZEmIBSM1BA6qigA1nkTEy
+ 1N9cqazb37qhaFX/+dQH8tRcxK+QrdtxXKbFn5WiJG+fxWdevBn3F31HchFle683
+ M6eTC7R1Ll1pte51A8W7iQDLNf2fAxReABHdns19MoXrsFmAz8hARE1e7OgPcsps
+ 9WPmvF2dk7UBe+R/D7UyDKF5bHEfs44llLkzW1GjNx4vdsclJxEyy2YpQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=4Oe5yMh7Te6eBYdkvCgUULOMM7ICrH5TnOSluUVONYs=; b=lR7Vabyd
- wdaT0muwmAGHJkxGJpIJxF+2T3T91fYaijPGXeU7L4/16PIDzC8SpggRLtlBVX0A
- tLVzH4HxNGj2CpNX750OgLEp5Mi+o8/y+JtgdfqFe/G650Tbg+LTAS+mU9dPsVtp
- prVhCXGBv3xvaoaYfbiRZu0fX1YKdXH16xiITDVqOUUP8BJjFyGhJ3IGCIo+P+Sj
- o15/AsZCwIy0txIp2bHtf1IeNuGaLCdu1nPq9nZa0Rf/7WfD2SEcga7RpYkMhQ9N
- OfOTz5g+Ca5Zt/k40TTMXGUAMp/kg7HLuz8dQpep4Ob1eGiaDnDdrEnH2LV5VXiM
- AWMd5VPKwdIJtQ==
-X-ME-Sender: <xms:O0ZnYa82k3hsHtV4nyh4w5EpmAuqn9GuOvzY225c_X9zovEJA5yEJQ>
- <xme:O0ZnYaueGQ23dBvXo7HMtaThVxzNxyMdOuxkFt-Z87SEJxntzvQKTQavlIqvanw6F
- 9uLEawS_ckokXwFAg>
-X-ME-Received: <xmr:O0ZnYQCJeh-KvZJyGxoYXN74z23BLH3OzjdBYmMO4do2M0Gsz9vwb5QVvJHATUyT6Utk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehudcutefuodetggdotefrod
+ fm1; bh=bjZP3Lgut5mp9xuokNNwrS2cdV0t8bE34sMk9sGPssk=; b=neytJYoB
+ opkPEnc6uJVGuAEuW174cVJqDHTP+Kj/d3DUB8pF4giUNgx1BhvoT1qatmWi+2Pi
+ UfXsqaTUhSXZ1qD4QLFQVPPCbV1c9OU3fHuPsYb3OvHyEhOOueH6aQzOTuWnYgUo
+ YCjRJBFFd/qTAWEMF8TEZS2EBQ0seNgErJEqViEbdtMK00z758TKKnHDN50p58iK
+ WrU9CqAGhzO/k2+o7vKeXwwPg6v88Kyyn7DP7feGgLhdDUpCA1c77jw6R9+wIh2S
+ K3eIizTb2iDs2VFm1rJgp04W7zz9th9D409u5bUv3iaWOJpbmHFjvCTD6n0PW8Lj
+ 9zTtzvo6UPhhng==
+X-ME-Sender: <xms:PkZnYTDbYzcm6yMQ2PyqvV0U75E-IhrZdaYTDC5AJ-6Wt_4u6bW9pA>
+ <xme:PkZnYZiPp0S0tu3wHaruMzYe54SlzM4mcV-ItcNAzQ5SVCGbpHNcKEJ5yRypR722i
+ XZ3PT7qja92ZtvsyQ>
+X-ME-Received: <xmr:PkZnYekL2-1UOqcXp0EePJPmpJdB-jKQskM8iggmEvMMgLS_ZDdqHP15WsAdtteYNbbk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehtdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
  fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:O0ZnYSfBJQ_zeSsXoGElVk0ar_iSiKy12WBX6sNkSnFRz4m6AREvDQ>
- <xmx:O0ZnYfML1HxwQrDEiZaToUnkBib19bo09LBCSftKbdZ9kRqiSsttyQ>
- <xmx:O0ZnYckE8OeCowscXFGoWvEe9kSl9pHkhbsCyn11UBJSR4acO5nYJw>
- <xmx:O0ZnYap52WaKdv_h1ETeTjoRN-vAhsLbaHUSLG265M0vjvex-WC99Q>
+X-ME-Proxy: <xmx:PkZnYVzUpmA5kGL1Kc0qtvk8TnQQgeEGRl9juSlg95BIlokG4LD9Lw>
+ <xmx:PkZnYYTX5tLF4uDSTGbdzmPRHVA0OMUY6k1SOManI3uSQe0qF-Lh_g>
+ <xmx:PkZnYYb3gNj5gBu-_FAHTnXC12hRUDXhy0GLyH9f5pzJtrc9P-wBDA>
+ <xmx:PkZnYR_Eya7Uhnr6VTNh1qDUcq8l42NUKkk_blhF6wZtIB4rNM5Fsw>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 16:48:56 -0400 (EDT)
+ 13 Oct 2021 16:48:59 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v4 02/20] drm/i915: cleanup: drm_modeset_lock_all_ctx() -->
+Subject: [PATCH v4 03/20] drm/msm: cleanup: drm_modeset_lock_all_ctx() -->
  DRM_MODESET_LOCK_ALL_BEGIN()
-Date: Wed, 13 Oct 2021 22:48:28 +0200
-Message-Id: <20211013204846.90026-3-greenfoo@u92.eu>
+Date: Wed, 13 Oct 2021 22:48:29 +0200
+Message-Id: <20211013204846.90026-4-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211013204846.90026-1-greenfoo@u92.eu>
 References: <20211013204846.90026-1-greenfoo@u92.eu>
@@ -92,49 +92,49 @@ and DRM_MODESET_LOCK_ALL_END()
 
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 Reviewed-by: Sean Paul <sean@poorly.run>
+Reported-by: kernel test robot <lkp@intel.com>
 ---
- drivers/gpu/drm/i915/display/intel_display.c | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_display.c b/drivers/gpu/drm/i915/display/intel_display.c
-index 9cf987ee143d..c7d9a58f9f98 100644
---- a/drivers/gpu/drm/i915/display/intel_display.c
-+++ b/drivers/gpu/drm/i915/display/intel_display.c
-@@ -43,6 +43,7 @@
- #include <drm/drm_plane_helper.h>
- #include <drm/drm_probe_helper.h>
- #include <drm/drm_rect.h>
-+#include <drm/drm_drv.h>
+diff --git a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+index cabe15190ec1..abda52f09b09 100644
+--- a/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
++++ b/drivers/gpu/drm/msm/disp/msm_disp_snapshot_util.c
+@@ -5,6 +5,8 @@
  
- #include "display/intel_audio.h"
- #include "display/intel_crt.h"
-@@ -11923,22 +11924,13 @@ void intel_display_resume(struct drm_device *dev)
- 	if (state)
- 		state->acquire_ctx = &ctx;
+ #define pr_fmt(fmt)	"[drm:%s:%d] " fmt, __func__, __LINE__
+ 
++#include <drm/drm_drv.h>
++
+ #include "msm_disp_snapshot.h"
+ 
+ static void msm_disp_state_dump_regs(u32 **reg, u32 aligned_len, void __iomem *base_addr)
+@@ -99,20 +101,18 @@ static void msm_disp_capture_atomic_state(struct msm_disp_state *disp_state)
+ {
+ 	struct drm_device *ddev;
+ 	struct drm_modeset_acquire_ctx ctx;
++	int ret;
+ 
+ 	disp_state->timestamp = ktime_get();
+ 
+ 	ddev = disp_state->drm_dev;
  
 -	drm_modeset_acquire_init(&ctx, 0);
 -
--	while (1) {
--		ret = drm_modeset_lock_all_ctx(dev, &ctx);
--		if (ret != -EDEADLK)
--			break;
--
+-	while (drm_modeset_lock_all_ctx(ddev, &ctx) != 0)
 -		drm_modeset_backoff(&ctx);
--	}
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
++	DRM_MODESET_LOCK_ALL_BEGIN(ddev, ctx, 0, ret);
  
--	if (!ret)
--		ret = __intel_display_resume(dev, state, &ctx);
-+	ret = __intel_display_resume(dev, state, &ctx);
- 
- 	intel_enable_ipc(dev_priv);
+ 	disp_state->atomic_state = drm_atomic_helper_duplicate_state(ddev,
+ 			&ctx);
 -	drm_modeset_drop_locks(&ctx);
 -	drm_modeset_acquire_fini(&ctx);
 +
-+	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
++	DRM_MODESET_LOCK_ALL_END(ddev, ctx, ret);
+ }
  
- 	if (ret)
- 		drm_err(&dev_priv->drm,
+ void msm_disp_snapshot_capture_state(struct msm_disp_state *disp_state)
 -- 
 2.33.0
 
