@@ -2,37 +2,36 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE0242CF3F
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 01:37:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6304242CF4E
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 01:50:56 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 090286E891;
-	Wed, 13 Oct 2021 23:37:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 4B3546E10A;
+	Wed, 13 Oct 2021 23:50:50 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 520196E891
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 23:37:39 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214719605"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214719605"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 16:37:32 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="659744008"
-Received: from thollida-mobl.amr.corp.intel.com (HELO
- achrisan-desk3.intel.com) ([10.212.111.141])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 16:37:29 -0700
-From: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
-To: dri-devel@lists.freedesktop.org,
-	anitha.chrisanthus@intel.com
-Cc: sam@ravnborg.org,
-	edmund.j.dea@intel.com
-Subject: [PATCH v3 7/7] drm/kmb: Enable support for framebuffer console
-Date: Wed, 13 Oct 2021 16:36:32 -0700
-Message-Id: <20211013233632.471892-7-anitha.chrisanthus@intel.com>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 93E076E10A
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 23:50:49 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 666AE610FE;
+ Wed, 13 Oct 2021 23:50:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1634169048;
+ bh=2CZILZS8k2Wus3hkLlSNYvJgO+c8wjp2peYkC+hIfpA=;
+ h=From:To:Cc:Subject:Date:From;
+ b=bdt/QUmq3f6P/rs+t4WDUk0hLb8de7273Cdn3cQwjml8bHUpF+LCOevqCfwoJY51O
+ ImY5DmolrXbL29CxsR15Q4je6XmRBB79or3owG/yl6YVte1WMONEYr/y+ZOb9vCMT5
+ SalYXVr444IhTE71EWDIv54y9BMFpxcteTSEZ4xj6grXTQEvhWxLHufqQUOvdSy3gb
+ hixguvicxR8dhIlwLeHtaj1g74gvmHZk/WdFBEYnRsdyrL7wl2YQ7h36ejK7jvMARQ
+ KHCsA4CTQ3rccjIBYeQ+Gt6zH31ztXzSLHB1qwucyprGR6EN39BdezFi+s3+fiyo+K
+ C6UDY3c2ngIXg==
+From: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+To: David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org
+Cc: Yongqiang Niu <yongqiang.niu@mediatek.com>
+Subject: [GIT PULL] mediatek drm fixes for 5.15
+Date: Thu, 14 Oct 2021 07:50:44 +0800
+Message-Id: <20211013235044.5488-1-chunkuang.hu@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
-References: <20211013233632.471892-1-anitha.chrisanthus@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
@@ -50,61 +49,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Enable support for fbcon (framebuffer console).
-The user can initialize fbcon by loading kmb-drm with the parameter
-console=1.
+Hi, Dave & Daniel:
 
-v2: added missing static clk_enable
+This includes:
 
-Signed-off-by: Edmund Dea <edmund.j.dea@intel.com>
-Signed-off-by: Anitha Chrisanthus <anitha.chrisanthus@intel.com>
----
- drivers/gpu/drm/kmb/kmb_drv.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+1. Revert series "CMDQ refinement of Mediatek DRM driver"
 
-diff --git a/drivers/gpu/drm/kmb/kmb_drv.c b/drivers/gpu/drm/kmb/kmb_drv.c
-index 961ac6fb5fcf..b4e66eac63b5 100644
---- a/drivers/gpu/drm/kmb/kmb_drv.c
-+++ b/drivers/gpu/drm/kmb/kmb_drv.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/clk.h>
- #include <linux/module.h>
-+#include <linux/moduleparam.h>
- #include <linux/of_graph.h>
- #include <linux/of_platform.h>
- #include <linux/of_reserved_mem.h>
-@@ -15,6 +16,7 @@
- 
- #include <drm/drm_atomic_helper.h>
- #include <drm/drm_drv.h>
-+#include <drm/drm_fb_helper.h>
- #include <drm/drm_gem_cma_helper.h>
- #include <drm/drm_gem_framebuffer_helper.h>
- #include <drm/drm_probe_helper.h>
-@@ -24,6 +26,12 @@
- #include "kmb_dsi.h"
- #include "kmb_regs.h"
- 
-+/* Module Parameters */
-+static bool console;
-+module_param(console, bool, 0400);
-+MODULE_PARM_DESC(console,
-+		 "Enable framebuffer console support (0=disable [default], 1=on)");
-+
- static int kmb_display_clk_enable(struct kmb_drm_private *kmb)
- {
- 	int ret = 0;
-@@ -559,6 +567,9 @@ static int kmb_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_register;
- 
-+	if (console)
-+		drm_fbdev_generic_setup(&kmb->drm, 32);
-+
- 	return 0;
- 
-  err_register:
--- 
-2.25.1
+Regards,
+Chun-Kuang.
 
+The following changes since commit 6880fa6c56601bb8ed59df6c30fd390cc5f6dd8f:
+
+  Linux 5.15-rc1 (2021-09-12 16:28:37 -0700)
+
+are available in the Git repository at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git tags/mediatek-drm-fixes-5.15
+
+for you to fetch changes up to 4157a441ff068cc406513e7b8069efa19bba89d0:
+
+  Revert "drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb" (2021-10-12 08:02:27 +0800)
+
+----------------------------------------------------------------
+Mediatek DRM Fixes for Linux 5.15
+
+1. Revert series "CMDQ refinement of Mediatek DRM driver"
+
+----------------------------------------------------------------
+Chun-Kuang Hu (5):
+      Revert "drm/mediatek: Clear pending flag when cmdq packet is done"
+      Revert "drm/mediatek: Add cmdq_handle in mtk_crtc"
+      Revert "drm/mediatek: Detect CMDQ execution timeout"
+      Revert "drm/mediatek: Remove struct cmdq_client"
+      Revert "drm/mediatek: Use mailbox rx_callback instead of cmdq_task_cb"
+
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c | 157 +++++---------------------------
+ 1 file changed, 24 insertions(+), 133 deletions(-)
