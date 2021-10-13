@@ -2,43 +2,38 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D6642BF8F
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 14:13:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D754842BF96
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 14:14:40 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 362676EA26;
-	Wed, 13 Oct 2021 12:13:04 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id E2BD26EA28;
+	Wed, 13 Oct 2021 12:14:38 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 91AC46EA26;
- Wed, 13 Oct 2021 12:13:02 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="208210555"
-X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; d="scan'208";a="208210555"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 05:13:02 -0700
-X-IronPort-AV: E=Sophos;i="5.85,370,1624345200"; d="scan'208";a="480764105"
-Received: from araghuw-mobl.gar.corp.intel.com (HELO localhost)
- ([10.251.208.234])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 05:12:59 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Matt Roper <matthew.d.roper@intel.com>, intel-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org, Matt Roper <matthew.d.roper@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-Subject: Re: [PATCH 03/11] drm/i915: Restructure probe to handle multi-tile
- platforms
-In-Reply-To: <20211008215635.2026385-4-matthew.d.roper@intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
- <20211008215635.2026385-4-matthew.d.roper@intel.com>
-Date: Wed, 13 Oct 2021 15:12:55 +0300
-Message-ID: <87ee8pxgvs.fsf@intel.com>
+Received: from honk.sigxcpu.org (honk.sigxcpu.org [24.134.29.49])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8CC556EA28
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 12:14:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+ by honk.sigxcpu.org (Postfix) with ESMTP id DA090FB03;
+ Wed, 13 Oct 2021 14:14:34 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at honk.sigxcpu.org
+Received: from honk.sigxcpu.org ([127.0.0.1])
+ by localhost (honk.sigxcpu.org [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id tODvGRgMKZMh; Wed, 13 Oct 2021 14:14:33 +0200 (CEST)
+From: =?UTF-8?q?Guido=20G=C3=BCnther?= <agx@sigxcpu.org>
+To: Andrzej Hajda <andrzej.hajda@gmail.com>,
+ Neil Armstrong <narmstrong@baylibre.com>,
+ Robert Foss <robert.foss@linaro.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ David Airlie <airlied@linux.ie>, Daniel Vetter <daniel@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] drm/bridge: nwl-dsi: Move bridge add/remove to dsi callbacks
+Date: Wed, 13 Oct 2021 14:14:25 +0200
+Message-Id: <4d0ec577fdeb01fa232ffa743fde06129353396a.1634126587.git.agx@sigxcpu.org>
+X-Mailer: git-send-email 2.33.0
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -54,282 +49,151 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, 08 Oct 2021, Matt Roper <matthew.d.roper@intel.com> wrote:
-> On a multi-tile platform, each tile has its own registers + GGTT space,
-> and BAR 0 is extended to cover all of them.  Upcoming patches will start
-> exposing the tiles as multiple GTs within a single PCI device.  In
-> preparation for supporting such setups, restructure the driver's probe
-> code a bit.
->
-> Only the primary/root tile is initialized for now; the other tiles will
-> be detected and plugged in by future patches once the necessary
-> infrastructure is in place to handle them.
->
-> Original-author: Abdiel Janulgue
-> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Cc: Matthew Auld <matthew.auld@intel.com>
-> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> Signed-off-by: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-> Signed-off-by: Matt Roper <matthew.d.roper@intel.com>
-> ---
->  drivers/gpu/drm/i915/gt/intel_gt.c       | 45 ++++++++++++++++++++++++
->  drivers/gpu/drm/i915/gt/intel_gt.h       |  3 ++
->  drivers/gpu/drm/i915/gt/intel_gt_pm.c    |  9 ++++-
->  drivers/gpu/drm/i915/gt/intel_gt_types.h |  5 +++
->  drivers/gpu/drm/i915/i915_drv.c          | 20 +++++------
->  drivers/gpu/drm/i915/intel_uncore.c      | 12 +++----
->  drivers/gpu/drm/i915/intel_uncore.h      |  3 +-
->  7 files changed, 76 insertions(+), 21 deletions(-)
->
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.c b/drivers/gpu/drm/i915/gt/intel_gt.c
-> index 1cb1948ac959..f4bea1f1de77 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.c
-> @@ -900,6 +900,51 @@ u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg)
->  	return intel_uncore_read_fw(gt->uncore, reg);
->  }
->  
-> +static int
-> +tile_setup(struct intel_gt *gt, unsigned int id, phys_addr_t phys_addr)
-> +{
-> +	int ret;
-> +
-> +	intel_uncore_init_early(gt->uncore, gt->i915);
-> +
-> +	ret = intel_uncore_setup_mmio(gt->uncore, phys_addr);
-> +	if (ret)
-> +		return ret;
-> +
-> +	gt->phys_addr = phys_addr;
-> +
-> +	return 0;
-> +}
-> +
-> +static void tile_cleanup(struct intel_gt *gt)
-> +{
-> +	intel_uncore_cleanup_mmio(gt->uncore);
-> +}
-> +
-> +int intel_probe_gts(struct drm_i915_private *i915)
-> +{
-> +	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-> +	phys_addr_t phys_addr;
-> +	unsigned int mmio_bar;
-> +	int ret;
-> +
-> +	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
-> +	phys_addr = pci_resource_start(pdev, mmio_bar);
-> +
-> +	/* We always have at least one primary GT on any device */
-> +	ret = tile_setup(&i915->gt, 0, phys_addr);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* TODO: add more tiles */
-> +	return 0;
-> +}
-> +
-> +void intel_gts_release(struct drm_i915_private *i915)
-> +{
-> +	tile_cleanup(&i915->gt);
-> +}
+Move the panel and bridge_{add,remove} from the bridge callbacks to the
+DSI callbacks to make sure we don't indicate readiness to participate in
+the display pipeline before the panel is attached.
 
-Please call the functions intel_gt_*.
+This was prompted by commit fb8d617f8fd6 ("drm/bridge: Centralize error
+message when bridge attach fails") which triggered
 
-BR,
-Jani.
+  [drm:drm_bridge_attach] *ERROR* failed to attach bridge /soc@0/bus@30800000/mipi-dsi@30a0 0000 to encoder None-34: -517
 
+during boot.
 
+Signed-off-by: Guido Günther <agx@sigxcpu.org>
+---
+This was prompted by the discussion at
+https://lore.kernel.org/dri-devel/00493cc61d1443dab1c131c46c5890f95f6f9b25.1634068657.git.agx@sigxcpu.org/
 
-> +
->  void intel_gt_info_print(const struct intel_gt_info *info,
->  			 struct drm_printer *p)
->  {
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt.h b/drivers/gpu/drm/i915/gt/intel_gt.h
-> index 74e771871a9b..f4f35a70cbe4 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt.h
-> @@ -85,6 +85,9 @@ static inline bool intel_gt_needs_read_steering(struct intel_gt *gt,
->  
->  u32 intel_gt_read_register_fw(struct intel_gt *gt, i915_reg_t reg);
->  
-> +int intel_probe_gts(struct drm_i915_private *i915);
-> +void intel_gts_release(struct drm_i915_private *i915);
-> +
->  void intel_gt_info_print(const struct intel_gt_info *info,
->  			 struct drm_printer *p);
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_pm.c b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> index 524eaf678790..76f498edb0d5 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_pm.c
-> @@ -126,7 +126,14 @@ static const struct intel_wakeref_ops wf_ops = {
->  
->  void intel_gt_pm_init_early(struct intel_gt *gt)
->  {
-> -	intel_wakeref_init(&gt->wakeref, gt->uncore->rpm, &wf_ops);
-> +	/*
-> +	 * We access the runtime_pm structure via gt->i915 here rather than
-> +	 * gt->uncore as we do elsewhere in the file because gt->uncore is not
-> +	 * yet initialized for all tiles at this point in the driver startup.
-> +	 * runtime_pm is per-device rather than per-tile, so this is still the
-> +	 * correct structure.
-> +	 */
-> +	intel_wakeref_init(&gt->wakeref, &gt->i915->runtime_pm, &wf_ops);
->  	seqcount_mutex_init(&gt->stats.lock, &gt->wakeref.mutex);
->  }
->  
-> diff --git a/drivers/gpu/drm/i915/gt/intel_gt_types.h b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> index 14216cc471b1..66143316d92e 100644
-> --- a/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> +++ b/drivers/gpu/drm/i915/gt/intel_gt_types.h
-> @@ -180,6 +180,11 @@ struct intel_gt {
->  
->  	const struct intel_mmio_range *steering_table[NUM_STEERING_TYPES];
->  
-> +	/*
-> +	 * Base of per-tile GTTMMADR where we can derive the MMIO and the GGTT.
-> +	 */
-> +	phys_addr_t phys_addr;
-> +
->  	struct intel_gt_info {
->  		intel_engine_mask_t engine_mask;
->  
-> diff --git a/drivers/gpu/drm/i915/i915_drv.c b/drivers/gpu/drm/i915/i915_drv.c
-> index 7f96d26c012a..51234fd1349b 100644
-> --- a/drivers/gpu/drm/i915/i915_drv.c
-> +++ b/drivers/gpu/drm/i915/i915_drv.c
-> @@ -312,8 +312,8 @@ static int i915_driver_early_probe(struct drm_i915_private *dev_priv)
->  	intel_device_info_subplatform_init(dev_priv);
->  	intel_step_init(dev_priv);
->  
-> +	/* All tiles share a single mmio_debug */
->  	intel_uncore_mmio_debug_init_early(&dev_priv->mmio_debug);
-> -	intel_uncore_init_early(&dev_priv->uncore, dev_priv);
->  
->  	spin_lock_init(&dev_priv->irq_lock);
->  	spin_lock_init(&dev_priv->gpu_error.lock);
-> @@ -415,13 +415,9 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
->  	if (ret < 0)
->  		return ret;
->  
-> -	ret = intel_uncore_setup_mmio(&dev_priv->uncore);
-> -	if (ret < 0)
-> -		goto err_bridge;
-> -
->  	ret = intel_uncore_init_mmio(&dev_priv->uncore);
->  	if (ret)
-> -		goto err_mmio;
-> +		return ret;
->  
->  	/* Try to make sure MCHBAR is enabled before poking at it */
->  	intel_setup_mchbar(dev_priv);
-> @@ -439,9 +435,6 @@ static int i915_driver_mmio_probe(struct drm_i915_private *dev_priv)
->  err_uncore:
->  	intel_teardown_mchbar(dev_priv);
->  	intel_uncore_fini_mmio(&dev_priv->uncore);
-> -err_mmio:
-> -	intel_uncore_cleanup_mmio(&dev_priv->uncore);
-> -err_bridge:
->  	pci_dev_put(dev_priv->bridge_dev);
->  
->  	return ret;
-> @@ -455,7 +448,6 @@ static void i915_driver_mmio_release(struct drm_i915_private *dev_priv)
->  {
->  	intel_teardown_mchbar(dev_priv);
->  	intel_uncore_fini_mmio(&dev_priv->uncore);
-> -	intel_uncore_cleanup_mmio(&dev_priv->uncore);
->  	pci_dev_put(dev_priv->bridge_dev);
->  }
->  
-> @@ -844,10 +836,14 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  
->  	intel_vgpu_detect(i915);
->  
-> -	ret = i915_driver_mmio_probe(i915);
-> +	ret = intel_probe_gts(i915);
->  	if (ret < 0)
->  		goto out_runtime_pm_put;
->  
-> +	ret = i915_driver_mmio_probe(i915);
-> +	if (ret < 0)
-> +		goto out_tiles_cleanup;
-> +
->  	ret = i915_driver_hw_probe(i915);
->  	if (ret < 0)
->  		goto out_cleanup_mmio;
-> @@ -904,6 +900,8 @@ int i915_driver_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
->  	i915_ggtt_driver_late_release(i915);
->  out_cleanup_mmio:
->  	i915_driver_mmio_release(i915);
-> +out_tiles_cleanup:
-> +	intel_gts_release(i915);
->  out_runtime_pm_put:
->  	enable_rpm_wakeref_asserts(&i915->runtime_pm);
->  	i915_driver_late_release(i915);
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
-> index a308e86c9d9f..8a0a0676d67a 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.c
-> +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> @@ -2020,14 +2020,11 @@ static int i915_pmic_bus_access_notifier(struct notifier_block *nb,
->  	return NOTIFY_OK;
->  }
->  
-> -int intel_uncore_setup_mmio(struct intel_uncore *uncore)
-> +int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr)
->  {
->  	struct drm_i915_private *i915 = uncore->i915;
-> -	struct pci_dev *pdev = to_pci_dev(i915->drm.dev);
-> -	int mmio_bar;
->  	int mmio_size;
->  
-> -	mmio_bar = GRAPHICS_VER(i915) == 2 ? 1 : 0;
->  	/*
->  	 * Before gen4, the registers and the GTT are behind different BARs.
->  	 * However, from gen4 onwards, the registers and the GTT are shared
-> @@ -2044,7 +2041,7 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore)
->  	else
->  		mmio_size = 2 * 1024 * 1024;
->  
-> -	uncore->regs = pci_iomap(pdev, mmio_bar, mmio_size);
-> +	uncore->regs = ioremap(phys_addr, mmio_size);
->  	if (uncore->regs == NULL) {
->  		drm_err(&i915->drm, "failed to map registers\n");
->  		return -EIO;
-> @@ -2055,9 +2052,8 @@ int intel_uncore_setup_mmio(struct intel_uncore *uncore)
->  
->  void intel_uncore_cleanup_mmio(struct intel_uncore *uncore)
->  {
-> -	struct pci_dev *pdev = to_pci_dev(uncore->i915->drm.dev);
-> -
-> -	pci_iounmap(pdev, uncore->regs);
-> +	if (uncore->regs)
-> +		iounmap(uncore->regs);
->  }
->  
->  void intel_uncore_init_early(struct intel_uncore *uncore,
-> diff --git a/drivers/gpu/drm/i915/intel_uncore.h b/drivers/gpu/drm/i915/intel_uncore.h
-> index d1d17b04e29f..83a455aa8374 100644
-> --- a/drivers/gpu/drm/i915/intel_uncore.h
-> +++ b/drivers/gpu/drm/i915/intel_uncore.h
-> @@ -29,6 +29,7 @@
->  #include <linux/notifier.h>
->  #include <linux/hrtimer.h>
->  #include <linux/io-64-nonatomic-lo-hi.h>
-> +#include <linux/types.h>
->  
->  #include "i915_reg.h"
->  
-> @@ -218,7 +219,7 @@ void
->  intel_uncore_mmio_debug_init_early(struct intel_uncore_mmio_debug *mmio_debug);
->  void intel_uncore_init_early(struct intel_uncore *uncore,
->  			     struct drm_i915_private *i915);
-> -int intel_uncore_setup_mmio(struct intel_uncore *uncore);
-> +int intel_uncore_setup_mmio(struct intel_uncore *uncore, phys_addr_t phys_addr);
->  int intel_uncore_init_mmio(struct intel_uncore *uncore);
->  void intel_uncore_prune_engine_fw_domains(struct intel_uncore *uncore,
->  					  struct intel_gt *gt);
+ drivers/gpu/drm/bridge/nwl-dsi.c | 64 ++++++++++++++++++--------------
+ 1 file changed, 37 insertions(+), 27 deletions(-)
 
+diff --git a/drivers/gpu/drm/bridge/nwl-dsi.c b/drivers/gpu/drm/bridge/nwl-dsi.c
+index a7389a0facfb..77aa6f13afef 100644
+--- a/drivers/gpu/drm/bridge/nwl-dsi.c
++++ b/drivers/gpu/drm/bridge/nwl-dsi.c
+@@ -355,6 +355,9 @@ static int nwl_dsi_host_attach(struct mipi_dsi_host *dsi_host,
+ {
+ 	struct nwl_dsi *dsi = container_of(dsi_host, struct nwl_dsi, dsi_host);
+ 	struct device *dev = dsi->dev;
++	struct drm_bridge *panel_bridge;
++	struct drm_panel *panel;
++	int ret;
+ 
+ 	DRM_DEV_INFO(dev, "lanes=%u, format=0x%x flags=0x%lx\n", device->lanes,
+ 		     device->format, device->mode_flags);
+@@ -362,10 +365,43 @@ static int nwl_dsi_host_attach(struct mipi_dsi_host *dsi_host,
+ 	if (device->lanes < 1 || device->lanes > 4)
+ 		return -EINVAL;
+ 
++	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
++					  &panel_bridge);
++	if (ret)
++		return ret;
++
++	if (panel) {
++		panel_bridge = drm_panel_bridge_add(panel);
++		if (IS_ERR(panel_bridge))
++			return PTR_ERR(panel_bridge);
++	}
++	if (!panel_bridge)
++		return -EPROBE_DEFER;
++
++	dsi->panel_bridge = panel_bridge;
+ 	dsi->lanes = device->lanes;
+ 	dsi->format = device->format;
+ 	dsi->dsi_mode_flags = device->mode_flags;
+ 
++	/*
++	 * The DSI output has been properly configured, we can now safely
++	 * register the input to the bridge framework so that it can take place
++	 * in a display pipeline.
++	 */
++	drm_bridge_add(&dsi->bridge);
++
++	return 0;
++}
++
++static int nwl_dsi_host_detach(struct mipi_dsi_host *dsi_host,
++			       struct mipi_dsi_device *dev)
++{
++	struct nwl_dsi *dsi = container_of(dsi_host, struct nwl_dsi, dsi_host);
++
++	drm_bridge_remove(&dsi->bridge);
++	if (dsi->panel_bridge)
++		drm_panel_bridge_remove(dsi->panel_bridge);
++
+ 	return 0;
+ }
+ 
+@@ -632,6 +668,7 @@ static ssize_t nwl_dsi_host_transfer(struct mipi_dsi_host *dsi_host,
+ 
+ static const struct mipi_dsi_host_ops nwl_dsi_host_ops = {
+ 	.attach = nwl_dsi_host_attach,
++	.detach = nwl_dsi_host_detach,
+ 	.transfer = nwl_dsi_host_transfer,
+ };
+ 
+@@ -910,35 +947,11 @@ static int nwl_dsi_bridge_attach(struct drm_bridge *bridge,
+ 				 enum drm_bridge_attach_flags flags)
+ {
+ 	struct nwl_dsi *dsi = bridge_to_dsi(bridge);
+-	struct drm_bridge *panel_bridge;
+-	struct drm_panel *panel;
+-	int ret;
+-
+-	ret = drm_of_find_panel_or_bridge(dsi->dev->of_node, 1, 0, &panel,
+-					  &panel_bridge);
+-	if (ret)
+-		return ret;
+-
+-	if (panel) {
+-		panel_bridge = drm_panel_bridge_add(panel);
+-		if (IS_ERR(panel_bridge))
+-			return PTR_ERR(panel_bridge);
+-	}
+-	dsi->panel_bridge = panel_bridge;
+-
+-	if (!dsi->panel_bridge)
+-		return -EPROBE_DEFER;
+ 
+ 	return drm_bridge_attach(bridge->encoder, dsi->panel_bridge, bridge,
+ 				 flags);
+ }
+ 
+-static void nwl_dsi_bridge_detach(struct drm_bridge *bridge)
+-{	struct nwl_dsi *dsi = bridge_to_dsi(bridge);
+-
+-	drm_of_panel_bridge_remove(dsi->dev->of_node, 1, 0);
+-}
+-
+ static u32 *nwl_bridge_atomic_get_input_bus_fmts(struct drm_bridge *bridge,
+ 						 struct drm_bridge_state *bridge_state,
+ 						 struct drm_crtc_state *crtc_state,
+@@ -984,7 +997,6 @@ static const struct drm_bridge_funcs nwl_dsi_bridge_funcs = {
+ 	.mode_set		= nwl_dsi_bridge_mode_set,
+ 	.mode_valid		= nwl_dsi_bridge_mode_valid,
+ 	.attach			= nwl_dsi_bridge_attach,
+-	.detach			= nwl_dsi_bridge_detach,
+ };
+ 
+ static int nwl_dsi_parse_dt(struct nwl_dsi *dsi)
+@@ -1210,7 +1222,6 @@ static int nwl_dsi_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	drm_bridge_add(&dsi->bridge);
+ 	return 0;
+ }
+ 
+@@ -1220,7 +1231,6 @@ static int nwl_dsi_remove(struct platform_device *pdev)
+ 
+ 	nwl_dsi_deselect_input(dsi);
+ 	mipi_dsi_host_unregister(&dsi->dsi_host);
+-	drm_bridge_remove(&dsi->bridge);
+ 	pm_runtime_disable(&pdev->dev);
+ 	return 0;
+ }
 -- 
-Jani Nikula, Intel Open Source Graphics Center
+2.33.0
+
