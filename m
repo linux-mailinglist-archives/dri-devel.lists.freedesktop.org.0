@@ -2,44 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27FB442C85B
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 20:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8208B42C86B
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 20:12:49 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 05F126E0EF;
-	Wed, 13 Oct 2021 18:08:20 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 9136889EEB;
+	Wed, 13 Oct 2021 18:12:42 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 4059A6E0EF;
- Wed, 13 Oct 2021 18:08:18 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="226269387"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="226269387"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
- by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 11:08:16 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="491581265"
-Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
- ([10.1.27.20])
- by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 11:08:15 -0700
-Date: Wed, 13 Oct 2021 11:03:31 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: John Harrison <john.c.harrison@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- daniele.ceraolospurio@intel.com
-Subject: Re: [PATCH 10/26] drm/i915/guc: Assign contexts in parent-child
- relationship consecutive guc_ids
-Message-ID: <20211013180331.GA13066@jons-linux-dev-box>
-References: <20211004220637.14746-1-matthew.brost@intel.com>
- <20211004220637.14746-11-matthew.brost@intel.com>
- <63c2eb50-b5e9-5aec-1cf8-0e0b94cb991a@intel.com>
- <20211008012151.GA24680@jons-linux-dev-box>
- <e58f0cb8-0261-1e8d-5b56-5dd69bf070e3@intel.com>
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com
+ [IPv6:2607:f8b0:4864:20::832])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 8774989E26
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 18:12:41 +0000 (UTC)
+Received: by mail-qt1-x832.google.com with SMTP id i1so3424865qtr.6
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 11:12:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=d6D5/IzB04/sRINqDPyMaeFU8sU1rQ5pGr4cDho+SKQ=;
+ b=BojWdLmJ832xQRuCmBl5mubNC5kYrEQRcd/BOgo7OG4cP5tYP5204U0XFBxdtLz24Y
+ Hvdgj3UttPoRwbY3xaE7+Hp9+xzO7c47cziNkV7b8malqY/fLU8aUiXDxg89NccXUnP3
+ QgIAxk5Bjxaf+Stbm406fuQA2mz4meDQsEDz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=d6D5/IzB04/sRINqDPyMaeFU8sU1rQ5pGr4cDho+SKQ=;
+ b=pAhAGA08zzbaHAAdK7iTVisXOv3aSMPXSRecpm7ZCG7y4yqZagUX1/tlJExDntcT99
+ CwgIc1qvBpwwtfy4dn/FqA1Ey7Q0vA6RgECDf2XoB4tVKWj3rC0tgk3FCLrsRYJIpaKv
+ MrRgW4Wyhw6drFfrr6MPrxWuWD0d+7x76dW3o8nsB915ZhC6/tKUAosfUoSEBWVxGoyt
+ 4lw1nCBLXbyTAZfiQEiyi1R1yhWt7OKYbhMuVz7YoBTI8LlaZL+u4IMxJ9kAAtQvZXSv
+ fvCohmG9oi9b/KwuWULz4maAGjug3QU2JZEEjeMo2tLsVbqgKh0SlM/R/G8TXF80Orc3
+ 0VMQ==
+X-Gm-Message-State: AOAM531FkaIucYOuXZtMwZNhuHR6qi5waQ5ic1UqXBhJFwTCkUTP35zo
+ t5bxLx4mV5nBCYf4F0vPG65JqBMjhb1Hrg==
+X-Google-Smtp-Source: ABdhPJxDWukRvC5VLi5XvI+Z7EFdxnKfGco6FCO6EkoXFnJKf2wn0AecstSiwkN5SFkY+6t1dXwqBg==
+X-Received: by 2002:a05:622a:170c:: with SMTP id
+ h12mr106800qtk.6.1634148760232; 
+ Wed, 13 Oct 2021 11:12:40 -0700 (PDT)
+Received: from markyacoub.nyc.corp.google.com
+ ([2620:15c:6c:200:61dd:96a:9268:3c4d])
+ by smtp.gmail.com with ESMTPSA id s203sm160130qke.21.2021.10.13.11.12.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 11:12:39 -0700 (PDT)
+From: Mark Yacoub <markyacoub@chromium.org>
+To: dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org
+Cc: seanpaul@chromium.org, harry.wentland@amd.com,
+ Mark Yacoub <markyacoub@google.com>, Mark Yacoub <markyacoub@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@linux.ie>,
+ Daniel Vetter <daniel@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Subject: [PATCH 1/2] drm: Add Gamma and Degamma LUT sizes props to drm_crtc to
+ validate.
+Date: Wed, 13 Oct 2021 14:12:20 -0400
+Message-Id: <20211013181228.1578201-1-markyacoub@chromium.org>
+X-Mailer: git-send-email 2.33.0.882.g93a45727a2-goog
+In-Reply-To: <20210929194012.3433306-1-markyacoub@chromium.org>
+References: <20210929194012.3433306-1-markyacoub@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e58f0cb8-0261-1e8d-5b56-5dd69bf070e3@intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Transfer-Encoding: 8bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -55,250 +81,267 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Fri, Oct 08, 2021 at 09:40:43AM -0700, John Harrison wrote:
-> On 10/7/2021 18:21, Matthew Brost wrote:
-> > On Thu, Oct 07, 2021 at 03:03:04PM -0700, John Harrison wrote:
-> > > On 10/4/2021 15:06, Matthew Brost wrote:
-> > > > Assign contexts in parent-child relationship consecutive guc_ids. This
-> > > > is accomplished by partitioning guc_id space between ones that need to
-> > > > be consecutive (1/16 available guc_ids) and ones that do not (15/16 of
-> > > > available guc_ids). The consecutive search is implemented via the bitmap
-> > > > API.
-> > > > 
-> > > > This is a precursor to the full GuC multi-lrc implementation but aligns
-> > > > to how GuC mutli-lrc interface is defined - guc_ids must be consecutive
-> > > > when using the GuC multi-lrc interface.
-> > > > 
-> > > > v2:
-> > > >    (Daniel Vetter)
-> > > >     - Explicitly state why we assign consecutive guc_ids
-> > > > v3:
-> > > >    (John Harrison)
-> > > >     - Bring back in spin lock
-> > > > 
-> > > > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
-> > > > ---
-> > > >    drivers/gpu/drm/i915/gt/uc/intel_guc.h        |   6 +-
-> > > >    .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 104 ++++++++++++++----
-> > > >    2 files changed, 86 insertions(+), 24 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc.h b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > > > index 25a598e2b6e8..a9f4ec972bfb 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc.h
-> > > > @@ -76,9 +76,13 @@ struct intel_guc {
-> > > >    		 */
-> > > >    		spinlock_t lock;
-> > > >    		/**
-> > > > -		 * @guc_ids: used to allocate new guc_ids
-> > > > +		 * @guc_ids: used to allocate new guc_ids, single-lrc
-> > > >    		 */
-> > > >    		struct ida guc_ids;
-> > > > +		/**
-> > > > +		 * @guc_ids_bitmap: used to allocate new guc_ids, multi-lrc
-> > > > +		 */
-> > > > +		unsigned long *guc_ids_bitmap;
-> > > >    		/**
-> > > >    		 * @guc_id_list: list of intel_context with valid guc_ids but no
-> > > >    		 * refs
-> > > > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > index 1f2809187513..79e7732e83b2 100644
-> > > > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
-> > > > @@ -128,6 +128,16 @@ guc_create_virtual(struct intel_engine_cs **siblings, unsigned int count);
-> > > >    #define GUC_REQUEST_SIZE 64 /* bytes */
-> > > > +/*
-> > > > + * We reserve 1/16 of the guc_ids for multi-lrc as these need to be contiguous
-> > > > + * per the GuC submission interface. A different allocation algorithm is used
-> > > > + * (bitmap vs. ida) between multi-lrc and single-lrc hence the reason to
-> > > > + * partition the guc_id space. We believe the number of multi-lrc contexts in
-> > > > + * use should be low and 1/16 should be sufficient. Minimum of 32 guc_ids for
-> > > > + * multi-lrc.
-> > > > + */
-> > > > +#define NUMBER_MULTI_LRC_GUC_ID		(GUC_MAX_LRC_DESCRIPTORS / 16)
-> > > > +
-> > > >    /*
-> > > >     * Below is a set of functions which control the GuC scheduling state which
-> > > >     * require a lock.
-> > > > @@ -1206,6 +1216,11 @@ int intel_guc_submission_init(struct intel_guc *guc)
-> > > >    	INIT_WORK(&guc->submission_state.destroyed_worker,
-> > > >    		  destroyed_worker_func);
-> > > > +	guc->submission_state.guc_ids_bitmap =
-> > > > +		bitmap_zalloc(NUMBER_MULTI_LRC_GUC_ID, GFP_KERNEL);
-> > > > +	if (!guc->submission_state.guc_ids_bitmap)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > >    	return 0;
-> > > >    }
-> > > > @@ -1217,6 +1232,7 @@ void intel_guc_submission_fini(struct intel_guc *guc)
-> > > >    	guc_lrc_desc_pool_destroy(guc);
-> > > >    	guc_flush_destroyed_contexts(guc);
-> > > >    	i915_sched_engine_put(guc->sched_engine);
-> > > > +	bitmap_free(guc->submission_state.guc_ids_bitmap);
-> > > >    }
-> > > >    static inline void queue_request(struct i915_sched_engine *sched_engine,
-> > > > @@ -1268,18 +1284,43 @@ static void guc_submit_request(struct i915_request *rq)
-> > > >    	spin_unlock_irqrestore(&sched_engine->lock, flags);
-> > > >    }
-> > > > -static int new_guc_id(struct intel_guc *guc)
-> > > > +static int new_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    {
-> > > > -	return ida_simple_get(&guc->submission_state.guc_ids, 0,
-> > > > -			      GUC_MAX_LRC_DESCRIPTORS, GFP_KERNEL |
-> > > > -			      __GFP_RETRY_MAYFAIL | __GFP_NOWARN);
-> > > > +	int ret;
-> > > > +
-> > > > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > > > +
-> > > > +	if (intel_context_is_parent(ce))
-> > > > +		ret = bitmap_find_free_region(guc->submission_state.guc_ids_bitmap,
-> > > > +					      NUMBER_MULTI_LRC_GUC_ID,
-> > > > +					      order_base_2(ce->parallel.number_children
-> > > > +							   + 1));
-> > > > +	else
-> > > > +		ret = ida_simple_get(&guc->submission_state.guc_ids,
-> > > > +				     NUMBER_MULTI_LRC_GUC_ID,
-> > > > +				     GUC_MAX_LRC_DESCRIPTORS,
-> > > > +				     GFP_KERNEL | __GFP_RETRY_MAYFAIL |
-> > > > +				     __GFP_NOWARN);
-> > > > +	if (unlikely(ret < 0))
-> > > > +		return ret;
-> > > > +
-> > > > +	ce->guc_id.id = ret;
-> > > > +	return 0;
-> > > >    }
-> > > >    static void __release_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    {
-> > > > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > > > +
-> > > >    	if (!context_guc_id_invalid(ce)) {
-> > > > -		ida_simple_remove(&guc->submission_state.guc_ids,
-> > > > -				  ce->guc_id.id);
-> > > > +		if (intel_context_is_parent(ce))
-> > > > +			bitmap_release_region(guc->submission_state.guc_ids_bitmap,
-> > > > +					      ce->guc_id.id,
-> > > > +					      order_base_2(ce->parallel.number_children
-> > > > +							   + 1));
-> > > There was a discussion on the previous revision about adding a BUG_ON to
-> > > ensure that number_children cannot change between the bitmap alloc and the
-> > > bitmap release. I'm not seeing the new BUG_ON mentioned in this patch.
-> > > 
-> > I thought you meant to add a BUG_ON to ensure before we release a region
-> > / id it is occupied? I looked in both the bitmap API and ida API and
-> > neither have a function that checks if region / id is occupied so can't
-> > really add a BUG_ON for that.
-> > 
-> > How much you add BUG_ON to ensure the number of children canoot change
-> > between alloc and release? I don't follow how that would work.
-> > 
-> > Matt
-> I was thinking that where number_children is modified, you have a
-> BUG_ON(guc_id_is_valid). That would ensure that the release has to match the
-> alloc. Hmm, you already have a BUG_ON about the parent/child not being
-> pinned in intel_context_bind_parent_child(), which I guess covers it because
-> you shouldn't have a guc_id if you aren't pinned, right? And that is the
-> only function which can modify number_children, yes? So maybe it's all good?
-> 
+From: Mark Yacoub <markyacoub@google.com>
 
-I think we are all good.
+[Why]
+1. drm_atomic_helper_check doesn't check for the LUT sizes of either Gamma
+or Degamma props in the new CRTC state, allowing any invalid size to
+be passed on.
+2. Each driver has its own LUT size, which could also be different for
+legacy users.
 
-Matt
+[How]
+1. Create |degamma_lut_size| and |gamma_lut_size| to save the LUT sizes
+assigned by the driver when it's initializing its color and CTM
+management.
+2. Create drm_atomic_helper_check_crtc which is called by
+drm_atomic_helper_check to check the LUT sizes saved in drm_crtc that
+they match the sizes in the new CRTC state.
+3. Rename older lut checks that test for the color channels to indicate
+it's a channel check. It's not included in drm_atomic_helper_check_crtc
+as it's hardware specific and is to be called by the driver.
+4. As the LUT size check now happens in drm_atomic_helper_check, remove
+the lut check in intel_color.c
 
-> John.
-> 
-> > 
-> > > John.
-> > > 
-> > > 
-> > > > +		else
-> > > > +			ida_simple_remove(&guc->submission_state.guc_ids,
-> > > > +					  ce->guc_id.id);
-> > > >    		reset_lrc_desc(guc, ce->guc_id.id);
-> > > >    		set_context_guc_id_invalid(ce);
-> > > >    	}
-> > > > @@ -1296,49 +1337,64 @@ static void release_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    	spin_unlock_irqrestore(&guc->submission_state.lock, flags);
-> > > >    }
-> > > > -static int steal_guc_id(struct intel_guc *guc)
-> > > > +static int steal_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    {
-> > > > -	struct intel_context *ce;
-> > > > -	int guc_id;
-> > > > +	struct intel_context *cn;
-> > > >    	lockdep_assert_held(&guc->submission_state.lock);
-> > > > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > > > +	GEM_BUG_ON(intel_context_is_parent(ce));
-> > > >    	if (!list_empty(&guc->submission_state.guc_id_list)) {
-> > > > -		ce = list_first_entry(&guc->submission_state.guc_id_list,
-> > > > +		cn = list_first_entry(&guc->submission_state.guc_id_list,
-> > > >    				      struct intel_context,
-> > > >    				      guc_id.link);
-> > > > -		GEM_BUG_ON(atomic_read(&ce->guc_id.ref));
-> > > > -		GEM_BUG_ON(context_guc_id_invalid(ce));
-> > > > +		GEM_BUG_ON(atomic_read(&cn->guc_id.ref));
-> > > > +		GEM_BUG_ON(context_guc_id_invalid(cn));
-> > > > +		GEM_BUG_ON(intel_context_is_child(cn));
-> > > > +		GEM_BUG_ON(intel_context_is_parent(cn));
-> > > > -		list_del_init(&ce->guc_id.link);
-> > > > -		guc_id = ce->guc_id.id;
-> > > > +		list_del_init(&cn->guc_id.link);
-> > > > +		ce->guc_id = cn->guc_id;
-> > > >    		spin_lock(&ce->guc_state.lock);
-> > > > -		clr_context_registered(ce);
-> > > > +		clr_context_registered(cn);
-> > > >    		spin_unlock(&ce->guc_state.lock);
-> > > > -		set_context_guc_id_invalid(ce);
-> > > > -		return guc_id;
-> > > > +		set_context_guc_id_invalid(cn);
-> > > > +
-> > > > +		return 0;
-> > > >    	} else {
-> > > >    		return -EAGAIN;
-> > > >    	}
-> > > >    }
-> > > > -static int assign_guc_id(struct intel_guc *guc, u16 *out)
-> > > > +static int assign_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    {
-> > > >    	int ret;
-> > > >    	lockdep_assert_held(&guc->submission_state.lock);
-> > > > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > > > -	ret = new_guc_id(guc);
-> > > > +	ret = new_guc_id(guc, ce);
-> > > >    	if (unlikely(ret < 0)) {
-> > > > -		ret = steal_guc_id(guc);
-> > > > +		if (intel_context_is_parent(ce))
-> > > > +			return -ENOSPC;
-> > > > +
-> > > > +		ret = steal_guc_id(guc, ce);
-> > > >    		if (ret < 0)
-> > > >    			return ret;
-> > > >    	}
-> > > > -	*out = ret;
-> > > > +	if (intel_context_is_parent(ce)) {
-> > > > +		struct intel_context *child;
-> > > > +		int i = 1;
-> > > > +
-> > > > +		for_each_child(ce, child)
-> > > > +			child->guc_id.id = ce->guc_id.id + i++;
-> > > > +	}
-> > > > +
-> > > >    	return 0;
-> > > >    }
-> > > > @@ -1356,7 +1412,7 @@ static int pin_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    	might_lock(&ce->guc_state.lock);
-> > > >    	if (context_guc_id_invalid(ce)) {
-> > > > -		ret = assign_guc_id(guc, &ce->guc_id.id);
-> > > > +		ret = assign_guc_id(guc, ce);
-> > > >    		if (ret)
-> > > >    			goto out_unlock;
-> > > >    		ret = 1;	/* Indidcates newly assigned guc_id */
-> > > > @@ -1398,8 +1454,10 @@ static void unpin_guc_id(struct intel_guc *guc, struct intel_context *ce)
-> > > >    	unsigned long flags;
-> > > >    	GEM_BUG_ON(atomic_read(&ce->guc_id.ref) < 0);
-> > > > +	GEM_BUG_ON(intel_context_is_child(ce));
-> > > > -	if (unlikely(context_guc_id_invalid(ce)))
-> > > > +	if (unlikely(context_guc_id_invalid(ce) ||
-> > > > +		     intel_context_is_parent(ce)))
-> > > >    		return;
-> > > >    	spin_lock_irqsave(&guc->submission_state.lock, flags);
-> 
+Fixes: igt@kms_color@pipe-A-invalid-gamma-lut-sizes on MTK
+Tested on Zork(amdgpu) and Jacuzzi(mediatek), volteer(TGL)
+
+v1:
+1. Fix typos
+2. Remove the LUT size check from intel driver
+3. Rename old LUT check to indicate it's a channel change
+
+Signed-off-by: Mark Yacoub <markyacoub@chromium.org>
+---
+ drivers/gpu/drm/drm_atomic_helper.c        | 60 ++++++++++++++++++++++
+ drivers/gpu/drm/drm_color_mgmt.c           | 14 ++---
+ drivers/gpu/drm/i915/display/intel_color.c | 14 ++---
+ include/drm/drm_atomic_helper.h            |  1 +
+ include/drm/drm_color_mgmt.h               |  7 +--
+ include/drm/drm_crtc.h                     | 11 ++++
+ 6 files changed, 89 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
+index bc3487964fb5e..5feb2ad0209c3 100644
+--- a/drivers/gpu/drm/drm_atomic_helper.c
++++ b/drivers/gpu/drm/drm_atomic_helper.c
+@@ -929,6 +929,62 @@ drm_atomic_helper_check_planes(struct drm_device *dev,
+ }
+ EXPORT_SYMBOL(drm_atomic_helper_check_planes);
+ 
++/**
++ * drm_atomic_helper_check_crtcs - validate state object for CRTC changes
++ * @state: the driver state object
++ *
++ * Check the CRTC state object such as the Gamma/Degamma LUT sizes if the new
++ * state holds them.
++ *
++ * RETURNS:
++ * Zero for success or -errno
++ */
++int drm_atomic_helper_check_crtcs(struct drm_atomic_state *state)
++{
++	struct drm_crtc *crtc;
++	struct drm_crtc_state *new_crtc_state;
++	int i;
++
++	for_each_new_crtc_in_state (state, crtc, new_crtc_state, i) {
++		if (new_crtc_state->color_mgmt_changed &&
++		    new_crtc_state->gamma_lut) {
++			uint64_t supported_lut_size = crtc->gamma_lut_size;
++			uint32_t supported_legacy_lut_size = crtc->gamma_size;
++			uint32_t new_state_lut_size =
++				drm_color_lut_size(new_crtc_state->gamma_lut);
++
++			if (new_state_lut_size != supported_lut_size &&
++			    new_state_lut_size != supported_legacy_lut_size) {
++				drm_dbg_state(
++					state->dev,
++					"Invalid Gamma LUT size. Should be %u (or %u for legacy) but got %u.\n",
++					supported_lut_size,
++					supported_legacy_lut_size,
++					new_state_lut_size);
++				return -EINVAL;
++			}
++		}
++
++		if (new_crtc_state->color_mgmt_changed &&
++		    new_crtc_state->degamma_lut) {
++			uint32_t new_state_lut_size =
++				drm_color_lut_size(new_crtc_state->degamma_lut);
++			uint64_t supported_lut_size = crtc->degamma_lut_size;
++
++			if (new_state_lut_size != supported_lut_size) {
++				drm_dbg_state(
++					state->dev,
++					"Invalid Degamma LUT size. Should be %u but got %u.\n",
++					supported_lut_size, new_state_lut_size);
++				return -EINVAL;
++			}
++		}
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL(drm_atomic_helper_check_crtcs);
++
+ /**
+  * drm_atomic_helper_check - validate state object
+  * @dev: DRM device
+@@ -974,6 +1030,10 @@ int drm_atomic_helper_check(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
++	ret = drm_atomic_helper_check_crtcs(state);
++	if (ret)
++		return ret;
++
+ 	if (state->legacy_cursor_update)
+ 		state->async_update = !drm_atomic_helper_async_check(dev, state);
+ 
+diff --git a/drivers/gpu/drm/drm_color_mgmt.c b/drivers/gpu/drm/drm_color_mgmt.c
+index bb14f488c8f6c..e5b820ce823bf 100644
+--- a/drivers/gpu/drm/drm_color_mgmt.c
++++ b/drivers/gpu/drm/drm_color_mgmt.c
+@@ -166,6 +166,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+ 	struct drm_mode_config *config = &dev->mode_config;
+ 
+ 	if (degamma_lut_size) {
++		crtc->degamma_lut_size = degamma_lut_size;
+ 		drm_object_attach_property(&crtc->base,
+ 					   config->degamma_lut_property, 0);
+ 		drm_object_attach_property(&crtc->base,
+@@ -178,6 +179,7 @@ void drm_crtc_enable_color_mgmt(struct drm_crtc *crtc,
+ 					   config->ctm_property, 0);
+ 
+ 	if (gamma_lut_size) {
++		crtc->gamma_lut_size = gamma_lut_size;
+ 		drm_object_attach_property(&crtc->base,
+ 					   config->gamma_lut_property, 0);
+ 		drm_object_attach_property(&crtc->base,
+@@ -585,17 +587,17 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+ EXPORT_SYMBOL(drm_plane_create_color_properties);
+ 
+ /**
+- * drm_color_lut_check - check validity of lookup table
++ * drm_color_lut_channels_check - check validity of the channels in the lookup table
+  * @lut: property blob containing LUT to check
+  * @tests: bitmask of tests to run
+  *
+- * Helper to check whether a userspace-provided lookup table is valid and
+- * satisfies hardware requirements.  Drivers pass a bitmask indicating which of
+- * the tests in &drm_color_lut_tests should be performed.
++ * Helper to check whether each color channel of userspace-provided lookup table is valid and
++ * satisfies hardware requirements. Drivers pass a bitmask indicating which of in 
++ * &drm_color_lut_channels_tests should be performed.
+  *
+  * Returns 0 on success, -EINVAL on failure.
+  */
+-int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
++int drm_color_lut_channels_check(const struct drm_property_blob *lut, u32 tests)
+ {
+ 	const struct drm_color_lut *entry;
+ 	int i;
+@@ -625,4 +627,4 @@ int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests)
+ 
+ 	return 0;
+ }
+-EXPORT_SYMBOL(drm_color_lut_check);
++EXPORT_SYMBOL(drm_color_lut_channels_check);
+diff --git a/drivers/gpu/drm/i915/display/intel_color.c b/drivers/gpu/drm/i915/display/intel_color.c
+index dab892d2251ba..a308fe52746ac 100644
+--- a/drivers/gpu/drm/i915/display/intel_color.c
++++ b/drivers/gpu/drm/i915/display/intel_color.c
+@@ -1285,7 +1285,7 @@ static int check_luts(const struct intel_crtc_state *crtc_state)
+ 	const struct drm_property_blob *gamma_lut = crtc_state->hw.gamma_lut;
+ 	const struct drm_property_blob *degamma_lut = crtc_state->hw.degamma_lut;
+ 	int gamma_length, degamma_length;
+-	u32 gamma_tests, degamma_tests;
++	u32 gamma_channels_tests, degamma_channels_tests;
+ 
+ 	/* Always allow legacy gamma LUT with no further checking. */
+ 	if (crtc_state_is_legacy_gamma(crtc_state))
+@@ -1300,15 +1300,11 @@ static int check_luts(const struct intel_crtc_state *crtc_state)
+ 
+ 	degamma_length = INTEL_INFO(dev_priv)->color.degamma_lut_size;
+ 	gamma_length = INTEL_INFO(dev_priv)->color.gamma_lut_size;
+-	degamma_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
+-	gamma_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
++	degamma_channels_tests = INTEL_INFO(dev_priv)->color.degamma_lut_tests;
++	gamma_channels_tests = INTEL_INFO(dev_priv)->color.gamma_lut_tests;
+ 
+-	if (check_lut_size(degamma_lut, degamma_length) ||
+-	    check_lut_size(gamma_lut, gamma_length))
+-		return -EINVAL;
+-
+-	if (drm_color_lut_check(degamma_lut, degamma_tests) ||
+-	    drm_color_lut_check(gamma_lut, gamma_tests))
++	if (drm_color_lut_channels_check(degamma_lut, degamma_channels_tests) ||
++	    drm_color_lut_channels_check(gamma_lut, gamma_channels_tests))
+ 		return -EINVAL;
+ 
+ 	return 0;
+diff --git a/include/drm/drm_atomic_helper.h b/include/drm/drm_atomic_helper.h
+index 4045e2507e11c..a22d32a7a8719 100644
+--- a/include/drm/drm_atomic_helper.h
++++ b/include/drm/drm_atomic_helper.h
+@@ -38,6 +38,7 @@ struct drm_atomic_state;
+ struct drm_private_obj;
+ struct drm_private_state;
+ 
++int drm_atomic_helper_check_crtcs(struct drm_atomic_state *state);
+ int drm_atomic_helper_check_modeset(struct drm_device *dev,
+ 				struct drm_atomic_state *state);
+ int drm_atomic_helper_check_plane_state(struct drm_plane_state *plane_state,
+diff --git a/include/drm/drm_color_mgmt.h b/include/drm/drm_color_mgmt.h
+index 81c298488b0c8..cb1bf361ad3e3 100644
+--- a/include/drm/drm_color_mgmt.h
++++ b/include/drm/drm_color_mgmt.h
+@@ -94,12 +94,12 @@ int drm_plane_create_color_properties(struct drm_plane *plane,
+ 				      enum drm_color_range default_range);
+ 
+ /**
+- * enum drm_color_lut_tests - hw-specific LUT tests to perform
++ * enum drm_color_lut_channels_tests - hw-specific LUT tests to perform
+  *
+  * The drm_color_lut_check() function takes a bitmask of the values here to
+  * determine which tests to apply to a userspace-provided LUT.
+  */
+-enum drm_color_lut_tests {
++enum drm_color_lut_channels_tests {
+ 	/**
+ 	 * @DRM_COLOR_LUT_EQUAL_CHANNELS:
+ 	 *
+@@ -119,5 +119,6 @@ enum drm_color_lut_tests {
+ 	DRM_COLOR_LUT_NON_DECREASING = BIT(1),
+ };
+ 
+-int drm_color_lut_check(const struct drm_property_blob *lut, u32 tests);
++int drm_color_lut_channels_check(const struct drm_property_blob *lut,
++				 u32 tests);
+ #endif
+diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+index 2deb15d7e1610..cabd3ef1a6e32 100644
+--- a/include/drm/drm_crtc.h
++++ b/include/drm/drm_crtc.h
+@@ -1072,6 +1072,17 @@ struct drm_crtc {
+ 	/** @funcs: CRTC control functions */
+ 	const struct drm_crtc_funcs *funcs;
+ 
++	/**
++	 * @degamma_lut_size: Size of degamma LUT.
++	 */
++	uint32_t degamma_lut_size;
++
++	/**
++	 * @gamma_lut_size: Size of Gamma LUT. Not used by legacy userspace such as
++	 * X, which doesn't support large lut sizes.
++	 */
++	uint32_t gamma_lut_size;
++
+ 	/**
+ 	 * @gamma_size: Size of legacy gamma ramp reported to userspace. Set up
+ 	 * by calling drm_mode_crtc_set_gamma_size().
+-- 
+2.33.0.882.g93a45727a2-goog
+
