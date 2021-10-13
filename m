@@ -2,123 +2,46 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E85642C590
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 18:00:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37D8142C7B9
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 19:35:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 03B126E073;
-	Wed, 13 Oct 2021 16:00:11 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C82816E0EA;
+	Wed, 13 Oct 2021 17:35:43 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3026E073
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 16:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634140808;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=QCm5dOclxo0psHU4qKEkJZZeOXU3321uNZD2ahb33xs=;
- b=BHjATy6fZP8ji4IGupauqNl0WwuhtgEHJ5Uvo41N7C5M7N8Uj7jryss0bo6TNq4OIi4Q4l
- gDnny4txN/4x+z2INOe6gluUHretukxeipr9wZKzZ3Z2N2Geayq8RKiR7CmF6nQOUFkNta
- Sqk16wgXDGlTSh4T0aJeS8g4mhBWmaI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-28-ZAB2v3HdPYG8RKTpIwku7A-1; Wed, 13 Oct 2021 12:00:06 -0400
-X-MC-Unique: ZAB2v3HdPYG8RKTpIwku7A-1
-Received: by mail-wr1-f72.google.com with SMTP id
- s18-20020adfbc12000000b00160b2d4d5ebso2376673wrg.7
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 09:00:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
- :content-language:to:cc:references:from:organization:in-reply-to
- :content-transfer-encoding;
- bh=QCm5dOclxo0psHU4qKEkJZZeOXU3321uNZD2ahb33xs=;
- b=lJyEV2vDlfCQYcCykiqcwOAL+S/ZacS1ROKqYjWEjlHZm7CkfuHQaNae5aBQk+YgWl
- bWMwH1SORgKHkgB1Uobp/pfvU5pbe4uuZ2CJhgaJhNsaGjIe/qcZCLeTIlJpVG32Puaf
- DI44ytuwK0rP4ZozQpDlRZPvX4kVSiiqN8O6D8H2gGgngiaw8/zcRChw6tfIjSDNd/WS
- BvrvjdQJrN6zFYTlgzjoO0QkC8A+4wFWbjYaAsXecFdmpcRmV/wl4FFw5p3F2TBh9tnx
- q8KQs4LGdL2tmK7oYN9n7qDudpQmWr5Zun4jyc2HKhft67Dddug7+pu2ntTV0fUVXLH/
- CdUw==
-X-Gm-Message-State: AOAM532yWYvahUluOhr4Z1xyhUPnoQ6Bp3KZyqHwmVzON62lDLzcHkzi
- nLBm+6Ybz9kVnoOa1Y7lFW10/KhCSBPHwtabrgvkM/ZjHAXuaHVbn8rwGJxSdsIC8SCELQqANZS
- cdJeThRXB38t86eBaLBExppjBIfz1
-X-Received: by 2002:adf:dc0d:: with SMTP id t13mr9672wri.158.1634140805533;
- Wed, 13 Oct 2021 09:00:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyItkbAA3kGIqmmHgTgrrpf9fCG54WlJV2+wdefB9WU28Q546eZydpGXWHl2Ou3h6lUqYc/hA==
-X-Received: by 2002:adf:dc0d:: with SMTP id t13mr9603wri.158.1634140805309;
- Wed, 13 Oct 2021 09:00:05 -0700 (PDT)
-Received: from [192.168.3.132] (p5b0c6774.dip0.t-ipconnect.de. [91.12.103.116])
- by smtp.gmail.com with ESMTPSA id n17sm6521wrq.11.2021.10.13.09.00.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 13 Oct 2021 09:00:04 -0700 (PDT)
-Message-ID: <cf511a7f-531f-4555-d7b4-cb171a615fdd@redhat.com>
-Date: Wed, 13 Oct 2021 18:00:01 +0200
+X-Greylist: delayed 963 seconds by postgrey-1.36 at gabe;
+ Wed, 13 Oct 2021 11:58:37 UTC
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id C5FD06EA2F
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 11:58:37 +0000 (UTC)
+Received: from dggemv703-chm.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4HTrFf2Mvjz1DHNt;
+ Wed, 13 Oct 2021 19:40:54 +0800 (CST)
+Received: from kwepemm600001.china.huawei.com (7.193.23.3) by
+ dggemv703-chm.china.huawei.com (10.3.19.46) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2308.8; Wed, 13 Oct 2021 19:42:31 +0800
+Received: from huawei.com (10.175.104.82) by kwepemm600001.china.huawei.com
+ (7.193.23.3) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.8; Wed, 13 Oct
+ 2021 19:42:30 +0800
+From: Wang Hai <wanghai38@huawei.com>
+To: <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+ <tzimmermann@suse.de>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+ <sam@ravnborg.org>
+CC: <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH] drm: fix null-ptr-deref in drm_dev_init_release()
+Date: Wed, 13 Oct 2021 19:41:39 +0800
+Message-ID: <20211013114139.4042207-1-wanghai38@huawei.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.1.0
-Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Matt Mackall
- <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@linux.ie>,
- Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
- Jie Deng <jie.deng@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Johannes Berg <johannes@sipsolutions.net>,
- Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Ira Weiny <ira.weiny@intel.com>, Ohad Ben-Cohen <ohad@wizery.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Van Hensbergen <ericvh@gmail.com>, Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
- alsa-devel@alsa-project.org
-References: <20211013105226.20225-1-mst@redhat.com>
- <2060bd96-5884-a1b5-9f29-7fe670dc088d@redhat.com>
- <20211013081632-mutt-send-email-mst@kernel.org>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <20211013081632-mutt-send-email-mst@kernel.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.104.82]
+X-ClientProxiedBy: dggems702-chm.china.huawei.com (10.3.19.179) To
+ kwepemm600001.china.huawei.com (7.193.23.3)
+X-CFilter-Loop: Reflected
+X-Mailman-Approved-At: Wed, 13 Oct 2021 17:35:42 +0000
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -134,75 +57,77 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13.10.21 14:17, Michael S. Tsirkin wrote:
-> On Wed, Oct 13, 2021 at 01:03:46PM +0200, David Hildenbrand wrote:
->> On 13.10.21 12:55, Michael S. Tsirkin wrote:
->>> This will enable cleanups down the road.
->>> The idea is to disable cbs, then add "flush_queued_cbs" callback
->>> as a parameter, this way drivers can flush any work
->>> queued after callbacks have been disabled.
->>>
->>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
->>> ---
->>>   arch/um/drivers/virt-pci.c                 | 2 +-
->>>   drivers/block/virtio_blk.c                 | 4 ++--
->>>   drivers/bluetooth/virtio_bt.c              | 2 +-
->>>   drivers/char/hw_random/virtio-rng.c        | 2 +-
->>>   drivers/char/virtio_console.c              | 4 ++--
->>>   drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
->>>   drivers/firmware/arm_scmi/virtio.c         | 2 +-
->>>   drivers/gpio/gpio-virtio.c                 | 2 +-
->>>   drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
->>>   drivers/i2c/busses/i2c-virtio.c            | 2 +-
->>>   drivers/iommu/virtio-iommu.c               | 2 +-
->>>   drivers/net/caif/caif_virtio.c             | 2 +-
->>>   drivers/net/virtio_net.c                   | 4 ++--
->>>   drivers/net/wireless/mac80211_hwsim.c      | 2 +-
->>>   drivers/nvdimm/virtio_pmem.c               | 2 +-
->>>   drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
->>>   drivers/scsi/virtio_scsi.c                 | 2 +-
->>>   drivers/virtio/virtio.c                    | 5 +++++
->>>   drivers/virtio/virtio_balloon.c            | 2 +-
->>>   drivers/virtio/virtio_input.c              | 2 +-
->>>   drivers/virtio/virtio_mem.c                | 2 +-
->>>   fs/fuse/virtio_fs.c                        | 4 ++--
->>>   include/linux/virtio.h                     | 1 +
->>>   net/9p/trans_virtio.c                      | 2 +-
->>>   net/vmw_vsock/virtio_transport.c           | 4 ++--
->>>   sound/virtio/virtio_card.c                 | 4 ++--
->>>   26 files changed, 39 insertions(+), 33 deletions(-)
->>>
->>> diff --git a/arch/um/drivers/virt-pci.c b/arch/um/drivers/virt-pci.c
->>> index c08066633023..22c4d87c9c15 100644
->>> --- a/arch/um/drivers/virt-pci.c
->>> +++ b/arch/um/drivers/virt-pci.c
->>> @@ -616,7 +616,7 @@ static void um_pci_virtio_remove(struct virtio_device *vdev)
->>>   	int i;
->>>           /* Stop all virtqueues */
->>> -        vdev->config->reset(vdev);
->>> +        virtio_reset_device(vdev);
->>>           vdev->config->del_vqs(vdev);
->>
->> Nit: virtio_device_reset()?
->>
->> Because I see:
->>
->> int virtio_device_freeze(struct virtio_device *dev);
->> int virtio_device_restore(struct virtio_device *dev);
->> void virtio_device_ready(struct virtio_device *dev)
->>
->> But well, there is:
->> void virtio_break_device(struct virtio_device *dev);
-> 
-> Exactly. I don't know what's best, so I opted for plain english :)
+I got a null-ptr-deref report:
 
-Fair enough, LGTM
+[drm:drm_dev_init [drm]] *ERROR* Cannot allocate anonymous inode: -12
+==================================================================
+BUG: KASAN: null-ptr-deref in iput+0x3c/0x4a0
+...
+Call Trace:
+ dump_stack_lvl+0x6c/0x8b
+ kasan_report.cold+0x64/0xdb
+ __asan_load8+0x69/0x90
+ iput+0x3c/0x4a0
+ drm_dev_init_release+0x39/0xb0 [drm]
+ drm_managed_release+0x158/0x2d0 [drm]
+ drm_dev_init+0x3a7/0x4c0 [drm]
+ __devm_drm_dev_alloc+0x55/0xd0 [drm]
+ mi0283qt_probe+0x8a/0x2b5 [mi0283qt]
+ spi_probe+0xeb/0x130
+...
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
 
-Reviewed-by: David Hildenbrand <david@redhat.com>
+If drm_fs_inode_new() fails in drm_dev_init(), dev->anon_inode will point
+to PTR_ERR(...) instead of NULL. This will result in null-ptr-deref when
+drm_fs_inode_free(dev->anon_inode) is called.
 
+drm_dev_init()
+	drm_fs_inode_new() // fail, dev->anon_inode = PTR_ERR(...)
+	drm_managed_release()
+		drm_dev_init_release()
+			drm_fs_inode_free() // access non-existent anon_inode
 
+Define a temp variable and assign it to dev->anon_inode if the temp
+variable is not PTR_ERR.
+
+Fixes: 2cbf7fc6718b ("drm: Use drmm_ for drm_dev_init cleanup")
+Reported-by: Hulk Robot <hulkci@huawei.com>
+Signed-off-by: Wang Hai <wanghai38@huawei.com>
+---
+ drivers/gpu/drm/drm_drv.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+index 7a5097467ba5..b3a1636d1b98 100644
+--- a/drivers/gpu/drm/drm_drv.c
++++ b/drivers/gpu/drm/drm_drv.c
+@@ -581,6 +581,7 @@ static int drm_dev_init(struct drm_device *dev,
+ 			const struct drm_driver *driver,
+ 			struct device *parent)
+ {
++	struct inode *inode;
+ 	int ret;
+ 
+ 	if (!drm_core_init_complete) {
+@@ -617,13 +618,15 @@ static int drm_dev_init(struct drm_device *dev,
+ 	if (ret)
+ 		return ret;
+ 
+-	dev->anon_inode = drm_fs_inode_new();
+-	if (IS_ERR(dev->anon_inode)) {
+-		ret = PTR_ERR(dev->anon_inode);
++	inode = drm_fs_inode_new();
++	if (IS_ERR(inode)) {
++		ret = PTR_ERR(inode);
+ 		DRM_ERROR("Cannot allocate anonymous inode: %d\n", ret);
+ 		goto err;
+ 	}
+ 
++	dev->anon_inode = inode;
++
+ 	if (drm_core_check_feature(dev, DRIVER_RENDER)) {
+ 		ret = drm_minor_alloc(dev, DRM_MINOR_RENDER);
+ 		if (ret)
 -- 
-Thanks,
-
-David / dhildenb
+2.25.1
 
