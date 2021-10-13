@@ -2,46 +2,63 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73E5B42C289
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 16:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A2642C295
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 16:14:53 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 8B28289C33;
-	Wed, 13 Oct 2021 14:13:48 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 970B96E044;
+	Wed, 13 Oct 2021 14:14:51 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by gabe.freedesktop.org (Postfix) with ESMTPS id C57BE6E044;
- Wed, 13 Oct 2021 14:13:47 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="224878729"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="224878729"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 07:13:47 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="592192071"
-Received: from shasnaak-mobl1.gar.corp.intel.com (HELO [10.213.158.244])
- ([10.213.158.244])
- by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 07:13:42 -0700
-Subject: Re: [PATCH 03/14] drm/i915/xehpsdv: enforce min GTT alignment
-To: Daniel Vetter <daniel@ffwll.ch>, Ramalingam C <ramalingam.c@intel.com>
-Cc: dri-devel <dri-devel@lists.freedesktop.org>,
- intel-gfx <intel-gfx@lists.freedesktop.org>, CQ Tang <cq.tang@intel.com>,
- Hellstrom Thomas <thomas.hellstrom@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>
-References: <20211011161155.6397-1-ramalingam.c@intel.com>
- <20211011161155.6397-4-ramalingam.c@intel.com>
- <YWbhYrNaT0TS1D3a@phenom.ffwll.local>
-From: Matthew Auld <matthew.auld@intel.com>
-Message-ID: <50362606-46a1-0a41-8063-5dca5ac99b98@intel.com>
-Date: Wed, 13 Oct 2021 15:13:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.10.1
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 9C7C76EA04
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 14:14:49 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id r10so8821073wra.12
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 07:14:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=QGMl28YhRUiVkwlLZBmVBXM/gyOekGqQg/96lael90E=;
+ b=P0JFBTHJb1PbNMI8zjyzr7d9fJsFYOFHA0yBi6E2RZWs9BbG3pgP09Q5ZbfNPBYrfe
+ omcKg0S8cPzW2K3NVO1TtfBvQGSQmGi81ZTXvdFcqcuT3/GvLOrN8on5acW1QONc+L3Q
+ dVWlOopJ2jZgRk57IgcSw6BClvk7y94ehK1mY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=QGMl28YhRUiVkwlLZBmVBXM/gyOekGqQg/96lael90E=;
+ b=nV9r7CGDv5b60RSkqV4fAmpFARjmtanLr13IVIqa9B57X5yRoWNE+kKlEdyVvJB2Y8
+ 4ZF9+gueqe+eqjFTyM6jfr98JmoCB/IGE5Qv5Oj2j9D349IfQuazVgC2AMe8NwbfkkJg
+ oACW2P4ohpsZVcZ8Tgsa1+pJxn/lNH6L14ehFE0Y2aPhQGa9G+YEkYj8cxJeILT8KCmg
+ mx65GNvc2OMvZERi19uv2ikJwf4/LBMlLC9KWNl83hSKLC/s7HEea6EYZ7rKiubv8fOo
+ pL6LdZQgjj74o/DTKWXFszhCNZVuyQ0ix6XWMxv2gH8yh/OqmGFt6pT4dX8nFuy3o3s8
+ nPPg==
+X-Gm-Message-State: AOAM533BliKuXk43q347oLyvfOtziGSlOKV/gccjQWJ4mQephpihDqPZ
+ BWCJ2RXQfIylEYhY+hd/KbAwmA==
+X-Google-Smtp-Source: ABdhPJz3DWZJUUUVjvwZK5GxUdwNkVvvYKU7kkJTlhYb5/u8jsP/6ywjOD2vzguomUiuBwi9+TI1iA==
+X-Received: by 2002:a5d:6ad2:: with SMTP id u18mr40933209wrw.47.1634134487220; 
+ Wed, 13 Oct 2021 07:14:47 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id b190sm5490616wmd.25.2021.10.13.07.14.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 07:14:46 -0700 (PDT)
+Date: Wed, 13 Oct 2021 16:14:44 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>
+Cc: linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ daniel@ffwll.ch, tvrtko.ursulin@linux.intel.com
+Subject: Re: [PATCH 14/28] drm/msm: use new iterator in msm_gem_describe
+Message-ID: <YWbp1PoezuLqHpKZ@phenom.ffwll.local>
+References: <20211005113742.1101-1-christian.koenig@amd.com>
+ <20211005113742.1101-15-christian.koenig@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <YWbhYrNaT0TS1D3a@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211005113742.1101-15-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -57,56 +74,70 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On 13/10/2021 14:38, Daniel Vetter wrote:
-> On Mon, Oct 11, 2021 at 09:41:44PM +0530, Ramalingam C wrote:
->> From: Matthew Auld <matthew.auld@intel.com>
->>
->> For local-memory objects we need to align the GTT addresses to 64K, both
->> for the ppgtt and ggtt.
->>
->> Signed-off-by: Matthew Auld <matthew.auld@intel.com>
->> Signed-off-by: Stuart Summers <stuart.summers@intel.com>
->> Signed-off-by: Ramalingam C <ramalingam.c@intel.com>
->> Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
->> Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+On Tue, Oct 05, 2021 at 01:37:28PM +0200, Christian König wrote:
+> Simplifying the code a bit. Also drop the RCU read side lock since the
+> object is locked anyway.
 > 
-> Do we still need this with relocations removed? Userspace is picking all
-> the addresses for us, so all we have to check is whether userspace got it
-> right.
+> Untested since I can't get the driver to compile on !ARM.
 
-Yeah, for OFFSET_FIXED this just validates that the provided address is 
-correctly aligned to 64K, while for the in-kernel insertion stuff we 
-still need to allocate an address that is aligned to 64K. Setting the 
-alignment here handles both cases.
+Cross-compiler install is pretty easy and you should have that for pushing
+drm changes to drm-misc :-)
 
-> -Daniel
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+
+Assuming this compiles, it looks correct.
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
+> ---
+>  drivers/gpu/drm/msm/msm_gem.c | 19 +++++--------------
+>  1 file changed, 5 insertions(+), 14 deletions(-)
 > 
+> diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
+> index 40a9863f5951..5bd511f07c07 100644
+> --- a/drivers/gpu/drm/msm/msm_gem.c
+> +++ b/drivers/gpu/drm/msm/msm_gem.c
+> @@ -880,7 +880,7 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+>  {
+>  	struct msm_gem_object *msm_obj = to_msm_bo(obj);
+>  	struct dma_resv *robj = obj->resv;
+> -	struct dma_resv_list *fobj;
+> +	struct dma_resv_iter cursor;
+>  	struct dma_fence *fence;
+>  	struct msm_gem_vma *vma;
+>  	uint64_t off = drm_vma_node_start(&obj->vma_node);
+> @@ -955,22 +955,13 @@ void msm_gem_describe(struct drm_gem_object *obj, struct seq_file *m,
+>  		seq_puts(m, "\n");
+>  	}
+>  
+> -	rcu_read_lock();
+> -	fobj = dma_resv_shared_list(robj);
+> -	if (fobj) {
+> -		unsigned int i, shared_count = fobj->shared_count;
+> -
+> -		for (i = 0; i < shared_count; i++) {
+> -			fence = rcu_dereference(fobj->shared[i]);
+> +	dma_resv_for_each_fence(&cursor, robj, true, fence) {
+> +		if (dma_resv_iter_is_exclusive(&cursor))
+> +			describe_fence(fence, "Exclusive", m);
+> +		else
+>  			describe_fence(fence, "Shared", m);
+> -		}
+>  	}
+>  
+> -	fence = dma_resv_excl_fence(robj);
+> -	if (fence)
+> -		describe_fence(fence, "Exclusive", m);
+> -	rcu_read_unlock();
+> -
+>  	msm_gem_unlock(obj);
+>  }
+>  
+> -- 
+> 2.25.1
 > 
->> ---
->>   drivers/gpu/drm/i915/i915_vma.c | 9 +++++++--
->>   1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/gpu/drm/i915/i915_vma.c b/drivers/gpu/drm/i915/i915_vma.c
->> index 4b7fc4647e46..1ea1fa08efdf 100644
->> --- a/drivers/gpu/drm/i915/i915_vma.c
->> +++ b/drivers/gpu/drm/i915/i915_vma.c
->> @@ -670,8 +670,13 @@ i915_vma_insert(struct i915_vma *vma, u64 size, u64 alignment, u64 flags)
->>   	}
->>   
->>   	color = 0;
->> -	if (vma->obj && i915_vm_has_cache_coloring(vma->vm))
->> -		color = vma->obj->cache_level;
->> +	if (vma->obj) {
->> +		if (HAS_64K_PAGES(vma->vm->i915) && i915_gem_object_is_lmem(vma->obj))
->> +			alignment = max(alignment, I915_GTT_PAGE_SIZE_64K);
->> +
->> +		if (i915_vm_has_cache_coloring(vma->vm))
->> +			color = vma->obj->cache_level;
->> +	}
->>   
->>   	if (flags & PIN_OFFSET_FIXED) {
->>   		u64 offset = flags & PIN_OFFSET_MASK;
->> -- 
->> 2.20.1
->>
-> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
