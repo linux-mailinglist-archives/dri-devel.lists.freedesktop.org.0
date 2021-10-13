@@ -1,81 +1,45 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BA842C0D4
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 14:59:44 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B71942C102
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 15:10:02 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2BF146EA5E;
-	Wed, 13 Oct 2021 12:59:42 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id B0CB66EA56;
+	Wed, 13 Oct 2021 13:09:54 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
- [66.111.4.29])
- by gabe.freedesktop.org (Postfix) with ESMTPS id D75A56EA5E
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 12:59:40 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id 4DE245C0191;
- Wed, 13 Oct 2021 08:59:38 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Wed, 13 Oct 2021 08:59:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
- from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
- 4spSPRIWjuUrV2txmbSvLrfH1gDLlxcwdIFq4PhT1Ao=; b=GpziRESWPV89+DNV
- imySKJmQDf2BCK3Rjq+t8Yd8c5U/nbnXd5/K/dhvnvc2RZjEeHaK6ZZklxroRYWK
- q+IREW71TdZiokLgKwr+f6KAxPH2yWfvu6mW2h9b9w2J0nd7ddgvq/1ufEPkhC0z
- +SSpOr6ZSmIMNiKpmtVGtKg8+KHn5fAv8Ecjy3YTSNqzuoNyN8IBOlJpoOubTZ6M
- 61j2uvG/gnCHPaixdu1lo5TxZhfKbxHhdVJ5cl2tOTpQFHukrMeNb4UattHhBo7w
- vkm491YmLNT5xPBCXoMMf3CO1Fl8aHP9wy1pCIdQewFFW+f7vmaQma/c3Y1gL3XL
- lzL/tw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=4spSPRIWjuUrV2txmbSvLrfH1gDLlxcwdIFq4PhT1
- Ao=; b=GguG9tlr1dD3ryYNqJ2NwyVcgl8AImEPemzh/msLArATSiy0xJlUs/ult
- MQoLswQEKziEQ5tftWnWXq+Gkm6lM6QJOpxBHw5dMN1T95ovdeEjf+YY66qxcNl+
- 9gFvb8rv9v5LlwRGUxHG5L0fe9iM6Flv1swazAlcG/sGvp5/zE0JRSSqVnnxCd0S
- YGZH0aYiqnCCZ82kfRHliiRgP4ZjIh2mc9a3bAm5Y6viymZLm9T8Z3BYobfg2mp3
- yQpF4ukeHBvajp0DQo1bqK4pSN9sLgrchrB3Gy9moDnKvGSzZ4tjptciI5w0nvHa
- rdPUd6VHd+XHJ/YOMjuonx7Fv+59w==
-X-ME-Sender: <xms:OthmYRHwM0-_q8r6YX0Ybad9rJ5uxlG9LvlvywBjVi-TydWBRAGDnA>
- <xme:OthmYWWZbrhOgxTvAZM5iqViK_SQa0VvBfu8XxY8oAFXJtJ9n2qecT51dPju7ll1k
- J_pHtYrqLRGS3wYPWM>
-X-ME-Received: <xmr:OthmYTJmZNuEhPm-eucQT_Ae5VGOmbaIK7vYRuxhPbqpbz9t1MfiNpNiDVUbleZtoJeV_nGpV5l_0B2yEPV8rlNsgfDZ6D93fvdJdeFn>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgheekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfgggtgfesthekredtredtjeenucfhrhhomhepofgrgihi
- mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
- htthgvrhhnpeejuefggeekfffgueevtddvudffhfejffejjedvvdduudethefhfefhfeeg
- ieekkeenucevlhhushhtvghrufhiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:OthmYXHbi3TBECnT4090s8WLnVz_cclt_5OLx0iew6Z3n3H_LMjdlg>
- <xmx:OthmYXW5I812F6LNgakwfu7hWPqZZPxaBZIZRIEFrbP1E98FFTGq7w>
- <xmx:OthmYSOxl19Yf6BjfTUf1nO0IL3VhHhRKs4r6Dv4AZQz0tHos-5mVw>
- <xmx:OthmYTo_ocNK3wGbfHLpNdPCjDzOvkdbP9CJhKM2qW9W7-B0lZ8YWQ>
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 08:59:37 -0400 (EDT)
-From: Maxime Ripard <maxime@cerno.tech>
-To: Maxime Ripard <maxime@cerno.tech>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@linux.ie>, Daniel Vetter <daniel.vetter@intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>
-Cc: linux-rpi-kernel@lists.infradead.org,
- Florian Fainelli <f.fainelli@gmail.com>, dri-devel@lists.freedesktop.org,
- Nicolas Saenz Julienne <nsaenz@kernel.org>,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: (subset) [PATCH] drm/vc4: crtc: Make sure the HDMI controller is
- powered when disabling
-Date: Wed, 13 Oct 2021 14:59:26 +0200
-Message-Id: <163412979205.237205.9972264219486680135.b4-ty@cerno.tech>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20210923185013.826679-1-maxime@cerno.tech>
-References: <20210923185013.826679-1-maxime@cerno.tech>
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 155B66EA56;
+ Wed, 13 Oct 2021 13:09:53 +0000 (UTC)
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 636A1610FC;
+ Wed, 13 Oct 2021 13:09:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1634130592;
+ bh=7m7EfH/zUZP99e4EZpqOWzO8X2MkRjqzezczEyYF0zI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Wx7I7ej+sxeJQCf9x4/LREq2NXMV01Tq8P+tnbeia7QrIxq0cY7L8deG75Z3DXX37
+ oNOecuKpLP5egwHkQcgDxvJeu8hEwRzPaWa/k4RFSCKRtiNWfjE71HkGAm9ES6Vyr2
+ LJhtwm15yKqYxG/rcAoEIXiE/8bw0Ss9OmlXjktQ=
+Date: Wed, 13 Oct 2021 15:09:50 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+Cc: dri-devel@lists.freedesktop.org, Takashi Iwai <tiwai@suse.de>,
+ alsa-devel@alsa-project.org, jani.nikula@intel.com,
+ Imre Deak <imre.deak@intel.com>,
+ Russell King <rmk+kernel@arm.linux.org.uk>,
+ "Rafael J . Wysocki" <rafael@kernel.org>, intel-gfx@lists.freedesktop.org,
+ Russell King <rmk+kernel@armlinux.org.uk>
+Subject: Re: [PATCH v2] component: do not leave master devres group open
+ after bind
+Message-ID: <YWbangk7KAxZFoq3@kroah.com>
+References: <20210922085432.2776886-1-kai.vehmanen@linux.intel.com>
+ <YVxiyzNrKG8S1GDb@kroah.com>
+ <alpine.DEB.2.22.394.2110061613520.3554566@eliteleevi.tm.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.22.394.2110061613520.3554566@eliteleevi.tm.intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,20 +55,48 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Thu, 23 Sep 2021 20:50:13 +0200, Maxime Ripard wrote:
-> Since commit 875a4d536842 ("drm/vc4: drv: Disable the CRTC at boot
-> time"), during the initial setup of the driver we call into the VC4 HDMI
-> controller hooks to make sure the controller is properly disabled.
+On Wed, Oct 06, 2021 at 04:47:57PM +0300, Kai Vehmanen wrote:
+> Hi,
 > 
-> However, we were never making sure that the device was properly powered
-> while doing so. This never resulted in any (reported) issue in practice,
-> but since the introduction of commit 4209f03fcb8e ("drm/vc4: hdmi: Warn
-> if we access the controller while disabled") we get a loud complaint
-> when we do that kind of access.
+> On Tue, 5 Oct 2021, Greg KH wrote:
 > 
+> > On Wed, Sep 22, 2021 at 11:54:32AM +0300, Kai Vehmanen wrote:
+> > > In current code, the devres group for aggregate master is left open
+> > > after call to component_master_add_*(). This leads to problems when the
+> > > master does further managed allocations on its own. When any
+> > > participating driver calls component_del(), this leads to immediate
+> > > release of resources.
 > [...]
+> > > the devres group, and by closing the devres group after
+> > > the master->ops->bind() call is done. This allows devres allocations
+> > > done by the driver acting as master to be isolated from the binding state
+> > > of the aggregate driver. This modifies the logic originally introduced in
+> > > commit 9e1ccb4a7700 ("drivers/base: fix devres handling for master device")
+> > > 
+> > > BugLink: https://gitlab.freedesktop.org/drm/intel/-/issues/4136
+> > > Signed-off-by: Kai Vehmanen <kai.vehmanen@linux.intel.com>
+> > > Acked-by: Imre Deak <imre.deak@intel.com>
+> > > Acked-by: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
+> > 
+> > What commit does this "fix:"?  And does it need to go to stable
+> > kernel(s)?
+> 
+> I didn't put a "Fixes" on the original commit 9e1ccb4a7700 
+> ("drivers/base: fix devres handling for master device") as it alone
+> didn't cause problems. It did open the door for possible devres issues
+> for anybody calling component_master_add_().
+> 
+> On audio side, this surfaced with the more recent commit 3fcaf24e5dce 
+> ("ALSA: hda: Allocate resources with device-managed APIs"). In theory one 
+> could have hit issues already before, but this made it very easy to hit
+> on actual systems.
+> 
+> If I'd have to pick one, it would be 9e1ccb4a7700 ("drivers/base: fix 
+> devres handling for master device"). And yes, given comments on this 
+> thread, I'd say this needs to go to stable kernels.
 
-Applied to drm/drm-misc (drm-misc-fixes).
+Then please add a fixes: line and a cc: stable line and resend.
 
-Thanks!
-Maxime
+thanks,
+
+greg k-h
