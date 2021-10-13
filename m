@@ -2,59 +2,59 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949FD42CBD8
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC1942CBE0
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:50:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 84C996EB47;
-	Wed, 13 Oct 2021 20:49:37 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 5F9746EB51;
+	Wed, 13 Oct 2021 20:49:44 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
 Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
  [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id E75C36EB36;
- Wed, 13 Oct 2021 20:49:34 +0000 (UTC)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 58FD558117A;
- Wed, 13 Oct 2021 16:49:34 -0400 (EDT)
+ by gabe.freedesktop.org (Postfix) with ESMTPS id D6A6D6EB4D;
+ Wed, 13 Oct 2021 20:49:37 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4AE68581176;
+ Wed, 13 Oct 2021 16:49:37 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute2.internal (MEProxy); Wed, 13 Oct 2021 16:49:34 -0400
+ by compute6.internal (MEProxy); Wed, 13 Oct 2021 16:49:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=m/PMBB5pvKWQW
- STt/A5gkzeeMb050e+LA6tdqxnW7is=; b=dPFMQVwxtiS5JZx80eaCfsOuOaChy
- 6vI/pdBAUZwRBNRR7bARAQzQBe5IuAp1dRBMcFFcUIkvSR6UqKLAsF+oLdB8AOnw
- ADcrSHdOZ/mJQOAlLAhx6TwCAnwqfpYsbPk0QWLZ+tuzPzdpSGalHMTnJmYSagKe
- IRQfiS7FFKprIZFbiFl0hmYvyTSPwKUFHGg4ywSeImpkfHng/Eq5SsUaQCJQ6n5U
- 6haMBF5vu9pkWy2Ugka6M408rl+lP0w8L0LeR3/myIKV8+fXm8elY8TxNmPp1X8k
- NcJWK8jK+V8QVjwJS3x/8qYS2pIF5oNILoLBYlEfKTkHZbabUZEfpoHLw==
+ :mime-version:content-transfer-encoding; s=fm3; bh=PuRwF9Ft3UyWB
+ Jf64PRaXhYohKvgAVW28ATMLUMmKjo=; b=TeNRBD6swzkG79I9b7TXSsHo33CRX
+ Gsm+GcPGgDFQXMEyqf65VKjDd8gwa4dADG13lk8skjou25p8QV/d3q2+Mvv3pYJx
+ kki+sSEjwKdQF2ihuzdBjuhotdt0SsPOS9aD+Q7ufOGJAAU7h6DRYW8gtoClN74+
+ ay2lpN4YxznXxbPcTdSW66PK3RK0vWRJU28d09J6klPD2bPfR/5R91SN2kAbTqdb
+ fBbXONHgFYxzvxV6gnsg30JMzbV3271HaZfnJ+hFQXQV/HUa810oVbTXTacv/+TX
+ lloqyy/7Y3AkRQDhYbi1xnDuheWCVPRenyLcqZf84khS6rLfa1RqtV0aQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=m/PMBB5pvKWQWSTt/A5gkzeeMb050e+LA6tdqxnW7is=; b=WVNevSge
- wPjRFUAWKiA+kky5zEMljCcxrJ+iCsArH4UdFg0jbFTNLNjUvbL1w3EyJEDrCJTR
- QditRvnLyuUCjrHEbeAARK/cL1SiQrXeSv4h+cenC8lnnIjW/C1XmlSK89FeSgLQ
- B82m4TqRl3ZUaW8fwRIXtjflIHKZhlfKxMTwEA7yQSVEebSnAnyNMbuYjp+ihS60
- o9clJ9qdXx0Y3/3WB/J9PMGEyXN67WiuClDwAVMCBcnO7ISYV9CfYzx7/nhFmdt7
- 096miIXCHGhnq5dICoNwqO8KLsg9pfPDOqtgVZ+oj0Xk2m7ufyBwVO2YYaFfY4Jm
- 8HgYjj4XOtNBaw==
-X-ME-Sender: <xms:XkZnYaBXVorL_JknrdmzaXQHbIvjWMn92Vl83if-Zt7CzLU7Dl5VxA>
- <xme:XkZnYUgr80gNFlXPniRpYLrBMoNBkfCV6D3XkOao8shW0zUGSG6PiW1Sqy-gb793t
- KhvwBGBiHYSQzN88Q>
-X-ME-Received: <xmr:XkZnYdl1LNZSVD-HhelFonj_6JchRjKKG9F8smjtwW0gfTdCsg25DbDOt1bZVMF7mrxB>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehudcutefuodetggdotefrod
+ fm1; bh=PuRwF9Ft3UyWBJf64PRaXhYohKvgAVW28ATMLUMmKjo=; b=iOCBCgVY
+ QLlMxtfhB0e3TIoRzHX8iKMXkYWWUHgZmwuG9+SdtL6J7qUW2MMInBerBWPlEWsU
+ OueKWNTxLVYR4L+hrV8VRaaK8Q1lb+e5550vgxfzGZH3tz6gxPVPWsZ/tkUoXo0p
+ nCjVar4De24RqwzyGifD6QyKhHxwfG/sxbx+A50PnjhQWUjOjXrV2aNeDS+G3a9i
+ BZZj2HwGQMegLD5d56Z+JA/HAlFxMRIPx/F1YyQu2UF4E78Hr/XrR8iZNI5OOdyk
+ cEinoGuAfW5JiUuLCHX6YMPDlGa8h6dg9ibg/UFcKCdeJuZNYStwQxuD9rKGSZ02
+ v+6CqtUXYecZKg==
+X-ME-Sender: <xms:YUZnYYRBE_WHaHad1ctBI6yEkl-spypqj4k0GVLMr7mmX8o7iUG_RA>
+ <xme:YUZnYVyZtctjoNsBBKR8NyM-hA36T13Qe8L-OHCLdvtNz-7DL96TboeaSEWwVD3zI
+ 9zqj7PXEGnumrDJ_w>
+X-ME-Received: <xmr:YUZnYV1MSwT2EaLZ21J7wV2J8_mA4USbDvQbWpor6mByTWRV972haXnOhM6BoLTqinwU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehvdcutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
  necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
  ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
  ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
  fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpedtnecu
  rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:XkZnYYyPvjlxGjOY9xLNCQRV_UZufQBkYcK5yB99WkRHcDAsMV7hNw>
- <xmx:XkZnYfSqbsT1pajaROMXAAO2YOL7KNDwLDnXTD4OR042rCp3CHN3qw>
- <xmx:XkZnYTaejMJwv8XYXZsu17udIj6ez6YkybclowjMl0KAZIUJJocsrw>
- <xmx:XkZnYU-rBs9JtJVaY-3AB4GX-2j7YauJk24E3f1v2N5DsjjoNBqtsg>
+X-ME-Proxy: <xmx:YUZnYcB9SstTsGsxADXkSUaKr8wEV_QdSUXzcz1JC6ziDZVdF_2wMQ>
+ <xmx:YUZnYRjP9SRvf5prFx-0H88EnKhnWzXKvgm3fnvvAAz7YzfmtKBfaA>
+ <xmx:YUZnYYpZv89_aBFVM_WvHDHiION8hnxYS_jD1vcbQFwBoBX7x2Woaw>
+ <xmx:YUZnYYOO-kq-wzh-mwwf44333sOlLn7JCm5MQNyGr2_RuVl4AN5GmQ>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 16:49:31 -0400 (EDT)
+ 13 Oct 2021 16:49:34 -0400 (EDT)
 From: Fernando Ramos <greenfoo@u92.eu>
 To: dri-devel@lists.freedesktop.org
 Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
@@ -62,10 +62,10 @@ Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
  nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
  linux-tegra@vger.kernel.org
-Subject: [PATCH v4 14/20] drm/i915: cleanup: drm_modeset_lock_all() -->
- DRM_MODESET_LOCK_ALL_BEGIN() [part 3]
-Date: Wed, 13 Oct 2021 22:48:40 +0200
-Message-Id: <20211013204846.90026-15-greenfoo@u92.eu>
+Subject: [PATCH v4 15/20] drm/gma500: cleanup: drm_modeset_lock_all() -->
+ DRM_MODESET_LOCK_ALL_BEGIN()
+Date: Wed, 13 Oct 2021 22:48:41 +0200
+Message-Id: <20211013204846.90026-16-greenfoo@u92.eu>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20211013204846.90026-1-greenfoo@u92.eu>
 References: <20211013204846.90026-1-greenfoo@u92.eu>
@@ -90,87 +90,86 @@ As requested in Documentation/gpu/todo.rst, replace driver calls to
 drm_modeset_lock_all() with DRM_MODESET_LOCK_ALL_BEGIN() and
 DRM_MODESET_LOCK_ALL_END()
 
-NOTE:
-
-While the previous two commits were a simple "search and replace", this
-time I had to do a bit of refactoring as only one call to
-DRM_MODESET_LOCK_ALL_BEGIN() is allowed inside one same function.
-
 Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
 ---
- drivers/gpu/drm/i915/display/intel_overlay.c | 40 ++++++++++----------
- 1 file changed, 19 insertions(+), 21 deletions(-)
+ drivers/gpu/drm/gma500/psb_device.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/i915/display/intel_overlay.c b/drivers/gpu/drm/i915/display/intel_overlay.c
-index c0ee135e5499..c623738c59c8 100644
---- a/drivers/gpu/drm/i915/display/intel_overlay.c
-+++ b/drivers/gpu/drm/i915/display/intel_overlay.c
-@@ -1105,6 +1105,7 @@ int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
- 	struct drm_crtc *drmmode_crtc;
- 	struct intel_crtc *crtc;
- 	struct drm_i915_gem_object *new_bo;
+diff --git a/drivers/gpu/drm/gma500/psb_device.c b/drivers/gpu/drm/gma500/psb_device.c
+index 3030f18ba022..021a7238508f 100644
+--- a/drivers/gpu/drm/gma500/psb_device.c
++++ b/drivers/gpu/drm/gma500/psb_device.c
+@@ -8,6 +8,7 @@
+ #include <linux/backlight.h>
+ 
+ #include <drm/drm.h>
++#include <drm/drm_drv.h>
+ 
+ #include "gma_device.h"
+ #include "intel_bios.h"
+@@ -169,8 +170,10 @@ static int psb_save_display_registers(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct drm_crtc *crtc;
 +	struct drm_modeset_acquire_ctx ctx;
- 	int ret;
+ 	struct gma_connector *connector;
+ 	struct psb_state *regs = &dev_priv->regs.psb;
++	int ret;
  
- 	overlay = dev_priv->overlay;
-@@ -1113,24 +1114,24 @@ int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
- 		return -ENODEV;
- 	}
+ 	/* Display arbitration control + watermarks */
+ 	regs->saveDSPARB = PSB_RVDC32(DSPARB);
+@@ -183,7 +186,7 @@ static int psb_save_display_registers(struct drm_device *dev)
+ 	regs->saveCHICKENBIT = PSB_RVDC32(DSPCHICKENBIT);
  
--	if (!(params->flags & I915_OVERLAY_ENABLE)) {
--		drm_modeset_lock_all(dev);
--		ret = intel_overlay_switch_off(overlay);
--		drm_modeset_unlock_all(dev);
-+	if (params->flags & I915_OVERLAY_ENABLE) {
- 
--		return ret;
--	}
-+		drmmode_crtc = drm_crtc_find(dev, file_priv, params->crtc_id);
-+		if (!drmmode_crtc)
-+			return -ENOENT;
-+		crtc = to_intel_crtc(drmmode_crtc);
- 
--	drmmode_crtc = drm_crtc_find(dev, file_priv, params->crtc_id);
--	if (!drmmode_crtc)
--		return -ENOENT;
--	crtc = to_intel_crtc(drmmode_crtc);
-+		new_bo = i915_gem_object_lookup(file_priv, params->bo_handle);
-+		if (!new_bo)
-+			return -ENOENT;
-+	}
- 
--	new_bo = i915_gem_object_lookup(file_priv, params->bo_handle);
--	if (!new_bo)
--		return -ENOENT;
-+	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
- 
+ 	/* Save crtc and output state */
 -	drm_modeset_lock_all(dev);
-+	if (!(params->flags & I915_OVERLAY_ENABLE)) {
-+		ret = intel_overlay_switch_off(overlay);
-+		goto out_unlock;
-+	}
- 
- 	if (i915_gem_object_is_tiled(new_bo)) {
- 		drm_dbg_kms(&dev_priv->drm,
-@@ -1195,14 +1196,11 @@ int intel_overlay_put_image_ioctl(struct drm_device *dev, void *data,
- 	if (ret != 0)
- 		goto out_unlock;
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head) {
+ 		if (drm_helper_crtc_in_use(crtc))
+ 			dev_priv->ops->save_crtc(crtc);
+@@ -193,8 +196,9 @@ static int psb_save_display_registers(struct drm_device *dev)
+ 		if (connector->save)
+ 			connector->save(&connector->base);
  
 -	drm_modeset_unlock_all(dev);
--	i915_gem_object_put(new_bo);
--
 -	return 0;
--
- out_unlock:
--	drm_modeset_unlock_all(dev);
--	i915_gem_object_put(new_bo);
 +	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
 +
-+	if (params->flags & I915_OVERLAY_ENABLE)
-+		i915_gem_object_put(new_bo);
- 
- 	return ret;
++	return ret;
  }
+ 
+ /**
+@@ -207,8 +211,10 @@ static int psb_restore_display_registers(struct drm_device *dev)
+ {
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	struct drm_crtc *crtc;
++	struct drm_modeset_acquire_ctx ctx;
+ 	struct gma_connector *connector;
+ 	struct psb_state *regs = &dev_priv->regs.psb;
++	int ret;
+ 
+ 	/* Display arbitration + watermarks */
+ 	PSB_WVDC32(regs->saveDSPARB, DSPARB);
+@@ -223,7 +229,7 @@ static int psb_restore_display_registers(struct drm_device *dev)
+ 	/*make sure VGA plane is off. it initializes to on after reset!*/
+ 	PSB_WVDC32(0x80000000, VGACNTRL);
+ 
+-	drm_modeset_lock_all(dev);
++	DRM_MODESET_LOCK_ALL_BEGIN(dev, ctx, 0, ret);
+ 	list_for_each_entry(crtc, &dev->mode_config.crtc_list, head)
+ 		if (drm_helper_crtc_in_use(crtc))
+ 			dev_priv->ops->restore_crtc(crtc);
+@@ -232,8 +238,8 @@ static int psb_restore_display_registers(struct drm_device *dev)
+ 		if (connector->restore)
+ 			connector->restore(&connector->base);
+ 
+-	drm_modeset_unlock_all(dev);
+-	return 0;
++	DRM_MODESET_LOCK_ALL_END(dev, ctx, ret);
++	return ret;
+ }
+ 
+ static int psb_power_down(struct drm_device *dev)
 -- 
 2.33.0
 
