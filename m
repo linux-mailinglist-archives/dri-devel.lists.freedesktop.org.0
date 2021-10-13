@@ -1,47 +1,123 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id F339342C538
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 17:50:14 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E85642C590
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 18:00:15 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 2CCFF6EA5C;
-	Wed, 13 Oct 2021 15:50:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 03B126E073;
+	Wed, 13 Oct 2021 16:00:11 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 643656EA59;
- Wed, 13 Oct 2021 15:50:06 +0000 (UTC)
-X-IronPort-AV: E=McAfee;i="6200,9189,10136"; a="214612137"
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="214612137"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
- by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 08:50:05 -0700
-X-IronPort-AV: E=Sophos;i="5.85,371,1624345200"; d="scan'208";a="480857203"
-Received: from lvoronov-mobl.ger.corp.intel.com (HELO [10.213.252.151])
- ([10.213.252.151])
- by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 13 Oct 2021 08:50:04 -0700
-Subject: Re: [Intel-gfx] [RFC 6/8] drm/i915: Make some recently added vfuncs
- use full scheduling attribute
-To: Matthew Brost <matthew.brost@intel.com>, Intel-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
- Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
-References: <20211004143650.699120-1-tvrtko.ursulin@linux.intel.com>
- <20211004143650.699120-7-tvrtko.ursulin@linux.intel.com>
- <20211006171228.GA7906@jons-linux-dev-box>
- <YWbKhu0IQ4hsr5w7@phenom.ffwll.local>
-From: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Organization: Intel Corporation UK Plc
-Message-ID: <2ada1474-68d4-85ab-9e57-cb5e7e9843c0@linux.intel.com>
-Date: Wed, 13 Oct 2021 16:50:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.13.0
+Received: from us-smtp-delivery-124.mimecast.com
+ (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 7B3026E073
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 16:00:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1634140808;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QCm5dOclxo0psHU4qKEkJZZeOXU3321uNZD2ahb33xs=;
+ b=BHjATy6fZP8ji4IGupauqNl0WwuhtgEHJ5Uvo41N7C5M7N8Uj7jryss0bo6TNq4OIi4Q4l
+ gDnny4txN/4x+z2INOe6gluUHretukxeipr9wZKzZ3Z2N2Geayq8RKiR7CmF6nQOUFkNta
+ Sqk16wgXDGlTSh4T0aJeS8g4mhBWmaI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-28-ZAB2v3HdPYG8RKTpIwku7A-1; Wed, 13 Oct 2021 12:00:06 -0400
+X-MC-Unique: ZAB2v3HdPYG8RKTpIwku7A-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ s18-20020adfbc12000000b00160b2d4d5ebso2376673wrg.7
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 09:00:06 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:message-id:date:mime-version:user-agent:subject
+ :content-language:to:cc:references:from:organization:in-reply-to
+ :content-transfer-encoding;
+ bh=QCm5dOclxo0psHU4qKEkJZZeOXU3321uNZD2ahb33xs=;
+ b=lJyEV2vDlfCQYcCykiqcwOAL+S/ZacS1ROKqYjWEjlHZm7CkfuHQaNae5aBQk+YgWl
+ bWMwH1SORgKHkgB1Uobp/pfvU5pbe4uuZ2CJhgaJhNsaGjIe/qcZCLeTIlJpVG32Puaf
+ DI44ytuwK0rP4ZozQpDlRZPvX4kVSiiqN8O6D8H2gGgngiaw8/zcRChw6tfIjSDNd/WS
+ BvrvjdQJrN6zFYTlgzjoO0QkC8A+4wFWbjYaAsXecFdmpcRmV/wl4FFw5p3F2TBh9tnx
+ q8KQs4LGdL2tmK7oYN9n7qDudpQmWr5Zun4jyc2HKhft67Dddug7+pu2ntTV0fUVXLH/
+ CdUw==
+X-Gm-Message-State: AOAM532yWYvahUluOhr4Z1xyhUPnoQ6Bp3KZyqHwmVzON62lDLzcHkzi
+ nLBm+6Ybz9kVnoOa1Y7lFW10/KhCSBPHwtabrgvkM/ZjHAXuaHVbn8rwGJxSdsIC8SCELQqANZS
+ cdJeThRXB38t86eBaLBExppjBIfz1
+X-Received: by 2002:adf:dc0d:: with SMTP id t13mr9672wri.158.1634140805533;
+ Wed, 13 Oct 2021 09:00:05 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyItkbAA3kGIqmmHgTgrrpf9fCG54WlJV2+wdefB9WU28Q546eZydpGXWHl2Ou3h6lUqYc/hA==
+X-Received: by 2002:adf:dc0d:: with SMTP id t13mr9603wri.158.1634140805309;
+ Wed, 13 Oct 2021 09:00:05 -0700 (PDT)
+Received: from [192.168.3.132] (p5b0c6774.dip0.t-ipconnect.de. [91.12.103.116])
+ by smtp.gmail.com with ESMTPSA id n17sm6521wrq.11.2021.10.13.09.00.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 13 Oct 2021 09:00:04 -0700 (PDT)
+Message-ID: <cf511a7f-531f-4555-d7b4-cb171a615fdd@redhat.com>
+Date: Wed, 13 Oct 2021 18:00:01 +0200
 MIME-Version: 1.0
-In-Reply-To: <YWbKhu0IQ4hsr5w7@phenom.ffwll.local>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.1.0
+Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
+ Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Johan Hedberg <johan.hedberg@gmail.com>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Matt Mackall
+ <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+ Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
+ Sudeep Holla <sudeep.holla@arm.com>,
+ Cristian Marussi <cristian.marussi@arm.com>,
+ "Enrico Weigelt, metux IT consult" <info@metux.net>,
+ Viresh Kumar <vireshk@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Bartosz Golaszewski <brgl@bgdev.pl>, David Airlie <airlied@linux.ie>,
+ Gerd Hoffmann <kraxel@redhat.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Jie Deng <jie.deng@intel.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Johannes Berg <johannes@sipsolutions.net>,
+ Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
+ Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ Ira Weiny <ira.weiny@intel.com>, Ohad Ben-Cohen <ohad@wizery.com>,
+ Bjorn Andersson <bjorn.andersson@linaro.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "James E.J. Bottomley" <jejb@linux.ibm.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
+ Eric Van Hensbergen <ericvh@gmail.com>, Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
+ linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
+ alsa-devel@alsa-project.org
+References: <20211013105226.20225-1-mst@redhat.com>
+ <2060bd96-5884-a1b5-9f29-7fe670dc088d@redhat.com>
+ <20211013081632-mutt-send-email-mst@kernel.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20211013081632-mutt-send-email-mst@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -58,163 +134,75 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-
-On 13/10/2021 13:01, Daniel Vetter wrote:
-> On Wed, Oct 06, 2021 at 10:12:29AM -0700, Matthew Brost wrote:
->> On Mon, Oct 04, 2021 at 03:36:48PM +0100, Tvrtko Ursulin wrote:
->>> From: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+On 13.10.21 14:17, Michael S. Tsirkin wrote:
+> On Wed, Oct 13, 2021 at 01:03:46PM +0200, David Hildenbrand wrote:
+>> On 13.10.21 12:55, Michael S. Tsirkin wrote:
+>>> This will enable cleanups down the road.
+>>> The idea is to disable cbs, then add "flush_queued_cbs" callback
+>>> as a parameter, this way drivers can flush any work
+>>> queued after callbacks have been disabled.
 >>>
->>> Code added in 71ed60112d5d ("drm/i915: Add kick_backend function to
->>> i915_sched_engine") and ee242ca704d3 ("drm/i915/guc: Implement GuC
->>> priority management") introduced some scheduling related vfuncs which
->>> take integer request priority as argument.
->>>
->>> Make them instead take struct i915_sched_attr, which is the type
->>> encapsulating this information, so it probably aligns with the design
->>> better. It definitely enables extending the set of scheduling attributes.
->>>
->>
->> Understand the motivation here but the i915_scheduler is going to
->> disapear when we move to the DRM scheduler or at least its functionality
->> of priority inheritance will be pushed into the DRM scheduler. I'd be
->> very careful making any changes here as the priority in the DRM
->> scheduler is defined as single enum:
-> 
-> Yeah I'm not sure it makes sense to build this and make the conversion to
-> drm/sched even harder. We've already merged a lot of code with a "we'll
-> totally convert to drm/sched right after" promise, there's not really room
-> for more fun like this built on top of i915-scheduler.
-
-It is not really fun on top of i915-scheduler. It is fun on top of the 
-concept of uapi gem context priority. As long as there is gem context 
-priority, and requests inherit from it, the concept works. This is 
-demonstrated by the fact it ties in with the GuC backend which reduces 
-to three priorities already. It is limited granularity but it does 
-something.
-
-Implementation details aside, key question is the proposal to tie 
-process nice with GPU scheduling priority. There seems to be interest 
-from other parties so there probably is something here.
-
-But I do plan to simplify this RFC to not add anything to 
-i915_sched_attr and also drop the task sched attr change notifier.
-
-Regards,
-
-Tvrtko
-
-> -Daniel
-> 
->>
->> /* These are often used as an (initial) index
->>   * to an array, and as such should start at 0.
->>   */
->> enum drm_sched_priority {
->>          DRM_SCHED_PRIORITY_MIN,
->>          DRM_SCHED_PRIORITY_NORMAL,
->>          DRM_SCHED_PRIORITY_HIGH,
->>          DRM_SCHED_PRIORITY_KERNEL,
->>
->>          DRM_SCHED_PRIORITY_COUNT,
->>          DRM_SCHED_PRIORITY_UNSET = -2
->> };
->>
->> Adding a field to the i915_sched_attr is fairly easy as we already have
->> a structure but changing the DRM scheduler might be a tougher sell.
->> Anyway you can make this work without adding the 'nice' field to
->> i915_sched_attr? Might be worth exploring so when we move to the DRM
->> scheduler this feature drops in a little cleaner.
->>
->> Matt
->>
->>> Signed-off-by: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
->>> Cc: Matthew Brost <matthew.brost@intel.com>
->>> Cc: Daniele Ceraolo Spurio <daniele.ceraolospurio@intel.com>
+>>> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 >>> ---
->>>   drivers/gpu/drm/i915/gt/intel_execlists_submission.c | 4 +++-
->>>   drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c    | 3 ++-
->>>   drivers/gpu/drm/i915/i915_scheduler.c                | 4 ++--
->>>   drivers/gpu/drm/i915/i915_scheduler_types.h          | 4 ++--
->>>   4 files changed, 9 insertions(+), 6 deletions(-)
+>>>   arch/um/drivers/virt-pci.c                 | 2 +-
+>>>   drivers/block/virtio_blk.c                 | 4 ++--
+>>>   drivers/bluetooth/virtio_bt.c              | 2 +-
+>>>   drivers/char/hw_random/virtio-rng.c        | 2 +-
+>>>   drivers/char/virtio_console.c              | 4 ++--
+>>>   drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
+>>>   drivers/firmware/arm_scmi/virtio.c         | 2 +-
+>>>   drivers/gpio/gpio-virtio.c                 | 2 +-
+>>>   drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
+>>>   drivers/i2c/busses/i2c-virtio.c            | 2 +-
+>>>   drivers/iommu/virtio-iommu.c               | 2 +-
+>>>   drivers/net/caif/caif_virtio.c             | 2 +-
+>>>   drivers/net/virtio_net.c                   | 4 ++--
+>>>   drivers/net/wireless/mac80211_hwsim.c      | 2 +-
+>>>   drivers/nvdimm/virtio_pmem.c               | 2 +-
+>>>   drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
+>>>   drivers/scsi/virtio_scsi.c                 | 2 +-
+>>>   drivers/virtio/virtio.c                    | 5 +++++
+>>>   drivers/virtio/virtio_balloon.c            | 2 +-
+>>>   drivers/virtio/virtio_input.c              | 2 +-
+>>>   drivers/virtio/virtio_mem.c                | 2 +-
+>>>   fs/fuse/virtio_fs.c                        | 4 ++--
+>>>   include/linux/virtio.h                     | 1 +
+>>>   net/9p/trans_virtio.c                      | 2 +-
+>>>   net/vmw_vsock/virtio_transport.c           | 4 ++--
+>>>   sound/virtio/virtio_card.c                 | 4 ++--
+>>>   26 files changed, 39 insertions(+), 33 deletions(-)
 >>>
->>> diff --git a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> index 7147fe80919e..e91d803a6453 100644
->>> --- a/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/intel_execlists_submission.c
->>> @@ -3216,11 +3216,13 @@ static bool can_preempt(struct intel_engine_cs *engine)
->>>   	return engine->class != RENDER_CLASS;
->>>   }
->>>   
->>> -static void kick_execlists(const struct i915_request *rq, int prio)
->>> +static void kick_execlists(const struct i915_request *rq,
->>> +			   const struct i915_sched_attr *attr)
->>>   {
->>>   	struct intel_engine_cs *engine = rq->engine;
->>>   	struct i915_sched_engine *sched_engine = engine->sched_engine;
->>>   	const struct i915_request *inflight;
->>> +	const int prio = attr->priority;
->>>   
->>>   	/*
->>>   	 * We only need to kick the tasklet once for the high priority
->>> diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> index ba0de35f6323..b5883a4365ca 100644
->>> --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
->>> @@ -2414,9 +2414,10 @@ static void guc_init_breadcrumbs(struct intel_engine_cs *engine)
->>>   }
->>>   
->>>   static void guc_bump_inflight_request_prio(struct i915_request *rq,
->>> -					   int prio)
->>> +					   const struct i915_sched_attr *attr)
->>>   {
->>>   	struct intel_context *ce = rq->context;
->>> +	const int prio = attr->priority;
->>>   	u8 new_guc_prio = map_i915_prio_to_guc_prio(prio);
->>>   
->>>   	/* Short circuit function */
->>> diff --git a/drivers/gpu/drm/i915/i915_scheduler.c b/drivers/gpu/drm/i915/i915_scheduler.c
->>> index 762127dd56c5..534bab99fcdc 100644
->>> --- a/drivers/gpu/drm/i915/i915_scheduler.c
->>> +++ b/drivers/gpu/drm/i915/i915_scheduler.c
->>> @@ -255,7 +255,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->>>   
->>>   		/* Must be called before changing the nodes priority */
->>>   		if (sched_engine->bump_inflight_request_prio)
->>> -			sched_engine->bump_inflight_request_prio(from, prio);
->>> +			sched_engine->bump_inflight_request_prio(from, attr);
->>>   
->>>   		WRITE_ONCE(node->attr.priority, prio);
->>>   
->>> @@ -280,7 +280,7 @@ static void __i915_schedule(struct i915_sched_node *node,
->>>   
->>>   		/* Defer (tasklet) submission until after all of our updates. */
->>>   		if (sched_engine->kick_backend)
->>> -			sched_engine->kick_backend(node_to_request(node), prio);
->>> +			sched_engine->kick_backend(node_to_request(node), attr);
->>>   	}
->>>   
->>>   	spin_unlock(&sched_engine->lock);
->>> diff --git a/drivers/gpu/drm/i915/i915_scheduler_types.h b/drivers/gpu/drm/i915/i915_scheduler_types.h
->>> index b0a1b58c7893..24b9ac1c2ce2 100644
->>> --- a/drivers/gpu/drm/i915/i915_scheduler_types.h
->>> +++ b/drivers/gpu/drm/i915/i915_scheduler_types.h
->>> @@ -177,13 +177,13 @@ struct i915_sched_engine {
->>>   	 * @kick_backend: kick backend after a request's priority has changed
->>>   	 */
->>>   	void	(*kick_backend)(const struct i915_request *rq,
->>> -				int prio);
->>> +				const struct i915_sched_attr *attr);
->>>   
->>>   	/**
->>>   	 * @bump_inflight_request_prio: update priority of an inflight request
->>>   	 */
->>>   	void	(*bump_inflight_request_prio)(struct i915_request *rq,
->>> -					      int prio);
->>> +					      const struct i915_sched_attr *attr);
->>>   
->>>   	/**
->>>   	 * @retire_inflight_request_prio: indicate request is retired to
->>> -- 
->>> 2.30.2
->>>
+>>> diff --git a/arch/um/drivers/virt-pci.c b/arch/um/drivers/virt-pci.c
+>>> index c08066633023..22c4d87c9c15 100644
+>>> --- a/arch/um/drivers/virt-pci.c
+>>> +++ b/arch/um/drivers/virt-pci.c
+>>> @@ -616,7 +616,7 @@ static void um_pci_virtio_remove(struct virtio_device *vdev)
+>>>   	int i;
+>>>           /* Stop all virtqueues */
+>>> -        vdev->config->reset(vdev);
+>>> +        virtio_reset_device(vdev);
+>>>           vdev->config->del_vqs(vdev);
+>>
+>> Nit: virtio_device_reset()?
+>>
+>> Because I see:
+>>
+>> int virtio_device_freeze(struct virtio_device *dev);
+>> int virtio_device_restore(struct virtio_device *dev);
+>> void virtio_device_ready(struct virtio_device *dev)
+>>
+>> But well, there is:
+>> void virtio_break_device(struct virtio_device *dev);
 > 
+> Exactly. I don't know what's best, so I opted for plain english :)
+
+Fair enough, LGTM
+
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
+
+-- 
+Thanks,
+
+David / dhildenb
+
