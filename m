@@ -1,75 +1,79 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1501842CBEC
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 22:50:22 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E22142CC71
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 23:00:45 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 07E0C6EB5C;
-	Wed, 13 Oct 2021 20:49:55 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id C5B056EB15;
+	Wed, 13 Oct 2021 21:00:41 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from new3-smtp.messagingengine.com (new3-smtp.messagingengine.com
- [66.111.4.229])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 16A456EB57;
- Wed, 13 Oct 2021 20:49:53 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 848C558117C;
- Wed, 13 Oct 2021 16:49:52 -0400 (EDT)
+Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
+ [66.111.4.27])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 424776EB0D;
+ Wed, 13 Oct 2021 21:00:40 +0000 (UTC)
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+ by mailout.nyi.internal (Postfix) with ESMTP id ABAB15C008C;
+ Wed, 13 Oct 2021 17:00:39 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 13 Oct 2021 16:49:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=from
- :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm3; bh=JGdyj4Z1k00E3
- EhPZP8xNXDzAW/iLqk7RYYsaxdxC2o=; b=KPyTnTKaEsZhOEudKbTkuUljaIWgO
- O0Oa7fj8+ywr6UaGaemCQ2WG+4qvmID+see8zbU7B+DpPIp1JYueUaY/G3u4Oxw/
- XC2t3RxCoEyCggNXgTy0dJaWOSyVlrfViTwIcP+KewBAVQTTxOTdZZ2FTMFrShEn
- 8HjtO43NRDxq63+Z9Fp2Aw1DQrVEytvKWuAAZ28XoxRTPXuPHsn98TPkA565E1JY
- s/d+B3XRMrrd68IMM4fy5ZztTGyqs+9SYvyWKfJeWS6tehFJIA6WPIjillwi27UM
- 3tl8I/lPjXZCOI1pn3vVgzuVGNLtSV2sXyGZqphaNprcf0ixkWxXzySzA==
+ by compute2.internal (MEProxy); Wed, 13 Oct 2021 17:00:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=u92.eu; h=date
+ :from:to:cc:subject:message-id:references:mime-version
+ :content-type:content-transfer-encoding:in-reply-to; s=fm3; bh=p
+ uRd1BM9YLoYVc3J5iBNemEECVRtEUjgf+PpJrxzOyY=; b=btpyqzrKv6GPplLdL
+ HppkwJGZguo438d4Y4I9hQrt+tl7VvNAxwnaUmCJZzYO3YnoB/ggOQOOLWjH20d8
+ jptUzSIJZ9y1MeU/pZsPDoLpBrlm3asvU92NJftq+WhBAogw5NyPDrhniDxm+u2w
+ 4CSVAvIHJTh0kuqEXntBVexUZyYXlCa2UTX8Rz0Kfz2jOCzrH4BM3dq6BxDbgGVP
+ PSdGMhHqGs4kYfyue7rhSrJDvjpZ4wc7j4w7ZfSAya1T64OS5E4tbdOcS1TOAd1/
+ JIdHDAQ9SEkmjk5zETuSKVQko6+VdqOtOq0T4zgXvuMlJ7GyyTtPnE8KcPRKdIAC
+ m743w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=JGdyj4Z1k00E3EhPZP8xNXDzAW/iLqk7RYYsaxdxC2o=; b=YRfILJKC
- LDWnMXe/4TWYmCm9/M0y22ljaVUTMTiCiNUvQyjK8JIPRKnNsaoSHTC++1N1uVCL
- qwrCA/Lz+TML+vY3LrkPSVfSnE6RxAPSkW9xZSHgoKxX1r6bCvnYvbpulct6xLWz
- RRkzNO8TYZtbrBbdsb9HqfDK0hU7+61U2/I2kvfDajXo043XJhSBIkgbHwmqEGVT
- GOikMq+d9/sdYQhdQVnMduASmTvDuZtYpAsx/NwRz55MuxaE3mm4CrbHedK8Uo08
- iWsaJTqcCzhEvcm1NhQTbsYpT2PtfjlT+xmCPmI1Ix0s6wJDflB6fKCumENhPgy/
- cAbVPSUNtlyTDQ==
-X-ME-Sender: <xms:cEZnYR166C4MQSmAee2PA1YjygVvJjL6d_aN_obPV62asFyx17i2Eg>
- <xme:cEZnYYEoZNe8M_sdSedOrNENN-BIH5UuWKuvRZg76En-4WUWRkyScA5ukZon5ZvFa
- 2psQp114SzdQq7ueQ>
-X-ME-Received: <xmr:cEZnYR59Vd6hWXOlt9NoJvlACJ0gXvHyoiOF4gW8QHCQSwbLTOcqcfMi60MJEY-njYtW>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehvdcutefuodetggdotefrod
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=puRd1BM9YLoYVc3J5iBNemEECVRtEUjgf+PpJrxzO
+ yY=; b=cViQsdllolKpiy/DvMtka4/LPTuplE9MtNol66QRwXywNfehD199Z+43b
+ oXQ2jjfEWmC/Yl6C183d7NImG5z0e52l0FQDm9xvVswOTe9ato+ZN3w6oclA1o5H
+ w6Um+/WFkZd/nLXFlTMbNV6CoNINgoEzR+bGLORQvukSBftJIZyHYX7OadNwcDnF
+ 3aUAGNtTULippYeXcvLo8a9uESpc/Q2bYQGaeAoIARlLvZPJFBCR4QFfeyHSC8yS
+ cP7qHHmMs6vRvrVuVhOFhUUnAYdJGDFUAdggyF046WjK9icIt6i39NbBIDN+EOsM
+ SI3c1NF9zIzHAvz9IOZIuA2RlGP0g==
+X-ME-Sender: <xms:90hnYdBf2zRdc062nsU--xx659yJ24EsBE5SfEZgz_ypnGUt_9AWJQ>
+ <xme:90hnYbjHMpVY_k5RWNjNLX_eNEaGXjCgI1RlT5hGUaMAfGhVeThZbu2zKaBH1Kump
+ Q5b8hBoB6_-1FT1CQ>
+X-ME-Received: <xmr:90hnYYmxDstCPNAuziIpBtBDLHUF8K_Xqj60x1jyydAQwRW3pGjbfRoykFEM0y4ExLyVSHfJ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvtddrvddutddgudehfecutefuodetggdotefrod
  ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtke
- ertdertddtnecuhfhrohhmpefhvghrnhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhho
- ohesuhelvddrvghuqeenucggtffrrghtthgvrhhnpeekleekjedtheejheekfefggeevvd
- fgueegffeuveduhfehueegkeeijedvvdejfeenucevlhhushhtvghrufhiiigvpeefnecu
- rfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhhoohesuhelvddrvghu
-X-ME-Proxy: <xmx:cEZnYe2lWhmq3IeFM27MzHEdXmJtPLMuakjjxCQL-YEJRjIjv1G-3A>
- <xmx:cEZnYUFYa_V__LJt_aN0kmR2ugY7hNnq1pnKAIcTG6rcxsrPf2bOHA>
- <xmx:cEZnYf-V0SrtyQvuJknidImeO97gMyRQianffFDYJIsbtXPtZ3eKyg>
- <xmx:cEZnYfAbyVH5EYiFEXKlBHx7-qqCUzIykJXZDiQg46iJ6vXLPRX6Qw>
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefhvghr
+ nhgrnhguohcutfgrmhhoshcuoehgrhgvvghnfhhoohesuhelvddrvghuqeenucggtffrrg
+ htthgvrhhnpefhudetkeekgeefgeefveetueegffefueejleekfeehgeeggeeuhedvfeeu
+ teehveenucffohhmrghinhepgihktggurdgtohhmpdhkvghrnhgvlhdrohhrghenucevlh
+ hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvvghnfhho
+ ohesuhelvddrvghu
+X-ME-Proxy: <xmx:90hnYXwZ8mWvKnzCXp33xHDFDUk0RS9VnTNGzyud7UGQsgfnNy_JNA>
+ <xmx:90hnYSQGji1c0JLdoXSQgRFEzMtKxktMecWbnJ_PcPbuu4HCdF0lmA>
+ <xmx:90hnYaaRE2EN72Ipf17BcI973EuCdK5sikbSiN0tSVPPvoItLkmN2A>
+ <xmx:90hnYQdGorfo-XEUhDsxvFb9orF-mu29xVU3Nxhd82b-NapFHCgNyA>
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 13 Oct 2021 16:49:49 -0400 (EDT)
+ 13 Oct 2021 17:00:37 -0400 (EDT)
+Date: Wed, 13 Oct 2021 23:00:35 +0200
 From: Fernando Ramos <greenfoo@u92.eu>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-kernel@vger.kernel.org, sean@poorly.run, linux-doc@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- nouveau@lists.freedesktop.org, linux-renesas-soc@vger.kernel.org,
- linux-tegra@vger.kernel.org
-Subject: [PATCH v4 20/20] drm: cleanup: remove acquire_ctx from drm_mode_config
-Date: Wed, 13 Oct 2021 22:48:46 +0200
-Message-Id: <20211013204846.90026-21-greenfoo@u92.eu>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211013204846.90026-1-greenfoo@u92.eu>
-References: <20211013204846.90026-1-greenfoo@u92.eu>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Daniel Vetter <daniel@ffwll.ch>, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, Sean Paul <seanpaul@chromium.org>
+Subject: Re: [PATCH 1/4] drm: Introduce drm_modeset_lock_ctx_retry()
+Message-ID: <YWdI82JKcncv3J71@zacax395.localdomain>
+References: <20210715184954.7794-1-ville.syrjala@linux.intel.com>
+ <20210715184954.7794-2-ville.syrjala@linux.intel.com>
+ <YPbTUf9KfiZ5GnFz@phenom.ffwll.local> <YVriZxCeipBUgc8O@intel.com>
+ <YWbKM9Fo5OHGafAY@phenom.ffwll.local> <YWbL3Z0UNZLMLC59@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <YWbL3Z0UNZLMLC59@intel.com>
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,35 +89,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-The previous patch removed drm_modeset_{lock,unlock}_all, which were the
-only users of this field inside the drm_mode_config structure.
+On 21/10/13 03:06PM, Ville Syrjälä wrote:
+> > And yes C is dangerous, but also C is verbose. I think one lesson from igt
+> > is that too many magic block constructs are bad, it's just not how C
+> > works. Definitely not in the kernel, where "oops I got it wrong because it
+> > was too clever" is bad.
+> > 
+> > > > Yes the macro we have is also not nice, but at least it's a screaming
+> > > > macro since it's all uppercase, so options are all a bit sucky. Which
+> > > > leads me to think we have a bit a https://xkcd.com/927/ situation going
+> > > > on.
+> > > > 
+> > > > I think minimally we should have one way to do this.
+> > > 
+> > > Well, there is no one way atm. All you can do is hand roll all the
+> > > boilerplate (and likely get it slightly wrong) if you don't want
+> > > lock_all.
+> > > 
+> > > The current macros only help with lock_all, and IMO the hidden gotos
+> > > are even uglier than a hidden for loop. Fernando already hit a case
+> > > where he couldn't use the macros twice due to conflicting goto
+> > > labels. With this for loop thing I think it would have just worked(tm).
+> > 
+> > I'm totally ok with repainting the shed, I just don't want some 80s
+> > multicolor flash show.
+> 
+> You have a better idea in mind?
 
-Signed-off-by: Fernando Ramos <greenfoo@u92.eu>
----
- include/drm/drm_mode_config.h | 10 ----------
- 1 file changed, 10 deletions(-)
+Sorry, I completely forgot this discussion was going on and I just published V4
+of my patch set here:
 
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 48b7de80daf5..b214b07157f2 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -383,16 +383,6 @@ struct drm_mode_config {
- 	 */
- 	struct drm_modeset_lock connection_mutex;
- 
--	/**
--	 * @acquire_ctx:
--	 *
--	 * Global implicit acquire context used by atomic drivers for legacy
--	 * IOCTLs. Deprecated, since implicit locking contexts make it
--	 * impossible to use driver-private &struct drm_modeset_lock. Users of
--	 * this must hold @mutex.
--	 */
--	struct drm_modeset_acquire_ctx *acquire_ctx;
--
- 	/**
- 	 * @idr_mutex:
- 	 *
--- 
-2.33.0
+    https://lore.kernel.org/dri-devel/20211013204846.90026-1-greenfoo@u92.eu/
 
+Please, feel free to let me know (ideally, as a reply to the corresponding i915
+patch from that set) if you rather me not to modify i915 files for now.
+
+Thanks.
