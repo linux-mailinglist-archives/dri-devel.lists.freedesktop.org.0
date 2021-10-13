@@ -2,79 +2,72 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6857842CDE6
-	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 00:25:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA69F42CEFE
+	for <lists+dri-devel@lfdr.de>; Thu, 14 Oct 2021 01:10:42 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 214786E1BD;
-	Wed, 13 Oct 2021 22:25:09 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 52E4E6E108;
+	Wed, 13 Oct 2021 23:10:37 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id F15C16E1BD
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 22:25:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634163906;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uWGOPFLeUFG9Ukt5Vn3RD2QUSrk7p78tTTuvrdPOlv4=;
- b=ZHzIegMwsljD2sHQSEE52+ezkwhPGz+21XaSk96YzoN6oefpLnA5F83QMV/So/jOEchrw5
- iJXkpFyAoEq1H71wTOqfh/eJJNBDi842Wq0Ap/87r3kQTGZDJcV5sGuIvSdVIdtQqhkfLV
- C7/f8IQfa9hm1OrSH4GQa9gh4TPSI7Q=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-jsISrEx3OtqsNOBOrQe29g-1; Wed, 13 Oct 2021 18:25:05 -0400
-X-MC-Unique: jsISrEx3OtqsNOBOrQe29g-1
-Received: by mail-qk1-f200.google.com with SMTP id
- z29-20020a05620a08dd00b0045fa369b83dso3008493qkz.9
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 15:25:05 -0700 (PDT)
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com
+ [IPv6:2a00:1450:4864:20::134])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id E29546E108
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 23:10:35 +0000 (UTC)
+Received: by mail-lf1-x134.google.com with SMTP id y26so18682757lfa.11
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 16:10:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=igel-co-jp.20210112.gappssmtp.com; s=20210112;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Qan44gaKVp95l/9iJFC+LzKNkAC30U78FrBM+ZiMrrU=;
+ b=7piTNBSNTjA2ol5lFwaYf7ug6QtfCqjriJYrmkgKWWgsfc08kKXo7kRGfM8VhE612T
+ TTQxqwX38SbU81y7fDeS83IcIwQBu1o0pNwN52fh9UX735Gz6+MbkDRcyX8l3B/CkFlE
+ 7jPSUiGtydhn5FfEXoKDuJWZsH4Alo4Q6WVtxv4NLWqzQrgxMc5r+RFwxPHN0vyqnEzM
+ +k6vnTqmgWEemsStU0Ug2wAv1WnxDn6t9cDV8mZsvbcx1SZYoQ0HHqijrSl8SSlqwAA1
+ CTE6qotMFNJjfWGe6G8DiIkIOx+mUoD0NSxFGOjnKmnV/AYes0Xi+UbCn3FputAdY313
+ Z9bA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
- :references:organization:user-agent:mime-version
- :content-transfer-encoding;
- bh=uWGOPFLeUFG9Ukt5Vn3RD2QUSrk7p78tTTuvrdPOlv4=;
- b=SG1naKSF6M5TWVvYXXH/oSBU6h+NJG6tw1hh+kCSzN34YcSylbAyCyNrsaeEouiR5d
- DCCmcSR1NixdBMGXeaH5KDL9lAhlGUsuoMUlkxhuco70GbnHqcqp722h6KL1Gzp2lzgm
- 6tBIYt+2IDM8LYcqd9MTq6BtFea3HUEtBRC1Rpbhws2bM65rq5M9k2acyVZA1Lqi2qZc
- paFYHbPhHb2193YMQwPgVPLZWEX/p3z5eaPUCcrCMkonCWMht2SjWJ7+gbLy2EcIbEia
- LvlI/8aYWtD60pfvzNaodR3MQ/I3z3Y2eK/kkH9d12KTra+ErsUHvyd/JgSXdt6Euxg5
- XVmA==
-X-Gm-Message-State: AOAM533mQem6q0uIGGQ2jp4XqZy7Aj0YwYcWeTUIYA897fL2Y7ugKOyV
- 6KPeOI39WGDRIpdZ6HdSc19grdk6RWAc/z1WX64I4WVjmUSrCajjBbMu6xvWy6L5Lzv6ppHj1+r
- suEzj3/gszQ4dfNZnZI4oYS/bIN8d
-X-Received: by 2002:ac8:5a49:: with SMTP id o9mr2342654qta.416.1634163904932; 
- Wed, 13 Oct 2021 15:25:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwVgxJUWpCQMGV4WuSGq8DrdKJGQlAZME9TnGmRI5DLrTHo2aWapRpz3x53C9qH/JporkiWZA==
-X-Received: by 2002:ac8:5a49:: with SMTP id o9mr2342617qta.416.1634163904570; 
- Wed, 13 Oct 2021 15:25:04 -0700 (PDT)
-Received: from [192.168.8.206] (pool-96-230-249-157.bstnma.fios.verizon.net.
- [96.230.249.157])
- by smtp.gmail.com with ESMTPSA id 125sm483497qkf.95.2021.10.13.15.25.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 15:25:04 -0700 (PDT)
-Message-ID: <3fbf786ee687e57cab02d71c745d01fb39819cba.camel@redhat.com>
-Subject: Re: [PATCH] drm: Update MST First Link Slot Information Based on
- Encoding Format
-From: Lyude Paul <lyude@redhat.com>
-To: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>, Jerry.Zuo@amd.com, 
- dri-devel@lists.freedesktop.org
-Cc: Harry.Wentland@amd.com, Wayne.Lin@amd.com, Nicholas.Kazlauskas@amd.com
-Date: Wed, 13 Oct 2021 18:25:03 -0400
-In-Reply-To: <20211012215848.1507023-1-Bhawanpreet.Lakha@amd.com>
-References: <5e463fbc3d633eea1078e838ba5be0065ffbeb1e.camel@redhat.com>
- <20211012215848.1507023-1-Bhawanpreet.Lakha@amd.com>
-Organization: Red Hat
-User-Agent: Evolution 3.40.4 (3.40.4-1.fc34)
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Qan44gaKVp95l/9iJFC+LzKNkAC30U78FrBM+ZiMrrU=;
+ b=jkzSIzG98NNfyBbzXxGvTaLTrSfRTxXOuTlouEVoMDtVFdvanxoOkiHnIhOOpYK8r3
+ CSSf+H6Z41RlZ/JMFb3Qxa9flV6OrsX4fsMKv1ZUu9BI/Qa399UEumVguGEdSe9iqEEw
+ sfFRElHpQ4TPzRl9DHnucJUDWPzzWqmXbBdn/wbPrrXC5+7A7uvPt30uetmtueQI5l0Z
+ FOMcWSp+OD4Mc7dVORthMhscY1X2MbV2/29RknWF0vlPTQpUPggTXcUwTUGuvIgGxivv
+ RdjD0A5TSCPRu9SYr/ZNI+2etHIFeyZBySrFgCQvJ0ExH2mzIVOSeAhSewPwF9ezi2z2
+ +Bwg==
+X-Gm-Message-State: AOAM533PVLjjj8TQEsKwadfj5tIvtyHiSqXhr7Ycu8RsnYvRU9EKidIu
+ mhHes7irqvvQjvsiP8JMPfudIeJjB6YMXY84mAI8aw==
+X-Google-Smtp-Source: ABdhPJwYyNB1JughgQdu2dMcMWEqOVJtkITltUfCjnBI9pRp+XszKtQdKVln2wetCF4ZjYgGLL2xLlWbJEpPvv5mY/E=
+X-Received: by 2002:a2e:7807:: with SMTP id t7mr2177891ljc.449.1634166633676; 
+ Wed, 13 Oct 2021 16:10:33 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lyude@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+References: <20210929041905.126454-1-mie@igel.co.jp>
+ <20210929041905.126454-3-mie@igel.co.jp>
+ <YVXMkSDXybju88TU@phenom.ffwll.local>
+ <CANXvt5rD82Lvvag_k9k+XE-Sj1S6Qwp5uf+-feUTvez1-t4xUA@mail.gmail.com>
+ <YWbGFkzkFRHmBcpa@phenom.ffwll.local>
+In-Reply-To: <YWbGFkzkFRHmBcpa@phenom.ffwll.local>
+From: Shunsuke Mie <mie@igel.co.jp>
+Date: Thu, 14 Oct 2021 08:10:22 +0900
+Message-ID: <CANXvt5p3Oo7VBq1DSDaPH8QexAus9+Q4DuzFo0JO583C7ZS9Gw@mail.gmail.com>
+Subject: Re: [RFC PATCH v2 2/2] RDMA/rxe: Add dma-buf support
+To: Shunsuke Mie <mie@igel.co.jp>, Zhu Yanjun <zyjzyj2000@gmail.com>, 
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Alex Deucher <alexander.deucher@amd.com>, Doug Ledford <dledford@redhat.com>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Jianxin Xiong <jianxin.xiong@intel.com>, 
+ Leon Romanovsky <leon@kernel.org>, Maor Gottlieb <maorg@nvidia.com>,
+ Sean Hefty <sean.hefty@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org, 
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ linux-rdma <linux-rdma@vger.kernel.org>, 
+ Damian Hobson-Garcia <dhobsong@igel.co.jp>, Takanari Hayama <taki@igel.co.jp>,
+ Tomohito Esaki <etom@igel.co.jp>
+Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,294 +83,335 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-Some comments below (also, sorry again for the mixup on the last review!)
+2021=E5=B9=B410=E6=9C=8813=E6=97=A5(=E6=B0=B4) 20:42 Daniel Vetter <daniel@=
+ffwll.ch>:
+>
+> On Fri, Oct 01, 2021 at 12:56:48PM +0900, Shunsuke Mie wrote:
+> > 2021=E5=B9=B49=E6=9C=8830=E6=97=A5(=E6=9C=A8) 23:41 Daniel Vetter <dani=
+el@ffwll.ch>:
+> > >
+> > > On Wed, Sep 29, 2021 at 01:19:05PM +0900, Shunsuke Mie wrote:
+> > > > Implement a ib device operation =E2=80=98reg_user_mr_dmabuf=E2=80=
+=99. Generate a
+> > > > rxe_map from the memory space linked the passed dma-buf.
+> > > >
+> > > > Signed-off-by: Shunsuke Mie <mie@igel.co.jp>
+> > > > ---
+> > > >  drivers/infiniband/sw/rxe/rxe_loc.h   |   2 +
+> > > >  drivers/infiniband/sw/rxe/rxe_mr.c    | 118 ++++++++++++++++++++++=
+++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.c |  34 ++++++++
+> > > >  drivers/infiniband/sw/rxe/rxe_verbs.h |   2 +
+> > > >  4 files changed, 156 insertions(+)
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_loc.h b/drivers/infiniba=
+nd/sw/rxe/rxe_loc.h
+> > > > index 1ca43b859d80..8bc19ea1a376 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_loc.h
+> > > > @@ -75,6 +75,8 @@ u8 rxe_get_next_key(u32 last_key);
+> > > >  void rxe_mr_init_dma(struct rxe_pd *pd, int access, struct rxe_mr =
+*mr);
+> > > >  int rxe_mr_init_user(struct rxe_pd *pd, u64 start, u64 length, u64=
+ iova,
+> > > >                    int access, struct rxe_mr *mr);
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr);
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr);
+> > > >  int rxe_mr_copy(struct rxe_mr *mr, u64 iova, void *addr, int lengt=
+h,
+> > > >               enum rxe_mr_copy_dir dir);
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_mr.c b/drivers/infiniban=
+d/sw/rxe/rxe_mr.c
+> > > > index 53271df10e47..af6ef671c3a5 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_mr.c
+> > > > @@ -4,6 +4,7 @@
+> > > >   * Copyright (c) 2015 System Fabric Works, Inc. All rights reserve=
+d.
+> > > >   */
+> > > >
+> > > > +#include <linux/dma-buf.h>
+> > > >  #include "rxe.h"
+> > > >  #include "rxe_loc.h"
+> > > >
+> > > > @@ -245,6 +246,120 @@ int rxe_mr_init_user(struct rxe_pd *pd, u64 s=
+tart, u64 length, u64 iova,
+> > > >       return err;
+> > > >  }
+> > > >
+> > > > +static int rxe_map_dmabuf_mr(struct rxe_mr *mr,
+> > > > +                          struct ib_umem_dmabuf *umem_dmabuf)
+> > > > +{
+> > > > +     struct rxe_map_set *set;
+> > > > +     struct rxe_phys_buf *buf =3D NULL;
+> > > > +     struct rxe_map **map;
+> > > > +     void *vaddr, *vaddr_end;
+> > > > +     int num_buf =3D 0;
+> > > > +     int err;
+> > > > +     size_t remain;
+> > > > +
+> > > > +     mr->dmabuf_map =3D kzalloc(sizeof &mr->dmabuf_map, GFP_KERNEL=
+);
+> > >
+> > > dmabuf_maps are just tagged pointers (and we could shrink them to act=
+ually
+> > > just a tagged pointer if anyone cares about the overhead of the separ=
+ate
+> > > bool), allocating them seperately is overkill.
+> >
+> > I agree with you. However, I think it is needed to unmap by
+> > dma_buf_vunmap(). If there is another simple way to unmap it. It is not
+> > needed I think. What do you think about it?
+>
+> dma_buf_vunmap does not kfree the dma_buf_map argument, so that's no
+> reason to allocate it separately. Or I'm confused.
+I had a misunderstood. Yes, It is not needed to allocate an object.
+Actually some
+implementations don't alloc/free the argument.
+e.g. gpu/drm/drm_gem_cma_helper.c
+I'll fix it.
 
-On Tue, 2021-10-12 at 17:58 -0400, Bhawanpreet Lakha wrote:
-> 8b/10b encoding format requires to reserve the first slot for
-> recording metadata. Real data transmission starts from the second slot,
-> with a total of available 63 slots available.
-> 
-> In 128b/132b encoding format, metadata is transmitted separately
-> in LLCP packet before MTP. Real data transmission starts from
-> the first slot, with a total of 64 slots available.
-> 
-> v2:
-> * Remove get_mst_link_encoding_cap
-> * Move total/start slots to mst_state, and copy it to mst_mgr in
-> atomic_check
-> 
-> Signed-off-by: Fangzhi Zuo <Jerry.Zuo@amd.com>
-> Signed-off-by: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-> ---
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 28 +++++++++++++++
->  drivers/gpu/drm/drm_dp_mst_topology.c         | 35 +++++++++++++++----
->  include/drm/drm_dp_mst_helper.h               | 13 +++++++
->  3 files changed, 69 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 5020f2d36fe1..4ad50eb0091a 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -10612,6 +10612,8 @@ static int amdgpu_dm_atomic_check(struct drm_device
-> *dev,
->  #if defined(CONFIG_DRM_AMD_DC_DCN)
->         struct dsc_mst_fairness_vars vars[MAX_PIPES];
->  #endif
-> +       struct drm_dp_mst_topology_state *mst_state;
-> +       struct drm_dp_mst_topology_mgr *mgr;
->  
->         trace_amdgpu_dm_atomic_check_begin(state);
->  
-> @@ -10819,6 +10821,32 @@ static int amdgpu_dm_atomic_check(struct drm_device
-> *dev,
->                 lock_and_validation_needed = true;
->         }
->  
-> +#if defined(CONFIG_DRM_AMD_DC_DCN)
-> +       for_each_new_mst_mgr_in_state(state, mgr, mst_state, i) {
-> +               struct amdgpu_dm_connector *aconnector;
-> +               struct drm_connector *connector;
-> +               struct drm_connector_list_iter iter;
-> +               u8 link_coding_cap;
-> +
-> +               if (!mgr->mst_state )
-> +                       continue;
+> Also apologies, I'm way behind on mails.
+No problem. Thank you for your answer.
 
-extraneous space
+Thanks,
+Shunsuke
 
-> +
-> +               drm_connector_list_iter_begin(dev, &iter);
-> +               drm_for_each_connector_iter(connector, &iter) {
-> +                       int id = connector->index;
-> +
-> +                       if (id == mst_state->mgr->conn_base_id) {
-> +                               aconnector =
-> to_amdgpu_dm_connector(connector);
-> +                               link_coding_cap =
-> dc_link_dp_mst_decide_link_encoding_format(aconnector->dc_link);
-> +                               drm_dp_mst_update_coding_cap(mst_state,
-> link_coding_cap);
-> +
-> +                               break;
-> +                       }
-> +               }
-> +               drm_connector_list_iter_end(&iter);
-> +
-> +       }
-> +#endif
->         /**
->          * Streams and planes are reset when there are changes that affect
->          * bandwidth. Anything that affects bandwidth needs to go through
-> diff --git a/drivers/gpu/drm/drm_dp_mst_topology.c
-> b/drivers/gpu/drm/drm_dp_mst_topology.c
-> index ad0795afc21c..fb5c47c4cb2e 100644
-> --- a/drivers/gpu/drm/drm_dp_mst_topology.c
-> +++ b/drivers/gpu/drm/drm_dp_mst_topology.c
-> @@ -3368,7 +3368,7 @@ int drm_dp_update_payload_part1(struct
-> drm_dp_mst_topology_mgr *mgr)
->         struct drm_dp_payload req_payload;
->         struct drm_dp_mst_port *port;
->         int i, j;
-> -       int cur_slots = 1;
-> +       int cur_slots = mgr->start_slot;
->         bool skip;
->  
->         mutex_lock(&mgr->payload_lock);
-> @@ -4321,7 +4321,7 @@ int drm_dp_find_vcpi_slots(struct
-> drm_dp_mst_topology_mgr *mgr,
->         num_slots = DIV_ROUND_UP(pbn, mgr->pbn_div);
->  
->         /* max. time slots - one slot for MTP header */
-> -       if (num_slots > 63)
-> +       if (num_slots > mgr->total_avail_slots)
->                 return -ENOSPC;
-
-For reasons I will explain a little further in this email, we might want to
-drop this…
-
->         return num_slots;
->  }
-> @@ -4333,7 +4333,7 @@ static int drm_dp_init_vcpi(struct
-> drm_dp_mst_topology_mgr *mgr,
->         int ret;
->  
->         /* max. time slots - one slot for MTP header */
-> -       if (slots > 63)
-> +       if (slots > mgr->total_avail_slots)
-
-…and this
-
->                 return -ENOSPC;
->  
->         vcpi->pbn = pbn;
-> @@ -4507,6 +4507,18 @@ int drm_dp_atomic_release_vcpi_slots(struct
-> drm_atomic_state *state,
->  }
->  EXPORT_SYMBOL(drm_dp_atomic_release_vcpi_slots);
->  
-> +void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state
-> *mst_state, uint8_t link_coding_cap)
-
-Need some kdocs here
-
-> +{
-> +       if (link_coding_cap == DP_CAP_ANSI_128B132B) {
-> +               mst_state->total_avail_slots = 64;
-> +               mst_state->start_slot = 0;
-> +       }
-> +
-> +       DRM_DEBUG_KMS("%s coding format on mgr 0x%p\n",
-> +                       (link_coding_cap == DP_CAP_ANSI_128B132B) ?
-> "128b/132b":"8b/10b", mst_state->mgr);
-
-need to fix indenting here, and wrap this to 100 chars
-
-> +}
-> +EXPORT_SYMBOL(drm_dp_mst_update_coding_cap);
-> +
->  /**
->   * drm_dp_mst_allocate_vcpi() - Allocate a virtual channel
->   * @mgr: manager for this port
-> @@ -4538,8 +4550,8 @@ bool drm_dp_mst_allocate_vcpi(struct
-> drm_dp_mst_topology_mgr *mgr,
->  
->         ret = drm_dp_init_vcpi(mgr, &port->vcpi, pbn, slots);
->         if (ret) {
-> -               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=63
-> ret=%d\n",
-> -                           DIV_ROUND_UP(pbn, mgr->pbn_div), ret);
-> +               drm_dbg_kms(mgr->dev, "failed to init vcpi slots=%d max=%d
-> ret=%d\n",
-> +                           DIV_ROUND_UP(pbn, mgr->pbn_div), mgr-
-> >total_avail_slots, ret);
->                 drm_dp_mst_topology_put_port(port);
->                 goto out;
->         }
-> @@ -5226,7 +5238,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
-> drm_dp_mst_topology_mgr *mgr,
->                                          struct drm_dp_mst_topology_state
-> *mst_state)
->  {
->         struct drm_dp_vcpi_allocation *vcpi;
-> -       int avail_slots = 63, payload_count = 0;
-> +       int avail_slots = mgr->total_avail_slots, payload_count = 0;
->  
->         list_for_each_entry(vcpi, &mst_state->vcpis, next) {
->                 /* Releasing VCPI is always OK-even if the port is gone */
-> @@ -5255,7 +5267,7 @@ drm_dp_mst_atomic_check_vcpi_alloc_limit(struct
-> drm_dp_mst_topology_mgr *mgr,
->                 }
->         }
->         drm_dbg_atomic(mgr->dev, "[MST MGR:%p] mst state %p VCPI avail=%d
-> used=%d\n",
-> -                      mgr, mst_state, avail_slots, 63 - avail_slots);
-> +                      mgr, mst_state, avail_slots, mgr->total_avail_slots -
-> avail_slots);
->  
->         return 0;
->  }
-> @@ -5421,6 +5433,10 @@ int drm_dp_mst_atomic_check(struct drm_atomic_state
-> *state)
->                         break;
->  
->                 mutex_lock(&mgr->lock);
-> +
-> +               mgr->start_slot = mst_state->start_slot;
-> +               mgr->total_avail_slots = mst_state->total_avail_slots;
-> +
-
-this isn't correct - atomic checks aren't allowed to mutate anything besides
-the atomic state structure that we're checking since we don't know whether or
-not the display state is going to be committed when checking it. If we're
-storing state in mgr, that state needs to be written to mgr during the atomic
-commit instead of the atomic check.
-
-...but, coming back to this MST code after being gone for a while, I think it
-might be time for us to stop worrying about the non-atomic state. Especially
-since there's only one driver using it; the legacy radeon.ko; and right now
-the plan is either to just drop MST support on radeon.ko or move the MST code
-it uses into radeon.ko.Which brings me to say - I think we can drop some of
-the hunks I mentioned above (e.g. the changes to drm_dp_init_vcpi and
-drm_dp_find_vcpi_slots I mentioned above). We can then just update the kdocs
-for these functions in a separate patch to clarify that now in addition to
-being deprecated, these functions are just broken and will eventually be
-removed.
-
-So - doing that allows us to get rid of mgr->total_avail_slots and mgr-
->start_slot entirely, just set the slot info in the atomic state during atomic
-check, and then just rely on the atomic state for
-drm_dp_atomic_find_vcpi_slots() and friends. Which seems much simpler to me,
-does this sound alrght with you?
-
->                 ret = drm_dp_mst_atomic_check_mstb_bw_limit(mgr-
-> >mst_primary,
->                                                             mst_state);
->                 mutex_unlock(&mgr->lock);
-> @@ -5527,11 +5543,16 @@ int drm_dp_mst_topology_mgr_init(struct
-> drm_dp_mst_topology_mgr *mgr,
->         if (!mgr->proposed_vcpis)
->                 return -ENOMEM;
->         set_bit(0, &mgr->payload_mask);
-> +       mgr->total_avail_slots = 63;
-> +       mgr->start_slot = 1;
->  
->         mst_state = kzalloc(sizeof(*mst_state), GFP_KERNEL);
->         if (mst_state == NULL)
->                 return -ENOMEM;
->  
-> +       mst_state->total_avail_slots = 63;
-> +       mst_state->start_slot = 1;
-> +
->         mst_state->mgr = mgr;
->         INIT_LIST_HEAD(&mst_state->vcpis);
->  
-> diff --git a/include/drm/drm_dp_mst_helper.h
-> b/include/drm/drm_dp_mst_helper.h
-> index ddb9231d0309..f8152dfb34ed 100644
-> --- a/include/drm/drm_dp_mst_helper.h
-> +++ b/include/drm/drm_dp_mst_helper.h
-> @@ -554,6 +554,8 @@ struct drm_dp_mst_topology_state {
->         struct drm_private_state base;
->         struct list_head vcpis;
->         struct drm_dp_mst_topology_mgr *mgr;
-> +       u8 total_avail_slots;
-> +       u8 start_slot;
->  };
->  
->  #define to_dp_mst_topology_mgr(x) container_of(x, struct
-> drm_dp_mst_topology_mgr, base)
-> @@ -661,6 +663,16 @@ struct drm_dp_mst_topology_mgr {
->          */
->         int pbn_div;
->  
-> +       /**
-> +        * @total_avail_slots: 63 for 8b/10b, 64 for 128/132b
-> +        */
-> +       u8 total_avail_slots;
-> +
-> +       /**
-> +        * @start_slot: 1 for 8b/10b, 0 for 128/132b
-> +        */
-> +       u8 start_slot;
-> +
->         /**
->          * @funcs: Atomic helper callbacks
->          */
-> @@ -806,6 +818,7 @@ int drm_dp_mst_get_vcpi_slots(struct
-> drm_dp_mst_topology_mgr *mgr, struct drm_dp
->  
->  void drm_dp_mst_reset_vcpi_slots(struct drm_dp_mst_topology_mgr *mgr,
-> struct drm_dp_mst_port *port);
->  
-> +void drm_dp_mst_update_coding_cap(struct drm_dp_mst_topology_state
-> *mst_state, uint8_t link_coding_cap);
->  
->  void drm_dp_mst_deallocate_vcpi(struct drm_dp_mst_topology_mgr *mgr,
->                                 struct drm_dp_mst_port *port);
-
--- 
-Cheers,
- Lyude Paul (she/her)
- Software Engineer at Red Hat
-
+> -Daniel
+>
+> >
+> > > > +     if (!mr->dmabuf_map) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     err =3D dma_buf_vmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     if (err)
+> > > > +             goto err_free_dmabuf_map;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->page_shift =3D PAGE_SHIFT;
+> > > > +     set->page_mask =3D PAGE_SIZE - 1;
+> > > > +
+> > > > +     map =3D set->map;
+> > > > +     buf =3D map[0]->buf;
+> > > > +
+> > > > +     vaddr =3D mr->dmabuf_map->vaddr;
+> > >
+> > > dma_buf_map can be an __iomem too, you shouldn't dig around in this, =
+but
+> > > use the dma-buf-map.h helpers instead. On x86 (and I think also on mo=
+st
+> > > arm) it doesn't matter, but it's kinda not very nice in a pure softwa=
+re
+> > > driver.
+> > >
+> > > If anything is missing in dma-buf-map.h wrappers just add more.
+> > >
+> > > Or alternatively you need to fail the import if you can't handle __io=
+mem.
+> > >
+> > > Aside from these I think the dma-buf side here for cpu access looks
+> > > reasonable now.
+> > > -Daniel
+> > I'll see the dma-buf-map.h and consider the error handling that you sug=
+gested.
+> > I appreciate your support.
+> >
+> > Thanks a lot,
+> > Shunsuke.
+> >
+> > > > +     vaddr_end =3D vaddr + umem_dmabuf->dmabuf->size;
+> > > > +     remain =3D umem_dmabuf->dmabuf->size;
+> > > > +
+> > > > +     for (; remain; vaddr +=3D PAGE_SIZE) {
+> > > > +             if (num_buf >=3D RXE_BUF_PER_MAP) {
+> > > > +                     map++;
+> > > > +                     buf =3D map[0]->buf;
+> > > > +                     num_buf =3D 0;
+> > > > +             }
+> > > > +
+> > > > +             buf->addr =3D (uintptr_t)vaddr;
+> > > > +             if (remain >=3D PAGE_SIZE)
+> > > > +                     buf->size =3D PAGE_SIZE;
+> > > > +             else
+> > > > +                     buf->size =3D remain;
+> > > > +             remain -=3D buf->size;
+> > > > +
+> > > > +             num_buf++;
+> > > > +             buf++;
+> > > > +     }
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_dmabuf_map:
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > > +static void rxe_unmap_dmabuf_mr(struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf =3D to_ib_umem_dmabuf(mr->=
+umem);
+> > > > +
+> > > > +     dma_buf_vunmap(umem_dmabuf->dmabuf, mr->dmabuf_map);
+> > > > +     kfree(mr->dmabuf_map);
+> > > > +}
+> > > > +
+> > > > +int rxe_mr_dmabuf_init_user(struct rxe_pd *pd, int fd, u64 start, =
+u64 length,
+> > > > +                         u64 iova, int access, struct rxe_mr *mr)
+> > > > +{
+> > > > +     struct ib_umem_dmabuf *umem_dmabuf;
+> > > > +     struct rxe_map_set *set;
+> > > > +     int err;
+> > > > +
+> > > > +     umem_dmabuf =3D ib_umem_dmabuf_get(pd->ibpd.device, start, le=
+ngth, fd,
+> > > > +                                      access, NULL);
+> > > > +     if (IS_ERR(umem_dmabuf)) {
+> > > > +             err =3D PTR_ERR(umem_dmabuf);
+> > > > +             goto err_out;
+> > > > +     }
+> > > > +
+> > > > +     rxe_mr_init(access, mr);
+> > > > +
+> > > > +     err =3D rxe_mr_alloc(mr, ib_umem_num_pages(&umem_dmabuf->umem=
+), 0);
+> > > > +     if (err) {
+> > > > +             pr_warn("%s: Unable to allocate memory for map\n", __=
+func__);
+> > > > +             goto err_release_umem;
+> > > > +     }
+> > > > +
+> > > > +     mr->ibmr.pd =3D &pd->ibpd;
+> > > > +     mr->umem =3D &umem_dmabuf->umem;
+> > > > +     mr->access =3D access;
+> > > > +     mr->state =3D RXE_MR_STATE_VALID;
+> > > > +     mr->type =3D IB_MR_TYPE_USER;
+> > > > +
+> > > > +     set =3D mr->cur_map_set;
+> > > > +     set->length =3D length;
+> > > > +     set->iova =3D iova;
+> > > > +     set->va =3D start;
+> > > > +     set->offset =3D ib_umem_offset(mr->umem);
+> > > > +
+> > > > +     err =3D rxe_map_dmabuf_mr(mr, umem_dmabuf);
+> > > > +     if (err)
+> > > > +             goto err_free_map_set;
+> > > > +
+> > > > +     return 0;
+> > > > +
+> > > > +err_free_map_set:
+> > > > +     rxe_mr_free_map_set(mr->num_map, mr->cur_map_set);
+> > > > +err_release_umem:
+> > > > +     ib_umem_release(&umem_dmabuf->umem);
+> > > > +err_out:
+> > > > +     return err;
+> > > > +}
+> > > > +
+> > > >  int rxe_mr_init_fast(struct rxe_pd *pd, int max_pages, struct rxe_=
+mr *mr)
+> > > >  {
+> > > >       int err;
+> > > > @@ -703,6 +818,9 @@ void rxe_mr_cleanup(struct rxe_pool_entry *arg)
+> > > >  {
+> > > >       struct rxe_mr *mr =3D container_of(arg, typeof(*mr), pelem);
+> > > >
+> > > > +     if (mr->umem && mr->umem->is_dmabuf)
+> > > > +             rxe_unmap_dmabuf_mr(mr);
+> > > > +
+> > > >       ib_umem_release(mr->umem);
+> > > >
+> > > >       if (mr->cur_map_set)
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.c b/drivers/infini=
+band/sw/rxe/rxe_verbs.c
+> > > > index 9d0bb9aa7514..6191bb4f434d 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.c
+> > > > @@ -916,6 +916,39 @@ static struct ib_mr *rxe_reg_user_mr(struct ib=
+_pd *ibpd,
+> > > >       return ERR_PTR(err);
+> > > >  }
+> > > >
+> > > > +static struct ib_mr *rxe_reg_user_mr_dmabuf(struct ib_pd *ibpd, u6=
+4 start,
+> > > > +                                         u64 length, u64 iova, int=
+ fd,
+> > > > +                                         int access, struct ib_uda=
+ta *udata)
+> > > > +{
+> > > > +     int err;
+> > > > +     struct rxe_dev *rxe =3D to_rdev(ibpd->device);
+> > > > +     struct rxe_pd *pd =3D to_rpd(ibpd);
+> > > > +     struct rxe_mr *mr;
+> > > > +
+> > > > +     mr =3D rxe_alloc(&rxe->mr_pool);
+> > > > +     if (!mr) {
+> > > > +             err =3D -ENOMEM;
+> > > > +             goto err2;
+> > > > +     }
+> > > > +
+> > > > +     rxe_add_index(mr);
+> > > > +
+> > > > +     rxe_add_ref(pd);
+> > > > +
+> > > > +     err =3D rxe_mr_dmabuf_init_user(pd, fd, start, length, iova, =
+access, mr);
+> > > > +     if (err)
+> > > > +             goto err3;
+> > > > +
+> > > > +     return &mr->ibmr;
+> > > > +
+> > > > +err3:
+> > > > +     rxe_drop_ref(pd);
+> > > > +     rxe_drop_index(mr);
+> > > > +     rxe_drop_ref(mr);
+> > > > +err2:
+> > > > +     return ERR_PTR(err);
+> > > > +}
+> > > > +
+> > > >  static struct ib_mr *rxe_alloc_mr(struct ib_pd *ibpd, enum ib_mr_t=
+ype mr_type,
+> > > >                                 u32 max_num_sg)
+> > > >  {
+> > > > @@ -1081,6 +1114,7 @@ static const struct ib_device_ops rxe_dev_ops=
+ =3D {
+> > > >       .query_qp =3D rxe_query_qp,
+> > > >       .query_srq =3D rxe_query_srq,
+> > > >       .reg_user_mr =3D rxe_reg_user_mr,
+> > > > +     .reg_user_mr_dmabuf =3D rxe_reg_user_mr_dmabuf,
+> > > >       .req_notify_cq =3D rxe_req_notify_cq,
+> > > >       .resize_cq =3D rxe_resize_cq,
+> > > >
+> > > > diff --git a/drivers/infiniband/sw/rxe/rxe_verbs.h b/drivers/infini=
+band/sw/rxe/rxe_verbs.h
+> > > > index c807639435eb..0aa95ab06b6e 100644
+> > > > --- a/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > +++ b/drivers/infiniband/sw/rxe/rxe_verbs.h
+> > > > @@ -334,6 +334,8 @@ struct rxe_mr {
+> > > >
+> > > >       struct rxe_map_set      *cur_map_set;
+> > > >       struct rxe_map_set      *next_map_set;
+> > > > +
+> > > > +     struct dma_buf_map *dmabuf_map;
+> > > >  };
+> > > >
+> > > >  enum rxe_mw_state {
+> > > > --
+> > > > 2.17.1
+> > > >
+> > >
+> > > --
+> > > Daniel Vetter
+> > > Software Engineer, Intel Corporation
+> > > http://blog.ffwll.ch
+>
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
