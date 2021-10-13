@@ -2,105 +2,70 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEEA42C12C
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 15:16:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF38742C161
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 15:26:13 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 108EC6EA29;
-	Wed, 13 Oct 2021 13:16:35 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 8EB736E053;
+	Wed, 13 Oct 2021 13:26:09 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from us-smtp-delivery-124.mimecast.com
- (us-smtp-delivery-124.mimecast.com [170.10.133.124])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 1ABEE6EA29
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 13:16:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1634130993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3UweUBspHinuJSQhguEdx6WU40R4nh4wg670z3EQDCs=;
- b=N9DOpLi6ciGUwBrxKQ9ffOhc5mGMwOI3tkVi5n7Wnt101pu2mf6nRDse+lTnviWvJ77Gtm
- BUkSyFQdDSFqg6EKfj+ifNOS4dVdzHFtQJNBN2kv/ZipH9hhhvNvJTcYyXsAyHLhwLnd2u
- 0BwmIpNaoMZu6+GATu1hON/hRB1f9CA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-lYDb9o67Mf-rDMq57zxd3g-1; Wed, 13 Oct 2021 09:16:31 -0400
-X-MC-Unique: lYDb9o67Mf-rDMq57zxd3g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41EC3100CCC0;
- Wed, 13 Oct 2021 13:16:24 +0000 (UTC)
-Received: from horse.redhat.com (unknown [10.22.33.167])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9599DADD0;
- Wed, 13 Oct 2021 13:16:20 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id DEFAB22023A; Wed, 13 Oct 2021 09:16:19 -0400 (EDT)
-Date: Wed, 13 Oct 2021 09:16:19 -0400
-From: Vivek Goyal <vgoyal@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Jeff Dike <jdike@addtoit.com>,
- Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Jason Wang <jasowang@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Jens Axboe <axboe@kernel.dk>,
- Marcel Holtmann <marcel@holtmann.org>,
- Johan Hedberg <johan.hedberg@gmail.com>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Matt Mackall <mpm@selenic.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- Amit Shah <amit@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Gonglei <arei.gonglei@huawei.com>, "David S. Miller" <davem@davemloft.net>,
- Sudeep Holla <sudeep.holla@arm.com>,
- Cristian Marussi <cristian.marussi@arm.com>,
- "Enrico Weigelt, metux IT consult" <info@metux.net>,
- Viresh Kumar <vireshk@kernel.org>,
- Linus Walleij <linus.walleij@linaro.org>,
- Bartosz Golaszewski <brgl@bgdev.pl>,
- David Airlie <airlied@linux.ie>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Vetter <daniel@ffwll.ch>, Jie Deng <jie.deng@intel.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>,
- Johannes Berg <johannes@sipsolutions.net>,
- Kalle Valo <kvalo@codeaurora.org>, Dan Williams <dan.j.williams@intel.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Ohad Ben-Cohen <ohad@wizery.com>,
- Bjorn Andersson <bjorn.andersson@linaro.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- "James E.J. Bottomley" <jejb@linux.ibm.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- David Hildenbrand <david@redhat.com>, Miklos Szeredi <miklos@szeredi.hu>,
- Eric Van Hensbergen <ericvh@gmail.com>,
- Latchesar Ionkov <lucho@ionkov.net>,
- Dominique Martinet <asmadeus@codewreck.org>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-um@lists.infradead.org, virtualization@lists.linux-foundation.org,
- linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-gpio@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-i2c@vger.kernel.org, iommu@lists.linux-foundation.org,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- nvdimm@lists.linux.dev, linux-remoteproc@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- v9fs-developer@lists.sourceforge.net, kvm@vger.kernel.org,
- alsa-devel@alsa-project.org
-Subject: Re: [PATCH RFC] virtio: wrap config->reset calls
-Message-ID: <YWbcI15YOkhnPh5x@redhat.com>
-References: <20211013105226.20225-1-mst@redhat.com>
+Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com
+ [IPv6:2a00:1450:4864:20::42c])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 733576E053
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 13:26:08 +0000 (UTC)
+Received: by mail-wr1-x42c.google.com with SMTP id t2so8380603wrb.8
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 06:26:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:content-transfer-encoding:in-reply-to;
+ bh=4ZBC969FVok1eY2w7nMmmgvhC6HvUOJiXWHVhHaFOwU=;
+ b=SQ0Rp6hvlW7gN0NVEBBstW2sqB4by4Ckf7kjf5i337dhcKAKP3eMkso5odE6ceCR+k
+ 5YUwti+PFCzR2dzDtdtC21eNr5SMfNESb0MnJ4DmfoRDqWwRDLU5o3F2NxOH1Fhz6wd9
+ F5oSY29oFS5nyChuGBjeNjvkIRcBATGB3hZbU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=4ZBC969FVok1eY2w7nMmmgvhC6HvUOJiXWHVhHaFOwU=;
+ b=g+ph0SKrsu2bHz+glGo0w2HOryOPtnpnyikZf0M36jAt1PoUuByz1EAFom4U7NJCwE
+ dCwZXu1eWAZxY0CLIPzNKB1VUmaA0ZLERTu5ManKYVuaWl6/b5A3tGPveM+vqnH1jC/i
+ M+WO+NiwLuPfAGFPbmO2CCKjQ9lQmp0O2gTSIgGBNx2fD4IpkVfn0fKKtvWjzuzdVji6
+ 6hub2g3r+PKb6j6bWER6SmcjopUpeFloZHyL6wXrxtfnRACxx96nzxyHaFjzDmmgaQTR
+ qhbXkiZHtQzTPX5Tvmbr9HdojXktwLrxj0eCSe9l2N1gwNvgAbxw+UhP4rbvRZuNBKdE
+ M9qA==
+X-Gm-Message-State: AOAM530rZHpBJ44H5R7lwI5yedwRBh1fyUFKOAzflKAhA39rA6mCEAnn
+ CSBMYJ6msLkcJ5VaDtAzB6DJrw==
+X-Google-Smtp-Source: ABdhPJxLknOsY+y5dglY3Mf+URYIj8Yvxtch0BAmgkFvyiT4UmA4TlWStXR+IldJYABbavd4nNE9fg==
+X-Received: by 2002:a1c:7f56:: with SMTP id a83mr13368905wmd.20.1634131566597; 
+ Wed, 13 Oct 2021 06:26:06 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+ by smtp.gmail.com with ESMTPSA id y191sm5963420wmc.36.2021.10.13.06.26.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 13 Oct 2021 06:26:05 -0700 (PDT)
+Date: Wed, 13 Oct 2021 15:26:03 +0200
+From: Daniel Vetter <daniel@ffwll.ch>
+To: =?iso-8859-1?Q?N=EDcolas_F=2E_R=2E_A=2E?= Prado <n@nfraprado.net>
+Cc: Daniel Vetter <daniel@ffwll.ch>, Shuah Khan <skhan@linuxfoundation.org>,
+ Brendan Higgins <brendanhiggins@google.com>,
+ Daniel Latypov <dlatypov@google.com>,
+ David Gow <davidgow@google.com>, kunit-dev@googlegroups.com,
+ linux-kselftest@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@riseup.net>,
+ Leandro Ribeiro <leandrohr@riseup.net>,
+ Melissa Wen <melissa.srw@gmail.com>,
+ Rodrigo Siqueira <rodrigosiqueiramelo@gmail.com>,
+ Pedro Sader Azevedo <pedro.saderazevedo@protonmail.com>,
+ isinyaaa <isabellabdoamaral@gmail.com>, ~lkcamp/discussion@lists.sr.ht
+Subject: Re: DRM KUnit hackathon
+Message-ID: <YWbea0x7i+z3N3gC@phenom.ffwll.local>
+References: <20211011152333.gm5jkaog6b6nbv5w@notapiano>
 MIME-Version: 1.0
-In-Reply-To: <20211013105226.20225-1-mst@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20211011152333.gm5jkaog6b6nbv5w@notapiano>
+X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -116,68 +81,39 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 06:55:31AM -0400, Michael S. Tsirkin wrote:
-> This will enable cleanups down the road.
-> The idea is to disable cbs, then add "flush_queued_cbs" callback
-> as a parameter, this way drivers can flush any work
-> queued after callbacks have been disabled.
+On Mon, Oct 11, 2021 at 10:23:33AM -0500, Nícolas F. R. A. Prado wrote:
+> Hello,
 > 
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> ---
->  arch/um/drivers/virt-pci.c                 | 2 +-
->  drivers/block/virtio_blk.c                 | 4 ++--
->  drivers/bluetooth/virtio_bt.c              | 2 +-
->  drivers/char/hw_random/virtio-rng.c        | 2 +-
->  drivers/char/virtio_console.c              | 4 ++--
->  drivers/crypto/virtio/virtio_crypto_core.c | 8 ++++----
->  drivers/firmware/arm_scmi/virtio.c         | 2 +-
->  drivers/gpio/gpio-virtio.c                 | 2 +-
->  drivers/gpu/drm/virtio/virtgpu_kms.c       | 2 +-
->  drivers/i2c/busses/i2c-virtio.c            | 2 +-
->  drivers/iommu/virtio-iommu.c               | 2 +-
->  drivers/net/caif/caif_virtio.c             | 2 +-
->  drivers/net/virtio_net.c                   | 4 ++--
->  drivers/net/wireless/mac80211_hwsim.c      | 2 +-
->  drivers/nvdimm/virtio_pmem.c               | 2 +-
->  drivers/rpmsg/virtio_rpmsg_bus.c           | 2 +-
->  drivers/scsi/virtio_scsi.c                 | 2 +-
->  drivers/virtio/virtio.c                    | 5 +++++
->  drivers/virtio/virtio_balloon.c            | 2 +-
->  drivers/virtio/virtio_input.c              | 2 +-
->  drivers/virtio/virtio_mem.c                | 2 +-
->  fs/fuse/virtio_fs.c                        | 4 ++--
+> We belong to a student group, LKCAMP [1], which is focused on sharing kernel and
+> free software development knowledge and mentoring newcomers to become
+> contributors to these projects.
+> 
+> As part of our efforts, we'll be organizing a hackathon to convert the drm
+> selftests in drivers/gpu/drm/selftests/ (and possibly the ones in
+> drivers/dma-buf too) to the KUnit framework. It will take place on October 30.
+> 
+> So please expect to receive some patches from our mentees on that date. It
+> probably won't be a big volume (experience tells it'll be around half a dozen
+> patches). We'll also make sure to do an internal review beforehand to catch
+> common first-timer mistakes and teach the basics.
+> 
+> We're already working on making sure that the converted KUnit tests can still be
+> run by IGT.
+> 
+> Please let us know if there's any issue with this date. Otherwise we look
+> forward to helping a few newcomers get their patches in the kernel on the 30th
+> :).
 
-fs/fuse/virtio_fs.c changes look good to me.
+Welcome all, looking forward to cool stuff!
 
-Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+Cheers, Daniel
 
-Vivek
+> 
+> Thanks!
+> 
+> [1] - https://lkcamp.dev/
 
-[..]
-> diff --git a/fs/fuse/virtio_fs.c b/fs/fuse/virtio_fs.c
-> index 0ad89c6629d7..27c3b74070a2 100644
-> --- a/fs/fuse/virtio_fs.c
-> +++ b/fs/fuse/virtio_fs.c
-> @@ -895,7 +895,7 @@ static int virtio_fs_probe(struct virtio_device *vdev)
->  	return 0;
->  
->  out_vqs:
-> -	vdev->config->reset(vdev);
-> +	virtio_reset_device(vdev);
->  	virtio_fs_cleanup_vqs(vdev, fs);
->  	kfree(fs->vqs);
->  
-> @@ -927,7 +927,7 @@ static void virtio_fs_remove(struct virtio_device *vdev)
->  	list_del_init(&fs->list);
->  	virtio_fs_stop_all_queues(fs);
->  	virtio_fs_drain_all_queues_locked(fs);
-> -	vdev->config->reset(vdev);
-> +	virtio_reset_device(vdev);
->  	virtio_fs_cleanup_vqs(vdev, fs);
->  
->  	vdev->priv = NULL;
-
-
-Thanks
-Vivek
-
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
