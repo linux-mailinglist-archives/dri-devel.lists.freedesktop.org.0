@@ -2,50 +2,51 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5512442B137
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 02:55:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A48F842B244
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 03:31:39 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 5B9056E513;
-	Wed, 13 Oct 2021 00:55:08 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 1A69C89C9B;
+	Wed, 13 Oct 2021 01:31:34 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 421956E513;
- Wed, 13 Oct 2021 00:55:06 +0000 (UTC)
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 40BEC6101B;
- Wed, 13 Oct 2021 00:55:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1634086506;
- bh=nPUBG676J9Znr9W6jp04IEWLym/zHZkvaMHVdXTr7+A=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=uoRjlU7bx8rXaDzPed8hQ5eEbKPzcZp+WkL0NDx2L/lER3O1bwTCBJBYQN6gmTycL
- GfalS/wtOQGmQFSlyR0Bqg3h4u7v+UHmD2rFOlX9+2Juoy5hFX3wMeKhBXZcWjvdcU
- q3Vtwi7PbFHeW5KJIVG+FiMrzziWYGBbOLPPI0F93t7/CMYSAoNuBXNg1l03VuKK+J
- 2nddiGsr1ASskBXKQcYu06J+A3BdP6Qpp7gtEIpU9LdzKupwRYxtN98+tH6Sft9gz3
- +l+GA2J5lZYDILvBZmdWYGkhRU5kvZazHtQqws9yIzBlluyC1hwMutDCT968xuEaR1
- keKAbVDOOB4zQ==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: Yifan Zhang <yifan1.zhang@amd.com>, James Zhu <James.Zhu@amd.com>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Sasha Levin <sashal@kernel.org>,
- christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@linux.ie,
- daniel@ffwll.ch, evan.quan@amd.com, Hawking.Zhang@amd.com,
- ray.huang@amd.com, shaoyun.liu@amd.com, andrey.grodzovsky@amd.com,
- Jack.Zhang1@amd.com, lijo.lazar@amd.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.14 09/17] drm/amdgpu: init iommu after amdkfd device
- init
-Date: Tue, 12 Oct 2021 20:54:33 -0400
-Message-Id: <20211013005441.699846-9-sashal@kernel.org>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20211013005441.699846-1-sashal@kernel.org>
-References: <20211013005441.699846-1-sashal@kernel.org>
+X-Greylist: delayed 1200 seconds by postgrey-1.36 at gabe;
+ Wed, 13 Oct 2021 01:31:32 UTC
+Received: from 14.mo582.mail-out.ovh.net (14.mo582.mail-out.ovh.net
+ [46.105.56.113])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 6E3E189C9B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 01:31:32 +0000 (UTC)
+Received: from player796.ha.ovh.net (unknown [10.109.146.240])
+ by mo582.mail-out.ovh.net (Postfix) with ESMTP id F1D0D22F4B
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 00:55:29 +0000 (UTC)
+Received: from etezian.org (unknown [31.22.55.47])
+ (Authenticated sender: andi@etezian.org)
+ by player796.ha.ovh.net (Postfix) with ESMTPSA id C2C10231A0DDB;
+ Wed, 13 Oct 2021 00:55:21 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-106R006d2cc06d3-2e70-4931-9f1a-eac143c2056a,
+ C786CB9E79FC7D8AF81679FEBE5E79C8CF9BC842) smtp.auth=andi@etezian.org
+X-OVh-ClientIp: 31.22.55.47
+Date: Wed, 13 Oct 2021 02:55:20 +0200
+From: Andi Shyti <andi@etezian.org>
+To: Matt Roper <matthew.d.roper@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ Paulo Zanoni <paulo.r.zanoni@intel.com>,
+ Stuart Summers <stuart.summers@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@intel.com>,
+ Andi Shyti <andi.shyti@linux.intel.com>, Andi Shyti <andi@etezian.org>
+Subject: Re: [Intel-gfx] [PATCH 07/11] drm/i915/xehp: Determine which tile
+ raised an interrupt
+Message-ID: <YWYueLmeWfeOWkLN@jack.zhora.eu>
+References: <20211008215635.2026385-1-matthew.d.roper@intel.com>
+ <20211008215635.2026385-8-matthew.d.roper@intel.com>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20211008215635.2026385-8-matthew.d.roper@intel.com>
+X-Ovh-Tracer-Id: 3350959600001092106
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvtddrvddtledgfeejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfhfgggtuggjsehttdortddttddvnecuhfhrohhmpeetnhguihcuufhhhihtihcuoegrnhguihesvghtvgiiihgrnhdrohhrgheqnecuggftrfgrthhtvghrnhepveekjeegvddvheevueeltddvgfdvgffgheevkeffffevkeekheekgeehieelfeelnecukfhppedtrddtrddtrddtpdefuddrvddvrdehhedrgeejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeeliedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegrnhguihesvghtvgiiihgrnhdrohhrghdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhg
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -61,57 +62,12 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-From: Yifan Zhang <yifan1.zhang@amd.com>
+Hi Matt and Paulo,
 
-[ Upstream commit 714d9e4574d54596973ee3b0624ee4a16264d700 ]
+> The first step of interrupt handling is to read a tile0 register that
+> tells us in which tile the interrupt happened; we can then we read the
+                                                ^^^^^^^^^^^^^^^^
 
-This patch is to fix clinfo failure in Raven/Picasso:
+... we can then read the...
 
-Number of platforms: 1
-  Platform Profile: FULL_PROFILE
-  Platform Version: OpenCL 2.2 AMD-APP (3364.0)
-  Platform Name: AMD Accelerated Parallel Processing
-  Platform Vendor: Advanced Micro Devices, Inc.
-  Platform Extensions: cl_khr_icd cl_amd_event_callback
-
-  Platform Name: AMD Accelerated Parallel Processing Number of devices: 0
-
-Signed-off-by: Yifan Zhang <yifan1.zhang@amd.com>
-Reviewed-by: James Zhu <James.Zhu@amd.com>
-Tested-by: James Zhu <James.Zhu@amd.com>
-Acked-by: Felix Kuehling <Felix.Kuehling@amd.com>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index d3247a5cceb4..580db14fd722 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -2342,10 +2342,6 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 	if (r)
- 		goto init_failed;
- 
--	r = amdgpu_amdkfd_resume_iommu(adev);
--	if (r)
--		goto init_failed;
--
- 	r = amdgpu_device_ip_hw_init_phase1(adev);
- 	if (r)
- 		goto init_failed;
-@@ -2384,6 +2380,10 @@ static int amdgpu_device_ip_init(struct amdgpu_device *adev)
- 	if (!adev->gmc.xgmi.pending_reset)
- 		amdgpu_amdkfd_device_init(adev);
- 
-+	r = amdgpu_amdkfd_resume_iommu(adev);
-+	if (r)
-+		goto init_failed;
-+
- 	amdgpu_fru_get_product_info(adev);
- 
- init_failed:
--- 
-2.33.0
-
+Andi
