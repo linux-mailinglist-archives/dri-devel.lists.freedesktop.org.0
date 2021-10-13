@@ -2,64 +2,41 @@ Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
 Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BA0D42B0A7
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 01:56:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284B542B0F1
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 02:23:08 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id 443A16E045;
-	Tue, 12 Oct 2021 23:56:47 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 166A46E9F7;
+	Wed, 13 Oct 2021 00:23:04 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com
- [IPv6:2a00:1450:4864:20::12f])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 0D79A6E045
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 23:56:45 +0000 (UTC)
-Received: by mail-lf1-x12f.google.com with SMTP id t9so3831016lfd.1
- for <dri-devel@lists.freedesktop.org>; Tue, 12 Oct 2021 16:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=rapPYH7V1hTNRP0fIwhOazgfaLtTR12NlYuQ8nIxcS4=;
- b=kNbNFLXLpZG9ARM2tQdVmhbs6Pbjs0M9mbHSqefCyCc9oTcV0mxzoGRs9czNZIAW0q
- LHXWhOqIArQEBYhU9QfFznXqBWKz/eSWj7DTBHozxNxuICOEbfSW5/A9M0g/Zqec6GY3
- C5p4CiMMyix+v4MyP4qliMFttcBAoD/stF7xDi5nvH0jCBoQnxeBrNd2kNnfPRMgU+LI
- Qc+1vO4UrhuPWbyQVI8EYO7FiJEUpSPzDR9lm4WM2AkgowG20Qo9014sjPWW7SbIm5df
- kcX1RXVzGMvxo7a+xlNpdPslR78QMVIf3JrnNwyFNkR1OxLtrDROnIXc0RJ6P7Bt706V
- KNrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=rapPYH7V1hTNRP0fIwhOazgfaLtTR12NlYuQ8nIxcS4=;
- b=be2UXh0YwfLTZZDIr5oAg/JmKAUJEH1zN6/uuOdU0J4BEvHQ8hiOM1onWbHlZFxaEk
- fJLKM1alNRxPWU9yDIFtNinO5E0gaco2Lar69RKLTHGQofvGi66DgPndHrgCXjgV6d5Z
- aPEb1EKGj5vyRL4G+JHuIKxZ/1QZYGuOI0Ynjs9g8kWMdr8WEJic/UiTWaDjlS0QXHiv
- jvvftA76bvXPM8ojjPKv2iP83kyUMTqsqcxqkoHMRewBCib29NmkNc3xqYl4H5L3Wy6T
- tOSY9pspnEkTCwezdH64kTIr5PlB9Zn0N6o/S/mmOAsJI1lpuQKM0+IdNncPFEaX9c65
- FeYw==
-X-Gm-Message-State: AOAM5331T6c6mzQsMxHXaDVgTHqkjL1H8aBDO9aCeGrhGVN1+C9zHIJV
- hOhOdxQTBMC/LCxYFU8jHXoY5x6SwUN15heFPDn2VQ==
-X-Google-Smtp-Source: ABdhPJzwNqtdmk87n0ek9Tq3sboN0Jw3reZ5002XxS4UFhnSSp/omrMqb9kwCQ/XdpbeqWO1MtWcRhLqhpIfVhQ1log=
-X-Received: by 2002:a05:6512:3c83:: with SMTP id
- h3mr32272899lfv.170.1634083003911; 
- Tue, 12 Oct 2021 16:56:43 -0700 (PDT)
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id 861736E04E;
+ Wed, 13 Oct 2021 00:23:02 +0000 (UTC)
+X-IronPort-AV: E=McAfee;i="6200,9189,10135"; a="214252101"
+X-IronPort-AV: E=Sophos;i="5.85,369,1624345200"; d="scan'208";a="214252101"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+ by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 17:23:01 -0700
+X-IronPort-AV: E=Sophos;i="5.85,369,1624345200"; d="scan'208";a="547652159"
+Received: from jons-linux-dev-box.fm.intel.com (HELO jons-linux-dev-box)
+ ([10.1.27.20])
+ by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 12 Oct 2021 17:23:01 -0700
+Date: Tue, 12 Oct 2021 17:18:17 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: John Harrison <john.c.harrison@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ daniele.ceraolospurio@intel.com
+Subject: Re: [PATCH 22/26] drm/i915/guc: Handle errors in multi-lrc requests
+Message-ID: <20211013001817.GA4760@jons-linux-dev-box>
+References: <20211004220637.14746-1-matthew.brost@intel.com>
+ <20211004220637.14746-23-matthew.brost@intel.com>
+ <9e63ab2b-55e1-5b83-45c7-4d0f8bb771f2@intel.com>
 MIME-Version: 1.0
-References: <eba79a76-413b-570c-aec0-899a5f918d38@amd.com>
- <20211012084109.176542-1-guangming.cao@mediatek.com>
-In-Reply-To: <20211012084109.176542-1-guangming.cao@mediatek.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Wed, 13 Oct 2021 05:26:30 +0530
-Message-ID: <CAO_48GE_jCWY4waK-+FqVw5sbuoHddt4kWpnkpvyLDRC__yE+g@mail.gmail.com>
-Subject: Re: [PATCH v2] dma-buf: remove restriction of IOCTL:DMA_BUF_SET_NAME
-To: guangming.cao@mediatek.com
-Cc: Christian Koenig <christian.koenig@amd.com>, 
- DRI mailing list <dri-devel@lists.freedesktop.org>, 
- Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
- linux-arm-kernel@lists.infradead.org, 
- LKML <linux-kernel@vger.kernel.org>, 
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
- linux-mediatek@lists.infradead.org, 
- matthias.bgg@gmail.com, Randy Dunlap <rdunlap@infradead.org>,
- wsd_upstream@mediatek.com
-Content-Type: multipart/alternative; boundary="000000000000fb688205ce30982d"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9e63ab2b-55e1-5b83-45c7-4d0f8bb771f2@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -75,240 +52,142 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
---000000000000fb688205ce30982d
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Oct 12, 2021 at 02:56:36PM -0700, John Harrison wrote:
+> On 10/4/2021 15:06, Matthew Brost wrote:
+> > If an error occurs in the front end when multi-lrc requests are getting
+> > generated we need to skip these in the backend but we still need to
+> > emit the breadcrumbs seqno. An issues arises because with multi-lrc
+> > breadcrumbs there is a handshake between the parent and children to make
+> > forward progress. If all the requests are not present this handshake
+> > doesn't work. To work around this, if multi-lrc request has an error we
+> > skip the handshake but still emit the breadcrumbs seqno.
+> > 
+> > v2:
+> >   (John Harrison)
+> >    - Add comment explaining the skipping of the handshake logic
+> >    - Fix typos in the commit message
+> > 
+> > Signed-off-by: Matthew Brost <matthew.brost@intel.com>
+> > ---
+> >   .../gpu/drm/i915/gt/uc/intel_guc_submission.c | 71 ++++++++++++++++++-
+> >   1 file changed, 68 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > index 83b0d2a114af..05e8b199e4ce 100644
+> > --- a/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > +++ b/drivers/gpu/drm/i915/gt/uc/intel_guc_submission.c
+> > @@ -4072,8 +4072,8 @@ static int emit_bb_start_child_no_preempt_mid_batch(struct i915_request *rq,
+> >   }
+> >   static u32 *
+> > -emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > -						 u32 *cs)
+> > +__emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > +						   u32 *cs)
+> >   {
+> >   	struct intel_context *ce = rq->context;
+> >   	u8 i;
+> > @@ -4101,6 +4101,46 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> >   				  get_children_go_addr(ce),
+> >   				  0);
+> > +	return cs;
+> > +}
+> > +
+> > +/*
+> > + * If this true, a submission of multi-lrc requests had an error and the
+> > + * requests need to be skipped. The front end (execuf IOCTL) should've called
+> > + * i915_request_skip which squashes the BB but we still need to emit the fini
+> > + * breadrcrumbs seqno write. At this point we don't know how many of the
+> > + * requests in the multi-lrc submission were generated so we can't do the
+> > + * handshake between the parent and children (e.g. if 4 requests should be
+> > + * generated but 2nd hit an error only 1 would be seen by the GuC backend).
+> > + * Simply skip the handshake, but still emit the breadcrumbd seqno, if an error
+> > + * has occurred on any of the requests in submission / relationship.
+> > + */
+> > +static inline bool skip_handshake(struct i915_request *rq)
+> > +{
+> > +	return test_bit(I915_FENCE_FLAG_SKIP_PARALLEL, &rq->fence.flags);
+> > +}
+> > +
+> > +static u32 *
+> > +emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> > +						 u32 *cs)
+> > +{
+> > +	struct intel_context *ce = rq->context;
+> > +
+> > +	GEM_BUG_ON(!intel_context_is_parent(ce));
+> > +
+> > +	if (unlikely(skip_handshake(rq))) {
+> > +		/*
+> > +		 * NOP everything in
+> > +		 * __emit_fini_breadcrumb_parent_no_preempt_mid_batch, the -6
+> The line wrapping makes this look confusing. It seems like the function name
+> should fit on the line before. Even if it is a few characters over (although
+> the limit is now 100 not 80, I think), the checkpatch warning is worth the
+> readability of the code.
+> 
 
-Hello Guangming, Christian,
+My vi setting wrap everything as 80 but agree it would be more readable
+if __emit_fini_breadcrumb_parent_no_preempt_mid_batch was on the
+previous line.
 
-
-
-On Tue, 12 Oct 2021, 14:09 , <guangming.cao@mediatek.com> wrote:
-
-> From: Guangming Cao <Guangming.Cao@mediatek.com>
->
-> > Am 09.10.21 um 07:55 schrieb guangming.cao@mediatek.com:
-> > From: Guangming Cao <Guangming.Cao@mediatek.com>
-> > >
-> > > If dma-buf don't want userspace users to touch the dmabuf buffer,
-> > > it seems we should add this restriction into dma_buf_ops.mmap,
-> > > not in this IOCTL:DMA_BUF_SET_NAME.
-> > >
-> > > With this restriction, we can only know the kernel users of the dmabuf
-> > > by attachments.
-> > > However, for many userspace users, such as userpsace users of dma_heap,
-> > > they also need to mark the usage of dma-buf, and they don't care about
-> > > who attached to this dmabuf, and seems it's no meaning to be waiting
-> for
-> > > IOCTL:DMA_BUF_SET_NAME rather than mmap.
-> >
-> > Sounds valid to me, but I have no idea why this restriction was added in
-> > the first place.
-> >
-> > Can you double check the git history and maybe identify when that was
-> > added? Mentioning this change in the commit message then might make
-> > things a bit easier to understand.
-> >
-> > Thanks,
-> > Christian.
-> It was add in this patch: https://patchwork.freedesktop.org/patch/310349/.
-> However, there is no illustration about it.
-> I guess it wants users to set_name when no attachments on the dmabuf,
-> for case with attachments, we can find owner by device in attachments.
-> But just I said in commit message, this is might not a good idea.
->
-> Do you have any idea?
->
-
-For the original series, the idea was that allowing name change mid-use
-could confuse the users about the dma-buf. However, the rest of the series
-also makes sure each dma-buf have a unique inode, and any accounting should
-probably use that, without relying on the name as much.
-So I don't have an objection to this change.
-
-Best,
-Sumit.
-
-> >
-> > >
-> > > Signed-off-by: Guangming Cao <Guangming.Cao@mediatek.com>
-> > > ---
-> > >   drivers/dma-buf/dma-buf.c | 14 ++------------
-> > >   1 file changed, 2 insertions(+), 12 deletions(-)
-> > >
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index 511fe0d217a0..db2f4efdec32 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *file,
-> poll_table *poll)
-> > >
-> > >   /**
-> > >    * dma_buf_set_name - Set a name to a specific dma_buf to track the
-> usage.
-> > > - * The name of the dma-buf buffer can only be set when the dma-buf is
-> not
-> > > - * attached to any devices. It could theoritically support changing
-> the
-> > > - * name of the dma-buf if the same piece of memory is used for
-> multiple
-> > > - * purpose between different devices.
-> > > + * It could theoretically support changing the name of the dma-buf if
-> the same
-> > > + * piece of memory is used for multiple purpose between different
-> devices.
-> > >    *
-> > >    * @dmabuf: [in]     dmabuf buffer that will be renamed.
-> > >    * @buf:    [in]     A piece of userspace memory that contains the
-> name of
-> > > @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf
-> *dmabuf, const char __user *buf)
-> > >     if (IS_ERR(name))
-> > >             return PTR_ERR(name);
-> > >
-> > > -   dma_resv_lock(dmabuf->resv, NULL);
-> > > -   if (!list_empty(&dmabuf->attachments)) {
-> > > -           ret = -EBUSY;
-> > > -           kfree(name);
-> > > -           goto out_unlock;
-> > > -   }
-> > >     spin_lock(&dmabuf->name_lock);
-> > >     kfree(dmabuf->name);
-> > >     dmabuf->name = name;
-> > >     spin_unlock(&dmabuf->name_lock);
-> > >
-> > > -out_unlock:
-> > > -   dma_resv_unlock(dmabuf->resv);
-> > >     return ret;
-> > >   }
-> > >
+> > +		 * comes of the length emission below.
+> -> comes from the length of the emits below.
 >
 
---000000000000fb688205ce30982d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sure. Will fix.
 
-<div dir=3D"auto"><div>Hello Guangming, Christian,<div dir=3D"auto"><br></d=
-iv><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Tue, 12 Oct 2021, 14:09 , &lt;<a href=3D"mailto:guangming.cao@mediatek.=
-com" rel=3D"noreferrer noreferrer noreferrer" target=3D"_blank">guangming.c=
-ao@mediatek.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From=
-: Guangming Cao &lt;<a href=3D"mailto:Guangming.Cao@mediatek.com" rel=3D"no=
-referrer noreferrer noreferrer noreferrer" target=3D"_blank">Guangming.Cao@=
-mediatek.com</a>&gt;<br>
-<br>
-&gt; Am 09.10.21 um 07:55 schrieb <a href=3D"mailto:guangming.cao@mediatek.=
-com" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">=
-guangming.cao@mediatek.com</a>:<br>
-&gt; From: Guangming Cao &lt;<a href=3D"mailto:Guangming.Cao@mediatek.com" =
-rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D"_blank">Guang=
-ming.Cao@mediatek.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; If dma-buf don&#39;t want userspace users to touch the dmabuf buf=
-fer,<br>
-&gt; &gt; it seems we should add this restriction into dma_buf_ops.mmap,<br=
->
-&gt; &gt; not in this IOCTL:DMA_BUF_SET_NAME.<br>
-&gt; &gt;<br>
-&gt; &gt; With this restriction, we can only know the kernel users of the d=
-mabuf<br>
-&gt; &gt; by attachments.<br>
-&gt; &gt; However, for many userspace users, such as userpsace users of dma=
-_heap,<br>
-&gt; &gt; they also need to mark the usage of dma-buf, and they don&#39;t c=
-are about<br>
-&gt; &gt; who attached to this dmabuf, and seems it&#39;s no meaning to be =
-waiting for<br>
-&gt; &gt; IOCTL:DMA_BUF_SET_NAME rather than mmap.<br>
-&gt; <br>
-&gt; Sounds valid to me, but I have no idea why this restriction was added =
-in <br>
-&gt; the first place.<br>
-&gt; <br>
-&gt; Can you double check the git history and maybe identify when that was =
-<br>
-&gt; added? Mentioning this change in the commit message then might make <b=
-r>
-&gt; things a bit easier to understand.<br>
-&gt; <br>
-&gt; Thanks,<br>
-&gt; Christian.<br>
-It was add in this patch: <a href=3D"https://patchwork.freedesktop.org/patc=
-h/310349/" rel=3D"noreferrer noreferrer noreferrer noreferrer noreferrer" t=
-arget=3D"_blank">https://patchwork.freedesktop.org/patch/310349/</a>.<br>
-However, there is no illustration about it.<br>
-I guess it wants users to set_name when no attachments on the dmabuf,<br>
-for case with attachments, we can find owner by device in attachments.<br>
-But just I said in commit message, this is might not a good idea.<br>
-<br>
-Do you have any idea?<br></blockquote></div></div><div dir=3D"auto"><br></d=
-iv><div dir=3D"auto">For the original series, the idea was that allowing na=
-me change mid-use could confuse the users about the dma-buf. However, the r=
-est of the series also makes sure each dma-buf have a unique inode, and any=
- accounting should probably use that, without relying on the name as much.<=
-/div><div dir=3D"auto">So I don&#39;t have an objection to this change.</di=
-v><div dir=3D"auto"><br></div><div dir=3D"auto">Best,</div><div dir=3D"auto=
-">Sumit.</div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">
-&gt; <br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Guangming Cao &lt;<a href=3D"mailto:Guangming.Cao@=
-mediatek.com" rel=3D"noreferrer noreferrer noreferrer noreferrer" target=3D=
-"_blank">Guangming.Cao@mediatek.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 =C2=A0drivers/dma-buf/dma-buf.c | 14 ++------------<br>
-&gt; &gt;=C2=A0 =C2=A01 file changed, 2 insertions(+), 12 deletions(-)<br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.=
-c<br>
-&gt; &gt; index 511fe0d217a0..db2f4efdec32 100644<br>
-&gt; &gt; --- a/drivers/dma-buf/dma-buf.c<br>
-&gt; &gt; +++ b/drivers/dma-buf/dma-buf.c<br>
-&gt; &gt; @@ -325,10 +325,8 @@ static __poll_t dma_buf_poll(struct file *fi=
-le, poll_table *poll)<br>
-&gt; &gt;=C2=A0 =C2=A0<br>
-&gt; &gt;=C2=A0 =C2=A0/**<br>
-&gt; &gt;=C2=A0 =C2=A0 * dma_buf_set_name - Set a name to a specific dma_bu=
-f to track the usage.<br>
-&gt; &gt; - * The name of the dma-buf buffer can only be set when the dma-b=
-uf is not<br>
-&gt; &gt; - * attached to any devices. It could theoritically support chang=
-ing the<br>
-&gt; &gt; - * name of the dma-buf if the same piece of memory is used for m=
-ultiple<br>
-&gt; &gt; - * purpose between different devices.<br>
-&gt; &gt; + * It could theoretically support changing the name of the dma-b=
-uf if the same<br>
-&gt; &gt; + * piece of memory is used for multiple purpose between differen=
-t devices.<br>
-&gt; &gt;=C2=A0 =C2=A0 *<br>
-&gt; &gt;=C2=A0 =C2=A0 * @dmabuf: [in]=C2=A0 =C2=A0 =C2=A0dmabuf buffer tha=
-t will be renamed.<br>
-&gt; &gt;=C2=A0 =C2=A0 * @buf:=C2=A0 =C2=A0 [in]=C2=A0 =C2=A0 =C2=A0A piece=
- of userspace memory that contains the name of<br>
-&gt; &gt; @@ -346,19 +344,11 @@ static long dma_buf_set_name(struct dma_buf=
- *dmabuf, const char __user *buf)<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0if (IS_ERR(name))<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return PTR_ERR(nam=
-e);<br>
-&gt; &gt;=C2=A0 =C2=A0<br>
-&gt; &gt; -=C2=A0 =C2=A0dma_resv_lock(dmabuf-&gt;resv, NULL);<br>
-&gt; &gt; -=C2=A0 =C2=A0if (!list_empty(&amp;dmabuf-&gt;attachments)) {<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -EBUSY;<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0kfree(name);<br>
-&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto out_unlock;<br>
-&gt; &gt; -=C2=A0 =C2=A0}<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0spin_lock(&amp;dmabuf-&gt;name_lock);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0kfree(dmabuf-&gt;name);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0dmabuf-&gt;name =3D name;<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0spin_unlock(&amp;dmabuf-&gt;name_lock);<br>
-&gt; &gt;=C2=A0 =C2=A0<br>
-&gt; &gt; -out_unlock:<br>
-&gt; &gt; -=C2=A0 =C2=A0dma_resv_unlock(dmabuf-&gt;resv);<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0return ret;<br>
-&gt; &gt;=C2=A0 =C2=A0}<br>
-&gt; &gt;=C2=A0 =C2=A0<br>
-</blockquote></div></div></div>
+Matt
 
---000000000000fb688205ce30982d--
+> John.
+> 
+> > +		 */
+> > +		memset(cs, 0, sizeof(u32) *
+> > +		       (ce->engine->emit_fini_breadcrumb_dw - 6));
+> > +		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
+> > +	} else {
+> > +		cs = __emit_fini_breadcrumb_parent_no_preempt_mid_batch(rq, cs);
+> > +	}
+> > +
+> >   	/* Emit fini breadcrumb */
+> >   	cs = gen8_emit_ggtt_write(cs,
+> >   				  rq->fence.seqno,
+> > @@ -4117,7 +4157,8 @@ emit_fini_breadcrumb_parent_no_preempt_mid_batch(struct i915_request *rq,
+> >   }
+> >   static u32 *
+> > -emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs)
+> > +__emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
+> > +						  u32 *cs)
+> >   {
+> >   	struct intel_context *ce = rq->context;
+> >   	struct intel_context *parent = intel_context_to_parent(ce);
+> > @@ -4144,6 +4185,30 @@ emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq, u32 *cs
+> >   	*cs++ = get_children_go_addr(parent);
+> >   	*cs++ = 0;
+> > +	return cs;
+> > +}
+> > +
+> > +static u32 *
+> > +emit_fini_breadcrumb_child_no_preempt_mid_batch(struct i915_request *rq,
+> > +						u32 *cs)
+> > +{
+> > +	struct intel_context *ce = rq->context;
+> > +
+> > +	GEM_BUG_ON(!intel_context_is_child(ce));
+> > +
+> > +	if (unlikely(skip_handshake(rq))) {
+> > +		/*
+> > +		 * NOP everything in
+> > +		 * __emit_fini_breadcrumb_child_no_preempt_mid_batch, the -6
+> > +		 * comes from the length the emission below.
+> > +		 */
+> > +		memset(cs, 0, sizeof(u32) *
+> > +		       (ce->engine->emit_fini_breadcrumb_dw - 6));
+> > +		cs += ce->engine->emit_fini_breadcrumb_dw - 6;
+> > +	} else {
+> > +		cs = __emit_fini_breadcrumb_child_no_preempt_mid_batch(rq, cs);
+> > +	}
+> > +
+> >   	/* Emit fini breadcrumb */
+> >   	cs = gen8_emit_ggtt_write(cs,
+> >   				  rq->fence.seqno,
+> 
