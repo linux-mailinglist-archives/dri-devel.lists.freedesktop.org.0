@@ -1,62 +1,62 @@
 Return-Path: <dri-devel-bounces@lists.freedesktop.org>
 X-Original-To: lists+dri-devel@lfdr.de
 Delivered-To: lists+dri-devel@lfdr.de
-Received: from gabe.freedesktop.org (gabe.freedesktop.org [131.252.210.177])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0919B42C1F5
-	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 15:58:10 +0200 (CEST)
+Received: from gabe.freedesktop.org (gabe.freedesktop.org [IPv6:2610:10:20:722:a800:ff:fe36:1795])
+	by mail.lfdr.de (Postfix) with ESMTPS id B242842C203
+	for <lists+dri-devel@lfdr.de>; Wed, 13 Oct 2021 16:01:11 +0200 (CEST)
 Received: from gabe.freedesktop.org (localhost [127.0.0.1])
-	by gabe.freedesktop.org (Postfix) with ESMTP id B101D6E037;
-	Wed, 13 Oct 2021 13:58:03 +0000 (UTC)
+	by gabe.freedesktop.org (Postfix) with ESMTP id 721B06E0E5;
+	Wed, 13 Oct 2021 14:01:05 +0000 (UTC)
 X-Original-To: dri-devel@lists.freedesktop.org
 Delivered-To: dri-devel@lists.freedesktop.org
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com
- [IPv6:2a00:1450:4864:20::42b])
- by gabe.freedesktop.org (Postfix) with ESMTPS id 812E86E0AF
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 13:58:02 +0000 (UTC)
-Received: by mail-wr1-x42b.google.com with SMTP id t2so8726192wrb.8
- for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 06:58:02 -0700 (PDT)
+Received: from mail-wr1-x42e.google.com (mail-wr1-x42e.google.com
+ [IPv6:2a00:1450:4864:20::42e])
+ by gabe.freedesktop.org (Postfix) with ESMTPS id AF6AC6E0AF
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 14:01:03 +0000 (UTC)
+Received: by mail-wr1-x42e.google.com with SMTP id o20so8827124wro.3
+ for <dri-devel@lists.freedesktop.org>; Wed, 13 Oct 2021 07:01:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ffwll.ch; s=google;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:content-transfer-encoding:in-reply-to;
- bh=EwkxtTxNqmq+qH66IW5euw0chrB+lU1iQ49lbBat5/U=;
- b=durjmgCvAPQnTDK9hRJrFcVjUFy2QvznDXV26EJKMszPzVKV6/X3zUdbM5l3cyaWSS
- l/ngfwcIAHy97MXvJj8213jdQJ7DU7WLIlPgRbgzB6NeXzH3OR6OrEa20rVuxpY3IosQ
- gAoWRvUeE0o44MTW4BtGOgGoVqR+JP68z4nhw=
+ bh=duTCzgptpNJ+o10/NlFFu5GiCtCaCcv9Wt7ZKE1aTws=;
+ b=kywCb8xw4c2Sh30v8UZKwoQNFX64Z95I5h0hPgIidwYvpcFzR/M+L4pnY7BJFwiZRx
+ OnEYW2scLX+LkQbUAdCycFEBJCq8A/0ZsS8AaEl8ApTfVcHOpsrF5QEWgI2mPcEj8nPH
+ XVHNf7VDA2/bBCH6efrlwL7rZ+EJGKLZlFq0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=EwkxtTxNqmq+qH66IW5euw0chrB+lU1iQ49lbBat5/U=;
- b=nFCRpd3S1Dm/4RQqEVogBQZeivd5Qc5mgmuay9ckfbcsZW7Up3jVAnlB9QZiwSere1
- CpbtpX7Kg1KuGyku77Nf2y6VcepVwWZbpDL+pS71/Ntp3il6mJIgM1OFgUuNNgZYNfj/
- jk+2PvgkEb/Vd4xNDIhWB42lhbAAlRNVSnpcuXk+8nQZLrjqrA15buXDA3WalUe6inwA
- voHbriHCFzSHiWGalwCw6Jr5NWd3QVFLxKlt0nfhFGYtUcmK7U8QruX9i9nhPkhCjyHJ
- iCgjv4CtkRHgsijXGH5j/zL885QPcarG+BGK8aQQZDN/EHQ00UXe/UN84teX/3msu9O0
- A1Ag==
-X-Gm-Message-State: AOAM530n6sdgl3UMMPXyqNoXlPNiXh8eDj9hCTERC3sg81JJxkd1o23X
- 7E9nFQpi3ctCbLM95V2eynYi9A==
-X-Google-Smtp-Source: ABdhPJwa0ULY4PVP1LZFdnCfSFWmbxaYYT6waj+IC8wbDnB6GBkAQvagqG0dN+KY1Yqw3wCfCNX+JA==
-X-Received: by 2002:a1c:790e:: with SMTP id l14mr13237250wme.99.1634133480544; 
- Wed, 13 Oct 2021 06:58:00 -0700 (PDT)
+ bh=duTCzgptpNJ+o10/NlFFu5GiCtCaCcv9Wt7ZKE1aTws=;
+ b=UB4CTX89T2uDRkWxD62VOd75D6/fNHpNTs+npLUFGMjVG5oJd9Y2MsqW9M1nGc5Pin
+ n22ygOZNLI60J/gR+b9YK9/OcA6LZkz2zLOH2Tqkv5DRwyQ/b1/Dy1S+SgXASgLvCiNw
+ bgS0pPyHBgV7nuct8kd1pLSP5asKH519hZ28LYKeG0B8t76An1pq0r5hW/DDFyRf2jNs
+ aLZL1bs1uMRBByV7pW0MOINwXUxSs5vOSXJZikJRgiRG9ot5/cm+cvGiCDkIFMb8wv/R
+ ZjwgWYog9ZwNf4fFpSWxBH+E9r9c6CC3B3XdhBfquIs1oi2v9XwWl1ijy6KlibxADUrQ
+ 0rpQ==
+X-Gm-Message-State: AOAM530l0s/2TAjyLsRm7eoPtWLf/cDEvUJHoKYDOPKA4UhL9BgJS2zd
+ eCPf0fuHpL/BrLsaflv/Y+L5yQ==
+X-Google-Smtp-Source: ABdhPJwy1brVHZowG0hFFAQP+mBnwlV5jCG0vw9itvH4larjBmdhMJVPDbHvGwWCG7pMKew74onGkA==
+X-Received: by 2002:adf:e292:: with SMTP id v18mr15761967wri.369.1634133661577; 
+ Wed, 13 Oct 2021 07:01:01 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
- by smtp.gmail.com with ESMTPSA id z1sm4346392wrt.94.2021.10.13.06.57.59
+ by smtp.gmail.com with ESMTPSA id a2sm13754617wru.82.2021.10.13.07.01.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 13 Oct 2021 06:58:00 -0700 (PDT)
-Date: Wed, 13 Oct 2021 15:57:58 +0200
+ Wed, 13 Oct 2021 07:01:00 -0700 (PDT)
+Date: Wed, 13 Oct 2021 16:00:59 +0200
 From: Daniel Vetter <daniel@ffwll.ch>
-To: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
-Cc: dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- amd-gfx@lists.freedesktop.org, christian.koenig@amd.com,
- alexander.deucher@amd.com, matthew.auld@intel.com, daniel@ffwll.ch
-Subject: Re: [PATCH 1/3] drm:Enable buddy allocator support
-Message-ID: <YWbl5uefJFZvJ3qn@phenom.ffwll.local>
-References: <20211013133534.142948-1-Arunpravin.PaneerSelvam@amd.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: Use dma_resv_iter for waiting in
+ i915_gem_object_wait_reservation.
+Message-ID: <YWbmm6UqJ8JDa9WD@phenom.ffwll.local>
+References: <20211013111817.1886880-1-maarten.lankhorst@linux.intel.com>
+ <20211013123203.1953276-1-maarten.lankhorst@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20211013133534.142948-1-Arunpravin.PaneerSelvam@amd.com>
+In-Reply-To: <20211013123203.1953276-1-maarten.lankhorst@linux.intel.com>
 X-Operating-System: Linux phenom 5.10.0-8-amd64 
 X-BeenThere: dri-devel@lists.freedesktop.org
 X-Mailman-Version: 2.1.29
@@ -73,951 +73,289 @@ List-Subscribe: <https://lists.freedesktop.org/mailman/listinfo/dri-devel>,
 Errors-To: dri-devel-bounces@lists.freedesktop.org
 Sender: "dri-devel" <dri-devel-bounces@lists.freedesktop.org>
 
-On Wed, Oct 13, 2021 at 07:05:34PM +0530, Arunpravin wrote:
-> Port Intel buddy manager to drm root folder
-
-One patch to move it 1:1, then follow-up patches to change it. Not
-everything in one.
-
-Also i915 needs to be adopted to use this too, or this just doesn't make
-sense.
-
-I'm also wondering whether we shouldn't have a ttm helper for this
-readymade so it just glues all in?
--Daniel
-
-> Implemented range allocation support for the provided order
-> Implemented TOP-DOWN support
-> Implemented freeing up unused pages on contiguous allocation
-> Moved range allocation and freelist pickup into a single function
+On Wed, Oct 13, 2021 at 02:32:03PM +0200, Maarten Lankhorst wrote:
+> No memory should be allocated when calling i915_gem_object_wait,
+> because it may be called to idle a BO when evicting memory.
 > 
-> Signed-off-by: Arunpravin <Arunpravin.PaneerSelvam@amd.com>
+> Fix this by using dma_resv_iter helpers to call
+> i915_gem_object_wait_fence() on each fence, which cleans up the code a lot.
+> Also remove dma_resv_prune, it's questionably.
+> 
+> This will result in the following lockdep splat.
+> 
+> <4> [83.538517] ======================================================
+> <4> [83.538520] WARNING: possible circular locking dependency detected
+> <4> [83.538522] 5.15.0-rc5-CI-Trybot_8062+ #1 Not tainted
+> <4> [83.538525] ------------------------------------------------------
+> <4> [83.538527] gem_render_line/5242 is trying to acquire lock:
+> <4> [83.538530] ffffffff8275b1e0 (fs_reclaim){+.+.}-{0:0}, at: __kmalloc_track_caller+0x56/0x270
+> <4> [83.538538]
+> but task is already holding lock:
+> <4> [83.538540] ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
+> <4> [83.538638]
+> which lock already depends on the new lock.
+> <4> [83.538642]
+> the existing dependency chain (in reverse order) is:
+> <4> [83.538645]
+> -> #1 (&vm->mutex/1){+.+.}-{3:3}:
+> <4> [83.538649]        lock_acquire+0xd3/0x310
+> <4> [83.538654]        i915_gem_shrinker_taints_mutex+0x2d/0x50 [i915]
+> <4> [83.538730]        i915_address_space_init+0xf5/0x1b0 [i915]
+> <4> [83.538794]        ppgtt_init+0x55/0x70 [i915]
+> <4> [83.538856]        gen8_ppgtt_create+0x44/0x5d0 [i915]
+> <4> [83.538912]        i915_ppgtt_create+0x28/0xf0 [i915]
+> <4> [83.538971]        intel_gt_init+0x130/0x3b0 [i915]
+> <4> [83.539029]        i915_gem_init+0x14b/0x220 [i915]
+> <4> [83.539100]        i915_driver_probe+0x97e/0xdd0 [i915]
+> <4> [83.539149]        i915_pci_probe+0x43/0x1d0 [i915]
+> <4> [83.539197]        pci_device_probe+0x9b/0x110
+> <4> [83.539201]        really_probe+0x1b0/0x3b0
+> <4> [83.539205]        __driver_probe_device+0xf6/0x170
+> <4> [83.539208]        driver_probe_device+0x1a/0x90
+> <4> [83.539210]        __driver_attach+0x93/0x160
+> <4> [83.539213]        bus_for_each_dev+0x72/0xc0
+> <4> [83.539216]        bus_add_driver+0x14b/0x1f0
+> <4> [83.539220]        driver_register+0x66/0xb0
+> <4> [83.539222]        hdmi_get_spk_alloc+0x1f/0x50 [snd_hda_codec_hdmi]
+> <4> [83.539227]        do_one_initcall+0x53/0x2e0
+> <4> [83.539230]        do_init_module+0x55/0x200
+> <4> [83.539234]        load_module+0x2700/0x2980
+> <4> [83.539237]        __do_sys_finit_module+0xaa/0x110
+> <4> [83.539241]        do_syscall_64+0x37/0xb0
+> <4> [83.539244]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+> <4> [83.539247]
+> -> #0 (fs_reclaim){+.+.}-{0:0}:
+> <4> [83.539251]        validate_chain+0xb37/0x1e70
+> <4> [83.539254]        __lock_acquire+0x5a1/0xb70
+> <4> [83.539258]        lock_acquire+0xd3/0x310
+> <4> [83.539260]        fs_reclaim_acquire+0x9d/0xd0
+> <4> [83.539264]        __kmalloc_track_caller+0x56/0x270
+> <4> [83.539267]        krealloc+0x48/0xa0
+> <4> [83.539270]        dma_resv_get_fences+0x1c3/0x280
+> <4> [83.539274]        i915_gem_object_wait+0x1ff/0x410 [i915]
+> <4> [83.539342]        i915_gem_evict_for_node+0x16b/0x440 [i915]
+> <4> [83.539412]        i915_gem_gtt_reserve+0xff/0x130 [i915]
+> <4> [83.539482]        i915_vma_pin_ww+0x765/0x970 [i915]
+> <4> [83.539556]        eb_validate_vmas+0x6fe/0x8e0 [i915]
+> <4> [83.539626]        i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
+> <4> [83.539693]        i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
+> <4> [83.539759]        drm_ioctl_kernel+0xac/0x140
+> <4> [83.539763]        drm_ioctl+0x201/0x3d0
+> <4> [83.539766]        __x64_sys_ioctl+0x6a/0xa0
+> <4> [83.539769]        do_syscall_64+0x37/0xb0
+> <4> [83.539772]        entry_SYSCALL_64_after_hwframe+0x44/0xae
+> <4> [83.539775]
+> other info that might help us debug this:
+> <4> [83.539778]  Possible unsafe locking scenario:
+> <4> [83.539781]        CPU0                    CPU1
+> <4> [83.539783]        ----                    ----
+> <4> [83.539785]   lock(&vm->mutex/1);
+> <4> [83.539788]                                lock(fs_reclaim);
+> <4> [83.539791]                                lock(&vm->mutex/1);
+> <4> [83.539794]   lock(fs_reclaim);
+> <4> [83.539796]
+>  *** DEADLOCK ***
+> <4> [83.539799] 3 locks held by gem_render_line/5242:
+> <4> [83.539802]  #0: ffffc90000d4bbf0 (reservation_ww_class_acquire){+.+.}-{0:0}, at: i915_gem_do_execbuffer+0x8e5/0x20a0 [i915]
+> <4> [83.539870]  #1: ffff88811e48bae8 (reservation_ww_class_mutex){+.+.}-{3:3}, at: eb_validate_vmas+0x81/0x8e0 [i915]
+> <4> [83.539936]  #2: ffff88813471d1e0 (&vm->mutex/1){+.+.}-{3:3}, at: i915_vma_pin_ww+0x1c7/0x970 [i915]
+> <4> [83.540011]
+> stack backtrace:
+> <4> [83.540014] CPU: 2 PID: 5242 Comm: gem_render_line Not tainted 5.15.0-rc5-CI-Trybot_8062+ #1
+> <4> [83.540019] Hardware name: Intel(R) Client Systems NUC11TNHi3/NUC11TNBi3, BIOS TNTGL357.0038.2020.1124.1648 11/24/2020
+> <4> [83.540023] Call Trace:
+> <4> [83.540026]  dump_stack_lvl+0x56/0x7b
+> <4> [83.540030]  check_noncircular+0x12e/0x150
+> <4> [83.540034]  ? _raw_spin_unlock_irqrestore+0x50/0x60
+> <4> [83.540038]  validate_chain+0xb37/0x1e70
+> <4> [83.540042]  __lock_acquire+0x5a1/0xb70
+> <4> [83.540046]  lock_acquire+0xd3/0x310
+> <4> [83.540049]  ? __kmalloc_track_caller+0x56/0x270
+> <4> [83.540052]  ? find_held_lock+0x2d/0x90
+> <4> [83.540055]  ? dma_resv_get_fences+0x1c3/0x280
+> <4> [83.540058]  fs_reclaim_acquire+0x9d/0xd0
+> <4> [83.540061]  ? __kmalloc_track_caller+0x56/0x270
+> <4> [83.540064]  __kmalloc_track_caller+0x56/0x270
+> <4> [83.540067]  krealloc+0x48/0xa0
+> <4> [83.540070]  dma_resv_get_fences+0x1c3/0x280
+> <4> [83.540074]  i915_gem_object_wait+0x1ff/0x410 [i915]
+> <4> [83.540143]  i915_gem_evict_for_node+0x16b/0x440 [i915]
+> <4> [83.540212]  i915_gem_gtt_reserve+0xff/0x130 [i915]
+> <4> [83.540281]  i915_vma_pin_ww+0x765/0x970 [i915]
+> <4> [83.540354]  eb_validate_vmas+0x6fe/0x8e0 [i915]
+> <4> [83.540420]  i915_gem_do_execbuffer+0x9a6/0x20a0 [i915]
+> <4> [83.540485]  ? lockdep_hardirqs_on+0xbf/0x130
+> <4> [83.540490]  ? __lock_acquire+0x5c0/0xb70
+> <4> [83.540495]  i915_gem_execbuffer2_ioctl+0x11f/0x2c0 [i915]
+> <4> [83.540559]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
+> <4> [83.540622]  drm_ioctl_kernel+0xac/0x140
+> <4> [83.540625]  drm_ioctl+0x201/0x3d0
+> <4> [83.540628]  ? i915_gem_do_execbuffer+0x20a0/0x20a0 [i915]
+> <4> [83.540691]  __x64_sys_ioctl+0x6a/0xa0
+> <4> [83.540694]  do_syscall_64+0x37/0xb0
+> <4> [83.540697]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+> <4> [83.540700] RIP: 0033:0x7fc314edc50b
+> Signed-off-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+
+Yay for ditching i915/dma_resv_utils.c while we're at it!
+
+Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+
 > ---
->  drivers/gpu/drm/Makefile    |   2 +-
->  drivers/gpu/drm/drm_buddy.c | 705 ++++++++++++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_drv.c   |   3 +
->  include/drm/drm_buddy.h     | 157 ++++++++
->  4 files changed, 866 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/drm_buddy.c
->  create mode 100644 include/drm/drm_buddy.h
+>  drivers/gpu/drm/i915/Makefile                |  1 -
+>  drivers/gpu/drm/i915/dma_resv_utils.c        | 17 ------
+>  drivers/gpu/drm/i915/dma_resv_utils.h        | 13 -----
+>  drivers/gpu/drm/i915/gem/i915_gem_shrinker.c |  1 -
+>  drivers/gpu/drm/i915/gem/i915_gem_wait.c     | 56 +++-----------------
+>  5 files changed, 8 insertions(+), 80 deletions(-)
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.c
+>  delete mode 100644 drivers/gpu/drm/i915/dma_resv_utils.h
 > 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index a118692a6df7..fe1a2fc09675 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -18,7 +18,7 @@ drm-y       :=	drm_aperture.o drm_auth.o drm_cache.o \
->  		drm_dumb_buffers.o drm_mode_config.o drm_vblank.o \
->  		drm_syncobj.o drm_lease.o drm_writeback.o drm_client.o \
->  		drm_client_modeset.o drm_atomic_uapi.o drm_hdcp.o \
-> -		drm_managed.o drm_vblank_work.o
-> +		drm_managed.o drm_vblank_work.o drm_buddy.o
+> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
+> index 21b05ed0e4e8..88bb326d9031 100644
+> --- a/drivers/gpu/drm/i915/Makefile
+> +++ b/drivers/gpu/drm/i915/Makefile
+> @@ -58,7 +58,6 @@ i915-y += i915_drv.o \
 >  
->  drm-$(CONFIG_DRM_LEGACY) += drm_agpsupport.o drm_bufs.o drm_context.o drm_dma.o \
->  			    drm_legacy_misc.o drm_lock.o drm_memory.o drm_scatter.o \
-> diff --git a/drivers/gpu/drm/drm_buddy.c b/drivers/gpu/drm/drm_buddy.c
-> new file mode 100644
-> index 000000000000..8cd118574665
-> --- /dev/null
-> +++ b/drivers/gpu/drm/drm_buddy.c
-> @@ -0,0 +1,705 @@
-> +// SPDX-License-Identifier: MIT
-> +/*
-> + * Copyright © 2021 Intel Corporation
-> + */
-> +
-> +#include <linux/kmemleak.h>
-> +#include <linux/sizes.h>
-> +
-> +#include <drm/drm_buddy.h>
-> +
-> +static struct kmem_cache *slab_blocks;
-> +
-> +static struct drm_buddy_block *drm_block_alloc(struct drm_buddy_mm *mm,
-> +					       struct drm_buddy_block *parent,
-> +					       unsigned int order,
-> +					       u64 offset)
-> +{
-> +	struct drm_buddy_block *block;
-> +
-> +	BUG_ON(order > DRM_BUDDY_MAX_ORDER);
-> +
-> +	block = kmem_cache_zalloc(slab_blocks, GFP_KERNEL);
-> +	if (!block)
-> +		return NULL;
-> +
-> +	block->header = offset;
-> +	block->header |= order;
-> +	block->parent = parent;
-> +
-> +	BUG_ON(block->header & DRM_BUDDY_HEADER_UNUSED);
-> +	return block;
-> +}
-> +
-> +static void drm_block_free(struct drm_buddy_mm *mm,
-> +			   struct drm_buddy_block *block)
-> +{
-> +	kmem_cache_free(slab_blocks, block);
-> +}
-> +
-> +static void mark_allocated(struct drm_buddy_block *block)
-> +{
-> +	block->header &= ~DRM_BUDDY_HEADER_STATE;
-> +	block->header |= DRM_BUDDY_ALLOCATED;
-> +
-> +	list_del(&block->link);
-> +}
-> +
-> +static void mark_free(struct drm_buddy_mm *mm,
-> +		      struct drm_buddy_block *block)
-> +{
-> +	block->header &= ~DRM_BUDDY_HEADER_STATE;
-> +	block->header |= DRM_BUDDY_FREE;
-> +
-> +	list_add(&block->link,
-> +		&mm->free_list[drm_buddy_block_order(block)]);
-> +}
-> +
-> +static void mark_split(struct drm_buddy_block *block)
-> +{
-> +	block->header &= ~DRM_BUDDY_HEADER_STATE;
-> +	block->header |= DRM_BUDDY_SPLIT;
-> +
-> +	list_del(&block->link);
-> +}
-> +
-> +/**
-> + * drm_buddy_init - init memory manager
-> + *
-> + * @mm: DRM buddy manager to initialize
-> + * @size: size in bytes to manage
-> + * @chunk_size: minimum page size in bytes for our allocations
-> + *
-> + * Initializes the memory manager and its resources.
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_buddy_init(struct drm_buddy_mm *mm, u64 size, u64 chunk_size)
-> +{
-> +	unsigned int i;
-> +	u64 offset;
-> +
-> +	if (size < chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (chunk_size < PAGE_SIZE)
-> +		return -EINVAL;
-> +
-> +	if (!is_power_of_2(chunk_size))
-> +		return -EINVAL;
-> +
-> +	size = round_down(size, chunk_size);
-> +
-> +	mm->size = size;
-> +	mm->avail = size;
-> +	mm->chunk_size = chunk_size;
-> +	mm->max_order = ilog2(size) - ilog2(chunk_size);
-> +
-> +	BUG_ON(mm->max_order > DRM_BUDDY_MAX_ORDER);
-> +
-> +	mm->free_list = kmalloc_array(mm->max_order + 1,
-> +				      sizeof(struct list_head),
-> +				      GFP_KERNEL);
-> +	if (!mm->free_list)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i <= mm->max_order; ++i)
-> +		INIT_LIST_HEAD(&mm->free_list[i]);
-> +
-> +	mm->n_roots = hweight64(size);
-> +
-> +	mm->roots = kmalloc_array(mm->n_roots,
-> +				  sizeof(struct drm_buddy_block *),
-> +				  GFP_KERNEL);
-> +	if (!mm->roots)
-> +		goto out_free_list;
-> +
-> +	offset = 0;
-> +	i = 0;
-> +
-> +	/*
-> +	 * Split into power-of-two blocks, in case we are given a size that is
-> +	 * not itself a power-of-two.
-> +	 */
-> +	do {
-> +		struct drm_buddy_block *root;
-> +		unsigned int order;
-> +		u64 root_size;
-> +
-> +		root_size = rounddown_pow_of_two(size);
-> +		order = ilog2(root_size) - ilog2(chunk_size);
-> +
-> +		root = drm_block_alloc(mm, NULL, order, offset);
-> +		if (!root)
-> +			goto out_free_roots;
-> +
-> +		mark_free(mm, root);
-> +
-> +		BUG_ON(i > mm->max_order);
-> +		BUG_ON(drm_buddy_block_size(mm, root) < chunk_size);
-> +
-> +		mm->roots[i] = root;
-> +
-> +		offset += root_size;
-> +		size -= root_size;
-> +		i++;
-> +	} while (size);
-> +
-> +	return 0;
-> +
-> +out_free_roots:
-> +	while (i--)
-> +		drm_block_free(mm, mm->roots[i]);
-> +	kfree(mm->roots);
-> +out_free_list:
-> +	kfree(mm->free_list);
-> +	return -ENOMEM;
-> +}
-> +EXPORT_SYMBOL(drm_buddy_init);
-> +
-> +/**
-> + * drm_buddy_fini - tear down the memory manager
-> + *
-> + * @mm: DRM buddy manager to free
-> + *
-> + * Cleanup memory manager resources and the freelist
-> + */
-> +void drm_buddy_fini(struct drm_buddy_mm *mm)
-> +{
-> +	int i;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i) {
-> +		WARN_ON(!drm_buddy_block_is_free(mm->roots[i]));
-> +		drm_block_free(mm, mm->roots[i]);
-> +	}
-> +
-> +	WARN_ON(mm->avail != mm->size);
-> +
-> +	kfree(mm->roots);
-> +	kfree(mm->free_list);
-> +	kmem_cache_destroy(slab_blocks);
-> +}
-> +EXPORT_SYMBOL(drm_buddy_fini);
-> +
-> +static int split_block(struct drm_buddy_mm *mm,
-> +		       struct drm_buddy_block *block)
-> +{
-> +	unsigned int block_order = drm_buddy_block_order(block) - 1;
-> +	u64 offset = drm_buddy_block_offset(block);
-> +
-> +	BUG_ON(!drm_buddy_block_is_free(block));
-> +	BUG_ON(!drm_buddy_block_order(block));
-> +
-> +	block->left = drm_block_alloc(mm, block, block_order, offset);
-> +	if (!block->left)
-> +		return -ENOMEM;
-> +
-> +	block->right = drm_block_alloc(mm, block, block_order,
-> +					offset + (mm->chunk_size << block_order));
-> +	if (!block->right) {
-> +		drm_block_free(mm, block->left);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	mark_free(mm, block->left);
-> +	mark_free(mm, block->right);
-> +
-> +	mark_split(block);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct drm_buddy_block *
-> +get_buddy(struct drm_buddy_block *block)
-> +{
-> +	struct drm_buddy_block *parent;
-> +
-> +	parent = block->parent;
-> +	if (!parent)
-> +		return NULL;
-> +
-> +	if (parent->left == block)
-> +		return parent->right;
-> +
-> +	return parent->left;
-> +}
-> +
-> +static void __drm_buddy_free(struct drm_buddy_mm *mm,
-> +			     struct drm_buddy_block *block)
-> +{
-> +	struct drm_buddy_block *parent;
-> +
-> +	while ((parent = block->parent)) {
-> +		struct drm_buddy_block *buddy;
-> +
-> +		buddy = get_buddy(block);
-> +
-> +		if (!drm_buddy_block_is_free(buddy))
-> +			break;
-> +
-> +		list_del(&buddy->link);
-> +
-> +		drm_block_free(mm, block);
-> +		drm_block_free(mm, buddy);
-> +
-> +		block = parent;
-> +	}
-> +
-> +	mark_free(mm, block);
-> +}
-> +
-> +static void drm_buddy_free(struct drm_buddy_mm *mm,
-> +			   struct drm_buddy_block *block)
-> +{
-> +	BUG_ON(!drm_buddy_block_is_allocated(block));
-> +	mm->avail += drm_buddy_block_size(mm, block);
-> +	__drm_buddy_free(mm, block);
-> +}
-> +
-> +/**
-> + * drm_buddy_free_list - free blocks from the input list
-> + *
-> + * @mm: DRM buddy manager
-> + * @objects: input list head to free blocks
-> + *
-> + * drm_buddy_free() called for to free all the blocks
-> + * in the list and on each block it looks at the buddy block
-> + * and if it is free, coalesce and reforms to a larger block.
-> + */
-> +void drm_buddy_free_list(struct drm_buddy_mm *mm, struct list_head *objects)
-> +{
-> +	struct drm_buddy_block *block, *on;
-> +
-> +	list_for_each_entry_safe(block, on, objects, link) {
-> +		drm_buddy_free(mm, block);
-> +		cond_resched();
-> +	}
-> +	INIT_LIST_HEAD(objects);
-> +}
-> +EXPORT_SYMBOL(drm_buddy_free_list);
-> +
-> +static inline bool overlaps(u64 s1, u64 e1, u64 s2, u64 e2)
-> +{
-> +	return s1 <= e2 && e1 >= s2;
-> +}
-> +
-> +static inline bool contains(u64 s1, u64 e1, u64 s2, u64 e2)
-> +{
-> +	return s1 <= s2 && e1 >= e2;
-> +}
-> +
-> +/**
-> + * drm_buddy_free_unused_pages - free unused pages
-> + *
-> + * @mm: DRM buddy manager
-> + * @actual_size: original size requested
-> + * @blocks: output list head to add allocated blocks
-> + *
-> + * For contiguous allocation, we round up the size to the nearest
-> + * power of two value, applications use *exact* size, remaining
-> + * portions are unused and it can freed.
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_buddy_free_unused_pages(struct drm_buddy_mm *mm,
-> +				u64 actual_size,
-> +				struct list_head *blocks)
-> +{
-> +	struct drm_buddy_block *block;
-> +	struct drm_buddy_block *buddy;
-> +	u64 actual_start;
-> +	u64 actual_end;
-> +	LIST_HEAD(dfs);
-> +	u64 count = 0;
-> +	int err;
-> +
-> +	if (!list_is_singular(blocks))
-> +		return -EINVAL;
-> +
-> +	block = list_first_entry_or_null(blocks,
-> +					 struct drm_buddy_block,
-> +					 link);
-> +
-> +	if (!block)
-> +		return -EINVAL;
-> +
-> +	if (actual_size > drm_buddy_block_size(mm, block))
-> +		return -EINVAL;
-> +
-> +	if (actual_size == drm_buddy_block_size(mm, block))
-> +		return 0;
-> +
-> +	list_del(&block->link);
-> +
-> +	actual_start = drm_buddy_block_offset(block);
-> +	actual_end = actual_start + actual_size - 1;
-> +
-> +	if (drm_buddy_block_is_allocated(block))
-> +		mark_free(mm, block);
-> +
-> +	list_add(&block->tmp_link, &dfs);
-> +
-> +	while (1) {
-> +		block = list_first_entry_or_null(&dfs,
-> +						 struct drm_buddy_block,
-> +						 tmp_link);
-> +
-> +		if (!block)
-> +			break;
-> +
-> +		list_del(&block->tmp_link);
-> +
-> +		if (count == actual_size)
-> +			return 0;
-> +
-> +		if (contains(actual_start, actual_end, drm_buddy_block_offset(block),
-> +			(drm_buddy_block_offset(block) + drm_buddy_block_size(mm, block) - 1))) {
-> +			BUG_ON(!drm_buddy_block_is_free(block));
-> +			/* Allocate only required blocks */
-> +			mark_allocated(block);
-> +			mm->avail -= drm_buddy_block_size(mm, block);
-> +			list_add_tail(&block->link, blocks);
-> +			count += drm_buddy_block_size(mm, block);
-> +			continue;
-> +		}
-> +
-> +		if (drm_buddy_block_order(block) == 0)
-> +			continue;
-> +
-> +		if (!drm_buddy_block_is_split(block)) {
-> +			err = split_block(mm, block);
-> +
-> +			if (unlikely(err))
-> +				goto err_undo;
-> +		}
-> +
-> +		list_add(&block->right->tmp_link, &dfs);
-> +		list_add(&block->left->tmp_link, &dfs);
-> +	}
-> +
-> +	return -ENOSPC;
-> +
-> +err_undo:
-> +	buddy = get_buddy(block);
-> +	if (buddy &&
-> +	    (drm_buddy_block_is_free(block) &&
-> +	     drm_buddy_block_is_free(buddy)))
-> +		__drm_buddy_free(mm, block);
-> +	return err;
-> +}
-> +EXPORT_SYMBOL(drm_buddy_free_unused_pages);
-> +
-> +static struct drm_buddy_block *
-> +alloc_range(struct drm_buddy_mm *mm,
-> +	    u64 start, u64 end,
-> +	    unsigned int order)
-> +{
-> +	struct drm_buddy_block *block;
-> +	struct drm_buddy_block *buddy;
-> +	LIST_HEAD(dfs);
-> +	int err;
-> +	int i;
-> +
-> +	end = end - 1;
-> +
-> +	for (i = 0; i < mm->n_roots; ++i)
-> +		list_add_tail(&mm->roots[i]->tmp_link, &dfs);
-> +
-> +	do {
-> +		u64 block_start;
-> +		u64 block_end;
-> +
-> +		block = list_first_entry_or_null(&dfs,
-> +						 struct drm_buddy_block,
-> +						 tmp_link);
-> +
-> +		if (!block)
-> +			break;
-> +
-> +		list_del(&block->tmp_link);
-> +
-> +		if (drm_buddy_block_order(block) < order)
-> +			continue;
-> +
-> +		block_start = drm_buddy_block_offset(block);
-> +		block_end = block_start + drm_buddy_block_size(mm, block) - 1;
-> +
-> +		if (!overlaps(start, end, block_start, block_end))
-> +			continue;
-> +
-> +		if (drm_buddy_block_is_allocated(block))
-> +			continue;
-> +
-> +		if (contains(start, end, block_start, block_end)
-> +				&& order == drm_buddy_block_order(block)) {
-> +			/*
-> +			 * Find the free block within the range.
-> +			 */
-> +			if (drm_buddy_block_is_free(block))
-> +				return block;
-> +
-> +			continue;
-> +		}
-> +
-> +		if (!drm_buddy_block_is_split(block)) {
-> +			err = split_block(mm, block);
-> +			if (unlikely(err))
-> +				goto err_undo;
-> +		}
-> +
-> +		list_add(&block->left->tmp_link, &dfs);
-> +		list_add(&block->right->tmp_link, &dfs);
-> +	} while (1);
-> +
-> +	return ERR_PTR(-ENOSPC);
-> +
-> +err_undo:
-> +	/*
-> +	 * We really don't want to leave around a bunch of split blocks, since
-> +	 * bigger is better, so make sure we merge everything back before we
-> +	 * free the allocated blocks.
-> +	 */
-> +	buddy = get_buddy(block);
-> +	if (buddy &&
-> +	    (drm_buddy_block_is_free(block) &&
-> +	     drm_buddy_block_is_free(buddy)))
-> +		__drm_buddy_free(mm, block);
-> +	return ERR_PTR(err);
-> +}
-> +
-> +static struct drm_buddy_block *
-> +get_maxblock(struct list_head *head)
-> +{
-> +	struct drm_buddy_block *max_block = NULL, *node;
-> +
-> +	max_block = list_first_entry_or_null(head,
-> +					     struct drm_buddy_block,
-> +					     link);
-> +	if (!max_block)
-> +		return NULL;
-> +
-> +	list_for_each_entry(node, head, link) {
-> +		if (drm_buddy_block_offset(node) >
-> +				drm_buddy_block_offset(max_block))
-> +			max_block = node;
-> +	}
-> +
-> +	return max_block;
-> +}
-> +
-> +static struct drm_buddy_block *
-> +alloc_from_freelist(struct drm_buddy_mm *mm,
-> +		    unsigned int order,
-> +		    unsigned long flags)
-> +{
-> +	struct drm_buddy_block *block = NULL;
-> +	unsigned int i;
-> +	int err;
-> +
-> +	for (i = order; i <= mm->max_order; ++i) {
-> +		if (flags & DRM_BUDDY_TOPDOWN_ALLOCATION) {
-> +			if (!list_empty(&mm->free_list[i])) {
-> +				block = get_maxblock(&mm->free_list[i]);
-> +
-> +				if (block)
-> +					break;
-> +			}
-> +		} else {
-> +			if (!list_empty(&mm->free_list[i])) {
-> +				block = list_first_entry_or_null(&mm->free_list[i],
-> +								 struct drm_buddy_block,
-> +								 link);
-> +
-> +				if (block)
-> +					break;
-> +			}
-> +		}
-> +	}
-> +
-> +	if (!block)
-> +		return ERR_PTR(-ENOSPC);
-> +
-> +	BUG_ON(!drm_buddy_block_is_free(block));
-> +
-> +	while (i != order) {
-> +		err = split_block(mm, block);
-> +
-> +		if (unlikely(err))
-> +			goto err_undo;
-> +
-> +		block = block->right;
-> +		i--;
-> +	}
-> +
-> +	return block;
-> +
-> +err_undo:
-> +	if (i != order)
-> +		__drm_buddy_free(mm, block);
-> +	return ERR_PTR(err);
-> +}
-> +
-> +/**
-> + * drm_buddy_alloc - allocate power-of-two blocks
-> + *
-> + * @mm: DRM buddy manager to allocate from
-> + * @start: start of the allowed range for this block
-> + * @end: end of the allowed range for this block
-> + * @size: size of the allocation
-> + * @min_page_size: alignment of the allocation
-> + * @blocks: output list head to add allocated blocks
-> + * @flags: DRM_BUDDY_*_ALLOCATION flags
-> + *
-> + * alloc_range() called for range limitations, which traverses
-> + * the binary tree and picks the desired block, intended for
-> + * allocating portions of CPU mappable region and for
-> + * pre-allocating portions of the address space, for example to
-> + * reserve a block for the initial framebuffer.
-> + *
-> + * alloc_from_freelist() called for *no* range restrictions,
-> + * which easy picks the block from the freelist.
-> + *
-> + * we allocate blocks in order, order value here translates to:
-> + *
-> + * 0 = 2^0 * mm->chunk_size
-> + * 1 = 2^1 * mm->chunk_size
-> + * 2 = 2^2 * mm->chunk_size
-> + *
-> + * Returns:
-> + * 0 on success, error code on failure.
-> + */
-> +int drm_buddy_alloc(struct drm_buddy_mm *mm,
-> +		    u64 start, u64 end, u64 size,
-> +		    u64 min_page_size,
-> +		    struct list_head *blocks,
-> +		    unsigned long flags)
-> +{
-> +	struct drm_buddy_block *block = NULL;
-> +	unsigned int min_order, order;
-> +	unsigned long pages;
-> +	LIST_HEAD(allocated);
-> +	int err;
-> +
-> +	if (size < mm->chunk_size)
-> +		return -EINVAL;
-> +
-> +	if (!IS_ALIGNED(size | start, mm->chunk_size))
-> +		return -EINVAL;
-> +
-> +	if (check_range_overflow(start, size, mm->size))
-> +		return -EINVAL;
-> +
-> +	pages = size >> ilog2(mm->chunk_size);
-> +	min_order = ilog2(min_page_size) - ilog2(mm->chunk_size);
-> +
-> +	do {
-> +		order = fls(pages) - 1;
-> +		BUG_ON(order > mm->max_order);
-> +		BUG_ON(order < min_order);
-> +
-> +		do {
-> +			if (flags & DRM_BUDDY_RANGE_ALLOCATION)
-> +				/* Allocate traversing within the range */
-> +				block = alloc_range(mm, start, end, order);
-> +			else
-> +				/* Allocate from freelist */
-> +				block = alloc_from_freelist(mm, order, flags);
-> +
-> +			if (!IS_ERR(block))
-> +				break;
-> +
-> +			if (order-- == min_order) {
-> +				err = -ENOSPC;
-> +				goto err_free;
-> +			}
-> +		} while (1);
-> +
-> +		mark_allocated(block);
-> +		mm->avail -= drm_buddy_block_size(mm, block);
-> +		kmemleak_update_trace(block);
-> +
-> +		list_add_tail(&block->link, &allocated);
-> +
-> +		pages -= BIT(order);
-> +
-> +		if (!pages)
-> +			break;
-> +	} while (1);
-> +
-> +	list_splice_tail(&allocated, blocks);
-> +	return 0;
-> +
-> +err_free:
-> +	drm_buddy_free_list(mm, &allocated);
-> +	return err;
-> +}
-> +EXPORT_SYMBOL(drm_buddy_alloc);
-> +
-> +/**
-> + * drm_buddy_block_print - print block information
-> + *
-> + * @mm: DRM buddy manager
-> + * @block: DRM buddy block
-> + * @p: DRM printer to use
-> + */
-> +void drm_buddy_block_print(struct drm_buddy_mm *mm,
-> +			   struct drm_buddy_block *block,
-> +			   struct drm_printer *p)
-> +{
-> +	u64 start = drm_buddy_block_offset(block);
-> +	u64 size = drm_buddy_block_size(mm, block);
-> +
-> +	drm_printf(p, "%#018llx-%#018llx: %llu\n", start, start + size, size);
-> +}
-> +EXPORT_SYMBOL(drm_buddy_block_print);
-> +
-> +/**
-> + * drm_buddy_print - print allocator state
-> + *
-> + * @mm: DRM buddy manager
-> + * @p: DRM printer to use
-> + */
-> +void drm_buddy_print(struct drm_buddy_mm *mm, struct drm_printer *p)
-> +{
-> +	int order;
-> +
-> +	drm_printf(p, "chunk_size: %lluKiB, total: %lluMiB, free: %lluMiB\n",
-> +		   mm->chunk_size >> 10, mm->size >> 20, mm->avail >> 20);
-> +
-> +	for (order = mm->max_order; order >= 0; order--) {
-> +		struct drm_buddy_block *block;
-> +		u64 count = 0, free;
-> +
-> +		list_for_each_entry(block, &mm->free_list[order], link) {
-> +			BUG_ON(!drm_buddy_block_is_free(block));
-> +			count++;
-> +		}
-> +
-> +		drm_printf(p, "order-%d ", order);
-> +
-> +		free = count * (mm->chunk_size << order);
-> +		if (free < SZ_1M)
-> +			drm_printf(p, "free: %lluKiB", free >> 10);
-> +		else
-> +			drm_printf(p, "free: %lluMiB", free >> 20);
-> +
-> +		drm_printf(p, ", pages: %llu\n", count);
-> +	}
-> +}
-> +EXPORT_SYMBOL(drm_buddy_print);
-> +
-> +void drm_buddy_module_exit(void)
-> +{
-> +	kmem_cache_destroy(slab_blocks);
-> +}
-> +
-> +int __init drm_buddy_module_init(void)
-> +{
-> +	slab_blocks = KMEM_CACHE(drm_buddy_block, 0);
-> +	if (!slab_blocks)
-> +		return -ENOMEM;
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 8804ec7d3215..2d2462aa8d52 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -43,6 +43,7 @@
->  #include <drm/drm_managed.h>
->  #include <drm/drm_mode_object.h>
->  #include <drm/drm_print.h>
-> +#include <drm/drm_buddy.h>
+>  # core library code
+>  i915-y += \
+> -	dma_resv_utils.o \
+>  	i915_memcpy.o \
+>  	i915_mm.o \
+>  	i915_sw_fence.o \
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.c b/drivers/gpu/drm/i915/dma_resv_utils.c
+> deleted file mode 100644
+> index 7df91b7e4ca8..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.c
+> +++ /dev/null
+> @@ -1,17 +0,0 @@
+> -// SPDX-License-Identifier: MIT
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#include <linux/dma-resv.h>
+> -
+> -#include "dma_resv_utils.h"
+> -
+> -void dma_resv_prune(struct dma_resv *resv)
+> -{
+> -	if (dma_resv_trylock(resv)) {
+> -		if (dma_resv_test_signaled(resv, true))
+> -			dma_resv_add_excl_fence(resv, NULL);
+> -		dma_resv_unlock(resv);
+> -	}
+> -}
+> diff --git a/drivers/gpu/drm/i915/dma_resv_utils.h b/drivers/gpu/drm/i915/dma_resv_utils.h
+> deleted file mode 100644
+> index b9d8fb5f8367..000000000000
+> --- a/drivers/gpu/drm/i915/dma_resv_utils.h
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -/* SPDX-License-Identifier: MIT */
+> -/*
+> - * Copyright © 2020 Intel Corporation
+> - */
+> -
+> -#ifndef DMA_RESV_UTILS_H
+> -#define DMA_RESV_UTILS_H
+> -
+> -struct dma_resv;
+> -
+> -void dma_resv_prune(struct dma_resv *resv);
+> -
+> -#endif /* DMA_RESV_UTILS_H */
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> index c80e6c1d2bcb..5375f3f9f016 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_shrinker.c
+> @@ -15,7 +15,6 @@
 >  
->  #include "drm_crtc_internal.h"
->  #include "drm_internal.h"
-> @@ -1034,6 +1035,7 @@ static void drm_core_exit(void)
->  	drm_sysfs_destroy();
->  	idr_destroy(&drm_minors_idr);
->  	drm_connector_ida_destroy();
-> +	drm_buddy_module_exit();
+>  #include "gt/intel_gt_requests.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_trace.h"
+>  
+>  static bool swap_available(void)
+> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_wait.c b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> index f909aaa09d9c..e59304a76b2c 100644
+> --- a/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> +++ b/drivers/gpu/drm/i915/gem/i915_gem_wait.c
+> @@ -10,7 +10,6 @@
+>  
+>  #include "gt/intel_engine.h"
+>  
+> -#include "dma_resv_utils.h"
+>  #include "i915_gem_ioctls.h"
+>  #include "i915_gem_object.h"
+>  
+> @@ -37,56 +36,17 @@ i915_gem_object_wait_reservation(struct dma_resv *resv,
+>  				 unsigned int flags,
+>  				 long timeout)
+>  {
+> -	struct dma_fence *excl;
+> -	bool prune_fences = false;
+> -
+> -	if (flags & I915_WAIT_ALL) {
+> -		struct dma_fence **shared;
+> -		unsigned int count, i;
+> -		int ret;
+> +	struct dma_resv_iter cursor;
+> +	struct dma_fence *fence;
+>  
+> -		ret = dma_resv_get_fences(resv, &excl, &count, &shared);
+> -		if (ret)
+> -			return ret;
+> -
+> -		for (i = 0; i < count; i++) {
+> -			timeout = i915_gem_object_wait_fence(shared[i],
+> -							     flags, timeout);
+> -			if (timeout < 0)
+> -				break;
+> +	dma_resv_iter_begin(&cursor, resv, flags & I915_WAIT_ALL);
+> +	dma_resv_for_each_fence_unlocked(&cursor, fence) {
+>  
+> -			dma_fence_put(shared[i]);
+> -		}
+> -
+> -		for (; i < count; i++)
+> -			dma_fence_put(shared[i]);
+> -		kfree(shared);
+> -
+> -		/*
+> -		 * If both shared fences and an exclusive fence exist,
+> -		 * then by construction the shared fences must be later
+> -		 * than the exclusive fence. If we successfully wait for
+> -		 * all the shared fences, we know that the exclusive fence
+> -		 * must all be signaled. If all the shared fences are
+> -		 * signaled, we can prune the array and recover the
+> -		 * floating references on the fences/requests.
+> -		 */
+> -		prune_fences = count && timeout >= 0;
+> -	} else {
+> -		excl = dma_resv_get_excl_unlocked(resv);
+> +		timeout = i915_gem_object_wait_fence(fence, flags, timeout);
+> +		if (timeout <= 0)
+> +			break;
+>  	}
+> -
+> -	if (excl && timeout >= 0)
+> -		timeout = i915_gem_object_wait_fence(excl, flags, timeout);
+> -
+> -	dma_fence_put(excl);
+> -
+> -	/*
+> -	 * Opportunistically prune the fences iff we know they have *all* been
+> -	 * signaled.
+> -	 */
+> -	if (prune_fences)
+> -		dma_resv_prune(resv);
+> +	dma_resv_iter_end(&cursor);
+>  
+>  	return timeout;
 >  }
->  
->  static int __init drm_core_init(void)
-> @@ -1043,6 +1045,7 @@ static int __init drm_core_init(void)
->  	drm_connector_ida_init();
->  	idr_init(&drm_minors_idr);
->  	drm_memcpy_init_early();
-> +	drm_buddy_module_init();
->  
->  	ret = drm_sysfs_init();
->  	if (ret < 0) {
-> diff --git a/include/drm/drm_buddy.h b/include/drm/drm_buddy.h
-> new file mode 100644
-> index 000000000000..e5a9a8cfdf42
-> --- /dev/null
-> +++ b/include/drm/drm_buddy.h
-> @@ -0,0 +1,157 @@
-> +/* SPDX-License-Identifier: MIT */
-> +/*
-> + * Copyright ? 2021 Intel Corporation
-> + */
-> +
-> +#ifndef __DRM_BUDDY_H__
-> +#define __DRM_BUDDY_H__
-> +
-> +#include <linux/bitops.h>
-> +#include <linux/list.h>
-> +#include <linux/slab.h>
-> +#include <linux/sched.h>
-> +
-> +#include <drm/drm_print.h>
-> +
-> +#define check_range_overflow(start, size, max) ({ \
-> +	typeof(start) start__ = (start); \
-> +	typeof(size) size__ = (size); \
-> +	typeof(max) max__ = (max); \
-> +	(void)(&start__ == &size__); \
-> +	(void)(&start__ == &max__); \
-> +	start__ >= max__ || size__ > max__ - start__; \
-> +})
-> +
-> +#define DRM_BUDDY_TOPDOWN_ALLOCATION (1 << 0)
-> +#define DRM_BUDDY_RANGE_ALLOCATION (1 << 1)
-> +
-> +struct drm_buddy_block {
-> +#define DRM_BUDDY_HEADER_OFFSET GENMASK_ULL(63, 12)
-> +#define DRM_BUDDY_HEADER_STATE  GENMASK_ULL(11, 10)
-> +#define   DRM_BUDDY_ALLOCATED	   (1 << 10)
-> +#define   DRM_BUDDY_FREE	   (2 << 10)
-> +#define   DRM_BUDDY_SPLIT	   (3 << 10)
-> +/* Free to be used, if needed in the future */
-> +#define DRM_BUDDY_HEADER_UNUSED GENMASK_ULL(9, 6)
-> +#define DRM_BUDDY_HEADER_ORDER  GENMASK_ULL(5, 0)
-> +	u64 header;
-> +
-> +	struct drm_buddy_block *left;
-> +	struct drm_buddy_block *right;
-> +	struct drm_buddy_block *parent;
-> +
-> +	void *private; /* owned by creator */
-> +
-> +	/*
-> +	 * While the block is allocated by the user through drm_buddy_alloc*,
-> +	 * the user has ownership of the link, for example to maintain within
-> +	 * a list, if so desired. As soon as the block is freed with
-> +	 * drm_buddy_free* ownership is given back to the mm.
-> +	 */
-> +	struct list_head link;
-> +	struct list_head tmp_link;
-> +};
-> +
-> +/* Order-zero must be at least PAGE_SIZE */
-> +#define DRM_BUDDY_MAX_ORDER (63 - PAGE_SHIFT)
-> +
-> +/*
-> + * Binary Buddy System.
-> + *
-> + * Locking should be handled by the user, a simple mutex around
-> + * drm_buddy_alloc* and drm_buddy_free* should suffice.
-> + */
-> +struct drm_buddy_mm {
-> +	/* Maintain a free list for each order. */
-> +	struct list_head *free_list;
-> +
-> +	/*
-> +	 * Maintain explicit binary tree(s) to track the allocation of the
-> +	 * address space. This gives us a simple way of finding a buddy block
-> +	 * and performing the potentially recursive merge step when freeing a
-> +	 * block.  Nodes are either allocated or free, in which case they will
-> +	 * also exist on the respective free list.
-> +	 */
-> +	struct drm_buddy_block **roots;
-> +
-> +	/*
-> +	 * Anything from here is public, and remains static for the lifetime of
-> +	 * the mm. Everything above is considered do-not-touch.
-> +	 */
-> +	unsigned int n_roots;
-> +	unsigned int max_order;
-> +
-> +	/* Must be at least PAGE_SIZE */
-> +	u64 chunk_size;
-> +	u64 size;
-> +	u64 avail;
-> +};
-> +
-> +static inline u64
-> +drm_buddy_block_offset(struct drm_buddy_block *block)
-> +{
-> +	return block->header & DRM_BUDDY_HEADER_OFFSET;
-> +}
-> +
-> +static inline unsigned int
-> +drm_buddy_block_order(struct drm_buddy_block *block)
-> +{
-> +	return block->header & DRM_BUDDY_HEADER_ORDER;
-> +}
-> +
-> +static inline unsigned int
-> +drm_buddy_block_state(struct drm_buddy_block *block)
-> +{
-> +	return block->header & DRM_BUDDY_HEADER_STATE;
-> +}
-> +
-> +static inline bool
-> +drm_buddy_block_is_allocated(struct drm_buddy_block *block)
-> +{
-> +	return drm_buddy_block_state(block) == DRM_BUDDY_ALLOCATED;
-> +}
-> +
-> +static inline bool
-> +drm_buddy_block_is_free(struct drm_buddy_block *block)
-> +{
-> +	return drm_buddy_block_state(block) == DRM_BUDDY_FREE;
-> +}
-> +
-> +static inline bool
-> +drm_buddy_block_is_split(struct drm_buddy_block *block)
-> +{
-> +	return drm_buddy_block_state(block) == DRM_BUDDY_SPLIT;
-> +}
-> +
-> +static inline u64
-> +drm_buddy_block_size(struct drm_buddy_mm *mm,
-> +		     struct drm_buddy_block *block)
-> +{
-> +	return mm->chunk_size << drm_buddy_block_order(block);
-> +}
-> +
-> +int drm_buddy_init(struct drm_buddy_mm *mm, u64 size, u64 chunk_size);
-> +
-> +void drm_buddy_fini(struct drm_buddy_mm *mm);
-> +
-> +int drm_buddy_alloc(struct drm_buddy_mm *mm,
-> +		    u64 start, u64 end, u64 size,
-> +		    u64 min_page_size,
-> +		    struct list_head *blocks,
-> +		    unsigned long flags);
-> +
-> +int drm_buddy_free_unused_pages(struct drm_buddy_mm *mm,
-> +				u64 actual_size,
-> +				struct list_head *blocks);
-> +
-> +void drm_buddy_free_list(struct drm_buddy_mm *mm, struct list_head *objects);
-> +
-> +void drm_buddy_print(struct drm_buddy_mm *mm, struct drm_printer *p);
-> +void drm_buddy_block_print(struct drm_buddy_mm *mm,
-> +			   struct drm_buddy_block *block,
-> +			   struct drm_printer *p);
-> +
-> +void drm_buddy_module_exit(void);
-> +int drm_buddy_module_init(void);
-> +
-> +#endif
 > -- 
-> 2.25.1
+> 2.33.0
 > 
 
 -- 
